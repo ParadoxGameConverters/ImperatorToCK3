@@ -7,7 +7,7 @@
 
 
 
-namespace CK2Interface
+namespace Ck2Interface
 {
 
 class World

@@ -1,9 +1,9 @@
-#include "CK2WorldOutputter.h"
+#include "Ck2WorldOutputter.h"
 #include <fstream>
 
 
 
-void CK2WorldOutputter::outputWorld(const CK2Interface::World& world)
+void Ck2WorldOutputter::outputWorld(const Ck2Interface::World& world)
 {
 	std::ofstream output("output.txt");
 	output << world.getMessage();

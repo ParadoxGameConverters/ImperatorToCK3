@@ -3,15 +3,15 @@
 
 
 
-#include "../CK2Interface/CK2WorldInterface.h"
+#include "../Ck2Interface/Ck2WorldInterface.h"
 #include "../Imperator/ImperatorWorld.h"
 
 
 
-namespace CK2World
+namespace Ck2World
 {
 
-class World: public CK2Interface::World
+class World: public Ck2Interface::World
 {
 	public:
 		World(const ImperatorWorld::World& impWorld): message(impWorld.getMessage()) {};
