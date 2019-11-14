@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CK2Outputter">
+      <UniqueIdentifier>{2c428fe0-e831-4cad-a6b8-0eee0e17efd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK2Interface">
+      <UniqueIdentifier>{85acb33b-7b47-4ab4-9a1f-04dbf89b2bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK2FromImperator">
+      <UniqueIdentifier>{48229927-dcb1-408e-9d71-12fdba615ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imperator">
+      <UniqueIdentifier>{3f57399f-f045-4575-b59f-d6c77b3898f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CK2Interface\CK2WorldInterface.h">
+      <Filter>CK2Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CK2Outputter\CK2WorldOutputter.h">
+      <Filter>CK2Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="CK2FromImperator\CK2World.h">
+      <Filter>CK2FromImperator</Filter>
+    </ClInclude>
+    <ClInclude Include="Imperator\ImperatorWorld.h">
+      <Filter>Imperator</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CK2Outputter\CK2WorldOutputter.cpp">
+      <Filter>CK2Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+</Project>
