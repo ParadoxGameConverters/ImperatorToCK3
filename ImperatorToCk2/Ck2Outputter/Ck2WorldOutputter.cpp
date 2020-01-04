@@ -27,7 +27,7 @@ void Ck2WorldOutputter::outputWorld(const Ck2Interface::World& world)
 
 void Ck2WorldOutputter::outputModFile(const std::string& outputName)
 {
-	std::ofstream modFile("output/" + outputName + ".mod");
+	std::ofstream modFile{ "output/" + outputName + ".mod" };
 	modFile << "name = \"Converted - " << outputName << "\"\n";
 	modFile << "path = \"mod/" << outputName << "\"";
 	modFile.close();
@@ -37,5 +37,5 @@ void Ck2WorldOutputter::outputModFile(const std::string& outputName)
 void Ck2WorldOutputter::createModFolder(const std::string& outputName)
 {
 	std::filesystem::path modPath{ "output/" + outputName };
-	std::filesystem::create_directory(modPath);
+	std::filesystem::create_directories(modPath);
 }
