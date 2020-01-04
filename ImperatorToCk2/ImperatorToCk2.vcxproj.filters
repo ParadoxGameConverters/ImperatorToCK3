@@ -7,11 +7,11 @@
     <Filter Include="Ck2Interface">
       <UniqueIdentifier>{41d881c5-ae94-47b8-80f6-2110fbf21a3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Ck2FromImperator">
-      <UniqueIdentifier>{bb831886-42eb-4aa2-867f-fb92ef4b7c0f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Ck2Outputter">
       <UniqueIdentifier>{73570393-7b58-41fc-84b2-62d6f770a52d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ck2">
+      <UniqueIdentifier>{bb831886-42eb-4aa2-867f-fb92ef4b7c0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,8 +24,8 @@
     <ClInclude Include="Ck2Outputter\Ck2WorldOutputter.h">
       <Filter>Ck2Outputter</Filter>
     </ClInclude>
-    <ClInclude Include="Ck2FromImperator\Ck2World.h">
-      <Filter>Ck2FromImperator</Filter>
+    <ClInclude Include="Ck2\Ck2World.h">
+      <Filter>Ck2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
