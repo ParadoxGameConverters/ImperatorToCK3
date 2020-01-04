@@ -4,9 +4,6 @@
     <Filter Include="Imperator">
       <UniqueIdentifier>{3f57399f-f045-4575-b59f-d6c77b3898f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Ck2Interface">
-      <UniqueIdentifier>{41d881c5-ae94-47b8-80f6-2110fbf21a3f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Ck2Outputter">
       <UniqueIdentifier>{73570393-7b58-41fc-84b2-62d6f770a52d}</UniqueIdentifier>
     </Filter>
@@ -17,9 +14,6 @@
   <ItemGroup>
     <ClInclude Include="Imperator\ImperatorWorld.h">
       <Filter>Imperator</Filter>
-    </ClInclude>
-    <ClInclude Include="Ck2Interface\Ck2WorldInterface.h">
-      <Filter>Ck2Interface</Filter>
     </ClInclude>
     <ClInclude Include="Ck2Outputter\Ck2WorldOutputter.h">
       <Filter>Ck2Outputter</Filter>

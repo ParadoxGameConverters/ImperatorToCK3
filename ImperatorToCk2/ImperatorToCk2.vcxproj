@@ -134,7 +134,6 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ck2Interface\Ck2WorldInterface.h" />
     <ClInclude Include="Ck2Outputter\Ck2WorldOutputter.h" />
     <ClInclude Include="Ck2\Ck2World.h" />
     <ClInclude Include="Imperator\ImperatorWorld.h" />

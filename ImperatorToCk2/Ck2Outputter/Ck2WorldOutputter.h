@@ -3,14 +3,14 @@
 
 
 
-#include "../Ck2Interface/Ck2WorldInterface.h"
+#include "../Ck2/Ck2World.h"
 
 
 
 namespace Ck2World
 {
 
-void outputWorld(const Ck2Interface::World& CK2World);
+void outputWorld(const Ck2World::World& CK2World);
 
 }
 
