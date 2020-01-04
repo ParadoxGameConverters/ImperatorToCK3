@@ -7,7 +7,7 @@
 
 
 
-namespace Ck2WorldOutputter
+namespace Ck2World
 {
 
 void outputWorld(const Ck2Interface::World& CK2World);
