@@ -13,7 +13,7 @@ namespace ImperatorWorld
 class World
 {
 	public:
-	std::string getMessage() const { return "Hello World!"; }
+		std::string getSaveName() const { return "CK2tester"; }
 };
 
 }

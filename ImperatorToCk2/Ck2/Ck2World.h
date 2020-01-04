@@ -13,12 +13,12 @@ namespace Ck2World
 class World
 {
 	public:
-		World(const ImperatorWorld::World& impWorld): message(impWorld.getMessage()) {};
+		World(const ImperatorWorld::World& impWorld): modName(impWorld.getSaveName()) {};
 
-		std::string getMessage() const { return message; }
+		std::string getModName() const { return modName; }
 
 	private:
-		std::string message;
+		std::string modName;
 };
 
 }

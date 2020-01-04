@@ -16,7 +16,7 @@ void createModFolder(const std::string& outputName);
 
 void Ck2World::outputWorld(const Ck2World::World& world)
 {
-	std::string outputName{ "CK2tester" };
+	std::string outputName = world.getModName();
 	createModFolder(outputName);
 	outputModFile(outputName);
 }
