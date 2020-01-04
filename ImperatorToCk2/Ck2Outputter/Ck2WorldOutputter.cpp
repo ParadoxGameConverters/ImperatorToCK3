@@ -15,6 +15,10 @@ void createModFolder(const std::string& outputName);
 
 void Ck2World::outputWorld(const Ck2World::World& world)
 {
+	std::ofstream output("output.txt");
+	output << world.getMessage();
+	output.close();
+
 	std::string outputName{ "CK2tester" };
 	outputModFile(outputName);
 	createModFolder(outputName);
