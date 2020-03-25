@@ -1,5 +1,5 @@
-#ifndef CK2_WORLD
-#define CK2_WORLD
+#ifndef CK3_WORLD
+#define CK3_WORLD
 
 
 
@@ -7,7 +7,7 @@
 
 
 
-namespace Ck2World
+namespace Ck3World
 {
 
 class World
@@ -25,4 +25,4 @@ class World
 
 
 
-#endif // CK2_WORLD
+#endif // CK3_WORLD

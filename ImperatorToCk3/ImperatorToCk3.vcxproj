@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{74636764-298A-4772-818D-AA5734CB74B1}</ProjectGuid>
-    <RootNamespace>ImperatorToCk2</RootNamespace>
+    <RootNamespace>ImperatorToCk3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -130,12 +130,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ck2Outputter\Ck2WorldOutputter.cpp" />
+    <ClCompile Include="Ck3Outputter\Ck3WorldOutputter.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ck2Outputter\Ck2WorldOutputter.h" />
-    <ClInclude Include="Ck2\Ck2World.h" />
+    <ClInclude Include="Ck3Outputter\Ck3WorldOutputter.h" />
+    <ClInclude Include="Ck3\Ck3World.h" />
     <ClInclude Include="Imperator\ImperatorWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

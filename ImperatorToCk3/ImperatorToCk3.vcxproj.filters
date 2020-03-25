@@ -4,10 +4,10 @@
     <Filter Include="Imperator">
       <UniqueIdentifier>{3f57399f-f045-4575-b59f-d6c77b3898f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Ck2Outputter">
+    <Filter Include="Ck3Outputter">
       <UniqueIdentifier>{73570393-7b58-41fc-84b2-62d6f770a52d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Ck2">
+    <Filter Include="Ck3">
       <UniqueIdentifier>{bb831886-42eb-4aa2-867f-fb92ef4b7c0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -15,17 +15,17 @@
     <ClInclude Include="Imperator\ImperatorWorld.h">
       <Filter>Imperator</Filter>
     </ClInclude>
-    <ClInclude Include="Ck2Outputter\Ck2WorldOutputter.h">
-      <Filter>Ck2Outputter</Filter>
+    <ClInclude Include="Ck3Outputter\Ck3WorldOutputter.h">
+      <Filter>Ck3Outputter</Filter>
     </ClInclude>
-    <ClInclude Include="Ck2\Ck2World.h">
-      <Filter>Ck2</Filter>
+    <ClInclude Include="Ck3\Ck3World.h">
+      <Filter>Ck3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Ck2Outputter\Ck2WorldOutputter.cpp">
-      <Filter>Ck2Outputter</Filter>
+    <ClCompile Include="Ck3Outputter\Ck3WorldOutputter.cpp">
+      <Filter>Ck3Outputter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
