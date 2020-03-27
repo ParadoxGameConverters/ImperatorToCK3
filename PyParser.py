@@ -14,7 +14,7 @@ def peek_char(file):
 
 
 def registerKeyword (keyword, function, regex=False): #regex is bool: True if the keyword string is meant to be a regex
-    if regex==True:
+    if regex:
         pair = (keyword, function)
         registeredRegexes.append(pair)
     else:
@@ -40,12 +40,12 @@ def getNextLexeme(theStream):
         if (not inQuotes and inputChar=='#'):
             inputChar = theStream.read(1)
             bitBucket = theStream.readline()
-            if (not toReturn==''):
+            if (toReturn !=''):
                 break
         elif inputChar=='\n':
             inputChar = theStream.read(1)
             if not inQuotes:
-                if not toReturn=='':
+                if toReturn !='':
                     break
             else:
                 toReturn += ' ' # fix Paradox' mistake and don't break proper names in half
@@ -59,7 +59,7 @@ def getNextLexeme(theStream):
             break
         elif not inQuotes and inputChar.isspace():
             inputChar = theStream.read(1)
-            if not toReturn == '':
+            if toReturn != '':
                 break
         elif not inQuotes and inputChar == '{':
             if toReturn == '':
@@ -91,9 +91,9 @@ def getNextToken(theStream):
         toReturn = getNextLexeme(theStream)
         matched = False
         pair = (toReturn, registeredKeywordStrings.get(toReturn))
-        if pair[1]!=None:
+        if pair[1] is not None:
             pair[1](toReturn, theStream)
-            matched = True;
+            matched = True
             
         if not matched:
             for registration in generatedRegexes:
