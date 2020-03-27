@@ -79,7 +79,7 @@ def getNextLexeme(theStream):
     return toReturn
 
 
-def getNextToken(theStream): #TODO: FINISH
+def getNextToken(theStream):
     toReturn = ''
     gotToken = False
     while not gotToken:
@@ -128,7 +128,6 @@ def parseStream(theStream):
     braceDepth = 0
     for keywordItr in registeredKeywordRegexes:
         pair = (keywordItr[0], keywordItr[1]) #keywordItr[0] is regex, keywordItr[1] is parsingfunction
-        print(pair, type(pair))
         generatedRegexes.append(pair)
 
     while(True):
