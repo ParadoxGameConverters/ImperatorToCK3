@@ -40,11 +40,13 @@ def getNextLexeme(theStream):
         if (not inQuotes and inputChar=='#'):
             inputChar = theStream.read(1)
             bitBucket = theStream.readline()
-            if (not toReturn==''): break
+            if (not toReturn==''):
+                break
         elif inputChar=='\n':
             inputChar = theStream.read(1)
             if not inQuotes:
-                if not toReturn=='': break
+                if not toReturn=='':
+                    break
             else:
                 toReturn += ' ' # fix Paradox' mistake and don't break proper names in half
         elif inputChar=='"' and not inQuotes and toReturn=='':
@@ -57,7 +59,8 @@ def getNextLexeme(theStream):
             break
         elif not inQuotes and inputChar.isspace():
             inputChar = theStream.read(1)
-            if not toReturn == '': break
+            if not toReturn == '':
+                break
         elif not inQuotes and inputChar == '{':
             if toReturn == '':
                 inputChar = theStream.read(1)
@@ -105,8 +108,10 @@ def getNextToken(theStream):
                     registration[1](toReturn, theStream)
                     matched = True
                     break
-        if not matched: gotToken = True
-    if not toReturn=='': return toReturn
+        if not matched:
+            gotToken = True
+    if not toReturn=='':
+        return toReturn
     return None
                 
         
@@ -119,7 +124,8 @@ def getNextTokenWithoutMatching(theStream):
             return None
         toReturn = getNextLexeme(theStream)
         gotToken = True
-    if not toReturn=='': return toReturn
+    if not toReturn=='':
+        return toReturn
     return None
 
 
@@ -133,11 +139,14 @@ def parseStream(theStream):
     while(True):
         token = getNextToken(theStream)
         if (token):
-            if token == '=': continue
-            if token == '{': braceDepth = braceDepth+1
+            if token == '=':
+                continue
+            if token == '{':
+                braceDepth = braceDepth+1
             elif token == '}':
                 braceDepth-1
-                if braceDepth==0: break
+                if braceDepth==0:
+                    break
             else: print("Unknown token while parsing stream: " + token)
         else: break
     generatedRegexes.clear()
@@ -145,7 +154,8 @@ def parseStream(theStream):
         
 def parseFile(filename):
     #filename = filename.decode('utf8') #TODO: fix
-    try: theFile = open(filename, 'r')
+    try:
+        theFile = open(filename, 'r')
     except:
         print("Could not open " + filename + " for parsing.")
         return
