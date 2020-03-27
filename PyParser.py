@@ -142,9 +142,9 @@ def parseStream(theStream):
             if token == '=':
                 continue
             if token == '{':
-                braceDepth = braceDepth+1
+                braceDepth += 1
             elif token == '}':
-                braceDepth-1
+                braceDepth -= 1
                 if braceDepth==0:
                     break
             else: print("Unknown token while parsing stream: " + token)
@@ -156,6 +156,9 @@ def parseFile(filename):
     #filename = filename.decode('utf8') #TODO: fix
     try:
         theFile = open(filename, 'r')
+    except FileNotFoundError:
+        print("Could not open " + filename + " for parsing: File not found!")
+        return
     except:
         print("Could not open " + filename + " for parsing.")
         return
@@ -165,7 +168,7 @@ def parseFile(filename):
         bitBucket=theFile.read(3)
 
     parseStream(theFile)
-    theFile.close
+    theFile.close()
 
 
 #temp:
