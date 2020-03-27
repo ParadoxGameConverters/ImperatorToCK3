@@ -159,6 +159,7 @@ def parseFile(filename):
     theFile.close
 
 
-            
-filename = '450.10.1 - Rome.rome'
+#temp:
+print("Insert save filename")
+filename = input()
 parseFile(filename)
