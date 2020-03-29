@@ -1,0 +1,18 @@
+configuration = {
+	# Imperator:Rome directory: A path on your computer where Imperator:Rome is installed
+	Imperatordirectory = "C:\Program Files (x86)\Steam\steamapps\common\ImperatorRome"
+
+	# Imperator:Rome documents directory: A path on your computer where Imperator:Rome keeps temporary files
+	ImperatorDocumentsDirectory = "C:\Users\Seweryn\Documents\Paradox Interactive\Imperator"
+
+	# Crusader Kings III directory: A path on your computer where Crusader Kings III is installed
+	CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Wonderland"
+
+	# Crusader Kings III documents directory: A path on your computer where Crusader Kings III keeps temporary files
+	CK3Documentsdirectory = "C:\Users\Seweryn\Documents\Paradox Interactive\Wonderland"
+
+	# Example option: Whether or not to base CK3 de iure on Imperator setup
+	#	yes	 - Make Imperator provinces de iure CK3 duchies, make Imperator provinces de iure CK3 kingdoms
+	# 	no	 - Keep vanilla CK3 de iure
+	imperator_de_iure = "yes"
+}
