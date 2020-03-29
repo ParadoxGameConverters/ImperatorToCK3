@@ -1,6 +1,6 @@
 # the file is very WIP, but getStringList and getSingleString already work
 
-from PyParser import peek_char, getNextLexeme, getNextToken, getNextTokenWithoutMatching, registerKeyword, parseStream
+from Parser.PyParser import peek_char, getNextLexeme, getNextToken, getNextTokenWithoutMatching, registerKeyword, parseStream
 
 
 def doNothing(unused, theStream):

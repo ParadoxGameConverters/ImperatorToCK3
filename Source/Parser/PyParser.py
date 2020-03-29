@@ -154,7 +154,6 @@ def parseStream(theStream):
 
 
 def parseFile(filename):
-    # filename = filename.decode('utf8')  # TODO: check if something like this is needed
     try:
         theFile = open(filename, 'r')
     except FileNotFoundError:

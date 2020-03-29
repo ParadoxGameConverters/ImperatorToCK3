@@ -1,5 +1,5 @@
-from PyParser import registerKeyword, parseFile
-from ParserHelpers import getSingleString, getStringList
+from Parser.PyParser import registerKeyword, parseFile
+from Parser.ParserHelpers import getSingleString, getStringList
 
 unused = ''
 
@@ -21,7 +21,6 @@ def getModsOutput(unused, theStream):
 def World(ImperatorSaveFileName):
     print("*** Hello Imperator, loading ImperatorWorld. ***")
     # PyParser.registerKeyword('save_game_version', fun1())
-    # PyParser.registerKeyword(o'versin', fun1())
 
     registerKeyword('date', getDateText)
     registerKeyword('enabled_dlcs', getDLCsOutput)
