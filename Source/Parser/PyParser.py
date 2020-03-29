@@ -2,7 +2,6 @@ import re  # regular expressions
 
 registeredKeywordStrings = {}  # dict
 registeredKeywordRegexes = []  # list
-registeredRegexes = []  # list
 generatedRegexes = []  # list
 
 
@@ -13,13 +12,9 @@ def peek_char(file):
     return char
 
 
-def registerKeyword(keyword, function, regex=False):  # regex is bool: True if the keyword string is meant to be regex
-    if regex:
-        pair = (keyword, function)
-        registeredRegexes.append(pair)
-    else:
-        registeredKeywordStrings.update({keyword: function})
-        # print(registeredKeywordStrings.items())  # for debug
+def registerKeyword(keyword, function):
+    registeredKeywordStrings.update({keyword: function})
+    # print(registeredKeywordStrings.items())  # for debug
 
 
 def registerRegex(keyword, function):
@@ -30,7 +25,6 @@ def registerRegex(keyword, function):
 def clearRegisteredKeywords():
     registeredKeywordStrings.clear()
     registeredKeywordRegexes.clear()
-    registeredRegexes.clear()
 
 
 def getNextLexeme(theStream):
@@ -103,12 +97,6 @@ def getNextToken(theStream):
                     matched = True
                     break
 
-        if not matched:
-            for registration in registeredRegexes:
-                if re.match(registration[0], toReturn):
-                    registration[1](toReturn, theStream)
-                    matched = True
-                    break
         if not matched:
             gotToken = True
     if not toReturn == '':

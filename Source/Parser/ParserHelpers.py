@@ -1,6 +1,6 @@
 # the file is very WIP, but getStringList and getSingleString already work
 
-from Parser.PyParser import peek_char, getNextLexeme, getNextToken, getNextTokenWithoutMatching, registerKeyword, parseStream
+from Parser.PyParser import peek_char, getNextLexeme, getNextToken, getNextTokenWithoutMatching, registerKeyword, parseStream, registerRegex
 
 
 def doNothing(unused, theStream):
@@ -87,7 +87,7 @@ def getStringList(theStream):
         else:
             strings.append(theString)
     registerKeyword(regex0, doNothing)
-    registerKeyword(regex1, getstrings, True)
+    registerRegex(regex1, getstrings)
     parseStream(theStream)
 
     return strings
