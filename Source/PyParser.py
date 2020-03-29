@@ -1,9 +1,9 @@
 import re  # regular expressions
 
 registeredKeywordStrings = {}  # dict
-registeredKeywordRegexes = []  # tuple
-registeredRegexes = []  # tuple
-generatedRegexes = []  # tuple
+registeredKeywordRegexes = []  # list
+registeredRegexes = []  # list
+generatedRegexes = []  # list
 
 
 def peek_char(file):
@@ -19,7 +19,8 @@ def registerKeyword(keyword, function, regex=False):  # regex is bool: True if t
         registeredRegexes.append(pair)
     else:
         registeredKeywordStrings.update({keyword: function})
-        print(registeredKeywordStrings.items())
+        # print(registeredKeywordStrings.items())  # for debug
+
 
 def registerRegex(keyword, function):
     pair = (keyword, function)
@@ -153,7 +154,7 @@ def parseStream(theStream):
 
 
 def parseFile(filename):
-    # filename = filename.decode('utf8')  # TODO: fix
+    # filename = filename.decode('utf8')  # TODO: check if something like this is needed
     try:
         theFile = open(filename, 'r')
     except FileNotFoundError:
@@ -169,8 +170,3 @@ def parseFile(filename):
 
     parseStream(theFile)
     theFile.close()
-
-# temp:
-# print("Insert save filename")
-# filename = input()
-# parseFile(filename)
