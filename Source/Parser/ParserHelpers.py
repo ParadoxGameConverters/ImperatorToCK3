@@ -23,24 +23,7 @@ def ignoreItem(unused, theStream):
                 braceDepth -= 1
                 if braceDepth == 0:
                     return
-
-
-def ignoreObject(unused, theStream):
-    braceDepth = 0
-    while True:
-        if not peek_char(theStream):  # I use this instead of eof
-            return
-        token = getNextLexeme(theStream)
-        if token == '{':
-            braceDepth += 1
-        elif token == '}':
-            braceDepth -= 1
-            if braceDepth == 0:
-                return
-
-
-# def ignoreString(unused, theStream): #TODO: finish
-#
+                
 
 def intList(theStream):
     ints = []
