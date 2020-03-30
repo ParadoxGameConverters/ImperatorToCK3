@@ -23,7 +23,7 @@ def ignoreItem(unused, theStream):
                 braceDepth -= 1
                 if braceDepth == 0:
                     return
-                
+
 
 def intList(theStream):
     ints = []

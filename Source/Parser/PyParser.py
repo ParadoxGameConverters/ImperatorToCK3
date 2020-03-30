@@ -147,8 +147,8 @@ def parseFile(filename):
     except FileNotFoundError:
         print("Could not open " + filename + " for parsing: File not found!")
         return
-    except:
-        print("Could not open " + filename + " for parsing.")
+    except IOError:
+        print("Could not open " + filename + " for parsing: cannot open file!")
         return
 
     firstChar = peek_char(theFile)
