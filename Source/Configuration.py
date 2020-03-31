@@ -12,14 +12,14 @@ def instantiate(unused, theStream):
             sys.exit(path + ' does not contain Imperator: Rome!')
         print('\tImperator: Rome install path is ' + path)
 
-    ImperatordirectoryOutput = []
+    ImperatorDirectoryOutput = []
 
-    def getImperatordirectory(unused, theStream):
-        ImperatordirectoryOutput.append('')  # ImperatordirectoryOutput[0] empty, keyword is not used
-        ImperatordirectoryOutput.append(getSingleString(theStream))
-        verifyImperatorPath(ImperatordirectoryOutput[1])
+    def getImperatorDirectory(unused, theStream):
+        ImperatorDirectoryOutput.append('')
+        ImperatorDirectoryOutput.append(getSingleString(theStream))
+        verifyImperatorPath(ImperatorDirectoryOutput[1])
 
-    registerKeyword('Imperatordirectory', getImperatordirectory)
+    registerKeyword('ImperatorDirectory', getImperatorDirectory)
 
     def verifyImperatorDocumentsPath(path):
         if not os.path.isdir(path):
@@ -29,7 +29,7 @@ def instantiate(unused, theStream):
     ImperatorDocumentsDirectoryOutput = []
 
     def getImperatorDocumentsDirectory(unused, theStream):
-        ImperatorDocumentsDirectoryOutput.append('')  # ImperatorDocumentsDirectoryOutput[0] empty, keyword is not used
+        ImperatorDocumentsDirectoryOutput.append('')
         ImperatorDocumentsDirectoryOutput.append(getSingleString(theStream))
         verifyImperatorDocumentsPath(ImperatorDocumentsDirectoryOutput[1])
 
@@ -40,39 +40,39 @@ def instantiate(unused, theStream):
             sys.exit(path + ' does not exist!')
         print('\tCK3 install path is ' + path)
 
-    CK3directoryOutput = []
+    CK3DirectoryOutput = []
 
-    def getCK3directory(unused, theStream):
-        CK3directoryOutput.append('')  # CK3directoryOutput[0] empty, keyword is not used
-        CK3directoryOutput.append(getSingleString(theStream))
-        verifyCK3Path(CK3directoryOutput[1])
+    def getCK3Directory(unused, theStream):
+        CK3DirectoryOutput.append('')
+        CK3DirectoryOutput.append(getSingleString(theStream))
+        verifyCK3Path(CK3DirectoryOutput[1])
 
-    # registerKeyword('CK3directory', getCK3directory)  # TODO: enable when CK3 is released
+    # registerKeyword('CK3Directory', getCK3Directory)  # TODO: enable when CK3 is released
 
     def verifyCK3DocumentsPath(path):
         if not os.path.isdir(path):
             sys.exit(path + ' does not exist!')
         print('\tCK3 documents directory path is ' + path)
 
-    CK3DocumentsdirectoryOutput = []
+    CK3DocumentsDirectoryOutput = []
 
-    def getCK3Documentsdirectory(unused, theStream):
-        CK3DocumentsdirectoryOutput.append('')  # CK3DocumentsdirectoryOutput[0] empty, keyword is not used
-        CK3DocumentsdirectoryOutput.append(getSingleString(theStream))
-        verifyCK3DocumentsPath(CK3DocumentsdirectoryOutput[1])
+    def getCK3DocumentsDirectory(unused, theStream):
+        CK3DocumentsDirectoryOutput.append('')
+        CK3DocumentsDirectoryOutput.append(getSingleString(theStream))
+        verifyCK3DocumentsPath(CK3DocumentsDirectoryOutput[1])
 
-    # registerKeyword('CK3Documentsdirectory', getCK3Documentsdirectory)  # TODO: enable when CK3 is released
+    # registerKeyword('CK3DocumentsDirectory', getCK3DocumentsDirectory)  # TODO: enable when CK3 is released
 
-    Imperator_de_iureOutput = []
+    ImperatorDeJureOutput = []
 
-    def getImperator_de_iure(unused, theStream):
-        Imperator_de_iureOutput.append('')  # Imperator_de_iureOutput[0] empty, keyword is not used
-        Imperator_de_iureOutput.append(getSingleString(theStream))
-        if Imperator_de_iureOutput[1]=='yes':
+    def getImperatorDeJure(unused, theStream):
+        ImperatorDeJureOutput.append('')
+        ImperatorDeJureOutput.append(getSingleString(theStream))
+        if ImperatorDeJureOutput[1]=='yes':
             print('\tUsing Imperator: Rome provinces and regions to generate CK3 de iure.')
         else:
             print('\tUsing vanilla CK3 de iure setup.')
-    registerKeyword('Imperator_de_iure', getImperator_de_iure)
+    registerKeyword('ImperatorDeJure', getImperatorDeJure)
 
 
 def readConfigurationFile(filename):
