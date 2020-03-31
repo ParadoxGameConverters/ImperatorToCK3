@@ -32,13 +32,13 @@ def getIntList(theStream):
     def intListFun1(theInt, theStream):
         ints.append(int(theInt))
 
-    registerKeyword('\d+', intListFun1())
+    registerKeyword('\d+', intListFun1)
 
     def intListFun2(theInt, theStream):
         newInt = theInt[1: len(theInt) - 1]
         ints.append(int(newInt))
 
-    registerKeyword('"\d+"', intListFun2())
+    registerKeyword('"\d+"', intListFun2)
     parseStream(theStream)
 
     return ints
