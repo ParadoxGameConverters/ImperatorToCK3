@@ -1,7 +1,7 @@
 # the file is very WIP, but getStringList and getSingleString already work
 
-from Parser.PyParser import peek_char, getNextLexeme, getNextToken, getNextTokenWithoutMatching, registerKeyword, \
-    parseStream, registerRegex
+from Parser.PyParser import peek_char, getNextLexeme, getNextTokenWithoutMatching, registerKeyword, parseStream, \
+    registerRegex
 
 
 def doNothing(unused, theStream):
@@ -81,7 +81,7 @@ def getStringList(theStream):
 
 def getSingleString(theStream):
     theString = ''
-    equals = getNextTokenWithoutMatching(theStream)
+    getNextTokenWithoutMatching(theStream)  # gets equals sign
     theString = getNextTokenWithoutMatching(theStream)
     if theString[0] == '"':
         theString = theString[1: len(theString) - 1]

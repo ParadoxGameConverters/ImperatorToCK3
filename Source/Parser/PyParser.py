@@ -153,7 +153,7 @@ def parseFile(filename):
 
     firstChar = peek_char(theFile)
     if firstChar == '\xEF':
-        bitBucket = theFile.read(3)
+        theFile.read(3)  # skip 3 bytes
 
     parseStream(theFile)
     theFile.close()
