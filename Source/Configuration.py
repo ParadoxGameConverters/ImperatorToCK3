@@ -47,7 +47,7 @@ def instantiate(unused, theStream):
         CK3DirectoryOutput.append(getSingleString(theStream))
         verifyCK3Path(CK3DirectoryOutput[1])
 
-    # registerKeyword('CK3Directory', getCK3Directory)  # TODO: enable when CK3 is released
+    # registerKeyword('CK3Directory', getCK3Directory)  # TODO #5: enable when CK3 is released
 
     def verifyCK3DocumentsPath(path):
         if not os.path.isdir(path):
@@ -61,7 +61,7 @@ def instantiate(unused, theStream):
         CK3DocumentsDirectoryOutput.append(getSingleString(theStream))
         verifyCK3DocumentsPath(CK3DocumentsDirectoryOutput[1])
 
-    # registerKeyword('CK3DocumentsDirectory', getCK3DocumentsDirectory)  # TODO: enable when CK3 is released
+    # registerKeyword('CK3DocumentsDirectory', getCK3DocumentsDirectory)  # TODO #5: enable when CK3 is released
 
     ImperatorDeJureOutput = []
 
