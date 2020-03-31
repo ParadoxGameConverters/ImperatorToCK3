@@ -34,7 +34,7 @@ def getNextLexeme(theStream):
         inputChar = peek_char(theStream)
         if not inQuotes and inputChar == '#':
             inputChar = theStream.read(1)
-            bitBucket = theStream.readline()
+            theStream.readline()  # reads the comment, doesn't save it
             if toReturn != '':
                 break
         elif inputChar == '\n':
