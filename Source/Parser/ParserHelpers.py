@@ -45,7 +45,7 @@ def getIntList(theStream):
 
 
 def getSingleInt(theStream):
-    equals = getNextTokenWithoutMatching(theStream)
+    getNextTokenWithoutMatching(theStream)  # gets equals sign
     token = getNextTokenWithoutMatching(theStream)
     if token[0] == "\"":
         token = token[1: len(token) - 1]
