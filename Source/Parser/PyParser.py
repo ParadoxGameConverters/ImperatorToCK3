@@ -143,17 +143,13 @@ def parseStream(theStream):
 
 def parseFile(filename):
     try:
-        theFile = open(filename, 'r')
+        theFile = open(filename, "r", encoding="utf-8-sig")  # behaves exactly as utf-8 if the BOM does not exist
     except FileNotFoundError:
         print("Could not open " + filename + " for parsing: File not found!")
         return
     except IOError:
         print("Could not open " + filename + " for parsing: cannot open file!")
         return
-
-    firstChar = peek_char(theFile)
-    if firstChar == '\xEF':
-        theFile.read(3)  # skip 3 bytes
 
     parseStream(theFile)
     theFile.close()
