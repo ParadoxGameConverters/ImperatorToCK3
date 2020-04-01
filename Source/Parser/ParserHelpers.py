@@ -51,7 +51,7 @@ def getSingleInt(theStream):
         token = token[1: len(token) - 1]
     try:
         theInt = int(token)
-    except:
+    except TypeError:
         print("Expected an int, but instead got " + token)
     return theInt
 
