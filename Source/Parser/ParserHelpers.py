@@ -63,17 +63,15 @@ def getSingleInt(theStream):
 
 def getStringList(theStream):
     strings = []
-    regex0 = r'""'
-    regex1 = r'["](.*?)["]'
 
-    def getstrings(theString, theStream):
+    def appendString(theString, theStream):
         if theString[0] == '"':
             strings.append(theString[1: len(theString) - 1])
         else:
             strings.append(theString)
 
-    registerKeyword(regex0, doNothing)
-    registerRegex(regex1, getstrings)
+    registerKeyword(r'""', doNothing)
+    registerRegex(r'(".*?")|([.\w]+)', appendString)
     parseStream(theStream)
 
     return strings
