@@ -4,5 +4,5 @@ import Configuration
 ConfigurationFileName = input("Insert configuration filename: ")
 Configuration.readConfigurationFile(ConfigurationFileName)
 
-ImperatorSaveFileName = input("Insert save filename: ")
+ImperatorSaveFileName = Configuration.getSavePath()
 ImperatortoCK3Converter.ConvertImperatorToCK3(ImperatorSaveFileName)
