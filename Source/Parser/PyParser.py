@@ -147,8 +147,8 @@ def parseFile(filename):
     except FileNotFoundError:
         print("Could not open " + filename + " for parsing: File not found!")
         return
-    except IOError:
-        print("Could not open " + filename + " for parsing: cannot open file!")
+    except IOError as e:
+        print("Could not open " + filename + " for parsing: " + str(e))
         return
 
     parseStream(theFile)

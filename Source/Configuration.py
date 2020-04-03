@@ -79,4 +79,6 @@ def readConfigurationFile(filename):
 
 
 def getSavePath():
+    if len(ImperatorSavePathOutput) == 0:
+        return None
     return ImperatorSavePathOutput[0]

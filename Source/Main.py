@@ -5,4 +5,5 @@ ConfigurationFileName = input("Insert configuration filename: ")
 Configuration.readConfigurationFile(ConfigurationFileName)
 
 ImperatorSaveFileName = Configuration.getSavePath()
-ImperatortoCK3Converter.ConvertImperatorToCK3(ImperatorSaveFileName)
+if ImperatorSaveFileName is not None:
+    ImperatortoCK3Converter.ConvertImperatorToCK3(ImperatorSaveFileName)
