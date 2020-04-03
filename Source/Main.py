@@ -1,8 +1,7 @@
 import ImperatortoCK3Converter
 import Configuration
 
-ConfigurationFileName = input("Insert configuration filename: ")
-Configuration.readConfigurationFile(ConfigurationFileName)
+Configuration.readConfigurationFile("configuration.txt")
 
 ImperatorSaveFileName = Configuration.getSavePath()
 if ImperatorSaveFileName is not None:
