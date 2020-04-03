@@ -1,4 +1,5 @@
 import re  # regular expressions
+from Log import Log
 
 registeredKeywordStrings = {}  # dict
 registeredKeywordRegexes = []  # list
@@ -14,7 +15,7 @@ def peek_char(file):
 
 def registerKeyword(keyword, function):
     registeredKeywordStrings.update({keyword: function})
-    # print(registeredKeywordStrings.items())  # for debug
+    # Log('debug', str(registeredKeywordStrings.items()))  # for debug
 
 
 def registerRegex(keyword, function):
@@ -135,7 +136,7 @@ def parseStream(theStream):
                 if braceDepth == 0:
                     break
             else:
-                print("Unknown token while parsing stream: " + token)
+                Log('warning', 'Unknown token while parsing stream: ' + token)
         else:
             break
     generatedRegexes.clear()
@@ -145,10 +146,10 @@ def parseFile(filename):
     try:
         theFile = open(filename, "r", encoding="utf-8-sig")  # behaves exactly as utf-8 if the BOM does not exist
     except FileNotFoundError:
-        print("Could not open " + filename + " for parsing: File not found!")
+        Log('error', 'Could not open ' + filename + ' for parsing: File not found!')
         return
     except IOError as e:
-        print("Could not open " + filename + " for parsing: " + str(e))
+        Log('error', 'Could not open ' + filename + ' for parsing: ' + str(e))
         return
 
     parseStream(theFile)

@@ -1,5 +1,6 @@
 from Parser.ParserHelpers import getSingleString
 from Parser.PyParser import parseFile, registerKeyword, clearRegisteredKeywords
+from Log import Log
 import os
 import sys
 
@@ -17,7 +18,7 @@ def readConfigurationDetails(unused, theStream):
             sys.exit(path + ' does not exist!')
         if not os.path.isfile(path + r'\binaries\imperator.exe'):
             sys.exit(path + ' does not contain Imperator: Rome!')
-        print('\tImperator: Rome install path is ' + path)
+        Log('debug', '\tImperator: Rome install path is ' + path)
 
     def getImperatorDirectory(unused, theStream):
         ImperatorDirectoryOutput.append(getSingleString(theStream))
@@ -28,7 +29,7 @@ def readConfigurationDetails(unused, theStream):
     def verifyImperatorDocumentsPath(path):
         if not os.path.isdir(path):
             sys.exit(path + ' does not exist!')
-        print('\tImperator: Rome documents directory path is ' + path)
+        Log('debug', '\tImperator: Rome documents directory path is ' + path)
 
     def getImperatorDocumentsDirectory(unused, theStream):
         ImperatorDocumentsDirectoryOutput.append(getSingleString(theStream))
@@ -44,7 +45,7 @@ def readConfigurationDetails(unused, theStream):
     # def verifyCK3Path(path):
     #     if not os.path.isdir(path):
     #         sys.exit(path + ' does not exist!')
-    #     print('\tCK3 install path is ' + path)
+    #     Log('debug', '\tCK3 install path is ' + path)
 
     # def getCK3Directory(unused, theStream):
     #    CK3DirectoryOutput.append(getSingleString(theStream))
@@ -55,7 +56,7 @@ def readConfigurationDetails(unused, theStream):
     # def verifyCK3DocumentsPath(path):
     #     if not os.path.isdir(path):
     #         sys.exit(path + ' does not exist!')
-    #     print('\tCK3 documents directory path is ' + path)
+    #     Log('debug', '\tCK3 documents directory path is ' + path)
 
     # def getCK3DocumentsDirectory(unused, theStream):
     #     CK3DocumentsDirectoryOutput.append(getSingleString(theStream))
@@ -66,9 +67,9 @@ def readConfigurationDetails(unused, theStream):
     def getImperatorDeJure(unused, theStream):
         ImperatorDeJureOutput.append(getSingleString(theStream))
         if ImperatorDeJureOutput[0] == 'yes':
-            print('\tUsing Imperator: Rome provinces and regions to generate CK3 de iure.')
+            Log('debug', '\tUsing Imperator: Rome provinces and regions to generate CK3 de iure.')
         else:
-            print('\tUsing vanilla CK3 de iure setup.')
+            Log('debug', '\tUsing vanilla CK3 de iure setup.')
 
     registerKeyword('ImperatorDeJure', getImperatorDeJure)
 
@@ -77,6 +78,7 @@ def readConfigurationFile(filename):
     registerKeyword('configuration', readConfigurationDetails)
     parseFile(filename)
     clearRegisteredKeywords()  # clears the configuration-related keywords, they are not used later
+
 
 def getSavePath():
     if len(ImperatorSavePathOutput) == 0:

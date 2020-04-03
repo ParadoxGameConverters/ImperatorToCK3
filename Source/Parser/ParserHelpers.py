@@ -1,4 +1,5 @@
 # the file is very WIP, but getStringList and getSingleString already work
+from Log import Log
 
 from Parser.PyParser import peek_char, getNextLexeme, getNextTokenWithoutMatching, registerKeyword, parseStream, \
     registerRegex
@@ -52,7 +53,7 @@ def getSingleInt(theStream):
     try:
         theInt = int(token)
     except TypeError:
-        print("Expected an int, but instead got " + token)
+        Log('error', 'Expected an int, but instead got ' + token)
     return theInt
 
 

@@ -2,8 +2,9 @@ import ImperatortoCK3Converter
 import Configuration
 import Log
 
-Configuration.readConfigurationFile("configuration.txt")
 Log.initiate()
+Configuration.readConfigurationFile("configuration.txt")
+
 
 ImperatorSaveFileName = Configuration.getSavePath()
 if ImperatorSaveFileName is not None:

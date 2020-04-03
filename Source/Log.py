@@ -11,6 +11,11 @@ def initiate():
     logFileCreated = True
 
 
+def endLog():
+    global logFile
+    logFile.close()
+
+
 def WriteToConsole(message):
     print(message)
 

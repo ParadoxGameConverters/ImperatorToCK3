@@ -1,5 +1,6 @@
 from Parser.PyParser import registerKeyword, parseFile
 from Parser.ParserHelpers import getSingleString, getStringList
+from Log import Log
 
 DateTextOutput = []
 DLCsOutput = []
@@ -19,14 +20,14 @@ def getModsListInList(unused, theStream):
 
 
 def World(ImperatorSaveFileName):
-    print("*** Hello Imperator, loading ImperatorWorld. ***")
+    Log('info', '*** Hello Imperator, loading ImperatorWorld. ***')
     registerKeyword('date', getDateStringInList)
     registerKeyword('enabled_dlcs', getDLCsListInList)
     registerKeyword('enabled_mods', getModsListInList)
 
-    print("Importing Imperator save.")
+    Log('info', 'Importing Imperator save.')
     parseFile(ImperatorSaveFileName)
 
-    print('Date is ' + DateTextOutput[0])  # debug
-    print('Activated DLCs:', DLCsOutput[0])  # debug
-    print('Activated mods:', ModsOutput[0])  # debug
+    Log('debug', 'Date is ' + DateTextOutput[0])
+    Log('debug', 'Activated DLCs:' + str(DLCsOutput[0]))
+    Log('debug', 'Activated mods:' + str(ModsOutput[0]))
