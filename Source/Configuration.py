@@ -1,5 +1,5 @@
 from Parser.ParserHelpers import getSingleString
-from Parser.PyParser import parseFile, registerKeyword
+from Parser.PyParser import parseFile, registerKeyword, clearRegisteredKeywords
 import os
 import sys
 
@@ -11,7 +11,7 @@ ImperatorSavePathOutput = []
 ImperatorDeJureOutput = []
 
 
-def instantiate(unused, theStream):
+def readConfigurationDetails(unused, theStream):
     def verifyImperatorPath(path):
         if not os.path.isdir(path):
             sys.exit(path + ' does not exist!')
@@ -74,9 +74,9 @@ def instantiate(unused, theStream):
 
 
 def readConfigurationFile(filename):
-    registerKeyword('configuration', instantiate)
+    registerKeyword('configuration', readConfigurationDetails)
     parseFile(filename)
-
+    clearRegisteredKeywords()  # clears the configuration-related keywords, they are not used later
 
 def getSavePath():
     if len(ImperatorSavePathOutput) == 0:
