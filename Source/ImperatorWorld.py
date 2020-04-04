@@ -1,4 +1,4 @@
-from Parser.PyParser import registerKeyword, parseFile
+from Parser.PyParser import registerKeyword, parseFile, clearRegisteredKeywords
 from Parser.ParserHelpers import getSingleString, getStringList
 from Log import Log
 
@@ -29,5 +29,7 @@ def World(ImperatorSaveFileName):
     parseFile(ImperatorSaveFileName)
 
     Log('debug', 'Date is ' + DateTextOutput[0])
-    Log('debug', 'Activated DLCs:' + str(DLCsOutput[0]))
-    Log('debug', 'Activated mods:' + str(ModsOutput[0]))
+    Log('debug', 'Activated DLCs: ' + str(DLCsOutput[0]))
+    Log('debug', 'Activated mods: ' + str(ModsOutput[0]))
+
+    clearRegisteredKeywords()
