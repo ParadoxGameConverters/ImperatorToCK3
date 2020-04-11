@@ -1,0 +1,12 @@
+[submodule "commonItems"]
+	path = common_items
+	url = https://github.com/ParadoxGameConverters/commonItems/
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/ParadoxGameConverters/frontend
+[submodule "googletest"]
+	path = googletest
+	url = https://github.com/google/googletest/
+[submodule "ZipLib"]
+	path = ZipLib
+	url = https://github.com/ParadoxGameConverters/ZipLib
