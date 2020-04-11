@@ -11,7 +11,7 @@ ConfigurationDetails::ConfigurationDetails(std::istream& theStream)
 
 void ConfigurationDetails::registerKeys()
 {
-	registerKeyword("SaveGame", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("ImperatorSavePath", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString path(theStream);
 		SaveGamePath = path.getString();
 		Log(LogLevel::Info) << "Save Game set to: " << SaveGamePath;

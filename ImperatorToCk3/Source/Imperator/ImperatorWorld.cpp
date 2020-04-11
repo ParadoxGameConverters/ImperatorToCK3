@@ -15,14 +15,16 @@ namespace fs = std::filesystem;
 ImperatorWorld::World::World(const Configuration& theConfiguration)
 {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
-	registerKeyword("date", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString dateString(theStream);
-		endDate = date(dateString.getString());
-	});
+	registerRegex("\\bSAV\\w*\\b", [](const std::string& unused, std::istream& theStream) {});
 	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString versionString(theStream);
 		ImperatorVersion = Version(versionString.getString());
 		Log(LogLevel::Info) << "<> Savegame version: " << versionString.getString();
+	});
+	registerKeyword("date", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString dateString(theStream);
+		endDate = date(dateString.getString());
+		Log(LogLevel::Info) << "<> Date: " << dateString.getString();
 	});
 
 	registerRegex("[A-Za-z0-9\\_]+", commonItems::ignoreItem);
