@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Imperator">
+      <UniqueIdentifier>{3f57399f-f045-4575-b59f-d6c77b3898f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ck3Outputter">
+      <UniqueIdentifier>{73570393-7b58-41fc-84b2-62d6f770a52d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ck3">
+      <UniqueIdentifier>{bb831886-42eb-4aa2-867f-fb92ef4b7c0f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Imperator\ImperatorWorld.h">
+      <Filter>Imperator</Filter>
+    </ClInclude>
+    <ClInclude Include="Ck3Outputter\Ck3WorldOutputter.h">
+      <Filter>Ck3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Ck3\Ck3World.h">
+      <Filter>Ck3</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Ck3Outputter\Ck3WorldOutputter.cpp">
+      <Filter>Ck3Outputter</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
