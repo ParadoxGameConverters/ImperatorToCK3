@@ -1,0 +1,6 @@
+#ifndef IMPERATORTOCK3_CONVERTER_H
+#define IMPERATORTOCK3_CONVERTER_H
+
+void convertImperatorToCk3();
+
+#endif // IMPERATORTOCK3_CONVERTER_H
