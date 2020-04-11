@@ -12,7 +12,7 @@ Configuration::Configuration()
 	clearRegisteredKeywords();
 	setOutputName();
 	verifyImperatorPath();
-	///verifyCk3Path(); # TODO #5: enable when CK3 is released
+	///verifyCk3Path(); /// TODO #5: enable when CK3 is released
 }
 
 Configuration::Configuration(std::istream& theStream)

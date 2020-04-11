@@ -28,8 +28,8 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	registerRegex("[A-Za-z0-9\\_]+", commonItems::ignoreItem);
 
 	LOG(LogLevel::Info) << "-> Verifying Imperator save.";
-	//verifySave(theConfiguration.getSaveGamePath());
-	/*
+	verifySave(theConfiguration.getSaveGamePath());
+	
 	LOG(LogLevel::Info) << "-> Importing Imperator save.";
 	if (!saveGame.compressed) {
 		std::ifstream inBinary(fs::u8path(theConfiguration.getSaveGamePath()), std::ios::binary);
@@ -50,10 +50,10 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	LOG(LogLevel::Info) << "*** Building World ***";
 
 	LOG(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
-	*/
+	
 }
 
-/*void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
+void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
 {
 	std::ifstream saveFile(fs::u8path(saveGamePath));
 	if (!saveFile.is_open()) throw std::runtime_error("Could not open save! Exiting!");
@@ -86,4 +86,4 @@ bool ImperatorWorld::World::uncompressSave(const std::string& saveGamePath)
 			throw std::runtime_error("Unrecognized savegame structure!");
 	}
 	return true;
-}*/
+}

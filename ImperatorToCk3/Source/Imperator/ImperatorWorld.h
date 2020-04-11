@@ -22,8 +22,8 @@ class World: commonItems::parser
 		std::string getSaveName() const { return "CK3tester"; }
 
 	private:
-		//void verifySave(const std::string& saveGamePath);
-		//bool uncompressSave(const std::string& saveGamePath);
+		void verifySave(const std::string& saveGamePath);
+		bool uncompressSave(const std::string& saveGamePath);
 
 		date startDate = date("450.10.1");
 		date endDate = date("727.2.17");
