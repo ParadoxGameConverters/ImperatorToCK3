@@ -12,19 +12,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Imperator\ImperatorWorld.h">
+    <ClInclude Include="Source\Imperator\ImperatorWorld.h">
       <Filter>Imperator</Filter>
     </ClInclude>
-    <ClInclude Include="Ck3Outputter\Ck3WorldOutputter.h">
+    <ClInclude Include="Source\Ck3Outputter\Ck3WorldOutputter.h">
       <Filter>Ck3Outputter</Filter>
     </ClInclude>
-    <ClInclude Include="Ck3\Ck3World.h">
+    <ClInclude Include="Source\Ck3\Ck3World.h">
       <Filter>Ck3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Ck3Outputter\Ck3WorldOutputter.cpp">
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Ck3Outputter\Ck3WorldOutputter.cpp">
       <Filter>Ck3Outputter</Filter>
     </ClCompile>
   </ItemGroup>
