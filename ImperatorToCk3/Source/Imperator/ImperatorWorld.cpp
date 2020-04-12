@@ -70,7 +70,6 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	LOG(LogLevel::Info) << "*** Building World ***";
 
 	LOG(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
-	
 }
 
 void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
