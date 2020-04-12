@@ -30,6 +30,7 @@ class World: commonItems::parser
 		date endDate = date("727.2.17");
 		Version ImperatorVersion;
 		std::set<std::string> DLCs;
+		std::set<std::string> Mods;
 
 		struct saveData {
 			bool compressed = false;

@@ -32,6 +32,12 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		DLCs.insert(theDLCs.begin(), theDLCs.end());
 		for (const auto& dlc : DLCs) LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
 	});
+	registerKeyword("enabled_mods", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::stringList modsList(theStream);
+		const auto& theMods = modsList.getStrings();
+		Mods.insert(theMods.begin(), theMods.end());
+		for (const auto& mod : Mods) LOG(LogLevel::Info) << "<> Enabled mod: " << mod;
+	});
 
 	registerRegex("[A-Za-z0-9\\_]+", commonItems::ignoreItem);
 
