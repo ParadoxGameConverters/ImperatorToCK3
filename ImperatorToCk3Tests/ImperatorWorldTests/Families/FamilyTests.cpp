@@ -44,7 +44,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeCanBeSet)
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "\prestige=\"420.5\"";
+	input << "\tprestige=\"420.5\"";
 	input << "}";
 
 	const ImperatorWorld::Family theFamily(input, 42);
@@ -69,7 +69,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeRatioCanBeSet)
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "\prestige_ratio=\"0.75\"";
+	input << "\tprestige_ratio=\"0.75\"";
 	input << "}";
 
 	const ImperatorWorld::Family theFamily(input, 42);
