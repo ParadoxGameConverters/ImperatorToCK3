@@ -6,6 +6,7 @@
 #include "Date.h"
 #include "newParser.h"
 #include <string>
+#include <set>
 
 
 class Configuration;
@@ -28,6 +29,7 @@ class World: commonItems::parser
 		date startDate = date("450.10.1");
 		date endDate = date("727.2.17");
 		Version ImperatorVersion;
+		std::set<std::string> DLCs;
 
 		struct saveData {
 			bool compressed = false;
