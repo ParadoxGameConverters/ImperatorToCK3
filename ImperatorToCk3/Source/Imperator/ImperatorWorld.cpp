@@ -38,7 +38,13 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		Mods.insert(theMods.begin(), theMods.end());
 		for (const auto& mod : Mods) LOG(LogLevel::Info) << "<> Enabled mod: " << mod;
 	});
-
+	registerKeyword("family", [this](const std::string& unused, std::istream& theStream) {
+		registerKeyword("families", [this](const std::string& unused, std::istream& theStream) {
+			LOG(LogLevel::Info) << "-> Loading Families";
+			families.loadFamilies(theStream);
+			LOG(LogLevel::Info) << ">> Loaded " << families.getFamilies().size() << " families.";
+		});
+	});
 	registerRegex("[A-Za-z0-9\\_]+", commonItems::ignoreItem);
 
 	LOG(LogLevel::Info) << "-> Verifying Imperator save.";

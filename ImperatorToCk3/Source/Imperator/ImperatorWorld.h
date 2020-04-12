@@ -4,6 +4,7 @@
 
 #include "../Common/Version.h"
 #include "Date.h"
+#include "Families/Families.h"
 #include "newParser.h"
 #include <string>
 #include <set>
@@ -38,6 +39,8 @@ class World: commonItems::parser
 			std::string gamestate;
 		};
 		saveData saveGame;
+
+		Families families;
 };		
 }
 

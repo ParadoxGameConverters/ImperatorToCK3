@@ -19,6 +19,9 @@
     <Filter Include="Imperator">
       <UniqueIdentifier>{3f57399f-f045-4575-b59f-d6c77b3898f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imperator\Families">
+      <UniqueIdentifier>{35e32415-9726-4c58-b168-9f292cf8563a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -82,6 +85,12 @@
     <ClInclude Include="Source\Common\Version.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Families\Family.h">
+      <Filter>Imperator\Families</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Families\Families.h">
+      <Filter>Imperator\Families</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
@@ -139,6 +148,12 @@
     </ClCompile>
     <ClCompile Include="Source\Common\Version.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Families\Family.cpp">
+      <Filter>Imperator\Families</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Families\Families.cpp">
+      <Filter>Imperator\Families</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

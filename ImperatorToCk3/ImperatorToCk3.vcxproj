@@ -174,6 +174,8 @@
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationDetails.cpp" />
     <ClCompile Include="Source\ImperatorToCk3Converter.cpp" />
+    <ClCompile Include="Source\Imperator\Families\Families.cpp" />
+    <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
@@ -198,6 +200,8 @@
     <ClInclude Include="Source\Configuration\Configuration.h" />
     <ClInclude Include="Source\Configuration\ConfigurationDetails.h" />
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
+    <ClInclude Include="Source\Imperator\Families\Families.h" />
+    <ClInclude Include="Source\Imperator\Families\Family.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
   </ItemGroup>
   <ItemGroup>
