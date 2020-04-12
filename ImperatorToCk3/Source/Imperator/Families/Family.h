@@ -28,6 +28,6 @@ class Family: commonItems::parser
 	double prestigeRatio;
 	std::string key;
 };
-} // namespace Imperator
+} // namespace ImperatorWorld
 
 #endif // IMPERATOR_FAMILY_H

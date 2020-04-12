@@ -16,6 +16,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lzma", "ZipLib\extlibs\lzma
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "ZipLib\extlibs\zlib\zlib.vcxproj", "{BAEB16B3-DB4C-432F-9E6A-2ACADEA0691D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImperatorToCK3Tests", "ImperatorToCK3Tests\ImperatorToCK3Tests.vcxproj", "{2252FE41-5CF1-4585-9EED-10087D112F1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -86,6 +88,18 @@ Global
 		{BAEB16B3-DB4C-432F-9E6A-2ACADEA0691D}.Release|x64.Build.0 = Release|x64
 		{BAEB16B3-DB4C-432F-9E6A-2ACADEA0691D}.Release|x86.ActiveCfg = Release|Win32
 		{BAEB16B3-DB4C-432F-9E6A-2ACADEA0691D}.Release|x86.Build.0 = Release|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Debug|Win32.Build.0 = Debug|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Debug|x64.ActiveCfg = Debug|x64
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Debug|x64.Build.0 = Debug|x64
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Debug|x86.ActiveCfg = Debug|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Debug|x86.Build.0 = Debug|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Release|Win32.ActiveCfg = Release|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Release|Win32.Build.0 = Release|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Release|x64.ActiveCfg = Release|x64
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Release|x64.Build.0 = Release|x64
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Release|x86.ActiveCfg = Release|Win32
+		{2252FE41-5CF1-4585-9EED-10087D112F1F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
