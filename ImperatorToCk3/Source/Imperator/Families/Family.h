@@ -24,8 +24,8 @@ class Family: commonItems::parser
 	int familyID = 0;
 	int owner = 0;
 	std::string culture;
-	double prestige;
-	double prestigeRatio;
+	double prestige = 0;
+	double prestigeRatio = 0;
 	std::string key;
 };
 } // namespace ImperatorWorld

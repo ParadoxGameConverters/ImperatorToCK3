@@ -20,6 +20,6 @@ namespace ImperatorWorld
 
 		std::map<int, std::shared_ptr<Family>> families;
 	};
-} // namespace Imperator
+} // namespace ImperatorWorld
 
 #endif // IMPERATOR_FAMILIES_H
