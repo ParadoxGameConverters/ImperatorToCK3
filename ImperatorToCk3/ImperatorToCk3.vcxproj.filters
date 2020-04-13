@@ -97,7 +97,7 @@
     <ClCompile Include="Source\Ck3Outputter\Ck3WorldOutputter.cpp">
       <Filter>Ck3Outputter</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ImperatorToCk3Converter.cpp" />
+    <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
     <ClCompile Include="..\common_items\Log.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>

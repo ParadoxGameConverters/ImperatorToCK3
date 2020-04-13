@@ -173,7 +173,7 @@
     <ClCompile Include="Source\Common\Version.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationDetails.cpp" />
-    <ClCompile Include="Source\ImperatorToCk3Converter.cpp" />
+    <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
