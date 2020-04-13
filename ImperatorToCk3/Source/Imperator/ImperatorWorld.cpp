@@ -26,12 +26,12 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		endDate = date(dateString.getString());
 		Log(LogLevel::Info) << "<> Date: " << dateString.getString();
 	});
-	registerKeyword("enabled_dlcs", [this](const std::string& unused, std::istream& theStream) {
+	/*registerKeyword("enabled_dlcs", [this](const std::string& unused, std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed 
 		const commonItems::stringList dlcsList(theStream);
 		const auto& theDLCs = dlcsList.getStrings();
 		DLCs.insert(theDLCs.begin(), theDLCs.end());
 		for (const auto& dlc : DLCs) LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
-	});
+	}); */
 	registerKeyword("enabled_mods", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::stringList modsList(theStream);
 		const auto& theMods = modsList.getStrings();
