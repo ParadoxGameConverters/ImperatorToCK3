@@ -7,6 +7,9 @@
     <Filter Include="ImperatorWorldTests\Families">
       <UniqueIdentifier>{4ac3ffae-9ce9-4ab7-8dba-d5d42b080ce4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CommonTests">
+      <UniqueIdentifier>{5c3acfbf-5894-4366-bd2d-d6c24949c7c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -27,6 +30,9 @@
     <ClCompile Include="..\common_items\WinUtils.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp">
       <Filter>ImperatorWorldTests\Families</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonTests\CommonFunctionsTests.cpp">
+      <Filter>CommonTests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
