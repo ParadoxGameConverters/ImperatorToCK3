@@ -25,7 +25,7 @@ artifacts:
   name: ImperatorToCk3
 deploy:
 - provider: GitHub
-  release: WindowsRelease
+  release: DevelopmentRelease
   description: The most recent build of the development version
   auth_token:
     secure: LBJzs4y9j0N5y0ajp7gmVk3Pvnec1UU5pTCdIMbQYUddEXQnWTJ79FXsd9SCs7YQ
