@@ -34,3 +34,24 @@ TEST(ImperatorWorld_FamiliesTests, familiesCanBeLoaded)
 	ASSERT_EQ(43, familyItr2->first);
 	ASSERT_EQ(43, familyItr2->second->getID());
 }
+
+TEST(ImperatorWorld_FamiliesTests, familiesCanBeUpdated)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "42={\n";
+	input << "key = \"Losers\"\n";
+	input << "culture = arabic\n";
+	input << "}\n";
+	input << "42={\n"; /// same ID as before, intended here
+	input << "key = \"Chads\"\n";
+	input << "culture = roman\n";
+	input << "}\n";
+	input << "}";
+
+	const ImperatorWorld::Families families(input);
+	const auto& familyItr = families.getFamilies().find(42);
+	ASSERT_EQ("Chads", familyItr->second->getKey());
+	ASSERT_EQ("roman", familyItr->second->getCulture());
+}
