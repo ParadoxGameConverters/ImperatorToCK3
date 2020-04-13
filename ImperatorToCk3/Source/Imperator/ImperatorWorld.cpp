@@ -93,11 +93,7 @@ bool ImperatorWorld::World::uncompressSave(const std::string& saveGamePath)
 	for (size_t entryNum = 0; entryNum < savefile->GetEntriesCount(); ++entryNum) {
 		const auto& entry = savefile->GetEntry(entryNum);
 		const auto& name = entry->GetName();
-		if (name == "meta") {
-			LOG(LogLevel::Info) << ">> Uncompressing metadata";
-			saveGame.metadata = std::string{ std::istreambuf_iterator<char>(*entry->GetDecompressionStream()), std::istreambuf_iterator<char>() };
-		}
-		else if (name == trimPath(saveGamePath)) {
+		if (name == trimPath(saveGamePath)) {
 			LOG(LogLevel::Info) << ">> Uncompressing gamestate";
 			saveGame.gamestate = std::string{ std::istreambuf_iterator<char>(*entry->GetDecompressionStream()), std::istreambuf_iterator<char>() };
 		}
