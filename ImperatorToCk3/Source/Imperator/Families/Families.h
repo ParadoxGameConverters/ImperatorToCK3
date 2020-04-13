@@ -8,8 +8,6 @@ namespace ImperatorWorld
 	class Families : commonItems::parser
 	{
 	public:
-		Families() = default;
-		Families(std::istream& theStream); // For testing
 		void loadFamilies(const std::string& thePath);
 		void loadFamilies(std::istream& theStream);
 

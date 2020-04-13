@@ -11,7 +11,8 @@ TEST(ImperatorWorld_FamiliesTests, familiesDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Families families(input);
+	ImperatorWorld::Families families;
+	families.loadFamilies(input);
 
 	ASSERT_TRUE(families.getFamilies().empty());
 }
@@ -25,7 +26,8 @@ TEST(ImperatorWorld_FamiliesTests, familiesCanBeLoaded)
 	input << "43={}\n";
 	input << "}";
 
-	const ImperatorWorld::Families families(input);
+	ImperatorWorld::Families families;
+	families.loadFamilies(input);
 	const auto& familyItr = families.getFamilies().find(42);
 	const auto& familyItr2 = families.getFamilies().find(43);
 
@@ -50,7 +52,8 @@ TEST(ImperatorWorld_FamiliesTests, familiesCanBeUpdated)
 	input << "}\n";
 	input << "}";
 
-	const ImperatorWorld::Families families(input);
+	ImperatorWorld::Families families;
+	families.loadFamilies(input);
 	const auto& familyItr = families.getFamilies().find(42);
 	ASSERT_EQ("Chads", familyItr->second->getKey());
 	ASSERT_EQ("roman", familyItr->second->getCulture());

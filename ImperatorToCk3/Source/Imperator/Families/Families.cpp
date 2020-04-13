@@ -3,13 +3,6 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::Families::Families(std::istream& theStream)
-{
-	registerKeys();
-	parseStream(theStream);
-	clearRegisteredKeywords();
-}
-
 void ImperatorWorld::Families::loadFamilies(const std::string& thePath)
 {
 	registerKeys();
