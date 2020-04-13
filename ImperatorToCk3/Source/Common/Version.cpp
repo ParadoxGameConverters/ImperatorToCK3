@@ -7,17 +7,26 @@ Version::Version(std::string version)
 	int dot = version.find_first_of('.'); // the dots separating the version parts
 	firstPart = std::stoi(version.substr(0, dot));
 
-	version = version.substr(dot + 1, version.size());
-	dot = version.find_first_of('.');
-	secondPart = std::stoi(version.substr(0, dot));
+	if (dot != std::string::npos)
+	{
+		version = version.substr(dot + 1, version.size());
+		dot = version.find_first_of('.');
+		secondPart = std::stoi(version.substr(0, dot));
 
-	version = version.substr(dot + 1, version.size());
-	dot = version.find_first_of('.');
-	thirdPart = std::stoi(version.substr(0, dot));
+		if (dot != std::string::npos)
+		{
+			version = version.substr(dot + 1, version.size());
+			dot = version.find_first_of('.');
+			thirdPart = std::stoi(version.substr(0, dot));
 
-	version = version.substr(dot + 1, version.size());
-	dot = version.find_first_of('.');
-	fourthPart = std::stoi(version.substr(0, dot));
+			if (dot != std::string::npos)
+			{
+				version = version.substr(dot + 1, version.size());
+				dot = version.find_first_of('.');
+				fourthPart = std::stoi(version.substr(0, dot));
+			}
+		}
+	}
 }
 
 Version::Version(std::istream& theStream)
