@@ -26,11 +26,11 @@ TEST(ImperatorWorld_FamiliesTests, familiesCanBeLoaded)
 	input << "}";
 
 	const ImperatorWorld::Families families(input);
-	const auto& characterItr = families.getFamilies().find(42);
-	const auto& characterItr2 = families.getFamilies().find(43);
+	const auto& familyItr = families.getFamilies().find(42);
+	const auto& familyItr2 = families.getFamilies().find(43);
 
-	ASSERT_EQ(characterItr->first, 42);
-	ASSERT_EQ(characterItr->second->getID(), 42);
-	ASSERT_EQ(characterItr2->first, 43);
-	ASSERT_EQ(characterItr2->second->getID(), 43);
+	ASSERT_EQ(familyItr->first, 42);
+	ASSERT_EQ(familyItr->second->getID(), 42);
+	ASSERT_EQ(familyItr2->first, 43);
+	ASSERT_EQ(familyItr2->second->getID(), 43);
 }
