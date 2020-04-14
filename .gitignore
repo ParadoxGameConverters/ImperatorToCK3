@@ -40,5 +40,10 @@ PyCharm stuff
 *.pyc
 
 #Output folders
-Release
-Debug
+Release/
+ReleaseIntermediate/
+Release-Linux/
+Debug/
+DebugIntermediate/
+
+log.txt
