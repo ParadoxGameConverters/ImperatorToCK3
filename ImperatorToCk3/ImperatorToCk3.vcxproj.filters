@@ -22,6 +22,9 @@
     <Filter Include="Imperator\Families">
       <UniqueIdentifier>{35e32415-9726-4c58-b168-9f292cf8563a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers">
+      <UniqueIdentifier>{37ba0159-aa96-426f-86ca-143c13f8bb9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -91,9 +94,15 @@
     <ClInclude Include="Source\Imperator\Families\Families.h">
       <Filter>Imperator\Families</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h">
+      <Filter>Mappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Ck3Outputter\outVersion.h">
+      <Filter>Ck3Outputter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Ck3Outputter\Ck3WorldOutputter.cpp">
       <Filter>Ck3Outputter</Filter>
     </ClCompile>
@@ -154,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Families\Families.cpp">
       <Filter>Imperator\Families</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp">
+      <Filter>Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ck3Outputter\outVersion.cpp">
+      <Filter>Ck3Outputter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -169,6 +169,7 @@
     <ClCompile Include="..\common_items\StringUtils.cpp" />
     <ClCompile Include="..\common_items\WinUtils.cpp" />
     <ClCompile Include="Source\Ck3Outputter\Ck3WorldOutputter.cpp" />
+    <ClCompile Include="Source\Ck3Outputter\outVersion.cpp" />
     <ClCompile Include="Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="Source\Common\Version.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
@@ -177,7 +178,8 @@
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common_items\CardinalToOrdinal.h" />
@@ -194,6 +196,7 @@
     <ClInclude Include="..\common_items\ParserHelpers.h" />
     <ClInclude Include="..\common_items\StringUtils.h" />
     <ClInclude Include="Source\Ck3Outputter\Ck3WorldOutputter.h" />
+    <ClInclude Include="Source\Ck3Outputter\outVersion.h" />
     <ClInclude Include="Source\Ck3\Ck3World.h" />
     <ClInclude Include="Source\Common\CommonFunctions.h" />
     <ClInclude Include="Source\Common\Version.h" />
@@ -203,6 +206,7 @@
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
+    <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZipLib\ZipLib.vcxproj">

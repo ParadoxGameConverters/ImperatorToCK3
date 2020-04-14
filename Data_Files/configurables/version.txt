@@ -1,0 +1,5 @@
+# Version info
+
+version = "0.0A"
+name = "init-prerelease"
+descriptionLine = "Compatible with I:R 1.4"
