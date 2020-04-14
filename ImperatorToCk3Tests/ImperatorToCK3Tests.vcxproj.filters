@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ImperatorWorldTests">
+      <UniqueIdentifier>{8243fa4d-3a1f-4b26-937a-aa28a3d3fe23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImperatorWorldTests\Families">
+      <UniqueIdentifier>{4ac3ffae-9ce9-4ab7-8dba-d5d42b080ce4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommonTests">
+      <UniqueIdentifier>{5c3acfbf-5894-4366-bd2d-d6c24949c7c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
+      <Filter>ImperatorWorldTests\Families</Filter>
+    </ClCompile>
+    <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
+    <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
+    <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Families.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Family.cpp" />
+    <ClCompile Include="..\common_items\Color.cpp" />
+    <ClCompile Include="..\common_items\Date.cpp" />
+    <ClCompile Include="..\common_items\iconvlite.cpp" />
+    <ClCompile Include="..\common_items\Log.cpp" />
+    <ClCompile Include="..\common_items\newParser.cpp" />
+    <ClCompile Include="..\common_items\Object.cpp" />
+    <ClCompile Include="..\common_items\ParserHelpers.cpp" />
+    <ClCompile Include="..\common_items\WinUtils.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp">
+      <Filter>ImperatorWorldTests\Families</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonTests\CommonFunctionsTests.cpp">
+      <Filter>CommonTests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCk3\Source\Common\CommonFunctions.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Common\Version.cpp" />
+    <ClCompile Include="CommonTests\VersionTests.cpp">
+      <Filter>CommonTests</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

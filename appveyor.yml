@@ -1,0 +1,35 @@
+version: ImperatorToCk3.{build}
+skip_tags: true
+image: Visual Studio 2019 Preview
+configuration: Release
+build_script:
+- cmd: >-
+    git submodule update --init --recursive
+
+    msbuild ImperatorToCK3.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+#   msbuild Vic2ToHoI4Tests/Vic2ToHoI4Tests-Google.vcxproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll
+
+test_script:
+- ps: >-
+    vstest.console /logger:Appveyor frontend\Frontend.Core.Tests\bin\Release\Frontend.Core.Tests.dll
+
+    cd Release\ImperatorToCk3
+
+    ..\..\ImperatorToCk3Tests\Release\ImperatorToCK3Tests.exe --gtest_output=xml:tests.xml
+
+    (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests.xml))
+
+artifacts:
+- path: Release
+  name: ImperatorToCk3
+deploy:
+- provider: GitHub
+  release: DevelopmentRelease
+  description: The most recent build of the development version
+  auth_token:
+    secure: LBJzs4y9j0N5y0ajp7gmVk3Pvnec1UU5pTCdIMbQYUddEXQnWTJ79FXsd9SCs7YQ
+  repository: ParadoxGameConverters/ImperatorToCK3
+  artifact: ImperatorToCK3
+  prerelease: true
+  force_update: true
