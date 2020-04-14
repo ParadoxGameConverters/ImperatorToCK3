@@ -15,7 +15,7 @@ namespace fs = std::filesystem;
 ImperatorWorld::World::World(const Configuration& theConfiguration)
 {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
-	registerRegex("\\bSAV\\w*\\b", [](const std::string& unused, std::istream& theStream) {});
+	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
 	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString versionString(theStream);
 		ImperatorVersion = Version(versionString.getString());
@@ -26,12 +26,12 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		endDate = date(dateString.getString());
 		Log(LogLevel::Info) << "<> Date: " << dateString.getString();
 	});
-	registerKeyword("enabled_dlcs", [this](const std::string& unused, std::istream& theStream) {
+	/*registerKeyword("enabled_dlcs", [this](const std::string& unused, std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed 
 		const commonItems::stringList dlcsList(theStream);
 		const auto& theDLCs = dlcsList.getStrings();
 		DLCs.insert(theDLCs.begin(), theDLCs.end());
 		for (const auto& dlc : DLCs) LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
-	});
+	}); */
 	registerKeyword("enabled_mods", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::stringList modsList(theStream);
 		const auto& theMods = modsList.getStrings();
@@ -93,11 +93,7 @@ bool ImperatorWorld::World::uncompressSave(const std::string& saveGamePath)
 	for (size_t entryNum = 0; entryNum < savefile->GetEntriesCount(); ++entryNum) {
 		const auto& entry = savefile->GetEntry(entryNum);
 		const auto& name = entry->GetName();
-		if (name == "meta") {
-			LOG(LogLevel::Info) << ">> Uncompressing metadata";
-			saveGame.metadata = std::string{ std::istreambuf_iterator<char>(*entry->GetDecompressionStream()), std::istreambuf_iterator<char>() };
-		}
-		else if (name == trimPath(saveGamePath)) {
+		if (name == trimPath(saveGamePath)) {
 			LOG(LogLevel::Info) << ">> Uncompressing gamestate";
 			saveGame.gamestate = std::string{ std::istreambuf_iterator<char>(*entry->GetDecompressionStream()), std::istreambuf_iterator<char>() };
 		}

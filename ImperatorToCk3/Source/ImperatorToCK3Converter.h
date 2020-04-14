@@ -1,6 +1,10 @@
 #ifndef IMPERATORTOCK3_CONVERTER_H
 #define IMPERATORTOCK3_CONVERTER_H
 
-void convertImperatorToCk3();
+namespace mappers {
+	class VersionParser;
+}
+
+void convertImperatorToCk3(const mappers::VersionParser& versionParser);
 
 #endif // IMPERATORTOCK3_CONVERTER_H

@@ -34,5 +34,10 @@
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp">
       <Filter>CommonTests</Filter>
     </ClCompile>
+    <ClCompile Include="..\ImperatorToCk3\Source\Common\CommonFunctions.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Common\Version.cpp" />
+    <ClCompile Include="CommonTests\VersionTests.cpp">
+      <Filter>CommonTests</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ TEST(ImperatorWorld_FamilyTests, IDCanBeSet)
 
 	const ImperatorWorld::Family theFamily(input, 42);
 
-	ASSERT_EQ(theFamily.getID(), 42);
+	ASSERT_EQ(42, theFamily.getID());
 }
 
 TEST(ImperatorWorld_FamilyTests, cultureCanBeSet)
@@ -24,7 +24,7 @@ TEST(ImperatorWorld_FamilyTests, cultureCanBeSet)
 
 	const ImperatorWorld::Family theFamily(input, 42);
 
-	ASSERT_EQ(theFamily.getCulture(), "paradoxian");
+	ASSERT_EQ("paradoxian", theFamily.getCulture());
 }
 
 TEST(ImperatorWorld_FamilyTests, cultureDefaultsToBlank)
@@ -49,7 +49,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeCanBeSet)
 
 	const ImperatorWorld::Family theFamily(input, 42);
 
-	ASSERT_EQ(theFamily.getPrestige(), 420.5);
+	ASSERT_EQ(420.5, theFamily.getPrestige());
 }
 
 TEST(ImperatorWorld_FamilyTests, prestigeDefaultsToZero)
@@ -61,7 +61,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeDefaultsToZero)
 
 	const ImperatorWorld::Family theFamily(input, 42);
 
-	ASSERT_EQ(theFamily.getPrestige(), 0);
+	ASSERT_EQ(0, theFamily.getPrestige());
 }
 
 TEST(ImperatorWorld_FamilyTests, prestigeRatioCanBeSet)
@@ -74,7 +74,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeRatioCanBeSet)
 
 	const ImperatorWorld::Family theFamily(input, 42);
 
-	ASSERT_EQ(theFamily.getPrestigeRatio(), 0.75);
+	ASSERT_EQ(0.75, theFamily.getPrestigeRatio());
 }
 
 TEST(ImperatorWorld_FamilyTests, prestigeRatioDefaultsToZero)
@@ -86,7 +86,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeRatioDefaultsToZero)
 
 	const ImperatorWorld::Family theFamily(input, 42);
 
-	ASSERT_EQ(theFamily.getPrestigeRatio(), 0);
+	ASSERT_EQ(0, theFamily.getPrestigeRatio());
 }
 
 TEST(ImperatorWorld_FamilyTests, keyCanBeSet)
@@ -99,7 +99,7 @@ TEST(ImperatorWorld_FamilyTests, keyCanBeSet)
 
 	const ImperatorWorld::Family theFamily(input, 42);
 
-	ASSERT_EQ(theFamily.getKey(), "paradoxian");
+	ASSERT_EQ("paradoxian", theFamily.getKey());
 }
 
 TEST(ImperatorWorld_FamilyTests, keyDefaultsToBlank)
