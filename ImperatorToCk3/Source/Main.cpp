@@ -18,7 +18,4 @@ int main(const int argc, const char* argv[])
 		Log(LogLevel::Error) << e.what();
 		return -1;
 	}
-	
-
-	
 }
