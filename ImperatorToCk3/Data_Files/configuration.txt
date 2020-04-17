@@ -19,4 +19,7 @@ configuration = {
 	# 	2	 - Base CK3 de iure on Imperator countries
 	# 	3	 - Keep vanilla CK3 de iure
 	ImperatorDeJure = "3"
+	
+	# Mod Output Name (optional):: Please use ASCII latin characters only.
+	output_name = ""
 }

@@ -60,53 +60,53 @@ tag vs internalTag:
 				</requiredFile>
 
 				<requiredFolder>
-					<tag>CK2directory</tag>
-					<friendlyName>Crusader Kings 2 Install directory</friendlyName>
-					<description>A path on your computer where Crusader Kings 2 is installed</description>
+					<tag>ImperatorDirectory</tag>
+					<friendlyName>Imperator: Rome Install directory</friendlyName>
+					<description>A path on your computer where Imperator: Rome is installed</description>
 					<isMandatory>true</isMandatory>
 					<alternatives>
 						<alternative>
 							<defaultLocationType>SteamFolder</defaultLocationType>
-							<autoDetectFromSteamId>203770</autoDetectFromSteamId>
+							<autoDetectFromSteamId>859580</autoDetectFromSteamId> 
 						</alternative>
 					</alternatives>
 				</requiredFolder>
 
 				<requiredFolder>
-					<tag>CK2ModsDirectory</tag>
-					<friendlyName>CK2 Mods Directory</friendlyName>
-					<description>A path on your computer where Crusader Kings 2 keeps mods</description>
+					<tag>ImperatorModsDirectory</tag>
+					<friendlyName>Imperator: Rome Mods Directory</friendlyName>
+					<description>A path on your computer where Imperator: Rome keeps mods</description>
 					<isMandatory>true</isMandatory>
 					<alternatives>
 						<alternative>
 							<defaultLocationType>WindowsUsersFolder</defaultLocationType>
-							<subFolderLocation>Paradox Interactive\Crusader Kings II\mod</subFolderLocation>
+							<subFolderLocation>Paradox Interactive\Imperator\mod</subFolderLocation>
 						</alternative>
 					</alternatives>
 				</requiredFolder>
 
 				<requiredFolder>
-					<tag>EU4directory</tag>
-					<friendlyName>Europa Universalis 4 directory</friendlyName>
-					<description>A path on your computer where Europa Universalis 4 is installed</description>
+					<tag>CK3directory</tag>
+					<friendlyName>Crusader Kings III directory</friendlyName>
+					<description>A path on your computer where Crusader Kings III is installed</description>
 					<isMandatory>true</isMandatory>
 					<alternatives>
 						<alternative>
 							<defaultLocationType>SteamFolder</defaultLocationType>
-							<autoDetectFromSteamId>236850</autoDetectFromSteamId>
+							<autoDetectFromSteamId>1158310</autoDetectFromSteamId> 
 						</alternative>
 					</alternatives>
 				</requiredFolder>
 
 				<requiredFolder>
 					<internalTag>targetGameModPath</internalTag>
-					<friendlyName>EU4 mods directory</friendlyName>
-					<description>A path on your computer where EU4 keeps mods</description>
+					<friendlyName>CK3 mods directory</friendlyName>
+					<description>A path on your computer where CK3 keeps mods</description>
 					<isMandatory>true</isMandatory>
 					<alternatives>
 						<alternative>
 							<defaultLocationType>WindowsUsersFolder</defaultLocationType>
-							<subFolderLocation>Paradox Interactive\Europa Universalis IV\mod</subFolderLocation>
+							<subFolderLocation>Paradox Interactive\Crusader Kings III\mod</subFolderLocation>
 						</alternative>
 					</alternatives>
 				</requiredFolder>
@@ -121,23 +121,23 @@ tag vs internalTag:
 					<alternatives>
 						<alternative>
 							<defaultLocationType>ConverterFolder</defaultLocationType>
-							<subFolderLocation>CK2ToEU4</subFolderLocation>
+							<subFolderLocation>ImperatorToCK3</subFolderLocation>
 						</alternative>
 					</alternatives>
 					<extension>*.exe</extension>
-					<predefinedFileName>CK2ToEU4Converter.exe</predefinedFileName>
+					<predefinedFileName>ImperatorToCK3Converter.exe</predefinedFileName>
 				</requiredFile>
 
 				<requiredFile>
 					<tag>SaveGame</tag>
 					<friendlyName>Savegame</friendlyName>
 					<description>The savegame to convert</description>
-					<extension>.ck2</extension>
+					<extension>.rome</extension>
 					<isMandatory>true</isMandatory>
 					<alternatives>
 						<alternative>
 							<defaultLocationType>WindowsUsersFolder</defaultLocationType>
-							<subFolderLocation>Paradox Interactive\Crusader Kings II\save games</subFolderLocation>
+							<subFolderLocation>Paradox Interactive\Imperator\save games</subFolderLocation>
 						</alternative>
 					</alternatives>
 				</requiredFile>
