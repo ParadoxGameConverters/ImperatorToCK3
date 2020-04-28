@@ -7,3 +7,6 @@
 [submodule "googletest"]
 	path = googletest
 	url = git://github.com/google/googletest.git
+[submodule "common_items"]
+	path = common_items
+	url = git://github.com/ParadoxGameConverters/commonItems
