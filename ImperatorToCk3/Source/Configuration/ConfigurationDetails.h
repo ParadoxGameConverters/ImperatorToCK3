@@ -2,7 +2,7 @@
 #define CONFIGURATION_DETAILS_H
 
 #include "Date.h"
-#include "newParser.h"
+#include "Parser.h"
 
 class ConfigurationDetails: commonItems::parser
 {

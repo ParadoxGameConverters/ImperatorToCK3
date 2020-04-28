@@ -43,7 +43,7 @@
     <ClInclude Include="..\common_items\OSCompatibilityLayer.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\newParser.h">
+    <ClInclude Include="..\common_items\Parser.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\common_items\ParserHelpers.h">
@@ -113,7 +113,7 @@
     <ClCompile Include="..\common_items\WinUtils.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\newParser.cpp">
+    <ClCompile Include="..\common_items\Parser.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\common_items\ParserHelpers.cpp">

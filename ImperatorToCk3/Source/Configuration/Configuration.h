@@ -3,7 +3,7 @@
 
 #include "ConfigurationDetails.h"
 #include "Date.h"
-#include "newParser.h"
+#include "Parser.h"
 
 class Configuration: commonItems::parser
 {
