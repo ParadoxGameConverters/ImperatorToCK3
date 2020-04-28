@@ -1,6 +1,3 @@
-[submodule "common_items"]
-	path = common_items
-	url = git://github.com/ParadoxGameConverters/commonItems.git
 [submodule "frontend"]
 	path = frontend
 	url = git://github.com/ParadoxGameConverters/frontend.git

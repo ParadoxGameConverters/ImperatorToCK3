@@ -25,7 +25,6 @@
     <ClCompile Include="..\common_items\iconvlite.cpp" />
     <ClCompile Include="..\common_items\Log.cpp" />
     <ClCompile Include="..\common_items\Parser.cpp" />
-    <ClCompile Include="..\common_items\Object.cpp" />
     <ClCompile Include="..\common_items\ParserHelpers.cpp" />
     <ClCompile Include="..\common_items\WinUtils.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp">
@@ -39,5 +38,6 @@
     <ClCompile Include="CommonTests\VersionTests.cpp">
       <Filter>CommonTests</Filter>
     </ClCompile>
+    <ClCompile Include="..\common_items\StringUtils.cpp" />
   </ItemGroup>
 </Project>

@@ -64,13 +64,7 @@
     <ClInclude Include="..\common_items\Date.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\Encoding.h">
-      <Filter>CommonItems</Filter>
-    </ClInclude>
     <ClInclude Include="..\common_items\iconvlite.h">
-      <Filter>CommonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common_items\Object.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\common_items\StringUtils.h">
@@ -131,13 +125,7 @@
     <ClCompile Include="..\common_items\Date.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\Encoding.cpp">
-      <Filter>CommonItems</Filter>
-    </ClCompile>
     <ClCompile Include="..\common_items\iconvlite.cpp">
-      <Filter>CommonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common_items\Object.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\common_items\StringUtils.cpp">

@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common_items\StringUtils.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Common\Version.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Family.cpp" />
@@ -157,7 +158,6 @@
     <ClCompile Include="..\common_items\iconvlite.cpp" />
     <ClCompile Include="..\common_items\Log.cpp" />
     <ClCompile Include="..\common_items\Parser.cpp" />
-    <ClCompile Include="..\common_items\Object.cpp" />
     <ClCompile Include="..\common_items\ParserHelpers.cpp" />
     <ClCompile Include="..\common_items\WinUtils.cpp" />
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />

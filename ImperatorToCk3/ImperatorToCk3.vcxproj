@@ -166,11 +166,9 @@
     <ClCompile Include="..\common_items\Color.cpp" />
     <ClCompile Include="..\common_items\CommonUtils.cpp" />
     <ClCompile Include="..\common_items\Date.cpp" />
-    <ClCompile Include="..\common_items\Encoding.cpp" />
     <ClCompile Include="..\common_items\iconvlite.cpp" />
     <ClCompile Include="..\common_items\Log.cpp" />
     <ClCompile Include="..\common_items\Parser.cpp" />
-    <ClCompile Include="..\common_items\Object.cpp" />
     <ClCompile Include="..\common_items\ParserHelpers.cpp" />
     <ClCompile Include="..\common_items\StringUtils.cpp" />
     <ClCompile Include="..\common_items\WinUtils.cpp" />
@@ -193,11 +191,9 @@
     <ClInclude Include="..\common_items\ConversionFacet.h" />
     <ClInclude Include="..\common_items\ConversionFacetUtils.h" />
     <ClInclude Include="..\common_items\Date.h" />
-    <ClInclude Include="..\common_items\Encoding.h" />
     <ClInclude Include="..\common_items\iconvlite.h" />
     <ClInclude Include="..\common_items\Log.h" />
     <ClInclude Include="..\common_items\Parser.h" />
-    <ClInclude Include="..\common_items\Object.h" />
     <ClInclude Include="..\common_items\OSCompatibilityLayer.h" />
     <ClInclude Include="..\common_items\ParserHelpers.h" />
     <ClInclude Include="..\common_items\StringUtils.h" />
