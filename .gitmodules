@@ -1,6 +1,3 @@
-[submodule "frontend"]
-	path = frontend
-	url = git://github.com/ParadoxGameConverters/frontend.git
 [submodule "ZipLib"]
 	path = ZipLib
 	url = git://github.com/ParadoxGameConverters/ZipLib
