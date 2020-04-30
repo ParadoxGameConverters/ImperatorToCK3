@@ -12,7 +12,7 @@ build_script:
 
 test_script:
 - ps: >-
-    cd Release\ImperatorToCk3
+    cd Release\ImperatorToCK3
 
     ..\..\ImperatorToCk3Tests\Release\ImperatorToCK3Tests.exe --gtest_output=xml:tests.xml
 
