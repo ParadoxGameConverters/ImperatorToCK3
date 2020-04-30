@@ -76,9 +76,6 @@
     <ClInclude Include="Source\Common\CommonFunctions.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Common\Version.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Imperator\Families\Family.h">
       <Filter>Imperator\Families</Filter>
     </ClInclude>
@@ -90,6 +87,9 @@
     </ClInclude>
     <ClInclude Include="Source\Ck3Outputter\outVersion.h">
       <Filter>Ck3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common_items\GameVersion.h">
+      <Filter>CommonItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +137,6 @@
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp">
       <Filter>Imperator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Common\Version.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Imperator\Families\Family.cpp">
       <Filter>Imperator\Families</Filter>
     </ClCompile>
@@ -151,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Source\Ck3Outputter\outVersion.cpp">
       <Filter>Ck3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common_items\GameVersion.cpp">
+      <Filter>CommonItems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

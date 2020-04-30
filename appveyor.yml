@@ -20,7 +20,7 @@ test_script:
 
 artifacts:
 - path: Release
-  name: ImperatorToCk3
+  name: ImperatorToCK3
 deploy:
 - provider: GitHub
   release: DevelopmentRelease

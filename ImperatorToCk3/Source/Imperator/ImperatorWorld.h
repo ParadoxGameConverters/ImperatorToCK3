@@ -2,7 +2,7 @@
 #define IMPERATOR_WORLD
 
 
-#include "../Common/Version.h"
+#include "GameVersion.h"
 #include "Date.h"
 #include "Families/Families.h"
 #include "Parser.h"
@@ -29,7 +29,7 @@ class World: commonItems::parser
 
 		date startDate = date("450.10.1");
 		date endDate = date("727.2.17");
-		Version ImperatorVersion;
+		GameVersion ImperatorVersion;
 		std::set<std::string> DLCs;
 		std::set<std::string> Mods;
 

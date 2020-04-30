@@ -48,9 +48,9 @@ void Configuration::registerKeys()
 		Log(LogLevel::Info) << "Output name set to: " << outputName;
 		});
 	registerKeyword("ImperatorDeJure", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt deJureInt(theStream);
-		imperatorDeJure = IMPERATOR_DE_JURE(deJureInt.getInt());
-		Log(LogLevel::Info) << "CK3 de iure set to: " << deJureInt.getInt();
+		const commonItems::singleString deJureString(theStream);
+		imperatorDeJure = IMPERATOR_DE_JURE(stoi(deJureString.getString()));
+		Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString.getString();
 		});
 	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
 }
