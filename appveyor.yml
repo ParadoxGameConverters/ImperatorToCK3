@@ -8,13 +8,9 @@ build_script:
 
     msbuild ImperatorToCK3.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
-#   msbuild Vic2ToHoI4Tests/Vic2ToHoI4Tests-Google.vcxproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll
-
 test_script:
 - ps: >-
-    cd Release\ImperatorToCK3
-
-    ..\..\ImperatorToCk3Tests\Release\ImperatorToCK3Tests.exe --gtest_output=xml:tests.xml
+    ImperatorToCk3Tests\Release\ImperatorToCK3Tests.exe --gtest_output=xml:tests.xml
 
     (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests.xml))
 
