@@ -12,8 +12,6 @@ build_script:
 
 test_script:
 - ps: >-
-    vstest.console /logger:Appveyor frontend\Frontend.Core.Tests\bin\Release\Frontend.Core.Tests.dll
-
     cd Release\ImperatorToCk3
 
     ..\..\ImperatorToCk3Tests\Release\ImperatorToCK3Tests.exe --gtest_output=xml:tests.xml
