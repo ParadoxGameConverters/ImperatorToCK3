@@ -1,7 +1,6 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-#include "ConfigurationDetails.h"
 #include "Date.h"
 #include "Parser.h"
 
@@ -11,12 +10,14 @@ class Configuration: commonItems::parser
 	Configuration();
 	explicit Configuration(std::istream& theStream);
 
-	[[nodiscard]] const auto& getSaveGamePath() const { return details.SaveGamePath; }
-	[[nodiscard]] const auto& getImperatorPath() const { return details.ImperatorPath; }
-	[[nodiscard]] const auto& getImperatorModsPath() const { return details.ImperatorModsPath; }
-	[[nodiscard]] const auto& getCk3Path() const { return details.Ck3Path; }
-	[[nodiscard]] const auto& getOutputName() const { return details.outputName; }
-	[[nodiscard]] const auto& getImperatorDeJure() const { return details.imperatorDeJure; }
+	enum class IMPERATOR_DE_JURE { PROVS_AND_REGIONS = 1, COUNTRIES = 2, NO = 3 };
+
+	[[nodiscard]] const auto& getSaveGamePath() const { return SaveGamePath; }
+	[[nodiscard]] const auto& getImperatorPath() const { return ImperatorPath; }
+	[[nodiscard]] const auto& getImperatorModsPath() const { return ImperatorModsPath; }
+	[[nodiscard]] const auto& getCk3Path() const { return Ck3Path; }
+	[[nodiscard]] const auto& getOutputName() const { return outputName; }
+	[[nodiscard]] const auto& getImperatorDeJure() const { return imperatorDeJure; }
 
   private:
 	void registerKeys();
@@ -24,7 +25,13 @@ class Configuration: commonItems::parser
 	void verifyImperatorPath() const;
 	void verifyCk3Path() const;
 
-	ConfigurationDetails details;
+	std::string SaveGamePath;
+	std::string ImperatorPath;
+	std::string ImperatorModsPath;
+	std::string Ck3Path;
+	std::string outputName;
+
+	IMPERATOR_DE_JURE imperatorDeJure = IMPERATOR_DE_JURE::NO;
 };
 
 #endif // CONFIGURATION_H

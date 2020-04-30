@@ -73,9 +73,6 @@
     <ClInclude Include="Source\Configuration\Configuration.h">
       <Filter>Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Configuration\ConfigurationDetails.h">
-      <Filter>Configuration</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Common\CommonFunctions.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -132,9 +129,6 @@
       <Filter>CommonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Configuration\Configuration.cpp">
-      <Filter>Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Configuration\ConfigurationDetails.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
     <ClCompile Include="Source\Common\CommonFunctions.cpp">
