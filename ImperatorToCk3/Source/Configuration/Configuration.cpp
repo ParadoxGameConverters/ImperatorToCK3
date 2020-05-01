@@ -25,32 +25,58 @@ Configuration::Configuration(std::istream& theStream)
 
 void Configuration::registerKeys()
 {
-	registerKeyword("configuration", [this](const std::string& unused, std::istream& theStream) { details = ConfigurationDetails(theStream); });
+	registerKeyword("SaveGame", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString path(theStream);
+		SaveGamePath = path.getString();
+		Log(LogLevel::Info) << "Save Game set to: " << SaveGamePath;
+		});
+	registerKeyword("ImperatorDirectory", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString path(theStream);
+		ImperatorPath = path.getString();
+		});
+	registerKeyword("ImperatorModsDirectory", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString path(theStream);
+		ImperatorModsPath = path.getString();
+		});
+	registerKeyword("CK3directory", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString path(theStream);
+		Ck3Path = path.getString();
+		});
+	registerKeyword("output_name", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString nameStr(theStream);
+		outputName = nameStr.getString();
+		Log(LogLevel::Info) << "Output name set to: " << outputName;
+		});
+	registerKeyword("ImperatorDeJure", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString deJureString(theStream);
+		imperatorDeJure = IMPERATOR_DE_JURE(stoi(deJureString.getString()));
+		Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString.getString();
+		});
 	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
 }
 
 
 void Configuration::verifyImperatorPath() const
 {
-	if (!Utils::doesFolderExist(details.ImperatorPath)) throw std::runtime_error(details.ImperatorPath + " does not exist!");
-	if (!Utils::DoesFileExist(details.ImperatorPath + "/binaries/imperator.exe"))
-		throw std::runtime_error(details.ImperatorPath + " does not contain Imperator: Rome!");
-	LOG(LogLevel::Info) << "\tI:R install path is " << details.ImperatorPath;
+	if (!Utils::doesFolderExist(ImperatorPath)) throw std::runtime_error(ImperatorPath + " does not exist!");
+	if (!Utils::DoesFileExist(ImperatorPath + "/binaries/imperator.exe"))
+		throw std::runtime_error(ImperatorPath + " does not contain Imperator: Rome!");
+	LOG(LogLevel::Info) << "\tI:R install path is " << ImperatorPath;
 }
 
 void Configuration::verifyCk3Path() const
 {
-	if (!Utils::doesFolderExist(details.Ck3Path)) throw std::runtime_error(details.Ck3Path + " does not exist!");
-	LOG(LogLevel::Info) << "\tCK3 install path is " << details.Ck3Path;
+	if (!Utils::doesFolderExist(Ck3Path)) throw std::runtime_error(Ck3Path + " does not exist!");
+	LOG(LogLevel::Info) << "\tCK3 install path is " << Ck3Path;
 }
 
 void Configuration::setOutputName()
 {
-	if (details.outputName.empty()) { details.outputName = trimPath(details.SaveGamePath); }
-	details.outputName = trimExtension(details.outputName);
-	details.outputName = replaceCharacter(details.outputName, '-');
-	details.outputName = replaceCharacter(details.outputName, ' ');
+	if (outputName.empty()) { outputName = trimPath(SaveGamePath); }
+	outputName = trimExtension(outputName);
+	outputName = replaceCharacter(outputName, '-');
+	outputName = replaceCharacter(outputName, ' ');
 
-	details.outputName = Utils::normalizeUTF8Path(details.outputName);
-	LOG(LogLevel::Info) << "Using output name " << details.outputName;
+	outputName = Utils::normalizeUTF8Path(outputName);
+	LOG(LogLevel::Info) << "Using output name " << outputName;
 }

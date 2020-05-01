@@ -1,6 +1,6 @@
 #include "ImperatorWorld.h"
 #include "../Common/CommonFunctions.h"
-#include "../Common/Version.h"
+#include "GameVersion.h"
 #include "../Configuration/Configuration.h"
 #include "Date.h"
 #include "Log.h"
@@ -18,7 +18,7 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
 	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString versionString(theStream);
-		ImperatorVersion = Version(versionString.getString());
+		ImperatorVersion = GameVersion(versionString.getString());
 		Log(LogLevel::Info) << "<> Savegame version: " << versionString.getString();
 	});
 	registerKeyword("date", [this](const std::string& unused, std::istream& theStream) {
