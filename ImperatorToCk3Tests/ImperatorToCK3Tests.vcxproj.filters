@@ -20,13 +20,13 @@
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Family.cpp" />
-    <ClCompile Include="..\common_items\Color.cpp" />
-    <ClCompile Include="..\common_items\Date.cpp" />
-    <ClCompile Include="..\common_items\iconvlite.cpp" />
-    <ClCompile Include="..\common_items\Log.cpp" />
-    <ClCompile Include="..\common_items\Parser.cpp" />
-    <ClCompile Include="..\common_items\ParserHelpers.cpp" />
-    <ClCompile Include="..\common_items\WinUtils.cpp" />
+    <ClCompile Include="..\commonItems\Color.cpp" />
+    <ClCompile Include="..\commonItems\Date.cpp" />
+    <ClCompile Include="..\commonItems\iconvlite.cpp" />
+    <ClCompile Include="..\commonItems\Log.cpp" />
+    <ClCompile Include="..\commonItems\Parser.cpp" />
+    <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
+    <ClCompile Include="..\commonItems\WinUtils.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp">
       <Filter>ImperatorWorldTests\Families</Filter>
     </ClCompile>
@@ -34,7 +34,7 @@
       <Filter>CommonTests</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCk3\Source\Common\CommonFunctions.cpp" />
-    <ClCompile Include="..\common_items\StringUtils.cpp" />
-    <ClCompile Include="..\common_items\GameVersion.cpp" />
+    <ClCompile Include="..\commonItems\StringUtils.cpp" />
+    <ClCompile Include="..\commonItems\GameVersion.cpp" />
   </ItemGroup>
 </Project>

@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\common_items;..\ZipLib;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\commonItems;..\ZipLib;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>..\common_items;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\commonItems;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\common_items;..\ZipLib;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\commonItems;..\ZipLib;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -162,17 +162,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\common_items\CardinalToOrdinal.cpp" />
-    <ClCompile Include="..\common_items\Color.cpp" />
-    <ClCompile Include="..\common_items\CommonUtils.cpp" />
-    <ClCompile Include="..\common_items\Date.cpp" />
-    <ClCompile Include="..\common_items\GameVersion.cpp" />
-    <ClCompile Include="..\common_items\iconvlite.cpp" />
-    <ClCompile Include="..\common_items\Log.cpp" />
-    <ClCompile Include="..\common_items\Parser.cpp" />
-    <ClCompile Include="..\common_items\ParserHelpers.cpp" />
-    <ClCompile Include="..\common_items\StringUtils.cpp" />
-    <ClCompile Include="..\common_items\WinUtils.cpp" />
+    <ClCompile Include="..\commonItems\CardinalToOrdinal.cpp" />
+    <ClCompile Include="..\commonItems\Color.cpp" />
+    <ClCompile Include="..\commonItems\CommonUtils.cpp" />
+    <ClCompile Include="..\commonItems\Date.cpp" />
+    <ClCompile Include="..\commonItems\GameVersion.cpp" />
+    <ClCompile Include="..\commonItems\iconvlite.cpp" />
+    <ClCompile Include="..\commonItems\Log.cpp" />
+    <ClCompile Include="..\commonItems\Parser.cpp" />
+    <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
+    <ClCompile Include="..\commonItems\StringUtils.cpp" />
+    <ClCompile Include="..\commonItems\WinUtils.cpp" />
     <ClCompile Include="Source\Ck3Outputter\Ck3WorldOutputter.cpp" />
     <ClCompile Include="Source\Ck3Outputter\outVersion.cpp" />
     <ClCompile Include="Source\Common\CommonFunctions.cpp" />
@@ -185,18 +185,18 @@
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\common_items\CardinalToOrdinal.h" />
-    <ClInclude Include="..\common_items\Color.h" />
-    <ClInclude Include="..\common_items\ConversionFacet.h" />
-    <ClInclude Include="..\common_items\ConversionFacetUtils.h" />
-    <ClInclude Include="..\common_items\Date.h" />
-    <ClInclude Include="..\common_items\GameVersion.h" />
-    <ClInclude Include="..\common_items\iconvlite.h" />
-    <ClInclude Include="..\common_items\Log.h" />
-    <ClInclude Include="..\common_items\Parser.h" />
-    <ClInclude Include="..\common_items\OSCompatibilityLayer.h" />
-    <ClInclude Include="..\common_items\ParserHelpers.h" />
-    <ClInclude Include="..\common_items\StringUtils.h" />
+    <ClInclude Include="..\commonItems\CardinalToOrdinal.h" />
+    <ClInclude Include="..\commonItems\Color.h" />
+    <ClInclude Include="..\commonItems\ConversionFacet.h" />
+    <ClInclude Include="..\commonItems\ConversionFacetUtils.h" />
+    <ClInclude Include="..\commonItems\Date.h" />
+    <ClInclude Include="..\commonItems\GameVersion.h" />
+    <ClInclude Include="..\commonItems\iconvlite.h" />
+    <ClInclude Include="..\commonItems\Log.h" />
+    <ClInclude Include="..\commonItems\Parser.h" />
+    <ClInclude Include="..\commonItems\OSCompatibilityLayer.h" />
+    <ClInclude Include="..\commonItems\ParserHelpers.h" />
+    <ClInclude Include="..\commonItems\StringUtils.h" />
     <ClInclude Include="Source\Ck3Outputter\Ck3WorldOutputter.h" />
     <ClInclude Include="Source\Ck3Outputter\outVersion.h" />
     <ClInclude Include="Source\Ck3\Ck3World.h" />
