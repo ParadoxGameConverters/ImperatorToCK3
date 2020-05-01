@@ -1,0 +1,35 @@
+option = {
+	name = ImperatorDeJure
+	displayName = "Whether or not to base CK3 de iure on Imperator setup."
+	tooltip = "CK3 de iure is recommended."
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = "Provinces and regions"
+			tooltip = "Make Imperator provinces de iure CK3 duchies, make Imperator regions de iure CK3 kingdoms"
+			default = false
+		}
+		radioOption = {
+			name = 2
+			displayName = "Countries"
+			tooltip = "Base CK3 de iure on Imperator countries"
+			default = false
+		}
+		radioOption = {
+			name = 3
+			displayName = "No"
+			tooltip = "Keep vanilla CK3 de iure"
+			default = true		
+		}
+	}
+}
+option = {
+	name = output_name
+	displayName = "Mod Output Name (optional):"
+	tooltip = "Please don't use cyrillic or chinese..."
+	textSelector = {	
+		value = ""
+		editable = true
+		tooltip = "Optional name for the converted mod"
+	}
+}

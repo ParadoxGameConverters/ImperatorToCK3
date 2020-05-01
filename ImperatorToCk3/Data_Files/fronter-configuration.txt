@@ -1,0 +1,59 @@
+﻿name = ImperatorToCK3
+converterFolder = ImperatorToCK3
+displayName = "Imperator: Rome To Crusader Kings III"
+sourceGame = "Imperator: Rome"
+targetGame = "Crusader Kings III"
+
+requiredFolder = {
+	name = ImperatorDirectory
+	displayName = "Imperator: Rome Install directory"
+	tooltip = "A path on your computer where Imperator: Rome is installed"
+	mandatory = true
+	searchPathType = steamFolder
+	searchPathID = 859580
+}
+requiredFolder = {
+	name = ImperatorModsDirectory
+	displayName = "Imperator: Rome Mods Directory"
+	tooltip = "A path on your computer where Imperator: Rome keeps mods"
+	mandatory = true
+	searchPathType = windowsUsersFolder
+	searchPath = "Paradox Interactive\Imperator\mod"
+}
+requiredFolder = {
+	name = CK3directory
+	displayName = "Crusader Kings III Install directory"
+	tooltip = "A path on your computer where Crusader Kings III is installed"
+	mandatory = true
+	searchPathType = steamFolder
+	searchPathID = 1158310
+}
+requiredFolder = {
+	name = targetGameModPath
+	displayName = "Crusader Kings III Mods directory"
+	tooltip = "A path on your computer where Crusader Kings III keeps mods"
+	mandatory = true
+	searchPathType = windowsUsersFolder
+	searchPath = "Paradox Interactive\Crusader Kings III\mod"
+}
+requiredFile = {
+	name = converterExe
+	displayName = "Path to the converter executable"
+	tooltip = "Path to ImperatorToCK3Converter.exe"
+	mandatory = true
+	outputtable = false
+	searchPathType = converterFolder
+	searchPath = "ImperatorToCK3"
+	allowedExtension = "*.exe"
+	fileName = "ImperatorToCK3Converter.exe"
+}
+requiredFile = {
+	name = SaveGame
+	displayName = "Path to the Imperator: Rome Savegame"
+	tooltip = "Path to your savegame from Imperator: Rome"
+	mandatory = true
+	outputtable = true
+	searchPathType = windowsUsersFolder
+	searchPath = "Paradox Interactive\Imperator\save games"
+	allowedExtension = "*.rome"
+}
