@@ -1,4 +1,4 @@
-version: ImperatorToCk3.{build}
+version: ImperatorToCK3.{build}
 skip_tags: true
 image: Visual Studio 2019 Preview
 configuration: Release
