@@ -37,37 +37,37 @@
       <Filter>Ck3</Filter>
     </ClInclude>
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
-    <ClInclude Include="..\common_items\Log.h">
+    <ClInclude Include="..\commonItems\Log.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\OSCompatibilityLayer.h">
+    <ClInclude Include="..\commonItems\OSCompatibilityLayer.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\Parser.h">
+    <ClInclude Include="..\commonItems\Parser.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\ParserHelpers.h">
+    <ClInclude Include="..\commonItems\ParserHelpers.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\CardinalToOrdinal.h">
+    <ClInclude Include="..\commonItems\CardinalToOrdinal.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\Color.h">
+    <ClInclude Include="..\commonItems\Color.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\ConversionFacet.h">
+    <ClInclude Include="..\commonItems\ConversionFacet.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\ConversionFacetUtils.h">
+    <ClInclude Include="..\commonItems\ConversionFacetUtils.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\Date.h">
+    <ClInclude Include="..\commonItems\Date.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\iconvlite.h">
+    <ClInclude Include="..\commonItems\iconvlite.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\StringUtils.h">
+    <ClInclude Include="..\commonItems\StringUtils.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Configuration\Configuration.h">
@@ -88,7 +88,7 @@
     <ClInclude Include="Source\Ck3Outputter\outVersion.h">
       <Filter>Ck3Outputter</Filter>
     </ClInclude>
-    <ClInclude Include="..\common_items\GameVersion.h">
+    <ClInclude Include="..\commonItems\GameVersion.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,34 +98,34 @@
       <Filter>Ck3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
-    <ClCompile Include="..\common_items\Log.cpp">
+    <ClCompile Include="..\commonItems\Log.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\WinUtils.cpp">
+    <ClCompile Include="..\commonItems\WinUtils.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\Parser.cpp">
+    <ClCompile Include="..\commonItems\Parser.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\ParserHelpers.cpp">
+    <ClCompile Include="..\commonItems\ParserHelpers.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\CardinalToOrdinal.cpp">
+    <ClCompile Include="..\commonItems\CardinalToOrdinal.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\Color.cpp">
+    <ClCompile Include="..\commonItems\Color.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\CommonUtils.cpp">
+    <ClCompile Include="..\commonItems\CommonUtils.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\Date.cpp">
+    <ClCompile Include="..\commonItems\Date.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\iconvlite.cpp">
+    <ClCompile Include="..\commonItems\iconvlite.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\StringUtils.cpp">
+    <ClCompile Include="..\commonItems\StringUtils.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Configuration\Configuration.cpp">
@@ -149,7 +149,7 @@
     <ClCompile Include="Source\Ck3Outputter\outVersion.cpp">
       <Filter>Ck3Outputter</Filter>
     </ClCompile>
-    <ClCompile Include="..\common_items\GameVersion.cpp">
+    <ClCompile Include="..\commonItems\GameVersion.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
   </ItemGroup>
