@@ -25,6 +25,9 @@
     <Filter Include="Mappers">
       <UniqueIdentifier>{37ba0159-aa96-426f-86ca-143c13f8bb9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imperator\Characters">
+      <UniqueIdentifier>{bbb634d8-dc1e-4ff6-b0a3-7fef4d6b0ce7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -91,6 +94,12 @@
     <ClInclude Include="..\commonItems\GameVersion.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Characters\Character.h">
+      <Filter>Imperator\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Characters\Characters.h">
+      <Filter>Imperator\Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -151,6 +160,12 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\GameVersion.cpp">
       <Filter>CommonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Characters\Character.cpp">
+      <Filter>Imperator\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Characters\Characters.cpp">
+      <Filter>Imperator\Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

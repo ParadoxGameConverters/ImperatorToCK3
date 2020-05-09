@@ -1,0 +1,13 @@
+l_english:
+ IMPERATORDEJURE: "Whether or not to base CK3 de iure on Imperator setup."
+ IMPERATORDEJURETIP: "CK3 de iure is recommended."
+ IMPERATORDEJURE1: "Provinces and regions"
+ IMPERATORDEJURE1TIP: "Make Imperator provinces de iure CK3 duchies, make Imperator regions de iure CK3 kingdoms."
+ IMPERATORDEJURE2: "Countries"
+ IMPERATORDEJURE2TIP: "Base CK3 de iure on Imperator countries."
+ IMPERATORDEJURE3: "No"
+ IMPERATORDEJURE3TIP: "Keep vanilla CK3 de iure."
+ 
+ MODNAME: "Mod Output Name (optional):"
+ MODNAMETIP: "Please, stick to Latin letters"
+ MODNAMETIP2: "Optional name for the converted mod (default name is the one of the savegame)"

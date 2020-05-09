@@ -178,6 +178,8 @@
     <ClCompile Include="Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\Character.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
@@ -203,6 +205,8 @@
     <ClInclude Include="Source\Common\CommonFunctions.h" />
     <ClInclude Include="Source\Configuration\Configuration.h" />
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
+    <ClInclude Include="Source\Imperator\Characters\Character.h" />
+    <ClInclude Include="Source\Imperator\Characters\Characters.h" />
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />

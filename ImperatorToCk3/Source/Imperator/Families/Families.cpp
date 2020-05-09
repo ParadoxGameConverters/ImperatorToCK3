@@ -3,18 +3,32 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-void ImperatorWorld::Families::loadFamilies(const std::string& thePath)
+void ImperatorWorld::Families::loadFamiliesBloc(const std::string& thePath)
 {
-	registerKeys();
+	registerBlocKeys();
 	parseFile(thePath);
 	clearRegisteredKeywords();
 }
 
+void ImperatorWorld::Families::loadFamiliesBloc(std::istream& theStream)
+{
+	registerBlocKeys();
+	parseStream(theStream);
+	clearRegisteredKeywords();
+}
 void ImperatorWorld::Families::loadFamilies(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
+}
+
+void ImperatorWorld::Families::registerBlocKeys()
+{
+	registerKeyword("families", [this](const std::string& unused, std::istream& theStream) {
+		loadFamilies(theStream);
+	});
+	///registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
 }
 
 void ImperatorWorld::Families::registerKeys()
@@ -26,7 +40,8 @@ void ImperatorWorld::Families::registerKeys()
 		else {
 			auto newFamily = std::make_shared<Family>(theStream, std::stoi(theFamilyID));
 			families.insert(std::pair(newFamily->getID(), newFamily));
+			if ((newFamily->getID()) % 25 == 0) LOG(LogLevel::Info) << ">> [debug] Read family " << newFamily->getID() << newFamily->getCulture() << newFamily->getKey();
 		}
-		});
+	});
 	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
 }

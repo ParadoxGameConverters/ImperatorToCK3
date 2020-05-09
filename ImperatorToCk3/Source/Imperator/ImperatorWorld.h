@@ -5,6 +5,7 @@
 #include "GameVersion.h"
 #include "Date.h"
 #include "Families/Families.h"
+#include "Characters/Characters.h"
 #include "Parser.h"
 #include <string>
 #include <set>
@@ -41,6 +42,7 @@ class World: commonItems::parser
 		saveData saveGame;
 
 		Families families;
+		Characters characters;
 };		
 }
 
