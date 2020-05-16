@@ -162,13 +162,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\commonItems\CardinalToOrdinal.cpp" />
     <ClCompile Include="..\commonItems\Color.cpp" />
-    <ClCompile Include="..\commonItems\CommonUtils.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />
     <ClCompile Include="..\commonItems\Log.cpp" />
+    <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\Parser.cpp" />
     <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
@@ -187,7 +186,6 @@
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\commonItems\CardinalToOrdinal.h" />
     <ClInclude Include="..\commonItems\Color.h" />
     <ClInclude Include="..\commonItems\ConversionFacet.h" />
     <ClInclude Include="..\commonItems\ConversionFacetUtils.h" />

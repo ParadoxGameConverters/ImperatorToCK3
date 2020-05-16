@@ -52,9 +52,6 @@
     <ClInclude Include="..\commonItems\ParserHelpers.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\commonItems\CardinalToOrdinal.h">
-      <Filter>CommonItems</Filter>
-    </ClInclude>
     <ClInclude Include="..\commonItems\Color.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
@@ -119,13 +116,7 @@
     <ClCompile Include="..\commonItems\ParserHelpers.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\CardinalToOrdinal.cpp">
-      <Filter>CommonItems</Filter>
-    </ClCompile>
     <ClCompile Include="..\commonItems\Color.cpp">
-      <Filter>CommonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\CommonUtils.cpp">
       <Filter>CommonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\Date.cpp">
@@ -166,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\Characters.cpp">
       <Filter>Imperator\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\OSCommonLayer.cpp">
+      <Filter>CommonItems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
