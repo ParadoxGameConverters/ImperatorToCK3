@@ -8,18 +8,28 @@ namespace ImperatorWorld
 	class Families : commonItems::parser
 	{
 	public:
-		void loadFamiliesBloc(const std::string& thePath);
-		void loadFamiliesBloc(std::istream& theStream);
-
+		void loadFamilies(const std::string& thePath);
 		void loadFamilies(std::istream& theStream);
 
 		[[nodiscard]] const auto& getFamilies() const { return families; }
 
 	private:
-		void registerBlocKeys();
 		void registerKeys();
 
 		std::map<int, std::shared_ptr<Family>> families;
+	};
+
+	class FamiliesBloc : commonItems::parser
+	{
+	public:
+		void loadFamiliesBloc(std::istream& theStream);
+
+		[[nodiscard]] const auto& getFamiliesFromBloc() const { return families; }
+
+	private:
+		void registerKeys();
+
+		Families families;
 	};
 } // namespace ImperatorWorld
 

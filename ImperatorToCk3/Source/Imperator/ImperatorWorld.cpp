@@ -40,8 +40,8 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	});
 	registerKeyword("family", [this](const std::string& unused, std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Families";
-		families.loadFamiliesBloc(theStream);
-		LOG(LogLevel::Info) << ">> Loaded " << families.getFamilies().size() << " families.";
+		familiesBloc.loadFamiliesBloc(theStream);
+		LOG(LogLevel::Info) << ">> Loaded " << familiesBloc.getFamiliesFromBloc().getFamilies().size() << " families.";
 	});
 	
 	/*registerKeyword("character", [this](const std::string& unused, std::istream& theStream) {
