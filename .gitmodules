@@ -7,3 +7,6 @@
 [submodule "Fronter"]
 	path = Fronter
 	url = git://github.com/ParadoxGameConverters/Fronter
+[submodule "commonItems"]
+	path = commonItems
+	url = git://github.com/ParadoxGameConverters/commonItems.git
