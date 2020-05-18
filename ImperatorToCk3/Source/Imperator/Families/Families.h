@@ -22,7 +22,8 @@ namespace ImperatorWorld
 	class FamiliesBloc : commonItems::parser
 	{
 	public:
-		void loadFamiliesBloc(std::istream& theStream);
+		FamiliesBloc() = default;
+		explicit FamiliesBloc(std::istream & theStream);
 
 		[[nodiscard]] const auto& getFamiliesFromBloc() const { return families; }
 

@@ -41,7 +41,7 @@ class World: commonItems::parser
 		};
 		saveData saveGame;
 
-		FamiliesBloc familiesBloc;
+		Families families;
 		Characters characters;
 };		
 }

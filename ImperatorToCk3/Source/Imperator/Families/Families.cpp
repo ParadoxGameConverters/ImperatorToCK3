@@ -35,7 +35,7 @@ void ImperatorWorld::Families::registerKeys()
 
 
 
-void ImperatorWorld::FamiliesBloc::loadFamiliesBloc(std::istream& theStream)
+ImperatorWorld::FamiliesBloc::FamiliesBloc(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
