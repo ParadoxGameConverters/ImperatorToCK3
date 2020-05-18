@@ -44,13 +44,11 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		LOG(LogLevel::Info) << ">> Loaded " << families.getFamilies().size() << " families.";
 	});
 	
-	/*registerKeyword("character", [this](const std::string& unused, std::istream& theStream) {
-		registerKeyword("character_database", [this](const std::string& unused, std::istream& theStream) {
-			LOG(LogLevel::Info) << "-> Loading Characters";
-			characters = Characters(theStream);
-			LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
-		});
-	});*/
+	registerKeyword("character", [this](const std::string& unused, std::istream& theStream) {
+		LOG(LogLevel::Info) << "-> Loading Characters";
+		characters = CharactersBloc(theStream).getCharactersFromBloc();
+		LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
+	});
 	
 	registerRegex("[A-Za-z0-9\\_]+", commonItems::ignoreItem);
 

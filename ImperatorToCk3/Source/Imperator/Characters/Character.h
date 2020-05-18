@@ -39,7 +39,7 @@ class Character: commonItems::parser
 
 	void setFamily(std::shared_ptr<Family> theFamily) { family.second = std::move(theFamily); }
 	void setSpouses(const std::map<int, std::shared_ptr<Character>>& newSpouses) { spouses = newSpouses; }
-	void setTraits(const std::map<int, std::string>& theTraits) { traits = theTraits; }
+	void setTraits(const std::vector<std::string>& theTraits) { traits = theTraits; }
 	void setMother(const std::pair<int, std::shared_ptr<Character>>& theMother) { mother = theMother; }
 	void setFather(const std::pair<int, std::shared_ptr<Character>>& theFather) { father = theFather; }
 	void registerChild(const std::pair<int, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
@@ -62,7 +62,7 @@ class Character: commonItems::parser
 	std::pair<int, std::shared_ptr<Character>> father;
 	std::map<int, std::shared_ptr<Character>> children;
 	std::map<int, std::shared_ptr<Character>> spouses;
-	std::map<int, std::string> traits;
+	std::vector<std::string> traits;
 };
 } // namespace ImperatorWorld
 

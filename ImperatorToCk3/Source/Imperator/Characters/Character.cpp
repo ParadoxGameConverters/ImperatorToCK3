@@ -31,9 +31,8 @@ void ImperatorWorld::Character::registerKeys()
 		female = femStr.getString() == "yes";
 	});
 	registerKeyword("traits", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::intList trList(theStream);
-		for (const auto trait: trList.getInts())
-			traits.insert(std::pair(trait, std::string()));
+		const commonItems::stringList trList(theStream);
+		traits = trList.getStrings();
 	});
 	registerKeyword("birth_date", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString dateStr(theStream);

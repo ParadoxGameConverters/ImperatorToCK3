@@ -27,7 +27,6 @@ void ImperatorWorld::Families::registerKeys()
 		else {
 			auto newFamily = std::make_shared<Family>(theStream, std::stoi(theFamilyID));
 			families.insert(std::pair(newFamily->getID(), newFamily));
-			if ((newFamily->getID()) % 25 == 0) LOG(LogLevel::Info) << ">> [debug] Read family " << newFamily->getID() << newFamily->getCulture() << newFamily->getKey();
 		}
 	});
 	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);

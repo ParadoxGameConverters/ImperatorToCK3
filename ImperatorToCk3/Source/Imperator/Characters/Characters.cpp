@@ -110,3 +110,20 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 	}
 	Log(LogLevel::Info) << "<> " << counterMother << " mothers and " << counterFather << " fathers linked.";
 }
+
+
+
+ImperatorWorld::CharactersBloc::CharactersBloc(std::istream& theStream)
+{
+	registerKeys();
+	parseStream(theStream);
+	clearRegisteredKeywords();
+}
+
+void ImperatorWorld::CharactersBloc::registerKeys()
+{
+	registerKeyword("character_database", [this](const std::string& unused, std::istream& theStream) {
+		characters = Characters(theStream);
+		});
+	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+}
