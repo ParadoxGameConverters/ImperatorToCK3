@@ -36,5 +36,6 @@
     <ClCompile Include="..\ImperatorToCk3\Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
+    <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
   </ItemGroup>
 </Project>
