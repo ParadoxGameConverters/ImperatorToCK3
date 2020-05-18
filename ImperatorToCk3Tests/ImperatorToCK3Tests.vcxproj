@@ -151,6 +151,9 @@
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Character.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Common\CommonFunctions.cpp" />
@@ -165,8 +168,13 @@
     <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

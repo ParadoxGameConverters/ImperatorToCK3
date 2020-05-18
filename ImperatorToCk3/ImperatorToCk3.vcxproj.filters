@@ -97,6 +97,9 @@
     <ClInclude Include="Source\Imperator\Characters\Characters.h">
       <Filter>Imperator\Characters</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Characters\CharacterName.h">
+      <Filter>Imperator\Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp">
       <Filter>CommonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Characters\CharacterName.cpp">
+      <Filter>Imperator\Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

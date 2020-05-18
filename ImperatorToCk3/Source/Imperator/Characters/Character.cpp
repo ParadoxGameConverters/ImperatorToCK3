@@ -1,7 +1,7 @@
 #include "Character.h"
 #include "../Families/Family.h"
-#include "Log.h"
 #include "ParserHelpers.h"
+#include "CharacterName.h"
 
 ImperatorWorld::Character::Character(std::istream& theStream, int chrID): charID(chrID)
 {
@@ -13,10 +13,7 @@ ImperatorWorld::Character::Character(std::istream& theStream, int chrID): charID
 void ImperatorWorld::Character::registerKeys()
 {
 	registerRegex("first_name_loc", [this](const std::string& unused, std::istream& theStream) {
-		registerRegex("name", [this](const std::string& unused, std::istream& theStream) {
-			const commonItems::singleString nameStr(theStream);
-			name = nameStr.getString();
-		});
+		name = CharacterName(theStream).getName();
 	});
 	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString cultureStr(theStream);
