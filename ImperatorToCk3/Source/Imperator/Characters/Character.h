@@ -9,12 +9,11 @@ class Family;
 
 typedef struct
 {
-	int diplomacy = 0;
 	int martial = 0;
-	int stewardship = 0;
-	int intrigue = 0;
-	int learning = 0;
-} Skills;
+	int finesse = 0;
+	int charisma = 0;
+	int zeal = 0;
+} AttributesStruct;
 
 class Character: commonItems::parser
 {
@@ -32,6 +31,7 @@ class Character: commonItems::parser
 	[[nodiscard]] const auto& getFather() const { return father; }
 	[[nodiscard]] const auto& getFamily() const { return family; }
 	[[nodiscard]] const auto& getTraits() const { return traits; }
+	[[nodiscard]] const auto& getAttributes() const { return attributes; }
 
 	[[nodiscard]] auto isFemale() const { return female; }
 	[[nodiscard]] auto getWealth() const { return wealth; }
@@ -54,6 +54,7 @@ class Character: commonItems::parser
 	std::string culture;
 	std::string religion;
 	std::string name;
+	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
 

@@ -152,6 +152,7 @@
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Character.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Families.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.h" />
     <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,6 +2,7 @@
 #include "../Families/Family.h"
 #include "ParserHelpers.h"
 #include "CharacterName.h"
+#include "CharacterAttributes.h"
 
 ImperatorWorld::Character::Character(std::istream& theStream, int chrID): charID(chrID)
 {
@@ -59,6 +60,18 @@ void ImperatorWorld::Character::registerKeys()
 		const commonItems::intList spouseList(theStream);
 		for (const auto spouse : spouseList.getInts())
 			spouses.insert(std::pair(spouse, nullptr));
+	});
+	registerKeyword("children", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::intList childrenList(theStream);
+		for (const auto child : childrenList.getInts())
+			children.insert(std::pair(child, nullptr));
+	});
+	registerRegex("attributes", [this](const std::string& unused, std::istream& theStream) {
+		CharacterAttributes attributesFromBloc(theStream);
+		attributes.martial = attributesFromBloc.getMartial();
+		attributes.finesse = attributesFromBloc.getFinesse();
+		attributes.charisma = attributesFromBloc.getCharisma();
+		attributes.zeal = attributesFromBloc.getZeal();
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }

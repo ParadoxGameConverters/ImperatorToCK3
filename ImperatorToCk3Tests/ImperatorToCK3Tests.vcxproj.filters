@@ -49,8 +49,10 @@
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Character.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.h" />
+    <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.h" />
   </ItemGroup>
 </Project>
