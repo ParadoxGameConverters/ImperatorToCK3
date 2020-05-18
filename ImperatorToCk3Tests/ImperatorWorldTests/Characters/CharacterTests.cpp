@@ -178,8 +178,8 @@ TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 	const ImperatorWorld::Character theCharacter(input, 42);
 
 	ASSERT_FALSE(theCharacter.getSpouses().empty());
-	ASSERT_EQ(theCharacter.getSpouses().begin()->first, 69);
-	ASSERT_EQ(theCharacter.getSpouses().find(420)->first, 420);
+	ASSERT_EQ(69, theCharacter.getSpouses().find(69)->first);
+	ASSERT_EQ(420, theCharacter.getSpouses().find(420)->first);
 }
 
 TEST(ImperatorWorld_CharacterTests, spousesDefaultToEmpty)
@@ -205,8 +205,8 @@ TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
 	const ImperatorWorld::Character theCharacter(input, 42);
 
 	ASSERT_FALSE(theCharacter.getChildren().empty());
-	ASSERT_EQ(theCharacter.getChildren().begin()->first, 69);
-	ASSERT_EQ(theCharacter.getChildren().find(420)->first, 420);
+	ASSERT_EQ(69, theCharacter.getChildren().find(69)->first);
+	ASSERT_EQ(420, theCharacter.getChildren().find(420)->first);
 }
 
 TEST(ImperatorWorld_CharacterTests, childrenDefaultToEmpty)
@@ -231,7 +231,7 @@ TEST(ImperatorWorld_CharacterTests, motherCanBeSet)
 
 	const ImperatorWorld::Character theCharacter(input, 42);
 
-	ASSERT_EQ(theCharacter.getMother().first, 123);
+	ASSERT_EQ(123, theCharacter.getMother().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero)
@@ -305,7 +305,7 @@ TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 
 	const ImperatorWorld::Character theCharacter(input, 42);
 
-	ASSERT_EQ(420.5, theCharacter.getWealth());
+	ASSERT_NEAR(420.5, theCharacter.getWealth(), 0.001);
 }
 
 TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero)
