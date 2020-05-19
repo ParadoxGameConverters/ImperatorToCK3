@@ -251,12 +251,12 @@ TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "\tmother=123";
+	input << "\tfather=123";
 	input << "}";
 
 	const ImperatorWorld::Character theCharacter(input, 42);
 
-	ASSERT_EQ(theCharacter.getMother().first, 123);
+	ASSERT_EQ(theCharacter.getFather().first, 123);
 }
 
 TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
