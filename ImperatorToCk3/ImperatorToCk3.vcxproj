@@ -129,6 +129,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>..\commonItems;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -162,13 +163,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\commonItems\CardinalToOrdinal.cpp" />
     <ClCompile Include="..\commonItems\Color.cpp" />
-    <ClCompile Include="..\commonItems\CommonUtils.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />
     <ClCompile Include="..\commonItems\Log.cpp" />
+    <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\Parser.cpp" />
     <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
@@ -178,6 +178,10 @@
     <ClCompile Include="Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\Character.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\CharacterAttributes.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\CharacterName.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
@@ -185,7 +189,6 @@
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\commonItems\CardinalToOrdinal.h" />
     <ClInclude Include="..\commonItems\Color.h" />
     <ClInclude Include="..\commonItems\ConversionFacet.h" />
     <ClInclude Include="..\commonItems\ConversionFacetUtils.h" />
@@ -203,6 +206,10 @@
     <ClInclude Include="Source\Common\CommonFunctions.h" />
     <ClInclude Include="Source\Configuration\Configuration.h" />
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
+    <ClInclude Include="Source\Imperator\Characters\Character.h" />
+    <ClInclude Include="Source\Imperator\Characters\CharacterAttributes.h" />
+    <ClInclude Include="Source\Imperator\Characters\CharacterName.h" />
+    <ClInclude Include="Source\Imperator\Characters\Characters.h" />
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />

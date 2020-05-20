@@ -18,6 +18,20 @@ namespace ImperatorWorld
 
 		std::map<int, std::shared_ptr<Family>> families;
 	};
+
+	class FamiliesBloc : commonItems::parser
+	{
+	public:
+		FamiliesBloc() = default;
+		explicit FamiliesBloc(std::istream & theStream);
+
+		[[nodiscard]] const auto& getFamiliesFromBloc() const { return families; }
+
+	private:
+		void registerKeys();
+
+		Families families;
+	};
 } // namespace ImperatorWorld
 
 #endif // IMPERATOR_FAMILIES_H

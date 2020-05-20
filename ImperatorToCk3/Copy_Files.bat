@@ -7,6 +7,7 @@ rem copy "Data_Files\FAQ.txt" "..\Release\ImperatorToCK3\FAQ.txt"
 mkdir "..\Release\Configuration"
 copy "Data_Files\fronter-configuration.txt" "..\Release\Configuration\fronter-configuration.txt"
 copy "Data_Files\fronter-options.txt" "..\Release\Configuration\fronter-options.txt"
+copy "Data_Files\*.yml" "..\Release\Configuration\"
 
 rem Create Configurables
 del "..\Release\ImperatorToCK3\configurables" /Q

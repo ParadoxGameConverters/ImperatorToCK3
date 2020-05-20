@@ -1,35 +1,35 @@
 option = {
 	name = ImperatorDeJure
-	displayName = "Whether or not to base CK3 de iure on Imperator setup."
-	tooltip = "CK3 de iure is recommended."
+	displayName = IMPERATORDEJURE
+	tooltip = IMPERATORDEJURETIP
 	radioSelector = {
 		radioOption = {
 			name = 1
-			displayName = "Provinces and regions"
-			tooltip = "Make Imperator provinces de iure CK3 duchies, make Imperator regions de iure CK3 kingdoms"
+			displayName = IMPERATORDEJURE1
+			tooltip = IMPERATORDEJURE1TIP
 			default = false
 		}
 		radioOption = {
 			name = 2
-			displayName = "Countries"
-			tooltip = "Base CK3 de iure on Imperator countries"
+			displayName = IMPERATORDEJURE2
+			tooltip = IMPERATORDEJURE2TIP
 			default = false
 		}
 		radioOption = {
 			name = 3
-			displayName = "No"
-			tooltip = "Keep vanilla CK3 de iure"
+			displayName = IMPERATORDEJURE3
+			tooltip = IMPERATORDEJURE3TIP
 			default = true		
 		}
 	}
 }
 option = {
 	name = output_name
-	displayName = "Mod Output Name (optional):"
-	tooltip = "Please don't use cyrillic or chinese..."
+	displayName = MODNAME
+	tooltip = MODNAMETIP
 	textSelector = {	
 		value = ""
 		editable = true
-		tooltip = "Optional name for the converted mod"
+		tooltip = MODNAMETIP2
 	}
 }

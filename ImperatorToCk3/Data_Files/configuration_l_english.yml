@@ -1,0 +1,18 @@
+l_english:
+ IMPDISPLAYNAME: "Imperator: Rome To Crusader Kings III"
+ IMPGAME: "Imperator: Rome"
+ IMPFOLDER: "Imperator: Rome Install Directory"
+ IMPFOLDERTIP: "The path on your computer where Imperator: Rome is installed"
+ IMPMOD: "Imperator: Rome Mod Directory"
+ IMPMODTIP: "The path on your computer where Imperator: Rome stores mods"
+
+ CK3GAME: "Crusader Kings III"
+ CK3FOLDER: "Crusader Kings III Install Directory"
+ CK3FOLDERTIP: "The path on your computer where Crusader Kings III is installed"
+ CK3MOD: "Crusader Kings III Mod Directory"
+ CK3MODTIP: "The path on your computer where Europa Crusader Kings III stores mods"
+
+ IMPFILE: "Path to the converter executable"
+ IMPFILETIP: "Path to ImperatorToCK3Converter.exe"
+ IMPSAVE: "Path to the Imperator: Rome savegame"
+ IMPSAVETIP: "Path to your savegame from Imperator: Rome"
