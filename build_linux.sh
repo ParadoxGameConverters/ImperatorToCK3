@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2103
 
 export CC=/usr/bin/gcc-9
 export CXX=/usr/bin/g++-9
