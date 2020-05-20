@@ -1,0 +1,2 @@
+$ cat ~/.shellcheckrc
+disable=SC2103
