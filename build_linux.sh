@@ -7,7 +7,7 @@ rm -rf Release/
 cd Fronter
 ./build_linux.sh
 mv Release ../
-cd ../ImperatorToCK3
+cd ../ImperatorToCK3 || exit
 rm -rf build
 rm -rf Release-Linux
 cmake -H. -Bbuild
