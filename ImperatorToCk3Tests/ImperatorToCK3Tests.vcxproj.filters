@@ -10,6 +10,9 @@
     <Filter Include="CommonTests">
       <UniqueIdentifier>{5c3acfbf-5894-4366-bd2d-d6c24949c7c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImperatorWorldTests\Characters">
+      <UniqueIdentifier>{d0b3b24c-8dea-4d4f-a1e0-869acfbab980}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -36,5 +39,20 @@
     <ClCompile Include="..\ImperatorToCk3\Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
+    <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp">
+      <Filter>ImperatorWorldTests\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp">
+      <Filter>ImperatorWorldTests\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Character.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Characters.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.cpp" />
+    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.h" />
+    <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.h" />
   </ItemGroup>
 </Project>

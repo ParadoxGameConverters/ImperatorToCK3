@@ -58,7 +58,7 @@ void Configuration::registerKeys()
 
 void Configuration::verifyImperatorPath() const
 {
-	if (!Utils::doesFolderExist(ImperatorPath)) throw std::runtime_error(ImperatorPath + " does not exist!");
+	if (!Utils::DoesFolderExist(ImperatorPath)) throw std::runtime_error(ImperatorPath + " does not exist!");
 	if (!Utils::DoesFileExist(ImperatorPath + "/binaries/imperator.exe"))
 		throw std::runtime_error(ImperatorPath + " does not contain Imperator: Rome!");
 	LOG(LogLevel::Info) << "\tI:R install path is " << ImperatorPath;
@@ -66,7 +66,7 @@ void Configuration::verifyImperatorPath() const
 
 void Configuration::verifyCk3Path() const
 {
-	if (!Utils::doesFolderExist(Ck3Path)) throw std::runtime_error(Ck3Path + " does not exist!");
+	if (!Utils::DoesFolderExist(Ck3Path)) throw std::runtime_error(Ck3Path + " does not exist!");
 	LOG(LogLevel::Info) << "\tCK3 install path is " << Ck3Path;
 }
 
