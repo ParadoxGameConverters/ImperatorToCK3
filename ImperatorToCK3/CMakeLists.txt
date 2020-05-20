@@ -21,12 +21,11 @@ include_directories("${PROJECT_SOURCE_DIR}")
 add_subdirectory(../ZipLib [binary_dir])
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
-file(GLOB COMMON_COMMON_SOURCES "${PROJECT_SOURCE_DIR}/Common/*.cpp")
 file(GLOB CONFIGURATION_SOURCES "${PROJECT_SOURCE_DIR}/Configuration/*.cpp")
 file(GLOB IMPWORLD_SOURCES "${PROJECT_SOURCE_DIR}/Imperator/*.cpp")
 file(GLOB IMPWORLD_CHARACTERS_SOURCES "${PROJECT_SOURCE_DIR}/Imperator/Characters/*.cpp")
 file(GLOB IMPWORLD_FAMILIES_SOURCES "${PROJECT_SOURCE_DIR}/Imperator/Families/*.cpp")
-file(MAPPERS_VERSIONPARSER_SOURCES "${PROJECT_SOURCE_DIR}/Mappers/VersionParser/*.cpp")
+file(GLOB MAPPERS_VERSIONPARSER_SOURCES "${PROJECT_SOURCE_DIR}/Mappers/VersionParser/*.cpp")
 file(GLOB CK3WORLD_SOURCES "${PROJECT_SOURCE_DIR}/CK3/*.cpp")
 file(GLOB CK3OUTPUTTER_SOURCES "${PROJECT_SOURCE_DIR}/CK3Outputter/*.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
@@ -42,7 +41,6 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
 
 add_executable(ImperatorToCK3 
 	${MAIN_SOURCES}
-	${COMMON_COMMON_SOURCES}
 	${CONFIGURATION_SOURCES}
 	${IMPWORLD_SOURCES}
 	${IMPWORLD_CHARACTERS_SOURCES}

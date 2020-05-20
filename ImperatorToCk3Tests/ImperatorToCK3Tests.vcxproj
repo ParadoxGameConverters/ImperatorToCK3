@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\commonItems\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
@@ -167,7 +168,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\Color.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />
@@ -185,7 +185,6 @@
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

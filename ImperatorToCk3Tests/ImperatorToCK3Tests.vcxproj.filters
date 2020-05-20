@@ -36,7 +36,6 @@
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp">
       <Filter>CommonTests</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
@@ -50,9 +49,9 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
+    <ClCompile Include="..\commonItems\CommonFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h" />
-    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.h" />
   </ItemGroup>
 </Project>

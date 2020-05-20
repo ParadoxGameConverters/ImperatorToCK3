@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../../ImperatorToCK3/Source/Common/CommonFunctions.h"
+#include "../commonItems/CommonFunctions.h"
 
 TEST(ImperatorWorld_CommonFunctionsTests, TrimPathTrimsSlashes)
 {

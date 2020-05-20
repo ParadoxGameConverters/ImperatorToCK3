@@ -1,5 +1,5 @@
 #include "Configuration.h"
-#include "../Common/CommonFunctions.h"
+#include "CommonFunctions.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
