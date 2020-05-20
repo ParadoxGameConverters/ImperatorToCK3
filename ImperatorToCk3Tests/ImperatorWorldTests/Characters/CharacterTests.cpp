@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCk3/Source/Imperator/Characters/Character.h"
+#include "../ImperatorToCK3/Source/Imperator/Characters/Character.h"
 #include "../commonItems/Date.h"
 #include <sstream>
 

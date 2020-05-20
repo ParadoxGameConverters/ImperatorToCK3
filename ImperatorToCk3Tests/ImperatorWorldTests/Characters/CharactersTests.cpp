@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
 #include <sstream>
 
-#include "../ImperatorToCk3/Source/Imperator/Characters/Characters.h"
-#include "../ImperatorToCk3/Source/Imperator/Characters/Character.h"
+#include "../ImperatorToCK3/Source/Imperator/Characters/Characters.h"
+#include "../ImperatorToCK3/Source/Imperator/Characters/Character.h"
 
 TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty)
 {

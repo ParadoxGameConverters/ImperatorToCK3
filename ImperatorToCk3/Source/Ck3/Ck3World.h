@@ -7,7 +7,7 @@
 
 class Configuration;
 
-namespace Ck3World
+namespace CK3World
 {
 
 class World

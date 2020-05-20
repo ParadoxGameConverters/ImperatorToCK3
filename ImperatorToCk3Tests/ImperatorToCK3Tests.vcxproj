@@ -161,13 +161,13 @@
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
-    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Character.cpp" />
-    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.cpp" />
-    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.cpp" />
-    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Characters\Characters.cpp" />
-    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Families.cpp" />
-    <ClCompile Include="..\ImperatorToCk3\Source\Imperator\Families\Family.cpp" />
-    <ClCompile Include="..\ImperatorToCk3\Source\Common\CommonFunctions.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\Color.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />
@@ -185,8 +185,8 @@
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterAttributes.h" />
-    <ClInclude Include="..\ImperatorToCk3\Source\Imperator\Characters\CharacterName.h" />
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.h" />
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

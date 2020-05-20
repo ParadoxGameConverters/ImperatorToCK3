@@ -11,7 +11,7 @@ int main(const int argc, const char* argv[])
 			Log(LogLevel::Info) << "ImperatorToCK3 takes no parameters.";
 			Log(LogLevel::Info) << "It uses configuration.txt, configured manually or by the frontend.";
 		}
-		convertImperatorToCk3(versionParser);
+		convertImperatorToCK3(versionParser);
 		return 0;
 	}
 	catch (const std::exception& e) {

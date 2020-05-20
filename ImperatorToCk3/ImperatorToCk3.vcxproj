@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{74636764-298A-4772-818D-AA5734CB74B1}</ProjectGuid>
-    <RootNamespace>ImperatorToCk3</RootNamespace>
+    <RootNamespace>ImperatorToCK3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -184,8 +184,8 @@
     <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\commonItems\WinUtils.cpp" />
-    <ClCompile Include="Source\Ck3Outputter\Ck3WorldOutputter.cpp" />
-    <ClCompile Include="Source\Ck3Outputter\outVersion.cpp" />
+    <ClCompile Include="Source\CK3Outputter\CK3WorldOutputter.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outVersion.cpp" />
     <ClCompile Include="Source\Common\CommonFunctions.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
@@ -211,9 +211,9 @@
     <ClInclude Include="..\commonItems\OSCompatibilityLayer.h" />
     <ClInclude Include="..\commonItems\ParserHelpers.h" />
     <ClInclude Include="..\commonItems\StringUtils.h" />
-    <ClInclude Include="Source\Ck3Outputter\Ck3WorldOutputter.h" />
-    <ClInclude Include="Source\Ck3Outputter\outVersion.h" />
-    <ClInclude Include="Source\Ck3\Ck3World.h" />
+    <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h" />
+    <ClInclude Include="Source\CK3Outputter\outVersion.h" />
+    <ClInclude Include="Source\CK3\CK3World.h" />
     <ClInclude Include="Source\Common\CommonFunctions.h" />
     <ClInclude Include="Source\Configuration\Configuration.h" />
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />

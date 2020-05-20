@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCk3/Source/Imperator/Families/Family.h"
+#include "../ImperatorToCK3/Source/Imperator/Families/Family.h"
 #include <sstream>
 
 TEST(ImperatorWorld_FamilyTests, IDCanBeSet)
