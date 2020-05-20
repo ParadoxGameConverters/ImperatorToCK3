@@ -1,11 +1,11 @@
-#include "Ck3WorldOutputter.h"
+#include "CK3WorldOutputter.h"
 #include <filesystem>
 #include <fstream>
 #include <string>
 
 
 
-namespace Ck3World
+namespace CK3World
 {
 
 void outputModFile(const std::string& outputName);
@@ -14,7 +14,7 @@ void createModFolder(const std::string& outputName);
 }
 
 
-void Ck3World::outputWorld(const Ck3World::World& world)
+void CK3World::outputWorld(const CK3World::World& world)
 {
 	std::string outputName = world.getOutputModName();
 	createModFolder(outputName);
@@ -22,7 +22,7 @@ void Ck3World::outputWorld(const Ck3World::World& world)
 }
 
 
-void Ck3World::outputModFile(const std::string& outputName)
+void CK3World::outputModFile(const std::string& outputName)
 {
 	std::ofstream modFile{ "output/" + outputName + ".mod" };
 	modFile << "name = \"Converted - " << outputName << "\"\n";
@@ -31,7 +31,7 @@ void Ck3World::outputModFile(const std::string& outputName)
 }
 
 
-void Ck3World::createModFolder(const std::string& outputName)
+void CK3World::createModFolder(const std::string& outputName)
 {
 	std::filesystem::path modPath{ "output/" + outputName };
 	std::filesystem::create_directories(modPath);

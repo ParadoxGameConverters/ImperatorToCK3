@@ -1,0 +1,17 @@
+## The FAQ
+
+Q: Is this an official converter?
+A: This converter has been done by the same team that specializes in other Paradox converters: 
+EU4->Vic2, Vic2->HoI4, CK2->EU3, EU3->Vic2, Vic2->HoI3, CK2->EU4
+It is not official.
+
+Q: What about mods?
+A: The converter officially supports the IRCK3 mod. As for other mods, unless they change how cultures, religions or flags work, you can probably use them. Total map overhauls are not supported (of course), and whatever new cultures and religions are brought by the mod - you'll have to add manually in the files in configurables folder.
+
+### Quick Troubleshooting:
+
+Q: I loaded my mod, but nothing changed. What's wrong?
+A: Make sure the mod is enabled in the launcher. If it still doesn't load, come to PDX forums and upload your save, log.txt and errors.txt so we may debug.
+
+Q: The game forbids me to select nations.
+A: Upload your save, log.txt and errors.txt to PDX forums for further study.

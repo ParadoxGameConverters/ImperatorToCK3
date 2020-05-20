@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Ck3Outputter">
+    <Filter Include="CK3Outputter">
       <UniqueIdentifier>{73570393-7b58-41fc-84b2-62d6f770a52d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Ck3">
+    <Filter Include="CK3">
       <UniqueIdentifier>{bb831886-42eb-4aa2-867f-fb92ef4b7c0f}</UniqueIdentifier>
     </Filter>
     <Filter Include="CommonItems">
@@ -12,9 +12,6 @@
     </Filter>
     <Filter Include="Configuration">
       <UniqueIdentifier>{384cc622-63ff-442a-af9d-59c4a0d84336}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common">
-      <UniqueIdentifier>{e49d8ccc-a7de-485d-a9f4-0da6eda2f15f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Imperator">
       <UniqueIdentifier>{3f57399f-f045-4575-b59f-d6c77b3898f3}</UniqueIdentifier>
@@ -33,11 +30,11 @@
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
       <Filter>Imperator</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Ck3Outputter\Ck3WorldOutputter.h">
-      <Filter>Ck3Outputter</Filter>
+    <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
+      <Filter>CK3Outputter</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Ck3\Ck3World.h">
-      <Filter>Ck3</Filter>
+    <ClInclude Include="Source\CK3\CK3World.h">
+      <Filter>CK3</Filter>
     </ClInclude>
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
     <ClInclude Include="..\commonItems\Log.h">
@@ -73,9 +70,6 @@
     <ClInclude Include="Source\Configuration\Configuration.h">
       <Filter>Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Common\CommonFunctions.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Imperator\Families\Family.h">
       <Filter>Imperator\Families</Filter>
     </ClInclude>
@@ -85,8 +79,8 @@
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h">
       <Filter>Mappers</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Ck3Outputter\outVersion.h">
-      <Filter>Ck3Outputter</Filter>
+    <ClInclude Include="Source\CK3Outputter\outVersion.h">
+      <Filter>CK3Outputter</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\GameVersion.h">
       <Filter>CommonItems</Filter>
@@ -103,11 +97,14 @@
     <ClInclude Include="Source\Imperator\Characters\CharacterAttributes.h">
       <Filter>Imperator\Characters</Filter>
     </ClInclude>
+    <ClInclude Include="..\commonItems\CommonFunctions.h">
+      <Filter>CommonItems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\Ck3Outputter\Ck3WorldOutputter.cpp">
-      <Filter>Ck3Outputter</Filter>
+    <ClCompile Include="Source\CK3Outputter\CK3WorldOutputter.cpp">
+      <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
     <ClCompile Include="..\commonItems\Log.cpp">
@@ -137,9 +134,6 @@
     <ClCompile Include="Source\Configuration\Configuration.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Common\CommonFunctions.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp">
       <Filter>Imperator</Filter>
     </ClCompile>
@@ -152,8 +146,8 @@
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp">
       <Filter>Mappers</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Ck3Outputter\outVersion.cpp">
-      <Filter>Ck3Outputter</Filter>
+    <ClCompile Include="Source\CK3Outputter\outVersion.cpp">
+      <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\GameVersion.cpp">
       <Filter>CommonItems</Filter>
@@ -172,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\CharacterAttributes.cpp">
       <Filter>Imperator\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\CommonFunctions.cpp">
+      <Filter>CommonItems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

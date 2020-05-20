@@ -5,6 +5,6 @@ namespace mappers {
 	class VersionParser;
 }
 
-void convertImperatorToCk3(const mappers::VersionParser& versionParser);
+void convertImperatorToCK3(const mappers::VersionParser& versionParser);
 
 #endif // IMPERATORTOCK3_CONVERTER_H

@@ -3,14 +3,14 @@
 
 
 
-#include "../Ck3/Ck3World.h"
+#include "../CK3/CK3World.h"
 
 
 
-namespace Ck3World
+namespace CK3World
 {
 
-void outputWorld(const Ck3World::World& CK3World);
+void outputWorld(const CK3World::World& CK3World);
 
 }
 

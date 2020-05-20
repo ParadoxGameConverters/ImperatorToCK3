@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
 #include <sstream>
 
-#include "../ImperatorToCk3/Source/Imperator/Families/Families.h"
-#include "../ImperatorToCk3/Source/Imperator/Families/Family.h"
+#include "../ImperatorToCK3/Source/Imperator/Families/Families.h"
+#include "../ImperatorToCK3/Source/Imperator/Families/Family.h"
 
 TEST(ImperatorWorld_FamiliesTests, familiesDefaultToEmpty)
 {

@@ -11,7 +11,7 @@ build_script:
 test_script:
 - ps: >-
 
-    ImperatorToCk3Tests\Release\ImperatorToCK3Tests.exe --gtest_output=xml:tests.xml
+    ImperatorToCK3Tests\Release\ImperatorToCK3Tests.exe --gtest_output=xml:tests.xml
 
     $wc = New-Object 'System.Net.WebClient'
 
