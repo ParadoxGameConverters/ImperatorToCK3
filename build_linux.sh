@@ -7,14 +7,13 @@ rm -rf Release/
 cd Fronter
 ./build_linux.sh
 mv Release ../
-(
-cd ../ImperatorToCK3 || exit
+cd ../ImperatorToCK3
 rm -rf build
 rm -rf Release-Linux
 cmake -H. -Bbuild
 cmake --build build -- -j3 
 mv Release-Linux ../Release/ImperatorToCK3
-)
+cd ..
 
 cp ImperatorToCK3/Data_Files/*yml Release/Configuration/
 cp ImperatorToCK3/Data_Files/fronter*txt Release/Configuration/
