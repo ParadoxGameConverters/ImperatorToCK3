@@ -1,0 +1,14 @@
+Step One, sanity check:
+1. Open log.txt
+2. See if there are any warning due to missing cultures, religions and similar.
+3. Edit related maps in configurables/ folder and add the missing entries to appropriate files.
+- These files are designed to be human-readable, easily editable, and players are encouraged to tinker with them.
+4. Reconvert and be sure everything is in place.
+
+Step Two, testing:
+1. Start the game with the converted mod.
+2. Note all inconsistencies - look for anything that looks out of place.
+ 
+ In case of major inconsistencies or problems, come to PDX forums and upload your save, explaining the problems.
+ We're always open to suggestions and will fix whatever we can.
+ 

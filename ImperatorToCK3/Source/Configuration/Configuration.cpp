@@ -1,5 +1,5 @@
 #include "Configuration.h"
-#include "../Common/CommonFunctions.h"
+#include "CommonFunctions.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
@@ -12,7 +12,7 @@ Configuration::Configuration()
 	clearRegisteredKeywords();
 	setOutputName();
 	verifyImperatorPath();
-	///verifyCk3Path(); /// TODO #5: enable when CK3 is released
+	///verifyCK3Path(); /// TODO #5: enable when CK3 is released
 }
 
 Configuration::Configuration(std::istream& theStream)
@@ -40,7 +40,7 @@ void Configuration::registerKeys()
 		});
 	registerKeyword("CK3directory", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString path(theStream);
-		Ck3Path = path.getString();
+		CK3Path = path.getString();
 		});
 	registerKeyword("output_name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
@@ -64,10 +64,10 @@ void Configuration::verifyImperatorPath() const
 	LOG(LogLevel::Info) << "\tI:R install path is " << ImperatorPath;
 }
 
-void Configuration::verifyCk3Path() const
+void Configuration::verifyCK3Path() const
 {
-	if (!Utils::DoesFolderExist(Ck3Path)) throw std::runtime_error(Ck3Path + " does not exist!");
-	LOG(LogLevel::Info) << "\tCK3 install path is " << Ck3Path;
+	if (!Utils::DoesFolderExist(CK3Path)) throw std::runtime_error(CK3Path + " does not exist!");
+	LOG(LogLevel::Info) << "\tCK3 install path is " << CK3Path;
 }
 
 void Configuration::setOutputName()

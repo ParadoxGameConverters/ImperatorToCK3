@@ -1,5 +1,5 @@
 #include "ImperatorWorld.h"
-#include "../Common/CommonFunctions.h"
+#include "CommonFunctions.h"
 #include "GameVersion.h"
 #include "../Configuration/Configuration.h"
 #include "Date.h"

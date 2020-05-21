@@ -15,7 +15,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getSaveGamePath() const { return SaveGamePath; }
 	[[nodiscard]] const auto& getImperatorPath() const { return ImperatorPath; }
 	[[nodiscard]] const auto& getImperatorModsPath() const { return ImperatorModsPath; }
-	[[nodiscard]] const auto& getCk3Path() const { return Ck3Path; }
+	[[nodiscard]] const auto& getCK3Path() const { return CK3Path; }
 	[[nodiscard]] const auto& getOutputName() const { return outputName; }
 	[[nodiscard]] const auto& getImperatorDeJure() const { return imperatorDeJure; }
 
@@ -23,12 +23,12 @@ class Configuration: commonItems::parser
 	void registerKeys();
 	void setOutputName();
 	void verifyImperatorPath() const;
-	void verifyCk3Path() const;
+	void verifyCK3Path() const;
 
 	std::string SaveGamePath;
 	std::string ImperatorPath;
 	std::string ImperatorModsPath;
-	std::string Ck3Path;
+	std::string CK3Path;
 	std::string outputName;
 
 	IMPERATOR_DE_JURE imperatorDeJure = IMPERATOR_DE_JURE::NO;
