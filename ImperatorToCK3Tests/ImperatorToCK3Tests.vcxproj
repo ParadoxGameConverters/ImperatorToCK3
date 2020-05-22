@@ -178,11 +178,13 @@
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
+    <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h" />
