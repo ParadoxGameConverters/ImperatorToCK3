@@ -13,45 +13,102 @@
     <Filter Include="ImperatorWorldTests\Characters">
       <UniqueIdentifier>{d0b3b24c-8dea-4d4f-a1e0-869acfbab980}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests">
+      <UniqueIdentifier>{8b821bea-0ec6-4690-9411-14c66a11f938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapperTests\VersionParser">
+      <UniqueIdentifier>{fe425519-205f-470d-bd7a-8fc120079608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{7b11c93b-e646-48f4-be4f-a324ffc0b220}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
       <Filter>ImperatorWorldTests\Families</Filter>
     </ClCompile>
-    <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
-    <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
-    <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp" />
-    <ClCompile Include="..\commonItems\Color.cpp" />
-    <ClCompile Include="..\commonItems\Date.cpp" />
-    <ClCompile Include="..\commonItems\iconvlite.cpp" />
-    <ClCompile Include="..\commonItems\Log.cpp" />
-    <ClCompile Include="..\commonItems\Parser.cpp" />
-    <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
-    <ClCompile Include="..\commonItems\WinUtils.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp">
       <Filter>ImperatorWorldTests\Families</Filter>
     </ClCompile>
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp">
       <Filter>CommonTests</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\StringUtils.cpp" />
-    <ClCompile Include="..\commonItems\GameVersion.cpp" />
-    <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp">
       <Filter>ImperatorWorldTests\Characters</Filter>
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp">
       <Filter>ImperatorWorldTests\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
-    <ClCompile Include="..\commonItems\CommonFunctions.cpp" />
+    <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp">
+      <Filter>MapperTests\VersionParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\WinUtils.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\StringUtils.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\ParserHelpers.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\googletest\googletest\src\gtest_main.cc">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\googletest\googletest\src\gtest-all.cc">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\iconvlite.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Log.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\OSCommonLayer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Parser.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Color.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\CommonFunctions.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Date.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\GameVersion.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h" />
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

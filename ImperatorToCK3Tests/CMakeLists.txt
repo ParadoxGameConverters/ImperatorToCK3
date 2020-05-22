@@ -24,11 +24,12 @@ include_directories(${GTEST_INCLUDE_DIRS})
 set(sources
                 test_main.cpp
                 #the tests
-                ImperatorWorldTests/Characters/CharacterTests.cpp
-                ImperatorWorldTests/Characters/CharactersTests.cpp
-                ImperatorWorldTests/Families/FamilyTests.cpp
-                ImperatorWorldTests/Families/FamiliesTests.cpp
-                CommonTests/CommonFunctionsTests.cpp
+				ImperatorWorldTests/Characters/CharacterTests.cpp
+				ImperatorWorldTests/Characters/CharactersTests.cpp
+				ImperatorWorldTests/Families/FamilyTests.cpp
+				ImperatorWorldTests/Families/FamiliesTests.cpp
+				CommonTests/CommonFunctionsTests.cpp
+				MapperTests/VersionParser/VersionParser.cpp
               
                 #source files
                 ../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
