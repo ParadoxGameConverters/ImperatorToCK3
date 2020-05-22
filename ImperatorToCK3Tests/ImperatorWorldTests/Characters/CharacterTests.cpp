@@ -285,27 +285,7 @@ TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
 	ASSERT_EQ(123, theCharacter.getFamily().first);
 }
 
-TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
-{
-	std::stringstream familyInput;
-	familyInput << "=\n";
-	familyInput << "{\n";
-	familyInput << "\tculture=paradoxian";
-	familyInput << "}";
-
-	std::stringstream characterInput;
-	characterInput << "=\n";
-	characterInput << "{\n";
-	characterInput << "\tfamily=42";
-	characterInput << "}";
-
-	const ImperatorWorld::Family theFamily(familyInput, 42);
-	const ImperatorWorld::Character theCharacter(characterInput, 69);
-
-	ASSERT_EQ("paradoxian", theCharacter.getCulture());
-}
-
-TEST(ImperatorWorld_CharacterTests, dynastyDefaultsToZero)
+TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero)
 {
 	std::stringstream input;
 	input << "=\n";
@@ -397,4 +377,30 @@ TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
 	ASSERT_EQ(2, theCharacter.getAttributes().finesse);
 	ASSERT_EQ(3, theCharacter.getAttributes().charisma);
 	ASSERT_EQ(4, theCharacter.getAttributes().zeal);
+}
+
+TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
+{
+	std::stringstream familyInput;
+	familyInput << "=\n";
+	familyInput << "{\n";
+	familyInput << "\tculture=paradoxian";
+	familyInput << "}";
+
+	std::stringstream characterInput;
+	characterInput << "=\n";
+	characterInput << "{\n";
+	characterInput << "\tfamily=42";
+	characterInput << "}";
+
+	const ImperatorWorld::Family theFamily(familyInput, 42);
+	ImperatorWorld::Character theCharacter(characterInput, 69);
+
+	if (theCharacter.getFamily().first == theFamily.getID())
+	{
+		auto familyPointer = std::make_shared<ImperatorWorld::Family>(theFamily);
+		theCharacter.setFamily(familyPointer);
+	}
+
+	ASSERT_EQ("paradoxian", theCharacter.getCulture());
 }
