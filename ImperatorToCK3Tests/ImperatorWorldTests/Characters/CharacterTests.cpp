@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../ImperatorToCK3/Source/Imperator/Characters/Character.h"
+#include "../ImperatorToCK3/Source/Imperator/Families/Family.h"
 #include "../commonItems/Date.h"
 #include <sstream>
 
@@ -93,7 +94,7 @@ TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale)
 TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
 {
 	std::vector<std::string> traitsVector{ "lustful", "submissive", "greedy" };
-	
+
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -243,7 +244,7 @@ TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero)
 
 	const ImperatorWorld::Character theCharacter(input, 42);
 
-	ASSERT_EQ(theCharacter.getMother().first, 0);
+	ASSERT_EQ(0, theCharacter.getMother().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
@@ -256,7 +257,7 @@ TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
 
 	const ImperatorWorld::Character theCharacter(input, 42);
 
-	ASSERT_EQ(theCharacter.getFather().first, 123);
+	ASSERT_EQ(123, theCharacter.getFather().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
@@ -268,7 +269,7 @@ TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
 
 	const ImperatorWorld::Character theCharacter(input, 42);
 
-	ASSERT_EQ(theCharacter.getFather().first, 0);
+	ASSERT_EQ(0, theCharacter.getFather().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
@@ -281,7 +282,27 @@ TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
 
 	const ImperatorWorld::Character theCharacter(input, 42);
 
-	ASSERT_EQ(theCharacter.getFamily().first, 123);
+	ASSERT_EQ(123, theCharacter.getFamily().first);
+}
+
+TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
+{
+	std::stringstream familyInput;
+	familyInput << "=\n";
+	familyInput << "{\n";
+	familyInput << "\tculture=paradoxian";
+	familyInput << "}";
+
+	std::stringstream characterInput;
+	characterInput << "=\n";
+	characterInput << "{\n";
+	characterInput << "\tfamily=42";
+	characterInput << "}";
+
+	const ImperatorWorld::Family theFamily(familyInput, 42);
+	const ImperatorWorld::Character theCharacter(characterInput, 69);
+
+	ASSERT_EQ("paradoxian", theCharacter.getCulture());
 }
 
 TEST(ImperatorWorld_CharacterTests, dynastyDefaultsToZero)

@@ -30,7 +30,7 @@ set(sources
                 ImperatorWorldTests/Families/FamiliesTests.cpp
                 CommonTests/CommonFunctionsTests.cpp
               
-                #files covered by tests
+                #source files
                 ../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
                 ../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
                 ../ImperatorToCK3/Source/Imperator/Characters/CharacterName.cpp
