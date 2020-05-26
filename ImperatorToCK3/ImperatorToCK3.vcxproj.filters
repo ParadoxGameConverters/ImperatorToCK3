@@ -115,6 +115,9 @@
     <ClInclude Include="Source\Imperator\Provinces\Pops.h">
       <Filter>Imperator\Provinces</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -195,6 +198,9 @@
       <Filter>Imperator\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp">
       <Filter>Imperator\Provinces</Filter>
     </ClCompile>
   </ItemGroup>

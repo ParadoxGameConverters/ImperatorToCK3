@@ -2,6 +2,7 @@
 #include "Pop.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "ProvinceName.h"
 
 ImperatorWorld::Province::Province(std::istream& theStream, int provID): provinceID(provID)
 {
@@ -12,10 +13,9 @@ ImperatorWorld::Province::Province(std::istream& theStream, int provID): provinc
 
 void ImperatorWorld::Province::registerKeys()
 {
-	/*registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString nameStr(theStream);
-		name = nameStr.getString();
-	});*/
+	registerKeyword("province_name", [this](const std::string& unused, std::istream& theStream) {
+		name = ProvinceName(theStream).getName();
+	});
 	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString cultureStr(theStream);
 		culture = cultureStr.getString();

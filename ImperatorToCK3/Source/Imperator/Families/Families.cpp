@@ -33,7 +33,6 @@ void ImperatorWorld::Families::registerKeys()
 				families.insert(std::pair(newFamily->getID(), newFamily));
 			}
 		}
-		else LOG(LogLevel::Info) << "-> Didn't load family " << theFamilyID << ", it's probably \"none\"";
 	});
 	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
 }
