@@ -28,6 +28,8 @@ set(sources
 				ImperatorWorldTests/Characters/CharactersTests.cpp
 				ImperatorWorldTests/Families/FamilyTests.cpp
 				ImperatorWorldTests/Families/FamiliesTests.cpp
+				ImperatorWorldTests/Provinces/ProvinceTests.cpp
+				ImperatorWorldTests/Provinces/ProvincesTests.cpp
 				CommonTests/CommonFunctionsTests.cpp
 				MapperTests/VersionParser/VersionParser.cpp
               
@@ -39,6 +41,11 @@ set(sources
                 ../ImperatorToCK3/Source/Imperator/Characters/Characters.cpp
                 ../ImperatorToCK3/Source/Imperator/Families/Family.cpp
                 ../ImperatorToCK3/Source/Imperator/Families/Families.cpp
+				../ImperatorToCK3/Source/Imperator/Provinces/Province.cpp
+				../ImperatorToCK3/Source/Imperator/Provinces/Provinces.cpp
+				../ImperatorToCK3/Source/Imperator/Provinces/ProvinceName.cpp
+				../ImperatorToCK3/Source/Imperator/Provinces/Pop.cpp
+				../ImperatorToCK3/Source/Imperator/Provinces/Pops.cpp
                 ../ImperatorToCK3/Source/Configuration/Configuration.cpp
                 ../ImperatorToCK3/Source/Mappers/VersionParser/VersionParser.cpp
                 ../commonItems/Parser.cpp
