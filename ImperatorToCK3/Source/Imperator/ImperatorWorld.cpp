@@ -49,6 +49,18 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		characters = CharactersBloc(theStream).getCharactersFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
 	});
+
+	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {
+		LOG(LogLevel::Info) << "-> Loading Pops";
+		pops = PopsBloc(theStream).getPopsFromBloc();
+		LOG(LogLevel::Info) << ">> Loaded " << pops.getPops().size() << " pops.";
+	});
+
+	registerKeyword("provinces", [this](const std::string& unused, std::istream& theStream) {
+		LOG(LogLevel::Info) << "-> Loading Provinces";
+		provinces = Provinces(theStream);
+		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
+	});
 	
 	registerRegex("[A-Za-z0-9\\_]+", commonItems::ignoreItem);
 
@@ -81,6 +93,8 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	characters.linkSpouses();
 	LOG(LogLevel::Info) << "-- Linking Characters with Mothers and Fathers";
 	characters.linkMothersAndFathers();
+	LOG(LogLevel::Info) << "-- Linking Provinces with Pops";
+	provinces.linkPops(pops);
 
 	LOG(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
 }

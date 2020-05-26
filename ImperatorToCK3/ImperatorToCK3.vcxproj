@@ -196,6 +196,10 @@
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
+    <ClCompile Include="Source\Imperator\Provinces\Pop.cpp" />
+    <ClCompile Include="Source\Imperator\Provinces\Pops.cpp" />
+    <ClCompile Include="Source\Imperator\Provinces\Province.cpp" />
+    <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
@@ -224,6 +228,10 @@
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
+    <ClInclude Include="Source\Imperator\Provinces\Pop.h" />
+    <ClInclude Include="Source\Imperator\Provinces\Pops.h" />
+    <ClInclude Include="Source\Imperator\Provinces\Province.h" />
+    <ClInclude Include="Source\Imperator\Provinces\Provinces.h" />
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h" />
   </ItemGroup>
   <ItemGroup>

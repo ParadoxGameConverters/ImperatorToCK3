@@ -25,6 +25,9 @@
     <Filter Include="Imperator\Characters">
       <UniqueIdentifier>{bbb634d8-dc1e-4ff6-b0a3-7fef4d6b0ce7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imperator\Provinces">
+      <UniqueIdentifier>{57163cbe-1bb5-4a9f-8c31-15f3d3e49986}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -100,6 +103,18 @@
     <ClInclude Include="..\commonItems\CommonFunctions.h">
       <Filter>CommonItems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Province.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Provinces.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Pop.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Pops.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -169,6 +184,18 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\CommonFunctions.cpp">
       <Filter>CommonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Province.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Pop.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Pops.cpp">
+      <Filter>Imperator\Provinces</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
