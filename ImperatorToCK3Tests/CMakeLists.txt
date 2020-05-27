@@ -30,6 +30,8 @@ set(sources
 				ImperatorWorldTests/Families/FamiliesTests.cpp
 				ImperatorWorldTests/Provinces/ProvinceTests.cpp
 				ImperatorWorldTests/Provinces/ProvincesTests.cpp
+				ImperatorWorldTests/Provinces/PopTests.cpp
+				ImperatorWorldTests/Provinces/PopsTests.cpp
 				CommonTests/CommonFunctionsTests.cpp
 				MapperTests/VersionParser/VersionParser.cpp
               
