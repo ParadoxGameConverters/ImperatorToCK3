@@ -105,6 +105,18 @@ TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet)
 	ASSERT_EQ(69, theProvince.getOwner());
 }
 
+TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Province theProvince(input, 42);
+
+	ASSERT_EQ(0, theProvince.getOwner());
+}
+
 TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet)
 {
 	std::stringstream input;
