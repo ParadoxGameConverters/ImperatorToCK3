@@ -178,16 +178,27 @@
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pop.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Provinces\PopsTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Provinces\ProvinceTests.cpp" />
     <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h" />
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h" />
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.h" />
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,12 +21,17 @@ void ImperatorWorld::Families::loadFamilies(std::istream& theStream)
 void ImperatorWorld::Families::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& theFamilyID, std::istream& theStream) {
-		if (families.count(std::stoi(theFamilyID))) {
-			families[std::stoi(theFamilyID)]->updateFamily(theStream);
-		}
-		else {
-			auto newFamily = std::make_shared<Family>(theStream, std::stoi(theFamilyID));
-			families.insert(std::pair(newFamily->getID(), newFamily));
+		const auto familyStr = commonItems::singleItem(theFamilyID, theStream);
+		if (familyStr.find('{') != std::string::npos)
+		{
+			std::stringstream tempStream(familyStr);
+			if (families.count(std::stoi(theFamilyID))) {
+				families[std::stoi(theFamilyID)]->updateFamily(tempStream);
+			}
+			else {
+				auto newFamily = std::make_shared<Family>(tempStream, std::stoi(theFamilyID));
+				families.insert(std::pair(newFamily->getID(), newFamily));
+			}
 		}
 	});
 	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);

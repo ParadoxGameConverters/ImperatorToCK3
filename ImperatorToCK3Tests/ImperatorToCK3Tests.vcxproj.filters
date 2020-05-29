@@ -22,6 +22,9 @@
     <Filter Include="Sources">
       <UniqueIdentifier>{7b11c93b-e646-48f4-be4f-a324ffc0b220}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImperatorWorldTests\Provinces">
+      <UniqueIdentifier>{1e29e697-9bd1-4ec3-a9bb-50471b9f44fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -105,9 +108,42 @@
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp">
+      <Filter>ImperatorWorldTests\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Provinces\ProvinceTests.cpp">
+      <Filter>ImperatorWorldTests\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Provinces\PopsTests.cpp">
+      <Filter>ImperatorWorldTests\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp">
+      <Filter>ImperatorWorldTests\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pop.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.h">
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -45,7 +45,6 @@ void ImperatorWorld::Characters::linkFamilies(const Families& theFamilies)
 
 void ImperatorWorld::Characters::linkSpouses()
 {
-	auto counterLiege = 0;
 	auto counterSpouse = 0;
 	for (const auto& character: characters)
 	{
@@ -68,7 +67,7 @@ void ImperatorWorld::Characters::linkSpouses()
 			character.second->setSpouses(newSpouses);
 		}
 	}
-	Log(LogLevel::Info) << "<> " << counterLiege << " lieges and " << counterSpouse << " spouses linked.";
+	Log(LogLevel::Info) << "<> " << counterSpouse << " spouses linked.";
 }
 
 
