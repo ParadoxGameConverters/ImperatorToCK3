@@ -7,9 +7,6 @@
     <Filter Include="CK3">
       <UniqueIdentifier>{bb831886-42eb-4aa2-867f-fb92ef4b7c0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CommonItems">
-      <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Configuration">
       <UniqueIdentifier>{384cc622-63ff-442a-af9d-59c4a0d84336}</UniqueIdentifier>
     </Filter>
@@ -25,6 +22,12 @@
     <Filter Include="Imperator\Characters">
       <UniqueIdentifier>{bbb634d8-dc1e-4ff6-b0a3-7fef4d6b0ce7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imperator\Provinces">
+      <UniqueIdentifier>{57163cbe-1bb5-4a9f-8c31-15f3d3e49986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commonItems">
+      <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -38,34 +41,34 @@
     </ClInclude>
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
     <ClInclude Include="..\commonItems\Log.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\OSCompatibilityLayer.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\Parser.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ParserHelpers.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\Color.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ConversionFacet.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ConversionFacetUtils.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\Date.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\iconvlite.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\StringUtils.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Configuration\Configuration.h">
       <Filter>Configuration</Filter>
@@ -83,7 +86,7 @@
       <Filter>CK3Outputter</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\GameVersion.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Imperator\Characters\Character.h">
       <Filter>Imperator\Characters</Filter>
@@ -98,7 +101,22 @@
       <Filter>Imperator\Characters</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\CommonFunctions.h">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Province.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Provinces.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Pop.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Pops.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h">
+      <Filter>Imperator\Provinces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,28 +126,28 @@
     </ClCompile>
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
     <ClCompile Include="..\commonItems\Log.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\WinUtils.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\Parser.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\ParserHelpers.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\Color.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\Date.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\iconvlite.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\StringUtils.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Configuration\Configuration.cpp">
       <Filter>Configuration</Filter>
@@ -150,7 +168,7 @@
       <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\GameVersion.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\Character.cpp">
       <Filter>Imperator\Characters</Filter>
@@ -159,7 +177,7 @@
       <Filter>Imperator\Characters</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\CharacterName.cpp">
       <Filter>Imperator\Characters</Filter>
@@ -168,7 +186,22 @@
       <Filter>Imperator\Characters</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\CommonFunctions.cpp">
-      <Filter>CommonItems</Filter>
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Province.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Pop.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Pops.cpp">
+      <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp">
+      <Filter>Imperator\Provinces</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
