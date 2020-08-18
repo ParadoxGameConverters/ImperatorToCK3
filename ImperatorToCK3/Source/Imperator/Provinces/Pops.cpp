@@ -22,7 +22,7 @@ void ImperatorWorld::Pops::registerKeys()
 			pops.insert(std::pair(pop->getID(), pop));
 		}
 	});
-	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
@@ -39,5 +39,5 @@ void ImperatorWorld::PopsBloc::registerKeys()
 	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {
 		pops.loadPops(theStream);
 	});
-	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

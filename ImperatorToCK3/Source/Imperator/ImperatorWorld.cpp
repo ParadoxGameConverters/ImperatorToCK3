@@ -62,7 +62,7 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
 	});
 	
-	registerRegex("[A-Za-z0-9\\_]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
 	LOG(LogLevel::Info) << "-> Verifying Imperator save.";
 	verifySave(theConfiguration.getSaveGamePath());

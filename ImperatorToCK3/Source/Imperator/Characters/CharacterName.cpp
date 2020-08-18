@@ -15,5 +15,5 @@ void ImperatorWorld::CharacterName::registerKeys()
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

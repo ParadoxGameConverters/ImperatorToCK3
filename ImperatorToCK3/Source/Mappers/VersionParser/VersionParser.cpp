@@ -29,5 +29,5 @@ void mappers::VersionParser::registerKeys()
 		const commonItems::singleString descriptionLineStr(theStream);
 		descriptionLine = descriptionLineStr.getString();
 	});
-	registerRegex("[a-zA-Z0-9\\_.:-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

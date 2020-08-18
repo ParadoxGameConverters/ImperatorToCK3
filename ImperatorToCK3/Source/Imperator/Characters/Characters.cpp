@@ -17,7 +17,7 @@ void ImperatorWorld::Characters::registerKeys()
 		auto newCharacter = std::make_shared<Character>(theStream, std::stoi(charID));
 		characters.insert(std::pair(newCharacter->getID(), newCharacter));
 	});
-	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 void ImperatorWorld::Characters::linkFamilies(const Families& theFamilies)
@@ -124,5 +124,5 @@ void ImperatorWorld::CharactersBloc::registerKeys()
 	registerKeyword("character_database", [this](const std::string& unused, std::istream& theStream) {
 		characters = Characters(theStream);
 		});
-	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
