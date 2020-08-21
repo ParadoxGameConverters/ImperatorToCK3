@@ -23,5 +23,5 @@ void ImperatorWorld::Pop::registerKeys()
 		const commonItems::singleString religionStr(theStream);
 		religion = religionStr.getString();
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

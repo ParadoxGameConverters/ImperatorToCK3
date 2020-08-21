@@ -52,7 +52,7 @@ void Configuration::registerKeys()
 		imperatorDeJure = IMPERATOR_DE_JURE(stoi(deJureString.getString()));
 		Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString.getString();
 		});
-	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

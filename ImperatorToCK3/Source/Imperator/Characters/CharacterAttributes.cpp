@@ -26,5 +26,5 @@ void ImperatorWorld::CharacterAttributes::registerKeys()
 		const commonItems::singleInt zealInt(theStream);
 		zeal = zealInt.getInt();
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

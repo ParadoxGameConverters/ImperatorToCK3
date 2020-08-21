@@ -17,7 +17,7 @@ void ImperatorWorld::Provinces::registerKeys()
 		auto newProvince = std::make_shared<Province>(theStream, std::stoi(provID));
 		provinces.insert(std::pair(newProvince->getID(), newProvince));
 	});
-	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 void ImperatorWorld::Provinces::linkPops(const Pops& thePops)
