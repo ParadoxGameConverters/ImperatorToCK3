@@ -34,5 +34,5 @@ void ImperatorWorld::Family::registerKeys()
 		const commonItems::singleDouble prestigeRatioDouble(theStream);
 		prestigeRatio = prestigeRatioDouble.getDouble();
 		});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

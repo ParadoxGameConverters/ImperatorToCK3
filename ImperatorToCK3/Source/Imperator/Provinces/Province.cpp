@@ -36,5 +36,5 @@ void ImperatorWorld::Province::registerKeys()
 		const commonItems::singleInt popInt(theStream);
 		pops.insert(std::pair(popInt.getInt(), nullptr));
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

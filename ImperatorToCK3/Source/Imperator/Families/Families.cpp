@@ -34,7 +34,7 @@ void ImperatorWorld::Families::registerKeys()
 			}
 		}
 	});
-	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
@@ -51,5 +51,5 @@ void ImperatorWorld::FamiliesBloc::registerKeys()
 	registerKeyword("families", [this](const std::string& unused, std::istream& theStream) {
 		families.loadFamilies(theStream);
 	});
-	registerRegex("[A-Za-z0-9\\_:.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
