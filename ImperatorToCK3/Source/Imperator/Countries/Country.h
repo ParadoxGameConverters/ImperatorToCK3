@@ -6,17 +6,17 @@
 namespace ImperatorWorld
 {
 
-typedef struct
+struct CurrenciesStruct
 {
 	int manpower = 0;
 	int gold = 0;
 	int stability = 0;
 	int tyranny = 0;
 	int war_exhaustion = 0;
-	int aggresive_expansion = 0;
+	int aggressive_expansion = 0;
 	int political_influence = 0;
 	int military_experience = 0;
-} CurrenciesStruct;
+};
 
 class Country: commonItems::parser
 {

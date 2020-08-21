@@ -8,6 +8,7 @@
 #include "Characters/Characters.h"
 #include "Provinces/Pops.h"
 #include "Provinces/Provinces.h"
+#include "Countries/Countries.h"
 #include "Parser.h"
 #include <string>
 #include <set>
@@ -46,6 +47,7 @@ namespace ImperatorWorld
 			Characters characters;
 			Pops pops;
 			Provinces provinces;
+			Countries countries;
 	};		
 }
 

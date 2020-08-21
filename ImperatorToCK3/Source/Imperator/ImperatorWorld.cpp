@@ -61,6 +61,12 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		provinces = Provinces(theStream);
 		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
 	});
+
+	registerKeyword("country", [this](const std::string& unused, std::istream& theStream) {
+		LOG(LogLevel::Info) << "-> Loading Countries";
+		countries = CountriesBloc(theStream).getCountriesFromBloc();
+		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.";
+	});
 	
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
