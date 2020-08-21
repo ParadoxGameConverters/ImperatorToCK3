@@ -23,7 +23,7 @@ class Country: commonItems::parser
   public:
 	Country(std::istream& theStream, int cntrID);
 
-	[[nodiscard]] const std::string& getCulture() const { return tag; }
+	[[nodiscard]] const std::string& getTag() const { return tag; }
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getCurrencies() const { return currencies; }
 
