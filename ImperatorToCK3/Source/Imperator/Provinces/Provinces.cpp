@@ -1,8 +1,8 @@
 #include "Provinces.h"
+#include "Province.h"
 #include "Pops.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "Province.h"
 
 ImperatorWorld::Provinces::Provinces(std::istream& theStream)
 {
@@ -45,5 +45,5 @@ void ImperatorWorld::Provinces::linkPops(const Pops& thePops)
 			province.second->setPops(newPops);
 		}
 	}
-	Log(LogLevel::Info) << "<> " << counter << " pops linked.";
+	Log(LogLevel::Info) << "<> " << counter << " pops linked to provinces.";
 }
