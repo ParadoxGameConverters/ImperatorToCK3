@@ -43,5 +43,4 @@ void ImperatorWorld::Country::registerKeys()
 	});
 
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
-
 }
