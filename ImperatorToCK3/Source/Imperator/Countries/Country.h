@@ -10,7 +10,7 @@ struct CurrenciesStruct
 {
 	int manpower = 0;
 	int gold = 0;
-	int stability = 0;
+	int stability = 50;
 	int tyranny = 0;
 	int war_exhaustion = 0;
 	int aggressive_expansion = 0;

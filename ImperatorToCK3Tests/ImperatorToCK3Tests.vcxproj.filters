@@ -25,6 +25,9 @@
     <Filter Include="ImperatorWorldTests\Provinces">
       <UniqueIdentifier>{1e29e697-9bd1-4ec3-a9bb-50471b9f44fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImperatorWorldTests\Countries">
+      <UniqueIdentifier>{7da6c0dd-4476-439d-945f-366d7e3b0850}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -87,9 +90,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\Color.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\commonItems\CommonFunctions.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -133,6 +133,27 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Countries.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Country.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryCurrencies.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryName.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Countries\CountriesTests.cpp">
+      <Filter>ImperatorWorldTests\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Countries\CountryTests.cpp">
+      <Filter>ImperatorWorldTests\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\newColor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
