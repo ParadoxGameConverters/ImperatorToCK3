@@ -34,5 +34,9 @@ void ImperatorWorld::Family::registerKeys()
 		const commonItems::singleDouble prestigeRatioDouble(theStream);
 		prestigeRatio = prestigeRatioDouble.getDouble();
 		});
+	registerKeyword("minor_family", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString minorFamilyStr(theStream);
+		isMinor = minorFamilyStr.getString() == "yes";
+		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

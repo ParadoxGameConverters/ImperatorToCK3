@@ -18,6 +18,7 @@ namespace ImperatorWorld
 		std::map<int, std::shared_ptr<Pop>> pops;
 	};
 
+
 	class PopsBloc : commonItems::parser
 	{
 	public:

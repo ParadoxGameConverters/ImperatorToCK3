@@ -40,7 +40,7 @@ void ImperatorWorld::Characters::linkFamilies(const Families& theFamilies)
 			}
 		}
 	}
-	Log(LogLevel::Info) << "<> " << counter << " families linked.";
+	Log(LogLevel::Info) << "<> " << counter << " families linked to characters.";
 }
 
 void ImperatorWorld::Characters::linkSpouses()

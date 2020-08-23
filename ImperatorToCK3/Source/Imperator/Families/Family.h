@@ -15,6 +15,7 @@ class Family: commonItems::parser
 	[[nodiscard]] const auto& getPrestige() const { return prestige; }
 	[[nodiscard]] const auto& getPrestigeRatio() const { return prestigeRatio; }
 	[[nodiscard]] const auto& getKey() const { return key; }
+	[[nodiscard]] const auto& getIsMinor() const { return isMinor; }
 
 	[[nodiscard]] auto getID() const { return familyID; }
 
@@ -27,6 +28,7 @@ class Family: commonItems::parser
 	double prestige = 0;
 	double prestigeRatio = 0;
 	std::string key;
+	bool isMinor = false;
 };
 } // namespace ImperatorWorld
 

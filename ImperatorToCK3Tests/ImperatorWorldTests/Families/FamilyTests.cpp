@@ -102,6 +102,34 @@ TEST(ImperatorWorld_FamilyTests, keyCanBeSet)
 	ASSERT_EQ("paradoxian", theFamily.getKey());
 }
 
+
+TEST(ImperatorWorld_FamilyTests, minorFamilyDefaultsToFalse)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Family theFamily(input, 42);
+
+	ASSERT_FALSE(theFamily.getIsMinor());
+}
+
+
+TEST(ImperatorWorld_FamilyTests, minorFamilyCanBeSet)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tminor_family=\"yes\"";
+	input << "}";
+
+	const ImperatorWorld::Family theFamily(input, 42);
+
+	ASSERT_TRUE(theFamily.getIsMinor());
+}
+
+
 TEST(ImperatorWorld_FamilyTests, keyDefaultsToBlank)
 {
 	std::stringstream input;
