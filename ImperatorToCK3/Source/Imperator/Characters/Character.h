@@ -7,7 +7,7 @@ namespace ImperatorWorld
 {
 class Family;
 
-typedef struct
+typedef struct AttributesStruct
 {
 	int martial = 0;
 	int finesse = 0;

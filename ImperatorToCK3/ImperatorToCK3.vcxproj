@@ -174,12 +174,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\commonItems\Color.cpp" />
     <ClCompile Include="..\commonItems\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />
     <ClCompile Include="..\commonItems\Log.cpp" />
+    <ClCompile Include="..\commonItems\newColor.cpp" />
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\Parser.cpp" />
     <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
@@ -193,6 +193,10 @@
     <ClCompile Include="Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="Source\Imperator\Characters\CharacterName.cpp" />
     <ClCompile Include="Source\Imperator\Characters\Characters.cpp" />
+    <ClCompile Include="Source\Imperator\Countries\Countries.cpp" />
+    <ClCompile Include="Source\Imperator\Countries\Country.cpp" />
+    <ClCompile Include="Source\Imperator\Countries\CountryCurrencies.cpp" />
+    <ClCompile Include="Source\Imperator\Countries\CountryName.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
@@ -205,7 +209,6 @@
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\commonItems\Color.h" />
     <ClInclude Include="..\commonItems\CommonFunctions.h" />
     <ClInclude Include="..\commonItems\ConversionFacet.h" />
     <ClInclude Include="..\commonItems\ConversionFacetUtils.h" />
@@ -213,6 +216,7 @@
     <ClInclude Include="..\commonItems\GameVersion.h" />
     <ClInclude Include="..\commonItems\iconvlite.h" />
     <ClInclude Include="..\commonItems\Log.h" />
+    <ClInclude Include="..\commonItems\newColor.h" />
     <ClInclude Include="..\commonItems\Parser.h" />
     <ClInclude Include="..\commonItems\OSCompatibilityLayer.h" />
     <ClInclude Include="..\commonItems\ParserHelpers.h" />
@@ -226,6 +230,10 @@
     <ClInclude Include="Source\Imperator\Characters\CharacterAttributes.h" />
     <ClInclude Include="Source\Imperator\Characters\CharacterName.h" />
     <ClInclude Include="Source\Imperator\Characters\Characters.h" />
+    <ClInclude Include="Source\Imperator\Countries\Countries.h" />
+    <ClInclude Include="Source\Imperator\Countries\Country.h" />
+    <ClInclude Include="Source\Imperator\Countries\CountryCurrencies.h" />
+    <ClInclude Include="Source\Imperator\Countries\CountryName.h" />
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
