@@ -5,6 +5,7 @@
 namespace ImperatorWorld
 {
 	class Country;
+	class Families;
 	class Countries: commonItems::parser
 	{
 	  public:
@@ -12,6 +13,8 @@ namespace ImperatorWorld
 		Countries(std::istream& theStream);
 
 		[[nodiscard]] const auto& getCountries() const { return countries; }
+
+		void linkFamilies(const Families& theFamilies);
 
 	  private:
 		void registerKeys();

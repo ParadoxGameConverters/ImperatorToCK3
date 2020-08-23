@@ -18,17 +18,21 @@ void ImperatorWorld::Country::registerKeys()
 		const commonItems::singleString tagStr(theStream);
 		tag = tagStr.getString();
 	});
-	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
-		const auto color1 = commonItems::newColor::Factory::getColor(theStream);
-	});
-	registerKeyword("color2", [this](const std::string& unused, std::istream& theStream) {
-		const auto color2 = commonItems::newColor::Factory::getColor(theStream);
-	});
-	registerKeyword("color3", [this](const std::string& unused, std::istream& theStream) {
-		const auto color3 = commonItems::newColor::Factory::getColor(theStream);
-	});
 	registerKeyword("country_name", [this](const std::string& unused, std::istream& theStream) {
 		name = CountryName(theStream).getName();
+	});
+	registerKeyword("flag", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString flagStr(theStream);
+		flag = flagStr.getString();
+	});
+	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
+		color1 = commonItems::newColor::Factory::getColor(theStream);
+	});
+	registerKeyword("color2", [this](const std::string& unused, std::istream& theStream) {
+		color2 = commonItems::newColor::Factory::getColor(theStream);
+	});
+	registerKeyword("color3", [this](const std::string& unused, std::istream& theStream) {
+		color3 = commonItems::newColor::Factory::getColor(theStream);
 	});
 	registerKeyword("currency_data", [this](const std::string& unused, std::istream& theStream) {
 		CountryCurrencies currenciesFromBloc(theStream);
@@ -40,6 +44,14 @@ void ImperatorWorld::Country::registerKeys()
 		currencies.aggressive_expansion = currenciesFromBloc.getAggressiveExpansion();
 		currencies.political_influence = currenciesFromBloc.getPoliticalInfluence();
 		currencies.military_experience = currenciesFromBloc.getMilitaryExperience();
+	});
+	registerRegex("family", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleInt familyInt(theStream);
+		families.insert(std::pair(familyInt.getInt(), nullptr));
+	});
+	registerRegex("minor_family", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleInt familyInt(theStream);
+		families.insert(std::pair(familyInt.getInt(), nullptr));
 	});
 
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
