@@ -7,13 +7,13 @@ namespace ImperatorWorld
 {
 class Family;
 
-struct AttributesStruct
+typedef struct AttributesStruct
 {
 	int martial = 0;
 	int finesse = 0;
 	int charisma = 0;
 	int zeal = 0;
-};
+} AttributesStruct;
 
 class Character: commonItems::parser
 {

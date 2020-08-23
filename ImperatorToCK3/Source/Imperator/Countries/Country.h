@@ -6,7 +6,7 @@
 namespace ImperatorWorld
 {
 
-struct CurrenciesStruct
+typedef struct CurrenciesStruct
 {
 	int manpower = 0;
 	int gold = 0;
@@ -16,7 +16,7 @@ struct CurrenciesStruct
 	int aggressive_expansion = 0;
 	int political_influence = 0;
 	int military_experience = 0;
-};
+} CurrenciesStruct;
 
 class Country: commonItems::parser
 {
