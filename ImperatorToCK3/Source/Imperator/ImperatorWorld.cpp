@@ -50,18 +50,24 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 		LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
 	});
 
+	registerKeyword("provinces", [this](const std::string& unused, std::istream& theStream) {
+		LOG(LogLevel::Info) << "-> Loading Provinces";
+		provinces = Provinces(theStream);
+		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
+	});
+
+	registerKeyword("country", [this](const std::string& unused, std::istream& theStream) {
+		LOG(LogLevel::Info) << "-> Loading Countries";
+		countries = CountriesBloc(theStream).getCountriesFromBloc();
+		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.   ";
+	});
+
 	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Pops";
 		pops = PopsBloc(theStream).getPopsFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << pops.getPops().size() << " pops.";
 	});
 
-	registerKeyword("provinces", [this](const std::string& unused, std::istream& theStream) {
-		LOG(LogLevel::Info) << "-> Loading Provinces";
-		provinces = Provinces(theStream);
-		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
-	});
-	
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
 	LOG(LogLevel::Info) << "-> Verifying Imperator save.";
