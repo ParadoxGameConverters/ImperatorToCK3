@@ -20,15 +20,12 @@ void ImperatorWorld::Country::registerKeys()
 	});
 	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
 		const auto color1 = commonItems::newColor::Factory::getColor(theStream);
-		LOG(LogLevel::Info) << " Color1 " << " of " << getTag() << " is " << color1;
 	});
 	registerKeyword("color2", [this](const std::string& unused, std::istream& theStream) {
 		const auto color2 = commonItems::newColor::Factory::getColor(theStream);
-		LOG(LogLevel::Info) << " Color2 " << " of " << getTag() << " is " << color2;
 	});
 	registerKeyword("color3", [this](const std::string& unused, std::istream& theStream) {
 		const auto color3 = commonItems::newColor::Factory::getColor(theStream);
-		LOG(LogLevel::Info) << " Color3 " << " of " << getTag() << " is " << color3;
 	});
 	registerKeyword("country_name", [this](const std::string& unused, std::istream& theStream) {
 		name = CountryName(theStream).getName();
