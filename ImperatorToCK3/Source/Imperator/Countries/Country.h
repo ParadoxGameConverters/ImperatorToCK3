@@ -21,7 +21,6 @@ namespace ImperatorWorld
 	class Family;
 	class Country: commonItems::parser
 	{
-		
 		public:
 			Country(std::istream& theStream, int cntrID);
 
