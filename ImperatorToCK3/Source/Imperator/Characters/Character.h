@@ -19,7 +19,7 @@ typedef struct AttributesStruct
 } AttributesStruct;
 typedef struct CoordinatesStruct
 {
-	unsigned int x = 256;
+	unsigned int x = 256; // palettes are 512x512
 	unsigned int y = 256;
 } CoordinatesStruct;
 typedef struct PortraitDataStruct

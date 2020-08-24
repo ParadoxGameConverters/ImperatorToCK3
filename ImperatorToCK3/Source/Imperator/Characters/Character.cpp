@@ -84,9 +84,19 @@ void ImperatorWorld::Character::registerKeys()
 				std::bitset<8> b(decodedDnaStr.c_str()[i]);
 				binary_outputInformations += b.to_string();
 			}
+
+			//hair
 			portraitData.hairColorPaletteCoordinates.x = unsigned int (binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) / 512);
 			portraitData.hairColorPaletteCoordinates.y = unsigned int (binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) % 512);
-			Log(LogLevel::Debug) << "Char ID " << charID << " has decoded hair in XY coordinates: " << portraitData.hairColorPaletteCoordinates.x << " " << portraitData.hairColorPaletteCoordinates.y; // debug
+			//skin
+			portraitData.skinColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(5, 18))) / 512);
+			portraitData.skinColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(5, 18))) % 512);
+			//eyes
+			portraitData.eyeColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(10, 18))) / 512);
+			portraitData.eyeColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(10, 18))) % 512);
+			Log(LogLevel::Debug) << "Char ID " << charID << " hair color palette X Y coordinates: " << portraitData.hairColorPaletteCoordinates.x << " " << portraitData.hairColorPaletteCoordinates.y; // debug
+			Log(LogLevel::Debug) << "Char ID " << charID << " skin color palette X Y coordinates: " << portraitData.skinColorPaletteCoordinates.x << " " << portraitData.skinColorPaletteCoordinates.y; // debug
+			Log(LogLevel::Debug) << "Char ID " << charID << " eye color palette X Y coordinates: " << portraitData.eyeColorPaletteCoordinates.x << " " << portraitData.eyeColorPaletteCoordinates.y; // debug
 		}
 	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {

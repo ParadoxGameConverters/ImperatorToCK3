@@ -406,7 +406,7 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 }
 
 
-TEST(ImperatorWorld_CharacterTests, hairColorPaletteCoordinatesCanBeExtractedFromDNA)
+TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA)
 {
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}";
@@ -414,4 +414,8 @@ TEST(ImperatorWorld_CharacterTests, hairColorPaletteCoordinatesCanBeExtractedFro
 
 	ASSERT_EQ(0, character.getPortraitData().hairColorPaletteCoordinates.x);
 	ASSERT_EQ(0, character.getPortraitData().hairColorPaletteCoordinates.y);
+	ASSERT_EQ(0, character.getPortraitData().skinColorPaletteCoordinates.x);
+	ASSERT_EQ(0, character.getPortraitData().skinColorPaletteCoordinates.y);
+	ASSERT_EQ(0, character.getPortraitData().eyeColorPaletteCoordinates.x);
+	ASSERT_EQ(0, character.getPortraitData().eyeColorPaletteCoordinates.y);
 }
