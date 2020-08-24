@@ -92,6 +92,9 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 
 	LOG(LogLevel::Info) << "*** Building World ***";
 
+	// Get portrait data from characters' DNA
+	characters.extractPortraitDataFromDnaStrings();
+
 	// Link all the intertwining pointers
 	LOG(LogLevel::Info) << "-- Linking Characters with Families";
 	characters.linkFamilies(families);

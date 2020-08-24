@@ -156,6 +156,9 @@
     <ClCompile Include="..\commonItems\newColor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp-base64\base64.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">

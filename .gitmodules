@@ -10,6 +10,6 @@
 [submodule "commonItems"]
 	path = commonItems
 	url = git://github.com/ParadoxGameConverters/commonItems.git
-[submodule "ddsConverter"]
-	path = ddsConverter
-	url = https://github.com/ssiltanen/Converter/
+[submodule "cpp-base64"]
+	path = cpp-base64
+	url = https://github.com/ReneNyffenegger/cpp-base64

@@ -2,6 +2,7 @@
 #define IMPERATOR_CHARACTER_H
 #include "Date.h"
 #include "Parser.h"
+#include "newColor.h"
 
 namespace ImperatorWorld
 {
@@ -14,6 +15,13 @@ typedef struct AttributesStruct
 	int charisma = 0;
 	int zeal = 0;
 } AttributesStruct;
+typedef struct PortraitStruct
+{
+	commonItems::newColor hairColor;
+	commonItems::newColor skinColor;
+	commonItems::newColor eyeColor;
+} PortraitStruct;
+
 
 class Character: commonItems::parser
 {
@@ -33,6 +41,10 @@ class Character: commonItems::parser
 	[[nodiscard]] const auto& getTraits() const { return traits; }
 	[[nodiscard]] const auto& getAttributes() const { return attributes; }
 
+	[[nodiscard]] const auto& getDNA() const { return dna; }
+	[[nodiscard]] const auto& getPortraitData() const { return portraitData; }
+	[[nodiscard]] const auto& getDecodedHairStr() const { return decodedhairstr; } // debug
+
 	[[nodiscard]] auto isFemale() const { return female; }
 	[[nodiscard]] auto getWealth() const { return wealth; }
 	[[nodiscard]] auto getID() const { return charID; }
@@ -44,6 +56,7 @@ class Character: commonItems::parser
 	void setFather(const std::pair<int, std::shared_ptr<Character>>& theFather) { father = theFather; }
 	void registerChild(const std::pair<int, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
 	void addYears(const int years) { birthDate.subtractYears(years); }
+	void setdecodedhairstr(const std::string str) { decodedhairstr = str; }  // debug
 
   private:
 	void registerKeys();
@@ -57,7 +70,10 @@ class Character: commonItems::parser
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
-	std::string dna = "AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="; // neutral DNA
+	std::string dna = "";
+	PortraitStruct portraitData;
+
+	std::string decodedhairstr; // debug
 
 	std::pair<int, std::shared_ptr<Family>> family;
 	std::pair<int, std::shared_ptr<Character>> mother;

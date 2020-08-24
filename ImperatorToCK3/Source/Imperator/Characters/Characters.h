@@ -18,6 +18,8 @@ namespace ImperatorWorld
 		void linkSpouses();
 		void linkMothersAndFathers();
 
+		void extractPortraitDataFromDnaStrings();
+
 	  private:
 		void registerKeys();
 

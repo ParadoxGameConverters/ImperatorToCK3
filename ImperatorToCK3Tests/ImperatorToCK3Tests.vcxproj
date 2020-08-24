@@ -96,7 +96,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\cpp-base64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -163,6 +163,7 @@
     <ClCompile Include="..\commonItems\newColor.cpp" />
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
+    <ClCompile Include="..\cpp-base64\base64.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />

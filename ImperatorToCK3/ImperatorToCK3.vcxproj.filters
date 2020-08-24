@@ -25,11 +25,17 @@
     <Filter Include="Imperator\Provinces">
       <UniqueIdentifier>{57163cbe-1bb5-4a9f-8c31-15f3d3e49986}</UniqueIdentifier>
     </Filter>
-    <Filter Include="commonItems">
-      <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Imperator\Countries">
       <UniqueIdentifier>{39a1de41-1794-4040-9692-a1286807232f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ddsConverter">
+      <UniqueIdentifier>{9d6de8b1-c722-49e6-8a2d-0b9561b77faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configuration\commonItems">
+      <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base64">
+      <UniqueIdentifier>{de5a0da7-ee6b-4f30-b8f4-3b45f00850ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,31 +50,31 @@
     </ClInclude>
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
     <ClInclude Include="..\commonItems\Log.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\OSCompatibilityLayer.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\Parser.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ParserHelpers.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ConversionFacet.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ConversionFacetUtils.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\Date.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\iconvlite.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\StringUtils.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Configuration\Configuration.h">
       <Filter>Configuration</Filter>
@@ -86,7 +92,7 @@
       <Filter>CK3Outputter</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\GameVersion.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Imperator\Characters\Character.h">
       <Filter>Imperator\Characters</Filter>
@@ -101,7 +107,7 @@
       <Filter>Imperator\Characters</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\CommonFunctions.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Imperator\Provinces\Province.h">
       <Filter>Imperator\Provinces</Filter>
@@ -131,7 +137,10 @@
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\newColor.h">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp-base64\base64.h">
+      <Filter>base64</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,25 +150,25 @@
     </ClCompile>
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
     <ClCompile Include="..\commonItems\Log.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\WinUtils.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\Parser.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\ParserHelpers.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\Date.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\iconvlite.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\StringUtils.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Configuration\Configuration.cpp">
       <Filter>Configuration</Filter>
@@ -180,7 +189,7 @@
       <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\GameVersion.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\Character.cpp">
       <Filter>Imperator\Characters</Filter>
@@ -189,7 +198,7 @@
       <Filter>Imperator\Characters</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\CharacterName.cpp">
       <Filter>Imperator\Characters</Filter>
@@ -198,7 +207,7 @@
       <Filter>Imperator\Characters</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\CommonFunctions.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\Province.cpp">
       <Filter>Imperator\Provinces</Filter>
@@ -228,7 +237,10 @@
       <Filter>Imperator\Countries</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\newColor.cpp">
-      <Filter>commonItems</Filter>
+      <Filter>Configuration\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp-base64\base64.cpp">
+      <Filter>base64</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
