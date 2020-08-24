@@ -44,6 +44,10 @@ void ImperatorWorld::Character::registerKeys()
 		const commonItems::singleInt familyInt(theStream);
 		family = std::pair(familyInt.getInt(), nullptr);
 	});
+	registerKeyword("dna", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString dnaStr(theStream);
+		dna = dnaStr.getString();
+	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt motInt(theStream);
 		mother = std::pair(motInt.getInt(), nullptr);
