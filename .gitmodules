@@ -10,3 +10,6 @@
 [submodule "commonItems"]
 	path = commonItems
 	url = git://github.com/ParadoxGameConverters/commonItems.git
+[submodule "ddsConverter"]
+	path = ddsConverter
+	url = https://github.com/ssiltanen/Converter/
