@@ -28,9 +28,6 @@
     <Filter Include="Imperator\Countries">
       <UniqueIdentifier>{39a1de41-1794-4040-9692-a1286807232f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ddsConverter">
-      <UniqueIdentifier>{9d6de8b1-c722-49e6-8a2d-0b9561b77faf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Configuration\commonItems">
       <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
     </Filter>

@@ -3,30 +3,6 @@
 #include "../Families/Families.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include <base64.h>
-#include <bitset>
-
-
-long long binaryToDecimal(long long n)
-{
-	long long num = n;
-	long long dec_value = 0;
-
-	// Initializing base value to 1, i.e 2^0 
-	int base = 1;
-
-	long long temp = num;
-	while (temp) {
-		int last_digit = temp % 10;
-		temp = temp / 10;
-
-		dec_value += last_digit * base;
-
-		base = base * 2;
-	}
-
-	return dec_value;
-}
 
 
 ImperatorWorld::Characters::Characters(std::istream& theStream)
@@ -133,33 +109,6 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 		}
 	}
 	Log(LogLevel::Info) << "<> " << counterMother << " mothers and " << counterFather << " fathers linked.";
-}
-
-
-void ImperatorWorld::Characters::extractPortraitDataFromDnaStrings()
-{
-	auto counter = 0;
-	for (const auto& character : characters)
-	{
-		if (character.second->getDNA().size() == 552)
-		{
-			const std::string& hairStr = character.second->getDNA(); // .substr(0, 3);
-			character.second->setdecodedhairstr(base64_decode(hairStr));
-			//Log(LogLevel::Warning) << "Decoded hair string: " << character.second->getDecodedHairStr();
-
-			//Log(LogLevel::Warning) << "Decoded string length: " << character.second->getDecodedHairStr().size();
-			std::string binary_outputInformations;
-			for (std::size_t i = 0; i < character.second->getDecodedHairStr().size(); ++i)
-			{
-				std::bitset<8> b(character.second->getDecodedHairStr().c_str()[i]);
-				binary_outputInformations += b.to_string();
-			}
-			int x = binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) / 512;
-			int y = binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) % 512;
-			Log(LogLevel::Warning) << "Char ID "<< character.first << " has decoded hair in XY coordinates: " << x << " " << y ;
-		}
-	}
-	Log(LogLevel::Info) << "<> Extracted portrait data from " << counter << " DNA strings.";
 }
 
 

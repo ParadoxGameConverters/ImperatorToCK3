@@ -35,16 +35,3 @@ TEST(ImperatorWorld_CharactersTests, charactersCanBeLoaded)
 	ASSERT_EQ(43, characterItr2->first);
 	ASSERT_EQ(43, characterItr2->second->getID());
 }
-
-
-TEST(ImperatorWorld_CharactersTests, hairColorCanBeExtractedFromDNA)
-{
-	std::stringstream input;
-	input << "={42={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}}";
-	ImperatorWorld::Characters characters(input);
-
-	characters.extractPortraitDataFromDnaStrings();
-	const auto& character = characters.getCharacters().find(42)->second;
-
-	ASSERT_EQ("string", character->getDecodedHairStr());
-}

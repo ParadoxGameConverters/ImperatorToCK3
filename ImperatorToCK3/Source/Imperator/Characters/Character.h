@@ -1,8 +1,10 @@
 #ifndef IMPERATOR_CHARACTER_H
 #define IMPERATOR_CHARACTER_H
+
 #include "Date.h"
 #include "Parser.h"
 #include "newColor.h"
+#include <optional>
 
 namespace ImperatorWorld
 {
@@ -15,12 +17,17 @@ typedef struct AttributesStruct
 	int charisma = 0;
 	int zeal = 0;
 } AttributesStruct;
-typedef struct PortraitStruct
+typedef struct CoordinatesStruct
 {
-	commonItems::newColor hairColor;
-	commonItems::newColor skinColor;
-	commonItems::newColor eyeColor;
-} PortraitStruct;
+	unsigned int x = 256;
+	unsigned int y = 256;
+} CoordinatesStruct;
+typedef struct PortraitDataStruct
+{
+	CoordinatesStruct hairColorPaletteCoordinates;
+	CoordinatesStruct skinColorPaletteCoordinates;
+	CoordinatesStruct eyeColorPaletteCoordinates;
+} PortraitDataStruct;
 
 
 class Character: commonItems::parser
@@ -43,7 +50,6 @@ class Character: commonItems::parser
 
 	[[nodiscard]] const auto& getDNA() const { return dna; }
 	[[nodiscard]] const auto& getPortraitData() const { return portraitData; }
-	[[nodiscard]] const auto& getDecodedHairStr() const { return decodedhairstr; } // debug
 
 	[[nodiscard]] auto isFemale() const { return female; }
 	[[nodiscard]] auto getWealth() const { return wealth; }
@@ -56,7 +62,6 @@ class Character: commonItems::parser
 	void setFather(const std::pair<int, std::shared_ptr<Character>>& theFather) { father = theFather; }
 	void registerChild(const std::pair<int, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
 	void addYears(const int years) { birthDate.subtractYears(years); }
-	void setdecodedhairstr(const std::string str) { decodedhairstr = str; }  // debug
 
   private:
 	void registerKeys();
@@ -71,9 +76,8 @@ class Character: commonItems::parser
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
 	std::string dna = "";
-	PortraitStruct portraitData;
+	PortraitDataStruct portraitData;
 
-	std::string decodedhairstr; // debug
 
 	std::pair<int, std::shared_ptr<Family>> family;
 	std::pair<int, std::shared_ptr<Character>> mother;
