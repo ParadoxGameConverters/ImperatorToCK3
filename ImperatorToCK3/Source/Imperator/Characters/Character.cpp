@@ -75,8 +75,7 @@ void ImperatorWorld::Character::registerKeys()
 		dna = dnaStr.getString();
 		if (dna.size() == 552)
 		{
-			const std::string& hairStr = getDNA();
-			const std::string& decodedDnaStr = base64_decode(hairStr);
+			const std::string& decodedDnaStr = base64_decode(dna);
 
 			std::string binary_outputInformations;
 			for (std::size_t i = 0; i < decodedDnaStr.size(); ++i)
