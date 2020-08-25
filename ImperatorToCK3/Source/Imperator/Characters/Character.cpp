@@ -3,32 +3,10 @@
 #include "ParserHelpers.h"
 #include "CharacterName.h"
 #include "CharacterAttributes.h"
+#include "PortraitData.h"
 #include "Log.h"
-#include "base64.h"
-#include <bitset>
 
 
-
-long long binaryToDecimal(long long n)
-{
-	long long num = n;
-	long long dec_value = 0;
-
-	// Initializing base value to 1, i.e 2^0 
-	int base = 1;
-
-	long long temp = num;
-	while (temp) {
-		int last_digit = int(temp % 10);
-		temp = temp / 10;
-
-		dec_value += long long(last_digit * base);
-
-		base = base * 2;
-	}
-
-	return dec_value;
-}
 
 ImperatorWorld::Character::Character(std::istream& theStream, int chrID): charID(chrID)
 {
@@ -71,32 +49,8 @@ void ImperatorWorld::Character::registerKeys()
 		family = std::pair(familyInt.getInt(), nullptr);
 	});
 	registerKeyword("dna", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString dnaStr(theStream);
-		dna = dnaStr.getString();
-		if (dna.size() == 552)
-		{
-			const std::string& decodedDnaStr = base64_decode(dna);
-
-			std::string binary_outputInformations;
-			for (std::size_t i = 0; i < decodedDnaStr.size(); ++i)
-			{
-				std::bitset<8> b(decodedDnaStr.c_str()[i]);
-				binary_outputInformations += b.to_string();
-			}
-
-			//hair
-			portraitData.hairColorPaletteCoordinates.x = unsigned int (binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) / 512);
-			portraitData.hairColorPaletteCoordinates.y = unsigned int (binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) % 512);
-			//skin
-			portraitData.skinColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(5, 18))) / 512);
-			portraitData.skinColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(5, 18))) % 512);
-			//eyes
-			portraitData.eyeColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(10, 18))) / 512);
-			portraitData.eyeColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(10, 18))) % 512);
-			Log(LogLevel::Debug) << "Char ID " << charID << " hair color palette X Y coordinates: " << portraitData.hairColorPaletteCoordinates.x << " " << portraitData.hairColorPaletteCoordinates.y; // debug
-			Log(LogLevel::Debug) << "Char ID " << charID << " skin color palette X Y coordinates: " << portraitData.skinColorPaletteCoordinates.x << " " << portraitData.skinColorPaletteCoordinates.y; // debug
-			Log(LogLevel::Debug) << "Char ID " << charID << " eye color palette X Y coordinates: " << portraitData.eyeColorPaletteCoordinates.x << " " << portraitData.eyeColorPaletteCoordinates.y; // debug
-		}
+		dna = commonItems::singleString(theStream).getString();
+		if (dna && dna.value().size() == 552) portraitData.emplace(CharacterPortraitData(dna.value()));
 	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt motInt(theStream);

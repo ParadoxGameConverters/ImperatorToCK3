@@ -139,6 +139,9 @@
     <ClInclude Include="..\cpp-base64\base64.h">
       <Filter>base64</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Characters\PortraitData.h">
+      <Filter>Imperator\Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -238,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="..\cpp-base64\base64.cpp">
       <Filter>base64</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Characters\PortraitData.cpp">
+      <Filter>Imperator\Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

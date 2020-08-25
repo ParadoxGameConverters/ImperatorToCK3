@@ -194,6 +194,7 @@
     <ClCompile Include="Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="Source\Imperator\Characters\CharacterName.cpp" />
     <ClCompile Include="Source\Imperator\Characters\Characters.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\PortraitData.cpp" />
     <ClCompile Include="Source\Imperator\Countries\Countries.cpp" />
     <ClCompile Include="Source\Imperator\Countries\Country.cpp" />
     <ClCompile Include="Source\Imperator\Countries\CountryCurrencies.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Source\Imperator\Characters\CharacterAttributes.h" />
     <ClInclude Include="Source\Imperator\Characters\CharacterName.h" />
     <ClInclude Include="Source\Imperator\Characters\Characters.h" />
+    <ClInclude Include="Source\Imperator\Characters\PortraitData.h" />
     <ClInclude Include="Source\Imperator\Countries\Countries.h" />
     <ClInclude Include="Source\Imperator\Countries\Country.h" />
     <ClInclude Include="Source\Imperator\Countries\CountryCurrencies.h" />

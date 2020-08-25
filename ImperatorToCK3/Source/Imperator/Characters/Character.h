@@ -5,6 +5,7 @@
 #include "Parser.h"
 #include "newColor.h"
 #include <optional>
+#include "PortraitData.h"
 
 namespace ImperatorWorld
 {
@@ -17,18 +18,6 @@ typedef struct AttributesStruct
 	int charisma = 0;
 	int zeal = 0;
 } AttributesStruct;
-typedef struct CoordinatesStruct
-{
-	unsigned int x = 256; // palettes are 512x512
-	unsigned int y = 256;
-} CoordinatesStruct;
-typedef struct PortraitDataStruct
-{
-	CoordinatesStruct hairColorPaletteCoordinates;
-	CoordinatesStruct skinColorPaletteCoordinates;
-	CoordinatesStruct eyeColorPaletteCoordinates;
-} PortraitDataStruct;
-
 
 class Character: commonItems::parser
 {
@@ -75,8 +64,8 @@ class Character: commonItems::parser
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
-	std::string dna = "";
-	PortraitDataStruct portraitData;
+	std::optional<std::string> dna = std::nullopt;
+	std::optional<CharacterPortraitData> portraitData = std::nullopt;
 
 
 	std::pair<int, std::shared_ptr<Family>> family;
