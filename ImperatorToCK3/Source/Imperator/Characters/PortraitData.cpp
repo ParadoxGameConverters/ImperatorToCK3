@@ -32,7 +32,7 @@ ImperatorWorld::CharacterPortraitData::CharacterPortraitData(std::string theStri
 	const std::string& decodedDnaStr = base64_decode(theString);
 
 	std::string binary_outputInformations;
-	for (std::size_t i = 0; i < decodedDnaStr.size(); ++i)
+	for (auto i = 0; i < decodedDnaStr.size(); ++i)
 	{
 		std::bitset<8> b(decodedDnaStr.c_str()[i]);
 		binary_outputInformations += b.to_string();

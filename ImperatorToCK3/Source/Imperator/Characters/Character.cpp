@@ -50,7 +50,7 @@ void ImperatorWorld::Character::registerKeys()
 	});
 	registerKeyword("dna", [this](const std::string& unused, std::istream& theStream) {
 		dna = commonItems::singleString(theStream).getString();
-		if (dna && dna.value().size() == 552) portraitData.emplace(CharacterPortraitData(dna.value()));
+		if (dna.value().size() == 552) portraitData.emplace(CharacterPortraitData(dna.value()));
 	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt motInt(theStream);

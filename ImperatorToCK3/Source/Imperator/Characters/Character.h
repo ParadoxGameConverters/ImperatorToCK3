@@ -64,8 +64,8 @@ class Character: commonItems::parser
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
-	std::optional<std::string> dna = std::nullopt;
-	std::optional<CharacterPortraitData> portraitData = std::nullopt;
+	std::optional<std::string> dna;
+	std::optional<CharacterPortraitData> portraitData;
 
 
 	std::pair<int, std::shared_ptr<Family>> family;
