@@ -32,19 +32,19 @@ ImperatorWorld::CharacterPortraitData::CharacterPortraitData(std::string theStri
 	const std::string& decodedDnaStr = base64_decode(theString);
 
 	std::string binary_outputInformations;
-	for (auto i = 0; i < decodedDnaStr.size(); ++i)
+	for (std::size_t i = 0; i < decodedDnaStr.size(); ++i)
 	{
 		std::bitset<8> b(decodedDnaStr.c_str()[i]);
 		binary_outputInformations += b.to_string();
 	}
 
 	//hair
-	hairColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) / 512);
-	hairColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(0, 18))) % 512);
+	hairColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(0, 8))) * 2);
+	hairColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(8, 8))) * 2);
 	//skin
-	skinColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(5, 18))) / 512);
-	skinColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(5, 18))) % 512);
+	skinColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(32, 8))) * 2);
+	skinColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(40, 8))) * 2);
 	//eyes
-	eyeColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(10, 18))) / 512);
-	eyeColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(10, 18))) % 512);
+	eyeColorPaletteCoordinates.x = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(64, 8))) * 2);
+	eyeColorPaletteCoordinates.y = unsigned int(binaryToDecimal(stoll(binary_outputInformations.substr(72, 8))) * 2);
 }
