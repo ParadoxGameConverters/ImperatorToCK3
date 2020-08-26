@@ -75,7 +75,7 @@ void ImperatorWorld::Character::registerKeys()
 			children.insert(std::pair(child, nullptr));
 	});
 	registerRegex("attributes", [this](const std::string& unused, std::istream& theStream) {
-		CharacterAttributes attributesFromBloc(theStream);
+		const CharacterAttributes attributesFromBloc(theStream);
 		attributes.martial = attributesFromBloc.getMartial();
 		attributes.finesse = attributesFromBloc.getFinesse();
 		attributes.charisma = attributesFromBloc.getCharisma();

@@ -35,7 +35,7 @@ void ImperatorWorld::Country::registerKeys()
 		color3 = commonItems::newColor::Factory::getColor(theStream);
 	});
 	registerKeyword("currency_data", [this](const std::string& unused, std::istream& theStream) {
-		CountryCurrencies currenciesFromBloc(theStream);
+		const CountryCurrencies currenciesFromBloc(theStream);
 		currencies.manpower = currenciesFromBloc.getManpower();
 		currencies.gold = currenciesFromBloc.getGold();
 		currencies.stability = currenciesFromBloc.getStability();
