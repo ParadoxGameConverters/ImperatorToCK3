@@ -1,7 +1,11 @@
 #ifndef IMPERATOR_CHARACTER_H
 #define IMPERATOR_CHARACTER_H
+
 #include "Date.h"
 #include "Parser.h"
+#include "newColor.h"
+#include <optional>
+#include "PortraitData.h"
 
 namespace ImperatorWorld
 {
@@ -33,6 +37,9 @@ class Character: commonItems::parser
 	[[nodiscard]] const auto& getTraits() const { return traits; }
 	[[nodiscard]] const auto& getAttributes() const { return attributes; }
 
+	[[nodiscard]] const auto& getDNA() const { return dna; }
+	[[nodiscard]] const auto& getPortraitData() const { return portraitData; }
+
 	[[nodiscard]] auto isFemale() const { return female; }
 	[[nodiscard]] auto getWealth() const { return wealth; }
 	[[nodiscard]] auto getID() const { return charID; }
@@ -57,6 +64,9 @@ class Character: commonItems::parser
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
+	std::optional<std::string> dna;
+	std::optional<CharacterPortraitData> portraitData;
+
 
 	std::pair<int, std::shared_ptr<Family>> family;
 	std::pair<int, std::shared_ptr<Character>> mother;

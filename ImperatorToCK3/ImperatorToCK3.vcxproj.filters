@@ -25,11 +25,14 @@
     <Filter Include="Imperator\Provinces">
       <UniqueIdentifier>{57163cbe-1bb5-4a9f-8c31-15f3d3e49986}</UniqueIdentifier>
     </Filter>
-    <Filter Include="commonItems">
-      <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Imperator\Countries">
       <UniqueIdentifier>{39a1de41-1794-4040-9692-a1286807232f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base64">
+      <UniqueIdentifier>{de5a0da7-ee6b-4f30-b8f4-3b45f00850ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commonItems">
+      <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +136,12 @@
     <ClInclude Include="..\commonItems\newColor.h">
       <Filter>commonItems</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp-base64\base64.h">
+      <Filter>base64</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Characters\PortraitData.h">
+      <Filter>Imperator\Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -229,6 +238,12 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\newColor.cpp">
       <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp-base64\base64.cpp">
+      <Filter>base64</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Characters\PortraitData.cpp">
+      <Filter>Imperator\Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

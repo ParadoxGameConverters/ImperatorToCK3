@@ -156,6 +156,15 @@
     <ClCompile Include="..\commonItems\newColor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp-base64\base64.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\PortraitData.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Characters\PortraitDataTests.cpp">
+      <Filter>ImperatorWorldTests\Characters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">

@@ -139,7 +139,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>..\commonItems;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\commonItems;..\cpp-base64;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -185,6 +185,7 @@
     <ClCompile Include="..\commonItems\ParserHelpers.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\commonItems\WinUtils.cpp" />
+    <ClCompile Include="..\cpp-base64\base64.cpp" />
     <ClCompile Include="Source\CK3Outputter\CK3WorldOutputter.cpp" />
     <ClCompile Include="Source\CK3Outputter\outVersion.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="Source\Imperator\Characters\CharacterName.cpp" />
     <ClCompile Include="Source\Imperator\Characters\Characters.cpp" />
+    <ClCompile Include="Source\Imperator\Characters\PortraitData.cpp" />
     <ClCompile Include="Source\Imperator\Countries\Countries.cpp" />
     <ClCompile Include="Source\Imperator\Countries\Country.cpp" />
     <ClCompile Include="Source\Imperator\Countries\CountryCurrencies.cpp" />
@@ -221,6 +223,7 @@
     <ClInclude Include="..\commonItems\OSCompatibilityLayer.h" />
     <ClInclude Include="..\commonItems\ParserHelpers.h" />
     <ClInclude Include="..\commonItems\StringUtils.h" />
+    <ClInclude Include="..\cpp-base64\base64.h" />
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h" />
     <ClInclude Include="Source\CK3Outputter\outVersion.h" />
     <ClInclude Include="Source\CK3\CK3World.h" />
@@ -230,6 +233,7 @@
     <ClInclude Include="Source\Imperator\Characters\CharacterAttributes.h" />
     <ClInclude Include="Source\Imperator\Characters\CharacterName.h" />
     <ClInclude Include="Source\Imperator\Characters\Characters.h" />
+    <ClInclude Include="Source\Imperator\Characters\PortraitData.h" />
     <ClInclude Include="Source\Imperator\Countries\Countries.h" />
     <ClInclude Include="Source\Imperator\Countries\Country.h" />
     <ClInclude Include="Source\Imperator\Countries\CountryCurrencies.h" />
