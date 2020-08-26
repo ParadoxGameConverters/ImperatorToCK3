@@ -4,9 +4,9 @@
 
 
 
-ImperatorWorld::CharacterPortraitData::CharacterPortraitData(std::string theString)
+ImperatorWorld::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString)
 {
-	const std::string& decodedDnaStr = base64_decode(theString);
+	const auto decodedDnaStr = base64_decode(dnaString);
 
 	//hair
 	hairColorPaletteCoordinates.x = static_cast<uint8_t>(decodedDnaStr[0]) * 2;

@@ -93,7 +93,7 @@ TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale)
 
 TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
 {
-	std::vector<std::string> traitsVector{ "lustful", "submissive", "greedy" };
+	const std::vector<std::string> traitsVector{ "lustful", "submissive", "greedy" };
 
 	std::stringstream input;
 	input << "=\n";
@@ -411,7 +411,7 @@ TEST(ImperatorWorld_CharacterTests, dnaCanBeSet)
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "\dna=\"paradoxian\"";
+	input << "\tdna=\"paradoxian\"";
 	input << "}";
 
 	const ImperatorWorld::Character theCharacter(input, 42);
@@ -436,7 +436,7 @@ TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLeng
 {
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/==\"}";
-	ImperatorWorld::Character character(input, 42);
+	const ImperatorWorld::Character character(input, 42);
 
 	ASSERT_FALSE(character.getPortraitData());
 }
@@ -446,7 +446,7 @@ TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA
 {
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}";
-	ImperatorWorld::Character character(input, 42);
+	const ImperatorWorld::Character character(input, 42);
 
 	ASSERT_EQ(0, character.getPortraitData().value().getHairColorPaletteCoordinates().x);
 	ASSERT_EQ(0, character.getPortraitData().value().getHairColorPaletteCoordinates().y);
