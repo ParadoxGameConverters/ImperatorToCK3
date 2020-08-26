@@ -4,6 +4,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
+
 ImperatorWorld::Characters::Characters(std::istream& theStream)
 {
 	registerKeys();
@@ -109,6 +110,7 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 	}
 	Log(LogLevel::Info) << "<> " << counterMother << " mothers and " << counterFather << " fathers linked.";
 }
+
 
 
 

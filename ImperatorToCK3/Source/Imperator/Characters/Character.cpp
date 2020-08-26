@@ -3,6 +3,10 @@
 #include "ParserHelpers.h"
 #include "CharacterName.h"
 #include "CharacterAttributes.h"
+#include "PortraitData.h"
+#include "Log.h"
+
+
 
 ImperatorWorld::Character::Character(std::istream& theStream, int chrID): charID(chrID)
 {
@@ -43,6 +47,10 @@ void ImperatorWorld::Character::registerKeys()
 	registerKeyword("family", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt familyInt(theStream);
 		family = std::pair(familyInt.getInt(), nullptr);
+	});
+	registerKeyword("dna", [this](const std::string& unused, std::istream& theStream) {
+		dna = commonItems::singleString(theStream).getString();
+		if (dna.value().size() == 552) portraitData.emplace(CharacterPortraitData(dna.value()));
 	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt motInt(theStream);
