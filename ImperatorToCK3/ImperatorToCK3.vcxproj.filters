@@ -34,6 +34,9 @@
     <Filter Include="commonItems">
       <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imperator\Genes">
+      <UniqueIdentifier>{308f2ba1-1caa-4c21-aa59-583092707f8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -56,12 +59,6 @@
       <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ParserHelpers.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\commonItems\ConversionFacet.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\commonItems\ConversionFacetUtils.h">
       <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\Date.h">

@@ -212,8 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\commonItems\CommonFunctions.h" />
-    <ClInclude Include="..\commonItems\ConversionFacet.h" />
-    <ClInclude Include="..\commonItems\ConversionFacetUtils.h" />
     <ClInclude Include="..\commonItems\Date.h" />
     <ClInclude Include="..\commonItems\GameVersion.h" />
     <ClInclude Include="..\commonItems\iconvlite.h" />

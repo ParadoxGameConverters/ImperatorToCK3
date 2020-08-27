@@ -16,7 +16,7 @@ class World
 		World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser);
 		World(const ImperatorWorld::World& impWorld): outputModName(impWorld.getSaveName()) {};
 
-		std::string getOutputModName() const { return outputModName; }
+		[[nodiscard]] std::string getOutputModName() const { return outputModName; }
 
 	private:
 		std::string outputModName;

@@ -24,7 +24,7 @@ namespace ImperatorWorld
 	{
 		public:
 			World(const Configuration& theConfiguration);
-			std::string getSaveName() const { return "CK3tester"; }
+			[[nodiscard]] std::string getSaveName() const { return "CK3tester"; }
 
 		private:
 			void verifySave(const std::string& saveGamePath);

@@ -30,8 +30,8 @@ namespace ImperatorWorld
 		std::string name;
 		std::string culture;
 		std::string religion;
-		int owner;
-		int controller;
+		int owner = 0;
+		int controller = 0;
 		std::map<int, std::shared_ptr<Pop>> pops;
 	};
 } // namespace ImperatorWorld
