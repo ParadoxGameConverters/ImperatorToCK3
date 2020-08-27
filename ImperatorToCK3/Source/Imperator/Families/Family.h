@@ -23,7 +23,6 @@ class Family: commonItems::parser
 	void registerKeys();
 
 	int familyID = 0;
-	int owner = 0;
 	std::string culture;
 	double prestige = 0;
 	double prestigeRatio = 0;
