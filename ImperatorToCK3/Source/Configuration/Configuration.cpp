@@ -49,8 +49,23 @@ void Configuration::registerKeys()
 		});
 	registerKeyword("ImperatorDeJure", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString deJureString(theStream);
-		imperatorDeJure = static_cast<IMPERATOR_DE_JURE>(stoi(deJureString.getString()));
-		Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString.getString();
+		try
+		{
+			imperatorDeJure = static_cast<IMPERATOR_DE_JURE>(stoi(deJureString.getString()));
+			Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString.getString();
+		}
+		catch (const std::invalid_argument& ia)
+		{
+			Log(LogLevel::Error) << "Invalid argument (default setting will be used): " << ia.what();
+		}
+		catch (const std::out_of_range& oor)
+		{
+			Log(LogLevel::Info) << "Out of Range error (default setting will be used): " << oor.what();
+		}
+		catch (const std::exception& e)
+		{
+			Log(LogLevel::Info) << "Undefined error (default setting will be used): " << e.what();
+		}
 		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

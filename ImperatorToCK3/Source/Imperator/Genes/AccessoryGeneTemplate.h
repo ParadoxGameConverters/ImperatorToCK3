@@ -6,7 +6,6 @@
 
 namespace ImperatorWorld
 {
-	class WeightBloc;
 	class AccessoryGeneTemplate : commonItems::parser
 	{
 	public:
@@ -22,7 +21,6 @@ namespace ImperatorWorld
 
 		int index = 0;
 		std::map<std::string, std::shared_ptr<WeightBloc>> ageSexWeightBlocs;
-		//std::map<std::string, std::shared_ptr<SettingsBloc>> ageSexSettingsBlocs; // TODO: move to MorphGeneTemplate class when it's added
 	};
 } // namespace ImperatorWorld
 
