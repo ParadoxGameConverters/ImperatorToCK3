@@ -156,9 +156,6 @@
     <ClCompile Include="ImperatorWorldTests\Countries\CountryTests.cpp">
       <Filter>ImperatorWorldTests\Countries</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\newColor.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp-base64\base64.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -187,6 +184,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBloc.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Color.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

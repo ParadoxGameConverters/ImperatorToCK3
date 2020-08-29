@@ -130,9 +130,6 @@
     <ClInclude Include="Source\Imperator\Countries\CountryName.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
-    <ClInclude Include="..\commonItems\newColor.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp-base64\base64.h">
       <Filter>base64</Filter>
     </ClInclude>
@@ -153,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="Source\Imperator\Genes\WeightBloc.h">
       <Filter>Imperator\Genes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\commonItems\Color.h">
+      <Filter>commonItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -248,9 +248,6 @@
     <ClCompile Include="Source\Imperator\Countries\CountryName.cpp">
       <Filter>Imperator\Countries</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\newColor.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp-base64\base64.cpp">
       <Filter>base64</Filter>
     </ClCompile>
@@ -271,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Genes\WeightBloc.cpp">
       <Filter>Imperator\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Color.cpp">
+      <Filter>commonItems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
