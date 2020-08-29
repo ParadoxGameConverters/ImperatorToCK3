@@ -3,7 +3,7 @@
 
 #include "../ImperatorToCK3/Source/Imperator/Genes/AccessoryGeneTemplate.h"
 
-TEST(ImperatorWorld_FamiliesTests, ageSexWeightBlocksDefaultsToEmpty)
+TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksDefaultsToEmpty)
 {
 	std::stringstream input;
 	input << "=\n";
@@ -15,7 +15,7 @@ TEST(ImperatorWorld_FamiliesTests, ageSexWeightBlocksDefaultsToEmpty)
 	ASSERT_TRUE(geneTemplate.getAgeSexWeightBlocs().empty());
 }
 
-TEST(ImperatorWorld_FamiliesTests, ageSexWeightBlocksCanBeLoaded)
+TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksCanBeLoaded)
 {
 	std::stringstream input;
 	input << "=\n";
@@ -31,7 +31,7 @@ TEST(ImperatorWorld_FamiliesTests, ageSexWeightBlocksCanBeLoaded)
 	ASSERT_EQ(4, geneTemplate.getAgeSexWeightBlocs().size());
 }
 
-TEST(ImperatorWorld_FamiliesTests, ageSexWithBlocksAreProperlyCopied)
+TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWithBlocksAreProperlyCopied)
 {
 	std::stringstream input;
 	input << "=\n";

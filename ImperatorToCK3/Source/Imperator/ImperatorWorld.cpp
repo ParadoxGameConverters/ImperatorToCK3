@@ -19,7 +19,7 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	// parse the genes file
 	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
 	auto accessoryGenes = genes.getAccessoryGenes();
-	for (auto const& [key, value] : accessoryGenes.getGenes())
+	for (auto const& [key, value] : accessoryGenes.getGenes()) // temp, displayes the structure of accessory genes
 	{
 		Log(LogLevel::Debug) << "Gene: " << key;
 		auto geneItr = accessoryGenes.getGenes().find(key);

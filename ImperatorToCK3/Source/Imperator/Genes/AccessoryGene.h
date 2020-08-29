@@ -16,8 +16,6 @@ namespace ImperatorWorld
 		[[nodiscard]] const auto& getGeneTemplates() const { return geneTemplates; }
 		[[nodiscard]] const auto& isInheritable() const { return inheritable; }
 		
-
-
 	private:
 		void registerKeys();
 

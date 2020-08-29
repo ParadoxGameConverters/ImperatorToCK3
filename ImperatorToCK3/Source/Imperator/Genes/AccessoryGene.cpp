@@ -15,7 +15,6 @@ void ImperatorWorld::AccessoryGene::registerKeys()
 	registerKeyword("index", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt indexInt(theStream);
 		index = indexInt.getInt();
-		Log(LogLevel::Debug) << index;
 	});
 	registerKeyword("inheritable", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString boolString(theStream);

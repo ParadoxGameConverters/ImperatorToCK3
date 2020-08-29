@@ -165,9 +165,6 @@
     <ClCompile Include="ImperatorWorldTests\Characters\PortraitDataTests.cpp">
       <Filter>ImperatorWorldTests\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="ImperatorWorldTests\Genes\GeneTests.cpp">
-      <Filter>ImperatorWorldTests\Genes</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGenes.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -183,9 +180,6 @@
     <ClCompile Include="ImperatorWorldTests\Genes\WeighBlocTests.cpp">
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
-    <ClCompile Include="ImperatorWorldTests\Genes\GeneTemplateTests.cpp">
-      <Filter>ImperatorWorldTests\Genes</Filter>
-    </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Genes\GenesDBTests.cpp">
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
@@ -194,6 +188,12 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGeneTemplate.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTemplateTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
