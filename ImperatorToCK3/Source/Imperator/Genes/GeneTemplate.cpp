@@ -23,17 +23,18 @@ void ImperatorWorld::GeneTemplate::registerKeys()
 		if (geneType == "accessory_gene")
 		{
 			const auto sexAge = commonItems::singleItem(ageSexStr, theStream);
+			Log(LogLevel::Debug) << "jebany singleitem: " << sexAge;
 			if (sexAge.find('{') != std::string::npos)
 			{
 				std::stringstream tempStream(sexAge);
 				auto ageSexBloc = std::make_shared<WeightBloc>(tempStream);
 				ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexBloc));
 			}
-			else // for "boy = male"
+			else// for copies: "boy = male"
 			{
-				std::stringstream tempStream(sexAge);
-				auto ageSexRhs = commonItems::singleString(tempStream).getString();
-				ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexWeightBlocs.find(ageSexRhs)->second));
+				const auto ageSexRhs = sexAge;
+				Log(LogLevel::Debug) << "rhs: " << ageSexRhs;
+				ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexWeightBlocs.find(sexAge)->second));
 			}
 			
 			Log(LogLevel::Debug) << "inserted weight bloc for agesex " << ageSexStr;

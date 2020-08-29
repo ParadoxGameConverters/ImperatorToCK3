@@ -192,6 +192,9 @@
     <ClCompile Include="ImperatorWorldTests\Genes\WeighBlocTests.cpp">
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\GeneTemplateTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
