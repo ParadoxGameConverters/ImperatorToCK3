@@ -18,7 +18,7 @@ void ImperatorWorld::AccessoryGenes::registerKeys()
 		});
 	registerRegex(R"([a-zA-Z0-9_]+)", [this](const std::string& geneName, std::istream& theStream) {
 		LOG(LogLevel::Debug) << geneName;
-		genes.emplace(geneName, Gene(theStream, "accessory_gene"));
+		genes.emplace(geneName, AccessoryGene(theStream));
 		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

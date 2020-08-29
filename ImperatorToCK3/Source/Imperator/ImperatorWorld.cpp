@@ -30,7 +30,6 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 			for (auto const& [key, value] : geneTemplateItr->second.getAgeSexWeightBlocs())
 			{
 				Log(LogLevel::Debug) << "\t\t\t\tWeight: " << key;
-				//auto geneTemplateItr = geneItr->second.getGeneTemplates().find(key);
 			}
 		}
 	}

@@ -1,12 +1,12 @@
-#ifndef IMPERATOR_ACCESSORYGENES_H
-#define IMPERATOR_ACCESSORYGENES_H
-#include "Gene.h"
+#ifndef IMPERATOR_ACCESSORY_GENES_H
+#define IMPERATOR_ACCESSORY_GENES_H
+#include "AccessoryGene.h"
 #include "Parser.h"
 
 
 namespace ImperatorWorld
 {
-	class Gene;
+	class AccessoryGene;
 	class AccessoryGenes : commonItems::parser
 	{
 	public:
@@ -20,8 +20,8 @@ namespace ImperatorWorld
 		void registerKeys();
 
 		int index = 0;
-		std::map<std::string, Gene> genes;
+		std::map<std::string, AccessoryGene> genes;
 	};
 } // namespace ImperatorWorld
 
-#endif // IMPERATOR_ACCESSORYGENES_H
+#endif // IMPERATOR_ACCESSORY_GENES_H

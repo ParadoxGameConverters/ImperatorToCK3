@@ -1,17 +1,17 @@
-#include "GeneTemplate.h"
+#include "AccessoryGeneTemplate.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "WeightBloc.h"
 
 
-ImperatorWorld::GeneTemplate::GeneTemplate(std::istream& theStream)
+ImperatorWorld::AccessoryGeneTemplate::AccessoryGeneTemplate(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::GeneTemplate::registerKeys()
+void ImperatorWorld::AccessoryGeneTemplate::registerKeys()
 {
 	registerKeyword("index", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt indexInt(theStream);

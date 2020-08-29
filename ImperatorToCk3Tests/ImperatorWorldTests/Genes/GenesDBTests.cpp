@@ -15,7 +15,7 @@ TEST(ImperatorWorld_GenesTests, genesDefaultToEmpty)
 
 	const ImperatorWorld::GenesDB genes(input);
 
-	ASSERT_TRUE(genes.getMorphGenes().empty());
+	//ASSERT_TRUE(genes.getMorphGenes().empty());
 	ASSERT_TRUE(genes.getAccessoryGenes().getGenes().empty());
 }
 
@@ -34,6 +34,8 @@ TEST(ImperatorWorld_GenesTests, accessoryGenesCanBeLoadedInsideGeneGroup)
 
 	ASSERT_EQ("hairstyles", geneItr->first);
 	ASSERT_EQ("clothes", geneItr2->first);
+	ASSERT_EQ(1, geneItr->second.getIndex());
+	ASSERT_EQ(2, geneItr2->second.getIndex());
 	ASSERT_EQ(2, genes.getAccessoryGenes().getGenes().size());
 }
 

@@ -184,10 +184,10 @@
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGene.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGenes.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\Gene.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGeneTemplate.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\GenesDB.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\GeneTemplate.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBloc.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pop.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp" />
@@ -203,7 +203,7 @@
     <ClCompile Include="ImperatorWorldTests\Countries\CountryTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
-    <ClCompile Include="ImperatorWorldTests\Genes\GenesTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Genes\GenesDBTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Genes\GeneTemplateTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Genes\GeneTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Genes\WeighBlocTests.cpp" />

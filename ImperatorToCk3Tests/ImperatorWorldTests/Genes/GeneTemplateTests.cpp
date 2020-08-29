@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include <sstream>
 
-#include "../ImperatorToCK3/Source/Imperator/Genes/GeneTemplate.h"
+#include "../ImperatorToCK3/Source/Imperator/Genes/AccessoryGeneTemplate.h"
 
 TEST(ImperatorWorld_FamiliesTests, ageSexWeightBlocksDefaultsToEmpty)
 {
@@ -10,7 +10,7 @@ TEST(ImperatorWorld_FamiliesTests, ageSexWeightBlocksDefaultsToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::GeneTemplate geneTemplate(input);
+	const ImperatorWorld::AccessoryGeneTemplate geneTemplate(input);
 
 	ASSERT_TRUE(geneTemplate.getAgeSexWeightBlocs().empty());
 }
@@ -26,7 +26,7 @@ TEST(ImperatorWorld_FamiliesTests, ageSexWeightBlocksCanBeLoaded)
 	input << "girl=female\n";
 	input << "}";
 
-	const ImperatorWorld::GeneTemplate geneTemplate(input);
+	const ImperatorWorld::AccessoryGeneTemplate geneTemplate(input);
 
 	ASSERT_EQ(4, geneTemplate.getAgeSexWeightBlocs().size());
 }
@@ -42,7 +42,7 @@ TEST(ImperatorWorld_FamiliesTests, ageSexWithBlocksAreProperlyCopied)
 	input << "girl=female\n";
 	input << "}";
 
-	const ImperatorWorld::GeneTemplate geneTemplate(input);
+	const ImperatorWorld::AccessoryGeneTemplate geneTemplate(input);
 
 	ASSERT_EQ(6, geneTemplate.getAgeSexWeightBlocs().find("male")->second->getAbsoluteWeight("hoodie"));
 	ASSERT_EQ(8, geneTemplate.getAgeSexWeightBlocs().find("male")->second->getAbsoluteWeight("trousers"));
