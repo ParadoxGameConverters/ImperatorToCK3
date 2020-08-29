@@ -11,10 +11,11 @@ namespace ImperatorWorld
 		WeightBloc() = default;
 		WeightBloc(std::istream& theStream);
 
-		[[nodiscard]] const auto& getAbsoluteWeight(std::string objectName) const { return objectsMap.find(objectName)->second; }
-		[[nodiscard]] const std::optional<std::string>& getMatchingObject(double percentAsDecimal); // must be in range <0; 1>
+		[[nodiscard]] const auto& getAbsoluteWeight(const std::string& objectName) const { return objectsMap.find(objectName)->second; }
+		[[nodiscard]] const auto& getSumOfAbsoluteWeights() const { return sumOfAbsoluteWeights; }
+		[[nodiscard]] std::optional<std::string> getMatchingObject(double percentAsDecimal); // argument must be in range <0; 1>
 
-		void AddObject(std::string objectName, int absoluteWeight); // add the object to the map, add object's absolute weight to sumOfAbsoluteWeights
+		void addObject(const std::string& objectName, int absoluteWeight); // add the object to the map, add object's absolute weight to sumOfAbsoluteWeights
 
 	private:
 		void registerKeys();

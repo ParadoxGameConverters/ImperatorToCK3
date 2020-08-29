@@ -22,8 +22,20 @@ void ImperatorWorld::GeneTemplate::registerKeys()
 	registerRegex("male|female|boy|girl", [this](const std::string& ageSexStr, std::istream& theStream) {
 		if (geneType == "accessory_gene")
 		{
-			auto ageSexBloc = std::make_shared<WeightBloc>(theStream);
-			ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexBloc));
+			const auto sexAge = commonItems::singleItem(ageSexStr, theStream);
+			if (sexAge.find('{') != std::string::npos)
+			{
+				std::stringstream tempStream(sexAge);
+				auto ageSexBloc = std::make_shared<WeightBloc>(tempStream);
+				ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexBloc));
+			}
+			else // for "boy = male"
+			{
+				std::stringstream tempStream(sexAge);
+				auto ageSexRhs = commonItems::singleString(tempStream).getString();
+				ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexWeightBlocs.find(ageSexRhs)->second));
+			}
+			
 			Log(LogLevel::Debug) << "inserted weight bloc for agesex " << ageSexStr;
 		}
 		/*else

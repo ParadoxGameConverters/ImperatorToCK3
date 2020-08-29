@@ -13,6 +13,7 @@ namespace ImperatorWorld
 		explicit Gene(std::istream& theStream, const std::string& geneTypeStr = "accessory_gene");
 
 		[[nodiscard]] const auto& getIndex() const { return index; }
+		[[nodiscard]] const auto& getGeneTemplates() const { return geneTemplates; }
 
 
 	private:

@@ -205,6 +205,7 @@
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Genes\GenesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Genes\GeneTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Genes\WeighBlocTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\PopsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp" />

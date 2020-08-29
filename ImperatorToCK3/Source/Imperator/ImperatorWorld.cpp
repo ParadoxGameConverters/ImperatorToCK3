@@ -18,6 +18,23 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	
 	// parse the genes file
 	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
+	auto accessoryGenes = genes.getAccessoryGenes();
+	for (auto const& [key, value] : accessoryGenes.getGenes())
+	{
+		Log(LogLevel::Debug) << "Gene: " << key;
+		auto geneItr = accessoryGenes.getGenes().find(key);
+		for (auto const& [key, value] : geneItr->second.getGeneTemplates())
+		{
+			Log(LogLevel::Debug) << "\t\tGene template: " << key;
+			auto geneTemplateItr = geneItr->second.getGeneTemplates().find(key);
+			for (auto const& [key, value] : geneTemplateItr->second.getAgeSexWeightBlocs())
+			{
+				Log(LogLevel::Debug) << "\t\t\t\tWeight: " << key;
+				//auto geneTemplateItr = geneItr->second.getGeneTemplates().find(key);
+			}
+		}
+	}
+
 
 	//parse the save
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});

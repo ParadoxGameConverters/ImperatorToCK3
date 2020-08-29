@@ -14,6 +14,7 @@ namespace ImperatorWorld
 		explicit GeneTemplate(std::istream& theStream, const std::string& geneTypeStr = "accessory_gene");
 
 		[[nodiscard]] const auto& getIndex() const { return index; }
+		[[nodiscard]] const auto& getAgeSexWeightBlocs() const { return ageSexWeightBlocs; }
 
 
 	private:

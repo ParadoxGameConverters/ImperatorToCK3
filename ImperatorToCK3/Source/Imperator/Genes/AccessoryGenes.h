@@ -20,7 +20,7 @@ namespace ImperatorWorld
 		void registerKeys();
 
 		int index = 0;
-		std::unordered_map<std::string, Gene> genes;
+		std::map<std::string, Gene> genes;
 	};
 } // namespace ImperatorWorld
 
