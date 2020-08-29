@@ -15,6 +15,11 @@ namespace fs = std::filesystem;
 ImperatorWorld::World::World(const Configuration& theConfiguration)
 {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
+	
+	// parse the genes file
+	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
+
+	//parse the save
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
 	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString versionString(theStream);

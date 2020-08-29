@@ -201,6 +201,11 @@
     <ClCompile Include="Source\Imperator\Countries\CountryName.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
+    <ClCompile Include="Source\Imperator\Genes\AccessoryGenes.cpp" />
+    <ClCompile Include="Source\Imperator\Genes\Gene.cpp" />
+    <ClCompile Include="Source\Imperator\Genes\GenesDB.cpp" />
+    <ClCompile Include="Source\Imperator\Genes\GeneTemplate.cpp" />
+    <ClCompile Include="Source\Imperator\Genes\WeightBloc.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pop.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp" />
@@ -238,6 +243,11 @@
     <ClInclude Include="Source\Imperator\Countries\CountryName.h" />
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
+    <ClInclude Include="Source\Imperator\Genes\AccessoryGenes.h" />
+    <ClInclude Include="Source\Imperator\Genes\Gene.h" />
+    <ClInclude Include="Source\Imperator\Genes\GenesDB.h" />
+    <ClInclude Include="Source\Imperator\Genes\GeneTemplate.h" />
+    <ClInclude Include="Source\Imperator\Genes\WeightBloc.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pop.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />

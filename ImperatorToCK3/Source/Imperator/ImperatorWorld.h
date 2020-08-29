@@ -4,6 +4,7 @@
 
 #include "GameVersion.h"
 #include "Date.h"
+#include "Genes/GenesDB.h"
 #include "Families/Families.h"
 #include "Characters/Characters.h"
 #include "Provinces/Pops.h"
@@ -43,6 +44,7 @@ namespace ImperatorWorld
 			};
 			saveData saveGame;
 
+			GenesDB genes;
 			Families families;
 			Characters characters;
 			Pops pops;

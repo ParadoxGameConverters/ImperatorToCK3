@@ -139,6 +139,21 @@
     <ClInclude Include="Source\Imperator\Characters\PortraitData.h">
       <Filter>Imperator\Characters</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\Gene.h">
+      <Filter>Imperator\Genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\AccessoryGenes.h">
+      <Filter>Imperator\Genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\GeneTemplate.h">
+      <Filter>Imperator\Genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\GenesDB.h">
+      <Filter>Imperator\Genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\WeightBloc.h">
+      <Filter>Imperator\Genes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -241,6 +256,21 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\PortraitData.cpp">
       <Filter>Imperator\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\Gene.cpp">
+      <Filter>Imperator\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\AccessoryGenes.cpp">
+      <Filter>Imperator\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\GeneTemplate.cpp">
+      <Filter>Imperator\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\GenesDB.cpp">
+      <Filter>Imperator\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\WeightBloc.cpp">
+      <Filter>Imperator\Genes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
