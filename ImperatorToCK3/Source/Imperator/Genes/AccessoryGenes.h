@@ -10,7 +10,7 @@ namespace ImperatorWorld
 	{
 	public:
 		AccessoryGenes() = default;
-		AccessoryGenes(std::istream& theStream);
+		explicit AccessoryGenes(std::istream& theStream);
 		
 		[[nodiscard]] auto getIndex() const { return index; }
 		[[nodiscard]] const auto& getGenes() const { return genes; }

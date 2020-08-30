@@ -48,15 +48,15 @@ void Configuration::registerKeys()
 		Log(LogLevel::Info) << "Output name set to: " << outputName;
 		});
 	registerKeyword("ImperatorDeJure", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString deJureString(theStream);
+		const auto deJureString = commonItems::singleString(theStream).getString();
 		try
 		{
-			imperatorDeJure = static_cast<IMPERATOR_DE_JURE>(stoi(deJureString.getString()));
-			Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString.getString();
+			imperatorDeJure = static_cast<IMPERATOR_DE_JURE>(stoi(deJureString));
+			Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString;
 		}
 		catch (const std::exception& e)
 		{
-			Log(LogLevel::Error) << "Undefined error, ImperatorDeJure value was: " << deJureString;
+			Log(LogLevel::Error) << "Undefined error, ImperatorDeJure value was: " << deJureString << "; Error message: " << e.what();
 		}
 		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

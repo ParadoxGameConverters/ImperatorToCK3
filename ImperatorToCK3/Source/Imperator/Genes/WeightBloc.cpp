@@ -21,7 +21,7 @@ void ImperatorWorld::WeightBloc::registerKeys()
 		}
 		catch (const std::exception& e)
 		{
-			Log(LogLevel::Error) << "Undefined error, absolute weight value was: " << absoluteWeightStr;
+			Log(LogLevel::Error) << "Undefined error, absolute weight value was: " << absoluteWeightStr << "; Error message: " << e.what();
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

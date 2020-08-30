@@ -9,7 +9,7 @@ namespace ImperatorWorld
 	{
 	public:
 		WeightBloc() = default;
-		WeightBloc(std::istream& theStream);
+		explicit WeightBloc(std::istream& theStream);
 
 		[[nodiscard]] unsigned int getAbsoluteWeight(const std::string& objectName);
 		[[nodiscard]] std::optional<std::string> getMatchingObject(double percentAsDecimal); // argument must be in range <0; 1>
