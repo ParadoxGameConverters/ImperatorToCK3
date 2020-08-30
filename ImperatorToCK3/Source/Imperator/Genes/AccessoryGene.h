@@ -13,8 +13,8 @@ namespace ImperatorWorld
 		explicit AccessoryGene(std::istream& theStream);
 
 		[[nodiscard]] auto getIndex() const { return index; }
-		[[nodiscard]] const auto& getGeneTemplates() const { return geneTemplates; }
 		[[nodiscard]] auto isInheritable() const { return inheritable; }
+		[[nodiscard]] const auto& getGeneTemplates() const { return geneTemplates; }
 		
 	private:
 		void registerKeys();

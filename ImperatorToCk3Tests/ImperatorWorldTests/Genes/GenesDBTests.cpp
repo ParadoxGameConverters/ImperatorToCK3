@@ -15,7 +15,6 @@ TEST(ImperatorWorld_GenesTests, genesDefaultToEmpty)
 
 	const ImperatorWorld::GenesDB genes(input);
 
-	//ASSERT_TRUE(genes.getMorphGenes().empty());
 	ASSERT_TRUE(genes.getAccessoryGenes().getGenes().empty());
 }
 

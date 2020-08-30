@@ -11,9 +11,9 @@ namespace ImperatorWorld
 	public:
 		AccessoryGenes() = default;
 		AccessoryGenes(std::istream& theStream);
-		[[nodiscard]] const auto& getGenes() const { return genes; }
+		
 		[[nodiscard]] auto getIndex() const { return index; }
-
+		[[nodiscard]] const auto& getGenes() const { return genes; }
 
 	private:
 		void registerKeys();

@@ -19,27 +19,12 @@ void ImperatorWorld::WeightBloc::registerKeys()
 		{
 			addObject(newObjectName, stoi(absoluteWeightStr));
 		}
-		catch (const std::invalid_argument& ia)
-		{
-			Log(LogLevel::Error) << "Could not add object to WeightBlock: Invalid argument: " << ia.what();
-		}
-		catch (const std::out_of_range& oor)
-		{
-			Log(LogLevel::Info) << "Could not add object to WeightBlock: Out of Range error: " << oor.what();
-		}
 		catch (const std::exception& e)
 		{
-			Log(LogLevel::Info) << "Could not add object to WeightBlock: Undefined error: " << e.what();
+			Log(LogLevel::Error) << "Undefined error, absolute weight value was: " << absoluteWeightStr;
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
-}
-
-
-void ImperatorWorld::WeightBloc::addObject(const std::string& objectName, int absoluteWeight)
-{
-	objectsVector.emplace_back(objectName, absoluteWeight);
-	sumOfAbsoluteWeights += absoluteWeight;
 }
 
 
@@ -64,4 +49,11 @@ std::optional<std::string> ImperatorWorld::WeightBloc::getMatchingObject(double 
 		if (sumOfAbsoluteWeights > 0 && percentAsDecimal <= static_cast<double>(sumOfPrecedingAbsoluteWeights)/sumOfAbsoluteWeights) return key;
 	}
 	return std::nullopt; // only happens when objectsMap is empty
+}
+
+
+void ImperatorWorld::WeightBloc::addObject(const std::string& objectName, int absoluteWeight)
+{
+	objectsVector.emplace_back(objectName, absoluteWeight);
+	sumOfAbsoluteWeights += absoluteWeight;
 }
