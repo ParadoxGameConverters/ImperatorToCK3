@@ -18,13 +18,13 @@ void ImperatorWorld::AccessoryGeneTemplate::registerKeys()
 	});
 	registerRegex("male|female|boy|girl", [this](const std::string& ageSexStr, std::istream& theStream) {
 		const auto sexAge = commonItems::singleItem(ageSexStr, theStream);
-		if (sexAge.find('{') != std::string::npos)
+		if (sexAge.find('{') != std::string::npos) // for full blocks: "male = { 6 = hoodie 7 = tshirt }"
 		{
 			std::stringstream tempStream(sexAge);
 			auto ageSexBloc = std::make_shared<WeightBloc>(tempStream);
 			ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexBloc));
 		}
-		else // for copies: "boy = male"
+		else if (ageSexWeightBlocs.find(sexAge) != ageSexWeightBlocs.end()) // for copies: "boy = male"
 		{
 			ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexWeightBlocs.find(sexAge)->second));
 		}

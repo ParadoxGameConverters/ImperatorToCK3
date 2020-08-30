@@ -16,25 +16,8 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
 	
-	// parse the genes file
-	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
-	auto accessoryGenes = genes.getAccessoryGenes();
-	for (auto const& [key, value] : accessoryGenes.getGenes()) // temp, displayes the structure of accessory genes
-	{
-		Log(LogLevel::Debug) << "Gene: " << key;
-		auto geneItr = accessoryGenes.getGenes().find(key);
-		for (auto const& [key, value] : geneItr->second.getGeneTemplates())
-		{
-			Log(LogLevel::Debug) << "\t\tGene template: " << key;
-			auto geneTemplateItr = geneItr->second.getGeneTemplates().find(key);
-			for (auto const& [key, value] : geneTemplateItr->second.getAgeSexWeightBlocs())
-			{
-				Log(LogLevel::Debug) << "\t\t\t\tWeight: " << key;
-			}
-		}
-	}
-
-
+	parseGenes(theConfiguration);
+	
 	//parse the save
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
 	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
@@ -157,4 +140,9 @@ bool ImperatorWorld::World::uncompressSave(const std::string& saveGamePath)
 			throw std::runtime_error("Unrecognized savegame structure!");
 	}
 	return true;
+}
+
+void ImperatorWorld::World::parseGenes(const Configuration& theConfiguration)
+{
+	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
 }

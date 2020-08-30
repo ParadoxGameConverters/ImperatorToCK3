@@ -30,6 +30,7 @@ namespace ImperatorWorld
 		private:
 			void verifySave(const std::string& saveGamePath);
 			bool uncompressSave(const std::string& saveGamePath);
+			void parseGenes(const Configuration& theConfiguration);
 
 			date startDate = date("450.10.1");
 			date endDate = date("727.2.17");
