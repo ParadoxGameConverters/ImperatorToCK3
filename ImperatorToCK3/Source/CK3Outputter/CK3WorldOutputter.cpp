@@ -16,7 +16,7 @@ void createModFolder(const std::string& outputName);
 
 void CK3World::outputWorld(const CK3World::World& world)
 {
-	std::string outputName = world.getOutputModName();
+	const auto& outputName = world.getOutputModName();
 	createModFolder(outputName);
 	outputModFile(outputName);
 }

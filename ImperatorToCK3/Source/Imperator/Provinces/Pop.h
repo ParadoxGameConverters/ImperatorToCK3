@@ -7,7 +7,7 @@ namespace ImperatorWorld
 	class Pop: commonItems::parser
 	{
 	  public:
-		Pop(std::istream& theStream, int theFamilyID);
+		Pop(std::istream& theStream, int thePopID);
 
 		[[nodiscard]] const auto& getType() const { return type; }
 		[[nodiscard]] const auto& getCulture() const { return culture; }

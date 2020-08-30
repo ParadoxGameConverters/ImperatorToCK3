@@ -3,7 +3,6 @@
 #include "CountryName.h"
 #include "CountryCurrencies.h"
 #include "Log.h"
-#include "newColor.h"
 
 ImperatorWorld::Country::Country(std::istream& theStream, int cntrID): countryID(cntrID)
 {
@@ -26,16 +25,16 @@ void ImperatorWorld::Country::registerKeys()
 		flag = flagStr.getString();
 	});
 	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
-		color1 = commonItems::newColor::Factory::getColor(theStream);
+		color1 = commonItems::Color::Factory::getColor(theStream);
 	});
 	registerKeyword("color2", [this](const std::string& unused, std::istream& theStream) {
-		color2 = commonItems::newColor::Factory::getColor(theStream);
+		color2 = commonItems::Color::Factory::getColor(theStream);
 	});
 	registerKeyword("color3", [this](const std::string& unused, std::istream& theStream) {
-		color3 = commonItems::newColor::Factory::getColor(theStream);
+		color3 = commonItems::Color::Factory::getColor(theStream);
 	});
 	registerKeyword("currency_data", [this](const std::string& unused, std::istream& theStream) {
-		CountryCurrencies currenciesFromBloc(theStream);
+		const CountryCurrencies currenciesFromBloc(theStream);
 		currencies.manpower = currenciesFromBloc.getManpower();
 		currencies.gold = currenciesFromBloc.getGold();
 		currencies.stability = currenciesFromBloc.getStability();

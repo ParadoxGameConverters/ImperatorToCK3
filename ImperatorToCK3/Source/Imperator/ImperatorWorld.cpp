@@ -15,6 +15,10 @@ namespace fs = std::filesystem;
 ImperatorWorld::World::World(const Configuration& theConfiguration)
 {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
+	
+	parseGenes(theConfiguration);
+	
+	//parse the save
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
 	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString versionString(theStream);
@@ -136,4 +140,9 @@ bool ImperatorWorld::World::uncompressSave(const std::string& saveGamePath)
 			throw std::runtime_error("Unrecognized savegame structure!");
 	}
 	return true;
+}
+
+void ImperatorWorld::World::parseGenes(const Configuration& theConfiguration)
+{
+	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
 }

@@ -158,9 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\commonItems\Color.cpp" />
     <ClCompile Include="..\commonItems\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
-    <ClCompile Include="..\commonItems\newColor.cpp" />
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
@@ -184,12 +184,18 @@
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGene.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGenes.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGeneTemplate.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\GenesDB.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBlock.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pop.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
+    <ClCompile Include="AccessoryGenesTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
@@ -198,6 +204,10 @@
     <ClCompile Include="ImperatorWorldTests\Countries\CountryTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Genes\GenesDBTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTemplateTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Genes\WeighBlockTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\PopsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp" />
