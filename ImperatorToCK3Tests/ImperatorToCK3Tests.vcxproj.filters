@@ -171,9 +171,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\GenesDB.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBloc.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\commonItems\Color.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -193,6 +190,12 @@
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Genes\WeighBlockTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBlock.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="AccessoryGenesTests.cpp">
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
   </ItemGroup>

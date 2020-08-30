@@ -188,13 +188,14 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGenes.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGeneTemplate.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\GenesDB.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBloc.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBlock.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pop.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
+    <ClCompile Include="AccessoryGenesTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />

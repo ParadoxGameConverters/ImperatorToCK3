@@ -3,7 +3,6 @@
 
 
 #include "../ImperatorToCK3/Source/Imperator/Genes/GenesDB.h"
-#include "../ImperatorToCK3/Source/Imperator/Genes/AccessoryGenes.h"
 
 
 TEST(ImperatorWorld_GenesTests, genesDefaultToEmpty)

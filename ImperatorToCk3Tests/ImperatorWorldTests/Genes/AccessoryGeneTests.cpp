@@ -79,6 +79,7 @@ TEST(ImperatorWorld_AccessoryGeneTests, accessoryGeneIsProperlyLoaded)
 	const ImperatorWorld::AccessoryGene gene(input);
 
 	ASSERT_EQ(95, gene.getIndex());
+	ASSERT_FALSE(gene.isInheritable());
 	ASSERT_EQ(2, gene.getGeneTemplates().size());
 	ASSERT_EQ(1, gene.getGeneTemplates().find("punk_hairstyles")->second.getIndex());
 	ASSERT_EQ(4, gene.getGeneTemplates().find("nerdy_hairstyles")->second.getAgeSexWeightBlocs().size());

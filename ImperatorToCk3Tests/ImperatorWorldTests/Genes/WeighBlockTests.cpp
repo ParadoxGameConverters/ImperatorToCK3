@@ -1,8 +1,6 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Genes/WeightBloc.h"
+#include "../ImperatorToCK3/Source/Imperator/Genes/WeightBlock.h"
 #include <sstream>
-
-#include "../../../ImperatorToCK3/Source/Imperator/Families/Family.h"
 
 
 TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded)
@@ -15,28 +13,28 @@ TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded)
 	input << "\t6 = random\n";
 	input << "}";
 
-	ImperatorWorld::WeightBloc weightBloc(input);
+	ImperatorWorld::WeightBlock weightBlock(input);
 
-	ASSERT_EQ(5, weightBloc.getAbsoluteWeight("female_hair_greek_1"));
-	ASSERT_EQ(2, weightBloc.getAbsoluteWeight("sdfsdf"));
-	ASSERT_EQ(6, weightBloc.getAbsoluteWeight("random"));
-	ASSERT_EQ(13, weightBloc.getSumOfAbsoluteWeights());
+	ASSERT_EQ(5, weightBlock.getAbsoluteWeight("female_hair_greek_1"));
+	ASSERT_EQ(2, weightBlock.getAbsoluteWeight("sdfsdf"));
+	ASSERT_EQ(6, weightBlock.getAbsoluteWeight("random"));
+	ASSERT_EQ(13, weightBlock.getSumOfAbsoluteWeights());
 
-	ASSERT_EQ("female_hair_greek_1", weightBloc.getMatchingObject(0.37234234).value());
-	ASSERT_EQ("sdfsdf", weightBloc.getMatchingObject(0.52234234234).value());
-	ASSERT_EQ("random", weightBloc.getMatchingObject(1).value());
+	ASSERT_EQ("female_hair_greek_1", weightBlock.getMatchingObject(0.37234234).value());
+	ASSERT_EQ("sdfsdf", weightBlock.getMatchingObject(0.52234234234).value());
+	ASSERT_EQ("random", weightBlock.getMatchingObject(1).value());
 }
 TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAddedByMethod)
 {
-	ImperatorWorld::WeightBloc weightBloc;
-	weightBloc.addObject("new_object", 69);
-	weightBloc.addObject("new_object2", 5);
-	ASSERT_EQ(69, weightBloc.getAbsoluteWeight("new_object"));
-	ASSERT_EQ(5, weightBloc.getAbsoluteWeight("new_object2"));
-	ASSERT_EQ(74, weightBloc.getSumOfAbsoluteWeights());
+	ImperatorWorld::WeightBlock weightBlock;
+	weightBlock.addObject("new_object", 69);
+	weightBlock.addObject("new_object2", 5);
+	ASSERT_EQ(69, weightBlock.getAbsoluteWeight("new_object"));
+	ASSERT_EQ(5, weightBlock.getAbsoluteWeight("new_object2"));
+	ASSERT_EQ(74, weightBlock.getSumOfAbsoluteWeights());
 
-	ASSERT_EQ("new_object", weightBloc.getMatchingObject(0).value());
-	ASSERT_EQ("new_object2", weightBloc.getMatchingObject(0.95).value());
+	ASSERT_EQ("new_object", weightBlock.getMatchingObject(0).value());
+	ASSERT_EQ("new_object2", weightBlock.getMatchingObject(0.95).value());
 }
 
 TEST(ImperatorWorld_WeightBlocTests, sumOfAbsoluteWeightsDefaultsToZero)
@@ -46,9 +44,9 @@ TEST(ImperatorWorld_WeightBlocTests, sumOfAbsoluteWeightsDefaultsToZero)
 	input << "{\n";
 	input << "}";
 
-	ImperatorWorld::WeightBloc weightBloc(input);
+	const ImperatorWorld::WeightBlock weightBlock(input);
 
-	ASSERT_EQ(0, weightBloc.getSumOfAbsoluteWeights());
+	ASSERT_EQ(0, weightBlock.getSumOfAbsoluteWeights());
 }
 
 TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnNegativeArgument)
@@ -59,9 +57,9 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnNegativeArgum
 	input << "\t2 = female_hair_greek_2\n";
 	input << "}";
 
-	ImperatorWorld::WeightBloc weightBloc(input);
+	ImperatorWorld::WeightBlock weightBlock(input);
 
-	ASSERT_THROW(auto matchingObject = weightBloc.getMatchingObject(-0.5), std::runtime_error);
+	ASSERT_THROW(auto matchingObject = weightBlock.getMatchingObject(-0.5), std::runtime_error);
 }
 
 TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnArgumentGreaterThan1)
@@ -72,9 +70,9 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnArgumentGreat
 	input << "\t2 = female_hair_greek_2\n";
 	input << "}";
 
-	ImperatorWorld::WeightBloc weightBloc(input);
+	ImperatorWorld::WeightBlock weightBlock(input);
 
-	ASSERT_THROW(auto matchingObject = weightBloc.getMatchingObject(1.234), std::runtime_error);
+	ASSERT_THROW(auto matchingObject = weightBlock.getMatchingObject(1.234), std::runtime_error);
 }
 
 TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectReturnsNulloptWhenObjectsMapIsEmpty)
@@ -84,7 +82,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectReturnsNulloptWhenObjectsM
 	input << "{\n";
 	input << "}";
 
-	ImperatorWorld::WeightBloc weightBloc(input);
+	ImperatorWorld::WeightBlock weightBlock(input);
 
-	ASSERT_FALSE(weightBloc.getMatchingObject(0.345));
+	ASSERT_FALSE(weightBlock.getMatchingObject(0.345));
 }

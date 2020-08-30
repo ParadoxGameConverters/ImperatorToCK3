@@ -1,7 +1,7 @@
 #include "AccessoryGeneTemplate.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "WeightBloc.h"
+#include "WeightBlock.h"
 
 
 ImperatorWorld::AccessoryGeneTemplate::AccessoryGeneTemplate(std::istream& theStream)
@@ -21,12 +21,12 @@ void ImperatorWorld::AccessoryGeneTemplate::registerKeys()
 		if (sexAge.find('{') != std::string::npos) // for full blocks: "male = { 6 = hoodie 7 = tshirt }"
 		{
 			std::stringstream tempStream(sexAge);
-			auto ageSexBloc = std::make_shared<WeightBloc>(tempStream);
-			ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexBloc));
+			auto ageSexBlock = std::make_shared<WeightBlock>(tempStream);
+			ageSexWeightBlocks.insert(std::pair(ageSexStr, ageSexBlock));
 		}
-		else if (ageSexWeightBlocs.find(sexAge) != ageSexWeightBlocs.end()) // for copies: "boy = male"
+		else if (ageSexWeightBlocks.find(sexAge) != ageSexWeightBlocks.end()) // for copies: "boy = male"
 		{
-			ageSexWeightBlocs.insert(std::pair(ageSexStr, ageSexWeightBlocs.find(sexAge)->second));
+			ageSexWeightBlocks.insert(std::pair(ageSexStr, ageSexWeightBlocks.find(sexAge)->second));
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

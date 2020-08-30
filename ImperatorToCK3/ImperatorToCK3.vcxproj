@@ -205,7 +205,7 @@
     <ClCompile Include="Source\Imperator\Genes\AccessoryGene.cpp" />
     <ClCompile Include="Source\Imperator\Genes\GenesDB.cpp" />
     <ClCompile Include="Source\Imperator\Genes\AccessoryGeneTemplate.cpp" />
-    <ClCompile Include="Source\Imperator\Genes\WeightBloc.cpp" />
+    <ClCompile Include="Source\Imperator\Genes\WeightBlock.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pop.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp" />
@@ -247,7 +247,7 @@
     <ClInclude Include="Source\Imperator\Genes\AccessoryGene.h" />
     <ClInclude Include="Source\Imperator\Genes\GenesDB.h" />
     <ClInclude Include="Source\Imperator\Genes\AccessoryGeneTemplate.h" />
-    <ClInclude Include="Source\Imperator\Genes\WeightBloc.h" />
+    <ClInclude Include="Source\Imperator\Genes\WeightBlock.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pop.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />

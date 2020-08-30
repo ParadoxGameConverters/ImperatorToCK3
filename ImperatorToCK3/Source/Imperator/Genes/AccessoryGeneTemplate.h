@@ -2,7 +2,7 @@
 #define IMPERATOR_ACCESSORY_GENE_TEMPLATE_H
 
 #include "Parser.h"
-#include "WeightBloc.h"
+#include "WeightBlock.h"
 
 namespace ImperatorWorld
 {
@@ -13,14 +13,13 @@ namespace ImperatorWorld
 		explicit AccessoryGeneTemplate(std::istream& theStream);
 
 		[[nodiscard]] auto getIndex() const { return index; }
-		[[nodiscard]] const auto& getAgeSexWeightBlocs() const { return ageSexWeightBlocs; }
-
+		[[nodiscard]] const auto& getAgeSexWeightBlocs() const { return ageSexWeightBlocks; }
 
 	private:
 		void registerKeys();
 
 		int index = 0;
-		std::map<std::string, std::shared_ptr<WeightBloc>> ageSexWeightBlocs;
+		std::map<std::string, std::shared_ptr<WeightBlock>> ageSexWeightBlocks;
 	};
 } // namespace ImperatorWorld
 

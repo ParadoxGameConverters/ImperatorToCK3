@@ -5,11 +5,11 @@
 
 namespace ImperatorWorld
 {	
-	class WeightBloc : commonItems::parser
+	class WeightBlock : commonItems::parser
 	{
 	public:
-		WeightBloc() = default;
-		explicit WeightBloc(std::istream& theStream);
+		WeightBlock() = default;
+		explicit WeightBlock(std::istream& theStream);
 
 		[[nodiscard]] unsigned int getAbsoluteWeight(const std::string& objectName);
 		[[nodiscard]] std::optional<std::string> getMatchingObject(double percentAsDecimal); // argument must be in range <0; 1>
