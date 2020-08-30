@@ -177,9 +177,6 @@
     <ClCompile Include="..\commonItems\Color.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="ImperatorWorldTests\Genes\WeighBlocTests.cpp">
-      <Filter>ImperatorWorldTests\Genes</Filter>
-    </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Genes\GenesDBTests.cpp">
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
@@ -193,6 +190,9 @@
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\WeighBlockTests.cpp">
       <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
   </ItemGroup>

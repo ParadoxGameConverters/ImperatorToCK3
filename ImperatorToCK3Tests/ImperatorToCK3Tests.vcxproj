@@ -206,7 +206,7 @@
     <ClCompile Include="ImperatorWorldTests\Genes\GenesDBTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTemplateTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTests.cpp" />
-    <ClCompile Include="ImperatorWorldTests\Genes\WeighBlocTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Genes\WeighBlockTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\PopsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp" />

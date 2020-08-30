@@ -10,9 +10,9 @@ TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded)
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "	5 = female_hair_greek_1\n";
-	input << "	2 = sdfsdf\n";
-	input << "	6 = random\n";
+	input << "\t5 = female_hair_greek_1\n";
+	input << "\t2 = sdfsdf\n";
+	input << "\t6 = random\n";
 	input << "}";
 
 	ImperatorWorld::WeightBloc weightBloc(input);
@@ -56,7 +56,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnNegativeArgum
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "	2 = female_hair_greek_2\n";
+	input << "\t2 = female_hair_greek_2\n";
 	input << "}";
 
 	ImperatorWorld::WeightBloc weightBloc(input);
@@ -69,7 +69,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnArgumentGreat
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "	2 = female_hair_greek_2\n";
+	input << "\t2 = female_hair_greek_2\n";
 	input << "}";
 
 	ImperatorWorld::WeightBloc weightBloc(input);
