@@ -12,7 +12,7 @@ namespace ImperatorWorld
 		AccessoryGeneTemplate() = default;
 		explicit AccessoryGeneTemplate(std::istream& theStream);
 
-		[[nodiscard]] const auto& getIndex() const { return index; }
+		[[nodiscard]] auto getIndex() const { return index; }
 		[[nodiscard]] const auto& getAgeSexWeightBlocs() const { return ageSexWeightBlocs; }
 
 

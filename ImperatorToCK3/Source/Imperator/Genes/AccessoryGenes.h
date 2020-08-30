@@ -6,14 +6,13 @@
 
 namespace ImperatorWorld
 {
-	class AccessoryGene;
 	class AccessoryGenes : commonItems::parser
 	{
 	public:
 		AccessoryGenes() = default;
 		AccessoryGenes(std::istream& theStream);
 		[[nodiscard]] const auto& getGenes() const { return genes; }
-		[[nodiscard]] const auto& getIndex() const { return index; }
+		[[nodiscard]] auto getIndex() const { return index; }
 
 
 	private:

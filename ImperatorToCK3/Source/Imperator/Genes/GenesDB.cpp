@@ -20,11 +20,9 @@ ImperatorWorld::GenesDB::GenesDB(std::istream& theStream)
 void ImperatorWorld::GenesDB::registerKeys()
 {
 	/*registerKeyword("morph_genes", [this](const std::string& unused, std::istream& theStream) {
-		Log(LogLevel::Debug) << "entering accessory genes";
 		morphGenes = MorphGenes(theStream);
 	});*/
 	registerKeyword("accessory_genes", [this](const std::string& unused, std::istream& theStream) {
-		Log(LogLevel::Debug) << "entering accessory genes";
 		accessoryGenes = AccessoryGenes(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
