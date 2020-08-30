@@ -4,6 +4,7 @@
 
 #include "GameVersion.h"
 #include "Date.h"
+#include "Genes/GenesDB.h"
 #include "Families/Families.h"
 #include "Characters/Characters.h"
 #include "Provinces/Pops.h"
@@ -24,11 +25,12 @@ namespace ImperatorWorld
 	{
 		public:
 			World(const Configuration& theConfiguration);
-			std::string getSaveName() const { return "CK3tester"; }
+			[[nodiscard]] std::string getSaveName() const { return "CK3tester"; }
 
 		private:
 			void verifySave(const std::string& saveGamePath);
 			bool uncompressSave(const std::string& saveGamePath);
+			void parseGenes(const Configuration& theConfiguration);
 
 			date startDate = date("450.10.1");
 			date endDate = date("727.2.17");
@@ -43,6 +45,7 @@ namespace ImperatorWorld
 			};
 			saveData saveGame;
 
+			GenesDB genes;
 			Families families;
 			Characters characters;
 			Pops pops;

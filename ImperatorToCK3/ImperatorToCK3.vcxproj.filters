@@ -34,6 +34,12 @@
     <Filter Include="commonItems">
       <UniqueIdentifier>{701f76da-d745-42bf-b289-c0f1e8147b75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imperator\Genes">
+      <UniqueIdentifier>{308f2ba1-1caa-4c21-aa59-583092707f8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imperator\Genes\Accessory genes">
+      <UniqueIdentifier>{ef76f403-a1dc-4eb9-96b2-d1800bbe54b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -56,12 +62,6 @@
       <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\ParserHelpers.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\commonItems\ConversionFacet.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\commonItems\ConversionFacetUtils.h">
       <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="..\commonItems\Date.h">
@@ -133,14 +133,29 @@
     <ClInclude Include="Source\Imperator\Countries\CountryName.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
-    <ClInclude Include="..\commonItems\newColor.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp-base64\base64.h">
       <Filter>base64</Filter>
     </ClInclude>
     <ClInclude Include="Source\Imperator\Characters\PortraitData.h">
       <Filter>Imperator\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\GenesDB.h">
+      <Filter>Imperator\Genes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\commonItems\Color.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\AccessoryGenes.h">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\AccessoryGene.h">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\AccessoryGeneTemplate.h">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Genes\WeightBlock.h">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,14 +251,29 @@
     <ClCompile Include="Source\Imperator\Countries\CountryName.cpp">
       <Filter>Imperator\Countries</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\newColor.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp-base64\base64.cpp">
       <Filter>base64</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Characters\PortraitData.cpp">
       <Filter>Imperator\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\GenesDB.cpp">
+      <Filter>Imperator\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Color.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\AccessoryGenes.cpp">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\AccessoryGene.cpp">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\AccessoryGeneTemplate.cpp">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Genes\WeightBlock.cpp">
+      <Filter>Imperator\Genes\Accessory genes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #define IMPERATOR_COUNTRY_H
 
 #include "Parser.h"
-#include "newColor.h"
+#include "Color.h"
 
 namespace ImperatorWorld
 {
@@ -45,9 +45,9 @@ namespace ImperatorWorld
 			std::string name;
 			std::string flag;
 	
-			commonItems::newColor color1;
-			commonItems::newColor color2;
-			commonItems::newColor color3;
+			commonItems::Color color1;
+			commonItems::Color color2;
+			commonItems::Color color3;
 			CurrenciesStruct currencies;
 
 			std::map<int, std::shared_ptr<Family>> families;

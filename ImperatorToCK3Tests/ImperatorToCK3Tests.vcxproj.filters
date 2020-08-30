@@ -28,6 +28,9 @@
     <Filter Include="ImperatorWorldTests\Countries">
       <UniqueIdentifier>{7da6c0dd-4476-439d-945f-366d7e3b0850}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImperatorWorldTests\Genes">
+      <UniqueIdentifier>{91c7a145-dc67-412f-91f1-3b364b0970bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -153,9 +156,6 @@
     <ClCompile Include="ImperatorWorldTests\Countries\CountryTests.cpp">
       <Filter>ImperatorWorldTests\Countries</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\newColor.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp-base64\base64.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -164,6 +164,39 @@
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Characters\PortraitDataTests.cpp">
       <Filter>ImperatorWorldTests\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGenes.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\GenesDB.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Color.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\GenesDBTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGene.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGeneTemplate.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTemplateTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\AccessoryGeneTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Genes\WeighBlockTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBlock.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="AccessoryGenesTests.cpp">
+      <Filter>ImperatorWorldTests\Genes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

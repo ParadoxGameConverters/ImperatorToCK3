@@ -114,7 +114,7 @@ TEST(ImperatorWorld_CountriesTests, BrokenLinkAttemptThrowsWarning)
 	families.loadFamilies(input2);
 
 	std::stringstream log;
-	auto stdOutBuf = std::cout.rdbuf();
+	auto* stdOutBuf = std::cout.rdbuf();
 	std::cout.rdbuf(log.rdbuf());
 
 	countries.linkFamilies(families);
