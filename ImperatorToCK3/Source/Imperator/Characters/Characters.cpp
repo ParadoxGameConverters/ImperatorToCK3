@@ -5,7 +5,7 @@
 #include "ParserHelpers.h"
 
 
-ImperatorWorld::Characters::Characters(std::istream& theStream)
+ImperatorWorld::Characters::Characters(std::istream& theStream, const GenesDB& genesDB, const date& _endDate) : genes(genesDB), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -15,7 +15,7 @@ ImperatorWorld::Characters::Characters(std::istream& theStream)
 void ImperatorWorld::Characters::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& charID, std::istream& theStream) {
-		auto newCharacter = std::make_shared<Character>(theStream, std::stoi(charID));
+		auto newCharacter = std::make_shared<Character>(theStream, std::stoi(charID), genes, endDate);
 		characters.insert(std::pair(newCharacter->getID(), newCharacter));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -114,7 +114,7 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 
 
 
-ImperatorWorld::CharactersBloc::CharactersBloc(std::istream& theStream)
+ImperatorWorld::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB& genesDB, const date& _endDate) : genes(genesDB), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -124,7 +124,7 @@ ImperatorWorld::CharactersBloc::CharactersBloc(std::istream& theStream)
 void ImperatorWorld::CharactersBloc::registerKeys()
 {
 	registerKeyword("character_database", [this](const std::string& unused, std::istream& theStream) {
-		characters = Characters(theStream);
-		});
+		characters = Characters(theStream, genes, endDate);
+	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
