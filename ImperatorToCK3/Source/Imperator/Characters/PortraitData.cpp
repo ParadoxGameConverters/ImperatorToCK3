@@ -7,7 +7,6 @@
 
 ImperatorWorld::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, const GenesDB& genesDB, const std::string& ageSexString) : genes(genesDB)
 {
-
 	const auto decodedDnaStr = base64_decode(dnaString);
 
 	//hair
