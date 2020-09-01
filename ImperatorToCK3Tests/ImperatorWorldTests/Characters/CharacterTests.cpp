@@ -523,3 +523,71 @@ TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA
 	ASSERT_EQ(0, character.getPortraitData().value().getEyeColorPaletteCoordinates().x);
 	ASSERT_EQ(0, character.getPortraitData().value().getEyeColorPaletteCoordinates().y);
 }
+
+
+TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
+{
+	const ImperatorWorld::GenesDB genesDB;
+	const date endDate;
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tage=56\n";
+	input << "}";
+
+	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+
+	ASSERT_EQ(56, theCharacter.getAge());
+}
+TEST(ImperatorWorld_CharacterTests, ageDefaultsToMale)
+{
+	const ImperatorWorld::GenesDB genesDB;
+	const date endDate;
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+
+	ASSERT_EQ(0, theCharacter.getAge());
+}
+
+
+TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
+{
+	const ImperatorWorld::GenesDB genesDB;
+	const date endDate;
+	std::stringstream input, input2, input3, input4;
+	input << "=\n";
+	input << "{\n";
+	input << "\tage=56\n";
+	input << "\tfemale=yes\n";
+	input << "}";
+	
+	input2 << "=\n";
+	input2 << "{\n";
+	input2 << "\tage=56\n";
+	input2 << "}";
+	
+	input3 << "=\n";
+	input3 << "{\n";
+	input3 << "\tage=8\n";
+	input3 << "\tfemale=yes\n";
+	input3 << "}";
+	
+	input4 << "=\n";
+	input4 << "{\n";
+	input4 << "\tage=8\n";
+	input4 << "}";
+
+	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const ImperatorWorld::Character theCharacter2(input2, 43, genesDB, endDate);
+	const ImperatorWorld::Character theCharacter3(input3, 44, genesDB, endDate);
+	const ImperatorWorld::Character theCharacter4(input4, 45, genesDB, endDate);
+
+	ASSERT_EQ("female", theCharacter.getAgeSex());
+	ASSERT_EQ("male", theCharacter2.getAgeSex());
+	ASSERT_EQ("girl", theCharacter3.getAgeSex());
+	ASSERT_EQ("boy", theCharacter4.getAgeSex());
+}

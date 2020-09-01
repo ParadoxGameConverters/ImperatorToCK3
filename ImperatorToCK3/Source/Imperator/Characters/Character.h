@@ -36,6 +36,7 @@ class Character: commonItems::parser
 	[[nodiscard]] const auto& getFamily() const { return family; }
 	[[nodiscard]] const auto& getTraits() const { return traits; }
 	[[nodiscard]] const auto& getAttributes() const { return attributes; }
+	[[nodiscard]] const auto& getAge() const { return age; }
 
 	[[nodiscard]] const auto& getDNA() const { return dna; }
 	[[nodiscard]] const auto& getPortraitData() const { return portraitData; }

@@ -38,7 +38,7 @@ unsigned int ImperatorWorld::WeightBlock::getAbsoluteWeight(const std::string& o
 }
 
 
-std::optional<std::string> ImperatorWorld::WeightBlock::getMatchingObject(double percentAsDecimal)
+std::optional<std::string> ImperatorWorld::WeightBlock::getMatchingObject(const double percentAsDecimal)
 {
 	if (percentAsDecimal < 0 || percentAsDecimal > 1) throw std::runtime_error("percentAsDecimal should be in range <0;1>");
 	
