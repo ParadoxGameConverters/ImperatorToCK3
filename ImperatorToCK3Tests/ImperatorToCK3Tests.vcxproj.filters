@@ -31,6 +31,12 @@
     <Filter Include="ImperatorWorldTests\Genes">
       <UniqueIdentifier>{91c7a145-dc67-412f-91f1-3b364b0970bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests\ProvinceMapper">
+      <UniqueIdentifier>{38763f3e-f3be-4064-b754-fabb57894571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Mappers">
+      <UniqueIdentifier>{2c47b8ec-36aa-497c-82e8-88a58e581620}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -197,6 +203,24 @@
     </ClCompile>
     <ClCompile Include="AccessoryGenesTests.cpp">
       <Filter>ImperatorWorldTests\Genes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMapperTests.cpp">
+      <Filter>MapperTests\ProvinceMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingsVersionTests.cpp">
+      <Filter>MapperTests\ProvinceMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingTests.cpp">
+      <Filter>MapperTests\ProvinceMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapping.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp">
+      <Filter>Sources\Mappers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
