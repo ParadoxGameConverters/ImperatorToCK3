@@ -40,6 +40,9 @@
     <Filter Include="Imperator\Genes\Accessory genes">
       <UniqueIdentifier>{ef76f403-a1dc-4eb9-96b2-d1800bbe54b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\ProvinceMapper">
+      <UniqueIdentifier>{98c970e3-6c0d-4b8b-b141-6d4519c3b82e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -156,6 +159,15 @@
     </ClInclude>
     <ClInclude Include="Source\Imperator\Genes\WeightBlock.h">
       <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapper.h">
+      <Filter>Mappers\ProvinceMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapping.h">
+      <Filter>Mappers\ProvinceMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.h">
+      <Filter>Mappers\ProvinceMapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +286,15 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Genes\WeightBlock.cpp">
       <Filter>Imperator\Genes\Accessory genes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapper.cpp">
+      <Filter>Mappers\ProvinceMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapping.cpp">
+      <Filter>Mappers\ProvinceMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp">
+      <Filter>Mappers\ProvinceMapper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

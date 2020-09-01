@@ -228,6 +228,9 @@
     <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
+    <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
+    <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +272,9 @@
     <ClInclude Include="Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h" />
     <ClInclude Include="Source\Imperator\Provinces\Provinces.h" />
+    <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapper.h" />
+    <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapping.h" />
+    <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.h" />
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h" />
   </ItemGroup>
   <ItemGroup>
