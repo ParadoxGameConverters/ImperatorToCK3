@@ -25,25 +25,30 @@ ImperatorWorld::CharacterPortraitData::CharacterPortraitData(const std::string& 
 
 	auto accessoryGenes = genes.getAccessoryGenes().getGenes();
 
-	LOG(LogLevel::Debug) << "ageSex: " << ageSexString;
+	//LOG(LogLevel::Debug) << "ageSex: " << ageSexString;
 	const auto accessoryGenesIndex = genes.getAccessoryGenes().getIndex();
 	for (auto& geneItr : accessoryGenes)
 	{
 		const auto geneIndex = geneItr.second.getIndex();
-		Log(LogLevel::Debug) << "\tgene: " << geneItr.first;
+		//Log(LogLevel::Debug) << "\tgene: " << geneItr.first;
 		
 		const auto geneTemplateByteIndex = colorGenesBytes + (accessoryGenesIndex + geneIndex - 3) * 4;
 		const auto characterGeneTemplateIndex = static_cast<uint8_t>(decodedDnaStr[geneTemplateByteIndex]);
-		auto& characterGeneTemplate = geneItr.second.getGeneTemplateByIndex(characterGeneTemplateIndex);
-		Log(LogLevel::Debug) << "\t\tgene template: " << characterGeneTemplate.first;
+		const auto& [fst, snd] = geneItr.second.getGeneTemplateByIndex(characterGeneTemplateIndex);
+		//Log(LogLevel::Debug) << "\t\tgene template: " << fst;
 		
 		const auto geneTemplateObjectByteIndex = colorGenesBytes + (accessoryGenesIndex + geneIndex - 3) * 4 + 1;
 		const auto characterGeneSliderValue = static_cast<uint8_t>(decodedDnaStr[geneTemplateObjectByteIndex]) / 255;
-		auto characterGeneFoundWeightBlock = geneItr.second.getGeneTemplates().find(characterGeneTemplate.first)->second.getAgeSexWeightBlocs().find(ageSexString);
-		if (characterGeneFoundWeightBlock != geneItr.second.getGeneTemplates().find(characterGeneTemplate.first)->second.getAgeSexWeightBlocs().end())
+		auto characterGeneFoundWeightBlock = geneItr.second.getGeneTemplates().find(fst)->second.getAgeSexWeightBlocs().find(ageSexString);
+		if (characterGeneFoundWeightBlock != geneItr.second.getGeneTemplates().find(fst)->second.getAgeSexWeightBlocs().end())
 		{
 			auto characterGeneObjectName = characterGeneFoundWeightBlock->second->getMatchingObject(characterGeneSliderValue);
-			if (characterGeneObjectName) Log(LogLevel::Debug) << "\t\tgene template object: " << characterGeneObjectName.value();
+			if (characterGeneObjectName)
+			{
+				//Log(LogLevel::Debug) << "\t\tgene template object: " << characterGeneObjectName.value();
+				accessoryGenesVector.emplace_back(AccessoryGeneStruct{ geneItr.first, fst, characterGeneObjectName.value() });
+				//Log(LogLevel::Debug) << "\t\tStruct size: " << accessoryGenesVector.size();
+			}
 			else Log(LogLevel::Warning) << "\t\t\tgene template object name could not be extracted from DNA";
 		}
 	}

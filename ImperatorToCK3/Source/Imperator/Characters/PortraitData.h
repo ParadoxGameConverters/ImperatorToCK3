@@ -2,7 +2,6 @@
 #define IMPERATOR_CHARACTER_PORTRAIT_DATA_H
 
 
-
 #include "Parser.h"
 #include "../Genes/GenesDB.h"
 
@@ -16,6 +15,13 @@ typedef struct CoordinatesStruct
 	unsigned int y = 256;
 } CoordinatesStruct;
 
+typedef struct AccessoryGeneStruct
+{
+	std::string geneName;
+	std::string geneTemplate;
+	std::string objectName;
+} AccessoryGeneStruct;
+
 
 class CharacterPortraitData: commonItems::parser
 {
@@ -26,12 +32,14 @@ public:
 	[[nodiscard]] const auto& getHairColorPaletteCoordinates() const { return hairColorPaletteCoordinates; }
 	[[nodiscard]] const auto& getSkinColorPaletteCoordinates() const { return skinColorPaletteCoordinates; }
 	[[nodiscard]] const auto& getEyeColorPaletteCoordinates() const { return eyeColorPaletteCoordinates; }
+	[[nodiscard]] const auto& getAccessoryGenesVector() const { return accessoryGenesVector; }
 
 private:
 	CoordinatesStruct hairColorPaletteCoordinates;
 	CoordinatesStruct skinColorPaletteCoordinates;
 	CoordinatesStruct eyeColorPaletteCoordinates;
 	GenesDB genes;
+	std::vector<AccessoryGeneStruct> accessoryGenesVector;
 };
 
 } // namespace ImperatorWorld

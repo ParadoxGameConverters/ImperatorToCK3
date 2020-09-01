@@ -55,7 +55,7 @@ void ImperatorWorld::Character::registerKeys()
 	});
 	registerKeyword("dna", [this](const std::string& unused, std::istream& theStream) {
 		dna = commonItems::singleString(theStream).getString();
-		LOG(LogLevel::Debug) << "character ID: " << charID;
+		//LOG(LogLevel::Debug) << "character ID: " << charID;
 	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt motInt(theStream);
