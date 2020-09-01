@@ -3,9 +3,9 @@
 
 #include "Date.h"
 #include "Parser.h"
-#include "Color.h"
 #include <optional>
 #include "PortraitData.h"
+#include "../Genes/GenesDB.h"
 
 namespace ImperatorWorld
 {
@@ -22,7 +22,7 @@ typedef struct AttributesStruct
 class Character: commonItems::parser
 {
   public:
-	Character(std::istream& theStream, int chrID);
+	Character(std::istream& theStream, int chrID, const GenesDB& genesDB, const date& _endDate);
 
 	[[nodiscard]] const std::string& getCulture() const;
 	[[nodiscard]] const std::string& getReligion() const { return religion; }
@@ -36,9 +36,11 @@ class Character: commonItems::parser
 	[[nodiscard]] const auto& getFamily() const { return family; }
 	[[nodiscard]] const auto& getTraits() const { return traits; }
 	[[nodiscard]] const auto& getAttributes() const { return attributes; }
+	[[nodiscard]] const auto& getAge() const { return age; }
 
 	[[nodiscard]] const auto& getDNA() const { return dna; }
 	[[nodiscard]] const auto& getPortraitData() const { return portraitData; }
+	[[nodiscard]] std::string getAgeSex() const;
 
 	[[nodiscard]] auto isFemale() const { return female; }
 	[[nodiscard]] auto getWealth() const { return wealth; }
@@ -64,9 +66,12 @@ class Character: commonItems::parser
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
+	unsigned int age = 0;
+	
 	std::optional<std::string> dna;
 	std::optional<CharacterPortraitData> portraitData;
-
+	GenesDB genes;
+	date endDate;
 
 	std::pair<int, std::shared_ptr<Family>> family;
 	std::pair<int, std::shared_ptr<Character>> mother;

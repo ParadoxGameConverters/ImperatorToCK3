@@ -15,11 +15,13 @@ namespace ImperatorWorld
 		[[nodiscard]] auto getIndex() const { return index; }
 		[[nodiscard]] auto isInheritable() const { return inheritable; }
 		[[nodiscard]] const auto& getGeneTemplates() const { return geneTemplates; }
+
+		[[nodiscard]] const std::pair<const std::string, AccessoryGeneTemplate>& getGeneTemplateByIndex(unsigned int indexInDna);
 		
 	private:
 		void registerKeys();
 
-		int index = 0;
+		unsigned int index = 0;
 		bool inheritable = false;
 		std::map<std::string, AccessoryGeneTemplate> geneTemplates;
 	};
