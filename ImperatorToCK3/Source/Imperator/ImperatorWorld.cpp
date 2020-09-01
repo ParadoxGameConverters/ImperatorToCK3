@@ -50,7 +50,7 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	
 	registerKeyword("character", [this](const std::string& unused, std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Characters";
-		characters = CharactersBloc(theStream).getCharactersFromBloc();
+		characters = CharactersBloc(theStream, genes, endDate).getCharactersFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
 	});
 

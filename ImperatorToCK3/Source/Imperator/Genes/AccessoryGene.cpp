@@ -25,3 +25,13 @@ void ImperatorWorld::AccessoryGene::registerKeys()
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
+
+const std::pair<const std::string, ImperatorWorld::AccessoryGeneTemplate>& ImperatorWorld::AccessoryGene::getGeneTemplateByIndex(const unsigned int indexInDna)
+{
+	for (auto& geneTemplateItr : geneTemplates)
+	{
+		if (geneTemplateItr.second.getIndex() == indexInDna) return geneTemplateItr;
+	}
+	LOG(LogLevel::Warning) << "Could not find gene template by index from DNA";
+	return *geneTemplates.begin(); // fallback: return first element
+}

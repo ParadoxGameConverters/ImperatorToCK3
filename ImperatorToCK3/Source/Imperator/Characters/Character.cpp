@@ -8,11 +8,13 @@
 
 
 
-ImperatorWorld::Character::Character(std::istream& theStream, int chrID): charID(chrID)
+ImperatorWorld::Character::Character(std::istream& theStream, const int chrID, const GenesDB& genesDB, const date& _endDate) : charID(chrID), genes(genesDB), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
+
+	if (dna && dna.value().size() == 552) portraitData.emplace(CharacterPortraitData(dna.value(), genes, getAgeSex()));
 }
 
 void ImperatorWorld::Character::registerKeys()
@@ -44,13 +46,15 @@ void ImperatorWorld::Character::registerKeys()
 		const commonItems::singleString dateStr(theStream);
 		deathDate = date(dateStr.getString());
 	});
+	registerKeyword("age", [this](const std::string& unused, std::istream& theStream) {
+		age = static_cast<unsigned int>(commonItems::singleInt(theStream).getInt());
+	});
 	registerKeyword("family", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt familyInt(theStream);
 		family = std::pair(familyInt.getInt(), nullptr);
 	});
 	registerKeyword("dna", [this](const std::string& unused, std::istream& theStream) {
 		dna = commonItems::singleString(theStream).getString();
-		if (dna.value().size() == 552) portraitData.emplace(CharacterPortraitData(dna.value()));
 	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt motInt(theStream);
@@ -92,4 +96,15 @@ const std::string& ImperatorWorld::Character::getCulture() const
 	if (family.first && !family.second->getCulture().empty())
 		return family.second->getCulture();
 	return culture;
+}
+
+std::string ImperatorWorld::Character::getAgeSex() const
+{
+	if (age >= 16)
+	{
+		if (female) return "female";
+		return "male";
+	}
+	if (female) return "girl";
+	return "boy";
 }

@@ -18,7 +18,7 @@ namespace ImperatorWorld
 	private:
 		void registerKeys();
 
-		int index = 0;
+		unsigned int index = 0;
 		std::map<std::string, std::shared_ptr<WeightBlock>> ageSexWeightBlocks;
 	};
 } // namespace ImperatorWorld
