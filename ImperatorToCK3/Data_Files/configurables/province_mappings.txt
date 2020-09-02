@@ -1,66 +1,103 @@
 mappings = {
+	# Algeria
+	link = { imp = 3216 ck3 = 4590 }	# FundaThavagalensis -> SIQQABANARIYA
+	link = { imp = 3232 ck3 = 4628 }	# Thuburnica -> TIFASH
+	link = { imp = 3189 imp = 3188 ck3 = 4606 }	# AdSpeculum, Casae Nigrae -> MADAS
+	link = { imp = 3207 imp = 3206 imp = 3203 imp = 3186 imp = 3204 ck3 = 4607 }	# Vegesela, AdAquasCaesaris, Theveste, UbazaCastellum, Vatari -> MADILA
+	link = { imp = 3223 imp = 3224 imp = 3228 ck3 = 4630 }	# Calama, Asuccuris, Celtianis -> QALAMA
+	link = { imp = 3221 imp = 3164 imp = 3355 ck3 = 4632 }	# Zattara, Thibilis, Fabatianum -> TIJIS
+	link = { imp = 3218 imp = 3165 ck3 = 4620 }	# Tipasa, Nattabutum -> QASR AL-IFRIQI
+	link = { imp = 3184 imp = 3166 imp = 3182 imp = 3167 ck3 = 4627 }	# Thalades, Gadiaufala, Bagai, Macomades -> BAGHAYA
+	link = { imp = 3217 imp = 3220 ck3 = 4626 }	# Madauros, SaltusSorothensis -> MASKIYANA
+	link = { imp = 3214 imp = 3213 imp = 3219 imp = 3215 ck3 = 4623 }	# Thaesactum, Vasampus, Marcimeni, Casaea -> TABASSA
+	link = { imp = 3208 ck3 = 4625 }	# Ammaedara -> MAYDARA
+	link = { imp = 3231 ck3 = 4629 }	# PagusMalarensium -> TUBURSHIQ
+	link = { imp = 3229 ck3 = 4587 }	# Tuniza -> MANSA'L-KHARAZ
+	link = { imp = 3226 imp = 3225 ck3 = 4588 }	# Culucitanis, HippoRegius -> ANNABA
+	link = { imp = 3179 imp = 3177 ck3 = 4643 }	# Verecunda, Lamasba -> NGAOUS
+	link = { imp = 3168 imp = 3174 imp = 3170 ck3 = 807 }	# MasculaTiberia, Claudi, Lambafundi -> Tell Atlas Mountains 8
+	link = { imp = 3187 imp = 3185 ck3 = 4622 }	# Midili, LegesMaiores -> BADIS
+	link = { imp = 3171 imp = 3169 ck3 = 4633 }	# Tabudium, Badias -> SIDI UQBA
+	link = { imp = 3172 imp = 3176 ck3 = 4621 }	# AurasiusMons, AurasiusMons -> BISKRA
+	link = { imp = 3155 imp = 3153 imp = 3154 ck3 = 4754 }	# AquaViva, Mesarietta, Gemellae -> WAGHLANAT
+	link = { imp = 3152 imp = 3173 ck3 = 4644 }	# Thubunae, BurgusSpeculatorius -> TUBNA
+	link = { imp = 3183 imp = 3181 imp = 3178 ck3 = 4634 }	# Subzuaritanum, CastellumSiguitanorum, DianaVeteranorum -> BILIZMA
+	link = { imp = 3132 imp = 3133 ck3 = 4641 }	# Tatiliti, Zabi -> AL-MASILA
+	link = { imp = 3149 imp = 3146 ck3 = 4638 }	# Cuicul, Satafis -> IKJAN
+	link = { imp = 3148 imp = 3147 imp = 3159 imp = 3158 ck3 = 4639 }	# Mopth, Sitifis, Zarai, Lobrinia -> SATIF
+	link = { imp = 3163 imp = 3180 ck3 = 4631 }	# Constantina, Thenebrestia -> CONSTANTINE
+	link = { imp = 3162 ck3 = 4635 }	# Milevum -> MILA
+	link = { imp = 3161 imp = 3227 ck3 = 4752 }	# Chullu, Rusicade -> IZAN
+	link = { imp = 3160 imp = 3150 imp = 3145 ck3 = 4636 }	# Tucca, Igilgivi, Choba -> JIJEL
+	link = { imp = 3156 imp = 3151 ck3 = 4642 }	# Nicivibus, Macri -> MAGRA
+	link = { imp = 3126 imp = 3144 imp = 3135 imp = 3143 imp = 3141 ck3 = 4637 }	# Saldae, Muslubium, Tubusuctu, Lesbia, Sertei -> BEJAYA
+	link = { imp = 5987 ck3 = 4673 }	# Maurian Plateau -> TAFRAOUA-SEBDOU
+	link = { imp = 3110 imp = 3112 imp = 3114 imp = 3115 ck3 = 4654 }	# CastellumTingitanum, CastraGermanorum, OppidumDefinum, Zucchabar -> MILIYANA
+	link = { imp = 3102 ck3 = 4655 }	# Mina -> YALALA
+	link = { imp = 3100 ck3 = 4656 }	# CastraNova -> QALA'A B_HUWARA
+	link = { imp = 3121 imp = 3122 imp = 3123 imp = 3124 ck3 = 4649 }	# Rusuccuru, Rusippisir, Rusazus, Bida -> TADALLIS
+	link = { imp = 3129 imp = 3128 imp = 3130 imp = 3117 imp = 3131 ck3 = 4762 }	# ThanaramusaCastra, PhruraesiusMons, Rapidum, Sufasar, Auzia -> SERSOU
+	link = { imp = 3119 imp = 5154 imp = 3137 imp = 3138 imp = 3136 ck3 = 4648 }	# Lambdia, IMPASSIBLE TERRAIN 154, Bessemium, BessemiumSeptentrionalis, Ausum -> MEDEA
+	link = { imp = 3118 imp = 3120 ck3 = 4650 }	# Icosium, Rusguniae -> ALGIERS
+	link = { imp = 3116 ck3 = 4651 }	# Tipasa -> MATTIJA
+	link = { imp = 3108 imp = 3111 imp = 3113 ck3 = 4652 }	# Cartenae, Cartilli, Gunugus -> SHARSHAL
+	link = { imp = 3101 imp = 3109 imp = 3106 imp = 3107 ck3 = 4653 }	# QuizaXenitana, PortusMagulus, Arsennaria, GaudumCastra -> TANAS
+	link = { imp = 3091 ck3 = 4666 }	# CastraPuerorum -> ORAN
+	link = { imp = 3095 ck3 = 4664 }	# PortusMagnus -> MARSA FARUKH
+	link = { imp = 5950 ck3 = 3294 ck3 = 4619 ck3 = 4662 ck3 = 6592 }	# Gaetuli Impassable -> Tell Atlas Mountains 9, AL-AGHWAT, HISN LAWATA, ERG_ATLASI
+	link = { imp = 3142 imp = 3134 imp = 3157 imp = 3139 imp = 3140 ck3 = 4640 }	# Aras, Equizeto, Lemellia, Vanisnesi, AdSavaMunicipium -> QALA'A B_HAMMAD
+	link = { imp = 5320 ck3 = 4645 }	# IP 321 -> BOU SAADA
+	link = { imp = 5321 ck3 = 4647 ck3 = 4646 }	# IP 322 -> ASHIR-YASHIR, ASHIR-BANYA
+	link = { imp = 5152 imp = 3127 imp = 3105 ck3 = 4658 }	# IMPASSIBLE TERRAIN 152, CinnabaMons, Columnata -> AL-'UBBAD
+	link = { imp = 5151 imp = 3104 ck3 = 4659 }	# IMPASSIBLE TERRAIN 151, Cenavicum -> TAHART
+	link = { imp = 3098 ck3 = 4657 }	# AquaeSirenses -> AL-GABAL
+	link = { imp = 3103 ck3 = 4661 }	# Breucorum -> ASKEDAL
+	link = { imp = 3099 ck3 = 4660 }	# AlaMiliaria -> QALA'A IBN SALAMA
+	link = { imp = 3094 imp = 3096 imp = 3097 ck3 = 4663 }	# Caputtasaccora, Tasaccora, Lucu -> MUASKAR
+	link = { imp = 3088 imp = 3093 ck3 = 4667 }	# Albulae, Regiae -> QASR IBN SINAN
+	link = { imp = 3092 ck3 = 4665 }	# PortusDivinus -> ARZEW
+	link = { imp = 3090 ck3 = 4671 }	# Tepidae -> AIN TEKBALET
+	link = { imp = 3087 imp = 3089 ck3 = 4672 }	# Pomaria, Altava -> TLEMCEN
+	link = { imp = 3086 ck3 = 4668 }	# Siga -> ARSGUL
 	# Morocco
-
 	link = { imp = 5984 ck3 = 4735 ck3 = 4734 ck3 = 798 ck3 = 4732 ck3 = 4741 ck3 = 4755 ck3 = 799 ck3 = 4756 ck3 = 4740 }	# East Mauretania -> TAZAGOURT, WARZAZAT, Atlas Mountains 9, SIRWAN, AQQA, TAGMADART, Atlas Mountains 10, TIDRI, AL-TALHA
-
 	link = { imp = 3082 ck3 = 4674 ck3 = 4675 }	# MonsAmbulatis -> WAJDA, SAA
-
 	link = { imp = 6484 ck3 = 4697 }	# Ifran -> SEFROU
 	link = { imp = 3079 ck3 = 793 }	# MonsSemita -> Atlas Mountains 4
 	link = { imp = 3081 ck3 = 4748 }	# VisumMontis -> NADOR
 	link = { imp = 6494 ck3 = 4677 ck3 = 4695 ck3 = 4694 ck3 = 4696 }	# More Riff -> TAZA, AL-ALIYA, FES, SUBU
-
 	link = { imp = 3083 ck3 = 4669 }	# Lemnis -> HUNAYN
 	link = { imp = 6495 imp = 3084 ck3 = 4670 }	# Even More Riff, Syrorum -> NADRUMA
 	link = { imp = 3080 ck3 = 4678 }	# OppidumEtPortus -> MELILLA
 	link = { imp = 5285 ck3 = 4679 }	# IMPASSIBLE TERRAIN 285 -> NAKUR
-
 	link = { imp = 3067 ck3 = 4691 ck3 = 4693 }	# Volubilis -> WALILA, BAHT
-
 	link = { imp = 3072 ck3 = 4692 }	# AquaeDacicae -> WARZIGH
 	link = { imp = 3075 imp = 3073 ck3 = 4689 }	# Viposcianae, Gilda -> IZERHAN
 	link = { imp = 6493 ck3 = 4680 ck3 = 4688 }	# Riff -> GHUMIRA, WARGHA
 	link = { imp = 3076 imp = 3077 imp = 3074 ck3 = 4686 }	# Tremulae, OppidumNovum, Aelia -> TAHLIT
 	link = { imp = 3085 ck3 = 4681 }	# Tamuda -> TITTAWAN
-
 	link = { imp = 6480 ck3 = 4715 ck3 = 4717 }	# Amrane -> TASGIMUT, NAFFIS
 	link = { imp = 5985 ck3 = 4724 ck3 = 4725 }	# West Mauretania -> TARUDANT, IGILLIZ
-
-
-
 	link = { imp = 6482 ck3 = 4745 ck3 = 4743 ck3 = 4744 }	# More Middle Atlas -> MISSOUR, TIKOUTAMINE, EL-KSABI
-
 	link = { imp = 5986 ck3 = 6325 ck3 = 4676 }	# Middle Atlas -> ATLAS-AS-SAHRI, DEBDOU
 	link = { imp = 6300 ck3 = 4738 ck3 = 4739 ck3 = 4742 }	# Talzemt -> TAFILALT, ZIZ, GHAZWAN
-
 	link = { imp = 6471 imp = 6470 imp = 6472 imp = 6302 ck3 = 4736 }	# Beni Mousa, Ait Rob'a, Beni Amer, Zemmour -> TUDGHA
-
-
-
-
 	link = { imp = 6483 ck3 = 4699 ck3 = 4698 ck3 = 4707 ck3 = 4708 }	# More Middle Atlas -> MEKNES, TAGRAGRA, WAZEQQUR, WAWMANA
 	link = { imp = 6473 imp = 6487 ck3 = 4711 }	# Ouardigha, Mdakra -> AFZA
-
-
 	link = { imp = 6489 ck3 = 4714 ck3 = 4713 ck3 = 4712 ck3 = 4710 }	# Mzamza -> AGHMAT, AIT IYAT, AIT ITAB, DAI
 	link = { imp = 6474 ck3 = 4733 }	# Meskine -> TASAGDAH
 	link = { imp = 6492 ck3 = 4716 }	# Zaakna -> TINMALLAL
 	link = { imp = 6490 ck3 = 4721 ck3 = 4722 }	# Safim -> AGHUZ, IGIR AD YATUF
-
 	link = { imp = 6478 ck3 = 4720 }	# Amar -> ASFI
-
-
 	link = { imp = 6488 ck3 = 4706 ck3 = 4709 }	# Middle Atlas -> MRIRA, TADLA
 	link = { imp = 6486 imp = 6485 ck3 = 4747 }	# Ziaida, Tiflet -> TIT-AN-WAGURRAMT
 	link = { imp = 6481 ck3 = 4731 ck3 = 4746 }	# Haouzia -> BOULAWAN, EL-BOROUJ
 	link = { imp = 6479 ck3 = 4719 ck3 = 4718 }	# Bouzerrara -> RIBAT SHAKIR, MARRAKESH
 	link = { imp = 6301 imp = 7221 ck3 = 4705 }	# Rutubis, Mizab -> MAZAGHAN
 	link = { imp = 6491 imp = 6477 ck3 = 4704 }	# Azama, Frej -> AZZAMUR
-
 	link = { imp = 3066 imp = 3063 ck3 = 4687 }	# Frigidae, Thamusida -> AL-BASRA
 	link = { imp = 3062 imp = 3065 ck3 = 4685 }	# Lixus, Tabernae -> KASR AL-KABIR
 	link = { imp = 3064 imp = 3078 ck3 = 4684 }	# Arzeila, AdNovas -> ASILA
-
 	link = { imp = 3061 ck3 = 4683 ck3 = 4682 }	# Tingis -> TANGER, SABTA
 	link = { imp = 3071 imp = 3069 imp = 3070 ck3 = 4690 }	# ThamusidaMeridionalis, Tocolosida, Banasa -> WATIT
 	link = { imp = 3068 imp = 6476 ck3 = 4700 }	# Sala, Khedis -> SALA
