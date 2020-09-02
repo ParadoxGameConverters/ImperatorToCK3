@@ -1,4 +1,62 @@
 mappings = {
+	# South Italy
+	link = { imp = 34 ck3 = 2604 }	# Carrini -> LANCIANO
+	link = { imp = 2 imp = 19 ck3 = 2589 }	# Tiber, Carsioli -> TIVOLI
+	link = { imp = 1712 imp = 30 imp = 27 imp = 24 ck3 = 2600 }	# Antinum, Muruvium, Sora, Alba -> AVEZZANO
+	link = { imp = 20 ck3 = 2588 }	# Reate -> RIETI
+	link = { imp = 107 ck3 = 2596 }	# Interamnia -> TERAMO
+	link = { imp = 106 imp = 5010 imp = 108 imp = 28 ck3 = 2595 }	# Hadria, IMPASSIBLE TERRAIN 010, Castrum, Corfinium -> ATRI
+	link = { imp = 1 ck3 = 2575 ck3 = 2577 }	# Roma -> ROMA, VATICAN
+	link = { imp = 15 ck3 = 2576 ck3 = 2578 }	# Ostia -> OSTIA, PALO
+	link = { imp = 29 ck3 = 2603 }	# Aternum -> CLUIELI
+	link = { imp = 31 imp = 5006 ck3 = 2602 }	# Sora, IMPASSIBLE TERRAIN 006 -> CASSINO
+	link = { imp = 25 imp = 26 ck3 = 2591 }	# Signia, Fregellae -> SEGNI
+	link = { imp = 4 imp = 3 ck3 = 2590 }	# Antium, Satricum -> VELLETRI
+	link = { imp = 5 ck3 = 2593 ck3 = 2592 }	# Priverneum -> GAETA, TERRACINA
+	link = { imp = 6 imp = 8 ck3 = 2606 }	# Cumae, Capua -> CAPUA
+	link = { imp = 32 ck3 = 2607 }	# Aecernia -> ISERNIA
+	link = { imp = 33 imp = 41 ck3 = 2669 }	# Bovinium, Saticula -> ALIFE
+	link = { imp = 35 imp = 48 imp = 49 ck3 = 2605 }	# Larinum, Terventum, Gerumum -> LARINO
+	link = { imp = 50 imp = 36 ck3 = 2610 }	# Urium, Teanum -> LUCERA
+	link = { imp = 44 imp = 45 imp = 5005 ck3 = 2615 }	# Saepinum, Ausculum, IMPASSIBLE TERRAIN 005 -> MELFI
+	link = { imp = 38 imp = 39 imp = 37 ck3 = 2614 }	# Sipontum, Canusium, Luceria -> SIPONTO
+	link = { imp = 7 imp = 40 ck3 = 2608 }	# Neapolis, Nola -> NAPOLI
+	link = { imp = 43 imp = 1718 ck3 = 2609 }	# Beneventum, Aeclanum -> BENEVENTO
+	link = { imp = 9 imp = 1713 imp = 1716 ck3 = 2611 }	# Pompeii, Nuceria, Abellinum -> AMALFI
+	link = { imp = 47 ck3 = 2616 }	# Numistro -> POTENZA
+	link = { imp = 13 imp = 12 ck3 = 2613 }	# Pyxus, Elea -> MARATEA
+	link = { imp = 11 imp = 10 ck3 = 2612 }	# Paestum, Salemum -> SALERNO
+	link = { imp = 53 imp = 59 ck3 = 2632 }	# Grumentum, Cosillium -> STIGLIANO
+	link = { imp = 71 imp = 46 ck3 = 2617 }	# Stiglianum, Potentia -> ACERENZA
+	link = { imp = 70 imp = 60 imp = 42 ck3 = 2618 }	# Alitala, Bantia, Venusia -> VENOSA
+	link = { imp = 69 imp = 58 ck3 = 2619 }	# Bitontinon, Cannae -> TRANI
+	link = { imp = 67 imp = 66 imp = 68 ck3 = 2623 }	# Gnatia, Barium, Silvium -> BARI
+	link = { imp = 65 imp = 57 ck3 = 2622 }	# Valetium, Brundisium -> BRINDISI
+	link = { imp = 63 imp = 64 ck3 = 2620 }	# Callipolis, Hydruntum -> OLRANTO
+	link = { imp = 56 imp = 62 ck3 = 2621 }	# Tarentum, Menturia -> TARANTO
+	link = { imp = 55 ck3 = 2624 }	# Metapontum -> MATERA
+	link = { imp = 61 imp = 54 ck3 = 2631 }	# Siris, Heraclea -> CAMARDA
+	link = { imp = 79 imp = 52 ck3 = 2629 }	# Petelia, Thurii -> ROSSANO
+	link = { imp = 51 imp = 5004 ck3 = 2630 }	# Laus, IMPASSIBLE TERRAIN 004 -> CASTROVILLARI
+	link = { imp = 77 imp = 5003 ck3 = 2628 }	# Consentia, IMPASSIBLE TERRAIN 003 -> COSENZA
+	link = { imp = 78 ck3 = 2625 }	# Croton -> COTRONE
+	link = { imp = 75 imp = 5002 imp = 74 imp = 76 ck3 = 2626 }	# Hipponium, IMPASSIBLE TERRAIN 002, Stylacium, Tempsa -> SQUILLUCE
+	link = { imp = 72 imp = 73 ck3 = 2627 }	# Rhegium, Locri -> REGGIO
+	# Sicilia and Malta
+	link = { imp = 90 ck3 = 2645 }	# Herbesus -> CALATAFIMI
+	link = { imp = 91 ck3 = 2644 }	# Heraclea -> MAZARA
+	link = { imp = 7839 imp = 89 imp = 5149 imp = 7841 ck3 = 2640 }	# Capitium, Henna, IMPASSIBLE TERRAIN 149, Myttistraton -> CASTROGIOVANNI
+	link = { imp = 88 ck3 = 2641 }	# Murgantia -> CALTANISETTA
+	link = { imp = 86 ck3 = 2637 }	# Acragas -> GIRGENTI
+	link = { imp = 85 imp = 7840 ck3 = 2642 }	# Gela, Menae -> CALTAGIRONE
+	link = { imp = 95 imp = 94 imp = 92 imp = 93 imp = 7843 ck3 = 2636 }	# Eryx, Lilybaeum, Segesta, Selinus, Adranon -> TRAPANI
+	link = { imp = 7842 imp = 97 imp = 96 ck3 = 2635 }	# Soluntum, Thermae, Panorumus -> PALERMO
+	link = { imp = 100 imp = 98 imp = 5150 ck3 = 2634 }	# Calacte, Cephaleodium, IMPASSIBLE TERRAIN 150 -> CEFALU
+	link = { imp = 80 imp = 81 imp = 5000 imp = 99 imp = 5147 imp = 1472 imp = 7861 ck3 = 2633 }	# Messana, Naxos, IMPASSIBLE TERRAIN 000, Tyndaris, IMPASSIBLE TERRAIN 147, Liparae, Strongyle -> MESSINA
+	link = { imp = 82 imp = 7838 ck3 = 2639 }	# Catana, Centuripae -> CATANIA
+	link = { imp = 83 imp = 7837 imp = 5148 ck3 = 2643 }	# Leontini, Megara Hyblaia, IMPASSIBLE TERRAIN 148 -> LENTINI
+	link = { imp = 84 imp = 87 imp = 101 ck3 = 2638 }	# Syracuse, Acrae, Camarina -> SYRACUSE
+	link = { imp = 1471 ck3 = 2646 }	# Melita -> MALTA
 	# Sardinia et Corsica
 	link = { imp = 3513 imp = 3514 imp = 3516 imp = 3512 ck3 = 2647 }	# Kentourinon, Mariana, Sermigion, Rhopikon -> BASTIA
 	link = { imp = 3510 imp = 3511 ck3 = 2649 }	# Ourkinion, Alouka -> CALVI
