@@ -1,4 +1,70 @@
 mappings = {
+	# Morocco
+
+	link = { imp = 5984 ck3 = 4735 ck3 = 4734 ck3 = 798 ck3 = 4732 ck3 = 4741 ck3 = 4755 ck3 = 799 ck3 = 4756 ck3 = 4740 }	# East Mauretania -> TAZAGOURT, WARZAZAT, Atlas Mountains 9, SIRWAN, AQQA, TAGMADART, Atlas Mountains 10, TIDRI, AL-TALHA
+
+	link = { imp = 3082 ck3 = 4674 ck3 = 4675 }	# MonsAmbulatis -> WAJDA, SAA
+
+	link = { imp = 6484 ck3 = 4697 }	# Ifran -> SEFROU
+	link = { imp = 3079 ck3 = 793 }	# MonsSemita -> Atlas Mountains 4
+	link = { imp = 3081 ck3 = 4748 }	# VisumMontis -> NADOR
+	link = { imp = 6494 ck3 = 4677 ck3 = 4695 ck3 = 4694 ck3 = 4696 }	# More Riff -> TAZA, AL-ALIYA, FES, SUBU
+
+	link = { imp = 3083 ck3 = 4669 }	# Lemnis -> HUNAYN
+	link = { imp = 6495 imp = 3084 ck3 = 4670 }	# Even More Riff, Syrorum -> NADRUMA
+	link = { imp = 3080 ck3 = 4678 }	# OppidumEtPortus -> MELILLA
+	link = { imp = 5285 ck3 = 4679 }	# IMPASSIBLE TERRAIN 285 -> NAKUR
+
+	link = { imp = 3067 ck3 = 4691 ck3 = 4693 }	# Volubilis -> WALILA, BAHT
+
+	link = { imp = 3072 ck3 = 4692 }	# AquaeDacicae -> WARZIGH
+	link = { imp = 3075 imp = 3073 ck3 = 4689 }	# Viposcianae, Gilda -> IZERHAN
+	link = { imp = 6493 ck3 = 4680 ck3 = 4688 }	# Riff -> GHUMIRA, WARGHA
+	link = { imp = 3076 imp = 3077 imp = 3074 ck3 = 4686 }	# Tremulae, OppidumNovum, Aelia -> TAHLIT
+	link = { imp = 3085 ck3 = 4681 }	# Tamuda -> TITTAWAN
+
+	link = { imp = 6480 ck3 = 4715 ck3 = 4717 }	# Amrane -> TASGIMUT, NAFFIS
+	link = { imp = 5985 ck3 = 4724 ck3 = 4725 }	# West Mauretania -> TARUDANT, IGILLIZ
+
+
+
+	link = { imp = 6482 ck3 = 4745 ck3 = 4743 ck3 = 4744 }	# More Middle Atlas -> MISSOUR, TIKOUTAMINE, EL-KSABI
+
+	link = { imp = 5986 ck3 = 6325 ck3 = 4676 }	# Middle Atlas -> ATLAS-AS-SAHRI, DEBDOU
+	link = { imp = 6300 ck3 = 4738 ck3 = 4739 ck3 = 4742 }	# Talzemt -> TAFILALT, ZIZ, GHAZWAN
+
+	link = { imp = 6471 imp = 6470 imp = 6472 imp = 6302 ck3 = 4736 }	# Beni Mousa, Ait Rob'a, Beni Amer, Zemmour -> TUDGHA
+
+
+
+
+	link = { imp = 6483 ck3 = 4699 ck3 = 4698 ck3 = 4707 ck3 = 4708 }	# More Middle Atlas -> MEKNES, TAGRAGRA, WAZEQQUR, WAWMANA
+	link = { imp = 6473 imp = 6487 ck3 = 4711 }	# Ouardigha, Mdakra -> AFZA
+
+
+	link = { imp = 6489 ck3 = 4714 ck3 = 4713 ck3 = 4712 ck3 = 4710 }	# Mzamza -> AGHMAT, AIT IYAT, AIT ITAB, DAI
+	link = { imp = 6474 ck3 = 4733 }	# Meskine -> TASAGDAH
+	link = { imp = 6492 ck3 = 4716 }	# Zaakna -> TINMALLAL
+	link = { imp = 6490 ck3 = 4721 ck3 = 4722 }	# Safim -> AGHUZ, IGIR AD YATUF
+
+	link = { imp = 6478 ck3 = 4720 }	# Amar -> ASFI
+
+
+	link = { imp = 6488 ck3 = 4706 ck3 = 4709 }	# Middle Atlas -> MRIRA, TADLA
+	link = { imp = 6486 imp = 6485 ck3 = 4747 }	# Ziaida, Tiflet -> TIT-AN-WAGURRAMT
+	link = { imp = 6481 ck3 = 4731 ck3 = 4746 }	# Haouzia -> BOULAWAN, EL-BOROUJ
+	link = { imp = 6479 ck3 = 4719 ck3 = 4718 }	# Bouzerrara -> RIBAT SHAKIR, MARRAKESH
+	link = { imp = 6301 imp = 7221 ck3 = 4705 }	# Rutubis, Mizab -> MAZAGHAN
+	link = { imp = 6491 imp = 6477 ck3 = 4704 }	# Azama, Frej -> AZZAMUR
+
+	link = { imp = 3066 imp = 3063 ck3 = 4687 }	# Frigidae, Thamusida -> AL-BASRA
+	link = { imp = 3062 imp = 3065 ck3 = 4685 }	# Lixus, Tabernae -> KASR AL-KABIR
+	link = { imp = 3064 imp = 3078 ck3 = 4684 }	# Arzeila, AdNovas -> ASILA
+
+	link = { imp = 3061 ck3 = 4683 ck3 = 4682 }	# Tingis -> TANGER, SABTA
+	link = { imp = 3071 imp = 3069 imp = 3070 ck3 = 4690 }	# ThamusidaMeridionalis, Tocolosida, Banasa -> WATIT
+	link = { imp = 3068 imp = 6476 ck3 = 4700 }	# Sala, Khedis -> SALA
+	link = { imp = 6475 ck3 = 4703 ck3 = 4702 ck3 = 4701 }	# Anfa -> ANFA, FADALA, RIBAT-AL-FATH
 	# Lusitania
 	link = { imp = 1438 imp = 1455 imp = 1462 ck3 = 1918 }	# Caesarobriga, Uloquia, Aelariquia -> TALAVERA
 	link = { imp = 1437 imp = 340 imp = 1201 ck3 = 1917 }	# Augustobriga, CalvriaSeptentrionalis, CarpetaniaInferioris -> ALMARAZ
