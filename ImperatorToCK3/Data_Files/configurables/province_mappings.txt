@@ -1,9 +1,113 @@
 mappings = {
+	# North Italy
+	link = { imp = 3560 ck3 = 2040 }	# Industria -> IVREA
+	link = { imp = 3568 imp = 3561 ck3 = 2473 }	# Victimulae, Eporedia -> BIELLA
+	link = { imp = 3563 ck3 = 2042 ck3 = 2044 }	# ForumVibii -> PINEROLO, SALUZZO
+	link = { imp = 3535 ck3 = 2456 }	# Segusio -> CANAVESE
+	link = { imp = 3566 ck3 = 2471 ck3 = 2480 }	# Novaria -> NOVARA, GALLARATE
+	link = { imp = 3591 ck3 = 2541 }	# VicusVarianus -> CENTO
+	link = { imp = 150 ck3 = 2529 }	# Vicus Aventia -> CONA
+	link = { imp = 140 ck3 = 2545 }	# Festulae -> PRATO
+	link = { imp = 148 ck3 = 2548 ck3 = 2553 ck3 = 2551 }	# Mevaniola -> FORLI, CASENTINO, CAMALDOLI
+	link = { imp = 132 ck3 = 2584 ck3 = 2552 }	# Sarsina -> CIVITAS CASTELLI, MONTEFELTRO
+	link = { imp = 147 ck3 = 2549 }	# Faventia -> IMOLA
+	link = { imp = 146 ck3 = 2542 ck3 = 2550 }	# Bononia -> BOLOGNA, MONTE SOLE
+	link = { imp = 151 ck3 = 2535 ck3 = 2534 }	# Regium Lepidum -> CANOSSA, REGGIO
+	link = { imp = 3567 imp = 3569 ck3 = 2472 }	# Plumbia, SebuinusVicus -> POMBIA
+	link = { imp = 3577 ck3 = 2481 }	# ForumLicinii -> MONZA
+	link = { imp = 3618 ck3 = 2478 }	# SumusLacus -> BELLINZONA
+	link = { imp = 3570 ck3 = 2477 ck3 = 2479 }	# Comum -> COMO, VARESE
+	link = { imp = 3580 ck3 = 2492 }	# LausPompeia -> CREMA
+	link = { imp = 3573 ck3 = 2476 }	# Lambrum -> LODI
+	link = { imp = 3572 ck3 = 2475 }	# Ticinum -> PAVIA
+	link = { imp = 3565 ck3 = 2474 }	# Laumellum -> VIGEVANO
+	link = { imp = 3551 ck3 = 2041 }	# AugustaTaurinorum -> TURIN
+	link = { imp = 3550 imp = 3564 ck3 = 2467 ck3 = 2045 }	# MANY-TO-MANY: Coeba, Polentia -> ALBA, CHIERI
+	link = { imp = 3548 imp = 3530 ck3 = 2043 }	# AugustaBagiennorum, MustiaeCalmes -> CUNEO
+	link = { imp = 3544 ck3 = 2021 }	# Cemenellum -> NICE
+	link = { imp = 23 imp = 104 ck3 = 2586 }	# Narnia, Amiternum -> TERNI
+	link = { imp = 16 ck3 = 2579 }	# Veii -> FARFA
+	link = { imp = 18 ck3 = 2574 }	# Nepete -> PATERNO
+	link = { imp = 14 ck3 = 2573 }	# Caere -> SUTRI
+	link = { imp = 17 ck3 = 2571 ck3 = 2572 }	# Tarquini -> CIVITAVECCHIA, VITERBO
+	link = { imp = 3546 imp = 3545 ck3 = 2022 }	# AlbumIngaunum, AlbumIntimilium -> MONACO
+	link = { imp = 116 imp = 125 ck3 = 2565 }	# Clusium, Ad -> CHIUSI
+	link = { imp = 115 ck3 = 2567 }	# Rusellae -> MONTALCINO
+	link = { imp = 114 ck3 = 2562 }	# Vetulonia -> GROSSETO
+	link = { imp = 22 imp = 112 ck3 = 2569 }	# Volci, Telamon -> ORBETELLO
+	link = { imp = 123 ck3 = 2582 }	# Iguvium -> GUBBIO
+	link = { imp = 119 ck3 = 2581 }	# Sentinum -> ASSISSI
+	link = { imp = 120 ck3 = 2566 }	# Perusia -> PERUGIA
+	link = { imp = 124 ck3 = 2564 }	# Cortona -> CORTONA
+	link = { imp = 129 ck3 = 2558 ck3 = 2563 ck3 = 2559 }	# Volaterrae -> VOLTERRA, EMPOLI, IMPRUNETA
+	link = { imp = 128 ck3 = 2557 }	# Vada -> LIVORNO
+	link = { imp = 127 imp = 126 ck3 = 2561 }	# Ilva, Populonium -> PIOMBINO
+	link = { imp = 3589 imp = 3588 ck3 = 2530 }	# Hostilia, Colicaria -> GUASTALLA
+	link = { imp = 3593 ck3 = 2525 }	# Hatria -> ROVIGO
+	link = { imp = 131 ck3 = 2554 }	# Arretium -> AREZZO
+	link = { imp = 3562 ck3 = 2470 }	# Vercellae -> VERCELLI
+	link = { imp = 3559 imp = 3555 imp = 3558 ck3 = 2469 }	# Hasta, FulviiValentinum, Vardagate -> ASTI
+	link = { imp = 3553 imp = 3557 imp = 3556 ck3 = 2468 }	# Libarna, Crixia, Statiellae -> ACQUI
+	link = { imp = 3574 ck3 = 2487 }	# Clastidium -> VOGHERA
+	link = { imp = 3554 ck3 = 2483 }	# Dertona -> TORTONA
+	link = { imp = 3575 ck3 = 2488 }	# Placentia -> PIACENZA
+	link = { imp = 3582 ck3 = 2491 }	# Cremona -> CREMONA
+	link = { imp = 3662 ck3 = 2502 ck3 = 2496 }	# Bretina -> LESSINIA, GARDA
+	link = { imp = 3595 ck3 = 2666 }	# Aponus -> MONTAGNANA
+	link = { imp = 3603 ck3 = 2511 }	# Opitergium -> CENETA
+	link = { imp = 3604 imp = 3605 ck3 = 2513 }	# Reunia, ForumIulii -> PORDENONE
+	link = { imp = 143 ck3 = 2504 }	# Brundulum -> CHIOGGIA
+	link = { imp = 3602 imp = 3601 ck3 = 2512 }	# IuliaConcordia, PortusLiquentiae -> CAORLE
+	link = { imp = 3607 ck3 = 2514 }	# FonsTimavi -> TRIESTE
+	link = { imp = 4018 ck3 = 2519 }	# Aegida -> PIRAN
+	link = { imp = 4022 ck3 = 2520 }	# Piquentum -> PAZIN
+	link = { imp = 4021 ck3 = 2522 }	# Flanona -> VIKLA
+	link = { imp = 4020 imp = 4019 ck3 = 2518 }	# Pola, Parentium -> PULA
+	link = { imp = 3606 ck3 = 2508 ck3 = 2507 }	# Aquileia -> AQUILEIA, GRADO
+	link = { imp = 3596 ck3 = 2500 ck3 = 2509 }	# Vicetia -> VICENZA, LONIGO
+	link = { imp = 3661 ck3 = 2499 }	# Tridentium -> TRENTO
+	link = { imp = 3579 ck3 = 2493 }	# Bergomum -> BERGAMO
+	link = { imp = 3571 imp = 3578 ck3 = 2482 }	# Mediolanium, Argentea -> MILAN
+	link = { imp = 2325 ck3 = 2018 }	# Massalia -> MARSEILLE
+	link = { imp = 3547 ck3 = 2465 }	# Savo -> SAVONA
+	link = { imp = 3576 ck3 = 2490 ck3 = 2489 }	# Florentiola -> FLORENTIOLA, RONCAGLIA
+	link = { imp = 3549 ck3 = 2466 }	# Genua -> GENOA
+	link = { imp = 3552 ck3 = 2485 }	# Segesta -> CHIAVARI
+	link = { imp = 137 imp = 141 ck3 = 2531 }	# Luna, Portus -> LUNA
+	link = { imp = 152 imp = 153 imp = 154 ck3 = 2532 }	# Parma, Forum Novum, Rubra -> PARMA
+	link = { imp = 3587 ck3 = 2533 }	# Brixellum -> BRESCELLO
+	link = { imp = 149 ck3 = 2540 }	# Mutina -> MODENA
+	link = { imp = 3592 ck3 = 2527 }	# Feraria -> FERRARA
+	link = { imp = 3598 ck3 = 2506 }	# Altinum -> MESTRE
+	link = { imp = 3599 imp = 3600 ck3 = 2505 }	# Tarvisium, Acelum -> TREVISO
+	link = { imp = 3594 ck3 = 2503 }	# Patavium -> PADUA
+	link = { imp = 3597 ck3 = 2517 }	# AdPortum -> VENEZIA
+	link = { imp = 145 ck3 = 2524 ck3 = 2526 }	# Hadriani -> ADRIA, POMPOSA
+	link = { imp = 144 ck3 = 2528 }	# Spina -> COMACCHIO
+	link = { imp = 3584 imp = 3590 ck3 = 2501 }	# Verona, Auraei -> VERONA
+	link = { imp = 3581 ck3 = 2494 }	# Brixia -> BRESCIA
+	link = { imp = 3586 imp = 3583 imp = 3585 ck3 = 2497 }	# Mantua, Ariolica, Bedriacum -> MANTUA
+	link = { imp = 135 imp = 139 ck3 = 2538 }	# Valvata, Pistoriae -> PISTORJA
+	link = { imp = 138 ck3 = 2537 }	# Lucca -> LUCCA
+	link = { imp = 136 ck3 = 2536 }	# Pisae -> PISA
+	link = { imp = 134 ck3 = 2543 ck3 = 2544 }	# Florentia -> FIRENZE, VALLOMBROSA
+	link = { imp = 130 ck3 = 2560 }	# Sena -> SIENA
+	link = { imp = 103 ck3 = 2585 }	# Spoletium -> SPOLETO
+	link = { imp = 21 ck3 = 2568 }	# Volsini -> ORIVETO
+	link = { imp = 113 ck3 = 2570 }	# Suana -> SOANA
+	link = { imp = 118 ck3 = 2583 ck3 = 2587 }	# Cingulum -> CAGLI, CAMERINO
+	link = { imp = 122 ck3 = 2555 }	# Urbinum -> URBINO
+	link = { imp = 121 ck3 = 2556 }	# Sena -> PESARO
+	link = { imp = 133 ck3 = 2547 }	# Ariminum -> RIMINI
+	link = { imp = 142 ck3 = 2546 }	# Ravenna -> RAVENNA
+	link = { imp = 117 ck3 = 2594 ck3 = 2599 }	# Ancona -> ANCONA, MACERATA
+	link = { imp = 109 imp = 110 ck3 = 2597 }	# Asculum, Urbs -> ASCOLI PICENO
+	link = { imp = 111 ck3 = 2598 }	# Firmum -> FERMO
 	# South Italy
 	link = { imp = 34 ck3 = 2604 }	# Carrini -> LANCIANO
 	link = { imp = 2 imp = 19 ck3 = 2589 }	# Tiber, Carsioli -> TIVOLI
 	link = { imp = 1712 imp = 30 imp = 27 imp = 24 ck3 = 2600 }	# Antinum, Muruvium, Sora, Alba -> AVEZZANO
-	link = { imp = 20 ck3 = 2588 }	# Reate -> RIETI
+	link = { imp = 20 imp = 105 ck3 = 2588 }	# Reate, Trebula -> RIETI
 	link = { imp = 107 ck3 = 2596 }	# Interamnia -> TERAMO
 	link = { imp = 106 imp = 5010 imp = 108 imp = 28 ck3 = 2595 }	# Hadria, IMPASSIBLE TERRAIN 010, Castrum, Corfinium -> ATRI
 	link = { imp = 1 ck3 = 2575 ck3 = 2577 }	# Roma -> ROMA, VATICAN
