@@ -1,4 +1,24 @@
 mappings = {
+	# Sardinia et Corsica
+	link = { imp = 3513 imp = 3514 imp = 3516 imp = 3512 ck3 = 2647 }	# Kentourinon, Mariana, Sermigion, Rhopikon -> BASTIA
+	link = { imp = 3510 imp = 3511 ck3 = 2649 }	# Ourkinion, Alouka -> CALVI
+	link = { imp = 3509 imp = 5054 ck3 = 2650 }	# Pauka, IMPASSIBLE TERRAIN 054 -> AJACCIO
+	link = { imp = 3515 ck3 = 2648 }	# Aleria -> CORTE
+	link = { imp = 3507 ck3 = 2651 }	# Rhoubra -> VECCHIO
+	link = { imp = 3508 ck3 = 2652 }	# Phikaria -> BONIFACIO
+	link = { imp = 3501 imp = 3496 ck3 = 2662 }	# HydataLesitana, Gouroulis -> SASSARI
+	link = { imp = 3498 imp = 3502 imp = 5055 ck3 = 2663 }	# Makopsis, Sorabile, IMPASSIBLE TERRAIN 055 -> ARDARA
+	link = { imp = 3491 imp = 3495 ck3 = 2661 }	# Oualentia, ForumTraiani -> ISILI
+	link = { imp = 3504 imp = 3506 imp = 3505 ck3 = 2658 }	# Olbia, Viniolae, PortusTibulae -> OLBIA
+	link = { imp = 3489 imp = 3503 ck3 = 2657 }	# FanumCarisi, Coclearia -> GALTELLI
+	link = { imp = 3488 ck3 = 2656 }	# Sulcis -> TORTOLI
+	link = { imp = 3499 imp = 3500 ck3 = 2664 }	# NymphaiosLimen, TurrisLibisonis -> PORTO TORRES
+	link = { imp = 3494 imp = 3497 ck3 = 2665 }	# Cornus, HermaionAkron -> ALGHERO
+	link = { imp = 3490 ck3 = 2660 }	# Sestis -> SAMASSI
+	link = { imp = 3485 imp = 3493 imp = 3492 imp = 3482 ck3 = 2659 }	# SardusPater, Tharros, Neapolis, HydataNeapolitana -> ORISTANO
+	link = { imp = 3486 imp = 3487 ck3 = 2655 }	# Ferraria, Porticenses -> CARBONARA
+	link = { imp = 3483 imp = 3484 ck3 = 2653 }	# Nora, Caralis -> CAGLIARI
+	link = { imp = 3481 ck3 = 2654 }	# Sulcis -> IGLESIAS
 	# Algeria
 	link = { imp = 3216 ck3 = 4590 }	# FundaThavagalensis -> SIQQABANARIYA
 	link = { imp = 3232 ck3 = 4628 }	# Thuburnica -> TIFASH
