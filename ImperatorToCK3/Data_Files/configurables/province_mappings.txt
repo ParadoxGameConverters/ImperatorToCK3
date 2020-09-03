@@ -1,4 +1,27 @@
 mappings = {
+	# Provence
+	link = { imp = 3527 ck3 = 2066 }	# LucusAugusti -> DIE
+	link = { imp = 3525 imp = 3526 ck3 = 2068 }	# Vocontiorum, Darentiaca -> ROMANS
+	link = { imp = 3531 imp = 3533 ck3 = 2030 }	# Cularo, Murissa -> GRENOBLE
+	link = { imp = 2309 imp = 2310 ck3 = 8717 }	# Batiana, Cerebelliaca -> Monteil
+	link = { imp = 2308 imp = 2306 ck3 = 2064 }	# Valentia, Figlinae -> VALENCE
+	link = { imp = 3524 ck3 = 2028 }	# Vappincum -> GAP
+	link = { imp = 3536 ck3 = 2027 ck3 = 8718 }	# Eburodunum -> EMBRUN, Briancon
+	link = { imp = 3528 ck3 = 2061 }	# MonsSeleucus -> FORCALQUIER
+	link = { imp = 3519 ck3 = 2067 }	# Vasio -> VAISON
+	link = { imp = 2320 ck3 = 2062 }	# Arausio -> ORANGE
+	link = { imp = 5022 ck3 = 8721 }	# IMPASSIBLE TERRAIN 022 -> Puget
+	link = { imp = 3518 ck3 = 2025 }	# ApollinarisReiorum -> Castellane
+	link = { imp = 2324 ck3 = 2060 }	# AptaIula -> APT
+	link = { imp = 3523 ck3 = 2023 }	# Verunia -> AIX
+	link = { imp = 3541 imp = 3542 imp = 3521 ck3 = 2024 }	# ForumIulii, ForumVoconii, Tegulata -> DRAGUGNIAN
+	link = { imp = 3543 ck3 = 2020 }	# Antipolis -> GRASSE
+	link = { imp = 3517 imp = 3540 ck3 = 2019 }	# Tauroention, Pergantion -> TOULON
+	link = { imp = 3529 imp = 3522 ck3 = 8720 }	# Rigomagus, Sanitium -> Barcelonnette
+	link = { imp = 3520 ck3 = 2026 }	# Segustero -> SISTERON
+	link = { imp = 2321 imp = 2322 ck3 = 2059 }	# Avennio, Carpentorate -> AVIGNON
+	link = { imp = 2323 imp = 2319 ck3 = 2017 }	# AquaeSextiae, Arelate -> ARLES
+	link = { imp = 2325 ck3 = 2018 }	# Massalia -> MARSEILLE
 	# North Italy
 	link = { imp = 3560 ck3 = 2040 }	# Industria -> IVREA
 	link = { imp = 3568 imp = 3561 ck3 = 2473 }	# Victimulae, Eporedia -> BIELLA
@@ -68,7 +91,6 @@ mappings = {
 	link = { imp = 3661 ck3 = 2499 }	# Tridentium -> TRENTO
 	link = { imp = 3579 ck3 = 2493 }	# Bergomum -> BERGAMO
 	link = { imp = 3571 imp = 3578 ck3 = 2482 }	# Mediolanium, Argentea -> MILAN
-	link = { imp = 2325 ck3 = 2018 }	# Massalia -> MARSEILLE
 	link = { imp = 3547 ck3 = 2465 }	# Savo -> SAVONA
 	link = { imp = 3576 ck3 = 2490 ck3 = 2489 }	# Florentiola -> FLORENTIOLA, RONCAGLIA
 	link = { imp = 3549 ck3 = 2466 }	# Genua -> GENOA
