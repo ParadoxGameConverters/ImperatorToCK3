@@ -376,9 +376,49 @@
 	link = { imp = 3486 imp = 3487 ck3 = 2655 }	# Ferraria, Porticenses -> CARBONARA
 	link = { imp = 3483 imp = 3484 ck3 = 2653 }	# Nora, Caralis -> CAGLIARI
 	link = { imp = 3481 ck3 = 2654 }	# Sulcis -> IGLESIAS
+	# Africa Proconsularis
+	link = { imp = 3265 imp = 3233 imp = 3268 imp = 3267 ck3 = 4589 }	# ThimidaBure, BullaRegia, Aunobaris, ThibursicumBure -> BAJA
+	link = { imp = 3230 ck3 = 4586 }	# Thabraca -> TABARQA
+	link = { imp = 3258 imp = 3262 imp = 3263 imp = 3264 ck3 = 4585 }	# HippoDiarrhytus, Rucuma, Thisika, Septimia -> BANZART
+	link = { imp = 3257 imp = 3260 imp = 3261 ck3 = 4583 }	# Utica, ThuburbisMinor, Thimida -> QARTAJANA
+	link = { imp = 3337 imp = 3338 imp = 3339 ck3 = 4550 }	# DigdidaSelorum, AraePhilaenorum, Automalax -> AL-AGHAILA
+	link = { imp = 3329 imp = 3330 imp = 3332 imp = 3333 imp = 3334 imp = 3335 imp = 3336 ck3 = 4552 }	# Annesel, Auxiu, Dysopon, Euphranta, Iscina, Aulazon, AdPalmam -> SURT
+	link = { imp = 3326 imp = 3327 ck3 = 4554 }	# Base, Thebunte -> TAWURGHA
+	link = { imp = 3325 imp = 3324 ck3 = 4555 }	# Thubactis, Kinypes -> MISURATA
+	link = { imp = 3306 ck3 = 4556 }	# LeptisMagna -> LABDA
+	link = { imp = 3302 imp = 3303 imp = 3304 imp = 3305 ck3 = 4557 }	# Zanazia, Oea, Amarea, Gaphara -> TRIPOLIS
+	link = { imp = 3300 imp = 3301 ck3 = 4568 }	# Locri, Abrotonum -> SABRATHA
+	link = { imp = 3297 imp = 3298 imp = 3299 ck3 = 4561 }	# PuteaPallene, Zouchis, Pisida -> ZUWARA
+	link = { imp = 3295 imp = 3296 ck3 = 4565 }	# Meninge, Zitha -> JARJIS
+	link = { imp = 3293 ck3 = 4566 }	# Gigthis -> BUGHRARA
+	link = { imp = 3294 ck3 = 4562 }	# Tipasa -> JERBA
+	link = { imp = 3291 imp = 3292 imp = 3290 ck3 = 4573 }	# Tacape, Bezereos, TurrisTamalleni -> QABIS
+	link = { imp = 3289 ck3 = 4574 }	# Bennata -> AL-HAMMA
+	link = { imp = 3284 imp = 3285 imp = 3287 imp = 3283 imp = 3288 ck3 = 4575 }	# Cercina, Thaenae, Taparura, Usula, MacomadesMinores -> SFAX
+	link = { imp = 3286 imp = 3282 ck3 = 4576 }	# Aeliae, Thysdrus -> EL-JEM
+	link = { imp = 3278 imp = 3280 imp = 3281 ck3 = 4577 }	# Thapsus, Iustinianopolis, Bararus -> SLAKTA
+	link = { imp = 3277 ck3 = 4578 }	# LeptisMinor -> MAHDIYA
+	link = { imp = 3276 ck3 = 4579 }	# Hadrametum -> MONASTIR
+	link = { imp = 3249 imp = 3242 ck3 = 4594 }	# Ziqua, Abthugni -> KAIROUAN
+	link = { imp = 3279 ck3 = 4597 }	# VicusAugusti -> AL-ABBASIYA
+	link = { imp = 3274 ck3 = 4596 }	# Mediccera -> MANSURIYA
+	link = { imp = 3244 imp = 3243 imp = 3275 ck3 = 4580 }	# Pupput, PheradiMaius, Unizibbira -> SUSA
+	link = { imp = 3255 imp = 3254 imp = 3252 imp = 3245 ck3 = 4584 }	# Missua, Aspis, Carpis, Neapolis -> NABEUL
 	# Algeria
-	link = { imp = 3216 ck3 = 4590 }	# FundaThavagalensis -> SIQQABANARIYA
+	link = { imp = 3253 imp = 3250 ck3 = 4581 }	# Nepheris, Uthina -> ZAGHWAN
+	link = { imp = 3256 imp = 3259 ck3 = 4582 }	# Carthago, Inuca -> TUNIS
+	link = { imp = 3271 imp = 3270 imp = 3266 imp = 3251 ck3 = 4753 }	# Thignica, BisicaLucana, Membressa, ThuburboMaius -> SILYANA
+	link = { imp = 3272 imp = 3239 imp = 3246 imp = 3212 imp = 3240 imp = 3241 imp = 3238 ck3 = 4592 }	# Muzuc, Uzappa, Mactaris, AquaeRegiae, Seressi, FurnosMaius, ZamaRegia -> JALULA
+	link = { imp = 3235 imp = 3236 imp = 3269 ck3 = 4591 }	# Lares, Assuras, Agbia -> AL-ARIBUS
+	link = { imp = 3216 imp = 3234 imp = 3237 ck3 = 4590 }	# FundaThavagalensis, SiccaVeneria, Obba -> SIQQABANARIYA
 	link = { imp = 3232 ck3 = 4628 }	# Thuburnica -> TIFASH
+	link = { imp = 3191 ck3 = 4602 }	# CastraNeptitana -> HAMMA
+	link = { imp = 3209 imp = 3205 imp = 3198 imp = 3248 imp = 3247 ck3 = 4624 }	# Thala, Menegesum, Cillium, ThuggaTerebenthina, Althiburos -> TALA
+	link = { imp = 3199 imp = 3197 imp = 3210 imp = 3211 ck3 = 4593 }	# Nara, Sufetula, Sufes, Masclinae -> SABIBA
+	link = { imp = 3273 imp = 3200 ck3 = 4595 }	# AquaeCasae, Oviscae -> RAQQADA
+	link = { imp = 3201 ck3 = 4599 }	# Tabira -> QAFSA
+	link = { imp = 3193 imp = 3194 imp = 3195 ck3 = 4598 }	# Cerva, Thelepte, Gemellia -> AL-QASRAYN
+	link = { imp = 3202 imp = 3190 imp = 3196 ck3 = 4600 }	# Silesva, CastellumThigensium, CapsaIustiniana -> TAQYUS
 	link = { imp = 3189 imp = 3188 ck3 = 4606 }	# AdSpeculum, Casae Nigrae -> MADAS
 	link = { imp = 3207 imp = 3206 imp = 3203 imp = 3186 imp = 3204 ck3 = 4607 }	# Vegesela, AdAquasCaesaris, Theveste, UbazaCastellum, Vatari -> MADILA
 	link = { imp = 3223 imp = 3224 imp = 3228 ck3 = 4630 }	# Calama, Asuccuris, Celtianis -> QALAMA
