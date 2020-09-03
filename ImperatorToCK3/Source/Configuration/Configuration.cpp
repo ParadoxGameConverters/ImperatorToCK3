@@ -12,7 +12,7 @@ Configuration::Configuration()
 	clearRegisteredKeywords();
 	setOutputName();
 	verifyImperatorPath();
-	///verifyCK3Path(); /// TODO #5: enable when CK3 is released
+	verifyCK3Path();
 }
 
 Configuration::Configuration(std::istream& theStream)
@@ -42,6 +42,10 @@ void Configuration::registerKeys()
 		const commonItems::singleString path(theStream);
 		CK3Path = path.getString();
 		});
+	registerKeyword("CK3ModsDirectory", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString path(theStream);
+		CK3ModsPath = path.getString();
+		});	
 	registerKeyword("output_name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		outputName = nameStr.getString();
@@ -74,6 +78,8 @@ void Configuration::verifyImperatorPath() const
 void Configuration::verifyCK3Path() const
 {
 	if (!Utils::DoesFolderExist(CK3Path)) throw std::runtime_error(CK3Path + " does not exist!");
+	if (!Utils::DoesFileExist(CK3Path + "/binaries/ck3.exe"))
+		throw std::runtime_error(CK3Path + " does not contain Crusader Kings III!");
 	LOG(LogLevel::Info) << "\tCK3 install path is " << CK3Path;
 }
 
