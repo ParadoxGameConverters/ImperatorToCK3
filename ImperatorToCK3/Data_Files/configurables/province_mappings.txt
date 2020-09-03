@@ -1,4 +1,21 @@
 mappings = {
+	# Languedoc
+	link = { imp = 2296 ck3 = 2217 }	# Condate -> ALES
+	link = { imp = 2286 ck3 = 2296 }	# Vellavorum -> VELAY
+	link = { imp = 5046 ck3 = 3258 ck3 = 2065 ck3 = 2297 }	# IMPASSIBLE TERRAIN 046 -> Annonay, LYON, FEURS
+	link = { imp = 2311 imp = 2316 ck3 = 2063 }	# AlbaHelviorum, Staturnae -> VIVIERS
+	link = { imp = 2254 ck3 = 2210 ck3 = 2007 }	# Tarusco -> TARASCON, MONTBEL
+	link = { imp = 2259 imp = 2258 ck3 = 2013 }	# Baeterrae, Usuerva -> BEZIERS
+	link = { imp = 1079 ck3 = 2447 }	# AdVicensi -> LIMOUX
+	link = { imp = 2257 ck3 = 1866 }	# Ruscino -> PERPIGNAN
+	link = { imp = 2255 ck3 = 2006 }	# Carcasso -> CARCASSONE
+	link = { imp = 2256 ck3 = 2005 }	# NarboMartius -> NARBONNE
+	link = { imp = 2261 ck3 = 2219 ck3 = 2220 }	# Luteva -> LODEVE, NAVACELLES
+	link = { imp = 2260 ck3 = 2014 }	# Agatha -> AGDE
+	link = { imp = 2317 ck3 = 2216 }	# Ucetia -> USES
+	link = { imp = 2318 imp = 2314 ck3 = 2016 }	# Rhodanousia, Nemausus -> NIMES
+	link = { imp = 2297 imp = 2312 ck3 = 2218 }	# Cebennia, Andusia -> CEVENNES
+	link = { imp = 2313 imp = 2315 ck3 = 2015 }	# Sextantio, Briginnum -> MONTPELLIER
 	# Provence
 	link = { imp = 3527 ck3 = 2066 }	# LucusAugusti -> DIE
 	link = { imp = 3525 imp = 3526 ck3 = 2068 }	# Vocontiorum, Darentiaca -> ROMANS
