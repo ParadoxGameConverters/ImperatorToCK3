@@ -115,7 +115,7 @@ mappings = {
 	link = { imp = 134 ck3 = 2543 ck3 = 2544 }	# Florentia -> FIRENZE, VALLOMBROSA
 	link = { imp = 130 ck3 = 2560 }	# Sena -> SIENA
 	link = { imp = 103 ck3 = 2585 }	# Spoletium -> SPOLETO
-	link = { imp = 21 ck3 = 2568 }	# Volsini -> ORIVETO
+	link = { imp = 21 imp = 102 ck3 = 2568 }	# Volsini, Tuder -> ORIVETO
 	link = { imp = 113 ck3 = 2570 }	# Suana -> SOANA
 	link = { imp = 118 ck3 = 2583 ck3 = 2587 }	# Cingulum -> CAGLI, CAMERINO
 	link = { imp = 122 ck3 = 2555 }	# Urbinum -> URBINO
