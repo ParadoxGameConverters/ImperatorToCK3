@@ -29,7 +29,7 @@ requiredFolder = {
 	searchPathID = 1158310
 }
 requiredFolder = {
-	name = targetGameModPath
+	name = CK3ModsDirectory
 	displayName = CK3MOD
 	tooltip = CK3MODTIP
 	mandatory = true
