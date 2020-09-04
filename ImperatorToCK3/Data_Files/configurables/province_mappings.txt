@@ -376,6 +376,30 @@
 	link = { imp = 3486 imp = 3487 ck3 = 2655 }	# Ferraria, Porticenses -> CARBONARA
 	link = { imp = 3483 imp = 3484 ck3 = 2653 }	# Nora, Caralis -> CAGLIARI
 	link = { imp = 3481 ck3 = 2654 }	# Sulcis -> IGLESIAS
+	# Palestine
+	link = { imp = 666 imp = 670 imp = 669 imp = 671 imp = 668 ck3 = 5960 }	# Sykamina, Ake-Ptolemais, Jellemeh, Kefar Shuni, Boukolonpolis -> ACRE
+
+	link = { imp = 721 imp = 720 imp = 715 imp = 714 ck3 = 5985 }	# Gerasa, Asophon, Gadara, Tyrus -> JARASH
+
+	link = { imp = 718 ck3 = 5984 }	# Philadelpheia -> AMMAN
+	link = { imp = 709 imp = 699 ck3 = 5969 }	# Toloha, Eboda -> ZUGHAR
+
+	link = { imp = 722 imp = 675 imp = 733 ck3 = 5958 }	# Gadara2, Pella, Abila Dekapoleos/Seleukia -> IRBID
+	link = { imp = 723 imp = 732 imp = 739 imp = 737 ck3 = 5954 }	# Hippos, Adraha, Karnaia, Raphon -> ZURRA
+	link = { imp = 731 ck3 = 5979 }	# Mhai -> AT-TAFILA
+	link = { imp = 681 ck3 = 5980 }	# Characmoba -> KERAK
+	link = { imp = 712 ck3 = 5981 }	# Aroes -> MAAB
+	link = { imp = 713 imp = 717 imp = 716 ck3 = 5983 }	# Livias, Madaba, Esbous -> MUJIB
+	link = { imp = 687 imp = 684 imp = 688 imp = 686 ck3 = 5965 }	# Ierusalem, Iericho, Thekoa, Emmaus -> JERUSALEM
+
+	link = { imp = 692 imp = 693 imp = 690 imp = 689 ck3 = 5963 }	# Adora, Thala, Marisa, Bethar -> AR-RAMLA
+	link = { imp = 664 imp = 663 imp = 682 imp = 685 imp = 662 imp = 661 ck3 = 5962 }	# Apollonia, Ioppe, Antipatris, Lydda, Iamneia, Ashdod -> YAFFA
+	link = { imp = 743 imp = 744 imp = 745 ck3 = 5921 }	# Tyrus, Hammon, Gelil -> TYRE
+	link = { imp = 680 imp = 719 imp = 683 imp = 676 ck3 = 5964 }	# Neapolis, Akraba, Ephraim, Salem -> NABLUS
+	link = { imp = 648 imp = 677 imp = 674 imp = 673 imp = 672 ck3 = 5959 }	# Gennesar, Asochis, Philoteria, Scythopolis, Iezreel -> TIBERIAS
+	link = { imp = 665 imp = 667 imp = 678 imp = 679 ck3 = 5961 }	# Caesarea, Dora, Narbata, Samaria -> CESAREA
+	link = { imp = 691 imp = 711 imp = 700 imp = 710 ck3 = 5966 }	# Hebron, Masada, Mampsis, Zoara -> HEBRON
+	link = { imp = 660 ck3 = 5967 }	# Ashqelon/Ascalon -> ASCALON
 	# Sinai
 	link = { imp = 1709 imp = 1710 ck3 = 6037 }	# Naqb Jedid, Sina Meridionalis -> TIH
 	link = { imp = 657 imp = 697 imp = 656 ck3 = 5970 }	# Bitylion, Nessana, Rinokoloura -> AL-ARISH
@@ -478,7 +502,7 @@
 	link = { imp = 4601 ck3 = 6189 }	# Baclanaza -> FAJR
 	link = { imp = 4612 ck3 = 6186 }	# Relicta -> SARJ
 	link = { imp = 4600 ck3 = 6185 }	# Ostama -> SHARAF AL-BAL
-	link = { imp = 730 ck3 = 5977 }	# Adrou -> ADRUH
+	link = { imp = 730 ck3 = 5977 ck3 = 5978 }	# Adrou -> ADRUH, SHAWBAK
 	link = { imp = 729 ck3 = 5971 }	# Petra -> BAIDHA-PETRA
 	link = { imp = 728 ck3 = 5976 }	# Auara -> MAAN
 	link = { imp = 727 ck3 = 5975 }	# Aramaua -> AL-HUMAYMA
