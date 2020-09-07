@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include "OSCompatibilityLayer.h"
+#include "outProvinces.h"
 
 
 namespace CK3
@@ -25,7 +26,7 @@ void CK3::outputWorld(const World& CK3World)
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history/province_mapping");
 
 	LOG(LogLevel::Info) << "<- Writing Provinces";
-	outputHistoryProvinces(CK3World);
+	outputHistoryProvinces(outputName, CK3World.getProvinces());
 }
 
 
@@ -44,25 +45,4 @@ void CK3::createModFolder(const std::string& outputName)
 {
 	const std::filesystem::path modPath{ "output/" + outputName };
 	std::filesystem::create_directories(modPath);
-}
-
-void CK3::outputHistoryProvinces(const World& CK3World)
-{
-	std::ofstream output("output/" + CK3World.getOutputModName() + "/history/provinces/province_history.txt"); // dumping all into one file
-	if (!output.is_open())
-		throw std::runtime_error(
-			"Could not create province history file: output/" + CK3World.getOutputModName() + "/history/provinces/province_history.txt");
-	output << "# " << CK3World.getProvinces().size() << "\n";
-	for (const auto& province : CK3World.getProvinces())
-	{
-		output << *province.second;
-	}
-	output.close();
-
-	//create province mapping dummy
-	std::ofstream dummy("output/" + CK3World.getOutputModName() + "/history/province_mapping/dummy.txt");
-	if (!dummy.is_open())
-		throw std::runtime_error(
-			"Could not create province mapping file: output/" + CK3World.getOutputModName() + "/history/province_mapping/dummy.txt");
-	dummy.close();
 }

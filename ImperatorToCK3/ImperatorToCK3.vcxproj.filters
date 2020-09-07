@@ -202,6 +202,9 @@
     <ClInclude Include="Source\CK3\Province\CK3ProvinceMappings.h">
       <Filter>CK3\Province</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outProvinces.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -358,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="Source\CK3\Province\CK3ProvinceMappings.cpp">
       <Filter>CK3\Province</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outProvinces.cpp">
+      <Filter>CK3Outputter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

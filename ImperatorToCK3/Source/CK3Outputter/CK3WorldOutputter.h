@@ -11,7 +11,6 @@ namespace CK3
 {
 
 void outputWorld(const World& CK3World);
-void outputHistoryProvinces(const World& CK3World);
 
 }
 
