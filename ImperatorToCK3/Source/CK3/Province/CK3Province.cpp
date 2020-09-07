@@ -41,7 +41,7 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 		}
 	}
 	/*
-	// Attempt to use religion of country. #TODO 
+	// Attempt to use religion of country. #TODO(#34): use country religion as fallback
 	if (!religionSet && !tagCountry.second->getReligion().empty())
 	{
 		details.religion = tagCountry.second->getReligion();
@@ -63,7 +63,7 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 		}
 	}
 	/*
-	// Attempt to use primary culture of country. #TODO 
+	// Attempt to use primary culture of country. #TODO(#34): use country primary culture as fallback
 	if (!cultureSet && !tagCountry.second->getPrimaryCulture().empty())
 	{
 		details.culture = tagCountry.second->getPrimaryCulture();
