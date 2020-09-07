@@ -22,7 +22,7 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	srcProvince = std::move(origProvince);
 	
 	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
-	// there are no uncolonized provinces in Imperator.
+	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
 
 	/*
 	tagCountry = srcProvince->getOwner().second->getCK3Tag(); // linking to our holder
