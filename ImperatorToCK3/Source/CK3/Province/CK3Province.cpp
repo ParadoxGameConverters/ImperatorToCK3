@@ -6,11 +6,8 @@
 //#include "../Country/Country.h"
 //#include "../../CK2World/Characters/Character.h"
 
-CK3::Province::Province(int id, std::istream& theStream): provID(id)
-{
-	// Load from a country file, if one exists. Otherwise rely on defaults.
-	details = ProvinceDetails(theStream);
-}
+CK3::Province::Province(int id, std::istream& theStream) : provID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
+
 
 void CK3::Province::updateWith(const std::string& filePath)
 {
@@ -24,14 +21,13 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 {
 	srcProvince = std::move(origProvince);
 	
-	/*
 	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 	// there are no uncolonized provinces in Imperator.
-	if (srcProvince->getOwner().empty())
-		return;																 // wasteland.*/
-	//tagCountry = srcProvince->getOwner().second->getEU4Tag(); // linking to our holder
-	//details.owner = tagCountry.first;
-	//details.controller = tagCountry.first;
+
+	/*
+	tagCountry = srcProvince->getOwner().second->getCK3Tag(); // linking to our holder
+	details.owner = tagCountry.first;
+	details.controller = tagCountry.first; */
 
 	// Religion first.
 	auto religionSet = false;
@@ -45,16 +41,6 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 		}
 	}
 	/*
-	// Attempt to use religion of ruler in THAT province.
-	if (!religionSet && srcProvince->getTitle().second->getHolder().first && !srcProvince->getTitle().second->getHolder().second->getReligion().empty())
-	{
-		auto religionMatch = religionMapper.getEu4ReligionForCk2Religion(srcProvince->getTitle().second->getHolder().second->getReligion());
-		if (religionMatch)
-		{
-			details.religion = *religionMatch;
-			religionSet = true;
-		}
-	}
 	// Attempt to use religion of country. #TODO 
 	if (!religionSet && !tagCountry.second->getReligion().empty())
 	{
@@ -88,12 +74,4 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	{
 		//Use default CK3 culture.
 	}
-}
-
-void CK3::Province::sterilize()
-{
-	//details.owner.clear();
-	//details.controller.clear();
-
-	//tagCountry = std::pair(std::string(), nullptr);
 }
