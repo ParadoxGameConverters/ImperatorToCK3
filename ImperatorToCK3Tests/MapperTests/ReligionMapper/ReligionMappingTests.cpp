@@ -21,7 +21,7 @@ TEST(Mappers_ReligionMappingTests, ck3ReligionCanBeSet)
 
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_EQ(theMapping.getCK3Religion(), "ck3Religion");
+	ASSERT_EQ("ck3Religion", theMapping.getCK3Religion());
 }
 
 
@@ -43,7 +43,7 @@ TEST(Mappers_ReligionMappingTests, imperatorReligionsCanBeSet)
 
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_EQ(theMapping.getImperatorReligions().size(), 2);
-	ASSERT_EQ(*theMapping.getImperatorReligions().find("religion1"), "religion1");
-	ASSERT_EQ(*theMapping.getImperatorReligions().find("religion2"), "religion2");
+	ASSERT_EQ(2, theMapping.getImperatorReligions().size());
+	ASSERT_EQ("religion1", *theMapping.getImperatorReligions().find("religion1"));
+	ASSERT_EQ("religion2", *theMapping.getImperatorReligions().find("religion2"));
 }

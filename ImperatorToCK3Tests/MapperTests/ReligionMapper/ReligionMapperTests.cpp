@@ -22,7 +22,7 @@ TEST(Mappers_ReligionMapperTests, ck3ReligionCanBeFound)
 	const mappers::ReligionMapper theMapper(input);
 
 	const auto& ck3Religion = theMapper.getCK3ReligionForImperatorReligion("impReligion");
-	ASSERT_EQ(ck3Religion, "ck3Religion");
+	ASSERT_EQ("ck3Religion", ck3Religion);
 }
 
 
@@ -34,7 +34,7 @@ TEST(Mappers_ReligionMapperTests, multipleCK3ReligionsCanBeInARule)
 	const mappers::ReligionMapper theMapper(input);
 
 	const auto& ck3Religion = theMapper.getCK3ReligionForImperatorReligion("impReligion2");
-	ASSERT_EQ(ck3Religion, "ck3Religion");
+	ASSERT_EQ("ck3Religion", ck3Religion);
 }
 
 
@@ -47,5 +47,5 @@ TEST(Mappers_ReligionMapperTests, correctRuleMatches)
 	const mappers::ReligionMapper theMapper(input);
 
 	const auto& ck3Religion = theMapper.getCK3ReligionForImperatorReligion("impReligion2");
-	ASSERT_EQ(ck3Religion, "ck3Religion2");
+	ASSERT_EQ("ck3Religion2", ck3Religion);
 }

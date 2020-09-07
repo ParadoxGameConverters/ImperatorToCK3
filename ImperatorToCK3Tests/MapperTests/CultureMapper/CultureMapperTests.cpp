@@ -17,7 +17,7 @@ TEST(Mappers_CultureMapperTests, simpleCultureMatches)
 	input << "link = { ck3 = culture imp = test }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ(*culMapper.cultureMatch("test", "", 0, ""), "culture");
+	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 0, ""));
 }
 
 TEST(Mappers_CultureMapperTests, simpleCultureCorrectlyMatches)
@@ -26,7 +26,7 @@ TEST(Mappers_CultureMapperTests, simpleCultureCorrectlyMatches)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ(*culMapper.cultureMatch("test", "", 0, ""), "culture");
+	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 0, ""));
 }
 
 TEST(Mappers_CultureMapperTests, cultureMatchesWithReligion)
@@ -35,7 +35,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithReligion)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ(*culMapper.cultureMatch("test", "thereligion", 0, ""), "culture");
+	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "thereligion", 0, ""));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongReligion)
@@ -53,7 +53,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithCapital)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ(*culMapper.cultureMatch("test", "", 4, ""), "culture");
+	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 4, ""));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongCapital)
@@ -71,7 +71,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTag)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = TAG }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ(*culMapper.cultureMatch("test", "", 0, "TAG"), "culture");
+	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 0, "TAG"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongTag)
@@ -80,5 +80,5 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongTag)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = TAG }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("test", "", 0, "GAT"));
+	ASSERT_FALSE("GAT", culMapper.cultureMatch("test", "", 0));
 }

@@ -18,7 +18,7 @@ TEST(Mappers_VersionParserTests, nameCanBeSet)
 
 	const mappers::VersionParser theParser(input);
 
-	ASSERT_EQ(theParser.getName(), "test");
+	ASSERT_EQ("test", theParser.getName());
 }
 
 TEST(Mappers_VersionParserTests, versionDefaultsToBlank)
@@ -37,7 +37,7 @@ TEST(Mappers_VersionParserTests, versionCanBeSet)
 
 	const mappers::VersionParser theParser(input);
 
-	ASSERT_EQ(theParser.getVersion(), "test");
+	ASSERT_EQ("test", theParser.getVersion());
 }
 
 TEST(Mappers_VersionParserTests, descriptionDefaultsToBlank)
@@ -56,5 +56,5 @@ TEST(Mappers_VersionParserTests, descriptionCanBeSet)
 
 	const mappers::VersionParser theParser(input);
 
-	ASSERT_EQ(theParser.getDescription(), "test");
+	ASSERT_EQ("test", theParser.getDescription());
 }

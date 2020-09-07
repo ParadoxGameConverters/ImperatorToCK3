@@ -54,7 +54,7 @@ TEST(ImperatorWorld_ProvincesTests, popCanBeLinked)
 	const auto& pop = provinceItr->second->getPops().find(8);
 
 	ASSERT_TRUE(pop->second);
-	ASSERT_EQ(pop->second->getType(), "citizen");
+	ASSERT_EQ("citizen", pop->second->getType());
 }
 
 TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
@@ -86,11 +86,11 @@ TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
 	const auto& pop3 = provinceItr3->second->getPops().find(9);
 
 	ASSERT_TRUE(pop->second);
-	ASSERT_EQ(pop->second->getType(), "citizen");
+	ASSERT_EQ("citizen", pop->second->getType());
 	ASSERT_TRUE(pop2->second);
-	ASSERT_EQ(pop2->second->getType(), "freemen");
+	ASSERT_EQ("freemen", pop2->second->getType());
 	ASSERT_TRUE(pop3->second);
-	ASSERT_EQ(pop3->second->getType(), "tribal");
+	ASSERT_EQ("tribal", pop3->second->getType());
 }
 
 TEST(ImperatorWorld_ProvincesTests, BrokenLinkAttemptThrowsWarning)
@@ -121,5 +121,5 @@ TEST(ImperatorWorld_ProvincesTests, BrokenLinkAttemptThrowsWarning)
 	auto newLine = stringLog.find_first_of('\n');
 	stringLog = stringLog.substr(0, newLine);
 
-	ASSERT_EQ(stringLog, " [WARNING] Pop ID: 10 has no definition!");
+	ASSERT_EQ(" [WARNING] Pop ID: 10 has no definition!", stringLog);
 }

@@ -31,7 +31,7 @@ mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 		const commonItems::singleString impStr(theStream);
 		cultures.insert(impStr.getString());
 	});
-	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
 	parseStream(theStream);
 	clearRegisteredKeywords();
@@ -57,7 +57,7 @@ std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::
 		if (!religions.count(CK3religion))
 			return std::nullopt;
 
-	// This is a straight province check, not regions.
+	// This is a straight province check
 	if (CK3Province && !provinces.empty())
 		if (!provinces.count(CK3Province))
 			return std::nullopt;
@@ -70,7 +70,7 @@ std::optional<std::string> mappers::CultureMappingRule::cultureNonReligiousMatch
 	int CK3Province,
 	const std::string& CK3ownerTag) const
 {
-	// This is a non regional non religious match. We need a mapping without any religion, so if the
+	// This is a non religious match. We need a mapping without any religion, so if the
 	// mapping rule has any religious qualifiers it needs to fail.
 	if (!religions.empty())
 		return std::nullopt;

@@ -94,9 +94,9 @@ TEST(Mappers_CultureMappingTests, OwnersCanBeSet)
 
 	const mappers::CultureMappingRule theMapping(input);
 
-	ASSERT_EQ(theMapping.getOwners().size(), 2);
-	ASSERT_EQ(*theMapping.getOwners().find("TAG1"), "TAG1");
-	ASSERT_EQ(*theMapping.getOwners().find("TAG2"), "TAG2");
+	ASSERT_EQ(2, theMapping.getOwners().size());
+	ASSERT_EQ("TAG1", *theMapping.getOwners().find("TAG1"));
+	ASSERT_EQ("TAG2", *theMapping.getOwners().find("TAG2"));
 }
 
 TEST(Mappers_CultureMappingTests, ProvincesDefaultToEmpty)
@@ -116,7 +116,7 @@ TEST(Mappers_CultureMappingTests, ProvincesCanBeSet)
 
 	const mappers::CultureMappingRule theMapping(input);
 
-	ASSERT_EQ(theMapping.getProvinces().size(), 2);
-	ASSERT_EQ(*theMapping.getProvinces().find(3), 3);
-	ASSERT_EQ(*theMapping.getProvinces().find(4), 4);
+	ASSERT_EQ(2, theMapping.getProvinces().size());
+	ASSERT_EQ(3, *theMapping.getProvinces().find(3));
+	ASSERT_EQ(4, *theMapping.getProvinces().find(4));
 }

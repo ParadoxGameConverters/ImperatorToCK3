@@ -28,7 +28,7 @@ void mappers::ReligionMapper::registerKeys()
 			impToCK3ReligionMap.insert(std::make_pair(imperatorReligion, theMapping.getCK3Religion()));
 		}
 	});
-	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 std::optional<std::string> mappers::ReligionMapper::getCK3ReligionForImperatorReligion(const std::string& impReligion) const
