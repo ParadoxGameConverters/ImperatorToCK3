@@ -37,6 +37,12 @@
     <Filter Include="Sources\Mappers">
       <UniqueIdentifier>{2c47b8ec-36aa-497c-82e8-88a58e581620}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests\CultureMapper">
+      <UniqueIdentifier>{2e39a942-c000-4b60-9f8c-fda1c2b58cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapperTests\ReligionMapper">
+      <UniqueIdentifier>{c96c64f1-e311-4c93-b812-3058a1d5a9b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -221,6 +227,30 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp">
       <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMappingRule.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\CultureMapper\CultureMapperTests.cpp">
+      <Filter>MapperTests\CultureMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\CultureMapper\CultureMappingTests.cpp">
+      <Filter>MapperTests\CultureMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\ReligionMapper\ReligionMapperTests.cpp">
+      <Filter>MapperTests\ReligionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp">
+      <Filter>MapperTests\ReligionMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

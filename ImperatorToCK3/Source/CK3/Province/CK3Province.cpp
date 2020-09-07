@@ -1,0 +1,99 @@
+#include "CK3Province.h"
+#include "../../Imperator/Provinces/Province.h"
+//#include "../../Imperator/Titles/Title.h"
+#include "../../Mappers/CultureMapper/CultureMapper.h"
+#include "../../Mappers/ReligionMapper/ReligionMapper.h"
+//#include "../Country/Country.h"
+//#include "../../CK2World/Characters/Character.h"
+
+CK3::Province::Province(int id, std::istream& theStream): provID(id)
+{
+	// Load from a country file, if one exists. Otherwise rely on defaults.
+	details = ProvinceDetails(theStream);
+}
+
+void CK3::Province::updateWith(const std::string& filePath)
+{
+	// We're doing this for special reason and from a specific source.
+	details.updateWith(filePath);
+}
+
+void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Province> origProvince,
+	 const mappers::CultureMapper& cultureMapper,
+	 const mappers::ReligionMapper& religionMapper)
+{
+	srcProvince = std::move(origProvince);
+	
+	/*
+	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
+	// there are no uncolonized provinces in Imperator.
+	if (srcProvince->getOwner().empty())
+		return;																 // wasteland.*/
+	//tagCountry = srcProvince->getOwner().second->getEU4Tag(); // linking to our holder
+	//details.owner = tagCountry.first;
+	//details.controller = tagCountry.first;
+
+	// Religion first.
+	auto religionSet = false;
+	if (!srcProvince->getReligion().empty())
+	{
+		auto religionMatch = religionMapper.getCK3ReligionForImperatorReligion(srcProvince->getReligion());
+		if (religionMatch)
+		{
+			details.religion = *religionMatch;
+			religionSet = true;
+		}
+	}
+	/*
+	// Attempt to use religion of ruler in THAT province.
+	if (!religionSet && srcProvince->getTitle().second->getHolder().first && !srcProvince->getTitle().second->getHolder().second->getReligion().empty())
+	{
+		auto religionMatch = religionMapper.getEu4ReligionForCk2Religion(srcProvince->getTitle().second->getHolder().second->getReligion());
+		if (religionMatch)
+		{
+			details.religion = *religionMatch;
+			religionSet = true;
+		}
+	}
+	// Attempt to use religion of country. #TODO 
+	if (!religionSet && !tagCountry.second->getReligion().empty())
+	{
+		details.religion = tagCountry.second->getReligion();
+		religionSet = true;
+	}*/
+	if (!religionSet)
+	{
+		//Use default CK3 religion.
+	}
+	auto cultureSet = false;
+	// do we even have a base culture?
+	if (!srcProvince->getCulture().empty())
+	{
+		auto cultureMatch = cultureMapper.cultureMatch(srcProvince->getCulture(), details.religion, provID, tagCountry.first);
+		if (cultureMatch)
+		{
+			details.culture = *cultureMatch;
+			cultureSet = true;
+		}
+	}
+	/*
+	// Attempt to use primary culture of country. #TODO 
+	if (!cultureSet && !tagCountry.second->getPrimaryCulture().empty())
+	{
+		details.culture = tagCountry.second->getPrimaryCulture();
+		cultureSet = true;
+	}
+	*/
+	if (!cultureSet)
+	{
+		//Use default CK3 culture.
+	}
+}
+
+void CK3::Province::sterilize()
+{
+	//details.owner.clear();
+	//details.controller.clear();
+
+	//tagCountry = std::pair(std::string(), nullptr);
+}

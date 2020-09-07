@@ -24,8 +24,10 @@ namespace ImperatorWorld
 	class World: commonItems::parser
 	{
 		public:
-			World(const Configuration& theConfiguration);
+			explicit World(const Configuration& theConfiguration);
+		
 			[[nodiscard]] std::string getSaveName() const { return "CK3tester"; }
+			[[nodiscard]] const auto& getProvinces() const { return provinces.getProvinces(); }
 
 		private:
 			void verifySave(const std::string& saveGamePath);

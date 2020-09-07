@@ -60,7 +60,7 @@ void mappers::ProvinceMapper::createMappings()
 	}
 }
 
-std::vector<int> mappers::ProvinceMapper::getImpProvinceNumbers(const int ck3ProvinceNumber) const
+std::vector<int> mappers::ProvinceMapper::getImperatorProvinceNumbers(const int ck3ProvinceNumber) const
 {
 	const auto& mapping = CK3ToImpProvinceMap.find(ck3ProvinceNumber);
 	if (mapping != CK3ToImpProvinceMap.end())

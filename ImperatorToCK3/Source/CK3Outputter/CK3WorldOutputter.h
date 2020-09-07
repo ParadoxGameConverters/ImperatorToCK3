@@ -7,10 +7,11 @@
 
 
 
-namespace CK3World
+namespace CK3
 {
 
-void outputWorld(const CK3World::World& CK3World);
+void outputWorld(const CK3::World& CK3World);
+void outputHistoryProvinces(const CK3::World& CK3World);
 
 }
 

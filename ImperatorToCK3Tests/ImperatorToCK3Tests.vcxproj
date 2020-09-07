@@ -200,9 +200,13 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="AccessoryGenesTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
@@ -221,9 +225,13 @@
     <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvinceTests.cpp" />
+    <ClCompile Include="MapperTests\CultureMapper\CultureMapperTests.cpp" />
+    <ClCompile Include="MapperTests\CultureMapper\CultureMappingTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMapperTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingsVersionTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingTests.cpp" />
+    <ClCompile Include="MapperTests\ReligionMapper\ReligionMapperTests.cpp" />
+    <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp" />
     <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
