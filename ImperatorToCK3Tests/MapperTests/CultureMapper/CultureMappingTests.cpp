@@ -5,7 +5,6 @@
 TEST(Mappers_CultureMappingTests, ck3CultureDefaultsToBlank)
 {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -15,7 +14,7 @@ TEST(Mappers_CultureMappingTests, ck3CultureDefaultsToBlank)
 TEST(Mappers_CultureMappingTests, ck3CultureCanBeSet)
 {
 	std::stringstream input;
-	input << "= { ck3 = ck3Culture }";
+	input << "ck3 = ck3Culture";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -25,7 +24,6 @@ TEST(Mappers_CultureMappingTests, ck3CultureCanBeSet)
 TEST(Mappers_CultureMappingTests, impCulturesDefaultToEmpty)
 {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -35,7 +33,7 @@ TEST(Mappers_CultureMappingTests, impCulturesDefaultToEmpty)
 TEST(Mappers_CultureMappingTests, impCulturesCanBeSet)
 {
 	std::stringstream input;
-	input << "= { imp = culture1 imp = culture2 }";
+	input << "imp = culture1 imp = culture2";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -47,7 +45,6 @@ TEST(Mappers_CultureMappingTests, impCulturesCanBeSet)
 TEST(Mappers_CultureMappingTests, ReligionsDefaultToEmpty)
 {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -57,7 +54,7 @@ TEST(Mappers_CultureMappingTests, ReligionsDefaultToEmpty)
 TEST(Mappers_CultureMappingTests, ReligionsCanBeSet)
 {
 	std::stringstream input;
-	input << "= { religion = religion1 religion = religion2 }";
+	input << "religion = religion1 religion = religion2";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -70,7 +67,6 @@ TEST(Mappers_CultureMappingTests, ReligionsCanBeSet)
 TEST(Mappers_CultureMappingTests, RegionsDefaultToEmpty)
 {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -80,7 +76,6 @@ TEST(Mappers_CultureMappingTests, RegionsDefaultToEmpty)
 TEST(Mappers_CultureMappingTests, OwnersDefaultToEmpty)
 {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -90,7 +85,7 @@ TEST(Mappers_CultureMappingTests, OwnersDefaultToEmpty)
 TEST(Mappers_CultureMappingTests, OwnersCanBeSet)
 {
 	std::stringstream input;
-	input << "= { owner = TAG1 owner = TAG2 }";
+	input << "owner = TAG1 owner = TAG2";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -102,7 +97,6 @@ TEST(Mappers_CultureMappingTests, OwnersCanBeSet)
 TEST(Mappers_CultureMappingTests, ProvincesDefaultToEmpty)
 {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::CultureMappingRule theMapping(input);
 
@@ -112,7 +106,7 @@ TEST(Mappers_CultureMappingTests, ProvincesDefaultToEmpty)
 TEST(Mappers_CultureMappingTests, ProvincesCanBeSet)
 {
 	std::stringstream input;
-	input << "= { province = 3 province = 4 }";
+	input << "province = 3 province = 4";
 
 	const mappers::CultureMappingRule theMapping(input);
 

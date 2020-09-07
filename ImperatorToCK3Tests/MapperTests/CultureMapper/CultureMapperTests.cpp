@@ -80,5 +80,5 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongTag)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = TAG }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE("GAT", culMapper.cultureMatch("test", "", 0));
+	ASSERT_FALSE(culMapper.cultureMatch("test", "", 0, "GAT"));
 }
