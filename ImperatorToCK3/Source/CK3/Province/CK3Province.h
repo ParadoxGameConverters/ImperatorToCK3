@@ -34,7 +34,6 @@ class Province
 	//[[nodiscard]] const auto& getOwner() const { return details.owner; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
-	[[nodiscard]] const auto& getSourceProvince() const { return srcProvince; }
 	[[nodiscard]] auto getProvinceID() const { return provID; }
 	
 

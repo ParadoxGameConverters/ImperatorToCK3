@@ -41,7 +41,7 @@ void mappers::ProvinceMapper::createMappings()
 {
 	for (const auto& mapping: theMappings.getMappings())
 	{
-		// fix deliberate errors where we leave mappings without keys (asian wasteland comes to mind):
+		// fix deliberate errors where we leave mappings without keys (CK2->EU4 asian wasteland comes to mind):
 		if (mapping.getImpProvinces().empty())
 			continue;
 		if (mapping.getCK3Provinces().empty())

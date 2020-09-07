@@ -1,10 +1,10 @@
 #include "CK3Province.h"
 #include "../../Imperator/Provinces/Province.h"
-//#include "../../Imperator/Titles/Title.h"
+//#include "../../Imperator/Countries/Country.h"
 #include "../../Mappers/CultureMapper/CultureMapper.h"
 #include "../../Mappers/ReligionMapper/ReligionMapper.h"
-//#include "../Country/Country.h"
-//#include "../../CK2World/Characters/Character.h"
+//#include "../Title/Title.h"
+//#include "../../Imperator/Characters/Character.h"
 
 CK3::Province::Province(int id, std::istream& theStream) : provID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
 

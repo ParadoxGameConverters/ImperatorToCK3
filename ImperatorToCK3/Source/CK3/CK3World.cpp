@@ -17,7 +17,7 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 	// Some of it will be overwritten, but not all.
 	importVanillaProvinces(theConfiguration.getCK3Path());
 
-	// Next we import ck2 provinces and translate them ontop a significant part of all imported provinces.
+	// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 	importImperatorProvinces(impWorld);
 }
 
@@ -122,9 +122,9 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 	int winner = -1;
 	auto maxDev = -1;
 
-	for (auto ck2ProvinceID : impProvinceNumbers)
+	for (auto imperatorProvinceID : impProvinceNumbers)
 	{
-		const auto& impProvince = sourceWorld.getProvinces().find(ck2ProvinceID);
+		const auto& impProvince = sourceWorld.getProvinces().find(imperatorProvinceID);
 		if (impProvince == sourceWorld.getProvinces().end())
 		{
 			continue; // Broken mapping, or loaded a mod changing provinces without using it.

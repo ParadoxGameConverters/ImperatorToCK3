@@ -3,7 +3,7 @@
 #include <sstream>
 
 
-TEST(Mappers_ReligionMappingTests, eu4ReligionDefaultsToBlank)
+TEST(Mappers_ReligionMappingTests, ck3ReligionDefaultsToBlank)
 {
 	std::stringstream input;
 	input << "= {}";
@@ -14,7 +14,7 @@ TEST(Mappers_ReligionMappingTests, eu4ReligionDefaultsToBlank)
 }
 
 
-TEST(Mappers_ReligionMappingTests, eu4ReligionCanBeSet)
+TEST(Mappers_ReligionMappingTests, ck3ReligionCanBeSet)
 {
 	std::stringstream input;
 	input << "= { ck3 = ck3Religion }";
@@ -25,7 +25,7 @@ TEST(Mappers_ReligionMappingTests, eu4ReligionCanBeSet)
 }
 
 
-TEST(Mappers_ReligionMappingTests, ck2ReligionsDefaultToEmpty)
+TEST(Mappers_ReligionMappingTests, imperatorReligionsDefaultToEmpty)
 {
 	std::stringstream input;
 	input << "= {}";
@@ -36,7 +36,7 @@ TEST(Mappers_ReligionMappingTests, ck2ReligionsDefaultToEmpty)
 }
 
 
-TEST(Mappers_ReligionMappingTests, ck2ReligionsCanBeSet)
+TEST(Mappers_ReligionMappingTests, imperatorReligionsCanBeSet)
 {
 	std::stringstream input;
 	input << "= { imp = religion1 imp = religion2 }";

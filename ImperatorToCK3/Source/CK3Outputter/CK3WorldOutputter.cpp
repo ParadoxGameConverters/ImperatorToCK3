@@ -14,7 +14,7 @@ void createModFolder(const std::string& outputName);
 }
 
 
-void CK3::outputWorld(const CK3::World& CK3World)
+void CK3::outputWorld(const World& CK3World)
 {
 	const auto& outputName = CK3World.getOutputModName();
 	createModFolder(outputName);
@@ -46,7 +46,7 @@ void CK3::createModFolder(const std::string& outputName)
 	std::filesystem::create_directories(modPath);
 }
 
-void CK3::outputHistoryProvinces(const CK3::World& CK3World)
+void CK3::outputHistoryProvinces(const World& CK3World)
 {
 	std::ofstream output("output/" + CK3World.getOutputModName() + "/history/provinces/province_history.txt"); // dumping all into one file
 	if (!output.is_open())

@@ -23,9 +23,9 @@ void mappers::ReligionMapper::registerKeys()
 {
 	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
 		const ReligionMapping theMapping(theStream);
-		for (const auto& ck2Religion: theMapping.getImperatorReligions())
+		for (const auto& imperatorReligion: theMapping.getImperatorReligions())
 		{
-			impToCK3ReligionMap.insert(std::make_pair(ck2Religion, theMapping.getCK3Religion()));
+			impToCK3ReligionMap.insert(std::make_pair(imperatorReligion, theMapping.getCK3Religion()));
 		}
 	});
 	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);

@@ -10,8 +10,8 @@
 namespace CK3
 {
 
-void outputWorld(const CK3::World& CK3World);
-void outputHistoryProvinces(const CK3::World& CK3World);
+void outputWorld(const World& CK3World);
+void outputHistoryProvinces(const World& CK3World);
 
 }
 
