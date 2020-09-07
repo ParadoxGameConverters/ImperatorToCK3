@@ -22,8 +22,6 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 }
 
 
-
-
 void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 {
 	LOG(LogLevel::Info) << "-> Importing Vanilla Provinces";
@@ -38,9 +36,6 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 			auto newProvinces = Provinces(ck3Path + "/game/history/provinces/" + fileName);
 			for (const auto& newProvince : newProvinces.getProvinces())
 			{
-
-				//Log(LogLevel::Debug) << "Number of provinces in file: " << newProvinces.getProvinces().size();
-				//Log(LogLevel::Debug) << "Province data: " << newProvince.second->getProvinceID() << " " << newProvince.second->getCulture() << newProvince.second->getReligion();
 				const auto id = newProvince.first;
 				if (provinces.count(id))
 				{
@@ -69,8 +64,6 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 			auto newProvinces = ProvinceMappings(ck3Path + "/game/history/province_mapping/" + fileName);
 			for (const auto& newProvince : newProvinces.getMappings())
 			{
-				//Log(LogLevel::Debug) << "Number of provinces in file: " << newProvinces.getMappings().size();
-				//Log(LogLevel::Debug) << "Province data: " << newProvince.first << " " << provinces.find(newProvince.second)->second->getCulture() << " " << provinces.find(newProvince.second)->second->getReligion();
 				const auto id = newProvince.first;
 				if (provinces.find(newProvince.second) == provinces.end())
 				{
@@ -97,7 +90,7 @@ void CK3::World::importImperatorProvinces(const ImperatorWorld::World& sourceWor
 {
 	LOG(LogLevel::Info) << "-> Importing Imperator Provinces";
 	auto counter = 0;
-	// CK2 provinces map to a subset of eu4 provinces. We'll only rewrite those we are responsible for.
+	// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
 	for (const auto& province : provinces)
 	{
 		const auto& impProvinces = provinceMapper.getImperatorProvinceNumbers(province.first);
@@ -110,10 +103,6 @@ void CK3::World::importImperatorProvinces(const ImperatorWorld::World& sourceWor
 		{
 			continue; // MISMAP, or simply have mod provinces loaded we're not using.
 		}
-		if (sourceProvince->first == -1)
-		{
-			province.second->sterilize(); // sterilizing wastelands
-		}
 		else
 		{
 			province.second->initializeFromImperator(sourceProvince->second, cultureMapper, religionMapper);
@@ -121,7 +110,7 @@ void CK3::World::importImperatorProvinces(const ImperatorWorld::World& sourceWor
 		// And finally, initialize it.
 		counter++;
 	}
-	LOG(LogLevel::Info) << ">> " << sourceWorld.getProvinces().size() << " CK2 provinces imported into " << counter << " EU4 provinces.";
+	LOG(LogLevel::Info) << ">> " << sourceWorld.getProvinces().size() << " Imperator provinces imported into " << counter << " CK3 provinces.";
 }
 
 std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::World::determineProvinceSource(const std::vector<int>& impProvinceNumbers,
