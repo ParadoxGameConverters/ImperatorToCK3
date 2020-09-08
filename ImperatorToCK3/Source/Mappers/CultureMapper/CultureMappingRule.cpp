@@ -40,7 +40,7 @@ mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::string& impCulture,
 	 const std::string& CK3religion,
 	 int CK3Province,
-	 const std::string& CK3ownerTag) const
+	 const std::string& CK3ownerTitle) const
 {
 	// We need at least a viable CK3culture.
 	if (impCulture.empty())
@@ -49,8 +49,8 @@ std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::
 	if (!cultures.count(impCulture))
 		return std::nullopt;
 
-	if (!CK3ownerTag.empty() && !owners.empty())
-		if (!owners.count(CK3ownerTag))
+	if (!CK3ownerTitle.empty() && !owners.empty())
+		if (!owners.count(CK3ownerTitle))
 			return std::nullopt;
 
 
@@ -73,7 +73,7 @@ std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::
 std::optional<std::string> mappers::CultureMappingRule::cultureNonReligiousMatch(const std::string& impCulture,
 	const std::string& CK3religion,
 	int CK3Province,
-	const std::string& CK3ownerTag) const
+	const std::string& CK3ownerTitle) const
 {
 	// This is a non religious match. We need a mapping without any religion, so if the
 	// mapping rule has any religious qualifiers it needs to fail.
@@ -81,5 +81,5 @@ std::optional<std::string> mappers::CultureMappingRule::cultureNonReligiousMatch
 		return std::nullopt;
 
 	// Otherwise, as usual.
-	return cultureMatch(impCulture, CK3religion, CK3Province, CK3ownerTag);
+	return cultureMatch(impCulture, CK3religion, CK3Province, CK3ownerTitle);
 }

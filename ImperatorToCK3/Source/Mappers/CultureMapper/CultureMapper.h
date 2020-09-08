@@ -17,12 +17,12 @@ class CultureMapper: commonItems::parser
 	[[nodiscard]] std::optional<std::string> cultureMatch(const std::string& impCulture,
 		 const std::string& ck3religion,
 		 int ck3Province,
-		 const std::string& ck3ownerTag) const;
+		 const std::string& ck3ownerTitle) const;
 
 	[[nodiscard]] std::optional<std::string> cultureNonReligiousMatch(const std::string& impCulture,
 		const std::string& ck3religion,
 		int ck3Province,
-		const std::string& ck3ownerTag) const;
+		const std::string& ck3ownerTitle) const;
 
   private:
 	void registerKeys();

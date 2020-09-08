@@ -15,12 +15,12 @@ class CultureMappingRule: commonItems::parser
 	[[nodiscard]] std::optional<std::string> cultureMatch(const std::string& impCulture,
 		 const std::string& CK3religion,
 		 int CK3Province,
-		 const std::string& CK3ownerTag) const;
+		 const std::string& CK3ownerTitle) const;
 
 	[[nodiscard]] std::optional<std::string> cultureNonReligiousMatch(const std::string& impCulture,
 		const std::string& CK3religion,
 		int CK3Province,
-		const std::string& CK3ownerTag) const;
+		const std::string& CK3ownerTitle) const;
 
 
 	[[nodiscard]] const auto& getCK3Culture() const { return destinationCulture; } // for testing
