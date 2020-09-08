@@ -71,7 +71,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTitle)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 0, "TAG"));
+	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 0, "e_roman_empire"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongOwnerTitle)

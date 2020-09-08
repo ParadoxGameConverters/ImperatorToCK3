@@ -5,7 +5,6 @@
 
 namespace CK3
 {
-	//class Province;
 	class Provinces: commonItems::parser
 	{
 	  public:
