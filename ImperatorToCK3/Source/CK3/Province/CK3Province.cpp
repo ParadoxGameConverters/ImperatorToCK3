@@ -29,7 +29,15 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	details.owner = titleCountry.first;
 	details.controller = titleCountry.first; */
 
-	// Religion first.
+	// Religion first
+	setReligion(religionMapper);
+	
+	// Then culture
+	setCulture(cultureMapper);
+}
+
+void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper)
+{
 	auto religionSet = false;
 	if (!srcProvince->getReligion().empty())
 	{
@@ -51,6 +59,11 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	{
 		//Use default CK3 religion.
 	}
+}
+
+
+void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
+{
 	auto cultureSet = false;
 	// do we even have a base culture?
 	if (!srcProvince->getCulture().empty())

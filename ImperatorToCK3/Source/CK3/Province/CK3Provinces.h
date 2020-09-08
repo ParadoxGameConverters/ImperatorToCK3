@@ -9,13 +9,12 @@ namespace CK3
 	{
 	  public:
 		Provinces() = default;
-		explicit Provinces(const std::string& _filePath);
+		explicit Provinces(const std::string& filePath);
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
 
 	  private:
 		void registerKeys();
 
-		std::string filePath;
 		std::map<int, std::shared_ptr<Province>> provinces;
 	};
 } // namespace CK3

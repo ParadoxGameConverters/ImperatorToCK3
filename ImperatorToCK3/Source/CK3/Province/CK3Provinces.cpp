@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-CK3::Provinces::Provinces(const std::string& _filePath): filePath(_filePath)
+CK3::Provinces::Provinces(const std::string& filePath)
 {
 	registerKeys();
 	parseFile(filePath);
