@@ -6,7 +6,6 @@
 CK3::ProvinceDetails::ProvinceDetails(const std::string& filePath)
 {
 	registerKeys();
-
 	if (Utils::DoesFileExist(filePath))
 	{
 		parseFile(filePath);
@@ -49,6 +48,5 @@ void CK3::ProvinceDetails::registerKeys()
 		const commonItems::singleString religStr(theStream);
 		religion = religStr.getString();
 	});
-	registerRegex(R"(\d+.\d+.\d+)", commonItems::ignoreItem);
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

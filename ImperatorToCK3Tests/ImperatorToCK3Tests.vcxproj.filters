@@ -43,6 +43,12 @@
     <Filter Include="MapperTests\ReligionMapper">
       <UniqueIdentifier>{c96c64f1-e311-4c93-b812-3058a1d5a9b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CK3WorldTests">
+      <UniqueIdentifier>{7794a935-fde2-4eb4-9b9a-9e0619a203ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles">
+      <UniqueIdentifier>{6f8bcf4e-3485-4e30-bce7-c34b411099b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -252,6 +258,12 @@
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp">
       <Filter>MapperTests\ReligionMapper</Filter>
     </ClCompile>
+    <ClCompile Include="CK3WorldTests\CK3ProvinceDetailsTests.cpp">
+      <Filter>CK3WorldTests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\ProvinceDetails.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
@@ -263,5 +275,13 @@
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h">
       <Filter>Sources</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsBlank.txt">
+      <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsCorrect.txt">
+      <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

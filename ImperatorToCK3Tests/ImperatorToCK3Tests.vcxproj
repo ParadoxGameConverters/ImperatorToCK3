@@ -170,6 +170,7 @@
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\ProvinceDetails.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="AccessoryGenesTests.cpp" />
+    <ClCompile Include="CK3WorldTests\CK3ProvinceDetailsTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
@@ -238,6 +240,16 @@
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsBlank.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsCorrect.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles/CK3ProvinceDetails</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
