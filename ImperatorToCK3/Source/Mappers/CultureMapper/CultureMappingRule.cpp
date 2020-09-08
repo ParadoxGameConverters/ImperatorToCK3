@@ -53,9 +53,14 @@ std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::
 		if (!owners.count(CK3ownerTag))
 			return std::nullopt;
 
-	if (!CK3religion.empty() && !religions.empty())
-		if (!religions.count(CK3religion))
+
+	if (!religions.empty())
+	{
+		if (CK3religion.empty()) // CK3 religion empty
 			return std::nullopt;
+		if (!religions.count(CK3religion)) // CK3 religion not empty but not found in religions
+			return std::nullopt;
+	}
 
 	// This is a straight province check
 	if (CK3Province && !provinces.empty())
