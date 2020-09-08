@@ -65,20 +65,20 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongCapital)
 	ASSERT_FALSE(culMapper.cultureMatch("test", "", 3, ""));
 }
 
-TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTag)
+TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTitle)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = TAG }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 0, "TAG"));
 }
 
-TEST(Mappers_CultureMapperTests, cultureFailsWithWrongTag)
+TEST(Mappers_CultureMapperTests, cultureFailsWithWrongOwnerTitle)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = TAG }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("test", "", 0, "GAT"));
+	ASSERT_FALSE(culMapper.cultureMatch("test", "", 0, "e_reman_empire"));
 }
