@@ -91,3 +91,67 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongOwnerTitle)
 
 	ASSERT_FALSE(culMapper.cultureMatch("test", "", 0, "e_reman_empire"));
 }
+
+
+TEST(Mappers_CultureMapperTests, nonMatchGivesEmptyOptionalWithNonReligiousMatch)
+{
+	std::stringstream input;
+	input << "link = { ck3 = culture imp = culture }";
+	const mappers::CultureMapper culMapper(input);
+
+	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("nonMatchingCulture", "", 0, ""));
+}
+
+TEST(Mappers_CultureMapperTests, simpleCultureMatchesWithNonReligiousMatch)
+{
+	std::stringstream input;
+	input << "link = { ck3 = culture imp = test }";
+	const mappers::CultureMapper culMapper(input);
+
+	ASSERT_EQ("culture", *culMapper.cultureNonReligiousMatch("test", "", 0, ""));
+}
+
+TEST(Mappers_CultureMapperTests, simpleCultureCorrectlyMatchesWithNonReligiousMatch)
+{
+	std::stringstream input;
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi }";
+	const mappers::CultureMapper culMapper(input);
+
+	ASSERT_EQ("culture", *culMapper.cultureNonReligiousMatch("test", "", 0, ""));
+}
+
+TEST(Mappers_CultureMapperTests, cultureFailsWithCorrectReligionWithNonReligiousMatch)
+{
+	std::stringstream input;
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
+	const mappers::CultureMapper culMapper(input);
+
+	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("test", "thereligion", 0, ""));
+}
+
+TEST(Mappers_CultureMapperTests, cultureFailsWithWrongReligionWithNonReligiousMatch)
+{
+	std::stringstream input;
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
+	const mappers::CultureMapper culMapper(input);
+
+	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("test", "unreligion", 0, ""));
+}
+
+TEST(Mappers_CultureMapperTests, cultureFailsWithNoReligionWithNonReligiousMatch)
+{
+	std::stringstream input;
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
+	const mappers::CultureMapper culMapper(input);
+
+	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("test", "", 0, ""));
+}
+
+TEST(Mappers_CultureMapperTests, cultureMatchesWithReligionAndNonReligiousLinkWithNonReligiousMatch)
+{
+	std::stringstream input;
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi }";
+	const mappers::CultureMapper culMapper(input);
+
+	ASSERT_EQ("culture", *culMapper.cultureNonReligiousMatch("test", "thereligion", 0, ""));
+}
