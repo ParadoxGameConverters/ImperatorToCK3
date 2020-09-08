@@ -131,7 +131,7 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 		}
 		auto owner = impProvince->second->getOwner();
 		theClaims[owner].push_back(impProvince->second);
-		theShares[owner] = lround(impProvince->second->getBuildingsCount());
+		theShares[owner] = lround(impProvince->second->getBuildingsCount() + impProvince->second->getPopCount());
 	}
 	// Let's see who the lucky winner is.
 	for (const auto& share : theShares)
@@ -153,7 +153,7 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 	std::pair<int, std::shared_ptr<ImperatorWorld::Province>> toReturn;
 	for (const auto& province : theClaims[winner])
 	{
-		const auto provinceWeight = province->getBuildingsCount();
+		const auto provinceWeight = province->getBuildingsCount() + province->getPopCount();
 
 		if (static_cast<int>(provinceWeight) > maxDev)
 		{

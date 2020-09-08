@@ -25,9 +25,9 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
 
 	/*
-	tagCountry = srcProvince->getOwner().second->getCK3Tag(); // linking to our holder
-	details.owner = tagCountry.first;
-	details.controller = tagCountry.first; */
+	titleCountry = srcProvince->getOwner().second->getCK3Title(); // linking to our holder
+	details.owner = titleCountry.first;
+	details.controller = titleCountry.first; */
 
 	// Religion first.
 	auto religionSet = false;
@@ -42,9 +42,9 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	}
 	/*
 	// Attempt to use religion of country. #TODO(#34): use country religion as fallback
-	if (!religionSet && !tagCountry.second->getReligion().empty())
+	if (!religionSet && !titleCountry.second->getReligion().empty())
 	{
-		details.religion = tagCountry.second->getReligion();
+		details.religion = titleCountry.second->getReligion();
 		religionSet = true;
 	}*/
 	if (!religionSet)
@@ -55,7 +55,7 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	// do we even have a base culture?
 	if (!srcProvince->getCulture().empty())
 	{
-		auto cultureMatch = cultureMapper.cultureMatch(srcProvince->getCulture(), details.religion, provID, tagCountry.first);
+		auto cultureMatch = cultureMapper.cultureMatch(srcProvince->getCulture(), details.religion, provID, titleCountry.first);
 		if (cultureMatch)
 		{
 			details.culture = *cultureMatch;
@@ -64,9 +64,9 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	}
 	/*
 	// Attempt to use primary culture of country. #TODO(#34): use country primary culture as fallback
-	if (!cultureSet && !tagCountry.second->getPrimaryCulture().empty())
+	if (!cultureSet && !titleCountry.second->getPrimaryCulture().empty())
 	{
-		details.culture = tagCountry.second->getPrimaryCulture();
+		details.culture = titleCountry.second->getPrimaryCulture();
 		cultureSet = true;
 	}
 	*/

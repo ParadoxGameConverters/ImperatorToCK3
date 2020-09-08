@@ -17,7 +17,7 @@ class ReligionMapper;
 
 namespace CK3
 {
-class Country;
+class Title;
 class Province
 {
   public:
@@ -30,18 +30,17 @@ class Province
 		 const mappers::CultureMapper& cultureMapper,
 		 const mappers::ReligionMapper& religionMapper);
 
-	[[nodiscard]] const auto& getTagCountry() const { return tagCountry; }
+	[[nodiscard]] const auto& getTitleCountry() const { return titleCountry; }
 	//[[nodiscard]] const auto& getOwner() const { return details.owner; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
 	[[nodiscard]] auto getProvinceID() const { return provID; }
 	
 
-	void registerTagCountry(const std::pair<std::string, std::shared_ptr<Country>>& theCountry) { tagCountry = theCountry; }
-	//void setOwner(const std::string& tag) { details.owner = tag; }
-	//void setController(const std::string& tag) { details.controller = tag; }
+	void registerTitleCountry(const std::pair<std::string, std::shared_ptr<Title>>& theTitle) { titleCountry = theTitle; }
+	//void setOwner(const std::string& title) { details.owner = title; }
+	//void setController(const std::string& title) { details.controller = title; }
 	void setReligion(const std::string& religion) { details.religion = religion; }
-	void sterilize();
 
 	friend std::ostream& operator<<(std::ostream& output, const Province& versionParser);
 
@@ -49,7 +48,7 @@ class Province
 	int provID = 0;
 	std::shared_ptr<ImperatorWorld::Province> srcProvince;
 	ProvinceDetails details;
-	std::pair<std::string, std::shared_ptr<Country>> tagCountry;
+	std::pair<std::string, std::shared_ptr<Title>> titleCountry;
 };
 } // namespace CK3
 
