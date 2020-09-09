@@ -11,10 +11,10 @@ TEST(Mappers_ProvinceMapperTests, emptyMappingsDefaultToEmpty)
 
 	const mappers::ProvinceMapper theMapper(input);
 
-	ASSERT_TRUE(theMapper.getImpProvinceNumbers(1).empty());
+	ASSERT_TRUE(theMapper.getImperatorProvinceNumbers(1).empty());
 }
 
-TEST(Mappers_ProvinceMapperTests, canLookupCK2Provinces)
+TEST(Mappers_ProvinceMapperTests, canLookupImpProvinces)
 {
 	std::stringstream input;
 	input << "0.0.0.0 = {\n";
@@ -23,15 +23,15 @@ TEST(Mappers_ProvinceMapperTests, canLookupCK2Provinces)
 
 	const mappers::ProvinceMapper theMapper(input);
 
-	ASSERT_EQ(theMapper.getImpProvinceNumbers(1).size(), 2);
-	ASSERT_EQ(theMapper.getImpProvinceNumbers(1)[0], 2);
-	ASSERT_EQ(theMapper.getImpProvinceNumbers(1)[1], 1);
-	ASSERT_EQ(theMapper.getImpProvinceNumbers(2).size(), 2);
-	ASSERT_EQ(theMapper.getImpProvinceNumbers(2)[0], 2);
-	ASSERT_EQ(theMapper.getImpProvinceNumbers(2)[1], 1);
+	ASSERT_EQ(2, theMapper.getImperatorProvinceNumbers(1).size());
+	ASSERT_EQ(2, theMapper.getImperatorProvinceNumbers(1)[0]);
+	ASSERT_EQ(1, theMapper.getImperatorProvinceNumbers(1)[1]);
+	ASSERT_EQ(2, theMapper.getImperatorProvinceNumbers(2).size());
+	ASSERT_EQ(2, theMapper.getImperatorProvinceNumbers(2)[0]);
+	ASSERT_EQ(1, theMapper.getImperatorProvinceNumbers(2)[1]);
 }
 
-TEST(Mappers_ProvinceMapperTests, canLookupEU4Provinces)
+TEST(Mappers_ProvinceMapperTests, canLookupCK3Provinces)
 {
 	std::stringstream input;
 	input << "0.0.0.0 = {\n";
@@ -40,10 +40,10 @@ TEST(Mappers_ProvinceMapperTests, canLookupEU4Provinces)
 
 	const mappers::ProvinceMapper theMapper(input);
 
-	ASSERT_EQ(theMapper.getCK3ProvinceNumbers(1).size(), 2);
-	ASSERT_EQ(theMapper.getCK3ProvinceNumbers(1)[0], 2);
-	ASSERT_EQ(theMapper.getCK3ProvinceNumbers(1)[1], 1);
-	ASSERT_EQ(theMapper.getCK3ProvinceNumbers(2).size(), 2);
-	ASSERT_EQ(theMapper.getCK3ProvinceNumbers(2)[0], 2);
-	ASSERT_EQ(theMapper.getCK3ProvinceNumbers(2)[1], 1);
+	ASSERT_EQ(2, theMapper.getCK3ProvinceNumbers(1).size());
+	ASSERT_EQ(2, theMapper.getCK3ProvinceNumbers(1)[0]);
+	ASSERT_EQ(1, theMapper.getCK3ProvinceNumbers(1)[1]);
+	ASSERT_EQ(2, theMapper.getCK3ProvinceNumbers(2).size());
+	ASSERT_EQ(2, theMapper.getCK3ProvinceNumbers(2)[0]);
+	ASSERT_EQ(1, theMapper.getCK3ProvinceNumbers(2)[1]);
 }

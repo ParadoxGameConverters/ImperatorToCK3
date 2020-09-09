@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "ProvinceName.h"
+#include <numeric>
 
 ImperatorWorld::Province::Province(std::istream& theStream, int provID): provinceID(provID)
 {
@@ -35,6 +36,10 @@ void ImperatorWorld::Province::registerKeys()
 	registerRegex("pop", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt popInt(theStream);
 		pops.insert(std::pair(popInt.getInt(), nullptr));
+	});
+	registerRegex("buildings", [this](const std::string& unused, std::istream& theStream) {
+		const auto buildingsVector = commonItems::intList(theStream).getInts();
+		buildingsCount = std::accumulate(buildingsVector.begin(), buildingsVector.end(), 0);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

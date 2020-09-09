@@ -340,7 +340,7 @@ TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero)
 
 	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
 
-	ASSERT_EQ(theCharacter.getFamily().first, 0);
+	ASSERT_EQ(0, theCharacter.getFamily().first);
 }
 TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 {

@@ -145,3 +145,28 @@ TEST(ImperatorWorld_ProvinceTests, popsCanBeSet)
 
 	ASSERT_EQ(4, theProvince.getPopCount());
 }
+
+TEST(ImperatorWorld_ProvinceTests, buildingsCountCanBeSet)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tbuildings = {0 1 0 65 3}\n";
+	input << "}";
+
+	const ImperatorWorld::Province theProvince(input, 42);
+
+	ASSERT_EQ(69, theProvince.getBuildingsCount());
+}
+
+TEST(ImperatorWorld_ProvinceTests, buildingsCountDefaultsTo0)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Province theProvince(input, 42);
+
+	ASSERT_EQ(0, theProvince.getBuildingsCount());
+}

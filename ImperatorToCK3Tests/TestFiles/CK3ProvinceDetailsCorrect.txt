@@ -1,0 +1,5 @@
+= {
+	religion = orthodox
+	random_param = random_stuff
+	culture = roman
+}

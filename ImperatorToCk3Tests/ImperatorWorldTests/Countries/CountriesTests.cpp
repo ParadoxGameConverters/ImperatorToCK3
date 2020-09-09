@@ -124,5 +124,5 @@ TEST(ImperatorWorld_CountriesTests, BrokenLinkAttemptThrowsWarning)
 	auto newLine = stringLog.find_first_of('\n');
 	stringLog = stringLog.substr(0, newLine);
 
-	ASSERT_EQ(stringLog, " [WARNING] Family ID: 10 has no definition!");
+	ASSERT_EQ(" [WARNING] Family ID: 10 has no definition!", stringLog);
 }

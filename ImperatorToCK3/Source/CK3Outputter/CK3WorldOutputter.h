@@ -7,10 +7,10 @@
 
 
 
-namespace CK3World
+namespace CK3
 {
 
-void outputWorld(const CK3World::World& CK3World);
+void outputWorld(const World& CK3World);
 
 }
 
