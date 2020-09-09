@@ -101,6 +101,7 @@ void CK3::World::importImperatorProvinces(const ImperatorWorld::World& sourceWor
 		const auto& sourceProvince = determineProvinceSource(impProvinces, sourceWorld);
 		if (!sourceProvince)
 		{
+			Log(LogLevel::Warning) << "Could not determine source province for CK3 province " << province.first;
 			continue; // MISMAP, or simply have mod provinces loaded we're not using.
 		}
 		else
@@ -127,6 +128,7 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 		const auto& impProvince = sourceWorld.getProvinces().find(imperatorProvinceID);
 		if (impProvince == sourceWorld.getProvinces().end())
 		{
+			Log(LogLevel::Warning) << "Source province " << imperatorProvinceID << " is not in the list of known provinces!";
 			continue; // Broken mapping, or loaded a mod changing provinces without using it.
 		}
 		auto owner = impProvince->second->getOwner();
