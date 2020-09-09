@@ -4,7 +4,6 @@
 #include <filesystem>
 #include <fstream>
 namespace fs = std::filesystem;
-#include "../Imperator/Characters/Character.h"
 #include "../Imperator/Provinces/Province.h"
 #include "../Configuration/Configuration.h"
 #include <cmath>
@@ -13,6 +12,10 @@ namespace fs = std::filesystem;
 
 CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser): outputModName(impWorld.getSaveName())
 {
+	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
+	// Scraping localizations from Imperator so we may know proper names for our countries.
+	localizationMapper.scrapeLocalizations(theConfiguration);
+	
 	// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 	// Some of it will be overwritten, but not all.
 	importVanillaProvinces(theConfiguration.getCK3Path());

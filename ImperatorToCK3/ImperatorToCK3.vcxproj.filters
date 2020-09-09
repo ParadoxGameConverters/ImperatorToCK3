@@ -52,6 +52,9 @@
     <Filter Include="Mappers\ReligionMapper">
       <UniqueIdentifier>{ac1460ce-6f84-4c4f-9af8-c1f43d78ba46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\LocalizationMapper">
+      <UniqueIdentifier>{de220e3a-2db3-4822-8b8c-aa68b6d245a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -204,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="Source\CK3Outputter\outProvinces.h">
       <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h">
+      <Filter>Mappers\LocalizationMapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="Source\CK3Outputter\outProvinces.cpp">
       <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp">
+      <Filter>Mappers\LocalizationMapper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

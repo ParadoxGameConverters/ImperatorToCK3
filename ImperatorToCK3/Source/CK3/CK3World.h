@@ -4,6 +4,7 @@
 
 #include "../Imperator/ImperatorWorld.h"
 #include "../Mappers/VersionParser/VersionParser.h"
+#include "../Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "../Mappers/CultureMapper/CultureMapper.h"
 #include "../Mappers/ReligionMapper/ReligionMapper.h"
 #include "../Mappers/ProvinceMapper/ProvinceMapper.h"
@@ -33,6 +34,7 @@ class World
 
 		std::map<int, std::shared_ptr<Province>> provinces;
 
+		mappers::LocalizationMapper localizationMapper;
 		mappers::ProvinceMapper provinceMapper;
 		mappers::CultureMapper cultureMapper;
 		mappers::ReligionMapper religionMapper;

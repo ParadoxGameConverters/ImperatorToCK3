@@ -1,4 +1,43 @@
 0.0.0.0 = {
+	# Southern Illyria
+
+	link = { imp = 4094 imp = 4095 imp = 4093 ck3 = 3595 }	# Gabuleum, Theranda, Siparantum -> Pec
+	link = { imp = 4100 imp = 4099 ck3 = 3594 }	# Dardanorum, Vicianum -> Zvecan
+	link = { imp = 4098 ck3 = 3596 ck3 = 3597 ck3 = 3660 }	# Ulpiana -> Pristina, Prizren, Morava
+	link = { imp = 4101 ck3 = 502 }	# Arsa -> Rashka
+	link = { imp = 4195 ck3 = 505 }	# Singidunum -> Belgrade
+	link = { imp = 4214 imp = 4209 ck3 = 3667 }	# Clevora, Egeta -> Kladovo
+	link = { imp = 4216 imp = 4215 ck3 = 506 }	# Bononia, Dortium -> Vidin
+	link = { imp = 4081 ck3 = 3555 }	# Novae -> Mokro
+	link = { imp = 4084 ck3 = 3556 }	# Pharus -> Hvar
+
+	link = { imp = 499 ck3 = 3672 }	# Pautalia -> Pernik
+	link = { imp = 4117 ck3 = 3656 }	# Pautalia -> Velbazhd
+	link = { imp = 4152 ck3 = 3655 }	# Tranupara -> Kratovo
+	link = { imp = 4108 ck3 = 3642 }	# Vizinia -> Zegligovo
+	link = { imp = 4305 ck3 = 3648 }	# Bylazora -> Shtip
+	link = { imp = 4096 ck3 = 3643 }	# Scupi -> Skopje
+
+	link = { imp = 4222 ck3 = 3662 }	# Turres -> Pirot
+	link = { imp = 4115 ck3 = 3663 }	# Remesiana -> Breznik
+
+	link = { imp = 4110 ck3 = 3658 }	# Tauresium -> Vranje
+	link = { imp = 4109 ck3 = 3654 }	# Anausaro -> Bosilegrad
+
+	link = { imp = 4114 ck3 = 3593 }	# AdFines -> Podujevo
+	link = { imp = 4113 ck3 = 3659 }	# Vindenis -> Novo Brdo
+	link = { imp = 4111 ck3 = 3657 }	# Hammeum -> Glubocica
+	link = { imp = 4112 ck3 = 501 }	# Naissus -> Naissus
+	link = { imp = 4089 ck3 = 3578 }	# Diocleia -> Drivast
+	link = { imp = 4092 ck3 = 3579 }	# AdPicarias -> Danj
+	link = { imp = 1144 ck3 = 3580 }	# Scodra -> Skadar
+	link = { imp = 4091 ck3 = 3574 }	# Acruvium -> Kotor
+	link = { imp = 4090 ck3 = 3575 }	# Bouthoe -> Antivari
+	link = { imp = 2213 ck3 = 3718 ck3 = 3720 }	# Albanopolis -> Mat, Kruje
+	link = { imp = 2336 ck3 = 3719 ck3 = 3576 }	# Lissus -> Lezhe, Ulcinj
+	link = { imp = 4088 ck3 = 3573 }	# Risinum -> Risan
+	link = { imp = 4085 ck3 = 468 }	# Epidaurum -> Ragusa
+	link = { imp = 4082 ck3 = 3569 }	# Narona -> Ston
 	# Moesia
 	link = { imp = 4258 ck3 = 3689 }	# Panissus -> Preslav
 	link = { imp = 4243 ck3 = 3686 }	# Abritus -> Shumen
@@ -6,17 +45,17 @@
 	link = { imp = 4245 ck3 = 499 }	# Haemiana -> Tyrnovo
 	link = { imp = 4237 imp = 4236 ck3 = 3680 }	# NicopolisAdIstrum, Discoduraterae -> Lovech
 	link = { imp = 4244 ck3 = 3684 }	# Tylis -> Gabrovo
-	link = { imp = 4229 imp = 4234 ck3 = 3681 }	# Longinopara, Melta -> Samundzhievo
-	link = { imp = 4228 ck3 = 3678 }	# Trullensium -> Vratsa
-	link = { imp = 4227 ck3 = 3676 }	# Oescus -> Orehovo
+	link = { imp = 4234 ck3 = 3681 }	# Melta -> Samundzhievo
+	link = { imp = 4228 imp = 4229 ck3 = 3678 }	# Trullensium, Longinopara -> Vratsa
+	link = { imp = 4227 imp = 4232 ck3 = 3676 }	# Oescus, AdPutea -> Orehovo
 	link = { imp = 4238 ck3 = 507 }	# Novae -> Nikopolis
 	link = { imp = 4240 imp = 4239 ck3 = 3682 }	# Prista, Trimammium -> Cherven
 	link = { imp = 4241 ck3 = 3687 }	# Appiara -> Hrazgrad
 	link = { imp = 4242 ck3 = 3685 }	# Transmarisca -> Tutrakan
 	link = { imp = 4231 imp = 4233 ck3 = 3679 }	# Asamus, Storgosia -> Pliven
 	link = { imp = 4251 ck3 = 3690 }	# Marcianopolis -> Provadiya
-	link = { imp = 4217 ck3 = 3670 }	# Ratiaria -> Belogradchik
-	link = { imp = 4230 ck3 = 3671 }	# Scretisca -> Meldi
+	link = { imp = 4217 imp = 4220 ck3 = 3670 }	# Ratiaria, Combustica -> Belogradchik
+	link = { imp = 4230 imp = 4116 ck3 = 3671 }	# Scretisca, Ballanstra -> Meldi
 	link = { imp = 4221 imp = 4225 ck3 = 3677 }	# Montana, Tautiomosis -> Kutlovitsa
 	link = { imp = 4223 imp = 4224 imp = 4226 ck3 = 3675 }	# Almus, Cebrus, VicusSiamus -> Lom
 	link = { imp = 4246 imp = 4252 imp = 4253 ck3 = 508 }	# Durostorum, Helis, Palmatis -> Dorostotum
@@ -51,7 +90,7 @@
 	link = { imp = 371 ck3 = 3770 }	# Euporia -> Siderokastron
 	link = { imp = 386 ck3 = 3779 ck3 = 3780 }	# Asseros -> Langades, Mavrouda
 	link = { imp = 385 ck3 = 3778 }	# Tauriana -> Gynaikokastron
-	link = { imp = 405 ck3 = 3647 }	# Stuberra -> Prilep
+	link = { imp = 405 ck3 = 3647 ck3 = 3645 }	# Stuberra -> Prilep, Veles
 	link = { imp = 397 imp = 393 ck3 = 3651 }	# Stobi, Pelagonia -> Prosek
 	link = { imp = 369 ck3 = 3771 }	# Sirra -> Serres
 	link = { imp = 411 ck3 = 3638 }	# Herakleia -> Bitola
@@ -671,6 +710,7 @@
 	# Southern Anatolia
 	link = { imp = 1882 imp = 1884 ck3 = 762 }	# Adana, Augusta -> Adana
 	link = { imp = 1796 imp = 1799 imp = 6420 imp = 1912 ck3 = 737 }	# Eusebeia, Mazaka, Eulepa, Archalla -> Kaisereia
+	link = { imp = 1899 ck3 = 5614 }	# Armaxa -> Armaxa
 	link = { imp = 1803 imp = 1802 imp = 1805 ck3 = 5615 }	# Herpha, Euagina, Anisa -> Herpha
 	link = { imp = 1931 imp = 1927 ck3 = 5663 }	# Adada, Tityassos -> Adada
 	link = { imp = 1948 imp = 1946 imp = 1947 ck3 = 748 }	# Laodicea ad Lycum, Hierapolis, Tripolis ad Maeandrum -> Laodikeia
