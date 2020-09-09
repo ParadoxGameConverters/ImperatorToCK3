@@ -19,7 +19,7 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	 const mappers::CultureMapper& cultureMapper,
 	 const mappers::ReligionMapper& religionMapper)
 {
-	srcProvince = std::move(origProvince);
+	srcProvince = origProvince;
 	
 	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.

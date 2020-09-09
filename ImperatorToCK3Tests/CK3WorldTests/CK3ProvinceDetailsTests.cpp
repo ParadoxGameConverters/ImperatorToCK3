@@ -55,3 +55,38 @@ TEST(CK3World_CK3ProvinceDetailsTests, detailsLoadedFromBlankFileAreBlank)
 	ASSERT_EQ("", details.culture);
 	ASSERT_EQ("", details.religion);
 }
+
+TEST(CK3World_CK3ProvinceDetailsTests, updateWithWrongFilePathResultsInLogError)
+{
+	std::stringstream log;
+	auto* stdOutBuf = std::cout.rdbuf();
+	std::cout.rdbuf(log.rdbuf());
+
+	const CK3::ProvinceDetails details("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt");
+
+	std::cout.rdbuf(stdOutBuf);
+	auto stringLog = log.str();
+	const auto newLine = stringLog.find_first_of('\n');
+	stringLog = stringLog.substr(0, newLine);
+
+	ASSERT_EQ("   [ERROR] Could not open TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt to update province details.", stringLog);
+}
+
+TEST(CK3World_CK3ProvinceDetailsTests, provinceDetailsWithWrongFilePathResultsInLogError)
+{
+	CK3::ProvinceDetails details;
+	
+	std::stringstream log;
+	auto* stdOutBuf = std::cout.rdbuf();
+	std::cout.rdbuf(log.rdbuf());
+
+	details.updateWith("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt");
+
+	std::cout.rdbuf(stdOutBuf);
+	auto stringLog = log.str();
+	const auto newLine = stringLog.find_first_of('\n');
+	stringLog = stringLog.substr(0, newLine);
+
+	ASSERT_EQ("   [ERROR] Could not open TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt to load province details.", stringLog);
+}
+
