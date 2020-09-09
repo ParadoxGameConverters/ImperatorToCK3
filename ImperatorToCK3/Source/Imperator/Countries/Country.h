@@ -45,9 +45,9 @@ namespace ImperatorWorld
 			std::string name;
 			std::string flag;
 	
-			commonItems::Color color1;
-			commonItems::Color color2;
-			commonItems::Color color3;
+			std::optional<commonItems::Color> color1;
+			std::optional<commonItems::Color> color2;
+			std::optional<commonItems::Color> color3;
 			CurrenciesStruct currencies;
 
 			std::map<int, std::shared_ptr<Family>> families;

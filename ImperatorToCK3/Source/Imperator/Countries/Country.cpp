@@ -25,13 +25,13 @@ void ImperatorWorld::Country::registerKeys()
 		flag = flagStr.getString();
 	});
 	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
-		color1 = commonItems::Color::Factory::getColor(theStream);
+		color1 = commonItems::Color::Factory{}.getColor(theStream);
 	});
 	registerKeyword("color2", [this](const std::string& unused, std::istream& theStream) {
-		color2 = commonItems::Color::Factory::getColor(theStream);
+		color2 = commonItems::Color::Factory{}.getColor(theStream);
 	});
 	registerKeyword("color3", [this](const std::string& unused, std::istream& theStream) {
-		color3 = commonItems::Color::Factory::getColor(theStream);
+		color3 = commonItems::Color::Factory{}.getColor(theStream);
 	});
 	registerKeyword("currency_data", [this](const std::string& unused, std::istream& theStream) {
 		const CountryCurrencies currenciesFromBloc(theStream);

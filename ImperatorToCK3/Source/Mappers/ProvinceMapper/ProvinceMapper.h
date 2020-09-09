@@ -16,9 +16,9 @@ class ProvinceMapper: commonItems::parser
 	ProvinceMapper();
 	explicit ProvinceMapper(std::istream& theStream);
 
-	[[nodiscard]] std::vector<int> getImpProvinceNumbers(int ck3ProvinceNumber) const;
+	[[nodiscard]] std::vector<int> getImperatorProvinceNumbers(int ck3ProvinceNumber) const;
 	[[nodiscard]] std::vector<int> getCK3ProvinceNumbers(int impProvinceNumber) const;
-	[[nodiscard]] auto isValidEU4Province(const int eu4Province) const { return validCK3Provinces.count(eu4Province) > 0; }
+	[[nodiscard]] auto isValidCK3Province(const int ck3Province) const { return validCK3Provinces.count(ck3Province) > 0; }
 
 	void determineValidProvinces(const Configuration& theConfiguration);
 

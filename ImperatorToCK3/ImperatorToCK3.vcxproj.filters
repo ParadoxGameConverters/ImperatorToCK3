@@ -43,6 +43,15 @@
     <Filter Include="Mappers\ProvinceMapper">
       <UniqueIdentifier>{98c970e3-6c0d-4b8b-b141-6d4519c3b82e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CK3\Province">
+      <UniqueIdentifier>{8d84171d-cbd1-49e5-aba5-9b0fc315fab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mappers\CultureMapper">
+      <UniqueIdentifier>{df9c7661-79c3-4254-969a-6231753b31ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mappers\ReligionMapper">
+      <UniqueIdentifier>{ac1460ce-6f84-4c4f-9af8-c1f43d78ba46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -112,9 +121,6 @@
     <ClInclude Include="Source\Imperator\Provinces\Province.h">
       <Filter>Imperator\Provinces</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Imperator\Provinces\Provinces.h">
-      <Filter>Imperator\Provinces</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Imperator\Provinces\Pop.h">
       <Filter>Imperator\Provinces</Filter>
     </ClInclude>
@@ -168,6 +174,36 @@
     </ClInclude>
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.h">
       <Filter>Mappers\ProvinceMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outProvince.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Province\CK3Province.h">
+      <Filter>CK3\Province</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Province\ProvinceDetails.h">
+      <Filter>CK3\Province</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h">
+      <Filter>Mappers\CultureMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\CultureMapper\CultureMappingRule.h">
+      <Filter>Mappers\CultureMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h">
+      <Filter>Mappers\ReligionMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h">
+      <Filter>Mappers\ReligionMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Province\CK3Provinces.h">
+      <Filter>CK3\Province</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Province\CK3ProvinceMappings.h">
+      <Filter>CK3\Province</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outProvinces.h">
+      <Filter>CK3Outputter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +331,39 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp">
       <Filter>Mappers\ProvinceMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outProvince.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Province\CK3Province.cpp">
+      <Filter>CK3\Province</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Province\ProvinceDetails.cpp">
+      <Filter>CK3\Province</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\CultureMapper\CultureMapper.cpp">
+      <Filter>Mappers\CultureMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\CultureMapper\CultureMappingRule.cpp">
+      <Filter>Mappers\CultureMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp">
+      <Filter>Mappers\ReligionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp">
+      <Filter>Mappers\ReligionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\CK3World.cpp">
+      <Filter>CK3</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Province\CK3Provinces.cpp">
+      <Filter>CK3\Province</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Province\CK3ProvinceMappings.cpp">
+      <Filter>CK3\Province</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outProvinces.cpp">
+      <Filter>CK3Outputter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

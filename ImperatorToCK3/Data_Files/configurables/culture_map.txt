@@ -1,0 +1,8 @@
+# Usage:
+# link = { ck3 = ck3Culture imp = impCulture province = ck3provinceID owner = ck3tag }
+# multiples of all except ck3 are allowed.
+
+
+# Roman
+
+link = { ck3 = roman imp = roman }

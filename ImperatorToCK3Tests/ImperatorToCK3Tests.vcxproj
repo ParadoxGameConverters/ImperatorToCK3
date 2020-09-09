@@ -170,6 +170,10 @@
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Province.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3ProvinceMappings.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Provinces.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\ProvinceDetails.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />
@@ -200,11 +204,18 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="AccessoryGenesTests.cpp" />
+    <ClCompile Include="CK3WorldTests\Province\CK3ProvinceDetailsTests.cpp" />
+    <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp" />
+    <ClCompile Include="CK3WorldTests\Province\CK3ProvinceTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
@@ -221,15 +232,34 @@
     <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvinceTests.cpp" />
+    <ClCompile Include="MapperTests\CultureMapper\CultureMapperTests.cpp" />
+    <ClCompile Include="MapperTests\CultureMapper\CultureMappingTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMapperTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingsVersionTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingTests.cpp" />
+    <ClCompile Include="MapperTests\ReligionMapper\ReligionMapperTests.cpp" />
+    <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp" />
     <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsBlank.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsCorrect.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles/CK3ProvinceDetails</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\CK3ProvincesHistoryFile.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

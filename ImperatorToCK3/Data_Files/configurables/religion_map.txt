@@ -1,0 +1,31 @@
+# Usage:
+# link = { ck3 = ck3Religion imp = impReligion }
+# multiple imp entries are allowed, multiple ck3 are not.
+
+# Pagan
+link = { ck3 = hellenic_pagan imp = roman_pantheon imp = anatolian_religion }
+link = { ck3 = kushitism_pagan imp = egyptian_pantheon imp = berber_religion } # Megalithic (berber_religion) could be separate
+link = { ck3 = pagan imp = carthaginian_pantheon imp = shamanism imp = caucasian_religion imp = mesopotamian_religion imp = armenian_religion imp = druidism imp = animism imp = indo_iranian_religion imp = arabian_pantheon } # remove from this group if possible
+link = { ck3 = norse_pagan imp = germanic_religion }
+# Baltic
+link = { ck3 = baltic_pagan imp = matrist_religion }
+# unsure, but they seem to be related if you read their descriptions and check location (north of Tibet)
+link = { ck3 = melieism imp = eastern_animism }
+
+#Jewish
+link = { ck3 = rabbinism imp = judaism }
+
+#Zoroastrian
+link = { ck3 = mazdayasna imp = zoroaster }
+
+#Buddhism
+link = { ck3 = theravada imp = buddhism }
+
+# Hinduism
+link = { ck3 = vaishnavism imp = hindu }
+
+# Bon
+link = { ck3 = old_bon imp = bon_religion }
+
+# Jain
+link = { ck3 = digambara imp = jainism }

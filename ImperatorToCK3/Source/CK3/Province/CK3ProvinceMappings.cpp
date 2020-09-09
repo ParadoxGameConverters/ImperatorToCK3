@@ -1,0 +1,19 @@
+#include "CK3ProvinceMappings.h"
+#include "Log.h"
+#include "ParserHelpers.h"
+
+CK3::ProvinceMappings::ProvinceMappings(const std::string& theFile)
+{
+	registerKeys();
+	parseFile(theFile);
+	clearRegisteredKeywords();
+}
+
+void CK3::ProvinceMappings::registerKeys()
+{
+	registerRegex(R"(\d+)", [this](const std::string& provID, std::istream& theStream) {
+		auto baseProvID = commonItems::singleInt{ theStream }.getInt();
+		if (stoi(provID) != baseProvID) mappings.insert(std::pair(std::stoi(provID), baseProvID)); // if left and right IDs are equal, no point in mapping
+	});
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+}
