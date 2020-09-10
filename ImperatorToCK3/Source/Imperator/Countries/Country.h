@@ -4,6 +4,10 @@
 #include "Parser.h"
 #include "Color.h"
 
+namespace CK3
+{
+	class Title;
+} // namespace CK3
 namespace ImperatorWorld
 {
 	typedef struct CurrenciesStruct
@@ -27,6 +31,7 @@ namespace ImperatorWorld
 			[[nodiscard]] const std::string& getTag() const { return tag; }
 			[[nodiscard]] const auto& getName() const { return name; }
 			[[nodiscard]] const auto& getFlag() const { return flag; }
+			[[nodiscard]] const auto& getCapital() const { return capital; }
 			[[nodiscard]] const auto& getCurrencies() const { return currencies; }
 			[[nodiscard]] const auto& getColor1() const { return color1; }
 			[[nodiscard]] const auto& getColor2() const { return color2; }
@@ -37,6 +42,8 @@ namespace ImperatorWorld
 
 			void setFamilies(const std::map<int, std::shared_ptr<Family>>& newFamilies) { families = newFamilies; }
 
+			void registerCK3Title(const std::pair<std::string, std::shared_ptr<CK3::Title>>& theTitle) { ck3Title = theTitle; }
+
 		private:
 			void registerKeys();
 
@@ -44,6 +51,7 @@ namespace ImperatorWorld
 			std::string tag;
 			std::string name;
 			std::string flag;
+			std::optional<int> capital;
 	
 			std::optional<commonItems::Color> color1;
 			std::optional<commonItems::Color> color2;
@@ -51,6 +59,7 @@ namespace ImperatorWorld
 			CurrenciesStruct currencies;
 
 			std::map<int, std::shared_ptr<Family>> families;
+			std::pair<std::string, std::shared_ptr<CK3::Title>> ck3Title;
 	};
 } // namespace ImperatorWorld
 

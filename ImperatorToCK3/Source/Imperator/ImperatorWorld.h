@@ -28,6 +28,7 @@ namespace ImperatorWorld
 		
 			[[nodiscard]] std::string getSaveName() const { return "CK3tester"; }
 			[[nodiscard]] const auto& getProvinces() const { return provinces.getProvinces(); }
+			[[nodiscard]] const auto& getCountries() const { return countries.getCountries(); }
 
 		private:
 			void verifySave(const std::string& saveGamePath);

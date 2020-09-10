@@ -4,17 +4,21 @@
 #include <filesystem>
 #include <fstream>
 namespace fs = std::filesystem;
+#include "../Imperator/Countries/Country.h"
 #include "../Imperator/Provinces/Province.h"
 #include "../Configuration/Configuration.h"
 #include <cmath>
 #include "Province/CK3Provinces.h"
 #include "Province/CK3ProvinceMappings.h"
+#include "Titles/Title.h"
 
 CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser): outputModName(impWorld.getSaveName())
 {
 	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.
 	localizationMapper.scrapeLocalizations(theConfiguration);
+
+	importImperatorCountries(impWorld);
 	
 	// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 	// Some of it will be overwritten, but not all.
@@ -22,6 +26,35 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 
 	// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 	importImperatorProvinces(impWorld);
+}
+
+
+void CK3::World::importImperatorCountries(const ImperatorWorld::World& sourceWorld)
+{
+	LOG(LogLevel::Info) << "-> Importing Imperator Countries";
+
+	// countries holds all tags imported from CK3. We'll now overwrite some and
+	// add new ones from ck2 titles.
+	for (const auto& title : sourceWorld.getCountries())
+	{
+		importImperatorCountry(title, sourceWorld);
+	}
+	LOG(LogLevel::Info) << ">> " << titles.size() << " total countries recognized.";
+}
+
+void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country, const ImperatorWorld::World& sourceWorld)
+{
+	// Mapping the tag to a title
+	std::optional<std::string> title;
+	title = tagTitleMapper.getTitleForTag(country.second->getTag());
+	if (!title)
+		throw std::runtime_error("Country " + country.second->getTag() + " could not be mapped!");
+
+	// Create a new title
+	auto newTitle = std::make_shared<Title>();
+	newTitle->initializeFromTag(*title, country.second, localizationMapper, landedTitles);
+	country.second->registerCK3Title(std::pair(*title, newTitle));
+	titles.insert(std::pair(*title, newTitle));
 }
 
 

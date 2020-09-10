@@ -55,6 +55,12 @@
     <Filter Include="Mappers\LocalizationMapper">
       <UniqueIdentifier>{de220e3a-2db3-4822-8b8c-aa68b6d245a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\TagTitleMapper">
+      <UniqueIdentifier>{34691b13-70b0-4de5-9d0c-39d81e9d7fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK3\Titles">
+      <UniqueIdentifier>{79119011-3a48-493c-a25b-ae9e53fd6fe6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -136,9 +142,6 @@
     <ClInclude Include="Source\Imperator\Countries\Countries.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Imperator\Countries\Country.h">
-      <Filter>Imperator\Countries</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Imperator\Countries\CountryCurrencies.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
@@ -210,6 +213,24 @@
     </ClInclude>
     <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h">
       <Filter>Mappers\LocalizationMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h">
+      <Filter>Mappers\TagTitleMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Countries\Country.h">
+      <Filter>Imperator\Countries</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Titles\LandedTitles.h">
+      <Filter>CK3\Titles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outTitles.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outTitle.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Titles\Title.h">
+      <Filter>CK3\Titles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -373,6 +394,21 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp">
       <Filter>Mappers\LocalizationMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp">
+      <Filter>Mappers\TagTitleMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Titles\LandedTitles.cpp">
+      <Filter>CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outTitles.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outTitle.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Titles\Title.cpp">
+      <Filter>CK3\Titles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

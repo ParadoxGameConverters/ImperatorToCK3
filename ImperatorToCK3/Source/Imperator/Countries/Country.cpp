@@ -44,6 +44,10 @@ void ImperatorWorld::Country::registerKeys()
 		currencies.political_influence = currenciesFromBloc.getPoliticalInfluence();
 		currencies.military_experience = currenciesFromBloc.getMilitaryExperience();
 	});
+	registerKeyword("capital", [this](const std::string& unused, std::istream& theStream) {
+		const auto capitalProvID = commonItems::singleInt(theStream).getInt();
+		if (capitalProvID != 0) capital = capitalProvID;
+	});
 	registerRegex("family", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt familyInt(theStream);
 		families.insert(std::pair(familyInt.getInt(), nullptr));

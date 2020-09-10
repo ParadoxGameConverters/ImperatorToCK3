@@ -4,6 +4,7 @@
 #include <string>
 #include "OSCompatibilityLayer.h"
 #include "outProvinces.h"
+#include "outTitles.h"
 
 
 namespace CK3
@@ -24,9 +25,14 @@ void CK3::outputWorld(const World& CK3World)
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history/");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history/provinces");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history/province_mapping");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/landed_titles");
 
 	LOG(LogLevel::Info) << "<- Writing Provinces";
 	outputHistoryProvinces(outputName, CK3World.getProvinces());
+
+	LOG(LogLevel::Info) << "<- Writing Landed Titles";
+	outputTitles(outputName, CK3World.getTitles());
 }
 
 

@@ -9,7 +9,7 @@ void CK3::outputHistoryProvinces(const std::string& outputModName, const std::ma
 	if (!output.is_open())
 		throw std::runtime_error(
 			"Could not create province history file: output/" + outputModName + "/history/provinces/province_history.txt");
-	output << "# " << provinces.size() << "\n";
+	output << "# number of provinces: " << provinces.size() << "\n";
 	for (const auto& [first, second] : provinces)
 	{
 		output << *second;
