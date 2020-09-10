@@ -23,7 +23,7 @@ class LandedTitles: commonItems::parser
 	[[nodiscard]] const auto& getProvince() const { return province; }
 	[[nodiscard]] const auto& getFoundTitles() const { return foundTitles; }
 
-	[[nodiscard]] const std::optional<std::string>& getCountyForProvince(int provinceID);
+	[[nodiscard]] std::optional<std::string> getCountyForProvince(int provinceID);
 
   private:
 	void registerKeys();

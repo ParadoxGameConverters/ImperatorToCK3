@@ -19,7 +19,7 @@ class Title
 {
   public:
 	Title() = default;
-	void initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper _localizationMapper, LandedTitles& _landedTitles);
+	void initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& _landedTitles, mappers::ProvinceMapper& provinceMapper);
 
 	//void outputToLandedTitles(std::ostream& output) const;
 
@@ -42,7 +42,6 @@ class Title
 	std::optional<std::string> capitalCounty;
 
 	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry;
-	mappers::LocalizationMapper localizationMapper;
 	std::map<int, std::shared_ptr<Province>> provinces;
 };
 } // namespace CK3

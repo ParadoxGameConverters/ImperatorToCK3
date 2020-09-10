@@ -18,6 +18,9 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 	// Scraping localizations from Imperator so we may know proper names for our countries.
 	localizationMapper.scrapeLocalizations(theConfiguration);
 
+	// Loading vanilla CK3 landed titles
+	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");
+
 	importImperatorCountries(impWorld);
 	
 	// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -37,12 +40,12 @@ void CK3::World::importImperatorCountries(const ImperatorWorld::World& sourceWor
 	// add new ones from ck2 titles.
 	for (const auto& title : sourceWorld.getCountries())
 	{
-		importImperatorCountry(title, sourceWorld);
+		importImperatorCountry(title);
 	}
 	LOG(LogLevel::Info) << ">> " << titles.size() << " total countries recognized.";
 }
 
-void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country, const ImperatorWorld::World& sourceWorld)
+void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country)
 {
 	// Mapping the tag to a title
 	std::optional<std::string> title;
@@ -52,7 +55,7 @@ void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<Imp
 
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
-	newTitle->initializeFromTag(*title, country.second, localizationMapper, landedTitles);
+	newTitle->initializeFromTag(*title, country.second, localizationMapper, landedTitles, provinceMapper);
 	country.second->registerCK3Title(std::pair(*title, newTitle));
 	titles.insert(std::pair(*title, newTitle));
 }

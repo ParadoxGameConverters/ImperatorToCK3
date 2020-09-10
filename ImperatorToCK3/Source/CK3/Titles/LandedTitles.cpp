@@ -32,7 +32,7 @@ void CK3::LandedTitles::registerKeys()
 			if (titleName.find_first_of("c_") == 0) // has county prefix = is a county
 			{
 				auto baronyProvince = locatedTitle.second.getProvince();
-				if (baronyProvince) countyProvinces.insert(baronyProvince.value()); // add found baronies' provinces to a countyProvinces set
+				if (baronyProvince) newTitle.countyProvinces.insert(baronyProvince.value()); // add found baronies' provinces to a countyProvinces set
 			}
 			foundTitles[locatedTitle.first] = locatedTitle.second;
 		}
@@ -58,7 +58,7 @@ void CK3::LandedTitles::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-const std::optional<std::string>& CK3::LandedTitles::getCountyForProvince (int provinceID)
+std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const int provinceID)
 {
 	for (const auto& [first, second] : foundTitles)
 	{

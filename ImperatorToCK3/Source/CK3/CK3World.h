@@ -29,7 +29,7 @@ class World
 
 	private:
 		void importImperatorCountries(const ImperatorWorld::World& sourceWorld);
-		void importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country, const ImperatorWorld::World& sourceWorld);
+		void importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country);
 		void importVanillaProvinces(const std::string& ck3Path);
 		void importImperatorProvinces(const ImperatorWorld::World& sourceWorld);
 

@@ -10,9 +10,9 @@
 #include "Log.h"
 
 
-void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper _localizationMapper, LandedTitles& _landedTitles)
+void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& _landedTitles, mappers::ProvinceMapper& provinceMapper)
 {
-	localizationMapper = std::move(_localizationMapper);
+	
 	titleName = std::move(theTitle);
 	if (historyCountryFile.empty())
 		historyCountryFile = "history/titles/" + titleName + ".txt";
@@ -23,7 +23,13 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 		color2 = theCountry->getColor2().value();
 
 	auto srcCapital = theCountry->getCapital();
-	if (srcCapital) capitalCounty = _landedTitles.getCountyForProvince(srcCapital.value());
+	if (srcCapital)
+	{
+		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(srcCapital.value());
+		if (!provMappingsForImperatorCapital.empty())
+			capitalCounty = _landedTitles.getCountyForProvince(provMappingsForImperatorCapital[0]);
+	}
+	
 
 	
 	// ------------------ Country Name Locs

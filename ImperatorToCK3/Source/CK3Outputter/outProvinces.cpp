@@ -17,7 +17,9 @@ void CK3::outputHistoryProvinces(const std::string& outputModName, const std::ma
 	output.close();
 
 	//create province mapping dummy
+	unsigned char bom[] = { 0xEF,0xBB,0xBF };
 	std::ofstream dummy("output/" + outputModName + "/history/province_mapping/dummy.txt");
+	dummy.write(reinterpret_cast<char*>(bom), sizeof(bom)); // to make the file utf8-bom
 	if (!dummy.is_open())
 		throw std::runtime_error(
 			"Could not create province mapping file: output/" + outputModName + "/history/province_mapping/dummy.txt");
