@@ -202,6 +202,8 @@
     <ClCompile Include="..\commonItems\WinUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
     <ClCompile Include="Source\CK3Outputter\CK3WorldOutputter.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outColoredEmblems.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outLocalization.cpp" />
     <ClCompile Include="Source\CK3Outputter\outProvince.cpp" />
     <ClCompile Include="Source\CK3Outputter\outProvinces.cpp" />
     <ClCompile Include="Source\CK3Outputter\outTitle.cpp" />
@@ -264,6 +266,8 @@
     <ClInclude Include="..\cpp-base64\base64.h" />
     <ClInclude Include="..\ImageMagick\include\Magick++.h" />
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h" />
+    <ClInclude Include="Source\CK3Outputter\outColoredEmblems.h" />
+    <ClInclude Include="Source\CK3Outputter\outLocalization.h" />
     <ClInclude Include="Source\CK3Outputter\outProvince.h" />
     <ClInclude Include="Source\CK3Outputter\outProvinces.h" />
     <ClInclude Include="Source\CK3Outputter\outTitle.h" />

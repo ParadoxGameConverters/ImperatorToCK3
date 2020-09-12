@@ -25,7 +25,7 @@ class Title
 
 	[[nodiscard]] const auto& getTitleName() const { return titleName; }
 	[[nodiscard]] const auto& getHistoryCountryFile() const { return historyCountryFile; }
-	//[[nodiscard]] const auto& getLocalizations() const { return localizations; }
+	[[nodiscard]] const auto& getEnglishLoc() const { return englishLoc; }
 	//[[nodiscard]] auto getCapitalCounty() const { return capitalCounty; }
 
 	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
@@ -40,6 +40,12 @@ class Title
 	commonItems::Color color1;
 	commonItems::Color color2;
 	std::optional<std::string> capitalCounty;
+
+	std::optional<std::string> englishLoc;
+	std::optional<std::string> frenchLoc;
+	std::optional<std::string> germanLoc;
+	std::optional<std::string> russianLoc;
+	std::optional<std::string> spanishLoc;
 
 	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry;
 	std::map<int, std::shared_ptr<Province>> provinces;

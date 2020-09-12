@@ -11,7 +11,7 @@ void convertImperatorToCK3(const mappers::VersionParser& versionParser)
 	
 	const ImperatorWorld::World impWorld(theConfiguration);
 	CK3::World ck3World(impWorld, theConfiguration, versionParser);
-	CK3::outputWorld(ck3World);
+	CK3::outputWorld(ck3World, theConfiguration);
 
 	LOG(LogLevel::Info) << "* Conversion complete *";
 }

@@ -3,8 +3,10 @@
 #include <fstream>
 #include <string>
 #include "OSCompatibilityLayer.h"
+#include "outLocalization.h"
 #include "outProvinces.h"
 #include "outTitles.h"
+#include "outColoredEmblems.h"
 
 
 namespace CK3
@@ -16,7 +18,7 @@ void createModFolder(const std::string& outputName);
 }
 
 
-void CK3::outputWorld(const World& CK3World)
+void CK3::outputWorld(const World& CK3World, const Configuration& theConfiguration)
 {
 	const auto& outputName = CK3World.getOutputModName();
 	createModFolder(outputName);
@@ -27,12 +29,32 @@ void CK3::outputWorld(const World& CK3World)
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history/province_mapping");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/landed_titles");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/named_colors");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/named_colors/imptock3");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/english");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/french");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/german");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/russian");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/spanish");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/colored_emblems/");
 
 	LOG(LogLevel::Info) << "<- Writing Provinces";
 	outputHistoryProvinces(outputName, CK3World.getProvinces());
 
 	LOG(LogLevel::Info) << "<- Writing Landed Titles";
 	outputTitles(outputName, CK3World.getTitles());
+
+	LOG(LogLevel::Info) << "<- Writing Localization";
+	outputLocalization(outputName, CK3World);
+
+	LOG(LogLevel::Info) << "<- Copying named colors";
+	Utils::CopyFolder(theConfiguration.getImperatorPath()+"/game/common/named_colors", "output/" + CK3World.getOutputModName() + "/common/named_colors/imptock3");
+
+	LOG(LogLevel::Info) << "<- Copying Coats of Arms";
+	outputColoredEmblems(theConfiguration, CK3World);
 }
 
 

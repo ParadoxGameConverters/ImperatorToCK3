@@ -75,7 +75,7 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const la
 		const auto sepLocFirst = line.find_first_of(':');
 		auto key = line.substr(1, sepLocFirst-1);
 		const auto sepLocLast = line.find_first_of(' ', sepLocFirst+1);
-		auto loc = line.substr(sepLocLast+1, line.size()-sepLocLast-1);
+		auto loc = line.substr(sepLocLast+2, line.size()-sepLocLast-3); // gets the loc string (without quotes)
 
 		switch (language)
 		{
