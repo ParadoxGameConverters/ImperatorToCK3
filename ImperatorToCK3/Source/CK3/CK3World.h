@@ -9,6 +9,7 @@
 #include "../Mappers/CultureMapper/CultureMapper.h"
 #include "../Mappers/ReligionMapper/ReligionMapper.h"
 #include "../Mappers/ProvinceMapper/ProvinceMapper.h"
+#include "../Mappers/CoaMapper/CoaMapper.h"
 #include "Titles/LandedTitles.h"
 
 #include "Province/CK3Province.h"
@@ -45,6 +46,7 @@ class World
 		mappers::ProvinceMapper provinceMapper;
 		mappers::CultureMapper cultureMapper;
 		mappers::ReligionMapper religionMapper;
+		mappers::CoaMapper coaMapper;
 
 
 		LandedTitles landedTitles;			// title name, title

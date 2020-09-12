@@ -202,6 +202,7 @@
     <ClCompile Include="..\commonItems\WinUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
     <ClCompile Include="Source\CK3Outputter\CK3WorldOutputter.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outCoas.cpp" />
     <ClCompile Include="Source\CK3Outputter\outColoredEmblems.cpp" />
     <ClCompile Include="Source\CK3Outputter\outLocalization.cpp" />
     <ClCompile Include="Source\CK3Outputter\outProvince.cpp" />
@@ -241,6 +242,7 @@
     <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Mappers\CoaMapper\CoaMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
     <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
@@ -266,6 +268,7 @@
     <ClInclude Include="..\cpp-base64\base64.h" />
     <ClInclude Include="..\ImageMagick\include\Magick++.h" />
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h" />
+    <ClInclude Include="Source\CK3Outputter\outCoas.h" />
     <ClInclude Include="Source\CK3Outputter\outColoredEmblems.h" />
     <ClInclude Include="Source\CK3Outputter\outLocalization.h" />
     <ClInclude Include="Source\CK3Outputter\outProvince.h" />
@@ -303,6 +306,7 @@
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />
     <ClInclude Include="Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h" />
+    <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMappingRule.h" />
     <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h" />

@@ -18,6 +18,9 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 	// Scraping localizations from Imperator so we may know proper names for our countries.
 	localizationMapper.scrapeLocalizations(theConfiguration);
 
+	// Loading Imperator CoAs to use them for generated CK3 titles
+	coaMapper = mappers::CoaMapper(theConfiguration);
+
 	// Loading vanilla CK3 landed titles
 	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");
 
@@ -55,7 +58,7 @@ void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<Imp
 
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
-	newTitle->initializeFromTag(*title, country.second, localizationMapper, landedTitles, provinceMapper);
+	newTitle->initializeFromTag(*title, country.second, localizationMapper, landedTitles, provinceMapper, coaMapper);
 	country.second->registerCK3Title(std::pair(*title, newTitle));
 	titles.insert(std::pair(*title, newTitle));
 }

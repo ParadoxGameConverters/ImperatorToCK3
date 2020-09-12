@@ -64,6 +64,9 @@
     <Filter Include="ImageMagick">
       <UniqueIdentifier>{2f2accef-0407-4b2d-968b-1fc111bb8e80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\CoaMapper">
+      <UniqueIdentifier>{87ca7ce8-8f6e-4df2-8fe2-705d24d9d384}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -243,6 +246,12 @@
     </ClInclude>
     <ClInclude Include="..\ImageMagick\include\Magick++.h">
       <Filter>ImageMagick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h">
+      <Filter>Mappers\CoaMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outCoas.h">
+      <Filter>CK3Outputter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -426,6 +435,12 @@
       <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3Outputter\outColoredEmblems.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\CoaMapper\CoaMapper.cpp">
+      <Filter>Mappers\CoaMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outCoas.cpp">
       <Filter>CK3Outputter</Filter>
     </ClCompile>
   </ItemGroup>

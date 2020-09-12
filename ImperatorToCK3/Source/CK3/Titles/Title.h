@@ -9,7 +9,8 @@
 
 namespace mappers
 {
-class ProvinceMapper;
+	class CoaMapper;
+	class ProvinceMapper;
 } // namespace mappers
 
 namespace CK3
@@ -19,14 +20,17 @@ class Title
 {
   public:
 	Title() = default;
-	void initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& _landedTitles, mappers::ProvinceMapper& provinceMapper);
+	void initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& _landedTitles, mappers::ProvinceMapper& provinceMapper,
+		mappers::CoaMapper& coaMapper);
 
 	//void outputToLandedTitles(std::ostream& output) const;
 
 	[[nodiscard]] const auto& getTitleName() const { return titleName; }
 	[[nodiscard]] const auto& getHistoryCountryFile() const { return historyCountryFile; }
 	[[nodiscard]] const auto& getEnglishLoc() const { return englishLoc; }
+	[[nodiscard]] const auto& getCoa() const { return coa; }
 	//[[nodiscard]] auto getCapitalCounty() const { return capitalCounty; }
+	[[nodiscard]] const auto& getImperatorCountry() const { return imperatorCountry; }
 
 	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
 
@@ -39,6 +43,7 @@ class Title
 	int holder = -1;
 	commonItems::Color color1;
 	commonItems::Color color2;
+	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;
 
 	std::optional<std::string> englishLoc;

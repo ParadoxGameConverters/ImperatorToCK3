@@ -5,24 +5,33 @@
 #include "../../Mappers/CultureMapper/CultureMapper.h"
 #include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "../../Mappers/ReligionMapper/ReligionMapper.h"
+#include "../../Mappers/CoaMapper/CoaMapper.h"
 #include "../Province/CK3Province.h"
 #include "CommonFunctions.h"
 #include "Log.h"
 
 
-void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& _landedTitles, mappers::ProvinceMapper& provinceMapper)
+void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& _landedTitles, mappers::ProvinceMapper& provinceMapper,
+	mappers::CoaMapper& coaMapper)
 {
 	
 	titleName = std::move(theTitle);
 	if (historyCountryFile.empty())
 		historyCountryFile = "history/titles/" + titleName + ".txt";
-	
-	if (theCountry->getColor1())
-		color1 = theCountry->getColor1().value();
-	if (theCountry->getColor1())
-		color2 = theCountry->getColor2().value();
 
-	auto srcCapital = theCountry->getCapital();
+	imperatorCountry.first = theCountry->getName();
+	imperatorCountry.second = std::move(theCountry);
+
+	auto colorOpt = imperatorCountry.second->getColor1();
+	if (colorOpt)
+		color1 = colorOpt.value();
+	colorOpt = imperatorCountry.second->getColor2();
+	if (colorOpt)
+		color2 = colorOpt.value();
+
+	coa = coaMapper.getCoaForFlagName(imperatorCountry.second->getFlag());
+
+	auto srcCapital = imperatorCountry.second->getCapital();
 	if (srcCapital)
 	{
 		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(srcCapital.value());
@@ -36,9 +45,9 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 
 	auto nameSet = false;
 	
-	if (!nameSet && !theCountry->getName().empty())
+	if (!nameSet && !imperatorCountry.second->getName().empty())
 	{
-		englishLoc = localizationMapper.getLocBlockForKey(theCountry->getName(), mappers::langEnum::ENGLISH);
+		englishLoc = localizationMapper.getLocBlockForKey(imperatorCountry.second->getName(), mappers::langEnum::ENGLISH);
 		//spanishLoc = title.second->getDisplayName();
 		//french = title.second->getDisplayName();
 		//german = title.second->getDisplayName();
