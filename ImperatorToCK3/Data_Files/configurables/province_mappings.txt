@@ -1,4 +1,112 @@
 0.0.0.0 = {
+	# Pannonia
+	link = { imp = 4145 ck3 = 3092 }	# Muteno -> PITTEN
+	link = { imp = 4144 ck3 = 3817 }	# Scarbantia -> Sopron
+	link = { imp = 4131 ck3 = 3118 ck3 = 3110 }	# Poedicum -> KAPFENBERG, LEOBEN
+	link = { imp = 3652 ck3 = 3091 }	# Augustinia -> PADUN
+	link = { imp = 3650 ck3 = 3122 }	# Namare -> MARIAZELL
+	link = { imp = 3651 ck3 = 3089 }	# Faviana -> SANKT POLTEN
+	link = { imp = 3653 ck3 = 3086 }	# Quadriburgium -> VIENNA
+	link = { imp = 3918 ck3 = 3087 }	# Carnuntum -> BRUCK
+	link = { imp = 4142 ck3 = 3819 }	# Bassena -> Koszeg
+	link = { imp = 4141 ck3 = 3821 }	# Savaria -> Kormend
+	link = { imp = 4143 ck3 = 3119 }	# Confluenta Latobicia -> FURSTENFELD
+	link = { imp = 4135 ck3 = 3117 ck3 = 3111 }	# Arraboa -> GRAZ, KOFLACH
+	link = { imp = 4146 ck3 = 3818 }	# Mursella Prima -> Kapuvar
+	link = { imp = 4147 ck3 = 3822 }	# Quadrata -> Moson
+	link = { imp = 4151 ck3 = 3825 }	# Murselliana -> Vasarhely
+	link = { imp = 4148 ck3 = 3826 }	# Caesariana -> Veszprem
+	link = { imp = 4138 ck3 = 3827 }	# Mogentiana -> Kolon
+	link = { imp = 4132 ck3 = 3828 }	# Volgum -> Egerszeg
+	link = { imp = 4140 ck3 = 3829 }	# Salia -> Letenye
+	link = { imp = 4133 ck3 = 3977 }	# Salla -> Szentgotthard
+	link = { imp = 4134 ck3 = 3116 }	# Ad Vicessimum -> FELDBACH
+	link = { imp = 4149 ck3 = 3824 }	# Crispiana -> Zirc
+	link = { imp = 4139 ck3 = 3820 }	# Mestrianis -> Vasvar
+	link = { imp = 4150 ck3 = 3823 }	# Arrabona -> Gyor
+	link = { imp = 4155 ck3 = 3809 }	# Brigetio -> Komarom
+	link = { imp = 4156 ck3 = 3808 }	# Crumerum -> Esztergom
+	link = { imp = 4161 imp = 4160 ck3 = 3805 }	# Intercisa, Gorsium -> Szekesfehervar
+	link = { imp = 4158 imp = 4159 ck3 = 3806 }	# Campona, Floriana -> Csakvar
+	link = { imp = 4157 ck3 = 3803 }	# Aquincum -> Buda
+	link = { imp = 4162 ck3 = 3839 }	# Alta Ripa -> Tolna
+	link = { imp = 4031 ck3 = 3109 }	# Flavia Solva -> LEIBNITZ
+	link = { imp = 4136 ck3 = 3106 }	# Halicanum -> WINDISCHE BUHEL
+	link = { imp = 4030 ck3 = 3103 }	# Poetovio -> MARIBOR
+	link = { imp = 4029 ck3 = 3102 ck3 = 3101 }	# Celeia -> KRSKO, KAMNIK
+	link = { imp = 4176 imp = 4039 ck3 = 458 }	# Pyrri, Romula -> Istria
+	link = { imp = 4137 imp = 4175 ck3 = 460 }	# Populi, Aquae Iasae -> Varadzin
+	link = { imp = 4168 ck3 = 3844 }	# Sopianae -> Pecs
+	link = { imp = 4048 ck3 = 3314 }	# Colatio -> ALPS 8
+	link = { imp = 4181 ck3 = 461 ck3 = 462 }	# Savia -> Zagreb, Krizevci
+	link = { imp = 4177 ck3 = 3533 }	# Varianis -> Cazma
+	link = { imp = 4178 ck3 = 3528 }	# Iassorum -> Kutina
+	link = { imp = 4179 imp = 4184 ck3 = 3532 }	# Serota, Dravia -> Verevce
+	link = { imp = 4182 imp = 4180 ck3 = 3531 }	# Claudia, Lentulis -> Koprivnica
+	link = { imp = 4167 ck3 = 3836 }	# Limusa -> Kaposvar
+	link = { imp = 4164 ck3 = 3841 }	# Alisca -> Dombovar
+	link = { imp = 4169 ck3 = 3845 ck3 = 3840 }	# Lugio -> Mohacs, Simontornya
+	link = { imp = 4165 imp = 4166 imp = 4163 ck3 = 3835 }	# Silicenis, Iovia, Tricciana -> Somogyvar
+	link = { imp = 4173 imp = 4174 ck3 = 3837 }	# Sonista, Piretis -> Csurgo
+	link = { imp = 4172 ck3 = 3838 }	# Cardono -> Szigetvar
+	link = { imp = 4171 ck3 = 3843 }	# Serena -> Siklos
+	link = { imp = 4170 ck3 = 3842 }	# Mursa -> Baranyavar
+	# Northern Illyria
+	link = { imp = 3605 ck3 = 2510 }	# Forum Iulii -> UDINE
+	link = { imp = 4046 ck3 = 3538 }	# Valdasus -> Topusko
+
+
+	link = { imp = 4026 ck3 = 2516 }	# Longaticum -> GORIZIA
+	link = { imp = 4025 ck3 = 3100 ck3 = 3099 }	# Carnium -> KRANJ, VILLACH
+	link = { imp = 4024 ck3 = 3096 ck3 = 2515 }	# Emona -> LJUBLJANA, TRIGLAVSKI
+	link = { imp = 4027 imp = 4028 ck3 = 3097 }	# Latobicorum, Neviodunum -> DOBOVEC
+	link = { imp = 4038 ck3 = 3535 }	# Andautonia -> Sisak
+	link = { imp = 4044 ck3 = 3098 ck3 = 3534 }	# Crucium -> RUDOLFSWERDE, Samobor
+	link = { imp = 4065 ck3 = 3500 }	# Salvium -> Glamoc
+	link = { imp = 4061 ck3 = 3523 ck3 = 3504 }	# Splonum -> Pset, Kljuc na Sani
+	link = { imp = 4057 ck3 = 3548 }	# Burnion -> Knin
+	link = { imp = 4051 ck3 = 3543 ck3 = 3544 }	# Ancus -> Kaseg, Udbina
+	link = { imp = 4042 ck3 = 3522 ck3 = 3541 }	# Raetinium -> Bihac, Dreznik
+	link = { imp = 4043 ck3 = 3521 }	# Clandate -> Krupa
+	link = { imp = 4073 ck3 = 3519 }	# Ad Praetorium -> Vodicevo
+	link = { imp = 4041 ck3 = 3518 }	# Segestica -> Dubica
+	link = { imp = 4040 ck3 = 3537 }	# Ad Fines Cataria -> Okic
+	link = { imp = 4036 ck3 = 3539 }	# Metulum -> Modrus
+	link = { imp = 4045 ck3 = 3536 }	# Colapia -> Dubovac
+	link = { imp = 4055 ck3 = 3546 }	# Argyruntum -> Obrovac
+	link = { imp = 4049 imp = 4035 ck3 = 3542 }	# Vegium, Ortopla -> Bag
+	link = { imp = 4033 ck3 = 464 ck3 = 3540 }	# Senia -> Senj, Brinje
+	link = { imp = 4023 ck3 = 2523 }	# Tarsatica -> RIJEKA
+	link = { imp = 4032 ck3 = 459 }	# Curicum -> Veglia
+	link = { imp = 4034 ck3 = 2521 }	# Apsarus -> CHERSO
+	link = { imp = 4059 ck3 = 3551 }	# Synodion -> Sinj
+	link = { imp = 4058 ck3 = 3549 ck3 = 3550 }	# Skardon -> Bribir, sibenik
+	link = { imp = 4056 ck3 = 3547 }	# Asseria -> Biograd
+	link = { imp = 4052 imp = 4053 ck3 = 3545 }	# Cissa, Aenona -> Nin
+	link = { imp = 4079 imp = 4054 ck3 = 3527 ck3 = 3525 ck3 = 465 }	# MANY-TO-MANY: Stanecli, Iader -> Visoki, Bobovac, Zadar
+	link = { imp = 4075 imp = 4071 ck3 = 3506 }	# Castra, Leusaba -> Kotor Varos
+	link = { imp = 4077 ck3 = 463 }	# Marsonia -> Usora
+	link = { imp = 4076 ck3 = 3517 }	# Urbate -> Glaz
+	link = { imp = 4078 ck3 = 3526 ck3 = 3524 }	# Bercellum -> Travnik, Vranduk
+	link = { imp = 4070 ck3 = 3507 ck3 = 3508 }	# Baloia -> Jajce, Sokol
+	link = { imp = 4072 ck3 = 3505 }	# Aemate -> Greben
+	link = { imp = 4074 ck3 = 3516 }	# Servitium -> Vrbaski Grad
+	link = { imp = 4185 ck3 = 3529 }	# Stravianis -> Pozega
+	link = { imp = 4183 ck3 = 3515 }	# Incero -> Gradiska
+	link = { imp = 4187 ck3 = 3608 }	# Mursella -> Orahovica
+	link = { imp = 4186 ck3 = 3530 }	# Picentino -> Brod
+	link = { imp = 4188 ck3 = 3609 }	# Cibalae -> Osijek
+	link = { imp = 4123 ck3 = 3511 ck3 = 3510 }	# Salinae -> Zvornik, Soli
+	link = { imp = 4130 ck3 = 3513 }	# Saldia -> Srebrenik
+	link = { imp = 4128 ck3 = 3514 }	# Sarviana -> Maglaj
+	link = { imp = 4126 ck3 = 3509 }	# Drinum -> Bijeljina
+	link = { imp = 4129 ck3 = 3512 }	# Sarvia -> Tolisa
+	link = { imp = 4191 ck3 = 3610 }	# Causilena -> Vakovo
+	link = { imp = 4192 ck3 = 3611 }	# Spaneta -> Ilok
+	link = { imp = 4193 ck3 = 3613 }	# Altina -> Zemun
+	link = { imp = 4190 imp = 4189 ck3 = 3739 }	# Bassiana, Sirmium -> Szerem
+	link = { imp = 4060 ck3 = 467 }	# Tragourion -> Split
+	link = { imp = 4062 ck3 = 3552 }	# Salona -> Solin
 	# Southern Illyria
 	link = { imp = 4094 imp = 4095 imp = 4093 ck3 = 3595 }	# Gabuleum, Theranda, Siparantum -> Pec
 	link = { imp = 4100 imp = 4099 ck3 = 3594 }	# Dardanorum, Vicianum -> Zvecan
@@ -33,7 +141,7 @@
 	link = { imp = 4195 imp = 4198 ck3 = 505 }	# Singidunum, Ad Sextum Miliarem -> Belgrade
 	link = { imp = 4214 imp = 4209 ck3 = 3667 }	# Clevora, Egeta -> Kladovo
 	link = { imp = 4216 imp = 4215 ck3 = 506 }	# Bononia Moesia, Dortium -> Vidin
-	link = { imp = 4081 ck3 = 3555 }	# Eidiseis -> Mokro
+	link = { imp = 4081 ck3 = 3555 ck3 = 3553 }	# Eidiseis -> Mokro, Omis
 	link = { imp = 4084 ck3 = 3556 }	# Pharos -> Hvar
 	link = { imp = 499 ck3 = 3672 }	# Spinopara -> Pernik
 	link = { imp = 4117 ck3 = 3656 }	# Pautalia -> Velbazhd
@@ -53,6 +161,10 @@
 	link = { imp = 4111 ck3 = 3657 }	# Hammeum -> Glubocica
 	link = { imp = 4112 ck3 = 501 }	# Naissus -> Naissus
 	link = { imp = 4080 ck3 = 3557 }	# Aquae Sulphurae -> Konjic
+
+	link = { imp = 4063 ck3 = 3502 }	# Osinion -> Duvno
+	link = { imp = 4069 imp = 4064 ck3 = 3501 }	# Ad Matricem, Pelva -> Hlivno
+	link = { imp = 4068 ck3 = 504 }	# Bistua Nova -> Rama
 	link = { imp = 4067 ck3 = 3558 }	# Bariduum -> Mostar
 	link = { imp = 4066 ck3 = 3503 }	# Delminion -> Imotski
 	link = { imp = 4083 ck3 = 466 ck3 = 3562 }	# Dilenton -> Zachlumia, Drijeva
@@ -499,7 +611,7 @@
 	link = { imp = 3662 ck3 = 2502 ck3 = 2496 }	# Bretina -> LESSINIA, GARDA
 	link = { imp = 3595 ck3 = 2666 }	# Aponus -> MONTAGNANA
 	link = { imp = 3603 ck3 = 2511 }	# Opitergium -> CENETA
-	link = { imp = 3604 imp = 3605 ck3 = 2513 }	# Reunia, Forum Iulii -> PORDENONE
+	link = { imp = 3604 ck3 = 2513 }	# Reunia -> PORDENONE
 	link = { imp = 143 ck3 = 2504 }	# Brundulum -> CHIOGGIA
 	link = { imp = 3602 imp = 3601 ck3 = 2512 }	# Iulia Concordia, Portus Liquentiae -> CAORLE
 	link = { imp = 3607 ck3 = 2514 }	# Fons Timavi -> TRIESTE
