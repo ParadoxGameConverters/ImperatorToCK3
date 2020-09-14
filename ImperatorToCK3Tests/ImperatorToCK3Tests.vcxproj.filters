@@ -52,6 +52,9 @@
     <Filter Include="CK3WorldTests\Province">
       <UniqueIdentifier>{b3f891f5-529a-4b78-aed8-9efc56b2daca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests\TagTitleMapper">
+      <UniqueIdentifier>{ab277722-9852-42ab-bfb5-9301bfb70432}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -281,6 +284,12 @@
     </ClCompile>
     <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp">
       <Filter>CK3WorldTests\Province</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMapperTests.cpp">
+      <Filter>MapperTests\TagTitleMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

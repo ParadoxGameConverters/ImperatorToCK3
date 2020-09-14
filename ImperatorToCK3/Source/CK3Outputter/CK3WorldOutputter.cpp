@@ -35,11 +35,7 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/coat_of_arms");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/coat_of_arms/coat_of_arms");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/english");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/french");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/german");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/russian");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/spanish");
+	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/replace");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/colored_emblems");

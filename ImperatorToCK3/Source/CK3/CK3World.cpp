@@ -16,7 +16,7 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 {
 	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.
-	localizationMapper.scrapeLocalizations(theConfiguration);
+	localizationMapper.scrapeLocalizations(theConfiguration, std::map<std::string, std::string>()); // passes an empty map as second arg because we don't actually load mods yet
 
 	// Loading Imperator CoAs to use them for generated CK3 titles
 	coaMapper = mappers::CoaMapper(theConfiguration);
@@ -50,9 +50,7 @@ void CK3::World::importImperatorCountries(const ImperatorWorld::World& sourceWor
 
 void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country)
 {
-	// Mapping the tag to a title
-	std::optional<std::string> title;
-	title = tagTitleMapper.getTitleForTag(country.second->getTag());
+	auto title = tagTitleMapper.getTitleForTag(country.second->getTag());
 	if (!title)
 		throw std::runtime_error("Country " + country.second->getTag() + " could not be mapped!");
 

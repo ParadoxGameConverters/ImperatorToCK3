@@ -1,5 +1,6 @@
 #ifndef LOCALIZATION_MAPPER
 #define LOCALIZATION_MAPPER
+
 #include <map>
 #include <optional>
 #include <string>
@@ -7,31 +8,29 @@
 class Configuration;
 namespace mappers
 {
-enum class langEnum
-{
-	ENGLISH,
-	FRENCH,
-	GERMAN,
-	RUSSIAN,
-	SPANISH
-};
-	
-class LocalizationMapper
-{
-  public:
-	LocalizationMapper() = default;
-	void scrapeLocalizations(const Configuration& theConfiguration);
-	void scrapeStream(std::istream& theStream, langEnum language);
+	typedef struct
+	{
+		std::string english;
+		std::string french;
+		std::string german;
+		std::string russian;
+		std::string spanish;
+	} LocBlock;
 
-	[[nodiscard]] std::optional<std::string> getLocBlockForKey(const std::string& key, langEnum language) const;
+	class LocalizationMapper
+	{
+	public:
+		LocalizationMapper() = default;
+		void scrapeLocalizations(const Configuration& theConfiguration, const std::map<std::string, std::string>& mods);
 
-  private:
-	std::map<std::string, std::string> localizationsEnglish;
-	std::map<std::string, std::string> localizationsFrench;
-	std::map<std::string, std::string> localizationsGerman;
-	std::map<std::string, std::string> localizationsRussian;
-	std::map<std::string, std::string> localizationsSpanish;
-};
+		[[nodiscard]] std::optional<LocBlock> getLocBlockForKey(const std::string& key) const;
+
+	private:
+		void scrapeLanguage(const std::string& language, const std::string& path);
+		void scrapeStream(std::istream& theStream, const std::string& language);
+
+		std::map<std::string, LocBlock> localizations;
+	};
 } // namespace mappers
 
 #endif // LOCALIZATION_MAPPER

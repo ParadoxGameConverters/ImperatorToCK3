@@ -66,6 +66,31 @@ TEST(ImperatorWorld_CountryTests, nameDefaultsToBlank)
 	ASSERT_TRUE(theCountry.getName().empty());
 }
 
+TEST(ImperatorWorld_CountryTests, capitalCanBeSet)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tcapital = 32\n";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_EQ(32, *theCountry.getCapital());
+}
+
+TEST(ImperatorWorld_CountryTests, capitalDefaultsToNullopt)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_FALSE(theCountry.getCapital());
+}
+
 TEST(ImperatorWorld_CountryTests, currenciesDefaultToProperValues)
 {
 	std::stringstream input;

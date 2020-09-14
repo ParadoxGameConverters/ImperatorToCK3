@@ -5,167 +5,117 @@
 #include <fstream>
 #include <set>
 
-void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theConfiguration)
+void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theConfiguration, const std::map<std::string, std::string>& mods)
 {
 	LOG(LogLevel::Info) << "-> Reading Words";
-	for (const auto& language : std::set<std::string>{ "english", "french", "german", "russian", "spanish" })
+
+	scrapeLanguage("english", theConfiguration.getImperatorPath() + "/game/localization");
+	scrapeLanguage("french", theConfiguration.getImperatorPath() + "/game/localization");
+	scrapeLanguage("german", theConfiguration.getImperatorPath() + "/game/localization");
+	scrapeLanguage("russian", theConfiguration.getImperatorPath() + "/game/localization");
+	scrapeLanguage("spanish", theConfiguration.getImperatorPath() + "/game/localization");
+
+	for (const auto& mod : mods)
 	{
-		auto filenames = Utils::GetAllFilesInFolder(theConfiguration.getImperatorPath() + "/game/localization/" + language + "/");
-		for (const auto& file : filenames)
+		if (Utils::DoesFolderExist(mod.second + "/localization"))
 		{
-			std::ifstream theFile(theConfiguration.getImperatorPath() + "/game/localization/" + language + "/" + file);
-			if (language == "english")
-				scrapeStream(theFile, langEnum::ENGLISH);
-			else if (language == "french")
-				scrapeStream(theFile, langEnum::FRENCH);
-			else if (language == "german")
-				scrapeStream(theFile, langEnum::GERMAN);
-			else if (language == "russian")
-				scrapeStream(theFile, langEnum::RUSSIAN);
-			else if (language == "spanish")
-				scrapeStream(theFile, langEnum::SPANISH);
-			theFile.close();
+			Log(LogLevel::Info) << "\t>> Found some words in: " << mod.second + "/localization";
+			scrapeLanguage("english", mod.second + "/localization");
+			scrapeLanguage("french", mod.second + "/localization");
+			scrapeLanguage("german", mod.second + "/localization");
+			scrapeLanguage("russian", mod.second + "/localization");
+			scrapeLanguage("spanish", mod.second + "/localization");
 		}
 	}
-	// Override with our keys
-	if (Utils::DoesFileExist("configurables/english_imp_localization_override.yml"))
-	{
-		std::ifstream theFile("configurables/english_imp_localization_override.yml");
-		scrapeStream(theFile, langEnum::ENGLISH);
-		theFile.close();
-	}
-	if (Utils::DoesFileExist("configurables/french_imp_localization_override.yml"))
-	{
-		std::ifstream theFile("configurables/french_imp_localization_override.yml");
-		scrapeStream(theFile, langEnum::FRENCH);
-		theFile.close();
-	}
-	if (Utils::DoesFileExist("configurables/german_imp_localization_override.yml"))
-	{
-		std::ifstream theFile("configurables/german_imp_localization_override.yml");
-		scrapeStream(theFile, langEnum::GERMAN);
-		theFile.close();
-	}
-	if (Utils::DoesFileExist("configurables/russian_imp_localization_override.yml"))
-	{
-		std::ifstream theFile("configurables/russian_imp_localization_override.yml");
-		scrapeStream(theFile, langEnum::RUSSIAN);
-		theFile.close();
-	}
-	if (Utils::DoesFileExist("configurables/spanish_imp_localization_override.yml"))
-	{
-		std::ifstream theFile("configurables/spanish_imp_localization_override.yml");
-		scrapeStream(theFile, langEnum::SPANISH);
-		theFile.close();
-	}
-		
-	LOG(LogLevel::Info) << ">> " << localizationsEnglish.size()+localizationsFrench.size()+localizationsGerman.size()+localizationsRussian.size()+localizationsSpanish.size() << " words read.";
+
+	LOG(LogLevel::Info) << ">> " << localizations.size() << " words read.";
 }
 
-void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const langEnum language)
+void mappers::LocalizationMapper::scrapeLanguage(const std::string& language, const std::string& path)
+{
+	if (!Utils::DoesFolderExist(path + "/" + language))
+		return;
+	auto filenames = Utils::GetAllFilesInFolderRecursive(path + "/" + language);
+	for (const auto& file : filenames)
+	{
+		std::ifstream fileStream(path + "/" + language + "/" + file);
+		if (fileStream.is_open())
+			scrapeStream(fileStream, language);
+		fileStream.close();
+	}
+}
+
+void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const std::string& language)
 {
 	while (!theStream.eof())
 	{
 		std::string line;
 		getline(theStream, line);
 
-		if (line[0] == '#' || line[0] == ':' || line.find(':') == std::string::npos || line.find_first_of("l_") == 0)
+		if (line[0] == '#' || line.length() < 4)
 			continue;
 
-		const auto sepLocFirst = line.find_first_of(':');
-		auto key = line.substr(1, sepLocFirst-1);
-		const auto sepLocLast = line.find_first_of(' ', sepLocFirst+1);
-		auto loc = line.substr(sepLocLast+2, line.size()-sepLocLast-3); // gets the loc string (without quotes)
+		const auto sepLoc = line.find_first_of(':');
+		if (sepLoc == std::string::npos)
+			continue;
+		const auto key = line.substr(1, sepLoc-1);
+		const auto newLine = line.substr(sepLoc + 1, line.length());
+		const auto quoteLoc = newLine.find_first_of('\"');
+		const auto quote2Loc = newLine.find_last_of('\"');
+		if (quoteLoc == std::string::npos || quote2Loc == std::string::npos || quote2Loc - quoteLoc == 0)
+			continue;
+		const auto value = newLine.substr(quoteLoc + 1, quote2Loc - quoteLoc - 1);
 
-		switch (language)
+		if (localizations.count(key))
 		{
-		case langEnum::ENGLISH:
-		{
-			if (localizationsEnglish.count(key))
-				localizationsEnglish[key] = loc;
-			else
-				localizationsEnglish.insert(std::pair(key, loc));
-			break;
+			if (language == "english")
+				localizations[key].english = value;
+			if (language == "french")
+				localizations[key].french = value;
+			if (language == "german")
+				localizations[key].german = value;
+			if (language == "russian")
+				localizations[key].russian = value;
+			if (language == "spanish")
+				localizations[key].spanish = value;
 		}
-		case langEnum::FRENCH:
+		else
 		{
-			if (localizationsFrench.count(key))
-				localizationsFrench[key] = loc;
-			else
-				localizationsFrench.insert(std::pair(key, loc));
-			break;
-		}
-		case langEnum::GERMAN:
-		{
-			if (localizationsGerman.count(key))
-				localizationsGerman[key] = loc;
-			else
-				localizationsGerman.insert(std::pair(key, loc));
-			break;
-		}
-		case langEnum::RUSSIAN:
-		{
-			if (localizationsRussian.count(key))
-				localizationsRussian[key] = loc;
-			else
-				localizationsRussian.insert(std::pair(key, loc));
-			break;
-		}
-		case langEnum::SPANISH:
-		{
-			if (localizationsSpanish.count(key))
-				localizationsSpanish[key] = loc;
-			else
-				localizationsSpanish.insert(std::pair(key, loc));
-			break;
-		}
-		default:
-			break;
+			LocBlock newBlock;
+			if (language == "english")
+				newBlock.english = value;
+			if (language == "french")
+				newBlock.french = value;
+			if (language == "german")
+				newBlock.german = value;
+			if (language == "russian")
+				newBlock.russian = value;
+			if (language == "spanish")
+				newBlock.spanish = value;
+			localizations.insert(std::pair(key, newBlock));
 		}
 	}
 }
 
-
-std::optional<std::string> mappers::LocalizationMapper::getLocBlockForKey(const std::string& key, const langEnum language) const
+std::optional<mappers::LocBlock> mappers::LocalizationMapper::getLocBlockForKey(const std::string& key) const
 {
-	switch (language)
+	const auto& keyItr = localizations.find(key);
+	if (keyItr == localizations.end())
+		return std::nullopt;
+
+	if (!keyItr->second.english.empty() && (keyItr->second.spanish.empty() || keyItr->second.russian.empty() || keyItr->second.german.empty() || keyItr->second.french.empty()))
 	{
-	case langEnum::ENGLISH:
-	{
-		const auto& keyItr = localizationsEnglish.find(key);
-		if (keyItr == localizationsEnglish.end())
-			return std::nullopt;
-		return keyItr->second;
+		auto newBlock = keyItr->second;
+		if (newBlock.spanish.empty())
+			newBlock.spanish = newBlock.english;
+		if (newBlock.russian.empty())
+			newBlock.russian = newBlock.english;
+		if (newBlock.german.empty())
+			newBlock.german = newBlock.english;
+		if (newBlock.french.empty())
+			newBlock.french = newBlock.english;
+		return newBlock;
 	}
-	case langEnum::FRENCH:
-	{
-		const auto& keyItr = localizationsFrench.find(key);
-		if (keyItr == localizationsFrench.end()) // if key not found, try english as fallback
-			return getLocBlockForKey(key, langEnum::ENGLISH);
-		return keyItr->second;
-	}
-	case langEnum::GERMAN:
-	{
-		const auto& keyItr = localizationsGerman.find(key);
-		if (keyItr == localizationsGerman.end()) // if key not found, try english as fallback
-			return getLocBlockForKey(key, langEnum::ENGLISH);
-		return keyItr->second;
-	}
-	case langEnum::RUSSIAN:
-	{
-		const auto& keyItr = localizationsRussian.find(key);
-		if (keyItr == localizationsRussian.end()) // if key not found, try english as fallback
-			return getLocBlockForKey(key, langEnum::ENGLISH);
-		return keyItr->second;
-	}
-	case langEnum::SPANISH:
-	{
-		const auto& keyItr = localizationsSpanish.find(key);
-		if (keyItr == localizationsSpanish.end()) // if key not found, try english as fallback
-			return getLocBlockForKey(key, langEnum::ENGLISH);
-		return keyItr->second;
-	}
-	default:
-		return getLocBlockForKey(key, langEnum::ENGLISH);
-	}
+	// either all is well, or we're missing english. Can't do anything about the latter.
+	return keyItr->second;
 }
