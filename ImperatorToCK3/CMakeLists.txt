@@ -16,9 +16,11 @@ add_link_options(-no-pie)
 
 include_directories("../commonItems")
 include_directories("../ZipLib")
+include_directories("../ImageMagick")
 include_directories("${PROJECT_SOURCE_DIR}")
 
 add_subdirectory(../ZipLib [binary_dir])
+add_subdirectory(../ImageMagick [binary_dir])
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
 file(GLOB CONFIGURATION_SOURCES "${PROJECT_SOURCE_DIR}/Configuration/*.cpp")
@@ -54,6 +56,7 @@ add_executable(ImperatorToCK3
 )
 
 target_link_libraries(ImperatorToCK3 LINK_PUBLIC ZIPLIB stdc++fs)
+target_link_libraries(ImperatorToCK3 LINK_PUBLIC MAGICK++ stdc++fs)
 
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x Copy_Files.sh)
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ./Copy_Files.sh)
