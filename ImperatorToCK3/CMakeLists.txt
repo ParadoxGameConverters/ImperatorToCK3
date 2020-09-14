@@ -16,6 +16,7 @@ add_link_options(-no-pie)
 
 include_directories("../commonItems")
 include_directories("../ZipLib")
+include_directories("../cpp-base64")
 include_directories("../ImageMagick/include")
 include_directories("${PROJECT_SOURCE_DIR}")
 
