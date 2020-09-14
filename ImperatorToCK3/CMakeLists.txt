@@ -56,7 +56,9 @@ add_executable(ImperatorToCK3
 )
 
 target_link_libraries(ImperatorToCK3 LINK_PUBLIC ZIPLIB stdc++fs)
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC MAGICK++ stdc++fs)
+target_link_libraries(ImperatorToCK3 CORE_RL_Magick++_.lib)
+target_link_libraries(ImperatorToCK3 CORE_RL_MagickCore_.lib)
+target_link_libraries(ImperatorToCK3 CORE_RL_MagickWand_.lib)
 
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x Copy_Files.sh)
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ./Copy_Files.sh)
