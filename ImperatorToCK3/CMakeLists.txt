@@ -22,7 +22,6 @@ include_directories("${PROJECT_SOURCE_DIR}")
 link_directories("../ImageMagick/lib")
 
 add_subdirectory(../ZipLib [binary_dir])
-add_subdirectory(../ImageMagick [binary_dir])
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
 file(GLOB CONFIGURATION_SOURCES "${PROJECT_SOURCE_DIR}/Configuration/*.cpp")
