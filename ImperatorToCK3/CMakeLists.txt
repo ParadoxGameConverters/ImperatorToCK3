@@ -16,8 +16,10 @@ add_link_options(-no-pie)
 
 include_directories("../commonItems")
 include_directories("../ZipLib")
-include_directories("../ImageMagick")
+include_directories("../ImageMagick/include")
 include_directories("${PROJECT_SOURCE_DIR}")
+
+link_directories("../ImageMagick/lib")
 
 add_subdirectory(../ZipLib [binary_dir])
 add_subdirectory(../ImageMagick [binary_dir])
