@@ -51,7 +51,7 @@ namespace ImperatorWorld
 			std::string tag;
 			std::string name;
 			std::string flag;
-			std::optional<int> capital;
+			int capital = 0;	// 0 means no capital
 	
 			std::optional<commonItems::Color> color1;
 			std::optional<commonItems::Color> color2;

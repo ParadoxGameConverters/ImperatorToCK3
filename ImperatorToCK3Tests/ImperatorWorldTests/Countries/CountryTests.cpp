@@ -76,10 +76,10 @@ TEST(ImperatorWorld_CountryTests, capitalCanBeSet)
 
 	const ImperatorWorld::Country theCountry(input, 42);
 
-	ASSERT_EQ(32, *theCountry.getCapital());
+	ASSERT_EQ(32, theCountry.getCapital());
 }
 
-TEST(ImperatorWorld_CountryTests, capitalDefaultsToNullopt)
+TEST(ImperatorWorld_CountryTests, capitalDefaultsToZero)
 {
 	std::stringstream input;
 	input << "=\n";
@@ -88,7 +88,7 @@ TEST(ImperatorWorld_CountryTests, capitalDefaultsToNullopt)
 
 	const ImperatorWorld::Country theCountry(input, 42);
 
-	ASSERT_FALSE(theCountry.getCapital());
+	ASSERT_EQ(0, theCountry.getCapital());
 }
 
 TEST(ImperatorWorld_CountryTests, currenciesDefaultToProperValues)
