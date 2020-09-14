@@ -44,8 +44,8 @@ class Title
 	std::string historyCountryFile;
 
 	int holder = -1;
-	commonItems::Color color1;
-	commonItems::Color color2;
+	std::optional<commonItems::Color> color1;
+	std::optional<commonItems::Color> color2;
 	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;
 

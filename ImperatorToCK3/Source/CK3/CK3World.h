@@ -49,7 +49,7 @@ class World
 		mappers::CoaMapper coaMapper;
 
 
-		LandedTitles landedTitles;			// title name, title
+		LandedTitles landedTitles;
 
 		std::string outputModName;
 };

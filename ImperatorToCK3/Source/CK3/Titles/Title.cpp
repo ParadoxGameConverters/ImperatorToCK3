@@ -19,10 +19,10 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 
 	auto colorOpt = imperatorCountry.second->getColor1();
 	if (colorOpt)
-		color1 = colorOpt.value();
+		color1 = *colorOpt;
 	colorOpt = imperatorCountry.second->getColor2();
 	if (colorOpt)
-		color2 = colorOpt.value();
+		color2 = *colorOpt;
 
 	coa = coaMapper.getCoaForFlagName(imperatorCountry.second->getFlag());
 
@@ -40,7 +40,7 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 
 	auto nameSet = false;
 	
-	if (!nameSet && !imperatorCountry.second->getName().empty())
+	if (!imperatorCountry.second->getName().empty())
 	{
 		auto impNameLoc = localizationMapper.getLocBlockForKey(imperatorCountry.second->getName());
 		if (impNameLoc)
@@ -66,27 +66,13 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 
 	auto adjSet = false;
 
-	if (!adjSet)
+	auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry.first + "_ADJ");
+	if (adjLocalizationMatch)
 	{
-		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry.first + "_ADJ");
-		if (adjLocalizationMatch)
-		{
-			localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
-			adjSet = true;
-		}
-	}
-	if (!adjSet && !imperatorCountry.second->getName().empty())
-	{
-		mappers::LocBlock newBlock;
-		newBlock.english = imperatorCountry.second->getName() + "'s"; // singular Nordarike's Africa
-		newBlock.french = "de " + imperatorCountry.second->getName();
-		newBlock.german = imperatorCountry.second->getName() + "s";
-		newBlock.russian = imperatorCountry.second->getName() + "skiy"; // this is probably bad
-		newBlock.spanish = "de " + imperatorCountry.second->getName();
-		localizations.insert(std::pair(titleName + "_adj", newBlock));
+		localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
 		adjSet = true;
 	}
-	
+	// giving up.
 	if (!adjSet)
 		Log(LogLevel::Warning) << titleName << " help with localization for adjective! " << imperatorCountry.first << "_adj?";
 }
