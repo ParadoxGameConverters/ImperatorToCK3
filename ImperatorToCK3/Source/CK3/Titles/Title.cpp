@@ -45,8 +45,7 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 		auto impNameLoc = localizationMapper.getLocBlockForKey(imperatorCountry.second->getName());
 		if (impNameLoc)
 		{
-			auto newBlock = impNameLoc.value();
-			localizations.insert(std::pair(titleName, newBlock));
+			localizations.insert(std::pair(titleName, *impNameLoc));
 			nameSet = true;
 		}
 	}
@@ -67,6 +66,15 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 
 	auto adjSet = false;
 
+	if (!adjSet)
+	{
+		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry.first + "_ADJ");
+		if (adjLocalizationMatch)
+		{
+			localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
+			adjSet = true;
+		}
+	}
 	if (!adjSet && !imperatorCountry.second->getName().empty())
 	{
 		mappers::LocBlock newBlock;
@@ -78,15 +86,7 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 		localizations.insert(std::pair(titleName + "_adj", newBlock));
 		adjSet = true;
 	}
-	if (!adjSet)
-	{
-		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry.first + "_ADJ");
-		if (adjLocalizationMatch)
-		{
-			localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
-			adjSet = true;
-		}
-	}
+	
 	if (!adjSet)
 		Log(LogLevel::Warning) << titleName << " help with localization for adjective! " << imperatorCountry.first << "_adj?";
 }
