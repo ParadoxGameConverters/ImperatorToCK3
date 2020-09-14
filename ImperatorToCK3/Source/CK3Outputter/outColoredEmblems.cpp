@@ -1,6 +1,6 @@
 #include "outColoredEmblems.h"
 #include <filesystem>
-#include "../../ImageMagick/Include/Magick++.h"
+#include "Magick++.h"
 
 #include "OSCompatibilityLayer.h"
 
