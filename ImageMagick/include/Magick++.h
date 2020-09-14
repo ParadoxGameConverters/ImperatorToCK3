@@ -6,6 +6,7 @@
 // Simplified includes for Magick++.
 // Inclusion of this header is sufficient to use all Magick++ APIs.
 //
+#pragma once
 #ifndef MagickPlusPlus_Header
 #include <Magick++/Include.h>
 #include <Magick++/Functions.h>
