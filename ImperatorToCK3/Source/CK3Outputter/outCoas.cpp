@@ -13,7 +13,6 @@ void CK3::outputCoas(const std::string& outputModName, const World& CK3World)
 	
 	for (const auto& [first, second] : CK3World.getTitles())
 	{
-		//auto coa = title.second->getImperatorCountry().second->getFlag();
 		auto coa = second->getCoa();
 		if (coa)
 			output << first << " = " << *coa << "\n";
