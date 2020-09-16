@@ -31,7 +31,6 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/landed_titles");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/named_colors");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/named_colors/imptock3");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/coat_of_arms");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/coat_of_arms/coat_of_arms");
 	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization");
