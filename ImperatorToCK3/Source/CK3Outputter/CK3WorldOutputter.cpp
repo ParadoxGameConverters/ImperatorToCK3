@@ -15,6 +15,7 @@ namespace CK3
 
 void outputModFile(const std::string& outputName);
 void createModFolder(const std::string& outputName);
+void createFolders(const std::string& outputName);
 
 }
 
@@ -25,21 +26,9 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	createModFolder(outputName);
 	outputModFile(outputName);
 
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history/provinces");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/history/province_mapping");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/landed_titles");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/named_colors");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/coat_of_arms");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/common/coat_of_arms/coat_of_arms");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/localization/replace");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/colored_emblems");
-	Utils::TryCreateFolder("output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/patterns");
-
+	LOG(LogLevel::Info) << "<- Creating folders";
+	createFolders(outputName);
+	
 	LOG(LogLevel::Info) << "<- Writing Provinces";
 	outputHistoryProvinces(outputName, CK3World.getProvinces());
 
@@ -74,4 +63,23 @@ void CK3::createModFolder(const std::string& outputName)
 {
 	const std::filesystem::path modPath{ "output/" + outputName };
 	std::filesystem::create_directories(modPath);
+}
+
+void CK3::createFolders(const std::string& outputName)
+{
+	Utils::TryCreateFolder("output/" + outputName + "/history");
+	Utils::TryCreateFolder("output/" + outputName + "/history/provinces");
+	Utils::TryCreateFolder("output/" + outputName + "/history/province_mapping");
+	Utils::TryCreateFolder("output/" + outputName + "/common");
+	Utils::TryCreateFolder("output/" + outputName + "/common/landed_titles");
+	Utils::TryCreateFolder("output/" + outputName + "/common/named_colors");
+	Utils::TryCreateFolder("output/" + outputName + "/common/coat_of_arms");
+	Utils::TryCreateFolder("output/" + outputName + "/common/coat_of_arms/coat_of_arms");
+	Utils::TryCreateFolder("output/" + outputName + "/localization");
+	Utils::TryCreateFolder("output/" + outputName + "/localization/replace");
+	Utils::TryCreateFolder("output/" + outputName + "/gfx");
+	Utils::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
+	Utils::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/colored_emblems");
+	Utils::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/patterns");
+
 }
