@@ -1,8 +1,7 @@
 0.0.0.0 = {
 	# Wallachia
-
 	link = { imp = 4804 imp = 4803 ck3 = 5004 }	# Britolagia, Rhamidava -> Ramnicu Sarat
-	link = { imp = 4824 ck3 = 4980 ck3 = 4977 ck3 = 733 }	# Confluentiana Roxolania -> Zoresti, Dumbraveni, CARPATHIANS
+	link = { imp = 4824 ck3 = 4980 ck3 = 4977 }	# Confluentiana Roxolania -> Zoresti, Dumbraveni
 	link = { imp = 4808 ck3 = 5001 }	# Isteriana -> Slobozia
 	link = { imp = 4812 ck3 = 5002 }	# Sensia -> Ploiesti
 	link = { imp = 4805 ck3 = 5000 }	# Cotesia -> Buzau
@@ -129,6 +128,201 @@
 	link = { imp = 4873 ck3 = 3857 ck3 = 3858 ck3 = 3859 }	# Collata -> Breznobanya, Murany, Rimaszombat
 	link = { imp = 4872 ck3 = 3853 ck3 = 3856 ck3 = 3851 }	# Amatria -> Selmecbanya, Zolyom, Korporna
 	link = { imp = 4867 ck3 = 3848 ck3 = 3849 }	# Navata -> Hont, Nograd
+	# East France
+
+	link = { imp = 3718 imp = 3716 ck3 = 2092 }	# Aquae Granni, Iullacum -> AACHEN
+
+
+	link = { imp = 3689 ck3 = 2699 }	# Andethanna -> VIANDEN
+	link = { imp = 3688 imp = 3687 ck3 = 2082 }	# Ricciacum, Caranusca -> LUXEMBOURG
+	link = { imp = 3001 ck3 = 2706 }	# Castrum Vabrense -> BRIEY
+	link = { imp = 3719 ck3 = 2094 ck3 = 2448 }	# Belsonancum -> LA ROCHE, LIMBOURG
+	link = { imp = 3683 ck3 = 2687 }	# Vervigium -> SAINT-HUBERT
+
+	link = { imp = 2491 ck3 = 2362 }	# Mugilonia -> CHATILLON
+	link = { imp = 2492 ck3 = 2360 ck3 = 2361 }	# Odomagus -> CREPY, CHATEAU-THIERRY
+	link = { imp = 2447 ck3 = 2358 }	# Iatinon -> SENLIS
+	link = { imp = 2484 ck3 = 2356 ck3 = 2359 }	# Calagum -> MONTREUIL, MEAUX
+	link = { imp = 2490 ck3 = 2366 }	# Malliacus -> EPERNAY
+	link = { imp = 2487 ck3 = 2364 }	# Senonia -> COULOMMIERS
+	link = { imp = 2485 ck3 = 2355 }	# Riobe -> CRECY
+	link = { imp = 2486 ck3 = 2365 }	# Lucia -> ROMILLY
+	link = { imp = 2489 ck3 = 2367 }	# Artiaca -> VITRY-EN-PERTHOIS
+	link = { imp = 2482 ck3 = 2353 ck3 = 2363 }	# Condate Agedincum -> BRAY, PROVINS
+	link = { imp = 2483 ck3 = 2354 }	# Cala -> MELUN
+	link = { imp = 3006 ck3 = 2372 }	# Corobillium -> BAR-SUR-AUBE
+	link = { imp = 3005 ck3 = 2375 }	# Segeserra -> CLAIRVAUX
+	link = { imp = 2449 ck3 = 2371 }	# Augustobona -> TROYES
+	link = { imp = 2354 ck3 = 2374 }	# Andematunnum -> LANGRES
+	link = { imp = 3008 ck3 = 2373 }	# Tricassia -> JOINVILLE
+	link = { imp = 2433 ck3 = 2381 }	# Benevellum -> CHAUMONT
+	link = { imp = 2360 ck3 = 2348 }	# Cabillonum -> CHALON
+	link = { imp = 2362 ck3 = 2377 }	# Castrum Divio -> CITEAUX
+	link = { imp = 2429 ck3 = 2380 }	# Tilena -> DIJON
+	link = { imp = 2428 ck3 = 2383 ck3 = 2382 }	# Varcia -> GY, GRAY
+	link = { imp = 2453 ck3 = 2079 }	# Tullum -> TOUL
+	link = { imp = 3003 ck3 = 2384 }	# Solicia -> NEUFCHATEAU
+	link = { imp = 3004 ck3 = 2385 }	# Mosa -> Champs
+	link = { imp = 3007 ck3 = 2387 ck3 = 2386 }	# Grannum -> VAUCOULEURS, GRAND
+	link = { imp = 2497 imp = 2496 ck3 = 2388 }	# Nasium, Caturicis -> BAR
+	link = { imp = 2495 ck3 = 2389 }	# Tanomia -> SAINT-DIZIER
+	link = { imp = 2450 ck3 = 2392 }	# Durocatalaunum -> CHALONS
+	link = { imp = 3049 ck3 = 2393 }	# Vungovicus -> GRANPRE
+	link = { imp = 2494 ck3 = 2395 }	# Basillia -> VERDUN
+	link = { imp = 3051 ck3 = 2394 }	# Porricum -> MEZIERES
+	link = { imp = 2451 ck3 = 2390 ck3 = 2391 }	# Durocortorum -> REIMS, RETHEL
+	link = { imp = 3048 ck3 = 2396 }	# Verbinum -> ROMIGNY
+	link = { imp = 3043 ck3 = 2397 }	# Viromanduorum -> MARLE
+	link = { imp = 2452 ck3 = 2398 ck3 = 2399 ck3 = 2400 }	# Seussonia -> COUCY, LAON, ROUCY
+
+	link = { imp = 3730 ck3 = 2085 }	# Ausava -> BEDA
+	link = { imp = 3726 ck3 = 2697 }	# Beda -> COCHEM
+	link = { imp = 3728 ck3 = 2684 }	# Icorigum -> PRUM
+	link = { imp = 3727 ck3 = 2093 }	# Marcomagus -> DUREN
+	link = { imp = 7738 ck3 = 2685 }	# Remagus -> NAUENAHR
+	link = { imp = 3720 ck3 = 2087 }	# Bonna -> BONN
+	link = { imp = 3729 ck3 = 2089 }	# Minerica -> DIEKIRCH
+	link = { imp = 3685 ck3 = 2449 }	# Orolaunum -> CLERVAUX
+	link = { imp = 3684 ck3 = 2686 ck3 = 2090 }	# Nasagus -> CHINY, BASTOGNE
+	link = { imp = 3703 ck3 = 2091 }	# Remia -> BOUILLON
+	link = { imp = 3686 imp = 3050 ck3 = 2095 }	# Eposium, Mosomagus -> VIRTON
+	link = { imp = 2498 imp = 2455 ck3 = 2081 }	# Sauriciacum, Viriodunum -> SAINT-MIHIEL
+	link = { imp = 3002 ck3 = 2080 }	# Pannorum -> HAYANGE
+	link = { imp = 3721 ck3 = 2084 ck3 = 2086 }	# Confluentes -> KOBLENZ, ADENAU
+	link = { imp = 3717 ck3 = 2088 ck3 = 2683 }	# Novaesium -> COLOGNE, ESCHWEILER
+	link = { imp = 3715 ck3 = 2102 ck3 = 2682 }	# Sablones -> GLADBACH, NEUSS
+	link = { imp = 3714 ck3 = 2104 ck3 = 2101 }	# Castra Vetera -> KLEVE, MOERS
+	# Germany
+
+
+	link = { imp = 3840 ck3 = 2837 }	# Ad Pontem -> BRUCHHAUSEN
+	link = { imp = 3829 ck3 = 2839 }	# Ascalingium -> HOYA
+	link = { imp = 3973 ck3 = 2897 }	# Chamavia -> DEPENAU
+	link = { imp = 3964 ck3 = 2896 ck3 = 2846 }	# Dinia -> WUNSDORF, WOLPE
+	link = { imp = 3828 ck3 = 2845 ck3 = 2840 }	# Tuliphurdum -> SCHAUENBURG, MINDEN
+	link = { imp = 3976 ck3 = 2898 }	# Maroia -> HANNOVER
+	link = { imp = 3974 ck3 = 2901 ck3 = 2902 }	# Alaria -> BRUNSWICK, WOLFENBUTTEL
+	link = { imp = 3978 ck3 = 2917 }	# Meliboia -> WERNIGERODE
+	link = { imp = 3977 ck3 = 2913 ck3 = 2914 }	# Luppia -> HILDESHEIM, WOLDENBERG
+	link = { imp = 3965 ck3 = 2918 }	# Bicurgium -> GOSLAR
+	link = { imp = 3960 ck3 = 2920 }	# Teuriona -> GOTTINGEN
+	link = { imp = 3825 ck3 = 2911 ck3 = 2848 }	# Pheugarum -> DASSEL, BRAKEL
+	link = { imp = 3963 ck3 = 2912 }	# Tropea -> HOMBURG
+	link = { imp = 3961 ck3 = 2931 ck3 = 2928 }	# Fosia -> HOHENSTEIN, EBELEBEN
+	link = { imp = 3958 ck3 = 2919 ck3 = 2921 }	# Salia Chamavia -> GLEICHENSTEIN, MUHLHAUSEN
+	link = { imp = 3966 ck3 = 2933 ck3 = 2932 }	# Aregelliana -> ARNSTEIN, BLANKENBURG
+	link = { imp = 3959 ck3 = 2936 ck3 = 2934 ck3 = 2935 }	# Argelia -> MANSFELD, SANGERHAUSEN, MERSENBURG
+	link = { imp = 3967 ck3 = 2906 ck3 = 2916 }	# Aregellia -> MAGDEBURG, HALBERSTADT
+	link = { imp = 3975 ck3 = 2905 ck3 = 2904 }	# Angia -> GIFHORN, CELLE
+	link = { imp = 3962 ck3 = 2794 ck3 = 2903 }	# Idistavisus -> VERDEN, WALSRODE
+	link = { imp = 3972 ck3 = 2893 }	# Fosa -> LUNEBURG
+	link = { imp = 3970 ck3 = 2937 ck3 = 2894 }	# Langobardia -> UELZEN, DANNENBERG
+	link = { imp = 3971 ck3 = 2895 ck3 = 2907 }	# Arminia -> LUCHOW, GARDELEGEN
+	link = { imp = 3969 ck3 = 2899 }	# Cistula -> WERBEN
+	link = { imp = 3968 ck3 = 2900 }	# Mersovium -> STENDAL
+	link = { imp = 3890 ck3 = 2795 ck3 = 2803 }	# Chaucia -> STADE, BUXTEHUDE
+
+	link = { imp = 3957 ck3 = 3006 ck3 = 3008 }	# Bicurdium -> GLEICHEN, KAFERNBURG
+	link = { imp = 3955 ck3 = 3007 ck3 = 3005 }	# Candulum -> BEICHTINEN, ORLAMUNDE
+
+	link = { imp = 3771 ck3 = 2769 }	# Aquileia Germania -> HELLENENSTEIN
+	link = { imp = 3742 ck3 = 2768 }	# Viana -> ULM
+	link = { imp = 3770 ck3 = 2770 }	# Ad Lunam -> HELFENSTEIN
+	link = { imp = 3736 ck3 = 2748 ck3 = 2771 }	# Grinario -> WIRTEMBERG, TECK
+	link = { imp = 3800 ck3 = 2772 ck3 = 2887 }	# Sedusia -> LOWENSTEIN, HALL
+	link = { imp = 3801 ck3 = 2889 ck3 = 2872 }	# Segodunum Chattia -> MERGENTHEIM, WEINSBERG
+	link = { imp = 3804 ck3 = 2738 ck3 = 2739 }	# Hermunduria -> MOSBACH, DURNE
+	link = { imp = 3737 ck3 = 2737 }	# Vicus Nediensis -> ERBACH
+	link = { imp = 3055 ck3 = 2736 ck3 = 2735 }	# Lopodunum -> BESENSHEIM, WEINHEIM
+
+	link = { imp = 3789 ck3 = 2851 ck3 = 2856 }	# Usipetia -> DIEZ, HOMBURG
+
+	link = { imp = 3791 ck3 = 2849 ck3 = 2681 ck3 = 777 }	# Chattaia -> WITTENSTEIN, BILSTEIN, German Mountains 4
+	link = { imp = 3794 ck3 = 2858 ck3 = 2859 }	# Marsiana -> ZIEGENHAIN, MARBURG
+	link = { imp = 3795 ck3 = 2860 }	# Gravionarium -> KASSEL
+	link = { imp = 3796 ck3 = 2867 ck3 = 2861 }	# Bucinobantia -> LAUTERBACH, NIDDA
+	link = { imp = 3700 ck3 = 2863 ck3 = 2855 }	# Taunensium -> HANAU, FRANKFURT
+	link = { imp = 3797 ck3 = 2866 ck3 = 2865 }	# Mattiacia -> RIENECK, BUDINGEN
+	link = { imp = 3798 ck3 = 2862 ck3 = 2864 }	# Vangionia -> KLINGENBERG, GELNHAUSEN
+	link = { imp = 3702 ck3 = 2742 }	# Auderiensium -> SELIGENSTADT
+
+	link = { imp = 3785 ck3 = 2677 }	# Alisutum -> ESSEN
+
+	link = { imp = 3832 ck3 = 2414 ck3 = 2415 }	# Manarmanis -> DOKKUM, APPPINGEDAM
+	link = { imp = 3852 ck3 = 2411 ck3 = 2413 }	# Flevum -> HARLINGEN, LEEUWARDEN
+	link = { imp = 3854 ck3 = 2410 ck3 = 2452 }	# Tubantia -> STAVEREN, STEENWIJK
+	link = { imp = 3851 ck3 = 2421 ck3 = 2426 ck3 = 2416 }	# Isala -> ZWOLLE, HARDERWIJK, KAMPEN
+
+	link = { imp = 3779 ck3 = 2422 ck3 = 2430 }	# Salia Chasuaria -> COEVORDEN, BENTHEIM
+	link = { imp = 3834 ck3 = 2419 ck3 = 2417 }	# Noviliacum -> EMMEN, GRONINGEN
+	link = { imp = 3833 ck3 = 2453 }	# Amastica -> DELFZIJL
+	link = { imp = 3783 ck3 = 2434 ck3 = 2672 }	# Caesia -> BREDEVOORT, AHLEN
+	link = { imp = 3777 ck3 = 2435 ck3 = 2675 }	# Chattuaria -> WEZEL, RECKLINGHAUSEN
+	link = { imp = 3849 ck3 = 2402 }	# Manaritum -> DORT
+	link = { imp = 3781 ck3 = 2420 }	# Vidrosia -> ASSEN
+	link = { imp = 3778 ck3 = 2431 ck3 = 2423 }	# Mediolanium Belgicum -> ALMELO, OMMEN
+	link = { imp = 3776 ck3 = 2429 ck3 = 2432 ck3 = 2428 }	# Asciburgium -> ZUTPHEN, BORCULO, ARNHEM
+
+	link = { imp = 3784 ck3 = 2670 ck3 = 2671 }	# Alesia Germania -> MUNSTER, WARENDORF
+
+	link = { imp = 3792 ck3 = 2680 }	# Sicambria -> ARNSBERG
+	link = { imp = 3793 ck3 = 2857 ck3 = 2853 ck3 = 2852 }	# Landia -> WETZLAR, SOLMS, SIEGEN
+	link = { imp = 3790 ck3 = 2678 ck3 = 2676 ck3 = 2679 }	# Bacenis -> HAGEN, HUKESWAG, MARK
+	link = { imp = 3786 ck3 = 2674 ck3 = 2673 }	# Arbalo -> SOEST, DORTMUND
+	link = { imp = 3826 ck3 = 2842 ck3 = 2843 ck3 = 2847 }	# Amisia -> LIPPSTADT, BUREN, PADERBORN
+	link = { imp = 3787 ck3 = 2688 ck3 = 2433 }	# Tenctheria -> SIEGBURG, BERGH
+	link = { imp = 3788 ck3 = 2691 ck3 = 2692 ck3 = 2690 ck3 = 2689 ck3 = 778 }	# Lacobardia -> ISENBURG, KATZENELNBOGEN, WIED, SAYN, German Mountains 5
+	link = { imp = 3699 ck3 = 2854 ck3 = 2693 }	# Aquae Mattiacorum -> LIMBURG, WIESBADEN
+	link = { imp = 7732 ck3 = 2741 }	# Vicus Augustanus -> RUSSELSHEIM
+	link = { imp = 3802 ck3 = 2869 ck3 = 2868 }	# Locoritum -> HOCHBERG, WERTHEIM
+
+	link = { imp = 3739 ck3 = 2785 }	# Vemania -> MEMMINGEN
+	link = { imp = 3639 ck3 = 2786 }	# Arbor Felix -> RAVENSBURG
+	link = { imp = 3635 ck3 = 2761 }	# Constantia -> HEILIGENBERG
+	link = { imp = 3637 ck3 = 2783 ck3 = 2787 }	# Vernania -> KEMPTEN, BREGENZ
+	link = { imp = 3638 ck3 = 2782 }	# Cambodunum -> SCHONGAU
+	link = { imp = 3740 ck3 = 2776 }	# Cassiliacum -> MARSTETTEN
+	link = { imp = 3741 ck3 = 2775 }	# Caelius Mons -> KIRCHBERG
+	link = { imp = 3746 ck3 = 2774 ck3 = 2773 }	# Raetia Orientalis -> BERGE, GRUNINGEN
+	link = { imp = 3750 ck3 = 2778 }	# Rapis -> AUGSBURG
+	link = { imp = 3775 ck3 = 2777 }	# Summuntorium -> BURGAU
+	link = { imp = 3636 ck3 = 2053 }	# Brigantium -> SANKT GALLEN
+	link = { imp = 3634 ck3 = 2054 }	# Vitudurum -> KONSTANZ
+	link = { imp = 3745 ck3 = 2758 ck3 = 2767 }	# Raetia Occidentalis -> LUPFEN, SIGMARINGEN
+	link = { imp = 3732 ck3 = 2762 }	# Aquae Helveticae -> NELLENBURG
+	link = { imp = 3733 ck3 = 2759 ck3 = 2756 ck3 = 2755 }	# Arae Flaviae -> HOHENBERG, ROTTWEIL, SULZ
+	link = { imp = 3734 ck3 = 2763 ck3 = 2749 }	# Sumelocenna -> ZOLLERN, TUBINGEN
+	link = { imp = 3743 ck3 = 2766 ck3 = 2765 }	# Riusiava -> SCHELKLINGEN, BEUTLINGEN
+	link = { imp = 3744 ck3 = 2764 }	# Bragodurum -> VEHRINGEN
+	link = { imp = 3772 ck3 = 2888 }	# Ad Fines Germania -> CRAILSHEIM
+	link = { imp = 3803 ck3 = 2891 }	# Armalausia -> UFFENHEIM
+	link = { imp = 3769 ck3 = 2886 ck3 = 2885 }	# Losodica -> NORDLINGEN, DILLINGEN
+	link = { imp = 3768 ck3 = 2880 }	# Mediana Vendelicia -> TRUBENDING
+	link = { imp = 3774 ck3 = 2882 }	# Parrodunum -> WEISSENBURG
+	link = { imp = 3766 ck3 = 2883 }	# Germanicum -> INGOLSTADT
+	link = { imp = 3806 ck3 = 2892 ck3 = 2875 ck3 = 2876 }	# Varistia -> RIEDFELD, ANSBACH, ABENBERG
+	link = { imp = 3822 ck3 = 2927 ck3 = 2873 }	# Devona -> WILTBERG, CASEL
+	link = { imp = 3807 ck3 = 2874 ck3 = 2992 }	# Nariscia -> BAMBERG, GREIFFENST
+	link = { imp = 3805 ck3 = 2890 }	# Bergium -> IPHOFEN
+	link = { imp = 3799 ck3 = 2871 ck3 = 2870 ck3 = 2926 }	# Salinae Chattia -> HAMMELBURG, WURZBURG, SCHWEINFURT
+	link = { imp = 3948 ck3 = 2998 }	# Turoniana -> COBURG
+	link = { imp = 3821 ck3 = 2995 }	# Moenosgadia -> LICHTENFELS
+	link = { imp = 3947 ck3 = 2925 ck3 = 3010 }	# Turonia -> HENNEBERG, SCHMALKALDEN
+	link = { imp = 3823 ck3 = 2923 ck3 = 2924 }	# Melocavus -> HERSFELD, FULDA
+	link = { imp = 3824 ck3 = 2915 ck3 = 2850 }	# Mattium -> HOFGEISMAR, WALDECK
+	link = { imp = 3949 ck3 = 2922 ck3 = 3009 }	# Vistugia -> MUNDEN, EISENACH
+	link = { imp = 3827 ck3 = 2844 ck3 = 2909 ck3 = 2910 }	# Tulisurgium -> LIPPE, SCHWALENBERG, EVERSTEIN
+	link = { imp = 3830 ck3 = 2440 ck3 = 2443 ck3 = 2841 }	# Marsia -> OSNABRUCK, RAVENSBERG, WIEDENBRUCK
+	link = { imp = 3782 ck3 = 2446 }	# Amsivaria Bructeria -> TECKLENBURG
+	link = { imp = 3831 ck3 = 2444 }	# Dulgia -> VECHTA
+	link = { imp = 3835 ck3 = 2838 }	# Ansibaria -> DIEPHOLZ
+	link = { imp = 3780 ck3 = 2439 }	# Teuderium -> MEPPEN
+	link = { imp = 3841 ck3 = 2442 ck3 = 2445 ck3 = 2441 }	# Chasuaria -> TWISTRINGEN, CLOPPENBURG, PAPENBURG
+	link = { imp = 3842 ck3 = 2436 ck3 = 2438 }	# Unsingia -> LEER, OLDENBURG
+	link = { imp = 3839 ck3 = 2454 }	# Visurgis -> VAREL
+	link = { imp = 3836 ck3 = 2418 ck3 = 2437 }	# Amsivaria -> EMDEN, WILHELMSHAVEN
+	link = { imp = 3838 ck3 = 2793 }	# Angrivaria -> BREMEN
+	link = { imp = 3837 ck3 = 2792 ck3 = 2791 ck3 = 2796 }	# Saxonnia -> CUXHAVEN, BEDERKESA, ZEVEN
 	# Noricum
 	link = { imp = 3660 ck3 = 2495 }	# Salurnis -> VAL CAMONICA
 	link = { imp = 3659 ck3 = 2498 }	# Vadena -> BOLZANO
@@ -138,7 +332,7 @@
 	link = { imp = 3663 ck3 = 2955 }	# Sublavione -> BRIXEN
 	link = { imp = 3658 ck3 = 2954 }	# Maiensis Statio -> BOZEN
 	link = { imp = 3655 imp = 3656 ck3 = 2950 }	# Tiralia, Alpinus Superioris -> INNSBRUCK
-	link = { imp = 3654 ck3 = 2949 }	# Foetes -> ESCHENLOHE
+	link = { imp = 3654 ck3 = 2949 ck3 = 2781 }	# Foetes -> ESCHENLOHE, PEITING
 	link = { imp = 3640 ck3 = 2946 }	# Damasia -> AHEIM
 	link = { imp = 3747 ck3 = 2780 ck3 = 2784 }	# Navoa -> LECHRAIN, KAUFBEUREN
 	link = { imp = 3773 imp = 3749 ck3 = 2938 }	# Venaxamodurum, Vindelicia -> NIEDERSCHONENFELD
@@ -530,6 +724,10 @@
 	# Brandenburg
 	link = { imp = 3986 ck3 = 3169 }	# Uarinia -> NOWEN
 	link = { imp = 3983 ck3 = 3167 }	# Astuia -> LINDOW
+	link = { imp = 3954 ck3 = 3038 ck3 = 3039 }	# Camulia -> GERA, REICHENBACH
+	link = { imp = 3952 ck3 = 3004 ck3 = 3000 }	# Sudetia -> PLAUEN, HOF
+	link = { imp = 3956 imp = 3953 ck3 = 3003 }	# Melocabus, Dandutia -> LOBDABURG
+	link = { imp = 3951 ck3 = 3019 ck3 = 3020 }	# Luphurdum -> LEIPZIG, NAUMBURG
 	link = { imp = 3990 ck3 = 3015 ck3 = 3014 ck3 = 3013 ck3 = 3012 }	# Hercynia -> COLDITZ, ALTENBURG, WALDENBURG, WOLKENSTEIN
 	link = { imp = 3988 ck3 = 3024 ck3 = 3021 ck3 = 3025 ck3 = 3017 }	# Caluconia -> DUBEN, EILENBURG, TORGAU, DEVIN
 	link = { imp = 3950 ck3 = 3018 ck3 = 3023 }	# Calaegia -> HALLE, DESSAU
@@ -697,45 +895,43 @@
 	link = { imp = 2160 ck3 = 2158 }	# Leonitia -> LEON
 	link = { imp = 2151 imp = 2152 ck3 = 2157 }	# Vorganium, Gesoscribate -> BREST
 	# Northern France
-
 	link = { imp = 2215 imp = 2216 ck3 = 2282 }	# Foricum, Abricates -> COMBOURG
 	link = { imp = 2463 imp = 2461 ck3 = 2324 }	# Condate, Carnutia Vesperis -> MORTAGNE
 	link = { imp = 2460 ck3 = 2323 }	# Carnutia Orientalis -> NOGENT-LE-ROTROU
 	link = { imp = 2458 ck3 = 2321 }	# Vindocinium -> CHATEAUDUN
 	link = { imp = 2425 ck3 = 2320 }	# Blesum -> BEAUGENCY
-
 	link = { imp = 2456 ck3 = 2272 }	# Labrinum -> COURCILLON
 	link = { imp = 2426 ck3 = 2283 }	# Navicellis -> VENDOME
 	link = { imp = 2349 ck3 = 2269 }	# Vivicum -> LE LUDE
 	link = { imp = 2423 ck3 = 2273 }	# Severiacus -> TOURAINE
-
 	link = { imp = 2401 ck3 = 2264 ck3 = 2270 }	# Noviliacus -> SABLE , LE MANS
 	link = { imp = 2400 ck3 = 2267 ck3 = 2268 }	# Robrica -> ANGERS, LA FLECHE
 	link = { imp = 2403 ck3 = 2262 }	# Salica -> CRAON
 	link = { imp = 2352 imp = 2402 ck3 = 2263 }	# Iuliomagus, Bricca -> LUIGNE
 	link = { imp = 2481 ck3 = 2335 }	# Mellodunum -> MONTLHERY
 	link = { imp = 2479 ck3 = 2337 }	# Ad Fines Gallia -> NEMOURS
-
 	link = { imp = 2441 imp = 2457 ck3 = 2322 }	# Autricum, Dunense Castrum -> CHARTRES
 	link = { imp = 2462 ck3 = 2331 }	# Dorocas -> DREUX
 	link = { imp = 2478 ck3 = 2336 }	# Salioclita -> ETAMPES
 	link = { imp = 2476 ck3 = 2334 }	# Dortenco -> VERSAILLES
-
 	link = { imp = 3676 ck3 = 2120 }	# Feliciacum -> ATH
 	link = { imp = 3041 ck3 = 2127 }	# Turnacum -> TOURNAI
 	link = { imp = 3845 ck3 = 2113 }	# Marsacia -> BERGEN OP ZOOM
 	link = { imp = 3707 ck3 = 2107 }	# Andellium -> BRUSSELS
-	link = { imp = 3846 imp = 3849 ck3 = 2401 }	# Lugadurum, Manaritum -> BRIELLE
-	link = { imp = 3844 ck3 = 2106 ck3 = 2108 ck3 = 2112 }	# Fletio -> ANTWERP, ROSENDAAL, MIDDELBURG
-	link = { imp = 3712 ck3 = 2110 }	# Batavodurum -> TILBURG
-	link = { imp = 3713 ck3 = 2109 }	# Ad Duodecimum -> BREDA
 
+
+	link = { imp = 3850 ck3 = 2427 ck3 = 2425 }	# Chamoria -> APELDOORN, TIEL
+	link = { imp = 3848 ck3 = 2406 ck3 = 2424 ck3 = 2451 }	# Traiectum -> AMSTERDAM, UTRECHT, AMERSFOORT
+	link = { imp = 3847 ck3 = 2403 ck3 = 2404 ck3 = 2405 ck3 = 2407 ck3 = 2412 ck3 = 2409 ck3 = 2408 }	# Baduhenna -> ROTTERDAM, DELFT, HAARLEM, AALKMAR, WAADEILANNEN, MEDEMBLIK, EDAM
+	link = { imp = 3846 ck3 = 2401 }	# Lugadurum -> BRIELLE
+	link = { imp = 3844 ck3 = 2106 ck3 = 2108 ck3 = 2112 }	# Fletio -> ANTWERP, ROSENDAAL, MIDDELBURG
+	link = { imp = 3712 ck3 = 2110 ck3 = 2103 }	# Batavodurum -> TILBURG, NIJMEGEN
+	link = { imp = 3713 ck3 = 2109 }	# Ad Duodecimum -> BREDA
 	link = { imp = 3706 ck3 = 2111 }	# Confluenta Nervia -> TURNHOUT
 	link = { imp = 3709 imp = 3708 ck3 = 2099 }	# Traiectus, Teudurum -> MAASTRICHT
 	link = { imp = 3710 ck3 = 2100 }	# Catualium -> EINDHOVEN
 	link = { imp = 3711 ck3 = 2450 }	# Blariacum -> GELDERN
 	link = { imp = 3682 imp = 3681 ck3 = 2097 }	# Armianum, Tungrorum -> LIEGE
-
 	link = { imp = 3680 ck3 = 2105 }	# Geminiacum -> LEUVEN
 	link = { imp = 3679 ck3 = 2117 }	# Vodgoriacum -> MONS
 	link = { imp = 3705 ck3 = 2098 ck3 = 2116 ck3 = 2096 }	# Nervia Secunda -> NAMUR, CHARLEROI, HUY
@@ -781,11 +977,9 @@
 	link = { imp = 2467 ck3 = 2175 }	# Pentale -> HARCOURT
 	link = { imp = 2223 ck3 = 2174 }	# Esta -> LISIEUX
 	link = { imp = 2218 ck3 = 2172 }	# Aregenua -> CAEN
-
 	link = { imp = 2217 ck3 = 2165 }	# Modulus -> RENNES
 	link = { imp = 2351 ck3 = 2265 }	# Brucironno -> LAVAL
 	link = { imp = 2214 ck3 = 2266 }	# Diablintum -> MAYENNE
-
 	link = { imp = 2221 ck3 = 2171 ck3 = 2326 }	# Esuvia Australis -> MORTAIN, ARGENTAN
 	link = { imp = 2138 imp = 2220 imp = 2136 ck3 = 2170 }	# Augustodurum, Esuvia Borealis, Crouciaconnum -> BAYEUX
 	link = { imp = 2140 ck3 = 2167 }	# Ingena -> AVRANCHES
@@ -794,7 +988,6 @@
 	# Central France
 	link = { imp = 1719 ck3 = 2295 }	# Avitacum -> LA TOUR
 	link = { imp = 2283 imp = 2341 imp = 2404 ck3 = 2248 }	# Augustoritum, Curisiacum, Sisciacum -> LIMOGES
-
 	link = { imp = 2480 imp = 2418 ck3 = 2342 }	# Montargia, Bandritum -> MONTEREAU
 	link = { imp = 2417 ck3 = 2339 ck3 = 2340 }	# Belca -> MONTARGIS, COURTENAY
 	link = { imp = 2350 ck3 = 2338 }	# Cenabum -> ORLEANS
@@ -817,7 +1010,6 @@
 	link = { imp = 2372 imp = 2371 ck3 = 2306 }	# Sitilia, Aquae Calidae -> JILAGNY
 	link = { imp = 2374 ck3 = 2307 }	# Arthona -> MOULINS
 	link = { imp = 2376 ck3 = 2310 }	# Aquae Neri -> BOURBON-LARCHEMBAULT
-
 	link = { imp = 2410 imp = 2409 ck3 = 2278 }	# Exolidunum, Ernodurum -> ISSOUDUN
 	link = { imp = 2377 ck3 = 2311 }	# Derventum -> ORVAL
 	link = { imp = 2381 ck3 = 2281 }	# Mediolanicum -> BOUSSAC
@@ -825,16 +1017,12 @@
 	link = { imp = 2379 imp = 2383 ck3 = 2286 }	# Accitodunum, Ferruciacum -> GUERET
 	link = { imp = 2380 imp = 2375 ck3 = 2308 }	# Cambonum, Manatum -> MONTLUCON
 	link = { imp = 2344 imp = 2378 ck3 = 2287 }	# Durotincum, Fines Secundum -> AUBUSSON
-
 	link = { imp = 2343 ck3 = 2285 }	# Salviacum -> GRANDMONT
 	link = { imp = 2388 imp = 2386 ck3 = 2284 }	# Comodoliacus, Ambiacum -> BELLAC
 	link = { imp = 2387 ck3 = 2253 }	# Exidualum -> CHATELLERAULT
 	link = { imp = 2347 ck3 = 2312 }	# Avaricum -> BOURGES
 	link = { imp = 2412 imp = 2368 ck3 = 2313 }	# Nogeomagus, Tincontium -> HERRY
-
-
 	link = { imp = 2419 imp = 2405 ck3 = 2277 }	# Claudiomagus, Pontiniacum -> VALENCAY
-
 	link = { imp = 2385 ck3 = 2464 }	# Andecamulum -> LA TREMOUILLE
 	link = { imp = 2384 ck3 = 2279 }	# Vosagum -> CHATEAUROUX
 	link = { imp = 2420 ck3 = 2276 }	# Iciodoro -> LA HAYE
@@ -859,7 +1047,6 @@
 	link = { imp = 2228 ck3 = 2255 }	# Pictonia -> PARTHENAY
 	link = { imp = 2227 ck3 = 2259 ck3 = 2258 }	# Vertavia -> MAULEVRIER, BRESSUIRE
 	link = { imp = 2224 ck3 = 2150 }	# Pictavia Borealis -> MONTAIGU
-
 	link = { imp = 2397 ck3 = 2257 }	# Vultaconum -> THOUARS
 	link = { imp = 2399 ck3 = 2261 }	# Toarcius -> SAUMUR
 	link = { imp = 2398 imp = 2211 ck3 = 2260 }	# Segora, Ratiarum -> MELAY
@@ -867,7 +1054,6 @@
 	link = { imp = 2210 ck3 = 2151 }	# Piktonion Akron -> RAIS
 	# South-Western France
 	link = { imp = 2231 ck3 = 2462 }	# Lamnum -> COGNAC
-
 	link = { imp = 3000 ck3 = 2250 }	# Sermanicomago -> MELLE
 	link = { imp = 2230 ck3 = 2242 }	# Mediolanum Santonum -> SAINTES
 	link = { imp = 2242 ck3 = 2195 }	# Coequosa -> TARTAS
@@ -881,7 +1067,6 @@
 	link = { imp = 2267 ck3 = 2212 }	# Elusio -> CASTELNAUDARY
 	link = { imp = 2269 ck3 = 2231 }	# Divona -> QUERCY
 	link = { imp = 2290 ck3 = 2244 }	# Iculisma -> ANGOULEME
-
 	link = { imp = 2282 imp = 2287 imp = 2291 ck3 = 2237 }	# Vesunna, Corterate, Sarrum -> PERIGUEUX
 	link = { imp = 2232 ck3 = 2144 ck3 = 2145 ck3 = 2241 }	# Tannum -> BLAYE, JONZAC, SAINTOGNE
 	link = { imp = 2289 ck3 = 2143 }	# Lucaniacum -> FRONSAC
@@ -973,6 +1158,23 @@
 	link = { imp = 151 ck3 = 2535 ck3 = 2534 }	# Regium Lepidum -> CANOSSA, REGGIO
 	link = { imp = 3567 imp = 3569 ck3 = 2472 }	# Plumbia, Sebuinus Vicus -> POMBIA
 	link = { imp = 3577 ck3 = 2481 }	# Forum Licinii -> MONZA
+
+	link = { imp = 3614 ck3 = 2048 ck3 = 3107 }	# Brenodunum -> LUCERNE, ENGELBERG
+	link = { imp = 3631 ck3 = 2049 }	# Petinesca -> BIEL
+	link = { imp = 3632 ck3 = 2050 }	# Salodurum -> BASEL
+
+	link = { imp = 3025 ck3 = 2746 }	# Aurelia Aquensis -> BADEN
+	link = { imp = 3735 ck3 = 2745 ck3 = 2747 }	# Portus -> VAIHINGEN, CALW
+	link = { imp = 3052 ck3 = 2733 ck3 = 2744 }	# Saletio -> HEIDELBERG, HOCKENHEIM
+	link = { imp = 3738 ck3 = 2743 }	# Vicus Alsinensium -> HEILBRONN
+	link = { imp = 3020 ck3 = 2753 }	# Helvetum -> GEROLDSECK
+	link = { imp = 3018 ck3 = 2058 ck3 = 2751 }	# Rubiacum -> MULHOUSE, FREIBURG
+	link = { imp = 3022 ck3 = 2752 }	# Tarodunon -> OFFENBURG
+	link = { imp = 3012 ck3 = 2750 }	# Rauracia -> SANKT BLASIEN
+	link = { imp = 3731 ck3 = 2757 ck3 = 2760 }	# Tenedo -> FURSTENBERG, CLETTGAU
+	link = { imp = 3633 ck3 = 2051 ck3 = 2461 }	# Vindonissa -> ZURICH, SCHWYZ
+	link = { imp = 3619 ck3 = 2052 }	# Clunia Raetia -> FARDUZES
+	link = { imp = 3616 imp = 3617 ck3 = 2055 }	# Curia, Clavenna -> CHUR
 	link = { imp = 3618 ck3 = 2478 }	# Sumus Lacus -> BELLINZONA
 	link = { imp = 3570 ck3 = 2477 ck3 = 2479 }	# Comum -> COMO, VARESE
 	link = { imp = 3580 ck3 = 2492 }	# Laus Pompeia -> CREMA
