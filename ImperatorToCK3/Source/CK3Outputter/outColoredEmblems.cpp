@@ -26,15 +26,12 @@ void copyColoredEmblems(const Configuration& theConfiguration, const std::string
 	auto filenames = Utils::GetAllFilesInFolder(coloredEmblemsPath);
 	for (const auto& filename : filenames)
 	{
-		const bool isBroken = isBrokenEmblem(theConfiguration, outputName, filename);
-		if(!isBroken)
-		{
-			// load an image
-			Magick::Image image(coloredEmblemsPath + filename);
-			image.negateChannel(MagickCore::ChannelType::RedChannel);
-			// Write the image to new file
-			image.write("output/" + outputName + "/gfx/coat_of_arms/colored_emblems/" + filename);
-		}
+		if (isBrokenEmblem(theConfiguration, outputName, filename)) continue;
+		// load an image
+		Magick::Image image(coloredEmblemsPath + filename);
+		image.negateChannel(MagickCore::ChannelType::RedChannel);
+		// Write the image to new file
+		image.write("output/" + outputName + "/gfx/coat_of_arms/colored_emblems/" + filename);
 	}
 }
 }

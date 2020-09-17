@@ -43,7 +43,7 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 
 	LOG(LogLevel::Info) << "<- Copying Coats of Arms";
 	copyColoredEmblems(theConfiguration, outputName);
-	outputCoas(outputName, CK3World);
+	outputCoas(outputName, CK3World.getTitles());
 	Utils::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/patterns");
 }
 
