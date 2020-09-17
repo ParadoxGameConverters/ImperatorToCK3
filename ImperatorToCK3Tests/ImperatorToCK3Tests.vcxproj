@@ -174,6 +174,8 @@
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3ProvinceMappings.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Provinces.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\ProvinceDetails.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\LandedTitles.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Configuration\Configuration.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />
@@ -217,6 +219,7 @@
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceDetailsTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceTests.cpp" />
+    <ClCompile Include="CK3WorldTests\Titles\LandedTitlesTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />

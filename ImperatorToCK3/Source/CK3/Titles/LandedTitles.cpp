@@ -60,11 +60,10 @@ void CK3::LandedTitles::registerKeys()
 
 std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const int provinceID)
 {
-	for (const auto& [first, second] : foundTitles)
+	for (const auto& [titleName, title] : foundTitles)
 	{
-		auto cntyProvs = second.countyProvinces;
-		if (first.find_first_of("c_") == 0 && !cntyProvs.empty())
-			if (cntyProvs.count(provinceID)) return first;
+		if (titleName.find_first_of("c_") == 0 && !title.countyProvinces.empty())
+			if (title.countyProvinces.count(provinceID)) return titleName;
 	}
 	return std::nullopt;
 }

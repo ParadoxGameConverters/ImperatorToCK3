@@ -55,6 +55,15 @@
     <Filter Include="MapperTests\TagTitleMapper">
       <UniqueIdentifier>{ab277722-9852-42ab-bfb5-9301bfb70432}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CK3WorldTests\Titles">
+      <UniqueIdentifier>{58175bdd-a136-4a0e-9f5c-4099e32523db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CK3">
+      <UniqueIdentifier>{70b34504-b20c-4013-9178-7375f80eb07e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CK3\Titles">
+      <UniqueIdentifier>{3841e16e-9edb-43b4-a571-eca1329a062f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -290,6 +299,15 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapper.cpp">
       <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="CK3WorldTests\Titles\LandedTitlesTests.cpp">
+      <Filter>CK3WorldTests\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\LandedTitles.cpp">
+      <Filter>Sources\CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Configuration\Configuration.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
