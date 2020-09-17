@@ -37,7 +37,7 @@ class Title
 	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
 
-	friend std::ostream& operator<<(std::ostream& output, const Title& versionParser);
+	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
   private:
 	std::string titleName; // e.g. e_hispania

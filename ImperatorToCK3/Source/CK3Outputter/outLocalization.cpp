@@ -25,9 +25,9 @@ void CK3::outputLocalization(const std::string& outputName, const World& CK3Worl
 	russian << "\xEF\xBB\xBFl_russian:\n"; // write BOM
 	spanish << "\xEF\xBB\xBFl_spanish:\n"; // write BOM
 
-	for (const auto& [first, second] : CK3World.getTitles())
+	for (const auto& [unused, title] : CK3World.getTitles())
 	{
-		for (const auto& locBlock : second->getLocalizations())
+		for (const auto& locBlock : title->getLocalizations())
 		{
 			english << " " << locBlock.first << ": \"" << locBlock.second.english << "\"\n";
 			french << " " << locBlock.first << ": \"" << locBlock.second.french << "\"\n";

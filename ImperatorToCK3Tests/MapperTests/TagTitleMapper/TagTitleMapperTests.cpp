@@ -11,3 +11,11 @@ TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 	ASSERT_EQ("e_IMPTOCK3_ROM", *match);
 	ASSERT_EQ("e_IMPTOCK3_DRE", *match2);
 }
+
+TEST(Mappers_TagTitleMapperTests, getTitleForTagReturnsNulloptOnEmptyParameter)
+{
+	mappers::TagTitleMapper theMapper;
+	const auto& match = theMapper.getTitleForTag("");
+
+	ASSERT_FALSE(match);
+}

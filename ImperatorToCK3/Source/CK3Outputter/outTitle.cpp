@@ -8,9 +8,8 @@ std::ostream& CK3::operator<<(std::ostream& output, const Title& title)
 	else Log(LogLevel::Warning) << "Title " << title.titleName << " has no color.";
 	if (title.color2) output << "\tcolor2 " << *title.color2 << "\n";
 	else Log(LogLevel::Warning) << "Title " << title.titleName << " has no color2.";
-	const auto capital = title.capitalCounty;
-	if (capital)
-		output << "\tcapital = " << *capital << "\n";
+	if (title.capitalCounty)
+		output << "\tcapital = " << *title.capitalCounty << "\n";
 	output << "}\n";
 	
 	return output;

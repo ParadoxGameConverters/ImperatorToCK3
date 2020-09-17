@@ -11,12 +11,11 @@ void CK3::outputCoas(const std::string& outputModName, const World& CK3World)
 		throw std::runtime_error(
 			"Could not create coat of arms file: output/" + outputModName + "/common/coat_of_arms/coat_of_arms/fromImperator.txt");
 	
-	for (const auto& [first, second] : CK3World.getTitles())
+	for (const auto& [titleName, title] : CK3World.getTitles())
 	{
-		//auto coa = title.second->getImperatorCountry().second->getFlag();
-		auto coa = second->getCoa();
+		auto coa = title->getCoa();
 		if (coa)
-			output << first << " = " << *coa << "\n";
+			output << titleName << " = " << *coa << "\n";
 	}
 
 	output.close();
