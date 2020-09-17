@@ -17,6 +17,13 @@ mappers::CoaMapper::CoaMapper(const Configuration& theConfiguration)
 	LOG(LogLevel::Info) << "<> Loaded " << coasMap.size() << " coats of arms.";
 }
 
+mappers::CoaMapper::CoaMapper(const std::string& coaFilePath)
+{
+	registerKeys();
+	parseFile(coaFilePath);
+	clearRegisteredKeywords();
+}
+
 void mappers::CoaMapper::registerKeys()
 {
 	registerKeyword("template", commonItems::ignoreItem); // we don't need templates, we need CoAs!

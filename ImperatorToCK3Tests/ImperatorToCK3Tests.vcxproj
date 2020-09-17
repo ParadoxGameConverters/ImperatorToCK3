@@ -240,6 +240,7 @@
     <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvinceTests.cpp" />
+    <ClCompile Include="MapperTests\CoaMapper\CoaMapperTests.cpp" />
     <ClCompile Include="MapperTests\CultureMapper\CultureMapperTests.cpp" />
     <ClCompile Include="MapperTests\CultureMapper\CultureMappingTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMapperTests.cpp" />
@@ -267,6 +268,11 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="TestFiles\CK3ProvincesHistoryFile.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="CoatsOfArms.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>

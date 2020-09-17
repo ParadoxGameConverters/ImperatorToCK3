@@ -14,6 +14,7 @@ class CoaMapper: commonItems::parser
   public:
 	CoaMapper() = default;
 	explicit CoaMapper(const Configuration& theConfiguration);
+	explicit CoaMapper(const std::string& coaFilePath);
 
 	[[nodiscard]] std::optional<std::string> getCoaForFlagName(const std::string& impFlagName);
 
