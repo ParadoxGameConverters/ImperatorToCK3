@@ -42,7 +42,7 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	Utils::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + CK3World.getOutputModName() + "/common/named_colors/imp_colors.txt");
 
 	LOG(LogLevel::Info) << "<- Copying Coats of Arms";
-	outputColoredEmblems(theConfiguration, CK3World);
+	copyColoredEmblems(theConfiguration, outputName);
 	outputCoas(outputName, CK3World);
 	Utils::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/patterns");
 }

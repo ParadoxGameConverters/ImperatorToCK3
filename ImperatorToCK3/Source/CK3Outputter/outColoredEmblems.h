@@ -6,7 +6,7 @@
 
 namespace CK3
 {
-	void outputColoredEmblems(const Configuration& theConfiguration, const World& CK3World);
+	void copyColoredEmblems(const Configuration& theConfiguration, const std::string& outputName);
 
 }
 
