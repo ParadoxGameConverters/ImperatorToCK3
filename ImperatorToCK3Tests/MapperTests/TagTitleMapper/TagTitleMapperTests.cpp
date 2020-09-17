@@ -2,14 +2,7 @@
 #include "gtest/gtest.h"
 #include <sstream>
 
-TEST(Mappers_TitleTagMapperTests, emptyMappingsDefaultToEmpty)
-{
-	const mappers::TagTitleMapper theMapper;
-
-	ASSERT_TRUE(theMapper.getRegisteredTitleTags().empty());
-}
-
-TEST(Mappers_TitleTagMapperTests, titleCanBeGenerated)
+TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 {
 	mappers::TagTitleMapper theMapper;
 	const auto& match = theMapper.getTitleForTag("ROM");

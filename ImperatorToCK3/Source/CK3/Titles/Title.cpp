@@ -29,7 +29,7 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 	auto srcCapital = imperatorCountry.second->getCapital();
 	if (srcCapital)
 	{
-		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(srcCapital);
+		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(*srcCapital);
 		if (!provMappingsForImperatorCapital.empty())
 			capitalCounty = landedTitles.getCountyForProvince(provMappingsForImperatorCapital[0]);
 	}

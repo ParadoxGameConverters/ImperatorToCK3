@@ -6,7 +6,7 @@
 
 namespace mappers
 {
-class TagTitleMapper: commonItems::parser
+class TagTitleMapper
 {
   public:
 	void registerTitle(const std::string& impTag, const std::string& ck3Title);
