@@ -8,12 +8,12 @@ mappers::CoaMapper::CoaMapper(const Configuration& theConfiguration)
 	const auto coasPath = theConfiguration.getImperatorPath() + "/game/common/coat_of_arms/coat_of_arms/";
 	auto filenames = Utils::GetAllFilesInFolder(coasPath);
 	LOG(LogLevel::Info) << "-> Parsing CoAs.";
+	registerKeys();
 	for (const auto& fileName : filenames)
 	{
-		registerKeys();
 		parseFile(coasPath + fileName);
-		clearRegisteredKeywords();
 	}
+	clearRegisteredKeywords();
 	LOG(LogLevel::Info) << "<> Loaded " << coasMap.size() << " coats of arms.";
 }
 

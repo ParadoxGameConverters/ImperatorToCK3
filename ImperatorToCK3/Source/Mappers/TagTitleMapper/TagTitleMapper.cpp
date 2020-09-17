@@ -3,13 +3,6 @@
 #include "ParserHelpers.h"
 
 
-void mappers::TagTitleMapper::registerTitle(const std::string& impTag, const std::string& ck3Title)
-{
-	registeredTagTitles.insert(std::pair(impTag, ck3Title));
-	usedTitles.insert(ck3Title);
-}
-
-
 std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::string& impTag)
 {
 	// the only case where we fail is on invalid invocation. Otherwise, failure is
@@ -19,7 +12,6 @@ std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::st
 
 	// Generate a new tag
 	auto generatedTitle = generateNewTitle(impTag);
-	registerTitle(impTag, generatedTitle);
 	return generatedTitle;
 }
 
