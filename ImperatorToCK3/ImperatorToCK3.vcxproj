@@ -169,7 +169,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\commonItems;..\cpp-base64;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ImageMagick\include;..\commonItems;..\cpp-base64;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -178,10 +178,10 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);CORE_RL_Magick++_.lib;CORE_RL_MagickCore_.lib;CORE_RL_MagickWand_.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\ImageMagick\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
       <Command>Copy_Files.bat</Command>
@@ -202,14 +202,21 @@
     <ClCompile Include="..\commonItems\WinUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
     <ClCompile Include="Source\CK3Outputter\CK3WorldOutputter.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outCoas.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outColoredEmblems.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outLocalization.cpp" />
     <ClCompile Include="Source\CK3Outputter\outProvince.cpp" />
     <ClCompile Include="Source\CK3Outputter\outProvinces.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outTitle.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outTitles.cpp" />
     <ClCompile Include="Source\CK3Outputter\outVersion.cpp" />
     <ClCompile Include="Source\CK3\CK3World.cpp" />
     <ClCompile Include="Source\CK3\Province\CK3Province.cpp" />
     <ClCompile Include="Source\CK3\Province\CK3ProvinceMappings.cpp" />
     <ClCompile Include="Source\CK3\Province\ProvinceDetails.cpp" />
     <ClCompile Include="Source\CK3\Province\CK3Provinces.cpp" />
+    <ClCompile Include="Source\CK3\Titles\LandedTitles.cpp" />
+    <ClCompile Include="Source\CK3\Titles\Title.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
     <ClCompile Include="Source\Imperator\Characters\Character.cpp" />
@@ -235,13 +242,16 @@
     <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Mappers\CoaMapper\CoaMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
+    <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
+    <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -256,15 +266,23 @@
     <ClInclude Include="..\commonItems\ParserHelpers.h" />
     <ClInclude Include="..\commonItems\StringUtils.h" />
     <ClInclude Include="..\cpp-base64\base64.h" />
+    <ClInclude Include="..\ImageMagick\include\Magick++.h" />
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h" />
+    <ClInclude Include="Source\CK3Outputter\outCoas.h" />
+    <ClInclude Include="Source\CK3Outputter\outColoredEmblems.h" />
+    <ClInclude Include="Source\CK3Outputter\outLocalization.h" />
     <ClInclude Include="Source\CK3Outputter\outProvince.h" />
     <ClInclude Include="Source\CK3Outputter\outProvinces.h" />
+    <ClInclude Include="Source\CK3Outputter\outTitle.h" />
+    <ClInclude Include="Source\CK3Outputter\outTitles.h" />
     <ClInclude Include="Source\CK3Outputter\outVersion.h" />
     <ClInclude Include="Source\CK3\CK3World.h" />
     <ClInclude Include="Source\CK3\Province\CK3Province.h" />
     <ClInclude Include="Source\CK3\Province\CK3ProvinceMappings.h" />
     <ClInclude Include="Source\CK3\Province\ProvinceDetails.h" />
     <ClInclude Include="Source\CK3\Province\CK3Provinces.h" />
+    <ClInclude Include="Source\CK3\Titles\LandedTitles.h" />
+    <ClInclude Include="Source\CK3\Titles\Title.h" />
     <ClInclude Include="Source\Configuration\Configuration.h" />
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
     <ClInclude Include="Source\Imperator\Characters\Character.h" />
@@ -288,13 +306,16 @@
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />
     <ClInclude Include="Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h" />
+    <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMappingRule.h" />
+    <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapper.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapping.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h" />
+    <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h" />
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h" />
   </ItemGroup>
   <ItemGroup>

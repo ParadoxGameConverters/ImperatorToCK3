@@ -1,10 +1,12 @@
 #include "ImperatorToCK3Converter.h"
 #include "Mappers/VersionParser/VersionParser.h"
 #include "Log.h"
+#include <Magick++/Functions.h>
 
 int main(const int argc, const char* argv[])
 {
 	try {
+		Magick::InitializeMagick(nullptr);
 		const mappers::VersionParser versionParser;
 		Log(LogLevel::Info) << versionParser;
 		if (argc >= 2) {
