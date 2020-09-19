@@ -2,6 +2,7 @@
 #include "CommonFunctions.h"
 #include "GameVersion.h"
 #include "../Configuration/Configuration.h"
+#include "../Helpers/rakaly_wrapper.h"
 #include "Date.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
@@ -76,18 +77,7 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 
 	LOG(LogLevel::Info) << "-> Verifying Imperator save.";
 	verifySave(theConfiguration.getSaveGamePath());
-	
-	LOG(LogLevel::Info) << "-> Importing Imperator save.";
-	if (!saveGame.compressed) {
-		std::ifstream inBinary(fs::u8path(theConfiguration.getSaveGamePath()), std::ios::binary);
-		if (!inBinary.is_open()) {
-			LOG(LogLevel::Error) << "Could not open " << theConfiguration.getSaveGamePath() << " for parsing.";
-			throw std::runtime_error("Could not open " + theConfiguration.getSaveGamePath() + " for parsing.");
-		}
-		std::stringstream inStream;
-		inStream << inBinary.rdbuf();
-		saveGame.gamestate = inStream.str();
-	}
+	processSave(theConfiguration.getSaveGamePath());
 
 	auto gameState = std::istringstream(saveGame.gamestate);
 	parseStream(gameState);
@@ -111,35 +101,116 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	LOG(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
 }
 
-void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
+void ImperatorWorld::World::processSave(const std::string& saveGamePath)
 {
-	std::ifstream saveFile(fs::u8path(saveGamePath));
-	if (!saveFile.is_open()) throw std::runtime_error("Could not open save! Exiting!");
-
-	char buffer[3];
-	saveFile.get(buffer, 3);
-	if (buffer[0] == 'P' && buffer[1] == 'K') {
-		if (!uncompressSave(saveGamePath)) throw std::runtime_error("Failed to unpack the compressed save!");
-		saveGame.compressed = true;
+	switch (saveGame.saveType)
+	{
+	case SaveType::ZIPFILE:
+		LOG(LogLevel::Info) << "-> Importing regular compressed Imperator save.";
+		processCompressedSave(saveGamePath);
+		break;
+	case SaveType::AUTOSAVE:
+		LOG(LogLevel::Info) << "-> Importing ironman Imperator autosave.";
+		processAutoSave(saveGamePath);
+		break;
+	case SaveType::IRONMAN:
+		LOG(LogLevel::Info) << "-> Importing ironman compressed Imperator save.";
+		processIronManSave(saveGamePath);
+		break;
+	case SaveType::INVALID:
+		throw std::runtime_error("Unknown save type.");
 	}
-	saveFile.close();
 }
 
-bool ImperatorWorld::World::uncompressSave(const std::string& saveGamePath)
+void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
 {
-	auto savefile = ZipFile::Open(saveGamePath);
-	if (!savefile) return false;
-	for (size_t entryNum = 0; entryNum < savefile->GetEntriesCount(); ++entryNum) {
-		const auto& entry = savefile->GetEntry(entryNum);
-		const auto& name = entry->GetName();
-		if (name == trimPath(saveGamePath)) {
-			LOG(LogLevel::Info) << ">> Uncompressing gamestate";
-			saveGame.gamestate = std::string{ std::istreambuf_iterator<char>(*entry->GetDecompressionStream()), std::istreambuf_iterator<char>() };
-		}
-		else
-			throw std::runtime_error("Unrecognized savegame structure!");
+	std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
+	if (!saveFile.is_open())
+		throw std::runtime_error("Could not open save! Exiting!");
+
+	char buffer[10];
+	saveFile.get(buffer, 4);
+	if (buffer[0] != 'S' || buffer[1] != 'A' || buffer[2] != 'V')
+		throw std::runtime_error("Savefile of unknown type.");
+
+	char ch;
+	do
+	{ // skip until newline
+		ch = static_cast<char>(saveFile.get());
+	} while (ch != '\n' && ch != '\r');
+
+	saveFile.seekg(0, std::ios::end);
+	const auto length = saveFile.tellg();
+	if (length < 65536)
+	{
+		throw std::runtime_error("Savegame seems a bit too small.");
 	}
-	return true;
+	saveFile.seekg(0, std::ios::beg);
+	char* bigBuf = new char[65536];
+	saveFile.read(bigBuf, 65536);
+	if (saveFile.gcount() < 65536)
+		throw std::runtime_error("Read only: " + std::to_string(saveFile.gcount()));
+	for (int i = 0; i < 65533; ++i)
+		if (*reinterpret_cast<uint32_t*>(bigBuf + i) == 0x04034B50 && *reinterpret_cast<uint16_t*>(bigBuf + i - 2) == 4)
+		{
+			saveGame.zipStart = i;
+			saveGame.saveType = SaveType::IRONMAN;
+			break;
+		}
+	if (saveGame.saveType != SaveType::IRONMAN)
+		saveGame.saveType = SaveType::AUTOSAVE;
+
+	delete[] bigBuf;
+	Log(LogLevel::Info) << " SAVE GAME TYPE: " << int(saveGame.saveType);
+}
+
+void ImperatorWorld::World::processCompressedSave(const std::string& saveGamePath)
+{
+	std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
+	std::stringstream inStream;
+	inStream << saveFile.rdbuf();
+	std::string inString = inStream.str();
+
+	auto startMeta = inString.find_first_of("\r\n") + 1;
+	auto startZipped = inString.find("PK\03\04");
+
+	std::stringstream zipStream;
+	zipStream << inString.substr(startZipped);
+
+	auto zipArchive = ZipArchive::Create(zipStream);
+	if (zipArchive->GetEntriesCount() != 1)
+		throw std::runtime_error("Unexpected number of zipped files in the savegame.");
+
+	if (zipArchive->GetEntry(0)->GetName() != "gamestate")
+		throw std::runtime_error("Gamestate file not found in zipped savegame.");
+
+	saveGame.gamestate = std::string(std::istreambuf_iterator<char>(*zipArchive->GetEntry(0)->GetDecompressionStream()), {});
+}
+
+void ImperatorWorld::World::processAutoSave(const std::string& saveGamePath)
+{
+	std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
+	std::stringstream inStream;
+	inStream << saveFile.rdbuf();
+	std::string inBinary(std::istreambuf_iterator<char>(inStream), {});
+	
+	saveGame.gamestate = rakaly::meltImperator(inBinary);
+	auto skipLine = saveGame.gamestate.find_first_of("\r\n");
+	auto endFile = saveGame.gamestate.size();
+	saveGame.gamestate = saveGame.gamestate.substr(skipLine, endFile - skipLine);
+}
+
+void ImperatorWorld::World::processIronManSave(const std::string& saveGamePath)
+{
+	std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
+	std::stringstream inStream;
+	inStream << saveFile.rdbuf();
+	std::string inBinary(std::istreambuf_iterator<char>(inStream), {});
+
+	saveGame.gamestate = rakaly::meltImperator(inBinary);
+	auto skipLine = saveGame.gamestate.find_first_of("\r\n");
+	auto endFile = saveGame.gamestate.size();
+	saveGame.gamestate = saveGame.gamestate.substr(skipLine, endFile - skipLine);
 }
 
 void ImperatorWorld::World::parseGenes(const Configuration& theConfiguration)

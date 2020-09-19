@@ -33,6 +33,12 @@ namespace ImperatorWorld
 		private:
 			void verifySave(const std::string& saveGamePath);
 			bool uncompressSave(const std::string& saveGamePath);
+		
+			void processCompressedSave(const std::string& saveGamePath);
+			void processAutoSave(const std::string& saveGamePath);
+			void processIronManSave(const std::string& saveGamePath);
+			void processSave(const std::string& saveGamePath);
+		
 			void parseGenes(const Configuration& theConfiguration);
 
 			date startDate = date("450.10.1");
@@ -41,9 +47,17 @@ namespace ImperatorWorld
 			std::set<std::string> DLCs;
 			std::set<std::string> Mods;
 
-			struct saveData {
-				bool compressed = false;
-				std::string metadata;
+			enum class SaveType
+			{
+				INVALID = 0,
+				ZIPFILE = 1,
+				AUTOSAVE = 2,
+				IRONMAN = 3
+			};
+			struct saveData
+			{
+				SaveType saveType = SaveType::INVALID;
+				int zipStart = 0;
 				std::string gamestate;
 			};
 			saveData saveGame;

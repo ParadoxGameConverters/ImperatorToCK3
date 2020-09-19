@@ -178,7 +178,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>%(AdditionalDependencies);CORE_RL_Magick++_.lib;CORE_RL_MagickCore_.lib;CORE_RL_MagickWand_.lib</AdditionalDependencies>
+      <AdditionalDependencies>Resources\rakaly.dll.lib;CORE_RL_Magick++_.lib;CORE_RL_MagickCore_.lib;CORE_RL_MagickWand_.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\ImageMagick\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -284,6 +284,8 @@
     <ClInclude Include="Source\CK3\Titles\LandedTitles.h" />
     <ClInclude Include="Source\CK3\Titles\Title.h" />
     <ClInclude Include="Source\Configuration\Configuration.h" />
+    <ClInclude Include="Source\Helpers\rakaly.h" />
+    <ClInclude Include="Source\Helpers\rakaly_wrapper.h" />
     <ClInclude Include="Source\ImperatorToCK3Converter.h" />
     <ClInclude Include="Source\Imperator\Characters\Character.h" />
     <ClInclude Include="Source\Imperator\Characters\CharacterAttributes.h" />
