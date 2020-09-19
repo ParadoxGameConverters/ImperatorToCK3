@@ -10,7 +10,7 @@
 namespace CK3
 {
 
-void outputWorld(const World& CK3World);
+void outputWorld(const World& CK3World, const Configuration& theConfiguration);
 
 }
 

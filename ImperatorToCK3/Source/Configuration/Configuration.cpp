@@ -1,8 +1,11 @@
 #include "Configuration.h"
+#include "Color.h"
 #include "CommonFunctions.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
+
+auto laFabricaDeColor = commonItems::Color::Factory();
 
 Configuration::Configuration()
 {

@@ -52,6 +52,21 @@
     <Filter Include="Mappers\ReligionMapper">
       <UniqueIdentifier>{ac1460ce-6f84-4c4f-9af8-c1f43d78ba46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\LocalizationMapper">
+      <UniqueIdentifier>{de220e3a-2db3-4822-8b8c-aa68b6d245a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mappers\TagTitleMapper">
+      <UniqueIdentifier>{34691b13-70b0-4de5-9d0c-39d81e9d7fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK3\Titles">
+      <UniqueIdentifier>{79119011-3a48-493c-a25b-ae9e53fd6fe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageMagick">
+      <UniqueIdentifier>{2f2accef-0407-4b2d-968b-1fc111bb8e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mappers\CoaMapper">
+      <UniqueIdentifier>{87ca7ce8-8f6e-4df2-8fe2-705d24d9d384}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -133,9 +148,6 @@
     <ClInclude Include="Source\Imperator\Countries\Countries.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Imperator\Countries\Country.h">
-      <Filter>Imperator\Countries</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Imperator\Countries\CountryCurrencies.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
@@ -203,6 +215,42 @@
       <Filter>CK3\Province</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3Outputter\outProvinces.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h">
+      <Filter>Mappers\LocalizationMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h">
+      <Filter>Mappers\TagTitleMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Countries\Country.h">
+      <Filter>Imperator\Countries</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Titles\LandedTitles.h">
+      <Filter>CK3\Titles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outTitles.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outTitle.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Titles\Title.h">
+      <Filter>CK3\Titles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outLocalization.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outColoredEmblems.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImageMagick\include\Magick++.h">
+      <Filter>ImageMagick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h">
+      <Filter>Mappers\CoaMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outCoas.h">
       <Filter>CK3Outputter</Filter>
     </ClInclude>
   </ItemGroup>
@@ -363,6 +411,36 @@
       <Filter>CK3\Province</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3Outputter\outProvinces.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp">
+      <Filter>Mappers\LocalizationMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp">
+      <Filter>Mappers\TagTitleMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Titles\LandedTitles.cpp">
+      <Filter>CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outTitles.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outTitle.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Titles\Title.cpp">
+      <Filter>CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outLocalization.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outColoredEmblems.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\CoaMapper\CoaMapper.cpp">
+      <Filter>Mappers\CoaMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outCoas.cpp">
       <Filter>CK3Outputter</Filter>
     </ClCompile>
   </ItemGroup>

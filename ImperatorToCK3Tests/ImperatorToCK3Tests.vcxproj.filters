@@ -52,6 +52,21 @@
     <Filter Include="CK3WorldTests\Province">
       <UniqueIdentifier>{b3f891f5-529a-4b78-aed8-9efc56b2daca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests\TagTitleMapper">
+      <UniqueIdentifier>{ab277722-9852-42ab-bfb5-9301bfb70432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK3WorldTests\Titles">
+      <UniqueIdentifier>{58175bdd-a136-4a0e-9f5c-4099e32523db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CK3">
+      <UniqueIdentifier>{70b34504-b20c-4013-9178-7375f80eb07e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CK3\Titles">
+      <UniqueIdentifier>{3841e16e-9edb-43b4-a571-eca1329a062f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapperTests\CoaMapper">
+      <UniqueIdentifier>{aaa0e2d4-143a-473b-a404-c59ce23612d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -282,6 +297,36 @@
     <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp">
       <Filter>CK3WorldTests\Province</Filter>
     </ClCompile>
+    <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMapperTests.cpp">
+      <Filter>MapperTests\TagTitleMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="CK3WorldTests\Titles\LandedTitlesTests.cpp">
+      <Filter>CK3WorldTests\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\LandedTitles.cpp">
+      <Filter>Sources\CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Configuration\Configuration.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\Title.cpp">
+      <Filter>Sources\CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="CK3WorldTests\Titles\TitleTests.cpp">
+      <Filter>CK3WorldTests\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\LocalizationMapper\LocalizationMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CoaMapper\CoaMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\CoaMapper\CoaMapperTests.cpp">
+      <Filter>MapperTests\CoaMapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
@@ -302,6 +347,9 @@
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\CK3ProvincesHistoryFile.txt">
+      <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="CoatsOfArms.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
   </ItemGroup>
