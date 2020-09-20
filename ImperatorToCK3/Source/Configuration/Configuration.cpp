@@ -72,16 +72,16 @@ void Configuration::registerKeys()
 
 void Configuration::verifyImperatorPath() const
 {
-	if (!Utils::DoesFolderExist(ImperatorPath)) throw std::runtime_error(ImperatorPath + " does not exist!");
-	if (!Utils::DoesFileExist(ImperatorPath + "/binaries/imperator.exe"))
+	if (!commonItems::DoesFolderExist(ImperatorPath)) throw std::runtime_error(ImperatorPath + " does not exist!");
+	if (!commonItems::DoesFileExist(ImperatorPath + "/binaries/imperator.exe"))
 		throw std::runtime_error(ImperatorPath + " does not contain Imperator: Rome!");
 	LOG(LogLevel::Info) << "\tI:R install path is " << ImperatorPath;
 }
 
 void Configuration::verifyCK3Path() const
 {
-	if (!Utils::DoesFolderExist(CK3Path)) throw std::runtime_error(CK3Path + " does not exist!");
-	if (!Utils::DoesFileExist(CK3Path + "/binaries/ck3.exe"))
+	if (!commonItems::DoesFolderExist(CK3Path)) throw std::runtime_error(CK3Path + " does not exist!");
+	if (!commonItems::DoesFileExist(CK3Path + "/binaries/ck3.exe"))
 		throw std::runtime_error(CK3Path + " does not contain Crusader Kings III!");
 	LOG(LogLevel::Info) << "\tCK3 install path is " << CK3Path;
 }
@@ -93,6 +93,6 @@ void Configuration::setOutputName()
 	outputName = replaceCharacter(outputName, '-');
 	outputName = replaceCharacter(outputName, ' ');
 
-	outputName = Utils::normalizeUTF8Path(outputName);
+	outputName = commonItems::normalizeUTF8Path(outputName);
 	LOG(LogLevel::Info) << "Using output name " << outputName;
 }

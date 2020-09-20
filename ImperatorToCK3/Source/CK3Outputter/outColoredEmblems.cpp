@@ -9,10 +9,10 @@ namespace CK3
 {
 	bool isBrokenEmblem(const Configuration& theConfiguration, const std::string& outputName, const std::string& filename)
 	{
-		if (filename == "ce_lion.dds" && !Utils::DoesFileExist("output/" + outputName + "/gfx/coat_of_arms/colored_emblems/ce_lion.dds")) // something's wrong with this fucking ce_lion.dds
+		if (filename == "ce_lion.dds" && !commonItems::DoesFileExist("output/" + outputName + "/gfx/coat_of_arms/colored_emblems/ce_lion.dds")) // something's wrong with this fucking ce_lion.dds
 		{
 			// instead of converting a broken file from Imperator, copy closest CK3 emblem
-			Utils::TryCopyFile(theConfiguration.getCK3Path() + "/game/gfx/coat_of_arms/colored_emblems/ce_lion_passant.dds",
+			commonItems::TryCopyFile(theConfiguration.getCK3Path() + "/game/gfx/coat_of_arms/colored_emblems/ce_lion_passant.dds",
 				"output/" + outputName + "/gfx/coat_of_arms/colored_emblems/ce_lion.dds");
 			return true;
 		}
@@ -23,7 +23,7 @@ namespace CK3
 void copyColoredEmblems(const Configuration& theConfiguration, const std::string& outputName)
 {
 	const auto coloredEmblemsPath = theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/colored_emblems/";
-	auto filenames = Utils::GetAllFilesInFolder(coloredEmblemsPath);
+	auto filenames = commonItems::GetAllFilesInFolder(coloredEmblemsPath);
 	for (const auto& filename : filenames)
 	{
 		if (isBrokenEmblem(theConfiguration, outputName, filename)) continue;

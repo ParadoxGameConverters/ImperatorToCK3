@@ -1784,6 +1784,73 @@
 	link = { imp = 969 ck3 = 6018 }	# Darak -> BASIYAN
 	link = { imp = 940 imp = 941 ck3 = 6016 }	# Alexandria Susiana, Forat -> BAYAN
 	link = { imp = 970 ck3 = 6009 }	# Abara -> AL-MADHAR
+	# Persia
+
+	link = { imp = 966 ck3 = 4308 }	# Samangan -> Ramhurmuz
+
+	link = { imp = 951 ck3 = 4258 }	# Elymais -> Bazoh
+	link = { imp = 952 ck3 = 4309 }	# Tisiyan -> Idhaj
+	link = { imp = 949 ck3 = 4257 }	# Bendosaboron -> Gondishapur
+	link = { imp = 950 ck3 = 4256 }	# Sostrate -> Tustar
+	link = { imp = 967 ck3 = 6013 }	# Urzan -> AZAM
+	link = { imp = 4782 ck3 = 4180 }	# Suravan -> Sabur
+	link = { imp = 4781 ck3 = 4179 }	# Tragonica -> Kazarun
+	link = { imp = 4786 ck3 = 4303 }	# Temukan -> Tawwaj
+
+	link = { imp = 4798 imp = 4948 ck3 = 4177 }	# Corra, Pylai Sousianes -> Shiraz-Farsi
+	link = { imp = 4797 ck3 = 4178 }	# Shirrazish -> Kubanjan
+	link = { imp = 4796 imp = 4792 ck3 = 4199 }	# Ardea, Gur -> Firuzabad
+	link = { imp = 4793 imp = 4794 ck3 = 4200 }	# Cyropolis Persica, Mammica -> Karzin
+	link = { imp = 4795 ck3 = 4198 }	# Kanat -> Gundijan
+	link = { imp = 4788 imp = 4787 ck3 = 4197 }	# Hieratis, Bushahr -> Bushkanat
+	link = { imp = 4784 ck3 = 4301 }	# Arrakia -> Jannaba
+
+	link = { imp = 1595 ck3 = 4331 }	# Ecbatana -> Rudhrawar
+	link = { imp = 4964 ck3 = 4115 }	# Malaver -> Karaj Abu Dulaf
+
+	link = { imp = 6962 imp = 6961 ck3 = 4333 }	# Choromia, Vera -> Hamadan
+
+	link = { imp = 4980 imp = 3391 imp = 4983 ck3 = 4110 }	# Ashtian, Anarus, Ushke -> Aba-Qomi
+
+	link = { imp = 3382 imp = 3396 ck3 = 4321 }	# Baaka, Choana Medias -> Mashkuya
+	link = { imp = 4999 ck3 = 4319 }	# Tehran -> Rayy
+	link = { imp = 6956 imp = 6959 imp = 6955 ck3 = 4329 }	# Siva, Vesaspe, Saavakineh -> Mazdaqan
+	link = { imp = 6954 ck3 = 4111 }	# Qom -> Sawa
+	link = { imp = 4981 imp = 4982 ck3 = 4330 }	# Rapsa, Tabarte -> Sharuq
+
+	link = { imp = 7639 ck3 = 4314 }	# Salus -> Shalush
+	link = { imp = 4996 ck3 = 4312 }	# Amol -> Amul
+	link = { imp = 7638 ck3 = 4313 }	# Mura -> Natil
+	link = { imp = 4984 ck3 = 4323 }	# Kaspin -> Qazvin
+	link = { imp = 4987 ck3 = 4006 }	# Shiman -> Alamut
+	link = { imp = 4986 ck3 = 4004 }	# Parachatroas -> Lahij
+	link = { imp = 4985 ck3 = 4000 }	# Kyropolis -> Gilan
+	link = { imp = 3389 ck3 = 4001 }	# Shiram -> Daylam
+	link = { imp = 3390 imp = 1593 ck3 = 4002 }	# Farrab, Miyana -> Khalkhal
+	link = { imp = 1627 ck3 = 4543 }	# Ardabil -> ARDABIL
+	link = { imp = 4989 imp = 6957 ck3 = 4324 }	# Ekur, Pirra -> Abhar
+	link = { imp = 3385 imp = 6960 ck3 = 4328 }	# Aba, Iasonia -> Aba
+	link = { imp = 4988 ck3 = 4325 }	# Aganzana -> Zanjan
+	link = { imp = 3383 ck3 = 4326 }	# Shaapa -> Afshar
+	link = { imp = 4990 ck3 = 4327 }	# Molla -> Suhravard
+	link = { imp = 3381 ck3 = 4322 }	# Sigriane -> Qasran
+
+	link = { imp = 3395 imp = 3452 ck3 = 4320 }	# Arsacia, Goziris -> Waramin
+	link = { imp = 4975 ck3 = 4109 }	# Gauna -> Qom
+	link = { imp = 3392 ck3 = 4108 }	# Sevavicina -> Wazwan
+	link = { imp = 4973 imp = 3398 ck3 = 4106 }	# Aspadana, Themantica -> Isfahan
+	link = { imp = 4974 ck3 = 4107 }	# Gurbayigan -> Gulpaygan
+	link = { imp = 4976 imp = 4979 ck3 = 4114 }	# Paraetecene, Sidices -> Abta'a
+
+	link = { imp = 4977 ck3 = 4101 }	# Axiana -> Sarwistan
+	link = { imp = 3399 ck3 = 4104 ck3 = 4100 }	# Sycta -> Firuzan, Jarquh
+	link = { imp = 3397 ck3 = 4105 }	# Gindes -> Julfa
+	link = { imp = 4972 ck3 = 4103 }	# Gabai -> Qumisha
+	link = { imp = 4951 ck3 = 4119 }	# Pasargadae -> Mayin
+	link = { imp = 4950 imp = 4949 ck3 = 4120 }	# Persides, Kaupirrish -> Abraj
+	link = { imp = 4785 imp = 4953 ck3 = 4304 }	# Millonia, Croatis -> Khubadan
+	link = { imp = 4780 ck3 = 4305 ck3 = 4302 }	# Arragan -> Arrajan, Siniz
+	link = { imp = 4779 ck3 = 4307 ck3 = 4306 }	# Agines -> Asak, Dariyan
 	# Palestine
 	link = { imp = 666 imp = 670 imp = 669 imp = 671 imp = 668 ck3 = 5960 }	# Skyamina, Ake-Ptolemais, Jellemeh, Kefar Shuni, Boukolonpolis -> ACRE
 	link = { imp = 721 imp = 720 imp = 715 imp = 714 ck3 = 5985 }	# Gerasa, Asophon, Gadara Judea, Tyros -> JARASH
