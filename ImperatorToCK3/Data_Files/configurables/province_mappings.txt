@@ -3126,7 +3126,23 @@
 	link = { imp = 4421 ck3 = 3448 ck3 = 3450 }	# Varana -> Jahanpanah, Indrasthana
 	link = { imp = 4404 ck3 = 1368 ck3 = 3449 ck3 = 3451 }	# Hastinapura -> Hastinapura, Mirath, Hapur
 	link = { imp = 5569 ck3 = 9052 }	# Tsaparang -> Tsaparang
-	link = { imp = 5557 imp = 5571 ck3 = 9053 }	# Khyunglung, Nghulmo Khar -> Tholing
+
+	link = { imp = 5562 ck3 = 9038 }	# Rutok -> Risum
+	link = { imp = 5561 ck3 = 9009 }	# Ladakh -> Diskit
+	link = { imp = 5567 ck3 = 9005 ck3 = 9030 }	# Tiret -> Tangtse, Khurnak
+	link = { imp = 5564 ck3 = 9003 ck3 = 9017 }	# Echen Khar -> Shey, Karzok
+	link = { imp = 5560 ck3 = 9002 ck3 = 9004 ck3 = 9014 }	# Sindhu -> Leh, Khalatse, Zangla
+	link = { imp = 5563 ck3 = 9037 }	# Rabzhi Senge Dzong -> Rutog
+	link = { imp = 5568 ck3 = 3293 ck3 = 9006 ck3 = 9008 }	# Mune -> KUNLUNSHAN, Demchok, Chusul
+	link = { imp = 5570 ck3 = 9056 ck3 = 9051 }	# Khayu -> Gar, Trashigang
+	link = { imp = 5577 ck3 = 9054 }	# Nguot -> Busin
+	link = { imp = 5576 ck3 = 9086 }	# Kailash -> Monicer
+
+	link = { imp = 5615 ck3 = 9059 ck3 = 9070 }	# Barma -> Xungba, Cuonaco
+	link = { imp = 5614 ck3 = 9058 }	# Ormogang -> Gegyai
+	link = { imp = 5582 ck3 = 9057 }	# Sangya -> Zoco
+	link = { imp = 5571 ck3 = 9067 }	# Nghulmo Khar -> Simbiling
+	link = { imp = 5557 ck3 = 9053 ck3 = 9055 }	# Khyunglung -> Tholing, Kyunglung
 	link = { imp = 7385 ck3 = 9089 }	# Devaprayaga -> Srinagar
 	link = { imp = 7386 ck3 = 9090 }	# Badari -> Devalgarh
 	link = { imp = 7411 imp = 7382 ck3 = 1282 }	# Unnao, Raebareli -> Lalganj
@@ -3140,6 +3156,22 @@
 	link = { imp = 7405 imp = 7377 ck3 = 9092 }	# Pilibhit, Savatthi -> Champawat
 	link = { imp = 5573 ck3 = 9096 ck3 = 9107 }	# Terai -> Godawari, Gulariya
 	link = { imp = 5572 ck3 = 9099 ck3 = 9095 ck3 = 9103 ck3 = 9102 }	# Upper Terai -> Bajura, Doti, Dullu, Jumla
+
+	link = { imp = 5612 ck3 = 9074 }	# Supima -> Lunggar
+
+	link = { imp = 5608 ck3 = 9217 }	# Dangra -> Ladoi
+	link = { imp = 5607 ck3 = 9222 }	# Kyungchen Dzong -> Gyagog
+	link = { imp = 5605 ck3 = 9201 ck3 = 9205 }	# Tago -> Caze, Goingyibug
+	link = { imp = 5610 ck3 = 9203 }	# Kyangpu -> Rusar
+	link = { imp = 5611 imp = 5606 ck3 = 9084 }	# Gyulo, Yartsang -> Gyesarco
+	link = { imp = 5613 ck3 = 9202 ck3 = 9204 }	# Nambo -> Qulho, Kunglung
+	link = { imp = 5609 ck3 = 9066 }	# Tarok -> Coqen
+	link = { imp = 5617 ck3 = 9073 ck3 = 9061 }	# Chunak -> Barma, Gerze
+	link = { imp = 5581 ck3 = 9071 }	# Yumtso -> Argogco
+	link = { imp = 5616 ck3 = 9072 }	# Jangteng -> Ringtor
+	link = { imp = 5578 ck3 = 9076 }	# Khakyor -> Baryang
+	link = { imp = 5580 ck3 = 9077 }	# Mapam -> Penchi
+	link = { imp = 5575 ck3 = 9069 ck3 = 9068 }	# Gyangri -> Hor, Teglakar
 	link = { imp = 5574 ck3 = 9100 ck3 = 9101 }	# Pumaring -> Simikot, Sinja
 	link = { imp = 7378 ck3 = 3956 }	# Lakhimpur -> Lakhimpur
 	link = { imp = 7404 ck3 = 3470 }	# Anupshahr -> Ujhani
@@ -3192,6 +3224,7 @@
 	link = { imp = 5633 ck3 = 9150 }	# Tsoho -> Cona
 	link = { imp = 5634 ck3 = 9146 ck3 = 9179 }	# Mon Shampo -> Lhuentse, Kurtoed
 	link = { imp = 7347 ck3 = 9147 ck3 = 9149 ck3 = 9148 }	# Bhallaka -> Mongar, Kurmaed, Pemagatsel
+
 	link = { imp = 7350 ck3 = 1418 ck3 = 9156 }	# Gosira -> Haruppeswara, Sepla
 	link = { imp = 7354 ck3 = 1177 ck3 = 9165 ck3 = 9166 ck3 = 9164 }	# Sadiya -> Kundina, Roing, Tezu, Anini
 	link = { imp = 7353 ck3 = 808 }	# Bengmara -> Tinsukia
@@ -3207,7 +3240,17 @@
 	link = { imp = 5632 ck3 = 9225 }	# Khoting -> Comai
 	link = { imp = 5637 ck3 = 9223 ck3 = 9226 }	# Chimpyu -> Nagarze, Taktse
 	link = { imp = 5638 ck3 = 9198 ck3 = 9193 ck3 = 9197 }	# Kyungho -> Nyamo, Banam, Gyangze
-	link = { imp = 5639 ck3 = 9196 }	# Durbye -> Rinbung
+	link = { imp = 5640 ck3 = 9249 ck3 = 9246 ck3 = 9250 }	# Nyenchen -> Nyinhzhong, Doilungdeqen, Yangpachen
+	link = { imp = 5639 ck3 = 9196 ck3 = 9247 ck3 = 9251 }	# Durbye -> Rinbung, Nyemo, Qewa
+
+	link = { imp = 5662 ck3 = 9269 ck3 = 9292 }	# Tufan -> Lingti, Xamqu
+	link = { imp = 5664 ck3 = 9256 }	# Ronglung -> Lhomar
+	link = { imp = 5663 ck3 = 9257 }	# Naksho -> Taksar
+	link = { imp = 5661 ck3 = 9255 }	# Rabten -> Nagqu
+	link = { imp = 5659 ck3 = 9268 }	# Fugo -> Codoi
+	link = { imp = 5620 ck3 = 9244 ck3 = 9243 }	# Katsel -> Reting, Ngarnang
+	link = { imp = 5619 ck3 = 9248 }	# Tanglha -> Damquka
+	link = { imp = 5618 ck3 = 9237 ck3 = 9238 ck3 = 9242 }	# Lhasa -> Lhasa, Potala, Lhunzhub
 	link = { imp = 5641 ck3 = 9245 }	# Yokang -> Quxu
 	link = { imp = 5622 ck3 = 9232 ck3 = 9227 }	# Qoide -> Gonggar, Tradruk
 	link = { imp = 5621 ck3 = 9230 ck3 = 9228 ck3 = 9236 ck3 = 9239 }	# Samye -> Zetang, Samye, Sangri, Gyama
@@ -3220,6 +3263,9 @@
 	link = { imp = 7351 ck3 = 812 ck3 = 9158 }	# Japa -> Narayanpur, Ziro
 	link = { imp = 7341 ck3 = 1321 ck3 = 9155 }	# Sonitapur -> Kamarupanagara, Morshing
 	link = { imp = 7342 ck3 = 814 }	# Hajo -> Manikuta
+
+	link = { imp = 7352 ck3 = 811 ck3 = 810 }	# Turupa -> Carguya, Charaideo
+	link = { imp = 7349 ck3 = 813 }	# Gramera -> Numaligarh
 	link = { imp = 7348 ck3 = 815 }	# Davaka -> Pragyotisapura
 	link = { imp = 7339 ck3 = 820 }	# Pragjyotishpura -> Kamakhya
 	link = { imp = 6050 ck3 = 819 }	# Meghalaya -> Sri_Surya_Pahar
@@ -3233,6 +3279,16 @@
 	link = { imp = 7333 ck3 = 1245 }	# Srihatta -> Srihatta
 
 	link = { imp = 7656 ck3 = 9127 ck3 = 9128 }	# Damak -> Panchthar, Darjeeling
+
+	link = { imp = 5590 ck3 = 9083 }	# Tsanghla -> Kyakyaru
+	link = { imp = 5579 ck3 = 9075 }	# Tsina -> Labrang
+	link = { imp = 5583 ck3 = 9081 ck3 = 9078 }	# Serip Drukmo Dzong -> Changgo, Yagra
+	link = { imp = 5588 ck3 = 9082 ck3 = 9182 }	# Lhayul -> Lhagcang, Chagne
+	link = { imp = 5589 ck3 = 9200 }	# Bhoma -> Sangsang
+
+	link = { imp = 5630 ck3 = 9210 ck3 = 9209 }	# Zhongzhong -> Tobgyai, Namling
+	link = { imp = 5626 ck3 = 9207 }	# Tsangdram -> Tongmoin
+	link = { imp = 5623 ck3 = 9206 ck3 = 9208 }	# Trompagan -> Quog, Leba
 	link = { imp = 5627 ck3 = 9189 ck3 = 9199 }	# Dyuni -> Lhaze, Kagar
 	link = { imp = 5624 ck3 = 9186 }	# Nyentse -> Shelkar
 	link = { imp = 5629 ck3 = 9187 ck3 = 9185 }	# Koryi -> Dinggye, Tingri
@@ -3248,6 +3304,7 @@
 	link = { imp = 7486 ck3 = 9118 }	# Mithila -> Janakpur
 	link = { imp = 7487 ck3 = 9132 }	# Bijalpura -> Dhulikhel
 	link = { imp = 4459 ck3 = 9131 ck3 = 9130 }	# Pattana -> Lalitpur, Kirtipur
+	link = { imp = 5586 ck3 = 9181 ck3 = 9184 }	# Mangyul Takmo Dzong -> Gyirong, Mainpu
 	link = { imp = 5587 ck3 = 9114 ck3 = 9117 ck3 = 9116 }	# Chomolangma -> Dolakha, Bhaktapur, Kathmandu
 	link = { imp = 5628 ck3 = 9136 ck3 = 9120 ck3 = 9121 }	# Paro Kerchu -> Yangwarok, Khotang, Bhojpur
 	link = { imp = 4464 ck3 = 9124 ck3 = 9126 }	# Devaprastha -> Gograha, Dhankuta
@@ -3336,6 +3393,7 @@
 	link = { imp = 4363 ck3 = 3392 }	# Sembrakenoi -> Siraj_ji_Takri
 	link = { imp = 4354 ck3 = 3394 }	# Minnagara Sauvira -> Mir_Rukan
 	link = { imp = 4373 ck3 = 3408 }	# Siberai -> Chachran
+
 	link = { imp = 5594 imp = 5596 ck3 = 1351 }	# Gilgit, Druzhiya -> Gilgit
 	link = { imp = 5597 ck3 = 3071 }	# Kargah -> KUNLUNSHAN
 	link = { imp = 4322 imp = 4327 ck3 = 3439 }	# Alexandreia Nikaia, Kaspira -> Mankiala
@@ -3348,8 +3406,11 @@
 	link = { imp = 5592 ck3 = 9020 ck3 = 9021 }	# Skardo -> Skardu, Roundu
 	link = { imp = 5593 ck3 = 9024 }	# Darada -> Astore
 	link = { imp = 4334 imp = 4332 ck3 = 9025 }	# Harvan, Puranadisthana -> Minimarg
-	link = { imp = 5559 imp = 5598 ck3 = 9023 }	# Tachok Dzong, Mulbek -> Gultari
-	link = { imp = 5558 ck3 = 9019 ck3 = 9022 }	# Achuk -> Dras, Tolti
+	link = { imp = 5565 ck3 = 9011 ck3 = 9010 }	# Aparing -> Turtuk, Panamik
+	link = { imp = 5566 ck3 = 9028 ck3 = 9029 ck3 = 9026 }	# Lashang -> Khaplu, Haldi, Shigar
+	link = { imp = 5559 ck3 = 9022 }	# Tachok Dzong -> Tolti
+	link = { imp = 5598 ck3 = 9023 }	# Mulbek -> Gultari
+	link = { imp = 5558 ck3 = 9018 ck3 = 9019 ck3 = 9013 }	# Achuk -> Purig, Dras, Padum
 	link = { imp = 4346 ck3 = 3429 }	# Madra -> Bhuttar
 	link = { imp = 4343 imp = 4338 ck3 = 3445 }	# Banihal Pass, Anantanaga -> Amaresvara
 	link = { imp = 4345 imp = 4341 ck3 = 1190 }	# Jhelum, Akhnur -> Gurjaratra
@@ -3674,6 +3735,18 @@
 	link = { imp = 6912 imp = 6913 ck3 = 7812 }	# Kolkoi, Tamraparni -> Korkai
 	link = { imp = 6917 ck3 = 1112 }	# Madurai -> Madurai
 	link = { imp = 6915 imp = 6921 ck3 = 7809 }	# Koti, Perinkari -> Rameshvaram
+	# Tibet
+
+
+	link = { imp = 5660 ck3 = 9270 }	# Supiyi -> Lhari
+	link = { imp = 5657 ck3 = 9274 ck3 = 9273 }	# Gong -> Pagsum, Gongbo
+
+	link = { imp = 5658 ck3 = 9240 ck3 = 9266 ck3 = 9241 ck3 = 9267 }	# Lum -> Kunggar, Mila, Drigung, Paga
+	link = { imp = 5655 ck3 = 9234 }	# Shingnak -> Daklha_Gampo
+	link = { imp = 5656 ck3 = 9272 }	# Nyang -> Nyang
+	link = { imp = 5647 ck3 = 9265 }	# Drena -> Gedang
+	link = { imp = 5643 ck3 = 9271 }	# Buchu -> Burqug
+	link = { imp = 5646 ck3 = 9275 ck3 = 9276 }	# Tsosong -> Nyingchi, Lunang
 	# Sri Lanka
 	link = { imp = 6980 imp = 6966 ck3 = 3269 }	# Salikhaprava, Rohanada -> MAHIYANGANA
 	link = { imp = 6970 ck3 = 3273 }	# Vijitanagara -> POLONNARUWA
