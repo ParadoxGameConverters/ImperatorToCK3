@@ -26,7 +26,7 @@
 	link = { imp = 4822 imp = 4280 ck3 = 5008 }	# Ciagisiana, Arutela -> Arges
 	link = { imp = 4820 ck3 = 4988 }	# Ciagisia -> Rusii de Vede
 	link = { imp = 4816 ck3 = 4994 }	# Napuca -> Costesti
-	link = { imp = 4817 ck3 = 4990 }	# Tiasum -> Giurgiu
+	link = { imp = 4817 ck3 = 4990 ck3 = 3962 }	# Tiasum -> Giurgiu, Khajuraho
 	link = { imp = 4818 ck3 = 514 ck3 = 4992 }	# Pinion -> Turnu, Glavacioc
 	link = { imp = 4810 ck3 = 4991 }	# Piephigiana -> Comana
 	link = { imp = 4813 imp = 4809 ck3 = 4995 }	# Sensiana, Piephigia -> Bucuresti
@@ -3034,14 +3034,167 @@
 	link = { imp = 4716 ck3 = 6182 }	# Tiamat -> MAWQAQ
 	link = { imp = 5935 ck3 = 6181 }	#  -> JUBBA-HAIL
 	# North India
-	link = { imp = 7132 ck3 = 7933 }	# Rapsakpur -> Mungeli
+
+	link = { imp = 4471 ck3 = 1165 }	# Tigowa -> Bandhugadha
+	link = { imp = 7459 ck3 = 926 }	# Sihora -> Soubhagyapura
+	link = { imp = 5442 imp = 6053 ck3 = 1241 }	# Chattisgarh Jungle, Dakshina Koshala -> Koriya
+	link = { imp = 7455 ck3 = 923 }	# Amrakuta -> Amarkantak
+	link = { imp = 7132 ck3 = 7933 ck3 = 924 }	# Rapsakpur -> Mungeli, Moti_Mahal
+	link = { imp = 7331 ck3 = 828 ck3 = 9582 }	# Chittagong -> Chatigama, Dianga
+	link = { imp = 7401 ck3 = 829 ck3 = 830 }	# Ramgati -> Candranatha, Pattikera
+	link = { imp = 7343 ck3 = 816 }	# Dhuburi -> Dhubri
+	link = { imp = 4402 ck3 = 7944 }	# Thuna -> Sadhaura
+	link = { imp = 7402 ck3 = 9088 }	# Kalesar -> Uttarkashi
+	link = { imp = 4403 ck3 = 3473 }	# Usinaragiri -> Gangadvara
+	link = { imp = 4408 ck3 = 3456 }	# Madrakara -> Narabhata
+
+	link = { imp = 4410 ck3 = 1352 }	# Indabara -> Sarasvati
+	link = { imp = 4415 ck3 = 3477 }	# Sirsa -> Dadrewa
+	link = { imp = 6058 ck3 = 3423 ck3 = 1178 ck3 = 3459 }	# Abhiria Secunda -> Abohar, Karur, Bhatnir
+	link = { imp = 5445 ck3 = 1364 }	# Grodaka -> Tribandapura
+	link = { imp = 7485 imp = 4418 ck3 = 3458 }	# Sodal, Satadru -> Jajjanir
+
+	link = { imp = 4409 ck3 = 1366 }	# Karanpura -> Asigarh
+	link = { imp = 4387 ck3 = 3454 }	# Agrodakha -> Samana
+
+	link = { imp = 4414 imp = 4417 ck3 = 3457 }	# Mansa, Tohana -> Sunam
+	link = { imp = 4411 imp = 4416 ck3 = 3452 }	# Sthanishvara, Sunam -> Sirhind
+	link = { imp = 4412 ck3 = 1367 }	# Karnal -> Saharanpur
+	link = { imp = 7442 imp = 4481 ck3 = 3348 }	# Vyaghrapataka, Barli -> Dhanop
+	link = { imp = 7388 ck3 = 3482 ck3 = 1346 }	# Empelathra -> Sanganer, Shakambhari
+	link = { imp = 7443 imp = 7309 ck3 = 3347 }	# Narayana, Mritti Kavati -> Ajayameru
+	link = { imp = 4484 ck3 = 3349 }	# Pushkara -> Pushkar
+	link = { imp = 7389 ck3 = 1353 ck3 = 3479 }	# Nehrawati -> Harshnath, Kuchaman
+	link = { imp = 4439 ck3 = 3483 }	# Ambara -> Amer
+	link = { imp = 4438 imp = 7387 ck3 = 3481 }	# Vairata, Dausa -> Vairata
+	link = { imp = 7306 ck3 = 3466 }	# Ranasthambapura -> Bayana
+	link = { imp = 4472 ck3 = 3346 ck3 = 3344 }	# Barnala -> Mandrael, Gangapur
+	link = { imp = 7446 ck3 = 3340 }	# Sabalgarh -> Sabalgarh
+	link = { imp = 7307 ck3 = 1357 }	# Sripatha -> Sripatha
+	link = { imp = 7447 ck3 = 3462 }	# Rajyapura -> Agra
+
+	link = { imp = 4423 imp = 4422 ck3 = 1141 }	# Soreyya, Antaranjiya -> Kol
+	link = { imp = 7218 ck3 = 3464 }	# Yamaprastha -> Etah
+	link = { imp = 4426 ck3 = 3463 }	# Kampili -> Soron
+	link = { imp = 4436 ck3 = 3468 }	# Alavi Pancala -> Tilokpur
+	link = { imp = 7471 ck3 = 3972 }	# Orai -> Jalaun
+	link = { imp = 7469 ck3 = 3319 }	# Gujjar -> Jarai_ka_Math
+	link = { imp = 7461 ck3 = 3316 }	# Tehri -> Luacchagiri
+	link = { imp = 4435 ck3 = 3318 }	# Erakaccha -> Garh_Kundar
+	link = { imp = 7470 imp = 4485 ck3 = 1301 }	# Mahoba, Khajuraha -> Mahoba
+	link = { imp = 7219 ck3 = 1169 }	# Suktivati -> Kalpi
+	link = { imp = 7409 ck3 = 3961 }	# Kalapriya -> Rath
+	link = { imp = 4427 imp = 7410 ck3 = 1215 }	# Bhitargaon, Kora Pancala -> Etawah
+	link = { imp = 4425 ck3 = 1356 }	# Kanyakubja -> Kanyakubja
+
+	link = { imp = 7473 imp = 7474 ck3 = 1251 }	# Sasaram, Rohtas -> Sasaram
+	link = { imp = 4465 ck3 = 875 }	# Bhabua -> Jaund
+	link = { imp = 7373 ck3 = 1284 }	# Sringivera -> Manikpur
+	link = { imp = 7476 ck3 = 885 }	# Bhadohi -> Bhadohi
+
+	link = { imp = 7483 ck3 = 3953 }	# Mehdawal -> Faizabad
+	link = { imp = 4455 ck3 = 1250 }	# Jaisingpur -> Ayodhya
+	link = { imp = 4437 ck3 = 3954 }	# Ayodhya -> Gonda
+
+	link = { imp = 7372 imp = 7484 ck3 = 3958 }	# Kusavati, Bhawaniganj -> Gorakhpur
+	link = { imp = 7374 imp = 4433 ck3 = 1166 }	# Kusapura, Kitagiri -> Jaunpur
+
+	link = { imp = 7478 ck3 = 882 ck3 = 884 }	# Rivilganj -> Chapra, Haldi2
+	link = { imp = 7477 ck3 = 881 }	# Saran -> Pava
+	link = { imp = 7370 imp = 7371 ck3 = 883 }	# Garzapur, Jamadaganipura -> Gadhipuri
+	link = { imp = 4429 ck3 = 1163 }	# Varanasi -> Varanasi
+	link = { imp = 4441 ck3 = 876 }	# Alavi -> Arrah
+
+	link = { imp = 7475 ck3 = 909 }	# Mau -> Palamau
+	link = { imp = 4431 ck3 = 1281 }	# Sumsumaragiri -> Chunar
+
+	link = { imp = 4468 ck3 = 3963 }	# Nachna-Kuthara -> Bhatta
+	link = { imp = 4467 ck3 = 1171 }	# Ambaloda -> Kalanjara
+	link = { imp = 7321 ck3 = 3967 }	# Bharhut -> Chandrehi
+	link = { imp = 7320 imp = 5443 ck3 = 907 }	# Bandhavgarh, Chattisgarh Jungle -> Beohari
+	link = { imp = 7453 ck3 = 1278 }	# Kakaradika -> Gurgi
+	link = { imp = 4432 ck3 = 905 }	# Sajahati -> Kantit
+	link = { imp = 4466 ck3 = 3960 }	# Khoh -> Chitrakuta
+	link = { imp = 4434 ck3 = 3959 }	# Sotthavati -> Ajaigarh
+	link = { imp = 7376 ck3 = 1283 }	# Asani -> Asni
+	link = { imp = 4430 ck3 = 1113 }	# Kosambi -> Kara
+	link = { imp = 4428 ck3 = 1328 }	# Prayaga -> Prayaga
+	link = { imp = 7375 ck3 = 1414 ck3 = 1275 ck3 = 1139 }	# Kahnpuria -> Kora, Jajmau, Musanagar
+	link = { imp = 7472 imp = 7305 ck3 = 1172 }	# Bhind, Gopadri -> Gwalior
+	link = { imp = 7444 imp = 7408 ck3 = 3465 }	# Dhawalpur, Batesar -> Dhavalapuri
+	link = { imp = 5450 imp = 4406 imp = 4407 ck3 = 3968 }	# Maru Desert, Rohtak, Isukara -> Sakarai
+	link = { imp = 5449 ck3 = 3461 }	# Maru Desert -> Govardhan
+	link = { imp = 4420 ck3 = 1359 }	# Mathura -> Mathura
+	link = { imp = 4413 ck3 = 3453 ck3 = 3475 ck3 = 3455 }	# Sonprastha -> Sthanisvara, Rohtak, Asika
+	link = { imp = 4405 ck3 = 1365 ck3 = 3447 ck3 = 3460 }	# Indraprastha -> Indraprastha, Dhilika, Krishnajanmabhoomi
+
+	link = { imp = 4421 ck3 = 3448 ck3 = 3450 }	# Varana -> Jahanpanah, Indrasthana
+	link = { imp = 4404 ck3 = 1368 ck3 = 3449 ck3 = 3451 }	# Hastinapura -> Hastinapura, Mirath, Hapur
+	link = { imp = 5569 ck3 = 9052 }	# Tsaparang -> Tsaparang
+	link = { imp = 5557 imp = 5571 ck3 = 9053 }	# Khyunglung, Nghulmo Khar -> Tholing
+	link = { imp = 7385 ck3 = 9089 }	# Devaprayaga -> Srinagar
+	link = { imp = 7386 ck3 = 9090 }	# Badari -> Devalgarh
+
+	link = { imp = 7411 imp = 7382 ck3 = 1282 }	# Unnao, Raebareli -> Lalganj
+	link = { imp = 7380 ck3 = 1167 }	# Lakhanpur -> Lakhnau
+
+	link = { imp = 4452 ck3 = 1173 }	# Sambalhagrama -> Sambhal
+	link = { imp = 4454 ck3 = 3474 ck3 = 3472 }	# Matipura -> Bijnor, Bachhraon
+	link = { imp = 4419 ck3 = 1168 ck3 = 9087 }	# Haridwar -> Mandawar, Dehradun
+	link = { imp = 7407 ck3 = 3469 }	# Katheria -> Ahichatra
+
+	link = { imp = 7403 ck3 = 3471 }	# Govishana -> Amroha
+	link = { imp = 4453 ck3 = 9094 }	# Dhampur -> Bhimtal
+	link = { imp = 7405 imp = 7377 ck3 = 9092 }	# Pilibhit, Savatthi -> Champawat
+	link = { imp = 5573 ck3 = 9096 ck3 = 9107 }	# Terai -> Godawari, Gulariya
+	link = { imp = 5572 ck3 = 9099 ck3 = 9095 ck3 = 9103 ck3 = 9102 }	# Upper Terai -> Bajura, Doti, Dullu, Jumla
+	link = { imp = 5574 ck3 = 9100 ck3 = 9101 }	# Pumaring -> Simikot, Sinja
+	link = { imp = 7378 ck3 = 3956 }	# Lakhimpur -> Lakhimpur
+
+	link = { imp = 7404 ck3 = 3470 }	# Anupshahr -> Ujhani
+	link = { imp = 4424 ck3 = 1358 }	# Ahicchatra -> Vodamayutja
+
+	link = { imp = 7381 ck3 = 1279 }	# Badaun -> Hardoi
+
+	link = { imp = 7406 ck3 = 3467 }	# Sitapur -> Bareily
+	link = { imp = 4456 ck3 = 1422 }	# Nimisa -> Naimisa
+	link = { imp = 7482 ck3 = 1377 }	# Itwa -> Jasnaul
+	link = { imp = 4451 imp = 4450 ck3 = 1421 }	# Sravasti, Kapilavastu -> Sravasti
+	link = { imp = 7379 ck3 = 3955 }	# Brahmarchi -> Bahraich
+	link = { imp = 5585 ck3 = 9079 ck3 = 9080 }	# Pakpa -> Manthang, Muktinath
+	link = { imp = 5584 ck3 = 9109 ck3 = 9110 ck3 = 9111 }	# Tshongdu -> Lumbini, Gulmi, Kaski
+	link = { imp = 4457 ck3 = 904 }	# Lumbini -> Amorha
+	link = { imp = 4449 imp = 7369 ck3 = 1162 }	# Kusinagara, Pipphalivana -> Kusinagara
+	link = { imp = 4446 ck3 = 871 ck3 = 872 }	# Campa -> Campa, Vikramasila
+	link = { imp = 7339 ck3 = 820 }	# Pragjyotishpura -> Kamakhya
+	link = { imp = 6050 ck3 = 819 }	# Meghalaya -> Sri_Surya_Pahar
+	link = { imp = 7332 ck3 = 832 }	# Salariga -> Mainamati
+	link = { imp = 7491 ck3 = 1324 }	# Sripur -> Suvarnagram
+	link = { imp = 7495 ck3 = 824 }	# Egarosindur -> Jangalbari
+	link = { imp = 7494 ck3 = 852 }	# Durgapur -> Nasirabad
+	link = { imp = 7340 ck3 = 1325 }	# Suhma -> Madhupur
+	link = { imp = 7490 ck3 = 851 }	# Nagarpur -> Dhakeshwari_Jatiya_Mandir
+	link = { imp = 7496 ck3 = 850 }	# Bhaluka -> Bokainagar
+	link = { imp = 7333 ck3 = 1245 }	# Srihatta -> Srihatta
+	link = { imp = 7334 ck3 = 1319 ck3 = 833 }	# Bikrampur -> Bikrampur, Ekdala
+	link = { imp = 7356 ck3 = 1131 ck3 = 834 ck3 = 1318 }	# Karmanta -> Karmanta, Chandpur, Devaparvata
+	link = { imp = 7344 ck3 = 1246 }	# Goalpara -> Goalpara
+	link = { imp = 7394 imp = 7359 ck3 = 1240 }	# Fathabad, Mukund -> Fathabad
+	link = { imp = 7395 imp = 7330 ck3 = 1236 }	# Barisal, Bargysi -> Candradvipa
+	link = { imp = 7396 ck3 = 835 }	# Bagerhat -> Bagerhat
 	link = { imp = 7068 ck3 = 922 ck3 = 1277 ck3 = 1272 }	# Bhurhikara -> Pali, Tummana, Ratanpur
 	link = { imp = 7094 ck3 = 7928 }	# Fanindrapura -> Kundina
-
 	link = { imp = 7318 ck3 = 920 }	# Pandhurna -> Gawilgarh
 	link = { imp = 7317 imp = 7456 ck3 = 1286 }	# Deogarh, Kherla -> Kherla
-	link = { imp = 7457 ck3 = 919 }	# Handia -> Handia
+	link = { imp = 7457 imp = 7313 imp = 7422 ck3 = 919 }	# Handia, Kalumukha, Betul -> Handia
 	link = { imp = 7458 ck3 = 1164 ck3 = 918 }	# Chauragarh -> Chauragarh, Hoshangabad
+
+	link = { imp = 4470 ck3 = 3322 ck3 = 1170 }	# Vidisha -> Sironj, Vidisa
+	link = { imp = 7303 ck3 = 3323 }	# Airakina -> Sanchi
+	link = { imp = 4483 ck3 = 3321 }	# Kakanada -> Raisin
+
+	link = { imp = 4477 ck3 = 1271 ck3 = 3966 }	# Tripura -> Tripuri, Nohta
+
 	link = { imp = 7454 ck3 = 914 ck3 = 915 ck3 = 916 }	# Mandla -> Mandla, Banjar, Bohani
 	link = { imp = 6056 ck3 = 1270 ck3 = 7932 }	# Gondwana -> Kiranapura, Lanjika
 	link = { imp = 7151 imp = 7129 ck3 = 7935 }	# Vairagara, Gondia -> Gondia
@@ -3050,41 +3203,32 @@
 	link = { imp = 7423 ck3 = 1287 }	# Melghat -> Asirgarh
 	link = { imp = 7311 imp = 7424 ck3 = 1185 }	# Khandav, Omkareshwar -> Khandwa
 	link = { imp = 7093 ck3 = 7898 }	# Tiyagoura -> Ankai
-
 	link = { imp = 6866 ck3 = 3384 }	# Nanaghat -> Sanjan
 	link = { imp = 6864 ck3 = 1126 }	# Polipoula -> Daman
 	link = { imp = 7066 ck3 = 1260 }	# Nasikya -> Nasikya
-
 	link = { imp = 6876 ck3 = 7792 }	# Palaipatmai -> Chiplun
 	link = { imp = 6877 ck3 = 7794 ck3 = 7793 }	# Milzigeris -> Panaji, Kollapura
-
-
 	link = { imp = 7092 ck3 = 1265 }	# Katriyal -> Sagar
-	link = { imp = 7106 ck3 = 7881 }	# Buravhala -> Pundarika
-
+	link = { imp = 7106 ck3 = 7881 ck3 = 7890 }	# Buravhala -> Pundarika, Sholapur
 	link = { imp = 7111 ck3 = 7887 }	# Sonnolagi -> Kembavi
 	link = { imp = 7113 ck3 = 7885 }	# Mehdnapura -> Vijayapura_bis
 	link = { imp = 7112 ck3 = 1206 }	# Pandaprata -> Taradavadi
 	link = { imp = 7107 ck3 = 7884 }	# Jayatnagar -> Hastikundi
-
 	link = { imp = 7060 ck3 = 7880 }	# Kondane -> Bhimashankara
 	link = { imp = 6870 ck3 = 7789 }	# Kalliena -> Ambaranatha
 	link = { imp = 7103 ck3 = 7888 }	# Godavara -> Jirnanagara
-
 	link = { imp = 7163 ck3 = 7920 }	# Aggathana -> Nirmal
 	link = { imp = 7158 imp = 7155 ck3 = 7906 }	# Indur, Kaulas -> Indur
-
-
 	link = { imp = 7098 ck3 = 7901 }	# Askapala -> Gulbarga
+	link = { imp = 7127 ck3 = 1146 ck3 = 7891 }	# Trinagua -> Naldurg, Purnagiri
+	link = { imp = 7078 ck3 = 7892 }	# Tagara -> Ausa
 	link = { imp = 7143 ck3 = 1143 }	# Kalyani Asika -> Kalyani
 	link = { imp = 7142 imp = 7053 ck3 = 1210 }	# Manyakheta, Sannathi -> Manyakheta
 	link = { imp = 7153 imp = 7156 ck3 = 1158 }	# Bidar, Sripratava -> Bidar
 	link = { imp = 7144 ck3 = 1212 }	# Lattalura -> Lattalura
-
 	link = { imp = 7061 ck3 = 1213 }	# Valuraka -> Kondana
 	link = { imp = 7104 ck3 = 7882 }	# Siaprava -> Karhada
 	link = { imp = 6874 ck3 = 7791 }	# Mandagara -> Dabhol
-
 	link = { imp = 7059 ck3 = 7879 ck3 = 7868 ck3 = 7883 }	# Karahataka -> Karahataka, Kurundaka, Miraj
 	link = { imp = 7052 ck3 = 1416 ck3 = 7869 }	# Kolhapura -> Kolhapur, Pranala
 	link = { imp = 6873 ck3 = 7790 }	# Semylla -> Chaul
@@ -3092,13 +3236,104 @@
 	link = { imp = 6868 imp = 6867 ck3 = 7788 }	# Surparaka, Kalyana -> Suraparaka
 	link = { imp = 7420 imp = 7116 ck3 = 3382 }	# Nandipuri, Purnaya -> Rajpipla
 	link = { imp = 6860 ck3 = 3381 }	# Kammonai -> Tadkeshwar
-
 	link = { imp = 6863 ck3 = 1264 }	# Nagara -> Nandurbar
 	link = { imp = 6862 imp = 6861 ck3 = 3383 }	# Nousaripa, Surat -> Navasarika
-
 	link = { imp = 6859 ck3 = 1127 }	# Barygaza -> Akruresvara
 	link = { imp = 7159 imp = 7062 ck3 = 1145 }	# Devagiri, Nevasa -> Devagiri
 	link = { imp = 7160 ck3 = 7896 }	# Qandar -> Qandhar
+	link = { imp = 4353 imp = 4360 imp = 6827 ck3 = 1333 }	# Brahmanaka, Sarophages, Khadro -> Siwistan
+	link = { imp = 4363 ck3 = 3392 }	# Sembrakenoi -> Siraj_ji_Takri
+	link = { imp = 4354 ck3 = 3394 }	# Minnagara Sauvira -> Mir_Rukan
+	link = { imp = 4373 ck3 = 3408 }	# Siberai -> Chachran
+	link = { imp = 5594 imp = 5596 ck3 = 1351 }	# Gilgit, Druzhiya -> Gilgit
+	link = { imp = 5597 ck3 = 3071 }	# Kargah -> KUNLUNSHAN
+	link = { imp = 4322 imp = 4327 ck3 = 3439 }	# Alexandreia Nikaia, Kaspira -> Mankiala
+	link = { imp = 4329 ck3 = 3442 }	# Nara -> Lund_Nandana
+	link = { imp = 7319 imp = 7314 ck3 = 3437 }	# Ataka, Taxila -> Attak
+	link = { imp = 7361 imp = 3810 ck3 = 7947 }	# Salutara, Embadina -> Waihind
+	link = { imp = 6997 imp = 4325 ck3 = 1180 }	# Ora, Mardan -> Udabhanda
+	link = { imp = 5600 ck3 = 7951 }	# Parsni -> Kalam_TARIM
+	link = { imp = 5599 ck3 = 7950 }	# Teclas -> Chilas
+	link = { imp = 5592 ck3 = 9020 ck3 = 9021 }	# Skardo -> Skardu, Roundu
+	link = { imp = 5593 ck3 = 9024 }	# Darada -> Astore
+	link = { imp = 4334 imp = 4332 ck3 = 9025 }	# Harvan, Puranadisthana -> Minimarg
+	link = { imp = 5559 imp = 5598 ck3 = 9023 }	# Tachok Dzong, Mulbek -> Gultari
+	link = { imp = 5558 ck3 = 9019 ck3 = 9022 }	# Achuk -> Dras, Tolti
+	link = { imp = 4346 ck3 = 3429 }	# Madra -> Bhuttar
+	link = { imp = 4343 imp = 4338 ck3 = 3445 }	# Banihal Pass, Anantanaga -> Amaresvara
+	link = { imp = 4345 imp = 4341 ck3 = 1190 }	# Jhelum, Akhnur -> Gurjaratra
+	link = { imp = 4315 ck3 = 3436 }	# Dyrte -> Kunjah
+	link = { imp = 4340 ck3 = 1179 }	# Sakala -> Sakala
+	link = { imp = 4342 imp = 4347 ck3 = 3430 }	# Parvata, Magaris -> Jammu
+	link = { imp = 4339 ck3 = 7949 }	# Nandi -> Kaghan
+	link = { imp = 4333 ck3 = 1161 }	# Huskapura -> Srinagara
+	link = { imp = 4337 imp = 4336 ck3 = 7948 }	# Embolima, Varahasaila Pass -> Allai
+	link = { imp = 4335 ck3 = 3446 }	# Labaka -> Parihasapura
+	link = { imp = 4316 imp = 4326 ck3 = 3435 }	# Boukephalia, Manikyala -> Jhelum
+	link = { imp = 4399 ck3 = 3425 }	# Jaipura -> Phalia
+	link = { imp = 4398 imp = 4331 ck3 = 1192 }	# Bhatiah, Khushab -> Bhera
+	link = { imp = 7492 ck3 = 1191 }	# Aspakora -> Bannu
+	link = { imp = 4319 ck3 = 1375 }	# Gorydale -> Kafirkot
+	link = { imp = 4300 ck3 = 3440 }	# Pushkalavati -> Shergarh
+	link = { imp = 4323 imp = 4324 ck3 = 3438 }	# Takht-i-Bahi, Gorya -> Oddiyana
+	link = { imp = 4301 imp = 4367 ck3 = 4516 }	# Nagarahara, Arigaion -> NAGARAHARA
+	link = { imp = 7657 ck3 = 1342 ck3 = 3441 }	# Purushapura -> Purushapura, Nowshera
+	link = { imp = 4328 ck3 = 3444 }	# Plagira -> Hangu
+	link = { imp = 4317 ck3 = 3443 }	# Rudera -> Kalabagh
+	link = { imp = 4321 imp = 4330 ck3 = 3416 }	# Kutte Mar, Gogaraioi -> Wan_Bhachran
+	link = { imp = 4320 ck3 = 1341 }	# Singhapura -> Nandana
+	link = { imp = 7399 imp = 4308 ck3 = 3428 }	# Rajagrha, Cakravala -> Katasraj
+	link = { imp = 4383 ck3 = 1376 }	# Abortai -> Daraban
+	link = { imp = 4384 ck3 = 3415 }	# Kekaya -> Mankera
+	link = { imp = 4348 imp = 4351 ck3 = 1340 }	# Sibipura, Apakara -> Karor
+	link = { imp = 4364 imp = 4366 ck3 = 1371 }	# Oumbrai, Kokondai -> Larkana
+	link = { imp = 4376 ck3 = 3406 ck3 = 1138 ck3 = 1372 }	# Nerai -> Shikarpur, Bhakkar, Badah
+	link = { imp = 4375 ck3 = 1374 }	# Mesai -> Rojhan
+	link = { imp = 4377 ck3 = 3407 ck3 = 1339 }	# Bisambritai -> Dajal, Rajanpur
+	link = { imp = 4386 ck3 = 3417 }	# Jampur -> Dera_Ghazi_Khan
+
+	link = { imp = 4474 ck3 = 3964 }	# Suktimati -> Umri
+	link = { imp = 7463 ck3 = 3965 }	# Dudahi -> Dhamoni
+
+	link = { imp = 7468 ck3 = 925 }	# Deori -> Bahoriband
+	link = { imp = 7467 ck3 = 1274 }	# Damoh -> Damoh
+	link = { imp = 7312 ck3 = 917 }	# Tundikera -> Barman
+	link = { imp = 4400 ck3 = 3420 }	# Taki -> Sangla
+	link = { imp = 4396 ck3 = 3427 }	# Divyakuta -> Bhirr
+	link = { imp = 4395 ck3 = 3426 }	# Turvasa -> Kamalia
+	link = { imp = 4380 ck3 = 1361 }	# Mallonpolis -> Shorkot
+
+	link = { imp = 4382 ck3 = 3413 ck3 = 3412 }	# Dumbritai -> Kabirwala, Tulamba
+	link = { imp = 4349 ck3 = 1338 }	# Malava -> Multan
+	link = { imp = 4391 ck3 = 3434 ck3 = 7945 }	# Udambhara -> Kangra, Brahmapura
+	link = { imp = 4344 ck3 = 7946 }	# Chhamb -> Campa2
+	link = { imp = 4394 ck3 = 3432 }	# Adrestai -> Pathankot
+	link = { imp = 4379 ck3 = 1362 }	# Phegus -> Lahur
+	link = { imp = 4401 ck3 = 3433 }	# Rupar -> Kahlur
+	link = { imp = 4390 ck3 = 3431 }	# Jalandhara -> Rahon
+	link = { imp = 4392 ck3 = 1193 }	# Sarwmanpur -> Jalandhar
+	link = { imp = 4389 ck3 = 3418 }	# Lubokla -> Kasur
+	link = { imp = 4393 imp = 4397 ck3 = 3419 }	# Okara, Vipasa -> Chunian
+	link = { imp = 4388 ck3 = 3421 ck3 = 1363 ck3 = 3422 }	# Pancapura -> Pancapura, Dipalpur, Satghara
+	link = { imp = 4381 ck3 = 3411 ck3 = 3424 }	# Hydrakai -> Vehari, Ajodhan
+	link = { imp = 4378 ck3 = 3410 }	# Osioi -> Askhanda
+	link = { imp = 4385 imp = 4350 ck3 = 3414 }	# Sivi, Mulasthanapura -> Alipur
+
+	link = { imp = 4371 ck3 = 1337 ck3 = 3409 }	# Alexandreia Indos -> Uch, Derawar
+	link = { imp = 4374 ck3 = 3391 }	# Mousikanoi -> Bhatiya
+	link = { imp = 4372 ck3 = 1336 }	# Vijnot -> Vijnot
+	link = { imp = 4352 ck3 = 1175 ck3 = 3393 }	# Roruka -> Aror, Ghotki
+	link = { imp = 4356 ck3 = 3395 }	# Kahu-Jo-Darro -> Mirpur_Khas
+	link = { imp = 4358 ck3 = 1137 }	# Singai -> Mansura
+	link = { imp = 4359 ck3 = 3397 }	# Samarabriai -> Matiari
+	link = { imp = 7413 ck3 = 3489 }	# Bhinmal -> Bhillamala
+	link = { imp = 7390 imp = 7310 ck3 = 3486 }	# Suvarngiri, Mandapura -> Siwana
+	link = { imp = 7412 imp = 6857 ck3 = 1294 }	# Satyapura, Detta -> Satyapura
+	link = { imp = 6835 ck3 = 3369 }	# Malia -> Kamboika
+	link = { imp = 6856 ck3 = 3385 }	# Vallai -> Kasara
+	link = { imp = 6822 ck3 = 1331 ck3 = 3396 }	# Barbarikon -> Sonda, Nasarpur
+	link = { imp = 6852 imp = 7220 imp = 6850 imp = 6059 imp = 4357 ck3 = 3398 }	# Samarabriva, Saraswata, Sura, Abhiria, Umarkot -> Amarkot
+	link = { imp = 6848 ck3 = 3400 ck3 = 3399 }	# Sangama -> Shahbandar, Badin
 	link = { imp = 4495 ck3 = 1345 ck3 = 3492 ck3 = 3491 }	# Agathapura -> Aghata, Nagahrada, Eklingji
 	link = { imp = 7431 imp = 7429 ck3 = 1302 }	# Bhindar, Pratapgarh -> Chitrakut
 	link = { imp = 7426 ck3 = 1149 }	# Dhar -> Dhara
@@ -3126,6 +3361,8 @@
 	link = { imp = 6813 ck3 = 1136 ck3 = 3353 }	# Dvaraka -> Dvaraka, Bhanvad
 	link = { imp = 6825 imp = 6841 ck3 = 1295 }	# Kanthi, Bacchav -> Kanthakota
 	link = { imp = 6840 imp = 6844 imp = 6845 ck3 = 3350 }	# Maltecoria, Darangia, Bissai -> Bhuj
+	link = { imp = 4488 ck3 = 3485 ck3 = 3484 ck3 = 1130 }	# Asangai -> Sanderaka, Osian, Mandavyapura
+	link = { imp = 4487 ck3 = 3342 }	# Nadvala -> Naddula
 	link = { imp = 4496 ck3 = 3343 }	# Machhindrapur -> Ranakpur
 	link = { imp = 4480 imp = 7432 ck3 = 3345 }	# Ghosundi, Rajsamand -> Bhilwara
 	link = { imp = 7439 imp = 7438 ck3 = 3499 }	# Bundi, Mahanala -> Bundi
@@ -3135,9 +3372,16 @@
 	link = { imp = 7440 imp = 7437 ck3 = 1355 }	# Khandar, Dhavagarta -> Ranthambore
 	link = { imp = 7435 ck3 = 3498 }	# Ramgarh -> Ramgarh
 	link = { imp = 7434 imp = 7433 ck3 = 3327 }	# Candravati, Binnayaga -> Gagraun
+
+	link = { imp = 7445 ck3 = 3338 }	# Sheopur -> Sheopur
+	link = { imp = 7308 ck3 = 3339 }	# Candhoba -> Narwar
+	link = { imp = 7465 ck3 = 1299 }	# Shivpuri -> Candhoba
+	link = { imp = 4469 ck3 = 3341 }	# Padmavati -> Dabra
+	link = { imp = 7460 ck3 = 3315 }	# Mauranipur -> Jhansi
+	link = { imp = 7462 ck3 = 1298 }	# Chanderi -> Chanderi
+	link = { imp = 7302 imp = 7464 ck3 = 3320 }	# Kirthagiri, Bina -> Kadwaya
 	link = { imp = 7449 ck3 = 3317 }	# Guna -> Guna
 	link = { imp = 7450 ck3 = 1150 ck3 = 3335 }	# Sarangpur -> Sarangpur, Maksi
-
 	link = { imp = 7441 ck3 = 3336 }	# Jirapur -> Mehidpur
 	link = { imp = 4482 ck3 = 3337 }	# Kolvi -> Agar
 	link = { imp = 4475 ck3 = 1288 }	# Ujjayini -> Ujjayini
@@ -3145,12 +3389,20 @@
 	link = { imp = 7428 imp = 4473 ck3 = 3497 }	# Manasa, Madhyamika -> Bhainsrorgarh
 	link = { imp = 4479 ck3 = 3495 }	# Dasapura -> Rampura
 	link = { imp = 7427 imp = 4498 ck3 = 1148 }	# Banswara, Dhammanahadika -> Dasapura
+	link = { imp = 6057 ck3 = 3386 }	# Marudesa -> Kiratakupa
+	link = { imp = 6853 imp = 6851 imp = 6826 ck3 = 3971 }	# Gallita, Daria, Andhau -> Karoonjar
+	link = { imp = 7658 ck3 = 3490 }	# Srimalla -> Achalgarh
+	link = { imp = 6843 ck3 = 3488 }	# Abuyya -> Jalor
+	link = { imp = 7414 ck3 = 1174 }	# Patan -> Candravati
+	link = { imp = 4489 ck3 = 3372 }	# Anandpura -> Siddhapura
 	link = { imp = 7416 ck3 = 3373 }	# Mohadavasaka -> Idar
 	link = { imp = 4491 ck3 = 3493 }	# Samlaji -> Rishabhdeo
 	link = { imp = 4478 imp = 7430 imp = 7417 ck3 = 3494 }	# Devnimori, Aspur, Jagadamba -> Jagadamba
 	link = { imp = 7419 ck3 = 1291 }	# Simalwara -> Mohadavasaka
 	link = { imp = 6854 ck3 = 3376 ck3 = 1290 ck3 = 1133 }	# Kheta -> Ashaval, Khetaka, Vadodara
-	link = { imp = 6830 ck3 = 3375 }	# Svabhra -> Khambhat
+	link = { imp = 7415 ck3 = 1292 }	# Mehsana -> Anahilapataka
+	link = { imp = 4494 ck3 = 3371 ck3 = 3370 }	# Candanaputraka -> Vadnagar, Modhera
+	link = { imp = 6830 ck3 = 3375 ck3 = 3377 }	# Svabhra -> Khambhat, Dholka
 	link = { imp = 4493 ck3 = 3378 }	# Akota -> Darbhavati
 	link = { imp = 6855 ck3 = 3379 }	# Baroda -> Kayavarohan
 	link = { imp = 7418 imp = 4497 ck3 = 3374 }	# Brahampuri, Dadhipadra -> Jhalod
@@ -3163,27 +3415,23 @@
 	link = { imp = 7125 ck3 = 1262 }	# Pandavleni -> Thalner
 	link = { imp = 7117 ck3 = 1189 }	# Satyiyani -> Amalner
 	link = { imp = 7114 ck3 = 1183 ck3 = 1195 ck3 = 1194 }	# Tapia -> Borgarh, Bhamer, Sindkheda
-
 	link = { imp = 7064 ck3 = 7899 }	# Pitangalva -> Elapura
 	link = { imp = 7182 ck3 = 7900 ck3 = 1188 }	# Jhodga -> Jhodga, Erandol
-
 	link = { imp = 7079 ck3 = 1258 ck3 = 1157 }	# Potana -> Nanded, Balkonda
 	link = { imp = 7101 ck3 = 7897 }	# Maharatthalava -> Seunapura
-	link = { imp = 7161 ck3 = 7895 ck3 = 7894 }	# Darur -> Darur, Bhid
-
-
+	link = { imp = 7102 imp = 7105 ck3 = 7889 }	# Gurala, Siddhatek -> Patkapur
+	link = { imp = 7074 ck3 = 7893 }	# Pattithana -> Ahmadnagar
+	link = { imp = 7146 ck3 = 7894 }	# Asmakhala -> Bhid
+	link = { imp = 7161 ck3 = 7895 }	# Darur -> Darur
 	link = { imp = 7097 ck3 = 1285 }	# Amaravati -> Acalapura
 	link = { imp = 7121 imp = 7075 ck3 = 7925 }	# Audabaravati, Bhojakata -> Amraoti
-
 	link = { imp = 7065 ck3 = 7924 }	# Ajanta -> Mekhar
 	link = { imp = 7128 ck3 = 1261 }	# Shegaon -> Parnakheta
-
 	link = { imp = 7063 ck3 = 7917 ck3 = 1142 }	# Atathana -> Jalna, Pratishthana
 	link = { imp = 7164 ck3 = 7918 }	# Visakpura -> Sindkhed
 	link = { imp = 7147 ck3 = 1259 }	# Vatsagulma -> Vatsagulma
 	link = { imp = 7165 ck3 = 7919 }	# Minagana -> Bhainsa
 	link = { imp = 7157 ck3 = 7921 ck3 = 7926 }	# Mahur -> Mahur, Kalam
-
 	link = { imp = 7162 ck3 = 7927 }	# Yetavana -> Wun
 	link = { imp = 7076 ck3 = 7929 }	# Bhaddavati -> Nagpur
 	link = { imp = 7077 ck3 = 7930 }	# Cikamburika -> Bhandara
@@ -3199,15 +3447,34 @@
 	link = { imp = 7166 ck3 = 3995 ck3 = 1249 }	# Vinitapura -> Vinitapura, Sambalpur
 	link = { imp = 7131 ck3 = 3992 }	# Raipur -> Camparanya
 	link = { imp = 7096 ck3 = 1160 }	# Kosala -> Rayapura
-	link = { imp = 7086 ck3 = 1129 }	# Tosali -> Kataka
+	link = { imp = 7086 ck3 = 1129 ck3 = 928 }	# Tosali -> Kataka, Konarak
+	link = { imp = 7100 ck3 = 927 ck3 = 931 ck3 = 1156 }	# Mahdnada -> Bhubaneswar, Athgarh, Kodalaka
 	link = { imp = 7173 imp = 7170 ck3 = 932 }	# Caritra, Magaris -> Ratnagiri
 	link = { imp = 7152 ck3 = 1257 }	# Mankal -> Medak
 	link = { imp = 7118 imp = 7154 ck3 = 7903 }	# Rukmammapeta, Guriprava -> Golkonda
 	link = { imp = 7046 ck3 = 7916 }	# Alosgyni -> Draksharama
 	link = { imp = 7150 ck3 = 7907 }	# Anumapala -> Kaulas
 	link = { imp = 7056 ck3 = 7910 }	# Gummididurru -> Palwancha
+	link = { imp = 7171 ck3 = 929 ck3 = 3989 ck3 = 3990 }	# Bhuvanesvara -> Dhauli, Nilamadhav, Nayagarh
+	link = { imp = 7082 ck3 = 9650 }	# Samapa -> Ganjam
+	link = { imp = 7172 ck3 = 9651 }	# Salipetake -> Gopalpur
+	link = { imp = 7085 ck3 = 1225 ck3 = 930 }	# Jaugada -> Puri, Sakshigopal
+	link = { imp = 6054 ck3 = 1229 }	# Kalingana -> Khinjali
+	link = { imp = 7167 ck3 = 3987 ck3 = 3994 }	# Yajatinagara -> Bajrakot, Yajatinagara
+	link = { imp = 7137 ck3 = 1228 }	# Surada -> Swetakapura
+	link = { imp = 7136 ck3 = 9653 }	# Bhawanipatna -> Asurgarh
+	link = { imp = 7083 ck3 = 1226 ck3 = 1128 }	# Sankaram -> Nandapur, Vizagipatam
+	link = { imp = 7080 ck3 = 9649 }	# Dantapura -> Srikakulam
+	link = { imp = 7081 ck3 = 9648 ck3 = 1224 }	# Kalinganagara -> Kalinganagara, Mandasa
+	link = { imp = 7138 ck3 = 9652 }	# Rayagada -> Rayagada
+	link = { imp = 7084 ck3 = 1415 ck3 = 1222 }	# Lingarajupalem -> Pithapuram, Rajamahendravaram
+	link = { imp = 6055 ck3 = 7913 }	# Dandakaranya -> Bhadracala
+	link = { imp = 7123 ck3 = 7915 }	# Alatnapura -> Chutur
+	link = { imp = 7134 ck3 = 1227 }	# Chakrakot -> Cakrakuta
+	link = { imp = 7122 ck3 = 1252 ck3 = 7914 }	# Jagdalpur -> Barasuru, Malkangiri
+	link = { imp = 7139 ck3 = 9659 }	# Kanker -> Kanker
+	link = { imp = 7135 ck3 = 3999 }	# Atavi -> Umerkote
 	link = { imp = 7099 ck3 = 7908 }	# Goddvara -> Palampet
-
 	link = { imp = 7124 ck3 = 7922 }	# Dhamna -> Kerimeri
 	link = { imp = 7133 ck3 = 7923 }	# Kotilingala -> Mancherial
 	link = { imp = 7145 ck3 = 1255 }	# Vemulavada -> Vemulavada
