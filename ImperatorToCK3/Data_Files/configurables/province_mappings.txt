@@ -618,7 +618,9 @@
 	link = { imp = 4250 imp = 4249 imp = 4256 ck3 = 509 }	# Tirizis, Krounoi, Traiani -> Karvuna
 	link = { imp = 4248 imp = 4247 ck3 = 3693 }	# Odessus, Erite -> Varna
 	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 }	# Skenopsis, Axiopolis, Histria -> Constantia
-	link = { imp = 4520 imp = 4519 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 }	# Troesmis, Halmyris, Beroe Skythias, Kios Skythias, Libida, Argamum -> Tulcha
+
+	link = { imp = 4519 ck3 = 5010 }	# Halmyris -> Sulina
+	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 }	# Troesmis, Beroe Skythias, Kios Skythias, Libida, Argamum -> Tulcha
 	# Northern Greece
 	link = { imp = 392 ck3 = 489 }	# Kasthaneia -> Thessalia
 	link = { imp = 395 ck3 = 3796 ck3 = 3797 ck3 = 3703 }	# Pialeia -> Stagoi, Trikala, Gardiki
@@ -1810,6 +1812,46 @@
 	link = { imp = 969 ck3 = 6018 }	# Darak -> BASIYAN
 	link = { imp = 940 imp = 941 ck3 = 6016 }	# Alexandria Susiana, Forat -> BAYAN
 	link = { imp = 970 ck3 = 6009 }	# Abara -> AL-MADHAR
+	# Bessarabia
+
+	link = { imp = 4944 ck3 = 5060 }	# Dolarum -> Sambir
+	link = { imp = 4943 imp = 4942 ck3 = 536 }	# Castrana, Acrium -> Halych
+	link = { imp = 4941 ck3 = 5061 }	# Salumnis -> Kolomyia
+	link = { imp = 4940 ck3 = 5062 }	# Limnorum -> Spas
+	link = { imp = 4939 ck3 = 5042 }	# Octavum -> Cernauti
+	link = { imp = 4935 ck3 = 545 ck3 = 5036 ck3 = 5034 }	# Montanium -> Suceava, Campulung Moldovenesc, Baia
+
+	link = { imp = 4930 ck3 = 5031 ck3 = 5032 }	# Oridava -> Piatra Neamnt, Targu Neamnt
+	link = { imp = 4912 ck3 = 5033 ck3 = 5030 }	# Zargidava -> Roman, Bacau
+	link = { imp = 4938 ck3 = 5041 ck3 = 5037 }	# Tannis -> Tetina, Siret
+
+
+	link = { imp = 4913 imp = 4825 ck3 = 5028 }	# Piroboridava, Montibus -> Focsani
+	link = { imp = 4801 ck3 = 5027 }	# Polondava -> Tecuci
+	link = { imp = 4923 ck3 = 513 }	# Acritones -> Barlad
+	link = { imp = 4802 ck3 = 511 }	# Agarusia -> Galati
+	link = { imp = 4932 ck3 = 541 }	# Millianum -> Iasi
+	link = { imp = 4933 ck3 = 5039 }	# Cruciatum -> Harlau
+	link = { imp = 4931 ck3 = 5025 }	# Loricata -> Vaslui
+	link = { imp = 4914 ck3 = 5038 }	# Carsidava -> Dorohoi
+	link = { imp = 4929 ck3 = 5022 }	# Siculo -> Balti
+	link = { imp = 4928 imp = 4934 ck3 = 5023 }	# Leptidava, Muradava -> Ungheni
+	link = { imp = 4936 ck3 = 5021 ck3 = 5024 }	# Verticem -> Soroca, Falesti
+	link = { imp = 4937 ck3 = 5040 }	# Confluentia Subcarpathia -> Hotin
+	link = { imp = 4521 ck3 = 5013 }	# Nobiodounos -> Oblucita
+	link = { imp = 4800 ck3 = 5016 }	# Dinogetia -> Cahul
+	link = { imp = 4922 ck3 = 5015 }	# Aikronon -> Tigheci
+	link = { imp = 4919 imp = 4920 ck3 = 5014 }	# Olitis, Agrana -> Artsyz
+	link = { imp = 4522 ck3 = 5012 }	# Ta Antiphilou -> Chilia
+
+	link = { imp = 4915 ck3 = 5019 }	# Clepidava -> Orhei
+	link = { imp = 4916 ck3 = 5020 }	# Mirum -> Tuzara
+	link = { imp = 4921 ck3 = 5018 }	# Bridava -> Chisinau
+
+	link = { imp = 4925 ck3 = 5017 }	# Volumis -> Lapusna
+	link = { imp = 4924 ck3 = 5026 }	# Inatius -> Husi
+	link = { imp = 4917 imp = 4918 ck3 = 5011 }	# Alitora, Lepton -> Tighina
+	link = { imp = 4524 imp = 4525 imp = 4523 ck3 = 512 }	# Aipolion, Tyras, Kremniskoi -> Cetatea Alba
 	# Crimea
 	link = { imp = 4546 ck3 = 5331 }	# Urgat -> Dzhankoi
 	link = { imp = 4534 ck3 = 559 }	# Kalos Limen -> Kalos Limen
