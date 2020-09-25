@@ -1453,6 +1453,9 @@
 	link = { imp = 1649 imp = 1631 ck3 = 5793 }	# Masalas, Spandaran -> Barzand
 	link = { imp = 1638 imp = 1654 imp = 1632 ck3 = 5789 }	# Warthan, Mochi, Balanrot -> Varsan
 	link = { imp = 1647 imp = 1648 ck3 = 5773 ck3 = 5790 }	# MANY-TO-MANY: Salyan, Ghizil-Agaj -> Salyan, Paytakaran
+
+	link = { imp = 7621 imp = 7604 imp = 7605 ck3 = 5304 }	# Valent, Tzur, Urtseki -> Balanjar
+	link = { imp = 7603 ck3 = 674 ck3 = 5341 ck3 = 668 }	# Derbent -> Derbent, Kuba, Shirvan
 	link = { imp = 1633 imp = 1642 ck3 = 5771 }	# Absheron, Bagawan -> Baku
 	link = { imp = 1749 ck3 = 5752 }	# Brili -> Kasriskari
 	link = { imp = 1694 imp = 1748 imp = 1691 ck3 = 5742 }	# Surium, Modinakhe, Dedoplis -> Tskhinvali
@@ -1807,7 +1810,71 @@
 	link = { imp = 969 ck3 = 6018 }	# Darak -> BASIYAN
 	link = { imp = 940 imp = 941 ck3 = 6016 }	# Alexandria Susiana, Forat -> BAYAN
 	link = { imp = 970 ck3 = 6009 }	# Abara -> AL-MADHAR
-	# Armenia & Caucasus
+	# Crimea
+	link = { imp = 4546 ck3 = 5331 }	# Urgat -> Dzhankoi
+	link = { imp = 4534 ck3 = 559 }	# Kalos Limen -> Kalos Limen
+	link = { imp = 4536 imp = 4547 imp = 4542 ck3 = 5276 }	# Kerkinitis, Taurica, Neapolis Taurike -> Kerkinitis
+	link = { imp = 4538 imp = 4539 imp = 4540 imp = 4537 ck3 = 560 }	# Chersonesos, Charax, Lampas, Parthenion -> Chersonesus
+	link = { imp = 6175 imp = 6176 imp = 6180 imp = 6179 ck3 = 5329 }	# Shashcha, Molon, Vygriya, Yoro -> Ivanovskoye
+	link = { imp = 6169 imp = 6167 imp = 6168 ck3 = 564 }	# Veryi, Stetta, Ushkan -> Bakhmut
+	link = { imp = 6157 imp = 6156 imp = 6153 imp = 6159 ck3 = 5324 }	# Shgaritat, Aihkohna, Uldan, Stat -> Donetsk
+	link = { imp = 6170 imp = 6177 imp = 6173 imp = 6164 ck3 = 5328 }	# Dolom, Ishkenk, Sythachka, Shchor -> Kuzeyrog
+	link = { imp = 4556 imp = 6165 imp = 6163 ck3 = 563 }	# Karoia, Vel, Vyonots -> Taganrog
+	link = { imp = 4557 imp = 6178 imp = 6189 imp = 6187 ck3 = 596 }	# Tanais, Ganka, Arn, Zhutikka -> Tana
+	link = { imp = 6143 imp = 6148 imp = 6152 imp = 6150 imp = 6140 imp = 6136 ck3 = 557 }	# Aghonor, Nynt, Kilgad, Kihkyengra, Tahent, Skurtisk -> Khortytsia
+	link = { imp = 4553 imp = 7193 imp = 6149 ck3 = 5281 }	# Kremnoi, Settina, Ghahko -> Kutur-Ogly
+	link = { imp = 4554 imp = 6154 imp = 4555 imp = 6155 ck3 = 5280 }	# Halieuma Theou, Rynek, Hygreis, Kisko -> Mariupol
+	link = { imp = 6147 imp = 6124 imp = 7192 imp = 6146 imp = 6144 ck3 = 5278 }	# Ruti, Syti, Sarmapolis, Aegha, Ish -> Kakovka
+	link = { imp = 4551 imp = 4552 ck3 = 5279 }	# Roxolania, Meotae -> Kyzyl Jar
+	link = { imp = 4531 imp = 4532 imp = 4530 imp = 7190 imp = 4533 ck3 = 558 }	# Borysthenia, Karkine, Hippolaou, Kanit, Taphros -> Oleshye
+	link = { imp = 4535 imp = 4545 ck3 = 5277 }	# Masella, Cimus -> Perekop
+	link = { imp = 4548 ck3 = 5330 }	# Kimmeria -> Aqmescit
+	link = { imp = 4544 imp = 4543 imp = 4541 ck3 = 561 }	# Theodosia, Athenaion, Aloustou Phrourion -> Theodosia
+	link = { imp = 4550 imp = 4549 ck3 = 562 }	# Kimmerikon, Panticapaeum -> Kerch
+	# North Caucasus
+	link = { imp = 7602 ck3 = 5342 ck3 = 675 }	# Endzhara -> Sambalut, Kumukh
+	link = { imp = 7624 imp = 7626 imp = 7623 ck3 = 5306 }	# Contani, Arukai, Terekata -> Durdzukia
+	link = { imp = 7633 imp = 7632 ck3 = 5305 }	# Kayit, Irmana -> Samander
+	link = { imp = 7628 imp = 7627 imp = 7625 imp = 1674 ck3 = 603 }	# Malyts, Verks, Didai, Cumania -> Cabarda
+	link = { imp = 5929 imp = 5930 imp = 5931 ck3 = 5303 }	# Zhodyn, Huruir, Skatar -> Besinada
+	link = { imp = 5926 imp = 5928 ck3 = 5344 }	# Duzea, Nechek -> Majar
+	link = { imp = 5875 imp = 5870 ck3 = 5308 }	# Ashawm, Kurema -> Cabartei
+	link = { imp = 5867 imp = 5869 ck3 = 5309 }	# Suthrander, Magrai -> Tserlona
+	link = { imp = 5866 imp = 5868 ck3 = 5307 }	# Zabender, Lotin -> Kizlyar
+	link = { imp = 6216 imp = 6211 imp = 6213 imp = 6217 ck3 = 605 }	# Vyalke, Urgenarcha, Achkhacsh, Ogron -> Beksima
+	link = { imp = 6215 imp = 6209 imp = 6207 imp = 6210 ck3 = 5333 }	# Urghat, Ydomor, Urviygra, Ghenarcha -> Sarepta
+
+	link = { imp = 6192 imp = 5899 ck3 = 5332 }	# Syutnich, Gura -> Semikarakary
+	link = { imp = 5888 imp = 6190 ck3 = 5288 }	# Techka, Kichpa -> Manych
+	link = { imp = 5891 imp = 5889 imp = 5887 ck3 = 5340 }	# Avrar, Donol, Bashkra -> Yergolyk
+
+	link = { imp = 5885 ck3 = 5339 }	# Muiksita -> Chamchev
+	link = { imp = 4558 imp = 7637 imp = 5884 ck3 = 597 }	# Paniardis, Yeyata, Katys -> Azov
+	link = { imp = 6201 imp = 6193 imp = 6202 ck3 = 607 }	# Agharite, Zhev, Irkant -> Sarkel
+	link = { imp = 6206 imp = 6214 imp = 6200 imp = 6203 ck3 = 5315 }	# Ketsk, Zhuna, Urvel, Ghalat -> Aksay
+	link = { imp = 6220 imp = 6221 imp = 6218 imp = 5904 ck3 = 5334 }	# Uryennik, Zhelk, Mennichak, Mylla -> Yenotayevka
+	link = { imp = 5908 imp = 5907 imp = 5905 ck3 = 604 }	# Gyashech, Taksaty, Iska -> Khazaran
+	link = { imp = 5876 imp = 5919 ck3 = 5312 }	# Sechtra, Kurnsck -> Sara
+	link = { imp = 5877 ck3 = 5311 ck3 = 5313 }	# Enim -> Astrakhan, Saqsin
+	link = { imp = 5873 imp = 5874 ck3 = 5343 }	# Molliuch, Recrassia -> Samiran
+	link = { imp = 5871 imp = 5872 imp = 5924 ck3 = 5310 }	# Zarem, Shiech, Volna -> Cisterki
+	link = { imp = 7622 imp = 7631 imp = 7630 ck3 = 606 }	# Skarin, Irkat, Kaflur -> Petigoria
+	link = { imp = 7629 ck3 = 5302 }	# Gorat -> Tatartopa
+	link = { imp = 7620 imp = 7619 imp = 7606 ck3 = 5300 }	# Kalkry, Lapra, Heniat -> Etzeri
+	link = { imp = 7607 imp = 7611 ck3 = 5299 }	# Abasgria, Alanis -> Maghas
+	link = { imp = 7609 imp = 7610 ck3 = 5301 }	# Hypanispa, Sinad -> Betzini
+	link = { imp = 7613 ck3 = 5289 }	# Yelsa -> Papagia
+	link = { imp = 5886 imp = 7635 ck3 = 5338 }	# Akkei, Iados -> Tikhon
+	link = { imp = 4559 imp = 7634 imp = 7636 ck3 = 599 }	# Pataroue, Khulor, Garen -> Yaseni
+	link = { imp = 4560 imp = 7617 ck3 = 5336 }	# Azara, Stepna -> Soleny
+
+	link = { imp = 7618 ck3 = 5337 }	# Rogoy -> Chelbaska
+	link = { imp = 4568 ck3 = 5298 }	# Palaia Achaia -> Ulmi
+	link = { imp = 4561 imp = 7612 ck3 = 5335 }	# Lebedia, Maran -> Kuban
+	link = { imp = 7614 imp = 7608 imp = 7615 imp = 7616 ck3 = 5297 }	# Salavy, Hypanera, Elvruz, Tmakrat -> Zapaxi
+	link = { imp = 4566 imp = 4567 imp = 7600 imp = 4565 ck3 = 5296 }	# Bata, Torikos, Sabiranum, Gorgippia -> Bata
+	link = { imp = 4563 imp = 4562 imp = 4564 ck3 = 598 }	# Phanagoria, Hermonassa, Labrys -> Tmutarakan
+	# Armenia & South Caucasus
 	link = { imp = 1715 ck3 = 5751 }	# Archaiopolis -> Ambrolauri
 	link = { imp = 1705 ck3 = 5753 }	# Skandis -> Kvara
 	link = { imp = 1714 imp = 1707 ck3 = 601 }	# Onogouris, Kotais -> Kutaisi
