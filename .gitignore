@@ -28,11 +28,6 @@
 #Visual Studio stuff
 .vs
 
-PyCharm stuff
-*.xml
-*.iml
-*.pyc
-
 #Output folders
 Release/
 ReleaseIntermediate/
