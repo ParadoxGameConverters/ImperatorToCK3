@@ -66,6 +66,7 @@
     </Filter>
     <Filter Include="Mappers\CoaMapper">
       <UniqueIdentifier>{87ca7ce8-8f6e-4df2-8fe2-705d24d9d384}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helpers">
       <UniqueIdentifier>{d4a7adfb-9330-49a9-bcc3-f619b9ad45dd}</UniqueIdentifier>
     </Filter>
@@ -254,6 +255,7 @@
     </ClInclude>
     <ClInclude Include="Source\CK3Outputter\outCoas.h">
       <Filter>CK3Outputter</Filter>
+	</ClInclude>
     <ClInclude Include="Source\Helpers\rakaly.h">
       <Filter>Helpers</Filter>
     </ClInclude>
