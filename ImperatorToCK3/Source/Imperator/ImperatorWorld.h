@@ -32,11 +32,9 @@ namespace ImperatorWorld
 
 		private:
 			void verifySave(const std::string& saveGamePath);
-			bool uncompressSave(const std::string& saveGamePath);
-		
-			void processCompressedSave(const std::string& saveGamePath);
-			void processAutoSave(const std::string& saveGamePath);
-			void processIronManSave(const std::string& saveGamePath);
+
+			void processDebugModeSave(const std::string& saveGamePath);
+			void processCompressedEncodedSave(const std::string& saveGamePath);
 			void processSave(const std::string& saveGamePath);
 		
 			void parseGenes(const Configuration& theConfiguration);
@@ -50,15 +48,14 @@ namespace ImperatorWorld
 			enum class SaveType
 			{
 				INVALID = 0,
-				ZIPFILE = 1,
-				AUTOSAVE = 2,
-				IRONMAN = 3
+				PLAINTEXT = 1,
+				COMPRESSED_ENCODED = 2
 			};
 			struct saveData
 			{
 				SaveType saveType = SaveType::INVALID;
 				int zipStart = 0;
-				std::string gamestate;
+				std::string gameState;
 			};
 			saveData saveGame;
 
