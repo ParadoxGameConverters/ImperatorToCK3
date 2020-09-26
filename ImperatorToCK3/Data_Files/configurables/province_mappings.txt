@@ -2416,15 +2416,17 @@
 	link = { imp = 4779 ck3 = 4307 ck3 = 4306 }	# Agines -> Asak, Dariyan
 	# Palestine
 	link = { imp = 666 imp = 670 imp = 669 imp = 671 imp = 668 ck3 = 5960 }	# Skyamina, Ake-Ptolemais, Jellemeh, Kefar Shuni, Boukolonpolis -> ACRE
+	link = { imp = 7646 ck3 = 5986 ck3 = 5987 ck3 = 5988 ck3 = 6179 }	#  -> AZ-ZARQA, AL-AZRAQ, AL-JILAT, QASR_AT-TUBA
 	link = { imp = 721 imp = 720 imp = 715 imp = 714 ck3 = 5985 }	# Gerasa, Asophon, Gadara Judea, Tyros -> JARASH
-	link = { imp = 718 ck3 = 5984 }	# Rabbat Ammon -> AMMAN
+	link = { imp = 718 imp = 716 ck3 = 5984 }	# Rabbat Ammon, Esbous -> AMMAN
 	link = { imp = 709 imp = 699 ck3 = 5969 }	# Toloha, Eboda -> ZUGHAR
 	link = { imp = 722 imp = 675 imp = 733 ck3 = 5958 }	# Gadara, Pella, Abila Dekapoleos -> IRBID
 	link = { imp = 723 imp = 732 imp = 739 imp = 737 ck3 = 5954 }	# Hippos, Adraha, Karnaia, Raphon -> ZURRA
 	link = { imp = 731 ck3 = 5979 }	# Mhai -> AT-TAFILA
 	link = { imp = 681 ck3 = 5980 }	# Characmoba -> KERAK
 	link = { imp = 712 ck3 = 5981 }	# Aroes -> MAAB
-	link = { imp = 713 imp = 717 imp = 716 ck3 = 5983 }	# Livias, Madaba, Esbous -> MUJIB
+	link = { imp = 717 ck3 = 5982 }	# Madaba -> ZAIZA
+	link = { imp = 713 ck3 = 5983 }	# Livias -> MUJIB
 	link = { imp = 687 imp = 684 imp = 688 imp = 686 ck3 = 5965 }	# Jerusalem, Jericho, Thekoa, Emmaous -> JERUSALEM
 	link = { imp = 692 imp = 693 imp = 690 imp = 689 ck3 = 5963 }	# Adora, Thala, Marisa, Bethar -> AR-RAMLA
 	link = { imp = 664 imp = 663 imp = 682 imp = 685 imp = 662 imp = 661 ck3 = 5962 }	# Apollonia Palaistinai, Ioppe, Antipatris, Lydda, Iamneia, Ashdod -> YAFFA
@@ -2510,6 +2512,8 @@
 	link = { imp = 4717 ck3 = 6172 }	# Gaiapolis -> HAIL
 	link = { imp = 7559 ck3 = 6168 }	# Godala -> ATH-THALABIYA
 	link = { imp = 7560 ck3 = 6175 }	# Afarun -> BITAN
+	link = { imp = 7565 ck3 = 5999 }	# Arabia Deserta -> AS-SUBIA
+	link = { imp = 7566 ck3 = 5998 }	# Arabia Deserta -> AL-QARA
 	link = { imp = 7567 ck3 = 6001 }	# Arabia Deserta -> AS-SALMAN
 	link = { imp = 968 ck3 = 6002 }	# Eridu -> AL-AKHADID
 	link = { imp = 922 ck3 = 5992 ck3 = 5993 ck3 = 5991 }	# Aqola -> AL-KUFA, AN-NAJAF, SAFATA
@@ -2643,7 +2647,8 @@
 	link = { imp = 939 ck3 = 6007 }	# Larsa -> AL-QATR
 	link = { imp = 938 ck3 = 6008 }	# Nina -> NAHR_SIMMARA
 	link = { imp = 5303 ck3 = 6023 }	# Mesopotamian Desert -> AIN_SAID
-	link = { imp = 4721 imp = 7561 imp = 7723 ck3 = 6169 ck3 = 6021 }	# MANY-TO-MANY: Durnatha, Arabia Deserta, Durum -> ZUBALA, MATARA-IRAQ
+	link = { imp = 7564 imp = 7563 ck3 = 6000 }	# Arabia Deserta, Arabia Deserta -> WAQISA
+	link = { imp = 4721 imp = 7561 imp = 7723 imp = 7562 ck3 = 6169 ck3 = 6021 }	# MANY-TO-MANY: Durnatha, Arabia Deserta, Durum, Arabia Deserta -> ZUBALA, MATARA-IRAQ
 	link = { imp = 7558 ck3 = 6177 }	# Arabia Deserta -> AL-QARA
 	link = { imp = 7557 ck3 = 6178 }	# Arabia Deserta -> AL-JAWF
 	link = { imp = 7555 imp = 7556 ck3 = 5989 }	# Arabia Deserta, Arabia Deserta -> QURAQIR
@@ -2890,6 +2895,7 @@
 	link = { imp = 3373 imp = 3374 ck3 = 6097 }	# Catabathmus Maior, Nesus -> SULLUM
 	link = { imp = 3367 imp = 3368 imp = 3369 imp = 3372 imp = 3371 imp = 3370 ck3 = 6098 }	# Petras Mikros, Batrachos, Gonia, Menelaos, Kyrthanion, Antipyrgos -> TOBRUK
 	link = { imp = 3363 imp = 3365 imp = 3366 ck3 = 6099 }	# Darnis, Aziris, Paliouros -> DERNA
+	link = { imp = 5992 ck3 = 6106 ck3 = 6107 }	# Aguila -> AWJILA, JALU
 	link = { imp = 3345 imp = 3343 ck3 = 6108 }	# Noetu, Corniclanum -> JAKHARRAD
 	link = { imp = 5993 imp = 3357 ck3 = 6102 }	# Cyrenaica, Barke -> WADI MASUS
 	link = { imp = 3358 imp = 3360 imp = 3361 ck3 = 6101 }	# Phykous, Kyrene, Apollonia Kyrenaikis -> MARAWA
@@ -2904,6 +2910,9 @@
 	link = { imp = 3257 imp = 3260 imp = 3261 ck3 = 4583 }	# Utica, Matar, Thisika -> QARTAJANA
 	link = { imp = 3337 imp = 3338 imp = 3339 ck3 = 4550 }	# Digdida Selorum, Arae Philaenorum, Automalax -> AL-AGHAILA
 	link = { imp = 3329 imp = 3330 imp = 3332 imp = 3333 imp = 3334 imp = 3335 imp = 3336 ck3 = 4552 }	# Annesel, Auxiu, Dysopon, Euphranta, Iscina, Aulazon, Ad Palmam -> SURT
+
+	link = { imp = 5991 ck3 = 4563 }	# Gholaia -> WADDAN
+	link = { imp = 5947 ck3 = 4564 ck3 = 6449 ck3 = 6448 ck3 = 6459 }	# Garama -> TININAI, GERMA, SABHA, TAMZAWA
 	link = { imp = 3326 imp = 3327 ck3 = 4554 }	# Base, Thebunte -> TAWURGHA
 	link = { imp = 3325 imp = 3324 ck3 = 4555 }	# Thubactis, Kinyps -> MISURATA
 	link = { imp = 3306 ck3 = 4556 }	# Leptis Magna -> LABDA
