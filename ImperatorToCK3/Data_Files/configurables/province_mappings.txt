@@ -838,7 +838,6 @@
 	link = { imp = 6266 ck3 = 4962 }	# Gorion -> Kielce
 	link = { imp = 6265 ck3 = 4955 ck3 = 4961 }	# Gorideva -> Ilza, Opatow
 	link = { imp = 6292 imp = 6256 ck3 = 5048 }	# Trakylli, Venediana -> Luboml
-
 	link = { imp = 6295 ck3 = 5050 }	# Orona -> Rozhyshche
 	link = { imp = 7826 imp = 6296 ck3 = 5049 }	# Merania, Kire -> Kovel
 	link = { imp = 6297 ck3 = 5110 }	# Thure -> Stepan
@@ -1817,26 +1816,19 @@
 	link = { imp = 6047 imp = 5383 ck3 = 5064 }	# Olnish, Oggrunet -> Zvenyhorod
 	link = { imp = 6067 imp = 6066 ck3 = 5069 }	# Alkonet, Utkennita -> Chortkiv
 	link = { imp = 6110 ck3 = 5263 }	# Ehkere -> Cherkassy
-
-
-
 	link = { imp = 6080 ck3 = 5096 }	# Oschka -> Ivankiv
 	link = { imp = 6081 ck3 = 5086 }	# Kyrtik -> Zdvyzhen
 	link = { imp = 6090 ck3 = 547 ck3 = 5083 }	# Sitya -> Kiev, Bilhorod
 	link = { imp = 6092 imp = 6093 ck3 = 5085 }	# Gelts, Mangyl -> Kaniv
-
 	link = { imp = 6086 ck3 = 5090 ck3 = 5101 }	# Volyatss -> Malaia Skvirka, Haisyn
 	link = { imp = 6073 imp = 6075 imp = 6074 ck3 = 5089 }	# Vonnet, Mechkeht, Tiersi -> Rastovets
 	link = { imp = 6071 imp = 6072 ck3 = 5099 }	# Shethigk, Yukta -> Vinnytsia
 	link = { imp = 6069 ck3 = 5098 }	# Gosthinya -> Ushytsia
 	link = { imp = 6070 ck3 = 5100 }	# Lechta -> Yampil
 	link = { imp = 6084 imp = 6085 ck3 = 5257 }	# Schech, Tumin -> Ladyzyn
-
 	link = { imp = 6236 imp = 6233 ck3 = 5070 }	# Forom, Urschelats -> Zaslavl
 	link = { imp = 6077 ck3 = 5087 }	# Ghanilkatta -> Zhytomyr
-
 	link = { imp = 6240 ck3 = 5102 }	# Assula -> Sarny
-
 	link = { imp = 6079 imp = 6078 ck3 = 5093 }	# Vryank, Notghi -> Chortolisy
 	link = { imp = 7828 ck3 = 5103 }	# Manoia -> Selo
 	link = { imp = 7642 ck3 = 5094 }	# Sylvana -> Horodnytsia
@@ -1844,11 +1836,9 @@
 	link = { imp = 6076 ck3 = 5092 }	# Krueng -> Kolodiazhen
 	link = { imp = 6068 ck3 = 5068 ck3 = 5088 }	# Khurra -> Horodok, Mezhybozhe
 	link = { imp = 6234 ck3 = 546 }	# Myanik -> Terebovl
-
 	link = { imp = 6242 ck3 = 5072 }	# Seno -> Ostroh
 	link = { imp = 6065 imp = 6239 ck3 = 5066 }	# Granika, Sitha -> Buchach
 	link = { imp = 7299 ck3 = 5178 ck3 = 555 }	# Sarmatia -> Boryspil, Pereyaslavl
-
 	link = { imp = 6243 ck3 = 5053 }	# Vorta -> Klevan
 	link = { imp = 6237 ck3 = 5051 }	# Arforom -> Peresopnytsia
 	link = { imp = 6241 ck3 = 5052 }	# Masticat -> Rivne
@@ -1929,15 +1919,8 @@
 	link = { imp = 5493 ck3 = 7074 }	# Thurissa -> Beyneu
 	link = { imp = 5471 imp = 5478 ck3 = 7078 }	# Tamaasan, Zhanit -> Kajdak
 	# Russia
-
 	link = { imp = 6219 imp = 6222 imp = 6223 ck3 = 5345 }	# Uyennik, Arzhahk, Khorolats -> Chyorny Yar
-
-
-
 	link = { imp = 7640 ck3 = 7222 ck3 = 5318 }	# Caspica -> Taisugan, Kalmikovsky
-
-
-
 	link = { imp = 5498 ck3 = 7072 }	# Vyoros -> Kumstan
 	link = { imp = 5499 ck3 = 7065 }	# Satticha -> Qoshagyl
 	link = { imp = 5496 ck3 = 7073 }	# Donom -> Tengiz
@@ -1965,7 +1948,6 @@
 	link = { imp = 6125 ck3 = 5184 }	# Machiekkyt -> Poltava
 	link = { imp = 6115 ck3 = 5181 }	# Ahgranika -> Hradyzk
 	link = { imp = 6112 ck3 = 5189 }	# Schelera -> Voin
-
 	link = { imp = 6113 ck3 = 5183 }	# Muika -> Myrhorod
 	link = { imp = 6111 ck3 = 5190 }	# Rotila -> Lubny
 	link = { imp = 6109 ck3 = 5180 }	# Soe -> Zolotonosha
@@ -1976,7 +1958,6 @@
 	link = { imp = 6161 imp = 6162 ck3 = 5322 }	# Yakkant, Ygast -> Tor
 	link = { imp = 6166 imp = 6160 ck3 = 5323 }	# Gyrones, Verhyn -> Volcha
 	link = { imp = 7644 ck3 = 565 }	# Pontic Steppe -> Kharka
-
 	link = { imp = 6172 imp = 6174 imp = 6171 ck3 = 5327 }	# Uron, Scytte, Galligh -> Podgornye
 	link = { imp = 6169 imp = 6167 imp = 6168 ck3 = 564 }	# Veryi, Stetta, Ushkan -> Bakhmut
 	link = { imp = 6157 imp = 6156 imp = 6153 imp = 6159 ck3 = 5324 }	# Shgaritat, Aihkohna, Uldan, Stat -> Donetsk
@@ -1984,7 +1965,6 @@
 	link = { imp = 4556 imp = 6165 imp = 6163 ck3 = 563 }	# Karoia, Vel, Vyonots -> Taganrog
 	link = { imp = 4557 imp = 6178 imp = 6189 imp = 6187 ck3 = 596 }	# Tanais, Ganka, Arn, Zhutikka -> Tana
 	link = { imp = 7186 imp = 4528 ck3 = 542 }	# Scyra, Scopuli -> Olbia_ETEL
-
 	link = { imp = 6082 ck3 = 5084 }	# Donts -> Yuriev
 	link = { imp = 6091 ck3 = 544 }	# Aggrygh -> Korsun
 	link = { imp = 6083 ck3 = 5261 }	# Vyrketin -> Buky
@@ -2254,13 +2234,11 @@
 	link = { imp = 6657 ck3 = 4041 }	# Nisaia -> Shahrastan
 	link = { imp = 6811 ck3 = 4415 }	# Hazar -> CHELEKEN
 	link = { imp = 6812 ck3 = 4532 }	# Kumdah -> YASHKAN
-
 	link = { imp = 7259 ck3 = 4462 }	# Baraq -> NORTH KURDAR
 	link = { imp = 7260 ck3 = 4459 }	# Kupir -> BARATIGIN
 	link = { imp = 5479 imp = 5480 imp = 5477 ck3 = 7089 }	# Alicodra, Dyruzh, Kilich -> Vezir
 	link = { imp = 7253 imp = 7254 ck3 = 7110 }	# Ziram, Boot -> Kazalinsk
 	link = { imp = 7251 ck3 = 7123 }	# Besta -> Sighnaq
-
 	link = { imp = 7275 ck3 = 4413 }	# Shahr Jaxartha -> ZAMIN
 	link = { imp = 6702 imp = 6705 ck3 = 4409 }	# Shakria, Matuaspa -> PANJIKAND
 	link = { imp = 6733 ck3 = 4411 }	# Istarava -> BOTTAMAN
@@ -2270,7 +2248,6 @@
 	link = { imp = 6704 ck3 = 4416 ck3 = 4418 }	# Alexandria Eschate -> KURKATH, KHOJAND
 	link = { imp = 7245 ck3 = 903 }	# Chinaz -> Afrasiyab
 	link = { imp = 6777 imp = 6786 imp = 6784 ck3 = 7140 }	# Uvikat, Tobe, Barskhan -> Awliya-Ata
-
 	link = { imp = 6755 ck3 = 7970 }	# Kumo -> Barchuk
 	link = { imp = 6753 imp = 6754 ck3 = 7968 }	# Toksa, Kagra -> Atus
 	link = { imp = 6761 ck3 = 7963 ck3 = 7958 }	# Kasia -> Akto, Yengisar
@@ -2290,7 +2267,6 @@
 	link = { imp = 7271 imp = 7272 imp = 7266 imp = 7265 ck3 = 7136 }	# Kush, Khanus, Qaram, Zintik -> Chimkent
 	link = { imp = 7270 ck3 = 7134 }	# Kashram -> Akkum
 	link = { imp = 7267 imp = 7268 ck3 = 7135 }	# Araq, Osht -> Sayram
-
 	link = { imp = 7274 ck3 = 4412 }	# Gabae -> DIZAK
 	link = { imp = 7276 imp = 7278 imp = 7277 ck3 = 4417 }	# Ust, Padri, Arcum -> KHAWAS
 	link = { imp = 6779 ck3 = 1424 }	# Suyab -> Suyab
@@ -2319,25 +2295,17 @@
 	link = { imp = 5488 imp = 5485 ck3 = 7090 }	# Tirim, Gran -> Davlet-Girei
 	link = { imp = 5483 imp = 5482 ck3 = 1378 }	# Tubek, Gyesch -> Gurganj
 	link = { imp = 5484 ck3 = 4458 ck3 = 4460 }	# Cammei -> MADMINIYA, KURDAR
-
 	link = { ck3 = 4457 }	# NOTHING -> JITH
 	link = { imp = 6800 ck3 = 4450 ck3 = 4451 }	# Aratha -> HAZARASP, KARDURAN-KHAS
 	link = { imp = 6799 imp = 6798 ck3 = 4455 }	# Zamakshahr, Shahsenem -> ZAMAKHSHAR
 	link = { imp = 6804 ck3 = 4454 ck3 = 4453 }	# Mizdaqahn -> NAZVAR, RUZVAND
-
-
-
 	link = { imp = 5395 ck3 = 4449 }	# Dharakh -> RAKHUSHMITHAN
-
 	link = { imp = 5394 ck3 = 4452 }	# Khiva -> KHIVA
-
 	link = { imp = 6805 ck3 = 4461 }	# Ariaka -> MIZDAHQAN
 	link = { imp = 6803 ck3 = 4456 }	# Gurganj -> GURGANJ
 	link = { imp = 6796 imp = 6797 ck3 = 4524 }	# Qanga, Vezir -> SARYKAMYSH
-
 	link = { imp = 5454 ck3 = 4525 }	# Yatsha -> ORTAKUYU
 	link = { imp = 6809 ck3 = 4526 }	# Sariq -> KUGUNEK
-
 	link = { imp = 5453 ck3 = 4527 }	# Zatra -> BALA ISKEM
 	link = { imp = 6807 ck3 = 4529 }	# Dauaba -> IGDY
 	link = { imp = 5392 ck3 = 4528 }	# Kurah -> KURTYSH
@@ -3983,14 +3951,11 @@
 	link = { imp = 4363 ck3 = 3392 }	# Sembrakenoi -> Siraj_ji_Takri
 	link = { imp = 4354 ck3 = 3394 }	# Minnagara Sauvira -> Mir_Rukan
 	link = { imp = 4373 ck3 = 3408 }	# Siberai -> Chachran
-
-
 	link = { imp = 6767 ck3 = 4361 }	# Urang -> Dar-i-Tubbat
 	link = { imp = 6766 ck3 = 4362 }	# Yamchun -> Wakhan
 	link = { imp = 6763 imp = 6764 ck3 = 4365 }	# Bulaq, Miena -> Murghab
 	link = { imp = 6770 ck3 = 7965 ck3 = 7964 }	# Toquzbolaq -> Badakhshan_TARIM, Muji
 	link = { imp = 6769 ck3 = 4364 }	# Pamir -> Alichur
-
 	link = { imp = 6765 ck3 = 4363 }	# Kafirqala -> Shughnan
 	link = { imp = 6768 ck3 = 4356 }	# Kokcha -> Jerm
 	link = { imp = 6762 ck3 = 4360 ck3 = 4359 }	# Kaahka Pamir -> Ishkamish, Zaybak
@@ -4008,7 +3973,6 @@
 	link = { imp = 5592 ck3 = 9020 ck3 = 9021 }	# Skardo -> Skardu, Roundu
 	link = { imp = 5593 ck3 = 9024 }	# Darada -> Astore
 	link = { imp = 4334 imp = 4332 ck3 = 9025 }	# Harvan, Puranadisthana -> Minimarg
-
 	link = { imp = 5603 imp = 5602 ck3 = 9012 }	# Gondogoro Pass, Gondogoro Pass -> Dipsang
 	link = { imp = 5565 imp = 5591 ck3 = 9011 ck3 = 9010 }	# MANY-TO-MANY: Aparing, Leh -> Turtuk, Panamik
 	link = { imp = 5566 ck3 = 9028 ck3 = 9029 ck3 = 9026 }	# Lashang -> Khaplu, Haldi, Shigar
@@ -4033,13 +3997,11 @@
 	link = { imp = 7232 imp = 7227 imp = 7233 ck3 = 4384 }	# Tarmantis, Zamm, Bazaria -> Kalif
 	link = { imp = 6689 ck3 = 4373 ck3 = 4372 }	# Pandokheion -> Charmanjan, Basand
 	link = { imp = 6654 ck3 = 4337 }	# Indikomordana -> Navida
-
 	link = { imp = 6802 ck3 = 4440 }	# Varakhsha -> TAHIRIYA
 	link = { imp = 6801 ck3 = 4442 ck3 = 4441 }	# Jirbend -> JIGIRBEND, DARGHAN
 	link = { imp = 6707 ck3 = 4243 ck3 = 4395 ck3 = 4396 }	# Tribactra -> Barzam, VARAKHSHA, RAMITAN
 	link = { imp = 6708 ck3 = 4242 ck3 = 4241 }	# Chadracarta -> Firabr, Shagal
 	link = { imp = 7242 imp = 7241 ck3 = 4245 }	# Depe, Artamis -> Sayat
-
 	link = { imp = 6717 ck3 = 4394 }	# Branchidai -> BUKHARA
 	link = { imp = 6718 ck3 = 4393 }	# Kogon -> PAYKEND
 	link = { imp = 6710 ck3 = 4390 }	# Xenippa -> NAKHSHAB
@@ -4055,7 +4017,6 @@
 	link = { imp = 6655 ck3 = 4336 }	# Kumsar -> Shapurqan
 	link = { imp = 6678 ck3 = 4338 ck3 = 4335 }	# Bactra -> Siyahjird, Balkh
 	link = { imp = 6637 ck3 = 4339 }	# Alexandreia Bactriane -> Saan
-
 	link = { imp = 6648 ck3 = 4348 }	# Drapsake -> Baghlan
 	link = { imp = 6680 imp = 6677 ck3 = 4341 }	# Tochara, Denai -> Samanjan
 	link = { imp = 6649 ck3 = 4342 }	# Battak -> Sakalkand
@@ -4064,7 +4025,6 @@
 	link = { imp = 6650 ck3 = 4347 }	# Kabolite -> Andarab
 	link = { imp = 6625 ck3 = 4345 }	# Kapissa -> Panjhir
 	link = { imp = 6611 ck3 = 4346 }	# Alexandria Caucasum -> Jarbaya
-
 	link = { imp = 6613 ck3 = 4508 ck3 = 4514 }	# Andaka -> LAMGHAN, KUNAR
 	link = { imp = 6608 ck3 = 4504 }	# Kaboura -> KABUL
 	link = { imp = 4318 imp = 6612 ck3 = 4523 }	# Apritas, Kophen -> Khost
@@ -4175,7 +4135,7 @@
 	link = { imp = 7460 ck3 = 3315 }	# Mauranipur -> Jhansi
 	link = { imp = 7462 ck3 = 1298 }	# Chanderi -> Chanderi
 	link = { imp = 7302 imp = 7464 ck3 = 3320 }	# Kirthagiri, Bina -> Kadwaya
-	link = { imp = 7449 ck3 = 3317 }	# Guna -> Guna
+	link = { imp = 7449 imp = 7466 ck3 = 3317 }	# Guna, Bhand Deva -> Guna
 	link = { imp = 7450 ck3 = 1150 ck3 = 3335 }	# Sarangpur -> Sarangpur, Maksi
 	link = { imp = 7441 ck3 = 3336 }	# Jirapur -> Mehidpur
 	link = { imp = 4482 ck3 = 3337 }	# Kolvi -> Agar
