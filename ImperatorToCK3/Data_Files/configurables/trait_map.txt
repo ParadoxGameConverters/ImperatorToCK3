@@ -1,0 +1,23 @@
+# Usage:
+# link = { ck3 = ck3Trait imp = impTrait}
+# multiples of imp are allowed.
+
+
+# Personality
+link = { ck3 = brave imp = brave }
+link = { ck3 = craven imp = coward }
+
+link = { ck3 = lustful imp = lustful }
+link = { ck3 = chaste imp = chaste }
+
+link = { ck3 = gluttonous imp = gluttonous }
+link = { ck3 = temperate imp = self_controlled }
+
+link = { ck3 = diligent imp = energetic }
+link = { ck3 = lazy imp = lazy }
+
+link = { ck3 = ambitious imp = ambitious }
+link = { ck3 = content imp = content }
+
+link = { ck3 = arrogant imp = arrogant }
+link = { ck3 = humble imp = modest }
