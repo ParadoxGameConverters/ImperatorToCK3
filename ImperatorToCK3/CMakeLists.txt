@@ -7,7 +7,7 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Release-Linux)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Release-Linux)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=8"")
 
 add_compile_options("-lstdc++fs")
 add_compile_options("-O2")
@@ -16,8 +16,8 @@ add_link_options(-no-pie)
 
 include_directories("../commonItems")
 include_directories("../ZipLib")
+include_directories("/usr/local/include/ImageMagick-7/")
 include_directories("../cpp-base64")
-include_directories("../ImageMagick/include")
 include_directories("${PROJECT_SOURCE_DIR}")
 
 link_directories("../ImageMagick/lib")
@@ -77,10 +77,10 @@ add_executable(ImperatorToCK3
 	${COMMON_SOURCES}
 )
 
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC ZIPLIB stdc++fs)
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC "../ImageMagick/lib/CORE_RL_Magick++_.lib")
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC "../ImageMagick/lib/CORE_RL_MagickCore_.lib")
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC "../ImageMagick/lib/CORE_RL_MagickWand_.lib")
+target_link_libraries(ImperatorToCK3 LINK_PUBLIC ZIPLIB stdc++fs
+MagickWand-7.Q8
+MagickCore-7.Q8
+Magick++-7.Q8)
 
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x Copy_Files.sh)
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ./Copy_Files.sh)

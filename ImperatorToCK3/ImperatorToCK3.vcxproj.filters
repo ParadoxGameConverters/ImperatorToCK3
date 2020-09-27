@@ -61,9 +61,6 @@
     <Filter Include="CK3\Titles">
       <UniqueIdentifier>{79119011-3a48-493c-a25b-ae9e53fd6fe6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImageMagick">
-      <UniqueIdentifier>{2f2accef-0407-4b2d-968b-1fc111bb8e80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Mappers\CoaMapper">
       <UniqueIdentifier>{87ca7ce8-8f6e-4df2-8fe2-705d24d9d384}</UniqueIdentifier>
     </Filter>
@@ -249,9 +246,6 @@
     </ClInclude>
     <ClInclude Include="Source\CK3Outputter\outColoredEmblems.h">
       <Filter>CK3Outputter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ImageMagick\include\Magick++.h">
-      <Filter>ImageMagick</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h">
       <Filter>Mappers\CoaMapper</Filter>
@@ -458,6 +452,45 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resources\rakaly.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\IM_MOD_RL_xc_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\IM_MOD_RL_tga_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\IM_MOD_RL_dds_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_zlib_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_MagickWand_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_MagickCore_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_Magick++_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_lqr_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_libxml_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_lcms_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_freetype_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_bzlib_.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_glib_.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
   </ItemGroup>
