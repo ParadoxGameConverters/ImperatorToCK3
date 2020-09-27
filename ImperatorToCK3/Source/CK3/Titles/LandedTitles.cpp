@@ -32,7 +32,11 @@ void CK3::LandedTitles::registerKeys()
 			if (titleName.find_first_of("c_") == 0) // has county prefix = is a county
 			{
 				auto baronyProvince = locatedTitle.second.getProvince();
-				if (baronyProvince) newTitle.countyProvinces.insert(baronyProvince.value()); // add found baronies' provinces to a countyProvinces set
+				if (baronyProvince)
+				{
+					if (countyProvinces.size() == 0) capitalBarony = *baronyProvince;
+					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to a countyProvinces set
+				}
 			}
 			foundTitles[locatedTitle.first] = locatedTitle.second;
 		}

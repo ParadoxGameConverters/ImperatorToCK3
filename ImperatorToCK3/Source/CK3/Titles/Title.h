@@ -51,7 +51,7 @@ class Title
 
 	std::map<std::string, mappers::LocBlock> localizations;
 
-	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry;
+	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry; // name, country
 	std::map<int, std::shared_ptr<Province>> provinces;
 };
 } // namespace CK3
