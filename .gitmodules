@@ -13,3 +13,6 @@
 [submodule "cpp-base64"]
 	path = cpp-base64
 	url = https://github.com/ReneNyffenegger/cpp-base64
+[submodule "imageMagick"]
+	path = imageMagick
+	url = https://github.com/ParadoxGameConverters/imageMagick

@@ -7,7 +7,7 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Release-Linux)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Release-Linux)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=8")
 
 add_compile_options("-lstdc++fs")
 add_compile_options("-O2")
@@ -16,8 +16,8 @@ add_link_options(-no-pie)
 
 include_directories("../commonItems")
 include_directories("../ZipLib")
+include_directories("/usr/local/include/ImageMagick-7/")
 include_directories("../cpp-base64")
-include_directories("../ImageMagick/include")
 include_directories("${PROJECT_SOURCE_DIR}")
 
 link_directories("../ImageMagick/lib")
@@ -43,6 +43,7 @@ file(GLOB CK3WORLD_SOURCES "${PROJECT_SOURCE_DIR}/CK3/*.cpp")
 file(GLOB CK3WORLD_PROVINCE_SOURCES "${PROJECT_SOURCE_DIR}/CK3/Province/*.cpp")
 file(GLOB CK3WORLD_TITLES_SOURCES "${PROJECT_SOURCE_DIR}/CK3/Titles/*.cpp")
 file(GLOB CK3OUTPUTTER_SOURCES "${PROJECT_SOURCE_DIR}/CK3Outputter/*.cpp")
+set(BASE64_SOURCES "../cpp-base64/base64.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Color.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/GameVersion.cpp")
@@ -75,12 +76,13 @@ add_executable(ImperatorToCK3
 	${CK3WORLD_TITLES_SOURCES}
 	${CK3OUTPUTTER_SOURCES}
 	${COMMON_SOURCES}
+	${BASE64_SOURCES}
 )
 
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC ZIPLIB stdc++fs)
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC "../ImageMagick/lib/CORE_RL_Magick++_.lib")
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC "../ImageMagick/lib/CORE_RL_MagickCore_.lib")
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC "../ImageMagick/lib/CORE_RL_MagickWand_.lib")
+target_link_libraries(ImperatorToCK3 LINK_PUBLIC rakaly ZIPLIB stdc++fs
+MagickWand-7.Q8
+MagickCore-7.Q8
+Magick++-7.Q8)
 
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x Copy_Files.sh)
 add_custom_command(TARGET ImperatorToCK3 POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ./Copy_Files.sh)

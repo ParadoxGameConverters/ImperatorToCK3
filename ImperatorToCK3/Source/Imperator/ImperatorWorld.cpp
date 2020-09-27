@@ -157,7 +157,6 @@ void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
 		}
 
 	delete[] bigBuf;
-	Log(LogLevel::Info) << " SAVE GAME TYPE: " << int(saveGame.saveType);
 }
 
 void ImperatorWorld::World::processDebugModeSave(const std::string& saveGamePath)
