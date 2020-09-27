@@ -43,6 +43,7 @@ file(GLOB CK3WORLD_SOURCES "${PROJECT_SOURCE_DIR}/CK3/*.cpp")
 file(GLOB CK3WORLD_PROVINCE_SOURCES "${PROJECT_SOURCE_DIR}/CK3/Province/*.cpp")
 file(GLOB CK3WORLD_TITLES_SOURCES "${PROJECT_SOURCE_DIR}/CK3/Titles/*.cpp")
 file(GLOB CK3OUTPUTTER_SOURCES "${PROJECT_SOURCE_DIR}/CK3Outputter/*.cpp")
+set(BASE64_SOURCES "../cpp-base64/base64.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Color.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/GameVersion.cpp")
@@ -75,6 +76,7 @@ add_executable(ImperatorToCK3
 	${CK3WORLD_TITLES_SOURCES}
 	${CK3OUTPUTTER_SOURCES}
 	${COMMON_SOURCES}
+	${BASE64_SOURCES}
 )
 
 target_link_libraries(ImperatorToCK3 LINK_PUBLIC rakaly ZIPLIB stdc++fs
