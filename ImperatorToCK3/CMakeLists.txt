@@ -77,7 +77,7 @@ add_executable(ImperatorToCK3
 	${COMMON_SOURCES}
 )
 
-target_link_libraries(ImperatorToCK3 LINK_PUBLIC ZIPLIB stdc++fs
+target_link_libraries(ImperatorToCK3 LINK_PUBLIC rakaly ZIPLIB stdc++fs
 MagickWand-7.Q8
 MagickCore-7.Q8
 Magick++-7.Q8)
