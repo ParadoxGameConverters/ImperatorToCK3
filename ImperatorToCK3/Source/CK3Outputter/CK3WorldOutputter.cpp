@@ -39,12 +39,12 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputLocalization(outputName, CK3World);
 
 	LOG(LogLevel::Info) << "<- Copying named colors";
-	Utils::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + CK3World.getOutputModName() + "/common/named_colors/imp_colors.txt");
+	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + CK3World.getOutputModName() + "/common/named_colors/imp_colors.txt");
 
 	LOG(LogLevel::Info) << "<- Copying Coats of Arms";
 	copyColoredEmblems(theConfiguration, outputName);
 	outputCoas(outputName, CK3World.getTitles());
-	Utils::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/patterns");
+	commonItems::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/patterns");
 }
 
 
@@ -67,19 +67,19 @@ void CK3::createModFolder(const std::string& outputName)
 
 void CK3::createFolders(const std::string& outputName)
 {
-	Utils::TryCreateFolder("output/" + outputName + "/history");
-	Utils::TryCreateFolder("output/" + outputName + "/history/provinces");
-	Utils::TryCreateFolder("output/" + outputName + "/history/province_mapping");
-	Utils::TryCreateFolder("output/" + outputName + "/common");
-	Utils::TryCreateFolder("output/" + outputName + "/common/landed_titles");
-	Utils::TryCreateFolder("output/" + outputName + "/common/named_colors");
-	Utils::TryCreateFolder("output/" + outputName + "/common/coat_of_arms");
-	Utils::TryCreateFolder("output/" + outputName + "/common/coat_of_arms/coat_of_arms");
-	Utils::TryCreateFolder("output/" + outputName + "/localization");
-	Utils::TryCreateFolder("output/" + outputName + "/localization/replace");
-	Utils::TryCreateFolder("output/" + outputName + "/gfx");
-	Utils::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
-	Utils::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/colored_emblems");
-	Utils::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/patterns");
+	commonItems::TryCreateFolder("output/" + outputName + "/history");
+	commonItems::TryCreateFolder("output/" + outputName + "/history/provinces");
+	commonItems::TryCreateFolder("output/" + outputName + "/history/province_mapping");
+	commonItems::TryCreateFolder("output/" + outputName + "/common");
+	commonItems::TryCreateFolder("output/" + outputName + "/common/landed_titles");
+	commonItems::TryCreateFolder("output/" + outputName + "/common/named_colors");
+	commonItems::TryCreateFolder("output/" + outputName + "/common/coat_of_arms");
+	commonItems::TryCreateFolder("output/" + outputName + "/common/coat_of_arms/coat_of_arms");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace");
+	commonItems::TryCreateFolder("output/" + outputName + "/gfx");
+	commonItems::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
+	commonItems::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/colored_emblems");
+	commonItems::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/patterns");
 
 }
