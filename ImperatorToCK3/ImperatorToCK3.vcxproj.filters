@@ -70,6 +70,9 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{d4a7adfb-9330-49a9-bcc3-f619b9ad45dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{08765932-f1d7-433c-8037-80b2fd4a62f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -255,7 +258,7 @@
     </ClInclude>
     <ClInclude Include="Source\CK3Outputter\outCoas.h">
       <Filter>CK3Outputter</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\Helpers\rakaly.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -452,5 +455,10 @@
     <ClCompile Include="Source\CK3Outputter\outCoas.cpp">
       <Filter>CK3Outputter</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Resources\rakaly.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

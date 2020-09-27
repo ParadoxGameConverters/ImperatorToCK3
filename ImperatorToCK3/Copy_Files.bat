@@ -6,7 +6,6 @@ rem copy "Data_Files\FAQ.txt" "..\Release\ImperatorToCK3\FAQ.txt"
 
 rem Copy DLLs
 xcopy "..\ImageMagick\dll" "..\Release\ImperatorToCK3" /Y /E /I
-copy "Resources\rakaly.dll" "..\Release\ImperatorToCK3\"
 
 mkdir "..\Release\Configuration"
 copy "Data_Files\fronter-configuration.txt" "..\Release\Configuration\fronter-configuration.txt"
