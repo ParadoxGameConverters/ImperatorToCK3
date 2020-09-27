@@ -19,5 +19,51 @@ link = { ck3 = lazy imp = lazy }
 link = { ck3 = ambitious imp = ambitious }
 link = { ck3 = content imp = content }
 
-link = { ck3 = arrogant imp = arrogant }
-link = { ck3 = humble imp = modest }
+link = { ck3 = arrogant imp = arrogant imp = proud }
+link = { ck3 = humble imp = modest imp = modest }
+
+link = { ck3 = zealous imp = devout imp = zealous imp = pious }
+link = { ck3 = cynical imp = lapsed imp = sceptical }
+
+link = { ck3 = just imp = just }
+link = { ck3 = arbitrary imp = arbitrary }
+
+link = { ck3 = generous imp = generous }
+link = { ck3 = greedy imp = selfish imp = miserly }
+
+link = { ck3 = honest imp = honest }
+link = { ck3 = deceitful imp = deceitful }
+
+link = { ck3 = intellect_good_2 imp = intelligent }
+link = { ck3 = intellect_bad_2 imp = dumb }
+
+link = { ck3 = paranoid imp = shrewd imp = suspicious }
+link = { ck3 = trusting imp = foolish imp = trusting }
+
+link = { ck3 = reckless imp = reckless }
+link = { ck3 = cautious_leader imp = cautious }
+
+link = { ck3 = vengeful imp = vengeful }
+link = { ck3 = forgiving imp = forgiving }
+
+
+# Health
+link = { ck3 = hunchbacked imp = hunchback }
+link = { ck3 = inbred imp = inbred }
+link = { ck3 = stuttering imp = stutter }
+link = { ck3 = blind imp = blind }
+link = { ck3 = one_eyed imp = one_eyed }
+link = { ck3 = cancer imp = cancer }
+link = { ck3 = gout_ridden imp = gout }
+link = { ck3 = physique_bad_2 imp = frail }
+link = { ck3 = maimed imp = maimed }
+link = { ck3 = eunuch imp = castrated }
+link = { ck3 = leper imp = leper }
+link = { ck3 = pneumonic imp = pneumonia }
+link = { ck3 = beauty_bad_2 imp = ugly }
+link = { ck3 = lisping imp = lisp }
+link = { ck3 = lovers_pox imp = pox }
+link = { ck3 = lunatic_genetic imp = lunatic imp = schizophrenic }
+link = { ck3 = smallpox imp = plague }
+link = { ck3 = depressed_1 imp = depressed }
+link = { ck3 = wounded_2 imp = wounded }
