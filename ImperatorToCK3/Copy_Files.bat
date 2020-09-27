@@ -4,7 +4,7 @@ rem copy "Data_Files\ReadMe.txt" "..\Release\ImperatorToCK3\readme.txt"
 rem copy "Data_Files\ReadMe.txt" "..\Release\readme.txt"
 rem copy "Data_Files\FAQ.txt" "..\Release\ImperatorToCK3\FAQ.txt"
 
-rem Copy ImagaMagick DLLs
+rem Copy DLLs
 xcopy "..\ImageMagick\dll" "..\Release\ImperatorToCK3" /Y /E /I
 
 mkdir "..\Release\Configuration"

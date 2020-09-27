@@ -6,7 +6,7 @@
 CK3::ProvinceDetails::ProvinceDetails(const std::string& filePath)
 {
 	registerKeys();
-	if (Utils::DoesFileExist(filePath))
+	if (commonItems::DoesFileExist(filePath))
 	{
 		parseFile(filePath);
 	}
@@ -17,7 +17,7 @@ CK3::ProvinceDetails::ProvinceDetails(const std::string& filePath)
 void CK3::ProvinceDetails::updateWith(const std::string& filePath)
 {
 	registerKeys();
-	if (Utils::DoesFileExist(filePath))
+	if (commonItems::DoesFileExist(filePath))
 	{
 		parseFile(filePath);
 	}

@@ -66,7 +66,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 {
 	LOG(LogLevel::Info) << "-> Importing Vanilla Provinces";
 	// ---- Loading history/provinces
-	auto fileNames = Utils::GetAllFilesInFolder(ck3Path + "/game/history/provinces/");
+	auto fileNames = commonItems::GetAllFilesInFolder(ck3Path + "/game/history/provinces/");
 	for (const auto& fileName : fileNames)
 	{
 		if (fileName.find(".txt") == std::string::npos)
@@ -94,7 +94,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 	
 	// now load the provinces that don't have unique entries in history/provinces
 	// they instead use history/province_mapping
-	fileNames = Utils::GetAllFilesInFolder(ck3Path + "/game/history/province_mapping/");
+	fileNames = commonItems::GetAllFilesInFolder(ck3Path + "/game/history/province_mapping/");
 	for (const auto& fileName : fileNames)
 	{
 		if (fileName.find(".txt") == std::string::npos)
