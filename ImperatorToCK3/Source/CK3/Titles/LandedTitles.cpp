@@ -35,9 +35,6 @@ void CK3::LandedTitles::registerKeys()
 				if (baronyProvince)
 				{
 					if (newTitle.countyProvinces.empty()) newTitle.capitalBarony = *baronyProvince;
-
-					//if (capitalBarony) LOG(LogLevel::Debug) << *capitalBarony; // debug
-					
 					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to a countyProvinces set
 				}
 			}
