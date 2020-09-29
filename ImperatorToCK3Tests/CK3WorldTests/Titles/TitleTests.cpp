@@ -10,7 +10,7 @@ TEST(CK3World_TitleTests, localizationCanBeSet)
 	const mappers::LocBlock locBlock = { "engloc", "frloc", "germloc", "rusloc", "spaloc" };
 
 	theTitle.setLocalizations(locBlock);
-	ASSERT_EQ(1, theTitle.getLocalizations().size());
+	ASSERT_EQ(1, theTitle.localizations.size());
 }
 
 TEST(CK3World_TitleTests, membersDefaultToBlank)
@@ -18,9 +18,9 @@ TEST(CK3World_TitleTests, membersDefaultToBlank)
 	std::stringstream input;
 	const CK3::Title theTitle;
 
-	ASSERT_TRUE(theTitle.getTitleName().empty());
-	ASSERT_TRUE(theTitle.getHistoryCountryFile().empty());
-	ASSERT_TRUE(theTitle.getLocalizations().empty());
-	ASSERT_FALSE(theTitle.getCoa());
-	ASSERT_FALSE(theTitle.getCapitalCounty());
+	ASSERT_TRUE(theTitle.titleName.empty());
+	ASSERT_TRUE(theTitle.historyCountryFile.empty());
+	ASSERT_TRUE(theTitle.localizations.empty());
+	ASSERT_FALSE(theTitle.coa);
+	ASSERT_FALSE(theTitle.capitalCounty);
 }

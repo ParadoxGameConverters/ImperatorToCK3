@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <fstream>
 namespace fs = std::filesystem;
+#include "../Imperator/Characters/Character.h"
 #include "../Imperator/Countries/Country.h"
 #include "../Imperator/Provinces/Province.h"
 #include "../Configuration/Configuration.h"
@@ -21,9 +22,13 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 	// Loading Imperator CoAs to use them for generated CK3 titles
 	coaMapper = mappers::CoaMapper(theConfiguration);
 
+	importImperatorCharacters(impWorld);
+
 	// Loading vanilla CK3 landed titles
 	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");
-
+	// Load vanilla titles history
+	titlesHistory = TitlesHistory(theConfiguration);
+	
 	importImperatorCountries(impWorld);
 	
 	// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -32,8 +37,28 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 
 	// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 	importImperatorProvinces(impWorld);
+
+	linkCountiesToTitleHolders(impWorld);
 }
 
+void CK3::World::importImperatorCharacters(const ImperatorWorld::World& sourceWorld)
+{
+	LOG(LogLevel::Info) << "-> Importing Imperator Characters";
+
+	for (const auto& character : sourceWorld.getCharacters())
+	{
+		importImperatorCharacter(character);
+	}
+	LOG(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
+}
+void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character)
+{
+	// Create a new CK3 character
+	auto newCharacter = std::make_shared<Character>();
+	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, localizationMapper);
+	character.second->registerCK3Character(newCharacter);
+	characters.insert(std::pair(newCharacter->ID, newCharacter));
+}
 
 void CK3::World::importImperatorCountries(const ImperatorWorld::World& sourceWorld)
 {
@@ -66,7 +91,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 {
 	LOG(LogLevel::Info) << "-> Importing Vanilla Provinces";
 	// ---- Loading history/provinces
-	auto fileNames = commonItems::GetAllFilesInFolder(ck3Path + "/game/history/provinces/");
+	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/provinces");
 	for (const auto& fileName : fileNames)
 	{
 		if (fileName.find(".txt") == std::string::npos)
@@ -94,7 +119,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 	
 	// now load the provinces that don't have unique entries in history/provinces
 	// they instead use history/province_mapping
-	fileNames = commonItems::GetAllFilesInFolder(ck3Path + "/game/history/province_mapping/");
+	fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/province_mapping");
 	for (const auto& fileName : fileNames)
 	{
 		if (fileName.find(".txt") == std::string::npos)
@@ -209,4 +234,33 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 		return std::nullopt;
 	}
 	return toReturn;
+}
+
+void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& sourceWorld)
+{
+	for (const auto& [name, landedTitle] : landedTitles.getFoundTitles())
+	{
+		if (name.find("c_")==0) // title is a county
+		{
+			auto countyTitle = std::make_shared<Title>();
+			countyTitle->titleName = name;
+			auto capitalBarony = landedTitle.capitalBarony;
+			if (capitalBarony)
+			{
+				auto owner = provinces.find(*capitalBarony)->second->getOwner();
+				if (owner != 0)
+				{
+					std::optional<int> impMonarch;
+					if (sourceWorld.getCountries().find(owner) != sourceWorld.getCountries().end()) impMonarch = sourceWorld.getCountries().find(owner)->second->getMonarch();
+					if (impMonarch) countyTitle->holder = *impMonarch;
+				}
+				else // county is probably outside of Imperator map
+				{
+					auto vanillaHistory = titlesHistory.popTitleHistory(name);
+					if (vanillaHistory) countyTitle->vanillaHistoryString = *vanillaHistory;
+				}
+			}
+			titles.insert(std::pair(name, countyTitle));
+		}
+	}
 }

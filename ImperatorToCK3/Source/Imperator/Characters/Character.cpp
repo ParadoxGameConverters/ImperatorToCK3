@@ -22,6 +22,9 @@ void ImperatorWorld::Character::registerKeys()
 	registerRegex("first_name_loc", [this](const std::string& unused, std::istream& theStream) {
 		name = CharacterName(theStream).getName();
 	});
+	registerRegex("province", [this](const std::string& unused, std::istream& theStream) {
+		province = commonItems::singleInt(theStream).getInt();
+	});
 	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString cultureStr(theStream);
 		culture = cultureStr.getString();

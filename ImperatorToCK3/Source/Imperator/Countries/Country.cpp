@@ -56,6 +56,9 @@ void ImperatorWorld::Country::registerKeys()
 		const commonItems::singleInt familyInt(theStream);
 		families.insert(std::pair(familyInt.getInt(), nullptr));
 	});
+	registerKeyword("monarch", [this](const std::string& unused, std::istream& theStream) {
+		monarch = commonItems::singleInt(theStream).getInt();
+	});
 
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

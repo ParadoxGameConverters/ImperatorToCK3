@@ -202,6 +202,8 @@
     <ClCompile Include="..\commonItems\WinUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
     <ClCompile Include="Source\CK3Outputter\CK3WorldOutputter.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outCharacter.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outCharacters.cpp" />
     <ClCompile Include="Source\CK3Outputter\outCoas.cpp" />
     <ClCompile Include="Source\CK3Outputter\outColoredEmblems.cpp" />
     <ClCompile Include="Source\CK3Outputter\outLocalization.cpp" />
@@ -210,6 +212,7 @@
     <ClCompile Include="Source\CK3Outputter\outTitle.cpp" />
     <ClCompile Include="Source\CK3Outputter\outTitles.cpp" />
     <ClCompile Include="Source\CK3Outputter\outVersion.cpp" />
+    <ClCompile Include="Source\CK3\Character\CK3Character.cpp" />
     <ClCompile Include="Source\CK3\CK3World.cpp" />
     <ClCompile Include="Source\CK3\Province\CK3Province.cpp" />
     <ClCompile Include="Source\CK3\Province\CK3ProvinceMappings.cpp" />
@@ -217,6 +220,7 @@
     <ClCompile Include="Source\CK3\Province\CK3Provinces.cpp" />
     <ClCompile Include="Source\CK3\Titles\LandedTitles.cpp" />
     <ClCompile Include="Source\CK3\Titles\Title.cpp" />
+    <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp" />
     <ClCompile Include="Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Source\ImperatorToCK3Converter.cpp" />
     <ClCompile Include="Source\Imperator\Characters\Character.cpp" />
@@ -267,6 +271,8 @@
     <ClInclude Include="..\commonItems\StringUtils.h" />
     <ClInclude Include="..\cpp-base64\base64.h" />
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h" />
+    <ClInclude Include="Source\CK3Outputter\outCharacter.h" />
+    <ClInclude Include="Source\CK3Outputter\outCharacters.h" />
     <ClInclude Include="Source\CK3Outputter\outCoas.h" />
     <ClInclude Include="Source\CK3Outputter\outColoredEmblems.h" />
     <ClInclude Include="Source\CK3Outputter\outLocalization.h" />
@@ -275,6 +281,7 @@
     <ClInclude Include="Source\CK3Outputter\outTitle.h" />
     <ClInclude Include="Source\CK3Outputter\outTitles.h" />
     <ClInclude Include="Source\CK3Outputter\outVersion.h" />
+    <ClInclude Include="Source\CK3\Character\CK3Character.h" />
     <ClInclude Include="Source\CK3\CK3World.h" />
     <ClInclude Include="Source\CK3\Province\CK3Province.h" />
     <ClInclude Include="Source\CK3\Province\CK3ProvinceMappings.h" />
@@ -282,6 +289,7 @@
     <ClInclude Include="Source\CK3\Province\CK3Provinces.h" />
     <ClInclude Include="Source\CK3\Titles\LandedTitles.h" />
     <ClInclude Include="Source\CK3\Titles\Title.h" />
+    <ClInclude Include="Source\CK3\Titles\TitlesHistory.h" />
     <ClInclude Include="Source\Configuration\Configuration.h" />
     <ClInclude Include="Source\Helpers\rakaly.h" />
     <ClInclude Include="Source\Helpers\rakaly_wrapper.h" />

@@ -10,7 +10,7 @@
 namespace CK3
 {
 
-	void outputTitles(const std::string& outputModName, const std::map<std::string, std::shared_ptr<Title>>& titles);
+	void outputTitles(const std::string& outputModName, const std::string& ck3Path, const std::map<std::string, std::shared_ptr<Title>>& titles);
 
 }
 

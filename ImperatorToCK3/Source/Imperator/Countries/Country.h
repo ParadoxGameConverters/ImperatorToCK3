@@ -39,6 +39,7 @@ namespace ImperatorWorld
 			[[nodiscard]] const auto& getFamilies() const { return families; }
 
 			[[nodiscard]] auto getID() const { return countryID; }
+			[[nodiscard]] auto getMonarch() const { return monarch; }
 
 			void setFamilies(const std::map<int, std::shared_ptr<Family>>& newFamilies) { families = newFamilies; }
 
@@ -48,6 +49,7 @@ namespace ImperatorWorld
 			void registerKeys();
 
 			int countryID = 0;
+			std::optional<int> monarch;
 			std::string tag;
 			std::string name;
 			std::string flag;

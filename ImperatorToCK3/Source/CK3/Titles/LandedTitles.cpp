@@ -29,12 +29,15 @@ void CK3::LandedTitles::registerKeys()
 		newTitle.loadTitles(theStream);
 		for (const auto& locatedTitle: newTitle.getFoundTitles())
 		{
-			if (titleName.find_first_of("c_") == 0) // has county prefix = is a county
+			if (titleName.find("c_") == 0) // has county prefix = is a county
 			{
 				auto baronyProvince = locatedTitle.second.getProvince();
 				if (baronyProvince)
 				{
-					if (countyProvinces.size() == 0) capitalBarony = *baronyProvince;
+					if (newTitle.countyProvinces.empty()) newTitle.capitalBarony = *baronyProvince;
+
+					//if (capitalBarony) LOG(LogLevel::Debug) << *capitalBarony; // debug
+					
 					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to a countyProvinces set
 				}
 			}

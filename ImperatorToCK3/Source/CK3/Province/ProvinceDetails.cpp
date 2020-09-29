@@ -34,14 +34,6 @@ CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
 
 void CK3::ProvinceDetails::registerKeys()
 {
-	/*registerKeyword("owner", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString ownerStr(theStream);
-		owner = ownerStr.getString();
-	});
-	registerKeyword("controller", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString contStr(theStream);
-		controller = contStr.getString();
-	});*/
 	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString cultureStr(theStream);
 		culture = cultureStr.getString();

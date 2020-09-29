@@ -1,6 +1,7 @@
 #include "outLocalization.h"
 #include <filesystem>
 #include <fstream>
+#include "../commonItems/CommonFunctions.h"
 
 void CK3::outputLocalization(const std::string& outputName, const World& CK3World)
 {
@@ -10,31 +11,52 @@ void CK3::outputLocalization(const std::string& outputName, const World& CK3Worl
 	std::ofstream russian("output/" + outputName + "/localization/replace/converter_l_russian.yml");
 	std::ofstream spanish("output/" + outputName + "/localization/replace/converter_l_spanish.yml");
 	if (!english.is_open())
-		throw std::runtime_error("Error writing english localisation file! Is the output folder writable?");
+		throw std::runtime_error("Error writing english localization file! Is the output folder writable?");
 	if (!french.is_open())
-		throw std::runtime_error("Error writing french localisation file! Is the output folder writable?");
+		throw std::runtime_error("Error writing french localization file! Is the output folder writable?");
 	if (!german.is_open())
-		throw std::runtime_error("Error writing german localisation file! Is the output folder writable?");
+		throw std::runtime_error("Error writing german localization file! Is the output folder writable?");
 	if (!russian.is_open())
-		throw std::runtime_error("Error writing russian localisation file! Is the output folder writable?");
+		throw std::runtime_error("Error writing russian localization file! Is the output folder writable?");
 	if (!spanish.is_open())
-		throw std::runtime_error("Error writing spanish localisation file! Is the output folder writable?");
-	english << "\xEF\xBB\xBFl_english:\n"; // write BOM
-	french << "\xEF\xBB\xBFl_french:\n";	// write BOM
-	german << "\xEF\xBB\xBFl_german:\n";	// write BOM
-	russian << "\xEF\xBB\xBFl_russian:\n"; // write BOM
-	spanish << "\xEF\xBB\xBFl_spanish:\n"; // write BOM
+		throw std::runtime_error("Error writing spanish localization file! Is the output folder writable?");
+	english << commonItems::utf8BOM << "l_english:\n";
+	french << commonItems::utf8BOM << "l_french:\n";
+	german << commonItems::utf8BOM << "l_german:\n";
+	russian << commonItems::utf8BOM << "l_russian:\n";
+	spanish << commonItems::utf8BOM << "l_spanish:\n";
 
+	// title localization
 	for (const auto& [unused, title] : CK3World.getTitles())
 	{
-		for (const auto& locBlock : title->getLocalizations())
+		for (const auto& [key, loc] : title->localizations)
 		{
-			english << " " << locBlock.first << ": \"" << locBlock.second.english << "\"\n";
-			french << " " << locBlock.first << ": \"" << locBlock.second.french << "\"\n";
-			german << " " << locBlock.first << ": \"" << locBlock.second.german << "\"\n";
-			russian << " " << locBlock.first << ": \"" << locBlock.second.russian << "\"\n";
-			spanish << " " << locBlock.first << ": \"" << locBlock.second.spanish << "\"\n";
+			english << " " << key << ": \"" << loc.english << "\"\n";
+			french << " " << key << ": \"" << loc.french << "\"\n";
+			german << " " << key << ": \"" << loc.german << "\"\n";
+			russian << " " << key << ": \"" << loc.russian << "\"\n";
+			spanish << " " << key << ": \"" << loc.spanish << "\"\n";
+			
 		}
+	}
+	// character name localization
+	std::set<std::string> uniqueKeys;
+	for (const auto& [unused, character] : CK3World.getCharacters())
+	{
+		for (const auto& [key, loc] : character->localizations)
+		{
+			if (!uniqueKeys.count(key))
+			{
+				english << " " << key << ": \"" << loc.english << "\"\n";
+				french << " " << key << ": \"" << loc.french << "\"\n";
+				german << " " << key << ": \"" << loc.german << "\"\n";
+				russian << " " << key << ": \"" << loc.russian << "\"\n";
+				spanish << " " << key << ": \"" << loc.spanish << "\"\n";
+
+				uniqueKeys.insert(key);
+			}
+		}
+		
 	}
 	english.close();
 	french.close();

@@ -13,7 +13,7 @@ void CK3::outputCoas(const std::string& outputModName, const std::map<std::strin
 	
 	for (const auto& [titleName, title] : titles)
 	{
-		auto coa = title->getCoa();
+		auto coa = title->coa;
 		if (coa)
 			output << titleName << " = " << *coa << "\n";
 	}
