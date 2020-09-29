@@ -39,7 +39,6 @@ class Character
 	std::map<std::string, mappers::LocBlock> localizations;
 
   private:
-
 	std::shared_ptr<ImperatorWorld::Character> imperatorCharacter;
 };
 } // namespace CK3

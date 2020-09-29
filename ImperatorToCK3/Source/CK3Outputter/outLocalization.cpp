@@ -36,7 +36,6 @@ void CK3::outputLocalization(const std::string& outputName, const World& CK3Worl
 			german << " " << key << ": \"" << loc.german << "\"\n";
 			russian << " " << key << ": \"" << loc.russian << "\"\n";
 			spanish << " " << key << ": \"" << loc.spanish << "\"\n";
-			
 		}
 	}
 	// character name localization
@@ -56,7 +55,6 @@ void CK3::outputLocalization(const std::string& outputName, const World& CK3Worl
 				uniqueKeys.insert(key);
 			}
 		}
-		
 	}
 	english.close();
 	french.close();
