@@ -11,7 +11,7 @@ void CK3::Character::initializeFromImperator(
 	const mappers::CultureMapper& cultureMapper,
 	const mappers::LocalizationMapper& localizationMapper)
 {
-	ID = impCharacter->getID();
+	ID = std::to_string(impCharacter->getID());
 	name = impCharacter->getName();
 	female = impCharacter->isFemale();
 	auto match = religionMapper.getCK3ReligionForImperatorReligion(impCharacter->getReligion());
@@ -19,17 +19,16 @@ void CK3::Character::initializeFromImperator(
 	match = cultureMapper.cultureMatch(impCharacter->getCulture(), religion, impCharacter->getProvince(), "");
 	if (match) culture = *match;
 
-	auto impName = impCharacter->getName();
-	if (!impName.empty())
+	if (!name.empty())
 	{
-		auto impNameLoc = localizationMapper.getLocBlockForKey(impName);
+		auto impNameLoc = localizationMapper.getLocBlockForKey(name);
 		if (impNameLoc)
 		{
-			localizations.insert(std::pair(impName, *impNameLoc));
+			localizations.insert(std::pair(name, *impNameLoc));
 		}
-		else
+		else // use unlocalized name as displayed name as fallback
 		{
-			localizations.insert(std::pair(impName, mappers::LocBlock{impName,impName,impName,impName,impName}));
+			localizations.insert(std::pair(name, mappers::LocBlock{ name,name,name,name,name }));
 		}
 	}
 }
