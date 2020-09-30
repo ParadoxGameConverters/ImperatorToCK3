@@ -5,6 +5,7 @@
 #include "OSCompatibilityLayer.h"
 #include "outCoas.h"
 #include "outLocalization.h"
+#include "outCharacters.h"
 #include "outProvinces.h"
 #include "outTitles.h"
 #include "outColoredEmblems.h"
@@ -28,12 +29,15 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 
 	LOG(LogLevel::Info) << "<- Creating folders";
 	createFolders(outputName);
+
+	LOG(LogLevel::Info) << "<- Writing Characters";
+	outputCharacters(outputName, CK3World.getCharacters());
 	
 	LOG(LogLevel::Info) << "<- Writing Provinces";
 	outputHistoryProvinces(outputName, CK3World.getProvinces());
 
 	LOG(LogLevel::Info) << "<- Writing Landed Titles";
-	outputTitles(outputName, CK3World.getTitles());
+	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles());
 
 	LOG(LogLevel::Info) << "<- Writing Localization";
 	outputLocalization(outputName, CK3World);
@@ -55,6 +59,7 @@ void CK3::outputModFile(const std::string& outputName)
 	modFile << "path = \"mod/" << outputName << "\"\n";
 	modFile << "replace_path = \"history/province_mapping\"\n";
 	modFile << "replace_path = \"history/provinces\"\n";
+	modFile << "replace_path = \"history/titles\"\n";
 	modFile.close();
 }
 
@@ -68,6 +73,8 @@ void CK3::createModFolder(const std::string& outputName)
 void CK3::createFolders(const std::string& outputName)
 {
 	commonItems::TryCreateFolder("output/" + outputName + "/history");
+	commonItems::TryCreateFolder("output/" + outputName + "/history/titles");
+	commonItems::TryCreateFolder("output/" + outputName + "/history/characters");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/provinces");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/province_mapping");
 	commonItems::TryCreateFolder("output/" + outputName + "/common");

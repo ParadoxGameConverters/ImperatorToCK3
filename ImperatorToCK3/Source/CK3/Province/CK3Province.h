@@ -31,15 +31,16 @@ class Province
 		 const mappers::ReligionMapper& religionMapper);
 
 	[[nodiscard]] const auto& getTitleCountry() const { return titleCountry; }
-	//[[nodiscard]] const auto& getOwner() const { return details.owner; }
+	[[nodiscard]] auto getOwner() const { return details.owner; }
+	[[nodiscard]] auto getController() const { return details.controller; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
 	[[nodiscard]] auto getProvinceID() const { return provID; }
 	
 
 	void registerTitleCountry(const std::pair<std::string, std::shared_ptr<Title>>& theTitle) { titleCountry = theTitle; }
-	//void setOwner(const std::string& title) { details.owner = title; }
-	//void setController(const std::string& title) { details.controller = title; }
+	void setOwner(const int charID) { details.owner = charID; }
+	void setController(const int charID) { details.controller = charID; }
 	void setReligion(const std::string& religion) { details.religion = religion; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Province& versionParser);

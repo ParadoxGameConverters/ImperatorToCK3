@@ -19,9 +19,7 @@ include_directories("../ZipLib")
 include_directories("/usr/local/include/ImageMagick-7/")
 include_directories("../cpp-base64")
 include_directories("${PROJECT_SOURCE_DIR}")
-
-link_directories("../ImageMagick/lib")
-
+link_directories(${CMAKE_SOURCE_DIR}/Resources /usr/local/lib)
 add_subdirectory(../ZipLib [binary_dir])
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")

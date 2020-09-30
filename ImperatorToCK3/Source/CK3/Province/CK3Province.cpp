@@ -25,9 +25,9 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
 
 	/*
-	titleCountry = srcProvince->getOwner().second->getCK3Title(); // linking to our holder
-	details.owner = titleCountry.first;
-	details.controller = titleCountry.first; */
+	titleCountry = srcProvince->getOwner().second->getCK3Title(); // linking to our holder*/
+	details.owner = origProvince->getOwner();
+	details.controller = origProvince->getController();
 
 	// Religion first
 	setReligion(religionMapper);
