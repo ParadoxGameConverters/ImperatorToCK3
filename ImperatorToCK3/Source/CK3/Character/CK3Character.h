@@ -4,6 +4,7 @@
 #include "../../Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "../../Imperator/Characters/Character.h"
 #include <memory>
+#include <set>
 #include <string>
 
 
@@ -11,6 +12,7 @@ namespace mappers
 {
 	class CultureMapper;
 	class ReligionMapper;
+	class TraitMapper;
 } // namespace mappers
 
 namespace CK3
@@ -23,6 +25,7 @@ class Character
 		std::shared_ptr<ImperatorWorld::Character> impCharacter,
 		const mappers::ReligionMapper& religionMapper,
 		const mappers::CultureMapper& cultureMapper,
+		const mappers::TraitMapper& traitMapper,
 		const mappers::LocalizationMapper& localizationMapper);
 
 	friend std::ostream& operator<<(std::ostream& output, const Character& character);
@@ -35,6 +38,8 @@ class Character
 
 	date birthDate = date("840.1.1"); // temporary
 	std::optional<date> deathDate;
+
+	std::set<std::string> traits;
 
 	std::map<std::string, mappers::LocBlock> localizations;
 

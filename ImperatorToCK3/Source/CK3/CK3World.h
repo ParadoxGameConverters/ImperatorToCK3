@@ -10,6 +10,7 @@
 #include "../Mappers/ReligionMapper/ReligionMapper.h"
 #include "../Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "../Mappers/CoaMapper/CoaMapper.h"
+#include "../Mappers/TraitMapper/TraitMapper.h"
 #include "Character/CK3Character.h"
 #include "Titles/LandedTitles.h"
 #include "Province/CK3Province.h"
@@ -54,6 +55,7 @@ class World
 		mappers::CultureMapper cultureMapper;
 		mappers::ReligionMapper religionMapper;
 		mappers::CoaMapper coaMapper;
+		mappers::TraitMapper traitMapper;
 		TitlesHistory titlesHistory;
 
 

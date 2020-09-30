@@ -8,6 +8,10 @@ std::ostream& CK3::operator<<(std::ostream& output, const Character& character)
 	if (!character.name.empty()) output << "\tname = \"" << character.name << "\"\n";
 	if (!character.culture.empty()) output << "\tculture = " << character.culture << "\n";
 	if (!character.religion.empty()) output << "\treligion = " << character.religion << "\n";
+	for (const auto& trait : character.traits)
+	{
+		output << "\ttrait = " << trait << "\n";
+	}
 	output << "\t" << character.birthDate << " = { birth = yes }\n";
 	output << "}\n";
 	

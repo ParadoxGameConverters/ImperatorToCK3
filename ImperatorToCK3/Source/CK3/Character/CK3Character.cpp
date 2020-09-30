@@ -2,6 +2,7 @@
 #include "../../Imperator/Characters/Character.h"
 #include "../../Mappers/CultureMapper/CultureMapper.h"
 #include "../../Mappers/ReligionMapper/ReligionMapper.h"
+#include "../../Mappers/TraitMapper/TraitMapper.h"
 #include "Log.h"
 
 
@@ -9,14 +10,16 @@ void CK3::Character::initializeFromImperator(
 	std::shared_ptr<ImperatorWorld::Character> impCharacter,
 	const mappers::ReligionMapper& religionMapper,
 	const mappers::CultureMapper& cultureMapper,
+	const mappers::TraitMapper& traitMapper,
 	const mappers::LocalizationMapper& localizationMapper)
 {
-	ID = std::to_string(impCharacter->getID());
-	name = impCharacter->getName();
-	female = impCharacter->isFemale();
-	auto match = religionMapper.getCK3ReligionForImperatorReligion(impCharacter->getReligion());
+	imperatorCharacter = std::move(impCharacter);
+	ID = std::to_string(imperatorCharacter->getID());
+	name = imperatorCharacter->getName();
+	female = imperatorCharacter->isFemale();
+	auto match = religionMapper.getCK3ReligionForImperatorReligion(imperatorCharacter->getReligion());
 	if (match) religion = *match;
-	match = cultureMapper.cultureMatch(impCharacter->getCulture(), religion, impCharacter->getProvince(), "");
+	match = cultureMapper.cultureMatch(imperatorCharacter->getCulture(), religion, imperatorCharacter->getProvince(), "");
 	if (match) culture = *match;
 
 	if (!name.empty())
@@ -30,6 +33,13 @@ void CK3::Character::initializeFromImperator(
 		{
 			localizations.insert(std::pair(name, mappers::LocBlock{ name,name,name,name,name }));
 		}
+	}
+
+	for (const auto& impTrait : imperatorCharacter->getTraits())
+	{
+		auto traitMatch = traitMapper.getCK3TraitForImperatorTrait(impTrait);
+		if (traitMatch) traits.insert(*traitMatch);
+		//else LOG(LogLevel::Warning) << ID << ": No mapping found for Imperator trait " << impTrait << ", dropping."; // too many are missing ATM, enabling this would flood the log
 	}
 }
 
