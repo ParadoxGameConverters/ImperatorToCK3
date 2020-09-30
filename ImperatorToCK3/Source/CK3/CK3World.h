@@ -33,16 +33,18 @@ class World
 
 	private:
 		void importVanillaCharacters(const std::string& ck3Path);
-		void importImperatorCharacters(const ImperatorWorld::World& sourceWorld);
+		void importImperatorCharacters(const ImperatorWorld::World& impWorld);
 		void importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character);
-		void importImperatorCountries(const ImperatorWorld::World& sourceWorld);
+		void importImperatorCountries(const ImperatorWorld::World& impWorld);
 		void importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country);
 		void importVanillaProvinces(const std::string& ck3Path);
-		void importImperatorProvinces(const ImperatorWorld::World& sourceWorld);
-		void linkCountiesToTitleHolders(const ImperatorWorld::World& sourceWorld);
+		void importImperatorProvinces(const ImperatorWorld::World& impWorld);
+		void linkCountiesToTitleHolders(const ImperatorWorld::World& impWorld);
+		void linkSpouses(const ImperatorWorld::World& impWorld);
+		void linkMothersAndFathers(const ImperatorWorld::World& impWorld);
 
 		[[nodiscard]] std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> determineProvinceSource(const std::vector<int>& impProvinceNumbers,
-			const ImperatorWorld::World& sourceWorld) const;
+			const ImperatorWorld::World& impWorld) const;
 
 
 		std::map<std::string, std::shared_ptr<Character>> characters;

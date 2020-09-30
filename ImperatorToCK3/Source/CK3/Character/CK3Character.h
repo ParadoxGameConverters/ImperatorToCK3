@@ -28,6 +28,12 @@ class Character
 		const mappers::TraitMapper& traitMapper,
 		const mappers::LocalizationMapper& localizationMapper);
 
+
+	void addSpouse(const std::pair<std::string, std::shared_ptr<Character>>& newSpouse) { spouses.insert(newSpouse); }
+	void setMother(const std::pair<std::string, std::shared_ptr<Character>>& theMother) { mother = theMother; }
+	void setFather(const std::pair<std::string, std::shared_ptr<Character>>& theFather) { father = theFather; }
+	void addChild(const std::pair<std::string, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
+
 	friend std::ostream& operator<<(std::ostream& output, const Character& character);
 
 	std::string ID = "0";
@@ -40,11 +46,16 @@ class Character
 	std::optional<date> deathDate;
 
 	std::set<std::string> traits;
-
 	std::map<std::string, mappers::LocBlock> localizations;
+	
+	std::shared_ptr<ImperatorWorld::Character> imperatorCharacter;
 
   private:
-	std::shared_ptr<ImperatorWorld::Character> imperatorCharacter;
+	std::pair<std::string, std::shared_ptr<Character>> mother;
+	std::pair<std::string, std::shared_ptr<Character>> father;
+	std::map<std::string, std::shared_ptr<Character>> children;
+	std::map<std::string, std::shared_ptr<Character>> spouses;
+
 };
 } // namespace CK3
 
