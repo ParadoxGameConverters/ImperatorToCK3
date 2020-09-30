@@ -24,6 +24,10 @@
 #Visual Studio stuff
 .vs
 
+#OpenCppCoverageStuff
+*.log
+ImperatorToCK3/.opencppcov/
+
 #Output folders
 Release/
 ReleaseIntermediate/
@@ -32,3 +36,4 @@ Debug/
 DebugIntermediate/
 
 log.txt
+

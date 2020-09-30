@@ -127,12 +127,28 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\commonItems;..\ZipLib;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\imageMagick\include-windows;..\commonItems;..\cpp-base64;..\ZipLib;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_UNICODE;UNICODE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>..\imageMagick\lib-windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Resources\rakaly.dll.lib;CORE_RL_Magick++_.lib;CORE_RL_MagickCore_.lib;CORE_RL_MagickWand_.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)ImageMagick\dll" "$(OutDir)\ImperatorToCK3" /Y /E /I
+mkdir "$(OutDir)\Configuration"
+copy "$(ProjectDir)Data_Files\fronter-configuration.txt" "$(OutDir)\Configuration\fronter-configuration.txt"
+copy "$(ProjectDir)Data_Files\fronter-options.txt" "$(OutDir)\Configuration\fronter-options.txt"
+copy "$(ProjectDir)Data_Files\*.yml" "$(OutDir)\Configuration\"
+
+del "$(OutDir)\ImperatorToCK3\configurables" /Q
+rmdir "$(OutDir)\ImperatorToCK3\configurables" /S /Q
+xcopy "$(ProjectDir)Data_Files\configurables" "$(OutDir)\ImperatorToCK3\configurables" /Y /E /I</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying Data Files</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
