@@ -55,7 +55,7 @@ void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<I
 {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
-	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, localizationMapper);
+	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, localizationMapper);
 	character.second->registerCK3Character(newCharacter);
 	characters.insert(std::pair(newCharacter->ID, newCharacter));
 }
@@ -245,19 +245,25 @@ void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& sourceW
 			auto countyTitle = std::make_shared<Title>();
 			countyTitle->titleName = name;
 			const auto capitalBaronyProvince = landedTitle.capitalBaronyProvince;
+
 			if (capitalBaronyProvince >0) // 0 is not a valid province in CK3
 			{
-				auto owner = provinces.find(capitalBaronyProvince)->second->getOwner();
-				if (owner != "0")
+				if (provinces.find(capitalBaronyProvince)==provinces.end())
+					LOG(LogLevel::Warning) << "Capital barony province not found " << capitalBaronyProvince;
+				else
 				{
-					auto impMonarch = -1;
-					if (sourceWorld.getCountries().find(stoi(owner)) != sourceWorld.getCountries().end()) impMonarch = sourceWorld.getCountries().find(stoi(owner))->second->getMonarch();
-					if (impMonarch>=0) countyTitle->holder = std::to_string(impMonarch);
-				}
-				else // county is probably outside of Imperator map
-				{
-					auto vanillaHistory = titlesHistory.popTitleHistory(name);
-					if (vanillaHistory) countyTitle->historyString = *vanillaHistory;
+					auto owner = provinces.find(capitalBaronyProvince)->second->getOwner();
+					if (owner != "0")
+					{
+						auto impMonarch = -1;
+						if (sourceWorld.getCountries().find(stoi(owner)) != sourceWorld.getCountries().end()) impMonarch = sourceWorld.getCountries().find(stoi(owner))->second->getMonarch();
+						if (impMonarch >= 0) countyTitle->holder = std::to_string(impMonarch);
+					}
+					else // county is probably outside of Imperator map
+					{
+						auto vanillaHistory = titlesHistory.popTitleHistory(name);
+						if (vanillaHistory) countyTitle->historyString = *vanillaHistory;
+					}
 				}
 			}
 			titles.insert(std::pair(name, countyTitle));

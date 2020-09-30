@@ -15,9 +15,9 @@ void CK3::Province::updateWith(const std::string& filePath)
 	details.updateWith(filePath);
 }
 
-void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Province> origProvince,
-	 const mappers::CultureMapper& cultureMapper,
-	 const mappers::ReligionMapper& religionMapper)
+void CK3::Province::initializeFromImperator(const std::shared_ptr<ImperatorWorld::Province>& origProvince,
+                                            const mappers::CultureMapper& cultureMapper,
+                                            const mappers::ReligionMapper& religionMapper)
 {
 	srcProvince = origProvince;
 	
@@ -26,8 +26,8 @@ void CK3::Province::initializeFromImperator(std::shared_ptr<ImperatorWorld::Prov
 
 	/*
 	titleCountry = srcProvince->getOwner().second->getCK3Title(); // linking to our holder*/
-	details.owner = origProvince->getOwner();
-	details.controller = origProvince->getController();
+	details.owner = std::to_string(origProvince->getOwner());
+	details.controller = std::to_string(origProvince->getController());
 
 	// Religion first
 	setReligion(religionMapper);
