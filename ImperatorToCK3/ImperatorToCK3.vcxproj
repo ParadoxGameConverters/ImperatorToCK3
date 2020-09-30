@@ -272,6 +272,8 @@ xcopy "$(ProjectDir)Data_Files\configurables" "$(OutDir)\ImperatorToCK3\configur
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
+    <ClCompile Include="Source\Mappers\TraitMapper\TraitMapper.cpp" />
+    <ClCompile Include="Source\Mappers\TraitMapper\TraitMapping.cpp" />
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +343,8 @@ xcopy "$(ProjectDir)Data_Files\configurables" "$(OutDir)\ImperatorToCK3\configur
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h" />
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h" />
+    <ClInclude Include="Source\Mappers\TraitMapper\TraitMapper.h" />
+    <ClInclude Include="Source\Mappers\TraitMapper\TraitMapping.h" />
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h" />
   </ItemGroup>
   <ItemGroup>

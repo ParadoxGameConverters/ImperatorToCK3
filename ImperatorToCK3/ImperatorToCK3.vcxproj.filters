@@ -73,6 +73,9 @@
     <Filter Include="CK3\Character">
       <UniqueIdentifier>{532b7914-6ab3-42c7-9090-371686001d99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\TraitMapper">
+      <UniqueIdentifier>{c0c8fb12-dab8-4549-812a-d7fc79f7cc51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -273,6 +276,12 @@
     </ClInclude>
     <ClInclude Include="Source\CK3\Titles\TitlesHistory.h">
       <Filter>CK3\Titles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\TraitMapper\TraitMapper.h">
+      <Filter>Mappers\TraitMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\TraitMapper\TraitMapping.h">
+      <Filter>Mappers\TraitMapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -475,6 +484,12 @@
     </ClCompile>
     <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp">
       <Filter>CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\TraitMapper\TraitMapper.cpp">
+      <Filter>Mappers\TraitMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\TraitMapper\TraitMapping.cpp">
+      <Filter>Mappers\TraitMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
