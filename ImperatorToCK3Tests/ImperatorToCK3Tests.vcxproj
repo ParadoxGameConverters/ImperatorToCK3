@@ -259,8 +259,8 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsBlank.txt">
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles</DestinationFolders>
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/TestFiles</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/TestFiles/CK3ProvinceDetails</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/TestFiles/CK3ProvinceDetails</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

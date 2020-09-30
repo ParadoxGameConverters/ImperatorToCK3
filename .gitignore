@@ -11,6 +11,10 @@
 *.gch
 *.pch
 
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
 # Compiled Static libraries
 *.lai
 *.la
@@ -24,9 +28,15 @@
 #Visual Studio stuff
 .vs
 
+PyCharm stuff
+*.xml
+*.iml
+*.pyc
+
 #OpenCppCoverageStuff
 *.log
 ImperatorToCK3/.opencppcov/
+ImperatorToCK3Tests/.opencppcov/
 
 #Output folders
 Release/
@@ -36,4 +46,3 @@ Debug/
 DebugIntermediate/
 
 log.txt
-
