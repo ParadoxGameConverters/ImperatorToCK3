@@ -15,9 +15,8 @@ class ProvinceDetails: commonItems::parser
 
 	// These values are open to ease management.
 	// This is a storage container for CK3::Province.
-	// Some of these values are loaded from files, others are adjusted on the fly.
-	//std::string owner;
-	//std::string controller;
+	std::string owner = "0"; // if province is county's capital, the owner is used to set county owner
+	std::string controller = owner;
 	std::string culture;
 	std::string religion;
 

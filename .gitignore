@@ -11,10 +11,6 @@
 *.gch
 *.pch
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
 # Compiled Static libraries
 *.lai
 *.la
@@ -28,6 +24,10 @@
 #Visual Studio stuff
 .vs
 
+#OpenCppCoverageStuff
+*.log
+ImperatorToCK3/.opencppcov/
+
 #Output folders
 Release/
 ReleaseIntermediate/
@@ -36,3 +36,4 @@ Debug/
 DebugIntermediate/
 
 log.txt
+

@@ -7,6 +7,10 @@
 #include "PortraitData.h"
 #include "../Genes/GenesDB.h"
 
+namespace CK3
+{
+	class Character;
+} // namespace CK3
 namespace ImperatorWorld
 {
 class Family;
@@ -27,6 +31,7 @@ class Character: commonItems::parser
 	[[nodiscard]] const std::string& getCulture() const;
 	[[nodiscard]] const std::string& getReligion() const { return religion; }
 	[[nodiscard]] const auto& getName() const { return name; }
+	[[nodiscard]] auto getProvince() const { return province; }
 	[[nodiscard]] const auto& getBirthDate() const { return birthDate; }
 	[[nodiscard]] const auto& getDeathDate() const { return deathDate; }
 	[[nodiscard]] const auto& getSpouses() const { return spouses; }
@@ -54,6 +59,8 @@ class Character: commonItems::parser
 	void registerChild(const std::pair<int, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
 	void addYears(const int years) { birthDate.subtractYears(years); }
 
+	void registerCK3Character(std::shared_ptr<CK3::Character>& theCharacter) { ck3Character = theCharacter; }
+
   private:
 	void registerKeys();
 
@@ -63,6 +70,7 @@ class Character: commonItems::parser
 	std::string culture;
 	std::string religion;
 	std::string name;
+	int province = 0;
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
 	date deathDate = date("1.1.1");
@@ -79,6 +87,9 @@ class Character: commonItems::parser
 	std::map<int, std::shared_ptr<Character>> children;
 	std::map<int, std::shared_ptr<Character>> spouses;
 	std::vector<std::string> traits;
+
+
+	 std::shared_ptr<CK3::Character> ck3Character;
 };
 } // namespace ImperatorWorld
 

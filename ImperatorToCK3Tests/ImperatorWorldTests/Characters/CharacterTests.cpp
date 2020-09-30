@@ -539,7 +539,7 @@ TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
 
 	ASSERT_EQ(56, theCharacter.getAge());
 }
-TEST(ImperatorWorld_CharacterTests, ageDefaultsToMale)
+TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0)
 {
 	const ImperatorWorld::GenesDB genesDB;
 	const date endDate;
@@ -590,4 +590,18 @@ TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
 	ASSERT_EQ("male", theCharacter2.getAgeSex());
 	ASSERT_EQ("girl", theCharacter3.getAgeSex());
 	ASSERT_EQ("boy", theCharacter4.getAgeSex());
+}
+
+TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0)
+{
+	const ImperatorWorld::GenesDB genesDB;
+	const date endDate;
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+
+	ASSERT_EQ(0, theCharacter.getProvince());
 }

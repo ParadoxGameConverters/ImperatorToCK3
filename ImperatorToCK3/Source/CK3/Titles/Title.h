@@ -27,12 +27,14 @@ class Title
 		mappers::ProvinceMapper& provinceMapper,
 		mappers::CoaMapper& coaMapper);
 
-	[[nodiscard]] const auto& getTitleName() const { return titleName; }
-	[[nodiscard]] const auto& getHistoryCountryFile() const { return historyCountryFile; }
-	[[nodiscard]] const auto& getLocalizations() const { return localizations; }
-	[[nodiscard]] const auto& getCoa() const { return coa; }
-	[[nodiscard]] auto getCapitalCounty() const { return capitalCounty; }
-	[[nodiscard]] const auto& getImperatorCountry() const { return imperatorCountry; }
+	std::string holder = "0";
+	std::string titleName; // e.g. e_hispania
+	std::string historyCountryFile;
+	std::map<std::string, mappers::LocBlock> localizations;
+	std::optional<std::string> coa;
+	std::optional<std::string> capitalCounty;
+	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry; // name, country
+	std::string historyString = "1.1.1 = { holder = 0 }"; // this string is used in title history when title's holder is "0"
 
 	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
@@ -40,18 +42,9 @@ class Title
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
   private:
-	std::string titleName; // e.g. e_hispania
-	std::string historyCountryFile;
-
-	int holder = -1;
 	std::optional<commonItems::Color> color1;
 	std::optional<commonItems::Color> color2;
-	std::optional<std::string> coa;
-	std::optional<std::string> capitalCounty;
 
-	std::map<std::string, mappers::LocBlock> localizations;
-
-	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry;
 	std::map<int, std::shared_ptr<Province>> provinces;
 };
 } // namespace CK3

@@ -5,13 +5,13 @@
 
 mappers::CoaMapper::CoaMapper(const Configuration& theConfiguration)
 {
-	const auto coasPath = theConfiguration.getImperatorPath() + "/game/common/coat_of_arms/coat_of_arms/";
-	auto filenames = commonItems::GetAllFilesInFolder(coasPath);
+	const auto coasPath = theConfiguration.getImperatorPath() + "/game/common/coat_of_arms/coat_of_arms";
+	auto filenames = commonItems::GetAllFilesInFolderRecursive(coasPath);
 	LOG(LogLevel::Info) << "-> Parsing CoAs.";
 	registerKeys();
 	for (const auto& fileName : filenames)
 	{
-		parseFile(coasPath + fileName);
+		parseFile(coasPath + "/" + fileName);
 	}
 	clearRegisteredKeywords();
 	LOG(LogLevel::Info) << "<> Loaded " << coasMap.size() << " coats of arms.";
