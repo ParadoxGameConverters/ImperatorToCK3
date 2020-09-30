@@ -27,6 +27,11 @@ void CK3::LandedTitles::registerKeys()
 		// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 		auto newTitle = LandedTitles();
 		newTitle.loadTitles(theStream);
+
+		if (titleName.find("b_")==0 && capitalBarony.empty()) // title is a barony, and no other barony has been found in this scope yet
+		{
+			capitalBarony = titleName;
+		}
 		for (const auto& locatedTitle: newTitle.getFoundTitles())
 		{
 			if (titleName.find("c_") == 0) // has county prefix = is a county
@@ -34,7 +39,7 @@ void CK3::LandedTitles::registerKeys()
 				auto baronyProvince = locatedTitle.second.getProvince();
 				if (baronyProvince)
 				{
-					if (newTitle.countyProvinces.empty()) newTitle.capitalBaronyProvince = *baronyProvince;
+					if (locatedTitle.first == newTitle.capitalBarony) newTitle.capitalBaronyProvince = *baronyProvince;
 					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to a countyProvinces set
 				}
 			}
