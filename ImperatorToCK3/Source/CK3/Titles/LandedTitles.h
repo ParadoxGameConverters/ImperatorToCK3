@@ -25,7 +25,7 @@ class LandedTitles: commonItems::parser
 
 	[[nodiscard]] std::optional<std::string> getCountyForProvince(int provinceID);
 
-	std::optional<int> capitalBarony;	// Capital barony (for counties)
+	unsigned int capitalBaronyProvince;	// Capital barony (for counties), 0 is not a valid barony ID
 
   private:
 	void registerKeys();

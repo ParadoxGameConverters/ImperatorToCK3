@@ -125,5 +125,5 @@ TEST(CK3World_LandedTitlesTests, capitalBaronyDefaultsToNullopt)
 	CK3::LandedTitles titles;
 	titles.loadTitles(input);
 
-	ASSERT_FALSE(titles.capitalBarony);
+	ASSERT_FALSE(titles.capitalBaronyProvince);
 }

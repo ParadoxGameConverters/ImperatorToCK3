@@ -244,15 +244,15 @@ void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& sourceW
 		{
 			auto countyTitle = std::make_shared<Title>();
 			countyTitle->titleName = name;
-			auto capitalBarony = landedTitle.capitalBarony;
-			if (capitalBarony)
+			const auto capitalBaronyProvince = landedTitle.capitalBaronyProvince;
+			if (capitalBaronyProvince >0) // 0 is not a valid province in CK3
 			{
-				auto owner = provinces.find(*capitalBarony)->second->getOwner();
-				if (owner != 0)
+				auto owner = provinces.find(capitalBaronyProvince)->second->getOwner();
+				if (owner != "0")
 				{
-					std::optional<int> impMonarch;
-					if (sourceWorld.getCountries().find(owner) != sourceWorld.getCountries().end()) impMonarch = sourceWorld.getCountries().find(owner)->second->getMonarch();
-					if (impMonarch) countyTitle->holder = *impMonarch;
+					auto impMonarch = -1;
+					if (sourceWorld.getCountries().find(stoi(owner)) != sourceWorld.getCountries().end()) impMonarch = sourceWorld.getCountries().find(stoi(owner))->second->getMonarch();
+					if (impMonarch>=0) countyTitle->holder = std::to_string(impMonarch);
 				}
 				else // county is probably outside of Imperator map
 				{

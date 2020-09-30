@@ -34,7 +34,7 @@ void CK3::LandedTitles::registerKeys()
 				auto baronyProvince = locatedTitle.second.getProvince();
 				if (baronyProvince)
 				{
-					if (newTitle.countyProvinces.empty()) newTitle.capitalBarony = *baronyProvince;
+					if (newTitle.countyProvinces.empty()) newTitle.capitalBaronyProvince = *baronyProvince;
 					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to a countyProvinces set
 				}
 			}
