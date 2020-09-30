@@ -117,3 +117,13 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeAddedByMods)
 
 	ASSERT_EQ(10, titles.getFoundTitles().size());
 }
+
+
+TEST(CK3World_LandedTitlesTests, capitalBaronyDefaultsToNullopt)
+{
+	std::stringstream input;
+	CK3::LandedTitles titles;
+	titles.loadTitles(input);
+
+	ASSERT_FALSE(titles.capitalBarony);
+}

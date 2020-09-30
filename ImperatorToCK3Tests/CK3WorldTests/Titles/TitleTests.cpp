@@ -24,3 +24,12 @@ TEST(CK3World_TitleTests, membersDefaultToBlank)
 	ASSERT_FALSE(theTitle.coa);
 	ASSERT_FALSE(theTitle.capitalCounty);
 }
+
+TEST(CK3World_TitleTests, holderDefaultsTo0String)
+{
+	std::stringstream input;
+	const CK3::Title theTitle;
+
+	ASSERT_EQ("0", theTitle.holder);
+}
+
