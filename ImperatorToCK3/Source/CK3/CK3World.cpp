@@ -257,7 +257,7 @@ void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& sourceW
 				else // county is probably outside of Imperator map
 				{
 					auto vanillaHistory = titlesHistory.popTitleHistory(name);
-					if (vanillaHistory) countyTitle->vanillaHistoryString = *vanillaHistory;
+					if (vanillaHistory) countyTitle->historyString = *vanillaHistory;
 				}
 			}
 			titles.insert(std::pair(name, countyTitle));

@@ -27,14 +27,14 @@ class Title
 		mappers::ProvinceMapper& provinceMapper,
 		mappers::CoaMapper& coaMapper);
 
-	int holder = 0;
+	std::string holder = "0";
 	std::string titleName; // e.g. e_hispania
 	std::string historyCountryFile;
 	std::map<std::string, mappers::LocBlock> localizations;
 	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;
 	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry; // name, country
-	std::string vanillaHistoryString = "1.1.1 = { holder = 0 }";
+	std::string historyString = "1.1.1 = { holder = 0 }"; // this string is used in title history when title's holder is "0"
 
 	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name

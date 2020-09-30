@@ -36,7 +36,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 				"Could not create title history file: output/" + outputModName + "/history/titles/" + name + ".txt");
 		historyOutput << name << " = {\n";
 
-		if (title->holder == 0) historyOutput << "\t" << title->vanillaHistoryString << "\n";
+		if (title->holder == "0") historyOutput << "\t" << title->historyString << "\n";
 		else historyOutput << "\t867.1.1 = { holder = " << title->holder << " }\n";
 		
 		historyOutput << "}\n";
