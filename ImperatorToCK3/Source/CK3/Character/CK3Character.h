@@ -58,7 +58,6 @@ class Character
 	std::pair<std::string, std::shared_ptr<Character>> father;
 	std::map<std::string, std::shared_ptr<Character>> children;
 	std::map<std::string, std::shared_ptr<Character>> spouses;
-
 };
 } // namespace CK3
 
