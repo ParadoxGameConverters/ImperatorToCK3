@@ -143,12 +143,12 @@ TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet)
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "\tbirth_date=408.6.28";
+	input << "\tbirth_date=408.6.28"; // will be converted to AD on loading
 	input << "}";
 
 	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
 
-	ASSERT_EQ(date("408.6.28"), theCharacter.getBirthDate());
+	ASSERT_EQ(date("-346.6.28"), theCharacter.getBirthDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1)
@@ -172,12 +172,12 @@ TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
-	input << "\tdeath_date=408.6.28";
+	input << "\tdeath_date=408.6.28"; // will be converted to AD on loading
 	input << "}";
 
 	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
 
-	ASSERT_EQ(date("408.6.28"), theCharacter.getDeathDate());
+	ASSERT_EQ(date("-346.6.28"), theCharacter.getDeathDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, deathDateDefaultsTo1_1_1)

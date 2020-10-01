@@ -17,6 +17,7 @@ void CK3::Character::initializeFromImperator(
 	ID = std::to_string(imperatorCharacter->getID());
 	name = imperatorCharacter->getName();
 	female = imperatorCharacter->isFemale();
+	
 	auto match = religionMapper.getCK3ReligionForImperatorReligion(imperatorCharacter->getReligion());
 	if (match) religion = *match;
 	match = cultureMapper.cultureMatch(imperatorCharacter->getCulture(), religion, imperatorCharacter->getProvince(), "");
@@ -41,5 +42,8 @@ void CK3::Character::initializeFromImperator(
 		if (traitMatch) traits.insert(*traitMatch);
 		//else LOG(LogLevel::Warning) << ID << ": No mapping found for Imperator trait " << impTrait << ", dropping."; // too many are missing ATM, enabling this would flood the log
 	}
+
+	birthDate = imperatorCharacter->getBirthDate();
+	deathDate = imperatorCharacter->getDeathDate();
 }
 

@@ -75,13 +75,12 @@ class Character: commonItems::parser
 	int province = 0;
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
-	date deathDate = date("1.1.1");
+	std::optional<date> deathDate;
 	unsigned int age = 0;
 	
 	std::optional<std::string> dna;
 	std::optional<CharacterPortraitData> portraitData;
 	GenesDB genes;
-	date endDate;
 
 	std::pair<int, std::shared_ptr<Family>> family;
 	std::pair<int, std::shared_ptr<Character>> mother;

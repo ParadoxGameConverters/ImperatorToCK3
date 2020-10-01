@@ -40,8 +40,8 @@ namespace ImperatorWorld
 		
 			void parseGenes(const Configuration& theConfiguration);
 
-			date startDate = date("450.10.1");
-			date endDate = date("727.2.17");
+			date startDate = date("450.10.1", true);
+			date endDate = date("727.2.17", true);
 			GameVersion ImperatorVersion;
 			std::set<std::string> DLCs;
 			std::set<std::string> Mods;
