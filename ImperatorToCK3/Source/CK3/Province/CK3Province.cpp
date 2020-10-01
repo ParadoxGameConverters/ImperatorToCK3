@@ -26,8 +26,6 @@ void CK3::Province::initializeFromImperator(const std::shared_ptr<ImperatorWorld
 
 	/*
 	titleCountry = srcProvince->getOwner().second->getCK3Title(); // linking to our holder*/
-	details.owner = std::to_string(origProvince->getOwner());
-	details.controller = std::to_string(origProvince->getController());
 
 	// Religion first
 	setReligion(religionMapper);

@@ -16,7 +16,7 @@ void CK3::Character::initializeFromImperator(
 	const date DateOnConversion = date(867, 1, 1))
 {
 	imperatorCharacter = std::move(impCharacter);
-	ID = std::to_string(imperatorCharacter->getID());
+	ID = "imperator" + std::to_string(imperatorCharacter->getID());
 	name = imperatorCharacter->getName();
 	female = imperatorCharacter->isFemale();
 	age = imperatorCharacter->getAge();
@@ -52,7 +52,7 @@ void CK3::Character::initializeFromImperator(
 	if (!ConvertBirthAndDeathDates)  //if option to convert character age is chosen
 	{
 		birthDate.subtractYears(- static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
-		if (imperatorCharacter->getDeathDate())
+		if (deathDate)
 		{
 			deathDate = birthDate;
 			deathDate->subtractYears(-static_cast<int>(age));

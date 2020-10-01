@@ -203,7 +203,7 @@ Copy_Files.bat
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)ImageMagick\dll-windows-required" "$(OutDir)" /Y /E /I
-mkdir "$(OutDir)Configuration"
+mkdir "$(OutDir)..\Configuration"
 copy "$(ProjectDir)Data_Files\fronter-configuration.txt" "$(OutDir)..\Configuration\fronter-configuration.txt"
 copy "$(ProjectDir)Data_Files\fronter-options.txt" "$(OutDir)..\Configuration\fronter-options.txt"
 copy "$(ProjectDir)Data_Files\*.yml" "$(OutDir)..\Configuration\"

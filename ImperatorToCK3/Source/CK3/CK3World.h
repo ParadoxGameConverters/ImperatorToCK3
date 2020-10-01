@@ -40,6 +40,7 @@ class World
 		void importVanillaProvinces(const std::string& ck3Path);
 		void importImperatorProvinces(const ImperatorWorld::World& impWorld);
 		void linkCountiesToTitleHolders(const ImperatorWorld::World& impWorld);
+		void insertVanillaNonCountiesToTitles(const ImperatorWorld::World& impWorld);
 		void linkSpouses(const ImperatorWorld::World& impWorld);
 		void linkMothersAndFathers(const ImperatorWorld::World& impWorld);
 

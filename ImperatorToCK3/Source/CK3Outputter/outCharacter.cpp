@@ -12,17 +12,20 @@ std::ostream& CK3::operator<<(std::ostream& output, const Character& character)
 	//output father and mother
 	if (character.father.second) output << "\tfather = " << character.father.first << "\n";
 	if (character.mother.second) output << "\tmother = " << character.mother.first << "\n";
-	// TODO: output spouse with marriage date
+	// TODO: output add_spouse with earlier date if the pair has a born or unborn child
+	for (const auto& [spouseID, spouseCharacter] : character.spouses)
+	{
+		output << "\t867.1.1 = { add_spouse = " << spouseID << " }\n";
+	}
 
+	
 	for (const auto& trait : character.traits)
 	{
 		output << "\ttrait = " << trait << "\n";
 	}
 
-	// if option to convert character dates is chosen
 	output << "\t" << character.birthDate << " = { birth = yes }\n";
 	if (character.deathDate) output << "\t" << *character.deathDate << " = { death = yes }\n";
-	// if option to convert character age is chosen
 
 	
 	output << "}\n";

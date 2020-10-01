@@ -31,17 +31,15 @@ class Province
 	                             const mappers::ReligionMapper& religionMapper);
 
 	[[nodiscard]] const auto& getTitleCountry() const { return titleCountry; }
-	[[nodiscard]] const auto& getOwner() const { return details.owner; }
-	[[nodiscard]] const auto& getController() const { return details.controller; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
 	[[nodiscard]] auto getProvinceID() const { return provID; }
 	
 
 	void registerTitleCountry(const std::pair<std::string, std::shared_ptr<Title>>& theTitle) { titleCountry = theTitle; }
-	void setOwner(const std::string& charID) { details.owner = charID; }
-	void setController(const std::string& charID) { details.controller = charID; }
 	void setReligion(const std::string& religion) { details.religion = religion; }
+
+	std::shared_ptr<ImperatorWorld::Province> srcProvince;
 
 	friend std::ostream& operator<<(std::ostream& output, const Province& versionParser);
 
@@ -50,7 +48,6 @@ class Province
 	  void setCulture(const mappers::CultureMapper& cultureMapper);
 	
 	int provID = 0;
-	std::shared_ptr<ImperatorWorld::Province> srcProvince;
 	ProvinceDetails details;
 	std::pair<std::string, std::shared_ptr<Title>> titleCountry;
 };

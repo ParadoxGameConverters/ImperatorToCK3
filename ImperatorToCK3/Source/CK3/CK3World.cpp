@@ -43,6 +43,7 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 
 	
 	linkCountiesToTitleHolders(impWorld);
+	insertVanillaNonCountiesToTitles(impWorld);
 }
 
 void CK3::World::importImperatorCharacters(const ImperatorWorld::World& impWorld, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867,1,1))
@@ -256,12 +257,12 @@ void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& impWorl
 					LOG(LogLevel::Warning) << "Capital barony province not found " << capitalBaronyProvince;
 				else
 				{
-					auto owner = provinces.find(capitalBaronyProvince)->second->getOwner();
-					if (owner != "0")
+					auto impProvince = provinces.find(capitalBaronyProvince)->second->srcProvince;
+					if (impProvince)
 					{
 						auto impMonarch = -1;
-						if (impWorld.getCountries().find(stoi(owner)) != impWorld.getCountries().end()) impMonarch = impWorld.getCountries().find(stoi(owner))->second->getMonarch();
-						if (impMonarch >= 0) countyTitle->holder = std::to_string(impMonarch);
+						if (impWorld.getCountries().find(impProvince->getOwner()) != impWorld.getCountries().end()) impMonarch = impWorld.getCountries().find(impProvince->getOwner())->second->getMonarch();
+						if (impMonarch >= 0) countyTitle->holder = "imperator" + std::to_string(impMonarch);
 					}
 					else // county is probably outside of Imperator map
 					{
@@ -271,6 +272,22 @@ void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& impWorl
 				}
 			}
 			titles.insert(std::pair(name, countyTitle));
+		}
+	}
+}
+
+
+void CK3::World::insertVanillaNonCountiesToTitles(const ImperatorWorld::World& impWorld)
+{
+	for (const auto& [name, landedTitle] : landedTitles.getFoundTitles())
+	{
+		if (name.find("c_") != 0 && name.find("b_") != 0 ) // title is a duchy or higher
+		{
+			auto vanillaTitle = std::make_shared<Title>();
+			vanillaTitle->titleName = name;
+			auto vanillaHistory = titlesHistory.popTitleHistory(name);
+			if (vanillaHistory) vanillaTitle->historyString = *vanillaHistory;
+			titles.insert(std::pair(name, vanillaTitle));
 		}
 	}
 }
