@@ -283,11 +283,25 @@ void CK3::World::insertVanillaNonCountiesToTitles(const ImperatorWorld::World& i
 	{
 		if (name.find("c_") != 0 && name.find("b_") != 0 ) // title is a duchy or higher
 		{
-			auto vanillaTitle = std::make_shared<Title>();
-			vanillaTitle->titleName = name;
-			auto vanillaHistory = titlesHistory.popTitleHistory(name);
-			if (vanillaHistory) vanillaTitle->historyString = *vanillaHistory;
-			titles.insert(std::pair(name, vanillaTitle));
+			bool toInsert = true;
+			// important check: if any of the title's de jure counties's holder is "0", don't insert the title
+			for (const auto& [vassalTitleName, deJureVassal] : landedTitle.getFoundTitles())
+			{
+				if (vassalTitleName.find("c_")==0 && titles.count(vassalTitleName) && titles[vassalTitleName]->holder == "0")
+				{
+					toInsert = false;
+					break;
+				}
+			}
+
+			if(toInsert)
+			{
+				auto vanillaTitle = std::make_shared<Title>();
+				vanillaTitle->titleName = name;
+				auto vanillaHistory = titlesHistory.popTitleHistory(name);
+				if (vanillaHistory) vanillaTitle->historyString = *vanillaHistory;
+				titles.insert(std::pair(name, vanillaTitle));
+			}
 		}
 	}
 }
