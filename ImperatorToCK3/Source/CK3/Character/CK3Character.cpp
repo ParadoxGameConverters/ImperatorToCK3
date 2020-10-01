@@ -11,12 +11,15 @@ void CK3::Character::initializeFromImperator(
 	const mappers::ReligionMapper& religionMapper,
 	const mappers::CultureMapper& cultureMapper,
 	const mappers::TraitMapper& traitMapper,
-	const mappers::LocalizationMapper& localizationMapper)
+	const mappers::LocalizationMapper& localizationMapper,
+	const bool ConvertBirthAndDeathDates = true,
+	const date DateOnConversion = date(867, 1, 1))
 {
 	imperatorCharacter = std::move(impCharacter);
 	ID = std::to_string(imperatorCharacter->getID());
 	name = imperatorCharacter->getName();
 	female = imperatorCharacter->isFemale();
+	age = imperatorCharacter->getAge();
 	
 	auto match = religionMapper.getCK3ReligionForImperatorReligion(imperatorCharacter->getReligion());
 	if (match) religion = *match;
@@ -43,7 +46,17 @@ void CK3::Character::initializeFromImperator(
 		//else LOG(LogLevel::Warning) << ID << ": No mapping found for Imperator trait " << impTrait << ", dropping."; // too many are missing ATM, enabling this would flood the log
 	}
 
+	
 	birthDate = imperatorCharacter->getBirthDate();
 	deathDate = imperatorCharacter->getDeathDate();
+	if (!ConvertBirthAndDeathDates)  //if option to convert character age is chosen
+	{
+		birthDate.subtractYears(- static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
+		if (imperatorCharacter->getDeathDate())
+		{
+			deathDate = birthDate;
+			deathDate->subtractYears(-static_cast<int>(age));
+		}
+	}
 }
 

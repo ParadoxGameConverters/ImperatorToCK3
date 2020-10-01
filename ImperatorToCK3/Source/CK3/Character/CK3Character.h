@@ -26,7 +26,9 @@ class Character
 		const mappers::ReligionMapper& religionMapper,
 		const mappers::CultureMapper& cultureMapper,
 		const mappers::TraitMapper& traitMapper,
-		const mappers::LocalizationMapper& localizationMapper);
+		const mappers::LocalizationMapper& localizationMapper,
+		bool ConvertBirthAndDeathDates,
+		date DateOnConversion);
 
 
 	void addSpouse(const std::pair<std::string, std::shared_ptr<Character>>& newSpouse) { spouses.insert(newSpouse); }
@@ -41,6 +43,7 @@ class Character
 	std::string culture;
 	std::string religion;
 	std::string name;
+	unsigned int age = 0; // used when option to convert character age is chosen
 
 	date birthDate = date("840.1.1"); // temporary
 	std::optional<date> deathDate;

@@ -32,9 +32,9 @@ class World
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
 
 	private:
-		void importVanillaCharacters(const std::string& ck3Path);
-		void importImperatorCharacters(const ImperatorWorld::World& impWorld);
-		void importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character);
+		//void importVanillaCharacters(const std::string& ck3Path);
+		void importImperatorCharacters(const ImperatorWorld::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
+		void importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
 		void importImperatorCountries(const ImperatorWorld::World& impWorld);
 		void importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country);
 		void importVanillaProvinces(const std::string& ck3Path);

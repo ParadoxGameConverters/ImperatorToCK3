@@ -136,7 +136,7 @@
       <AdditionalDependencies>Resources\rakaly.dll.lib;CORE_RL_Magick++_.lib;CORE_RL_MagickCore_.lib;CORE_RL_MagickWand_.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)ImageMagick\dll" "$(OutDir)\ImperatorToCK3" /Y /E /I
+      <Command>xcopy "$(SolutionDir)ImageMagick\dll-windows-required" "$(OutDir)\ImperatorToCK3" /Y /E /I
 mkdir "$(OutDir)\Configuration"
 copy "$(ProjectDir)Data_Files\fronter-configuration.txt" "$(OutDir)\Configuration\fronter-configuration.txt"
 copy "$(ProjectDir)Data_Files\fronter-options.txt" "$(OutDir)\Configuration\fronter-options.txt"
@@ -144,7 +144,9 @@ copy "$(ProjectDir)Data_Files\*.yml" "$(OutDir)\Configuration\"
 
 del "$(OutDir)\ImperatorToCK3\configurables" /Q
 rmdir "$(OutDir)\ImperatorToCK3\configurables" /S /Q
-xcopy "$(ProjectDir)Data_Files\configurables" "$(OutDir)\ImperatorToCK3\configurables" /Y /E /I</Command>
+xcopy "$(ProjectDir)Data_Files\configurables" "$(OutDir)\ImperatorToCK3\configurables" /Y /E /I
+Copy_Files.bat
+</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying Data Files</Message>
@@ -200,7 +202,15 @@ xcopy "$(ProjectDir)Data_Files\configurables" "$(OutDir)\ImperatorToCK3\configur
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>Copy_Files.bat</Command>
+      <Command>xcopy "$(SolutionDir)ImageMagick\dll-windows-required" "$(OutDir)" /Y /E /I
+mkdir "$(OutDir)Configuration"
+copy "$(ProjectDir)Data_Files\fronter-configuration.txt" "$(OutDir)..\Configuration\fronter-configuration.txt"
+copy "$(ProjectDir)Data_Files\fronter-options.txt" "$(OutDir)..\Configuration\fronter-options.txt"
+copy "$(ProjectDir)Data_Files\*.yml" "$(OutDir)..\Configuration\"
+del "$(OutDir)configurables" /Q
+rmdir "$(OutDir)configurables" /S /Q
+xcopy "$(ProjectDir)Data_Files\configurables" "$(OutDir)configurables" /Y /E /I
+Copy_Files.bat</Command>
       <Message>Copying Data Files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>

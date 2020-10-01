@@ -18,7 +18,13 @@ std::ostream& CK3::operator<<(std::ostream& output, const Character& character)
 	{
 		output << "\ttrait = " << trait << "\n";
 	}
+
+	// if option to convert character dates is chosen
 	output << "\t" << character.birthDate << " = { birth = yes }\n";
+	if (character.deathDate) output << "\t" << *character.deathDate << " = { death = yes }\n";
+	// if option to convert character age is chosen
+
+	
 	output << "}\n";
 	
 	return output;

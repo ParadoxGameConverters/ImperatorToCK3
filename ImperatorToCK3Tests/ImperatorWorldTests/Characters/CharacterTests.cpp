@@ -162,7 +162,7 @@ TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1)
 
 	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
 
-	ASSERT_EQ(date("1.1.1"), theCharacter.getDeathDate());
+	ASSERT_EQ(date("1.1.1"), theCharacter.getBirthDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
@@ -180,7 +180,7 @@ TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
 	ASSERT_EQ(date("-346.6.28"), theCharacter.getDeathDate());
 }
 
-TEST(ImperatorWorld_CharacterTests, deathDateDefaultsTo1_1_1)
+TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt)
 {
 	const ImperatorWorld::GenesDB genesDB;
 	const date endDate;
@@ -191,7 +191,7 @@ TEST(ImperatorWorld_CharacterTests, deathDateDefaultsTo1_1_1)
 
 	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
 
-	ASSERT_EQ(date("1.1.1"), theCharacter.getBirthDate());
+	ASSERT_FALSE(theCharacter.getDeathDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)

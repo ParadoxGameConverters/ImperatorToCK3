@@ -37,7 +37,7 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 	importImperatorProvinces(impWorld);
 
 
-	importImperatorCharacters(impWorld);
+	importImperatorCharacters(impWorld, theConfiguration.getConvertBirthAndDeathDates(), impWorld.getEndDate());
 	linkSpouses(impWorld);
 	linkMothersAndFathers(impWorld);
 
@@ -45,21 +45,21 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 	linkCountiesToTitleHolders(impWorld);
 }
 
-void CK3::World::importImperatorCharacters(const ImperatorWorld::World& impWorld)
+void CK3::World::importImperatorCharacters(const ImperatorWorld::World& impWorld, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867,1,1))
 {
 	LOG(LogLevel::Info) << "-> Importing Imperator Characters";
 
 	for (const auto& character : impWorld.getCharacters())
 	{
-		importImperatorCharacter(character);
+		importImperatorCharacter(character, ConvertBirthAndDeathDates, endDate);
 	}
 	LOG(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
 }
-void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character)
+void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
 {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
-	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, localizationMapper);
+	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, localizationMapper, ConvertBirthAndDeathDates, endDate);
 	character.second->registerCK3Character(newCharacter);
 	characters.insert(std::pair(newCharacter->ID, newCharacter));
 }

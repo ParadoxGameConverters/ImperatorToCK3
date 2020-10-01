@@ -81,6 +81,7 @@ class Character: commonItems::parser
 	std::optional<std::string> dna;
 	std::optional<CharacterPortraitData> portraitData;
 	GenesDB genes;
+	date endDate;
 
 	std::pair<int, std::shared_ptr<Family>> family;
 	std::pair<int, std::shared_ptr<Character>> mother;
