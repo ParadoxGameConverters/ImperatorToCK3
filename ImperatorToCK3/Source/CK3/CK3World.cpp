@@ -283,8 +283,8 @@ void CK3::World::insertVanillaNonCountiesToTitles(const ImperatorWorld::World& i
 	{
 		if (name.find("c_") != 0 && name.find("b_") != 0 ) // title is a duchy or higher
 		{
-			bool toInsert = true;
-			// important check: if any of the title's de jure counties's holder is "0", don't insert the title
+			auto toInsert = true;
+			// important check: if any of the title's de jure counties' holder is "0", don't insert the title
 			for (const auto& [vassalTitleName, deJureVassal] : landedTitle.getFoundTitles())
 			{
 				if (vassalTitleName.find("c_")==0 && titles.count(vassalTitleName) && titles[vassalTitleName]->holder == "0")
@@ -343,7 +343,6 @@ void CK3::World::linkMothersAndFathers(const ImperatorWorld::World& impWorld)
 			ck3MotherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
 			++counterMother;
 		}
-
 
 		// make links between Imperator characters
 		auto [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
