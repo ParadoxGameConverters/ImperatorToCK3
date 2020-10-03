@@ -25,7 +25,7 @@ void mappers::TraitMapper::registerKeys()
 		const TraitMapping theMapping(theStream);
 		for (const auto& imperatorTrait: theMapping.impTraits)
 		{
-			impToCK3TraitMap.insert(std::make_pair(imperatorTrait, theMapping.ck3Trait));
+			if (theMapping.ck3Trait) impToCK3TraitMap.insert(std::make_pair(imperatorTrait, *theMapping.ck3Trait));
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

@@ -3,14 +3,14 @@
 #include <sstream>
 
 
-TEST(Mappers_TraitMappingTests, ck3TraitDefaultsToBlank)
+TEST(Mappers_TraitMappingTests, ck3TraitDefaultsToNullopt)
 {
 	std::stringstream input;
 	input << "= {}";
 
 	const mappers::TraitMapping theMapping(input);
 
-	ASSERT_TRUE(theMapping.ck3Trait.empty());
+	ASSERT_FALSE(theMapping.ck3Trait);
 }
 
 

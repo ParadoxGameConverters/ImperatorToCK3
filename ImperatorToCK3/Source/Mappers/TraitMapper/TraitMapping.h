@@ -12,7 +12,7 @@ class TraitMapping: commonItems::parser
 	explicit TraitMapping(std::istream& theStream);
 
 	std::set<std::string> impTraits;
-	std::string ck3Trait;
+	std::optional<std::string> ck3Trait;
 };
 } // namespace mappers
 
