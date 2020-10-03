@@ -26,7 +26,7 @@ TEST(Mappers_TraitMapperTests, ck3TraitCanBeFound)
 }
 
 
-TEST(Mappers_TraitMapperTests, multipleCK3TraitsCanBeInARule)
+TEST(Mappers_TraitMapperTests, multipleImpTraitsCanBeInARule)
 {
 	std::stringstream input;
 	input << "link = { ck3 = ck3Trait imp = impTrait imp = impTrait2 }";
