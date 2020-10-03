@@ -32,18 +32,18 @@ void CK3::LandedTitles::registerKeys()
 		{
 			capitalBarony = titleName;
 		}
-		for (const auto& locatedTitle: newTitle.getFoundTitles())
+		for (const auto& [locatedTitleName, locatedTitle]: newTitle.getFoundTitles())
 		{
 			if (titleName.find("c_") == 0) // has county prefix = is a county
 			{
-				auto baronyProvince = locatedTitle.second.getProvince();
+				auto baronyProvince = locatedTitle.getProvince();
 				if (baronyProvince)
 				{
-					if (locatedTitle.first == newTitle.capitalBarony) newTitle.capitalBaronyProvince = *baronyProvince;
-					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to a countyProvinces set
+					if (locatedTitleName == newTitle.capitalBarony) newTitle.capitalBaronyProvince = *baronyProvince;
+					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to countyProvinces
 				}
 			}
-			foundTitles[locatedTitle.first] = locatedTitle.second;
+			foundTitles[locatedTitleName] = locatedTitle;
 		}
 		
 		// And then add this one as well, overwriting existing.

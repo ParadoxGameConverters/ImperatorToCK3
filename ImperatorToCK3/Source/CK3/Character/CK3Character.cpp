@@ -43,7 +43,6 @@ void CK3::Character::initializeFromImperator(
 	{
 		auto traitMatch = traitMapper.getCK3TraitForImperatorTrait(impTrait);
 		if (traitMatch) traits.insert(*traitMatch);
-		else LOG(LogLevel::Debug) << ID << ": No mapping found for Imperator trait " << impTrait << ", dropping."; // too many are missing ATM, enabling this would flood the log
 	}
 
 	
