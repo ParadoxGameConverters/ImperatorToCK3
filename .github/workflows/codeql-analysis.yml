@@ -17,7 +17,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-focal
+    runs-on: focal
 
     strategy:
       fail-fast: false
