@@ -19,6 +19,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getCK3ModsPath() const { return CK3ModsPath; }
 	[[nodiscard]] const auto& getOutputName() const { return outputName; }
 	[[nodiscard]] const auto& getImperatorDeJure() const { return imperatorDeJure; }
+	[[nodiscard]] const auto& getConvertBirthAndDeathDates() const { return convertBirthAndDeathDates; }
 
   private:
 	void registerKeys();
@@ -34,6 +35,7 @@ class Configuration: commonItems::parser
 	std::string outputName;
 
 	IMPERATOR_DE_JURE imperatorDeJure = IMPERATOR_DE_JURE::NO;
+	bool convertBirthAndDeathDates = true;
 };
 
 #endif // CONFIGURATION_H

@@ -10,6 +10,7 @@
 #include "../Mappers/ReligionMapper/ReligionMapper.h"
 #include "../Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "../Mappers/CoaMapper/CoaMapper.h"
+#include "../Mappers/TraitMapper/TraitMapper.h"
 #include "Character/CK3Character.h"
 #include "Titles/LandedTitles.h"
 #include "Province/CK3Province.h"
@@ -31,17 +32,19 @@ class World
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
 
 	private:
-		void importVanillaCharacters(const std::string& ck3Path);
-		void importImperatorCharacters(const ImperatorWorld::World& sourceWorld);
-		void importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character);
-		void importImperatorCountries(const ImperatorWorld::World& sourceWorld);
+		void importImperatorCharacters(const ImperatorWorld::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
+		void importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
+		void importImperatorCountries(const ImperatorWorld::World& impWorld);
 		void importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country);
 		void importVanillaProvinces(const std::string& ck3Path);
-		void importImperatorProvinces(const ImperatorWorld::World& sourceWorld);
-		void linkCountiesToTitleHolders(const ImperatorWorld::World& sourceWorld);
+		void importImperatorProvinces(const ImperatorWorld::World& impWorld);
+		void linkCountiesToTitleHolders(const ImperatorWorld::World& impWorld);
+		void insertVanillaNonCountiesToTitles(const ImperatorWorld::World& impWorld);
+		void linkSpouses(const ImperatorWorld::World& impWorld);
+		void linkMothersAndFathers(const ImperatorWorld::World& impWorld);
 
 		[[nodiscard]] std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> determineProvinceSource(const std::vector<int>& impProvinceNumbers,
-			const ImperatorWorld::World& sourceWorld) const;
+			const ImperatorWorld::World& impWorld) const;
 
 
 		std::map<std::string, std::shared_ptr<Character>> characters;
@@ -54,6 +57,7 @@ class World
 		mappers::CultureMapper cultureMapper;
 		mappers::ReligionMapper religionMapper;
 		mappers::CoaMapper coaMapper;
+		mappers::TraitMapper traitMapper;
 		TitlesHistory titlesHistory;
 
 

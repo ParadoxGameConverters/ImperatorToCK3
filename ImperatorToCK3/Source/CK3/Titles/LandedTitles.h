@@ -33,6 +33,7 @@ class LandedTitles: commonItems::parser
 	bool definiteForm = false;
 	bool landless = false;
 	std::optional<commonItems::Color> color;
+	std::string capitalBarony; // used when parsing inside county to save first barony
 	std::pair<std::string, std::shared_ptr<Title>> capital;	// Capital county
 	std::optional<int> province; // province is area on map. b_ barony is its corresponding title.
 	std::set<int> countyProvinces;

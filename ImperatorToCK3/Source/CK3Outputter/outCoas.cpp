@@ -15,7 +15,7 @@ void CK3::outputCoas(const std::string& outputModName, const std::map<std::strin
 	{
 		auto coa = title->coa;
 		if (coa)
-			output << titleName << " = " << *coa << "\n";
+			output << titleName << *coa << "\n";
 	}
 
 	output.close();

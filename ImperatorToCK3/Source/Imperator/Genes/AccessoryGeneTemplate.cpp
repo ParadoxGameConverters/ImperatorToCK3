@@ -17,16 +17,18 @@ void ImperatorWorld::AccessoryGeneTemplate::registerKeys()
 		index = commonItems::singleInt{ theStream }.getInt();
 	});
 	registerRegex("male|female|boy|girl", [this](const std::string& ageSexStr, std::istream& theStream) {
-		const auto sexAge = commonItems::singleItem(ageSexStr, theStream);
-		if (sexAge.find('{') != std::string::npos) // for full blocks: "male = { 6 = hoodie 7 = tshirt }"
+		const auto sexAgeStr = commonItems::stringOfItem(theStream).getString();
+		std::stringstream tempStream(sexAgeStr);
+		if (sexAgeStr.find('{') != std::string::npos) // for full blocks: "male = { 6 = hoodie 7 = tshirt }"
 		{
-			std::stringstream tempStream(sexAge);
 			auto ageSexBlock = std::make_shared<WeightBlock>(tempStream);
 			ageSexWeightBlocks.insert(std::pair(ageSexStr, ageSexBlock));
 		}
-		else if (ageSexWeightBlocks.find(sexAge) != ageSexWeightBlocks.end()) // for copies: "boy = male"
+		else // for copies: "boy = male"
 		{
-			ageSexWeightBlocks.insert(std::pair(ageSexStr, ageSexWeightBlocks.find(sexAge)->second));
+			const auto sexAge = commonItems::singleString(tempStream).getString();
+			if (ageSexWeightBlocks.find(sexAge) != ageSexWeightBlocks.end())
+				ageSexWeightBlocks.insert(std::pair(ageSexStr, ageSexWeightBlocks.find(sexAge)->second));
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

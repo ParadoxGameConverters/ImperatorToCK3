@@ -67,6 +67,12 @@
     <Filter Include="MapperTests\CoaMapper">
       <UniqueIdentifier>{aaa0e2d4-143a-473b-a404-c59ce23612d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CK3WorldTests\Character">
+      <UniqueIdentifier>{f3925373-5e60-4b78-a8c1-0ae8cbd339e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapperTests\TraitMapper">
+      <UniqueIdentifier>{34d9cd88-b59c-458b-885b-5d72d8e811eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -326,6 +332,21 @@
     </ClCompile>
     <ClCompile Include="MapperTests\CoaMapper\CoaMapperTests.cpp">
       <Filter>MapperTests\CoaMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\TraitMapper\TraitMapperTests.cpp">
+      <Filter>MapperTests\TraitMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\TraitMapper\TraitMappingTests.cpp">
+      <Filter>MapperTests\TraitMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapping.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="CK3WorldTests\Character\CK3CharacterTests.cpp">
+      <Filter>CK3WorldTests\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

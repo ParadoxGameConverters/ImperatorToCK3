@@ -58,7 +58,7 @@ void ImperatorWorld::Characters::linkSpouses()
 				if (characterItr != characters.end())
 				{
 					newSpouses.insert(std::pair(characterItr->first, characterItr->second));
-					counterSpouse++;
+					++counterSpouse;
 				}
 				else
 				{
@@ -85,7 +85,7 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 			{
 				character.second->setMother(std::pair(characterItr->first, characterItr->second));
 				characterItr->second->registerChild(character);
-				counterMother++;
+				++counterMother;
 			}
 			else
 			{
@@ -99,7 +99,7 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 			if (characterItr != characters.end())
 			{
 				character.second->setFather(std::pair(characterItr->first, characterItr->second));
-				counterFather++;
+				++counterFather;
 				characterItr->second->registerChild(character);
 			}
 			else

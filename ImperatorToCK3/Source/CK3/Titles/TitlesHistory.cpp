@@ -27,8 +27,8 @@ CK3::TitlesHistory::TitlesHistory(const std::string& historyFilePath)
 void CK3::TitlesHistory::TitlesHistory::registerKeys()
 {
 	registerRegex(R"((e|k|d|c|b)_[A-Za-z0-9_\-\']+)", [this](const std::string& titleName, std::istream& theStream) {
-		const auto historyItem = commonItems::singleItem(titleName, theStream);
-		historyMap.insert(std::pair(titleName, historyItem.substr(1, historyItem.size()-2))); // inserts without the opening and closing bracket
+		const auto historyItem = commonItems::stringOfItem(theStream).getString();
+		historyMap.insert(std::pair(titleName, historyItem.substr(3, historyItem.size()-4))); // inserts without the opening and closing bracket
 	});
 	registerKeyword(commonItems::catchallRegex, commonItems::ignoreItem);
 }

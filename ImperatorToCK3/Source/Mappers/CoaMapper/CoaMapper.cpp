@@ -28,7 +28,7 @@ void mappers::CoaMapper::registerKeys()
 {
 	registerKeyword("template", commonItems::ignoreItem); // we don't need templates, we need CoAs!
 	registerRegex(commonItems::catchallRegex, [this](const std::string& flagName, std::istream& theStream) { // the rest should be CoAs
-		auto coaItem = commonItems::singleItem(flagName, theStream);
+		auto coaItem = commonItems::stringOfItem(theStream).getString();
 		coasMap.insert(std::pair(flagName, coaItem));
 	});
 }

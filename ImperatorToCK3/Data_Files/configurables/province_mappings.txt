@@ -2741,16 +2741,17 @@
 	link = { imp = 7502 ck3 = 8280 ck3 = 8281 }	# Alalaiou -> DAHLAK_KEBIR, GIMHILE
 	link = { imp = 7506 ck3 = 8289 }	# Aksum -> AKSUM
 	link = { imp = 7590 ck3 = 6437 }	# Demora -> SHOWAK
-	link = { imp = 3312 ck3 = 6395 }	# Petta -> ALTI
-	link = { imp = 3318 imp = 3320 ck3 = 6399 }	# Kuria, Korin -> UM_SUNT
-	link = { imp = 3319 ck3 = 6405 }	# Syuta -> EL-ELEILA
-	link = { imp = 3315 ck3 = 6397 }	# Gurnah -> KAMLIN
-	link = { imp = 3314 ck3 = 6398 }	# Alwa -> ARBAJI
-	link = { imp = 3317 ck3 = 6406 }	# Attrah -> BASHARGA
-	link = { imp = 3310 ck3 = 6391 ck3 = 6392 }	# Ameta -> GEILI, KADERO
-	link = { imp = 3313 ck3 = 6394 }	# Soba -> SOBA
-	link = { imp = 644 imp = 3311 ck3 = 6407 }	# Naqa, Toprate -> NAGA
-	link = { imp = 643 ck3 = 6364 }	# Araba -> SHENDI
+	link = { imp = 3312 ck3 = 6390 }	# Petta -> SHAHEINAB
+	link = { imp = 3320 ck3 = 6401 }	# Korin -> SAQADI
+	link = { imp = 3318 ck3 = 6396 }	# Kuria -> GETEINA
+	link = { imp = 3319 imp = 3317 ck3 = 6398 }	# Syuta, Attrah -> ARBAJI
+	link = { imp = 3315 ck3 = 6393 }	# Gurnah -> USHARA
+	link = { imp = 3313 ck3 = 6394 ck3 = 6392 }	# Soba -> SOBA, KADERO
+	link = { imp = 3314 ck3 = 6395 ck3 = 6397 }	# Alwa -> ALTI, KAMLIN
+	link = { imp = 3310 ck3 = 6366 }	# Ameta -> WAD_HAMID
+	link = { imp = 3311 ck3 = 6391 }	# Toprate -> GEILI
+	link = { imp = 644 ck3 = 6364 }	# Naqa -> SHENDI
+	link = { imp = 643 }	# Araba -> DROPPED
 	link = { imp = 640 ck3 = 6365 }	# Epis -> KELI
 	link = { imp = 639 ck3 = 6363 }	# Tadu -> AL-ABWAB
 	link = { imp = 641 imp = 642 ck3 = 6408 }	# Meroe, Summarum -> BASA
@@ -2760,6 +2761,7 @@
 	link = { imp = 632 ck3 = 6355 }	# Abale -> BERBER
 	link = { imp = 3322 imp = 3321 ck3 = 6356 }	# Borassa, Rocat -> ATBARA
 	link = { imp = 7588 ck3 = 6409 }	# Dmut -> UMM_USUDA
+	link = { imp = 5329 ck3 = 6410 ck3 = 6407 ck3 = 6406 ck3 = 6405 ck3 = 6399 }	#  -> JEBEL_GEILI, NAGA, BASHARGA, EL-ELEILA, UM_SUNT
 	link = { imp = 7589 ck3 = 6418 }	# Abliata -> BUTANA
 	link = { imp = 3323 ck3 = 6411 }	# Durai -> MIDDLE_ATBARA
 	link = { imp = 3328 imp = 3331 ck3 = 6412 }	# Thana, Zithaa -> KASSALA
@@ -2910,7 +2912,6 @@
 	link = { imp = 3257 imp = 3260 imp = 3261 ck3 = 4583 }	# Utica, Matar, Thisika -> QARTAJANA
 	link = { imp = 3337 imp = 3338 imp = 3339 ck3 = 4550 }	# Digdida Selorum, Arae Philaenorum, Automalax -> AL-AGHAILA
 	link = { imp = 3329 imp = 3330 imp = 3332 imp = 3333 imp = 3334 imp = 3335 imp = 3336 ck3 = 4552 }	# Annesel, Auxiu, Dysopon, Euphranta, Iscina, Aulazon, Ad Palmam -> SURT
-
 	link = { imp = 5991 ck3 = 4563 }	# Gholaia -> WADDAN
 	link = { imp = 5947 ck3 = 4564 ck3 = 6449 ck3 = 6448 ck3 = 6459 }	# Garama -> TININAI, GERMA, SABHA, TAMZAWA
 	link = { imp = 3326 imp = 3327 ck3 = 4554 }	# Base, Thebunte -> TAWURGHA

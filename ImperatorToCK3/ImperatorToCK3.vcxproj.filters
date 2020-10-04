@@ -73,6 +73,18 @@
     <Filter Include="CK3\Character">
       <UniqueIdentifier>{532b7914-6ab3-42c7-9090-371686001d99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\TraitMapper">
+      <UniqueIdentifier>{c0c8fb12-dab8-4549-812a-d7fc79f7cc51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\DLLs">
+      <UniqueIdentifier>{f955d636-aa1a-4913-be28-952ccf7dfc40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Frontend stuff">
+      <UniqueIdentifier>{7acfa575-cd17-42b8-a759-596cddbc1a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\configurables">
+      <UniqueIdentifier>{af40bd7e-fe30-4fe1-b5bc-f69841766f81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
@@ -273,6 +285,12 @@
     </ClInclude>
     <ClInclude Include="Source\CK3\Titles\TitlesHistory.h">
       <Filter>CK3\Titles</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\TraitMapper\TraitMapper.h">
+      <Filter>Mappers\TraitMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\TraitMapper\TraitMapping.h">
+      <Filter>Mappers\TraitMapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -476,49 +494,90 @@
     <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp">
       <Filter>CK3\Titles</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Mappers\TraitMapper\TraitMapper.cpp">
+      <Filter>Mappers\TraitMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\TraitMapper\TraitMapping.cpp">
+      <Filter>Mappers\TraitMapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resources\rakaly.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\IM_MOD_RL_xc_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\IM_MOD_RL_tga_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\IM_MOD_RL_dds_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_zlib_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_MagickWand_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_MagickCore_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_Magick++_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_lqr_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_libxml_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_lcms_.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_freetype_.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_bzlib_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_glib_.dll">
-      <Filter>Resources</Filter>
+      <Filter>Resources\DLLs</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_freetype_.dll">
+      <Filter>Resources\DLLs</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\imageMagick\dll-windows-required\CORE_RL_bzlib_.dll">
+      <Filter>Resources\DLLs</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configuration_l_english.yml">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\fronter-configuration.txt">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\fronter-options.txt">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\options_l_english.yml">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\culture_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\province_mappings.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\religion_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\trait_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\version.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data_Files\ReadMe.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="Data_Files\FAQ.txt">
+      <Filter>Resources</Filter>
+    </Text>
   </ItemGroup>
 </Project>
