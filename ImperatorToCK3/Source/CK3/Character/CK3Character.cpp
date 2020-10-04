@@ -50,11 +50,10 @@ void CK3::Character::initializeFromImperator(
 	deathDate = imperatorCharacter->getDeathDate();
 	if (!ConvertBirthAndDeathDates)  //if option to convert character age is chosen
 	{
-		birthDate.subtractYears(- static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
+		birthDate.addYears(static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
 		if (deathDate)
 		{
-			deathDate = birthDate;
-			deathDate->subtractYears(-static_cast<int>(age));
+			deathDate->addYears(static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
 		}
 	}
 }
