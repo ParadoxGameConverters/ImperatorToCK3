@@ -17,7 +17,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 	
 	for (const auto& [name, title] : titles)
 	{
-		if (!(name.find("c_")==0)) // title is not a county
+		if (title->generated) // title is not a county
 		{
 			std::ofstream output("output/" + outputModName + "/common/landed_titles/" + name + ".txt");
 			if (!output.is_open())
@@ -30,10 +30,10 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 		
 
 		//output title history
-		std::ofstream historyOutput("output/" + outputModName + "/history/titles/" + name + ".txt");
+		std::ofstream historyOutput("output/" + outputModName + "/history/titles/history_" + name + ".txt");
 		if (!historyOutput.is_open())
 			throw std::runtime_error(
-				"Could not create title history file: output/" + outputModName + "/history/titles/" + name + ".txt");
+				"Could not create title history file: output/" + outputModName + "/history/titles/history_" + name + ".txt");
 		historyOutput << name << " = {\n";
 
 		if (title->holder == "0") historyOutput << "\t" << title->historyString << "\n";

@@ -13,13 +13,13 @@ link = { ck3 = chaste imp = chaste }
 link = { ck3 = gluttonous imp = gluttonous }
 link = { ck3 = temperate imp = self_controlled }
 
-link = { ck3 = diligent imp = energetic }
+link = { ck3 = diligent imp = energetic imp = obsessive }
 link = { ck3 = lazy imp = lazy }
 
 link = { ck3 = ambitious imp = ambitious }
 link = { ck3 = content imp = content }
 
-link = { ck3 = arrogant imp = arrogant imp = proud }
+link = { ck3 = arrogant imp = arrogant imp = proud imp = sarcastic }
 link = { ck3 = humble imp = modest imp = modest }
 
 link = { ck3 = zealous imp = devout imp = zealous imp = pious }
@@ -31,20 +31,32 @@ link = { ck3 = arbitrary imp = arbitrary }
 link = { ck3 = generous imp = generous }
 link = { ck3 = greedy imp = selfish imp = miserly }
 
-link = { ck3 = honest imp = honest }
+link = { ck3 = honest imp = honest imp = blunt imp = plain_speaking }
 link = { ck3 = deceitful imp = deceitful }
 
 link = { ck3 = intellect_good_2 imp = intelligent }
 link = { ck3 = intellect_bad_2 imp = dumb }
 
 link = { ck3 = paranoid imp = shrewd imp = suspicious }
-link = { ck3 = trusting imp = foolish imp = trusting }
+link = { ck3 = trusting imp = foolish imp = trusting imp = guileless }
 
-link = { ck3 = reckless imp = reckless }
+link = { ck3 = reckless imp = reckless imp = confident }
 link = { ck3 = cautious_leader imp = cautious }
 
 link = { ck3 = vengeful imp = vengeful }
 link = { ck3 = forgiving imp = forgiving }
+
+link = { ck3 = education_diplomacy_3 imp = silver_tongued }
+
+link = { ck3 = education_intrigue_3 imp = crafty }
+
+link = { ck3 = callous imp = cruel imp = cold}
+link = { ck3 = compassionate imp = merciful imp = loving }
+
+link = { ck3 = mystic_1 imp = scholar imp = polymath }
+link = { ck3 = stubborn imp = narrowminded imp = stubborn }
+link = { ck3 = fickle imp = weak_willed }
+
 
 
 # Health
@@ -67,3 +79,11 @@ link = { ck3 = lunatic_genetic imp = lunatic imp = schizophrenic }
 link = { ck3 = smallpox imp = plague }
 link = { ck3 = depressed_1 imp = depressed }
 link = { ck3 = wounded_2 imp = wounded }
+
+# Military
+link = { ck3 = aggressive_attacker imp = aggressive }
+link = { ck3 = unyielding_defender imp = steadfast }
+link = { ck3 = forder imp = coastal_raider imp = squadron_leader imp = oarmaster imp = seadog imp = improviser imp = princeps imp = daring imp = tough }
+link = { ck3 = flexible_leader imp = tactician }
+link = { ck3 = military_engineer imp = original_thinker }
+link = { ck3 = organizer imp = disciplined }

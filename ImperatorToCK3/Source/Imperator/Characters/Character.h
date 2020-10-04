@@ -51,6 +51,8 @@ class Character: commonItems::parser
 	[[nodiscard]] auto getWealth() const { return wealth; }
 	[[nodiscard]] auto getID() const { return charID; }
 
+	[[nodiscard]] const auto& getCK3Character() const { return ck3Character; }
+
 	void setFamily(std::shared_ptr<Family> theFamily) { family.second = std::move(theFamily); }
 	void setSpouses(const std::map<int, std::shared_ptr<Character>>& newSpouses) { spouses = newSpouses; }
 	void setTraits(const std::vector<std::string>& theTraits) { traits = theTraits; }
@@ -73,7 +75,7 @@ class Character: commonItems::parser
 	int province = 0;
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
-	date deathDate = date("1.1.1");
+	std::optional<date> deathDate;
 	unsigned int age = 0;
 	
 	std::optional<std::string> dna;
@@ -89,7 +91,7 @@ class Character: commonItems::parser
 	std::vector<std::string> traits;
 
 
-	 std::shared_ptr<CK3::Character> ck3Character;
+	std::shared_ptr<CK3::Character> ck3Character;
 };
 } // namespace ImperatorWorld
 

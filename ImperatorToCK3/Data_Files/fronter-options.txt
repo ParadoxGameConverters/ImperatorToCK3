@@ -24,6 +24,25 @@ option = {
 	}
 }
 option = {
+	name = ConvertCharacterBirthAndDeathDates
+	displayName = CONVERTCHARACTERBIRTHANDDEATHDATES
+	tooltip = CONVERTCHARACTERBIRTHANDDEATHDATES_TIP
+	radioSelector = {
+		radioOption = {
+			name = true
+			displayName = CONVERTCHARACTERBIRTHANDDEATHDATES_1
+			tooltip = CONVERTCHARACTERBIRTHANDDEATHDATES_1_TIP
+			default = true
+		}
+		radioOption = {
+			name = false
+			displayName = CONVERTCHARACTERBIRTHANDDEATHDATES_2
+			tooltip = CONVERTCHARACTERBIRTHANDDEATHDATES_2_TIP
+			default = false
+		}
+	}
+}
+option = {
 	name = output_name
 	displayName = MODNAME
 	tooltip = MODNAMETIP

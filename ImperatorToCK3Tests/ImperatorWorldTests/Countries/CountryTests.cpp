@@ -130,3 +130,109 @@ TEST(ImperatorWorld_CountryTests, currenciesCanBeSet)
 	ASSERT_EQ(4, theCountry.getCurrencies().political_influence);
 	ASSERT_EQ(1, theCountry.getCurrencies().military_experience);
 }
+
+TEST(ImperatorWorld_CountryTests, monarchCanBeSet)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tmonarch=69";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_EQ(69, *theCountry.getMonarch());
+}
+
+TEST(ImperatorWorld_CountryTests, monarchDefaultsToNullopt)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_FALSE(theCountry.getMonarch());
+}
+
+TEST(ImperatorWorld_CountryTests, color1CanBeSet)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tcolor = rgb { 69 4 20 }";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_EQ(69, theCountry.getColor1().value().r());
+	ASSERT_EQ(4, theCountry.getColor1().value().g());
+	ASSERT_EQ(20, theCountry.getColor1().value().b());
+}
+
+TEST(ImperatorWorld_CountryTests, color1DefaultsToNullopt)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_FALSE(theCountry.getColor1());
+}
+
+TEST(ImperatorWorld_CountryTests, color2CanBeSet)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tcolor2 = rgb { 69 4 20 }";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_EQ(69, theCountry.getColor2().value().r());
+	ASSERT_EQ(4, theCountry.getColor2().value().g());
+	ASSERT_EQ(20, theCountry.getColor2().value().b());
+}
+
+TEST(ImperatorWorld_CountryTests, color2DefaultsToNullopt)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_FALSE(theCountry.getColor2());
+}
+
+TEST(ImperatorWorld_CountryTests, color3CanBeSet)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "\tcolor3 = rgb { 69 4 20 }";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_EQ(69, theCountry.getColor3().value().r());
+	ASSERT_EQ(4, theCountry.getColor3().value().g());
+	ASSERT_EQ(20, theCountry.getColor3().value().b());
+}
+
+TEST(ImperatorWorld_CountryTests, color3DefaultsToNullopt)
+{
+	std::stringstream input;
+	input << "=\n";
+	input << "{\n";
+	input << "}";
+
+	const ImperatorWorld::Country theCountry(input, 42);
+
+	ASSERT_FALSE(theCountry.getColor3());
+}

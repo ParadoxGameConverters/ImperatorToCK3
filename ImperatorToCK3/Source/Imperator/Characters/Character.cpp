@@ -43,11 +43,11 @@ void ImperatorWorld::Character::registerKeys()
 	});
 	registerKeyword("birth_date", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString dateStr(theStream);
-		birthDate = date(dateStr.getString());
+		birthDate = date(dateStr.getString(), true); // converted to AD
 	});
 	registerKeyword("death_date", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString dateStr(theStream);
-		deathDate = date(dateStr.getString());
+		deathDate = date(dateStr.getString(), true); // converted to AD
 	});
 	registerKeyword("age", [this](const std::string& unused, std::istream& theStream) {
 		age = static_cast<unsigned int>(commonItems::singleInt(theStream).getInt());

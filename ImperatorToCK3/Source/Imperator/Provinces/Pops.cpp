@@ -14,7 +14,7 @@ void ImperatorWorld::Pops::loadPops(std::istream& theStream)
 void ImperatorWorld::Pops::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& thePopID, std::istream& theStream) {
-		const auto popStr = commonItems::singleItem(thePopID, theStream);
+		const auto popStr = commonItems::stringOfItem(theStream).getString();
 		if (popStr.find('{') != std::string::npos)
 		{
 			std::stringstream tempStream(popStr);

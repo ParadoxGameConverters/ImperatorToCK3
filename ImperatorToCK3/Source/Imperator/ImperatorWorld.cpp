@@ -28,7 +28,7 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	});
 	registerKeyword("date", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString dateString(theStream);
-		endDate = date(dateString.getString());
+		endDate = date(dateString.getString(), true); // converted to AD
 		Log(LogLevel::Info) << "<> Date: " << dateString.getString();
 	});
 	/*registerKeyword("enabled_dlcs", [this](const std::string& unused, std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed 

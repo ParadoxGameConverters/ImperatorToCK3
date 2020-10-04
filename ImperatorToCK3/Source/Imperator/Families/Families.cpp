@@ -21,7 +21,7 @@ void ImperatorWorld::Families::loadFamilies(std::istream& theStream)
 void ImperatorWorld::Families::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& theFamilyID, std::istream& theStream) {
-		const auto familyStr = commonItems::singleItem(theFamilyID, theStream);
+		const auto familyStr = commonItems::stringOfItem(theStream).getString();
 		if (familyStr.find('{') != std::string::npos)
 		{
 			std::stringstream tempStream(familyStr);

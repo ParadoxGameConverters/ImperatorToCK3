@@ -8,6 +8,13 @@ l_english:
  IMPERATORDEJURE3: "No"
  IMPERATORDEJURE3TIP: "Keep vanilla CK3 de iure."
 
+ CONVERTCHARACTERBIRTHANDDEATHDATES: "Base for character birth date conversion"
+ CONVERTCHARACTERBIRTHANDDEATHDATES_TIP: "Characters' birth dates can be based on either their birth dates in Imperator or their Imperator age."
+ CONVERTCHARACTERBIRTHANDDEATHDATES_1: "Birth date"
+ CONVERTCHARACTERBIRTHANDDEATHDATES_1_TIP: "Recommended when you're converting without a big time gap."
+ CONVERTCHARACTERBIRTHANDDEATHDATES_2: "Age"
+ CONVERTCHARACTERBIRTHANDDEATHDATES_2_TIP: "Recommended when you're converting much earlier than 867 AD."
+
  MODNAME: "Mod Output Name (optional):"
  MODNAMETIP: "Please, stick to Latin letters"
  MODNAMETIP2: "Optional name for the converted mod (default name is the one of the savegame)"

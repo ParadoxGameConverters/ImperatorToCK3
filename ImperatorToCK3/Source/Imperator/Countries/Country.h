@@ -49,7 +49,7 @@ namespace ImperatorWorld
 			void registerKeys();
 
 			int countryID = 0;
-			int monarch = -1; // >=0 are valid
+			std::optional<unsigned int> monarch; // >=0 are valid
 			std::string tag;
 			std::string name;
 			std::string flag;

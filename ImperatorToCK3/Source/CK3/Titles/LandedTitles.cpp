@@ -27,18 +27,23 @@ void CK3::LandedTitles::registerKeys()
 		// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 		auto newTitle = LandedTitles();
 		newTitle.loadTitles(theStream);
-		for (const auto& locatedTitle: newTitle.getFoundTitles())
+
+		if (titleName.find("b_")==0 && capitalBarony.empty()) // title is a barony, and no other barony has been found in this scope yet
+		{
+			capitalBarony = titleName;
+		}
+		for (const auto& [locatedTitleName, locatedTitle]: newTitle.getFoundTitles())
 		{
 			if (titleName.find("c_") == 0) // has county prefix = is a county
 			{
-				auto baronyProvince = locatedTitle.second.getProvince();
+				auto baronyProvince = locatedTitle.getProvince();
 				if (baronyProvince)
 				{
-					if (newTitle.countyProvinces.empty()) newTitle.capitalBaronyProvince = *baronyProvince;
-					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to a countyProvinces set
+					if (locatedTitleName == newTitle.capitalBarony) newTitle.capitalBaronyProvince = *baronyProvince;
+					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to countyProvinces
 				}
 			}
-			foundTitles[locatedTitle.first] = locatedTitle.second;
+			foundTitles[locatedTitleName] = locatedTitle;
 		}
 		
 		// And then add this one as well, overwriting existing.

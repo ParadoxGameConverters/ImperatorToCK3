@@ -66,6 +66,12 @@ void Configuration::registerKeys()
 			Log(LogLevel::Error) << "Undefined error, ImperatorDeJure value was: " << deJureString << "; Error message: " << e.what();
 		}
 		});
+	registerKeyword("ConvertCharacterBirthAndDeathDates", [this](const std::string& unused, std::istream& theStream) {
+		const auto valStr = commonItems::singleString(theStream).getString();
+		if (valStr == "true") convertBirthAndDeathDates = true;
+		else if (valStr == "false") convertBirthAndDeathDates = false;
+		Log(LogLevel::Info) << "Conversion of characters' birth and death dates set to: " << convertBirthAndDeathDates;
+		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 

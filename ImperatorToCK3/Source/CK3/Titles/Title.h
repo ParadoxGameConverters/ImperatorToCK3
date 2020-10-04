@@ -27,6 +27,7 @@ class Title
 		mappers::ProvinceMapper& provinceMapper,
 		mappers::CoaMapper& coaMapper);
 
+	bool generated = false;
 	std::string holder = "0";
 	std::string titleName; // e.g. e_hispania
 	std::string historyCountryFile;

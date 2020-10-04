@@ -1,4 +1,4 @@
-This program will convert an Imperator: Rome save game to a Crusader Kings III save game.
+This program converts an Imperator: Rome save game to a Crusader Kings III save game.
 
 ----
 IMPORTANT LINKS
@@ -10,7 +10,8 @@ Development build: https://github.com/ParadoxGameConverters/ImperatorToCK3/relea
 ----
 REQUIREMENTS
 ----
-Imperator: Rome - version 1.4 or higher
+Imperator: Rome - version 1.5 or higher
+Crusader Kings III - version 1.1 or higher
 
 -----
 INSTRUCTIONS
