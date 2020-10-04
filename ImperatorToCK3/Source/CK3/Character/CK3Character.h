@@ -45,7 +45,7 @@ class Character
 	std::string name;
 	unsigned int age = 0; // used when option to convert character age is chosen
 
-	date birthDate = date("840.1.1"); // temporary
+	date birthDate = date("1.1.1");
 	std::optional<date> deathDate;
 
 	std::set<std::string> traits;

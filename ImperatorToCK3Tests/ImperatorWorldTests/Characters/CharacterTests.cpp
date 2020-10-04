@@ -636,3 +636,40 @@ TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0)
 
 	ASSERT_EQ(0, theCharacter.getProvince());
 }
+
+TEST(ImperatorWorld_CharacterTests, AUC0ConvertsTo754BC)
+{
+	const ImperatorWorld::GenesDB genesDB;
+	const date endDate;
+	std::stringstream input;
+	input << "= { birth_date = 0.1.1 }";
+
+	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+
+	ASSERT_EQ("-754.1.1", theCharacter.getBirthDate().toString());
+}
+
+TEST(ImperatorWorld_CharacterTests, AUC753ConvertsTo1BC)
+{
+	const ImperatorWorld::GenesDB genesDB;
+	const date endDate;
+	std::stringstream input;
+	input << "= { birth_date = 753.1.1 }";
+
+	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+
+	ASSERT_EQ("-1.1.1", theCharacter.getBirthDate().toString());
+}
+
+TEST(ImperatorWorld_CharacterTests, AUC754ConvertsTo1AD)
+{
+	const ImperatorWorld::GenesDB genesDB;
+	const date endDate;
+	std::stringstream input;
+	input << "= { birth_date = 754.1.1 }";
+
+	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+
+	ASSERT_EQ("1.1.1", theCharacter.getBirthDate().toString());
+}
+

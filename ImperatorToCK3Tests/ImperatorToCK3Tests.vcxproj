@@ -222,6 +222,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="AccessoryGenesTests.cpp" />
+    <ClCompile Include="CK3WorldTests\Character\CK3CharacterTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceDetailsTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceTests.cpp" />

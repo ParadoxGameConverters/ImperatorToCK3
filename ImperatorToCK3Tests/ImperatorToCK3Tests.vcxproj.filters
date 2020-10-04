@@ -345,6 +345,9 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapping.cpp">
       <Filter>Sources\Mappers</Filter>
     </ClCompile>
+    <ClCompile Include="CK3WorldTests\Character\CK3CharacterTests.cpp">
+      <Filter>CK3WorldTests\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
