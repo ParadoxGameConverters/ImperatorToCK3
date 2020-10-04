@@ -18,7 +18,7 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 	imperatorCountry.first = theCountry->getName();
 	imperatorCountry.second = std::move(theCountry);
 
-	if (imperatorCountry.second->getMonarch()>=0) holder = "imperator" + std::to_string(imperatorCountry.second->getMonarch());
+	if (imperatorCountry.second->getMonarch()) holder = "imperator" + std::to_string(*imperatorCountry.second->getMonarch());
 
 	auto colorOpt = imperatorCountry.second->getColor1();
 	if (colorOpt)

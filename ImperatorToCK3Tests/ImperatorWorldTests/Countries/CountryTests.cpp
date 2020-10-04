@@ -141,10 +141,10 @@ TEST(ImperatorWorld_CountryTests, monarchCanBeSet)
 
 	const ImperatorWorld::Country theCountry(input, 42);
 
-	ASSERT_EQ(69, theCountry.getMonarch());
+	ASSERT_EQ(69, *theCountry.getMonarch());
 }
 
-TEST(ImperatorWorld_CountryTests, monarchDefaultsToMinusOne)
+TEST(ImperatorWorld_CountryTests, monarchDefaultsToNullopt)
 {
 	std::stringstream input;
 	input << "=\n";
@@ -153,7 +153,7 @@ TEST(ImperatorWorld_CountryTests, monarchDefaultsToMinusOne)
 
 	const ImperatorWorld::Country theCountry(input, 42);
 
-	ASSERT_EQ(-1, theCountry.getMonarch());
+	ASSERT_FALSE(theCountry.getMonarch());
 }
 
 TEST(ImperatorWorld_CountryTests, color1CanBeSet)

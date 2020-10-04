@@ -260,9 +260,9 @@ void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& impWorl
 					auto impProvince = provinces.find(capitalBaronyProvince)->second->srcProvince;
 					if (impProvince)
 					{
-						auto impMonarch = -1;
+						std::optional<unsigned int> impMonarch;
 						if (impWorld.getCountries().find(impProvince->getOwner()) != impWorld.getCountries().end()) impMonarch = impWorld.getCountries().find(impProvince->getOwner())->second->getMonarch();
-						if (impMonarch >= 0) countyTitle->holder = "imperator" + std::to_string(impMonarch);
+						if (impMonarch) countyTitle->holder = "imperator" + std::to_string(*impMonarch);
 					}
 					else // county is probably outside of Imperator map
 					{
