@@ -1,0 +1,226 @@
+﻿
+kushitism_religion = {
+	family = rf_pagan
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_righteous
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_none
+	doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_shunned
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_shunned
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_taxation
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	traits = {
+		virtues = { content patient diligent }
+		sins = { impatient lazy }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = "holy_order_guardians_of_divinerealm" }
+		{ name = "holy_order_faithful_of_highgod" }
+		{ name = "holy_order_warriors_of_the_symbol" }
+	}
+
+	holy_order_maa = { horn_warrior }
+
+	localization = {
+		HighGodName = kushitism_high_god_name
+		HighGodNamePossessive = kushitism_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = kushitism_high_god_name_alternate
+		HighGodNameAlternatePossessive = kushitism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = kushitism_creator_god_name
+		CreatorNamePossessive = kushitism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_THEY
+		CreatorHerHis = CHARACTER_HERHIM_THEM
+		CreatorHerHim = CHARACTER_HERHIS_THEIR
+
+		#HealthGod
+		HealthGodName = kushitism_health_god_name
+		HealthGodNamePossessive = kushitism_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+		
+		#FertilityGod
+		FertilityGodName = kushitism_fertility_god_name
+		FertilityGodNamePossessive = kushitism_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_HE
+		FertilityGodHerHis = CHARACTER_HERHIS_HIS
+		FertilityGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WealthGod
+		WealthGodName = kushitism_wealth_god_name
+		WealthGodNamePossessive = kushitism_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = kushitism_household_god_name
+		HouseholdGodNamePossessive = kushitism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = kushitism_fate_god_name
+		FateGodNamePossessive = kushitism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_THEIR
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = kushitism_knowledge_god_name
+		KnowledgeGodNamePossessive = kushitism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = kushitism_war_god_name
+		WarGodNamePossessive = kushitism_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = kushitism_trickster_god_name
+		TricksterGodNamePossessive = kushitism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = kushitism_night_god_name
+		NightGodNamePossessive = kushitism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = kushitism_water_god_name
+		WaterGodNamePossessive = kushitism_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_SHE
+		WaterGodHerHis = CHARACTER_HERHIS_HER
+		WaterGodHerHim = CHARACTER_HERHIM_HER
+
+
+		PantheonTerm = religion_the_gods
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { kushitism_high_god_name kushitism_high_god_name_alternate kushitism_health_god_name kushitism_household_god_name kushitism_fate_god_name kushitism_fertility_god_name kushitism_creator_god_name }
+		DevilName = kushitism_devil_name
+		DevilNamePossessive = kushitism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_HE
+		DevilHerHis = CHARACTER_HERHIS_HIS
+		DevilHerselfHimself = CHARACTER_HIMSELF
+		EvilGodNames = { kushitism_devil_name paganism_evil_god_drought paganism_evil_god_chaos }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = kushitism_religious_symbol
+		ReligiousText = paganism_religious_text
+		ReligiousHeadName = zunism_religious_head_title
+		ReligiousHeadTitleName = zunism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = christianity_priest_male
+		PriestMalePlural = christianity_priest_male_plural
+		PriestFemale = christianity_priest_male
+		PriestFemalePlural = christianity_priest_male_plural
+		PriestNeuter = christianity_priest_male
+		PriestNeuterPlural = christianity_priest_male_plural
+		AltPriestTermPlural = paganism_priest_alternate_plural
+		BishopMale = christianity_priest_male
+		BishopMalePlural = christianity_priest_male_plural
+		BishopFemale = christianity_priest_male
+		BishopFemalePlural = christianity_priest_male_plural
+		BishopNeuter = christianity_priest_male
+		BishopNeuterPlural = christianity_priest_male_plural
+		DivineRealm = kushitism_divine_realm
+		PositiveAfterLife = kushitism_divine_realm
+		NegativeAfterLife = kushitism_divine_realm
+		DeathDeityName = kushitism_high_god_name
+		DeathDeityNamePossessive = kushitism_high_god_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_HE
+		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		WitchGodName = witchgodname_kushitism_heka
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+
+	faiths = {
+		kushitism_pagan = {
+			color = hsv { 0.15  1  0.7 }
+			icon = kushism
+			reformed_icon = kushism_reformed
+
+			holy_site = aswan
+			holy_site = wadi_el_milk
+			holy_site = naqis
+			holy_site = sennar
+			holy_site = el_fasher
+
+			doctrine = unreformed_faith_doctrine
+
+			doctrine = tenet_esotericism
+			doctrine = tenet_ancestor_worship
+			doctrine = tenet_consolamentum
+		}
+		#kushitism_reformed = {
+		#	color = { 1.0 0.45 0.0 }
+		#	icon = west_african
+		#}
+		egyptian_pagan = {
+			color = { 156 139 7 }
+			icon = egyptian_pagan
+			reformed_icon = egyptian_pagan
+
+			doctrine = unreformed_faith_doctrine
+			
+			#Generic pagan tenets
+			doctrine = tenet_astrology
+			doctrine = tenet_ancestor_worship
+			doctrine = tenet_sanctity_of_nature
+		}
+	}
+}
