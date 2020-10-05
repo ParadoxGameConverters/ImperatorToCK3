@@ -69,8 +69,8 @@ jobs:
        sudo apt-get install gcc-9 g++-9
        sudo apt-get install libwxbase3.1-0-unofficial3 libwxbase3.1unofficial3-dev libwxgtk3.1-0-unofficial3 libwxgtk3.1unofficial3-dev wx3.1-headers wx-common
        # Export CC and CXX to tell cmake which compiler to use
-       export CC=/usr/bin/gcc-9.3
-       export CXX=/usr/bin/g++-9.3
+       export CC=/usr/bin/gcc-9
+       export CXX=/usr/bin/g++-9
        # Check versions of gcc, g++ and cmake
        gcc -v && g++ -v && cmake --version
        # Run your build commands next
