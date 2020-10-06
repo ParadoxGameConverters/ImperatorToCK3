@@ -23,6 +23,9 @@ void createFolders(const std::string& outputName);
 
 void CK3::outputWorld(const World& CK3World, const Configuration& theConfiguration)
 {
+	LOG(LogLevel::Info) << "<- Clearing the output mod folder";
+	std::filesystem::remove_all("output/" + CK3World.getOutputModName());
+	
 	const auto& outputName = CK3World.getOutputModName();
 	createModFolder(outputName);
 	outputModFile(outputName);
