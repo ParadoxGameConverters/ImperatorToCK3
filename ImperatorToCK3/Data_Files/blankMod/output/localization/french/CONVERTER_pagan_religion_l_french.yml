@@ -1,0 +1,210 @@
+﻿l_french:
+ #---------------------------------------------------
+ # ANATOLIENNE
+ #---------------------------------------------------
+ anatolian_religion:0 "Anatolienne"
+ anatolian_religion_adj:0 "anatolienne"
+ anatolian_religion_adjerent:0 "anatolien"
+ anatolian_religion_adherent_plural:0 "anatoliens"
+ anatolian_religion_desc:0 "Le culte phrygien de Cybèle est lié à celui de la Déesse-Mère préhistorique. Ayant évolué au cours des millénaires, il est souvent lié à des figures et héros mythiques et est pratiqué par la vénération des idoles."
+
+ anatolian_pagan:0 "Cybélienne"
+ anatolian_pagan_adj:0 "cybélienne"
+ anatolian_pagan_adjerent:0 "cybélien"
+ anatolian_pagan_adherent_plural:0 "cybéliens"
+ anatolian_pagan_old:0 "Cybélienne ancien"
+ anatolian_pagan_old_adj:0 "cybélienne ancienne"
+ anatolian_pagan_old_adjerent:0 "cybélien ancien"
+ anatolian_pagan_old_adherent_plural:0 "cybéliens ancien"
+
+ #---------------------------------------------------
+ # ARABE
+ #---------------------------------------------------
+ arabic_religion:0 "Arabe"
+ arabic_religion_adj:0 "arabe"
+ arabic_religion_adjerent:0 "arabe"
+ arabic_religion_adherent_plural:0 "arabes"
+ arabic_religion_desc:0 "La religion en Arabie est un syncrétisme polythéiste de divinités, d'aspects et de démons, pratiqué dans des localités et des enclaves réparties dans toute la région. En certains de ces lieux, le dieu créateur Ailiah est vénéré comme chef de ce panthéon."
+
+ arabic_pagan:0 "Arabique"
+ arabic_pagan_adj:0 "arabique"
+ arabic_pagan_adjerent:0 "arabique"
+ arabic_pagan_adherent_plural:0 "arabiques"
+ arabic_pagan_old:0 "Arabique ancien"
+ arabic_pagan_old_adj:0 "arabique ancienne"
+ arabic_pagan_old_adjerent:0 "arabique ancien"
+ arabic_pagan_old_adherent_plural:0 "arabiques ancien"
+
+ #---------------------------------------------------
+ # ARMENIENNE
+ #---------------------------------------------------
+ armenian_religion:0 "Arménienne"
+ armenian_religion_adj:0 "arménienne"
+ armenian_religion_adjerent:0 "arménien"
+ armenian_religion_adherent_plural:0 "arméniens"
+ armenian_religion_desc:0 "Le panthéon entourant Haldi représente une religion héritée de la culture de l'Urartu, un royaume disparu depuis des siècles. Il s'agit d'une foi essentiellement polythéiste, dont le dieu-guerrier Haldi est considéré comme le chef."
+
+ armenian_pagan:0 "Haldique"
+ armenian_pagan_adj:0 "haldique"
+ armenian_pagan_adjerent:0 "haldique"
+ armenian_pagan_adherent_plural:0 "haldiques"
+ armenian_pagan_old:0 "Haldique ancien"
+ armenian_pagan_old_adj:0 "haldique ancienne"
+ armenian_pagan_old_adjerent:0 "haldique ancien"
+ armenian_pagan_old_adherent_plural:0 "haldiques ancien"
+
+ #---------------------------------------------------
+ # Balkanique
+ #---------------------------------------------------
+ dacian_religion:0 "Balkanique"
+ dacian_religion_adj:0 "balkanique"
+ dacian_religion_adjerent:0 "balkanique"
+ dacian_religion_adherent_plural:0 "balkaniques"
+ dacian_religion_desc:0 "On ne sait réellement si Zalmoxis était à l'origine un prophète ou un dieu ; mais les Daces et les Gètes le révèrent comme un être d'essence divine et lui attribuent nombre de miracles."
+
+ dacian_pagan:0 "Zalmoxite"
+ dacian_pagan_adj:0 "zalmoxite"
+ dacian_pagan_adjerent:0 "zalmoxite"
+ dacian_pagan_adherent_plural:0 "zalmoxites"
+ dacian_pagan_old:0 "Zalmoxite ancien"
+ dacian_pagan_old_adj:0 "zalmoxite ancienne"
+ dacian_pagan_old_adjerent:0 "zalmoxite ancien"
+ dacian_pagan_old_adherent_plural:0 "zalmoxites ancien"
+
+ #---------------------------------------------------
+ # Berbère
+ #---------------------------------------------------
+ berber_religion:0 "Berbère"
+ berber_religion_adj:0 "berbère"
+ berber_religion_adjerent:0 "berbère"
+ berber_religion_adherent_plural:0 "berbères"
+ berber_religion_desc:0 "Cette culture et cette religion fort anciennes sont un syncrétisme de croyances traditionnelles égyptiennes, de culte des astres et de celui des ancêtres. De nombreux mégalithes, ces pierres dressées en l'honneur des divinités, parsèment les paysages de l'Afrique."
+
+ berber_pagan:0 "Mégalithisme"
+ berber_pagan_adj:0 "mégalithiste"
+ berber_pagan_adjerent:0 "mégalithiste"
+ berber_pagan_adherent_plural:0 "mégalithistes"
+ berber_pagan_old:0 "Mégalithisme ancien"
+ berber_pagan_old_adj:0 "mégalithiste ancienne"
+ berber_pagan_old_adjerent:0 "mégalithiste ancien"
+ berber_pagan_old_adherent_plural:0 "mégalithistes ancien"
+
+ #---------------------------------------------------
+ # Phoenicienne
+ #---------------------------------------------------
+ canaanite_religion:0 "Phénicienne"
+ canaanite_religion_adj:0 "phénicienne"
+ canaanite_religion_adjerent:0 "phénicien"
+ canaanite_religion_adherent_plural:0 "phéniciens"
+ canaanite_religion_desc:0 "La religion cananéenne vénère un certain nombre de dieux et leurs divers aspects, de façon polythéiste. Ba'l est considéré comme le principal dieu au sein d'une hiérarchie complexe de divinités mineures, très souvent vénérées dans des sanctuaires situés au sommet des montagnes et des collines."
+
+ canaanite_pagan:0 "Cananéenne"
+ canaanite_pagan_adj:0 "cananéenne"
+ canaanite_pagan_adjerent:0 "cananéen"
+ canaanite_pagan_adherent_plural:0 "cananéens"
+ canaanite_pagan_old:0 "Cananéenne ancien"
+ canaanite_pagan_old_adj:0 "cananéenne ancienne"
+ canaanite_pagan_old_adjerent:0 "cananéen ancien"
+ canaanite_pagan_old_adherent_plural:0 "cananéens ancien"
+
+ #---------------------------------------------------
+ # Caucasienne
+ #---------------------------------------------------
+ caucasian_religion:0 "Caucasienne"
+ caucasian_religion_adj:0 "caucasienne"
+ caucasian_religion_adjerent:0 "caucasien"
+ caucasian_religion_adherent_plural:0 "caucasiens"
+ caucasian_religion_desc:0 "Sans doute lié aux religions anatoliennes voisines, le panthéon du Caucase et d'Ibérie est gouverné par le dieu Armazi."
+
+ caucasian_pagan:0 "Armazique"
+ caucasian_pagan_adj:0 "armazique"
+ caucasian_pagan_adjerent:0 "armazique"
+ caucasian_pagan_adherent_plural:0 "armaziques"
+ caucasian_pagan_old:0 "Armazique ancien"
+ caucasian_pagan_old_adj:0 "armazique ancienne"
+ caucasian_pagan_old_adjerent:0 "armazique ancien"
+ caucasian_pagan_old_adherent_plural:0 "armaziques ancien"
+
+ #---------------------------------------------------
+ # Celte
+ #---------------------------------------------------
+ celtic_religion:0 "Celte"
+ celtic_religion_adj:0 "celte"
+ celtic_religion_adjerent:0 "celte"
+ celtic_religion_adherent_plural:0 "celtes"
+ celtic_religion_desc:0 "Les druides sont pour les Celtes une classe sociale distincte des autres : agissant souvent en tant que magistrats et juges, ils sont aussi chargés des rites et croyances liés à la religion."
+
+ celtic_pagan:0 "Druidisme"
+ celtic_pagan_adj:0 "druidique"
+ celtic_pagan_adjerent:0 "druidique"
+ celtic_pagan_adherent_plural:0 "druidiques"
+ celtic_pagan_old:0 "Druidisme ancien"
+ celtic_pagan_old_adj:0 "druidique ancienne"
+ celtic_pagan_old_adjerent:0 "druidique ancien"
+ celtic_pagan_old_adherent_plural:0 "druidiques ancien"
+
+ #---------------------------------------------------
+ # Ibéric
+ #---------------------------------------------------
+ iberic_religion:0 "Animisme"
+ iberic_religion_adj:0 "animiste"
+ iberic_religion_adjerent:0 "animiste"
+ iberic_religion_adherent_plural:0 "animistes"
+ iberic_religion_desc:0 "Du fait de leur syncrétisme polythéiste, les pratiques religieuses des Ibères impliquent la vénération des esprits des animaux et le culte des ancêtres. Ils vénèrent plusieurs dieux helléniques et phéniciens, de même que des divinités locales telles que Bétatun ou Ataégina."
+
+ iberian_pagan:0 "Ibérique"
+ iberian_pagan_adj:0 "ibérique"
+ iberian_pagan_adjerent:0 "ibére"
+ iberian_pagan_adherent_plural:0 "ibéres"
+ iberian_pagan_old:0 "Ibérique ancien"
+ iberian_pagan_old_adj:0 "ibérique ancienne"
+ iberian_pagan_old_adjerent:0 "ibére ancien"
+ iberian_pagan_old_adherent_plural:0 "ibéres ancien"
+
+ #---------------------------------------------------
+ # EGYPTIAN - TO VANILLA KORDOFAN RELIGION
+ #---------------------------------------------------
+ egyptian_pagan:0 "Khémitisme"
+ egyptian_pagan_adj:0 "khémite"
+ egyptian_pagan_adjerent:0 "khémite"
+ egyptian_pagan_adherent_plural:0 "khémites"
+ egyptian_pagan_old:0 "Khémitisme ancien"
+ egyptian_pagan_old_adj:0 "khémite ancienne"
+ egyptian_pagan_old_adjerent:0 "khémite ancien"
+ egyptian_pagan_old_adherent_plural:0 "khémites ancien"
+
+ #---------------------------------------------------
+ # Mésopotamienne
+ #---------------------------------------------------
+ mesopotamian_religion:0 "Mésopotamienne"
+ mesopotamian_religion_adj:0 "mésopotamienne"
+ mesopotamian_religion_adjerent:0 "mésopotamien"
+ mesopotamian_religion_adherent_plural:0 "mésopotamiens"
+ mesopotamian_religion_desc:0 "L'histoire du panthéon chaldéen remonte à des millénaires. Afin de vénérer leurs nombreux dieux tels qu'An, Enki et Nanna – ou Anu, Ea et Sîn selon leurs noms akkadiens – leurs fidèles ont érigé des temples imposants, les ziggourats."
+
+ mesopotamian_pagan:0 "Chaldéenne"
+ mesopotamian_pagan_adj:0 "chaldéenne"
+ mesopotamian_pagan_adjerent:0 "chaldéen"
+ mesopotamian_pagan_adherent_plural:0 "chaldéens"
+ mesopotamian_pagan_old:0 "Chaldéenne ancien"
+ mesopotamian_pagan_old_adj:0 "chaldéenne ancienne"
+ mesopotamian_pagan_old_adjerent:0 "chaldéen ancien"
+ mesopotamian_pagan_old_adherent_plural:0 "chaldéens ancien"
+
+ #---------------------------------------------------
+ # Scythe
+ #---------------------------------------------------
+ scythian_religion:0 "Scythe"
+ scythian_religion_adj:0 "scythe"
+ scythian_religion_adjerent:0 "scythe"
+ scythian_religion_adherent_plural:0 "scythes"
+ scythian_religion_desc:0 "Originaire des territoires des Scythes, cette foi panthéistique vénère sept divinités principales, souvent associées à celles du panthéon grec. Des éléments de la religion polythéiste populaire des Scythes y ont été préservés, de même que la pratique du sacrifice de chevaux et des tumulus à chars comme chez les Celtes."
+
+ scythian_pagan:0 "Heptadisme"
+ scythian_pagan_adj:0 "heptadique"
+ scythian_pagan_adjerent:0 "heptadique"
+ scythian_pagan_adherent_plural:0 "heptadiques"
+ scythian_pagan_old:0 "Heptadisme ancien"
+ scythian_pagan_old_adj:0 "heptadique ancienne"
+ scythian_pagan_old_adjerent:0 "heptadique ancien"
+ scythian_pagan_old_adherent_plural:0 "heptadiques ancien"

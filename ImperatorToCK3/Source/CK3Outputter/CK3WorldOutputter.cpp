@@ -49,6 +49,9 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	copyColoredEmblems(theConfiguration, outputName);
 	outputCoas(outputName, CK3World.getTitles());
 	commonItems::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/patterns");
+
+	LOG(LogLevel::Info) << "<- Copying blankMod files to output";
+	commonItems::CopyFolder("blankMod/output", "output/" + CK3World.getOutputModName());
 }
 
 
