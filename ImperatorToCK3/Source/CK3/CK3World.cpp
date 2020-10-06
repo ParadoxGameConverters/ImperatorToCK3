@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 #include "Province/CK3ProvinceMappings.h"
 #include "Titles/Title.h"
 
-CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser): outputModName(impWorld.getSaveName())
+CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser)
 {
 	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.

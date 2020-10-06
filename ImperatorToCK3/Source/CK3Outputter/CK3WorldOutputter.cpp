@@ -24,9 +24,9 @@ void createFolders(const std::string& outputName);
 void CK3::outputWorld(const World& CK3World, const Configuration& theConfiguration)
 {
 	LOG(LogLevel::Info) << "<- Clearing the output mod folder";
-	std::filesystem::remove_all("output/" + CK3World.getOutputModName());
+	std::filesystem::remove_all("output/" + theConfiguration.getOutputModName());
 	
-	const auto& outputName = CK3World.getOutputModName();
+	const auto& outputName = theConfiguration.getOutputModName();
 	createModFolder(outputName);
 	outputModFile(outputName);
 
@@ -46,15 +46,15 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputLocalization(outputName, CK3World);
 
 	LOG(LogLevel::Info) << "<- Copying named colors";
-	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + CK3World.getOutputModName() + "/common/named_colors/imp_colors.txt");
+	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + theConfiguration.getOutputModName() + "/common/named_colors/imp_colors.txt");
 
 	LOG(LogLevel::Info) << "<- Copying Coats of Arms";
 	copyColoredEmblems(theConfiguration, outputName);
 	outputCoas(outputName, CK3World.getTitles());
-	commonItems::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + CK3World.getOutputModName() + "/gfx/coat_of_arms/patterns");
+	commonItems::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + theConfiguration.getOutputModName() + "/gfx/coat_of_arms/patterns");
 
 	LOG(LogLevel::Info) << "<- Copying blankMod files to output";
-	commonItems::CopyFolder("blankMod/output", "output/" + CK3World.getOutputModName());
+	commonItems::CopyFolder("blankMod/output", "output/" + theConfiguration.getOutputModName());
 }
 
 
