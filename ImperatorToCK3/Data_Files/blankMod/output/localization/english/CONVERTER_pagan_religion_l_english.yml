@@ -7,7 +7,7 @@
  anatolian_religion_adherent:1 "Anatolian Pagan"
  anatolian_religion_adherent_plural:1 "Anatolian Pagans"
  anatolian_religion_desc:1 "The Phrygian cult of Cybele is linked to prehistoric Mother-Goddess worship. Evolving over thousands of years, the cult of Cybele often claimed relationship to mythical figures and heroes, and practiced their religion with the veneration of idols."
- 
+
  anatolian_pagan:1 "Cybelene"
  anatolian_pagan_adj:1 "Cybelene"
  anatolian_pagan_adherent:1 "Cybelene"
@@ -16,7 +16,7 @@
  anatolian_pagan_old_adj:1 "Old Cybelene"
  anatolian_pagan_old_adherent:1 "Old Cybelene"
  anatolian_pagan_old_adherent_plural:1 "Old Cybelenes"
- 
+
  #---------------------------------------------------
  # ARAB
  #---------------------------------------------------
@@ -25,7 +25,7 @@
  arabic_religion_adherent:1 "Arabian Pagan"
  arabic_religion_adherent_plural:1 "Arabian Pagans"
  arabic_religion_desc:1 "Religion in Arabia was a polytheistic mixture of deities, aspects and demons, practiced in localities and enclaves around the region. Allah, the Creator-God, may have been worshiped as the head of the pantheon during this period, in some locations."
- 
+
  arabic_pagan:1 "Arabic"
  arabic_pagan_adj:1 "Arabic"
  arabic_pagan_adherent:1 "Arabic Pagan"
@@ -34,7 +34,7 @@
  arabic_pagan_old_adj:1 "Old Arabic"
  arabic_pagan_old_adherent:1 "Old Arabic Pagan"
  arabic_pagan_old_adherent_plural:1 "Old Arabic Pagans"
- 
+
  #---------------------------------------------------
  # ARMENIAN
  #---------------------------------------------------
@@ -43,7 +43,7 @@
  armenian_religion_adherent:1 "Armenian"
  armenian_religion_adherent_plural:1 "Armenians"
  armenian_religion_desc:1 "	The Khaldic pantheon represents a religion which grew out of the Urartian culture, many centuries before. A principally polytheistic faith, the chief god was known as Khaldi, and was worshiped as a warrior god."
- 
+
  armenian_pagan:1 "Khaldic"
  armenian_pagan_adj:1 "Khaldic"
  armenian_pagan_adherent:1 "Khaldic Pagan"
@@ -52,7 +52,7 @@
  armenian_pagan_old_adj:1 "Old Khaldic"
  armenian_pagan_old_adherent:1 "Old Khaldic Pagan"
  armenian_pagan_old_adherent_plural:1 "Old Khaldic Pagans"
- 
+
  #---------------------------------------------------
  # BALKANIC
  #---------------------------------------------------
@@ -61,7 +61,7 @@
  dacian_religion_adherent:1 "Dacian Pagan"
  dacian_religion_adherent_plural:1 "Dacian Pagans"
  dacian_religion_desc:1 "Whether Zalmoxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zalmoxis as a divine being, ascribing many miraculous acts to him."
- 
+
  dacian_pagan:1 "Zalmoxian"
  dacian_pagan_adj:1 "Zalmoxian"
  dacian_pagan_adherent:1 "Zalmoxian"
@@ -70,7 +70,7 @@
  dacian_pagan_old_adj:1 "Old Zalmoxian"
  dacian_pagan_old_adherent:1 "Old Zalmoxian"
  dacian_pagan_old_adherent_plural:1 "Old Zalmoxians"
- 
+
  #---------------------------------------------------
  # BERBER
  #---------------------------------------------------
@@ -79,7 +79,7 @@
  berber_religion_adherent:1 "Berber"
  berber_religion_adherent_plural:1 "Berbers"
  berber_religion_desc:1 "The ancient culture and religion was a melting pot of traditional egyptian beliefs, star-worship, and ancestor veneration. Many megaliths - stone constructs raised in honor of the gods - still exist, dotted about the African landscape."
- 
+
  berber_pagan:1 "Megalithic"
  berber_pagan_adj:1 "Megalithic"
  berber_pagan_adherent:1 "Megalithic Pagan"
@@ -88,7 +88,7 @@
  berber_pagan_old_adj:1 "Old Megalithic"
  berber_pagan_old_adherent:1 "Old Megalithic Pagan"
  berber_pagan_old_adherent_plural:1 "Old Megalithic Pagans"
- 
+
  #---------------------------------------------------
  # PHOENICIAN
  #---------------------------------------------------
@@ -97,7 +97,7 @@
  canaanite_religion_adherent:1 "Phoenician"
  canaanite_religion_adherent_plural:1 "Phoenicians"
  canaanite_religion_desc:1 "The Canaanite religion venerates a number of Gods and their aspects, in a polytheistic manner. Baal is regarded as the chief deity in a complex hierarchy of lesser gods, which were often worshiped at shrines found on mountains or hilltops. At the start of the game the Canaanite religion is primarily found in Phoenicia and Phoenician colonies, such as Carthage."
- 
+
  canaanite_pagan:1 "Canaanite"
  canaanite_pagan_adj:1 "Canaanite"
  canaanite_pagan_adherent:1 "Canaanite"
@@ -106,7 +106,7 @@
  canaanite_pagan_old_adj:1 "Old Canaanite"
  canaanite_pagan_old_adherent:1 "Old Canaanite"
  canaanite_pagan_old_adherent_plural:1 "Old Canaanites"
- 
+
  #---------------------------------------------------
  # CAUCASIAN
  #---------------------------------------------------
@@ -115,7 +115,7 @@
  caucasian_religion_adherent:1 "Caucasian"
  caucasian_religion_adherent_plural:1 "Caucasians"
  caucasian_religion_desc:1 "Possibly connected to the nearby Anatolian religions, the pantheon of the Caucasian-Iberia region was ruled over by the god Armaz."
- 
+
  caucasian_pagan:1 "Armazic"
  caucasian_pagan_adj:1 "Armazic"
  caucasian_pagan_adherent:1 "Armazic Pagan"
@@ -124,7 +124,7 @@
  caucasian_pagan_old_adj:1 "Old Armazic"
  caucasian_pagan_old_adherent:1 "Old Armazic Pagan"
  caucasian_pagan_old_adherent_plural:1 "Old Armazic Pagans"
- 
+
  #---------------------------------------------------
  # CELTIC
  #---------------------------------------------------
@@ -133,7 +133,7 @@
  celtic_religion_adherent:1 "Celt"
  celtic_religion_adherent_plural:1 "Celts"
  celtic_religion_desc:1 "Druids acted for the Celts, as a distinct social class. Often acting as magistrates and lawmakers, they also dictated local religious customs and beliefs. Druidic faiths are primarily found in Iberia, Gaul and the British Isles at the start of the game."
- 
+
  celtic_pagan:1 "Druidic"
  celtic_pagan_adj:1 "Druidic"
  celtic_pagan_adherent:1 "Druidic Pagan"
@@ -142,7 +142,7 @@
  celtic_pagan_old_adj:1 "Old Druidic"
  celtic_pagan_old_adherent:1 "Old Druidic Pagan"
  celtic_pagan_old_adherent_plural:1 "Old Druidic Pagans"
- 
+
  #---------------------------------------------------
  # IBERIC
  #---------------------------------------------------
@@ -151,7 +151,7 @@
  iberic_religion_adherent:1 "Animist"
  iberic_religion_adherent_plural:1 "Animists"
  iberic_religion_desc:1 "Essentially a hybrid polytheistic religion, Iberian religious practices involve the veneration of animal spirits, as well as ancestor worship. Various Hellenic and Phoenician gods were worshiped by the Iberians, as well as local deities such as Betatun or Ataecina."
- 
+
  iberian_pagan:1 "Iberic"
  iberian_pagan_adj:1 "Iberic"
  iberian_pagan_adherent:1 "Iberic Pagan"
@@ -160,7 +160,7 @@
  iberian_pagan_old_adj:1 "Old Iberic"
  iberian_pagan_old_adherent:1 "Old Iberic Pagan"
  iberian_pagan_old_adherent_plural:1 "Old Iberic Pagans"
- 
+
  #---------------------------------------------------
  # EGYPTIAN - TO VANILLA KORDOFAN RELIGION
  #---------------------------------------------------
@@ -172,7 +172,7 @@
  egyptian_pagan_old_adj:1 "Old Kemetic"
  egyptian_pagan_old_adherent:1 "Old Kemetic Pagan"
  egyptian_pagan_old_adherent_plural:1 "Old Kemetic Pagans"
- 
+
  #---------------------------------------------------
  # MESOPOTAMIAN
  #---------------------------------------------------
@@ -181,7 +181,7 @@
  mesopotamian_religion_adherent:1 "Mesopotamian Pagan"
  mesopotamian_religion_adherent_plural:1 "Mesopotamian Pagans"
  mesopotamian_religion_desc:1 "The history of the Chaldean pantheon stretches back many thousands of years. Worshiping gods such as Anu, Enki and Nanna, the devotees of the Chaldean religion construct imposing temples in honor of their chosen God."
- 
+
  mesopotamian_pagan:1 "Chaldean"
  mesopotamian_pagan_adj:1 "Chaldean"
  mesopotamian_pagan_adherent:1 "Chaldean"
@@ -190,7 +190,7 @@
  mesopotamian_pagan_old_adj:1 "Old Chaldean"
  mesopotamian_pagan_old_adherent:1 "Old Chaldean"
  mesopotamian_pagan_old_adherent_plural:1 "Old Chaldeans"
- 
+
  #---------------------------------------------------
  # SCYTHIAN
  #---------------------------------------------------
@@ -199,7 +199,7 @@
  scythian_religion_adherent:1 "Scythian Pagan"
  scythian_religion_adherent_plural:1 "Scythian Pagans"
  scythian_religion_desc:1 "Originating in Scythian lands, this pantheistic faith worshiped seven principal gods, often equated to those of the Greek pantheon. Elements of the earlier polytheistic folk religion of the scythians still remains, as does the practice of horse sacrifice and chariot burials, similar to those of the Celts."
- 
+
  scythian_pagan:1 "Heptadic"
  scythian_pagan_adj:1 "Heptadic"
  scythian_pagan_adherent:1 "Heptadic Pagan"
@@ -208,4 +208,3 @@
  scythian_pagan_old_adj:1 "Old Heptadic"
  scythian_pagan_old_adherent:1 "Old Heptadic Pagan"
  scythian_pagan_old_adherent_plural:1 "Old Heptadic Pagans"
- 
