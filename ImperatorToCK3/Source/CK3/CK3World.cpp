@@ -132,12 +132,12 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 		try
 		{
 			auto newProvinces = ProvinceMappings(ck3Path + "/game/history/province_mapping/" + fileName);
-			for (const auto& newProvince : newProvinces.getMappings())
+			for (const auto& [newProvinceID, newProvince] : newProvinces.getMappings())
 			{
-				const auto id = newProvince.first;
-				if (provinces.find(newProvince.second) == provinces.end())
+				const auto id = newProvinceID;
+				if (provinces.find(newProvince) == provinces.end())
 				{
-					Log(LogLevel::Warning) << "Base province " << newProvince.second << " not found for province " << id << ".";
+					Log(LogLevel::Warning) << "Base province " << newProvince << " not found for province " << id << ".";
 					continue;
 				}
 				if (provinces.count(id))
@@ -145,7 +145,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 					Log(LogLevel::Info) << "Vanilla province duplication - " << id << " already loaded! Preferring unique entry over mapping.";
 				}
 				else
-					provinces.insert(std::pair(id, provinces.find(newProvince.second)->second));
+					provinces.insert(std::pair(id, provinces.find(newProvince)->second));
 			}
 		}
 		catch (std::exception& e)
@@ -161,9 +161,9 @@ void CK3::World::importImperatorProvinces(const ImperatorWorld::World& impWorld)
 	LOG(LogLevel::Info) << "-> Importing Imperator Provinces";
 	auto counter = 0;
 	// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-	for (const auto& province : provinces)
+	for (const auto& [provinceID, province] : provinces)
 	{
-		const auto& impProvinces = provinceMapper.getImperatorProvinceNumbers(province.first);
+		const auto& impProvinces = provinceMapper.getImperatorProvinceNumbers(provinceID);
 		// Provinces we're not affecting will not be in this list.
 		if (impProvinces.empty())
 			continue;
@@ -171,12 +171,12 @@ void CK3::World::importImperatorProvinces(const ImperatorWorld::World& impWorld)
 		const auto& sourceProvince = determineProvinceSource(impProvinces, impWorld);
 		if (!sourceProvince)
 		{
-			Log(LogLevel::Warning) << "Could not determine source province for CK3 province " << province.first;
+			Log(LogLevel::Warning) << "Could not determine source province for CK3 province " << provinceID;
 			continue; // MISMAP, or simply have mod provinces loaded we're not using.
 		}
 		else
 		{
-			province.second->initializeFromImperator(sourceProvince->second, cultureMapper, religionMapper);
+			province->initializeFromImperator(sourceProvince->second, cultureMapper, religionMapper);
 		}
 		// And finally, initialize it.
 		counter++;
@@ -190,7 +190,7 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 	// determine ownership by province development.
 	std::map<int, std::vector<std::shared_ptr<ImperatorWorld::Province>>> theClaims; // owner, offered province sources
 	std::map<int, int> theShares;														// owner, development
-	int winner = -1;
+	auto winner = -1;
 	auto maxDev = -1;
 
 	for (auto imperatorProvinceID : impProvinceNumbers)
