@@ -26,7 +26,7 @@ namespace ImperatorWorld
 	class Country: commonItems::parser
 	{
 		public:
-			Country(std::istream& theStream, int cntrID);
+			Country(std::istream& theStream, int countryID);
 
 			[[nodiscard]] const std::string& getTag() const { return tag; }
 			[[nodiscard]] const auto& getName() const { return name; }

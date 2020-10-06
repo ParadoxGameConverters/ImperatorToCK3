@@ -329,6 +329,7 @@
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />
     <ClInclude Include="Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h" />
+    <ClInclude Include="Source\Imperator\Provinces\Provinces.h" />
     <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMappingRule.h" />

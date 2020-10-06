@@ -292,6 +292,9 @@
     <ClInclude Include="Source\Mappers\TraitMapper\TraitMapping.h">
       <Filter>Mappers\TraitMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\Provinces.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -571,13 +574,7 @@
     <CopyFileToFolders Include="Data_Files\configurables\version.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Data_Files\ReadMe.txt">
-      <Filter>Resources</Filter>
-    </Text>
-    <Text Include="Data_Files\FAQ.txt">
-      <Filter>Resources</Filter>
-    </Text>
+    <CopyFileToFolders Include="Data_Files\FAQ.txt" />
+    <CopyFileToFolders Include="Data_Files\ReadMe.txt" />
   </ItemGroup>
 </Project>

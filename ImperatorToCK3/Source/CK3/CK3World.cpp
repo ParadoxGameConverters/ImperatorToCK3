@@ -104,16 +104,16 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 		try
 		{
 			auto newProvinces = Provinces(ck3Path + "/game/history/provinces/" + fileName);
-			for (const auto& newProvince : newProvinces.getProvinces())
+			for (const auto& [newProvinceID, newProvince] : newProvinces.getProvinces())
 			{
-				const auto id = newProvince.first;
+				const auto id = newProvinceID;
 				if (provinces.count(id))
 				{
 					Log(LogLevel::Warning) << "Vanilla province duplication - " << id << " already loaded! Overwriting.";
-					provinces[id] = newProvince.second;
+					provinces[id] = newProvince;
 				}
 				else
-					provinces.insert(std::pair(id, newProvince.second));
+					provinces.insert(std::pair(id, newProvince));
 			}
 		}
 		catch (std::exception& e)

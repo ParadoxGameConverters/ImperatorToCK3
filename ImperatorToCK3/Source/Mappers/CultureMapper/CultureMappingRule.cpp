@@ -39,7 +39,7 @@ mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 
 std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::string& impCulture,
 	 const std::string& CK3religion,
-	 int CK3Province,
+	 const int CK3Province,
 	 const std::string& CK3ownerTitle) const
 {
 	// We need at least a viable CK3culture.
@@ -69,7 +69,7 @@ std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::
 
 std::optional<std::string> mappers::CultureMappingRule::cultureNonReligiousMatch(const std::string& impCulture,
 	const std::string& CK3religion,
-	int CK3Province,
+	const int CK3Province,
 	const std::string& CK3ownerTitle) const
 {
 	// This is a non religious match. We need a mapping without any religion, so if the

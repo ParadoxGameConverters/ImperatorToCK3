@@ -4,7 +4,7 @@
 #include "CountryCurrencies.h"
 #include "Log.h"
 
-ImperatorWorld::Country::Country(std::istream& theStream, int cntrID): countryID(cntrID)
+ImperatorWorld::Country::Country(std::istream& theStream, int countryID): countryID(countryID)
 {
 	registerKeys();
 	parseStream(theStream);

@@ -5,7 +5,7 @@
 #include "ProvinceName.h"
 #include <numeric>
 
-ImperatorWorld::Province::Province(std::istream& theStream, int provID): provinceID(provID)
+ImperatorWorld::Province::Province(std::istream& theStream, const int provID): provinceID(provID)
 {
 	registerKeys();
 	parseStream(theStream);
