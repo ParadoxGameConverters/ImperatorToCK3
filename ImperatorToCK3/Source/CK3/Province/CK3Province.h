@@ -41,7 +41,7 @@ class Province
 
 	std::shared_ptr<ImperatorWorld::Province> srcProvince;
 
-	friend std::ostream& operator<<(std::ostream& output, const Province& versionParser);
+	friend std::ostream& operator<<(std::ostream& output, const Province& province);
 
   private:
 	  void setReligion(const mappers::ReligionMapper& religionMapper);
