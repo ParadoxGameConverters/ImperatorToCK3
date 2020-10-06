@@ -3,14 +3,22 @@
 # multiple imp entries are allowed, multiple ck3 are not.
 
 # Pagan
-link = { ck3 = hellenic_pagan imp = roman_pantheon imp = anatolian_religion }
-link = { ck3 = kushitism_pagan imp = egyptian_pantheon imp = berber_religion } # Megalithic (berber_religion) could be separate
-link = { ck3 = pagan imp = carthaginian_pantheon imp = shamanism imp = caucasian_religion imp = mesopotamian_religion imp = armenian_religion imp = druidism imp = animism imp = indo_iranian_religion imp = arabian_pantheon } # remove from this group if possible
+link = { ck3 = hellenic_pagan imp = roman_pantheon }
 link = { ck3 = norse_pagan imp = germanic_religion }
-# Baltic
 link = { ck3 = baltic_pagan imp = matrist_religion }
-# unsure, but they seem to be related if you read their descriptions and check location (north of Tibet)
 link = { ck3 = melieism imp = eastern_animism }
+link = { ck3 = egyptian_pagan imp = egyptian_pantheon }
+link = { ck3 = canaanite_pagan imp = carthaginian_pantheon }
+link = { ck3 = dacian_pagan imp = shamanism }
+link = { ck3 = caucasian_pagan imp = caucasian_religion }
+link = { ck3 = mesopotamian_pagan imp = mesopotamian_religion }
+link = { ck3 = armenian_pagan imp = armenian_religion }
+link = { ck3 = anatolian_pagan imp = anatolian_religion }
+link = { ck3 = celtic_pagan imp = druidism }
+link = { ck3 = iberian_pagan imp = animism }
+link = { ck3 = berber_pagan imp = berber_religion }
+link = { ck3 = scythian_pagan imp = indo_iranian_religion }
+link = { ck3 = arabic_pagan imp = arabian_pantheon }
 
 #Jewish
 link = { ck3 = rabbinism imp = judaism }
@@ -29,3 +37,33 @@ link = { ck3 = old_bon imp = bon_religion }
 
 # Jain
 link = { ck3 = digambara imp = jainism }
+
+# MODS (for future mods close date to ck3)
+link = { ck3 = tengri_pagan imp = tengri_pagan }
+link = { ck3 = magyar_pagan imp = magyar_pagan }
+link = { ck3 = slavic_pagan imp = slavic_pagan }
+link = { ck3 = finnish_pagan imp = finnish_pagan }
+link = { ck3 = kushitism_pagan imp = kushitism_pagan }
+link = { ck3 = zun_pagan imp = zun_pagan }
+link = { ck3 = catholic imp = christianity }
+link = { ck3 = coptic imp = coptic }
+link = { ck3 = nestorian imp = nestorian }
+link = { ck3 = insular_celtic imp = insular }
+link = { ck3 = armenian_apostolic imp = armenian_apostolic }
+link = { ck3 = conversos imp = conversos }
+link = { ck3 = iconoclast imp = iconoclast }
+link = { ck3 = messalian imp = messalian }
+link = { ck3 = ashari imp = sunni }
+link = { ck3 = ismaili imp = shiite }
+link = { ck3 = ibadi imp = ibadi }
+link = { ck3 = azariqa imp = kharijite }
+link = { ck3 = yazidi imp = yazidi }
+link = { ck3 = mazdakism imp = mazdaki }
+link = { ck3 = manichean imp = manichean }
+link = { ck3 = mandeaism imp = mandeaism }
+link = { ck3 = valentinianism imp = valentinianism }
+link = { ck3 = sethianism imp = sethianism }
+link = { ck3 = priscillianism imp = priscillianism }
+link = { ck3 = cainitism imp = cainitism }
+link = { ck3 = arian imp = arian }
+ 
