@@ -56,20 +56,20 @@
  #---------------------------------------------------
  # Balkanique
  #---------------------------------------------------
- balkanic_religion:0 "Balkanique"
- balkanic_religion_adj:0 "balkanique"
- balkanic_religion_adjerent:0 "balkanique"
- balkanic_religion_adherent_plural:0 "balkaniques"
- balkanic_religion_desc:0 "On ne sait réellement si Zalmoxis était à l'origine un prophète ou un dieu ; mais les Daces et les Gètes le révèrent comme un être d'essence divine et lui attribuent nombre de miracles."
+ dacian_religion:0 "Balkanique"
+ dacian_religion_adj:0 "balkanique"
+ dacian_religion_adjerent:0 "balkanique"
+ dacian_religion_adherent_plural:0 "balkaniques"
+ dacian_religion_desc:0 "On ne sait réellement si Zalmoxis était à l'origine un prophète ou un dieu ; mais les Daces et les Gètes le révèrent comme un être d'essence divine et lui attribuent nombre de miracles."
 
- balkanic_pagan:0 "Zalmoxite"
- balkanic_pagan_adj:0 "zalmoxite"
- balkanic_pagan_adjerent:0 "zalmoxite"
- balkanic_pagan_adherent_plural:0 "zalmoxites"
- balkanic_pagan_old:0 "Zalmoxite ancien"
- balkanic_pagan_old_adj:0 "zalmoxite ancienne"
- balkanic_pagan_old_adjerent:0 "zalmoxite ancien"
- balkanic_pagan_old_adherent_plural:0 "zalmoxites ancien"
+ dacian_pagan:0 "Zalmoxite"
+ dacian_pagan_adj:0 "zalmoxite"
+ dacian_pagan_adjerent:0 "zalmoxite"
+ dacian_pagan_adherent_plural:0 "zalmoxites"
+ dacian_pagan_old:0 "Zalmoxite ancien"
+ dacian_pagan_old_adj:0 "zalmoxite ancienne"
+ dacian_pagan_old_adjerent:0 "zalmoxite ancien"
+ dacian_pagan_old_adherent_plural:0 "zalmoxites ancien"
 
  #---------------------------------------------------
  # Berbère
