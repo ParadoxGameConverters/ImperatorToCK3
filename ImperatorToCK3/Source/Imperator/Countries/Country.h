@@ -31,6 +31,7 @@ namespace ImperatorWorld
 			[[nodiscard]] const std::string& getTag() const { return tag; }
 			[[nodiscard]] const auto& getName() const { return name; }
 			[[nodiscard]] const auto& getFlag() const { return flag; }
+			[[nodiscard]] const auto& getCountryType() const { return countryType; }
 			[[nodiscard]] const auto& getCapital() const { return capital; }
 			[[nodiscard]] const auto& getCurrencies() const { return currencies; }
 			[[nodiscard]] const auto& getColor1() const { return color1; }
@@ -53,6 +54,7 @@ namespace ImperatorWorld
 			std::string tag;
 			std::string name;
 			std::string flag;
+			std::string countryType;
 			std::optional<int> capital;
 	
 			std::optional<commonItems::Color> color1;

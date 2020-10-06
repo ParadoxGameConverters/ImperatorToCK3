@@ -24,6 +24,9 @@ void ImperatorWorld::Country::registerKeys()
 		const commonItems::singleString flagStr(theStream);
 		flag = flagStr.getString();
 	});
+	registerKeyword("country_type", [this](const std::string& unused, std::istream& theStream) {
+		countryType =  commonItems::singleString(theStream).getString();
+	});
 	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
 		color1 = commonItems::Color::Factory{}.getColor(theStream);
 	});

@@ -17,6 +17,9 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 	
 	for (const auto& [name, title] : titles)
 	{
+		if (title->imperatorCountry.second && title->imperatorCountry.second->getCountryType() != "real") // we don't need pirates, barbarians etc.
+			continue;
+		
 		if (title->generated) // title is not a county
 		{
 			std::ofstream output("output/" + outputModName + "/common/landed_titles/" + name + ".txt");
