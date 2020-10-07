@@ -17,7 +17,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getImperatorModsPath() const { return ImperatorModsPath; }
 	[[nodiscard]] const auto& getCK3Path() const { return CK3Path; }
 	[[nodiscard]] const auto& getCK3ModsPath() const { return CK3ModsPath; }
-	[[nodiscard]] const auto& getOutputName() const { return outputName; }
+	[[nodiscard]] const auto& getOutputModName() const { return outputModName; }
 	[[nodiscard]] const auto& getImperatorDeJure() const { return imperatorDeJure; }
 	[[nodiscard]] const auto& getConvertBirthAndDeathDates() const { return convertBirthAndDeathDates; }
 
@@ -32,7 +32,7 @@ class Configuration: commonItems::parser
 	std::string ImperatorModsPath;
 	std::string CK3Path;
 	std::string CK3ModsPath;
-	std::string outputName;
+	std::string outputModName;
 
 	IMPERATOR_DE_JURE imperatorDeJure = IMPERATOR_DE_JURE::NO;
 	bool convertBirthAndDeathDates = true;

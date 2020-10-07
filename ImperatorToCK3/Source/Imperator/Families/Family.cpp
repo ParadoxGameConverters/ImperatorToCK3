@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::Family::Family(std::istream& theStream, int theFamilyID) : familyID(theFamilyID)
+ImperatorWorld::Family::Family(std::istream& theStream, const int theFamilyID) : familyID(theFamilyID)
 {
 	registerKeys();
 	parseStream(theStream);

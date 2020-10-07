@@ -6,7 +6,7 @@
 //#include "../Title/Title.h"
 //#include "../../Imperator/Characters/Character.h"
 
-CK3::Province::Province(int id, std::istream& theStream) : provID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
+CK3::Province::Province(const int id, std::istream& theStream) : provID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
 
 
 void CK3::Province::updateWith(const std::string& filePath)

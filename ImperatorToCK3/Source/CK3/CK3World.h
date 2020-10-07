@@ -26,7 +26,6 @@ class World
 	public:
 		World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser);
 
-		[[nodiscard]] const auto& getOutputModName() const { return outputModName; }
 		[[nodiscard]] const auto& getCharacters() const { return characters; }
 		[[nodiscard]] const auto& getTitles() const { return titles; }
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
@@ -60,10 +59,7 @@ class World
 		mappers::TraitMapper traitMapper;
 		TitlesHistory titlesHistory;
 
-
 		LandedTitles landedTitles;
-
-		std::string outputModName;
 };
 
 }
