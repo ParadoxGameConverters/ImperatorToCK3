@@ -27,7 +27,7 @@ class CharacterPortraitData: commonItems::parser
 {
 public:
 	CharacterPortraitData() = default;
-	explicit CharacterPortraitData(const std::string& dnaString, const GenesDB& genesDB, const std::string& ageSexString = "male");
+	explicit CharacterPortraitData(const std::string& dnaString, GenesDB genesDB, const std::string& ageSexString = "male");
 
 	[[nodiscard]] const auto& getHairColorPaletteCoordinates() const { return hairColorPaletteCoordinates; }
 	[[nodiscard]] const auto& getSkinColorPaletteCoordinates() const { return skinColorPaletteCoordinates; }

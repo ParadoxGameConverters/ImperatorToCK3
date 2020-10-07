@@ -25,19 +25,19 @@ void ImperatorWorld::Characters::linkFamilies(const Families& theFamilies)
 {
 	auto counter = 0;
 	const auto& families = theFamilies.getFamilies();
-	for (const auto& character: characters)
+	for (const auto& [characterID, character]: characters)
 	{
-		if (character.second->getFamily().first)
+		if (character->getFamily().first)
 		{
-			const auto& familyItr = families.find(character.second->getFamily().first);
+			const auto& familyItr = families.find(character->getFamily().first);
 			if (familyItr != families.end())
 			{
-				character.second->setFamily(familyItr->second);
+				character->setFamily(familyItr->second);
 				counter++;
 			}
 			else
 			{
-				Log(LogLevel::Warning) << "Family ID: " << character.second->getFamily().first << " has no definition!";
+				Log(LogLevel::Warning) << "Family ID: " << character->getFamily().first << " has no definition!";
 			}
 		}
 	}
@@ -47,14 +47,14 @@ void ImperatorWorld::Characters::linkFamilies(const Families& theFamilies)
 void ImperatorWorld::Characters::linkSpouses()
 {
 	auto counterSpouse = 0;
-	for (const auto& character: characters)
+	for (const auto& [characterID, character]: characters)
 	{
-		if (!character.second->getSpouses().empty())
+		if (!character->getSpouses().empty())
 		{
 			std::map<int, std::shared_ptr<Character>> newSpouses;
-			for (const auto& spouse: character.second->getSpouses())
+			for (const auto& [spouseID, spouse]: character->getSpouses())
 			{
-				const auto& characterItr = characters.find(spouse.first);
+				const auto& characterItr = characters.find(spouseID);
 				if (characterItr != characters.end())
 				{
 					newSpouses.insert(std::pair(characterItr->first, characterItr->second));
@@ -62,10 +62,10 @@ void ImperatorWorld::Characters::linkSpouses()
 				}
 				else
 				{
-					Log(LogLevel::Warning) << "Spouse ID: " << spouse.first << " has no definition!";
+					Log(LogLevel::Warning) << "Spouse ID: " << spouseID << " has no definition!";
 				}
 			}
-			character.second->setSpouses(newSpouses);
+			character->setSpouses(newSpouses);
 		}
 	}
 	Log(LogLevel::Info) << "<> " << counterSpouse << " spouses linked.";
@@ -114,7 +114,7 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 
 
 
-ImperatorWorld::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB& genesDB, const date& _endDate) : genes(genesDB), endDate(_endDate)
+ImperatorWorld::CharactersBloc::CharactersBloc(std::istream& theStream, GenesDB genesDB, const date& _endDate) : genes(std::move(genesDB)), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);

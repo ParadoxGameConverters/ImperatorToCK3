@@ -51,8 +51,8 @@ void Configuration::registerKeys()
 		});	
 	registerKeyword("output_name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
-		outputName = nameStr.getString();
-		Log(LogLevel::Info) << "Output name set to: " << outputName;
+		outputModName = nameStr.getString();
+		Log(LogLevel::Info) << "Output name set to: " << outputModName;
 		});
 	registerKeyword("ImperatorDeJure", [this](const std::string& unused, std::istream& theStream) {
 		const auto deJureString = commonItems::singleString(theStream).getString();
@@ -94,11 +94,11 @@ void Configuration::verifyCK3Path() const
 
 void Configuration::setOutputName()
 {
-	if (outputName.empty()) { outputName = trimPath(SaveGamePath); }
-	outputName = trimExtension(outputName);
-	outputName = replaceCharacter(outputName, '-');
-	outputName = replaceCharacter(outputName, ' ');
+	if (outputModName.empty()) { outputModName = trimPath(SaveGamePath); }
+	outputModName = trimExtension(outputModName);
+	outputModName = replaceCharacter(outputModName, '-');
+	outputModName = replaceCharacter(outputModName, ' ');
 
-	outputName = commonItems::normalizeUTF8Path(outputName);
-	LOG(LogLevel::Info) << "Using output name " << outputName;
+	outputModName = commonItems::normalizeUTF8Path(outputModName);
+	LOG(LogLevel::Info) << "Using output name " << outputModName;
 }

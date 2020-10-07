@@ -41,14 +41,14 @@ void ImperatorWorld::Countries::linkFamilies(const Families& theFamilies)
 {
 	auto counter = 0;
 	const auto& families = theFamilies.getFamilies();
-	for (const auto& country : countries)
+	for (const auto& [countryID, country] : countries)
 	{
-		if (!country.second->getFamilies().empty())
+		if (!country->getFamilies().empty())
 		{
 			std::map<int, std::shared_ptr<Family>> newFamilies;
-			for (const auto& family : country.second->getFamilies())
+			for (const auto& [familyID, family] : country->getFamilies())
 			{
-				const auto& familyItr = families.find(family.first);
+				const auto& familyItr = families.find(familyID);
 				if (familyItr != families.end())
 				{
 					newFamilies.insert(std::pair(familyItr->first, familyItr->second));
@@ -56,10 +56,10 @@ void ImperatorWorld::Countries::linkFamilies(const Families& theFamilies)
 				}
 				else
 				{
-					Log(LogLevel::Warning) << "Family ID: " << family.first << " has no definition!";
+					Log(LogLevel::Warning) << "Family ID: " << familyID << " has no definition!";
 				}
 			}
-			country.second->setFamilies(newFamilies);
+			country->setFamilies(newFamilies);
 		}
 	}
 	Log(LogLevel::Info) << "<> " << counter << " families linked to countries.";

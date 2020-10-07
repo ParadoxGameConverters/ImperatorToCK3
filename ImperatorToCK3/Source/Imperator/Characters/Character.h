@@ -26,7 +26,7 @@ typedef struct AttributesStruct
 class Character: commonItems::parser
 {
   public:
-	Character(std::istream& theStream, int chrID, const GenesDB& genesDB, const date& _endDate);
+	Character(std::istream& theStream, int chrID, GenesDB genesDB, const date& _endDate);
 
 	[[nodiscard]] const std::string& getCulture() const;
 	[[nodiscard]] const std::string& getReligion() const { return religion; }

@@ -10,7 +10,7 @@ namespace ImperatorWorld
 	{
 	  public:
 		Countries() = default;
-		Countries(std::istream& theStream);
+		explicit Countries(std::istream& theStream);
 
 		[[nodiscard]] const auto& getCountries() const { return countries; }
 

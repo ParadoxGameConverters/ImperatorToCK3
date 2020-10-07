@@ -24,14 +24,14 @@ void ImperatorWorld::Provinces::linkPops(const Pops& thePops)
 {
 	auto counter = 0;
 	const auto& pops = thePops.getPops();
-	for (const auto& province : provinces)
+	for (const auto& [provinceID, province] : provinces)
 	{
-		if (!province.second->getPops().empty())
+		if (!province->getPops().empty())
 		{
 			std::map<int, std::shared_ptr<Pop>> newPops;
-			for (const auto& pop : province.second->getPops())
+			for (const auto& [popID, pop] : province->getPops())
 			{
-				const auto& popItr = pops.find(pop.first);
+				const auto& popItr = pops.find(popID);
 				if (popItr != pops.end())
 				{
 					newPops.insert(std::pair(popItr->first, popItr->second));
@@ -39,10 +39,10 @@ void ImperatorWorld::Provinces::linkPops(const Pops& thePops)
 				}
 				else
 				{
-					Log(LogLevel::Warning) << "Pop ID: " << pop.first << " has no definition!";
+					Log(LogLevel::Warning) << "Pop ID: " << popID << " has no definition!";
 				}
 			}
-			province.second->setPops(newPops);
+			province->setPops(newPops);
 		}
 	}
 	Log(LogLevel::Info) << "<> " << counter << " pops linked to provinces.";

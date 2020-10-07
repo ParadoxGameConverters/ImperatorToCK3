@@ -1,4 +1,5 @@
 #include "Character.h"
+#include <utility>
 #include "../Families/Family.h"
 #include "ParserHelpers.h"
 #include "CharacterName.h"
@@ -8,7 +9,7 @@
 
 
 
-ImperatorWorld::Character::Character(std::istream& theStream, const int chrID, const GenesDB& genesDB, const date& _endDate) : charID(chrID), genes(genesDB), endDate(_endDate)
+ImperatorWorld::Character::Character(std::istream& theStream, const int chrID, GenesDB genesDB, const date& _endDate) : charID(chrID), genes(std::move(genesDB)), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);

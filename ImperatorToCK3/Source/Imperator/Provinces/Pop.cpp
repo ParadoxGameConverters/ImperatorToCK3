@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::Pop::Pop(std::istream& theStream, int thePopID) : popID(thePopID)
+ImperatorWorld::Pop::Pop(std::istream& theStream, const int thePopID) : popID(thePopID)
 {
 	registerKeys();
 	parseStream(theStream);

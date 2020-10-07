@@ -3,7 +3,6 @@
 
 #include "Parser.h"
 #include "../Genes/GenesDB.h"
-#include "../../Configuration/Configuration.h"
 #include "Date.h"
 
 namespace ImperatorWorld
@@ -35,7 +34,7 @@ namespace ImperatorWorld
 	{
 	public:
 		CharactersBloc() = default;
-		explicit CharactersBloc(std::istream& theStream, const GenesDB& genesDB, const date& _endDate);
+		explicit CharactersBloc(std::istream& theStream, GenesDB genesDB, const date& _endDate);
 
 		[[nodiscard]] const auto& getCharactersFromBloc() const { return characters; }
 
