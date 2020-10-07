@@ -22,6 +22,8 @@ namespace ImperatorWorld
 		int military_experience = 0;
 	} CurrenciesStruct;
 
+	enum class countryTypeEnum { rebels, pirates, barbarians, mercenaries, real };
+
 	class Family;
 	class Country: commonItems::parser
 	{
@@ -54,7 +56,7 @@ namespace ImperatorWorld
 			std::string tag;
 			std::string name;
 			std::string flag;
-			std::string countryType;
+			countryTypeEnum countryType = countryTypeEnum::real;
 			std::optional<int> capital;
 	
 			std::optional<commonItems::Color> color1;

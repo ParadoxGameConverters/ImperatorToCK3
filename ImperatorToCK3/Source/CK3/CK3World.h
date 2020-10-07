@@ -59,7 +59,6 @@ class World
 		mappers::TraitMapper traitMapper;
 		TitlesHistory titlesHistory;
 
-		
 		LandedTitles landedTitles;
 };
 

@@ -25,7 +25,22 @@ void ImperatorWorld::Country::registerKeys()
 		flag = flagStr.getString();
 	});
 	registerKeyword("country_type", [this](const std::string& unused, std::istream& theStream) {
-		countryType =  commonItems::singleString(theStream).getString();
+		const auto countryTypeStr =  commonItems::singleString(theStream).getString();
+		if (countryTypeStr == "rebels")
+			countryType = countryTypeEnum::rebels;
+		else if (countryTypeStr == "pirates")
+			countryType = countryTypeEnum::pirates;
+		else if (countryTypeStr == "barbarians")
+			countryType = countryTypeEnum::barbarians;
+		else if (countryTypeStr == "mercenaries")
+			countryType = countryTypeEnum::mercenaries;
+		else if (countryTypeStr == "real")
+			countryType = countryTypeEnum::real;
+		else
+		{
+			Log(LogLevel::Error) << "Unrecognized country type: " << countryTypeStr << ", defaulting to real.";
+			countryType = countryTypeEnum::real;
+		}
 	});
 	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
 		color1 = commonItems::Color::Factory{}.getColor(theStream);
