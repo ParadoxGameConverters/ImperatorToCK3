@@ -80,7 +80,7 @@ void CK3::World::importImperatorCountries(const ImperatorWorld::World& impWorld)
 
 void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country)
 {
-	auto title = tagTitleMapper.getTitleForTag(country.second->getTag());
+	auto title = tagTitleMapper.getTitleForTag(country.second->getTag(), country.second->getCountryRank());
 	if (!title)
 		throw std::runtime_error("Country " + country.second->getTag() + " could not be mapped!");
 

@@ -3,17 +3,21 @@
 
 #include "Parser.h"
 
+namespace ImperatorWorld {
+	enum class countryRankEnum;
+}
+
 namespace mappers
 {
 class TagTitleMapper
 {
   public:
-	std::optional<std::string> getTitleForTag(const std::string& impTag);
+	std::optional<std::string> getTitleForTag(const std::string& impTag, ImperatorWorld::countryRankEnum countryRank) const;
 
   private:
-	[[nodiscard]] std::string generateNewTitle(const std::string& impTag) const;
+	[[nodiscard]] std::string generateNewTitle(const std::string& impTag, ImperatorWorld::countryRankEnum countryRank) const;
 
-	std::string generatedCK3TitlePrefix = "e_IMPTOCK3_";
+	std::string generatedCK3TitlePrefix = "IMPTOCK3_";
 };
 } // namespace mappers
 
