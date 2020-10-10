@@ -84,7 +84,12 @@ void CK3::Title::initializeFromTag(std::shared_ptr<ImperatorWorld::Country> theC
 		Log(LogLevel::Warning) << titleName << " help with localization! " << imperatorCountry->getName() << "?";
 	
 	// --------------- Adjective Locs
+	trySetAdjectiveLoc(localizationMapper);
 
+}
+
+void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper)
+{
 	auto adjSet = false;
 
 	if (imperatorCountry->getTag() == "PRY" || imperatorCountry->getTag() == "SEL" || imperatorCountry->getTag() == "MRY") // these tags use customizable loc for adj

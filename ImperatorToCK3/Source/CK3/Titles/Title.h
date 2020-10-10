@@ -45,6 +45,8 @@ class Title
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
   private:
+	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
+	
 	std::optional<commonItems::Color> color1;
 	std::optional<commonItems::Color> color2;
 
