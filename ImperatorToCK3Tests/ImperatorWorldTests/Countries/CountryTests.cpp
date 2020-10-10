@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../ImperatorToCK3/Source/Imperator/Countries/Country.h"
+#include "../ImperatorToCK3/Source/Imperator/Provinces/Province.h"
 #include <sstream>
 
 TEST(ImperatorWorld_CountryTests, IDCanBeSet)
@@ -235,4 +236,32 @@ TEST(ImperatorWorld_CountryTests, color3DefaultsToNullopt)
 	const ImperatorWorld::Country theCountry(input, 42);
 
 	ASSERT_FALSE(theCountry.getColor3());
+}
+
+TEST(ImperatorWorld_CountryTests, correctCountryRankIsReturned)
+{
+	std::stringstream input;
+	const ImperatorWorld::Country theCountry1(input, 1);
+	
+	ImperatorWorld::Country theCountry2(input, 2);
+	theCountry2.registerProvince(std::make_shared<ImperatorWorld::Province>());
+	
+	ImperatorWorld::Country theCountry3(input, 4);
+	for (unsigned i = 0; i < 4; ++i) theCountry3.registerProvince(std::make_shared<ImperatorWorld::Province>());
+	
+	ImperatorWorld::Country theCountry4(input, 4);
+	for (unsigned i = 0; i < 25; ++i) theCountry4.registerProvince(std::make_shared<ImperatorWorld::Province>());
+	
+	ImperatorWorld::Country theCountry5(input, 5);
+	for (unsigned i = 0; i < 200; ++i) theCountry5.registerProvince(std::make_shared<ImperatorWorld::Province>());
+	
+	ImperatorWorld::Country theCountry6(input, 6);
+	for (unsigned i = 0; i < 753; ++i) theCountry6.registerProvince(std::make_shared<ImperatorWorld::Province>());
+
+	ASSERT_EQ(ImperatorWorld::countryRankEnum::migrantHorde, theCountry1.getCountryRank());
+	ASSERT_EQ(ImperatorWorld::countryRankEnum::cityState, theCountry2.getCountryRank());
+	ASSERT_EQ(ImperatorWorld::countryRankEnum::localPower, theCountry3.getCountryRank());
+	ASSERT_EQ(ImperatorWorld::countryRankEnum::regionalPower, theCountry4.getCountryRank());
+	ASSERT_EQ(ImperatorWorld::countryRankEnum::majorPower, theCountry5.getCountryRank());
+	ASSERT_EQ(ImperatorWorld::countryRankEnum::greatPower, theCountry6.getCountryRank());
 }

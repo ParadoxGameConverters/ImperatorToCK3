@@ -1,6 +1,7 @@
 #ifndef IMPERATOR_COUNTRY_H
 #define IMPERATOR_COUNTRY_H
 
+#include <set>
 #include "Parser.h"
 #include "Color.h"
 
@@ -23,8 +24,10 @@ namespace ImperatorWorld
 	} CurrenciesStruct;
 
 	enum class countryTypeEnum { rebels, pirates, barbarians, mercenaries, real };
+	enum class countryRankEnum { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower };
 
 	class Family;
+	class Province;
 	class Country: commonItems::parser
 	{
 		public:
@@ -40,13 +43,15 @@ namespace ImperatorWorld
 			[[nodiscard]] const auto& getColor2() const { return color2; }
 			[[nodiscard]] const auto& getColor3() const { return color3; }
 			[[nodiscard]] const auto& getFamilies() const { return families; }
-
 			[[nodiscard]] auto getID() const { return countryID; }
 			[[nodiscard]] auto getMonarch() const { return monarch; }
 
+			[[nodiscard]] countryRankEnum getCountryRank() const;
+
 			void setFamilies(const std::map<int, std::shared_ptr<Family>>& newFamilies) { families = newFamilies; }
 
-			void registerCK3Title(const std::pair<std::string, std::shared_ptr<CK3::Title>>& theTitle) { ck3Title = theTitle; }
+			void registerProvince(const std::shared_ptr<Province>& province) { provinces.insert(province); ++provinceCount; }
+			void registerCK3Title(const std::shared_ptr<CK3::Title>& theTitle) { ck3Title = theTitle; }
 
 		private:
 			void registerKeys();
@@ -65,7 +70,12 @@ namespace ImperatorWorld
 			CurrenciesStruct currencies;
 
 			std::map<int, std::shared_ptr<Family>> families;
-			std::pair<std::string, std::shared_ptr<CK3::Title>> ck3Title;
+		
+			std::set<std::shared_ptr<Province>> provinces;
+			unsigned int provinceCount = 0; // used to determine country rank
+
+		
+			std::shared_ptr<CK3::Title> ck3Title;
 	};
 } // namespace ImperatorWorld
 
