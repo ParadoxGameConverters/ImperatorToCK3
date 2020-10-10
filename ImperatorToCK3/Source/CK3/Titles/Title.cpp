@@ -75,6 +75,15 @@ void CK3::Title::initializeFromTag(std::string theTitle, std::shared_ptr<Imperat
 		localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
 		adjSet = true;
 	}
+	if (!adjSet) // if loc for <title name>_adj key doesn't exist, use title name (which is apparently what Imperator does
+	{
+		adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry.second->getName());
+		if (adjLocalizationMatch)
+		{
+			localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
+			adjSet = true;
+		}
+	}
 	// giving up.
 	if (!adjSet)
 		Log(LogLevel::Warning) << titleName << " help with localization for adjective! " << imperatorCountry.first << "_adj?";
