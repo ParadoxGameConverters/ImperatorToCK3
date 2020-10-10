@@ -4,6 +4,7 @@
 #include "Parser.h"
 
 namespace ImperatorWorld {
+	class Country;
 	enum class countryRankEnum;
 }
 
@@ -12,10 +13,10 @@ namespace mappers
 class TagTitleMapper
 {
   public:
-	std::optional<std::string> getTitleForTag(const std::string& impTag, ImperatorWorld::countryRankEnum countryRank) const;
+	[[nodiscard]] std::optional<std::string> getTitleForTag(const std::string& impTag, ImperatorWorld::countryRankEnum countryRank, const std::string& localizedTitleName = "") const;
 
   private:
-	[[nodiscard]] std::string generateNewTitle(const std::string& impTag, ImperatorWorld::countryRankEnum countryRank) const;
+	[[nodiscard]] std::string generateNewTitle(const std::string& impTag, ImperatorWorld::countryRankEnum countryRank, const std::string& localizedTitleName) const;
 
 	std::string generatedCK3TitlePrefix = "IMPTOCK3_";
 };

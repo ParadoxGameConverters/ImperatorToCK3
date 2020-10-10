@@ -4,7 +4,7 @@
 #include "../../Imperator/Countries/Country.h"
 
 
-std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::string& impTag, const ImperatorWorld::countryRankEnum countryRank) const
+std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::string& impTag, const ImperatorWorld::countryRankEnum countryRank, const std::string& localizedTitleName) const
 {
 	// the only case where we fail is on invalid invocation. Otherwise, failure is
 	// not an option!
@@ -12,14 +12,17 @@ std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::st
 		return std::nullopt;
 
 	// Generate a new tag
-	auto generatedTitle = generateNewTitle(impTag, countryRank);
+	auto generatedTitle = generateNewTitle(impTag, countryRank, localizedTitleName);
 	return generatedTitle;
 }
 
-std::string mappers::TagTitleMapper::generateNewTitle(const std::string& impTag, const ImperatorWorld::countryRankEnum countryRank) const
+std::string mappers::TagTitleMapper::generateNewTitle(const std::string& impTag, const ImperatorWorld::countryRankEnum countryRank, const std::string& localizedTitleName) const
 {
 	std::string ck3Tag;
-	switch (countryRank)
+
+	if (localizedTitleName.find("Empire") != std::string::npos) ck3Tag += "e_";
+	else if (localizedTitleName.find("Kingdom") != std::string::npos) ck3Tag += "k_";
+	else switch (countryRank)
 	{
 	case ImperatorWorld::countryRankEnum::migrantHorde: { ck3Tag += "d_"; break; }
 	case ImperatorWorld::countryRankEnum::cityState: { ck3Tag += "d_"; break; }
@@ -28,7 +31,9 @@ std::string mappers::TagTitleMapper::generateNewTitle(const std::string& impTag,
 	case ImperatorWorld::countryRankEnum::majorPower: { ck3Tag += "k_"; break; }
 	case ImperatorWorld::countryRankEnum::greatPower: { ck3Tag += "e_"; break; }
 	}
+	
 	ck3Tag += generatedCK3TitlePrefix;
 	ck3Tag += impTag;
+	
 	return ck3Tag;
 }

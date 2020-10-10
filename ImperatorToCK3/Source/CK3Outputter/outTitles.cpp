@@ -17,7 +17,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 	
 	for (const auto& [name, title] : titles)
 	{
-		if (title->imperatorCountry.second && title->imperatorCountry.second->getCountryType() != ImperatorWorld::countryTypeEnum::real) // we don't need pirates, barbarians etc.
+		if (title->imperatorCountry && title->imperatorCountry->getCountryType() != ImperatorWorld::countryTypeEnum::real) // we don't need pirates, barbarians etc.
 			continue;
 		
 		if (title->generated) // title is not a county
