@@ -320,7 +320,7 @@ void CK3::World::removeInvalidLandlessTitles()
 		{
 			if (!landedTitles.getFoundTitles().find(name)->second.isLandless()) // does not have landless attribute set to true
 			{
-				Log(LogLevel::Debug) << "Removing landless title that can't be landless: " << name;
+				Log(LogLevel::Info) << "Removing landless title that can't be landless: " << name;
 				titles.erase(name);
 			}
 		}
