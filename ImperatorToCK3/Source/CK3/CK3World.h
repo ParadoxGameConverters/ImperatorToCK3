@@ -33,14 +33,15 @@ class World
 	private:
 		void importImperatorCharacters(const ImperatorWorld::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
 		void importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
+		void importVanillaNonCountyNonBaronyTitles(const ImperatorWorld::World& impWorld);
 		void importImperatorCountries(const ImperatorWorld::World& impWorld);
 		void importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country);
 		void importVanillaProvinces(const std::string& ck3Path);
 		void importImperatorProvinces(const ImperatorWorld::World& impWorld);
 		void linkCountiesToTitleHolders(const ImperatorWorld::World& impWorld);
-		void insertVanillaNonCountiesToTitles(const ImperatorWorld::World& impWorld);
 		void linkSpouses(const ImperatorWorld::World& impWorld);
 		void linkMothersAndFathers(const ImperatorWorld::World& impWorld);
+		void removeInvalidLandlessTitles();
 
 		[[nodiscard]] std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> determineProvinceSource(const std::vector<int>& impProvinceNumbers,
 			const ImperatorWorld::World& impWorld) const;
@@ -60,6 +61,8 @@ class World
 		TitlesHistory titlesHistory;
 
 		LandedTitles landedTitles;
+
+		std::set<std::string> countyHoldersCache; // used by removeInvalidLandlessTitles
 };
 
 }
