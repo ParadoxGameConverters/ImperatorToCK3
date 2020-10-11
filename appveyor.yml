@@ -21,8 +21,8 @@ artifacts:
   name: ImperatorToCK3-0.1
 deploy:
 - provider: GitHub
-  release: windows_development_build
-  description: The most recent build of the development version
+  release: 0.1
+  description: First stable release
   auth_token:
     secure: LBJzs4y9j0N5y0ajp7gmVk3Pvnec1UU5pTCdIMbQYUddEXQnWTJ79FXsd9SCs7YQ
   repository: ParadoxGameConverters/ImperatorToCK3
