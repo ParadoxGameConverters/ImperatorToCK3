@@ -18,14 +18,14 @@ test_script:
     $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests.xml))
 artifacts:
 - path: Release
-  name: ImperatorToCK3-0.1
+  name: ImperatorToCK3-0.2-prerelease
 deploy:
 - provider: GitHub
-  release: 0.1
-  description: First stable release
+  release: windows_development_build
+  description: The most recent build of the development version
   auth_token:
     secure: LBJzs4y9j0N5y0ajp7gmVk3Pvnec1UU5pTCdIMbQYUddEXQnWTJ79FXsd9SCs7YQ
   repository: ParadoxGameConverters/ImperatorToCK3
-  artifact: ImperatorToCK3-0.1
+  artifact: ImperatorToCK3-0.2-prerelease
   prerelease: true
   force_update: true
