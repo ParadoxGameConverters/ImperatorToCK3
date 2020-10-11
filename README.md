@@ -15,4 +15,3 @@ To help with development, please visit the official [development thread](https:/
 ---
 
 The latest development release of the Windows version is available [here](https://github.com/ParadoxGameConverters/ImperatorToCK3/releases/tag/windows_development_build).
-
