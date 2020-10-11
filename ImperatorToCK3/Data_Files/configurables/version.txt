@@ -1,5 +1,5 @@
 # Version info
 
-version = "0.0A"
-name = "init-prerelease"
-descriptionLine = "Compatible with I:R 1.4"
+version = "0.1"
+name = "Augustus"
+descriptionLine = "Compatible with I:R 1.5 and CK3 1.1"
