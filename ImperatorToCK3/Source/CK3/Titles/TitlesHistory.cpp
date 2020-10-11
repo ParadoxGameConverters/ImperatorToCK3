@@ -29,6 +29,13 @@ void CK3::TitlesHistory::TitlesHistory::registerKeys()
 	registerRegex(R"((e|k|d|c|b)_[A-Za-z0-9_\-\']+)", [this](const std::string& titleName, std::istream& theStream) {
 		const auto historyItem = commonItems::stringOfItem(theStream).getString();
 		historyMap.insert(std::pair(titleName, historyItem.substr(3, historyItem.size()-4))); // inserts without the opening and closing bracket
+
+		std::stringstream tempStream(historyItem);
+		if (historyItem.find('{') != std::string::npos)
+		{
+			const auto titleHistory = TitleHistory(tempStream);
+			currentHolderIdMap[titleName] = titleHistory.currentHolderEntryWithDate.second.holder;
+		}
 	});
 	registerKeyword(commonItems::catchallRegex, commonItems::ignoreItem);
 }
@@ -42,4 +49,36 @@ std::optional<std::string> CK3::TitlesHistory::popTitleHistory(const std::string
 		return history;
 	}
 	return std::nullopt;
+}
+
+
+CK3::TitleHistory::TitleHistory(std::istream& theStream)
+{
+	registerKeys();
+	parseStream(theStream);
+	clearRegisteredKeywords();
+}
+void CK3::TitleHistory::TitleHistory::registerKeys()
+{
+	registerRegex(R"(\d+.\d+.\d+)", [this](const std::string& dateStr, std::istream& theStream) {
+		auto historyEntry = DatedHistoryEntry(theStream);
+		if (date(dateStr) >= currentHolderEntryWithDate.first && date(dateStr) <= date(867, 1, 1) && historyEntry.holder)
+			currentHolderEntryWithDate = std::pair(date(dateStr), historyEntry);
+	});
+	registerKeyword(commonItems::catchallRegex, commonItems::ignoreItem);
+}
+
+
+CK3::DatedHistoryEntry::DatedHistoryEntry(std::istream& theStream)
+{
+	registerKeys();
+	parseStream(theStream);
+	clearRegisteredKeywords();
+}
+void CK3::DatedHistoryEntry::DatedHistoryEntry::registerKeys()
+{
+	registerKeyword("holder", [this](const std::string& titleName, std::istream& theStream) {
+		holder = commonItems::singleString(theStream).getString();
+	});
+	registerKeyword(commonItems::catchallRegex, commonItems::ignoreItem);
 }
