@@ -9,6 +9,7 @@
 
 namespace mappers
 {
+	class TagTitleMapper;
 	class CoaMapper;
 	class ProvinceMapper;
 } // namespace mappers
@@ -20,12 +21,13 @@ class Title
 {
   public:
 	Title() = default;
-	void initializeFromTag(std::string theTitle,
+	void initializeFromTag(
 		std::shared_ptr<ImperatorWorld::Country> theCountry, 
 		mappers::LocalizationMapper& localizationMapper, 
 		LandedTitles& landedTitles, 
 		mappers::ProvinceMapper& provinceMapper,
-		mappers::CoaMapper& coaMapper);
+		mappers::CoaMapper& coaMapper,
+		mappers::TagTitleMapper& tagTitleMapper);
 
 	bool generated = false;
 	std::string holder = "0";
@@ -34,7 +36,7 @@ class Title
 	std::map<std::string, mappers::LocBlock> localizations;
 	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;
-	std::pair<std::string, std::shared_ptr<ImperatorWorld::Country>> imperatorCountry; // name, country
+	std::shared_ptr<ImperatorWorld::Country> imperatorCountry;
 	std::string historyString = "1.1.1 = { holder = 0 }"; // this string is used in title history when title's holder is "0"
 
 	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
@@ -43,6 +45,8 @@ class Title
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
   private:
+	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
+	
 	std::optional<commonItems::Color> color1;
 	std::optional<commonItems::Color> color2;
 

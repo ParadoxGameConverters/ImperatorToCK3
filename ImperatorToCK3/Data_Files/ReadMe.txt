@@ -25,6 +25,6 @@ CREDITS
 
 Idhrendur	- Setting up the project, review, advice
 Zemurin		- Review, advice
-lukaslunt	- Religion mappings and religion files
+lukaslunt	- Data files
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

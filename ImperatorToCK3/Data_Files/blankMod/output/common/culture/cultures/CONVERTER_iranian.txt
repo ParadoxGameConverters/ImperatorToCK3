@@ -1,0 +1,166 @@
+﻿iranian_group = {
+
+	bactrian = {
+	
+		color = { 143 89 34 }
+
+		cadet_dynasty_names = {
+			Tarixanian Arzakanian Axumenian Wanxanian Rachnian
+			Burzenid Semshanian Orzan Bharzunian Wyaran Oxian
+			Arxatan Spitamenian Artaxian Orxenian Arzunian Aynian
+		}
+
+		dynasty_names = {
+			Tarixanian Arzakanian Axumenian Wanxanian Rachnian
+			Burzenid Semshanian Orzan Bharzunian Wyaran Oxian
+			Arxatan Spitamenian Artaxian Orxenian Arzunian Aynian
+		}
+
+		male_names = {
+			Tarxun Ramch Axak Maxak Uxuchan Shaow Wanxanak Awekat Baxuman
+			Chukshek Ratsh Ramtish Ayus Katch Arxata Exak Sheshch Oxyartes
+			Spitamenes Artaxerxes Burz Orzek Samtish Bexak Arzun Shaw Entysh
+			Anxach Wius Bharzun Bharxuman 
+		}
+		female_names = {
+			Roxana Rayun Roshanak Baxunash Roshan Saryash Zunesh Mayara
+			Koshana Hephta Hashchana Ixeni Oniya Wyara Awxa Oshan Riyun 
+		}
+
+		ethnicities = {
+			7 = arab
+			5 = mediterranean
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+
+	scythian = {
+	
+		color = { 255 255 0 }
+
+		cadet_dynasty_names = {
+			Kausalid Gankari Tenarian Ytarimid Tripuskaran Dantapurian
+			Baransian Yurpaskan Rohinian Vaidan Vaisalian Iksvakuian
+			Kausikan Sakkan Kasakid Yarkamid Bharukid Cadotid Lyamid Kunlayad
+		}
+
+		dynasty_names = {
+			Kausalid Gankari Tenarian Ytarimid Tripuskaran Dantapurian
+			Baransian Yurpaskan Rohinian Vaidan Vaisalian Iksvakuian
+			Kausikan Sakkan Kasakid Yarkamid Bharukid Cadotid Lyamid Kunlayad
+		}
+
+		male_names = {
+			Airawanta Ajatasatru Ajite Alp Ambare Ampratasarme Amrataraksite Amratodane Anande Anathapindike Aniruddhe Andhave Anktsas Arjune Aranemi Arnyartate Arslam Arthadarsi Aryamarg Aryaske Aryatewe Aryawarme Aryottame Asokamitre Asokaraksite Asoke Asarte Astawi Atakke Atidivakare Atyuccagami Atraikatte Bimbasare Caitike Caiytiska Cakravar Cakule Candramukhe Candravasu Candre Caracate Cina Cinatyuti Citre Cittaraksite Cowaske Dandakamal Devarakste Dhanike Dipankar Dirghanakhe Dravyasvare Durmukhe Ekasrinke Erkatsole Esmine Etrise Gayakasyape Gayasirs Gaye Gunacamdre Gunasampade Hariscandre Hastake Hetubalike Indradhvaje Indratewe Indre Indriske Issapake Jatisrone Jetavam Jnanacamndre Jnanaghose Jnanakame Jnanakupte Jnanamokse Jnanasene Jnanasome Jnanasthite Jnanawirye Kadike Kalodaye Kalyanamokse Kalyanavraddhi Kalyanawartane Kanake Kanaske Kanthake Kapilavarne Kapilavastu Kas Kasyap Katakarni Kaundinye
+			Kauravye Kausal Kemarcune Kentarske Kercampey Kercapiske Kerdipole Kereptanne Kimne Klenkarako Klpapatre Klyotiska Kotile Koysam Ksemankare Ksmarjune Ksmawarme Ksmate Ksmateworsa Ksmika Kulkera Kumarapunye Kumpante Kunacamttrakau Kunacamttre Kwirapabhadra Lariska Mahasammate Mahisvare Manisvare Mitrakseme Mitraske Mitre Moksasene Moksasome Moksawarme Molyoke Mukalanti Munkhare Murdhagate Nandabala Nandake Nande Nandipale Nasme Natte Naradeve Nirot Nupura Nyagrodhe Padmakesar Padmottare Pakacandre Pancasikhi Pawaske Pesane Prabhankare Prabhase Pranada Prasamnake
+			Pravare Priyadeve Ptompile Punaiyse Punakame Punaraksite Punicamndre Punyamitre Purtas Rahule Raktadewe Ratnacuda Ratnasikhi Rsivadam Rudramukhe Rudrasarme Sagare Samantatir Samcite Samghatrate Sanavasi Sanghasarme Sankene Sanum Saputanase Sarasike Sarmacamdre Sarsire Satuma Satyake Satyaraksite Sidhasamgha Siladewe Silamitre Silarakite Silaraksi Silasoma Silavande Silawarne Silayase Silopake Simpraye Sincake Sinke Sinku Skanatatte Skwarle Slacamndre Solarke Some Srestake Sudarse Sudas Suddhodane Sujate Sukase Suklodane Sunaksatre Sunetre Sutasome Sutate Swarnabuspe Swarnatepe Tarmacandre Tarmaraksite Tenare Tohkem Tonke Tukik Tunka Tusi Udanalankar Udayi Ulkamukhe Uluke Upage Upagupte Upanande
+			Uposathe Urbilvakasyape Uttaraphalguni Uttare Vaisravane Vaitike Varddhane Vidusake Vimalapuspe Vinaise Visale Wamsok Warwattaske Waryaruci Waryasene Wasampile Wasave Wiryadewe Wiryamitre Wiryasanti Wiryasini Wisikke Wrauske Yanayase Yarpalaske Yasa Yasawine Yase Yasonaka Yastare Yonge Yonu Ype Yudhisthire Yugaraje
+		}
+		female_names = {
+			Ampratasene Amratasene Arjuna Arunavati Aryakose Aryaraksite Ayardhyame Bhadra Canca Dhrtirastre Jnati Kolite Kosthile Malika Maya Nagasene Priyasarini Punyasene Purike Purnaya Purohite Putere Raknaska Revati Roce Saci Santa Santisene Sari Sthulananda Sudarsane Sumagati Sumaise Sumati Sundari Suwarte Tarmawirne Tartvisara Tati Tisye Upatisye Uppal Uppalavarna Vasisthe Vitasake Yasaraksite Yasodhara
+		}
+
+		ethnicities = {
+			7 = arab
+			5 = mediterranean
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	sarmatian = {
+	
+		color = { 128 128 0 }
+
+		cadet_dynasty_names = {
+			Kausalid Gankari Tenarian Ytarimid Tripuskaran Dantapurian
+			Baransian Yurpaskan Rohinian Vaidan Vaisalian Iksvakuian
+			Kausikan Sakkan Kasakid Yarkamid Bharukid Cadotid Lyamid Kunlayad
+		}
+
+		dynasty_names = {
+			Kausalid Gankari Tenarian Ytarimid Tripuskaran Dantapurian
+			Baransian Yurpaskan Rohinian Vaidan Vaisalian Iksvakuian
+			Kausikan Sakkan Kasakid Yarkamid Bharukid Cadotid Lyamid Kunlayad
+		}
+
+		male_names = {
+			Airawanta Ajatasatru Ajite Alp Ambare Ampratasarme Amrataraksite Amratodane Anande Anathapindike Aniruddhe Andhave Anktsas Arjune Aranemi Arnyartate Arslam Arthadarsi Aryamarg Aryaske Aryatewe Aryawarme Aryottame Asokamitre Asokaraksite Asoke Asarte Astawi Atakke Atidivakare Atyuccagami Atraikatte Bimbasare Caitike Caiytiska Cakravar Cakule Candramukhe Candravasu Candre Caracate Cina Cinatyuti Citre Cittaraksite Cowaske Dandakamal Devarakste Dhanike Dipankar Dirghanakhe Dravyasvare Durmukhe Ekasrinke Erkatsole Esmine Etrise Gayakasyape Gayasirs Gaye Gunacamdre Gunasampade Hariscandre Hastake Hetubalike Indradhvaje Indratewe Indre Indriske Issapake Jatisrone Jetavam Jnanacamndre Jnanaghose Jnanakame Jnanakupte Jnanamokse Jnanasene Jnanasome Jnanasthite Jnanawirye Kadike Kalodaye Kalyanamokse Kalyanavraddhi Kalyanawartane Kanake Kanaske Kanthake Kapilavarne Kapilavastu Kas Kasyap Katakarni Kaundinye
+			Kauravye Kausal Kemarcune Kentarske Kercampey Kercapiske Kerdipole Kereptanne Kimne Klenkarako Klpapatre Klyotiska Kotile Koysam Ksemankare Ksmarjune Ksmawarme Ksmate Ksmateworsa Ksmika Kulkera Kumarapunye Kumpante Kunacamttrakau Kunacamttre Kwirapabhadra Lariska Mahasammate Mahisvare Manisvare Mitrakseme Mitraske Mitre Moksasene Moksasome Moksawarme Molyoke Mukalanti Munkhare Murdhagate Nandabala Nandake Nande Nandipale Nasme Natte Naradeve Nirot Nupura Nyagrodhe Padmakesar Padmottare Pakacandre Pancasikhi Pawaske Pesane Prabhankare Prabhase Pranada Prasamnake
+			Pravare Priyadeve Ptompile Punaiyse Punakame Punaraksite Punicamndre Punyamitre Purtas Rahule Raktadewe Ratnacuda Ratnasikhi Rsivadam Rudramukhe Rudrasarme Sagare Samantatir Samcite Samghatrate Sanavasi Sanghasarme Sankene Sanum Saputanase Sarasike Sarmacamdre Sarsire Satuma Satyake Satyaraksite Sidhasamgha Siladewe Silamitre Silarakite Silaraksi Silasoma Silavande Silawarne Silayase Silopake Simpraye Sincake Sinke Sinku Skanatatte Skwarle Slacamndre Solarke Some Srestake Sudarse Sudas Suddhodane Sujate Sukase Suklodane Sunaksatre Sunetre Sutasome Sutate Swarnabuspe Swarnatepe Tarmacandre Tarmaraksite Tenare Tohkem Tonke Tukik Tunka Tusi Udanalankar Udayi Ulkamukhe Uluke Upage Upagupte Upanande
+			Uposathe Urbilvakasyape Uttaraphalguni Uttare Vaisravane Vaitike Varddhane Vidusake Vimalapuspe Vinaise Visale Wamsok Warwattaske Waryaruci Waryasene Wasampile Wasave Wiryadewe Wiryamitre Wiryasanti Wiryasini Wisikke Wrauske Yanayase Yarpalaske Yasa Yasawine Yase Yasonaka Yastare Yonge Yonu Ype Yudhisthire Yugaraje
+		}
+		female_names = {
+			Ampratasene Amratasene Arjuna Arunavati Aryakose Aryaraksite Ayardhyame Bhadra Canca Dhrtirastre Jnati Kolite Kosthile Malika Maya Nagasene Priyasarini Punyasene Purike Purnaya Purohite Putere Raknaska Revati Roce Saci Santa Santisene Sari Sthulananda Sudarsane Sumagati Sumaise Sumati Sundari Suwarte Tarmawirne Tartvisara Tati Tisye Upatisye Uppal Uppalavarna Vasisthe Vitasake Yasaraksite Yasodhara
+		}
+
+		ethnicities = {
+			7 = arab
+			5 = mediterranean
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	parthian = {
+	
+		color = { 75 0 130 }
+
+		cadet_dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid Savacid
+			Vardanid
+		}
+
+		dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid Savacid
+			Vardanid
+		}
+
+		male_names = {
+			Abulites Achaimenes Anaphes Arbupales Ariabignes Ariaspes
+			Ariobarzanes Aristozanes Arsames Arses Arsites Artabazos
+			Artaphernes Artayntes Artaxerxes Artochmes Artostes Aspastes
+			Aspathines Atizyes Atropates Autophradates Bagoas Barsaintes
+			Baryaxes Barzanes Batis Belesys Bessos Bisthanes Bubales
+			Chorienes Dareios Datames Dataphernes Datis Gergis Harmamitres
+			Haustanes Histanes Hydarnes Hystaspes Ithamitres Katanes Kophenes
+			Kyros Madates Mardonios Masistes Mauakes Mazakes Mazaios Mazaros
+			Megapanos Mithradates Mithraustes Mithrines Mithrobaios Mithrobuzanes
+			Nabarzanes Niphates Ochos Oiobazos Okontobates Omares Onthotopates Ordanes
+			Orontes Orxines Otaspes Oxathres Oxyartes Oxydates Petines Pharasmanes
+			Pharnabazos Pharnuches Pherendates Phrasaortes Phrataphernes Prexaspes
+			Rheomitres Rhoisakes Sabakos Sataspes Satibarzanes Siromitres Sisamnes
+			Sisines Smerdomenes Spitamenes Spithridates Tiriaspes Tissaphernes
+			Tritantaichmes Xerxes Abdagas Ara Aram Aramu Arbaces Ardashir Argishti
+			Ariovast Arkha Armin Arsaces Artabanus Artabazus Artasyras Artavazd
+			Artaxias Aryanes Asheri Asina Ashina Astashpa Astyages Atamaita
+			Aturpat BagayashBayad Chosroes Cyaxares Cyrus Darius Deioces
+			Evagoras Fravarti Gaumata Gobryas Gotarzes Haldita Hidarnes Manchihr Mardonius
+			Martiya Mazaces Megabyzus Menua Nambed Napad Orodes Osroes Pacorus Peucestas
+			Phraates Phraortes Rusa Sames Sarduri Sarsamas Savaces Shapur Sinatruces
+			Tigraios Tigranes Tiridates Umamaita Upadarma Vahbarz Vardanes Vologases
+			Vonones
+		}
+		female_names = {
+			Amastris Amytis Anzaza Artazostre Artystone Atossa Barsine Damaspia Mandane
+			Parmys Parysatis Phaedymia Rinu Stateira Vashti Apame Artakama Artanis
+			Arystone Orypetis Rhoxane Sisygambis
+		}
+
+		ethnicities = {
+			7 = arab
+			5 = mediterranean
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+}

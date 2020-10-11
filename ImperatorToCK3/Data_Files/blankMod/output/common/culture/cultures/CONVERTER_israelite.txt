@@ -1,0 +1,39 @@
+﻿israelite_group = {
+	hebrew = {
+	
+		color = { 49 140 231 }
+
+		cadet_dynasty_names = {
+			Abiatarid Akabonid Amitid Amramid Boazid Dorid Dovid Eiranid
+			Eleazid Heroid Honioid Hillelid Joazid Kahanid Nahumid Nirid
+			Nogahid Oferid Omrid Pinchasid Raananid Shemidid Yairid
+		}
+
+		dynasty_names = {
+			Abiatarid Akabonid Amitid Amramid Boazid Dorid Dovid Eiranid
+			Eleazid Heroid Honioid Hillelid Joazid Kahanid Nahumid Nirid
+			Nogahid Oferid Omrid Pinchasid Raananid Shemidid Yairid
+		}
+
+		male_names = {
+			Simon Joseph Judah Eleazar Yohanan Joshua Hananiah Jonathan
+			Mattathias Menahem Jacob Hanan Dositheus Zachariah Ishmael Levi
+			Saul Onias Samuel Ezekiah Gadish Gani Hagai Hanilai Harsom Harqaq
+			Maro Nathanel Nathan Nebalta Nicandus Jason Jeremiah Kasaias 
+		}
+		
+		female_names = {
+			Hannah Mariam Salome Shelamzion Martha Joanna Shiphra Berenice
+			Sarah Imma Hermione Helene Grapte Elisheba Esther Lysia Judith
+			Julia Mara 
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+}

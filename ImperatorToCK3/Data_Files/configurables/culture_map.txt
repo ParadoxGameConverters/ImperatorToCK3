@@ -2,7 +2,205 @@
 # link = { ck3 = ck3Culture imp = impCulture province = ck3provinceID owner = ck3tag }
 # multiples of all except ck3 are allowed.
 
-
-# Roman
-
+# latin
+link = { ck3 = cisalpine imp = venetic imp = ligurian imp = rhaetian }
 link = { ck3 = roman imp = roman }
+link = { ck3 = italian imp = lucanian imp = bruttian imp = osco_umbrian imp = messapic imp = umbrian imp = samnite }
+link = { ck3 = sardinian imp = sardonian }
+link = { ck3 = sicilian imp = siculian }
+link = { ck3 = etruscan imp = etruscan }
+
+# iberia
+link = { ck3 = iberian imp = turdulian imp = couneian imp = turdetanian imp = ausetanian imp = indiketian imp = lacetanian imp = edetanian imp = oretanian imp = contestanian imp = bastetanian imp = ilercavonian }
+
+# hellenic
+link = { ck3 = greek imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean }
+link = { ck3 = macedonian imp = macedonian }
+link = { ck3 = thracian imp = thracian }
+
+# gaelic
+link = { ck3 = irish imp = hibernian }
+link = { ck3 = gaelic imp = manavian }
+
+# dacia_group
+link = { ck3 = dacian imp = odrysi imp = biephi imp = ratacensi imp = caucoensi imp = buridavensi imp = dacian imp = triballoi imp = moesi imp = harpii imp = costoboci }
+link = { ck3 = getian imp = getian }
+
+# celto_pannonian_group
+link = { ck3 = bavarian imp = boian }
+link = { ck3 = celtic_pannonian imp = noric imp = celtic_pannonian imp = letobician imp = carnian imp = eravisci }
+
+# celt_iberia
+link = { ck3 = basque imp = caristian imp = vardulian }
+link = { ck3 = celtiberian imp = callaecian imp = asturian imp = vaccaeian imp = sedetanian imp = lobetanian imp = celtiberian imp = celtician imp = lusitanian imp = vettonian imp = carpetanian }
+
+# caucasian
+link = { ck3 = georgian imp = albanian imp = ibero imp = colchian }
+
+# britannic
+link = { ck3 = pictish imp = caledonian imp = votadinian imp = taexalian }
+link = { ck3 = cumbrian imp = damnonian }
+link = { ck3 = welsh imp = demetian imp = ordovitian }
+link = { ck3 = breton imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
+link = { ck3 = cornish imp = dumnonian }
+
+# belgae_group
+link = { ck3 = belgae imp = sennonian imp = bellovacian imp = veliocassian imp = morinian imp = nervian imp = eburonian imp = belgae imp = belgic imp = treverian imp = aduatacian }
+
+# bactrian
+link = { ck3 = bactrian imp = bactrian }
+link = { ck3 = sogdian imp = wusun imp = tayuan imp = phryni imp = sogdian imp = margian imp = shule }
+link = { ck3 = saka imp = saka }
+link = { ck3 = tocharian imp = tocharian imp = yuezhi }
+
+# aryan
+link = { ck3 = marathi imp = vidharban imp = maharashtran }
+link = { ck3 = gujarati imp = saurashtran }
+link = { ck3 = sinhala imp = lankan }
+link = { ck3 = punjabi imp = gandhari }
+link = { ck3 = hindustani imp = shauraseni }
+link = { ck3 = rajput imp = avanti }
+link = { ck3 = sindhi imp = sindhi }
+link = { ck3 = kashmiri imp = dardic }
+
+# anatolian
+link = { ck3 = armenian imp = armenian }
+link = { ck3 = cappadocian imp = cappadocian imp = paphlagonian imp = cilician }
+link = { ck3 = phrygian imp = phrygian imp = lydian imp = mysian imp = pamphylian imp = isaurian imp = carian imp = lycaonian imp = lycian }
+link = { ck3 = pontic imp = pontic }
+
+# west_levantine
+link = { ck3 = carthaginian imp = carthaginian }
+link = { ck3 = phoenician imp = phoenician }
+link = { ck3 = hebrew imp = hebrew }
+link = { ck3 = nabatean imp = nabatean }
+
+# tibetan
+link = { ck3 = zhangzhung imp = zhangzhung }
+link = { ck3 = sumpa imp = sumpa }
+link = { ck3 = bodpa imp = yarlung }
+link = { ck3 = tsangpa imp = tsang }
+
+# south_levantine
+link = { ck3 = bedouin imp = thamudi imp = hadhrami imp = makan imp = taif }
+link = { ck3 = levantine imp = qedarite }
+link = { ck3 = yemeni imp = qatabanian imp = sheban imp = minaean imp = himjar }
+
+# scythia
+link = { ck3 = khwarezmian imp = kharesmian }
+link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyrsian }
+link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci }
+
+
+# pracyan
+link = { ck3 = oriya imp = kalingan }
+link = { ck3 = assamese imp = kamarupi }
+link = { ck3 = bengali imp = bangli imp = atavi }
+link = { ck3 = nepali imp = magadhi imp = himalayan }
+
+# persia
+link = { ck3 = persian imp = median imp = elamite imp = sattagydian imp = carmanian imp = cadusian imp = cossian imp = pactyan imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi imp = sagartian }
+link = { ck3 = baloch imp = gedrosian imp = parecanian }
+link = { ck3 = daylamite imp = hyrcanian }
+link = { ck3 = parthian imp = parthian }
+
+# numidian
+link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socossian imp = massaesylian }
+link = { ck3 = butr imp = libyan imp = garamantic }
+link = { ck3 = numidian imp = numidian }
+
+# north_african
+link = { ck3 = old_egyptian imp = egyptian imp = upper_egyptian imp = middle_egyptian }
+
+# meroitic_group
+link = { ck3 = nubian imp = blemmyan }
+link = { ck3 = meroitic imp = meroitic }
+
+# indian
+link = { ck3 = kannada imp = kannadan }
+link = { ck3 = tamil imp = tamil }
+link = { ck3 = telugu imp = telugu }
+
+# illyrian_group
+link = { ck3 = dalmatian imp = taulantian imp = dardanian imp = messapian imp = deurian imp = deraemestian imp = catari imp = liburnian_culture imp = histrian imp = abrian imp = greco_illyrian }
+
+# germanic
+link = { ck3 = saxon imp = saxonian imp = anglian }
+link = { ck3 = norse imp = gothonic imp = gutones imp = herulian imp = lemovian imp = ingvaeonic imp = istvaeonic imp = irminonic imp = raumarician imp = suiones imp = bastarnae imp = helveconian imp = reudingian imp = teutonian imp = cimbrian imp = rugian }
+link = { ck3 = suebi imp = suebian }
+link = { ck3 = dutch imp = frisian }
+link = { ck3 = vandal imp = vandal }
+
+# gallic
+link = { ck3 = gaulish imp = volcae imp = salluvian imp = arverni imp = aulercian imp = pictonian imp = lemovician imp = santonian imp = carnuti imp = haedui imp = biturigan imp = aremorican imp = lepontic imp = vindelician imp = helvetian }
+
+# east_levantine
+link = { ck3 = assyrian imp = assyrian }
+link = { ck3 = aramaic imp = aramaic }
+link = { ck3 = babylonian imp = babylonian }
+
+# baltic
+link = { ck3 = aestian imp = aestian }
+
+# proto_european
+link = { ck3 = basque imp = cantabrian imp = ilergetian imp = autrigonian imp = vasconian imp = aquitani }
+link = { ck3 = nuragic imp = nuragic imp = corsian }
+
+# aksumite_group
+link = { ck3 = somali imp = puntic }
+link = { ck3 = ethiopian imp = aksumite }
+
+#---------------------------------------------
+# MODS PREVISION
+#---------------------------------------------
+link = { ck3 = anglo_saxon imp = old_saxon }
+link = { ck3 = turkish imp = turkish }
+link = { ck3 = khazar imp = khazar }
+link = { ck3 = avar imp = avar }
+link = { ck3 = lombard imp = lombard }
+link = { ck3 = visigothic imp = visigothic }
+link = { ck3 = frankish imp = old_frankish }
+link = { ck3 = french imp = frankish }
+link = { ck3 = franconian imp = thuringian }
+link = { ck3 = swabian imp = alamans }
+link = { ck3 = alan imp = alan }
+
+#---------------------------------------------
+# NOT ACTUALY IN IMPERATOR (POSSIBLE MOD FUTURE)
+#---------------------------------------------
+## west_slavic_group
+# pommeranian
+# czech
+# polish
+# polabian
+# slovien
+
+## turkic_group
+# pecheneg
+# cuman
+# bolghar
+# karluk
+
+## south_slavic_group
+# croatian
+# bosnian
+# serbian
+# vlach
+# bulgarian
+
+## magyar_group
+# mogyer
+# hungarian
+
+## latin_group
+# 
+
+## iranian_group
+# kurdish
+# afghan
+# tajik
+
+## baltic_group
+# latgalian
+# lithuanian
+
