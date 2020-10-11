@@ -6,6 +6,7 @@ namespace ImperatorWorld
 {
 	class Province;
 	class Pops;
+	class Countries;
 	class Provinces: commonItems::parser
 	{
 	  public:
@@ -14,6 +15,7 @@ namespace ImperatorWorld
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
 
 		void linkPops(const Pops& thePops);
+		void linkCountries(const Countries& theCountries);
 
 	  private:
 		void registerKeys();

@@ -95,6 +95,8 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	characters.linkMothersAndFathers();
 	LOG(LogLevel::Info) << "-- Linking Provinces with Pops";
 	provinces.linkPops(pops);
+	LOG(LogLevel::Info) << "-- Linking Provinces with Countries";
+	provinces.linkCountries(countries);
 	LOG(LogLevel::Info) << "-- Linking Countries with Families";
 	countries.linkFamilies(families);
 

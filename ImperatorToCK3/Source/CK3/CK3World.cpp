@@ -80,15 +80,11 @@ void CK3::World::importImperatorCountries(const ImperatorWorld::World& impWorld)
 
 void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country)
 {
-	auto title = tagTitleMapper.getTitleForTag(country.second->getTag());
-	if (!title)
-		throw std::runtime_error("Country " + country.second->getTag() + " could not be mapped!");
-
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
-	newTitle->initializeFromTag(*title, country.second, localizationMapper, landedTitles, provinceMapper, coaMapper);
-	country.second->registerCK3Title(std::pair(*title, newTitle));
-	titles.insert(std::pair(*title, newTitle));
+	newTitle->initializeFromTag(country.second, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper);
+	country.second->registerCK3Title(newTitle);
+	titles.insert(std::pair(newTitle->titleName, newTitle));
 }
 
 
@@ -201,7 +197,7 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 			Log(LogLevel::Warning) << "Source province " << imperatorProvinceID << " is not in the list of known provinces!";
 			continue; // Broken mapping, or loaded a mod changing provinces without using it.
 		}
-		auto owner = impProvince->second->getOwner();
+		const auto owner = impProvince->second->getOwner();
 		theClaims[owner].push_back(impProvince->second);
 		theShares[owner] = lround(impProvince->second->getBuildingsCount() + impProvince->second->getPopCount());
 	}
@@ -313,7 +309,7 @@ void CK3::World::linkSpouses(const ImperatorWorld::World& impWorld)
 	{
 		std::map<int, std::shared_ptr<Character>> newSpouses;
 		// make links between Imperator characters
-		for (auto [impSpouseID, impSpouseCharacter] : ck3Character->imperatorCharacter->getSpouses())
+		for (const auto& [impSpouseID, impSpouseCharacter] : ck3Character->imperatorCharacter->getSpouses())
 		{
 			if(impSpouseCharacter!=nullptr)
 			{
@@ -335,7 +331,7 @@ void CK3::World::linkMothersAndFathers(const ImperatorWorld::World& impWorld)
 	for (const auto& [ck3CharacterID, ck3Character] : characters)
 	{
 		// make links between Imperator characters
-		auto [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
+		const auto [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
 		if (impMotherCharacter != nullptr)
 		{
 			auto ck3MotherCharacter = impMotherCharacter->getCK3Character();
@@ -345,7 +341,7 @@ void CK3::World::linkMothersAndFathers(const ImperatorWorld::World& impWorld)
 		}
 
 		// make links between Imperator characters
-		auto [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
+		const auto [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
 		if (impFatherCharacter != nullptr)
 		{
 			auto ck3FatherCharacter = impFatherCharacter->getCK3Character();

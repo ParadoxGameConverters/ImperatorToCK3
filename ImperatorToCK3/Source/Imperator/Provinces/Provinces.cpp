@@ -1,6 +1,8 @@
 #include "Provinces.h"
 #include "Province.h"
 #include "Pops.h"
+#include "../Countries/Countries.h"
+#include "../Countries/Country.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 
@@ -46,4 +48,29 @@ void ImperatorWorld::Provinces::linkPops(const Pops& thePops)
 		}
 	}
 	Log(LogLevel::Info) << "<> " << counter << " pops linked to provinces.";
+}
+
+void ImperatorWorld::Provinces::linkCountries(const Countries& theCountries)
+{
+	auto counter = 0;
+	const auto& countries = theCountries.getCountries();
+	for (const auto& [provinceID, province] : provinces)
+	{
+		if (!province->getPops().empty())
+		{
+			const auto& countryItr = countries.find(province->getOwner());
+			if (countryItr != countries.end())
+			{
+				// link both ways
+				province->country = countryItr->second;
+				countryItr->second->registerProvince(province);
+				++counter;
+			}
+			else
+			{
+				Log(LogLevel::Warning) << "Country ID: " << province->getOwner() << " has no definition!";
+			}
+		}
+	}
+	Log(LogLevel::Info) << "<> " << counter << " countries linked to provinces.";
 }

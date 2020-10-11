@@ -5,6 +5,7 @@
 namespace ImperatorWorld
 {
 	class Pop;
+	class Country;
 	class Province: commonItems::parser
 	{
 	  public:
@@ -24,15 +25,17 @@ namespace ImperatorWorld
 
 		void setPops(const std::map<int, std::shared_ptr<Pop>>& newPops) { pops = newPops; }
 
+		std::shared_ptr<Country> country;
+
 	  private:
 		void registerKeys();
 
-		int provinceID = 0;
+		unsigned int provinceID = 0;
 		std::string name;
 		std::string culture;
 		std::string religion;
-		int owner = 0;
-		int controller = 0;
+		unsigned int owner = 0;
+		unsigned int controller = 0;
 		unsigned int buildingsCount = 0;
 		std::map<int, std::shared_ptr<Pop>> pops;
 	};

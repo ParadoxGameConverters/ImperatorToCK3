@@ -99,8 +99,8 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 			if (characterItr != characters.end())
 			{
 				character.second->setFather(std::pair(characterItr->first, characterItr->second));
-				++counterFather;
 				characterItr->second->registerChild(character);
+				++counterFather;
 			}
 			else
 			{

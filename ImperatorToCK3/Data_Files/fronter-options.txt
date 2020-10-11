@@ -1,28 +1,28 @@
-option = {
-	name = ImperatorDeJure
-	displayName = IMPERATORDEJURE
-	tooltip = IMPERATORDEJURETIP
-	radioSelector = {
-		radioOption = {
-			name = 1
-			displayName = IMPERATORDEJURE1
-			tooltip = IMPERATORDEJURE1TIP
-			default = false
-		}
-		radioOption = {
-			name = 2
-			displayName = IMPERATORDEJURE2
-			tooltip = IMPERATORDEJURE2TIP
-			default = false
-		}
-		radioOption = {
-			name = 3
-			displayName = IMPERATORDEJURE3
-			tooltip = IMPERATORDEJURE3TIP
-			default = true		
-		}
-	}
-}
+#option = {
+#	name = ImperatorDeJure
+#	displayName = IMPERATORDEJURE
+#	tooltip = IMPERATORDEJURETIP
+#	radioSelector = {
+#		radioOption = {
+#			name = 1
+#			displayName = IMPERATORDEJURE1
+#			tooltip = IMPERATORDEJURE1TIP
+#			default = false
+#		}
+#		radioOption = {
+#			name = 2
+#			displayName = IMPERATORDEJURE2
+#			tooltip = IMPERATORDEJURE2TIP
+#			default = false
+#		}
+#		radioOption = {
+#			name = 3
+#			displayName = IMPERATORDEJURE3
+#			tooltip = IMPERATORDEJURE3TIP
+#			default = true		
+#		}
+#	}
+#}
 option = {
 	name = ConvertCharacterBirthAndDeathDates
 	displayName = CONVERTCHARACTERBIRTHANDDEATHDATES
