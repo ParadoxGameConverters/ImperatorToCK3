@@ -23,6 +23,7 @@ INSTRUCTIONS
 CREDITS
 ----
 
+IhateTrains	- Lead, programming, data files
 Idhrendur	- Setting up the project, review, advice
 Zemurin		- Review, advice
 lukaslunt	- Data files
