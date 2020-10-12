@@ -574,7 +574,19 @@
     <CopyFileToFolders Include="Data_Files\configurables\version.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="Data_Files\FAQ.txt" />
-    <CopyFileToFolders Include="Data_Files\ReadMe.txt" />
+    <CopyFileToFolders Include="Data_Files\ReadMe.txt">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\FAQ.txt">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\license.txt">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data_Files\after_converting.txt">
+      <Filter>Resources</Filter>
+    </Text>
   </ItemGroup>
 </Project>

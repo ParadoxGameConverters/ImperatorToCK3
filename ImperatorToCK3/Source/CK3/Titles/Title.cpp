@@ -18,9 +18,9 @@ void CK3::Title::initializeFromTag(std::shared_ptr<ImperatorWorld::Country> theC
 	
 	std::optional<mappers::LocBlock> validatedName;
 	// hard code for Antigonid Kingdom, Seleucid Empire and Maurya (which use customizable localization for name and adjective)
-	if (imperatorCountry->getTag() == "PRY") validatedName = localizationMapper.getLocBlockForKey("get_pry_name_fallback");
-	else if (imperatorCountry->getTag() == "SEL") validatedName = localizationMapper.getLocBlockForKey("get_sel_name_fallback");
-	else if (imperatorCountry->getTag() == "MRY") validatedName = localizationMapper.getLocBlockForKey("get_mry_name_fallback");
+	if (imperatorCountry->getName() == "PRY_DYN") validatedName = localizationMapper.getLocBlockForKey("get_pry_name_fallback");
+	else if (imperatorCountry->getName() == "SEL_DYN") validatedName = localizationMapper.getLocBlockForKey("get_sel_name_fallback");
+	else if (imperatorCountry->getName() == "MRY_DYN") validatedName = localizationMapper.getLocBlockForKey("get_mry_name_fallback");
 	// normal case
 	else validatedName = localizationMapper.getLocBlockForKey(imperatorCountry->getName());
 
@@ -95,9 +95,9 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 	if (imperatorCountry->getTag() == "PRY" || imperatorCountry->getTag() == "SEL" || imperatorCountry->getTag() == "MRY") // these tags use customizable loc for adj
 	{
 		std::optional<mappers::LocBlock> validatedAdj;
-		if (imperatorCountry->getTag() == "PRY") validatedAdj = localizationMapper.getLocBlockForKey("get_pry_adj_fallback");
-		else if (imperatorCountry->getTag() == "SEL") validatedAdj = localizationMapper.getLocBlockForKey("get_sel_adj_fallback");
-		else if (imperatorCountry->getTag() == "MRY") validatedAdj = localizationMapper.getLocBlockForKey("get_mry_adj_fallback");
+		if (imperatorCountry->getName() == "PRY_DYN") validatedAdj = localizationMapper.getLocBlockForKey("get_pry_adj_fallback");
+		else if (imperatorCountry->getName() == "SEL_DYN") validatedAdj = localizationMapper.getLocBlockForKey("get_sel_adj_fallback");
+		else if (imperatorCountry->getName() == "MRY_DYN") validatedAdj = localizationMapper.getLocBlockForKey("get_mry_adj_fallback");
 
 		if (validatedAdj)
 		{
