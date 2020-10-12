@@ -5,14 +5,14 @@
 #include "ProvinceName.h"
 #include <numeric>
 
-ImperatorWorld::Province::Province(std::istream& theStream, const int provID): provinceID(provID)
+Imperator::Province::Province(std::istream& theStream, const int provID): provinceID(provID)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Province::registerKeys()
+void Imperator::Province::registerKeys()
 {
 	registerKeyword("province_name", [this](const std::string& unused, std::istream& theStream) {
 		name = ProvinceName(theStream).getName();

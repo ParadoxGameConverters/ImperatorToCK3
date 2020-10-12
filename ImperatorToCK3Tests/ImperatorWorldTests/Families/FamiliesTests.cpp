@@ -11,7 +11,7 @@ TEST(ImperatorWorld_FamiliesTests, familiesDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	ImperatorWorld::Families families;
+	Imperator::Families families;
 	families.loadFamilies(input);
 
 	ASSERT_TRUE(families.getFamilies().empty());
@@ -26,7 +26,7 @@ TEST(ImperatorWorld_FamiliesTests, familiesCanBeLoaded)
 	input << "43={}\n";
 	input << "}";
 
-	ImperatorWorld::Families families;
+	Imperator::Families families;
 	families.loadFamilies(input);
 	const auto& familyItr = families.getFamilies().find(42);
 	const auto& familyItr2 = families.getFamilies().find(43);
@@ -52,7 +52,7 @@ TEST(ImperatorWorld_FamiliesTests, familiesCanBeUpdated)
 	input << "}\n";
 	input << "}";
 
-	ImperatorWorld::Families families;
+	Imperator::Families families;
 	families.loadFamilies(input);
 	const auto& familyItr = families.getFamilies().find(42);
 	ASSERT_EQ("Chads", familyItr->second->getKey());
@@ -69,7 +69,7 @@ TEST(ImperatorWorld_FamiliesTests, literalNoneFamiliesAreNotLoaded)
 	input << "44=none\n";
 	input << "}";
 
-	ImperatorWorld::Families families;
+	Imperator::Families families;
 	families.loadFamilies(input);
 	const auto& familyItr = families.getFamilies().find(42);
 	const auto& familyItr2 = families.getFamilies().find(43);

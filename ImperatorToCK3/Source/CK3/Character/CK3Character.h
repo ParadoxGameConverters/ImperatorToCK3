@@ -22,7 +22,7 @@ class Character
   public:
 	Character() = default;
 	void initializeFromImperator(
-		std::shared_ptr<ImperatorWorld::Character> impCharacter,
+		std::shared_ptr<Imperator::Character> impCharacter,
 		const mappers::ReligionMapper& religionMapper,
 		const mappers::CultureMapper& cultureMapper,
 		const mappers::TraitMapper& traitMapper,
@@ -51,7 +51,7 @@ class Character
 	std::set<std::string> traits;
 	std::map<std::string, mappers::LocBlock> localizations;
 	
-	std::shared_ptr<ImperatorWorld::Character> imperatorCharacter;
+	std::shared_ptr<Imperator::Character> imperatorCharacter;
 
   private:
 	std::pair<std::string, std::shared_ptr<Character>> mother;

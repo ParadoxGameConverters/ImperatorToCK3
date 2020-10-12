@@ -2,21 +2,21 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::Family::Family(std::istream& theStream, const int theFamilyID) : familyID(theFamilyID)
+Imperator::Family::Family(std::istream& theStream, const int theFamilyID) : familyID(theFamilyID)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Family::updateFamily(std::istream& theStream)
+void Imperator::Family::updateFamily(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Family::registerKeys()
+void Imperator::Family::registerKeys()
 {
 	registerKeyword("key", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);

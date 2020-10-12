@@ -5,7 +5,7 @@
 #include <utility>
 
 
-ImperatorWorld::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, GenesDB genesDB, const std::string& ageSexString) : genes(std::move(genesDB))
+Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, GenesDB genesDB, const std::string& ageSexString) : genes(std::move(genesDB))
 {
 	const auto decodedDnaStr = base64_decode(dnaString);
 

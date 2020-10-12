@@ -2,7 +2,7 @@
 #define IMPERATOR_COUNTRY_NAME_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 class CountryName : commonItems::parser
 {
@@ -17,6 +17,6 @@ class CountryName : commonItems::parser
 
 	std::string name;
 };
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_COUNTRY_NAME_H

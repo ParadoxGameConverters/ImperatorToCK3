@@ -9,7 +9,7 @@ TEST(ImperatorWorld_PopTests, IDCanBeSet)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Pop thePop(input, 42);
+	const Imperator::Pop thePop(input, 42);
 
 	ASSERT_EQ(42, thePop.getID());
 }
@@ -21,7 +21,7 @@ TEST(ImperatorWorld_PopTests, cultureCanBeSet)
 	input << "\tculture=\"paradoxian\"";
 	input << "}";
 
-	const ImperatorWorld::Pop thePop(input, 42);
+	const Imperator::Pop thePop(input, 42);
 
 	ASSERT_EQ("paradoxian", thePop.getCulture());
 }
@@ -33,7 +33,7 @@ TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Pop thePop(input, 42);
+	const Imperator::Pop thePop(input, 42);
 
 	ASSERT_TRUE(thePop.getCulture().empty());
 }
@@ -47,7 +47,7 @@ TEST(ImperatorWorld_PopTests, religionCanBeSet)
 	input << "\treligion=\"paradoxian\"";
 	input << "}";
 
-	const ImperatorWorld::Pop thePop(input, 42);
+	const Imperator::Pop thePop(input, 42);
 
 	ASSERT_EQ("paradoxian", thePop.getReligion());
 }
@@ -59,7 +59,7 @@ TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Pop thePop(input, 42);
+	const Imperator::Pop thePop(input, 42);
 
 	ASSERT_TRUE(thePop.getReligion().empty());
 }
@@ -72,7 +72,7 @@ TEST(ImperatorWorld_PopTests,typeCanBeSet)
 	input << "\ttype = \"citizen\"\n";
 	input << "}";
 
-	const ImperatorWorld::Pop thePop(input, 42);
+	const Imperator::Pop thePop(input, 42);
 
 	ASSERT_EQ("citizen", thePop.getType());
 }
@@ -84,7 +84,7 @@ TEST(ImperatorWorld_PopTests, typeDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Pop thePop(input, 42);
+	const Imperator::Pop thePop(input, 42);
 
 	ASSERT_TRUE(thePop.getType().empty());
 }

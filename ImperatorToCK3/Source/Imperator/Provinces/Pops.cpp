@@ -4,14 +4,14 @@
 #include "ParserHelpers.h"
 
 
-void ImperatorWorld::Pops::loadPops(std::istream& theStream)
+void Imperator::Pops::loadPops(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Pops::registerKeys()
+void Imperator::Pops::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& thePopID, std::istream& theStream) {
 		const auto popStr = commonItems::stringOfItem(theStream).getString();
@@ -27,14 +27,14 @@ void ImperatorWorld::Pops::registerKeys()
 
 
 
-ImperatorWorld::PopsBloc::PopsBloc(std::istream& theStream)
+Imperator::PopsBloc::PopsBloc(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::PopsBloc::registerKeys()
+void Imperator::PopsBloc::registerKeys()
 {
 	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {
 		pops.loadPops(theStream);

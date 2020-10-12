@@ -1,14 +1,14 @@
 #include "CharacterAttributes.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::CharacterAttributes::CharacterAttributes(std::istream& theStream)
+Imperator::CharacterAttributes::CharacterAttributes(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::CharacterAttributes::registerKeys()
+void Imperator::CharacterAttributes::registerKeys()
 {
 	registerKeyword("martial", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt martialInt(theStream);

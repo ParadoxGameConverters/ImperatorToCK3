@@ -5,7 +5,7 @@
 #include "../Genes/GenesDB.h"
 #include "Date.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class Families;
 	class Character;
@@ -45,6 +45,6 @@ namespace ImperatorWorld
 		date endDate;
 		Characters characters;
 	}; // class CharactersBloc
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_CHARACTERS_H

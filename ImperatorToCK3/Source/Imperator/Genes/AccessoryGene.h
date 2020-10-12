@@ -4,7 +4,7 @@
 #include "AccessoryGeneTemplate.h"
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class AccessoryGene : commonItems::parser
 	{
@@ -25,6 +25,6 @@ namespace ImperatorWorld
 		bool inheritable = false;
 		std::map<std::string, AccessoryGeneTemplate> geneTemplates;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_ACCESSORY_GENE_H

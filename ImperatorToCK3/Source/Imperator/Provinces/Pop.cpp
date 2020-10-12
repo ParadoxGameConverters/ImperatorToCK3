@@ -2,14 +2,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::Pop::Pop(std::istream& theStream, const int thePopID) : popID(thePopID)
+Imperator::Pop::Pop(std::istream& theStream, const int thePopID) : popID(thePopID)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Pop::registerKeys()
+void Imperator::Pop::registerKeys()
 {
 	registerKeyword("type", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString typeStr(theStream);

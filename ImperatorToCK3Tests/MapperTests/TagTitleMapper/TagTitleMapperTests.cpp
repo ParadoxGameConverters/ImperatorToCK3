@@ -6,8 +6,8 @@
 TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 {
 	const mappers::TagTitleMapper theMapper;
-	const auto& match = theMapper.getTitleForTag("ROM", ImperatorWorld::countryRankEnum::localPower, "Rome");
-	const auto& match2 = theMapper.getTitleForTag("DRE", ImperatorWorld::countryRankEnum::localPower, "Dre Empire");
+	const auto& match = theMapper.getTitleForTag("ROM", Imperator::countryRankEnum::localPower, "Rome");
+	const auto& match2 = theMapper.getTitleForTag("DRE", Imperator::countryRankEnum::localPower, "Dre Empire");
 
 	ASSERT_EQ("k_IMPTOCK3_ROM", *match);
 	ASSERT_EQ("e_IMPTOCK3_DRE", *match2);
@@ -16,7 +16,7 @@ TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 TEST(Mappers_TagTitleMapperTests, getTitleForTagReturnsNulloptOnEmptyParameter)
 {
 	const mappers::TagTitleMapper theMapper;
-	const auto& match = theMapper.getTitleForTag("", ImperatorWorld::countryRankEnum::migrantHorde, "");
+	const auto& match = theMapper.getTitleForTag("", Imperator::countryRankEnum::migrantHorde, "");
 
 	ASSERT_FALSE(match);
 }

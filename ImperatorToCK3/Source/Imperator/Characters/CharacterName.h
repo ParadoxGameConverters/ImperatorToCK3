@@ -2,7 +2,7 @@
 #define IMPERATOR_CHARACTER_NAME_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 class CharacterName: commonItems::parser
 {
@@ -17,6 +17,6 @@ class CharacterName: commonItems::parser
 
 	std::string name;
 };
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_CHARACTER_NAME_H

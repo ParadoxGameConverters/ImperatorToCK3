@@ -2,14 +2,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::CharacterName::CharacterName(std::istream& theStream)
+Imperator::CharacterName::CharacterName(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::CharacterName::registerKeys()
+void Imperator::CharacterName::registerKeys()
 {
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);

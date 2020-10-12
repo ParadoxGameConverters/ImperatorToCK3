@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-namespace ImperatorWorld
+namespace Imperator
 {
 class Province;
 }
@@ -26,7 +26,7 @@ class Province
 	Province(int id, std::istream& theStream);
 
 	void updateWith(const std::string& filePath);
-	void initializeFromImperator(const std::shared_ptr<ImperatorWorld::Province>& origProvince,
+	void initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
 	                             const mappers::CultureMapper& cultureMapper,
 	                             const mappers::ReligionMapper& religionMapper);
 
@@ -39,7 +39,7 @@ class Province
 	void registerTitleCountry(const std::pair<std::string, std::shared_ptr<Title>>& theTitle) { titleCountry = theTitle; }
 	void setReligion(const std::string& religion) { details.religion = religion; }
 
-	std::shared_ptr<ImperatorWorld::Province> srcProvince;
+	std::shared_ptr<Imperator::Province> srcProvince;
 
 	friend std::ostream& operator<<(std::ostream& output, const Province& province);
 

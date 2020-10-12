@@ -6,7 +6,7 @@
 #include "../../Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Log.h"
 
-void CK3::Title::initializeFromTag(std::shared_ptr<ImperatorWorld::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& landedTitles, mappers::ProvinceMapper& provinceMapper,
+void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& landedTitles, mappers::ProvinceMapper& provinceMapper,
 	mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper)
 {
 	generated = true;

@@ -19,7 +19,7 @@ class Configuration;
 
 
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class World: commonItems::parser
 	{

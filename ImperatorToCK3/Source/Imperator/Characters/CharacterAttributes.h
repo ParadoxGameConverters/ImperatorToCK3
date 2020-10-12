@@ -2,7 +2,7 @@
 #define IMPERATOR_CHARACTER_ATTRIBUTES_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 class CharacterAttributes : commonItems::parser
 {
@@ -23,6 +23,6 @@ class CharacterAttributes : commonItems::parser
 	int charisma = 0;
 	int zeal = 0;
 };
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_CHARACTER_ATTRIBUTES_H

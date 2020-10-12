@@ -2,7 +2,7 @@
 #define IMPERATOR_PROVINCES_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class Province;
 	class Pops;
@@ -22,6 +22,6 @@ namespace ImperatorWorld
 
 		std::map<int, std::shared_ptr<Province>> provinces;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_PROVINCES_H
