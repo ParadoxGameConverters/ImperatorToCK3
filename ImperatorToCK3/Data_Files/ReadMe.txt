@@ -23,9 +23,10 @@ INSTRUCTIONS
 CREDITS
 ----
 
-IhateTrains	- Lead, programming, data files
-Idhrendur	- Setting up the project, review, advice
+IhateTrains	- Lead, programming, data files, testing
+Idhrendur	- Setting up the project, sanity checks and review
 Zemurin		- Review, advice
 lukaslunt	- Data files
+comagoosie	- librakaly save melter
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
