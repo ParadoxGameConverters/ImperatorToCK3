@@ -584,4 +584,9 @@
       <Filter>Resources</Filter>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data_Files\after_converting.txt">
+      <Filter>Resources</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
