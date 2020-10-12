@@ -15,7 +15,7 @@ void CK3::Province::updateWith(const std::string& filePath)
 	details.updateWith(filePath);
 }
 
-void CK3::Province::initializeFromImperator(const std::shared_ptr<ImperatorWorld::Province>& origProvince,
+void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
                                             const mappers::CultureMapper& cultureMapper,
                                             const mappers::ReligionMapper& religionMapper)
 {

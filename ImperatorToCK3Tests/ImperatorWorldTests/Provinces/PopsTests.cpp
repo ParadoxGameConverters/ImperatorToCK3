@@ -11,7 +11,7 @@ TEST(ImperatorWorld_PopsTests, popsDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	ImperatorWorld::Pops pops;
+	Imperator::Pops pops;
 	pops.loadPops(input);
 
 	ASSERT_TRUE(pops.getPops().empty());
@@ -26,7 +26,7 @@ TEST(ImperatorWorld_PopsTests, popsCanBeLoaded)
 	input << "43={}\n";
 	input << "}";
 
-	ImperatorWorld::Pops pops;
+	Imperator::Pops pops;
 	pops.loadPops(input);
 	const auto& popItr = pops.getPops().find(42);
 	const auto& popItr2 = pops.getPops().find(43);
@@ -47,7 +47,7 @@ TEST(ImperatorWorld_PopsTests, literalNonePopsAreNotLoaded)
 	input << "44=none\n";
 	input << "}";
 
-	ImperatorWorld::Pops pops;
+	Imperator::Pops pops;
 	pops.loadPops(input);
 	const auto& popItr = pops.getPops().find(42);
 	const auto& popItr2 = pops.getPops().find(43);

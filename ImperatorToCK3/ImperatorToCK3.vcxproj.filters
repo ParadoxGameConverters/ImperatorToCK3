@@ -87,9 +87,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Imperator\ImperatorWorld.h">
-      <Filter>Imperator</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
       <Filter>CK3Outputter</Filter>
     </ClInclude>
@@ -295,6 +292,9 @@
     <ClInclude Include="Source\Imperator\Provinces\Provinces.h">
       <Filter>Imperator\Provinces</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\ImperatorWorld.h">
+      <Filter>Imperator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -325,9 +325,6 @@
     </ClCompile>
     <ClCompile Include="Source\Configuration\Configuration.cpp">
       <Filter>Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Imperator\ImperatorWorld.cpp">
-      <Filter>Imperator</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Families\Family.cpp">
       <Filter>Imperator\Families</Filter>
@@ -503,6 +500,9 @@
     <ClCompile Include="Source\Mappers\TraitMapper\TraitMapping.cpp">
       <Filter>Mappers\TraitMapper</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Imperator\ImperatorWorld.cpp">
+      <Filter>Imperator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resources\rakaly.dll">
@@ -583,10 +583,6 @@
     <CopyFileToFolders Include="Data_Files\license.txt">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Data_Files\after_converting.txt">
-      <Filter>Resources</Filter>
-    </Text>
+    <CopyFileToFolders Include="Data_Files\after_converting.txt" />
   </ItemGroup>
 </Project>

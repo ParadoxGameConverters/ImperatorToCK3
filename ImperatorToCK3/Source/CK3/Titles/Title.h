@@ -22,7 +22,7 @@ class Title
   public:
 	Title() = default;
 	void initializeFromTag(
-		std::shared_ptr<ImperatorWorld::Country> theCountry, 
+		std::shared_ptr<Imperator::Country> theCountry, 
 		mappers::LocalizationMapper& localizationMapper, 
 		LandedTitles& landedTitles, 
 		mappers::ProvinceMapper& provinceMapper,
@@ -36,7 +36,7 @@ class Title
 	std::map<std::string, mappers::LocBlock> localizations;
 	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;
-	std::shared_ptr<ImperatorWorld::Country> imperatorCountry;
+	std::shared_ptr<Imperator::Country> imperatorCountry;
 	std::string historyString = "1.1.1 = { holder = 0 }"; // this string is used in title history when title's holder is "0"
 
 	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }

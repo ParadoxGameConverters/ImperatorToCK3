@@ -4,14 +4,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::Countries::Countries(std::istream& theStream)
+Imperator::Countries::Countries(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Countries::registerKeys()
+void Imperator::Countries::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& countryID, std::istream& theStream) {
 		auto newCountry = std::make_shared<Country>(theStream, std::stoi(countryID));
@@ -21,14 +21,14 @@ void ImperatorWorld::Countries::registerKeys()
 }
 
 
-ImperatorWorld::CountriesBloc::CountriesBloc(std::istream& theStream)
+Imperator::CountriesBloc::CountriesBloc(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::CountriesBloc::registerKeys()
+void Imperator::CountriesBloc::registerKeys()
 {
 	registerKeyword("country_database", [this](const std::string& unused, std::istream& theStream) {
 		countries = Countries(theStream);
@@ -37,7 +37,7 @@ void ImperatorWorld::CountriesBloc::registerKeys()
 }
 
 
-void ImperatorWorld::Countries::linkFamilies(const Families& theFamilies)
+void Imperator::Countries::linkFamilies(const Families& theFamilies)
 {
 	auto counter = 0;
 	const auto& families = theFamilies.getFamilies();

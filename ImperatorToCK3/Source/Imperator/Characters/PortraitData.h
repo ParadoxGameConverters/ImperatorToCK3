@@ -6,7 +6,7 @@
 #include "../Genes/GenesDB.h"
 
 
-namespace ImperatorWorld
+namespace Imperator
 {
 
 typedef struct CoordinatesStruct
@@ -42,7 +42,7 @@ private:
 	std::vector<AccessoryGeneStruct> accessoryGenesVector;
 };
 
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 
 

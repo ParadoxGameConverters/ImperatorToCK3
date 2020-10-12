@@ -9,7 +9,7 @@ namespace CK3
 {
 	class Title;
 } // namespace CK3
-namespace ImperatorWorld
+namespace Imperator
 {
 	typedef struct CurrenciesStruct
 	{
@@ -77,6 +77,6 @@ namespace ImperatorWorld
 		
 			std::shared_ptr<CK3::Title> ck3Title;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_COUNTRY_H

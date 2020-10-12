@@ -1,14 +1,14 @@
 #include "CountryCurrencies.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::CountryCurrencies::CountryCurrencies(std::istream& theStream)
+Imperator::CountryCurrencies::CountryCurrencies(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::CountryCurrencies::registerKeys()
+void Imperator::CountryCurrencies::registerKeys()
 {
 	registerKeyword("manpower", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleInt manpowerInt(theStream);

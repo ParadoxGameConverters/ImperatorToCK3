@@ -5,20 +5,20 @@
 
 
 
-void ImperatorWorld::Families::loadFamilies(const std::string& thePath)
+void Imperator::Families::loadFamilies(const std::string& thePath)
 {
 	registerKeys();
 	parseFile(thePath);
 	clearRegisteredKeywords();
 }
-void ImperatorWorld::Families::loadFamilies(std::istream& theStream)
+void Imperator::Families::loadFamilies(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Families::registerKeys()
+void Imperator::Families::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& theFamilyID, std::istream& theStream) {
 		const auto familyStr = commonItems::stringOfItem(theStream).getString();
@@ -39,14 +39,14 @@ void ImperatorWorld::Families::registerKeys()
 
 
 
-ImperatorWorld::FamiliesBloc::FamiliesBloc(std::istream& theStream)
+Imperator::FamiliesBloc::FamiliesBloc(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::FamiliesBloc::registerKeys()
+void Imperator::FamiliesBloc::registerKeys()
 {
 	registerKeyword("families", [this](const std::string& unused, std::istream& theStream) {
 		families.loadFamilies(theStream);

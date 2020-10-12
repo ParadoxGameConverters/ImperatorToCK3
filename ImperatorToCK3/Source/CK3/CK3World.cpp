@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 #include "Province/CK3ProvinceMappings.h"
 #include "Titles/Title.h"
 
-CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser)
+CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser)
 {
 	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.
@@ -47,7 +47,7 @@ CK3::World::World(const ImperatorWorld::World& impWorld, const Configuration& th
 	removeInvalidLandlessTitles();
 }
 
-void CK3::World::importImperatorCharacters(const ImperatorWorld::World& impWorld, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867,1,1))
+void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867,1,1))
 {
 	LOG(LogLevel::Info) << "-> Importing Imperator Characters";
 
@@ -57,7 +57,7 @@ void CK3::World::importImperatorCharacters(const ImperatorWorld::World& impWorld
 	}
 	LOG(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
 }
-void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
+void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
 {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
@@ -66,7 +66,7 @@ void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<I
 	characters.insert(std::pair(newCharacter->ID, newCharacter));
 }
 
-void CK3::World::importImperatorCountries(const ImperatorWorld::World& impWorld)
+void CK3::World::importImperatorCountries(const Imperator::World& impWorld)
 {
 	LOG(LogLevel::Info) << "-> Importing Imperator Countries";
 
@@ -79,7 +79,7 @@ void CK3::World::importImperatorCountries(const ImperatorWorld::World& impWorld)
 	LOG(LogLevel::Info) << ">> " << titles.size() << " total countries recognized.";
 }
 
-void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country)
+void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<Imperator::Country>>& country)
 {
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
@@ -153,7 +153,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 	LOG(LogLevel::Info) << ">> Loaded " << provinces.size() << " province definitions.";
 }
 
-void CK3::World::importImperatorProvinces(const ImperatorWorld::World& impWorld)
+void CK3::World::importImperatorProvinces(const Imperator::World& impWorld)
 {
 	LOG(LogLevel::Info) << "-> Importing Imperator Provinces";
 	auto counter = 0;
@@ -181,11 +181,11 @@ void CK3::World::importImperatorProvinces(const ImperatorWorld::World& impWorld)
 	LOG(LogLevel::Info) << ">> " << impWorld.getProvinces().size() << " Imperator provinces imported into " << counter << " CK3 provinces.";
 }
 
-std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::World::determineProvinceSource(const std::vector<int>& impProvinceNumbers,
-	const ImperatorWorld::World& impWorld) const
+std::optional<std::pair<int, std::shared_ptr<Imperator::Province>>> CK3::World::determineProvinceSource(const std::vector<int>& impProvinceNumbers,
+	const Imperator::World& impWorld) const
 {
 	// determine ownership by province development.
-	std::map<int, std::vector<std::shared_ptr<ImperatorWorld::Province>>> theClaims; // owner, offered province sources
+	std::map<int, std::vector<std::shared_ptr<Imperator::Province>>> theClaims; // owner, offered province sources
 	std::map<int, int> theShares;														// owner, development
 	auto winner = -1;
 	auto maxDev = -1;
@@ -219,7 +219,7 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 	// Now that we have a winning owner, let's find its largest province to use as a source.
 	maxDev = -1; // We can have winning provinces with weight = 0;
 
-	std::pair<int, std::shared_ptr<ImperatorWorld::Province>> toReturn;
+	std::pair<int, std::shared_ptr<Imperator::Province>> toReturn;
 	for (const auto& province : theClaims[winner])
 	{
 		const auto provinceWeight = province->getBuildingsCount() + province->getPopCount();
@@ -238,7 +238,7 @@ std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> CK3::Wo
 	return toReturn;
 }
 
-void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& impWorld)
+void CK3::World::linkCountiesToTitleHolders(const Imperator::World& impWorld)
 {
 	for (const auto& [name, landedTitle] : landedTitles.getFoundTitles())
 	{
@@ -275,7 +275,7 @@ void CK3::World::linkCountiesToTitleHolders(const ImperatorWorld::World& impWorl
 }
 
 
-void CK3::World::importVanillaNonCountyNonBaronyTitles(const ImperatorWorld::World& impWorld)
+void CK3::World::importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld)
 {	
 	for (const auto& [name, landedTitle] : landedTitles.getFoundTitles())
 	{
@@ -327,7 +327,7 @@ void CK3::World::removeInvalidLandlessTitles()
 	}
 }
 
-void CK3::World::linkSpouses(const ImperatorWorld::World& impWorld)
+void CK3::World::linkSpouses(const Imperator::World& impWorld)
 {
 	auto counterSpouse = 0;
 	for (const auto& [ck3CharacterID, ck3Character] : characters)
@@ -349,7 +349,7 @@ void CK3::World::linkSpouses(const ImperatorWorld::World& impWorld)
 }
 
 
-void CK3::World::linkMothersAndFathers(const ImperatorWorld::World& impWorld)
+void CK3::World::linkMothersAndFathers(const Imperator::World& impWorld)
 {
 	auto counterMother = 0;
 	auto counterFather = 0;

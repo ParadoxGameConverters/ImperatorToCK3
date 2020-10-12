@@ -2,7 +2,7 @@
 #define IMPERATOR_COUNTRY_CURRENCIES_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 class CountryCurrencies : commonItems::parser
 {
@@ -31,6 +31,6 @@ class CountryCurrencies : commonItems::parser
 	int political_influence = 0;
 	int military_experience = 0;
 };
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_COUNTRY_CURRENCIES_H

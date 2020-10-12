@@ -4,7 +4,7 @@
 #include "Parser.h"
 #include "WeightBlock.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class AccessoryGeneTemplate : commonItems::parser
 	{
@@ -21,6 +21,6 @@ namespace ImperatorWorld
 		unsigned int index = 0;
 		std::map<std::string, std::shared_ptr<WeightBlock>> ageSexWeightBlocks;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_ACCESSORY_GENE_TEMPLATE_H

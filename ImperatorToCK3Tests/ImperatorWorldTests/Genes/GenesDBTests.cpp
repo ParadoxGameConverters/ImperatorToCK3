@@ -12,7 +12,7 @@ TEST(ImperatorWorld_GenesTests, genesDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::GenesDB genes(input);
+	const Imperator::GenesDB genes(input);
 
 	ASSERT_TRUE(genes.getAccessoryGenes().getGenes().empty());
 }
@@ -25,7 +25,7 @@ TEST(ImperatorWorld_GenesTests, accessoryGenesCanBeLoadedInsideGeneGroup)
 	input << "\tclothes={ index =2}\n";
 	input << "}";
 
-	ImperatorWorld::GenesDB genes(input);
+	Imperator::GenesDB genes(input);
 	const auto& geneItr = genes.getAccessoryGenes().getGenes().find("hairstyles");
 	const auto& geneItr2 = genes.getAccessoryGenes().getGenes().find("clothes");
 
@@ -44,7 +44,7 @@ TEST(ImperatorWorld_GenesTests, simpleParameterCanBeLoadedInsideGeneGroup)
 	input << "\tindex = 65\n";
 	input << "}";
 
-	const ImperatorWorld::GenesDB genes(input);
+	const Imperator::GenesDB genes(input);
 
 	ASSERT_EQ(65, genes.getAccessoryGenes().getIndex());
 }

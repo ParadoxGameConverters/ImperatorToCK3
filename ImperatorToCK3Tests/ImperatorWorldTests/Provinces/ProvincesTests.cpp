@@ -13,7 +13,7 @@ TEST(ImperatorWorld_ProvincesTests, provincesDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Provinces provinces(input);
+	const Imperator::Provinces provinces(input);
 
 	ASSERT_TRUE(provinces.getProvinces().empty());
 }
@@ -27,7 +27,7 @@ TEST(ImperatorWorld_ProvincesTests, provincesCanBeLoaded)
 	input << "43={}\n";
 	input << "}";
 
-	const ImperatorWorld::Provinces provinces(input);
+	const Imperator::Provinces provinces(input);
 	const auto& provinceItr = provinces.getProvinces().find(42);
 	const auto& provinceItr2 = provinces.getProvinces().find(43);
 
@@ -41,11 +41,11 @@ TEST(ImperatorWorld_ProvincesTests, popCanBeLinked)
 {
 	std::stringstream input;
 	input << "={42={pop=8}}\n";
-	ImperatorWorld::Provinces provinces(input);
+	Imperator::Provinces provinces(input);
 
 	std::stringstream input2;
 	input2 << "8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n";
-	ImperatorWorld::Pops pops;
+	Imperator::Pops pops;
 	pops.loadPops(input2);
 
 	provinces.linkPops(pops);
@@ -65,7 +65,7 @@ TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
 	input << "42={pop=8}\n";
 	input << "44={pop= 9}\n";
 	input << "}\n";
-	ImperatorWorld::Provinces provinces(input);
+	Imperator::Provinces provinces(input);
 
 	std::stringstream input2;
 	input2 << "={\n";
@@ -73,7 +73,7 @@ TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
 	input2 << "9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n";
 	input2 << "10={type=\"freemen\" culture=\"greek\" religion=\"zoroastrian\"}\n";
 	input2 << "}\n";
-	ImperatorWorld::Pops pops;
+	Imperator::Pops pops;
 	pops.loadPops(input2);
 
 	provinces.linkPops(pops);
@@ -100,14 +100,14 @@ TEST(ImperatorWorld_ProvincesTests, BrokenLinkAttemptThrowsWarning)
 	input << "42={ pop = 8 }\n";
 	input << "44={ pop = 10 }\n"; /// no pop 10
 	input << "}\n";
-	ImperatorWorld::Provinces provinces(input);
+	Imperator::Provinces provinces(input);
 
 	std::stringstream input2;
 	input2 << "={\n";
 	input2 << "8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n";
 	input2 << "9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n";
 	input2 << "}\n";
-	ImperatorWorld::Pops pops;
+	Imperator::Pops pops;
 	pops.loadPops(input2);
 
 	std::stringstream log;

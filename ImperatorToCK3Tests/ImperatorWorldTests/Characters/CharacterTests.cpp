@@ -6,21 +6,21 @@
 
 TEST(ImperatorWorld_CharacterTests, IDCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(42, theCharacter.getID());
 }
 
 TEST(ImperatorWorld_CharacterTests, cultureCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -28,21 +28,21 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeSet)
 	input << "\tculture=\"paradoxian\"";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ("paradoxian", theCharacter.getCulture());
 }
 
 TEST(ImperatorWorld_CharacterTests, cultureDefaultsToBlank)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_TRUE(theCharacter.getCulture().empty());
 }
@@ -50,7 +50,7 @@ TEST(ImperatorWorld_CharacterTests, cultureDefaultsToBlank)
 
 TEST(ImperatorWorld_CharacterTests, religionCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -58,28 +58,28 @@ TEST(ImperatorWorld_CharacterTests, religionCanBeSet)
 	input << "\treligion=\"paradoxian\"";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ("paradoxian", theCharacter.getReligion());
 }
 
 TEST(ImperatorWorld_CharacterTests, religionDefaultsToBlank)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_TRUE(theCharacter.getReligion().empty());
 }
 
 TEST(ImperatorWorld_CharacterTests, sexCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -87,27 +87,27 @@ TEST(ImperatorWorld_CharacterTests, sexCanBeSet)
 	input << "\tfemale=yes";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_TRUE(theCharacter.isFemale());
 }
 TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_FALSE(theCharacter.isFemale());
 }
 
 TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	const std::vector<std::string> traitsVector{ "lustful", "submissive", "greedy" };
 
@@ -117,28 +117,28 @@ TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
 	input << "\ttraits = { \"lustful\" \"submissive\" \"greedy\" }";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(traitsVector, theCharacter.getTraits());
 }
 
 TEST(ImperatorWorld_CharacterTests, traitsDefaultToEmpty)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_TRUE(theCharacter.getTraits().empty());
 }
 
 TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -146,28 +146,28 @@ TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet)
 	input << "\tbirth_date=408.6.28"; // will be converted to AD on loading
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(date("-346.6.28"), theCharacter.getBirthDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(date("1.1.1"), theCharacter.getBirthDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -175,28 +175,28 @@ TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
 	input << "\tdeath_date=408.6.28"; // will be converted to AD on loading
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(date("-346.6.28"), theCharacter.getDeathDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_FALSE(theCharacter.getDeathDate());
 }
 
 TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -214,10 +214,10 @@ TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 	spouse420input << "{\n";
 	spouse420input << "}";
 
-	ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
-	std::map<int, std::shared_ptr<ImperatorWorld::Character>> spousesMap;
-	spousesMap.insert(std::pair(69, std::make_shared<ImperatorWorld::Character>(spouse69input, 69, genesDB, endDate)));
-	spousesMap.insert(std::pair(420, std::make_shared<ImperatorWorld::Character>(spouse420input, 420, genesDB, endDate)));
+	Imperator::Character theCharacter(input, 42, genesDB, endDate);
+	std::map<int, std::shared_ptr<Imperator::Character>> spousesMap;
+	spousesMap.insert(std::pair(69, std::make_shared<Imperator::Character>(spouse69input, 69, genesDB, endDate)));
+	spousesMap.insert(std::pair(420, std::make_shared<Imperator::Character>(spouse420input, 420, genesDB, endDate)));
 	theCharacter.setSpouses(spousesMap);
 
 	ASSERT_FALSE(theCharacter.getSpouses().empty());
@@ -229,21 +229,21 @@ TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, spousesDefaultToEmpty)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_TRUE(theCharacter.getSpouses().empty());
 }
 
 TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -251,7 +251,7 @@ TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
 	input << "\tchildren = { 69 420 } ";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_FALSE(theCharacter.getChildren().empty());
 	ASSERT_EQ(69, theCharacter.getChildren().find(69)->first);
@@ -260,21 +260,21 @@ TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, childrenDefaultToEmpty)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_TRUE(theCharacter.getChildren().empty());
 }
 
 TEST(ImperatorWorld_CharacterTests, motherCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -282,28 +282,28 @@ TEST(ImperatorWorld_CharacterTests, motherCanBeSet)
 	input << "\tmother=123";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(123, theCharacter.getMother().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, theCharacter.getMother().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -311,28 +311,28 @@ TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
 	input << "\tfather=123";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(123, theCharacter.getFather().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, theCharacter.getFather().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -340,27 +340,27 @@ TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
 	input << "\tfamily=123";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(123, theCharacter.getFamily().first);
 }
 
 TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, theCharacter.getFamily().first);
 }
 TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -368,28 +368,28 @@ TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 	input << "wealth=\"420.5\"";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_NEAR(420.5, theCharacter.getWealth(), 0.001);
 }
 
 TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, theCharacter.getWealth());
 }
 
 TEST(ImperatorWorld_CharacterTests, nameCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -399,35 +399,35 @@ TEST(ImperatorWorld_CharacterTests, nameCanBeSet)
 	input << "}\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ("Biggus Dickus", theCharacter.getName());
 }
 
 TEST(ImperatorWorld_CharacterTests, nameDefaultsToBlank)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_TRUE(theCharacter.getName().empty());
 }
 
 TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, theCharacter.getAttributes().martial);
 	ASSERT_EQ(0, theCharacter.getAttributes().finesse);
@@ -437,7 +437,7 @@ TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero)
 
 TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -445,7 +445,7 @@ TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
 	input << "\tattributes={ martial=1 finesse=2 charisma=3 zeal=4 }";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(1, theCharacter.getAttributes().martial);
 	ASSERT_EQ(2, theCharacter.getAttributes().finesse);
@@ -455,7 +455,7 @@ TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream familyInput;
 	familyInput << "=\n";
@@ -469,12 +469,12 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 	characterInput << "\tfamily=42";
 	characterInput << "}";
 
-	const ImperatorWorld::Family theFamily(familyInput, 42);
-	ImperatorWorld::Character theCharacter(characterInput, 69, genesDB, endDate);
+	const Imperator::Family theFamily(familyInput, 42);
+	Imperator::Character theCharacter(characterInput, 69, genesDB, endDate);
 
 	if (theCharacter.getFamily().first == theFamily.getID())
 	{
-		auto familyPointer = std::make_shared<ImperatorWorld::Family>(theFamily);
+		auto familyPointer = std::make_shared<Imperator::Family>(theFamily);
 		theCharacter.setFamily(familyPointer);
 	}
 
@@ -484,7 +484,7 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 
 TEST(ImperatorWorld_CharacterTests, dnaCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -492,21 +492,21 @@ TEST(ImperatorWorld_CharacterTests, dnaCanBeSet)
 	input << "\tdna=\"paradoxian\"";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ("paradoxian", theCharacter.getDNA());
 }
 
 TEST(ImperatorWorld_CharacterTests, dnaDefaultsToNullopt)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_FALSE(theCharacter.getDNA());
 }
@@ -514,11 +514,11 @@ TEST(ImperatorWorld_CharacterTests, dnaDefaultsToNullopt)
 
 TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLength)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/==\"}";
-	const ImperatorWorld::Character character(input, 42, genesDB, endDate);
+	const Imperator::Character character(input, 42, genesDB, endDate);
 
 	ASSERT_FALSE(character.getPortraitData());
 }
@@ -526,11 +526,11 @@ TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLeng
 
 TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}";
-	const ImperatorWorld::Character character(input, 42, genesDB, endDate);
+	const Imperator::Character character(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, character.getPortraitData().value().getHairColorPaletteCoordinates().x);
 	ASSERT_EQ(0, character.getPortraitData().value().getHairColorPaletteCoordinates().y);
@@ -543,7 +543,7 @@ TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA
 
 TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -551,20 +551,20 @@ TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
 	input << "\tage=56\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(56, theCharacter.getAge());
 }
 TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, theCharacter.getAge());
 }
@@ -572,7 +572,7 @@ TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0)
 
 TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input, input2, input3, input4;
 	input << "=\n";
@@ -597,10 +597,10 @@ TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
 	input4 << "\tage=8\n";
 	input4 << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
-	const ImperatorWorld::Character theCharacter2(input2, 43, genesDB, endDate);
-	const ImperatorWorld::Character theCharacter3(input3, 44, genesDB, endDate);
-	const ImperatorWorld::Character theCharacter4(input4, 45, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter2(input2, 43, genesDB, endDate);
+	const Imperator::Character theCharacter3(input3, 44, genesDB, endDate);
+	const Imperator::Character theCharacter4(input4, 45, genesDB, endDate);
 
 	ASSERT_EQ("female", theCharacter.getAgeSex());
 	ASSERT_EQ("male", theCharacter2.getAgeSex());
@@ -610,7 +610,7 @@ TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
 
 TEST(ImperatorWorld_CharacterTests, provinceCanBeSet)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
@@ -618,57 +618,57 @@ TEST(ImperatorWorld_CharacterTests, provinceCanBeSet)
 	input << "\tprovince=69";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(69, theCharacter.getProvince());
 }
 
 TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ(0, theCharacter.getProvince());
 }
 
 TEST(ImperatorWorld_CharacterTests, AUC0ConvertsTo754BC)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "= { birth_date = 0.1.1 }";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ("-754.1.1", theCharacter.getBirthDate().toString());
 }
 
 TEST(ImperatorWorld_CharacterTests, AUC753ConvertsTo1BC)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "= { birth_date = 753.1.1 }";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ("-1.1.1", theCharacter.getBirthDate().toString());
 }
 
 TEST(ImperatorWorld_CharacterTests, AUC754ConvertsTo1AD)
 {
-	const ImperatorWorld::GenesDB genesDB;
+	const Imperator::GenesDB genesDB;
 	const date endDate;
 	std::stringstream input;
 	input << "= { birth_date = 754.1.1 }";
 
-	const ImperatorWorld::Character theCharacter(input, 42, genesDB, endDate);
+	const Imperator::Character theCharacter(input, 42, genesDB, endDate);
 
 	ASSERT_EQ("1.1.1", theCharacter.getBirthDate().toString());
 }

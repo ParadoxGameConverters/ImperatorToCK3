@@ -5,14 +5,14 @@
 #include "ParserHelpers.h"
 
 
-ImperatorWorld::Characters::Characters(std::istream& theStream, const GenesDB& genesDB, const date& _endDate) : genes(genesDB), endDate(_endDate)
+Imperator::Characters::Characters(std::istream& theStream, const GenesDB& genesDB, const date& _endDate) : genes(genesDB), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Characters::registerKeys()
+void Imperator::Characters::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& charID, std::istream& theStream) {
 		auto newCharacter = std::make_shared<Character>(theStream, std::stoi(charID), genes, endDate);
@@ -21,7 +21,7 @@ void ImperatorWorld::Characters::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-void ImperatorWorld::Characters::linkFamilies(const Families& theFamilies)
+void Imperator::Characters::linkFamilies(const Families& theFamilies)
 {
 	auto counter = 0;
 	const auto& families = theFamilies.getFamilies();
@@ -44,7 +44,7 @@ void ImperatorWorld::Characters::linkFamilies(const Families& theFamilies)
 	Log(LogLevel::Info) << "<> " << counter << " families linked to characters.";
 }
 
-void ImperatorWorld::Characters::linkSpouses()
+void Imperator::Characters::linkSpouses()
 {
 	auto counterSpouse = 0;
 	for (const auto& [characterID, character]: characters)
@@ -72,7 +72,7 @@ void ImperatorWorld::Characters::linkSpouses()
 }
 
 
-void ImperatorWorld::Characters::linkMothersAndFathers()
+void Imperator::Characters::linkMothersAndFathers()
 {
 	auto counterMother = 0;
 	auto counterFather = 0;
@@ -114,14 +114,14 @@ void ImperatorWorld::Characters::linkMothersAndFathers()
 
 
 
-ImperatorWorld::CharactersBloc::CharactersBloc(std::istream& theStream, GenesDB genesDB, const date& _endDate) : genes(std::move(genesDB)), endDate(_endDate)
+Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, GenesDB genesDB, const date& _endDate) : genes(std::move(genesDB)), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::CharactersBloc::registerKeys()
+void Imperator::CharactersBloc::registerKeys()
 {
 	registerKeyword("character_database", [this](const std::string& unused, std::istream& theStream) {
 		characters = Characters(theStream, genes, endDate);

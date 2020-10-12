@@ -2,14 +2,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::CountryName::CountryName(std::istream& theStream)
+Imperator::CountryName::CountryName(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::CountryName::registerKeys()
+void Imperator::CountryName::registerKeys()
 {
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);

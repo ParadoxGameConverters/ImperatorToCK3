@@ -4,7 +4,7 @@
 #include "Parser.h"
 
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class AccessoryGenes : commonItems::parser
 	{
@@ -21,6 +21,6 @@ namespace ImperatorWorld
 		unsigned int index = 0;
 		std::map<std::string, AccessoryGene> genes;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_ACCESSORY_GENES_H

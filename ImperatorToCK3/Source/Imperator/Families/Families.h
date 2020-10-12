@@ -2,7 +2,7 @@
 #define IMPERATOR_FAMILIES_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class Family;
 	class Families : commonItems::parser
@@ -32,6 +32,6 @@ namespace ImperatorWorld
 
 		Families families;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_FAMILIES_H

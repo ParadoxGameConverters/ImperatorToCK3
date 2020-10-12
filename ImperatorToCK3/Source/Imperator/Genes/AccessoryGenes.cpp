@@ -3,14 +3,14 @@
 #include "ParserHelpers.h"
 
 
-ImperatorWorld::AccessoryGenes::AccessoryGenes(std::istream& theStream)
+Imperator::AccessoryGenes::AccessoryGenes(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::AccessoryGenes::registerKeys()
+void Imperator::AccessoryGenes::registerKeys()
 {
 	registerKeyword("index", [this](const std::string& unused, std::istream& theStream) {
 		index = commonItems::singleInt(theStream).getInt();

@@ -2,7 +2,7 @@
 #define IMPERATOR_COUNTRIES_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class Country;
 	class Families;
@@ -35,6 +35,6 @@ namespace ImperatorWorld
 
 		Countries countries;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_COUNTRIES_H

@@ -13,7 +13,7 @@ TEST(ImperatorWorld_CountriesTests, countriesDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Countries countries(input);
+	const Imperator::Countries countries(input);
 
 	ASSERT_TRUE(countries.getCountries().empty());
 }
@@ -27,7 +27,7 @@ TEST(ImperatorWorld_CountriesTests, countriesCanBeLoaded)
 	input << "43={}\n";
 	input << "}";
 
-	const ImperatorWorld::Countries countries(input);
+	const Imperator::Countries countries(input);
 	
 	const auto& countryItr = countries.getCountries().find(42);
 	const auto& countryItr2 = countries.getCountries().find(43);
@@ -44,11 +44,11 @@ TEST(ImperatorWorld_CountriesTests, familyCanBeLinked)
 {
 	std::stringstream input;
 	input << "={42={family=8}}\n";
-	ImperatorWorld::Countries countries(input);
+	Imperator::Countries countries(input);
 
 	std::stringstream input2;
 	input2 << "8={key=\"Cornelli\" prestige=2 member={ 4479 4480}}\n";
-	ImperatorWorld::Families families;
+	Imperator::Families families;
 	families.loadFamilies(input2);
 
 	countries.linkFamilies(families);
@@ -68,7 +68,7 @@ TEST(ImperatorWorld_CountriesTests, multipleFamiliesCanBeLinked)
 	input << "42={family=8}\n";
 	input << "44={minor_family= 9}\n";
 	input << "}\n";
-	ImperatorWorld::Countries countries(input);
+	Imperator::Countries countries(input);
 
 	std::stringstream input2;
 	input2 << "={\n";
@@ -76,7 +76,7 @@ TEST(ImperatorWorld_CountriesTests, multipleFamiliesCanBeLinked)
 	input2 << "9={key=\"minor_bmb\" prestige=69 minor_family=yes member={ 4479 4480} }\n";
 	input2 << "10={key=\"minor_rom\" prestige=7 minor_family=yes member={ 69 420} }\n";
 	input2 << "}\n";
-	ImperatorWorld::Families families;
+	Imperator::Families families;
 	families.loadFamilies(input2);
 
 	countries.linkFamilies(families);
@@ -103,14 +103,14 @@ TEST(ImperatorWorld_CountriesTests, BrokenLinkAttemptThrowsWarning)
 	input << "42={ family = 8 }\n";
 	input << "44={ minor_family = 10 }\n"; /// no pop 10
 	input << "}\n";
-	ImperatorWorld::Countries countries(input);
+	Imperator::Countries countries(input);
 
 	std::stringstream input2;
 	input2 << "={\n";
 	input2 << "8={key=\"Cornelli\" prestige=0 member={ 4479 4480}}\n";
 	input2 << "9={key=\"minor_bmb\" prestige=0 minor_family=yes member={ 4479 4480}}\n";
 	input2 << "}\n";
-	ImperatorWorld::Families families;
+	Imperator::Families families;
 	families.loadFamilies(input2);
 
 	std::stringstream log;

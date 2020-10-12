@@ -10,7 +10,7 @@ TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksDefaultsToEmpt
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGeneTemplate geneTemplate(input);
+	const Imperator::AccessoryGeneTemplate geneTemplate(input);
 
 	ASSERT_TRUE(geneTemplate.getAgeSexWeightBlocs().empty());
 }
@@ -26,7 +26,7 @@ TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksCanBeLoaded)
 	input << "girl=female\n";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGeneTemplate geneTemplate(input);
+	const Imperator::AccessoryGeneTemplate geneTemplate(input);
 
 	ASSERT_EQ(4, geneTemplate.getAgeSexWeightBlocs().size());
 }
@@ -42,7 +42,7 @@ TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWithBlocksAreProperlyCopie
 	input << "girl=female\n";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGeneTemplate geneTemplate(input);
+	const Imperator::AccessoryGeneTemplate geneTemplate(input);
 
 	ASSERT_EQ(6, geneTemplate.getAgeSexWeightBlocs().find("male")->second->getAbsoluteWeight("hoodie"));
 	ASSERT_EQ(8, geneTemplate.getAgeSexWeightBlocs().find("male")->second->getAbsoluteWeight("trousers"));

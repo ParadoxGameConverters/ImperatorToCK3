@@ -2,7 +2,7 @@
 #define IMPERATOR_POP_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class Pop: commonItems::parser
 	{
@@ -23,6 +23,6 @@ namespace ImperatorWorld
 		std::string culture;
 		std::string religion;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_POP_H
