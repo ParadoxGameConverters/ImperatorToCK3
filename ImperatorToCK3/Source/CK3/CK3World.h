@@ -24,27 +24,27 @@ namespace CK3
 class World
 {
 	public:
-		World(const ImperatorWorld::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser);
+		World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser);
 
 		[[nodiscard]] const auto& getCharacters() const { return characters; }
 		[[nodiscard]] const auto& getTitles() const { return titles; }
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
 
 	private:
-		void importImperatorCharacters(const ImperatorWorld::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
-		void importImperatorCharacter(const std::pair<int, std::shared_ptr<ImperatorWorld::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
-		void importVanillaNonCountyNonBaronyTitles(const ImperatorWorld::World& impWorld);
-		void importImperatorCountries(const ImperatorWorld::World& impWorld);
-		void importImperatorCountry(const std::pair<int, std::shared_ptr<ImperatorWorld::Country>>& country);
+		void importImperatorCharacters(const Imperator::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
+		void importImperatorCharacter(const std::pair<int, std::shared_ptr<Imperator::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
+		void importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld);
+		void importImperatorCountries(const Imperator::World& impWorld);
+		void importImperatorCountry(const std::pair<int, std::shared_ptr<Imperator::Country>>& country);
 		void importVanillaProvinces(const std::string& ck3Path);
-		void importImperatorProvinces(const ImperatorWorld::World& impWorld);
-		void linkCountiesToTitleHolders(const ImperatorWorld::World& impWorld);
-		void linkSpouses(const ImperatorWorld::World& impWorld);
-		void linkMothersAndFathers(const ImperatorWorld::World& impWorld);
+		void importImperatorProvinces(const Imperator::World& impWorld);
+		void linkCountiesToTitleHolders(const Imperator::World& impWorld);
+		void linkSpouses(const Imperator::World& impWorld);
+		void linkMothersAndFathers(const Imperator::World& impWorld);
 		void removeInvalidLandlessTitles();
 
-		[[nodiscard]] std::optional<std::pair<int, std::shared_ptr<ImperatorWorld::Province>>> determineProvinceSource(const std::vector<int>& impProvinceNumbers,
-			const ImperatorWorld::World& impWorld) const;
+		[[nodiscard]] std::optional<std::pair<int, std::shared_ptr<Imperator::Province>>> determineProvinceSource(const std::vector<int>& impProvinceNumbers,
+			const Imperator::World& impWorld) const;
 
 
 		std::map<std::string, std::shared_ptr<Character>> characters;

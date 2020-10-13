@@ -5,7 +5,7 @@
 #include "Parser.h"
 
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class GenesDB : commonItems::parser
 	{
@@ -20,6 +20,6 @@ namespace ImperatorWorld
 
 		AccessoryGenes accessoryGenes;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_GENES_H

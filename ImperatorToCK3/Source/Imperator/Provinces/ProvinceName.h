@@ -2,7 +2,7 @@
 #define IMPERATOR_PROVINCE_NAME_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 class ProvinceName: commonItems::parser
 {
@@ -17,6 +17,6 @@ class ProvinceName: commonItems::parser
 
 	std::string name;
 };
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_PROVINCE_NAME_H

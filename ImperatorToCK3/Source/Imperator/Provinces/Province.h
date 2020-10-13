@@ -2,7 +2,7 @@
 #define IMPERATOR_PROVINCE_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class Pop;
 	class Country;
@@ -39,6 +39,6 @@ namespace ImperatorWorld
 		unsigned int buildingsCount = 0;
 		std::map<int, std::shared_ptr<Pop>> pops;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_PROVINCE_H

@@ -10,7 +10,7 @@ TEST(ImperatorWorld_AccessoryGenesTests, indexCanBeSet)
 	input << "\tindex=69";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGenes theGenes(input);
+	const Imperator::AccessoryGenes theGenes(input);
 
 	ASSERT_EQ(69, theGenes.getIndex());
 }
@@ -23,7 +23,7 @@ TEST(ImperatorWorld_AccessoryGenesTests, indexDefaultsTo0)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGenes theGenes(input);
+	const Imperator::AccessoryGenes theGenes(input);
 
 	ASSERT_EQ(0, theGenes.getIndex());
 }
@@ -35,7 +35,7 @@ TEST(ImperatorWorld_AccessoryGenesTests, genesDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGenes theGenes(input);
+	const Imperator::AccessoryGenes theGenes(input);
 
 	ASSERT_TRUE(theGenes.getGenes().empty());
 }
@@ -54,7 +54,7 @@ TEST(ImperatorWorld_AccessoryGenesTests, accessoryGenesAreProperlyLoaded)
 	input << "}";
 
 
-	const ImperatorWorld::AccessoryGenes theGenes(input);
+	const Imperator::AccessoryGenes theGenes(input);
 	ASSERT_EQ(5, theGenes.getIndex());
 	ASSERT_EQ(2, theGenes.getGenes().size());
 	ASSERT_EQ(1, theGenes.getGenes().find("hairstyles")->second.getIndex());

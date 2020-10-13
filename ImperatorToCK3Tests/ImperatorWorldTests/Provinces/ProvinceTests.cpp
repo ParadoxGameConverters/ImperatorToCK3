@@ -10,7 +10,7 @@ TEST(ImperatorWorld_ProvinceTests, IDCanBeSet)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ(42, theProvince.getID());
 }
@@ -22,7 +22,7 @@ TEST(ImperatorWorld_ProvinceTests, cultureCanBeSet)
 	input << "\tculture=\"paradoxian\"";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ("paradoxian", theProvince.getCulture());
 }
@@ -34,7 +34,7 @@ TEST(ImperatorWorld_ProvinceTests, cultureDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_TRUE(theProvince.getCulture().empty());
 }
@@ -48,7 +48,7 @@ TEST(ImperatorWorld_ProvinceTests, religionCanBeSet)
 	input << "\treligion=\"paradoxian\"";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ("paradoxian", theProvince.getReligion());
 }
@@ -60,7 +60,7 @@ TEST(ImperatorWorld_ProvinceTests, religionDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_TRUE(theProvince.getReligion().empty());
 }
@@ -75,7 +75,7 @@ TEST(ImperatorWorld_ProvinceTests, nameCanBeSet)
 	input << "}\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ("Biggus Dickus", theProvince.getName());
 }
@@ -87,7 +87,7 @@ TEST(ImperatorWorld_ProvinceTests, nameDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_TRUE(theProvince.getName().empty());
 }
@@ -100,7 +100,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet)
 	input << "\towner=69\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ(69, theProvince.getOwner());
 }
@@ -112,7 +112,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ(0, theProvince.getOwner());
 }
@@ -125,7 +125,7 @@ TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet)
 	input << "\tcontroller=69\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ(69, theProvince.getController());
 }
@@ -141,7 +141,7 @@ TEST(ImperatorWorld_ProvinceTests, popsCanBeSet)
 	input << "\tpop=23\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ(4, theProvince.getPopCount());
 }
@@ -154,7 +154,7 @@ TEST(ImperatorWorld_ProvinceTests, buildingsCountCanBeSet)
 	input << "\tbuildings = {0 1 0 65 3}\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ(69, theProvince.getBuildingsCount());
 }
@@ -166,7 +166,7 @@ TEST(ImperatorWorld_ProvinceTests, buildingsCountDefaultsTo0)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Province theProvince(input, 42);
+	const Imperator::Province theProvince(input, 42);
 
 	ASSERT_EQ(0, theProvince.getBuildingsCount());
 }

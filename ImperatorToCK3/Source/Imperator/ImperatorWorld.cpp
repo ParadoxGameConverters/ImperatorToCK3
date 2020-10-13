@@ -13,7 +13,7 @@
 
 namespace fs = std::filesystem;
 
-ImperatorWorld::World::World(const Configuration& theConfiguration)
+Imperator::World::World(const Configuration& theConfiguration)
 {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
 	
@@ -103,7 +103,7 @@ ImperatorWorld::World::World(const Configuration& theConfiguration)
 	LOG(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
 }
 
-void ImperatorWorld::World::processSave(const std::string& saveGamePath)
+void Imperator::World::processSave(const std::string& saveGamePath)
 {
 	switch (saveGame.saveType)
 	{
@@ -120,7 +120,7 @@ void ImperatorWorld::World::processSave(const std::string& saveGamePath)
 	}
 }
 
-void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
+void Imperator::World::verifySave(const std::string& saveGamePath)
 {
 	std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
 	if (!saveFile.is_open())
@@ -161,7 +161,7 @@ void ImperatorWorld::World::verifySave(const std::string& saveGamePath)
 	delete[] bigBuf;
 }
 
-void ImperatorWorld::World::processDebugModeSave(const std::string& saveGamePath)
+void Imperator::World::processDebugModeSave(const std::string& saveGamePath)
 {
 	const std::ifstream inBinary(fs::u8path(saveGamePath), std::ios::binary);
 	std::stringstream inStream;
@@ -169,7 +169,7 @@ void ImperatorWorld::World::processDebugModeSave(const std::string& saveGamePath
 	saveGame.gameState = inStream.str();
 }
 
-void ImperatorWorld::World::processCompressedEncodedSave(const std::string& saveGamePath)
+void Imperator::World::processCompressedEncodedSave(const std::string& saveGamePath)
 {
 	const std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
 	std::stringstream inStream;
@@ -180,7 +180,7 @@ void ImperatorWorld::World::processCompressedEncodedSave(const std::string& save
 }
 
 
-void ImperatorWorld::World::parseGenes(const Configuration& theConfiguration)
+void Imperator::World::parseGenes(const Configuration& theConfiguration)
 {
 	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
 }

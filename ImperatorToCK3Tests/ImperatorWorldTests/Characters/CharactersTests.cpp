@@ -6,7 +6,7 @@
 
 TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty)
 {
-	const ImperatorWorld::GenesDB genes;
+	const Imperator::GenesDB genes;
 	const date endDate;
 	
 	std::stringstream input;
@@ -14,14 +14,14 @@ TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::Characters characters(input, genes, endDate);
+	const Imperator::Characters characters(input, genes, endDate);
 
 	ASSERT_TRUE(characters.getCharacters().empty());
 }
 
 TEST(ImperatorWorld_CharactersTests, charactersCanBeLoaded)
 {
-	const ImperatorWorld::GenesDB genes;
+	const Imperator::GenesDB genes;
 	const date endDate;
 	
 	std::stringstream input;
@@ -31,7 +31,7 @@ TEST(ImperatorWorld_CharactersTests, charactersCanBeLoaded)
 	input << "43={}\n";
 	input << "}";
 
-	const ImperatorWorld::Characters characters(input, genes, endDate);
+	const Imperator::Characters characters(input, genes, endDate);
 	
 	const auto& characterItr = characters.getCharacters().find(42);
 	const auto& characterItr2 = characters.getCharacters().find(43);

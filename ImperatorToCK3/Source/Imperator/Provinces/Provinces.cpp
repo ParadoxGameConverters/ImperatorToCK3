@@ -6,14 +6,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-ImperatorWorld::Provinces::Provinces(std::istream& theStream)
+Imperator::Provinces::Provinces(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Provinces::registerKeys()
+void Imperator::Provinces::registerKeys()
 {
 	registerRegex(R"(\d+)", [this](const std::string& provID, std::istream& theStream) {
 		auto newProvince = std::make_shared<Province>(theStream, std::stoi(provID));
@@ -22,7 +22,7 @@ void ImperatorWorld::Provinces::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-void ImperatorWorld::Provinces::linkPops(const Pops& thePops)
+void Imperator::Provinces::linkPops(const Pops& thePops)
 {
 	auto counter = 0;
 	const auto& pops = thePops.getPops();
@@ -50,7 +50,7 @@ void ImperatorWorld::Provinces::linkPops(const Pops& thePops)
 	Log(LogLevel::Info) << "<> " << counter << " pops linked to provinces.";
 }
 
-void ImperatorWorld::Provinces::linkCountries(const Countries& theCountries)
+void Imperator::Provinces::linkCountries(const Countries& theCountries)
 {
 	auto counter = 0;
 	const auto& countries = theCountries.getCountries();

@@ -9,7 +9,7 @@
 
 
 
-ImperatorWorld::Character::Character(std::istream& theStream, const int chrID, GenesDB genesDB, const date& _endDate) : charID(chrID), genes(std::move(genesDB)), endDate(_endDate)
+Imperator::Character::Character(std::istream& theStream, const int chrID, GenesDB genesDB, const date& _endDate) : charID(chrID), genes(std::move(genesDB)), endDate(_endDate)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -18,7 +18,7 @@ ImperatorWorld::Character::Character(std::istream& theStream, const int chrID, G
 	if (dna && dna.value().size() == 552) portraitData.emplace(CharacterPortraitData(dna.value(), genes, getAgeSex()));
 }
 
-void ImperatorWorld::Character::registerKeys()
+void Imperator::Character::registerKeys()
 {
 	registerRegex("first_name_loc", [this](const std::string& unused, std::istream& theStream) {
 		name = CharacterName(theStream).getName();
@@ -93,7 +93,7 @@ void ImperatorWorld::Character::registerKeys()
 }
 
 
-const std::string& ImperatorWorld::Character::getCulture() const
+const std::string& Imperator::Character::getCulture() const
 {
 	if (!culture.empty())
 		return culture;
@@ -102,7 +102,7 @@ const std::string& ImperatorWorld::Character::getCulture() const
 	return culture;
 }
 
-std::string ImperatorWorld::Character::getAgeSex() const
+std::string Imperator::Character::getAgeSex() const
 {
 	if (age >= 16)
 	{

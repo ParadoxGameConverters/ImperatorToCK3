@@ -11,7 +11,7 @@ TEST(ImperatorWorld_AccessoryGeneTests, indexCanBeSet)
 	input << "\tindex=69";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGene theGene(input);
+	const Imperator::AccessoryGene theGene(input);
 
 	ASSERT_EQ(69, theGene.getIndex());
 }
@@ -23,7 +23,7 @@ TEST(ImperatorWorld_AccessoryGeneTests, indexDefaultsTo0)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGene theGene(input);
+	const Imperator::AccessoryGene theGene(input);
 
 	ASSERT_EQ(0, theGene.getIndex());
 }
@@ -35,7 +35,7 @@ TEST(ImperatorWorld_AccessoryGeneTests, geneTemplatesDefaultToEmpty)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::AccessoryGene theGene(input);
+	const Imperator::AccessoryGene theGene(input);
 
 	ASSERT_TRUE(theGene.getGeneTemplates().empty());
 }
@@ -76,7 +76,7 @@ TEST(ImperatorWorld_AccessoryGeneTests, accessoryGeneIsProperlyLoaded)
 	input << "	} \n";
 	input << "}\n";
 
-	const ImperatorWorld::AccessoryGene gene(input);
+	const Imperator::AccessoryGene gene(input);
 
 	ASSERT_EQ(95, gene.getIndex());
 	ASSERT_FALSE(gene.isInheritable());

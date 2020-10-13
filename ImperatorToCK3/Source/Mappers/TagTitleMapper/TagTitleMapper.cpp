@@ -4,7 +4,7 @@
 #include "../../Imperator/Countries/Country.h"
 
 
-std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::string& impTag, const ImperatorWorld::countryRankEnum countryRank, const std::string& localizedTitleName) const
+std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::string& impTag, const Imperator::countryRankEnum countryRank, const std::string& localizedTitleName) const
 {
 	// the only case where we fail is on invalid invocation. Otherwise, failure is
 	// not an option!
@@ -16,7 +16,7 @@ std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::st
 	return generatedTitle;
 }
 
-std::string mappers::TagTitleMapper::generateNewTitle(const std::string& impTag, const ImperatorWorld::countryRankEnum countryRank, const std::string& localizedTitleName) const
+std::string mappers::TagTitleMapper::generateNewTitle(const std::string& impTag, const Imperator::countryRankEnum countryRank, const std::string& localizedTitleName) const
 {
 	std::string ck3Tag;
 
@@ -24,12 +24,12 @@ std::string mappers::TagTitleMapper::generateNewTitle(const std::string& impTag,
 	else if (localizedTitleName.find("Kingdom") != std::string::npos) ck3Tag += "k_";
 	else switch (countryRank)
 	{
-	case ImperatorWorld::countryRankEnum::migrantHorde: { ck3Tag += "d_"; break; }
-	case ImperatorWorld::countryRankEnum::cityState: { ck3Tag += "d_"; break; }
-	case ImperatorWorld::countryRankEnum::localPower: { ck3Tag += "k_"; break; }
-	case ImperatorWorld::countryRankEnum::regionalPower: { ck3Tag += "k_"; break; }
-	case ImperatorWorld::countryRankEnum::majorPower: { ck3Tag += "k_"; break; }
-	case ImperatorWorld::countryRankEnum::greatPower: { ck3Tag += "e_"; break; }
+	case Imperator::countryRankEnum::migrantHorde: { ck3Tag += "d_"; break; }
+	case Imperator::countryRankEnum::cityState: { ck3Tag += "d_"; break; }
+	case Imperator::countryRankEnum::localPower: { ck3Tag += "k_"; break; }
+	case Imperator::countryRankEnum::regionalPower: { ck3Tag += "k_"; break; }
+	case Imperator::countryRankEnum::majorPower: { ck3Tag += "k_"; break; }
+	case Imperator::countryRankEnum::greatPower: { ck3Tag += "e_"; break; }
 	}
 	
 	ck3Tag += generatedCK3TitlePrefix;

@@ -7,7 +7,7 @@
 
 
 void CK3::Character::initializeFromImperator(
-	std::shared_ptr<ImperatorWorld::Character> impCharacter,
+	std::shared_ptr<Imperator::Character> impCharacter,
 	const mappers::ReligionMapper& religionMapper,
 	const mappers::CultureMapper& cultureMapper,
 	const mappers::TraitMapper& traitMapper,

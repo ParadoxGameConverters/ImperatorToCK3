@@ -13,7 +13,7 @@ TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded)
 	input << "\t6 = random\n";
 	input << "}";
 
-	ImperatorWorld::WeightBlock weightBlock(input);
+	Imperator::WeightBlock weightBlock(input);
 
 	ASSERT_EQ(5, weightBlock.getAbsoluteWeight("female_hair_greek_1"));
 	ASSERT_EQ(2, weightBlock.getAbsoluteWeight("sdfsdf"));
@@ -26,7 +26,7 @@ TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded)
 }
 TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAddedByMethod)
 {
-	ImperatorWorld::WeightBlock weightBlock;
+	Imperator::WeightBlock weightBlock;
 	weightBlock.addObject("new_object", 69);
 	weightBlock.addObject("new_object2", 5);
 	ASSERT_EQ(69, weightBlock.getAbsoluteWeight("new_object"));
@@ -44,7 +44,7 @@ TEST(ImperatorWorld_WeightBlocTests, sumOfAbsoluteWeightsDefaultsToZero)
 	input << "{\n";
 	input << "}";
 
-	const ImperatorWorld::WeightBlock weightBlock(input);
+	const Imperator::WeightBlock weightBlock(input);
 
 	ASSERT_EQ(0, weightBlock.getSumOfAbsoluteWeights());
 }
@@ -57,7 +57,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnNegativeArgum
 	input << "\t2 = female_hair_greek_2\n";
 	input << "}";
 
-	ImperatorWorld::WeightBlock weightBlock(input);
+	Imperator::WeightBlock weightBlock(input);
 
 	ASSERT_THROW(auto matchingObject = weightBlock.getMatchingObject(-0.5), std::runtime_error);
 }
@@ -70,7 +70,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnArgumentGreat
 	input << "\t2 = female_hair_greek_2\n";
 	input << "}";
 
-	ImperatorWorld::WeightBlock weightBlock(input);
+	Imperator::WeightBlock weightBlock(input);
 
 	ASSERT_THROW(auto matchingObject = weightBlock.getMatchingObject(1.234), std::runtime_error);
 }
@@ -82,7 +82,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectReturnsNulloptWhenObjectsM
 	input << "{\n";
 	input << "}";
 
-	ImperatorWorld::WeightBlock weightBlock(input);
+	Imperator::WeightBlock weightBlock(input);
 
 	ASSERT_FALSE(weightBlock.getMatchingObject(0.345));
 }

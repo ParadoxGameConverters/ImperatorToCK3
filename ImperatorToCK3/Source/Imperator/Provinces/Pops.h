@@ -2,7 +2,7 @@
 #define IMPERATOR_POPS_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 	class Pop;
 	class Pops : commonItems::parser
@@ -32,6 +32,6 @@ namespace ImperatorWorld
 
 		Pops pops;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_POPS_H

@@ -11,7 +11,7 @@ namespace CK3
 {
 	class Character;
 } // namespace CK3
-namespace ImperatorWorld
+namespace Imperator
 {
 class Family;
 
@@ -93,6 +93,6 @@ class Character: commonItems::parser
 
 	std::shared_ptr<CK3::Character> ck3Character;
 };
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_CHARACTER_H

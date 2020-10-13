@@ -4,14 +4,14 @@
 #include "CountryCurrencies.h"
 #include "Log.h"
 
-ImperatorWorld::Country::Country(std::istream& theStream, int countryID): countryID(countryID)
+Imperator::Country::Country(std::istream& theStream, int countryID): countryID(countryID)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::Country::registerKeys()
+void Imperator::Country::registerKeys()
 {
 	registerKeyword("tag", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString tagStr(theStream);
@@ -82,7 +82,7 @@ void ImperatorWorld::Country::registerKeys()
 }
 
 
-ImperatorWorld::countryRankEnum ImperatorWorld::Country::getCountryRank() const
+Imperator::countryRankEnum Imperator::Country::getCountryRank() const
 {
 	if (provinceCount == 0) return countryRankEnum::migrantHorde;
 	if (provinceCount == 1) return countryRankEnum::cityState;

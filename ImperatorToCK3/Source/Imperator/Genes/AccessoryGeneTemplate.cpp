@@ -4,14 +4,14 @@
 #include "WeightBlock.h"
 
 
-ImperatorWorld::AccessoryGeneTemplate::AccessoryGeneTemplate(std::istream& theStream)
+Imperator::AccessoryGeneTemplate::AccessoryGeneTemplate(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void ImperatorWorld::AccessoryGeneTemplate::registerKeys()
+void Imperator::AccessoryGeneTemplate::registerKeys()
 {
 	registerKeyword("index", [this](const std::string& unused, std::istream& theStream) {
 		index = commonItems::singleInt{ theStream }.getInt();

@@ -3,7 +3,7 @@
 #include "Parser.h"
 
 
-namespace ImperatorWorld
+namespace Imperator
 {	
 	class WeightBlock : commonItems::parser
 	{
@@ -24,6 +24,6 @@ namespace ImperatorWorld
 		unsigned int sumOfAbsoluteWeights = 0;
 		std::vector<std::pair<std::string, unsigned int>> objectsVector;
 	};
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_WEIGHT_BLOC_H

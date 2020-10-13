@@ -2,7 +2,7 @@
 #define IMPERATOR_FAMILY_H
 #include "Parser.h"
 
-namespace ImperatorWorld
+namespace Imperator
 {
 class Family: commonItems::parser
 {
@@ -29,6 +29,6 @@ class Family: commonItems::parser
 	std::string key;
 	bool isMinor = false;
 };
-} // namespace ImperatorWorld
+} // namespace Imperator
 
 #endif // IMPERATOR_FAMILY_H
