@@ -18,7 +18,7 @@ void Imperator::Pops::registerKeys()
 		if (popStr.find('{') != std::string::npos)
 		{
 			std::stringstream tempStream(popStr);
-			auto pop = std::make_shared<Pop>(tempStream, std::stoi(thePopID));
+			auto pop = std::make_shared<Pop>(tempStream, std::stoull(thePopID));
 			pops.insert(std::pair(pop->getID(), pop));
 		}
 	});

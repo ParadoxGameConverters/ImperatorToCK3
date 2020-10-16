@@ -5,7 +5,7 @@
 #include "ProvinceName.h"
 #include <numeric>
 
-Imperator::Province::Province(std::istream& theStream, const int provID): provinceID(provID)
+Imperator::Province::Province(std::istream& theStream, const unsigned long long provID): provinceID(provID)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -34,8 +34,8 @@ void Imperator::Province::registerKeys()
 		controller = controllerInt.getInt();
 	});
 	registerRegex("pop", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt popInt(theStream);
-		pops.insert(std::pair(popInt.getInt(), nullptr));
+		const commonItems::singleULlong popLongLong(theStream);
+		pops.insert(std::pair(popLongLong.getULlong(), nullptr));
 	});
 	registerRegex("buildings", [this](const std::string& unused, std::istream& theStream) {
 		const auto buildingsVector = commonItems::intList(theStream).getInts();

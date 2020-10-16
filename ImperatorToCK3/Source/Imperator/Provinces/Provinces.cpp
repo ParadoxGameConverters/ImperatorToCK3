@@ -16,7 +16,7 @@ Imperator::Provinces::Provinces(std::istream& theStream)
 void Imperator::Provinces::registerKeys()
 {
 	registerRegex(R"(\d+)", [this](const std::string& provID, std::istream& theStream) {
-		auto newProvince = std::make_shared<Province>(theStream, std::stoi(provID));
+		auto newProvince = std::make_shared<Province>(theStream, std::stoull(provID));
 		provinces.insert(std::pair(newProvince->getID(), newProvince));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -30,7 +30,7 @@ void Imperator::Provinces::linkPops(const Pops& thePops)
 	{
 		if (!province->getPops().empty())
 		{
-			std::map<int, std::shared_ptr<Pop>> newPops;
+			std::map<unsigned long long, std::shared_ptr<Pop>> newPops;
 			for (const auto& [popID, pop] : province->getPops())
 			{
 				const auto& popItr = pops.find(popID);

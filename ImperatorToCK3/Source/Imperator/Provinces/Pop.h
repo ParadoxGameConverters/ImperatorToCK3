@@ -7,7 +7,7 @@ namespace Imperator
 	class Pop: commonItems::parser
 	{
 	  public:
-		Pop(std::istream& theStream, int thePopID);
+		Pop(std::istream& theStream, unsigned long long thePopID);
 
 		[[nodiscard]] const auto& getType() const { return type; }
 		[[nodiscard]] const auto& getCulture() const { return culture; }
@@ -18,7 +18,7 @@ namespace Imperator
 	  private:
 		void registerKeys();
 
-		int popID = 0;
+		unsigned long long popID = 0;
 		std::string type;
 		std::string culture;
 		std::string religion;

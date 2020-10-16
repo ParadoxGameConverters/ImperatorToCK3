@@ -16,9 +16,9 @@ class ProvinceMapper: commonItems::parser
 	ProvinceMapper();
 	explicit ProvinceMapper(std::istream& theStream);
 
-	[[nodiscard]] std::vector<int> getImperatorProvinceNumbers(int ck3ProvinceNumber) const;
-	[[nodiscard]] std::vector<int> getCK3ProvinceNumbers(int impProvinceNumber) const;
-	[[nodiscard]] auto isValidCK3Province(const int ck3Province) const { return validCK3Provinces.count(ck3Province) > 0; }
+	[[nodiscard]] std::vector<unsigned long long> getImperatorProvinceNumbers(unsigned long long ck3ProvinceNumber) const;
+	[[nodiscard]] std::vector<unsigned long long> getCK3ProvinceNumbers(unsigned long long impProvinceNumber) const;
+	[[nodiscard]] auto isValidCK3Province(const unsigned long long ck3Province) const { return validCK3Provinces.count(ck3Province) > 0; }
 
 	void determineValidProvinces(const Configuration& theConfiguration);
 
@@ -26,9 +26,9 @@ class ProvinceMapper: commonItems::parser
 	void registerKeys();
 	void createMappings();
 
-	std::map<int, std::vector<int>> ImpToCK3ProvinceMap;
-	std::map<int, std::vector<int>> CK3ToImpProvinceMap;
-	std::set<int> validCK3Provinces;
+	std::map<unsigned long long, std::vector<unsigned long long>> ImpToCK3ProvinceMap;
+	std::map<unsigned long long, std::vector<unsigned long long>> CK3ToImpProvinceMap;
+	std::set<unsigned long long> validCK3Provinces;
 	ProvinceMappingsVersion theMappings;
 };
 } // namespace mappers

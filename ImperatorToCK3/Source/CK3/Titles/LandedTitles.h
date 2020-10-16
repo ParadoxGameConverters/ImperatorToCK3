@@ -23,9 +23,9 @@ class LandedTitles: commonItems::parser
 	[[nodiscard]] const auto& getProvince() const { return province; }
 	[[nodiscard]] const auto& getFoundTitles() const { return foundTitles; }
 
-	[[nodiscard]] std::optional<std::string> getCountyForProvince(int provinceID);
+	[[nodiscard]] std::optional<std::string> getCountyForProvince(unsigned long long provinceID);
 
-	unsigned int capitalBaronyProvince = 0;	// Capital barony (for counties), 0 is not a valid barony ID
+	unsigned long long capitalBaronyProvince = 0;	// Capital barony (for counties), 0 is not a valid barony ID
 
   private:
 	void registerKeys();
@@ -35,8 +35,8 @@ class LandedTitles: commonItems::parser
 	std::optional<commonItems::Color> color;
 	std::string capitalBarony; // used when parsing inside county to save first barony
 	std::pair<std::string, std::shared_ptr<Title>> capital;	// Capital county
-	std::optional<int> province; // province is area on map. b_ barony is its corresponding title.
-	std::set<int> countyProvinces;
+	std::optional<unsigned long long> province; // province is area on map. b_ barony is its corresponding title.
+	std::set<unsigned long long> countyProvinces;
 	std::map<std::string, LandedTitles> foundTitles;			// title name, title
 };
 } // namespace CK3

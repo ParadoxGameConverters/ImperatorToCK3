@@ -7,7 +7,7 @@ namespace Imperator
 class Family: commonItems::parser
 {
   public:
-	Family(std::istream& theStream, int theFamilyID);
+	Family(std::istream& theStream, unsigned long long theFamilyID);
 
 	void updateFamily(std::istream& theStream);
 
@@ -22,7 +22,7 @@ class Family: commonItems::parser
   private:
 	void registerKeys();
 
-	int familyID = 0;
+	unsigned long long familyID = 0;
 	std::string culture;
 	double prestige = 0;
 	double prestigeRatio = 0;

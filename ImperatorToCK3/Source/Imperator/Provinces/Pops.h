@@ -15,7 +15,7 @@ namespace Imperator
 	private:
 		void registerKeys();
 
-		std::map<int, std::shared_ptr<Pop>> pops;
+		std::map<unsigned long long, std::shared_ptr<Pop>> pops;
 	};
 
 
