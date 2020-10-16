@@ -254,7 +254,7 @@
     <ClCompile Include="Source\Imperator\Genes\AccessoryGeneTemplate.cpp" />
     <ClCompile Include="Source\Imperator\Genes\WeightBlock.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
-    <ClCompile Include="Source\Imperator\Provinces\Pop.cpp" />
+    <ClCompile Include="Source\Imperator\Provinces\PopFactory.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Province.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp" />
@@ -328,6 +328,7 @@
     <ClInclude Include="Source\Imperator\Genes\WeightBlock.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pop.h" />
+    <ClInclude Include="Source\Imperator\Provinces\PopFactory.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />
     <ClInclude Include="Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h" />
