@@ -36,7 +36,6 @@ namespace Imperator
 		void registerKeys();
 		
 		Pops pops;
-
 	};
 } // namespace Imperator
 
