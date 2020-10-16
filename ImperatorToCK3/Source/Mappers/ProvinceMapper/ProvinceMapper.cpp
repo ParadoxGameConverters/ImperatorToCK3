@@ -34,7 +34,7 @@ void mappers::ProvinceMapper::registerKeys()
 		// have been cut. There should only be a single, 0.0.0.0={} block inside province_mappings.txt
 		theMappings = ProvinceMappingsVersion(theStream);
 	});
-	registerRegex("[a-zA-Z0-9\\_.:]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 void mappers::ProvinceMapper::createMappings()
@@ -60,20 +60,20 @@ void mappers::ProvinceMapper::createMappings()
 	}
 }
 
-std::vector<int> mappers::ProvinceMapper::getImperatorProvinceNumbers(const int ck3ProvinceNumber) const
+std::vector<unsigned long long> mappers::ProvinceMapper::getImperatorProvinceNumbers(const unsigned long long ck3ProvinceNumber) const
 {
 	const auto& mapping = CK3ToImpProvinceMap.find(ck3ProvinceNumber);
 	if (mapping != CK3ToImpProvinceMap.end())
 		return mapping->second;
-	return std::vector<int>();
+	return std::vector<unsigned long long>();
 }
 
-std::vector<int> mappers::ProvinceMapper::getCK3ProvinceNumbers(const int impProvinceNumber) const
+std::vector<unsigned long long> mappers::ProvinceMapper::getCK3ProvinceNumbers(const unsigned long long impProvinceNumber) const
 {
 	const auto& mapping = ImpToCK3ProvinceMap.find(impProvinceNumber);
 	if (mapping != ImpToCK3ProvinceMap.end())
 		return mapping->second;
-	return std::vector<int>();
+	return std::vector<unsigned long long>();
 }
 
 void mappers::ProvinceMapper::determineValidProvinces(const Configuration& theConfiguration)
@@ -92,7 +92,7 @@ void mappers::ProvinceMapper::determineValidProvinces(const Configuration& theCo
 		{
 			continue;
 		}
-		auto provNum = std::stoi(inputStr.substr(0, inputStr.find_first_of(';')));
+		auto provNum = std::stoull(inputStr.substr(0, inputStr.find_first_of(';')));
 		validCK3Provinces.insert(provNum);
 	}
 	LOG(LogLevel::Info) << "<> " << validCK3Provinces.size() << " valid provinces located.";

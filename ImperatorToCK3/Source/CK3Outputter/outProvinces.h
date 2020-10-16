@@ -10,7 +10,7 @@
 namespace CK3
 {
 
-	void outputHistoryProvinces(const std::string& outputModName, const std::map<int, std::shared_ptr<Province>>& provinces);
+	void outputHistoryProvinces(const std::string& outputModName, const std::map<unsigned long long, std::shared_ptr<Province>>& provinces);
 
 }
 

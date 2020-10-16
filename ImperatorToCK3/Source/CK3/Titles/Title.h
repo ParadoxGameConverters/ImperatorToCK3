@@ -39,7 +39,7 @@ class Title
 	std::shared_ptr<Imperator::Country> imperatorCountry;
 	std::string historyString = "1.1.1 = { holder = 0 }"; // this string is used in title history when title's holder is "0"
 
-	void registerProvince(std::pair<int, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
+	void registerProvince(std::pair<unsigned long long, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
 
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
@@ -50,7 +50,7 @@ class Title
 	std::optional<commonItems::Color> color1;
 	std::optional<commonItems::Color> color2;
 
-	std::map<int, std::shared_ptr<Province>> provinces;
+	std::map<unsigned long long, std::shared_ptr<Province>> provinces;
 };
 } // namespace CK3
 

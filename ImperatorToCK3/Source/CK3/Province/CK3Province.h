@@ -23,7 +23,7 @@ class Province
   public:
 	Province() = default;
 
-	Province(int id, std::istream& theStream);
+	Province(unsigned long long id, std::istream& theStream);
 
 	void updateWith(const std::string& filePath);
 	void initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
@@ -47,9 +47,9 @@ class Province
 	  void setReligion(const mappers::ReligionMapper& religionMapper);
 	  void setCulture(const mappers::CultureMapper& cultureMapper);
 	
-	int provID = 0;
-	ProvinceDetails details;
-	std::pair<std::string, std::shared_ptr<Title>> titleCountry;
+	  unsigned long long provID = 0;
+	  ProvinceDetails details;
+	  std::pair<std::string, std::shared_ptr<Title>> titleCountry;
 };
 } // namespace CK3
 

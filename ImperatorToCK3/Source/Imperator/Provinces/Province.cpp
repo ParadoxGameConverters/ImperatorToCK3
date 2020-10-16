@@ -5,7 +5,7 @@
 #include "ProvinceName.h"
 #include <numeric>
 
-Imperator::Province::Province(std::istream& theStream, const int provID): provinceID(provID)
+Imperator::Province::Province(std::istream& theStream, const unsigned long long provID): provinceID(provID)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -26,16 +26,16 @@ void Imperator::Province::registerKeys()
 		religion = religionStr.getString();
 	});
 	registerKeyword("owner", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt ownerInt(theStream);
-		owner = ownerInt.getInt();
+		const commonItems::singleULlong ownerULlong(theStream);
+		owner = ownerULlong.getULlong();
 	});
 	registerKeyword("controller", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt controllerInt(theStream);
-		controller = controllerInt.getInt();
+		const commonItems::singleULlong controllerULlong(theStream);
+		controller = controllerULlong.getULlong();
 	});
 	registerRegex("pop", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt popInt(theStream);
-		pops.insert(std::pair(popInt.getInt(), nullptr));
+		const commonItems::singleULlong popLongLong(theStream);
+		pops.insert(std::pair(popLongLong.getULlong(), nullptr));
 	});
 	registerRegex("buildings", [this](const std::string& unused, std::istream& theStream) {
 		const auto buildingsVector = commonItems::intList(theStream).getInts();

@@ -19,7 +19,7 @@ namespace Imperator
 	  private:
 		void registerKeys();
 
-		std::map<int, std::shared_ptr<Country>> countries;
+		std::map<unsigned long long, std::shared_ptr<Country>> countries;
 	};
 
 	class CountriesBloc : commonItems::parser

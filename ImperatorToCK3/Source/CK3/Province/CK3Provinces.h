@@ -15,7 +15,7 @@ namespace CK3
 	  private:
 		void registerKeys();
 
-		std::map<int, std::shared_ptr<Province>> provinces;
+		std::map<unsigned long long, std::shared_ptr<Province>> provinces;
 	};
 } // namespace CK3
 

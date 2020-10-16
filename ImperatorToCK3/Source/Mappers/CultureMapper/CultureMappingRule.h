@@ -14,12 +14,12 @@ class CultureMappingRule: commonItems::parser
 
 	[[nodiscard]] std::optional<std::string> cultureMatch(const std::string& impCulture,
 		 const std::string& CK3religion,
-		 int CK3Province,
+		unsigned long long CK3Province,
 		 const std::string& CK3ownerTitle) const;
 
 	[[nodiscard]] std::optional<std::string> cultureNonReligiousMatch(const std::string& impCulture,
 		const std::string& CK3religion,
-		int CK3Province,
+		unsigned long long CK3Province,
 		const std::string& CK3ownerTitle) const;
 
 
@@ -34,7 +34,7 @@ class CultureMappingRule: commonItems::parser
 	std::set<std::string> cultures;
 	std::set<std::string> religions;
 	std::set<std::string> owners;
-	std::set<int> provinces;
+	std::set<unsigned long long> provinces;
 };
 } // namespace mappers
 

@@ -15,7 +15,7 @@ Imperator::Characters::Characters(std::istream& theStream, const GenesDB& genesD
 void Imperator::Characters::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& charID, std::istream& theStream) {
-		auto newCharacter = std::make_shared<Character>(theStream, std::stoi(charID), genes, endDate);
+		auto newCharacter = std::make_shared<Character>(theStream, std::stoull(charID), genes, endDate);
 		characters.insert(std::pair(newCharacter->getID(), newCharacter));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -51,7 +51,7 @@ void Imperator::Characters::linkSpouses()
 	{
 		if (!character->getSpouses().empty())
 		{
-			std::map<int, std::shared_ptr<Character>> newSpouses;
+			std::map<unsigned long long, std::shared_ptr<Character>> newSpouses;
 			for (const auto& [spouseID, spouse]: character->getSpouses())
 			{
 				const auto& characterItr = characters.find(spouseID);

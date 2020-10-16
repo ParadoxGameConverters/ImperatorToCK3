@@ -17,8 +17,8 @@ class ProvinceMapping: commonItems::parser
   private:
 	void registerKeys();
 
-	std::vector<int> ck3Provinces;
-	std::vector<int> impProvinces;
+	std::vector<unsigned long long> ck3Provinces;
+	std::vector<unsigned long long> impProvinces;
 };
 } // namespace mappers
 

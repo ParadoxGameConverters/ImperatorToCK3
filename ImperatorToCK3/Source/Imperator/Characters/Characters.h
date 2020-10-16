@@ -27,7 +27,7 @@ namespace Imperator
 		GenesDB genes;
 		date endDate;
 
-		std::map<int, std::shared_ptr<Character>> characters;
+		std::map<unsigned long long, std::shared_ptr<Character>> characters;
 	}; // class Characters
 
 	class CharactersBloc : commonItems::parser

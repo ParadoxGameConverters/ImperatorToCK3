@@ -25,11 +25,11 @@ void Imperator::Families::registerKeys()
 		if (familyStr.find('{') != std::string::npos)
 		{
 			std::stringstream tempStream(familyStr);
-			if (families.count(std::stoi(theFamilyID))) {
-				families[std::stoi(theFamilyID)]->updateFamily(tempStream);
+			if (families.count(std::stoull(theFamilyID))) {
+				families[std::stoull(theFamilyID)]->updateFamily(tempStream);
 			}
 			else {
-				auto newFamily = std::make_shared<Family>(tempStream, std::stoi(theFamilyID));
+				auto newFamily = std::make_shared<Family>(tempStream, std::stoull(theFamilyID));
 				families.insert(std::pair(newFamily->getID(), newFamily));
 			}
 		}
