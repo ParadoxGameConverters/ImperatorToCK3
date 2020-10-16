@@ -26,12 +26,12 @@ void Imperator::Province::registerKeys()
 		religion = religionStr.getString();
 	});
 	registerKeyword("owner", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt ownerInt(theStream);
-		owner = ownerInt.getInt();
+		const commonItems::singleULlong ownerULlong(theStream);
+		owner = ownerULlong.getULlong();
 	});
 	registerKeyword("controller", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt controllerInt(theStream);
-		controller = controllerInt.getInt();
+		const commonItems::singleULlong controllerULlong(theStream);
+		controller = controllerULlong.getULlong();
 	});
 	registerRegex("pop", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleULlong popLongLong(theStream);

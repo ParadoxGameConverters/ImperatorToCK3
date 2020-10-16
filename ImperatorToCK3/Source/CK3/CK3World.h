@@ -32,10 +32,10 @@ class World
 
 	private:
 		void importImperatorCharacters(const Imperator::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
-		void importImperatorCharacter(const std::pair<int, std::shared_ptr<Imperator::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
+		void importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
 		void importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld);
 		void importImperatorCountries(const Imperator::World& impWorld);
-		void importImperatorCountry(const std::pair<int, std::shared_ptr<Imperator::Country>>& country);
+		void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country);
 		void importVanillaProvinces(const std::string& ck3Path);
 		void importImperatorProvinces(const Imperator::World& impWorld);
 		void linkCountiesToTitleHolders(const Imperator::World& impWorld);

@@ -57,7 +57,7 @@ void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, con
 	}
 	LOG(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
 }
-void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
+void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
 {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
@@ -79,7 +79,7 @@ void CK3::World::importImperatorCountries(const Imperator::World& impWorld)
 	LOG(LogLevel::Info) << ">> " << titles.size() << " total countries recognized.";
 }
 
-void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<Imperator::Country>>& country)
+void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country)
 {
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
