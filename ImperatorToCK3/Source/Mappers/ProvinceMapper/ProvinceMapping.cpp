@@ -18,5 +18,5 @@ void mappers::ProvinceMapping::registerKeys()
 		const commonItems::singleULlong provinceLLong(theStream);
 		impProvinces.push_back(provinceLLong.getULlong());
 	});
-	registerRegex("[a-zA-Z0-9\\_.:-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

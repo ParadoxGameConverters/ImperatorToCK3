@@ -48,8 +48,8 @@ class Province
 	  void setCulture(const mappers::CultureMapper& cultureMapper);
 	
 	  unsigned long long provID = 0;
-	ProvinceDetails details;
-	std::pair<std::string, std::shared_ptr<Title>> titleCountry;
+	  ProvinceDetails details;
+	  std::pair<std::string, std::shared_ptr<Title>> titleCountry;
 };
 } // namespace CK3
 
