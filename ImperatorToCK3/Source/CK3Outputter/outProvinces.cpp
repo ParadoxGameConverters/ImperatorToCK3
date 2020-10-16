@@ -4,7 +4,7 @@
 #include "../commonItems/CommonFunctions.h"
 
 
-void CK3::outputHistoryProvinces(const std::string& outputModName, const std::map<int, std::shared_ptr<Province>>& provinces)
+void CK3::outputHistoryProvinces(const std::string& outputModName, const std::map<unsigned long long, std::shared_ptr<Province>>& provinces)
 {
 	std::ofstream output("output/" + outputModName + "/history/provinces/province_history.txt"); // dumping all into one file
 	if (!output.is_open())

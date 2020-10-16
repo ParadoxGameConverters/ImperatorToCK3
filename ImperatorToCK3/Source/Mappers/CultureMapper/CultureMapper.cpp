@@ -29,7 +29,7 @@ void mappers::CultureMapper::registerKeys()
 
 std::optional<std::string> mappers::CultureMapper::cultureMatch(const std::string& impCulture,
 	 const std::string& ck3religion,
-	 const int ck3Province,
+	 const unsigned long long ck3Province,
 	 const std::string& ck3ownerTitle) const
 {
 	for (const auto& cultureMappingRule: cultureMapRules)
@@ -43,7 +43,7 @@ std::optional<std::string> mappers::CultureMapper::cultureMatch(const std::strin
 
 std::optional<std::string> mappers::CultureMapper::cultureNonReligiousMatch(const std::string& impCulture,
 	const std::string& ck3religion,
-	const int ck3Province,
+	const unsigned long long ck3Province,
 	const std::string& ck3ownerTitle) const
 {
 	for (const auto& cultureMappingRule : cultureMapRules)

@@ -14,7 +14,7 @@ Imperator::Countries::Countries(std::istream& theStream)
 void Imperator::Countries::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& countryID, std::istream& theStream) {
-		auto newCountry = std::make_shared<Country>(theStream, std::stoi(countryID));
+		auto newCountry = std::make_shared<Country>(theStream, std::stoull(countryID));
 		countries.insert(std::pair(newCountry->getID(), newCountry));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -45,7 +45,7 @@ void Imperator::Countries::linkFamilies(const Families& theFamilies)
 	{
 		if (!country->getFamilies().empty())
 		{
-			std::map<int, std::shared_ptr<Family>> newFamilies;
+			std::map<unsigned long long, std::shared_ptr<Family>> newFamilies;
 			for (const auto& [familyID, family] : country->getFamilies())
 			{
 				const auto& familyItr = families.find(familyID);

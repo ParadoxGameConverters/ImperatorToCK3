@@ -4,7 +4,7 @@
 #include "CountryCurrencies.h"
 #include "Log.h"
 
-Imperator::Country::Country(std::istream& theStream, int countryID): countryID(countryID)
+Imperator::Country::Country(std::istream& theStream, unsigned long long countryID): countryID(countryID)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -63,19 +63,19 @@ void Imperator::Country::registerKeys()
 		currencies.military_experience = currenciesFromBloc.getMilitaryExperience();
 	});
 	registerKeyword("capital", [this](const std::string& unused, std::istream& theStream) {
-		auto capitalInt = commonItems::singleInt(theStream).getInt();
-		if (capitalInt > 0) capital = capitalInt;
+		auto capitalLongLong = commonItems::singleULlong(theStream).getULlong();
+		if (capitalLongLong > 0) capital = capitalLongLong;
 	});
 	registerRegex("family", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt familyInt(theStream);
-		families.insert(std::pair(familyInt.getInt(), nullptr));
+		const commonItems::singleULlong familyULLong(theStream);
+		families.insert(std::pair(familyULLong.getULlong(), nullptr));
 	});
 	registerRegex("minor_family", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt familyInt(theStream);
-		families.insert(std::pair(familyInt.getInt(), nullptr));
+		const commonItems::singleULlong familyULLong(theStream);
+		families.insert(std::pair(familyULLong.getULlong(), nullptr));
 	});
 	registerKeyword("monarch", [this](const std::string& unused, std::istream& theStream) {
-		monarch = commonItems::singleInt(theStream).getInt();
+		monarch = commonItems::singleULlong(theStream).getULlong();
 	});
 
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

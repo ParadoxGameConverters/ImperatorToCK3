@@ -57,7 +57,7 @@ void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, con
 	}
 	LOG(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
 }
-void CK3::World::importImperatorCharacter(const std::pair<int, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
+void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
 {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
@@ -79,7 +79,7 @@ void CK3::World::importImperatorCountries(const Imperator::World& impWorld)
 	LOG(LogLevel::Info) << ">> " << titles.size() << " total countries recognized.";
 }
 
-void CK3::World::importImperatorCountry(const std::pair<int, std::shared_ptr<Imperator::Country>>& country)
+void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country)
 {
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
@@ -181,13 +181,13 @@ void CK3::World::importImperatorProvinces(const Imperator::World& impWorld)
 	LOG(LogLevel::Info) << ">> " << impWorld.getProvinces().size() << " Imperator provinces imported into " << counter << " CK3 provinces.";
 }
 
-std::optional<std::pair<int, std::shared_ptr<Imperator::Province>>> CK3::World::determineProvinceSource(const std::vector<int>& impProvinceNumbers,
+std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>>> CK3::World::determineProvinceSource(const std::vector<unsigned long long>& impProvinceNumbers,
 	const Imperator::World& impWorld) const
 {
 	// determine ownership by province development.
-	std::map<int, std::vector<std::shared_ptr<Imperator::Province>>> theClaims; // owner, offered province sources
-	std::map<int, int> theShares;														// owner, development
-	auto winner = -1;
+	std::map<unsigned long long, std::vector<std::shared_ptr<Imperator::Province>>> theClaims; // owner, offered province sources
+	std::map<unsigned long long, int> theShares;														// owner, development
+	std::optional<unsigned long long> winner;
 	auto maxDev = -1;
 
 	for (auto imperatorProvinceID : impProvinceNumbers)
@@ -211,7 +211,7 @@ std::optional<std::pair<int, std::shared_ptr<Imperator::Province>>> CK3::World::
 			maxDev = share.second;
 		}
 	}
-	if (winner == -1)
+	if (!winner)
 	{
 		return std::nullopt;
 	}
@@ -219,8 +219,8 @@ std::optional<std::pair<int, std::shared_ptr<Imperator::Province>>> CK3::World::
 	// Now that we have a winning owner, let's find its largest province to use as a source.
 	maxDev = -1; // We can have winning provinces with weight = 0;
 
-	std::pair<int, std::shared_ptr<Imperator::Province>> toReturn;
-	for (const auto& province : theClaims[winner])
+	std::pair<unsigned long long, std::shared_ptr<Imperator::Province>> toReturn;
+	for (const auto& province : theClaims[*winner])
 	{
 		const auto provinceWeight = province->getBuildingsCount() + province->getPopCount();
 
@@ -257,7 +257,7 @@ void CK3::World::linkCountiesToTitleHolders(const Imperator::World& impWorld)
 					auto impProvince = provinces.find(capitalBaronyProvince)->second->srcProvince;
 					if (impProvince)
 					{
-						std::optional<unsigned int> impMonarch;
+						std::optional<unsigned long long> impMonarch;
 						if (impWorld.getCountries().find(impProvince->getOwner()) != impWorld.getCountries().end()) impMonarch = impWorld.getCountries().find(impProvince->getOwner())->second->getMonarch();
 						if (impMonarch) countyTitle->holder = "imperator" + std::to_string(*impMonarch);
 					}
@@ -332,7 +332,7 @@ void CK3::World::linkSpouses(const Imperator::World& impWorld)
 	auto counterSpouse = 0;
 	for (const auto& [ck3CharacterID, ck3Character] : characters)
 	{
-		std::map<int, std::shared_ptr<Character>> newSpouses;
+		std::map<unsigned long long, std::shared_ptr<Character>> newSpouses;
 		// make links between Imperator characters
 		for (const auto& [impSpouseID, impSpouseCharacter] : ck3Character->imperatorCharacter->getSpouses())
 		{

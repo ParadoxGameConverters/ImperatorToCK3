@@ -37,7 +37,7 @@ namespace CK3
 	  private:
 		void registerKeys();
 
-		std::map<int, int> mappings;
+		std::map<unsigned long long, unsigned long long> mappings;
 	};
 } // namespace CK3
 

@@ -215,7 +215,7 @@ TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 	spouse420input << "}";
 
 	Imperator::Character theCharacter(input, 42, genesDB, endDate);
-	std::map<int, std::shared_ptr<Imperator::Character>> spousesMap;
+	std::map<unsigned long long, std::shared_ptr<Imperator::Character>> spousesMap;
 	spousesMap.insert(std::pair(69, std::make_shared<Imperator::Character>(spouse69input, 69, genesDB, endDate)));
 	spousesMap.insert(std::pair(420, std::make_shared<Imperator::Character>(spouse420input, 420, genesDB, endDate)));
 	theCharacter.setSpouses(spousesMap);

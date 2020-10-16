@@ -62,12 +62,12 @@ void CK3::LandedTitles::registerKeys()
 		capital = std::make_pair(commonItems::singleString(theStream).getString(), nullptr);
 	});
 	registerKeyword("province", [this](const std::string& unused, std::istream& theStream) {
-		province = commonItems::singleInt(theStream).getInt();
+		province = commonItems::singleULlong(theStream).getULlong();
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const int provinceID)
+std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigned long long provinceID)
 {
 	for (const auto& [titleName, title] : foundTitles)
 	{

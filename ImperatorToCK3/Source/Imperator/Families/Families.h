@@ -16,7 +16,7 @@ namespace Imperator
 	private:
 		void registerKeys();
 
-		std::map<int, std::shared_ptr<Family>> families;
+		std::map<unsigned long long, std::shared_ptr<Family>> families;
 	};
 
 	class FamiliesBloc : commonItems::parser

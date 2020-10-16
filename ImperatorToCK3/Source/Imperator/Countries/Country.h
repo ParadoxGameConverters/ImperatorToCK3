@@ -31,7 +31,7 @@ namespace Imperator
 	class Country: commonItems::parser
 	{
 		public:
-			Country(std::istream& theStream, int countryID);
+			Country(std::istream& theStream, unsigned long long countryID);
 
 			[[nodiscard]] const std::string& getTag() const { return tag; }
 			[[nodiscard]] const auto& getName() const { return name; }
@@ -48,7 +48,7 @@ namespace Imperator
 
 			[[nodiscard]] countryRankEnum getCountryRank() const;
 
-			void setFamilies(const std::map<int, std::shared_ptr<Family>>& newFamilies) { families = newFamilies; }
+			void setFamilies(const std::map<unsigned long long, std::shared_ptr<Family>>& newFamilies) { families = newFamilies; }
 
 			void registerProvince(const std::shared_ptr<Province>& province) { provinces.insert(province); ++provinceCount; }
 			void registerCK3Title(const std::shared_ptr<CK3::Title>& theTitle) { ck3Title = theTitle; }
@@ -56,20 +56,20 @@ namespace Imperator
 		private:
 			void registerKeys();
 
-			int countryID = 0;
-			std::optional<unsigned int> monarch; // >=0 are valid
+			unsigned long long countryID = 0;
+			std::optional<unsigned long long> monarch; // >=0 are valid
 			std::string tag;
 			std::string name;
 			std::string flag;
 			countryTypeEnum countryType = countryTypeEnum::real;
-			std::optional<int> capital;
+			std::optional<unsigned long long> capital;
 	
 			std::optional<commonItems::Color> color1;
 			std::optional<commonItems::Color> color2;
 			std::optional<commonItems::Color> color3;
 			CurrenciesStruct currencies;
 
-			std::map<int, std::shared_ptr<Family>> families;
+			std::map<unsigned long long, std::shared_ptr<Family>> families;
 		
 			std::set<std::shared_ptr<Province>> provinces;
 			unsigned int provinceCount = 0; // used to determine country rank

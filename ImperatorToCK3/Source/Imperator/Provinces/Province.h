@@ -10,7 +10,7 @@ namespace Imperator
 	{
 	  public:
 		Province() = default;
-		Province(std::istream& theStream, int provID);
+		Province(std::istream& theStream, unsigned long long provID);
 
 		[[nodiscard]] auto getID() const { return provinceID; }
 		[[nodiscard]] const auto& getName() const { return name; }
@@ -23,21 +23,21 @@ namespace Imperator
 
 		[[nodiscard]] auto getPopCount() const { return static_cast<int>(pops.size()); }
 
-		void setPops(const std::map<int, std::shared_ptr<Pop>>& newPops) { pops = newPops; }
+		void setPops(const std::map<unsigned long long, std::shared_ptr<Pop>>& newPops) { pops = newPops; }
 
 		std::shared_ptr<Country> country;
 
 	  private:
 		void registerKeys();
 
-		unsigned int provinceID = 0;
+		unsigned long long provinceID = 0;
 		std::string name;
 		std::string culture;
 		std::string religion;
-		unsigned int owner = 0;
-		unsigned int controller = 0;
+		unsigned long long owner = 0;
+		unsigned long long controller = 0;
 		unsigned int buildingsCount = 0;
-		std::map<int, std::shared_ptr<Pop>> pops;
+		std::map<unsigned long long, std::shared_ptr<Pop>> pops;
 	};
 } // namespace Imperator
 
