@@ -61,8 +61,8 @@ void Imperator::Character::registerKeys()
 		dna = commonItems::singleString(theStream).getString();
 	});
 	registerKeyword("mother", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleULlong mottherLLong(theStream);
-		mother = std::pair(mottherLLong.getULlong(), nullptr);
+		const commonItems::singleULlong motherLLong(theStream);
+		mother = std::pair(motherLLong.getULlong(), nullptr);
 	});
 	registerKeyword("father", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleULlong fatherLLong(theStream);
@@ -73,13 +73,13 @@ void Imperator::Character::registerKeys()
 		wealth = wealthDbl.getDouble();
 	});
 	registerKeyword("spouse", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::llongList spouseList(theStream);
-		for (const auto spouse : spouseList.getLlongs())
+		const commonItems::ullongList spouseList(theStream);
+		for (const auto spouse : spouseList.getULlongs())
 			spouses.insert(std::pair(spouse, nullptr));
 	});
 	registerKeyword("children", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::llongList childrenList(theStream);
-		for (const auto child : childrenList.getLlongs())
+		const commonItems::ullongList childrenList(theStream);
+		for (const auto child : childrenList.getULlongs())
 			children.insert(std::pair(child, nullptr));
 	});
 	registerRegex("attributes", [this](const std::string& unused, std::istream& theStream) {
