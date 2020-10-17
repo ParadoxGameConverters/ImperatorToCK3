@@ -13,7 +13,7 @@ namespace Imperator
 	{
 	  public:
 		Characters() = default;
-		Characters(std::istream& theStream, const GenesDB& genesDB, const date& _endDate);
+		Characters(std::istream& theStream, GenesDB genesDB, const date& _endDate);
 
 		[[nodiscard]] const auto& getCharacters() const { return characters; }
 
