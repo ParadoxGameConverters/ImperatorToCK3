@@ -9,7 +9,7 @@
 namespace CK3
 {
 
-	void outputLocalization(const std::string& CK3Path, const std::string& outputName, const World& CK3World);
+	void outputLocalization(const std::string& imperatorPath, const std::string& outputName, const World& CK3World);
 
 }
 

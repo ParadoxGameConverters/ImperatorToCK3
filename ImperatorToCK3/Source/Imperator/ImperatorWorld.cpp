@@ -1,5 +1,4 @@
 #include "ImperatorWorld.h"
-#include "CommonFunctions.h"
 #include "GameVersion.h"
 #include "../Configuration/Configuration.h"
 #include "../Helpers/rakaly_wrapper.h"

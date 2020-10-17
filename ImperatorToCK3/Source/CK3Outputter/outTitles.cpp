@@ -8,10 +8,10 @@
 void CK3::outputTitles(const std::string& outputModName, const std::string& ck3Path, const std::map<std::string, std::shared_ptr<Title>>& titles)
 {
 	// blank all title history files from vanilla
-	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/titles/");
+	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/titles/replace/");
 	for (const auto& fileName : fileNames)
 	{
-		std::ofstream file("output/" + outputModName + "/history/titles/" + fileName);
+		std::ofstream file("output/" + outputModName + "/history/titles/replace/" + fileName);
 		file.close();
 	}
 	
@@ -33,10 +33,10 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 		
 
 		//output title history
-		std::ofstream historyOutput("output/" + outputModName + "/history/titles/history_" + name + ".txt");
+		std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/history_" + name + ".txt");
 		if (!historyOutput.is_open())
 			throw std::runtime_error(
-				"Could not create title history file: output/" + outputModName + "/history/titles/history_" + name + ".txt");
+				"Could not create title history file: output/" + outputModName + "/history/titles/replace/history_" + name + ".txt");
 		historyOutput << name << " = {\n";
 
 		if (title->holder == "0") historyOutput << "\t" << title->historyString << "\n";
