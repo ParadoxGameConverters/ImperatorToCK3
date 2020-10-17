@@ -4,7 +4,6 @@
 #include <sstream>
 
 
-Imperator::Pop::Factory popFactory;
 TEST(ImperatorWorld_PopTests, IDCanBeSet)
 {
 	std::stringstream input;
@@ -12,7 +11,7 @@ TEST(ImperatorWorld_PopTests, IDCanBeSet)
 	input << "{\n";
 	input << "}";
 
-	const auto thePop = *popFactory.getPop("42", input);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
 	ASSERT_EQ(42, thePop.ID);
 }
@@ -24,7 +23,7 @@ TEST(ImperatorWorld_PopTests, cultureCanBeSet)
 	input << "\tculture=\"paradoxian\"";
 	input << "}";
 
-	const auto thePop = *popFactory.getPop("42", input);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
 	ASSERT_EQ("paradoxian", thePop.culture);
 }
@@ -36,7 +35,7 @@ TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const auto thePop = *popFactory.getPop("42", input);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
 	ASSERT_TRUE(thePop.culture.empty());
 }
@@ -50,7 +49,7 @@ TEST(ImperatorWorld_PopTests, religionCanBeSet)
 	input << "\treligion=\"paradoxian\"";
 	input << "}";
 
-	const auto thePop = *popFactory.getPop("42", input);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
 	ASSERT_EQ("paradoxian", thePop.religion);
 }
@@ -62,7 +61,7 @@ TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const auto thePop = *popFactory.getPop("42", input);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
 	ASSERT_TRUE(thePop.religion.empty());
 }
@@ -75,7 +74,7 @@ TEST(ImperatorWorld_PopTests,typeCanBeSet)
 	input << "\ttype = \"citizen\"\n";
 	input << "}";
 
-	const auto thePop = *popFactory.getPop("42", input);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
 	ASSERT_EQ("citizen", thePop.type);
 }
@@ -87,7 +86,7 @@ TEST(ImperatorWorld_PopTests, typeDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const auto thePop = *popFactory.getPop("42", input);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
 	ASSERT_TRUE(thePop.type.empty());
 }
