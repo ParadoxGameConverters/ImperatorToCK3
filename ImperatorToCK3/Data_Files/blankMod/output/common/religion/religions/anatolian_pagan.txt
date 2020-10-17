@@ -193,12 +193,18 @@
 			icon = anatolian_pagan
 			reformed_icon = anatolian_pagan
 
+			holy_site = men
+			holy_site = phyrgia
+			holy_site = komana
+			holy_site = ibora
+			holy_site = kadoi
+
 			doctrine = unreformed_faith_doctrine
 			
 			#Generic pagan tenets
-			doctrine = tenet_astrology
+			doctrine = tenet_mystical_birthright
 			doctrine = tenet_ancestor_worship
-			doctrine = tenet_sanctity_of_nature
+			doctrine = tenet_sacred_childbirth
 		}
 	}
 }

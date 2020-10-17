@@ -195,6 +195,12 @@
 
 			doctrine = unreformed_faith_doctrine
 			
+			holy_site = shaheded 
+			holy_site = sinifere 
+			holy_site = thugga
+			holy_site = tsabratan
+			holy_site = thubactis
+			
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_ancestor_worship

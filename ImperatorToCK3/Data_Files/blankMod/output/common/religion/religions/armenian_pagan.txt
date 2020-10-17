@@ -193,6 +193,12 @@
 			icon = armenian_pagan
 			reformed_icon = armenian_pagan
 
+			holy_site = eriza
+			holy_site = ashtishat
+			holy_site = armaouira
+			holy_site = artaxata
+			holy_site = karchakhpyur
+
 			doctrine = unreformed_faith_doctrine
 			
 			#Generic pagan tenets

@@ -1,4 +1,5 @@
 ﻿l_french:
+ # version 0.1
  aestian:0 "estyenne"
  aestian_collective_noun:1 "Estyens"
  
@@ -88,3 +89,7 @@
  
  etruscan:0 "étrusque"
  etruscan_collective_noun:1 "Etrusques"
+ 
+ # version 0.2
+ brythonic:0 "brythonique"
+ brythonic_collective_noun:1 "brythoniques"

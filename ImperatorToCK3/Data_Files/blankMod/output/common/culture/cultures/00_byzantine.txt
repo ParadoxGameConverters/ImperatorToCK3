@@ -1,0 +1,2156 @@
+﻿byzantine_group = {
+	
+	graphical_cultures = {
+		byzantine_group_coa_gfx
+		western_coa_gfx
+		mediterranean_building_gfx
+		byzantine_clothing_gfx
+		eastern_unit_gfx
+	}
+
+	mercenary_names = {
+		{ name = mercenary_company_manglabites }
+		{ name = "mercenary_company_the_ten_thousand" }
+	}
+
+	armenian = {
+		
+		color = { 0.5 0.2 0.5 }
+
+		cadet_dynasty_names = {
+			"dynn_Bagratuni"
+			"dynn_Kuchka"
+			"dynn_Beskond"
+			"dynn_Mangaphas"
+			"dynn_Arzrouni"
+			"dynn_Hetoumi"
+			"dynn_Makisdros"
+			"dynn_Pakradouni"
+			"dynn_Sarkis"
+			"dynn_Shnorhali"
+			"dynn_Vanantezi"
+			"dynn_Bakunc"
+			"dynn_Arakelian"
+			"dynn_Baboian"
+			"dynn_Bagdazarian"
+			"dynn_Barsamian"
+			"dynn_Haladjian"
+			"dynn_Kaprielian"
+			"dynn_Kezerian"
+			"dynn_Aharonian"
+			"dynn_Sahakyan"
+			"dynn_Keshishian"
+			"dynn_Baljian"
+			"dynn_Petrosian"
+			"dynn_Ghougasian"
+			"dynn_Mickaelian"
+			"dynn_Maoukian"
+			"dynn_Zohrabian"
+			"dynn_Altoonian"
+			"dynn_Gardman-Aghbania"
+			"dynn_Andzewatsi"
+			"dynn_Hasan-Jalalyan"
+			"dynn_Melik-Avanyan"
+			"dynn_Mush"
+		}
+
+		dynasty_names = {
+			"dynn_Bagratuni"
+			"dynn_Kuchka"
+			"dynn_Beskond"
+			"dynn_Mangaphas"
+			"dynn_Arzrouni"
+			"dynn_Hetoumi"
+			"dynn_Makisdros"
+			"dynn_Pakradouni"
+			"dynn_Sarkis"
+			"dynn_Shnorhali"
+			"dynn_Vanantezi"
+			"dynn_Bakunc"
+			"dynn_Arakelian"
+			"dynn_Baboian"
+			"dynn_Bagdazarian"
+			"dynn_Barsamian"
+			"dynn_Haladjian"
+			"dynn_Kaprielian"
+			"dynn_Kezerian"
+			"dynn_Aharonian"
+			"dynn_Sahakyan"
+			"dynn_Keshishian"
+			"dynn_Baljian"
+			"dynn_Petrosian"
+			"dynn_Ghougasian"
+			"dynn_Mickaelian"
+			"dynn_Maoukian"
+			"dynn_Zohrabian"
+			"dynn_Altoonian"
+			"dynn_Gardman-Aghbania"
+			"dynn_Andzewatsi"
+			"dynn_Hasan-Jalalyan"
+			"dynn_Melik-Avanyan"
+			"dynn_Mush"
+		}
+
+		male_names = {
+			Abas Abirad Aboughamr Aboulgharib Aleksandr Artashes Artashir Artavazd Arsen Arshak Ashot Athom Atrnerseh Avag Avedis Bagour Bagrat Bedros Boghos Davit Eshkhan Gagik Gevorg
+			Gosdantin Grigor Gurgen Hagop Hamazasp Hethum Hovhannes Hovsep Ishkhan Ivane Kapriel Khachik Khosrov Levon Malkhas Mamigon Manuel Margos Melek Mihrdat Mikayel Mleh Mushegh Mushel Mzhezh
+			Nerseh Oshin Roupen Sahag Sarkis Sevag Shahanshah Smbat Stepanos Tachat Taniel Tatoul Tigran Tornik Tovmas Thoros Trdat Vache Vachagan Vagharshak Vahag Vahan Vahram Vakhtank Varazdat Vartan Vassak Vesd Vrtanes Zakare Zarmihr
+			#Later Catholicoi names:
+			Aristaces Aristakes Husik Pharen Zaven Aspuraces Brkisho Melitus Kyud Babken Ghevond Dertad Joab Mashdotz Yeghishe Yeghise Ananias Khachig
+		}
+		
+		female_names = {
+			Aghavni Alitz Almasd Anahid Anna Anoush Arda Arevig Arin Baydzar Berjanoush Berjouhi Datevig Dalita Eliz Gadar Gorandoukht Hasmig Houri Hranoush Katranide
+			Hripsimeh Keghanoush Keran Khorishah Kohar Latavri Leyli Lousin Mara Margarid Maria Mariyam Meghranoush Nane Nazani Ovsanna Pounig Razmouhi Rita Satenik Seta Siran Sirvart
+			Srpouhi Shoushanig Takouhi Tamar Vartanoush Vartouhi Vosgi Yeva Zabel Zmroukhd
+		}
+		
+		dynasty_of_location_prefix = "dynnp_ve"
+		
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+	}
+	
+	greek = {
+		
+		color = { 0.8 0.3 0.8 }
+
+		cadet_dynasty_names = {
+			"dynn_Kantakouzenos"
+			"dynn_Palaiologos"
+			"dynn_Komnenos"
+			"dynn_Macrodoukas"
+			"dynn_Aineidas"
+			"dynn_Kantakouzenos"
+			"dynn_Kastriotis"
+			"dynn_Doukas_Kamateros"
+			"dynn_Skleros"
+			"dynn_Palaiologos"
+			"dynn_Makrembolites"
+			"dynn_Botaneiates"
+			"dynn_Diogenes"
+			"dynn_Komnenos"
+			"dynn_Monomachos"
+			"dynn_Argyros"
+			"dynn_Kourkouas"
+			"dynn_Phokas"
+			"dynn_Stryphnos"
+			"dynn_Gabras"
+			"dynn_Aaron"
+			"dynn_Grammatikos"
+			"dynn_Zeno"
+			"dynn_Bua_Spatas"
+			"dynn_Gavalas"
+			"dynn_Axuchos"
+			"dynn_Kamonas"
+			"dynn_Asidenos"
+			"dynn_Komnenos_Doukas"
+			"dynn_Karatzas"
+			"dynn_Amiroutzes"
+			"dynn_Bessarion"
+			"dynn_Callistus"
+			"dynn_Chalkokondyles"
+			"dynn_Gazis"
+			"dynn_Kourtesios"
+			"dynn_Kallistos"
+			"dynn_Kladas"
+			{ "dynnp_de" "dynn_Patras" }
+			"dynn_Gemistus"
+			"dynn_Allatios"
+			"dynn_Chalcocondyles"
+			"dynn_Korniaktos"
+			"dynn_Damaskenos"
+			"dynn_Eparchos"
+			"dynn_Flanginis"
+			"dynn_FokA_s"
+			"dynn_Heraclides"
+			"dynn_Kallokratos"
+			"dynn_Kottounios"
+			"dynn_Leontaritis"
+			"dynn_Loukanis"
+			"dynn_Margunios"
+			"dynn_Musurus"
+			"dynn_Nafpliotis"
+			"dynn_HatzidA_kis"
+			"dynn_Aprenos"
+			"dynn_Chortatzis"
+			"dynn_Gabrielopoulos"
+			"dynn_Gounaropoulos"
+			"dynn_Belissariotis"
+			"dynn_Konstantopoulos"
+			"dynn_Kavallarios"
+			"dynn_Maniakis"
+			"dynn_Notaras"
+			"dynn_Sgouromallis"
+			"dynn_Epiphanis"
+			"dynn_Logaras"
+			"dynn_Eudaimon"
+			"dynn_Sakellarios"
+			"dynn_Maurozoumis"
+			"dynn_Stylaios"
+			"dynn_Basilakios"
+			"dynn_Mamonas"
+			"dynn_Kekaumenos"
+			"dynn_Metaxas"
+			"dynn_Kanavos"
+			"dynn_Koukouzelis"
+			"dynn_Koresis"
+			"dynn_Makrinos"
+			"dynn_Lambardas"
+			"dynn_Adrianos"
+			"dynn_Agallon"
+			"dynn_Akropolites"
+			"dynn_Aoinos"
+			"dynn_Apokaukos"
+			"dynn_Aprenos"
+			"dynn_Arbantenos"
+			"dynn_Argyros"
+			"dynn_Arianites"
+			"dynn_Atrapes"
+			"dynn_Balsamon"
+			"dynn_Botaneiates"
+			"dynn_Boumbalis"
+			"dynn_Bourtzes"
+			"dynn_Chandrenos"
+			"dynn_Choniates"
+			"dynn_Choumnos"
+			"dynn_Chrysoloras"
+			"dynn_Exazenos"
+			"dynn_Glabas"
+			"dynn_Kabasilas"
+			"dynn_Kalamanos"
+			"dynn_Kaloethes"
+			"dynn_Kalothetos"
+			"dynn_Kantakouzenos"
+			"dynn_Katrares"
+			"dynn_Koresses"
+			"dynn_Kourkouas"
+			"dynn_Kourtikes"
+			"dynn_Laskaris"
+			"dynn_Limpidares"
+			"dynn_Machoneos"
+			"dynn_Makrembolites"
+			"dynn_Malakes"
+			"dynn_Maliasenos"
+			"dynn_Mamalis"
+			"dynn_Mandromenos"
+			"dynn_Manouelites"
+			"dynn_Melachroinos"
+			"dynn_Mourtzouphlos"
+			"dynn_Mouzakios"
+			"dynn_Mouzalon"
+			"dynn_Neokaisareites"
+			"dynn_Nestongos"
+			"dynn_Pantechnes"
+			"dynn_Paraspondylos"
+			"dynn_Petraliphas"
+			"dynn_Petzikopoulos"
+			"dynn_Philanthropenos"
+			"dynn_Phokas"
+			"dynn_Prasomales"
+			"dynn_Prinkips"
+			"dynn_Rossatas"
+			"dynn_Sebastopoulos"
+			"dynn_Segouropoulos"
+			"dynn_Sgouros"
+			"dynn_Sphrantzes"
+			"dynn_Strabomytes"
+			"dynn_Syraneres"
+			"dynn_Syropoulos"
+			"dynn_Tagares"
+			"dynn_Trichas"
+			"dynn_Tsaphas"
+			"dynn_Tzykandeles"
+			"dynn_Zaridas"
+			"dynn_Akunin"
+			"dynn_Abalantes"
+			"dynn_Aboudimos"
+			"dynn_Adralestos"
+			"dynn_Agallianos"
+			"dynn_Akapnes"
+			"dynn_Alopos"
+			"dynn_Alousianos"
+			"dynn_Amiropoulos"
+			"dynn_Anatolikos"
+			"dynn_Andreiomenos"
+			"dynn_Androsalites"
+			"dynn_Angoures"
+			"dynn_Antiochites"
+			"dynn_Antiochos"
+			"dynn_Antipapas"
+			"dynn_Arbintenos"
+			"dynn_Areobindenos"
+			"dynn_Areobindos"
+			"dynn_Argyropoulos"
+			"dynn_Aristenos"
+			"dynn_Artoukomites"
+			"dynn_Arvantenos"
+			"dynn_Aulenos"
+			"dynn_Aulepates"
+			"dynn_Axinites"
+			"dynn_Axiomatikos"
+			"dynn_Balantes"
+			"dynn_Barbaros"
+			"dynn_Bardales"
+			"dynn_Barenos"
+			"dynn_Barys"
+			"dynn_Belissariotes"
+			"dynn_Bempetziotes"
+			"dynn_Beriboes"
+			"dynn_Beriotes"
+			"dynn_Blachernites"
+			"dynn_Blangas"
+			"dynn_BoI_las"
+			"dynn_Bouches"
+			"dynn_Boutzares"
+			"dynn_Bouzenos"
+			"dynn_Brachamios"
+			"dynn_Chaldos"
+			"dynn_Chalkites"
+			"dynn_Chalkoutzes"
+			"dynn_Chamaretos"
+			"dynn_Charsianites"
+			"dynn_Chasanes"
+			"dynn_Chazanes"
+			"dynn_Choinides"
+			"dynn_Chomatenos"
+			"dynn_Chordolibas"
+			"dynn_Choriates"
+			"dynn_Chrouselios"
+			"dynn_Chrousos"
+			"dynn_Chrysanthos"
+			"dynn_Chryselios"
+			"dynn_Chrysobalantites"
+			"dynn_Chytes"
+			"dynn_Daimones"
+			"dynn_Dalessenos"
+			"dynn_Dalassenos_Doukas"
+			"dynn_Dekanos"
+			"dynn_Diabatenos"
+			"dynn_Dikaios"
+			"dynn_Diogenes"
+			"dynn_Domestikopouolos"
+			"dynn_Doukas_Laskaris"
+			"dynn_Doukas_Palaiologos"
+			"dynn_Doxapatres"
+			"dynn_Drakontopoulos"
+			"dynn_Drosinos"
+			"dynn_Drosos"
+			"dynn_Droulenos"
+			"dynn_Elegmites"
+			"dynn_Enochos"
+			"dynn_Epanokomites"
+			"dynn_Ergodotes"
+			"dynn_Erotikos"
+			"dynn_Eugenianos"
+			"dynn_Eugenios"
+			"dynn_Eulogios"
+			"dynn_Exotrochos"
+			"dynn_Gabalas"
+			"dynn_Galaton"
+			"dynn_Gelotes"
+			"dynn_Gidos"
+			"dynn_Glykys"
+			"dynn_Goudeles"
+			"dynn_Gourzoubathenos"
+			"dynn_Granatos"
+			"dynn_Gribas"
+			"dynn_Grispos"
+			"dynn_Gymnos"
+			"dynn_Hagiochrisophorites"
+			"dynn_Hagioprokopites"
+			"dynn_Hagiotheodorites"
+			"dynn_Hagiozacharites"
+			"dynn_Hamartolos"
+			"dynn_Haplorabdes"
+			"dynn_Haploucheir"
+			"dynn_Hexakionites"
+			"dynn_Hexaklinites"
+			"dynn_Hexamilites"
+			"dynn_Hierakes"
+			"dynn_Hikanatos"
+			"dynn_Iasites"
+			"dynn_Iberopoulos"
+			"dynn_Isakiotes"
+			"dynn_Italikos"
+			"dynn_Kaballarios"
+			"dynn_Kabasilas"
+			"dynn_Kaisar"
+			"dynn_Kalameteros"
+			"dynn_Kalamaras"
+			"dynn_Kalampakes"
+			"dynn_Kalognomos"
+			"dynn_Kamytzes_Komnenodoukas"
+			"dynn_Kappadox_Kalampakes"
+			"dynn_Karabitenos"
+			"dynn_Karabitziotes"
+			"dynn_KaraI_onatan"
+			"dynn_Karamallos"
+			"dynn_Karantes"
+			"dynn_Kardamopoulos"
+			"dynn_Karenos"
+			"dynn_Karianites"
+			"dynn_Karkaronymos"
+			"dynn_Karmalikes"
+			"dynn_Karouzeiates"
+			"dynn_Kaspax"
+			"dynn_Kastamonites"
+			"dynn_Katakalon"
+			"dynn_Katakalos"
+			"dynn_Kataphloros"
+			"dynn_Katas"
+			"dynn_Katharos"
+			"dynn_Katotikos"
+			"dynn_Katzamoundes"
+			"dynn_Kegenes"
+			"dynn_Kekaleimenos"
+			"dynn_Keklymmenos"
+			"dynn_Kemineianos"
+			"dynn_Kenchres"
+			"dynn_Kentenares"
+			"dynn_Kephalas"
+			"dynn_Kibyrraiotes"
+			"dynn_Kinnamos"
+			"dynn_Kokkinos"
+			"dynn_Komnenodoukas"
+			"dynn_Konops"
+			"dynn_Kontostephanos_Komnenos"
+			"dynn_Kopsenos"
+			"dynn_Kostomyres"
+			"dynn_Kotertzes"
+			"dynn_Kouloukes"
+			"dynn_Kouneres"
+			"dynn_Kritharas"
+			"dynn_Kritopolos"
+			"dynn_Kyminianos"
+			"dynn_Kynochorites"
+			"dynn_Kyriotes"
+			"dynn_Kyritzes"
+			"dynn_Labouzenos"
+			"dynn_Laktentitzes"
+			"dynn_Lalakon"
+			"dynn_Lampsiotes"
+			"dynn_Lapardas"
+			"dynn_Lependrenos"
+			"dynn_Leukedonites"
+			"dynn_Libadares"
+			"dynn_Libadas"
+			"dynn_Libellisios"
+			"dynn_Limas"
+			"dynn_Liparites"
+			"dynn_Lithokastrites"
+			"dynn_Logariastes"
+			"dynn_Loules"
+			"dynn_Louloukes"
+			"dynn_Lykaon"
+			"dynn_Machetarios"
+			"dynn_Madrites"
+			"dynn_Madytenos"
+			"dynn_Makropoderes"
+			"dynn_MaleI_nos"
+			"dynn_Maleses"
+			"dynn_Mamalos"
+			"dynn_Manganes"
+			"dynn_Marachas"
+			"dynn_Marapas"
+			"dynn_Marchapsabos"
+			"dynn_Marianites"
+			"dynn_Marzapoulos"
+			"dynn_Matzaris"
+			"dynn_Matzas"
+			"dynn_Matzoukes"
+			"dynn_Maurex"
+			"dynn_Maurokatakalos"
+			"dynn_Mauros"
+			"dynn_Maurozomes"
+			"dynn_Mechos"
+			"dynn_Megalommates"
+			"dynn_Megenos"
+			"dynn_Meginos"
+			"dynn_Mermentoulos"
+			"dynn_Mesarites"
+			"dynn_Meschos"
+			"dynn_Mesopotamites"
+			"dynn_Metochites"
+			"dynn_Metropoulos"
+			"dynn_Mitylenaios"
+			"dynn_Monachites"
+			"dynn_Monokarites"
+			"dynn_Moroiannes"
+			"dynn_Mosaraph"
+			"dynn_Moschos"
+			"dynn_Mosele"
+			"dynn_Moungos"
+			"dynn_Mourmoures"
+			"dynn_Moustakes"
+			"dynn_Mozaes"
+			"dynn_Myralides"
+			"dynn_MyredeI_tes"
+			"dynn_Myrelaetes"
+			"dynn_Myron"
+			"dynn_Nabatenos"
+			"dynn_Narbiotes"
+			"dynn_Narsites"
+			"dynn_Neophytos"
+			"dynn_Neustongios"
+			"dynn_Nikerites"
+			"dynn_Nikoulitzes"
+			"dynn_Noe"
+			"dynn_Oinaiotes"
+			"dynn_Olyntenos"
+			"dynn_Opos"
+			"dynn_Pagomenos"
+			"dynn_Paktiares"
+			"dynn_Palaiologos_Komnenos"
+			"dynn_Doukas_Mourtzouphlos"
+			"dynn_Palaiotes"
+			"dynn_Palatinos"
+			"dynn_Pamphilos"
+			"dynn_Panaretos"
+			"dynn_Pankalos"
+			"dynn_Panokomites"
+			"dynn_Parsakoutenos"
+			"dynn_Parthenios"
+			"dynn_Paxenos"
+			"dynn_Pediasimos"
+			"dynn_Peganites"
+			"dynn_Pekoules"
+			"dynn_Pelamedes"
+			"dynn_Pentarkles"
+			"dynn_Pepagomenos"
+			"dynn_Pepanos"
+			"dynn_Perenos"
+			"dynn_Peribleptenos"
+			"dynn_Phalkon"
+			"dynn_Phialites"
+			"dynn_Philaretos"
+			"dynn_Philinos"
+			"dynn_Phrangopolos"
+			"dynn_Pistophilos"
+			"dynn_Pleures"
+			"dynn_Politopolos"
+			"dynn_Pothos"
+			"dynn_Probatas"
+			"dynn_Promountenos"
+			"dynn_Proteuon"
+			"dynn_Ptochos"
+			"dynn_Rentakenos"
+			"dynn_Rizenos"
+			"dynn_Rodios"
+			"dynn_Rogerios"
+			"dynn_Romaios"
+			"dynn_Rousopoulos"
+			"dynn_Sagopoulos"
+			"dynn_Sarakenopoulos"
+			"dynn_Saronites"
+			"dynn_Sauloioannes"
+			"dynn_Semnos"
+			"dynn_Serblias"
+			"dynn_Sikoundenos"
+			"dynn_Sinopites"
+			"dynn_Skandales"
+			"dynn_Skanranos"
+			"dynn_Skeblenos"
+			"dynn_Skleropoulos"
+			"dynn_Skoutariotes"
+			"dynn_Skribas"
+			"dynn_Smyrnaios"
+			"dynn_Solomon"
+			"dynn_Sortes"
+			"dynn_Soumenos"
+			"dynn_Spanogregores"
+			"dynn_Spanopoulos"
+			"dynn_Spondyles"
+			"dynn_Stachytzes"
+			"dynn_Stemnitziotes"
+			"dynn_Strategopoulos"
+			"dynn_Strephnes"
+			"dynn_Stypeiotes"
+			"dynn_Styppes"
+			"dynn_Synacheris"
+			"dynn_Syros"
+			"dynn_Tatikes"
+			"dynn_Tetragonites"
+			"dynn_Theodorokanos"
+			"dynn_Theodosiopolites"
+			"dynn_Thylakas"
+			"dynn_Tilapos"
+			"dynn_Timonites"
+			"dynn_Tourmarchopoulos"
+			"dynn_Traphines"
+			"dynn_Trellos"
+			"dynn_Triakontaphyllos"
+			"dynn_Triblattites"
+			"dynn_Trichinopodes"
+			"dynn_Triphyllios"
+			"dynn_Tzanzes"
+			"dynn_Tzefres"
+			"dynn_Tzetas"
+			"dynn_Tzipoureles"
+			"dynn_Tzirithon"
+			"dynn_Tzoulas"
+			"dynn_Tzoumenes"
+			"dynn_Tzouroulles"
+			"dynn_Tzympenos"
+			"dynn_Vatatzes"
+			"dynn_Xenos"
+			"dynn_Xeros"
+			"dynn_Xiphias"
+			"dynn_Zabareiotes"
+			"dynn_Zagarommates"
+			"dynn_Zerbos"
+			"dynn_Zomes"
+			"dynn_Zonaras"
+			"dynn_Kalomalas"
+			"dynn_Kaloudes"
+			"dynn_Kamateros_Kantakouzenos"
+			"dynn_Kampanarios"
+			"dynn_Kallierges"
+			"dynn_Loukites"
+			"dynn_Kometopoulos"
+			"dynn_Pateranos"
+			"dynn_Paleologo"
+			"dynn_Gregoras"
+			"dynn_Sanudo"
+			"dynn_Komytzes"
+			"dynn_Lascaris"
+			"dynn_Attikos"
+			"dynn_Anastasiotis"
+			"dynn_Evergetidiotis"
+			"dynn_Chliarinos"
+			"dynn_Chysovergis"
+			"dynn_Eugeniotis"
+			"dynn_Vorradiotis"
+			"dynn_Mountanis"
+			"dynn_Theotokitis"
+			"dynn_Viticlenou"
+			"dynn_Autoreianos"
+			"dynn_Akoimitos"
+			"dynn_Charitopoulos"
+			"dynn_Panemorphiotis"
+			"dynn_Hyakinthiotis"
+			"dynn_Galesiotis"
+			"dynn_Bekkos"
+			"dynn_Kyprios"
+			"dynn_Gonitis"
+			"dynn_Pammakaristiotis"
+			"dynn_Perivleptiotis"
+			"dynn_Manganiotis"
+			"dynn_Kalekas"
+			"dynn_Xylaloes"
+			"dynn_Syrikos"
+			"dynn_Tatikios"
+			"dynn_Aspietes"
+			"dynn_Leon"
+			"dynn_Phokas"
+			"dynn_Leon"
+			"dynn_Matteski"
+			{ "dynnp_al-" "dynn_Muzaffar" }
+			"dynn_Kastriotis"
+			"dynn_Kourkoas"
+			"dynn_Euferbenos"
+		}
+
+		dynasty_names = {
+			"dynn_Kantakouzenos"
+			"dynn_Palaiologos"
+			"dynn_Komnenos"
+			"dynn_Macrodoukas"
+			"dynn_Aineidas"
+			"dynn_Kantakouzenos"
+			"dynn_Kastriotis"
+			"dynn_Doukas_Kamateros"
+			"dynn_Skleros"
+			"dynn_Palaiologos"
+			"dynn_Makrembolites"
+			"dynn_Botaneiates"
+			"dynn_Diogenes"
+			"dynn_Komnenos"
+			"dynn_Monomachos"
+			"dynn_Argyros"
+			"dynn_Kourkouas"
+			"dynn_Phokas"
+			"dynn_Stryphnos"
+			"dynn_Gabras"
+			"dynn_Aaron"
+			"dynn_Grammatikos"
+			"dynn_Zeno"
+			"dynn_Bua_Spatas"
+			"dynn_Gavalas"
+			"dynn_Axuchos"
+			"dynn_Kamonas"
+			"dynn_Asidenos"
+			"dynn_Komnenos_Doukas"
+			"dynn_Karatzas"
+			"dynn_Amiroutzes"
+			"dynn_Bessarion"
+			"dynn_Callistus"
+			"dynn_Chalkokondyles"
+			"dynn_Gazis"
+			"dynn_Kourtesios"
+			"dynn_Kallistos"
+			"dynn_Kladas"
+			{ "dynnp_de" "dynn_Patras" }
+			"dynn_Gemistus"
+			"dynn_Allatios"
+			"dynn_Chalcocondyles"
+			"dynn_Korniaktos"
+			"dynn_Damaskenos"
+			"dynn_Eparchos"
+			"dynn_Flanginis"
+			"dynn_FokA_s"
+			"dynn_Heraclides"
+			"dynn_Kallokratos"
+			"dynn_Kottounios"
+			"dynn_Leontaritis"
+			"dynn_Loukanis"
+			"dynn_Margunios"
+			"dynn_Musurus"
+			"dynn_Nafpliotis"
+			"dynn_HatzidA_kis"
+			"dynn_Aprenos"
+			"dynn_Chortatzis"
+			"dynn_Gabrielopoulos"
+			"dynn_Gounaropoulos"
+			"dynn_Belissariotis"
+			"dynn_Konstantopoulos"
+			"dynn_Kavallarios"
+			"dynn_Maniakis"
+			"dynn_Notaras"
+			"dynn_Sgouromallis"
+			"dynn_Epiphanis"
+			"dynn_Logaras"
+			"dynn_Eudaimon"
+			"dynn_Sakellarios"
+			"dynn_Maurozoumis"
+			"dynn_Stylaios"
+			"dynn_Basilakios"
+			"dynn_Mamonas"
+			"dynn_Kekaumenos"
+			"dynn_Metaxas"
+			"dynn_Kanavos"
+			"dynn_Koukouzelis"
+			"dynn_Koresis"
+			"dynn_Makrinos"
+			"dynn_Lambardas"
+			"dynn_Adrianos"
+			"dynn_Agallon"
+			"dynn_Akropolites"
+			"dynn_Aoinos"
+			"dynn_Apokaukos"
+			"dynn_Aprenos"
+			"dynn_Arbantenos"
+			"dynn_Argyros"
+			"dynn_Arianites"
+			"dynn_Atrapes"
+			"dynn_Balsamon"
+			"dynn_Botaneiates"
+			"dynn_Boumbalis"
+			"dynn_Bourtzes"
+			"dynn_Chandrenos"
+			"dynn_Choniates"
+			"dynn_Choumnos"
+			"dynn_Chrysoloras"
+			"dynn_Exazenos"
+			"dynn_Glabas"
+			"dynn_Kabasilas"
+			"dynn_Kalamanos"
+			"dynn_Kaloethes"
+			"dynn_Kalothetos"
+			"dynn_Kantakouzenos"
+			"dynn_Katrares"
+			"dynn_Koresses"
+			"dynn_Kourkouas"
+			"dynn_Kourtikes"
+			"dynn_Laskaris"
+			"dynn_Limpidares"
+			"dynn_Machoneos"
+			"dynn_Makrembolites"
+			"dynn_Malakes"
+			"dynn_Maliasenos"
+			"dynn_Mamalis"
+			"dynn_Mandromenos"
+			"dynn_Manouelites"
+			"dynn_Melachroinos"
+			"dynn_Mourtzouphlos"
+			"dynn_Mouzakios"
+			"dynn_Mouzalon"
+			"dynn_Neokaisareites"
+			"dynn_Nestongos"
+			"dynn_Pantechnes"
+			"dynn_Paraspondylos"
+			"dynn_Petraliphas"
+			"dynn_Petzikopoulos"
+			"dynn_Philanthropenos"
+			"dynn_Phokas"
+			"dynn_Prasomales"
+			"dynn_Prinkips"
+			"dynn_Rossatas"
+			"dynn_Sebastopoulos"
+			"dynn_Segouropoulos"
+			"dynn_Sgouros"
+			"dynn_Sphrantzes"
+			"dynn_Strabomytes"
+			"dynn_Syraneres"
+			"dynn_Syropoulos"
+			"dynn_Tagares"
+			"dynn_Trichas"
+			"dynn_Tsaphas"
+			"dynn_Tzykandeles"
+			"dynn_Zaridas"
+			"dynn_Akunin"
+			"dynn_Abalantes"
+			"dynn_Aboudimos"
+			"dynn_Adralestos"
+			"dynn_Agallianos"
+			"dynn_Akapnes"
+			"dynn_Alopos"
+			"dynn_Alousianos"
+			"dynn_Amiropoulos"
+			"dynn_Anatolikos"
+			"dynn_Andreiomenos"
+			"dynn_Androsalites"
+			"dynn_Angoures"
+			"dynn_Antiochites"
+			"dynn_Antiochos"
+			"dynn_Antipapas"
+			"dynn_Arbintenos"
+			"dynn_Areobindenos"
+			"dynn_Areobindos"
+			"dynn_Argyropoulos"
+			"dynn_Aristenos"
+			"dynn_Artoukomites"
+			"dynn_Arvantenos"
+			"dynn_Aulenos"
+			"dynn_Aulepates"
+			"dynn_Axinites"
+			"dynn_Axiomatikos"
+			"dynn_Balantes"
+			"dynn_Barbaros"
+			"dynn_Bardales"
+			"dynn_Barenos"
+			"dynn_Barys"
+			"dynn_Belissariotes"
+			"dynn_Bempetziotes"
+			"dynn_Beriboes"
+			"dynn_Beriotes"
+			"dynn_Blachernites"
+			"dynn_Blangas"
+			"dynn_BoI_las"
+			"dynn_Bouches"
+			"dynn_Boutzares"
+			"dynn_Bouzenos"
+			"dynn_Brachamios"
+			"dynn_Chaldos"
+			"dynn_Chalkites"
+			"dynn_Chalkoutzes"
+			"dynn_Chamaretos"
+			"dynn_Charsianites"
+			"dynn_Chasanes"
+			"dynn_Chazanes"
+			"dynn_Choinides"
+			"dynn_Chomatenos"
+			"dynn_Chordolibas"
+			"dynn_Choriates"
+			"dynn_Chrouselios"
+			"dynn_Chrousos"
+			"dynn_Chrysanthos"
+			"dynn_Chryselios"
+			"dynn_Chrysobalantites"
+			"dynn_Chytes"
+			"dynn_Daimones"
+			"dynn_Dalessenos"
+			"dynn_Dalassenos_Doukas"
+			"dynn_Dekanos"
+			"dynn_Diabatenos"
+			"dynn_Dikaios"
+			"dynn_Diogenes"
+			"dynn_Domestikopouolos"
+			"dynn_Doukas_Laskaris"
+			"dynn_Doukas_Palaiologos"
+			"dynn_Doxapatres"
+			"dynn_Drakontopoulos"
+			"dynn_Drosinos"
+			"dynn_Drosos"
+			"dynn_Droulenos"
+			"dynn_Elegmites"
+			"dynn_Enochos"
+			"dynn_Epanokomites"
+			"dynn_Ergodotes"
+			"dynn_Erotikos"
+			"dynn_Eugenianos"
+			"dynn_Eugenios"
+			"dynn_Eulogios"
+			"dynn_Exotrochos"
+			"dynn_Gabalas"
+			"dynn_Galaton"
+			"dynn_Gelotes"
+			"dynn_Gidos"
+			"dynn_Glykys"
+			"dynn_Goudeles"
+			"dynn_Gourzoubathenos"
+			"dynn_Granatos"
+			"dynn_Gribas"
+			"dynn_Grispos"
+			"dynn_Gymnos"
+			"dynn_Hagiochrisophorites"
+			"dynn_Hagioprokopites"
+			"dynn_Hagiotheodorites"
+			"dynn_Hagiozacharites"
+			"dynn_Hamartolos"
+			"dynn_Haplorabdes"
+			"dynn_Haploucheir"
+			"dynn_Hexakionites"
+			"dynn_Hexaklinites"
+			"dynn_Hexamilites"
+			"dynn_Hierakes"
+			"dynn_Hikanatos"
+			"dynn_Iasites"
+			"dynn_Iberopoulos"
+			"dynn_Isakiotes"
+			"dynn_Italikos"
+			"dynn_Kaballarios"
+			"dynn_Kabasilas"
+			"dynn_Kaisar"
+			"dynn_Kalameteros"
+			"dynn_Kalamaras"
+			"dynn_Kalampakes"
+			"dynn_Kalognomos"
+			"dynn_Kamytzes_Komnenodoukas"
+			"dynn_Kappadox_Kalampakes"
+			"dynn_Karabitenos"
+			"dynn_Karabitziotes"
+			"dynn_KaraI_onatan"
+			"dynn_Karamallos"
+			"dynn_Karantes"
+			"dynn_Kardamopoulos"
+			"dynn_Karenos"
+			"dynn_Karianites"
+			"dynn_Karkaronymos"
+			"dynn_Karmalikes"
+			"dynn_Karouzeiates"
+			"dynn_Kaspax"
+			"dynn_Kastamonites"
+			"dynn_Katakalon"
+			"dynn_Katakalos"
+			"dynn_Kataphloros"
+			"dynn_Katas"
+			"dynn_Katharos"
+			"dynn_Katotikos"
+			"dynn_Katzamoundes"
+			"dynn_Kegenes"
+			"dynn_Kekaleimenos"
+			"dynn_Keklymmenos"
+			"dynn_Kemineianos"
+			"dynn_Kenchres"
+			"dynn_Kentenares"
+			"dynn_Kephalas"
+			"dynn_Kibyrraiotes"
+			"dynn_Kinnamos"
+			"dynn_Kokkinos"
+			"dynn_Komnenodoukas"
+			"dynn_Konops"
+			"dynn_Kontostephanos_Komnenos"
+			"dynn_Kopsenos"
+			"dynn_Kostomyres"
+			"dynn_Kotertzes"
+			"dynn_Kouloukes"
+			"dynn_Kouneres"
+			"dynn_Kritharas"
+			"dynn_Kritopolos"
+			"dynn_Kyminianos"
+			"dynn_Kynochorites"
+			"dynn_Kyriotes"
+			"dynn_Kyritzes"
+			"dynn_Labouzenos"
+			"dynn_Laktentitzes"
+			"dynn_Lalakon"
+			"dynn_Lampsiotes"
+			"dynn_Lapardas"
+			"dynn_Lependrenos"
+			"dynn_Leukedonites"
+			"dynn_Libadares"
+			"dynn_Libadas"
+			"dynn_Libellisios"
+			"dynn_Limas"
+			"dynn_Liparites"
+			"dynn_Lithokastrites"
+			"dynn_Logariastes"
+			"dynn_Loules"
+			"dynn_Louloukes"
+			"dynn_Lykaon"
+			"dynn_Machetarios"
+			"dynn_Madrites"
+			"dynn_Madytenos"
+			"dynn_Makropoderes"
+			"dynn_MaleI_nos"
+			"dynn_Maleses"
+			"dynn_Mamalos"
+			"dynn_Manganes"
+			"dynn_Marachas"
+			"dynn_Marapas"
+			"dynn_Marchapsabos"
+			"dynn_Marianites"
+			"dynn_Marzapoulos"
+			"dynn_Matzaris"
+			"dynn_Matzas"
+			"dynn_Matzoukes"
+			"dynn_Maurex"
+			"dynn_Maurokatakalos"
+			"dynn_Mauros"
+			"dynn_Maurozomes"
+			"dynn_Mechos"
+			"dynn_Megalommates"
+			"dynn_Megenos"
+			"dynn_Meginos"
+			"dynn_Mermentoulos"
+			"dynn_Mesarites"
+			"dynn_Meschos"
+			"dynn_Mesopotamites"
+			"dynn_Metochites"
+			"dynn_Metropoulos"
+			"dynn_Mitylenaios"
+			"dynn_Monachites"
+			"dynn_Monokarites"
+			"dynn_Moroiannes"
+			"dynn_Mosaraph"
+			"dynn_Moschos"
+			"dynn_Mosele"
+			"dynn_Moungos"
+			"dynn_Mourmoures"
+			"dynn_Moustakes"
+			"dynn_Mozaes"
+			"dynn_Myralides"
+			"dynn_MyredeI_tes"
+			"dynn_Myrelaetes"
+			"dynn_Myron"
+			"dynn_Nabatenos"
+			"dynn_Narbiotes"
+			"dynn_Narsites"
+			"dynn_Neophytos"
+			"dynn_Neustongios"
+			"dynn_Nikerites"
+			"dynn_Nikoulitzes"
+			"dynn_Noe"
+			"dynn_Oinaiotes"
+			"dynn_Olyntenos"
+			"dynn_Opos"
+			"dynn_Pagomenos"
+			"dynn_Paktiares"
+			"dynn_Palaiologos_Komnenos"
+			"dynn_Doukas_Mourtzouphlos"
+			"dynn_Palaiotes"
+			"dynn_Palatinos"
+			"dynn_Pamphilos"
+			"dynn_Panaretos"
+			"dynn_Pankalos"
+			"dynn_Panokomites"
+			"dynn_Parsakoutenos"
+			"dynn_Parthenios"
+			"dynn_Paxenos"
+			"dynn_Pediasimos"
+			"dynn_Peganites"
+			"dynn_Pekoules"
+			"dynn_Pelamedes"
+			"dynn_Pentarkles"
+			"dynn_Pepagomenos"
+			"dynn_Pepanos"
+			"dynn_Perenos"
+			"dynn_Peribleptenos"
+			"dynn_Phalkon"
+			"dynn_Phialites"
+			"dynn_Philaretos"
+			"dynn_Philinos"
+			"dynn_Phrangopolos"
+			"dynn_Pistophilos"
+			"dynn_Pleures"
+			"dynn_Politopolos"
+			"dynn_Pothos"
+			"dynn_Probatas"
+			"dynn_Promountenos"
+			"dynn_Proteuon"
+			"dynn_Ptochos"
+			"dynn_Rentakenos"
+			"dynn_Rizenos"
+			"dynn_Rodios"
+			"dynn_Rogerios"
+			"dynn_Romaios"
+			"dynn_Rousopoulos"
+			"dynn_Sagopoulos"
+			"dynn_Sarakenopoulos"
+			"dynn_Saronites"
+			"dynn_Sauloioannes"
+			"dynn_Semnos"
+			"dynn_Serblias"
+			"dynn_Sikoundenos"
+			"dynn_Sinopites"
+			"dynn_Skandales"
+			"dynn_Skanranos"
+			"dynn_Skeblenos"
+			"dynn_Skleropoulos"
+			"dynn_Skoutariotes"
+			"dynn_Skribas"
+			"dynn_Smyrnaios"
+			"dynn_Solomon"
+			"dynn_Sortes"
+			"dynn_Soumenos"
+			"dynn_Spanogregores"
+			"dynn_Spanopoulos"
+			"dynn_Spondyles"
+			"dynn_Stachytzes"
+			"dynn_Stemnitziotes"
+			"dynn_Strategopoulos"
+			"dynn_Strephnes"
+			"dynn_Stypeiotes"
+			"dynn_Styppes"
+			"dynn_Synacheris"
+			"dynn_Syros"
+			"dynn_Tatikes"
+			"dynn_Tetragonites"
+			"dynn_Theodorokanos"
+			"dynn_Theodosiopolites"
+			"dynn_Thylakas"
+			"dynn_Tilapos"
+			"dynn_Timonites"
+			"dynn_Tourmarchopoulos"
+			"dynn_Traphines"
+			"dynn_Trellos"
+			"dynn_Triakontaphyllos"
+			"dynn_Triblattites"
+			"dynn_Trichinopodes"
+			"dynn_Triphyllios"
+			"dynn_Tzanzes"
+			"dynn_Tzefres"
+			"dynn_Tzetas"
+			"dynn_Tzipoureles"
+			"dynn_Tzirithon"
+			"dynn_Tzoulas"
+			"dynn_Tzoumenes"
+			"dynn_Tzouroulles"
+			"dynn_Tzympenos"
+			"dynn_Vatatzes"
+			"dynn_Xenos"
+			"dynn_Xeros"
+			"dynn_Xiphias"
+			"dynn_Zabareiotes"
+			"dynn_Zagarommates"
+			"dynn_Zerbos"
+			"dynn_Zomes"
+			"dynn_Zonaras"
+			"dynn_Kalomalas"
+			"dynn_Kaloudes"
+			"dynn_Kamateros_Kantakouzenos"
+			"dynn_Kampanarios"
+			"dynn_Kallierges"
+			"dynn_Loukites"
+			"dynn_Kometopoulos"
+			"dynn_Pateranos"
+			"dynn_Paleologo"
+			"dynn_Gregoras"
+			"dynn_Sanudo"
+			"dynn_Komytzes"
+			"dynn_Lascaris"
+			"dynn_Attikos"
+			"dynn_Anastasiotis"
+			"dynn_Evergetidiotis"
+			"dynn_Chliarinos"
+			"dynn_Chysovergis"
+			"dynn_Eugeniotis"
+			"dynn_Vorradiotis"
+			"dynn_Mountanis"
+			"dynn_Theotokitis"
+			"dynn_Viticlenou"
+			"dynn_Autoreianos"
+			"dynn_Akoimitos"
+			"dynn_Charitopoulos"
+			"dynn_Panemorphiotis"
+			"dynn_Hyakinthiotis"
+			"dynn_Galesiotis"
+			"dynn_Bekkos"
+			"dynn_Kyprios"
+			"dynn_Gonitis"
+			"dynn_Pammakaristiotis"
+			"dynn_Perivleptiotis"
+			"dynn_Manganiotis"
+			"dynn_Kalekas"
+			"dynn_Xylaloes"
+			"dynn_Syrikos"
+			"dynn_Tatikios"
+			"dynn_Aspietes"
+			"dynn_Leon"
+			"dynn_Phokas"
+			"dynn_Leon"
+			"dynn_Matteski"
+			{ "dynnp_al-" "dynn_Muzaffar" }
+			"dynn_Kastriotis"
+			"dynn_Kourkoas"
+			"dynn_Euferbenos"
+		}
+
+		male_names = {
+			Adrianos Akakios Alexandros Alexios Anastasios Anatolios Andreas Andronikos Anthemios Anthimos Antiochos Antonios Apollonios Arsenios Artemios Athanasios Bardas
+			Bartholomaios Basileios Belisarios Boethios Bosporios Christophoros Chrysanthos Chrysogonos Damianos Daniel David Demetrios Diogenes Dionysios Dorotheos Eirenaios Eudoxios Eustratios
+			Eugenios Euphemios Eusebios Eustathios Evangelos Gabriel Gennadios Georgios Gerasimos Germanos Gregoras Gregorios Hektorios Helias Herakleios Hierotheos Himerios
+			Hippolytos Hypatios Iakobos Ignatios Innokentios Ioannes Ioannikios Iordanes Ioseph Isaakios Isaias Isidoros Ioulianos Ioustinianos Ioustinos Kaisarios
+			Kallinikos Kallistos Komitas Konstantinos Konstantios Konstas Kosmas Kyriakos Kyrillos Kyros Laurentios Lazaros Leon Leontios Loukas Makarios Manuel Markos
+			Matthaios Maurikios Maximos Megistos Meletios Methodios Michael Narses Neophytos Nikephoros Niketas Nikodemos Nikolaos Niphon Orestes Pamphilios Pankratios Pantoleon Paschalis
+			Pavlos Pelagios Petros Philaretos Philippos Philotheos Phokas Photios Polykarpos Porphyrios Prokopios Pyrros Raphail Romanos Sabas Samuel Serapion Sebastianos Sergios Stephanos
+			Staurakios Symeon Symmachos Theocharistos Theodoros Theodosios Theodotos Theodoulos Theoktistos Theophanes Theophilos Theophylaktos Thomas Tiberios Traianos
+			Timotheos Tryphon Valerios Zacharias Zenobios Zenon
+			Aristarchus Aristarchos
+		}
+		
+		female_names = {
+			Adriane Agathe Agne Aikaterine Alexandra Alexeia Anastasia Anna Anthe Anthousa Antipatra Antonia Apollonia Athanasia Barbara Basillike
+			Chrysogone Damiane Demetra Dionysia Dorothea Aigidia Eirene Elaiodora Epiphania Eudokia Eudoxia Eugenia Eulalia Eunike Euphemia Euphrasia Euphrosyne
+			Eupraxia Eusebia Eustathia Evanthia Gabrielia Garyphallia Georgia Gregoria Helene Hypatia Ioanna Ioulia Iouliana Ioustina Kale Konstantia Konstantine Kyra Kyriake
+			Leontia Margarita Maria Markia Martha Melissa Nikarete Nikoletta Nonna Parthena Pavlina Pelagia Petronia Philippa Phyllis Pulcheria Rhodanthe Romane Romylia Sergia Sibylla
+			Simonis Sophia Stephania Thekla Theochariste Theodora Theodosia Theognosia Theoktiste Theophano Thomais Valeria Viviana Xene Zenobia Zoe
+		}
+
+		dynasty_of_location_prefix = "dynnp_of"
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 50
+		mat_grf_name_chance = 50
+		father_name_chance = 0
+		
+		# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+		pat_grm_name_chance = 50
+		mat_grm_name_chance = 50
+		mother_name_chance = 0
+		
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			{ name = mercenary_company_varangian_guard }
+			{ name = "mercenary_company_heruli" }
+			{ name = "mercenary_company_hoplites_of_place" }
+		}
+	}
+	
+	alan = {
+		
+		color = { 0.7 0.5 0.7 }
+
+		cadet_dynasty_names = {
+			"dynn_ArdasentA_"
+			"dynn_GA_bA_ratA_"
+			"dynn_DzA_rA_hohtA_"
+			"dynn_DzebysatA_"
+			"dynn_DjerdjitA_"
+			"dynn_GuyrdzybetA_"
+			"dynn_ZA_ndjiatA_"
+			"dynn_KA_rkuystA_"
+			"dynn_DjykkajtA_"
+			"dynn_GodjysatA_"
+			"dynn_PA_rrA_statA_"
+			"dynn_HetA_gkatA_"
+			"dynn_HA_darcatA_"
+			"dynn_TuallA_gtA_"
+			"dynn_FA_rniatA_"
+			"dynn_Ephraimid"
+			"dynn_TandelatA_"
+			"dynn_TsA_ykostA_"
+			"dynn_SozanatA_"
+			"dynn_MA_rzojtA_"
+			"dynn_Ovsia"
+		}
+
+		dynasty_names = {
+			"dynn_ArdasentA_"
+			"dynn_GA_bA_ratA_"
+			"dynn_DzA_rA_hohtA_"
+			"dynn_DzebysatA_"
+			"dynn_DjerdjitA_"
+			"dynn_GuyrdzybetA_"
+			"dynn_ZA_ndjiatA_"
+			"dynn_KA_rkuystA_"
+			"dynn_DjykkajtA_"
+			"dynn_GodjysatA_"
+			"dynn_PA_rrA_statA_"
+			"dynn_HetA_gkatA_"
+			"dynn_HA_darcatA_"
+			"dynn_TuallA_gtA_"
+			"dynn_FA_rniatA_"
+			"dynn_Ephraimid"
+			"dynn_TandelatA_"
+			"dynn_TsA_ykostA_"
+			"dynn_SozanatA_"
+			"dynn_MA_rzojtA_"
+			"dynn_Ovsia"
+		}
+
+		male_names = {
+			E_lbeg E_mbalan Aghsartan Alatey Akhsar Anbal Anbazuk Aravat Arsen Askhkadar Ashot Aslan Aspar Athom Balambar Balsag Barlah BE_qE_tar Basil Bazuk Beler Ber BirE_g Boz-Uruz BuU_rgur Buriberdi
+			Burikhan Candak Chelakhsartag Davit Djadaron Durgulel DzE_rE_s GE_tE_g Georgy Girgon Gokhar Gubaz Guram Hasqar Huddan Istor Itaz Iveri Kandak Kandz Kavtia Kaur
+			Khankhusy KhE_tag Konstantin Kubal Kuddana Kul Kuluk Lak Levan Pulad Respendial Rosmag Safrak Sakhir Sangipan Saros Sathis Savkudz Soslan Suarn Syrdon Taymuraz Taus Totraz Urdure Uruzma Uturku Yasynya Zaur
+		}
+		
+		female_names = {
+			Adadza Alda Altun Ana Atsyrukhs Baia Bedisa Borena Btsenon Burudukan Duda Elene Eliso Gergana Gulchara Guranduht Kera Keratsa Ketevan Koser
+			Lamara Lashin Lela Mariami Natia Nino Rusudan Sanatha Satinik Shatana Shorena Shukhia Tamari Tinatini Tsiala Vardo Vedokha Yeran
+		}	
+		
+		dynasty_of_location_prefix = "dynnp_ve"
+		
+		patronym_suffix_male = "dynnpat_suf_y_fyrt"
+		patronym_suffix_female = "dynnpat_suf_y_chyzg"
+		
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+	}
+	
+	georgian = {
+		
+		color = { 0.6 0.3 0.8 }
+
+		cadet_dynasty_names = {
+			"dynn_Jaqeli"
+			"dynn_Sologashvili"
+			"dynn_Tavdgiridze"
+			"dynn_Vakhvakhishvili"
+			"dynn_Baghvashi"
+			"dynn_Apokapes"
+			"dynn_Andronikashvili"
+			"dynn_Gurieli"
+			"dynn_Abuserisdze"
+			"dynn_Surameli"
+			"dynn_Zevdginidze"
+			"dynn_Amirejibi"
+			"dynn_Abazasdze"
+			"dynn_Abuladze"
+			"dynn_Chkhetidze"
+			"dynn_Gelovani"
+			"dynn_Panaskerteli"
+			"dynn_Agiashvili"
+			"dynn_Kachibadze"
+			"dynn_Chavchavadze"
+			"dynn_Cholokashvili"
+			"dynn_Diasamidze"
+			"dynn_Khursidze"
+			"dynn_Shildisani"
+			"dynn_Shavliani"
+			"dynn_Donauri"
+			"dynn_Orbeliani"
+			"dynn_Japaridze"
+			"dynn_Javakhishvili"
+			"dynn_Jorjadze"
+			"dynn_Mkhargrdzeli"
+			"dynn_Kakhaberisdze"
+			"dynn_Kherkheulidze"
+			"dynn_Mankaberdeli"
+			"dynn_Khimshiashvili"
+			"dynn_Shervashidze"
+			"dynn_Dadiani"
+			"dynn_Kobulashvili"
+			"dynn_Machutadze"
+			"dynn_Gamrekeli"
+			"dynn_Mikeladze"
+			"dynn_Mkhetsidze"
+			"dynn_Taoeli"
+			"dynn_Palavandishvili"
+		}
+
+		dynasty_names = {
+			"dynn_Jaqeli"
+			"dynn_Sologashvili"
+			"dynn_Tavdgiridze"
+			"dynn_Vakhvakhishvili"
+			"dynn_Baghvashi"
+			"dynn_Apokapes"
+			"dynn_Andronikashvili"
+			"dynn_Gurieli"
+			"dynn_Abuserisdze"
+			"dynn_Surameli"
+			"dynn_Zevdginidze"
+			"dynn_Amirejibi"
+			"dynn_Abazasdze"
+			"dynn_Abuladze"
+			"dynn_Chkhetidze"
+			"dynn_Gelovani"
+			"dynn_Panaskerteli"
+			"dynn_Agiashvili"
+			"dynn_Kachibadze"
+			"dynn_Chavchavadze"
+			"dynn_Cholokashvili"
+			"dynn_Diasamidze"
+			"dynn_Khursidze"
+			"dynn_Shildisani"
+			"dynn_Shavliani"
+			"dynn_Donauri"
+			"dynn_Orbeliani"
+			"dynn_Japaridze"
+			"dynn_Javakhishvili"
+			"dynn_Jorjadze"
+			"dynn_Mkhargrdzeli"
+			"dynn_Kakhaberisdze"
+			"dynn_Kherkheulidze"
+			"dynn_Mankaberdeli"
+			"dynn_Khimshiashvili"
+			"dynn_Shervashidze"
+			"dynn_Dadiani"
+			"dynn_Kobulashvili"
+			"dynn_Machutadze"
+			"dynn_Gamrekeli"
+			"dynn_Mikeladze"
+			"dynn_Mkhetsidze"
+			"dynn_Taoeli"
+			"dynn_Palavandishvili"
+		}
+
+		male_names = {
+			Adarnase Aghsartan Aleksandre Andronik Anzori Archili Ashot Bagrat Bakur Davit Demetre Demna Djavakhi Erekle Gabrieli Gagiki Giorgi Grigoli Guaram Gubaz
+			Gurgen Iese Ioane Ishkhanik Iveri Jarji Kaikhosro Kakhi Koba Konstantine Kvarkvare Kvirike Levan Luarsab Malkhazi Mamia Merab Mikheil Mukhran Nerse Nikoloz Okhropir Orbeli
+			Padla Samoeli Shanshe Shota Simon Stepanoz Sumbat Teimuraz Tornike Ushisha Vache Vakhtang Zurab Zviad
+		}
+		
+		female_names = {
+			Ana Baia Bedisa Borena Chiora Chito Dali Dedika Duda Dzabuli Elene Eliso Endzela Gogutsa Gulchara Guliko Gulisa Gulvardi Guranduht Gvantsa Ia Judjuna
+			Kekela Ketevan Lamara Lamzira Lela Mariami Mathiko Mthvarisa Mzekhar Natia Nino Rusudan Sanatha Shorena Shukhia Suliko
+			Tamari Taplo Tinatini Tsiala Vardo
+		}
+		
+		dynasty_of_location_prefix = "dynnp_ve"
+		
+		patronym_suffix_male = "dynnpat_suf_s_dze"
+		patronym_suffix_female = "dynnpat_suf_shvili"
+		
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			{ name = mercenary_company_veterans_of_chaldia }
+		}
+	}
+
+	assyrian = {
+		graphical_cultures = {
+			mena_building_gfx
+			mena_clothing_gfx
+			mena_unit_gfx
+		}
+		
+		color = { 0.4 0.3 0.6 }
+
+		cadet_dynasty_names = {
+			"dynn_Bukhtishu"
+			"dynn_Qatwa"
+			"dynn_Nimreh"
+			"dynn_Gazarta"
+			"dynn_Salamas"
+			"dynn_Zakho"
+			"dynn_Arbilaya"
+		}
+
+		dynasty_names = {
+			"dynn_Bukhtishu"
+			"dynn_Qatwa"
+			"dynn_Nimreh"
+			"dynn_Gazarta"
+			"dynn_Salamas"
+			"dynn_Zakho"
+			"dynn_Arbilaya"
+		}
+
+		male_names = {
+			Aba Abahu Abaya Abaye Abayi Abba Abdima Abdisho Abgar Abimalek Abraham Abris Abrisius Acacius Achan Achina Addai
+			Adlai Aggai Ahai Ahadabui Ahha Akha_d_abuh Akh_es_Samain Aqib_Alaha Asa Ashur Avahu Avda Avdima Avdimi Avina Avira Azai
+			Babaeus Babai Babowai Babwahi Bar Bar_Abba Barba_shimin Bar_Nabha Bar_Talmai Bar_Timai Bar_Tolmai Bustan
+			Caiaphas Cephas Cephus Chadlai Chama Chanin Chanina Chaninai Chinena Chozai Chuma Chunya Clopas
+			Dadisho Denha Dikla Diklah Dimi Dinkha Dunanu Elisha Eliya Emmanuel Enosh Ezekiel Farbokht Foma Giwargis Grwgari
+			Hanina Hnanisho Hozai Idan Idra Ila Isaac Isho Isho_yahb Israel Kaiapha Karna Katsiu Kelaya
+			Laszio Lazar Lazare Lazaro Lazaros Lazarus Lazarz Lazer Lebbaeus Maadai Macabee Maccabee Magna Makkikha Maluch Ma_na Marabokht Maremmeh Mari Mikha_il Moqli Muna
+			Nahir Nahor Nahur Narsai Nazuk Nechunya Nehor Nehorai Niv Nun Nur Oran Pappa Paul Pethion Petros Petuel Qaligh Qayyoma Raca Rachim Rahim Raka Raz Raziel Rubil
+			Saad Saba Sabah Sabba_e Sabrisho Sabr_Ishu Salu Samal Sami Samiy Sagi Sargis Sava Sawma Shafer Shahdost
+			Shahlufa Shai Shalmai Shama Shamir Shammai Shemaiah Shem_on Sheraga Shila Shovai Shraga Sima Sliba-zkha Surin
+			Tabbai Taddai Talia Taliah Talmai Talya Tam Tam_as Ta_mhas Targhal Tauma Tavi Tavish Tevis Th_amhais Thoma Timai Tiv Toba Todos Tolmai Tomarsa Tamuza Tulmay
+			Ukba Yahballaha Yanai Ya_qob Yeshua Yohannan Yosip Yousef Yunanis Zerika
+		}
+		
+		female_names = {
+			Adva Alya Anena Anina Bustan Chanina Chasina Chayuta China Chiyuta
+			Dikla Diklah Diklit Duvsha Hanina Hasna Hayuta Hina Ketina Kitra
+			Magdala Mahalia Mahalie Marfa Mariam Marta Marte Martha Marthe Marti
+			Martita Mehalia Meiriona Meirona Morta Nahara Nura Raz Reuma
+			Saba Sabah Samantha Sameah Samee Sameea Samiya Samiyah Samiyya Samya Sava Shapira Sima
+			Tabatha Tabby Tabetha Tabitha Tadea Talia Taliah Talya Talitha
+			Tam Tamasin Tami Tammy Tamsin Tamsyn Tamzin Thaddea Thomasa
+			Zeita Zeta
+		}
+
+		dynasty_of_location_prefix = "dynnp_of"
+		
+		patronym_prefix_male = "dynnpat_pre_Bar"
+		patronym_prefix_female = "dynnpat_pre_Barta"
+
+		ethnicities = {
+			10 = arab
+		}
+	}
+
+	### CONVERTER ###
+	macedonian = {
+	
+		color = hsv { 0.65  0.7  0.8 }
+
+		cadet_dynasty_names = {
+			Agathoklid Alketid Apollonid Aratid Helladid Omirid Peithid Peneid Philonid Proktid Pytheid Sosiklid Tauromeneid 
+			Therid Theronid Timolid Xenonid Zagreid Zosimid Zotikid Pelopid Philetid Proteid Zenonid Sostratid Tauriskid Sosthenid Pyhrrid Leonidid Killistratid 
+			Nikoklid Pantauchid Leukonid Onomastid Kephistodid Karsid Nikokrid Persid Hippostratid Epandrid Gylippid Helenid Megalid Charinid Dydid Dionid Hiketasid 
+			Stratoklid Spartokid Stratonikid Taurid Timaid Timarchid Timoleid Timotheid Tryphid Xanthippid Xenarid Xenokratid Xenophid Zenid
+			Lagid Magid Euryklid Aleuadai Philaidai Demostenid Achaid Agatharchidid Agathid Agelaid Agenid Agesipolid Agid Aknonid Akrotatid Alexandrid Alexarchid Alketid Alkimid Amantid Amnytid Amphoterid Anaxarchid Anaxikratid Anaximandrid Andagorid Andromachid Andromenid Andronikid Apollodorid Aristodemid Asandrid Bryaxid Charid Charidemid Chariklid Demadid Eupolemid Gorgid Gylippid Hekataid Hektid Helenid Heliodorid Helioklid Herakid Hermogenid Hippalid Hyperbatid Kalliarchid Kebalinid Kephisodotid Kleomenid Ktesiklid Leontid Leosthenid Lydiadid Lykurgid Menedemid Menid Menippid Mnesidemid Nearchid Nikagorid Niketid Nikid Olympiodorid Onomarchid Onomastid Ophellid Orestid Parmenid Polyperchid Proteid Stratonid Xenophid Zeuxid Pheraeid
+		}
+
+		dynasty_names = {
+			Agathoklid Alketid Apollonid Aratid Helladid Omirid Peithid Peneid Philonid Proktid Pytheid Sosiklid Tauromeneid 
+			Therid Theronid Timolid Xenonid Zagreid Zosimid Zotikid Pelopid Philetid Proteid Zenonid Sostratid Tauriskid Sosthenid Pyhrrid Leonidid Killistratid 
+			Nikoklid Pantauchid Leukonid Onomastid Kephistodid Karsid Nikokrid Persid Hippostratid Epandrid Gylippid Helenid Megalid Charinid Dydid Dionid Hiketasid 
+			Stratoklid Spartokid Stratonikid Taurid Timaid Timarchid Timoleid Timotheid Tryphid Xanthippid Xenarid Xenokratid Xenophid Zenid 
+			Lagid Magid Euryklid Aleuadai Philaidai Demostenid Achaid Agatharchidid Agathid Agelaid Agenid Agesipolid Agid Aknonid Akrotatid Alexandrid Alexarchid Alketid Alkimid Amantid Amnytid Amphoterid Anaxarchid Anaxikratid Anaximandrid Andagorid Andromachid Andromenid Andronikid Apollodorid Aristodemid Asandrid Bryaxid Charid Charidemid Chariklid Demadid Eupolemid Gorgid Gylippid Hekataid Hektid Helenid Heliodorid Helioklid Herakid Hermogenid Hippalid Hyperbatid Kalliarchid Kebalinid Kephisodotid Kleomenid Ktesiklid Leontid Leosthenid Lydiadid Lykurgid Menedemid Menid Menippid Mnesidemid Nearchid Nikagorid Niketid Nikid Olympiodorid Onomarchid Onomastid Ophellid Orestid Parmenid Polyperchid Proteid Stratonid Xenophid Zeuxid Pheraeid
+		}
+
+		male_names = {
+			Abreas Achaios Aineias Airopos Agaios Agatharchides Agathokles
+			Agathon Agelaos Agenor Agesipolis Agis Aiakides Aischines Aknonios
+			Akrotatos Alexandros Alexarchos Alketas Alkimachos Alkimos Amantas
+			Amphoteros Amyntas Anaxarchos Anaxikrates Anaximandros Anaxippos
+			Andragoras Andromachos Andromenes Andronikos Androsthenes Antenor
+			Antialkidas Antigonos Antikles Antimachos Antiochos Antipatros
+			Antiphates Antiphilos Antisthenes Aphrodisios Apollodoros
+			Apollodotos Apollonios Apollophanes Aratos Archagathos Archebios
+			Archelaos Archias Archidamos Archimedes Archippos Aretas Areus
+			Aristarchos Aristobulos Aristodemos Aristogeiton Aristomachos
+			Ariston Aristonikos Aristophanes Aristophon Aristoteles Arrhabaios
+			Arrhidaios Arseas Artemidoros Artemidotos Asandros Asklepiades
+			Athanadoros Athenodoros Attalos Audoleon Bakchides Balakros Bikon
+			Bryaxis Chabrias Chairestratos Chairondas Chares Charidemos
+			Charikles Charinos Chremes Chremonides Chrysippos Damokrates
+			Damophon Damoteles Deimachos Deinippos Demades Demaratos Demetrios
+			Demochares Demodamas Demogenes Demokleides Demokritos Demophanes
+			Demosthenes Derdas Deriades Didas Dikaiarchos Dikaios Dimnos
+			Diodoros Diodotos Diogenes Diomedes Dion Dionysios Dropidas
+			Echekrates Eisigonos Ekdemos Empedokles Epameinondas Epandros
+			Epikuros Epikydes Epimenes Epokillos Erasistratos Eratosthenes
+			Erigyios Euainetos Euandros Eubulos Eudamidas Eudoxos Euhemeros
+			Eukleides Eukrates Eukratides Euktemon Eumenes Eupolemos Euripides
+			Eurylochos Euthydemos Euthykrates Euthykritos Eutychides Euxenippos
+			Gelon Glaukias Gorgias Gorgippos Gorgos Gylippos Hagesandros
+			Halkyoneus Harpalos Hegemachos Hegesias Hekataios Hektor Helenos
+			Heliodoros Heliokles Hephaistion Herakleides Herakon Hermaios
+			Hermarchos Hermesianax Hermias Hermogenes Hermolaos Herodas
+			Heromenes Herophilos Hierax Hieron Hieronymos Hiketas Hippalos
+			Hipparchos Hippokrates Hippostratos Hyakinthos Hyperbatas Hypereides
+			Ikadion Iollas Iphikrates Ismenias Isokrates Kalas Kalliarchos
+			Kallines Kallisthenes Kallistratos Kallixeinos Karneades Karsis
+			Kassandros Kebalinos Kephalon Kephisodoros Kephisodotos Kephisophon
+			Kineas Kleandros Kleanthes Klearchos Kleitos Kleombrotos Kleomenes
+			Kleonymos Koinos Koroibos Krateros Krates Krateuas Krenides
+			Ktesikles Lachares Laomedon Leonidas Leonnatos Leontios Leosthenes
+			Leostratos Leukon Lydiadas Lykurgos Lysandridas Lysandros Lysias
+			Lysimachos Lysippos Lysistratos Machanidas Machatas Magas Makartatos
+			Marsyas Megaleas Megasthenes Meleagros Memnon Menandros Menedemos
+			Menelaos Menes Menidas Menippos Menon Menos Metrodoros Metron Milon
+			Mnaseas Mnesidemos Molon Nabis Neaichmos Nearchos Neoptolemos
+			Nikagoras Nikandros Nikanor Nikarchos Nikephoros Nikeratos Niketes
+			Nikias Nikodoros Nikokles Nikokrates Nikokreon Nikomachos Nikomedes
+			Nikostratos Numenios Olympiodoros Onomarchos Onomastos Ophellas
+			Orestes Paionios Pairisades Pantaleon Pantauchos Pantordanos
+			Parmenion Patrokles Pausanias Peithagoras Peithon Pelopidas Pelops
+			Perdikkas Peroidas Perseus Peukestas Peukolaos Pherekles Philemon
+			Philetairos Philetas Philinos Philippos Philokles Philon Philonides
+			Philopoimenos Philotas Philoxenos Phrynichos Phylarkhos Phyromachos
+			Platon Pleistarchos Polemon Polybios Polydamas Polydoros Polyeuktos
+			Polygnotos Polyperchon Poseidippos Poseidonios Praxibulos Praxiteles
+			Prepelaos Proteas Ptolemaios Pyrrhias Pyrrhos Pytheas Pythodelos
+			Satyros Seleukos Simmias Simonides Sophytes Sopolis Sosistratos
+			Sosthenes Sostratos Sotas Spalyris Spartokos Stasanor Stilpon
+			Stratokles Straton Stratonikos Taurion Tauriskos Teisikrates
+			Telesarchos Thearidas Themistios Theodamas Theodoros Theodotos
+			Theokritos Theophilos Theophrastos Thoas Thoinias Thoinon Thrasykles
+			Timaios Timarchos Timoleon Timotheos Tryphon Xanthippos Xenares
+			Xenokrates Xenophon Zeionises Zenon Zeuxis Zoilos Zopyrion Argaios
+		}
+		female_names = {
+			Charis Demetria Diantha Dionysia Agathokleia Agiatis Antiochis Apame
+			Apollonia Ariadne Arsinoe Artemisia Athenais Belistiche Berenike Damarate
+			Daphne Demo Elpis Eirene Euphemia Euthalia Hypatia Kandake Kassandra Megaira
+			Melaina Narkissa Nysa Olympia Phila Phile Eurydike Histieia Isidora Kalliope
+			Kallista Kellanthis Kleio Kratesikleia Lanassa Laodike
+			Libys Lysandra Lysis Mestris Monime Nephoris Oinanthe
+			Phthia Ptolema Sofia Sostrate Thais Theophila Thetima Timo Xanthe Xene Xenia
+			Ptolemais Selene Sophe Stratonike Theoxene Thoeris Tryphaina Zosime
+			Ada Aigyptia Anthis Antigona Antigone Aphrodisia Archestrate Archilla Archippe Aristagora 
+			Ariste Aristion Aristo Aristoboule Aristodike Aristokleia Aristokrateia Aristomache 
+			Aristonike Aristylla Artemis Aspasia Beroaia Biote Boidion Chairestrate Chairippe Choirine 
+			Chrysilla Chrysis Deidamia Demokrateia Demostrate Diokleia Doris Dorkas Eukleia Eukoline Euphrosyne 
+			Euporia Eutychis Glykera Hedeia Hediste Hedyle Hedyline Herais Hiero Hierokleia Hippostrate 
+			Homolois Kadmeia Kallimache Kallippe Kallis Kallistion Kallisto Kallistomache Kallistrate Kleagora 
+			Kleariste Kleino Kleito Kleo Kleopatra Kleostrate Krateia Leaina Leontis Lysimache 
+			Lysistrate Malthake Mania Melissa Melitta Menestrate Meniske Metrodora Mika Mnesarete Mnesistrate 
+			Murrhine Nausistrate Nikagora Nikaia Nikareta Nikarete Nikeso Niko Nikomache Nikostrate Olympias
+			Pamphile Parthenis Patrokleia Phanagora Phano Phanostrate Philainis Phileia Philias Philinna Philippa 
+			Philista Phillo Philokleia Philostrate Philotera Philotis Philoumene Philoxena Plangon Plathane Pythias 
+			Rhode Satyra Sima Simale Simon Syra Theano Theodora Theodote Thessalonike Thraitta Timagora Timarete Timokleia 
+			Timostrate Troias Xeno Xenokrateia Zopyra Zopyris
+
+			# More
+			Nikesipolis
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	thracian = {
+	
+		color = rgb { 5 162 25 }
+
+		cadet_dynasty_names = {
+			Adaid Amatokid Aulouporid Aulouzonid Bendidorid Berisadid Bessid Bithid
+			Brinkainid Brinkazenid Brinkazerid Brinkazid Bryzid Byzid Kelsinid Kelsid
+			Kersobleptid Kerzulid Ketriporid Kocaid Delid Dentubrisid Dentupid Deopid
+			Deospurid Desakenthid Diaskenthid Diazenid Dizapid Dizaporid Dizid
+			Dizazelpid Dolenid Drenid Eptaikenthid Eptapid Eptaporid Eptenid Eptezenid
+			Ezbenid Gaidrid Hebryzelmid Kenthid Kersid Kersibaulid Kersobleptid
+			Ketriporid Ketrizeid Kotid Maisadid Markiporid Mukakenthid Mukapaibid
+			Mukapid Mukaporid Mukatralid Mukazenid Naiporid Oliporid Porid Pytrid
+			Raizdid Raskid Rekiperid Rhaskid Rhaskuporid Rheboulid Rhesid Rhoemetalkid
+			Sadalid Satrid Sortid Seikiperid Seuthid Skarid Skilid Skostodokid
+			Sparatokid Taruthinid Terid Tzitzid Zieisid Ziepyrid Zilid Zipaibid Zipyrid
+		}
+
+		dynasty_names = {
+			Adaid Amatokid Aulouporid Aulouzonid Bendidorid Berisadid Bessid Bithid
+			Brinkainid Brinkazenid Brinkazerid Brinkazid Bryzid Byzid Kelsinid Kelsid
+			Kersobleptid Kerzulid Ketriporid Kocaid Delid Dentubrisid Dentupid Deopid
+			Deospurid Desakenthid Diaskenthid Diazenid Dizapid Dizaporid Dizid
+			Dizazelpid Dolenid Drenid Eptaikenthid Eptapid Eptaporid Eptenid Eptezenid
+			Ezbenid Gaidrid Hebryzelmid Kenthid Kersid Kersibaulid Kersobleptid
+			Ketriporid Ketrizeid Kotid Maisadid Markiporid Mukakenthid Mukapaibid
+			Mukapid Mukaporid Mukatralid Mukazenid Naiporid Oliporid Porid Pytrid
+			Raizdid Raskid Rekiperid Rhaskid Rhaskuporid Rheboulid Rhesid Rhoemetalkid
+			Sadalid Satrid Sortid Seikiperid Seuthid Skarid Skilid Skostodokid
+			Sparatokid Taruthinid Terid Tzitzid Zieisid Ziepyrid Zilid Zipaibid Zipyrid
+		}
+
+		male_names = {
+		   Adaios Amatokos Aulouporis Aulouzon Bendidoros Berisades Bessos Bithos Brinkainos Brinkazenis Brinkazeris Brinkazis Bryzos Byzas Delos Dentoubrisa Dentoupes Deopos Deosporis Desakenthos Diaskenthos Diazenis Dizapes Dizapor Dizas Dizazelpis Dolens Drenis Eptaikenthos Eptapis Eptaporis Eptenis Eptezenis Ezbenis Gaidres Hebryzelmis Kelsinos Kelsos Kenthos Kerses Kerzoula Kersibaulos Kersobleptes Ketriporis Ketrizeis Kokaios Kotys Maisades Markipor Moukakenthos Moukapaibes Moukapius Moukaporis Moukatralis Moukazenis Naipor Olipor Poris Pytros Raizdos Raskos Rekiper Rhaskos Rhaskuporis Rheboulas Rhesos Rhoemetalces Sadalas Satres Sautes Seikiper Seuthes Skaris Skilas Skostodokos Sparadokos Taruthinas Teres Tzitzis Zieisis Ziepyros Ziles Zipaibes Zipyron
+	    }
+		
+	    female_names = {
+		   Bendidora Daizo Dentustaina Dentusykos Dida Dinentilla Dizo Drigissa Epteporis Eptepos Eptesykos Ettela Kerza Mania Moka Mokasokos Mukko Mukapora Murko Nanea Purizia Rheskutorme Rhymesikos Sinna Sita Torkoula
+	    }
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+
+	dacian = {
+	
+		color = hsv { 0.0 0.5 1.0 }
+
+		cadet_dynasty_names = {
+			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
+			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
+			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+		}
+
+		dynasty_names = {
+			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
+			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
+			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+		}
+
+		male_names = {
+			Bastiza Bikilis Blegissa Blaesus Blaikisa Brasus Burebista Comosicus Cothelas Cotiso Dablosa Dadas Dadazai Daizus Dapyx Dardiolai Danillo Decibalus Dida Denzibalus Diernais Dotouzi Duras 
+			Kaigiza Komozoi Moskon Mucapor Mucatra Natoporus Orola Petipor Pierporus Rhemaxos Rholes Rubobostes Rolouzis Rigozus Scoris Tiati Tarbus Tsiru Zinna Vezina Zoutoula
+		}
+		female_names = {
+			Duccidava Rescuturme Zina Zinai Petriturme Zindurme Roibana Oriza Rescurai Raina Sanziana Claria Eccana
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	getian = {
+	
+		color = rgb { 112 190 71 }
+
+		cadet_dynasty_names = {
+			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
+			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
+			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+		}
+
+		dynasty_names = {
+			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
+			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
+			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+		}
+
+		male_names = {
+			Bastiza Bikilis Blegissa Blaesus Blaikisa Brasus Burebista Comosicus Cothelas Cotiso Dablosa Dadas Dadazai Daizus Dapyx Dardiolai Danillo Decibalus Dida Denzibalus Diernais Dotouzi Duras 
+			Kaigiza Komozoi Moskon Mucapor Mucatra Natoporus Orola Petipor Pierporus Rhemaxos Rholes Rubobostes Rolouzis Rigozus Scoris Tiati Tarbus Tsiru Zinna Vezina Zoutoula
+		}
+		female_names = {
+			Duccidava Rescuturme Zina Zinai Petriturme Zindurme Roibana Oriza Rescurai Raina Sanziana Claria Eccana
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+
+	cappadocian = {
+	
+		color = hsv { 0.32 0.45 0.9 }
+
+		cadet_dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		male_names = {
+			Morzios Gaizatorix Pylaemenes Mithridates Datames Ariobarzanes Ariamnes Ariarathes Croesus Gyges Ardys Sadyattes Atys Adrastus Gordias Midas
+			Hecatomnus Hyssaldomus Mausolus Idrieus Pixodarus Lygdamis Kybernis Kuprilli
+			Arppakhu Arbinas Kheriga Kherei Abistamenes Syennesis Appuasu Oromedon
+			Zipoetes Bas Ziaelas Prusias Arcathias Xiphares Darius
+		}
+		female_names = {
+			Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	phrygian = {
+	
+		color = rgb { 246  223  15 }
+
+		cadet_dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		male_names = {
+			Morzios Gaizatorix Pylaemenes Mithridates Datames Ariobarzanes Ariamnes Ariarathes Croesus Gyges Ardys Sadyattes Atys Adrastus Gordias Midas
+			Hecatomnus Hyssaldomus Mausolus Idrieus Pixodarus Lygdamis Kybernis Kuprilli
+			Arppakhu Arbinas Kheriga Kherei Abistamenes Syennesis Appuasu Oromedon
+			Zipoetes Bas Ziaelas Prusias Arcathias Xiphares Darius
+		}
+		female_names = {
+			Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	pontic = {
+	
+		color = rgb { 149 101 186 }
+
+		cadet_dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		male_names = {
+			Morzios Gaizatorix Pylaemenes Mithridates Datames Ariobarzanes Ariamnes Ariarathes Croesus Gyges Ardys Sadyattes Atys Adrastus Gordias Midas
+			Hecatomnus Hyssaldomus Mausolus Idrieus Pixodarus Lygdamis Kybernis Kuprilli
+			Arppakhu Arbinas Kheriga Kherei Abistamenes Syennesis Appuasu Oromedon
+			Zipoetes Bas Ziaelas Prusias Arcathias Xiphares Darius
+		}
+		female_names = {
+			Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+
+	carthaginian = {
+	
+		color = rgb { 74 174 85 }
+
+		cadet_dynasty_names = {
+			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
+			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
+			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
+			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+		}
+
+		dynasty_names = {
+			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
+			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
+			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
+			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	phoenician = {
+	
+		color = hsv { 0.75 0.9 0.73 }
+
+		cadet_dynasty_names = {
+			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid Bostarid Chelbesid Eshbaalid Eugorid Hannid Hiramid Magoid Mattanid Metallid 
+			Milkiramid Philosirid
+		}
+
+		dynasty_names = {
+			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid Bostarid Chelbesid Eshbaalid Eugorid Hannid Hiramid Magoid Mattanid Metallid 
+			Milkiramid Philosirid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	nabatean = {
+	
+		color = rgb { 14  20  31 }
+
+		cadet_dynasty_names = {
+			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
+			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
+			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
+			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+		}
+
+		dynasty_names = {
+			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
+			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
+			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
+			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+		}
+
+		male_names = {
+			Abiyasa Abraha Alhan Amdan Amkarib Ammdhakhar
+			Ammshafiq Ammyitha Abkarib Abyada Bi_athtar
+			Dhamar_ali Dhamarkarib Fara_karib Ghaylan Hasan
+			Hawfi_amm Hawfi_athat Hayu Hufn Il_azz Ilrayum
+			Ilsama Ilsharah Ilyafa Karib_il Khalkarib Ma_ad_il
+			Ma_adkarib Mabhad Malikkarib Marthad Marthad_ilum
+			Mas_ud Muhaqim Muratta Nabat Nabatali Nasha_karib
+			Ra_ab_il Rabbshams Sa_dshams Shahr Shamdar Shammar
+			Sharah_il Simyafa Sumhu_ali Sumhuyafa Tha_ran
+			Tubba_karib Wahab Waqah_il Waraw_il Watar Yada_ab
+			Yada_ib Yada_il Yadhmurmalik Yakribmalik Yashhur_il
+			Yashhurmalik Yasir Yasuduq_il Yazil Yigal Yitha_amar
+			Yitha_il Yuhaqam Yuhar_il Yusuf
+		}
+		female_names = {
+			Adiya Baslu Gamilath Hind Huldu Layla Mamah Maryam Masah
+			Mawiya Shagilath Shamsi Suhaimah Tabua Te_lkhunu Yapa
+			Yathi_eh Yutab Zabibah Zarqa
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	dalmatian = {
+	
+		color = hsv { 0.4 0.4 0.4 }
+
+		cadet_dynasty_names = {
+			Andinid Andid Annesid Annid Aplid Apludid Apurid Baizid Bardurid
+			Batid Beukid Beusid Bizid Karrid Daitorid Dasid Dazomenid Dazid
+			Epicarid Iettid Laidicalid Laidietid Laidid Ledrid Messid Messorid
+			Panentid Panid Pantid Plannid Plarid Proradid Samekkid Sarnid
+			Skenobarbid Statanid Statikid Statid Suttid Tizid Tritonid Tritid
+			Turelid Varanid Varidid Vendid Vepid Verzulid Carvanid Germanid
+			Lavianid Pinsid Pladomenid Platid Verzaiid Anadrid Buzetid Ditid
+			Loantid Pantadienid Platorid Platourid Portid Rufantid Sestenid
+			Stennid Vendid Tourranid Tourrinid Tourid Iaritid Montanid
+			Parmanikid Sarid Senekid Silid Sinid Blaidarid Dasmenid Lensid
+			Sassaid Skilid Surkid Kralid Lirid Passalid Likkaid Skenid
+		}
+
+		dynasty_names = {
+			Andinid Andid Annesid Annid Aplid Apludid Apurid Baizid Bardurid
+			Batid Beukid Beusid Bizid Karrid Daitorid Dasid Dazomenid Dazid
+			Epicarid Iettid Laidicalid Laidietid Laidid Ledrid Messid Messorid
+			Panentid Panid Pantid Plannid Plarid Proradid Samekkid Sarnid
+			Skenobarbid Statanid Statikid Statid Suttid Tizid Tritonid Tritid
+			Turelid Varanid Varidid Vendid Vepid Verzulid Carvanid Germanid
+			Lavianid Pinsid Pladomenid Platid Verzaiid Anadrid Buzetid Ditid
+			Loantid Pantadienid Platorid Platourid Portid Rufantid Sestenid
+			Stennid Vendid Tourranid Tourrinid Tourid Iaritid Montanid
+			Parmanikid Sarid Senekid Silid Sinid Blaidarid Dasmenid Lensid
+			Sassaid Skilid Surkid Kralid Lirid Passalid Likkaid Skenid
+		}
+
+		male_names = {
+		   Andinos Andios Anneses Annos Aplis Aploudos Aplos Apouros Baidaros Baizo Baizos Baolios Bardourios Bato Byoukos Byousas Bizo Bryoukos Karrios Daiekos Daitor Dasantos Dasios Dazomenos Dazos Epikaris Iettos Implaios Laidikalios Laidietis Laidos Labios Ledros Massurios Messios Messor Paio Panentios Panes Panto Pantos Plannios Plares Prorados Sarnos Skenobarbos Sestos Statanios Statikos Statos Souttis Temaios Tizios Tritonos Tritos Turelios Ulkidios Baranos Baridios Bendo Bepos Berzoulos
+		   Karbanios Germanos Labianos Pinsos Pladomenos Verzaieos # Of Dalmatian origin
+		   Anadros Bouzetios Ditos Loantios Pantadienos Plator Platourios Rufantius Sestenius Stennas Vendes # Used among the Japodes
+		   Tourranios Tourrinios Touros # Used among the Japodes; of Liburnian origin
+		   Andes Iaritos Montanos Parmanicos Sarios Seneka Silos Sinos # Used among the Japodes; probably of Celtic origin
+		   Blaidaros Dasmenos Lensos Sassaios Skilos Sourko # Used among the Breuci
+		   Kralos Liros Passalos Likkaios # Used among the Colapiani
+		   Skenos # Used among the Jasi
+	   }
+	    female_names = {
+		   Andio Aplo Arbo Kallo Kato Kourbania Koursolabia Dasa Dasantilla Dasto Genthena Glabikida Iato Labinkia Likko Lossa Mabida Nebato Pantia Passia Platino Samountio Seio Sesto Stato Surio Soutta Tito Tritano Barro
+		   Stataria Testo Tritto # Of Dalmatian origin
+		   Deidmou Dennaia Ditoueio Stennato Tatonia Vandano # Used among the Japodes
+		   Ammida Matera Maxa # Used among the Japodes; probably of Celtic origin
+		   Mellito Nantia Nonntio Poia Sicou # Used among the Japodes; of Celtic origin
+		   Arsa # Probably of Thracian origin
+	    }
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	aramaic = {
+	
+		color = hsv { 0.05 1.0 0.5 }
+
+		cadet_dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		male_names = {
+			Marduk-beli Marduk-belshunu Marduk-eriba Marduk-etir Marduk-ibni
+			Marduk-iddin Marduk-uballit Kidin-Marduk Lusthammar-Marduk Nidinti-Marduk
+			Rihat-Marduk Shamshi-Marduk Shipqat-Marduk Tanittu-Marduk Tukulti-Marduk
+			Bel-beli Bel-belshunu Bel-eriba Bel-etir Bel-ibni Bel-iddin Bel-uballit
+			Kidin-Bel Lusthammar-Bel Nidinti-Bel Rihat-Bel Shamshi-Bel Shipqat-Bel
+			Tanittu-Bel Tukulti-Bel Shamash-beli Shamash-belshunu Shamash-eriba
+			Shamash-etir Shamash-ibni Shamash-iddin Shamash-uballit Kidin-Shamash
+			Lusthammar-Shamash Nidinti-Shamash Rihat-Shamash Shamshi-Shamash
+			Shipqat-Shamash Tanittu-Shamash Tukulti-Shamash Ashshur-beli
+			Ashshur-belshunu Ashshur-eriba Ashshur-etir Ashshur-ibni Ashshur-iddin
+			Ashshur-uballit Kidin-Ashshur Lusthammar-Ashshur Nidinti-Ashshur
+			Rihat-Ashshur Shamshi-Ashshur Shipqat-Ashshur Tanittu-Ashshur
+			Tukulti-Ashshur Ishtar-beli Ishtar-belshunu Ishtar-eriba Ishtar-etir
+			Ishtar-ibni Ishtar-iddin Ishtar-uballit Kidin-Ishtar Lusthammar-Ishtar
+			Nidinti-Ishtar Rihat-Ishtar Shamshi-Ishtar Shipqat-Ishtar Tanittu-Ishtar
+			Tukulti-Ishtar Adad-beli Adad-belshunu Adad-eriba Adad-etir Adad-ibni
+			Adad-iddin Adad-uballit Kidin-Adad Lusthammar-Adad Nidinti-Adad Rihat-Adad
+			Shamshi-Adad Shipqat-Adad Tanittu-Adad Tukulti-Adad Nergal-beli
+			Nergal-belshunu Nergal-eriba Nergal-etir Nergal-ibni Nergal-iddin
+			Nergal-uballit Kidin-Nergal Lusthammar-Nergal Nidinti-Nergal Rihat-Nergal
+			Shamshi-Nergal Shipqat-Nergal Tanittu-Nergal Tukulti-Nergal Sin-beli
+			Sin-belshunu Sin-eriba Sin-etir Sin-ibni Sin-iddin Sin-uballit Kidin-Sin
+			Lusthammar-Sin Nidinti-Sin Rihat-Sin Shamshi-Sin Shipqat-Sin Tanittu-Sin
+			Tukulti-Sin Enlil-beli Enlil-belshunu Enlil-eriba Enlil-etir Enlil-ibni
+			Enlil-iddin Enlil-uballit Kidin-Enlil Lusthammar-Enlil Nidinti-Enlil
+			Rihat-Enlil Shamshi-Enlil Shipqat-Enlil Tanittu-Enlil Tukulti-Enlil
+			Ninurta-beli Ninurta-belshunu Ninurta-eriba Ninurta-etir Ninurta-ibni
+			Ninurta-iddin Ninurta-uballit Kidin-Ninurta Lusthammar-Ninurta
+			Nidinti-Ninurta Rihat-Ninurta Shamshi-Ninurta Shipqat-Ninurta
+			Tanittu-Ninurta Tukulti-Ninurta 
+		}
+		female_names = {
+			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
+			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
+			Wardat-Ninurta 
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	babylonian = {
+	
+		color = hsv { 0.7 0.15 0.77 }
+
+		cadet_dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		male_names = {
+			Marduk-beli Marduk-belshunu Marduk-eriba Marduk-etir Marduk-ibni
+			Marduk-iddin Marduk-uballit Kidin-Marduk Lusthammar-Marduk Nidinti-Marduk
+			Rihat-Marduk Shamshi-Marduk Shipqat-Marduk Tanittu-Marduk Tukulti-Marduk
+			Bel-beli Bel-belshunu Bel-eriba Bel-etir Bel-ibni Bel-iddin Bel-uballit
+			Kidin-Bel Lusthammar-Bel Nidinti-Bel Rihat-Bel Shamshi-Bel Shipqat-Bel
+			Tanittu-Bel Tukulti-Bel Shamash-beli Shamash-belshunu Shamash-eriba
+			Shamash-etir Shamash-ibni Shamash-iddin Shamash-uballit Kidin-Shamash
+			Lusthammar-Shamash Nidinti-Shamash Rihat-Shamash Shamshi-Shamash
+			Shipqat-Shamash Tanittu-Shamash Tukulti-Shamash Ashshur-beli
+			Ashshur-belshunu Ashshur-eriba Ashshur-etir Ashshur-ibni Ashshur-iddin
+			Ashshur-uballit Kidin-Ashshur Lusthammar-Ashshur Nidinti-Ashshur
+			Rihat-Ashshur Shamshi-Ashshur Shipqat-Ashshur Tanittu-Ashshur
+			Tukulti-Ashshur Ishtar-beli Ishtar-belshunu Ishtar-eriba Ishtar-etir
+			Ishtar-ibni Ishtar-iddin Ishtar-uballit Kidin-Ishtar Lusthammar-Ishtar
+			Nidinti-Ishtar Rihat-Ishtar Shamshi-Ishtar Shipqat-Ishtar Tanittu-Ishtar
+			Tukulti-Ishtar Adad-beli Adad-belshunu Adad-eriba Adad-etir Adad-ibni
+			Adad-iddin Adad-uballit Kidin-Adad Lusthammar-Adad Nidinti-Adad Rihat-Adad
+			Shamshi-Adad Shipqat-Adad Tanittu-Adad Tukulti-Adad Nergal-beli
+			Nergal-belshunu Nergal-eriba Nergal-etir Nergal-ibni Nergal-iddin
+			Nergal-uballit Kidin-Nergal Lusthammar-Nergal Nidinti-Nergal Rihat-Nergal
+			Shamshi-Nergal Shipqat-Nergal Tanittu-Nergal Tukulti-Nergal Sin-beli
+			Sin-belshunu Sin-eriba Sin-etir Sin-ibni Sin-iddin Sin-uballit Kidin-Sin
+			Lusthammar-Sin Nidinti-Sin Rihat-Sin Shamshi-Sin Shipqat-Sin Tanittu-Sin
+			Tukulti-Sin Enlil-beli Enlil-belshunu Enlil-eriba Enlil-etir Enlil-ibni
+			Enlil-iddin Enlil-uballit Kidin-Enlil Lusthammar-Enlil Nidinti-Enlil
+			Rihat-Enlil Shamshi-Enlil Shipqat-Enlil Tanittu-Enlil Tukulti-Enlil
+			Ninurta-beli Ninurta-belshunu Ninurta-eriba Ninurta-etir Ninurta-ibni
+			Ninurta-iddin Ninurta-uballit Kidin-Ninurta Lusthammar-Ninurta
+			Nidinti-Ninurta Rihat-Ninurta Shamshi-Ninurta Shipqat-Ninurta
+			Tanittu-Ninurta Tukulti-Ninurta 
+		}
+		female_names = {
+			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
+			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
+			Wardat-Ninurta 
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+}
