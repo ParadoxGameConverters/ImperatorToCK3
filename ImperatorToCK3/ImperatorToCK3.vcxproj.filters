@@ -295,6 +295,9 @@
     <ClInclude Include="Source\Imperator\ImperatorWorld.h">
       <Filter>Imperator</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\PopFactory.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -363,9 +366,6 @@
       <Filter>Imperator\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp">
-      <Filter>Imperator\Provinces</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Imperator\Provinces\Pop.cpp">
       <Filter>Imperator\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp">
@@ -502,6 +502,9 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp">
       <Filter>Imperator</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\PopFactory.cpp">
+      <Filter>Imperator\Provinces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

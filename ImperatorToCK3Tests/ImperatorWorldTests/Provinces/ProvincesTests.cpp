@@ -54,7 +54,7 @@ TEST(ImperatorWorld_ProvincesTests, popCanBeLinked)
 	const auto& pop = provinceItr->second->getPops().find(8);
 
 	ASSERT_TRUE(pop->second);
-	ASSERT_EQ("citizen", pop->second->getType());
+	ASSERT_EQ("citizen", pop->second->type);
 }
 
 TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
@@ -86,11 +86,11 @@ TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
 	const auto& pop3 = provinceItr3->second->getPops().find(9);
 
 	ASSERT_TRUE(pop->second);
-	ASSERT_EQ("citizen", pop->second->getType());
+	ASSERT_EQ("citizen", pop->second->type);
 	ASSERT_TRUE(pop2->second);
-	ASSERT_EQ("freemen", pop2->second->getType());
+	ASSERT_EQ("freemen", pop2->second->type);
 	ASSERT_TRUE(pop3->second);
-	ASSERT_EQ("tribal", pop3->second->getType());
+	ASSERT_EQ("tribal", pop3->second->type);
 }
 
 TEST(ImperatorWorld_ProvincesTests, BrokenLinkAttemptThrowsWarning)
