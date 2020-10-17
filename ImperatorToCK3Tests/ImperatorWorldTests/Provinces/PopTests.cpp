@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "../ImperatorToCK3/Source/Imperator/Provinces/Pop.h"
+#include "../ImperatorToCK3/Source/Imperator/Provinces/PopFactory.h"
 #include <sstream>
+
 
 TEST(ImperatorWorld_PopTests, IDCanBeSet)
 {
@@ -9,9 +11,9 @@ TEST(ImperatorWorld_PopTests, IDCanBeSet)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Pop thePop(input, 42);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ(42, thePop.getID());
+	ASSERT_EQ(42, thePop.ID);
 }
 TEST(ImperatorWorld_PopTests, cultureCanBeSet)
 {
@@ -21,9 +23,9 @@ TEST(ImperatorWorld_PopTests, cultureCanBeSet)
 	input << "\tculture=\"paradoxian\"";
 	input << "}";
 
-	const Imperator::Pop thePop(input, 42);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ("paradoxian", thePop.getCulture());
+	ASSERT_EQ("paradoxian", thePop.culture);
 }
 
 TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
@@ -33,9 +35,9 @@ TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Pop thePop(input, 42);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_TRUE(thePop.getCulture().empty());
+	ASSERT_TRUE(thePop.culture.empty());
 }
 
 
@@ -47,9 +49,9 @@ TEST(ImperatorWorld_PopTests, religionCanBeSet)
 	input << "\treligion=\"paradoxian\"";
 	input << "}";
 
-	const Imperator::Pop thePop(input, 42);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ("paradoxian", thePop.getReligion());
+	ASSERT_EQ("paradoxian", thePop.religion);
 }
 
 TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
@@ -59,9 +61,9 @@ TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Pop thePop(input, 42);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_TRUE(thePop.getReligion().empty());
+	ASSERT_TRUE(thePop.religion.empty());
 }
 
 TEST(ImperatorWorld_PopTests,typeCanBeSet)
@@ -72,9 +74,9 @@ TEST(ImperatorWorld_PopTests,typeCanBeSet)
 	input << "\ttype = \"citizen\"\n";
 	input << "}";
 
-	const Imperator::Pop thePop(input, 42);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ("citizen", thePop.getType());
+	ASSERT_EQ("citizen", thePop.type);
 }
 
 TEST(ImperatorWorld_PopTests, typeDefaultsToBlank)
@@ -84,7 +86,7 @@ TEST(ImperatorWorld_PopTests, typeDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Pop thePop(input, 42);
+	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_TRUE(thePop.getType().empty());
+	ASSERT_TRUE(thePop.type.empty());
 }

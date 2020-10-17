@@ -1,5 +1,6 @@
 #include "Pops.h"
 #include "Pop.h"
+#include "PopFactory.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 
@@ -18,8 +19,8 @@ void Imperator::Pops::registerKeys()
 		if (popStr.find('{') != std::string::npos)
 		{
 			std::stringstream tempStream(popStr);
-			auto pop = std::make_shared<Pop>(tempStream, std::stoull(thePopID));
-			pops.insert(std::pair(pop->getID(), pop));
+			auto pop = popFactory.getPop(thePopID, tempStream);
+			pops.insert(std::pair(pop->ID, std::move(pop)));
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

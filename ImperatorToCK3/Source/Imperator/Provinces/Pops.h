@@ -1,6 +1,8 @@
 #ifndef IMPERATOR_POPS_H
 #define IMPERATOR_POPS_H
 #include "Parser.h"
+#include "Pop.h"
+#include "PopFactory.h"
 
 namespace Imperator
 {
@@ -10,10 +12,14 @@ namespace Imperator
 	public:
 		void loadPops(std::istream& theStream);
 
+		Pops& operator= (const Pops& obj) { this->pops = obj.pops; return *this; }
+
 		[[nodiscard]] const auto& getPops() const { return pops; }
 
 	private:
 		void registerKeys();
+
+		Pop::Factory popFactory;
 
 		std::map<unsigned long long, std::shared_ptr<Pop>> pops;
 	};
@@ -22,14 +28,13 @@ namespace Imperator
 	class PopsBloc : commonItems::parser
 	{
 	public:
-		PopsBloc() = default;
-		explicit PopsBloc(std::istream & theStream);
+		explicit PopsBloc(std::istream& theStream);
 
 		[[nodiscard]] const auto& getPopsFromBloc() const { return pops; }
 
 	private:
 		void registerKeys();
-
+		
 		Pops pops;
 	};
 } // namespace Imperator

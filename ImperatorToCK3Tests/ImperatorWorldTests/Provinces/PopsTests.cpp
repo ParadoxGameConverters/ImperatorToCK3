@@ -32,9 +32,9 @@ TEST(ImperatorWorld_PopsTests, popsCanBeLoaded)
 	const auto& popItr2 = pops.getPops().find(43);
 
 	ASSERT_EQ(42, popItr->first);
-	ASSERT_EQ(42, popItr->second->getID());
+	ASSERT_EQ(42, popItr->second->ID);
 	ASSERT_EQ(43, popItr2->first);
-	ASSERT_EQ(43, popItr2->second->getID());
+	ASSERT_EQ(43, popItr2->second->ID);
 }
 
 TEST(ImperatorWorld_PopsTests, literalNonePopsAreNotLoaded)
@@ -55,7 +55,7 @@ TEST(ImperatorWorld_PopsTests, literalNonePopsAreNotLoaded)
 
 	ASSERT_EQ(pops.getPops().end(), popItr);
 	ASSERT_EQ(43, popItr2->first);
-	ASSERT_EQ(43, popItr2->second->getID());
+	ASSERT_EQ(43, popItr2->second->ID);
 	ASSERT_EQ(pops.getPops().end(), popItr3);
 	ASSERT_EQ(1, pops.getPops().size());
 }

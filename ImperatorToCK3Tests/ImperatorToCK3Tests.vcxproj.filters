@@ -174,9 +174,6 @@
     <ClCompile Include="ImperatorWorldTests\Provinces\PopTests.cpp">
       <Filter>ImperatorWorldTests\Provinces</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pop.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -347,6 +344,9 @@
     </ClCompile>
     <ClCompile Include="CK3WorldTests\Character\CK3CharacterTests.cpp">
       <Filter>CK3WorldTests\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\PopFactory.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
