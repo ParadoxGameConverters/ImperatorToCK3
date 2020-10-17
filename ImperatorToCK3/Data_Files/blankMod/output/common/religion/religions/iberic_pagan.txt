@@ -46,7 +46,7 @@
 		{ name = holy_order_warriors_of_the_symbol }
 	}
 
-	holy_order_maa = { horse_archers }
+	holy_order_maa = { armored_footmen }
 
 	localization = {
 		HighGodName = paganism_high_god_name
@@ -192,7 +192,13 @@
 			color = { 0.91 0.71 0.82 }
 			icon = iberian_pagan
 			reformed_icon = iberian_pagan
-
+			
+			holy_site = chimaera
+			holy_site = salaria 
+			holy_site = aeso
+			holy_site = bravum
+			holy_site = myrtilis
+			
 			doctrine = unreformed_faith_doctrine
 			
 			#Generic pagan tenets

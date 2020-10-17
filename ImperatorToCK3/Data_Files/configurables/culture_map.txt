@@ -23,12 +23,13 @@ link = { ck3 = irish imp = hibernian }
 link = { ck3 = gaelic imp = manavian }
 
 # dacia_group
-link = { ck3 = dacian imp = odrysi imp = biephi imp = ratacensi imp = caucoensi imp = buridavensi imp = dacian imp = triballoi imp = moesi imp = harpii imp = costoboci }
-link = { ck3 = getian imp = getian }
+link = { ck3 = dacian imp = biephi imp = caucoensi imp = dacian imp = costoboci }
+link = { ck3 = getian imp = getian imp = buridavensi imp = harpii imp = ratacensi }
+link = { ck3 = vlach imp = triballoi imp = moesi imp = odrysi }
 
 # celto_pannonian_group
-link = { ck3 = bavarian imp = boian }
-link = { ck3 = celtic_pannonian imp = noric imp = celtic_pannonian imp = letobician imp = carnian imp = eravisci }
+link = { ck3 = bavarian imp = boian imp = noric }
+link = { ck3 = celtic_pannonian imp = celtic_pannonian imp = letobician imp = carnian imp = eravisci }
 
 # celt_iberia
 link = { ck3 = basque imp = caristian imp = vardulian }
@@ -41,7 +42,7 @@ link = { ck3 = georgian imp = albanian imp = ibero imp = colchian }
 link = { ck3 = pictish imp = caledonian imp = votadinian imp = taexalian }
 link = { ck3 = cumbrian imp = damnonian }
 link = { ck3 = welsh imp = demetian imp = ordovitian }
-link = { ck3 = breton imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
+link = { ck3 = brythonic imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
 link = { ck3 = cornish imp = dumnonian }
 
 # belgae_group
@@ -49,9 +50,10 @@ link = { ck3 = belgae imp = sennonian imp = bellovacian imp = veliocassian imp =
 
 # bactrian
 link = { ck3 = bactrian imp = bactrian }
-link = { ck3 = sogdian imp = wusun imp = tayuan imp = phryni imp = sogdian imp = margian imp = shule }
+link = { ck3 = sogdian imp = wusun imp = tayuan imp = phryni imp = sogdian imp = shule }
 link = { ck3 = saka imp = saka }
 link = { ck3 = tocharian imp = tocharian imp = yuezhi }
+link = { ck3 = tajik imp = margian }
 
 # aryan
 link = { ck3 = marathi imp = vidharban imp = maharashtran }
@@ -99,10 +101,12 @@ link = { ck3 = bengali imp = bangli imp = atavi }
 link = { ck3 = nepali imp = magadhi imp = himalayan }
 
 # persia
-link = { ck3 = persian imp = median imp = elamite imp = sattagydian imp = carmanian imp = cadusian imp = cossian imp = pactyan imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi imp = sagartian }
+link = { ck3 = persian imp = carmanian imp = sagartian imp = elamite imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
 link = { ck3 = baloch imp = gedrosian imp = parecanian }
 link = { ck3 = daylamite imp = hyrcanian }
 link = { ck3 = parthian imp = parthian }
+link = { ck3 = kurdish imp = median }
+link = { ck3 = afghan imp = pactyan imp = sattagydian }
 
 # numidian
 link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socossian imp = massaesylian }
@@ -150,6 +154,15 @@ link = { ck3 = nuragic imp = nuragic imp = corsian }
 link = { ck3 = somali imp = puntic }
 link = { ck3 = ethiopian imp = aksumite }
 
+# melting pot
+#link = { ck3 = occitan imp = etruscan imp = venetic imp = ligurian imp = rhaetian imp = roman imp = lucanian imp = bruttian imp = osco_umbrian imp = messapic imp = umbrian imp = samnite region = world_europe_west_francia }
+#link = { ck3 = breton imp = caledonian imp = votadinian imp = taexalian imp = damnonian imp = demetian imp = ordovitian imp = dumnonian imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian region = world_europe_west_francia }
+#link = { ck3 = ashkenazi imp = hebrew region = world_europe_west_germania }
+#link = { ck3 = sephardi imp = hebrew region = world_europe_west_iberia }
+#link = { ck3 = egyptian imp = qatabanian imp = sheban imp = minaean imp = himjar imp = qedarite imp = thamudi imp = hadhrami imp = makan imp = taif region = world_africa_north_east }
+#link = { ck3 = maghrebi imp = qatabanian imp = sheban imp = minaean imp = himjar imp = qedarite imp = thamudi imp = hadhrami imp = makan imp = taif region = world_africa_sahara }
+
+
 #---------------------------------------------
 # MODS PREVISION
 #---------------------------------------------
@@ -185,20 +198,12 @@ link = { ck3 = alan imp = alan }
 # croatian
 # bosnian
 # serbian
-# vlach
 # bulgarian
 
 ## magyar_group
 # mogyer
 # hungarian
 
-## latin_group
-# 
-
-## iranian_group
-# kurdish
-# afghan
-# tajik
 
 ## baltic_group
 # latgalian

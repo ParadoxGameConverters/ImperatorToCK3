@@ -1,10 +1,24 @@
 #include "outLocalization.h"
 #include <filesystem>
 #include <fstream>
+#include "../commonItems/OSCompatibilityLayer.h"
 #include "../commonItems/CommonFunctions.h"
 
-void CK3::outputLocalization(const std::string& outputName, const World& CK3World)
+void CK3::outputLocalization(const std::string& imperatorPath, const std::string& outputName, const World& CK3World)
 {
+	// copy character/family names localization
+	commonItems::TryCopyFile(imperatorPath + "/game/localization/english/character_names_l_english.yml",
+		"output/" + outputName + "/localization/replace/IMPERATOR_character_names_l_english.yml");
+	commonItems::TryCopyFile(imperatorPath + "/game/localization/french/character_names_l_french.yml",
+		"output/" + outputName + "/localization/replace/IMPERATOR_character_names_l_french.yml");
+	commonItems::TryCopyFile(imperatorPath + "/game/localization/german/character_names_l_german.yml",
+		"output/" + outputName + "/localization/replace/IMPERATOR_character_names_l_german.yml");
+	commonItems::TryCopyFile(imperatorPath + "/game/localization/russian/character_names_l_russian.yml",
+		"output/" + outputName + "/localization/replace/IMPERATOR_character_names_l_russian.yml");
+	commonItems::TryCopyFile(imperatorPath + "/game/localization/spanish/character_names_l_spanish.yml",
+		"output/" + outputName + "/localization/replace/IMPERATOR_character_names_l_spanish.yml");
+
+	
 	std::ofstream english("output/" + outputName + "/localization/replace/converter_l_english.yml");
 	std::ofstream french("output/" + outputName + "/localization/replace/converter_l_french.yml");
 	std::ofstream german("output/" + outputName + "/localization/replace/converter_l_german.yml");

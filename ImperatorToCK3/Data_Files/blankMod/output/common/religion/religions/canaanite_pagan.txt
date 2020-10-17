@@ -46,7 +46,7 @@
 		{ name = holy_order_warriors_of_the_symbol }
 	}
 
-	holy_order_maa = { horse_archers }
+	holy_order_maa = { light_footmen bowmen }
 
 	localization = {
 		HighGodName = paganism_high_god_name
@@ -195,10 +195,16 @@
 
 			doctrine = unreformed_faith_doctrine
 			
+			holy_site = carthage
+			holy_site = elagabal
+			holy_site = ahiram
+			holy_site = tyre
+			holy_site = mabbog
+			
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_ancestor_worship
-			doctrine = tenet_sanctity_of_nature
+			doctrine = tenet_human_sacrifice
 		}
 	}
 }

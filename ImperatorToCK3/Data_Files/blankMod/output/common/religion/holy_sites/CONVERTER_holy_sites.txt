@@ -1,0 +1,370 @@
+#Druidic
+ynys_mon = { #toutatis
+	county = c_anglesey
+	character_modifier = {
+ 		men_at_arms_maintenance = -0.1
+	}
+}
+stonehenge = {
+	county = c_wiltshire
+	character_modifier = {
+		monthly_piety_gain_mult = 0.2
+	}
+}
+tlachtgha = {
+	county = c_athlone
+	character_modifier = {
+		diplomacy_per_prestige_level = 1
+	}
+}
+glanum = {
+	county = c_vendome
+	character_modifier = {
+ 		health = 0.1
+	}
+}
+bibracte = {
+	county = c_avalois
+	character_modifier = {
+		development_growth_factor = 0.1
+		stewardship = 1
+	}
+}
+
+#Iberic
+chimaera = { #dercetius
+	county = c_castellon
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+salaria = { #semnocosus
+	county = c_andujar
+	character_modifier = {
+ 		men_at_arms_maintenance = -0.1 
+	}
+}
+aeso = { #the duillae
+	county = c_lleida
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+bravum = { #eacus
+	county = c_amaya
+	character_modifier = {
+ 		diplomacy_per_piety_level = 1
+	}
+}
+myrtilis = { #ataecina
+	county = c_beja
+	character_modifier = {
+		stress_loss_mult = 0.2
+	}
+}
+
+#Berber
+shaheded = {
+	county = c_taza
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+sinifere = {
+	county = c_algier
+	character_modifier = {
+ 		knight_effectiveness_mult = 0.2
+	}
+}
+thugga = { #tannit
+	county = c_medjerda
+	character_modifier = {
+ 		cultural_head_fascination_mult = 0.1
+	}
+}
+tsabratan = { #nanna tala
+	county = c_tripolitana
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+thubactis = { #gurzil
+	county = c_labda
+	character_modifier = {
+ 		levy_reinforcement_rate_same_faith = 0.2
+	}
+}
+
+#Canaanite
+#carthage in vanilla
+elagabal = { #ba'al
+	county = c_baalbek
+	character_modifier = {
+ 		tyranny_gain_mult = -0.2 
+	}
+}
+ahiram = { #ba'alet
+	county = c_tripoli
+	character_modifier = {
+ 		cultural_head_fascination_mult = 0.1
+	}
+}
+tyre = { #melqart
+	county = c_acre
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+mabbog = { #atargatis
+	county = c_aintab
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+
+#Kemetic
+#memphis in vanilla
+taremu = { #sekhmet
+	county = c_sharkiya
+	character_modifier = {
+ 		defender_advantage = 5 
+	}
+}
+waset = { #amun
+	county = c_qus
+	character_modifier = {
+ 		tyranny_gain_mult = -0.2 
+	}
+}
+#aswan in vanilla
+zawty = { #anubis
+	county = c_asyut
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+
+#Arabic
+#mecca in vanilla
+badais = { #orotalt
+	county = c_wajh
+	character_modifier = {
+ 		supply_duration = 0.25 
+	}
+}
+petra = { #al-qaum
+	county = c_negev
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+sirwa = { #ta'lab
+	county = c_sanaa
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+taif = { #ta'if, al-uzza
+	county = c_taif
+	character_modifier = {
+ 		levy_reinforcement_rate_same_faith = 0.2
+	}
+}
+
+#Mesopotamian
+babylon = { #marduk
+	county = c_baghdad
+	character_modifier = {
+		knight_limit = 1 
+	}
+}
+borsippa = { #nabu
+	county = c_kufa
+	character_modifier = {
+ 		cultural_head_fascination_mult = 0.1
+	}
+}
+uruk = { #ishtar
+	county = c_batiha
+	character_modifier = {
+		attacker_advantage = 5
+	}
+}
+ashur = { #ashshur
+	county = c_mosul
+	character_modifier = {
+		defender_advantage = 5
+	}
+}
+harranu = { #sin
+	county = c_harran
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+
+#Cybelene
+men = { #men
+	county = c_philomelium
+	character_modifier = {
+ 		tyranny_gain_mult = -0.2 
+	}
+}
+phyrgia = { #cybele
+	county = c_phrygia
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+komana = { #ma
+	county = c_lycandus
+	character_modifier = {
+ 		men_at_arms_maintenance = -0.1
+	}
+}
+ibora = { #nane, apparently khaldic? oops
+	county = c_zela
+	character_modifier = {
+ 		attacker_advantage = 5
+	}
+}
+kadoi = { #attis
+	county = c_hadrianeia
+	character_modifier = {
+		development_growth_factor = 0.1
+		stewardship = 1
+	}
+}
+
+#Khaldic
+eriza = { #anahit
+	county = c_satala
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+ashtishat = { #vahagn
+	county = c_apahunik
+	character_modifier = {
+		defender_advantage = 5
+	}
+}
+armaouira = { #khaldi
+	county = c_hayk
+	character_modifier = {
+ 		tyranny_gain_mult = -0.2 
+	}
+}
+artaxata = { #tir
+	county = c_bagrewand
+	character_modifier = {
+ 		cultural_head_fascination_mult = 0.1
+	}
+}
+karchakhpyur = { #tsovinar
+	county = c_dvin
+	character_modifier = {
+		development_growth_factor = 0.1
+		stewardship = 1
+	}
+}
+
+#Armazic
+gacim = { #armaz
+	county = c_kakheti
+	character_modifier = {
+ 		supply_duration = 0.125
+ 		levy_reinforcement_rate_same_faith = 0.1
+	}
+}
+kamachia = { #ga
+	county = c_shaki
+	character_modifier = {
+ 		fertility = 0.15
+	}
+}
+leukothea = { #ghmerti
+	county = c_guria
+	character_modifier = {
+ 		tyranny_gain_mult = -0.2 
+	}
+}
+brili = { #dali
+	county = c_svaneti
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+kurus = { #adgilis deda
+	county = c_hereti
+	character_modifier = {
+		development_growth_factor = 0.1
+		stewardship = 1
+	}
+}
+
+#Heptadic
+cimus = { #goitosyrus
+	county = c_perekop
+	character_modifier = {
+ 		cultural_head_fascination_mult = 0.1
+	}
+}
+tanais = { #thagimasadas
+	county = c_tana
+	character_modifier = {
+		skirmishers_damage_mult = 0.1 
+	}
+}
+tmakrat = { #papaios
+	county = c_zichia
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+mykon = { #api #mykon apparently not being converted??
+	county = c_azov
+	character_modifier = {
+		development_growth_factor = 0.1
+		stewardship = 1
+	}
+}
+recrassia = { #argimpasa
+	county = c_samiran
+	character_modifier = {
+ 		skirmishers_screen_mult = 0.1
+	}
+}
+
+#Zalmoxian
+tamasidava = { #bendis
+	county = c_stoenesti
+	character_modifier = {
+		development_growth_factor = 0.1
+		stewardship = 1
+	}
+}
+odessos = { #derzelas
+	county = c_mesembria
+	character_modifier = {
+ 		domain_tax_mult = 0.02
+	}
+}
+kardzhali = { #sabazios
+	county = c_zherkovo
+	character_modifier = {
+ 		martial_per_piety_level = 1 
+	}
+}
+spinopara = { #zibelthiurdos
+	county = c_sredets
+	character_modifier = {
+ 		tyranny_gain_mult = -0.2 
+	}
+}
+buridava = { #only has 4 in the game, so this is the most populous
+	county = c_polovragi
+	character_modifier = {
+ 		cultural_head_fascination_mult = 0.1
+	}
+}

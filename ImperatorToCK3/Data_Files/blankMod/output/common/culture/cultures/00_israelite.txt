@@ -1,0 +1,149 @@
+﻿israelite_group = {
+	
+	graphical_cultures = {
+		israelite_group_coa_gfx
+		mena_building_gfx
+		byzantine_clothing_gfx
+		mena_unit_gfx
+	}
+
+	ashkenazi = {
+		
+		color = { 0.6 0.3 0.6 }
+
+		cadet_dynasty_names = {
+			"dynn_Ben_Aharon"
+			"dynn_Ben_Ari"
+			"dynn_Binyamin"
+			"dynn_Ben_David"
+			"dynn_Ben_Jeremias"
+			"dynn_Ben_Leonhard"
+			"dynn_Ben_Michael"
+			"dynn_Mose"
+			"dynn_Ben_Reuben"
+			"dynn_Ebheri"
+		}
+
+		dynasty_names = {
+			"dynn_Ben_Aharon"
+			"dynn_Ben_Ari"
+			"dynn_Binyamin"
+			"dynn_Ben_David"
+			"dynn_Ben_Jeremias"
+			"dynn_Ben_Leonhard"
+			"dynn_Ben_Michael"
+			"dynn_Mose"
+			"dynn_Ben_Reuben"
+			"dynn_Ebheri"
+		}
+
+		male_names = {
+			Abba Abbaye Acha Achai Achunai Aharon Alechsandri Ammi Amram Amunah Ashi Asher Avomai Avraham Azariah Baboi Baruch
+			Bibai Binyamin Boaz Bustenai Chanan Chananel Chaninai Chanoch Chaim Chayim Chelbo Chisdai Chiyya Chizkiyah Chofni Chushiel
+			Daniel David Dimi Dodai Dudai Efrayim Eina Elazar Elchanan Eldad Eliezer Elyakim Gedalyah Gershom Ghayyat Giat Giza Hillel
+			Hila Isaac Ivomai Kafnai Kahana Kalonymos Levi Kiyomi Machir Malcha Mar Mari Matiyahu Meir Menechem Menashe Mesharsheya Meshulam
+			Mevasser Mishael Mordechai Moshe Nachman Nachshon Nasan Natan Natroi Natronai Nechemiah Nehilai Nesanel Nissim Paltoi Pirkoi
+			Peter Rava Ravai Ravi Ravya Reuven Rivai Saadiah Sechok Shabsai Shalom Shanoi Shemaryah Sherira Sheshna Shila Shimon Shinoi
+			Shlomo Shmuel Sorgo Sulam Tachlifa Tamar Tzadok Tzemach Uri Yaakov Yachya Yechiel Yehudah Yehudai Yehoshua Yeshayah
+			Yisrael Yitzchak Yoel Yosef Yoshiah Yosi Yuda Zakkai Zelekman Zuiskind
+		}
+		female_names = {
+			Beila Belet Chana Doltza Esther Guta Guthela Madrona Matrona Minna Pultzelina Rachel Rivkah Saris Scolaster
+			Shluida Shoinlin Shonlin Tziporah Yehudis Yeintil
+		}
+		
+		dynasty_of_location_prefix = "dynnp_of"
+		
+		ethnicities = {
+			10 = arab
+		}
+	}
+	sephardi = {
+		
+		color = { 0.7 0.2 0.7 }
+
+		cadet_dynasty_names = {
+			"dynn_Shaoul"
+			"dynn_Ben_Sol"
+			"dynn_Ben_Shlomo"
+			"dynn_Ben_Shimon"
+			"dynn_Ben_Yitzhak"
+			"dynn_Ya_akov"
+			"dynn_Ben_Yankev"
+			"dynn_Yeshayahu"
+			"dynn_Ben_Yosef"
+		}
+
+		dynasty_names = {
+			"dynn_Shaoul"
+			"dynn_Ben_Sol"
+			"dynn_Ben_Shlomo"
+			"dynn_Ben_Shimon"
+			"dynn_Ben_Yitzhak"
+			"dynn_Ya_akov"
+			"dynn_Ben_Yankev"
+			"dynn_Yeshayahu"
+			"dynn_Ben_Yosef"
+		}
+
+		male_names = {
+			Abba Abbaye Acha Achai Achunai Aharon Alechsandri Ammi Amram Amunah Ashi Asher Avomai Avraham Azariah Baboi Baruch
+			Bibai Binyamin Boaz Bustenai Chanan Chananel Chaninai Chanoch Chaim Chayim Chelbo Chisdai Chiyya Chizkiyah Chofni Chushiel
+			Daniel David Dimi Dodai Dudai Efrayim Eina Elazar Elchanan Eldad Eliezer Elyakim Gedalyah Gershom Ghayyat Giat Giza Hillel
+			Hila Isaac Ivomai Kafnai Kahana Kalonymos Levi Kiyomi Machir Malcha Mar Mari Matiyahu Meir Menechem Menashe Mesharsheya Meshulam
+			Mevasser Mishael Mordechai Moshe Nachman Nachshon Nasan Natan Natroi Natronai Nechemiah Nehilai Nesanel Nissim Paltoi Pirkoi
+			Peter Rava Ravai Ravi Ravya Reuven Rivai Saadiah Sechok Shabsai Shalom Shanoi Shemaryah Sherira Sheshna Shila Shimon Shinoi
+			Shlomo Shmuel Sorgo Sulam Tachlifa Tamar Tzadok Tzemach Uri Yaakov Yachya Yechiel Yehudah Yehudai Yehoshua Yeshayah
+			Yisrael Yitzchak Yoel Yosef Yoshiah Yosi Yuda Zakkai Zelekman Zuiskind
+		}
+		female_names = {
+			Beila Belet Chana Doltza Esther Guta Guthela Madrona Matrona Minna Pultzelina Rachel Rivkah Saris Scolaster
+			Shluida Shoinlin Shonlin Tziporah Yehudis Yeintil
+		}
+		
+		dynasty_of_location_prefix = "dynnp_of"
+		
+		ethnicities = {
+			10 = arab
+		}
+	}
+
+	### CONVERTER ###
+	hebrew = {
+	
+		color = rgb { 99 193 217 }
+
+		cadet_dynasty_names = {
+			Abiatarid Akabonid Amitid Amramid Boazid Dorid Dovid Eiranid
+			Eleazid Heroid Honioid Hillelid Joazid Kahanid Nahumid Nirid
+			Nogahid Oferid Omrid Pinchasid Raananid Shemidid Yairid
+		}
+
+		dynasty_names = {
+			Abiatarid Akabonid Amitid Amramid Boazid Dorid Dovid Eiranid
+			Eleazid Heroid Honioid Hillelid Joazid Kahanid Nahumid Nirid
+			Nogahid Oferid Omrid Pinchasid Raananid Shemidid Yairid
+		}
+
+		male_names = {
+			Simon Joseph Judah Eleazar Yohanan Joshua Hananiah Jonathan
+			Mattathias Menahem Jacob Hanan Dositheus Zachariah Ishmael Levi
+			Saul Onias Samuel Ezekiah Gadish Gani Hagai Hanilai Harsom Harqaq
+			Maro Nathanel Nathan Nebalta Nicandus Jason Jeremiah Kasaias 
+		}
+		
+		female_names = {
+			Hannah Mariam Salome Shelamzion Martha Joanna Shiphra Berenice
+			Sarah Imma Hermione Helene Grapte Elisheba Esther Lysia Judith
+			Julia Mara 
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+}

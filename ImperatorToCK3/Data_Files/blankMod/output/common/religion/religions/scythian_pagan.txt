@@ -192,6 +192,12 @@
 			color = { 0.5 0.19 0.2 }
 			icon = scythian_pagan
 			reformed_icon = scythian_pagan
+			
+			holy_site = cimus
+			holy_site = tanais
+			holy_site = tmakrat
+			holy_site = mykon
+			holy_site = recrassia
 
 			doctrine = unreformed_faith_doctrine
 			

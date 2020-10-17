@@ -56,10 +56,10 @@
  #---------------------------------------------------
  # Balkanique
  #---------------------------------------------------
- dacian_religion:0 "Balkanique"
- dacian_religion_adj:0 "balkanique"
- dacian_religion_adjerent:0 "balkanique"
- dacian_religion_adherent_plural:0 "balkaniques"
+ dacian_religion:0 "Dace"
+ dacian_religion_adj:0 "dace"
+ dacian_religion_adjerent:0 "dace"
+ dacian_religion_adherent_plural:0 "daces"
  dacian_religion_desc:0 "On ne sait réellement si Zalmoxis était à l'origine un prophète ou un dieu ; mais les Daces et les Gètes le révèrent comme un être d'essence divine et lui attribuent nombre de miracles."
 
  dacian_pagan:0 "Zalmoxite"
@@ -172,6 +172,7 @@
  egyptian_pagan_old_adj:0 "khémite ancienne"
  egyptian_pagan_old_adjerent:0 "khémite ancien"
  egyptian_pagan_old_adherent_plural:0 "khémites ancien"
+ egyptian_pagan_desc:0 "L'histoire de la religion propre aux Égyptiens remonte à plusieurs milliers d'années. Foi polythéiste, la croyance en Râ, Atoum, Sekhmet et dans les autres divinités témoigne d'une profonde révérence envers les aspects fondamentaux du monde naturel."
 
  #---------------------------------------------------
  # Mésopotamienne
