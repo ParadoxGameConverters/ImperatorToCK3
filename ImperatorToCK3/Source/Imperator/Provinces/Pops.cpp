@@ -18,7 +18,6 @@ void Imperator::Pops::registerKeys()
 		const auto popStr = commonItems::stringOfItem(theStream).getString();
 		if (popStr.find('{') != std::string::npos)
 		{
-			Pop::Factory popFactory;
 			std::stringstream tempStream(popStr);
 			auto pop = popFactory.getPop(thePopID, tempStream);
 			pops.insert(std::pair(pop->ID, std::move(pop)));
