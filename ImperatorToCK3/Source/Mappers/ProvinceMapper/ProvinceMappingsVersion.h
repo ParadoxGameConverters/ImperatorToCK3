@@ -6,7 +6,7 @@
 
 namespace mappers
 {
-	class ProvinceMappingsVersion : commonItems::parser
+	class ProvinceMappingsVersion: commonItems::parser
 	{
 	public:
 		ProvinceMappingsVersion() = default;
