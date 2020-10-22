@@ -1,4 +1,5 @@
 ﻿l_english:
+ # version 0.1
  aestian:0 "Aestian"
  aestian_collective_noun:1 "Aestians"
  
@@ -88,3 +89,7 @@
  
  etruscan:0 "Etruscan"
  etruscan_collective_noun:1 "Etruscans"
+
+ # version 0.2
+ brythonic:0 "Brythonic"
+ brythonic_collective_noun:1 "Brythonics"

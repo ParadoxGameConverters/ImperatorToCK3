@@ -46,7 +46,7 @@
 		{ name = holy_order_warriors_of_the_symbol }
 	}
 
-	holy_order_maa = { horse_archers }
+	holy_order_maa = { light_footmen bowmen }
 
 	localization = {
 		HighGodName = paganism_high_god_name
@@ -192,13 +192,23 @@
 			color = { 0.14 0.36 0.16 }
 			icon = celtic_pagan
 			reformed_icon = celtic_pagan
+			
+			holy_site = ynys_mon
+			holy_site = stonehenge
+			holy_site = tlachtgha
+			holy_site = glanum
+			holy_site = bibracte
 
 			doctrine = unreformed_faith_doctrine
 			
 			#Generic pagan tenets
-			doctrine = tenet_astrology
-			doctrine = tenet_ancestor_worship
+			doctrine = tenet_esotericism
+			doctrine = tenet_human_sacrifice
 			doctrine = tenet_sanctity_of_nature
 		}
 	}
 }
+
+
+
+

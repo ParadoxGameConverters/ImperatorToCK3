@@ -38,32 +38,24 @@ link = { ck3 = old_bon imp = bon_religion }
 # Jain
 link = { ck3 = digambara imp = jainism }
 
-# MODS (for future mods close date to ck3)
+# MODS (for future mods)
 link = { ck3 = tengri_pagan imp = tengri_pagan }
 link = { ck3 = magyar_pagan imp = magyar_pagan }
 link = { ck3 = slavic_pagan imp = slavic_pagan }
 link = { ck3 = finnish_pagan imp = finnish_pagan }
 link = { ck3 = kushitism_pagan imp = kushitism_pagan }
 link = { ck3 = zun_pagan imp = zun_pagan }
-link = { ck3 = catholic imp = christianity }
+#link = { ck3 = orthodox imp = christianity } # look for region
+#link = { ck3 = catholic imp = christianity } # look for region
 link = { ck3 = coptic imp = coptic }
 link = { ck3 = nestorian imp = nestorian }
 link = { ck3 = insular_celtic imp = insular }
-link = { ck3 = armenian_apostolic imp = armenian_apostolic }
-link = { ck3 = conversos imp = conversos }
 link = { ck3 = iconoclast imp = iconoclast }
-link = { ck3 = messalian imp = messalian }
 link = { ck3 = ashari imp = sunni }
 link = { ck3 = ismaili imp = shiite }
 link = { ck3 = ibadi imp = ibadi }
 link = { ck3 = azariqa imp = kharijite }
-link = { ck3 = yazidi imp = yazidi }
-link = { ck3 = mazdakism imp = mazdaki }
-link = { ck3 = manichean imp = manichean }
-link = { ck3 = mandeaism imp = mandeaism }
-link = { ck3 = valentinianism imp = valentinianism }
-link = { ck3 = sethianism imp = sethianism }
-link = { ck3 = priscillianism imp = priscillianism }
-link = { ck3 = cainitism imp = cainitism }
+
+# not in two game
 link = { ck3 = arian imp = arian }
  

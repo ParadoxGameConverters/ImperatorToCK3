@@ -210,17 +210,25 @@ kushitism_religion = {
 		#	color = { 1.0 0.45 0.0 }
 		#	icon = west_african
 		#}
+		
+		### CONVERTER ###
 		egyptian_pagan = {
 			color = { 156 139 7 }
 			icon = egyptian_pagan
 			reformed_icon = egyptian_pagan
 
+			holy_site = memphis
+			holy_site = taremu
+			holy_site = waset
+			holy_site = aswan
+			holy_site = zawty
+
 			doctrine = unreformed_faith_doctrine
 			
 			#Generic pagan tenets
 			doctrine = tenet_astrology
-			doctrine = tenet_ancestor_worship
-			doctrine = tenet_sanctity_of_nature
+			doctrine = tenet_sun_worship
+			doctrine = tenet_divine_marriage
 		}
 	}
 }

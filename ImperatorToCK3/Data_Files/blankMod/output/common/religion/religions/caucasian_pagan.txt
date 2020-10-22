@@ -46,7 +46,7 @@
 		{ name = holy_order_warriors_of_the_symbol }
 	}
 
-	holy_order_maa = { horse_archers }
+	holy_order_maa = { light_horsemen bowmen }
 
 	localization = {
 		HighGodName = paganism_high_god_name
@@ -192,6 +192,12 @@
 			color = { 0.8 0.2 0.2 }
 			icon = caucasian_pagan
 			reformed_icon = caucasian_pagan
+
+			holy_site = gacim
+			holy_site = kamachia
+			holy_site = leukothea
+			holy_site = brili
+			holy_site = kurus
 
 			doctrine = unreformed_faith_doctrine
 			#Generic pagan tenets

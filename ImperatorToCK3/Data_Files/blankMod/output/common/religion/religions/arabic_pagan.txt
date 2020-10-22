@@ -192,6 +192,12 @@
 			color = { 0.8 0.4 0.3 }
 			icon = arabic_pagan
 			reformed_icon = arabic_pagan
+			
+			holy_site = mecca
+			holy_site = badais
+			holy_site = petra
+			holy_site = sirwa
+			holy_site = taif
 
 			doctrine = unreformed_faith_doctrine
 			

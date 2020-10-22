@@ -46,7 +46,7 @@
 		{ name = holy_order_warriors_of_the_symbol }
 	}
 
-	holy_order_maa = { horse_archers }
+	holy_order_maa = { armored_footmen }
 
 	localization = {
 		HighGodName = paganism_high_god_name
@@ -192,6 +192,12 @@
 			color = { 0.45 0.29 0.15 }
 			icon = balkanic_pagan
 			reformed_icon = balkanic_pagan
+			
+			holy_site = tamasidava
+			holy_site = odessos
+			holy_site = kardzhali
+			holy_site = spinopara
+			holy_site = buridava
 
 			doctrine = unreformed_faith_doctrine
 			

@@ -43,7 +43,7 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles());
 
 	LOG(LogLevel::Info) << "<- Writing Localization";
-	outputLocalization(outputName, CK3World);
+	outputLocalization(theConfiguration.getImperatorPath(), outputName, CK3World);
 
 	LOG(LogLevel::Info) << "<- Copying named colors";
 	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + theConfiguration.getOutputModName() + "/common/named_colors/imp_colors.txt");
