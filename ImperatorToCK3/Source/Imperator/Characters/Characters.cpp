@@ -1,9 +1,9 @@
 #include "Characters.h"
-#include <set>
 #include "Character.h"
 #include "../Families/Families.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include <set>
 
 
 Imperator::Characters::Characters(std::istream& theStream, const GenesDB& genesDB, const date& _endDate) : genes(genesDB), endDate(_endDate)
