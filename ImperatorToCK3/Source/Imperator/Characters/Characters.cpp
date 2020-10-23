@@ -1,4 +1,5 @@
 #include "Characters.h"
+#include <set>
 #include "Character.h"
 #include "../Families/Families.h"
 #include "Log.h"
@@ -24,6 +25,7 @@ void Imperator::Characters::registerKeys()
 void Imperator::Characters::linkFamilies(const Families& theFamilies)
 {
 	auto counter = 0;
+	std::set<unsigned long long> idsWithoutDefinition;
 	const auto& families = theFamilies.getFamilies();
 	for (const auto& [characterID, character]: characters)
 	{
@@ -37,10 +39,23 @@ void Imperator::Characters::linkFamilies(const Families& theFamilies)
 			}
 			else
 			{
-				Log(LogLevel::Warning) << "Family ID: " << character->getFamily().first << " has no definition!";
+				idsWithoutDefinition.insert(character->getFamily().first);
 			}
 		}
 	}
+
+	std::string warningString = "Families without definition:";
+	if (!idsWithoutDefinition.empty())
+	{
+		for (auto id : idsWithoutDefinition)
+		{
+			warningString += " ";
+			warningString += std::to_string(id);
+			warningString += ",";
+		}
+		warningString = warningString.substr(0, warningString.size() - 1); //remove last comma
+	}
+	
 	Log(LogLevel::Info) << "<> " << counter << " families linked to characters.";
 }
 

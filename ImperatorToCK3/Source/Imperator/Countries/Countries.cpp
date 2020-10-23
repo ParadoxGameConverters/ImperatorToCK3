@@ -40,6 +40,7 @@ void Imperator::CountriesBloc::registerKeys()
 void Imperator::Countries::linkFamilies(const Families& theFamilies)
 {
 	auto counter = 0;
+	std::set<unsigned long long> idsWithoutDefinition;
 	const auto& families = theFamilies.getFamilies();
 	for (const auto& [countryID, country] : countries)
 	{
@@ -56,11 +57,24 @@ void Imperator::Countries::linkFamilies(const Families& theFamilies)
 				}
 				else
 				{
-					Log(LogLevel::Warning) << "Family ID: " << familyID << " has no definition!";
+					idsWithoutDefinition.insert(familyID);
 				}
 			}
 			country->setFamilies(newFamilies);
 		}
 	}
+
+	std::string warningString = "Families without definition:";
+	if (!idsWithoutDefinition.empty())
+	{
+		for (auto id : idsWithoutDefinition)
+		{
+			warningString += " ";
+			warningString += std::to_string(id);
+			warningString += ",";
+		}
+		warningString = warningString.substr(0, warningString.size() - 1); //remove last comma
+	}
+	
 	Log(LogLevel::Info) << "<> " << counter << " families linked to countries.";
 }
