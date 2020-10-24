@@ -136,7 +136,7 @@ link = { ck3 = dutch imp = frisian }
 link = { ck3 = vandal imp = vandal }
 
 # gallic
-link = { ck3 = gaulish imp = volcae imp = salluvian imp = arverni imp = aulercian imp = pictonian imp = lemovician imp = santonian imp = carnuti imp = haedui imp = biturigan imp = aremorican imp = lepontic imp = vindelician imp = helvetian }
+link = { ck3 = gallic imp = volcae imp = salluvian imp = arverni imp = aulercian imp = pictonian imp = lemovician imp = santonian imp = carnuti imp = haedui imp = biturigan imp = aremorican imp = lepontic imp = vindelician imp = helvetian }
 
 # east_levantine
 link = { ck3 = assyrian imp = assyrian }
