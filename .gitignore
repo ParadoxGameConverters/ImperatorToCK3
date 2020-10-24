@@ -9,6 +9,11 @@
 #Visual Studio stuff
 .vs
 
+#PyCharm stuff
+*.xml
+*.iml
+*.pyc
+
 #OpenCppCoverageStuff
 *.log
 ImperatorToCK3/.opencppcov/

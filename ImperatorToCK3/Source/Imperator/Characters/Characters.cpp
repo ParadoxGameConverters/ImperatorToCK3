@@ -4,6 +4,7 @@
 #include "../Families/Families.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include <set>
 
 
 Imperator::Characters::Characters(std::istream& theStream, GenesDB genesDB, const date& _endDate) : genes(std::move(genesDB)), endDate(_endDate)
@@ -25,6 +26,7 @@ void Imperator::Characters::registerKeys()
 void Imperator::Characters::linkFamilies(const Families& theFamilies)
 {
 	auto counter = 0;
+	std::set<unsigned long long> idsWithoutDefinition;
 	const auto& families = theFamilies.getFamilies();
 	for (const auto& [characterID, character]: characters)
 	{
@@ -38,10 +40,24 @@ void Imperator::Characters::linkFamilies(const Families& theFamilies)
 			}
 			else
 			{
-				Log(LogLevel::Warning) << "Family ID: " << character->getFamily().first << " has no definition!";
+				idsWithoutDefinition.insert(character->getFamily().first);
 			}
 		}
 	}
+
+	std::string warningString = "Families without definition:";
+	if (!idsWithoutDefinition.empty())
+	{
+		for (auto id : idsWithoutDefinition)
+		{
+			warningString += " ";
+			warningString += std::to_string(id);
+			warningString += ",";
+		}
+		warningString = warningString.substr(0, warningString.size() - 1); //remove last comma
+		Log(LogLevel::Warning) << warningString;
+	}
+	
 	Log(LogLevel::Info) << "<> " << counter << " families linked to characters.";
 }
 
