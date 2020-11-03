@@ -8,7 +8,7 @@
 namespace CK3
 {
 
-	void outputCoas(const std::string& outputModName, const std::map<std::string, std::shared_ptr<Title>>& titles);
+	void outputCoas(const std::string& outputModName, const std::map<std::string, Title>& titles);
 
 }
 

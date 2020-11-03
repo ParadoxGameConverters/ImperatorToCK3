@@ -76,7 +76,7 @@ void CK3::World::importImperatorCountries(const Imperator::World& impWorld)
 	{
 		importImperatorCountry(title);
 	}
-	LOG(LogLevel::Info) << ">> " << titles.size() << " total countries recognized.";
+	LOG(LogLevel::Info) << ">> " << getTitles().size() << " total countries recognized.";
 }
 
 void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country)
@@ -85,7 +85,7 @@ void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std:
 	auto newTitle = std::make_shared<Title>();
 	newTitle->initializeFromTag(country.second, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper);
 	country.second->registerCK3Title(newTitle);
-	titles.insert(std::pair(newTitle->titleName, newTitle));
+	landedTitles.foundTitles.insert(std::pair(newTitle->titleName, *newTitle));
 }
 
 
@@ -240,7 +240,7 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 
 void CK3::World::linkCountiesToTitleHolders(const Imperator::World& impWorld)
 {
-	for (const auto& [name, landedTitle] : landedTitles.getFoundTitles())
+	for (const auto& [name, landedTitle] : landedTitles.foundTitles)
 	{
 		if (name.find("c_")==0) // title is a county
 		{
@@ -265,11 +265,15 @@ void CK3::World::linkCountiesToTitleHolders(const Imperator::World& impWorld)
 					{
 						auto vanillaHistory = titlesHistory.popTitleHistory(name);
 						if (titlesHistory.currentHolderIdMap[name]) countyTitle->holder = *titlesHistory.currentHolderIdMap[name];
+
+						auto liegePtr = *titlesHistory.currentLiegeIdMap[name];
+						//auto dfLiegeName = titlesHistory.currentLiegeIdMap[name]; // TODO
+						//if (dfLiegeName && )
 						if (vanillaHistory) countyTitle->historyString = *vanillaHistory;
 					}
 				}
 			}
-			titles.insert(std::pair(name, countyTitle));
+			landedTitles.foundTitles.insert(std::pair(name, *countyTitle));
 		}
 	}
 }
@@ -277,51 +281,42 @@ void CK3::World::linkCountiesToTitleHolders(const Imperator::World& impWorld)
 
 void CK3::World::importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld)
 {	
-	for (const auto& [name, landedTitle] : landedTitles.getFoundTitles())
+	for (const auto& [name, landedTitle] : landedTitles.foundTitles)
 	{
 		if (name.find("c_") != 0 && name.find("b_") != 0 ) // title is a duchy or higher
 		{
-			auto toInsert = true;
-			for (const auto& [vassalTitleName, deJureVassal] : landedTitle.getFoundTitles())
+			for (const auto& [vassalTitleName, deJureVassal] : landedTitle.foundTitles)
 			{
-				if (vassalTitleName.find("c_")==0 && titles.count(vassalTitleName)) // vassalTitle is a valid county
+				if (vassalTitleName.find("c_")==0 && landedTitles.foundTitles.count(vassalTitleName)) // vassalTitle is a valid county
 				{
-					auto countyHolder = titles[vassalTitleName]->holder;
+					auto countyHolder = landedTitles.foundTitles[vassalTitleName].holder;
 					countyHoldersCache.insert(countyHolder);
-					
-					// important check: if any of the title's de jure counties' holder is "0", don't insert the title
-					if (countyHolder == "0")
-					{
-						toInsert = false;
-						break;
-					}
 				}
 			}
 
-			if(toInsert)
-			{
-				auto vanillaTitle = std::make_shared<Title>();
-				vanillaTitle->titleName = name;
-				if (titlesHistory.currentHolderIdMap[name]) vanillaTitle->holder = *titlesHistory.currentHolderIdMap[name];
-				auto vanillaHistory = titlesHistory.popTitleHistory(name);
-				if (vanillaHistory) vanillaTitle->historyString = *vanillaHistory;
-				titles.insert(std::pair(name, vanillaTitle));
-			}
+			// insert the title
+			auto vanillaTitle = std::make_shared<Title>();
+			vanillaTitle->titleName = name;
+			if (titlesHistory.currentHolderIdMap[name]) vanillaTitle->holder = *titlesHistory.currentHolderIdMap[name];
+			//if (titlesHistory.currentLiegeIdMap[name]) vanillaTitle->deFactoLiege = *titlesHistory.currentLiegeIdMap[name]; // TODO
+			auto vanillaHistory = titlesHistory.popTitleHistory(name);
+			if (vanillaHistory) vanillaTitle->historyString = *vanillaHistory;
+			landedTitles.foundTitles.insert(std::pair(name, *vanillaTitle));
 		}
 	}
 }
 
 void CK3::World::removeInvalidLandlessTitles()
 {
-	for (const auto& [name, title] : titles)
+	for (const auto& [name, title] : getTitles())
 	{	//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
-		if (name.find("c_") != 0 && name.find("b_") != 0 && countyHoldersCache.find(title->holder) == countyHoldersCache.end())
+		if (name.find("c_") != 0 && name.find("b_") != 0 && countyHoldersCache.find(title.holder) == countyHoldersCache.end())
 		{
-			if (!landedTitles.getFoundTitles().find(name)->second.isLandless()) // does not have landless attribute set to true
+			if (!landedTitles.foundTitles[name].landless) // does not have landless attribute set to true
 			{
 				Log(LogLevel::Info) << "Removing landless title that can't be landless: " << name;
-				titles.erase(name);
+				landedTitles.foundTitles.erase(name);
 			}
 		}
 	}

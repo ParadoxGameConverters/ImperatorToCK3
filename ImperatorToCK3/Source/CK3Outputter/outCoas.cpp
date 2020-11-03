@@ -4,7 +4,7 @@
 #include "../CK3/Titles/Title.h"
 
 
-void CK3::outputCoas(const std::string& outputModName, const std::map<std::string, std::shared_ptr<Title>>& titles)
+void CK3::outputCoas(const std::string& outputModName, const std::map<std::string, Title>& titles)
 {
 	std::ofstream output("output/" + outputModName + "/common/coat_of_arms/coat_of_arms/fromImperator.txt"); // dumping all into one file
 	if (!output.is_open())
@@ -13,7 +13,7 @@ void CK3::outputCoas(const std::string& outputModName, const std::map<std::strin
 	
 	for (const auto& [titleName, title] : titles)
 	{
-		auto coa = title->coa;
+		auto coa = title.coa;
 		if (coa)
 			output << titleName << *coa << "\n";
 	}

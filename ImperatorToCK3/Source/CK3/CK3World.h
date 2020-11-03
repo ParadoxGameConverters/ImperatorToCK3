@@ -16,6 +16,9 @@
 #include "Province/CK3Province.h"
 #include "Titles/TitlesHistory.h"
 
+
+#include "Titles/Title.h"
+
 class Configuration;
 
 namespace CK3
@@ -27,20 +30,23 @@ class World
 		World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser);
 
 		[[nodiscard]] const auto& getCharacters() const { return characters; }
-		[[nodiscard]] const auto& getTitles() const { return titles; }
+		[[nodiscard]] const auto& getTitles() const { return landedTitles.foundTitles; }
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
 
 	private:
 		void importImperatorCharacters(const Imperator::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
 		void importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
-		void importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld);
-		void importImperatorCountries(const Imperator::World& impWorld);
-		void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country);
-		void importVanillaProvinces(const std::string& ck3Path);
-		void importImperatorProvinces(const Imperator::World& impWorld);
-		void linkCountiesToTitleHolders(const Imperator::World& impWorld);
 		void linkSpouses(const Imperator::World& impWorld);
 		void linkMothersAndFathers(const Imperator::World& impWorld);
+	
+		void importImperatorCountries(const Imperator::World& impWorld);
+		void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country);
+	
+		void importVanillaProvinces(const std::string& ck3Path);
+		void importImperatorProvinces(const Imperator::World& impWorld);
+
+		void importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld);
+		void linkCountiesToTitleHolders(const Imperator::World& impWorld);
 		void removeInvalidLandlessTitles();
 
 		[[nodiscard]] std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>>> determineProvinceSource(const std::vector<unsigned long long>& impProvinceNumbers,
@@ -48,7 +54,7 @@ class World
 
 
 		std::map<std::string, std::shared_ptr<Character>> characters;
-		std::map<std::string, std::shared_ptr<Title>> titles;
+		LandedTitles landedTitles;
 		std::map<unsigned long long, std::shared_ptr<Province>> provinces;
 
 		mappers::LocalizationMapper localizationMapper;
@@ -60,7 +66,6 @@ class World
 		mappers::TraitMapper traitMapper;
 		TitlesHistory titlesHistory;
 
-		LandedTitles landedTitles;
 
 		std::set<std::string> countyHoldersCache; // used by removeInvalidLandlessTitles
 };

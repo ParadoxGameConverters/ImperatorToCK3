@@ -5,6 +5,69 @@
 #include "../../Mappers/CoaMapper/CoaMapper.h"
 #include "../../Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Log.h"
+#include "ParserHelpers.h"
+
+
+void CK3::Title::loadTitles(std::istream& theStream)
+{
+	registerKeys();
+	parseStream(theStream);
+	clearRegisteredKeywords();
+}
+
+void CK3::Title::registerKeys()
+{
+	registerRegex(R"((k|d|c|b)_[A-Za-z0-9_\-\']+)", [this](const std::string& titleNameStr, std::istream& theStream) {
+		// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
+		auto newTitle = Title();
+		newTitle.loadTitles(theStream);
+
+		if (titleNameStr.find("b_") == 0 && capitalBarony.empty()) // title is a barony, and no other barony has been found in the liege county scope yet
+		{
+			capitalBarony = titleNameStr;
+		}
+		for (auto& [locatedTitleName, locatedTitle] : newTitle.foundTitles)
+		{
+			if (titleNameStr.find("c_") == 0) // has county prefix = is a county
+			{
+				auto baronyProvince = locatedTitle.getProvince();
+				if (baronyProvince)
+				{
+					if (locatedTitleName == newTitle.capitalBarony) newTitle.capitalBaronyProvince = *baronyProvince;
+					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to countyProvinces
+				}
+			}
+			foundTitles[locatedTitleName] = locatedTitle;
+
+			locatedTitle.deJureLiege = std::make_shared<Title>(newTitle);
+			newTitle.deJureVassals.insert(std::make_shared<Title>(locatedTitle));
+		}
+
+		// And then add this one as well, overwriting existing.
+		foundTitles[titleNameStr] = newTitle;
+		});
+	registerKeyword("definite_form", [this](const std::string& unused, std::istream& theStream) {
+		definiteForm = commonItems::singleString(theStream).getString() == "yes";
+		});
+	registerKeyword("landless", [this](const std::string& unused, std::istream& theStream) {
+		landless = commonItems::singleString(theStream).getString() == "yes";
+		});
+	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
+		color = laFabricaDeColor.getColor(theStream);
+		});
+	registerKeyword("capital", [this](const std::string& unused, std::istream& theStream) {
+		capital = std::make_pair(commonItems::singleString(theStream).getString(), nullptr);
+		});
+	registerKeyword("province", [this](const std::string& unused, std::istream& theStream) {
+		province = commonItems::singleULlong(theStream).getULlong();
+		});
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+}
+
+
+
+
+
 
 void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& landedTitles, mappers::ProvinceMapper& provinceMapper,
 	mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper)
@@ -36,10 +99,6 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 
 
 	// ------------------ determine other attributes
-	
-	if (historyCountryFile.empty())
-		historyCountryFile = "history/titles/" + titleName + ".txt";
-
 
 	if (imperatorCountry->getMonarch()) holder = "imperator" + std::to_string(*imperatorCountry->getMonarch());
 

@@ -21,6 +21,7 @@ public:
 	explicit DatedHistoryEntry(std::istream& theStream);
 
 	std::optional<std::string> holder;
+	std::optional<std::string> liege;
 
 private:
 	void registerKeys();
@@ -36,7 +37,8 @@ public:
 	TitleHistory() = default;
 	explicit TitleHistory(std::istream& theStream);
 
-	std::pair<date, DatedHistoryEntry> currentHolderEntryWithDate = { date(1,1,1), DatedHistoryEntry()}; // entry with the closest date <= 867.1.1
+	std::pair<date, std::optional<std::string>> currentHolderWithDate = { date(1,1,1), std::nullopt}; // from entry with the closest date <= 867.1.1
+	std::pair<date, std::optional<std::string>> currentLiegeWithDate = { date(1,1,1), std::nullopt}; // from entry with the closest date <= 867.1.1
 private:
 	void registerKeys();
 }; // class TitleHistory
@@ -54,6 +56,7 @@ public:
 
 	[[nodiscard]] std::optional<std::string> popTitleHistory(const std::string& titleName); // "pop" as from stack, not Imperator Pop ;)
 	std::map<std::string, std::optional<std::string>> currentHolderIdMap; // value is nullopt only when there is no holder registered before or at CK3 start date
+	std::map<std::string, std::optional<std::string>> currentLiegeIdMap; // value is nullopt only when there is no liege registered before or at CK3 start date
 
 private:
 	void registerKeys();

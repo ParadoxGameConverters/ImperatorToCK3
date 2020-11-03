@@ -17,7 +17,7 @@ namespace mappers
 namespace CK3
 {
 class Province;
-class Title
+class Title: commonItems::parser
 {
   public:
 	Title() = default;
@@ -31,8 +31,7 @@ class Title
 
 	bool generated = false;
 	std::string holder = "0";
-	std::string titleName; // e.g. e_hispania
-	std::string historyCountryFile;
+	std::string titleName; // e.g. d_latium
 	std::map<std::string, mappers::LocBlock> localizations;
 	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;
@@ -44,6 +43,31 @@ class Title
 
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
+	// =========================================================================================================
+	// taken from LandedTitles
+
+	void loadTitles(std::istream& theStream);
+
+	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.insert(provinceId); }
+	
+	[[nodiscard]] const auto& getProvince() const { return province; } // for barony titles
+	[[nodiscard]] const auto& getCountyProvinces() const { return countyProvinces; } // county titles
+	
+	bool definiteForm = false;
+	bool landless = false;
+	std::optional<commonItems::Color> color;
+	std::string capitalBarony; // used for county titles only; used when parsing inside county to save first barony
+	std::pair<std::string, std::shared_ptr<Title>> capital;	// Capital county
+
+	std::map<std::string, Title> foundTitles;			// title name, title
+
+	unsigned long long capitalBaronyProvince = 0;	// Capital barony (for counties), 0 is not a valid barony ID
+
+	std::shared_ptr<Title> deFactoLiege; // direct de facto liege title name, e.g. e_hispania
+	std::shared_ptr<Title> deJureLiege; // direct de jure liege title name, e.g. e_hispania
+	std::set<std::shared_ptr<Title>> deJureVassals; // DIRECT de jure vassals (NOT the same as foundTitles, which stores direct and INDIRECT de jure vassals)
+	
+
   private:
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
 	
@@ -51,6 +75,13 @@ class Title
 	std::optional<commonItems::Color> color2;
 
 	std::map<unsigned long long, std::shared_ptr<Province>> provinces;
+
+	// =========================================================================================================
+	// taken from LandedTitles
+	void registerKeys();
+	std::optional<unsigned long long> province; // used for barony titles only; province is area on map. b_ barony is its corresponding title.
+	std::set<unsigned long long> countyProvinces;
+
 };
 } // namespace CK3
 
