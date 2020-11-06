@@ -12,12 +12,10 @@
 #include "../Mappers/CoaMapper/CoaMapper.h"
 #include "../Mappers/TraitMapper/TraitMapper.h"
 #include "Character/CK3Character.h"
-#include "Titles/LandedTitles.h"
 #include "Province/CK3Province.h"
-#include "Titles/TitlesHistory.h"
-
-
+#include "Titles/LandedTitles.h"
 #include "Titles/Title.h"
+#include "Titles/TitlesHistory.h"
 
 class Configuration;
 
