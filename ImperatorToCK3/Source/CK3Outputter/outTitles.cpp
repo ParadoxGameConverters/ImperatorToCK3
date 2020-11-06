@@ -45,7 +45,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 
 			// output the kingdom's history
 			historyOutput << name << " = {\n";
-			if (title->holder == "0") historyOutput << "\t" << title->historyString << "\n";
+			if (title->holder == "0") historyOutput << "\t1.1.1 = { holder = 0 }\n";
 			else
 			{
 				historyOutput << "\t867.1.1 = {\n";
@@ -60,7 +60,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 			for (const auto& [deJureVassalName, deJureVassal] : title->getDeJureVassalsAndBelow())
 			{
 				historyOutput << deJureVassalName << " = {\n";
-				if (deJureVassal->holder == "0") historyOutput << "\t" << deJureVassal->historyString << "\n";
+				if (deJureVassal->holder == "0") historyOutput << "\t1.1.1 = { holder = 0 }\n";
 				else
 				{
 					historyOutput << "\t867.1.1 = {\n";
@@ -84,7 +84,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 		if (alreadyOutputtedTitles.find(name) == alreadyOutputtedTitles.end())
 		{
 			historyOutput << name << " = {\n";
-			if (title->holder == "0") historyOutput << "\t" << title->historyString << "\n";
+			if (title->holder == "0") historyOutput << "\t1.1.1 = { holder = 0 }\n";
 			else
 			{
 				historyOutput << "\t867.1.1 = {\n";
