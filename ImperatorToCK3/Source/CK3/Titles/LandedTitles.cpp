@@ -68,10 +68,10 @@ std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigne
 }
 
 
-void CK3::LandedTitles::insertTitle(std::shared_ptr<Title>& title)
+void CK3::LandedTitles::insertTitle(const std::shared_ptr<Title>& title)
 {
 	if (!title->titleName.empty()) foundTitles[title->titleName] = title;
-	else Log(LogLevel::Warning) << "Inserting title with empty name!";
+	else Log(LogLevel::Warning) << "Not inserting a title with empty name!";
 }
 void CK3::LandedTitles::eraseTitle(const std::string& name)
 {

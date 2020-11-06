@@ -13,7 +13,7 @@ class LandedTitles: commonItems::parser
 	void loadTitles(const std::string& fileName);
 	void loadTitles(std::istream& theStream);
 
-	void insertTitle(std::shared_ptr<Title>& title);
+	void insertTitle(const std::shared_ptr<Title>& title);
 	void eraseTitle(const std::string& name);
 
 	[[nodiscard]] const auto& getTitles() const { return foundTitles; }
