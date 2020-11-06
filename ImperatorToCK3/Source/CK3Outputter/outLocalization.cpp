@@ -43,7 +43,7 @@ void CK3::outputLocalization(const std::string& imperatorPath, const std::string
 	// title localization
 	for (const auto& [unused, title] : CK3World.getTitles())
 	{
-		for (const auto& [key, loc] : title.localizations)
+		for (const auto& [key, loc] : title->localizations)
 		{
 			english << " " << key << ": \"" << loc.english << "\"\n";
 			french << " " << key << ": \"" << loc.french << "\"\n";

@@ -3,8 +3,6 @@
 
 #include "Color.h"
 #include "Parser.h"
-#include <set>
-extern commonItems::Color::Factory laFabricaDeColor;
 
 namespace CK3
 {
@@ -15,14 +13,19 @@ class LandedTitles: commonItems::parser
 	void loadTitles(const std::string& fileName);
 	void loadTitles(std::istream& theStream);
 
+	void insertTitle(std::shared_ptr<Title>& title);
+	void eraseTitle(const std::string& name);
+	
 
+	[[nodiscard]] const auto& getTitles() const { return foundTitles; }
 	[[nodiscard]] std::optional<std::string> getCountyForProvince(unsigned long long provinceID);
-	std::map<std::string, Title> foundTitles;			// title name, title
 
 	
 
   private:
-	  void registerKeys();
+	void registerKeys();
+	
+	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title
 
 	
 };

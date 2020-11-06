@@ -1,4 +1,5 @@
 #include "Title.h"
+#include "LandedTitles.h"
 #include "../../Imperator/Characters/Character.h"
 #include "../../Imperator/Countries/Country.h"
 #include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
@@ -19,32 +20,37 @@ void CK3::Title::registerKeys()
 {
 	registerRegex(R"((k|d|c|b)_[A-Za-z0-9_\-\']+)", [this](const std::string& titleNameStr, std::istream& theStream) {
 		// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-		auto newTitle = Title();
-		newTitle.loadTitles(theStream);
-
-		if (titleNameStr.find("b_") == 0 && capitalBarony.empty()) // title is a barony, and no other barony has been found in the liege county scope yet
+		auto newTitle = std::make_shared<Title>(titleNameStr);
+		newTitle->loadTitles(theStream);
+		
+		if (newTitle->titleName.find("b_") == 0 && capitalBarony.empty()) // title is a barony, and no other barony has been found in this scope yet
 		{
-			capitalBarony = titleNameStr;
+			capitalBarony = newTitle->titleName;
 		}
-		for (auto& [locatedTitleName, locatedTitle] : newTitle.foundTitles)
+		
+		for (auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
 		{
-			if (titleNameStr.find("c_") == 0) // has county prefix = is a county
+			if (newTitle->titleName.find("c_") == 0) // has county prefix = is a county
 			{
-				auto baronyProvince = locatedTitle.getProvince();
+				auto baronyProvince = locatedTitle->getProvince();
 				if (baronyProvince)
 				{
-					if (locatedTitleName == newTitle.capitalBarony) newTitle.capitalBaronyProvince = *baronyProvince;
-					newTitle.countyProvinces.insert(*baronyProvince); // add found baronies' provinces to countyProvinces
+					if (locatedTitleName == newTitle->capitalBarony)
+					{
+						newTitle->capitalBaronyProvince = *baronyProvince;
+					}
+					newTitle->addCountyProvince(*baronyProvince); // add found baronies' provinces to countyProvinces
 				}
 			}
 			foundTitles[locatedTitleName] = locatedTitle;
-
-			locatedTitle.deJureLiege = std::make_shared<Title>(newTitle);
-			newTitle.deJureVassals.insert(std::make_shared<Title>(locatedTitle));
+			if (!foundTitles[locatedTitleName]->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
+				foundTitles[locatedTitleName]->setDeJureLiege(newTitle);
 		}
+		// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
+		newTitle->foundTitles.clear();
 
 		// And then add this one as well, overwriting existing.
-		foundTitles[titleNameStr] = newTitle;
+		foundTitles[newTitle->titleName] = newTitle;
 		});
 	registerKeyword("definite_form", [this](const std::string& unused, std::istream& theStream) {
 		definiteForm = commonItems::singleString(theStream).getString() == "yes";
@@ -194,4 +200,54 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 	// giving up.
 	if (!adjSet)
 		Log(LogLevel::Warning) << titleName << " help with localization for adjective! " << imperatorCountry->getName() << "_adj?";
+}
+
+
+void CK3::Title::setDeJureLiege(const std::shared_ptr<Title>& liegeTitle)
+{
+	deJureLiege = liegeTitle;
+	if (deJureLiege) liegeTitle->deJureVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
+}
+
+void CK3::Title::setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle)
+{
+	deFactoLiege = liegeTitle;
+	if (deFactoLiege) liegeTitle->deFactoVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
+}
+
+
+std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeJureVassalsAndBelow(const std::string& rankFilter) const
+{
+	std::map<std::string, std::shared_ptr<Title>> deJureVassalsAndBelow;
+	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals)
+	{
+		// add the direct part
+		if (vassalTitleName.find_first_of(rankFilter)==0) deJureVassalsAndBelow[vassalTitleName] = vassalTitle;
+
+		// add the "below" part (recursive)
+		auto belowTitles = vassalTitle->getDeJureVassalsAndBelow(rankFilter);
+		for (auto& [belowTitleName, belowTitle] : belowTitles)
+		{
+			if (belowTitleName.find_first_of(rankFilter) == 0) deJureVassalsAndBelow[belowTitleName] = belowTitle;
+		}
+	}
+	return deJureVassalsAndBelow;
+}
+
+std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassalsAndBelow(const std::string& rankFilter) const
+{
+	std::map<std::string, std::shared_ptr<Title>> deFactoVassalsAndBelow;
+	for (const auto& [vassalTitleName, vassalTitle] : deFactoVassals)
+	{
+		// add the direct part
+		if (vassalTitleName.find_first_of(rankFilter) == 0) deFactoVassalsAndBelow[vassalTitleName] = vassalTitle;
+
+		// add the "below" part (recursive)
+		auto belowTitles = vassalTitle->getDeFactoVassalsAndBelow(rankFilter);
+		for (auto& [belowTitleName, belowTitle] : belowTitles)
+		{
+			if (belowTitleName.find_first_of(rankFilter) == 0) deFactoVassalsAndBelow[belowTitleName] = belowTitle;
+		}
+	}
+	return deFactoVassalsAndBelow;
 }

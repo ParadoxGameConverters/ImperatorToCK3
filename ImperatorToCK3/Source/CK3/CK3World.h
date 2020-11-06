@@ -30,7 +30,7 @@ class World
 		World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser);
 
 		[[nodiscard]] const auto& getCharacters() const { return characters; }
-		[[nodiscard]] const auto& getTitles() const { return landedTitles.foundTitles; }
+		[[nodiscard]] const auto& getTitles() const { return landedTitles.getTitles(); }
 		[[nodiscard]] const auto& getProvinces() const { return provinces; }
 
 	private:
@@ -45,7 +45,7 @@ class World
 		void importVanillaProvinces(const std::string& ck3Path);
 		void importImperatorProvinces(const Imperator::World& impWorld);
 
-		void importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld);
+		void vanillaNonCountyNonBaronyTitlesDetails(const Imperator::World& impWorld);
 		void linkCountiesToTitleHolders(const Imperator::World& impWorld);
 		void removeInvalidLandlessTitles();
 

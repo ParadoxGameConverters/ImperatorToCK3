@@ -50,7 +50,7 @@ TEST(CK3World_TitleTests, membersDefaultToBlank)
 	std::stringstream input;
 	const CK3::Title theTitle;
 
-	ASSERT_TRUE(theTitle.titleName.empty());
+	ASSERT_TRUE(theTitle.getName().empty());
 	ASSERT_TRUE(theTitle.localizations.empty());
 	ASSERT_FALSE(theTitle.coa);
 	ASSERT_FALSE(theTitle.capitalCounty);
@@ -64,3 +64,10 @@ TEST(CK3World_TitleTests, holderDefaultsTo0String)
 	ASSERT_EQ("0", theTitle.holder);
 }
 
+TEST(CK3World_TitleTests, capitalBaronyDefaultsToNullopt)
+{
+	std::stringstream input;
+	const CK3::Title theTitle = {};
+
+	ASSERT_FALSE(theTitle.capitalBaronyProvince);
+}

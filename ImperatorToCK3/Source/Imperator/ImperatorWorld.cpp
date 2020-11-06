@@ -63,7 +63,7 @@ Imperator::World::World(const Configuration& theConfiguration)
 	registerKeyword("country", [this](const std::string& unused, std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Countries";
 		countries = CountriesBloc(theStream).getCountriesFromBloc();
-		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.   ";
+		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.";
 	});
 
 	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {

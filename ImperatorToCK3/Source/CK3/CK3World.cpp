@@ -43,7 +43,7 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 
 	
 	linkCountiesToTitleHolders(impWorld);
-	importVanillaNonCountyNonBaronyTitles(impWorld);
+	vanillaNonCountyNonBaronyTitlesDetails(impWorld);
 	removeInvalidLandlessTitles();
 }
 
@@ -85,7 +85,7 @@ void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std:
 	auto newTitle = std::make_shared<Title>();
 	newTitle->initializeFromTag(country.second, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper);
 	country.second->registerCK3Title(newTitle);
-	landedTitles.foundTitles.insert(std::pair(newTitle->titleName, *newTitle));
+	landedTitles.insertTitle(newTitle);
 }
 
 
@@ -240,68 +240,62 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 
 void CK3::World::linkCountiesToTitleHolders(const Imperator::World& impWorld)
 {
-	for (const auto& [name, landedTitle] : landedTitles.foundTitles)
+	for (const auto& [name, title] : getTitles())
 	{
-		if (name.find("c_")==0) // title is a county
+		if (name.find("c_")==0 && title->capitalBaronyProvince > 0) // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
 		{
-			auto countyTitle = std::make_shared<Title>();
-			countyTitle->titleName = name;
-			const auto capitalBaronyProvince = landedTitle.capitalBaronyProvince;
-
-			if (capitalBaronyProvince >0) // 0 is not a valid province in CK3
-			{
-				if (provinces.find(capitalBaronyProvince)==provinces.end())
-					LOG(LogLevel::Warning) << "Capital barony province not found " << capitalBaronyProvince;
+				if (provinces.find(title->capitalBaronyProvince)==provinces.end())
+					LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
 				else
 				{
-					auto impProvince = provinces.find(capitalBaronyProvince)->second->srcProvince;
+					auto impProvince = provinces.find(title->capitalBaronyProvince)->second->srcProvince;
 					if (impProvince)
 					{
 						std::optional<unsigned long long> impMonarch;
 						if (impWorld.getCountries().find(impProvince->getOwner()) != impWorld.getCountries().end()) impMonarch = impWorld.getCountries().find(impProvince->getOwner())->second->getMonarch();
-						if (impMonarch) countyTitle->holder = "imperator" + std::to_string(*impMonarch);
+						if (impMonarch)
+						{
+							title->holder = "imperator" + std::to_string(*impMonarch);
+							countyHoldersCache.insert(title->holder);
+						}
 					}
 					else // county is probably outside of Imperator map
 					{
 						auto vanillaHistory = titlesHistory.popTitleHistory(name);
-						if (titlesHistory.currentHolderIdMap[name]) countyTitle->holder = *titlesHistory.currentHolderIdMap[name];
+						if (titlesHistory.currentHolderIdMap[name])
+						{
+							title->holder = *titlesHistory.currentHolderIdMap[name];
+							countyHoldersCache.insert(title->holder);
+						}
 
 						auto liegePtr = *titlesHistory.currentLiegeIdMap[name];
-						//auto dfLiegeName = titlesHistory.currentLiegeIdMap[name]; // TODO
-						//if (dfLiegeName && )
-						if (vanillaHistory) countyTitle->historyString = *vanillaHistory;
+						const auto dfLiegeName = titlesHistory.currentLiegeIdMap[name];
+						if (dfLiegeName && getTitles().find(*dfLiegeName) != getTitles().end())
+							title->setDeFactoLiege(getTitles().find(*dfLiegeName)->second);
+							
+						if (vanillaHistory) title->historyString = *vanillaHistory;
 					}
 				}
-			}
-			landedTitles.foundTitles.insert(std::pair(name, *countyTitle));
 		}
 	}
 }
 
 
-void CK3::World::importVanillaNonCountyNonBaronyTitles(const Imperator::World& impWorld)
+void CK3::World::vanillaNonCountyNonBaronyTitlesDetails(const Imperator::World& impWorld)
 {	
-	for (const auto& [name, landedTitle] : landedTitles.foundTitles)
+	for (const auto& [name, landedTitle] : getTitles())
 	{
 		if (name.find("c_") != 0 && name.find("b_") != 0 ) // title is a duchy or higher
 		{
-			for (const auto& [vassalTitleName, deJureVassal] : landedTitle.foundTitles)
-			{
-				if (vassalTitleName.find("c_")==0 && landedTitles.foundTitles.count(vassalTitleName)) // vassalTitle is a valid county
-				{
-					auto countyHolder = landedTitles.foundTitles[vassalTitleName].holder;
-					countyHoldersCache.insert(countyHolder);
-				}
-			}
-
-			// insert the title
-			auto vanillaTitle = std::make_shared<Title>();
-			vanillaTitle->titleName = name;
-			if (titlesHistory.currentHolderIdMap[name]) vanillaTitle->holder = *titlesHistory.currentHolderIdMap[name];
-			//if (titlesHistory.currentLiegeIdMap[name]) vanillaTitle->deFactoLiege = *titlesHistory.currentLiegeIdMap[name]; // TODO
+			// update title details
+			if (titlesHistory.currentHolderIdMap[name]) landedTitle->holder = *titlesHistory.currentHolderIdMap[name];
+			
+			const auto dfLiegeName = titlesHistory.currentLiegeIdMap[name];
+			if (dfLiegeName && getTitles().find(*dfLiegeName) != getTitles().end())
+				landedTitle->setDeFactoLiege(getTitles().find(*dfLiegeName)->second);
+			
 			auto vanillaHistory = titlesHistory.popTitleHistory(name);
-			if (vanillaHistory) vanillaTitle->historyString = *vanillaHistory;
-			landedTitles.foundTitles.insert(std::pair(name, *vanillaTitle));
+			if (vanillaHistory) landedTitle->historyString = *vanillaHistory;
 		}
 	}
 }
@@ -311,12 +305,15 @@ void CK3::World::removeInvalidLandlessTitles()
 	for (const auto& [name, title] : getTitles())
 	{	//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
-		if (name.find("c_") != 0 && name.find("b_") != 0 && countyHoldersCache.find(title.holder) == countyHoldersCache.end())
+		if (name.find("c_") != 0 && name.find("b_") != 0 && countyHoldersCache.find(title->holder) == countyHoldersCache.end())
 		{
-			if (!landedTitles.foundTitles[name].landless) // does not have landless attribute set to true
+			if (!getTitles().find(name)->second->landless) // does not have landless attribute set to true
 			{
-				Log(LogLevel::Info) << "Removing landless title that can't be landless: " << name;
-				landedTitles.foundTitles.erase(name);
+				Log(LogLevel::Info) << "Found landless title that can't be landless: " << name;
+				if (title->generated)
+					landedTitles.eraseTitle(name);
+				else
+					title->holder = "0";
 			}
 		}
 	}
