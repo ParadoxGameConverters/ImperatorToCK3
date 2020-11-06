@@ -15,19 +15,14 @@ class LandedTitles: commonItems::parser
 
 	void insertTitle(std::shared_ptr<Title>& title);
 	void eraseTitle(const std::string& name);
-	
 
 	[[nodiscard]] const auto& getTitles() const { return foundTitles; }
 	[[nodiscard]] std::optional<std::string> getCountyForProvince(unsigned long long provinceID);
-
-	
 
   private:
 	void registerKeys();
 	
 	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title
-
-	
 };
 } // namespace CK3
 
