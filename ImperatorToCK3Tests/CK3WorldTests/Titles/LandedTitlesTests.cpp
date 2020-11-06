@@ -38,12 +38,12 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeLoadedRecursively)
 	CK3::LandedTitles titles;
 	titles.loadTitles(input);
 
-	//const auto& barony = titles.getTitles().find("b_barony4");
-	//const auto& county = titles.getTitles().find("c_county5");
+	const auto& barony = titles.getTitles().find("b_barony4");
+	const auto& county = titles.getTitles().find("c_county5");
 
 	ASSERT_EQ(5, titles.getTitles().size());
-	//ASSERT_EQ(12, barony->second->getProvince());
-	//ASSERT_TRUE(county->second->landless);
+	ASSERT_EQ(12, barony->second->getProvince());
+	ASSERT_TRUE(county->second->landless);
 }
 
 TEST(CK3World_LandedTitlesTests, titlesCanBeOverriddenByMods)
