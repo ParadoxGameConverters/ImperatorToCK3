@@ -24,14 +24,14 @@ void CK3::Title::registerKeys()
 		auto newTitle = std::make_shared<Title>(titleNameStr);
 		newTitle->loadTitles(theStream);
 		
-		if (newTitle->titleName.find("b_") == 0 && capitalBarony.empty()) // title is a barony, and no other barony has been found in this scope yet
+		if (newTitle->titleName.starts_with("b_") && capitalBarony.empty()) // title is a barony, and no other barony has been found in this scope yet
 		{
 			capitalBarony = newTitle->titleName;
 		}
 		
 		for (auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
 		{
-			if (newTitle->titleName.find("c_") == 0) // has county prefix = is a county
+			if (newTitle->titleName.starts_with("c_")) // has county prefix = is a county
 			{
 				auto baronyProvince = locatedTitle->getProvince();
 				if (baronyProvince)
@@ -223,7 +223,7 @@ std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeJureVassalsA
 	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals)
 	{
 		// add the direct part
-		if (vassalTitleName.find_first_of(rankFilter)==0) deJureVassalsAndBelow[vassalTitleName] = vassalTitle;
+		if (vassalTitleName.find_first_of(rankFilter) == 0) deJureVassalsAndBelow[vassalTitleName] = vassalTitle;
 
 		// add the "below" part (recursive)
 		auto belowTitles = vassalTitle->getDeJureVassalsAndBelow(rankFilter);
@@ -259,7 +259,7 @@ void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& tit
 		holder = *currentHolder;
 
 	const auto dfLiegeName = titlesHistory.currentLiegeIdMap[titleName];
-	if (dfLiegeName && landedTitles.getTitles().find(*dfLiegeName) != landedTitles.getTitles().end())
+	if (dfLiegeName && landedTitles.getTitles().contains(*dfLiegeName))
 		setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
 	
 	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName); vanillaHistory)
