@@ -123,7 +123,7 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	{
 		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(*srcCapital);
 		if (!provMappingsForImperatorCapital.empty())
-			capitalCounty = landedTitles.getCountyForProvince(provMappingsForImperatorCapital[0]);
+			capitalCounty = landedTitles.getCountyForProvince(provMappingsForImperatorCapital.at(0));
 	}
 	
 
@@ -255,10 +255,10 @@ std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassals
 
 void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory)
 {
-	if (const auto currentHolder = titlesHistory.currentHolderIdMap[titleName]; currentHolder)
+	if (const auto currentHolder = titlesHistory.currentHolderIdMap.at(titleName); currentHolder)
 		holder = *currentHolder;
 
-	const auto dfLiegeName = titlesHistory.currentLiegeIdMap[titleName];
+	const auto dfLiegeName = titlesHistory.currentLiegeIdMap.at(titleName);
 	if (dfLiegeName && landedTitles.getTitles().contains(*dfLiegeName))
 		setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
 	

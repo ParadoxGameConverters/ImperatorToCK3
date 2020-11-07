@@ -219,7 +219,7 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 	maxDev = -1; // We can have winning provinces with weight = 0;
 
 	std::pair<unsigned long long, std::shared_ptr<Imperator::Province>> toReturn;
-	for (const auto& province : theClaims[*winner])
+	for (const auto& province : theClaims.at(*winner))
 	{
 		const auto provinceWeight = province->getBuildingsCount() + province->getPopCount();
 

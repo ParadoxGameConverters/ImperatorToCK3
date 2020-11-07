@@ -44,8 +44,8 @@ void CK3::LandedTitles::registerKeys()
 				}
 			}
 			foundTitles[locatedTitleName] = locatedTitle;
-			if (!foundTitles[locatedTitleName]->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
-				foundTitles[locatedTitleName]->setDeJureLiege(newTitle);
+			if (!foundTitles.at(locatedTitleName)->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
+				foundTitles.at(locatedTitleName)->setDeJureLiege(newTitle);
 		}
 		// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
 		newTitle->foundTitles.clear();
