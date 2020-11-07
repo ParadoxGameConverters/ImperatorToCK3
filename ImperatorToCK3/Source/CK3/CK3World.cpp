@@ -266,7 +266,7 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 				}
 			}
 		}
-		else if (name.find("c_") != 0 && name.find("b_") != 0) // title is a duchy or higher
+		else if (!name.starts_with("c_") && !name.starts_with("b_")) // title is a duchy or higher
 		{
 			// update title holder, liege and history
 			title->addHistory(landedTitles, titlesHistory);
