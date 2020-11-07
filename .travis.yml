@@ -9,8 +9,8 @@ addons:
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
     packages:
-      - gcc-9
-      - g++-9
+      - gcc-10
+      - g++-10
       - cmake
       - cmake-data
 before_install:
@@ -26,8 +26,8 @@ before_script:
   - sudo apt-get install libwxbase3.1-0-unofficial3 libwxbase3.1unofficial3-dev libwxgtk3.1-0-unofficial3 libwxgtk3.1unofficial3-dev wx3.1-headers wx-common
 script:
   # Export CC and CXX to tell cmake which compiler to use
-  - export CC=/usr/bin/gcc-9
-  - export CXX=/usr/bin/g++-9
+  - export CC=/usr/bin/gcc-10
+  - export CXX=/usr/bin/g++-10
   # Check versions of gcc, g++ and cmake
   - gcc -v && g++ -v && cmake --version
   # Run your build commands next
