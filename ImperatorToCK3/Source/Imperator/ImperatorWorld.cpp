@@ -1,5 +1,4 @@
 #include "ImperatorWorld.h"
-#include "CommonFunctions.h"
 #include "GameVersion.h"
 #include "../Configuration/Configuration.h"
 #include "../Helpers/rakaly_wrapper.h"
@@ -64,7 +63,7 @@ Imperator::World::World(const Configuration& theConfiguration)
 	registerKeyword("country", [this](const std::string& unused, std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Countries";
 		countries = CountriesBloc(theStream).getCountriesFromBloc();
-		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.   ";
+		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.";
 	});
 
 	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {

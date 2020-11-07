@@ -34,7 +34,8 @@ void CK3::TitlesHistory::TitlesHistory::registerKeys()
 		if (historyItem.find('{') != std::string::npos)
 		{
 			const auto titleHistory = TitleHistory(tempStream);
-			currentHolderIdMap[titleName] = titleHistory.currentHolderEntryWithDate.second.holder;
+			currentHolderIdMap[titleName] = titleHistory.currentHolderWithDate.second;
+			currentLiegeIdMap[titleName] = titleHistory.currentLiegeWithDate.second;
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -63,8 +64,10 @@ void CK3::TitleHistory::TitleHistory::registerKeys()
 {
 	registerRegex(R"(\d+[.]\d+[.]\d+)", [this](const std::string& dateStr, std::istream& theStream) {
 		auto historyEntry = DatedHistoryEntry(theStream);
-		if (date(dateStr) >= currentHolderEntryWithDate.first && date(dateStr) <= date(867, 1, 1) && historyEntry.holder)
-			currentHolderEntryWithDate = std::pair(date(dateStr), historyEntry);
+		if (date(dateStr) >= currentHolderWithDate.first && date(dateStr) <= date(867, 1, 1) && historyEntry.holder)
+			currentHolderWithDate = std::pair(date(dateStr), *historyEntry.holder);
+		if (date(dateStr) >= currentLiegeWithDate.first && date(dateStr) <= date(867, 1, 1) && historyEntry.liege)
+			currentLiegeWithDate = std::pair(date(dateStr), *historyEntry.liege);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
@@ -81,6 +84,9 @@ void CK3::DatedHistoryEntry::DatedHistoryEntry::registerKeys()
 {
 	registerKeyword("holder", [this](const std::string& unused, std::istream& theStream) {
 		holder = commonItems::singleString(theStream).getString();
+	});
+	registerKeyword("liege", [this](const std::string& unused, std::istream& theStream) {
+		liege = commonItems::singleString(theStream).getString();
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

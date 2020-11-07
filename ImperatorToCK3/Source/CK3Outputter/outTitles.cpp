@@ -5,6 +5,63 @@
 #include "../commonItems/CommonFunctions.h"
 
 
+void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream& outputStream)
+{
+	outputStream << title->getName() << " = {\n";
+	if (title->holder == "0") outputStream << "\t1.1.1 = { holder = 0 }\n";
+	else
+	{
+		outputStream << "\t867.1.1 = {\n";
+		if (title->getDeFactoLiege()) outputStream << "\t\tliege = " << title->getDeFactoLiege()->getName() << "\n";
+		outputStream << "\t\tholder = " << title->holder << "\n";
+		outputStream << "\t}\n";
+	}
+	outputStream << "}\n";
+}
+
+void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<std::string, std::shared_ptr<Title>>& titles)
+{
+	//output title history
+	std::set<std::string> alreadyOutputtedTitles;
+	for (const auto& [name, title] : titles) // first output kindoms + their de jure vassals to files named after the kingdoms
+	{
+		if (name.find("k_") == 0 && !title->getDeJureVassals().empty()) // is a de jure kingdom
+		{
+			std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/" + name + ".txt");
+			if (!historyOutput.is_open())
+				throw std::runtime_error(
+					"Could not create title history file: output/" + outputModName + "/history/titles/replace/" + name + ".txt");
+
+			// output the kingdom's history
+			outputTitleHistory(title, historyOutput);
+			alreadyOutputtedTitles.insert(name);
+
+			// output the kingdom's de jure vassals' history
+			for (const auto& [deJureVassalName, deJureVassal] : title->getDeJureVassalsAndBelow())
+			{
+				outputTitleHistory(deJureVassal, historyOutput);
+				alreadyOutputtedTitles.insert(deJureVassalName);
+			}
+
+			historyOutput.close();
+		}
+	}
+
+	std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
+	if (!historyOutput.is_open())
+		throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
+	for (const auto& [name, title] : titles) // output the remaining titles
+	{
+		if (!alreadyOutputtedTitles.count(name))
+		{
+			outputTitleHistory(title, historyOutput);
+			alreadyOutputtedTitles.insert(name);
+		}
+	}
+	historyOutput.close();
+}
+
+
 void CK3::outputTitles(const std::string& outputModName, const std::string& ck3Path, const std::map<std::string, std::shared_ptr<Title>>& titles)
 {
 	// blank all title history files from vanilla
@@ -20,7 +77,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 		if (title->imperatorCountry && title->imperatorCountry->getCountryType() != Imperator::countryTypeEnum::real) // we don't need pirates, barbarians etc.
 			continue;
 		
-		if (title->generated) // title is not a county
+		if (title->generated) // title is not from CK3
 		{
 			std::ofstream output("output/" + outputModName + "/common/landed_titles/" + name + ".txt");
 			if (!output.is_open())
@@ -30,19 +87,8 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 			output << *title;
 			output.close();
 		}
-		
-
-		//output title history
-		std::ofstream historyOutput("output/" + outputModName + "/history/titles/history_" + name + ".txt");
-		if (!historyOutput.is_open())
-			throw std::runtime_error(
-				"Could not create title history file: output/" + outputModName + "/history/titles/history_" + name + ".txt");
-		historyOutput << name << " = {\n";
-
-		if (title->holder == "0") historyOutput << "\t" << title->historyString << "\n";
-		else historyOutput << "\t867.1.1 = { holder = " << title->holder << " }\n";
-		
-		historyOutput << "}\n";
-		historyOutput.close();
 	}
+
+	outputTitlesHistory(outputModName, titles);
 }
+

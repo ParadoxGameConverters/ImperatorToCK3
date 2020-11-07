@@ -1,6 +1,5 @@
 #ifndef IMPERATOR_POP_H
 #define IMPERATOR_POP_H
-#include "Parser.h"
 
 namespace Imperator
 {
