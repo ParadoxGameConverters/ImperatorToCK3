@@ -1,5 +1,6 @@
 #include "Title.h"
 #include "LandedTitles.h"
+#include "TitlesHistory.h"
 #include "../../Imperator/Characters/Character.h"
 #include "../../Imperator/Countries/Country.h"
 #include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
@@ -250,4 +251,17 @@ std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassals
 		}
 	}
 	return deFactoVassalsAndBelow;
+}
+
+void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory)
+{
+	if (const auto currentHolder = titlesHistory.currentHolderIdMap[titleName]; currentHolder)
+		holder = *currentHolder;
+
+	const auto dfLiegeName = titlesHistory.currentLiegeIdMap[titleName];
+	if (dfLiegeName && landedTitles.getTitles().find(*dfLiegeName) != landedTitles.getTitles().end())
+		setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
+	
+	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName); vanillaHistory)
+		historyString = *vanillaHistory;
 }

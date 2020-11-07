@@ -43,8 +43,7 @@ class World
 		void importVanillaProvinces(const std::string& ck3Path);
 		void importImperatorProvinces(const Imperator::World& impWorld);
 
-		void vanillaNonCountyNonBaronyTitlesDetails(const Imperator::World& impWorld);
-		void linkCountiesToTitleHolders(const Imperator::World& impWorld);
+		void addHoldersAndHistoryToTitles(const Imperator::World& impWorld);
 		void removeInvalidLandlessTitles();
 
 		[[nodiscard]] std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>>> determineProvinceSource(const std::vector<unsigned long long>& impProvinceNumbers,

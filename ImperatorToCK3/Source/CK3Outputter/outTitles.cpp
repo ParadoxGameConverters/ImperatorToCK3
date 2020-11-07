@@ -5,7 +5,7 @@
 #include "../commonItems/CommonFunctions.h"
 
 
-void CK3::outputTitleHistory(const std::string& outputModName, const std::shared_ptr<Title>& title, std::ofstream& outputStream, std::set<std::string>& alreadyOutputted)
+void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream& outputStream)
 {
 	outputStream << title->getName() << " = {\n";
 	if (title->holder == "0") outputStream << "\t1.1.1 = { holder = 0 }\n";
@@ -17,7 +17,6 @@ void CK3::outputTitleHistory(const std::string& outputModName, const std::shared
 		outputStream << "\t}\n";
 	}
 	outputStream << "}\n";
-	alreadyOutputted.insert(title->getName());
 }
 
 void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<std::string, std::shared_ptr<Title>>& titles)
@@ -34,12 +33,14 @@ void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<s
 					"Could not create title history file: output/" + outputModName + "/history/titles/replace/" + name + ".txt");
 
 			// output the kingdom's history
-			outputTitleHistory(outputModName, title, historyOutput, alreadyOutputtedTitles);
+			outputTitleHistory(title, historyOutput);
+			alreadyOutputtedTitles.insert(name);
 
 			// output the kingdom's de jure vassals' history
 			for (const auto& [deJureVassalName, deJureVassal] : title->getDeJureVassalsAndBelow())
 			{
-				outputTitleHistory(outputModName, deJureVassal, historyOutput, alreadyOutputtedTitles);
+				outputTitleHistory(deJureVassal, historyOutput);
+				alreadyOutputtedTitles.insert(deJureVassalName);
 			}
 
 			historyOutput.close();
@@ -53,7 +54,8 @@ void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<s
 	{
 		if (!alreadyOutputtedTitles.count(name))
 		{
-			outputTitleHistory(outputModName, title, historyOutput, alreadyOutputtedTitles);
+			outputTitleHistory(title, historyOutput);
+			alreadyOutputtedTitles.insert(name);
 		}
 	}
 	historyOutput.close();

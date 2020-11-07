@@ -21,6 +21,7 @@ namespace CK3
 {
 class Province;
 class LandedTitles;
+class TitlesHistory;
 class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 {
   public:
@@ -38,6 +39,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	void registerProvince(std::pair<unsigned long long, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
 	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.insert(provinceId); }
+	void addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory);
 	
 	void setDeJureLiege(const std::shared_ptr<Title>& liegeTitle);
 	void setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle);
