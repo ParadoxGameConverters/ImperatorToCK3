@@ -29,7 +29,7 @@ void CK3::LandedTitles::registerKeys()
 		auto newTitle = std::make_shared<Title>(titleNameStr);
 		newTitle->loadTitles(theStream);
 
-		for (auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
+		for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
 		{
 			if (newTitle->titleName.find("c_") == 0) // has county prefix = is a county
 			{
@@ -75,8 +75,7 @@ void CK3::LandedTitles::insertTitle(const std::shared_ptr<Title>& title)
 }
 void CK3::LandedTitles::eraseTitle(const std::string& name)
 {
-	auto titleItr = foundTitles.find(name);
-	if (titleItr != foundTitles.end())
+	if (auto titleItr = foundTitles.find(name); titleItr != foundTitles.end())
 	{
 		auto liegePtr = titleItr->second->getDeJureLiege();
 		if (liegePtr) liegePtr->deJureVassals.erase(name);

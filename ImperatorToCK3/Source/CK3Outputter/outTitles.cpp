@@ -51,7 +51,7 @@ void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<s
 		throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
 	for (const auto& [name, title] : titles) // output the remaining titles
 	{
-		if (alreadyOutputtedTitles.find(name) == alreadyOutputtedTitles.end())
+		if (!alreadyOutputtedTitles.count(name))
 		{
 			outputTitleHistory(outputModName, title, historyOutput, alreadyOutputtedTitles);
 		}
