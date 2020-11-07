@@ -1,13 +1,41 @@
 #include "Title.h"
 #include "LandedTitles.h"
 #include "TitlesHistory.h"
-#include "../../Imperator/Characters/Character.h"
 #include "../../Imperator/Countries/Country.h"
 #include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "../../Mappers/CoaMapper/CoaMapper.h"
 #include "../../Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+
+
+
+void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles)
+{
+	for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
+	{
+		if (newTitle->titleName.starts_with("c_")) // has county prefix = is a county
+		{
+			auto baronyProvince = locatedTitle->getProvince();
+			if (baronyProvince)
+			{
+				if (locatedTitleName == newTitle->capitalBarony)
+				{
+					newTitle->capitalBaronyProvince = *baronyProvince;
+				}
+				newTitle->addCountyProvince(*baronyProvince); // add found baronies' provinces to countyProvinces
+			}
+		}
+		foundTitles[locatedTitleName] = locatedTitle;
+		if (!foundTitles.at(locatedTitleName)->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
+			foundTitles.at(locatedTitleName)->setDeJureLiege(newTitle);
+	}
+	// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
+	newTitle->foundTitles.clear();
+
+	// And then add this one as well, overwriting existing.
+	foundTitles[newTitle->titleName] = newTitle;
+}
 
 
 void CK3::Title::loadTitles(std::istream& theStream)
@@ -29,29 +57,7 @@ void CK3::Title::registerKeys()
 			capitalBarony = newTitle->titleName;
 		}
 		
-		for (auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
-		{
-			if (newTitle->titleName.starts_with("c_")) // has county prefix = is a county
-			{
-				auto baronyProvince = locatedTitle->getProvince();
-				if (baronyProvince)
-				{
-					if (locatedTitleName == newTitle->capitalBarony)
-					{
-						newTitle->capitalBaronyProvince = *baronyProvince;
-					}
-					newTitle->addCountyProvince(*baronyProvince); // add found baronies' provinces to countyProvinces
-				}
-			}
-			foundTitles[locatedTitleName] = locatedTitle;
-			if (!foundTitles[locatedTitleName]->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
-				foundTitles[locatedTitleName]->setDeJureLiege(newTitle);
-		}
-		// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
-		newTitle->foundTitles.clear();
-
-		// And then add this one as well, overwriting existing.
-		foundTitles[newTitle->titleName] = newTitle;
+		addFoundTitle(newTitle, foundTitles);
 		});
 	registerKeyword("definite_form", [this](const std::string& unused, std::istream& theStream) {
 		definiteForm = commonItems::singleString(theStream).getString() == "yes";
@@ -72,12 +78,8 @@ void CK3::Title::registerKeys()
 }
 
 
-
-
-
-
 void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& landedTitles, mappers::ProvinceMapper& provinceMapper,
-	mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper)
+                                   mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper)
 {
 	generated = true;
 
