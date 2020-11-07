@@ -31,7 +31,7 @@ void CK3::LandedTitles::registerKeys()
 
 		for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
 		{
-			if (newTitle->titleName.find("c_") == 0) // has county prefix = is a county
+			if (newTitle->titleName.starts_with("c_")) // has county prefix = is a county
 			{
 				auto baronyProvince = locatedTitle->getProvince();
 				if (baronyProvince)
@@ -61,8 +61,8 @@ std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigne
 {
 	for (const auto& [titleName, title] : foundTitles)
 	{
-		if (titleName.find_first_of("c_") == 0 && !title->getCountyProvinces().empty())
-			if (title->getCountyProvinces().count(provinceID)) return titleName;
+		if (titleName.starts_with("c_") && !title->getCountyProvinces().empty())
+			if (title->getCountyProvinces().contains(provinceID)) return titleName;
 	}
 	return std::nullopt;
 }

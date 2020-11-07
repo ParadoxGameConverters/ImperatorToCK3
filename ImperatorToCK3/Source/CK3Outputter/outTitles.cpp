@@ -25,7 +25,7 @@ void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<s
 	std::set<std::string> alreadyOutputtedTitles;
 	for (const auto& [name, title] : titles) // first output kindoms + their de jure vassals to files named after the kingdoms
 	{
-		if (name.find("k_") == 0 && !title->getDeJureVassals().empty()) // is a de jure kingdom
+		if (name.starts_with("k_") && !title->getDeJureVassals().empty()) // is a de jure kingdom
 		{
 			std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/" + name + ".txt");
 			if (!historyOutput.is_open())
@@ -52,7 +52,7 @@ void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<s
 		throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
 	for (const auto& [name, title] : titles) // output the remaining titles
 	{
-		if (!alreadyOutputtedTitles.count(name))
+		if (!alreadyOutputtedTitles.contains(name))
 		{
 			outputTitleHistory(title, historyOutput);
 			alreadyOutputtedTitles.insert(name);

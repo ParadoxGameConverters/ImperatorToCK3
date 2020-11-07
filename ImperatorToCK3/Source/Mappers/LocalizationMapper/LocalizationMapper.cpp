@@ -66,7 +66,7 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const st
 			continue;
 		const auto value = newLine.substr(quoteLoc + 1, quote2Loc - quoteLoc - 1);
 
-		if (localizations.count(key))
+		if (localizations.contains(key))
 		{
 			if (language == "english")
 				localizations[key].english = value;

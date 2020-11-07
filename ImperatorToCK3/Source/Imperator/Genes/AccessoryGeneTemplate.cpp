@@ -27,7 +27,7 @@ void Imperator::AccessoryGeneTemplate::registerKeys()
 		else // for copies: "boy = male"
 		{
 			const auto sexAge = commonItems::singleString(tempStream).getString();
-			if (ageSexWeightBlocks.find(sexAge) != ageSexWeightBlocks.end())
+			if (ageSexWeightBlocks.contains(sexAge))
 				ageSexWeightBlocks.insert(std::pair(ageSexStr, ageSexWeightBlocks.find(sexAge)->second));
 		}
 	});

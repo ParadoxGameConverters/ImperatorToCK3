@@ -43,7 +43,7 @@ void CK3::TitlesHistory::TitlesHistory::registerKeys()
 
 std::optional<std::string> CK3::TitlesHistory::popTitleHistory(const std::string& titleName)
 {
-	if (historyMap.find(titleName) != historyMap.end())
+	if (historyMap.contains(titleName))
 	{
 		auto history = historyMap[titleName];
 		historyMap.erase("titleName");

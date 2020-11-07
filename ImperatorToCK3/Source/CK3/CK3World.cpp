@@ -103,7 +103,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 			for (const auto& [newProvinceID, newProvince] : newProvinces.getProvinces())
 			{
 				const auto id = newProvinceID;
-				if (provinces.count(id))
+				if (provinces.contains(id))
 				{
 					Log(LogLevel::Warning) << "Vanilla province duplication - " << id << " already loaded! Overwriting.";
 					provinces[id] = newProvince;
@@ -136,7 +136,7 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 					Log(LogLevel::Warning) << "Base province " << newProvince << " not found for province " << id << ".";
 					continue;
 				}
-				if (provinces.count(id))
+				if (provinces.contains(id))
 				{
 					Log(LogLevel::Info) << "Vanilla province duplication - " << id << " already loaded! Preferring unique entry over mapping.";
 				}
@@ -241,7 +241,7 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 {
 	for (const auto& [name, title] : getTitles())
 	{
-		if (name.find("c_") == 0 && title->capitalBaronyProvince > 0) // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
+		if (name.starts_with("c_") && title->capitalBaronyProvince > 0) // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
 		{
 			if (provinces.find(title->capitalBaronyProvince) == provinces.end())
 				LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
@@ -266,7 +266,7 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 				}
 			}
 		}
-		else if (name.find("c_") != 0 && name.find("b_") != 0) // title is a duchy or higher
+		else if (!name.starts_with("c_") && !name.starts_with("b_")) // title is a duchy or higher
 		{
 			// update title holder, liege and history
 			title->addHistory(landedTitles, titlesHistory);

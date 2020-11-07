@@ -58,7 +58,7 @@ void CK3::outputLocalization(const std::string& imperatorPath, const std::string
 	{
 		for (const auto& [key, loc] : character->localizations)
 		{
-			if (!uniqueKeys.count(key))
+			if (!uniqueKeys.contains(key))
 			{
 				english << " " << key << ": \"" << loc.english << "\"\n";
 				french << " " << key << ": \"" << loc.french << "\"\n";

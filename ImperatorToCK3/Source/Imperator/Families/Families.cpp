@@ -25,7 +25,7 @@ void Imperator::Families::registerKeys()
 		if (familyStr.find('{') != std::string::npos)
 		{
 			std::stringstream tempStream(familyStr);
-			if (families.count(std::stoull(theFamilyID))) {
+			if (families.contains(std::stoull(theFamilyID))) {
 				families[std::stoull(theFamilyID)]->updateFamily(tempStream);
 			}
 			else {
