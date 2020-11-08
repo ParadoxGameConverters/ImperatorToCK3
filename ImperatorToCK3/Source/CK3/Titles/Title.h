@@ -78,6 +78,8 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 
   private:
 	friend class LandedTitles;
+	static void addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles);
+	
 	void registerKeys();
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
 

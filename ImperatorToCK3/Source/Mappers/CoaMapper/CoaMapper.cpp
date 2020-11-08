@@ -35,6 +35,6 @@ void mappers::CoaMapper::registerKeys()
 
 std::optional<std::string> mappers::CoaMapper::getCoaForFlagName(const std::string& impFlagName)
 {
-	if (coasMap.contains(impFlagName)) return coasMap[impFlagName];
+	if (coasMap.contains(impFlagName)) return coasMap.at(impFlagName);
 	return std::nullopt;
 }
