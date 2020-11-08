@@ -26,9 +26,9 @@ void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<
 				newTitle->addCountyProvince(*baronyProvince); // add found baronies' provinces to countyProvinces
 			}
 		}
+		if (!locatedTitle->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
+			locatedTitle->setDeJureLiege(newTitle);
 		foundTitles[locatedTitleName] = locatedTitle;
-		if (!foundTitles.at(locatedTitleName)->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
-			foundTitles.at(locatedTitleName)->setDeJureLiege(newTitle);
 	}
 	// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
 	newTitle->foundTitles.clear();
