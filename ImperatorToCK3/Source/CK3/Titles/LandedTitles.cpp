@@ -29,29 +29,7 @@ void CK3::LandedTitles::registerKeys()
 		auto newTitle = std::make_shared<Title>(titleNameStr);
 		newTitle->loadTitles(theStream);
 
-		for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
-		{
-			if (newTitle->titleName.starts_with("c_")) // has county prefix = is a county
-			{
-				auto baronyProvince = locatedTitle->getProvince();
-				if (baronyProvince)
-				{
-					if (locatedTitleName == newTitle->capitalBarony)
-					{
-						newTitle->capitalBaronyProvince = *baronyProvince;
-					}
-					newTitle->addCountyProvince(*baronyProvince); // add found baronies' provinces to countyProvinces
-				}
-			}
-			foundTitles[locatedTitleName] = locatedTitle;
-			if (!foundTitles[locatedTitleName]->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
-				foundTitles[locatedTitleName]->setDeJureLiege(newTitle);
-		}
-		// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
-		newTitle->foundTitles.clear();
-
-		// And then add this one as well, overwriting existing.
-		foundTitles[newTitle->titleName] = newTitle;
+		Title::addFoundTitle(newTitle, foundTitles);
 		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

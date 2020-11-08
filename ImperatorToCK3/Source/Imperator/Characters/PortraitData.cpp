@@ -10,14 +10,14 @@ Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaSt
 	const auto decodedDnaStr = base64_decode(dnaString);
 
 	//hair
-	hairColorPaletteCoordinates.x = static_cast<uint8_t>(decodedDnaStr[0]) * 2;
-	hairColorPaletteCoordinates.y = static_cast<uint8_t>(decodedDnaStr[1]) * 2;
+	hairColorPaletteCoordinates.x = static_cast<uint8_t>(decodedDnaStr.at(0)) * 2;
+	hairColorPaletteCoordinates.y = static_cast<uint8_t>(decodedDnaStr.at(1)) * 2;
 	//skin
-	skinColorPaletteCoordinates.x = static_cast<uint8_t>(decodedDnaStr[4]) * 2;
-	skinColorPaletteCoordinates.y = static_cast<uint8_t>(decodedDnaStr[5]) * 2;
+	skinColorPaletteCoordinates.x = static_cast<uint8_t>(decodedDnaStr.at(4)) * 2;
+	skinColorPaletteCoordinates.y = static_cast<uint8_t>(decodedDnaStr.at(5)) * 2;
 	//eyes
-	eyeColorPaletteCoordinates.x = static_cast<uint8_t>(decodedDnaStr[8]) * 2;
-	eyeColorPaletteCoordinates.y = static_cast<uint8_t>(decodedDnaStr[9]) * 2;
+	eyeColorPaletteCoordinates.x = static_cast<uint8_t>(decodedDnaStr.at(8)) * 2;
+	eyeColorPaletteCoordinates.y = static_cast<uint8_t>(decodedDnaStr.at(9)) * 2;
 
 	//accessory genes
 	const unsigned int colorGenesBytes = 12;
@@ -32,12 +32,12 @@ Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaSt
 		//Log(LogLevel::Debug) << "\tgene: " << geneItr.first;
 		
 		const auto geneTemplateByteIndex = colorGenesBytes + (accessoryGenesIndex + geneIndex - 3) * 4;
-		const auto characterGeneTemplateIndex = static_cast<uint8_t>(decodedDnaStr[geneTemplateByteIndex]);
+		const auto characterGeneTemplateIndex = static_cast<uint8_t>(decodedDnaStr.at(geneTemplateByteIndex));
 		const auto& [fst, snd] = gene.getGeneTemplateByIndex(characterGeneTemplateIndex);
 		//Log(LogLevel::Debug) << "\t\tgene template: " << fst;
 		
 		const auto geneTemplateObjectByteIndex = colorGenesBytes + (accessoryGenesIndex + geneIndex - 3) * 4 + 1;
-		const auto characterGeneSliderValue = static_cast<uint8_t>(decodedDnaStr[geneTemplateObjectByteIndex]) / 255;
+		const auto characterGeneSliderValue = static_cast<uint8_t>(decodedDnaStr.at(geneTemplateObjectByteIndex)) / 255;
 		auto characterGeneFoundWeightBlock = gene.getGeneTemplates().find(fst)->second.getAgeSexWeightBlocs().find(ageSexString);
 		if (characterGeneFoundWeightBlock != gene.getGeneTemplates().find(fst)->second.getAgeSexWeightBlocs().end())
 		{
