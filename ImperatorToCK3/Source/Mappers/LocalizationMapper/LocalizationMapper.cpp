@@ -52,7 +52,7 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const st
 		std::string line;
 		getline(theStream, line);
 
-		if (line.at(0) == '#' || line.length() < 4)
+		if (line.length() < 4 || line.at(0) == '#' || line.at(1) == '#')
 			continue;
 
 		const auto sepLoc = line.find_first_of(':');
@@ -69,15 +69,15 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const st
 		if (localizations.contains(key))
 		{
 			if (language == "english")
-				localizations[key].english = value;
+				localizations.at(key).english = value;
 			if (language == "french")
-				localizations[key].french = value;
+				localizations.at(key).french = value;
 			if (language == "german")
-				localizations[key].german = value;
+				localizations.at(key).german = value;
 			if (language == "russian")
-				localizations[key].russian = value;
+				localizations.at(key).russian = value;
 			if (language == "spanish")
-				localizations[key].spanish = value;
+				localizations.at(key).spanish = value;
 		}
 		else
 		{
