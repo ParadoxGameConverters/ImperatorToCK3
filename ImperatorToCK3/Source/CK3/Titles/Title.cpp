@@ -257,12 +257,18 @@ std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassals
 
 void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory)
 {
-	if (const auto currentHolder = titlesHistory.currentHolderIdMap.at(titleName); currentHolder)
-		holder = *currentHolder;
+	if (titlesHistory.currentHolderIdMap.contains(titleName))
+	{
+		if (const auto currentHolder = titlesHistory.currentHolderIdMap.at(titleName); currentHolder)
+			holder = *currentHolder;
+	}
 
-	const auto dfLiegeName = titlesHistory.currentLiegeIdMap.at(titleName);
-	if (dfLiegeName && landedTitles.getTitles().contains(*dfLiegeName))
-		setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
+	if (titlesHistory.currentLiegeIdMap.contains(titleName))
+	{
+		const auto dfLiegeName = titlesHistory.currentLiegeIdMap.at(titleName);
+		if (dfLiegeName && landedTitles.getTitles().contains(*dfLiegeName))
+			setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
+	}
 	
 	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName); vanillaHistory)
 		historyString = *vanillaHistory;
