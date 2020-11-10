@@ -1,0 +1,11 @@
+﻿l_english:
+# Pharaoh
+ king_feudal_male_old_egyptian:0 "Pharaoh"
+ king_feudal_female_old_egyptian:0 "Pharaohess"
+ emperor_feudal_male_old_egyptian:1 "Pharaoh"
+ emperor_feudal_female_old_egyptian:1 "Pharaohess"
+
+# Carthage
+ duke_republic_male_carthaginian:0 "Suffet"
+ king_republic_male_carthaginian:0 "Suffet"
+ emperor_republic_male_carthaginian:0 "Suffet"

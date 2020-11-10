@@ -1,0 +1,210 @@
+﻿l_russian:
+ #---------------------------------------------------
+ # ANATOLIAN
+ #---------------------------------------------------
+ anatolian_religion:1 "Анатолийское Язычество"
+ anatolian_religion_adj:1 "Анатолийск."
+ anatolian_religion_adherent:1 "Анатолийский Язычник"
+ anatolian_religion_adherent_plural:1 "Анатолийские Язычники"
+ anatolian_religion_desc:1 "Фригийский культ Кибелы связан с доисторическим поклонением Богине-Матери. Развиваясь на протяжении тысячелетий, культ Кибелы часто заявлял о своей связи с мифическими персонажами и героями и исповедовал свою религию с почитанием идолов."
+
+ anatolian_pagan:1 "Кибелизм"
+ anatolian_pagan_adj:1 "Кибелизск."
+ anatolian_pagan_adherent:1 "Кибелиц"
+ anatolian_pagan_adherent_plural:1 "Киберлици"
+ anatolian_pagan_old:1 "Стар. Кибелизм"
+ anatolian_pagan_old_adj:1 "Стар.-Киберлиск."
+ anatolian_pagan_old_adherent:1 "Стар.-Киберлиц"
+ anatolian_pagan_old_adherent_plural:1 "Стар.-Киберлици"
+
+ #---------------------------------------------------
+ # ARAB
+ #---------------------------------------------------
+ arabic_religion:1 "Арабское Язычество"
+ arabic_religion_adj:1 "Арабск."
+ arabic_religion_adherent:1 "Арабск. Язычник"
+ arabic_religion_adherent_plural:1 "Арабск. Язычники"
+ arabic_religion_desc:1 "Религия в Аравии представляла собой политеистическую смесь божеств, аспектов и демонов, практикуемую в местах и анклавах по всему региону. В то время в некоторых местах Аллаху, Богу-Создателю, поклонялись как главе пантеона."
+
+ arabic_pagan:1 "Арабское"
+ arabic_pagan_adj:1 "Арабск."
+ arabic_pagan_adherent:1 "Арабск. Язычник"
+ arabic_pagan_adherent_plural:1 "Арабск. Язычники"
+ arabic_pagan_old:1 "Стар. Арабское"
+ arabic_pagan_old_adj:1 "Стар.-Арабск."
+ arabic_pagan_old_adherent:1 "Стар.-Арабск. Язычник"
+ arabic_pagan_old_adherent_plural:1 "Стар.-Арабск. Язычники"
+
+ #---------------------------------------------------
+ # ARMENIAN
+ #---------------------------------------------------
+ armenian_religion:1 "Армянское Язычество"
+ armenian_religion_adj:1 "Армянск."
+ armenian_religion_adherent:1 "Армянин"
+ armenian_religion_adherent_plural:1 "Армянини"
+ armenian_religion_desc:1 "Халдский пантеон представляет собой религию, выросшую из урартской культуры много веков назад. Главный бог был в основном политеистическим, его называли Халди, и ему поклонялись как богу-воину."
+
+ armenian_pagan:1 "Халдское"
+ armenian_pagan_adj:1 "Халдск."
+ armenian_pagan_adherent:1 "Халдск. Язычник"
+ armenian_pagan_adherent_plural:1 "Халдск. Язычники"
+ armenian_pagan_old:1 "Стар. Халдское"
+ armenian_pagan_old_adj:1 "Стар.-Халдск."
+ armenian_pagan_old_adherent:1 "Стар.-Халдск. Язычник"
+ armenian_pagan_old_adherent_plural:1 "Стар.-Халдск. Язычники"
+
+ #---------------------------------------------------
+ # DACIAN
+ #---------------------------------------------------
+ dacian_religion:1 "Дакское Язычество"
+ dacian_religion_adj:1 "Дакск."
+ dacian_religion_adherent:1 "Дакск. Язычник"
+ dacian_religion_adherent_plural:1 "Дакск. Язычники"
+ dacian_religion_desc:1 "Неизвестно, был ли Залмоксис изначально пророком или богом. Однако даки и геты почитают Залмоксиса как божественное существо, приписывая ему множество чудесных деяний."
+
+ dacian_pagan:1 "Замолксисм"
+ dacian_pagan_adj:1 "Замолксиск."
+ dacian_pagan_adherent:1 "Замолксян"
+ dacian_pagan_adherent_plural:1 "Замолксяни"
+ dacian_pagan_old:1 "Стар. Замолксисм"
+ dacian_pagan_old_adj:1 "Стар.-Замолксиск."
+ dacian_pagan_old_adherent:1 "Стар.-Замолксян"
+ dacian_pagan_old_adherent_plural:1 "Стар.-Замолксяни"
+
+ #---------------------------------------------------
+ # BERBER
+ #---------------------------------------------------
+ berber_religion:1 "Берберское Язычество"
+ berber_religion_adj:1 "Берберск."
+ berber_religion_adherent:1 "Бербер"
+ berber_religion_adherent_plural:1 "Берберы"
+ berber_religion_desc:1 "Древняя культура и религия представляли собой плавильный котел традиционных египетских верований, поклонения звездам и почитанию предков. Многие мегалиты - каменные сооружения, воздвигнутые в честь богов - все еще существуют, разбросанные по африканскому ландшафту."
+
+ berber_pagan:1 "Мегалитическое"
+ berber_pagan_adj:1 "Мегалитическ."
+ berber_pagan_adherent:1 "Мегалитическ. Язычник"
+ berber_pagan_adherent_plural:1 "Мегалитическ. Язычники"
+ berber_pagan_old:1 "Стар. Мегалитическое"
+ berber_pagan_old_adj:1 "Стар.-Мегалитическ."
+ berber_pagan_old_adherent:1 "Стар.-Мегалитическ. Язычник"
+ berber_pagan_old_adherent_plural:1 "Стар.-Мегалитическ. Язычники"
+
+ #---------------------------------------------------
+ # PHOENICIAN
+ #---------------------------------------------------
+ canaanite_religion:1 "Финикийское Язычество"
+ canaanite_religion_adj:1 "Финикийск."
+ canaanite_religion_adherent:1 "Финикиянин"
+ canaanite_religion_adherent_plural:1 "Финикиянины"
+ canaanite_religion_desc:1 "Ханаанская религия в политеистической манере почитает многих богов и их аспекты. Ваал считается главным божеством в сложной иерархии меньших богов, которым часто поклонялись в святилищах, найденных на горах или на вершинах холмов. В начале игры ханаанская религия в основном встречается в Финикии и финикийских колониях, таких как Карфаген."
+
+ canaanite_pagan:1 "Ханаанское"
+ canaanite_pagan_adj:1 "Ханаанск."
+ canaanite_pagan_adherent:1 "Хананеянин"
+ canaanite_pagan_adherent_plural:1 "Хананеянины"
+ canaanite_pagan_old:1 "Стар. Ханаанское"
+ canaanite_pagan_old_adj:1 "Стар.-Ханаанск."
+ canaanite_pagan_old_adherent:1 "Стар.-Хананеянин"
+ canaanite_pagan_old_adherent_plural:1 "Стар.-Хананеянины"
+
+ #---------------------------------------------------
+ # CAUCASIAN
+ #---------------------------------------------------
+ caucasian_religion:1 "Кавказское Язычество"
+ caucasian_religion_adj:1 "Кавказск."
+ caucasian_religion_adherent:1 "Кавказский"
+ caucasian_religion_adherent_plural:1 "Кавказские"
+ caucasian_religion_desc:1 "Пантеон Кавказско-Иберийского региона, возможно связанный с близлежащими анатолийскими религиями, находился под властью бога Армаза."
+
+ caucasian_pagan:1 "Армазисмус"
+ caucasian_pagan_adj:1 "Армазисзк."
+ caucasian_pagan_adherent:1 "Армазисзк. Язычник"
+ caucasian_pagan_adherent_plural:1 "Армазисзк. Язычники"
+ caucasian_pagan_old:1 "Стар.-Армазисзк."
+ caucasian_pagan_old_adj:1 "Стар.-Армазисзк."
+ caucasian_pagan_old_adherent:1 "Стар.-Армазисзк. Язычник"
+ caucasian_pagan_old_adherent_plural:1 "Стар.-Армазисзк. Язычники"
+
+ #---------------------------------------------------
+ # CELTIC
+ #---------------------------------------------------
+ celtic_religion:1 "Кельтское Язычество"
+ celtic_religion_adj:1 "Кельтск."
+ celtic_religion_adherent:1 "Кельт"
+ celtic_religion_adherent_plural:1 "Кельти"
+ celtic_religion_desc:1 "Друиды выступали за кельтов как отдельный социальный класс. Часто выступая в качестве магистратов и законодателей, они также диктовали местные религиозные обычаи и верования. В начале игры друидические верования в основном встречаются в Иберии, Галлии и на Британских островах."
+
+ celtic_pagan:1 "Друидизм"
+ celtic_pagan_adj:1 "Друидическ."
+ celtic_pagan_adherent:1 "Друидическ. Язычник"
+ celtic_pagan_adherent_plural:1 "Друидическ. Язычники"
+ celtic_pagan_old:1 "Стар. Друидизм"
+ celtic_pagan_old_adj:1 "Стар.-Друидическ."
+ celtic_pagan_old_adherent:1 "Стар.-Друидическ. Язычник"
+ celtic_pagan_old_adherent_plural:1 "Стар.-Друидическ. Язычники"
+
+ #---------------------------------------------------
+ # IBERIC
+ #---------------------------------------------------
+ iberic_religion:1 "Анимизм"
+ iberic_religion_adj:1 "Анимистическ."
+ iberic_religion_adherent:1 "Анимист"
+ iberic_religion_adherent_plural:1 "Анимисты"
+ iberic_religion_desc:1 "По сути, гибридная политеистическая религия, иберийские религиозные практики включают почитание духов животных, а также поклонение предкам. Иберы поклонялись различным эллинским и финикийским богам, а также местным божествам, таким как Бетатун или Атецина."
+
+ iberian_pagan:1 "Иберийское"
+ iberian_pagan_adj:1 "Иберийск."
+ iberian_pagan_adherent:1 "Иберийск. Язычник"
+ iberian_pagan_adherent_plural:1 "Иберийск. Язычники"
+ iberian_pagan_old:1 "Стар. Иберийское"
+ iberian_pagan_old_adj:1 "Стар.-Иберийск."
+ iberian_pagan_old_adherent:1 "Стар.-Иберийск. Язычник"
+ iberian_pagan_old_adherent_plural:1 "Стар.-Иберийск. Язычники"
+
+ #---------------------------------------------------
+ # EGYPTIAN - TO VANILLA KORDOFAN RELIGION
+ #---------------------------------------------------
+ egyptian_pagan:1 "Кеметизм"
+ egyptian_pagan_adj:1 "Кеметическ."
+ egyptian_pagan_adherent:1 "Кеметическ. Язычник"
+ egyptian_pagan_adherent_plural:1 "Кеметическ. Язычники"
+ egyptian_pagan_old:1 "Стар. Кеметизм"
+ egyptian_pagan_old_adj:1 "Стар.-Кеметическ."
+ egyptian_pagan_old_adherent:1 "Стар.-Кеметическ. Язычник"
+ egyptian_pagan_old_adherent_plural:1 "Стар.-Кеметическ. Язычники"
+
+ #---------------------------------------------------
+ # MESOPOTAMIAN
+ #---------------------------------------------------
+ mesopotamian_religion:1 "Месопотамск. Язычество"
+ mesopotamian_religion_adj:1 "Месопотамск."
+ mesopotamian_religion_adherent:1 "Месопотамск. Язычник"
+ mesopotamian_religion_adherent_plural:1 "Месопотамск. Язычники"
+ mesopotamian_religion_desc:1 "История халдейского пантеона насчитывает многие тысячи лет. Поклоняясь таким богам, как Ану, Энки и Нанна, приверженцы халдейской религии строят величественные храмы в честь своего избранного Бога."
+
+ mesopotamian_pagan:1 "Халдейское"
+ mesopotamian_pagan_adj:1 "Халдейск."
+ mesopotamian_pagan_adherent:1 "Халдейск. Язычник"
+ mesopotamian_pagan_adherent_plural:1 "Халдейск. Язычники"
+ mesopotamian_pagan_old:1 "Стар.-Халдейское"
+ mesopotamian_pagan_old_adj:1 "Стар.-Халдейск."
+ mesopotamian_pagan_old_adherent:1 "Стар.-Халдейск. Язычник"
+ mesopotamian_pagan_old_adherent_plural:1 "Стар.-Халдейск. Язычники"
+
+ #---------------------------------------------------
+ # SCYTHIAN
+ #---------------------------------------------------
+ scythian_religion:1 "Скифск. Язычество"
+ scythian_religion_adj:1 "Скифск."
+ scythian_religion_adherent:1 "Скифск. Язычник"
+ scythian_religion_adherent_plural:1 "Скифск. Язычники"
+ scythian_religion_desc:1 "Возникнув в скифских землях, эта пантеистическая вера поклонялась семи основным богам, часто приравниваемым к богам греческого пантеона. Элементы более ранней политеистической народной религии скифов все еще сохраняются, как и практика жертвоприношения лошадей и погребения колесниц, подобных тем, что были у кельтов."
+
+ scythian_pagan:1 "Гептадизм"
+ scythian_pagan_adj:1 "Гептдан."
+ scythian_pagan_adherent:1 "Гептдан. Язычник"
+ scythian_pagan_adherent_plural:1 "Гептдан. Язычники"
+ scythian_pagan_old:1 "Стар. Гептадизм"
+ scythian_pagan_old_adj:1 "Стар.-Гептдан."
+ scythian_pagan_old_adherent:1 "Стар.-Гептдан. Язычник"
+ scythian_pagan_old_adherent_plural:1 "Стар.-Гептдан. Язычники"
