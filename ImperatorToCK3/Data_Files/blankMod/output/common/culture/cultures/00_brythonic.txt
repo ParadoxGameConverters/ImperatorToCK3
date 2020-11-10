@@ -985,7 +985,7 @@
 	}
 	
 	
-	lusoiberian = {
+	lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	
 		color = hsv { 0.6 0.8 0.2 }
 
@@ -1031,7 +1031,6 @@
 		}
 	}
 }
-
 
 
 
