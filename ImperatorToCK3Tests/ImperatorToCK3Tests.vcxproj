@@ -212,6 +212,8 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CoaMapper\CoaMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\GovernmentMapper\GovernmentMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\GovernmentMapper\GovernmentMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />

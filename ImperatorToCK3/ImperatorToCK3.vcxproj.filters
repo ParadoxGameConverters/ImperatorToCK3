@@ -602,5 +602,8 @@
       <Filter>Resources</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Data_Files\after_converting.txt" />
+    <CopyFileToFolders Include="Data_Files\configurables\government_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
