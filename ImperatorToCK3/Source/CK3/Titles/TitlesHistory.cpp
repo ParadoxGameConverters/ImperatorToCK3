@@ -74,7 +74,6 @@ void CK3::TitleHistory::TitleHistory::registerKeys()
 			if (date(dateStr) >= currentGovernmentWithDate.first && historyEntry.government)
 				currentGovernmentWithDate = std::pair(date(dateStr), *historyEntry.government);
 		}
-		
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
