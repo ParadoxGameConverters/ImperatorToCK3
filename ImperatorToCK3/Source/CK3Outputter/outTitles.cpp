@@ -18,7 +18,7 @@ void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream&
 		
 		outputStream << "\t\tholder = " << title->holder << "\n";
 		
-		if (title->government) outputStream << "\t\tgovernment = " << *title->government;
+		if (title->government) outputStream << "\t\tgovernment = " << *title->government << "\n";
 		
 		outputStream << "\t}\n";
 	}

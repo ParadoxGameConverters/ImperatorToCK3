@@ -3,14 +3,14 @@
 #include <sstream>
 
 
-TEST(Mappers_GovernmentMappingTests, ck3GovernmentDefaultsToNullopt)
+TEST(Mappers_GovernmentMappingTests, ck3GovernmentDefaultsToEmpty)
 {
 	std::stringstream input;
 	input << "= {}";
 
 	const mappers::GovernmentMapping theMapping(input);
 
-	ASSERT_FALSE(theMapping.ck3Government);
+	ASSERT_TRUE(theMapping.ck3Government.empty());
 }
 
 

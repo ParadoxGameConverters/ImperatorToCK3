@@ -12,7 +12,7 @@ class GovernmentMapping: commonItems::parser
 	explicit GovernmentMapping(std::istream& theStream);
 
 	std::set<std::string> impGovernments;
-	std::optional<std::string> ck3Government;
+	std::string ck3Government;
 };
 } // namespace mappers
 

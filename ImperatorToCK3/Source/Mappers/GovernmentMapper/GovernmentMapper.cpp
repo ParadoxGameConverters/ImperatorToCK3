@@ -23,9 +23,11 @@ void mappers::GovernmentMapper::registerKeys()
 {
 	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
 		const GovernmentMapping theMapping(theStream);
-		for (const auto& imperatorGovernment: theMapping.impGovernments)
+		if (theMapping.ck3Government.empty()) throw std::runtime_error("GovernmentMapper: link with no ck3Government");
+		
+		for (const auto& imperatorGovernment : theMapping.impGovernments)
 		{
-			if (theMapping.ck3Government) impToCK3GovernmentMap.emplace(imperatorGovernment, *theMapping.ck3Government);
+			impToCK3GovernmentMap.emplace(imperatorGovernment, theMapping.ck3Government);
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
