@@ -15,6 +15,7 @@ namespace mappers
 	class TagTitleMapper;
 	class CoaMapper;
 	class ProvinceMapper;
+	class GovernmentMapper;
 } // namespace mappers
 
 namespace CK3
@@ -33,7 +34,8 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 		LandedTitles& landedTitles, 
 		mappers::ProvinceMapper& provinceMapper,
 		mappers::CoaMapper& coaMapper,
-		mappers::TagTitleMapper& tagTitleMapper);
+		mappers::TagTitleMapper& tagTitleMapper,
+		mappers::GovernmentMapper& governmentMapper);
 	void loadTitles(std::istream& theStream);
 
 	void registerProvince(std::pair<unsigned long long, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
@@ -60,7 +62,8 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	bool generated = false; // if title is not based on CK3 landed titles file
 	bool definiteForm = false;
 	bool landless = false;
-	std::string holder = "0"; // ID of Character holding the Title 
+	std::string holder = "0"; // ID of Character holding the Title
+	std::optional<std::string> government;
 	std::map<std::string, mappers::LocBlock> localizations;
 	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;

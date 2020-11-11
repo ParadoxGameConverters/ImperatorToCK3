@@ -36,6 +36,7 @@ void CK3::TitlesHistory::TitlesHistory::registerKeys()
 			const auto titleHistory = TitleHistory(tempStream);
 			currentHolderIdMap[titleName] = titleHistory.currentHolderWithDate.second;
 			currentLiegeIdMap[titleName] = titleHistory.currentLiegeWithDate.second;
+			currentGovernmentMap[titleName] = titleHistory.currentGovernmentWithDate.second;
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -64,10 +65,15 @@ void CK3::TitleHistory::TitleHistory::registerKeys()
 {
 	registerRegex(R"(\d+[.]\d+[.]\d+)", [this](const std::string& dateStr, std::istream& theStream) {
 		auto historyEntry = DatedHistoryEntry(theStream);
-		if (date(dateStr) >= currentHolderWithDate.first && date(dateStr) <= date(867, 1, 1) && historyEntry.holder)
-			currentHolderWithDate = std::pair(date(dateStr), *historyEntry.holder);
-		if (date(dateStr) >= currentLiegeWithDate.first && date(dateStr) <= date(867, 1, 1) && historyEntry.liege)
-			currentLiegeWithDate = std::pair(date(dateStr), *historyEntry.liege);
+		if (date(dateStr) <= date(867, 1, 1))
+		{
+			if (date(dateStr) >= currentHolderWithDate.first && historyEntry.holder)
+				currentHolderWithDate = std::pair(date(dateStr), *historyEntry.holder);
+			if (date(dateStr) >= currentLiegeWithDate.first && historyEntry.liege)
+				currentLiegeWithDate = std::pair(date(dateStr), *historyEntry.liege);
+			if (date(dateStr) >= currentGovernmentWithDate.first && historyEntry.government)
+				currentGovernmentWithDate = std::pair(date(dateStr), *historyEntry.government);
+		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
@@ -87,6 +93,9 @@ void CK3::DatedHistoryEntry::DatedHistoryEntry::registerKeys()
 	});
 	registerKeyword("liege", [this](const std::string& unused, std::istream& theStream) {
 		liege = commonItems::singleString(theStream).getString();
+	});
+	registerKeyword("government", [this](const std::string& unused, std::istream& theStream) {
+		government = commonItems::singleString(theStream).getString();
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

@@ -66,6 +66,9 @@ void Imperator::Country::registerKeys()
 		auto capitalLongLong = commonItems::singleULlong(theStream).getULlong();
 		if (capitalLongLong > 0) capital = capitalLongLong;
 	});
+	registerKeyword("government_key", [this](const std::string& unused, std::istream& theStream) {
+		government = commonItems::singleString(theStream).getString();
+	});
 	registerRegex("family", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleULlong familyULLong(theStream);
 		families.insert(std::pair(familyULLong.getULlong(), nullptr));
