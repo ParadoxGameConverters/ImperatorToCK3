@@ -1,10 +1,7 @@
 ﻿l_french:
- # version 0.1
- aestian:0 "estyenne"
- aestian_collective_noun:1 "Estyens"
- 
+ # version 0.1 
  old_egyptian:0 "bohaïrique"
- old_egyptian_collective_noun:1 "Egyptiens"
+ old_egyptian_collective_noun:1 "Égyptiens"
  
  numidian:0 "numide"
  numidian_collective_noun:1 "Numides"
@@ -22,13 +19,13 @@
  gallic_collective_noun:1 "Gaulois"
  
  macedonian:0 "macédonienne"
- macedonian_collective_noun:1 "macédoniens"
+ macedonian_collective_noun:1 "Macédoniens"
  
- thracian:0 "Thrace"
+ thracian:0 "thrace"
  thracian_collective_noun:1 "Thraces"
  
  dacian:0 "albocense"
- dacian_collective_noun:1 "daces"
+ dacian_collective_noun:1 "Daces"
  
  getian:0 "gète"
  getian_collective_noun:1 "Gètes"
@@ -63,9 +60,6 @@
  vandal:0 "vandale"
  vandal_collective_noun:1 "Vandales"
  
- meroitic:0 "méroïtique"
- meroitic_collective_noun:1 "Méroïtiques"
- 
  iberian:0 "ibèrique"
  iberian_collective_noun:1 "Ibères"
  
@@ -88,8 +82,21 @@
  hebrew_collective_noun:1 "Hébraïques"
  
  etruscan:0 "étrusque"
- etruscan_collective_noun:1 "Etrusques"
+ etruscan_collective_noun:1 "Étrusques"
  
  # version 0.2
  brythonic:0 "brythonique"
  brythonic_collective_noun:1 "brythoniques"
+
+ 
+ ionic:0 "ionique"
+ ionic_collective_noun:1 "Ioniens"
+ 
+ indogreek:0 "indo-grecque"
+ indogreek_collective_noun:1 "Indo-Grecs"
+ 
+ lusoiberian:0 "lusitanienne"
+ lusoiberian_collective_noun:1 "Lusitaniens"
+ 
+ gothic:0 "gothique"
+ gothic_collective_noun:1 "Goths"

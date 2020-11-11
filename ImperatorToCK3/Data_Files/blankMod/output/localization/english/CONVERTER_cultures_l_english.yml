@@ -1,8 +1,5 @@
 ﻿l_english:
  # version 0.1
- aestian:0 "Aestian"
- aestian_collective_noun:1 "Aestians"
- 
  old_egyptian:0 "Bohairic"
  old_egyptian_collective_noun:1 "Egyptians"
  
@@ -63,9 +60,6 @@
  vandal:0 "Vandalic"
  vandal_collective_noun:1 "Vandals"
  
- meroitic:0 "Meroitic"
- meroitic_collective_noun:1 "Meroeans"
- 
  iberian:0 "Iberian"
  iberian_collective_noun:1 "Iberians"
  
@@ -93,3 +87,15 @@
  # version 0.2
  brythonic:0 "Brythonic"
  brythonic_collective_noun:1 "Brythonics"
+ 
+ ionic:0 "Ionic"
+ ionic_collective_noun:1 "Ionics"
+ 
+ indogreek:0 "Indo-Greek"
+ indogreek_collective_noun:1 "Indo-Greeks"
+ 
+ lusoiberian:0 "Lusitanian"
+ lusoiberian_collective_noun:1 "Lusitanians"
+ 
+ gothic:0 "Gothic"
+ gothic_collective_noun:1 "Goths"

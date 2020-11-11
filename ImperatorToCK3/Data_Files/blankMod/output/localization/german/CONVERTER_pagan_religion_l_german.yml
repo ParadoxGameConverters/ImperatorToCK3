@@ -1,0 +1,210 @@
+﻿l_german:
+ #---------------------------------------------------
+ # ANATOLIAN
+ #---------------------------------------------------
+ anatolian_religion:1 "Anatolisches Heidentum"
+ anatolian_religion_adj:1 "Anatolisch"
+ anatolian_religion_adherent:1 "Anatolisch. Heide"
+ anatolian_religion_adherent_plural:1 "Anatolisch. Heiden"
+ anatolian_religion_desc:1 "Der phrygische Kult von Cybele ist mit der prähistorischen Mutter-Göttin-Anbetung verbunden. Der Kult der Cybele, der sich über Jahrtausende entwickelte, beanspruchte oft die Beziehung zu mythischen Figuren und Helden und praktizierte ihre Religion mit der Verehrung von Idolen."
+
+ anatolian_pagan:1 "Cybelene"
+ anatolian_pagan_adj:1 "Cybelenisch"
+ anatolian_pagan_adherent:1 "Cybelener"
+ anatolian_pagan_adherent_plural:1 "Cybelener"
+ anatolian_pagan_old:1 "Altcybelene"
+ anatolian_pagan_old_adj:1 "Altcybelenisch"
+ anatolian_pagan_old_adherent:1 "Altcybelener"
+ anatolian_pagan_old_adherent_plural:1 "Altcybelener"
+
+ #---------------------------------------------------
+ # ARAB
+ #---------------------------------------------------
+ arabic_religion:1 "Arabisches Heidentum"
+ arabic_religion_adj:1 "Arabisch"
+ arabic_religion_adherent:1 "Arabisch. Heide"
+ arabic_religion_adherent_plural:1 "Arabisch. Heiden"
+ arabic_religion_desc:1 "Die Religion in Arabien war eine polytheistische Mischung aus Gottheiten, Aspekten und Dämonen, die in Orten und Enklaven in der Region praktiziert wurde. Allah, der Schöpfergott, wurde in dieser Zeit möglicherweise an einigen Orten als Oberhaupt des Pantheons verehrt."
+
+ arabic_pagan:1 "Arabisch"
+ arabic_pagan_adj:1 "Arabisch"
+ arabic_pagan_adherent:1 "Arabisch. Heide"
+ arabic_pagan_adherent_plural:1 "Arabisch. Heiden"
+ arabic_pagan_old:1 "Altarabisch"
+ arabic_pagan_old_adj:1 "Altarabisch"
+ arabic_pagan_old_adherent:1 "Altarabisch. Heide"
+ arabic_pagan_old_adherent_plural:1 "Altarabisch. Heiden"
+
+ #---------------------------------------------------
+ # ARMENIAN
+ #---------------------------------------------------
+ armenian_religion:1 "Armenisches Heidentum"
+ armenian_religion_adj:1 "Armenisch"
+ armenian_religion_adherent:1 "Armener"
+ armenian_religion_adherent_plural:1 "Armener"
+ armenian_religion_desc:1 "Das khaldische Pantheon repräsentiert eine Religion, die viele Jahrhunderte zuvor aus der urartianischen Kultur hervorgegangen ist. Der hauptsächliche polytheistische Glaube, der Hauptgott, war als Khaldi bekannt und wurde als Kriegergott verehrt."
+
+ armenian_pagan:1 "Khaldismus"
+ armenian_pagan_adj:1 "Khaldisch"
+ armenian_pagan_adherent:1 "Khaldisch. Heide"
+ armenian_pagan_adherent_plural:1 "Khaldisch. Heiden"
+ armenian_pagan_old:1 "Altkhaldismus"
+ armenian_pagan_old_adj:1 "Altkhaldisch"
+ armenian_pagan_old_adherent:1 "Altkhaldisch. Heide"
+ armenian_pagan_old_adherent_plural:1 "Altkhaldisch. Heiden"
+
+ #---------------------------------------------------
+ # DACIAN
+ #---------------------------------------------------
+ dacian_religion:1 "Dazisches Heidentum"
+ dacian_religion_adj:1 "Dazisch"
+ dacian_religion_adherent:1 "Dazisch. Heide"
+ dacian_religion_adherent_plural:1 "Dazisch. Heiden"
+ dacian_religion_desc:1 "Ob Zalmoxis ursprünglich ein Prophet oder ein Gott war, ist unbekannt. Die Daker und Getae verehren Zalmoxis jedoch als ein göttliches Wesen und schreiben ihm viele wundersame Taten zu."
+
+ dacian_pagan:1 "Zamolxismus"
+ dacian_pagan_adj:1 "Zalmoxisch"
+ dacian_pagan_adherent:1 "Zamolxisch. Heide"
+ dacian_pagan_adherent_plural:1 "Zamolxisch. Heiden"
+ dacian_pagan_old:1 "Altzamolxismus"
+ dacian_pagan_old_adj:1 "Altzamolxisch"
+ dacian_pagan_old_adherent:1 "Altzamolxisch. Heide"
+ dacian_pagan_old_adherent_plural:1 "Altzamolxisch. Heiden"
+
+ #---------------------------------------------------
+ # BERBER
+ #---------------------------------------------------
+ berber_religion:1 "Berberheidentum"
+ berber_religion_adj:1 "Berberheidisch"
+ berber_religion_adherent:1 "Berberheide"
+ berber_religion_adherent_plural:1 "Berberheiden"
+ berber_religion_desc:1 "Die alte Kultur und Religion war ein Schmelztiegel traditioneller ägyptischer Überzeugungen, Sternanbetung und Ahnenverehrung. Es gibt noch viele Megalithen - Steinkonstrukte, die zu Ehren der Götter errichtet wurden -, die über die afrikanische Landschaft verstreut sind."
+
+ berber_pagan:1 "Megalithismus"
+ berber_pagan_adj:1 "Megalithisch"
+ berber_pagan_adherent:1 "Megalithheide"
+ berber_pagan_adherent_plural:1 "Megalithheiden"
+ berber_pagan_old:1 "Altmegalithismus"
+ berber_pagan_old_adj:1 "Altmegalithisch"
+ berber_pagan_old_adherent:1 "Altmegalithheide"
+ berber_pagan_old_adherent_plural:1 "Altmegalithheiden"
+
+ #---------------------------------------------------
+ # PHOENICIAN
+ #---------------------------------------------------
+ canaanite_religion:1 "Phönizisches Heidentum"
+ canaanite_religion_adj:1 "Phönizisch"
+ canaanite_religion_adherent:1 "Phönizisch. Heide"
+ canaanite_religion_adherent_plural:1 "Phönizisch. Heiden"
+ canaanite_religion_desc:1 "Die kanaanitische Religion verehrt eine Reihe von Göttern und ihre Aspekte auf polytheistische Weise. Baal gilt als die Hauptgottheit in einer komplexen Hierarchie kleinerer Götter, die oft in Schreinen auf Bergen oder Hügeln verehrt wurden. Zu Beginn des Spiels ist die kanaanitische Religion hauptsächlich in Phönizien und phönizischen Kolonien wie Karthago zu finden."
+
+ canaanite_pagan:1 "Kanaanitisches Heidentum"
+ canaanite_pagan_adj:1 "Kanaanitisch"
+ canaanite_pagan_adherent:1 "Kanaaniter"
+ canaanite_pagan_adherent_plural:1 "Kanaaniter"
+ canaanite_pagan_old:1 "Altkanaanitisches Heidentum"
+ canaanite_pagan_old_adj:1 "Altkanaanitisch"
+ canaanite_pagan_old_adherent:1 "Altkanaaniter"
+ canaanite_pagan_old_adherent_plural:1 "Altkanaaniter"
+
+ #---------------------------------------------------
+ # CAUCASIAN
+ #---------------------------------------------------
+ caucasian_religion:1 "Kaukasisches Heidentum"
+ caucasian_religion_adj:1 "Kaukasich"
+ caucasian_religion_adherent:1 "Kaukasier"
+ caucasian_religion_adherent_plural:1 "Kaukasier"
+ caucasian_religion_desc:1 "Möglicherweise mit den nahe gelegenen anatolischen Religionen verbunden, wurde das Pantheon der kaukasisch-iberischen Region vom Gott Armaz regiert."
+
+ caucasian_pagan:1 "Armazismus"
+ caucasian_pagan_adj:1 "Armazisch"
+ caucasian_pagan_adherent:1 "Armazisch. Heide"
+ caucasian_pagan_adherent_plural:1 "Armazisch. Heiden"
+ caucasian_pagan_old:1 "Altarmazismus"
+ caucasian_pagan_old_adj:1 "Altarmazisch"
+ caucasian_pagan_old_adherent:1 "Altarmazisch. Heide"
+ caucasian_pagan_old_adherent_plural:1 "Altarmazisch. Heiden"
+
+ #---------------------------------------------------
+ # CELTIC
+ #---------------------------------------------------
+ celtic_religion:1 "Keltisches Heidentum"
+ celtic_religion_adj:1 "Keltisch"
+ celtic_religion_adherent:1 "Kelter"
+ celtic_religion_adherent_plural:1 "Kelten"
+ celtic_religion_desc:1 "Druiden agierten für die Kelten als eigenständige soziale Klasse. Oft als Richter und Gesetzgeber tätig, diktierten sie auch lokale religiöse Bräuche und Überzeugungen. Druidische Glaubensrichtungen finden sich zu Beginn des Spiels hauptsächlich in Iberia, Gallien und den britischen Inseln."
+
+ celtic_pagan:1 "Drudismus"
+ celtic_pagan_adj:1 "Druidisch"
+ celtic_pagan_adherent:1 "Druidisch. Heide"
+ celtic_pagan_adherent_plural:1 "Druidisch. Heiden"
+ celtic_pagan_old:1 "Altdruidismus"
+ celtic_pagan_old_adj:1 "Altdruidisch"
+ celtic_pagan_old_adherent:1 "Altdruidisch. Heide"
+ celtic_pagan_old_adherent_plural:1 "Altdruidisch. Heiden"
+
+ #---------------------------------------------------
+ # IBERIC
+ #---------------------------------------------------
+ iberic_religion:1 "Animismus"
+ iberic_religion_adj:1 "Animist"
+ iberic_religion_adherent:1 "Animist"
+ iberic_religion_adherent_plural:1 "Animisten"
+ iberic_religion_desc:1 "Iberische religiöse Praktiken sind im Wesentlichen eine hybride polytheistische Religion und beinhalten die Verehrung von Tiergeistern sowie die Verehrung von Vorfahren. Verschiedene hellenische und phönizische Götter wurden von den Iberern verehrt, ebenso wie lokale Gottheiten wie Betatun oder Ataecina."
+
+ iberian_pagan:1 "Iberisches Heidentum"
+ iberian_pagan_adj:1 "Iberisch"
+ iberian_pagan_adherent:1 "Iberisch. Heide"
+ iberian_pagan_adherent_plural:1 "Iberisch. Heiden"
+ iberian_pagan_old:1 "Altiberisches Heidentum"
+ iberian_pagan_old_adj:1 "Altiberisch"
+ iberian_pagan_old_adherent:1 "Altiberisch. Heide"
+ iberian_pagan_old_adherent_plural:1 "Altiberisch. Heiden"
+
+ #---------------------------------------------------
+ # EGYPTIAN - TO VANILLA KORDOFAN RELIGION
+ #---------------------------------------------------
+ egyptian_pagan:1 "Kemetismus"
+ egyptian_pagan_adj:1 "Kemetisch"
+ egyptian_pagan_adherent:1 "Kemetisch. Heide"
+ egyptian_pagan_adherent_plural:1 "Kemetisch. Heiden"
+ egyptian_pagan_old:1 "Altkemetismus"
+ egyptian_pagan_old_adj:1 "Altkemetisch"
+ egyptian_pagan_old_adherent:1 "Altkemetisch. Heide"
+ egyptian_pagan_old_adherent_plural:1 "Altkemetisch. Heiden"
+
+ #---------------------------------------------------
+ # MESOPOTAMIAN
+ #---------------------------------------------------
+ mesopotamian_religion:1 "Mesopotamisches Heidentum"
+ mesopotamian_religion_adj:1 "Mesopotamisch"
+ mesopotamian_religion_adherent:1 "Mesopotamisch. Heide"
+ mesopotamian_religion_adherent_plural:1 "Mesopotamisch. Heiden"
+ mesopotamian_religion_desc:1 "Die Geschichte des chaldäischen Pantheons reicht viele tausend Jahre zurück. Die Anhänger der chaldäischen Religion verehren Götter wie Anu, Enki und Nanna und errichten imposante Tempel zu Ehren ihres auserwählten Gottes."
+
+ mesopotamian_pagan:1 "Chaldäer-Heidentum"
+ mesopotamian_pagan_adj:1 "Chaldäer-"
+ mesopotamian_pagan_adherent:1 "Chaldäer"
+ mesopotamian_pagan_adherent_plural:1 "Chaldäer"
+ mesopotamian_pagan_old:1 "Altchaldäer-Heidentum"
+ mesopotamian_pagan_old_adj:1 "Altchaldäer-"
+ mesopotamian_pagan_old_adherent:1 "Altchaldäer"
+ mesopotamian_pagan_old_adherent_plural:1 "Altchaldäer"
+
+ #---------------------------------------------------
+ # SCYTHIAN
+ #---------------------------------------------------
+ scythian_religion:1 "Skythenheidentum"
+ scythian_religion_adj:1 "Skythenheidisch"
+ scythian_religion_adherent:1 "Skythenheide"
+ scythian_religion_adherent_plural:1 "Skythenheiden"
+ scythian_religion_desc:1 "Dieser pantheistische Glaube, der aus skythischen Ländern stammt, verehrte sieben Hauptgötter, die oft mit denen des griechischen Pantheons gleichgesetzt wurden. Elemente der früheren polytheistischen Volksreligion der Sensen bleiben erhalten, ebenso wie die Praxis der Pferdeopfer und Wagenbestattungen, ähnlich denen der Kelten."
+
+ scythian_pagan:1 "Heptadismus"
+ scythian_pagan_adj:1 "Heptadisch"
+ scythian_pagan_adherent:1 "Heptadisch. Heide"
+ scythian_pagan_adherent_plural:1 "Heptadisch. Heiden"
+ scythian_pagan_old:1 "Altheptadismus"
+ scythian_pagan_old_adj:1 "Altheptadisch"
+ scythian_pagan_old_adherent:1 "Altheptadisch. Heide"
+ scythian_pagan_old_adherent_plural:1 "Altheptadisch. Heiden"

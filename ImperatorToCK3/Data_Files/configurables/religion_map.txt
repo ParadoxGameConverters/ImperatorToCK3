@@ -45,8 +45,6 @@ link = { ck3 = slavic_pagan imp = slavic_pagan }
 link = { ck3 = finnish_pagan imp = finnish_pagan }
 link = { ck3 = kushitism_pagan imp = kushitism_pagan }
 link = { ck3 = zun_pagan imp = zun_pagan }
-#link = { ck3 = orthodox imp = christianity } # look for region
-#link = { ck3 = catholic imp = christianity } # look for region
 link = { ck3 = coptic imp = coptic }
 link = { ck3 = nestorian imp = nestorian }
 link = { ck3 = insular_celtic imp = insular }
@@ -58,4 +56,7 @@ link = { ck3 = azariqa imp = kharijite }
 
 # not in two game
 link = { ck3 = arian imp = arian }
- 
+
+# The Christian Schism
+#link = { ck3 = orthodox imp = christianity region = taurica_region region = sarmatia_asiatica_region region = greece_region region = asia_region region = cilicia_region region = galatia_region region = bithynia_region region = cappadocia_region region = assyria_region region = mesopotamia_region region = gedrosia_region region = persis_region region = media_region region = bactriana_region region = ariana_region region = parthia_region region = syria_region region = palestine_region region = sarmatia_europea_region region = arabia_region region = arabia_felix_region region = gandhara_region region = maru_region region = avanti_region region = madhyadesa_region region = pracya_region region = vindhyaprstha_region region = dravida_region region = aparanta_region region = karnata_region region = tibet_region region = himalayan_region region = sogdiana_region region = scythia_region region = cyrenaica_region region = punt_region  region = numidia_region region = nubia_region region = upper_egypt_region region = lower_egypt_region region = thrace_region region = moesia_region region = dacia_region region = colchis_region region = albania_region region = armenia_region region = macedonia_region }
+#link = { ck3 = catholic imp = christianity region = central_italy_region region = lusitania_region region = germania_region region = transalpine_gaul_region region = gallaecia_region region = caledonia_region region = pannonia_region region = bohemia_area region = illyria_region region = magna_graecia_region region = belgica_region region = vistulia_region region = venedia_region region = central_gaul_region region = germania_superior_region region = contestania_region region = armorica_region region = mauretainia_region region = aquitaine_region region = tarraconensis_region region = britain_region region = cisalpine_gaul_region region = africa_region region = rhaetia_region region = baetica_region region = scandinavia_region }
