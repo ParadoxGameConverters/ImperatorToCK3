@@ -2153,4 +2153,80 @@
 			
 		}
 	}
+	ionic = { # Anatolian on the Ionic Coast
+	
+	
+		color = hsv { 0.42 0.45 0.3 }
+
+		cadet_dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		male_names = {
+			Morzios Gaizatorix Pylaemenes Mithridates Datames Ariobarzanes Ariamnes Ariarathes Croesus Gyges Ardys Sadyattes Atys Adrastus Gordias Midas
+			Hecatomnus Hyssaldomus Mausolus Idrieus Pixodarus Lygdamis Kybernis Kuprilli
+			Arppakhu Arbinas Kheriga Kherei Abistamenes Syennesis Appuasu Oromedon
+			Zipoetes Bas Ziaelas Prusias Arcathias Xiphares Darius
+		}
+		female_names = {
+			Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	indogreek = {
+		color = hsv { 0.03 0.7 0.7 }
+
+		cadet_dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		dynasty_names = {
+			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
+			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
+			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
+			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
+			Frataraka
+		}
+
+		male_names = {
+			Morzios Gaizatorix Pylaemenes Mithridates Datames Ariobarzanes Ariamnes Ariarathes Croesus Gyges Ardys Sadyattes Atys Adrastus Gordias Midas
+			Hecatomnus Hyssaldomus Mausolus Idrieus Pixodarus Lygdamis Kybernis Kuprilli
+			Arppakhu Arbinas Kheriga Kherei Abistamenes Syennesis Appuasu Oromedon
+			Zipoetes Bas Ziaelas Prusias Arcathias Xiphares Darius
+		}
+		female_names = {
+			Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			
+		}
+	}
 }
