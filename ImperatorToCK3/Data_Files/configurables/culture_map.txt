@@ -181,7 +181,7 @@ link = { ck3 = phoenician imp = phoenician }
 link = { ck3 = hebrew imp = hebrew }
 link = { ck3 = nabatean imp = nabatean }
 
-## IMP:CK3 mod
+## Potential Imperator mods' cultures
 link = { ck3 = anglo_saxon imp = old_saxon }
 link = { ck3 = turkish imp = turkish }
 link = { ck3 = khazar imp = khazar }
