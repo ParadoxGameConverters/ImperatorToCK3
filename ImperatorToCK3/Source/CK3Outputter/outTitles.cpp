@@ -12,8 +12,14 @@ void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream&
 	else
 	{
 		outputStream << "\t867.1.1 = {\n";
-		if (title->getDeFactoLiege()) outputStream << "\t\tliege = " << title->getDeFactoLiege()->getName() << "\n";
+		
+		const auto deFactoLiege = title->getDeFactoLiege();
+		if (deFactoLiege) outputStream << "\t\tliege = " << deFactoLiege->getName() << "\n";
+		
 		outputStream << "\t\tholder = " << title->holder << "\n";
+		
+		if (title->government) outputStream << "\t\tgovernment = " << *title->government;
+		
 		outputStream << "\t}\n";
 	}
 	outputStream << "}\n";

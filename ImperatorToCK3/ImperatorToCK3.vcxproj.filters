@@ -85,6 +85,9 @@
     <Filter Include="Resources\configurables">
       <UniqueIdentifier>{af40bd7e-fe30-4fe1-b5bc-f69841766f81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\GovernmentMapper">
+      <UniqueIdentifier>{1102b6be-11ba-40f7-b58e-eb2b1354e6aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -298,6 +301,12 @@
     <ClInclude Include="Source\Imperator\Provinces\PopFactory.h">
       <Filter>Imperator\Provinces</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapper.h">
+      <Filter>Mappers\GovernmentMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h">
+      <Filter>Mappers\GovernmentMapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -505,6 +514,12 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\PopFactory.cpp">
       <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapper.cpp">
+      <Filter>Mappers\GovernmentMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp">
+      <Filter>Mappers\GovernmentMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -263,6 +263,8 @@
     <ClCompile Include="Source\Mappers\CoaMapper\CoaMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
+    <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapper.cpp" />
+    <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp" />
     <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
@@ -336,6 +338,8 @@
     <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMappingRule.h" />
+    <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapper.h" />
+    <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h" />
     <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapper.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapping.h" />

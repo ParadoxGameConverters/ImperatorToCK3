@@ -5,6 +5,7 @@
 #include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "../../Mappers/CoaMapper/CoaMapper.h"
 #include "../../Mappers/TagTitleMapper/TagTitleMapper.h"
+#include "../../Mappers/GovernmentMapper/GovernmentMapper.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 
@@ -79,7 +80,7 @@ void CK3::Title::registerKeys()
 
 
 void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& landedTitles, mappers::ProvinceMapper& provinceMapper,
-                                   mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper)
+                                   mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper, mappers::GovernmentMapper& governmentMapper)
 {
 	generated = true;
 
@@ -107,10 +108,14 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	titleName = *title;
 
 
-	// ------------------ determine other attributes
-
+	
+	// ------------------ determine holder
 	if (imperatorCountry->getMonarch()) holder = "imperator" + std::to_string(*imperatorCountry->getMonarch());
 
+	// ------------------ determine government
+	if (imperatorCountry->getGovernment()) government = governmentMapper.getCK3GovernmentForImperatorGovernment(*imperatorCountry->getGovernment());
+
+	// ------------------ determine color
 	auto colorOpt = imperatorCountry->getColor1();
 	if (colorOpt)
 		color1 = *colorOpt;
@@ -118,8 +123,11 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	if (colorOpt)
 		color2 = *colorOpt;
 
+	// ------------------ determine CoA
 	coa = coaMapper.getCoaForFlagName(imperatorCountry->getFlag());
-
+	
+	// ------------------ determine other attributes
+	
 	auto srcCapital = imperatorCountry->getCapital();
 	if (srcCapital)
 	{

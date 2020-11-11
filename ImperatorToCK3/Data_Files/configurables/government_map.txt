@@ -4,5 +4,3 @@ link = { imp = aristocratic_republic imp = oligarchic_republic imp = democratic_
 link = { imp = theocratic_republic ck3 = theocracy_government }
 link = { imp = dictatorship ck3 = feudal_government imp = despotic_monarchy imp = aristocratic_monarchy imp = stratocratic_monarchy imp = theocratic_monarchy imp = plutocratic_monarchy imp = imperium imp = imperial_cult }
 link = { ck3 = tribal_government imp = tribal_chiefdom imp = tribal_kingdom imp = tribal_federation }
-
-## Currently not implemented ##

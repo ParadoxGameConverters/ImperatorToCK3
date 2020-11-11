@@ -38,6 +38,7 @@ namespace Imperator
 			[[nodiscard]] const auto& getFlag() const { return flag; }
 			[[nodiscard]] const auto& getCountryType() const { return countryType; }
 			[[nodiscard]] const auto& getCapital() const { return capital; }
+			[[nodiscard]] const auto& getGovernment() const { return government; }
 			[[nodiscard]] const auto& getCurrencies() const { return currencies; }
 			[[nodiscard]] const auto& getColor1() const { return color1; }
 			[[nodiscard]] const auto& getColor2() const { return color2; }
@@ -63,6 +64,7 @@ namespace Imperator
 			std::string flag;
 			countryTypeEnum countryType = countryTypeEnum::real;
 			std::optional<unsigned long long> capital;
+			std::optional<std::string> government;
 	
 			std::optional<commonItems::Color> color1;
 			std::optional<commonItems::Color> color2;
