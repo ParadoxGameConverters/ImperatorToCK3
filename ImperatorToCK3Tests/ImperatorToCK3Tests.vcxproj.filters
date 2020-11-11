@@ -73,6 +73,9 @@
     <Filter Include="MapperTests\TraitMapper">
       <UniqueIdentifier>{34d9cd88-b59c-458b-885b-5d72d8e811eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests\GovernmentMapper">
+      <UniqueIdentifier>{29cf7959-e8b3-4044-b016-9fa9255e624a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -356,6 +359,12 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\GovernmentMapper\GovernmentMapping.cpp">
       <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMapperTests.cpp">
+      <Filter>MapperTests\GovernmentMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMappingTests.cpp">
+      <Filter>MapperTests\GovernmentMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

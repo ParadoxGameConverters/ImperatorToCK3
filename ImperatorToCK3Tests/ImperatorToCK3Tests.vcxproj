@@ -250,6 +250,8 @@
     <ClCompile Include="MapperTests\CoaMapper\CoaMapperTests.cpp" />
     <ClCompile Include="MapperTests\CultureMapper\CultureMapperTests.cpp" />
     <ClCompile Include="MapperTests\CultureMapper\CultureMappingTests.cpp" />
+    <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMapperTests.cpp" />
+    <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMappingTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMapperTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingsVersionTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingTests.cpp" />

@@ -277,6 +277,12 @@ void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& tit
 		if (dfLiegeName && landedTitles.getTitles().contains(*dfLiegeName))
 			setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
 	}
+
+	if (titlesHistory.currentGovernmentMap.contains(titleName))
+	{
+		const auto governmentFromHistory = titlesHistory.currentGovernmentMap.at(titleName);
+		if (governmentFromHistory) government = *governmentFromHistory;
+	}
 	
 	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName); vanillaHistory)
 		historyString = *vanillaHistory;
