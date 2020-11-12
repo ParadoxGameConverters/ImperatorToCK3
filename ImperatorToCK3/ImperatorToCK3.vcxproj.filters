@@ -91,6 +91,9 @@
     <Filter Include="Mappers\RegionMapper">
       <UniqueIdentifier>{0dda4143-d939-4720-bb69-1ebd40eca92d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\VersionParser">
+      <UniqueIdentifier>{0bd26324-6936-4f56-825a-3e90efa339df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -129,9 +132,6 @@
     </ClInclude>
     <ClInclude Include="Source\Imperator\Families\Families.h">
       <Filter>Imperator\Families</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h">
-      <Filter>Mappers</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3Outputter\outVersion.h">
       <Filter>CK3Outputter</Filter>
@@ -325,6 +325,9 @@
     <ClInclude Include="Source\Mappers\RegionMapper\RegionMapper.h">
       <Filter>Mappers\RegionMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h">
+      <Filter>Mappers\VersionParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -361,9 +364,6 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Families\Families.cpp">
       <Filter>Imperator\Families</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp">
-      <Filter>Mappers</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3Outputter\outVersion.cpp">
       <Filter>CK3Outputter</Filter>
@@ -553,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\RegionMapper\RegionMapper.cpp">
       <Filter>Mappers\RegionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp">
+      <Filter>Mappers\VersionParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
