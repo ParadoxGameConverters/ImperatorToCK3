@@ -53,7 +53,7 @@ void CK3::LandedTitles::insertTitle(const std::shared_ptr<Title>& title)
 }
 void CK3::LandedTitles::eraseTitle(const std::string& name)
 {
-	if (auto titleItr = foundTitles.find(name); titleItr != foundTitles.end())
+	if (const auto titleItr = foundTitles.find(name); titleItr != foundTitles.end())
 	{
 		auto liegePtr = titleItr->second->getDeJureLiege();
 		if (liegePtr) liegePtr->deJureVassals.erase(name);
@@ -61,14 +61,16 @@ void CK3::LandedTitles::eraseTitle(const std::string& name)
 		liegePtr = titleItr->second->getDeFactoLiege();
 		if (liegePtr) liegePtr->deFactoVassals.erase(name);
 
-		for (auto& [vassalTitleName, vassalTitle] : titleItr->second->deJureVassals)
+		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deJureVassals)
 		{
 			vassalTitle->setDeJureLiege(nullptr);
 		}
-		for (auto& [vassalTitleName, vassalTitle] : titleItr->second->deFactoVassals)
+		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deFactoVassals)
 		{
 			vassalTitle->setDeFactoLiege(nullptr);
 		}
+
+		if (titleItr->second->imperatorCountry) titleItr->second->imperatorCountry->setCK3Title(nullptr);
 	}
 	foundTitles.erase(name);
 }

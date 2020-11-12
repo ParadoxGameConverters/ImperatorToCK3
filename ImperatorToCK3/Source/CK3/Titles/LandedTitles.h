@@ -1,7 +1,6 @@
 #ifndef CK3_LANDEDTITLES_H
 #define CK3_LANDEDTITLES_H
 
-#include "Color.h"
 #include "Parser.h"
 
 namespace CK3
