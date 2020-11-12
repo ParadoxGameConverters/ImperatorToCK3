@@ -83,7 +83,7 @@ void mappers::ProvinceMapper::determineValidProvinces(const Configuration& theCo
 	if (!definitionFile.is_open())
 		throw std::runtime_error("Could not open <ck3>/game/map/definition.csv");
 
-	char input[256];
+	char input[256]{};
 	while (!definitionFile.eof())
 	{
 		definitionFile.getline(input, 255);

@@ -149,7 +149,7 @@ void Imperator::World::verifySave(const std::string& saveGamePath)
 		throw std::runtime_error("Read only: " + std::to_string(saveFile.gcount()));
 
 	saveGame.saveType = SaveType::PLAINTEXT;
-	for (int i = 0; i < 65533; ++i)
+	for (auto i = 0; i < 65533; ++i)
 		if (*reinterpret_cast<uint32_t*>(bigBuf + i) == 0x04034B50 && *reinterpret_cast<uint16_t*>(bigBuf + i - 2) == 4)
 		{
 			saveGame.zipStart = i;
