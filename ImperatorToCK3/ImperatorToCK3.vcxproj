@@ -269,6 +269,11 @@
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\Barony.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\County.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\Duchy.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\Region.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\RegionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
@@ -344,6 +349,11 @@
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapper.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapping.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\Barony.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\County.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\Duchy.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\Region.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\RegionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h" />
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h" />
