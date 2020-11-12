@@ -52,7 +52,7 @@ namespace Imperator
 			void setFamilies(const std::map<unsigned long long, std::shared_ptr<Family>>& newFamilies) { families = newFamilies; }
 
 			void registerProvince(const std::shared_ptr<Province>& province) { provinces.insert(province); ++provinceCount; }
-			void registerCK3Title(const std::shared_ptr<CK3::Title>& theTitle) { ck3Title = theTitle; }
+			void setCK3Title(const std::shared_ptr<CK3::Title>& theTitle) { ck3Title = theTitle; }
 
 		private:
 			void registerKeys();

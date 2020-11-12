@@ -69,6 +69,9 @@ void CK3::LandedTitles::eraseTitle(const std::string& name)
 		{
 			vassalTitle->setDeFactoLiege(nullptr);
 		}
+
+		if (titleItr->second->imperatorCountry) titleItr->second->imperatorCountry->setCK3Title(nullptr);
+		titleItr->second->imperatorCountry = nullptr;
 	}
 	foundTitles.erase(name);
 }
