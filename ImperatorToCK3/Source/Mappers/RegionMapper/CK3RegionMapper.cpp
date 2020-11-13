@@ -3,6 +3,7 @@
 #include "OSCompatibilityLayer.h"
 #include <filesystem>
 #include <fstream>
+#include "ParserHelpers.h"
 
 namespace fs = std::filesystem;
 
@@ -50,10 +51,11 @@ void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std:
 
 void mappers::CK3RegionMapper::registerRegionKeys()
 {
-	registerRegex("[\\w_]+", [this](const std::string& regionName, std::istream& theStream) {
+	registerRegex(R"([\w_&]+)", [this](const std::string& regionName, std::istream& theStream) {
 		const auto newRegion = std::make_shared<CK3Region>(theStream);
 		regions[regionName] = newRegion;
 	});
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
