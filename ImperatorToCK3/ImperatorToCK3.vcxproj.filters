@@ -620,5 +620,8 @@
     <CopyFileToFolders Include="Data_Files\configurables\government_map.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\nickname_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

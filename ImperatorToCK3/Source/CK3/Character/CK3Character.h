@@ -13,6 +13,7 @@ namespace mappers
 	class CultureMapper;
 	class ReligionMapper;
 	class TraitMapper;
+	class NicknameMapper;
 } // namespace mappers
 
 namespace CK3
@@ -26,6 +27,7 @@ class Character
 		const mappers::ReligionMapper& religionMapper,
 		const mappers::CultureMapper& cultureMapper,
 		const mappers::TraitMapper& traitMapper,
+		const mappers::NicknameMapper& nicknameMapper,
 		const mappers::LocalizationMapper& localizationMapper,
 		bool ConvertBirthAndDeathDates,
 		date DateOnConversion);
@@ -43,6 +45,7 @@ class Character
 	std::string culture;
 	std::string religion;
 	std::string name;
+	std::string nickname;
 	unsigned int age = 0; // used when option to convert character age is chosen
 
 	date birthDate = date("1.1.1");

@@ -60,7 +60,7 @@ void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, st
 {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
-	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, localizationMapper, ConvertBirthAndDeathDates, endDate);
+	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, ConvertBirthAndDeathDates, endDate);
 	character.second->registerCK3Character(newCharacter);
 	characters.insert(std::pair(newCharacter->ID, newCharacter));
 }

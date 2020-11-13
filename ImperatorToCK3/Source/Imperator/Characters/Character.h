@@ -31,6 +31,7 @@ class Character: commonItems::parser
 	[[nodiscard]] const std::string& getCulture() const;
 	[[nodiscard]] const std::string& getReligion() const { return religion; }
 	[[nodiscard]] const auto& getName() const { return name; }
+	[[nodiscard]] const auto& getNickname() const { return nickname; }
 	[[nodiscard]] auto getProvince() const { return province; }
 	[[nodiscard]] const auto& getBirthDate() const { return birthDate; }
 	[[nodiscard]] const auto& getDeathDate() const { return deathDate; }
