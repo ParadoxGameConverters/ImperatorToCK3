@@ -114,9 +114,9 @@ TEST(Mappers_RegionMapperTests, locationServicesCorrectlyFail)
 	std::stringstream islandRegionStream;
 	theMapper.loadRegions(landedTitles, regionStream, islandRegionStream);
 
-	ASSERT_FALSE(theMapper.provinceIsInRegion(4, "d_testduchy"));
-	ASSERT_FALSE(theMapper.provinceIsInRegion(5, "test_region"));
-	ASSERT_FALSE(theMapper.provinceIsInRegion(6, "test_superregion"));
+	ASSERT_FALSE(theMapper.provinceIsInRegion(4, "d_testduchy")); // province in different duchy
+	ASSERT_FALSE(theMapper.provinceIsInRegion(9, "d_testduchy")); // province missing completely
+	ASSERT_FALSE(theMapper.provinceIsInRegion(5, "test_region")); // province in different region
 }
 
 TEST(Mappers_RegionMapperTests, locationServicesFailForNonsense)
@@ -134,7 +134,7 @@ TEST(Mappers_RegionMapperTests, locationServicesFailForNonsense)
 	theMapper.loadRegions(landedTitles, regionStream, islandRegionStream);
 
 	ASSERT_FALSE(theMapper.provinceIsInRegion(1, "nonsense"));
-	ASSERT_FALSE(theMapper.provinceIsInRegion(9, "d_testduchy"));
+	ASSERT_FALSE(theMapper.provinceIsInRegion(6, "test_superregion"));
 }
 
 TEST(Mappers_RegionMapperTests, correctParentLocationsReported)
@@ -159,7 +159,7 @@ TEST(Mappers_RegionMapperTests, correctParentLocationsReported)
 	ASSERT_EQ("test_region2", *theMapper.getParentRegionName(6));
 }
 
-TEST(Mappers_RegionMapperTests, wrongParentLocationsReturnEmpty)
+TEST(Mappers_RegionMapperTests, wrongParentLocationsReturnNullopt)
 {
 	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
