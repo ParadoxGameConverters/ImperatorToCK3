@@ -155,7 +155,7 @@ TEST(Mappers_RegionMapperTests, locationNameValidationWorks)
 	std::stringstream islandRegionStream;
 	theMapper.loadRegions(landedTitles, regionStream, islandRegionStream);
 
-	ASSERT_TRUE(theMapper.regionNameIsValid("test_area"));
+	ASSERT_TRUE(theMapper.regionNameIsValid("d_wakaba"));
 	ASSERT_TRUE(theMapper.regionNameIsValid("test_region2"));
 	ASSERT_FALSE(theMapper.regionNameIsValid("nonsense"));
 }

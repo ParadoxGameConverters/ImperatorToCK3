@@ -14,40 +14,23 @@ void mappers::RegionMapper::loadRegions(const Configuration& theConfiguration, C
 	
 	auto regionFilename = theConfiguration.getCK3Path() + "/game/map_data/region.txt";
 	auto islandRegionFilename = theConfiguration.getCK3Path() + "/game/map_data/island_region.txt";
-
-	for (const auto& [titleName, title] : landedTitles.getTitles())
-	{
-		if (titleName.starts_with("c_")) counties.emplace(titleName, title);
-		else if (titleName.starts_with("d_")) duchies.emplace(titleName, title);
-	}
 	
 	std::ifstream regionStream(fs::u8path(regionFilename));
 	if (!regionStream.is_open())
 		throw std::runtime_error("Could not open game/map_data/geographical_region.txt!");
-	registerRegionKeys();
-	parseStream(regionStream);
-	clearRegisteredKeywords();
-	regionStream.close();
 
 	std::ifstream islandRegionStream(fs::u8path(islandRegionFilename));
 	if (!islandRegionStream.is_open())
 		throw std::runtime_error("Could not open game/map_data/island_region.txt!");
-	registerRegionKeys();
-	parseStream(islandRegionStream);
-	clearRegisteredKeywords();
-	islandRegionStream.close();
+	
+	loadRegions(landedTitles, regionStream, islandRegionStream);
 
-	linkRegions();
+	regionStream.close();
+	islandRegionStream.close();
 }
 
 void mappers::RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream)
 {
-	for (const auto& [titleName, title] : landedTitles.getTitles())
-	{
-		if (titleName.starts_with("c_")) counties.emplace(titleName, title);
-		else if (titleName.starts_with("d_")) duchies.emplace(titleName, title);
-	}
-	
 	registerRegionKeys();
 	parseStream(regionStream);
 	clearRegisteredKeywords();
@@ -55,6 +38,12 @@ void mappers::RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::is
 	registerRegionKeys();
 	parseStream(islandRegionStream);
 	clearRegisteredKeywords();
+	
+	for (const auto& [titleName, title] : landedTitles.getTitles())
+	{
+		if (titleName.starts_with("c_")) counties[titleName] = title;
+		else if (titleName.starts_with("d_")) duchies[titleName] = title;
+	}
 
 	linkRegions();
 }
@@ -64,8 +53,8 @@ void mappers::RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::is
 void mappers::RegionMapper::registerRegionKeys()
 {
 	registerRegex("[\\w_]+", [this](const std::string& regionName, std::istream& theStream) {
-		auto newRegion = std::make_shared<Region>(theStream);
-		regions.emplace(regionName, newRegion);
+		const auto newRegion = std::make_shared<Region>(theStream);
+		regions[regionName] = newRegion;
 	});
 }
 
@@ -73,17 +62,17 @@ void mappers::RegionMapper::registerRegionKeys()
 bool mappers::RegionMapper::provinceIsInRegion(const unsigned long long province, const std::string& regionName) const
 {
 	const auto& regionItr = regions.find(regionName);
-	if (regionItr != regions.end() && regionItr->second != nullptr)
+	if (regionItr != regions.end() && regionItr->second)
 		return regionItr->second->regionContainsProvince(province);
 
 	// "Regions" are such a fluid term.
 	const auto& duchyItr = duchies.find(regionName);
-	if (duchyItr != duchies.end() && duchyItr->second != nullptr)
+	if (duchyItr != duchies.end() && duchyItr->second)
 		return duchyItr->second->duchyContainsProvince(province);
 
 	// And sometimes they don't mean what people think they mean at all.
 	const auto& countyItr = counties.find(regionName);
-	if (countyItr != counties.end() && countyItr->second != nullptr && countyItr->second->getCountyProvinces().contains(province))
+	if (countyItr != counties.end() && countyItr->second && countyItr->second->getCountyProvinces().contains(province))
 		return true;
 
 	return false;
@@ -91,14 +80,14 @@ bool mappers::RegionMapper::provinceIsInRegion(const unsigned long long province
 
 std::optional<std::string> mappers::RegionMapper::getParentCountyName(const unsigned long long provinceID) const
 {
-	for (const auto& [duchyName, duchy] : duchies)
+	/*for (const auto& [duchyName, duchy] : duchies)
 	{
 		for (const auto& [vassalTitleName, vassalTitle] : duchy->getDeJureVassals())
 		{
 			if (vassalTitleName.starts_with("c_") && vassalTitle->getCountyProvinces().contains(provinceID))
 				return vassalTitleName;
 		}
-	}
+	}*/
 	for (const auto& [countyName, county] : counties)
 	{
 		if (county && county->getCountyProvinces().contains(provinceID))
@@ -135,16 +124,13 @@ std::optional<std::string> mappers::RegionMapper::getParentRegionName(const unsi
 
 bool mappers::RegionMapper::regionNameIsValid(const std::string& regionName) const
 {
-	const auto& regionItr = regions.find(regionName);
-	if (regionItr != regions.end())
+	if (regions.contains(regionName))
 		return true;
 
 	// Who knows what the mapper needs. All kinds of stuff.
-	const auto& duchyItr = duchies.find(regionName);
-	if (duchyItr != duchies.end())
+	if (duchies.contains(regionName))
 		return true;
-	const auto& countyItr = counties.find(regionName);
-	if (countyItr != counties.end())
+	if (counties.contains(regionName))
 		return true;
 
 	return false;
