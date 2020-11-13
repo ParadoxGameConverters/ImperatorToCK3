@@ -8,12 +8,12 @@
 
 namespace fs = std::filesystem;
 
-void mappers::CK3RegionMapper::loadRegions(const Configuration& theConfiguration, CK3::LandedTitles& landedTitles)
+void mappers::CK3RegionMapper::loadRegions(const std::string& ck3Path, CK3::LandedTitles& landedTitles)
 {
 	LOG(LogLevel::Info) << "-> Initializing Geography";
 	
-	auto regionFilename = theConfiguration.getCK3Path() + "/game/map_data/region.txt";
-	auto islandRegionFilename = theConfiguration.getCK3Path() + "/game/map_data/island_region.txt";
+	auto regionFilename = ck3Path + "/game/map_data/geographical_region.txt";
+	auto islandRegionFilename = ck3Path + "/game/map_data/island_region.txt";
 	
 	std::ifstream regionStream(fs::u8path(regionFilename));
 	if (!regionStream.is_open())
