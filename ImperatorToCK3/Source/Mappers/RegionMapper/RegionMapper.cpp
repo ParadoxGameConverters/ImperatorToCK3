@@ -132,6 +132,7 @@ void mappers::RegionMapper::linkRegions()
 {
 	for (const auto& [regionName, region]: regions)
 	{
+		// regions
 		for (const auto& [requiredRegionName, requiredRegion] : region->getRegions())
 		{
 			const auto& regionItr = regions.find(requiredRegionName);
@@ -144,7 +145,8 @@ void mappers::RegionMapper::linkRegions()
 				throw std::runtime_error("Region's " + regionName + " region " + requiredRegionName + " does not exist!");
 			}
 		}
-		
+
+		// duchies
 		for (const auto& [requiredDuchyName, requiredDuchy]: region->getDuchies())
 		{
 			const auto& duchyItr = duchies.find(requiredDuchyName);
@@ -155,6 +157,20 @@ void mappers::RegionMapper::linkRegions()
 			else
 			{
 				throw std::runtime_error("Region's " + regionName + " duchy " + requiredDuchyName + " does not exist!");
+			}
+		}
+
+		// counties
+		for (const auto& [requiredCountyName, requiredCounty] : region->getCounties())
+		{
+			const auto& countyItr = counties.find(requiredCountyName);
+			if (countyItr != counties.end())
+			{
+				region->linkCounty(countyItr->second);
+			}
+			else
+			{
+				throw std::runtime_error("Region's " + regionName + " county " + requiredCountyName + " does not exist!");
 			}
 		}
 	}

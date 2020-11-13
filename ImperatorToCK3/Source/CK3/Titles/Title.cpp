@@ -292,7 +292,6 @@ bool CK3::Title::duchyContainsProvince(const unsigned long long provinceID) cons
 
 	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals)
 	{
-		Log(LogLevel::Debug) << vassalTitleName << " " << vassalTitle->countyProvinces.size();
 		if (vassalTitleName.starts_with("c_") && vassalTitle->countyProvinces.contains(provinceID))
 			return true;
 	}

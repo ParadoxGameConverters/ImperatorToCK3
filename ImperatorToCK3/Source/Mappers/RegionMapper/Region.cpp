@@ -20,7 +20,6 @@ void mappers::Region::registerKeys()
 		const commonItems::stringList names(theStream);
 		for (const auto& name : names.getStrings())
 		{
-			Log(LogLevel::Debug) << name;
 			duchies.emplace(name, nullptr);
 		}
 	});
@@ -43,11 +42,8 @@ bool mappers::Region::regionContainsProvince(const unsigned long long province) 
 		if (region && region->regionContainsProvince(province))
 			return true;
 
-	Log(LogLevel::Debug) << duchies.size();
 	for (const auto& [duchyName, duchy] : duchies)
-	{		
-		if (duchy) Log(LogLevel::Debug) << "regionContainsProvince found valid duchy " << duchyName;
-
+	{
 		if (duchy && duchy->duchyContainsProvince(province))
 			return true;
 	}

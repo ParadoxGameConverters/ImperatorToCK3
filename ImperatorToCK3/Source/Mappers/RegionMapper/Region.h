@@ -15,6 +15,7 @@ class Region: commonItems::parser
 
 	[[nodiscard]] const auto& getRegions() const { return regions; }
 	[[nodiscard]] const auto& getDuchies() const { return duchies; }
+	[[nodiscard]] const auto& getCounties() const { return counties; }
 	[[nodiscard]] const auto& getProvinces() const { return provinces; }
 	[[nodiscard]] bool regionContainsProvince(unsigned long long province) const;
 
