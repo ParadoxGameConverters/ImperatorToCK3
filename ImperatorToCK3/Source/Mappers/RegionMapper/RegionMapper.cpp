@@ -91,6 +91,14 @@ bool mappers::RegionMapper::provinceIsInRegion(const unsigned long long province
 
 std::optional<std::string> mappers::RegionMapper::getParentCountyName(const unsigned long long provinceID) const
 {
+	for (const auto& [duchyName, duchy] : duchies)
+	{
+		for (const auto& [vassalTitleName, vassalTitle] : duchy->getDeJureVassals())
+		{
+			if (vassalTitleName.starts_with("c_") && vassalTitle->getCountyProvinces().contains(provinceID))
+				return vassalTitleName;
+		}
+	}
 	for (const auto& [countyName, county] : counties)
 	{
 		if (county && county->getCountyProvinces().contains(provinceID))
@@ -102,16 +110,6 @@ std::optional<std::string> mappers::RegionMapper::getParentCountyName(const unsi
 
 std::optional<std::string> mappers::RegionMapper::getParentDuchyName(const unsigned long long provinceID) const
 {
-	for (const auto& [duchyName, duchy] : regions)
-	{
-		for (const auto& [duchyName, duchy] : duchies)
-		{
-			if (duchy && duchy->duchyContainsProvince(provinceID))
-				return duchyName;
-		}
-	}
-
-	
 	for (const auto& [duchyName, duchy]: duchies)
 	{
 		if (duchy && duchy->duchyContainsProvince(provinceID))
@@ -124,10 +122,10 @@ std::optional<std::string> mappers::RegionMapper::getParentDuchyName(const unsig
 std::optional<std::string> mappers::RegionMapper::getParentRegionName(const unsigned long long provinceID) const
 {
 	for (const auto& [regionName, region]: regions)
-	{
+	{	
 		if (region && region->regionContainsProvince(provinceID))
 		{
-			if (region->getRegions().empty()) return regionName;
+			return regionName;
 		}
 	}
 	Log(LogLevel::Warning) << "Province ID " << provinceID << " has no parent region name!";
@@ -157,16 +155,16 @@ void mappers::RegionMapper::linkRegions()
 	for (const auto& [regionName, region]: regions)
 	{
 		const auto& requiredDuchies = region->getDuchies();
-		for (const auto& requiredDuchy: requiredDuchies)
+		for (const auto& [requiredDuchyName, requiredDuchy]: requiredDuchies)
 		{
-			const auto& duchyItr = duchies.find(requiredDuchy.first);
+			const auto& duchyItr = duchies.find(requiredDuchyName);
 			if (duchyItr != duchies.end())
 			{
 				region->linkDuchy(duchyItr->second);
 			}
 			else
 			{
-				throw std::runtime_error("Region's " + regionName + " duchy " + requiredDuchy.first + " does not exist!");
+				throw std::runtime_error("Region's " + regionName + " duchy " + requiredDuchyName + " does not exist!");
 			}
 		}
 	}

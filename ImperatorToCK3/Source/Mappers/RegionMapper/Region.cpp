@@ -39,8 +39,8 @@ void mappers::Region::registerKeys()
 
 bool mappers::Region::regionContainsProvince(const unsigned long long province) const
 {
-	for (const auto& region: regions)
-		if (region.second && region.second->regionContainsProvince(province))
+	for (const auto& [regionName, region]: regions)
+		if (region && region->regionContainsProvince(province))
 			return true;
 
 	Log(LogLevel::Debug) << duchies.size();
@@ -52,9 +52,8 @@ bool mappers::Region::regionContainsProvince(const unsigned long long province) 
 			return true;
 	}
 		
-
-	for (const auto& county : counties)
-		if (county.second && county.second->getCountyProvinces().contains(province))
+	for (const auto& [countyName, county] : counties)
+		if (county && county->getCountyProvinces().contains(province))
 			return true;
 	
 	if (provinces.contains(province))
