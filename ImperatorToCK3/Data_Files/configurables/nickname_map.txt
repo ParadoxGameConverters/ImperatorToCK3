@@ -1,0 +1,303 @@
+### NICKNAME/COGNOMINA MAPPING ###
+
+# Structure:
+# link = { imp = [something] ck3 = [some other thing] }
+# Multiple imp are supported, but one ck3 only
+
+
+link = { imp = NICKNAME_MAXIMUS imp = NICKNAME_THE_VICTORIOUS ck3 = nick_the_victorious }
+link = { imp = NICKNAME_METELLUS imp = NICKNAME_THE_SOLDIER ck3 = a }
+link = { imp = NICKNAME_MERULA imp = NICKNAME_THE_JACKDAW ck3 = nick_the_hawk } # Jackdaw is some bird
+link = { imp = NICKNAME_LICINUS imp = NICKNAME_THE_VIOLENT ck3 = nick_the_ruthless }
+link = { imp = NICKNAME_DOLABELLA imp = NICKNAME_THE_AXE ck3 = nick_the_ironside }
+link = { imp = NICKNAME_CORNICEN imp = NICKNAME_THE_BUGLER ck3 = nick_the_bard } # I don't think they had bugles back then
+link = { imp = NICKNAME_MALLEOLUS imp = NICKNAME_THE_HAMMER ck3 = nick_the_hammer }
+link = { imp = NICKNAME_PRISCUS imp = NICKNAME_THE_ANCIENT ck3 = nick_the_old }
+link = { imp = NICKNAME_SEVERUS imp = NICKNAME_THE_STRICT ck3 = nick_the_ruthless }
+link = { imp = NICKNAME_TRIARIUS imp = NICKNAME_THE_SHIELD ck3 = nick_the_valiant } # Unsure about this
+link = { imp = NICKNAME_TAURUS ck3 = nick_the_bully } #Taurus = Bull
+link = { imp = NICKNAME_TUDITANUS imp = NICKNAME_THE_MACE ck3 = nick_the_fury } # More or less
+link = { imp = NICKNAME_REGULUS imp = NICKNAME_THE_PRINCE ck3 = nick_the_younger }
+link = { imp = NICKNAME_POPLICOLA imp = NICKNAME_THE_POPULAR ck3 = nick_the_good }
+link = { imp = NICKNAME_NOVELLUS imp = NICKNAME_THE_INNOVATIVE ck3 = nick_the_builder }
+link = { imp = NICKNAME_LEPIDUS imp = NICKNAME_THE_CHARMING ck3 = nick_the_bloody }
+link = { imp = NICKNAME_HABITUS imp = NICKNAME_THE_MUSCULAR ck3 = nick_the_strong }
+link = { imp = NICKNAME_FLACCUS imp = NICKNAME_THE_FLOPPY ck3 = nick_the_plump }
+link = { imp = NICKNAME_CRASSUS imp = NICKNAME_THE_MAGNANIMOUS ck3 = nick_the_magnanimous }
+link = { imp = NICKNAME_BRUTUS imp = NICKNAME_THE_DULL ck3 = nick_the_brute }
+link = { imp = NICKNAME_ACULEO imp = NICKNAME_THE_HOSTILE ck3 = nick_the_bloody }
+link = { imp = NICKNAME_THE_COOL ck3 = nick_the_just }
+link = { imp = NICKNAME_CURIO imp = NICKNAME_THE_DEVOUT ck3 = nick_the_pious }
+link = { imp = NICKNAME_THE_PARAGON ck3 = nick_the_shepherd }
+link = { imp = NICKNAME_LUPUS imp = NICKNAME_THE_WOLF ck3 = nick_the_wolf }
+link = { imp = NICKNAME_MARIUS ck3 = nick_the_overseer }
+link = { imp = NICKNAME_BRITANNICUS imp = NICKNAME_THE_BRITON ck3 = nick_the_lionheart }
+#link = { imp = NICKNAME_GALLICUS imp = NICKNAME_THE_GAUL ck3 = ??? } #"The French"
+#link = { imp = NICKNAME_BELGICUS imp = NICKNAME_THE_BELGAE ck3 = ??? } #"The Belgian"
+link = { imp = NICKNAME_GERMANICUS imp = NICKNAME_THE_GERMAN ck3 = nick_the_german }
+#link = { imp = NICKNAME_RHAETICUS imp = NICKNAME_THE_RHAETIAN ck3 = ??? } #"The Rhetian"
+#link = { imp = NICKNAME_ITALICUS imp = NICKNAME_THE_ITALIOTE ck3 = ??? } #'The Italiote'
+#link = { imp = NICKNAME_ILLYRICUS imp = NICKNAME_THE_ILLYRIAN ck3 = ??? } #'The Illyrian'
+link = { imp = NICKNAME_HISPANICUS imp = NICKNAME_THE_IBERIAN ck3 = nick_the_motherfather_of_spain }
+#link = { imp = NICKNAME_MAURETANICUS imp = NICKNAME_THE_MAURETANIAN ck3 = ??? } #'The Mauretanian'
+#link = { imp = NICKNAME_NUMIDIUS imp = NICKNAME_THE_NUMIDIAN ck3 = ??? } #'The Numidian'
+link = { imp = NICKNAME_VENEDICUS imp = NICKNAME_THE_VENEDIAN ck3 = nick_the_wend }
+#link = { imp = NICKNAME_DACIUS imp = NICKNAME_THE_DACIAN ck3 = ??? } #'The Dacian'
+#link = { imp = NICKNAME_HELLENICUS imp = NICKNAME_THE_HELLENE ck3 = ??? } #'The Hellene'
+#link = { imp = NICKNAME_CYRENAICUS imp = NICKNAME_THE_CYRENE ck3 = ??? } #'The Cyrene'
+#link = { imp = NICKNAME_AEGYPTUS imp = NICKNAME_THE_EGYPTIAN ck3 = ??? } #'The Egyptian'
+link = { imp = NICKNAME_NUBIANUS imp = NICKNAME_THE_NUBIAN ck3 = nick_the_black }
+#link = { imp = NICKNAME_ARABICUS imp = NICKNAME_THE_ARABIAN ck3 = ??? } #'The Arabian'
+#link = { imp = NICKNAME_SYRIANUS imp = NICKNAME_THE_SYRIAN ck3 = ??? } #'The Syrian'
+#link = { imp = NICKNAME_ASIATICUS imp = NICKNAME_THE_ASIAN ck3 = ??? } #'The Asian'
+#link = { imp = NICKNAME_SARMATICUS imp = NICKNAME_THE_SARMATIAN ck3 = ??? } #'The Sarmatian'
+#link = { imp = NICKNAME_BOSPORANUS imp = NICKNAME_THE_BOSPORAN ck3 = ??? } #'The Bosporan'
+#link = { imp = NICKNAME_CAUCASIANUS imp = NICKNAME_THE_CAUCASIAN ck3 = ??? } #'The Caucasian'
+#link = { imp = NICKNAME_SCYTHIANUS imp = NICKNAME_THE_SCYTHIAN ck3 = ??? } #'The Scythian'
+#link = { imp = NICKNAME_PERSICUS imp = NICKNAME_THE_PERSIAN ck3 = ??? } #'The Persian'
+#link = { imp = NICKNAME_BACTRIANUS imp = NICKNAME_THE_BACTRIAN ck3 = ??? } #'The Bactrian'
+#link = { imp = NICKNAME_GEDROSIANUS imp = NICKNAME_THE_GEDROSIAN ck3 = ??? } #'The Gedrosian'
+#link = { imp = NICKNAME_INDICUS imp = NICKNAME_THE_INDIAN ck3 = ??? } #'The Indian'
+#link = { imp = NICKNAME_DRAVIDICUS imp = NICKNAME_THE_DRAVIDIAN ck3 = ??? } #'The Dravidian'
+link = { imp = NICKNAME_IMPERIOSUS imp = NICKNAME_THE_BESIEGER ck3 = nick_the_vanquisher }
+#link = { imp = NICKNAME_AFRICANUS ck3 = ??? } #Africanus
+link = { imp = NICKNAME_MACCABEUS imp = NICKNAME_HA_MAKABI ck3 = nick_the_hammer } # Literal meaning
+# Roman cognomina are here translated literally
+# when possible
+link = { imp = NICKNAME_ALBINUS imp = NICKNAME_ALBUS ck3 = nick_the_white }
+link = { imp = NICKNAME_AGRICOLA ck3 = nick_the_gardener } #"Farmer"
+#link = { imp = NICKNAME_AGRIPPA ck3 = ??? } #"Feet-born"
+#link = { imp = NICKNAME_ARATUS ck3 = ??? } #"Ploughed"
+#link = { imp = NICKNAME_ASINA ck3 = ??? } #"Donkey"
+link = { imp = NICKNAME_AUSPEX ck3 = nick_the_seer }
+link = { imp = NICKNAME_BALBUS ck3 = nick_the_stammerer }
+link = { imp = NICKNAME_BARBATUS ck3 = nick_the_beautiful_beard }
+link = { imp = NICKNAME_BIBULUS ck3 = nick_the_drunkard }
+#link = { imp = NICKNAME_BUBO ck3 = nick_the_diseased } #Bubons
+link = { imp = NICKNAME_BUTEO ck3 = nick_the_hawk }
+link = { imp = NICKNAME_CAESAR ck3 = nick_fairhair }
+link = { imp = NICKNAME_CALVUS imp = NICKNAME_CALVINUS ck3 = nick_the_bald }
+link = { imp = NICKNAME_CATO ck3 = nick_the_wise }
+link = { imp = NICKNAME_CATULUS ck3 = nick_the_little }
+#link = { imp = NICKNAME_CETHEGUS ck3 = ??? } #unknown meaning
+#link = { imp = NICKNAME_CICERO ck3 = ??? } #"The Chickpea"
+#link = { imp = NICKNAME_CINNA ck3 = ??? } #unknown meaning
+#link = { imp = NICKNAME_COTTA ck3 = ??? } #ditto
+link = { imp = NICKNAME_CRISPIAN ck3 = nick_fairhair }
+link = { imp = NICKNAME_DAMA ck3 = ??? } #unknown meaning
+link = { imp = NICKNAME_DAMASUS ck3 = nick_the_peacemaker }
+link = { imp = NICKNAME_DENTATUS ck3 = nick_bluetooth } #"Toothy"
+link = { imp = NICKNAME_DIVES ck3 = nick_moneybags }
+link = { imp = NICKNAME_DONATUS ck3 = nick_the_generous } #"Gift"
+link = { imp = NICKNAME_DRACO ck3 = nick_the_dragon }
+#link = { imp = NICKNAME_EMERITUS ck3 = ??? } #"the earned"
+link = { imp = NICKNAME_EUGENIUS ck3 = nick_the_noble }
+link = { imp = NICKNAME_EUPHEMIUS ck3 = nick_the_truthspeaker }
+link = { imp = NICKNAME_FALCO ck3 = nick_the_hawk }
+#link = { imp = NICKNAME_FALX ck3 = ??? } #"The Scythe"
+link = { imp = NICKNAME_FELIX ck3 = nick_the_merry }
+#link = { imp = NICKNAME_FIMBRIA ck3 = ??? } #"Tail-haired"
+link = { imp = NICKNAME_FLORUS ck3 = nick_the_gardener } #"Flower"
+link = { imp = NICKNAME_FRONTO ck3 = nick_the_deep_minded } #"Big Brain"
+#link = { imp = NICKNAME_GALA ck3 = ??? } #unknown
+#link = { imp = NICKNAME_GALERUS ck3 = ??? } #"Priest-hat"
+#link = { imp = NICKNAME_GEMELLUS ck3 = ??? } #"Twin"
+link = { imp = NICKNAME_GORGONIUS ck3 = nick_the_terrible }
+#link = { imp = NICKNAME_GRACCHUS ck3 = ??? } #"Western Jackdaw"...
+link = { imp = NICKNAME_GRACILIS ck3 = nick_the_frail }
+#link = { imp = NICKNAME_HERMA ck3 = ??? } #unknown
+link = { imp = NICKNAME_HILARIUS ck3 = nick_the_merry }
+link = { imp = NICKNAME_HORATIUS ck3 = nick_the_seer }
+link = { imp = NICKNAME_IGNATIUS ck3 = nick_the_hotspur }
+#link = { imp = NICKNAME_IUBA ck3 = ??? } #unknown
+#link = { imp = NICKNAME_LABEO ck3 = ??? } #"Big Lips"
+#link = { imp = NICKNAME_LAENAS ck3 = ??? } #"Priest-robe"
+#link = { imp = NICKNAME_LEPTIS ck3 = ??? } #unknown
+#link = { imp = NICKNAME_LENTULUS ck3 = ??? } #"Lentil"
+#link = { imp = NICKNAME_LIBO ck3 = ??? } #unknown
+link = { imp = NICKNAME_LONGINUS imp = NICKNAME_LONGUS ck3 = nick_the_giant }
+#link = { imp = NICKNAME_LUCAN ck3 = ??? } #"from Lucca"
+link = { imp = NICKNAME_LUCULLUS ck3 = nick_the_illuminator }
+link = { imp = NICKNAME_LUPIUS ck3 = nick_the_wolf }
+#link = { imp = NICKNAME_MACRO ck3 = ??? } #unknown
+link = { imp = NICKNAME_MARTIALIS ck3 = nick_the_sword_of_god } # Wrong God, but eh
+#link = { imp = NICKNAME_MARULLUS ck3 = ??? } #unknown
+link = { imp = NICKNAME_MEMMIUS ck3 = nick_the_trojan } # from Mnestheus
+link = { imp = NICKNAME_MERCATOR ck3 = nick_moneybags } #"Merchant"
+#link = { imp = NICKNAME_MESSALLA ck3 = ??? } #unknown
+#link = { imp = NICKNAME_MONTANUS ck3 = ??? } #"Mountain"
+#link = { imp = NICKNAME_MURENA ck3 = ??? } #"Lamprey eel"
+#link = { imp = NICKNAME_MUS ck3 = ??? } #"Mouse"
+#link = { imp = NICKNAME_NASICA ck3 = ??? } #"Big Nose"
+#link = { imp = NICKNAME_OCEANUS ck3 = ??? } #"Ocean"
+#link = { imp = NICKNAME_OCTAVIANUS ck3 = ??? } #"Eight"
+link = { imp = NICKNAME_OPIS ck3 = nick_the_strong }
+#link = { imp = NICKNAME_OPTATUS ck3 = ??? } #"Desired"
+#link = { imp = NICKNAME_OTHO ck3 = ??? } #unknown
+#link = { imp = NICKNAME_PAENULA ck3 = ??? } #"Rain jacket"
+link = { imp = NICKNAME_PANTERA ck3 = nick_the_panther_head }
+#link = { imp = NICKNAME_PAVO ck3 = ??? } #"Peacock"
+link = { imp = NICKNAME_PEREGRINUS ck3 = nick_the_pilgrim }
+#link = { imp = NICKNAME_PERTINAX ck3 = ??? } #"Stubborn"
+#link = { imp = NICKNAME_PETRONAX ck3 = ??? } #unknown
+#link = { imp = NICKNAME_PICTOR ck3 = ??? } #"Painter"
+link = { imp = NICKNAME_PILATUS ck3 = nick_the_hunter } #"Armed with Javelins"
+#link = { imp = NICKNAME_POLUS ck3 = ??? } #"Pole"
+link = { imp = NICKNAME_PRISCA ck3 = nick_the_old }
+#link = { imp = NICKNAME_PRIMUS ck3 = ??? } #"First"
+#link = { imp = NICKNAME_PROCYON ck3 = ??? } #"Raccoon"
+link = { imp = NICKNAME_PULCHER ck3 = nick_the_handsome }
+#link = { imp = NICKNAME_QUARTO ck3 = ??? } #"Fourth"
+#link = { imp = NICKNAME_QUIRICUS ck3 = ??? } #Dominick
+#link = { imp = NICKNAME_REGILLUS ck3 = ??? } #"unknown"
+#link = { imp = NICKNAME_REMUS ck3 = ??? } #"Twin"
+#link = { imp = NICKNAME_ROMANUS ck3 = ??? } #"The Roman"
+#link = { imp = NICKNAME_ROMULUS ck3 = ??? } #"Small Twin"
+link = { imp = NICKNAME_RUFUS ck3 = nick_the_red } #Rufus
+#link = { imp = NICKNAME_RUSO ck3 = ??? } #unknown
+link = { imp = NICKNAME_SABINUS ck3 = nick_the_stranger } #Sabine was the equivalent of "bad foreigner" to the Romans
+#link = { imp = NICKNAME_SALINATOR ck3 = ??? } #"Salt-giver"
+link = { imp = NICKNAME_SCAEVOLA ck3 = nick_half_hand } #*Left-handed
+#link = { imp = NICKNAME_SCIPIO ck3 = ??? } #"Staff"
+#link = { imp = NICKNAME_SCROFA ck3 = ??? } #"Sow"
+#link = { imp = NICKNAME_SENECA ck3 = ??? } #unknown
+#link = { imp = NICKNAME_SENNA ck3 = ??? } #ditto
+#link = { imp = NICKNAME_SOREX ck3 = ??? } #ditto
+#link = { imp = NICKNAME_STATIUS ck3 = ??? } #"The Slave"
+link = { imp = NICKNAME_STRABO ck3 = nick_the_one_eyed } #"Cross eyed"
+#link = { imp = NICKNAME_SUPER ck3 = ??? } #"High"
+#link = { imp = NICKNAME_SUPERBUS ck3 = ??? } #"The Superb"
+link = { imp = NICKNAME_TACITUS ck3 = nick_the_silent } #Tacitus
+#link = { imp = NICKNAME_TERTULUS ck3 = ??? } #"Third"
+#link = { imp = NICKNAME_TREBONIUS ck3 = ??? } #unknown
+#link = { imp = NICKNAME_TIBULLUS ck3 = ??? } #ditto
+#link = { imp = NICKNAME_TULLIUS ck3 = ??? } #ditto
+link = { imp = NICKNAME_URSINUS imp = NICKNAME_URSUS ck3 = nick_the_bear }
+link = { imp = NICKNAME_VALENS ck3 = nick_the_worthy }
+#link = { imp = NICKNAME_VARRO imp = NICKNAME_VARUS ck3 = ??? } #"Queer legged"
+#link = { imp = NICKNAME_VERGILIUS ck3 = ??? } #"Lily"
+link = { imp = NICKNAME_VIATOR ck3 = nick_the_pilgrim } #"Traveler"
+link = { imp = NICKNAME_VICTOR ck3 = nick_the_victorious }
+link = { imp = NICKNAME_VINDEX ck3 = nick_the_judge } #Hard to explain
+link = { imp = NICKNAME_VIRILIS ck3 = nick_the_girthy }
+#link = { imp = NICKNAME_VITALIS imp = NICKNAME_VITUS ck3 = ??? } #"Alive"
+link = { imp = NICKNAME_ZENO ck3 = nick_the_thunderbolt }
+link = { imp = NICKNAME_ZOILUS imp = NICKNAME_ZOSIMUS ck3 = ??? } #"Alive"
+link = { imp = NICKNAME_EPIPHANES ck3 = nick_the_noble }
+link = { imp = NICKNAME_EUERGETES ck3 = nick_the_generous }
+#link = { imp = NICKNAME_EUPATOR ck3 = ??? } #"Son of a good father"
+link = { imp = NICKNAME_EUSEBES ck3 = nick_the_pious }
+link = { imp = NICKNAME_KALLINIKOS ck3 = nick_the_triumphant }
+#link = { imp = NICKNAME_NEOS_DIONYSOS ck3 = ??? } #"New Denis"
+link = { imp = NICKNAME_NIKATOR imp = NICKNAME_NICATOR ck3 = nick_the_conqueror }
+link = { imp = NICKNAME_PHILADELPHOS imp = NICKNAME_PHILADELPHUS ck3 = nick_the_benevolent }
+#link = { imp = NICKNAME_PHILOMETOR ck3 = ??? } #"Loves mother"
+#link = { imp = NICKNAME_PHILOPATOR ck3 = ??? } #"Loves father"
+link = { imp = NICKNAME_SOTER ck3 = nick_the_liberator }
+link = { imp = NICKNAME_THEOS ck3 = nick_the_divine }
+link = { imp = NICKNAME_POLIORCETES ck3 = nick_the_vanquisher }
+#link = { imp = NICKNAME_DOSON ck3 = ??? } #I don't know Greek
+#link = { imp = NICKNAME_GONATAS ck3 = ??? } #"Knee"
+link = { imp = NICKNAME_KALOS ck3 = nick_the_handsome }
+#link = { imp = NICKNAME_ACILU ck3 = ??? } #"Pointy"
+#link = { imp = NICKNAME_ACRATE ck3 = ??? } #Do I look like I know Etruscan?
+#link = { imp = NICKNAME_APURTHE ck3 = ??? } #sigh
+#link = { imp = NICKNAME_CAMPANE ck3 = ??? } #"from Campania"
+link = { imp = NICKNAME_CEICE ck3 = nick_the_blind }
+#link = { imp = NICKNAME_CENCU ck3 = ??? } #what
+#link = { imp = NICKNAME_CREICE ck3 = ??? } #"The Greek"
+#link = { imp = NICKNAME_CESU ck3 = ??? } #"Grey-eyed"
+link = { imp = NICKNAME_CRESPE ck3 = nick_fairhair }
+#link = { imp = NICKNAME_CURCES ck3 = ??? } #dunno
+#link = { imp = NICKNAME_CUTHNA ck3 = ??? } #again
+#link = { imp = NICKNAME_LATINI ck3 = ??? } #"The Latin"
+#link = { imp = NICKNAME_NUFRE ck3 = ??? } #can't find
+#link = { imp = NICKNAME_NUSTE ck3 = ??? } #any meaning
+#link = { imp = NICKNAME_PALPE ck3 = ??? } #"The Groper"...
+link = { imp = NICKNAME_PAPA ck3 = nick_the_old } #"Grandpa"
+#link = { imp = NICKNAME_PREZU ck3 = ??? } #unknown
+#link = { imp = NICKNAME_PURCE ck3 = ??? } #unknown
+#link = { imp = NICKNAME_SENATE ck3 = ??? } #"from Sienna"
+#link = { imp = NICKNAME_SEPU ck3 = ??? } #"Tallow"
+#link = { imp = NICKNAME_SINU ck3 = ??? } #unknown
+#link = { imp = NICKNAME_TREPUNI ck3 = ??? } #unknown
+#link = { imp = NICKNAME_TREPU ck3 = ??? } #unknown
+#link = { imp = NICKNAME_TUMU ck3 = ??? } #unknown
+#link = { imp = NICKNAME_TURSIKINA ck3 = ??? } #"The Tuscan"
+#link = { imp = NICKNAME_VENALA ck3 = ??? } #"of Venus"
+#link = { imp = NICKNAME_VENTESE ck3 = ??? } #unknown
+#link = { imp = NICKNAME_VERU ck3 = ??? } #unknown
+#link = { imp = NICKNAME_ZALLE ck3 = ??? } #unknown
+#link = { imp = NICKNAME_PALPENIA ck3 = ??? } #"Gropers"
+#link = { imp = NICKNAME_PAPANIA ck3 = ??? } #I think it's a modern surname
+#link = { imp = NICKNAME_PREZUNIA ck3 = ??? } #where are these from?
+#link = { imp = NICKNAME_PURCENIA ck3 = ??? } #
+#link = { imp = NICKNAME_SENATINA ck3 = ??? } #
+#link = { imp = NICKNAME_SEPUNIA ck3 = ??? } #
+#link = { imp = NICKNAME_SINUNIA ck3 = ??? } #
+#link = { imp = NICKNAME_TREPUNIA ck3 = ??? } #
+#link = { imp = NICKNAME_TREPIA ck3 = ??? } #
+#link = { imp = NICKNAME_TUMUNIA ck3 = ??? } #
+#link = { imp = NICKNAME_TURSIKINIA ck3 = ??? } #
+#link = { imp = NICKNAME_VENALANIA ck3 = ??? } #
+#link = { imp = NICKNAME_VERUNA ck3 = ??? } #
+#link = { imp = NICKNAME_VENTESA ck3 = ??? } #
+#link = { imp = NICKNAME_ZALLENIA ck3 = ??? } #
+link = { imp = NICKNAME_SOPHUS ck3 = nick_the_sage }
+link = { imp = NICKNAME_CAECUS ck3 = nick_the_blind }
+#link = { imp = NICKNAME_MEGELLUS ck3 = ??? } #unknown
+link = { imp = NICKNAME_CURVUS ck3 = nick_the_hunchback }
+link = { imp = NICKNAME_TREMULUS ck3 = nick_the_trembling }
+#link = { imp = NICKNAME_RULLIANUS ck3 = ??? } #unknown
+#link = { imp = NICKNAME_SAVERRIO ck3 = ??? } #ditto
+#link = { imp = NICKNAME_CURSOR ck3 = ??? } #"Runner"
+#link = { imp = NICKNAME_BUBULCUS ck3 = ??? } #"Cowheard"
+#link = { imp = NICKNAME_CORVUS ck3 = nick_the_crow }
+link = { imp = NICKNAME_VIOLENS ck3 = nick_the_fury }
+#link = { imp = NICKNAME_ARVINA ck3 = ??? } #unknown
+#link = { imp = NICKNAME_GURGES ck3 = ??? } #"Wave"
+#link = { imp = NICKNAME_PONTIUS ck3 = ??? } #"Fifth"
+#link = { imp = NICKNAME_PHALEREUS ck3 = ??? } #"From Phalerum"
+#link = { imp = NICKNAME_I imp = NICKNAME_II imp = NICKNAME_III imp = NICKNAME_IV imp = NICKNAME_V ck3 = ??? } # Regnal numbers - skip
+link = { imp = NICKNAME_MONOPHTHALMUS ck3 = nick_the_one_eyed }
+link = { imp = NICKNAME_KERAUNOS ck3 = nick_the_thunderbolt } #Keraunos
+#link = { imp = NICKNAME_CENNI ck3 = ??? } #I don't know
+#link = { imp = NICKNAME_PADMANABHAN ck3 = ??? } #"Lotus navel"
+link = { imp = NICKNAME_DOKIMOS ck3 = nick_the_affable }
+link = { imp = NICKNAME_CORVINUS ck3 = nick_the_crow }
+#link = { imp = NICKNAME_PANSA ck3 = ??? } #"Belly"
+#link = { imp = NICKNAME_PHILIPPUS ck3 = ??? } #Philip
+link = { imp = NICKNAME_PAETINUS ck3 = nick_the_one_eyed }
+#link = { imp = NICKNAME_CATTUS ck3 = ??? } #Cat
+link = { imp = NICKNAME_SANCTUS ck3 = nick_the_saint }
+link = { imp = NICKNAME_ETESIAS ck3 = nick_the_whirlwind }
+link = { imp = NICKNAME_GELOTOPOIOS ck3 = nick_the_foolish }
+#link = { imp = NICKNAME_CHARTOGRAFOS ck3 = ??? }
+link = { imp = NICKNAME_CANTOR ck3 = nick_the_poet }
+link = { imp = NICKNAME_CYNICUS ck3 = nick_the_ruthless }
+#link = { imp = NICKNAME_VALERIAN ck3 = ??? }
+#link = { imp = NICKNAME_CATILINA ck3 = ??? } #unknown
+link = { imp = NICKNAME_THE_BENEFICENT ck3 = nick_the_lawgiver }
+link = { imp = NICKNAME_THEOPHRASTOS ck3 = nick_the_truthspeaker }
+link = { imp = NICKNAME_ATHEOS ck3 = nick_the_apostate }
+#link = { imp = NICKNAME_FREANTLIS ck3 = ??? } #"One who draws from a well"
+#link = { imp = NICKNAME_NAUTARCHOS ck3 = ??? } #"Sailor-ruler"
+#link = { imp = NICKNAME_NESIARCHOS ck3 = ??? } #"Island-ruler"
+#link = { imp = NICKNAME_ELEPHANTARCHOS ck3 = ??? } #"Elephant-ruler"
+link = { imp = NICKNAME_GAZOPHYLAX ck3 = nick_moneybags }
+#link = { imp = NICKNAME_METRODIDAKTOS ck3 = ??? } #"Mother-thought"
+#link = { imp = NICKNAME_CAUDEX ck3 = ??? } #"Tree trunk"
+link = { imp = NICKNAME_ELEUTHERIOS ck3 = nick_the_liberator }
+#link = { imp = NICKNAME_RUSSUS ck3 = ??? } #can't find it
+#link = { imp = NICKNAME_CENTHO ck3 = ??? } #"Patchwork"
+#link = { imp = NICKNAME_MEGAS ck3 = nick_the_great }
+link = { imp = NICKNAME_ARRIDAIOS ck3 = nick_the_terrible }
+#link = { imp = NICKNAME_THALASSOKRATIOS ck3 = ??? } #"Sea-ruler"
+link = { imp = NICKNAME_THE_GREAT ck3 = nick_the_great }
+#link = { imp = Alexander ck3 = ??? } #Alexander
+link = { imp = NICKNAME_HA_SOFER ck3 = nick_the_meticulous }
+link = { imp = NICKNAME_OMAGYRIOS ck3 = nick_the_peacemaker }
+link = { imp = NICKNAME_BIGGUS ck3 = nick_the_lewd } #Dickus
+link = { imp = NICKNAME_BUTTOCKS ck3 = nick_the_fishy } #:thonking:
+link = { imp = NICKNAME_AETOS ck3 = nick_the_glorious }
+link = { imp = NICKNAME_PAULLUS ck3 = nick_tiny }
