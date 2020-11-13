@@ -80,14 +80,6 @@ bool mappers::RegionMapper::provinceIsInRegion(const unsigned long long province
 
 std::optional<std::string> mappers::RegionMapper::getParentCountyName(const unsigned long long provinceID) const
 {
-	/*for (const auto& [duchyName, duchy] : duchies)
-	{
-		for (const auto& [vassalTitleName, vassalTitle] : duchy->getDeJureVassals())
-		{
-			if (vassalTitleName.starts_with("c_") && vassalTitle->getCountyProvinces().contains(provinceID))
-				return vassalTitleName;
-		}
-	}*/
 	for (const auto& [countyName, county] : counties)
 	{
 		if (county && county->getCountyProvinces().contains(provinceID))
@@ -140,8 +132,20 @@ void mappers::RegionMapper::linkRegions()
 {
 	for (const auto& [regionName, region]: regions)
 	{
-		const auto& requiredDuchies = region->getDuchies();
-		for (const auto& [requiredDuchyName, requiredDuchy]: requiredDuchies)
+		for (const auto& [requiredRegionName, requiredRegion] : region->getRegions())
+		{
+			const auto& regionItr = regions.find(requiredRegionName);
+			if (regionItr != regions.end())
+			{
+				region->linkRegion(std::pair(regionItr->first, regionItr->second));
+			}
+			else
+			{
+				throw std::runtime_error("Region's " + regionName + " region " + requiredRegionName + " does not exist!");
+			}
+		}
+		
+		for (const auto& [requiredDuchyName, requiredDuchy]: region->getDuchies())
 		{
 			const auto& duchyItr = duchies.find(requiredDuchyName);
 			if (duchyItr != duchies.end())
@@ -155,46 +159,3 @@ void mappers::RegionMapper::linkRegions()
 		}
 	}
 }
-/*
-void mappers::RegionMapper::linkRegionsToRegions(const std::map<int, std::shared_ptr<Region>>& theRegions)
-{
-	for (const auto& region : regions)
-	{
-		const auto& rregions = region.second->getRegions();
-		for (const auto& requiredRegion : rregions)
-		{
-			const auto& regionItr = regions.find(requiredRegion.first);
-			if (regionItr != regions.end())
-			{
-				region.second->linkRegion(std::pair(regionItr->first, regionItr->second));
-			}
-			else
-			{
-				throw std::runtime_error("Region's " + region.first + " duchy " + requiredRegion.first + " does not exist!");
-			}
-		}
-	}
-}
-*/
-
-/*
-void mappers::RegionMapper::linkProvinces(const std::map<int, std::shared_ptr<CK3::Province>>& theProvinces)
-{
-	for (const auto& county: counties)
-	{
-		const auto& rprovinces = county.second->getProvinces();
-		for (const auto& requiredProvince: rprovinces)
-		{
-			const auto& provinceItr = theProvinces.find(requiredProvince.first);
-			if (provinceItr != theProvinces.end())
-			{
-				county.second->linkProvince(std::pair(provinceItr->first, provinceItr->second));
-			}
-			else
-			{
-				throw std::runtime_error("County's " + county.first + " province " + std::to_string(requiredProvince.first) + " does not exist!");
-			}
-		}
-	}
-}
-*/

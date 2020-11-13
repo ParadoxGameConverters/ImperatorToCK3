@@ -16,7 +16,7 @@ class RegionMapper: commonItems::parser
 	RegionMapper() = default;
 
 	void loadRegions(const Configuration& theConfiguration, CK3::LandedTitles& landedTitles);
-	void loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream); // for testing
+	void loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream);
 
 	[[nodiscard]] bool provinceIsInRegion(unsigned long long province, const std::string& regionName) const;
 	[[nodiscard]] bool regionNameIsValid(const std::string& regionName) const;
@@ -24,9 +24,6 @@ class RegionMapper: commonItems::parser
 	[[nodiscard]] std::optional<std::string> getParentCountyName(unsigned long long provinceID) const;
 	[[nodiscard]] std::optional<std::string> getParentDuchyName(unsigned long long provinceID) const;
 	[[nodiscard]] std::optional<std::string> getParentRegionName(unsigned long long provinceID) const;
-
-	//void linkRegionsToRegions(const std::map<int, std::shared_ptr<Region>>& theRegions);
-	//void linkProvinces(const std::map<int, std::shared_ptr<CK3::Province>>& theProvinces);
 
   private:
 	void registerRegionKeys();

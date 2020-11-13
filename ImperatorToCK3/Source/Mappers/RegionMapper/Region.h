@@ -19,7 +19,7 @@ class Region: commonItems::parser
 	[[nodiscard]] bool regionContainsProvince(unsigned long long province) const;
 
 	void linkRegion(const std::pair<std::string, std::shared_ptr<Region>>& theRegion) { regions[theRegion.first] = theRegion.second; }
-	void linkDuchy(const std::shared_ptr<CK3::Title>& theDuchy) { duchies[theDuchy->getName()] = theDuchy; /*Log(LogLevel::Debug) << "linked " << duchies.find("d_athens")->second->getName();*/  }
+	void linkDuchy(const std::shared_ptr<CK3::Title>& theDuchy) { duchies[theDuchy->getName()] = theDuchy; }
 	void linkCounty(const std::shared_ptr<CK3::Title>& theCounty) { counties[theCounty->getName()] = theCounty; }
 
   private:
