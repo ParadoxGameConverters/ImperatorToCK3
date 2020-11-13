@@ -1,11 +1,11 @@
-#include "../../ImperatorToCK3/Source/Mappers/RegionMapper/RegionMapper.h"
+#include "../../ImperatorToCK3/Source/Mappers/RegionMapper/CK3RegionMapper.h"
 #include "gtest/gtest.h"
 #include <sstream>
 
 TEST(Mappers_RegionMapperTests, regionMapperCanBeEnabled)
 {
 	// We start humble, it's a machine.
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream regionStream;
 	std::stringstream superRegionStream;
@@ -19,7 +19,7 @@ TEST(Mappers_RegionMapperTests, regionMapperCanBeEnabled)
 }
 TEST(Mappers_RegionMapperTests, loadingBrokenRegionWillThrowException)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "k_anglia = { d_aquitane = { c_mers = { b_hgy = { province = 69 } } } } \n";
@@ -40,7 +40,7 @@ TEST(Mappers_RegionMapperTests, loadingBrokenRegionWillThrowException)
 }
 TEST(Mappers_RegionMapperTests, loadingBrokenDuchyWillThrowException)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "k_anglia = { d_broken_aquitane = { c_mers = { b_hgy = { province = 69 } } } } \n";
@@ -60,7 +60,7 @@ TEST(Mappers_RegionMapperTests, loadingBrokenDuchyWillThrowException)
 }
 TEST(Mappers_RegionMapperTests, loadingBrokenCountyWillThrowException)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "k_anglia = { d_aquitane = { c_mers_broken = { b_hgy = { province = 69 } } } } \n";
@@ -81,7 +81,7 @@ TEST(Mappers_RegionMapperTests, loadingBrokenCountyWillThrowException)
 
 TEST(Mappers_RegionMapperTests, locationServicesWork)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "d_aquitane = { c_mers = { b_hgy = { province = 69 } } }";
@@ -102,7 +102,7 @@ TEST(Mappers_RegionMapperTests, locationServicesWork)
 
 TEST(Mappers_RegionMapperTests, locationServicesCorrectlyFail)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "d_testduchy = { 1 2 3 } \n";
@@ -121,7 +121,7 @@ TEST(Mappers_RegionMapperTests, locationServicesCorrectlyFail)
 
 TEST(Mappers_RegionMapperTests, locationServicesFailForNonsense)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "d_testduchy = { 1 2 3 } \n";
@@ -139,7 +139,7 @@ TEST(Mappers_RegionMapperTests, locationServicesFailForNonsense)
 
 TEST(Mappers_RegionMapperTests, correctParentLocationsReported)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n";
@@ -161,7 +161,7 @@ TEST(Mappers_RegionMapperTests, correctParentLocationsReported)
 
 TEST(Mappers_RegionMapperTests, wrongParentLocationsReturnEmpty)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "d_testduchy = { 1 2 3 } \n";
@@ -180,7 +180,7 @@ TEST(Mappers_RegionMapperTests, wrongParentLocationsReturnEmpty)
 
 TEST(Mappers_RegionMapperTests, locationNameValidationWorks)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
@@ -206,7 +206,7 @@ TEST(Mappers_RegionMapperTests, locationNameValidationWorks)
 
 TEST(Mappers_RegionMapperTests, locationServicesSucceedsForProvinceField)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream regionStream;
 	regionStream << "test_region = { provinces = { 1 2 69 7 } }";
@@ -218,7 +218,7 @@ TEST(Mappers_RegionMapperTests, locationServicesSucceedsForProvinceField)
 
 TEST(Mappers_RegionMapperTests, locationServicesSucceedsForCountyField)
 {
-	mappers::RegionMapper theMapper;
+	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
 	landedTitlesStream << "c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } }";

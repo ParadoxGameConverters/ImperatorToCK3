@@ -3,17 +3,17 @@
 
 #include "../../CK3/Titles/Title.h"
 #include "../../CK3/Titles/LandedTitles.h"
-#include "Region.h"
+#include "CK3Region.h"
 #include "Parser.h"
 #include <map>
 
 class Configuration;
 namespace mappers
 {
-class RegionMapper: commonItems::parser
+class CK3RegionMapper: commonItems::parser
 {
   public:
-	RegionMapper() = default;
+	CK3RegionMapper() = default;
 
 	void loadRegions(const Configuration& theConfiguration, CK3::LandedTitles& landedTitles);
 	void loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream);
@@ -29,7 +29,7 @@ class RegionMapper: commonItems::parser
 	void registerRegionKeys();
 	void linkRegions();
 
-	std::map<std::string, std::shared_ptr<Region>> regions;
+	std::map<std::string, std::shared_ptr<CK3Region>> regions;
 	std::map<std::string, std::shared_ptr<CK3::Title>> duchies;
 	std::map<std::string, std::shared_ptr<CK3::Title>> counties;
 };

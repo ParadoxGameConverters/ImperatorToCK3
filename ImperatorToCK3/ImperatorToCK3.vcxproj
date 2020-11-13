@@ -269,8 +269,8 @@
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
-    <ClCompile Include="Source\Mappers\RegionMapper\Region.cpp" />
-    <ClCompile Include="Source\Mappers\RegionMapper\RegionMapper.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\CK3Region.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\CK3RegionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
@@ -346,8 +346,8 @@
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapper.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapping.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.h" />
-    <ClInclude Include="Source\Mappers\RegionMapper\Region.h" />
-    <ClInclude Include="Source\Mappers\RegionMapper\RegionMapper.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\CK3Region.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\CK3RegionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h" />
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h" />

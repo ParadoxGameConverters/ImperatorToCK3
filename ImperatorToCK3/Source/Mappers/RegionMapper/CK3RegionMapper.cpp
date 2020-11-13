@@ -1,4 +1,4 @@
-#include "RegionMapper.h"
+#include "CK3RegionMapper.h"
 #include "../../Configuration/Configuration.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
@@ -8,7 +8,7 @@
 
 namespace fs = std::filesystem;
 
-void mappers::RegionMapper::loadRegions(const Configuration& theConfiguration, CK3::LandedTitles& landedTitles)
+void mappers::CK3RegionMapper::loadRegions(const Configuration& theConfiguration, CK3::LandedTitles& landedTitles)
 {
 	LOG(LogLevel::Info) << "-> Initializing Geography";
 	
@@ -29,7 +29,7 @@ void mappers::RegionMapper::loadRegions(const Configuration& theConfiguration, C
 	islandRegionStream.close();
 }
 
-void mappers::RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream)
+void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream)
 {
 	registerRegionKeys();
 	parseStream(regionStream);
@@ -50,16 +50,16 @@ void mappers::RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::is
 
 
 
-void mappers::RegionMapper::registerRegionKeys()
+void mappers::CK3RegionMapper::registerRegionKeys()
 {
 	registerRegex("[\\w_]+", [this](const std::string& regionName, std::istream& theStream) {
-		const auto newRegion = std::make_shared<Region>(theStream);
+		const auto newRegion = std::make_shared<CK3Region>(theStream);
 		regions[regionName] = newRegion;
 	});
 }
 
 
-bool mappers::RegionMapper::provinceIsInRegion(const unsigned long long province, const std::string& regionName) const
+bool mappers::CK3RegionMapper::provinceIsInRegion(const unsigned long long province, const std::string& regionName) const
 {
 	const auto& regionItr = regions.find(regionName);
 	if (regionItr != regions.end() && regionItr->second)
@@ -78,7 +78,7 @@ bool mappers::RegionMapper::provinceIsInRegion(const unsigned long long province
 	return false;
 }
 
-std::optional<std::string> mappers::RegionMapper::getParentCountyName(const unsigned long long provinceID) const
+std::optional<std::string> mappers::CK3RegionMapper::getParentCountyName(const unsigned long long provinceID) const
 {
 	for (const auto& [countyName, county] : counties)
 	{
@@ -89,7 +89,7 @@ std::optional<std::string> mappers::RegionMapper::getParentCountyName(const unsi
 	return std::nullopt;
 }
 
-std::optional<std::string> mappers::RegionMapper::getParentDuchyName(const unsigned long long provinceID) const
+std::optional<std::string> mappers::CK3RegionMapper::getParentDuchyName(const unsigned long long provinceID) const
 {
 	for (const auto& [duchyName, duchy]: duchies)
 	{
@@ -100,7 +100,7 @@ std::optional<std::string> mappers::RegionMapper::getParentDuchyName(const unsig
 	return std::nullopt;
 }
 
-std::optional<std::string> mappers::RegionMapper::getParentRegionName(const unsigned long long provinceID) const
+std::optional<std::string> mappers::CK3RegionMapper::getParentRegionName(const unsigned long long provinceID) const
 {
 	for (const auto& [regionName, region]: regions)
 	{	
@@ -114,7 +114,7 @@ std::optional<std::string> mappers::RegionMapper::getParentRegionName(const unsi
 }
 
 
-bool mappers::RegionMapper::regionNameIsValid(const std::string& regionName) const
+bool mappers::CK3RegionMapper::regionNameIsValid(const std::string& regionName) const
 {
 	if (regions.contains(regionName))
 		return true;
@@ -128,7 +128,7 @@ bool mappers::RegionMapper::regionNameIsValid(const std::string& regionName) con
 	return false;
 }
 
-void mappers::RegionMapper::linkRegions()
+void mappers::CK3RegionMapper::linkRegions()
 {
 	for (const auto& [regionName, region]: regions)
 	{

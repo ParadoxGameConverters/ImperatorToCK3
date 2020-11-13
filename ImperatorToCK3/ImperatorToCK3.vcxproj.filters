@@ -310,14 +310,14 @@
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h">
       <Filter>Mappers\GovernmentMapper</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mappers\RegionMapper\Region.h">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mappers\RegionMapper\RegionMapper.h">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h">
       <Filter>Mappers\VersionParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\RegionMapper\CK3RegionMapper.h">
+      <Filter>Mappers\RegionMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\RegionMapper\CK3Region.h">
+      <Filter>Mappers\RegionMapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -530,14 +530,14 @@
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp">
       <Filter>Mappers\GovernmentMapper</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Mappers\RegionMapper\Region.cpp">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mappers\RegionMapper\RegionMapper.cpp">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp">
       <Filter>Mappers\VersionParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\RegionMapper\CK3RegionMapper.cpp">
+      <Filter>Mappers\RegionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\RegionMapper\CK3Region.cpp">
+      <Filter>Mappers\RegionMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

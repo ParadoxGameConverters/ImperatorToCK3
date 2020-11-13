@@ -1,15 +1,15 @@
-#include "Region.h"
+#include "CK3Region.h"
 #include "ParserHelpers.h"
 #include "Log.h"
 
-mappers::Region::Region(std::istream& theStream)
+mappers::CK3Region::CK3Region(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void mappers::Region::registerKeys()
+void mappers::CK3Region::registerKeys()
 {
 	registerKeyword("regions", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::stringList names(theStream);
@@ -36,7 +36,7 @@ void mappers::Region::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-bool mappers::Region::regionContainsProvince(const unsigned long long province) const
+bool mappers::CK3Region::regionContainsProvince(const unsigned long long province) const
 {
 	for (const auto& [regionName, region]: regions)
 		if (region && region->regionContainsProvince(province))

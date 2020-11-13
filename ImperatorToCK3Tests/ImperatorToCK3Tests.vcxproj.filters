@@ -79,9 +79,6 @@
     <Filter Include="MapperTests\RegionMapper">
       <UniqueIdentifier>{796dcbbd-a320-4b4f-8446-19a3d1e87a8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MapperTests\NewFilter1">
-      <UniqueIdentifier>{b742c633-df36-467a-8795-0944e34edfca}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -372,17 +369,11 @@
     <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMappingTests.cpp">
       <Filter>MapperTests\GovernmentMapper</Filter>
     </ClCompile>
-    <ClCompile Include="MapperTests\RegionMapper\RegionMapperTests.cpp">
+    <ClCompile Include="MapperTests\RegionMapper\CK3RegionMapperTests.cpp">
       <Filter>MapperTests\RegionMapper</Filter>
     </ClCompile>
-    <ClCompile Include="MapperTests\RegionMapper\RegionTests.cpp">
+    <ClCompile Include="MapperTests\RegionMapper\CK3RegionTests.cpp">
       <Filter>MapperTests\RegionMapper</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\Region.cpp">
-      <Filter>Sources\Mappers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\RegionMapper.cpp">
-      <Filter>Sources\Mappers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
