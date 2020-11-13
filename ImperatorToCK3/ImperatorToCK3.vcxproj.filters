@@ -310,15 +310,6 @@
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h">
       <Filter>Mappers\GovernmentMapper</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mappers\RegionMapper\Barony.h">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mappers\RegionMapper\County.h">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mappers\RegionMapper\Duchy.h">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Mappers\RegionMapper\Region.h">
       <Filter>Mappers\RegionMapper</Filter>
     </ClInclude>
@@ -538,15 +529,6 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp">
       <Filter>Mappers\GovernmentMapper</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mappers\RegionMapper\Barony.cpp">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mappers\RegionMapper\County.cpp">
-      <Filter>Mappers\RegionMapper</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mappers\RegionMapper\Duchy.cpp">
-      <Filter>Mappers\RegionMapper</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mappers\RegionMapper\Region.cpp">
       <Filter>Mappers\RegionMapper</Filter>

@@ -1,4 +1,4 @@
-#include "../../ImperatorToCK3/Source/Mappers/RegionMapper/Duchy.h"
+//#include "../../ImperatorToCK3/Source/CK3/Titles/Title.h"
 #include "../../ImperatorToCK3/Source/Mappers/RegionMapper/Region.h"
 #include "gtest/gtest.h"
 #include <sstream>
@@ -58,10 +58,11 @@ TEST(Mappers_RegionTests, regionCanBeLinkedToDuchy)
 
 	std::stringstream input2;
 	input2 << "{ c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } \n";
-	auto duchy2 = std::make_shared<mappers::Duchy>(input2);
+	auto duchy2 = std::make_shared<CK3::Title>("d_athens");
+	duchy2->loadTitles(input2);
 
-	ASSERT_FALSE(region.getDuchies().find("d_athens")->second);
-	region.linkDuchy(std::pair("d_athens", duchy2));
+	ASSERT_FALSE(region.getDuchies().find("d_athens")->second); // nullptr before linking
+	region.linkDuchy(duchy2);
 	ASSERT_TRUE(region.getDuchies().find("d_athens")->second);
 }
 
@@ -72,11 +73,13 @@ TEST(Mappers_RegionTests, LinkedRegionCanLocateProvince)
 	mappers::Region region(input);
 
 	std::stringstream input2;
-	input2 << "{ c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } \n";
-	auto duchy2 = std::make_shared<mappers::Duchy>(input2);
+	input2 << "= { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } \n";
+	auto duchy2 = std::make_shared<CK3::Title>("d_athens");
+	duchy2->loadTitles(input2);
+	
+	region.linkDuchy(duchy2);
 
-	region.linkDuchy(std::pair("d_athens", duchy2));
-
+	ASSERT_TRUE(region.regionContainsProvince(79));
 	ASSERT_TRUE(region.regionContainsProvince(56));
 }
 
@@ -88,9 +91,10 @@ TEST(Mappers_RegionTests, LinkedRegionWillFailForProvinceMismatch)
 
 	std::stringstream input2;
 	input2 << "{ c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } \n";
-	auto duchy2 = std::make_shared<mappers::Duchy>(input2);
+	auto duchy2 = std::make_shared<CK3::Title>("d_athens");
+	duchy2->loadTitles(input2);
 
-	region.linkDuchy(std::pair("d_athens", duchy2));
+	region.linkDuchy(duchy2);
 
 	ASSERT_FALSE(region.regionContainsProvince(7));
 }

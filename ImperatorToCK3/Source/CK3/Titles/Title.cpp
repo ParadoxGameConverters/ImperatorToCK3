@@ -10,7 +10,6 @@
 #include "ParserHelpers.h"
 
 
-
 void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles)
 {
 	for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
@@ -59,6 +58,7 @@ void CK3::Title::registerKeys()
 		}
 		
 		addFoundTitle(newTitle, foundTitles);
+		newTitle->setDeJureLiege(shared_from_this());
 		});
 	registerKeyword("definite_form", [this](const std::string& unused, std::istream& theStream) {
 		definiteForm = commonItems::singleString(theStream).getString() == "yes";
@@ -286,4 +286,17 @@ void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& tit
 	
 	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName); vanillaHistory)
 		historyString = *vanillaHistory;
+}
+
+bool CK3::Title::duchyContainsProvince(const unsigned long long provinceID) const
+{
+	if (!titleName.starts_with("d_")) return false;
+
+	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals)
+	{
+		Log(LogLevel::Debug) << vassalTitleName << " " << vassalTitle->countyProvinces.size();
+		if (vassalTitleName.starts_with("c_") && vassalTitle->countyProvinces.contains(provinceID)) return true;
+	}
+
+	return false;
 }

@@ -12,6 +12,7 @@
 #include "../Mappers/CoaMapper/CoaMapper.h"
 #include "../Mappers/TraitMapper/TraitMapper.h"
 #include "../Mappers/GovernmentMapper/GovernmentMapper.h"
+#include "../Mappers/RegionMapper/RegionMapper.h"
 #include "Character/CK3Character.h"
 #include "Province/CK3Province.h"
 #include "Titles/LandedTitles.h"
@@ -63,6 +64,7 @@ class World
 		mappers::CoaMapper coaMapper;
 		mappers::TraitMapper traitMapper;
 		mappers::GovernmentMapper governmentMapper;
+		mappers::RegionMapper regionMapper;
 		TitlesHistory titlesHistory;
 
 

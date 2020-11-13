@@ -3,11 +3,11 @@
 
 #include "Parser.h"
 #include <set>
+#include "../../CK3/Titles/Title.h"
+#include "Log.h"
 
 namespace mappers
 {
-class Duchy;
-class County;
 class Region: commonItems::parser
 {
   public:
@@ -16,18 +16,18 @@ class Region: commonItems::parser
 	[[nodiscard]] const auto& getRegions() const { return regions; }
 	[[nodiscard]] const auto& getDuchies() const { return duchies; }
 	[[nodiscard]] const auto& getProvinces() const { return provinces; }
-	[[nodiscard]] bool regionContainsProvince(int province) const;
+	[[nodiscard]] bool regionContainsProvince(unsigned long long province) const;
 
-	void linkRegion(const std::pair<std::string, std::shared_ptr<Region>>& theRegion) { regions[theRegion.first] = theRegion.second; }
-	void linkDuchy(const std::pair<std::string, std::shared_ptr<Duchy>>& theDuchy) { duchies[theDuchy.first] = theDuchy.second; }
-	//void linkCounty(const std::pair<std::string, std::shared_ptr<County>>& theCounty) { counties[theCounty.first] = theCounty.second; }
+	void linkRegion(const std::pair<std::string, std::shared_ptr<Region>>& theRegion) { regions.insert(theRegion); }
+	void linkDuchy(const std::shared_ptr<CK3::Title>& theDuchy) { duchies[theDuchy->getName()] = theDuchy; Log(LogLevel::Debug) << "linked " << duchies.find("d_athens")->second->getName();  }
+	void linkCounty(const std::shared_ptr<CK3::Title>& theCounty) { counties[theCounty->getName()] = theCounty; }
 
   private:
 	void registerKeys();
 	std::map<std::string, std::shared_ptr<Region>> regions;
-	std::map<std::string, std::shared_ptr<Duchy>> duchies;
-	//std::map<std::string, std::shared_ptr<County>> counties;
-	std::set<unsigned int> provinces;
+	std::map<std::string, std::shared_ptr<CK3::Title>> duchies;
+	std::map<std::string, std::shared_ptr<CK3::Title>> counties;
+	std::set<unsigned long long> provinces;
 };
 } // namespace mappers
 

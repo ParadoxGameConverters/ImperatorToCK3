@@ -20,7 +20,6 @@ namespace mappers
 
 namespace CK3
 {
-class Province;
 class LandedTitles;
 class TitlesHistory;
 class Title: commonItems::parser, public std::enable_shared_from_this<Title>
@@ -38,7 +37,6 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 		mappers::GovernmentMapper& governmentMapper);
 	void loadTitles(std::istream& theStream);
 
-	void registerProvince(std::pair<unsigned long long, std::shared_ptr<Province>> theProvince) { provinces.insert(std::move(theProvince)); }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
 	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.insert(provinceId); }
 	void addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory);
@@ -74,6 +72,9 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	std::pair<std::string, std::shared_ptr<Title>> capital;	// Capital county
 
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
+
+	// used by duchy titles only
+	[[nodiscard]] bool duchyContainsProvince(unsigned long long provinceID) const;
 	
 	// used by county titles only
 	std::string capitalBarony; // used when parsing inside county to save first barony
@@ -97,7 +98,6 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	std::map<std::string, std::shared_ptr<Title>> deJureVassals; // DIRECT de jure vassals
 	std::map<std::string, std::shared_ptr<Title>> deFactoVassals; // DIRECT de facto vassals
 	
-	std::map<unsigned long long, std::shared_ptr<Province>> provinces;
 	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title. Titles are only held here during loading of landed_titles, then they are cleared
 
 	// used by barony titles only
