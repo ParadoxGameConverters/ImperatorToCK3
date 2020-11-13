@@ -72,6 +72,7 @@ class Character: commonItems::parser
 	std::string culture;
 	std::string religion;
 	std::string name;
+	std::string nickname; // empty means no nickname
 	unsigned long long province = 0;
 	AttributesStruct attributes;
 	date birthDate = date("1.1.1");
