@@ -1,8 +1,6 @@
 #include "CK3RegionMapper.h"
-#include "../../Configuration/Configuration.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
-#include "ParserHelpers.h"
 #include <filesystem>
 #include <fstream>
 
