@@ -32,9 +32,6 @@ void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std:
 {
 	registerRegionKeys();
 	parseStream(regionStream);
-	clearRegisteredKeywords();
-
-	registerRegionKeys();
 	parseStream(islandRegionStream);
 	clearRegisteredKeywords();
 	

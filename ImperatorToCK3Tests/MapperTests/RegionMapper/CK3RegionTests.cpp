@@ -18,7 +18,7 @@ TEST(Mappers_RegionTests, areaCanBeLoaded)
 	const mappers::CK3Region region(input);
 
 	ASSERT_FALSE(region.getDuchies().empty());
-	ASSERT_EQ(region.getDuchies().find("d_ivrea")->first, "d_ivrea");
+	ASSERT_EQ("d_ivrea", region.getDuchies().find("d_ivrea")->first);
 }
 
 TEST(Mappers_RegionTests, regionCanBeLoaded)
@@ -28,7 +28,7 @@ TEST(Mappers_RegionTests, regionCanBeLoaded)
 	const mappers::CK3Region region(input);
 
 	ASSERT_FALSE(region.getRegions().empty());
-	ASSERT_EQ(region.getRegions().find("sicily_region")->first, "sicily_region");
+	ASSERT_EQ("sicily_region", region.getRegions().find("sicily_region")->first);
 }
 
 TEST(Mappers_RegionTests, multipleDuchiesCanBeLoaded)
@@ -37,7 +37,7 @@ TEST(Mappers_RegionTests, multipleDuchiesCanBeLoaded)
 	input << "duchies = { d_ivrea d_athens d_oppo } \n";
 	const mappers::CK3Region region(input);
 
-	ASSERT_EQ(region.getDuchies().size(), 3);
+	ASSERT_EQ(3, region.getDuchies().size());
 }
 
 TEST(Mappers_RegionTests, multipleRegionsCanBeLoaded)
@@ -46,7 +46,7 @@ TEST(Mappers_RegionTests, multipleRegionsCanBeLoaded)
 	input << "regions = { sicily_region island_region new_region } \n";
 	const mappers::CK3Region region(input);
 
-	ASSERT_EQ(region.getRegions().size(), 3);
+	ASSERT_EQ(3, region.getRegions().size());
 }
 
 TEST(Mappers_RegionTests, regionCanBeLinkedToDuchy)

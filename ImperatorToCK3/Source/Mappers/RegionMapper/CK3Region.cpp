@@ -19,9 +19,7 @@ void mappers::CK3Region::registerKeys()
 	registerKeyword("duchies", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::stringList names(theStream);
 		for (const auto& name : names.getStrings())
-		{
 			duchies.emplace(name, nullptr);
-		}
 	});
 	registerKeyword("counties", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::stringList names(theStream);
@@ -43,10 +41,8 @@ bool mappers::CK3Region::regionContainsProvince(const unsigned long long provinc
 			return true;
 
 	for (const auto& [duchyName, duchy] : duchies)
-	{
 		if (duchy && duchy->duchyContainsProvince(province))
 			return true;
-	}
 		
 	for (const auto& [countyName, county] : counties)
 		if (county && county->getCountyProvinces().contains(province))
