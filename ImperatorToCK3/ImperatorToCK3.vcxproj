@@ -266,6 +266,8 @@
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapper.cpp" />
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp" />
     <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
+    <ClCompile Include="Source\Mappers\NicknameMapper\NicknameMapper.cpp" />
+    <ClCompile Include="Source\Mappers\NicknameMapper\NicknameMapping.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
     <ClCompile Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
@@ -341,6 +343,8 @@
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapper.h" />
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h" />
     <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h" />
+    <ClInclude Include="Source\Mappers\NicknameMapper\NicknameMapper.h" />
+    <ClInclude Include="Source\Mappers\NicknameMapper\NicknameMapping.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapper.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMapping.h" />
     <ClInclude Include="Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.h" />

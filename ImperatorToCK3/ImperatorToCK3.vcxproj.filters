@@ -88,6 +88,9 @@
     <Filter Include="Mappers\GovernmentMapper">
       <UniqueIdentifier>{1102b6be-11ba-40f7-b58e-eb2b1354e6aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\NicknameMapper">
+      <UniqueIdentifier>{2404ac05-3984-4e42-9e9d-b039e3d69238}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -307,6 +310,12 @@
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h">
       <Filter>Mappers\GovernmentMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\NicknameMapper\NicknameMapper.h">
+      <Filter>Mappers\NicknameMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\NicknameMapper\NicknameMapping.h">
+      <Filter>Mappers\NicknameMapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -520,6 +529,12 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp">
       <Filter>Mappers\GovernmentMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\NicknameMapper\NicknameMapper.cpp">
+      <Filter>Mappers\NicknameMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\NicknameMapper\NicknameMapping.cpp">
+      <Filter>Mappers\NicknameMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
