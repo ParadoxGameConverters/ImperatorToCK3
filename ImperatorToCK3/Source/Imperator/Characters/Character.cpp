@@ -78,8 +78,7 @@ void Imperator::Character::registerKeys()
 			spouses.emplace(spouse, nullptr);
 	});
 	registerKeyword("children", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::ullongList childrenList(theStream);
-		for (const auto child : childrenList.getULlongs())
+		for (const auto child : commonItems::ullongList(theStream).getULlongs())
 			children.emplace(child, nullptr);
 	});
 	registerRegex("attributes", [this](const std::string& unused, std::istream& theStream) {

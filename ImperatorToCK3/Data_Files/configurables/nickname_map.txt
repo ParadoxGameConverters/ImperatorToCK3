@@ -6,7 +6,7 @@
 
 
 link = { imp = NICKNAME_MAXIMUS imp = NICKNAME_THE_VICTORIOUS ck3 = nick_the_victorious }
-link = { imp = NICKNAME_METELLUS imp = NICKNAME_THE_SOLDIER ck3 = a }
+#link = { imp = NICKNAME_METELLUS imp = NICKNAME_THE_SOLDIER ck3 = ??? }
 link = { imp = NICKNAME_MERULA imp = NICKNAME_THE_JACKDAW ck3 = nick_the_hawk } # Jackdaw is some bird
 link = { imp = NICKNAME_LICINUS imp = NICKNAME_THE_VIOLENT ck3 = nick_the_ruthless }
 link = { imp = NICKNAME_DOLABELLA imp = NICKNAME_THE_AXE ck3 = nick_the_ironside }

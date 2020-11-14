@@ -8,11 +8,13 @@ namespace mappers
 {
 class NicknameMapping: commonItems::parser
 {
-  public:
+public:
 	explicit NicknameMapping(std::istream& theStream);
 
 	std::set<std::string> impNicknames;
 	std::optional<std::string> ck3Nickname;
+private:
+	void registerKeys();
 };
 } // namespace mappers
 

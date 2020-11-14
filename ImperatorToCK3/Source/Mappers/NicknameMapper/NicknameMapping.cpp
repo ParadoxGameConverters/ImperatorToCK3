@@ -3,6 +3,13 @@
 
 mappers::NicknameMapping::NicknameMapping(std::istream& theStream)
 {
+	registerKeys();
+	parseStream(theStream);
+	clearRegisteredKeywords();
+}
+
+void mappers::NicknameMapping::registerKeys()
+{
 	registerKeyword("ck3", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nicknameString(theStream);
 		ck3Nickname = nicknameString.getString();
@@ -12,7 +19,5 @@ mappers::NicknameMapping::NicknameMapping(std::istream& theStream)
 		impNicknames.insert(nicknameString.getString());
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
-
-	parseStream(theStream);
-	clearRegisteredKeywords();
 }
+
