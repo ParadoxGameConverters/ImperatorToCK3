@@ -76,6 +76,9 @@
     <Filter Include="MapperTests\GovernmentMapper">
       <UniqueIdentifier>{29cf7959-e8b3-4044-b016-9fa9255e624a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests\NicknameMapper">
+      <UniqueIdentifier>{99ecafb1-f2f7-4786-a2b0-4eef3785eb63}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MapperTests\RegionMapper">
       <UniqueIdentifier>{796dcbbd-a320-4b4f-8446-19a3d1e87a8e}</UniqueIdentifier>
     </Filter>
@@ -369,6 +372,18 @@
     <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMappingTests.cpp">
       <Filter>MapperTests\GovernmentMapper</Filter>
     </ClCompile>
+    <ClCompile Include="MapperTests\NicknameMapper\NicknameMapperTests.cpp">
+      <Filter>MapperTests\NicknameMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\NicknameMapper\NicknameMappingTests.cpp">
+      <Filter>MapperTests\NicknameMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\NicknameMapper\NicknameMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\NicknameMapper\NicknameMapping.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </Filter>
     <ClCompile Include="MapperTests\RegionMapper\CK3RegionMapperTests.cpp">
       <Filter>MapperTests\RegionMapper</Filter>
     </ClCompile>

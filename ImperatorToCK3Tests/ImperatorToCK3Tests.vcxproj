@@ -215,6 +215,8 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\GovernmentMapper\GovernmentMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\GovernmentMapper\GovernmentMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\NicknameMapper\NicknameMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\NicknameMapper\NicknameMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
@@ -254,6 +256,8 @@
     <ClCompile Include="MapperTests\CultureMapper\CultureMappingTests.cpp" />
     <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMapperTests.cpp" />
     <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMappingTests.cpp" />
+    <ClCompile Include="MapperTests\NicknameMapper\NicknameMapperTests.cpp" />
+    <ClCompile Include="MapperTests\NicknameMapper\NicknameMappingTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMapperTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingsVersionTests.cpp" />
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingTests.cpp" />

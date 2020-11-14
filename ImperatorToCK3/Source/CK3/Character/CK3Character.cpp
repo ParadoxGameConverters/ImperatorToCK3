@@ -3,6 +3,7 @@
 #include "../../Mappers/CultureMapper/CultureMapper.h"
 #include "../../Mappers/ReligionMapper/ReligionMapper.h"
 #include "../../Mappers/TraitMapper/TraitMapper.h"
+#include "../../Mappers/NicknameMapper/NicknameMapper.h"
 #include "Log.h"
 
 
@@ -11,6 +12,7 @@ void CK3::Character::initializeFromImperator(
 	const mappers::ReligionMapper& religionMapper,
 	const mappers::CultureMapper& cultureMapper,
 	const mappers::TraitMapper& traitMapper,
+	const mappers::NicknameMapper& nicknameMapper,
 	const mappers::LocalizationMapper& localizationMapper,
 	const bool ConvertBirthAndDeathDates = true,
 	const date DateOnConversion = date(867, 1, 1))
@@ -45,6 +47,11 @@ void CK3::Character::initializeFromImperator(
 		if (traitMatch) traits.insert(*traitMatch);
 	}
 
+	if (!imperatorCharacter->getNickname().empty())
+	{
+		auto nicknameMatch = nicknameMapper.getCK3NicknameForImperatorNickname(imperatorCharacter->getNickname());
+		if (nicknameMatch) nickname = *nicknameMatch;
+	}
 	
 	birthDate = imperatorCharacter->getBirthDate();
 	deathDate = imperatorCharacter->getDeathDate();

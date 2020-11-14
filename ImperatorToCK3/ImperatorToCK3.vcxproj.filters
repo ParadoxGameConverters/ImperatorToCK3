@@ -88,6 +88,9 @@
     <Filter Include="Mappers\GovernmentMapper">
       <UniqueIdentifier>{1102b6be-11ba-40f7-b58e-eb2b1354e6aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\NicknameMapper">
+      <UniqueIdentifier>{2404ac05-3984-4e42-9e9d-b039e3d69238}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Mappers\RegionMapper">
       <UniqueIdentifier>{0dda4143-d939-4720-bb69-1ebd40eca92d}</UniqueIdentifier>
     </Filter>
@@ -310,6 +313,12 @@
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h">
       <Filter>Mappers\GovernmentMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\NicknameMapper\NicknameMapper.h">
+      <Filter>Mappers\NicknameMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\NicknameMapper\NicknameMapping.h">
+      <Filter>Mappers\NicknameMapper</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h">
       <Filter>Mappers\VersionParser</Filter>
     </ClInclude>
@@ -530,6 +539,12 @@
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp">
       <Filter>Mappers\GovernmentMapper</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Mappers\NicknameMapper\NicknameMapper.cpp">
+      <Filter>Mappers\NicknameMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\NicknameMapper\NicknameMapping.cpp">
+      <Filter>Mappers\NicknameMapper</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp">
       <Filter>Mappers\VersionParser</Filter>
     </ClCompile>
@@ -621,6 +636,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="Data_Files\after_converting.txt" />
     <CopyFileToFolders Include="Data_Files\configurables\government_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\nickname_map.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
   </ItemGroup>

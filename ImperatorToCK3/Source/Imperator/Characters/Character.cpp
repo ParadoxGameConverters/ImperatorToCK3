@@ -27,20 +27,17 @@ void Imperator::Character::registerKeys()
 		province = commonItems::singleULlong(theStream).getULlong();
 	});
 	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString cultureStr(theStream);
-		culture = cultureStr.getString();
+		culture = commonItems::singleString(theStream).getString();
 	});
 	registerKeyword("religion", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString religionStr(theStream);
-		religion = religionStr.getString();
+		religion = commonItems::singleString(theStream).getString();
 	});
 	registerKeyword("female", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString femStr(theStream);
 		female = femStr.getString() == "yes";
 	});
 	registerKeyword("traits", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::stringList trList(theStream);
-		traits = trList.getStrings();
+		traits = commonItems::stringList(theStream).getStrings();
 	});
 	registerKeyword("birth_date", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString dateStr(theStream);
@@ -52,6 +49,9 @@ void Imperator::Character::registerKeys()
 	});
 	registerKeyword("age", [this](const std::string& unused, std::istream& theStream) {
 		age = static_cast<unsigned int>(commonItems::singleInt(theStream).getInt());
+	});
+	registerKeyword("nickname", [this](const std::string& unused, std::istream& theStream) {
+		nickname = commonItems::singleString(theStream).getString();
 	});
 	registerKeyword("family", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleULlong familyLLong(theStream);
@@ -75,12 +75,11 @@ void Imperator::Character::registerKeys()
 	registerKeyword("spouse", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::ullongList spouseList(theStream);
 		for (const auto spouse : spouseList.getULlongs())
-			spouses.insert(std::pair(spouse, nullptr));
+			spouses.emplace(spouse, nullptr);
 	});
 	registerKeyword("children", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::ullongList childrenList(theStream);
-		for (const auto child : childrenList.getULlongs())
-			children.insert(std::pair(child, nullptr));
+		for (const auto child : commonItems::ullongList(theStream).getULlongs())
+			children.emplace(child, nullptr);
 	});
 	registerRegex("attributes", [this](const std::string& unused, std::istream& theStream) {
 		const CharacterAttributes attributesFromBloc(theStream);
