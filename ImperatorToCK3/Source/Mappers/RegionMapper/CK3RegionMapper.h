@@ -1,13 +1,12 @@
 #ifndef CK3_REGIONS_H
 #define CK3_REGIONS_H
 
-#include "../../CK3/Titles/Title.h"
-#include "../../CK3/Titles/LandedTitles.h"
+#include "CK3/Titles/Title.h"
+#include "CK3/Titles/LandedTitles.h"
 #include "CK3Region.h"
 #include "Parser.h"
 #include <map>
 
-class Configuration;
 namespace mappers
 {
 class CK3RegionMapper: commonItems::parser

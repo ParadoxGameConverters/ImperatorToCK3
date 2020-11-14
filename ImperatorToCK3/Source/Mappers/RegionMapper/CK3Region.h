@@ -3,7 +3,7 @@
 
 #include "Parser.h"
 #include <set>
-#include "../../CK3/Titles/Title.h"
+#include "CK3/Titles/Title.h"
 #include "Log.h"
 
 namespace mappers
@@ -19,7 +19,7 @@ class CK3Region: commonItems::parser
 	[[nodiscard]] const auto& getProvinces() const { return provinces; }
 	[[nodiscard]] bool regionContainsProvince(unsigned long long province) const;
 
-	void linkRegion(const std::pair<std::string, std::shared_ptr<CK3Region>>& theRegion) { regions[theRegion.first] = theRegion.second; }
+	void linkRegion(const std::string& regionName, const std::shared_ptr<CK3Region>& region) { regions[regionName] = region; }
 	void linkDuchy(const std::shared_ptr<CK3::Title>& theDuchy) { duchies[theDuchy->getName()] = theDuchy; }
 	void linkCounty(const std::shared_ptr<CK3::Title>& theCounty) { counties[theCounty->getName()] = theCounty; }
 

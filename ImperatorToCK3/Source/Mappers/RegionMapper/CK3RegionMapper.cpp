@@ -135,7 +135,7 @@ void mappers::CK3RegionMapper::linkRegions()
 			const auto& regionItr = regions.find(requiredRegionName);
 			if (regionItr != regions.end())
 			{
-				region->linkRegion(std::pair(regionItr->first, regionItr->second));
+				region->linkRegion(regionItr->first, regionItr->second);
 			}
 			else
 			{

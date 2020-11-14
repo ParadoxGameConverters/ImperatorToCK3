@@ -1,4 +1,4 @@
-#include "../../ImperatorToCK3/Source/Mappers/RegionMapper/CK3Region.h"
+#include "Mappers/RegionMapper/CK3Region.h"
 #include "gtest/gtest.h"
 #include <sstream>
 
@@ -60,7 +60,7 @@ TEST(Mappers_RegionTests, regionCanBeLinkedToDuchy)
 	auto duchy2 = std::make_shared<CK3::Title>("d_athens");
 	duchy2->loadTitles(input2);
 
-	ASSERT_FALSE(region.getDuchies().find("d_athens")->second); // nullptr before linking
+	ASSERT_EQ(nullptr, region.getDuchies().find("d_athens")->second); // nullptr before linking
 	region.linkDuchy(duchy2);
 	ASSERT_TRUE(region.getDuchies().find("d_athens")->second);
 }
