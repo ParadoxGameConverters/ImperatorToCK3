@@ -64,7 +64,7 @@ class World
 		mappers::CoaMapper coaMapper;
 		mappers::TraitMapper traitMapper;
 		mappers::GovernmentMapper governmentMapper;
-		std::unique_ptr<mappers::CK3RegionMapper> regionMapper = nullptr;
+		std::unique_ptr<mappers::CK3RegionMapper> regionMapper;
 		TitlesHistory titlesHistory;
 
 
