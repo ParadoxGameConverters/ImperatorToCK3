@@ -10,7 +10,6 @@
 #include "ParserHelpers.h"
 
 
-
 void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles)
 {
 	for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
@@ -27,8 +26,6 @@ void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<
 				newTitle->addCountyProvince(*baronyProvince); // add found baronies' provinces to countyProvinces
 			}
 		}
-		if (!locatedTitle->getDeJureLiege()) // locatedTitle has no de jure liege set yet, which indicated it's newTitle's direct de jure vassal
-			locatedTitle->setDeJureLiege(newTitle);
 		foundTitles[locatedTitleName] = locatedTitle;
 	}
 	// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
@@ -59,6 +56,7 @@ void CK3::Title::registerKeys()
 		}
 		
 		addFoundTitle(newTitle, foundTitles);
+		newTitle->setDeJureLiege(shared_from_this());
 		});
 	registerKeyword("definite_form", [this](const std::string& unused, std::istream& theStream) {
 		definiteForm = commonItems::singleString(theStream).getString() == "yes";
@@ -286,4 +284,17 @@ void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& tit
 	
 	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName); vanillaHistory)
 		historyString = *vanillaHistory;
+}
+
+bool CK3::Title::duchyContainsProvince(const unsigned long long provinceID) const
+{
+	if (!titleName.starts_with("d_")) return false;
+
+	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals)
+	{
+		if (vassalTitleName.starts_with("c_") && vassalTitle->countyProvinces.contains(provinceID))
+			return true;
+	}
+
+	return false;
 }

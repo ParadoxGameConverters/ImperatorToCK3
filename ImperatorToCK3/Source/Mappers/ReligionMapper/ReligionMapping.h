@@ -13,10 +13,12 @@ class ReligionMapping: commonItems::parser
 
 	[[nodiscard]] const auto& getImperatorReligions() const { return impReligions; }
 	[[nodiscard]] const auto& getCK3Religion() const { return ck3Religion; }
+	[[nodiscard]] const auto& getCK3Regions() const { return ck3Regions; }
 
   private:
 	std::set<std::string> impReligions;
 	std::string ck3Religion;
+	std::set<std::string> ck3Regions;
 };
 } // namespace mappers
 
