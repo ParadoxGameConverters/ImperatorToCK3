@@ -13,8 +13,7 @@ class CK3RegionMapper: commonItems::parser
 {
   public:
 	CK3RegionMapper() = default;
-
-	void loadRegions(const std::string& ck3Path, CK3::LandedTitles& landedTitles);
+	CK3RegionMapper(const std::string& ck3Path, CK3::LandedTitles& landedTitles);
 	void loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream);
 
 	[[nodiscard]] bool provinceIsInRegion(unsigned long long province, const std::string& regionName) const;

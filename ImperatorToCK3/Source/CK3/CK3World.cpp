@@ -25,7 +25,7 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	// Loading vanilla CK3 landed titles
 	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");
 	// Loading regions
-	regionMapper.loadRegions(theConfiguration.getCK3Path(), landedTitles);
+	regionMapper = std::make_unique<mappers::CK3RegionMapper>(theConfiguration.getCK3Path(), landedTitles);
 	
 	// Load vanilla titles history
 	titlesHistory = TitlesHistory(theConfiguration);

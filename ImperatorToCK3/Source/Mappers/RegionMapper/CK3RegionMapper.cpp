@@ -7,7 +7,7 @@
 
 namespace fs = std::filesystem;
 
-void mappers::CK3RegionMapper::loadRegions(const std::string& ck3Path, CK3::LandedTitles& landedTitles)
+mappers::CK3RegionMapper::CK3RegionMapper(const std::string& ck3Path, CK3::LandedTitles& landedTitles)
 {
 	LOG(LogLevel::Info) << "-> Initializing Geography";
 	
