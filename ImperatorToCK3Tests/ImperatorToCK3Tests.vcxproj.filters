@@ -79,8 +79,11 @@
     <Filter Include="MapperTests\NicknameMapper">
       <UniqueIdentifier>{99ecafb1-f2f7-4786-a2b0-4eef3785eb63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MapperTests\RegionMapper">
+    <Filter Include="MapperTests\CK3RegionMapper">
       <UniqueIdentifier>{796dcbbd-a320-4b4f-8446-19a3d1e87a8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapperTests\ImperatorRegionMapper">
+      <UniqueIdentifier>{3820e22a-b3a3-4505-a3b1-585c3fdc7acd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -383,18 +386,36 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\NicknameMapper\NicknameMapping.cpp">
       <Filter>Sources\Mappers</Filter>
-    </Filter>
+    </ClCompile>
     <ClCompile Include="MapperTests\RegionMapper\CK3RegionMapperTests.cpp">
-      <Filter>MapperTests\RegionMapper</Filter>
+      <Filter>MapperTests\CK3RegionMapper</Filter>
     </ClCompile>
     <ClCompile Include="MapperTests\RegionMapper\CK3RegionTests.cpp">
-      <Filter>MapperTests\RegionMapper</Filter>
+      <Filter>MapperTests\CK3RegionMapper</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\CK3Region.cpp">
       <Filter>Sources\Mappers</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\CK3RegionMapper.cpp">
       <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\ImperatorArea.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\ImperatorRegion.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\ImperatorRegionMapper.cpp">
+      <Filter>Sources\Mappers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\RegionMapper\ImperatorAreaTests.cpp">
+      <Filter>MapperTests\ImperatorRegionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\RegionMapper\ImperatorRegionTests.cpp">
+      <Filter>MapperTests\ImperatorRegionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\RegionMapper\ImperatorRegionMapperTests.cpp">
+      <Filter>MapperTests\ImperatorRegionMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
