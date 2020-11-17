@@ -383,7 +383,7 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\NicknameMapper\NicknameMapping.cpp">
       <Filter>Sources\Mappers</Filter>
-    </Filter>
+    </ClCompile>
     <ClCompile Include="MapperTests\RegionMapper\CK3RegionMapperTests.cpp">
       <Filter>MapperTests\RegionMapper</Filter>
     </ClCompile>
