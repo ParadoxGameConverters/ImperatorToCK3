@@ -31,11 +31,11 @@ mappers::ImperatorRegionMapper::ImperatorRegionMapper(const std::string& imperat
 void mappers::ImperatorRegionMapper::loadRegions(std::istream& areaStream, std::istream& regionStream)
 {
 	registerAreaKeys();
-	parseStream(regionStream);
+	parseStream(areaStream);
 	clearRegisteredKeywords();
 	
 	registerRegionKeys();
-	parseStream(areaStream);
+	parseStream(regionStream);
 	clearRegisteredKeywords();
 
 	linkRegions();

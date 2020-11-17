@@ -222,6 +222,9 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ProvinceMapper\ProvinceMappingsVersion.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\CK3Region.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\CK3RegionMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\ImperatorArea.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\ImperatorRegion.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\ImperatorRegionMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
@@ -263,6 +266,9 @@
     <ClCompile Include="MapperTests\ProvinceMapper\ProvinceMappingTests.cpp" />
     <ClCompile Include="MapperTests\RegionMapper\CK3RegionMapperTests.cpp" />
     <ClCompile Include="MapperTests\RegionMapper\CK3RegionTests.cpp" />
+    <ClCompile Include="MapperTests\RegionMapper\ImperatorAreaTests.cpp" />
+    <ClCompile Include="MapperTests\RegionMapper\ImperatorRegionMapperTests.cpp" />
+    <ClCompile Include="MapperTests\RegionMapper\ImperatorRegionTests.cpp" />
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMapperTests.cpp" />
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp" />
     <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMapperTests.cpp" />
