@@ -331,6 +331,9 @@
     <ClInclude Include="Source\Mappers\RegionMapper\ImperatorArea.h">
       <Filter>Mappers\RegionMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\RegionMapper\ImperatorRegion.h">
+      <Filter>Mappers\RegionMapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -558,6 +561,9 @@
       <Filter>Mappers\RegionMapper</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mappers\RegionMapper\ImperatorArea.cpp">
+      <Filter>Mappers\RegionMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\RegionMapper\ImperatorRegion.cpp">
       <Filter>Mappers\RegionMapper</Filter>
     </ClCompile>
   </ItemGroup>

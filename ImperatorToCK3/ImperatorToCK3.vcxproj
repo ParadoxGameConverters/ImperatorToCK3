@@ -274,6 +274,7 @@
     <ClCompile Include="Source\Mappers\RegionMapper\CK3Region.cpp" />
     <ClCompile Include="Source\Mappers\RegionMapper\CK3RegionMapper.cpp" />
     <ClCompile Include="Source\Mappers\RegionMapper\ImperatorArea.cpp" />
+    <ClCompile Include="Source\Mappers\RegionMapper\ImperatorRegion.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
@@ -354,6 +355,7 @@
     <ClInclude Include="Source\Mappers\RegionMapper\CK3Region.h" />
     <ClInclude Include="Source\Mappers\RegionMapper\CK3RegionMapper.h" />
     <ClInclude Include="Source\Mappers\RegionMapper\ImperatorArea.h" />
+    <ClInclude Include="Source\Mappers\RegionMapper\ImperatorRegion.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h" />
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h" />
