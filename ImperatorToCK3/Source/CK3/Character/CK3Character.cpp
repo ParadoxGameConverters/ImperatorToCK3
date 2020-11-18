@@ -4,6 +4,7 @@
 #include "../../Mappers/ReligionMapper/ReligionMapper.h"
 #include "../../Mappers/TraitMapper/TraitMapper.h"
 #include "../../Mappers/NicknameMapper/NicknameMapper.h"
+#include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Log.h"
 
 
@@ -14,6 +15,7 @@ void CK3::Character::initializeFromImperator(
 	const mappers::TraitMapper& traitMapper,
 	const mappers::NicknameMapper& nicknameMapper,
 	const mappers::LocalizationMapper& localizationMapper,
+	const mappers::ProvinceMapper& provinceMapper, // used to determine ck3 province for religion mapper
 	const bool ConvertBirthAndDeathDates = true,
 	const date DateOnConversion = date(867, 1, 1))
 {
@@ -23,7 +25,9 @@ void CK3::Character::initializeFromImperator(
 	female = imperatorCharacter->isFemale();
 	age = imperatorCharacter->getAge();
 	
-	auto match = religionMapper.getCK3ReligionForImperatorReligion(imperatorCharacter->getReligion());
+	auto match = religionMapper.religionMatch(imperatorCharacter->getReligion(),
+		provinceMapper.getCK3ProvinceNumbers(imperatorCharacter->getProvince()).at(0),
+		imperatorCharacter->getProvince());
 	if (match) religion = *match;
 	match = cultureMapper.cultureMatch(imperatorCharacter->getCulture(), religion, imperatorCharacter->getProvince(), "");
 	if (match) culture = *match;

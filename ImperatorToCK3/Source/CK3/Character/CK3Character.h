@@ -14,6 +14,7 @@ namespace mappers
 	class ReligionMapper;
 	class TraitMapper;
 	class NicknameMapper;
+	class ProvinceMapper;
 } // namespace mappers
 
 namespace CK3
@@ -29,6 +30,7 @@ class Character
 		const mappers::TraitMapper& traitMapper,
 		const mappers::NicknameMapper& nicknameMapper,
 		const mappers::LocalizationMapper& localizationMapper,
+		const mappers::ProvinceMapper& provinceMapper,
 		bool ConvertBirthAndDeathDates,
 		date DateOnConversion);
 

@@ -2,6 +2,7 @@
 #define RELIGION_MAPPER_H
 
 #include "Parser.h"
+#include "ReligionMapping.h"
 #include <map>
 #include <optional>
 #include <string>
@@ -14,12 +15,14 @@ class ReligionMapper: commonItems::parser
 	ReligionMapper();
 	explicit ReligionMapper(std::istream& theStream);
 
-	[[nodiscard]] std::optional<std::string> getCK3ReligionForImperatorReligion(const std::string& impReligion) const;
+	void loadRegionMappers(const std::shared_ptr<ImperatorRegionMapper>& impRegionMapper, const std::shared_ptr<CK3RegionMapper>& ck3RegionMapper);
+	
+	[[nodiscard]] std::optional<std::string> religionMatch(const std::string& impReligion, unsigned long long ck3ProvinceID, unsigned long long impProvinceID) const;
 
   private:
 	void registerKeys();
 
-	std::map<std::string, std::string> impToCK3ReligionMap;
+	std::vector<ReligionMapping> religionMappings;
 };
 } // namespace mappers
 

@@ -67,7 +67,7 @@ class World
 		mappers::TraitMapper traitMapper;
 		mappers::NicknameMapper nicknameMapper;
 		mappers::GovernmentMapper governmentMapper;
-		std::unique_ptr<mappers::CK3RegionMapper> ck3RegionMapper;
+		std::shared_ptr<mappers::CK3RegionMapper> ck3RegionMapper;
 		mappers::ImperatorRegionMapper imperatorRegionMapper;
 		TitlesHistory titlesHistory;
 

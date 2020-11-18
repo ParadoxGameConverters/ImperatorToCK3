@@ -33,7 +33,7 @@ class Province
 	[[nodiscard]] const auto& getTitleCountry() const { return titleCountry; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
-	[[nodiscard]] auto getProvinceID() const { return provID; }
+	[[nodiscard]] auto getID() const { return provID; }
 	
 
 	void registerTitleCountry(const std::pair<std::string, std::shared_ptr<Title>>& theTitle) { titleCountry = theTitle; }
