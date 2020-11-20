@@ -47,5 +47,5 @@ TEST(Mappers_ReligionMapperTests, correctRuleMatches)
 	const mappers::ReligionMapper theMapper(input);
 
 	const auto& ck3Religion = theMapper.match("impReligion2", 45, 456);
-	ASSERT_EQ("ck3Religion2", ck3Religion);
+	ASSERT_EQ("ck3Religion2", *ck3Religion);
 }
