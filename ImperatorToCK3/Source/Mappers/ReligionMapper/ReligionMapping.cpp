@@ -40,9 +40,6 @@ std::optional<std::string> mappers::ReligionMapping::religionMatch(const std::st
 	if (!impReligions.contains(impReligion))
 		return std::nullopt;
 
-	if (!ck3ProvinceID || !impProvinceID) // valid provinces are required
-		return std::nullopt;
-
 	// This is a straight province check, not regions.
 	if (!ck3Provinces.empty() && ck3Regions.empty())
 		if (!ck3Provinces.contains(ck3ProvinceID))
@@ -50,6 +47,12 @@ std::optional<std::string> mappers::ReligionMapping::religionMatch(const std::st
 	if (!imperatorProvinces.empty() && imperatorRegions.empty())
 		if (!imperatorProvinces.contains(impProvinceID))
 			return std::nullopt;
+
+	// Asking for a regions check without an incoming province is pointless.
+	if (!ck3Regions.empty() && !ck3ProvinceID)
+		return std::nullopt;
+	if (!imperatorRegions.empty() && !impProvinceID)
+		return std::nullopt;
 
 	// This is a CK3 regions check, that checks if a provided province is within that CK3 region.
 	if (!ck3Regions.empty() || !imperatorRegions.empty())

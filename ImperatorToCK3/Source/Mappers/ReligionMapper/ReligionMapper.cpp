@@ -36,7 +36,7 @@ void mappers::ReligionMapper::loadRegionMappers(const std::shared_ptr<mappers::I
 	}
 }
 
-std::optional<std::string> mappers::ReligionMapper::religionMatch(const std::string& impReligion, const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const
+std::optional<std::string> mappers::ReligionMapper::match(const std::string& impReligion, const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const
 {
 	for (const auto& religionMapping : religionMappings)
 	{
