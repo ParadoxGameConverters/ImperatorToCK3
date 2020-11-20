@@ -21,13 +21,17 @@ mappers::ReligionMapper::ReligionMapper(std::istream& theStream)
 void mappers::ReligionMapper::registerKeys()
 {
 	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
-		religionMappings.push_back(ReligionMapping{theStream});
+		religionMappings.emplace_back(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 void mappers::ReligionMapper::loadRegionMappers(const std::shared_ptr<mappers::ImperatorRegionMapper>& impRegionMapper, const std::shared_ptr<mappers::CK3RegionMapper>& ck3RegionMapper)
 {
+	if (!ck3RegionMapper)
+		throw std::runtime_error("Religion Mapper: CK3 Region Mapper is unloaded!");
+	if (!impRegionMapper)
+		throw std::runtime_error("Religion Mapper: Imperator Region Mapper is unloaded!");
 	for (auto& mapping : religionMappings)
 	{
 		mapping.insertImperatorRegionMapper(impRegionMapper);

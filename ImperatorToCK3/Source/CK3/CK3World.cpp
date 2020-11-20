@@ -26,9 +26,9 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");
 	// Loading regions
 	ck3RegionMapper = std::make_shared<mappers::CK3RegionMapper>(theConfiguration.getCK3Path(), landedTitles);
-	imperatorRegionMapper = mappers::ImperatorRegionMapper(theConfiguration.getImperatorPath());
+	imperatorRegionMapper = std::make_shared<mappers::ImperatorRegionMapper>(theConfiguration.getImperatorPath());
 	// Use the region mappers in other mappers
-	religionMapper.loadRegionMappers(std::make_shared<mappers::ImperatorRegionMapper>(imperatorRegionMapper), ck3RegionMapper);
+	religionMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 	
 	// Load vanilla titles history
 	titlesHistory = TitlesHistory(theConfiguration);

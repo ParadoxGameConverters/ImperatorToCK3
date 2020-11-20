@@ -54,13 +54,11 @@ std::optional<std::string> mappers::ReligionMapping::religionMatch(const std::st
 	if (!imperatorRegions.empty() && !impProvinceID)
 		return std::nullopt;
 
-	// This is a CK3 regions check, that checks if a provided province is within that CK3 region.
+	// This is a CK3 and Imperator regions check.
+	// It checks if provided impProvince is within the mapping's impRegions OR
+	// if provided ck3Province is within the mapping's ck3Regions.
 	if (!ck3Regions.empty() || !imperatorRegions.empty())
 	{
-		if (!ck3RegionMapper)
-			throw std::runtime_error("Religion Mapper: CK3 Region Mapper is unloaded!");
-		if (!imperatorRegionMapper)
-			throw std::runtime_error("Religion Mapper: Imperator Region Mapper is unloaded!");
 		auto regionMatch = false;
 		for (const auto& region : ck3Regions)
 		{
