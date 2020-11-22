@@ -14,6 +14,7 @@
 #include "../Mappers/NicknameMapper/NicknameMapper.h"
 #include "../Mappers/GovernmentMapper/GovernmentMapper.h"
 #include "../Mappers/RegionMapper/CK3RegionMapper.h"
+#include "../Mappers/RegionMapper/ImperatorRegionMapper.h"
 #include "Character/CK3Character.h"
 #include "Province/CK3Province.h"
 #include "Titles/LandedTitles.h"
@@ -66,7 +67,8 @@ class World
 		mappers::TraitMapper traitMapper;
 		mappers::NicknameMapper nicknameMapper;
 		mappers::GovernmentMapper governmentMapper;
-		std::unique_ptr<mappers::CK3RegionMapper> regionMapper;
+		std::shared_ptr<mappers::CK3RegionMapper> ck3RegionMapper;
+		std::shared_ptr<mappers::ImperatorRegionMapper> imperatorRegionMapper;
 		TitlesHistory titlesHistory;
 
 

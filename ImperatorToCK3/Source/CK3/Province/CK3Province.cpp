@@ -39,7 +39,7 @@ void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper)
 	auto religionSet = false;
 	if (!srcProvince->getReligion().empty())
 	{
-		auto religionMatch = religionMapper.getCK3ReligionForImperatorReligion(srcProvince->getReligion());
+		auto religionMatch = religionMapper.match(srcProvince->getReligion(), provID, srcProvince->getID());
 		if (religionMatch)
 		{
 			details.religion = *religionMatch;

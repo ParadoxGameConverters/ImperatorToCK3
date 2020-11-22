@@ -25,7 +25,10 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	// Loading vanilla CK3 landed titles
 	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");
 	// Loading regions
-	regionMapper = std::make_unique<mappers::CK3RegionMapper>(theConfiguration.getCK3Path(), landedTitles);
+	ck3RegionMapper = std::make_shared<mappers::CK3RegionMapper>(theConfiguration.getCK3Path(), landedTitles);
+	imperatorRegionMapper = std::make_shared<mappers::ImperatorRegionMapper>(theConfiguration.getImperatorPath());
+	// Use the region mappers in other mappers
+	religionMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 	
 	// Load vanilla titles history
 	titlesHistory = TitlesHistory(theConfiguration);
@@ -63,7 +66,7 @@ void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, st
 {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
-	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, ConvertBirthAndDeathDates, endDate);
+	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, ConvertBirthAndDeathDates, endDate);
 	character.second->registerCK3Character(newCharacter);
 	characters.insert(std::pair(newCharacter->ID, newCharacter));
 }

@@ -7,7 +7,7 @@ TEST(CK3World_CK3ProvinceTests, idDefaultsTo0)
 {
 	const CK3::Province province;
 
-	ASSERT_EQ(0, province.getProvinceID());
+	ASSERT_EQ(0, province.getID());
 }
 TEST(CK3World_CK3ProvinceTests, religionDefaultsToEmpty)
 {
@@ -32,7 +32,7 @@ TEST(CK3World_CK3ProvinceTests, provinceCanBeLoadedFromStream)
 	std::stringstream input;
 	input << "{ culture=roman random_key=random_value religion=orthodox }";
 	CK3::Province province(42, input);
-	ASSERT_EQ(42, province.getProvinceID());
+	ASSERT_EQ(42, province.getID());
 	ASSERT_EQ("orthodox", province.getReligion());
 	ASSERT_EQ("roman", province.getCulture());
 }

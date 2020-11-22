@@ -4,6 +4,7 @@
 #include "../../Mappers/ReligionMapper/ReligionMapper.h"
 #include "../../Mappers/TraitMapper/TraitMapper.h"
 #include "../../Mappers/NicknameMapper/NicknameMapper.h"
+#include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Log.h"
 
 
@@ -14,6 +15,7 @@ void CK3::Character::initializeFromImperator(
 	const mappers::TraitMapper& traitMapper,
 	const mappers::NicknameMapper& nicknameMapper,
 	const mappers::LocalizationMapper& localizationMapper,
+	const mappers::ProvinceMapper& provinceMapper, // used to determine ck3 province for religion mapper
 	const bool ConvertBirthAndDeathDates = true,
 	const date DateOnConversion = date(867, 1, 1))
 {
@@ -22,9 +24,22 @@ void CK3::Character::initializeFromImperator(
 	name = imperatorCharacter->getName();
 	female = imperatorCharacter->isFemale();
 	age = imperatorCharacter->getAge();
+
 	
-	auto match = religionMapper.getCK3ReligionForImperatorReligion(imperatorCharacter->getReligion());
+	unsigned long long ck3Province; // for religion mapper
+	// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
+	auto impProvForProvinceMapper = imperatorCharacter->getProvince();
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && imperatorCharacter->getFather().second) impProvForProvinceMapper = imperatorCharacter->getFather().second->getProvince();
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && imperatorCharacter->getMother().second) impProvForProvinceMapper = imperatorCharacter->getMother().second->getProvince();
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && !imperatorCharacter->getSpouses().empty()) impProvForProvinceMapper = imperatorCharacter->getSpouses().begin()->second->getProvince();
+
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty()) ck3Province = 0;
+	else ck3Province = provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper)[0];
+	
+	auto match = religionMapper.match(imperatorCharacter->getReligion(), ck3Province, imperatorCharacter->getProvince());
 	if (match) religion = *match;
+
+	
 	match = cultureMapper.cultureMatch(imperatorCharacter->getCulture(), religion, imperatorCharacter->getProvince(), "");
 	if (match) culture = *match;
 

@@ -1,7 +1,6 @@
 #include "ReligionMapper.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "ReligionMapping.h"
 
 mappers::ReligionMapper::ReligionMapper()
 {
@@ -9,7 +8,7 @@ mappers::ReligionMapper::ReligionMapper()
 	registerKeys();
 	parseFile("configurables/religion_map.txt");
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> Loaded " << impToCK3ReligionMap.size() << " religious links.";
+	LOG(LogLevel::Info) << "<> Loaded " << religionMappings.size() << " religious links.";
 }
 
 mappers::ReligionMapper::ReligionMapper(std::istream& theStream)
@@ -22,19 +21,33 @@ mappers::ReligionMapper::ReligionMapper(std::istream& theStream)
 void mappers::ReligionMapper::registerKeys()
 {
 	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
-		const ReligionMapping theMapping(theStream);
-		for (const auto& imperatorReligion: theMapping.getImperatorReligions())
-		{
-			impToCK3ReligionMap.insert(std::make_pair(imperatorReligion, theMapping.getCK3Religion()));
-		}
+		religionMappings.emplace_back(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-std::optional<std::string> mappers::ReligionMapper::getCK3ReligionForImperatorReligion(const std::string& impReligion) const
+void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<mappers::ImperatorRegionMapper> impRegionMapper, std::shared_ptr<mappers::CK3RegionMapper> _ck3RegionMapper)
 {
-	const auto& mapping = impToCK3ReligionMap.find(impReligion);
-	if (mapping != impToCK3ReligionMap.end())
-		return mapping->second;
+	const auto imperatorRegionMapper = std::move(impRegionMapper);
+	const auto ck3RegionMapper = std::move(_ck3RegionMapper);
+	if (!ck3RegionMapper)
+		throw std::runtime_error("Religion Mapper: CK3 Region Mapper is unloaded!");
+	if (!impRegionMapper)
+		throw std::runtime_error("Religion Mapper: Imperator Region Mapper is unloaded!");
+	for (auto& mapping : religionMappings)
+	{
+		mapping.insertImperatorRegionMapper(imperatorRegionMapper);
+		mapping.insertCK3RegionMapper(ck3RegionMapper);
+	}
+}
+
+std::optional<std::string> mappers::ReligionMapper::match(const std::string& impReligion, const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const
+{
+	for (const auto& religionMapping : religionMappings)
+	{
+		const auto& possibleMatch = religionMapping.religionMatch(impReligion, ck3ProvinceID, impProvinceID);
+		if (possibleMatch)
+			return *possibleMatch;
+	}
 	return std::nullopt;
 }

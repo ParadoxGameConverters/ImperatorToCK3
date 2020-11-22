@@ -124,12 +124,12 @@ TEST(Mappers_RegionMapperTests, locationServicesFailForNonsense)
 	mappers::CK3RegionMapper theMapper;
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
-	landedTitlesStream << "d_testduchy = { 1 2 3 } \n";
-	landedTitlesStream << "d_testduchy2 = { 4 5 6 } ";
+	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n";
+	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n";
 	landedTitles.loadTitles(landedTitlesStream);
 	std::stringstream regionStream;
-	regionStream << "test_region = { duchies = { d_testduchy } }";
-	regionStream << "test_region2 = { duchies = { d_testduchy2 } }\n";
+	regionStream << "test_region = { duchies = { d_wakaba } }";
+	regionStream << "test_region2 = { duchies = { d_hujhu } }\n";
 	std::stringstream islandRegionStream;
 	theMapper.loadRegions(landedTitles, regionStream, islandRegionStream);
 
