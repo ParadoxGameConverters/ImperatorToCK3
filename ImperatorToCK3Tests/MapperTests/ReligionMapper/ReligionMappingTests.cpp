@@ -12,18 +12,8 @@ TEST(Mappers_ReligionMappingTests, regularMatchOnSimpleReligion)
 	input << "ck3 = flemish imp = dutch";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_EQ("flemish", *theMapping.religionMatch("dutch", 56, 445));
+	ASSERT_EQ("flemish", *theMapping.religionMatch("dutch", 0, 0));
 }
-
-TEST(Mappers_ReligionMappingTests, regularMatchOnSimpleReligionFailsForWrongCulture)
-{
-	std::stringstream input;
-	input << "ck3 = flemish imp = flemish";
-	const mappers::ReligionMapping theMapping(input);
-
-	ASSERT_FALSE(theMapping.religionMatch("dutch", 345, 435));
-}
-
 
 TEST(Mappers_ReligionMappingTests, matchOnProvince)
 {
@@ -31,7 +21,7 @@ TEST(Mappers_ReligionMappingTests, matchOnProvince)
 	input << "ck3 = dutch imp = german ck3Province = 17";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_EQ("dutch", *theMapping.religionMatch("german", 17, 45));
+	ASSERT_EQ("dutch", *theMapping.religionMatch("german", 17, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForWrongProvince)
@@ -40,7 +30,7 @@ TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForWrongProvince)
 	input << "ck3 = dutch imp = german ck3Province = 17";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 19, 345));
+	ASSERT_FALSE(theMapping.religionMatch("german", 19, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForNoProvince)
@@ -49,7 +39,7 @@ TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForNoProvince)
 	input << "ck3 = dutch imp = german ck3Province = 17";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 0, 345));
+	ASSERT_FALSE(theMapping.religionMatch("german", 0, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegion)
@@ -57,22 +47,20 @@ TEST(Mappers_ReligionMappingTests, matchOnRegion)
 	auto theMapper = std::make_shared<mappers::CK3RegionMapper>();
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
-	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n";
-	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n";
+	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_newbarony2 = { province = 4 } } } } \n";
 	landedTitles.loadTitles(landedTitlesStream);
 	std::stringstream regionStream;
-	regionStream << "test_region = { duchies = { d_wakaba } }";
-	regionStream << "test_region2 = { duchies = { d_hujhu } }\n";
+	regionStream << "test_region1 = { duchies = { d_hujhu } }\n";
 	std::stringstream islandRegionStream;
 	theMapper->loadRegions(landedTitles, regionStream, islandRegionStream);
 
 	std::stringstream input;
-	input << "ck3 = dutch imp = german ck3Region = test_region2";
+	input << "ck3 = dutch imp = german ck3Region = test_region1";
 	mappers::ReligionMapping theMapping(input);
 	theMapping.insertCK3RegionMapper(theMapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_EQ("dutch", *theMapping.religionMatch("german", 4, 34345));
+	ASSERT_EQ("dutch", *theMapping.religionMatch("german", 4, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForWrongRegion)
@@ -80,8 +68,8 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForWrongRegion)
 	auto theMapper = std::make_shared<mappers::CK3RegionMapper>();
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
-	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n";
-	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n";
+	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } } } } \n";
+	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } } } } \n";
 	landedTitles.loadTitles(landedTitlesStream);
 	std::stringstream regionStream;
 	regionStream << "test_region = { duchies = { d_wakaba } }";
@@ -95,7 +83,7 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForWrongRegion)
 	theMapping.insertCK3RegionMapper(theMapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 79, 34345));
+	ASSERT_FALSE(theMapping.religionMatch("german", 79, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoRegion)
@@ -103,12 +91,8 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoRegion)
 	auto ck3Mapper = std::make_shared<mappers::CK3RegionMapper>();
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
-	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n";
-	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n";
 	landedTitles.loadTitles(landedTitlesStream);
 	std::stringstream regionStream;
-	regionStream << "test_region = { duchies = { d_wakaba } }";
-	regionStream << "test_region2 = { duchies = { d_hujhu } }\n";
 	std::stringstream islandRegionStream;
 	ck3Mapper->loadRegions(landedTitles, regionStream, islandRegionStream);
 
@@ -118,7 +102,7 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoRegion)
 	theMapping.insertCK3RegionMapper(ck3Mapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 17, 34345));
+	ASSERT_FALSE(theMapping.religionMatch("german", 17, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoProvince)
@@ -126,12 +110,9 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoProvince)
 	auto theMapper = std::make_shared<mappers::CK3RegionMapper>();
 	CK3::LandedTitles landedTitles;
 	std::stringstream landedTitlesStream;
-	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n";
 	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n";
 	landedTitles.loadTitles(landedTitlesStream);
 	std::stringstream regionStream;
-	regionStream << "test_region = { duchies = { d_wakaba } }";
-	regionStream << "test_region2 = { duchies = { d_hujhu } }\n";
 	std::stringstream islandRegionStream;
 	theMapper->loadRegions(landedTitles, regionStream, islandRegionStream);
 
@@ -141,5 +122,5 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoProvince)
 	theMapping.insertCK3RegionMapper(theMapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 0, 56756));
+	ASSERT_FALSE(theMapping.religionMatch("german", 0, 0));
 }

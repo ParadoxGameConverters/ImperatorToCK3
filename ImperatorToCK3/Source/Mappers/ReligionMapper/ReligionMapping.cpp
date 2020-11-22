@@ -40,8 +40,11 @@ std::optional<std::string> mappers::ReligionMapping::religionMatch(const std::st
 	if (!impReligions.contains(impReligion))
 		return std::nullopt;
 
-	if (ck3ProvinceID || impProvinceID)
+	if (!ck3Provinces.empty() || !imperatorProvinces.empty() || !ck3Regions.empty() || !imperatorRegions.empty())
 	{
+		if (!ck3ProvinceID && !impProvinceID)
+			return std::nullopt;
+
 		// This is a CK3 provinces check
 		if (ck3Provinces.contains(ck3ProvinceID))
 			return ck3Religion;
@@ -76,8 +79,6 @@ std::optional<std::string> mappers::ReligionMapping::religionMatch(const std::st
 				return ck3Religion;
 		}
 		
-		if (ck3Provinces.empty() && imperatorProvinces.empty() && ck3Regions.empty() && imperatorRegions.empty())
-			return ck3Religion;
 		return std::nullopt;
 	}
 	

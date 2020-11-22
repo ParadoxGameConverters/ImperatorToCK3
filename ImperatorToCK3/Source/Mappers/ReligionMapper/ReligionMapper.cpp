@@ -26,15 +26,17 @@ void mappers::ReligionMapper::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-void mappers::ReligionMapper::loadRegionMappers(const std::shared_ptr<mappers::ImperatorRegionMapper>& impRegionMapper, const std::shared_ptr<mappers::CK3RegionMapper>& ck3RegionMapper)
+void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<mappers::ImperatorRegionMapper> impRegionMapper, std::shared_ptr<mappers::CK3RegionMapper> _ck3RegionMapper)
 {
+	const auto imperatorRegionMapper = std::move(impRegionMapper);
+	const auto ck3RegionMapper = std::move(_ck3RegionMapper);
 	if (!ck3RegionMapper)
 		throw std::runtime_error("Religion Mapper: CK3 Region Mapper is unloaded!");
 	if (!impRegionMapper)
 		throw std::runtime_error("Religion Mapper: Imperator Region Mapper is unloaded!");
 	for (auto& mapping : religionMappings)
 	{
-		mapping.insertImperatorRegionMapper(impRegionMapper);
+		mapping.insertImperatorRegionMapper(imperatorRegionMapper);
 		mapping.insertCK3RegionMapper(ck3RegionMapper);
 	}
 }
