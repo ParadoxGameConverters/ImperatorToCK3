@@ -5,7 +5,7 @@
 
 TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 {
-	const mappers::TagTitleMapper theMapper;
+	mappers::TagTitleMapper theMapper;
 	const auto& match = theMapper.getTitleForTag("ROM", Imperator::countryRankEnum::localPower, "Rome");
 	const auto& match2 = theMapper.getTitleForTag("DRE", Imperator::countryRankEnum::localPower, "Dre Empire");
 
@@ -15,7 +15,7 @@ TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 
 TEST(Mappers_TagTitleMapperTests, getTitleForTagReturnsNulloptOnEmptyParameter)
 {
-	const mappers::TagTitleMapper theMapper;
+	mappers::TagTitleMapper theMapper;
 	const auto& match = theMapper.getTitleForTag("", Imperator::countryRankEnum::migrantHorde, "");
 
 	ASSERT_FALSE(match);

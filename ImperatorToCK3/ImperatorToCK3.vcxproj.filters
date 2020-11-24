@@ -340,6 +340,9 @@
     <ClInclude Include="Source\Mappers\RegionMapper\ImperatorRegionMapper.h">
       <Filter>Mappers\ImperatorRegionMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapping.h">
+      <Filter>Mappers\TagTitleMapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -575,6 +578,9 @@
     <ClCompile Include="Source\Mappers\RegionMapper\ImperatorRegionMapper.cpp">
       <Filter>Mappers\ImperatorRegionMapper</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapping.cpp">
+      <Filter>Mappers\TagTitleMapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resources\rakaly.dll">
@@ -660,6 +666,9 @@
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Data_Files\configurables\nickname_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\title_map.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
   </ItemGroup>

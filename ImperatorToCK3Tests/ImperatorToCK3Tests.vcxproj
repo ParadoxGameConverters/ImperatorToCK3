@@ -228,6 +228,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
