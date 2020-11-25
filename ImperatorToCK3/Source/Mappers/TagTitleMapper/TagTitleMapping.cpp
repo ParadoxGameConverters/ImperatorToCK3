@@ -8,9 +8,9 @@ mappers::TagTitleMapping::TagTitleMapping(std::istream& theStream)
 	clearRegisteredKeywords();
 }
 
-std::optional<std::string> mappers::TagTitleMapping::tagRankMatch(const std::string& imptag, const std::string& rank) const
+std::optional<std::string> mappers::TagTitleMapping::tagRankMatch(const std::string& impTag, const std::string& rank) const
 {
-	if (imperatorTag == imptag && ranks.contains(rank))
+	if (imperatorTag == impTag && ranks.contains(rank))
 		return ck3Title;
 	return std::nullopt;
 }
