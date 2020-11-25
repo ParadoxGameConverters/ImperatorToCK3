@@ -273,6 +273,7 @@
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMapperTests.cpp" />
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp" />
     <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMapperTests.cpp" />
+    <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMappingTests.cpp" />
     <ClCompile Include="MapperTests\TraitMapper\TraitMapperTests.cpp" />
     <ClCompile Include="MapperTests\TraitMapper\TraitMappingTests.cpp" />
     <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
