@@ -12,13 +12,13 @@ class TagTitleMapping: commonItems::parser
 	TagTitleMapping() = default;
 	explicit TagTitleMapping(std::istream& theStream);
 
-	[[nodiscard]] std::optional<std::string> tagRankMatch(const std::string& imptag, const std::string& rank) const;
+	[[nodiscard]] std::optional<std::string> tagRankMatch(const std::string& impTag, const std::string& rank) const;
 
   private:
 	void registerKeys();
 
 	std::string ck3Title;
-	std::string impTag;
+	std::string imperatorTag;
 	std::set<std::string> ranks;
 };
 } // namespace mappers

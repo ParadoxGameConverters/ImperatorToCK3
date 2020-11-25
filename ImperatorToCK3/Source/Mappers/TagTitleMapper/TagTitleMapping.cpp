@@ -10,7 +10,7 @@ mappers::TagTitleMapping::TagTitleMapping(std::istream& theStream)
 
 std::optional<std::string> mappers::TagTitleMapping::tagRankMatch(const std::string& imptag, const std::string& rank) const
 {
-	if (impTag == imptag && ranks.contains(rank))
+	if (imperatorTag == imptag && ranks.contains(rank))
 		return ck3Title;
 	return std::nullopt;
 }
@@ -21,7 +21,7 @@ void mappers::TagTitleMapping::registerKeys()
 		ck3Title = commonItems::singleString{ theStream }.getString();
 	});
 	registerKeyword("imp", [this](const std::string& unused, std::istream& theStream) {
-		impTag = commonItems::singleString{ theStream }.getString();
+		imperatorTag = commonItems::singleString{ theStream }.getString();
 	});
 	registerKeyword("rank", [this](const std::string& unused, std::istream& theStream) {
 		ranks.emplace(commonItems::singleString{ theStream }.getString());
