@@ -47,6 +47,17 @@ TEST(Mappers_TagTitleMappingTests, tagRankMatch)
 	ASSERT_EQ("e_roman_empire", *match);
 }
 
+TEST(Mappers_TagTitleMappingTests, tagRankMatchFailsOnWrongRank)
+{
+	std::stringstream mappingStream;
+	mappingStream << "{ ck3 = e_roman_empire imp = ROM rank = k }";
+
+	mappers::TagTitleMapping theMapping(mappingStream);
+	const auto& match = theMapping.tagRankMatch("ROM", "e");
+
+	ASSERT_EQ(std::nullopt, match);
+}
+
 TEST(Mappers_TagTitleMappingTests, tagRankMatchSucceedsOnNoRank)
 {
 	std::stringstream mappingStream;
@@ -57,4 +68,3 @@ TEST(Mappers_TagTitleMappingTests, tagRankMatchSucceedsOnNoRank)
 
 	ASSERT_EQ("e_roman_empire", *match);
 }
-
