@@ -3,6 +3,15 @@
 #include "gtest/gtest.h"
 #include <sstream>
 
+
+TEST(Mappers_TagTitleMapperTests, titleCanBeMatched)
+{
+	mappers::TagTitleMapper theMapper; // reads title_map.txt from TestFiles
+	const auto& match = theMapper.getTitleForTag("CRT", Imperator::countryRankEnum::majorPower);
+
+	ASSERT_EQ("k_krete", *match);
+}
+
 TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 {
 	mappers::TagTitleMapper theMapper;
@@ -19,4 +28,13 @@ TEST(Mappers_TagTitleMapperTests, getTitleForTagReturnsNulloptOnEmptyParameter)
 	const auto& match = theMapper.getTitleForTag("", Imperator::countryRankEnum::migrantHorde, "");
 
 	ASSERT_FALSE(match);
+}
+
+TEST(Mappers_TagTitleMapperTests, tagCanBeRegistered)
+{
+	mappers::TagTitleMapper theMapper;
+	theMapper.registerTag("BOR", "e_boredom");
+	const auto& match = theMapper.getTitleForTag("BOR", Imperator::countryRankEnum::localPower);
+
+	ASSERT_EQ("e_boredom", *match);
 }

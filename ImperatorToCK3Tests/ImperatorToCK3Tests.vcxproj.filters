@@ -448,5 +448,8 @@
     <CopyFileToFolders Include="CoatsOfArms.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\title_map.txt">
+      <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

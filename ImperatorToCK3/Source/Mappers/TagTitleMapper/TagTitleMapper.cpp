@@ -60,7 +60,7 @@ std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::st
 		const auto& match = mapping.tagRankMatch(impTag, getCK3TitleRank(countryRank, localizedTitleName));
 		if (match)
 		{
-			if (usedTitles.count(*match))
+			if (usedTitles.contains(*match))
 				continue;
 			registerTag(impTag, *match);
 			return *match;
