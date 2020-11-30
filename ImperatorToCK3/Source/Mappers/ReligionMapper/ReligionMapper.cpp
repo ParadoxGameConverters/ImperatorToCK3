@@ -30,10 +30,10 @@ void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<mappers::Imperat
 {
 	const auto imperatorRegionMapper = std::move(impRegionMapper);
 	const auto ck3RegionMapper = std::move(_ck3RegionMapper);
+	if (!imperatorRegionMapper)
+		throw std::runtime_error("Religion Mapper: Imperator Region Mapper is unloaded!");
 	if (!ck3RegionMapper)
 		throw std::runtime_error("Religion Mapper: CK3 Region Mapper is unloaded!");
-	if (!impRegionMapper)
-		throw std::runtime_error("Religion Mapper: Imperator Region Mapper is unloaded!");
 	for (auto& mapping : religionMappings)
 	{
 		mapping.insertImperatorRegionMapper(imperatorRegionMapper);
