@@ -74,6 +74,7 @@
     <IntDir>$(SolutionDir)\ReleaseIntermediate\</IntDir>
     <TargetName>ImperatorToCK3Converter</TargetName>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <CodeAnalysisRuleSet>ImpToCK3_rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)\..\$(Configuration)\ImperatorToCK3\</OutDir>
@@ -138,8 +139,7 @@
       <AdditionalDependencies>Resources\rakaly.dll.lib;CORE_RL_Magick++_.lib;CORE_RL_MagickCore_.lib;CORE_RL_MagickWand_.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>Copy_Files_Debug.bat</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>
@@ -279,6 +279,7 @@
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
+    <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapping.cpp" />
     <ClCompile Include="Source\Mappers\TraitMapper\TraitMapper.cpp" />
     <ClCompile Include="Source\Mappers\TraitMapper\TraitMapping.cpp" />
     <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
@@ -361,6 +362,7 @@
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h" />
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h" />
+    <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapping.h" />
     <ClInclude Include="Source\Mappers\TraitMapper\TraitMapper.h" />
     <ClInclude Include="Source\Mappers\TraitMapper\TraitMapping.h" />
     <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h" />
@@ -490,6 +492,12 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Data_Files\configurables\nickname_map.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Data_Files\configurables\title_map.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
     </CopyFileToFolders>

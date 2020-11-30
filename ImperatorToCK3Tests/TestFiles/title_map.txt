@@ -1,0 +1,11 @@
+### I:R - CK3 tag mappings ###
+#link = { imp = a ck3 = b rank = c }
+#a = the I:R tag
+#b = the CK3 landed title
+#c = the rank this country has (can only be "d", "k", "e")
+
+link = { imp = CRT ck3 = k_krete rank = k }
+link = { imp = CRT ck3 = d_krete rank = d }
+link = { imp = ATH ck3 = d_athens rank = d }
+
+link = { imp = RAN ck3 = d_rankless }

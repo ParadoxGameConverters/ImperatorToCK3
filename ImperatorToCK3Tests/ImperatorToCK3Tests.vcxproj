@@ -228,6 +228,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
@@ -272,6 +273,7 @@
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMapperTests.cpp" />
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp" />
     <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMapperTests.cpp" />
+    <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMappingTests.cpp" />
     <ClCompile Include="MapperTests\TraitMapper\TraitMapperTests.cpp" />
     <ClCompile Include="MapperTests\TraitMapper\TraitMappingTests.cpp" />
     <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
@@ -303,6 +305,12 @@
     <CopyFileToFolders Include="CoatsOfArms.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)TestFiles</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)TestFiles</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\title_map.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
