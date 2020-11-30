@@ -33,11 +33,11 @@ void Imperator::Province::registerKeys()
 		const commonItems::singleULlong controllerULlong(theStream);
 		controller = controllerULlong.getULlong();
 	});
-	registerRegex("pop", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("pop", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleULlong popLongLong(theStream);
 		pops.insert(std::pair(popLongLong.getULlong(), nullptr));
 	});
-	registerRegex("buildings", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("buildings", [this](const std::string& unused, std::istream& theStream) {
 		const auto buildingsVector = commonItems::intList(theStream).getInts();
 		buildingsCount = std::accumulate(buildingsVector.begin(), buildingsVector.end(), 0);
 	});

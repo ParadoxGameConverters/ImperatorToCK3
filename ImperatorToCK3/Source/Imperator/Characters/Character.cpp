@@ -20,10 +20,10 @@ Imperator::Character::Character(std::istream& theStream, const unsigned long lon
 
 void Imperator::Character::registerKeys()
 {
-	registerRegex("first_name_loc", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("first_name_loc", [this](const std::string& unused, std::istream& theStream) {
 		name = CharacterName(theStream).getName();
 	});
-	registerRegex("province", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("province", [this](const std::string& unused, std::istream& theStream) {
 		province = commonItems::singleULlong(theStream).getULlong();
 	});
 	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
@@ -81,7 +81,7 @@ void Imperator::Character::registerKeys()
 		for (const auto child : commonItems::ullongList(theStream).getULlongs())
 			children.emplace(child, nullptr);
 	});
-	registerRegex("attributes", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("attributes", [this](const std::string& unused, std::istream& theStream) {
 		const CharacterAttributes attributesFromBloc(theStream);
 		attributes.martial = attributesFromBloc.getMartial();
 		attributes.finesse = attributesFromBloc.getFinesse();

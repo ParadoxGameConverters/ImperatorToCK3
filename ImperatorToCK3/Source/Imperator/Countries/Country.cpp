@@ -69,11 +69,11 @@ void Imperator::Country::registerKeys()
 	registerKeyword("government_key", [this](const std::string& unused, std::istream& theStream) {
 		government = commonItems::singleString(theStream).getString();
 	});
-	registerRegex("family", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("family", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleULlong familyULLong(theStream);
 		families.insert(std::pair(familyULLong.getULlong(), nullptr));
 	});
-	registerRegex("minor_family", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("minor_family", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleULlong familyULLong(theStream);
 		families.insert(std::pair(familyULLong.getULlong(), nullptr));
 	});
