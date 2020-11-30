@@ -7,3 +7,5 @@
 link = { imp = CRT ck3 = k_krete rank = k }
 link = { imp = CRT ck3 = d_krete rank = d }
 link = { imp = ATH ck3 = d_athens rank = d }
+
+link = { imp = RAN ck3 = d_rankless }

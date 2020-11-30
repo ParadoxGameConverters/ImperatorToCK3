@@ -12,6 +12,14 @@ TEST(Mappers_TagTitleMapperTests, titleCanBeMatched)
 	ASSERT_EQ("k_krete", *match);
 }
 
+TEST(Mappers_TagTitleMapperTests, titleCanBeMatchedByRanklessLink)
+{
+	mappers::TagTitleMapper theMapper; // reads title_map.txt from TestFiles
+	const auto& match = theMapper.getTitleForTag("RAN", Imperator::countryRankEnum::majorPower);
+
+	ASSERT_EQ("d_rankless", *match);
+}
+
 TEST(Mappers_TagTitleMapperTests, titleCanBeGenerated)
 {
 	mappers::TagTitleMapper theMapper;
