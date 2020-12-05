@@ -7,8 +7,8 @@
 
 TEST(ImperatorWorld_CharacterTests, IDCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -21,8 +21,8 @@ TEST(ImperatorWorld_CharacterTests, IDCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, cultureCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -36,8 +36,8 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, cultureDefaultsToBlank)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -51,8 +51,8 @@ TEST(ImperatorWorld_CharacterTests, cultureDefaultsToBlank)
 
 TEST(ImperatorWorld_CharacterTests, religionCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -66,8 +66,8 @@ TEST(ImperatorWorld_CharacterTests, religionCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, religionDefaultsToBlank)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -80,8 +80,8 @@ TEST(ImperatorWorld_CharacterTests, religionDefaultsToBlank)
 
 TEST(ImperatorWorld_CharacterTests, sexCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -94,8 +94,8 @@ TEST(ImperatorWorld_CharacterTests, sexCanBeSet)
 }
 TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -108,8 +108,8 @@ TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale)
 
 TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	const std::vector<std::string> traitsVector{ "lustful", "submissive", "greedy" };
 
 	std::stringstream input;
@@ -125,8 +125,8 @@ TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, traitsDefaultToEmpty)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -139,8 +139,8 @@ TEST(ImperatorWorld_CharacterTests, traitsDefaultToEmpty)
 
 TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -154,8 +154,8 @@ TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -168,8 +168,8 @@ TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1)
 
 TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -183,8 +183,8 @@ TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -197,8 +197,8 @@ TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt)
 
 TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -230,8 +230,8 @@ TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, spousesDefaultToEmpty)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -244,8 +244,8 @@ TEST(ImperatorWorld_CharacterTests, spousesDefaultToEmpty)
 
 TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -261,8 +261,8 @@ TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, childrenDefaultToEmpty)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -275,8 +275,8 @@ TEST(ImperatorWorld_CharacterTests, childrenDefaultToEmpty)
 
 TEST(ImperatorWorld_CharacterTests, motherCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -290,8 +290,8 @@ TEST(ImperatorWorld_CharacterTests, motherCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -304,8 +304,8 @@ TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero)
 
 TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -319,8 +319,8 @@ TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -333,8 +333,8 @@ TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
 
 TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -348,8 +348,8 @@ TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -361,8 +361,8 @@ TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero)
 }
 TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -376,8 +376,8 @@ TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -390,8 +390,8 @@ TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero)
 
 TEST(ImperatorWorld_CharacterTests, nameCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -407,8 +407,8 @@ TEST(ImperatorWorld_CharacterTests, nameCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, nameDefaultsToBlank)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -421,8 +421,8 @@ TEST(ImperatorWorld_CharacterTests, nameDefaultsToBlank)
 
 TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -438,8 +438,8 @@ TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero)
 
 TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -456,8 +456,8 @@ TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream familyInput;
 	familyInput << "=\n";
 	familyInput << "{\n";
@@ -486,8 +486,8 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 
 TEST(ImperatorWorld_CharacterTests, dnaCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -501,8 +501,8 @@ TEST(ImperatorWorld_CharacterTests, dnaCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, dnaDefaultsToNullopt)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -516,8 +516,8 @@ TEST(ImperatorWorld_CharacterTests, dnaDefaultsToNullopt)
 
 TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLength)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/==\"}";
 	const auto theCharacter = *Imperator::Character::Factory{}.getCharacter(input, "42", genesDB, endDate);
@@ -528,8 +528,8 @@ TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLeng
 
 TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}";
 	const auto theCharacter = *Imperator::Character::Factory{}.getCharacter(input, "42", genesDB, endDate);
@@ -545,8 +545,8 @@ TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA
 
 TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -559,8 +559,8 @@ TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
 }
 TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -574,8 +574,8 @@ TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0)
 
 TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input, input2, input3, input4;
 	input << "=\n";
 	input << "{\n";
@@ -612,8 +612,8 @@ TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
 
 TEST(ImperatorWorld_CharacterTests, provinceCanBeSet)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -627,8 +627,8 @@ TEST(ImperatorWorld_CharacterTests, provinceCanBeSet)
 
 TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -641,8 +641,8 @@ TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0)
 
 TEST(ImperatorWorld_CharacterTests, AUC0ConvertsTo754BC)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "= { birth_date = 0.1.1 }";
 
@@ -653,8 +653,8 @@ TEST(ImperatorWorld_CharacterTests, AUC0ConvertsTo754BC)
 
 TEST(ImperatorWorld_CharacterTests, AUC753ConvertsTo1BC)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "= { birth_date = 753.1.1 }";
 
@@ -665,8 +665,8 @@ TEST(ImperatorWorld_CharacterTests, AUC753ConvertsTo1BC)
 
 TEST(ImperatorWorld_CharacterTests, AUC754ConvertsTo1AD)
 {
-	const Imperator::GenesDB genesDB;
-	const date endDate;
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	std::stringstream input;
 	input << "= { birth_date = 754.1.1 }";
 

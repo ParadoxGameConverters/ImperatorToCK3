@@ -6,8 +6,8 @@
 
 TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty)
 {
-	const Imperator::GenesDB genes;
-	const date endDate;
+	const auto genes = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	
 	std::stringstream input;
 	input << "=\n";
@@ -21,8 +21,8 @@ TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty)
 
 TEST(ImperatorWorld_CharactersTests, charactersCanBeLoaded)
 {
-	const Imperator::GenesDB genes;
-	const date endDate;
+	const auto genes = std::make_shared<Imperator::GenesDB>();
+	const auto endDate = std::make_shared<date>();
 	
 	std::stringstream input;
 	input << "=\n";

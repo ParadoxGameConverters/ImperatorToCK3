@@ -14,7 +14,7 @@ namespace Imperator
 	{
 	  public:
 		Characters() = default;
-		Characters(std::istream& theStream, GenesDB genesDB, const date& _endDate);
+		Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB, const std::shared_ptr<date>& endDate);
 
 		Characters& operator= (const Characters& obj) { this->characters = obj.characters; return *this; }
 
@@ -29,8 +29,8 @@ namespace Imperator
 
 		Character::Factory characterFactory;
 
-		GenesDB genes;
-		date endDate;
+		std::shared_ptr<GenesDB> genes;
+		std::shared_ptr<date> endDate;
 
 		std::map<unsigned long long, std::shared_ptr<Character>> characters;
 	}; // class Characters
@@ -39,15 +39,15 @@ namespace Imperator
 	{
 	public:
 		CharactersBloc() = default;
-		explicit CharactersBloc(std::istream& theStream, GenesDB genesDB, const date& _endDate);
+		explicit CharactersBloc(std::istream& theStream, const GenesDB& genesDB, const date& endDate);
 
 		[[nodiscard]] const auto& getCharactersFromBloc() const { return characters; }
 
 	private:
 		void registerKeys();
 
-		GenesDB genes;
-		date endDate;
+		std::shared_ptr<GenesDB> genes;
+		std::shared_ptr<date> endDate;
 		Characters characters;
 	}; // class CharactersBloc
 } // namespace Imperator

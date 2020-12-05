@@ -7,7 +7,7 @@
 #include <set>
 
 
-Imperator::Characters::Characters(std::istream& theStream, GenesDB genesDB, const date& _endDate) : genes(std::move(genesDB)), endDate(_endDate)
+Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB, const std::shared_ptr<date>& endDate): genes(genesDB), endDate(endDate)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -131,7 +131,7 @@ void Imperator::Characters::linkMothersAndFathers()
 
 
 
-Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, GenesDB genesDB, const date& _endDate) : genes(std::move(genesDB)), endDate(_endDate)
+Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB& genesDB, const date& endDate): genes(std::make_shared<GenesDB>(genesDB)), endDate(std::make_shared<date>(endDate))
 {
 	registerKeys();
 	parseStream(theStream);

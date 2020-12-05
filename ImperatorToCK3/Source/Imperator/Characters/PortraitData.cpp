@@ -5,7 +5,7 @@
 #include <utility>
 
 
-Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, GenesDB genesDB, const std::string& ageSexString) : genes(std::move(genesDB))
+Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, const std::shared_ptr<GenesDB>& genesDB, const std::string& ageSexString) : genes(genesDB)
 {
 	const auto decodedDnaStr = base64_decode(dnaString);
 
@@ -22,10 +22,10 @@ Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaSt
 	//accessory genes
 	const unsigned int colorGenesBytes = 12;
 
-	auto accessoryGenes = genes.getAccessoryGenes().getGenes();
+	auto accessoryGenes = genes->getAccessoryGenes().getGenes();
 
 	//LOG(LogLevel::Debug) << "ageSex: " << ageSexString;
-	const auto accessoryGenesIndex = genes.getAccessoryGenes().getIndex();
+	const auto accessoryGenesIndex = genes->getAccessoryGenes().getIndex();
 	for (auto& [geneName, gene] : accessoryGenes)
 	{
 		const auto geneIndex = gene.getIndex();
