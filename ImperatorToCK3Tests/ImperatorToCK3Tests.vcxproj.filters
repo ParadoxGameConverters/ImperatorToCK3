@@ -423,6 +423,9 @@
     <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMappingTests.cpp">
       <Filter>MapperTests\TagTitleMapper</Filter>
     </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterFactory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">

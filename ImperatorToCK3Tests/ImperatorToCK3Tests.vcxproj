@@ -181,6 +181,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Configuration\Configuration.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterFactory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\PortraitData.cpp" />
