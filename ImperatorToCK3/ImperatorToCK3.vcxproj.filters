@@ -343,6 +343,9 @@
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapping.h">
       <Filter>Mappers\TagTitleMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Characters\CharacterFactory.h">
+      <Filter>Imperator\Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -580,6 +583,9 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapping.cpp">
       <Filter>Mappers\TagTitleMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Characters\CharacterFactory.cpp">
+      <Filter>Imperator\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,6 @@
 #define IMPERATOR_CHARACTER_H
 
 #include "Date.h"
-#include "Parser.h"
 #include <optional>
 #include "PortraitData.h"
 #include "../Genes/GenesDB.h"
@@ -23,10 +22,11 @@ typedef struct AttributesStruct
 	int zeal = 0;
 } AttributesStruct;
 
-class Character: commonItems::parser
+class Character
 {
   public:
-	Character(std::istream& theStream, unsigned long long chrID, GenesDB genesDB, const date& _endDate);
+	class Factory;
+	Character() = default;
 
 	[[nodiscard]] const std::string& getCulture() const;
 	[[nodiscard]] const std::string& getReligion() const { return religion; }
@@ -50,7 +50,7 @@ class Character: commonItems::parser
 
 	[[nodiscard]] auto isFemale() const { return female; }
 	[[nodiscard]] auto getWealth() const { return wealth; }
-	[[nodiscard]] auto getID() const { return charID; }
+	[[nodiscard]] auto getID() const { return ID; }
 
 	[[nodiscard]] const auto& getCK3Character() const { return ck3Character; }
 
@@ -65,9 +65,7 @@ class Character: commonItems::parser
 	void registerCK3Character(std::shared_ptr<CK3::Character>& theCharacter) { ck3Character = theCharacter; }
 
   private:
-	void registerKeys();
-
-	unsigned long long charID = 0;
+	unsigned long long ID = 0;
 	bool female = false;
 	double wealth = 0;
 	std::string culture;

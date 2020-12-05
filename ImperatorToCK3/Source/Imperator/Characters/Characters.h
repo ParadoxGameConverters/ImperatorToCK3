@@ -3,6 +3,7 @@
 
 #include "Parser.h"
 #include "../Genes/GenesDB.h"
+#include "CharacterFactory.h"
 #include "Date.h"
 
 namespace Imperator
@@ -15,6 +16,8 @@ namespace Imperator
 		Characters() = default;
 		Characters(std::istream& theStream, GenesDB genesDB, const date& _endDate);
 
+		Characters& operator= (const Characters& obj) { this->characters = obj.characters; return *this; }
+
 		[[nodiscard]] const auto& getCharacters() const { return characters; }
 
 		void linkFamilies(const Families& theFamilies);
@@ -23,6 +26,8 @@ namespace Imperator
 
 	  private:
 		void registerKeys();
+
+		Character::Factory characterFactory;
 
 		GenesDB genes;
 		date endDate;
