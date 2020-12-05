@@ -7,7 +7,7 @@
 #include <set>
 
 
-Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB, const std::shared_ptr<date>& endDate): genes(genesDB), endDate(endDate)
+Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB): genes(genesDB)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -17,7 +17,7 @@ Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr
 void Imperator::Characters::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& charID, std::istream& theStream) {
-		std::shared_ptr<Character> newCharacter = characterFactory.getCharacter(theStream, charID, genes, endDate);
+		std::shared_ptr<Character> newCharacter = characterFactory.getCharacter(theStream, charID, genes);
 		characters.emplace(newCharacter->getID(), newCharacter);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -131,7 +131,7 @@ void Imperator::Characters::linkMothersAndFathers()
 
 
 
-Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB& genesDB, const date& endDate): genes(std::make_shared<GenesDB>(genesDB)), endDate(std::make_shared<date>(endDate))
+Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB& genesDB): genes(std::make_shared<GenesDB>(genesDB))
 {
 	registerKeys();
 	parseStream(theStream);
@@ -141,7 +141,7 @@ Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB
 void Imperator::CharactersBloc::registerKeys()
 {
 	registerKeyword("character_database", [this](const std::string& unused, std::istream& theStream) {
-		characters = Characters(theStream, genes, endDate);
+		characters = Characters(theStream, genes);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

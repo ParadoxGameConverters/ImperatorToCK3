@@ -80,12 +80,11 @@ Imperator::Character::Factory::Factory()
 }
 
 
-std::unique_ptr<Imperator::Character> Imperator::Character::Factory::getCharacter(std::istream& theStream, const std::string& idString, const std::shared_ptr<GenesDB>& genesDB, const std::shared_ptr<date>& endDate)
+std::unique_ptr<Imperator::Character> Imperator::Character::Factory::getCharacter(std::istream& theStream, const std::string& idString, const std::shared_ptr<GenesDB>& genesDB)
 {
 	character = std::make_unique<Character>();
 	character->ID = std::stoull(idString);
 	character->genes = genesDB;
-	character->endDate = endDate;
 
 	parseStream(theStream);
 

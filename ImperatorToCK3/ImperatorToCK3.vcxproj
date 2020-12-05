@@ -74,7 +74,7 @@
     <IntDir>$(SolutionDir)\ReleaseIntermediate\</IntDir>
     <TargetName>ImperatorToCK3Converter</TargetName>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
-    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)\..\$(Configuration)\ImperatorToCK3\</OutDir>

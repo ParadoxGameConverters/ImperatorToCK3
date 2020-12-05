@@ -81,7 +81,6 @@ class Character
 	std::optional<std::string> dna;
 	std::optional<CharacterPortraitData> portraitData;
 	std::shared_ptr<GenesDB> genes;
-	std::shared_ptr<date> endDate;
 
 	std::pair<unsigned long long, std::shared_ptr<Family>> family;
 	std::pair<unsigned long long, std::shared_ptr<Character>> mother;

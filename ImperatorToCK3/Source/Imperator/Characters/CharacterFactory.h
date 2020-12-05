@@ -16,7 +16,7 @@ class Character::Factory: commonItems::parser
 {
   public:
 	explicit Factory();
-	std::unique_ptr<Character> getCharacter(std::istream& theStream, const std::string& idString, const std::shared_ptr<GenesDB>& genesDB, const std::shared_ptr<date>& endDate);
+	std::unique_ptr<Character> getCharacter(std::istream& theStream, const std::string& idString, const std::shared_ptr<GenesDB>& genesDB);
 
   private:
 	std::unique_ptr<Character> character;
