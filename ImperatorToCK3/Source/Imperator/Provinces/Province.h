@@ -21,8 +21,11 @@ namespace Imperator
 		[[nodiscard]] const auto& getOwner() const { return owner; }
 		[[nodiscard]] const auto& getController() const { return controller; }
 		[[nodiscard]] const auto& getPops() const { return pops; }
-		[[nodiscard]] auto getBuildingsCount() const { return buildingsCount; }
+		[[nodiscard]] const auto& getProvinceRank() const {	return provinceRank; }
+		[[nodiscard]] const auto& hasFort() const { return fort; }
+		[[nodiscard]] const auto& isHolySite() const { return holySite; }
 
+		[[nodiscard]] auto getBuildingsCount() const { return buildingsCount; }
 		[[nodiscard]] auto getPopCount() const { return static_cast<int>(pops.size()); }
 
 		void setPops(const std::map<unsigned long long, std::shared_ptr<Pop>>& newPops) { pops = newPops; }
@@ -39,6 +42,8 @@ namespace Imperator
 		unsigned long long owner = 0;
 		unsigned long long controller = 0;
 		ProvinceRank provinceRank;
+		bool fort = false;
+		bool holySite = false;
 		unsigned int buildingsCount = 0;
 		std::map<unsigned long long, std::shared_ptr<Pop>> pops;
 	};

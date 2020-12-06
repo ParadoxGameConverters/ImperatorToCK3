@@ -1,4 +1,4 @@
-#include "Province.h"
+﻿#include "Province.h"
 #include "Pop.h"
 #include "Log.h"
 #include "ParserHelpers.h"
@@ -42,6 +42,12 @@ void Imperator::Province::registerKeys()
 			provinceRank = ProvinceRank::city_metropolis;
 		else
 			Log(LogLevel::Warning) << "Unknown province rank for province " << provinceID << ": " << provinceRankStr;
+	});
+	registerKeyword("fort", [this](const std::string& unused, std::istream& theStream) {
+		fort = commonItems::singleString{ theStream }.getString() == "yes";
+	});
+	registerKeyword("holy_site", [this](const std::string& unused, std::istream& theStream) {
+		holySite = commonItems::singleULlong{ theStream }.getULlong() != 4294967295; // 4294967295 is 2^32 − 1 and is the default value
 	});
 	registerKeyword("buildings", [this](const std::string& unused, std::istream& theStream) {
 		const auto buildingsVector = commonItems::intList{ theStream }.getInts();
