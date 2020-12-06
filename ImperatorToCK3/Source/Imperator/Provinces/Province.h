@@ -4,6 +4,8 @@
 
 namespace Imperator
 {
+	enum class ProvinceRank { settlement, city, city_metropolis };
+
 	class Pop;
 	class Country;
 	class Province: commonItems::parser
@@ -36,6 +38,7 @@ namespace Imperator
 		std::string religion;
 		unsigned long long owner = 0;
 		unsigned long long controller = 0;
+		ProvinceRank provinceRank;
 		unsigned int buildingsCount = 0;
 		std::map<unsigned long long, std::shared_ptr<Pop>> pops;
 	};
