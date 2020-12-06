@@ -253,7 +253,7 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 				LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
 			else
 			{
-				auto impProvince = provinces.find(title->capitalBaronyProvince)->second->srcProvince;
+				auto impProvince = provinces.find(title->capitalBaronyProvince)->second->imperatorProvince;
 				if (impProvince)
 				{
 					std::optional<unsigned long long> impMonarch;
