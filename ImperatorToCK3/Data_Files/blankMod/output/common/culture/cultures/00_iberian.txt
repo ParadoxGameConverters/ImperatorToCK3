@@ -1501,15 +1501,15 @@
 		color = hsv { 0.07 1.0 1.0 }
 
 		cadet_dynasty_names = {
-			Punicid Orisid Amidian Nisunidian Tiresidian Budidian Gargoridian
-			Culcidian Indicidian Iscerbelidian Karidian Korbidian Lagunidian Mandonidian
-			Magavarician Uxentican Umarilid Turenidian Urceticidian
+			dynn_Punicid dynn_Orisid dynn_Amidian dynn_Nisunidian dynn_Tiresidian dynn_Budidian dynn_Gargoridian
+			dynn_Culcidian dynn_Indicidian dynn_Iscerbelidian dynn_Karidian dynn_Korbidian dynn_Lagunidian dynn_Mandonidian
+			dynn_Magavarician dynn_Uxentican dynn_Umarilid dynn_Turenidian dynn_Urceticidian
 		}
 
 		dynasty_names = {
-			Punicid Orisid Amidian Nisunidian Tiresidian Budidian Gargoridian
-			Culcidian Indicidian Iscerbelidian Karidian Korbidian Lagunidian Mandonidian
-			Magavarician Uxentican Umarilid Turenidian Urceticidian
+			dynn_Punicid dynn_Orisid dynn_Amidian dynn_Nisunidian dynn_Tiresidian dynn_Budidian dynn_Gargoridian
+			dynn_Culcidian dynn_Indicidian dynn_Iscerbelidian dynn_Karidian dynn_Korbidian dynn_Lagunidian dynn_Mandonidian
+			dynn_Magavarician dynn_Uxentican dynn_Umarilid dynn_Turenidian dynn_Urceticidian
 		}
 
 		male_names = {
@@ -1523,6 +1523,12 @@
 		ethnicities = {
 			10 = mediterranean
 		}
+		
+		dynasty_of_location_prefix = "dynnp_de"
+		patronym_prefix_male = "dynnp_de"
+		patronym_prefix_female = "dynnp_de"
+		founder_named_dynasties = yes
+		always_use_patronym = yes
 
 		mercenary_names = {
 			
@@ -1534,15 +1540,15 @@
 		color = hsv { 0.2  0.25  0.5 }
 
 		cadet_dynasty_names = {
-			Punicid Orisid Amidian Nisunidian Tiresidian Budidian Gargoridian
-			Culcidian Indicidian Iscerbelidian Karidian Korbidian Lagunidian
-			Mandonidian Magavarician Uxentican Umarilid Turenidian Urceticidian
+			dynn_Punicid dynn_Orisid dynn_Amidian dynn_Nisunidian dynn_Tiresidian dynn_Budidian dynn_Gargoridian
+			dynn_Culcidian dynn_Indicidian dynn_Iscerbelidian dynn_Karidian dynn_Korbidian dynn_Lagunidian dynn_Mandonidian
+			dynn_Magavarician dynn_Uxentican dynn_Umarilid dynn_Turenidian dynn_Urceticidian
 		}
 
 		dynasty_names = {
-			Punicid Orisid Amidian Nisunidian Tiresidian Budidian Gargoridian
-			Culcidian Indicidian Iscerbelidian Karidian Korbidian Lagunidian
-			Mandonidian Magavarician Uxentican Umarilid Turenidian Urceticidian
+			dynn_Punicid dynn_Orisid dynn_Amidian dynn_Nisunidian dynn_Tiresidian dynn_Budidian dynn_Gargoridian
+			dynn_Culcidian dynn_Indicidian dynn_Iscerbelidian dynn_Karidian dynn_Korbidian dynn_Lagunidian dynn_Mandonidian
+			dynn_Magavarician dynn_Uxentican dynn_Umarilid dynn_Turenidian dynn_Urceticidian
 		}
 
 		male_names = {
@@ -1552,6 +1558,12 @@
 		female_names = {
 			Ana Ama Aretaunin Aunia Auruningica Canine Daleninar Similce Sicounin Stena Aife Thurinninar Secetaunin Teite Tettingica Nerseada
 		}
+		
+		dynasty_of_location_prefix = "dynnp_de"
+		patronym_prefix_male = "dynnp_de"
+		patronym_prefix_female = "dynnp_de"
+		founder_named_dynasties = yes
+		always_use_patronym = yes
 
 		ethnicities = {
 			10 = mediterranean
