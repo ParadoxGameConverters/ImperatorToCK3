@@ -1500,19 +1500,19 @@
 		color = hsv { 0.65  0.7  0.8 }
 
 		cadet_dynasty_names = {
-			Agathoklid Alketid Apollonid Aratid Helladid Omirid Peithid Peneid Philonid Proktid Pytheid Sosiklid Tauromeneid 
-			Therid Theronid Timolid Xenonid Zagreid Zosimid Zotikid Pelopid Philetid Proteid Zenonid Sostratid Tauriskid Sosthenid Pyhrrid Leonidid Killistratid 
-			Nikoklid Pantauchid Leukonid Onomastid Kephistodid Karsid Nikokrid Persid Hippostratid Epandrid Gylippid Helenid Megalid Charinid Dydid Dionid Hiketasid 
-			Stratoklid Spartokid Stratonikid Taurid Timaid Timarchid Timoleid Timotheid Tryphid Xanthippid Xenarid Xenokratid Xenophid Zenid
-			Lagid Magid Euryklid Aleuadai Philaidai Demostenid Achaid Agatharchidid Agathid Agelaid Agenid Agesipolid Agid Aknonid Akrotatid Alexandrid Alexarchid Alketid Alkimid Amantid Amnytid Amphoterid Anaxarchid Anaxikratid Anaximandrid Andagorid Andromachid Andromenid Andronikid Apollodorid Aristodemid Asandrid Bryaxid Charid Charidemid Chariklid Demadid Eupolemid Gorgid Gylippid Hekataid Hektid Helenid Heliodorid Helioklid Herakid Hermogenid Hippalid Hyperbatid Kalliarchid Kebalinid Kephisodotid Kleomenid Ktesiklid Leontid Leosthenid Lydiadid Lykurgid Menedemid Menid Menippid Mnesidemid Nearchid Nikagorid Niketid Nikid Olympiodorid Onomarchid Onomastid Ophellid Orestid Parmenid Polyperchid Proteid Stratonid Xenophid Zeuxid Pheraeid
+			dynn_Agathoklid dynn_Alketid dynn_Apollonid dynn_Aratid dynn_Helladid dynn_Omirid dynn_Peithid dynn_Peneid dynn_Philonid dynn_Proktid dynn_Pytheid dynn_Sosiklid dynn_Tauromeneid
+			dynn_Therid dynn_Theronid dynn_Timolid dynn_Xenonid dynn_Zagreid dynn_Zosimid dynn_Zotikid dynn_Pelopid dynn_Philetid dynn_Proteid dynn_Zenonid dynn_Sostratid dynn_Tauriskid dynn_Sosthenid dynn_Pyhrrid dynn_Leonidid dynn_Killistratid
+			dynn_Nikoklid dynn_Pantauchid dynn_Leukonid dynn_Onomastid dynn_Kephistodid dynn_Karsid dynn_Nikokrid dynn_Persid dynn_Hippostratid dynn_Epandrid dynn_Gylippid dynn_Helenid dynn_Megalid dynn_Charinid dynn_Dydid dynn_Dionid dynn_Hiketasid
+			dynn_Stratoklid dynn_Spartokid dynn_Stratonikid dynn_Taurid dynn_Timaid dynn_Timarchid dynn_Timoleid dynn_Timotheid dynn_Tryphid dynn_Xanthippid dynn_Xenarid dynn_Xenokratid dynn_Xenophid dynn_Zenid
+			dynn_Lagid dynn_Magid dynn_Euryklid dynn_Aleuadai dynn_Philaidai dynn_Demostenid dynn_Achaid dynn_Agatharchidid dynn_Agathid dynn_Agelaid dynn_Agenid dynn_Agesipolid dynn_Agid dynn_Aknonid dynn_Akrotatid dynn_Alexandrid dynn_Alexarchid dynn_Alketid dynn_Alkimid dynn_Amantid dynn_Amnytid dynn_Amphoterid dynn_Anaxarchid dynn_Anaxikratid dynn_Anaximandrid dynn_Andagorid dynn_Andromachid dynn_Andromenid dynn_Andronikid dynn_Apollodorid dynn_Aristodemid dynn_Asandrid dynn_Bryaxid dynn_Charid dynn_Charidemid dynn_Chariklid dynn_Demadid dynn_Eupolemid dynn_Gorgid dynn_Gylippid dynn_Hekataid dynn_Hektid dynn_Helenid dynn_Heliodorid dynn_Helioklid dynn_Herakid dynn_Hermogenid dynn_Hippalid dynn_Hyperbatid dynn_Kalliarchid dynn_Kebalinid dynn_Kephisodotid dynn_Kleomenid dynn_Ktesiklid dynn_Leontid dynn_Leosthenid dynn_Lydiadid dynn_Lykurgid dynn_Menedemid dynn_Menid dynn_Menippid dynn_Mnesidemid dynn_Nearchid dynn_Nikagorid dynn_Niketid dynn_Nikid dynn_Olympiodorid dynn_Onomarchid dynn_Onomastid dynn_Ophellid dynn_Orestid dynn_Parmenid dynn_Polyperchid dynn_Proteid dynn_Stratonid dynn_Xenophid dynn_Zeuxid dynn_Pheraeid
 		}
 
 		dynasty_names = {
-			Agathoklid Alketid Apollonid Aratid Helladid Omirid Peithid Peneid Philonid Proktid Pytheid Sosiklid Tauromeneid 
-			Therid Theronid Timolid Xenonid Zagreid Zosimid Zotikid Pelopid Philetid Proteid Zenonid Sostratid Tauriskid Sosthenid Pyhrrid Leonidid Killistratid 
-			Nikoklid Pantauchid Leukonid Onomastid Kephistodid Karsid Nikokrid Persid Hippostratid Epandrid Gylippid Helenid Megalid Charinid Dydid Dionid Hiketasid 
-			Stratoklid Spartokid Stratonikid Taurid Timaid Timarchid Timoleid Timotheid Tryphid Xanthippid Xenarid Xenokratid Xenophid Zenid 
-			Lagid Magid Euryklid Aleuadai Philaidai Demostenid Achaid Agatharchidid Agathid Agelaid Agenid Agesipolid Agid Aknonid Akrotatid Alexandrid Alexarchid Alketid Alkimid Amantid Amnytid Amphoterid Anaxarchid Anaxikratid Anaximandrid Andagorid Andromachid Andromenid Andronikid Apollodorid Aristodemid Asandrid Bryaxid Charid Charidemid Chariklid Demadid Eupolemid Gorgid Gylippid Hekataid Hektid Helenid Heliodorid Helioklid Herakid Hermogenid Hippalid Hyperbatid Kalliarchid Kebalinid Kephisodotid Kleomenid Ktesiklid Leontid Leosthenid Lydiadid Lykurgid Menedemid Menid Menippid Mnesidemid Nearchid Nikagorid Niketid Nikid Olympiodorid Onomarchid Onomastid Ophellid Orestid Parmenid Polyperchid Proteid Stratonid Xenophid Zeuxid Pheraeid
+			dynn_Agathoklid dynn_Alketid dynn_Apollonid dynn_Aratid dynn_Helladid dynn_Omirid dynn_Peithid dynn_Peneid dynn_Philonid dynn_Proktid dynn_Pytheid dynn_Sosiklid dynn_Tauromeneid
+			dynn_Therid dynn_Theronid dynn_Timolid dynn_Xenonid dynn_Zagreid dynn_Zosimid dynn_Zotikid dynn_Pelopid dynn_Philetid dynn_Proteid dynn_Zenonid dynn_Sostratid dynn_Tauriskid dynn_Sosthenid dynn_Pyhrrid dynn_Leonidid dynn_Killistratid
+			dynn_Nikoklid dynn_Pantauchid dynn_Leukonid dynn_Onomastid dynn_Kephistodid dynn_Karsid dynn_Nikokrid dynn_Persid dynn_Hippostratid dynn_Epandrid dynn_Gylippid dynn_Helenid dynn_Megalid dynn_Charinid dynn_Dydid dynn_Dionid dynn_Hiketasid
+			dynn_Stratoklid dynn_Spartokid dynn_Stratonikid dynn_Taurid dynn_Timaid dynn_Timarchid dynn_Timoleid dynn_Timotheid dynn_Tryphid dynn_Xanthippid dynn_Xenarid dynn_Xenokratid dynn_Xenophid dynn_Zenid
+			dynn_Lagid dynn_Magid dynn_Euryklid dynn_Aleuadai dynn_Philaidai dynn_Demostenid dynn_Achaid dynn_Agatharchidid dynn_Agathid dynn_Agelaid dynn_Agenid dynn_Agesipolid dynn_Agid dynn_Aknonid dynn_Akrotatid dynn_Alexandrid dynn_Alexarchid dynn_Alketid dynn_Alkimid dynn_Amantid dynn_Amnytid dynn_Amphoterid dynn_Anaxarchid dynn_Anaxikratid dynn_Anaximandrid dynn_Andagorid dynn_Andromachid dynn_Andromenid dynn_Andronikid dynn_Apollodorid dynn_Aristodemid dynn_Asandrid dynn_Bryaxid dynn_Charid dynn_Charidemid dynn_Chariklid dynn_Demadid dynn_Eupolemid dynn_Gorgid dynn_Gylippid dynn_Hekataid dynn_Hektid dynn_Helenid dynn_Heliodorid dynn_Helioklid dynn_Herakid dynn_Hermogenid dynn_Hippalid dynn_Hyperbatid dynn_Kalliarchid dynn_Kebalinid dynn_Kephisodotid dynn_Kleomenid dynn_Ktesiklid dynn_Leontid dynn_Leosthenid dynn_Lydiadid dynn_Lykurgid dynn_Menedemid dynn_Menid dynn_Menippid dynn_Mnesidemid dynn_Nearchid dynn_Nikagorid dynn_Niketid dynn_Nikid dynn_Olympiodorid dynn_Onomarchid dynn_Onomastid dynn_Ophellid dynn_Orestid dynn_Parmenid dynn_Polyperchid dynn_Proteid dynn_Stratonid dynn_Xenophid dynn_Zeuxid dynn_Pheraeid
 		}
 
 		male_names = {
@@ -1617,31 +1617,31 @@
 		color = rgb { 5 162 25 }
 
 		cadet_dynasty_names = {
-			Adaid Amatokid Aulouporid Aulouzonid Bendidorid Berisadid Bessid Bithid
-			Brinkainid Brinkazenid Brinkazerid Brinkazid Bryzid Byzid Kelsinid Kelsid
-			Kersobleptid Kerzulid Ketriporid Kocaid Delid Dentubrisid Dentupid Deopid
-			Deospurid Desakenthid Diaskenthid Diazenid Dizapid Dizaporid Dizid
-			Dizazelpid Dolenid Drenid Eptaikenthid Eptapid Eptaporid Eptenid Eptezenid
-			Ezbenid Gaidrid Hebryzelmid Kenthid Kersid Kersibaulid Kersobleptid
-			Ketriporid Ketrizeid Kotid Maisadid Markiporid Mukakenthid Mukapaibid
-			Mukapid Mukaporid Mukatralid Mukazenid Naiporid Oliporid Porid Pytrid
-			Raizdid Raskid Rekiperid Rhaskid Rhaskuporid Rheboulid Rhesid Rhoemetalkid
-			Sadalid Satrid Sortid Seikiperid Seuthid Skarid Skilid Skostodokid
-			Sparatokid Taruthinid Terid Tzitzid Zieisid Ziepyrid Zilid Zipaibid Zipyrid
+			dynn_Adaid dynn_Amatokid dynn_Aulouporid dynn_Aulouzonid dynn_Bendidorid dynn_Berisadid dynn_Bessid dynn_Bithid
+			dynn_Brinkainid dynn_Brinkazenid dynn_Brinkazerid dynn_Brinkazid dynn_Bryzid dynn_Byzid dynn_Kelsinid dynn_Kelsid
+			dynn_Kersobleptid dynn_Kerzulid dynn_Ketriporid dynn_Kocaid dynn_Delid dynn_Dentubrisid dynn_Dentupid dynn_Deopid
+			dynn_Deospurid dynn_Desakenthid dynn_Diaskenthid dynn_Diazenid dynn_Dizapid dynn_Dizaporid dynn_Dizid
+			dynn_Dizazelpid dynn_Dolenid dynn_Drenid dynn_Eptaikenthid dynn_Eptapid dynn_Eptaporid dynn_Eptenid dynn_Eptezenid
+			dynn_Ezbenid dynn_Gaidrid dynn_Hebryzelmid dynn_Kenthid dynn_Kersid dynn_Kersibaulid dynn_Kersobleptid
+			dynn_Ketriporid dynn_Ketrizeid dynn_Kotid dynn_Maisadid dynn_Markiporid dynn_Mukakenthid dynn_Mukapaibid
+			dynn_Mukapid dynn_Mukaporid dynn_Mukatralid dynn_Mukazenid dynn_Naiporid dynn_Oliporid dynn_Porid dynn_Pytrid
+			dynn_Raizdid dynn_Raskid dynn_Rekiperid dynn_Rhaskid dynn_Rhaskuporid dynn_Rheboulid dynn_Rhesid dynn_Rhoemetalkid
+			dynn_Sadalid dynn_Satrid dynn_Sortid dynn_Seikiperid dynn_Seuthid dynn_Skarid dynn_Skilid dynn_Skostodokid
+			dynn_Sparatokid dynn_Taruthinid dynn_Terid dynn_Tzitzid dynn_Zieisid dynn_Ziepyrid dynn_Zilid dynn_Zipaibid dynn_Zipyrid
 		}
 
 		dynasty_names = {
-			Adaid Amatokid Aulouporid Aulouzonid Bendidorid Berisadid Bessid Bithid
-			Brinkainid Brinkazenid Brinkazerid Brinkazid Bryzid Byzid Kelsinid Kelsid
-			Kersobleptid Kerzulid Ketriporid Kocaid Delid Dentubrisid Dentupid Deopid
-			Deospurid Desakenthid Diaskenthid Diazenid Dizapid Dizaporid Dizid
-			Dizazelpid Dolenid Drenid Eptaikenthid Eptapid Eptaporid Eptenid Eptezenid
-			Ezbenid Gaidrid Hebryzelmid Kenthid Kersid Kersibaulid Kersobleptid
-			Ketriporid Ketrizeid Kotid Maisadid Markiporid Mukakenthid Mukapaibid
-			Mukapid Mukaporid Mukatralid Mukazenid Naiporid Oliporid Porid Pytrid
-			Raizdid Raskid Rekiperid Rhaskid Rhaskuporid Rheboulid Rhesid Rhoemetalkid
-			Sadalid Satrid Sortid Seikiperid Seuthid Skarid Skilid Skostodokid
-			Sparatokid Taruthinid Terid Tzitzid Zieisid Ziepyrid Zilid Zipaibid Zipyrid
+			dynn_Adaid dynn_Amatokid dynn_Aulouporid dynn_Aulouzonid dynn_Bendidorid dynn_Berisadid dynn_Bessid dynn_Bithid
+			dynn_Brinkainid dynn_Brinkazenid dynn_Brinkazerid dynn_Brinkazid dynn_Bryzid dynn_Byzid dynn_Kelsinid dynn_Kelsid
+			dynn_Kersobleptid dynn_Kerzulid dynn_Ketriporid dynn_Kocaid dynn_Delid dynn_Dentubrisid dynn_Dentupid dynn_Deopid
+			dynn_Deospurid dynn_Desakenthid dynn_Diaskenthid dynn_Diazenid dynn_Dizapid dynn_Dizaporid dynn_Dizid
+			dynn_Dizazelpid dynn_Dolenid dynn_Drenid dynn_Eptaikenthid dynn_Eptapid dynn_Eptaporid dynn_Eptenid dynn_Eptezenid
+			dynn_Ezbenid dynn_Gaidrid dynn_Hebryzelmid dynn_Kenthid dynn_Kersid dynn_Kersibaulid dynn_Kersobleptid
+			dynn_Ketriporid dynn_Ketrizeid dynn_Kotid dynn_Maisadid dynn_Markiporid dynn_Mukakenthid dynn_Mukapaibid
+			dynn_Mukapid dynn_Mukaporid dynn_Mukatralid dynn_Mukazenid dynn_Naiporid dynn_Oliporid dynn_Porid dynn_Pytrid
+			dynn_Raizdid dynn_Raskid dynn_Rekiperid dynn_Rhaskid dynn_Rhaskuporid dynn_Rheboulid dynn_Rhesid dynn_Rhoemetalkid
+			dynn_Sadalid dynn_Satrid dynn_Sortid dynn_Seikiperid dynn_Seuthid dynn_Skarid dynn_Skilid dynn_Skostodokid
+			dynn_Sparatokid dynn_Taruthinid dynn_Terid dynn_Tzitzid dynn_Zieisid dynn_Ziepyrid dynn_Zilid dynn_Zipaibid dynn_Zipyrid
 		}
 
 		male_names = {
@@ -1666,15 +1666,15 @@
 		color = hsv { 0.0 0.5 1.0 }
 
 		cadet_dynasty_names = {
-			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
-			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
-			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
 		}
 
 		dynasty_names = {
-			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
-			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
-			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
 		}
 
 		male_names = {
@@ -1699,15 +1699,15 @@
 		color = rgb { 112 190 71 }
 
 		cadet_dynasty_names = {
-			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
-			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
-			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
 		}
 
 		dynasty_names = {
-			Gudilanian Cotisian Durasian Dromichaetid Komozian Moskosian
-			Mucatralian Natoporian Orolosian Pieporian Rhemaxilid Rholicid
-			Rubobosticid Scorian Tiatian Tarbian Tsiricid Zinnicid
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
 		}
 
 		male_names = {
@@ -1732,19 +1732,19 @@
 		color = hsv { 0.32 0.45 0.9 }
 
 		cadet_dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		male_names = {
@@ -1771,19 +1771,19 @@
 		color = rgb { 246  223  15 }
 
 		cadet_dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		male_names = {
@@ -1810,19 +1810,19 @@
 		color = rgb { 149 101 186 }
 
 		cadet_dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		male_names = {
@@ -1849,17 +1849,17 @@
 		color = rgb { 74 174 85 }
 
 		cadet_dynasty_names = {
-			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
-			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
-			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
-			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
 		}
 
 		dynasty_names = {
-			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
-			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
-			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
-			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
 		}
 
 		male_names = {
@@ -1887,13 +1887,13 @@
 		color = hsv { 0.75 0.9 0.73 }
 
 		cadet_dynasty_names = {
-			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid Bostarid Chelbesid Eshbaalid Eugorid Hannid Hiramid Magoid Mattanid Metallid 
-			Milkiramid Philosirid
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid dynn_
+			dynn_Milkiramid dynn_Philosirid
 		}
 
 		dynasty_names = {
-			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid Bostarid Chelbesid Eshbaalid Eugorid Hannid Hiramid Magoid Mattanid Metallid 
-			Milkiramid Philosirid
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid dynn_
+			dynn_Milkiramid dynn_Philosirid
 		}
 
 		male_names = {
@@ -1921,17 +1921,17 @@
 		color = rgb { 14  20  31 }
 
 		cadet_dynasty_names = {
-			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
-			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
-			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
-			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
 		}
 
 		dynasty_names = {
-			Abbarid Adonibaalid Ahiromid Baalhannid Baalid Barcid
-			Bodonid Bostarid Chelbesid Eshbaalid Eugorid Hannid
-			Hiramid Magid Mattanid Metallid Milkiramid Philosirid
-			Gisgoid Gerbalid Hammid Eugarid Mashhid Ummashid
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
 		}
 
 		male_names = {
@@ -1969,31 +1969,31 @@
 		color = hsv { 0.4 0.4 0.4 }
 
 		cadet_dynasty_names = {
-			Andinid Andid Annesid Annid Aplid Apludid Apurid Baizid Bardurid
-			Batid Beukid Beusid Bizid Karrid Daitorid Dasid Dazomenid Dazid
-			Epicarid Iettid Laidicalid Laidietid Laidid Ledrid Messid Messorid
-			Panentid Panid Pantid Plannid Plarid Proradid Samekkid Sarnid
-			Skenobarbid Statanid Statikid Statid Suttid Tizid Tritonid Tritid
-			Turelid Varanid Varidid Vendid Vepid Verzulid Carvanid Germanid
-			Lavianid Pinsid Pladomenid Platid Verzaiid Anadrid Buzetid Ditid
-			Loantid Pantadienid Platorid Platourid Portid Rufantid Sestenid
-			Stennid Vendid Tourranid Tourrinid Tourid Iaritid Montanid
-			Parmanikid Sarid Senekid Silid Sinid Blaidarid Dasmenid Lensid
-			Sassaid Skilid Surkid Kralid Lirid Passalid Likkaid Skenid
+			dynn_Andinid dynn_Andid dynn_Annesid dynn_Annid dynn_Aplid dynn_Apludid dynn_Apurid dynn_Baizid dynn_Bardurid
+			dynn_Batid dynn_Beukid dynn_Beusid dynn_Bizid dynn_Karrid dynn_Daitorid dynn_Dasid dynn_Dazomenid dynn_Dazid
+			dynn_Epicarid dynn_Iettid dynn_Laidicalid dynn_Laidietid dynn_Laidid dynn_Ledrid dynn_Messid dynn_Messorid
+			dynn_Panentid dynn_Panid dynn_Pantid dynn_Plannid dynn_Plarid dynn_Proradid dynn_Samekkid dynn_Sarnid
+			dynn_Skenobarbid dynn_Statanid dynn_Statikid dynn_Statid dynn_Suttid dynn_Tizid dynn_Tritonid dynn_Tritid
+			dynn_Turelid dynn_Varanid dynn_Varidid dynn_Vendid dynn_Vepid dynn_Verzulid dynn_Carvanid dynn_Germanid
+			dynn_Lavianid dynn_Pinsid dynn_Pladomenid dynn_Platid dynn_Verzaiid dynn_Anadrid dynn_Buzetid dynn_Ditid
+			dynn_Loantid dynn_Pantadienid dynn_Platorid dynn_Platourid dynn_Portid dynn_Rufantid dynn_Sestenid
+			dynn_Stennid dynn_Vendid dynn_Tourranid dynn_Tourrinid dynn_Tourid dynn_Iaritid dynn_Montanid
+			dynn_Parmanikid dynn_Sarid dynn_Senekid dynn_Silid dynn_Sinid dynn_Blaidarid dynn_Dasmenid dynn_Lensid
+			dynn_Sassaid dynn_Skilid dynn_Surkid dynn_Kralid dynn_Lirid dynn_Passalid dynn_Likkaid dynn_Skenid
 		}
 
 		dynasty_names = {
-			Andinid Andid Annesid Annid Aplid Apludid Apurid Baizid Bardurid
-			Batid Beukid Beusid Bizid Karrid Daitorid Dasid Dazomenid Dazid
-			Epicarid Iettid Laidicalid Laidietid Laidid Ledrid Messid Messorid
-			Panentid Panid Pantid Plannid Plarid Proradid Samekkid Sarnid
-			Skenobarbid Statanid Statikid Statid Suttid Tizid Tritonid Tritid
-			Turelid Varanid Varidid Vendid Vepid Verzulid Carvanid Germanid
-			Lavianid Pinsid Pladomenid Platid Verzaiid Anadrid Buzetid Ditid
-			Loantid Pantadienid Platorid Platourid Portid Rufantid Sestenid
-			Stennid Vendid Tourranid Tourrinid Tourid Iaritid Montanid
-			Parmanikid Sarid Senekid Silid Sinid Blaidarid Dasmenid Lensid
-			Sassaid Skilid Surkid Kralid Lirid Passalid Likkaid Skenid
+			dynn_Andinid dynn_Andid dynn_Annesid dynn_Annid dynn_Aplid dynn_Apludid dynn_Apurid dynn_Baizid dynn_Bardurid
+			dynn_Batid dynn_Beukid dynn_Beusid dynn_Bizid dynn_Karrid dynn_Daitorid dynn_Dasid dynn_Dazomenid dynn_Dazid
+			dynn_Epicarid dynn_Iettid dynn_Laidicalid dynn_Laidietid dynn_Laidid dynn_Ledrid dynn_Messid dynn_Messorid
+			dynn_Panentid dynn_Panid dynn_Pantid dynn_Plannid dynn_Plarid dynn_Proradid dynn_Samekkid dynn_Sarnid
+			dynn_Skenobarbid dynn_Statanid dynn_Statikid dynn_Statid dynn_Suttid dynn_Tizid dynn_Tritonid dynn_Tritid
+			dynn_Turelid dynn_Varanid dynn_Varidid dynn_Vendid dynn_Vepid dynn_Verzulid dynn_Carvanid dynn_Germanid
+			dynn_Lavianid dynn_Pinsid dynn_Pladomenid dynn_Platid dynn_Verzaiid dynn_Anadrid dynn_Buzetid dynn_Ditid
+			dynn_Loantid dynn_Pantadienid dynn_Platorid dynn_Platourid dynn_Portid dynn_Rufantid dynn_Sestenid
+			dynn_Stennid dynn_Vendid dynn_Tourranid dynn_Tourrinid dynn_Tourid dynn_Iaritid dynn_Montanid
+			dynn_Parmanikid dynn_Sarid dynn_Senekid dynn_Silid dynn_Sinid dynn_Blaidarid dynn_Dasmenid dynn_Lensid
+			dynn_Sassaid dynn_Skilid dynn_Surkid dynn_Kralid dynn_Lirid dynn_Passalid dynn_Likkaid dynn_Skenid
 		}
 
 		male_names = {
@@ -2159,19 +2159,19 @@
 		color = hsv { 0.42 0.45 0.3 }
 
 		cadet_dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		male_names = {
@@ -2196,19 +2196,19 @@
 		color = hsv { 0.03 0.7 0.7 }
 
 		cadet_dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		dynasty_names = {
-			Aramid Arid Arkhid Asinid Arsacid Deiocid Menid Pacorid
-			Savacid Vardanid Surenid Karinid Gaumatid Gobryasid
-			Hydarnid Smerdid Vivanid Xerxid Abadanid Orontid Atropatid
-			Mithridatid Artiaxid Mihranid Chosroid Artashid Bagabignid Cambysid
-			Frataraka
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
 		}
 
 		male_names = {

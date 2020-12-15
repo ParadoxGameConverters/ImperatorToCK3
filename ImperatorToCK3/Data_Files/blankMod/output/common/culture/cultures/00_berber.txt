@@ -564,6 +564,9 @@
 		
 		dynasty_of_location_prefix = "dynnp_mn"
 		
+		# https://en.wikipedia.org/wiki/Nomen_(Ancient_Egypt)
+		patronym_prefix_male = "dynnp_sa"
+		
 		founder_named_dynasties = yes
 
 		mercenary_names = {
@@ -604,7 +607,11 @@
 			4 = african
 		}
 		
-		dynasty_of_location_prefix = "dynnp_mn"
+		# https://glosbe.com/en/mis_ber/from
+		dynasty_of_location_prefix = "dynnp_seg"
+		
+		patronym_prefix_male = "dynnp_mem"
+		
 		
 		founder_named_dynasties = yes
 
