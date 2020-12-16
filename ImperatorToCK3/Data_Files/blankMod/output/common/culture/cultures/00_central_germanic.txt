@@ -1310,17 +1310,17 @@
 		color = hsv { 0.05 0.7 0.3 }
 
 		cadet_dynasty_names = {
-			Tuomid Andicid Dagaricid Gelimerian Geroldian Malaricid
-			Marbodian Theodian Marcolian Sigid Rigleikid Tancrid Malogrian
-			Gundrid Segimandrid Dwaldid Merobaudian Eidigian
-			Gerhaucrian Hildganid Hramrid Ingohdrid Ingrammid Malactian
+			dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
+			dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
+			dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
+			dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
 		}
 
 		dynasty_names = {
-			Tuomid Andicid Dagaricid Gelimerian Geroldian Malaricid
-			Marbodian Theodian Marcolian Sigid Rigleikid Tancrid Malogrian
-			Gundrid Segimandrid Dwaldid Merobaudian Eidigian
-			Gerhaucrian Hildganid Hramrid Ingohdrid Ingrammid Malactian
+			dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
+			dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
+			dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
+			dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
 		}
 
 		male_names = {
@@ -1384,6 +1384,13 @@
 			35 = caucasian_brown_hair
 			25 = caucasian_dark_hair
 		}
+		
+		dynasty_of_location_prefix = "dynnp_fane"
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 50
+		mat_grf_name_chance = 5
+		father_name_chance = 10
 
 		mercenary_names = {
 			
@@ -1394,17 +1401,19 @@
 		color = hsv { 0.1 0.7 0.05 }
 
 		cadet_dynasty_names = {
-			Tuomid Andicid Dagaricid Gelimerian Geroldian Malaricid
-			Marbodian Theodian Marcolian Sigid Rigleikid Tancrid Malogrian
-			Gundrid Segimandrid Dwaldid Merobaudian Eidigian
-			Gerhaucrian Hildganid Hramrid Ingohdrid Ingrammid Malactian
+			{ "dynn_Amaling" }
+			dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
+			dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
+			dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
+			dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
 		}
 
 		dynasty_names = {
-			Tuomid Andicid Dagaricid Gelimerian Geroldian Malaricid
-			Marbodian Theodian Marcolian Sigid Rigleikid Tancrid Malogrian
-			Gundrid Segimandrid Dwaldid Merobaudian Eidigian
-			Gerhaucrian Hildganid Hramrid Ingohdrid Ingrammid Malactian
+			{ "dynn_Amaling" }
+			dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
+			dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
+			dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
+			dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
 		}
 
 		male_names = {
@@ -1469,6 +1478,13 @@
 			25 = caucasian_dark_hair
 		}
 
+		dynasty_of_location_prefix = "dynnp_af"
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 50
+		mat_grf_name_chance = 5
+		father_name_chance = 10
+		
 		mercenary_names = {
 			
 		}

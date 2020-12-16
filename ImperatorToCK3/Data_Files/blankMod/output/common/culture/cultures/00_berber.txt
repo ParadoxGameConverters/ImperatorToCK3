@@ -529,19 +529,19 @@
 		color = hsv { 0.15  1  0.7 }
 
 		cadet_dynasty_names = {
-			Ahmid Galestid Kenamid Naravid Penamid
-			Senuid Setnid Arganid Psammid Philothid Timolid Zosid Phileid
-			Nicodemid Nefarid Bastid Xeneid Naravid Ezanid Ahmid Alarid
-			Harsiotid Henid Ibid Khabbashid	 Amasid Nectanebid
-			Petubastid Djedhid Tachyid Magid
+			dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+			dynn_Senuid dynn_Setnid dynn_Arganid dynn_Psammid dynn_Philothid dynn_Timolid dynn_Zosid dynn_Phileid
+			dynn_Nicodemid dynn_Nefarid dynn_Bastid dynn_Xeneid dynn_Naravid dynn_Ezanid dynn_Ahmid dynn_Alarid
+			dynn_Harsiotid dynn_Henid dynn_Ibid dynn_Khabbashid	 dynn_Amasid dynn_Nectanebid
+			dynn_Petubastid dynn_Djedhid dynn_Tachyid dynn_Magid
 		}
 
 		dynasty_names = {
-			Ahmid Galestid Kenamid Naravid Penamid
-			Senuid Setnid Arganid Psammid Philothid Timolid Zosid Phileid
-			Nicodemid Nefarid Bastid Xeneid Naravid Ezanid Ahmid Alarid
-			Harsiotid Henid Ibid Khabbashid	 Amasid Nectanebid
-			Petubastid Djedhid Tachyid Magid
+			dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+			dynn_Senuid dynn_Setnid dynn_Arganid dynn_Psammid dynn_Philothid dynn_Timolid dynn_Zosid dynn_Phileid
+			dynn_Nicodemid dynn_Nefarid dynn_Bastid dynn_Xeneid dynn_Naravid dynn_Ezanid dynn_Ahmid dynn_Alarid
+			dynn_Harsiotid dynn_Henid dynn_Ibid dynn_Khabbashid	 dynn_Amasid dynn_Nectanebid
+			dynn_Petubastid dynn_Djedhid dynn_Tachyid dynn_Magid
 		}
 
 		male_names = {
@@ -561,6 +561,13 @@
 			10 = arab
 			4 = african
 		}
+		
+		dynasty_of_location_prefix = "dynnp_mn"
+		
+		# https://en.wikipedia.org/wiki/Nomen_(Ancient_Egypt)
+		patronym_prefix_male = "dynnp_sa"
+		
+		founder_named_dynasties = yes
 
 		mercenary_names = {
 			
@@ -572,15 +579,17 @@
 		color = hsv { 0.05  0.5  0.4 }
 
 		cadet_dynasty_names = {
-			Ahmid Galestid Kenamid Naravid Penamid Senuid
-			Setnid Adherbid Masinnid Tacfarinid Syphid Verminid Galid
-			Jugurthid
+			dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+			dynn_Senuid dynn_Setnid
+			dynn_Adherbid dynn_Masinnid dynn_Tacfarinid dynn_Syphid dynn_Verminid
+			dynn_Galid dynn_Jugurthid
 		}
 
 		dynasty_names = {
-			Ahmid Galestid Kenamid Naravid Penamid Senuid
-			Setnid Adherbid Masinnid Tacfarinid Syphid Verminid Galid
-			Jugurthid
+			dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+			dynn_Senuid dynn_Setnid
+			dynn_Adherbid dynn_Masinnid dynn_Tacfarinid dynn_Syphid dynn_Verminid
+			dynn_Galid dynn_Jugurthid
 		}
 
 		male_names = {
@@ -597,6 +606,14 @@
 			10 = arab
 			4 = african
 		}
+		
+		# https://glosbe.com/en/mis_ber/from
+		dynasty_of_location_prefix = "dynnp_seg"
+		
+		patronym_prefix_male = "dynnp_mem"
+		
+		
+		founder_named_dynasties = yes
 
 		mercenary_names = {
 			

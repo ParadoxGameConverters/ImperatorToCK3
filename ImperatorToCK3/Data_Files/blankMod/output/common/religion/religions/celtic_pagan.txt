@@ -3,7 +3,14 @@
 
 	doctrine = pagan_hostility_doctrine
 
-	pagan_roots = yes
+	pagan_roots = yes	# Religious names tied to this religious family
+
+	reserved_male_names = {
+		Lugotorix Segovax
+	}
+	reserved_female_names = {
+		Damona Brigantia Allauna
+	}
 
 	#Main Group
 	doctrine = doctrine_no_head
