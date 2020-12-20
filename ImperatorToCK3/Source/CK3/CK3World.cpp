@@ -44,8 +44,8 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 
 
 	importImperatorCharacters(impWorld, theConfiguration.getConvertBirthAndDeathDates(), impWorld.getEndDate());
-	linkSpouses(impWorld);
-	linkMothersAndFathers(impWorld);
+	linkSpouses();
+	linkMothersAndFathers();
 
 
 	addHoldersAndHistoryToTitles(impWorld);
@@ -300,7 +300,7 @@ void CK3::World::removeInvalidLandlessTitles()
 	}
 }
 
-void CK3::World::linkSpouses(const Imperator::World& impWorld)
+void CK3::World::linkSpouses()
 {
 	auto counterSpouse = 0;
 	for (const auto& [ck3CharacterID, ck3Character] : characters)
@@ -322,7 +322,7 @@ void CK3::World::linkSpouses(const Imperator::World& impWorld)
 }
 
 
-void CK3::World::linkMothersAndFathers(const Imperator::World& impWorld)
+void CK3::World::linkMothersAndFathers()
 {
 	auto counterMother = 0;
 	auto counterFather = 0;
