@@ -313,7 +313,7 @@
 		}
 		
 		mercenary_names = {
-			{ name = "mercenary_company_legion" coat_of_arms = "e_roman_empire" }
+			{ name = "mercenary_company_numeri" coat_of_arms = "e_roman_empire" }
 		}
 		
 	}
