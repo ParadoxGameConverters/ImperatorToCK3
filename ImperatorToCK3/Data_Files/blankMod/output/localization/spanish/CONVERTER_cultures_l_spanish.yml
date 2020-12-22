@@ -1,0 +1,102 @@
+﻿l_spanish:
+ # version 0.1 
+ old_egyptian:0 "bohairica"
+ old_egyptian_collective_noun:1 "Egipcios"
+ 
+ numidian:0 "numida"
+ numidian_collective_noun:1 "Númidas"
+ 
+ celtic_pannonian:0 "escórdica"
+ celtic_pannonian_collective_noun:1 "Celtopanonianos"
+ 
+ celtiberian:0 "celtibérica"
+ celtiberian_collective_noun:1 "Celtibéricos"
+ 
+ belgae:0 "belga"
+ belgae_collective_noun:1 "Belgas"
+ 
+ gallic:0 "gálica"
+ gallic_collective_noun:1 "Gálicos"
+ 
+ macedonian:0 "macedónia"
+ macedonian_collective_noun:1 "Macedonios"
+ 
+ thracian:0 "tracia"
+ thracian_collective_noun:1 "Tracios"
+ 
+ dacian:0 "albocense"
+ dacian_collective_noun:1 "Dacios"
+ 
+ getian:0 "geta"
+ getian_collective_noun:1 "Getae"
+ 
+ cappadocian:0 "capadocia"
+ cappadocian_collective_noun:1 "Capadocios"
+ 
+ phrygian:0 "frigia"
+ phrygian_collective_noun:1 "Frigios"
+ 
+ pontic:0 "póntica"
+ pontic_collective_noun:1 "Pónticos"
+ 
+ carthaginian:0 "púnica"
+ carthaginian_collective_noun:1 "Cartagineses"
+ 
+ phoenician:0 "fenicia"
+ phoenician_collective_noun:1 "Fenicios"
+ 
+ nabatean:0 "nabatea"
+ nabatean_collective_noun:1 "Nabateos"
+ 
+ dalmatian:0 "dálmata"
+ dalmatian_collective_noun:1 "Dálmatas"
+ 
+ aramaic:0 "aramea"
+ aramaic_collective_noun:1 "Arameos"
+ 
+ babylonian:0 "babilónica"
+ babylonian_collective_noun:1 "Babilonios"
+ 
+ vandal:0 "vándala"
+ vandal_collective_noun:1 "Vándalos"
+ 
+ iberian:0 "ibérica"
+ iberian_collective_noun:1 "Iberos"
+ 
+ nuragic:0 "nurágica"
+ nuragic_collective_noun:1 "Nurágicos"
+ 
+ bactrian:0 "bactriana"
+ bactrian_collective_noun:1 "Bactrianos"
+ 
+ scythian:0 "escita"
+ scythian_collective_noun:1 "Escitas"
+ 
+ sarmatian:0 "sarmatiana"
+ sarmatian_collective_noun:1 "Sarmatianos"
+ 
+ parthian:0 "parta"
+ parthian_collective_noun:1 "Partos"
+ 
+ hebrew:0 "hebrea"
+ hebrew_collective_noun:1 "Hebreos"
+ 
+ etruscan:0 "etrusca"
+ etruscan_collective_noun:1 "Etruscos"
+ 
+ # version 0.2
+ brythonic:0 "britónica"
+ brythonic_collective_noun:1 "Britónicos"
+
+ 
+ ionic:0 "iónica"
+ ionic_collective_noun:1 "Iónicos"
+ 
+ indogreek:0 "indo-griega"
+ indogreek_collective_noun:1 "Indo-Griegos"
+ 
+ lusoiberian:0 "lusitana"
+ lusoiberian_collective_noun:1 "Lusitanos"
+ 
+ gothic:0 "gótica"
+ gothic_collective_noun:1 "Godos"

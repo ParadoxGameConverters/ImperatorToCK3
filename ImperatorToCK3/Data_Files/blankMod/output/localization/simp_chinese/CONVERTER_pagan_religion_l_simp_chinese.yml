@@ -1,0 +1,210 @@
+﻿l_simp_chinese:
+ #---------------------------------------------------
+ # ANATOLIAN
+ #---------------------------------------------------
+ anatolian_religion:1 "安那托利亚异教"
+ anatolian_religion_adj:1 "安那托利亚"
+ anatolian_religion_adherent:1 "安那托利亚异教徒"
+ anatolian_religion_adherent_plural:1 "安那托利亚异教徒"
+ anatolian_religion_desc:1 "庫柏勒的佛律癸亞崇拜与史前母亲-女神崇拜有关。 历经数千年的演变，塞伯勒的信徒经常宣称自己与神话人物和英雄有联系，并通过崇拜偶像来实践他们的宗教。"
+
+ anatolian_pagan:1 "庫柏勒涅"
+ anatolian_pagan_adj:1 "庫柏勒涅"
+ anatolian_pagan_adherent:1 "庫柏勒涅"
+ anatolian_pagan_adherent_plural:1 "庫柏勒涅"
+ anatolian_pagan_old:1 "旧庫柏勒涅"
+ anatolian_pagan_old_adj:1 "旧庫柏勒涅"
+ anatolian_pagan_old_adherent:1 "旧庫柏勒涅"
+ anatolian_pagan_old_adherent_plural:1 "旧庫柏勒涅"
+
+ #---------------------------------------------------
+ # ARAB
+ #---------------------------------------------------
+ arabic_religion:1 "阿拉伯异教"
+ arabic_religion_adj:1 "阿拉伯"
+ arabic_religion_adherent:1 "阿拉伯异教徒"
+ arabic_religion_adherent_plural:1 "阿拉伯异教徒"
+ arabic_religion_desc:1 "阿拉伯地区的宗教是神灵，神态和恶魔的多元神智融合，在该地区的各地和飞地中都有实行。 在此期间的某些地方，造物主真主安拉可能被奉为万神殿的首领。"
+
+ arabic_pagan:1 "阿拉伯"
+ arabic_pagan_adj:1 "阿拉伯"
+ arabic_pagan_adherent:1 "阿拉伯异教徒"
+ arabic_pagan_adherent_plural:1 "阿拉伯异教徒"
+ arabic_pagan_old:1 "旧阿拉伯"
+ arabic_pagan_old_adj:1 "旧阿拉伯"
+ arabic_pagan_old_adherent:1 "旧阿拉伯异教徒"
+ arabic_pagan_old_adherent_plural:1 "旧阿拉伯异教徒"
+
+ #---------------------------------------------------
+ # ARMENIAN
+ #---------------------------------------------------
+ armenian_religion:1 "亚美尼亚异教"
+ armenian_religion_adj:1 "亚美尼亚"
+ armenian_religion_adherent:1 "亚美尼亚人"
+ armenian_religion_adherent_plural:1 "亚美尼亚人"
+ armenian_religion_desc:1 "卡尔迪万神殿代表着一种宗教，这种宗教起源于乌拉尔文化，距今已有多个世纪。 首席神主要是一种多神论信仰，被称为卡尔迪，并被奉为战士神。"
+
+ armenian_pagan:1 "哈尔迪奇"
+ armenian_pagan_adj:1 "哈尔迪奇"
+ armenian_pagan_adherent:1 "哈尔迪奇"
+ armenian_pagan_adherent_plural:1 "哈尔迪奇"
+ armenian_pagan_old:1 "旧哈尔迪奇"
+ armenian_pagan_old_adj:1 "旧哈尔迪奇"
+ armenian_pagan_old_adherent:1 "旧哈尔迪奇"
+ armenian_pagan_old_adherent_plural:1 "旧哈尔迪奇"
+
+ #---------------------------------------------------
+ # DACIAN
+ #---------------------------------------------------
+ dacian_religion:1 "达契神异教"
+ dacian_religion_adj:1 "达契安"
+ dacian_religion_adherent:1 "达契安"
+ dacian_religion_adherent_plural:1 "达契安"
+ dacian_religion_desc:1 "扎尔莫西斯最初是先知还是神，尚不得而知。 然而，达契亚人和革泰尊崇扎尔莫西斯神灵，将许多奇迹般的行为归功于他。"
+
+ dacian_pagan:1 "扎尔莫西斯"
+ dacian_pagan_adj:1 "扎尔莫西斯"
+ dacian_pagan_adherent:1 "扎尔莫西斯"
+ dacian_pagan_adherent_plural:1 "扎尔莫西斯"
+ dacian_pagan_old:1 "旧扎尔莫西斯"
+ dacian_pagan_old_adj:1 "旧扎尔莫西斯"
+ dacian_pagan_old_adherent:1 "旧扎尔莫西斯"
+ dacian_pagan_old_adherent_plural:1 "旧扎尔莫西斯"
+
+ #---------------------------------------------------
+ # BERBER
+ #---------------------------------------------------
+ berber_religion:1 "柏柏尔异教"
+ berber_religion_adj:1 "柏柏尔"
+ berber_religion_adherent:1 "柏柏尔人"
+ berber_religion_adherent_plural:1 "柏柏尔人"
+ berber_religion_desc:1 "古老的文化和宗教是传统埃及信仰，崇拜明星和祖先崇拜的大熔炉。 仍然存在许多巨石-为了纪念众神而建造的石头结构-散布着非洲景观。"
+
+ berber_pagan:1 "巨石"
+ berber_pagan_adj:1 "巨石"
+ berber_pagan_adherent:1 "巨石异教徒"
+ berber_pagan_adherent_plural:1 "巨石异教徒"
+ berber_pagan_old:1 "旧巨石"
+ berber_pagan_old_adj:1 "旧巨石"
+ berber_pagan_old_adherent:1 "旧巨石异教徒"
+ berber_pagan_old_adherent_plural:1 "旧巨石异教徒"
+
+ #---------------------------------------------------
+ # PHOENICIAN
+ #---------------------------------------------------
+ canaanite_religion:1 "腓尼基异教"
+ canaanite_religion_adj:1 "腓尼基"
+ canaanite_religion_adherent:1 "腓尼基人"
+ canaanite_religion_adherent_plural:1 "腓尼基人"
+ canaanite_religion_desc:1 "迦南宗教以多神论的方式尊敬许多神及其神灵。 巴尔被认为是复杂的等级较低的神灵中的主要神灵，这些神灵通常在山或山顶上的神社中受到崇拜。 游戏开始时，迦南宗教主要出现在腓尼基和腓尼基殖民地，例如迦太基。"
+
+ canaanite_pagan:1 "迦南石"
+ canaanite_pagan_adj:1 "迦南石"
+ canaanite_pagan_adherent:1 "迦南石"
+ canaanite_pagan_adherent_plural:1 "迦南石"
+ canaanite_pagan_old:1 "旧迦南石"
+ canaanite_pagan_old_adj:1 "旧迦南石"
+ canaanite_pagan_old_adherent:1 "旧迦南石"
+ canaanite_pagan_old_adherent_plural:1 "旧迦南石"
+
+ #---------------------------------------------------
+ # CAUCASIAN
+ #---------------------------------------------------
+ caucasian_religion:1 "高加索异教"
+ caucasian_religion_adj:1 "高加索"
+ caucasian_religion_adherent:1 "高加索人"
+ caucasian_religion_adherent_plural:1 "高加索人"
+ caucasian_religion_desc:1 "高加索-伊比利亚地区的万神殿可能与附近的安纳托利亚宗教有关，由阿玛兹神统治。"
+
+ caucasian_pagan:1 "阿玛兹"
+ caucasian_pagan_adj:1 "阿玛兹"
+ caucasian_pagan_adherent:1 "阿玛兹"
+ caucasian_pagan_adherent_plural:1 "阿玛兹"
+ caucasian_pagan_old:1 "旧阿玛兹"
+ caucasian_pagan_old_adj:1 "旧阿玛兹"
+ caucasian_pagan_old_adherent:1 "旧阿玛兹"
+ caucasian_pagan_old_adherent_plural:1 "旧阿玛兹"
+
+ #---------------------------------------------------
+ # CELTIC
+ #---------------------------------------------------
+ celtic_religion:1 "凯尔特异教"
+ celtic_religion_adj:1 "凯尔特"
+ celtic_religion_adherent:1 "凯尔特人"
+ celtic_religion_adherent_plural:1 "凯尔特人"
+ celtic_religion_desc:1 "德鲁伊代表凯尔特人，是一个独特的社会阶层。 他们通常担任地方法官和立法者，还规定了当地的宗教习俗和信仰。 游戏开始时，德鲁伊信仰主要存在于伊比利亚，高卢和不列颠群岛。"
+
+ celtic_pagan:1 "德鲁伊"
+ celtic_pagan_adj:1 "德鲁伊"
+ celtic_pagan_adherent:1 "德鲁伊"
+ celtic_pagan_adherent_plural:1 "德鲁伊"
+ celtic_pagan_old:1 "旧德鲁伊"
+ celtic_pagan_old_adj:1 "旧德鲁伊"
+ celtic_pagan_old_adherent:1 "旧德鲁伊"
+ celtic_pagan_old_adherent_plural:1 "旧德鲁伊"
+
+ #---------------------------------------------------
+ # IBERIC
+ #---------------------------------------------------
+ iberic_religion:1 "万物有灵"
+ iberic_religion_adj:1 "万物有灵"
+ iberic_religion_adherent:1 "万物有灵"
+ iberic_religion_adherent_plural:1 "万物有灵"
+ iberic_religion_desc:1 "从本质上讲，这是一种混合的多神论宗教，伊比利亚宗教习俗涉及对动物精神的崇拜以及对祖先的崇拜。 伊比利亚人以及诸如柏塔廷或阿泰喀那之类的当地神都崇拜了各种希腊神和腓尼基神。"
+
+ iberian_pagan:1 "伊比利亚"
+ iberian_pagan_adj:1 "伊比利亚"
+ iberian_pagan_adherent:1 "伊比利亚人"
+ iberian_pagan_adherent_plural:1 "伊比利亚人"
+ iberian_pagan_old:1 "旧伊比利亚"
+ iberian_pagan_old_adj:1 "旧伊比利亚"
+ iberian_pagan_old_adherent:1 "旧伊比利亚人"
+ iberian_pagan_old_adherent_plural:1 "旧伊比利亚人"
+
+ #---------------------------------------------------
+ # EGYPTIAN - TO VANILLA KORDOFAN RELIGION
+ #---------------------------------------------------
+ egyptian_pagan:1 "埃及异教"
+ egyptian_pagan_adj:1 "埃及异教"
+ egyptian_pagan_adherent:1 "埃及异教徒"
+ egyptian_pagan_adherent_plural:1 "埃及异教徒"
+ egyptian_pagan_old:1 "旧埃及异教"
+ egyptian_pagan_old_adj:1 "旧埃及异教"
+ egyptian_pagan_old_adherent:1 "旧埃及异教徒"
+ egyptian_pagan_old_adherent_plural:1 "旧埃及异教徒"
+
+ #---------------------------------------------------
+ # MESOPOTAMIAN
+ #---------------------------------------------------
+ mesopotamian_religion:1 "美索不达米亚异教"
+ mesopotamian_religion_adj:1 "美索不达米亚"
+ mesopotamian_religion_adherent:1 "美索不达米亚异教徒"
+ mesopotamian_religion_adherent_plural:1 "美索不达米亚异教徒"
+ mesopotamian_religion_desc:1 "迦勒底万神殿的历史可以追溯到数千年前。 崇拜迦勒底教的信徒阿努，恩基和纳娜等神灵，为了纪念他们所选择的神而建造了许多寺庙。"
+
+ mesopotamian_pagan:1 "迦勒底"
+ mesopotamian_pagan_adj:1 "迦勒底"
+ mesopotamian_pagan_adherent:1 "迦勒底人"
+ mesopotamian_pagan_adherent_plural:1 "迦勒底人"
+ mesopotamian_pagan_old:1 "旧迦勒底"
+ mesopotamian_pagan_old_adj:1 "旧迦勒底"
+ mesopotamian_pagan_old_adherent:1 "旧迦勒底人"
+ mesopotamian_pagan_old_adherent_plural:1 "旧迦勒底人"
+
+ #---------------------------------------------------
+ # SCYTHIAN
+ #---------------------------------------------------
+ scythian_religion:1 "锡克教徒的异教"
+ scythian_religion_adj:1 "锡克教徒"
+ scythian_religion_adherent:1 "锡克教徒"
+ scythian_religion_adherent_plural:1 "锡克教徒"
+ scythian_religion_desc:1 "这种泛神论的信仰起源于斯基泰人的土地，它崇拜七个主要神灵，这些神灵通常等同于希腊万神殿的神灵。 像斯凯尔特人一样，早期的多头神教徒的多神论民间宗教元素依然存在，马匹牺牲和战车葬礼的习俗依然存在。"
+
+ scythian_pagan:1 "七足的"
+ scythian_pagan_adj:1 "七足的"
+ scythian_pagan_adherent:1 "七彩异教徒"
+ scythian_pagan_adherent_plural:1 "七彩异教徒"
+ scythian_pagan_old:1 "旧七足的"
+ scythian_pagan_old_adj:1 "旧七足的"
+ scythian_pagan_old_adherent:1 "旧七彩异教徒"
+ scythian_pagan_old_adherent_plural:1 "旧七彩异教徒"

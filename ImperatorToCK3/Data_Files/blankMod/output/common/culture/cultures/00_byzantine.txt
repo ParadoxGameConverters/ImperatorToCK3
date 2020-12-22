@@ -1887,12 +1887,12 @@
 		color = hsv { 0.75 0.9 0.73 }
 
 		cadet_dynasty_names = {
-			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid dynn_
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid
 			dynn_Milkiramid dynn_Philosirid
 		}
 
 		dynasty_names = {
-			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid dynn_
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid
 			dynn_Milkiramid dynn_Philosirid
 		}
 
