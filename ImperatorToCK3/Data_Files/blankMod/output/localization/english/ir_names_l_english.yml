@@ -3165,8 +3165,8 @@
  Bit_Tarkubti:0 "Bit Tarkubti"
  # I swear, I'll give this a separate loc file when I'll have enough
  # new mercenaries added
- mercenary_company_legion:0 "Numeri"
- mercenary_company_legion_article:0 ""
+ mercenary_company_numeri:0 "Numeri"
+ mercenary_company_numeri_article:0 ""
  
  dynnp_sa: "sa "
  dynnp_seg: "seg "
