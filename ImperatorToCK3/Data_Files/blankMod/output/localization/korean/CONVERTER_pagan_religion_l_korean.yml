@@ -1,0 +1,210 @@
+﻿l_korean:
+ #---------------------------------------------------
+ # ANATOLIAN
+ #---------------------------------------------------
+ anatolian_religion:1 "아나톨리아 이교도"
+ anatolian_religion_adj:1 "아나톨리아"
+ anatolian_religion_adherent:1 "아나톨리아 헤더"
+ anatolian_religion_adherent_plural:1 "아나톨리아 이교도"
+ anatolian_religion_desc:1 "키베레의 프리기아 숭배는 선사 시대의 어머니 여신 숭배와 관련이 있습니다. 수천 년에 걸쳐 발전한 사이 벨레 숭배는 종종 신화 속 인물과 영웅과의 관계를 주장하고 우상 숭배로 종교를 실천했습니다."
+
+ anatolian_pagan:1 "키베레네"
+ anatolian_pagan_adj:1 "키베레네"
+ anatolian_pagan_adherent:1 "키베레네"
+ anatolian_pagan_adherent_plural:1 "키베레네"
+ anatolian_pagan_old:1 "낡은키베레네"
+ anatolian_pagan_old_adj:1 "낡은키베레네"
+ anatolian_pagan_old_adherent:1 "낡은키베레네"
+ anatolian_pagan_old_adherent_plural:1 "낡은키베레네"
+
+ #---------------------------------------------------
+ # ARAB
+ #---------------------------------------------------
+ arabic_religion:1 "아랍 이교도"
+ arabic_religion_adj:1 "아랍 말"
+ arabic_religion_adherent:1 "아랍 헤더"
+ arabic_religion_adherent_plural:1 "아랍 이교도"
+ arabic_religion_desc:1 "아라비아의 종교는이 지역의 장소와 영토에서 행해지는 신, 측면 및 악마의 다신교 적 혼합이었습니다. 창조주 신인 알라는이 기간 동안 일부 지역에서 판테온의 수장으로 숭배되었을 것입니다."
+
+ arabic_pagan:1 "아랍 말"
+ arabic_pagan_adj:1 "아랍 말"
+ arabic_pagan_adherent:1 "아랍 헤더"
+ arabic_pagan_adherent_plural:1 "아랍 이교도"
+ arabic_pagan_old:1 "낡은아랍 말"
+ arabic_pagan_old_adj:1 "낡은아랍 말"
+ arabic_pagan_old_adherent:1 "낡은아랍 헤더"
+ arabic_pagan_old_adherent_plural:1 "낡은아랍 이교도"
+
+ #---------------------------------------------------
+ # ARMENIAN
+ #---------------------------------------------------
+ armenian_religion:1 "아르메니아 이교도"
+ armenian_religion_adj:1 "아르메니아 사람"
+ armenian_religion_adherent:1 "가난한"
+ armenian_religion_adherent_plural:1 "가난한"
+ armenian_religion_desc:1 "할디은 수세기 전에 우라르티 문화에서 나온 종교를 나타냅니다. 주된 다신교 적 신념 인 주된 신은 칼디로 알려졌으며 전사 신으로 숭배되었습니다."
+
+ armenian_pagan:1 "칼디 즘"
+ armenian_pagan_adj:1 "칼디"
+ armenian_pagan_adherent:1 "칼디"
+ armenian_pagan_adherent_plural:1 "칼디"
+ armenian_pagan_old:1 "낡은칼디 즘"
+ armenian_pagan_old_adj:1 "낡은칼디"
+ armenian_pagan_old_adherent:1 "낡은칼디"
+ armenian_pagan_old_adherent_plural:1 "낡은칼디"
+
+ #---------------------------------------------------
+ # DACIAN
+ #---------------------------------------------------
+ dacian_religion:1 "다키아 이교도"
+ dacian_religion_adj:1 "다키아"
+ dacian_religion_adherent:1 "다키아"
+ dacian_religion_adherent_plural:1 "다키아"
+ dacian_religion_desc:1 "잘목 시스가 원래 예언자 였는지 신이 었는지는 알 수 없습니다. 그러나 다키아와 게타이는 살뫀싯를 신성한 존재로 숭배하고 많은 기적 행위를 그에게 돌립니다."
+
+ dacian_pagan:1 "자몰 시즘"
+ dacian_pagan_adj:1 "자몰"
+ dacian_pagan_adherent:1 "자몰"
+ dacian_pagan_adherent_plural:1 "자몰"
+ dacian_pagan_old:1 "낡은자몰 시즘"
+ dacian_pagan_old_adj:1 "낡은자몰"
+ dacian_pagan_old_adherent:1 "낡은자몰"
+ dacian_pagan_old_adherent_plural:1 "낡은자몰"
+
+ #---------------------------------------------------
+ # BERBER
+ #---------------------------------------------------
+ berber_religion:1 "베르베르 이교도"
+ berber_religion_adj:1 "베르베르 이교도"
+ berber_religion_adherent:1 "베르베르 헤더"
+ berber_religion_adherent_plural:1 "베르베르 히스"
+ berber_religion_desc:1 "고대 문화와 종교는 전통적인 이집트 신앙, 별 숭배, 조상 숭배의 용광로였습니다. 아프리카 풍경에는 ​​여전히 많은 거석 (신을 기리기 위해 세워진 석조 구조물)이 흩어져 있습니다."
+
+ berber_pagan:1 "거석"
+ berber_pagan_adj:1 "거석"
+ berber_pagan_adherent:1 "거석 헤더"
+ berber_pagan_adherent_plural:1 "거석 히스"
+ berber_pagan_old:1 "낡은거석"
+ berber_pagan_old_adj:1 "낡은거석"
+ berber_pagan_old_adherent:1 "낡은거석 헤더"
+ berber_pagan_old_adherent_plural:1 "낡은거석 히스"
+
+ #---------------------------------------------------
+ # PHOENICIAN
+ #---------------------------------------------------
+ canaanite_religion:1 "페니키아 이교도"
+ canaanite_religion_adj:1 "페니키아 인"
+ canaanite_religion_adherent:1 "페니키아 헤더"
+ canaanite_religion_adherent_plural:1 "페니키아 이교도"
+ canaanite_religion_desc:1 "가나안 종교는 다신교 적 방식으로 많은 신들과 그 측면들을 숭배합니다. 바알은 산이나 언덕에있는 신사에서 자주 숭배되는 하위 신들의 복잡한 계층 구조에서 주요 신으로 간주됩니다. 게임이 시작될 때 가나안 종교는 주로 페니키아와 카르타고와 같은 페니키아 식민지에서 발견됩니다."
+
+ canaanite_pagan:1 "가나안 이교도"
+ canaanite_pagan_adj:1 "가나안 사람"
+ canaanite_pagan_adherent:1 "가나안 사람들"
+ canaanite_pagan_adherent_plural:1 "가나안 사람들"
+ canaanite_pagan_old:1 "낡은가나안 이교도"
+ canaanite_pagan_old_adj:1 "낡은가나안 사람"
+ canaanite_pagan_old_adherent:1 "낡은가나안 사람들"
+ canaanite_pagan_old_adherent_plural:1 "낡은가나안 사람들"
+
+ #---------------------------------------------------
+ # CAUCASIAN
+ #---------------------------------------------------
+ caucasian_religion:1 "백인 이교도"
+ caucasian_religion_adj:1 "코카서스 사람"
+ caucasian_religion_adherent:1 "코카서스 사람"
+ caucasian_religion_adherent_plural:1 "코카서스 사람"
+ caucasian_religion_desc:1 "아마도 인근 아나톨리아 종교와 관련이있을 수있는 캅 카스-이베리아 지역의 판테온은 아르 마즈 신이 통치했습니다."
+
+ caucasian_pagan:1 "아르마지 즘"
+ caucasian_pagan_adj:1 "아르마지"
+ caucasian_pagan_adherent:1 "아르마지"
+ caucasian_pagan_adherent_plural:1 "아르마지"
+ caucasian_pagan_old:1 "낡은아르마지 즘"
+ caucasian_pagan_old_adj:1 "낡은아르마지"
+ caucasian_pagan_old_adherent:1 "낡은아르마지"
+ caucasian_pagan_old_adherent_plural:1 "낡은아르마지"
+
+ #---------------------------------------------------
+ # CELTIC
+ #---------------------------------------------------
+ celtic_religion:1 "켈트 이교도"
+ celtic_religion_adj:1 "켈트 말"
+ celtic_religion_adherent:1 "켈트"
+ celtic_religion_adherent_plural:1 "켈트"
+ celtic_religion_desc:1 "드루이드는 켈트족의 독립적 인 사회 계층으로 활동했습니다. 종종 판사와 의원으로 일하면서 그들은 또한 지역 종교 관습과 신념을 지시했습니다. 드루이드 적 신념은 주로 게임이 시작될 때 이베리아, 갈리아, 영국 제도에서 발견됩니다."
+
+ celtic_pagan:1 "드루이드주의"
+ celtic_pagan_adj:1 "드루이드"
+ celtic_pagan_adherent:1 "드루이드 이교도"
+ celtic_pagan_adherent_plural:1 "드루이드 이교도"
+ celtic_pagan_old:1 "낡은드루이드주의"
+ celtic_pagan_old_adj:1 "낡은드루이드"
+ celtic_pagan_old_adherent:1 "낡은드루이드 이교도"
+ celtic_pagan_old_adherent_plural:1 "낡은드루이드 이교도"
+
+ #---------------------------------------------------
+ # IBERIC
+ #---------------------------------------------------
+ iberic_religion:1 "정령 신앙"
+ iberic_religion_adj:1 "애니 미스트"
+ iberic_religion_adherent:1 "애니 미스트"
+ iberic_religion_adherent_plural:1 "애니 미스트"
+ iberic_religion_desc:1 "이베리아 종교 관습은 본질적으로 혼합 다신교 종교이며 조상 숭배뿐만 아니라 동물 영 숭배를 포함합니다. 베타툰 또는 아타이키나와 같은 지역 신들과 마찬가지로 다양한 그리스 및 페니키아 신이 이베리아 인에 의해 숭배되었습니다."
+
+ iberian_pagan:1 "이베리아 이교도"
+ iberian_pagan_adj:1 "이베리아"
+ iberian_pagan_adherent:1 "이베리아 헤더"
+ iberian_pagan_adherent_plural:1 "이베리아 이교도"
+ iberian_pagan_old:1 "낡은이베리아 이교도"
+ iberian_pagan_old_adj:1 "낡은이베리아"
+ iberian_pagan_old_adherent:1 "낡은이베리아 헤더"
+ iberian_pagan_old_adherent_plural:1 "낡은이베리아 이교도"
+
+ #---------------------------------------------------
+ # EGYPTIAN - TO VANILLA KORDOFAN RELIGION
+ #---------------------------------------------------
+ egyptian_pagan:1 "케메티 즘"
+ egyptian_pagan_adj:1 "케메티"
+ egyptian_pagan_adherent:1 "케메티"
+ egyptian_pagan_adherent_plural:1 "케메티"
+ egyptian_pagan_old:1 "낡은케메티 즘"
+ egyptian_pagan_old_adj:1 "낡은케메티"
+ egyptian_pagan_old_adherent:1 "낡은케메티"
+ egyptian_pagan_old_adherent_plural:1 "낡은케메티"
+
+ #---------------------------------------------------
+ # MESOPOTAMIAN
+ #---------------------------------------------------
+ mesopotamian_religion:1 "메소포타미아 이교도"
+ mesopotamian_religion_adj:1 "메소포타미아"
+ mesopotamian_religion_adherent:1 "메소포타미아 헤더"
+ mesopotamian_religion_adherent_plural:1 "메소포타미아 이교도"
+ mesopotamian_religion_desc:1 "칼 데아 판테온의 역사는 수천년 전으로 거슬러 올라갑니다. 칼 데아 종교의 추종자들은 아누, 엔키 및 난나와 같은 신을 숭배하고 선택한 신을 기리기 위해 당당한 사원을 건축합니다."
+
+ mesopotamian_pagan:1 "칼 데아 이교도"
+ mesopotamian_pagan_adj:1 "칼데 아인"
+ mesopotamian_pagan_adherent:1 "칼데 아인"
+ mesopotamian_pagan_adherent_plural:1 "칼데 아인"
+ mesopotamian_pagan_old:1 "낡은칼 데아 이교도"
+ mesopotamian_pagan_old_adj:1 "낡은칼데 아인"
+ mesopotamian_pagan_old_adherent:1 "낡은칼데 아인"
+ mesopotamian_pagan_old_adherent_plural:1 "낡은칼데 아인"
+
+ #---------------------------------------------------
+ # SCYTHIAN
+ #---------------------------------------------------
+ scythian_religion:1 "스키타이 이교도"
+ scythian_religion_adj:1 "스키타이 이교도"
+ scythian_religion_adherent:1 "스키타이 히스"
+ scythian_religion_adherent_plural:1 "스키타이 이교도"
+ scythian_religion_desc:1 "스키타이 땅에서 시작된이 범신론 적 신념은 그리스 판테온의 신과 종종 동일시되는 일곱 주요 신을 숭배했습니다. 낫의 초기 다신교 민속 종교의 요소는 물론 켈트족과 유사한 말 희생과 전차 매장의 관행이 보존됩니다."
+
+ scythian_pagan:1 "칠 매증"
+ scythian_pagan_adj:1 "칠"
+ scythian_pagan_adherent:1 "칠"
+ scythian_pagan_adherent_plural:1 "칠"
+ scythian_pagan_old:1 "낡은칠 매증"
+ scythian_pagan_old_adj:1 "낡은칠"
+ scythian_pagan_old_adherent:1 "낡은칠"
+ scythian_pagan_old_adherent_plural:1 "낡은칠"

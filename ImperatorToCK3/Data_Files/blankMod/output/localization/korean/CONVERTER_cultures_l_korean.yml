@@ -1,0 +1,101 @@
+﻿l_korean:
+ # version 0.1
+ old_egyptian:0 "고대 이집트"
+ old_egyptian_collective_noun:1 "고대 이집트인"
+ 
+ numidian:0 "누미디안"
+ numidian_collective_noun:1 "누미디안"
+ 
+ celtic_pannonian:0 "스골딧기"
+ celtic_pannonian_collective_noun:1 "스골딧기"
+ 
+ celtiberian:0 "셀티베리아"
+ celtiberian_collective_noun:1 "셀티베리아"
+ 
+ belgae:0 "벨기에사람"
+ belgae_collective_noun:1 "벨기에인"
+ 
+ gallic:0 "갈리아"
+ gallic_collective_noun:1 "갈리아"
+ 
+ macedonian:0 "마케도니아어"
+ macedonian_collective_noun:1 "마케도니아인"
+ 
+ thracian:0 "트레이시언"
+ thracian_collective_noun:1 "트레이시언"
+ 
+ dacian:0 "알보겐시"
+ dacian_collective_noun:1 "알보겐시"
+ 
+ getian:0 "게대"
+ getian_collective_noun:1 "게대"
+ 
+ cappadocian:0 "카파도키아"
+ cappadocian_collective_noun:1 "카파도키아"
+ 
+ phrygian:0 "프리지아인"
+ phrygian_collective_noun:1 "프리지아인"
+ 
+ pontic:0 "폰틱"
+ pontic_collective_noun:1 "폰틱"
+ 
+ carthaginian:0 "카르타고어"
+ carthaginian_collective_noun:1 "카르타고인"
+ 
+ phoenician:0 "페니키아인"
+ phoenician_collective_noun:1 "페니키아인"
+ 
+ nabatean:0 "나바티안"
+ nabatean_collective_noun:1 "나바티안"
+ 
+ dalmatian:0 "달마시안"
+ dalmatian_collective_noun:1 "달마시안"
+ 
+ aramaic:0 "아람말"
+ aramaic_collective_noun:1 "아람어"
+ 
+ babylonian:0 "바빌로니아사람"
+ babylonian_collective_noun:1 "바빌로니아인"
+ 
+ vandal:0 "반달족"
+ vandal_collective_noun:1 "반달족"
+ 
+ iberian:0 "이베리아"
+ iberian_collective_noun:1 "이베리아"
+ 
+ nuragic:0 "누라기"
+ nuragic_collective_noun:1 "누라기"
+ 
+ bactrian:0 "박트리아"
+ bactrian_collective_noun:1 "박트리아"
+ 
+ scythian:0 "스키타이사람"
+ scythian_collective_noun:1 "스키타이인"
+ 
+ sarmatian:0 "사르마시안"
+ sarmatian_collective_noun:1 "사르마티아인"
+ 
+ parthian:0 "파르티아인"
+ parthian_collective_noun:1 "파르티아인"
+ 
+ hebrew:0 "헤브라이사람"
+ hebrew_collective_noun:1 "히브리서"
+ 
+ etruscan:0 "에트루리아사람"
+ etruscan_collective_noun:1 "에트루리아인"
+
+ # version 0.2
+ brythonic:0 "브리토닉"
+ brythonic_collective_noun:1 "브리토닉"
+ 
+ ionic:0 "이온"
+ ionic_collective_noun:1 "이온"
+ 
+ indogreek:0 "인도그리스어"
+ indogreek_collective_noun:1 "인도그리스어"
+ 
+ lusoiberian:0 "루시타니아인"
+ lusoiberian_collective_noun:1 "루시타니아인"
+ 
+ gothic:0 "고딕"
+ gothic_collective_noun:1 "고트족"

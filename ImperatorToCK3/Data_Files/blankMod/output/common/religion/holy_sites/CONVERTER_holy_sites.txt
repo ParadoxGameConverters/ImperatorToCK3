@@ -1,6 +1,7 @@
 #Druidic
 ynys_mon = { #toutatis
 	county = c_anglesey
+	barony = b_yns_mon
 	character_modifier = {
  		men_at_arms_maintenance = -0.1
 	}
@@ -17,14 +18,16 @@ tlachtgha = {
 		diplomacy_per_prestige_level = 1
 	}
 }
-glanum = {
-	county = c_vendome
+glanum = { # Glanum is located near Arles
+	county = c_venaissin
+	barony = b_arles
 	character_modifier = {
  		health = 0.1
 	}
 }
-bibracte = {
-	county = c_avalois
+bibracte = { # Bibracte is located near Autun
+	county = c_chalon
+	barony = b_autun
 	character_modifier = {
 		development_growth_factor = 0.1
 		stewardship = 1
@@ -90,6 +93,7 @@ tsabratan = { #nanna tala
 }
 thubactis = { #gurzil
 	county = c_labda
+	barony = b_misurata
 	character_modifier = {
  		levy_reinforcement_rate_same_faith = 0.2
 	}
@@ -97,8 +101,9 @@ thubactis = { #gurzil
 
 #Canaanite
 #carthage in vanilla
-elagabal = { #ba'al
-	county = c_baalbek
+elagabal = { #Elagabalus was venerated in Homs
+	county = c_homs
+	barony = b_hims
 	character_modifier = {
  		tyranny_gain_mult = -0.2 
 	}
@@ -111,12 +116,14 @@ ahiram = { #ba'alet
 }
 tyre = { #melqart
 	county = c_acre
+	barony = b_tyre
 	character_modifier = {
  		domain_tax_mult = 0.02
 	}
 }
-mabbog = { #atargatis
-	county = c_aintab
+mabbog = { #atargatis - Mabbog is now called Manbij
+	county = c_aleppo
+	barony = b_manbij
 	character_modifier = {
  		fertility = 0.15
 	}
@@ -139,6 +146,7 @@ waset = { #amun
 #aswan in vanilla
 zawty = { #anubis
 	county = c_asyut
+	barony = b_asyut
 	character_modifier = {
  		domain_tax_mult = 0.02
 	}
@@ -154,6 +162,7 @@ badais = { #orotalt
 }
 petra = { #al-qaum
 	county = c_negev
+	barony = b_baidha-petra
 	character_modifier = {
  		domain_tax_mult = 0.02
 	}
@@ -166,6 +175,7 @@ sirwa = { #ta'lab
 }
 taif = { #ta'if, al-uzza
 	county = c_taif
+	barony = b_at-taif
 	character_modifier = {
  		levy_reinforcement_rate_same_faith = 0.2
 	}
@@ -198,6 +208,7 @@ ashur = { #ashshur
 }
 harranu = { #sin
 	county = c_harran
+	barony = b_harran
 	character_modifier = {
  		fertility = 0.15
 	}
@@ -245,6 +256,7 @@ eriza = { #anahit
 }
 ashtishat = { #vahagn
 	county = c_apahunik
+	barony = b_musch
 	character_modifier = {
 		defender_advantage = 5
 	}
@@ -346,12 +358,14 @@ tamasidava = { #bendis
 }
 odessos = { #derzelas
 	county = c_mesembria
+	barony = b_varna
 	character_modifier = {
  		domain_tax_mult = 0.02
 	}
 }
 kardzhali = { #sabazios
 	county = c_zherkovo
+	barony = b_zherkovo
 	character_modifier = {
  		martial_per_piety_level = 1 
 	}

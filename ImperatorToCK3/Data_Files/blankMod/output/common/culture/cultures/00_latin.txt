@@ -275,7 +275,7 @@
 		dynasty_names = {
 			gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
 			gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-			gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia gens_
+			gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
 			gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
 			gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
 		}
@@ -1071,7 +1071,7 @@
 		dynasty_names = {
 			gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
 			gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-			gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia gens_
+			gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
 			gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
 			gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
 		}
