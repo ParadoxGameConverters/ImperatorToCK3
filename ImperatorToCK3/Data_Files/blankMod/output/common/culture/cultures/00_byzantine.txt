@@ -1608,8 +1608,9 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }
 		}
+		
 	}
 	
 	thracian = {
@@ -1657,7 +1658,7 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
 		}
 	}
 
@@ -1690,7 +1691,7 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
 		}
 	}
 	
@@ -1723,7 +1724,7 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
 		}
 	}
 
@@ -1762,7 +1763,7 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
 		}
 	}
 	
@@ -1801,7 +1802,7 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
 		}
 	}
 	
@@ -1840,7 +1841,8 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
+			{ name = "ir_followers_of_mithridates" coat_of_arms = "k_pontus" }
 		}
 	}
 
@@ -1876,9 +1878,11 @@
 		ethnicities = {
 			10 = arab
 		}
+		
+		graphical_cultures = { arabic_group_coa_gfx }
 
 		mercenary_names = {
-			
+			{ name = "ir_carthaginian_army" }
 		}
 	}
 	
@@ -1910,9 +1914,11 @@
 		ethnicities = {
 			10 = arab
 		}
+		
+		graphical_cultures = { arabic_group_coa_gfx }
 
 		mercenary_names = {
-			
+			{ name = "ir_purple_fighters" coat_of_arms = "purple_coa" }
 		}
 	}
 	
@@ -1958,9 +1964,13 @@
 		ethnicities = {
 			10 = arab
 		}
+		
+		graphical_cultures = { arabic_group_coa_gfx }
 
 		mercenary_names = {
-			
+			# Taken from Arabic
+			{ name = "mercenary_company_the_wanderers" }
+			{ name = "mercenary_company_bedouin_company_of_place" }
 		}
 	}
 	
@@ -2084,6 +2094,8 @@
 			10 = mediterranean_byzantine
 		}
 
+		graphical_cultures = { israelite_group_coa_gfx }
+
 		mercenary_names = {
 			
 		}
@@ -2149,8 +2161,10 @@
 			10 = mediterranean_byzantine
 		}
 
+		graphical_cultures = { arabic_group_coa_gfx }
+
 		mercenary_names = {
-			
+			{ name = "ir_chariots_of_marduk" coat_of_arms = "BABYLON_FLAG" }
 		}
 	}
 	ionic = { # Anatolian on the Ionic Coast
@@ -2189,7 +2203,7 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_the_trojans" }
 		}
 	}
 	indogreek = {
@@ -2221,12 +2235,14 @@
 			Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
 		}
 
+		graphical_cultures = { indo_aryan_group_coa_gfx }
+
 		ethnicities = {
 			10 = mediterranean_byzantine
 		}
 
 		mercenary_names = {
-			
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }
 		}
 	}
 }

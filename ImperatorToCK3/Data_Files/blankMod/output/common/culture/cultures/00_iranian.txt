@@ -1023,7 +1023,8 @@
 		patronym_prefix_female = "dynnpat_pre_zk"
 
 		mercenary_names = {
-			
+			{ name = "mercenary_company_company_of_bukhara" }
+			{ name = "mercenary_company_dehqan_warriors" }
 		}
 	}
 
@@ -1061,8 +1062,11 @@
 		founder_named_dynasties = yes
 
 		mercenary_names = {
-			
+			{ name = "the_cimmerians" }
+			{ name = "the_old_guard" coat_of_arms = "scythia" }
 		}
+		
+		graphical_cultures = { steppe_coa_gfx }
 	}
 	
 	sarmatian = {
@@ -1099,8 +1103,11 @@
 		founder_named_dynasties = yes
 
 		mercenary_names = {
-			
+			{ name = "the_cimmerians" }
+			{ name = "the_old_guard" coat_of_arms = "scythia" }			
 		}
+		
+		graphical_cultures = { steppe_coa_gfx }
 	}
 	
 	parthian = {
@@ -1160,7 +1167,7 @@
 		}
 
 		mercenary_names = {
-			
+			{ name = "the_fire_of_achaemenes" coat_of_arms = "ACHAEMENID_FLAG" }
 		}
 	}
 }
