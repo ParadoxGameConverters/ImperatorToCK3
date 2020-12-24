@@ -1568,6 +1568,8 @@
 		ethnicities = {
 			10 = mediterranean
 		}
+		
+		graphical_cultures = { latin_group_coa_gfx }
 
 		mercenary_names = {
 			

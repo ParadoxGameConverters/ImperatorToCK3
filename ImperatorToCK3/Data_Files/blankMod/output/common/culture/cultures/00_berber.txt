@@ -570,7 +570,8 @@
 		founder_named_dynasties = yes
 
 		mercenary_names = {
-			
+			{ name = "ir_nubian_mercenaries" coat_of_arms = "k_nubia" }
+			{ name = "ir_maryannu" coat_of_arms = "EGYPTIAN_FLAG" }
 		}
 	}
 	
@@ -616,7 +617,7 @@
 		founder_named_dynasties = yes
 
 		mercenary_names = {
-			
+			{ name = "ir_numidian_cavalry" }
 		}
 	}
 }

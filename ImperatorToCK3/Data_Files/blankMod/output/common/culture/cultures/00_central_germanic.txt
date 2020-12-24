@@ -1393,7 +1393,7 @@
 		father_name_chance = 10
 
 		mercenary_names = {
-			
+			{ name = "the_vandals" }
 		}
 	}
 	gothic = {
@@ -1486,10 +1486,8 @@
 		father_name_chance = 10
 		
 		mercenary_names = {
-			
+			{ name = "ostrogothic_band" }
+			{ name = "visigothic_band" }
 		}
 	}
 }
-
-
-
