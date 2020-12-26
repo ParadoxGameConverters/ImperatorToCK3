@@ -1026,6 +1026,8 @@
 			{ name = "mercenary_company_company_of_bukhara" }
 			{ name = "mercenary_company_dehqan_warriors" }
 		}
+		
+		graphical_cultures = { mena_clothing_gfx mena_building_gfx mena_unit_gfx }
 	}
 
 	scythian = {
@@ -1066,7 +1068,7 @@
 			{ name = "the_old_guard" coat_of_arms = "scythia" }
 		}
 		
-		graphical_cultures = { steppe_coa_gfx }
+		graphical_cultures = { steppe_coa_gfx mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
 	}
 	
 	sarmatian = {
@@ -1107,7 +1109,7 @@
 			{ name = "the_old_guard" coat_of_arms = "scythia" }			
 		}
 		
-		graphical_cultures = { steppe_coa_gfx }
+		graphical_cultures = { steppe_coa_gfx mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
 	}
 	
 	parthian = {
@@ -1169,5 +1171,7 @@
 		mercenary_names = {
 			{ name = "the_fire_of_achaemenes" coat_of_arms = "ACHAEMENID_FLAG" }
 		}
+		
+		graphical_cultures = { mena_clothing_gfx mena_building_gfx mena_unit_gfx }
 	}
 }

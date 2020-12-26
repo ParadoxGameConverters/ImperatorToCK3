@@ -209,7 +209,9 @@
 	roman = {	
 		graphical_cultures = {
 			byzantine_clothing_gfx
+			dde_hre_clothing_gfx
 			eastern_unit_gfx
+			mediterranean_building_gfx
 		}
 		
 	# Tria nomina:
@@ -1102,5 +1104,7 @@
 		mercenary_names = {
 			
 		}
+		
+		graphical_cultures = { western_clothing_gfx mediterranean_building_gfx western_unit_gfx }
 	}
 }

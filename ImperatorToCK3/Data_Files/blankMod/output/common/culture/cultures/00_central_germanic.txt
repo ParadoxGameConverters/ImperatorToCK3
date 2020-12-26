@@ -1395,6 +1395,9 @@
 		mercenary_names = {
 			{ name = "the_vandals" }
 		}
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
+		
 	}
 	gothic = {
 	
@@ -1489,5 +1492,7 @@
 			{ name = "ostrogothic_band" }
 			{ name = "visigothic_band" }
 		}
+		
+		graphical_cultures = { western_clothing_gfx western_building_gfx western_unit_gfx }		
 	}
 }

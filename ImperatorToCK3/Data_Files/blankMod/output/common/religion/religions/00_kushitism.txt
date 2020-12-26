@@ -229,6 +229,152 @@ kushitism_religion = {
 			doctrine = tenet_astrology
 			doctrine = tenet_sun_worship
 			doctrine = tenet_divine_marriage
+		
+			# Egyptian incest
+			doctrine = doctrine_consanguinity_unrestricted
+			
+			GoodGodNames = { ir_anhur ir_resheph ir_sekhmet ir_horus ir_osiris ir_amun ir_ptah ir_anubis ir_hathor ir_isis ir_ra }
+			EvilGodNames = { ir_anhur ir_resheph ir_sekhmet ir_horus ir_osiris ir_amun ir_ptah ir_anubis ir_hathor ir_isis ir_ra }
+			
+			PriestMale = kmt_priest
+			PriestMalePlural = kmt_priests
+			PriestFemale = kmt_priestess
+			PriestFemalePlural = kmt_priestesses
+			PriestNeuter = kmt_priest
+			PriestNeuterPlural = kmt_priests
+			AltPriestTermPlural = kmt_priests
+			BishopMale = kmt_prophet
+			BishopMalePlural = kmt_prophets
+			BishopFemale = kmt_prophetess
+			BishopFemalePlural = kmt_prophetesses
+			BishopNeuter = kmt_prophet
+			BishopNeuterPlural = kmt_prophets
+			DivineRealm = kmt_kingdom_of_osiris
+			PositiveAfterLife = kmt_kingdom_of_osiris
+			NegativeAfterLife = kmt_stomach_of_ammit
+			
+			HighGodName = ir_horus
+			HighGodNamePossessive = ir_horus_possessive
+			HighGodNameSheHe = CHARACTER_SHEHE_HE
+			HighGodHerselfHimself = CHARACTER_HIMSELF
+			HighGodHerHis = CHARACTER_HERHIS_HIS
+			HighGodNameAlternate = paganism_high_god_name_alternate
+			HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
+
+			#Creator
+			CreatorName = ir_amun
+			CreatorNamePossessive = ir_amun_possessive
+			CreatorSheHe = CHARACTER_SHEHE_HE
+			CreatorHerHis = CHARACTER_HERHIS_HIS
+			CreatorHerHim = CHARACTER_HERHIM_HIM
+
+			#HealthGod
+			HealthGodName = ir_sekhmet
+			HealthGodNamePossessive = ir_sekhmet_possessive
+			HealthGodSheHe = CHARACTER_SHEHE_SHE
+			HealthGodHerHis = CHARACTER_HERHIS_HER
+			HealthGodHerHim = CHARACTER_HERHIM_HER
+			
+			#FertilityGod
+			FertilityGodName = ir_osiris
+			FertilityGodNamePossessive = ir_osiris_possessive
+			FertilityGodSheHe = CHARACTER_SHEHE_HE
+			FertilityGodHerHis = CHARACTER_HERHIS_HIS
+			FertilityGodHerHim = CHARACTER_HERHIM_HIM
+
+			#WealthGod
+			WealthGodName = ir_ra
+			WealthGodNamePossessive = ir_ra_possessive
+			WealthGodSheHe = CHARACTER_SHEHE_HE
+			WealthGodHerHis = CHARACTER_HERHIS_HIS
+			WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+			#HouseholdGod
+			HouseholdGodName = ir_ptah
+			HouseholdGodNamePossessive = ir_ptah_possessive
+			HouseholdGodSheHe = CHARACTER_SHEHE_HE
+			HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+			HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+			#FateGod
+			FateGodName = ir_resheph
+			FateGodNamePossessive = ir_resheph_possessive
+			FateGodSheHe = CHARACTER_SHEHE_HE
+			FateGodHerHis = CHARACTER_HERHIS_HIS
+			FateGodHerHim = CHARACTER_HERHIM_HIM
+
+			#WarGod
+			WarGodName = ir_anhur
+			WarGodNamePossessive = ir_anhur_possessive
+			WarGodSheHe = CHARACTER_SHEHE_HE
+			WarGodHerHis = CHARACTER_HERHIS_HIS
+			WarGodHerHim = CHARACTER_HERHIM_HIM
+
+			DeathDeityName = ir_anubis
+			DeathDeityNamePossessive = ir_anubis_possessive
+			DeathDeitySheHe = CHARACTER_SHEHE_HE
+			DeathDeityHerHis = CHARACTER_HERHIS_HIS
+			
+			WitchGodName = ir_isis
+			WitchGodSheHe = CHARACTER_SHEHE_SHE
+			WitchGodHerHis = CHARACTER_HERHIS_HER
+			WitchGodHerHim = CHARACTER_HERHIM_HER
+			
+			# Doubled or CK3 won't like it
+			
+			#KnowledgeGod
+			KnowledgeGodName = kushitism_knowledge_god_name
+			KnowledgeGodNamePossessive = kushitism_knowledge_god_name_possessive
+			KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+			KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+			KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+			#TricksterGod
+			TricksterGodName = kushitism_trickster_god_name
+			TricksterGodNamePossessive = kushitism_trickster_god_name_possessive
+			TricksterGodSheHe = CHARACTER_SHEHE_HE
+			TricksterGodHerHis = CHARACTER_HERHIS_HIS
+			TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+			#NightGod
+			NightGodName = kushitism_night_god_name
+			NightGodNamePossessive = kushitism_night_god_name_possessive
+			NightGodSheHe = CHARACTER_SHEHE_HE
+			NightGodHerHis = CHARACTER_HERHIS_HIS
+			NightGodHerHim = CHARACTER_HERHIM_HIM
+
+			#WaterGod
+			WaterGodName = kushitism_water_god_name
+			WaterGodNamePossessive = kushitism_water_god_name_possessive
+			WaterGodSheHe = CHARACTER_SHEHE_SHE
+			WaterGodHerHis = CHARACTER_HERHIS_HER
+			WaterGodHerHim = CHARACTER_HERHIM_HER
+
+
+			PantheonTerm = religion_the_gods
+			PantheonTermHasHave = pantheon_term_have
+			DevilName = kushitism_devil_name
+			DevilNamePossessive = kushitism_devil_name_possessive
+			DevilSheHe = CHARACTER_SHEHE_HE
+			DevilHerHis = CHARACTER_HERHIS_HIS
+			DevilHerselfHimself = CHARACTER_HIMSELF
+			HouseOfWorship = paganism_house_of_worship
+			HouseOfWorshipPlural = paganism_house_of_worship_plural
+			ReligiousSymbol = kushitism_religious_symbol
+			ReligiousText = paganism_religious_text
+			ReligiousHeadName = zunism_religious_head_title
+			ReligiousHeadTitleName = zunism_religious_head_title_name
+			DevoteeMale = paganism_devotee
+			DevoteeMalePlural = paganism_devoteeplural
+			DevoteeFemale = paganism_devotee
+			DevoteeFemalePlural = paganism_devoteeplural
+			DevoteeNeuter = paganism_devotee
+			DevoteeNeuterPlural = paganism_devoteeplural
+			WitchGodMistressMaster = mistress
+			WitchGodMotherFather = mother
+
+			GHWName = ghw_great_holy_war
+			GHWNamePlural = ghw_great_holy_wars
 		}
 	}
 }

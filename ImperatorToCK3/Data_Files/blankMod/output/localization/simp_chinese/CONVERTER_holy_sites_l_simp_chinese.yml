@@ -170,3 +170,8 @@
  holy_site_tmakrat_effects:0 "域名税: #P +2%#!"
  holy_site_mykon_effects:0 "月度发展增长: #P +10%#!"
  holy_site_recrassia_effects:0 "小兵韧性: #P +10%#!"
+ 
+ holy_site_glanum_name:0 "格拉宁"
+ holy_site_bibracte_name:0 "比布剌克忒"
+ holy_site_glanum_effect_name:0 "来自[holy_site|E]#weak ($holy_site_glanum_name$)#!"
+ holy_site_bibracte_effect_name:0 "来自[holy_site|E]#weak ($holy_site_bibracte_name$)#!"

@@ -1533,6 +1533,8 @@
 		mercenary_names = {
 			
 		}
+		
+		graphical_cultures = { mongol_clothing_gfx mediterranean_building_gfx mena_unit_gfx }
 	}
 	
 	nuragic = {
@@ -1569,7 +1571,7 @@
 			10 = mediterranean
 		}
 		
-		graphical_cultures = { latin_group_coa_gfx }
+		graphical_cultures = { latin_group_coa_gfx mena_clothing_gfx mediterranean_building_gfx mena_unit_gfx }
 
 		mercenary_names = {
 			
