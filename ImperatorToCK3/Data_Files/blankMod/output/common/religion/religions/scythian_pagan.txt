@@ -49,17 +49,17 @@
 	holy_order_maa = { horse_archers }
 
 	localization = {
-		HighGodName = paganism_high_god_name
-		HighGodNamePossessive = paganism_high_god_name_possessive
-		HighGodNameSheHe = CHARACTER_SHEHE_SHE
-		HighGodHerselfHimself = CHARACTER_HERSELF
-		HighGodHerHis = CHARACTER_HERHIS_HER
+		HighGodName = ir_papaios
+		HighGodNamePossessive = ir_papaios_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
 		HighGodNameAlternate = paganism_high_god_name_alternate
 		HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
 
 		#Creator
-		CreatorName = paganism_creator_god_name
-		CreatorNamePossessive = paganism_creator_god_name_possessive
+		CreatorName = ir_api
+		CreatorNamePossessive = ir_api_possessive
 		CreatorSheHe = CHARACTER_SHEHE_SHE
 		CreatorHerHis = CHARACTER_HERHIS_HER
 		CreatorHerHim = CHARACTER_HERHIM_HER
@@ -72,8 +72,8 @@
 		HealthGodHerHim = CHARACTER_HERHIM_HER
 		
 		#FertilityGod
-		FertilityGodName = paganism_fertility_god_name
-		FertilityGodNamePossessive = paganism_fertility_god_name_possessive
+		FertilityGodName = ir_argimpasa
+		FertilityGodNamePossessive = ir_argimpasa_possessive
 		FertilityGodSheHe = CHARACTER_SHEHE_SHE
 		FertilityGodHerHis = CHARACTER_HERHIS_HER
 		FertilityGodHerHim = CHARACTER_HERHIM_HER
@@ -86,8 +86,8 @@
 		WealthGodHerHim = CHARACTER_HERHIM_HER
 
 		#HouseholdGod
-		HouseholdGodName = paganism_household_god_name
-		HouseholdGodNamePossessive = paganism_household_god_name_possessive
+		HouseholdGodName = ir_tabiti
+		HouseholdGodNamePossessive = ir_tabiti_possessive
 		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
 		HouseholdGodHerHis = CHARACTER_HERHIS_HER
 		HouseholdGodHerHim = CHARACTER_HERHIM_HER
@@ -100,18 +100,18 @@
 		FateGodHerHim = CHARACTER_HERHIM_IT
 
 		#KnowledgeGod
-		KnowledgeGodName = paganism_knowledge_god_name
-		KnowledgeGodNamePossessive = paganism_knowledge_god_name_possessive
-		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
-		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
-		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+		KnowledgeGodName = ir_goitosyrus
+		KnowledgeGodNamePossessive = ir_goitosyrus_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
 
 		#WarGod
-		WarGodName = paganism_war_god_name
-		WarGodNamePossessive = paganism_war_god_name_possessive
-		WarGodSheHe = CHARACTER_SHEHE_SHE
-		WarGodHerHis = CHARACTER_HERHIS_HER
-		WarGodHerHim = CHARACTER_HERHIM_HER
+		WarGodName = ir_targitaos
+		WarGodNamePossessive = ir_targitaos_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
 
 		#TricksterGod
 		TricksterGodName = paganism_trickster_god_name
@@ -128,22 +128,22 @@
 		NightGodHerHim = CHARACTER_HERHIM_HIM
 
 		#WaterGod
-		WaterGodName = paganism_water_god_name
-		WaterGodNamePossessive = paganism_water_god_name_possessive
-		WaterGodSheHe = CHARACTER_SHEHE_SHE
-		WaterGodHerHis = CHARACTER_HERHIS_HER
-		WaterGodHerHim = CHARACTER_HERHIM_HER
+		WaterGodName = ir_thagimasadas
+		WaterGodNamePossessive = ir_thagimasadas_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
 		PantheonTermHasHave = pantheon_term_have
-		GoodGodNames = { paganism_high_god_name paganism_good_god_father_sky paganism_good_god_ancestors }
+		GoodGodNames = { ir_thagimasadas ir_goitosyrus ir_papaios ir_api ir_tabiti ir_argimpasa ir_targitaos }
 		DevilName = paganism_devil_name
 		DevilNamePossessive = paganism_devil_name_possessive
 		DevilSheHe = CHARACTER_SHEHE_IT
 		DevilHerHis = CHARACTER_HERHIS_ITS
 		DevilHerselfHimself = paganism_devil_herselfhimself
-		EvilGodNames = { paganism_devil_name paganism_evil_god_decay }
+		EvilGodNames = { ir_thagimasadas ir_goitosyrus ir_papaios ir_api ir_tabiti ir_argimpasa ir_targitaos }
 		HouseOfWorship = paganism_house_of_worship
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol

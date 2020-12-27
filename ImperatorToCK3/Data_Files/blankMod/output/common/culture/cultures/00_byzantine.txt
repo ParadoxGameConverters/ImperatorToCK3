@@ -1611,6 +1611,8 @@
 			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }
 		}
 		
+		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
+		
 	}
 	
 	thracian = {
@@ -1660,6 +1662,8 @@
 		mercenary_names = {
 			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
 		}
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx eastern_unit_gfx }
 	}
 
 	dacian = {
@@ -1693,6 +1697,8 @@
 		mercenary_names = {
 			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
 		}
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx eastern_unit_gfx }
 	}
 	
 	getian = {
@@ -1726,6 +1732,8 @@
 		mercenary_names = {
 			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
 		}
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx northern_unit_gfx }
 	}
 
 	cappadocian = {
@@ -1765,6 +1773,8 @@
 		mercenary_names = {
 			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
 		}
+		
+		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
 	}
 	
 	phrygian = {
@@ -1804,6 +1814,8 @@
 		mercenary_names = {
 			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
 		}
+		
+		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
 	}
 	
 	pontic = {
@@ -1844,6 +1856,8 @@
 			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
 			{ name = "ir_followers_of_mithridates" coat_of_arms = "k_pontus" }
 		}
+		
+		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
 	}
 
 	carthaginian = {
@@ -1879,7 +1893,7 @@
 			10 = arab
 		}
 		
-		graphical_cultures = { arabic_group_coa_gfx }
+		graphical_cultures = { arabic_group_coa_gfx mena_clothing_gfx dde_abbasid_clothing_gfx berber_group_building_gfx mena_unit_gfx }
 
 		mercenary_names = {
 			{ name = "ir_carthaginian_army" }
@@ -1915,7 +1929,7 @@
 			10 = arab
 		}
 		
-		graphical_cultures = { arabic_group_coa_gfx }
+		graphical_cultures = { arabic_group_coa_gfx mena_clothing_gfx mena_building_gfx mena_unit_gfx }
 
 		mercenary_names = {
 			{ name = "ir_purple_fighters" coat_of_arms = "purple_coa" }
@@ -1965,7 +1979,7 @@
 			10 = arab
 		}
 		
-		graphical_cultures = { arabic_group_coa_gfx }
+		graphical_cultures = { arabic_group_coa_gfx mena_clothing_gfx mena_building_gfx mena_unit_gfx }
 
 		mercenary_names = {
 			# Taken from Arabic
@@ -2032,6 +2046,8 @@
 		mercenary_names = {
 			
 		}
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx eastern_unit_gfx }
 	}
 	
 	aramaic = {
@@ -2094,7 +2110,7 @@
 			10 = mediterranean_byzantine
 		}
 
-		graphical_cultures = { israelite_group_coa_gfx }
+		graphical_cultures = { israelite_group_coa_gfx mena_clothing_gfx mena_building_gfx mena_unit_gfx }
 
 		mercenary_names = {
 			
@@ -2161,7 +2177,7 @@
 			10 = mediterranean_byzantine
 		}
 
-		graphical_cultures = { arabic_group_coa_gfx }
+		graphical_cultures = { arabic_group_coa_gfx mena_clothing_gfx mena_building_gfx mena_unit_gfx }
 
 		mercenary_names = {
 			{ name = "ir_chariots_of_marduk" coat_of_arms = "BABYLON_FLAG" }
@@ -2205,6 +2221,8 @@
 		mercenary_names = {
 			{ name = "ir_the_trojans" }
 		}
+		
+		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
 	}
 	indogreek = {
 		color = hsv { 0.03 0.7 0.7 }
@@ -2235,7 +2253,7 @@
 			Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
 		}
 
-		graphical_cultures = { indo_aryan_group_coa_gfx }
+		graphical_cultures = { indo_aryan_group_coa_gfx indian_clothing_gfx mediterranean_building_gfx indian_unit_gfx }
 
 		ethnicities = {
 			10 = mediterranean_byzantine

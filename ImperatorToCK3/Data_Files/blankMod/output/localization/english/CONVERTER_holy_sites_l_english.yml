@@ -170,3 +170,8 @@
  holy_site_tmakrat_effects:0 "Domain taxes: #P +2%#!"
  holy_site_mykon_effects:0 "Monthly development growth: #P +10%#!"
  holy_site_recrassia_effects:0 "Skirmisher Toughness: #P +10%#!"
+ 
+ holy_site_glanum_name:0 "Glanum"
+ holy_site_bibracte_name:0 "Bibracte"
+ holy_site_glanum_effect_name:0 "From [holy_site|E] #weak ($holy_site_glanum_name$)#!"
+ holy_site_bibracte_effect_name:0 "From [holy_site|E] #weak ($holy_site_bibracte_name$)#!"

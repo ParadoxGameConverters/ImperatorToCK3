@@ -156,5 +156,7 @@
 		mercenary_names = {
 			
 		}
+		
+		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
 	}
 }

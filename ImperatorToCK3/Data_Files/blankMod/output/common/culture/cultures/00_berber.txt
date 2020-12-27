@@ -573,6 +573,8 @@
 			{ name = "ir_nubian_mercenaries" coat_of_arms = "k_nubia" }
 			{ name = "ir_maryannu" coat_of_arms = "EGYPTIAN_FLAG" }
 		}
+		
+		graphical_cultures = { mena_clothing_gfx dde_abbasid_clothing_gfx mena_building_gfx sub_sahran_unit_gfx }
 	}
 	
 	numidian = {
@@ -619,5 +621,7 @@
 		mercenary_names = {
 			{ name = "ir_numidian_cavalry" }
 		}
+		
+		graphical_cultures = { mena_clothing_gfx berber_group_buiding_gfx mena_unit_gfx }
 	}
 }

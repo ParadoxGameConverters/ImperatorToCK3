@@ -170,3 +170,8 @@
  holy_site_tmakrat_effects:0 "Налоги на домен: #P +2%#!"
  holy_site_mykon_effects:0 "Ежемесячный рост развития: #P +10%#!"
  holy_site_recrassia_effects:0 "Стойкость застрельщика: #P +10%#!"
+ 
+ holy_site_glanum_name:0 "Гланум"
+ holy_site_bibracte_name:0 "Бибракте"
+ holy_site_glanum_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_glanum_name$)#!"
+ holy_site_bibracte_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_bibracte_name$)#!"

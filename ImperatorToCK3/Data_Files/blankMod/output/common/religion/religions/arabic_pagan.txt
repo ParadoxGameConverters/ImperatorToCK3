@@ -46,14 +46,14 @@
 		{ name = holy_order_warriors_of_the_symbol }
 	}
 
-	holy_order_maa = { horse_archers }
+	holy_order_maa = { cataphract }
 
 	localization = {
-		HighGodName = paganism_high_god_name
-		HighGodNamePossessive = paganism_high_god_name_possessive
-		HighGodNameSheHe = CHARACTER_SHEHE_SHE
-		HighGodHerselfHimself = CHARACTER_HERSELF
-		HighGodHerHis = CHARACTER_HERHIS_HER
+		HighGodName = ir_ailiah
+		HighGodNamePossessive = ir_ailiah_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
 		HighGodNameAlternate = paganism_high_god_name_alternate
 		HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
 
@@ -65,25 +65,25 @@
 		CreatorHerHim = CHARACTER_HERHIM_HER
 
 		#HealthGod
-		HealthGodName = paganism_health_god_name
-		HealthGodNamePossessive = paganism_health_god_name_possessive
-		HealthGodSheHe = CHARACTER_SHEHE_SHE
-		HealthGodHerHis = CHARACTER_HERHIS_HER
-		HealthGodHerHim = CHARACTER_HERHIM_HER
+		HealthGodName = ir_ta_lab
+		HealthGodNamePossessive = ir_ta_lab_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
 		
 		#FertilityGod
-		FertilityGodName = paganism_fertility_god_name
-		FertilityGodNamePossessive = paganism_fertility_god_name_possessive
+		FertilityGodName = ir_al_uzza
+		FertilityGodNamePossessive = ir_al_uzza_possessive
 		FertilityGodSheHe = CHARACTER_SHEHE_SHE
 		FertilityGodHerHis = CHARACTER_HERHIS_HER
 		FertilityGodHerHim = CHARACTER_HERHIM_HER
 
 		#WealthGod
-		WealthGodName = paganism_wealth_god_name
-		WealthGodNamePossessive = paganism_wealth_god_name_possessive
-		WealthGodSheHe = CHARACTER_SHEHE_SHE
-		WealthGodHerHis = CHARACTER_HERHIS_HER
-		WealthGodHerHim = CHARACTER_HERHIM_HER
+		WealthGodName = ir_al_kutbay
+		WealthGodNamePossessive = ir_al_kutbay_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
 
 		#HouseholdGod
 		HouseholdGodName = paganism_household_god_name
@@ -93,15 +93,15 @@
 		HouseholdGodHerHim = CHARACTER_HERHIM_HER
 
 		#FateGod
-		FateGodName = paganism_fate_god_name
-		FateGodNamePossessive = paganism_fate_god_name_possessive
-		FateGodSheHe = CHARACTER_SHEHE_IT
-		FateGodHerHis = CHARACTER_HERHIS_ITS
-		FateGodHerHim = CHARACTER_HERHIM_IT
+		FateGodName = ir_manat
+		FateGodNamePossessive = ir_manat_possessive
+		FateGodSheHe = CHARACTER_SHEHE_SHE
+		FateGodHerHis = CHARACTER_HERHIS_HER
+		FateGodHerHim = CHARACTER_HERHIM_HER
 
 		#KnowledgeGod
-		KnowledgeGodName = paganism_knowledge_god_name
-		KnowledgeGodNamePossessive = paganism_knowledge_god_name_possessive
+		KnowledgeGodName = ir_alilat
+		KnowledgeGodNamePossessive = ir_alilat_possessive
 		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
 		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
 		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
@@ -114,15 +114,15 @@
 		WarGodHerHim = CHARACTER_HERHIM_HER
 
 		#TricksterGod
-		TricksterGodName = paganism_trickster_god_name
-		TricksterGodNamePossessive = paganism_trickster_god_name_possessive
+		TricksterGodName = ir_orotalt
+		TricksterGodNamePossessive = ir_orotalt_possessive
 		TricksterGodSheHe = CHARACTER_SHEHE_HE
 		TricksterGodHerHis = CHARACTER_HERHIS_HIS
 		TricksterGodHerHim = CHARACTER_HERHIM_HIM
 
 		#NightGod
-		NightGodName = paganism_night_god_name
-		NightGodNamePossessive = paganism_night_god_name_possessive
+		NightGodName = ir_al_qaum
+		NightGodNamePossessive = ir_al_qaum_possessive
 		NightGodSheHe = CHARACTER_SHEHE_HE
 		NightGodHerHis = CHARACTER_HERHIS_HIS
 		NightGodHerHim = CHARACTER_HERHIM_HIM
@@ -137,15 +137,15 @@
 
 		PantheonTerm = paganism_mother_earth_father_sky
 		PantheonTermHasHave = pantheon_term_have
-		GoodGodNames = { paganism_high_god_name paganism_good_god_father_sky paganism_good_god_ancestors }
+		GoodGodNames = { ir_ailiah ir_al_kutbay ir_al_qaum ir_al_uzza ir_alilat ir_manat ir_orotalt ir_ta_lab }
 		DevilName = paganism_devil_name
 		DevilNamePossessive = paganism_devil_name_possessive
 		DevilSheHe = CHARACTER_SHEHE_IT
 		DevilHerHis = CHARACTER_HERHIS_ITS
 		DevilHerselfHimself = paganism_devil_herselfhimself
-		EvilGodNames = { paganism_devil_name paganism_evil_god_decay }
-		HouseOfWorship = paganism_house_of_worship
-		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		EvilGodNames = { ir_ailiah ir_al_kutbay ir_al_qaum ir_al_uzza ir_alilat ir_manat ir_orotalt ir_ta_lab }
+		HouseOfWorship = islam_house_of_worship
+		HouseOfWorshipPlural = islam_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
 		ReligiousText = paganism_religious_text
 		ReligiousHeadName = paganism_religious_head_title
@@ -156,19 +156,19 @@
 		DevoteeFemalePlural = paganism_devoteeplural
 		DevoteeNeuter = paganism_devotee
 		DevoteeNeuterPlural = paganism_devoteeplural
-		PriestMale = paganism_priest
-		PriestMalePlural = paganism_priest_plural
-		PriestFemale = paganism_priest
-		PriestFemalePlural = paganism_priest_plural
-		PriestNeuter = paganism_priest
-		PriestNeuterPlural = paganism_priest_plural
-		AltPriestTermPlural = paganism_priest_alternate_plural
-		BishopMale = paganism_priest
-		BishopMalePlural = paganism_priest_plural
-		BishopFemale = paganism_priest
-		BishopFemalePlural = paganism_priest_plural
-		BishopNeuter = paganism_priest
-		BishopNeuterPlural = paganism_priest_plural
+		PriestMale = islam_priest
+		PriestMalePlural = islam_priest_plural
+		PriestFemale = islam_priest
+		PriestFemalePlural = islam_priest_plural
+		PriestNeuter = islam_priest
+		PriestNeuterPlural = islam_priest_plural
+		AltPriestTermPlural = islam_priest_alternate_plural
+		BishopMale = islam_bishop
+		BishopMalePlural = islam_bishop_plural
+		BishopFemale = islam_bishop
+		BishopFemalePlural = islam_bishop_plural
+		BishopNeuter = islam_bishop
+		BishopNeuterPlural = islam_bishop_plural
 		DivineRealm = paganism_divine_realm
 		PositiveAfterLife = paganism_divine_realm
 		NegativeAfterLife = paganism_afterlife

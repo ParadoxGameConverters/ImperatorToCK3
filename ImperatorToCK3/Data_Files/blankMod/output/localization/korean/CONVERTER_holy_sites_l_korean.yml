@@ -170,3 +170,9 @@
  holy_site_tmakrat_effects:0 "도메인 세금: #P +2%#!"
  holy_site_mykon_effects:0 "월간 개발 성장: #P +10%#!"
  holy_site_recrassia_effects:0 "산병 인성: #P +10%#!"
+ 
+ 
+ holy_site_glanum_name:0 "그라눔"
+ holy_site_bibracte_name:0 "빕락데"
+ holy_site_glanum_effect_name:0 "[holy_site|E]의 효과 #weak ($holy_site_glanum_name$)#!"
+ holy_site_bibracte_effect_name:0 "[holy_site|E]의 효과 #weak ($holy_site_bibracte_name$)#!"
