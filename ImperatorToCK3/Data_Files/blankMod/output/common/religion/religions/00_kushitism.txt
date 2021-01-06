@@ -1,4 +1,4 @@
-﻿
+
 kushitism_religion = {
 	family = rf_pagan
 
@@ -233,6 +233,8 @@ kushitism_religion = {
 			# Egyptian incest
 			doctrine = doctrine_consanguinity_unrestricted
 			
+			localization = {
+			
 			GoodGodNames = { ir_anhur ir_resheph ir_sekhmet ir_horus ir_osiris ir_amun ir_ptah ir_anubis ir_hathor ir_isis ir_ra }
 			EvilGodNames = { ir_anhur ir_resheph ir_sekhmet ir_horus ir_osiris ir_amun ir_ptah ir_anubis ir_hathor ir_isis ir_ra }
 			
@@ -320,61 +322,8 @@ kushitism_religion = {
 			WitchGodHerHis = CHARACTER_HERHIS_HER
 			WitchGodHerHim = CHARACTER_HERHIM_HER
 			
-			# Doubled or CK3 won't like it
+			}
 			
-			#KnowledgeGod
-			KnowledgeGodName = kushitism_knowledge_god_name
-			KnowledgeGodNamePossessive = kushitism_knowledge_god_name_possessive
-			KnowledgeGodSheHe = CHARACTER_SHEHE_HE
-			KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
-			KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
-
-			#TricksterGod
-			TricksterGodName = kushitism_trickster_god_name
-			TricksterGodNamePossessive = kushitism_trickster_god_name_possessive
-			TricksterGodSheHe = CHARACTER_SHEHE_HE
-			TricksterGodHerHis = CHARACTER_HERHIS_HIS
-			TricksterGodHerHim = CHARACTER_HERHIM_HIM
-
-			#NightGod
-			NightGodName = kushitism_night_god_name
-			NightGodNamePossessive = kushitism_night_god_name_possessive
-			NightGodSheHe = CHARACTER_SHEHE_HE
-			NightGodHerHis = CHARACTER_HERHIS_HIS
-			NightGodHerHim = CHARACTER_HERHIM_HIM
-
-			#WaterGod
-			WaterGodName = kushitism_water_god_name
-			WaterGodNamePossessive = kushitism_water_god_name_possessive
-			WaterGodSheHe = CHARACTER_SHEHE_SHE
-			WaterGodHerHis = CHARACTER_HERHIS_HER
-			WaterGodHerHim = CHARACTER_HERHIM_HER
-
-
-			PantheonTerm = religion_the_gods
-			PantheonTermHasHave = pantheon_term_have
-			DevilName = kushitism_devil_name
-			DevilNamePossessive = kushitism_devil_name_possessive
-			DevilSheHe = CHARACTER_SHEHE_HE
-			DevilHerHis = CHARACTER_HERHIS_HIS
-			DevilHerselfHimself = CHARACTER_HIMSELF
-			HouseOfWorship = paganism_house_of_worship
-			HouseOfWorshipPlural = paganism_house_of_worship_plural
-			ReligiousSymbol = kushitism_religious_symbol
-			ReligiousText = paganism_religious_text
-			ReligiousHeadName = zunism_religious_head_title
-			ReligiousHeadTitleName = zunism_religious_head_title_name
-			DevoteeMale = paganism_devotee
-			DevoteeMalePlural = paganism_devoteeplural
-			DevoteeFemale = paganism_devotee
-			DevoteeFemalePlural = paganism_devoteeplural
-			DevoteeNeuter = paganism_devotee
-			DevoteeNeuterPlural = paganism_devoteeplural
-			WitchGodMistressMaster = mistress
-			WitchGodMotherFather = mother
-
-			GHWName = ghw_great_holy_war
-			GHWNamePlural = ghw_great_holy_wars
 		}
 	}
 }
