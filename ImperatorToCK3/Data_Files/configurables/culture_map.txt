@@ -224,7 +224,7 @@ link = { ck3 = sephardi imp = hebrew province = 1787 province = 1785 province = 
 link = { ck3 = hebrew imp = hebrew }
 link = { ck3 = nabatean imp = nabatean }
 
-## Slavic - no source yet
+## Slavic - Venedia/Wends are the ancestors of Slavs
 #link = { ck3 = volhynian imp = slavic region = ghw_region_southern_russia }
 #link = { ck3 = bosnian imp = slavic province = 3527 province = 504 province = 3524 province = 3525 province = 3526 province = 3504 province = 3505 province = 3506 province = 3507 province = 3508 province = 3564 province = 3565 province = 3566 province = 3567 province = 3568 province = 3518 province = 3519 province = 3515 province = 3516 province = 3517 province = 3512 province = 3513 province = 3514 province = 463 province = 3509 province = 3510 province = 3511 province = 3521 province = 3522 province = 3523 }
 #link = { ck3 = bosnian imp = slavic province = 466 province = 3557 province = 3559 province = 3560 province = 3561 province = 3562 province = 3563 province = 3558 province = 3500 province = 3501 province = 3502 province = 3503 province = 3553 province = 3555 province = 3556 }
@@ -241,7 +241,7 @@ link = { ck3 = nabatean imp = nabatean }
 #link = { ck3 = slovien imp = slavic region = ghw_region_hungary }
 #link = { ck3 = polabian imp = slavic region = custom_west_slavia }
 # Russian, Ilmenian, Severian skipped because out of scope
-#link = { ck3 = slovien imp = slavic } # Fallback
+link = { ck3 = slovien imp = slavic } # Fallback
 
 ## Potential Imperator mods' cultures
 link = { ck3 = anglo_saxon imp = old_saxon }
