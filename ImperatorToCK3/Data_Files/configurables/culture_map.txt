@@ -42,6 +42,9 @@ link = { ck3 = tajik imp = margian }
 link = { ck3 = lithuanian imp = aestian province = 154 province = 155 province = 149 province = 165 province = 153 province = 130 province = 160 province = 159 province = 156 province = 158 province = 157 province = 163 province = 166 province = 151 province = 124 province = 123 province = 129 province = 131 province = 120 province = 119 province = 118 province = 125 province = 115 province = 126 province = 128 province = 127 province = 132 province = 152 }
 link = { ck3 = prussian imp = aestian province = 2835 province = 2834 province = 3197 province = 2831 province = 3220 province = 3201 province = 3217 province = 3218 province = 3203 province = 3219 province = 3216 province = 122 province = 3204 province = 3205 province = 3206 province = 3207 }
 link = { ck3 = latgalian imp = aestian province = 104 province = 105 province = 106 province = 107 province = 121 province = 110 province = 112 province = 117 province = 111 province = 113 province = 114 province = 116 province = 133 province = 150 province = 102 province = 109 province = 142 province = 103 province = 139 province = 134 province = 135 province = 136 province = 137 province = 138 province = 140 province = 141 }
+link = { ck3 = slovien imp = aestian owner = d_IMPTOCK3_VND } # Fallback
+link = { ck3 = slovien imp = aestian owner = k_IMPTOCK3_VND } # Fallback
+link = { ck3 = slovien imp = aestian owner = e_IMPTOCK3_VND } # Fallback
 link = { ck3 = estonian imp = aestian } # Fallback
 
 ## Belgea (sic)
@@ -241,7 +244,6 @@ link = { ck3 = nabatean imp = nabatean }
 #link = { ck3 = slovien imp = slavic region = ghw_region_hungary }
 #link = { ck3 = polabian imp = slavic region = custom_west_slavia }
 # Russian, Ilmenian, Severian skipped because out of scope
-link = { ck3 = slovien imp = slavic } # Fallback
 
 ## Potential Imperator mods' cultures
 link = { ck3 = anglo_saxon imp = old_saxon }
