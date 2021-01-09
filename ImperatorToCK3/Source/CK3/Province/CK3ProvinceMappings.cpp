@@ -1,6 +1,7 @@
 #include "CK3ProvinceMappings.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 CK3::ProvinceMappings::ProvinceMappings(const std::string& theFile)
 {

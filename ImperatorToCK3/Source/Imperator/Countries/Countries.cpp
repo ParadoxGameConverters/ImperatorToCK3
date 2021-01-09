@@ -3,6 +3,7 @@
 #include "../Families/Families.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 Imperator::Countries::Countries(std::istream& theStream)
 {

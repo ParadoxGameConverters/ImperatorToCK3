@@ -1,5 +1,6 @@
 #include "ReligionMapping.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 #include "Mappers/RegionMapper/ImperatorRegionMapper.h"
 #include "Mappers/RegionMapper/CK3RegionMapper.h"

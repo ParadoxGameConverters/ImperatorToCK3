@@ -1,5 +1,6 @@
 #include "CountryCurrencies.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 Imperator::CountryCurrencies::CountryCurrencies(std::istream& theStream)
 {

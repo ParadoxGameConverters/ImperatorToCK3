@@ -1,5 +1,6 @@
 #include "ImperatorRegion.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 
 mappers::ImperatorRegion::ImperatorRegion(std::istream& theStream)

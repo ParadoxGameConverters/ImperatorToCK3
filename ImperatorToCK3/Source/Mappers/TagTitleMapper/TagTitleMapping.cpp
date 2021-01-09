@@ -1,5 +1,6 @@
 #include "TagTitleMapping.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 mappers::TagTitleMapping::TagTitleMapping(std::istream& theStream)
 {

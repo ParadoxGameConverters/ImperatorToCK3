@@ -5,6 +5,7 @@
 #include "../Countries/Country.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 Imperator::Provinces::Provinces(std::istream& theStream)
 {

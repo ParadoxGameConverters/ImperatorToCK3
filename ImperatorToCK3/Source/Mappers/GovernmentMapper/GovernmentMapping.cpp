@@ -1,5 +1,6 @@
 #include "GovernmentMapping.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 mappers::GovernmentMapping::GovernmentMapping(std::istream& theStream)
 {

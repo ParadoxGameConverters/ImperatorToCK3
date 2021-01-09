@@ -1,6 +1,7 @@
 #include "CharacterName.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 Imperator::CharacterName::CharacterName(std::istream& theStream)
 {

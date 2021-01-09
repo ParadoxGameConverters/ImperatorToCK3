@@ -2,6 +2,7 @@
 #include "Title.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include <memory>
 
 // This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,

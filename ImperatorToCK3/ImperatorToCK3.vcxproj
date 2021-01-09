@@ -291,6 +291,7 @@
   <ItemGroup>
     <ClInclude Include="..\commonItems\Color.h" />
     <ClInclude Include="..\commonItems\CommonFunctions.h" />
+    <ClInclude Include="..\commonItems\CommonRegexes.h" />
     <ClInclude Include="..\commonItems\Date.h" />
     <ClInclude Include="..\commonItems\GameVersion.h" />
     <ClInclude Include="..\commonItems\iconvlite.h" />

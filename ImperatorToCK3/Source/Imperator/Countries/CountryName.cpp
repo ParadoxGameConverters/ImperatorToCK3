@@ -1,6 +1,7 @@
 #include "CountryName.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 Imperator::CountryName::CountryName(std::istream& theStream)
 {

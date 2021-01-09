@@ -1,5 +1,6 @@
 #include "ImperatorArea.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 
 mappers::ImperatorArea::ImperatorArea(std::istream& theStream)

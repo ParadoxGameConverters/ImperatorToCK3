@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <fstream>
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 namespace fs = std::filesystem;
 

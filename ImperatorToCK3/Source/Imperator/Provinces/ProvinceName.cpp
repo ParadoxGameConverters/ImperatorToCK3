@@ -1,6 +1,7 @@
 #include "ProvinceName.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 Imperator::ProvinceName::ProvinceName(std::istream& theStream)
 {
