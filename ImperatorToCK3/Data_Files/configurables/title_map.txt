@@ -4,62 +4,300 @@
 #b = the CK3 landed title
 #c = the rank this country has (can only be "d", "k", "e")
 
+# Name-based mappings should be preferred
+# Only countries with a "Kingdom" or "Empire" in name should be
+# let map into a title with a different rank than the output
+# (E.g. a duchy Mauryan Empire will be mapped to an empire title nevertheless)
+# Names come from I:R and overwrite those of CK3!
+# Geographical equivalence is good to rename de jure setups
+
+# There is no need for all tags to be mapped
+
+# Greece / Macedonia
+
 link = { imp = CRT ck3 = k_krete rank = k }
 link = { imp = CRT ck3 = d_krete rank = d }
 link = { imp = ATH ck3 = d_athens rank = d }
 link = { imp = EPI ck3 = k_epirus rank = k }
 link = { imp = EPI ck3 = d_epirus rank = d }
 link = { imp = KRK ck3 = d_cephalonia rank = d }
+link = { imp = COT ck3 = d_achaia rank = d }
+link = { imp = BYZ ck3 = e_byzantium rank = e }
+link = { imp = ION ck3 = d_ephese rank = d }
+link = { imp = ION ck3 = k_nikaea rank = k }
+link = { imp = CIA ck3 = d_cibyrrhaeot rank = d }
+link = { imp = IOA ck3 = d_ephese rank = d }
+link = { imp = IOA ck3 = k_nikaea rank = k }
+link = { imp = KIO ck3 = d_aegean_islands rank = d }
+link = { imp = SNP ck3 = d_armeniac rank = d }
+link = { imp = SNP ck3 = k_pontus rank = k }
+link = { imp = KZK ck3 = d_opsikion rank = d }
+link = { imp = KZK ck3 = k_nikaea rank = k }
+link = { imp = AMS ck3 = d_armeniac rank = d }
+link = { imp = AMS ck3 = k_pontus rank = k }
+link = { imp = KRS ck3 = d_chaldia rank = d }
+link = { imp = KRS ck3 = k_pontus rank = k }
+
+# Crimea and Abkhazia
+
+link = { imp = OLB ck3 = d_yedisan rank = d }
+link = { imp = MAE ck3 = d_azov rank = d }
+link = { imp = MAE ck3 = k_caucasus rank = k }
+link = { imp = CHS ck3 = d_crimea rank = d }
+
+#
+
+link = { imp = KNO ck3 = k_krete rank = k }
+link = { imp = KNO ck3 = d_krete rank = d }
+
+## Thracia/Illyria
+
 link = { imp = TRE ck3 = d_thrace rank = d }
+link = { imp = TRE ck3 = k_thessalonika rank = k }
+link = { imp = ODR ck3 = k_bulgaria rank = k }
+
+## Asia Minor
+
+link = { imp = COR ck3 = d_vaspurakan rank = d }
+
+#New
+
+link = { imp = BIT ck3 = d_optimatoi rank = d }
+link = { imp = HCP ck3 = d_bucellaria rank = d }
 link = { imp = CAP ck3 = d_cappadocia rank = d }
-link = { imp = PON ck3 = k_pontus rank = d }
+link = { imp = PON ck3 = k_pontus rank = k }
+link = { imp = PON ck3 = d_armeniac rank = d }
+link = { imp = PAP ck3 = d_paphlagonia rank = d }
+
+#New
+
+link = { imp = SEL ck3 = e_persia rank = e }
+link = { imp = SEL ck3 = e_persia rank = k }
+link = { imp = SEL ck3 = e_persia rank = d }
+link = { imp = ADI ck3 = k_jazira rank = k }
+link = { imp = ADI ck3 = d_diyarrabia rank = d }
 link = { imp = ARM ck3 = e_armenia rank = e }
 link = { imp = ARM ck3 = k_armenia rank = k }
 link = { imp = ARM ck3 = d_greater_armenia rank = d }
-link = { imp = MAP ck3 = d_azerbaijan rank = d }
-	#Modern Azerbaijan is named Atropatene in Latin
+link = { imp = MAP ck3 = d_azerbaijan rank = d } # Name etymology
+link = { imp = IBR ck3 = d_tao-klarjeti rank = d }
+link = { imp = COL ck3 = k_georgia rank = k }
+link = { imp = COL ck3 = d_abkhazia rank = d }
+link = { imp = ALB ck3 = d_shirvan rank = d }
+link = { imp = TRZ ck3 = d_chaldia rank = d }
+link = { imp = BAC ck3 = e_bactria rank = e }
+link = { imp = BAC ck3 = k_khorasan rank = k }
+link = { imp = PAR ck3 = d_khorezm rank = d }
+link = { imp = PAR ck3 = k_persia rank = k } # Name-equivalence
+
+   # Medieval geography shenanigans
+link = { imp = SRM ck3 = k_pontic_steppe rank = k }
+link = { imp = SCY ck3 = k_caspian_steppe rank = k }
+link = { imp = SCY ck3 = e_caspian-pontic_steppe rank = e }
+
+# Arabia/Persia
+
+link = { imp = OSR ck3 = d_edessa rank = d }
+
+#Syria
+
 link = { imp = JUD ck3 = k_israel rank = k }
+link = { imp = JUD ck3 = d_palestine rank = d } # *cough*
+
+####SULLA####
+
+# Italic
+
 link = { imp = ROM ck3 = e_roman_empire rank = e }
+link = { imp = ROM ck3 = e_roman_empire rank = k } # Because yes
+link = { imp = ROM ck3 = d_latium rank = d }
+link = { imp = SAM ck3 = d_spoleto rank = d }
+link = { imp = ETR ck3 = d_toscana rank = d }
 link = { imp = APU ck3 = d_apulia rank = d }
 link = { imp = NEP ck3 = k_naples rank = k }
+link = { imp = NEP ck3 = d_amalfi rank = d }
 link = { imp = BRT ck3 = d_calabria rank = d }
 link = { imp = ANO ck3 = d_ancona rank = d }
 link = { imp = SCU ck3 = k_sicily rank = k }
 link = { imp = SCU ck3 = d_sicily rank = d }
+link = { imp = TAU ck3 = d_piedmonte rank = d }
 link = { imp = VNT ck3 = k_venice rank = k }
 link = { imp = VNT ck3 = d_venice rank = d }
 link = { imp = HIS ck3 = d_istria rank = d }
-link = { imp = DUM ck3 = k_cornwall rank = k }
+link = { imp = GUN ck3 = k_genoa rank = k }
+link = { imp = GUN ck3 = d_genoa rank = d }
+link = { imp = BOI ck3 = d_romagna rank = d }
+link = { imp = RAE ck3 = d_currezia rank = d }
+
+#Britannic
+
+link = { imp = CAT ck3 = d_canterbury rank = d } # Or Kentshire
 link = { imp = DUM ck3 = d_cornwall rank = d }
+link = { imp = DUM ck3 = k_cornwall rank = k }
+link = { imp = SIR ck3 = d_powys rank = d }
+link = { imp = DEM ck3 = d_deheubarth rank = d }
+link = { imp = ORD ck3 = d_gwynedd rank = d }
+link = { imp = DEC ck3 = d_lancaster rank = d }
 link = { imp = CAL ck3 = k_scotland rank = k }
+link = { imp = CAL ck3 = d_albany rank = d }
+link = { imp = VTD ck3 = d_lothian rank = d }
+link = { imp = DNN ck3 = d_galloway rank = d }
+link = { imp = ULT ck3 = d_ulster rank = d }
+
+#Iberian
+
+link = { imp = BLD ck3 = d_mallorca rank = d }
 link = { imp = ASU ck3 = k_asturias rank = k }
+link = { imp = ASU ck3 = d_asturias rank = d }
+link = { imp = CLL ck3 = k_spanish_galicia rank = k }
+link = { imp = CLL ck3 = d_galicia rank = d }
 link = { imp = CBI ck3 = d_cantabria rank = d }
+link = { imp = VSC ck3 = d_gascogne rank = d }
+link = { imp = VSC ck3 = k_navarra rank = k }
+link = { imp = TAT ck3 = d_sevilla rank = d }
+link = { imp = BRC ck3 = d_porto rank = d }
+link = { imp = CSS ck3 = d_barcelona rank = d }
 link = { imp = LSI ck3 = k_portugal rank = k }
+
+#African
+
+link = { imp = CAR ck3 = k_africa rank = k }
 link = { imp = EGY ck3 = k_egypt rank = k }
 link = { imp = CYR ck3 = d_cyrenaica rank = d }
 link = { imp = MAU ck3 = e_maghreb rank = e }
 link = { imp = MAU ck3 = k_maghreb rank = k }
+link = { imp = KSH ck3 = k_nubia rank = k }
 link = { imp = AXM ck3 = d_aksum rank = d }
-link = { imp = HDR ck3 = d_hadramawt rank = d }
+link = { imp = AXM ck3 = k_abyssinia rank = k }
+link = { imp = OPO ck3 = d_hafun rank = d }
+link = { imp = BMY ck3 = k_blemmyia rank = k }
 link = { imp = TRP ck3 = d_tripolitania rank = d }
+
+#Gaul
+
+link = { imp = AVN ck3 = d_auvergne rank = d }
+link = { imp = CDC ck3 = d_toulouse rank = d }
+link = { imp = BIG ck3 = d_armagnac rank = d }
+link = { imp = PTC ck3 = d_aquitaine rank = d }
 link = { imp = HVT ck3 = k_switzerland rank = k }
 link = { imp = HVT ck3 = d_swiss rank = d }
-	#Modern Switzerland is called Helvetia in Latin
+link = { imp = TLG ck3 = d_thuringia rank = d }
+link = { imp = ESO ck3 = d_augsburg rank = d }
+link = { imp = CRN ck3 = d_orleans rank = d }
+link = { imp = PCS ck3 = d_poitou rank = d }
+link = { imp = TRO ck3 = d_berry rank = d }
+link = { imp = NMN ck3 = k_brittany rank = k }
+link = { imp = NMN ck3 = d_brittany rank = d }
+link = { imp = PRS ck3 = d_valois rank = d }
+link = { imp = NRV ck3 = d_brabant rank = d }
+link = { imp = MAS ck3 = d_provence rank = d }
+
+#Illyria and Dacia
+
+link = { imp = CAA ck3 = d_duklja rank = d }
 link = { imp = DLM ck3 = d_dalmatia rank = d }
-link = { imp = MOE ck3 = d_turnovo rank = d } # Called Moesia
+link = { imp = DLM ck3 = k_croatia rank = k }
+link = { imp = LTB ck3 = d_krain rank = d }
+link = { imp = PNN ck3 = d_slavonia rank = d }
+link = { imp = OTN ck3 = k_moravia rank = k }
+link = { imp = OTN ck3 = d_moravia rank = d }
+link = { imp = MOE ck3 = d_turnovo rank = d }
+link = { imp = ABN ck3 = d_temes rank = d }
+link = { imp = TYR ck3 = d_moldova rank = d }
+link = { imp = TYR ck3 = k_moldavia rank = k }
+link = { imp = NRC ck3 = k_austria rank = k }
+link = { imp = NRC ck3 = d_osterreich rank = k }
+link = { imp = DRD ck3 = d_rashka rank = d }
+
+#Arabia
+
 link = { imp = HDM ck3 = d_hadramawt rank = d }
+link = { imp = NBT ck3 = d_oultrejourdain rank = d }
+
+#India/Tibet
+
+link = { imp = MRY ck3 = e_india rank = e }
+link = { imp = MRY ck3 = e_india rank = k }
+link = { imp = MRY ck3 = e_india rank = d }
+link = { imp = SOG ck3 = d_soghd rank = d }
+link = { imp = SOG ck3 = k_transoxiana rank = k }
 link = { imp = KHT ck3 = k_khotan rank = k }
 link = { imp = KHT ck3 = d_khotan rank = d }
+link = { imp = LOL ck3 = d_charkliq rank = d }
 link = { imp = PND ck3 = d_pandya_nadu rank = d }
 link = { imp = CHR ck3 = d_chera_nadu rank = d }
 link = { imp = CHL ck3 = d_chola_nadu rank = d }
-link = { imp = SXS ck3 = k_saxony rank = k }
+link = { imp = ANU ck3 = k_lanka rank = k }
+link = { imp = ANU ck3 = d_dakhina_desa rank = d }
+link = { imp = MSH ck3 = k_karnata rank = k }
+link = { imp = ANH ck3 = k_andhra rank = k }
+link = { imp = KAL ck3 = d_kalinga rank = d }
+link = { imp = BOJ ck3 = k_malwa rank = k }
+link = { imp = KRP ck3 = k_kamarupa rank = k }
+link = { imp = KRP ck3 = d_kamarupanagara rank = d }
+link = { imp = ZHZ ck3 = k_guge rank = k }
+link = { imp = ZHZ ck3 = d_ngari rank = d }
+link = { imp = ZHZ ck3 = e_tibet rank = e }
+link = { imp = YRL ck3 = e_tibet rank = e }
+link = { imp = YRL ck3 = k_u rank = k }
+link = { imp = YRL ck3 = d_yarlung rank = d }
+link = { imp = SMP ck3 = k_gyalrong rank = k }
+link = { imp = SMP ck3 = d_gyalrong rank = d }
+link = { imp = SMP ck3 = e_tibet rank = e }
+link = { imp = TSA ck3 = k_tsang rank = k }
+link = { imp = TSA ck3 = d_xigaze rank = d }
+link = { imp = TSA ck3 = e_tibet rank = e }
+link = { imp = GHA ck3 = d_gandhara rank = d }
+link = { imp = SMT ck3 = d_vanga rank = d }
+link = { imp = SMT ck3 = k_bengal rank = k }
+link = { imp = SMT ck3 = e_bengal rank = e }
+
+#Germanic
+
+link = { imp = SXS ck3 = k_frisia rank = k } # NOT Saxony
+link = { imp = SXS ck3 = d_frisia rank = d }
+link = { imp = CMB ck3 = d_jylland rank = d }
 link = { imp = TIT ck3 = d_teutonic_order rank = d }
-link = { imp = SWE ck3 = k_sweden rank = k }
+link = { imp = GIT ck3 = d_vastergotland rank = d }
 link = { imp = SWE ck3 = d_svealand rank = d }
+link = { imp = RAM ck3 = d_viken rank = d }
+link = { imp = SWE ck3 = k_sweden rank = k }
+link = { imp = GIT ck3 = k_sweden rank = k }
+link = { imp = RAM ck3 = k_norway rank = k }
+link = { imp = SWE ck3 = e_scandinavia rank = k }
+link = { imp = GIT ck3 = e_scandinavia rank = k }
+link = { imp = RAM ck3 = e_scandinavia rank = k }
 link = { imp = ANG ck3 = k_england rank = k }
 link = { imp = AES ck3 = k_esthonia rank = k }
-link = { imp = AES ck3 = d_esthonia rank = d }
+link = { imp = AES ck3 = d_esthonia rank = k }
 link = { imp = LGB ck3 = d_lombardia rank = d }
-link = { imp = BUR ck3 = k_burgundy rank = k }
+link = { imp = LGB ck3 = k_italy rank = k }
+link = { imp = LGB ck3 = e_italy rank = k }
+link = { imp = CHC ck3 = k_hansa rank = k }
+link = { imp = CHC ck3 = d_anhalt rank = d }
+
+#Bactrian
+
+link = { imp = KRZ ck3 = d_khorezm rank = d }
+link = { imp = ARS ck3 = k_kabulistan rank = k }
+link = { imp = ARS ck3 = d_kabul rank = d }
+
+#Extra Germany
+
 link = { imp = BUR ck3 = d_burgundy rank = d }
+link = { imp = BUR ck3 = k_burgundy rank = k }
+link = { imp = DAN ck3 = k_denmark rank = k }
+link = { imp = RGG ck3 = k_pomerania rank = k }
+link = { imp = RGG ck3 = d_pommerania rank = d }
+link = { imp = CRS ck3 = d_westfalen rank = d }
+link = { imp = AGR ck3 = d_angria rank = d }
+
+#Extra Ireland
+
+link = { imp = ELA ck3 = d_meath rank = d }
+link = { imp = IVE ck3 = k_ireland rank = k }
+
+# Extra Baltic
+
+link = { imp = VND ck3 = k_winideheim rank = k }
+link = { imp = VND ck3 = e_wendish_empire rank = e }
