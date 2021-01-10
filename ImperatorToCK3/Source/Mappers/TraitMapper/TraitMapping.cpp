@@ -4,13 +4,11 @@
 
 mappers::TraitMapping::TraitMapping(std::istream& theStream)
 {
-	registerKeyword("ck3", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString traitString(theStream);
-		ck3Trait = traitString.getString();
+	registerKeyword("ck3", [this](std::istream& theStream) {
+		ck3Trait = commonItems::getString(theStream);
 	});
-	registerKeyword("imp", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString traitString(theStream);
-		impTraits.insert(traitString.getString());
+	registerKeyword("imp", [this](std::istream& theStream) {
+		impTraits.insert(commonItems::getString(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 

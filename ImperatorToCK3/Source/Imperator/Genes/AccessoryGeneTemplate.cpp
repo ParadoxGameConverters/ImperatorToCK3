@@ -14,8 +14,8 @@ Imperator::AccessoryGeneTemplate::AccessoryGeneTemplate(std::istream& theStream)
 
 void Imperator::AccessoryGeneTemplate::registerKeys()
 {
-	registerKeyword("index", [this](const std::string& unused, std::istream& theStream) {
-		index = commonItems::singleInt{ theStream }.getInt();
+	registerKeyword("index", [this](std::istream& theStream) {
+		index = commonItems::getInt(theStream);
 	});
 	registerRegex("male|female|boy|girl", [this](const std::string& ageSexStr, std::istream& theStream) {
 		const auto sexAgeStr = commonItems::stringOfItem(theStream).getString();
@@ -27,7 +27,7 @@ void Imperator::AccessoryGeneTemplate::registerKeys()
 		}
 		else // for copies: "boy = male"
 		{
-			const auto sexAge = commonItems::singleString(tempStream).getString();
+			const auto sexAge = commonItems::getString(tempStream);
 			if (ageSexWeightBlocks.contains(sexAge))
 				ageSexWeightBlocks.insert(std::pair(ageSexStr, ageSexWeightBlocks.find(sexAge)->second));
 		}

@@ -15,23 +15,23 @@ Imperator::Province::Province(std::istream& theStream, const unsigned long long 
 
 void Imperator::Province::registerKeys()
 {
-	registerKeyword("province_name", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("province_name", [this](std::istream& theStream) {
 		name = ProvinceName{ theStream }.getName();
 	});
-	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
-		culture = commonItems::singleString{ theStream }.getString();
+	registerKeyword("culture", [this](std::istream& theStream) {
+		culture = commonItems::getString(theStream);
 	});
-	registerKeyword("religion", [this](const std::string& unused, std::istream& theStream) {
-		religion = commonItems::singleString{ theStream }.getString();
+	registerKeyword("religion", [this](std::istream& theStream) {
+		religion = commonItems::getString(theStream);
 	});
-	registerKeyword("owner", [this](const std::string& unused, std::istream& theStream) {
-		owner = commonItems::singleULlong{ theStream }.getULlong();
+	registerKeyword("owner", [this](std::istream& theStream) {
+		owner = commonItems::getULlong(theStream);
 	});
-	registerKeyword("controller", [this](const std::string& unused, std::istream& theStream) {
-		controller = commonItems::singleULlong{ theStream }.getULlong();
+	registerKeyword("controller", [this](std::istream& theStream) {
+		controller = commonItems::getULlong(theStream);
 	});
-	registerKeyword("pop", [this](const std::string& unused, std::istream& theStream) {
-		pops.emplace(commonItems::singleULlong{ theStream }.getULlong(), nullptr);
+	registerKeyword("pop", [this](std::istream& theStream) {
+		pops.emplace(commonItems::getULlong(theStream), nullptr);
 	});
 	registerKeyword("province_rank", [this](std::istream& theStream) {
 		const auto provinceRankStr = commonItems::getString(theStream);
@@ -50,8 +50,8 @@ void Imperator::Province::registerKeys()
 	registerKeyword("holy_site", [this](std::istream& theStream) {
 		holySite = commonItems::getULlong(theStream) != 4294967295; // 4294967295 is 2^32 − 1 and is the default value
 	});
-	registerKeyword("buildings", [this](const std::string& unused, std::istream& theStream) {
-		const auto buildingsVector = commonItems::intList{ theStream }.getInts();
+	registerKeyword("buildings", [this](std::istream& theStream) {
+		const auto buildingsVector = commonItems::getInts(theStream);
 		buildingsCount = std::accumulate(buildingsVector.begin(), buildingsVector.end(), 0);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

@@ -21,7 +21,7 @@ mappers::CultureMapper::CultureMapper()
 
 void mappers::CultureMapper::registerKeys()
 {
-	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("link", [this](std::istream& theStream) {
 		const CultureMappingRule rule(theStream);
 		cultureMapRules.push_back(rule);
 	});

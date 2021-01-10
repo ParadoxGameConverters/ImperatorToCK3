@@ -19,25 +19,23 @@ void Imperator::Family::updateFamily(std::istream& theStream)
 
 void Imperator::Family::registerKeys()
 {
-	registerKeyword("key", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString nameStr(theStream);
-		key = nameStr.getString();
-		});
-	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString cultureStr(theStream);
-		culture = cultureStr.getString();
-		});
-	registerKeyword("prestige", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleDouble prestigeDouble(theStream);
-		prestige = prestigeDouble.getDouble();
-		});
-	registerKeyword("prestige_ratio", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleDouble prestigeRatioDouble(theStream);
-		prestigeRatio = prestigeRatioDouble.getDouble();
-		});
-	registerKeyword("minor_family", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString minorFamilyStr(theStream);
-		isMinor = minorFamilyStr.getString() == "yes";
-		});
+	registerKeyword("key", [this](std::istream& theStream) {
+		const auto nameStr = commonItems::getString(theStream);
+		key = nameStr;
+	});
+	registerKeyword("culture", [this](std::istream& theStream) {
+		const auto cultureStr = commonItems::getString(theStream);
+		culture = cultureStr;
+	});
+	registerKeyword("prestige", [this](std::istream& theStream) {
+		prestige = commonItems::getDouble(theStream);
+	});
+	registerKeyword("prestige_ratio", [this](std::istream& theStream) {
+		prestigeRatio = commonItems::getDouble(theStream);
+	});
+	registerKeyword("minor_family", [this](std::istream& theStream) {
+		const auto minorFamilyStr = commonItems::getString(theStream);
+		isMinor = minorFamilyStr == "yes";
+	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

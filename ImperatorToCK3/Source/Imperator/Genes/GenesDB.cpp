@@ -20,7 +20,7 @@ Imperator::GenesDB::GenesDB(std::istream& theStream)
 
 void Imperator::GenesDB::registerKeys()
 {
-	registerKeyword("accessory_genes", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("accessory_genes", [this](std::istream& theStream) {
 		accessoryGenes = AccessoryGenes(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

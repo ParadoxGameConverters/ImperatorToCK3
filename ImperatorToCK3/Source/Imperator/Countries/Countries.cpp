@@ -31,7 +31,7 @@ Imperator::CountriesBloc::CountriesBloc(std::istream& theStream)
 
 void Imperator::CountriesBloc::registerKeys()
 {
-	registerKeyword("country_database", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("country_database", [this](std::istream& theStream) {
 		countries = Countries(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

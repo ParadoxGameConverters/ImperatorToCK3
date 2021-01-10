@@ -19,14 +19,14 @@ std::optional<std::string> mappers::TagTitleMapping::tagRankMatch(const std::str
 
 void mappers::TagTitleMapping::registerKeys()
 {
-	registerKeyword("ck3", [this](const std::string& unused, std::istream& theStream) {
-		ck3Title = commonItems::singleString{ theStream }.getString();
+	registerKeyword("ck3", [this](std::istream& theStream) {
+		ck3Title = commonItems::getString(theStream);
 	});
-	registerKeyword("imp", [this](const std::string& unused, std::istream& theStream) {
-		imperatorTag = commonItems::singleString{ theStream }.getString();
+	registerKeyword("imp", [this](std::istream& theStream) {
+		imperatorTag = commonItems::getString(theStream);
 	});
-	registerKeyword("rank", [this](const std::string& unused, std::istream& theStream) {
-		ranks.emplace(commonItems::singleString{ theStream }.getString());
+	registerKeyword("rank", [this](std::istream& theStream) {
+		ranks.emplace(commonItems::getString(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

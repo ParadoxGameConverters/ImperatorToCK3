@@ -12,9 +12,8 @@ Imperator::ProvinceName::ProvinceName(std::istream& theStream)
 
 void Imperator::ProvinceName::registerKeys()
 {
-	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString nameStr(theStream);
-		name = nameStr.getString();
+	registerKeyword("name", [this](std::istream& theStream) {
+		name = commonItems::getString(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

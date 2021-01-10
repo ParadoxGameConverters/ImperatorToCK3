@@ -12,8 +12,8 @@ mappers::ImperatorRegion::ImperatorRegion(std::istream& theStream)
 
 void mappers::ImperatorRegion::registerKeys()
 {
-	registerKeyword("areas", [this](const std::string& unused, std::istream& theStream) {
-		for (const auto& name : commonItems::stringList{ theStream }.getStrings())
+	registerKeyword("areas", [this](std::istream& theStream) {
+		for (const auto& name : commonItems::getStrings(theStream))
 			areas.emplace(name, nullptr);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

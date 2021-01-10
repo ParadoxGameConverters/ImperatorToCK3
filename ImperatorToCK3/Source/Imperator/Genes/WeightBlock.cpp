@@ -15,7 +15,7 @@ Imperator::WeightBlock::WeightBlock(std::istream& theStream)
 void Imperator::WeightBlock::registerKeys()
 {
 	registerRegex("\\d+", [this](const std::string& absoluteWeightStr, std::istream& theStream) {
-		const auto newObjectName = commonItems::singleString(theStream).getString();
+		const auto newObjectName = commonItems::getString(theStream);
 		try
 		{
 			addObject(newObjectName, stoi(absoluteWeightStr));

@@ -11,37 +11,29 @@ Imperator::CountryCurrencies::CountryCurrencies(std::istream& theStream)
 
 void Imperator::CountryCurrencies::registerKeys()
 {
-	registerKeyword("manpower", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt manpowerInt(theStream);
-		manpower = manpowerInt.getInt();
+	registerKeyword("manpower", [this](std::istream& theStream) {
+		manpower = commonItems::getInt(theStream);
 	});
-	registerKeyword("gold", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt goldInt(theStream);
-		gold = goldInt.getInt();
+	registerKeyword("gold", [this](std::istream& theStream) {
+		gold = commonItems::getInt(theStream);
 	});
-	registerKeyword("stability", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt stabilityInt(theStream);
-		stability = stabilityInt.getInt();
+	registerKeyword("stability", [this](std::istream& theStream) {
+		stability = commonItems::getInt(theStream);
 	});
-	registerKeyword("tyranny", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt tyrannyInt(theStream);
-		tyranny = tyrannyInt.getInt();
+	registerKeyword("tyranny", [this](std::istream& theStream) {
+		tyranny = commonItems::getInt(theStream);
 	});
-	registerKeyword("war_exhaustion", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt warExhaustionInt(theStream);
-		war_exhaustion = warExhaustionInt.getInt();
+	registerKeyword("war_exhaustion", [this](std::istream& theStream) {
+		war_exhaustion = commonItems::getInt(theStream);
 	});
-	registerKeyword("aggressive_expansion", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt aggresiveExpansionInt(theStream);
-		aggressive_expansion = aggresiveExpansionInt.getInt();
+	registerKeyword("aggressive_expansion", [this](std::istream& theStream) {
+		aggressive_expansion = commonItems::getInt(theStream);
 	});
-	registerKeyword("political_influence", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt politicalInfluenceInt(theStream);
-		political_influence = politicalInfluenceInt.getInt();
+	registerKeyword("political_influence", [this](std::istream& theStream) {
+		political_influence = commonItems::getInt(theStream);
 	});
-	registerKeyword("military_experience", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt militaryExpInt(theStream);
-		military_experience = militaryExpInt.getInt();
+	registerKeyword("military_experience", [this](std::istream& theStream) {
+		military_experience = commonItems::getInt(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

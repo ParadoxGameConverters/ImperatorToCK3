@@ -11,21 +11,17 @@ Imperator::CharacterAttributes::CharacterAttributes(std::istream& theStream)
 
 void Imperator::CharacterAttributes::registerKeys()
 {
-	registerKeyword("martial", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt martialInt(theStream);
-		martial = martialInt.getInt();
+	registerKeyword("martial", [this](std::istream& theStream) {
+		martial = commonItems::getInt(theStream);
 	});
-	registerKeyword("finesse", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt finesseInt(theStream);
-		finesse = finesseInt.getInt();
+	registerKeyword("finesse", [this](std::istream& theStream) {
+		finesse = commonItems::getInt(theStream);
 	});
-	registerKeyword("charisma", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt charismaInt(theStream);
-		charisma = charismaInt.getInt();
+	registerKeyword("charisma", [this](std::istream& theStream) {
+		charisma = commonItems::getInt(theStream);
 	});
-	registerKeyword("zeal", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleInt zealInt(theStream);
-		zeal = zealInt.getInt();
+	registerKeyword("zeal", [this](std::istream& theStream) {
+		zeal = commonItems::getInt(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

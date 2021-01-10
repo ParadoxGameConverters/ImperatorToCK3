@@ -29,34 +29,28 @@ Configuration::Configuration(std::istream& theStream)
 
 void Configuration::registerKeys()
 {
-	registerKeyword("SaveGame", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		SaveGamePath = path.getString();
+	registerKeyword("SaveGame", [this](std::istream& theStream) {
+		SaveGamePath = commonItems::getString(theStream);
 		Log(LogLevel::Info) << "Save Game set to: " << SaveGamePath;
-		});
-	registerKeyword("ImperatorDirectory", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		ImperatorPath = path.getString();
-		});
-	registerKeyword("ImperatorModsDirectory", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		ImperatorModsPath = path.getString();
-		});
-	registerKeyword("CK3directory", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		CK3Path = path.getString();
-		});
-	registerKeyword("CK3ModsDirectory", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		CK3ModsPath = path.getString();
-		});	
-	registerKeyword("output_name", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString nameStr(theStream);
-		outputModName = nameStr.getString();
+	});
+	registerKeyword("ImperatorDirectory", [this](std::istream& theStream) {
+		ImperatorPath = commonItems::getString(theStream);
+	});
+	registerKeyword("ImperatorModsDirectory", [this](std::istream& theStream) {
+		ImperatorModsPath = commonItems::getString(theStream);
+	});
+	registerKeyword("CK3directory", [this](std::istream& theStream) {
+		CK3Path = commonItems::getString(theStream);
+	});
+	registerKeyword("CK3ModsDirectory", [this](std::istream& theStream) {
+		CK3ModsPath = commonItems::getString(theStream);
+	});	
+	registerKeyword("output_name", [this](std::istream& theStream) {
+		outputModName = commonItems::getString(theStream);
 		Log(LogLevel::Info) << "Output name set to: " << outputModName;
-		});
-	registerKeyword("ImperatorDeJure", [this](const std::string& unused, std::istream& theStream) {
-		const auto deJureString = commonItems::singleString(theStream).getString();
+	});
+	registerKeyword("ImperatorDeJure", [this](std::istream& theStream) {
+		const auto deJureString = commonItems::getString(theStream);
 		try
 		{
 			imperatorDeJure = static_cast<IMPERATOR_DE_JURE>(stoi(deJureString));
@@ -66,13 +60,13 @@ void Configuration::registerKeys()
 		{
 			Log(LogLevel::Error) << "Undefined error, ImperatorDeJure value was: " << deJureString << "; Error message: " << e.what();
 		}
-		});
-	registerKeyword("ConvertCharacterBirthAndDeathDates", [this](const std::string& unused, std::istream& theStream) {
-		const auto valStr = commonItems::singleString(theStream).getString();
+	});
+	registerKeyword("ConvertCharacterBirthAndDeathDates", [this](std::istream& theStream) {
+		const auto valStr = commonItems::getString(theStream);
 		if (valStr == "true") convertBirthAndDeathDates = true;
 		else if (valStr == "false") convertBirthAndDeathDates = false;
 		Log(LogLevel::Info) << "Conversion of characters' birth and death dates set to: " << convertBirthAndDeathDates;
-		});
+	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
