@@ -94,18 +94,16 @@ void CK3::Province::setHolding()
 {
 	switch (imperatorProvince->getProvinceRank())
 	{
-	case Imperator::ProvinceRank::city_metropolis: {
+	case Imperator::ProvinceRank::city_metropolis:
 		details.holding = "city_holding";
 		break;
-	}
-	case Imperator::ProvinceRank::city: {
+	case Imperator::ProvinceRank::city:
 		if (imperatorProvince->hasFort())
 			details.holding = "castle_holding";
 		else
 			details.holding = "city_holding";
 		break;
-	}
-	case Imperator::ProvinceRank::settlement: {
+	case Imperator::ProvinceRank::settlement:
 		if (imperatorProvince->isHolySite())
 			details.holding = "church_holding";
 		else if (imperatorProvince->hasFort())
@@ -113,6 +111,5 @@ void CK3::Province::setHolding()
 		else
 			details.holding = "tribal_holding";
 		break;
-	}
 	}
 }

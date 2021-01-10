@@ -41,7 +41,7 @@ namespace Imperator
 		std::string religion;
 		unsigned long long owner = 0;
 		unsigned long long controller = 0;
-		ProvinceRank provinceRank;
+		ProvinceRank provinceRank = ProvinceRank::settlement;
 		bool fort = false;
 		bool holySite = false;
 		unsigned int buildingsCount = 0;
