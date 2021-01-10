@@ -38,8 +38,8 @@ class World
 	private:
 		void importImperatorCharacters(const Imperator::World& impWorld, bool ConvertBirthAndDeathDates, date endDate);
 		void importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, bool ConvertBirthAndDeathDates, date endDate);
-		void linkSpouses(const Imperator::World& impWorld);
-		void linkMothersAndFathers(const Imperator::World& impWorld);
+		void linkSpouses();
+		void linkMothersAndFathers();
 	
 		void importImperatorCountries(const Imperator::World& impWorld);
 		void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country);

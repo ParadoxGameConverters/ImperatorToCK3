@@ -1,5 +1,6 @@
 #include "Country.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "CountryName.h"
 #include "CountryCurrencies.h"
 #include "Log.h"

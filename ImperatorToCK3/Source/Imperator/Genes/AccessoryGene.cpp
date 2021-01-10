@@ -1,6 +1,7 @@
 #include "AccessoryGene.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 
 Imperator::AccessoryGene::AccessoryGene(std::istream& theStream)

@@ -1,6 +1,7 @@
 #include "TitlesHistory.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "OSCompatibilityLayer.h"
 
 CK3::TitlesHistory::TitlesHistory(const Configuration& theConfiguration)

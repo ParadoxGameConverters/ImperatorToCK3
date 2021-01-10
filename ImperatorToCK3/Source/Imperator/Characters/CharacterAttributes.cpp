@@ -1,5 +1,6 @@
 #include "CharacterAttributes.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 Imperator::CharacterAttributes::CharacterAttributes(std::istream& theStream)
 {

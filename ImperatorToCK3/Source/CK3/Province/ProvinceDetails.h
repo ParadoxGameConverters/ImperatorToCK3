@@ -1,5 +1,5 @@
-#ifndef CK3_PROVINCE_DETAILS_H
-#define CK3_PROVINCE_DETAILS_H
+#ifndef CK3_PROVINCE_DETAILS
+#define CK3_PROVINCE_DETAILS
 
 #include "Parser.h"
 
@@ -17,10 +17,11 @@ class ProvinceDetails: commonItems::parser
 	// This is a storage container for CK3::Province.
 	std::string culture;
 	std::string religion;
+	std::string holding = "none";
 
   private:
 	void registerKeys();
 };
 } // namespace CK3
 
-#endif // CK3_PROVINCE_DETAILS_H
+#endif // CK3_PROVINCE_DETAILS

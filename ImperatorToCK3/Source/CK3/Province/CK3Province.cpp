@@ -6,7 +6,7 @@
 //#include "../Title/Title.h"
 //#include "../../Imperator/Characters/Character.h"
 
-CK3::Province::Province(const unsigned long long id, std::istream& theStream) : provID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
+CK3::Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
 
 
 void CK3::Province::updateWith(const std::string& filePath)
@@ -19,7 +19,7 @@ void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Pro
                                             const mappers::CultureMapper& cultureMapper,
                                             const mappers::ReligionMapper& religionMapper)
 {
-	srcProvince = origProvince;
+	imperatorProvince = origProvince;
 	
 	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
@@ -32,14 +32,17 @@ void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Pro
 	
 	// Then culture
 	setCulture(cultureMapper);
+
+	// Holding type
+	setHolding();
 }
 
 void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper)
 {
 	auto religionSet = false;
-	if (!srcProvince->getReligion().empty())
+	if (!imperatorProvince->getReligion().empty())
 	{
-		auto religionMatch = religionMapper.match(srcProvince->getReligion(), provID, srcProvince->getID());
+		auto religionMatch = religionMapper.match(imperatorProvince->getReligion(), ID, imperatorProvince->getID());
 		if (religionMatch)
 		{
 			details.religion = *religionMatch;
@@ -64,9 +67,9 @@ void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
 {
 	auto cultureSet = false;
 	// do we even have a base culture?
-	if (!srcProvince->getCulture().empty())
+	if (!imperatorProvince->getCulture().empty())
 	{
-		auto cultureMatch = cultureMapper.cultureMatch(srcProvince->getCulture(), details.religion, provID, titleCountry.first);
+		auto cultureMatch = cultureMapper.cultureMatch(imperatorProvince->getCulture(), details.religion, ID, titleCountry.first);
 		if (cultureMatch)
 		{
 			details.culture = *cultureMatch;
@@ -84,5 +87,29 @@ void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
 	if (!cultureSet)
 	{
 		//Use default CK3 culture.
+	}
+}
+
+void CK3::Province::setHolding()
+{
+	switch (imperatorProvince->getProvinceRank())
+	{
+	case Imperator::ProvinceRank::city_metropolis:
+		details.holding = "city_holding";
+		break;
+	case Imperator::ProvinceRank::city:
+		if (imperatorProvince->hasFort())
+			details.holding = "castle_holding";
+		else
+			details.holding = "city_holding";
+		break;
+	case Imperator::ProvinceRank::settlement:
+		if (imperatorProvince->isHolySite())
+			details.holding = "church_holding";
+		else if (imperatorProvince->hasFort())
+			details.holding = "castle_holding";
+		else
+			details.holding = "tribal_holding";
+		break;
 	}
 }

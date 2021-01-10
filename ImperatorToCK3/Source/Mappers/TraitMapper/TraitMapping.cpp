@@ -1,5 +1,6 @@
 #include "TraitMapping.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 mappers::TraitMapping::TraitMapping(std::istream& theStream)
 {

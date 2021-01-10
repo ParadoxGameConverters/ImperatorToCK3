@@ -146,6 +146,64 @@ TEST(ImperatorWorld_ProvinceTests, popsCanBeSet)
 	ASSERT_EQ(4, theProvince.getPopCount());
 }
 
+TEST(ImperatorWorld_ProvinceTests, province_rankDefaultsToSettlement)
+{
+	std::stringstream input;
+	const Imperator::Province province(input, 42);
+
+	ASSERT_EQ(Imperator::ProvinceRank::settlement, province.getProvinceRank());
+}
+
+TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet)
+{
+	std::stringstream input{ "= { province_rank=settelement }" };
+	std::stringstream input2{ "= { province_rank=city }" };
+	std::stringstream input3{ "= { province_rank=city_metropolis }" };
+
+	const Imperator::Province province(input, 42);
+	const Imperator::Province province2(input2, 43);
+	const Imperator::Province province3(input3, 44);
+
+	ASSERT_EQ(Imperator::ProvinceRank::settlement, province.getProvinceRank());
+	ASSERT_EQ(Imperator::ProvinceRank::city, province2.getProvinceRank());
+	ASSERT_EQ(Imperator::ProvinceRank::city_metropolis, province3.getProvinceRank());
+}
+
+TEST(ImperatorWorld_ProvinceTests, fortDefaultsToFalse)
+{
+	std::stringstream input;
+	const Imperator::Province province(input, 42);
+
+	ASSERT_FALSE(province.hasFort());
+}
+
+TEST(ImperatorWorld_ProvinceTests, fortCanBeSet)
+{
+	std::stringstream input{" = { fort=yes }"};
+	const Imperator::Province province(input, 42);
+
+	ASSERT_TRUE(province.hasFort());
+}
+
+TEST(ImperatorWorld_ProvinceTests, holySiteDefaultsToFalse)
+{
+	std::stringstream input;
+	const Imperator::Province province(input, 42);
+
+	ASSERT_FALSE(province.isHolySite());
+}
+
+TEST(ImperatorWorld_ProvinceTests, holySiteCanBeSet)
+{
+	std::stringstream input{ " = { holy_site=4294967295 }" }; // this value means no holy site
+	std::stringstream input2{ " = { holy_site=56 }" };
+	const Imperator::Province province(input, 42);
+	const Imperator::Province province2(input2, 43);
+
+	ASSERT_FALSE(province.isHolySite());
+	ASSERT_TRUE(province2.isHolySite());
+}
+
 TEST(ImperatorWorld_ProvinceTests, buildingsCountCanBeSet)
 {
 	std::stringstream input;

@@ -1,6 +1,7 @@
 #include "WeightBlock.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 
 Imperator::WeightBlock::WeightBlock(std::istream& theStream)

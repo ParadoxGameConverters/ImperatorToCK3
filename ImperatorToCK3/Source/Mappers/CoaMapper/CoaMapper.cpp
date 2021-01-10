@@ -1,6 +1,7 @@
 #include "CoaMapper.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "OSCompatibilityLayer.h"
 
 mappers::CoaMapper::CoaMapper(const Configuration& theConfiguration)

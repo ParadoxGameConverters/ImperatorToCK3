@@ -1,5 +1,6 @@
 #include "CK3Region.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 
 mappers::CK3Region::CK3Region(std::istream& theStream)

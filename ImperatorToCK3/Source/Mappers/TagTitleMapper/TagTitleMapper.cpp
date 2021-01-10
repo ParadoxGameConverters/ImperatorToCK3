@@ -1,6 +1,7 @@
 #include "TagTitleMapper.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "Imperator/Countries/Country.h"
 
 

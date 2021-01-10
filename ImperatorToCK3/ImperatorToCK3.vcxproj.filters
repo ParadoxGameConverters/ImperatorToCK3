@@ -346,6 +346,9 @@
     <ClInclude Include="Source\Imperator\Characters\CharacterFactory.h">
       <Filter>Imperator\Characters</Filter>
     </ClInclude>
+    <ClInclude Include="..\commonItems\CommonRegexes.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />

@@ -3,6 +3,7 @@
 #include "../../Configuration/Configuration.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include "ProvinceMapping.h"
 #include <filesystem>
 #include <fstream>

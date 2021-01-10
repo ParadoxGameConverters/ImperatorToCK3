@@ -1,5 +1,6 @@
 #include "NicknameMapping.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 mappers::NicknameMapping::NicknameMapping(std::istream& theStream)
 {

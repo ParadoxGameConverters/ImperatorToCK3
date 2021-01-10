@@ -2,6 +2,7 @@
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 CK3::ProvinceDetails::ProvinceDetails(const std::string& filePath)
 {
@@ -34,13 +35,16 @@ CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
 
 void CK3::ProvinceDetails::registerKeys()
 {
-	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("culture", [this](std::istream& theStream) {
 		const commonItems::singleString cultureStr(theStream);
 		culture = cultureStr.getString();
 	});
-	registerKeyword("religion", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("religion", [this](std::istream& theStream) {
 		const commonItems::singleString religionStr(theStream);
 		religion = religionStr.getString();
+	});
+	registerKeyword("holding", [this](std::istream& theStream) {
+		holding = commonItems::singleString{theStream}.getString();
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
