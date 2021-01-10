@@ -38,7 +38,7 @@ Imperator::PopsBloc::PopsBloc(std::istream& theStream)
 
 void Imperator::PopsBloc::registerKeys()
 {
-	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("population", [this](std::istream& theStream) {
 		pops.loadPops(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

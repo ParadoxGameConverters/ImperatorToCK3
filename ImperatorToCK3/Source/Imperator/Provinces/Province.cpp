@@ -19,10 +19,10 @@ void Imperator::Province::registerKeys()
 		name = ProvinceName{ theStream }.getName();
 	});
 	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
-		culture = commonItems::singleString{ theStream }.getString();
+		culture = commonItems::getString(theStream);
 	});
 	registerKeyword("religion", [this](const std::string& unused, std::istream& theStream) {
-		religion = commonItems::singleString{ theStream }.getString();
+		religion = commonItems::getString(theStream);
 	});
 	registerKeyword("owner", [this](const std::string& unused, std::istream& theStream) {
 		owner = commonItems::singleULlong{ theStream }.getULlong();

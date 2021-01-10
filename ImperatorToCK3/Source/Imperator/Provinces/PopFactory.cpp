@@ -7,15 +7,15 @@
 
 Imperator::Pop::Factory::Factory()
 {
-	registerKeyword("type", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("type", [this](std::istream& theStream) {
 		const commonItems::singleString typeStr(theStream);
 		pop->type = typeStr.getString();
 	});
-	registerKeyword("culture", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("culture", [this](std::istream& theStream) {
 		const commonItems::singleString cultureStr(theStream);
 		pop->culture = cultureStr.getString();
 	});
-	registerKeyword("religion", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("religion", [this](std::istream& theStream) {
 		const commonItems::singleString religionStr(theStream);
 		pop->religion = religionStr.getString();
 	});

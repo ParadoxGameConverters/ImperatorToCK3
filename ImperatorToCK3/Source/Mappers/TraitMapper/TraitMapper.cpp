@@ -22,7 +22,7 @@ mappers::TraitMapper::TraitMapper(std::istream& theStream)
 
 void mappers::TraitMapper::registerKeys()
 {
-	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("link", [this](std::istream& theStream) {
 		const TraitMapping theMapping(theStream);
 		for (const auto& imperatorTrait: theMapping.impTraits)
 		{

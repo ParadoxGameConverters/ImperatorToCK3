@@ -16,7 +16,7 @@ mappers::TagTitleMapper::TagTitleMapper()
 
 void mappers::TagTitleMapper::registerKeys()
 {
-	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("link", [this](std::istream& theStream) {
 		theMappings.emplace_back(TagTitleMapping(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

@@ -21,53 +21,53 @@ Imperator::World::World(const Configuration& theConfiguration)
 	
 	//parse the save
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
-	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("version", [this](std::istream& theStream) {
 		const commonItems::singleString versionString(theStream);
 		ImperatorVersion = GameVersion(versionString.getString());
 		Log(LogLevel::Info) << "<> Savegame version: " << versionString.getString();
 	});
-	registerKeyword("date", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("date", [this]( std::istream& theStream) {
 		const commonItems::singleString dateString(theStream);
 		endDate = date(dateString.getString(), true); // converted to AD
 		Log(LogLevel::Info) << "<> Date: " << dateString.getString();
 	});
-	/*registerKeyword("enabled_dlcs", [this](const std::string& unused, std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed 
+	/*registerKeyword("enabled_dlcs", [this](std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed 
 		const commonItems::stringList dlcsList(theStream);
 		const auto& theDLCs = dlcsList.getStrings();
 		DLCs.insert(theDLCs.begin(), theDLCs.end());
 		for (const auto& dlc : DLCs) LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
 	}); */
-	registerKeyword("enabled_mods", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("enabled_mods", [this](std::istream& theStream) {
 		const commonItems::stringList modsList(theStream);
 		const auto& theMods = modsList.getStrings();
 		Mods.insert(theMods.begin(), theMods.end());
 		for (const auto& mod : Mods) LOG(LogLevel::Info) << "<> Enabled mod: " << mod;
 	});
-	registerKeyword("family", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("family", [this]( std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Families";
 		families = FamiliesBloc(theStream).getFamiliesFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << families.getFamilies().size() << " families.";
 	});
 	
-	registerKeyword("character", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("character", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Characters";
 		characters = CharactersBloc(theStream, genes).getCharactersFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
 	});
 
-	registerKeyword("provinces", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("provinces", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Provinces";
 		provinces = Provinces(theStream);
 		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
 	});
 
-	registerKeyword("country", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("country", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Countries";
 		countries = CountriesBloc(theStream).getCountriesFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.";
 	});
 
-	registerKeyword("population", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("population", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Pops";
 		pops = PopsBloc(theStream).getPopsFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << pops.getPops().size() << " pops.";

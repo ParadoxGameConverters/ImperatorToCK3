@@ -14,7 +14,7 @@ Imperator::AccessoryGeneTemplate::AccessoryGeneTemplate(std::istream& theStream)
 
 void Imperator::AccessoryGeneTemplate::registerKeys()
 {
-	registerKeyword("index", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("index", [this](std::istream& theStream) {
 		index = commonItems::singleInt{ theStream }.getInt();
 	});
 	registerRegex("male|female|boy|girl", [this](const std::string& ageSexStr, std::istream& theStream) {

@@ -22,7 +22,7 @@ mappers::GovernmentMapper::GovernmentMapper(std::istream& theStream)
 
 void mappers::GovernmentMapper::registerKeys()
 {
-	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("link", [this](std::istream& theStream) {
 		const GovernmentMapping theMapping(theStream);
 		if (theMapping.ck3Government.empty()) throw std::runtime_error("GovernmentMapper: link with no ck3Government");
 		

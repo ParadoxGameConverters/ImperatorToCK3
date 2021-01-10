@@ -18,15 +18,15 @@ mappers::VersionParser::VersionParser(std::istream& theStream)
 
 void mappers::VersionParser::registerKeys()
 {
-	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("name", [this](std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
 	});
-	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("version", [this](std::istream& theStream) {
 		const commonItems::singleString versionStr(theStream);
 		version = versionStr.getString();
 	});
-	registerKeyword("descriptionLine", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("descriptionLine", [this](std::istream& theStream) {
 		const commonItems::singleString descriptionLineStr(theStream);
 		descriptionLine = descriptionLineStr.getString();
 	});

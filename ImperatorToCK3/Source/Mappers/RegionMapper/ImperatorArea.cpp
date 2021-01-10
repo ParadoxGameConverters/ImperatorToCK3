@@ -12,7 +12,7 @@ mappers::ImperatorArea::ImperatorArea(std::istream& theStream)
 
 void mappers::ImperatorArea::registerKeys()
 {
-	registerKeyword("provinces", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("provinces", [this](std::istream& theStream) {
 		for (const auto& id : commonItems::ullongList{theStream}.getULlongs())
 			provinces.insert(id);
 	});

@@ -44,7 +44,7 @@ void CK3::ProvinceDetails::registerKeys()
 		religion = religionStr.getString();
 	});
 	registerKeyword("holding", [this](std::istream& theStream) {
-		holding = commonItems::singleString{theStream}.getString();
+		holding = commonItems::getString(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

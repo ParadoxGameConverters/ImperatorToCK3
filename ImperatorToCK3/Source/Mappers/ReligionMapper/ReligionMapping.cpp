@@ -8,16 +8,16 @@
 mappers::ReligionMapping::ReligionMapping(std::istream& theStream)
 {
 	registerKeyword("ck3", [this](const std::string& unused, std::istream& theStream) {
-		ck3Religion = commonItems::singleString{ theStream }.getString();
+		ck3Religion = commonItems::getString(theStream);
 	});
 	registerKeyword("imp", [this](const std::string& unused, std::istream& theStream) {
-		impReligions.insert(commonItems::singleString{ theStream }.getString());
+		impReligions.insert(commonItems::getString(theStream));
 	});
 	registerKeyword("ck3Region", [this](const std::string& unused, std::istream& theStream) {
-		ck3Regions.insert(commonItems::singleString{ theStream }.getString());
+		ck3Regions.insert(commonItems::getString(theStream));
 	});
 	registerKeyword("impRegion", [this](const std::string& unused, std::istream& theStream) {
-		imperatorRegions.insert(commonItems::singleString{ theStream }.getString());
+		imperatorRegions.insert(commonItems::getString(theStream));
 	});
 	registerKeyword("ck3Province", [this](const std::string& unused, std::istream& theStream) {
 		ck3Provinces.insert(commonItems::singleULlong{ theStream }.getULlong());

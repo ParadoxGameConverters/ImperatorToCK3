@@ -22,7 +22,7 @@ mappers::NicknameMapper::NicknameMapper(std::istream& theStream)
 
 void mappers::NicknameMapper::registerKeys()
 {
-	registerKeyword("link", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("link", [this](std::istream& theStream) {
 		const NicknameMapping theMapping(theStream);
 		for (const auto& imperatorNickname: theMapping.impNicknames)
 		{

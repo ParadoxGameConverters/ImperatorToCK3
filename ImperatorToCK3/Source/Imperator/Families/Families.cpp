@@ -49,7 +49,7 @@ Imperator::FamiliesBloc::FamiliesBloc(std::istream& theStream)
 
 void Imperator::FamiliesBloc::registerKeys()
 {
-	registerKeyword("families", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("families", [this](std::istream& theStream) {
 		families.loadFamilies(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

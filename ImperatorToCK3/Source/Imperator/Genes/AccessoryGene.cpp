@@ -13,11 +13,11 @@ Imperator::AccessoryGene::AccessoryGene(std::istream& theStream)
 
 void Imperator::AccessoryGene::registerKeys()
 {
-	registerKeyword("index", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("index", [this](std::istream& theStream) {
 		const commonItems::singleInt indexInt(theStream);
 		index = indexInt.getInt();
 	});
-	registerKeyword("inheritable", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("inheritable", [this](std::istream& theStream) {
 		const commonItems::singleString boolString(theStream);
 		if (boolString.getString() == "yes") inheritable = true;
 	});
