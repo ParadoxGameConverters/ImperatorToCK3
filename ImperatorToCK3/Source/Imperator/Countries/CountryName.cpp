@@ -12,7 +12,7 @@ Imperator::CountryName::CountryName(std::istream& theStream)
 
 void Imperator::CountryName::registerKeys()
 {
-	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("name", [this](std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
 	});

@@ -7,22 +7,22 @@
 
 mappers::ReligionMapping::ReligionMapping(std::istream& theStream)
 {
-	registerKeyword("ck3", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("ck3", [this](std::istream& theStream) {
 		ck3Religion = commonItems::getString(theStream);
 	});
-	registerKeyword("imp", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("imp", [this](std::istream& theStream) {
 		impReligions.insert(commonItems::getString(theStream));
 	});
-	registerKeyword("ck3Region", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("ck3Region", [this](std::istream& theStream) {
 		ck3Regions.insert(commonItems::getString(theStream));
 	});
-	registerKeyword("impRegion", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("impRegion", [this](std::istream& theStream) {
 		imperatorRegions.insert(commonItems::getString(theStream));
 	});
-	registerKeyword("ck3Province", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("ck3Province", [this](std::istream& theStream) {
 		ck3Provinces.insert(commonItems::singleULlong{ theStream }.getULlong());
 	});
-	registerKeyword("impProvince", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("impProvince", [this](std::istream& theStream) {
 		imperatorProvinces.insert(commonItems::singleULlong{ theStream }.getULlong());
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

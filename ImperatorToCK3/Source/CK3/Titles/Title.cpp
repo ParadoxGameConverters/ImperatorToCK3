@@ -59,19 +59,19 @@ void CK3::Title::registerKeys()
 		addFoundTitle(newTitle, foundTitles);
 		newTitle->setDeJureLiege(shared_from_this());
 		});
-	registerKeyword("definite_form", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("definite_form", [this](std::istream& theStream) {
 		definiteForm = commonItems::singleString(theStream).getString() == "yes";
 		});
-	registerKeyword("landless", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("landless", [this](std::istream& theStream) {
 		landless = commonItems::singleString(theStream).getString() == "yes";
 		});
-	registerKeyword("color", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("color", [this](std::istream& theStream) {
 		color = laFabricaDeColor.getColor(theStream);
 		});
-	registerKeyword("capital", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("capital", [this](std::istream& theStream) {
 		capital = std::make_pair(commonItems::singleString(theStream).getString(), nullptr);
 		});
-	registerKeyword("province", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("province", [this](std::istream& theStream) {
 		province = commonItems::singleULlong(theStream).getULlong();
 		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

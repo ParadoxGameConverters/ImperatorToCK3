@@ -141,7 +141,7 @@ Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB
 
 void Imperator::CharactersBloc::registerKeys()
 {
-	registerKeyword("character_database", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("character_database", [this](std::istream& theStream) {
 		characters = Characters(theStream, genes);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
