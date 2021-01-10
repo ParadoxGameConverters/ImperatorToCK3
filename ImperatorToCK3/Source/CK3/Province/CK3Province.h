@@ -33,6 +33,7 @@ class Province
 	[[nodiscard]] const auto& getTitleCountry() const { return titleCountry; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
+	[[nodiscard]] const auto& getHolding() const { return details.holding; }
 	[[nodiscard]] auto getID() const { return ID; }
 	
 
