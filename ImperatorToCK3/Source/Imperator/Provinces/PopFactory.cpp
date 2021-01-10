@@ -8,16 +8,13 @@
 Imperator::Pop::Factory::Factory()
 {
 	registerKeyword("type", [this](std::istream& theStream) {
-		const commonItems::singleString typeStr(theStream);
-		pop->type = typeStr.getString();
+		pop->type = commonItems::getString(theStream);
 	});
 	registerKeyword("culture", [this](std::istream& theStream) {
-		const commonItems::singleString cultureStr(theStream);
-		pop->culture = cultureStr.getString();
+		pop->culture = commonItems::getString(theStream);
 	});
 	registerKeyword("religion", [this](std::istream& theStream) {
-		const commonItems::singleString religionStr(theStream);
-		pop->religion = religionStr.getString();
+		pop->religion = commonItems::getString(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

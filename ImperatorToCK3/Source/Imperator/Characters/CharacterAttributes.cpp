@@ -12,20 +12,16 @@ Imperator::CharacterAttributes::CharacterAttributes(std::istream& theStream)
 void Imperator::CharacterAttributes::registerKeys()
 {
 	registerKeyword("martial", [this](std::istream& theStream) {
-		const commonItems::singleInt martialInt(theStream);
-		martial = martialInt.getInt();
+		martial = commonItems::getInt(theStream);
 	});
 	registerKeyword("finesse", [this](std::istream& theStream) {
-		const commonItems::singleInt finesseInt(theStream);
-		finesse = finesseInt.getInt();
+		finesse = commonItems::getInt(theStream);
 	});
 	registerKeyword("charisma", [this](std::istream& theStream) {
-		const commonItems::singleInt charismaInt(theStream);
-		charisma = charismaInt.getInt();
+		charisma = commonItems::getInt(theStream);
 	});
 	registerKeyword("zeal", [this](std::istream& theStream) {
-		const commonItems::singleInt zealInt(theStream);
-		zeal = zealInt.getInt();
+		zeal = commonItems::getInt(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

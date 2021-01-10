@@ -5,12 +5,10 @@
 mappers::TraitMapping::TraitMapping(std::istream& theStream)
 {
 	registerKeyword("ck3", [this](std::istream& theStream) {
-		const commonItems::singleString traitString(theStream);
-		ck3Trait = traitString.getString();
+		ck3Trait = commonItems::getString(theStream);
 	});
 	registerKeyword("imp", [this](std::istream& theStream) {
-		const commonItems::singleString traitString(theStream);
-		impTraits.insert(traitString.getString());
+		impTraits.insert(commonItems::getString(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 

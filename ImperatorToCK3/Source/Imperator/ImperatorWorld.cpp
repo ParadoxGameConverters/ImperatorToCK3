@@ -22,14 +22,14 @@ Imperator::World::World(const Configuration& theConfiguration)
 	//parse the save
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
 	registerKeyword("version", [this](std::istream& theStream) {
-		const commonItems::singleString versionString(theStream);
-		ImperatorVersion = GameVersion(versionString.getString());
-		Log(LogLevel::Info) << "<> Savegame version: " << versionString.getString();
+		const auto versionString = commonItems::getString(theStream);
+		ImperatorVersion = GameVersion(versionString);
+		Log(LogLevel::Info) << "<> Savegame version: " << versionString;
 	});
 	registerKeyword("date", [this]( std::istream& theStream) {
-		const commonItems::singleString dateString(theStream);
-		endDate = date(dateString.getString(), true); // converted to AD
-		Log(LogLevel::Info) << "<> Date: " << dateString.getString();
+		const auto dateString = commonItems::getString(theStream);
+		endDate = date(dateString, true); // converted to AD
+		Log(LogLevel::Info) << "<> Date: " << dateString;
 	});
 	/*registerKeyword("enabled_dlcs", [this](std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed 
 		const commonItems::stringList dlcsList(theStream);

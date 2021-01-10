@@ -6,31 +6,27 @@
 mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 {
 	registerKeyword("ck3", [this](std::istream& theStream) {
-		const commonItems::singleString ck3Str(theStream);
-		destinationCulture = ck3Str.getString();
+		destinationCulture = commonItems::getString(theStream);
 	});
 	registerKeyword("religion", [this](std::istream& theStream) {
-		const commonItems::singleString religionStr(theStream);
-		religions.insert(religionStr.getString());
+		religions.insert(commonItems::getString(theStream));
 	});
 	registerKeyword("owner", [this](std::istream& theStream) {
-		const commonItems::singleString ownerStr(theStream);
-		owners.insert(ownerStr.getString());
+		owners.insert(commonItems::getString(theStream));
 	});
 	registerKeyword("province", [this](std::istream& theStream) {
-		const commonItems::singleString provinceStr(theStream);
+		const auto provinceStr = commonItems::getString(theStream);
 		try
 		{
-			provinces.insert(stoull(provinceStr.getString()));
+			provinces.insert(stoull(provinceStr));
 		}
 		catch (std::exception&)
 		{
-			Log(LogLevel::Warning) << "Invalid province ID in culture mapper: " << provinceStr.getString();
+			Log(LogLevel::Warning) << "Invalid province ID in culture mapper: " << provinceStr;
 		}
 	});
 	registerKeyword("imp", [this](std::istream& theStream) {
-		const commonItems::singleString impStr(theStream);
-		cultures.insert(impStr.getString());
+		cultures.insert(commonItems::getString(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 

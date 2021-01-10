@@ -14,12 +14,10 @@ Imperator::AccessoryGene::AccessoryGene(std::istream& theStream)
 void Imperator::AccessoryGene::registerKeys()
 {
 	registerKeyword("index", [this](std::istream& theStream) {
-		const commonItems::singleInt indexInt(theStream);
-		index = indexInt.getInt();
+		index = commonItems::getInt(theStream);
 	});
 	registerKeyword("inheritable", [this](std::istream& theStream) {
-		const commonItems::singleString boolString(theStream);
-		if (boolString.getString() == "yes") inheritable = true;
+		if (commonItems::getString(theStream) == "yes") inheritable = true;
 	});
 	registerRegex(R"([a-zA-Z0-9_]+)", [this](const std::string& geneTemplateName, std::istream& theStream) {
 		geneTemplates.insert({ geneTemplateName, AccessoryGeneTemplate(theStream) });

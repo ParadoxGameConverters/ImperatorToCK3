@@ -90,13 +90,13 @@ CK3::DatedHistoryEntry::DatedHistoryEntry(std::istream& theStream)
 void CK3::DatedHistoryEntry::DatedHistoryEntry::registerKeys()
 {
 	registerKeyword("holder", [this](std::istream& theStream) {
-		holder = commonItems::singleString(theStream).getString();
+		holder = commonItems::getString(theStream);
 	});
 	registerKeyword("liege", [this](std::istream& theStream) {
-		liege = commonItems::singleString(theStream).getString();
+		liege = commonItems::getString(theStream);
 	});
 	registerKeyword("government", [this](std::istream& theStream) {
-		government = commonItems::singleString(theStream).getString();
+		government = commonItems::getString(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

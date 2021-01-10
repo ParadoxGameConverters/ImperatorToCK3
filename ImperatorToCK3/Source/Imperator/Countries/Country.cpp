@@ -15,18 +15,16 @@ Imperator::Country::Country(std::istream& theStream, unsigned long long countryI
 void Imperator::Country::registerKeys()
 {
 	registerKeyword("tag", [this](std::istream& theStream) {
-		const commonItems::singleString tagStr(theStream);
-		tag = tagStr.getString();
+		tag = commonItems::getString(theStream);
 	});
 	registerKeyword("country_name", [this](std::istream& theStream) {
 		name = CountryName(theStream).getName();
 	});
 	registerKeyword("flag", [this](std::istream& theStream) {
-		const commonItems::singleString flagStr(theStream);
-		flag = flagStr.getString();
+		flag = commonItems::getString(theStream);
 	});
 	registerKeyword("country_type", [this](std::istream& theStream) {
-		const auto countryTypeStr =  commonItems::singleString(theStream).getString();
+		const auto countryTypeStr = commonItems::getString(theStream);
 		if (countryTypeStr == "rebels")
 			countryType = countryTypeEnum::rebels;
 		else if (countryTypeStr == "pirates")
@@ -64,22 +62,20 @@ void Imperator::Country::registerKeys()
 		currencies.military_experience = currenciesFromBloc.getMilitaryExperience();
 	});
 	registerKeyword("capital", [this](std::istream& theStream) {
-		auto capitalLongLong = commonItems::singleULlong(theStream).getULlong();
+		auto capitalLongLong = commonItems::getULlong(theStream);
 		if (capitalLongLong > 0) capital = capitalLongLong;
 	});
 	registerKeyword("government_key", [this](std::istream& theStream) {
-		government = commonItems::singleString(theStream).getString();
+		government = commonItems::getString(theStream);
 	});
 	registerKeyword("family", [this](std::istream& theStream) {
-		const commonItems::singleULlong familyULLong(theStream);
-		families.insert(std::pair(familyULLong.getULlong(), nullptr));
+		families.emplace(commonItems::getULlong(theStream), nullptr);
 	});
 	registerKeyword("minor_family", [this](std::istream& theStream) {
-		const commonItems::singleULlong familyULLong(theStream);
-		families.insert(std::pair(familyULLong.getULlong(), nullptr));
+		families.emplace(commonItems::getULlong(theStream), nullptr);
 	});
 	registerKeyword("monarch", [this](std::istream& theStream) {
-		monarch = commonItems::singleULlong(theStream).getULlong();
+		monarch = commonItems::getULlong(theStream);
 	});
 
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

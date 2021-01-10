@@ -25,13 +25,13 @@ void Imperator::Province::registerKeys()
 		religion = commonItems::getString(theStream);
 	});
 	registerKeyword("owner", [this](std::istream& theStream) {
-		owner = commonItems::singleULlong{ theStream }.getULlong();
+		owner = commonItems::getULlong(theStream);
 	});
 	registerKeyword("controller", [this](std::istream& theStream) {
-		controller = commonItems::singleULlong{ theStream }.getULlong();
+		controller = commonItems::getULlong(theStream);
 	});
 	registerKeyword("pop", [this](std::istream& theStream) {
-		pops.emplace(commonItems::singleULlong{ theStream }.getULlong(), nullptr);
+		pops.emplace(commonItems::getULlong(theStream), nullptr);
 	});
 	registerKeyword("province_rank", [this](std::istream& theStream) {
 		const auto provinceRankStr = commonItems::getString(theStream);
@@ -51,7 +51,7 @@ void Imperator::Province::registerKeys()
 		holySite = commonItems::getULlong(theStream) != 4294967295; // 4294967295 is 2^32 − 1 and is the default value
 	});
 	registerKeyword("buildings", [this](std::istream& theStream) {
-		const auto buildingsVector = commonItems::intList{ theStream }.getInts();
+		const auto buildingsVector = commonItems::getInts(theStream);
 		buildingsCount = std::accumulate(buildingsVector.begin(), buildingsVector.end(), 0);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

@@ -13,19 +13,19 @@ mappers::CK3Region::CK3Region(std::istream& theStream)
 void mappers::CK3Region::registerKeys()
 {
 	registerKeyword("regions", [this](std::istream& theStream) {
-		for (const auto& name : commonItems::stringList{theStream}.getStrings())
+		for (const auto& name : commonItems::getStrings(theStream))
 			regions.emplace(name, nullptr);
 	});
 	registerKeyword("duchies", [this](std::istream& theStream) {
-		for (const auto& name : commonItems::stringList{ theStream }.getStrings())
+		for (const auto& name : commonItems::getStrings(theStream))
 			duchies.emplace(name, nullptr);
 	});
 	registerKeyword("counties", [this](std::istream& theStream) {
-		for (const auto& name : commonItems::stringList{ theStream }.getStrings())
+		for (const auto& name : commonItems::getStrings(theStream))
 			counties.emplace(name, nullptr);
 	});
 	registerKeyword("provinces", [this](std::istream& theStream) {
-		for (const auto& id : commonItems::ullongList{theStream}.getULlongs())
+		for (const auto& id : commonItems::getULlongs(theStream))
 			provinces.insert(id);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);

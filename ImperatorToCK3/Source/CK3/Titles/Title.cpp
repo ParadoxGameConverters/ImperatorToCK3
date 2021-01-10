@@ -60,19 +60,19 @@ void CK3::Title::registerKeys()
 		newTitle->setDeJureLiege(shared_from_this());
 		});
 	registerKeyword("definite_form", [this](std::istream& theStream) {
-		definiteForm = commonItems::singleString(theStream).getString() == "yes";
+		definiteForm = commonItems::getString(theStream) == "yes";
 		});
 	registerKeyword("landless", [this](std::istream& theStream) {
-		landless = commonItems::singleString(theStream).getString() == "yes";
+		landless = commonItems::getString(theStream) == "yes";
 		});
 	registerKeyword("color", [this](std::istream& theStream) {
 		color = laFabricaDeColor.getColor(theStream);
 		});
 	registerKeyword("capital", [this](std::istream& theStream) {
-		capital = std::make_pair(commonItems::singleString(theStream).getString(), nullptr);
+		capital = std::make_pair(commonItems::getString(theStream), nullptr);
 		});
 	registerKeyword("province", [this](std::istream& theStream) {
-		province = commonItems::singleULlong(theStream).getULlong();
+		province = commonItems::getULlong(theStream);
 		});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

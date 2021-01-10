@@ -20,10 +20,10 @@ mappers::ReligionMapping::ReligionMapping(std::istream& theStream)
 		imperatorRegions.insert(commonItems::getString(theStream));
 	});
 	registerKeyword("ck3Province", [this](std::istream& theStream) {
-		ck3Provinces.insert(commonItems::singleULlong{ theStream }.getULlong());
+		ck3Provinces.insert(commonItems::getULlong(theStream));
 	});
 	registerKeyword("impProvince", [this](std::istream& theStream) {
-		imperatorProvinces.insert(commonItems::singleULlong{ theStream }.getULlong());
+		imperatorProvinces.insert(commonItems::getULlong(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 

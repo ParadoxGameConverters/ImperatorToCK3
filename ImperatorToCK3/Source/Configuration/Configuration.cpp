@@ -30,33 +30,27 @@ Configuration::Configuration(std::istream& theStream)
 void Configuration::registerKeys()
 {
 	registerKeyword("SaveGame", [this](std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		SaveGamePath = path.getString();
+		SaveGamePath = commonItems::getString(theStream);
 		Log(LogLevel::Info) << "Save Game set to: " << SaveGamePath;
-		});
+	});
 	registerKeyword("ImperatorDirectory", [this](std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		ImperatorPath = path.getString();
-		});
+		ImperatorPath = commonItems::getString(theStream);
+	});
 	registerKeyword("ImperatorModsDirectory", [this](std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		ImperatorModsPath = path.getString();
-		});
+		ImperatorModsPath = commonItems::getString(theStream);
+	});
 	registerKeyword("CK3directory", [this](std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		CK3Path = path.getString();
-		});
+		CK3Path = commonItems::getString(theStream);
+	});
 	registerKeyword("CK3ModsDirectory", [this](std::istream& theStream) {
-		const commonItems::singleString path(theStream);
-		CK3ModsPath = path.getString();
-		});	
+		CK3ModsPath = commonItems::getString(theStream);
+	});	
 	registerKeyword("output_name", [this](std::istream& theStream) {
-		const commonItems::singleString nameStr(theStream);
-		outputModName = nameStr.getString();
+		outputModName = commonItems::getString(theStream);
 		Log(LogLevel::Info) << "Output name set to: " << outputModName;
-		});
+	});
 	registerKeyword("ImperatorDeJure", [this](std::istream& theStream) {
-		const auto deJureString = commonItems::singleString(theStream).getString();
+		const auto deJureString = commonItems::getString(theStream);
 		try
 		{
 			imperatorDeJure = static_cast<IMPERATOR_DE_JURE>(stoi(deJureString));
@@ -66,13 +60,13 @@ void Configuration::registerKeys()
 		{
 			Log(LogLevel::Error) << "Undefined error, ImperatorDeJure value was: " << deJureString << "; Error message: " << e.what();
 		}
-		});
+	});
 	registerKeyword("ConvertCharacterBirthAndDeathDates", [this](std::istream& theStream) {
-		const auto valStr = commonItems::singleString(theStream).getString();
+		const auto valStr = commonItems::getString(theStream);
 		if (valStr == "true") convertBirthAndDeathDates = true;
 		else if (valStr == "false") convertBirthAndDeathDates = false;
 		Log(LogLevel::Info) << "Conversion of characters' birth and death dates set to: " << convertBirthAndDeathDates;
-		});
+	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 

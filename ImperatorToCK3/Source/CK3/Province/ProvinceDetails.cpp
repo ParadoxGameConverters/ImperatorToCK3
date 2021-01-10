@@ -36,12 +36,10 @@ CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
 void CK3::ProvinceDetails::registerKeys()
 {
 	registerKeyword("culture", [this](std::istream& theStream) {
-		const commonItems::singleString cultureStr(theStream);
-		culture = cultureStr.getString();
+		culture = commonItems::getString(theStream);
 	});
 	registerKeyword("religion", [this](std::istream& theStream) {
-		const commonItems::singleString religionStr(theStream);
-		religion = religionStr.getString();
+		religion = commonItems::getString(theStream);
 	});
 	registerKeyword("holding", [this](std::istream& theStream) {
 		holding = commonItems::getString(theStream);

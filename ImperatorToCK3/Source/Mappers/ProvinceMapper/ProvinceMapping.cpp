@@ -12,12 +12,10 @@ mappers::ProvinceMapping::ProvinceMapping(std::istream& theStream)
 void mappers::ProvinceMapping::registerKeys()
 {
 	registerKeyword("ck3", [this](std::istream& theStream) {
-		const commonItems::singleULlong provinceLLong(theStream);
-		ck3Provinces.push_back(provinceLLong.getULlong());
+		ck3Provinces.push_back(commonItems::getULlong(theStream));
 	});
 	registerKeyword("imp", [this](std::istream& theStream) {
-		const commonItems::singleULlong provinceLLong(theStream);
-		impProvinces.push_back(provinceLLong.getULlong());
+		impProvinces.push_back(commonItems::getULlong(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
