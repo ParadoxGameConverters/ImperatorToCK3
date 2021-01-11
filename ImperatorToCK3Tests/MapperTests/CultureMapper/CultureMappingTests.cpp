@@ -18,7 +18,7 @@ TEST(Mappers_CultureMappingTests, ck3CultureCanBeSet)
 
 	const mappers::CultureMappingRule theMapping(input);
 
-	ASSERT_EQ(theMapping.getCK3Culture(), "ck3Culture");
+	ASSERT_EQ("ck3Culture", theMapping.getCK3Culture());
 }
 
 TEST(Mappers_CultureMappingTests, impCulturesDefaultToEmpty)
@@ -37,9 +37,9 @@ TEST(Mappers_CultureMappingTests, impCulturesCanBeSet)
 
 	const mappers::CultureMappingRule theMapping(input);
 
-	ASSERT_EQ(theMapping.getImperatorCultures().size(), 2);
-	ASSERT_EQ(*theMapping.getImperatorCultures().find("culture1"), "culture1");
-	ASSERT_EQ(*theMapping.getImperatorCultures().find("culture2"), "culture2");
+	ASSERT_EQ(2, theMapping.getImperatorCultures().size());
+	ASSERT_EQ("culture1", *theMapping.getImperatorCultures().find("culture1"));
+	ASSERT_EQ("culture2" , *theMapping.getImperatorCultures().find("culture2"));
 }
 
 TEST(Mappers_CultureMappingTests, ReligionsDefaultToEmpty)
@@ -59,8 +59,8 @@ TEST(Mappers_CultureMappingTests, ReligionsCanBeSet)
 	const mappers::CultureMappingRule theMapping(input);
 
 	ASSERT_EQ(theMapping.getReligions().size(), 2);
-	ASSERT_EQ(*theMapping.getReligions().find("religion1"), "religion1");
-	ASSERT_EQ(*theMapping.getReligions().find("religion2"), "religion2");
+	ASSERT_EQ("religion1", *theMapping.getReligions().find("religion1"));
+	ASSERT_EQ("religion2", *theMapping.getReligions().find("religion2"));
 }
 
 
