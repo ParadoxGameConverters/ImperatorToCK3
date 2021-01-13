@@ -2,6 +2,8 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include "Mappers/RegionMapper/ImperatorRegionMapper.h"
+#include "Mappers/RegionMapper/CK3RegionMapper.h"
 
 mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 {
@@ -14,11 +16,11 @@ mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 	registerKeyword("owner", [this](std::istream& theStream) {
 		owners.insert(commonItems::getString(theStream));
 	});
-	registerKeyword("province", [this](std::istream& theStream) {
+	registerKeyword("ck3Province", [this](std::istream& theStream) {
 		const auto provinceStr = commonItems::getString(theStream);
 		try
 		{
-			provinces.insert(stoull(provinceStr));
+			ck3Provinces.insert(stoull(provinceStr));
 		}
 		catch (std::exception&)
 		{
@@ -57,8 +59,8 @@ std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::
 	}
 
 	// This is a straight province check
-	if (CK3Province && !provinces.empty())
-		if (!provinces.contains(CK3Province))
+	if (CK3Province && !ck3Provinces.empty())
+		if (!ck3Provinces.contains(CK3Province))
 			return std::nullopt;
 
 	return destinationCulture;

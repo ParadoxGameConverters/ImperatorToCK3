@@ -1,6 +1,11 @@
 # Usage:
-# link = { ck3 = ck3Religion imp = impReligion
-# 		 impProvince = impProvince (optional) ck3Province = ck3Province (optional) impRegion = impRegion (optional) ck3Region = ck3Region (optional)
+# link = {
+#	ck3 = ck3Religion
+#	imp = impReligion
+#	impProvince = impProvince (optional)
+#	ck3Province = ck3Province (optional) 
+#	impRegion = impRegion (optional) 
+#	ck3Region = ck3Region (optional)
 #}
 # multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region
 # multiple entries not allowed for: ck3

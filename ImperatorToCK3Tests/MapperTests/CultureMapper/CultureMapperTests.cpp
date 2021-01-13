@@ -59,7 +59,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithNoReligion)
 TEST(Mappers_CultureMapperTests, cultureMatchesWithCapital)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "thereligion", 4, "e_title"));
@@ -68,7 +68,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithCapital)
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongCapital)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_FALSE(culMapper.cultureMatch("test", "thereligion", 3, "e_title"));
@@ -77,7 +77,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongCapital)
 TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTitle)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = e_roman_empire }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "thereligion", 4, "e_roman_empire"));
@@ -86,7 +86,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTitle)
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongOwnerTitle)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = e_roman_empire }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_FALSE(culMapper.cultureMatch("test", "thereligion", 4, "e_reman_empire"));
@@ -95,7 +95,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongOwnerTitle)
 TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitle)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_TRUE(culMapper.cultureMatch("test", "thereligion", 4, ""));
@@ -104,7 +104,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitle)
 TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitleInRule)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4}";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4}";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_TRUE(culMapper.cultureMatch("test", "thereligion", 4, "e_roman_empire"));
@@ -113,7 +113,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitleInRule)
 TEST(Mappers_CultureMapperTests, cultureFailsWithOwnerTitleInRule)
 {
 	std::stringstream input;
-	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion province = 4 owner = e_roman_empire }";
+	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
 	ASSERT_FALSE(culMapper.cultureMatch("test", "thereligion", 4, ""));

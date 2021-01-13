@@ -106,7 +106,7 @@ TEST(Mappers_CultureMappingTests, ProvincesDefaultToEmpty)
 TEST(Mappers_CultureMappingTests, ProvincesCanBeSet)
 {
 	std::stringstream input;
-	input << "province = 3 province = 4";
+	input << "ck3Province = 3 ck3Province = 4";
 
 	const mappers::CultureMappingRule theMapping(input);
 
