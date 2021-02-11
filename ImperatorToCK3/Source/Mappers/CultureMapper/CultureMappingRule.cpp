@@ -10,25 +10,26 @@ mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 	registerKeyword("ck3", [this](std::istream& theStream) {
 		destinationCulture = commonItems::getString(theStream);
 	});
+	registerKeyword("imp", [this](std::istream& theStream) {
+		cultures.insert(commonItems::getString(theStream));
+	});
 	registerKeyword("religion", [this](std::istream& theStream) {
 		religions.insert(commonItems::getString(theStream));
 	});
 	registerKeyword("owner", [this](std::istream& theStream) {
 		owners.insert(commonItems::getString(theStream));
 	});
-	registerKeyword("ck3Province", [this](std::istream& theStream) {
-		const auto provinceStr = commonItems::getString(theStream);
-		try
-		{
-			ck3Provinces.insert(stoull(provinceStr));
-		}
-		catch (std::exception&)
-		{
-			Log(LogLevel::Warning) << "Invalid province ID in culture mapper: " << provinceStr;
-		}
+	registerKeyword("ck3Region", [this](std::istream& theStream) {
+		ck3Regions.insert(commonItems::getString(theStream));
 	});
-	registerKeyword("imp", [this](std::istream& theStream) {
-		cultures.insert(commonItems::getString(theStream));
+	registerKeyword("impRegion", [this](std::istream& theStream) {
+		imperatorRegions.insert(commonItems::getString(theStream));
+	});
+	registerKeyword("ck3Province", [this](std::istream& theStream) {
+		ck3Provinces.insert(commonItems::getULlong(theStream));
+	});
+	registerKeyword("impProvince", [this](std::istream& theStream) {
+		imperatorProvinces.insert(commonItems::getULlong(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
