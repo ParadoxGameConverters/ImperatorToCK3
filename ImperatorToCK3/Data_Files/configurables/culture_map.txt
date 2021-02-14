@@ -7,6 +7,7 @@
 #	ck3 = ck3Culture
 #	imp = impCulture
 #	owner = ck3Title (optional)
+#	religion = ck3Religion (optional)
 #	impProvince = impProvince (optional)
 #	ck3Province = ck3Province (optional)
 #	impRegion = impRegion (optional)

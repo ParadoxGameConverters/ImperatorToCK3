@@ -18,13 +18,15 @@ class CultureMappingRule: commonItems::parser
 	void insertCK3RegionMapper(const std::shared_ptr<CK3RegionMapper>& CK3RegionMapper) { ck3RegionMapper = CK3RegionMapper; }
 
 	[[nodiscard]] std::optional<std::string> cultureMatch(const std::string& impCulture,
-		 const std::string& CK3religion,
+		const std::string& CK3religion,
 		unsigned long long CK3Province,
-		 const std::string& CK3ownerTitle) const;
+		unsigned long long impProvinceID,
+		const std::string& CK3ownerTitle) const;
 
 	[[nodiscard]] std::optional<std::string> cultureNonReligiousMatch(const std::string& impCulture,
 		const std::string& CK3religion,
 		unsigned long long CK3Province,
+		unsigned long long impProvinceID,
 		const std::string& CK3ownerTitle) const;
 
 

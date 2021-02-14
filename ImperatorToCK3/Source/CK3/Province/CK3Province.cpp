@@ -69,7 +69,7 @@ void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
 	// do we even have a base culture?
 	if (!imperatorProvince->getCulture().empty())
 	{
-		auto cultureMatch = cultureMapper.cultureMatch(imperatorProvince->getCulture(), details.religion, ID, titleCountry.first);
+		auto cultureMatch = cultureMapper.cultureMatch(imperatorProvince->getCulture(), details.religion, ID, imperatorProvince->getID(), titleCountry.first);
 		if (cultureMatch)
 		{
 			details.culture = *cultureMatch;

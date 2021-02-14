@@ -31,11 +31,12 @@ void mappers::CultureMapper::registerKeys()
 std::optional<std::string> mappers::CultureMapper::cultureMatch(const std::string& impCulture,
 	 const std::string& ck3religion,
 	 const unsigned long long ck3Province,
+	 const unsigned long long impProvinceID,
 	 const std::string& ck3ownerTitle) const
 {
 	for (const auto& cultureMappingRule: cultureMapRules)
 	{
-		const auto& possibleMatch = cultureMappingRule.cultureMatch(impCulture, ck3religion, ck3Province, ck3ownerTitle);
+		const auto& possibleMatch = cultureMappingRule.cultureMatch(impCulture, ck3religion, ck3Province, impProvinceID, ck3ownerTitle);
 		if (possibleMatch)
 			return *possibleMatch;
 	}
@@ -45,11 +46,12 @@ std::optional<std::string> mappers::CultureMapper::cultureMatch(const std::strin
 std::optional<std::string> mappers::CultureMapper::cultureNonReligiousMatch(const std::string& impCulture,
 	const std::string& ck3religion,
 	const unsigned long long ck3Province,
+	const unsigned long long impProvinceID,
 	const std::string& ck3ownerTitle) const
 {
 	for (const auto& cultureMappingRule : cultureMapRules)
 	{
-		const auto& possibleMatch = cultureMappingRule.cultureNonReligiousMatch(impCulture, ck3religion, ck3Province, ck3ownerTitle);
+		const auto& possibleMatch = cultureMappingRule.cultureNonReligiousMatch(impCulture, ck3religion, ck3Province, impProvinceID, ck3ownerTitle);
 		if (possibleMatch)
 			return *possibleMatch;
 	}

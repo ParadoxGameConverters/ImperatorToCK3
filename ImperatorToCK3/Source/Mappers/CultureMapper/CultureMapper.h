@@ -15,13 +15,15 @@ class CultureMapper: commonItems::parser
 	explicit CultureMapper(std::istream& theStream);
 
 	[[nodiscard]] std::optional<std::string> cultureMatch(const std::string& impCulture,
-		 const std::string& ck3religion,
-		unsigned long long ck3Province,
-		 const std::string& ck3ownerTitle) const;
+		const std::string& ck3religion,
+		unsigned long long ck3ProvinceID,
+		unsigned long long impProvinceID,
+		const std::string& ck3ownerTitle) const;
 
 	[[nodiscard]] std::optional<std::string> cultureNonReligiousMatch(const std::string& impCulture,
 		const std::string& ck3religion,
-		unsigned long long ck3Province,
+		unsigned long long ck3ProvinceID,
+		unsigned long long impProvinceID,
 		const std::string& ck3ownerTitle) const;
 
   private:
