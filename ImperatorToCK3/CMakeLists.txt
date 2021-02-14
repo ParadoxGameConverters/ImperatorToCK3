@@ -15,6 +15,7 @@ add_compile_options("-pthread")
 add_link_options(-no-pie)
 
 include_directories("../commonItems")
+include_directories("../commonItems/compile-time-regular-expressions/single-header")
 include_directories("../ZipLib")
 include_directories("/usr/local/include/ImageMagick-7/")
 include_directories("../cpp-base64")
