@@ -53,7 +53,7 @@ void mappers::CK3RegionMapper::registerRegionKeys()
 		const auto newRegion = std::make_shared<CK3Region>(theStream);
 		regions[regionName] = newRegion;
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 

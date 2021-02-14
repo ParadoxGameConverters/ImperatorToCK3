@@ -54,5 +54,5 @@ void Imperator::Province::registerKeys()
 		const auto buildingsVector = commonItems::getInts(theStream);
 		buildingsCount = std::accumulate(buildingsVector.begin(), buildingsVector.end(), 0);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

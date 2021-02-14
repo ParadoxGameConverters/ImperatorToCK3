@@ -31,7 +31,7 @@ mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 	registerKeyword("impProvince", [this](std::istream& theStream) {
 		imperatorProvinces.insert(commonItems::getULlong(theStream));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 
 	parseStream(theStream);
 	clearRegisteredKeywords();

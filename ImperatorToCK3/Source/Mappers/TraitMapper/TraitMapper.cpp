@@ -29,7 +29,7 @@ void mappers::TraitMapper::registerKeys()
 			if (theMapping.ck3Trait) impToCK3TraitMap.insert(std::make_pair(imperatorTrait, *theMapping.ck3Trait));
 		}
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 std::optional<std::string> mappers::TraitMapper::getCK3TraitForImperatorTrait(const std::string& impTrait) const

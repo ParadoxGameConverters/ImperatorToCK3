@@ -16,8 +16,8 @@ void Imperator::AccessoryGenes::registerKeys()
 	registerKeyword("index", [this](std::istream& theStream) {
 		index = commonItems::getInt(theStream);
 	});
-	registerRegex(R"([a-zA-Z0-9_]+)", [this](const std::string& geneName, std::istream& theStream) {
+	registerMatcher(commonItems::stringMatch, [this](const std::string& geneName, std::istream& theStream) {
 		genes.emplace(geneName, AccessoryGene(theStream));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

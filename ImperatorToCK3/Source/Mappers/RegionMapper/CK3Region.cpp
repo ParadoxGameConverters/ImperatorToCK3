@@ -28,7 +28,7 @@ void mappers::CK3Region::registerKeys()
 		for (const auto& id : commonItems::getULlongs(theStream))
 			provinces.insert(id);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 bool mappers::CK3Region::regionContainsProvince(const unsigned long long province) const

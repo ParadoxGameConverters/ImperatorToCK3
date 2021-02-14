@@ -1,11 +1,11 @@
 #ifndef CK3_PROVINCE_DETAILS
 #define CK3_PROVINCE_DETAILS
 
-#include "Parser.h"
+#include "ConvenientParser.h"
 
 namespace CK3
 {
-class ProvinceDetails: commonItems::parser
+class ProvinceDetails: commonItems::convenientParser
 {
   public:
 	ProvinceDetails() = default;

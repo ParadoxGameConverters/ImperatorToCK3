@@ -31,7 +31,7 @@ void mappers::GovernmentMapper::registerKeys()
 			impToCK3GovernmentMap.emplace(imperatorGovernment, theMapping.ck3Government);
 		}
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 std::optional<std::string> mappers::GovernmentMapper::getCK3GovernmentForImperatorGovernment(const std::string& impGovernment) const

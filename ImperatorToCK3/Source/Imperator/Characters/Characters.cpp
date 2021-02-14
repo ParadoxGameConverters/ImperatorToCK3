@@ -17,11 +17,11 @@ Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr
 
 void Imperator::Characters::registerKeys()
 {
-	registerRegex("\\d+", [this](const std::string& charID, std::istream& theStream) {
+	registerMatcher(commonItems::integerMatch, [this](const std::string& charID, std::istream& theStream) {
 		std::shared_ptr<Character> newCharacter = characterFactory.getCharacter(theStream, charID, genes);
 		characters.emplace(newCharacter->getID(), newCharacter);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 void Imperator::Characters::linkFamilies(const Families& theFamilies)
@@ -144,5 +144,5 @@ void Imperator::CharactersBloc::registerKeys()
 	registerKeyword("character_database", [this](std::istream& theStream) {
 		characters = Characters(theStream, genes);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

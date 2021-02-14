@@ -17,5 +17,5 @@ void mappers::ProvinceMapping::registerKeys()
 	registerKeyword("imp", [this](std::istream& theStream) {
 		impProvinces.push_back(commonItems::getULlong(theStream));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

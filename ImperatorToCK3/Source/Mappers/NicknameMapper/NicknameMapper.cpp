@@ -29,7 +29,7 @@ void mappers::NicknameMapper::registerKeys()
 			if (theMapping.ck3Nickname) impToCK3NicknameMap.insert(std::make_pair(imperatorNickname, *theMapping.ck3Nickname));
 		}
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 std::optional<std::string> mappers::NicknameMapper::getCK3NicknameForImperatorNickname(const std::string& impNickname) const

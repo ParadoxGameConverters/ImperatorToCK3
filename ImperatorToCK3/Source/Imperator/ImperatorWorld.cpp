@@ -73,7 +73,7 @@ Imperator::World::World(const Configuration& theConfiguration)
 		LOG(LogLevel::Info) << ">> Loaded " << pops.getPops().size() << " pops.";
 	});
 
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 
 	LOG(LogLevel::Info) << "-> Verifying Imperator save.";
 	verifySave(theConfiguration.getSaveGamePath());

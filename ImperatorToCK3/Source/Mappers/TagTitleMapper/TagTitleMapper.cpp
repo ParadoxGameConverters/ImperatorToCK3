@@ -19,7 +19,7 @@ void mappers::TagTitleMapper::registerKeys()
 	registerKeyword("link", [this](std::istream& theStream) {
 		theMappings.emplace_back(TagTitleMapping(theStream));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 std::string mappers::TagTitleMapper::getCK3TitleRank(Imperator::countryRankEnum impRank, const std::string& localizedTitleName) const

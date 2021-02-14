@@ -58,23 +58,23 @@ void CK3::Title::registerKeys()
 		
 		addFoundTitle(newTitle, foundTitles);
 		newTitle->setDeJureLiege(shared_from_this());
-		});
+	});
 	registerKeyword("definite_form", [this](std::istream& theStream) {
 		definiteForm = commonItems::getString(theStream) == "yes";
-		});
+	});
 	registerKeyword("landless", [this](std::istream& theStream) {
 		landless = commonItems::getString(theStream) == "yes";
-		});
+	});
 	registerKeyword("color", [this](std::istream& theStream) {
 		color = laFabricaDeColor.getColor(theStream);
-		});
+	});
 	registerKeyword("capital", [this](std::istream& theStream) {
 		capital = std::make_pair(commonItems::getString(theStream), nullptr);
-		});
+	});
 	registerKeyword("province", [this](std::istream& theStream) {
 		province = commonItems::getULlong(theStream);
-		});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	});
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 

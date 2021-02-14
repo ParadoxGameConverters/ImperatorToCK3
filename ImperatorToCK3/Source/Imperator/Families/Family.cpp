@@ -37,5 +37,5 @@ void Imperator::Family::registerKeys()
 		const auto minorFamilyStr = commonItems::getString(theStream);
 		isMinor = minorFamilyStr == "yes";
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

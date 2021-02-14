@@ -21,7 +21,7 @@ void Imperator::Families::loadFamilies(std::istream& theStream)
 
 void Imperator::Families::registerKeys()
 {
-	registerRegex("\\d+", [this](const std::string& theFamilyID, std::istream& theStream) {
+	registerMatcher(commonItems::integerMatch, [this](const std::string& theFamilyID, std::istream& theStream) {
 		const auto familyStr = commonItems::stringOfItem(theStream).getString();
 		if (familyStr.find('{') != std::string::npos)
 		{
@@ -35,7 +35,7 @@ void Imperator::Families::registerKeys()
 			}
 		}
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 
@@ -52,5 +52,5 @@ void Imperator::FamiliesBloc::registerKeys()
 	registerKeyword("families", [this](std::istream& theStream) {
 		families.loadFamilies(theStream);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
