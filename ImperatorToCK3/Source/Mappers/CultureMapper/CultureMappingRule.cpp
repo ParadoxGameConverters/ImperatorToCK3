@@ -37,7 +37,7 @@ mappers::CultureMappingRule::CultureMappingRule(std::istream& theStream)
 	clearRegisteredKeywords();
 }
 
-std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::string& impCulture,
+std::optional<std::string> mappers::CultureMappingRule::match(const std::string& impCulture,
 	const std::string& CK3religion,
 	const unsigned long long ck3ProvinceID,
 	const unsigned long long impProvinceID,
@@ -106,7 +106,7 @@ std::optional<std::string> mappers::CultureMappingRule::cultureMatch(const std::
 	return destinationCulture;
 }
 
-std::optional<std::string> mappers::CultureMappingRule::cultureNonReligiousMatch(const std::string& impCulture,
+std::optional<std::string> mappers::CultureMappingRule::nonReligiousMatch(const std::string& impCulture,
 	const std::string& CK3religion,
 	const unsigned long long CK3Province,
 	const unsigned long long impProvinceID,
@@ -118,5 +118,5 @@ std::optional<std::string> mappers::CultureMappingRule::cultureNonReligiousMatch
 		return std::nullopt;
 
 	// Otherwise, as usual.
-	return cultureMatch(impCulture, CK3religion, CK3Province, impProvinceID, CK3ownerTitle);
+	return match(impCulture, CK3religion, CK3Province, impProvinceID, CK3ownerTitle);
 }

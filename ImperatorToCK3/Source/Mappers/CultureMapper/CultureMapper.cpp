@@ -28,7 +28,7 @@ void mappers::CultureMapper::registerKeys()
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
-std::optional<std::string> mappers::CultureMapper::cultureMatch(const std::string& impCulture,
+std::optional<std::string> mappers::CultureMapper::match(const std::string& impCulture,
 	 const std::string& ck3religion,
 	 const unsigned long long ck3ProvinceID,
 	 const unsigned long long impProvinceID,
@@ -36,14 +36,14 @@ std::optional<std::string> mappers::CultureMapper::cultureMatch(const std::strin
 {
 	for (const auto& cultureMappingRule: cultureMapRules)
 	{
-		const auto& possibleMatch = cultureMappingRule.cultureMatch(impCulture, ck3religion, ck3ProvinceID, impProvinceID, ck3ownerTitle);
+		const auto& possibleMatch = cultureMappingRule.match(impCulture, ck3religion, ck3ProvinceID, impProvinceID, ck3ownerTitle);
 		if (possibleMatch)
 			return *possibleMatch;
 	}
 	return std::nullopt;
 }
 
-std::optional<std::string> mappers::CultureMapper::cultureNonReligiousMatch(const std::string& impCulture,
+std::optional<std::string> mappers::CultureMapper::nonReligiousMatch(const std::string& impCulture,
 	const std::string& ck3religion,
 	const unsigned long long ck3ProvinceID,
 	const unsigned long long impProvinceID,
@@ -51,9 +51,24 @@ std::optional<std::string> mappers::CultureMapper::cultureNonReligiousMatch(cons
 {
 	for (const auto& cultureMappingRule : cultureMapRules)
 	{
-		const auto& possibleMatch = cultureMappingRule.cultureNonReligiousMatch(impCulture, ck3religion, ck3ProvinceID, impProvinceID, ck3ownerTitle);
+		const auto& possibleMatch = cultureMappingRule.nonReligiousMatch(impCulture, ck3religion, ck3ProvinceID, impProvinceID, ck3ownerTitle);
 		if (possibleMatch)
 			return *possibleMatch;
 	}
 	return std::nullopt;
+}
+
+void mappers::CultureMapper::loadRegionMappers(std::shared_ptr<ImperatorRegionMapper> impRegionMapper, std::shared_ptr<CK3RegionMapper> _ck3RegionMapper)
+{
+	const auto imperatorRegionMapper = std::move(impRegionMapper);
+	const auto ck3RegionMapper = std::move(_ck3RegionMapper);
+	if (!imperatorRegionMapper)
+		throw std::runtime_error("Culture Mapper: Imperator Region Mapper is unloaded!");
+	if (!ck3RegionMapper)
+		throw std::runtime_error("Culture Mapper: CK3 Region Mapper is unloaded!");
+	for (auto& mapping : cultureMapRules)
+	{
+		mapping.insertImperatorRegionMapper(imperatorRegionMapper);
+		mapping.insertCK3RegionMapper(ck3RegionMapper);
+	}
 }

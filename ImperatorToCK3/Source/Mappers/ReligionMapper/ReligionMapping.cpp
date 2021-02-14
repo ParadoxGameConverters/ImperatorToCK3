@@ -31,7 +31,7 @@ mappers::ReligionMapping::ReligionMapping(std::istream& theStream)
 	clearRegisteredKeywords();
 }
 
-std::optional<std::string> mappers::ReligionMapping::religionMatch(const std::string& impReligion,
+std::optional<std::string> mappers::ReligionMapping::match(const std::string& impReligion,
                                                                    const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const
 {
 	// We need at least a viable Imperator religion

@@ -46,7 +46,7 @@ void CK3::Character::initializeFromImperator(
 		religion = *match;
 
 	
-	match = cultureMapper.cultureMatch(imperatorCharacter->getCulture(), religion, ck3Province, imperatorCharacter->getProvince(), "");
+	match = cultureMapper.match(imperatorCharacter->getCulture(), religion, ck3Province, imperatorCharacter->getProvince(), "");
 	if (match)
 		culture = *match;
 

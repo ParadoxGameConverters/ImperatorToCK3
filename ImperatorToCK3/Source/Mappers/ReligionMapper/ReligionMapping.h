@@ -16,7 +16,7 @@ class ReligionMapping: commonItems::parser
 	void insertImperatorRegionMapper(const std::shared_ptr<ImperatorRegionMapper>& impRegionMapper) { imperatorRegionMapper = impRegionMapper; }
 	void insertCK3RegionMapper(const std::shared_ptr<CK3RegionMapper>& CK3RegionMapper) { ck3RegionMapper = CK3RegionMapper; }
 
-	[[nodiscard]] std::optional<std::string> religionMatch(const std::string& impReligion, unsigned long long ck3ProvinceID, unsigned long long impProvinceID) const; // ID 0 means no province
+	[[nodiscard]] std::optional<std::string> match(const std::string& impReligion, unsigned long long ck3ProvinceID, unsigned long long impProvinceID) const; // ID 0 means no province
 
   private:
 	std::set<std::string> impReligions;

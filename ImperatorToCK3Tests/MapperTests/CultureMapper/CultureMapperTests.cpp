@@ -8,7 +8,7 @@ TEST(Mappers_CultureMapperTests, nonMatchGivesEmptyOptional)
 	input << "link = { ck3 = culture imp = culture }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("nonMatchingCulture", "", 56, 49, "e_title"));
+	ASSERT_FALSE(culMapper.match("nonMatchingCulture", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, simpleCultureMatches)
@@ -17,7 +17,7 @@ TEST(Mappers_CultureMapperTests, simpleCultureMatches)
 	input << "link = { ck3 = culture imp = test }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 56, 49, "e_title"));
+	ASSERT_EQ("culture", *culMapper.match("test", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, simpleCultureCorrectlyMatches)
@@ -26,7 +26,7 @@ TEST(Mappers_CultureMapperTests, simpleCultureCorrectlyMatches)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "", 56, 49, "e_title"));
+	ASSERT_EQ("culture", *culMapper.match("test", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureMatchesWithReligion)
@@ -35,7 +35,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithReligion)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "thereligion", 56, 49, "e_title"));
+	ASSERT_EQ("culture", *culMapper.match("test", "thereligion", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongReligion)
@@ -44,7 +44,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongReligion)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("test", "unreligion", 56, 49, "e_title"));
+	ASSERT_FALSE(culMapper.match("test", "unreligion", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithNoReligion)
@@ -53,7 +53,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithNoReligion)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("test", "", 56, 49, "e_title"));
+	ASSERT_FALSE(culMapper.match("test", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureMatchesWithCapital)
@@ -62,7 +62,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithCapital)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "thereligion", 4, 49, "e_title"));
+	ASSERT_EQ("culture", *culMapper.match("test", "thereligion", 4, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongCapital)
@@ -71,7 +71,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongCapital)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("test", "thereligion", 3, 49, "e_title"));
+	ASSERT_FALSE(culMapper.match("test", "thereligion", 3, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTitle)
@@ -80,7 +80,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithOwnerTitle)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureMatch("test", "thereligion", 4, 49, "e_roman_empire"));
+	ASSERT_EQ("culture", *culMapper.match("test", "thereligion", 4, 49, "e_roman_empire"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongOwnerTitle)
@@ -89,7 +89,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongOwnerTitle)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("test", "thereligion", 4, 49, "e_reman_empire"));
+	ASSERT_FALSE(culMapper.match("test", "thereligion", 4, 49, "e_reman_empire"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitle)
@@ -98,7 +98,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitle)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_TRUE(culMapper.cultureMatch("test", "thereligion", 4, 49, ""));
+	ASSERT_TRUE(culMapper.match("test", "thereligion", 4, 49, ""));
 }
 
 TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitleInRule)
@@ -107,7 +107,7 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithNoOwnerTitleInRule)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4}";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_TRUE(culMapper.cultureMatch("test", "thereligion", 4, 49, "e_roman_empire"));
+	ASSERT_TRUE(culMapper.match("test", "thereligion", 4, 49, "e_roman_empire"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithOwnerTitleInRule)
@@ -116,7 +116,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithOwnerTitleInRule)
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureMatch("test", "thereligion", 4, 49, ""));
+	ASSERT_FALSE(culMapper.match("test", "thereligion", 4, 49, ""));
 }
 
 
@@ -126,7 +126,7 @@ TEST(Mappers_CultureMapperTests, nonMatchGivesEmptyOptionalWithNonReligiousMatch
 	input << "link = { ck3 = culture imp = culture }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("nonMatchingCulture", "", 56, 49, "e_title"));
+	ASSERT_FALSE(culMapper.nonReligiousMatch("nonMatchingCulture", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, simpleCultureMatchesWithNonReligiousMatch)
@@ -135,7 +135,7 @@ TEST(Mappers_CultureMapperTests, simpleCultureMatchesWithNonReligiousMatch)
 	input << "link = { ck3 = culture imp = test }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureNonReligiousMatch("test", "", 56, 49, "e_title"));
+	ASSERT_EQ("culture", *culMapper.nonReligiousMatch("test", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, simpleCultureCorrectlyMatchesWithNonReligiousMatch)
@@ -144,7 +144,7 @@ TEST(Mappers_CultureMapperTests, simpleCultureCorrectlyMatchesWithNonReligiousMa
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureNonReligiousMatch("test", "", 56, 49, "e_title"));
+	ASSERT_EQ("culture", *culMapper.nonReligiousMatch("test", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithCorrectReligionWithNonReligiousMatch)
@@ -153,7 +153,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithCorrectReligionWithNonReligious
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("test", "thereligion", 56, 49, "e_title"));
+	ASSERT_FALSE(culMapper.nonReligiousMatch("test", "thereligion", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithWrongReligionWithNonReligiousMatch)
@@ -162,7 +162,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithWrongReligionWithNonReligiousMa
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("test", "unreligion", 56, 49, "e_title"));
+	ASSERT_FALSE(culMapper.nonReligiousMatch("test", "unreligion", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureFailsWithNoReligionWithNonReligiousMatch)
@@ -171,7 +171,7 @@ TEST(Mappers_CultureMapperTests, cultureFailsWithNoReligionWithNonReligiousMatch
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_FALSE(culMapper.cultureNonReligiousMatch("test", "", 56, 49, "e_title"));
+	ASSERT_FALSE(culMapper.nonReligiousMatch("test", "", 56, 49, "e_title"));
 }
 
 TEST(Mappers_CultureMapperTests, cultureMatchesWithReligionAndNonReligiousLinkWithNonReligiousMatch)
@@ -180,5 +180,5 @@ TEST(Mappers_CultureMapperTests, cultureMatchesWithReligionAndNonReligiousLinkWi
 	input << "link = { ck3 = culture imp = qwe imp = test imp = poi }";
 	const mappers::CultureMapper culMapper(input);
 
-	ASSERT_EQ("culture", *culMapper.cultureNonReligiousMatch("test", "thereligion", 56, 49, "e_title"));
+	ASSERT_EQ("culture", *culMapper.nonReligiousMatch("test", "thereligion", 56, 49, "e_title"));
 }
