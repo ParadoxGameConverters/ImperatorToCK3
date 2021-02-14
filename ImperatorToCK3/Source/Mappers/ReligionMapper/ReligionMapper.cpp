@@ -46,7 +46,7 @@ std::optional<std::string> mappers::ReligionMapper::match(const std::string& imp
 {
 	for (const auto& religionMapping : religionMappings)
 	{
-		const auto& possibleMatch = religionMapping.religionMatch(impReligion, ck3ProvinceID, impProvinceID);
+		const auto& possibleMatch = religionMapping.match(impReligion, ck3ProvinceID, impProvinceID);
 		if (possibleMatch)
 			return *possibleMatch;
 	}

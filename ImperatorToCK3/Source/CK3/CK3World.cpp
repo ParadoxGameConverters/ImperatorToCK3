@@ -29,6 +29,7 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	imperatorRegionMapper = std::make_shared<mappers::ImperatorRegionMapper>(theConfiguration.getImperatorPath());
 	// Use the region mappers in other mappers
 	religionMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+	cultureMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 	
 	// Load vanilla titles history
 	titlesHistory = TitlesHistory(theConfiguration);

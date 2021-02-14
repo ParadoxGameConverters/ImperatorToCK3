@@ -1,4 +1,6 @@
-#include "../../ImperatorToCK3/Source/Mappers/CultureMapper/CultureMappingRule.h"
+#include "Mappers/CultureMapper/CultureMappingRule.h"
+#include "Mappers/RegionMapper/CK3RegionMapper.h"
+#include "Mappers/RegionMapper/ImperatorRegionMapper.h"
 #include "gtest/gtest.h"
 #include <sstream>
 
@@ -18,7 +20,7 @@ TEST(Mappers_CultureMappingTests, ck3CultureCanBeSet)
 
 	const mappers::CultureMappingRule theMapping(input);
 
-	ASSERT_EQ(theMapping.getCK3Culture(), "ck3Culture");
+	ASSERT_EQ("ck3Culture", theMapping.getCK3Culture());
 }
 
 TEST(Mappers_CultureMappingTests, impCulturesDefaultToEmpty)
@@ -37,9 +39,9 @@ TEST(Mappers_CultureMappingTests, impCulturesCanBeSet)
 
 	const mappers::CultureMappingRule theMapping(input);
 
-	ASSERT_EQ(theMapping.getImperatorCultures().size(), 2);
-	ASSERT_EQ(*theMapping.getImperatorCultures().find("culture1"), "culture1");
-	ASSERT_EQ(*theMapping.getImperatorCultures().find("culture2"), "culture2");
+	ASSERT_EQ(2, theMapping.getImperatorCultures().size());
+	ASSERT_EQ("culture1", *theMapping.getImperatorCultures().find("culture1"));
+	ASSERT_EQ("culture2" , *theMapping.getImperatorCultures().find("culture2"));
 }
 
 TEST(Mappers_CultureMappingTests, ReligionsDefaultToEmpty)
@@ -59,8 +61,8 @@ TEST(Mappers_CultureMappingTests, ReligionsCanBeSet)
 	const mappers::CultureMappingRule theMapping(input);
 
 	ASSERT_EQ(theMapping.getReligions().size(), 2);
-	ASSERT_EQ(*theMapping.getReligions().find("religion1"), "religion1");
-	ASSERT_EQ(*theMapping.getReligions().find("religion2"), "religion2");
+	ASSERT_EQ("religion1", *theMapping.getReligions().find("religion1"));
+	ASSERT_EQ("religion2", *theMapping.getReligions().find("religion2"));
 }
 
 
@@ -106,11 +108,95 @@ TEST(Mappers_CultureMappingTests, ProvincesDefaultToEmpty)
 TEST(Mappers_CultureMappingTests, ProvincesCanBeSet)
 {
 	std::stringstream input;
-	input << "province = 3 province = 4";
+	input << "ck3Province = 3 ck3Province = 4";
 
 	const mappers::CultureMappingRule theMapping(input);
 
 	ASSERT_EQ(2, theMapping.getProvinces().size());
 	ASSERT_EQ(3, *theMapping.getProvinces().find(3));
 	ASSERT_EQ(4, *theMapping.getProvinces().find(4));
+}
+
+
+TEST(Mappers_CultureMappingTests, matchOnRegion)
+{
+	auto theMapper = std::make_shared<mappers::CK3RegionMapper>();
+	CK3::LandedTitles landedTitles;
+	std::stringstream landedTitlesStream;
+	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_newbarony2 = { province = 4 } } } } \n";
+	landedTitles.loadTitles(landedTitlesStream);
+	std::stringstream regionStream;
+	regionStream << "test_region1 = { duchies = { d_hujhu } }\n";
+	std::stringstream islandRegionStream;
+	theMapper->loadRegions(landedTitles, regionStream, islandRegionStream);
+
+	std::stringstream input;
+	input << "ck3 = dutch imp = german ck3Region = test_region1";
+	mappers::CultureMappingRule theMapping(input);
+	theMapping.insertCK3RegionMapper(theMapper);
+	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
+
+	ASSERT_EQ("dutch", *theMapping.match("german", "", 4, 0, ""));
+}
+
+TEST(Mappers_CultureMappingTests, matchOnRegionFailsForWrongRegion)
+{
+	auto theMapper = std::make_shared<mappers::CK3RegionMapper>();
+	CK3::LandedTitles landedTitles;
+	std::stringstream landedTitlesStream;
+	landedTitlesStream << "k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } } } } \n";
+	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } } } } \n";
+	landedTitles.loadTitles(landedTitlesStream);
+	std::stringstream regionStream;
+	regionStream << "test_region = { duchies = { d_wakaba } }";
+	regionStream << "test_region2 = { duchies = { d_hujhu } }\n";
+	std::stringstream islandRegionStream;
+	theMapper->loadRegions(landedTitles, regionStream, islandRegionStream);
+
+	std::stringstream input;
+	input << "ck3 = dutch imp = german ck3Region = test_region2";
+	mappers::CultureMappingRule theMapping(input);
+	theMapping.insertCK3RegionMapper(theMapper);
+	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
+
+	ASSERT_FALSE(theMapping.match("german", "", 79, 0, ""));
+}
+
+TEST(Mappers_CultureMappingTests, matchOnRegionFailsForNoRegion)
+{
+	auto ck3Mapper = std::make_shared<mappers::CK3RegionMapper>();
+	CK3::LandedTitles landedTitles;
+	std::stringstream landedTitlesStream;
+	landedTitles.loadTitles(landedTitlesStream);
+	std::stringstream regionStream;
+	std::stringstream islandRegionStream;
+	ck3Mapper->loadRegions(landedTitles, regionStream, islandRegionStream);
+
+	std::stringstream input;
+	input << "ck3 = dutch imp = german ck3Region = test_region3";
+	mappers::CultureMappingRule theMapping(input);
+	theMapping.insertCK3RegionMapper(ck3Mapper);
+	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
+
+	ASSERT_FALSE(theMapping.match("german", "", 17, 0, ""));
+}
+
+TEST(Mappers_CultureMappingTests, matchOnRegionFailsForNoProvince)
+{
+	auto theMapper = std::make_shared<mappers::CK3RegionMapper>();
+	CK3::LandedTitles landedTitles;
+	std::stringstream landedTitlesStream;
+	landedTitlesStream << "k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n";
+	landedTitles.loadTitles(landedTitlesStream);
+	std::stringstream regionStream;
+	std::stringstream islandRegionStream;
+	theMapper->loadRegions(landedTitles, regionStream, islandRegionStream);
+
+	std::stringstream input;
+	input << "ck3 = dutch imp = german ck3Region = d_hujhu";
+	mappers::CultureMappingRule theMapping(input);
+	theMapping.insertCK3RegionMapper(theMapper);
+	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
+
+	ASSERT_FALSE(theMapping.match("german", "", 0, 0, ""));
 }

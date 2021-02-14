@@ -12,7 +12,7 @@ TEST(Mappers_ReligionMappingTests, regularMatchOnSimpleReligion)
 	input << "ck3 = flemish imp = dutch";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_EQ("flemish", *theMapping.religionMatch("dutch", 0, 0));
+	ASSERT_EQ("flemish", *theMapping.match("dutch", 0, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnProvince)
@@ -21,7 +21,7 @@ TEST(Mappers_ReligionMappingTests, matchOnProvince)
 	input << "ck3 = dutch imp = german ck3Province = 17";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_EQ("dutch", *theMapping.religionMatch("german", 17, 0));
+	ASSERT_EQ("dutch", *theMapping.match("german", 17, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForWrongProvince)
@@ -30,7 +30,7 @@ TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForWrongProvince)
 	input << "ck3 = dutch imp = german ck3Province = 17";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 19, 0));
+	ASSERT_FALSE(theMapping.match("german", 19, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForNoProvince)
@@ -39,7 +39,7 @@ TEST(Mappers_ReligionMappingTests, matchOnProvinceFailsForNoProvince)
 	input << "ck3 = dutch imp = german ck3Province = 17";
 	const mappers::ReligionMapping theMapping(input);
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 0, 0));
+	ASSERT_FALSE(theMapping.match("german", 0, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegion)
@@ -60,7 +60,7 @@ TEST(Mappers_ReligionMappingTests, matchOnRegion)
 	theMapping.insertCK3RegionMapper(theMapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_EQ("dutch", *theMapping.religionMatch("german", 4, 0));
+	ASSERT_EQ("dutch", *theMapping.match("german", 4, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForWrongRegion)
@@ -83,7 +83,7 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForWrongRegion)
 	theMapping.insertCK3RegionMapper(theMapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 79, 0));
+	ASSERT_FALSE(theMapping.match("german", 79, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoRegion)
@@ -102,7 +102,7 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoRegion)
 	theMapping.insertCK3RegionMapper(ck3Mapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 17, 0));
+	ASSERT_FALSE(theMapping.match("german", 17, 0));
 }
 
 TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoProvince)
@@ -122,5 +122,5 @@ TEST(Mappers_ReligionMappingTests, matchOnRegionFailsForNoProvince)
 	theMapping.insertCK3RegionMapper(theMapper);
 	theMapping.insertImperatorRegionMapper(std::make_shared<mappers::ImperatorRegionMapper>());
 
-	ASSERT_FALSE(theMapping.religionMatch("german", 0, 0));
+	ASSERT_FALSE(theMapping.match("german", 0, 0));
 }

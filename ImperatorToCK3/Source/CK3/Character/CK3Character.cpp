@@ -29,19 +29,26 @@ void CK3::Character::initializeFromImperator(
 	unsigned long long ck3Province; // for religion mapper
 	// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
 	auto impProvForProvinceMapper = imperatorCharacter->getProvince();
-	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && imperatorCharacter->getFather().second) impProvForProvinceMapper = imperatorCharacter->getFather().second->getProvince();
-	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && imperatorCharacter->getMother().second) impProvForProvinceMapper = imperatorCharacter->getMother().second->getProvince();
-	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && !imperatorCharacter->getSpouses().empty()) impProvForProvinceMapper = imperatorCharacter->getSpouses().begin()->second->getProvince();
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && imperatorCharacter->getFather().second)
+		impProvForProvinceMapper = imperatorCharacter->getFather().second->getProvince();
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && imperatorCharacter->getMother().second)
+		impProvForProvinceMapper = imperatorCharacter->getMother().second->getProvince();
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && !imperatorCharacter->getSpouses().empty())
+		impProvForProvinceMapper = imperatorCharacter->getSpouses().begin()->second->getProvince();
 
-	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty()) ck3Province = 0;
-	else ck3Province = provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper)[0];
+	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty())
+		ck3Province = 0;
+	else
+		ck3Province = provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper)[0];
 	
 	auto match = religionMapper.match(imperatorCharacter->getReligion(), ck3Province, imperatorCharacter->getProvince());
-	if (match) religion = *match;
+	if (match)
+		religion = *match;
 
 	
-	match = cultureMapper.cultureMatch(imperatorCharacter->getCulture(), religion, imperatorCharacter->getProvince(), "");
-	if (match) culture = *match;
+	match = cultureMapper.match(imperatorCharacter->getCulture(), religion, ck3Province, imperatorCharacter->getProvince(), "");
+	if (match)
+		culture = *match;
 
 	if (!name.empty())
 	{
@@ -50,7 +57,7 @@ void CK3::Character::initializeFromImperator(
 		{
 			localizations.insert(std::pair(name, *impNameLoc));
 		}
-		else // use unlocalized name as displayed name as fallback
+		else // fallback: use unlocalized name as displayed name
 		{
 			localizations.insert(std::pair(name, mappers::LocBlock{ name,name,name,name,name }));
 		}
