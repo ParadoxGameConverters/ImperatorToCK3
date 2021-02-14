@@ -426,6 +426,9 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\commonItems\ConvenientParser.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
