@@ -1,10 +1,10 @@
 #ifndef IMPERATOR_COUNTRY_CURRENCIES_H
 #define IMPERATOR_COUNTRY_CURRENCIES_H
-#include "Parser.h"
+#include "ConvenientParser.h"
 
 namespace Imperator
 {
-class CountryCurrencies : commonItems::parser
+class CountryCurrencies : commonItems::convenientParser
 {
   public:
 	CountryCurrencies() = default;
@@ -22,14 +22,14 @@ class CountryCurrencies : commonItems::parser
   private:
 	void registerKeys();
 
-	int manpower = 0;
-	int gold = 0;
-	int stability = 50;
-	int tyranny = 0;
-	int war_exhaustion = 0;
-	int aggressive_expansion = 0;
-	int political_influence = 0;
-	int military_experience = 0;
+	double manpower = 0;
+	double gold = 0;
+	double stability = 50;
+	double tyranny = 0;
+	double war_exhaustion = 0;
+	double aggressive_expansion = 0;
+	double political_influence = 0;
+	double military_experience = 0;
 };
 } // namespace Imperator
 
