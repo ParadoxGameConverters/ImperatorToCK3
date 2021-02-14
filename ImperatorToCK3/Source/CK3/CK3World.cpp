@@ -283,6 +283,9 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 
 void CK3::World::removeInvalidLandlessTitles()
 {
+	std::set<std::string> removedGeneratedTitles;
+	std::set<std::string> revokedVanillaTitles;
+
 	for (const auto& [name, title] : getTitles())
 	{	//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
@@ -290,13 +293,40 @@ void CK3::World::removeInvalidLandlessTitles()
 		{
 			if (!getTitles().find(name)->second->landless) // does not have landless attribute set to true
 			{
-				Log(LogLevel::Info) << "Found landless title that can't be landless: " << name;
 				if (title->generated)
+				{
 					landedTitles.eraseTitle(name);
+					removedGeneratedTitles.emplace(name);
+				}
 				else
+				{
 					title->holder = "0";
+					revokedVanillaTitles.emplace(name);
+				}
 			}
 		}
+	}
+	if (!removedGeneratedTitles.empty())
+	{
+		std::string msg = "Found landless generated titles that can't be landless: ";
+		for (const auto& name : removedGeneratedTitles)
+		{
+			msg += name;
+			msg += ", ";
+		}
+		msg.erase(msg.length() - 2); // remove last ", "
+		Log(LogLevel::Info) << msg;
+	}
+	if (!revokedVanillaTitles.empty())
+	{
+		std::string msg = "Found landless vanilla titles that can't be landless: ";
+		for (const auto& name : revokedVanillaTitles)
+		{
+			msg += name;
+			msg += ", ";
+		}
+		msg.erase(msg.length() - 2); // remove last ", "
+		Log(LogLevel::Info) << msg;
 	}
 }
 
