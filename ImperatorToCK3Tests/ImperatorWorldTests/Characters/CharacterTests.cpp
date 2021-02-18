@@ -2,6 +2,7 @@
 #include "../ImperatorToCK3/Source/Imperator/Characters/Character.h"
 #include "../ImperatorToCK3/Source/Imperator/Characters/CharacterFactory.h"
 #include "../ImperatorToCK3/Source/Imperator/Families/Family.h"
+#include "../ImperatorToCK3/Source/Imperator/Families/FamilyFactory.h"
 #include "../commonItems/Date.h"
 #include <sstream>
 
@@ -440,7 +441,7 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 	characterInput << "\tfamily=42";
 	characterInput << "}";
 
-	const Imperator::Family theFamily(familyInput, 42);
+	const auto theFamily = *Imperator::Family::Factory{}.getFamily(familyInput, 42);
 
 	Imperator::Character theCharacter = *Imperator::Character::Factory{}.getCharacter(characterInput, "69", genesDB);
 

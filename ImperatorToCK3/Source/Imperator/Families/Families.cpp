@@ -1,5 +1,4 @@
 #include "Families.h"
-#include "Family.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
@@ -23,16 +22,14 @@ void Imperator::Families::registerKeys()
 {
 	registerMatcher(commonItems::integerMatch, [this](const std::string& theFamilyID, std::istream& theStream) {
 		const auto familyStr = commonItems::stringOfItem(theStream).getString();
-		if (familyStr.find('{') != std::string::npos)
-		{
+		if (familyStr.find('{') != std::string::npos) {
 			std::stringstream tempStream(familyStr);
-			if (families.contains(std::stoull(theFamilyID))) {
-				families[std::stoull(theFamilyID)]->updateFamily(tempStream);
+			const auto ID = commonItems::stringToInteger<unsigned long long>(theFamilyID);
+			if (families.contains(ID)) {
+				Log(LogLevel::Debug) << "Redefinition of family " << theFamilyID;
 			}
-			else {
-				auto newFamily = std::make_shared<Family>(tempStream, std::stoull(theFamilyID));
-				families.insert(std::pair(newFamily->getID(), newFamily));
-			}
+			std::shared_ptr<Family> newFamily = familyFactory.getFamily(tempStream, ID);
+			families.emplace(newFamily->getID(), newFamily);
 		}
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
