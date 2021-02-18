@@ -19,10 +19,10 @@ void Imperator::AccessoryGene::registerKeys()
 	registerKeyword("inheritable", [this](std::istream& theStream) {
 		if (commonItems::getString(theStream) == "yes") inheritable = true;
 	});
-	registerRegex(R"([a-zA-Z0-9_]+)", [this](const std::string& geneTemplateName, std::istream& theStream) {
+	registerMatcher(commonItems::stringMatch, [this](const std::string& geneTemplateName, std::istream& theStream) {
 		geneTemplates.insert({ geneTemplateName, AccessoryGeneTemplate(theStream) });
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 const std::pair<const std::string, Imperator::AccessoryGeneTemplate>& Imperator::AccessoryGene::getGeneTemplateByIndex(const unsigned int indexInDna)

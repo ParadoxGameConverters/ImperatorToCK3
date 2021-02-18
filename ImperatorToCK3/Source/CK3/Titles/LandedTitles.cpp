@@ -31,8 +31,8 @@ void CK3::LandedTitles::registerKeys()
 		newTitle->loadTitles(theStream);
 
 		Title::addFoundTitle(newTitle, foundTitles);
-		});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	});
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 

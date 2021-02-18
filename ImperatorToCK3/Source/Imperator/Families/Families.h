@@ -1,6 +1,10 @@
 #ifndef IMPERATOR_FAMILIES_H
 #define IMPERATOR_FAMILIES_H
+
+
 #include "Parser.h"
+#include "FamilyFactory.h"
+
 
 namespace Imperator
 {
@@ -11,13 +15,18 @@ namespace Imperator
 		void loadFamilies(const std::string& thePath);
 		void loadFamilies(std::istream& theStream);
 
+		auto& operator= (const Families& obj) { this->families = obj.families; return *this; }
+
 		[[nodiscard]] const auto& getFamilies() const { return families; }
 
 	private:
 		void registerKeys();
 
+		Family::Factory familyFactory;
+
 		std::map<unsigned long long, std::shared_ptr<Family>> families;
 	};
+
 
 	class FamiliesBloc : commonItems::parser
 	{

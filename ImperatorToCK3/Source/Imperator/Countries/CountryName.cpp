@@ -15,5 +15,5 @@ void Imperator::CountryName::registerKeys()
 	registerKeyword("name", [this](std::istream& theStream) {
 		name = commonItems::getString(theStream);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

@@ -1,15 +1,17 @@
 #ifndef IMPERATOR_FAMILY_H
 #define IMPERATOR_FAMILY_H
-#include "Parser.h"
+
+
+#include <string>
+
 
 namespace Imperator
 {
-class Family: commonItems::parser
+class Family
 {
   public:
-	Family(std::istream& theStream, unsigned long long theFamilyID);
-
-	void updateFamily(std::istream& theStream);
+	class Factory;
+	Family() = default;
 
 	[[nodiscard]] const auto& getCulture() const { return culture; }
 	[[nodiscard]] const auto& getPrestige() const { return prestige; }
@@ -17,12 +19,10 @@ class Family: commonItems::parser
 	[[nodiscard]] const auto& getKey() const { return key; }
 	[[nodiscard]] const auto& getIsMinor() const { return isMinor; }
 
-	[[nodiscard]] auto getID() const { return familyID; }
+	[[nodiscard]] auto getID() const { return ID; }
 
   private:
-	void registerKeys();
-
-	unsigned long long familyID = 0;
+	unsigned long long ID = 0;
 	std::string culture;
 	double prestige = 0;
 	double prestigeRatio = 0;

@@ -67,7 +67,7 @@ void Configuration::registerKeys()
 		else if (valStr == "false") convertBirthAndDeathDates = false;
 		Log(LogLevel::Info) << "Conversion of characters' birth and death dates set to: " << convertBirthAndDeathDates;
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 

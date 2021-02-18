@@ -12,9 +12,9 @@ CK3::Provinces::Provinces(const std::string& filePath)
 
 void CK3::Provinces::registerKeys()
 {
-	registerRegex(R"(\d+)", [this](const std::string& provID, std::istream& theStream) {
+	registerMatcher(commonItems::integerMatch, [this](const std::string& provID, std::istream& theStream) {
 		auto newProvince = std::make_shared<Province>(std::stoull(provID), theStream);
 		provinces.insert(std::pair(std::stoull(provID), newProvince));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

@@ -35,14 +35,8 @@ CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
 
 void CK3::ProvinceDetails::registerKeys()
 {
-	registerKeyword("culture", [this](std::istream& theStream) {
-		culture = commonItems::getString(theStream);
-	});
-	registerKeyword("religion", [this](std::istream& theStream) {
-		religion = commonItems::getString(theStream);
-	});
-	registerKeyword("holding", [this](std::istream& theStream) {
-		holding = commonItems::getString(theStream);
-	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerSetter("culture", culture);
+	registerSetter("religion", religion);
+	registerSetter("holding", holding);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

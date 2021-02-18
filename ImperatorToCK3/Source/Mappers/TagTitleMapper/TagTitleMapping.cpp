@@ -28,5 +28,5 @@ void mappers::TagTitleMapping::registerKeys()
 	registerKeyword("rank", [this](std::istream& theStream) {
 		ranks.emplace(commonItems::getString(theStream));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

@@ -1,5 +1,4 @@
 #include "Families.h"
-#include "Family.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
@@ -21,21 +20,21 @@ void Imperator::Families::loadFamilies(std::istream& theStream)
 
 void Imperator::Families::registerKeys()
 {
-	registerRegex("\\d+", [this](const std::string& theFamilyID, std::istream& theStream) {
+	registerMatcher(commonItems::integerMatch, [this](const std::string& theFamilyID, std::istream& theStream) {
 		const auto familyStr = commonItems::stringOfItem(theStream).getString();
-		if (familyStr.find('{') != std::string::npos)
-		{
+		if (familyStr.find('{') != std::string::npos) {
 			std::stringstream tempStream(familyStr);
-			if (families.contains(std::stoull(theFamilyID))) {
-				families[std::stoull(theFamilyID)]->updateFamily(tempStream);
-			}
-			else {
-				auto newFamily = std::make_shared<Family>(tempStream, std::stoull(theFamilyID));
-				families.insert(std::pair(newFamily->getID(), newFamily));
+			const auto ID = commonItems::stringToInteger<unsigned long long>(theFamilyID);
+			std::shared_ptr<Family> newFamily = familyFactory.getFamily(tempStream, ID);
+			auto [iterator, inserted] = families.emplace(newFamily->getID(), newFamily);
+			if (!inserted)
+			{
+				Log(LogLevel::Debug) << "Redefinition of family " << theFamilyID;
+				iterator->second = newFamily;
 			}
 		}
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 
@@ -52,5 +51,5 @@ void Imperator::FamiliesBloc::registerKeys()
 	registerKeyword("families", [this](std::istream& theStream) {
 		families.loadFamilies(theStream);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

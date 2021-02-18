@@ -15,7 +15,7 @@ void Imperator::Pops::loadPops(std::istream& theStream)
 
 void Imperator::Pops::registerKeys()
 {
-	registerRegex("\\d+", [this](const std::string& thePopID, std::istream& theStream) {
+	registerMatcher(commonItems::integerMatch, [this](const std::string& thePopID, std::istream& theStream) {
 		const auto popStr = commonItems::stringOfItem(theStream).getString();
 		if (popStr.find('{') != std::string::npos)
 		{
@@ -24,7 +24,7 @@ void Imperator::Pops::registerKeys()
 			pops.insert(std::pair(pop->ID, std::move(pop)));
 		}
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 
@@ -41,5 +41,5 @@ void Imperator::PopsBloc::registerKeys()
 	registerKeyword("population", [this](std::istream& theStream) {
 		pops.loadPops(theStream);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

@@ -77,8 +77,7 @@ void Imperator::Country::registerKeys()
 	registerKeyword("monarch", [this](std::istream& theStream) {
 		monarch = commonItems::getULlong(theStream);
 	});
-
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 

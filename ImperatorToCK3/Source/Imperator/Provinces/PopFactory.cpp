@@ -16,7 +16,7 @@ Imperator::Pop::Factory::Factory()
 	registerKeyword("religion", [this](std::istream& theStream) {
 		pop->religion = commonItems::getString(theStream);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 

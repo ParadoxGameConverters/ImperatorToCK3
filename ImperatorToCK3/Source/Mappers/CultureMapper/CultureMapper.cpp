@@ -25,7 +25,7 @@ void mappers::CultureMapper::registerKeys()
 		const CultureMappingRule rule(theStream);
 		cultureMapRules.push_back(rule);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 std::optional<std::string> mappers::CultureMapper::match(const std::string& impCulture,

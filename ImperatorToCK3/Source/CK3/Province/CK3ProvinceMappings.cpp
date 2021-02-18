@@ -12,9 +12,9 @@ CK3::ProvinceMappings::ProvinceMappings(const std::string& theFile)
 
 void CK3::ProvinceMappings::registerKeys()
 {
-	registerRegex(R"(\d+)", [this](const std::string& provID, std::istream& theStream) {
+	registerMatcher(commonItems::integerMatch, [this](const std::string& provID, std::istream& theStream) {
 		auto baseProvID = commonItems::getULlong(theStream);
 		if (stoull(provID) != baseProvID) mappings.insert(std::pair(std::stoull(provID), baseProvID)); // if left and right IDs are equal, no point in mapping
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

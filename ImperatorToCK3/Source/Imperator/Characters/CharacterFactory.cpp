@@ -72,7 +72,7 @@ Imperator::Character::Factory::Factory()
 		character->attributes.charisma = attributesFromBloc.getCharisma();
 		character->attributes.zeal = attributesFromBloc.getZeal();
 		});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 

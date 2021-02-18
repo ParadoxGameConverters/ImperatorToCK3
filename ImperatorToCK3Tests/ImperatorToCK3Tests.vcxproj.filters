@@ -156,9 +156,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\commonItems\GameVersion.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -427,6 +424,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\commonItems\ConvenientParser.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\FamilyFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

@@ -24,7 +24,7 @@ void mappers::ReligionMapper::registerKeys()
 	registerKeyword("link", [this](std::istream& theStream) {
 		religionMappings.emplace_back(theStream);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<mappers::ImperatorRegionMapper> impRegionMapper, std::shared_ptr<mappers::CK3RegionMapper> _ck3RegionMapper)

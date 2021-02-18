@@ -16,11 +16,11 @@ Imperator::Provinces::Provinces(std::istream& theStream)
 
 void Imperator::Provinces::registerKeys()
 {
-	registerRegex(R"(\d+)", [this](const std::string& provID, std::istream& theStream) {
+	registerMatcher(commonItems::integerMatch, [this](const std::string& provID, std::istream& theStream) {
 		auto newProvince = std::make_shared<Province>(theStream, std::stoull(provID));
 		provinces.insert(std::pair(newProvince->getID(), newProvince));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 void Imperator::Provinces::linkPops(const Pops& thePops)

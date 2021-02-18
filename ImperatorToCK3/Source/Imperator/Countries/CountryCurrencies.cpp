@@ -19,5 +19,5 @@ void Imperator::CountryCurrencies::registerKeys()
 	registerSetter("aggressive_expansion", aggressive_expansion);
 	registerSetter("political_influence", political_influence);
 	registerSetter("military_experience", military_experience);
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

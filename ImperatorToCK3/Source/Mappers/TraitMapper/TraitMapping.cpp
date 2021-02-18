@@ -10,7 +10,7 @@ mappers::TraitMapping::TraitMapping(std::istream& theStream)
 	registerKeyword("imp", [this](std::istream& theStream) {
 		impTraits.insert(commonItems::getString(theStream));
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 
 	parseStream(theStream);
 	clearRegisteredKeywords();

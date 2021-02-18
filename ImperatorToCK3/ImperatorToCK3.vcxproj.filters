@@ -355,6 +355,9 @@
     <ClInclude Include="..\commonItems\ConvenientParser.h">
       <Filter>commonItems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Families\FamilyFactory.h">
+      <Filter>Imperator\Families</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -385,9 +388,6 @@
     </ClCompile>
     <ClCompile Include="Source\Configuration\Configuration.cpp">
       <Filter>Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Imperator\Families\Family.cpp">
-      <Filter>Imperator\Families</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Families\Families.cpp">
       <Filter>Imperator\Families</Filter>
@@ -598,6 +598,9 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\ConvenientParser.cpp">
       <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Families\FamilyFactory.cpp">
+      <Filter>Imperator\Families</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

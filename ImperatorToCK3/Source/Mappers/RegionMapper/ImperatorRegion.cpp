@@ -16,7 +16,7 @@ void mappers::ImperatorRegion::registerKeys()
 		for (const auto& name : commonItems::getStrings(theStream))
 			areas.emplace(name, nullptr);
 	});
-	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 bool mappers::ImperatorRegion::regionContainsProvince(const unsigned long long province) const
