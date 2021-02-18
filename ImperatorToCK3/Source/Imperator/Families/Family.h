@@ -1,10 +1,13 @@
 #ifndef IMPERATOR_FAMILY_H
 #define IMPERATOR_FAMILY_H
-#include "Parser.h"
+
+
+#include "ConvenientParser.h"
+
 
 namespace Imperator
 {
-class Family: commonItems::parser
+class Family: commonItems::convenientParser
 {
   public:
 	Family(std::istream& theStream, unsigned long long theFamilyID);

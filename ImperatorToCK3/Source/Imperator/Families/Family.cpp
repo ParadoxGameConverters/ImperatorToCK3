@@ -19,23 +19,12 @@ void Imperator::Family::updateFamily(std::istream& theStream)
 
 void Imperator::Family::registerKeys()
 {
-	registerKeyword("key", [this](std::istream& theStream) {
-		const auto nameStr = commonItems::getString(theStream);
-		key = nameStr;
-	});
-	registerKeyword("culture", [this](std::istream& theStream) {
-		const auto cultureStr = commonItems::getString(theStream);
-		culture = cultureStr;
-	});
-	registerKeyword("prestige", [this](std::istream& theStream) {
-		prestige = commonItems::getDouble(theStream);
-	});
-	registerKeyword("prestige_ratio", [this](std::istream& theStream) {
-		prestigeRatio = commonItems::getDouble(theStream);
-	});
+	registerSetter("key", key);
+	registerSetter("culture", culture);
+	registerSetter("prestige", prestige);
+	registerSetter("prestige_ratio", prestigeRatio);
 	registerKeyword("minor_family", [this](std::istream& theStream) {
-		const auto minorFamilyStr = commonItems::getString(theStream);
-		isMinor = minorFamilyStr == "yes";
+		isMinor = commonItems::getString(theStream) == "yes";
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
