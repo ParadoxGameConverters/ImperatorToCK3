@@ -261,7 +261,7 @@
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\PopFactory.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp" />
-    <ClCompile Include="Source\Imperator\Provinces\Province.cpp" />
+    <ClCompile Include="Source\Imperator\Provinces\ProvinceFactory.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -351,6 +351,7 @@
     <ClInclude Include="Source\Imperator\Provinces\PopFactory.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />
     <ClInclude Include="Source\Imperator\Provinces\Province.h" />
+    <ClInclude Include="Source\Imperator\Provinces\ProvinceFactory.h" />
     <ClInclude Include="Source\Imperator\Provinces\ProvinceName.h" />
     <ClInclude Include="Source\Imperator\Provinces\Provinces.h" />
     <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h" />

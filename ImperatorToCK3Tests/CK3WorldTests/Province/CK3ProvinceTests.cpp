@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "../ImperatorToCK3/Source/CK3/Province/CK3Province.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Province.h"
+#include "../ImperatorToCK3/Source/Imperator/Provinces/ProvinceFactory.h"
 #include "Mappers/CultureMapper/CultureMapper.h"
 #include "Mappers/ReligionMapper/ReligionMapper.h"
 #include <sstream>
@@ -58,7 +58,7 @@ TEST(CK3World_CK3ProvinceTests, holdingDefaultsToNone)
 TEST(CK3World_CK3ProvinceTests, holdingCanBeSet)
 {
 	std::stringstream input{ "= { holding = castle_holding }" };
-	CK3::Province province{42, input};
+	const CK3::Province province{42, input};
 	ASSERT_EQ("castle_holding", province.getHolding());
 }
 
@@ -72,12 +72,12 @@ TEST(ImperatorWorld_ProvinceTests, setHoldingLogicWorks)
 	std::stringstream input5{ " = { province_rank=settlement fort=yes }" };
 	std::stringstream input6{ " = { province_rank=settlement }" };
 
-	auto impProvince = std::make_shared<Imperator::Province>(input, 42);
-	auto impProvince2 = std::make_shared<Imperator::Province>(input2, 43);
-	auto impProvince3 = std::make_shared<Imperator::Province>(input3, 44);
-	auto impProvince4 = std::make_shared<Imperator::Province>(input4, 45);
-	auto impProvince5 = std::make_shared<Imperator::Province>(input5, 46);
-	auto impProvince6 = std::make_shared<Imperator::Province>(input6, 47);
+	std::shared_ptr<Imperator::Province> impProvince = Imperator::Province::Factory().getProvince(input, 42);
+	std::shared_ptr<Imperator::Province> impProvince2 = Imperator::Province::Factory().getProvince(input2, 43);
+	std::shared_ptr<Imperator::Province> impProvince3 = Imperator::Province::Factory().getProvince(input3, 44);
+	std::shared_ptr<Imperator::Province> impProvince4 = Imperator::Province::Factory().getProvince(input4, 45);
+	std::shared_ptr<Imperator::Province> impProvince5 = Imperator::Province::Factory().getProvince(input5, 46);
+	std::shared_ptr<Imperator::Province> impProvince6 = Imperator::Province::Factory().getProvince(input6, 47);
 
 	CK3::Province province, province2, province3, province4, province5, province6;
 
