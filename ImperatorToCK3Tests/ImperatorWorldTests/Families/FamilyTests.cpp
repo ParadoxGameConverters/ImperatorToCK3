@@ -9,7 +9,7 @@ TEST(ImperatorWorld_FamilyTests, IDCanBeSet)
 	input << "=\n";
 	input << "{\n";
 	input << "}";
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_EQ(42, theFamily.getID());
 }
@@ -22,7 +22,7 @@ TEST(ImperatorWorld_FamilyTests, cultureCanBeSet)
 	input << "\tculture=\"paradoxian\"";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_EQ("paradoxian", theFamily.getCulture());
 }
@@ -34,7 +34,7 @@ TEST(ImperatorWorld_FamilyTests, cultureDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_TRUE(theFamily.getCulture().empty());
 }
@@ -47,7 +47,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeCanBeSet)
 	input << "\tprestige=\"420.5\"";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_EQ(420.5, theFamily.getPrestige());
 }
@@ -59,7 +59,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeDefaultsToZero)
 	input << "{\n";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_EQ(0, theFamily.getPrestige());
 }
@@ -72,7 +72,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeRatioCanBeSet)
 	input << "\tprestige_ratio=\"0.75\"";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_EQ(0.75, theFamily.getPrestigeRatio());
 }
@@ -84,7 +84,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeRatioDefaultsToZero)
 	input << "{\n";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_EQ(0, theFamily.getPrestigeRatio());
 }
@@ -97,7 +97,7 @@ TEST(ImperatorWorld_FamilyTests, keyCanBeSet)
 	input << "\tkey=\"paradoxian\"";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_EQ("paradoxian", theFamily.getKey());
 }
@@ -110,7 +110,7 @@ TEST(ImperatorWorld_FamilyTests, minorFamilyDefaultsToFalse)
 	input << "{\n";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_FALSE(theFamily.getIsMinor());
 }
@@ -124,7 +124,7 @@ TEST(ImperatorWorld_FamilyTests, minorFamilyCanBeSet)
 	input << "\tminor_family=\"yes\"";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_TRUE(theFamily.getIsMinor());
 }
@@ -137,7 +137,7 @@ TEST(ImperatorWorld_FamilyTests, keyDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const auto theFamily = *Imperator::Family::Factory{}.getFamily(input, 42);
+	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
 	ASSERT_TRUE(theFamily.getKey().empty());
 }

@@ -25,11 +25,13 @@ void Imperator::Families::registerKeys()
 		if (familyStr.find('{') != std::string::npos) {
 			std::stringstream tempStream(familyStr);
 			const auto ID = commonItems::stringToInteger<unsigned long long>(theFamilyID);
-			if (families.contains(ID)) {
-				Log(LogLevel::Debug) << "Redefinition of family " << theFamilyID;
-			}
 			std::shared_ptr<Family> newFamily = familyFactory.getFamily(tempStream, ID);
-			families.emplace(newFamily->getID(), newFamily);
+			auto [iterator, inserted] = families.emplace(newFamily->getID(), newFamily);
+			if (!inserted)
+			{
+				Log(LogLevel::Debug) << "Redefinition of family " << theFamilyID;
+				iterator->second = newFamily;
+			}
 		}
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
