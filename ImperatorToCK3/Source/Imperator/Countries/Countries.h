@@ -1,6 +1,10 @@
 #ifndef IMPERATOR_COUNTRIES_H
 #define IMPERATOR_COUNTRIES_H
+
+
 #include "Parser.h"
+#include "CountryFactory.h"
+
 
 namespace Imperator
 {
@@ -11,6 +15,8 @@ namespace Imperator
 	  public:
 		Countries() = default;
 		explicit Countries(std::istream& theStream);
+		
+		auto& operator= (const Countries& obj) { this->countries = obj.countries; return *this; }
 
 		[[nodiscard]] const auto& getCountries() const { return countries; }
 
@@ -18,6 +24,8 @@ namespace Imperator
 
 	  private:
 		void registerKeys();
+
+		Country::Factory countryFactory;
 
 		std::map<unsigned long long, std::shared_ptr<Country>> countries;
 	};
