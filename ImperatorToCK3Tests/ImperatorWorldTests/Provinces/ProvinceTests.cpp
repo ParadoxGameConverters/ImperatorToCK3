@@ -161,9 +161,10 @@ TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet)
 	std::stringstream input2{ "= { province_rank=city }" };
 	std::stringstream input3{ "= { province_rank=city_metropolis }" };
 
-	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
-	const auto province2 = *Imperator::Province::Factory().getProvince(input2, 43);
-	const auto province3 = *Imperator::Province::Factory().getProvince(input3, 44);
+	auto provinceFactory = Imperator::Province::Factory();
+	const auto province = *provinceFactory.getProvince(input, 42);
+	const auto province2 = *provinceFactory.getProvince(input2, 43);
+	const auto province3 = *provinceFactory.getProvince(input3, 44);
 
 	ASSERT_EQ(Imperator::ProvinceRank::settlement, province.getProvinceRank());
 	ASSERT_EQ(Imperator::ProvinceRank::city, province2.getProvinceRank());
@@ -198,8 +199,9 @@ TEST(ImperatorWorld_ProvinceTests, holySiteCanBeSet)
 {
 	std::stringstream input{ " = { holy_site=4294967295 }" }; // this value means no holy site
 	std::stringstream input2{ " = { holy_site=56 }" };
-	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
-	const auto province2 = *Imperator::Province::Factory().getProvince(input2, 43);
+	auto provinceFactory = Imperator::Province::Factory();
+	const auto province = *provinceFactory.getProvince(input, 42);
+	const auto province2 = *provinceFactory.getProvince(input2, 43);
 
 	ASSERT_FALSE(province.isHolySite());
 	ASSERT_TRUE(province2.isHolySite());

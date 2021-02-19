@@ -72,12 +72,13 @@ TEST(ImperatorWorld_ProvinceTests, setHoldingLogicWorks)
 	std::stringstream input5{ " = { province_rank=settlement fort=yes }" };
 	std::stringstream input6{ " = { province_rank=settlement }" };
 
-	std::shared_ptr<Imperator::Province> impProvince = Imperator::Province::Factory().getProvince(input, 42);
-	std::shared_ptr<Imperator::Province> impProvince2 = Imperator::Province::Factory().getProvince(input2, 43);
-	std::shared_ptr<Imperator::Province> impProvince3 = Imperator::Province::Factory().getProvince(input3, 44);
-	std::shared_ptr<Imperator::Province> impProvince4 = Imperator::Province::Factory().getProvince(input4, 45);
-	std::shared_ptr<Imperator::Province> impProvince5 = Imperator::Province::Factory().getProvince(input5, 46);
-	std::shared_ptr<Imperator::Province> impProvince6 = Imperator::Province::Factory().getProvince(input6, 47);
+	auto provinceFactory = Imperator::Province::Factory();
+	std::shared_ptr<Imperator::Province> impProvince = provinceFactory.getProvince(input, 42);
+	std::shared_ptr<Imperator::Province> impProvince2 = provinceFactory.getProvince(input2, 43);
+	std::shared_ptr<Imperator::Province> impProvince3 = provinceFactory.getProvince(input3, 44);
+	std::shared_ptr<Imperator::Province> impProvince4 = provinceFactory.getProvince(input4, 45);
+	std::shared_ptr<Imperator::Province> impProvince5 = provinceFactory.getProvince(input5, 46);
+	std::shared_ptr<Imperator::Province> impProvince6 = provinceFactory.getProvince(input6, 47);
 
 	CK3::Province province, province2, province3, province4, province5, province6;
 
