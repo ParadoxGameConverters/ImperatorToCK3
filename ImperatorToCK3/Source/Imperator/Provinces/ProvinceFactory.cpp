@@ -8,13 +8,21 @@
 
 Imperator::Province::Factory::Factory()
 {
-	registerKeyword("province_name", [this](std::istream& theStream) {
-		province->name = ProvinceName{ theStream }.getName();
+	registerKeyword("province_name", [this](std::istream& theStream) {	
+		province->name = ProvinceName{ theStream }.getName();	
+	});	
+	registerKeyword("culture", [this](std::istream& theStream) {	
+		province->culture = commonItems::getString(theStream);	
+	});	
+	registerKeyword("religion", [this](std::istream& theStream) {	
+		province->religion = commonItems::getString(theStream);	
+	});	
+	registerKeyword("owner", [this](std::istream& theStream) {	
+		province->owner = commonItems::getULlong(theStream);	
+	});	
+	registerKeyword("controller", [this](std::istream& theStream) {	
+		province->controller = commonItems::getULlong(theStream);	
 	});
-	registerSetter("culture", province->culture);
-	registerSetter("religion", province->religion);
-	registerSetter("owner", province->owner);
-	registerSetter("controller", province->controller);
 	registerKeyword("pop", [this](std::istream& theStream) {
 		province->pops.emplace(commonItems::getULlong(theStream), nullptr);
 	});

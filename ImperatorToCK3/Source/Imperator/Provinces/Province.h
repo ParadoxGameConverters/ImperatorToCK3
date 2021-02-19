@@ -38,7 +38,7 @@ namespace Imperator
 		std::shared_ptr<Country> country;
 
 	  private:
-		unsigned long long ID = 0;
+		uint64_t ID = 0;
 		std::string name;
 		std::string culture;
 		std::string religion;
