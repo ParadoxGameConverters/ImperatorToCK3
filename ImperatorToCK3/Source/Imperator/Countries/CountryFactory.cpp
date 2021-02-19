@@ -8,11 +8,15 @@
 
 Imperator::Country::Factory::Factory()
 {
-	registerSetter("tag", country->tag);
+	registerKeyword("tag", [this](std::istream& theStream){
+		country->tag = commonItems::getString(theStream);
+	});
 	registerKeyword("country_name", [this](std::istream& theStream) {
 		country->name = CountryName(theStream).getName();
 	});
-	registerSetter("flag", country->flag);
+	registerKeyword("flag", [this](std::istream& theStream){
+		country->flag = commonItems::getString(theStream);
+	});
 	registerKeyword("country_type", [this](std::istream& theStream) {
 		const auto countryTypeStr = commonItems::getString(theStream);
 		if (countryTypeStr == "rebels")
@@ -52,9 +56,9 @@ Imperator::Country::Factory::Factory()
 		country->currencies.military_experience = currenciesFromBloc.getMilitaryExperience();
 	});
 	registerKeyword("capital", [this](std::istream& theStream) {
-		auto capitalLongLong = commonItems::getULlong(theStream);
-		if (capitalLongLong > 0)
-			country->capital = capitalLongLong;
+		auto capitalProvID = commonItems::getULlong(theStream);
+		if (capitalProvID > 0)
+			country->capital = capitalProvID;
 	});
 	registerKeyword("government_key", [this](std::istream& theStream) {
 		country->government = commonItems::getString(theStream);

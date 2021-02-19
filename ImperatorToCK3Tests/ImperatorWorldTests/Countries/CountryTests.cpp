@@ -242,21 +242,23 @@ TEST(ImperatorWorld_CountryTests, color3DefaultsToNullopt)
 TEST(ImperatorWorld_CountryTests, correctCountryRankIsReturned)
 {
 	std::stringstream input;
-	auto theCountry1 = *Imperator::Country::Factory().getCountry(input, 1);
+	Imperator::Country::Factory factory;
+	
+	auto theCountry1 = *factory.getCountry(input, 1);
 
-	auto theCountry2 = *Imperator::Country::Factory().getCountry(input, 2);
+	auto theCountry2 = *factory.getCountry(input, 2);
 	theCountry2.registerProvince(std::make_shared<Imperator::Province>());
 	
-	auto theCountry3 = *Imperator::Country::Factory().getCountry(input, 3);
+	auto theCountry3 = *factory.getCountry(input, 3);
 	for (unsigned i = 0; i < 4; ++i) theCountry3.registerProvince(std::make_shared<Imperator::Province>());
 
-	auto theCountry4 = *Imperator::Country::Factory().getCountry(input, 4);
+	auto theCountry4 = *factory.getCountry(input, 4);
 	for (unsigned i = 0; i < 25; ++i) theCountry4.registerProvince(std::make_shared<Imperator::Province>());
 
-	auto theCountry5 = *Imperator::Country::Factory().getCountry(input, 5);
+	auto theCountry5 = *factory.getCountry(input, 5);
 	for (unsigned i = 0; i < 200; ++i) theCountry5.registerProvince(std::make_shared<Imperator::Province>());
 
-	auto theCountry6 = *Imperator::Country::Factory().getCountry(input, 6);
+	auto theCountry6 = *factory.getCountry(input, 6);
 	for (unsigned i = 0; i < 753; ++i) theCountry6.registerProvince(std::make_shared<Imperator::Province>());
 
 	ASSERT_EQ(Imperator::countryRankEnum::migrantHorde, theCountry1.getCountryRank());

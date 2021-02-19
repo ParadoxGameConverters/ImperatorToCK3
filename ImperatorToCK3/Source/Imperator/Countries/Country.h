@@ -58,7 +58,7 @@ namespace Imperator
 			void setCK3Title(const std::shared_ptr<CK3::Title>& theTitle) { ck3Title = theTitle; }
 
 		private:
-			unsigned long long ID = 0;
+			uint64_t ID = 0;
 			std::optional<unsigned long long> monarch; // >=0 are valid
 			std::string tag;
 			std::string name;
