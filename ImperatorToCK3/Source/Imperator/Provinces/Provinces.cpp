@@ -17,8 +17,8 @@ Imperator::Provinces::Provinces(std::istream& theStream)
 void Imperator::Provinces::registerKeys()
 {
 	registerMatcher(commonItems::integerMatch, [this](const std::string& provID, std::istream& theStream) {
-		auto newProvince = std::make_shared<Province>(theStream, std::stoull(provID));
-		provinces.insert(std::pair(newProvince->getID(), newProvince));
+		std::shared_ptr<Province> newProvince = provinceFactory.getProvince(theStream, commonItems::stringToInteger<unsigned long long>(provID));
+		provinces.emplace(newProvince->getID(), newProvince);
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

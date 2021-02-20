@@ -209,7 +209,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\WeightBlock.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\PopFactory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceFactory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CoaMapper\CoaMapper.cpp" />

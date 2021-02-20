@@ -1,6 +1,11 @@
 #ifndef IMPERATOR_PROVINCE_H
 #define IMPERATOR_PROVINCE_H
-#include "Parser.h"
+
+
+#include <string>
+#include <memory>
+#include <map>
+
 
 namespace Imperator
 {
@@ -8,13 +13,13 @@ namespace Imperator
 
 	class Pop;
 	class Country;
-	class Province: commonItems::parser
+	class Province
 	{
 	  public:
 		Province() = default;
-		Province(std::istream& theStream, unsigned long long provID);
+		class Factory;
 
-		[[nodiscard]] auto getID() const { return provinceID; }
+		[[nodiscard]] auto getID() const { return ID; }
 		[[nodiscard]] const auto& getName() const { return name; }
 		[[nodiscard]] const auto& getCulture() const { return culture; }
 		[[nodiscard]] const auto& getReligion() const { return religion; }
@@ -33,9 +38,7 @@ namespace Imperator
 		std::shared_ptr<Country> country;
 
 	  private:
-		void registerKeys();
-
-		unsigned long long provinceID = 0;
+		uint64_t ID = 0;
 		std::string name;
 		std::string culture;
 		std::string religion;

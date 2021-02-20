@@ -361,6 +361,9 @@
     <ClInclude Include="Source\Imperator\Countries\CountryFactory.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Provinces\ProvinceFactory.h">
+      <Filter>Imperator\Provinces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -418,9 +421,6 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\CommonFunctions.cpp">
       <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Imperator\Provinces\Province.cpp">
-      <Filter>Imperator\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp">
       <Filter>Imperator\Provinces</Filter>
@@ -607,6 +607,9 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Countries\CountryFactory.cpp">
       <Filter>Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\ProvinceFactory.cpp">
+      <Filter>Imperator\Provinces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
