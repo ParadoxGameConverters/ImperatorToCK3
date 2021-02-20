@@ -52,11 +52,6 @@ jobs:
     - name: Custom steps
       run: |
        git submodule update --init --recursive
-       mkdir $HOME/usr
-       export PATH="$HOME/usr/bin:$PATH"
-       wget https://cmake.org/files/v3.17/cmake-3.17.2-Linux-x86_64.sh
-       chmod +x cmake-3.17.2-Linux-x86_64.sh
-       ./cmake-3.17.2-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
        sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
        sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.3/ubuntu/ bionic universe'
        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
