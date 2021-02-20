@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../ImperatorToCK3/Source/Imperator/Provinces/Province.h"
+#include "../ImperatorToCK3/Source/Imperator/Provinces/ProvinceFactory.h"
 #include "../commonItems/Date.h"
 #include <sstream>
 
@@ -10,7 +11,7 @@ TEST(ImperatorWorld_ProvinceTests, IDCanBeSet)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(42, theProvince.getID());
 }
@@ -22,7 +23,7 @@ TEST(ImperatorWorld_ProvinceTests, cultureCanBeSet)
 	input << "\tculture=\"paradoxian\"";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ("paradoxian", theProvince.getCulture());
 }
@@ -34,7 +35,7 @@ TEST(ImperatorWorld_ProvinceTests, cultureDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_TRUE(theProvince.getCulture().empty());
 }
@@ -48,7 +49,7 @@ TEST(ImperatorWorld_ProvinceTests, religionCanBeSet)
 	input << "\treligion=\"paradoxian\"";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ("paradoxian", theProvince.getReligion());
 }
@@ -60,7 +61,7 @@ TEST(ImperatorWorld_ProvinceTests, religionDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_TRUE(theProvince.getReligion().empty());
 }
@@ -75,7 +76,7 @@ TEST(ImperatorWorld_ProvinceTests, nameCanBeSet)
 	input << "}\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ("Biggus Dickus", theProvince.getName());
 }
@@ -87,7 +88,7 @@ TEST(ImperatorWorld_ProvinceTests, nameDefaultsToBlank)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_TRUE(theProvince.getName().empty());
 }
@@ -100,7 +101,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet)
 	input << "\towner=69\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(69, theProvince.getOwner());
 }
@@ -112,7 +113,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(0, theProvince.getOwner());
 }
@@ -125,7 +126,7 @@ TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet)
 	input << "\tcontroller=69\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(69, theProvince.getController());
 }
@@ -141,7 +142,7 @@ TEST(ImperatorWorld_ProvinceTests, popsCanBeSet)
 	input << "\tpop=23\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(4, theProvince.getPopCount());
 }
@@ -149,7 +150,7 @@ TEST(ImperatorWorld_ProvinceTests, popsCanBeSet)
 TEST(ImperatorWorld_ProvinceTests, province_rankDefaultsToSettlement)
 {
 	std::stringstream input;
-	const Imperator::Province province(input, 42);
+	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(Imperator::ProvinceRank::settlement, province.getProvinceRank());
 }
@@ -160,9 +161,10 @@ TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet)
 	std::stringstream input2{ "= { province_rank=city }" };
 	std::stringstream input3{ "= { province_rank=city_metropolis }" };
 
-	const Imperator::Province province(input, 42);
-	const Imperator::Province province2(input2, 43);
-	const Imperator::Province province3(input3, 44);
+	auto provinceFactory = Imperator::Province::Factory();
+	const auto province = *provinceFactory.getProvince(input, 42);
+	const auto province2 = *provinceFactory.getProvince(input2, 43);
+	const auto province3 = *provinceFactory.getProvince(input3, 44);
 
 	ASSERT_EQ(Imperator::ProvinceRank::settlement, province.getProvinceRank());
 	ASSERT_EQ(Imperator::ProvinceRank::city, province2.getProvinceRank());
@@ -172,7 +174,7 @@ TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet)
 TEST(ImperatorWorld_ProvinceTests, fortDefaultsToFalse)
 {
 	std::stringstream input;
-	const Imperator::Province province(input, 42);
+	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_FALSE(province.hasFort());
 }
@@ -180,7 +182,7 @@ TEST(ImperatorWorld_ProvinceTests, fortDefaultsToFalse)
 TEST(ImperatorWorld_ProvinceTests, fortCanBeSet)
 {
 	std::stringstream input{" = { fort=yes }"};
-	const Imperator::Province province(input, 42);
+	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_TRUE(province.hasFort());
 }
@@ -188,7 +190,7 @@ TEST(ImperatorWorld_ProvinceTests, fortCanBeSet)
 TEST(ImperatorWorld_ProvinceTests, holySiteDefaultsToFalse)
 {
 	std::stringstream input;
-	const Imperator::Province province(input, 42);
+	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_FALSE(province.isHolySite());
 }
@@ -197,8 +199,9 @@ TEST(ImperatorWorld_ProvinceTests, holySiteCanBeSet)
 {
 	std::stringstream input{ " = { holy_site=4294967295 }" }; // this value means no holy site
 	std::stringstream input2{ " = { holy_site=56 }" };
-	const Imperator::Province province(input, 42);
-	const Imperator::Province province2(input2, 43);
+	auto provinceFactory = Imperator::Province::Factory();
+	const auto province = *provinceFactory.getProvince(input, 42);
+	const auto province2 = *provinceFactory.getProvince(input2, 43);
 
 	ASSERT_FALSE(province.isHolySite());
 	ASSERT_TRUE(province2.isHolySite());
@@ -212,7 +215,7 @@ TEST(ImperatorWorld_ProvinceTests, buildingsCountCanBeSet)
 	input << "\tbuildings = {0 1 0 65 3}\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(69, theProvince.getBuildingsCount());
 }
@@ -224,7 +227,7 @@ TEST(ImperatorWorld_ProvinceTests, buildingsCountDefaultsTo0)
 	input << "{\n";
 	input << "}";
 
-	const Imperator::Province theProvince(input, 42);
+	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(0, theProvince.getBuildingsCount());
 }

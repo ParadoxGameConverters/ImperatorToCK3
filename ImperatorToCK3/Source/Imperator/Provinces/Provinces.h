@@ -1,6 +1,10 @@
 #ifndef IMPERATOR_PROVINCES_H
 #define IMPERATOR_PROVINCES_H
+
+
 #include "Parser.h"
+#include "ProvinceFactory.h"
+
 
 namespace Imperator
 {
@@ -19,6 +23,8 @@ namespace Imperator
 
 	  private:
 		void registerKeys();
+
+		Province::Factory provinceFactory;
 
 		std::map<unsigned long long, std::shared_ptr<Province>> provinces;
 	};

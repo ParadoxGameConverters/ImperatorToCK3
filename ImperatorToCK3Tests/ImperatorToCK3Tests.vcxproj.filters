@@ -168,9 +168,6 @@
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvinceTests.cpp">
       <Filter>ImperatorWorldTests\Provinces</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -427,6 +424,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\FamilyFactory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
