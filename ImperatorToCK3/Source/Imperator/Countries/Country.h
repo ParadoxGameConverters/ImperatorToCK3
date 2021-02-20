@@ -1,9 +1,11 @@
 #ifndef IMPERATOR_COUNTRY_H
 #define IMPERATOR_COUNTRY_H
 
+
 #include <set>
 #include "Parser.h"
 #include "Color.h"
+
 
 namespace CK3
 {
@@ -28,11 +30,12 @@ namespace Imperator
 
 	class Family;
 	class Province;
-	class Country: commonItems::parser
+	class Country
 	{
 		public:
-			Country(std::istream& theStream, unsigned long long countryID);
-
+			class Factory;
+			Country() = default;
+		
 			[[nodiscard]] const std::string& getTag() const { return tag; }
 			[[nodiscard]] const auto& getName() const { return name; }
 			[[nodiscard]] const auto& getFlag() const { return flag; }
@@ -44,7 +47,7 @@ namespace Imperator
 			[[nodiscard]] const auto& getColor2() const { return color2; }
 			[[nodiscard]] const auto& getColor3() const { return color3; }
 			[[nodiscard]] const auto& getFamilies() const { return families; }
-			[[nodiscard]] auto getID() const { return countryID; }
+			[[nodiscard]] auto getID() const { return ID; }
 			[[nodiscard]] auto getMonarch() const { return monarch; }
 
 			[[nodiscard]] countryRankEnum getCountryRank() const;
@@ -55,9 +58,7 @@ namespace Imperator
 			void setCK3Title(const std::shared_ptr<CK3::Title>& theTitle) { ck3Title = theTitle; }
 
 		private:
-			void registerKeys();
-
-			unsigned long long countryID = 0;
+			uint64_t ID = 0;
 			std::optional<unsigned long long> monarch; // >=0 are valid
 			std::string tag;
 			std::string name;

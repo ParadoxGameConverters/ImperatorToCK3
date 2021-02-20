@@ -5,6 +5,7 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
+
 Imperator::Countries::Countries(std::istream& theStream)
 {
 	registerKeys();
@@ -15,8 +16,8 @@ Imperator::Countries::Countries(std::istream& theStream)
 void Imperator::Countries::registerKeys()
 {
 	registerMatcher(commonItems::integerMatch, [this](const std::string& countryID, std::istream& theStream) {
-		auto newCountry = std::make_shared<Country>(theStream, std::stoull(countryID));
-		countries.insert(std::pair(newCountry->getID(), newCountry));
+		std::shared_ptr<Country> newCountry = countryFactory.getCountry(theStream, commonItems::stringToInteger<unsigned long long>(countryID));
+		countries.emplace(newCountry->getID(), newCountry);
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

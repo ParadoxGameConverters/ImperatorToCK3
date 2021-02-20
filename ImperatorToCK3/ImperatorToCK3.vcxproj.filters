@@ -358,6 +358,9 @@
     <ClInclude Include="Source\Imperator\Families\FamilyFactory.h">
       <Filter>Imperator\Families</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Countries\CountryFactory.h">
+      <Filter>Imperator\Countries</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Imperator\Provinces\ProvinceFactory.h">
       <Filter>Imperator\Provinces</Filter>
     </ClInclude>
@@ -601,6 +604,9 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Families\FamilyFactory.cpp">
       <Filter>Imperator\Families</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Countries\CountryFactory.cpp">
+      <Filter>Imperator\Countries</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\ProvinceFactory.cpp">
       <Filter>Imperator\Provinces</Filter>

@@ -250,6 +250,7 @@
     <ClCompile Include="Source\Imperator\Countries\Countries.cpp" />
     <ClCompile Include="Source\Imperator\Countries\Country.cpp" />
     <ClCompile Include="Source\Imperator\Countries\CountryCurrencies.cpp" />
+    <ClCompile Include="Source\Imperator\Countries\CountryFactory.cpp" />
     <ClCompile Include="Source\Imperator\Countries\CountryName.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\FamilyFactory.cpp" />
@@ -337,6 +338,7 @@
     <ClInclude Include="Source\Imperator\Countries\Countries.h" />
     <ClInclude Include="Source\Imperator\Countries\Country.h" />
     <ClInclude Include="Source\Imperator\Countries\CountryCurrencies.h" />
+    <ClInclude Include="Source\Imperator\Countries\CountryFactory.h" />
     <ClInclude Include="Source\Imperator\Countries\CountryName.h" />
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
