@@ -7,11 +7,19 @@
 
 Imperator::Family::Factory::Factory()
 {
-	registerSetter("key", family->key);
-	registerSetter("culture", family->culture);
-	registerSetter("prestige", family->prestige);
-	registerSetter("prestige_ratio", family->prestigeRatio);
-	registerKeyword("minor_family", [this](std::istream& theStream) {
+	registerKeyword("key", [&](std::istream& theStream) {
+		family->key = commonItems::getString(theStream);
+	});
+	registerKeyword("culture", [&](std::istream& theStream) {
+		family->culture = commonItems::getString(theStream);
+	});
+	registerKeyword("prestige", [&](std::istream& theStream) {
+		family->prestige = commonItems::getDouble(theStream);
+	});
+	registerKeyword("prestige_ratio", [&](std::istream& theStream) {
+		family->prestigeRatio = commonItems::getDouble(theStream);
+	});
+	registerKeyword("minor_family", [&](std::istream& theStream) {
 		family->isMinor = commonItems::getString(theStream) == "yes";
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
