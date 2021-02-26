@@ -17,7 +17,7 @@ struct SimpleFieldStruct {
 class SimpleField {
 public:
 	SimpleField() = default;
-	explicit SimpleField(const std::optional<std::string>& initialValue);
+	explicit SimpleField(std::optional<std::string> initialValue);
 	[[nodiscard]] std::optional<std::string> getValue(const date& date) const;
 	[[nodiscard]] const auto& getValueHistory() const { return valueHistory; }
 

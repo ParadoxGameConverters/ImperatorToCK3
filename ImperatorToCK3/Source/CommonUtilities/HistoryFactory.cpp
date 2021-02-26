@@ -4,9 +4,9 @@
 #include "HistoryFactory.h"
 
 
-History::Factory::Factory(std::vector<SimpleFieldStruct> simpleFieldStructs): simpleFieldStructs(std::move(simpleFieldStructs))
+History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs): simpleFieldStructs(std::move(_simpleFieldStructs))
 {
-	for (const auto& [fieldName, setter, _initialValue] : this->simpleFieldStructs)
+	for (const auto& [fieldName, setter, _initialValue] : simpleFieldStructs)
 	{
 		setterFieldMap[setter] = fieldName;
 		registerKeyword(setter, [this, &fieldName](std::istream& theStream) {

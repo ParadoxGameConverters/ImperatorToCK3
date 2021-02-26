@@ -3,7 +3,8 @@
 #include "History.h"
 
 
-SimpleField::SimpleField(const std::optional<std::string>& initialValue) : initialValue(initialValue) {}
+
+SimpleField::SimpleField(std::optional<std::string> initialValue) : initialValue(std::move(initialValue)) {}
 
 std::optional<std::string> SimpleField::getValue(const date& date) const {
 	if (const auto& lowerBound = valueHistory.lower_bound(date); lowerBound != valueHistory.end()) {
@@ -17,11 +18,7 @@ std::optional<std::string> SimpleField::getValue(const date& date) const {
 DatedHistoryEntry::DatedHistoryEntry(std::istream& theStream)
 {
 	registerRegex(commonItems::stringRegex, [&](const std::string& key, std::istream& theStream) {
-		auto rightSide = commonItems::getString(theStream);
-		if (contents.contains(key)) [[unlikely]]
-			contents[key].emplace_back(rightSide);
-		else [[likely]]
-			contents[key] = { rightSide };
+		contents[key].emplace_back(commonItems::getString(theStream));
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 	parseStream(theStream);
@@ -31,7 +28,11 @@ DatedHistoryEntry::DatedHistoryEntry(std::istream& theStream)
 
 
 std::optional<std::string> History::getFieldValue(const std::string& fieldName, const date& date) const {
-	if (!simpleFields.contains(fieldName))
+	const auto itr = simpleFields.find(fieldName);
+	if (itr == simpleFields.end())
+	{
 		return std::nullopt;
-	return simpleFields.at(fieldName).getValue(date);
+	}
+
+	return itr->second.getValue(date);
 }
