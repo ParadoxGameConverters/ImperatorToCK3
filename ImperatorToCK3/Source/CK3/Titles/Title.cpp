@@ -17,7 +17,7 @@ void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<
 	{
 		if (newTitle->titleName.starts_with("c_")) // has county prefix = is a county
 		{
-			auto baronyProvince = locatedTitle->getProvince();
+			const auto& baronyProvince = locatedTitle->getProvince();
 			if (baronyProvince)
 			{
 				if (locatedTitleName == newTitle->capitalBarony)
@@ -127,7 +127,7 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	
 	// ------------------ determine other attributes
 	
-	auto srcCapital = imperatorCountry->getCapital();
+	const auto& srcCapital = imperatorCountry->getCapital();
 	if (srcCapital)
 	{
 		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(*srcCapital);
@@ -272,14 +272,14 @@ void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& tit
 
 	if (titlesHistory.currentLiegeIdMap.contains(titleName))
 	{
-		const auto dfLiegeName = titlesHistory.currentLiegeIdMap.at(titleName);
+		const auto& dfLiegeName = titlesHistory.currentLiegeIdMap.at(titleName);
 		if (dfLiegeName && landedTitles.getTitles().contains(*dfLiegeName))
 			setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
 	}
 
 	if (titlesHistory.currentGovernmentMap.contains(titleName))
 	{
-		const auto governmentFromHistory = titlesHistory.currentGovernmentMap.at(titleName);
+		const auto& governmentFromHistory = titlesHistory.currentGovernmentMap.at(titleName);
 		if (governmentFromHistory) government = *governmentFromHistory;
 	}
 	

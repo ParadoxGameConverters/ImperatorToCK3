@@ -76,7 +76,7 @@ void Imperator::Countries::linkFamilies(const Families& theFamilies)
 			warningString += ",";
 		}
 		warningString = warningString.substr(0, warningString.size() - 1); //remove last comma
-		Log(LogLevel::Warning) << warningString;
+		Log(LogLevel::Debug) << warningString;
 	}
 	
 	Log(LogLevel::Info) << "<> " << counter << " families linked to countries.";
