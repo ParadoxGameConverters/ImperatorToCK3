@@ -85,6 +85,15 @@
     <Filter Include="MapperTests\ImperatorRegionMapper">
       <UniqueIdentifier>{3820e22a-b3a3-4505-a3b1-585c3fdc7acd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\commonItems">
+      <UniqueIdentifier>{6b77dac6-2329-472d-9b8a-8ff623b0e32c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\gtest">
+      <UniqueIdentifier>{f24856a2-f5ae-47f1-bc83-244da5ef54ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CommonUtilities">
+      <UniqueIdentifier>{570d630e-cc0f-4ef2-99dc-8465ff85720f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -105,34 +114,7 @@
     <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp">
       <Filter>MapperTests\VersionParser</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\WinUtils.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\StringUtils.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\ParserHelpers.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\googletest\googletest\src\gtest_main.cc">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\googletest\googletest\src\gtest-all.cc">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\iconvlite.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\Log.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\OSCommonLayer.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\Parser.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp">
@@ -147,19 +129,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Characters.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\CommonFunctions.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\Date.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\GameVersion.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Provinces\ProvincesTests.cpp">
@@ -214,9 +184,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\GenesDB.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\commonItems\Color.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Genes\GenesDBTests.cpp">
@@ -293,15 +260,6 @@
     </ClCompile>
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceTests.cpp">
       <Filter>CK3WorldTests\Province</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Province.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3ProvinceMappings.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Provinces.cpp">
-      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp">
       <Filter>CK3WorldTests\Province</Filter>
@@ -420,9 +378,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\commonItems\ConvenientParser.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\FamilyFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -431,6 +386,69 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceFactory.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Color.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\CommonFunctions.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Date.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\ConvenientParser.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\GameVersion.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Parser.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\ParserHelpers.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\OSCommonLayer.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\Log.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\iconvlite.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\WinUtils.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\StringUtils.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Province.cpp">
+      <Filter>Sources\CK3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3ProvinceMappings.cpp">
+      <Filter>Sources\CK3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Provinces.cpp">
+      <Filter>Sources\CK3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\googletest\googletest\src\gtest-all.cc">
+      <Filter>Sources\gtest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\googletest\googletest\src\gtest_main.cc">
+      <Filter>Sources\gtest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc">
+      <Filter>Sources\gtest</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonUtilitiesTests\HistoryTests.cpp">
+      <Filter>CommonTests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\History.cpp">
+      <Filter>Sources\CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\HistoryFactory.cpp">
+      <Filter>Sources\CommonUtilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +460,12 @@
     </ClInclude>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h">
       <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\History.h">
+      <Filter>Sources\CommonUtilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\HistoryFactory.h">
+      <Filter>Sources\CommonUtilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
