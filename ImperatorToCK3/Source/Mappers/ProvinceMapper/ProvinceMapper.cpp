@@ -1,6 +1,6 @@
 #include "ProvinceMapper.h"
 #include "GameVersion.h"
-#include "../../Configuration/Configuration.h"
+#include "Configuration/Configuration.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
