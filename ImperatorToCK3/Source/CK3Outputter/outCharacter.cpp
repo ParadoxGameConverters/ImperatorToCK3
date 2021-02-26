@@ -1,5 +1,5 @@
 #include "outCharacter.h"
-#include "Log.h"
+
 
 std::ostream& CK3::operator<<(std::ostream& output, const Character& character)
 {

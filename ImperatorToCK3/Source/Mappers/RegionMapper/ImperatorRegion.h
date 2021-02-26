@@ -1,9 +1,12 @@
 #ifndef IMPERATOR_REGION_H
 #define IMPERATOR_REGION_H
 
+
+
 #include "Parser.h"
 #include "ImperatorArea.h"
-#include "Log.h"
+
+
 
 namespace mappers
 {

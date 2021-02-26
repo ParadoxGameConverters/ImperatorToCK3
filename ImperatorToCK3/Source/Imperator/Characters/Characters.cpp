@@ -8,7 +8,7 @@
 #include <set>
 
 
-Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB): genes(genesDB)
+Imperator::Characters::Characters(std::istream& theStream, std::shared_ptr<GenesDB> genesDB): genes(std::move(genesDB))
 {
 	registerKeys();
 	parseStream(theStream);

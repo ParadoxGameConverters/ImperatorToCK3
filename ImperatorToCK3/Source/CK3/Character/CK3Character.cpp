@@ -1,11 +1,10 @@
 #include "CK3Character.h"
-#include "../../Imperator/Characters/Character.h"
-#include "../../Mappers/CultureMapper/CultureMapper.h"
-#include "../../Mappers/ReligionMapper/ReligionMapper.h"
-#include "../../Mappers/TraitMapper/TraitMapper.h"
-#include "../../Mappers/NicknameMapper/NicknameMapper.h"
-#include "../../Mappers/ProvinceMapper/ProvinceMapper.h"
-#include "Log.h"
+#include "Imperator/Characters/Character.h"
+#include "Mappers/CultureMapper/CultureMapper.h"
+#include "Mappers/ReligionMapper/ReligionMapper.h"
+#include "Mappers/TraitMapper/TraitMapper.h"
+#include "Mappers/NicknameMapper/NicknameMapper.h"
+#include "Mappers/ProvinceMapper/ProvinceMapper.h"
 
 
 void CK3::Character::initializeFromImperator(

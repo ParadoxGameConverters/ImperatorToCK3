@@ -14,7 +14,7 @@ namespace Imperator
 	{
 	  public:
 		Characters() = default;
-		Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB);
+		Characters(std::istream& theStream, std::shared_ptr<GenesDB> genesDB);
 
 		Characters& operator= (const Characters& obj) { this->characters = obj.characters; return *this; }
 

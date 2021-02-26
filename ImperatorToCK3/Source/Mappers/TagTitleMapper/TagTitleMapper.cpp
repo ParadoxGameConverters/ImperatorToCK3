@@ -22,10 +22,12 @@ void mappers::TagTitleMapper::registerKeys()
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
-std::string mappers::TagTitleMapper::getCK3TitleRank(Imperator::countryRankEnum impRank, const std::string& localizedTitleName) const
+std::string mappers::TagTitleMapper::getCK3TitleRank(const Imperator::countryRankEnum impRank, const std::string& localizedTitleName) const
 {
-	if (localizedTitleName.find("Empire") != std::string::npos) return "e";
-	else if (localizedTitleName.find("Kingdom") != std::string::npos) return "k";
+	if (localizedTitleName.find("Empire") != std::string::npos)
+		return "e";
+	else if (localizedTitleName.find("Kingdom") != std::string::npos)
+		return "k";
 	else switch (impRank)
 	{
 	case Imperator::countryRankEnum::migrantHorde: return "d";
