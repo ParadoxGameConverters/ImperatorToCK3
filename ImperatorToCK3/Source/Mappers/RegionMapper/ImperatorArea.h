@@ -3,7 +3,6 @@
 
 #include "Parser.h"
 #include <set>
-#include "Log.h"
 
 namespace mappers
 {

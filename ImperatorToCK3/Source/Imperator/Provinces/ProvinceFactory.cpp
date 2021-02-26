@@ -51,7 +51,7 @@ Imperator::Province::Factory::Factory()
 }
 
 
-std::unique_ptr<Imperator::Province> Imperator::Province::Factory::getProvince(std::istream& theStream, unsigned long long provID)
+std::unique_ptr<Imperator::Province> Imperator::Province::Factory::getProvince(std::istream& theStream, const unsigned long long provID)
 {
 	province = std::make_unique<Province>();
 	province->ID = provID;

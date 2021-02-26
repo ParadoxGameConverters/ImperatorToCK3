@@ -26,7 +26,7 @@ Imperator::Family::Factory::Factory()
 }
 
 
-std::unique_ptr<Imperator::Family> Imperator::Family::Factory::getFamily(std::istream& theStream, unsigned long long theFamilyID)
+std::unique_ptr<Imperator::Family> Imperator::Family::Factory::getFamily(std::istream& theStream, const unsigned long long theFamilyID)
 {
 	family = std::make_unique<Family>();
 	family->ID = theFamilyID;

@@ -4,7 +4,6 @@
 #include "Parser.h"
 #include <set>
 #include "CK3/Titles/Title.h"
-#include "Log.h"
 
 namespace mappers
 {
