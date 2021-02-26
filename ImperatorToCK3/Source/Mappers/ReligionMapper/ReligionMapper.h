@@ -1,11 +1,14 @@
 #ifndef RELIGION_MAPPER_H
 #define RELIGION_MAPPER_H
 
-#include "Parser.h"
-#include "ReligionMapping.h"
-#include <map>
+
+
 #include <optional>
 #include <string>
+#include "Parser.h"
+#include "ReligionMapping.h"
+
+
 
 namespace mappers
 {

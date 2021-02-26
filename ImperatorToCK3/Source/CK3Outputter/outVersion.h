@@ -1,8 +1,12 @@
 #ifndef OUT_VERSION_H
 #define OUT_VERSION_H
 
-#include "../Mappers/VersionParser/VersionParser.h"
+
+
+#include "Mappers/VersionParser/VersionParser.h"
 #include <ostream>
+
+
 
 namespace mappers
 {

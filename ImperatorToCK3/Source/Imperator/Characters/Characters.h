@@ -1,10 +1,13 @@
 #ifndef IMPERATOR_CHARACTERS_H
 #define IMPERATOR_CHARACTERS_H
 
+
+
 #include "Parser.h"
 #include "../Genes/GenesDB.h"
 #include "CharacterFactory.h"
-#include "Date.h"
+
+
 
 namespace Imperator
 {
@@ -35,6 +38,7 @@ namespace Imperator
 		std::map<unsigned long long, std::shared_ptr<Character>> characters;
 	}; // class Characters
 
+	
 	class CharactersBloc : commonItems::parser
 	{
 	public:

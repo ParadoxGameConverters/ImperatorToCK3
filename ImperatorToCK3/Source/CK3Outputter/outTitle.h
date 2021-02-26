@@ -1,8 +1,12 @@
 #ifndef OUT_TITLE_H
 #define OUT_TITLE_H
 
-#include "../CK3/Titles/Title.h"
+
+
+#include "CK3/Titles/Title.h"
 #include <ostream>
+
+
 
 namespace CK3
 {

@@ -76,7 +76,7 @@ Imperator::Country::Factory::Factory()
 }
 
 
-std::unique_ptr<Imperator::Country> Imperator::Country::Factory::getCountry(std::istream& theStream, unsigned long long countryID)
+std::unique_ptr<Imperator::Country> Imperator::Country::Factory::getCountry(std::istream& theStream, const unsigned long long countryID)
 {
 	country = std::make_unique<Country>();
 	country->ID = countryID;

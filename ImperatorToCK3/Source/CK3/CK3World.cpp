@@ -1,17 +1,18 @@
-#include "CK3World.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <filesystem>
 #include <fstream>
-namespace fs = std::filesystem;
-#include "../Imperator/Characters/Character.h"
-#include "../Imperator/Countries/Country.h"
-#include "../Imperator/Provinces/Province.h"
-#include "../Configuration/Configuration.h"
 #include <cmath>
+#include "CK3World.h"
+#include "Imperator/Characters/Character.h"
+#include "Imperator/Countries/Country.h"
+#include "Imperator/Provinces/Province.h"
+#include "Configuration/Configuration.h"
 #include "Province/CK3Provinces.h"
 #include "Province/CK3ProvinceMappings.h"
 #include "Titles/Title.h"
+
+namespace fs = std::filesystem;
 
 CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser)
 {
@@ -209,12 +210,12 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 		theShares[owner] = lround(impProvince->second->getBuildingsCount() + impProvince->second->getPopCount());
 	}
 	// Let's see who the lucky winner is.
-	for (const auto& share : theShares)
+	for (const auto& [owner, development] : theShares)
 	{
-		if (share.second > maxDev)
+		if (development > maxDev)
 		{
-			winner = share.first;
-			maxDev = share.second;
+			winner = owner;
+			maxDev = development;
 		}
 	}
 	if (!winner)

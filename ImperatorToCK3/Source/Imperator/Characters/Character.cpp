@@ -1,7 +1,7 @@
-#include "Character.h"
 #include <utility>
+#include "Character.h"
 #include "../Families/Family.h"
-#include "PortraitData.h"
+
 
 
 const std::string& Imperator::Character::getCulture() const

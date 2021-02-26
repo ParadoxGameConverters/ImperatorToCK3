@@ -1,7 +1,7 @@
-#include "ImperatorRegion.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include "Log.h"
+#include "ImperatorRegion.h"
 
 mappers::ImperatorRegion::ImperatorRegion(std::istream& theStream)
 {
@@ -21,9 +21,7 @@ void mappers::ImperatorRegion::registerKeys()
 
 bool mappers::ImperatorRegion::regionContainsProvince(const unsigned long long province) const
 {
-	for (const auto& [areaName, area] : areas)
-		if (area && area->areaContainsProvince(province))
-			return true;
-		
-	return false;
+	return std::ranges::any_of(areas, [&](const auto& areaItr) {
+		return areaItr.second && areaItr.second->areaContainsProvince(province);
+	});
 }

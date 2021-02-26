@@ -27,7 +27,7 @@ void mappers::ReligionMapper::registerKeys()
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
-void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<mappers::ImperatorRegionMapper> impRegionMapper, std::shared_ptr<mappers::CK3RegionMapper> _ck3RegionMapper)
+void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<ImperatorRegionMapper> impRegionMapper, std::shared_ptr<CK3RegionMapper> _ck3RegionMapper)
 {
 	const auto imperatorRegionMapper = std::move(impRegionMapper);
 	const auto ck3RegionMapper = std::move(_ck3RegionMapper);

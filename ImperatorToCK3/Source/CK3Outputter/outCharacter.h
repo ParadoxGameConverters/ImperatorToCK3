@@ -1,7 +1,7 @@
 #ifndef OUT_CHARACTER_H
 #define OUT_CHARACTER_H
 
-#include "../CK3/Character/CK3Character.h"
+#include "CK3/Character/CK3Character.h"
 #include <ostream>
 
 namespace CK3

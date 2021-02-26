@@ -1,5 +1,5 @@
 #include "LocalizationMapper.h"
-#include "../../Configuration/Configuration.h"
+#include "Configuration/Configuration.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <fstream>

@@ -1,8 +1,8 @@
 #ifndef CK3_TITLE_H
 #define CK3_TITLE_H
 
-#include "../../Imperator/Countries/Country.h"
-#include "../../Mappers/LocalizationMapper/LocalizationMapper.h"
+#include "Imperator/Countries/Country.h"
+#include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include <memory>
 #include <string>
 

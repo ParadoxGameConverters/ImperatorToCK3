@@ -22,10 +22,12 @@ void mappers::TagTitleMapper::registerKeys()
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
-std::string mappers::TagTitleMapper::getCK3TitleRank(Imperator::countryRankEnum impRank, const std::string& localizedTitleName) const
+std::string mappers::TagTitleMapper::getCK3TitleRank(const Imperator::countryRankEnum impRank, const std::string& localizedTitleName) const
 {
-	if (localizedTitleName.find("Empire") != std::string::npos) return "e";
-	else if (localizedTitleName.find("Kingdom") != std::string::npos) return "k";
+	if (localizedTitleName.find("Empire") != std::string::npos)
+		return "e";
+	else if (localizedTitleName.find("Kingdom") != std::string::npos)
+		return "k";
 	else switch (impRank)
 	{
 	case Imperator::countryRankEnum::migrantHorde: return "d";
@@ -76,7 +78,7 @@ std::optional<std::string> mappers::TagTitleMapper::getTitleForTag(const std::st
 
 std::string mappers::TagTitleMapper::generateNewTitle(const std::string& impTag, const Imperator::countryRankEnum countryRank, const std::string& localizedTitleName) const
 {
-	std::string ck3Tag = getCK3TitleRank(countryRank, localizedTitleName);
+	auto ck3Tag = getCK3TitleRank(countryRank, localizedTitleName);
 	ck3Tag += "_";
 	ck3Tag += generatedCK3TitlePrefix;
 	ck3Tag += impTag;

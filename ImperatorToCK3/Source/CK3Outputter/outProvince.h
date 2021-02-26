@@ -1,8 +1,12 @@
 #ifndef OUT_PROVINCE
 #define OUT_PROVINCE
 
-#include "../CK3/Province/CK3Province.h"
+
+
+#include "CK3/Province/CK3Province.h"
 #include <ostream>
+
+
 
 namespace CK3
 {
