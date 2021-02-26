@@ -87,3 +87,27 @@ TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue)
 	ASSERT_EQ("khazar", provHistory->getFieldValue("culture", date{1000,1,1}).value());
 	ASSERT_EQ("cuman", provHistory->getFieldValue("culture", date{1000,1,3}).value());
 }
+
+TEST(CommonUtilities_HistoryTests, nulloptIsReturnedForNonExistingField)
+{
+	std::stringstream input;
+	input << R"( = {		#Sarkel
+						750.1.2 = {
+							religion = kabarism
+						}
+						1000.1.2 = {
+							culture = cuman
+						}
+				})";
+
+	History::Factory provHistoryFactory(
+		{
+			{"culture", "culture", std::nullopt},
+		{"religion", "religion", std::nullopt},
+		{ "holding", "holding", "none"}
+		});
+
+	const auto provHistory = provHistoryFactory.getHistory(input);
+
+	ASSERT_FALSE(provHistory->getFieldValue("title", date{1000,1,1}));
+}

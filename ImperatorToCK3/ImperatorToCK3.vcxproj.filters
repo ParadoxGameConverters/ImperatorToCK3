@@ -373,6 +373,12 @@
     <ClInclude Include="Source\CommonUtilities\HistoryFactory.h">
       <Filter>CommonUtilities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CommonUtilities\DatedHistoryBlock.h">
+      <Filter>CommonUtilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CommonUtilities\SimpleField.h">
+      <Filter>CommonUtilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -624,6 +630,12 @@
       <Filter>CommonUtilities</Filter>
     </ClCompile>
     <ClCompile Include="Source\CommonUtilities\History.cpp">
+      <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CommonUtilities\DatedHistoryBlock.cpp">
+      <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CommonUtilities\SimpleField.cpp">
       <Filter>CommonUtilities</Filter>
     </ClCompile>
   </ItemGroup>

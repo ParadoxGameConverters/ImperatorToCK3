@@ -2,6 +2,7 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include "HistoryFactory.h"
+#include "DatedHistoryBlock.h"
 
 
 History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs): simpleFieldStructs(std::move(_simpleFieldStructs))
@@ -16,8 +17,7 @@ History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs): s
 	registerRegex(R"(\d+[.]\d+[.]\d+)", [&](const std::string& dateStr, std::istream& theStream)
 	{
 		const date date{ dateStr };
-		const DatedHistoryEntry datedEntry{ theStream };
-		for (const auto& [key, valuesVec] : datedEntry.getContents())
+		for (const auto& [key, valuesVec] : DatedHistoryBlock { theStream }.getContents())
 		{
 			const auto& fieldName = setterFieldMap[key];
 			if (history->simpleFields.contains(fieldName))

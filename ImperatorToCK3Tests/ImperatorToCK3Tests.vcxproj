@@ -179,8 +179,10 @@
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\LandedTitles.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\Title.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\TitlesHistory.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\DatedHistoryBlock.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\History.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\HistoryFactory.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\SimpleField.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Configuration\Configuration.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\CharacterAttributes.cpp" />
@@ -245,6 +247,7 @@
     <ClCompile Include="CK3WorldTests\Titles\LandedTitlesTests.cpp" />
     <ClCompile Include="CK3WorldTests\Titles\TitleTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
+    <ClCompile Include="CommonUtilitiesTests\DatedHistoryBlockTests.cpp" />
     <ClCompile Include="CommonUtilitiesTests\HistoryTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharactersTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
@@ -285,8 +288,10 @@
     <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\DatedHistoryBlock.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\History.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\HistoryFactory.h" />
+    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\SimpleField.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h" />
