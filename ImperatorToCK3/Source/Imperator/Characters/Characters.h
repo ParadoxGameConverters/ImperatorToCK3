@@ -1,10 +1,13 @@
 #ifndef IMPERATOR_CHARACTERS_H
 #define IMPERATOR_CHARACTERS_H
 
+
+
 #include "Parser.h"
 #include "../Genes/GenesDB.h"
 #include "CharacterFactory.h"
-#include "Date.h"
+
+
 
 namespace Imperator
 {
@@ -14,7 +17,7 @@ namespace Imperator
 	{
 	  public:
 		Characters() = default;
-		Characters(std::istream& theStream, std::shared_ptr<GenesDB> genesDB);
+		Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB);
 
 		Characters& operator= (const Characters& obj) { this->characters = obj.characters; return *this; }
 
@@ -35,6 +38,7 @@ namespace Imperator
 		std::map<unsigned long long, std::shared_ptr<Character>> characters;
 	}; // class Characters
 
+	
 	class CharactersBloc : commonItems::parser
 	{
 	public:
