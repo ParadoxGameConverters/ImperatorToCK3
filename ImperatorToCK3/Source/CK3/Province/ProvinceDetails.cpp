@@ -6,9 +6,9 @@
 
 
 History::Factory CK3::ProvinceDetails::historyFactory = History::Factory({
-	{"culture", "culture", std::nullopt},
-	{"religion", "religion", std::nullopt},
-	{"holding", "holding", "none"}
+	{.fieldName="culture", .setter="culture", .initialValue=std::nullopt},
+	{.fieldName="religion", .setter="religion", .initialValue=std::nullopt},
+	{.fieldName="holding", .setter="holding", .initialValue="none"}
 });
 
 CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
