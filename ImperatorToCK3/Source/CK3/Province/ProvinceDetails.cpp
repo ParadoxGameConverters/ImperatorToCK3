@@ -14,9 +14,10 @@ History::Factory CK3::ProvinceDetails::historyFactory = History::Factory({
 CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
 {
 	const auto history = historyFactory.getHistory(theStream);
-	const auto cultureOpt = history->getFieldValue("culture", date(867, 1, 1));
-	const auto religionOpt = history->getFieldValue("religion", date(867, 1, 1));
-	const auto holdingOpt = history->getFieldValue("holding", date(867, 1, 1));
+	const date date{867, 1, 1};
+	const auto cultureOpt = history->getFieldValue("culture", date);
+	const auto religionOpt = history->getFieldValue("religion", date);
+	const auto holdingOpt = history->getFieldValue("holding", date);
 	if (cultureOpt) {
 		culture = *cultureOpt;
 	}
