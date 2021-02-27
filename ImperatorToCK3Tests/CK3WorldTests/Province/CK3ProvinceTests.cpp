@@ -6,6 +6,7 @@
 #include <sstream>
 
 
+
 TEST(CK3World_CK3ProvinceTests, idDefaultsTo0)
 {
 	const CK3::Province province;
@@ -36,15 +37,6 @@ TEST(CK3World_CK3ProvinceTests, provinceCanBeLoadedFromStream)
 	input << "{ culture=roman random_key=random_value religion=orthodox }";
 	CK3::Province province(42, input);
 	ASSERT_EQ(42, province.getID());
-	ASSERT_EQ("orthodox", province.getReligion());
-	ASSERT_EQ("roman", province.getCulture());
-}
-TEST(CK3World_CK3ProvinceTests, provinceCanBeUpdatedFromFile)
-{
-	std::stringstream input;
-	input << "{ culture=dfgdfgdfg random_key=random_value religion=ertert }";
-	CK3::Province province(42, input);
-	province.updateWith("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsCorrect.txt");
 	ASSERT_EQ("orthodox", province.getReligion());
 	ASSERT_EQ("roman", province.getCulture());
 }

@@ -1,7 +1,12 @@
-#ifndef CK3_PROVINCE_DETAILS
-#define CK3_PROVINCE_DETAILS
+#ifndef CK3_PROVINCE_DETAILS_H
+#define CK3_PROVINCE_DETAILS_H
+
+
 
 #include "ConvenientParser.h"
+#include "CommonUtilities/HistoryFactory.h"
+
+
 
 namespace CK3
 {
@@ -9,9 +14,7 @@ class ProvinceDetails: commonItems::convenientParser
 {
   public:
 	ProvinceDetails() = default;
-	explicit ProvinceDetails(const std::string& filePath);
 	explicit ProvinceDetails(std::istream& theStream);
-	void updateWith(const std::string& filePath);
 
 	// These values are open to ease management.
 	// This is a storage container for CK3::Province.
@@ -20,8 +23,8 @@ class ProvinceDetails: commonItems::convenientParser
 	std::string holding = "none";
 
   private:
-	void registerKeys();
+	static History::Factory historyFactory;
 };
 } // namespace CK3
 
-#endif // CK3_PROVINCE_DETAILS
+#endif // CK3_PROVINCE_DETAILS_H

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/CK3/Province/CK3Provinces.h"
+#include "CK3/Province/CK3Provinces.h"
 
 
 TEST(CK3World_CK3ProvincesTests, provincesDefaltToEmpty)
@@ -15,10 +15,10 @@ TEST(CK3World_CK3ProvincesTests, provincesAreProperlyLoadedFromFile)
 	ASSERT_EQ(4, provinces.getProvinces().size());
 	ASSERT_EQ(3080, provinces.getProvinces().find(3080)->first);
 	ASSERT_EQ("slovien", provinces.getProvinces().find(3080)->second->getCulture());
-	ASSERT_EQ("slavic_pagan", provinces.getProvinces().find(3080)->second->getReligion());
+	ASSERT_EQ("catholic", provinces.getProvinces().find(3080)->second->getReligion());
 	ASSERT_EQ(4165, provinces.getProvinces().find(4165)->first);
 	ASSERT_EQ("slovien", provinces.getProvinces().find(4165)->second->getCulture());
-	ASSERT_EQ("slavic_pagan", provinces.getProvinces().find(4165)->second->getReligion());
+	ASSERT_EQ("catholic", provinces.getProvinces().find(4165)->second->getReligion());
 	ASSERT_EQ(4125, provinces.getProvinces().find(4125)->first);
 	ASSERT_EQ("czech", provinces.getProvinces().find(4125)->second->getCulture());
 	ASSERT_EQ("slavic_pagan", provinces.getProvinces().find(4125)->second->getReligion());

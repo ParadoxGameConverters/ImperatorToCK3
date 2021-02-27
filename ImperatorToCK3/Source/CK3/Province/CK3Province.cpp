@@ -6,14 +6,9 @@
 //#include "Title/Title.h"
 //#include "Imperator/Characters/Character.h"
 
+
+
 CK3::Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
-
-
-void CK3::Province::updateWith(const std::string& filePath)
-{
-	// We're doing this for special reason and from a specific source.
-	details.updateWith(filePath);
-}
 
 void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
                                             const mappers::CultureMapper& cultureMapper,

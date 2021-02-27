@@ -484,12 +484,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsBlank.txt">
-      <Filter>TestFiles</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsCorrect.txt">
-      <Filter>TestFiles</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\CK3ProvincesHistoryFile.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>

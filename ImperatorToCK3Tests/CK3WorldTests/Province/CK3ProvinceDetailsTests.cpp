@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/CK3/Province/ProvinceDetails.h"
+#include "CK3/Province/ProvinceDetails.h"
 #include <sstream>
+
 
 
 TEST(CK3World_CK3ProvinceDetailsTests, cultureDefaultsToEmpty)
@@ -17,12 +18,11 @@ TEST(CK3World_CK3ProvinceDetailsTests, religionDefaultsToEmpty)
 	ASSERT_EQ("", details.religion);
 }
 
-TEST(CK3World_CK3ProvinceDetailsTests, detailsCanBeLoadedFromPath)
+TEST(CK3World_CK3ProvinceDetailsTests, holdingDefaultsToNone)
 {
-	const CK3::ProvinceDetails details("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsCorrect.txt");
+	const CK3::ProvinceDetails details;
 
-	ASSERT_EQ("roman", details.culture);
-	ASSERT_EQ("orthodox", details.religion);
+	ASSERT_EQ("none", details.holding);
 }
 
 TEST(CK3World_CK3ProvinceDetailsTests, detailsCanBeLoadedFromStream)
@@ -36,58 +36,18 @@ TEST(CK3World_CK3ProvinceDetailsTests, detailsCanBeLoadedFromStream)
 	ASSERT_EQ("orthodox", details.religion);
 }
 
-TEST(CK3World_CK3ProvinceDetailsTests, detailsCanBeUpdatedFromPath)
+TEST(CK3World_CK3ProvinceDetailsTests, detailsAreLoadedFromDatedBlocks)
 {
-	CK3::ProvinceDetails details;
-	details.culture = "culture";
-	details.religion = "religion";
+	std::stringstream input;
+	input << "= {"
+	"religion = catholic\n"
+	"random_param = random_stuff\n"
+	"culture = roman\n"
+	"850.1.1 = { religion=orthodox holding=castle_holding }"
+	"}";
 
-	ASSERT_EQ("culture", details.culture);
-	ASSERT_EQ("religion", details.religion);
-	details.updateWith("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsCorrect.txt");
-	ASSERT_EQ("roman", details.culture);
+	const CK3::ProvinceDetails details(input);
+
+	ASSERT_EQ("castle_holding", details.holding);
 	ASSERT_EQ("orthodox", details.religion);
 }
-
-TEST(CK3World_CK3ProvinceDetailsTests, detailsLoadedFromBlankFileAreBlank)
-{
-	const CK3::ProvinceDetails details("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsBlank.txt");
-	ASSERT_EQ("", details.culture);
-	ASSERT_EQ("", details.religion);
-}
-
-TEST(CK3World_CK3ProvinceDetailsTests, updateWithWrongFilePathResultsInLogError)
-{
-	CK3::ProvinceDetails details;
-
-	std::stringstream log;
-	auto* stdOutBuf = std::cout.rdbuf();
-	std::cout.rdbuf(log.rdbuf());
-
-	details.updateWith("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt");
-
-	std::cout.rdbuf(stdOutBuf);
-	auto stringLog = log.str();
-	const auto newLine = stringLog.find_first_of('\n');
-	stringLog = stringLog.substr(0, newLine);
-	
-
-	ASSERT_EQ("   [ERROR] Could not open TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt to update province details.", stringLog);
-}
-
-TEST(CK3World_CK3ProvinceDetailsTests, provinceDetailsWithWrongFilePathResultsInLogError)
-{
-	std::stringstream log;
-	auto* stdOutBuf = std::cout.rdbuf();
-	std::cout.rdbuf(log.rdbuf());
-
-	const CK3::ProvinceDetails details("TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt");
-
-	std::cout.rdbuf(stdOutBuf);
-	auto stringLog = log.str();
-	const auto newLine = stringLog.find_first_of('\n');
-	stringLog = stringLog.substr(0, newLine);
-
-	ASSERT_EQ("   [ERROR] Could not open TestFiles/CK3ProvinceDetails/CK3ProvinceDetailsMissing.txt to load province details.", stringLog);
-}
-
