@@ -100,6 +100,9 @@
     <Filter Include="Mappers\CK3RegionMapper">
       <UniqueIdentifier>{0dda4143-d939-4720-bb69-1ebd40eca92d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CommonUtilities">
+      <UniqueIdentifier>{39355f0a-c912-40f8-9c6d-2044fbe02368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -364,6 +367,18 @@
     <ClInclude Include="Source\Imperator\Provinces\ProvinceFactory.h">
       <Filter>Imperator\Provinces</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CommonUtilities\History.h">
+      <Filter>CommonUtilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CommonUtilities\HistoryFactory.h">
+      <Filter>CommonUtilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CommonUtilities\DatedHistoryBlock.h">
+      <Filter>CommonUtilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CommonUtilities\SimpleField.h">
+      <Filter>CommonUtilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -610,6 +625,18 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Provinces\ProvinceFactory.cpp">
       <Filter>Imperator\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CommonUtilities\HistoryFactory.cpp">
+      <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CommonUtilities\History.cpp">
+      <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CommonUtilities\DatedHistoryBlock.cpp">
+      <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CommonUtilities\SimpleField.cpp">
+      <Filter>CommonUtilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
