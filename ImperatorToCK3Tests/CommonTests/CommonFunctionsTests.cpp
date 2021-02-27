@@ -10,7 +10,7 @@ TEST(ImperatorWorld_CommonFunctionsTests, TrimPathTrimsSlashes)
 
 TEST(ImperatorWorld_CommonFunctionsTests, TrimPathTrimsBackslashes)
 {
-	const std::string input = "c:\\this\\is\\a\\path.txt";
+	const std::string input = R"(c:\this\is\a\path.txt)";
 
 	ASSERT_EQ("path.txt", trimPath(input));
 }

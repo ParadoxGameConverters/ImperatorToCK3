@@ -348,7 +348,7 @@ TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 
 	const auto theCharacter = *Imperator::Character::Factory().getCharacter(input, "42", genesDB);
 
-	ASSERT_NEAR(420.5, theCharacter.getWealth(), 0.001);
+	ASSERT_DOUBLE_EQ(420.5, theCharacter.getWealth());
 }
 
 TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero)
@@ -443,7 +443,7 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 
 	const auto theFamily = *Imperator::Family::Factory().getFamily(familyInput, 42);
 
-	Imperator::Character theCharacter = *Imperator::Character::Factory().getCharacter(characterInput, "69", genesDB);
+	auto theCharacter = *Imperator::Character::Factory().getCharacter(characterInput, "69", genesDB);
 
 	if (theCharacter.getFamily().first == theFamily.getID())
 	{

@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Province.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/ProvinceFactory.h"
-#include "../commonItems/Date.h"
+#include "Imperator/Provinces/Province.h"
+#include "Imperator/Provinces/ProvinceFactory.h"
 #include <sstream>
 
 TEST(ImperatorWorld_ProvinceTests, IDCanBeSet)
