@@ -53,7 +53,7 @@ TEST(Mappers_ImperatorRegionTests, linkedRegionCanLocateProvince)
 
 	std::stringstream input2;
 	input2 << "{ provinces  = { 3 6 2 }} \n";
-	auto area = std::make_shared<mappers::ImperatorArea>(input2);
+	const auto area = std::make_shared<mappers::ImperatorArea>(input2);
 
 	region.linkArea("test2", area);
 
@@ -68,7 +68,7 @@ TEST(Mappers_ImperatorRegionTests, linkedRegionWillFailForProvinceMismatch)
 
 	std::stringstream input2;
 	input2 << "{ provinces  = { 3 6 2 }} \n";
-	auto area = std::make_shared<mappers::ImperatorArea>(input2);
+	const auto area = std::make_shared<mappers::ImperatorArea>(input2);
 
 	region.linkArea("test2", area);
 

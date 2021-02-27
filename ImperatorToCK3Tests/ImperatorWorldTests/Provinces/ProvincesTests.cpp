@@ -111,7 +111,7 @@ TEST(ImperatorWorld_ProvincesTests, BrokenLinkAttemptThrowsWarning)
 	pops.loadPops(input2);
 
 	std::stringstream log;
-	auto stdOutBuf = std::cout.rdbuf();
+	auto* stdOutBuf = std::cout.rdbuf();
 	std::cout.rdbuf(log.rdbuf());
 
 	provinces.linkPops(pops);
