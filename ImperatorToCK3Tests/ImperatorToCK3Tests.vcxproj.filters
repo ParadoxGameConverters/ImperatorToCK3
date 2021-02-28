@@ -484,12 +484,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsBlank.txt">
-      <Filter>TestFiles</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="TestFiles\CK3ProvinceDetailsCorrect.txt">
-      <Filter>TestFiles</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\CK3ProvincesHistoryFile.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
@@ -499,5 +493,13 @@
     <CopyFileToFolders Include="TestFiles\title_map.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\culture_map.txt">
+      <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt">
+      <Filter>TestFiles</Filter>
+    </Text>
   </ItemGroup>
 </Project>

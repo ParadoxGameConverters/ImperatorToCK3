@@ -1,42 +1,30 @@
 #include "ProvinceDetails.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
-#include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
-CK3::ProvinceDetails::ProvinceDetails(const std::string& filePath)
-{
-	registerKeys();
-	if (commonItems::DoesFileExist(filePath))
-	{
-		parseFile(filePath);
-	}
-	else Log(LogLevel::Error) << "Could not open " << filePath << " to load province details.";
-	clearRegisteredKeywords();
-}
 
-void CK3::ProvinceDetails::updateWith(const std::string& filePath)
-{
-	registerKeys();
-	if (commonItems::DoesFileExist(filePath))
-	{
-		parseFile(filePath);
-	}
-	else Log(LogLevel::Error) << "Could not open " << filePath << " to update province details.";
-	clearRegisteredKeywords();
-}
+
+History::Factory CK3::ProvinceDetails::historyFactory = History::Factory({
+	{.fieldName="culture", .setter="culture", .initialValue=std::nullopt},
+	{.fieldName="religion", .setter="religion", .initialValue=std::nullopt},
+	{.fieldName="holding", .setter="holding", .initialValue="none"}
+});
 
 CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
 {
-	registerKeys();
-	parseStream(theStream);
-	clearRegisteredKeywords();
-}
-
-void CK3::ProvinceDetails::registerKeys()
-{
-	registerSetter("culture", culture);
-	registerSetter("religion", religion);
-	registerSetter("holding", holding);
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	const auto history = historyFactory.getHistory(theStream);
+	const date date{867, 1, 1};
+	const auto cultureOpt = history->getFieldValue("culture", date);
+	const auto religionOpt = history->getFieldValue("religion", date);
+	const auto holdingOpt = history->getFieldValue("holding", date);
+	if (cultureOpt) {
+		culture = *cultureOpt;
+	}
+	if (religionOpt) {
+		religion = *religionOpt;
+	}
+	if (holdingOpt) {
+		holding = *holdingOpt;
+	}
 }
