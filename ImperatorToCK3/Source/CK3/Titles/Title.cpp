@@ -90,11 +90,15 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	
 	std::optional<mappers::LocBlock> validatedName;
 	// hard code for Antigonid Kingdom, Seleucid Empire and Maurya (which use customizable localization for name and adjective)
-	if (imperatorCountry->getName() == "PRY_DYN") validatedName = localizationMapper.getLocBlockForKey("get_pry_name_fallback");
-	else if (imperatorCountry->getName() == "SEL_DYN") validatedName = localizationMapper.getLocBlockForKey("get_sel_name_fallback");
-	else if (imperatorCountry->getName() == "MRY_DYN") validatedName = localizationMapper.getLocBlockForKey("get_mry_name_fallback");
+	if (imperatorCountry->getName() == "PRY_DYN")
+		validatedName = localizationMapper.getLocBlockForKey("get_pry_name_fallback");
+	else if (imperatorCountry->getName() == "SEL_DYN")
+		validatedName = localizationMapper.getLocBlockForKey("get_sel_name_fallback");
+	else if (imperatorCountry->getName() == "MRY_DYN")
+		validatedName = localizationMapper.getLocBlockForKey("get_mry_name_fallback");
 	// normal case
-	else validatedName = localizationMapper.getLocBlockForKey(imperatorCountry->getName());
+	else
+		validatedName = localizationMapper.getLocBlockForKey(imperatorCountry->getName());
 
 	std::optional<std::string> title;
 	if (validatedName) 
@@ -109,10 +113,12 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 
 	
 	// ------------------ determine holder
-	if (imperatorCountry->getMonarch()) holder = "imperator" + std::to_string(*imperatorCountry->getMonarch());
+	if (imperatorCountry->getMonarch())
+		holder = "imperator" + std::to_string(*imperatorCountry->getMonarch());
 
 	// ------------------ determine government
-	if (imperatorCountry->getGovernment()) government = governmentMapper.getCK3GovernmentForImperatorGovernment(*imperatorCountry->getGovernment());
+	if (imperatorCountry->getGovernment())
+		government = governmentMapper.getCK3GovernmentForImperatorGovernment(*imperatorCountry->getGovernment());
 
 	// ------------------ determine color
 	auto colorOpt = imperatorCountry->getColor1();
@@ -170,9 +176,12 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 	if (imperatorCountry->getTag() == "PRY" || imperatorCountry->getTag() == "SEL" || imperatorCountry->getTag() == "MRY") // these tags use customizable loc for adj
 	{
 		std::optional<mappers::LocBlock> validatedAdj;
-		if (imperatorCountry->getName() == "PRY_DYN") validatedAdj = localizationMapper.getLocBlockForKey("get_pry_adj_fallback");
-		else if (imperatorCountry->getName() == "SEL_DYN") validatedAdj = localizationMapper.getLocBlockForKey("get_sel_adj_fallback");
-		else if (imperatorCountry->getName() == "MRY_DYN") validatedAdj = localizationMapper.getLocBlockForKey("get_mry_adj_fallback");
+		if (imperatorCountry->getName() == "PRY_DYN")
+			validatedAdj = localizationMapper.getLocBlockForKey("get_pry_adj_fallback");
+		else if (imperatorCountry->getName() == "SEL_DYN")
+			validatedAdj = localizationMapper.getLocBlockForKey("get_sel_adj_fallback");
+		else if (imperatorCountry->getName() == "MRY_DYN")
+			validatedAdj = localizationMapper.getLocBlockForKey("get_mry_adj_fallback");
 
 		if (validatedAdj)
 		{
@@ -216,13 +225,15 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 void CK3::Title::setDeJureLiege(const std::shared_ptr<Title>& liegeTitle)
 {
 	deJureLiege = liegeTitle;
-	if (deJureLiege) liegeTitle->deJureVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
+	if (deJureLiege)
+		liegeTitle->deJureVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
 }
 
 void CK3::Title::setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle)
 {
 	deFactoLiege = liegeTitle;
-	if (deFactoLiege) liegeTitle->deFactoVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
+	if (deFactoLiege)
+		liegeTitle->deFactoVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
 }
 
 

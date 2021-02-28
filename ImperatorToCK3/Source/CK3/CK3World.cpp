@@ -12,6 +12,8 @@
 #include "Province/CK3ProvinceMappings.h"
 #include "Titles/Title.h"
 
+
+
 namespace fs = std::filesystem;
 
 CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser)
@@ -259,7 +261,8 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 				if (impProvince)
 				{
 					std::optional<unsigned long long> impMonarch;
-					if (impWorld.getCountries().find(impProvince->getOwner()) != impWorld.getCountries().end()) impMonarch = impWorld.getCountries().find(impProvince->getOwner())->second->getMonarch();
+					if (impWorld.getCountries().contains(impProvince->getOwner()))
+						impMonarch = impWorld.getCountries().at(impProvince->getOwner())->getMonarch();
 					if (impMonarch)
 					{
 						title->holder = "imperator" + std::to_string(*impMonarch);
@@ -274,7 +277,7 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 				}
 			}
 		}
-		else if (!name.starts_with("c_") && !name.starts_with("b_")) // title is a duchy or higher
+		else if (!name.starts_with("c_") && !name.starts_with("b_") && !title->generated) // title is a duchy or higher, imported from Imperator
 		{
 			// update title holder, liege and history
 			title->addHistory(landedTitles, titlesHistory);
@@ -291,19 +294,19 @@ void CK3::World::removeInvalidLandlessTitles()
 	for (const auto& [name, title] : getTitles())
 	{	//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
-		if (name.find("c_") != 0 && name.find("b_") != 0 && countyHoldersCache.find(title->holder) == countyHoldersCache.end())
+		if (!name.starts_with("c_") && !name.starts_with("b_") && !countyHoldersCache.contains(title->holder))
 		{
 			if (!getTitles().find(name)->second->landless) // does not have landless attribute set to true
 			{
 				if (title->generated)
 				{
-					landedTitles.eraseTitle(name);
 					removedGeneratedTitles.emplace(name);
+					landedTitles.eraseTitle(name);
 				}
 				else
 				{
-					title->holder = "0";
 					revokedVanillaTitles.emplace(name);
+					title->holder = "0";
 				}
 			}
 		}

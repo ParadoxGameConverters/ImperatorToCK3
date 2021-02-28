@@ -5,6 +5,8 @@
 #include "CommonRegexes.h"
 #include <memory>
 
+
+
 // This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
 // and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 // Since titles are nested according to hierarchy we do this recursively.
@@ -41,7 +43,8 @@ std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigne
 	for (const auto& [titleName, title] : foundTitles)
 	{
 		if (titleName.starts_with("c_") && !title->getCountyProvinces().empty())
-			if (title->getCountyProvinces().contains(provinceID)) return titleName;
+			if (title->getCountyProvinces().contains(provinceID))
+				return titleName;
 	}
 	return std::nullopt;
 }
@@ -49,18 +52,23 @@ std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigne
 
 void CK3::LandedTitles::insertTitle(const std::shared_ptr<Title>& title)
 {
-	if (!title->titleName.empty()) foundTitles[title->titleName] = title;
-	else Log(LogLevel::Warning) << "Not inserting a title with empty name!";
+	if (!title->titleName.empty()) {
+		foundTitles[title->titleName] = title;
+	}
+	else
+		Log(LogLevel::Warning) << "Not inserting a title with empty name!";
 }
 void CK3::LandedTitles::eraseTitle(const std::string& name)
 {
 	if (const auto titleItr = foundTitles.find(name); titleItr != foundTitles.end())
 	{
 		auto liegePtr = titleItr->second->getDeJureLiege();
-		if (liegePtr) liegePtr->deJureVassals.erase(name);
+		if (liegePtr)
+			liegePtr->deJureVassals.erase(name);
 
 		liegePtr = titleItr->second->getDeFactoLiege();
-		if (liegePtr) liegePtr->deFactoVassals.erase(name);
+		if (liegePtr)
+			liegePtr->deFactoVassals.erase(name);
 
 		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deJureVassals)
 		{
@@ -71,7 +79,8 @@ void CK3::LandedTitles::eraseTitle(const std::string& name)
 			vassalTitle->setDeFactoLiege(nullptr);
 		}
 
-		if (titleItr->second->imperatorCountry) titleItr->second->imperatorCountry->setCK3Title(nullptr);
+		if (titleItr->second->imperatorCountry)
+			titleItr->second->imperatorCountry->setCK3Title(nullptr);
 	}
 	foundTitles.erase(name);
 }
