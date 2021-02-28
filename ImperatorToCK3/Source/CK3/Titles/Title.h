@@ -35,6 +35,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 		mappers::CoaMapper& coaMapper,
 		mappers::TagTitleMapper& tagTitleMapper,
 		mappers::GovernmentMapper& governmentMapper);
+	void updateFromTitle(const std::shared_ptr<Title>& otherTitle);
 	void loadTitles(std::istream& theStream);
 
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name

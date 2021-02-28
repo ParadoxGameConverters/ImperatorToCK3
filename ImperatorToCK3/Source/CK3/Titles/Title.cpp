@@ -166,7 +166,24 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	
 	// --------------- Adjective Locs
 	trySetAdjectiveLoc(localizationMapper);
+}
 
+void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle)
+{
+	if (titleName != otherTitle->titleName)
+		throw std::runtime_error(titleName + " can not be updated from  " + otherTitle->titleName + ": different title names!");
+	
+	generated = otherTitle->generated;
+	imperatorCountry = otherTitle->imperatorCountry;
+
+	holder = otherTitle->holder;
+	government = otherTitle->government;
+
+	color1 = otherTitle->color1;
+	color2 = otherTitle->color2;
+	coa = otherTitle->coa;
+
+	capitalCounty = otherTitle->capitalCounty;
 }
 
 void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper)
