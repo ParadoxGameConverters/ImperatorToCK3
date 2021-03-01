@@ -289,7 +289,7 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 				}
 			}
 		}
-		else if (!name.starts_with("c_") && !name.starts_with("b_") && !title->generated) // title is a duchy or higher, imported from Imperator
+		else if (!name.starts_with("c_") && !name.starts_with("b_") && !title->isImportedOrUpdatedFromImperator()) // title is a duchy or higher, imported from Imperator
 		{
 			// update title holder, liege and history
 			title->addHistory(landedTitles, titlesHistory);
@@ -310,7 +310,7 @@ void CK3::World::removeInvalidLandlessTitles()
 		{
 			if (!getTitles().find(name)->second->landless) // does not have landless attribute set to true
 			{
-				if (title->generated)
+				if (title->isImportedOrUpdatedFromImperator())
 				{
 					removedGeneratedTitles.emplace(name);
 					landedTitles.eraseTitle(name);

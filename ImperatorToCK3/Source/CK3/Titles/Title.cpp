@@ -81,7 +81,7 @@ void CK3::Title::registerKeys()
 void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& landedTitles, mappers::ProvinceMapper& provinceMapper,
                                    mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper, mappers::GovernmentMapper& governmentMapper)
 {
-	generated = true;
+	importedOrUpdatedFromImperator = true;
 
 	imperatorCountry = std::move(theCountry);
 
@@ -173,7 +173,7 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle)
 	if (titleName != otherTitle->titleName)
 		throw std::runtime_error(titleName + " can not be updated from  " + otherTitle->titleName + ": different title names!");
 	
-	generated = otherTitle->generated;
+	importedOrUpdatedFromImperator = otherTitle->importedOrUpdatedFromImperator;
 	imperatorCountry = otherTitle->imperatorCountry;
 
 	holder = otherTitle->holder;

@@ -46,6 +46,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	void setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle);
 
 	[[nodiscard]] const auto& getName() const { return titleName; }
+	[[nodiscard]] auto isImportedOrUpdatedFromImperator() const { return importedOrUpdatedFromImperator; }
 
 	[[nodiscard]] const auto& getDeJureLiege() const { return deJureLiege; }
 	[[nodiscard]] const auto& getDeFactoLiege() const { return deFactoLiege; }
@@ -58,7 +59,6 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	[[nodiscard]] const auto& getProvince() const { return province; } // for barony titles
 	[[nodiscard]] const auto& getCountyProvinces() const { return countyProvinces; } // county titles
 
-	bool generated = false; // if title is not based on CK3 landed titles file
 	bool definiteForm = false;
 	bool landless = false;
 	std::string holder = "0"; // ID of Character holding the Title
@@ -89,7 +89,8 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
 
 	std::string titleName; // e.g. d_latium
-	
+
+	bool importedOrUpdatedFromImperator = false;
 	std::optional<commonItems::Color> color1;
 	std::optional<commonItems::Color> color2;
 
