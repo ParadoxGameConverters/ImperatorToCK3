@@ -112,7 +112,7 @@ TEST(ImperatorWorld_FamilyTests, minorFamilyDefaultsToFalse)
 
 	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
-	ASSERT_FALSE(theFamily.getIsMinor());
+	ASSERT_FALSE(theFamily.isMinor());
 }
 
 
@@ -126,7 +126,7 @@ TEST(ImperatorWorld_FamilyTests, minorFamilyCanBeSet)
 
 	const auto theFamily = *Imperator::Family::Factory().getFamily(input, 42);
 
-	ASSERT_TRUE(theFamily.getIsMinor());
+	ASSERT_TRUE(theFamily.isMinor());
 }
 
 
