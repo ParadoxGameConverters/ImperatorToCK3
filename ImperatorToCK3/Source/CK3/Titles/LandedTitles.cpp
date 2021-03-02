@@ -42,9 +42,9 @@ std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigne
 {
 	for (const auto& [titleName, title] : foundTitles)
 	{
-		if (titleName.starts_with("c_") && !title->getCountyProvinces().empty())
-			if (title->getCountyProvinces().contains(provinceID))
-				return titleName;
+		if (titleName.starts_with("c_") && title->getCountyProvinces().contains(provinceID)) {
+			return titleName;
+		}
 	}
 	return std::nullopt;
 }

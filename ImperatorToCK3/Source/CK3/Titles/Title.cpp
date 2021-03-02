@@ -170,8 +170,10 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 
 void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle)
 {
-	if (titleName != otherTitle->titleName)
-		throw std::runtime_error(titleName + " can not be updated from  " + otherTitle->titleName + ": different title names!");
+	if (titleName != otherTitle->titleName) {
+		Log(LogLevel::Error) << titleName << " can not be updated from  " << otherTitle->titleName << ": different title names!";
+		return;
+	}
 	
 	importedOrUpdatedFromImperator = otherTitle->importedOrUpdatedFromImperator;
 	imperatorCountry = otherTitle->imperatorCountry;
