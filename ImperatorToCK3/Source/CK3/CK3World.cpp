@@ -106,7 +106,6 @@ void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std:
 		landedTitles.insertTitle(newTitle);
 		country.second->setCK3Title(newTitle);
 	}
-	
 }
 
 
