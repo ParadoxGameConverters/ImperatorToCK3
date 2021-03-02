@@ -5,8 +5,7 @@
 
 
 
-Imperator::Family::Factory::Factory()
-{
+Imperator::Family::Factory::Factory() {
 	registerKeyword("key", [&](std::istream& theStream) {
 		family->key = commonItems::getString(theStream);
 	});
@@ -23,14 +22,15 @@ Imperator::Family::Factory::Factory()
 		family->minor = commonItems::getString(theStream) == "yes";
 	});
 	registerKeyword("member", [&](std::istream& theStream) {
-		family->members = commonItems::getULlongs(theStream);
+		for (const auto& memberID : commonItems::getULlongs(theStream)) {
+			family->members.emplace_back(memberID, nullptr);
+		}
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
 
-std::unique_ptr<Imperator::Family> Imperator::Family::Factory::getFamily(std::istream& theStream, const unsigned long long theFamilyID)
-{
+std::unique_ptr<Imperator::Family> Imperator::Family::Factory::getFamily(std::istream& theStream, const unsigned long long theFamilyID) {
 	family = std::make_unique<Family>();
 	family->ID = theFamilyID;
 

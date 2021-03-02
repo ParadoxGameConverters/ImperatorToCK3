@@ -2,16 +2,21 @@
 #define IMPERATOR_FAMILY_H
 
 
+
 #include <string>
+#include <memory>
+#include <vector>
 
 
-namespace Imperator
-{
-class Family
-{
+
+namespace Imperator {
+class Character;
+class Family {
   public:
 	class Factory;
 	Family() = default;
+
+	void linkMember(const std::shared_ptr<Character>& memberPtr);
 
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] const auto& getKey() const { return key; }
@@ -28,9 +33,10 @@ class Family
 	std::string culture;
 	double prestige = 0;
 	double prestigeRatio = 0;
-	std::vector<unsigned long long> members;
+	std::vector<std::pair<unsigned long long, std::shared_ptr<Character>>> members;
 	bool minor = false;
 };
+
 } // namespace Imperator
 
 #endif // IMPERATOR_FAMILY_H

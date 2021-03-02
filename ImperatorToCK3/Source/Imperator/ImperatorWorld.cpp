@@ -1,7 +1,7 @@
 #include "ImperatorWorld.h"
 #include "GameVersion.h"
-#include "../Configuration/Configuration.h"
-#include "../Helpers/rakaly_wrapper.h"
+#include "Configuration/Configuration.h"
+#include "Helpers/rakaly_wrapper.h"
 #include "Date.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
@@ -11,10 +11,11 @@
 #include <filesystem>
 #include <fstream>
 
+
+
 namespace fs = std::filesystem;
 
-Imperator::World::World(const Configuration& theConfiguration)
-{
+Imperator::World::World(const Configuration& theConfiguration) {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
 	
 	parseGenes(theConfiguration);
