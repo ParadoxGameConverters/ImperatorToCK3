@@ -2,6 +2,7 @@
 #define CK3_WORLD
 
 
+
 #include "../Imperator/ImperatorWorld.h"
 #include "../Mappers/VersionParser/VersionParser.h"
 #include "../Mappers/LocalizationMapper/LocalizationMapper.h"
@@ -20,6 +21,8 @@
 #include "Titles/LandedTitles.h"
 #include "Titles/Title.h"
 #include "Titles/TitlesHistory.h"
+
+
 
 class Configuration;
 

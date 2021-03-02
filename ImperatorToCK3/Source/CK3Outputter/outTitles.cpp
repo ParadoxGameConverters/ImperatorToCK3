@@ -83,7 +83,7 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 		if (title->imperatorCountry && title->imperatorCountry->getCountryType() != Imperator::countryTypeEnum::real) // we don't need pirates, barbarians etc.
 			continue;
 		
-		if (title->generated) // title is not from CK3
+		if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != std::string::npos)   // title is not from CK3
 		{
 			std::ofstream output("output/" + outputModName + "/common/landed_titles/" + name + ".txt");
 			if (!output.is_open())
