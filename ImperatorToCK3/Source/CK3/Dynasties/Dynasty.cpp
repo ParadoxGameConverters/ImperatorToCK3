@@ -6,15 +6,12 @@
 
 
 
-CK3::Dynasty::Dynasty(const Imperator::Family& impFamily, const mappers::LocalizationMapper& locMapper) {
-	ID = "dynn_IMPTOCK3_" + std::to_string(impFamily.getID());
+CK3::Dynasty::Dynasty(const Imperator::Family& impFamily, const mappers::LocalizationMapper& locMapper) : ID{"dynn_IMPTOCK3_" + std::to_string(impFamily.getID())} {
 	name = ID;
 
 	const auto& impMembers = impFamily.getMembers();
 	if (!impMembers.empty()) {
-		// set culture
-		auto impHead = impMembers[0].second;
-		culture = impHead->getCK3Character()->culture;
+		culture = impMembers[0].second->getCK3Character()->culture; // make head's culture the dynasty culture
 	}
 	else {
 		Log(LogLevel::Warning) << "Couldn't determine culture for dynasty " << ID << ", needs manual setting!";
