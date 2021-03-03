@@ -94,6 +94,15 @@
     <Filter Include="Sources\CommonUtilities">
       <UniqueIdentifier>{570d630e-cc0f-4ef2-99dc-8465ff85720f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CK3WorldTests\Dynasties">
+      <UniqueIdentifier>{f47e6a22-034e-4a27-abd8-3f73efc5b89c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CK3\Provinces">
+      <UniqueIdentifier>{c32baab6-b05b-4c7a-892c-1824bb977498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CK3\Dynasties">
+      <UniqueIdentifier>{dfa38371-681a-46c6-8573-0583a5d3e13a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -423,15 +432,6 @@
     <ClCompile Include="..\commonItems\StringUtils.cpp">
       <Filter>Sources\commonItems</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Province.cpp">
-      <Filter>Sources\CK3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3ProvinceMappings.cpp">
-      <Filter>Sources\CK3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Provinces.cpp">
-      <Filter>Sources\CK3</Filter>
-    </ClCompile>
     <ClCompile Include="..\googletest\googletest\src\gtest-all.cc">
       <Filter>Sources\gtest</Filter>
     </ClCompile>
@@ -461,6 +461,21 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CK3WorldTests\Dynasties\DynastyTests.cpp">
+      <Filter>CK3WorldTests\Dynasties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Province.cpp">
+      <Filter>Sources\CK3\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3ProvinceMappings.cpp">
+      <Filter>Sources\CK3\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Provinces.cpp">
+      <Filter>Sources\CK3\Provinces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Dynasties\Dynasty.cpp">
+      <Filter>Sources\CK3\Dynasties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

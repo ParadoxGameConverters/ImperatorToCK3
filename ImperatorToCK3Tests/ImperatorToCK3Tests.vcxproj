@@ -172,6 +172,7 @@
     <ClCompile Include="..\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="..\commonItems\StringUtils.cpp" />
     <ClCompile Include="..\cpp-base64\base64.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Dynasties\Dynasty.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Province.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3ProvinceMappings.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\CK3Provinces.cpp" />
@@ -242,6 +243,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="AccessoryGenesTests.cpp" />
     <ClCompile Include="CK3WorldTests\Character\CK3CharacterTests.cpp" />
+    <ClCompile Include="CK3WorldTests\Dynasties\DynastyTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceDetailsTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceTests.cpp" />
