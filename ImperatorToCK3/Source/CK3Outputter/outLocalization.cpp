@@ -75,12 +75,31 @@ void CK3::outputLocalization(const std::string& imperatorPath, const std::string
 	russian.close();
 	spanish.close();
 
+
 	// dynasty localization
 	std::ofstream englishDynLoc("output/" + outputName + "/localization/replace/english/imp_dynasty_l_english.yml");
 	std::ofstream frenchDynLoc("output/" + outputName + "/localization/replace/french/imp_dynasty_l_french.yml");
 	std::ofstream germanDynLoc("output/" + outputName + "/localization/replace/german/imp_dynasty_l_german.yml");
 	std::ofstream russianDynLoc("output/" + outputName + "/localization/replace/russian/imp_dynasty_l_russian.yml");
 	std::ofstream spanishDynLoc("output/" + outputName + "/localization/replace/spanish/imp_dynasty_l_spanish.yml");
+
+	if (!englishDynLoc.is_open())
+		throw std::runtime_error("Error writing english localization file! Is the output folder writable?");
+	if (!frenchDynLoc.is_open())
+		throw std::runtime_error("Error writing french localization file! Is the output folder writable?");
+	if (!germanDynLoc.is_open())
+		throw std::runtime_error("Error writing german localization file! Is the output folder writable?");
+	if (!russianDynLoc.is_open())
+		throw std::runtime_error("Error writing russian localization file! Is the output folder writable?");
+	if (!spanishDynLoc.is_open())
+		throw std::runtime_error("Error writing spanish localization file! Is the output folder writable?");
+
+	englishDynLoc << commonItems::utf8BOM << "l_english:\n";
+	frenchDynLoc << commonItems::utf8BOM << "l_french:\n";
+	germanDynLoc << commonItems::utf8BOM << "l_german:\n";
+	russianDynLoc << commonItems::utf8BOM << "l_russian:\n";
+	spanishDynLoc << commonItems::utf8BOM << "l_spanish:\n";
+
 	for (const auto& [_, dynasty] : CK3World.getDynasties()) {
 		const auto& [key, loc] = dynasty->getLocalization();
 		englishDynLoc << " " << key << ": \"" << loc.english << "\"\n";
