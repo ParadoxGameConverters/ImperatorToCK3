@@ -1,14 +1,24 @@
 #include "outCharacter.h"
+#include "CK3/Dynasties/Dynasty.h"
+
 
 
 std::ostream& CK3::operator<<(std::ostream& output, const Character& character)
 {
 	// output ID, name, sex, culture, religion
 	output << character.ID << " = {\n";
-	if (!character.name.empty()) output << "\tname = \"" << character.name << "\"\n";
-	if (character.female) output << "\tfemale = yes\n";
-	if (!character.culture.empty()) output << "\tculture = " << character.culture << "\n";
-	if (!character.religion.empty()) output << "\treligion = " << character.religion << "\n";
+	if (!character.name.empty())
+		output << "\tname = \"" << character.name << "\"\n";
+	if (character.female)
+		output << "\tfemale = yes\n";
+	if (!character.culture.empty())
+		output << "\tculture = " << character.culture << "\n";
+	if (!character.religion.empty())
+		output << "\treligion = " << character.religion << "\n";
+
+	// output dynasty
+	if (character.dynastyID)
+		output << "\tdynasty = " << *character.dynastyID << "\n";
 
 	//output father and mother
 	if (character.father.second) output << "\tfather = " << character.father.first << "\n";

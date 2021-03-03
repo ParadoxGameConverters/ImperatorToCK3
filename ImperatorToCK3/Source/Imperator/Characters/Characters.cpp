@@ -8,6 +8,7 @@
 #include <set>
 
 
+
 Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB): genes(genesDB)
 {
 	registerKeys();
@@ -24,33 +25,26 @@ void Imperator::Characters::registerKeys()
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
-void Imperator::Characters::linkFamilies(const Families& theFamilies)
-{
+void Imperator::Characters::linkFamilies(const Families& theFamilies) {
 	auto counter = 0;
 	std::set<unsigned long long> idsWithoutDefinition;
 	const auto& families = theFamilies.getFamilies();
-	for (const auto& [characterID, character]: characters)
-	{
-		if (character->getFamily().first)
-		{
-			const auto& familyItr = families.find(character->getFamily().first);
-			if (familyItr != families.end())
-			{
-				character->setFamily(familyItr->second);
-				counter++;
-			}
-			else
-			{
-				idsWithoutDefinition.insert(character->getFamily().first);
-			}
+
+	for (const auto& [characterID, character]: characters) {
+		auto familyID = character->getFamily().first;
+		if (const auto& familyItr = families.find(familyID); familyItr != families.end()) {
+			character->setFamily(familyItr->second);
+			familyItr->second->linkMember(character);
+			++counter;
+		}
+		else {
+			idsWithoutDefinition.emplace(familyID);
 		}
 	}
 
 	std::string warningString = "Families without definition:";
-	if (!idsWithoutDefinition.empty())
-	{
-		for (auto id : idsWithoutDefinition)
-		{
+	if (!idsWithoutDefinition.empty()) {
+		for (auto id : idsWithoutDefinition) {
 			warningString += " ";
 			warningString += std::to_string(id);
 			warningString += ",";

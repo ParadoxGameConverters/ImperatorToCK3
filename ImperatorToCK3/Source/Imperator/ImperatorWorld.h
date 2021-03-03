@@ -27,6 +27,7 @@ namespace Imperator
 			explicit World(const Configuration& theConfiguration);
 	
 			[[nodiscard]] const auto& getEndDate() const { return endDate; }
+			[[nodiscard]] const auto& getFamilies() const { return families.getFamilies(); }
 			[[nodiscard]] const auto& getCharacters() const { return characters.getCharacters(); }
 			[[nodiscard]] const auto& getProvinces() const { return provinces.getProvinces(); }
 			[[nodiscard]] const auto& getCountries() const { return countries.getCountries(); }

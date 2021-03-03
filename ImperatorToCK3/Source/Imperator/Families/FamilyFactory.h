@@ -9,11 +9,9 @@
 
 
 
-namespace Imperator
-{
+namespace Imperator {
 
-class Family::Factory: commonItems::convenientParser
-{
+class Family::Factory: commonItems::convenientParser {
   public:
 	explicit Factory();
 	std::unique_ptr<Family> getFamily(std::istream& theStream, unsigned long long theFamilyID);

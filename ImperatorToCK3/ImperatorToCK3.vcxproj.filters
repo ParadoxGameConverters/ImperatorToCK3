@@ -43,9 +43,6 @@
     <Filter Include="Mappers\ProvinceMapper">
       <UniqueIdentifier>{98c970e3-6c0d-4b8b-b141-6d4519c3b82e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CK3\Province">
-      <UniqueIdentifier>{8d84171d-cbd1-49e5-aba5-9b0fc315fab3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Mappers\CultureMapper">
       <UniqueIdentifier>{df9c7661-79c3-4254-969a-6231753b31ac}</UniqueIdentifier>
     </Filter>
@@ -69,9 +66,6 @@
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{08765932-f1d7-433c-8037-80b2fd4a62f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CK3\Character">
-      <UniqueIdentifier>{532b7914-6ab3-42c7-9090-371686001d99}</UniqueIdentifier>
     </Filter>
     <Filter Include="Mappers\TraitMapper">
       <UniqueIdentifier>{c0c8fb12-dab8-4549-812a-d7fc79f7cc51}</UniqueIdentifier>
@@ -102,6 +96,15 @@
     </Filter>
     <Filter Include="CommonUtilities">
       <UniqueIdentifier>{39355f0a-c912-40f8-9c6d-2044fbe02368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK3\Dynasties">
+      <UniqueIdentifier>{19877fab-2869-4a15-8620-e8e0b7c90166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK3\Characters">
+      <UniqueIdentifier>{532b7914-6ab3-42c7-9090-371686001d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CK3\Provinces">
+      <UniqueIdentifier>{8d84171d-cbd1-49e5-aba5-9b0fc315fab3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -221,10 +224,10 @@
       <Filter>CK3Outputter</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3\Province\CK3Province.h">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3\Province\ProvinceDetails.h">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h">
       <Filter>Mappers\CultureMapper</Filter>
@@ -239,10 +242,10 @@
       <Filter>Mappers\ReligionMapper</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3\Province\CK3Provinces.h">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3\Province\CK3ProvinceMappings.h">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3Outputter\outProvinces.h">
       <Filter>CK3Outputter</Filter>
@@ -293,7 +296,7 @@
       <Filter>CK3Outputter</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3\Character\CK3Character.h">
-      <Filter>CK3\Character</Filter>
+      <Filter>CK3\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Source\CK3\Titles\TitlesHistory.h">
       <Filter>CK3\Titles</Filter>
@@ -378,6 +381,15 @@
     </ClInclude>
     <ClInclude Include="Source\CommonUtilities\SimpleField.h">
       <Filter>CommonUtilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Dynasties\Dynasty.h">
+      <Filter>CK3\Dynasties</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outDynasties.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outDynasty.h">
+      <Filter>CK3Outputter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -495,10 +507,10 @@
       <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3\Province\CK3Province.cpp">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3\Province\ProvinceDetails.cpp">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMapper.cpp">
       <Filter>Mappers\CultureMapper</Filter>
@@ -516,10 +528,10 @@
       <Filter>CK3</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3\Province\CK3Provinces.cpp">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3\Province\CK3ProvinceMappings.cpp">
-      <Filter>CK3\Province</Filter>
+      <Filter>CK3\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3Outputter\outProvinces.cpp">
       <Filter>CK3Outputter</Filter>
@@ -561,7 +573,7 @@
       <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3\Character\CK3Character.cpp">
-      <Filter>CK3\Character</Filter>
+      <Filter>CK3\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp">
       <Filter>CK3\Titles</Filter>
@@ -637,6 +649,16 @@
     </ClCompile>
     <ClCompile Include="Source\CommonUtilities\SimpleField.cpp">
       <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Dynasties\Dynasty.cpp">
+      <Filter>CK3\Dynasties</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Families\Family.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outDynasties.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outDynasty.cpp">
+      <Filter>CK3Outputter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
