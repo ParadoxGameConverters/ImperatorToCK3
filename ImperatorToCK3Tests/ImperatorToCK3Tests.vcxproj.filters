@@ -499,6 +499,8 @@
     <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\culture_map.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt" />
+    <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt">
+      <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
