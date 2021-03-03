@@ -16,7 +16,7 @@ namespace CK3 {
 
 class Dynasty {
 public:
-	Dynasty(const std::shared_ptr<Imperator::Family>& impFamily, const mappers::LocalizationMapper& locMapper);
+	Dynasty(const Imperator::Family& impFamily, const mappers::LocalizationMapper& locMapper);
 
 	[[nodiscard]] const auto& getID() const { return ID; }
 	[[nodiscard]] const auto& getName() const { return name; }

@@ -13,7 +13,7 @@ void CK3::outputDynasties(const std::string& outputModName, const std::map<std::
 		throw std::runtime_error("Could not create dynasties file: " + outputPath);
 	}
 	output << commonItems::utf8BOM;
-	for (const auto& [id, dynasty] : dynasties) {
+	for (const auto& [unused, dynasty] : dynasties) {
 		output << *dynasty;
 	}
 	output.close();

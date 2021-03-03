@@ -408,7 +408,7 @@ void CK3::World::importImperatorFamilies(const Imperator::World& impWorld) {
 		if (family->isMinor())
 			continue;
 
-		auto newDynasty = std::make_shared<Dynasty>(family, localizationMapper);
+		auto newDynasty = std::make_shared<Dynasty>(*family, localizationMapper);
 		dynasties.emplace(newDynasty->getID(), newDynasty);
 	}
 	LOG(LogLevel::Info) << ">> " << dynasties.size() << " total families imported.";
