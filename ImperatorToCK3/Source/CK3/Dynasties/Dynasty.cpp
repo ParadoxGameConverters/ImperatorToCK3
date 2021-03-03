@@ -10,6 +10,7 @@ CK3::Dynasty::Dynasty(const std::shared_ptr<Imperator::Family>& impFamily, const
 	const auto& impMembers = impFamily->getMembers();
 
 	if (!impMembers.empty()) {
+		// set culture
 		auto impHead = impMembers[0].second;
 		culture = impHead->getCK3Character()->culture;
 	}
@@ -19,6 +20,12 @@ CK3::Dynasty::Dynasty(const std::shared_ptr<Imperator::Family>& impFamily, const
 
 	ID = "dynn_IMPTOCK3_" + std::to_string(impFamily->getID());
 	name = ID;
+
+	for (const auto& [memberID, member] : impMembers) {
+		if (const auto& ck3Member = member->getCK3Character()) {
+			ck3Member->setDynastyID(ID);
+		}
+	}
 
 	const auto& impFamilyLocKey = impFamily->getKey();
 	auto impFamilyLoc = locMapper.getLocBlockForKey(impFamilyLocKey);

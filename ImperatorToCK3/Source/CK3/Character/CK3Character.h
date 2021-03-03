@@ -19,6 +19,7 @@ namespace mappers
 
 namespace CK3
 {
+class Dynasty;
 class Character
 {
   public:
@@ -39,6 +40,7 @@ class Character
 	void setMother(const std::pair<std::string, std::shared_ptr<Character>>& theMother) { mother = theMother; }
 	void setFather(const std::pair<std::string, std::shared_ptr<Character>>& theFather) { father = theFather; }
 	void addChild(const std::pair<std::string, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
+	void setDynastyID(const std::string& dynID) { dynastyID = dynID; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Character& character);
 
@@ -63,6 +65,8 @@ class Character
 	std::pair<std::string, std::shared_ptr<Character>> father;
 	std::map<std::string, std::shared_ptr<Character>> children;
 	std::map<std::string, std::shared_ptr<Character>> spouses;
+
+	std::optional<std::string> dynastyID; // not always set
 };
 } // namespace CK3
 
