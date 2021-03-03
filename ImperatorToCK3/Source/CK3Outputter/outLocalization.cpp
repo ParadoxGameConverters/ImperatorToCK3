@@ -76,11 +76,11 @@ void CK3::outputLocalization(const std::string& imperatorPath, const std::string
 	spanish.close();
 
 	// dynasty localization
-	std::ofstream englishDynLoc("output/" + outputName + "/localization/replace/english/converter_l_english.yml");
-	std::ofstream frenchDynLoc("output/" + outputName + "/localization/replace/french/converter_l_french.yml");
-	std::ofstream germanDynLoc("output/" + outputName + "/localization/replace/german/converter_l_german.yml");
-	std::ofstream russianDynLoc("output/" + outputName + "/localization/replace/russian/converter_l_russian.yml");
-	std::ofstream spanishDynLoc("output/" + outputName + "/localization/replace/spanish/converter_l_spanish.yml");
+	std::ofstream englishDynLoc("output/" + outputName + "/localization/replace/english/imp_dynasty_l_english.yml");
+	std::ofstream frenchDynLoc("output/" + outputName + "/localization/replace/french/imp_dynasty_l_french.yml");
+	std::ofstream germanDynLoc("output/" + outputName + "/localization/replace/german/imp_dynasty_l_german.yml");
+	std::ofstream russianDynLoc("output/" + outputName + "/localization/replace/russian/imp_dynasty_l_russian.yml");
+	std::ofstream spanishDynLoc("output/" + outputName + "/localization/replace/spanish/imp_dynasty_l_spanish.yml");
 	for (const auto& [_, dynasty] : CK3World.getDynasties()) {
 		const auto& [key, loc] = dynasty->getLocalization();
 		englishDynLoc << " " << key << ": \"" << loc.english << "\"\n";

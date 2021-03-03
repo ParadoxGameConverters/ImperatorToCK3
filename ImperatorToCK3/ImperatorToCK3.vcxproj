@@ -226,6 +226,8 @@
     <ClCompile Include="Source\CK3Outputter\outCharacters.cpp" />
     <ClCompile Include="Source\CK3Outputter\outCoas.cpp" />
     <ClCompile Include="Source\CK3Outputter\outColoredEmblems.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outDynasties.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outDynasty.cpp" />
     <ClCompile Include="Source\CK3Outputter\outLocalization.cpp" />
     <ClCompile Include="Source\CK3Outputter\outProvince.cpp" />
     <ClCompile Include="Source\CK3Outputter\outProvinces.cpp" />
@@ -318,6 +320,8 @@
     <ClInclude Include="Source\CK3Outputter\outCharacters.h" />
     <ClInclude Include="Source\CK3Outputter\outCoas.h" />
     <ClInclude Include="Source\CK3Outputter\outColoredEmblems.h" />
+    <ClInclude Include="Source\CK3Outputter\outDynasties.h" />
+    <ClInclude Include="Source\CK3Outputter\outDynasty.h" />
     <ClInclude Include="Source\CK3Outputter\outLocalization.h" />
     <ClInclude Include="Source\CK3Outputter\outProvince.h" />
     <ClInclude Include="Source\CK3Outputter\outProvinces.h" />

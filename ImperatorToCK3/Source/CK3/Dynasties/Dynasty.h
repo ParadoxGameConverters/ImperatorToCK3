@@ -19,12 +19,16 @@ public:
 	Dynasty(const std::shared_ptr<Imperator::Family>& impFamily, const mappers::LocalizationMapper& locMapper);
 
 	[[nodiscard]] const auto& getID() const { return ID; }
+	[[nodiscard]] const auto& getName() const { return name; }
+	[[nodiscard]] const auto& getCulture() const { return culture; }
 	[[nodiscard]] const auto& getLocalization() const { return localization; }
+
+	friend std::ostream& operator<<(std::ostream& output, const Dynasty& dynasty);
 
 private:
 	std::string ID;
 	std::string name;
-	std::optional<std::string> culture;
+	std::string culture;
 
 	std::pair<std::string, mappers::LocBlock> localization;
 };

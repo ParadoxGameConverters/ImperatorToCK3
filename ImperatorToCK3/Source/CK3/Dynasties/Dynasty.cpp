@@ -8,10 +8,15 @@
 
 CK3::Dynasty::Dynasty(const std::shared_ptr<Imperator::Family>& impFamily, const mappers::LocalizationMapper& locMapper) {
 	const auto& impMembers = impFamily->getMembers();
+
 	if (!impMembers.empty()) {
 		auto impHead = impMembers[0].second;
 		culture = impHead->getCK3Character()->culture;
 	}
+	else {
+		Log(LogLevel::Warning) << "Couldn't determine culture for dynasty from Imperator family " << impFamily->getID() << " " << impFamily->getKey() << ", needs manual setting!";
+	}
+
 	ID = "dynn_IMPTOCK3_" + std::to_string(impFamily->getID());
 	name = ID;
 

@@ -385,6 +385,12 @@
     <ClInclude Include="Source\CK3\Dynasties\Dynasty.h">
       <Filter>CK3\Dynasties</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outDynasties.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3Outputter\outDynasty.h">
+      <Filter>CK3Outputter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -648,6 +654,12 @@
       <Filter>CK3\Dynasties</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
+    <ClCompile Include="Source\CK3Outputter\outDynasties.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3Outputter\outDynasty.cpp">
+      <Filter>CK3Outputter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resources\rakaly.dll">
