@@ -1,11 +1,10 @@
-#include <utility>
 #include "Character.h"
 #include "../Families/Family.h"
+#include <utility>
 
 
 
-const std::string& Imperator::Character::getCulture() const
-{
+const std::string& Imperator::Character::getCulture() const {
 	if (!culture.empty())
 		return culture;
 	if (family.first && !family.second->getCulture().empty())
@@ -13,13 +12,14 @@ const std::string& Imperator::Character::getCulture() const
 	return culture;
 }
 
-std::string Imperator::Character::getAgeSex() const
-{
-	if (age >= 16)
-	{
-		if (female) return "female";
+
+std::string Imperator::Character::getAgeSex() const {
+	if (age >= 16) {
+		if (female)
+			return "female";
 		return "male";
 	}
-	if (female) return "girl";
+	if (female)
+		return "girl";
 	return "boy";
 }

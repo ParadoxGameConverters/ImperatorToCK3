@@ -1,11 +1,15 @@
 #ifndef IMPERATOR_COUNTRY_CURRENCIES_H
 #define IMPERATOR_COUNTRY_CURRENCIES_H
+
+
+
 #include "ConvenientParser.h"
 
-namespace Imperator
-{
-class CountryCurrencies : commonItems::convenientParser
-{
+
+
+namespace Imperator {
+
+class CountryCurrencies : commonItems::convenientParser {
   public:
 	CountryCurrencies() = default;
 	explicit CountryCurrencies(std::istream& theStream);
@@ -31,6 +35,7 @@ class CountryCurrencies : commonItems::convenientParser
 	double political_influence = 0;
 	double military_experience = 0;
 };
+
 } // namespace Imperator
 
 #endif // IMPERATOR_COUNTRY_CURRENCIES_H

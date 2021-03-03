@@ -9,8 +9,7 @@
 
 
 
-namespace Imperator
-{
+namespace Imperator {
 
 class Country::Factory: commonItems::convenientParser
 {

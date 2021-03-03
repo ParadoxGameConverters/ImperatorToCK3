@@ -1,11 +1,14 @@
 #ifndef IMPERATOR_CHARACTER_NAME_H
 #define IMPERATOR_CHARACTER_NAME_H
+
+
+
 #include "Parser.h"
 
-namespace Imperator
-{
-class CharacterName: commonItems::parser
-{
+
+
+namespace Imperator {
+class CharacterName: commonItems::parser {
   public:
 	CharacterName() = default;
 	explicit CharacterName(std::istream& theStream);

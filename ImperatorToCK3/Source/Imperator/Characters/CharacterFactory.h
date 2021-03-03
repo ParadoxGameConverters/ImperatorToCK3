@@ -9,11 +9,9 @@
 
 
 
-namespace Imperator
-{
+namespace Imperator {
 
-class Character::Factory: commonItems::parser
-{
+class Character::Factory: commonItems::parser {
   public:
 	explicit Factory();
 	std::unique_ptr<Character> getCharacter(std::istream& theStream, const std::string& idString, const std::shared_ptr<GenesDB>& genesDB);

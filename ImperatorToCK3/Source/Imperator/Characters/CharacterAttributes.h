@@ -1,11 +1,15 @@
 #ifndef IMPERATOR_CHARACTER_ATTRIBUTES_H
 #define IMPERATOR_CHARACTER_ATTRIBUTES_H
+
+
+
 #include "Parser.h"
 
-namespace Imperator
-{
-class CharacterAttributes : commonItems::parser
-{
+
+
+namespace Imperator {
+
+class CharacterAttributes : commonItems::parser {
   public:
 	CharacterAttributes() = default;
 	explicit CharacterAttributes(std::istream& theStream);
@@ -23,6 +27,7 @@ class CharacterAttributes : commonItems::parser
 	int charisma = 0;
 	int zeal = 0;
 };
+
 } // namespace Imperator
 
 #endif // IMPERATOR_CHARACTER_ATTRIBUTES_H

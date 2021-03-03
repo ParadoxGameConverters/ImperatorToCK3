@@ -1,13 +1,17 @@
 #ifndef IMPERATOR_COUNTRY_NAME_H
 #define IMPERATOR_COUNTRY_NAME_H
+
+
+
 #include "Parser.h"
 
-namespace Imperator
-{
-class CountryName : commonItems::parser
-{
+
+
+namespace Imperator {
+
+class CountryName : commonItems::parser {
   public:
-	  CountryName() = default;
+	CountryName() = default;
 	explicit CountryName(std::istream& theStream);
 
 	[[nodiscard]] const auto& getName() const { return name; }
@@ -17,6 +21,7 @@ class CountryName : commonItems::parser
 
 	std::string name;
 };
+
 } // namespace Imperator
 
 #endif // IMPERATOR_COUNTRY_NAME_H

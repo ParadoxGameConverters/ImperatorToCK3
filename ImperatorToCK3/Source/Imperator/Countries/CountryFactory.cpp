@@ -1,13 +1,13 @@
-#include "Log.h"
-#include "ParserHelpers.h"
-#include "CommonRegexes.h"
 #include "CountryFactory.h"
 #include "CountryCurrencies.h"
 #include "CountryName.h"
+#include "Log.h"
+#include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 
-Imperator::Country::Factory::Factory()
-{
+
+Imperator::Country::Factory::Factory() {
 	registerKeyword("tag", [this](std::istream& theStream){
 		country->tag = commonItems::getString(theStream);
 	});
@@ -76,8 +76,7 @@ Imperator::Country::Factory::Factory()
 }
 
 
-std::unique_ptr<Imperator::Country> Imperator::Country::Factory::getCountry(std::istream& theStream, const unsigned long long countryID)
-{
+std::unique_ptr<Imperator::Country> Imperator::Country::Factory::getCountry(std::istream& theStream, const unsigned long long countryID) {
 	country = std::make_unique<Country>();
 	country->ID = countryID;
 

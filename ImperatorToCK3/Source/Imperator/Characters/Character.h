@@ -1,18 +1,23 @@
 #ifndef IMPERATOR_CHARACTER_H
 #define IMPERATOR_CHARACTER_H
 
+
+
+#include "PortraitData.h"
 #include "Date.h"
 #include <optional>
-#include "PortraitData.h"
-#include "../Genes/GenesDB.h"
+
+
 
 namespace CK3
 {
-	class Character;
+class Character;
 } // namespace CK3
+
 namespace Imperator
 {
 class Family;
+class GenesDB;
 
 typedef struct AttributesStruct
 {

@@ -3,15 +3,16 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
-Imperator::CountryName::CountryName(std::istream& theStream)
-{
+
+
+Imperator::CountryName::CountryName(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::CountryName::registerKeys()
-{
+
+void Imperator::CountryName::registerKeys() {
 	registerKeyword("name", [this](std::istream& theStream) {
 		name = commonItems::getString(theStream);
 	});

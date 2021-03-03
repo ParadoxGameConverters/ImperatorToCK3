@@ -1,29 +1,30 @@
 #include "Characters.h"
-#include <utility>
 #include "Character.h"
+#include "../Genes/GenesDB.h"
 #include "../Families/Families.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include <set>
+#include <utility>
 
 
 
-Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB): genes(genesDB)
-{
+Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB): genes(genesDB) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::Characters::registerKeys()
-{
+
+void Imperator::Characters::registerKeys() {
 	registerMatcher(commonItems::integerMatch, [this](const std::string& charID, std::istream& theStream) {
 		std::shared_ptr<Character> newCharacter = characterFactory.getCharacter(theStream, charID, genes);
 		characters.emplace(newCharacter->getID(), newCharacter);
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
+
 
 void Imperator::Characters::linkFamilies(const Families& theFamilies) {
 	auto counter = 0;
@@ -56,24 +57,19 @@ void Imperator::Characters::linkFamilies(const Families& theFamilies) {
 	Log(LogLevel::Info) << "<> " << counter << " families linked to characters.";
 }
 
-void Imperator::Characters::linkSpouses()
-{
+
+void Imperator::Characters::linkSpouses() {
 	auto counterSpouse = 0;
-	for (const auto& [characterID, character]: characters)
-	{
-		if (!character->getSpouses().empty())
-		{
+	for (const auto& [characterID, character]: characters) {
+		if (!character->getSpouses().empty()) {
 			std::map<unsigned long long, std::shared_ptr<Character>> newSpouses;
-			for (const auto& [spouseID, spouse]: character->getSpouses())
-			{
+			for (const auto& [spouseID, spouse]: character->getSpouses()) {
 				const auto& characterItr = characters.find(spouseID);
-				if (characterItr != characters.end())
-				{
+				if (characterItr != characters.end()) {
 					newSpouses.emplace(characterItr->first, characterItr->second);
 					++counterSpouse;
 				}
-				else
-				{
+				else {
 					Log(LogLevel::Warning) << "Spouse ID: " << spouseID << " has no definition!";
 				}
 			}
@@ -84,38 +80,30 @@ void Imperator::Characters::linkSpouses()
 }
 
 
-void Imperator::Characters::linkMothersAndFathers()
-{
+void Imperator::Characters::linkMothersAndFathers() {
 	auto counterMother = 0;
 	auto counterFather = 0;
-	for (const auto& character: characters)
-	{
-		if (character.second->getMother().first)
-		{
+	for (const auto& character: characters) {
+		if (character.second->getMother().first) {
 			const auto& characterItr = characters.find(character.second->getMother().first);
-			if (characterItr != characters.end())
-			{
+			if (characterItr != characters.end()) {
 				character.second->setMother(std::pair(characterItr->first, characterItr->second));
 				characterItr->second->registerChild(character);
 				++counterMother;
 			}
-			else
-			{
+			else {
 				Log(LogLevel::Warning) << "Mother ID: " << character.second->getMother().first << " has no definition!";
 			}
 		}
 
-		if (character.second->getFather().first)
-		{
+		if (character.second->getFather().first) {
 			const auto& characterItr = characters.find(character.second->getFather().first);
-			if (characterItr != characters.end())
-			{
+			if (characterItr != characters.end()) {
 				character.second->setFather(std::pair(characterItr->first, characterItr->second));
 				characterItr->second->registerChild(character);
 				++counterFather;
 			}
-			else
-			{
+			else {
 				Log(LogLevel::Warning) << "Father ID: " << character.second->getFather().first << " has no definition!";
 			}
 		}
@@ -126,15 +114,14 @@ void Imperator::Characters::linkMothersAndFathers()
 
 
 
-Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB& genesDB): genes(std::make_shared<GenesDB>(genesDB))
-{
+Imperator::CharactersBloc::CharactersBloc(std::istream& theStream, const GenesDB& genesDB): genes(std::make_shared<GenesDB>(genesDB)) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::CharactersBloc::registerKeys()
-{
+
+void Imperator::CharactersBloc::registerKeys() {
 	registerKeyword("character_database", [this](std::istream& theStream) {
 		characters = Characters(theStream, genes);
 	});
