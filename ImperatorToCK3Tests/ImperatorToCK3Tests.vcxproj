@@ -205,6 +205,7 @@
     <ClCompile Include="..\googletest\googlemock\src\gmock-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest-all.cc" />
     <ClCompile Include="..\googletest\googletest\src\gtest_main.cc" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\FamilyFactory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGene.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Genes\AccessoryGenes.cpp" />

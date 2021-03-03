@@ -459,6 +459,9 @@
     <ClCompile Include="CommonUtilitiesTests\DatedHistoryBlockTests.cpp">
       <Filter>CommonTests</Filter>
     </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Family.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
@@ -496,10 +499,6 @@
     <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\culture_map.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt">
-      <Filter>TestFiles</Filter>
-    </Text>
+    <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt" />
   </ItemGroup>
 </Project>

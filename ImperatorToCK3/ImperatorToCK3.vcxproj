@@ -234,6 +234,7 @@
     <ClCompile Include="Source\CK3Outputter\outVersion.cpp" />
     <ClCompile Include="Source\CK3\Character\CK3Character.cpp" />
     <ClCompile Include="Source\CK3\CK3World.cpp" />
+    <ClCompile Include="Source\CK3\Dynasties\Dynasty.cpp" />
     <ClCompile Include="Source\CK3\Province\CK3Province.cpp" />
     <ClCompile Include="Source\CK3\Province\CK3ProvinceMappings.cpp" />
     <ClCompile Include="Source\CK3\Province\ProvinceDetails.cpp" />
@@ -259,6 +260,7 @@
     <ClCompile Include="Source\Imperator\Countries\CountryFactory.cpp" />
     <ClCompile Include="Source\Imperator\Countries\CountryName.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
+    <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\Families\FamilyFactory.cpp" />
     <ClCompile Include="Source\Imperator\Genes\AccessoryGenes.cpp" />
     <ClCompile Include="Source\Imperator\Genes\AccessoryGene.cpp" />
@@ -324,6 +326,7 @@
     <ClInclude Include="Source\CK3Outputter\outVersion.h" />
     <ClInclude Include="Source\CK3\Character\CK3Character.h" />
     <ClInclude Include="Source\CK3\CK3World.h" />
+    <ClInclude Include="Source\CK3\Dynasties\Dynasty.h" />
     <ClInclude Include="Source\CK3\Province\CK3Province.h" />
     <ClInclude Include="Source\CK3\Province\CK3ProvinceMappings.h" />
     <ClInclude Include="Source\CK3\Province\ProvinceDetails.h" />

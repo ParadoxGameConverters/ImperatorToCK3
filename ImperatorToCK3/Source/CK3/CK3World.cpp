@@ -51,6 +51,8 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	linkSpouses();
 	linkMothersAndFathers();
 
+	importImperatorFamilies(impWorld);
+
 
 	addHoldersAndHistoryToTitles(impWorld);
 	removeInvalidLandlessTitles();
@@ -79,8 +81,8 @@ void CK3::World::importImperatorCountries(const Imperator::World& impWorld)
 {
 	LOG(LogLevel::Info) << "-> Importing Imperator Countries";
 
-	// countries holds all tags imported from CK3. We'll now overwrite some and
-	// add new ones from ck2 titles.
+	// landedTitles holds all titles imported from CK3. We'll now overwrite some and
+	// add new ones from Imperator tags.
 	for (const auto& title : impWorld.getCountries())
 	{
 		importImperatorCountry(title);
@@ -395,4 +397,19 @@ void CK3::World::linkMothersAndFathers()
 		}
 	}
 	Log(LogLevel::Info) << "<> " << counterMother << " mothers and " << counterFather << " fathers linked in CK3.";
+}
+
+void CK3::World::importImperatorFamilies(const Imperator::World& impWorld) {
+	LOG(LogLevel::Info) << "-> Importing Imperator Families";
+
+	// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
+	for (const auto& [_, family] : impWorld.getFamilies())
+	{
+		if (family->isMinor())
+			continue;
+
+		auto newDynasty = std::make_shared<Dynasty>(family, localizationMapper);
+		dynasties.emplace(newDynasty->getID(), newDynasty);
+	}
+	LOG(LogLevel::Info) << ">> " << dynasties.size() << " total families imported.";
 }

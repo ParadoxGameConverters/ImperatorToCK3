@@ -91,6 +91,11 @@ void CK3::createFolders(const std::string& outputName)
 	commonItems::TryCreateFolder("output/" + outputName + "/common/coat_of_arms/coat_of_arms");
 	commonItems::TryCreateFolder("output/" + outputName + "/localization");
 	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/english");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/french");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/german");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/russian");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/spanish");
 	commonItems::TryCreateFolder("output/" + outputName + "/gfx");
 	commonItems::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
 	commonItems::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/colored_emblems");
