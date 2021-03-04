@@ -1,11 +1,16 @@
 #ifndef CK3_TITLES_HISTORY_H
 #define CK3_TITLES_HISTORY_H
 
+
+
+#include "Configuration/Configuration.h"
 #include "Parser.h"
+#include "Date.h"
 #include <map>
 #include <optional>
 #include <string>
-#include "../../Configuration/Configuration.h"
+
+
 
 namespace CK3
 {
