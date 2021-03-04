@@ -6,25 +6,21 @@
 
 
 History::Factory CK3::ProvinceDetails::historyFactory = History::Factory({
-	{.fieldName="culture", .setter="culture", .initialValue=std::nullopt},
-	{.fieldName="religion", .setter="religion", .initialValue=std::nullopt},
-	{.fieldName="holding", .setter="holding", .initialValue="none"}
+	{ .fieldName="culture", .setter="culture", .initialValue=std::nullopt },
+	{ .fieldName="religion", .setter="religion", .initialValue=std::nullopt },
+	{ .fieldName="holding", .setter="holding", .initialValue="none" }
 });
 
-CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream)
-{
+CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream) {
 	const auto history = historyFactory.getHistory(theStream);
 	const date date{867, 1, 1};
-	const auto cultureOpt = history->getFieldValue("culture", date);
-	const auto religionOpt = history->getFieldValue("religion", date);
-	const auto holdingOpt = history->getFieldValue("holding", date);
-	if (cultureOpt) {
+	if (const auto cultureOpt = history->getFieldValue("culture", date)) {
 		culture = *cultureOpt;
 	}
-	if (religionOpt) {
+	if (const auto religionOpt = history->getFieldValue("religion", date)) {
 		religion = *religionOpt;
 	}
-	if (holdingOpt) {
+	if (const auto holdingOpt = history->getFieldValue("holding", date)) {
 		holding = *holdingOpt;
 	}
 }

@@ -1,27 +1,32 @@
 #ifndef CK3_CHARACTER_H
 #define CK3_CHARACTER_H
 
-#include "../../Mappers/LocalizationMapper/LocalizationMapper.h"
-#include "../../Imperator/Characters/Character.h"
+
+
+#include "Mappers/LocalizationMapper/LocalizationMapper.h"
+#include "Date.h"
 #include <memory>
 #include <set>
 #include <string>
 
 
-namespace mappers
-{
-	class CultureMapper;
-	class ReligionMapper;
-	class TraitMapper;
-	class NicknameMapper;
-	class ProvinceMapper;
+
+namespace mappers {
+class CultureMapper;
+class ReligionMapper;
+class TraitMapper;
+class NicknameMapper;
+class ProvinceMapper;
 } // namespace mappers
 
-namespace CK3
-{
+namespace Imperator {
+class Character;
+}
+
+namespace CK3 {
+
 class Dynasty;
-class Character
-{
+class Character {
   public:
 	Character() = default;
 	void initializeFromImperator(
@@ -68,6 +73,9 @@ class Character
 
 	std::optional<std::string> dynastyID; // not always set
 };
+
 } // namespace CK3
+
+
 
 #endif // CK3_CHARACTER_H

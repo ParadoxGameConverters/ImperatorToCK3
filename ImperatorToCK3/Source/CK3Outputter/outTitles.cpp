@@ -1,8 +1,10 @@
 #include "outTitles.h"
+#include "Imperator/Countries/Country.h"
+#include "OSCompatibilityLayer.h"
+#include "CommonFunctions.h"
 #include <filesystem>
 #include <fstream>
-#include "../commonItems/OSCompatibilityLayer.h"
-#include "../commonItems/CommonFunctions.h"
+
 
 
 void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream& outputStream)

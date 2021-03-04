@@ -9,22 +9,20 @@
 
 
 
-namespace Imperator
-{
+namespace Imperator {
 class Province;
-}
-namespace mappers
-{
+} // namespace Imperator
+
+namespace mappers {
 class CultureMapper;
 class ReligionMapper;
 } // namespace mappers
 
 
-namespace CK3
-{
+namespace CK3 {
+
 class Title;
-class Province
-{
+class Province {
   public:
 	Province() = default;
 
@@ -33,6 +31,8 @@ class Province
 	void initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
 	                             const mappers::CultureMapper& cultureMapper,
 	                             const mappers::ReligionMapper& religionMapper);
+
+	Province& operator=(const Province& otherProv) = default;
 
 	[[nodiscard]] const auto& getTitleCountry() const { return titleCountry; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
@@ -57,6 +57,9 @@ class Province
 	  ProvinceDetails details;
 	  std::pair<std::string, std::shared_ptr<Title>> titleCountry;
 };
+
 } // namespace CK3
+
+
 
 #endif // CK3_PROVINCE_H

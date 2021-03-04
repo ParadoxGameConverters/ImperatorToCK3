@@ -1,25 +1,34 @@
 #ifndef CK3_TITLE_H
 #define CK3_TITLE_H
 
-#include "Imperator/Countries/Country.h"
+
+
 #include "Mappers/LocalizationMapper/LocalizationMapper.h"
+#include "Parser.h"
+#include "Color.h"
 #include <memory>
 #include <string>
+#include <set>
+
+
 
 
 extern commonItems::Color::Factory laFabricaDeColor;
 
 
-namespace mappers
-{
-	class TagTitleMapper;
-	class CoaMapper;
-	class ProvinceMapper;
-	class GovernmentMapper;
+namespace Imperator {
+class Country;
+}
+
+namespace mappers {
+class TagTitleMapper;
+class CoaMapper;
+class ProvinceMapper;
+class GovernmentMapper;
 } // namespace mappers
 
-namespace CK3
-{
+namespace CK3 {
+
 class LandedTitles;
 class TitlesHistory;
 class Title: commonItems::parser, public std::enable_shared_from_this<Title>
@@ -39,7 +48,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	void loadTitles(std::istream& theStream);
 
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
-	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.insert(provinceId); }
+	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.emplace(provinceId); }
 	void addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory);
 	
 	void setDeJureLiege(const std::shared_ptr<Title>& liegeTitle);
@@ -108,6 +117,9 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	// used by county titles only
 	std::set<unsigned long long> countyProvinces;
 };
+
 } // namespace CK3
+
+
 
 #endif // CK3_TITLE_H
