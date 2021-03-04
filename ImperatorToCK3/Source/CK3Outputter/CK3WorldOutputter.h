@@ -1,19 +1,18 @@
-#ifndef CK3_WORLD_OUTPUTTER
-#define CK3_WORLD_OUTPUTTER
+#ifndef CK3_WORLD_OUTPUTTER_H
+#define CK3_WORLD_OUTPUTTER_H
 
 
 
-#include "../CK3/CK3World.h"
-
-
+class Configuration;
 
 namespace CK3
 {
 
+class World;
 void outputWorld(const World& CK3World, const Configuration& theConfiguration);
 
 }
 
 
 
-#endif // CK3_WORLD_OUTPUTTER
+#endif // CK3_WORLD_OUTPUTTER_H

@@ -1,20 +1,19 @@
-#ifndef CK3_OUT_LOCALIZATION
-#define CK3_OUT_LOCALIZATION
+#ifndef CK3_OUT_LOCALIZATION_H
+#define CK3_OUT_LOCALIZATION_H
 
 
 
 #include <string>
-#include "CK3/CK3World.h"
 
 
 
-namespace CK3
-{
+namespace CK3 {
 
-	void outputLocalization(const std::string& imperatorPath, const std::string& outputName, const World& CK3World);
+class World;
+void outputLocalization(const std::string& imperatorPath, const std::string& outputName, const World& CK3World);
 
 }
 
 
 
-#endif // CK3_OUT_LOCALIZATION
+#endif // CK3_OUT_LOCALIZATION_H

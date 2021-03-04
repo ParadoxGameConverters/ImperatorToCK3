@@ -1,8 +1,4 @@
 #include "CK3WorldOutputter.h"
-#include <filesystem>
-#include <fstream>
-#include <string>
-#include "OSCompatibilityLayer.h"
 #include "outCoas.h"
 #include "outLocalization.h"
 #include "outCharacters.h"
@@ -10,6 +6,12 @@
 #include "outProvinces.h"
 #include "outTitles.h"
 #include "outColoredEmblems.h"
+#include "Configuration/Configuration.h"
+#include "CK3/CK3World.h"
+#include "OSCompatibilityLayer.h"
+#include <filesystem>
+#include <fstream>
+#include <string>
 
 
 
@@ -76,6 +78,7 @@ void CK3::createModFolder(const std::string& outputName) {
 	const std::filesystem::path modPath{ "output/" + outputName };
 	std::filesystem::create_directories(modPath);
 }
+
 
 void CK3::createFolders(const std::string& outputName) {
 	commonItems::TryCreateFolder("output/" + outputName + "/history");

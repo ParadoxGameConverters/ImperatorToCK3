@@ -1,8 +1,9 @@
 #include "outLocalization.h"
+#include "CK3/CK3World.h"
+#include "OSCompatibilityLayer.h"
+#include "CommonFunctions.h"
 #include <filesystem>
 #include <fstream>
-#include "../commonItems/OSCompatibilityLayer.h"
-#include "../commonItems/CommonFunctions.h"
 
 
 
