@@ -2,45 +2,46 @@
 #define IMPERATOR_FAMILIES_H
 
 
-#include "Parser.h"
+
 #include "FamilyFactory.h"
+#include "Parser.h"
 
 
-namespace Imperator
-{
-	class Family;
-	class Families : commonItems::parser
-	{
-	public:
-		void loadFamilies(const std::string& thePath);
-		void loadFamilies(std::istream& theStream);
 
-		auto& operator= (const Families& obj) { this->families = obj.families; return *this; }
+namespace Imperator {
 
-		[[nodiscard]] const auto& getFamilies() const { return families; }
+class Family;
+class Families : commonItems::parser {
+public:
+	void loadFamilies(const std::string& thePath);
+	void loadFamilies(std::istream& theStream);
 
-	private:
-		void registerKeys();
+	auto& operator= (const Families& obj) { this->families = obj.families; return *this; }
 
-		Family::Factory familyFactory;
+	[[nodiscard]] const auto& getFamilies() const { return families; }
 
-		std::map<unsigned long long, std::shared_ptr<Family>> families;
-	};
+private:
+	void registerKeys();
+
+	Family::Factory familyFactory;
+
+	std::map<unsigned long long, std::shared_ptr<Family>> families;
+};
 
 
-	class FamiliesBloc : commonItems::parser
-	{
-	public:
-		FamiliesBloc() = default;
-		explicit FamiliesBloc(std::istream & theStream);
+class FamiliesBloc : commonItems::parser {
+public:
+	FamiliesBloc() = default;
+	explicit FamiliesBloc(std::istream & theStream);
 
-		[[nodiscard]] const auto& getFamiliesFromBloc() const { return families; }
+	[[nodiscard]] const auto& getFamiliesFromBloc() const { return families; }
 
-	private:
-		void registerKeys();
+private:
+	void registerKeys();
 
-		Families families;
-	};
+	Families families;
+};
+
 } // namespace Imperator
 
 #endif // IMPERATOR_FAMILIES_H

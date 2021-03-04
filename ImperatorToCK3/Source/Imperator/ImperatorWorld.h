@@ -1,9 +1,8 @@
-#ifndef IMPERATOR_WORLD
-#define IMPERATOR_WORLD
+#ifndef IMPERATOR_WORLD_H
+#define IMPERATOR_WORLD_H
 
 
-#include "GameVersion.h"
-#include "Date.h"
+
 #include "Genes/GenesDB.h"
 #include "Families/Families.h"
 #include "Characters/Characters.h"
@@ -11,65 +10,67 @@
 #include "Provinces/Provinces.h"
 #include "Countries/Countries.h"
 #include "Parser.h"
+#include "Date.h"
+#include "GameVersion.h"
 #include <string>
 #include <set>
+
 
 
 class Configuration;
 
 
+namespace Imperator {
 
-namespace Imperator
-{
-	class World: commonItems::parser
-	{
-		public:
-			explicit World(const Configuration& theConfiguration);
+class World: commonItems::parser {
+public:
+	explicit World(const Configuration& theConfiguration);
 	
-			[[nodiscard]] const auto& getEndDate() const { return endDate; }
-			[[nodiscard]] const auto& getFamilies() const { return families.getFamilies(); }
-			[[nodiscard]] const auto& getCharacters() const { return characters.getCharacters(); }
-			[[nodiscard]] const auto& getProvinces() const { return provinces.getProvinces(); }
-			[[nodiscard]] const auto& getCountries() const { return countries.getCountries(); }
+	[[nodiscard]] const auto& getEndDate() const { return endDate; }
+	[[nodiscard]] const auto& getFamilies() const { return families.getFamilies(); }
+	[[nodiscard]] const auto& getCharacters() const { return characters.getCharacters(); }
+	[[nodiscard]] const auto& getProvinces() const { return provinces.getProvinces(); }
+	[[nodiscard]] const auto& getCountries() const { return countries.getCountries(); }
 
-		private:
-			void verifySave(const std::string& saveGamePath);
+private:
+	void verifySave(const std::string& saveGamePath);
 
-			void processDebugModeSave(const std::string& saveGamePath);
-			void processCompressedEncodedSave(const std::string& saveGamePath);
-			void processSave(const std::string& saveGamePath);
+	void processDebugModeSave(const std::string& saveGamePath);
+	void processCompressedEncodedSave(const std::string& saveGamePath);
+	void processSave(const std::string& saveGamePath);
 		
-			void parseGenes(const Configuration& theConfiguration);
+	void parseGenes(const Configuration& theConfiguration);
 
-			date startDate = date("450.10.1", true);
-			date endDate = date("727.2.17", true);
-			GameVersion ImperatorVersion;
-			std::set<std::string> DLCs;
-			std::set<std::string> Mods;
+	date startDate = date("450.10.1", true);
+	date endDate = date("727.2.17", true);
+	GameVersion ImperatorVersion;
+	std::set<std::string> DLCs;
+	std::set<std::string> Mods;
 
-			enum class SaveType
-			{
-				INVALID = 0,
-				PLAINTEXT = 1,
-				COMPRESSED_ENCODED = 2
-			};
-			struct saveData
-			{
-				SaveType saveType = SaveType::INVALID;
-				int zipStart = 0;
-				std::string gameState;
-			};
-			saveData saveGame;
+	enum class SaveType
+	{
+		INVALID = 0,
+		PLAINTEXT = 1,
+		COMPRESSED_ENCODED = 2
+	};
+	struct saveData
+	{
+		SaveType saveType = SaveType::INVALID;
+		int zipStart = 0;
+		std::string gameState;
+	};
+	saveData saveGame;
 
-			GenesDB genes;
-			Families families;
-			Characters characters;
-			Pops pops;
-			Provinces provinces;
-			Countries countries;
-	};		
+	GenesDB genes;
+	Families families;
+	Characters characters;
+	Pops pops;
+	Provinces provinces;
+	Countries countries;
+};
+
 }
 
 
 
-#endif // IMPERATOR_WORLD
+#endif // IMPERATOR_WORLD_H

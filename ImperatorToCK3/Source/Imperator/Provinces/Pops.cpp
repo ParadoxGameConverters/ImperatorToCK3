@@ -6,22 +6,21 @@
 #include "CommonRegexes.h"
 
 
-void Imperator::Pops::loadPops(std::istream& theStream)
-{
+
+void Imperator::Pops::loadPops(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::Pops::registerKeys()
-{
+
+void Imperator::Pops::registerKeys() {
 	registerMatcher(commonItems::integerMatch, [this](const std::string& thePopID, std::istream& theStream) {
 		const auto popStr = commonItems::stringOfItem(theStream).getString();
-		if (popStr.find('{') != std::string::npos)
-		{
+		if (popStr.find('{') != std::string::npos) {
 			std::stringstream tempStream(popStr);
 			auto pop = popFactory.getPop(thePopID, tempStream);
-			pops.insert(std::pair(pop->ID, std::move(pop)));
+			pops.emplace(pop->getID(), std::move(pop));
 		}
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
@@ -29,15 +28,14 @@ void Imperator::Pops::registerKeys()
 
 
 
-Imperator::PopsBloc::PopsBloc(std::istream& theStream)
-{
+Imperator::PopsBloc::PopsBloc(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::PopsBloc::registerKeys()
-{
+
+void Imperator::PopsBloc::registerKeys() {
 	registerKeyword("population", [this](std::istream& theStream) {
 		pops.loadPops(theStream);
 	});

@@ -4,22 +4,22 @@
 #include "CommonRegexes.h"
 
 
-Imperator::GenesDB::GenesDB(const std::string& thePath)
-{
+
+Imperator::GenesDB::GenesDB(const std::string& thePath) {
 	registerKeys();
 	parseFile(thePath);
 	clearRegisteredKeywords();
 }
 
-Imperator::GenesDB::GenesDB(std::istream& theStream)
-{
+
+Imperator::GenesDB::GenesDB(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::GenesDB::registerKeys()
-{
+
+void Imperator::GenesDB::registerKeys() {
 	registerKeyword("accessory_genes", [this](std::istream& theStream) {
 		accessoryGenes = AccessoryGenes(theStream);
 	});

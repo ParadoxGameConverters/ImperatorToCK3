@@ -1,5 +1,6 @@
 #include "PortraitData.h"
 #include "../Genes/GenesDB.h"
+#include "../Genes/WeightBlock.h"
 #include "Log.h"
 #include "base64.h"
 #include <bitset>
@@ -7,8 +8,7 @@
 
 
 
-Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, const std::shared_ptr<GenesDB>& genesDB, const std::string& ageSexString) : genes(genesDB)
-{
+Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, const std::shared_ptr<GenesDB>& genesDB, const std::string& ageSexString) : genes(genesDB) {
 	const auto decodedDnaStr = base64_decode(dnaString);
 
 	//hair
@@ -28,8 +28,7 @@ Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaSt
 
 	//LOG(LogLevel::Debug) << "ageSex: " << ageSexString;
 	const auto accessoryGenesIndex = genes->getAccessoryGenes().getIndex();
-	for (auto& [geneName, gene] : accessoryGenes)
-	{
+	for (auto& [geneName, gene] : accessoryGenes) {
 		const auto geneIndex = gene.getIndex();
 		//Log(LogLevel::Debug) << "\tgene: " << geneItr.first;
 		
@@ -41,11 +40,9 @@ Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaSt
 		const auto geneTemplateObjectByteIndex = colorGenesBytes + (accessoryGenesIndex + geneIndex - 3) * 4 + 1;
 		const auto characterGeneSliderValue = static_cast<uint8_t>(decodedDnaStr.at(geneTemplateObjectByteIndex)) / 255;
 		auto characterGeneFoundWeightBlock = gene.getGeneTemplates().find(fst)->second.getAgeSexWeightBlocs().find(ageSexString);
-		if (characterGeneFoundWeightBlock != gene.getGeneTemplates().find(fst)->second.getAgeSexWeightBlocs().end())
-		{
+		if (characterGeneFoundWeightBlock != gene.getGeneTemplates().find(fst)->second.getAgeSexWeightBlocs().end()) {
 			auto characterGeneObjectName = characterGeneFoundWeightBlock->second->getMatchingObject(characterGeneSliderValue);
-			if (characterGeneObjectName)
-			{
+			if (characterGeneObjectName) {
 				//Log(LogLevel::Debug) << "\t\tgene template object: " << characterGeneObjectName.value();
 				accessoryGenesVector.emplace_back(AccessoryGeneStruct{ geneName, fst, characterGeneObjectName.value() });
 				//Log(LogLevel::Debug) << "\t\tStruct size: " << accessoryGenesVector.size();

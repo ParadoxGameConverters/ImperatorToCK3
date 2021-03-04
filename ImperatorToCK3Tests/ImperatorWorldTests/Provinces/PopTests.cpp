@@ -1,7 +1,8 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Pop.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/PopFactory.h"
+#include "Imperator/Provinces/Pop.h"
+#include "Imperator/Provinces/PopFactory.h"
 #include <sstream>
+
 
 
 TEST(ImperatorWorld_PopTests, IDCanBeSet)
@@ -13,7 +14,7 @@ TEST(ImperatorWorld_PopTests, IDCanBeSet)
 
 	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ(42, thePop.ID);
+	ASSERT_EQ(42, thePop.getID());
 }
 TEST(ImperatorWorld_PopTests, cultureCanBeSet)
 {
@@ -25,7 +26,7 @@ TEST(ImperatorWorld_PopTests, cultureCanBeSet)
 
 	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ("paradoxian", thePop.culture);
+	ASSERT_EQ("paradoxian", thePop.getCulture());
 }
 
 TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
@@ -37,7 +38,7 @@ TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
 
 	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_TRUE(thePop.culture.empty());
+	ASSERT_TRUE(thePop.getCulture().empty());
 }
 
 
@@ -51,7 +52,7 @@ TEST(ImperatorWorld_PopTests, religionCanBeSet)
 
 	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ("paradoxian", thePop.religion);
+	ASSERT_EQ("paradoxian", thePop.getReligion());
 }
 
 TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
@@ -63,7 +64,7 @@ TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
 
 	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_TRUE(thePop.religion.empty());
+	ASSERT_TRUE(thePop.getReligion().empty());
 }
 
 TEST(ImperatorWorld_PopTests,typeCanBeSet)
@@ -76,7 +77,7 @@ TEST(ImperatorWorld_PopTests,typeCanBeSet)
 
 	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_EQ("citizen", thePop.type);
+	ASSERT_EQ("citizen", thePop.getType());
 }
 
 TEST(ImperatorWorld_PopTests, typeDefaultsToBlank)
@@ -88,5 +89,5 @@ TEST(ImperatorWorld_PopTests, typeDefaultsToBlank)
 
 	const auto thePop = *Imperator::Pop::Factory{}.getPop("42", input);
 
-	ASSERT_TRUE(thePop.type.empty());
+	ASSERT_TRUE(thePop.getType().empty());
 }

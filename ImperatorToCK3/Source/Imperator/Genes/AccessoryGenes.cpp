@@ -4,15 +4,15 @@
 #include "CommonRegexes.h"
 
 
-Imperator::AccessoryGenes::AccessoryGenes(std::istream& theStream)
-{
+
+Imperator::AccessoryGenes::AccessoryGenes(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::AccessoryGenes::registerKeys()
-{
+
+void Imperator::AccessoryGenes::registerKeys() {
 	registerKeyword("index", [this](std::istream& theStream) {
 		index = commonItems::getInt(theStream);
 	});

@@ -4,24 +4,21 @@
 #include "CommonRegexes.h"
 
 
-Imperator::WeightBlock::WeightBlock(std::istream& theStream)
-{
+
+Imperator::WeightBlock::WeightBlock(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
 
-void Imperator::WeightBlock::registerKeys()
-{
+void Imperator::WeightBlock::registerKeys() {
 	registerMatcher(commonItems::integerMatch, [this](const std::string& absoluteWeightStr, std::istream& theStream) {
 		const auto newObjectName = commonItems::getString(theStream);
-		try
-		{
+		try {
 			addObject(newObjectName, stoi(absoluteWeightStr));
 		}
-		catch (const std::exception& e)
-		{
+		catch (const std::exception& e) {
 			Log(LogLevel::Error) << "Undefined error, absolute weight value was: " << absoluteWeightStr << "; Error message: " << e.what();
 		}
 	});
@@ -29,32 +26,30 @@ void Imperator::WeightBlock::registerKeys()
 }
 
 
-unsigned int Imperator::WeightBlock::getAbsoluteWeight(const std::string& objectName)
-{
-	for (auto const& [key, val] : objectsVector)
-	{
-		if (key == objectName) return val;
+unsigned int Imperator::WeightBlock::getAbsoluteWeight(const std::string& objectName) {
+	for (auto const& [key, val] : objectsVector) {
+		if (key == objectName)
+			return val;
 	}
 	return 0;
 }
 
 
-std::optional<std::string> Imperator::WeightBlock::getMatchingObject(const double percentAsDecimal)
-{
-	if (percentAsDecimal < 0 || percentAsDecimal > 1) throw std::runtime_error("percentAsDecimal should be in range <0;1>");
+std::optional<std::string> Imperator::WeightBlock::getMatchingObject(const double percentAsDecimal) {
+	if (percentAsDecimal < 0 || percentAsDecimal > 1)
+		throw std::runtime_error("percentAsDecimal should be in range <0;1>");
 	
 	unsigned int sumOfPrecedingAbsoluteWeights = 0;
-	for (auto const& [key, val] : objectsVector)
-	{
+	for (auto const& [key, val] : objectsVector) {
 		sumOfPrecedingAbsoluteWeights += val;
-		if (sumOfAbsoluteWeights > 0 && percentAsDecimal <= static_cast<double>(sumOfPrecedingAbsoluteWeights)/sumOfAbsoluteWeights) return key;
+		if (sumOfAbsoluteWeights > 0 && percentAsDecimal <= static_cast<double>(sumOfPrecedingAbsoluteWeights)/sumOfAbsoluteWeights)
+			return key;
 	}
 	return std::nullopt; // only happens when objectsMap is empty
 }
 
 
-void Imperator::WeightBlock::addObject(const std::string& objectName, int absoluteWeight)
-{
+void Imperator::WeightBlock::addObject(const std::string& objectName, int absoluteWeight) {
 	objectsVector.emplace_back(objectName, absoluteWeight);
 	sumOfAbsoluteWeights += absoluteWeight;
 }

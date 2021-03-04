@@ -42,7 +42,8 @@ Imperator::World::World(const Configuration& theConfiguration) {
 		const commonItems::stringList modsList(theStream);
 		const auto& theMods = modsList.getStrings();
 		Mods.insert(theMods.begin(), theMods.end());
-		for (const auto& mod : Mods) LOG(LogLevel::Info) << "<> Enabled mod: " << mod;
+		for (const auto& mod : Mods)
+			LOG(LogLevel::Info) << "<> Enabled mod: " << mod;
 	});
 	registerKeyword("family", [this]( std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Families";
@@ -104,10 +105,9 @@ Imperator::World::World(const Configuration& theConfiguration) {
 	LOG(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
 }
 
-void Imperator::World::processSave(const std::string& saveGamePath)
-{
-	switch (saveGame.saveType)
-	{
+
+void Imperator::World::processSave(const std::string& saveGamePath) {
+	switch (saveGame.saveType) {
 	case SaveType::PLAINTEXT:
 		LOG(LogLevel::Info) << "-> Importing debug_mode Imperator save.";
 		processDebugModeSave(saveGamePath);
@@ -121,8 +121,8 @@ void Imperator::World::processSave(const std::string& saveGamePath)
 	}
 }
 
-void Imperator::World::verifySave(const std::string& saveGamePath)
-{
+
+void Imperator::World::verifySave(const std::string& saveGamePath) {
 	std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
 	if (!saveFile.is_open())
 		throw std::runtime_error("Could not open save! Exiting!");
@@ -133,15 +133,13 @@ void Imperator::World::verifySave(const std::string& saveGamePath)
 		throw std::runtime_error("Savefile of unknown type.");
 
 	char ch;
-	do
-	{ // skip until newline
+	do { // skip until newline
 		ch = static_cast<char>(saveFile.get());
 	} while (ch != '\n' && ch != '\r');
 
 	saveFile.seekg(0, std::ios::end);
 	const auto length = saveFile.tellg();
-	if (length < 65536)
-	{
+	if (length < 65536) {
 		throw std::runtime_error("Savegame seems a bit too small.");
 	}
 	saveFile.seekg(0, std::ios::beg);
@@ -152,8 +150,7 @@ void Imperator::World::verifySave(const std::string& saveGamePath)
 
 	saveGame.saveType = SaveType::PLAINTEXT;
 	for (auto i = 0; i < 65533; ++i)
-		if (*reinterpret_cast<uint32_t*>(bigBuf + i) == 0x04034B50 && *reinterpret_cast<uint16_t*>(bigBuf + i - 2) == 4)
-		{
+		if (*reinterpret_cast<uint32_t*>(bigBuf + i) == 0x04034B50 && *reinterpret_cast<uint16_t*>(bigBuf + i - 2) == 4) {
 			saveGame.zipStart = i;
 			saveGame.saveType = SaveType::COMPRESSED_ENCODED;
 			break;
@@ -162,16 +159,16 @@ void Imperator::World::verifySave(const std::string& saveGamePath)
 	delete[] bigBuf;
 }
 
-void Imperator::World::processDebugModeSave(const std::string& saveGamePath)
-{
+
+void Imperator::World::processDebugModeSave(const std::string& saveGamePath) {
 	const std::ifstream inBinary(fs::u8path(saveGamePath), std::ios::binary);
 	std::stringstream inStream;
 	inStream << inBinary.rdbuf();
 	saveGame.gameState = inStream.str();
 }
 
-void Imperator::World::processCompressedEncodedSave(const std::string& saveGamePath)
-{
+
+void Imperator::World::processCompressedEncodedSave(const std::string& saveGamePath) {
 	const std::ifstream saveFile(fs::u8path(saveGamePath), std::ios::binary);
 	std::stringstream inStream;
 	inStream << saveFile.rdbuf();
@@ -181,7 +178,6 @@ void Imperator::World::processCompressedEncodedSave(const std::string& saveGameP
 }
 
 
-void Imperator::World::parseGenes(const Configuration& theConfiguration)
-{
+void Imperator::World::parseGenes(const Configuration& theConfiguration) {
 	genes = GenesDB(theConfiguration.getImperatorPath() + "/game/common/genes/00_genes.txt");
 }

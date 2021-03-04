@@ -1,29 +1,33 @@
 #ifndef IMPERATOR_WEIGHT_BLOC_H
 #define IMPERATOR_WEIGHT_BLOC_H
+
+
+
 #include "Parser.h"
 
 
-namespace Imperator
-{	
-	class WeightBlock : commonItems::parser
-	{
-	public:
-		WeightBlock() = default;
-		explicit WeightBlock(std::istream& theStream);
 
-		[[nodiscard]] unsigned int getAbsoluteWeight(const std::string& objectName);
-		[[nodiscard]] std::optional<std::string> getMatchingObject(double percentAsDecimal); // argument must be in range <0; 1>
+namespace Imperator {
 
-		[[nodiscard]] const auto& getSumOfAbsoluteWeights() const { return sumOfAbsoluteWeights; }
+class WeightBlock : commonItems::parser {
+public:
+	WeightBlock() = default;
+	explicit WeightBlock(std::istream& theStream);
 
-		void addObject(const std::string& objectName, int absoluteWeight);
+	[[nodiscard]] unsigned int getAbsoluteWeight(const std::string& objectName);
+	[[nodiscard]] std::optional<std::string> getMatchingObject(double percentAsDecimal); // argument must be in range <0; 1>
 
-	private:
-		void registerKeys();
+	[[nodiscard]] const auto& getSumOfAbsoluteWeights() const { return sumOfAbsoluteWeights; }
 
-		unsigned int sumOfAbsoluteWeights = 0;
-		std::vector<std::pair<std::string, unsigned int>> objectsVector;
-	};
+	void addObject(const std::string& objectName, int absoluteWeight);
+
+private:
+	void registerKeys();
+
+	unsigned int sumOfAbsoluteWeights = 0;
+	std::vector<std::pair<std::string, unsigned int>> objectsVector;
+};
+
 } // namespace Imperator
 
 #endif // IMPERATOR_WEIGHT_BLOC_H
