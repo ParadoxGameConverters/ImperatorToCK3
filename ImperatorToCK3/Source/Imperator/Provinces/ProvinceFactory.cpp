@@ -1,13 +1,12 @@
-﻿#include <numeric>
+﻿#include "ProvinceFactory.h"
+#include "ProvinceName.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "CommonRegexes.h"
-#include "ProvinceFactory.h"
-#include "ProvinceName.h"
+#include <numeric>
 
 
-Imperator::Province::Factory::Factory()
-{
+Imperator::Province::Factory::Factory() {
 	registerKeyword("province_name", [this](std::istream& theStream) {	
 		province->name = ProvinceName{ theStream }.getName();	
 	});	
@@ -51,8 +50,7 @@ Imperator::Province::Factory::Factory()
 }
 
 
-std::unique_ptr<Imperator::Province> Imperator::Province::Factory::getProvince(std::istream& theStream, const unsigned long long provID)
-{
+std::unique_ptr<Imperator::Province> Imperator::Province::Factory::getProvince(std::istream& theStream, const unsigned long long provID) {
 	province = std::make_unique<Province>();
 	province->ID = provID;
 

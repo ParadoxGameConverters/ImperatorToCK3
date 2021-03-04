@@ -26,7 +26,6 @@ class Family {
 	[[nodiscard]] const auto& getMembers() const { return members; }
 	[[nodiscard]] const auto& isMinor() const { return minor; }
 
-
   private:
 	unsigned long long ID = 0;
 	std::string key;

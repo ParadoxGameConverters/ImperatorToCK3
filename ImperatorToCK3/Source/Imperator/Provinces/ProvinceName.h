@@ -1,11 +1,15 @@
 #ifndef IMPERATOR_PROVINCE_NAME_H
 #define IMPERATOR_PROVINCE_NAME_H
+
+
+
 #include "Parser.h"
 
-namespace Imperator
-{
-class ProvinceName: commonItems::parser
-{
+
+
+namespace Imperator {
+
+class ProvinceName: commonItems::parser {
   public:
 	ProvinceName() = default;
 	explicit ProvinceName(std::istream& theStream);
@@ -17,6 +21,7 @@ class ProvinceName: commonItems::parser
 
 	std::string name;
 };
+
 } // namespace Imperator
 
 #endif // IMPERATOR_PROVINCE_NAME_H

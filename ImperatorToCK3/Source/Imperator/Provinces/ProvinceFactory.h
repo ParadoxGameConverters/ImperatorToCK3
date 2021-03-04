@@ -3,16 +3,14 @@
 
 
 
-#include "ConvenientParser.h"
 #include "Province.h"
+#include "ConvenientParser.h"
 
 
 
-namespace Imperator
-{
+namespace Imperator {
 
-class Province::Factory: commonItems::convenientParser
-{
+class Province::Factory: commonItems::convenientParser {
   public:
 	explicit Factory();
 	std::unique_ptr<Province> getProvince(std::istream& theStream, unsigned long long provID);

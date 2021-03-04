@@ -1,10 +1,10 @@
 #include "gtest/gtest.h"
 #include <sstream>
+#include "Imperator/Genes/AccessoryGeneTemplate.h"
+#include "Imperator/Genes/WeightBlock.h"
 
-#include "../ImperatorToCK3/Source/Imperator/Genes/AccessoryGeneTemplate.h"
 
-TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksDefaultsToEmpty)
-{
+TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksDefaultsToEmpty) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -15,8 +15,7 @@ TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksDefaultsToEmpt
 	ASSERT_TRUE(geneTemplate.getAgeSexWeightBlocs().empty());
 }
 
-TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksCanBeLoaded)
-{
+TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksCanBeLoaded) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -31,8 +30,7 @@ TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWeightBlocksCanBeLoaded)
 	ASSERT_EQ(4, geneTemplate.getAgeSexWeightBlocs().size());
 }
 
-TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWithBlocksAreProperlyCopied)
-{
+TEST(ImperatorWorld_AccessoryGeneTemplateTests, ageSexWithBlocksAreProperlyCopied) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";

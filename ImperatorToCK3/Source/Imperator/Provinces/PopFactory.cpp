@@ -5,8 +5,7 @@
 
 
 
-Imperator::Pop::Factory::Factory()
-{
+Imperator::Pop::Factory::Factory() {
 	registerKeyword("type", [this](std::istream& theStream) {
 		pop->type = commonItems::getString(theStream);
 	});
@@ -20,8 +19,7 @@ Imperator::Pop::Factory::Factory()
 }
 
 
-std::unique_ptr<Imperator::Pop> Imperator::Pop::Factory::getPop(const std::string& idString, std::istream& theStream)
-{
+std::unique_ptr<Imperator::Pop> Imperator::Pop::Factory::getPop(const std::string& idString, std::istream& theStream) {
 	pop = std::make_unique<Pop>();
 	pop->ID = std::stoull(idString);
 

@@ -3,17 +3,15 @@
 
 
 
-#include "Parser.h"
 #include "Pop.h"
+#include "Parser.h"
 #include <memory>
 
 
 
-namespace Imperator
-{
+namespace Imperator {
 
-class Pop::Factory: commonItems::parser
-{
+class Pop::Factory: commonItems::parser {
   public:
 	explicit Factory();
 	std::unique_ptr<Pop> getPop(const std::string& idString, std::istream& theStream);
