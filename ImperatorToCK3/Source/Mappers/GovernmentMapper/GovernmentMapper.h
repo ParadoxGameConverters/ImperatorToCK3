@@ -1,15 +1,18 @@
 #ifndef GOVERNMENT_MAPPER_H
 #define GOVERNMENT_MAPPER_H
 
+
+
 #include "Parser.h"
 #include <map>
 #include <optional>
 #include <string>
 
-namespace mappers
-{
-class GovernmentMapper: commonItems::parser
-{
+
+
+namespace mappers {
+
+class GovernmentMapper: commonItems::parser {
   public:
 	GovernmentMapper();
 	explicit GovernmentMapper(std::istream& theStream);
@@ -21,6 +24,9 @@ class GovernmentMapper: commonItems::parser
 
 	std::map<std::string, std::string> impToCK3GovernmentMap;
 };
+
 } // namespace mappers
+
+
 
 #endif // GOVERNMENT_MAPPER_H

@@ -1,16 +1,20 @@
 #ifndef COA_MAPPER_H
 #define COA_MAPPER_H
 
+
+
 #include "Parser.h"
 #include <map>
 #include <optional>
 #include <string>
-#include "../../Configuration/Configuration.h"
 
-namespace mappers
-{
-class CoaMapper: commonItems::parser
-{
+
+
+class Configuration;
+
+namespace mappers {
+
+class CoaMapper: commonItems::parser {
   public:
 	CoaMapper() = default;
 	explicit CoaMapper(const Configuration& theConfiguration);
@@ -23,6 +27,9 @@ class CoaMapper: commonItems::parser
 
 	std::map<std::string, std::string> coasMap;
 };
+
 } // namespace mappers
+
+
 
 #endif // COA_MAPPER_H

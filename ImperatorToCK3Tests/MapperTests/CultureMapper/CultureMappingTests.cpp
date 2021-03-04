@@ -1,6 +1,7 @@
 #include "Mappers/CultureMapper/CultureMappingRule.h"
 #include "Mappers/RegionMapper/CK3RegionMapper.h"
 #include "Mappers/RegionMapper/ImperatorRegionMapper.h"
+#include "CK3/Titles/LandedTitles.h"
 #include "gtest/gtest.h"
 #include <sstream>
 

@@ -1,15 +1,18 @@
 #ifndef CULTURE_MAPPER_H
 #define CULTURE_MAPPER_H
 
+
+
 #include "CultureMappingRule.h"
 #include "Parser.h"
 #include <optional>
 #include <string>
 
-namespace mappers
-{
-class CultureMapper: commonItems::parser
-{
+
+
+namespace mappers {
+
+class CultureMapper: commonItems::parser {
   public:
 	CultureMapper();
 	explicit CultureMapper(std::istream& theStream);
@@ -33,6 +36,9 @@ class CultureMapper: commonItems::parser
 
 	std::vector<CultureMappingRule> cultureMapRules;
 };
+
 } // namespace mappers
+
+
 
 #endif // CULTURE_MAPPER_H

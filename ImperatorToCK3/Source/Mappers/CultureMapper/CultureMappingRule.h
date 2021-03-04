@@ -1,15 +1,18 @@
 #ifndef CULTURE_MAPPING_RULE_H
 #define CULTURE_MAPPING_RULE_H
 
+
+
 #include "Parser.h"
 #include <set>
 
-namespace mappers
-{
+
+
+namespace mappers {
+
 class ImperatorRegionMapper;
 class CK3RegionMapper;
-class CultureMappingRule: commonItems::parser
-{
+class CultureMappingRule: commonItems::parser {
   public:
 	CultureMappingRule() = default;
 	explicit CultureMappingRule(std::istream& theStream);
@@ -49,6 +52,9 @@ class CultureMappingRule: commonItems::parser
 	std::shared_ptr<ImperatorRegionMapper> imperatorRegionMapper;
 	std::shared_ptr<CK3RegionMapper> ck3RegionMapper;
 };
+
 } // namespace mappers
+
+
 
 #endif // CULTURE_MAPPING_RULE_H

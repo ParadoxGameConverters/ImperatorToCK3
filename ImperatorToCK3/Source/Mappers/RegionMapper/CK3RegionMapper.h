@@ -1,16 +1,22 @@
 #ifndef CK3_REGIONS_H
 #define CK3_REGIONS_H
 
-#include "CK3/Titles/Title.h"
-#include "CK3/Titles/LandedTitles.h"
-#include "CK3Region.h"
+
+
 #include "Parser.h"
 #include <map>
 
-namespace mappers
-{
-class CK3RegionMapper: commonItems::parser
-{
+
+
+namespace CK3 {
+class Title;
+class LandedTitles;
+}
+
+namespace mappers {
+
+class CK3Region;
+class CK3RegionMapper: commonItems::parser {
   public:
 	CK3RegionMapper() = default;
 	CK3RegionMapper(const std::string& ck3Path, CK3::LandedTitles& landedTitles);
@@ -31,6 +37,9 @@ class CK3RegionMapper: commonItems::parser
 	std::map<std::string, std::shared_ptr<CK3::Title>> duchies;
 	std::map<std::string, std::shared_ptr<CK3::Title>> counties;
 };
+
 } // namespace mappers
+
+
 
 #endif // CK3_REGIONS_H
