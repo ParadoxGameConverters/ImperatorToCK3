@@ -2,22 +2,23 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
-mappers::VersionParser::VersionParser()
-{
+
+
+mappers::VersionParser::VersionParser() {
 	registerKeys();
 	parseFile("configurables/version.txt");
 	clearRegisteredKeywords();
 }
 
-mappers::VersionParser::VersionParser(std::istream& theStream)
-{
+
+mappers::VersionParser::VersionParser(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void mappers::VersionParser::registerKeys()
-{
+
+void mappers::VersionParser::registerKeys() {
 	registerKeyword("name", [this](std::istream& theStream) {
 		name = commonItems::getString(theStream);
 	});

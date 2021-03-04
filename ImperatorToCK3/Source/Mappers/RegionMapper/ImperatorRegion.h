@@ -4,14 +4,13 @@
 
 
 #include "Parser.h"
-#include "ImperatorArea.h"
 
 
 
-namespace mappers
-{
-class ImperatorRegion : commonItems::parser
-{
+namespace mappers {
+
+class ImperatorArea;
+class ImperatorRegion : commonItems::parser {
   public:
 	explicit ImperatorRegion(std::istream& theStream);
 
@@ -24,6 +23,9 @@ class ImperatorRegion : commonItems::parser
 	void registerKeys();
 	std::map<std::string, std::shared_ptr<ImperatorArea>> areas;
 };
+
 } // namespace mappers
+
+
 
 #endif // IMPERATOR_REGION_H

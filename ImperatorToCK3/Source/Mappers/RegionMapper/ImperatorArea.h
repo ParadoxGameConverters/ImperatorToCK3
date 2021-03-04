@@ -1,13 +1,16 @@
 #ifndef IMPERATOR_AREA_H
 #define IMPERATOR_AREA_H
 
+
+
 #include "Parser.h"
 #include <set>
 
-namespace mappers
-{
-class ImperatorArea: commonItems::parser
-{
+
+
+namespace mappers {
+
+class ImperatorArea: commonItems::parser {
   public:
 	explicit ImperatorArea(std::istream& theStream);
 
@@ -18,6 +21,9 @@ class ImperatorArea: commonItems::parser
 	void registerKeys();
 	std::set<unsigned long long> provinces;
 };
+
 } // namespace mappers
+
+
 
 #endif // IMPERATOR_AREA_H

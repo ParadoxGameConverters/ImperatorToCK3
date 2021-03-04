@@ -3,17 +3,16 @@
 
 
 
+#include "ReligionMapping.h"
+#include "Parser.h"
 #include <optional>
 #include <string>
-#include "Parser.h"
-#include "ReligionMapping.h"
 
 
 
-namespace mappers
-{
-class ReligionMapper: commonItems::parser
-{
+namespace mappers {
+
+class ReligionMapper: commonItems::parser {
   public:
 	ReligionMapper();
 	explicit ReligionMapper(std::istream& theStream);
@@ -27,6 +26,9 @@ class ReligionMapper: commonItems::parser
 
 	std::vector<ReligionMapping> religionMappings;
 };
+
 } // namespace mappers
+
+
 
 #endif // RELIGION_MAPPER_H

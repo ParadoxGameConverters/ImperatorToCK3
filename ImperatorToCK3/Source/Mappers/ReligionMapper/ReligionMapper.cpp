@@ -3,8 +3,9 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
-mappers::ReligionMapper::ReligionMapper()
-{
+
+
+mappers::ReligionMapper::ReligionMapper() {
 	LOG(LogLevel::Info) << "-> Parsing religion mappings.";
 	registerKeys();
 	parseFile("configurables/religion_map.txt");
@@ -12,40 +13,38 @@ mappers::ReligionMapper::ReligionMapper()
 	LOG(LogLevel::Info) << "<> Loaded " << religionMappings.size() << " religious links.";
 }
 
-mappers::ReligionMapper::ReligionMapper(std::istream& theStream)
-{
+
+mappers::ReligionMapper::ReligionMapper(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void mappers::ReligionMapper::registerKeys()
-{
+
+void mappers::ReligionMapper::registerKeys() {
 	registerKeyword("link", [this](std::istream& theStream) {
 		religionMappings.emplace_back(theStream);
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
-void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<ImperatorRegionMapper> impRegionMapper, std::shared_ptr<CK3RegionMapper> _ck3RegionMapper)
-{
+
+void mappers::ReligionMapper::loadRegionMappers(std::shared_ptr<ImperatorRegionMapper> impRegionMapper, std::shared_ptr<CK3RegionMapper> _ck3RegionMapper) {
 	const auto imperatorRegionMapper = std::move(impRegionMapper);
 	const auto ck3RegionMapper = std::move(_ck3RegionMapper);
 	if (!imperatorRegionMapper)
 		throw std::runtime_error("Religion Mapper: Imperator Region Mapper is unloaded!");
 	if (!ck3RegionMapper)
 		throw std::runtime_error("Religion Mapper: CK3 Region Mapper is unloaded!");
-	for (auto& mapping : religionMappings)
-	{
+	for (auto& mapping : religionMappings) {
 		mapping.insertImperatorRegionMapper(imperatorRegionMapper);
 		mapping.insertCK3RegionMapper(ck3RegionMapper);
 	}
 }
 
-std::optional<std::string> mappers::ReligionMapper::match(const std::string& impReligion, const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const
-{
-	for (const auto& religionMapping : religionMappings)
-	{
+
+std::optional<std::string> mappers::ReligionMapper::match(const std::string& impReligion, const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const {
+	for (const auto& religionMapping : religionMappings) {
 		const auto& possibleMatch = religionMapping.match(impReligion, ck3ProvinceID, impProvinceID);
 		if (possibleMatch)
 			return *possibleMatch;

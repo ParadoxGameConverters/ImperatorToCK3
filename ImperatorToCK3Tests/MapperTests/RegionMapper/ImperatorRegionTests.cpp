@@ -1,4 +1,5 @@
 #include "Mappers/RegionMapper/ImperatorRegion.h"
+#include "Mappers/RegionMapper/ImperatorArea.h"
 #include "gtest/gtest.h"
 #include <sstream>
 

@@ -1,15 +1,18 @@
 #ifndef RELIGION_MAPPING_H
 #define RELIGION_MAPPING_H
 
+
+
 #include "Parser.h"
 #include <set>
 
-namespace mappers
-{
+
+
+namespace mappers {
+
 class ImperatorRegionMapper;
 class CK3RegionMapper;
-class ReligionMapping: commonItems::parser
-{
+class ReligionMapping: commonItems::parser {
   public:
 	explicit ReligionMapping(std::istream& theStream);
 
@@ -31,6 +34,9 @@ class ReligionMapping: commonItems::parser
 	std::shared_ptr<ImperatorRegionMapper> imperatorRegionMapper;
 	std::shared_ptr<CK3RegionMapper> ck3RegionMapper;
 };
+
 } // namespace mappers
+
+
 
 #endif // RELIGION_MAPPING_H

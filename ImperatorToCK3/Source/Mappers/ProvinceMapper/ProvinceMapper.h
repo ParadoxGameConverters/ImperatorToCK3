@@ -1,17 +1,20 @@
 #ifndef PROVINCE_MAPPER_H
 #define PROVINCE_MAPPER_H
 
+
+
 #include "ProvinceMappingsVersion.h"
 #include "Parser.h"
 #include <map>
 #include <set>
 
+
+
 class Configuration;
 
-namespace mappers
-{
-class ProvinceMapper: commonItems::parser
-{
+namespace mappers {
+
+class ProvinceMapper: commonItems::parser {
   public:
 	ProvinceMapper();
 	explicit ProvinceMapper(std::istream& theStream);
@@ -31,6 +34,9 @@ class ProvinceMapper: commonItems::parser
 	std::set<unsigned long long> validCK3Provinces;
 	ProvinceMappingsVersion theMappings;
 };
+
 } // namespace mappers
+
+
 
 #endif // PROVINCE_MAPPER_H

@@ -1,26 +1,27 @@
 #ifndef TAG_TITLE_MAPPER_H
 #define TAG_TITLE_MAPPER_H
 
-#include "Parser.h"
+
+
 #include "TagTitleMapping.h"
+#include "Parser.h"
+
+
 
 namespace Imperator {
-	class Country;
-	enum class countryRankEnum;
+class Country;
+enum class countryRankEnum;
 }
 
-namespace mappers
-{
-class TagTitleMapper: commonItems::parser
-{
+namespace mappers {
+
+class TagTitleMapper: commonItems::parser {
   public:
 	TagTitleMapper();
 	void registerTag(const std::string& impTag, const std::string& ck3Title);
 
 	[[nodiscard]] std::optional<std::string> getTitleForTag(const std::string& impTag, Imperator::countryRankEnum countryRank, const std::string& localizedTitleName);
-	[[nodiscard]] std::optional<std::string> getTitleForTag(const std::string& impTag, const Imperator::countryRankEnum countryRank) {
-		return getTitleForTag(impTag, countryRank, "");
-	}
+	[[nodiscard]] std::optional<std::string> getTitleForTag(const std::string& impTag, const Imperator::countryRankEnum countryRank) { return getTitleForTag(impTag, countryRank, ""); }
 
   private:
 	void registerKeys();
@@ -33,6 +34,9 @@ class TagTitleMapper: commonItems::parser
 
 	std::string generatedCK3TitlePrefix = "IMPTOCK3_";
 };
+
 } // namespace mappers
+
+
 
 #endif // TAG_TITLE_MAPPER_H

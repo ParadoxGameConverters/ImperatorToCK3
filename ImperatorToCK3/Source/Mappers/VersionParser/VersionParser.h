@@ -1,12 +1,15 @@
 #ifndef VERSION_PARSER_H
 #define VERSION_PARSER_H
 
+
+
 #include "Parser.h"
 
-namespace mappers
-{
-class VersionParser: commonItems::parser
-{
+
+
+namespace mappers {
+
+class VersionParser: commonItems::parser {
   public:
 	VersionParser();
 	explicit VersionParser(std::istream& theStream);
@@ -23,6 +26,9 @@ class VersionParser: commonItems::parser
 	std::string version;
 	std::string descriptionLine;
 };
+
 } // namespace mappers
+
+
 
 #endif // VERSION_PARSER_H
