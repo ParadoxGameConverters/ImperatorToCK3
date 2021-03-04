@@ -152,7 +152,8 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path) {
 					Log(LogLevel::Info) << "Vanilla province duplication - " << newProvinceID << " already loaded! Preferring unique entry over mapping.";
 				}
 				else {
-					provinces.emplace(newProvinceID, provinces.find(baseProvinceID)->second);
+					auto newProvince = std::make_shared<Province>(newProvinceID, *provinces.find(baseProvinceID)->second);
+					provinces.emplace(newProvinceID, newProvince);
 				}
 			}
 		}
@@ -244,23 +245,23 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld) {
 	for (const auto& [name, title] : getTitles()) {
 		if (name.starts_with("c_") && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
-			if (provinces.find(title->capitalBaronyProvince) == provinces.end())
+			if (!provinces.contains(title->capitalBaronyProvince))
 				LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
 			else {
-				auto impProvince = provinces.find(title->capitalBaronyProvince)->second->imperatorProvince;
+				auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
 				if (impProvince) {
 					std::optional<unsigned long long> impMonarch;
-					if (impWorld.getCountries().contains(impProvince->getOwner()))
-						impMonarch = impWorld.getCountries().at(impProvince->getOwner())->getMonarch();
+					if (auto countryItr = impWorld.getCountries().find(impProvince->getOwner()); countryItr != impWorld.getCountries().end())
+						impMonarch = countryItr->second->getMonarch();
 					if (impMonarch) {
 						title->holder = "imperator" + std::to_string(*impMonarch);
-						countyHoldersCache.insert(title->holder);
+						countyHoldersCache.emplace(title->holder);
 					}
 				}
 				else { // county is probably outside of Imperator map
 					title->addHistory(landedTitles, titlesHistory);
 					if (!title->holder.empty())
-						countyHoldersCache.insert(title->holder);
+						countyHoldersCache.emplace(title->holder);
 				}
 			}
 		}
@@ -320,7 +321,7 @@ void CK3::World::linkSpouses() {
 		// make links between Imperator characters
 		for (const auto& [impSpouseID, impSpouseCharacter] : ck3Character->imperatorCharacter->getSpouses()) {
 			if (impSpouseCharacter != nullptr) {
-				auto ck3SpouseCharacter = impSpouseCharacter->getCK3Character();
+				auto& ck3SpouseCharacter = impSpouseCharacter->getCK3Character();
 				ck3Character->addSpouse(std::pair(ck3SpouseCharacter->ID, ck3SpouseCharacter));
 				ck3SpouseCharacter->addSpouse(std::pair(ck3CharacterID, ck3Character));
 				++counterSpouse;
@@ -336,18 +337,18 @@ void CK3::World::linkMothersAndFathers() {
 	auto counterFather = 0;
 	for (const auto& [ck3CharacterID, ck3Character] : characters) {
 		// make links between Imperator characters
-		const auto [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
+		const auto& [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
 		if (impMotherCharacter != nullptr) {
-			auto ck3MotherCharacter = impMotherCharacter->getCK3Character();
+			auto& ck3MotherCharacter = impMotherCharacter->getCK3Character();
 			ck3Character->setMother(std::pair(ck3MotherCharacter->ID, ck3MotherCharacter));
 			ck3MotherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
 			++counterMother;
 		}
 
 		// make links between Imperator characters
-		const auto [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
+		const auto& [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
 		if (impFatherCharacter != nullptr) {
-			auto ck3FatherCharacter = impFatherCharacter->getCK3Character();
+			auto& ck3FatherCharacter = impFatherCharacter->getCK3Character();
 			ck3Character->setFather(std::pair(ck3FatherCharacter->ID, ck3FatherCharacter));
 			ck3FatherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
 			++counterFather;

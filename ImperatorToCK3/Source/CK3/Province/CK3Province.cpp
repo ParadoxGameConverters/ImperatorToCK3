@@ -10,6 +10,8 @@
 
 CK3::Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
 
+CK3::Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), details{ otherProv.details } {}
+
 void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
                                             const mappers::CultureMapper& cultureMapper,
                                             const mappers::ReligionMapper& religionMapper)
@@ -31,6 +33,7 @@ void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Pro
 	// Holding type
 	setHolding();
 }
+
 
 void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper) {
 	auto religionSet = false;
