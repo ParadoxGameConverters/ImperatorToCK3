@@ -7,8 +7,8 @@
 
 
 
-namespace CK3
-{
+namespace CK3 {
+
 class Title;
 class LandedTitles: commonItems::parser
 {
@@ -27,6 +27,9 @@ class LandedTitles: commonItems::parser
 	
 	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title
 };
+
 } // namespace CK3
+
+
 
 #endif // CK3_LANDEDTITLES_H

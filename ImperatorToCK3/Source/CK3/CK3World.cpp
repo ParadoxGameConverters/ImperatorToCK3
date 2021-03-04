@@ -1,9 +1,5 @@
-#include "Log.h"
-#include "OSCompatibilityLayer.h"
-#include <filesystem>
-#include <fstream>
-#include <cmath>
 #include "CK3World.h"
+#include "Imperator/ImperatorWorld.h"
 #include "Imperator/Characters/Character.h"
 #include "Imperator/Countries/Country.h"
 #include "Imperator/Provinces/Province.h"
@@ -11,13 +7,19 @@
 #include "Province/CK3Provinces.h"
 #include "Province/CK3ProvinceMappings.h"
 #include "Titles/Title.h"
+#include "Log.h"
+#include "OSCompatibilityLayer.h"
+#include <filesystem>
+#include <fstream>
+#include <cmath>
 
 
 
 namespace fs = std::filesystem;
 
-CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser)
-{
+
+
+CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser) {
 	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.
 	localizationMapper.scrapeLocalizations(theConfiguration, std::map<std::string, std::string>()); // passes an empty map as second arg because we don't actually load mods yet
@@ -58,81 +60,73 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	removeInvalidLandlessTitles();
 }
 
-void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
-{
+
+void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1)) {
 	LOG(LogLevel::Info) << "-> Importing Imperator Characters";
 
-	for (const auto& character : impWorld.getCharacters())
-	{
+	for (const auto& character : impWorld.getCharacters()) {
 		importImperatorCharacter(character, ConvertBirthAndDeathDates, endDate);
 	}
 	LOG(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
 }
-void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1))
-{
+
+
+void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1)) {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
 	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, ConvertBirthAndDeathDates, endDate);
 	character.second->registerCK3Character(newCharacter);
-	characters.insert(std::pair(newCharacter->ID, newCharacter));
+	characters.emplace(newCharacter->ID, newCharacter);
 }
 
-void CK3::World::importImperatorCountries(const Imperator::World& impWorld)
-{
+
+void CK3::World::importImperatorCountries(const Imperator::World& impWorld) {
 	LOG(LogLevel::Info) << "-> Importing Imperator Countries";
 
 	// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 	// add new ones from Imperator tags.
-	for (const auto& title : impWorld.getCountries())
-	{
+	for (const auto& title : impWorld.getCountries()) {
 		importImperatorCountry(title);
 	}
 	LOG(LogLevel::Info) << ">> " << getTitles().size() << " total countries recognized.";
 }
 
-void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country)
-{
+
+void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country) {
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
 	newTitle->initializeFromTag(country.second, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper, governmentMapper);
 	
 	const auto& name = newTitle->getName();
-	if (getTitles().contains(name))
-	{
-		const auto& vanillaTitle = getTitles().at(name);
+	if (auto titleItr = getTitles().find(name); titleItr!=getTitles().end()) {
+		const auto& vanillaTitle = titleItr->second;
 		vanillaTitle->updateFromTitle(newTitle);
 		country.second->setCK3Title(vanillaTitle);
 	}
-	else
-	{
+	else {
 		landedTitles.insertTitle(newTitle);
 		country.second->setCK3Title(newTitle);
 	}
 }
 
 
-void CK3::World::importVanillaProvinces(const std::string& ck3Path)
-{
+void CK3::World::importVanillaProvinces(const std::string& ck3Path) {
 	LOG(LogLevel::Info) << "-> Importing Vanilla Provinces";
 	// ---- Loading history/provinces
 	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/provinces");
-	for (const auto& fileName : fileNames)
-	{
-		if (fileName.find(".txt") == std::string::npos)
+	for (const auto& fileName : fileNames) {
+		if (!fileName.ends_with(".txt"))
 			continue;
-		try
-		{
+		try {
 			auto newProvinces = Provinces(ck3Path + "/game/history/provinces/" + fileName);
-			for (const auto& [newProvinceID, newProvince] : newProvinces.getProvinces())
-			{
+			for (const auto& [newProvinceID, newProvince] : newProvinces.getProvinces()) {
 				const auto id = newProvinceID;
-				if (provinces.contains(id))
-				{
+				if (auto provinceItr = provinces.find(id); provinceItr != provinces.end()) {
 					Log(LogLevel::Warning) << "Vanilla province duplication - " << id << " already loaded! Overwriting.";
-					provinces[id] = newProvince;
+					provinceItr->second = newProvince;
 				}
 				else
-					provinces.insert(std::pair(id, newProvince));
+					provinces.emplace(id, newProvince);
 			}
 		}
 		catch (std::exception& e)
@@ -144,64 +138,59 @@ void CK3::World::importVanillaProvinces(const std::string& ck3Path)
 	// now load the provinces that don't have unique entries in history/provinces
 	// they instead use history/province_mapping
 	fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/province_mapping");
-	for (const auto& fileName : fileNames)
-	{
-		if (fileName.find(".txt") == std::string::npos)
+	for (const auto& fileName : fileNames) {
+		if (!fileName.ends_with(".txt"))
 			continue;
-		try
-		{
+		try {
 			auto newProvinces = ProvinceMappings(ck3Path + "/game/history/province_mapping/" + fileName);
-			for (const auto& [newProvinceID, newProvince] : newProvinces.getMappings())
-			{
-				const auto id = newProvinceID;
-				if (provinces.find(newProvince) == provinces.end())
-				{
-					Log(LogLevel::Warning) << "Base province " << newProvince << " not found for province " << id << ".";
+			for (const auto& [newProvinceID, baseProvinceID] : newProvinces.getMappings()) {
+				if (!provinces.contains(baseProvinceID)) {
+					Log(LogLevel::Warning) << "Base province " << baseProvinceID << " not found for province " << newProvinceID << ".";
 					continue;
 				}
-				if (provinces.contains(id))
-				{
-					Log(LogLevel::Info) << "Vanilla province duplication - " << id << " already loaded! Preferring unique entry over mapping.";
+				if (provinces.contains(newProvinceID)) {
+					Log(LogLevel::Info) << "Vanilla province duplication - " << newProvinceID << " already loaded! Preferring unique entry over mapping.";
 				}
-				else
-					provinces.insert(std::pair(id, provinces.find(newProvince)->second));
+				else {
+					auto newProvince = std::make_shared<Province>(newProvinceID, *provinces.find(baseProvinceID)->second);
+					provinces.emplace(newProvinceID, newProvince);
+				}
 			}
 		}
-		catch (std::exception& e)
-		{
+		catch (std::exception& e) {
 			Log(LogLevel::Warning) << "Invalid province filename: " << ck3Path << "/game/history/province_mapping/" << fileName << " : " << e.what();
 		}
 	}
+
+
 	LOG(LogLevel::Info) << ">> Loaded " << provinces.size() << " province definitions.";
 }
 
-void CK3::World::importImperatorProvinces(const Imperator::World& impWorld)
-{
+
+void CK3::World::importImperatorProvinces(const Imperator::World& impWorld) {
 	LOG(LogLevel::Info) << "-> Importing Imperator Provinces";
 	auto counter = 0;
 	// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-	for (const auto& [provinceID, province] : provinces)
-	{
+	for (const auto& [provinceID, province] : provinces) {
 		const auto& impProvinces = provinceMapper.getImperatorProvinceNumbers(provinceID);
 		// Provinces we're not affecting will not be in this list.
 		if (impProvinces.empty())
 			continue;
 		// Next, we find what province to use as its initializing source.
 		const auto& sourceProvince = determineProvinceSource(impProvinces, impWorld);
-		if (!sourceProvince)
-		{
+		if (!sourceProvince) {
 			Log(LogLevel::Warning) << "Could not determine source province for CK3 province " << provinceID;
 			continue; // MISMAP, or simply have mod provinces loaded we're not using.
 		}
-		else
-		{
+		else {
 			province->initializeFromImperator(sourceProvince->second, cultureMapper, religionMapper);
 		}
 		// And finally, initialize it.
-		counter++;
+		++counter;
 	}
 	LOG(LogLevel::Info) << ">> " << impWorld.getProvinces().size() << " Imperator provinces imported into " << counter << " CK3 provinces.";
 }
+
 
 std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>>> CK3::World::determineProvinceSource(const std::vector<unsigned long long>& impProvinceNumbers,
 	const Imperator::World& impWorld) const
@@ -212,11 +201,9 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 	std::optional<unsigned long long> winner;
 	auto maxDev = -1;
 
-	for (auto imperatorProvinceID : impProvinceNumbers)
-	{
+	for (auto imperatorProvinceID : impProvinceNumbers) {
 		const auto& impProvince = impWorld.getProvinces().find(imperatorProvinceID);
-		if (impProvince == impWorld.getProvinces().end())
-		{
+		if (impProvince == impWorld.getProvinces().end()) {
 			Log(LogLevel::Warning) << "Source province " << imperatorProvinceID << " is not in the list of known provinces!";
 			continue; // Broken mapping, or loaded a mod changing provinces without using it.
 		}
@@ -225,16 +212,13 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 		theShares[owner] = lround(impProvince->second->getBuildingsCount() + impProvince->second->getPopCount());
 	}
 	// Let's see who the lucky winner is.
-	for (const auto& [owner, development] : theShares)
-	{
-		if (development > maxDev)
-		{
+	for (const auto& [owner, development] : theShares) {
+		if (development > maxDev) {
 			winner = owner;
 			maxDev = development;
 		}
 	}
-	if (!winner)
-	{
+	if (!winner) {
 		return std::nullopt;
 	}
 
@@ -242,56 +226,46 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 	maxDev = -1; // We can have winning provinces with weight = 0;
 
 	std::pair<unsigned long long, std::shared_ptr<Imperator::Province>> toReturn;
-	for (const auto& province : theClaims.at(*winner))
-	{
+	for (const auto& province : theClaims.at(*winner)) {
 		const auto provinceWeight = province->getBuildingsCount() + province->getPopCount();
 
-		if (static_cast<int>(provinceWeight) > maxDev)
-		{
+		if (static_cast<int>(provinceWeight) > maxDev) {
 			toReturn.first = province->getID();
 			toReturn.second = province;
 			maxDev = provinceWeight;
 		}
 	}
-	if (!toReturn.first || !toReturn.second)
-	{
+	if (!toReturn.first || !toReturn.second) {
 		return std::nullopt;
 	}
 	return toReturn;
 }
 
-void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
-{
-	for (const auto& [name, title] : getTitles())
-	{
-		if (name.starts_with("c_") && title->capitalBaronyProvince > 0) // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
-		{
-			if (provinces.find(title->capitalBaronyProvince) == provinces.end())
+
+void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld) {
+	for (const auto& [name, title] : getTitles()) {
+		if (name.starts_with("c_") && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
+			if (!provinces.contains(title->capitalBaronyProvince))
 				LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
-			else
-			{
-				auto impProvince = provinces.find(title->capitalBaronyProvince)->second->imperatorProvince;
-				if (impProvince)
-				{
+			else {
+				auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
+				if (impProvince) {
 					std::optional<unsigned long long> impMonarch;
-					if (impWorld.getCountries().contains(impProvince->getOwner()))
-						impMonarch = impWorld.getCountries().at(impProvince->getOwner())->getMonarch();
-					if (impMonarch)
-					{
+					if (auto countryItr = impWorld.getCountries().find(impProvince->getOwner()); countryItr != impWorld.getCountries().end())
+						impMonarch = countryItr->second->getMonarch();
+					if (impMonarch) {
 						title->holder = "imperator" + std::to_string(*impMonarch);
-						countyHoldersCache.insert(title->holder);
+						countyHoldersCache.emplace(title->holder);
 					}
 				}
-				else // county is probably outside of Imperator map
-				{
+				else { // county is probably outside of Imperator map
 					title->addHistory(landedTitles, titlesHistory);
 					if (!title->holder.empty())
-						countyHoldersCache.insert(title->holder);
+						countyHoldersCache.emplace(title->holder);
 				}
 			}
 		}
-		else if (!name.starts_with("c_") && !name.starts_with("b_") && !title->isImportedOrUpdatedFromImperator()) // title is a duchy or higher, from vanilla
-		{
+		else if (!name.starts_with("c_") && !name.starts_with("b_") && !title->isImportedOrUpdatedFromImperator()) { // title is a duchy or higher, from vanilla
 			// update title holder, liege and history
 			title->addHistory(landedTitles, titlesHistory);
 		}
@@ -299,47 +273,38 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld)
 }
 
 
-void CK3::World::removeInvalidLandlessTitles()
-{
+void CK3::World::removeInvalidLandlessTitles() {
 	std::set<std::string> removedGeneratedTitles;
 	std::set<std::string> revokedVanillaTitles;
 
-	for (const auto& [name, title] : getTitles())
-	{	//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
+	for (const auto& [name, title] : getTitles()) {
+		//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
-		if (!name.starts_with("c_") && !name.starts_with("b_") && !countyHoldersCache.contains(title->holder))
-		{
-			if (!getTitles().find(name)->second->landless) // does not have landless attribute set to true
-			{
-				if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != std::string::npos)
-				{
+		if (!name.starts_with("c_") && !name.starts_with("b_") && !countyHoldersCache.contains(title->holder)) {
+			if (!getTitles().find(name)->second->landless) { // does not have landless attribute set to true
+				if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != std::string::npos) {
 					removedGeneratedTitles.emplace(name);
 					landedTitles.eraseTitle(name);
 				}
-				else
-				{
+				else {
 					revokedVanillaTitles.emplace(name);
 					title->holder = "0";
 				}
 			}
 		}
 	}
-	if (!removedGeneratedTitles.empty())
-	{
+	if (!removedGeneratedTitles.empty()) {
 		std::string msg = "Found landless generated titles that can't be landless: ";
-		for (const auto& name : removedGeneratedTitles)
-		{
+		for (const auto& name : removedGeneratedTitles) {
 			msg += name;
 			msg += ", ";
 		}
 		msg.erase(msg.length() - 2); // remove last ", "
 		Log(LogLevel::Info) << msg;
 	}
-	if (!revokedVanillaTitles.empty())
-	{
+	if (!revokedVanillaTitles.empty()) {
 		std::string msg = "Found landless vanilla titles that can't be landless: ";
-		for (const auto& name : revokedVanillaTitles)
-		{
+		for (const auto& name : revokedVanillaTitles) {
 			msg += name;
 			msg += ", ";
 		}
@@ -348,18 +313,15 @@ void CK3::World::removeInvalidLandlessTitles()
 	}
 }
 
-void CK3::World::linkSpouses()
-{
+
+void CK3::World::linkSpouses() {
 	auto counterSpouse = 0;
-	for (const auto& [ck3CharacterID, ck3Character] : characters)
-	{
+	for (const auto& [ck3CharacterID, ck3Character] : characters) {
 		std::map<unsigned long long, std::shared_ptr<Character>> newSpouses;
 		// make links between Imperator characters
-		for (const auto& [impSpouseID, impSpouseCharacter] : ck3Character->imperatorCharacter->getSpouses())
-		{
-			if (impSpouseCharacter != nullptr)
-			{
-				auto ck3SpouseCharacter = impSpouseCharacter->getCK3Character();
+		for (const auto& [impSpouseID, impSpouseCharacter] : ck3Character->imperatorCharacter->getSpouses()) {
+			if (impSpouseCharacter != nullptr) {
+				auto& ck3SpouseCharacter = impSpouseCharacter->getCK3Character();
 				ck3Character->addSpouse(std::pair(ck3SpouseCharacter->ID, ck3SpouseCharacter));
 				ck3SpouseCharacter->addSpouse(std::pair(ck3CharacterID, ck3Character));
 				++counterSpouse;
@@ -370,27 +332,23 @@ void CK3::World::linkSpouses()
 }
 
 
-void CK3::World::linkMothersAndFathers()
-{
+void CK3::World::linkMothersAndFathers() {
 	auto counterMother = 0;
 	auto counterFather = 0;
-	for (const auto& [ck3CharacterID, ck3Character] : characters)
-	{
+	for (const auto& [ck3CharacterID, ck3Character] : characters) {
 		// make links between Imperator characters
-		const auto [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
-		if (impMotherCharacter != nullptr)
-		{
-			auto ck3MotherCharacter = impMotherCharacter->getCK3Character();
+		const auto& [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
+		if (impMotherCharacter != nullptr) {
+			auto& ck3MotherCharacter = impMotherCharacter->getCK3Character();
 			ck3Character->setMother(std::pair(ck3MotherCharacter->ID, ck3MotherCharacter));
 			ck3MotherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
 			++counterMother;
 		}
 
 		// make links between Imperator characters
-		const auto [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
-		if (impFatherCharacter != nullptr)
-		{
-			auto ck3FatherCharacter = impFatherCharacter->getCK3Character();
+		const auto& [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
+		if (impFatherCharacter != nullptr) {
+			auto& ck3FatherCharacter = impFatherCharacter->getCK3Character();
 			ck3Character->setFather(std::pair(ck3FatherCharacter->ID, ck3FatherCharacter));
 			ck3FatherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
 			++counterFather;
@@ -399,12 +357,12 @@ void CK3::World::linkMothersAndFathers()
 	Log(LogLevel::Info) << "<> " << counterMother << " mothers and " << counterFather << " fathers linked in CK3.";
 }
 
+
 void CK3::World::importImperatorFamilies(const Imperator::World& impWorld) {
 	LOG(LogLevel::Info) << "-> Importing Imperator Families";
 
 	// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
-	for (const auto& [_, family] : impWorld.getFamilies())
-	{
+	for (const auto& [_, family] : impWorld.getFamilies()) {
 		if (family->isMinor())
 			continue;
 

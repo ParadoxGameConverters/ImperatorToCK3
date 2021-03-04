@@ -11,17 +11,13 @@
 #include "CommonRegexes.h"
 
 
-void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles)
-{
-	for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles)
-	{
-		if (newTitle->titleName.starts_with("c_")) // has county prefix = is a county
-		{
+
+void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles) {
+	for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles) {
+		if (newTitle->titleName.starts_with("c_")) { // has county prefix = is a county
 			const auto& baronyProvince = locatedTitle->getProvince();
-			if (baronyProvince)
-			{
-				if (locatedTitleName == newTitle->capitalBarony)
-				{
+			if (baronyProvince) {
+				if (locatedTitleName == newTitle->capitalBarony) {
 					newTitle->capitalBaronyProvince = *baronyProvince;
 				}
 				newTitle->addCountyProvince(*baronyProvince); // add found baronies' provinces to countyProvinces
@@ -37,22 +33,20 @@ void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<
 }
 
 
-void CK3::Title::loadTitles(std::istream& theStream)
-{
+void CK3::Title::loadTitles(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void CK3::Title::registerKeys()
-{
+
+void CK3::Title::registerKeys() {
 	registerRegex(R"((k|d|c|b)_[A-Za-z0-9_\-\']+)", [this](const std::string& titleNameStr, std::istream& theStream) {
 		// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 		auto newTitle = std::make_shared<Title>(titleNameStr);
 		newTitle->loadTitles(theStream);
 		
-		if (newTitle->titleName.starts_with("b_") && capitalBarony.empty()) // title is a barony, and no other barony has been found in this scope yet
-		{
+		if (newTitle->titleName.starts_with("b_") && capitalBarony.empty()) { // title is a barony, and no other barony has been found in this scope yet
 			capitalBarony = newTitle->titleName;
 		}
 		
@@ -134,8 +128,7 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	// ------------------ determine other attributes
 	
 	const auto& srcCapital = imperatorCountry->getCapital();
-	if (srcCapital)
-	{
+	if (srcCapital) {
 		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(*srcCapital);
 		if (!provMappingsForImperatorCapital.empty())
 			capitalCounty = landedTitles.getCountyForProvince(provMappingsForImperatorCapital.at(0));
@@ -146,16 +139,13 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	// ------------------ Country Name Locs
 
 	auto nameSet = false;
-	if (validatedName)
-	{
+	if (validatedName) {
 		localizations.insert(std::pair(titleName, *validatedName));
 		nameSet = true;
 	}
-	if (!nameSet)
-	{
+	if (!nameSet) {
 		auto impTagLoc = localizationMapper.getLocBlockForKey(imperatorCountry->getTag());
-		if (impTagLoc)
-		{
+		if (impTagLoc) {
 			localizations.insert(std::pair(titleName, *impTagLoc));
 			nameSet = true;
 		}
@@ -168,8 +158,8 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	trySetAdjectiveLoc(localizationMapper);
 }
 
-void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle)
-{
+
+void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle) {
 	if (titleName != otherTitle->titleName) {
 		Log(LogLevel::Error) << titleName << " can not be updated from  " << otherTitle->titleName << ": different title names!";
 		return;
@@ -188,12 +178,11 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle)
 	capitalCounty = otherTitle->capitalCounty;
 }
 
-void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper)
-{
+
+void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper) {
 	auto adjSet = false;
 
-	if (imperatorCountry->getTag() == "PRY" || imperatorCountry->getTag() == "SEL" || imperatorCountry->getTag() == "MRY") // these tags use customizable loc for adj
-	{
+	if (imperatorCountry->getTag() == "PRY" || imperatorCountry->getTag() == "SEL" || imperatorCountry->getTag() == "MRY") { // these tags use customizable loc for adj
 		std::optional<mappers::LocBlock> validatedAdj;
 		if (imperatorCountry->getName() == "PRY_DYN")
 			validatedAdj = localizationMapper.getLocBlockForKey("get_pry_adj_fallback");
@@ -202,36 +191,29 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 		else if (imperatorCountry->getName() == "MRY_DYN")
 			validatedAdj = localizationMapper.getLocBlockForKey("get_mry_adj_fallback");
 
-		if (validatedAdj)
-		{
-			localizations.insert(std::pair(titleName + "_adj", *validatedAdj));
+		if (validatedAdj) {
+			localizations.emplace(titleName + "_adj", *validatedAdj);
 			adjSet = true;
 		}
 	}
-	if (!adjSet)
-	{
+	if (!adjSet) {
 		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getName() + "_ADJ");
-		if (adjLocalizationMatch)
-		{
-			localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
+		if (adjLocalizationMatch) {
+			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);
 			adjSet = true;
 		}
 	}
-	if (!adjSet && !imperatorCountry->getName().empty()) // if loc for <title name>_adj key doesn't exist, use title name (which is apparently what Imperator does
-	{
+	if (!adjSet && !imperatorCountry->getName().empty()) { // if loc for <title name>_adj key doesn't exist, use title name (which is apparently what Imperator does
 		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getName());
-		if (adjLocalizationMatch)
-		{
-			localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
+		if (adjLocalizationMatch) {
+			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);
 			adjSet = true;
 		}
 	}
-	if (!adjSet) // same as above, but with tag instead of name as fallback
-	{
+	if (!adjSet) { // same as above, but with tag instead of name as fallback
 		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getTag());
-		if (adjLocalizationMatch)
-		{
-			localizations.insert(std::pair(titleName + "_adj", *adjLocalizationMatch));
+		if (adjLocalizationMatch) {
+			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);
 			adjSet = true;
 		}
 	}
@@ -241,62 +223,58 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 }
 
 
-void CK3::Title::setDeJureLiege(const std::shared_ptr<Title>& liegeTitle)
-{
+void CK3::Title::setDeJureLiege(const std::shared_ptr<Title>& liegeTitle) {
 	deJureLiege = liegeTitle;
 	if (deJureLiege)
 		liegeTitle->deJureVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
 }
 
-void CK3::Title::setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle)
-{
+
+void CK3::Title::setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle) {
 	deFactoLiege = liegeTitle;
 	if (deFactoLiege)
 		liegeTitle->deFactoVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
 }
 
 
-std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeJureVassalsAndBelow(const std::string& rankFilter) const
-{
+std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeJureVassalsAndBelow(const std::string& rankFilter) const {
 	std::map<std::string, std::shared_ptr<Title>> deJureVassalsAndBelow;
-	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals)
-	{
+	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals) {
 		// add the direct part
-		if (vassalTitleName.find_first_of(rankFilter) == 0) deJureVassalsAndBelow[vassalTitleName] = vassalTitle;
+		if (vassalTitleName.find_first_of(rankFilter) == 0)
+			deJureVassalsAndBelow[vassalTitleName] = vassalTitle;
 
 		// add the "below" part (recursive)
 		auto belowTitles = vassalTitle->getDeJureVassalsAndBelow(rankFilter);
-		for (auto& [belowTitleName, belowTitle] : belowTitles)
-		{
-			if (belowTitleName.find_first_of(rankFilter) == 0) deJureVassalsAndBelow[belowTitleName] = belowTitle;
+		for (auto& [belowTitleName, belowTitle] : belowTitles) {
+			if (belowTitleName.find_first_of(rankFilter) == 0)
+				deJureVassalsAndBelow[belowTitleName] = belowTitle;
 		}
 	}
 	return deJureVassalsAndBelow;
 }
 
-std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassalsAndBelow(const std::string& rankFilter) const
-{
+
+std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassalsAndBelow(const std::string& rankFilter) const {
 	std::map<std::string, std::shared_ptr<Title>> deFactoVassalsAndBelow;
-	for (const auto& [vassalTitleName, vassalTitle] : deFactoVassals)
-	{
+	for (const auto& [vassalTitleName, vassalTitle] : deFactoVassals) {
 		// add the direct part
 		if (vassalTitleName.find_first_of(rankFilter) == 0) deFactoVassalsAndBelow[vassalTitleName] = vassalTitle;
 
 		// add the "below" part (recursive)
 		auto belowTitles = vassalTitle->getDeFactoVassalsAndBelow(rankFilter);
-		for (auto& [belowTitleName, belowTitle] : belowTitles)
-		{
+		for (auto& [belowTitleName, belowTitle] : belowTitles) {
 			if (belowTitleName.find_first_of(rankFilter) == 0) deFactoVassalsAndBelow[belowTitleName] = belowTitle;
 		}
 	}
 	return deFactoVassalsAndBelow;
 }
 
-void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory)
-{
-	if (titlesHistory.currentHolderIdMap.contains(titleName))
-	{
-		if (const auto currentHolder = titlesHistory.currentHolderIdMap.at(titleName); currentHolder)
+
+void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory) {
+	if (auto holderIdItr = titlesHistory.currentHolderIdMap.find(titleName); holderIdItr != titlesHistory.currentHolderIdMap.end()) {
+		const auto currentHolder = holderIdItr->second;
+		if (currentHolder)
 			holder = *currentHolder;
 	}
 
@@ -307,22 +285,23 @@ void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& tit
 			setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
 	}
 
-	if (titlesHistory.currentGovernmentMap.contains(titleName))
+	if (auto govMapItr = titlesHistory.currentGovernmentMap.find(titleName); govMapItr != titlesHistory.currentGovernmentMap.end())
 	{
-		const auto& governmentFromHistory = titlesHistory.currentGovernmentMap.at(titleName);
-		if (governmentFromHistory) government = *governmentFromHistory;
+		const auto& governmentFromHistory = govMapItr->second;
+		if (governmentFromHistory)
+			government = *governmentFromHistory;
 	}
 	
-	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName); vanillaHistory)
+	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName))
 		historyString = *vanillaHistory;
 }
 
-bool CK3::Title::duchyContainsProvince(const unsigned long long provinceID) const
-{
-	if (!titleName.starts_with("d_")) return false;
 
-	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals)
-	{
+bool CK3::Title::duchyContainsProvince(const unsigned long long provinceID) const {
+	if (!titleName.starts_with("d_"))
+		return false;
+
+	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals) {
 		if (vassalTitleName.starts_with("c_") && vassalTitle->countyProvinces.contains(provinceID))
 			return true;
 	}

@@ -9,42 +9,38 @@
 
 
 
-namespace Imperator
-{
+namespace Imperator {
 class Province;
-}
-namespace mappers
-{
+} // namespace Imperator
+
+namespace mappers {
 class CultureMapper;
 class ReligionMapper;
 } // namespace mappers
 
 
-namespace CK3
-{
+namespace CK3 {
+
 class Title;
-class Province
-{
+class Province {
   public:
 	Province() = default;
-
 	Province(unsigned long long id, std::istream& theStream);
+	Province(unsigned long long id, const Province& otherProv);
 
 	void initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
 	                             const mappers::CultureMapper& cultureMapper,
 	                             const mappers::ReligionMapper& religionMapper);
 
-	[[nodiscard]] const auto& getTitleCountry() const { return titleCountry; }
+	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
 	[[nodiscard]] const auto& getHolding() const { return details.holding; }
-	[[nodiscard]] auto getID() const { return ID; }
-	
+	[[nodiscard]] const auto& getImperatorProvince() const { return imperatorProvince; }
 
-	void registerTitleCountry(const std::pair<std::string, std::shared_ptr<Title>>& theTitle) { titleCountry = theTitle; }
+
 	void setReligion(const std::string& religion) { details.religion = religion; }
-
-	std::shared_ptr<Imperator::Province> imperatorProvince;
+	void setImperatorProvince(const std::shared_ptr<Imperator::Province>& impProvPtr) { imperatorProvince = impProvPtr; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Province& province);
 
@@ -56,7 +52,12 @@ class Province
 	  unsigned long long ID = 0;
 	  ProvinceDetails details;
 	  std::pair<std::string, std::shared_ptr<Title>> titleCountry;
+
+	  std::shared_ptr<Imperator::Province> imperatorProvince;
 };
+
 } // namespace CK3
+
+
 
 #endif // CK3_PROVINCE_H

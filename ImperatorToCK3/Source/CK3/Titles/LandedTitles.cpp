@@ -1,5 +1,6 @@
 #include "LandedTitles.h"
 #include "Title.h"
+#include "Imperator/Countries/Country.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
@@ -12,21 +13,21 @@
 // Since titles are nested according to hierarchy we do this recursively.
 
 
-void CK3::LandedTitles::loadTitles(const std::string& fileName)
-{
+void CK3::LandedTitles::loadTitles(const std::string& fileName) {
 	registerKeys();
 	parseFile(fileName);
 	clearRegisteredKeywords();
 }
-void CK3::LandedTitles::loadTitles(std::istream& theStream)
-{
+
+
+void CK3::LandedTitles::loadTitles(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void CK3::LandedTitles::registerKeys()
-{
+
+void CK3::LandedTitles::registerKeys() {
 	registerRegex(R"((e|k|d|c|b)_[A-Za-z0-9_\-\']+)", [this](const std::string& titleNameStr, std::istream& theStream) {
 		// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 		auto newTitle = std::make_shared<Title>(titleNameStr);
@@ -38,10 +39,8 @@ void CK3::LandedTitles::registerKeys()
 }
 
 
-std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigned long long provinceID)
-{
-	for (const auto& [titleName, title] : foundTitles)
-	{
+std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigned long long provinceID) {
+	for (const auto& [titleName, title] : foundTitles) {
 		if (titleName.starts_with("c_") && title->getCountyProvinces().contains(provinceID)) {
 			return titleName;
 		}
@@ -50,32 +49,29 @@ std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigne
 }
 
 
-void CK3::LandedTitles::insertTitle(const std::shared_ptr<Title>& title)
-{
+void CK3::LandedTitles::insertTitle(const std::shared_ptr<Title>& title) {
 	if (!title->titleName.empty()) {
 		foundTitles[title->titleName] = title;
 	}
 	else
 		Log(LogLevel::Warning) << "Not inserting a title with empty name!";
 }
-void CK3::LandedTitles::eraseTitle(const std::string& name)
-{
-	if (const auto titleItr = foundTitles.find(name); titleItr != foundTitles.end())
-	{
-		auto liegePtr = titleItr->second->getDeJureLiege();
-		if (liegePtr)
-			liegePtr->deJureVassals.erase(name);
 
-		liegePtr = titleItr->second->getDeFactoLiege();
-		if (liegePtr)
-			liegePtr->deFactoVassals.erase(name);
 
-		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deJureVassals)
-		{
+void CK3::LandedTitles::eraseTitle(const std::string& name) {
+	if (const auto titleItr = foundTitles.find(name); titleItr != foundTitles.end()) {
+		const auto& deJureLiegePtr = titleItr->second->getDeJureLiege();
+		if (deJureLiegePtr)
+			deJureLiegePtr->deJureVassals.erase(name);
+
+		const auto& deFactoLiegePtr = titleItr->second->getDeFactoLiege();
+		if (deFactoLiegePtr)
+			deFactoLiegePtr->deFactoVassals.erase(name);
+
+		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deJureVassals) {
 			vassalTitle->setDeJureLiege(nullptr);
 		}
-		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deFactoVassals)
-		{
+		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deFactoVassals) {
 			vassalTitle->setDeFactoLiege(nullptr);
 		}
 

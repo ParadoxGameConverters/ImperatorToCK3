@@ -7,6 +7,7 @@
 #include "Mappers/ProvinceMapper/ProvinceMapper.h"
 
 
+
 void CK3::Character::initializeFromImperator(
 	std::shared_ptr<Imperator::Character> impCharacter,
 	const mappers::ReligionMapper& religionMapper,
@@ -49,38 +50,33 @@ void CK3::Character::initializeFromImperator(
 	if (match)
 		culture = *match;
 
-	if (!name.empty())
-	{
+	if (!name.empty()) {
 		auto impNameLoc = localizationMapper.getLocBlockForKey(name);
-		if (impNameLoc)
-		{
+		if (impNameLoc) {
 			localizations.insert(std::pair(name, *impNameLoc));
 		}
-		else // fallback: use unlocalized name as displayed name
-		{
+		else {// fallback: use unlocalized name as displayed name
 			localizations.insert(std::pair(name, mappers::LocBlock{ name,name,name,name,name }));
 		}
 	}
 
-	for (const auto& impTrait : imperatorCharacter->getTraits())
-	{
+	for (const auto& impTrait : imperatorCharacter->getTraits()) {
 		auto traitMatch = traitMapper.getCK3TraitForImperatorTrait(impTrait);
-		if (traitMatch) traits.insert(*traitMatch);
+		if (traitMatch)
+			traits.emplace(*traitMatch);
 	}
 
-	if (!imperatorCharacter->getNickname().empty())
-	{
+	if (!imperatorCharacter->getNickname().empty()) {
 		auto nicknameMatch = nicknameMapper.getCK3NicknameForImperatorNickname(imperatorCharacter->getNickname());
-		if (nicknameMatch) nickname = *nicknameMatch;
+		if (nicknameMatch)
+			nickname = *nicknameMatch;
 	}
 	
 	birthDate = imperatorCharacter->getBirthDate();
 	deathDate = imperatorCharacter->getDeathDate();
-	if (!ConvertBirthAndDeathDates)  //if option to convert character age is chosen
-	{
+	if (!ConvertBirthAndDeathDates) {  //if option to convert character age is chosen
 		birthDate.addYears(static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
-		if (deathDate)
-		{
+		if (deathDate) {
 			deathDate->addYears(static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
 		}
 	}

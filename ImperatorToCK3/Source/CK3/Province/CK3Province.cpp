@@ -10,6 +10,8 @@
 
 CK3::Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
 
+CK3::Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), details{ otherProv.details } {}
+
 void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
                                             const mappers::CultureMapper& cultureMapper,
                                             const mappers::ReligionMapper& religionMapper)
@@ -32,14 +34,12 @@ void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Pro
 	setHolding();
 }
 
-void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper)
-{
+
+void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper) {
 	auto religionSet = false;
-	if (!imperatorProvince->getReligion().empty())
-	{
+	if (!imperatorProvince->getReligion().empty()) {
 		auto religionMatch = religionMapper.match(imperatorProvince->getReligion(), ID, imperatorProvince->getID());
-		if (religionMatch)
-		{
+		if (religionMatch) {
 			details.religion = *religionMatch;
 			religionSet = true;
 		}
@@ -51,8 +51,7 @@ void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper)
 		details.religion = titleCountry.second->getReligion();
 		religionSet = true;
 	}*/
-	if (!religionSet)
-	{
+	if (!religionSet) {
 		//Use default CK3 religion.
 	}
 }
@@ -62,11 +61,9 @@ void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
 {
 	auto cultureSet = false;
 	// do we even have a base culture?
-	if (!imperatorProvince->getCulture().empty())
-	{
+	if (!imperatorProvince->getCulture().empty()) {
 		auto cultureMatch = cultureMapper.match(imperatorProvince->getCulture(), details.religion, ID, imperatorProvince->getID(), titleCountry.first);
-		if (cultureMatch)
-		{
+		if (cultureMatch) {
 			details.culture = *cultureMatch;
 			cultureSet = true;
 		}
@@ -79,16 +76,13 @@ void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
 		cultureSet = true;
 	}
 	*/
-	if (!cultureSet)
-	{
+	if (!cultureSet) {
 		//Use default CK3 culture.
 	}
 }
 
-void CK3::Province::setHolding()
-{
-	switch (imperatorProvince->getProvinceRank())
-	{
+void CK3::Province::setHolding() {
+	switch (imperatorProvince->getProvinceRank()) {
 	case Imperator::ProvinceRank::city_metropolis:
 		details.holding = "city_holding";
 		break;

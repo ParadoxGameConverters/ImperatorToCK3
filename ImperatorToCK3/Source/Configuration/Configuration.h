@@ -1,11 +1,13 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-#include "Date.h"
+
+
 #include "Parser.h"
 
-class Configuration: commonItems::parser
-{
+
+
+class Configuration: commonItems::parser {
   public:
 	Configuration();
 	explicit Configuration(std::istream& theStream);
@@ -37,5 +39,7 @@ class Configuration: commonItems::parser
 	IMPERATOR_DE_JURE imperatorDeJure = IMPERATOR_DE_JURE::NO;
 	bool convertBirthAndDeathDates = true;
 };
+
+
 
 #endif // CONFIGURATION_H
