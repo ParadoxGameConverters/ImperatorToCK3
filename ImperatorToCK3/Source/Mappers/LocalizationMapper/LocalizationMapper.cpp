@@ -5,8 +5,9 @@
 #include <fstream>
 #include <set>
 
-void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theConfiguration, const std::map<std::string, std::string>& mods)
-{
+
+
+void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theConfiguration, const std::map<std::string, std::string>& mods) {
 	LOG(LogLevel::Info) << "-> Reading Words";
 
 	scrapeLanguage("english", theConfiguration.getImperatorPath() + "/game/localization");
@@ -15,10 +16,8 @@ void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theCo
 	scrapeLanguage("russian", theConfiguration.getImperatorPath() + "/game/localization");
 	scrapeLanguage("spanish", theConfiguration.getImperatorPath() + "/game/localization");
 
-	for (const auto& mod : mods)
-	{
-		if (commonItems::DoesFolderExist(mod.second + "/localization"))
-		{
+	for (const auto& mod : mods) {
+		if (commonItems::DoesFolderExist(mod.second + "/localization")) {
 			Log(LogLevel::Info) << "\t>> Found some words in: " << mod.second + "/localization";
 			scrapeLanguage("english", mod.second + "/localization");
 			scrapeLanguage("french", mod.second + "/localization");
@@ -31,13 +30,12 @@ void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theCo
 	LOG(LogLevel::Info) << ">> " << localizations.size() << " words read.";
 }
 
-void mappers::LocalizationMapper::scrapeLanguage(const std::string& language, const std::string& path)
-{
+
+void mappers::LocalizationMapper::scrapeLanguage(const std::string& language, const std::string& path) {
 	if (!commonItems::DoesFolderExist(path + "/" + language))
 		return;
 	auto filenames = commonItems::GetAllFilesInFolderRecursive(path + "/" + language);
-	for (const auto& file : filenames)
-	{
+	for (const auto& file : filenames) {
 		std::ifstream fileStream(path + "/" + language + "/" + file);
 		if (fileStream.is_open())
 			scrapeStream(fileStream, language);
@@ -45,10 +43,9 @@ void mappers::LocalizationMapper::scrapeLanguage(const std::string& language, co
 	}
 }
 
-void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const std::string& language)
-{
-	while (!theStream.eof())
-	{
+
+void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const std::string& language) {
+	while (!theStream.eof()) {
 		std::string line;
 		getline(theStream, line);
 
@@ -66,21 +63,19 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const st
 			continue;
 		const auto value = newLine.substr(quoteLoc + 1, quote2Loc - quoteLoc - 1);
 
-		if (localizations.contains(key))
-		{
+		if (auto locItr = localizations.find(key); locItr != localizations.end()) {
 			if (language == "english")
-				localizations.at(key).english = value;
+				locItr->second.english = value;
 			if (language == "french")
-				localizations.at(key).french = value;
+				locItr->second.french = value;
 			if (language == "german")
-				localizations.at(key).german = value;
+				locItr->second.german = value;
 			if (language == "russian")
-				localizations.at(key).russian = value;
+				locItr->second.russian = value;
 			if (language == "spanish")
-				localizations.at(key).spanish = value;
+				locItr->second.spanish = value;
 		}
-		else
-		{
+		else {
 			LocBlock newBlock;
 			if (language == "english")
 				newBlock.english = value;
@@ -92,19 +87,18 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const st
 				newBlock.russian = value;
 			if (language == "spanish")
 				newBlock.spanish = value;
-			localizations.insert(std::pair(key, newBlock));
+			localizations.emplace(key, newBlock);
 		}
 	}
 }
 
-std::optional<mappers::LocBlock> mappers::LocalizationMapper::getLocBlockForKey(const std::string& key) const
-{
+
+std::optional<mappers::LocBlock> mappers::LocalizationMapper::getLocBlockForKey(const std::string& key) const {
 	const auto& keyItr = localizations.find(key);
 	if (keyItr == localizations.end())
 		return std::nullopt;
 
-	if (!keyItr->second.english.empty() && (keyItr->second.spanish.empty() || keyItr->second.russian.empty() || keyItr->second.german.empty() || keyItr->second.french.empty()))
-	{
+	if (!keyItr->second.english.empty() && (keyItr->second.spanish.empty() || keyItr->second.russian.empty() || keyItr->second.german.empty() || keyItr->second.french.empty())) {
 		auto newBlock = keyItr->second;
 		if (newBlock.spanish.empty())
 			newBlock.spanish = newBlock.english;

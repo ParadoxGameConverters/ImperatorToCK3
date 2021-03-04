@@ -1,12 +1,13 @@
 #include "ReligionMapping.h"
+#include "Mappers/RegionMapper/ImperatorRegionMapper.h"
+#include "Mappers/RegionMapper/CK3RegionMapper.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include "Log.h"
-#include "Mappers/RegionMapper/ImperatorRegionMapper.h"
-#include "Mappers/RegionMapper/CK3RegionMapper.h"
 
-mappers::ReligionMapping::ReligionMapping(std::istream& theStream)
-{
+
+
+mappers::ReligionMapping::ReligionMapping(std::istream& theStream) {
 	registerKeyword("ck3", [this](std::istream& theStream) {
 		ck3Religion = commonItems::getString(theStream);
 	});
@@ -31,9 +32,8 @@ mappers::ReligionMapping::ReligionMapping(std::istream& theStream)
 	clearRegisteredKeywords();
 }
 
-std::optional<std::string> mappers::ReligionMapping::match(const std::string& impReligion,
-                                                                   const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const
-{
+
+std::optional<std::string> mappers::ReligionMapping::match(const std::string& impReligion, const unsigned long long ck3ProvinceID, const unsigned long long impProvinceID) const {
 	// We need at least a viable Imperator religion
 	if (impReligion.empty())
 		return std::nullopt;
@@ -52,10 +52,8 @@ std::optional<std::string> mappers::ReligionMapping::match(const std::string& im
 	if (ck3Provinces.contains(ck3ProvinceID))
 		return ck3Religion;
 	// This is a CK3 regions check, it checks if provided ck3Province is within the mapping's ck3Regions
-	for (const auto& region : ck3Regions)
-	{
-		if (!ck3RegionMapper->regionNameIsValid(region))
-		{
+	for (const auto& region : ck3Regions) {
+		if (!ck3RegionMapper->regionNameIsValid(region)) {
 			Log(LogLevel::Warning) << "Checking for religion " << impReligion << " inside invalid CK3 region: " << region << "! Fix the mapping rules!";
 			// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
 			// for the converter to explode across the logs with invalid names. So, continue.
@@ -69,10 +67,8 @@ std::optional<std::string> mappers::ReligionMapping::match(const std::string& im
 	if (imperatorProvinces.contains(impProvinceID))
 		return ck3Religion;
 	// This is an Imperator regions check, it checks if provided impProvince is within the mapping's imperatorRegions
-	for (const auto& region : imperatorRegions)
-	{
-		if (!imperatorRegionMapper->regionNameIsValid(region))
-		{
+	for (const auto& region : imperatorRegions) {
+		if (!imperatorRegionMapper->regionNameIsValid(region)) {
 			Log(LogLevel::Warning) << "Checking for religion " << impReligion << " inside invalid Imperator region: " << region << "! Fix the mapping rules!";
 			// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
 			// for the converter to explode across the logs with invalid names. So, continue.

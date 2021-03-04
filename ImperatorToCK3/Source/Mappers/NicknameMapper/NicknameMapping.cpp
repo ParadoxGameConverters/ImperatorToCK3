@@ -2,15 +2,16 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
-mappers::NicknameMapping::NicknameMapping(std::istream& theStream)
-{
+
+
+mappers::NicknameMapping::NicknameMapping(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void mappers::NicknameMapping::registerKeys()
-{
+
+void mappers::NicknameMapping::registerKeys() {
 	registerKeyword("ck3", [this](std::istream& theStream) {
 		ck3Nickname = commonItems::getString(theStream);
 	});
@@ -19,4 +20,3 @@ void mappers::NicknameMapping::registerKeys()
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
-

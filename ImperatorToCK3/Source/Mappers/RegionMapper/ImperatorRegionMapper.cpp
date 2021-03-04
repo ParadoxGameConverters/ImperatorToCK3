@@ -1,15 +1,20 @@
 #include "ImperatorRegionMapper.h"
+#include "ImperatorRegion.h"
+#include "ImperatorArea.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
-#include <filesystem>
-#include <fstream>
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include <filesystem>
+#include <fstream>
+
+
 
 namespace fs = std::filesystem;
 
-mappers::ImperatorRegionMapper::ImperatorRegionMapper(const std::string& imperatorPath)
-{
+
+
+mappers::ImperatorRegionMapper::ImperatorRegionMapper(const std::string& imperatorPath) {
 	LOG(LogLevel::Info) << "-> Initializing Imperator Geography";
 	
 	auto areaFileName = imperatorPath + "/game/map_data/areas.txt";
@@ -29,8 +34,8 @@ mappers::ImperatorRegionMapper::ImperatorRegionMapper(const std::string& imperat
 	regionStream.close();
 }
 
-void mappers::ImperatorRegionMapper::loadRegions(std::istream& areaStream, std::istream& regionStream)
-{
+
+void mappers::ImperatorRegionMapper::loadRegions(std::istream& areaStream, std::istream& regionStream) {
 	registerAreaKeys();
 	parseStream(areaStream);
 	clearRegisteredKeywords();
@@ -44,16 +49,16 @@ void mappers::ImperatorRegionMapper::loadRegions(std::istream& areaStream, std::
 
 
 
-void mappers::ImperatorRegionMapper::registerRegionKeys()
-{
+void mappers::ImperatorRegionMapper::registerRegionKeys() {
 	registerRegex(R"([\w_&]+)", [this](const std::string& regionName, std::istream& theStream) {
 		const auto newRegion = std::make_shared<ImperatorRegion>(theStream);
 		regions[regionName] = newRegion;
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
-void mappers::ImperatorRegionMapper::registerAreaKeys()
-{
+
+
+void mappers::ImperatorRegionMapper::registerAreaKeys() {
 	registerRegex(R"([\w_&]+)", [this](const std::string& areaName, std::istream& theStream) {
 		const auto newArea = std::make_shared<ImperatorArea>(theStream);
 		areas[areaName] = newArea;
@@ -62,8 +67,7 @@ void mappers::ImperatorRegionMapper::registerAreaKeys()
 }
 
 
-bool mappers::ImperatorRegionMapper::provinceIsInRegion(const unsigned long long province, const std::string& regionName) const
-{
+bool mappers::ImperatorRegionMapper::provinceIsInRegion(const unsigned long long province, const std::string& regionName) const {
 	const auto& regionItr = regions.find(regionName);
 	if (regionItr != regions.end() && regionItr->second)
 		return regionItr->second->regionContainsProvince(province);
@@ -76,12 +80,10 @@ bool mappers::ImperatorRegionMapper::provinceIsInRegion(const unsigned long long
 	return false;
 }
 
-std::optional<std::string> mappers::ImperatorRegionMapper::getParentRegionName(const unsigned long long provinceID) const
-{
-	for (const auto& [regionName, region] : regions)
-	{
-		if (region && region->regionContainsProvince(provinceID))
-		{
+
+std::optional<std::string> mappers::ImperatorRegionMapper::getParentRegionName(const unsigned long long provinceID) const {
+	for (const auto& [regionName, region] : regions) {
+		if (region && region->regionContainsProvince(provinceID)) {
 			return regionName;
 		}
 	}
@@ -90,10 +92,8 @@ std::optional<std::string> mappers::ImperatorRegionMapper::getParentRegionName(c
 }
 
 
-std::optional<std::string> mappers::ImperatorRegionMapper::getParentAreaName(const unsigned long long provinceID) const
-{
-	for (const auto& [areaName, area]: areas)
-	{
+std::optional<std::string> mappers::ImperatorRegionMapper::getParentAreaName(const unsigned long long provinceID) const {
+	for (const auto& [areaName, area]: areas) {
 		if (area && area->areaContainsProvince(provinceID))
 			return areaName;
 	}
@@ -103,8 +103,7 @@ std::optional<std::string> mappers::ImperatorRegionMapper::getParentAreaName(con
 
 
 
-bool mappers::ImperatorRegionMapper::regionNameIsValid(const std::string& regionName) const
-{
+bool mappers::ImperatorRegionMapper::regionNameIsValid(const std::string& regionName) const {
 	if (regions.contains(regionName))
 		return true;
 
@@ -115,19 +114,14 @@ bool mappers::ImperatorRegionMapper::regionNameIsValid(const std::string& region
 	return false;
 }
 
-void mappers::ImperatorRegionMapper::linkRegions()
-{
-	for (const auto& [regionName, region]: regions)
-	{
-		for (const auto& [requiredAreaName, requiredArea]: region->getAreas())
-		{
-			const auto& areaItr = areas.find(requiredAreaName);
-			if (areaItr != areas.end())
-			{
+
+void mappers::ImperatorRegionMapper::linkRegions() {
+	for (const auto& [regionName, region]: regions) {
+		for (const auto& [requiredAreaName, requiredArea]: region->getAreas()) {
+			if (const auto& areaItr = areas.find(requiredAreaName); areaItr != areas.end()) {
 				region->linkArea(requiredAreaName, areaItr->second);
 			}
-			else
-			{
+			else {
 				throw std::runtime_error("Region's " + regionName + " area " + requiredAreaName + " does not exist!");
 			}
 		}

@@ -1,14 +1,19 @@
 #ifndef IMPERATOR_REGION_MAPPER_H
 #define IMPERATOR_REGION_MAPPER_H
 
+
+
 #include "Parser.h"
 #include <map>
-#include "ImperatorRegion.h"
+#include <memory>
 
-namespace mappers
-{
-class ImperatorRegionMapper: commonItems::parser
-{
+
+
+namespace mappers {
+
+class ImperatorRegion;
+class ImperatorArea;
+class ImperatorRegionMapper: commonItems::parser {
   public:
 	ImperatorRegionMapper() = default;
 	explicit ImperatorRegionMapper(const std::string& imperatorPath);
@@ -28,6 +33,9 @@ class ImperatorRegionMapper: commonItems::parser
 	std::map<std::string, std::shared_ptr<ImperatorRegion>> regions;
 	std::map<std::string, std::shared_ptr<ImperatorArea>> areas;
 };
+
 } // namespace mappers
+
+
 
 #endif // IMPERATOR_REGION_MAPPER_H

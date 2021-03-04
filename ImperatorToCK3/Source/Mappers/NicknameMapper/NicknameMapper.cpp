@@ -1,11 +1,12 @@
 #include "NicknameMapper.h"
+#include "NicknameMapping.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
-#include "NicknameMapping.h"
 
-mappers::NicknameMapper::NicknameMapper()
-{
+
+
+mappers::NicknameMapper::NicknameMapper() {
 	LOG(LogLevel::Info) << "-> Parsing nickname mappings.";
 	registerKeys();
 	parseFile("configurables/nickname_map.txt");
@@ -13,24 +14,25 @@ mappers::NicknameMapper::NicknameMapper()
 	LOG(LogLevel::Info) << "<> Loaded " << impToCK3NicknameMap.size() << " nickname links.";
 }
 
-mappers::NicknameMapper::NicknameMapper(std::istream& theStream)
-{
+
+mappers::NicknameMapper::NicknameMapper(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void mappers::NicknameMapper::registerKeys()
-{
+
+void mappers::NicknameMapper::registerKeys() {
 	registerKeyword("link", [this](std::istream& theStream) {
 		const NicknameMapping theMapping(theStream);
-		for (const auto& imperatorNickname: theMapping.impNicknames)
-		{
-			if (theMapping.ck3Nickname) impToCK3NicknameMap.insert(std::make_pair(imperatorNickname, *theMapping.ck3Nickname));
+		for (const auto& imperatorNickname: theMapping.impNicknames) {
+			if (theMapping.ck3Nickname)
+				impToCK3NicknameMap.emplace(imperatorNickname, *theMapping.ck3Nickname);
 		}
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
+
 
 std::optional<std::string> mappers::NicknameMapper::getCK3NicknameForImperatorNickname(const std::string& impNickname) const
 {
