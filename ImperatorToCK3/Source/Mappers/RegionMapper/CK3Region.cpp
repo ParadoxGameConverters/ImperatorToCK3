@@ -1,17 +1,19 @@
 #include "CK3Region.h"
+#include "CK3/Titles/Title.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include "Log.h"
 
-mappers::CK3Region::CK3Region(std::istream& theStream)
-{
+
+
+mappers::CK3Region::CK3Region(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void mappers::CK3Region::registerKeys()
-{
+
+void mappers::CK3Region::registerKeys() {
 	registerKeyword("regions", [this](std::istream& theStream) {
 		for (const auto& name : commonItems::getStrings(theStream))
 			regions.emplace(name, nullptr);
@@ -31,8 +33,8 @@ void mappers::CK3Region::registerKeys()
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
-bool mappers::CK3Region::regionContainsProvince(const unsigned long long province) const
-{
+
+bool mappers::CK3Region::regionContainsProvince(const unsigned long long province) const {
 	for (const auto& [regionName, region]: regions)
 		if (region && region->regionContainsProvince(province))
 			return true;
@@ -49,4 +51,19 @@ bool mappers::CK3Region::regionContainsProvince(const unsigned long long provinc
 		return true;
 	
 	return false;
+}
+
+
+void mappers::CK3Region::linkRegion(const std::string& regionName, const std::shared_ptr<CK3Region>& region) {
+	regions[regionName] = region;
+}
+
+
+void mappers::CK3Region::linkDuchy(const std::shared_ptr<CK3::Title>& theDuchy) {
+	duchies[theDuchy->getName()] = theDuchy;
+}
+
+
+void mappers::CK3Region::linkCounty(const std::shared_ptr<CK3::Title>& theCounty) {
+	counties[theCounty->getName()] = theCounty;
 }

@@ -1,4 +1,5 @@
 #include "Mappers/RegionMapper/CK3Region.h"
+#include "CK3/Titles/Title.h"
 #include "gtest/gtest.h"
 #include <sstream>
 

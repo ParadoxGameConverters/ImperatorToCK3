@@ -1,14 +1,20 @@
 #ifndef CK3_REGION_H
 #define CK3_REGION_H
 
+
+
 #include "Parser.h"
 #include <set>
-#include "CK3/Titles/Title.h"
 
-namespace mappers
-{
-class CK3Region: commonItems::parser
-{
+
+
+namespace CK3 {
+class Title;
+}
+
+namespace mappers {
+
+class CK3Region: commonItems::parser {
   public:
 	explicit CK3Region(std::istream& theStream);
 
@@ -18,9 +24,9 @@ class CK3Region: commonItems::parser
 	[[nodiscard]] const auto& getProvinces() const { return provinces; }
 	[[nodiscard]] bool regionContainsProvince(unsigned long long province) const;
 
-	void linkRegion(const std::string& regionName, const std::shared_ptr<CK3Region>& region) { regions[regionName] = region; }
-	void linkDuchy(const std::shared_ptr<CK3::Title>& theDuchy) { duchies[theDuchy->getName()] = theDuchy; }
-	void linkCounty(const std::shared_ptr<CK3::Title>& theCounty) { counties[theCounty->getName()] = theCounty; }
+	void linkRegion(const std::string& regionName, const std::shared_ptr<CK3Region>& region);
+	void linkDuchy(const std::shared_ptr<CK3::Title>& theDuchy);
+	void linkCounty(const std::shared_ptr<CK3::Title>& theCounty);
 
   private:
 	void registerKeys();
@@ -29,6 +35,9 @@ class CK3Region: commonItems::parser
 	std::map<std::string, std::shared_ptr<CK3::Title>> counties;
 	std::set<unsigned long long> provinces;
 };
+
 } // namespace mappers
+
+
 
 #endif // CK3_REGION_H

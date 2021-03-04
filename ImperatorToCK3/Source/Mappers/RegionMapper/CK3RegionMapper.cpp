@@ -1,15 +1,21 @@
 #include "CK3RegionMapper.h"
+#include "CK3/Titles/Title.h"
+#include "CK3/Titles/LandedTitles.h"
+#include "CK3Region.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
-#include <filesystem>
-#include <fstream>
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include <filesystem>
+#include <fstream>
+
+
 
 namespace fs = std::filesystem;
 
-mappers::CK3RegionMapper::CK3RegionMapper(const std::string& ck3Path, CK3::LandedTitles& landedTitles)
-{
+
+
+mappers::CK3RegionMapper::CK3RegionMapper(const std::string& ck3Path, CK3::LandedTitles& landedTitles) {
 	LOG(LogLevel::Info) << "-> Initializing Geography";
 	
 	auto regionFilename = ck3Path + "/game/map_data/geographical_region.txt";
@@ -29,17 +35,18 @@ mappers::CK3RegionMapper::CK3RegionMapper(const std::string& ck3Path, CK3::Lande
 	islandRegionStream.close();
 }
 
-void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream)
-{
+
+void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std::istream& regionStream, std::istream& islandRegionStream) {
 	registerRegionKeys();
 	parseStream(regionStream);
 	parseStream(islandRegionStream);
 	clearRegisteredKeywords();
 	
-	for (const auto& [titleName, title] : landedTitles.getTitles())
-	{
-		if (titleName.starts_with("c_")) counties[titleName] = title;
-		else if (titleName.starts_with("d_")) duchies[titleName] = title;
+	for (const auto& [titleName, title] : landedTitles.getTitles()) {
+		if (titleName.starts_with("c_"))
+			counties[titleName] = title;
+		else if (titleName.starts_with("d_"))
+			duchies[titleName] = title;
 	}
 
 	linkRegions();
@@ -47,8 +54,7 @@ void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std:
 
 
 
-void mappers::CK3RegionMapper::registerRegionKeys()
-{
+void mappers::CK3RegionMapper::registerRegionKeys() {
 	registerRegex(R"([\w_&]+)", [this](const std::string& regionName, std::istream& theStream) {
 		const auto newRegion = std::make_shared<CK3Region>(theStream);
 		regions[regionName] = newRegion;
@@ -57,8 +63,7 @@ void mappers::CK3RegionMapper::registerRegionKeys()
 }
 
 
-bool mappers::CK3RegionMapper::provinceIsInRegion(const unsigned long long province, const std::string& regionName) const
-{
+bool mappers::CK3RegionMapper::provinceIsInRegion(const unsigned long long province, const std::string& regionName) const {
 	const auto& regionItr = regions.find(regionName);
 	if (regionItr != regions.end() && regionItr->second)
 		return regionItr->second->regionContainsProvince(province);
@@ -76,10 +81,9 @@ bool mappers::CK3RegionMapper::provinceIsInRegion(const unsigned long long provi
 	return false;
 }
 
-std::optional<std::string> mappers::CK3RegionMapper::getParentCountyName(const unsigned long long provinceID) const
-{
-	for (const auto& [countyName, county] : counties)
-	{
+
+std::optional<std::string> mappers::CK3RegionMapper::getParentCountyName(const unsigned long long provinceID) const {
+	for (const auto& [countyName, county] : counties) {
 		if (county && county->getCountyProvinces().contains(provinceID))
 			return countyName;
 	}
@@ -87,10 +91,9 @@ std::optional<std::string> mappers::CK3RegionMapper::getParentCountyName(const u
 	return std::nullopt;
 }
 
-std::optional<std::string> mappers::CK3RegionMapper::getParentDuchyName(const unsigned long long provinceID) const
-{
-	for (const auto& [duchyName, duchy]: duchies)
-	{
+
+std::optional<std::string> mappers::CK3RegionMapper::getParentDuchyName(const unsigned long long provinceID) const {
+	for (const auto& [duchyName, duchy]: duchies) {
 		if (duchy && duchy->duchyContainsProvince(provinceID))
 			return duchyName;
 	}
@@ -98,12 +101,10 @@ std::optional<std::string> mappers::CK3RegionMapper::getParentDuchyName(const un
 	return std::nullopt;
 }
 
-std::optional<std::string> mappers::CK3RegionMapper::getParentRegionName(const unsigned long long provinceID) const
-{
-	for (const auto& [regionName, region]: regions)
-	{	
-		if (region && region->regionContainsProvince(provinceID))
-		{
+
+std::optional<std::string> mappers::CK3RegionMapper::getParentRegionName(const unsigned long long provinceID) const {
+	for (const auto& [regionName, region]: regions) {
+		if (region && region->regionContainsProvince(provinceID)) {
 			return regionName;
 		}
 	}
@@ -126,48 +127,38 @@ bool mappers::CK3RegionMapper::regionNameIsValid(const std::string& regionName) 
 	return false;
 }
 
-void mappers::CK3RegionMapper::linkRegions()
-{
-	for (const auto& [regionName, region]: regions)
-	{
+
+void mappers::CK3RegionMapper::linkRegions() {
+	for (const auto& [regionName, region]: regions) {
 		// regions
-		for (const auto& [requiredRegionName, requiredRegion] : region->getRegions())
-		{
+		for (const auto& [requiredRegionName, requiredRegion] : region->getRegions()) {
 			const auto& regionItr = regions.find(requiredRegionName);
-			if (regionItr != regions.end())
-			{
+			if (regionItr != regions.end()) {
 				region->linkRegion(regionItr->first, regionItr->second);
 			}
-			else
-			{
+			else {
 				throw std::runtime_error("Region's " + regionName + " region " + requiredRegionName + " does not exist!");
 			}
 		}
 
 		// duchies
-		for (const auto& [requiredDuchyName, requiredDuchy]: region->getDuchies())
-		{
+		for (const auto& [requiredDuchyName, requiredDuchy]: region->getDuchies()) {
 			const auto& duchyItr = duchies.find(requiredDuchyName);
-			if (duchyItr != duchies.end())
-			{
+			if (duchyItr != duchies.end()) {
 				region->linkDuchy(duchyItr->second);
 			}
-			else
-			{
+			else {
 				throw std::runtime_error("Region's " + regionName + " duchy " + requiredDuchyName + " does not exist!");
 			}
 		}
 
 		// counties
-		for (const auto& [requiredCountyName, requiredCounty] : region->getCounties())
-		{
+		for (const auto& [requiredCountyName, requiredCounty] : region->getCounties()) {
 			const auto& countyItr = counties.find(requiredCountyName);
-			if (countyItr != counties.end())
-			{
+			if (countyItr != counties.end()) {
 				region->linkCounty(countyItr->second);
 			}
-			else
-			{
+			else {
 				throw std::runtime_error("Region's " + regionName + " county " + requiredCountyName + " does not exist!");
 			}
 		}
