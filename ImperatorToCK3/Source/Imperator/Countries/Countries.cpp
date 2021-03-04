@@ -6,15 +6,14 @@
 #include "CommonRegexes.h"
 
 
-Imperator::Countries::Countries(std::istream& theStream)
-{
+
+Imperator::Countries::Countries(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::Countries::registerKeys()
-{
+void Imperator::Countries::registerKeys() {
 	registerMatcher(commonItems::integerMatch, [this](const std::string& countryID, std::istream& theStream) {
 		std::shared_ptr<Country> newCountry = countryFactory.getCountry(theStream, commonItems::stringToInteger<unsigned long long>(countryID));
 		countries.emplace(newCountry->getID(), newCountry);
@@ -23,15 +22,13 @@ void Imperator::Countries::registerKeys()
 }
 
 
-Imperator::CountriesBloc::CountriesBloc(std::istream& theStream)
-{
+Imperator::CountriesBloc::CountriesBloc(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::CountriesBloc::registerKeys()
-{
+void Imperator::CountriesBloc::registerKeys() {
 	registerKeyword("country_database", [this](std::istream& theStream) {
 		countries = Countries(theStream);
 	});
@@ -39,26 +36,20 @@ void Imperator::CountriesBloc::registerKeys()
 }
 
 
-void Imperator::Countries::linkFamilies(const Families& theFamilies)
-{
+void Imperator::Countries::linkFamilies(const Families& theFamilies) {
 	auto counter = 0;
 	std::set<unsigned long long> idsWithoutDefinition;
 	const auto& families = theFamilies.getFamilies();
-	for (const auto& [countryID, country] : countries)
-	{
-		if (!country->getFamilies().empty())
-		{
+	for (const auto& [countryID, country] : countries) {
+		if (!country->getFamilies().empty()) {
 			std::map<unsigned long long, std::shared_ptr<Family>> newFamilies;
-			for (const auto& [familyID, family] : country->getFamilies())
-			{
+			for (const auto& [familyID, family] : country->getFamilies()) {
 				const auto& familyItr = families.find(familyID);
-				if (familyItr != families.end())
-				{
+				if (familyItr != families.end()) {
 					newFamilies.insert(std::pair(familyItr->first, familyItr->second));
 					counter++;
 				}
-				else
-				{
+				else {
 					idsWithoutDefinition.insert(familyID);
 				}
 			}
@@ -67,10 +58,8 @@ void Imperator::Countries::linkFamilies(const Families& theFamilies)
 	}
 
 	std::string warningString = "Families without definition:";
-	if (!idsWithoutDefinition.empty())
-	{
-		for (auto id : idsWithoutDefinition)
-		{
+	if (!idsWithoutDefinition.empty()) {
+		for (auto id : idsWithoutDefinition) {
 			warningString += " ";
 			warningString += std::to_string(id);
 			warningString += ",";

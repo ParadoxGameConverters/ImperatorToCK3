@@ -2,15 +2,16 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
-Imperator::CountryCurrencies::CountryCurrencies(std::istream& theStream)
-{
+
+
+Imperator::CountryCurrencies::CountryCurrencies(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::CountryCurrencies::registerKeys()
-{
+
+void Imperator::CountryCurrencies::registerKeys() {
 	registerSetter("manpower", manpower);
 	registerSetter("gold", gold);
 	registerSetter("stability", stability);

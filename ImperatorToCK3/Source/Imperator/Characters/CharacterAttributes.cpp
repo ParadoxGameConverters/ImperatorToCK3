@@ -2,15 +2,16 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
-Imperator::CharacterAttributes::CharacterAttributes(std::istream& theStream)
-{
+
+
+Imperator::CharacterAttributes::CharacterAttributes(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Imperator::CharacterAttributes::registerKeys()
-{
+
+void Imperator::CharacterAttributes::registerKeys() {
 	registerKeyword("martial", [this](std::istream& theStream) {
 		martial = commonItems::getInt(theStream);
 	});

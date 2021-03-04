@@ -1,8 +1,10 @@
 #include "PortraitData.h"
+#include "../Genes/GenesDB.h"
 #include "Log.h"
 #include "base64.h"
 #include <bitset>
 #include <utility>
+
 
 
 Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaString, const std::shared_ptr<GenesDB>& genesDB, const std::string& ageSexString) : genes(genesDB)

@@ -1,13 +1,15 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Characters/Character.h"
-#include "../ImperatorToCK3/Source/Imperator/Characters/CharacterFactory.h"
-#include "../ImperatorToCK3/Source/Imperator/Families/Family.h"
-#include "../ImperatorToCK3/Source/Imperator/Families/FamilyFactory.h"
-#include "../commonItems/Date.h"
+#include "Imperator/Characters/Character.h"
+#include "Imperator/Characters/CharacterFactory.h"
+#include "Imperator/Families/Family.h"
+#include "Imperator/Families/FamilyFactory.h"
+#include "Imperator/Genes/GenesDB.h"
+#include "Date.h"
 #include <sstream>
 
-TEST(ImperatorWorld_CharacterTests, IDCanBeSet)
-{
+
+
+TEST(ImperatorWorld_CharacterTests, IDCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -19,8 +21,7 @@ TEST(ImperatorWorld_CharacterTests, IDCanBeSet)
 	ASSERT_EQ(42, theCharacter.getID());
 }
 
-TEST(ImperatorWorld_CharacterTests, cultureCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, cultureCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -33,8 +34,7 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeSet)
 	ASSERT_EQ("paradoxian", theCharacter.getCulture());
 }
 
-TEST(ImperatorWorld_CharacterTests, cultureDefaultsToBlank)
-{
+TEST(ImperatorWorld_CharacterTests, cultureDefaultsToBlank) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -47,8 +47,7 @@ TEST(ImperatorWorld_CharacterTests, cultureDefaultsToBlank)
 }
 
 
-TEST(ImperatorWorld_CharacterTests, religionCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, religionCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -61,8 +60,7 @@ TEST(ImperatorWorld_CharacterTests, religionCanBeSet)
 	ASSERT_EQ("paradoxian", theCharacter.getReligion());
 }
 
-TEST(ImperatorWorld_CharacterTests, religionDefaultsToBlank)
-{
+TEST(ImperatorWorld_CharacterTests, religionDefaultsToBlank) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -74,8 +72,7 @@ TEST(ImperatorWorld_CharacterTests, religionDefaultsToBlank)
 	ASSERT_TRUE(theCharacter.getReligion().empty());
 }
 
-TEST(ImperatorWorld_CharacterTests, sexCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, sexCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -87,8 +84,8 @@ TEST(ImperatorWorld_CharacterTests, sexCanBeSet)
 
 	ASSERT_TRUE(theCharacter.isFemale());
 }
-TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale)
-{
+
+TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -100,8 +97,7 @@ TEST(ImperatorWorld_CharacterTests, sexDefaultsToMale)
 	ASSERT_FALSE(theCharacter.isFemale());
 }
 
-TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, traitsCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	const std::vector<std::string> traitsVector{ "lustful", "submissive", "greedy" };
 
@@ -116,8 +112,7 @@ TEST(ImperatorWorld_CharacterTests, traitsCanBeSet)
 	ASSERT_EQ(traitsVector, theCharacter.getTraits());
 }
 
-TEST(ImperatorWorld_CharacterTests, traitsDefaultToEmpty)
-{
+TEST(ImperatorWorld_CharacterTests, traitsDefaultToEmpty) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -129,8 +124,7 @@ TEST(ImperatorWorld_CharacterTests, traitsDefaultToEmpty)
 	ASSERT_TRUE(theCharacter.getTraits().empty());
 }
 
-TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -143,8 +137,7 @@ TEST(ImperatorWorld_CharacterTests, birthDateCanBeSet)
 	ASSERT_EQ(date("-346.6.28"), theCharacter.getBirthDate());
 }
 
-TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1)
-{
+TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -156,8 +149,7 @@ TEST(ImperatorWorld_CharacterTests, birthDateDefaultsTo1_1_1)
 	ASSERT_EQ(date("1.1.1"), theCharacter.getBirthDate());
 }
 
-TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -170,8 +162,7 @@ TEST(ImperatorWorld_CharacterTests, deathDateCanBeSet)
 	ASSERT_EQ(date("-346.6.28"), theCharacter.getDeathDate());
 }
 
-TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt)
-{
+TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -183,8 +174,7 @@ TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt)
 	ASSERT_FALSE(theCharacter.getDeathDate());
 }
 
-TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, spousesCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -215,8 +205,7 @@ TEST(ImperatorWorld_CharacterTests, spousesCanBeSet)
 	ASSERT_EQ(420, theCharacter.getSpouses().find(420)->second->getID());
 }
 
-TEST(ImperatorWorld_CharacterTests, spousesDefaultToEmpty)
-{
+TEST(ImperatorWorld_CharacterTests, spousesDefaultToEmpty) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -228,8 +217,7 @@ TEST(ImperatorWorld_CharacterTests, spousesDefaultToEmpty)
 	ASSERT_TRUE(theCharacter.getSpouses().empty());
 }
 
-TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, childrenCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -244,8 +232,7 @@ TEST(ImperatorWorld_CharacterTests, childrenCanBeSet)
 	ASSERT_EQ(420, theCharacter.getChildren().find(420)->first);
 }
 
-TEST(ImperatorWorld_CharacterTests, childrenDefaultToEmpty)
-{
+TEST(ImperatorWorld_CharacterTests, childrenDefaultToEmpty) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -257,8 +244,7 @@ TEST(ImperatorWorld_CharacterTests, childrenDefaultToEmpty)
 	ASSERT_TRUE(theCharacter.getChildren().empty());
 }
 
-TEST(ImperatorWorld_CharacterTests, motherCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, motherCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -271,8 +257,7 @@ TEST(ImperatorWorld_CharacterTests, motherCanBeSet)
 	ASSERT_EQ(123, theCharacter.getMother().first);
 }
 
-TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero)
-{
+TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -284,8 +269,7 @@ TEST(ImperatorWorld_CharacterTests, motherDefaultsToZero)
 	ASSERT_EQ(0, theCharacter.getMother().first);
 }
 
-TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, fatherCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -298,8 +282,7 @@ TEST(ImperatorWorld_CharacterTests, fatherCanBeSet)
 	ASSERT_EQ(123, theCharacter.getFather().first);
 }
 
-TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
-{
+TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -311,8 +294,7 @@ TEST(ImperatorWorld_CharacterTests, fatherDefaultsToZero)
 	ASSERT_EQ(0, theCharacter.getFather().first);
 }
 
-TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, familyCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -325,8 +307,7 @@ TEST(ImperatorWorld_CharacterTests, familyCanBeSet)
 	ASSERT_EQ(123, theCharacter.getFamily().first);
 }
 
-TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero)
-{
+TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -337,8 +318,8 @@ TEST(ImperatorWorld_CharacterTests, familyDefaultsToZero)
 
 	ASSERT_EQ(0, theCharacter.getFamily().first);
 }
-TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
-{
+
+TEST(ImperatorWorld_CharacterTests, wealthCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -351,8 +332,7 @@ TEST(ImperatorWorld_CharacterTests, wealthCanBeSet)
 	ASSERT_DOUBLE_EQ(420.5, theCharacter.getWealth());
 }
 
-TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero)
-{
+TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -364,8 +344,7 @@ TEST(ImperatorWorld_CharacterTests, wealthDefaultsToZero)
 	ASSERT_EQ(0, theCharacter.getWealth());
 }
 
-TEST(ImperatorWorld_CharacterTests, nameCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, nameCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -380,8 +359,7 @@ TEST(ImperatorWorld_CharacterTests, nameCanBeSet)
 	ASSERT_EQ("Biggus Dickus", theCharacter.getName());
 }
 
-TEST(ImperatorWorld_CharacterTests, nameDefaultsToBlank)
-{
+TEST(ImperatorWorld_CharacterTests, nameDefaultsToBlank) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -393,8 +371,7 @@ TEST(ImperatorWorld_CharacterTests, nameDefaultsToBlank)
 	ASSERT_TRUE(theCharacter.getName().empty());
 }
 
-TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero)
-{
+TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -409,8 +386,7 @@ TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero)
 	ASSERT_EQ(0, theCharacter.getAttributes().zeal);
 }
 
-TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, attributesCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -426,8 +402,7 @@ TEST(ImperatorWorld_CharacterTests, attributesCanBeSet)
 	ASSERT_EQ(4, theCharacter.getAttributes().zeal);
 }
 
-TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
-{
+TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream familyInput;
 	familyInput << "=\n";
@@ -445,8 +420,7 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 
 	auto theCharacter = *Imperator::Character::Factory().getCharacter(characterInput, "69", genesDB);
 
-	if (theCharacter.getFamily().first == theFamily.getID())
-	{
+	if (theCharacter.getFamily().first == theFamily.getID()) {
 		auto familyPointer = std::make_shared<Imperator::Family>(theFamily);
 		theCharacter.setFamily(familyPointer);
 	}
@@ -455,8 +429,7 @@ TEST(ImperatorWorld_CharacterTests, cultureCanBeInheritedFromFamily)
 }
 
 
-TEST(ImperatorWorld_CharacterTests, dnaCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, dnaCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -469,8 +442,7 @@ TEST(ImperatorWorld_CharacterTests, dnaCanBeSet)
 	ASSERT_EQ("paradoxian", theCharacter.getDNA());
 }
 
-TEST(ImperatorWorld_CharacterTests, dnaDefaultsToNullopt)
-{
+TEST(ImperatorWorld_CharacterTests, dnaDefaultsToNullopt) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -483,8 +455,7 @@ TEST(ImperatorWorld_CharacterTests, dnaDefaultsToNullopt)
 }
 
 
-TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLength)
-{
+TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLength) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/==\"}";
@@ -494,8 +465,7 @@ TEST(ImperatorWorld_CharacterTests, portraitDataIsNotExtractedFromDnaOfWrongLeng
 }
 
 
-TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA)
-{
+TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}";
@@ -510,8 +480,7 @@ TEST(ImperatorWorld_CharacterTests, colorPaletteCoordinatesCanBeExtractedFromDNA
 }
 
 
-TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, ageCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -523,8 +492,8 @@ TEST(ImperatorWorld_CharacterTests, ageCanBeSet)
 
 	ASSERT_EQ(56, theCharacter.getAge());
 }
-TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0)
-{
+
+TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -537,8 +506,7 @@ TEST(ImperatorWorld_CharacterTests, ageDefaultsTo0)
 }
 
 
-TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
-{
+TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input, input2, input3, input4;
 	input << "=\n";
@@ -574,8 +542,7 @@ TEST(ImperatorWorld_CharacterTests, getAgeSexReturnsCorrectString)
 	ASSERT_EQ("boy", theCharacter4.getAgeSex());
 }
 
-TEST(ImperatorWorld_CharacterTests, provinceCanBeSet)
-{
+TEST(ImperatorWorld_CharacterTests, provinceCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -588,8 +555,7 @@ TEST(ImperatorWorld_CharacterTests, provinceCanBeSet)
 	ASSERT_EQ(69, theCharacter.getProvince());
 }
 
-TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0)
-{
+TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "=\n";
@@ -601,8 +567,7 @@ TEST(ImperatorWorld_CharacterTests, provinceDefaultsTo0)
 	ASSERT_EQ(0, theCharacter.getProvince());
 }
 
-TEST(ImperatorWorld_CharacterTests, AUC0ConvertsTo754BC)
-{
+TEST(ImperatorWorld_CharacterTests, AUC0ConvertsTo754BC) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "= { birth_date = 0.1.1 }";
@@ -612,8 +577,7 @@ TEST(ImperatorWorld_CharacterTests, AUC0ConvertsTo754BC)
 	ASSERT_EQ("-754.1.1", theCharacter.getBirthDate().toString());
 }
 
-TEST(ImperatorWorld_CharacterTests, AUC753ConvertsTo1BC)
-{
+TEST(ImperatorWorld_CharacterTests, AUC753ConvertsTo1BC) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "= { birth_date = 753.1.1 }";
@@ -623,8 +587,7 @@ TEST(ImperatorWorld_CharacterTests, AUC753ConvertsTo1BC)
 	ASSERT_EQ("-1.1.1", theCharacter.getBirthDate().toString());
 }
 
-TEST(ImperatorWorld_CharacterTests, AUC754ConvertsTo1AD)
-{
+TEST(ImperatorWorld_CharacterTests, AUC754ConvertsTo1AD) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
 	input << "= { birth_date = 754.1.1 }";
@@ -633,4 +596,3 @@ TEST(ImperatorWorld_CharacterTests, AUC754ConvertsTo1AD)
 
 	ASSERT_EQ("1.1.1", theCharacter.getBirthDate().toString());
 }
-

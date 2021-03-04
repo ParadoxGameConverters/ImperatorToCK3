@@ -1,11 +1,12 @@
 #include "gtest/gtest.h"
 #include <sstream>
+#include "Imperator/Characters/Characters.h"
+#include "Imperator/Characters/Character.h"
+#include "Imperator/Genes/GenesDB.h"
 
-#include "../ImperatorToCK3/Source/Imperator/Characters/Characters.h"
-#include "../ImperatorToCK3/Source/Imperator/Characters/Character.h"
 
-TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty)
-{
+
+TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty) {
 	const auto genes = std::make_shared<Imperator::GenesDB>();
 	
 	std::stringstream input;
@@ -18,8 +19,7 @@ TEST(ImperatorWorld_CharactersTests, charactersDefaultToEmpty)
 	ASSERT_TRUE(characters.getCharacters().empty());
 }
 
-TEST(ImperatorWorld_CharactersTests, charactersCanBeLoaded)
-{
+TEST(ImperatorWorld_CharactersTests, charactersCanBeLoaded) {
 	const auto genes = std::make_shared<Imperator::GenesDB>();
 	
 	std::stringstream input;
