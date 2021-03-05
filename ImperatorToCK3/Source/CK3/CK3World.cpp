@@ -300,7 +300,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 			msg += ", ";
 		}
 		msg.erase(msg.length() - 2); // remove last ", "
-		Log(LogLevel::Info) << msg;
+		Log(LogLevel::Debug) << msg;
 	}
 	if (!revokedVanillaTitles.empty()) {
 		std::string msg = "Found landless vanilla titles that can't be landless: ";
@@ -309,7 +309,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 			msg += ", ";
 		}
 		msg.erase(msg.length() - 2); // remove last ", "
-		Log(LogLevel::Info) << msg;
+		Log(LogLevel::Debug) << msg;
 	}
 }
 
