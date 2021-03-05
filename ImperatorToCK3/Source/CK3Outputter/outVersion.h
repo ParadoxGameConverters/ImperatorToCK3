@@ -3,14 +3,17 @@
 
 
 
-#include "Mappers/VersionParser/VersionParser.h"
 #include <ostream>
 
 
 
-namespace mappers
-{
+namespace mappers {
+
+class VersionParser;
 std::ostream& operator<<(std::ostream& output, const VersionParser& versionParser);
+
 } // namespace mappers
+
+
 
 #endif // OUT_VERSION_H

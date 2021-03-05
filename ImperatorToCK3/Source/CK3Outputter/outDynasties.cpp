@@ -1,8 +1,8 @@
 #include "outDynasties.h"
 #include "CK3/Dynasties/Dynasty.h"
+#include "CommonFunctions.h"
 #include <filesystem>
 #include <fstream>
-#include "CommonFunctions.h"
 
 
 
