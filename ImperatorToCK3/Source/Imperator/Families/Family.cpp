@@ -15,6 +15,10 @@ void Imperator::Family::linkMember(const std::shared_ptr<Character>& newMemberPt
 			return;
 		}
 	}
+	if (newMemberPtr->getDeathDate()) { // if character is dead, his ID needs to be added to the map
+		members.emplace_back(newMemberPtr->getID(), newMemberPtr);
+		return;
+	}
 	// matching ID was not found
 	Log(LogLevel::Warning) << "Family " << ID << ": cannot link " << newMemberPtr->getID() << ": not found in members!";
 }
