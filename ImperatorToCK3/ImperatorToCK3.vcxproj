@@ -272,6 +272,7 @@
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\PopFactory.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp" />
+    <ClCompile Include="Source\Imperator\Provinces\Province.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\ProvinceFactory.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\ProvinceName.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Provinces.cpp" />

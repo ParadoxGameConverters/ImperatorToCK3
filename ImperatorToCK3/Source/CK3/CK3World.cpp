@@ -204,12 +204,12 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 	for (auto imperatorProvinceID : impProvinceNumbers) {
 		const auto& impProvince = impWorld.getProvinces().find(imperatorProvinceID);
 		if (impProvince == impWorld.getProvinces().end()) {
-			Log(LogLevel::Warning) << "Source province " << imperatorProvinceID << " is not in the list of known provinces!";
+			Log(LogLevel::Warning) << "Source province " << imperatorProvinceID << " is not on the list of known provinces!";
 			continue; // Broken mapping, or loaded a mod changing provinces without using it.
 		}
-		const auto owner = impProvince->second->getOwner();
-		theClaims[owner].push_back(impProvince->second);
-		theShares[owner] = lround(impProvince->second->getBuildingsCount() + impProvince->second->getPopCount());
+		const auto ownerID = impProvince->second->getOwner().first;
+		theClaims[ownerID].emplace_back(impProvince->second);
+		theShares[ownerID] = lround(impProvince->second->getBuildingsCount() + impProvince->second->getPopCount());
 	}
 	// Let's see who the lucky winner is.
 	for (const auto& [owner, development] : theShares) {
@@ -251,8 +251,9 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld) 
 				auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
 				if (impProvince) {
 					std::optional<unsigned long long> impMonarch;
-					if (auto countryItr = impWorld.getCountries().find(impProvince->getOwner()); countryItr != impWorld.getCountries().end())
-						impMonarch = countryItr->second->getMonarch();
+					if (auto impCountry = impProvince->getOwner().second) {
+						impMonarch = impCountry->getMonarch();
+					}
 					if (impMonarch) {
 						title->holder = "imperator" + std::to_string(*impMonarch);
 						countyHoldersCache.emplace(title->holder);

@@ -653,12 +653,17 @@
     <ClCompile Include="Source\CK3\Dynasties\Dynasty.cpp">
       <Filter>CK3\Dynasties</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\CK3Outputter\outDynasties.cpp">
       <Filter>CK3Outputter</Filter>
     </ClCompile>
     <ClCompile Include="Source\CK3Outputter\outDynasty.cpp">
       <Filter>CK3Outputter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Families\Family.cpp">
+      <Filter>Imperator\Families</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Provinces\Province.cpp">
+      <Filter>Imperator\Provinces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

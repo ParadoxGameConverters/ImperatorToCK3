@@ -102,7 +102,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet)
 
 	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
-	ASSERT_EQ(69, theProvince.getOwner());
+	ASSERT_EQ(69, theProvince.getOwner().first);
 }
 
 TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
@@ -114,7 +114,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
 
 	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
-	ASSERT_EQ(0, theProvince.getOwner());
+	ASSERT_EQ(0, theProvince.getOwner().first);
 }
 
 TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet)

@@ -35,7 +35,9 @@ class Country {
 	public:
 		class Factory;
 		Country() = default;
-		
+
+		[[nodiscard]] auto getID() const { return ID; }
+		[[nodiscard]] auto getMonarch() const { return monarch; }
 		[[nodiscard]] const std::string& getTag() const { return tag; }
 		[[nodiscard]] const auto& getName() const { return name; }
 		[[nodiscard]] const auto& getFlag() const { return flag; }
@@ -47,8 +49,7 @@ class Country {
 		[[nodiscard]] const auto& getColor2() const { return color2; }
 		[[nodiscard]] const auto& getColor3() const { return color3; }
 		[[nodiscard]] const auto& getFamilies() const { return families; }
-		[[nodiscard]] auto getID() const { return ID; }
-		[[nodiscard]] auto getMonarch() const { return monarch; }
+		[[nodiscard]] const auto& getCK3Title() const { return ck3Title; }
 
 		[[nodiscard]] countryRankEnum getCountryRank() const;
 
@@ -81,5 +82,7 @@ class Country {
 };
 
 } // namespace Imperator
+
+
 
 #endif // IMPERATOR_COUNTRY_H
