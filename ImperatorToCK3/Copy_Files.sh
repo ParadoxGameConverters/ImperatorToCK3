@@ -15,3 +15,5 @@ cp -r "Data_Files/configurables" "Release-Linux/"
 # Copy blankmod
 rm -rf "Release-Linux/blankMod"
 cp -r "Data_Files/blankMod" "Release-Linux/"
+
+git rev-parse HEAD > ..\Release\commit_id.txt
