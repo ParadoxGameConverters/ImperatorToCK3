@@ -1,5 +1,4 @@
 version: ImperatorToCK3.{build}
-skip_tags: true
 image: Visual Studio 2019 Preview
 configuration: Release
 build_script:
@@ -18,14 +17,14 @@ test_script:
     $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests.xml))
 artifacts:
 - path: Release
-  name: ImperatorToCK3-0.2
+  name: ImperatorToCK3
 deploy:
 - provider: GitHub
-  release: 0.2
-  description: Second stable release
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  description: Stable release
   auth_token:
     secure: LBJzs4y9j0N5y0ajp7gmVk3Pvnec1UU5pTCdIMbQYUddEXQnWTJ79FXsd9SCs7YQ
   repository: ParadoxGameConverters/ImperatorToCK3
-  artifact: ImperatorToCK3-0.2
+  artifact: ImperatorToCK3
   prerelease: false
   force_update: true
