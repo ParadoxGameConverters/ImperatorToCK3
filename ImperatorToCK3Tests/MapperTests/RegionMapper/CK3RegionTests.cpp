@@ -2,6 +2,7 @@
 #include "CK3/Titles/Title.h"
 #include "gtest/gtest.h"
 #include <sstream>
+#include <ostream>
 
 TEST(Mappers_RegionTests, blankRegionLoadsWithNoRegionsAndNoDuchies)
 {
@@ -61,9 +62,9 @@ TEST(Mappers_RegionTests, regionCanBeLinkedToDuchy)
 	auto duchy2 = std::make_shared<CK3::Title>("d_athens");
 	duchy2->loadTitles(input2);
 
-	ASSERT_EQ(nullptr, region.getDuchies().find("d_athens")->second); // nullptr before linking
+	ASSERT_FALSE(region.getDuchies().at("d_athens")); // nullptr before linking
 	region.linkDuchy(duchy2);
-	ASSERT_TRUE(region.getDuchies().find("d_athens")->second);
+	ASSERT_TRUE(region.getDuchies().at("d_athens"));
 }
 
 TEST(Mappers_RegionTests, LinkedRegionCanLocateProvince)
