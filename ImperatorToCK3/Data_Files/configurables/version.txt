@@ -1,5 +1,5 @@
 # Version info
 
 version = "0.2"
-name = "Tiberius-prerelease"
+name = "Tiberius"
 descriptionLine = "Compatible with I:R 1.5 and CK3 1.1"
