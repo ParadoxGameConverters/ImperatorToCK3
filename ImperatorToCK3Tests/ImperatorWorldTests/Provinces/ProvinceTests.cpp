@@ -1,7 +1,10 @@
 #include "gtest/gtest.h"
 #include "Imperator/Provinces/Province.h"
 #include "Imperator/Provinces/ProvinceFactory.h"
+#include "Imperator/Countries/CountryFactory.h"
 #include <sstream>
+
+
 
 TEST(ImperatorWorld_ProvinceTests, IDCanBeSet)
 {
@@ -102,7 +105,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet)
 
 	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
-	ASSERT_EQ(69, theProvince.getOwner());
+	ASSERT_EQ(69, theProvince.getOwner().first);
 }
 
 TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
@@ -114,7 +117,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
 
 	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
-	ASSERT_EQ(0, theProvince.getOwner());
+	ASSERT_EQ(0, theProvince.getOwner().first);
 }
 
 TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet)
@@ -229,4 +232,61 @@ TEST(ImperatorWorld_ProvinceTests, buildingsCountDefaultsTo0)
 	const auto theProvince = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(0, theProvince.getBuildingsCount());
+}
+
+
+TEST(ImperatorWorld_ProvinceTests, linkingNullptrCountryIsLogged) {
+	std::stringstream input;
+	input << "= {}";
+	auto province = *Imperator::Province::Factory().getProvince(input, 42);
+
+	std::stringstream log;
+	auto* stdOutBuf = std::cout.rdbuf();
+	std::cout.rdbuf(log.rdbuf());
+
+	province.linkOwnerCountry(nullptr);
+
+	std::cout.rdbuf(stdOutBuf);
+	auto stringLog = log.str();
+	auto newLine = stringLog.find_first_of('\n');
+	stringLog = stringLog.substr(0, newLine);
+
+	ASSERT_EQ(" [WARNING] Province 42: cannot link nullptr country!", stringLog);
+}
+
+
+TEST(ImperatorWorld_ProvinceTests, cannotLinkCountryWithoutMatchingID) {
+	std::stringstream input;
+	input << "= { owner = 50 }";
+	auto province = *Imperator::Province::Factory().getProvince(input, 42);
+
+	std::stringstream countryInput;
+	std::shared_ptr<Imperator::Country> country = Imperator::Country::Factory().getCountry(countryInput, 49);
+
+	std::stringstream log;
+	auto* stdOutBuf = std::cout.rdbuf();
+	std::cout.rdbuf(log.rdbuf());
+
+	province.linkOwnerCountry(country);
+
+	std::cout.rdbuf(stdOutBuf);
+	auto stringLog = log.str();
+	auto newLine = stringLog.find_first_of('\n');
+	stringLog = stringLog.substr(0, newLine);
+
+	ASSERT_EQ(" [WARNING] Province 42: cannot link country 49: wrong ID!", stringLog);
+}
+
+
+TEST(ImperatorWorld_ProvinceTests, countryLinkingWorks) {
+	std::stringstream input;
+	input << "= { owner = 50 }";
+	auto province = *Imperator::Province::Factory().getProvince(input, 42);
+
+	std::stringstream countryInput;
+	std::shared_ptr<Imperator::Country> country = Imperator::Country::Factory().getCountry(countryInput, 50);
+
+	province.linkOwnerCountry(country);
+
+	ASSERT_EQ(50, province.getOwner().second->getID());
 }

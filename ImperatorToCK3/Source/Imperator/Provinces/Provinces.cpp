@@ -53,15 +53,15 @@ void Imperator::Provinces::linkCountries(const Countries& theCountries) {
 	const auto& countries = theCountries.getCountries();
 	for (const auto& [provinceID, province] : provinces) {
 		if (!province->getPops().empty()) {
-			const auto& countryItr = countries.find(province->getOwner());
+			const auto& countryItr = countries.find(province->getOwner().first);
 			if (countryItr != countries.end()) {
 				// link both ways
-				province->country = countryItr->second;
+				province->linkOwnerCountry(countryItr->second);
 				countryItr->second->registerProvince(province);
 				++counter;
 			}
 			else {
-				Log(LogLevel::Warning) << "Country ID: " << province->getOwner() << " has no definition!";
+				Log(LogLevel::Warning) << "Country ID: " << province->getOwner().first << " has no definition!";
 			}
 		}
 	}

@@ -1,41 +1,49 @@
 #include "CK3Province.h"
+#include "CK3/Titles/Title.h"
 #include "Imperator/Provinces/Province.h"
-//#include "Imperator/Countries/Country.h"
+#include "Imperator/Countries/Country.h"
 #include "Mappers/CultureMapper/CultureMapper.h"
 #include "Mappers/ReligionMapper/ReligionMapper.h"
-//#include "Title/Title.h"
 //#include "Imperator/Characters/Character.h"
+#include "Log.h"
 
 
 
-CK3::Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
+using CK3::Province;
+using std::shared_ptr;
+using mappers::CultureMapper;
+using mappers::ReligionMapper;
 
-CK3::Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), details{ otherProv.details } {}
 
-void CK3::Province::initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
-                                            const mappers::CultureMapper& cultureMapper,
-                                            const mappers::ReligionMapper& religionMapper)
-{
-	imperatorProvince = origProvince;
-	
+
+Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
+
+
+Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), details{otherProv.details} {}
+
+
+void Province::initializeFromImperator(const shared_ptr<Imperator::Province>& impProvince, const CultureMapper& cultureMapper, const ReligionMapper& religionMapper) {
+	imperatorProvince = impProvince;
+
 	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
 
-	/*
-	titleCountry = srcProvince->getOwner().second->getCK3Title(); // linking to our holder*/
+	if (const auto& impOwnerCountry = impProvince->getOwner().second) {
+		ownerTitle = impOwnerCountry->getCK3Title(); // linking to our holder's title
+	}
 
 	// Religion first
-	setReligion(religionMapper);
-	
+	setReligionFromImperator(religionMapper);
+
 	// Then culture
-	setCulture(cultureMapper);
+	setCultureFromImperator(cultureMapper);
 
 	// Holding type
-	setHolding();
+	setHoldingFromImperator();
 }
 
 
-void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper) {
+void Province::setReligionFromImperator(const ReligionMapper& religionMapper) {
 	auto religionSet = false;
 	if (!imperatorProvince->getReligion().empty()) {
 		auto religionMatch = religionMapper.match(imperatorProvince->getReligion(), ID, imperatorProvince->getID());
@@ -46,23 +54,25 @@ void CK3::Province::setReligion(const mappers::ReligionMapper& religionMapper) {
 	}
 	/*
 	// Attempt to use religion of country. #TODO(#34): use country religion as fallback
-	if (!religionSet && !titleCountry.second->getReligion().empty())
-	{
+	if (!religionSet && !titleCountry.second->getReligion().empty()) {
 		details.religion = titleCountry.second->getReligion();
 		religionSet = true;
 	}*/
 	if (!religionSet) {
 		//Use default CK3 religion.
+		Log(LogLevel::Debug) << "Couldn't determine religion for province " << ID << ", using vanilla religion";
 	}
 }
 
 
-void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
-{
+void Province::setCultureFromImperator(const CultureMapper& cultureMapper) {
 	auto cultureSet = false;
 	// do we even have a base culture?
 	if (!imperatorProvince->getCulture().empty()) {
-		auto cultureMatch = cultureMapper.match(imperatorProvince->getCulture(), details.religion, ID, imperatorProvince->getID(), titleCountry.first);
+		std::string ownerTitleName;
+		if (ownerTitle)
+			ownerTitleName = ownerTitle->getName();
+		auto cultureMatch = cultureMapper.match(imperatorProvince->getCulture(), details.religion, ID, imperatorProvince->getID(), ownerTitleName);
 		if (cultureMatch) {
 			details.culture = *cultureMatch;
 			cultureSet = true;
@@ -70,18 +80,17 @@ void CK3::Province::setCulture(const mappers::CultureMapper& cultureMapper)
 	}
 	/*
 	// Attempt to use primary culture of country. #TODO(#34): use country primary culture as fallback
-	if (!cultureSet && !titleCountry.second->getPrimaryCulture().empty())
-	{
+	if (!cultureSet && !titleCountry.second->getCulture().empty()) {
 		details.culture = titleCountry.second->getPrimaryCulture();
 		cultureSet = true;
-	}
-	*/
+	}*/
 	if (!cultureSet) {
 		//Use default CK3 culture.
+		Log(LogLevel::Debug) << "Couldn't determine culture for province " << ID << ", using vanilla culture";
 	}
 }
 
-void CK3::Province::setHolding() {
+void Province::setHoldingFromImperator() {
 	switch (imperatorProvince->getProvinceRank()) {
 	case Imperator::ProvinceRank::city_metropolis:
 		details.holding = "city_holding";

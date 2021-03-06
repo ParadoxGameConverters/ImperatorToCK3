@@ -11,6 +11,7 @@ History::Factory CK3::ProvinceDetails::historyFactory = History::Factory({
 	{ .fieldName="holding", .setter="holding", .initialValue="none" }
 });
 
+
 CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream) {
 	const auto history = historyFactory.getHistory(theStream);
 	const date date{867, 1, 1};

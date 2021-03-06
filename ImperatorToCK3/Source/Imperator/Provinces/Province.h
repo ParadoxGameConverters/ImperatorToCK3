@@ -24,7 +24,7 @@ public:
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getCulture() const { return culture; }
 	[[nodiscard]] const auto& getReligion() const { return religion; }
-	[[nodiscard]] const auto& getOwner() const { return owner; }
+	[[nodiscard]] const auto& getOwner() const { return ownerCountry; }
 	[[nodiscard]] const auto& getController() const { return controller; }
 	[[nodiscard]] const auto& getPops() const { return pops; }
 	[[nodiscard]] const auto& getProvinceRank() const {	return provinceRank; }
@@ -35,15 +35,14 @@ public:
 	[[nodiscard]] auto getPopCount() const { return static_cast<int>(pops.size()); }
 
 	void setPops(const std::map<unsigned long long, std::shared_ptr<Pop>>& newPops) { pops = newPops; }
-
-	std::shared_ptr<Country> country;
+	void linkOwnerCountry(const std::shared_ptr<Country>& country);
 
 private:
 	uint64_t ID = 0;
 	std::string name;
 	std::string culture;
 	std::string religion;
-	unsigned long long owner = 0;
+	std::pair<unsigned long long, std::shared_ptr<Country>> ownerCountry{ 0, nullptr };
 	unsigned long long controller = 0;
 	ProvinceRank provinceRank = ProvinceRank::settlement;
 	bool fort = false;

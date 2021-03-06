@@ -45,13 +45,13 @@ class Province {
 	friend std::ostream& operator<<(std::ostream& output, const Province& province);
 
   private:
-	  void setReligion(const mappers::ReligionMapper& religionMapper);
-	  void setCulture(const mappers::CultureMapper& cultureMapper);
-	  void setHolding();
+	  void setReligionFromImperator(const mappers::ReligionMapper& religionMapper);
+	  void setCultureFromImperator(const mappers::CultureMapper& cultureMapper);
+	  void setHoldingFromImperator();
 	
 	  unsigned long long ID = 0;
 	  ProvinceDetails details;
-	  std::pair<std::string, std::shared_ptr<Title>> titleCountry;
+	  std::shared_ptr<Title> ownerTitle;
 
 	  std::shared_ptr<Imperator::Province> imperatorProvince;
 };

@@ -17,7 +17,7 @@ Imperator::Province::Factory::Factory() {
 		province->religion = commonItems::getString(theStream);	
 	});	
 	registerKeyword("owner", [this](std::istream& theStream) {	
-		province->owner = commonItems::getULlong(theStream);	
+		province->ownerCountry.first = commonItems::getULlong(theStream);	
 	});	
 	registerKeyword("controller", [this](std::istream& theStream) {	
 		province->controller = commonItems::getULlong(theStream);	
