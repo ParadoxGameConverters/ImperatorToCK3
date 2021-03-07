@@ -1,0 +1,16 @@
+Rule 5:
+
+We're releasing the first barebones version of the ImperatorToCK3 converter. It converts characters, countries and provinces. Families are not converted in this release.**This version is NOT compatible with CK3ToEU4 because of added religions and cultures! Compatibility is a goal for the next release, though.**
+
+The full list of changes is on the [release post on the forums](https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/post-27008564). The converter can be found on the [Paradox Forums](https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/) and on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2255281636).
+
+If there are any issues with the converters, please let us know and we'd be glad to look into these problems and help you!
+
+As a note, if you follow the current development build of the converters, you should get all of the same features, but they can be more experimental and not as stable. But, you'll be on the cutting edge of converter technology!
+
+\-----------------
+
+Support the Converters
+
+* [Patreon](https://www.patreon.com/ParadoxGameConverters)
+* [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Y7Y3LJLMCWTL4&currency_code=USD&source=url)
