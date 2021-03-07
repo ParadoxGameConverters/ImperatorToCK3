@@ -1,0 +1,39 @@
+# IMP-CK3 SUCCESSION LAW MAPPINGS #
+# link = { imp = [law] ck3 = [law] }
+# The CK3 law is output in the title's history
+# folder, right after the line defining
+# the holder, as succession_laws = { [law] }
+
+# CK3 has default succession laws
+
+# For mappings with multiple ck3 laws, all laws will be written out
+
+
+# Monarchy
+
+link = { imp = agnatic_succession_law ck3 = male_only_law ck3 = single_heir_succession_law }
+link = { imp = agnatic_succession_law ck3 = single_heir_succession_law }
+link = { imp = cognatic_succession_law ck3 = male_preference_law }
+link = { imp = agnatic_seniority_succession_law ck3 = single_heir_dynasty_house }
+link = { imp = agnatic_succession_law ck3 = single_heir_succession_law }
+link = { imp = egyption_succession_law ck3 = equal_law }
+
+# Republic
+
+link = { imp = republican_election_1 ck3 = city_succession_law }
+link = { imp = republican_election_2 ck3 = saxon_elective_succession_law }
+link = { imp = republican_election_3 ck3 = city_succession_law }
+link = { imp = republican_election_4 ck3 = princely_elective_succession_law }
+
+# Rome
+
+link = { imp = leges_genuciae ck3 = city_succession_law }
+link = { imp = senatus_consultum_ultimum ck3 = saxon_elective_succession_law }
+link = { imp = lex_antonia ck3 = city_succession_law }
+link = { imp = princeps_civitatis ck3 = princely_elective_succession_law }
+
+# Tribal
+
+link = { imp = personal_loyalty_law ck3 = high_partition_succession_law }
+link = { imp = increased_council_powers ck3 = scandinavian_elective_succession_law }
+link = { imp = absolute_authority ck3 = gaelic_elective_succession_law }
