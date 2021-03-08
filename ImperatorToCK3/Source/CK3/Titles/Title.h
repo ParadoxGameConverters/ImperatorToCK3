@@ -25,6 +25,7 @@ class TagTitleMapper;
 class CoaMapper;
 class ProvinceMapper;
 class GovernmentMapper;
+class SuccessionLawMapper;
 } // namespace mappers
 
 namespace CK3 {
@@ -43,7 +44,9 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 		mappers::ProvinceMapper& provinceMapper,
 		mappers::CoaMapper& coaMapper,
 		mappers::TagTitleMapper& tagTitleMapper,
-		mappers::GovernmentMapper& governmentMapper);
+		mappers::GovernmentMapper& governmentMapper,
+		mappers::SuccessionLawMapper& successionLawMapper
+	);
 	void updateFromTitle(const std::shared_ptr<Title>& otherTitle);
 	void loadTitles(std::istream& theStream);
 
@@ -55,6 +58,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	void setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle);
 
 	[[nodiscard]] const auto& getName() const { return titleName; }
+	[[nodiscard]] const auto& getSuccessionLaws() const { return successionLaws; }
 	[[nodiscard]] auto isImportedOrUpdatedFromImperator() const { return importedOrUpdatedFromImperator; }
 
 	[[nodiscard]] const auto& getDeJureLiege() const { return deJureLiege; }
