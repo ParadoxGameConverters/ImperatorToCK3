@@ -103,6 +103,12 @@
     <Filter Include="Sources\CK3\Dynasties">
       <UniqueIdentifier>{dfa38371-681a-46c6-8573-0583a5d3e13a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapperTests\SuccessionLawMapper">
+      <UniqueIdentifier>{05fd17f7-3129-41d4-a7da-d9e17f728fbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Mappers\SuccessionLawMapper">
+      <UniqueIdentifier>{8ab3f4fd-8983-48c5-878b-ee2ae73be637}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -479,6 +485,15 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MapperTests\SuccessionLawMapper\SuccessionLawMapperTests.cpp">
+      <Filter>MapperTests\SuccessionLawMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\SuccessionLawMapper\SuccessionLawMapper.cpp">
+      <Filter>Sources\Mappers\SuccessionLawMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.cpp">
+      <Filter>Sources\Mappers\SuccessionLawMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -106,6 +106,9 @@
     <Filter Include="CK3\Provinces">
       <UniqueIdentifier>{8d84171d-cbd1-49e5-aba5-9b0fc315fab3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\SuccessionLawMapper">
+      <UniqueIdentifier>{7daa7234-4e79-4a3a-85f0-2720e6abb08c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -391,6 +394,12 @@
     <ClInclude Include="Source\CK3Outputter\outDynasty.h">
       <Filter>CK3Outputter</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapper.h">
+      <Filter>Mappers\SuccessionLawMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.h">
+      <Filter>Mappers\SuccessionLawMapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -665,6 +674,12 @@
     <ClCompile Include="Source\Imperator\Provinces\Province.cpp">
       <Filter>Imperator\Provinces</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapper.cpp">
+      <Filter>Mappers\SuccessionLawMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.cpp">
+      <Filter>Mappers\SuccessionLawMapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resources\rakaly.dll">
@@ -753,6 +768,9 @@
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Data_Files\configurables\title_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\succession_law_map.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
   </ItemGroup>

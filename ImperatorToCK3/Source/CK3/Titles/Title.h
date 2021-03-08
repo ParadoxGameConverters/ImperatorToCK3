@@ -98,6 +98,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
 
 	std::string titleName; // e.g. d_latium
+	std::set<std::string> successionLaws;
 
 	bool importedOrUpdatedFromImperator = false;
 	std::optional<commonItems::Color> color1;
