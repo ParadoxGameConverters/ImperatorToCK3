@@ -80,6 +80,9 @@ Imperator::Country::Factory::Factory() {
 	registerKeyword("monarch", [this](std::istream& theStream) {
 		country->monarch = commonItems::getULlong(theStream);
 	});
+	registerRegex(lawRegexStr, [this](const std::string& unused, std::istream& theStream) {
+		country->laws.emplace(commonItems::getString(theStream));
+	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }
 
