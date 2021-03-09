@@ -14,11 +14,11 @@ Imperator::Countries::Countries(std::istream& theStream) {
 }
 
 void Imperator::Countries::registerKeys() {
-	registerMatcher(commonItems::integerMatch, [this](const std::string& countryID, std::istream& theStream) {
+	registerRegex(commonItems::integerRegex, [this](const std::string& countryID, std::istream& theStream) {
 		std::shared_ptr<Country> newCountry = countryFactory.getCountry(theStream, commonItems::stringToInteger<unsigned long long>(countryID));
 		countries.emplace(newCountry->getID(), newCountry);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
@@ -32,7 +32,7 @@ void Imperator::CountriesBloc::registerKeys() {
 	registerKeyword("country_database", [this](std::istream& theStream) {
 		countries = Countries(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

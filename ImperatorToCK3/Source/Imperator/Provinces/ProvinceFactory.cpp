@@ -46,7 +46,7 @@ Imperator::Province::Factory::Factory() {
 		const auto buildingsVector = commonItems::getInts(theStream);
 		province->buildingsCount = std::accumulate(buildingsVector.begin(), buildingsVector.end(), 0);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

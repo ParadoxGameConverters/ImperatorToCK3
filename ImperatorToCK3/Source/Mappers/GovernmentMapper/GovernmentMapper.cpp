@@ -32,7 +32,7 @@ void mappers::GovernmentMapper::registerKeys() {
 			impToCK3GovernmentMap.emplace(imperatorGovernment, theMapping.ck3Government);
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

@@ -35,7 +35,7 @@ void CK3::LandedTitles::registerKeys() {
 
 		Title::addFoundTitle(newTitle, foundTitles);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

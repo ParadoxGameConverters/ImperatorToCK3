@@ -26,7 +26,7 @@ Imperator::Family::Factory::Factory() {
 			family->members.emplace_back(memberID, nullptr);
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

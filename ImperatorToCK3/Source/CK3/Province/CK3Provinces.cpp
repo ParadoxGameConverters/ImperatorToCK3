@@ -12,10 +12,10 @@ CK3::Provinces::Provinces(const std::string& filePath) {
 
 
 void CK3::Provinces::registerKeys() {
-	registerMatcher(commonItems::integerMatch, [this](const std::string& provIdStr, std::istream& theStream) {
+	registerRegex(commonItems::integerRegex, [this](const std::string& provIdStr, std::istream& theStream) {
 		auto provID = commonItems::stringToInteger<unsigned long long>(provIdStr);
 		auto newProvince = std::make_shared<Province>(provID, theStream);
 		provinces.emplace(provID, newProvince);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

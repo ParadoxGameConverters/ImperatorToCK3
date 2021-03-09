@@ -33,7 +33,7 @@ void mappers::SuccessionLawMapper::registerKeys() {
 			iterator->second.insert(mapping.ck3SuccessionLaws.begin(), mapping.ck3SuccessionLaws.end());
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

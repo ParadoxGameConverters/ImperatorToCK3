@@ -16,5 +16,5 @@ void Imperator::CharacterName::registerKeys() {
 	registerKeyword("name", [this](std::istream& theStream) {
 		name = commonItems::getString(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

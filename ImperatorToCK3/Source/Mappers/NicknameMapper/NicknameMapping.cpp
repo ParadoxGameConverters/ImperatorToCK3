@@ -18,5 +18,5 @@ void mappers::NicknameMapping::registerKeys() {
 	registerKeyword("imp", [this](std::istream& theStream) {
 		impNicknames.insert(commonItems::getString(theStream));
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

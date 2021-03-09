@@ -18,11 +18,11 @@ Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr
 
 
 void Imperator::Characters::registerKeys() {
-	registerMatcher(commonItems::integerMatch, [this](const std::string& charID, std::istream& theStream) {
+	registerRegex(commonItems::integerRegex, [this](const std::string& charID, std::istream& theStream) {
 		std::shared_ptr<Character> newCharacter = characterFactory.getCharacter(theStream, charID, genes);
 		characters.emplace(newCharacter->getID(), newCharacter);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
@@ -125,5 +125,5 @@ void Imperator::CharactersBloc::registerKeys() {
 	registerKeyword("character_database", [this](std::istream& theStream) {
 		characters = Characters(theStream, genes);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

@@ -69,7 +69,7 @@ void CK3::Title::registerKeys() {
 	registerKeyword("province", [this](std::istream& theStream) {
 		province = commonItems::getULlong(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

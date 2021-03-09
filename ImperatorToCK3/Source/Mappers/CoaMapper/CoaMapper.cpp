@@ -30,7 +30,7 @@ mappers::CoaMapper::CoaMapper(const std::string& coaFilePath) {
 void mappers::CoaMapper::registerKeys()
 {
 	registerKeyword("template", commonItems::ignoreItem); // we don't need templates, we need CoAs!
-	registerMatcher(commonItems::catchallRegexMatch, [this](const std::string& flagName, std::istream& theStream) { // the rest should be CoAs
+	registerRegex(commonItems::catchallRegex, [this](const std::string& flagName, std::istream& theStream) { // the rest should be CoAs
 		coasMap.emplace(flagName, commonItems::stringOfItem{ theStream }.getString());
 	});
 }

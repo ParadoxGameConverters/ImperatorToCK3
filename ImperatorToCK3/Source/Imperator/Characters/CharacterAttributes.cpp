@@ -24,5 +24,5 @@ void Imperator::CharacterAttributes::registerKeys() {
 	registerKeyword("zeal", [this](std::istream& theStream) {
 		zeal = commonItems::getInt(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

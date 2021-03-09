@@ -39,7 +39,7 @@ void mappers::ProvinceMapper::registerKeys() {
 		// have been cut. There should only be a single, 0.0.0.0={} block inside province_mappings.txt
 		theMappings = ProvinceMappingsVersion(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

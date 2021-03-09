@@ -69,7 +69,7 @@ void Configuration::registerKeys() {
 			convertBirthAndDeathDates = false;
 		Log(LogLevel::Info) << "Conversion of characters' birth and death dates set to: " << convertBirthAndDeathDates;
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

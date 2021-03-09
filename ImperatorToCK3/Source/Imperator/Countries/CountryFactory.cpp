@@ -102,7 +102,7 @@ Imperator::Country::Factory::Factory() {
 	registerRegex(tribalLawRegexStr, [this](const std::string& unused, std::istream& theStream) {
 		country->tribalLaws.emplace(commonItems::getString(theStream));
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
