@@ -77,6 +77,7 @@
     <TargetName>ImperatorToCK3Converter</TargetName>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)\..\$(Configuration)\ImperatorToCK3\</OutDir>
@@ -136,6 +137,7 @@
       <PreprocessorDefinitions>_UNICODE;UNICODE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_SILENCE_CXX20_U8PATH_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
