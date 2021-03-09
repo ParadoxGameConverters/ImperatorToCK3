@@ -26,7 +26,7 @@ void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream&
 
 		const auto& succLaws = title->getSuccessionLaws();
 		if (!succLaws.empty()) {
-			outputStream << "\t\tsuccession_laws = {";
+			outputStream << "\t\tsuccession_laws = {\n";
 			for (const auto& law : succLaws) {
 
 				outputStream << "\t\t\t" << law << "\n";
