@@ -1,4 +1,4 @@
-version: ImperatorToCK3.{build}
+version: dev.{build}
 image: Visual Studio 2019 Preview
 configuration: Release
 build_script:
