@@ -7,7 +7,7 @@
 TEST(Mappers_SuccessionLawMapperTests, nonMatchGivesEmptySet)
 {
 	std::stringstream input;
-	input << "link = { ck3 = ck3law imp = implaw }";
+	input << "link = { imp = implaw ck3 = ck3law }";
 	const mappers::SuccessionLawMapper mapper(input);
 
 	const auto& ck3Law = mapper.getCK3LawsForImperatorLaws({ "madeUpLaw" });
@@ -18,7 +18,7 @@ TEST(Mappers_SuccessionLawMapperTests, nonMatchGivesEmptySet)
 TEST(Mappers_SuccessionLawMapperTests, ck3LawCanBeFound)
 {
 	std::stringstream input;
-	input << "link = { ck3 = ck3law imp = implaw }";
+	input << "link = { imp = implaw ck3 = ck3law }";
 	const mappers::SuccessionLawMapper mapper(input);
 
 	const auto& ck3Laws = mapper.getCK3LawsForImperatorLaws({ "implaw" });

@@ -3,11 +3,11 @@
 
 
 const std::set<std::string>& Imperator::Country::getLaws() const {
-	if (governmentType == "monarchy")
+	if (governmentType == GovernmentType::monarchy)
 		return monarchyLaws;
-	else if (governmentType == "republic")
+	else if (governmentType == GovernmentType::republic)
 		return republicLaws;
-	else // governmentType == "tribal"
+	else // governmentType == GovernmentType::tribal
 		return tribalLaws;
 }
 

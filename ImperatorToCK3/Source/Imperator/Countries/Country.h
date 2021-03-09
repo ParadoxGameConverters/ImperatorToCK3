@@ -36,6 +36,8 @@ public:
 	class Factory;
 	Country() = default;
 
+	enum class GovernmentType { monarchy, republic, tribal };
+
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] auto getMonarch() const { return monarch; }
 	[[nodiscard]] const std::string& getTag() const { return tag; }
@@ -68,7 +70,7 @@ private:
 	countryTypeEnum countryType = countryTypeEnum::real;
 	std::optional<unsigned long long> capital;
 	std::optional<std::string> government;
-	std::string governmentType = "monarchy";
+	GovernmentType governmentType = GovernmentType::monarchy;
 	std::set<std::string> monarchyLaws;
 	std::set<std::string> republicLaws;
 	std::set<std::string> tribalLaws;

@@ -78,11 +78,11 @@ Imperator::Country::Factory::Factory() {
 		country->government = governmentStr;
 		// set government type
 		if (monarchyGovernments.contains(governmentStr))
-			country->governmentType = "monarchy";
+			country->governmentType = GovernmentType::monarchy;
 		else if (republicGovernments.contains(governmentStr))
-			country->governmentType = "republic";
+			country->governmentType = GovernmentType::republic;
 		else if (tribalGovernments.contains(governmentStr))
-			country->governmentType = "tribal";
+			country->governmentType = GovernmentType::tribal;
 	});
 	registerKeyword("family", [this](std::istream& theStream) {
 		country->families.emplace(commonItems::getULlong(theStream), nullptr);

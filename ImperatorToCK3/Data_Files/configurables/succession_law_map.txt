@@ -12,10 +12,8 @@
 # Monarchy
 
 link = { imp = agnatic_succession_law ck3 = male_only_law ck3 = single_heir_succession_law }
-link = { imp = agnatic_succession_law ck3 = single_heir_succession_law }
 link = { imp = cognatic_succession_law ck3 = male_preference_law }
 link = { imp = agnatic_seniority_succession_law ck3 = single_heir_dynasty_house }
-link = { imp = agnatic_succession_law ck3 = single_heir_succession_law }
 link = { imp = egyption_succession_law ck3 = equal_law }
 
 # Republic

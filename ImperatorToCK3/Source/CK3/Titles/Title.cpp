@@ -77,7 +77,7 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 								   mappers::LocalizationMapper& localizationMapper,
 								   LandedTitles& landedTitles,
 								   mappers::ProvinceMapper& provinceMapper,
-                                   mappers::CoaMapper& coaMapper,
+								   mappers::CoaMapper& coaMapper,
 								   mappers::TagTitleMapper& tagTitleMapper,
 								   mappers::GovernmentMapper& governmentMapper, 
 								   mappers::SuccessionLawMapper& successionLawMapper)
