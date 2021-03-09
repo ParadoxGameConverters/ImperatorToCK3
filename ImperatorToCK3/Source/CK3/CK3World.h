@@ -3,7 +3,6 @@
 
 
 
-#include "Mappers/VersionParser/VersionParser.h"
 #include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Mappers/CultureMapper/CultureMapper.h"
@@ -31,11 +30,15 @@ namespace Imperator {
 class World;
 }
 
+namespace commonItems {
+struct ConverterVersion;
+}
+
 namespace CK3 {
 
 class World {
 public:
-	World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser);
+	World(const Imperator::World& impWorld, const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion);
 
 	[[nodiscard]] const auto& getCharacters() const { return characters; }
 	[[nodiscard]] const auto& getDynasties() const { return dynasties; }

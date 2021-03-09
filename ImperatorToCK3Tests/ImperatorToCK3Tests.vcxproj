@@ -243,7 +243,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapping.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp" />
     <ClCompile Include="AccessoryGenesTests.cpp" />
     <ClCompile Include="CK3WorldTests\Character\CK3CharacterTests.cpp" />
     <ClCompile Include="CK3WorldTests\Dynasties\DynastyTests.cpp" />
@@ -292,7 +291,6 @@
     <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMappingTests.cpp" />
     <ClCompile Include="MapperTests\TraitMapper\TraitMapperTests.cpp" />
     <ClCompile Include="MapperTests\TraitMapper\TraitMappingTests.cpp" />
-    <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\DatedHistoryBlock.h" />

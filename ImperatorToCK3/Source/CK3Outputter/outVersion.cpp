@@ -1,21 +1,20 @@
 #include "outVersion.h"
-#include "Mappers/VersionParser/VersionParser.h"
+#include "ConverterVersion.h"
+#include "Log.h"
 #include  <fstream>
 
 
 
-std::ostream& mappers::operator<<(std::ostream& output, const VersionParser& versionParser) {
+void logConverterVersion(const commonItems::ConverterVersion& versionParser) {
 	// read commit id
 	std::string commitID;
 	std::ifstream commitIdFile{ "../commit_id.txt" };
 	commitIdFile >> commitID;
 	commitIdFile.close();
 
-	output << "\n\n";
-	output << "************ -= The Paradox Converters Team =- ********************\n";
-	output << "* Converter build based on commit " << commitID << "\n";
-	output << "* " << versionParser.descriptionLine << "\n";
-	output << "* Built on " << __TIMESTAMP__ << "\n";
-	output << "*********** + Imperator: Rome To Crusader Kings III + **************\n";
-	return output;
+	Log(LogLevel::Info) << "************ -= The Paradox Converters Team =- ********************";
+	Log(LogLevel::Info) << "* Converter build based on commit " << commitID;
+	Log(LogLevel::Info) << "* " << versionParser.descriptionLine;
+	Log(LogLevel::Info) << "* Built on " << __TIMESTAMP__;
+	Log(LogLevel::Info) << "*********** + Imperator: Rome To Crusader Kings III + *************\n";
 }
