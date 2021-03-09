@@ -358,9 +358,6 @@
     <ClInclude Include="..\commonItems\CommonRegexes.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="..\commonItems\compile-time-regular-expressions\single-header\ctre.hpp">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="..\commonItems\ConvenientParser.h">
       <Filter>commonItems</Filter>
     </ClInclude>

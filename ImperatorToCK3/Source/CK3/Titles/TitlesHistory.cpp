@@ -40,7 +40,7 @@ void CK3::TitlesHistory::TitlesHistory::registerKeys() {
 			currentGovernmentMap[titleName] = titleHistory.currentGovernmentWithDate.second;
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
@@ -74,7 +74,7 @@ void CK3::TitleHistory::TitleHistory::registerKeys() {
 				currentGovernmentWithDate = std::pair(date(dateStr), *historyEntry.government);
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
@@ -96,5 +96,5 @@ void CK3::DatedHistoryEntry::DatedHistoryEntry::registerKeys() {
 	registerKeyword("government", [this](std::istream& theStream) {
 		government = commonItems::getString(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

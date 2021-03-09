@@ -26,7 +26,7 @@ mappers::ReligionMapping::ReligionMapping(std::istream& theStream) {
 	registerKeyword("impProvince", [this](std::istream& theStream) {
 		imperatorProvinces.insert(commonItems::getULlong(theStream));
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
 	parseStream(theStream);
 	clearRegisteredKeywords();

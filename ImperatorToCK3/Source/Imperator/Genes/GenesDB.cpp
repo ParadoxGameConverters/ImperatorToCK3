@@ -23,5 +23,5 @@ void Imperator::GenesDB::registerKeys() {
 	registerKeyword("accessory_genes", [this](std::istream& theStream) {
 		accessoryGenes = AccessoryGenes(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

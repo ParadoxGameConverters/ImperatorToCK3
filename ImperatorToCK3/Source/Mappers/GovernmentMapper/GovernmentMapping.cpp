@@ -11,7 +11,7 @@ mappers::GovernmentMapping::GovernmentMapping(std::istream& theStream) {
 	registerKeyword("imp", [this](std::istream& theStream) {
 		impGovernments.emplace(commonItems::getString(theStream));
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
 	parseStream(theStream);
 	clearRegisteredKeywords();

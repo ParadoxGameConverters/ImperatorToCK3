@@ -30,7 +30,7 @@ void mappers::TraitMapper::registerKeys() {
 				impToCK3TraitMap.emplace(imperatorTrait, *theMapping.ck3Trait);
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

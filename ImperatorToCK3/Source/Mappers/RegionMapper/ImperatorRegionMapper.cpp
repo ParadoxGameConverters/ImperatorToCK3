@@ -54,7 +54,7 @@ void mappers::ImperatorRegionMapper::registerRegionKeys() {
 		const auto newRegion = std::make_shared<ImperatorRegion>(theStream);
 		regions[regionName] = newRegion;
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
@@ -63,7 +63,7 @@ void mappers::ImperatorRegionMapper::registerAreaKeys() {
 		const auto newArea = std::make_shared<ImperatorArea>(theStream);
 		areas[areaName] = newArea;
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

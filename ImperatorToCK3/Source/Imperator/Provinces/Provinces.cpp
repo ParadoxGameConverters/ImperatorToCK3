@@ -17,11 +17,11 @@ Imperator::Provinces::Provinces(std::istream& theStream) {
 
 
 void Imperator::Provinces::registerKeys() {
-	registerMatcher(commonItems::integerMatch, [this](const std::string& provID, std::istream& theStream) {
+	registerRegex(commonItems::integerRegex, [this](const std::string& provID, std::istream& theStream) {
 		std::shared_ptr<Province> newProvince = provinceFactory.getProvince(theStream, commonItems::stringToInteger<unsigned long long>(provID));
 		provinces.emplace(newProvince->getID(), newProvince);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

@@ -25,7 +25,7 @@ void mappers::CultureMapper::registerKeys() {
 	registerKeyword("link", [this](std::istream& theStream) {
 		cultureMapRules.emplace_back(CultureMappingRule{ theStream });
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

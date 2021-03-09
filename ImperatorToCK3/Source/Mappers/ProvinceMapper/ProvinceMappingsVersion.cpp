@@ -18,5 +18,5 @@ void mappers::ProvinceMappingsVersion::registerKeys() {
 			return;
 		mappings.push_back(newMapping);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

@@ -17,7 +17,7 @@ void mappers::ImperatorArea::registerKeys() {
 		for (const auto& id : commonItems::getULlongs(theStream))
 			provinces.emplace(id);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

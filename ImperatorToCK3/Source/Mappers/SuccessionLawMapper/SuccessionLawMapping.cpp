@@ -11,7 +11,7 @@ mappers::SuccessionLawMapping::SuccessionLawMapping(std::istream& theStream) {
 	registerKeyword("ck3", [this](std::istream& theStream) {
 		ck3SuccessionLaws.emplace(commonItems::getString(theStream));
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
 	parseStream(theStream);
 	clearRegisteredKeywords();

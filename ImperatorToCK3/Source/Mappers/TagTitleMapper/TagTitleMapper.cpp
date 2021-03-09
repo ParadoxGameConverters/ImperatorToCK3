@@ -19,7 +19,7 @@ void mappers::TagTitleMapper::registerKeys() {
 	registerKeyword("link", [this](std::istream& theStream) {
 		theMappings.emplace_back(TagTitleMapping(theStream));
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

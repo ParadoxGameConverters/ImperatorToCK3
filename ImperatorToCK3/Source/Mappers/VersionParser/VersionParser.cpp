@@ -28,5 +28,5 @@ void mappers::VersionParser::registerKeys() {
 	registerKeyword("descriptionLine", [this](std::istream& theStream) {
 		descriptionLine = commonItems::getString(theStream);
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

@@ -21,10 +21,10 @@ void Imperator::AccessoryGene::registerKeys() {
 		if (commonItems::getString(theStream) == "yes")
 			inheritable = true;
 	});
-	registerMatcher(commonItems::stringMatch, [this](const std::string& geneTemplateName, std::istream& theStream) {
+	registerRegex(commonItems::stringRegex, [this](const std::string& geneTemplateName, std::istream& theStream) {
 		geneTemplates.insert({ geneTemplateName, AccessoryGeneTemplate(theStream) });
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

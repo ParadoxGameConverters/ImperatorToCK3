@@ -30,7 +30,7 @@ void mappers::NicknameMapper::registerKeys() {
 				impToCK3NicknameMap.emplace(imperatorNickname, *theMapping.ck3Nickname);
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 

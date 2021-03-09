@@ -13,7 +13,7 @@ Imperator::WeightBlock::WeightBlock(std::istream& theStream) {
 
 
 void Imperator::WeightBlock::registerKeys() {
-	registerMatcher(commonItems::integerMatch, [this](const std::string& absoluteWeightStr, std::istream& theStream) {
+	registerRegex(commonItems::integerRegex, [this](const std::string& absoluteWeightStr, std::istream& theStream) {
 		const auto newObjectName = commonItems::getString(theStream);
 		try {
 			addObject(newObjectName, stoi(absoluteWeightStr));
@@ -22,7 +22,7 @@ void Imperator::WeightBlock::registerKeys() {
 			Log(LogLevel::Error) << "Undefined error, absolute weight value was: " << absoluteWeightStr << "; Error message: " << e.what();
 		}
 	});
-	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 
