@@ -268,3 +268,40 @@ TEST(ImperatorWorld_CountryTests, correctCountryRankIsReturned)
 	ASSERT_EQ(Imperator::countryRankEnum::majorPower, theCountry5.getCountryRank());
 	ASSERT_EQ(Imperator::countryRankEnum::greatPower, theCountry6.getCountryRank());
 }
+
+
+TEST(ImperatorWorld_CountryTests, lawsDefaultToEmpty) {
+	std::stringstream input;
+	const auto theCountry = *Imperator::Country::Factory().getCountry(input, 42);
+
+	ASSERT_TRUE(theCountry.getLaws().empty());
+}
+
+
+TEST(ImperatorWorld_CountryTests, lawsCanBeSet) {
+	std::stringstream input;
+	input << "= {\n";
+	input << "\tsuccession_law = lawA\n";
+	input << "\ttribal_authority_laws = lawB\n";
+	input << "\trepublican_mediterranean_laws = lawC\n";
+	input << "\tmonarchy_legitimacy_laws = lawD\n";
+	input << "}";
+	const auto theCountry = *Imperator::Country::Factory().getCountry(input, 42);
+
+	ASSERT_EQ(4, theCountry.getLaws().size());
+	ASSERT_TRUE(theCountry.getLaws().contains("lawA"));
+	ASSERT_TRUE(theCountry.getLaws().contains("lawB"));
+	ASSERT_TRUE(theCountry.getLaws().contains("lawC"));
+	ASSERT_TRUE(theCountry.getLaws().contains("lawD"));
+}
+
+
+TEST(ImperatorWorld_CountryTests, wrongTypeLawsAreNotSet) {
+	std::stringstream input;
+	input << "= {\n";
+	input << "\tnonexistent_law_type_laws = lawA\n";
+	input << "}";
+	const auto theCountry = *Imperator::Country::Factory().getCountry(input, 42);
+
+	ASSERT_TRUE(theCountry.getLaws().empty());
+}

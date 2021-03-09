@@ -6,6 +6,7 @@
 #include "Mappers/CoaMapper/CoaMapper.h"
 #include "Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Mappers/GovernmentMapper/GovernmentMapper.h"
+#include "Mappers/SuccessionLawMapper/SuccessionLawMapper.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
@@ -72,8 +73,14 @@ void CK3::Title::registerKeys() {
 }
 
 
-void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry, mappers::LocalizationMapper& localizationMapper, LandedTitles& landedTitles, mappers::ProvinceMapper& provinceMapper,
-                                   mappers::CoaMapper& coaMapper, mappers::TagTitleMapper& tagTitleMapper, mappers::GovernmentMapper& governmentMapper)
+void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry,
+								   mappers::LocalizationMapper& localizationMapper,
+								   LandedTitles& landedTitles,
+								   mappers::ProvinceMapper& provinceMapper,
+								   mappers::CoaMapper& coaMapper,
+								   mappers::TagTitleMapper& tagTitleMapper,
+								   mappers::GovernmentMapper& governmentMapper, 
+								   mappers::SuccessionLawMapper& successionLawMapper)
 {
 	importedOrUpdatedFromImperator = true;
 
@@ -115,12 +122,15 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 		government = governmentMapper.getCK3GovernmentForImperatorGovernment(*imperatorCountry->getGovernment());
 
 	// ------------------ determine color
-	auto colorOpt = imperatorCountry->getColor1();
-	if (colorOpt)
-		color1 = *colorOpt;
-	colorOpt = imperatorCountry->getColor2();
-	if (colorOpt)
-		color2 = *colorOpt;
+	const auto& colorOpt1 = imperatorCountry->getColor1();
+	if (colorOpt1)
+		color1 = *colorOpt1;
+	const auto& colorOpt2 = imperatorCountry->getColor2();
+	if (colorOpt2)
+		color2 = *colorOpt2;
+
+	// determine successions laws
+	successionLaws = successionLawMapper.getCK3LawsForImperatorLaws(imperatorCountry->getLaws());
 
 	// ------------------ determine CoA
 	coa = coaMapper.getCoaForFlagName(imperatorCountry->getFlag());

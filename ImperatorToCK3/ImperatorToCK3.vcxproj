@@ -295,6 +295,8 @@
     <ClCompile Include="Source\Mappers\RegionMapper\ImperatorRegionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
+    <ClCompile Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapper.cpp" />
+    <ClCompile Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.cpp" />
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapping.cpp" />
     <ClCompile Include="Source\Mappers\TraitMapper\TraitMapper.cpp" />
@@ -392,6 +394,8 @@
     <ClInclude Include="Source\Mappers\RegionMapper\ImperatorRegionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapper.h" />
     <ClInclude Include="Source\Mappers\ReligionMapper\ReligionMapping.h" />
+    <ClInclude Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapper.h" />
+    <ClInclude Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.h" />
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapper.h" />
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapping.h" />
     <ClInclude Include="Source\Mappers\TraitMapper\TraitMapper.h" />
@@ -531,6 +535,12 @@
     <CopyFileToFolders Include="Data_Files\configurables\title_map.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Data_Files\configurables\succession_law_map.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,6 +7,20 @@
 
 
 
+
+std::string monarchyLawRegexStr = "succession_law|monarchy_military_reforms|monarchy_maritime_laws|monarchy_economic_law|monarchy_citizen_law"
+"|monarchy_religious_laws|monarchy_legitimacy_laws|monarchy_contract_law|monarchy_divinity_statutes|jewish_monarchy_divinity_statutes|monarchy_subject_laws";
+std::string republicLawRegexStr = "republic_military_recruitment_laws_rom|republic_election_reforms_rom|corruption_laws_rom|republican_mediterranean_laws_rom|republican_religious_laws_rom|republic_integration_laws_rom|republic_citizen_laws_rom|republican_land_reforms_rom"
+"|republic_military_recruitment_laws|republic_election_reforms|corruption_laws|republican_mediterranean_laws|republican_religious_laws|republic_integration_laws|republic_citizen_laws|republican_land_reforms";
+std::string tribalLawRegexStr = "tribal_religious_law|tribal_currency_laws|tribal_centralization_law|tribal_authority_laws|tribal_autonomy_laws|tribal_domestic_laws"
+"|tribal_decentralized_laws|tribal_centralized_laws|tribal_super_decentralized_laws|tribal_super_centralized_laws";
+
+
+std::set<std::string> monarchyGovernments{ "dictatorship", "despotic_monarchy", "aristocratic_monarchy", "stratocratic_monarchy", "theocratic_monarchy", "plutocratic_monarchy", "imperium", "imperial_cult" };
+std::set<std::string> republicGovernments{ "aristocratic_republic", "theocratic_republic", "oligarchic_republic", "democratic_republic", "plutocratic_republic", "athenian_republic" };
+std::set<std::string> tribalGovernments{ "tribal_chiefdom", "tribal_kingdom", "tribal_federation" };
+
+
 Imperator::Country::Factory::Factory() {
 	registerKeyword("tag", [this](std::istream& theStream){
 		country->tag = commonItems::getString(theStream);
@@ -29,8 +43,7 @@ Imperator::Country::Factory::Factory() {
 			country->countryType = countryTypeEnum::mercenaries;
 		else if (countryTypeStr == "real")
 			country->countryType = countryTypeEnum::real;
-		else
-		{
+		else {
 			Log(LogLevel::Error) << "Unrecognized country type: " << countryTypeStr << ", defaulting to real.";
 			country->countryType = countryTypeEnum::real;
 		}
@@ -61,7 +74,15 @@ Imperator::Country::Factory::Factory() {
 			country->capital = capitalProvID;
 	});
 	registerKeyword("government_key", [this](std::istream& theStream) {
-		country->government = commonItems::getString(theStream);
+		auto governmentStr = commonItems::getString(theStream);
+		country->government = governmentStr;
+		// set government type
+		if (monarchyGovernments.contains(governmentStr))
+			country->governmentType = GovernmentType::monarchy;
+		else if (republicGovernments.contains(governmentStr))
+			country->governmentType = GovernmentType::republic;
+		else if (tribalGovernments.contains(governmentStr))
+			country->governmentType = GovernmentType::tribal;
 	});
 	registerKeyword("family", [this](std::istream& theStream) {
 		country->families.emplace(commonItems::getULlong(theStream), nullptr);
@@ -71,6 +92,15 @@ Imperator::Country::Factory::Factory() {
 	});
 	registerKeyword("monarch", [this](std::istream& theStream) {
 		country->monarch = commonItems::getULlong(theStream);
+	});
+	registerRegex(monarchyLawRegexStr, [this](const std::string& unused, std::istream& theStream) {
+		country->monarchyLaws.emplace(commonItems::getString(theStream));
+	});
+	registerRegex(republicLawRegexStr, [this](const std::string& unused, std::istream& theStream) {
+		country->republicLaws.emplace(commonItems::getString(theStream));
+	});
+	registerRegex(tribalLawRegexStr, [this](const std::string& unused, std::istream& theStream) {
+		country->tribalLaws.emplace(commonItems::getString(theStream));
 	});
 	registerMatcher(commonItems::catchallRegexMatch, commonItems::ignoreItem);
 }

@@ -2,6 +2,15 @@
 
 
 
+const std::set<std::string>& Imperator::Country::getLaws() const {
+	if (governmentType == GovernmentType::monarchy)
+		return monarchyLaws;
+	else if (governmentType == GovernmentType::republic)
+		return republicLaws;
+	else // governmentType == GovernmentType::tribal
+		return tribalLaws;
+}
+
 Imperator::countryRankEnum Imperator::Country::getCountryRank() const {
 	if (provinceCount == 0) return countryRankEnum::migrantHorde;
 	if (provinceCount == 1) return countryRankEnum::cityState;

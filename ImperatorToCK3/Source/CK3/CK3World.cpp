@@ -95,7 +95,7 @@ void CK3::World::importImperatorCountries(const Imperator::World& impWorld) {
 void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country) {
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
-	newTitle->initializeFromTag(country.second, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper, governmentMapper);
+	newTitle->initializeFromTag(country.second, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper, governmentMapper, successionLawMapper);
 	
 	const auto& name = newTitle->getName();
 	if (auto titleItr = getTitles().find(name); titleItr!=getTitles().end()) {

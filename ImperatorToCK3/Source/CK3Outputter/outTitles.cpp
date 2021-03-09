@@ -23,7 +23,16 @@ void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream&
 		
 		if (title->government)
 			outputStream << "\t\tgovernment = " << *title->government << "\n";
-		
+
+		const auto& succLaws = title->getSuccessionLaws();
+		if (!succLaws.empty()) {
+			outputStream << "\t\tsuccession_laws = {\n";
+			for (const auto& law : succLaws) {
+				outputStream << "\t\t\t" << law << "\n";
+			}
+			outputStream << "\t\t}\n";
+		}
+
 		outputStream << "\t}\n";
 	}
 	outputStream << "}\n";

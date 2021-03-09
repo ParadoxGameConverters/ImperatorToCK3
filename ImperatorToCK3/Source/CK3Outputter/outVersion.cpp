@@ -13,7 +13,7 @@ std::ostream& mappers::operator<<(std::ostream& output, const VersionParser& ver
 
 	output << "\n\n";
 	output << "************ -= The Paradox Converters Team =- ********************\n";
-	output << "* Converter build based on commit " << commitID << "\"\n";
+	output << "* Converter build based on commit " << commitID << "\n";
 	output << "* " << versionParser.descriptionLine << "\n";
 	output << "* Built on " << __TIMESTAMP__ << "\n";
 	output << "*********** + Imperator: Rome To Crusader Kings III + **************\n";

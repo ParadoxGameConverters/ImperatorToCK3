@@ -237,6 +237,8 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\RegionMapper\ImperatorRegionMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\ReligionMapper\ReligionMapping.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\SuccessionLawMapper\SuccessionLawMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TagTitleMapper\TagTitleMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\TraitMapper\TraitMapper.cpp" />
@@ -285,6 +287,7 @@
     <ClCompile Include="MapperTests\RegionMapper\ImperatorRegionTests.cpp" />
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMapperTests.cpp" />
     <ClCompile Include="MapperTests\ReligionMapper\ReligionMappingTests.cpp" />
+    <ClCompile Include="MapperTests\SuccessionLawMapper\SuccessionLawMapperTests.cpp" />
     <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMapperTests.cpp" />
     <ClCompile Include="MapperTests\TagTitleMapper\TagTitleMappingTests.cpp" />
     <ClCompile Include="MapperTests\TraitMapper\TraitMapperTests.cpp" />
