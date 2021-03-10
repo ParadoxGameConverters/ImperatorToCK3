@@ -1,10 +1,14 @@
 #ifndef IMPERATORTOCK3_CONVERTER_H
 #define IMPERATORTOCK3_CONVERTER_H
 
-namespace mappers {
-	class VersionParser;
+
+
+namespace commonItems {
+struct ConverterVersion;
 }
 
-void convertImperatorToCK3(const mappers::VersionParser& versionParser);
+void convertImperatorToCK3(const commonItems::ConverterVersion& converterVersion);
+
+
 
 #endif // IMPERATORTOCK3_CONVERTER_H

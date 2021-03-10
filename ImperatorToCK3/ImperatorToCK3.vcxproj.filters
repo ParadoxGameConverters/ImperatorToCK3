@@ -85,9 +85,6 @@
     <Filter Include="Mappers\NicknameMapper">
       <UniqueIdentifier>{2404ac05-3984-4e42-9e9d-b039e3d69238}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Mappers\VersionParser">
-      <UniqueIdentifier>{0bd26324-6936-4f56-825a-3e90efa339df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Mappers\ImperatorRegionMapper">
       <UniqueIdentifier>{f9b0565f-9991-465b-8df3-67bdce281de6}</UniqueIdentifier>
     </Filter>
@@ -331,9 +328,6 @@
     <ClInclude Include="Source\Mappers\NicknameMapper\NicknameMapping.h">
       <Filter>Mappers\NicknameMapper</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h">
-      <Filter>Mappers\VersionParser</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Mappers\RegionMapper\CK3RegionMapper.h">
       <Filter>Mappers\CK3RegionMapper</Filter>
     </ClInclude>
@@ -396,6 +390,9 @@
     </ClInclude>
     <ClInclude Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.h">
       <Filter>Mappers\SuccessionLawMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\commonItems\ConverterVersion.h">
+      <Filter>commonItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -608,9 +605,6 @@
     <ClCompile Include="Source\Mappers\NicknameMapper\NicknameMapping.cpp">
       <Filter>Mappers\NicknameMapper</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp">
-      <Filter>Mappers\VersionParser</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Mappers\RegionMapper\CK3RegionMapper.cpp">
       <Filter>Mappers\CK3RegionMapper</Filter>
     </ClCompile>
@@ -676,6 +670,9 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.cpp">
       <Filter>Mappers\SuccessionLawMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\ConverterVersion.cpp">
+      <Filter>commonItems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

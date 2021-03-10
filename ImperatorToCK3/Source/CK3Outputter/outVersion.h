@@ -3,16 +3,11 @@
 
 
 
-#include <ostream>
+namespace commonItems {
+struct ConverterVersion;
+} // namespace commonItems
 
-
-
-namespace mappers {
-
-class VersionParser;
-std::ostream& operator<<(std::ostream& output, const VersionParser& versionParser);
-
-} // namespace mappers
+void logConverterVersion(const commonItems::ConverterVersion& versionParser);
 
 
 

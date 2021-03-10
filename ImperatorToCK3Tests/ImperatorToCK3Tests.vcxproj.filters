@@ -16,9 +16,6 @@
     <Filter Include="MapperTests">
       <UniqueIdentifier>{8b821bea-0ec6-4690-9411-14c66a11f938}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MapperTests\VersionParser">
-      <UniqueIdentifier>{fe425519-205f-470d-bd7a-8fc120079608}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{7b11c93b-e646-48f4-be4f-a324ffc0b220}</UniqueIdentifier>
     </Filter>
@@ -125,12 +122,6 @@
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp">
       <Filter>ImperatorWorldTests\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="MapperTests\VersionParser\VersionParserTests.cpp">
-      <Filter>MapperTests\VersionParser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\VersionParser\VersionParser.cpp">
-      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Characters\Character.cpp">
       <Filter>Sources</Filter>

@@ -9,6 +9,7 @@
 #include "Titles/Title.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
+#include "ConverterVersion.h"
 #include <filesystem>
 #include <fstream>
 #include <cmath>
@@ -19,7 +20,7 @@ namespace fs = std::filesystem;
 
 
 
-CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const mappers::VersionParser& versionParser) {
+CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
 	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.
 	localizationMapper.scrapeLocalizations(theConfiguration, std::map<std::string, std::string>()); // passes an empty map as second arg because we don't actually load mods yet

@@ -214,6 +214,7 @@
     <ClCompile Include="..\commonItems\Color.cpp" />
     <ClCompile Include="..\commonItems\CommonFunctions.cpp" />
     <ClCompile Include="..\commonItems\ConvenientParser.cpp" />
+    <ClCompile Include="..\commonItems\ConverterVersion.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\GameVersion.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />
@@ -304,13 +305,13 @@
     <ClCompile Include="Source\Mappers\TagTitleMapper\TagTitleMapping.cpp" />
     <ClCompile Include="Source\Mappers\TraitMapper\TraitMapper.cpp" />
     <ClCompile Include="Source\Mappers\TraitMapper\TraitMapping.cpp" />
-    <ClCompile Include="Source\Mappers\VersionParser\VersionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\commonItems\Color.h" />
     <ClInclude Include="..\commonItems\CommonFunctions.h" />
     <ClInclude Include="..\commonItems\CommonRegexes.h" />
     <ClInclude Include="..\commonItems\ConvenientParser.h" />
+    <ClInclude Include="..\commonItems\ConverterVersion.h" />
     <ClInclude Include="..\commonItems\Date.h" />
     <ClInclude Include="..\commonItems\GameVersion.h" />
     <ClInclude Include="..\commonItems\iconvlite.h" />
@@ -402,7 +403,6 @@
     <ClInclude Include="Source\Mappers\TagTitleMapper\TagTitleMapping.h" />
     <ClInclude Include="Source\Mappers\TraitMapper\TraitMapper.h" />
     <ClInclude Include="Source\Mappers\TraitMapper\TraitMapping.h" />
-    <ClInclude Include="Source\Mappers\VersionParser\VersionParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZipLib\ZipLib.vcxproj">
