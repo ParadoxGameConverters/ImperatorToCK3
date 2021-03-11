@@ -180,6 +180,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Province\ProvinceDetails.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\LandedTitles.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\Title.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\TitleHistory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\TitlesHistory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\DatedHistoryBlock.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\History.cpp" />

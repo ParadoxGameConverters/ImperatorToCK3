@@ -4,6 +4,7 @@
 
 
 #include "Mappers/LocalizationMapper/LocalizationMapper.h"
+#include "TitleHistory.h"
 #include "Parser.h"
 #include "Color.h"
 #include <memory>
@@ -32,11 +33,12 @@ namespace CK3 {
 
 class LandedTitles;
 class TitlesHistory;
+enum class TitleRank { barony, county, duchy, kingdom, empire };
 class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 {
   public:
 	Title() = default;
-	explicit Title(const std::string& name) { titleName = name; }
+	explicit Title(const std::string& name);
 	void initializeFromTag(
 		std::shared_ptr<Imperator::Country> theCountry, 
 		mappers::LocalizationMapper& localizationMapper, 
@@ -47,17 +49,23 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 		mappers::GovernmentMapper& governmentMapper,
 		mappers::SuccessionLawMapper& successionLawMapper
 	);
+	
 	void updateFromTitle(const std::shared_ptr<Title>& otherTitle);
 	void loadTitles(std::istream& theStream);
 
+	void setHolder(const std::string& newHolder) { history.holder = newHolder; }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
 	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.emplace(provinceId); }
-	void addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory);
+	void addHistory(const LandedTitles& landedTitles, TitleHistory titleHistory);
 	
 	void setDeJureLiege(const std::shared_ptr<Title>& liegeTitle);
 	void setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle);
 
 	[[nodiscard]] const auto& getName() const { return titleName; }
+	[[nodiscard]] auto getRank() const { return rank; }
+	[[nodiscard]] const auto& getHolder() const { return history.holder; }
+	[[nodiscard]] const auto& getGovernment() const { return history.government; }
+	[[nodiscard]] auto getDevelopmentLevel() const { return history.developmentLevel; }
 	[[nodiscard]] const auto& getSuccessionLaws() const { return successionLaws; }
 	[[nodiscard]] auto isImportedOrUpdatedFromImperator() const { return importedOrUpdatedFromImperator; }
 
@@ -74,14 +82,11 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 
 	bool definiteForm = false;
 	bool landless = false;
-	std::string holder = "0"; // ID of Character holding the Title
-	std::optional<std::string> government;
 	std::map<std::string, mappers::LocBlock> localizations;
 	std::optional<std::string> coa;
 	std::optional<std::string> capitalCounty;
 	std::shared_ptr<Imperator::Country> imperatorCountry;
 	std::optional<commonItems::Color> color;
-	std::string historyString = "1.1.1 = { holder = 0 }"; // this string is used in title history when title's holder is "0"
 	
 	std::pair<std::string, std::shared_ptr<Title>> capital;	// Capital county
 
@@ -100,13 +105,17 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	
 	void registerKeys();
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
+	void setRank();
 
 	std::string titleName; // e.g. d_latium
+	TitleRank rank = TitleRank::duchy;
 	std::set<std::string> successionLaws;
 
 	bool importedOrUpdatedFromImperator = false;
 	std::optional<commonItems::Color> color1;
 	std::optional<commonItems::Color> color2;
+
+	TitleHistory history;
 
 	std::shared_ptr<Title> deJureLiege; // direct de jure liege title name, e.g. e_hispania
 	std::shared_ptr<Title> deFactoLiege; // direct de facto liege title name, e.g. e_hispania

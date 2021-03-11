@@ -251,6 +251,7 @@
     <ClCompile Include="Source\CK3\Province\CK3Provinces.cpp" />
     <ClCompile Include="Source\CK3\Titles\LandedTitles.cpp" />
     <ClCompile Include="Source\CK3\Titles\Title.cpp" />
+    <ClCompile Include="Source\CK3\Titles\TitleHistory.cpp" />
     <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp" />
     <ClCompile Include="Source\CommonUtilities\DatedHistoryBlock.cpp" />
     <ClCompile Include="Source\CommonUtilities\History.cpp" />
@@ -347,6 +348,7 @@
     <ClInclude Include="Source\CK3\Province\CK3Provinces.h" />
     <ClInclude Include="Source\CK3\Titles\LandedTitles.h" />
     <ClInclude Include="Source\CK3\Titles\Title.h" />
+    <ClInclude Include="Source\CK3\Titles\TitleHistory.h" />
     <ClInclude Include="Source\CK3\Titles\TitlesHistory.h" />
     <ClInclude Include="Source\CommonUtilities\DatedHistoryBlock.h" />
     <ClInclude Include="Source\CommonUtilities\History.h" />

@@ -245,7 +245,7 @@ std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>
 
 void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld) {
 	for (const auto& [name, title] : getTitles()) {
-		if (name.starts_with("c_") && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
+		if (title->getRank()==TitleRank::county && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
 			if (!provinces.contains(title->capitalBaronyProvince))
 				LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
 			else {
@@ -256,20 +256,25 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld) 
 						impMonarch = impCountry->getMonarch();
 					}
 					if (impMonarch) {
-						title->holder = "imperator" + std::to_string(*impMonarch);
-						countyHoldersCache.emplace(title->holder);
+						title->setHolder("imperator" + std::to_string(*impMonarch));
+						countyHoldersCache.emplace(title->getHolder());
 					}
 				}
 				else { // county is probably outside of Imperator map
-					title->addHistory(landedTitles, titlesHistory);
-					if (!title->holder.empty())
-						countyHoldersCache.emplace(title->holder);
+					auto historyOpt = titlesHistory.popTitleHistory(name);
+					if (historyOpt)
+						title->addHistory(landedTitles, *historyOpt);
+					const auto& titleHolder = title->getHolder();
+					if (!titleHolder.empty() && titleHolder != "0")
+						countyHoldersCache.emplace(titleHolder);
 				}
 			}
 		}
-		else if (!name.starts_with("c_") && !name.starts_with("b_") && !title->isImportedOrUpdatedFromImperator()) { // title is a duchy or higher, from vanilla
+		else if (title->getRank()!=TitleRank::county && title->getRank()!=TitleRank::barony && !title->isImportedOrUpdatedFromImperator()) { // title is a duchy or higher, from vanilla
 			// update title holder, liege and history
-			title->addHistory(landedTitles, titlesHistory);
+			auto historyOpt = titlesHistory.popTitleHistory(name);
+			if (historyOpt)
+				title->addHistory(landedTitles, *historyOpt);
 		}
 	}
 }
@@ -282,7 +287,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 	for (const auto& [name, title] : getTitles()) {
 		//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
-		if (!name.starts_with("c_") && !name.starts_with("b_") && !countyHoldersCache.contains(title->holder)) {
+		if (title->getRank()!=TitleRank::county && title->getRank()!=TitleRank::barony && !countyHoldersCache.contains(title->getHolder())) {
 			if (!getTitles().find(name)->second->landless) { // does not have landless attribute set to true
 				if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != std::string::npos) {
 					removedGeneratedTitles.emplace(name);
@@ -290,7 +295,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 				}
 				else {
 					revokedVanillaTitles.emplace(name);
-					title->holder = "0";
+					title->setHolder("0");
 				}
 			}
 		}

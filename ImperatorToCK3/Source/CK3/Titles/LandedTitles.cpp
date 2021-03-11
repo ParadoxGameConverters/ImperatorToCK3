@@ -41,7 +41,7 @@ void CK3::LandedTitles::registerKeys() {
 
 std::optional<std::string> CK3::LandedTitles::getCountyForProvince(const unsigned long long provinceID) {
 	for (const auto& [titleName, title] : foundTitles) {
-		if (titleName.starts_with("c_") && title->getCountyProvinces().contains(provinceID)) {
+		if (title->getRank()==TitleRank::county && title->getCountyProvinces().contains(provinceID)) {
 			return titleName;
 		}
 	}

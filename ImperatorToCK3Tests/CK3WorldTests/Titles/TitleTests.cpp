@@ -61,7 +61,7 @@ TEST(CK3World_TitleTests, holderDefaultsTo0String)
 	std::stringstream input;
 	const CK3::Title theTitle;
 
-	ASSERT_EQ("0", theTitle.holder);
+	ASSERT_EQ("0", theTitle.getHolder());
 }
 
 TEST(CK3World_TitleTests, capitalBaronyDefaultsToNullopt)
