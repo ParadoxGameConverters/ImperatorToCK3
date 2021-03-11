@@ -184,8 +184,7 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle) {
 	importedOrUpdatedFromImperator = otherTitle->importedOrUpdatedFromImperator;
 	imperatorCountry = otherTitle->imperatorCountry;
 
-	history.holder = otherTitle->getHolder();
-	history.government = otherTitle->getGovernment();
+	history = otherTitle->history;
 
 	color1 = otherTitle->color1;
 	color2 = otherTitle->color2;

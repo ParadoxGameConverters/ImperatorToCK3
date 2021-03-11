@@ -16,11 +16,12 @@ void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream&
 	const auto& deFactoLiege = title->getDeFactoLiege();
 	if (deFactoLiege)
 		outputStream << "\t\tliege = " << deFactoLiege->getName() << "\n";
-		
+	
 	outputStream << "\t\tholder = " << title->getHolder() << "\n";
-		
-	if (title->getGovernment())
-		outputStream << "\t\tgovernment = " << *title->getGovernment() << "\n";
+	
+	const auto& govOpt = title->getGovernment();
+	if (govOpt)
+		outputStream << "\t\tgovernment = " << *govOpt << "\n";
 
 	const auto& succLaws = title->getSuccessionLaws();
 	if (!succLaws.empty()) {
@@ -32,7 +33,9 @@ void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream&
 	}
 
 	if (title->getRank() != TitleRank::barony) {
-		outputStream << "\t\tchange_development_level = " << title->getDevelopmentLevel() << "\n";
+		const auto& developmentLevelOpt = title->getDevelopmentLevel();
+		if (developmentLevelOpt)
+			outputStream << "\t\tchange_development_level = " << *developmentLevelOpt << "\n";
 	}
 
 	outputStream << "\t}\n";

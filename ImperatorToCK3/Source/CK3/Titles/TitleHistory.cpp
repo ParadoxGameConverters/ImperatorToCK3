@@ -10,5 +10,9 @@ CK3::TitleHistory::TitleHistory(std::unique_ptr<History>& history) {
 	holder = *history->getFieldValue("holder", date);
 	liege = history->getFieldValue("liege", date);
 	government = history->getFieldValue("government", date);
-	developmentLevel = commonItems::stringToInteger<decltype(developmentLevel)>(*history->getFieldValue("development_level", date));
+
+	const auto developmentLevelOpt = history->getFieldValue("development_level", date);
+	if (developmentLevelOpt) {
+		developmentLevel = commonItems::stringToInteger<int>(*developmentLevelOpt);
+	}
 }
