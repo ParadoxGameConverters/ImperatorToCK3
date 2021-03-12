@@ -10,6 +10,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include <ranges>
 
 
 
@@ -305,7 +306,7 @@ void CK3::Title::addHistory(const LandedTitles& landedTitles, TitleHistory title
 	history = std::move(titleHistory);
 
 	if (history.liege) {
-		auto liegeItr = landedTitles.getTitles().find(*history.liege);
+		const auto liegeItr = landedTitles.getTitles().find(*history.liege);
 		if (liegeItr != landedTitles.getTitles().end()) {
 			setDeFactoLiege(liegeItr->second);
 		}
@@ -317,10 +318,7 @@ bool CK3::Title::duchyContainsProvince(const unsigned long long provinceID) cons
 	if (rank != TitleRank::duchy)
 		return false;
 
-	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals) {
-		if (vassalTitle->rank == TitleRank::county && vassalTitle->countyProvinces.contains(provinceID))
-			return true;
-	}
-
-	return false;
+	return std::ranges::any_of(deJureVassals, [&](const auto& deJureVassalItr) {
+		return deJureVassalItr.second->rank == TitleRank::county && deJureVassalItr.second->countyProvinces.contains(provinceID);
+	});
 }

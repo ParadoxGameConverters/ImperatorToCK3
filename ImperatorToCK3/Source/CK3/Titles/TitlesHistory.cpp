@@ -22,7 +22,7 @@ CK3::TitlesHistory::TitlesHistory(const Configuration& theConfiguration) {
 }
 
 std::optional<CK3::TitleHistory> CK3::TitlesHistory::popTitleHistory(const std::string& titleName) {
-	if (auto historyItr = historyMap.find(titleName); historyItr != historyMap.end()) {
+	if (const auto historyItr = historyMap.find(titleName); historyItr != historyMap.end()) {
 		auto history = historyItr->second;
 		historyMap.erase(titleName);
 		return history;
