@@ -54,6 +54,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	void loadTitles(std::istream& theStream);
 
 	void setHolder(const std::string& newHolder) { history.holder = newHolder; }
+	void setDevelopmentLevel(const std::optional<int>& devLevel) { history.developmentLevel = devLevel; }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
 	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.emplace(provinceId); }
 	void addHistory(const LandedTitles& landedTitles, TitleHistory titleHistory);
@@ -66,6 +67,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	[[nodiscard]] const auto& getHolder() const { return history.holder; }
 	[[nodiscard]] const auto& getGovernment() const { return history.government; }
 	[[nodiscard]] const auto& getDevelopmentLevel() const { return history.developmentLevel; }
+	[[nodiscard]] const std::optional<int>& getOwnOrInheritedDevelopmentLevel() const;
 	[[nodiscard]] const auto& getSuccessionLaws() const { return successionLaws; }
 	[[nodiscard]] auto isImportedOrUpdatedFromImperator() const { return importedOrUpdatedFromImperator; }
 

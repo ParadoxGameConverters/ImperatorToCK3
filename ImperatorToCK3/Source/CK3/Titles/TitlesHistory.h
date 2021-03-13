@@ -26,7 +26,7 @@ private:
 		{ .fieldName="holder", .setter="holder", .initialValue="0" },
 		{ .fieldName="liege", .setter="liege", .initialValue=std::nullopt },
 		{ .fieldName="government", .setter="government", .initialValue=std::nullopt },
-		{ .fieldName="development_level", .setter="change_development_level", .initialValue="0" }
+		{ .fieldName="development_level", .setter="change_development_level", .initialValue=std::nullopt }
 	});
 	std::map<std::string, TitleHistory> historyMap;
 }; // class TitlesHistory

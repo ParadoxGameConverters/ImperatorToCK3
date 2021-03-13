@@ -12,7 +12,7 @@
 #include "ConverterVersion.h"
 #include <filesystem>
 #include <fstream>
-#include <cmath>
+#include <ranges>
 
 
 
@@ -251,13 +251,12 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld) 
 			else {
 				auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
 				if (impProvince) {
-					std::optional<unsigned long long> impMonarch;
 					if (auto impCountry = impProvince->getOwner().second) {
-						impMonarch = impCountry->getMonarch();
-					}
-					if (impMonarch) {
-						title->setHolder("imperator" + std::to_string(*impMonarch));
-						countyHoldersCache.emplace(title->getHolder());
+						auto impMonarch = impCountry->getMonarch();
+						if (impMonarch) {
+							title->setHolder("imperator" + std::to_string(*impMonarch));
+							countyHoldersCache.emplace(title->getHolder());
+						}
 					}
 				}
 				else { // county is probably outside of Imperator map

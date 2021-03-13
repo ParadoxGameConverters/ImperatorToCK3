@@ -18,7 +18,7 @@ struct TitleHistory {
 	std::string holder = "0"; // ID of Character holding the Title
 	std::optional<std::string> liege;
 	std::optional<std::string> government;
-	std::optional<int> developmentLevel = 0;
+	std::optional<int> developmentLevel;
 };
 
 } // namespace CK3

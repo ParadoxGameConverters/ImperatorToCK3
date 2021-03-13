@@ -268,6 +268,15 @@ void CK3::Title::setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle) {
 }
 
 
+const std::optional<int>&  CK3::Title::getOwnOrInheritedDevelopmentLevel() const {
+	if (history.developmentLevel) // if development level is already set, just return it
+		return history.developmentLevel;
+	if (deJureLiege) //if de jure liege exists, return their level
+		return deJureLiege->getOwnOrInheritedDevelopmentLevel();
+	return history.developmentLevel; // if there's no other choice, return own nullopt level
+}
+
+
 std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeJureVassalsAndBelow(const std::string& rankFilter) const {
 	std::map<std::string, std::shared_ptr<Title>> deJureVassalsAndBelow;
 	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals) {
