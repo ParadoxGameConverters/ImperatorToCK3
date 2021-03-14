@@ -4,7 +4,7 @@
 
 
 
-CK3::TitleHistory::TitleHistory(std::unique_ptr<History>& history) {
+CK3::TitleHistory::TitleHistory(const std::unique_ptr<History>& history) {
 	const date date{867, 1, 1};
 
 	holder = *history->getFieldValue("holder", date);

@@ -9,13 +9,12 @@
 
 
 
-CK3::TitlesHistory::TitlesHistory(const Configuration& theConfiguration) {
-	const auto historyPath = theConfiguration.getCK3Path() + "/game/history/titles";
-	auto filenames = commonItems::GetAllFilesInFolderRecursive(historyPath);
+CK3::TitlesHistory::TitlesHistory(const std::string& folderPath) {
+	auto filenames = commonItems::GetAllFilesInFolderRecursive(folderPath);
 	LOG(LogLevel::Info) << "-> Parsing title history.";
 	registerKeys();
 	for (const auto& fileName : filenames) {
-		parseFile(historyPath + "/" + fileName);
+		parseFile(folderPath + "/" + fileName);
 	}
 	clearRegisteredKeywords();
 	LOG(LogLevel::Info) << "<> Loaded " << historyMap.size() << " title histories.";

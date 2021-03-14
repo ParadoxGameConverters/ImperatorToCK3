@@ -1,0 +1,5 @@
+k_rome = {
+	liege = e_italia
+	random_param = random_stuff
+	holder = 67
+}
