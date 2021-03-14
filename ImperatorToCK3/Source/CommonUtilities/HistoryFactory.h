@@ -14,7 +14,7 @@
 class History::Factory: commonItems::parser
 {
   public:
-	explicit Factory(std::vector<SimpleFieldStruct> simpleFieldStructs);
+	explicit Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs);
 	std::unique_ptr<History> getHistory(std::istream& theStream);
 
   private:

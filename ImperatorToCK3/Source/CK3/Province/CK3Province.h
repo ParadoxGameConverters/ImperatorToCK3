@@ -23,12 +23,12 @@ namespace CK3 {
 
 class Title;
 class Province {
-  public:
+public:
 	Province() = default;
 	Province(unsigned long long id, std::istream& theStream);
 	Province(unsigned long long id, const Province& otherProv);
 
-	void initializeFromImperator(const std::shared_ptr<Imperator::Province>& origProvince,
+	void initializeFromImperator(const std::shared_ptr<Imperator::Province>& impProvince,
 	                             const mappers::CultureMapper& cultureMapper,
 	                             const mappers::ReligionMapper& religionMapper);
 
@@ -44,7 +44,7 @@ class Province {
 
 	friend std::ostream& operator<<(std::ostream& output, const Province& province);
 
-  private:
+private:
 	  void setReligionFromImperator(const mappers::ReligionMapper& religionMapper);
 	  void setCultureFromImperator(const mappers::CultureMapper& cultureMapper);
 	  void setHoldingFromImperator();
