@@ -7,6 +7,7 @@
 #include "CommonRegexes.h"
 #include <set>
 #include <utility>
+#include <ranges>
 
 
 
@@ -31,7 +32,7 @@ void Imperator::Characters::linkFamilies(const Families& theFamilies) {
 	std::set<unsigned long long> idsWithoutDefinition;
 	const auto& families = theFamilies.getFamilies();
 
-	for (const auto& [characterID, character]: characters) {
+	for (const auto& character : characters | std::views::values) {
 		auto familyID = character->getFamily().first;
 		if (const auto& familyItr = families.find(familyID); familyItr != families.end()) {
 			character->setFamily(familyItr->second);
@@ -60,10 +61,10 @@ void Imperator::Characters::linkFamilies(const Families& theFamilies) {
 
 void Imperator::Characters::linkSpouses() {
 	auto counterSpouse = 0;
-	for (const auto& [characterID, character]: characters) {
+	for (const auto& character : characters | std::views::values) {
 		if (!character->getSpouses().empty()) {
 			std::map<unsigned long long, std::shared_ptr<Character>> newSpouses;
-			for (const auto& [spouseID, spouse]: character->getSpouses()) {
+			for (const auto& spouseID : character->getSpouses() | std::views::keys) {
 				const auto& characterItr = characters.find(spouseID);
 				if (characterItr != characters.end()) {
 					newSpouses.emplace(characterItr->first, characterItr->second);

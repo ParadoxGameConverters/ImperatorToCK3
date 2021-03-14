@@ -6,6 +6,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include <ranges>
 
 
 
@@ -28,10 +29,10 @@ void Imperator::Provinces::registerKeys() {
 void Imperator::Provinces::linkPops(const Pops& thePops) {
 	auto counter = 0;
 	const auto& pops = thePops.getPops();
-	for (const auto& [provinceID, province] : provinces) {
+	for (const auto& province : provinces | std::views::values) {
 		if (!province->getPops().empty()) {
 			std::map<unsigned long long, std::shared_ptr<Pop>> newPops;
-			for (const auto& [popID, pop] : province->getPops()) {
+			for (const auto& popID : province->getPops() | std::views::keys) {
 				const auto& popItr = pops.find(popID);
 				if (popItr != pops.end()) {
 					newPops.emplace(popItr->first, popItr->second);
@@ -51,7 +52,7 @@ void Imperator::Provinces::linkPops(const Pops& thePops) {
 void Imperator::Provinces::linkCountries(const Countries& theCountries) {
 	auto counter = 0;
 	const auto& countries = theCountries.getCountries();
-	for (const auto& [provinceID, province] : provinces) {
+	for (const auto& province : provinces | std::views::values) {
 		if (!province->getPops().empty()) {
 			const auto& countryItr = countries.find(province->getOwner().first);
 			if (countryItr != countries.end()) {

@@ -3,6 +3,7 @@
 #include "Imperator/Families/Family.h"
 #include "Imperator/Characters/Character.h"
 #include "Log.h"
+#include <ranges>
 
 
 
@@ -17,7 +18,7 @@ CK3::Dynasty::Dynasty(const Imperator::Family& impFamily, const mappers::Localiz
 		Log(LogLevel::Warning) << "Couldn't determine culture for dynasty " << ID << ", needs manual setting!";
 	}
 
-	for (const auto& [memberID, member] : impMembers) {
+	for (const auto& member : impMembers | std::views::values) {
 		if (const auto& ck3Member = member->getCK3Character()) {
 			ck3Member->setDynastyID(ID);
 		}
