@@ -4,13 +4,12 @@
 
 
 #include "CommonUtilities/HistoryFactory.h"
-#include "ConvenientParser.h"
 
 
 
 namespace CK3 {
 
-class ProvinceDetails: commonItems::convenientParser {
+class ProvinceDetails {
   public:
 	ProvinceDetails() = default;
 	explicit ProvinceDetails(std::istream& theStream);

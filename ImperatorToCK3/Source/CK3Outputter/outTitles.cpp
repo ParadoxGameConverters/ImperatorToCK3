@@ -10,31 +10,36 @@
 
 void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream& outputStream) {
 	outputStream << title->getName() << " = {\n";
-	if (title->holder == "0")
-		outputStream << "\t1.1.1 = { holder = 0 }\n";
-	else {
-		outputStream << "\t867.1.1 = {\n";
-		
-		const auto& deFactoLiege = title->getDeFactoLiege();
-		if (deFactoLiege)
-			outputStream << "\t\tliege = " << deFactoLiege->getName() << "\n";
-		
-		outputStream << "\t\tholder = " << title->holder << "\n";
-		
-		if (title->government)
-			outputStream << "\t\tgovernment = " << *title->government << "\n";
 
-		const auto& succLaws = title->getSuccessionLaws();
-		if (!succLaws.empty()) {
-			outputStream << "\t\tsuccession_laws = {\n";
-			for (const auto& law : succLaws) {
-				outputStream << "\t\t\t" << law << "\n";
-			}
-			outputStream << "\t\t}\n";
+	outputStream << "\t867.1.1 = {\n";
+		
+	const auto& deFactoLiege = title->getDeFactoLiege();
+	if (deFactoLiege)
+		outputStream << "\t\tliege = " << deFactoLiege->getName() << "\n";
+	
+	outputStream << "\t\tholder = " << title->getHolder() << "\n";
+	
+	const auto& govOpt = title->getGovernment();
+	if (govOpt)
+		outputStream << "\t\tgovernment = " << *govOpt << "\n";
+
+	const auto& succLaws = title->getSuccessionLaws();
+	if (!succLaws.empty()) {
+		outputStream << "\t\tsuccession_laws = {\n";
+		for (const auto& law : succLaws) {
+			outputStream << "\t\t\t" << law << "\n";
 		}
-
-		outputStream << "\t}\n";
+		outputStream << "\t\t}\n";
 	}
+
+	if (title->getRank() != TitleRank::barony) {
+		const auto& developmentLevelOpt = title->getDevelopmentLevel();
+		if (developmentLevelOpt)
+			outputStream << "\t\tchange_development_level = " << *developmentLevelOpt << "\n";
+	}
+
+	outputStream << "\t}\n";
+
 	outputStream << "}\n";
 }
 
@@ -43,7 +48,7 @@ void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<s
 	//output title history
 	std::set<std::string> alreadyOutputtedTitles;
 	for (const auto& [name, title] : titles) { // first output kindoms + their de jure vassals to files named after the kingdoms
-		if (name.starts_with("k_") && !title->getDeJureVassals().empty()) { // is a de jure kingdom
+		if (title->getRank() == TitleRank::kingdom && !title->getDeJureVassals().empty()) { // is a de jure kingdom
 			std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/" + name + ".txt");
 			if (!historyOutput.is_open())
 				throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/" + name + ".txt");

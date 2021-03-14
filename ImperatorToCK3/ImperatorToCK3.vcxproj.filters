@@ -298,7 +298,7 @@
     <ClInclude Include="Source\CK3\Character\CK3Character.h">
       <Filter>CK3\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CK3\Titles\TitlesHistory.h">
+    <ClInclude Include="Source\CK3\Titles\TitleHistory.h">
       <Filter>CK3\Titles</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mappers\TraitMapper\TraitMapper.h">
@@ -393,6 +393,9 @@
     </ClInclude>
     <ClInclude Include="..\commonItems\ConverterVersion.h">
       <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CK3\Titles\TitlesHistory.h">
+      <Filter>CK3\Titles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -578,7 +581,7 @@
     <ClCompile Include="Source\CK3\Character\CK3Character.cpp">
       <Filter>CK3\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp">
+    <ClCompile Include="Source\CK3\Titles\TitleHistory.cpp">
       <Filter>CK3\Titles</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mappers\TraitMapper\TraitMapper.cpp">
@@ -673,6 +676,9 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\ConverterVersion.cpp">
       <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp">
+      <Filter>CK3\Titles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
