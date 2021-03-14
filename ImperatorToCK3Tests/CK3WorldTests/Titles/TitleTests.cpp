@@ -90,3 +90,12 @@ TEST(CK3World_TitleTests, developmentLevelCanBeInherited) {
 
 	ASSERT_EQ(8, *vassalPtr->getOwnOrInheritedDevelopmentLevel());
 }
+
+
+TEST(CK3World_TitleTests, inheritedDevelopmentCanBeNullopt) {
+	auto vassalPtr = std::make_shared<CK3::Title>("c_vassal");
+	auto liegePtr = std::make_shared<CK3::Title>("d_liege");
+	vassalPtr->setDeJureLiege(liegePtr);
+
+	ASSERT_EQ(std::nullopt, vassalPtr->getOwnOrInheritedDevelopmentLevel());
+}
