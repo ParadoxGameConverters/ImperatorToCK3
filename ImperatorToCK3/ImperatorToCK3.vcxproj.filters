@@ -767,5 +767,11 @@
     <CopyFileToFolders Include="Data_Files\configurables\succession_law_map.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configuration_l_simp_chinese.yml">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\options_l_simp_chinese.yml">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
