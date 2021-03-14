@@ -11,7 +11,7 @@ namespace CK3 {
 
 struct TitleHistory {
 	TitleHistory() = default;
-	explicit TitleHistory(std::unique_ptr<History>& history);
+	explicit TitleHistory(const std::unique_ptr<History>& history);
 
 	// These values are open to ease management.
 	// This is a storage container for CK3::Title.

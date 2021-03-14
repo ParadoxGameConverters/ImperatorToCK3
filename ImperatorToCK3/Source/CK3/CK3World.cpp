@@ -29,7 +29,7 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	coaMapper = mappers::CoaMapper(theConfiguration);
 
 	// Load vanilla titles history
-	titlesHistory = TitlesHistory(theConfiguration);
+	titlesHistory = TitlesHistory(theConfiguration.getCK3Path() + "/game/history/titles");
 
 	// Loading vanilla CK3 landed titles
 	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");

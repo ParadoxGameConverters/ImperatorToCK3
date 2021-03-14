@@ -252,6 +252,7 @@
     <ClCompile Include="CK3WorldTests\Province\CK3ProvincesTests.cpp" />
     <ClCompile Include="CK3WorldTests\Province\CK3ProvinceTests.cpp" />
     <ClCompile Include="CK3WorldTests\Titles\LandedTitlesTests.cpp" />
+    <ClCompile Include="CK3WorldTests\Titles\TitleHistoryTests.cpp" />
     <ClCompile Include="CK3WorldTests\Titles\TitleTests.cpp" />
     <ClCompile Include="CommonTests\CommonFunctionsTests.cpp" />
     <ClCompile Include="CommonUtilitiesTests\DatedHistoryBlockTests.cpp" />
@@ -331,6 +332,12 @@
     <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="TestFiles\TitlesHistory.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)TestFiles/title_history</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)TestFiles/title_history</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

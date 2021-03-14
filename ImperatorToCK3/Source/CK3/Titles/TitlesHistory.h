@@ -18,7 +18,7 @@ class TitlesHistory : commonItems::parser {
 	/// </summary>
 public:
 	TitlesHistory() = default;
-	explicit TitlesHistory(const Configuration& theConfiguration);
+	explicit TitlesHistory(const std::string& folderPath);
 	[[nodiscard]] std::optional<TitleHistory> popTitleHistory(const std::string& titleName); // "pop" as from stack, not Imperator Pop ;)
 private:
 	void registerKeys();
