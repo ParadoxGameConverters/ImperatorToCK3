@@ -41,7 +41,7 @@ TEST(CK3World_CK3TitleHistoryTests, historyCanBeLoadedFromStream) {
 }
 
 
-TEST(CK3World_CK3TitleHistoryTests, detailsAreLoadedFromDatedBlocks) {
+TEST(CK3World_CK3TitleHistoryTests, historyIsLoadedFromDatedBlocks) {
 	CK3::TitlesHistory titlesHistory("TestFiles/title_history");
 	const CK3::TitleHistory history = *titlesHistory.popTitleHistory("k_greece");
 
