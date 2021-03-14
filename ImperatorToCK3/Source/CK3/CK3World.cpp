@@ -28,17 +28,30 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	// Loading Imperator CoAs to use them for generated CK3 titles
 	coaMapper = mappers::CoaMapper(theConfiguration);
 
+	// Load vanilla titles history
+	titlesHistory = TitlesHistory(theConfiguration);
+
 	// Loading vanilla CK3 landed titles
 	landedTitles.loadTitles(theConfiguration.getCK3Path() + "/game/common/landed_titles/00_landed_titles.txt");
+	// add vanilla development to counties
+	// for counties that inherit development level from de jure lieges, assign it to them directly for better reliability
+	for (const auto& [name, title] : getTitles()) {
+		auto historyOpt = titlesHistory.popTitleHistory(name);
+		if (historyOpt)
+			title->addHistory(landedTitles, *historyOpt);
+	}
+	for (const auto& title : getTitles() | std::views::values) {
+		if (title->getRank() == TitleRank::county && !title->getDevelopmentLevel()) {
+			title->setDevelopmentLevel(title->getOwnOrInheritedDevelopmentLevel());
+		}
+	}
+
 	// Loading regions
 	ck3RegionMapper = std::make_shared<mappers::CK3RegionMapper>(theConfiguration.getCK3Path(), landedTitles);
 	imperatorRegionMapper = std::make_shared<mappers::ImperatorRegionMapper>(theConfiguration.getImperatorPath());
 	// Use the region mappers in other mappers
 	religionMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 	cultureMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
-	
-	// Load vanilla titles history
-	titlesHistory = TitlesHistory(theConfiguration);
 
 	importImperatorCountries(impWorld);
 
@@ -255,25 +268,17 @@ void CK3::World::addHoldersAndHistoryToTitles(const Imperator::World& impWorld) 
 						auto impMonarch = impCountry->getMonarch();
 						if (impMonarch) {
 							title->setHolder("imperator" + std::to_string(*impMonarch));
+							title->setDeFactoLiege(nullptr);
 							countyHoldersCache.emplace(title->getHolder());
 						}
 					}
 				}
 				else { // county is probably outside of Imperator map
-					auto historyOpt = titlesHistory.popTitleHistory(name);
-					if (historyOpt)
-						title->addHistory(landedTitles, *historyOpt);
 					const auto& titleHolder = title->getHolder();
 					if (!titleHolder.empty() && titleHolder != "0")
 						countyHoldersCache.emplace(titleHolder);
 				}
 			}
-		}
-		else if (title->getRank()!=TitleRank::county && title->getRank()!=TitleRank::barony && !title->isImportedOrUpdatedFromImperator()) { // title is a duchy or higher, from vanilla
-			// update title holder, liege and history
-			auto historyOpt = titlesHistory.popTitleHistory(name);
-			if (historyOpt)
-				title->addHistory(landedTitles, *historyOpt);
 		}
 	}
 }
@@ -295,6 +300,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 				else {
 					revokedVanillaTitles.emplace(name);
 					title->setHolder("0");
+					title->setDeFactoLiege(nullptr);
 				}
 			}
 		}

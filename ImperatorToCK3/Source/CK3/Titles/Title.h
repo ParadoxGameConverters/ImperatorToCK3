@@ -67,7 +67,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	[[nodiscard]] const auto& getHolder() const { return history.holder; }
 	[[nodiscard]] const auto& getGovernment() const { return history.government; }
 	[[nodiscard]] const auto& getDevelopmentLevel() const { return history.developmentLevel; }
-	[[nodiscard]] const std::optional<int>& getOwnOrInheritedDevelopmentLevel() const;
+	[[nodiscard]] std::optional<int> getOwnOrInheritedDevelopmentLevel() const;
 	[[nodiscard]] const auto& getSuccessionLaws() const { return successionLaws; }
 	[[nodiscard]] auto isImportedOrUpdatedFromImperator() const { return importedOrUpdatedFromImperator; }
 

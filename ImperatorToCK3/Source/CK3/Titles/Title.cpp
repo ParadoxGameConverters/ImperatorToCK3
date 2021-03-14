@@ -263,17 +263,22 @@ void CK3::Title::setDeJureLiege(const std::shared_ptr<Title>& liegeTitle) {
 
 void CK3::Title::setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle) {
 	deFactoLiege = liegeTitle;
-	if (deFactoLiege)
+	if (deFactoLiege) {
+		history.liege = deFactoLiege->getName();
 		liegeTitle->deFactoVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
+	}
+	else {
+		history.liege = std::nullopt;
+	}
 }
 
 
-const std::optional<int>&  CK3::Title::getOwnOrInheritedDevelopmentLevel() const {
+std::optional<int> CK3::Title::getOwnOrInheritedDevelopmentLevel() const {
 	if (history.developmentLevel) // if development level is already set, just return it
 		return history.developmentLevel;
 	if (deJureLiege) //if de jure liege exists, return their level
 		return deJureLiege->getOwnOrInheritedDevelopmentLevel();
-	return history.developmentLevel; // if there's no other choice, return own nullopt level
+	return std::nullopt;
 }
 
 
