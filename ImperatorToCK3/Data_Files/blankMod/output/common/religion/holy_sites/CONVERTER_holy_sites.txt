@@ -34,6 +34,210 @@ bibracte = { # Bibracte is located near Autun
 	}
 }
 
+celtic_dublin = {
+	county = c_dublin
+	barony = b_dublin
+	
+	character_modifier = {
+		name = holy_site_dublin_effect_name
+		martial = 1
+		prowess = 1
+	}
+}
+
+mann = {
+	county = c_isle_of_man
+	
+	character_modifier = {
+		name = holy_site_mann_effect_name
+		monthly_piety_gain_mult = 0.1
+	}
+}
+
+moray = {
+	county = c_moray
+	
+	character_modifier = {
+		name = holy_site_moray_effect_name
+		martial = 1
+		prowess = 1
+	}
+}
+
+ceredigion = {
+	county = c_cardiganshire
+	barony = b_cardigan
+	
+	character_modifier = {
+		name = holy_site_ceredigon_effect_name
+		stewardship = 1
+		prowess = 1
+	}
+}	
+
+norfolk = {
+	county = c_norfolk
+	barony = b_norwich
+	
+	character_modifier = {
+		name = holy_sity_norfolk_effect_name
+		martial = 1
+		prowess = 1
+	}
+}
+
+middlesex = {
+	county = c_middlesex
+	barony = b_london
+	
+	character_modifier = {
+		name = holy_site_middlesex_effect_name
+		stewardship = 1
+		diplomacy = 1
+	}
+}
+
+auvergne = {
+	county = c_auvergne
+	
+	character_modifier = {
+		name = holy_site_auvergne_effect_name
+		marital = 1
+		prowess = 1
+	}
+}	
+
+poitou = {
+	county = c_poitiers
+	barony = b_poitiers
+	
+	character_modifier = {
+		name = holy_site_poitou_effect_name
+		marital = 1
+		diplomacy = 1
+	}
+}
+
+paris = {
+	county = c_ile_de_france
+	barony = b_saint_denis
+	
+	character_modifier = {
+		name = holy_site_paris_effect_name
+		stewardship = 1
+		diplomacy = 1
+	}
+}
+
+brugge = {
+	county = c_brugge
+	barony = b_bruges
+	
+	character_modifier = {
+		name = holy_site_brugge_effect_name
+		stewardship = 1
+		learning = 1
+	}
+}
+
+toulouse = {
+	county = c_toulouse
+	barony = b_toulouse
+	
+	character_modifier = {
+		name = holy_site_toulouse_effect_name
+		stewardship = 1
+		prowess = 1
+	}
+}
+
+thomond = {
+	county = c_thomond
+	barony = b_limerick
+	
+	character_modifier = {
+		name = holy_site_thomond_effect_name
+		stewardship = 1
+		diplomacy = 1
+	}
+}
+
+connacht = {
+	county = c_connacht
+	barony = b_galway
+	
+	character_modifier = {
+		name = holy_site_connacht_effect_name
+		martial = 1
+		prowess = 1
+	}
+}
+
+galloway = {
+	county = c_galloway
+	
+	character_modifier = {
+		name = holy_site_galloway_effect_name
+		martial = 1
+		monthly_piety_gain_mult = 0.05
+	}
+}
+
+zaragoza = {
+	county = c_zaragoza
+	barony = b_zaragoza
+	
+	character_modifier = {
+		name = holy_site_zaragoza_effect_name
+		martial = 1
+		prowess = 1
+	}
+}
+
+coruna = {
+	county = c_coruna
+	barony = b_corunna
+	
+	character_modifier = {
+		name = holy_site_coruna_effect_name
+		diplomacy = 1
+		stewardship = 1
+	}
+}
+
+valencia = {
+	county = c_valencia
+	barony = b_valencia
+	
+	character_modifier = {
+		name = holy_site_valencia_effect_name
+		martial = 1
+		diplomacy = 1
+	}
+}
+
+toledo = {
+	county = c_toledo
+	barony = b_toledo
+	
+	character_modifier = {
+		name = holy_site_toledo_effect_name
+		prowess = 1
+		monthly_prestige_gain_mult = 0.05
+	}
+}
+
+algeciras = {
+	county = c_algeciras
+	barony = b_algeciras
+	
+	character_modifier = {
+		name = holy_site_algeciras_effect_name
+		learning = 1
+		monthly_piety_gain_mult = 0.05
+	}
+}
+
 #Iberic
 chimaera = { #dercetius
 	county = c_castellon
@@ -150,6 +354,27 @@ zawty = { #anubis
 	character_modifier = {
  		domain_tax_mult = 0.02
 	}
+}
+giza = {
+	county = c_giza
+	barony = b_gizeh
+	
+	character_modifier = {
+		name = holy_site_giza_effect_name
+		life_expectancy = 3
+		health = 0.1
+	}
+}
+bahnasa = {
+	county = c_bahnasa
+	barony = b_al-bahnasa
+	
+	character_modifier = {
+		name = holy_site_bahnasa_effect_name
+		monthly_lifestyle_xp_gain_mult = 0.1
+	}
+	
+	flag = visoki_conversion_resistance_bonus # 50% County Conversion Resistance
 }
 
 #Arabic
@@ -380,5 +605,119 @@ buridava = { #only has 4 in the game, so this is the most populous
 	county = c_polovragi
 	character_modifier = {
  		cultural_head_fascination_mult = 0.1
+	}
+}
+
+# Germanic
+
+german_dublin = { # Caill Tomair (Thor's Grove), near Dublin
+	county = c_dublin
+	barony = b_dublin
+	
+	character_modifier = {
+		name = holy_site_dublin_effect_name
+		different_faith_opinion = 5
+		different_culture_opinion = 5
+	}
+}
+
+vestisland = { # Helgafell (Holy Mountain), Snæfellsnes Peninsula
+	county = c_vestisland
+	barony = b_vestfirdir
+	
+	character_modifier = {
+		name = holy_site_vestisland_effect_name
+		diplomacy = 1
+		learning = 1
+	}
+}
+
+oxfordshire = { # Wayland's Smithy, Ashbury
+	county = c_oxfordshire
+	barony = b_witney
+	
+	character_modifier = {
+		name = holy_site_oxfordshire_effect_name
+		martial = 1
+		levy_reinforcement_rate_same_faith = 0.2
+	}
+}
+
+skane = { # Uppåkra, Skåne
+	county = c_skane
+	barony = b_lund
+	
+	character_modifier = {
+		name = holy_site_skane_effect_name
+		prowess = 1
+		raid_speed = 0.1
+	}
+}
+
+ditmarschen = { # Grove of Baduhenna / Grove of the Semnones, Dithmarschen
+	county = c_ditmarschen
+	barony = b_ditmarschen
+	
+	character_modifier = {
+		name = holy_site_ditmarschen_effect_name
+		levy_size = 0.1
+	}
+}
+suffolk = {
+	county = c_suffolk
+
+	character_modifier = {
+		name = holy_site_suffolk_effect_name
+		martial = 1
+		stewardship = 1
+	}
+}
+staffordshire = {
+	county = c_staffordshire
+	barony = b_stafford
+
+	character_modifier = {
+		name = holy_site_staffordshire_effect_name
+		martial_per_piety_level = 1
+		raid_speed = 0.1
+	}
+}
+hampton = {
+	county = c_hampton
+	barony = b_winchester 
+	character_modifier = {
+		name = holy_site_hampton_effect_name
+		monthly_prestige_gain_mult = 0.1
+		men_at_arms_maintenance = -0.05
+	}
+}
+
+northumberland = {
+	county = c_northumberland
+
+	character_modifier = {
+		name = holy_site_northumberland_effect_name
+		stewardship_per_piety_level = 1
+		fertility = 0.1
+	}
+}
+# Hellenic
+ravenna = {
+	county = c_ravenna
+	barony = b_ravenna
+
+	character_modifier = {
+		name = holy_site_ravenna_effect_name
+		stewardship_per_piety_level = 1
+		fertility = 0.1
+	}
+}
+prusa = {
+	county = c_prusa
+
+	character_modifier = {
+		name = holy_site_prusa_effect_name
+		monthly_prestige_gain_mult = 0.1
+		men_at_arms_maintenance = -0.05
 	}
 }

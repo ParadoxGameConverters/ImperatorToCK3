@@ -1,0 +1,31 @@
+﻿# New (Germanic)
+
+@maa_buy_cost = 150
+
+einherjar = {
+	type = heavy_infantry
+	
+	can_recruit = no
+	
+	damage = 45
+	toughness = 28
+	pursuit = 0
+	screen = 24
+	
+	terrain_bonus = {
+		taiga = { damage = 8 }
+		forest = { damage = 8 }
+	}
+	
+	counters = {
+		pikemen = 1
+		archers = 1
+	}
+	
+	buy_cost = { gold = heavy_infantry_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_high_maint_cost }
+	
+	stack = 100
+	icon = heavy_infantry
+}

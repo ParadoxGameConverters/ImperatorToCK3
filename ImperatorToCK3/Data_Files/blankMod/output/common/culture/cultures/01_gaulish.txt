@@ -1,0 +1,322 @@
+gaulish_group = { # Continental Celts
+	graphical_cultures = {
+		welsh_coa_gfx
+		steppe_building_gfx
+		northern_clothing_gfx
+		northern_unit_gfx
+	}
+	mercenary_names = { { name = mercenary_company_company_of_bretons } }
+	
+	celtic_pannonian = { # Scordisci
+	
+		color = hsv { 0.25 0.85 0.25 }
+
+		cadet_dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		male_names = {
+			Acco Addedomarus Adiatuanus Adminius Aiorix Ambicatos Andecombogius Aneroestes Ariovistus Arverus Arvirargus Atis Avitus 
+			Bellicianus Bellovesus Boduognatus Boio Boiorix Bolgios Brennus Bricussa Britomaris Brucetius Buite Cailtram Caractacus 
+			Carvilius Cassivellaunus Cattulanus Cartorites Catugnatus Cavarinus Cavarus Celatus Cingetorix Coilus Commios Comux Concolitanus Correus Cottius Crixus
+			Cunobelinus Diviciacus Divico Donnus Drappes Dubnovellaunus Dumnacus Ducarius Duratios Dumnocoveros Dumnorix Elitovius Etitovius Epatticus
+			Galan Galba Guiderius Iacus Iccius Immanuentius Inamarcus Inammicus Indutiomarus Kimarcus Lucterius Lugotorix Lutarius Mallaius Mandubracius Marganus Mascelio
+			Orgetorix Prasutagus Segovax Sinatus Sinorix Sisillius Talorc Tasciovanus Tasgetius Taximagulus Teutomalius Tincomarus Togodumnus Vertiscus
+			Venutius Viridorix Vosenius Vodenos
+			
+		}
+		female_names = {
+			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
+			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
+			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+		}
+
+		ethnicities = {
+			5 = caucasian_blond
+			30 = caucasian_ginger
+			35 = caucasian_brown_hair
+			30 = caucasian_dark_hair
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mapos"
+		patronym_prefix_female = "dynnpat_pre_duxtir"
+		always_use_patronym = yes	
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 80
+		mat_grf_name_chance = 0
+		father_name_chance = 0
+		
+		# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+		pat_grm_name_chance = 10
+		mat_grm_name_chance = 50
+		mother_name_chance = 0
+
+		graphical_cultures = { polish_coa_gfx western_clothing_gfx steppe_building_gfx northern_unit_gfx }
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	celtiberian = {
+	
+		color = hsv { 0.2 0.8 0.6 }
+
+		cadet_dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		male_names = {
+			Acco Addedomarus Adiatuanus Adminius Aiorix Ambicatos Andecombogius Aneroestes Ariovistus Arverus Arvirargus Atis Avitus 
+			Bellicianus Bellovesus Boduognatus Boio Boiorix Bolgios Brennus Bricussa Britomaris Brucetius Buite Cailtram Caractacus 
+			Carvilius Cassivellaunus Cattulanus Cartorites Catugnatus Cavarinus Cavarus Celatus Cingetorix Coilus Commios Comux Concolitanus Correus Cottius Crixus
+			Cunobelinus Diviciacus Divico Donnus Drappes Dubnovellaunus Dumnacus Ducarius Duratios Dumnocoveros Dumnorix Elitovius Etitovius Epatticus
+			Galan Galba Guiderius Iacus Iccius Immanuentius Inamarcus Inammicus Indutiomarus Kimarcus Lucterius Lugotorix Lutarius Mallaius Mandubracius Marganus Mascelio
+			Orgetorix Prasutagus Segovax Sinatus Sinorix Sisillius Talorc Tasciovanus Tasgetius Taximagulus Teutomalius Tincomarus Togodumnus Vertiscus
+			Venutius Viridorix Vosenius Vodenos
+		}
+		female_names = {
+			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
+			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
+			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+		}
+
+		ethnicities = {
+			5 = caucasian_blond
+			30 = caucasian_ginger
+			35 = caucasian_brown_hair
+			30 = caucasian_dark_hair
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mapos"
+		patronym_prefix_female = "dynnpat_pre_tuater"	
+		always_use_patronym = yes	
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 80
+		mat_grf_name_chance = 0
+		father_name_chance = 0
+		
+		# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+		pat_grm_name_chance = 10
+		mat_grm_name_chance = 50
+		mother_name_chance = 0
+		
+		graphical_cultures = { iberian_group_coa_gfx western_clothing_gfx steppe_building_gfx northern_unit_gfx }
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	belgae = {
+	
+		color = hsv { 0.45 0.8 0.45 }
+
+		cadet_dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		male_names = {
+			Acco Addedomarus Adiatuanus Adminius Aiorix Ambicatos Andecombogius Aneroestes Ariovistus Arverus Arvirargus Atis Avitus 
+			Bellicianus Bellovesus Boduognatus Boio Boiorix Bolgios Brennus Bricussa Britomaris Brucetius Buite Cailtram Caractacus 
+			Carvilius Cassivellaunus Cattulanus Cartorites Catugnatus Cavarinus Cavarus Celatus Cingetorix Coilus Commios Comux Concolitanus Correus Cottius Crixus
+			Cunobelinus Diviciacus Divico Donnus Drappes Dubnovellaunus Dumnacus Ducarius Duratios Dumnocoveros Dumnorix Elitovius Etitovius Epatticus
+			Galan Galba Guiderius Iacus Iccius Immanuentius Inamarcus Inammicus Indutiomarus Kimarcus Lucterius Lugotorix Lutarius Mallaius Mandubracius Marganus Mascelio
+			Orgetorix Prasutagus Segovax Sinatus Sinorix Sisillius Talorc Tasciovanus Tasgetius Taximagulus Teutomalius Tincomarus Togodumnus Vertiscus
+			Venutius Viridorix Vosenius Vodenos
+			
+		}
+		female_names = {
+			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
+			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
+			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+		}
+
+		ethnicities = {
+			5 = caucasian_blond
+			30 = caucasian_ginger
+			35 = caucasian_brown_hair
+			30 = caucasian_dark_hair
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mapos"
+		patronym_prefix_female = "dynnpat_pre_duxtir"	
+		always_use_patronym = yes	
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 80
+		mat_grf_name_chance = 0
+		father_name_chance = 0
+		
+		# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+		pat_grm_name_chance = 10
+		mat_grm_name_chance = 50
+		mother_name_chance = 0
+		
+		graphical_cultures = { breton_coa_gfx western_clothing_gfx steppe_building_gfx northern_unit_gfx }
+
+		mercenary_names = {
+			{ name = "ir_belgian_army" coat_of_arms = "belgium" }
+		}
+	}
+	
+	gallic = {
+	
+		color = hsv { 0.3 0.7 0.4 }
+
+		cadet_dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		male_names = {
+			Acco Addedomarus Adiatuanus Adminius Aiorix Ambicatos Andecombogius Aneroestes Ariovistus Arverus Arvirargus Atis Avitus 
+			Bellicianus Bellovesus Boduognatus Boio Boiorix Bolgios Brennus Bricussa Britomaris Brucetius Buite Cailtram Caractacus 
+			Carvilius Cassivellaunus Cattulanus Cartorites Catugnatus Cavarinus Cavarus Celatus Cingetorix Coilus Commios Comux Concolitanus Correus Cottius Crixus
+			Cunobelinus Diviciacus Divico Donnus Drappes Dubnovellaunus Dumnacus Ducarius Duratios Dumnocoveros Dumnorix Elitovius Etitovius Epatticus
+			Galan Galba Guiderius Iacus Iccius Immanuentius Inamarcus Inammicus Indutiomarus Kimarcus Lucterius Lugotorix Lutarius Mallaius Mandubracius Marganus Mascelio
+			Orgetorix Prasutagus Segovax Sinatus Sinorix Sisillius Talorc Tasciovanus Tasgetius Taximagulus Teutomalius Tincomarus Togodumnus Vertiscus
+			Venutius Viridorix Vosenius Vodenos
+			
+		}
+		female_names = {
+			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
+			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
+			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mapos"
+		patronym_prefix_female = "dynnpat_pre_duxtir"	
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 80
+		mat_grf_name_chance = 0
+		father_name_chance = 0
+		
+		# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+		pat_grm_name_chance = 10
+		mat_grm_name_chance = 50
+		mother_name_chance = 0
+		
+		graphical_cultures = { breton_coa_gfx western_clothing_gfx western_building_gfx northern_unit_gfx }
+
+		ethnicities = {
+			5 = caucasian_blond
+			30 = caucasian_ginger
+			35 = caucasian_brown_hair
+			30 = caucasian_dark_hair
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	
+	lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
+	
+		color = hsv { 0.6 0.8 0.2 }
+
+		cadet_dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		male_names = {
+			Acco Addedomarus Adiatuanus Adminius Aiorix Ambicatos Andecombogius Aneroestes Ariovistus Arverus Arvirargus Atis Avitus 
+			Bellicianus Bellovesus Boduognatus Boio Boiorix Bolgios Brennus Bricussa Britomaris Brucetius Buite Cailtram Caractacus 
+			Carvilius Cassivellaunus Cattulanus Cartorites Catugnatus Cavarinus Cavarus Celatus Cingetorix Coilus Commios Comux Concolitanus Correus Cottius Crixus
+			Cunobelinus Diviciacus Divico Donnus Drappes Dubnovellaunus Dumnacus Ducarius Duratios Dumnocoveros Dumnorix Elitovius Etitovius Epatticus
+			Galan Galba Guiderius Iacus Iccius Immanuentius Inamarcus Inammicus Indutiomarus Kimarcus Lucterius Lugotorix Lutarius Mallaius Mandubracius Marganus Mascelio
+			Orgetorix Prasutagus Segovax Sinatus Sinorix Sisillius Talorc Tasciovanus Tasgetius Taximagulus Teutomalius Tincomarus Togodumnus Vertiscus
+			Venutius Viridorix Vosenius Vodenos
+		}
+		female_names = {
+			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
+			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
+			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mapos"
+		patronym_prefix_female = "dynnpat_pre_duxtir"	
+		always_use_patronym = yes	
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 80
+		mat_grf_name_chance = 0
+		father_name_chance = 0
+		
+		# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+		pat_grm_name_chance = 10
+		mat_grm_name_chance = 50
+		mother_name_chance = 0
+		
+		graphical_cultures = { iberian_group_coa_gfx western_clothing_gfx steppe_building_gfx northern_unit_gfx }
+
+		ethnicities = {
+			5 = caucasian_blond
+			30 = caucasian_ginger
+			35 = caucasian_brown_hair
+			30 = caucasian_dark_hair
+		}
+
+		mercenary_names = {
+			
+		}
+	}
+}

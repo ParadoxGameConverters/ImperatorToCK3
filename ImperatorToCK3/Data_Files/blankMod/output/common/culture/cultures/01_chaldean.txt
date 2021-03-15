@@ -1,0 +1,368 @@
+chaldean_group = {
+	graphical_cultures = {
+		israelite_group_coa_gfx
+		mena_clothing_gfx
+		dde_abbasid_clothing_gfx
+		mena_building_gfx
+		mena_unit_gfx
+	}
+	
+	aramaic = {
+	
+		color = hsv { 0.05 1.0 0.5 }
+
+		cadet_dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		male_names = {
+			Marduk-beli Marduk-belshunu Marduk-eriba Marduk-etir Marduk-ibni
+			Marduk-iddin Marduk-uballit Kidin-Marduk Lusthammar-Marduk Nidinti-Marduk
+			Rihat-Marduk Shamshi-Marduk Shipqat-Marduk Tanittu-Marduk Tukulti-Marduk
+			Bel-beli Bel-belshunu Bel-eriba Bel-etir Bel-ibni Bel-iddin Bel-uballit
+			Kidin-Bel Lusthammar-Bel Nidinti-Bel Rihat-Bel Shamshi-Bel Shipqat-Bel
+			Tanittu-Bel Tukulti-Bel Shamash-beli Shamash-belshunu Shamash-eriba
+			Shamash-etir Shamash-ibni Shamash-iddin Shamash-uballit Kidin-Shamash
+			Lusthammar-Shamash Nidinti-Shamash Rihat-Shamash Shamshi-Shamash
+			Shipqat-Shamash Tanittu-Shamash Tukulti-Shamash Ashshur-beli
+			Ashshur-belshunu Ashshur-eriba Ashshur-etir Ashshur-ibni Ashshur-iddin
+			Ashshur-uballit Kidin-Ashshur Lusthammar-Ashshur Nidinti-Ashshur
+			Rihat-Ashshur Shamshi-Ashshur Shipqat-Ashshur Tanittu-Ashshur
+			Tukulti-Ashshur Ishtar-beli Ishtar-belshunu Ishtar-eriba Ishtar-etir
+			Ishtar-ibni Ishtar-iddin Ishtar-uballit Kidin-Ishtar Lusthammar-Ishtar
+			Nidinti-Ishtar Rihat-Ishtar Shamshi-Ishtar Shipqat-Ishtar Tanittu-Ishtar
+			Tukulti-Ishtar Adad-beli Adad-belshunu Adad-eriba Adad-etir Adad-ibni
+			Adad-iddin Adad-uballit Kidin-Adad Lusthammar-Adad Nidinti-Adad Rihat-Adad
+			Shamshi-Adad Shipqat-Adad Tanittu-Adad Tukulti-Adad Nergal-beli
+			Nergal-belshunu Nergal-eriba Nergal-etir Nergal-ibni Nergal-iddin
+			Nergal-uballit Kidin-Nergal Lusthammar-Nergal Nidinti-Nergal Rihat-Nergal
+			Shamshi-Nergal Shipqat-Nergal Tanittu-Nergal Tukulti-Nergal Sin-beli
+			Sin-belshunu Sin-eriba Sin-etir Sin-ibni Sin-iddin Sin-uballit Kidin-Sin
+			Lusthammar-Sin Nidinti-Sin Rihat-Sin Shamshi-Sin Shipqat-Sin Tanittu-Sin
+			Tukulti-Sin Enlil-beli Enlil-belshunu Enlil-eriba Enlil-etir Enlil-ibni
+			Enlil-iddin Enlil-uballit Kidin-Enlil Lusthammar-Enlil Nidinti-Enlil
+			Rihat-Enlil Shamshi-Enlil Shipqat-Enlil Tanittu-Enlil Tukulti-Enlil
+			Ninurta-beli Ninurta-belshunu Ninurta-eriba Ninurta-etir Ninurta-ibni
+			Ninurta-iddin Ninurta-uballit Kidin-Ninurta Lusthammar-Ninurta
+			Nidinti-Ninurta Rihat-Ninurta Shamshi-Ninurta Shipqat-Ninurta
+			Tanittu-Ninurta Tukulti-Ninurta 
+		}
+		female_names = {
+			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
+			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
+			Wardat-Ninurta 
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		graphical_cultures = { israelite_group_coa_gfx mena_clothing_gfx mena_building_gfx mena_unit_gfx }
+
+		mercenary_names = {
+			
+		}
+	}
+	
+	babylonian = {
+	
+		color = hsv { 0.7 0.15 0.77 }
+
+		cadet_dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		male_names = {
+			Marduk-beli Marduk-belshunu Marduk-eriba Marduk-etir Marduk-ibni
+			Marduk-iddin Marduk-uballit Kidin-Marduk Lusthammar-Marduk Nidinti-Marduk
+			Rihat-Marduk Shamshi-Marduk Shipqat-Marduk Tanittu-Marduk Tukulti-Marduk
+			Bel-beli Bel-belshunu Bel-eriba Bel-etir Bel-ibni Bel-iddin Bel-uballit
+			Kidin-Bel Lusthammar-Bel Nidinti-Bel Rihat-Bel Shamshi-Bel Shipqat-Bel
+			Tanittu-Bel Tukulti-Bel Shamash-beli Shamash-belshunu Shamash-eriba
+			Shamash-etir Shamash-ibni Shamash-iddin Shamash-uballit Kidin-Shamash
+			Lusthammar-Shamash Nidinti-Shamash Rihat-Shamash Shamshi-Shamash
+			Shipqat-Shamash Tanittu-Shamash Tukulti-Shamash Ashshur-beli
+			Ashshur-belshunu Ashshur-eriba Ashshur-etir Ashshur-ibni Ashshur-iddin
+			Ashshur-uballit Kidin-Ashshur Lusthammar-Ashshur Nidinti-Ashshur
+			Rihat-Ashshur Shamshi-Ashshur Shipqat-Ashshur Tanittu-Ashshur
+			Tukulti-Ashshur Ishtar-beli Ishtar-belshunu Ishtar-eriba Ishtar-etir
+			Ishtar-ibni Ishtar-iddin Ishtar-uballit Kidin-Ishtar Lusthammar-Ishtar
+			Nidinti-Ishtar Rihat-Ishtar Shamshi-Ishtar Shipqat-Ishtar Tanittu-Ishtar
+			Tukulti-Ishtar Adad-beli Adad-belshunu Adad-eriba Adad-etir Adad-ibni
+			Adad-iddin Adad-uballit Kidin-Adad Lusthammar-Adad Nidinti-Adad Rihat-Adad
+			Shamshi-Adad Shipqat-Adad Tanittu-Adad Tukulti-Adad Nergal-beli
+			Nergal-belshunu Nergal-eriba Nergal-etir Nergal-ibni Nergal-iddin
+			Nergal-uballit Kidin-Nergal Lusthammar-Nergal Nidinti-Nergal Rihat-Nergal
+			Shamshi-Nergal Shipqat-Nergal Tanittu-Nergal Tukulti-Nergal Sin-beli
+			Sin-belshunu Sin-eriba Sin-etir Sin-ibni Sin-iddin Sin-uballit Kidin-Sin
+			Lusthammar-Sin Nidinti-Sin Rihat-Sin Shamshi-Sin Shipqat-Sin Tanittu-Sin
+			Tukulti-Sin Enlil-beli Enlil-belshunu Enlil-eriba Enlil-etir Enlil-ibni
+			Enlil-iddin Enlil-uballit Kidin-Enlil Lusthammar-Enlil Nidinti-Enlil
+			Rihat-Enlil Shamshi-Enlil Shipqat-Enlil Tanittu-Enlil Tukulti-Enlil
+			Ninurta-beli Ninurta-belshunu Ninurta-eriba Ninurta-etir Ninurta-ibni
+			Ninurta-iddin Ninurta-uballit Kidin-Ninurta Lusthammar-Ninurta
+			Nidinti-Ninurta Rihat-Ninurta Shamshi-Ninurta Shipqat-Ninurta
+			Tanittu-Ninurta Tukulti-Ninurta 
+		}
+		female_names = {
+			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
+			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
+			Wardat-Ninurta 
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		graphical_cultures = { arabic_group_coa_gfx mena_clothing_gfx mena_building_gfx mena_unit_gfx }
+
+		mercenary_names = {
+			{ name = "ir_chariots_of_marduk" coat_of_arms = "BABYLON_FLAG" }
+		}
+	}
+
+	assyrian = {
+		graphical_cultures = {
+			mena_building_gfx
+			mena_clothing_gfx
+			mena_unit_gfx
+		}
+		
+		color = { 0.4 0.3 0.6 }
+
+		cadet_dynasty_names = {
+			"dynn_Bukhtishu"
+			"dynn_Qatwa"
+			"dynn_Nimreh"
+			"dynn_Gazarta"
+			"dynn_Salamas"
+			"dynn_Zakho"
+			"dynn_Arbilaya"
+		}
+
+		dynasty_names = {
+			"dynn_Bukhtishu"
+			"dynn_Qatwa"
+			"dynn_Nimreh"
+			"dynn_Gazarta"
+			"dynn_Salamas"
+			"dynn_Zakho"
+			"dynn_Arbilaya"
+		}
+
+		male_names = {
+			Aba Abahu Abaya Abaye Abayi Abba Abdima Abdisho Abgar Abimalek Abraham Abris Abrisius Acacius Achan Achina Addai
+			Adlai Aggai Ahai Ahadabui Ahha Akha_d_abuh Akh_es_Samain Aqib_Alaha Asa Ashur Avahu Avda Avdima Avdimi Avina Avira Azai
+			Babaeus Babai Babowai Babwahi Bar Bar_Abba Barba_shimin Bar_Nabha Bar_Talmai Bar_Timai Bar_Tolmai Bustan
+			Caiaphas Cephas Cephus Chadlai Chama Chanin Chanina Chaninai Chinena Chozai Chuma Chunya Clopas
+			Dadisho Denha Dikla Diklah Dimi Dinkha Dunanu Elisha Eliya Emmanuel Enosh Ezekiel Farbokht Foma Giwargis Grwgari
+			Hanina Hnanisho Hozai Idan Idra Ila Isaac Isho Isho_yahb Israel Kaiapha Karna Katsiu Kelaya
+			Laszio Lazar Lazare Lazaro Lazaros Lazarus Lazarz Lazer Lebbaeus Maadai Macabee Maccabee Magna Makkikha Maluch Ma_na Marabokht Maremmeh Mari Mikha_il Moqli Muna
+			Nahir Nahor Nahur Narsai Nazuk Nechunya Nehor Nehorai Niv Nun Nur Oran Pappa Paul Pethion Petros Petuel Qaligh Qayyoma Raca Rachim Rahim Raka Raz Raziel Rubil
+			Saad Saba Sabah Sabba_e Sabrisho Sabr_Ishu Salu Samal Sami Samiy Sagi Sargis Sava Sawma Shafer Shahdost
+			Shahlufa Shai Shalmai Shama Shamir Shammai Shemaiah Shem_on Sheraga Shila Shovai Shraga Sima Sliba-zkha Surin
+			Tabbai Taddai Talia Taliah Talmai Talya Tam Tam_as Ta_mhas Targhal Tauma Tavi Tavish Tevis Th_amhais Thoma Timai Tiv Toba Todos Tolmai Tomarsa Tamuza Tulmay
+			Ukba Yahballaha Yanai Ya_qob Yeshua Yohannan Yosip Yousef Yunanis Zerika
+		}
+		
+		female_names = {
+			Adva Alya Anena Anina Bustan Chanina Chasina Chayuta China Chiyuta
+			Dikla Diklah Diklit Duvsha Hanina Hasna Hayuta Hina Ketina Kitra
+			Magdala Mahalia Mahalie Marfa Mariam Marta Marte Martha Marthe Marti
+			Martita Mehalia Meiriona Meirona Morta Nahara Nura Raz Reuma
+			Saba Sabah Samantha Sameah Samee Sameea Samiya Samiyah Samiyya Samya Sava Shapira Sima
+			Tabatha Tabby Tabetha Tabitha Tadea Talia Taliah Talya Talitha
+			Tam Tamasin Tami Tammy Tamsin Tamsyn Tamzin Thaddea Thomasa
+			Zeita Zeta
+		}
+
+		dynasty_of_location_prefix = "dynnp_of"
+		
+		patronym_prefix_male = "dynnpat_pre_Bar"
+		patronym_prefix_female = "dynnpat_pre_Barta"
+
+		ethnicities = {
+			10 = arab
+		}
+	}
+	bazramani = {
+		graphical_cultures = {
+			mena_building_gfx
+			mena_clothing_gfx
+			eastern_unit_gfx
+		}
+		
+		color = { 0.4 0.6 0.0 }
+
+		cadet_dynasty_names = {
+		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
+		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
+		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
+		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
+		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
+		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
+		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
+		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
+		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
+		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
+		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
+		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
+		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
+		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
+		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
+		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
+		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
+		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
+		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
+		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
+		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
+		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
+		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
+		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
+		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
+		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
+		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
+		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
+		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
+		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
+		}
+
+		dynasty_names = {
+			gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
+			gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
+			gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
+			gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
+			gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
+		}
+
+		male_names = {
+			Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
+			Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
+			Vibius
+			Amulius Camillus Decius Drusus Faustus Flavius Gallus
+			Herius Hostus Opiter Octavius Postumus Primus Proculus
+			Secundus Tertius Ancus
+		}
+		
+		female_names = {
+			Adva Alya Anena Anina Bustan Chanina Chasina Chayuta China Chiyuta
+			Dikla Diklah Diklit Duvsha Hanina Hasna Hayuta Hina Ketina Kitra
+			Magdala Mahalia Mahalie Marfa Mariam Marta Marte Martha Marthe Marti
+			Martita Mehalia Meiriona Meirona Morta Nahara Nura Raz Reuma
+			Saba Sabah Samantha Sameah Samee Sameea Samiya Samiyah Samiyya Samya Sava Shapira Sima
+			Tabatha Tabby Tabetha Tabitha Tadea Talia Taliah Talya Talitha
+			Tam Tamasin Tami Tammy Tamsin Tamsyn Tamzin Thaddea Thomasa
+			Zeita Zeta
+		}
+
+		dynasty_of_location_prefix = "dynnp_of"
+		
+		patronym_prefix_male = "dynnpat_pre_Bar"
+		patronym_prefix_female = "dynnpat_pre_Barta"
+
+		ethnicities = {
+			10 = arab
+			10 = mediterranean
+		}
+	}
+	judajca = {
+		graphical_cultures = {
+			mena_building_gfx
+			mena_clothing_gfx
+			eastern_unit_gfx
+		}
+		
+		color = { 0.0 0.3 0.6 }
+
+		cadet_dynasty_names = {
+		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
+		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
+		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
+		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
+		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
+		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
+		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
+		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
+		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
+		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
+		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
+		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
+		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
+		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
+		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
+		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
+		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
+		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
+		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
+		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
+		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
+		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
+		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
+		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
+		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
+		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
+		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
+		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
+		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
+		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
+		}
+
+		dynasty_names = {
+			gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
+			gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
+			gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
+			gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
+			gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
+		}
+
+		male_names = {
+			Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
+			Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
+			Vibius
+			Amulius Camillus Decius Drusus Faustus Flavius Gallus
+			Herius Hostus Opiter Octavius Postumus Primus Proculus
+			Secundus Tertius Ancus
+		}
+		
+		female_names = {
+			Adva Alya Anena Anina Bustan Chanina Chasina Chayuta China Chiyuta
+			Dikla Diklah Diklit Duvsha Hanina Hasna Hayuta Hina Ketina Kitra
+			Magdala Mahalia Mahalie Marfa Mariam Marta Marte Martha Marthe Marti
+			Martita Mehalia Meiriona Meirona Morta Nahara Nura Raz Reuma
+			Saba Sabah Samantha Sameah Samee Sameea Samiya Samiyah Samiyya Samya Sava Shapira Sima
+			Tabatha Tabby Tabetha Tabitha Tadea Talia Taliah Talya Talitha
+			Tam Tamasin Tami Tammy Tamsin Tamsyn Tamzin Thaddea Thomasa
+			Zeita Zeta
+		}
+
+		dynasty_of_location_prefix = "dynnp_of"
+		
+		patronym_prefix_male = "dynnpat_pre_Bar"
+		patronym_prefix_female = "dynnpat_pre_Barta"
+
+		ethnicities = {
+			10 = arab
+			10 = mediterranean
+		}
+	}
+}
