@@ -1,4 +1,4 @@
-#Druidic
+﻿#Druidic
 ynys_mon = { #toutatis
 	county = c_anglesey
 	barony = b_yns_mon
