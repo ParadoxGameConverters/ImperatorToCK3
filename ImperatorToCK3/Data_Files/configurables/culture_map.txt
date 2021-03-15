@@ -248,7 +248,7 @@ link = { ck3 = telugu imp = telugu }
 
 ## Latin
 # The Glory of Rome
-link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = messapic imp = sardonian imp = siculianowner = e_roman_empire }
+link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = messapic imp = sardonian imp = siculian owner = e_roman_empire }
 
 # Splitting according to regions
 link = { ck3 = breathanach imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = messapic imp = sardonian imp = siculian ck3Province = 28 ck3Province = 29 ck3Province = 30 ck3Province = 31 ck3Province = 32 ck3Province = 34 ck3Province = 33 ck3Province = 36 ck3Province = 15 ck3Province = 13 ck3Province = 14 ck3Province = 18 ck3Province = 17 ck3Province = 19 ck3Province = 9 ck3Province = 10 ck3Province = 11 ck3Province = 12 ck3Province = 20 ck3Province = 21 ck3Province = 22 ck3Province = 23 ck3Province = 24 ck3Province = 25 ck3Province = 26 ck3Province = 27 ck3Province = 37 ck3Province = 38 ck3Province = 39 ck3Province = 40 ck3Province = 43 ck3Province = 41 ck3Province = 42 ck3Province = 44 ck3Province = 45 ck3Province = 46 ck3Province = 47 ck3Province = 48 ck3Province = 49 ck3Province = 50 ck3Province = 51 ck3Province = 52 ck3Province = 53 ck3Province = 54 ck3Province = 16 }
