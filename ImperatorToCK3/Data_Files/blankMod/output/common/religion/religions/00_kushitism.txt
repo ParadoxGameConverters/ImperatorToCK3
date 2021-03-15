@@ -1,4 +1,4 @@
-﻿
+
 kushitism_religion = {
 	family = rf_pagan
 
@@ -325,5 +325,116 @@ kushitism_religion = {
 			}
 			
 		}
+		atenist_pagan = {
+			color = { 0.9 0.8 0.4 }
+			icon = atenist
+			reformed_icon = atenist_reformed
+
+			holy_site = bahnasa
+			holy_site = giza
+			holy_site = waset
+			holy_site = aksum
+			holy_site = sufed
+
+			doctrine = unreformed_faith_doctrine
+
+			doctrine = tenet_unrelenting_faith
+			doctrine = tenet_divine_marriage
+			doctrine = tenet_aniconism
+
+			doctrine = doctrine_pluralism_fundamentalist
+			doctrine = doctrine_witchcraft_crime
+
+			holy_order_names = {
+				{ name = "holy_order_children_of_akhenaten" }
+				{ name = "holy_order_protectors_of_amarna" }
+				{ name = "holy_order_swords_of_aten" }
+			}
+
+			localization = {
+				#High God Name
+				HighGodName = atenist_high_god_name
+				HighGodNamePossessive = atenist_high_god_name_possessive
+				HighGodNameAlternate = atenist_high_god_name_alternate
+				HighGodNameAlternatePossessive = atenist_high_god_name_alternate_possessive
+
+				#Creator
+				CreatorName = atenist_high_god_name
+				CreatorNamePossessive = atenist_high_god_name_possessive
+
+				#HealthGod
+				HealthGodName = atenist_high_god_name
+				HealthGodNamePossessive = atenist_high_god_name_possessive
+				
+				#FertilityGod
+				FertilityGodName = atenist_high_god_name
+				FertilityGodNamePossessive = atenist_high_god_name_possessive
+
+				#WealthGod
+				WealthGodName = atenist_high_god_name
+				WealthGodNamePossessive = atenist_high_god_name_possessive
+
+				#HouseholdGod
+				HouseholdGodName = atenist_high_god_name
+				HouseholdGodNamePossessive = atenist_high_god_name_possessive
+				HouseholdGodSheHe = CHARACTER_SHEHE_HE
+				HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+				HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+				#FateGod
+				FateGodName = atenist_high_god_name
+				FateGodNamePossessive = atenist_high_god_name_possessive
+				FateGodSheHe = CHARACTER_SHEHE_HE
+				FateGodHerHis = CHARACTER_HERHIS_HIS
+				FateGodHerHim = CHARACTER_HERHIM_HIM
+
+				#KnowledgeGod
+				KnowledgeGodName = atenist_high_god_name
+				KnowledgeGodNamePossessive = atenist_high_god_name_possessive
+
+				#WarGod
+				WarGodName = atenist_high_god_name
+				WarGodNamePossessive = atenist_high_god_name_possessive
+
+				#TricksterGod
+				TricksterGodName = atenist_high_god_name
+				TricksterGodNamePossessive = atenist_high_god_name_possessive
+
+				#NightGod
+				NightGodName = atenist_high_god_name
+				NightGodNamePossessive = atenist_high_god_name_possessive
+				NightGodSheHe = CHARACTER_SHEHE_HE
+				NightGodHerHis = CHARACTER_HERHIS_HIS
+				NightGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WaterGod
+				WaterGodName = atenist_high_god_name
+				WaterGodNamePossessive = atenist_high_god_name_possessive
+
+				PantheonTerm = atenist_high_god_name
+				PantheonTermHasHave = pantheon_term_has
+				GoodGodNames = { atenist_high_god_name }
+				DevilName = ir_ra
+				DevilNamePossessive = ir_ra
+				EvilGodNames = { ir_ra }
+				HouseOfWorship = paganism_house_of_worship
+				HouseOfWorshipPlural = paganism_house_of_worship_plural
+				ReligiousText = atenist_religious_text
+				ReligiousHeadName = king_feudal_male_old_egyptian
+				ReligiousHeadTitleName = king_feudal_male_old_egyptian
+				
+				DeathDeityName = atenist_high_god_name
+				DeathDeityNamePossessive = atenist_high_god_name_possessive
+				DeathDeitySheHe = CHARACTER_SHEHE_HE
+				DeathDeityHerHis = CHARACTER_HERHIS_HIS
+				WitchGodName = ir_isis
+				WitchGodHerHis = CHARACTER_HERHIS_HER
+				WitchGodSheHe = CHARACTER_SHEHE_HE
+				WitchGodHerHim = CHARACTER_HERHIM_HER
+				WitchGodMistressMaster = mistress
+				WitchGodMotherFather = mother
+			}
+		}
+		
 	}
 }

@@ -1,0 +1,69 @@
+﻿namespace = religious_decision
+
+# New
+
+# Raise Irminsul Maintenance
+religious_decision.0313 = {
+	hidden = yes
+	
+	# Faiths that can raise an Irminsul need to have this character saved as a variable on their successor.
+	trigger = {
+		exists = player_heir
+		player_heir = {
+			is_close_family_of = root
+		}
+		dynasty = player_heir.dynasty
+		faith = player_heir.faith
+		faith = faith:germanic_pagan
+	}
+
+	immediate = {
+		player_heir = {
+			set_variable = {
+				name = ancestor_to_bury
+				value = root
+				years = 5
+			}
+		}
+	}
+}
+
+# New holder of the county with an Irminsul
+religious_decision.0314 = {
+	hidden = yes
+	
+	trigger = {
+		scope:title = {
+			exists = var:ancestor_to_bury
+		}
+		NOT = { dynasty = scope:previous_holder.dynasty } #We only have to change something if the new holder is of a different dynasty
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:title = {
+					NOT = { var:ancestor_to_bury.dynasty = root.dynasty }
+				}
+			}
+			scope:title = {
+				remove_county_modifier = county_raised_irminsul_modifier
+			}
+		}
+		if = {
+			limit = {
+				scope:title = {
+					var:ancestor_to_bury.dynasty = root.dynasty
+					NOT = {
+						has_county_modifier = county_raised_irminsul_modifier
+					}
+				}
+			}
+			scope:title = {
+				add_county_modifier = {
+					modifier = county_raised_irminsul_modifier
+				}
+			}
+		}
+	}
+}

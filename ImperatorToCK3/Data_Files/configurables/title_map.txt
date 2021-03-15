@@ -264,16 +264,16 @@ link = { imp = RAM ck3 = d_viken rank = d }
 link = { imp = SWE ck3 = k_sweden rank = k }
 link = { imp = GIT ck3 = k_sweden rank = k }
 link = { imp = RAM ck3 = k_norway rank = k }
-link = { imp = SWE ck3 = e_scandinavia rank = k }
-link = { imp = GIT ck3 = e_scandinavia rank = k }
-link = { imp = RAM ck3 = e_scandinavia rank = k }
+link = { imp = SWE ck3 = e_scandinavia rank = e }
+link = { imp = GIT ck3 = e_scandinavia rank = e }
+link = { imp = RAM ck3 = e_scandinavia rank = e }
 link = { imp = ANG ck3 = k_england rank = k }
 link = { imp = AES ck3 = k_esthonia rank = k }
 link = { imp = AES ck3 = d_esthonia rank = k }
 link = { imp = LGB ck3 = d_lombardia rank = d }
-link = { imp = LGB ck3 = k_italy rank = k }
-link = { imp = LGB ck3 = e_italy rank = k }
-link = { imp = CHC ck3 = k_hansa rank = k }
+#link = { imp = LGB ck3 = k_italy rank = k }
+#link = { imp = LGB ck3 = e_italy rank = k }
+#link = { imp = CHC ck3 = k_hansa rank = k }
 link = { imp = CHC ck3 = d_anhalt rank = d }
 
 #Bactrian

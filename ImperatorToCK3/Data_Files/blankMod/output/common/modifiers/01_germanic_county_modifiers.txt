@@ -1,0 +1,6 @@
+﻿# New
+
+county_raised_irminsul_modifier = {
+	icon = social_positive
+	county_opinion_add = 30
+}
