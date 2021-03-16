@@ -1,3 +1,4 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
 romano_german_group = {
 	graphical_cultures = {
 		latin_group_coa_gfx

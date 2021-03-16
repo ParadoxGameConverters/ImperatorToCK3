@@ -1,3 +1,4 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
 hittite_group = {
 	graphical_cultures = {
 		byzantine_group_coa_gfx

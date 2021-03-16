@@ -1,3 +1,4 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
 thracian_group = {
 	graphical_cultures = {
 		western_coa_gfx

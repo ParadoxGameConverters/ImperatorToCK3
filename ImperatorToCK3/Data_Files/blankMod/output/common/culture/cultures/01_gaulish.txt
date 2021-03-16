@@ -1,3 +1,4 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
 gaulish_group = { # Continental Celts
 	graphical_cultures = {
 		welsh_coa_gfx
