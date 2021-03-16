@@ -1,29 +1,30 @@
-﻿l_english:
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+l_english:
  # version 0.1
  old_egyptian:0 "Bohairic"
  old_egyptian_collective_noun:1 "Egyptians"
- 
+
  numidian:0 "Numidian"
  numidian_collective_noun:1 "Numidians"
- 
+
  celtic_pannonian:0 "Scordiscian"
  celtic_pannonian_collective_noun:1 "Scordiscians"
- 
+
  celtiberian:0 "Celtiberian"
  celtiberian_collective_noun:1 "Celtiberians"
- 
+
  belgae:0 "Belgae"
  belgae_collective_noun:1 "Belgae"
- 
+
  gallic:0 "Gallic"
  gallic_collective_noun:1 "Gauls"
- 
+
  macedonian:0 "Macedonian"
  macedonian_collective_noun:1 "Macedonians"
- 
+
  thracian:0 "Thracian"
  thracian_collective_noun:1 "Thracians"
- 
+
  dacian:0 "Albocensian"
  dacian_collective_noun:1 "Albocenses"
  
