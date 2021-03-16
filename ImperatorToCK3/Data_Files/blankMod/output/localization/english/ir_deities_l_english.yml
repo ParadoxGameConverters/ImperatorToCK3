@@ -1,4 +1,5 @@
-﻿l_english:
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+l_english:
  # Arabic
  ir_ailiah:0 "Allah"
  ir_al_kutbay:0 "Al-Kutba'"
@@ -388,7 +389,7 @@
  anglosaxon_good_god_baldaeg:0 "Baldaeg"
  anglosaxon_good_god_freya:0 "Freya"
  anglosaxon_good_god_tyr:0 "$anglosaxon_war_god_name$"
- anglosaxon_good_god_eorthe:0 $anglosaxon_creator_god_name$"
+ anglosaxon_good_god_eorthe:0 "$anglosaxon_creator_god_name$"
  anglosaxon_devil_name:0 "Lok"
  anglosaxon_devil_name_possessive:0 "Lok's"
  anglosaxon_death_deity_name:0 "$anglosaxon_high_god_name$"
