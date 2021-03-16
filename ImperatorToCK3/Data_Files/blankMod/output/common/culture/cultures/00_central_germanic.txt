@@ -1,4 +1,5 @@
-﻿central_germanic_group = {
+﻿# ImperatorToCK3: file from vanilla 1.2.2
+central_germanic_group = {
 	
 	graphical_cultures = {
 		german_group_coa_gfx
@@ -1500,7 +1501,7 @@
 		
 		color = { 89 73 47 }
 
-		catet_dynasty_names = {
+		cadet_dynasty_names = {
 			{ "dynnp_von" "dynn_PrantAEpurk" }
 			{ "dynnp_von" "dynn_Holstojn" }
 			{ "dynnp_von" "dynn_Slesvik" }
