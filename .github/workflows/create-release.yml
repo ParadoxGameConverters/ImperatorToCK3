@@ -16,8 +16,13 @@ jobs:
       run: |
        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
        .\MSBuild.exe $Env:GITHUB_WORKSPACE\ImperatorToCK3\ImperatorToCK3.vcxproj
+    - name: archive release
+      uses: thedoctor0/zip-release@master
+      with:
+        path: "Release"
+        filename: "Release.zip"
     - name: release
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "Release"
+        artifacts: "Release.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
