@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: '0'
+        fetch-depth: 2
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@master
       env:
@@ -24,6 +24,7 @@ jobs:
       uses: actions/checkout@v1
     - name: msbuild
       run: |
+       git submodule update --init --recursive
        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
        .\MSBuild.exe $Env:GITHUB_WORKSPACE\ImperatorToCK3\ImperatorToCK3.vcxproj
     - name: archive release

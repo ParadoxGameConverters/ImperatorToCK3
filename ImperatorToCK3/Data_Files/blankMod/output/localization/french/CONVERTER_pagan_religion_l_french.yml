@@ -1,4 +1,5 @@
-﻿l_french:
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+l_french:
  #---------------------------------------------------
  # ANATOLIENNE
  #---------------------------------------------------
@@ -239,12 +240,12 @@
  babyl_arallu:0 "Arallû"
  babyl_ganzer:0 "Ganzer"
  babyl_irkallu:0 "Irkallu"
- 
+
  by_jove:0 "Par Jupiter!"
  by_toutatis:0 "Par Toutatis!"
  mediusfidius:0 "Mediusfidius!"
  mehercle:0 "Mehercle!"
- 
+
  # Brython Druidism"
  briton_paganism:0 "Druidisme Brythonique"
  briton_paganism_adj:0 "Brython-Druidique"
