@@ -22,7 +22,7 @@ jobs:
         path: "Release"
         filename: "Release.zip"
     - name: release
-    - uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1
       with:
         artifacts: "Release.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
