@@ -89,7 +89,7 @@ link = { ck3 = serbian imp = aestian ck3Province = 3604 ck3Province = 3605 ck3Pr
 link = { ck3 = bulgarian imp = aestian ck3Province = 499 ck3Province = 500 ck3Province = 507 ck3Province = 508 ck3Province = 3678 ck3Province = 3691 ck3Province = 510 ck3Province = 498 ck3Province = 501 ck3Province = 3658 ck3Province = 3656 ck3Province = 3653 ck3Province = 3650 ck3Province = 3643 ck3Province = 471 ck3Province = 3636 }
 link = { ck3 = pommeranian imp = aestian ck3Province = 2823 ck3Province = 2818 ck3Province = 3154 ck3Province = 2826 ck3Province = 3187 ck3Province = 3152 ck3Province = 2830 ck3Province = 2827 ck3Province = 3190 ck3Province = 3196 }
 link = { ck3 = czech imp = aestian impRegion = bohemia_area }
-link = { ck3 = polish imp = aestian impRegion = venedia_region  impRegion = vistulia_region }
+link = { ck3 = polish imp = aestian impRegion = venedia_region impRegion = vistulia_region }
 link = { ck3 = slovien imp = aestian ck3Province = 3089 ck3Province = 3808 ck3Province = 3805 ck3Province = 3835 ck3Province = 3827 ck3Province = 3839 ck3Province = 3842 ck3Province = 3831 ck3Province = 524 ck3Province = 525 ck3Province = 3811 ck3Province = 3854 ck3Province = 3856 ck3Province = 3846 ck3Province = 3848 ck3Province = 3815 ck3Province = 3870 ck3Province = 3862 ck3Province = 3823 ck3Province = 3817 ck3Province = 3820 ck3Province = 3826 impRegion = pannonia_region impRegion = dacia_region }
 link = { ck3 = russian imp = aestian impRegion = sarmatia_europea_region impRegion = sarmatia_asiatica_region impRegion = taurica_region }
 link = { ck3 = estonian imp = aestian } # Fallback
