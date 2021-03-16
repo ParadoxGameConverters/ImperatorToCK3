@@ -1,13 +1,23 @@
-name: Create Release
-
+name: Bump version and create release
 on:
   push:
-    tags:
-    - '*'
-
+    branches:
+      - master
 jobs:
-
-  build:
+  bump_tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEFAULT_BUMP: patch
+        
+  create_release:
+    needs: bump_tag
     runs-on: windows-2019
     steps:
     - name: checkout
