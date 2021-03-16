@@ -1,4 +1,5 @@
-﻿#Druidic
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+#Druidic
 ynys_mon = { #toutatis
 	county = c_anglesey
 	barony = b_yns_mon

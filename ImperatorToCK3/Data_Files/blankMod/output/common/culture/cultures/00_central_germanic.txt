@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: file from vanilla 1.2.2
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
 central_germanic_group = {
 	
 	graphical_cultures = {
