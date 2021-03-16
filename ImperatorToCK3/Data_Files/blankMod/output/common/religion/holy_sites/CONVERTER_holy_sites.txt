@@ -102,7 +102,7 @@ auvergne = {
 	
 	character_modifier = {
 		name = holy_site_auvergne_effect_name
-		marital = 1
+		martial = 1
 		prowess = 1
 	}
 }	
@@ -113,7 +113,7 @@ poitou = {
 	
 	character_modifier = {
 		name = holy_site_poitou_effect_name
-		marital = 1
+		martial = 1
 		diplomacy = 1
 	}
 }
