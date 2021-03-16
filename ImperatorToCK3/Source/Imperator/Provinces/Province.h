@@ -44,6 +44,7 @@ private:
 	std::string religion;
 	std::pair<unsigned long long, std::shared_ptr<Country>> ownerCountry{ 0, nullptr };
 	unsigned long long controller = 0;
+	unsigned int civilizationValue = 0;
 	ProvinceRank provinceRank = ProvinceRank::settlement;
 	bool fort = false;
 	bool holySite = false;

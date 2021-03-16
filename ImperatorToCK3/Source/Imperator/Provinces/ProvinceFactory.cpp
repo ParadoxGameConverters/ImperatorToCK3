@@ -25,6 +25,9 @@ Imperator::Province::Factory::Factory() {
 	registerKeyword("pop", [this](std::istream& theStream) {
 		province->pops.emplace(commonItems::getULlong(theStream), nullptr);
 	});
+	registerKeyword("civilization_value", [this](std::istream& theStream) {	
+		province->civilizationValue = commonItems::stringToInteger<unsigned int>(commonItems::getString(theStream));	
+	});
 	registerKeyword("province_rank", [this](std::istream& theStream) {
 		const auto provinceRankStr = commonItems::getString(theStream);
 		if (provinceRankStr == "settlement")
