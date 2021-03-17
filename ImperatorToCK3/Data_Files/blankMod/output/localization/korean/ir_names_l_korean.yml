@@ -153,7 +153,7 @@
  dynn_Verminid:0 "벨미니드"
  dynn_Galid:0 "가리드"
  dynn_Jugurthid:0 "유굴티드"
- 
+
  # Brythonic male
  Acco:0 "아코"
  Addedomarus:0 "아떼도마룻"
@@ -3164,7 +3164,7 @@
  Bit_Taqrubti:0 "비트-타크루티"
  Bit_Targagi:0 "비트-타르가기"
  Bit_Tarkubti:0 "비트-타르쿠브티"
- 
+
  dynnp_sa: "사 "
  dynnp_seg: "섹 "
  dynnp_fane: "파네 "
@@ -4225,7 +4225,7 @@
  Zida:0 "시다"
  Zidanta:0 "지단타"
  Zoe:0 "쇠"
- 
+
  dynn_Uclina:0 "욱리나"
  dynn_Acnatru:0 "악낟루"
  dynn_Acriena:0 "악리예나"
@@ -4521,7 +4521,7 @@
  dynn_cadet_VENTESE:0 "웬데세"
  dynn_cadet_VERU:0 "웨루"
  dynn_cadet_ZALLE:0 "살레"
- 
+
  dynnpat_suf_por:0 "폴"
  dynnpat_suf_pora:0 "폴라"
  dynnpat_pre_por:0 "폴·"

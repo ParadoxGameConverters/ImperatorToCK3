@@ -6,105 +6,105 @@
  # version 0.1
  old_egyptian:0 "Богерск"
  old_egyptian_collective_noun:1 "Египтяне"
- 
+
  numidian:0 "Нумидийск"
  numidian_collective_noun:1 "Нумидийцы"
- 
+
  celtic_pannonian:0 "Скордисск"
  celtic_pannonian_collective_noun:1 "Скордицианцы"
- 
+
  celtiberian:0 "Кельтиберийск"
  celtiberian_collective_noun:1 "Кельтиберы"
- 
+
  belgae:0 "Белгайск"
  belgae_collective_noun:1 "Белгаи"
- 
+
  gallic:0 "Галльск"
  gallic_collective_noun:1 "Галлы"
- 
+
  macedonian:0 "Македонск"
  macedonian_collective_noun:1 "Македонцы"
- 
+
  thracian:0 "Фракийск"
  thracian_collective_noun:1 "Фракийцы"
- 
+
  dacian:0 "Альбоценск"
  dacian_collective_noun:1 "Альбоцензы"
- 
+
  getian:0 "Гетск"
  getian_collective_noun:1 "Геты"
- 
+
  cappadocian:0 "Каппадокийск"
  cappadocian_collective_noun:1 "Каппадокийцы"
- 
+
  phrygian:0 "Фригийск"
  phrygian_collective_noun:1 "Фригийцы"
- 
+
  pontic:0 "Понтийск"
  pontic_collective_noun:1 "Понтийцы"
- 
+
  carthaginian:0 "Пуническ"
  carthaginian_collective_noun:1 "Карфагеняне"
- 
+
  phoenician:0 "Финикийск"
  phoenician_collective_noun:1 "Финикийцы"
- 
+
  nabatean:0 "Набатейск"
  nabatean_collective_noun:1 "Набатейцы"
- 
+
  dalmatian:0 "Далматинск"
  dalmatian_collective_noun:1 "Далматинцы"
- 
+
  aramaic:0 "Арамейск"
  aramaic_collective_noun:1 "Арамеи"
- 
+
  babylonian:0 "Вавилонск"
  babylonian_collective_noun:1 "Вавилоняне"
- 
+
  vandal:0 "Вандалиск"
  vandal_collective_noun:1 "Вандалы"
- 
+
  iberian:0 "Иберийск"
  iberian_collective_noun:1 "Иберы"
- 
+
  nuragic:0 "Нурагическ"
  nuragic_collective_noun:1 "Нурагики"
- 
+
  bactrian:0 "Бактрийск"
  bactrian_collective_noun:1 "Бактрийцы"
- 
+
  scythian:0 "Скифск"
  scythian_collective_noun:1 "Скифы"
- 
+
  sarmatian:0 "Сарматск"
  sarmatian_collective_noun:1 "Сарматы"
- 
+
  parthian:0 "Парфянск"
  parthian_collective_noun:1 "Парфяне"
- 
+
  hebrew:0 "Ебрейск"
  hebrew_collective_noun:1 "Евреям"
- 
+
  etruscan:0 "Этрусск"
  etruscan_collective_noun:1 "Этруски"
 
  # version 0.2
  brythonic:0 "Бриттск"
  brythonic_collective_noun:1 "Бритты"
- 
+
  ionic:0 "Ионическ"
  ionic_collective_noun:1 "Ионийцы"
- 
+
  indogreek:0 "Индо-греческ"
  indogreek_collective_noun:1 "Индо-греки"
- 
+
  lusoiberian:0 "Лузитанск"
  lusoiberian_collective_noun:1 "Лузитанцы"
- 
+
  gothic:0 "Готическ"
  gothic_collective_noun:1 "Готы"
- 
- 
+
+
  # Update III
  gaulish_group:0 "Галльск"
  gaulish_group_collective_noun:0 "Галлы"
@@ -114,7 +114,7 @@
  punic_group_collective_noun:0 "Карфагеняне"
  chaldean_group:0 "Халдейск"
  chaldean_group_collective_noun:0 "Халдеи"
- 
+
  iweric:0 "Айверск"
  iweric_collective_noun:0 "Айверяне"
  transadrianic:0 "Заадриянск"
