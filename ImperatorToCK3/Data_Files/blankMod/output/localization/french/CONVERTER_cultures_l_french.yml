@@ -1,106 +1,106 @@
 ﻿l_french:
- # version 0.1 
+ # version 0.1
  old_egyptian:0 "bohaïrique"
  old_egyptian_collective_noun:1 "Égyptiens"
- 
+
  numidian:0 "numide"
  numidian_collective_noun:1 "Numides"
- 
+
  celtic_pannonian:0 "scordique"
  celtic_pannonian_collective_noun:1 "Celto-pannoniens"
- 
+
  celtiberian:0 "celtibérique"
  celtiberian_collective_noun:1 "Celtibériques"
- 
+
  belgae:0 "belge"
  belgae_collective_noun:1 "Belges"
- 
+
  gallic:0 "gauloise"
  gallic_collective_noun:1 "Gaulois"
- 
+
  macedonian:0 "macédonienne"
  macedonian_collective_noun:1 "Macédoniens"
- 
+
  thracian:0 "thrace"
  thracian_collective_noun:1 "Thraces"
- 
+
  dacian:0 "albocense"
  dacian_collective_noun:1 "Daces"
- 
+
  getian:0 "gète"
  getian_collective_noun:1 "Gètes"
- 
+
  cappadocian:0 "cappadocienne"
  cappadocian_collective_noun:1 "Cappadociens"
- 
+
  phrygian:0 "phrygienne"
  phrygian_collective_noun:1 "Phrygiens"
- 
+
  pontic:0 "pontique"
  pontic_collective_noun:1 "Pontiques"
- 
+
  carthaginian:0 "punique"
  carthaginian_collective_noun:1 "Carthaginois"
- 
+
  phoenician:0 "phénicienne"
  phoenician_collective_noun:1 "Phéniciens"
- 
+
  nabatean:0 "nabatéenne"
  nabatean_collective_noun:1 "Nabatéens"
- 
+
  dalmatian:0 "dalmate"
  dalmatian_collective_noun:1 "Dalmates"
- 
+
  aramaic:0 "araméenne"
  aramaic_collective_noun:1 "Araméens"
- 
+
  babylonian:0 "babylonienne"
  babylonian_collective_noun:1 "Babyloniens"
- 
+
  vandal:0 "vandale"
  vandal_collective_noun:1 "Vandales"
- 
+
  iberian:0 "ibèrique"
  iberian_collective_noun:1 "Ibères"
- 
+
  nuragic:0 "nuragique"
  nuragic_collective_noun:1 "Nuragiques"
- 
+
  bactrian:0 "bactrienne"
  bactrian_collective_noun:1 "Bactriens"
- 
+
  scythian:0 "scythe"
  scythian_collective_noun:1 "Scythes"
- 
+
  sarmatian:0 "sarmate"
  sarmatian_collective_noun:1 "Sarmates"
- 
+
  parthian:0 "parthe"
  parthian_collective_noun:1 "Parthes"
- 
+
  hebrew:0 "hébraïque"
  hebrew_collective_noun:1 "Hébraïques"
- 
+
  etruscan:0 "étrusque"
  etruscan_collective_noun:1 "Étrusques"
- 
+
  # version 0.2
  brythonic:0 "brythonique"
  brythonic_collective_noun:1 "brythoniques"
 
- 
+
  ionic:0 "ionique"
  ionic_collective_noun:1 "Ioniens"
- 
+
  indogreek:0 "indo-grecque"
  indogreek_collective_noun:1 "Indo-Grecs"
- 
+
  lusoiberian:0 "lusitanienne"
  lusoiberian_collective_noun:1 "Lusitaniens"
- 
+
  gothic:0 "gothique"
  gothic_collective_noun:1 "Goths"
- 
+
  # Update III
  gaulish_group:0 "gauloise"
  gaulish_group_collective_noun:0 "Gaulois"
@@ -110,7 +110,7 @@
  punic_group_collective_noun:0 "Carthaginois"
  chaldean_group:0 "chaldéenne"
  chaldean_group_collective_noun:0 "Chaldéens"
- 
+
  iweric:0 "aïouérique"
  iweric_collective_noun:0 "Aïouériques"
  transadrianic:0 "plusquadrianique"
