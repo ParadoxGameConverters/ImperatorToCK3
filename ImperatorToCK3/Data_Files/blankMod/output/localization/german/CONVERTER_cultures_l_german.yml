@@ -2,104 +2,104 @@
  # version 0.1
  old_egyptian:0 "Bohairisch"
  old_egyptian_collective_noun:1 "Ägypter"
- 
+
  numidian:0 "Numidisch"
  numidian_collective_noun:1 "Numidier"
- 
+
  celtic_pannonian:0 "Skordiskisch"
  celtic_pannonian_collective_noun:1 "Skordisker"
- 
+
  celtiberian:0 "Keltiberisch"
  celtiberian_collective_noun:1 "Keltiberer"
- 
+
  belgae:0 "Belgisch"
  belgae_collective_noun:1 "Belgen"
- 
+
  gallic:0 "Gallisch"
  gallic_collective_noun:1 "Gallier"
- 
+
  macedonian:0 "Mazedonisch"
  macedonian_collective_noun:1 "Mazedonier"
- 
+
  thracian:0 "Thrakisch"
  thracian_collective_noun:1 "Thrazier"
- 
+
  dacian:0 "Albokensisch"
  dacian_collective_noun:1 "Albokensen"
- 
+
  getian:0 "Getisch"
  getian_collective_noun:1 "Geten"
- 
+
  cappadocian:0 "Kappadokisch"
  cappadocian_collective_noun:1 "Kappadokier"
- 
+
  phrygian:0 "Phrygisch"
  phrygian_collective_noun:1 "Phrygier"
- 
+
  pontic:0 "Pontisch"
  pontic_collective_noun:1 "Pontischmänner"
- 
+
  carthaginian:0 "Punisch"
  carthaginian_collective_noun:1 "Karthager"
- 
+
  phoenician:0 "Phönizisch"
  phoenician_collective_noun:1 "Phönizier"
- 
+
  nabatean:0 "Nabatäer"
  nabatean_collective_noun:1 "Nabatäer"
- 
+
  dalmatian:0 "Dalmatinisch"
  dalmatian_collective_noun:1 "Dalmatiner"
- 
+
  aramaic:0 "Aramäisch"
  aramaic_collective_noun:1 "Aramäer"
- 
+
  babylonian:0 "Babylonisch"
  babylonian_collective_noun:1 "Babylonier"
- 
+
  vandal:0 "Vandalisch"
  vandal_collective_noun:1 "Vandalen"
- 
+
  iberian:0 "Iberisch"
  iberian_collective_noun:1 "Iberer"
- 
+
  nuragic:0 "Nuragisch"
  nuragic_collective_noun:1 "Nuragen-Leute"
- 
+
  bactrian:0 "Baktrisch"
  bactrian_collective_noun:1 "Baktrier"
- 
+
  scythian:0 "Skythisch"
  scythian_collective_noun:1 "Skythen"
- 
+
  sarmatian:0 "Sarmatisch"
  sarmatian_collective_noun:1 "Sarmaten"
- 
+
  parthian:0 "Parthisch"
  parthian_collective_noun:1 "Parther"
- 
+
  hebrew:0 "Hebräisch"
  hebrew_collective_noun:1 "Hebräer"
- 
+
  etruscan:0 "Etruskisch"
  etruscan_collective_noun:1 "Etrusker"
 
  # version 0.2
  brythonic:0 "Brythonisch"
  brythonic_collective_noun:1 "Brythonen"
- 
+
  ionic:0 "Ionisch"
  ionic_collective_noun:1 "Ionen"
- 
+
  indogreek:0 "Indo-Griechisch"
  indogreek_collective_noun:1 "Indogriechen"
- 
+
  lusoiberian:0 "Lusitanisch"
  lusoiberian_collective_noun:1 "Lusitaner"
- 
+
  gothic:0 "Gothisch"
  gothic_collective_noun:1 "Gothen"
- 
+
  # Update III
  gaulish_group:0 "Gallisch"
  gaulish_group_collective_noun:0 "Gallier"
@@ -109,7 +109,7 @@
  punic_group_collective_noun:0 "Karthager"
  chaldean_group:0 "Chaldäisch"
  chaldean_group_collective_noun:0 "Chaldäer"
- 
+
  iweric:0 "Eiwerisch"
  iweric_collective_noun:0 "Eiweren"
  transadrianic:0 "Nachhadriänisch"
