@@ -2,105 +2,105 @@
  # version 0.1
  old_egyptian:0 "古埃及"
  old_egyptian_collective_noun:1 "古埃及人"
- 
+
  numidian:0 "努米迪亚"
  numidian_collective_noun:1 "努米迪亚人"
- 
+
  celtic_pannonian:0 "斯科迪奇"
  celtic_pannonian_collective_noun:1 "斯科迪奇人"
- 
+
  celtiberian:0 "凯尔特"
  celtiberian_collective_noun:1 "凯尔特人"
- 
+
  belgae:0 "贝尔加"
  belgae_collective_noun:1 "贝尔加人"
- 
+
  gallic:0 "高卢"
  gallic_collective_noun:1 "高卢人"
- 
+
  macedonian:0 "马其顿语"
  macedonian_collective_noun:1 "马其顿语人"
- 
+
  thracian:0 "色雷斯"
  thracian_collective_noun:1 "色雷斯人"
- 
+
  dacian:0 "阿尔伯森"
  dacian_collective_noun:1 "阿尔伯森人"
- 
+
  getian:0 "盖田"
  getian_collective_noun:1 "盖田人"
- 
+
  cappadocian:0 "卡帕多西亚"
  cappadocian_collective_noun:1 "卡帕多西亚人"
- 
+
  phrygian:0 "弗里吉亚"
  phrygian_collective_noun:1 "弗里吉亚人"
- 
+
  pontic:0 "庞蒂奇"
  pontic_collective_noun:1 "庞蒂奇人"
- 
+
  carthaginian:0 "布尼奇"
  carthaginian_collective_noun:1 "迦太基人"
- 
+
  phoenician:0 "腓尼基"
  phoenician_collective_noun:1 "腓尼基人"
- 
+
  nabatean:0 "纳巴泰"
  nabatean_collective_noun:1 "纳巴泰人"
- 
+
  dalmatian:0 "达尔马提亚"
  dalmatian_collective_noun:1 "达尔马提亚人"
- 
+
  aramaic:0 "阿拉姆语"
  aramaic_collective_noun:1 "阿拉姆语人"
- 
+
  babylonian:0 "巴比伦"
  babylonian_collective_noun:1 "巴比伦人"
- 
+
  vandal:0 "万代利"
  vandal_collective_noun:1 "万代利人"
- 
+
  iberian:0 "伊比利亚"
  iberian_collective_noun:1 "伊比利亚人"
- 
+
  nuragic:0 "努拉吉奇"
  nuragic_collective_noun:1 "努拉吉奇人"
- 
+
  bactrian:0 "双峰"
  bactrian_collective_noun:1 "双峰人"
- 
+
  scythian:0 "斯基泰"
  scythian_collective_noun:1 "斯基泰人"
- 
+
  sarmatian:0 "萨尔马蒂安"
  sarmatian_collective_noun:1 "萨尔马蒂安人"
- 
+
  parthian:0 "帕提亚"
  parthian_collective_noun:1 "帕提亚人"
- 
+
  hebrew:0 "希伯来语"
  hebrew_collective_noun:1 "希伯来人"
- 
+
  etruscan:0 "伊特鲁里亚"
  etruscan_collective_noun:1 "伊特鲁里亚人"
 
  # version 0.2
  brythonic:0 "布莱顿尼克"
  brythonic_collective_noun:1 "布莱顿尼克人"
- 
+
  ionic:0 "伊奥尼亚"
  ionic_collective_noun:1 "伊奥尼亚人"
- 
+
  indogreek:0 "印希腊"
  indogreek_collective_noun:1 "印希腊人"
- 
+
  lusoiberian:0 "路西塔尼亚"
  lusoiberian_collective_noun:1 "路西塔尼亚人"
- 
+
  gothic:0 "哥特"
  gothic_collective_noun:1 "哥特人"
- 
- 
+
+
  # Update III
  gaulish_group:0 "高卢什"
  gaulish_group_collective_noun:0 "高卢"
@@ -110,7 +110,7 @@
  punic_group_collective_noun:0 "迦太基人"
  chaldean_group:0 "迦勒底"
  chaldean_group_collective_noun:0 "迦勒底人"
- 
+
  iweric:0 "埃威里亚"
  iweric_collective_noun:0 "埃威里亚人"
  transadrianic:0 "跨高哈德良的国"
