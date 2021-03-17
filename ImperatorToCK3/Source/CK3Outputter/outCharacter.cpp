@@ -32,7 +32,13 @@ std::ostream& CK3::operator<<(std::ostream& output, const Character& character) 
 	}
 
 	// output nickname
-	if (!character.nickname.empty()) output << "\t867.1.1 = { give_nickname = " << character.nickname << " }\n";
+	if (!character.nickname.empty()) {
+		date nicknameDate = date{ 867,1,1 };
+		if (character.deathDate) {
+			nicknameDate = *character.deathDate;
+		}
+		output << "\t" << nicknameDate << " = { give_nickname = " << character.nickname << " }\n";
+	}
 
 	// output traits
 	for (const auto& trait : character.traits) {
