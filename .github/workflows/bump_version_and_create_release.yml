@@ -1,0 +1,44 @@
+name: Bump version and create release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  bump_tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - name: "Bump version and push tag"
+      uses: anothrNick/github-tag-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEFAULT_BUMP: patch
+        
+  create_release:
+    needs: bump_tag
+    runs-on: windows-2019
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v1
+    - name: "Get Previous tag"
+      id: previoustag
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+    - name: "msbuild"
+      run: |
+       git submodule update --init --recursive
+       cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
+       .\MSBuild.exe $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln
+    - name: "Archive release"
+      uses: thedoctor0/zip-release@master
+      with:
+        path: "Release"
+        filename: "Release.zip"
+    - name: "Release"
+      uses: ncipollo/release-action@v1
+      with:
+        tag_name: ${{ steps.previoustag.outputs.tag }}
+        release_name: ${{ steps.previoustag.outputs.tag }}
+        artifacts: "Release.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
