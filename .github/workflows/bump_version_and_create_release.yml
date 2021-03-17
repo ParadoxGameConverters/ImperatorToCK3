@@ -15,7 +15,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: patch
-        
+
   create_release:
     needs: bump_tag
     runs-on: windows-2019
