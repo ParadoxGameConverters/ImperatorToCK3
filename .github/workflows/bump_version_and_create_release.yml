@@ -26,7 +26,7 @@ jobs:
       run: |
        git submodule update --init --recursive
        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-       .\MSBuild.exe $Env:GITHUB_WORKSPACE\ImperatorToCK3\ImperatorToCK3.vcxproj
+       .\MSBuild.exe $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln
     - name: archive release
       uses: thedoctor0/zip-release@master
       with:
