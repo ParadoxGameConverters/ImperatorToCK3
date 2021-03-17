@@ -153,7 +153,7 @@
  dynn_Verminid:0 "Верминид"
  dynn_Galid:0 "Галид"
  dynn_Jugurthid:0 "Югуртид"
- 
+
  # Brythonic male
  Acco:0 "Аккон"
  Addedomarus:0 "Аддедомар"
@@ -3164,7 +3164,7 @@
  Bit_Taqrubti:0 "Бит-Такрубти"
  Bit_Targagi:0 "Бит-Таргаги"
  Bit_Tarkubti:0 "Бит-Таркубти"
- 
+
  dynnp_sa: "са "
  dynnp_seg: "сег "
  dynnp_fane: "фане "
@@ -4225,7 +4225,7 @@
  Zida:0 "Зида"
  Zidanta:0 "Зиданта"
  Zoe:0 "Зоя"
- 
+
  dynn_Uclina:0 "Уклина"
  dynn_Acnatru:0 "Акнатру"
  dynn_Acriena:0 "Акриена"
@@ -4521,7 +4521,7 @@
  dynn_cadet_VENTESE:0 "Вентезе"
  dynn_cadet_VERU:0 "Веру"
  dynn_cadet_ZALLE:0 "Залле"
- 
+
  dynnpat_suf_por:0 "пор"
  dynnpat_suf_pora:0 "пора"
  dynnpat_pre_por:0 "пор "
