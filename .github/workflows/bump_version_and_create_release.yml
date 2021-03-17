@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 2
+        fetch-depth: 1
     - name: "Bump version and push tag"
       uses: anothrNick/github-tag-action@master
       env:
@@ -20,8 +20,9 @@ jobs:
     needs: bump_tag
     runs-on: windows-2019
     steps:
-    - name: "Checkout"
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
     - name: "Get previous tag"
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
