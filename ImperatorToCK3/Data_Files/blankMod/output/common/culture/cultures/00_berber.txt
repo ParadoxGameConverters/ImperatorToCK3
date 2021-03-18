@@ -1,5 +1,7 @@
-﻿berber_group = {
+﻿# ImperatorToCK3: Last updated CK3 patch 1.3.0
+berber_group = {
 	graphical_cultures = {
+		berber_group_building_gfx
 		berber_group_coa_gfx
 		mena_building_gfx
 		mena_clothing_gfx
