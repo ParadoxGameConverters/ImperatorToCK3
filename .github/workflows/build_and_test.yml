@@ -22,4 +22,4 @@ jobs:
        .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln
     - name: "Run tests"
       run: |
-       $Env:GITHUB_WORKSPACE\ImperatorToCK3\ImperatorToCK3Tests\Release\ImperatorToCK3Tests.exe
+       $Env:GITHUB_WORKSPACE\ImperatorToCK3Tests\Release\ImperatorToCK3Tests.exe
