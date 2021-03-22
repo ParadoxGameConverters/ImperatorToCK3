@@ -195,7 +195,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Country.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryCurrencies.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryFactory.cpp" />
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryName.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />

@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Countries/Country.h"
-#include "../ImperatorToCK3/Source/Imperator/Countries/CountryFactory.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Province.h"
+#include "Imperator/Countries/Country.h"
+#include "Imperator/Countries/CountryFactory.h"
+#include "Imperator/Provinces/Province.h"
 #include <sstream>
 
 TEST(ImperatorWorld_CountryTests, IDCanBeSet)

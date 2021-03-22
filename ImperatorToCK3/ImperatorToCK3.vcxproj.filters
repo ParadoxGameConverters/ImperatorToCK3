@@ -394,6 +394,9 @@
     <ClInclude Include="..\commonItems\ConverterVersion.h">
       <Filter>commonItems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Countries\CountryNameFactory.h">
+      <Filter>Imperator\Countries</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -468,9 +471,6 @@
       <Filter>Imperator\Countries</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Countries\CountryCurrencies.cpp">
-      <Filter>Imperator\Countries</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Imperator\Countries\CountryName.cpp">
       <Filter>Imperator\Countries</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp-base64\base64.cpp">
@@ -673,6 +673,12 @@
     </ClCompile>
     <ClCompile Include="..\commonItems\ConverterVersion.cpp">
       <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Countries\CountryNameFactory.cpp">
+      <Filter>Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Countries\CountryName.cpp">
+      <Filter>Imperator\Countries</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

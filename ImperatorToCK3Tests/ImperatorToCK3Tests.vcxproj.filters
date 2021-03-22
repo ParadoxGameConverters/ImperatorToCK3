@@ -168,9 +168,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryCurrencies.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryName.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Countries\CountriesTests.cpp">
       <Filter>ImperatorWorldTests\Countries</Filter>
     </ClCompile>

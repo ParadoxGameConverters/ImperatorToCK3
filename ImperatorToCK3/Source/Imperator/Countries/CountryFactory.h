@@ -3,22 +3,24 @@
 
 
 
-#include "ConvenientParser.h"
 #include "Country.h"
+#include "CountryNameFactory.h"
+#include "Parser.h"
 #include <memory>
 
 
 
 namespace Imperator {
 
-class Country::Factory: commonItems::convenientParser
+class Country::Factory: commonItems::parser
 {
-  public:
+public:
 	explicit Factory();
 	std::unique_ptr<Country> getCountry(std::istream& theStream, unsigned long long countryID);
 
-  private:
+private:
 	std::unique_ptr<Country> country;
+	CountryName::Factory countryNameFactory;
 };
 
 } // namespace Imperator

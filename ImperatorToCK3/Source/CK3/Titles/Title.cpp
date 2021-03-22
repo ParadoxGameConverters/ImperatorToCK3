@@ -2,6 +2,7 @@
 #include "LandedTitles.h"
 #include "TitlesHistory.h"
 #include "Imperator/Countries/Country.h"
+#include "Imperator/Countries/CountryName.h"
 #include "Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Mappers/CoaMapper/CoaMapper.h"
 #include "Mappers/TagTitleMapper/TagTitleMapper.h"
@@ -10,7 +11,26 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include <ranges>
 
+
+
+void replaceAllOccurencesInString(std::string& modifiedString, const std::string& substring, const std::string& replacement) {
+	size_t index = 0;
+	size_t size = substring.size();
+	while (true) {
+		/* Locate the substring to replace. */
+		index = modifiedString.find(substring, index);
+		if (index == std::string::npos)
+			return;
+
+		/* Make the replacement. */
+		modifiedString.replace(index, size, replacement);
+
+		/* Advance index forward so the next iteration doesn't pick it up as well. */
+		index += size;
+	}
+}
 
 
 void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles) {
@@ -74,6 +94,7 @@ void CK3::Title::registerKeys() {
 
 
 void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry,
+								   const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries,
 								   mappers::LocalizationMapper& localizationMapper,
 								   LandedTitles& landedTitles,
 								   mappers::ProvinceMapper& provinceMapper,
@@ -165,7 +186,7 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 		Log(LogLevel::Warning) << titleName << " help with localization! " << imperatorCountry->getName() << "?";
 	
 	// --------------- Adjective Locs
-	trySetAdjectiveLoc(localizationMapper);
+	trySetAdjectiveLoc(localizationMapper, imperatorCountries);
 }
 
 
@@ -189,7 +210,7 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle) {
 }
 
 
-void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper) {
+void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) {
 	auto adjSet = false;
 
 	if (imperatorCountry->getTag() == "PRY" || imperatorCountry->getTag() == "SEL" || imperatorCountry->getTag() == "MRY") { // these tags use customizable loc for adj
@@ -206,14 +227,34 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 			adjSet = true;
 		}
 	}
-	if (!adjSet) {
-		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getName() + "_ADJ");
-		if (adjLocalizationMatch) {
-			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);
-			adjSet = true;
+	const auto& impAdj = imperatorCountry->getCountryName().getAdjective();
+	auto directAdjLocMatch = localizationMapper.getLocBlockForKey(impAdj);
+	if (!adjSet && impAdj == "CIVILWAR_FACTION_ADJECTIVE") {
+		// special case for revolts
+		const auto& locBaseCountryTag = imperatorCountry->getCountryName().getBase();
+		if (locBaseCountryTag) {
+			for (const auto& country : imperatorCountries | std::ranges::views::values) {
+				if (country->getName() == locBaseCountryTag->getName()) {
+					const auto baseCountryAdjective = country->getCountryName().getAdjective();
+					auto baseCountryAdjectiveLoc = localizationMapper.getLocBlockForKey(baseCountryAdjective);
+					if (baseCountryAdjectiveLoc) {
+						replaceAllOccurencesInString(directAdjLocMatch->english, "$ADJ$", baseCountryAdjectiveLoc->english);
+						replaceAllOccurencesInString(directAdjLocMatch->french, "$ADJ$", baseCountryAdjectiveLoc->french);
+						replaceAllOccurencesInString(directAdjLocMatch->german, "$ADJ$", baseCountryAdjectiveLoc->german);
+						replaceAllOccurencesInString(directAdjLocMatch->russian, "$ADJ$", baseCountryAdjectiveLoc->russian);
+						replaceAllOccurencesInString(directAdjLocMatch->spanish, "$ADJ$", baseCountryAdjectiveLoc->spanish);
+						localizations.emplace(titleName + "_adj", *directAdjLocMatch);
+						adjSet = true;
+					}
+				}
+			}
 		}
 	}
-	if (!adjSet && !imperatorCountry->getName().empty()) { // if loc for <title name>_adj key doesn't exist, use title name (which is apparently what Imperator does
+	if (!adjSet && directAdjLocMatch) {
+		localizations.emplace(titleName + "_adj", *directAdjLocMatch);
+		adjSet = true;
+	}
+	if (!adjSet && !imperatorCountry->getName().empty()) { // if loc for <title name>_adj key doesn't exist, use title name (which is apparently what Imperator does)
 		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getName());
 		if (adjLocalizationMatch) {
 			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);

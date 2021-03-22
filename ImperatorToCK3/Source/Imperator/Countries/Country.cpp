@@ -2,13 +2,6 @@
 
 
 
-std::string Imperator::Country::getAdjective() const {
-	if (adjective) {
-		return *adjective;
-	}
-	return name + "_ADJ";
-}
-
 const std::set<std::string>& Imperator::Country::getLaws() const {
 	if (governmentType == GovernmentType::monarchy)
 		return monarchyLaws;

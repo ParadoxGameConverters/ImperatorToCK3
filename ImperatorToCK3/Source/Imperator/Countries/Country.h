@@ -3,6 +3,7 @@
 
 
 
+#include "CountryName.h"
 #include "Parser.h"
 #include "Color.h"
 #include <set>
@@ -41,9 +42,8 @@ public:
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] auto getMonarch() const { return monarch; }
 	[[nodiscard]] const std::string& getTag() const { return tag; }
-	[[nodiscard]] const auto& getName() const { return name; }
-	[[nodiscard]] std::string getAdjective() const;
-	[[nodiscard]] const auto& getLocBase() const { return locBase; }
+	[[nodiscard]] const auto& getName() const { return countryName.getName(); }
+	[[nodiscard]] const auto& getCountryName() const { return countryName; }
 	[[nodiscard]] const auto& getFlag() const { return flag; }
 	[[nodiscard]] const auto& getCountryType() const { return countryType; }
 	[[nodiscard]] const auto& getCapital() const { return capital; }
@@ -67,9 +67,7 @@ private:
 	uint64_t ID = 0;
 	std::optional<unsigned long long> monarch; // >=0 are valid
 	std::string tag;
-	std::string name;
-	std::optional<std::string> adjective;
-	std::optional<std::string> locBase; // used when another country is source for this country's localization, e.g. revolts
+	CountryName countryName;
 	std::string flag;
 	countryTypeEnum countryType = countryTypeEnum::real;
 	std::optional<unsigned long long> capital;
