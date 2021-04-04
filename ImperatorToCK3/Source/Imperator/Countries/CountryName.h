@@ -24,7 +24,7 @@ public:
 		std::swap(first.base, second.base);
 	}
 	
-	auto& operator=(const CountryName& other) noexcept;
+	CountryName& operator=(const CountryName& other) noexcept;
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] std::string getAdjective() const;

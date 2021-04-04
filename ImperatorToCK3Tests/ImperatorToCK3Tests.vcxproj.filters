@@ -106,6 +106,12 @@
     <Filter Include="Sources\Mappers\SuccessionLawMapper">
       <UniqueIdentifier>{8ab3f4fd-8983-48c5-878b-ee2ae73be637}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Imperator">
+      <UniqueIdentifier>{defdbd7a-1298-4d8e-911b-abb0c209121c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Imperator\Countries">
+      <UniqueIdentifier>{2654f6da-af40-4a61-ad8d-849893688f89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -157,15 +163,6 @@
       <Filter>ImperatorWorldTests\Provinces</Filter>
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\Pops.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Countries.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Country.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryCurrencies.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="ImperatorWorldTests\Countries\CountriesTests.cpp">
@@ -384,9 +381,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\FamilyFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryFactory.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -482,6 +476,24 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.cpp">
       <Filter>Sources\Mappers\SuccessionLawMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Countries.cpp">
+      <Filter>Sources\Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Country.cpp">
+      <Filter>Sources\Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryCurrencies.cpp">
+      <Filter>Sources\Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryFactory.cpp">
+      <Filter>Sources\Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryName.cpp">
+      <Filter>Sources\Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryNameFactory.cpp">
+      <Filter>Sources\Imperator\Countries</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

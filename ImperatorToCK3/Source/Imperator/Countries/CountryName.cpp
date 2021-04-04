@@ -7,7 +7,7 @@ Imperator::CountryName::CountryName(const CountryName& other): name(other.name),
 }
 
 
-auto& Imperator::CountryName::operator=(const CountryName& other) noexcept {
+Imperator::CountryName& Imperator::CountryName::operator=(const CountryName& other) noexcept {
 	CountryName local(other);
 	swap(*this, local);
 	return *this;
