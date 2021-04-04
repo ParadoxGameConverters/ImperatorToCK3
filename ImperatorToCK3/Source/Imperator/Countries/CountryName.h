@@ -14,24 +14,17 @@ namespace Imperator {
 class CountryName {
 public:
 	CountryName() = default;
-	CountryName(const CountryName& other) : name(other.name), adjective(other.adjective) {
-		memcpy(&base, &other.base, sizeof std::unique_ptr<CountryName>);
-	}
+	CountryName(const CountryName& other);
 	class Factory;
 
 	friend void swap(CountryName& first, CountryName& second) noexcept {
-		// by swapping the members of two objects,
-		// the two objects are effectively swapped
+		// by swapping the members of two objects, the two objects are effectively swapped
 		std::swap(first.name, second.name);
 		std::swap(first.adjective, second.adjective);
 		std::swap(first.base, second.base);
 	}
 	
-	auto& operator=(const CountryName& other) noexcept {
-		CountryName local(other);
-		swap(*this, local);
-		return *this;
-	}
+	auto& operator=(const CountryName& other) noexcept;
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] std::string getAdjective() const;
