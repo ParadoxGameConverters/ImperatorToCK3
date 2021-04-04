@@ -1,106 +1,106 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+# ImperatorToCK3: Last updated CK3 patch 1.3.0
 l_english:
  # version 0.1
  old_egyptian:0 "Bohairic"
  old_egyptian_collective_noun:1 "Egyptians"
-
+ 
  numidian:0 "Numidian"
  numidian_collective_noun:1 "Numidians"
-
+ 
  celtic_pannonian:0 "Scordiscian"
  celtic_pannonian_collective_noun:1 "Scordiscians"
-
+ 
  celtiberian:0 "Celtiberian"
  celtiberian_collective_noun:1 "Celtiberians"
-
+ 
  belgae:0 "Belgae"
  belgae_collective_noun:1 "Belgae"
-
+ 
  gallic:0 "Gallic"
  gallic_collective_noun:1 "Gauls"
-
+ 
  macedonian:0 "Macedonian"
  macedonian_collective_noun:1 "Macedonians"
-
+ 
  thracian:0 "Thracian"
  thracian_collective_noun:1 "Thracians"
-
+ 
  dacian:0 "Albocensian"
  dacian_collective_noun:1 "Albocenses"
-
+ 
  getian:0 "Getian"
  getian_collective_noun:1 "Getians"
-
+ 
  cappadocian:0 "Cappadocian"
  cappadocian_collective_noun:1 "Cappadocians"
-
+ 
  phrygian:0 "Phrygian"
  phrygian_collective_noun:1 "Phrygians"
-
+ 
  pontic:0 "Pontic"
  pontic_collective_noun:1 "Pontians"
-
+ 
  carthaginian:0 "Punic"
  carthaginian_collective_noun:1 "Carthaginians"
-
+ 
  phoenician:0 "Phoenician"
  phoenician_collective_noun:1 "Phoenicians"
-
+ 
  nabatean:0 "Nabatean"
  nabatean_collective_noun:1 "Nabateans"
-
+ 
  dalmatian:0 "Dalmatian"
  dalmatian_collective_noun:1 "Dalmatians"
-
+ 
  aramaic:0 "Aramaic"
  aramaic_collective_noun:1 "Arameans"
-
+ 
  babylonian:0 "Babylonian"
  babylonian_collective_noun:1 "Babylonians"
-
+ 
  vandal:0 "Vandalic"
  vandal_collective_noun:1 "Vandals"
-
+ 
  iberian:0 "Iberian"
  iberian_collective_noun:1 "Iberians"
-
+ 
  nuragic:0 "Nuragic"
  nuragic_collective_noun:1 "Nuragics"
-
+ 
  bactrian:0 "Bactrian"
  bactrian_collective_noun:1 "Bactrians"
-
+ 
  scythian:0 "Scythian"
  scythian_collective_noun:1 "Scythians"
-
+ 
  sarmatian:0 "Sarmatian"
  sarmatian_collective_noun:1 "Sarmatians"
-
+ 
  parthian:0 "Parthian"
  parthian_collective_noun:1 "Parthians"
-
+ 
  hebrew:0 "Hebrew"
  hebrew_collective_noun:1 "Hebrews"
-
+ 
  etruscan:0 "Etruscan"
  etruscan_collective_noun:1 "Etruscans"
 
  # version 0.2
  brythonic:0 "Brythonic"
  brythonic_collective_noun:1 "Brythonics"
-
+ 
  ionic:0 "Ionic"
  ionic_collective_noun:1 "Ionics"
-
+ 
  indogreek:0 "Indo-Greek"
  indogreek_collective_noun:1 "Indo-Greeks"
-
+ 
  lusoiberian:0 "Lusitanian"
  lusoiberian_collective_noun:1 "Lusitanians"
-
+ 
  gothic:0 "Gothic"
  gothic_collective_noun:1 "Goths"
-
+ 
  # Update III
  gaulish_group:0 "Gaulish"
  gaulish_group_collective_noun:0 "Gauls"
@@ -110,7 +110,7 @@ l_english:
  punic_group_collective_noun:0 "Carthaginians"
  chaldean_group:0 "Chaldean"
  chaldean_group_collective_noun:0 "Chaldeans"
-
+ 
  iweric:0 "Iweric"
  iweric_collective_noun:0 "Iwerians"
  transadrianic:0 "Transadrianic"
@@ -259,3 +259,8 @@ l_english:
  rhaetian_collective_noun:0 "Rhaetians"
  lemnian:0 "Lemnian"
  lemnian_collective_noun:0 "Lemnians"
+
+ arvanite_group:0 "Arvanite"
+ arvanite_group_collective_noun:0 "Arvanites"
+ albanian:0 "Albanian"
+ albanian_collective_noun:0 "Albanians"
