@@ -18,16 +18,13 @@ public:
 		memcpy(&base, &other.base, sizeof std::unique_ptr<CountryName>);
 	}
 	class Factory;
-	
-	friend void swap(CountryName& first, CountryName& second) // nothrow
-	{
-		using std::swap;
 
+	friend void swap(CountryName& first, CountryName& second) noexcept {
 		// by swapping the members of two objects,
 		// the two objects are effectively swapped
-		swap(first.name, second.name);
-		swap(first.adjective, second.adjective);
-		swap(first.base, second.base);
+		std::swap(first.name, second.name);
+		std::swap(first.adjective, second.adjective);
+		std::swap(first.base, second.base);
 	}
 	
 	auto& operator=(const CountryName& other) noexcept {
