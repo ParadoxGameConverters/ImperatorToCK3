@@ -53,8 +53,9 @@ private:
 
 	void importImperatorFamilies(const Imperator::World& impWorld);
 	
-	void importImperatorCountries(const Imperator::World& impWorld);
-	void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country);
+	void importImperatorCountries(const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
+	void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country, 
+								const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
 	
 	void importVanillaProvinces(const std::string& ck3Path);
 	void importImperatorProvinces(const Imperator::World& impWorld);

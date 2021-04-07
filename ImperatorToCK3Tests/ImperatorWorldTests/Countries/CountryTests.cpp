@@ -1,8 +1,10 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Countries/Country.h"
-#include "../ImperatorToCK3/Source/Imperator/Countries/CountryFactory.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Province.h"
+#include "Imperator/Countries/Country.h"
+#include "Imperator/Countries/CountryFactory.h"
+#include "Imperator/Provinces/Province.h"
 #include <sstream>
+
+
 
 TEST(ImperatorWorld_CountryTests, IDCanBeSet)
 {
@@ -278,20 +280,20 @@ TEST(ImperatorWorld_CountryTests, lawsDefaultToEmpty) {
 }
 
 
-TEST(ImperatorWorld_CountryTests, lawsCanBeSet) {
+TEST(ImperatorWorld_CountryTests, onlyLawsForCorrectGovernmentTypeAreReturned) {
 	std::stringstream input;
 	input << "= {\n";
 	input << "\tsuccession_law = lawA\n";
-	input << "\ttribal_authority_laws = lawB\n";
-	input << "\trepublican_mediterranean_laws = lawC\n";
+	input << "\ttribal_authority_laws = lawB\n"; // won't be returned, law is for tribals
+	input << "\trepublican_mediterranean_laws = lawC\n"; // won't be returned, law is for republics
 	input << "\tmonarchy_legitimacy_laws = lawD\n";
 	input << "}";
-	const auto theCountry = *Imperator::Country::Factory().getCountry(input, 42);
+	const auto theCountry = *Imperator::Country::Factory().getCountry(input, 42); // gov type is monarchy by default
 
-	ASSERT_EQ(4, theCountry.getLaws().size());
+	ASSERT_EQ(2, theCountry.getLaws().size());
 	ASSERT_TRUE(theCountry.getLaws().contains("lawA"));
-	ASSERT_TRUE(theCountry.getLaws().contains("lawB"));
-	ASSERT_TRUE(theCountry.getLaws().contains("lawC"));
+	ASSERT_FALSE(theCountry.getLaws().contains("lawB"));
+	ASSERT_FALSE(theCountry.getLaws().contains("lawC"));
 	ASSERT_TRUE(theCountry.getLaws().contains("lawD"));
 }
 

@@ -24,7 +24,7 @@ extern "C" {
  *
  * Must pass in a valid pointer to a `MeltedBuffer`
  */
-int rakaly_melt_error_code(const MeltedBuffer *res);
+int rakaly_melt_error_code(const struct MeltedBuffer *res);
 
 /**
  * Destroys a `MeltedBuffer` once you are done with it.
@@ -33,7 +33,7 @@ int rakaly_melt_error_code(const MeltedBuffer *res);
  *
  * Must pass in a valid pointer to a `MeltedBuffer`
  */
-void rakaly_free_melt(MeltedBuffer *res);
+void rakaly_free_melt(struct MeltedBuffer *res);
 
 /**
  * Returns the length of the melted data in bytes.
@@ -42,7 +42,7 @@ void rakaly_free_melt(MeltedBuffer *res);
  *
  * Must pass in a valid pointer to a `MeltedBuffer`
  */
-size_t rakaly_melt_data_length(const MeltedBuffer *res);
+size_t rakaly_melt_data_length(const struct MeltedBuffer *res);
 
 /**
  * Writes the melted data into a provided buffer that is a given length.
@@ -58,7 +58,7 @@ size_t rakaly_melt_data_length(const MeltedBuffer *res);
  * - Must pass in a valid pointer to a `MeltedBuffer`
  * - Given buffer must be at least the given length in size
  */
-size_t rakaly_melt_write_data(const MeltedBuffer *res, char *buffer, size_t length);
+size_t rakaly_melt_write_data(const struct MeltedBuffer *res, char *buffer, size_t length);
 
 /**
  * Melts binary encoded ironman data into normal plaintext data that can be understood by EU4
@@ -81,7 +81,7 @@ size_t rakaly_melt_write_data(const MeltedBuffer *res, char *buffer, size_t leng
  *  - Else the object value (or array value) will be string of "__unknown_x0$z" where z is the
  *  hexadecimal representation of the unknown token.
  */
-MeltedBuffer *rakaly_eu4_melt(const char *data_ptr, size_t data_len);
+struct MeltedBuffer *rakaly_eu4_melt(const char *data_ptr, size_t data_len);
 
 /**
  * Melts binary encoded CK3 data into normal plaintext data. The melted buffer will contain utf-8 encoded
@@ -104,8 +104,8 @@ MeltedBuffer *rakaly_eu4_melt(const char *data_ptr, size_t data_len);
  *  - Else the object value (or array value) will be string of "__unknown_x0$z" where z is the
  *  hexadecimal representation of the unknown token.
  */
-MeltedBuffer *rakaly_ck3_melt(const char *data_ptr,
-                              size_t data_len);
+struct MeltedBuffer *rakaly_ck3_melt(const char *data_ptr,
+                                     size_t data_len);
 
 /**
  * Melts binary encoded Imperator data into normal plaintext data. The melted buffer will contain utf-8 encoded
@@ -127,8 +127,8 @@ MeltedBuffer *rakaly_ck3_melt(const char *data_ptr,
  *  - Else the object value (or array value) will be string of "__unknown_x0$z" where z is the
  *  hexadecimal representation of the unknown token.
  */
-MeltedBuffer *rakaly_imperator_melt(const char *data_ptr,
-                                    size_t data_len);
+struct MeltedBuffer *rakaly_imperator_melt(const char *data_ptr,
+                                           size_t data_len);
 
 /**
  * Melts binary encoded HOI4 data into normal plaintext data. The melted buffer will contain utf-8 encoded
@@ -148,8 +148,8 @@ MeltedBuffer *rakaly_imperator_melt(const char *data_ptr,
  *  - Else the object value (or array value) will be string of "__unknown_x0$z" where z is the
  *  hexadecimal representation of the unknown token.
  */
-MeltedBuffer *rakaly_hoi4_melt(const char *data_ptr,
-                               size_t data_len);
+struct MeltedBuffer *rakaly_hoi4_melt(const char *data_ptr,
+                                      size_t data_len);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -3,6 +3,7 @@
 
 
 
+#include "CountryName.h"
 #include "Parser.h"
 #include "Color.h"
 #include <set>
@@ -41,7 +42,8 @@ public:
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] auto getMonarch() const { return monarch; }
 	[[nodiscard]] const std::string& getTag() const { return tag; }
-	[[nodiscard]] const auto& getName() const { return name; }
+	[[nodiscard]] const auto& getName() const { return countryName.getName(); }
+	[[nodiscard]] const auto& getCountryName() const { return countryName; }
 	[[nodiscard]] const auto& getFlag() const { return flag; }
 	[[nodiscard]] const auto& getCountryType() const { return countryType; }
 	[[nodiscard]] const auto& getCapital() const { return capital; }
@@ -65,7 +67,7 @@ private:
 	uint64_t ID = 0;
 	std::optional<unsigned long long> monarch; // >=0 are valid
 	std::string tag;
-	std::string name;
+	CountryName countryName;
 	std::string flag;
 	countryTypeEnum countryType = countryTypeEnum::real;
 	std::optional<unsigned long long> capital;
