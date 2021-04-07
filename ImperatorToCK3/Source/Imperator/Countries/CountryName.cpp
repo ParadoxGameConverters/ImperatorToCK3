@@ -63,33 +63,22 @@ std::optional<mappers::LocBlock> Imperator::CountryName::getAdjectiveLocBlock(ma
 	auto adj = getAdjective();
 	auto directAdjLocMatch = localizationMapper.getLocBlockForKey(adj);
 	if (adj == "CIVILWAR_FACTION_ADJECTIVE") {
-		Log(LogLevel::Debug) << "SHIT SHOULD WORK FOR " << imperatorCountry->getTag();
 		// special case for revolts
 		if (base) {
-			Log(LogLevel::Debug) << "0";
 			std::optional<mappers::LocBlock> baseAdjLoc;
-			Log(LogLevel::Debug) << "0b";
-			Log(LogLevel::Debug) << base->getName() << " " << base->getAdjective();
 			if (base->getAdjective() == "CIVILWAR_FACTION_ADJECTIVE") { // revolt of revolt
 				baseAdjLoc = base->getAdjectiveLocBlock(localizationMapper, imperatorCountries, imperatorCountry);
-				Log(LogLevel::Debug) << "1";
 			}
 			else {
-				Log(LogLevel::Debug) << "2a";
 				for (const auto& country : imperatorCountries | std::ranges::views::values) {
 					if (country->getName() == base->getName()) {
-						Log(LogLevel::Debug) << "2b";
 						const auto baseCountryAdjective = country->getCountryName().getAdjective();
-						Log(LogLevel::Debug) << "2c";
 						baseAdjLoc = localizationMapper.getLocBlockForKey(baseCountryAdjective);
-						Log(LogLevel::Debug) << "3";
 						break;
 					}
 				}
 			}
-			Log(LogLevel::Debug) << "4";
 			if (baseAdjLoc) {
-				Log(LogLevel::Debug) << "SHIT WORKS FOR " << imperatorCountry->getTag();
 				replaceAllOccurencesInString(directAdjLocMatch->english, "$ADJ$", baseAdjLoc->english);
 				replaceAllOccurencesInString(directAdjLocMatch->french, "$ADJ$", baseAdjLoc->french);
 				replaceAllOccurencesInString(directAdjLocMatch->german, "$ADJ$", baseAdjLoc->german);
@@ -98,9 +87,6 @@ std::optional<mappers::LocBlock> Imperator::CountryName::getAdjectiveLocBlock(ma
 				return directAdjLocMatch;
 			}
 		}
-		else {
-			Log(LogLevel::Debug) << "fuckingfuck 5";
-		}
 	}
-	return std::nullopt;
+	return directAdjLocMatch;
 }

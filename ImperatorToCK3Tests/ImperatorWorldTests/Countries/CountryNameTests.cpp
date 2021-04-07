@@ -49,8 +49,6 @@ TEST(ImperatorWorld_CountryNameTests, baseCanBeSet) {
 	input << "name = revolt\n base = { name = someName adjective = someAdjective }";
 	const auto countryName = std::move(*Imperator::CountryName::Factory().getCountryName(input));
 
-	Log(LogLevel::Debug) << "in factory for " << countryName.getName() << ": " << countryName.getBase()->getName() << " " << countryName.getBase()->getAdjective(); // debug
-
 	ASSERT_EQ("someName", countryName.getBase()->getName());
 	ASSERT_EQ("someAdjective", countryName.getBase()->getAdjective());
 	ASSERT_EQ(nullptr, countryName.getBase()->getBase());
