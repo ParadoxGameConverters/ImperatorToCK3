@@ -16,6 +16,7 @@ Imperator::CountryName::Factory::Factory() {
 		auto tempCountryName = std::move(countryName);
 		tempCountryName->base = getCountryName(theStream);
 		countryName = std::move(tempCountryName);
+		Log(LogLevel::Debug) << "in factory for " << countryName->getName() << ": " << countryName->getBase()->getName() << " " <<countryName->getBase()->getAdjective(); // debug
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
@@ -26,5 +27,7 @@ std::unique_ptr<Imperator::CountryName> Imperator::CountryName::Factory::getCoun
 
 	parseStream(theStream);
 
+	if (countryName->base) // debug
+		Log(LogLevel::Debug) << "after factory for " << countryName->getName() << ": " << countryName->getBase()->getName() << " " <<countryName->getBase()->getAdjective();
 	return std::move(countryName);
 }

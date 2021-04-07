@@ -11,26 +11,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
-#include <ranges>
 
-
-
-void replaceAllOccurencesInString(std::string& modifiedString, const std::string& substring, const std::string& replacement) {
-	size_t index = 0;
-	size_t size = substring.size();
-	while (true) {
-		/* Locate the substring to replace. */
-		index = modifiedString.find(substring, index);
-		if (index == std::string::npos)
-			return;
-
-		/* Make the replacement. */
-		modifiedString.replace(index, size, replacement);
-
-		/* Advance index forward so the next iteration doesn't pick it up as well. */
-		index += size;
-	}
-}
 
 
 void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles) {
@@ -227,29 +208,15 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 			adjSet = true;
 		}
 	}
-	const auto& impAdj = imperatorCountry->getCountryName().getAdjective();
-	auto directAdjLocMatch = localizationMapper.getLocBlockForKey(impAdj);
-	if (!adjSet && impAdj == "CIVILWAR_FACTION_ADJECTIVE") {
-		// special case for revolts
-		const auto& locBaseCountryTag = imperatorCountry->getCountryName().getBase();
-		if (locBaseCountryTag) {
-			for (const auto& country : imperatorCountries | std::ranges::views::values) {
-				if (country->getName() == locBaseCountryTag->getName()) {
-					const auto baseCountryAdjective = country->getCountryName().getAdjective();
-					auto baseCountryAdjectiveLoc = localizationMapper.getLocBlockForKey(baseCountryAdjective);
-					if (baseCountryAdjectiveLoc) {
-						replaceAllOccurencesInString(directAdjLocMatch->english, "$ADJ$", baseCountryAdjectiveLoc->english);
-						replaceAllOccurencesInString(directAdjLocMatch->french, "$ADJ$", baseCountryAdjectiveLoc->french);
-						replaceAllOccurencesInString(directAdjLocMatch->german, "$ADJ$", baseCountryAdjectiveLoc->german);
-						replaceAllOccurencesInString(directAdjLocMatch->russian, "$ADJ$", baseCountryAdjectiveLoc->russian);
-						replaceAllOccurencesInString(directAdjLocMatch->spanish, "$ADJ$", baseCountryAdjectiveLoc->spanish);
-						localizations.emplace(titleName + "_adj", *directAdjLocMatch);
-						adjSet = true;
-					}
-				}
-			}
+	if (!adjSet) {
+		auto adjOpt = imperatorCountry->getCountryName().getAdjectiveLocBlock(localizationMapper, imperatorCountries, imperatorCountry);
+		if (adjOpt) {
+			localizations.emplace(titleName + "_adj", *adjOpt);
+			adjSet = true;
 		}
 	}
+	const auto& impAdj = imperatorCountry->getCountryName().getAdjective();
+	auto directAdjLocMatch = localizationMapper.getLocBlockForKey(impAdj);
 	if (!adjSet && directAdjLocMatch) {
 		localizations.emplace(titleName + "_adj", *directAdjLocMatch);
 		adjSet = true;

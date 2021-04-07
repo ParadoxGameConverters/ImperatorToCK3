@@ -495,6 +495,9 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryNameFactory.cpp">
       <Filter>Sources\Imperator\Countries</Filter>
     </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\Countries\CountryNameTests.cpp">
+      <Filter>ImperatorWorldTests\Countries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">

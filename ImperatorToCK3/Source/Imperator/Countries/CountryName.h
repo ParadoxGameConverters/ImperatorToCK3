@@ -3,6 +3,7 @@
 
 
 
+#include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include <string>
 #include <optional>
 #include <memory>
@@ -11,24 +12,24 @@
 
 namespace Imperator {
 
+class Country;
 class CountryName {
 public:
 	CountryName() = default;
 	CountryName(const CountryName& other);
+	CountryName(CountryName&& other) noexcept;
 	class Factory;
-
-	friend void swap(CountryName& first, CountryName& second) noexcept {
-		// by swapping the members of two objects, the two objects are effectively swapped
-		std::swap(first.name, second.name);
-		std::swap(first.adjective, second.adjective);
-		std::swap(first.base, second.base);
-	}
 	
-	CountryName& operator=(const CountryName& other) noexcept;
+	CountryName& operator=(const CountryName& other);
+	CountryName& operator=(CountryName&& other) noexcept;
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] std::string getAdjective() const;
 	[[nodiscard]] const auto& getBase() const { return base; }
+
+	[[nodiscard]] std::optional<mappers::LocBlock> getAdjectiveLocBlock(mappers::LocalizationMapper& localizationMapper,
+																		const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries,
+																		const std::shared_ptr<Imperator::Country> imperatorCountry) const;
 
 private:
 	std::string name;

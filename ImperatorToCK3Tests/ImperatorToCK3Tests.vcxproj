@@ -259,6 +259,7 @@
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\PortraitDataTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Countries\CountriesTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Countries\CountryNameTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Countries\CountryTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
