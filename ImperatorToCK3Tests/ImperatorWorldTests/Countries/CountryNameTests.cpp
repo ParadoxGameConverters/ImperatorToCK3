@@ -59,6 +59,13 @@ TEST(ImperatorWorld_CountryNameTests, adjLocBlockDefaultsToNullopt) {
 	const auto countryName = std::move(*Imperator::CountryName::Factory().getCountryName(input));
 
 	auto locMapper = mappers::LocalizationMapper{};
-	auto country = std::make_shared<Imperator::Country>();
-	ASSERT_EQ(std::nullopt, countryName.getAdjectiveLocBlock(locMapper, {}, country));
+	ASSERT_EQ(std::nullopt, countryName.getAdjectiveLocBlock(locMapper, {}));
+}
+
+TEST(ImperatorWorld_CountryNameTests, nameLocBlockDefaultsToNullopt) {
+	std::stringstream input;
+	const auto countryName = std::move(*Imperator::CountryName::Factory().getCountryName(input));
+
+	auto locMapper = mappers::LocalizationMapper{};
+	ASSERT_EQ(std::nullopt, countryName.getNameLocBlock(locMapper, {}));
 }

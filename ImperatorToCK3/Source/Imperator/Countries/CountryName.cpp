@@ -59,25 +59,33 @@ Imperator::CountryName& Imperator::CountryName::operator=(CountryName&& other) n
 }
 
 
-std::optional<mappers::LocBlock> Imperator::CountryName::getAdjectiveLocBlock(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries, const std::shared_ptr<Imperator::Country> imperatorCountry) const {
+std::optional<mappers::LocBlock> Imperator::CountryName::getNameLocBlock(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) const {
+	auto directNameLocMatch = localizationMapper.getLocBlockForKey(name);
+	if (name == "CIVILWAR_FACTION_NAME") {
+		// special case for revolts
+		if (base) {
+			std::optional<mappers::LocBlock> baseAdjLoc = base->getAdjectiveLocBlock(localizationMapper, imperatorCountries);
+			if (baseAdjLoc) {
+				replaceAllOccurencesInString(directNameLocMatch->english, "$ADJ$", baseAdjLoc->english);
+				replaceAllOccurencesInString(directNameLocMatch->french, "$ADJ$", baseAdjLoc->french);
+				replaceAllOccurencesInString(directNameLocMatch->german, "$ADJ$", baseAdjLoc->german);
+				replaceAllOccurencesInString(directNameLocMatch->russian, "$ADJ$", baseAdjLoc->russian);
+				replaceAllOccurencesInString(directNameLocMatch->spanish, "$ADJ$", baseAdjLoc->spanish);
+				return directNameLocMatch;
+			}
+		}
+	}
+	return directNameLocMatch;
+}
+
+std::optional<mappers::LocBlock> Imperator::CountryName::getAdjectiveLocBlock(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) const {
 	auto adj = getAdjective();
 	auto directAdjLocMatch = localizationMapper.getLocBlockForKey(adj);
+
 	if (adj == "CIVILWAR_FACTION_ADJECTIVE") {
 		// special case for revolts
 		if (base) {
-			std::optional<mappers::LocBlock> baseAdjLoc;
-			if (base->getAdjective() == "CIVILWAR_FACTION_ADJECTIVE") { // revolt of revolt
-				baseAdjLoc = base->getAdjectiveLocBlock(localizationMapper, imperatorCountries, imperatorCountry);
-			}
-			else {
-				for (const auto& country : imperatorCountries | std::ranges::views::values) {
-					if (country->getName() == base->getName()) {
-						const auto baseCountryAdjective = country->getCountryName().getAdjective();
-						baseAdjLoc = localizationMapper.getLocBlockForKey(baseCountryAdjective);
-						break;
-					}
-				}
-			}
+			std::optional<mappers::LocBlock> baseAdjLoc = base->getAdjectiveLocBlock(localizationMapper, imperatorCountries);
 			if (baseAdjLoc) {
 				replaceAllOccurencesInString(directAdjLocMatch->english, "$ADJ$", baseAdjLoc->english);
 				replaceAllOccurencesInString(directAdjLocMatch->french, "$ADJ$", baseAdjLoc->french);
@@ -86,6 +94,24 @@ std::optional<mappers::LocBlock> Imperator::CountryName::getAdjectiveLocBlock(ma
 				replaceAllOccurencesInString(directAdjLocMatch->spanish, "$ADJ$", baseAdjLoc->spanish);
 				return directAdjLocMatch;
 			}
+		}
+	}
+	else {
+		for (const auto& country : imperatorCountries | std::ranges::views::values) {
+			if (country->getName() == name) {
+				const auto countryAdjective = country->getCountryName().getAdjective();
+				const auto adjLoc = localizationMapper.getLocBlockForKey(countryAdjective);
+				if (adjLoc) {
+					return adjLoc;
+				}
+			}
+		}
+	}
+
+	if (!name.empty()) { // as fallback, use country name (which is apparently what Imperator does)
+		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(name);
+		if (adjLocalizationMatch) {
+			return *adjLocalizationMatch;
 		}
 	}
 	return directAdjLocMatch;
