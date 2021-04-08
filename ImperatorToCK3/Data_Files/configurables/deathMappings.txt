@@ -1,6 +1,7 @@
 ### DEATH REASONS MAPPINGS ###
 
 # link = { imp = imp_death ck3 = ck3_death }
+# Multiples of imp are allowed.
 
 link = { imp = death_natural_causes ck3 = death_natural_causes }
 link = { imp = death_old_age ck3 = death_old_age }

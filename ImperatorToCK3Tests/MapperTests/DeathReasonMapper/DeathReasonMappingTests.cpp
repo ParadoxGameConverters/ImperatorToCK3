@@ -4,8 +4,7 @@
 
 
 
-TEST(Mappers_DeathReasonMappingTests, ck3ReasonDefaultsToNullopt)
-{
+TEST(Mappers_DeathReasonMappingTests, ck3ReasonDefaultsToNullopt) {
 	std::stringstream input;
 	input << "= {}";
 
@@ -15,8 +14,7 @@ TEST(Mappers_DeathReasonMappingTests, ck3ReasonDefaultsToNullopt)
 }
 
 
-TEST(Mappers_DeathReasonMappingTests, ck3ReasonCanBeSet)
-{
+TEST(Mappers_DeathReasonMappingTests, ck3ReasonCanBeSet) {
 	std::stringstream input;
 	input << "= { ck3 = ck3Trait }";
 
@@ -26,8 +24,7 @@ TEST(Mappers_DeathReasonMappingTests, ck3ReasonCanBeSet)
 }
 
 
-TEST(Mappers_DeathReasonMappingTests, imperatorReasonsDefaultToEmpty)
-{
+TEST(Mappers_DeathReasonMappingTests, imperatorReasonsDefaultToEmpty) {
 	std::stringstream input;
 	input << "= {}";
 
@@ -37,8 +34,7 @@ TEST(Mappers_DeathReasonMappingTests, imperatorReasonsDefaultToEmpty)
 }
 
 
-TEST(Mappers_DeathReasonMappingTests, imperatorReasonsCanBeSet)
-{
+TEST(Mappers_DeathReasonMappingTests, imperatorReasonsCanBeSet) {
 	std::stringstream input;
 	input << "= { imp = reason_dumb imp = reason_bear }";
 

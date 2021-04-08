@@ -41,6 +41,7 @@ class Character
 	[[nodiscard]] const auto& getBirthDate() const { return birthDate; }
 	[[nodiscard]] const auto& getDeathDate() const { return deathDate; }
 	[[nodiscard]] bool isDead() const { return deathDate.has_value(); }
+	[[nodiscard]] const auto& getDeathReason() const { return deathReason; }
 	[[nodiscard]] const auto& getSpouses() const { return spouses; }
 	[[nodiscard]] const auto& getChildren() const { return children; }
 	[[nodiscard]] const auto& getMother() const { return mother; }

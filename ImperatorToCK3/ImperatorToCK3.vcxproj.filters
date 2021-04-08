@@ -106,6 +106,9 @@
     <Filter Include="Mappers\SuccessionLawMapper">
       <UniqueIdentifier>{7daa7234-4e79-4a3a-85f0-2720e6abb08c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\DeathReasonMapper">
+      <UniqueIdentifier>{8843f4f5-af76-4860-b3c3-bbbcc7f1274b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -397,6 +400,12 @@
     <ClInclude Include="Source\Imperator\Countries\CountryNameFactory.h">
       <Filter>Imperator\Countries</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.h">
+      <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.h">
+      <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -679,6 +688,12 @@
     </ClCompile>
     <ClCompile Include="Source\Imperator\Countries\CountryName.cpp">
       <Filter>Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.cpp">
+      <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.cpp">
+      <Filter>Mappers\DeathReasonMapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

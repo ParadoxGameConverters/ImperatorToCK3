@@ -285,6 +285,8 @@
     <ClCompile Include="Source\Mappers\CoaMapper\CoaMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.cpp" />
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.cpp" />
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapper.cpp" />
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp" />
     <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
@@ -384,6 +386,8 @@
     <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMappingRule.h" />
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.h" />
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.h" />
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapper.h" />
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h" />
     <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h" />

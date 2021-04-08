@@ -1,5 +1,5 @@
 # Usage:
-# link = { ck3 = ck3Trait imp = impTrait}
+# link = { ck3 = ck3Trait imp = impTrait }
 # Multiples of imp are allowed.
 
 
