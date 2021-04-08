@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
-#include <sstream>
 #include "Imperator/Provinces/Pops.h"
 #include "Imperator/Provinces/Pop.h"
+#include <sstream>
 
 
 

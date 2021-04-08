@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include <sstream>
 #include "Imperator/Characters/Characters.h"
 #include "Imperator/Characters/Character.h"
 #include "Imperator/Genes/GenesDB.h"
+#include <sstream>
 
 
 
