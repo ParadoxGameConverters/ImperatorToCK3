@@ -1,13 +1,13 @@
 #include "gtest/gtest.h"
+#include "Imperator/Provinces/Provinces.h"
+#include "Imperator/Provinces/Province.h"
+#include "Imperator/Provinces/Pops.h"
+#include "Imperator/Provinces/Pop.h"
 #include <sstream>
 
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Provinces.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Province.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Pops.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/Pop.h"
 
-TEST(ImperatorWorld_ProvincesTests, provincesDefaultToEmpty)
-{
+
+TEST(ImperatorWorld_ProvincesTests, provincesDefaultToEmpty) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -18,8 +18,7 @@ TEST(ImperatorWorld_ProvincesTests, provincesDefaultToEmpty)
 	ASSERT_TRUE(provinces.getProvinces().empty());
 }
 
-TEST(ImperatorWorld_ProvincesTests, provincesCanBeLoaded)
-{
+TEST(ImperatorWorld_ProvincesTests, provincesCanBeLoaded) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -37,8 +36,7 @@ TEST(ImperatorWorld_ProvincesTests, provincesCanBeLoaded)
 	ASSERT_EQ(43, provinceItr2->second->getID());
 }
 
-TEST(ImperatorWorld_ProvincesTests, popCanBeLinked)
-{
+TEST(ImperatorWorld_ProvincesTests, popCanBeLinked) {
 	std::stringstream input;
 	input << "={42={pop=8}}\n";
 	Imperator::Provinces provinces(input);
@@ -57,8 +55,7 @@ TEST(ImperatorWorld_ProvincesTests, popCanBeLinked)
 	ASSERT_EQ("citizen", pop->second->getType());
 }
 
-TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
-{
+TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked) {
 	std::stringstream input;
 	input << "={\n";
 	input << "43={ pop = 10}\n";
@@ -93,8 +90,7 @@ TEST(ImperatorWorld_ProvincesTests, multiplePopsCanBeLinked)
 	ASSERT_EQ("tribal", pop3->second->getType());
 }
 
-TEST(ImperatorWorld_ProvincesTests, BrokenLinkAttemptThrowsWarning)
-{
+TEST(ImperatorWorld_ProvincesTests, BrokenLinkAttemptThrowsWarning) {
 	std::stringstream input;
 	input << "={\n";
 	input << "42={ pop = 8 }\n";

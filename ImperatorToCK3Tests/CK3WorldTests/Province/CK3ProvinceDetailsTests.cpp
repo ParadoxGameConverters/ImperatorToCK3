@@ -4,29 +4,25 @@
 
 
 
-TEST(CK3World_CK3ProvinceDetailsTests, cultureDefaultsToEmpty)
-{
+TEST(CK3World_CK3ProvinceDetailsTests, cultureDefaultsToEmpty) {
 	const CK3::ProvinceDetails details;
 
 	ASSERT_EQ("", details.culture);
 }
 
-TEST(CK3World_CK3ProvinceDetailsTests, religionDefaultsToEmpty)
-{
+TEST(CK3World_CK3ProvinceDetailsTests, religionDefaultsToEmpty) {
 	const CK3::ProvinceDetails details;
 
 	ASSERT_EQ("", details.religion);
 }
 
-TEST(CK3World_CK3ProvinceDetailsTests, holdingDefaultsToNone)
-{
+TEST(CK3World_CK3ProvinceDetailsTests, holdingDefaultsToNone) {
 	const CK3::ProvinceDetails details;
 
 	ASSERT_EQ("none", details.holding);
 }
 
-TEST(CK3World_CK3ProvinceDetailsTests, detailsCanBeLoadedFromStream)
-{
+TEST(CK3World_CK3ProvinceDetailsTests, detailsCanBeLoadedFromStream) {
 	std::stringstream input;
 	input << "= { religion = orthodox\n random_param = random_stuff\n culture = roman\n}";
 		
@@ -36,8 +32,7 @@ TEST(CK3World_CK3ProvinceDetailsTests, detailsCanBeLoadedFromStream)
 	ASSERT_EQ("orthodox", details.religion);
 }
 
-TEST(CK3World_CK3ProvinceDetailsTests, detailsAreLoadedFromDatedBlocks)
-{
+TEST(CK3World_CK3ProvinceDetailsTests, detailsAreLoadedFromDatedBlocks) {
 	std::stringstream input;
 	input << "= {"
 	"religion = catholic\n"

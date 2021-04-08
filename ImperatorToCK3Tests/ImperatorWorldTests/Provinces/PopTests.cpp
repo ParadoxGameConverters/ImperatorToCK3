@@ -5,8 +5,7 @@
 
 
 
-TEST(ImperatorWorld_PopTests, IDCanBeSet)
-{
+TEST(ImperatorWorld_PopTests, IDCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -16,8 +15,8 @@ TEST(ImperatorWorld_PopTests, IDCanBeSet)
 
 	ASSERT_EQ(42, thePop.getID());
 }
-TEST(ImperatorWorld_PopTests, cultureCanBeSet)
-{
+
+TEST(ImperatorWorld_PopTests, cultureCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -29,8 +28,7 @@ TEST(ImperatorWorld_PopTests, cultureCanBeSet)
 	ASSERT_EQ("paradoxian", thePop.getCulture());
 }
 
-TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
-{
+TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -42,8 +40,7 @@ TEST(ImperatorWorld_PopTests, cultureDefaultsToBlank)
 }
 
 
-TEST(ImperatorWorld_PopTests, religionCanBeSet)
-{
+TEST(ImperatorWorld_PopTests, religionCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -55,8 +52,7 @@ TEST(ImperatorWorld_PopTests, religionCanBeSet)
 	ASSERT_EQ("paradoxian", thePop.getReligion());
 }
 
-TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
-{
+TEST(ImperatorWorld_PopTests, religionDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -67,8 +63,7 @@ TEST(ImperatorWorld_PopTests, religionDefaultsToBlank)
 	ASSERT_TRUE(thePop.getReligion().empty());
 }
 
-TEST(ImperatorWorld_PopTests,typeCanBeSet)
-{
+TEST(ImperatorWorld_PopTests,typeCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -80,8 +75,7 @@ TEST(ImperatorWorld_PopTests,typeCanBeSet)
 	ASSERT_EQ("citizen", thePop.getType());
 }
 
-TEST(ImperatorWorld_PopTests, typeDefaultsToBlank)
-{
+TEST(ImperatorWorld_PopTests, typeDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";

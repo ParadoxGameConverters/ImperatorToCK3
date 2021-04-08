@@ -1,10 +1,10 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Genes/WeightBlock.h"
+#include "Imperator/Genes/WeightBlock.h"
 #include <sstream>
 
 
-TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded)
-{
+
+TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -24,8 +24,8 @@ TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAdded)
 	ASSERT_EQ("sdfsdf", weightBlock.getMatchingObject(0.52234234234).value());
 	ASSERT_EQ("random", weightBlock.getMatchingObject(1).value());
 }
-TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAddedByMethod)
-{
+
+TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAddedByMethod) {
 	Imperator::WeightBlock weightBlock;
 	weightBlock.addObject("new_object", 69);
 	weightBlock.addObject("new_object2", 5);
@@ -37,8 +37,7 @@ TEST(ImperatorWorld_WeightBlocTests, objectsCanBeAddedByMethod)
 	ASSERT_EQ("new_object2", weightBlock.getMatchingObject(0.95).value());
 }
 
-TEST(ImperatorWorld_WeightBlocTests, sumOfAbsoluteWeightsDefaultsToZero)
-{
+TEST(ImperatorWorld_WeightBlocTests, sumOfAbsoluteWeightsDefaultsToZero) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -49,8 +48,7 @@ TEST(ImperatorWorld_WeightBlocTests, sumOfAbsoluteWeightsDefaultsToZero)
 	ASSERT_EQ(0, weightBlock.getSumOfAbsoluteWeights());
 }
 
-TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnNegativeArgument)
-{
+TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnNegativeArgument) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -62,8 +60,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnNegativeArgum
 	ASSERT_THROW(auto matchingObject = weightBlock.getMatchingObject(-0.5), std::runtime_error);
 }
 
-TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnArgumentGreaterThan1)
-{
+TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnArgumentGreaterThan1) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -75,8 +72,7 @@ TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectThrowsErrorOnArgumentGreat
 	ASSERT_THROW(auto matchingObject = weightBlock.getMatchingObject(1.234), std::runtime_error);
 }
 
-TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectReturnsNulloptWhenObjectsMapIsEmpty)
-{
+TEST(ImperatorWorld_WeightBlocTests, getMatchingObjectReturnsNulloptWhenObjectsMapIsEmpty) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";

@@ -1,7 +1,7 @@
+#include "gtest/gtest.h"
 #include "CK3/Dynasties/Dynasty.h"
 #include "Imperator/Families/FamilyFactory.h"
 #include "Mappers/LocalizationMapper/LocalizationMapper.h"
-#include "gtest/gtest.h"
 #include <sstream>
 
 

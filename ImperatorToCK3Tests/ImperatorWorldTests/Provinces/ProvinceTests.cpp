@@ -6,8 +6,7 @@
 
 
 
-TEST(ImperatorWorld_ProvinceTests, IDCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, IDCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -17,8 +16,8 @@ TEST(ImperatorWorld_ProvinceTests, IDCanBeSet)
 
 	ASSERT_EQ(42, theProvince.getID());
 }
-TEST(ImperatorWorld_ProvinceTests, cultureCanBeSet)
-{
+
+TEST(ImperatorWorld_ProvinceTests, cultureCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -30,8 +29,7 @@ TEST(ImperatorWorld_ProvinceTests, cultureCanBeSet)
 	ASSERT_EQ("paradoxian", theProvince.getCulture());
 }
 
-TEST(ImperatorWorld_ProvinceTests, cultureDefaultsToBlank)
-{
+TEST(ImperatorWorld_ProvinceTests, cultureDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -43,8 +41,7 @@ TEST(ImperatorWorld_ProvinceTests, cultureDefaultsToBlank)
 }
 
 
-TEST(ImperatorWorld_ProvinceTests, religionCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, religionCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -56,8 +53,7 @@ TEST(ImperatorWorld_ProvinceTests, religionCanBeSet)
 	ASSERT_EQ("paradoxian", theProvince.getReligion());
 }
 
-TEST(ImperatorWorld_ProvinceTests, religionDefaultsToBlank)
-{
+TEST(ImperatorWorld_ProvinceTests, religionDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -68,8 +64,7 @@ TEST(ImperatorWorld_ProvinceTests, religionDefaultsToBlank)
 	ASSERT_TRUE(theProvince.getReligion().empty());
 }
 
-TEST(ImperatorWorld_ProvinceTests, nameCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, nameCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -83,8 +78,7 @@ TEST(ImperatorWorld_ProvinceTests, nameCanBeSet)
 	ASSERT_EQ("Biggus Dickus", theProvince.getName());
 }
 
-TEST(ImperatorWorld_ProvinceTests, nameDefaultsToBlank)
-{
+TEST(ImperatorWorld_ProvinceTests, nameDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -95,8 +89,7 @@ TEST(ImperatorWorld_ProvinceTests, nameDefaultsToBlank)
 	ASSERT_TRUE(theProvince.getName().empty());
 }
 
-TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -108,8 +101,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerCanBeSet)
 	ASSERT_EQ(69, theProvince.getOwner().first);
 }
 
-TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
-{
+TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -120,8 +112,7 @@ TEST(ImperatorWorld_ProvinceTests, ownerDefaultsTo0)
 	ASSERT_EQ(0, theProvince.getOwner().first);
 }
 
-TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -133,8 +124,7 @@ TEST(ImperatorWorld_ProvinceTests, controllerCanBeSet)
 	ASSERT_EQ(69, theProvince.getController());
 }
 
-TEST(ImperatorWorld_ProvinceTests, popsCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, popsCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -149,16 +139,14 @@ TEST(ImperatorWorld_ProvinceTests, popsCanBeSet)
 	ASSERT_EQ(4, theProvince.getPopCount());
 }
 
-TEST(ImperatorWorld_ProvinceTests, province_rankDefaultsToSettlement)
-{
+TEST(ImperatorWorld_ProvinceTests, province_rankDefaultsToSettlement) {
 	std::stringstream input;
 	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_EQ(Imperator::ProvinceRank::settlement, province.getProvinceRank());
 }
 
-TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet) {
 	std::stringstream input{ "= { province_rank=settelement }" };
 	std::stringstream input2{ "= { province_rank=city }" };
 	std::stringstream input3{ "= { province_rank=city_metropolis }" };
@@ -173,32 +161,28 @@ TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet)
 	ASSERT_EQ(Imperator::ProvinceRank::city_metropolis, province3.getProvinceRank());
 }
 
-TEST(ImperatorWorld_ProvinceTests, fortDefaultsToFalse)
-{
+TEST(ImperatorWorld_ProvinceTests, fortDefaultsToFalse) {
 	std::stringstream input;
 	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_FALSE(province.hasFort());
 }
 
-TEST(ImperatorWorld_ProvinceTests, fortCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, fortCanBeSet) {
 	std::stringstream input{" = { fort=yes }"};
 	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_TRUE(province.hasFort());
 }
 
-TEST(ImperatorWorld_ProvinceTests, holySiteDefaultsToFalse)
-{
+TEST(ImperatorWorld_ProvinceTests, holySiteDefaultsToFalse) {
 	std::stringstream input;
 	const auto province = *Imperator::Province::Factory().getProvince(input, 42);
 
 	ASSERT_FALSE(province.isHolySite());
 }
 
-TEST(ImperatorWorld_ProvinceTests, holySiteCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, holySiteCanBeSet) {
 	std::stringstream input{ " = { holy_site=4294967295 }" }; // this value means no holy site
 	std::stringstream input2{ " = { holy_site=56 }" };
 	auto provinceFactory = Imperator::Province::Factory();
@@ -209,8 +193,7 @@ TEST(ImperatorWorld_ProvinceTests, holySiteCanBeSet)
 	ASSERT_TRUE(province2.isHolySite());
 }
 
-TEST(ImperatorWorld_ProvinceTests, buildingsCountCanBeSet)
-{
+TEST(ImperatorWorld_ProvinceTests, buildingsCountCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -222,8 +205,7 @@ TEST(ImperatorWorld_ProvinceTests, buildingsCountCanBeSet)
 	ASSERT_EQ(69, theProvince.getBuildingsCount());
 }
 
-TEST(ImperatorWorld_ProvinceTests, buildingsCountDefaultsTo0)
-{
+TEST(ImperatorWorld_ProvinceTests, buildingsCountDefaultsTo0) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";

@@ -1,9 +1,10 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/Imperator/Genes/AccessoryGenes.h"
+#include "Imperator/Genes/AccessoryGenes.h"
 #include <sstream>
 
-TEST(ImperatorWorld_AccessoryGenesTests, indexCanBeSet)
-{
+
+
+TEST(ImperatorWorld_AccessoryGenesTests, indexCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -16,8 +17,7 @@ TEST(ImperatorWorld_AccessoryGenesTests, indexCanBeSet)
 }
 
 
-TEST(ImperatorWorld_AccessoryGenesTests, indexDefaultsTo0)
-{
+TEST(ImperatorWorld_AccessoryGenesTests, indexDefaultsTo0) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -28,8 +28,7 @@ TEST(ImperatorWorld_AccessoryGenesTests, indexDefaultsTo0)
 	ASSERT_EQ(0, theGenes.getIndex());
 }
 
-TEST(ImperatorWorld_AccessoryGenesTests, genesDefaultToEmpty)
-{
+TEST(ImperatorWorld_AccessoryGenesTests, genesDefaultToEmpty) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -40,8 +39,7 @@ TEST(ImperatorWorld_AccessoryGenesTests, genesDefaultToEmpty)
 	ASSERT_TRUE(theGenes.getGenes().empty());
 }
 
-TEST(ImperatorWorld_AccessoryGenesTests, accessoryGenesAreProperlyLoaded)
-{
+TEST(ImperatorWorld_AccessoryGenesTests, accessoryGenesAreProperlyLoaded) {
 	std::stringstream input;
 	input << "= {\n";
 	input << "index= 5\n";

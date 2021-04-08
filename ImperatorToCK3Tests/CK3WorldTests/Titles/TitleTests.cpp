@@ -1,11 +1,12 @@
-#include "../ImperatorToCK3/Source/CK3/Titles/Title.h"
-#include "../ImperatorToCK3/Source/Mappers/LocalizationMapper/LocalizationMapper.h"
-#include "../ImperatorToCK3/Source/Mappers/CoaMapper/CoaMapper.h"
 #include "gtest/gtest.h"
+#include "CK3/Titles/Title.h"
+#include "Mappers/LocalizationMapper/LocalizationMapper.h"
+#include "Mappers/CoaMapper/CoaMapper.h"
 #include <sstream>
 
-TEST(CK3World_TitleTests, titlePrimitivesDefaultToBlank)
-{
+
+
+TEST(CK3World_TitleTests, titlePrimitivesDefaultToBlank) {
 	std::stringstream input;
 	CK3::Title title;
 	title.loadTitles(input);
@@ -17,8 +18,7 @@ TEST(CK3World_TitleTests, titlePrimitivesDefaultToBlank)
 	ASSERT_FALSE(title.getProvince());
 }
 
-TEST(CK3World_TitleTests, titlePrimitivesCanBeLoaded)
-{
+TEST(CK3World_TitleTests, titlePrimitivesCanBeLoaded) {
 	std::stringstream input;
 	input << "definite_form = yes\n";
 	input << "landless = yes\n";
@@ -36,8 +36,7 @@ TEST(CK3World_TitleTests, titlePrimitivesCanBeLoaded)
 	ASSERT_EQ(345, title.getProvince());
 }
 
-TEST(CK3World_TitleTests, localizationCanBeSet)
-{
+TEST(CK3World_TitleTests, localizationCanBeSet) {
 	CK3::Title theTitle;
 	const mappers::LocBlock locBlock = { "engloc", "frloc", "germloc", "rusloc", "spaloc" };
 
@@ -45,8 +44,7 @@ TEST(CK3World_TitleTests, localizationCanBeSet)
 	ASSERT_EQ(1, theTitle.localizations.size());
 }
 
-TEST(CK3World_TitleTests, membersDefaultToBlank)
-{
+TEST(CK3World_TitleTests, membersDefaultToBlank) {
 	std::stringstream input;
 	const CK3::Title theTitle;
 
@@ -56,16 +54,14 @@ TEST(CK3World_TitleTests, membersDefaultToBlank)
 	ASSERT_FALSE(theTitle.capitalCounty);
 }
 
-TEST(CK3World_TitleTests, holderDefaultsTo0String)
-{
+TEST(CK3World_TitleTests, holderDefaultsTo0String) {
 	std::stringstream input;
 	const CK3::Title theTitle;
 
 	ASSERT_EQ("0", theTitle.holder);
 }
 
-TEST(CK3World_TitleTests, capitalBaronyDefaultsToNullopt)
-{
+TEST(CK3World_TitleTests, capitalBaronyDefaultsToNullopt) {
 	std::stringstream input;
 	const CK3::Title theTitle = {};
 
