@@ -1,38 +1,37 @@
 #include "gtest/gtest.h"
-#include "../ImperatorToCK3/Source/CK3/Province/CK3Province.h"
-#include "../ImperatorToCK3/Source/Imperator/Provinces/ProvinceFactory.h"
+#include "CK3/Province/CK3Province.h"
+#include "Imperator/Provinces/ProvinceFactory.h"
 #include "Mappers/CultureMapper/CultureMapper.h"
 #include "Mappers/ReligionMapper/ReligionMapper.h"
 #include <sstream>
 
 
 
-TEST(CK3World_CK3ProvinceTests, idDefaultsTo0)
-{
+TEST(CK3World_CK3ProvinceTests, idDefaultsTo0) {
 	const CK3::Province province;
 
 	ASSERT_EQ(0, province.getID());
 }
-TEST(CK3World_CK3ProvinceTests, religionDefaultsToEmpty)
-{
+
+TEST(CK3World_CK3ProvinceTests, religionDefaultsToEmpty) {
 	const CK3::Province province;
 
 	ASSERT_EQ("", province.getReligion());
 }
-TEST(CK3World_CK3ProvinceTests, cultureDefaultsToEmpty)
-{
+
+TEST(CK3World_CK3ProvinceTests, cultureDefaultsToEmpty) {
 	const CK3::Province province;
 
 	ASSERT_EQ("", province.getCulture());
 }
-TEST(CK3World_CK3ProvinceTests, religionCanBeSet)
-{
+
+TEST(CK3World_CK3ProvinceTests, religionCanBeSet) {
 	CK3::Province province;
 	province.setReligion("religion");
 	ASSERT_EQ("religion", province.getReligion());
 }
-TEST(CK3World_CK3ProvinceTests, provinceCanBeLoadedFromStream)
-{
+
+TEST(CK3World_CK3ProvinceTests, provinceCanBeLoadedFromStream) {
 	std::stringstream input;
 	input << "{ culture=roman random_key=random_value religion=orthodox }";
 	CK3::Province province(42, input);
@@ -41,22 +40,20 @@ TEST(CK3World_CK3ProvinceTests, provinceCanBeLoadedFromStream)
 	ASSERT_EQ("roman", province.getCulture());
 }
 
-TEST(CK3World_CK3ProvinceTests, holdingDefaultsToNone)
-{
+TEST(CK3World_CK3ProvinceTests, holdingDefaultsToNone) {
 	const CK3::Province province;
 
 	ASSERT_EQ("none", province.getHolding());
 }
-TEST(CK3World_CK3ProvinceTests, holdingCanBeSet)
-{
+
+TEST(CK3World_CK3ProvinceTests, holdingCanBeSet) {
 	std::stringstream input{ "= { holding = castle_holding }" };
 	const CK3::Province province{42, input};
 	ASSERT_EQ("castle_holding", province.getHolding());
 }
 
 
-TEST(ImperatorWorld_ProvinceTests, setHoldingLogicWorks)
-{
+TEST(ImperatorWorld_ProvinceTests, setHoldingLogicWorks) {
 	std::stringstream input{ " = { province_rank=city_metropolis }" };
 	std::stringstream input2{ " = { province_rank=city fort=yes }" };
 	std::stringstream input3{ " = { province_rank=city }" };

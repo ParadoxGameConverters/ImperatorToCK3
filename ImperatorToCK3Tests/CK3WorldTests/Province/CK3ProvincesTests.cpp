@@ -2,14 +2,14 @@
 #include "CK3/Province/CK3Provinces.h"
 
 
-TEST(CK3World_CK3ProvincesTests, provincesDefaltToEmpty)
-{
+
+TEST(CK3World_CK3ProvincesTests, provincesDefaltToEmpty) {
 	const CK3::Provinces provinces;
 
 	ASSERT_EQ(0, provinces.getProvinces().size());
 }
-TEST(CK3World_CK3ProvincesTests, provincesAreProperlyLoadedFromFile)
-{
+
+TEST(CK3World_CK3ProvincesTests, provincesAreProperlyLoadedFromFile) {
 	const CK3::Provinces provinces("TestFiles/CK3ProvincesHistoryFile.txt");
 
 	ASSERT_EQ(4, provinces.getProvinces().size());
