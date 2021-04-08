@@ -75,7 +75,7 @@ void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, con
 void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1)) {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
-	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, ConvertBirthAndDeathDates, endDate);
+	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, deathReasonMapper, ConvertBirthAndDeathDates, endDate);
 	character.second->registerCK3Character(newCharacter);
 	characters.emplace(newCharacter->ID, newCharacter);
 }
