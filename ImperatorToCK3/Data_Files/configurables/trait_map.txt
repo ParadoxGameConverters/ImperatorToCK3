@@ -1,6 +1,6 @@
 # Usage:
 # link = { ck3 = ck3Trait imp = impTrait}
-# multiples of imp are allowed.
+# Multiples of imp are allowed.
 
 
 # Personality
