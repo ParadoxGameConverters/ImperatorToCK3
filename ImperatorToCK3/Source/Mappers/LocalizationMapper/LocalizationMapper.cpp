@@ -113,3 +113,12 @@ std::optional<mappers::LocBlock> mappers::LocalizationMapper::getLocBlockForKey(
 	// either all is well, or we're missing english. Can't do anything about the latter.
 	return keyItr->second;
 }
+
+
+void mappers::LocBlock::modifyForEveryLanguage(const LocBlock& otherLocBlock, std::function<void(std::string&, const std::string&)> modifyingFunction) {
+	modifyingFunction(english, otherLocBlock.english);
+	modifyingFunction(french, otherLocBlock.french);
+	modifyingFunction(german, otherLocBlock.german);
+	modifyingFunction(russian, otherLocBlock.russian);
+	modifyingFunction(spanish, otherLocBlock.spanish);
+}
