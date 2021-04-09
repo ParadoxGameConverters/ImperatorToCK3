@@ -19,6 +19,7 @@ class ProvinceDetails {
 	std::string culture;
 	std::string religion;
 	std::string holding = "none";
+	std::vector<std::string> buildings;
 
   private:
 	static History::Factory historyFactory;
