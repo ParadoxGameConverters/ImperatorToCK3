@@ -14,6 +14,7 @@ void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theCo
 	scrapeLanguage("french", theConfiguration.getImperatorPath() + "/game/localization");
 	scrapeLanguage("german", theConfiguration.getImperatorPath() + "/game/localization");
 	scrapeLanguage("russian", theConfiguration.getImperatorPath() + "/game/localization");
+	scrapeLanguage("simp_chinese", theConfiguration.getImperatorPath() + "/game/localization");
 	scrapeLanguage("spanish", theConfiguration.getImperatorPath() + "/game/localization");
 
 	for (const auto& mod : mods) {
@@ -23,6 +24,7 @@ void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theCo
 			scrapeLanguage("french", mod.second + "/localization");
 			scrapeLanguage("german", mod.second + "/localization");
 			scrapeLanguage("russian", mod.second + "/localization");
+			scrapeLanguage("simp_chinese", mod.second + "/localization");
 			scrapeLanguage("spanish", mod.second + "/localization");
 		}
 	}
@@ -72,6 +74,8 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const st
 				locItr->second.german = value;
 			if (language == "russian")
 				locItr->second.russian = value;
+			if (language == "simp_chinese")
+				locItr->second.simp_chinese = value;
 			if (language == "spanish")
 				locItr->second.spanish = value;
 		}
@@ -85,6 +89,8 @@ void mappers::LocalizationMapper::scrapeStream(std::istream& theStream, const st
 				newBlock.german = value;
 			if (language == "russian")
 				newBlock.russian = value;
+			if (language == "simp_chinese")
+				newBlock.simp_chinese = value;
 			if (language == "spanish")
 				newBlock.spanish = value;
 			localizations.emplace(key, newBlock);
@@ -98,16 +104,18 @@ std::optional<mappers::LocBlock> mappers::LocalizationMapper::getLocBlockForKey(
 	if (keyItr == localizations.end())
 		return std::nullopt;
 
-	if (!keyItr->second.english.empty() && (keyItr->second.spanish.empty() || keyItr->second.russian.empty() || keyItr->second.german.empty() || keyItr->second.french.empty())) {
+	if (!keyItr->second.english.empty() && (keyItr->second.french.empty() || keyItr->second.german.empty() || keyItr->second.russian.empty() || keyItr->second.simp_chinese.empty() || keyItr->second.spanish.empty())) {
 		auto newBlock = keyItr->second;
-		if (newBlock.spanish.empty())
-			newBlock.spanish = newBlock.english;
-		if (newBlock.russian.empty())
-			newBlock.russian = newBlock.english;
-		if (newBlock.german.empty())
-			newBlock.german = newBlock.english;
 		if (newBlock.french.empty())
 			newBlock.french = newBlock.english;
+		if (newBlock.german.empty())
+			newBlock.german = newBlock.english;
+		if (newBlock.russian.empty())
+			newBlock.russian = newBlock.english;
+		if (newBlock.simp_chinese.empty())
+			newBlock.simp_chinese = newBlock.english;
+		if (newBlock.spanish.empty())
+			newBlock.spanish = newBlock.english;
 		return newBlock;
 	}
 	// either all is well, or we're missing english. Can't do anything about the latter.
@@ -120,5 +128,6 @@ void mappers::LocBlock::modifyForEveryLanguage(const LocBlock& otherLocBlock, st
 	modifyingFunction(french, otherLocBlock.french);
 	modifyingFunction(german, otherLocBlock.german);
 	modifyingFunction(russian, otherLocBlock.russian);
+	modifyingFunction(simp_chinese, otherLocBlock.simp_chinese);
 	modifyingFunction(spanish, otherLocBlock.spanish);
 }

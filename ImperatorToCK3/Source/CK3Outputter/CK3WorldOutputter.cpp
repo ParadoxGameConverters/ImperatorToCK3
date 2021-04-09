@@ -99,6 +99,7 @@ void CK3::createFolders(const std::string& outputName) {
 	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/french");
 	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/german");
 	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/russian");
+	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/simp_chinese");
 	commonItems::TryCreateFolder("output/" + outputName + "/localization/replace/spanish");
 	commonItems::TryCreateFolder("output/" + outputName + "/gfx");
 	commonItems::TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
