@@ -270,6 +270,7 @@
     <ClCompile Include="Source\Imperator\Countries\CountryCurrencies.cpp" />
     <ClCompile Include="Source\Imperator\Countries\CountryFactory.cpp" />
     <ClCompile Include="Source\Imperator\Countries\CountryName.cpp" />
+    <ClCompile Include="Source\Imperator\Countries\CountryNameFactory.cpp" />
     <ClCompile Include="Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="Source\Imperator\Families\Family.cpp" />
     <ClCompile Include="Source\Imperator\Families\FamilyFactory.cpp" />
@@ -289,6 +290,8 @@
     <ClCompile Include="Source\Mappers\CoaMapper\CoaMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMapper.cpp" />
     <ClCompile Include="Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.cpp" />
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.cpp" />
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapper.cpp" />
     <ClCompile Include="Source\Mappers\GovernmentMapper\GovernmentMapping.cpp" />
     <ClCompile Include="Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
@@ -369,6 +372,7 @@
     <ClInclude Include="Source\Imperator\Countries\CountryCurrencies.h" />
     <ClInclude Include="Source\Imperator\Countries\CountryFactory.h" />
     <ClInclude Include="Source\Imperator\Countries\CountryName.h" />
+    <ClInclude Include="Source\Imperator\Countries\CountryNameFactory.h" />
     <ClInclude Include="Source\Imperator\Families\Families.h" />
     <ClInclude Include="Source\Imperator\Families\Family.h" />
     <ClInclude Include="Source\Imperator\Families\FamilyFactory.h" />
@@ -388,6 +392,8 @@
     <ClInclude Include="Source\Mappers\CoaMapper\CoaMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMapper.h" />
     <ClInclude Include="Source\Mappers\CultureMapper\CultureMappingRule.h" />
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.h" />
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.h" />
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapper.h" />
     <ClInclude Include="Source\Mappers\GovernmentMapper\GovernmentMapping.h" />
     <ClInclude Include="Source\Mappers\LocalizationMapper\LocalizationMapper.h" />
@@ -547,6 +553,24 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Data_Files\configurables\succession_law_map.txt">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Data_Files\configuration_l_simp_chinese.yml">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)..\Configuration</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)..\Configuration</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\options_l_simp_chinese.yml">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)..\Configuration</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)..\Configuration</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Data_Files\configurables\deathMappings.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)configurables</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)configurables</DestinationFolders>
     </CopyFileToFolders>

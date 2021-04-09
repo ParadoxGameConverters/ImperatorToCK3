@@ -4,14 +4,15 @@ on:
     branches:
       - master
 jobs:
-  build:
+  bump_tag:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: '0'
-    - name: Bump version and push tag
+        fetch-depth: 2
+        persist-credentials: false
+    - name: "Bump version and push tag"
       uses: anothrNick/github-tag-action@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DEFAULT_BUMP: patch
+        GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
+        DEFAULT_BUMP: none

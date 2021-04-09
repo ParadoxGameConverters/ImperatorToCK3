@@ -106,6 +106,9 @@
     <Filter Include="Mappers\SuccessionLawMapper">
       <UniqueIdentifier>{7daa7234-4e79-4a3a-85f0-2720e6abb08c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mappers\DeathReasonMapper">
+      <UniqueIdentifier>{8843f4f5-af76-4860-b3c3-bbbcc7f1274b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -397,6 +400,15 @@
     <ClInclude Include="Source\CK3\Titles\TitlesHistory.h">
       <Filter>CK3\Titles</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Countries\CountryNameFactory.h">
+      <Filter>Imperator\Countries</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.h">
+      <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.h">
+      <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -471,9 +483,6 @@
       <Filter>Imperator\Countries</Filter>
     </ClCompile>
     <ClCompile Include="Source\Imperator\Countries\CountryCurrencies.cpp">
-      <Filter>Imperator\Countries</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Imperator\Countries\CountryName.cpp">
       <Filter>Imperator\Countries</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp-base64\base64.cpp">
@@ -680,6 +689,18 @@
     <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp">
       <Filter>CK3\Titles</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Imperator\Countries\CountryNameFactory.cpp">
+      <Filter>Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Countries\CountryName.cpp">
+      <Filter>Imperator\Countries</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapper.cpp">
+      <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.cpp">
+      <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resources\rakaly.dll">
@@ -771,6 +792,15 @@
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Data_Files\configurables\succession_law_map.txt">
+      <Filter>Resources\configurables</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configuration_l_simp_chinese.yml">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\options_l_simp_chinese.yml">
+      <Filter>Resources\Frontend stuff</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Data_Files\configurables\deathMappings.txt">
       <Filter>Resources\configurables</Filter>
     </CopyFileToFolders>
   </ItemGroup>

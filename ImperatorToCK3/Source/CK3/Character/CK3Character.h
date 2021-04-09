@@ -13,10 +13,11 @@
 
 namespace mappers {
 class CultureMapper;
-class ReligionMapper;
-class TraitMapper;
+class DeathReasonMapper;
 class NicknameMapper;
 class ProvinceMapper;
+class ReligionMapper;
+class TraitMapper;
 } // namespace mappers
 
 namespace Imperator {
@@ -37,6 +38,7 @@ class Character {
 		const mappers::NicknameMapper& nicknameMapper,
 		const mappers::LocalizationMapper& localizationMapper,
 		const mappers::ProvinceMapper& provinceMapper,
+		const mappers::DeathReasonMapper& deathReasonMapper,
 		bool ConvertBirthAndDeathDates,
 		date DateOnConversion);
 
@@ -59,6 +61,7 @@ class Character {
 
 	date birthDate = date("1.1.1");
 	std::optional<date> deathDate;
+	std::optional<std::string> deathReason;
 
 	std::set<std::string> traits;
 	std::map<std::string, mappers::LocBlock> localizations;

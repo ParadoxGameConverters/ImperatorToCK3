@@ -1,11 +1,10 @@
-#include "../ImperatorToCK3/Source/CommonUtilities/HistoryFactory.h"
+#include "CommonUtilities/HistoryFactory.h"
 #include "gtest/gtest.h"
 #include <sstream>
 
 
 
-TEST(CommonUtilities_HistoryTests, initialValueIsUsedAsFallback)
-{
+TEST(CommonUtilities_HistoryTests, initialValueIsUsedAsFallback) {
 	std::stringstream input;
 	input << R"( = {		#Sarkel
 						750.1.2 = {
@@ -30,8 +29,7 @@ TEST(CommonUtilities_HistoryTests, initialValueIsUsedAsFallback)
 	ASSERT_EQ("none", provHistory->getFieldValue("holding", date{1,1,1}).value());
 }
 
-TEST(CommonUtilities_HistoryTests, initialValueIsOverriden)
-{
+TEST(CommonUtilities_HistoryTests, initialValueIsOverriden) {
 	std::stringstream input;
 	input << R"( = {		#Sarkel
 						culture = khazar
@@ -58,8 +56,8 @@ TEST(CommonUtilities_HistoryTests, initialValueIsOverriden)
 	ASSERT_EQ("tengri_pagan", provHistory->getFieldValue("religion", date{1,1,1}).value());
 	ASSERT_EQ("tribal_holding", provHistory->getFieldValue("holding", date{1,1,1}).value());
 }
-TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue)
-{
+
+TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue) {
 	std::stringstream input;
 	input << R"( = {		#Sarkel
 						culture = khazar
@@ -88,8 +86,7 @@ TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue)
 	ASSERT_EQ("cuman", provHistory->getFieldValue("culture", date{1000,1,3}).value());
 }
 
-TEST(CommonUtilities_HistoryTests, nulloptIsReturnedForNonExistingField)
-{
+TEST(CommonUtilities_HistoryTests, nulloptIsReturnedForNonExistingField) {
 	std::stringstream input;
 	input << R"( = {		#Sarkel
 						750.1.2 = {
@@ -102,9 +99,9 @@ TEST(CommonUtilities_HistoryTests, nulloptIsReturnedForNonExistingField)
 
 	History::Factory provHistoryFactory(
 		{
-			{"culture", "culture", std::nullopt},
-		{"religion", "religion", std::nullopt},
-		{ "holding", "holding", "none"}
+			{ "culture", "culture", std::nullopt },
+			{ "religion", "religion", std::nullopt },
+			{ "holding", "holding", "none" }
 		});
 
 	const auto provHistory = provHistoryFactory.getHistory(input);

@@ -11,12 +11,7 @@
 # multiple entries not allowed for: ck3
 
 # Pagan
-link = { ck3 = hellenic_pagan imp = roman_pantheon }
-link = { ck3 = finnish_pagan imp = germanic_religion ck3Province = 373 ck3Province = 380 ck3Province = 381 ck3Province = 382 ck3Province = 384 ck3Province = 385 ck3Province = 387 ck3Province = 388 ck3Province = 390 ck3Province = 391 ck3Province = 392 ck3Province = 393 ck3Province = 396 ck3Province = 400 ck3Province = 418 ck3Province = 419 ck3Province = 420 ck3Province = 421 ck3Province = 422 ck3Province = 424 ck3Province = 425 ck3Province = 426 ck3Province = 430 ck3Province = 454 ck3Province = 171 ck3Province = 172 ck3Province = 173 ck3Province = 174 ck3Province = 175 ck3Province = 176 ck3Province = 177 ck3Province = 178 ck3Province = 179 ck3Province = 180 ck3Province = 181 ck3Province = 182 ck3Province = 183 ck3Province = 184 ck3Province = 185 ck3Province = 186 ck3Province = 187 ck3Province = 188 ck3Province = 189 ck3Province = 190 ck3Province = 191 ck3Province = 192 ck3Province = 193 ck3Province = 194 ck3Province = 195 ck3Province = 196 ck3Province = 197 ck3Province = 198 ck3Province = 199 ck3Province = 200 ck3Province = 201 ck3Province = 202 ck3Province = 203 ck3Province = 204 ck3Province = 205 ck3Province = 206 ck3Province = 207 ck3Province = 208 ck3Province = 209 ck3Province = 210 ck3Province = 211 ck3Province = 212 ck3Province = 213 ck3Province = 214 ck3Province = 215 ck3Province = 216 ck3Province = 217 ck3Province = 218 ck3Province = 219 ck3Province = 442 ck3Province = 443 ck3Province = 444 ck3Province = 448 ck3Province = 449 ck3Province = 450 ck3Province = 451 }
-link = { ck3 = norse_pagan imp = germanic_religion }
-link = { ck3 = baltic_pagan imp = matrist_religion }
-link = { ck3 = melieism imp = eastern_animism }
-link = { ck3 = kushitism_pagan imp = egyptian_pantheon ck3Province = 8278 ck3Province = 6113 ck3Province = 6373 ck3Province = 6375 ck3Province = 6378 ck3Province = 6380 ck3Province = 6376 ck3Province = 6440 ck3Province = 6438 ck3Province = 6412 ck3Province = 6437 ck3Province = 6436 ck3Province = 6415 ck3Province = 6865 ck3Province = 6866 ck3Province = 6867 ck3Province = 6868 ck3Province = 6869 ck3Province = 6870 ck3Province = 6871 ck3Province = 6872 ck3Province = 6873 ck3Province = 6874 ck3Province = 6875 ck3Province = 6876 ck3Province = 6877 ck3Province = 6878 ck3Province = 6879 ck3Province = 6880 ck3Province = 6881 ck3Province = 6882 ck3Province = 6885 ck3Province = 6886 ck3Province = 6887 ck3Province = 6888 ck3Province = 6889 ck3Province = 6890 ck3Province = 6891 ck3Province = 6892 ck3Province = 6893 ck3Province = 6894 ck3Province = 6895 ck3Province = 6897 ck3Province = 6898 ck3Province = 6899 }
+link = { ck3 = kushitism_pagan imp = egyptian_pantheon impRegion = nubia_region impRegion = punt_region }
 link = { ck3 = egyptian_pagan imp = egyptian_pantheon }
 link = { ck3 = canaanite_pagan imp = carthaginian_pantheon }
 link = { ck3 = dacian_pagan imp = shamanism }
@@ -24,15 +19,50 @@ link = { ck3 = caucasian_pagan imp = caucasian_religion }
 link = { ck3 = mesopotamian_pagan imp = mesopotamian_religion }
 link = { ck3 = armenian_pagan imp = armenian_religion }
 link = { ck3 = anatolian_pagan imp = anatolian_religion }
-link = { ck3 = celtic_pagan imp = druidism }
 link = { ck3 = iberian_pagan imp = animism }
 link = { ck3 = berber_pagan imp = berber_religion }
 link = { ck3 = scythian_pagan imp = indo_iranian_religion }
+
+# Arabic
+link = { ck3 = druze imp = arabian_pantheon ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
+link = { ck3 = druze imp = judaism ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
+link = { ck3 = yazidi imp = arabian_pantheon ck3Province = 4773 ck3Province = 4774 ck3Province = 4775 ck3Province = 4776 ck3Province = 4777 ck3Province = 4808 ck3Province = 4809 ck3Province = 4810 ck3Province = 4811 ck3Province = 4812 ck3Province = 4836 ck3Province = 4837 ck3Province = 4838 ck3Province = 4839 ck3Province = 4840 ck3Province = 4841 }
 link = { ck3 = arabic_pagan imp = arabian_pantheon }
 
+# Hellenic
+link = { ck3 = mithraic_mysteries imp = roman_pantheon impRegion = armenia_region impRegion = assyria_region impRegion = mesopotamia_region impRegion = media_region impRegion = persis_region impRegion = parthia_region }
+link = { ck3 = eleusinian_mysteries imp = roman_pantheon impRegion = thrace_region }
+link = { ck3 = hellenic_pagan imp = roman_pantheon } # Default
+
+# Balto-Slavic
+## Baltic only in Baltic area
+link = { ck3 = baltic_pagan imp = matrist_religion ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
+link = { ck3 = slavic_pagan imp = matrist_religion }
+
+# Steppe Religion - Melieism in the East, Tengri in the West
+link = { ck3 = tengri_pagan imp = eastern_animism impRegion = sarmatia_europea_region impRegion = vistulia_region impRegion = venedia_region impRegion = scandinavia_region impRegion = dacia_region impRegion = pannonia_region impRegion = moesia_region impRegion = thrace_region impRegion = macedonia_region impRegion = greece_region impRegion = illyria_region impRegion = germania_region impRegion = bohemia_area }
+link = { ck3 = melieism imp = eastern_animism }
+
+# Celtic
+link = { ck3 = briton_paganism imp = druidism impRegion = britain_region impRegion = scandinavia_region }
+link = { ck3 = gaelic_paganism imp = druidism impRegion = caledonia_region }
+link = { ck3 = gallic_celtic imp = druidism impRegion = aquitaine_region impRegion = transalpine_gaul_region impRegion = armorica_region impRegion = central_gaul_region impRegion = rhaetia_region impRegion = cisalpine_gaul_region impRegion = central_italy_region impRegion = magna_graecia_region impRegion = belgica_region impRegion = germania_superior_region }
+link = { ck3 = celtiberian_paganism imp = druidism impRegion = tarraconensis_region impRegion = gallaecia_region impRegion = lusitania_region impRegion = contestania_region impRegion = baetica_region }
+link = { ck3 = celtic_pagan imp = druidism } # Fallback
+
 #Jewish
-link = { ck3 = haymanot imp = judaism ck3Province = 8312 ck3Province = 8303 ck3Province = 8366 ck3Province = 8371 }
+link = { ck3 = haymanot imp = judaism impRegion = punt_region }
+link = { ck3 = kabarism imp = judaism impRegion = sarmatia_asiatica_region impRegion = taurica_region impRegion = colchis_region impRegion = bithynia_region impRegion = cappadocia_region impRegion = galatia_region impRegion = cilicia_region }
+link = { ck3 = karaism imp = judaism impRegion = assyria_region impRegion = mesopotamia_region }
+link = { ck3 = malabarism imp = judaism impRegion = gandhara_region impRegion = maru_region impRegion = avanti_region impRegion = madhyadesa_region impRegion = pracya_region impRegion = vindhyaprstha_region impRegion = dravida_region impRegion = aparanta_region impRegion = karnata_region }
+link = { ck3 = samaritan imp = judaism ck3Province = 5961 } # Samaria
 link = { ck3 = rabbinism imp = judaism }
+
+# Germanic
+link = { ck3 = finnish_pagan imp = germanic_religion impProvince = 5976 }
+link = { ck3 = norse_pagan imp = germanic_religion impRegion = scandinavia_region impRegion = venedia_region impRegion = vistulia_region impRegion = sarmatia_europea_region impProvince = 5952 impProvince = 5953 }
+link = { ck3 = anglo_pagan imp = germanic_religion impRegion = caledonia_region impRegion = britain_region impRegion = armorica_region impRegion = aquitaine_region }
+link = { ck3 = germanic_pagan imp = germanic_religion }
 
 #Zoroastrian and Manicheans
 link = { ck3 = zun_pagan imp = zoroaster ck3Province = 4290 ck3Province = 4299 ck3Province = 4473 }

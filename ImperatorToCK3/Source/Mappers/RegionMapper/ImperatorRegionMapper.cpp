@@ -17,17 +17,19 @@ namespace fs = std::filesystem;
 mappers::ImperatorRegionMapper::ImperatorRegionMapper(const std::string& imperatorPath) {
 	LOG(LogLevel::Info) << "-> Initializing Imperator Geography";
 	
-	auto areaFileName = imperatorPath + "/game/map_data/areas.txt";
-	auto regionFileName = imperatorPath + "/game/map_data/regions.txt";
+	auto areaFilePath = imperatorPath + "/game/map_data/areas.txt";
+	auto regionFilePath = imperatorPath + "/game/map_data/regions.txt";
 	
-	std::ifstream areaStream(fs::u8path(areaFileName));
+	std::ifstream areaStream(fs::u8path(areaFilePath));
 	if (!areaStream.is_open())
 		throw std::runtime_error("Could not open game/map_data/areas.txt!");
 
-	std::ifstream regionStream(fs::u8path(regionFileName));
+	std::ifstream regionStream(fs::u8path(regionFilePath));
 	if (!regionStream.is_open())
 		throw std::runtime_error("Could not open game/map_data/regions.txt!");
 	
+	commonItems::absorbBOM(areaStream);
+	commonItems::absorbBOM(regionStream);
 	loadRegions(areaStream, regionStream);
 
 	areaStream.close();

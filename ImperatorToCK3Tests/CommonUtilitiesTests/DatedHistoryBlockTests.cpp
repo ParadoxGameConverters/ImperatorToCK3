@@ -1,10 +1,10 @@
-#include "CommonUtilities/DatedHistoryBlock.h"
 #include "gtest/gtest.h"
+#include "CommonUtilities/DatedHistoryBlock.h"
 #include <sstream>
 
 
-TEST(CommonUtilities_DatedHistoryBlockTests, allValidPairsAreRead)
-{
+
+TEST(CommonUtilities_DatedHistoryBlockTests, allValidPairsAreRead) {
 	std::stringstream input;
 	input << R"( = {
 					culture = cuman
@@ -27,8 +27,7 @@ TEST(CommonUtilities_DatedHistoryBlockTests, allValidPairsAreRead)
 }
 
 
-TEST(CommonUtilities_DatedHistoryBlockTests, quotedStringsAreNotReadAsKeys)
-{
+TEST(CommonUtilities_DatedHistoryBlockTests, quotedStringsAreNotReadAsKeys) {
 	std::stringstream input;
 	input << R"( = {
 					culture = cuman

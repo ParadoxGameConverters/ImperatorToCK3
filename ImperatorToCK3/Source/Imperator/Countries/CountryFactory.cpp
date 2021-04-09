@@ -26,7 +26,7 @@ Imperator::Country::Factory::Factory() {
 		country->tag = commonItems::getString(theStream);
 	});
 	registerKeyword("country_name", [this](std::istream& theStream) {
-		country->name = CountryName(theStream).getName();
+		country->countryName = std::move(*countryNameFactory.getCountryName(theStream));
 	});
 	registerKeyword("flag", [this](std::istream& theStream){
 		country->flag = commonItems::getString(theStream);

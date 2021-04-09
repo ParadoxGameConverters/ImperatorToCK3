@@ -1,0 +1,208 @@
+# ImperatorToCK3: Last updated CK3 patch 1.3.0
+hittite_group = {
+	graphical_cultures = {
+		byzantine_group_coa_gfx
+		byzantine_clothing_gfx
+		israelite_group_coa_gfx
+		mena_clothing_gfx
+		dde_abbasid_clothing_gfx
+		mena_building_gfx
+		eastern_unit_gfx
+	}
+
+	luwian = { # The Trojans of the Iliad!
+	
+		color = hsv { 0.32 0.45 0.9 }
+
+		cadet_dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+		}
+
+		dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+		}
+
+		male_names = {
+			Acamas Adrestus Aeneas Amphimachus Amphius Antiphus Archilochus Ascanius Asius Chromius Ennomus Epistrophus
+			Euphemus Eurypylus Glaucus Hector Hippothous Memnon Mesthles Nastes Odius Pandarus Peirous Phorcys
+			Pylaemenes Pylaeus Pyraechmes Rhesus Sarpedon Antenor Aesyetes Deiphobus Helenus Polydorus Troilus
+			Polites Kebriones Gorgythion Agathon Mestor Doryclus Democoon Lycaon Pammon Dius Isus Antiphonus
+			Echemmon Archemachus Aretus Deiopites Dryops Evagoras Evander Polymedon Aegeoneus Aesacus Astygonus
+			Atas Bias Chersidamas Clonius Echephron Hippodamas Hipponous Hyperion Hyperochus Idomeneus Laodocus
+			Lysithous Melanippus Mylius Philaemon Telestas Antinous Astynomus Axion Biantes Brissonius Cheirodamas
+			Chrysolaus Dolon Eresus Heron Hippasus Hipposidus Ilagus Lysides Palaemon Polymelus Proneos Protodamas
+			Chaon Idaeus Chryses
+		}
+		female_names = {
+			Cassandra Laodice Theano Penthesilea Cleomestra Hecuba Medesicaste Creusa Medusa
+			Aristodeme Lysimache Polyxena Demnosia Demosthea Ethionome Henicea Iliona Lysianassa
+			Nereis Phegea Philomela Aristomache Clymene Xenodice Deinome Metioche Peisis Cleodice
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+		
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 50
+		mat_grf_name_chance = 5
+		father_name_chance = 20
+		
+		# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+		pat_grm_name_chance = 10
+		mat_grm_name_chance = 50
+		mother_name_chance = 5
+		
+		patronym_prefix_male = prefix_tideimi
+		patronym_prefix_female = prefix_wanatti
+		dynasty_of_location_prefix = dynn_washtara
+		founder_named_dynasties = yes
+
+		mercenary_names = {
+			{ name = "ir_the_trojans" }
+		}
+	}
+	
+	lydian = {
+	
+		color = rgb { 149 101 186 }
+
+		cadet_dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+		}
+
+		dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+			dynn_Maeoniae dynn_Heraclidae dynn_Mermnadae
+		}
+
+		male_names = {
+			Idmon Manes Atys Lydus Iardanus Agron Meles Myrsus Candaules Myrsilus
+			Alcaeus Belus Ninus Gyges Ardys Sadyattes Alyattes Croesus Cotys Asies
+			Tmolus Tantalus Tyrrhenus Torubus Heracles Dascylus Arnossus Arselis
+		}
+		female_names = {
+			Arachne Callirhoe Omphale Nyssia Tudo
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+		
+		patronym_suffix_male = suffix_liS_
+		patronym_suffix_female = suffix_liS_
+		dynasty_of_location_prefix = prefix_qira
+		always_use_patronym = yes
+
+		mercenary_names = {
+			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
+		}
+	}
+	hittite = {
+	
+		color = hsv { 0.42 0.45 0.3 }
+
+		cadet_dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+		}
+
+		dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+		}
+
+		male_names = {
+			Labarna Hattusili Mursili Hantili Zidanta Ammuna Huzziya Telipinus Alluwamna Tahurwaili
+			Muwatalli Tudhaliya Arnuwanda Suppiluliuma Urhi-Teshub Kurunta Asmi-Sarruma
+		}
+		female_names = {
+			Tawannanna Harapsili Hastayara Kali Istapariya Harapseki Yaya Summiri Walanni
+			Nikal-mati Asmu-nikal Daduhepa Zida Henti Gassulawiya Tanuhepa Puduhepa
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+		
+		patronym_prefix_male = "prefix_hassant"
+		patronym_prefix_female = "prefix_sarhuwant"
+		bastard_dynasty_prefix = "prefix_pahhursi"
+		dynasty_of_location_prefix = "prefix_apE_z"
+
+		mercenary_names = {
+			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
+			{ name = "ir_followers_of_mithridates" coat_of_arms = "k_pontus" }
+		}
+	}
+	
+	phrygian = {
+	
+		color = rgb { 246  223  15 }
+
+		cadet_dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+		}
+
+		dynasty_names = {
+			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+			dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+			dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+			dynn_Frataraka
+		}
+
+		male_names = {
+			Acmon Dymas Asius Otreus Eioneus Proteus Sangarius Phoenix Agenor Gordias
+			Adrastus Midas Lityerses Anchurus Mygdon Coroebus Pelops Tantalus Atreus
+			Atlas Oenomaus Pittheus Troezen Alcathous Dimoetes Pleisthenes Thyestes
+			Copreus Hippalcimus Sciron Cleones Letreus Perseus Alcaeus Sthenelus Mestor
+			Electryon Chrysippus Marmax Porthaon Euryalus Eurymachus Crotalus Acrias
+			Capetus Lycurgus Lasius Chalcodon Tricolonus Lycaon Aristomachus Prias
+			Pelagon Aeolius Cronius Erythras Leucon Magnes Agamemnon
+		}
+		female_names = {
+			Hecuba Eunoe Cybele Zoe Damodice Anaximene Dione Euryanassa Eurythemista
+			Linos Hippodamia Astydameia Nicippe Lysidice Eurydice Axioche Danais Astyoche
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+		
+		patronym_prefix_male = prefix_br
+		patronym_suffix_female = suffix_eia
+		founder_named_dynasties = yes
+		always_use_patronym = yes
+
+		mercenary_names = {
+			{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
+		}
+	}
+}

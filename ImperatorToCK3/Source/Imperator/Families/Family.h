@@ -16,7 +16,7 @@ class Family {
 	class Factory;
 	Family() = default;
 
-	void linkMember(const std::shared_ptr<Character>& memberPtr);
+	void linkMember(const std::shared_ptr<Character>& newMemberPtr);
 
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] const auto& getKey() const { return key; }

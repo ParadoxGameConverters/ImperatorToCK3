@@ -1,13 +1,13 @@
 #include "gtest/gtest.h"
+#include "Imperator/Countries/Countries.h"
+#include "Imperator/Countries/Country.h"
+#include "Imperator/Families/Families.h"
+#include "Imperator/Families/Family.h"
 #include <sstream>
 
-#include "../ImperatorToCK3/Source/Imperator/Countries/Countries.h"
-#include "../ImperatorToCK3/Source/Imperator/Countries/Country.h"
-#include "../ImperatorToCK3/Source/Imperator/Families/Families.h"
-#include "../ImperatorToCK3/Source/Imperator/Families/Family.h"
 
-TEST(ImperatorWorld_CountriesTests, countriesDefaultToEmpty)
-{
+
+TEST(ImperatorWorld_CountriesTests, countriesDefaultToEmpty) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -18,8 +18,7 @@ TEST(ImperatorWorld_CountriesTests, countriesDefaultToEmpty)
 	ASSERT_TRUE(countries.getCountries().empty());
 }
 
-TEST(ImperatorWorld_CountriesTests, countriesCanBeLoaded)
-{
+TEST(ImperatorWorld_CountriesTests, countriesCanBeLoaded) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -40,8 +39,7 @@ TEST(ImperatorWorld_CountriesTests, countriesCanBeLoaded)
 }
 
 
-TEST(ImperatorWorld_CountriesTests, familyCanBeLinked)
-{
+TEST(ImperatorWorld_CountriesTests, familyCanBeLinked) {
 	std::stringstream input;
 	input << "={42={family=8}}\n";
 	Imperator::Countries countries(input);
@@ -60,8 +58,7 @@ TEST(ImperatorWorld_CountriesTests, familyCanBeLinked)
 	ASSERT_EQ(2, family->second->getPrestige());
 }
 
-TEST(ImperatorWorld_CountriesTests, multipleFamiliesCanBeLinked)
-{
+TEST(ImperatorWorld_CountriesTests, multipleFamiliesCanBeLinked) {
 	std::stringstream input;
 	input << "={\n";
 	input << "43={ family = 10}\n";
@@ -96,8 +93,7 @@ TEST(ImperatorWorld_CountriesTests, multipleFamiliesCanBeLinked)
 	ASSERT_EQ(69, family3->second->getPrestige());
 }
 
-TEST(ImperatorWorld_CountriesTests, BrokenLinkAttemptThrowsWarning)
-{
+TEST(ImperatorWorld_CountriesTests, BrokenLinkAttemptThrowsWarning) {
 	std::stringstream input;
 	input << "={\n";
 	input << "42={ family = 8 }\n";

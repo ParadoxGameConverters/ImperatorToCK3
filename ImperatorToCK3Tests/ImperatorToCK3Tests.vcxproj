@@ -198,6 +198,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryCurrencies.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryFactory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryName.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\CountryNameFactory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Families\Families.cpp" />
     <ClCompile Include="..\commonItems\Date.cpp" />
     <ClCompile Include="..\commonItems\iconvlite.cpp" />
@@ -224,6 +225,8 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CoaMapper\CoaMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\CultureMapper\CultureMappingRule.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\DeathReasonMapper\DeathReasonMapper.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\Mappers\DeathReasonMapper\DeathReasonMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\GovernmentMapper\GovernmentMapper.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\GovernmentMapper\GovernmentMapping.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\LocalizationMapper\LocalizationMapper.cpp" />
@@ -261,6 +264,7 @@
     <ClCompile Include="ImperatorWorldTests\Characters\CharacterTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Characters\PortraitDataTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Countries\CountriesTests.cpp" />
+    <ClCompile Include="ImperatorWorldTests\Countries\CountryNameTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Countries\CountryTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamiliesTests.cpp" />
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp" />
@@ -275,6 +279,8 @@
     <ClCompile Include="MapperTests\CoaMapper\CoaMapperTests.cpp" />
     <ClCompile Include="MapperTests\CultureMapper\CultureMapperTests.cpp" />
     <ClCompile Include="MapperTests\CultureMapper\CultureMappingTests.cpp" />
+    <ClCompile Include="MapperTests\DeathReasonMapper\DeathReasonMapperTests.cpp" />
+    <ClCompile Include="MapperTests\DeathReasonMapper\DeathReasonMappingTests.cpp" />
     <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMapperTests.cpp" />
     <ClCompile Include="MapperTests\GovernmentMapper\GovernmentMappingTests.cpp" />
     <ClCompile Include="MapperTests\NicknameMapper\NicknameMapperTests.cpp" />

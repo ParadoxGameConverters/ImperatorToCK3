@@ -1,0 +1,138 @@
+# ImperatorToCK3: Last updated CK3 patch 1.3.0
+thracian_group = {
+	graphical_cultures = {
+		western_coa_gfx
+		byzantine_clothing_gfx
+		mediterranean_building_gfx
+		eastern_unit_gfx
+	}
+	
+	thracian = {
+	
+		color = rgb { 5 162 25 }
+
+		cadet_dynasty_names = {
+			dynn_Adaid dynn_Amatokid dynn_Aulouporid dynn_Aulouzonid dynn_Bendidorid dynn_Berisadid dynn_Bessid dynn_Bithid
+			dynn_Brinkainid dynn_Brinkazenid dynn_Brinkazerid dynn_Brinkazid dynn_Bryzid dynn_Byzid dynn_Kelsinid dynn_Kelsid
+			dynn_Kersobleptid dynn_Kerzulid dynn_Ketriporid dynn_Kocaid dynn_Delid dynn_Dentubrisid dynn_Dentupid dynn_Deopid
+			dynn_Deospurid dynn_Desakenthid dynn_Diaskenthid dynn_Diazenid dynn_Dizapid dynn_Dizaporid dynn_Dizid
+			dynn_Dizazelpid dynn_Dolenid dynn_Drenid dynn_Eptaikenthid dynn_Eptapid dynn_Eptaporid dynn_Eptenid dynn_Eptezenid
+			dynn_Ezbenid dynn_Gaidrid dynn_Hebryzelmid dynn_Kenthid dynn_Kersid dynn_Kersibaulid dynn_Kersobleptid
+			dynn_Ketriporid dynn_Ketrizeid dynn_Kotid dynn_Maisadid dynn_Markiporid dynn_Mukakenthid dynn_Mukapaibid
+			dynn_Mukapid dynn_Mukaporid dynn_Mukatralid dynn_Mukazenid dynn_Naiporid dynn_Oliporid dynn_Porid dynn_Pytrid
+			dynn_Raizdid dynn_Raskid dynn_Rekiperid dynn_Rhaskid dynn_Rhaskuporid dynn_Rheboulid dynn_Rhesid dynn_Rhoemetalkid
+			dynn_Sadalid dynn_Satrid dynn_Sortid dynn_Seikiperid dynn_Seuthid dynn_Skarid dynn_Skilid dynn_Skostodokid
+			dynn_Sparatokid dynn_Taruthinid dynn_Terid dynn_Tzitzid dynn_Zieisid dynn_Ziepyrid dynn_Zilid dynn_Zipaibid dynn_Zipyrid
+		}
+
+		dynasty_names = {
+			dynn_Adaid dynn_Amatokid dynn_Aulouporid dynn_Aulouzonid dynn_Bendidorid dynn_Berisadid dynn_Bessid dynn_Bithid
+			dynn_Brinkainid dynn_Brinkazenid dynn_Brinkazerid dynn_Brinkazid dynn_Bryzid dynn_Byzid dynn_Kelsinid dynn_Kelsid
+			dynn_Kersobleptid dynn_Kerzulid dynn_Ketriporid dynn_Kocaid dynn_Delid dynn_Dentubrisid dynn_Dentupid dynn_Deopid
+			dynn_Deospurid dynn_Desakenthid dynn_Diaskenthid dynn_Diazenid dynn_Dizapid dynn_Dizaporid dynn_Dizid
+			dynn_Dizazelpid dynn_Dolenid dynn_Drenid dynn_Eptaikenthid dynn_Eptapid dynn_Eptaporid dynn_Eptenid dynn_Eptezenid
+			dynn_Ezbenid dynn_Gaidrid dynn_Hebryzelmid dynn_Kenthid dynn_Kersid dynn_Kersibaulid dynn_Kersobleptid
+			dynn_Ketriporid dynn_Ketrizeid dynn_Kotid dynn_Maisadid dynn_Markiporid dynn_Mukakenthid dynn_Mukapaibid
+			dynn_Mukapid dynn_Mukaporid dynn_Mukatralid dynn_Mukazenid dynn_Naiporid dynn_Oliporid dynn_Porid dynn_Pytrid
+			dynn_Raizdid dynn_Raskid dynn_Rekiperid dynn_Rhaskid dynn_Rhaskuporid dynn_Rheboulid dynn_Rhesid dynn_Rhoemetalkid
+			dynn_Sadalid dynn_Satrid dynn_Sortid dynn_Seikiperid dynn_Seuthid dynn_Skarid dynn_Skilid dynn_Skostodokid
+			dynn_Sparatokid dynn_Taruthinid dynn_Terid dynn_Tzitzid dynn_Zieisid dynn_Ziepyrid dynn_Zilid dynn_Zipaibid dynn_Zipyrid
+		}
+
+		male_names = {
+		   Adaios Amatokos Aulouporis Aulouzon Bendidoros Berisades Bessos Bithos Brinkainos Brinkazenis Brinkazeris Brinkazis Bryzos Byzas Delos Dentoubrisa Dentoupes Deopos Deosporis Desakenthos Diaskenthos Diazenis Dizapes Dizapor Dizas Dizazelpis Dolens Drenis Eptaikenthos Eptapis Eptaporis Eptenis Eptezenis Ezbenis Gaidres Hebryzelmis Kelsinos Kelsos Kenthos Kerses Kerzoula Kersibaulos Kersobleptes Ketriporis Ketrizeis Kokaios Kotys Maisades Markipor Moukakenthos Moukapaibes Moukapius Moukaporis Moukatralis Moukazenis Naipor Olipor Poris Pytros Raizdos Raskos Rekiper Rhaskos Rhaskuporis Rheboulas Rhesos Rhoemetalces Sadalas Satres Sautes Seikiper Seuthes Skaris Skilas Skostodokos Sparadokos Taruthinas Teres Tzitzis Zieisis Ziepyros Ziles Zipaibes Zipyron
+	    }
+		
+	    female_names = {
+		   Bendidora Daizo Dentustaina Dentusykos Dida Dinentilla Dizo Drigissa Epteporis Eptepos Eptesykos Ettela Kerza Mania Moka Mokasokos Mukko Mukapora Murko Nanea Purizia Rheskutorme Rhymesikos Sinna Sita Torkoula
+	    }
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
+		}
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx eastern_unit_gfx }
+	}
+
+	dacian = {
+	
+		color = hsv { 0.0 0.5 1.0 }
+
+		cadet_dynasty_names = {
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
+		}
+
+		dynasty_names = {
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
+		}
+
+		male_names = {
+			Bastiza Bikilis Blegissa Blaesus Blaikisa Brasus Burebista Comosicus Cothelas Cotiso Dablosa Dadas Dadazai Daizus Dapyx Dardiolai Danillo Decibalus Dida Denzibalus Diernais Dotouzi Duras 
+			Kaigiza Komozoi Moskon Mucapor Mucatra Natoporus Orola Petipor Pierporus Rhemaxos Rholes Rubobostes Rolouzis Rigozus Scoris Tiati Tarbus Tsiru Zinna Vezina Zoutoula
+		}
+		female_names = {
+			Duccidava Rescuturme Zina Zinai Petriturme Zindurme Roibana Oriza Rescurai Raina Sanziana Claria Eccana
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_por"
+		patronym_prefix_female = "dynnpat_pre_pora"
+		always_use_patronym = yes	
+
+		mercenary_names = {
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
+		}
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx eastern_unit_gfx }
+	}
+	
+	getian = {
+	
+		color = rgb { 112 190 71 }
+
+		cadet_dynasty_names = {
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
+		}
+
+		dynasty_names = {
+			dynn_Gudilanian dynn_Cotisian dynn_Durasian dynn_Dromichaetid dynn_Komozian dynn_Moskosian
+			dynn_Mucatralian dynn_Natoporian dynn_Orolosian dynn_Pieporian dynn_Rhemaxilid dynn_Rholicid
+			dynn_Rubobosticid dynn_Scorian dynn_Tiatian dynn_Tarbian dynn_Tsiricid dynn_Zinnicid
+		}
+
+		male_names = {
+			Bastiza Bikilis Blegissa Blaesus Blaikisa Brasus Burebista Comosicus Cothelas Cotiso Dablosa Dadas Dadazai Daizus Dapyx Dardiolai Danillo Decibalus Dida Denzibalus Diernais Dotouzi Duras 
+			Kaigiza Komozoi Moskon Mucapor Mucatra Natoporus Orola Petipor Pierporus Rhemaxos Rholes Rubobostes Rolouzis Rigozus Scoris Tiati Tarbus Tsiru Zinna Vezina Zoutoula
+		}
+		female_names = {
+			Duccidava Rescuturme Zina Zinai Petriturme Zindurme Roibana Oriza Rescurai Raina Sanziana Claria Eccana
+		}
+
+		ethnicities = {
+			10 = mediterranean_byzantine
+		}
+
+		mercenary_names = {
+			{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }			
+		}
+		
+		patronym_suffix_male = "dynnpat_suf_por"
+		patronym_suffix_female = "dynnpat_suf_pora"
+		always_use_patronym = yes	
+		
+		graphical_cultures = { mongol_clothing_gfx steppe_building_gfx northern_unit_gfx }
+	}
+}

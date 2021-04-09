@@ -5,6 +5,7 @@
 
 #include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "TitleHistory.h"
+#include "Imperator/Countries/CountryName.h"
 #include "Parser.h"
 #include "Color.h"
 #include <memory>
@@ -40,9 +41,10 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	Title() = default;
 	explicit Title(const std::string& name);
 	void initializeFromTag(
-		std::shared_ptr<Imperator::Country> theCountry, 
-		mappers::LocalizationMapper& localizationMapper, 
-		LandedTitles& landedTitles, 
+		std::shared_ptr<Imperator::Country> theCountry,
+		const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries,
+		mappers::LocalizationMapper& localizationMapper,
+		LandedTitles& landedTitles,
 		mappers::ProvinceMapper& provinceMapper,
 		mappers::CoaMapper& coaMapper,
 		mappers::TagTitleMapper& tagTitleMapper,
@@ -55,7 +57,8 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 
 	void setHolder(const std::string& newHolder) { history.holder = newHolder; }
 	void setDevelopmentLevel(const std::optional<int>& devLevel) { history.developmentLevel = devLevel; }
-	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the name
+	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the localized name
+	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
 	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.emplace(provinceId); }
 	void addHistory(const LandedTitles& landedTitles, TitleHistory titleHistory);
 	
@@ -106,7 +109,6 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	static void addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles);
 	
 	void registerKeys();
-	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper);
 	void setRank();
 
 	std::string titleName; // e.g. d_latium

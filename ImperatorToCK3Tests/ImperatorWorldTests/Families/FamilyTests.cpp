@@ -7,8 +7,7 @@
 
 
 
-TEST(ImperatorWorld_FamilyTests, IDCanBeSet)
-{
+TEST(ImperatorWorld_FamilyTests, IDCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -18,8 +17,7 @@ TEST(ImperatorWorld_FamilyTests, IDCanBeSet)
 	ASSERT_EQ(42, theFamily.getID());
 }
 
-TEST(ImperatorWorld_FamilyTests, cultureCanBeSet)
-{
+TEST(ImperatorWorld_FamilyTests, cultureCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -31,8 +29,7 @@ TEST(ImperatorWorld_FamilyTests, cultureCanBeSet)
 	ASSERT_EQ("paradoxian", theFamily.getCulture());
 }
 
-TEST(ImperatorWorld_FamilyTests, cultureDefaultsToBlank)
-{
+TEST(ImperatorWorld_FamilyTests, cultureDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -43,8 +40,7 @@ TEST(ImperatorWorld_FamilyTests, cultureDefaultsToBlank)
 	ASSERT_TRUE(theFamily.getCulture().empty());
 }
 
-TEST(ImperatorWorld_FamilyTests, prestigeCanBeSet)
-{
+TEST(ImperatorWorld_FamilyTests, prestigeCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -56,8 +52,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeCanBeSet)
 	ASSERT_EQ(420.5, theFamily.getPrestige());
 }
 
-TEST(ImperatorWorld_FamilyTests, prestigeDefaultsToZero)
-{
+TEST(ImperatorWorld_FamilyTests, prestigeDefaultsToZero) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -68,8 +63,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeDefaultsToZero)
 	ASSERT_EQ(0, theFamily.getPrestige());
 }
 
-TEST(ImperatorWorld_FamilyTests, prestigeRatioCanBeSet)
-{
+TEST(ImperatorWorld_FamilyTests, prestigeRatioCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -81,8 +75,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeRatioCanBeSet)
 	ASSERT_EQ(0.75, theFamily.getPrestigeRatio());
 }
 
-TEST(ImperatorWorld_FamilyTests, prestigeRatioDefaultsToZero)
-{
+TEST(ImperatorWorld_FamilyTests, prestigeRatioDefaultsToZero) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -93,8 +86,7 @@ TEST(ImperatorWorld_FamilyTests, prestigeRatioDefaultsToZero)
 	ASSERT_EQ(0, theFamily.getPrestigeRatio());
 }
 
-TEST(ImperatorWorld_FamilyTests, keyCanBeSet)
-{
+TEST(ImperatorWorld_FamilyTests, keyCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -107,8 +99,7 @@ TEST(ImperatorWorld_FamilyTests, keyCanBeSet)
 }
 
 
-TEST(ImperatorWorld_FamilyTests, minorFamilyDefaultsToFalse)
-{
+TEST(ImperatorWorld_FamilyTests, minorFamilyDefaultsToFalse) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -120,8 +111,7 @@ TEST(ImperatorWorld_FamilyTests, minorFamilyDefaultsToFalse)
 }
 
 
-TEST(ImperatorWorld_FamilyTests, minorFamilyCanBeSet)
-{
+TEST(ImperatorWorld_FamilyTests, minorFamilyCanBeSet) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -134,8 +124,7 @@ TEST(ImperatorWorld_FamilyTests, minorFamilyCanBeSet)
 }
 
 
-TEST(ImperatorWorld_FamilyTests, keyDefaultsToBlank)
-{
+TEST(ImperatorWorld_FamilyTests, keyDefaultsToBlank) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";

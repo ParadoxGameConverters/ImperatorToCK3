@@ -1,9 +1,9 @@
+#include "gtest/gtest.h"
 #include "CK3/Titles/Title.h"
 #include "CK3/Titles/LandedTitles.h"
 #include "CK3/Titles/TitlesHistory.h"
 #include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "Mappers/CoaMapper/CoaMapper.h"
-#include "gtest/gtest.h"
 #include <sstream>
 
 

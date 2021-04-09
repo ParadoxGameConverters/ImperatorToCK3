@@ -4,6 +4,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include <ranges>
 
 
 
@@ -40,10 +41,10 @@ void Imperator::Countries::linkFamilies(const Families& theFamilies) {
 	auto counter = 0;
 	std::set<unsigned long long> idsWithoutDefinition;
 	const auto& families = theFamilies.getFamilies();
-	for (const auto& [countryID, country] : countries) {
+	for (const auto& country : countries | std::views::values) {
 		if (!country->getFamilies().empty()) {
 			std::map<unsigned long long, std::shared_ptr<Family>> newFamilies;
-			for (const auto& [familyID, family] : country->getFamilies()) {
+			for (const auto& familyID : country->getFamilies() | std::views::keys) {
 				const auto& familyItr = families.find(familyID);
 				if (familyItr != families.end()) {
 					newFamilies.insert(std::pair(familyItr->first, familyItr->second));

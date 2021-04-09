@@ -2,6 +2,7 @@
 #include "LandedTitles.h"
 #include "TitlesHistory.h"
 #include "Imperator/Countries/Country.h"
+#include "Imperator/Countries/CountryName.h"
 #include "Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Mappers/CoaMapper/CoaMapper.h"
 #include "Mappers/TagTitleMapper/TagTitleMapper.h"
@@ -80,13 +81,14 @@ CK3::Title::Title(const std::string& name): titleName(name) {
 
 
 void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountry,
-                                   mappers::LocalizationMapper& localizationMapper,
-                                   LandedTitles& landedTitles,
-                                   mappers::ProvinceMapper& provinceMapper,
-                                   mappers::CoaMapper& coaMapper,
-                                   mappers::TagTitleMapper& tagTitleMapper,
-                                   mappers::GovernmentMapper& governmentMapper, 
-                                   mappers::SuccessionLawMapper& successionLawMapper)
+								   const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries,
+								   mappers::LocalizationMapper& localizationMapper,
+								   LandedTitles& landedTitles,
+								   mappers::ProvinceMapper& provinceMapper,
+								   mappers::CoaMapper& coaMapper,
+								   mappers::TagTitleMapper& tagTitleMapper,
+								   mappers::GovernmentMapper& governmentMapper, 
+								   mappers::SuccessionLawMapper& successionLawMapper)
 {
 	importedOrUpdatedFromImperator = true;
 
@@ -105,7 +107,7 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 		validatedName = localizationMapper.getLocBlockForKey("get_mry_name_fallback");
 	// normal case
 	else
-		validatedName = localizationMapper.getLocBlockForKey(imperatorCountry->getName());
+		validatedName = imperatorCountry->getCountryName().getNameLocBlock(localizationMapper, imperatorCountries);
 
 	std::optional<std::string> title;
 	if (validatedName) 
@@ -157,22 +159,22 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 
 	auto nameSet = false;
 	if (validatedName) {
-		localizations.insert(std::pair(titleName, *validatedName));
+		localizations.emplace(titleName, *validatedName);
 		nameSet = true;
 	}
 	if (!nameSet) {
 		auto impTagLoc = localizationMapper.getLocBlockForKey(imperatorCountry->getTag());
 		if (impTagLoc) {
-			localizations.insert(std::pair(titleName, *impTagLoc));
+			localizations.emplace(titleName, *impTagLoc);
 			nameSet = true;
 		}
 	}
-	// giving up.
+	// giving up
 	if (!nameSet)
-		Log(LogLevel::Warning) << titleName << " help with localization! " << imperatorCountry->getName() << "?";
+		Log(LogLevel::Warning) << titleName << " needs help with localization! " << imperatorCountry->getName() << "?";
 	
 	// --------------- Adjective Locs
-	trySetAdjectiveLoc(localizationMapper);
+	trySetAdjectiveLoc(localizationMapper, imperatorCountries);
 }
 
 
@@ -195,7 +197,7 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle) {
 }
 
 
-void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper) {
+void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) {
 	auto adjSet = false;
 
 	if (imperatorCountry->getTag() == "PRY" || imperatorCountry->getTag() == "SEL" || imperatorCountry->getTag() == "MRY") { // these tags use customizable loc for adj
@@ -213,29 +215,22 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 		}
 	}
 	if (!adjSet) {
-		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getName() + "_ADJ");
-		if (adjLocalizationMatch) {
-			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);
+		const auto adjOpt = imperatorCountry->getCountryName().getAdjectiveLocBlock(localizationMapper, imperatorCountries);
+		if (adjOpt) {
+			localizations.emplace(titleName + "_adj", *adjOpt);
 			adjSet = true;
 		}
 	}
-	if (!adjSet && !imperatorCountry->getName().empty()) { // if loc for <title name>_adj key doesn't exist, use title name (which is apparently what Imperator does
-		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getName());
-		if (adjLocalizationMatch) {
-			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);
-			adjSet = true;
-		}
-	}
-	if (!adjSet) { // same as above, but with tag instead of name as fallback
+	if (!adjSet) { // final fallback
 		auto adjLocalizationMatch = localizationMapper.getLocBlockForKey(imperatorCountry->getTag());
 		if (adjLocalizationMatch) {
 			localizations.emplace(titleName + "_adj", *adjLocalizationMatch);
 			adjSet = true;
 		}
 	}
-	// giving up.
+	// giving up
 	if (!adjSet)
-		Log(LogLevel::Warning) << titleName << " help with localization for adjective! " << imperatorCountry->getName() << "_adj?";
+		Log(LogLevel::Warning) << titleName << " needs help with localization for adjective! " << imperatorCountry->getName() << "_adj?";
 }
 
 void CK3::Title::setRank() {

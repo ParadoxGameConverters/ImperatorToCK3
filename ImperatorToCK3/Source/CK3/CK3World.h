@@ -6,6 +6,7 @@
 #include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Mappers/CultureMapper/CultureMapper.h"
+#include "Mappers/DeathReasonMapper/DeathReasonMapper.h"
 #include "Mappers/ReligionMapper/ReligionMapper.h"
 #include "Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Mappers/CoaMapper/CoaMapper.h"
@@ -53,8 +54,9 @@ private:
 
 	void importImperatorFamilies(const Imperator::World& impWorld);
 	
-	void importImperatorCountries(const Imperator::World& impWorld);
-	void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country);
+	void importImperatorCountries(const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
+	void importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country, 
+								const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
 	
 	void importVanillaProvinces(const std::string& ck3Path);
 	void importImperatorProvinces(const Imperator::World& impWorld);
@@ -72,18 +74,19 @@ private:
 	LandedTitles landedTitles;
 	std::map<unsigned long long, std::shared_ptr<Province>> provinces;
 
-	mappers::LocalizationMapper localizationMapper;
-	mappers::TagTitleMapper tagTitleMapper;
-	mappers::ProvinceMapper provinceMapper;
-	mappers::CultureMapper cultureMapper;
-	mappers::ReligionMapper religionMapper;
 	mappers::CoaMapper coaMapper;
-	mappers::TraitMapper traitMapper;
-	mappers::NicknameMapper nicknameMapper;
+	mappers::CultureMapper cultureMapper;
+	mappers::DeathReasonMapper deathReasonMapper;
 	mappers::GovernmentMapper governmentMapper;
+	mappers::LocalizationMapper localizationMapper;
+	mappers::NicknameMapper nicknameMapper;
+	mappers::ProvinceMapper provinceMapper;
+	mappers::ReligionMapper religionMapper;
+	mappers::SuccessionLawMapper successionLawMapper;
+	mappers::TagTitleMapper tagTitleMapper;
+	mappers::TraitMapper traitMapper;
 	std::shared_ptr<mappers::CK3RegionMapper> ck3RegionMapper;
 	std::shared_ptr<mappers::ImperatorRegionMapper> imperatorRegionMapper;
-	mappers::SuccessionLawMapper successionLawMapper;
 	TitlesHistory titlesHistory;
 
 

@@ -1,10 +1,11 @@
-#include "../../ImperatorToCK3/Source/CK3/Titles/LandedTitles.h"
-#include "../../ImperatorToCK3/Source/CK3/Titles/Title.h"
+#include "CK3/Titles/LandedTitles.h"
+#include "CK3/Titles/Title.h"
 #include "gtest/gtest.h"
 #include <sstream>
 
-TEST(CK3World_LandedTitlesTests, titlesDefaultToEmpty)
-{
+
+
+TEST(CK3World_LandedTitlesTests, titlesDefaultToEmpty) {
 	std::stringstream input;
 	CK3::LandedTitles titles;
 	titles.loadTitles(input);
@@ -12,8 +13,7 @@ TEST(CK3World_LandedTitlesTests, titlesDefaultToEmpty)
 	ASSERT_TRUE(titles.getTitles().empty());
 }
 
-TEST(CK3World_LandedTitlesTests, titlesCanBeLoaded)
-{
+TEST(CK3World_LandedTitlesTests, titlesCanBeLoaded) {
 	std::stringstream input;
 	input << "b_barony = { province = 12 }\n";
 	input << "c_county = { landless = yes }\n";
@@ -29,8 +29,7 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeLoaded)
 	ASSERT_TRUE(county->second->landless);
 }
 
-TEST(CK3World_LandedTitlesTests, titlesCanBeLoadedRecursively)
-{
+TEST(CK3World_LandedTitlesTests, titlesCanBeLoadedRecursively) {
 	std::stringstream input;
 	input << "e_empire1 = { k_kingdom2 = { d_duchy3 = { b_barony4 = { province = 12 } } } }\n";
 	input << "c_county5 = { landless = yes }\n";
@@ -46,8 +45,7 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeLoadedRecursively)
 	ASSERT_TRUE(county->second->landless);
 }
 
-TEST(CK3World_LandedTitlesTests, titlesCanBeOverriddenByMods)
-{
+TEST(CK3World_LandedTitlesTests, titlesCanBeOverriddenByMods) {
 	std::stringstream input;
 	input << "e_empire1 = { k_kingdom2 = { d_duchy3 = { b_barony4 = { province = 12 } } } }\n";
 	input << "c_county5 = { landless = yes }\n";
@@ -68,8 +66,7 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeOverriddenByMods)
 	ASSERT_FALSE(county->second->landless);
 }
 
-TEST(CK3World_LandedTitlesTests, titlesCanBeAddedByMods)
-{
+TEST(CK3World_LandedTitlesTests, titlesCanBeAddedByMods) {
 	std::stringstream input;
 	input << "e_empire1 = { k_kingdom2 = { d_duchy3 = { b_barony4 = { province = 12 } } } }\n";
 	input << "c_county5 = { landless = yes }\n";
@@ -85,5 +82,3 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeAddedByMods)
 
 	ASSERT_EQ(10, titles.getTitles().size());
 }
-
-

@@ -42,7 +42,7 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 	religionMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 	cultureMapper.loadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-	importImperatorCountries(impWorld);
+	importImperatorCountries(impWorld.getCountries());
 
 	// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 	// Some of it will be overwritten, but not all.
@@ -77,28 +77,29 @@ void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, con
 void CK3::World::importImperatorCharacter(const std::pair<unsigned long long, std::shared_ptr<Imperator::Character>>& character, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1)) {
 	// Create a new CK3 character
 	auto newCharacter = std::make_shared<Character>();
-	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, ConvertBirthAndDeathDates, endDate);
+	newCharacter->initializeFromImperator(character.second, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, deathReasonMapper, ConvertBirthAndDeathDates, endDate);
 	character.second->registerCK3Character(newCharacter);
 	characters.emplace(newCharacter->ID, newCharacter);
 }
 
 
-void CK3::World::importImperatorCountries(const Imperator::World& impWorld) {
+void CK3::World::importImperatorCountries(const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) {
 	LOG(LogLevel::Info) << "-> Importing Imperator Countries";
 
 	// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 	// add new ones from Imperator tags.
-	for (const auto& title : impWorld.getCountries()) {
-		importImperatorCountry(title);
+	for (const auto& title : imperatorCountries) {
+		importImperatorCountry(title, imperatorCountries);
 	}
 	LOG(LogLevel::Info) << ">> " << getTitles().size() << " total countries recognized.";
 }
 
 
-void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country) {
+void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std::shared_ptr<Imperator::Country>>& country, 
+										const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) {
 	// Create a new title
 	auto newTitle = std::make_shared<Title>();
-	newTitle->initializeFromTag(country.second, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper, governmentMapper, successionLawMapper);
+	newTitle->initializeFromTag(country.second, imperatorCountries, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper, governmentMapper, successionLawMapper);
 	
 	const auto& name = newTitle->getName();
 	if (auto titleItr = getTitles().find(name); titleItr!=getTitles().end()) {

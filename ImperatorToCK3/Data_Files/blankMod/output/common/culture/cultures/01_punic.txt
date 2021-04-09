@@ -1,0 +1,842 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+punic_group = {
+	graphical_cultures = {
+		arabic_group_coa_gfx
+		mena_clothing_gfx
+		dde_abbasid_clothing_gfx
+		berber_group_building_gfx
+		mena_unit_gfx
+	}
+
+	carthaginian = {
+	
+		color = rgb { 74 174 85 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	phoenician = {
+	
+		color = hsv { 0.75 0.9 0.73 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid
+			dynn_Milkiramid dynn_Philosirid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid
+			dynn_Milkiramid dynn_Philosirid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_purple_fighters" coat_of_arms = "purple_coa" }
+		}
+	}
+	
+	ythalonim = {
+	
+		color = rgb { 135 97 103 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	ualonuth = {
+	
+		color = rgb { 163 80 128 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	sicorathi = {
+	
+		color = rgb { 146 80 104 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	symacom = {
+	
+		color = rgb { 134 74 115 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	ysthyalm = {
+	
+		color = rgb { 164 74 98 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	sythchy = {
+	
+		color = rgb { 154 94 146 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	ynnocho = {
+	
+		color = rgb { 145 111 118 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	mlachthi = {
+	
+		color = rgb { 165 121 117 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	inythmum = {
+	
+		color = rgb { 179 119 123 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	gadolite = {
+	
+		color = rgb { 181 81 106 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	bythlimmoth = {
+	
+		color = rgb { 159 71 122 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	sidonian = {
+	
+		color = rgb { 133 104 101 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	taliaite = {
+	
+		color = rgb { 132 95 108 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	lacanite = {
+	
+		color = rgb { 153 93 128 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	epicrateian = {
+	
+		color = rgb { 146 99 130 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	pmpese = {
+	
+		color = rgb { 126 82 90 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	ythbynuthi = {
+	
+		color = rgb { 171 86 93 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	ychibarku = {
+	
+		color = rgb { 145 83 143 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	liphocaneth = {
+	
+		color = rgb { 173 113 97 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+	
+	mysehi = {
+	
+		color = rgb { 162 114 100 }
+
+		cadet_dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		dynasty_names = {
+			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+			dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+			dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+			dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+		}
+
+		male_names = {
+			Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+			Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+			Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+			Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+			Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+		}
+		female_names = {
+			Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+		}
+
+		ethnicities = {
+			10 = arab
+		}
+
+		mercenary_names = {
+			{ name = "ir_carthaginian_army" }
+		}
+	}
+}

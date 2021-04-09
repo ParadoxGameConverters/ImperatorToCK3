@@ -1,11 +1,11 @@
 #include "gtest/gtest.h"
+#include "Imperator/Families/Families.h"
+#include "Imperator/Families/Family.h"
 #include <sstream>
 
-#include "../ImperatorToCK3/Source/Imperator/Families/Families.h"
-#include "../ImperatorToCK3/Source/Imperator/Families/Family.h"
 
-TEST(ImperatorWorld_FamiliesTests, familiesDefaultToEmpty)
-{
+
+TEST(ImperatorWorld_FamiliesTests, familiesDefaultToEmpty) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -17,8 +17,7 @@ TEST(ImperatorWorld_FamiliesTests, familiesDefaultToEmpty)
 	ASSERT_TRUE(families.getFamilies().empty());
 }
 
-TEST(ImperatorWorld_FamiliesTests, familiesCanBeLoaded)
-{
+TEST(ImperatorWorld_FamiliesTests, familiesCanBeLoaded) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -37,8 +36,7 @@ TEST(ImperatorWorld_FamiliesTests, familiesCanBeLoaded)
 	ASSERT_EQ(43, familyItr2->second->getID());
 }
 
-TEST(ImperatorWorld_FamiliesTests, literalNoneFamiliesAreNotLoaded)
-{
+TEST(ImperatorWorld_FamiliesTests, literalNoneFamiliesAreNotLoaded) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";

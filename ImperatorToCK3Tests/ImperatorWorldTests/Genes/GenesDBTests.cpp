@@ -1,12 +1,10 @@
 #include "gtest/gtest.h"
+#include "../ImperatorToCK3/Source/Imperator/Genes/GenesDB.h"
 #include <sstream>
 
 
-#include "../ImperatorToCK3/Source/Imperator/Genes/GenesDB.h"
 
-
-TEST(ImperatorWorld_GenesTests, genesDefaultToEmpty)
-{
+TEST(ImperatorWorld_GenesTests, genesDefaultToEmpty) {
 	std::stringstream input;
 	input << "=\n";
 	input << "{\n";
@@ -17,8 +15,7 @@ TEST(ImperatorWorld_GenesTests, genesDefaultToEmpty)
 	ASSERT_TRUE(genes.getAccessoryGenes().getGenes().empty());
 }
 
-TEST(ImperatorWorld_GenesTests, accessoryGenesCanBeLoadedInsideGeneGroup)
-{
+TEST(ImperatorWorld_GenesTests, accessoryGenesCanBeLoadedInsideGeneGroup) {
 	std::stringstream input;
 	input << "accessory_genes = {\n";
 	input << "\thairstyles={ index = 1}\n";
@@ -37,8 +34,7 @@ TEST(ImperatorWorld_GenesTests, accessoryGenesCanBeLoadedInsideGeneGroup)
 	ASSERT_EQ(2, genes.getAccessoryGenes().getGenes().size());
 }
 
-TEST(ImperatorWorld_GenesTests, simpleParameterCanBeLoadedInsideGeneGroup)
-{
+TEST(ImperatorWorld_GenesTests, simpleParameterCanBeLoadedInsideGeneGroup) {
 	std::stringstream input;
 	input << "accessory_genes = {\n";
 	input << "\tindex = 65\n";

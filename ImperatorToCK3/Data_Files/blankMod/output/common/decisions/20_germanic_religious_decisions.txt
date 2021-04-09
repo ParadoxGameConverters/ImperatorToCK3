@@ -1,0 +1,53 @@
+﻿# New
+
+# Raise an Irminsul
+raise_irminsul_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+
+	desc = raise_irminsul_decision_desc
+	selection_tooltip = raise_irminsul_decision_tooltip
+
+	is_shown = {
+		primary_title.tier > tier_county
+		faith = faith:germanic_pagan
+		has_variable = ancestor_to_bury
+		var:ancestor_to_bury = { dynasty = root.dynasty }
+	}
+
+	effect = {
+		capital_province = {
+			county = {
+				set_variable = {
+					name = ancestor_to_bury
+					value = root.var:ancestor_to_bury
+				}
+				add_county_modifier = {
+					modifier = county_raised_irminsul_modifier
+				}
+			}
+		}
+		remove_variable = ancestor_to_bury
+		add_piety = major_piety_value
+		every_vassal = {
+			limit = {
+				faith = faith:germanic_pagan
+			}
+			custom = raise_irminsul_vassals
+			add_opinion = {
+				modifier = pleased_opinion
+				target = root
+				opinion = 20
+			}
+		}
+	}
+
+	ai_check_interval = 36
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

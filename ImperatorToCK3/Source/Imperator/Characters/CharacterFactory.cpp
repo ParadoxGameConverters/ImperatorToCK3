@@ -35,6 +35,9 @@ Imperator::Character::Factory::Factory() {
 		const auto dateStr = commonItems::getString(theStream);
 		character->deathDate = date(dateStr, true); // converted to AD
 	});
+	registerKeyword("death", [this](std::istream& theStream) {
+		character->deathReason = commonItems::getString(theStream);
+	});
 	registerKeyword("age", [this](std::istream& theStream) {
 		character->age = static_cast<unsigned int>(commonItems::getInt(theStream));
 	});
@@ -57,12 +60,14 @@ Imperator::Character::Factory::Factory() {
 		character->wealth = commonItems::getDouble(theStream);
 	});
 	registerKeyword("spouse", [this](std::istream& theStream) {
-		for (const auto spouse : commonItems::getULlongs(theStream))
+		for (const auto spouse : commonItems::getULlongs(theStream)) {
 			character->spouses.emplace(spouse, nullptr);
+		}
 	});
 	registerKeyword("children", [this](std::istream& theStream) {
-		for (const auto child : commonItems::getULlongs(theStream))
+		for (const auto child : commonItems::getULlongs(theStream)) {
 			character->children.emplace(child, nullptr);
+		}
 	});
 	registerKeyword("attributes", [this](std::istream& theStream) {
 		const CharacterAttributes attributesFromBloc(theStream);
@@ -77,12 +82,12 @@ Imperator::Character::Factory::Factory() {
 
 std::unique_ptr<Imperator::Character> Imperator::Character::Factory::getCharacter(std::istream& theStream, const std::string& idString, const std::shared_ptr<GenesDB>& genesDB) {
 	character = std::make_unique<Character>();
-	character->ID = std::stoull(idString);
+	character->ID = commonItems::stringToInteger<unsigned long long>(idString);
 	character->genes = genesDB;
 
 	parseStream(theStream);
 
-	if (character->dna && character->dna.value().size() == 552) {
+	if (character->dna && character->dna->size() == 552) {
 		character->portraitData.emplace(CharacterPortraitData(character->dna.value(), character->genes, character->getAgeSex()));
 	}
 
