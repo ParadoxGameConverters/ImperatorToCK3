@@ -1,10 +1,11 @@
 #include "CK3Character.h"
 #include "Imperator/Characters/Character.h"
 #include "Mappers/CultureMapper/CultureMapper.h"
-#include "Mappers/ReligionMapper/ReligionMapper.h"
-#include "Mappers/TraitMapper/TraitMapper.h"
+#include "Mappers/DeathReasonMapper/DeathReasonMapper.h"
 #include "Mappers/NicknameMapper/NicknameMapper.h"
 #include "Mappers/ProvinceMapper/ProvinceMapper.h"
+#include "Mappers/ReligionMapper/ReligionMapper.h"
+#include "Mappers/TraitMapper/TraitMapper.h"
 
 
 
@@ -16,6 +17,7 @@ void CK3::Character::initializeFromImperator(
 	const mappers::NicknameMapper& nicknameMapper,
 	const mappers::LocalizationMapper& localizationMapper,
 	const mappers::ProvinceMapper& provinceMapper, // used to determine ck3 province for religion mapper
+	const mappers::DeathReasonMapper& deathReasonMapper,
 	const bool ConvertBirthAndDeathDates = true,
 	const date DateOnConversion = date(867, 1, 1))
 {
@@ -74,6 +76,9 @@ void CK3::Character::initializeFromImperator(
 	
 	birthDate = imperatorCharacter->getBirthDate();
 	deathDate = imperatorCharacter->getDeathDate();
+	const auto& impDeathReason = imperatorCharacter->getDeathReason();
+	if (impDeathReason)
+		deathReason = deathReasonMapper.getCK3ReasonForImperatorReason(*impDeathReason);
 	if (!ConvertBirthAndDeathDates) {  //if option to convert character age is chosen
 		birthDate.addYears(static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
 		if (deathDate) {
