@@ -480,6 +480,12 @@
     <ClCompile Include="..\ImperatorToCK3\Source\Mappers\SuccessionLawMapper\SuccessionLawMapping.cpp">
       <Filter>Sources\Mappers\SuccessionLawMapper</Filter>
     </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\TitleHistory.cpp">
+      <Filter>Sources\CK3\Titles</Filter>
+    </ClCompile>
+    <ClCompile Include="CK3WorldTests\Titles\TitleHistoryTests.cpp">
+      <Filter>CK3WorldTests\Titles</Filter>
+    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\Imperator\Countries\Countries.cpp">
       <Filter>Sources\Imperator\Countries</Filter>
     </ClCompile>
@@ -560,6 +566,9 @@
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt">
+      <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\TitlesHistory.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
   </ItemGroup>

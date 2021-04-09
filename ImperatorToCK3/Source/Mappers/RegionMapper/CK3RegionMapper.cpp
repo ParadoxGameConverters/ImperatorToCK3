@@ -43,9 +43,10 @@ void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std:
 	clearRegisteredKeywords();
 	
 	for (const auto& [titleName, title] : landedTitles.getTitles()) {
-		if (titleName.starts_with("c_"))
+		auto titleRank = title->getRank();
+		if (titleRank == CK3::TitleRank::county)
 			counties[titleName] = title;
-		else if (titleName.starts_with("d_"))
+		else if (titleRank == CK3::TitleRank::duchy)
 			duchies[titleName] = title;
 	}
 

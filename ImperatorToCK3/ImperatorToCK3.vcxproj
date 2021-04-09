@@ -78,6 +78,9 @@
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
     <LinkIncremental>false</LinkIncremental>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>true</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)\..\$(Configuration)\ImperatorToCK3\</OutDir>
@@ -90,7 +93,7 @@
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <IncludePath>$(UniversalCRT_IncludePath);$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -138,6 +141,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -247,6 +251,7 @@
     <ClCompile Include="Source\CK3\Province\CK3Provinces.cpp" />
     <ClCompile Include="Source\CK3\Titles\LandedTitles.cpp" />
     <ClCompile Include="Source\CK3\Titles\Title.cpp" />
+    <ClCompile Include="Source\CK3\Titles\TitleHistory.cpp" />
     <ClCompile Include="Source\CK3\Titles\TitlesHistory.cpp" />
     <ClCompile Include="Source\CommonUtilities\DatedHistoryBlock.cpp" />
     <ClCompile Include="Source\CommonUtilities\History.cpp" />
@@ -346,6 +351,7 @@
     <ClInclude Include="Source\CK3\Province\CK3Provinces.h" />
     <ClInclude Include="Source\CK3\Titles\LandedTitles.h" />
     <ClInclude Include="Source\CK3\Titles\Title.h" />
+    <ClInclude Include="Source\CK3\Titles\TitleHistory.h" />
     <ClInclude Include="Source\CK3\Titles\TitlesHistory.h" />
     <ClInclude Include="Source\CommonUtilities\DatedHistoryBlock.h" />
     <ClInclude Include="Source\CommonUtilities\History.h" />

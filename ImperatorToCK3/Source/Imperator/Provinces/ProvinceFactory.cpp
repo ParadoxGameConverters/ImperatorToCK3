@@ -6,6 +6,7 @@
 #include <numeric>
 
 
+
 Imperator::Province::Factory::Factory() {
 	registerKeyword("province_name", [this](std::istream& theStream) {	
 		province->name = ProvinceName{ theStream }.getName();	
@@ -24,6 +25,14 @@ Imperator::Province::Factory::Factory() {
 	});
 	registerKeyword("pop", [this](std::istream& theStream) {
 		province->pops.emplace(commonItems::getULlong(theStream), nullptr);
+	});
+	registerKeyword("civilization_value", [this](std::istream& theStream) {
+		auto valStr = commonItems::getString(theStream);
+		unsigned long result = std::stoul(valStr); // TODO: replace this with commonItems::stringToInteger<unsigned int> when it's brought back with GCC 11
+		if (result > std::numeric_limits<unsigned>::max()) {
+			throw std::out_of_range("stou out of range for " + valStr);
+		}
+		province->civilizationValue = result;
 	});
 	registerKeyword("province_rank", [this](std::istream& theStream) {
 		const auto provinceRankStr = commonItems::getString(theStream);

@@ -11,12 +11,13 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
+#include <ranges>
 
 
 
 void CK3::Title::addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles) {
 	for (const auto& [locatedTitleName, locatedTitle] : newTitle->foundTitles) {
-		if (newTitle->titleName.starts_with("c_")) { // has county prefix = is a county
+		if (newTitle->getRank() == TitleRank::county) {
 			const auto& baronyProvince = locatedTitle->getProvince();
 			if (baronyProvince) {
 				if (locatedTitleName == newTitle->capitalBarony) {
@@ -48,7 +49,7 @@ void CK3::Title::registerKeys() {
 		auto newTitle = std::make_shared<Title>(titleNameStr);
 		newTitle->loadTitles(theStream);
 		
-		if (newTitle->titleName.starts_with("b_") && capitalBarony.empty()) { // title is a barony, and no other barony has been found in this scope yet
+		if (newTitle->getRank() == TitleRank::barony && capitalBarony.empty()) { // title is a barony, and no other barony has been found in this scope yet
 			capitalBarony = newTitle->titleName;
 		}
 		
@@ -71,6 +72,11 @@ void CK3::Title::registerKeys() {
 		province = commonItems::getULlong(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
+}
+
+
+CK3::Title::Title(const std::string& name): titleName(name) {
+	setRank();
 }
 
 
@@ -108,20 +114,21 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 		title = tagTitleMapper.getTitleForTag(imperatorCountry->getTag(), imperatorCountry->getCountryRank(), validatedName->english);
 	else
 		title = tagTitleMapper.getTitleForTag(imperatorCountry->getTag(), imperatorCountry->getCountryRank());
-	
 	if (!title)
 		throw std::runtime_error("Country " + imperatorCountry->getTag() + " could not be mapped!");
 	titleName = *title;
+
+	setRank();
 
 
 	
 	// ------------------ determine holder
 	if (imperatorCountry->getMonarch())
-		holder = "imperator" + std::to_string(*imperatorCountry->getMonarch());
+		history.holder = "imperator" + std::to_string(*imperatorCountry->getMonarch());
 
 	// ------------------ determine government
 	if (imperatorCountry->getGovernment())
-		government = governmentMapper.getCK3GovernmentForImperatorGovernment(*imperatorCountry->getGovernment());
+		history.government = governmentMapper.getCK3GovernmentForImperatorGovernment(*imperatorCountry->getGovernment());
 
 	// ------------------ determine color
 	const auto& colorOpt1 = imperatorCountry->getColor1();
@@ -180,8 +187,7 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle) {
 	importedOrUpdatedFromImperator = otherTitle->importedOrUpdatedFromImperator;
 	imperatorCountry = otherTitle->imperatorCountry;
 
-	holder = otherTitle->holder;
-	government = otherTitle->government;
+	history = otherTitle->history;
 
 	color1 = otherTitle->color1;
 	color2 = otherTitle->color2;
@@ -227,6 +233,21 @@ void CK3::Title::trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMap
 		Log(LogLevel::Warning) << titleName << " needs help with localization for adjective! " << imperatorCountry->getName() << "_adj?";
 }
 
+void CK3::Title::setRank() {
+	if (titleName.starts_with('b'))
+		rank = TitleRank::barony;
+	else if (titleName.starts_with('c'))
+		rank = TitleRank::county;
+	else if (titleName.starts_with('d'))
+		rank = TitleRank::duchy;
+	else if (titleName.starts_with('k'))
+		rank = TitleRank::kingdom;
+	else if (titleName.starts_with('e'))
+		rank = TitleRank::empire;
+	else
+		throw std::runtime_error("Title " + titleName + ": unknown rank!");
+}
+
 
 void CK3::Title::setDeJureLiege(const std::shared_ptr<Title>& liegeTitle) {
 	deJureLiege = liegeTitle;
@@ -237,8 +258,22 @@ void CK3::Title::setDeJureLiege(const std::shared_ptr<Title>& liegeTitle) {
 
 void CK3::Title::setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle) {
 	deFactoLiege = liegeTitle;
-	if (deFactoLiege)
+	if (deFactoLiege) {
+		history.liege = deFactoLiege->getName();
 		liegeTitle->deFactoVassals[titleName] = shared_from_this(); // reference: https://www.nextptr.com/tutorial/ta1414193955/enable_shared_from_this-overview-examples-and-internals
+	}
+	else {
+		history.liege = std::nullopt;
+	}
+}
+
+
+std::optional<int> CK3::Title::getOwnOrInheritedDevelopmentLevel() const {
+	if (history.developmentLevel) // if development level is already set, just return it
+		return history.developmentLevel;
+	if (deJureLiege) //if de jure liege exists, return their level
+		return deJureLiege->getOwnOrInheritedDevelopmentLevel();
+	return std::nullopt;
 }
 
 
@@ -276,40 +311,23 @@ std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassals
 }
 
 
-void CK3::Title::addHistory(const LandedTitles& landedTitles, TitlesHistory& titlesHistory) {
-	if (auto holderIdItr = titlesHistory.currentHolderIdMap.find(titleName); holderIdItr != titlesHistory.currentHolderIdMap.end()) {
-		const auto currentHolder = holderIdItr->second;
-		if (currentHolder)
-			holder = *currentHolder;
-	}
+void CK3::Title::addHistory(const LandedTitles& landedTitles, TitleHistory titleHistory) {
+	history = std::move(titleHistory);
 
-	if (titlesHistory.currentLiegeIdMap.contains(titleName))
-	{
-		const auto& dfLiegeName = titlesHistory.currentLiegeIdMap.at(titleName);
-		if (dfLiegeName && landedTitles.getTitles().contains(*dfLiegeName))
-			setDeFactoLiege(landedTitles.getTitles().find(*dfLiegeName)->second);
+	if (history.liege) {
+		const auto liegeItr = landedTitles.getTitles().find(*history.liege);
+		if (liegeItr != landedTitles.getTitles().end()) {
+			setDeFactoLiege(liegeItr->second);
+		}
 	}
-
-	if (auto govMapItr = titlesHistory.currentGovernmentMap.find(titleName); govMapItr != titlesHistory.currentGovernmentMap.end())
-	{
-		const auto& governmentFromHistory = govMapItr->second;
-		if (governmentFromHistory)
-			government = *governmentFromHistory;
-	}
-	
-	if (auto vanillaHistory = titlesHistory.popTitleHistory(titleName))
-		historyString = *vanillaHistory;
 }
 
 
 bool CK3::Title::duchyContainsProvince(const unsigned long long provinceID) const {
-	if (!titleName.starts_with("d_"))
+	if (rank != TitleRank::duchy)
 		return false;
 
-	for (const auto& [vassalTitleName, vassalTitle] : deJureVassals) {
-		if (vassalTitleName.starts_with("c_") && vassalTitle->countyProvinces.contains(provinceID))
-			return true;
-	}
-
-	return false;
+	return std::ranges::any_of(deJureVassals, [&](const auto& deJureVassalItr) {
+		return deJureVassalItr.second->rank == TitleRank::county && deJureVassalItr.second->countyProvinces.contains(provinceID);
+	});
 }
