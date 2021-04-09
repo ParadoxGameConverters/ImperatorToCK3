@@ -1,5 +1,5 @@
-#include "CommonUtilities/HistoryFactory.h"
 #include "gtest/gtest.h"
+#include "CommonUtilities/HistoryFactory.h"
 #include <sstream>
 
 
@@ -17,9 +17,9 @@ TEST(CommonUtilities_HistoryTests, initialValueIsUsedAsFallback) {
 
 	History::Factory provHistoryFactory(
 		{
-			{"culture", "culture", std::nullopt},
-		{"religion", "religion", std::nullopt},
-		{ "holding", "holding", "none"}
+			{ "culture", "culture", std::nullopt },
+			{ "religion", "religion", std::nullopt },
+			{ "holding", "holding", "none" }
 		});
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
@@ -45,9 +45,9 @@ TEST(CommonUtilities_HistoryTests, initialValueIsOverriden) {
 
 	History::Factory provHistoryFactory(
 		{
-			{"culture", "culture", std::nullopt},
-		{"religion", "religion", std::nullopt},
-		{ "holding", "holding", "none"}
+			{ "culture", "culture", std::nullopt },
+			{ "religion", "religion", std::nullopt },
+			{ "holding", "holding", "none" }
 		});
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
@@ -73,9 +73,9 @@ TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue) {
 
 	History::Factory provHistoryFactory(
 		{
-			{"culture", "culture", std::nullopt},
-			{"religion", "religion", std::nullopt},
-			{ "holding", "holding", "none"}
+			{ "culture", "culture", std::nullopt },
+			{ "religion", "religion", std::nullopt },
+			{ "holding", "holding", "none" }
 		});
 
 	const auto provHistory = provHistoryFactory.getHistory(input);

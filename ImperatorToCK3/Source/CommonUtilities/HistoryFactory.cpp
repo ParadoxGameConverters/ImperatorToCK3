@@ -1,8 +1,8 @@
+#include "HistoryFactory.h"
+#include "DatedHistoryBlock.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
-#include "HistoryFactory.h"
-#include "DatedHistoryBlock.h"
 
 
 
@@ -26,8 +26,7 @@ History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs): s
 }
 
 
-std::unique_ptr<History> History::Factory::getHistory(std::istream& theStream)
-{
+std::unique_ptr<History> History::Factory::getHistory(std::istream& theStream) {
 	history = std::make_unique<History>();
 	for (const auto& [fieldName, _setter, defaultValue] : simpleFieldStructs) {
 		history->simpleFields[fieldName] = SimpleField{ defaultValue };
