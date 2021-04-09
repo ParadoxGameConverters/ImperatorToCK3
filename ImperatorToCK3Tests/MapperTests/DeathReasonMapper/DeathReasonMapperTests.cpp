@@ -6,7 +6,7 @@
 
 TEST(Mappers_DeathReasonMapperTests, nonMatchGivesEmptyOptional) {
 	std::stringstream input;
-	input << "link = { ck3 = ck3Reasob imp = impReason }";
+	input << "link = { ck3 = ck3Reason imp = impReason }";
 
 	const mappers::DeathReasonMapper theMapper(input);
 

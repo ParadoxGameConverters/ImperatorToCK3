@@ -6,7 +6,6 @@
 
 TEST(Mappers_DeathReasonMappingTests, ck3ReasonDefaultsToNullopt) {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::DeathReasonMapping theMapping(input);
 
@@ -26,7 +25,6 @@ TEST(Mappers_DeathReasonMappingTests, ck3ReasonCanBeSet) {
 
 TEST(Mappers_DeathReasonMappingTests, imperatorReasonsDefaultToEmpty) {
 	std::stringstream input;
-	input << "= {}";
 
 	const mappers::DeathReasonMapping theMapping(input);
 
