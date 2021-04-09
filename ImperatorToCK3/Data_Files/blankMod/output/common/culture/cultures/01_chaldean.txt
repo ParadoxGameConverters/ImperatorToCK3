@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.3.0
+# ImperatorToCK3: Last updated CK3 patch 1.3.0
 chaldean_group = {
 	graphical_cultures = {
 		israelite_group_coa_gfx
@@ -15,7 +15,7 @@ chaldean_group = {
 			mena_clothing_gfx
 			mena_unit_gfx
 		}
-		
+
 		color = { 0.4 0.3 0.6 }
 
 		cadet_dynasty_names = {
@@ -52,7 +52,7 @@ chaldean_group = {
 			Tabbai Taddai Talia Taliah Talmai Talya Tam Tam_as Ta_mhas Targhal Tauma Tavi Tavish Tevis Th_amhais Thoma Timai Tiv Toba Todos Tolmai Tomarsa Tamuza Tulmay
 			Ukba Yahballaha Yanai Ya_qob Yeshua Yohannan Yosip Yousef Yunanis Zerika
 		}
-		
+
 		female_names = {
 			Adva Alya Anena Anina Bustan Chanina Chasina Chayuta China Chiyuta
 			Dikla Diklah Diklit Duvsha Hanina Hasna Hayuta Hina Ketina Kitra
@@ -64,8 +64,9 @@ chaldean_group = {
 			Zeita Zeta
 		}
 
-		dynasty_of_location_prefix = "dynnp_of"
-		
+		dynasty_of_location_prefix = "dynnpat_pre_Bar"
+		always_use_patronym = yes
+
 		patronym_prefix_male = "dynnpat_pre_Bar"
 		patronym_prefix_female = "dynnpat_pre_Barta"
 
@@ -73,7 +74,7 @@ chaldean_group = {
 			10 = arab
 		}
 	}
-	
+
 	aramaic = {
 	
 		color = hsv { 0.05 1.0 0.5 }
@@ -93,36 +94,9 @@ chaldean_group = {
 		}
 
 		male_names = {
-			Marduk-beli Marduk-belshunu Marduk-eriba Marduk-etir Marduk-ibni
-			Marduk-iddin Marduk-uballit Kidin-Marduk Lusthammar-Marduk Nidinti-Marduk
-			Rihat-Marduk Shamshi-Marduk Shipqat-Marduk Tanittu-Marduk Tukulti-Marduk
-			Bel-beli Bel-belshunu Bel-eriba Bel-etir Bel-ibni Bel-iddin Bel-uballit
-			Kidin-Bel Lusthammar-Bel Nidinti-Bel Rihat-Bel Shamshi-Bel Shipqat-Bel
-			Tanittu-Bel Tukulti-Bel Shamash-beli Shamash-belshunu Shamash-eriba
-			Shamash-etir Shamash-ibni Shamash-iddin Shamash-uballit Kidin-Shamash
-			Lusthammar-Shamash Nidinti-Shamash Rihat-Shamash Shamshi-Shamash
-			Shipqat-Shamash Tanittu-Shamash Tukulti-Shamash Ashshur-beli
-			Ashshur-belshunu Ashshur-eriba Ashshur-etir Ashshur-ibni Ashshur-iddin
-			Ashshur-uballit Kidin-Ashshur Lusthammar-Ashshur Nidinti-Ashshur
-			Rihat-Ashshur Shamshi-Ashshur Shipqat-Ashshur Tanittu-Ashshur
-			Tukulti-Ashshur Ishtar-beli Ishtar-belshunu Ishtar-eriba Ishtar-etir
-			Ishtar-ibni Ishtar-iddin Ishtar-uballit Kidin-Ishtar Lusthammar-Ishtar
-			Nidinti-Ishtar Rihat-Ishtar Shamshi-Ishtar Shipqat-Ishtar Tanittu-Ishtar
-			Tukulti-Ishtar Adad-beli Adad-belshunu Adad-eriba Adad-etir Adad-ibni
-			Adad-iddin Adad-uballit Kidin-Adad Lusthammar-Adad Nidinti-Adad Rihat-Adad
-			Shamshi-Adad Shipqat-Adad Tanittu-Adad Tukulti-Adad Nergal-beli
-			Nergal-belshunu Nergal-eriba Nergal-etir Nergal-ibni Nergal-iddin
-			Nergal-uballit Kidin-Nergal Lusthammar-Nergal Nidinti-Nergal Rihat-Nergal
-			Shamshi-Nergal Shipqat-Nergal Tanittu-Nergal Tukulti-Nergal Sin-beli
-			Sin-belshunu Sin-eriba Sin-etir Sin-ibni Sin-iddin Sin-uballit Kidin-Sin
-			Lusthammar-Sin Nidinti-Sin Rihat-Sin Shamshi-Sin Shipqat-Sin Tanittu-Sin
-			Tukulti-Sin Enlil-beli Enlil-belshunu Enlil-eriba Enlil-etir Enlil-ibni
-			Enlil-iddin Enlil-uballit Kidin-Enlil Lusthammar-Enlil Nidinti-Enlil
-			Rihat-Enlil Shamshi-Enlil Shipqat-Enlil Tanittu-Enlil Tukulti-Enlil
-			Ninurta-beli Ninurta-belshunu Ninurta-eriba Ninurta-etir Ninurta-ibni
-			Ninurta-iddin Ninurta-uballit Kidin-Ninurta Lusthammar-Ninurta
-			Nidinti-Ninurta Rihat-Ninurta Shamshi-Ninurta Shipqat-Ninurta
-			Tanittu-Ninurta Tukulti-Ninurta 
+			Bardo Bardol Barnahy Barta Bartalan Bartel Barthelemy Bartley Bartol Batt Beartlaidh
+			Berti Jagur Mar Myrron Parlan Parthalan Tadeo Tam Tammy Teoma Thaddeus Thady
+			Thom Thomas Tom Tommy Zacchaeus Zebedeo 
 		}
 		female_names = {
 			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
@@ -139,6 +113,11 @@ chaldean_group = {
 		mercenary_names = {
 			
 		}
+		
+		patronym_prefix_male = prefix_yiliydoa
+		patronym_prefix_female = prefix_dbartoa
+		dynasty_of_location_prefix = prefix_dmen
+		
 	}
 	
 	babylonian = {
@@ -206,6 +185,11 @@ chaldean_group = {
 		mercenary_names = {
 			{ name = "ir_chariots_of_marduk" coat_of_arms = "BABYLON_FLAG" }
 		}
+		
+		patronym_prefix_male = prefix_aplu
+		patronym_prefix_female = prefix_bintu
+		dynasty_of_location_prefix = prefix_ildu
+		always_use_patronym = yes
 	}
 
 	assyrian = {
@@ -262,11 +246,11 @@ chaldean_group = {
 			Tam Tamasin Tami Tammy Tamsin Tamsyn Tamzin Thaddea Thomasa
 			Zeita Zeta
 		}
-
-		dynasty_of_location_prefix = "dynnp_of"
 		
-		patronym_prefix_male = "dynnpat_pre_Bar"
-		patronym_prefix_female = "dynnpat_pre_Barta"
+		patronym_prefix_male = prefix_aplu
+		patronym_prefix_female = prefix_bintu
+		dynasty_of_location_prefix = prefix_ildu
+		always_use_patronym = yes
 
 		ethnicities = {
 			10 = arab
@@ -342,7 +326,7 @@ chaldean_group = {
 			Zeita Zeta
 		}
 
-		dynasty_of_location_prefix = "dynnp_of"
+		dynasty_of_location_prefix = "dynnp_de"
 		
 		patronym_prefix_male = "dynnpat_pre_Bar"
 		patronym_prefix_female = "dynnpat_pre_Barta"
@@ -422,7 +406,7 @@ chaldean_group = {
 			Zeita Zeta
 		}
 
-		dynasty_of_location_prefix = "dynnp_of"
+		dynasty_of_location_prefix = "dynnp_de"
 		
 		patronym_prefix_male = "dynnpat_pre_Bar"
 		patronym_prefix_female = "dynnpat_pre_Barta"
