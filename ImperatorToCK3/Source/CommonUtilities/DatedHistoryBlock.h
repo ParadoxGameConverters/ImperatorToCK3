@@ -8,12 +8,17 @@
 
 
 
+struct DatedHistoryBlockReturnStruct {
+	std::map<std::string, std::vector<std::string>> simpleFieldContents;
+	std::map<std::string, std::vector<std::vector<std::string>>> containerFieldContents;
+};
+
 class DatedHistoryBlock: public commonItems::parser {
 public:
 	explicit DatedHistoryBlock(std::istream& theStream);
 	[[nodiscard]] auto getContents() const { return contents; }
 private:
-	std::map<std::string, std::vector<std::string>> contents;
+	DatedHistoryBlockReturnStruct contents;
 };
 
 

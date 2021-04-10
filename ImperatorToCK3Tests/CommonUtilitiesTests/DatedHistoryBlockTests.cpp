@@ -17,13 +17,13 @@ TEST(CommonUtilities_DatedHistoryBlockTests, allValidPairsAreRead) {
 
 	auto contents = DatedHistoryBlock{ input }.getContents();
 
-	ASSERT_EQ(5, contents.size());
-	ASSERT_EQ("cuman", contents.at("culture")[0]);
-	ASSERT_EQ("bashkiri", contents.at("culture")[1]);
-	ASSERT_EQ("jewish", contents.at("religion").back());
-	ASSERT_EQ("c_sarkel", contents.at("title").back());
-	ASSERT_EQ("500", contents.at("development").back());
-	ASSERT_EQ("5", contents.at("monthly_alien_sightings").back());
+	ASSERT_EQ(5, contents.simpleFieldContents.size());
+	ASSERT_EQ("cuman", contents.simpleFieldContents.at("culture")[0]);
+	ASSERT_EQ("bashkiri", contents.simpleFieldContents.at("culture")[1]);
+	ASSERT_EQ("jewish", contents.simpleFieldContents.at("religion").back());
+	ASSERT_EQ("c_sarkel", contents.simpleFieldContents.at("title").back());
+	ASSERT_EQ("500", contents.simpleFieldContents.at("development").back());
+	ASSERT_EQ("5", contents.simpleFieldContents.at("monthly_alien_sightings").back());
 }
 
 
@@ -36,6 +36,6 @@ TEST(CommonUtilities_DatedHistoryBlockTests, quotedStringsAreNotReadAsKeys) {
 
 	const auto& contents = DatedHistoryBlock{ input }.getContents();
 
-	ASSERT_EQ(1, contents.size());
-	ASSERT_FALSE(contents.contains(R"("religion")"));
+	ASSERT_EQ(1, contents.simpleFieldContents.size());
+	ASSERT_FALSE(contents.simpleFieldContents.contains(R"("religion")"));
 }

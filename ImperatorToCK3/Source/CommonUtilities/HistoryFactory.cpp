@@ -15,7 +15,7 @@ History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs): s
 	}
 	registerRegex(R"(\d+[.]\d+[.]\d+)", [&](const std::string& dateStr, std::istream& theStream) {
 		const date date{ dateStr };
-		for (const auto& [key, valuesVec] : DatedHistoryBlock { theStream }.getContents()) {
+		for (const auto& [key, valuesVec] : DatedHistoryBlock { theStream }.getContents().simpleFieldContents) {
 			const auto& fieldName = setterFieldMap[key];
 			if (history->simpleFields.contains(fieldName)) {
 				history->simpleFields[fieldName].addValueToHistory(valuesVec.back(), date);
