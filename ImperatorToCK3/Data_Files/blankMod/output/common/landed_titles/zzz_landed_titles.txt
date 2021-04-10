@@ -56,6 +56,16 @@ e_italy = {
 			
 			capital = c_venezia # Venice
 		}
+		d_piedmonte = {
+			color = { 191 158 158 }
+			color2 = { 255 255 255 }
+			
+			capital = c_monferrato #Asti
+			c_canavese = {
+				color = { 115 25 45 }
+				color2 = { 255 255 255 }
+			}
+		}
 	}
 	k_sicily = { 
 		color = { 180 160 80 }
@@ -79,6 +89,10 @@ e_caspian-pontic_steppe = {
 			color2 = { 255 255 255 }
 			
 			capital = c_suceava # Suceava
+			c_stoenesti = {
+				color = { 249 255 102 }
+				color2 = { 255 255 255 }
+			}
 		}
 		d_lesser_poland = {
 			color = { 137 6 20 }
@@ -133,6 +147,14 @@ e_caspian-pontic_steppe = {
 			color2 = { 255 255 255 }
 			
 			capital = c_voronezh
+			c_samar = {
+				color = { 180 180 90 }
+				color2= { 255 255 255 }
+			}
+			c_bakhmut = {
+				color = { 210 160 80 }
+				color2= { 255 255 255 }
+			}
 		}
 		d_khopyor = {
 			color = { 46 52 24 }
@@ -265,6 +287,16 @@ e_armenia = {
 			
 			capital = c_shirvan # Shirvan
 		}
+		d_ciscaucasia = {
+			color = { 168 59 34 }
+			color2= { 255 255 255 }
+			
+			capital = c_derbent # Derbent
+			c_cabardinia = {
+				color = { 54 25 8 }
+				color2= { 255 255 255 }
+			}
+		}
 	}
 }
 e_byzantium = {
@@ -284,6 +316,14 @@ e_byzantium = {
 			color2 = { 255 255 255 }
 			
 			capital = c_thessalonika # Thessaloniki
+			c_rhodopes = {
+				color = { 75 100 110 }
+				color2 = { 255 255 255 }
+			}
+			c_serres = {
+				color = { 70 35 130 }
+				color2 = { 255 255 255 }
+			}
 		}
 		d_thessaly = { 
 			color = { 170 30 165 }
@@ -296,6 +336,12 @@ e_byzantium = {
 			color2 = { 255 255 255 }
 			
 			capital = c_naissus # Naissos / Nis
+			c_sredets = {
+				color = { 45 40 75 }
+				color2 = { 255 255 255 }
+				
+				#capital = 500 # Serdica / Sredets / Sofia
+			}
 		}
 		d_rashka = {
 			color = { 103 88 51 }
@@ -314,6 +360,10 @@ e_byzantium = {
 			color2 = { 255 255 255 }
 			
 			capital = c_cephalonia # Cephalonia
+			c_avlonas = {
+				color = { 125 15 135 }
+				color2 = { 255 255 255 }
+			}
 		}
 		d_epirus = {
 			color = { 134 63 109 }
@@ -333,6 +383,26 @@ e_byzantium = {
 		color2= { 255 255 255 }
 		
 		capital = c_ionia
+		d_thracesia = {
+			color = { 167 74 151 }
+			color2= { 255 255 255 }
+			
+			capital = c_lydia
+			c_mysia = {
+				color = { 134 47 165 }
+				color2= { 255 255 255 }
+			}
+		}
+		d_ephese = {
+			color = { 132 50 173 }
+			color2= { 255 255 255 }
+			
+			capital = c_ionia
+			c_abydos = {
+				color = { 175 20 100 }
+				color2 = { 255 255 255 }
+			}
+		}
 	}
 	k_cyprus = { # Cilicia
 		color = { 215 215 20 }
@@ -357,6 +427,20 @@ e_byzantium = {
 		color2= { 255 255 23 }
 		
 		capital = c_phrygia # Ikonion
+		d_anatolia = {
+			color = { 200 50 50 }
+			color2= { 255 255 255 }
+			
+			capital = c_lycaonia
+			c_galatia = {
+				color = { 210 25 120 }
+				color2= { 255 255 255 }
+			}
+			c_phrygia = {
+				color = { 147 54 134 }
+				color2= { 255 255 255 }
+			}
+		}
 	}
 	k_pontus = { # Bithynia
 		color = { 205 130 85 }
@@ -470,6 +554,18 @@ e_carpathia = {
 		color2 = { 255 255 255 }
 		
 		capital = c_giurgiu
+		d_vidin = {
+			color = { 120 105 85 }
+			color2 = { 255 255 255 }
+			
+			capital = c_vidin # Vidin
+			c_vratsa = {
+				color = { 53 38 51 }
+				color2 = { 255 255 255 }
+				
+				#capital = 3678 # Vratsa
+			}
+		}
 		d_transylvanian_alps = {
 			color = { 175 86 10 }
 			color2 = { 255 255 255 }
@@ -481,6 +577,10 @@ e_carpathia = {
 			color2 = { 255 255 255 }
 			
 			capital = c_giurgiu # Targoviste
+			c_galati = {
+				color = { 250 207 36 }
+				color2 = { 255 255 255 }
+			}
 		}
 		d_oltenia = {
 			color = { 222 155 78 }
@@ -725,6 +825,38 @@ e_arabia = {
 	capital = c_damascus # Damascus
 	
 	definite_form = yes
+	k_arabia = {
+		color = { 124 199 50 }
+		color2 = { 255 255 255 }
+		
+		capital = c_medina
+		d_jawf = {
+			color = { 150 250 50 }
+			color2 = { 255 255 255 }
+			
+			capital = c_al_jawf
+			c_waqisa = {
+				color = { 52 144 20 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+	k_egypt = {
+		color = { 10 255 80 }
+		color2 = { 255 255 255 }
+		
+		capital	= c_cairo
+		d_delta = {
+			color = { 3 255 74 }
+			color2 = { 255 255 255 }
+			
+			capital = c_damietta
+			c_alexandria = {
+				color = { 102 221 136 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
 	k_israel = { # Jerusalem is too Christian
 		color = { 20 138 255 }
 
@@ -734,6 +866,10 @@ e_arabia = {
 			color2 = { 255 255 255 }
 			
 			capital = c_balqa
+			c_hauran = {
+				color = { 103 214 143 }
+				color2 = { 255 255 255 }
+			}
 		}
 		d_oultrejourdain = { 
 			color = { 190 190 180 }
@@ -770,12 +906,6 @@ e_arabia = {
 			color2 = { 255 255 255 }
 			
 			capital = c_syrte
-		}
-		d_tripolitania = { 
-			color = { 52 136 209 }
-			color2 = { 255 255 255 }
-			
-			capital = c_tripolitana # Tripolitania
 		}
 		d_alexandria = { 
 			color = { 100 219 134 }
@@ -884,6 +1014,32 @@ e_germany = {
 		color2 = { 220 220 20 }
 		
 		capital = c_berlin
+		d_swiss = { # Recycled title
+			color = { 130 145 170 }
+			color2 = { 255 255 255 }
+			capital = c_bergh
+			
+			c_dortmund = {
+				color = { 150 165 185 }
+				color2 = { 255 255 255 }
+			}
+			c_mark = {
+				color = { 145 135 175 }
+				color2 = { 255 255 255 }
+			}
+			c_bergh = {
+				color = { 130 145 170 }
+				color2 = { 255 255 255 }
+			}
+			c_arnsberg = {
+				color = { 170 170 195 }
+				color2 = { 255 255 255 }
+			}
+			c_sayn = {
+				color = { 155 140 170 }
+				color2 = { 255 255 255 }
+			}
+		}
 		d_nordmark = { 
 			color = { 162 160 110 }
 			color2 = { 255 255 255 }
@@ -1021,6 +1177,39 @@ e_spain = {
 			color2 = { 255 255 255 }
 			
 			capital = c_badajoz # Badajoz
+			c_malagon = {
+				color = { 195 165 10 }
+				color2 = { 255 255 255 }
+			}
+			c_toledo = {
+				color = { 212 151 12 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_zaragoza = { # Recycled title
+			color = { 230 100 0 }
+			capital = c_salamanca
+			
+			c_salamanca = {
+				color = { 195 105 25 }
+				color2 = { 255 255 255 }
+			}
+			c_avila = {
+				color = { 200 110 50 }
+				color2 = { 255 255 255 }
+			}
+			c_olmedo = {
+				color = { 255 225 65 }
+				color2 = { 255 255 255 }
+			}
+			c_benavente = {
+				color = { 195 115 20 }
+				color2 = { 255 255 255 }
+			}
+			c_zamora = {
+				color = { 245 125 25 }
+				color2 = { 255 255 255 }
+			}
 		}
 		d_coimbra = { 
 			color = { 182 108 45 }
@@ -1402,6 +1591,16 @@ e_maghreb = {
 			
 			capital = c_constantine # Constantine
 		}
+		d_zab = {
+			color = { 88 138 39 }
+			color2 = { 255 255 255 }
+			
+			capital = c_hodna # Tubna
+			c_tabassa = {
+				color = { 52 86 177 }
+				color2 = { 255 255 255 }
+			}
+		}
 	}
 }
 e_scandinavia = {
@@ -1477,4 +1676,22 @@ k_lithuania = {
 		color2 = { 255 255 255 }
 		
 		capital = c_kernave # Kernave
+}
+e_maghreb = {
+	color = { 209 63 44 }
+	color2 = { 255 255 255 }
+	
+	capital = c_kairwan # Kairouan
+	k_maghreb = {
+		color = { 196 36 18 }
+		color2 = { 255 255 255 }
+		
+		capital = c_marrakesh # Marrakesh
+		d_tlemcen = {
+			color = { 146 235 16 }
+			color2 = { 255 255 255 }
+			
+			capital = c_tlemcen # Tlemcen
+		}
+	}
 }
