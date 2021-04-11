@@ -15,7 +15,7 @@ using std::set;
 using std::ofstream;
 
 
-void CK3::outputTitleHistory(const shared_ptr<Title>& title, std::ofstream& outputStream) {
+void CK3::outputTitleHistory(const shared_ptr<Title>& title, ofstream& outputStream) {
 	outputStream << title->getName() << " = {\n";
 
 	outputStream << "\t867.1.1 = {\n";
@@ -53,10 +53,10 @@ void CK3::outputTitleHistory(const shared_ptr<Title>& title, std::ofstream& outp
 
 void CK3::outputTitlesHistory(const string& outputModName, const map<string, shared_ptr<Title>>& titles) {
 	//output title history
-	std::set<string> alreadyOutputtedTitles;
+	set<string> alreadyOutputtedTitles;
 	for (const auto& [name, title] : titles) { // first output kindoms + their de jure vassals to files named after the kingdoms
 		if (title->getRank() == TitleRank::kingdom && !title->getDeJureVassals().empty()) { // is a de jure kingdom
-			std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/" + name + ".txt");
+			ofstream historyOutput("output/" + outputModName + "/history/titles/replace/" + name + ".txt");
 			if (!historyOutput.is_open())
 				throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/" + name + ".txt");
 
@@ -74,7 +74,7 @@ void CK3::outputTitlesHistory(const string& outputModName, const map<string, sha
 		}
 	}
 
-	std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
+	ofstream historyOutput("output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
 	if (!historyOutput.is_open())
 		throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
 	for (const auto& [name, title] : titles) { // output the remaining titles
@@ -91,7 +91,7 @@ void CK3::outputTitles(const string& outputModName, const string& ck3Path, const
 	// blank all title history files from vanilla
 	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/titles/");
 	for (const auto& fileName : fileNames) {
-		std::ofstream file("output/" + outputModName + "/history/titles/" + fileName);
+		ofstream file("output/" + outputModName + "/history/titles/" + fileName);
 		file.close();
 	}
 	
@@ -102,7 +102,7 @@ void CK3::outputTitles(const string& outputModName, const string& ck3Path, const
 		}
 		
 		if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != string::npos) {  // title is not from CK3
-			std::ofstream output("output/" + outputModName + "/common/landed_titles/" + name + ".txt");
+			ofstream output("output/" + outputModName + "/common/landed_titles/" + name + ".txt");
 			if (!output.is_open()) {
 				throw std::runtime_error("Could not create landed titles file: output/" + outputModName + "/common/landed_titles/" + name + ".txt");
 			}
