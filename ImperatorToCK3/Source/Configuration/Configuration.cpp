@@ -55,7 +55,7 @@ void Configuration::registerKeys() {
 		const auto deJureString = commonItems::getString(theStream);
 		try {
 			imperatorDeJure = static_cast<IMPERATOR_DE_JURE>(stoi(deJureString));
-			Log(LogLevel::Info) << "CK3 de iure set to: " << deJureString;
+			Log(LogLevel::Info) << "ImperatorDeJure set to: " << deJureString;
 		}
 		catch (const std::exception& e) {
 			Log(LogLevel::Error) << "Undefined error, ImperatorDeJure value was: " << deJureString << "; Error message: " << e.what();

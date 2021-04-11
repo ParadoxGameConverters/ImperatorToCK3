@@ -12,7 +12,7 @@ class Configuration: commonItems::parser {
 	Configuration();
 	explicit Configuration(std::istream& theStream);
 
-	enum class IMPERATOR_DE_JURE { PROVS_AND_REGIONS = 1, COUNTRIES = 2, NO = 3 };
+	enum class IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 };
 
 	[[nodiscard]] const auto& getSaveGamePath() const { return SaveGamePath; }
 	[[nodiscard]] const auto& getImperatorPath() const { return ImperatorPath; }
