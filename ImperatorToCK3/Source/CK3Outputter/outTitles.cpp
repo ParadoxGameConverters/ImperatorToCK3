@@ -11,6 +11,8 @@
 using std::shared_ptr;
 using std::string;
 using std::map;
+using std::set;
+using std::ofstream;
 
 
 void CK3::outputTitleHistory(const shared_ptr<Title>& title, std::ofstream& outputStream) {
