@@ -8,7 +8,12 @@
 
 
 
-void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream& outputStream) {
+using std::shared_ptr;
+using std::string;
+using std::map;
+
+
+void CK3::outputTitleHistory(const shared_ptr<Title>& title, std::ofstream& outputStream) {
 	outputStream << title->getName() << " = {\n";
 
 	outputStream << "\t867.1.1 = {\n";
@@ -44,9 +49,9 @@ void CK3::outputTitleHistory(const std::shared_ptr<Title>& title, std::ofstream&
 }
 
 
-void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<std::string, std::shared_ptr<Title>>& titles) {
+void CK3::outputTitlesHistory(const string& outputModName, const map<string, shared_ptr<Title>>& titles) {
 	//output title history
-	std::set<std::string> alreadyOutputtedTitles;
+	std::set<string> alreadyOutputtedTitles;
 	for (const auto& [name, title] : titles) { // first output kindoms + their de jure vassals to files named after the kingdoms
 		if (title->getRank() == TitleRank::kingdom && !title->getDeJureVassals().empty()) { // is a de jure kingdom
 			std::ofstream historyOutput("output/" + outputModName + "/history/titles/replace/" + name + ".txt");
@@ -80,7 +85,7 @@ void CK3::outputTitlesHistory(const std::string& outputModName, const std::map<s
 }
 
 
-void CK3::outputTitles(const std::string& outputModName, const std::string& ck3Path, const std::map<std::string, std::shared_ptr<Title>>& titles) {
+void CK3::outputTitles(const string& outputModName, const string& ck3Path, const map<string, shared_ptr<Title>>& titles, const Configuration::IMPERATOR_DE_JURE& deJure) {
 	// blank all title history files from vanilla
 	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/titles/");
 	for (const auto& fileName : fileNames) {
@@ -88,21 +93,25 @@ void CK3::outputTitles(const std::string& outputModName, const std::string& ck3P
 		file.close();
 	}
 	
+	//output to landed_titles folder
 	for (const auto& [name, title] : titles) {
-		if (title->imperatorCountry && title->imperatorCountry->getCountryType() != Imperator::countryTypeEnum::real) // we don't need pirates, barbarians etc.
+		if (title->imperatorCountry && title->imperatorCountry->getCountryType() != Imperator::countryTypeEnum::real) { // we don't need pirates, barbarians etc.
 			continue;
+		}
 		
-		if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != std::string::npos) {  // title is not from CK3
+		if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != string::npos) {  // title is not from CK3
 			std::ofstream output("output/" + outputModName + "/common/landed_titles/" + name + ".txt");
-			if (!output.is_open())
-				throw std::runtime_error(
-					"Could not create landed titles file: output/" + outputModName + "/common/landed_titles/" + name + ".txt");
+			if (!output.is_open()) {
+				throw std::runtime_error("Could not create landed titles file: output/" + outputModName + "/common/landed_titles/" + name + ".txt");
+			}
 			output << commonItems::utf8BOM;
 			output << *title;
 			output.close();
 		}
 	}
+	if (deJure == Configuration::IMPERATOR_DE_JURE::REGIONS) {
+		commonItems::CopyFolder("blankMod/optionalFiles/ImperatorDeJure", "output/" + outputModName + "/common/landed_titles/");
+	}
 
 	outputTitlesHistory(outputModName, titles);
 }
-

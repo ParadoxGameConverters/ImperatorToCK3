@@ -45,7 +45,7 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputHistoryProvinces(outputName, CK3World.getProvinces());
 
 	LOG(LogLevel::Info) << "<- Writing Landed Titles";
-	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles());
+	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles(), theConfiguration.getImperatorDeJure());
 
 	LOG(LogLevel::Info) << "<- Writing Localization";
 	outputLocalization(theConfiguration.getImperatorPath(), outputName, CK3World);
