@@ -112,7 +112,7 @@ void CK3::outputTitles(const string& outputModName, const string& ck3Path, const
 		}
 	}
 	if (deJure == Configuration::IMPERATOR_DE_JURE::REGIONS) {
-		commonItems::CopyFolder("blankMod/optionalFiles/ImperatorDeJure", "output/" + outputModName + "/common/landed_titles/");
+		commonItems::CopyFolder("blankMod/optionalFiles/ImperatorDeJure/common/landed_titles", "output/" + outputModName + "/common/landed_titles/");
 	}
 
 	outputTitlesHistory(outputModName, titles);

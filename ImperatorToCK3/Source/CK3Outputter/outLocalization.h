@@ -3,6 +3,7 @@
 
 
 
+#include "Configuration/Configuration.h"
 #include <string>
 
 
@@ -10,7 +11,7 @@
 namespace CK3 {
 
 class World;
-void outputLocalization(const std::string& imperatorPath, const std::string& outputName, const World& CK3World);
+void outputLocalization(const std::string& imperatorPath, const std::string& outputName, const World& CK3World, const Configuration::IMPERATOR_DE_JURE& deJure);
 
 }
 
