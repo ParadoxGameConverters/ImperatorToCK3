@@ -45,10 +45,10 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputHistoryProvinces(outputName, CK3World.getProvinces());
 
 	LOG(LogLevel::Info) << "<- Writing Landed Titles";
-	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles());
+	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles(), theConfiguration.getImperatorDeJure());
 
 	LOG(LogLevel::Info) << "<- Writing Localization";
-	outputLocalization(theConfiguration.getImperatorPath(), outputName, CK3World);
+	outputLocalization(theConfiguration.getImperatorPath(), outputName, CK3World, theConfiguration.getImperatorDeJure());
 
 	LOG(LogLevel::Info) << "<- Copying named colors";
 	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + theConfiguration.getOutputModName() + "/common/named_colors/imp_colors.txt");
