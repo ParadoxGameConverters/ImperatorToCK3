@@ -1,0 +1,1697 @@
+# Moving duchies according to I:R regions
+# Moving kingdoms in I:R-ish Empires
+# Did NOT change India and Egypt/East Africa at all
+
+# Colors and capitals need to be resupplied
+
+e_italy = {
+	color = { 234 217 110 }
+	color2 = { 255 255 255 }
+	
+	capital = c_roma # Rome
+	k_romagna = {
+		color = { 215 141 152 }
+		color2 = { 255 255 255 }
+
+		capital = c_roma # Rome
+		can_create = {
+			trigger_if = {
+				limit = {
+					is_ai = yes
+				}
+			}
+		}
+		d_toscana = { 
+			color = { 222 186 25 }
+			color2 = { 255 255 255 }
+			
+			capital = c_firenze # Firenze
+		}
+		d_pisa = {
+			color = { 180 186 30 }
+			color2 = { 255 255 255 }
+
+			capital = c_pisa #Pisa
+		}
+		d_corsica = {
+			color = { 200 200 250 }
+			color2 = { 255 255 255 }
+			
+			capital = c_ajaccio # Ajaccio
+		}
+		d_sardinia = {
+			color = { 217 159 255 }
+			color2 = { 255 255 255 }
+			
+			capital = c_cagliari # Cagliari
+		}
+	}
+	k_italy = {
+		color = { 244 227 160 }
+		color2 = { 255 255 255 }
+		
+		capital = c_lombardia # Pavia
+		d_venice = {	
+			color = { 34 137 126 }
+			
+			capital = c_venezia # Venice
+		}
+		d_piedmonte = {
+			color = { 191 158 158 }
+			color2 = { 255 255 255 }
+			
+			capital = c_monferrato #Asti
+			c_canavese = {
+				color = { 115 25 45 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+	k_sicily = { 
+		color = { 180 160 80 }
+		color2 = { 255 255 255 }
+		
+		capital = c_palermo #	Palermo
+	}
+}
+e_caspian-pontic_steppe = {
+	color = { 230 180 10 }
+	color2= { 255 255 255 }
+	
+	capital = c_itil # Itil
+	k_galicia-volhynia = { # Vistulia
+		color = { 50 150 130 }
+		color2 = { 255 255 255 }
+		
+		capital = c_volodymyr # Volodymyr
+		d_bukovina = {
+			color = { 210 200 70 }
+			color2 = { 255 255 255 }
+			
+			capital = c_suceava # Suceava
+			c_stoenesti = {
+				color = { 249 255 102 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_lesser_poland = {
+			color = { 137 6 20 }
+			color2 = { 255 255 255 }
+			
+			capital = c_krakowska # Krakowska
+		}
+		d_upper_silesia = {
+			color = { 180 20 100 }
+			color2 = { 255 255 255 }
+			
+			capital = c_opole # Opole
+		}
+		d_grodno = {
+			color = { 160 205 190 }
+			color2 = { 255 255 255 }
+			
+			capital = c_grodno # Grodno
+		}
+	}
+	k_pontic_steppe = { # Taurica
+		color = { 85 40 5 }
+		color2= { 255 255 255 }
+		
+		capital = c_odessa # Odessa
+		d_azov = {
+			color = { 92 76 12 }
+			color2= { 255 255 255 }
+			
+			capital = c_tmutarakan # Tmutarakan
+		}
+		d_alania = { 
+			color = { 110 65 29 }
+			color2= { 255 255 255 }
+			
+			capital = c_maghas # Maghas
+		}
+	}
+	k_caspian_steppe = { # Sarmatia Asiatica
+		color = { 166 82 10 }
+		color2= { 255 255 255 }
+		
+		capital = c_tana
+		d_don_valley = { 
+			color = { 227 201 98 }
+			color2= { 255 255 255 }
+			
+			capital = c_tana # Tana
+		}
+		d_voronezh = { 
+			color = { 26 52 24 }
+			color2 = { 255 255 255 }
+			
+			capital = c_voronezh
+			c_samar = {
+				color = { 180 180 90 }
+				color2= { 255 255 255 }
+			}
+			c_bakhmut = {
+				color = { 210 160 80 }
+				color2= { 255 255 255 }
+			}
+		}
+		d_khopyor = {
+			color = { 46 52 24 }
+			color2 = { 255 255 255 }
+			
+			capital = c_khopyor
+		}
+		d_chuvashia = { 
+			color = { 50 40 76 }
+			color2 = { 255 255 255 }
+			
+			capital = c_saratov
+		}
+	}
+	k_moldavia = { # Sarmatia Europea
+		color = { 180 150 20}
+		color2 = { 255 255 255}
+		
+		capital = c_iasi
+		d_yedisan = { 
+			color = { 156 82 22 }
+			color2= { 255 255 255 }
+			
+			capital = c_odessa # Odessa
+		}
+		d_kiev = { 
+			color = { 52 120 69 }
+			color2 = { 255 255 255 }
+			
+			capital = c_kiev # Kiev
+		}
+		d_pereyaslavl = { 
+			color = { 37 143 71 }
+			color2 = { 255 255 255 }
+			
+			capital = c_pereyaslavl # Pereyaslavl
+		}
+		d_chernigov = {
+			color = { 150 235 91 }
+			color2 = { 255 255 255 }
+			
+			capital = c_chernigov # Chernigov
+		}
+		d_turov = {
+			color = { 129 163 28 }
+			color2 = { 255 255 255 }
+			
+			capital = c_turov # Turov
+		}
+	}
+	k_kimek = {
+		color = { 175 55 40 }
+		color2= { 255 255 255 }
+		
+		capital = c_mugodzhar_hills
+		d_khorezm = {
+			color = { 70 198 103 }
+			color2 = { 255 255 255 }
+			
+			capital = c_gurganj	#	Gurganj
+		}
+		d_itil = {
+			color = { 196 118 27 }
+			color2= { 255 255 255 }
+			
+			capital = c_itil # Itil
+		}
+		d_pecheneg = {
+			color = { 186 38 11 }
+			color2= { 255 255 255 }
+			
+			capital = c_pecheneg
+		}
+		d_khazaria = {
+			color = { 143 92 21 }
+			color2= { 255 255 255 }
+			
+			capital = c_sarkel # Sarkel
+		}
+		d_transcaspiana = {
+			color = { 194 27 27 }
+			color2= { 255 255 255 }
+			
+			capital = c_mangyshlak
+		}
+		d_jemba = {
+			color = { 186 13 53 }
+			color2= { 255 255 255 }
+			
+			capital = c_qoshagyl
+		}
+		d_aral_il = {	#fictional name for "land of Aral"
+			color = { 250 50 50 }
+			color2= { 255 255 255 }
+			
+			capital = c_yangikent
+		}
+		d_barsuki =  {
+			color = { 191 106 15 }
+			color2= { 255 255 255 }
+			
+			capital = c_terekli
+		}
+	}
+}
+e_armenia = {
+	color = { 198 29 29 }
+	
+	capital = c_hayk # Ani
+	k_georgia = { 
+		color = { 200 193 193 }
+		color2= { 255 255 255 }
+		
+		capital = c_tbilisi # Tbilisi
+	}
+	k_armenia = {
+		color = { 203 76 76 }
+		color2 = { 255 255 255 }
+		
+		capital = c_hayk # Ani
+	}
+	k_caucasus = { # Caucasian Albania
+		color = { 150 103 38 }
+		color2= { 255 255 255 }
+		
+		capital = c_shirvan
+		d_shirvan = {
+			color = { 50 75 50 }
+			color2 = { 255 255 255 }
+			
+			capital = c_shirvan # Shirvan
+		}
+		d_ciscaucasia = {
+			color = { 168 59 34 }
+			color2= { 255 255 255 }
+			
+			capital = c_derbent # Derbent
+			c_cabardinia = {
+				color = { 54 25 8 }
+				color2= { 255 255 255 }
+			}
+		}
+	}
+}
+e_byzantium = {
+	color =  hsv{ 0.9 1 0.3 } #hsv{ 0.73 0.8 0.4 }  #hsv{ 0.77 0.8 0.6 } #{ 143 12 125 }
+	color2 = { 255 255 255 }
+	
+	capital = c_byzantion
+	
+	definite_form = yes
+	k_epirus = { # Macedonia
+		color = { 139 68 114 }
+		color2 = { 255 255 255 }
+		
+		capital = c_chalkidike
+		d_thessalonika = { 
+			color = { 189 19 130 }
+			color2 = { 255 255 255 }
+			
+			capital = c_thessalonika # Thessaloniki
+			c_rhodopes = {
+				color = { 75 100 110 }
+				color2 = { 255 255 255 }
+			}
+			c_serres = {
+				color = { 70 35 130 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_thessaly = { 
+			color = { 170 30 165 }
+			color2 = { 255 255 255 }
+			
+			capital = c_thessalia # Larissa
+		}
+		d_bulgaria = {
+			color = { 120 110 110 }
+			color2 = { 255 255 255 }
+			
+			capital = c_naissus # Naissos / Nis
+			c_sredets = {
+				color = { 45 40 75 }
+				color2 = { 255 255 255 }
+				
+				#capital = 500 # Serdica / Sredets / Sofia
+			}
+		}
+		d_rashka = {
+			color = { 103 88 51 }
+			color2 = { 255 255 255 }
+			
+			capital = c_rashka # Novo Trgovište
+		}
+	}
+	k_hellas = { # Greece
+		color = { 210 70 165 }
+		color2 = { 255 255 255 }
+	
+		capital = c_attica # Athens
+		d_cephalonia = {
+			color = { 180 110 85 }
+			color2 = { 255 255 255 }
+			
+			capital = c_cephalonia # Cephalonia
+			c_avlonas = {
+				color = { 125 15 135 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_epirus = {
+			color = { 134 63 109 }
+			color2 = { 255 255 255 }
+			
+			capital = c_nicopolis # Arta
+		}
+		d_krete = {
+			color = { 205 110 35 }
+			color2 = { 255 255 225 }
+			
+			capital = c_chandax # Chandax
+		}
+	}
+	k_nikaea = {  # Asia
+		color = { 136 37 120 }
+		color2= { 255 255 255 }
+		
+		capital = c_ionia
+		d_thracesia = {
+			color = { 167 74 151 }
+			color2= { 255 255 255 }
+			
+			capital = c_lydia
+			c_mysia = {
+				color = { 134 47 165 }
+				color2= { 255 255 255 }
+			}
+		}
+		d_ephese = {
+			color = { 132 50 173 }
+			color2= { 255 255 255 }
+			
+			capital = c_ionia
+			c_abydos = {
+				color = { 175 20 100 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+	k_cyprus = { # Cilicia
+		color = { 215 215 20 }
+		color2 = { 255 255 255 }
+		
+		capital = c_nicosia
+		d_cibyrrhaeot = { 
+			color = { 215 40 30 }
+			color2= { 255 255 255 }
+			
+			capital = c_lycia
+		}
+		d_cilicia = { 
+			color = { 223 117 26 }
+			color2= { 255 255 255 }
+			
+			capital = c_cilicia
+		}
+	}
+	k_anatolia = { # Phrygia
+		color = { 200 50 50 }
+		color2= { 255 255 23 }
+		
+		capital = c_phrygia # Ikonion
+		d_anatolia = {
+			color = { 200 50 50 }
+			color2= { 255 255 255 }
+			
+			capital = c_lycaonia
+			c_galatia = {
+				color = { 210 25 120 }
+				color2= { 255 255 255 }
+			}
+			c_phrygia = {
+				color = { 147 54 134 }
+				color2= { 255 255 255 }
+			}
+		}
+	}
+	k_pontus = { # Bithynia
+		color = { 205 130 85 }
+		color2= { 255 255 255 }
+		
+		capital = c_bithynia
+		d_opsikion = { 
+			color = { 146 47 130 }
+			color2= { 255 255 255 }
+			
+			capital = c_nikaea
+		}
+		d_optimatoi = {
+			color = { 145 56 151 }
+			color2= { 255 255 255 }
+			
+			capital = c_bithynia
+		}
+		d_bucellaria = {
+			color = { 180 62 127 }
+			color2= { 255 255 255 }
+			
+			capital = c_honorias
+		}
+		d_paphlagonia = { 
+			color = { 205 127 158 }
+			color2= { 255 255 255 }
+			
+			capital = c_paphlagonia
+		}
+	}
+	k_trebizond = { # Cappadocia Pontica
+		color = { 100 151 33 }
+		
+		capital = c_trebizond # Trebizond
+		d_armeniac = { 
+			color = { 150 130 180 }
+			color2= { 255 255 255 }
+			
+			capital = c_helenopontus
+		}
+		d_chaldia = {
+			color = { 150 130 20 }
+			color2 = { 255 255 255 }
+			
+			capital = c_trebizond
+		}
+		d_mesopotamia = { # Malatya / Militene
+			color = { 200 50 50 }
+			color2 = { 255 255 255 }
+			
+			capital = c_theodosiopolis # Theodosiopolis/Erzurum
+		}
+	}
+	k_old_armenia = { # Cappadocia Taurica
+		color = { 223 96 96 }
+		color2 = { 255 255 255 }
+
+		capital = c_cappadocia
+		d_cappadocia = { 
+			color = { 200 77 52 }
+			color2= { 255 255 255 }
+			
+			capital = c_cappadocia
+		}
+		d_charsianon = { 
+			color = { 205 130 85 }
+			color2= { 255 255 255 }
+			
+			capital = c_charsianon
+		}
+		d_sebasteia = {
+			color = { 197 157 76 }
+			color2= { 255 255 255 }
+			
+			capital = c_sebasteia
+		}
+	}
+	k_thessalonika = { # Thrace
+		color = { 175 30 130 }
+		color2 = { 255 255 23 }
+		
+		capital = c_byzantion
+		d_philippopolis = { 
+			color = { 75 100 110 }
+			color2 = { 255 255 255 }
+			
+			capital = c_philippopolis # Philippopolis / Plovdiv
+		}
+		d_turnovo = { 
+			color = { 103 78 91 }
+			color2 = { 255 255 255 }
+			
+			capital = c_turnovo # Turnovo
+		}
+		d_dobrudja = { 
+			color = { 75 100 80 }
+			color2 = { 255 255 255 }
+			
+			capital = c_constanta # Constanta
+		}
+	}
+}
+e_carpathia = {
+	color = { 210 115 35 }
+	color2 = { 255 255 255 }
+	
+	capital = c_visegrad # Pest
+	k_bulgaria = { # Moesia
+		color = { 113 88 101 }
+		color2 = { 255 255 255 }
+		
+		capital = c_giurgiu
+		d_vidin = {
+			color = { 120 105 85 }
+			color2 = { 255 255 255 }
+			
+			capital = c_vidin # Vidin
+			c_vratsa = {
+				color = { 53 38 51 }
+				color2 = { 255 255 255 }
+				
+				#capital = 3678 # Vratsa
+			}
+		}
+		d_transylvanian_alps = {
+			color = { 175 86 10 }
+			color2 = { 255 255 255 }
+			
+			capital = c_campulung # Campulung
+		}
+		d_muntenia = { 
+			color = { 220 132 40 }
+			color2 = { 255 255 255 }
+			
+			capital = c_giurgiu # Targoviste
+			c_galati = {
+				color = { 250 207 36 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_oltenia = {
+			color = { 222 155 78 }
+			color2 = { 255 255 255 }
+			
+			capital = c_targu_jiu # Targu Jiu
+		}
+		d_macva = {
+			color = { 168 135 57 }
+			color2 = { 255 255 255 }
+			
+			capital = c_macva
+		}
+		d_syrmia = { 
+			color = { 179 43 111 }
+			color2 = { 255 255 255 }
+			
+			capital = c_szerem # Szerem / Srem
+		}
+	}
+	k_dacia = {
+		color = { 237 147 52 }
+		color2 = { 255 255 255 }
+		
+		capital = c_feher
+		d_temes = { 
+			color = { 133 93 38 }
+			color2 = { 255 255 255 }
+			
+			capital = c_temes
+		}
+		d_bihar = { 
+			color = { 241 58 58 }
+			color2 = { 255 255 255 }
+			
+			capital = c_bihar # Bihar / Nagyvarad / Oradea
+		}
+		d_transylvania = { 
+			color = { 212 112 63 }
+			color2 = { 255 255 255 }
+			
+			capital = c_feher # Fehervar
+		}
+		d_ungvar = { 
+			color = { 156 15 15 }
+			color2 = { 255 255 255 }
+			
+			capital = c_ungvar
+		}
+		d_transcarpathia = { 
+			color = { 217 11 26 }
+			color2 = { 255 255 255 }
+			
+			capital = c_marmaros # Marmaros / Maramarossziget / Maramures
+		}
+	}
+	k_croatia = { # Illyria
+		color = { 122 46 58 }
+		color2 = { 200 0 0 }
+		
+		capital = c_zadar # Zadar
+		d_duklja = {
+			color = { 129 94 13 }
+			color2 = { 255 255 255 }
+			
+			#capital = 469 # Ribnica / Podgorica
+		}
+		d_dyrrachion = {
+			color = { 137 27 99 }
+			color2 = { 255 255 255 }
+			
+			capital = c_dyrrachion # Dyrrachion
+		}
+		d_istria = {
+			color = { 75 110 105 }
+			color2 = { 255 255 255 }
+		}
+		d_krain = {
+			color = { 95 120 100 }
+			color2 = { 255 255 255 }
+
+			capital = c_kranj # Kranj
+		}
+	}
+}
+e_persia = {
+	color = { 133 240 7 }
+	color2 = { 255 255 255 }
+	
+	capital = c_isfahan #	Esfahan
+	
+	definite_form = yes
+	k_kabulistan = { # Ariana
+		color = { 163 121 57 }
+		color2 = { 220 220 0 }
+		
+		capital = c_kabul # Kabul
+		d_sistan = {
+			color = { 5 75 5 }
+			color2 = { 255 255 255 }
+			
+			capital = c_zaranj	#	Zaranj
+		}
+		d_ghur = {
+			color = { 13 220 200 }
+			color2 = { 255 255 255 }
+			
+			capital = c_ghur # Firuzkuh
+		}
+		d_herat = {
+			color = { 25 225 200 }
+			color2 = { 255 255 255 }
+			
+			capital = c_herat # Herat
+		}
+		d_kohestan = {
+			color = { 78 248 201 }
+			color2 = { 255 255 255 }
+			
+			capital = c_qain # Qain
+		}
+	}
+	k_makran = { # Gedrosia
+		color = { 99 197 50 }
+		color2 = { 255 255 255 }
+		
+		capital = c_panjgur	#	Bannajbur
+		d_bahrain = {
+			color = { 20 100 30 }
+			color2 = { 255 255 255 }
+			
+			capital = c_qatif
+		}
+		d_al-hasa = {
+			color = { 32 127 30 }
+			color2 = { 255 255 255 }
+			
+			capital = c_al-hasa
+		}
+		d_oman = {
+			color = { 235 160 30 }
+			color2 = { 255 255 255 }
+			
+			capital = c_nizwa
+		}
+	}
+	k_jazira = {
+		color = { 11 205 70 }
+		color2 = { 255 255 255 }
+		
+		capital	= c_mosul # Mosul
+		d_edessa = {
+			color = { 182 110 45 }
+			color2 = { 255 255 255 }
+			
+			capital = c_edessa # Edessa
+		}
+	}
+	k_mesopotamia = {
+		color = { 55 128 67 }
+		color2 = { 255 255 255 }
+		
+		capital	= c_baghdad # Baghdad
+		d_euphrates = {
+			color = { 120 180 60 }
+			color2 = { 255 255 255 }
+			
+			capital = c_rahba
+		}
+	}
+	k_khorasan = { # Parthia
+		color = { 86 250 237 }
+		color2 = { 255 255 255 }
+		
+		capital = c_nishapur # Nishapur
+		d_uzboy = {
+			color = { 90 200 110 }
+			color2 = { 255 255 255 }
+			
+			capital = c_sarykamysh	#	Kurtysh
+		}
+		d_merv = {
+			color = { 7 231 214 }
+			color2 = { 255 255 255 }
+			
+			capital = c_merv # Merv
+		}
+		d_nasa = {
+			color = { 80 245 245 }
+			color2 = { 255 255 255 }
+			
+			capital = c_abivard # Abivard
+		}
+		d_gurgan = {
+			color = { 80 190 245 }
+			color2 = { 255 255 255 }
+			
+			capital = c_gurgan # Gurgan
+		}
+		d_nishapur = {
+			color = { 85 255 235 }
+			color2 = { 255 255 255 }
+			
+			capital = c_nishapur # Nishapur
+		}
+	}
+	k_persia = {
+		color = { 133 247 17 }
+		color2 = { 255 255 255 }
+		
+		capital = c_shiraz
+	}
+	k_daylam = { # Media
+		color = { 80 205 245 }
+		color2 = { 255 255 255 }
+		
+		capital = c_gilan
+		d_isfahan = {
+			color = { 135 245 15}
+			color2 = { 255 255 255 }
+			
+			capital = c_isfahan # Isfahan
+		}
+		d_hamadan = {
+			color = { 184 225 112 }
+			color2 = { 255 255 255 }
+			
+			capital = c_hamadan # Hamadan
+		}
+		d_rayy = {
+			color = { 125 230 33 }
+			color2 = { 255 255 255 }
+			
+			capital = c_rayy # Rayy
+		}
+	}
+}
+e_arabia = {
+	color = { 32 150 85 }
+	color2 = { 255 255 255 }
+	
+	capital = c_damascus # Damascus
+	
+	definite_form = yes
+	k_arabia = {
+		color = { 124 199 50 }
+		color2 = { 255 255 255 }
+		
+		capital = c_medina
+		d_jawf = {
+			color = { 150 250 50 }
+			color2 = { 255 255 255 }
+			
+			capital = c_al_jawf
+			c_waqisa = {
+				color = { 52 144 20 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+	k_egypt = {
+		color = { 10 255 80 }
+		color2 = { 255 255 255 }
+		
+		capital	= c_cairo
+		d_delta = {
+			color = { 3 255 74 }
+			color2 = { 255 255 255 }
+			
+			capital = c_damietta
+			c_alexandria = {
+				color = { 102 221 136 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+	k_israel = { # Jerusalem is too Christian
+		color = { 20 138 255 }
+
+		capital = c_jerusalem
+		d_amman = {
+			color = { 130 255 10 }
+			color2 = { 255 255 255 }
+			
+			capital = c_balqa
+			c_hauran = {
+				color = { 103 214 143 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_oultrejourdain = { 
+			color = { 190 190 180 }
+			color2 = { 255 255 255 }
+			
+			capital = c_kerak
+		}
+		d_palestine = {
+			color = { 160 160 200 }
+			color2 = { 255 255 255 }
+			
+			capital = c_jerusalem
+		}
+		d_urdunn = { #AKA Galilee
+			color = { 225 200 160 }
+			color2 = { 255 255 255 }
+			
+			capital = c_tiberias
+		}
+	}
+	k_saruhan = { # Cyrenaica		
+		color = { 32 150 63 }
+		color2 = { 255 255 255 }
+			
+		capital = c_barqa # Cyrenaica
+		d_cyrenaica = { 
+			color = { 32 150 63 }
+			color2 = { 255 255 255 }
+			
+			capital = c_barqa # Cyrenaica
+		}
+		d_syrte = { 
+			color = { 53 55 189 }
+			color2 = { 255 255 255 }
+			
+			capital = c_syrte
+		}
+		d_alexandria = { 
+			color = { 100 219 134 }
+			color2 = { 255 255 255 }
+			
+			capital = c_alexandria
+		}
+	}
+}
+e_germany = {
+	color = { 190 200 190 }
+	color2 = { 220 220 20 }
+
+	capital = c_nassau
+	k_denmark = {
+		color = { 247 77 54 }
+		color2 = { 136 157 23 }
+		
+		capital = c_sjaelland # Roskilde
+		d_smaland = { 
+			color = { 45 85 245 }
+			color2 = { 255 255 255 }
+			
+			capital = c_more # Kalmar
+		}
+		d_gotland = { 
+			color = { 0 90 160 }
+			color2 = { 255 255 255 }
+			
+			capital = c_gutland # Wysbu/Visby
+		}
+		d_vastergotland = { #Västergötland
+			color = { 38 93 163 }
+			color2 = { 255 255 255 }
+			
+			capital = c_vastergotland # Skara
+		}
+		d_ostergotland = { #Östergötland
+			color = { 44 110 225 }
+			color2 = { 255 255 255 }
+			
+			capital = c_ostergotland # Östergötland
+		}
+		d_viken = { 
+			color = { 220 4 40 }
+			color2 = { 220 220 220 }
+			
+			capital = c_vingulmork
+		}
+		d_agder = { 
+			color = { 170 30 30 }
+			color2 = { 220 220 220 }
+			
+			capital = c_nedenes # Arendall
+		}
+	}
+	k_poland = { # Venedia
+		color = { 150 23 23 }
+		color2 = { 200 0 0 }
+		
+		capital = c_czerska # Warsaw
+		d_pommerania = {
+			color = { 111 143 51 }
+			color2 = { 255 255 255 }
+			
+			capital = c_stettin # Szczecin
+		}
+		d_pomerelia = {
+			color = { 80 130 80 }
+			color2 = { 255 255 255 }
+			capital = c_danzig
+			}
+		d_masuria = {
+			color = { 160 95 105 }
+			color2 = { 255 255 255 }
+			
+			capital = c_torun # Chelmno
+		}
+		d_prussia = { 
+			color = { 200 100 100 }
+			color2 = { 255 255 255 }
+			
+			capital = c_malbork # Truso
+		}
+		d_lithuanians = {
+			color = { 81 0 0 }
+			color2 = { 255 255 255 }
+			
+			capital = c_kernave # Kernave
+		}
+		d_samogitia = {
+			color = { 150 70 70 }
+			color2 = { 255 255 255 }
+			
+			capital = c_raseiniai # Samogitia
+		}
+		d_courland = { 
+			color = { 182 16 16 }
+			color2 = { 255 255 255 }
+			
+			capital = c_zemigalians # Kurzeme
+		}
+	}
+	k_east_francia = { # Germania
+		color = { 160 160 160 }
+		color2 = { 220 220 20 }
+		
+		capital = c_berlin
+		d_swiss = { # Recycled title
+			color = { 130 145 170 }
+			color2 = { 255 255 255 }
+			capital = c_bergh
+			
+			c_dortmund = {
+				color = { 150 165 185 }
+				color2 = { 255 255 255 }
+			}
+			c_mark = {
+				color = { 145 135 175 }
+				color2 = { 255 255 255 }
+			}
+			c_bergh = {
+				color = { 130 145 170 }
+				color2 = { 255 255 255 }
+			}
+			c_arnsberg = {
+				color = { 170 170 195 }
+				color2 = { 255 255 255 }
+			}
+			c_sayn = {
+				color = { 155 140 170 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_nordmark = { 
+			color = { 162 160 110 }
+			color2 = { 255 255 255 }
+			
+			capital = c_mecklenburg #Wismar
+		}
+		d_ostmark = {
+			color = { 121 140 121 }
+			color2 = { 255 255 255 }
+			
+			#capital = 3166 #Brandenburg
+		}
+		d_holland = {
+			color = { 235 80 30 }
+			color2 = { 255 255 255 }
+		
+			capital = c_holland #Amsterdam
+		}
+		d_gelre = { 
+			color = { 200 60 40 }
+			color2 = { 255 255 255 }
+			
+			capital = c_guelders #Geldern
+		}
+		d_utrecht = { 
+			color = { 170 100 10 }
+			color2 = { 255 255 255 }
+
+			capital = c_nedersticht #Utrecht
+		}
+		d_frisia = { 
+			color = { 190 90 10 }
+			color2 = { 255 255 255 }
+
+			capital = c_dokkum
+		}
+		d_anhalt = { 
+			color = { 195 105 80 }
+			color2 = { 255 255 255 }
+
+			capital = c_dessau
+		}
+		d_angria = {
+			color = { 205 105 85 }
+			color2 = { 255 255 255 }
+
+			capital = c_minden
+		}
+		d_westfalen = {
+			color = { 240 160 90 }
+			color2 = { 255 255 255 }
+
+			capital = c_osnabruck #Osnabruck
+		}
+		d_ostfalen = {
+			color = { 200 160 125 }
+			color2 = { 255 255 255 }
+		
+			capital = c_luneburg #Lüneburg
+		}
+		d_holstein = {
+			color = { 172 112 112 }
+			color2 = { 255 255 255 }
+			
+			capital = c_lubeck
+		}
+		d_thuringia = { 
+			color = { 200 160 181 }
+			color2 = { 255 255 255 }
+			
+			capital = c_schmalkalden
+		}
+	}
+	k_bohemia = { # Boiohaemum
+		color = { 176 110 32 }
+		color2 = { 255 255 255 }
+
+		capital = c_praha # Praha
+		d_osterreich = {
+			color = { 191 182 182 }
+			color2 = { 255 255 255 }
+			
+			capital = c_vienna #Vienna
+		}
+		d_lower_silesia = { 
+			color = { 230 60 20 }
+			color2 = { 255 255 255 }
+			
+			capital = c_breslau # Opole
+		}
+		d_anhalt = { 
+			color = { 195 105 80 }
+			color2 = { 255 255 255 }
+
+			capital = c_dessau
+		}
+		d_meissen = { 
+			color = { 215 175 120 }
+			color2 = { 255 255 255 }
+			
+			capital = c_meissen #Meissen
+		}
+		d_lausitz = {
+			color = { 215 150 145 }
+			color2 = { 255 255 255 }
+			
+			capital = c_juterbog #Jüterbog
+		}
+		d_nordgau = {
+			color = { 110 100 85 }
+			color2 = { 255 255 255 }
+			
+			capital = c_eichstadt #Eichstadt
+		}
+	}
+}
+e_spain = {
+	color = { 233 200 20 }
+	color2 = { 255 255 255 }
+	
+	capital = c_toledo # Toledo
+	k_portugal = {	# Lusitania
+		color = { 182 88 5 }
+		color2 = { 255 255 255 }
+		
+		capital = c_lisboa # Lisboa
+		d_beja = {
+			color = { 156 212 68 }
+			color2 = { 255 255 255 }
+			
+			capital = c_lisboa #Lisboa
+		}
+		d_badajoz = { 
+			color = { 118 223 36 }
+			color2 = { 255 255 255 }
+			
+			capital = c_badajoz # Badajoz
+			c_malagon = {
+				color = { 195 165 10 }
+				color2 = { 255 255 255 }
+			}
+			c_toledo = {
+				color = { 212 151 12 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_zaragoza = { # Recycled title
+			color = { 230 100 0 }
+			capital = c_salamanca
+			
+			c_salamanca = {
+				color = { 195 105 25 }
+				color2 = { 255 255 255 }
+			}
+			c_avila = {
+				color = { 200 110 50 }
+				color2 = { 255 255 255 }
+			}
+			c_olmedo = {
+				color = { 255 225 65 }
+				color2 = { 255 255 255 }
+			}
+			c_benavente = {
+				color = { 195 115 20 }
+				color2 = { 255 255 255 }
+			}
+			c_zamora = {
+				color = { 245 125 25 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_coimbra = { 
+			color = { 182 108 45 }
+			color2 = { 255 255 255 }
+
+			capital = c_coimbra #Coimbra
+		}
+		d_porto = { 
+			color = { 182 88 5 }
+			color2 = { 255 255 255 }
+			
+			capital = c_porto # porto
+		}
+	}
+	k_spanish_galicia = { # Gallaecia
+		color = { 255 224 94 }
+		
+		capital = c_coruna # La Coruña
+		d_asturias = {
+			color = { 207 104 0 }
+			color2 = { 255 255 255 }
+			
+			capital = c_asturias_de_oviedo # Oviedo
+		}
+		d_cantabria = { 
+			color = { 230 180 20 }
+			color2 = { 255 255 255 }
+
+			capital = c_asturias_de_santillana
+		}
+		d_leon = { 
+			color = { 223 128 31 }
+			color2 = { 255 255 255 }
+			
+			capital = c_leon # Leon
+		}
+		d_castilla = { 
+			color = { 242 196 12 }
+			color2 = { 255 255 255 }
+			
+			capital = c_burgos # Burgos
+		}
+	}
+	k_valencia = { # Contestania
+		color = { 85 201 122 }
+		color2 = { 255 255 255 }
+
+		capital = c_valencia # Valencia
+		d_toledo = { 
+			color = { 212 151 12 }
+			color2 = { 255 255 255 }
+			
+			capital = c_toledo # Toledo
+		}
+	}
+	k_aragon = { # Tarraconensis
+		color = { 166 98 22 }
+		color2 = { 230 0 0 }
+		
+		capital = c_zaragoza # Zaragoza
+		can_create = { # To remove the "Christian-only" requirement
+			trigger_if = {
+				limit = {
+					is_ai = yes
+				}
+			}
+		}
+		
+		d_navarra = { 
+			color = { 140 130 0 }
+			color2 = { 255 255 255 }
+			
+			capital = c_navarra # Pamplona
+		}
+		d_viscaya = { 
+			color = { 115 90 0 }
+			color2 = { 255 255 255 }
+
+			capital = c_viscaya
+		}
+	}
+	k_andalusia = { # Baetica
+		color = { 31 138 40 }
+		color2 = { 255 255 255 }
+		
+		capital = c_cordoba # Cordoba
+		can_create = { # See above
+			trigger_if = {
+				limit = {
+					is_ai = yes
+				}
+			}
+		}
+		d_algarve = { 
+			color = { 73 156 8 }
+			color2 = { 255 255 255 }
+			
+			capital = c_faro # Faro
+		}
+	}
+}
+e_wendish_empire = { # Now "Rhaetia"
+	color = { 130 20 50 }
+	color2 = { 200 0 0 }
+	capital = c_bern
+	
+	k_switzerland = { # Rhaetia
+	color = { 255 80 80 }
+	color2 = { 200 50 50 }
+
+	definite_form = yes
+	
+	capital = c_bern
+		d_augsburg = { 
+			color = { 50 50 50 }
+			color2 = { 255 255 255 }
+		
+			capital = c_augsburg
+		}
+		d_swabia = {
+			color = { 210 210 210 }
+			color2 = { 255 255 255 }
+			
+			capital = c_ulm #Ulm
+		}
+		d_alsace = {
+			color = { 205 205 230 }
+			color2 = { 255 255 255 }
+
+			capital = c_strassburg #Strassburg
+		}
+		d_salzburg = { 
+			color = { 110 110 110 }
+			color2 = { 255 255 255 }
+
+			capital = c_salzburg
+		}
+		d_carinthia = {
+			color = { 100 105 120 }
+			color2 = { 255 255 255 }
+			
+			capital = c_karnten #Klagenfurt
+		}
+		d_steyermark = {
+			color = { 120 100 100 }
+			color2 = { 255 255 255 }
+			
+			capital = c_graz #Graz
+		}
+		d_tyrol = { 
+			color = { 75 65 75 }
+			color2 = { 255 255 255 }
+
+			capital = c_innsbruck #De-facto only, actually Tirol
+		}
+		d_currezia = {
+			color = { 255 220 220 }
+			color2 = { 255 255 255 }
+			
+			capital = c_grisons #Chur
+		}
+		d_transjurania = { 
+			color = { 159 40 10 }
+			color2 = { 255 255 255 }
+			
+			capital = c_bern
+		}
+		d_upper_burgundy = { 
+			color = { 159 20 58 }
+			color2 = { 255 255 255 }
+			
+			capital = c_besancon # Besancon
+		}
+		d_bavaria = { 
+			color = { 80 90 90 }
+			color2 = { 255 255 255 }
+			
+			capital = c_regensburg
+		}
+	}
+	k_lotharingia = { # Belgica
+		color = { 110 110 160 }
+		color2 = { 220 220 20 }
+		
+		capital = c_luxembourg #Luxemburg
+		d_julich = { 
+			color = { 145 125 195 }
+			color2 = { 255 255 255 }
+			
+			capital = c_aachen #Aachen
+		}
+		d_luxembourg = { 
+			color = { 110 110 155 }
+			color2 = { 255 255 255 }
+			
+			capital = c_luxembourg #Luxembourg
+		}
+		d_brabant = { 
+			color = { 110 85 125 }
+			color2 = { 255 255 255 }
+			
+			capital = c_brabant #Leuven
+		}
+		d_flanders = {
+			color = { 65 95 180 }
+			color2 = { 255 255 255 }
+			
+			capital = c_brugge
+			c_amiens = { 
+				color = { 18 76 240 }
+				color2 = { 255 255 255 }
+			}
+			c_eu = {
+				color = { 20 20 130 }
+				color2 = { 255 255 255 }
+			}
+		}
+		d_champagne = {
+			color = { 7 60 160 }
+			color2 = { 255 255 255 }
+			
+			capital = c_reims # Reims
+			c_beaumont = {
+				color = { 35 65 230 }
+				color2 = { 255 255 255 }
+			}
+			c_clermont = {
+				color = { 28 58 230 }
+				color2 = { 255 255 255 }
+			}
+			c_valois = { 
+				color = { 15 40 210 }
+				color2 = { 255 255 255 }
+			}
+			c_vermandois = { 
+				color = { 20 50 220 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+	k_bavaria = { # Germania Superior - Recycled title
+		color = { 70 80 80 }
+		color2 = { 220 220 20 }
+		
+		capital = c_trier
+		d_upper_lorraine = { 
+			color = { 90 90 125 }
+			color2 = { 255 255 255 }
+					
+			capital = c_trier #Trier		
+		}
+		d_bar = { 
+			color = { 24 95 226 }
+			color2 = { 255 255 255 }
+			
+			capital = c_bar #Bar	
+		}
+		d_west_franconia = { 
+			color = { 170 170 170 }
+			color2 = { 255 255 255 }
+			
+			capital = c_frankfurt
+		}
+		d_east_franconia = { 
+			color = { 245 245 255 }
+			color2 = { 255 255 255 }
+			
+			capital = c_wurzburg #Würzburg
+		}
+	}
+}
+e_france = {
+	color = { 11 22 170 }
+	color2 = { 255 255 20 }
+	
+	capital = c_ile_de_france
+	k_burgundy = { # Transalpine Gaul
+		color = { 134 0 37 }
+		color2 = { 220 220 0 }
+		
+		capital	= c_venaissin # Arles
+		d_languedoc = {
+			color = { 90 80 190 }
+			color2 = { 255 255 255 }
+			
+			capital = c_albi # Albi
+		}
+		d_toulouse = { 
+			color = { 95 24 226 }
+			color2 = { 255 255 255 }
+			
+			capital = c_toulouse # Toulouse
+		}
+		d_auvergne = { 
+			color = { 54 10 243 }
+			color2 = { 255 255 255 }
+			
+			capital = c_auvergne
+		}
+	}
+	k_france = { # Celtica
+		color = { 15 27 187 }
+		color2 = { 255 255 20 }
+		
+		capital = c_ile_de_france
+		d_orleans = { 
+			color = { 10 16 243 }
+			color2 = { 255 255 255 }
+			
+			capital = c_orleans # Orleans
+		}
+		d_berry = {
+			color = { 30 40 220 }
+			color2 = { 255 255 255 }
+			
+			capital = c_berry # Deols
+		}
+		d_bourbon = { 
+			color = { 26 10 135 }
+			color2 = { 255 255 255 }
+			
+			capital = c_bourbon # Bourbon
+		}
+		d_valois = { 
+			color = { 24 52 226 }
+			color2 = { 255 255 255 }
+			
+			capital = c_ile_de_france # Ile de France
+			c_ile_de_france = {
+				color = { 24 52 226 }
+				color2 = { 255 255 255 }
+			}
+			c_brie_francaise = { 
+				color = { 25 80 225 }
+				color2 = { 255 255 255 }
+			}
+			c_sens = { 
+				color = { 20 80 145 }
+				color2 = { 255 255 255 }
+			}
+			c_troyes = {
+				color = { 15 55 145 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+	k_brittany = { 	# Armorica
+		color = { 197 215 217 }
+		color2 = { 20 20 20 }
+		
+		capital = c_vannes # Vannes
+		d_anjou = {
+			color = { 5 95 235 }
+			color2 = { 255 255 255 }
+			
+			capital = c_anjou # Angers
+		}
+		d_normandy = {
+			color = { 7 7 145 }
+			color2 = { 255 255 255 }
+			
+			capital = c_rouen # Rouen
+		}
+	}
+}
+e_maghreb = {
+	color = { 209 63 44 }
+	color2 = { 255 255 255 }
+	
+	capital = c_kairwan # Kairouan
+	k_tahert = { # Numidia
+		color = { 210 235 87 }
+		color2 = { 255 255 255 }
+		
+		capital = c_tahert # Tahert
+		d_kroumerie = { 
+			color = { 75 80 165 }
+			color2 = { 255 255 255 }
+			
+			capital = c_constantine # Constantine
+		}
+		d_zab = {
+			color = { 88 138 39 }
+			color2 = { 255 255 255 }
+			
+			capital = c_hodna # Tubna
+			c_tabassa = {
+				color = { 52 86 177 }
+				color2 = { 255 255 255 }
+			}
+		}
+	}
+}
+e_scandinavia = {
+	color = { 62 122 189 }
+	color2 = { 255 255 0 }
+	
+	capital = c_uppland
+	k_esthonia = {
+		color = { 130 73 45 }
+		color2 = { 255 255 255 }
+		
+		capital = c_reval
+		d_latgalians = { 
+			color = { 110 35 35 }
+			color2 = { 255 255 255 }
+
+			capital = c_talava
+		}
+	} # Moving Latgalia to Estonia
+}
+e_bactria = {
+	#Created by decision
+	color = { 51 185 206 }
+	can_be_named_after_dynasty = no
+	
+	#capital = c_balkh
+	k_zhetysu = {
+		color = { 120 20 20 }
+		color2= { 255 255 255 }
+		
+		capital = c_qayaliq
+	}
+	k_khotan = {
+		color = { 150 120 200 }
+		color2= { 255 255 255 }
+		
+		capital = c_khotan
+	}
+	k_syr_darya = {
+		color = { 194 214 62 }
+		color2= { 255 255 255 }
+		
+		capital = c_chah
+	}
+	k_transoxiana = {
+		color = { 35 175 75 }
+		color2 = { 255 255 255 }
+		
+		capital = c_bukhara	#	Bukhara
+		d_balkh = {
+			color = { 25 180 165 }
+			color2 = { 255 255 255 }
+			
+			capital = c_balkh # Balkh
+		}
+	}
+}
+# Removing titles from recycling Baltic Empire
+k_moravia = {
+		color = { 158 102 36 }
+		color2 = { 200 0 0 }
+
+		capital = c_brno # Brno
+}
+k_pomerania = {
+		color = { 145 130 40 }
+		color2 = { 220 220 20 }
+		
+		capital = c_stettin # Szczecin
+}
+k_lithuania = {
+		color = { 90 10 0 }
+		color2 = { 255 255 255 }
+		
+		capital = c_kernave # Kernave
+}
+e_maghreb = {
+	color = { 209 63 44 }
+	color2 = { 255 255 255 }
+	
+	capital = c_kairwan # Kairouan
+	k_maghreb = {
+		color = { 196 36 18 }
+		color2 = { 255 255 255 }
+		
+		capital = c_marrakesh # Marrakesh
+		d_tlemcen = {
+			color = { 146 235 16 }
+			color2 = { 255 255 255 }
+			
+			capital = c_tlemcen # Tlemcen
+		}
+	}
+}
