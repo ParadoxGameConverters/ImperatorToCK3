@@ -24,9 +24,9 @@ TEST(CommonUtilities_HistoryTests, initialValueIsUsedAsFallback) {
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 
-	ASSERT_FALSE(provHistory->getFieldValue("culture", date{1,1,1}));
-	ASSERT_FALSE(provHistory->getFieldValue("religion", date{1,1,1}));
-	ASSERT_EQ("none", provHistory->getFieldValue("holding", date{1,1,1}).value());
+	ASSERT_FALSE(provHistory->getSimpleFieldValue("culture", date{1,1,1}));
+	ASSERT_FALSE(provHistory->getSimpleFieldValue("religion", date{1,1,1}));
+	ASSERT_EQ("none", provHistory->getSimpleFieldValue("holding", date{1,1,1}).value());
 }
 
 TEST(CommonUtilities_HistoryTests, initialValueIsOverriden) {
@@ -52,9 +52,9 @@ TEST(CommonUtilities_HistoryTests, initialValueIsOverriden) {
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 
-	ASSERT_EQ("khazar", provHistory->getFieldValue("culture", date{1,1,1}).value());
-	ASSERT_EQ("tengri_pagan", provHistory->getFieldValue("religion", date{1,1,1}).value());
-	ASSERT_EQ("tribal_holding", provHistory->getFieldValue("holding", date{1,1,1}).value());
+	ASSERT_EQ("khazar", provHistory->getSimpleFieldValue("culture", date{1,1,1}).value());
+	ASSERT_EQ("tengri_pagan", provHistory->getSimpleFieldValue("religion", date{1,1,1}).value());
+	ASSERT_EQ("tribal_holding", provHistory->getSimpleFieldValue("holding", date{1,1,1}).value());
 }
 
 TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue) {
@@ -80,10 +80,10 @@ TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue) {
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 
-	ASSERT_EQ("tengri_pagan", provHistory->getFieldValue("religion", date{750,1,1}).value());
-	ASSERT_EQ("kabarism", provHistory->getFieldValue("religion", date{750,1,2}).value());
-	ASSERT_EQ("khazar", provHistory->getFieldValue("culture", date{1000,1,1}).value());
-	ASSERT_EQ("cuman", provHistory->getFieldValue("culture", date{1000,1,3}).value());
+	ASSERT_EQ("tengri_pagan", provHistory->getSimpleFieldValue("religion", date{750,1,1}).value());
+	ASSERT_EQ("kabarism", provHistory->getSimpleFieldValue("religion", date{750,1,2}).value());
+	ASSERT_EQ("khazar", provHistory->getSimpleFieldValue("culture", date{1000,1,1}).value());
+	ASSERT_EQ("cuman", provHistory->getSimpleFieldValue("culture", date{1000,1,3}).value());
 }
 
 TEST(CommonUtilities_HistoryTests, nulloptIsReturnedForNonExistingField) {
@@ -106,5 +106,5 @@ TEST(CommonUtilities_HistoryTests, nulloptIsReturnedForNonExistingField) {
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 
-	ASSERT_FALSE(provHistory->getFieldValue("title", date{1000,1,1}));
+	ASSERT_FALSE(provHistory->getSimpleFieldValue("title", date{1000,1,1}));
 }

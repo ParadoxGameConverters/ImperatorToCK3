@@ -14,11 +14,11 @@ CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream) {
 	const auto history = historyFactory.getHistory(theStream);
 	const date date{867, 1, 1};
 	
-	if (const auto cultureOpt = history->getFieldValue("culture", date)) {
+	if (const auto cultureOpt = history->getSimpleFieldValue("culture", date)) {
 		culture = *cultureOpt;
 	}
-	if (const auto religionOpt = history->getFieldValue("religion", date)) {
+	if (const auto religionOpt = history->getSimpleFieldValue("religion", date)) {
 		religion = *religionOpt;
 	}
-	holding = *history->getFieldValue("holding", date);
+	holding = *history->getSimpleFieldValue("holding", date);
 }

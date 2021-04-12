@@ -3,9 +3,9 @@
 
 
 
-#include "Parser.h"
 #include "Date.h"
 #include <map>
+#include <optional>
 
 
 
@@ -29,5 +29,7 @@ private:
 	std::map<date, std::string, std::greater<>> valueHistory;
 	std::optional<std::string> initialValue;
 };
+
+
 
 #endif // SIMPLE_FIELD_H
