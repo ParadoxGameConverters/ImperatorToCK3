@@ -51,12 +51,14 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputLocalization(theConfiguration.getImperatorPath(), outputName, CK3World, theConfiguration.getImperatorDeJure());
 
 	LOG(LogLevel::Info) << "<- Copying named colors";
-	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt", "output/" + theConfiguration.getOutputModName() + "/common/named_colors/imp_colors.txt");
+	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt",
+							 "output/" + theConfiguration.getOutputModName() + "/common/named_colors/imp_colors.txt");
 
 	LOG(LogLevel::Info) << "<- Copying Coats of Arms";
 	copyColoredEmblems(theConfiguration, outputName);
 	outputCoas(outputName, CK3World.getTitles());
-	commonItems::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns", "output/" + theConfiguration.getOutputModName() + "/gfx/coat_of_arms/patterns");
+	commonItems::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns",
+							"output/" + theConfiguration.getOutputModName() + "/gfx/coat_of_arms/patterns");
 
 	LOG(LogLevel::Info) << "<- Copying blankMod files to output";
 	commonItems::CopyFolder("blankMod/output", "output/" + theConfiguration.getOutputModName());
