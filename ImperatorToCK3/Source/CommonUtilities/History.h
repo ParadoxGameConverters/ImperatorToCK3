@@ -3,10 +3,10 @@
 
 
 
-#include "Parser.h"
+#include "SimpleField.h"
+#include "ContainerField.h"
 #include "Date.h"
 #include <map>
-#include "SimpleField.h"
 
 
 
@@ -14,9 +14,13 @@ class History {
 public:
 	History() = default;
 	class Factory;
-	[[nodiscard]] std::optional<std::string> getFieldValue(const std::string& fieldName, const date& date) const; // for non-container fields
+	[[nodiscard]] std::optional<std::string> getSimpleFieldValue(const std::string& fieldName, const date& date) const; // for non-container fields
+	[[nodiscard]] std::optional<std::vector<std::string>> getContainerFieldValue(const std::string& fieldName, const date& date) const; // for container fields
 private:
 	std::map<std::string, SimpleField> simpleFields; // fieldName, field
+	std::map<std::string, ContainerField> containerFields; // fieldName, field
 };
+
+
 
 #endif // HISTORY_H

@@ -1,5 +1,5 @@
-#ifndef OUT_PROVINCE
-#define OUT_PROVINCE
+#ifndef OUT_PROVINCE_H
+#define OUT_PROVINCE_H
 
 
 
@@ -16,4 +16,4 @@ std::ostream& operator<<(std::ostream& output, const Province& province);
 
 
 
-#endif // OUT_PROVINCE
+#endif // OUT_PROVINCE_H

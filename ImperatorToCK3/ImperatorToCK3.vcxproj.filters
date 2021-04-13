@@ -409,6 +409,9 @@
     <ClInclude Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.h">
       <Filter>Mappers\DeathReasonMapper</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CommonUtilities\ContainerField.h">
+      <Filter>CommonUtilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -700,6 +703,9 @@
     </ClCompile>
     <ClCompile Include="Source\Mappers\DeathReasonMapper\DeathReasonMapping.cpp">
       <Filter>Mappers\DeathReasonMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CommonUtilities\ContainerField.cpp">
+      <Filter>CommonUtilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

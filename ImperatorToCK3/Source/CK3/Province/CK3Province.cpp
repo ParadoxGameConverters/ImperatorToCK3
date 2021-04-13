@@ -40,6 +40,8 @@ void Province::initializeFromImperator(const shared_ptr<Imperator::Province>& im
 
 	// Holding type
 	setHoldingFromImperator();
+
+	details.buildings.clear();
 }
 
 

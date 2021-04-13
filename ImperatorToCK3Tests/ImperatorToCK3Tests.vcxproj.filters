@@ -528,6 +528,9 @@
     <ClCompile Include="MapperTests\DeathReasonMapper\DeathReasonMappingTests.cpp">
       <Filter>MapperTests\DeathReasonMapper</Filter>
     </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\ContainerField.cpp">
+      <Filter>Sources\CommonUtilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
@@ -538,18 +541,6 @@
     </ClInclude>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h">
       <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\History.h">
-      <Filter>Sources\CommonUtilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\HistoryFactory.h">
-      <Filter>Sources\CommonUtilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\DatedHistoryBlock.h">
-      <Filter>Sources\CommonUtilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\SimpleField.h">
-      <Filter>Sources\CommonUtilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

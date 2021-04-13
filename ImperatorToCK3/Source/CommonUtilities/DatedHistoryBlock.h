@@ -3,17 +3,26 @@
 
 
 
+#include "SimpleField.h"
+#include "ContainerField.h"
 #include "Parser.h"
 #include <map>
 
 
 
+struct DatedHistoryBlockReturnStruct {
+	std::map<std::string, std::vector<std::string>> simpleFieldContents;
+	std::map<std::string, std::vector<std::vector<std::string>>> containerFieldContents;
+};
+
 class DatedHistoryBlock: public commonItems::parser {
 public:
-	explicit DatedHistoryBlock(std::istream& theStream);
+	explicit DatedHistoryBlock(std::vector<SimpleFieldStruct> _simpleFieldStructs, std::vector<ContainerFieldStruct> _containerFieldStructs, std::istream& theStream);
 	[[nodiscard]] auto getContents() const { return contents; }
 private:
-	std::map<std::string, std::vector<std::string>> contents;
+	DatedHistoryBlockReturnStruct contents;
+	std::vector<SimpleFieldStruct> simpleFieldStructs; // fieldName, setter, defaultValue
+	std::vector<ContainerFieldStruct> containerFieldStructs; // fieldName, setter
 };
 
 

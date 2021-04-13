@@ -3,25 +3,23 @@
 
 
 
-#include "Parser.h"
 #include "History.h"
+#include "Parser.h"
 #include <memory>
 
 
 
-
-
-class History::Factory: commonItems::parser
-{
-  public:
-	explicit Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs);
+class History::Factory: commonItems::parser {
+public:
+	explicit Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs, std::vector<ContainerFieldStruct> _containerFieldStructs);
 	std::unique_ptr<History> getHistory(std::istream& theStream);
 
-  private:
+private:
 	std::unique_ptr<History> history;
-	std::vector<SimpleFieldStruct> simpleFieldStructs; // fieldName, setter, defaultValue
-	std::map<std::string, std::string> setterFieldMap; // setter, fieldName
+	std::vector<SimpleFieldStruct> simpleFieldStructs; // fieldName, setter, initialValue
+	std::vector<ContainerFieldStruct> containerFieldStructs; // fieldName, setter, initialValue
 };
+
 
 
 #endif // HISTORY_FACTORY_H
