@@ -8,7 +8,6 @@
 
 
 
-
 CK3::TitlesHistory::TitlesHistory(const std::string& folderPath) {
 	auto filenames = commonItems::GetAllFilesInFolderRecursive(folderPath);
 	LOG(LogLevel::Info) << "-> Parsing title history.";
@@ -35,7 +34,7 @@ void CK3::TitlesHistory::TitlesHistory::registerKeys() {
 		const auto historyItem = commonItems::stringOfItem(theStream).getString();
 		std::stringstream tempStream(historyItem);
 		if (historyItem.find('{') != std::string::npos) {
-			auto history = historyFactory.getHistory(tempStream);
+			const auto history = historyFactory.getHistory(tempStream);
 			historyMap.emplace(titleName, TitleHistory(history));
 		}
 	});

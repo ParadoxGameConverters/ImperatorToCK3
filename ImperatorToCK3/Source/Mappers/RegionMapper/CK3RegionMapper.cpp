@@ -8,6 +8,7 @@
 #include "CommonRegexes.h"
 #include <filesystem>
 #include <fstream>
+#include <ranges>
 
 
 
@@ -43,7 +44,7 @@ void mappers::CK3RegionMapper::loadRegions(CK3::LandedTitles& landedTitles, std:
 	clearRegisteredKeywords();
 	
 	for (const auto& [titleName, title] : landedTitles.getTitles()) {
-		auto titleRank = title->getRank();
+		const auto titleRank = title->getRank();
 		if (titleRank == CK3::TitleRank::county)
 			counties[titleName] = title;
 		else if (titleRank == CK3::TitleRank::duchy)
@@ -132,7 +133,7 @@ bool mappers::CK3RegionMapper::regionNameIsValid(const std::string& regionName) 
 void mappers::CK3RegionMapper::linkRegions() {
 	for (const auto& [regionName, region]: regions) {
 		// regions
-		for (const auto& [requiredRegionName, requiredRegion] : region->getRegions()) {
+		for (const auto& requiredRegionName : region->getRegions() | std::views::keys) {
 			const auto& regionItr = regions.find(requiredRegionName);
 			if (regionItr != regions.end()) {
 				region->linkRegion(regionItr->first, regionItr->second);
@@ -143,7 +144,7 @@ void mappers::CK3RegionMapper::linkRegions() {
 		}
 
 		// duchies
-		for (const auto& [requiredDuchyName, requiredDuchy]: region->getDuchies()) {
+		for (const auto& requiredDuchyName : region->getDuchies() | std::views::keys) {
 			const auto& duchyItr = duchies.find(requiredDuchyName);
 			if (duchyItr != duchies.end()) {
 				region->linkDuchy(duchyItr->second);
@@ -154,7 +155,7 @@ void mappers::CK3RegionMapper::linkRegions() {
 		}
 
 		// counties
-		for (const auto& [requiredCountyName, requiredCounty] : region->getCounties()) {
+		for (const auto& requiredCountyName : region->getCounties() | std::views::keys) {
 			const auto& countyItr = counties.find(requiredCountyName);
 			if (countyItr != counties.end()) {
 				region->linkCounty(countyItr->second);

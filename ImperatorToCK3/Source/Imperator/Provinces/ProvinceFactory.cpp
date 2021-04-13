@@ -27,8 +27,8 @@ Imperator::Province::Factory::Factory() {
 		province->pops.emplace(commonItems::getULlong(theStream), nullptr);
 	});
 	registerKeyword("civilization_value", [this](std::istream& theStream) {
-		auto valStr = commonItems::getString(theStream);
-		unsigned long result = std::stoul(valStr); // TODO: replace this with commonItems::stringToInteger<unsigned int> when it's brought back with GCC 11
+		const auto valStr = commonItems::getString(theStream);
+		const auto result = std::stoul(valStr); // TODO: replace this with commonItems::stringToInteger<unsigned int> when it's brought back with GCC 11
 		if (result > std::numeric_limits<unsigned>::max()) {
 			throw std::out_of_range("stou out of range for " + valStr);
 		}

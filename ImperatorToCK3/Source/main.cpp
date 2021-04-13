@@ -11,7 +11,7 @@ int main(const int argc, const char* argv[]) {
 		Magick::InitializeMagick(nullptr);
 
 		commonItems::ConverterVersionParser versionParser;
-		auto converterVersion = versionParser.importVersion("configurables/version.txt");
+		const auto converterVersion = versionParser.importVersion("configurables/version.txt");
 		logConverterVersion(converterVersion);
 		if (argc >= 2) {
 			Log(LogLevel::Info) << "ImperatorToCK3 takes no parameters.";

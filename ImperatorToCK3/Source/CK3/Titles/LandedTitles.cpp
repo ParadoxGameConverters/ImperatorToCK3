@@ -5,6 +5,7 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include <memory>
+#include <ranges>
 
 
 
@@ -68,10 +69,10 @@ void CK3::LandedTitles::eraseTitle(const std::string& name) {
 		if (deFactoLiegePtr)
 			deFactoLiegePtr->deFactoVassals.erase(name);
 
-		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deJureVassals) {
+		for (const auto& vassalTitle : titleItr->second->deJureVassals | std::views::values) {
 			vassalTitle->setDeJureLiege(nullptr);
 		}
-		for (const auto& [vassalTitleName, vassalTitle] : titleItr->second->deFactoVassals) {
+		for (const auto& vassalTitle : titleItr->second->deFactoVassals | std::views::values) {
 			vassalTitle->setDeFactoLiege(nullptr);
 		}
 

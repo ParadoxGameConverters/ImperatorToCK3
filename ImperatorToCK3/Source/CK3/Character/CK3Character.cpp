@@ -55,10 +55,10 @@ void CK3::Character::initializeFromImperator(
 	if (!name.empty()) {
 		auto impNameLoc = localizationMapper.getLocBlockForKey(name);
 		if (impNameLoc) {
-			localizations.insert(std::pair(name, *impNameLoc));
+			localizations.emplace(name, *impNameLoc);
 		}
 		else {// fallback: use unlocalized name as displayed name
-			localizations.insert(std::pair(name, mappers::LocBlock{ name,name,name,name,name }));
+			localizations.emplace(name, mappers::LocBlock{ name,name,name,name,name, name });
 		}
 	}
 

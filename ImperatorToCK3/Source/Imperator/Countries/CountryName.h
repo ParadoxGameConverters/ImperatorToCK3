@@ -27,10 +27,10 @@ public:
 	[[nodiscard]] std::string getAdjective() const;
 	[[nodiscard]] const auto& getBase() const { return base; }
 
-	[[nodiscard]] std::optional<mappers::LocBlock> getNameLocBlock(mappers::LocalizationMapper& localizationMapper,
-																		const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) const;
+	[[nodiscard]] std::optional<mappers::LocBlock> getNameLocBlock(mappers::LocalizationMapper& localizationMapper, 
+																   const std::map<unsigned long long, std::shared_ptr<Country>>& imperatorCountries) const;
 	[[nodiscard]] std::optional<mappers::LocBlock> getAdjectiveLocBlock(mappers::LocalizationMapper& localizationMapper,
-																		const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) const;
+																		const std::map<unsigned long long, std::shared_ptr<Country>>& imperatorCountries) const;
 
 private:
 	std::string name;

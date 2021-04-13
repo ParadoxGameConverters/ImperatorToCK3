@@ -3,6 +3,7 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include "Log.h"
+#include <ranges>
 
 
 
@@ -35,15 +36,15 @@ void mappers::CK3Region::registerKeys() {
 
 
 bool mappers::CK3Region::regionContainsProvince(const unsigned long long province) const {
-	for (const auto& [regionName, region]: regions)
+	for (const auto& region : regions | std::views::values)
 		if (region && region->regionContainsProvince(province))
 			return true;
 
-	for (const auto& [duchyName, duchy] : duchies)
+	for (const auto& duchy : duchies | std::views::values)
 		if (duchy && duchy->duchyContainsProvince(province))
 			return true;
 		
-	for (const auto& [countyName, county] : counties)
+	for (const auto& county : counties | std::views::values)
 		if (county && county->getCountyProvinces().contains(province))
 			return true;
 	
