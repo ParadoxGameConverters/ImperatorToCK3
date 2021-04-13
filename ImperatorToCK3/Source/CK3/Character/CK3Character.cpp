@@ -58,7 +58,7 @@ void CK3::Character::initializeFromImperator(
 			localizations.insert(std::pair(name, *impNameLoc));
 		}
 		else {// fallback: use unlocalized name as displayed name
-			localizations.insert(std::pair(name, mappers::LocBlock{ name,name,name,name,name }));
+			localizations.insert(std::pair(name, mappers::LocBlock{ name,name,name,name,name, name }));
 		}
 	}
 

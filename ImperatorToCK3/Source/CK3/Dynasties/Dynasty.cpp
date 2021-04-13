@@ -30,6 +30,6 @@ CK3::Dynasty::Dynasty(const Imperator::Family& impFamily, const mappers::Localiz
 		localization = std::pair(name, *impFamilyLoc);
 	}
 	else { // fallback: use unlocalized Imperator family key
-		localization = std::pair(name, mappers::LocBlock{ impFamilyLocKey,impFamilyLocKey,impFamilyLocKey,impFamilyLocKey,impFamilyLocKey });
+		localization = std::pair(name, mappers::LocBlock{impFamilyLocKey,impFamilyLocKey,impFamilyLocKey,impFamilyLocKey,impFamilyLocKey,impFamilyLocKey});
 	}
 }

@@ -11,7 +11,6 @@
 #include "OSCompatibilityLayer.h"
 #include "ConverterVersion.h"
 #include <filesystem>
-#include <fstream>
 #include <ranges>
 
 
@@ -102,7 +101,7 @@ void CK3::World::importImperatorCountry(const std::pair<unsigned long long, std:
 	newTitle->initializeFromTag(country.second, imperatorCountries, localizationMapper, landedTitles, provinceMapper, coaMapper, tagTitleMapper, governmentMapper, successionLawMapper);
 	
 	const auto& name = newTitle->getName();
-	if (auto titleItr = getTitles().find(name); titleItr!=getTitles().end()) {
+	if (const auto titleItr = getTitles().find(name); titleItr!=getTitles().end()) {
 		const auto& vanillaTitle = titleItr->second;
 		vanillaTitle->updateFromTitle(newTitle);
 		country.second->setCK3Title(vanillaTitle);
@@ -262,14 +261,14 @@ void CK3::World::addHistoryToVanillaTitles() {
 
 
 void CK3::World::overWriteCountiesHistory(const Imperator::World& impWorld) {
-	for (const auto& [name, title] : getTitles()) {
+	for (const auto& title : getTitles() | std::views::values) {
 		if (title->getRank()==TitleRank::county && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
 			if (!provinces.contains(title->capitalBaronyProvince))
 				LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
 			else {
-				auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
+				const auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
 				if (impProvince) {
-					if (auto impCountry = impProvince->getOwner().second) {
+					if (const auto impCountry = impProvince->getOwner().second) {
 						auto impMonarch = impCountry->getMonarch();
 						if (impMonarch) {
 							title->setHolder("imperator" + std::to_string(*impMonarch));
@@ -336,9 +335,9 @@ void CK3::World::linkSpouses() {
 	for (const auto& [ck3CharacterID, ck3Character] : characters) {
 		std::map<unsigned long long, std::shared_ptr<Character>> newSpouses;
 		// make links between Imperator characters
-		for (const auto& [impSpouseID, impSpouseCharacter] : ck3Character->imperatorCharacter->getSpouses()) {
+		for (const auto& impSpouseCharacter : ck3Character->imperatorCharacter->getSpouses() | std::views::values) {
 			if (impSpouseCharacter != nullptr) {
-				auto& ck3SpouseCharacter = impSpouseCharacter->getCK3Character();
+				const auto& ck3SpouseCharacter = impSpouseCharacter->getCK3Character();
 				ck3Character->addSpouse(std::pair(ck3SpouseCharacter->ID, ck3SpouseCharacter));
 				ck3SpouseCharacter->addSpouse(std::pair(ck3CharacterID, ck3Character));
 				++counterSpouse;
@@ -356,7 +355,7 @@ void CK3::World::linkMothersAndFathers() {
 		// make links between Imperator characters
 		const auto& [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
 		if (impMotherCharacter != nullptr) {
-			auto& ck3MotherCharacter = impMotherCharacter->getCK3Character();
+			const auto& ck3MotherCharacter = impMotherCharacter->getCK3Character();
 			ck3Character->setMother(std::pair(ck3MotherCharacter->ID, ck3MotherCharacter));
 			ck3MotherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
 			++counterMother;
@@ -365,7 +364,7 @@ void CK3::World::linkMothersAndFathers() {
 		// make links between Imperator characters
 		const auto& [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
 		if (impFatherCharacter != nullptr) {
-			auto& ck3FatherCharacter = impFatherCharacter->getCK3Character();
+			const auto& ck3FatherCharacter = impFatherCharacter->getCK3Character();
 			ck3Character->setFather(std::pair(ck3FatherCharacter->ID, ck3FatherCharacter));
 			ck3FatherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
 			++counterFather;
@@ -379,7 +378,7 @@ void CK3::World::importImperatorFamilies(const Imperator::World& impWorld) {
 	LOG(LogLevel::Info) << "-> Importing Imperator Families";
 
 	// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
-	for (const auto& [_, family] : impWorld.getFamilies()) {
+	for (const auto& family : impWorld.getFamilies() | std::views::values) {
 		if (family->isMinor())
 			continue;
 
