@@ -5,11 +5,13 @@
 
 History::Factory CK3::ProvinceDetails::historyFactory = History::Factory(
 	{ // simple fields
-		{ .fieldName="culture", .setter="culture", .initialValue=std::nullopt },
-		{ .fieldName="religion", .setter="religion", .initialValue=std::nullopt },
-		{ .fieldName="holding", .setter="holding", .initialValue="none" },
+		{ .fieldName = "culture", .setter = "culture", .initialValue = std::nullopt },
+		{ .fieldName = "religion", .setter = "religion", .initialValue = std::nullopt },
+		{ .fieldName = "holding", .setter = "holding", .initialValue = "none" },
 	},
-	{} // container fields
+	{ // container fields
+		{ .fieldName = "buildings", .setter = "buildings", .initialValue = {} }
+	}
 );
 
 
@@ -24,4 +26,5 @@ CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream) {
 		religion = *religionOpt;
 	}
 	holding = *history->getSimpleFieldValue("holding", date);
+	buildings = *history->getContainerFieldValue("buildings", date);
 }

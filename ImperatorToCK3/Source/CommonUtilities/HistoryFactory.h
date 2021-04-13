@@ -9,8 +9,7 @@
 
 
 
-class History::Factory: commonItems::parser
-{
+class History::Factory: commonItems::parser {
 public:
 	explicit Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs, std::vector<ContainerFieldStruct> _containerFieldStructs);
 	std::unique_ptr<History> getHistory(std::istream& theStream);
