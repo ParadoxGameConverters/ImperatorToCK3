@@ -1,7 +1,7 @@
 #include "DatedHistoryBlock.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
-#include "Log.h"
+
 
 
 DatedHistoryBlock::DatedHistoryBlock(std::vector<SimpleFieldStruct> _simpleFieldStructs, std::vector<ContainerFieldStruct> _containerFieldStructs, std::istream& theStream):
