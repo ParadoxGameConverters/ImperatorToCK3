@@ -4,7 +4,7 @@
 
 
 
-TEST(CommonUtilities_DatedHistoryBlockTests, onlyRegisteredPairsAreRead) {
+TEST(CommonUtilities_DatedHistoryBlockTests, onlyRegisteredThingsAreReturned) {
 	std::stringstream input;
 	input << R"( = {
 					culture = cuman
