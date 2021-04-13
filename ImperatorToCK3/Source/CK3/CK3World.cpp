@@ -15,10 +15,6 @@
 
 
 
-namespace fs = std::filesystem;
-
-
-
 CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
 	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.
@@ -332,14 +328,14 @@ void CK3::World::removeInvalidLandlessTitles() {
 
 void CK3::World::linkSpouses() {
 	auto counterSpouse = 0;
-	for (const auto& [ck3CharacterID, ck3Character] : characters) {
+	for (const auto& ck3Character : characters | std::views::values) {
 		std::map<unsigned long long, std::shared_ptr<Character>> newSpouses;
 		// make links between Imperator characters
 		for (const auto& impSpouseCharacter : ck3Character->imperatorCharacter->getSpouses() | std::views::values) {
 			if (impSpouseCharacter != nullptr) {
 				const auto& ck3SpouseCharacter = impSpouseCharacter->getCK3Character();
-				ck3Character->addSpouse(std::pair(ck3SpouseCharacter->ID, ck3SpouseCharacter));
-				ck3SpouseCharacter->addSpouse(std::pair(ck3CharacterID, ck3Character));
+				ck3Character->addSpouse(ck3SpouseCharacter);
+				ck3SpouseCharacter->addSpouse(ck3Character);
 				++counterSpouse;
 			}
 		}
@@ -351,22 +347,22 @@ void CK3::World::linkSpouses() {
 void CK3::World::linkMothersAndFathers() {
 	auto counterMother = 0;
 	auto counterFather = 0;
-	for (const auto& [ck3CharacterID, ck3Character] : characters) {
+	for (const auto& ck3Character : characters | std::views::values) {
 		// make links between Imperator characters
-		const auto& [impMotherID, impMotherCharacter] = ck3Character->imperatorCharacter->getMother();
+		const auto& impMotherCharacter = ck3Character->imperatorCharacter->getMother().second;
 		if (impMotherCharacter != nullptr) {
 			const auto& ck3MotherCharacter = impMotherCharacter->getCK3Character();
-			ck3Character->setMother(std::pair(ck3MotherCharacter->ID, ck3MotherCharacter));
-			ck3MotherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
+			ck3Character->setMother(ck3MotherCharacter);
+			ck3MotherCharacter->addChild(ck3Character);
 			++counterMother;
 		}
 
 		// make links between Imperator characters
-		const auto& [impFatherID, impFatherCharacter] = ck3Character->imperatorCharacter->getFather();
+		const auto& impFatherCharacter = ck3Character->imperatorCharacter->getFather().second;
 		if (impFatherCharacter != nullptr) {
 			const auto& ck3FatherCharacter = impFatherCharacter->getCK3Character();
-			ck3Character->setFather(std::pair(ck3FatherCharacter->ID, ck3FatherCharacter));
-			ck3FatherCharacter->addChild(std::pair(ck3CharacterID, ck3Character));
+			ck3Character->setFather(ck3FatherCharacter);
+			ck3FatherCharacter->addChild(ck3Character);
 			++counterFather;
 		}
 	}

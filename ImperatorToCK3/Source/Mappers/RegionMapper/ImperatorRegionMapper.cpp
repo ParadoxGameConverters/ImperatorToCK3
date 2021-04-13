@@ -7,6 +7,7 @@
 #include "CommonRegexes.h"
 #include <filesystem>
 #include <fstream>
+#include <ranges>
 
 
 
@@ -119,7 +120,7 @@ bool mappers::ImperatorRegionMapper::regionNameIsValid(const std::string& region
 
 void mappers::ImperatorRegionMapper::linkRegions() {
 	for (const auto& [regionName, region]: regions) {
-		for (const auto& [requiredAreaName, requiredArea]: region->getAreas()) {
+		for (const auto& requiredAreaName : region->getAreas() | std::views::keys) {
 			if (const auto& areaItr = areas.find(requiredAreaName); areaItr != areas.end()) {
 				region->linkArea(requiredAreaName, areaItr->second);
 			}

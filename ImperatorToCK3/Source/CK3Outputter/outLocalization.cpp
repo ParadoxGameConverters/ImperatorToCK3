@@ -1,5 +1,6 @@
 #include "outLocalization.h"
 #include "CK3/CK3World.h"
+#include "CK3/Titles/Title.h"
 #include "OSCompatibilityLayer.h"
 #include "CommonFunctions.h"
 #include <filesystem>

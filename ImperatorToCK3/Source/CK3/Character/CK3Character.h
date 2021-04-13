@@ -43,10 +43,10 @@ class Character {
 		date DateOnConversion);
 
 
-	void addSpouse(const std::pair<std::string, std::shared_ptr<Character>>& newSpouse) { spouses.insert(newSpouse); }
-	void setMother(const std::pair<std::string, std::shared_ptr<Character>>& theMother) { mother = theMother; }
-	void setFather(const std::pair<std::string, std::shared_ptr<Character>>& theFather) { father = theFather; }
-	void addChild(const std::pair<std::string, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
+	void addSpouse(const std::shared_ptr<Character>& newSpouse) { spouses.emplace(newSpouse->ID, newSpouse); }
+	void setMother(const std::shared_ptr<Character>& theMother) { mother = {theMother->ID, theMother}; }
+	void setFather(const std::shared_ptr<Character>& theFather) { father = {theFather->ID, theFather}; }
+	void addChild(const std::shared_ptr<Character>& theChild) { children.emplace(theChild->ID, theChild); }
 	void setDynastyID(const std::string& dynID) { dynastyID = dynID; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Character& character);
