@@ -1,5 +1,6 @@
 #include "outCharacter.h"
 #include "CK3/Character/CK3Character.h"
+#include <ranges>
 
 
 
@@ -27,13 +28,13 @@ std::ostream& CK3::operator<<(std::ostream& output, const Character& character) 
 	
 	// output spouse
 	// TODO: output add_spouse with earlier date if the pair has a born or unborn child
-	for (const auto& [spouseID, spouseCharacter] : character.spouses) {
+	for (const auto& spouseID : character.spouses | std::views::keys) {
 		output << "\t" << "867.1.1 = { add_spouse = " << spouseID << " }\n";
 	}
 
 	// output nickname
 	if (!character.nickname.empty()) {
-		date nicknameDate = date{ 867,1,1 };
+		auto nicknameDate = date{ 867,1,1 };
 		if (character.deathDate) {
 			nicknameDate = *character.deathDate;
 		}

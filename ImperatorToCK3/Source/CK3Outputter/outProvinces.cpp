@@ -3,6 +3,7 @@
 #include "CommonFunctions.h"
 #include <filesystem>
 #include <fstream>
+#include <ranges>
 
 
 
@@ -12,7 +13,7 @@ void CK3::outputHistoryProvinces(const std::string& outputModName, const std::ma
 		throw std::runtime_error("Could not create province history file: output/" + outputModName + "/history/provinces/province_history.txt");
 
 	output << "# number of provinces: " << provinces.size() << "\n";
-	for (const auto& [unused, provincePtr] : provinces) {
+	for (const auto& provincePtr : provinces | std::views::values) {
 		output << *provincePtr;
 	}
 	output.close();

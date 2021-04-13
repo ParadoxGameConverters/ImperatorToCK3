@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <fstream>
+#include <ranges>
 #include <set>
 
 
@@ -17,15 +18,15 @@ void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theCo
 	scrapeLanguage("simp_chinese", theConfiguration.getImperatorPath() + "/game/localization");
 	scrapeLanguage("spanish", theConfiguration.getImperatorPath() + "/game/localization");
 
-	for (const auto& mod : mods) {
-		if (commonItems::DoesFolderExist(mod.second + "/localization")) {
-			Log(LogLevel::Info) << "\t>> Found some words in: " << mod.second + "/localization";
-			scrapeLanguage("english", mod.second + "/localization");
-			scrapeLanguage("french", mod.second + "/localization");
-			scrapeLanguage("german", mod.second + "/localization");
-			scrapeLanguage("russian", mod.second + "/localization");
-			scrapeLanguage("simp_chinese", mod.second + "/localization");
-			scrapeLanguage("spanish", mod.second + "/localization");
+	for (const auto& modPath : mods | std::views::values) {
+		if (commonItems::DoesFolderExist(modPath + "/localization")) {
+			Log(LogLevel::Info) << "\t>> Found some words in: " << modPath + "/localization";
+			scrapeLanguage("english", modPath + "/localization");
+			scrapeLanguage("french", modPath + "/localization");
+			scrapeLanguage("german", modPath + "/localization");
+			scrapeLanguage("russian", modPath + "/localization");
+			scrapeLanguage("simp_chinese", modPath + "/localization");
+			scrapeLanguage("spanish", modPath + "/localization");
 		}
 	}
 

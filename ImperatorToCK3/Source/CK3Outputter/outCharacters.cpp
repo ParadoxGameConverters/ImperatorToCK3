@@ -3,6 +3,7 @@
 #include "CommonFunctions.h"
 #include <filesystem>
 #include <fstream>
+#include <ranges>
 
 
 
@@ -12,7 +13,7 @@ void CK3::outputCharacters(const std::string& outputModName, const std::map<std:
 		throw std::runtime_error("Could not create characters file: output/" + outputModName + "/history/characters/fromImperator.txt");
 
 	output << commonItems::utf8BOM;
-	for (const auto& [id, character] : characters) {
+	for (const auto& character : characters | std::views::values) {
 		output << *character;
 	}
 	output.close();

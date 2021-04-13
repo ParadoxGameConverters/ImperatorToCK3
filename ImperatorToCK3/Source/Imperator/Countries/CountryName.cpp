@@ -12,7 +12,7 @@ std::unique_ptr<T> copy_unique(const std::unique_ptr<T>& source) {
 
 void replaceAllOccurencesInString(std::string& modifiedString, const std::string& substring, const std::string& replacement) {
 	size_t index = 0;
-	size_t size = substring.size();
+	const auto size = substring.size();
 	while (true) {
 		// Locate the substring to replace.
 		index = modifiedString.find(substring, index);
@@ -77,13 +77,13 @@ std::optional<mappers::LocBlock> Imperator::CountryName::getNameLocBlock(mappers
 
 std::optional<mappers::LocBlock> Imperator::CountryName::getAdjectiveLocBlock(mappers::LocalizationMapper& localizationMapper,
 																			  const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries) const {
-	auto adj = getAdjective();
+	const auto adj = getAdjective();
 	auto directAdjLocMatch = localizationMapper.getLocBlockForKey(adj);
 
 	if (directAdjLocMatch && adj == "CIVILWAR_FACTION_ADJECTIVE") {
 		// special case for revolts
 		if (base) {
-			std::optional<mappers::LocBlock> baseAdjLoc = base->getAdjectiveLocBlock(localizationMapper, imperatorCountries);
+			auto baseAdjLoc = base->getAdjectiveLocBlock(localizationMapper, imperatorCountries);
 			if (baseAdjLoc) {
 				directAdjLocMatch->modifyForEveryLanguage(*baseAdjLoc,
 														   [](std::string& orig, const std::string& modifying) { replaceAllOccurencesInString(orig, "$ADJ$", modifying); });
