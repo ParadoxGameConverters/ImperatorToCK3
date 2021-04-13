@@ -6,20 +6,33 @@
 
 
 
-History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs): simpleFieldStructs(std::move(_simpleFieldStructs)) {
+History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs, std::vector<ContainerFieldStruct> _containerFieldStructs):
+	simpleFieldStructs(std::move(_simpleFieldStructs)), containerFieldStructs(std::move(_containerFieldStructs))
+{
 	for (const auto& [fieldName, setter, _initialValue] : simpleFieldStructs) {
 		setterFieldMap[setter] = fieldName;
-		registerKeyword(setter, [this, &fieldName](std::istream& theStream) {
-			history->simpleFields.at(fieldName).setInitialValue(commonItems::getString(theStream)); // if the value is set outside of dated blocks, override the initial value
+		registerKeyword(setter, [&](std::istream& theStream) {
+			// if the value is set outside of dated blocks, override the initial value
+			history->simpleFields.at(fieldName).setInitialValue(commonItems::getString(theStream));
+		});
+	}
+	for (const auto& [fieldName, setter, _initialValue] : containerFieldStructs) {
+		setterFieldMap[setter] = fieldName;
+		registerKeyword(setter, [&](std::istream& theStream) {
+			// if the value is set outside of dated blocks, override the initial value
+			history->containerFields.at(fieldName).setInitialValue(commonItems::getStrings(theStream));
 		});
 	}
 	registerRegex(R"(\d+[.]\d+[.]\d+)", [&](const std::string& dateStr, std::istream& theStream) {
 		const date date{ dateStr };
-		for (const auto& [key, valuesVec] : DatedHistoryBlock { theStream }.getContents().simpleFieldContents) {
+		auto contents = DatedHistoryBlock{ simpleFieldStructs, containerFieldStructs, theStream }.getContents();
+		for (const auto& [key, valuesVec] : contents.simpleFieldContents) {
 			const auto& fieldName = setterFieldMap[key];
-			if (history->simpleFields.contains(fieldName)) {
-				history->simpleFields[fieldName].addValueToHistory(valuesVec.back(), date);
-			}
+			history->simpleFields[fieldName].addValueToHistory(valuesVec.back(), date);
+		}
+		for (const auto& [key, valuesVec] : contents.containerFieldContents) {
+			const auto& fieldName = setterFieldMap[key];
+			history->containerFields[fieldName].addValueToHistory(valuesVec.back(), date);
 		}
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
@@ -28,8 +41,11 @@ History::Factory::Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs): s
 
 std::unique_ptr<History> History::Factory::getHistory(std::istream& theStream) {
 	history = std::make_unique<History>();
-	for (const auto& [fieldName, _setter, defaultValue] : simpleFieldStructs) {
-		history->simpleFields[fieldName] = SimpleField{ defaultValue };
+	for (const auto& [fieldName, _setter, initialValue] : simpleFieldStructs) {
+		history->simpleFields[fieldName] = SimpleField{ initialValue };
+	}
+	for (const auto& [fieldName, _setter, initialValue] : containerFieldStructs) {
+		history->containerFields[fieldName] = ContainerField{ initialValue };
 	}
 	parseStream(theStream);
 	return std::move(history);

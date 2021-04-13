@@ -22,12 +22,15 @@ public:
 	[[nodiscard]] std::optional<TitleHistory> popTitleHistory(const std::string& titleName); // "pop" as from stack, not Imperator Pop ;)
 private:
 	void registerKeys();
-	History::Factory historyFactory= History::Factory({
-		{ .fieldName="holder", .setter="holder", .initialValue="0" },
-		{ .fieldName="liege", .setter="liege", .initialValue=std::nullopt },
-		{ .fieldName="government", .setter="government", .initialValue=std::nullopt },
-		{ .fieldName="development_level", .setter="change_development_level", .initialValue=std::nullopt }
-	});
+	History::Factory historyFactory= History::Factory(
+		{ // simple fields
+			{ .fieldName="holder", .setter="holder", .initialValue="0" },
+			{ .fieldName="liege", .setter="liege", .initialValue=std::nullopt },
+			{ .fieldName="government", .setter="government", .initialValue=std::nullopt },
+			{ .fieldName="development_level", .setter="change_development_level", .initialValue=std::nullopt }
+		},
+		{} // container fields
+	);
 	std::map<std::string, TitleHistory> historyMap;
 }; // class TitlesHistory
 

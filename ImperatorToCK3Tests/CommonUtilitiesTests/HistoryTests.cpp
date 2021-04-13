@@ -20,7 +20,9 @@ TEST(CommonUtilities_HistoryTests, initialValueIsUsedAsFallback) {
 			{ "culture", "culture", std::nullopt },
 			{ "religion", "religion", std::nullopt },
 			{ "holding", "holding", "none" }
-		});
+		},
+		{}
+	);
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 
@@ -48,7 +50,9 @@ TEST(CommonUtilities_HistoryTests, initialValueIsOverriden) {
 			{ "culture", "culture", std::nullopt },
 			{ "religion", "religion", std::nullopt },
 			{ "holding", "holding", "none" }
-		});
+		},
+		{}
+	);
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 
@@ -76,7 +80,9 @@ TEST(CommonUtilities_HistoryTests, datedBlockCanChangeFieldValue) {
 			{ "culture", "culture", std::nullopt },
 			{ "religion", "religion", std::nullopt },
 			{ "holding", "holding", "none" }
-		});
+		},
+		{}
+	);
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 
@@ -102,7 +108,9 @@ TEST(CommonUtilities_HistoryTests, nulloptIsReturnedForNonExistingField) {
 			{ "culture", "culture", std::nullopt },
 			{ "religion", "religion", std::nullopt },
 			{ "holding", "holding", "none" }
-		});
+		},
+		{}
+	);
 
 	const auto provHistory = provHistoryFactory.getHistory(input);
 

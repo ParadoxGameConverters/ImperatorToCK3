@@ -12,12 +12,13 @@
 class History::Factory: commonItems::parser
 {
 public:
-	explicit Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs);
+	explicit Factory(std::vector<SimpleFieldStruct> _simpleFieldStructs, std::vector<ContainerFieldStruct> _containerFieldStructs);
 	std::unique_ptr<History> getHistory(std::istream& theStream);
 
 private:
 	std::unique_ptr<History> history;
-	std::vector<SimpleFieldStruct> simpleFieldStructs; // fieldName, setter, defaultValue
+	std::vector<SimpleFieldStruct> simpleFieldStructs; // fieldName, setter, initialValue
+	std::vector<ContainerFieldStruct> containerFieldStructs; // fieldName, setter, initialValue
 	std::map<std::string, std::string> setterFieldMap; // setter, fieldName
 };
 

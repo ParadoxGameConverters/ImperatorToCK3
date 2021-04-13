@@ -182,6 +182,7 @@
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\Title.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\TitleHistory.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Titles\TitlesHistory.cpp" />
+    <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\ContainerField.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\DatedHistoryBlock.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\History.cpp" />
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\HistoryFactory.cpp" />
@@ -302,10 +303,6 @@
     <ClCompile Include="MapperTests\TraitMapper\TraitMappingTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\DatedHistoryBlock.h" />
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\History.h" />
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\HistoryFactory.h" />
-    <ClInclude Include="..\ImperatorToCK3\Source\CommonUtilities\SimpleField.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\ProvinceName.h" />
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Provinces.h" />

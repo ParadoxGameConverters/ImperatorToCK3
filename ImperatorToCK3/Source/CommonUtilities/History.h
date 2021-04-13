@@ -4,7 +4,7 @@
 
 
 #include "SimpleField.h"
-#include "Parser.h"
+#include "ContainerField.h"
 #include "Date.h"
 #include <map>
 
@@ -18,6 +18,7 @@ public:
 	[[nodiscard]] std::optional<std::vector<std::string>> getContainerFieldValue(const std::string& fieldName, const date& date) const; // for container fields
 private:
 	std::map<std::string, SimpleField> simpleFields; // fieldName, field
+	std::map<std::string, ContainerField> containerFields; // fieldName, field
 };
 
 

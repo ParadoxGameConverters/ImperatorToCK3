@@ -3,11 +3,14 @@
 
 
 
-History::Factory CK3::ProvinceDetails::historyFactory = History::Factory({
-	{ .fieldName="culture", .setter="culture", .initialValue=std::nullopt },
-	{ .fieldName="religion", .setter="religion", .initialValue=std::nullopt },
-	{ .fieldName="holding", .setter="holding", .initialValue="none" }
-});
+History::Factory CK3::ProvinceDetails::historyFactory = History::Factory(
+	{ // simple fields
+		{ .fieldName="culture", .setter="culture", .initialValue=std::nullopt },
+		{ .fieldName="religion", .setter="religion", .initialValue=std::nullopt },
+		{ .fieldName="holding", .setter="holding", .initialValue="none" },
+	},
+	{} // container fields
+);
 
 
 CK3::ProvinceDetails::ProvinceDetails(std::istream& theStream) {
