@@ -66,7 +66,7 @@ void CK3::Title::registerKeys() {
 		color = laFabricaDeColor.getColor(theStream);
 	});
 	registerKeyword("capital", [this](std::istream& theStream) {
-		capital = std::make_pair(commonItems::getString(theStream), nullptr);
+		capitalCounty = std::make_pair(commonItems::getString(theStream), nullptr);
 	});
 	registerKeyword("province", [this](std::istream& theStream) {
 		province = commonItems::getULlong(theStream);
@@ -149,8 +149,12 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 	const auto& srcCapital = imperatorCountry->getCapital();
 	if (srcCapital) {
 		const auto provMappingsForImperatorCapital = provinceMapper.getCK3ProvinceNumbers(*srcCapital);
-		if (!provMappingsForImperatorCapital.empty())
-			capitalCounty = landedTitles.getCountyForProvince(provMappingsForImperatorCapital.at(0));
+		if (!provMappingsForImperatorCapital.empty()) {
+			auto foundCounty = landedTitles.getCountyForProvince(provMappingsForImperatorCapital.at(0));
+			if (foundCounty) {
+				capitalCounty = std::make_pair(*foundCounty, nullptr);
+			}
+		}
 	}
 	
 
@@ -183,6 +187,8 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle) {
 		Log(LogLevel::Error) << titleName << " can not be updated from  " << otherTitle->titleName << ": different title names!";
 		return;
 	}
+	titleName = otherTitle->titleName;
+	localizations = otherTitle->localizations;
 	
 	importedOrUpdatedFromImperator = otherTitle->importedOrUpdatedFromImperator;
 	imperatorCountry = otherTitle->imperatorCountry;
