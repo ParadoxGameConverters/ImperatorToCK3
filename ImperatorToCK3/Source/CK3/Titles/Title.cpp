@@ -155,7 +155,6 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 				capitalCounty = std::make_pair(*foundCounty, nullptr);
 			}
 		}
-		
 	}
 	
 

@@ -36,7 +36,6 @@ class TitlesHistory;
 enum class TitleRank { barony, county, duchy, kingdom, empire };
 
 class Title: commonItems::parser, public std::enable_shared_from_this<Title> {
-
 public:
 	Title() = default;
 	explicit Title(const std::string& name);
@@ -126,9 +125,11 @@ private:
 	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title. Titles are only held here during loading of landed_titles, then they are cleared
 
 
+
 // used by duchy titles only
 public:
 	[[nodiscard]] bool duchyContainsProvince(unsigned long long provinceID) const;
+
 
 
 // used by county titles only
@@ -136,13 +137,16 @@ public:
 	[[nodiscard]] const auto& getCountyProvinces() const { return countyProvinces; }
 	std::string capitalBarony; // used when parsing inside county to save first barony
 	unsigned long long capitalBaronyProvince = 0;	// county barony's province; 0 is not a valid barony ID
+
 private:
 	std::set<unsigned long long> countyProvinces;
+
 
 
 // used by barony titles only
 public:
 	[[nodiscard]] const auto& getProvince() const { return province; }
+
 private:
 	std::optional<unsigned long long> province; // province is area on map. b_ barony is its corresponding title.
 };
