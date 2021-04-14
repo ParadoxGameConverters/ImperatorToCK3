@@ -16,7 +16,7 @@ TEST(CK3World_TitleTests, titlePrimitivesDefaultToBlank) {
 	ASSERT_FALSE(title.hasDefiniteForm());
 	ASSERT_FALSE(title.isLandless());
 	ASSERT_FALSE(title.getColor());
-	ASSERT_FALSE(title.capital.second);
+	ASSERT_FALSE(title.getCapitalCounty()->second);
 	ASSERT_FALSE(title.getProvince());
 }
 
@@ -34,7 +34,7 @@ TEST(CK3World_TitleTests, titlePrimitivesCanBeLoaded) {
 	ASSERT_TRUE(title.hasDefiniteForm());
 	ASSERT_TRUE(title.isLandless());
 	ASSERT_EQ("= rgb { 23 23 23 }", title.getColor()->outputRgb());
-	ASSERT_EQ("c_roma", title.capital.first);
+	ASSERT_EQ("c_roma", title.getCapitalCounty()->first);
 	ASSERT_EQ(345, title.getProvince());
 }
 

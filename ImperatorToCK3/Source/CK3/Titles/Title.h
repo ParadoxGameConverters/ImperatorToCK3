@@ -89,8 +89,6 @@ public:
 	[[nodiscard]] const auto& getDeFactoVassals() const { return deFactoVassals; }
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeJureVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeFactoVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
-	
-	std::pair<std::string, std::shared_ptr<Title>> capital;	// Capital county
 
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
@@ -113,7 +111,7 @@ private:
 
 	std::map<std::string, mappers::LocBlock> localizations;
 	std::optional<std::string> coa;
-	std::optional<std::string> capitalCounty;
+	std::optional<std::pair<std::string, std::shared_ptr<Title>>> capitalCounty;	// Capital county
 	std::shared_ptr<Imperator::Country> imperatorCountry;
 	std::optional<commonItems::Color> color;
 
