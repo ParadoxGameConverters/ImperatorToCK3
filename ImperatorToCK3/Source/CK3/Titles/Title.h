@@ -34,8 +34,9 @@ namespace CK3 {
 class LandedTitles;
 class TitlesHistory;
 enum class TitleRank { barony, county, duchy, kingdom, empire };
-class Title: commonItems::parser, public std::enable_shared_from_this<Title>
-{
+
+class Title: commonItems::parser, public std::enable_shared_from_this<Title> {
+
 public:
 	Title() = default;
 	explicit Title(const std::string& name);
@@ -60,12 +61,20 @@ public:
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
 	void addCountyProvince(const unsigned long long provinceId) { countyProvinces.emplace(provinceId); }
 	void addHistory(const LandedTitles& landedTitles, TitleHistory titleHistory);
+
+	[[nodiscard]] const auto& getLocalizations() const { return localizations; }
+	[[nodiscard]] const auto& getCoA() const { return coa; }
+	[[nodiscard]] const auto& getCapitalCounty() const { return capitalCounty; }
+	[[nodiscard]] const auto& getImperatorCountry() const { return imperatorCountry; }
+	[[nodiscard]] const auto& getColor() const { return color; }
 	
 	void setDeJureLiege(const std::shared_ptr<Title>& liegeTitle);
 	void setDeFactoLiege(const std::shared_ptr<Title>& liegeTitle);
 
 	[[nodiscard]] const auto& getName() const { return titleName; }
 	[[nodiscard]] auto getRank() const { return rank; }
+	[[nodiscard]] auto isLandless() const { return landless; }
+	[[nodiscard]] auto hasDefiniteForm() const { return definiteForm; }
 	[[nodiscard]] const auto& getHolder() const { return history.holder; }
 	[[nodiscard]] const auto& getGovernment() const { return history.government; }
 	[[nodiscard]] const auto& getDevelopmentLevel() const { return history.developmentLevel; }
@@ -80,14 +89,6 @@ public:
 	[[nodiscard]] const auto& getDeFactoVassals() const { return deFactoVassals; }
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeJureVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeFactoVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
-
-	bool definiteForm = false;
-	bool landless = false;
-	std::map<std::string, mappers::LocBlock> localizations;
-	std::optional<std::string> coa;
-	std::optional<std::string> capitalCounty;
-	std::shared_ptr<Imperator::Country> imperatorCountry;
-	std::optional<commonItems::Color> color;
 	
 	std::pair<std::string, std::shared_ptr<Title>> capital;	// Capital county
 
@@ -105,8 +106,16 @@ private:
 	std::set<std::string> successionLaws;
 
 	bool importedOrUpdatedFromImperator = false;
+	bool definiteForm = false;
+	bool landless = false;
 	std::optional<commonItems::Color> color1;
 	std::optional<commonItems::Color> color2;
+
+	std::map<std::string, mappers::LocBlock> localizations;
+	std::optional<std::string> coa;
+	std::optional<std::string> capitalCounty;
+	std::shared_ptr<Imperator::Country> imperatorCountry;
+	std::optional<commonItems::Color> color;
 
 	TitleHistory history;
 
@@ -119,12 +128,12 @@ private:
 	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title. Titles are only held here during loading of landed_titles, then they are cleared
 
 
-	// used by duchy titles only
+// used by duchy titles only
 public:
 	[[nodiscard]] bool duchyContainsProvince(unsigned long long provinceID) const;
 
 
-	// used by county titles only
+// used by county titles only
 public:
 	[[nodiscard]] const auto& getCountyProvinces() const { return countyProvinces; }
 	std::string capitalBarony; // used when parsing inside county to save first barony
@@ -133,7 +142,7 @@ private:
 	std::set<unsigned long long> countyProvinces;
 
 
-	// used by barony titles only
+// used by barony titles only
 public:
 	[[nodiscard]] const auto& getProvince() const { return province; }
 private:

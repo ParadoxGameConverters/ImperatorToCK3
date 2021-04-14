@@ -64,7 +64,7 @@ void CK3::outputLocalization(const string& imperatorPath, const string& outputNa
 
 	// title localization
 	for (const auto& title : CK3World.getTitles() | values) {
-		for (const auto& [key, loc] : title->localizations) {
+		for (const auto& [key, loc] : title->getLocalizations()) {
 			english << " " << key << ": \"" << loc.english << "\"\n";
 			french << " " << key << ": \"" << loc.french << "\"\n";
 			german << " " << key << ": \"" << loc.german << "\"\n";

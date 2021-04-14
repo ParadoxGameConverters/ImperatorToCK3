@@ -26,7 +26,7 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeLoaded) {
 
 	ASSERT_EQ(2, titles.getTitles().size());
 	ASSERT_EQ(12, barony->second->getProvince());
-	ASSERT_TRUE(county->second->landless);
+	ASSERT_TRUE(county->second->isLandless());
 }
 
 TEST(CK3World_LandedTitlesTests, titlesCanBeLoadedRecursively) {
@@ -42,7 +42,7 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeLoadedRecursively) {
 
 	ASSERT_EQ(5, titles.getTitles().size());
 	ASSERT_EQ(12, barony->second->getProvince());
-	ASSERT_TRUE(county->second->landless);
+	ASSERT_TRUE(county->second->isLandless());
 }
 
 TEST(CK3World_LandedTitlesTests, titlesCanBeOverriddenByMods) {
@@ -63,7 +63,7 @@ TEST(CK3World_LandedTitlesTests, titlesCanBeOverriddenByMods) {
 
 	ASSERT_EQ(5, titles.getTitles().size());
 	ASSERT_EQ(15, barony->second->getProvince());
-	ASSERT_FALSE(county->second->landless);
+	ASSERT_FALSE(county->second->isLandless());
 }
 
 TEST(CK3World_LandedTitlesTests, titlesCanBeAddedByMods) {

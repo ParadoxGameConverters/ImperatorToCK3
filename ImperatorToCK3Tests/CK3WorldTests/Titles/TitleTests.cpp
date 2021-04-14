@@ -13,9 +13,9 @@ TEST(CK3World_TitleTests, titlePrimitivesDefaultToBlank) {
 	CK3::Title title;
 	title.loadTitles(input);
 
-	ASSERT_FALSE(title.definiteForm);
-	ASSERT_FALSE(title.landless);
-	ASSERT_FALSE(title.color);
+	ASSERT_FALSE(title.hasDefiniteForm());
+	ASSERT_FALSE(title.isLandless());
+	ASSERT_FALSE(title.getColor());
 	ASSERT_FALSE(title.capital.second);
 	ASSERT_FALSE(title.getProvince());
 }
@@ -31,9 +31,9 @@ TEST(CK3World_TitleTests, titlePrimitivesCanBeLoaded) {
 	CK3::Title title;
 	title.loadTitles(input);
 
-	ASSERT_TRUE(title.definiteForm);
-	ASSERT_TRUE(title.landless);
-	ASSERT_EQ("= rgb { 23 23 23 }", title.color->outputRgb());
+	ASSERT_TRUE(title.hasDefiniteForm());
+	ASSERT_TRUE(title.isLandless());
+	ASSERT_EQ("= rgb { 23 23 23 }", title.getColor()->outputRgb());
 	ASSERT_EQ("c_roma", title.capital.first);
 	ASSERT_EQ(345, title.getProvince());
 }
@@ -43,7 +43,7 @@ TEST(CK3World_TitleTests, localizationCanBeSet) {
 	const mappers::LocBlock locBlock = { "engloc", "frloc", "germloc", "rusloc", "spaloc" };
 
 	theTitle.setLocalizations(locBlock);
-	ASSERT_EQ(1, theTitle.localizations.size());
+	ASSERT_EQ(1, theTitle.getLocalizations().size());
 }
 
 TEST(CK3World_TitleTests, membersDefaultToBlank) {
@@ -51,9 +51,9 @@ TEST(CK3World_TitleTests, membersDefaultToBlank) {
 	const CK3::Title theTitle;
 
 	ASSERT_TRUE(theTitle.getName().empty());
-	ASSERT_TRUE(theTitle.localizations.empty());
-	ASSERT_FALSE(theTitle.coa);
-	ASSERT_FALSE(theTitle.capitalCounty);
+	ASSERT_TRUE(theTitle.getLocalizations().empty());
+	ASSERT_FALSE(theTitle.getCoA());
+	ASSERT_FALSE(theTitle.getCapitalCounty());
 }
 
 TEST(CK3World_TitleTests, holderDefaultsTo0String) {

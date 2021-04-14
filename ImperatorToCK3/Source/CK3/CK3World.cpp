@@ -292,7 +292,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 		//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
 		if (title->getRank()!=TitleRank::county && title->getRank()!=TitleRank::barony && !countyHoldersCache.contains(title->getHolder())) {
-			if (!getTitles().find(name)->second->landless) { // does not have landless attribute set to true
+			if (!getTitles().find(name)->second->isLandless()) { // does not have landless attribute set to true
 				if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != std::string::npos) {
 					removedGeneratedTitles.emplace(name);
 					landedTitles.eraseTitle(name);

@@ -97,7 +97,8 @@ void CK3::outputTitles(const string& outputModName, const string& ck3Path, const
 	
 	//output to landed_titles folder
 	for (const auto& [name, title] : titles) {
-		if (title->imperatorCountry && title->imperatorCountry->getCountryType() != Imperator::countryTypeEnum::real) { // we don't need pirates, barbarians etc.
+		const auto& impCountry = title->getImperatorCountry();
+		if (impCountry && impCountry->getCountryType() != Imperator::countryTypeEnum::real) { // we don't need pirates, barbarians etc.
 			continue;
 		}
 		
