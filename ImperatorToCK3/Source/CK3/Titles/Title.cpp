@@ -188,6 +188,8 @@ void CK3::Title::updateFromTitle(const std::shared_ptr<Title>& otherTitle) {
 		Log(LogLevel::Error) << titleName << " can not be updated from  " << otherTitle->titleName << ": different title names!";
 		return;
 	}
+	titleName = otherTitle->titleName;
+	localizations = otherTitle->localizations;
 	
 	importedOrUpdatedFromImperator = otherTitle->importedOrUpdatedFromImperator;
 	imperatorCountry = otherTitle->imperatorCountry;
