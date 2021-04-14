@@ -14,7 +14,6 @@
 
 
 
-
 extern commonItems::Color::Factory laFabricaDeColor;
 
 
@@ -37,7 +36,7 @@ class TitlesHistory;
 enum class TitleRank { barony, county, duchy, kingdom, empire };
 class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 {
-  public:
+public:
 	Title() = default;
 	explicit Title(const std::string& name);
 	void initializeFromTag(
@@ -81,9 +80,6 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	[[nodiscard]] const auto& getDeFactoVassals() const { return deFactoVassals; }
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeJureVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeFactoVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
-	
-	[[nodiscard]] const auto& getProvince() const { return province; } // for barony titles
-	[[nodiscard]] const auto& getCountyProvinces() const { return countyProvinces; } // county titles
 
 	bool definiteForm = false;
 	bool landless = false;
@@ -97,14 +93,7 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
-	// used by duchy titles only
-	[[nodiscard]] bool duchyContainsProvince(unsigned long long provinceID) const;
-	
-	// used by county titles only
-	std::string capitalBarony; // used when parsing inside county to save first barony
-	unsigned long long capitalBaronyProvince = 0;	// county barony's province; 0 is not a valid barony ID
-
-  private:
+private:
 	friend class LandedTitles;
 	static void addFoundTitle(const std::shared_ptr<Title>& newTitle, std::map<std::string, std::shared_ptr<Title>>& foundTitles);
 	
@@ -129,11 +118,26 @@ class Title: commonItems::parser, public std::enable_shared_from_this<Title>
 	
 	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title. Titles are only held here during loading of landed_titles, then they are cleared
 
-	// used by barony titles only
-	std::optional<unsigned long long> province; // province is area on map. b_ barony is its corresponding title.
+
+	// used by duchy titles only
+public:
+	[[nodiscard]] bool duchyContainsProvince(unsigned long long provinceID) const;
+
 
 	// used by county titles only
+public:
+	[[nodiscard]] const auto& getCountyProvinces() const { return countyProvinces; }
+	std::string capitalBarony; // used when parsing inside county to save first barony
+	unsigned long long capitalBaronyProvince = 0;	// county barony's province; 0 is not a valid barony ID
+private:
 	std::set<unsigned long long> countyProvinces;
+
+
+	// used by barony titles only
+public:
+	[[nodiscard]] const auto& getProvince() const { return province; }
+private:
+	std::optional<unsigned long long> province; // province is area on map. b_ barony is its corresponding title.
 };
 
 } // namespace CK3
