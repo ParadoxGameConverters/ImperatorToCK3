@@ -12,6 +12,7 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 #include <ranges>
+#include <utility>
 
 
 
@@ -75,7 +76,7 @@ void CK3::Title::registerKeys() {
 }
 
 
-CK3::Title::Title(const std::string& name): titleName(name) {
+CK3::Title::Title(std::string name): titleName(std::move(name)) {
 	setRank();
 }
 
@@ -131,12 +132,12 @@ void CK3::Title::initializeFromTag(std::shared_ptr<Imperator::Country> theCountr
 		history.government = governmentMapper.getCK3GovernmentForImperatorGovernment(*imperatorCountry->getGovernment());
 
 	// ------------------ determine color
-	const auto& colorOpt1 = imperatorCountry->getColor1();
-	if (colorOpt1)
+	if (const auto& colorOpt1 = imperatorCountry->getColor1(); colorOpt1) {
 		color1 = *colorOpt1;
-	const auto& colorOpt2 = imperatorCountry->getColor2();
-	if (colorOpt2)
+	}
+	if (const auto& colorOpt2 = imperatorCountry->getColor2(); colorOpt2) {
 		color2 = *colorOpt2;
+	}
 
 	// determine successions laws
 	successionLaws = successionLawMapper.getCK3LawsForImperatorLaws(imperatorCountry->getLaws());

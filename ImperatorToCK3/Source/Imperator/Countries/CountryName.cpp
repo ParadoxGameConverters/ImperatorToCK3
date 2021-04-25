@@ -95,7 +95,7 @@ std::optional<mappers::LocBlock> Imperator::CountryName::getAdjectiveLocBlock(ma
 		for (const auto& country : imperatorCountries | std::ranges::views::values) {
 			if (country->getName() == name) {
 				const auto countryAdjective = country->getCountryName().getAdjective();
-				const auto adjLoc = localizationMapper.getLocBlockForKey(countryAdjective);
+				auto adjLoc = localizationMapper.getLocBlockForKey(countryAdjective);
 				if (adjLoc) {
 					return adjLoc;
 				}
