@@ -61,7 +61,7 @@ private:
 	void importImperatorProvinces(const Imperator::World& impWorld);
 
 	void addHistoryToVanillaTitles();
-	void overWriteCountiesHistory(const Imperator::World& impWorld);
+	void overWriteCountiesHistory();
 	void removeInvalidLandlessTitles();
 
 	[[nodiscard]] std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>>> determineProvinceSource(const std::vector<unsigned long long>& impProvinceNumbers,

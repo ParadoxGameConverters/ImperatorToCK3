@@ -38,7 +38,7 @@ enum class TitleRank { barony, county, duchy, kingdom, empire };
 class Title: commonItems::parser, public std::enable_shared_from_this<Title> {
 public:
 	Title() = default;
-	explicit Title(const std::string& name);
+	explicit Title(std::string name);
 	void initializeFromTag(
 		std::shared_ptr<Imperator::Country> theCountry,
 		const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries,
