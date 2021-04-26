@@ -12,6 +12,7 @@
 #include "ConverterVersion.h"
 #include <filesystem>
 #include <ranges>
+#include <math.h>
 
 
 
