@@ -16,3 +16,6 @@
 [submodule "imageMagick"]
 	path = imageMagick
 	url = https://github.com/ParadoxGameConverters/imageMagick
+[submodule "json"]
+	path = json
+	url = https://github.com/nlohmann/json
