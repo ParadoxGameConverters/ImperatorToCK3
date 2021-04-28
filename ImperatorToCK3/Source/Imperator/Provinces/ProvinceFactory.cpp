@@ -28,11 +28,7 @@ Imperator::Province::Factory::Factory() {
 	});
 	registerKeyword("civilization_value", [this](std::istream& theStream) {
 		const auto valStr = commonItems::getString(theStream);
-		const auto result = std::stoul(valStr); // TODO: replace this with commonItems::stringToInteger<unsigned int> when it's brought back with GCC 11
-		if (result > std::numeric_limits<unsigned>::max()) {
-			throw std::out_of_range("stou out of range for " + valStr);
-		}
-		province->civilizationValue = result;
+		province->civilizationValue = commonItems::stringToInteger<unsigned int>(valStr);
 	});
 	registerKeyword("province_rank", [this](std::istream& theStream) {
 		const auto provinceRankStr = commonItems::getString(theStream);
