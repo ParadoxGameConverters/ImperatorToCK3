@@ -24,6 +24,7 @@ add_subdirectory(../ZipLib [binary_dir])
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
 file(GLOB CONFIGURATION_SOURCES "${PROJECT_SOURCE_DIR}/Configuration/*.cpp")
+file(GLOB COMMON_UTILITIES_SOURCES "${PROJECT_SOURCE_DIR}/CommonUtilities/*.cpp")
 file(GLOB IMPWORLD_SOURCES "${PROJECT_SOURCE_DIR}/Imperator/*.cpp")
 file(GLOB IMPWORLD_SUBDIRS_SOURCES "${PROJECT_SOURCE_DIR}/Imperator/*/*.cpp")
 file(GLOB MAPPERS_SOURCES "${PROJECT_SOURCE_DIR}/Mappers/*/*.cpp")
@@ -33,6 +34,7 @@ file(GLOB CK3OUTPUTTER_SOURCES "${PROJECT_SOURCE_DIR}/CK3Outputter/*.cpp")
 set(BASE64_SOURCES "../cpp-base64/base64.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Color.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ConvenientParser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ConverterVersion.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/GameVersion.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Date.cpp")
@@ -46,6 +48,7 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
 add_executable(ImperatorToCK3 
 	${MAIN_SOURCES}
 	${CONFIGURATION_SOURCES}
+	${COMMON_UTILITIES_SOURCES}
 	${IMPWORLD_SOURCES}
 	${IMPWORLD_SUBDIRS_SOURCES}
 	${MAPPERS_SOURCES}
