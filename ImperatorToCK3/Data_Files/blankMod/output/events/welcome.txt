@@ -1,4 +1,4 @@
-namespace = welcome
+﻿namespace = welcome
 welcome.1 = {
 	hidden = no
 	type = letter_event
