@@ -38,4 +38,4 @@ jobs:
         tag_name: ${{ steps.previoustag.outputs.tag }}
         release_name: ${{ steps.previoustag.outputs.tag }}
         artifacts: ImperatorToCK3-${{ steps.previoustag.outputs.tag }}.zip
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.API_TOKEN_GITHUB }}
