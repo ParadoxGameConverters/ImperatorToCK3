@@ -22,7 +22,8 @@ jobs:
        .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln
     - name: "Run tests"
       run: |
-       $Env:GITHUB_WORKSPACE\ImperatorToCK3Tests\Release\ImperatorToCK3Tests.exe
+       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3Tests\Release\
+       .\ImperatorToCK3Tests.exe
     - name: "Save commit ID"
       run: |
        $Env:GITHUB_WORKSPACE\ImperatorToCK3\Save_Commit_ID_Windows.bat
