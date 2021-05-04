@@ -1,0 +1,2 @@
+Latest release:
+https://github.com/ParadoxGameConverters/ImperatorToCK3/releases/latest/download/ImperatorToCK3.zip
