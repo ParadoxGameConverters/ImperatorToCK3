@@ -1,3 +1,5 @@
+# Last updated: CK3 1.3.0
+
 # Called from code after history generation
 # Empty scope
 on_game_start = {
