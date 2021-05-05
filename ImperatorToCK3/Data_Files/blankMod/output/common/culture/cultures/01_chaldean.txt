@@ -1,4 +1,4 @@
-# ImperatorToCK3: Last updated CK3 patch 1.3.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.3.0
 chaldean_group = {
 	graphical_cultures = {
 		israelite_group_coa_gfx
