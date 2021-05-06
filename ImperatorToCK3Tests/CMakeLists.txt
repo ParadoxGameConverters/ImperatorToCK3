@@ -6,7 +6,7 @@ SET(CMAKE_CXX_COMPILER g++-11)
 add_definitions(-fprofile-arcs -ftest-coverage)
 
 # Link diretories
-link_directories(/usr/lib)
+link_directories(../ImperatorToCK3/Resources /usr/local/lib)
 
 # Set the compiler options
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -g -O0 -Wall -fprofile-arcs -ftest-coverage")
