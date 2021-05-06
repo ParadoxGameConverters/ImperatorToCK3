@@ -21,43 +21,43 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 # Set the sources
-set(sources
-				test_main.cpp
-				#the tests
-				ImperatorWorldTests/Characters/CharacterTests.cpp
-				ImperatorWorldTests/Characters/CharactersTests.cpp
-				ImperatorWorldTests/Families/FamilyTests.cpp
-				ImperatorWorldTests/Families/FamiliesTests.cpp
-				ImperatorWorldTests/Provinces/ProvinceTests.cpp
-				ImperatorWorldTests/Provinces/ProvincesTests.cpp
-				ImperatorWorldTests/Provinces/PopTests.cpp
-				ImperatorWorldTests/Provinces/PopsTests.cpp
-				CommonTests/CommonFunctionsTests.cpp
-				
-				#source files
-				../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
-				../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
-				../ImperatorToCK3/Source/Imperator/Characters/CharacterName.cpp
-				../ImperatorToCK3/Source/Imperator/Characters/CharacterAttributes.cpp
-				../ImperatorToCK3/Source/Imperator/Characters/Characters.cpp
-				../ImperatorToCK3/Source/Imperator/Families/Family.cpp
-				../ImperatorToCK3/Source/Imperator/Families/Families.cpp
-				../ImperatorToCK3/Source/Imperator/Provinces/Province.cpp
-				../ImperatorToCK3/Source/Imperator/Provinces/Provinces.cpp
-				../ImperatorToCK3/Source/Imperator/Provinces/ProvinceName.cpp
-				../ImperatorToCK3/Source/Imperator/Provinces/Pop.cpp
-				../ImperatorToCK3/Source/Imperator/Provinces/Pops.cpp
-				../ImperatorToCK3/Source/Configuration/Configuration.cpp
-				../commonItems/Parser.cpp
-				../commonItems/ParserHelpers.cpp
-				../commonItems/StringUtils.cpp
-				../commonItems/Date.cpp
-				../commonItems/Log.cpp
-				../commonItems/CommonFunctions.cpp
-				../commonItems/OSCommonLayer.cpp
-				../commonItems/iconvlite.cpp
-				../commonItems/LinuxUtils.cpp
+set(test_sources
+	test_main.cpp
+	#the tests
+	ImperatorWorldTests/Characters/CharacterTests.cpp
+	ImperatorWorldTests/Characters/CharactersTests.cpp
+	ImperatorWorldTests/Families/FamilyTests.cpp
+	ImperatorWorldTests/Families/FamiliesTests.cpp
+	ImperatorWorldTests/Provinces/ProvinceTests.cpp
+	ImperatorWorldTests/Provinces/ProvincesTests.cpp
+	ImperatorWorldTests/Provinces/PopTests.cpp
+	ImperatorWorldTests/Provinces/PopsTests.cpp
+	CommonTests/CommonFunctionsTests.cpp
 )
+
+file(GLOB CONFIGURATION_SOURCES "../ImperatorToCK3/Source/Configuration/*.cpp")
+file(GLOB COMMON_UTILITIES_SOURCES "../ImperatorToCK3/Source/CommonUtilities/*.cpp")
+file(GLOB IMPWORLD_SOURCES "../ImperatorToCK3/Source/Imperator/*.cpp")
+file(GLOB IMPWORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/Imperator/*/*.cpp")
+file(GLOB MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*/*.cpp")
+file(GLOB CK3WORLD_SOURCES "../ImperatorToCK3/Source/CK3/*.cpp")
+file(GLOB CK3WORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/CK3/*/*.cpp")
+file(GLOB CK3OUTPUTTER_SOURCES "../ImperatorToCK3/Source/CK3Outputter/*.cpp")
+set(BASE64_SOURCES "../cpp-base64/base64.cpp")
+set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Color.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ConvenientParser.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ConverterVersion.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/GameVersion.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Date.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/LinuxUtils.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Log.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/OSCommonLayer.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Parser.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ParserHelpers.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
+
+
 # Set Include directories
 include_directories(
 	../ImperatorToCK3/
@@ -65,7 +65,19 @@ include_directories(
 )
 
 # Create the executable
-add_executable(ImperatorToCK3Tests ${sources})
+add_executable(ImperatorToCK3Tests
+	${test_sources}
+	${CONFIGURATION_SOURCES}
+	${COMMON_UTILITIES_SOURCES}
+	${IMPWORLD_SOURCES}
+	${IMPWORLD_SUBDIRS_SOURCES}
+	${MAPPERS_SOURCES}
+	${CK3WORLD_SOURCES}
+	${CK3WORLD_SUBDIRS_SOURCES}
+	${CK3OUTPUTTER_SOURCES}
+	${COMMON_SOURCES}
+	${BASE64_SOURCES}
+)
 
 # Create the gcov target. Run coverage tests with 'make gcov'
 add_custom_target(gcov
