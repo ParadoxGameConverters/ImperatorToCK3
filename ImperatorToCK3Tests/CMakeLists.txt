@@ -90,7 +90,8 @@ add_custom_target(gcov
 add_custom_command(TARGET gcov
     COMMAND echo "=================== GCOV ===================="
     COMMAND gcov -b ${CMAKE_SOURCE_DIR}/*.cpp -o ${OBJECT_DIR}
-    COMMAND echo "-- Source diretory: ${CMAKE_SOURCE_DIR}/"
+    COMMAND gcov -v
+    COMMAND echo "-- Source directory: ${CMAKE_SOURCE_DIR}/"
     COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/gcoverage"
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/gcoverage
 )
@@ -106,7 +107,7 @@ add_custom_command(TARGET lcov
     COMMAND lcov --capture --directory ../ --output-file lcoverage/overage.info
     COMMAND echo "-- Generating HTML output files"
     COMMAND genhtml lcoverage/coverage.info --output-directory lcoverage
-    )
+)
 
 # Make sure to clean up the coverage folder
 set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES gcoverage)
