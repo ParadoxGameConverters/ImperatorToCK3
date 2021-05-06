@@ -23,6 +23,9 @@ find_package(GTest REQUIRED)
 include_directories(/usr/include)
 include_directories(${GTEST_INCLUDE_DIRS})
 include_directories(
+	../ZipLib
+	../json/single_include
+	../cpp-base64
 	../ImperatorToCK3/Source
 	../commonItems/
 )
