@@ -126,9 +126,9 @@ enable_testing()
 add_test(output_test ${CMAKE_CURRENT_BINARY_DIR}/ImperatorToCK3Tests)
 
 # link libraries to the new target
-target_link_libraries(ImperatorToCK3Tests gtest)
-target_link_libraries(ImperatorToCK3Tests pthread)
-target_link_libraries(ImperatorToCK3Tests -fprofile-arcs)
 target_link_libraries(ImperatorToCK3Tests LINK_PUBLIC
+	gtest
+	pthread
 	rakaly
+	-fprofile-arcs
 )
