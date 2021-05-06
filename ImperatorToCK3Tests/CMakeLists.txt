@@ -22,8 +22,8 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 # Set the sources
 set(sources
-                test_main.cpp
-                #the tests
+				test_main.cpp
+				#the tests
 				ImperatorWorldTests/Characters/CharacterTests.cpp
 				ImperatorWorldTests/Characters/CharactersTests.cpp
 				ImperatorWorldTests/Families/FamilyTests.cpp
@@ -33,38 +33,36 @@ set(sources
 				ImperatorWorldTests/Provinces/PopTests.cpp
 				ImperatorWorldTests/Provinces/PopsTests.cpp
 				CommonTests/CommonFunctionsTests.cpp
-				MapperTests/VersionParser/VersionParser.cpp
-              
-                #source files
-                ../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
-                ../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
-                ../ImperatorToCK3/Source/Imperator/Characters/CharacterName.cpp
-                ../ImperatorToCK3/Source/Imperator/Characters/CharacterAttributes.cpp
-                ../ImperatorToCK3/Source/Imperator/Characters/Characters.cpp
-                ../ImperatorToCK3/Source/Imperator/Families/Family.cpp
-                ../ImperatorToCK3/Source/Imperator/Families/Families.cpp
+				
+				#source files
+				../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
+				../ImperatorToCK3/Source/Imperator/Characters/Character.cpp
+				../ImperatorToCK3/Source/Imperator/Characters/CharacterName.cpp
+				../ImperatorToCK3/Source/Imperator/Characters/CharacterAttributes.cpp
+				../ImperatorToCK3/Source/Imperator/Characters/Characters.cpp
+				../ImperatorToCK3/Source/Imperator/Families/Family.cpp
+				../ImperatorToCK3/Source/Imperator/Families/Families.cpp
 				../ImperatorToCK3/Source/Imperator/Provinces/Province.cpp
 				../ImperatorToCK3/Source/Imperator/Provinces/Provinces.cpp
 				../ImperatorToCK3/Source/Imperator/Provinces/ProvinceName.cpp
 				../ImperatorToCK3/Source/Imperator/Provinces/Pop.cpp
 				../ImperatorToCK3/Source/Imperator/Provinces/Pops.cpp
-                ../ImperatorToCK3/Source/Configuration/Configuration.cpp
-                ../ImperatorToCK3/Source/Mappers/VersionParser/VersionParser.cpp
-                ../commonItems/Parser.cpp
-                ../commonItems/ParserHelpers.cpp
-                ../commonItems/StringUtils.cpp
-                ../commonItems/Date.cpp
-                ../commonItems/Log.cpp
-                ../commonItems/CommonFunctions.cpp
-                ../commonItems/OSCommonLayer.cpp
-                ../commonItems/iconvlite.cpp
-                ../commonItems/LinuxUtils.cpp
-                )
+				../ImperatorToCK3/Source/Configuration/Configuration.cpp
+				../commonItems/Parser.cpp
+				../commonItems/ParserHelpers.cpp
+				../commonItems/StringUtils.cpp
+				../commonItems/Date.cpp
+				../commonItems/Log.cpp
+				../commonItems/CommonFunctions.cpp
+				../commonItems/OSCommonLayer.cpp
+				../commonItems/iconvlite.cpp
+				../commonItems/LinuxUtils.cpp
+)
 # Set Include directories
 include_directories(
-                ../ImperatorToCK3/
-                ../commonItems/
-                )
+	../ImperatorToCK3/
+	../commonItems/
+)
 
 # Create the executable
 add_executable(ImperatorToCK3Tests ${sources})
@@ -78,7 +76,7 @@ add_custom_target(gcov
 add_custom_command(TARGET gcov
     COMMAND echo "=================== GCOV ===================="
     COMMAND gcov -b ${CMAKE_SOURCE_DIR}/src/*.cpp -o ${OBJECT_DIR}
-    COMMAND echo "-- Source diretorie: ${CMAKE_SOURCE_DIR}/src/"
+    COMMAND echo "-- Source diretory: ${CMAKE_SOURCE_DIR}/src/"
     COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/gcoverage"
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/gcoverage
     )
