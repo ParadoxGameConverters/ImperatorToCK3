@@ -1,4 +1,5 @@
 name: Build and run tests
+
 on:
   push:
     branches-ignore:
@@ -6,8 +7,9 @@ on:
   pull_request:
     branches:
       - master
+
 jobs:
-  build_and_test:
+  test_windows:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
@@ -24,3 +26,52 @@ jobs:
       run: |
        cd $Env:GITHUB_WORKSPACE\ImperatorToCK3Tests\Release\
        .\ImperatorToCK3Tests.exe
+
+  test_ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: "Init submodules"
+      run: |
+       git submodule update --init --recursive
+    - name: "Install wxWidgets"
+      run: |
+       sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+       sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
+       sudo apt-get update
+       sudo apt-get install libwxbase3.1-0-unofficial \
+                 libwxbase3.1unofficial-dev \
+                 libwxgtk3.1-0-unofficial \
+                 libwxgtk3.1unofficial-dev \
+                 wx3.1-headers \
+                 wx-common
+    - name: "Install other packages"
+      run: |
+       sudo apt-get install libcurl4-openssl-dev
+       sudo apt-get install lcov
+    - name: "Install GCC 11"
+      run: |
+       sudo apt-get install gcc-11 g++-11
+    - name: "Link gcc-11 and g++-11 to their standard commands"
+      run: |
+       sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
+       sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
+    - name: "Export CC and CXX to tell cmake which compiler to use"
+      run: |
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
+    - name: "Check versions of gcc, g++ and cmake"
+      run: |
+       gcc -v && g++ -v && cmake --version
+    - name: "Build"
+      run: |
+       chmod u+x build_linux.sh
+       ./build_linux.sh
+    - name: "Check test coverage"
+      run: |
+       lcov --directory . --capture --output-file coverage.info
+       lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
+       lcov --list coverage.info
+       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"

@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.7)
+cmake_minimum_required (VERSION 3.13)
 project(ImperatorToCK3Tests)
 
 # add definitions
@@ -9,7 +9,7 @@ include_directories(/usr/include)
 link_directories(/usr/lib)
 
 # Set the compiler options
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -g -O0 -Wall -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -g -O0 -Wall -fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 # Create OBJECT_DIR variable
@@ -91,9 +91,9 @@ add_custom_target(lcov
 add_custom_command(TARGET lcov
     COMMAND echo "=================== LCOV ===================="
     COMMAND echo "-- Passing lcov tool under code coverage"
-    COMMAND lcov --capture --directory ../ --output-file lcoverage/main_coverage.info
+    COMMAND lcov --capture --directory ../ --output-file overage.info
     COMMAND echo "-- Generating HTML output files"
-    COMMAND genhtml lcoverage/main_coverage.info --output-directory lcoverage
+    COMMAND genhtml coverage.info --output-directory lcoverage
     )
 
 # Make sure to clean up the coverage folder
@@ -113,7 +113,7 @@ enable_testing()
 
 add_test(output_test ${CMAKE_CURRENT_BINARY_DIR}/ImperatorToCK3Tests)
 
-# link Boost libraries to the new target
+# link libraries to the new target
 target_link_libraries(ImperatorToCK3Tests gtest)
 target_link_libraries(ImperatorToCK3Tests gmock)
 target_link_libraries(ImperatorToCK3Tests pthread)
