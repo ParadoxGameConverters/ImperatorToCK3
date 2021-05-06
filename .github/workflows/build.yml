@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  test_windows:
+  build_windows:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
