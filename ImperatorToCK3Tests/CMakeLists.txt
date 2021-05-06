@@ -5,8 +5,7 @@ SET(CMAKE_CXX_COMPILER g++-11)
 # add definitions
 add_definitions(-fprofile-arcs -ftest-coverage)
 
-# Include diretories
-include_directories(/usr/include)
+# Link diretories
 link_directories(/usr/lib)
 
 # Set the compiler options
@@ -19,7 +18,14 @@ message("-- Object files will be output to: ${OBJECT_DIR}")
 
 # Find required packages
 find_package(GTest REQUIRED)
+
+# Set Include directories
+include_directories(/usr/include)
 include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(
+	../ImperatorToCK3/Source
+	../commonItems/
+)
 
 # Set the sources
 set(test_sources
@@ -57,13 +63,6 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/OSCommonLayer.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Parser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ParserHelpers.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
-
-
-# Set Include directories
-include_directories(
-	../ImperatorToCK3/
-	../commonItems/
-)
 
 # Create the executable
 add_executable(ImperatorToCK3Tests
