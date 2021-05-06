@@ -53,7 +53,6 @@ file(GLOB IMPWORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/Imperator/*/*.cpp")
 file(GLOB MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*/*.cpp")
 file(GLOB CK3WORLD_SOURCES "../ImperatorToCK3/Source/CK3/*.cpp")
 file(GLOB CK3WORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/CK3/*/*.cpp")
-file(GLOB CK3OUTPUTTER_SOURCES "../ImperatorToCK3/Source/CK3Outputter/*.cpp")
 set(BASE64_SOURCES "../cpp-base64/base64.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Color.cpp")
@@ -78,7 +77,6 @@ add_executable(ImperatorToCK3Tests
 	${MAPPERS_SOURCES}
 	${CK3WORLD_SOURCES}
 	${CK3WORLD_SUBDIRS_SOURCES}
-	${CK3OUTPUTTER_SOURCES}
 	${COMMON_SOURCES}
 	${BASE64_SOURCES}
 )
