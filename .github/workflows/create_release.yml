@@ -36,5 +36,5 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ steps.previoustag.outputs.tag }}
-        artifacts: ImperatorToCK3-${{ steps.previoustag.outputs.tag }}.zip
+        artifacts: ImperatorToCK3.zip
         token: ${{ secrets.API_TOKEN_GITHUB }}
