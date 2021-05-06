@@ -9,7 +9,7 @@ add_definitions(-fprofile-arcs -ftest-coverage)
 link_directories(../ImperatorToCK3/Resources /usr/local/lib)
 
 # Set the compiler options
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -g -O0 -Wall -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -g -O0 -Wall -fprofile-arcs --coverage")
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 # Create OBJECT_DIR variable
@@ -86,26 +86,26 @@ add_custom_target(gcov
     COMMAND mkdir -p gcoverage
     COMMAND ${CMAKE_MAKE_PROGRAM} test
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
+)
 add_custom_command(TARGET gcov
     COMMAND echo "=================== GCOV ===================="
     COMMAND gcov -b ${CMAKE_SOURCE_DIR}/src/*.cpp -o ${OBJECT_DIR}
     COMMAND echo "-- Source diretory: ${CMAKE_SOURCE_DIR}/src/"
     COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/gcoverage"
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/gcoverage
-    )
+)
 add_dependencies(gcov ImperatorToCK3Tests)
 
 # Create the lcov target. Run result tests with 'make lcov'
 add_custom_target(lcov
     COMMAND mkdir -p lcoverage
-    )
+)
 add_custom_command(TARGET lcov
     COMMAND echo "=================== LCOV ===================="
     COMMAND echo "-- Passing lcov tool under code coverage"
-    COMMAND lcov --capture --directory ../ --output-file overage.info
+    COMMAND lcov --capture --directory ../ --output-file lcoverage/overage.info
     COMMAND echo "-- Generating HTML output files"
-    COMMAND genhtml coverage.info --output-directory lcoverage
+    COMMAND genhtml lcoverage/coverage.info --output-directory lcoverage
     )
 
 # Make sure to clean up the coverage folder
@@ -118,7 +118,7 @@ add_custom_target(init
     COMMAND rm -f ${OBJECT_DIR}/*.gcno
     COMMAND rm -f ${OBJECT_DIR}/*.gcda
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
+)
 
 # Testing
 enable_testing()
