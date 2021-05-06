@@ -38,6 +38,7 @@ jobs:
        git submodule update --init --recursive
     - name: "Install other packages"
       run: |
+       sudo apt-get install libgtest-dev
        sudo apt-get install lcov
     - name: "Install GCC 11"
       run: |
