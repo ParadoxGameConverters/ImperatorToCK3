@@ -26,6 +26,7 @@ include_directories(
 	../ZipLib
 	../json/single_include
 	../cpp-base64
+	/usr/local/include/ImageMagick-7/
 	../ImperatorToCK3/Source
 	../commonItems/
 )
