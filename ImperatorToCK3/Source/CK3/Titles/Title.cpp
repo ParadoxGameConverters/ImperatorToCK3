@@ -1,13 +1,14 @@
 #include "Title.h"
 #include "LandedTitles.h"
 #include "TitlesHistory.h"
+#include "CK3/Character/CK3Character.h"
 #include "Imperator/Countries/Country.h"
 #include "Imperator/Countries/CountryName.h"
-#include "Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Mappers/CoaMapper/CoaMapper.h"
-#include "Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Mappers/GovernmentMapper/GovernmentMapper.h"
+#include "Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Mappers/SuccessionLawMapper/SuccessionLawMapper.h"
+#include "Mappers/TagTitleMapper/TagTitleMapper.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
@@ -41,6 +42,15 @@ void CK3::Title::loadTitles(std::istream& theStream) {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
+}
+
+
+void CK3::Title::setHolder(const std::shared_ptr<CK3::Character>& newPtr) {
+	if (newPtr && newPtr->ID == "0") {
+		Log(LogLevel::Warning) << titleName << ": setting nullptr pointer to non-0 holder";
+	}
+	history.holder = newPtr->ID;
+	holderPtr = newPtr;
 }
 
 

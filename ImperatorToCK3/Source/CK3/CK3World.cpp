@@ -268,7 +268,10 @@ void CK3::World::overWriteCountiesHistory() {
 					if (const auto impCountry = impProvince->getOwner().second) {
 						auto impMonarch = impCountry->getMonarch();
 						if (impMonarch) {
-							title->setHolder("imperator" + std::to_string(*impMonarch));
+							const auto& holderItr = characters.find("imperator" + std::to_string(*impMonarch));
+							if (holderItr != characters.end()) {
+								title->setHolder(holderItr->second);
+							}
 							title->setDeFactoLiege(nullptr);
 							countyHoldersCache.emplace(title->getHolder());
 						}
@@ -300,7 +303,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 				}
 				else {
 					revokedVanillaTitles.emplace(name);
-					title->setHolder("0");
+					title->setHolder(nullptr);
 					title->setDeFactoLiege(nullptr);
 				}
 			}

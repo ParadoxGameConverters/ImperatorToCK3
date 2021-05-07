@@ -3,14 +3,14 @@
 
 
 
-#include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "TitleHistory.h"
 #include "Imperator/Countries/CountryName.h"
-#include "Parser.h"
+#include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "Color.h"
+#include "Parser.h"
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 
 
 
@@ -33,7 +33,14 @@ namespace CK3 {
 
 class LandedTitles;
 class TitlesHistory;
+class Character;
+
 enum class TitleRank { barony, county, duchy, kingdom, empire };
+
+struct HolderStruct {
+	std::string id = "0";
+	std::shared_ptr<Character> ptr = nullptr;
+};
 
 class Title: commonItems::parser, public std::enable_shared_from_this<Title> {
 public:
@@ -54,7 +61,7 @@ public:
 	void updateFromTitle(const std::shared_ptr<Title>& otherTitle);
 	void loadTitles(std::istream& theStream);
 
-	void setHolder(const std::string& newHolder) { history.holder = newHolder; }
+	void setHolder(const std::shared_ptr<Character>& newPtr);
 	void setDevelopmentLevel(const std::optional<int>& devLevel) { history.developmentLevel = devLevel; }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the localized name
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
@@ -115,6 +122,7 @@ private:
 	std::optional<commonItems::Color> color;
 
 	TitleHistory history;
+	std::shared_ptr<Character> holderPtr = nullptr;
 
 	std::shared_ptr<Title> deJureLiege; // direct de jure liege title name, e.g. e_hispania
 	std::shared_ptr<Title> deFactoLiege; // direct de facto liege title name, e.g. e_hispania
