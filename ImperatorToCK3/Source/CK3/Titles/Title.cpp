@@ -46,10 +46,12 @@ void CK3::Title::loadTitles(std::istream& theStream) {
 
 
 void CK3::Title::setHolder(const std::shared_ptr<CK3::Character>& newPtr) {
-	if (newPtr && newPtr->ID == "0") {
-		Log(LogLevel::Warning) << titleName << ": setting nullptr pointer to non-0 holder";
+	if (newPtr) {
+		history.holder = newPtr->ID;
 	}
-	history.holder = newPtr->ID;
+	else {
+		history.holder = "0";
+	}
 	holderPtr = newPtr;
 }
 
