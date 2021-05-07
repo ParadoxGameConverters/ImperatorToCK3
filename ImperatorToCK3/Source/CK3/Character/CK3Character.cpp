@@ -87,3 +87,55 @@ void CK3::Character::initializeFromImperator(
 	}
 }
 
+
+void CK3::Character::breakAllLinks() {
+	if (mother.second) {
+		mother.second->removeChild(ID);
+	}
+	removeMother();
+	if (father.second) {
+		father.second->removeChild(ID);
+	}
+	removeFather();
+	for (const auto& spouse : spouses) 	{
+		spouse.second->removeSpouse(ID);
+	}
+	spouses.clear();
+	if (female) {
+		for (const auto& child : children) {
+			removeMother();
+		}
+	}
+	else {
+		for (const auto& child : children) {
+			removeFather();
+		}
+	}
+	children.clear();
+	
+	imperatorCharacter->registerCK3Character(nullptr);
+	imperatorCharacter = nullptr;
+}
+
+
+void CK3::Character::removeSpouse(const std::string& spouseID) {
+	spouses.erase(spouseID);
+}
+
+
+void CK3::Character::removeFather() {
+	father.first = "0";
+	father.second = nullptr;
+}
+
+
+void CK3::Character::removeMother() {
+	mother.first = "0";
+	mother.second = nullptr;
+}
+
+
+void CK3::Character::removeChild(const std::string& childID) {
+	children.erase(childID);
+}
+

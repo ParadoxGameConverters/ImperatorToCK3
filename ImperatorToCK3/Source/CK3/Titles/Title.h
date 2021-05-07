@@ -3,14 +3,14 @@
 
 
 
-#include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "TitleHistory.h"
 #include "Imperator/Countries/CountryName.h"
-#include "Parser.h"
+#include "Mappers/LocalizationMapper/LocalizationMapper.h"
 #include "Color.h"
+#include "Parser.h"
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 
 
 
@@ -33,6 +33,8 @@ namespace CK3 {
 
 class LandedTitles;
 class TitlesHistory;
+class Character;
+
 enum class TitleRank { barony, county, duchy, kingdom, empire };
 
 class Title: commonItems::parser, public std::enable_shared_from_this<Title> {
@@ -54,7 +56,7 @@ public:
 	void updateFromTitle(const std::shared_ptr<Title>& otherTitle);
 	void loadTitles(std::istream& theStream);
 
-	void setHolder(const std::string& newHolder) { history.holder = newHolder; }
+	void setHolder(const std::shared_ptr<Character>& newPtr);
 	void setDevelopmentLevel(const std::optional<int>& devLevel) { history.developmentLevel = devLevel; }
 	void setLocalizations(const mappers::LocBlock& newBlock) { localizations[titleName] = newBlock; } // Setting the localized name
 	void trySetAdjectiveLoc(mappers::LocalizationMapper& localizationMapper, const std::map<unsigned long long, std::shared_ptr<Imperator::Country>>& imperatorCountries);
@@ -74,7 +76,7 @@ public:
 	[[nodiscard]] auto getRank() const { return rank; }
 	[[nodiscard]] auto isLandless() const { return landless; }
 	[[nodiscard]] auto hasDefiniteForm() const { return definiteForm; }
-	[[nodiscard]] const auto& getHolder() const { return history.holder; }
+	[[nodiscard]] const auto& getHolder() const { return holderPtr; }
 	[[nodiscard]] const auto& getGovernment() const { return history.government; }
 	[[nodiscard]] const auto& getDevelopmentLevel() const { return history.developmentLevel; }
 	[[nodiscard]] std::optional<int> getOwnOrInheritedDevelopmentLevel() const;
@@ -115,6 +117,7 @@ private:
 	std::optional<commonItems::Color> color;
 
 	TitleHistory history;
+	std::shared_ptr<Character> holderPtr = nullptr;
 
 	std::shared_ptr<Title> deJureLiege; // direct de jure liege title name, e.g. e_hispania
 	std::shared_ptr<Title> deFactoLiege; // direct de facto liege title name, e.g. e_hispania

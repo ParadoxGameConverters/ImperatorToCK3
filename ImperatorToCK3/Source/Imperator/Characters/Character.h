@@ -69,7 +69,7 @@ class Character
 	void registerChild(const std::pair<unsigned long long, std::shared_ptr<Character>>& theChild) { children.insert(theChild); }
 	void addYears(const int years) { birthDate.subtractYears(years); }
 
-	void registerCK3Character(std::shared_ptr<CK3::Character>& theCharacter) { ck3Character = theCharacter; }
+	void registerCK3Character(const std::shared_ptr<CK3::Character>& theCharacter) { ck3Character = theCharacter; }
 
   private:
 	unsigned long long ID = 0;
