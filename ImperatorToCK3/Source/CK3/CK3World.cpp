@@ -289,6 +289,7 @@ void CK3::World::addHistoryToVanillaTitles() {
 
 
 void CK3::World::overWriteCountiesHistory() {
+	Log(LogLevel::Info) << "Overwriting counties' history";
 	for (const auto& title : getTitles() | std::views::values) {
 		if (title->getRank()==TitleRank::county && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
 			if (!provinces.contains(title->capitalBaronyProvince))
@@ -320,6 +321,7 @@ void CK3::World::overWriteCountiesHistory() {
 
 
 void CK3::World::removeInvalidLandlessTitles() {
+	Log(LogLevel::Info) << "Removing invalid landless titles";
 	set<string> removedGeneratedTitles;
 	set<string> revokedVanillaTitles;
 
