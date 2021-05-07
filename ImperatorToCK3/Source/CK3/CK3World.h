@@ -64,6 +64,8 @@ private:
 	void overWriteCountiesHistory();
 	void removeInvalidLandlessTitles();
 
+	void purgeLandlessVanillaCharacters();
+
 	[[nodiscard]] std::optional<std::pair<unsigned long long, std::shared_ptr<Imperator::Province>>> determineProvinceSource(const std::vector<unsigned long long>& impProvinceNumbers,
 		const Imperator::World& impWorld) const;
 

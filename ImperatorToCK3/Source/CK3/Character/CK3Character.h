@@ -42,11 +42,16 @@ class Character {
 		bool ConvertBirthAndDeathDates,
 		date DateOnConversion);
 
+	void breakAllLinks();
 
 	void addSpouse(const std::shared_ptr<Character>& newSpouse) { spouses.emplace(newSpouse->ID, newSpouse); }
-	void setMother(const std::shared_ptr<Character>& theMother) { mother = {theMother->ID, theMother}; }
-	void setFather(const std::shared_ptr<Character>& theFather) { father = {theFather->ID, theFather}; }
+	void setFather(const std::shared_ptr<Character>& theFather) { father = { theFather->ID, theFather }; }
+	void setMother(const std::shared_ptr<Character>& theMother) { mother = { theMother->ID, theMother }; }
 	void addChild(const std::shared_ptr<Character>& theChild) { children.emplace(theChild->ID, theChild); }
+	void removeSpouse(const std::string& spouseID);
+	void removeFather();
+	void removeMother();
+	void removeChild(const std::string& childID);
 	void setDynastyID(const std::string& dynID) { dynastyID = dynID; }
 
 	friend std::ostream& operator<<(std::ostream& output, const Character& character);
