@@ -373,6 +373,7 @@ void CK3::World::purgeLandlessVanillaCharacters() {
 		characters[characterId]->breakAllLinks();
 		characters.erase(characterId);
 	}
+	Log(LogLevel::Info) << "Purged " << farewellIDs.size() << " landless vanilla characters";
 }
 
 
