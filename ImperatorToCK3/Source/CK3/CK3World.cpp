@@ -297,7 +297,7 @@ void CK3::World::overWriteCountiesHistory() {
 			else {
 				const auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
 				if (impProvince) {
-					if (const auto impCountry = impProvince->getOwner().second) {
+					if (const auto& impCountry = impProvince->getOwner().second; impCountry) {
 						auto impMonarch = impCountry->getMonarch();
 						if (impMonarch) {
 							const auto& holderItr = characters.find("imperator" + std::to_string(*impMonarch));
@@ -366,7 +366,14 @@ void CK3::World::purgeLandlessVanillaCharacters() {
 	set<string> farewellIDs;
 	std::transform(cbegin(characters), cend(characters), std::inserter(farewellIDs, farewellIDs.begin()),
 				   [](decltype(characters)::value_type const& pair) { return pair.first; });
-	std::erase_if(farewellIDs, [](const string& id) { return id.starts_with("imperator"); });
+	Log(LogLevel::Debug) << "SIZE 1 " << farewellIDs.size();
+	for (const auto& id : farewellIDs) {
+		if (id.starts_with("imperator")) {
+			farewellIDs.erase(id);
+		}
+	}
+	Log(LogLevel::Debug) << "SIZE 2 " << farewellIDs.size();
+
 
 	for (const auto& [titleID, titlePtr] : getTitles()) {
 		farewellIDs.erase(titlePtr->getHolder());
