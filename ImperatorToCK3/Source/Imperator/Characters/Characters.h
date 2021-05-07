@@ -16,7 +16,7 @@ class Characters: commonItems::parser {
 	Characters() = default;
 	Characters(std::istream& theStream, const std::shared_ptr<GenesDB>& genesDB);
 
-	Characters& operator= (const Characters& obj) { this->characters = obj.characters; return *this; }
+	Characters& operator=(const Characters& other);
 
 	[[nodiscard]] const auto& getCharacters() const { return characters; }
 
