@@ -6,6 +6,7 @@
 #include "Mappers/ProvinceMapper/ProvinceMapper.h"
 #include "Mappers/ReligionMapper/ReligionMapper.h"
 #include "Mappers/TraitMapper/TraitMapper.h"
+#include <ranges>
 
 
 
@@ -76,9 +77,9 @@ void CK3::Character::initializeFromImperator(
 	
 	birthDate = imperatorCharacter->getBirthDate();
 	deathDate = imperatorCharacter->getDeathDate();
-	const auto& impDeathReason = imperatorCharacter->getDeathReason();
-	if (impDeathReason)
+	if (const auto & impDeathReason = imperatorCharacter->getDeathReason(); impDeathReason) {
 		deathReason = deathReasonMapper.getCK3ReasonForImperatorReason(*impDeathReason);
+	}
 	if (!ConvertBirthAndDeathDates) {  //if option to convert character age is chosen
 		birthDate.addYears(static_cast<int>(date(867, 1, 1).diffInYears(DateOnConversion)));
 		if (deathDate) {
@@ -97,18 +98,18 @@ void CK3::Character::breakAllLinks() {
 		father.second->removeChild(ID);
 	}
 	removeFather();
-	for (const auto& spouse : spouses) 	{
-		spouse.second->removeSpouse(ID);
+	for (const auto& spousePtr: spouses | std::views::values) 	{
+		spousePtr->removeSpouse(ID);
 	}
 	spouses.clear();
 	if (female) {
-		for (const auto& child : children) {
-			removeMother();
+		for (const auto& childPtr : children | std::views::values) {
+			childPtr->removeMother();
 		}
 	}
 	else {
-		for (const auto& child : children) {
-			removeFather();
+		for (const auto& childPtr : children | std::views::values) {
+			childPtr->removeFather();
 		}
 	}
 	children.clear();
@@ -138,4 +139,3 @@ void CK3::Character::removeMother() {
 void CK3::Character::removeChild(const std::string& childID) {
 	children.erase(childID);
 }
-
