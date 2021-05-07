@@ -364,15 +364,15 @@ void CK3::World::removeInvalidLandlessTitles() {
 
 void CK3::World::purgeLandlessVanillaCharacters() {
 	set<string> farewellIDs;
-	std::transform(cbegin(characters), cend(characters), std::inserter(farewellIDs, farewellIDs.begin()),
-				   [](decltype(characters)::value_type const& pair) { return pair.first; });
+	std::ranges::transform(std::as_const(characters), std::inserter(farewellIDs, farewellIDs.begin()),
+	                       [](decltype(characters)::value_type const& pair) { return pair.first; });
 	for (const auto& id : farewellIDs) {
 		if (id.starts_with("imperator")) {
 			farewellIDs.erase(id);
 		}
 	}
 
-	for (const auto& [titleID, titlePtr] : getTitles()) {
+	for (const auto& titlePtr : getTitles() | std::views::values) {
 		farewellIDs.erase(titlePtr->getHolder()->ID);
 	}
 	for (const auto& characterId : farewellIDs) {
