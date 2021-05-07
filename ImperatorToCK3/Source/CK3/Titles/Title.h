@@ -37,11 +37,6 @@ class Character;
 
 enum class TitleRank { barony, county, duchy, kingdom, empire };
 
-struct HolderStruct {
-	std::string id = "0";
-	std::shared_ptr<Character> ptr = nullptr;
-};
-
 class Title: commonItems::parser, public std::enable_shared_from_this<Title> {
 public:
 	Title() = default;
@@ -81,7 +76,7 @@ public:
 	[[nodiscard]] auto getRank() const { return rank; }
 	[[nodiscard]] auto isLandless() const { return landless; }
 	[[nodiscard]] auto hasDefiniteForm() const { return definiteForm; }
-	[[nodiscard]] const auto& getHolder() const { return history.holder; }
+	[[nodiscard]] const auto& getHolder() const { return holderPtr; }
 	[[nodiscard]] const auto& getGovernment() const { return history.government; }
 	[[nodiscard]] const auto& getDevelopmentLevel() const { return history.developmentLevel; }
 	[[nodiscard]] std::optional<int> getOwnOrInheritedDevelopmentLevel() const;

@@ -305,14 +305,14 @@ void CK3::World::overWriteCountiesHistory() {
 								title->setHolder(holderItr->second);
 							}
 							title->setDeFactoLiege(nullptr);
-							countyHoldersCache.emplace(title->getHolder());
+							countyHoldersCache.emplace(title->getHolder()->ID);
 						}
 					}
 				}
 				else { // county is probably outside of Imperator map
-					const auto& titleHolder = title->getHolder();
-					if (!titleHolder.empty() && titleHolder != "0")
-						countyHoldersCache.emplace(titleHolder);
+					const auto& titleHolderID = title->getHolder()->ID;
+					if (!titleHolderID.empty() && titleHolderID != "0")
+						countyHoldersCache.emplace(titleHolderID);
 				}
 			}
 		}
@@ -328,7 +328,7 @@ void CK3::World::removeInvalidLandlessTitles() {
 	for (const auto& [name, title] : getTitles()) {
 		//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 		// this also removes landless titles initialized from Imperator
-		if (title->getRank()!=TitleRank::county && title->getRank()!=TitleRank::barony && !countyHoldersCache.contains(title->getHolder())) {
+		if (title->getRank()!=TitleRank::county && title->getRank()!=TitleRank::barony && !countyHoldersCache.contains(title->getHolder()->ID)) {
 			if (!getTitles().find(name)->second->isLandless()) { // does not have landless attribute set to true
 				if (title->isImportedOrUpdatedFromImperator() && name.find("IMPTOCK3") != string::npos) {
 					removedGeneratedTitles.emplace(name);
@@ -376,7 +376,7 @@ void CK3::World::purgeLandlessVanillaCharacters() {
 
 
 	for (const auto& [titleID, titlePtr] : getTitles()) {
-		farewellIDs.erase(titlePtr->getHolder());
+		farewellIDs.erase(titlePtr->getHolder()->ID);
 	}
 	for (const auto& characterId : farewellIDs) {
 		characters[characterId]->breakAllLinks();
