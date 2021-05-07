@@ -1,3 +1,12 @@
-BasedOnStyle: Google
+BasedOnStyle: Chromium
 Language: Cpp
 
+AccessModifierOffset: -2
+MaxEmptyLinesToKeep: 3
+IndentWidth: 4
+TabWidth: 4
+ColumnLimit: 160
+SortIncludes: true
+SortUsingDeclarations: true
+SpaceBeforeInheritanceColon: false
+UseTab: Always
