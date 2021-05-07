@@ -366,14 +366,11 @@ void CK3::World::purgeLandlessVanillaCharacters() {
 	set<string> farewellIDs;
 	std::transform(cbegin(characters), cend(characters), std::inserter(farewellIDs, farewellIDs.begin()),
 				   [](decltype(characters)::value_type const& pair) { return pair.first; });
-	Log(LogLevel::Debug) << "SIZE 1 " << farewellIDs.size();
 	for (const auto& id : farewellIDs) {
 		if (id.starts_with("imperator")) {
 			farewellIDs.erase(id);
 		}
 	}
-	Log(LogLevel::Debug) << "SIZE 2 " << farewellIDs.size();
-
 
 	for (const auto& [titleID, titlePtr] : getTitles()) {
 		farewellIDs.erase(titlePtr->getHolder()->ID);
