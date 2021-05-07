@@ -21,7 +21,7 @@ typedef struct LocBlock {
 	std::string russian;
 	std::string simp_chinese;
 	std::string spanish;
-	void modifyForEveryLanguage(const LocBlock& otherLocBlock, std::function<void(std::string&, const std::string&)> modifyingFunction);
+	void modifyForEveryLanguage(const LocBlock& otherLocBlock, const std::function<void(std::string&, const std::string&)>& modifyingFunction);
 } LocBlock;
 
 class LocalizationMapper {

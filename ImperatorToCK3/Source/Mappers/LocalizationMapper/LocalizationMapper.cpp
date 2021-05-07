@@ -124,7 +124,7 @@ std::optional<mappers::LocBlock> mappers::LocalizationMapper::getLocBlockForKey(
 }
 
 
-void mappers::LocBlock::modifyForEveryLanguage(const LocBlock& otherLocBlock, std::function<void(std::string&, const std::string&)> modifyingFunction) {
+void mappers::LocBlock::modifyForEveryLanguage(const LocBlock& otherLocBlock, const std::function<void(std::string&, const std::string&)>& modifyingFunction) {
 	modifyingFunction(english, otherLocBlock.english);
 	modifyingFunction(french, otherLocBlock.french);
 	modifyingFunction(german, otherLocBlock.german);

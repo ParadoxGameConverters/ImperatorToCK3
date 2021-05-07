@@ -11,9 +11,8 @@
 
 
 void logGameVersions(const std::string& imperatorPath, const std::string& ck3Path) {
-	nlohmann::json impLauncherSettings, ck3LauncherSettings;
-
 	try {
+		nlohmann::json impLauncherSettings;
 		std::ifstream impSettingsFile(imperatorPath + "/launcher/launcher-settings.json");
 		impSettingsFile >> impLauncherSettings;
 		impSettingsFile.close();
@@ -24,6 +23,7 @@ void logGameVersions(const std::string& imperatorPath, const std::string& ck3Pat
 	}
 
 	try {
+		nlohmann::json ck3LauncherSettings;
 		std::ifstream ck3SettingsFile(ck3Path + "/launcher/launcher-settings.json");
 		ck3SettingsFile >> ck3LauncherSettings;
 		ck3SettingsFile.close();

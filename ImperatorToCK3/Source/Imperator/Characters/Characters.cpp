@@ -18,6 +18,14 @@ Imperator::Characters::Characters(std::istream& theStream, const std::shared_ptr
 }
 
 
+Imperator::Characters& Imperator::Characters::operator=(const Characters& other) {
+	if (this != &other) {
+		this->characters = other.characters;
+	}
+	return *this;
+}
+
+
 void Imperator::Characters::registerKeys() {
 	registerRegex(commonItems::integerRegex, [this](const std::string& charID, std::istream& theStream) {
 		std::shared_ptr<Character> newCharacter = characterFactory.getCharacter(theStream, charID, genes);
