@@ -35,6 +35,7 @@ std::string mappers::TagTitleMapper::getCK3TitleRank(const Imperator::countryRan
 	case Imperator::countryRankEnum::regionalPower: return "k";
 	case Imperator::countryRankEnum::majorPower: return "k";
 	case Imperator::countryRankEnum::greatPower: return "e";
+	default: return "d";
 	}
 }
 
