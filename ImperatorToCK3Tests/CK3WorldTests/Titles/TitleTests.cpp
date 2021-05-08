@@ -57,11 +57,18 @@ TEST(CK3World_TitleTests, membersDefaultToBlank) {
 	ASSERT_FALSE(theTitle.getCapitalCounty());
 }
 
-TEST(CK3World_TitleTests, holderDefaultsTo0String) {
+TEST(CK3World_TitleTests, holderIdDefaultsTo0String) {
 	std::stringstream input;
 	const CK3::Title theTitle;
 
-	ASSERT_EQ("0", theTitle.getHolder()->ID);
+	ASSERT_EQ("0", theTitle.getHolderID());
+}
+
+TEST(CK3World_TitleTests, holderPtrDefaultsToNullptr) {
+	std::stringstream input;
+	const CK3::Title theTitle;
+
+	ASSERT_EQ(nullptr, theTitle.getHolderPtr());
 }
 
 TEST(CK3World_TitleTests, capitalBaronyDefaultsToNullopt) {
@@ -78,7 +85,7 @@ TEST(CK3World_TitleTests, historyCanBeAdded) {
 	CK3::Title title;
 	title.addHistory(CK3::LandedTitles{}, history);
 
-	ASSERT_EQ("420", title.getHolder()->ID);
+	ASSERT_EQ("420", title.getHolderID());
 	ASSERT_EQ(20, *title.getDevelopmentLevel());
 }
 

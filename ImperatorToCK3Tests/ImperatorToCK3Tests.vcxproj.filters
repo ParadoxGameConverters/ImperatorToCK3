@@ -124,6 +124,12 @@
     <Filter Include="MapperTests\DeathReasonMapper">
       <UniqueIdentifier>{019b65d3-db9b-416f-a670-fecff54b6fb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\CK3\Characters">
+      <UniqueIdentifier>{56431e02-d0c3-4092-b36e-c00fc3af9a79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\CK3Outputter">
+      <UniqueIdentifier>{4db30bce-7d0e-4982-bab0-82d11150afad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -530,6 +536,18 @@
     </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\CommonUtilities\ContainerField.cpp">
       <Filter>Sources\CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Character\CK3Character.cpp">
+      <Filter>Sources\CK3\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Character\CK3CharacterFactory.cpp">
+      <Filter>Sources\CK3\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Character\CK3Characters.cpp">
+      <Filter>Sources\CK3\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\CK3Outputter\outCharacter.cpp">
+      <Filter>Sources\CK3Outputter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

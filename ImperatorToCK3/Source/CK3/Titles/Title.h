@@ -76,7 +76,8 @@ public:
 	[[nodiscard]] auto getRank() const { return rank; }
 	[[nodiscard]] auto isLandless() const { return landless; }
 	[[nodiscard]] auto hasDefiniteForm() const { return definiteForm; }
-	[[nodiscard]] const auto& getHolder() const { return holderPtr; }
+	[[nodiscard]] const auto& getHolderID() const { return history.holder; }
+	[[nodiscard]] const auto& getHolderPtr() const { return holderPtr; }
 	[[nodiscard]] const auto& getGovernment() const { return history.government; }
 	[[nodiscard]] const auto& getDevelopmentLevel() const { return history.developmentLevel; }
 	[[nodiscard]] std::optional<int> getOwnOrInheritedDevelopmentLevel() const;
