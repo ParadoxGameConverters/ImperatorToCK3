@@ -540,12 +540,6 @@
     <ClCompile Include="..\ImperatorToCK3\Source\CK3\Character\CK3Character.cpp">
       <Filter>Sources\CK3\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Character\CK3CharacterFactory.cpp">
-      <Filter>Sources\CK3\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ImperatorToCK3\Source\CK3\Character\CK3Characters.cpp">
-      <Filter>Sources\CK3\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="..\ImperatorToCK3\Source\CK3Outputter\outCharacter.cpp">
       <Filter>Sources\CK3Outputter</Filter>
     </ClCompile>
