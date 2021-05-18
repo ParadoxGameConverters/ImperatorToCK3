@@ -1607,7 +1607,7 @@ e_scandinavia = {
 	color = { 62 122 189 }
 	color2 = { 255 255 0 }
 	
-	capital = c_uppland
+	capital = c_upland
 	k_esthonia = {
 		color = { 130 73 45 }
 		color2 = { 255 255 255 }
