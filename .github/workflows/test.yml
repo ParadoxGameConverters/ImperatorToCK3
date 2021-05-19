@@ -54,6 +54,9 @@ jobs:
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
+    - name: "Check version of gcov"
+      run: |
+       gcov --version
     - name: "Build"
       run: |
        cd ImperatorToCK3Tests
