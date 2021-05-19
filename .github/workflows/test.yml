@@ -64,7 +64,6 @@ jobs:
        mkdir build && cd build && cmake ..
        make init
        make gcov
-       make lcov
     - name: "Check test coverage"
       run: |
        lcov --directory . --capture --output-file coverage.info

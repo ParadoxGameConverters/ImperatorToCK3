@@ -32,27 +32,25 @@ include_directories(
 )
 
 # Set the sources
+file(GLOB_RECURSE CK3WorldTests_SOURCES "CK3WorldTests/*.cpp")
+file(GLOB_RECURSE ImperatorWorldTests_SOURCES "ImperatorWorldTests/*.cpp")
+file(GLOB_RECURSE MapperTests_SOURCES "MapperTests/*.cpp")
+file(GLOB_RECURSE CommonTests_SOURCES "CommonTests/*.cpp")
+file(GLOB_RECURSE CommonUtilitiesTests_SOURCES "CommonUtilitiesTests/*.cpp")
 set(test_sources
 	test_main.cpp
-	#the tests
-	ImperatorWorldTests/Characters/CharacterTests.cpp
-	ImperatorWorldTests/Characters/CharactersTests.cpp
-	ImperatorWorldTests/Families/FamilyTests.cpp
-	ImperatorWorldTests/Families/FamiliesTests.cpp
-	ImperatorWorldTests/Provinces/ProvinceTests.cpp
-	ImperatorWorldTests/Provinces/ProvincesTests.cpp
-	ImperatorWorldTests/Provinces/PopTests.cpp
-	ImperatorWorldTests/Provinces/PopsTests.cpp
-	CommonTests/CommonFunctionsTests.cpp
+	${CK3WorldTests_SOURCES}
+	${ImperatorWorldTests_SOURCES}
+	${MapperTests_SOURCES}
+	${CommonTests_SOURCES}
+	${CommonUtilitiesTests_SOURCES}
 )
 
-file(GLOB CONFIGURATION_SOURCES "../ImperatorToCK3/Source/Configuration/*.cpp")
-file(GLOB COMMON_UTILITIES_SOURCES "../ImperatorToCK3/Source/CommonUtilities/*.cpp")
-file(GLOB IMPWORLD_SOURCES "../ImperatorToCK3/Source/Imperator/*.cpp")
-file(GLOB IMPWORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/Imperator/*/*.cpp")
-file(GLOB MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*/*.cpp")
-file(GLOB CK3WORLD_SOURCES "../ImperatorToCK3/Source/CK3/*.cpp")
-file(GLOB CK3WORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/CK3/*/*.cpp")
+file(GLOB_RECURSE CONFIGURATION_SOURCES "../ImperatorToCK3/Source/Configuration/*.cpp")
+file(GLOB_RECURSE COMMON_UTILITIES_SOURCES "../ImperatorToCK3/Source/CommonUtilities/*.cpp")
+file(GLOB_RECURSE IMPWORLD_SOURCES "../ImperatorToCK3/Source/Imperator/*.cpp")
+file(GLOB_RECURSE MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*/*.cpp")
+file(GLOB_RECURSE CK3WORLD_SOURCES "../ImperatorToCK3/Source/CK3/*.cpp")
 set(BASE64_SOURCES "../cpp-base64/base64.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Color.cpp")
@@ -73,10 +71,8 @@ add_executable(ImperatorToCK3Tests
 	${CONFIGURATION_SOURCES}
 	${COMMON_UTILITIES_SOURCES}
 	${IMPWORLD_SOURCES}
-	${IMPWORLD_SUBDIRS_SOURCES}
 	${MAPPERS_SOURCES}
 	${CK3WORLD_SOURCES}
-	${CK3WORLD_SUBDIRS_SOURCES}
 	${COMMON_SOURCES}
 	${BASE64_SOURCES}
 )
