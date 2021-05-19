@@ -62,6 +62,8 @@ jobs:
       run: |
        cd ImperatorToCK3Tests
        mkdir build && cd build && cmake ..
+    - name: "Generate test coverage"
+      run: |
        make init
        make gcov
     - name: "Check test coverage"
