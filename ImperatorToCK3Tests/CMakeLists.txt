@@ -49,7 +49,7 @@ set(test_sources
 file(GLOB_RECURSE CONFIGURATION_SOURCES "../ImperatorToCK3/Source/Configuration/*.cpp")
 file(GLOB_RECURSE COMMON_UTILITIES_SOURCES "../ImperatorToCK3/Source/CommonUtilities/*.cpp")
 file(GLOB_RECURSE IMPWORLD_SOURCES "../ImperatorToCK3/Source/Imperator/*.cpp")
-file(GLOB_RECURSE MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*/*.cpp")
+file(GLOB_RECURSE MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*.cpp")
 file(GLOB_RECURSE CK3WORLD_SOURCES "../ImperatorToCK3/Source/CK3/*.cpp")
 set(BASE64_SOURCES "../cpp-base64/base64.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
