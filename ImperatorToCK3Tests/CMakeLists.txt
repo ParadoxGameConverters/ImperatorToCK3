@@ -37,14 +37,7 @@ file(GLOB_RECURSE ImperatorWorldTests_SOURCES "ImperatorWorldTests/*.cpp")
 file(GLOB_RECURSE MapperTests_SOURCES "MapperTests/*.cpp")
 file(GLOB_RECURSE CommonTests_SOURCES "CommonTests/*.cpp")
 file(GLOB_RECURSE CommonUtilitiesTests_SOURCES "CommonUtilitiesTests/*.cpp")
-set(test_sources
-	test_main.cpp
-	${CK3WorldTests_SOURCES}
-	${ImperatorWorldTests_SOURCES}
-	${MapperTests_SOURCES}
-	${CommonTests_SOURCES}
-	${CommonUtilitiesTests_SOURCES}
-)
+set(test_sources test_main.cpp)
 
 file(GLOB_RECURSE CONFIGURATION_SOURCES "../ImperatorToCK3/Source/Configuration/*.cpp")
 file(GLOB_RECURSE COMMON_UTILITIES_SOURCES "../ImperatorToCK3/Source/CommonUtilities/*.cpp")
@@ -68,6 +61,12 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
 # Create the executable
 add_executable(ImperatorToCK3Tests
 	${test_sources}
+	${CK3WorldTests_SOURCES}
+	${ImperatorWorldTests_SOURCES}
+	${MapperTests_SOURCES}
+	${CommonTests_SOURCES}
+	${CommonUtilitiesTests_SOURCES}
+
 	${CONFIGURATION_SOURCES}
 	${COMMON_UTILITIES_SOURCES}
 	${IMPWORLD_SOURCES}
