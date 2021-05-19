@@ -13,6 +13,10 @@ namespace ImperatorToCK3
                 Log.WriteLine(LogLevel.Warning, "ImperatorToCK3 takes no parameters.");
                 Log.WriteLine(LogLevel.Warning, "It uses configuration.txt, configured manually or by the frontend.");
             }
+
+
+            var parser = new Parser();
+            parser.ParseFile("stream.txt");
         }
     }
 }

@@ -20,5 +20,6 @@ ReleaseIntermediate/
 Release-Linux/
 Debug/
 DebugIntermediate/
+ImperatorToCK3.UnitTests/obj
 
 log.txt
