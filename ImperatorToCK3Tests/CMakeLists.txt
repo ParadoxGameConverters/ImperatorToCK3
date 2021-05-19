@@ -79,7 +79,7 @@ add_executable(ImperatorToCK3Tests
 # Create the gcov target. Run coverage tests with 'make gcov'
 add_custom_target(gcov
     COMMAND mkdir -p gcoverage
-    COMMAND ${CMAKE_MAKE_PROGRAM} test
+    COMMAND ${CMAKE_MAKE_PROGRAM} test VERBOSE=1
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 add_custom_command(TARGET gcov
