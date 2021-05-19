@@ -104,7 +104,7 @@ add_custom_target(lcov
 add_custom_command(TARGET lcov
     COMMAND echo "=================== LCOV ===================="
     COMMAND echo "-- Passing lcov tool under code coverage"
-    COMMAND lcov --capture --directory ../ --output-file lcoverage/overage.info
+    COMMAND lcov --capture --directory ../ --output-file lcoverage/coverage.info
     COMMAND echo "-- Generating HTML output files"
     COMMAND genhtml lcoverage/coverage.info --output-directory lcoverage
 )
