@@ -174,6 +174,23 @@ TEST(ImperatorWorld_CharacterTests, deathDateDefaultsToNullopt) {
 	ASSERT_FALSE(theCharacter.getDeathDate());
 }
 
+TEST(ImperatorWorld_CharacterTests, deathReasonDefaultsToNullopt) {
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	std::stringstream input;
+	const auto character = *Imperator::Character::Factory().getCharacter(input, "42", genesDB);
+
+	ASSERT_EQ(std::nullopt, character.getDeathReason());
+}
+
+TEST(ImperatorWorld_CharacterTests, deathReasonCanBeSet) {
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	std::stringstream input;
+	input << R"( = { death = killed_in_battle })";
+	const auto character = *Imperator::Character::Factory().getCharacter(input, "42", genesDB);
+
+	ASSERT_EQ("killed_in_battle", character.getDeathReason());
+}
+
 TEST(ImperatorWorld_CharacterTests, spousesCanBeSet) {
 	const auto genesDB = std::make_shared<Imperator::GenesDB>();
 	std::stringstream input;
@@ -369,6 +386,24 @@ TEST(ImperatorWorld_CharacterTests, nameDefaultsToBlank) {
 	const auto theCharacter = *Imperator::Character::Factory().getCharacter(input, "42", genesDB);
 
 	ASSERT_TRUE(theCharacter.getName().empty());
+}
+
+TEST(ImperatorWorld_CharacterTests, nicknameCanBeSet) {
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	std::stringstream input;
+	input << R"(= { nickname = "the Great" })";
+
+	const auto theCharacter = *Imperator::Character::Factory().getCharacter(input, "42", genesDB);
+
+	ASSERT_EQ("the Great", theCharacter.getNickname());
+}
+
+TEST(ImperatorWorld_CharacterTests, nicknameDefaultsToEmpty) {
+	const auto genesDB = std::make_shared<Imperator::GenesDB>();
+	std::stringstream input;
+	const auto theCharacter = *Imperator::Character::Factory().getCharacter(input, "42", genesDB);
+
+	ASSERT_TRUE(theCharacter.getNickname().empty());
 }
 
 TEST(ImperatorWorld_CharacterTests, attributesDefaultToZero) {
