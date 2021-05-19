@@ -24,7 +24,7 @@ void CK3::outputTitleHistory(const shared_ptr<Title>& title, ofstream& outputStr
 	if (deFactoLiege)
 		outputStream << "\t\tliege = " << deFactoLiege->getName() << "\n";
 	
-	outputStream << "\t\tholder = " << title->getHolder() << "\n";
+	outputStream << "\t\tholder = " << title->getHolderID() << "\n";
 	
 	const auto& govOpt = title->getGovernment();
 	if (govOpt)
