@@ -19,11 +19,7 @@ jobs:
     - name: "Build solution"
       run: |
        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-       .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln
-    - name: "Run tests"
-      run: |
-       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3Tests\Release\
-       .\ImperatorToCK3Tests.exe
+       .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:ImperatorToCK3
     - name: "Save commit ID"
       run: |
        cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
