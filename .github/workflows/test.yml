@@ -1,0 +1,73 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test_windows:
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: "Init submodules"
+      run: |
+       git submodule update --init --recursive
+    - name: "Build test project"
+      run: |
+       cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
+       .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:ImperatorToCK3Tests
+    - name: "Run tests"
+      run: |
+       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3Tests\Release\
+       .\ImperatorToCK3Tests.exe
+
+  test_ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: "Init submodules"
+      run: |
+       git submodule update --init --recursive
+    - name: "Install other packages"
+      run: |
+       sudo apt install libgtest-dev
+       sudo apt install lcov
+    - name: "Install GCC 11"
+      run: |
+       sudo apt install gcc-11 g++-11
+    - name: "Link gcc-11, g++-11 and gcov-11 to their standard commands"
+      run: |
+       sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
+       sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
+       sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
+    - name: "Export CC and CXX to tell cmake which compiler to use"
+      run: |
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
+    - name: "Check versions of gcc, g++ and cmake"
+      run: |
+       gcc -v && g++ -v && cmake --version
+    - name: "Check version of gcov"
+      run: |
+       gcov --version
+    - name: "Build"
+      run: |
+       cd ImperatorToCK3Tests
+       mkdir build && cd build && cmake ..
+       make init
+       make gcov
+       make lcov
+    - name: "Check test coverage"
+      run: |
+       lcov --directory . --capture --output-file coverage.info
+       lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
+       lcov --list coverage.info
+       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
