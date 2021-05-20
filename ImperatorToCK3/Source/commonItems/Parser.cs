@@ -10,7 +10,59 @@ using System.Text.RegularExpressions;
 
 namespace commonItems
 {
-    public delegate void Del(StreamReader stream, string? keyword = null);
+    public delegate void Del(StreamReader sr, string? keyword = null);
+    public delegate void SimpleDel(StreamReader sr);
+
+    abstract class RegisteredKeywordOrRegex
+    {
+        public abstract bool Match(string token);
+    }
+
+    class RegisteredKeyword : RegisteredKeywordOrRegex
+    {
+        readonly string keyword;
+        public RegisteredKeyword(string keyword_) {
+            keyword = keyword_;
+        }
+        public override bool Match(string token) { return keyword == token; }
+    }
+
+    class RegisteredRegex : RegisteredKeywordOrRegex
+    {
+        readonly Regex regex;
+        public RegisteredRegex(string regex_) { regex = new Regex(regex_); }
+        public override bool Match(string token) {
+            var match = regex.Match(token);
+            return match.Success && match.Length == token.Length;
+        }
+    }
+
+    abstract class AbstractDelegate
+    {
+        public abstract void Execute(StreamReader sr, string token);
+    }
+
+    class TwoArgDelegate: AbstractDelegate
+    {
+        readonly Del del;
+        public TwoArgDelegate(Del del_) { del = del_; }
+        public override void Execute(StreamReader sr, string token)
+        {
+            del(sr, token);
+        }
+    }
+
+    class OneArgDelegate : AbstractDelegate
+    {
+        readonly SimpleDel del;
+        public OneArgDelegate(SimpleDel del_) { del = del_; }
+        public override void Execute(StreamReader sr, string token)
+        {
+            del(sr);
+        }
+    }
+
+
 
     public class Parser
     {
@@ -48,19 +100,44 @@ namespace commonItems
 
         public void RegisterKeyword(string keyword, Del del)
         {
-            registeredStuff.Add(new Regex(keyword), del);
+            registeredDict.Add(new RegisteredKeyword(keyword), new TwoArgDelegate(del));
+        }
+        public void RegisterKeyword(string keyword, SimpleDel del)
+        {
+            registeredDict.Add(new RegisteredKeyword(keyword), new OneArgDelegate(del));
         }
         public void RegisterRegex(string keyword, Del del)
         {
-            registeredStuff.Add(new Regex(keyword), del);
+            registeredDict.Add(new RegisteredRegex(keyword), new TwoArgDelegate(del));
+        }
+        public void RegisterRegex(string keyword, SimpleDel del)
+        {
+            registeredDict.Add(new RegisteredRegex(keyword), new OneArgDelegate(del));
         }
 
-        bool TryToMatchAgainstRegexes(string token, StreamReader stream)
+        public void ClearRegisteredDict()
         {
-            foreach (var (regex, fun) in registeredStuff) {
-                if (regex.IsMatch(token))
+            registeredDict.Clear();
+        }
+
+        bool TryToMatch(string token, string strippedToken, bool isTokenQuoted, StreamReader stream)
+        {
+            foreach (var (regex, fun) in registeredDict) {
+                if (regex.Match(token))
                 {
-                    fun(stream, token);
+                    fun.Execute(stream, token);
+                    return true;
+                }
+            }
+            if (isTokenQuoted)
+            {
+                foreach (var (regex, fun) in registeredDict)
+                {
+                    if (regex.Match(strippedToken))
+                    {
+                        fun.Execute(stream, token);
+                        return true;
+                    }
                 }
             }
             return false;
@@ -217,10 +294,10 @@ namespace commonItems
                 sb.Length = 0;
                 sb.Append(GetNextLexeme(stream));
 
-                var strippedLexeme = RemQuotes(sb.ToString());
-                var isLexemeQuoted = (strippedLexeme.Length < sb.ToString().Length);
+                var strippedToken = RemQuotes(sb.ToString());
+                var isTokenQuoted = (strippedToken.Length < sb.ToString().Length);
 
-                var matched = TryToMatchAgainstRegexes(sb.ToString(), stream);
+                var matched = TryToMatch(sb.ToString(), strippedToken, isTokenQuoted, stream);
 
                 if (!matched)
                 {
@@ -314,6 +391,6 @@ namespace commonItems
             ParseStream(file);
         }
 
-        Dictionary<Regex, Del> registeredStuff = new();
+        Dictionary<RegisteredKeywordOrRegex, AbstractDelegate> registeredDict = new();
     }
 }

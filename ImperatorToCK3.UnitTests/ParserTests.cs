@@ -35,7 +35,6 @@ namespace ImperatorToCK3.UnitTests
             public Test(StreamReader streamReader)
             {
                 RegisterKeyword("key", (StreamReader sr, string k) => {
-                    Log.WriteLine(commonItems.LogLevel.Debug, "FUCKING K IS: "+k);
                     key = k;
                     value = new SingleString(sr).GetString();
                 });
@@ -50,6 +49,104 @@ namespace ImperatorToCK3.UnitTests
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
             Assert.AreEqual("key", test.key);
+            Assert.AreEqual("value", test.value);
+        }
+
+        [TestMethod]
+        public void QuotedKeywordsAreMatched()
+        {
+            Stream input = Parser.GenerateStreamFromString("\"key\" = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test(streamReader);
+            Assert.AreEqual("\"key\"", test.key);
+            Assert.AreEqual("value", test.value);
+        }
+
+        public class Test2 : Parser
+        {
+            public string key;
+            public string value;
+            public Test2(StreamReader streamReader)
+            {
+                RegisterKeyword("\"key\"", (StreamReader sr, string k) => {
+                    key = k;
+                    value = new SingleString(sr).GetString();
+                });
+                ParseStream(streamReader);
+            }
+        };
+
+        [TestMethod]
+        public void QuotedKeywordsAreQuotedlyMatched()
+        {
+            Stream input = Parser.GenerateStreamFromString("\"key\" = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test(streamReader);
+            Assert.AreEqual("\"key\"", test.key);
+            Assert.AreEqual("value", test.value);
+        }
+
+        [TestMethod]
+        public void QuotedValuesAreParsed()
+        {
+            Stream input = Parser.GenerateStreamFromString(@"key = ""value quote""");
+            var streamReader = new StreamReader(input);
+            var test = new Test(streamReader);
+            Assert.AreEqual("key", test.key);
+            Assert.AreEqual("value quote", test.value);
+        }
+
+        [TestMethod]
+        public void QuotedValuesWithEscapedQuotesAreParsed()
+        {
+            Stream input = Parser.GenerateStreamFromString(@"key = ""value \""quote\"" string""");
+            var streamReader = new StreamReader(input);
+            var test = new Test(streamReader);
+            Assert.AreEqual("key", test.key);
+            Assert.AreEqual(@"value \""quote\"" string", test.value);
+        }
+
+        [TestMethod]
+        public void StringLiteralsAreParsed()
+        {
+            Stream input = Parser.GenerateStreamFromString(@"key = R""(value ""quote"" string)""");
+            var streamReader = new StreamReader(input);
+            var test = new Test(streamReader);
+            Assert.AreEqual("key", test.key);
+            Assert.AreEqual(@"value ""quote"" string", test.value);
+        }
+
+        [TestMethod]
+        public void WrongKeywordsAreIgnored()
+        {
+            Stream input = Parser.GenerateStreamFromString(@"wrongkey = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test(streamReader);
+            Assert.IsTrue(string.IsNullOrEmpty(test.key));
+            Assert.IsTrue(string.IsNullOrEmpty(test.value));
+        }
+
+        public class Test3 : Parser
+        {
+            public string key;
+            public string value;
+            public Test3(StreamReader streamReader)
+            {
+                RegisterRegex("[key]+", (StreamReader sr, string k) => {
+                    key = k;
+                    value = new SingleString(sr).GetString();
+                });
+                ParseStream(streamReader);
+            }
+        };
+
+        [TestMethod]
+        public void QuotedRegexesAreMatched()
+        {
+            Stream input = Parser.GenerateStreamFromString("\"key\" = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test3(streamReader);
+            Assert.AreEqual("\"key\"", test.key);
             Assert.AreEqual("value", test.value);
         }
     }
