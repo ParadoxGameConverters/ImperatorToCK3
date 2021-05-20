@@ -4,7 +4,7 @@ using System.IO;
 
 namespace commonItems
 {
-    enum LogLevel
+    public enum LogLevel
     {
         Error,
         Warning,
@@ -13,7 +13,7 @@ namespace commonItems
         Progress
     }
     
-    class Log
+    public class Log
     {
         static bool logFileCreated = false;
         public static void WriteLine(LogLevel level, string message) {
@@ -31,7 +31,7 @@ namespace commonItems
             logFile.Write("\n");
         }
         
-        static Dictionary<LogLevel, string> logLevelStrings = new Dictionary<LogLevel, string>(){
+        public static Dictionary<LogLevel, string> logLevelStrings = new(){
             { LogLevel.Error, "    [ERROR] " },
             { LogLevel.Warning, "  [WARNING] " },
             { LogLevel.Info, "     [INFO] " },

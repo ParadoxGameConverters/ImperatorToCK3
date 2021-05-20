@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fronter", "Fronter\Fronter.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImperatorToCK3", "ImperatorToCK3\ImperatorToCK3.csproj", "{35F88F31-7868-4A78-B215-604E234DBBA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImperatorToCK3.UnitTests", "ImperatorToCK3.UnitTests\ImperatorToCK3.UnitTests.csproj", "{8F24E371-3E42-4EB0-913C-D201909AB318}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{35F88F31-7868-4A78-B215-604E234DBBA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35F88F31-7868-4A78-B215-604E234DBBA6}.Release|x64.ActiveCfg = Release|Any CPU
 		{35F88F31-7868-4A78-B215-604E234DBBA6}.Release|x64.Build.0 = Release|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Debug|x64.Build.0 = Debug|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Release|x64.ActiveCfg = Release|Any CPU
+		{8F24E371-3E42-4EB0-913C-D201909AB318}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

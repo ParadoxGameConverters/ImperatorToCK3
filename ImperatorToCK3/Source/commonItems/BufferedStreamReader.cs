@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace commonItems
 {
-    class BufferedStreamReader : StreamReader
+    public class BufferedStreamReader : StreamReader
     {
         public BufferedStreamReader(Stream strm) : base(strm) { }
-
         private int lastChar = -1;
+
         public override int Read()
         {
             int ch;
