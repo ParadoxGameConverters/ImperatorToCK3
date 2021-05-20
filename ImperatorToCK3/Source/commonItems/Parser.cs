@@ -177,10 +177,10 @@ namespace commonItems
                         {
                             break;
                         }
-                        else // fix Paradox' mistake and don't break proper names in half
-                        {
-                            sb.Append(' ');
-                        }
+                    }
+                    else // fix Paradox' mistake and don't break proper names in half
+                    {
+                        sb.Append(' ');
                     }
                 }
                 else if (inputChar == '\"' && !inQuotes && sb.Length == 0)
@@ -315,7 +315,7 @@ namespace commonItems
         {
             var braceDepth = 0;
             var value = false; // tracker to indicate whether we reached the value part of key=value pair
-            var tokensSoFar = new StringBuilder("");
+            var tokensSoFar = new StringBuilder();
 
             while (true)
             {

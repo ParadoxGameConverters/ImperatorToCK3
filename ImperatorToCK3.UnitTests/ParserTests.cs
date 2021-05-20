@@ -1,9 +1,6 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using commonItems;
-using ImperatorToCK3;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using System.Runtime.CompilerServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 
 namespace ImperatorToCK3.UnitTests
 {
@@ -34,7 +31,8 @@ namespace ImperatorToCK3.UnitTests
             public string value;
             public Test(StreamReader streamReader)
             {
-                RegisterKeyword("key", (StreamReader sr, string k) => {
+                RegisterKeyword("key", (StreamReader sr, string k) =>
+                {
                     key = k;
                     value = new SingleString(sr).GetString();
                 });
@@ -68,7 +66,8 @@ namespace ImperatorToCK3.UnitTests
             public string value;
             public Test2(StreamReader streamReader)
             {
-                RegisterKeyword("\"key\"", (StreamReader sr, string k) => {
+                RegisterKeyword("\"key\"", (StreamReader sr, string k) =>
+                {
                     key = k;
                     value = new SingleString(sr).GetString();
                 });
@@ -132,7 +131,8 @@ namespace ImperatorToCK3.UnitTests
             public string value;
             public Test3(StreamReader streamReader)
             {
-                RegisterRegex("[key]+", (StreamReader sr, string k) => {
+                RegisterRegex("[key]+", (StreamReader sr, string k) =>
+                {
                     key = k;
                     value = new SingleString(sr).GetString();
                 });
@@ -147,6 +147,76 @@ namespace ImperatorToCK3.UnitTests
             var streamReader = new StreamReader(input);
             var test = new Test3(streamReader);
             Assert.AreEqual("\"key\"", test.key);
+            Assert.AreEqual("value", test.value);
+        }
+
+        public class Test4 : Parser
+        {
+            public string key;
+            public string value;
+            public Test4(StreamReader streamReader)
+            {
+                RegisterRegex("[k\"ey]+", (StreamReader sr, string k) =>
+                {
+                    key = k;
+                    value = new SingleString(sr).GetString();
+                });
+                ParseStream(streamReader);
+            }
+        };
+
+        [TestMethod]
+        public void QuotedRegexesAreQuotedlyMatched()
+        {
+            Stream input = Parser.GenerateStreamFromString("\"key\" = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test4(streamReader);
+            Assert.AreEqual("\"key\"", test.key);
+            Assert.AreEqual("value", test.value);
+        }
+
+        public class Test5 : Parser
+        {
+            public string key;
+            public string value;
+            public Test5(StreamReader streamReader)
+            {
+                RegisterRegex(CommonRegexes.Catchall, (StreamReader sr, string k) =>
+                {
+                    key = k;
+                    value = new SingleString(sr).GetString();
+                });
+                ParseStream(streamReader);
+            }
+        };
+
+        [TestMethod]
+        public void CatchAllCatchesQuotedKeys()
+        {
+            Stream input = Parser.GenerateStreamFromString("\"key\" = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test5(streamReader);
+            Assert.AreEqual("\"key\"", test.key);
+            Assert.AreEqual("value", test.value);
+        }
+
+        [TestMethod]
+        public void CatchAllCatchesQuotedKeysWithWhitespaceInside()
+        {
+            Stream input = Parser.GenerateStreamFromString("\"this\tis a\nkey\n\" = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test5(streamReader);
+            Assert.AreEqual("\"this\tis a key \"", test.key);
+            Assert.AreEqual("value", test.value);
+        }
+
+        [TestMethod]
+        public void CatchAllCatchesQuotedKeysWithFigurativeCrapInside()
+        {
+            Stream input = Parser.GenerateStreamFromString("\"this = is a silly { key\t} \" = value");
+            var streamReader = new StreamReader(input);
+            var test = new Test5(streamReader);
+            Assert.AreEqual("\"this = is a silly { key\t} \"", test.key);
             Assert.AreEqual("value", test.value);
         }
     }
