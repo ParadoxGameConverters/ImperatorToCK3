@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace commonItems
 {
-    public delegate void Del(BufferedStreamReader stream, string? keyword = null);
+    public delegate void Del(StreamReader stream, string? keyword = null);
 
     public class Parser
     {
@@ -36,7 +36,7 @@ namespace commonItems
             }
             return str.Substring(1, length - 2);
         }
-        public static void AbsorbBOM(BufferedStreamReader stream)
+        public static void AbsorbBOM(StreamReader stream)
         {
             var firstChar = stream.Peek();
             if (firstChar == '\xEF')
@@ -55,7 +55,7 @@ namespace commonItems
             registeredStuff.Add(new Regex(keyword), del);
         }
 
-        bool TryToMatchAgainstRegexes(string token, BufferedStreamReader stream)
+        bool TryToMatchAgainstRegexes(string token, StreamReader stream)
         {
             foreach (var (regex, fun) in registeredStuff) {
                 if (regex.IsMatch(token))
@@ -66,7 +66,7 @@ namespace commonItems
             return false;
         }
 
-        public static string GetNextLexeme(BufferedStreamReader stream)
+        public static string GetNextLexeme(StreamReader stream)
         {
             var sb = new StringBuilder();
 
@@ -76,12 +76,13 @@ namespace commonItems
 
             while (true)
             {
-                char inputChar = (char)stream.Read();
 
                 if (stream.EndOfStream)
                 {
                     break;
                 }
+
+                char inputChar = (char)stream.Read();
 
                 if (!inQuotes && inputChar == '#')
                 {
@@ -146,7 +147,7 @@ namespace commonItems
                     }
                     else
                     {
-                        stream.PushBack('{');
+                        ExtensionMethods.SetPosition(stream, -1);
                     }
                     break;
                 }
@@ -158,7 +159,7 @@ namespace commonItems
                     }
                     else
                     {
-                        stream.PushBack('}');
+                        ExtensionMethods.SetPosition(stream, -1);
                     }
                     break;
                 }
@@ -170,7 +171,7 @@ namespace commonItems
                     }
                     else
                     {
-                        stream.PushBack('='); // this is where I think it breaks (endofSstream is not changed)
+                        ExtensionMethods.SetPosition(stream, -1);
                     }
                     break;
                 }
@@ -181,11 +182,10 @@ namespace commonItems
 
                 previousCharacter = inputChar;
             }
-            Log.WriteLine(LogLevel.Debug, sb.ToString()); // TODO: REMOVE DEBUG
             return sb.ToString();
         }
 
-        public static string? GetNextTokenWithoutMatching(BufferedStreamReader sr)
+        public static string? GetNextTokenWithoutMatching(StreamReader sr)
         {
             string? toReturn = null;
             bool gotToken = false;
@@ -202,7 +202,7 @@ namespace commonItems
             return toReturn;
         }
 
-        public string? GetNextToken(BufferedStreamReader stream)
+        public string? GetNextToken(StreamReader stream)
         {
             var sb = new StringBuilder();
 
@@ -234,7 +234,7 @@ namespace commonItems
             return null;
         }
 
-        public void ParseStream(BufferedStreamReader stream)
+        public void ParseStream(StreamReader stream)
         {
             var braceDepth = 0;
             var value = false; // tracker to indicate whether we reached the value part of key=value pair
@@ -309,7 +309,7 @@ namespace commonItems
                 Log.WriteLine(LogLevel.Error, "Could not open " + filename + " for parsing");
                 return;
             }
-            var file = new BufferedStreamReader(File.OpenText(filename).BaseStream);
+            var file = new StreamReader(File.OpenText(filename).BaseStream);
             AbsorbBOM(file);
             ParseStream(file);
         }

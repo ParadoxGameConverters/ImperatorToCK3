@@ -9,7 +9,7 @@ namespace commonItems
 {
     public class SingleString : Parser
     {
-        public SingleString(BufferedStreamReader sr) {
+        public SingleString(StreamReader sr) {
             GetNextTokenWithoutMatching(sr); // equals sign
             var nextToken = GetNextTokenWithoutMatching(sr);
             if (nextToken == null)
@@ -25,6 +25,7 @@ namespace commonItems
         {
             return theString;
         }
-        string theString = "";
+
+        readonly string theString = "";
     }
 }
