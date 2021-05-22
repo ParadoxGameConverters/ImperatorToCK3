@@ -34,7 +34,7 @@ namespace ImperatorToCK3.UnitTests
                 RegisterKeyword("key", (StreamReader sr, string k) =>
                 {
                     key = k;
-                    value = new SingleString(sr).GetString();
+                    value = new SingleString(sr).String;
                 });
                 ParseStream(streamReader);
             }
@@ -69,7 +69,7 @@ namespace ImperatorToCK3.UnitTests
                 RegisterKeyword("\"key\"", (StreamReader sr, string k) =>
                 {
                     key = k;
-                    value = new SingleString(sr).GetString();
+                    value = new SingleString(sr).String;
                 });
                 ParseStream(streamReader);
             }
@@ -134,7 +134,7 @@ namespace ImperatorToCK3.UnitTests
                 RegisterRegex("[key]+", (StreamReader sr, string k) =>
                 {
                     key = k;
-                    value = new SingleString(sr).GetString();
+                    value = new SingleString(sr).String;
                 });
                 ParseStream(streamReader);
             }
@@ -159,7 +159,7 @@ namespace ImperatorToCK3.UnitTests
                 RegisterRegex("[k\"ey]+", (StreamReader sr, string k) =>
                 {
                     key = k;
-                    value = new SingleString(sr).GetString();
+                    value = new SingleString(sr).String;
                 });
                 ParseStream(streamReader);
             }
@@ -184,7 +184,7 @@ namespace ImperatorToCK3.UnitTests
                 RegisterRegex(CommonRegexes.Catchall, (StreamReader sr, string k) =>
                 {
                     key = k;
-                    value = new SingleString(sr).GetString();
+                    value = new SingleString(sr).String;
                 });
                 ParseStream(streamReader);
             }

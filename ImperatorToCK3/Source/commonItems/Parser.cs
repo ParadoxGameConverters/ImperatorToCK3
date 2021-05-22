@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.ComponentModel.Design;
-using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace commonItems
@@ -13,36 +9,11 @@ namespace commonItems
     public delegate void Del(StreamReader sr, string? keyword = null);
     public delegate void SimpleDel(StreamReader sr);
 
-    abstract class RegisteredKeywordOrRegex
-    {
-        public abstract bool Match(string token);
-    }
-
-    class RegisteredKeyword : RegisteredKeywordOrRegex
-    {
-        readonly string keyword;
-        public RegisteredKeyword(string keyword_) {
-            keyword = keyword_;
-        }
-        public override bool Match(string token) { return keyword == token; }
-    }
-
-    class RegisteredRegex : RegisteredKeywordOrRegex
-    {
-        readonly Regex regex;
-        public RegisteredRegex(string regex_) { regex = new Regex(regex_); }
-        public override bool Match(string token) {
-            var match = regex.Match(token);
-            return match.Success && match.Length == token.Length;
-        }
-    }
-
     abstract class AbstractDelegate
     {
         public abstract void Execute(StreamReader sr, string token);
     }
-
-    class TwoArgDelegate: AbstractDelegate
+    class TwoArgDelegate : AbstractDelegate
     {
         readonly Del del;
         public TwoArgDelegate(Del del_) { del = del_; }
@@ -51,7 +22,6 @@ namespace commonItems
             del(sr, token);
         }
     }
-
     class OneArgDelegate : AbstractDelegate
     {
         readonly SimpleDel del;
@@ -66,6 +36,30 @@ namespace commonItems
 
     public class Parser
     {
+        private abstract class RegisteredKeywordOrRegex
+        {
+            public abstract bool Match(string token);
+        }
+        private class RegisteredKeyword : RegisteredKeywordOrRegex
+        {
+            readonly string keyword;
+            public RegisteredKeyword(string keyword_)
+            {
+                keyword = keyword_;
+            }
+            public override bool Match(string token) { return keyword == token; }
+        }
+        private class RegisteredRegex : RegisteredKeywordOrRegex
+        {
+            readonly Regex regex;
+            public RegisteredRegex(string regex_) { regex = new Regex(regex_); }
+            public override bool Match(string token)
+            {
+                var match = regex.Match(token);
+                return match.Success && match.Length == token.Length;
+            }
+        }
+
         public static Stream GenerateStreamFromString(string s)
         {
             var stream = new MemoryStream();
@@ -122,7 +116,8 @@ namespace commonItems
 
         bool TryToMatch(string token, string strippedToken, bool isTokenQuoted, StreamReader stream)
         {
-            foreach (var (regex, fun) in registeredDict) {
+            foreach (var (regex, fun) in registeredDict)
+            {
                 if (regex.Match(token))
                 {
                     fun.Execute(stream, token);
