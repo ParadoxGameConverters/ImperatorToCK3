@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Numerics;
+using System.Collections.Generic;
 
 namespace commonItems
 {
@@ -69,26 +71,90 @@ namespace commonItems
                 String = RemQuotes(token);
             }
         }
-
         public string String { get; } = "";
     }
 
-    public class SingleInt : Parser
+    public class SingleInt
     {
         public SingleInt(StreamReader sr)
         {
-            GetNextTokenWithoutMatching(sr); // remove equals
-            var token = GetNextTokenWithoutMatching(sr);
-            if (token == null)
+            var intString = Parser.RemQuotes(new SingleString(sr).String);
+            if (!int.TryParse(intString, out int theInt))
             {
-                Log.WriteLine(LogLevel.Error, "SingleInt: next token not found!");
+                Log.WriteLine(LogLevel.Warning, "Could not convert string " + intString + " to int!");
+                return;
             }
-            else
-            {
-                Int = int.Parse(RemQuotes(token));
-            }
+            Int = theInt;
         }
-
         public int Int { get; }
+    }
+
+    public class SingleDouble
+    {
+        public SingleDouble(StreamReader sr)
+        {
+            var doubleString = Parser.RemQuotes(new SingleString(sr).String);
+            if (!double.TryParse(doubleString, out double theDouble))
+            {
+                Log.WriteLine(LogLevel.Warning, "Could not convert string " + doubleString + " to double!");
+                return;
+            }
+            Double = theDouble;
+        }
+        public double Double { get; }
+    }
+
+    public class StringList : Parser
+    {
+        public StringList(StreamReader sr)
+        {
+            RegisterKeyword(@"""""", (StreamReader sr) => {});
+            RegisterRegex(CommonRegexes.StringRegex, (StreamReader sr, string theString) =>
+            {
+                Strings.Add(theString);
+            });
+            RegisterRegex(CommonRegexes.QuotedString, (StreamReader sr, string theString) =>
+            {
+                Strings.Add(RemQuotes(theString));
+            });
+            ParseStream(sr);
+        }
+        public List<string> Strings { get; } = new List<string>();
+    }
+
+    public class IntList : Parser
+    {
+        public IntList(StreamReader sr)
+        {
+            RegisterRegex(CommonRegexes.Integer, (StreamReader sr, string intString) =>
+            {
+                Ints.Add(int.Parse(intString));
+            });
+            RegisterRegex(CommonRegexes.QuotedInteger, (StreamReader sr, string intString) =>
+            {
+                intString = intString[1..^1];
+                Ints.Add(int.Parse(intString));
+            });
+            ParseStream(sr);
+        }
+        public List<int> Ints { get; } = new List<int>();
+    }
+
+    public class DoubleList : Parser
+    {
+        public DoubleList(StreamReader sr)
+        {
+            RegisterRegex(CommonRegexes.Float, (StreamReader sr, string floatString) =>
+            {
+                Doubles.Add(double.Parse(floatString));
+            });
+            RegisterRegex(CommonRegexes.QuotedFloat, (StreamReader sr, string floatString) =>
+            {
+                floatString = floatString[1..^1];
+                Doubles.Add(double.Parse(floatString));
+            });
+            ParseStream(sr);
+        }
+        public List<double> Doubles { get; } = new List<double>();
     }
 }

@@ -11,7 +11,7 @@
         public const string Integer = @"-?\d+";
         public const string QuotedInteger = @"""-?\d+""";
         public const string Float = @"-?\d+(.\d+)?";
-        public const string quotedFloat = @"""-?\d+(.\d+)?""";
+        public const string QuotedFloat = @"""-?\d+(.\d+)?""";
 
         // strings
         public const string StringRegex = @"[^[:s:]^=^\{^\}^\""]+";

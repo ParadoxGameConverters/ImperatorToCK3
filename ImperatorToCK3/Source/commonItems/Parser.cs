@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace commonItems
 {
-    public delegate void Del(StreamReader sr, string? keyword = null);
+    public delegate void Del(StreamReader sr, string keyword);
     public delegate void SimpleDel(StreamReader sr);
 
     abstract class AbstractDelegate
@@ -386,6 +386,6 @@ namespace commonItems
             ParseStream(file);
         }
 
-        Dictionary<RegisteredKeywordOrRegex, AbstractDelegate> registeredDict = new();
+        readonly Dictionary<RegisteredKeywordOrRegex, AbstractDelegate> registeredDict = new();
     }
 }

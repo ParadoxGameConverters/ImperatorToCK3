@@ -1,28 +1,28 @@
-using commonItems;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using commonItems;
+using ImperatorToCK3;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests
 {
-    [TestClass]
     public class ParserTests
     {
-        [TestMethod]
+        [Fact]
         public void AbsorbBOMAbsorbsBOM()
         {
             Stream input = Parser.GenerateStreamFromString("\xEF\xBB\xBFMore text");
             var stream = new StreamReader(input);
             Parser.AbsorbBOM(stream);
-            Assert.AreEqual("More text", stream.ReadToEnd());
+            Assert.Equal("More text", stream.ReadToEnd());
         }
 
-        [TestMethod]
+        [Fact]
         public void AbsorbBOMDoesNotAbsorbNonBOM()
         {
             Stream input = Parser.GenerateStreamFromString("More text");
             var stream = new StreamReader(input);
             Parser.AbsorbBOM(stream);
-            Assert.AreEqual("More text", stream.ReadToEnd());
+            Assert.Equal("More text", stream.ReadToEnd());
         }
 
         public class Test : Parser
@@ -40,24 +40,24 @@ namespace ImperatorToCK3.UnitTests
             }
         };
 
-        [TestMethod]
+        [Fact]
         public void KeywordsAreMatched()
         {
             Stream input = Parser.GenerateStreamFromString("key = value");
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
-            Assert.AreEqual("key", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("key", test.key);
+            Assert.Equal("value", test.value);
         }
 
-        [TestMethod]
+        [Fact]
         public void QuotedKeywordsAreMatched()
         {
             Stream input = Parser.GenerateStreamFromString("\"key\" = value");
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
-            Assert.AreEqual("\"key\"", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("\"key\"", test.key);
+            Assert.Equal("value", test.value);
         }
 
         public class Test2 : Parser
@@ -75,54 +75,54 @@ namespace ImperatorToCK3.UnitTests
             }
         };
 
-        [TestMethod]
+        [Fact]
         public void QuotedKeywordsAreQuotedlyMatched()
         {
             Stream input = Parser.GenerateStreamFromString("\"key\" = value");
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
-            Assert.AreEqual("\"key\"", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("\"key\"", test.key);
+            Assert.Equal("value", test.value);
         }
 
-        [TestMethod]
+        [Fact]
         public void QuotedValuesAreParsed()
         {
             Stream input = Parser.GenerateStreamFromString(@"key = ""value quote""");
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
-            Assert.AreEqual("key", test.key);
-            Assert.AreEqual("value quote", test.value);
+            Assert.Equal("key", test.key);
+            Assert.Equal("value quote", test.value);
         }
 
-        [TestMethod]
+        [Fact]
         public void QuotedValuesWithEscapedQuotesAreParsed()
         {
             Stream input = Parser.GenerateStreamFromString(@"key = ""value \""quote\"" string""");
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
-            Assert.AreEqual("key", test.key);
-            Assert.AreEqual(@"value \""quote\"" string", test.value);
+            Assert.Equal("key", test.key);
+            Assert.Equal(@"value \""quote\"" string", test.value);
         }
 
-        [TestMethod]
+        [Fact]
         public void StringLiteralsAreParsed()
         {
             Stream input = Parser.GenerateStreamFromString(@"key = R""(value ""quote"" string)""");
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
-            Assert.AreEqual("key", test.key);
-            Assert.AreEqual(@"value ""quote"" string", test.value);
+            Assert.Equal("key", test.key);
+            Assert.Equal(@"value ""quote"" string", test.value);
         }
 
-        [TestMethod]
+        [Fact]
         public void WrongKeywordsAreIgnored()
         {
             Stream input = Parser.GenerateStreamFromString(@"wrongkey = value");
             var streamReader = new StreamReader(input);
             var test = new Test(streamReader);
-            Assert.IsTrue(string.IsNullOrEmpty(test.key));
-            Assert.IsTrue(string.IsNullOrEmpty(test.value));
+            Assert.True(string.IsNullOrEmpty(test.key));
+            Assert.True(string.IsNullOrEmpty(test.value));
         }
 
         public class Test3 : Parser
@@ -140,14 +140,14 @@ namespace ImperatorToCK3.UnitTests
             }
         };
 
-        [TestMethod]
+        [Fact]
         public void QuotedRegexesAreMatched()
         {
             Stream input = Parser.GenerateStreamFromString("\"key\" = value");
             var streamReader = new StreamReader(input);
             var test = new Test3(streamReader);
-            Assert.AreEqual("\"key\"", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("\"key\"", test.key);
+            Assert.Equal("value", test.value);
         }
 
         public class Test4 : Parser
@@ -165,14 +165,14 @@ namespace ImperatorToCK3.UnitTests
             }
         };
 
-        [TestMethod]
+        [Fact]
         public void QuotedRegexesAreQuotedlyMatched()
         {
             Stream input = Parser.GenerateStreamFromString("\"key\" = value");
             var streamReader = new StreamReader(input);
             var test = new Test4(streamReader);
-            Assert.AreEqual("\"key\"", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("\"key\"", test.key);
+            Assert.Equal("value", test.value);
         }
 
         public class Test5 : Parser
@@ -190,34 +190,34 @@ namespace ImperatorToCK3.UnitTests
             }
         };
 
-        [TestMethod]
+        [Fact]
         public void CatchAllCatchesQuotedKeys()
         {
             Stream input = Parser.GenerateStreamFromString("\"key\" = value");
             var streamReader = new StreamReader(input);
             var test = new Test5(streamReader);
-            Assert.AreEqual("\"key\"", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("\"key\"", test.key);
+            Assert.Equal("value", test.value);
         }
 
-        [TestMethod]
+        [Fact]
         public void CatchAllCatchesQuotedKeysWithWhitespaceInside()
         {
             Stream input = Parser.GenerateStreamFromString("\"this\tis a\nkey\n\" = value");
             var streamReader = new StreamReader(input);
             var test = new Test5(streamReader);
-            Assert.AreEqual("\"this\tis a key \"", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("\"this\tis a key \"", test.key);
+            Assert.Equal("value", test.value);
         }
 
-        [TestMethod]
+        [Fact]
         public void CatchAllCatchesQuotedKeysWithFigurativeCrapInside()
         {
             Stream input = Parser.GenerateStreamFromString("\"this = is a silly { key\t} \" = value");
             var streamReader = new StreamReader(input);
             var test = new Test5(streamReader);
-            Assert.AreEqual("\"this = is a silly { key\t} \"", test.key);
-            Assert.AreEqual("value", test.value);
+            Assert.Equal("\"this = is a silly { key\t} \"", test.key);
+            Assert.Equal("value", test.value);
         }
     }
 }
