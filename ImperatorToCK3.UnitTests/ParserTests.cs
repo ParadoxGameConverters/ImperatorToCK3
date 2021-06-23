@@ -25,7 +25,7 @@ namespace ImperatorToCK3.UnitTests
             Assert.Equal("More text", stream.ReadToEnd());
         }
 
-        public class Test : Parser
+        private class Test : Parser
         {
             public string key;
             public string value;
@@ -60,7 +60,7 @@ namespace ImperatorToCK3.UnitTests
             Assert.Equal("value", test.value);
         }
 
-        public class Test2 : Parser
+        private class Test2 : Parser
         {
             public string key;
             public string value;
@@ -80,7 +80,7 @@ namespace ImperatorToCK3.UnitTests
         {
             Stream input = Parser.GenerateStreamFromString("\"key\" = value");
             var streamReader = new StreamReader(input);
-            var test = new Test(streamReader);
+            var test = new Test2(streamReader);
             Assert.Equal("\"key\"", test.key);
             Assert.Equal("value", test.value);
         }
@@ -125,7 +125,7 @@ namespace ImperatorToCK3.UnitTests
             Assert.True(string.IsNullOrEmpty(test.value));
         }
 
-        public class Test3 : Parser
+        private class Test3 : Parser
         {
             public string key;
             public string value;
@@ -150,7 +150,7 @@ namespace ImperatorToCK3.UnitTests
             Assert.Equal("value", test.value);
         }
 
-        public class Test4 : Parser
+        private class Test4 : Parser
         {
             public string key;
             public string value;
@@ -175,7 +175,7 @@ namespace ImperatorToCK3.UnitTests
             Assert.Equal("value", test.value);
         }
 
-        public class Test5 : Parser
+        private class Test5 : Parser
         {
             public string key;
             public string value;
