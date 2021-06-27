@@ -64,7 +64,6 @@
     <SourcePath>$(SourcePath)</SourcePath>
     <LibraryWPath>$(LibraryWPath)</LibraryWPath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(UniversalCRT_IncludePath);$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <LinkIncremental>false</LinkIncremental>
     <RunCodeAnalysis>true</RunCodeAnalysis>
