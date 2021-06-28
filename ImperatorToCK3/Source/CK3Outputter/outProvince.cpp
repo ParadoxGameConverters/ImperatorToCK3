@@ -6,18 +6,18 @@
 std::ostream& CK3::operator<<(std::ostream& output, const Province& province) {
 	output << province.getID() << " = {\n";
 	if (!province.details.culture.empty()) {
-		output << "\t\t" << "culture = " << province.details.culture << "\n";
+		output << "\t" << "culture = " << province.details.culture << "\n";
 	}
 	if (!province.details.religion.empty()) {
-		output << "\t\t" << "religion = " << province.details.religion << "\n";
+		output << "\t" << "religion = " << province.details.religion << "\n";
 	}
-	output << "\t\t" << "holding = " << province.details.holding << "\n";
+	output << "\t" << "holding = " << province.details.holding << "\n";
 	if (!province.details.buildings.empty()) {
-		output << "\t\t" << "buildings = {\n";
+		output << "\t" << "buildings = {\n";
 		for (const auto& building : province.details.buildings) {
-			output << "\t\t\t" << building << "\n";
+			output << "\t\t" << building << "\n";
 		}
-		output << "\t\t" << "}\n";
+		output << "\t" << "}\n";
 	}
 	output << "}\n";
 	return output;
