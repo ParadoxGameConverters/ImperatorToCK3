@@ -19,7 +19,7 @@ using mappers::ReligionMapper;
 Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
 
 
-Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), details{otherProv.details} {}
+Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), baseProvinceID(otherProv.ID), details{otherProv.details} {}
 
 
 void Province::initializeFromImperator(const shared_ptr<Imperator::Province>& impProvince, const CultureMapper& cultureMapper, const ReligionMapper& religionMapper) {

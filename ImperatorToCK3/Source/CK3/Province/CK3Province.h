@@ -33,6 +33,7 @@ public:
 	                             const mappers::ReligionMapper& religionMapper);
 
 	[[nodiscard]] auto getID() const { return ID; }
+	[[nodiscard]] const auto& getBaseProvinceID() const { return baseProvinceID; }
 	[[nodiscard]] const auto& getReligion() const { return details.religion; }
 	[[nodiscard]] const auto& getCulture() const { return details.culture; }
 	[[nodiscard]] const auto& getHolding() const { return details.holding; }
@@ -54,6 +55,8 @@ private:
 	  std::shared_ptr<Title> ownerTitle;
 
 	  std::shared_ptr<Imperator::Province> imperatorProvince;
+
+	  std::optional<unsigned long long> baseProvinceID;
 };
 
 } // namespace CK3
