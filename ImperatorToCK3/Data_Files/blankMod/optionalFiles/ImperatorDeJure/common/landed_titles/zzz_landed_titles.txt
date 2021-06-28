@@ -1,4 +1,4 @@
-# Moving duchies according to I:R regions
+﻿# Moving duchies according to I:R regions
 # Moving kingdoms in I:R-ish Empires
 # Did NOT change India and Egypt/East Africa at all
 
