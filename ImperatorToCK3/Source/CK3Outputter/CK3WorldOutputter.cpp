@@ -71,7 +71,7 @@ void CK3::outputModFile(const std::string& outputName) {
 	modFile << "path = \"mod/" << outputName << "\"\n";
 	modFile << "replace_path = \"history/province_mapping\"\n";
 	modFile << "replace_path = \"history/provinces\"\n";
-	//modFile << "replace_path = \"history/titles\"\n";
+	modFile << "replace_path = \"history/titles\"\n";
 	modFile.close();
 }
 
