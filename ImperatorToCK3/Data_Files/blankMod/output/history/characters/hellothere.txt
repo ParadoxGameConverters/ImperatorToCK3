@@ -1,4 +1,4 @@
-converter_team = {
+﻿converter_team = {
 	name = CONVERTERS_TEAM
 	religion = catholic
 	culture = english
