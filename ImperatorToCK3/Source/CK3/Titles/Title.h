@@ -92,6 +92,8 @@ public:
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeJureVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeFactoVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
 
+	[[nodiscard]] auto kingdomContainsProvince(unsigned long long provinceID) const;
+
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
 private:
