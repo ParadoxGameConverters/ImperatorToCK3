@@ -329,6 +329,16 @@ std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassals
 	return deFactoVassalsAndBelow;
 }
 
+bool CK3::Title::kingdomContainsProvince(unsigned long long provinceID) const {
+	if (rank != TitleRank::kingdom) {
+		return false;
+	}
+
+	return std::ranges::any_of(deJureVassals, [&](const auto& deJureVassalItr) {
+		return deJureVassalItr.second->rank == TitleRank::duchy && deJureVassalItr.second->duchyContainsProvince(provinceID);
+	});
+}
+
 
 void CK3::Title::addHistory(const LandedTitles& landedTitles, TitleHistory titleHistory) {
 	history = std::move(titleHistory);

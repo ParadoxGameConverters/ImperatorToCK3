@@ -130,6 +130,12 @@ private:
 
 
 
+// used by kingdom titles only
+public:
+	[[nodiscard]] bool kingdomContainsProvince(unsigned long long provinceID) const;
+
+
+
 // used by duchy titles only
 public:
 	[[nodiscard]] bool duchyContainsProvince(unsigned long long provinceID) const;

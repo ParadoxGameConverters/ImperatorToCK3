@@ -42,7 +42,7 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputDynasties(outputName, CK3World.getDynasties());
 	
 	LOG(LogLevel::Info) << "<- Writing Provinces";
-	outputHistoryProvinces(outputName, CK3World.getProvinces());
+	outputHistoryProvinces(outputName, CK3World.getProvinces(), CK3World.getTitles());
 
 	LOG(LogLevel::Info) << "<- Writing Landed Titles";
 	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles(), theConfiguration.getImperatorDeJure());
@@ -85,7 +85,6 @@ void CK3::createModFolder(const std::string& outputName) {
 void CK3::createFolders(const std::string& outputName) {
 	commonItems::TryCreateFolder("output/" + outputName + "/history");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/titles");
-	commonItems::TryCreateFolder("output/" + outputName + "/history/titles/replace");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/characters");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/provinces");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/province_mapping");
