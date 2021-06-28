@@ -42,7 +42,7 @@ void CK3::outputWorld(const World& CK3World, const Configuration& theConfigurati
 	outputDynasties(outputName, CK3World.getDynasties());
 	
 	LOG(LogLevel::Info) << "<- Writing Provinces";
-	outputHistoryProvinces(outputName, CK3World.getProvinces());
+	outputHistoryProvinces(outputName, CK3World.getProvinces(), CK3World.getTitles());
 
 	LOG(LogLevel::Info) << "<- Writing Landed Titles";
 	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles(), theConfiguration.getImperatorDeJure());
@@ -71,7 +71,7 @@ void CK3::outputModFile(const std::string& outputName) {
 	modFile << "path = \"mod/" << outputName << "\"\n";
 	modFile << "replace_path = \"history/province_mapping\"\n";
 	modFile << "replace_path = \"history/provinces\"\n";
-	modFile << "replace_path = \"history/titles\"\n";
+	//modFile << "replace_path = \"history/titles\"\n";
 	modFile.close();
 }
 

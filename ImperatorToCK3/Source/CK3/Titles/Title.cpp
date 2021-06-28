@@ -329,7 +329,7 @@ std::map<std::string, std::shared_ptr<CK3::Title>> CK3::Title::getDeFactoVassals
 	return deFactoVassalsAndBelow;
 }
 
-auto CK3::Title::kingdomContainsProvince(unsigned long long provinceID) const {
+bool CK3::Title::kingdomContainsProvince(unsigned long long provinceID) const {
 	if (rank != TitleRank::kingdom) {
 		return false;
 	}

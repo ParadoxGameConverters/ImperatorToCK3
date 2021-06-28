@@ -92,8 +92,6 @@ public:
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeJureVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
 	[[nodiscard]] std::map<std::string, std::shared_ptr<Title>> getDeFactoVassalsAndBelow(const std::string& rankFilter = "bcdke") const;
 
-	[[nodiscard]] auto kingdomContainsProvince(unsigned long long provinceID) const;
-
 	friend std::ostream& operator<<(std::ostream& output, const Title& title);
 
 private:
@@ -129,6 +127,12 @@ private:
 	std::map<std::string, std::shared_ptr<Title>> deFactoVassals; // DIRECT de facto vassals
 	
 	std::map<std::string, std::shared_ptr<Title>> foundTitles;			// title name, title. Titles are only held here during loading of landed_titles, then they are cleared
+
+
+
+// used by kingdom titles only
+public:
+	[[nodiscard]] bool kingdomContainsProvince(unsigned long long provinceID) const;
 
 
 

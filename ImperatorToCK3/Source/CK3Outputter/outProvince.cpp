@@ -5,7 +5,6 @@
 
 std::ostream& CK3::operator<<(std::ostream& output, const Province& province) {
 	output << province.getID() << " = {\n";
-	output << "\t" << "867.1.1 = {\n"; // temporary workaround for replace_path in .mod not working #TODO(#33): remove when replace_path works
 	if (!province.details.culture.empty()) {
 		output << "\t\t" << "culture = " << province.details.culture << "\n";
 	}
@@ -20,7 +19,6 @@ std::ostream& CK3::operator<<(std::ostream& output, const Province& province) {
 		}
 		output << "\t\t" << "}\n";
 	}
-	output << "\t" << "}\n"; // temporary workaround for replace_path in .mod not working #TODO(#33): remove when replace_path works
 	output << "}\n";
 	return output;
 }
