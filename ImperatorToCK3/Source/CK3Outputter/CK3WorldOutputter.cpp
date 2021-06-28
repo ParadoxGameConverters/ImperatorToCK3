@@ -85,7 +85,6 @@ void CK3::createModFolder(const std::string& outputName) {
 void CK3::createFolders(const std::string& outputName) {
 	commonItems::TryCreateFolder("output/" + outputName + "/history");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/titles");
-	commonItems::TryCreateFolder("output/" + outputName + "/history/titles/replace");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/characters");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/provinces");
 	commonItems::TryCreateFolder("output/" + outputName + "/history/province_mapping");
