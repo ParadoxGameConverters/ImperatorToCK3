@@ -1,6 +1,5 @@
 #include <Magick++/Functions.h>
 #include "CK3Outputter/outVersion.h"
-#include "ConverterVersion.h"
 #include "ImperatorToCK3Converter.h"
 #include "Log.h"
 

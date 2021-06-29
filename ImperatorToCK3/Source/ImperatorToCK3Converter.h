@@ -1,11 +1,7 @@
 #ifndef IMPERATORTOCK3_CONVERTER_H
 #define IMPERATORTOCK3_CONVERTER_H
+#include "ConverterVersion.h"
 
-
-
-namespace commonItems {
-struct ConverterVersion;
-}
 
 void convertImperatorToCK3(const commonItems::ConverterVersion& converterVersion);
 
