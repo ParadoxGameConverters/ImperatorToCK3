@@ -543,6 +543,9 @@
     <ClCompile Include="..\ImperatorToCK3\Source\CK3Outputter\outCharacter.cpp">
       <Filter>Sources\CK3Outputter</Filter>
     </ClCompile>
+    <ClCompile Include="..\commonItems\ConverterVersion.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">

@@ -3,13 +3,13 @@
 
 
 
+#include "ConverterVersion.h"
 #include "Parser.h"
-
 
 
 class Configuration: commonItems::parser {
   public:
-	Configuration();
+	Configuration(const commonItems::ConverterVersion& converterVersion);
 	explicit Configuration(std::istream& theStream);
 
 	enum class IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 };
@@ -28,6 +28,8 @@ class Configuration: commonItems::parser {
 	void setOutputName();
 	void verifyImperatorPath() const;
 	void verifyCK3Path() const;
+	void verifyImperatorVersion(const commonItems::ConverterVersion& converterVersion) const;
+	void verifyCK3Version(const commonItems::ConverterVersion& converterVersion) const;
 
 	std::string SaveGamePath;
 	std::string ImperatorPath;
@@ -42,4 +44,4 @@ class Configuration: commonItems::parser {
 
 
 
-#endif // CONFIGURATION_H
+#endif	// CONFIGURATION_H
