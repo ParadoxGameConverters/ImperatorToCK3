@@ -112,7 +112,7 @@ void Configuration::verifyImperatorVersion(const commonItems::ConverterVersion& 
 	}
 	if (!converterVersion.getMaxSource().isLargerishThan(*ImpVersion)) {
 		Log(LogLevel::Error) << "Imperator version is v" << ImpVersion->toShortString() << ", converter requires maximum v"
-							 << converterVersion.getMinSource().toShortString() << "!";
+							 << converterVersion.getMaxSource().toShortString() << "!";
 		throw std::runtime_error("Converter vs Imperator installation mismatch!");
 	}
 }
