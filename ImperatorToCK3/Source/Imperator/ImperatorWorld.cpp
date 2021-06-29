@@ -59,31 +59,26 @@ Imperator::World::World(Configuration& theConfiguration, const commonItems::Conv
 		families = FamiliesBloc(theStream).getFamiliesFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << families.getFamilies().size() << " families.";
 	});
-
 	registerKeyword("character", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Characters";
 		characters = CharactersBloc(theStream, genes).getCharactersFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
 	});
-
 	registerKeyword("provinces", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Provinces";
 		provinces = Provinces(theStream);
 		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
 	});
-
 	registerKeyword("country", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Countries";
 		countries = CountriesBloc(theStream).getCountriesFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.";
 	});
-
 	registerKeyword("population", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Pops";
 		pops = PopsBloc(theStream).getPopsFromBloc();
 		LOG(LogLevel::Info) << ">> Loaded " << pops.getPops().size() << " pops.";
 	});
-
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
 	LOG(LogLevel::Info) << "-> Verifying Imperator save.";
@@ -93,6 +88,8 @@ Imperator::World::World(Configuration& theConfiguration, const commonItems::Conv
 	auto gameState = std::istringstream(saveGame.gameState);
 	parseStream(gameState);
 	clearRegisteredKeywords();
+
+	mods.loadModDirectory(theConfiguration);
 
 
 	LOG(LogLevel::Info) << "*** Building World ***";
@@ -182,7 +179,6 @@ void Imperator::World::processCompressedEncodedSave(const std::string& saveGameP
 	std::stringstream inStream;
 	inStream << saveFile.rdbuf();
 	const std::string inBinary(std::istreambuf_iterator<char>(inStream), {});
-
 	saveGame.gameState = rakaly::meltImperator(inBinary);
 }
 
