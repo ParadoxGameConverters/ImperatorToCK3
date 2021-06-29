@@ -62,7 +62,8 @@ void Province::setReligionFromImperator(const ReligionMapper& religionMapper) {
 	}*/
 	if (!religionSet) {
 		//Use default CK3 religion.
-		Log(LogLevel::Debug) << "Couldn't determine religion for province " << ID << ", using vanilla religion";
+		Log(LogLevel::Debug) << "Couldn't determine religion for province " << ID << " with source religion " << imperatorProvince->getReligion()
+							 << ", using vanilla religion";
 	}
 }
 
@@ -88,7 +89,7 @@ void Province::setCultureFromImperator(const CultureMapper& cultureMapper) {
 	}*/
 	if (!cultureSet) {
 		//Use default CK3 culture.
-		Log(LogLevel::Debug) << "Couldn't determine culture for province " << ID << ", using vanilla culture";
+		Log(LogLevel::Debug) << "Couldn't determine culture for province " << ID << " with source culture " << imperatorProvince->getCulture() << ", using vanilla culture";
 	}
 }
 
