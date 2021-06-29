@@ -24,7 +24,7 @@ namespace Imperator {
 
 class World: commonItems::parser {
   public:
-	explicit World(const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion);
+	explicit World(Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion);
 
 	[[nodiscard]] const auto& getEndDate() const { return endDate; }
 	[[nodiscard]] const auto& getFamilies() const { return families.getFamilies(); }
@@ -45,7 +45,6 @@ class World: commonItems::parser {
 	date endDate = date("727.2.17", true);
 	GameVersion ImperatorVersion;
 	std::set<std::string> DLCs;
-	std::set<std::string> Mods;
 
 	enum class SaveType { INVALID = 0, PLAINTEXT = 1, COMPRESSED_ENCODED = 2 };
 	struct saveData {

@@ -15,7 +15,7 @@
 
 namespace fs = std::filesystem;
 
-Imperator::World::World(const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
+Imperator::World::World(Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
 
 	parseGenes(theConfiguration);
@@ -41,18 +41,18 @@ Imperator::World::World(const Configuration& theConfiguration, const commonItems
 		endDate = date(dateString, true);  // converted to AD
 		Log(LogLevel::Info) << "<> Date: " << dateString;
 	});
-	/*registerKeyword("enabled_dlcs", [this](std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed
-		const commonItems::stringList dlcsList(theStream);
-		const auto& theDLCs = dlcsList.getStrings();
+	registerKeyword("enabled_dlcs", [this](std::istream& theStream) {
+		const auto& theDLCs = commonItems::stringList(theStream).getStrings();
 		DLCs.insert(theDLCs.begin(), theDLCs.end());
-		for (const auto& dlc : DLCs) LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
-	}); */
-	registerKeyword("enabled_mods", [this](std::istream& theStream) {
-		const commonItems::stringList modsList(theStream);
-		const auto& theMods = modsList.getStrings();
-		Mods.insert(theMods.begin(), theMods.end());
-		for (const auto& mod : Mods)
-			LOG(LogLevel::Info) << "<> Enabled mod: " << mod;
+		for (const auto& dlc : DLCs) {
+			LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
+		}
+	});
+	registerKeyword("enabled_mods", [&theConfiguration](std::istream& theStream) {
+		Log(LogLevel::Info) << "-> Detecting used mods.";
+		const auto modsList = commonItems::stringList(theStream).getStrings();
+		theConfiguration.setModFileNames(std::set(modsList.begin(), modsList.end()));
+		Log(LogLevel::Info) << "<> Savegame claims " << theConfiguration.getModFileNames().size() << " mods used.";
 	});
 	registerKeyword("family", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Families";

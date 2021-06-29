@@ -34,7 +34,7 @@ void logGameVersions(const std::string& imperatorPath, const std::string& ck3Pat
 
 
 void convertImperatorToCK3(const commonItems::ConverterVersion& converterVersion) {
-	const auto theConfiguration = Configuration(converterVersion);
+	auto theConfiguration = Configuration(converterVersion);
 
 	logGameVersions(theConfiguration.getImperatorPath(), theConfiguration.getCK3Path());
 

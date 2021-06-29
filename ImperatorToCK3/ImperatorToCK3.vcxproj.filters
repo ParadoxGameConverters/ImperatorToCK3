@@ -109,6 +109,9 @@
     <Filter Include="Mappers\DeathReasonMapper">
       <UniqueIdentifier>{8843f4f5-af76-4860-b3c3-bbbcc7f1274b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imperator\Mods">
+      <UniqueIdentifier>{5ba7d241-6b88-469f-ba44-9a8a21b7d87b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -412,6 +415,12 @@
     <ClInclude Include="Source\CommonUtilities\ContainerField.h">
       <Filter>CommonUtilities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Imperator\Mods\Mod.h">
+      <Filter>Imperator\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Imperator\Mods\Mods.h">
+      <Filter>Imperator\Mods</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -706,6 +715,12 @@
     </ClCompile>
     <ClCompile Include="Source\CommonUtilities\ContainerField.cpp">
       <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Mods\Mod.cpp">
+      <Filter>Imperator\Mods</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Imperator\Mods\Mods.cpp">
+      <Filter>Imperator\Mods</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
