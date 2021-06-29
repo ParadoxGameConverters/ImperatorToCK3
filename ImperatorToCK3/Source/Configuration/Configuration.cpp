@@ -38,7 +38,7 @@ void Configuration::registerKeys() {
 		Log(LogLevel::Info) << "Save Game set to: " << SaveGamePath;
 	});
 	registerKeyword("ImperatorDirectory", [this](std::istream& theStream) { ImperatorPath = commonItems::getString(theStream); });
-	registerKeyword("ImperatorModsDirectory", [this](std::istream& theStream) { ImperatorModsPath = commonItems::getString(theStream); });
+	registerKeyword("ImperatorDocDirectory", [this](std::istream& theStream) { ImperatorDocsPath = commonItems::getString(theStream); });
 	registerKeyword("CK3directory", [this](std::istream& theStream) { CK3Path = commonItems::getString(theStream); });
 	registerKeyword("CK3ModsDirectory", [this](std::istream& theStream) { CK3ModsPath = commonItems::getString(theStream); });
 	registerKeyword("output_name", [this](std::istream& theStream) {
