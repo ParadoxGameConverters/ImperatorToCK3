@@ -1,11 +1,7 @@
 #ifndef OUT_VERSION_H
 #define OUT_VERSION_H
+#include "ConverterVersion.h"
 
-
-
-namespace commonItems {
-struct ConverterVersion;
-} // namespace commonItems
 
 void logConverterVersion(const commonItems::ConverterVersion& versionParser);
 
