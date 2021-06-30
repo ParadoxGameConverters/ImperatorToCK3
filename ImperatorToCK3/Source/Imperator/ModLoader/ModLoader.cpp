@@ -63,7 +63,7 @@ void Imperator::ModLoader::loadImperatorModDirectory(const Configuration& config
 	for (const auto& usedModFilePath : incomingMods) {
 		const auto trimmedModFileName = trimPath(usedModFilePath);
 		if (!diskModNames.contains(trimmedModFileName)) {
-			Log(LogLevel::Warning) << "\t\tSavegame uses " << usedModFilePath
+			Log(LogLevel::Warning) << "\t\tSavegame uses " << trimmedModFileName
 								   << " which is not present on disk. Skipping at your risk, but this can greatly affect conversion.";
 			continue;
 		}
