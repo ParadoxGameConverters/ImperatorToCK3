@@ -7,6 +7,7 @@ add_definitions(-fprofile-arcs -ftest-coverage)
 
 # Link diretories
 link_directories(../ImperatorToCK3/Resources /usr/local/lib)
+add_subdirectory(../ZipLib)
 
 # Set the compiler options
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -g -O0 -Wall -fprofile-arcs --coverage")
