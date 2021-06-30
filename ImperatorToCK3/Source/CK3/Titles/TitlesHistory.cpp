@@ -10,13 +10,13 @@
 
 CK3::TitlesHistory::TitlesHistory(const std::string& folderPath) {
 	auto filenames = commonItems::GetAllFilesInFolderRecursive(folderPath);
-	LOG(LogLevel::Info) << "-> Parsing title history.";
+	Log(LogLevel::Info) << "-> Parsing title history.";
 	registerKeys();
 	for (const auto& fileName : filenames) {
 		parseFile(folderPath + "/" + fileName);
 	}
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> Loaded " << historyMap.size() << " title histories.";
+	Log(LogLevel::Info) << "<> Loaded " << historyMap.size() << " title histories.";
 }
 
 std::optional<CK3::TitleHistory> CK3::TitlesHistory::popTitleHistory(const std::string& titleName) {

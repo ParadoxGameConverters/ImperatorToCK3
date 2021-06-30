@@ -3,8 +3,10 @@
 
 
 
+#include <set>
 #include "ConverterVersion.h"
 #include "Parser.h"
+
 
 
 class Configuration: commonItems::parser {
@@ -16,7 +18,7 @@ class Configuration: commonItems::parser {
 
 	[[nodiscard]] const auto& getSaveGamePath() const { return SaveGamePath; }
 	[[nodiscard]] const auto& getImperatorPath() const { return ImperatorPath; }
-	[[nodiscard]] const auto& getImperatorModsPath() const { return ImperatorModsPath; }
+	[[nodiscard]] const auto& getImperatorDocsPath() const { return ImperatorDocsPath; }
 	[[nodiscard]] const auto& getCK3Path() const { return CK3Path; }
 	[[nodiscard]] const auto& getCK3ModsPath() const { return CK3ModsPath; }
 	[[nodiscard]] const auto& getOutputModName() const { return outputModName; }
@@ -33,7 +35,7 @@ class Configuration: commonItems::parser {
 
 	std::string SaveGamePath;
 	std::string ImperatorPath;
-	std::string ImperatorModsPath;
+	std::string ImperatorDocsPath;
 	std::string CK3Path;
 	std::string CK3ModsPath;
 	std::string outputModName;

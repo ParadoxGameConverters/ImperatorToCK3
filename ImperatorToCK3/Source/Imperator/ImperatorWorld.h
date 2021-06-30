@@ -11,6 +11,7 @@
 #include "Families/Families.h"
 #include "GameVersion.h"
 #include "Genes/GenesDB.h"
+#include "ModLoader/ModLoader.h"
 #include "Parser.h"
 #include "Provinces/Pops.h"
 #include "Provinces/Provinces.h"
@@ -27,6 +28,7 @@ class World: commonItems::parser {
 	explicit World(const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion);
 
 	[[nodiscard]] const auto& getEndDate() const { return endDate; }
+	[[nodiscard]] const auto& getMods() const { return mods; }
 	[[nodiscard]] const auto& getFamilies() const { return families.getFamilies(); }
 	[[nodiscard]] const auto& getCharacters() const { return characters.getCharacters(); }
 	[[nodiscard]] const auto& getProvinces() const { return provinces.getProvinces(); }
@@ -45,7 +47,6 @@ class World: commonItems::parser {
 	date endDate = date("727.2.17", true);
 	GameVersion ImperatorVersion;
 	std::set<std::string> DLCs;
-	std::set<std::string> Mods;
 
 	enum class SaveType { INVALID = 0, PLAINTEXT = 1, COMPRESSED_ENCODED = 2 };
 	struct saveData {
@@ -61,6 +62,8 @@ class World: commonItems::parser {
 	Pops pops;
 	Provinces provinces;
 	Countries countries;
+
+	Mods mods;
 };
 
 }  // namespace Imperator

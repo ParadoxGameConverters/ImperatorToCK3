@@ -18,12 +18,12 @@ requiredFolder = {
 	searchPathID = 859580
 }
 requiredFolder = {
-	name = ImperatorModsDirectory
-	displayName = IMPMOD
-	tooltip = IMPMODTIP
+	name = ImperatorDocDirectory
+	displayName = IMPDOC
+	tooltip = IMPDOCTIP
 	mandatory = true
 	searchPathType = windowsUsersFolder
-	searchPath = "Paradox Interactive\Imperator\mod"
+	searchPath = "Paradox Interactive\Imperator"
 }
 requiredFolder = {
 	name = CK3directory

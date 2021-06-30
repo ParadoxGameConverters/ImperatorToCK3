@@ -7,11 +7,11 @@
 
 
 mappers::GovernmentMapper::GovernmentMapper() {
-	LOG(LogLevel::Info) << "-> Parsing government mappings.";
+	Log(LogLevel::Info) << "-> Parsing government mappings.";
 	registerKeys();
 	parseFile("configurables/government_map.txt");
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> Loaded " << impToCK3GovernmentMap.size() << " government links.";
+	Log(LogLevel::Info) << "<> Loaded " << impToCK3GovernmentMap.size() << " government links.";
 }
 
 

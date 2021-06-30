@@ -25,42 +25,42 @@ void createFolders(const std::string& outputName);
 
 
 void CK3::outputWorld(const World& CK3World, const Configuration& theConfiguration) {
-	LOG(LogLevel::Info) << "<- Clearing the output mod folder";
+	Log(LogLevel::Info) << "<- Clearing the output mod folder";
 	std::filesystem::remove_all("output/" + theConfiguration.getOutputModName());
 	
 	const auto& outputName = theConfiguration.getOutputModName();
 	createModFolder(outputName);
 	outputModFile(outputName);
 
-	LOG(LogLevel::Info) << "<- Creating folders";
+	Log(LogLevel::Info) << "<- Creating folders";
 	createFolders(outputName);
 
-	LOG(LogLevel::Info) << "<- Writing Characters";
+	Log(LogLevel::Info) << "<- Writing Characters";
 	outputCharacters(outputName, CK3World.getCharacters());
 
-	LOG(LogLevel::Info) << "<- Writing Dynasties";
+	Log(LogLevel::Info) << "<- Writing Dynasties";
 	outputDynasties(outputName, CK3World.getDynasties());
 	
-	LOG(LogLevel::Info) << "<- Writing Provinces";
+	Log(LogLevel::Info) << "<- Writing Provinces";
 	outputHistoryProvinces(outputName, CK3World.getProvinces(), CK3World.getTitles());
 
-	LOG(LogLevel::Info) << "<- Writing Landed Titles";
+	Log(LogLevel::Info) << "<- Writing Landed Titles";
 	outputTitles(outputName, theConfiguration.getCK3Path(), CK3World.getTitles(), theConfiguration.getImperatorDeJure());
 
-	LOG(LogLevel::Info) << "<- Writing Localization";
+	Log(LogLevel::Info) << "<- Writing Localization";
 	outputLocalization(theConfiguration.getImperatorPath(), outputName, CK3World, theConfiguration.getImperatorDeJure());
 
-	LOG(LogLevel::Info) << "<- Copying named colors";
+	Log(LogLevel::Info) << "<- Copying named colors";
 	commonItems::TryCopyFile(theConfiguration.getImperatorPath()+"/game/common/named_colors/default_colors.txt",
 							 "output/" + theConfiguration.getOutputModName() + "/common/named_colors/imp_colors.txt");
 
-	LOG(LogLevel::Info) << "<- Copying Coats of Arms";
+	Log(LogLevel::Info) << "<- Copying Coats of Arms";
 	copyColoredEmblems(theConfiguration, outputName);
 	outputCoas(outputName, CK3World.getTitles());
 	commonItems::CopyFolder(theConfiguration.getImperatorPath() + "/game/gfx/coat_of_arms/patterns",
 							"output/" + theConfiguration.getOutputModName() + "/gfx/coat_of_arms/patterns");
 
-	LOG(LogLevel::Info) << "<- Copying blankMod files to output";
+	Log(LogLevel::Info) << "<- Copying blankMod files to output";
 	commonItems::CopyFolder("blankMod/output", "output/" + theConfiguration.getOutputModName());
 }
 

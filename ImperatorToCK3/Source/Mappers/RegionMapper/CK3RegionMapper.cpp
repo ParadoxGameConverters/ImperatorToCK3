@@ -17,7 +17,7 @@ namespace fs = std::filesystem;
 
 
 mappers::CK3RegionMapper::CK3RegionMapper(const std::string& ck3Path, CK3::LandedTitles& landedTitles) {
-	LOG(LogLevel::Info) << "-> Initializing Geography";
+	Log(LogLevel::Info) << "-> Initializing Geography";
 	
 	auto regionFilename = ck3Path + "/game/map_data/geographical_region.txt";
 	auto islandRegionFilename = ck3Path + "/game/map_data/island_region.txt";

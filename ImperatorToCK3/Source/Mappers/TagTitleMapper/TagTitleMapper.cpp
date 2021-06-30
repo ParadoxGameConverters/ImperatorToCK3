@@ -7,11 +7,11 @@
 
 
 mappers::TagTitleMapper::TagTitleMapper() {
-	LOG(LogLevel::Info) << "-> Parsing Title mappings";
+	Log(LogLevel::Info) << "-> Parsing Title mappings";
 	registerKeys();
 	parseFile("configurables/title_map.txt");
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> " << theMappings.size() << " title mappings loaded.";
+	Log(LogLevel::Info) << "<> " << theMappings.size() << " title mappings loaded.";
 }
 
 

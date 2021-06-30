@@ -130,6 +130,18 @@
     <Filter Include="Sources\CK3Outputter">
       <UniqueIdentifier>{4db30bce-7d0e-4982-bab0-82d11150afad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImperatorWorldTests\ModLoaderTests">
+      <UniqueIdentifier>{89000bd5-fe74-45bc-82d1-7e3825217a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Imperator\ModLoader">
+      <UniqueIdentifier>{a3c8f1f4-3f07-4fe6-a159-f06c14402f10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\mod">
+      <UniqueIdentifier>{3bb10585-d6c4-44d7-a498-8ca0b9987ad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\mod\themod">
+      <UniqueIdentifier>{2a75fe57-eb1b-4796-8b22-192f62b450a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -546,6 +558,18 @@
     <ClCompile Include="..\commonItems\ConverterVersion.cpp">
       <Filter>Sources\commonItems</Filter>
     </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\ModLoader\ModLoader.cpp">
+      <Filter>Sources\Imperator\ModLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImperatorToCK3\Source\Imperator\ModLoader\ModParser.cpp">
+      <Filter>Sources\Imperator\ModLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\ModLoaderTests\ModLoaderTests.cpp">
+      <Filter>ImperatorWorldTests\ModLoaderTests</Filter>
+    </ClCompile>
+    <ClCompile Include="ImperatorWorldTests\ModLoaderTests\ModParserTests.cpp">
+      <Filter>ImperatorWorldTests\ModLoaderTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
@@ -576,6 +600,24 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\TitlesHistory.txt">
       <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\themod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\packedmod.zip">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\packedmod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\missingmod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\brokenmod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\themod\README.md">
+      <Filter>TestFiles\mod\themod</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

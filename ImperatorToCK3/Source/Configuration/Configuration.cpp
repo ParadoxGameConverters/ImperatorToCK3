@@ -12,7 +12,7 @@ auto laFabricaDeColor = commonItems::Color::Factory{};
 
 
 Configuration::Configuration(const commonItems::ConverterVersion& converterVersion) {
-	LOG(LogLevel::Info) << "Reading configuration file";
+	Log(LogLevel::Info) << "Reading configuration file";
 	registerKeys();
 	parseFile("configuration.txt");
 	clearRegisteredKeywords();
@@ -38,7 +38,7 @@ void Configuration::registerKeys() {
 		Log(LogLevel::Info) << "Save Game set to: " << SaveGamePath;
 	});
 	registerKeyword("ImperatorDirectory", [this](std::istream& theStream) { ImperatorPath = commonItems::getString(theStream); });
-	registerKeyword("ImperatorModsDirectory", [this](std::istream& theStream) { ImperatorModsPath = commonItems::getString(theStream); });
+	registerKeyword("ImperatorDocDirectory", [this](std::istream& theStream) { ImperatorDocsPath = commonItems::getString(theStream); });
 	registerKeyword("CK3directory", [this](std::istream& theStream) { CK3Path = commonItems::getString(theStream); });
 	registerKeyword("CK3ModsDirectory", [this](std::istream& theStream) { CK3ModsPath = commonItems::getString(theStream); });
 	registerKeyword("output_name", [this](std::istream& theStream) {
@@ -71,7 +71,7 @@ void Configuration::verifyImperatorPath() const {
 		throw std::runtime_error(ImperatorPath + " does not exist!");
 	if (!commonItems::DoesFileExist(ImperatorPath + "/binaries/imperator.exe"))
 		throw std::runtime_error(ImperatorPath + " does not contain Imperator: Rome!");
-	LOG(LogLevel::Info) << "\tI:R install path is " << ImperatorPath;
+	Log(LogLevel::Info) << "\tI:R install path is " << ImperatorPath;
 }
 
 
@@ -80,7 +80,7 @@ void Configuration::verifyCK3Path() const {
 		throw std::runtime_error(CK3Path + " does not exist!");
 	if (!commonItems::DoesFileExist(CK3Path + "/binaries/ck3.exe"))
 		throw std::runtime_error(CK3Path + " does not contain Crusader Kings III!");
-	LOG(LogLevel::Info) << "\tCK3 install path is " << CK3Path;
+	Log(LogLevel::Info) << "\tCK3 install path is " << CK3Path;
 }
 
 
@@ -93,7 +93,7 @@ void Configuration::setOutputName() {
 	outputModName = replaceCharacter(outputModName, ' ');
 
 	outputModName = commonItems::normalizeUTF8Path(outputModName);
-	LOG(LogLevel::Info) << "Using output name " << outputModName;
+	Log(LogLevel::Info) << "Using output name " << outputModName;
 }
 
 void Configuration::verifyImperatorVersion(const commonItems::ConverterVersion& converterVersion) const {

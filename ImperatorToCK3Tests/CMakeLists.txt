@@ -1,12 +1,14 @@
 cmake_minimum_required (VERSION 3.13)
 project(ImperatorToCK3Tests)
-SET(CMAKE_CXX_COMPILER g++-11)
 
 # add definitions
 add_definitions(-fprofile-arcs -ftest-coverage)
 
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR})
+
 # Link diretories
 link_directories(../ImperatorToCK3/Resources /usr/local/lib)
+add_subdirectory(../ZipLib [binary_dir])
 
 # Set the compiler options
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -g -O0 -Wall -fprofile-arcs --coverage")
@@ -131,5 +133,6 @@ target_link_libraries(ImperatorToCK3Tests LINK_PUBLIC
 	gtest
 	pthread
 	rakaly
+	ZIPLIB
 	-fprofile-arcs
 )
