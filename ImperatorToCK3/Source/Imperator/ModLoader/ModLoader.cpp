@@ -44,7 +44,7 @@ void Imperator::ModLoader::loadMods(const Configuration& configuration, const Mo
 
 			// All verified mods go into usableMods
 			Log(LogLevel::Info) << "\t\t->> Found potentially useful [" << usedModName << "]: " << *possibleModPath + "/";
-			usableMods.insert(std::pair(usedModName, *possibleModPath + "/"));
+			usableMods.emplace(usedModName, *possibleModPath + "/");
 		} else {
 			Log(LogLevel::Warning) << "\t\tNo path could be found for " << usedModName
 								   << ". Check that the mod is present and that the .mod file specifies the path for the mod";
@@ -55,7 +55,7 @@ void Imperator::ModLoader::loadMods(const Configuration& configuration, const Mo
 void Imperator::ModLoader::loadImperatorModDirectory(const Configuration& configuration, const ModPaths& incomingMods) {
 	const auto& imperatorModsPath = configuration.getImperatorDocsPath() + "/mod";
 	if (!commonItems::DoesFolderExist(imperatorModsPath))
-		throw std::invalid_argument("Imperator: Rome mods directory path is invalid! Is it at: " + configuration.getImperatorDocsPath() + "/mod/ ?");
+		throw std::invalid_argument("Imperator: Rome mods directory path is invalid! Is it at: " + imperatorModsPath + " ?");
 
 	Log(LogLevel::Info) << "\tImperator: Rome mods directory is " << imperatorModsPath;
 
@@ -63,8 +63,8 @@ void Imperator::ModLoader::loadImperatorModDirectory(const Configuration& config
 	for (const auto& usedModFilePath : incomingMods) {
 		const auto trimmedModFileName = trimPath(usedModFilePath);
 		if (!diskModNames.contains(trimmedModFileName)) {
-			Log(LogLevel::Warning) << "\t\tSavegame uses " << usedModFilePath << " at " << usedModFilePath
-								   << " which is not present on disk.  Skipping at your risk, but this can greatly affect conversion.";
+			Log(LogLevel::Warning) << "\t\tSavegame uses " << trimmedModFileName
+								   << " which is not present on disk. Skipping at your risk, but this can greatly affect conversion.";
 			continue;
 		}
 		if (getExtension(trimmedModFileName) != "mod") {
@@ -93,7 +93,7 @@ void Imperator::ModLoader::loadImperatorModDirectory(const Configuration& config
 					}
 				}
 
-				possibleMods.insert(std::make_pair(theMod.getName(), theMod.getPath()));
+				possibleMods.emplace(theMod.getName(), theMod.getPath());
 				Log(LogLevel::Info) << "\t\tFound potential mod named " << theMod.getName() << " with a mod file at " << imperatorModsPath + "/" + trimmedModFileName
 									<< " and itself at " << theMod.getPath();
 			} else {
@@ -108,7 +108,7 @@ void Imperator::ModLoader::loadImperatorModDirectory(const Configuration& config
 						continue;
 					}
 				}
-				possibleCompressedMods.insert(std::make_pair(theMod.getName(), theMod.getPath()));
+				possibleCompressedMods.emplace(theMod.getName(), theMod.getPath());
 				Log(LogLevel::Info) << "\t\tFound a compressed mod named " << theMod.getName() << " with a mod file at " << imperatorModsPath << "/"
 									<< trimmedModFileName << " and itself at " << theMod.getPath();
 			}
