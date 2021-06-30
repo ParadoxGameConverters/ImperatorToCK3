@@ -15,7 +15,7 @@
 
 namespace fs = std::filesystem;
 
-Imperator::World::World(Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
+Imperator::World::World(const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
 	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
 
 	parseGenes(theConfiguration);

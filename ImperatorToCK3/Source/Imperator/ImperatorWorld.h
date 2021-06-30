@@ -25,7 +25,7 @@ namespace Imperator {
 
 class World: commonItems::parser {
   public:
-	explicit World(Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion);
+	explicit World(const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion);
 
 	[[nodiscard]] const auto& getEndDate() const { return endDate; }
 	[[nodiscard]] const auto& getMods() const { return mods; }

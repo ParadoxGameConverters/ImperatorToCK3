@@ -14,8 +14,6 @@ using testing::UnorderedElementsAre;
 TEST(ImperatorWorld_ModLoaderTests, ModsCanBeLocatedUnpackedAndUpdated) {
 	std::stringstream configurationInput;
 	configurationInput << "ImperatorDocDirectory = \"TestFiles\"\n";
-	//configurationInput << "ImperatorDirectory = \"TestFiles/eu4installation\"\n";
-	//configurationInput << "CK3directory = \"TestFiles/vic3installation\"\n";
 	const auto configuration = Configuration(configurationInput);
 
 	Imperator::ModPaths mods;						 // this is what comes from the save
@@ -31,8 +29,6 @@ TEST(ImperatorWorld_ModLoaderTests, ModsCanBeLocatedUnpackedAndUpdated) {
 TEST(ImperatorWorld_ModLoaderTests, BrokenMissingAndNonexistentModsAreDiscarded) {
 	std::stringstream configurationInput;
 	configurationInput << "ImperatorDocDirectory = \"TestFiles\"\n";
-	//configurationInput << "ImperatorDirectory = \"TestFiles/eu4installation\"\n";
-	//configurationInput << "CK3directory = \"TestFiles/vic3installation\"\n";
 	const auto configuration = Configuration(configurationInput);
 
 	Imperator::ModPaths mods;
@@ -51,8 +47,6 @@ TEST(ImperatorWorld_ModLoaderTests, BrokenMissingAndNonexistentModsAreDiscarded)
 TEST(ImperatorWorld_ModLoaderTests, CompressedModsCanBeUnpacked) {
 	std::stringstream configurationInput;
 	configurationInput << "ImperatorDocDirectory = \"TestFiles\"\n";
-	//configurationInput << "ImperatorDirectory = \"TestFiles/eu4installation\"\n";
-	//configurationInput << "CK3directory = \"TestFiles/vic3installation\"\n";
 	const auto configuration = Configuration(configurationInput);
 
 	Imperator::ModPaths mods;
