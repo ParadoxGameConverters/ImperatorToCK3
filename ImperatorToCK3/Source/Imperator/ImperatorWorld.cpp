@@ -48,11 +48,18 @@ Imperator::World::World(Configuration& theConfiguration, const commonItems::Conv
 			LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
 		}
 	});
-	registerKeyword("enabled_mods", [&theConfiguration](std::istream& theStream) {
+	registerKeyword("enabled_mods", [&](std::istream& theStream) {
 		Log(LogLevel::Info) << "-> Detecting used mods.";
 		const auto modsList = commonItems::stringList(theStream).getStrings();
-		theConfiguration.setModFileNames(std::set(modsList.begin(), modsList.end()));
-		Log(LogLevel::Info) << "<> Savegame claims " << theConfiguration.getModFileNames().size() << " mods used.";
+		Log(LogLevel::Info) << "<> Savegame claims " << modsList.size() << " mods used:";
+		for (const auto& modPath : modsList) {
+			Log(LogLevel::Info) << "Used mod: " << modPath;
+		}
+
+		// Let's locate, verify and potentially update those mods immediately.
+		ModLoader modLoader;
+		modLoader.loadMods(theConfiguration, modsList);
+		mods = modLoader.getMods();
 	});
 	registerKeyword("family", [this](std::istream& theStream) {
 		LOG(LogLevel::Info) << "-> Loading Families";
@@ -88,8 +95,6 @@ Imperator::World::World(Configuration& theConfiguration, const commonItems::Conv
 	auto gameState = std::istringstream(saveGame.gameState);
 	parseStream(gameState);
 	clearRegisteredKeywords();
-
-	mods.loadModDirectory(theConfiguration);
 
 
 	LOG(LogLevel::Info) << "*** Building World ***";

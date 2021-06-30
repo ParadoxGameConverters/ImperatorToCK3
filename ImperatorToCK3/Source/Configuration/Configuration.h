@@ -22,11 +22,8 @@ class Configuration: commonItems::parser {
 	[[nodiscard]] const auto& getCK3Path() const { return CK3Path; }
 	[[nodiscard]] const auto& getCK3ModsPath() const { return CK3ModsPath; }
 	[[nodiscard]] const auto& getOutputModName() const { return outputModName; }
-	[[nodiscard]] const auto& getModFileNames() const { return modFileNames; }
 	[[nodiscard]] const auto& getImperatorDeJure() const { return imperatorDeJure; }
 	[[nodiscard]] const auto& getConvertBirthAndDeathDates() const { return convertBirthAndDeathDates; }
-
-	void setModFileNames(const std::set<std::string>& mods) { modFileNames = mods; }
 
   private:
 	void registerKeys();
@@ -45,8 +42,6 @@ class Configuration: commonItems::parser {
 
 	IMPERATOR_DE_JURE imperatorDeJure = IMPERATOR_DE_JURE::NO;
 	bool convertBirthAndDeathDates = true;
-
-	std::set<std::string> modFileNames;
 };
 
 

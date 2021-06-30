@@ -11,7 +11,7 @@
 #include "Families/Families.h"
 #include "GameVersion.h"
 #include "Genes/GenesDB.h"
-#include "Mods/Mods.h"
+#include "ModLoader/ModLoader.h"
 #include "Parser.h"
 #include "Provinces/Pops.h"
 #include "Provinces/Provinces.h"

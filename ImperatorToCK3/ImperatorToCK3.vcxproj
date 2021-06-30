@@ -195,8 +195,8 @@
     <ClCompile Include="Source\Imperator\Genes\AccessoryGeneTemplate.cpp" />
     <ClCompile Include="Source\Imperator\Genes\WeightBlock.cpp" />
     <ClCompile Include="Source\Imperator\ImperatorWorld.cpp" />
-    <ClCompile Include="Source\Imperator\Mods\Mod.cpp" />
-    <ClCompile Include="Source\Imperator\Mods\Mods.cpp" />
+    <ClCompile Include="Source\Imperator\ModLoader\ModLoader.cpp" />
+    <ClCompile Include="Source\Imperator\ModLoader\ModParser.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\PopFactory.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Pops.cpp" />
     <ClCompile Include="Source\Imperator\Provinces\Province.cpp" />
@@ -300,8 +300,8 @@
     <ClInclude Include="Source\Imperator\Genes\AccessoryGeneTemplate.h" />
     <ClInclude Include="Source\Imperator\Genes\WeightBlock.h" />
     <ClInclude Include="Source\Imperator\ImperatorWorld.h" />
-    <ClInclude Include="Source\Imperator\Mods\Mod.h" />
-    <ClInclude Include="Source\Imperator\Mods\Mods.h" />
+    <ClInclude Include="Source\Imperator\ModLoader\ModLoader.h" />
+    <ClInclude Include="Source\Imperator\ModLoader\ModParser.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pop.h" />
     <ClInclude Include="Source\Imperator\Provinces\PopFactory.h" />
     <ClInclude Include="Source\Imperator\Provinces\Pops.h" />
