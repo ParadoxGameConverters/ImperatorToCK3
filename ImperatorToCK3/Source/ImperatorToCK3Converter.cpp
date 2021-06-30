@@ -42,5 +42,5 @@ void convertImperatorToCK3(const commonItems::ConverterVersion& converterVersion
 	const CK3::World ck3World(impWorld, theConfiguration, converterVersion);
 	outputWorld(ck3World, theConfiguration);
 
-	LOG(LogLevel::Info) << "* Conversion complete *";
+	Log(LogLevel::Info) << "* Conversion complete *";
 }

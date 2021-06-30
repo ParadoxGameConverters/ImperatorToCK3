@@ -7,11 +7,11 @@
 
 
 mappers::TraitMapper::TraitMapper() {
-	LOG(LogLevel::Info) << "-> Parsing trait mappings.";
+	Log(LogLevel::Info) << "-> Parsing trait mappings.";
 	registerKeys();
 	parseFile("configurables/trait_map.txt");
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> Loaded " << impToCK3TraitMap.size() << " trait links.";
+	Log(LogLevel::Info) << "<> Loaded " << impToCK3TraitMap.size() << " trait links.";
 }
 
 

@@ -9,7 +9,7 @@
 
 
 void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theConfiguration, const std::map<std::string, std::string>& mods) {
-	LOG(LogLevel::Info) << "-> Reading Words";
+	Log(LogLevel::Info) << "-> Reading Words";
 
 	scrapeLanguage("english", theConfiguration.getImperatorPath() + "/game/localization");
 	scrapeLanguage("french", theConfiguration.getImperatorPath() + "/game/localization");
@@ -30,7 +30,7 @@ void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theCo
 		}
 	}
 
-	LOG(LogLevel::Info) << ">> " << localizations.size() << " words read.";
+	Log(LogLevel::Info) << ">> " << localizations.size() << " words read.";
 }
 
 

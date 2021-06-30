@@ -7,11 +7,11 @@
 
 
 mappers::NicknameMapper::NicknameMapper() {
-	LOG(LogLevel::Info) << "-> Parsing nickname mappings.";
+	Log(LogLevel::Info) << "-> Parsing nickname mappings.";
 	registerKeys();
 	parseFile("configurables/nickname_map.txt");
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> Loaded " << impToCK3NicknameMap.size() << " nickname links.";
+	Log(LogLevel::Info) << "<> Loaded " << impToCK3NicknameMap.size() << " nickname links.";
 }
 
 

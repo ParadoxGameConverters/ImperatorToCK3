@@ -34,6 +34,6 @@ const std::pair<const std::string, Imperator::AccessoryGeneTemplate>& Imperator:
 		if (geneTemplateItr.second.getIndex() == indexInDna)
 			return geneTemplateItr;
 	}
-	LOG(LogLevel::Warning) << "Could not find gene template by index from DNA";
+	Log(LogLevel::Warning) << "Could not find gene template by index from DNA";
 	return *geneTemplates.begin(); // fallback: return first element
 }
