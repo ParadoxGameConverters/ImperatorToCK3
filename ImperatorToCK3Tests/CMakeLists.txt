@@ -131,5 +131,6 @@ target_link_libraries(ImperatorToCK3Tests LINK_PUBLIC
 	gtest
 	pthread
 	rakaly
+	ZIPLIB
 	-fprofile-arcs
 )
