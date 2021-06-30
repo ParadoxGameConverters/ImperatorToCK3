@@ -1,5 +1,6 @@
 # Version info
 
+name = "Caligula"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
