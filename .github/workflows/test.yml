@@ -66,6 +66,8 @@ jobs:
        cmake -H. -Bbuild && cmake --build build -- -j3
     - name: "Run Tests"
       run: |
+       pwd
+       ls -al
        cd build
        ./ImperatorToCK3Tests
     - name: "Build gcov and lcov"
