@@ -1,6 +1,5 @@
 cmake_minimum_required (VERSION 3.13)
 project(ImperatorToCK3Tests)
-SET(CMAKE_CXX_COMPILER /usr/local/bin/g++)
 
 # add definitions
 add_definitions(-fprofile-arcs -ftest-coverage)
