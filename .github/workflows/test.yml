@@ -50,6 +50,7 @@ jobs:
        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
        sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
+       sudo ln -s /usr/bin/lcov /usr/local/bin/lcov
     - name: "Export CC and CXX to tell cmake which compiler to use"
       run: |
        export CC=/usr/bin/gcc-11
@@ -66,22 +67,16 @@ jobs:
        cmake -H. -Bbuild && cmake --build build -- -j3
     - name: "Run Tests"
       run: |
-       pwd
-       ls -al
        cd ImperatorToCK3Tests/build
        ./ImperatorToCK3Tests
     - name: "Build gcov and lcov"
       run: |
-       pwd
-       ls -al
        cd ImperatorToCK3Tests/build
        make init
        make gcov
        make lcov
     - name: "Check test coverage"
       run: |
-       pwd
-       ls -al
        cd ImperatorToCK3Tests/build
        lcov --directory . --capture --output-file coverage.info
        lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
