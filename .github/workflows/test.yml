@@ -49,7 +49,7 @@ jobs:
       run: |
        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
-       sudo ln -s /usr/bin/gcov /usr/local/bin/gcov
+       sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
     - name: "Export CC and CXX to tell cmake which compiler to use"
       run: |
        export CC=/usr/bin/gcc-11
