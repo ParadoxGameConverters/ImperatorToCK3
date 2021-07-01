@@ -50,8 +50,7 @@ jobs:
        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
        sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
        sudo ln -s /usr/bin/lcov /usr/local/bin/lcov
-       ls -al /usr/bin/
-       ls -al /usr/local/bin/
+       sudo ln -s /usr/bin/geninfo /usr/local/bin/geninfo
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
