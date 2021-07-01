@@ -44,15 +44,6 @@ jobs:
     - name: "Install GCC 11"
       run: |
        sudo apt install gcc-11 g++-11
-    - name: "Link gcc-11, g++-11 and gcov-11 to their standard commands"
-      run: |
-       sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
-       sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
-       sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
-    - name: "Export CC and CXX to tell cmake which compiler to use"
-      run: |
-       export CC=/usr/bin/gcc-11
-       export CXX=/usr/bin/g++-11
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
