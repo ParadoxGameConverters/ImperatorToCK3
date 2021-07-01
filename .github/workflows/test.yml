@@ -28,7 +28,7 @@ jobs:
        .\ImperatorToCK3Tests.exe
 
   test_ubuntu:
-    runs-on: ubuntu-latest
+    runs-on: hirsute
     steps:
     - uses: actions/checkout@v2
       with:
@@ -40,21 +40,18 @@ jobs:
       run: |
        sudo apt-get install curl
        sudo apt-get install libgtest-dev
+       sudo apt-get install lcov
     - name: "Install GCC 11"
       run: |
-       sudo apt-get remove gcc-9 g++-9 gcc-10 g++-10
        sudo apt-get install gcc-11 g++-11
-       sudo apt-get install lcov
     - name: "Link gcc-11 and g++-11 to their standard commands"
       run: |
        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
        sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
        sudo ln -s /usr/bin/lcov /usr/local/bin/lcov
-    - name: "Export CC and CXX to tell cmake which compiler to use"
-      run: |
-       export CC=/usr/bin/gcc-11
-       export CXX=/usr/bin/g++-11
+       ls -al /usr/bin/
+       ls -al /usr/local/bin/
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
@@ -64,6 +61,8 @@ jobs:
     - name: "Build Tests"
       run: |
        cd ImperatorToCK3Tests
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
        cmake -H. -Bbuild && cmake --build build -- -j3
     - name: "Run Tests"
       run: |
@@ -72,6 +71,8 @@ jobs:
     - name: "Build gcov"
       run: |
        cd ImperatorToCK3Tests/build
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
        make init
        make gcov
        make lcov
