@@ -68,7 +68,7 @@ jobs:
        cd build
        ./ImperatorToCK3Tests
     - name: "Build gcov and lcov"
-      ron: |
+      run: |
        make init
        make gcov
        make lcov
