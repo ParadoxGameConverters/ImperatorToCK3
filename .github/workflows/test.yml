@@ -40,10 +40,11 @@ jobs:
       run: |
        sudo apt-get install curl
        sudo apt-get install libgtest-dev
-       sudo apt-get install lcov
     - name: "Install GCC 11"
       run: |
+       sudo apt-get remove gcc-9 g++-9 gcc-10 g++-10
        sudo apt-get install gcc-11 g++-11
+       sudo apt-get install lcov
     - name: "Link gcc-11 and g++-11 to their standard commands"
       run: |
        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
