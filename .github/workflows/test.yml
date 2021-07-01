@@ -28,7 +28,7 @@ jobs:
        .\ImperatorToCK3Tests.exe
 
   test_ubuntu:
-    runs-on: hirsute
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with:
