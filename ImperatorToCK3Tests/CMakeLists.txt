@@ -1,10 +1,9 @@
 cmake_minimum_required (VERSION 3.13)
 project(ImperatorToCK3Tests)
+SET(CMAKE_CXX_COMPILER g++-11)
 
 # add definitions
 add_definitions(-fprofile-arcs -ftest-coverage)
-
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR})
 
 # Link diretories
 link_directories(../ImperatorToCK3/Resources /usr/local/lib)
