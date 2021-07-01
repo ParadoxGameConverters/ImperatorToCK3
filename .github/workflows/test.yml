@@ -77,7 +77,7 @@ jobs:
     - name: "Check test coverage"
       run: |
        cd ImperatorToCK3Tests/build
-       /usr/bin/lcov --directory . --capture --output-file coverage.info
-       /usr/bin/lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
-       /usr/bin/lcov --list coverage.info
+       /usr/local/bin/lcov --directory . --capture --output-file coverage.info
+       /usr/local/bin/lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
+       /usr/local/bin/lcov --list coverage.info
        bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
