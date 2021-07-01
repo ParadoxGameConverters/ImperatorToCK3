@@ -38,13 +38,21 @@ jobs:
        git submodule update --init --recursive
     - name: "Install other packages"
       run: |
-       sudo apt install curl
-       sudo apt install libgtest-dev
-       sudo apt install lcov
+       sudo apt-get install curl
+       sudo apt-get install libgtest-dev
+       sudo apt-get install lcov
     - name: "Install GCC 11"
       run: |
-       sudo apt remove gcc-9 gcc-10 g++-9 g++-10
-       sudo apt install gcc-11 g++-11
+       sudo apt-get remove gcc-9 g++-9 gcc-10 g++-10
+       sudo apt-get install gcc-11 g++-11
+    - name: "Link gcc-11 and g++-11 to their standard commands"
+      run: |
+       sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
+       sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
+    - name: "Export CC and CXX to tell cmake which compiler to use"
+      run: |
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
