@@ -38,6 +38,7 @@ jobs:
        git submodule update --init --recursive
     - name: "Install other packages"
       run: |
+       sudo apt install curl
        sudo apt install libgtest-dev
        sudo apt install lcov
     - name: "Install GCC 11"
@@ -58,10 +59,15 @@ jobs:
     - name: "Check version of gcov"
       run: |
        gcov --version
-    - name: "Build"
+    - name: "Build Tests"
       run: |
        cd ImperatorToCK3Tests
-       mkdir build && cd build && cmake ..
+       cmake -H. -Bbuild && cmake --build build -- -j3
+    - name: "Run Tests"
+      run: |
+       cd build
+       ./ImperatorToCK3Tests
+    - name: "Build gcov and lcov"
        make init
        make gcov
        make lcov
