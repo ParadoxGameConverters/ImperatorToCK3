@@ -52,13 +52,15 @@ Imperator::World::World(const Configuration& theConfiguration, const commonItems
 		Log(LogLevel::Info) << "-> Detecting used mods.";
 		const auto modsList = commonItems::getStrings(theStream);
 		Log(LogLevel::Info) << "<> Savegame claims " << modsList.size() << " mods used:";
+		Mods incomingMods;
 		for (const auto& modPath : modsList) {
 			Log(LogLevel::Info) << "Used mod: " << modPath;
+			incomingMods.emplace_back("", modPath);
 		}
 
 		// Let's locate, verify and potentially update those mods immediately.
-		ModLoader modLoader;
-		modLoader.loadMods(theConfiguration, modsList);
+		commonItems::ModLoader modLoader;
+		modLoader.loadMods(theConfiguration.getImperatorDocsPath(), incomingMods);
 		mods = modLoader.getMods();
 	});
 	registerKeyword("family", [this](std::istream& theStream) {

@@ -8,7 +8,6 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR})
 
 # Link diretories
 link_directories(../ImperatorToCK3/Resources /usr/local/lib)
-add_subdirectory(../ZipLib [binary_dir])
 
 # Set the compiler options
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -g -O0 -Wall -fprofile-arcs --coverage")
@@ -25,7 +24,6 @@ find_package(GTest REQUIRED)
 include_directories(/usr/include)
 include_directories(${GTEST_INCLUDE_DIRS})
 include_directories(
-	../ZipLib
 	../json/single_include
 	../cpp-base64
 	/usr/local/include/ImageMagick-7/
@@ -133,6 +131,5 @@ target_link_libraries(ImperatorToCK3Tests LINK_PUBLIC
 	gtest
 	pthread
 	rakaly
-	ZIPLIB
 	-fprofile-arcs
 )
