@@ -28,7 +28,10 @@ include_directories(
 	/usr/local/include/ImageMagick-7/
 	../ImperatorToCK3/Source
 	../commonItems/
+	../commonItems/ZipLib
 )
+
+add_subdirectory(../commonItems/ZipLib [binary_dir])
 
 # Set the sources
 set(test_sources
@@ -127,6 +130,7 @@ add_test(output_test ${CMAKE_CURRENT_BINARY_DIR}/ImperatorToCK3Tests)
 
 # link libraries to the new target
 target_link_libraries(ImperatorToCK3Tests LINK_PUBLIC
+	ZIPLIB
 	gtest
 	pthread
 	rakaly
