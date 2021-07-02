@@ -8,7 +8,7 @@
 
 
 
-void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theConfiguration, const std::map<std::string, std::string>& mods) {
+void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theConfiguration, const Mods& mods) {
 	Log(LogLevel::Info) << "-> Reading Words";
 
 	scrapeLanguage("english", theConfiguration.getImperatorPath() + "/game/localization");
@@ -18,15 +18,21 @@ void mappers::LocalizationMapper::scrapeLocalizations(const Configuration& theCo
 	scrapeLanguage("simp_chinese", theConfiguration.getImperatorPath() + "/game/localization");
 	scrapeLanguage("spanish", theConfiguration.getImperatorPath() + "/game/localization");
 
-	for (const auto& modPath : mods | std::views::values) {
-		if (commonItems::DoesFolderExist(modPath + "/localization")) {
-			Log(LogLevel::Info) << "\t>> Found some words in: " << modPath + "/localization";
-			scrapeLanguage("english", modPath + "/localization");
-			scrapeLanguage("french", modPath + "/localization");
-			scrapeLanguage("german", modPath + "/localization");
-			scrapeLanguage("russian", modPath + "/localization");
-			scrapeLanguage("simp_chinese", modPath + "/localization");
-			scrapeLanguage("spanish", modPath + "/localization");
+	for (const auto& mod : mods) {
+		if (commonItems::DoesFolderExist(mod.path + "/localization")) {
+			Log(LogLevel::Info) << "\t>> Found some words in: [" << mod.name << "]";
+			scrapeLanguage("english", mod.path + "/localization");
+			scrapeLanguage("french", mod.path + "/localization");
+			scrapeLanguage("german", mod.path + "/localization");
+			scrapeLanguage("russian", mod.path + "/localization");
+			scrapeLanguage("simp_chinese", mod.path + "/localization");
+			scrapeLanguage("spanish", mod.path + "/localization");
+			scrapeLanguage("english", mod.path + "/localization/replace");
+			scrapeLanguage("french", mod.path + "/localization/replace");
+			scrapeLanguage("german", mod.path + "/localization/replace");
+			scrapeLanguage("russian", mod.path + "/localization/replace");
+			scrapeLanguage("simp_chinese", mod.path + "/localization/replace");
+			scrapeLanguage("spanish", mod.path + "/localization/replace");
 		}
 	}
 
