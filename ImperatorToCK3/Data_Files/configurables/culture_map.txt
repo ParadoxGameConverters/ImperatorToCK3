@@ -73,7 +73,7 @@ link = { ck3 = bactrian imp = bactrian }
 link = { ck3 = sogdian imp = wusun imp = sogdian imp = shule }
 link = { ck3 = saka imp = saka }
 link = { ck3 = tocharian imp = tocharian imp = phryni }
-link = { ck3 = indogreek imp = tayuan imp = yuezhi }
+link = { ck3 = indogreek imp = tayuan imp = yuezhi } #https://en.wikipedia.org/wiki/Dayuan
 link = { ck3 = tajik imp = margian }
 
 ## Baltic & Slavic (Venedia is Proto-Slavic)
