@@ -292,12 +292,15 @@ void CK3::World::overWriteCountiesHistory() {
 	Log(LogLevel::Info) << "Overwriting counties' history";
 	for (const auto& title : getTitles() | std::views::values) {
 		if (title->getRank()==TitleRank::county && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
-			if (!provinces.contains(title->capitalBaronyProvince))
+			if (!provinces.contains(title->capitalBaronyProvince)) {
 				Log(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
+			}
 			else {
-				const auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
+				const auto& ck3CapitalBaronyProvince = provinces.find(title->capitalBaronyProvince)->second;
+				const auto& impProvince = ck3CapitalBaronyProvince->getImperatorProvince();
 				if (impProvince) {
-					if (const auto& impCountry = impProvince->getOwner().second; impCountry) {
+					const auto& impCountry = impProvince->getOwner().second;
+					if (impCountry && impCountry->getCountryType() != Imperator::countryTypeEnum::rebels) {
 						auto impMonarch = impCountry->getMonarch();
 						if (impMonarch) {
 							const auto& holderItr = characters.find("imperator" + std::to_string(*impMonarch));
@@ -307,11 +310,15 @@ void CK3::World::overWriteCountiesHistory() {
 							title->setDeFactoLiege(nullptr);
 							countyHoldersCache.emplace(title->getHolderID());
 						}
+					} else { // e.g. uncolonised Imperator province
+						title->setHolder(nullptr);
+						title->setDeFactoLiege(nullptr);
 					}
 				}
 				else { // county is probably outside of Imperator map
-					if (!title->getHolderID().empty() && title->getHolderID() != "0")
+					if (!title->getHolderID().empty() && title->getHolderID() != "0") {
 						countyHoldersCache.emplace(title->getHolderID());
+					}
 				}
 			}
 		}
