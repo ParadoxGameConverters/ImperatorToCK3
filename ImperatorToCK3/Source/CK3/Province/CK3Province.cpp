@@ -28,7 +28,7 @@ void Province::initializeFromImperator(const shared_ptr<Imperator::Province>& im
 	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
 
-	if (const auto& impOwnerCountry = impProvince->getOwner().second) {
+	if (const auto& impOwnerCountry = impProvince->getOwner().second; impOwnerCountry) {
 		ownerTitle = impOwnerCountry->getCK3Title(); // linking to our holder's title
 	}
 
