@@ -2827,7 +2827,8 @@
 	link = { imp = 7543 ck3 = 8326 } # Kebranitia -> HAYQ
 	link = { imp = 7542 ck3 = 8344 } # Rhammanitai -> AWSSA
 	link = { imp = 7541 ck3 = 8398 ck3 = 8399 ck3 = 8391 ck3 = 8393 ck3 = 8392 ck3 = 8394 ck3 = 8407 ck3 = 8410 } # Sakchenia -> ABASA, GHOUBET, ABBE, ADAL, SITTI, WEST_ADAL, HARAR, JEBEL_AHMAR
-	link = { imp = 7526 imp = 7529 imp = 7520 imp = 7521 ck3 = 8431 ck3 = 8400 } # MANY-TO-MANY: Aromata, Yehta, Anchitaia, Aualites -> GARDAFUUL, ZAILA
+	link = { imp = 7520 imp = 7521 ck3 = 8400 } # Anchitaia, Aualites -> ZAILA
+	link = { imp = 7526 imp = 7529 ck3 = 8431 } # Aromata, Yehta -> GARDAFUUL
 	link = { imp = 7530 ck3 = 1369 ck3 = 1310 } # Dioscoridus -> Socotra, Qualnsiyah
 	link = { imp = 5942 ck3 = 8441 ck3 = 8513 ck3 = 8509 ck3 = 8511 ck3 = 8512 ck3 = 8510 ck3 = 8466 ck3 = 8472 ck3 = 8471 ck3 = 8420 ck3 = 8500 ck3 = 8499 ck3 = 8501 ck3 = 8423 ck3 = 8422 ck3 = 8421 ck3 = 8408 ck3 = 8416 ck3 = 8411 ck3 = 8417 ck3 = 8413 ck3 = 8412 ck3 = 8444 ck3 = 8409 ck3 = 8354 ck3 = 8414 ck3 = 8384 ck3 = 8395 ck3 = 8397 ck3 = 8396 } #  -> OGADEN_DESERT, MUDUG-NORTH, BARBACADLE, HOBYO-NORTH, NUDUG-SOUTH, GALKAYO, HOBYO, DHUSAMAREB, EL_BUUR, FAFAN, FAFAN-SOUTH, GODE, HANAN, GIDAYA-EAST, GIDAYA-NORTH, GIDAYA, HARGAYA, HARGAYA-SOUTH, HARGAYA-WEST, SHABELLE, ARUSI-SOUTH, ARUSI-NORTH, AHMAR_MOUNTAINS, GABAL_SOUTH, KARAYU, DAWARO, BOKE, BATE, GABAL, GENDEBELO
 	link = { comment = "# Egypt" }
