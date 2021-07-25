@@ -314,7 +314,6 @@ void CK3::World::overWriteCountiesHistory() {
 						title->setHolder(nullptr);
 						title->setDeFactoLiege(nullptr);
 					}
-
 				}
 				else { // county is probably outside of Imperator map
 					if (!title->getHolderID().empty() && title->getHolderID() != "0") {
