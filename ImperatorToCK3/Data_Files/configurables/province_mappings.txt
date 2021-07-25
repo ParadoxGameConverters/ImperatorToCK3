@@ -3855,6 +3855,7 @@
 	link = { imp = 7353 ck3 = 808 } # Bengmara -> Tinsukia
 	link = { imp = 7355 ck3 = 809 } # Donga -> Ghuguha_Dol
 	link = { imp = 5654 ck3 = 9163 ck3 = 9162 } # Kongyul -> Yingkiong, Tuting
+	link = { imp = 5965 ck3 = 9420 ck3 = 9419 } #  -> Yadzi, Kuozhou
 	link = { imp = 5652 ck3 = 9277 } # Pulong -> Zhamog
 	link = { imp = 5650 ck3 = 9172 } # Dodong -> Medog
 	link = { imp = 5631 ck3 = 9145 ck3 = 9140 } # Mon Bumtang -> Bumthang, Punakha
