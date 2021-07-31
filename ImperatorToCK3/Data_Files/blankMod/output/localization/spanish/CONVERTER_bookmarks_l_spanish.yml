@@ -1,3 +1,6 @@
 ﻿l_spanish:
  bm_867_converted:0 "Un mundo diferente"
  bm_867_converted_desc:1 "Han pasado siglos desde el día en que Rómulo colocó las piedras de Roma y Ulises diseñó el caballo de madera. ¿En qué se ha convertido el mundo hasta ahora? ¿Qué será de él? Solo los dioses lo saben."
+
+  bm_150_ad:0 "$emperor_feudal_male_roman$: $c_roma$"
+ bm_150_ad_desc:0 "Relatos del mundo que fue antes de la Cruz y de la Media Luna están consagrados en la duda y el mito. Un prestigioso y delicado equilibrio de poder y guerra, de honor y sangre, de sabiduría y rugido se ha cantado en las leyendas desde que los bárbaros invadieron el Rin. Pero, ¿estaba este viejo mundo condenado a morir? ¿O podría preservarlo la mano de un jugador habilidoso?"
