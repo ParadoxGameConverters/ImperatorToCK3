@@ -1,0 +1,58 @@
+﻿1st_century = {
+	NOT = { year = 102 }
+}
+2nd_century = {
+	year = 102
+	NOT = { year = 202 }
+}
+3rd_century = {
+	year = 202
+	NOT = { year = 302 }
+}
+4th_century = {
+	year = 302
+	NOT = { year = 402 }
+}
+5th_century = {
+	year = 402
+	NOT = { year = 502 }
+}
+6th_century = {
+	year = 502
+	NOT = { year = 602 }
+}
+7th_century = {
+	year = 602
+	NOT = { year = 702 }
+}
+8th_century = {
+	year = 702
+	NOT = { year = 802 }
+}
+9th_century = {
+	year = 802
+	NOT = { year = 902 }
+}
+10th_century = {
+	year = 902
+	NOT = { year = 1002 }
+}
+11th_century = {
+	year = 1002
+	NOT = { year = 1102 }
+}
+12th_century = {
+	year = 1102
+	NOT = { year = 1202 }
+}
+13th_century = {
+	year = 1202
+	NOT = { year = 1302 }
+}
+14th_century = {
+	year = 1302
+	NOT = { year = 1402 }
+}
+15th_century_or_later = {
+	year = 1402
+}
