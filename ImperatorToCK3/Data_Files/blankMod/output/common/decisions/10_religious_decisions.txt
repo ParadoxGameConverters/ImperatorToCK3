@@ -1,4 +1,4 @@
-﻿# Added line 771 / CK3 version 1.4.2
+﻿# CK3 version 1.4.2
 
 take_vow_of_poverty_decision = {
 	picture = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
@@ -770,7 +770,15 @@ go_on_pilgrimage_decision = {
 			faith = faith:waldensian
 			faith = faith:paulician
 			faith = faith:lollard
-			faith = { is_in_family = rf_pagan } # No Pilgrimage in Paganism
+			faith = { # Removing pilgrimage option for pagans who never had such a thing attested
+				is_in_family = rf_pagan
+				NOT = {
+					faith = faith:hellenic_pagan
+					faith = faith:eleusinian_mysteries
+					faith = faith:mithraic_mysteries
+					faith = faith:arabic_pagan
+				}
+			}
 		}
 
 		# Also we must have an actual holy site we can visit.
