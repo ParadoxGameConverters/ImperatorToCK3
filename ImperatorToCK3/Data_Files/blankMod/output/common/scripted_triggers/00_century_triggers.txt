@@ -1,58 +1,58 @@
 ﻿1st_century = {
-	NOT = { year = 102 }
+	NOT = { year = 101 }
 }
 2nd_century = {
-	year = 102
-	NOT = { year = 202 }
+	year = 101
+	NOT = { year = 201 }
 }
 3rd_century = {
-	year = 202
-	NOT = { year = 302 }
+	year = 201
+	NOT = { year = 301 }
 }
 4th_century = {
-	year = 302
-	NOT = { year = 402 }
+	year = 301
+	NOT = { year = 401 }
 }
 5th_century = {
-	year = 402
-	NOT = { year = 502 }
+	year = 401
+	NOT = { year = 501 }
 }
 6th_century = {
-	year = 502
-	NOT = { year = 602 }
+	year = 501
+	NOT = { year = 601 }
 }
 7th_century = {
-	year = 602
-	NOT = { year = 702 }
+	year = 601
+	NOT = { year = 701 }
 }
 8th_century = {
-	year = 702
-	NOT = { year = 802 }
+	year = 701
+	NOT = { year = 801 }
 }
 9th_century = {
-	year = 802
-	NOT = { year = 902 }
+	year = 801
+	NOT = { year = 901 }
 }
 10th_century = {
-	year = 902
-	NOT = { year = 1002 }
+	year = 901
+	NOT = { year = 1001 }
 }
 11th_century = {
-	year = 1002
-	NOT = { year = 1102 }
+	year = 1001
+	NOT = { year = 1101 }
 }
 12th_century = {
-	year = 1102
-	NOT = { year = 1202 }
+	year = 1101
+	NOT = { year = 1201 }
 }
 13th_century = {
-	year = 1202
-	NOT = { year = 1302 }
+	year = 1201
+	NOT = { year = 1301 }
 }
 14th_century = {
-	year = 1302
-	NOT = { year = 1402 }
+	year = 1301
+	NOT = { year = 1401 }
 }
 15th_century_or_later = {
-	year = 1402
+	year = 1401
 }
