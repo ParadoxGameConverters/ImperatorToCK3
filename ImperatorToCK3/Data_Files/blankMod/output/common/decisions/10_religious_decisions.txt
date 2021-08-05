@@ -770,15 +770,16 @@ go_on_pilgrimage_decision = {
 			faith = faith:waldensian
 			faith = faith:paulician
 			faith = faith:lollard
-			faith = { # Removing pilgrimage option for pagans who never had such a thing attested
-				is_in_family = rf_pagan
-				NOT = {
+			AND = { # Removing pilgrimage option for pagans who never had such a thing attested
+				religion = { is_in_family = rf_pagan }
+				NOR = {
 					faith = faith:hellenic_pagan
 					faith = faith:eleusinian_mysteries
 					faith = faith:mithraic_mysteries
 					faith = faith:arabic_pagan
 				}
 			}
+
 		}
 
 		# Also we must have an actual holy site we can visit.
