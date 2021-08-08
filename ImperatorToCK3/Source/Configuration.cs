@@ -1,6 +1,6 @@
-﻿using commonItems;
-using System.IO;
+﻿using System.IO;
 using System;
+using commonItems;
 
 namespace ImperatorToCK3
 {
@@ -18,10 +18,10 @@ namespace ImperatorToCK3
 
         public Configuration()
         {
-            Log.WriteLine(LogLevel.Info, "Reading configuration file");
+            Logger.Log(LogLevel.Info, "Reading configuration file");
             RegisterKeys();
             ParseFile("configuration.txt");
-            ClearRegisteredDict();
+            ClearRegisteredRules();
             SetOutputName();
             VerifyImperatorPath();
             VerifyCK3Path();
@@ -29,45 +29,45 @@ namespace ImperatorToCK3
 
         void RegisterKeys()
         {
-            RegisterKeyword("SaveGame", (StreamReader sr) =>
+            RegisterKeyword("SaveGame", (sr) =>
             {
                 SaveGamePath = new SingleString(sr).String;
-                Log.WriteLine(LogLevel.Info, "Save game set to: " + SaveGamePath);
+                Logger.Log(LogLevel.Info, "Save game set to: " + SaveGamePath);
             });
-            RegisterKeyword("ImperatorDirectory", (StreamReader sr) =>
+            RegisterKeyword("ImperatorDirectory", (sr) =>
             {
                 ImperatorPath = new SingleString(sr).String;
             });
-            RegisterKeyword("ImperatorModsDirectory", (StreamReader sr) =>
+            RegisterKeyword("ImperatorModsDirectory", (sr) =>
             {
                 ImperatorModsPath = new SingleString(sr).String;
             });
-            RegisterKeyword("CK3directory", (StreamReader sr) =>
+            RegisterKeyword("CK3directory", (sr) =>
             {
                 Ck3Path = new SingleString(sr).String;
             });
-            RegisterKeyword("CK3ModsDirectory", (StreamReader sr) =>
+            RegisterKeyword("CK3ModsDirectory", (sr) =>
             {
                 Ck3ModsPath = new SingleString(sr).String;
             });
-            RegisterKeyword("output_name", (StreamReader sr) =>
+            RegisterKeyword("output_name", (sr) =>
             {
                 OutputModName = new SingleString(sr).String;
-                Log.WriteLine(LogLevel.Info, "Output name set to: " + OutputModName);
+                Logger.Log(LogLevel.Info, "Output name set to: " + OutputModName);
             });
-            RegisterKeyword("ImperatorDeJure", (StreamReader sr) =>
+            RegisterKeyword("ImperatorDeJure", (sr) =>
             {
                 var deJureString = new SingleString(sr).String;
                 try
                 {
                     ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(deJureString);
-                    Log.WriteLine(LogLevel.Info, "ImperatorDeJure set to: " + deJureString);
+                    Logger.Log(LogLevel.Info, "ImperatorDeJure set to: " + deJureString);
                 } catch(Exception e)
                 {
-                    Log.WriteLine(LogLevel.Error, "Undefined error, ImperatorDeJure value was: " + deJureString + "; Error message: " + e.ToString());
+                    Logger.Log(LogLevel.Error, "Undefined error, ImperatorDeJure value was: " + deJureString + "; Error message: " + e.ToString());
                 }
             });
-            RegisterKeyword("ConvertCharacterBirthAndDeathDates", (StreamReader sr) =>
+            RegisterKeyword("ConvertCharacterBirthAndDeathDates", (sr) =>
             {
                 var valStr = new SingleString(sr).String;
                 if (valStr == "true")
@@ -78,7 +78,7 @@ namespace ImperatorToCK3
                 {
                     ConvertBirthAndDeathDates = false;
                 }
-                Log.WriteLine(LogLevel.Info, "Conversion of characters' birth and death dates set to: " + ConvertBirthAndDeathDates);
+                Logger.Log(LogLevel.Info, "Conversion of characters' birth and death dates set to: " + ConvertBirthAndDeathDates);
             });
             RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
         }
@@ -93,7 +93,7 @@ namespace ImperatorToCK3
             {
                 throw new FileNotFoundException(ImperatorPath + "does not contains Imperator: Rome!");
             }
-            Log.WriteLine(LogLevel.Info, "\tI:R install path is " + ImperatorPath);
+            Logger.Log(LogLevel.Info, "\tI:R install path is " + ImperatorPath);
         }
 
         void VerifyCK3Path()
@@ -106,7 +106,7 @@ namespace ImperatorToCK3
             {
                 throw new FileNotFoundException(Ck3Path + " does not contain Crusader Kings III!");
             }
-            Log.WriteLine(LogLevel.Info, "\tCK3 install path is " + Ck3Path);
+            Logger.Log(LogLevel.Info, "\tCK3 install path is " + Ck3Path);
         }
 
         void SetOutputName()
@@ -120,7 +120,7 @@ namespace ImperatorToCK3
             OutputModName = OutputModName.Replace(' ', '_');
 
             OutputModName = CommonFunctions.NormalizeUTF8Path(OutputModName);
-            Log.WriteLine(LogLevel.Info, "Using output name " + OutputModName);
+            Logger.Log(LogLevel.Info, "Using output name " + OutputModName);
         }
     }
 }

@@ -9,18 +9,18 @@ namespace ImperatorToCK3
         {
             try
             {
-                Log.WriteLine(LogLevel.Info, "Hello World!");
+                Logger.Log(LogLevel.Info, "Hello World!");
                 if (args.Length > 0)
                 {
-                    Log.WriteLine(LogLevel.Warning, "ImperatorToCK3 takes no parameters.");
-                    Log.WriteLine(LogLevel.Warning, "It uses configuration.txt, configured manually or by the frontend.");
+                    Logger.Log(LogLevel.Warning, "ImperatorToCK3 takes no parameters.");
+                    Logger.Log(LogLevel.Warning, "It uses configuration.txt, configured manually or by the frontend.");
                 }
                 Converter.ConvertImperatorToCK3();
                 return 0;
             }
             catch (Exception e)
             {
-                Log.WriteLine(LogLevel.Error, e.ToString());
+                Logger.Log(LogLevel.Error, e.ToString());
                 return -1;
             }
 
