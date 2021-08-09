@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
 
 namespace ImperatorToCK3.Imperator.Pops {
@@ -14,7 +11,7 @@ namespace ImperatorToCK3.Imperator.Pops {
             ClearRegisteredRules();
         }
         private void RegisterKeys() {
-            RegisterKeyword("population", (reader)=> {
+            RegisterKeyword("population", (reader) => {
                 PopsFromBloc.LoadPops(reader);
             });
             RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

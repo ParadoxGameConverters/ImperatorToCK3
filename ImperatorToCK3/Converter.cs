@@ -6,18 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using commonItems;
 
-namespace ImperatorToCK3
-{
-    class Converter
-    {
-        public static void ConvertImperatorToCK3()
-        {
+namespace ImperatorToCK3 {
+    class Converter {
+        public static void ConvertImperatorToCK3() {
             var config = new Configuration();
         }
 
-        void LogGameVersions(string imperatorPath, string ck3Path)
-        {
-            
+        void LogGameVersions(string imperatorPath, string ck3Path) {
+
         }
     }
 }
