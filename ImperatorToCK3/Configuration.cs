@@ -58,7 +58,7 @@ namespace ImperatorToCK3 {
                 var valStr = new SingleString(sr).String;
                 if (valStr == "true") {
                     ConvertBirthAndDeathDates = true;
-                } else if (valStr == "false") {
+                } else {
                     ConvertBirthAndDeathDates = false;
                 }
                 Logger.Log(LogLevel.Info, "Conversion of characters' birth and death dates set to: " + ConvertBirthAndDeathDates);
