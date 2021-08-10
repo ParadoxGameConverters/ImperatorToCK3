@@ -1,8 +1,7 @@
-#include "ImperatorToCK3Converter.h"
-#include "CK3Outputter/outVersion.h"
-#include "Log.h"
-#include "ConverterVersion.h"
 #include <Magick++/Functions.h>
+#include "CK3Outputter/outVersion.h"
+#include "ImperatorToCK3Converter.h"
+#include "Log.h"
 
 
 
@@ -10,8 +9,8 @@ int main(const int argc, const char* argv[]) {
 	try {
 		Magick::InitializeMagick(nullptr);
 
-		commonItems::ConverterVersionParser versionParser;
-		const auto converterVersion = versionParser.importVersion("configurables/version.txt");
+		commonItems::ConverterVersion converterVersion;
+		converterVersion.loadVersion("configurables/version.txt");
 		logConverterVersion(converterVersion);
 		if (argc >= 2) {
 			Log(LogLevel::Info) << "ImperatorToCK3 takes no parameters.";
@@ -20,8 +19,7 @@ int main(const int argc, const char* argv[]) {
 
 		convertImperatorToCK3(converterVersion);
 		return 0;
-	}
-	catch (const std::exception& e) {
+	} catch (const std::exception& e) {
 		Log(LogLevel::Error) << e.what();
 		return -1;
 	}

@@ -19,7 +19,7 @@ using mappers::ReligionMapper;
 Province::Province(const unsigned long long id, std::istream& theStream) : ID(id), details(theStream) {} // Load from a country file, if one exists. Otherwise rely on defaults.
 
 
-Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), details{otherProv.details} {}
+Province::Province(const unsigned long long id, const Province& otherProv) : ID(id), baseProvinceID(otherProv.ID), details{otherProv.details} {}
 
 
 void Province::initializeFromImperator(const shared_ptr<Imperator::Province>& impProvince, const CultureMapper& cultureMapper, const ReligionMapper& religionMapper) {
@@ -28,7 +28,7 @@ void Province::initializeFromImperator(const shared_ptr<Imperator::Province>& im
 	// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 	// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
 
-	if (const auto& impOwnerCountry = impProvince->getOwner().second) {
+	if (const auto& impOwnerCountry = impProvince->getOwner().second; impOwnerCountry) {
 		ownerTitle = impOwnerCountry->getCK3Title(); // linking to our holder's title
 	}
 
@@ -62,7 +62,8 @@ void Province::setReligionFromImperator(const ReligionMapper& religionMapper) {
 	}*/
 	if (!religionSet) {
 		//Use default CK3 religion.
-		Log(LogLevel::Debug) << "Couldn't determine religion for province " << ID << ", using vanilla religion";
+		Log(LogLevel::Debug) << "Couldn't determine religion for province " << ID << " with source religion " << imperatorProvince->getReligion()
+							 << ", using vanilla religion";
 	}
 }
 
@@ -88,7 +89,7 @@ void Province::setCultureFromImperator(const CultureMapper& cultureMapper) {
 	}*/
 	if (!cultureSet) {
 		//Use default CK3 culture.
-		Log(LogLevel::Debug) << "Couldn't determine culture for province " << ID << ", using vanilla culture";
+		Log(LogLevel::Debug) << "Couldn't determine culture for province " << ID << " with source culture " << imperatorProvince->getCulture() << ", using vanilla culture";
 	}
 }
 

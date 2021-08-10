@@ -53,8 +53,10 @@ link = { ck3 = ethiopian imp = aksumite }
 link = { ck3 = armenian imp = armenian }
 link = { ck3 = luwian imp = carian imp = lycian imp = isaurian imp = pisidian }
 link = { ck3 = lydian imp = lydian }
-link = { ck3 = hittite imp = lycaonian imp = cilician imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
+link = { ck3 = hittite imp = lycaonian imp = cilician imp = kennataian imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
 link = { ck3 = phrygian imp = phrygian imp = mysian }
+#Invictus mod
+link = { ck3 = greek imp = galatian } # TODO: add Galatian culture to CK3
 
 ## Aryan
 link = { ck3 = marathi imp = vidharban imp = maharashtran }
@@ -71,11 +73,10 @@ link = { ck3 = bactrian imp = bactrian }
 link = { ck3 = sogdian imp = wusun imp = sogdian imp = shule }
 link = { ck3 = saka imp = saka }
 link = { ck3 = tocharian imp = tocharian imp = phryni }
-link = { ck3 = indogreek imp = tayuan imp = yuezhi }
+link = { ck3 = indogreek imp = tayuan imp = yuezhi } #https://en.wikipedia.org/wiki/Dayuan
 link = { ck3 = tajik imp = margian }
 
 ## Baltic & Slavic (Venedia is Proto-Slavic)
-
 link = { ck3 = lithuanian imp = aestian ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
 link = { ck3 = prussian imp = aestian ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
 link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
@@ -111,9 +112,13 @@ link = { ck3 = georgian imp = albanian imp = ibero imp = colchian }
 link = { ck3 = basque imp = caristian imp = vardulian }
 link = { ck3 = celtiberian imp = asturian imp = vaccaeian imp = sedetanian imp = lobetanian imp = celtiberian imp = celtician imp = carpetanian }
 link = { ck3 = lusoiberian imp = callaecian imp = lusitanian imp = vettonian }
+# Invictus mod
+link = { ck3 = celtiberian imp = oppidanian }
 
 ## Celto Pannonian
 link = { ck3 = celtic_pannonian imp = boian imp = noric imp = celtic_pannonian imp = letobician imp = carnian imp = eravisci }
+#Invictus mod
+link = { ck3 = celtic_pannonian imp = pannonian }
 
 ## Dacian
 link = { ck3 = dacian imp = biephi imp = caucoensi imp = dacian imp = costoboci imp = mariandynian }
@@ -149,6 +154,8 @@ link = { ck3 = anglo_saxon imp = saxonian imp = anglian imp = gothonic imp = rau
 link = { ck3 = lombard imp = saxonian imp = anglian imp = gothonic imp = raumarician imp = suiones imp = reudingian imp = cimbrian imp = rugian imp = herulian imp = ingvaeonic imp = istvaeonic imp = teutonian imp = gutones imp = lemovian imp = bastarnae imp = irminonic imp = helveconian imp = suebian imp = frisian imp = vandal owner = d_lombardia }
 link = { ck3 = lombard imp = saxonian imp = anglian imp = gothonic imp = raumarician imp = suiones imp = reudingian imp = cimbrian imp = rugian imp = herulian imp = ingvaeonic imp = istvaeonic imp = teutonian imp = gutones imp = lemovian imp = bastarnae imp = irminonic imp = helveconian imp = suebian imp = frisian imp = vandal owner = k_italy }
 link = { ck3 = lombard imp = saxonian imp = anglian imp = gothonic imp = raumarician imp = suiones imp = reudingian imp = cimbrian imp = rugian imp = herulian imp = ingvaeonic imp = istvaeonic imp = teutonian imp = gutones imp = lemovian imp = bastarnae imp = irminonic imp = helveconian imp = suebian imp = frisian imp = vandal owner = e_italy }
+#Invictus mod
+link = { ck3 = norse imp = scandian }
 
 # Romano-Barbaric: Splitting according to regions
 link = { ck3 = iweric imp = saxonian imp = anglian imp = gothonic imp = raumarician imp = suiones imp = reudingian imp = cimbrian imp = rugian imp = herulian imp = ingvaeonic imp = istvaeonic imp = teutonian imp = gutones imp = lemovian imp = bastarnae imp = irminonic imp = helveconian imp = suebian imp = frisian imp = vandal ck3Province = 28 ck3Province = 29 ck3Province = 30 ck3Province = 31 ck3Province = 32 ck3Province = 34 ck3Province = 33 ck3Province = 36 ck3Province = 15 ck3Province = 13 ck3Province = 14 ck3Province = 18 ck3Province = 17 ck3Province = 19 ck3Province = 9 ck3Province = 10 ck3Province = 11 ck3Province = 12 ck3Province = 20 ck3Province = 21 ck3Province = 22 ck3Province = 23 ck3Province = 24 ck3Province = 25 ck3Province = 26 ck3Province = 27 ck3Province = 37 ck3Province = 38 ck3Province = 39 ck3Province = 40 ck3Province = 43 ck3Province = 41 ck3Province = 42 ck3Province = 44 ck3Province = 45 ck3Province = 46 ck3Province = 47 ck3Province = 48 ck3Province = 49 ck3Province = 50 ck3Province = 51 ck3Province = 52 ck3Province = 53 ck3Province = 54 ck3Province = 8745 ck3Province = 16 }
@@ -241,6 +248,8 @@ link = { ck3 = iberian imp = turdulian imp = couneian imp = turdetanian imp = au
 ## Illyrian
 link = { ck3 = albanian region = macedonia_region region = greece_region region = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 imp = taulantian imp = dardanian imp = messapian imp = deurian imp = deraemestian imp = catari imp = liburnian_culture imp = histrian imp = abrian imp = greco_illyrian }
 link = { ck3 = dalmatian imp = taulantian imp = dardanian imp = messapian imp = deurian imp = deraemestian imp = catari imp = liburnian_culture imp = histrian imp = abrian imp = greco_illyrian }
+# Invictus mod
+link = { ck3 = dalmatian imp = iapodian }
 
 ## Indian
 link = { ck3 = kannada imp = kannadan }

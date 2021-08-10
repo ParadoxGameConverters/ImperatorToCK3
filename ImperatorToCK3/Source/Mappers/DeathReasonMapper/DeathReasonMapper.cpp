@@ -7,11 +7,11 @@
 
 
 mappers::DeathReasonMapper::DeathReasonMapper() {
-	LOG(LogLevel::Info) << "-> Parsing death reason mappings.";
+	Log(LogLevel::Info) << "-> Parsing death reason mappings.";
 	registerKeys();
 	parseFile("configurables/deathMappings.txt");
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> Loaded " << impToCK3ReasonMap.size() << " death reason links.";
+	Log(LogLevel::Info) << "<> Loaded " << impToCK3ReasonMap.size() << " death reason links.";
 }
 
 

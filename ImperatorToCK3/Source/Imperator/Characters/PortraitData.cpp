@@ -26,7 +26,7 @@ Imperator::CharacterPortraitData::CharacterPortraitData(const std::string& dnaSt
 
 	auto accessoryGenes = genes->getAccessoryGenes().getGenes();
 
-	//LOG(LogLevel::Debug) << "ageSex: " << ageSexString;
+	//Log(LogLevel::Debug) << "ageSex: " << ageSexString;
 	const auto accessoryGenesIndex = genes->getAccessoryGenes().getIndex();
 	for (auto& [geneName, gene] : accessoryGenes) {
 		const auto geneIndex = gene.getIndex();

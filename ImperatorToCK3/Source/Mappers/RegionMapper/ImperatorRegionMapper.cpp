@@ -16,7 +16,7 @@ namespace fs = std::filesystem;
 
 
 mappers::ImperatorRegionMapper::ImperatorRegionMapper(const std::string& imperatorPath) {
-	LOG(LogLevel::Info) << "-> Initializing Imperator Geography";
+	Log(LogLevel::Info) << "-> Initializing Imperator Geography";
 	
 	auto areaFilePath = imperatorPath + "/game/map_data/areas.txt";
 	auto regionFilePath = imperatorPath + "/game/map_data/regions.txt";

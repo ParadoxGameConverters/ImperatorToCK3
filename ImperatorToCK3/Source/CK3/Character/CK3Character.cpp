@@ -37,10 +37,11 @@ void CK3::Character::initializeFromImperator(std::shared_ptr<Imperator::Characte
 	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty() && !imperatorCharacter->getSpouses().empty())
 		impProvForProvinceMapper = imperatorCharacter->getSpouses().begin()->second->getProvince();
 
-	if (provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper).empty())
+	auto ck3ProvinceNumbers = provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper);
+	if (ck3ProvinceNumbers.empty())
 		ck3Province = 0;
 	else
-		ck3Province = provinceMapper.getCK3ProvinceNumbers(impProvForProvinceMapper)[0];
+		ck3Province = ck3ProvinceNumbers[0];
 
 	auto match = religionMapper.match(imperatorCharacter->getReligion(), ck3Province, imperatorCharacter->getProvince());
 	if (match)

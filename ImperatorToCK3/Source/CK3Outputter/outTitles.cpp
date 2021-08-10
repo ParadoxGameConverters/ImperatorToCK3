@@ -56,9 +56,9 @@ void CK3::outputTitlesHistory(const string& outputModName, const map<string, sha
 	set<string> alreadyOutputtedTitles;
 	for (const auto& [name, title] : titles) { // first output kindoms + their de jure vassals to files named after the kingdoms
 		if (title->getRank() == TitleRank::kingdom && !title->getDeJureVassals().empty()) { // is a de jure kingdom
-			ofstream historyOutput("output/" + outputModName + "/history/titles/replace/" + name + ".txt");
+			ofstream historyOutput("output/" + outputModName + "/history/titles/" + name + ".txt");
 			if (!historyOutput.is_open())
-				throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/" + name + ".txt");
+				throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/" + name + ".txt");
 
 			// output the kingdom's history
 			outputTitleHistory(title, historyOutput);
@@ -74,9 +74,9 @@ void CK3::outputTitlesHistory(const string& outputModName, const map<string, sha
 		}
 	}
 
-	ofstream historyOutput("output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
+	ofstream historyOutput("output/" + outputModName + "/history/titles/00_other_titles.txt");
 	if (!historyOutput.is_open())
-		throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/replace/00_other_titles.txt");
+		throw std::runtime_error("Could not create title history file: output/" + outputModName + "/history/titles/00_other_titles.txt");
 	for (const auto& [name, title] : titles) { // output the remaining titles
 		if (!alreadyOutputtedTitles.contains(name)) {
 			outputTitleHistory(title, historyOutput);
@@ -88,13 +88,6 @@ void CK3::outputTitlesHistory(const string& outputModName, const map<string, sha
 
 
 void CK3::outputTitles(const string& outputModName, const string& ck3Path, const map<string, shared_ptr<Title>>& titles, const Configuration::IMPERATOR_DE_JURE& deJure) {
-	// blank all title history files from vanilla
-	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/titles/");
-	for (const auto& fileName : fileNames) {
-		ofstream file("output/" + outputModName + "/history/titles/" + fileName);
-		file.close();
-	}
-	
 	//output to landed_titles folder
 	for (const auto& [name, title] : titles) {
 		const auto& impCountry = title->getImperatorCountry();

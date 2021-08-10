@@ -130,6 +130,12 @@
     <Filter Include="Sources\CK3Outputter">
       <UniqueIdentifier>{4db30bce-7d0e-4982-bab0-82d11150afad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFiles\mod">
+      <UniqueIdentifier>{3bb10585-d6c4-44d7-a498-8ca0b9987ad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\mod\themod">
+      <UniqueIdentifier>{2a75fe57-eb1b-4796-8b22-192f62b450a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -543,6 +549,9 @@
     <ClCompile Include="..\ImperatorToCK3\Source\CK3Outputter\outCharacter.cpp">
       <Filter>Sources\CK3Outputter</Filter>
     </ClCompile>
+    <ClCompile Include="..\commonItems\ConverterVersion.cpp">
+      <Filter>Sources\commonItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImperatorToCK3\Source\Imperator\Provinces\Province.h">
@@ -573,6 +582,24 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\TitlesHistory.txt">
       <Filter>TestFiles</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\themod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\packedmod.zip">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\packedmod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\missingmod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\brokenmod.mod">
+      <Filter>TestFiles\mod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\mod\themod\README.md">
+      <Filter>TestFiles\mod\themod</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

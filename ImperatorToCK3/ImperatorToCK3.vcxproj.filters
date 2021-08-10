@@ -109,6 +109,9 @@
     <Filter Include="Mappers\DeathReasonMapper">
       <UniqueIdentifier>{8843f4f5-af76-4860-b3c3-bbbcc7f1274b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="commonItems\ModLoader">
+      <UniqueIdentifier>{f484307e-04ec-4f37-9b46-3ae7993e0d0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CK3Outputter\CK3WorldOutputter.h">
@@ -412,6 +415,12 @@
     <ClInclude Include="Source\CommonUtilities\ContainerField.h">
       <Filter>CommonUtilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\commonItems\ModLoader\ModLoader.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\commonItems\ModLoader\ModParser.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -706,6 +715,12 @@
     </ClCompile>
     <ClCompile Include="Source\CommonUtilities\ContainerField.cpp">
       <Filter>CommonUtilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\ModLoader\ModLoader.cpp">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\commonItems\ModLoader\ModParser.cpp">
+      <Filter>commonItems\ModLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

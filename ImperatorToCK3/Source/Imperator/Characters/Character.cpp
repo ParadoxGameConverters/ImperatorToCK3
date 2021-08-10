@@ -7,7 +7,7 @@
 const std::string& Imperator::Character::getCulture() const {
 	if (!culture.empty())
 		return culture;
-	if (family.first && !family.second->getCulture().empty())
+	if (family.first && family.second && !family.second->getCulture().empty())
 		return family.second->getCulture();
 	return culture;
 }

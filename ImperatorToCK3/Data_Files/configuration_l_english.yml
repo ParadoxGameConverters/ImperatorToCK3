@@ -5,6 +5,8 @@ l_english:
  IMPFOLDERTIP: "The path on your computer where Imperator: Rome is installed"
  IMPMOD: "Imperator: Rome Mod Directory"
  IMPMODTIP: "The path on your computer where Imperator: Rome stores mods"
+ IMPDOC: "Imperator: Rome Documents Directory"
+ IMPDOCTIP: "The path on your computer where Imperator: Rome keeps temporary files"
 
  CK3GAME: "Crusader Kings III"
  CK3FOLDER: "Crusader Kings III Install Directory"

@@ -1,0 +1,58 @@
+﻿is_1st_century = {
+	NOT = { year = 101 }
+}
+is_2nd_century = {
+	year = 101
+	NOT = { year = 201 }
+}
+is_3rd_century = {
+	year = 201
+	NOT = { year = 301 }
+}
+is_4th_century = {
+	year = 301
+	NOT = { year = 401 }
+}
+is_5th_century = {
+	year = 401
+	NOT = { year = 501 }
+}
+is_6th_century = {
+	year = 501
+	NOT = { year = 601 }
+}
+is_7th_century = {
+	year = 601
+	NOT = { year = 701 }
+}
+is_8th_century = {
+	year = 701
+	NOT = { year = 801 }
+}
+is_9th_century = {
+	year = 801
+	NOT = { year = 901 }
+}
+is_10th_century = {
+	year = 901
+	NOT = { year = 1001 }
+}
+is_11th_century = {
+	year = 1001
+	NOT = { year = 1101 }
+}
+is_12th_century = {
+	year = 1101
+	NOT = { year = 1201 }
+}
+is_13th_century = {
+	year = 1201
+	NOT = { year = 1301 }
+}
+is_14th_century = {
+	year = 1301
+	NOT = { year = 1401 }
+}
+is_15th_century_or_later = {
+	year = 1401
+}

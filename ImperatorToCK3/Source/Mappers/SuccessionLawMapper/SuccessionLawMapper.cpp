@@ -7,11 +7,11 @@
 
 
 mappers::SuccessionLawMapper::SuccessionLawMapper() {
-	LOG(LogLevel::Info) << "-> Parsing succession law mappings.";
+	Log(LogLevel::Info) << "-> Parsing succession law mappings.";
 	registerKeys();
 	parseFile("configurables/succession_law_map.txt");
 	clearRegisteredKeywords();
-	LOG(LogLevel::Info) << "<> Loaded " << impToCK3SuccessionLawMap.size() << " succession law links.";
+	Log(LogLevel::Info) << "<> Loaded " << impToCK3SuccessionLawMap.size() << " succession law links.";
 }
 
 

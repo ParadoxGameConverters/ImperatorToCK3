@@ -1,83 +1,96 @@
 #include "ImperatorWorld.h"
-#include "GameVersion.h"
-#include "Configuration/Configuration.h"
-#include "Helpers/rakaly_wrapper.h"
-#include "Date.h"
-#include "Log.h"
-#include "OSCompatibilityLayer.h"
-#include "ParserHelpers.h"
-#include "CommonRegexes.h"
 #include <ZipFile.h>
 #include <filesystem>
 #include <fstream>
+#include "CommonRegexes.h"
+#include "Configuration/Configuration.h"
+#include "Date.h"
+#include "GameVersion.h"
+#include "Helpers/rakaly_wrapper.h"
+#include "Log.h"
+#include "OSCompatibilityLayer.h"
+#include "ParserHelpers.h"
 
 
 
 namespace fs = std::filesystem;
 
-Imperator::World::World(const Configuration& theConfiguration) {
-	LOG(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
-	
+Imperator::World::World(const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
+	Log(LogLevel::Info) << "*** Hello Imperator, Roma Invicta! ***";
+
 	parseGenes(theConfiguration);
-	
-	//parse the save
+
+	// parse the save
 	registerRegex(R"(\bSAV\w*\b)", [](const std::string& unused, std::istream& theStream) {});
-	registerKeyword("version", [this](std::istream& theStream) {
+	registerKeyword("version", [this, converterVersion](std::istream& theStream) {
 		const auto versionString = commonItems::getString(theStream);
 		ImperatorVersion = GameVersion(versionString);
 		Log(LogLevel::Info) << "<> Savegame version: " << versionString;
+
+		if (converterVersion.getMinSource() > ImperatorVersion) {
+			Log(LogLevel::Error) << "Converter requires a minimum save from v" << converterVersion.getMinSource().toShortString();
+			throw std::runtime_error("Savegame vs converter version mismatch!");
+		}
+		if (!converterVersion.getMaxSource().isLargerishThan(ImperatorVersion)) {
+			Log(LogLevel::Error) << "Converter requires a maximum save from v" << converterVersion.getMaxSource().toShortString();
+			throw std::runtime_error("Savegame vs converter version mismatch!");
+		}
 	});
-	registerKeyword("date", [this]( std::istream& theStream) {
+	registerKeyword("date", [this](std::istream& theStream) {
 		const auto dateString = commonItems::getString(theStream);
-		endDate = date(dateString, true); // converted to AD
+		endDate = date(dateString, true);  // converted to AD
 		Log(LogLevel::Info) << "<> Date: " << dateString;
 	});
-	/*registerKeyword("enabled_dlcs", [this](std::istream& theStream) {	/// not really needed at the moment of writing, uncomment when needed 
-		const commonItems::stringList dlcsList(theStream);
-		const auto& theDLCs = dlcsList.getStrings();
+	registerKeyword("enabled_dlcs", [this](std::istream& theStream) {
+		const auto& theDLCs = commonItems::getStrings(theStream);
 		DLCs.insert(theDLCs.begin(), theDLCs.end());
-		for (const auto& dlc : DLCs) LOG(LogLevel::Info) << "<> Enabled DLC: " << dlc;
-	}); */
-	registerKeyword("enabled_mods", [this](std::istream& theStream) {
-		const commonItems::stringList modsList(theStream);
-		const auto& theMods = modsList.getStrings();
-		Mods.insert(theMods.begin(), theMods.end());
-		for (const auto& mod : Mods)
-			LOG(LogLevel::Info) << "<> Enabled mod: " << mod;
+		for (const auto& dlc : DLCs) {
+			Log(LogLevel::Info) << "<> Enabled DLC: " << dlc;
+		}
 	});
-	registerKeyword("family", [this]( std::istream& theStream) {
-		LOG(LogLevel::Info) << "-> Loading Families";
+	registerKeyword("enabled_mods", [&](std::istream& theStream) {
+		Log(LogLevel::Info) << "-> Detecting used mods.";
+		const auto modsList = commonItems::getStrings(theStream);
+		Log(LogLevel::Info) << "<> Savegame claims " << modsList.size() << " mods used:";
+		Mods incomingMods;
+		for (const auto& modPath : modsList) {
+			Log(LogLevel::Info) << "Used mod: " << modPath;
+			incomingMods.emplace_back("", modPath);
+		}
+
+		// Let's locate, verify and potentially update those mods immediately.
+		commonItems::ModLoader modLoader;
+		modLoader.loadMods(theConfiguration.getImperatorDocsPath(), incomingMods);
+		mods = modLoader.getMods();
+	});
+	registerKeyword("family", [this](std::istream& theStream) {
+		Log(LogLevel::Info) << "-> Loading Families";
 		families = FamiliesBloc(theStream).getFamiliesFromBloc();
-		LOG(LogLevel::Info) << ">> Loaded " << families.getFamilies().size() << " families.";
+		Log(LogLevel::Info) << ">> Loaded " << families.getFamilies().size() << " families.";
 	});
-	
 	registerKeyword("character", [this](std::istream& theStream) {
-		LOG(LogLevel::Info) << "-> Loading Characters";
+		Log(LogLevel::Info) << "-> Loading Characters";
 		characters = CharactersBloc(theStream, genes).getCharactersFromBloc();
-		LOG(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
+		Log(LogLevel::Info) << ">> Loaded " << characters.getCharacters().size() << " characters.";
 	});
-
 	registerKeyword("provinces", [this](std::istream& theStream) {
-		LOG(LogLevel::Info) << "-> Loading Provinces";
+		Log(LogLevel::Info) << "-> Loading Provinces";
 		provinces = Provinces(theStream);
-		LOG(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
+		Log(LogLevel::Info) << ">> Loaded " << provinces.getProvinces().size() << " provinces.";
 	});
-
 	registerKeyword("country", [this](std::istream& theStream) {
-		LOG(LogLevel::Info) << "-> Loading Countries";
+		Log(LogLevel::Info) << "-> Loading Countries";
 		countries = CountriesBloc(theStream).getCountriesFromBloc();
-		LOG(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.";
+		Log(LogLevel::Info) << ">> Loaded " << countries.getCountries().size() << " countries.";
 	});
-
 	registerKeyword("population", [this](std::istream& theStream) {
-		LOG(LogLevel::Info) << "-> Loading Pops";
+		Log(LogLevel::Info) << "-> Loading Pops";
 		pops = PopsBloc(theStream).getPopsFromBloc();
-		LOG(LogLevel::Info) << ">> Loaded " << pops.getPops().size() << " pops.";
+		Log(LogLevel::Info) << ">> Loaded " << pops.getPops().size() << " pops.";
 	});
-
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 
-	LOG(LogLevel::Info) << "-> Verifying Imperator save.";
+	Log(LogLevel::Info) << "-> Verifying Imperator save.";
 	verifySave(theConfiguration.getSaveGamePath());
 	processSave(theConfiguration.getSaveGamePath());
 
@@ -86,38 +99,38 @@ Imperator::World::World(const Configuration& theConfiguration) {
 	clearRegisteredKeywords();
 
 
-	LOG(LogLevel::Info) << "*** Building World ***";
+	Log(LogLevel::Info) << "*** Building World ***";
 
 	// Link all the intertwining pointers
-	LOG(LogLevel::Info) << "-- Linking Characters with Families";
+	Log(LogLevel::Info) << "-- Linking Characters with Families";
 	characters.linkFamilies(families);
-	LOG(LogLevel::Info) << "-- Linking Characters with Spouses";
+	Log(LogLevel::Info) << "-- Linking Characters with Spouses";
 	characters.linkSpouses();
-	LOG(LogLevel::Info) << "-- Linking Characters with Mothers and Fathers";
+	Log(LogLevel::Info) << "-- Linking Characters with Mothers and Fathers";
 	characters.linkMothersAndFathers();
-	LOG(LogLevel::Info) << "-- Linking Provinces with Pops";
+	Log(LogLevel::Info) << "-- Linking Provinces with Pops";
 	provinces.linkPops(pops);
-	LOG(LogLevel::Info) << "-- Linking Provinces with Countries";
+	Log(LogLevel::Info) << "-- Linking Provinces with Countries";
 	provinces.linkCountries(countries);
-	LOG(LogLevel::Info) << "-- Linking Countries with Families";
+	Log(LogLevel::Info) << "-- Linking Countries with Families";
 	countries.linkFamilies(families);
 
-	LOG(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
+	Log(LogLevel::Info) << "*** Good-bye Imperator, rest in peace. ***";
 }
 
 
 void Imperator::World::processSave(const std::string& saveGamePath) {
 	switch (saveGame.saveType) {
-	case SaveType::PLAINTEXT:
-		LOG(LogLevel::Info) << "-> Importing debug_mode Imperator save.";
-		processDebugModeSave(saveGamePath);
-		break;
-	case SaveType::COMPRESSED_ENCODED:
-		LOG(LogLevel::Info) << "-> Importing regular Imperator save.";
-		processCompressedEncodedSave(saveGamePath);
-		break;
-	case SaveType::INVALID:
-		throw std::runtime_error("Unknown save type.");
+		case SaveType::PLAINTEXT:
+			Log(LogLevel::Info) << "-> Importing debug_mode Imperator save.";
+			processDebugModeSave(saveGamePath);
+			break;
+		case SaveType::COMPRESSED_ENCODED:
+			Log(LogLevel::Info) << "-> Importing regular Imperator save.";
+			processCompressedEncodedSave(saveGamePath);
+			break;
+		case SaveType::INVALID:
+			throw std::runtime_error("Unknown save type.");
 	}
 }
 
@@ -133,7 +146,7 @@ void Imperator::World::verifySave(const std::string& saveGamePath) {
 		throw std::runtime_error("Savefile of unknown type.");
 
 	char ch;
-	do { // skip until newline
+	do {  // skip until newline
 		ch = static_cast<char>(saveFile.get());
 	} while (ch != '\n' && ch != '\r');
 
@@ -173,7 +186,6 @@ void Imperator::World::processCompressedEncodedSave(const std::string& saveGameP
 	std::stringstream inStream;
 	inStream << saveFile.rdbuf();
 	const std::string inBinary(std::istreambuf_iterator<char>(inStream), {});
-
 	saveGame.gameState = rakaly::meltImperator(inBinary);
 }
 

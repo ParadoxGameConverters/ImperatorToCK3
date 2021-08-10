@@ -1,0 +1,54 @@
+﻿culture_era_classical = {
+	year = 0
+	modifier = {
+		domain_limit = 4
+		tyranny_gain_mult = -0.25
+		diplomatic_range_mult = -0.75
+		title_creation_cost_mult = 100 # Title creation impossible before CK3 proper
+		movement_speed = -0.5
+	}
+}
+culture_era_late_classical = {
+	year = 312 # Battle of the Milvian Bridge
+	modifier = {
+		domain_limit = 0.25
+		tyranny_gain_mult = 0.5
+		army_maintenance_mult = -0.5
+		diplomatic_range_mult = 0.25
+		movement_speed = 0.25
+	}
+}
+culture_era_tribal = {
+	year = 535 # Start of Gothic War
+	modifier = { # Restoring base CK3 stuff
+		tyranny_gain_mult = -0.25
+		army_maintenance_mult = 0.5
+		diplomatic_range_mult = 0.25
+		title_creation_cost_mult = -100
+		movement_speed = 0.25
+	}
+}
+
+culture_era_early_medieval = {	
+	year = 900
+	invalid_for_government = tribal_government
+}
+
+culture_era_high_medieval = {
+	year = 1050
+	invalid_for_government = tribal_government
+	
+	modifier = {
+		mercenary_hire_cost_mult = 0.15
+		diplomatic_range_mult = 0.25
+	}
+}
+
+culture_era_late_medieval = {
+	year = 1200
+	invalid_for_government = tribal_government
+
+	modifier = {
+		mercenary_hire_cost_mult = 0.15
+	}
+}

@@ -16,12 +16,12 @@ namespace fs = std::filesystem;
 
 
 mappers::ProvinceMapper::ProvinceMapper() {
-	LOG(LogLevel::Info) << "-> Parsing province mappings";
+	Log(LogLevel::Info) << "-> Parsing province mappings";
 	registerKeys();
 	parseFile("configurables/province_mappings.txt");
 	clearRegisteredKeywords();
 	createMappings();
-	LOG(LogLevel::Info) << "<> " << theMappings.getMappings().size() << " mappings loaded.";
+	Log(LogLevel::Info) << "<> " << theMappings.getMappings().size() << " mappings loaded.";
 }
 
 
@@ -80,7 +80,7 @@ std::vector<unsigned long long> mappers::ProvinceMapper::getCK3ProvinceNumbers(c
 
 
 void mappers::ProvinceMapper::determineValidProvinces(const Configuration& theConfiguration) {
-	LOG(LogLevel::Info) << "-> Loading Valid Provinces";
+	Log(LogLevel::Info) << "-> Loading Valid Provinces";
 	std::ifstream definitionFile(fs::u8path(theConfiguration.getCK3Path() + "/game/map_data/definition.csv"));
 	if (!definitionFile.is_open())
 		throw std::runtime_error("Could not open <ck3>/game/map/definition.csv");
@@ -95,5 +95,5 @@ void mappers::ProvinceMapper::determineValidProvinces(const Configuration& theCo
 		auto provNum = std::stoull(inputStr.substr(0, inputStr.find_first_of(';')));
 		validCK3Provinces.insert(provNum);
 	}
-	LOG(LogLevel::Info) << "<> " << validCK3Provinces.size() << " valid provinces located.";
+	Log(LogLevel::Info) << "<> " << validCK3Provinces.size() << " valid provinces located.";
 }

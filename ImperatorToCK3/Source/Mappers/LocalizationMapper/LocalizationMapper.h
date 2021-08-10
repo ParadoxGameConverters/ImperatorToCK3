@@ -7,7 +7,7 @@
 #include <optional>
 #include <string>
 #include <functional>
-
+#include "ModLoader/ModLoader.h"
 
 
 class Configuration;
@@ -27,7 +27,7 @@ typedef struct LocBlock {
 class LocalizationMapper {
 public:
 	LocalizationMapper() = default;
-	void scrapeLocalizations(const Configuration& theConfiguration, const std::map<std::string, std::string>& mods);
+	void scrapeLocalizations(const Configuration& theConfiguration, const Mods& mods);
 
 	[[nodiscard]] std::optional<LocBlock> getLocBlockForKey(const std::string& key) const;
 	void addLocalization(const std::string& key, const LocBlock& locBlock) { localizations[key] = locBlock; }

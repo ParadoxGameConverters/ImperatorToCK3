@@ -1294,15 +1294,15 @@ CulturalCurse = {
 	}
 	# Hellenic Pagan
 	text = {
-		trigger = { faith.religion = religion:hellenic_religion }
+		trigger = { faith.religion = religion:hellenism_religion }
 		localization_key = by_jove #Heh
 	}
 	text = {
-		trigger = { faith.religion = religion:hellenic_religion }
+		trigger = { faith.religion = religion:hellenism_religion }
 		localization_key = mediusfidius # Historically used
 	}
 	text = {
-		trigger = { faith.religion = religion:hellenic_religion }
+		trigger = { faith.religion = religion:hellenism_religion }
 		localization_key = mehercle
 	}
 	# Celtic Pagan

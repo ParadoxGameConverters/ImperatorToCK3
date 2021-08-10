@@ -38,35 +38,46 @@ jobs:
        git submodule update --init --recursive
     - name: "Install other packages"
       run: |
-       sudo apt install libgtest-dev
-       sudo apt install lcov
+       sudo apt-get install curl
+       sudo apt-get install libgtest-dev
+       sudo apt-get install lcov
     - name: "Install GCC 11"
       run: |
-       sudo apt install gcc-11 g++-11
-    - name: "Link gcc-11, g++-11 and gcov-11 to their standard commands"
+       sudo apt-get install gcc-11 g++-11
+    - name: "Link gcc-11 and g++-11 to their standard commands"
       run: |
        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
        sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
-    - name: "Export CC and CXX to tell cmake which compiler to use"
-      run: |
-       export CC=/usr/bin/gcc-11
-       export CXX=/usr/bin/g++-11
+       sudo ln -s /usr/bin/lcov /usr/local/bin/lcov
+       sudo ln -s /usr/bin/geninfo /usr/local/bin/geninfo
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
     - name: "Check version of gcov"
       run: |
        gcov --version
-    - name: "Build"
+    - name: "Build Tests"
       run: |
        cd ImperatorToCK3Tests
-       mkdir build && cd build && cmake ..
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
+       cmake -H. -Bbuild && cmake --build build -- -j3
+    - name: "Run Tests"
+      run: |
+       cd ImperatorToCK3Tests/build
+       ./ImperatorToCK3Tests
+    - name: "Build gcov"
+      run: |
+       cd ImperatorToCK3Tests/build
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
        make init
        make gcov
     - name: "Check test coverage"
       run: |
-       lcov --directory . --capture --output-file coverage.info
-       lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
-       lcov --list coverage.info
+       cd ImperatorToCK3Tests/build
+       /usr/local/bin/lcov --directory . --capture --output-file coverage.info
+       /usr/local/bin/lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
+       /usr/local/bin/lcov --list coverage.info
        bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"

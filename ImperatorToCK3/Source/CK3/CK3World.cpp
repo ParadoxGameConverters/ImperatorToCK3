@@ -27,9 +27,9 @@ using std::optional;
 
 
 CK3::World::World(const Imperator::World& impWorld, const Configuration& theConfiguration, const commonItems::ConverterVersion& converterVersion) {
-	LOG(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
+	Log(LogLevel::Info) << "*** Hello CK3, let's get painting. ***";
 	// Scraping localizations from Imperator so we may know proper names for our countries.
-	localizationMapper.scrapeLocalizations(theConfiguration, map<string, string>()); // passes an empty map as second arg because we don't actually load mods yet
+	localizationMapper.scrapeLocalizations(theConfiguration, impWorld.getMods());
 
 	// Loading Imperator CoAs to use them for generated CK3 titles
 	coaMapper = mappers::CoaMapper(theConfiguration);
@@ -73,12 +73,12 @@ CK3::World::World(const Imperator::World& impWorld, const Configuration& theConf
 
 
 void CK3::World::importImperatorCharacters(const Imperator::World& impWorld, const bool ConvertBirthAndDeathDates = true, const date endDate = date(867, 1, 1)) {
-	LOG(LogLevel::Info) << "-> Importing Imperator Characters";
+	Log(LogLevel::Info) << "-> Importing Imperator Characters";
 
 	for (const auto& character : impWorld.getCharacters()) {
 		importImperatorCharacter(character, ConvertBirthAndDeathDates, endDate);
 	}
-	LOG(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
+	Log(LogLevel::Info) << ">> " << characters.size() << " total characters recognized.";
 }
 
 
@@ -103,14 +103,14 @@ void CK3::World::importImperatorCharacter(const pair<unsigned long long, shared_
 
 
 void CK3::World::importImperatorCountries(const map<unsigned long long, shared_ptr<Imperator::Country>>& imperatorCountries) {
-	LOG(LogLevel::Info) << "-> Importing Imperator Countries";
+	Log(LogLevel::Info) << "-> Importing Imperator Countries";
 
 	// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 	// add new ones from Imperator tags.
 	for (const auto& title : imperatorCountries) {
 		importImperatorCountry(title, imperatorCountries);
 	}
-	LOG(LogLevel::Info) << ">> " << getTitles().size() << " total countries recognized.";
+	Log(LogLevel::Info) << ">> " << getTitles().size() << " total countries recognized.";
 }
 
 
@@ -142,7 +142,7 @@ void CK3::World::importImperatorCountry(const pair<unsigned long long, shared_pt
 
 
 void CK3::World::importVanillaProvinces(const string& ck3Path) {
-	LOG(LogLevel::Info) << "-> Importing Vanilla Provinces";
+	Log(LogLevel::Info) << "-> Importing Vanilla Provinces";
 	// ---- Loading history/provinces
 	auto fileNames = commonItems::GetAllFilesInFolderRecursive(ck3Path + "/game/history/provinces");
 	for (const auto& fileName : fileNames) {
@@ -193,12 +193,12 @@ void CK3::World::importVanillaProvinces(const string& ck3Path) {
 	}
 
 
-	LOG(LogLevel::Info) << ">> Loaded " << provinces.size() << " province definitions.";
+	Log(LogLevel::Info) << ">> Loaded " << provinces.size() << " province definitions.";
 }
 
 
 void CK3::World::importImperatorProvinces(const Imperator::World& impWorld) {
-	LOG(LogLevel::Info) << "-> Importing Imperator Provinces";
+	Log(LogLevel::Info) << "-> Importing Imperator Provinces";
 	auto counter = 0;
 	// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
 	for (const auto& [provinceID, province] : provinces) {
@@ -218,7 +218,7 @@ void CK3::World::importImperatorProvinces(const Imperator::World& impWorld) {
 		// And finally, initialize it.
 		++counter;
 	}
-	LOG(LogLevel::Info) << ">> " << impWorld.getProvinces().size() << " Imperator provinces imported into " << counter << " CK3 provinces.";
+	Log(LogLevel::Info) << ">> " << impWorld.getProvinces().size() << " Imperator provinces imported into " << counter << " CK3 provinces.";
 }
 
 
@@ -292,12 +292,15 @@ void CK3::World::overWriteCountiesHistory() {
 	Log(LogLevel::Info) << "Overwriting counties' history";
 	for (const auto& title : getTitles() | std::views::values) {
 		if (title->getRank()==TitleRank::county && title->capitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
-			if (!provinces.contains(title->capitalBaronyProvince))
-				LOG(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
+			if (!provinces.contains(title->capitalBaronyProvince)) {
+				Log(LogLevel::Warning) << "Capital barony province not found " << title->capitalBaronyProvince;
+			}
 			else {
-				const auto& impProvince = provinces.find(title->capitalBaronyProvince)->second->getImperatorProvince();
+				const auto& ck3CapitalBaronyProvince = provinces.find(title->capitalBaronyProvince)->second;
+				const auto& impProvince = ck3CapitalBaronyProvince->getImperatorProvince();
 				if (impProvince) {
-					if (const auto& impCountry = impProvince->getOwner().second; impCountry) {
+					const auto& impCountry = impProvince->getOwner().second;
+					if (impCountry && impCountry->getCountryType() != Imperator::countryTypeEnum::rebels) {
 						auto impMonarch = impCountry->getMonarch();
 						if (impMonarch) {
 							const auto& holderItr = characters.find("imperator" + std::to_string(*impMonarch));
@@ -307,11 +310,15 @@ void CK3::World::overWriteCountiesHistory() {
 							title->setDeFactoLiege(nullptr);
 							countyHoldersCache.emplace(title->getHolderID());
 						}
+					} else { // e.g. uncolonised Imperator province
+						title->setHolder(nullptr);
+						title->setDeFactoLiege(nullptr);
 					}
 				}
 				else { // county is probably outside of Imperator map
-					if (!title->getHolderID().empty() && title->getHolderID() != "0")
+					if (!title->getHolderID().empty() && title->getHolderID() != "0") {
 						countyHoldersCache.emplace(title->getHolderID());
+					}
 				}
 			}
 		}
@@ -427,7 +434,7 @@ void CK3::World::linkMothersAndFathers() {
 
 
 void CK3::World::importImperatorFamilies(const Imperator::World& impWorld) {
-	LOG(LogLevel::Info) << "-> Importing Imperator Families";
+	Log(LogLevel::Info) << "-> Importing Imperator Families";
 
 	// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
 	for (const auto& family : impWorld.getFamilies() | std::views::values) {
@@ -437,5 +444,5 @@ void CK3::World::importImperatorFamilies(const Imperator::World& impWorld) {
 		auto newDynasty = make_shared<Dynasty>(*family, localizationMapper);
 		dynasties.emplace(newDynasty->getID(), newDynasty);
 	}
-	LOG(LogLevel::Info) << ">> " << dynasties.size() << " total families imported.";
+	Log(LogLevel::Info) << ">> " << dynasties.size() << " total families imported.";
 }
