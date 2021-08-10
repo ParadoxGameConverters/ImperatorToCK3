@@ -66,6 +66,7 @@ jobs:
     - name: "Run Tests"
       run: |
        cp -r ImperatorToCK3Tests/TestFiles/. ImperatorToCK3Tests/build/TestFiles/
+       cp -r ImperatorToCK3/DataFiles/configurables/. ImperatorToCK3Tests/build/configurables/
        cd ImperatorToCK3Tests/build
        ./ImperatorToCK3Tests
     - name: "Build gcov"
