@@ -65,6 +65,7 @@ jobs:
        cmake -H. -Bbuild && cmake --build build -- -j3
     - name: "Run Tests"
       run: |
+       cp ImperatorToCK3Tests/TestFiles ImperatorToCK3Tests/build/
        cd ImperatorToCK3Tests/build
        ./ImperatorToCK3Tests
     - name: "Build gcov"
