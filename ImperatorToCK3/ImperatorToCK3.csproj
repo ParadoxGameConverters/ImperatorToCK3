@@ -10,4 +10,8 @@
     <ProjectReference Include="..\commonItems.NET\commonItems\commonItems.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Imperator\Provinces\" />
+  </ItemGroup>
+
 </Project>

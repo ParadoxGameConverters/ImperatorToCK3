@@ -1,0 +1,14 @@
+k_rome = {
+	liege = e_italia
+	random_param = random_stuff
+	holder = 67
+}
+
+k_greece = {
+	867.1.1 = {
+		liege = e_persia
+		random_param = random_stuff
+		holder = 420
+		change_development_level = 20
+	}
+}
