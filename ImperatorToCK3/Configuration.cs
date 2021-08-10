@@ -3,8 +3,8 @@ using System;
 using commonItems;
 
 namespace ImperatorToCK3 {
-    enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 };
-    class Configuration : Parser {
+    public enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 };
+    public class Configuration : Parser {
         public string SaveGamePath { get; internal set; } = "";
         public string ImperatorPath { get; internal set; } = "";
         public string ImperatorModsPath { get; internal set; } = "";
