@@ -295,9 +295,11 @@
   <ItemGroup>
     <CopyFileToFolders Include="TestFiles\CoatsOfArms.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)TestFiles</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)TestFiles</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\title_history\TitlesHistory.txt">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)TestFiles/title_history</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)TestFiles/title_history</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
