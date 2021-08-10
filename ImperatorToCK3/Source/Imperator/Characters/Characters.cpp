@@ -52,15 +52,15 @@ void Imperator::Characters::linkFamilies(const Families& theFamilies) {
 		}
 	}
 
-	std::string warningString = "Families without definition:";
+	std::string logString = "Families without definition:";
 	if (!idsWithoutDefinition.empty()) {
 		for (auto id : idsWithoutDefinition) {
-			warningString += " ";
-			warningString += std::to_string(id);
-			warningString += ",";
+			logString += " ";
+			logString += std::to_string(id);
+			logString += ",";
 		}
-		warningString = warningString.substr(0, warningString.size() - 1); //remove last comma
-		Log(LogLevel::Warning) << warningString;
+		logString = logString.substr(0, logString.size() - 1);	// remove last comma
+		Log(LogLevel::Info) << logString;
 	}
 	
 	Log(LogLevel::Info) << "<> " << counter << " families linked to characters.";
