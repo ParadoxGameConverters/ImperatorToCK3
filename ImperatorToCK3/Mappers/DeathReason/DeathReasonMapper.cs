@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 
-namespace ImperatorToCK3.Mappers {
+namespace ImperatorToCK3.Mappers.DeathReason {
     public class DeathReasonMapper : Parser {
         public DeathReasonMapper() {
             Logger.Log(LogLevel.Info, "Parsing death reason mappings.");
@@ -33,6 +33,6 @@ namespace ImperatorToCK3.Mappers {
                 }
             });
         }
-        private Dictionary<string, string> impToCK3ReasonMap = new();
+        private readonly Dictionary<string, string> impToCK3ReasonMap = new();
     }
 }

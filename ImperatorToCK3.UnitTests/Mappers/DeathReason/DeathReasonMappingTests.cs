@@ -1,8 +1,8 @@
 ﻿using commonItems;
-using ImperatorToCK3.Mappers;
+using ImperatorToCK3.Mappers.DeathReason;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.DeathReasonMapper {
+namespace ImperatorToCK3.UnitTests.Mappers.DeathReason {
     public class DeathReasonMappingTests {
         [Fact]
         public void ck3ReasonDefaultsToNullopt() {
