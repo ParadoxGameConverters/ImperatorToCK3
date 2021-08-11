@@ -66,6 +66,7 @@ jobs:
     - name: "Run Tests"
       run: |
        cp -r ImperatorToCK3Tests/TestFiles/. ImperatorToCK3Tests/build/TestFiles/
+       ls -R ImperatorToCK3Tests/build/TestFiles
        cat ImperatorToCK3Tests/build/TestFiles/title_history/TitlesHistory.txt
        cp -r ImperatorToCK3/Data_Files/configurables/. ImperatorToCK3Tests/build/configurables/
        cd ImperatorToCK3Tests/build
