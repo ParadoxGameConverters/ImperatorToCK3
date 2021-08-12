@@ -1,0 +1,169 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using commonItems;
+using Mods = System.Collections.Generic.List<commonItems.Mod>;
+
+namespace ImperatorToCK3.Mappers.Localizaton {
+    public struct LocBlock {
+        public string english;
+        public string french;
+        public string german;
+        public string russian;
+        public string simp_chinese;
+        public string spanish;
+        void ModifyForEveryLanguage(LocBlock otherLocBlock, Action<string, string> modifyingFunction) {
+            modifyingFunction(english, otherLocBlock.english);
+            modifyingFunction(french, otherLocBlock.french);
+            modifyingFunction(german, otherLocBlock.german);
+            modifyingFunction(russian, otherLocBlock.russian);
+            modifyingFunction(simp_chinese, otherLocBlock.simp_chinese);
+            modifyingFunction(spanish, otherLocBlock.spanish);
+        }
+    }
+    public class LocalizationMapper {
+        private readonly Dictionary<string, LocBlock> localizations = new();
+
+        public void ScrapeLocalizations(Configuration configuration, Mods mods) {
+            Logger.Log(LogLevel.Info, "Reading Localization");
+            var impPath = configuration.ImperatorPath;
+            var scrapingPath = Path.Combine(impPath, "game", "localization");
+            ScrapeLanguage("english", scrapingPath);
+            ScrapeLanguage("french", scrapingPath);
+            ScrapeLanguage("german", scrapingPath);
+            ScrapeLanguage("russian", scrapingPath);
+            ScrapeLanguage("simp_chinese", scrapingPath);
+            ScrapeLanguage("spanish", scrapingPath);
+            
+            foreach (var mod in mods) {
+                var modLocPath = Path.Combine(mod.Path, "localization");
+                if (Directory.Exists(modLocPath)) {
+                    Logger.Log(LogLevel.Info, "Found some localization in [" + mod.Name + "]");
+                    ScrapeLanguage("english", Path.Combine(mod.Path, "localization"));
+                    ScrapeLanguage("french", Path.Combine(mod.Path, "localization"));
+                    ScrapeLanguage("german", Path.Combine(mod.Path, "localization"));
+                    ScrapeLanguage("russian", Path.Combine(mod.Path, "localization"));
+                    ScrapeLanguage("simp_chinese", Path.Combine(mod.Path, "localization"));
+                    ScrapeLanguage("spanish", Path.Combine(mod.Path, "localization"));
+                    ScrapeLanguage("english", Path.Combine(mod.Path, "localization", "replace"));
+                    ScrapeLanguage("french", Path.Combine(mod.Path, "localization", "replace"));
+                    ScrapeLanguage("german", Path.Combine(mod.Path, "localization", "replace"));
+                    ScrapeLanguage("russian", Path.Combine(mod.Path, "localization", "replace"));
+                    ScrapeLanguage("simp_chinese", Path.Combine(mod.Path, "localization", "replace"));
+                    ScrapeLanguage("spanish", Path.Combine(mod.Path, "localization", "replace"));
+                }
+            }
+            Logger.Log(LogLevel.Info, localizations.Count.ToString() + "localization lines read.");
+        }
+        private void ScrapeLanguage(string language, string path) {
+            var languagePath = Path.Combine(path, language);
+            if (!Directory.Exists(languagePath)) {
+                return;
+            }
+            var fileNames = SystemUtils.GetAllFilesInFolderRecursive(languagePath);
+            foreach (var fileName in fileNames) {
+                var filePath = Path.Combine(languagePath, fileName);
+                try {
+                    var stream = File.OpenText(filePath);
+                    var reader = new BufferedReader(stream);
+                    ScrapeStream(reader, language);
+                    stream.Close();
+                } catch (Exception e) {
+                    Logger.Log(LogLevel.Warning, "Could not parse localization file " + filePath + " : " + e);
+                }
+            }
+        }
+        private void ScrapeStream(BufferedReader reader, string language) {
+            while (!reader.EndOfStream) {
+                var line = reader.ReadLine();
+                if (line == null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
+                    continue;
+                }
+
+                var sepLoc = line.IndexOf(':');
+                if (sepLoc == -1) {
+                    continue;
+                }
+                var key = line.Substring(1, sepLoc - 1);
+                var newLine = line.Substring(sepLoc + 1);
+                var quoteLoc = newLine.IndexOf('\"');
+                var quote2Loc = newLine.LastIndexOf('\"');
+                if (quoteLoc == -1 || quote2Loc == -1 || quote2Loc - quoteLoc == 0) {
+                    continue;
+                }
+                var value = newLine.Substring(quoteLoc + 1, quote2Loc - quoteLoc - 1);
+
+                var gotValue = localizations.TryGetValue(key, out var locBlock);
+                if (gotValue) {
+                    if (language == "english")
+                        locBlock.english = value;
+                    if (language == "french")
+                        locBlock.french = value;
+                    if (language == "german")
+                        locBlock.german = value;
+                    if (language == "russian")
+                        locBlock.russian = value;
+                    if (language == "simp_chinese")
+                        locBlock.simp_chinese = value;
+                    if (language == "spanish")
+                        locBlock.spanish = value;
+                } else {
+                    var newBlock = new LocBlock();
+                    if (language == "english")
+                        newBlock.english = value;
+                    if (language == "french")
+                        newBlock.french = value;
+                    if (language == "german")
+                        newBlock.german = value;
+                    if (language == "russian")
+                        newBlock.russian = value;
+                    if (language == "simp_chinese")
+                        newBlock.simp_chinese = value;
+                    if (language == "spanish")
+                        newBlock.spanish = value;
+                    localizations.Add(key, newBlock);
+                }
+            }
+        }
+        public LocBlock? GetLocBlockForKey(string key) {
+            var gotValue = localizations.TryGetValue(key, out var locBlock);
+            if (!gotValue) {
+                return null;
+            }
+
+            if (!string.IsNullOrEmpty(locBlock.english) &&
+                !string.IsNullOrEmpty(locBlock.french) &&
+                !string.IsNullOrEmpty(locBlock.german) &&
+                !string.IsNullOrEmpty(locBlock.russian) &&
+                !string.IsNullOrEmpty(locBlock.simp_chinese) &&
+                !string.IsNullOrEmpty(locBlock.spanish)) {
+
+                var newBlock = locBlock;
+                if (string.IsNullOrEmpty(newBlock.french)) {
+                    newBlock.french = newBlock.english;
+                }
+                if (string.IsNullOrEmpty(newBlock.german)) {
+                    newBlock.german = newBlock.english;
+                }
+                if (string.IsNullOrEmpty(newBlock.russian)) {
+                    newBlock.russian = newBlock.english;
+                }
+                if (string.IsNullOrEmpty(newBlock.simp_chinese)) {
+                    newBlock.simp_chinese = newBlock.english;
+                }
+                if (string.IsNullOrEmpty(newBlock.spanish)) {
+                    newBlock.spanish = newBlock.english;
+                }
+                return newBlock;
+            }
+            // Either all is well, or we're missing english. Can't do anything about the latter.
+            return locBlock;
+        }
+        public void AddLocalization(string key, LocBlock locBlock) {
+            localizations[key] = locBlock;
+        }
+    }
+}
