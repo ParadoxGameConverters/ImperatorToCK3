@@ -25,7 +25,7 @@ namespace ImperatorToCK3.Mappers.Government {
                     throw new MissingFieldException("GovernmentMapper: link with no ck3Government");
                 }
 
-                foreach(var imperatorGovernment in mapping.ImperatorGovernments) {
+                foreach (var imperatorGovernment in mapping.ImperatorGovernments) {
                     impToCK3GovernmentMap.Add(imperatorGovernment, mapping.Ck3Government);
                 }
             });
