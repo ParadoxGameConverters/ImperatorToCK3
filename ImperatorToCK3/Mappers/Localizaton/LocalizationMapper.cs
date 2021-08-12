@@ -37,7 +37,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
             ScrapeLanguage("russian", scrapingPath);
             ScrapeLanguage("simp_chinese", scrapingPath);
             ScrapeLanguage("spanish", scrapingPath);
-            
+
             foreach (var mod in mods) {
                 var modLocPath = Path.Combine(mod.Path, "localization");
                 if (Directory.Exists(modLocPath)) {
