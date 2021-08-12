@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Trait;
 using Xunit;
 
