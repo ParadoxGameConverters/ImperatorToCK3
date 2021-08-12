@@ -147,7 +147,7 @@ TEST(ImperatorWorld_ProvinceTests, province_rankDefaultsToSettlement) {
 }
 
 TEST(ImperatorWorld_ProvinceTests, province_rankCanBeSet) {
-	std::stringstream input{ "= { province_rank=settelement }" };
+	std::stringstream input{ "= { province_rank=settlement }" };
 	std::stringstream input2{ "= { province_rank=city }" };
 	std::stringstream input3{ "= { province_rank=city_metropolis }" };
 

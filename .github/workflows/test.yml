@@ -65,6 +65,10 @@ jobs:
        cmake -H. -Bbuild && cmake --build build -- -j3
     - name: "Run Tests"
       run: |
+       cp -r ImperatorToCK3Tests/TestFiles/. ImperatorToCK3Tests/build/TestFiles/
+       ls -R ImperatorToCK3Tests/build/TestFiles
+       cat ImperatorToCK3Tests/build/TestFiles/title_history/TitlesHistory.txt
+       cp -r ImperatorToCK3/Data_Files/configurables/. ImperatorToCK3Tests/build/configurables/
        cd ImperatorToCK3Tests/build
        ./ImperatorToCK3Tests
     - name: "Build gcov"
@@ -74,7 +78,6 @@ jobs:
        export CXX=/usr/bin/g++-11
        make init
        make gcov
-       make lcov
     - name: "Check test coverage"
       run: |
        cd ImperatorToCK3Tests/build

@@ -33,27 +33,18 @@ include_directories(
 add_subdirectory(../commonItems/ZipLib [binary_dir])
 
 # Set the sources
-set(test_sources
-	test_main.cpp
-	#the tests
-	ImperatorWorldTests/Characters/CharacterTests.cpp
-	ImperatorWorldTests/Characters/CharactersTests.cpp
-	ImperatorWorldTests/Families/FamilyTests.cpp
-	ImperatorWorldTests/Families/FamiliesTests.cpp
-	ImperatorWorldTests/Provinces/ProvinceTests.cpp
-	ImperatorWorldTests/Provinces/ProvincesTests.cpp
-	ImperatorWorldTests/Provinces/PopTests.cpp
-	ImperatorWorldTests/Provinces/PopsTests.cpp
-	CommonTests/CommonFunctionsTests.cpp
-)
+file(GLOB_RECURSE CK3WorldTests_SOURCES "CK3WorldTests/*.cpp")
+file(GLOB_RECURSE ImperatorWorldTests_SOURCES "ImperatorWorldTests/*.cpp")
+file(GLOB_RECURSE MapperTests_SOURCES "MapperTests/*.cpp")
+file(GLOB_RECURSE CommonTests_SOURCES "CommonTests/*.cpp")
+file(GLOB_RECURSE CommonUtilitiesTests_SOURCES "CommonUtilitiesTests/*.cpp")
+set(test_sources test_main.cpp)
 
-file(GLOB CONFIGURATION_SOURCES "../ImperatorToCK3/Source/Configuration/*.cpp")
-file(GLOB COMMON_UTILITIES_SOURCES "../ImperatorToCK3/Source/CommonUtilities/*.cpp")
-file(GLOB IMPWORLD_SOURCES "../ImperatorToCK3/Source/Imperator/*.cpp")
-file(GLOB IMPWORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/Imperator/*/*.cpp")
-file(GLOB MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*/*.cpp")
-file(GLOB CK3WORLD_SOURCES "../ImperatorToCK3/Source/CK3/*.cpp")
-file(GLOB CK3WORLD_SUBDIRS_SOURCES "../ImperatorToCK3/Source/CK3/*/*.cpp")
+file(GLOB_RECURSE CONFIGURATION_SOURCES "../ImperatorToCK3/Source/Configuration/*.cpp")
+file(GLOB_RECURSE COMMON_UTILITIES_SOURCES "../ImperatorToCK3/Source/CommonUtilities/*.cpp")
+file(GLOB_RECURSE IMPWORLD_SOURCES "../ImperatorToCK3/Source/Imperator/*.cpp")
+file(GLOB_RECURSE MAPPERS_SOURCES "../ImperatorToCK3/Source/Mappers/*.cpp")
+file(GLOB_RECURSE CK3WORLD_SOURCES "../ImperatorToCK3/Source/CK3/*.cpp")
 set(BASE64_SOURCES "../cpp-base64/base64.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Color.cpp")
@@ -73,13 +64,17 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
 # Create the executable
 add_executable(ImperatorToCK3Tests
 	${test_sources}
+	${CK3WorldTests_SOURCES}
+	${ImperatorWorldTests_SOURCES}
+	${MapperTests_SOURCES}
+	${CommonTests_SOURCES}
+	${CommonUtilitiesTests_SOURCES}
+
 	${CONFIGURATION_SOURCES}
 	${COMMON_UTILITIES_SOURCES}
 	${IMPWORLD_SOURCES}
-	${IMPWORLD_SUBDIRS_SOURCES}
 	${MAPPERS_SOURCES}
 	${CK3WORLD_SOURCES}
-	${CK3WORLD_SUBDIRS_SOURCES}
 	${COMMON_SOURCES}
 	${BASE64_SOURCES}
 )
@@ -87,7 +82,7 @@ add_executable(ImperatorToCK3Tests
 # Create the gcov target. Run coverage tests with 'make gcov'
 add_custom_target(gcov
     COMMAND mkdir -p gcoverage
-    COMMAND ${CMAKE_MAKE_PROGRAM} test
+    COMMAND ${CMAKE_MAKE_PROGRAM} test VERBOSE=1
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 add_custom_command(TARGET gcov
@@ -118,6 +113,7 @@ set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES gcoverage)
 # Create the gcov-clean target. This cleans the build as well as generated 
 # .gcda and .gcno files.
 add_custom_target(init
+    COMMAND echo "=================== INIT ===================="
     COMMAND ${CMAKE_MAKE_PROGRAM} clean
     COMMAND rm -f ${OBJECT_DIR}/*.gcno
     COMMAND rm -f ${OBJECT_DIR}/*.gcda

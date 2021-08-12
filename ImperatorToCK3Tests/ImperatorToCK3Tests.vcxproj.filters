@@ -136,6 +136,9 @@
     <Filter Include="TestFiles\mod\themod">
       <UniqueIdentifier>{2a75fe57-eb1b-4796-8b22-192f62b450a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFiles\title_history">
+      <UniqueIdentifier>{3616713c-5f94-44e0-b646-5781ed8b4592}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImperatorWorldTests\Families\FamilyTests.cpp">
@@ -568,9 +571,6 @@
     <CopyFileToFolders Include="TestFiles\CK3ProvincesHistoryFile.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="CoatsOfArms.txt">
-      <Filter>TestFiles</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\title_map.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
@@ -578,9 +578,6 @@
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\ImperatorToCK3\Data_Files\configurables\religion_map.txt">
-      <Filter>TestFiles</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="TestFiles\TitlesHistory.txt">
       <Filter>TestFiles</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\mod\themod.mod">
@@ -600,6 +597,12 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="TestFiles\mod\themod\README.md">
       <Filter>TestFiles\mod\themod</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\title_history\TitlesHistory.txt">
+      <Filter>TestFiles\title_history</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="TestFiles\CoatsOfArms.txt">
+      <Filter>TestFiles</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>
