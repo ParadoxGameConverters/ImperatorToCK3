@@ -25,5 +25,5 @@ void Imperator::Family::linkMember(const std::shared_ptr<Character>& newMemberPt
 
 
 void Imperator::Family::removeUnlinkedMembers() {
-	auto removedCount = std::erase_if(members, [](auto member) { return member.second == nullptr; });
+	std::erase_if(members, [](auto member) { return member.second == nullptr; });
 }
