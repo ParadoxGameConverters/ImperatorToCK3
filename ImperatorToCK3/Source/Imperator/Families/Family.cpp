@@ -22,3 +22,8 @@ void Imperator::Family::linkMember(const std::shared_ptr<Character>& newMemberPt
 	// matching ID was not found
 	Log(LogLevel::Warning) << "Family " << ID << ": cannot link " << newMemberPtr->getID() << ": not found in members!";
 }
+
+
+void Imperator::Family::removeUnlinkedMembers() {
+	auto removedCount = std::erase_if(members, [](auto member) { return member.second == nullptr; });
+}

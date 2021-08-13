@@ -19,6 +19,13 @@ void Imperator::Families::loadFamilies(std::istream& theStream) {
 }
 
 
+void Imperator::Families::removeUnlinkedMembers() {
+	for (const auto& family : families) {
+		family.second->removeUnlinkedMembers();
+	}
+}
+
+
 void Imperator::Families::registerKeys() {
 	registerRegex(commonItems::integerRegex, [this](const std::string& theFamilyID, std::istream& theStream) {
 		const auto familyStr = commonItems::stringOfItem(theStream).getString();

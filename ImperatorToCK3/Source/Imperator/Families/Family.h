@@ -17,6 +17,7 @@ class Family {
 	Family() = default;
 
 	void linkMember(const std::shared_ptr<Character>& newMemberPtr);
+	void removeUnlinkedMembers();
 
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] const auto& getKey() const { return key; }

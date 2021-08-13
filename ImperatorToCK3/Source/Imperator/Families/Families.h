@@ -15,6 +15,7 @@ class Families : commonItems::parser {
 public:
 	void loadFamilies(const std::string& thePath);
 	void loadFamilies(std::istream& theStream);
+	void removeUnlinkedMembers();
 
 	auto& operator= (const Families& obj) { this->families = obj.families; return *this; }
 
