@@ -104,6 +104,7 @@ Imperator::World::World(const Configuration& theConfiguration, const commonItems
 	// Link all the intertwining pointers
 	Log(LogLevel::Info) << "-- Linking Characters with Families";
 	characters.linkFamilies(families);
+	families.removeUnlinkedMembers();
 	Log(LogLevel::Info) << "-- Linking Characters with Spouses";
 	characters.linkSpouses();
 	Log(LogLevel::Info) << "-- Linking Characters with Mothers and Fathers";
