@@ -12,13 +12,28 @@ namespace ImperatorToCK3.Mappers.Localizaton {
         public string russian = "";
         public string simp_chinese = "";
         public string spanish = "";
-        void ModifyForEveryLanguage(LocBlock otherLocBlock, Action<string, string> modifyingFunction) {
-            modifyingFunction(english, otherLocBlock.english);
-            modifyingFunction(french, otherLocBlock.french);
-            modifyingFunction(german, otherLocBlock.german);
-            modifyingFunction(russian, otherLocBlock.russian);
-            modifyingFunction(simp_chinese, otherLocBlock.simp_chinese);
-            modifyingFunction(spanish, otherLocBlock.spanish);
+
+        // ModifyForEveryLanguage helps remove boilerplate by applying modifyingMethod to every language in the struct
+        //
+        // For example:
+        // nameLoc.english.Replace("$ADJ$", baseAdjLoc.english);
+        // nameLoc.french.Replace("$ADJ$", baseAdjLoc.french);
+        // nameLoc.german.Replace("$ADJ$", baseAdjLoc.german);
+        // nameLoc.russian.Replace("$ADJ$", baseAdjLoc.russian);
+        // nameLoc.simp_chinese.Replace("$ADJ$", baseAdjLoc.simp_chinese);
+        // nameLoc.spanish.Replace("$ADJ$", baseAdjLoc.spanish);
+        //
+        // Can be replaced by:
+        // nameLoc.ModifyForEveryLanguage(baseAdjLoc, (baseLoc, modifyingLoc) => {
+        //     baseLoc.Replace("$ADJ$", modifying);
+        // });
+        void ModifyForEveryLanguage(LocBlock otherLocBlock, Action<string, string> modifyingMethod) {
+            modifyingMethod(english, otherLocBlock.english);
+            modifyingMethod(french, otherLocBlock.french);
+            modifyingMethod(german, otherLocBlock.german);
+            modifyingMethod(russian, otherLocBlock.russian);
+            modifyingMethod(simp_chinese, otherLocBlock.simp_chinese);
+            modifyingMethod(spanish, otherLocBlock.spanish);
         }
         public void SetLocForLanguage(string languageName, string value) {
             switch (languageName) {
@@ -124,7 +139,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
                 }
             }
         }
-        private KeyValuePair<string?, string?> DetermineKeyLocalizationPair(string? line) {
+        private static KeyValuePair<string?, string?> DetermineKeyLocalizationPair(string? line) {
             if (line == null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
                 return new KeyValuePair<string?, string?>();
             }
