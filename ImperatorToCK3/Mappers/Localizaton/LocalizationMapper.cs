@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
 using Mods = System.Collections.Generic.List<commonItems.Mod>;
 
@@ -22,6 +19,18 @@ namespace ImperatorToCK3.Mappers.Localizaton {
             modifyingFunction(russian, otherLocBlock.russian);
             modifyingFunction(simp_chinese, otherLocBlock.simp_chinese);
             modifyingFunction(spanish, otherLocBlock.spanish);
+        }
+        private void FillMissingLocWithEnglish(ref string language) {
+            if (string.IsNullOrEmpty(language)) {
+                language = english;
+            }
+        }
+        public void FillMissingLocsWithEnglish() {
+            FillMissingLocWithEnglish(ref french);
+            FillMissingLocWithEnglish(ref german);
+            FillMissingLocWithEnglish(ref russian);
+            FillMissingLocWithEnglish(ref simp_chinese);
+            FillMissingLocWithEnglish(ref spanish);
         }
     }
     public class LocalizationMapper {
@@ -135,28 +144,15 @@ namespace ImperatorToCK3.Mappers.Localizaton {
             }
 
             if (!string.IsNullOrEmpty(locBlock.english) &&
-                !string.IsNullOrEmpty(locBlock.french) &&
-                !string.IsNullOrEmpty(locBlock.german) &&
-                !string.IsNullOrEmpty(locBlock.russian) &&
-                !string.IsNullOrEmpty(locBlock.simp_chinese) &&
-                !string.IsNullOrEmpty(locBlock.spanish)) {
+                (string.IsNullOrEmpty(locBlock.french) ||
+                string.IsNullOrEmpty(locBlock.german) ||
+                string.IsNullOrEmpty(locBlock.russian) ||
+                string.IsNullOrEmpty(locBlock.simp_chinese) ||
+                string.IsNullOrEmpty(locBlock.spanish))
+            ) {
 
                 var newBlock = locBlock;
-                if (string.IsNullOrEmpty(newBlock.french)) {
-                    newBlock.french = newBlock.english;
-                }
-                if (string.IsNullOrEmpty(newBlock.german)) {
-                    newBlock.german = newBlock.english;
-                }
-                if (string.IsNullOrEmpty(newBlock.russian)) {
-                    newBlock.russian = newBlock.english;
-                }
-                if (string.IsNullOrEmpty(newBlock.simp_chinese)) {
-                    newBlock.simp_chinese = newBlock.english;
-                }
-                if (string.IsNullOrEmpty(newBlock.spanish)) {
-                    newBlock.spanish = newBlock.english;
-                }
+                newBlock.FillMissingLocsWithEnglish();
                 return newBlock;
             }
             // Either all is well, or we're missing english. Can't do anything about the latter.
