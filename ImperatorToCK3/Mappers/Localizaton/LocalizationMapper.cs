@@ -107,7 +107,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
                 }
             }
         }
-        private void ScrapeStream(BufferedReader reader, string language) {
+        public void ScrapeStream(BufferedReader reader, string language) {
             while (!reader.EndOfStream) {
                 var line = reader.ReadLine();
                 if (line == null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
