@@ -16,15 +16,15 @@ namespace ImperatorToCK3.Mappers.Localizaton {
         // ModifyForEveryLanguage helps remove boilerplate by applying modifyingMethod to every language in the struct
         //
         // For example:
-        // nameLoc.english.Replace("$ADJ$", baseAdjLoc.english);
-        // nameLoc.french.Replace("$ADJ$", baseAdjLoc.french);
-        // nameLoc.german.Replace("$ADJ$", baseAdjLoc.german);
-        // nameLoc.russian.Replace("$ADJ$", baseAdjLoc.russian);
-        // nameLoc.simp_chinese.Replace("$ADJ$", baseAdjLoc.simp_chinese);
-        // nameLoc.spanish.Replace("$ADJ$", baseAdjLoc.spanish);
+        // nameLocBlock.english.Replace("$ADJ$", baseAdjLocBlock.english);
+        // nameLocBlock.french.Replace("$ADJ$", baseAdjLocBlock.french);
+        // nameLocBlock.german.Replace("$ADJ$", baseAdjLocBlock.german);
+        // nameLocBlock.russian.Replace("$ADJ$", baseAdjLocBlock.russian);
+        // nameLocBlock.simp_chinese.Replace("$ADJ$", baseAdjLocBlock.simp_chinese);
+        // nameLocBlock.spanish.Replace("$ADJ$", baseAdjLocBlock.spanish);
         //
         // Can be replaced by:
-        // nameLoc.ModifyForEveryLanguage(baseAdjLoc, (baseLoc, modifyingLoc) => {
+        // nameLocBlock.ModifyForEveryLanguage(baseAdjLocBlock, (baseLoc, modifyingLoc) => {
         //     baseLoc.Replace("$ADJ$", modifyingLoc);
         // });
         void ModifyForEveryLanguage(LocBlock otherLocBlock, Action<string, string> modifyingMethod) {
