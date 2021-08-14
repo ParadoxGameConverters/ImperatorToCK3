@@ -20,6 +20,28 @@ namespace ImperatorToCK3.Mappers.Localizaton {
             modifyingFunction(simp_chinese, otherLocBlock.simp_chinese);
             modifyingFunction(spanish, otherLocBlock.spanish);
         }
+        public void SetLocForLanguage(string languageName, string value) {
+            switch (languageName) {
+                case "english":
+                    english = value;
+                    break;
+                case "french":
+                    french = value;
+                    break;
+                case "german":
+                    german = value;
+                    break;
+                case "russian":
+                    russian = value;
+                    break;
+                case "simp_chinese":
+                    simp_chinese = value;
+                    break;
+                case "spanish":
+                    spanish = value;
+                    break;
+            }
+        }
         private void FillMissingLocWithEnglish(ref string language) {
             if (string.IsNullOrEmpty(language)) {
                 language = english;
@@ -107,32 +129,10 @@ namespace ImperatorToCK3.Mappers.Localizaton {
 
                 var gotValue = localizations.TryGetValue(key, out var locBlock);
                 if (gotValue) {
-                    if (language == "english")
-                        locBlock.english = value;
-                    if (language == "french")
-                        locBlock.french = value;
-                    if (language == "german")
-                        locBlock.german = value;
-                    if (language == "russian")
-                        locBlock.russian = value;
-                    if (language == "simp_chinese")
-                        locBlock.simp_chinese = value;
-                    if (language == "spanish")
-                        locBlock.spanish = value;
+                    locBlock.SetLocForLanguage(language, value);
                 } else {
                     var newBlock = new LocBlock();
-                    if (language == "english")
-                        newBlock.english = value;
-                    if (language == "french")
-                        newBlock.french = value;
-                    if (language == "german")
-                        newBlock.german = value;
-                    if (language == "russian")
-                        newBlock.russian = value;
-                    if (language == "simp_chinese")
-                        newBlock.simp_chinese = value;
-                    if (language == "spanish")
-                        newBlock.spanish = value;
+                    newBlock.SetLocForLanguage(language, value);
                     localizations.Add(key, newBlock);
                 }
             }
@@ -150,7 +150,6 @@ namespace ImperatorToCK3.Mappers.Localizaton {
                 string.IsNullOrEmpty(locBlock.simp_chinese) ||
                 string.IsNullOrEmpty(locBlock.spanish))
             ) {
-
                 var newBlock = locBlock;
                 newBlock.FillMissingLocsWithEnglish();
                 return newBlock;
