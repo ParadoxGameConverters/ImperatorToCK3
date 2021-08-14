@@ -5,13 +5,13 @@ using commonItems;
 using Mods = System.Collections.Generic.List<commonItems.Mod>;
 
 namespace ImperatorToCK3.Mappers.Localizaton {
-    public struct LocBlock {
-        public string english;
-        public string french;
-        public string german;
-        public string russian;
-        public string simp_chinese;
-        public string spanish;
+    public class LocBlock {
+        public string english = "";
+        public string french = "";
+        public string german = "";
+        public string russian = "";
+        public string simp_chinese = "";
+        public string spanish = "";
         void ModifyForEveryLanguage(LocBlock otherLocBlock, Action<string, string> modifyingFunction) {
             modifyingFunction(english, otherLocBlock.english);
             modifyingFunction(french, otherLocBlock.french);
