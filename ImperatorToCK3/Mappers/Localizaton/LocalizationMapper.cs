@@ -109,33 +109,38 @@ namespace ImperatorToCK3.Mappers.Localizaton {
         }
         public void ScrapeStream(BufferedReader reader, string language) {
             while (!reader.EndOfStream) {
-                var line = reader.ReadLine();
-                if (line == null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
+                var (key, loc) = DetermineKeyLocalizationPair(reader.ReadLine());
+                if (key is null || loc is null) {
                     continue;
                 }
-
-                var sepLoc = line.IndexOf(':');
-                if (sepLoc == -1) {
-                    continue;
-                }
-                var key = line.Substring(1, sepLoc - 1);
-                var newLine = line.Substring(sepLoc + 1);
-                var quoteLoc = newLine.IndexOf('\"');
-                var quote2Loc = newLine.LastIndexOf('\"');
-                if (quoteLoc == -1 || quote2Loc == -1 || quote2Loc - quoteLoc == 0) {
-                    continue;
-                }
-                var value = newLine.Substring(quoteLoc + 1, quote2Loc - quoteLoc - 1);
 
                 var gotValue = localizations.TryGetValue(key, out var locBlock);
                 if (gotValue) {
-                    locBlock.SetLocForLanguage(language, value);
+                    locBlock.SetLocForLanguage(language, loc);
                 } else {
                     var newBlock = new LocBlock();
-                    newBlock.SetLocForLanguage(language, value);
+                    newBlock.SetLocForLanguage(language, loc);
                     localizations.Add(key, newBlock);
                 }
             }
+        }
+        private KeyValuePair<string?, string?> DetermineKeyLocalizationPair(string? line) {
+            if (line == null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
+                return new KeyValuePair<string?, string?>();
+            }
+            var sepLoc = line.IndexOf(':');
+            if (sepLoc == -1) {
+                return new KeyValuePair<string?, string?>();
+            }
+            var key = line.Substring(1, sepLoc - 1);
+            var newLine = line.Substring(sepLoc + 1);
+            var quoteLoc = newLine.IndexOf('\"');
+            var quote2Loc = newLine.LastIndexOf('\"');
+            if (quoteLoc == -1 || quote2Loc == -1 || quote2Loc - quoteLoc == 0) {
+                return new KeyValuePair<string?, string?>(key, null);
+            }
+            var value = newLine.Substring(quoteLoc + 1, quote2Loc - quoteLoc - 1);
+            return new KeyValuePair<string?, string?>(key, value);
         }
         public LocBlock? GetLocBlockForKey(string key) {
             var gotValue = localizations.TryGetValue(key, out var locBlock);
