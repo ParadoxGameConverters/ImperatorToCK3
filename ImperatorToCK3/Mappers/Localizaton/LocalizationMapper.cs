@@ -25,7 +25,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
         //
         // Can be replaced by:
         // nameLoc.ModifyForEveryLanguage(baseAdjLoc, (baseLoc, modifyingLoc) => {
-        //     baseLoc.Replace("$ADJ$", modifying);
+        //     baseLoc.Replace("$ADJ$", modifyingLoc);
         // });
         void ModifyForEveryLanguage(LocBlock otherLocBlock, Action<string, string> modifyingMethod) {
             modifyingMethod(english, otherLocBlock.english);
