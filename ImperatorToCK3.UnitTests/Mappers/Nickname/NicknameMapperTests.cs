@@ -4,7 +4,8 @@ using ImperatorToCK3.Mappers.Nickname;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 	public class NicknameMapperTests {
-		[Fact] public void nonMatchGivesEmptyOptional() {
+		[Fact]
+		public void nonMatchGivesEmptyOptional() {
 			var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
 			var mapper = new NicknameMapper(reader);
 
