@@ -48,5 +48,33 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 
 			Assert.Equal("value 1", ((LocBlock)locs.GetLocBlockForKey("key1")).french);
 		}
+
+		[Fact] public void LocCanBeModifiedByMethodForEveryLanguage() {
+			var nameLocBlock = new LocBlock {
+				english = "$ADJ$ Revolt",
+				french = "$ADJ$ révolte",
+				german = "$ADJ$ Revolte",
+				russian = "$ADJ$ бунт",
+				simp_chinese = "$ADJ$ 反叛",
+				spanish = "$ADJ$ revuelta"
+			};
+			var adjLocBlock = new LocBlock {
+				english = "Roman",
+				french = "Romain",
+				german = "römisch",
+				russian = "Роман",
+				simp_chinese = "罗马",
+				spanish = "Romana"
+			};
+			nameLocBlock.ModifyForEveryLanguage(adjLocBlock, (ref string baseLoc, string modifyingLoc) => {
+				baseLoc = baseLoc.Replace("$ADJ$", modifyingLoc);
+			});
+			Assert.Equal("Roman Revolt", nameLocBlock.english);
+			Assert.Equal("Romain révolte", nameLocBlock.french);
+			Assert.Equal("römisch Revolte", nameLocBlock.german);
+			Assert.Equal("Роман бунт", nameLocBlock.russian);
+			Assert.Equal("罗马 反叛", nameLocBlock.simp_chinese);
+			Assert.Equal("Romana revuelta", nameLocBlock.spanish);
+		}
 	}
 }

@@ -5,6 +5,8 @@ using commonItems;
 using Mods = System.Collections.Generic.List<commonItems.Mod>;
 
 namespace ImperatorToCK3.Mappers.Localizaton {
+    public delegate void LocDelegate(ref string baseLoc, string modifyingLoc);
+
     public class LocBlock {
         public string english = "";
         public string french = "";
@@ -16,24 +18,24 @@ namespace ImperatorToCK3.Mappers.Localizaton {
         // ModifyForEveryLanguage helps remove boilerplate by applying modifyingMethod to every language in the struct
         //
         // For example:
-        // nameLocBlock.english.Replace("$ADJ$", baseAdjLocBlock.english);
-        // nameLocBlock.french.Replace("$ADJ$", baseAdjLocBlock.french);
-        // nameLocBlock.german.Replace("$ADJ$", baseAdjLocBlock.german);
-        // nameLocBlock.russian.Replace("$ADJ$", baseAdjLocBlock.russian);
-        // nameLocBlock.simp_chinese.Replace("$ADJ$", baseAdjLocBlock.simp_chinese);
-        // nameLocBlock.spanish.Replace("$ADJ$", baseAdjLocBlock.spanish);
+        // nameLocBlock.english = nameLocBlock.english.Replace("$ADJ$", baseAdjLocBlock.english);
+        // nameLocBlock.french = nameLocBlock.french.Replace("$ADJ$", baseAdjLocBlock.french);
+        // nameLocBlock.german = nameLocBlock.german.Replace("$ADJ$", baseAdjLocBlock.german);
+        // nameLocBlock.russian = nameLocBlock.russian.Replace("$ADJ$", baseAdjLocBlock.russian);
+        // nameLocBlock.simp_chinese = nameLocBlock.simp_chinese.Replace("$ADJ$", baseAdjLocBlock.simp_chinese);
+        // nameLocBlock.spanish = nameLocBlock.spanish.Replace("$ADJ$", baseAdjLocBlock.spanish);
         //
         // Can be replaced by:
-        // nameLocBlock.ModifyForEveryLanguage(baseAdjLocBlock, (baseLoc, modifyingLoc) => {
-        //     baseLoc.Replace("$ADJ$", modifyingLoc);
+        // nameLocBlock.ModifyForEveryLanguage(baseAdjLocBlock, (ref string baseLoc, string modifyingLoc) => {
+        //     baseLoc = baseLoc.Replace("$ADJ$", modifyingLoc);
         // });
-        void ModifyForEveryLanguage(LocBlock otherLocBlock, Action<string, string> modifyingMethod) {
-            modifyingMethod(english, otherLocBlock.english);
-            modifyingMethod(french, otherLocBlock.french);
-            modifyingMethod(german, otherLocBlock.german);
-            modifyingMethod(russian, otherLocBlock.russian);
-            modifyingMethod(simp_chinese, otherLocBlock.simp_chinese);
-            modifyingMethod(spanish, otherLocBlock.spanish);
+        public void ModifyForEveryLanguage(LocBlock otherLocBlock, LocDelegate modifyingMethod) {
+            modifyingMethod(ref english, otherLocBlock.english);
+            modifyingMethod(ref french, otherLocBlock.french);
+            modifyingMethod(ref german, otherLocBlock.german);
+            modifyingMethod(ref russian, otherLocBlock.russian);
+            modifyingMethod(ref simp_chinese, otherLocBlock.simp_chinese);
+            modifyingMethod(ref spanish, otherLocBlock.spanish);
         }
         public void SetLocForLanguage(string languageName, string value) {
             switch (languageName) {
