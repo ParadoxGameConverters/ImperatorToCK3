@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using ImperatorToCK3.Mappers;
+using ImperatorToCK3.Mappers.CoA;
 
 namespace ImperatorToCK3.UnitTests.Mappers {
     public class CoaMapperTests {
