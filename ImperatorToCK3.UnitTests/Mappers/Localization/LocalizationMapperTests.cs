@@ -76,5 +76,21 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 			Assert.Equal("罗马 反叛", nameLocBlock.simp_chinese);
 			Assert.Equal("Romana revuelta", nameLocBlock.spanish);
 		}
+
+		[Fact] public void LocalizationCanBeAddedForKey() {
+			var localizationMapper = new LocalizationMapper();
+			Assert.Null(localizationMapper.GetLocBlockForKey("key1"));
+			localizationMapper.AddLocalization("key1", new LocBlock {
+				english = "Roman", french = "Romain"
+			});
+
+			var locBlock = localizationMapper.GetLocBlockForKey("key1");
+			Assert.Equal("Roman", locBlock.english);
+			Assert.Equal("Romain", locBlock.french);
+			Assert.Equal("Roman", locBlock.german);
+			Assert.Equal("Roman", locBlock.russian);
+			Assert.Equal("Roman", locBlock.simp_chinese);
+			Assert.Equal("Roman", locBlock.spanish);
+        }
 	}
 }
