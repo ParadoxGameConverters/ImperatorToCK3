@@ -3,8 +3,9 @@ using ImperatorToCK3.Mappers.Trait;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Trait {
-    public class TraitMapperTests {
-		[Fact] public void NonMatchGivesEmptyOptional() {
+	public class TraitMapperTests {
+		[Fact]
+		public void NonMatchGivesEmptyOptional() {
 			var reader = new BufferedReader("link = { ck3 = ck3Trait imp = impTrait }");
 			var mapper = new TraitMapper(reader);
 
@@ -13,7 +14,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Trait {
 		}
 
 
-		[Fact] public void Ck3TraitCanBeFound() {
+		[Fact]
+		public void Ck3TraitCanBeFound() {
 			var reader = new BufferedReader("link = { ck3 = ck3Trait imp = impTrait }");
 			var mapper = new TraitMapper(reader);
 
