@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Outputter {
 			Logger.Log(LogLevel.Info, "************ -= The Paradox Converters Team =- ********************");
 			Logger.Log(LogLevel.Info, "* Converter build based on commit " + commitID);
 			Logger.Log(LogLevel.Info, "* " + versionParser.GetDescription());
-			Logger.Log(LogLevel.Info, "* Built on " + compileTime.ToLongDateString());
+			Logger.Log(LogLevel.Info, "* Built on " + compileTime.ToShortDateString() + " " + compileTime.ToLongTimeString());
 			Logger.Log(LogLevel.Info, "*********** + Imperator: Rome To Crusader Kings III + *************\n");
 		}
 	}
