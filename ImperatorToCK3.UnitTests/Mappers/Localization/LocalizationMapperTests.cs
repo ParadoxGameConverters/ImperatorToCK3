@@ -32,6 +32,39 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 		}
 
 		[Fact]
+		public void UnquotedLocIsIgnored() {
+			var reader = new BufferedReader(
+				CommonFunctions.UTF8BOM + "l_english:\n" +
+				" key1:0 unqotedValue"
+			);
+			var locMapper = new LocalizationMapper();
+			locMapper.ScrapeStream(reader, "english");
+			Assert.Null(locMapper.GetLocBlockForKey("key1"));
+		}
+
+		[Fact]
+		public void LocUnseparatedFromKeyIsIgnored() {
+			var reader = new BufferedReader(
+				CommonFunctions.UTF8BOM + "l_english:\n" +
+				" key1 \"loc\""
+			);
+			var locMapper = new LocalizationMapper();
+			locMapper.ScrapeStream(reader, "english");
+			Assert.Null(locMapper.GetLocBlockForKey("key1"));
+		}
+
+		[Fact]
+		public void CommentLinesAreIgnored() {
+			var reader = new BufferedReader(
+				CommonFunctions.UTF8BOM + "l_english:\n" +
+				"#key1: \"loc\""
+			);
+			var locMapper = new LocalizationMapper();
+			locMapper.ScrapeStream(reader, "english");
+			Assert.Null(locMapper.GetLocBlockForKey("key1"));
+		}
+
+		[Fact]
 		public void LocalisationsReturnNullForMissingKey() {
 			var locs = new LocalizationMapper();
 			Assert.Null(locs.GetLocBlockForKey("key1"));
