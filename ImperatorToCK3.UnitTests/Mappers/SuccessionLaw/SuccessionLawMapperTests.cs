@@ -2,6 +2,8 @@
 using Xunit;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using commonItems;
+using System.IO;
+using System;
 
 namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 	public class SuccessionLawMapperTests {
@@ -22,6 +24,18 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 
 			var ck3Laws = mapper.GetCK3LawsForImperatorLaws(new SortedSet<string> { "implaw" });
 			Assert.Equal(new SortedSet<string> { "ck3law" }, ck3Laws);
+		}
+
+
+		[Fact]
+		public void LinkWithNoCK3LawResultsInWarning() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var reader = new BufferedReader("link = { imp = implaw }");
+			var mapper = new SuccessionLawMapper(reader);
+
+			Assert.Contains("SuccessionLawMapper: link with no CK3 successions laws", output.ToString());
 		}
 
 
