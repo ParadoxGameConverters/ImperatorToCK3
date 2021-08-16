@@ -90,7 +90,7 @@ namespace ImperatorToCK3 {
             if (OutputModName.Length == 0) {
                 OutputModName = CommonFunctions.TrimPath(SaveGamePath);
             }
-            OutputModName = CommonFunctions.TrimExtenstion(OutputModName);
+            OutputModName = CommonFunctions.TrimExtension(OutputModName);
             OutputModName = OutputModName.Replace('-', '_');
             OutputModName = OutputModName.Replace(' ', '_');
 

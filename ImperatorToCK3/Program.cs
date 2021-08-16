@@ -1,11 +1,14 @@
-﻿using commonItems;
-using System;
+﻿using System;
+using commonItems;
+using ImperatorToCK3.Outputter;
 
 namespace ImperatorToCK3 {
     class Program {
         static int Main(string[] args) {
             try {
-                Logger.Log(LogLevel.Info, "Hello World!");
+                var converterVersion = new ConverterVersion();
+                converterVersion.LoadVersion("configurables/version.txt");
+                VersionOutputter.LogConverterVersion(converterVersion);
                 if (args.Length > 0) {
                     Logger.Log(LogLevel.Warning, "ImperatorToCK3 takes no parameters.");
                     Logger.Log(LogLevel.Warning, "It uses configuration.txt, configured manually or by the frontend.");

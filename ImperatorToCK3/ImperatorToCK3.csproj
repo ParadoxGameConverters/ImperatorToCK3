@@ -7,8 +7,28 @@
 	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Release\ImperatorToCK3\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AssemblyName>ImperatorToCK3Converter</AssemblyName>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\commonItems.NET\commonItems\commonItems.csproj" />
   </ItemGroup>
+
+  <Target Name="Date" BeforeTargets="CoreCompile">
+    <WriteLinesToFile File="$(IntermediateOutputPath)gen.cs" Lines="static partial class Builtin { public static long CompileTime = $([System.DateTime]::UtcNow.Ticks) %3B }" Overwrite="true" />
+    <ItemGroup>
+      <Compile Include="$(IntermediateOutputPath)gen.cs" />
+    </ItemGroup>
+  </Target>
 
 </Project>

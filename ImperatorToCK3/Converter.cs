@@ -12,7 +12,7 @@ namespace ImperatorToCK3 {
             var config = new Configuration();
         }
 
-        void LogGameVersions(string imperatorPath, string ck3Path) {
+        private void LogGameVersions(string imperatorPath, string ck3Path) {
 
         }
     }

@@ -2,7 +2,7 @@
 using commonItems;
 using System.IO;
 
-namespace ImperatorToCK3.Mappers {
+namespace ImperatorToCK3.Mappers.CoA {
     public class CoaMapper : Parser {
         public CoaMapper(Configuration theConfiguration) {
             var coasPath = Path.Combine(theConfiguration.ImperatorPath, "game", "common", "coat_of_arms", "coat_of_arms");

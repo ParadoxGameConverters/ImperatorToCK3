@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 
-namespace ImperatorToCK3.Mappers {
+namespace ImperatorToCK3.Mappers.DeathReason {
     public class DeathReasonMapping : Parser {
         public SortedSet<string> ImpReasons { get; set; } = new();
         public string? Ck3Reason { get; set; }
