@@ -6,7 +6,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 	public class AccessoryGeneTests {
 
 		[Fact]
-		public void indexCanBeSet() {
+		public void IndexCanBeSet() {
 			var reader = new BufferedReader(
 				"=\n" +
 				"{\n" +
@@ -19,7 +19,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void indexDefaultsTo0() {
+		public void IndexDefaultsTo0() {
 			var reader = new BufferedReader("={}");
 			var gene = new AccessoryGene(reader);
 
@@ -27,7 +27,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void geneTemplatesDefaultToEmpty() {
+		public void GeneTemplatesDefaultToEmpty() {
 			var reader = new BufferedReader("={}");
 			var gene = new AccessoryGene(reader);
 
@@ -35,7 +35,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void accessoryGeneIsProperlyLoaded() {
+		public void AccessoryGeneIsProperlyLoaded() {
 			var reader = new BufferedReader(
 				" = {\n" +
 				"	index = 95\n" +
