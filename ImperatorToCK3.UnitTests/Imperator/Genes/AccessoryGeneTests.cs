@@ -4,7 +4,6 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 	public class AccessoryGeneTests {
-
 		[Fact]
 		public void IndexCanBeSet() {
 			var reader = new BufferedReader(

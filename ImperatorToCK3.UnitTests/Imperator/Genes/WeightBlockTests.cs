@@ -4,9 +4,7 @@ using ImperatorToCK3.Imperator.Genes;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Genes {
-	public class WeighBlockTests {
-
-
+	public class WeightBlockTests {
 		[Fact]
 		public void ObjectsCanBeAdded() {
 			var reader = new BufferedReader(

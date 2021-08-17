@@ -17,7 +17,6 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 			Assert.Equal((uint)69, genes.Index);
 		}
 
-
 		[Fact]
 		public void IndexDefaultsTo0() {
 			var reader = new BufferedReader("= {}");
