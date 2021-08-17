@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
 using ImperatorToCK3.Imperator.Genes;
 using Xunit;
@@ -11,7 +7,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 	public class WeighBlockTests {
 
 
-		[Fact] public void objectsCanBeAdded() {
+		[Fact]
+		public void ObjectsCanBeAdded() {
 			var reader = new BufferedReader(
 				"=\n" +
 				"{\n" +
@@ -26,14 +23,14 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 			Assert.Equal((uint)2, weightBlock.GetAbsoluteWeight("sdfsdf"));
 			Assert.Equal((uint)6, weightBlock.GetAbsoluteWeight("random"));
 			Assert.Equal((uint)13, weightBlock.SumOfAbsoluteWeights);
-			
+
 			Assert.Equal("female_hair_greek_1", weightBlock.GetMatchingObject(0.37234234));
 			Assert.Equal("sdfsdf", weightBlock.GetMatchingObject(0.52234234234));
 			Assert.Equal("random", weightBlock.GetMatchingObject(1));
 		}
 
 		[Fact]
-		public void objectsCanBeAddedByMethod() {
+		public void ObjectsCanBeAddedByMethod() {
 			var weightBlock = new WeightBlock();
 			weightBlock.AddObject("new_object", 69);
 			weightBlock.AddObject("new_object2", 5);
@@ -46,11 +43,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void sumOfAbsoluteWeightsDefaultsToZero() {
+		public void SumOfAbsoluteWeightsDefaultsToZero() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= {}"
 			);
 			var weightBlock = new WeightBlock(reader);
 
@@ -58,7 +53,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void getMatchingObjectThrowsErrorOnNegativeArgument() {
+		public void GetMatchingObjectThrowsErrorOnNegativeArgument() {
 			var reader = new BufferedReader(
 				"=\n" +
 				"{\n" +
@@ -67,11 +62,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 			);
 			var weightBlock = new WeightBlock(reader);
 
-			Assert.Throws<ArgumentOutOfRangeException>(()=>weightBlock.GetMatchingObject(-0.5));
+			Assert.Throws<ArgumentOutOfRangeException>(() => weightBlock.GetMatchingObject(-0.5));
 		}
 
 		[Fact]
-		public void getMatchingObjectThrowsErrorOnArgumentGreaterThan1() {
+		public void GetMatchingObjectThrowsErrorOnArgumentGreaterThan1() {
 			var reader = new BufferedReader(
 				"=\n" +
 				"{\n" +
@@ -84,11 +79,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void getMatchingObjectReturnsNulloptWhenObjectsMapIsEmpty() {
+		public void GetMatchingObjectReturnsNulloptWhenObjectsMapIsEmpty() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= {}"
 			);
 			var weightBlock = new WeightBlock(reader);
 

@@ -17,12 +17,12 @@ namespace ImperatorToCK3.Imperator.Genes {
 			});
 			RegisterRegex("male|female|boy|girl", (reader, ageSexStr) => {
 				var stringOfItem = new StringOfItem(reader).String;
+				var tempStream = new BufferedReader(stringOfItem);
 				if (stringOfItem.IndexOf('{') != -1) { // for full blocks: "male = { 6 = hoodie 7 = tshirt }"
-					var tempStream = new BufferedReader(stringOfItem);
 					var ageSexBlock = new WeightBlock(tempStream);
 					AgeSexWeightBlocks.Add(ageSexStr, ageSexBlock);
 				} else { // for copies: "boy = male"
-					var sexAge = new SingleString(reader).String;
+					var sexAge = new SingleString(tempStream).String;
 					if (AgeSexWeightBlocks.TryGetValue(sexAge, out var blockToCopy)) {
 						AgeSexWeightBlocks.Add(ageSexStr, blockToCopy);
 					}
