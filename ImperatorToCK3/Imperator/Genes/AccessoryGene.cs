@@ -5,7 +5,7 @@ using commonItems;
 namespace ImperatorToCK3.Imperator.Genes {
 	public class AccessoryGene : Parser {
 		public uint Index { get; private set; } = 0;
-		public bool inheritable { get; private set; } = false;
+		public bool Inheritable { get; private set; } = false;
 		public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; private set; } = new();
 
 		public AccessoryGene(BufferedReader reader) {
@@ -19,7 +19,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 			});
 			RegisterKeyword("inheritable", reader => {
 				if (new SingleString(reader).String == "yes") {
-					inheritable = true;
+					Inheritable = true;
 				}
 			});
 			RegisterRegex(CommonRegexes.StringRegex, (reader, geneTemplateName) => {
