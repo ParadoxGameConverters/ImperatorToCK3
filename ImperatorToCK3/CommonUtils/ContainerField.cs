@@ -5,9 +5,9 @@ using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
 	public struct ContainerFieldStruct {
-		string fieldName;
-		string setter;
-		List<string> initialValue;
+		public string fieldName;
+		public string setter;
+		public List<string> initialValue;
 	}
 
 	class DescendingComparer<T> : IComparer<T> where T : IComparable<T> {
@@ -23,12 +23,14 @@ namespace ImperatorToCK3.CommonUtils {
 			try {
 				var pairWithLastEarlierOrSameDate = ValueHistory.TakeWhile(d => d.Key <= date).Last();
 				return pairWithLastEarlierOrSameDate.Value;
-			}
-			catch (Exception) {
+			} catch (Exception) {
 				return InitialValue;
 			}
 		}
-		public SortedDictionary<Date, List<string>> ValueHistory { get; set; } = new();
+		public SortedDictionary<Date, List<string>> ValueHistory { get; private set; } = new();
 		public List<string> InitialValue { private get; set; } = new();
+		public void AddValueToHistory(List<string> value, Date date) {
+			ValueHistory[date] = value;
+		}
 	}
 }

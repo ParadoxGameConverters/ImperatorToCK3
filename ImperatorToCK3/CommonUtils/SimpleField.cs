@@ -5,9 +5,9 @@ using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
 	public struct SimpleFieldStruct {
-		string fieldName;
-		string setter;
-		string? initialValue;
+		public string fieldName;
+		public string setter;
+		public string? initialValue;
 	}
 	public class SimpleField {
 		public SortedDictionary<Date, string> ValueHistory { get; private set; } = new();
