@@ -28,7 +28,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 		public KeyValuePair<string, AccessoryGeneTemplate> GetGeneTemplateByIndex(uint indexInDna) {
-			foreach(var geneTemplatePair in GeneTemplates) {
+			foreach (var geneTemplatePair in GeneTemplates) {
 				if (geneTemplatePair.Value.Index == indexInDna) {
 					return geneTemplatePair;
 				}
