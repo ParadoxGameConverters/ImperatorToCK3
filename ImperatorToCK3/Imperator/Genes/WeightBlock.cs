@@ -6,7 +6,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 	public class WeightBlock : Parser {
 		public uint SumOfAbsoluteWeights { get; private set; } = 0;
 		private readonly List<KeyValuePair<string, uint>> objectsList = new();
-		
+
 		public WeightBlock() { }
 		public WeightBlock(BufferedReader reader) {
 			RegisterKeys();
@@ -25,7 +25,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public uint GetAbsoluteWeight(string objectName) {
-			foreach(var (key, value) in objectsList) {
+			foreach (var (key, value) in objectsList) {
 				if (key == objectName) {
 					return value;
 				}
@@ -37,7 +37,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 				throw new ArgumentOutOfRangeException("percentAsDecimal is " + percentAsDecimal + ", should be in range <0;1>");
 			}
 			uint sumOfPrecedingAbsoluteWeights = 0;
-			foreach(var (key, value) in objectsList) {
+			foreach (var (key, value) in objectsList) {
 				sumOfPrecedingAbsoluteWeights += value;
 				if (sumOfPrecedingAbsoluteWeights > 0 && percentAsDecimal <= (double)sumOfPrecedingAbsoluteWeights / SumOfAbsoluteWeights) {
 					return key;
