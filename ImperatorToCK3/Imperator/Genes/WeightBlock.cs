@@ -5,8 +5,9 @@ using commonItems;
 namespace ImperatorToCK3.Imperator.Genes {
 	public class WeightBlock : Parser {
 		public uint SumOfAbsoluteWeights { get; private set; } = 0;
-		private List<KeyValuePair<string, uint>> objectsList = new();
+		private readonly List<KeyValuePair<string, uint>> objectsList = new();
 		
+		public WeightBlock() { }
 		public WeightBlock(BufferedReader reader) {
 			RegisterKeys();
 			ParseStream(reader);
