@@ -33,15 +33,15 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			);
 			var contents = datedHistoryBlock.Contents;
 
-			Assert.Equal(3, contents.simpleFieldContents.Count);
+			Assert.Equal(3, contents.SimpleFieldContents.Count);
 
-			Assert.Equal("cuman", contents.simpleFieldContents["culture"][0]);
-			Assert.Equal("bashkiri", contents.simpleFieldContents["culture"][1]);
-			Assert.Equal("c_sarkel", contents.simpleFieldContents["title"].Last());
-			Assert.Equal("5", contents.simpleFieldContents["monthly_alien_sightings"].Last());
+			Assert.Equal("cuman", contents.SimpleFieldContents["culture"][0]);
+			Assert.Equal("bashkiri", contents.SimpleFieldContents["culture"][1]);
+			Assert.Equal("c_sarkel", contents.SimpleFieldContents["title"].Last());
+			Assert.Equal("5", contents.SimpleFieldContents["monthly_alien_sightings"].Last());
 
-			Assert.False(contents.simpleFieldContents.ContainsKey("religion"));
-			Assert.False(contents.simpleFieldContents.ContainsKey("development"));
+			Assert.False(contents.SimpleFieldContents.ContainsKey("religion"));
+			Assert.False(contents.SimpleFieldContents.ContainsKey("development"));
 		}
 
 		[Fact]
@@ -61,7 +61,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				reader
 			).Contents;
 
-			Assert.Empty(contents.simpleFieldContents);
+			Assert.Empty(contents.SimpleFieldContents);
 		}
 	}
 }

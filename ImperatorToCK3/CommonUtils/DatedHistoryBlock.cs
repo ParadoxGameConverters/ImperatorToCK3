@@ -8,18 +8,18 @@ namespace ImperatorToCK3.CommonUtils {
 		public DatedHistoryBlock(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldDef> containerFieldStructs, BufferedReader reader) {
 			foreach (var fieldStruct in simpleFieldStructs) {
 				RegisterKeyword(fieldStruct.Setter, (reader) => {
-					if (!Contents.simpleFieldContents.ContainsKey(fieldStruct.FieldName)) {
-						Contents.simpleFieldContents.Add(fieldStruct.FieldName, new());
+					if (!Contents.SimpleFieldContents.ContainsKey(fieldStruct.FieldName)) {
+						Contents.SimpleFieldContents.Add(fieldStruct.FieldName, new());
 					}
-					Contents.simpleFieldContents[fieldStruct.FieldName].Add(new SingleString(reader).String);
+					Contents.SimpleFieldContents[fieldStruct.FieldName].Add(new SingleString(reader).String);
 				});
 			}
 			foreach (var fieldStruct in containerFieldStructs) {
 				RegisterKeyword(fieldStruct.Setter, (reader) => {
-					if (!Contents.containerFieldContents.ContainsKey(fieldStruct.FieldName)) {
-						Contents.containerFieldContents.Add(fieldStruct.FieldName, new());
+					if (!Contents.ContainerFieldContents.ContainsKey(fieldStruct.FieldName)) {
+						Contents.ContainerFieldContents.Add(fieldStruct.FieldName, new());
 					}
-					Contents.containerFieldContents[fieldStruct.FieldName].Add(new StringList(reader).Strings);
+					Contents.ContainerFieldContents[fieldStruct.FieldName].Add(new StringList(reader).Strings);
 				});
 			}
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
