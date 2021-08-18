@@ -4,8 +4,8 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorRegionMapper : Parser {
-		private Dictionary<string, ImperatorRegion> regions = new();
-		private Dictionary<string, ImperatorArea> areas = new();
+		private readonly Dictionary<string, ImperatorRegion> regions = new();
+		private readonly Dictionary<string, ImperatorArea> areas = new();
 
 		public ImperatorRegionMapper() { }
 		public ImperatorRegionMapper(string imperatorPath) {
