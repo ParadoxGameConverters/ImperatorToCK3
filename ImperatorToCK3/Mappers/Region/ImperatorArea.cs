@@ -3,7 +3,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorArea : Parser {
-		public SortedSet<ulong> Provinces { get; private set; } = new();
+		public SortedSet<ulong> Provinces { get; } = new();
 
 		public ImperatorArea(BufferedReader reader) {
 			RegisterKeys();

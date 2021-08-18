@@ -3,7 +3,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorRegion : Parser {
-		public SortedDictionary<string, ImperatorArea?> Areas { get; } = new();
+		public Dictionary<string, ImperatorArea?> Areas { get; } = new();
 
 		public ImperatorRegion(BufferedReader reader) {
 			RegisterKeys();
@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Mappers.Region {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public bool RegionContainsProvince(ulong province) {
+		public bool ContainsProvince(ulong province) {
 			foreach (var (_, area) in Areas) {
 				if (area is not null && area.ContainsProvince(province)) {
 					return true;
