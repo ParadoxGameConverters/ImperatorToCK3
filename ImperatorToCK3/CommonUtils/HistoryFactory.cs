@@ -6,9 +6,9 @@ namespace ImperatorToCK3.CommonUtils {
 	public class HistoryFactory : Parser {
 		private History history = new();
 		private readonly List<SimpleFieldDef> simpleFieldStructs; // fieldName, setter, initialValue
-		private readonly List<ContainerFieldStruct> containerFieldStructs; // fieldName, setter, initialValue
+		private readonly List<ContainerFieldDef> containerFieldStructs; // fieldName, setter, initialValue
 
-		public HistoryFactory(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldStruct> containerFieldStructs) {
+		public HistoryFactory(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldDef> containerFieldStructs) {
 			this.simpleFieldStructs = simpleFieldStructs;
 			this.containerFieldStructs = containerFieldStructs;
 

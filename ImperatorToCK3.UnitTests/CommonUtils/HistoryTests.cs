@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
 using Xunit;
 
@@ -115,8 +110,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 					}
 				}"
 			);
-
-
+			
 			var provHistoryFactory = new HistoryFactory(
 					new() {
 						new() { fieldName = "culture", setter = "culture", initialValue = null },

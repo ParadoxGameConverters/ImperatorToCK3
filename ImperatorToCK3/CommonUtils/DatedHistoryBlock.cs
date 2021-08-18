@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
@@ -13,7 +12,7 @@ namespace ImperatorToCK3.CommonUtils {
 	{
 		public ContentsClass Contents { get; } = new();
 
-		public DatedHistoryBlock(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldStruct> containerFieldStructs, BufferedReader reader) {
+		public DatedHistoryBlock(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldDef> containerFieldStructs, BufferedReader reader) {
 			foreach (var fieldStruct in simpleFieldStructs) {
 				RegisterKeyword(fieldStruct.setter, (reader) => {
 					if (!Contents.simpleFieldContents.ContainsKey(fieldStruct.fieldName)) {

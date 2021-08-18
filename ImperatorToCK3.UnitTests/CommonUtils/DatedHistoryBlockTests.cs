@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
 using ImperatorToCK3.CommonUtils;
 using Xunit;
@@ -10,7 +7,8 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.CommonUtils {
 	public class DatedHistoryBlockTests {
 		[Fact]
-		public void OnlyRegisteredThingsAreReturned() {
+		public void OnlyRegisteredThingsAreReturned()
+		{
 			var reader = new BufferedReader(
 				@" = {
 				culture = cuman
@@ -22,12 +20,16 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			}");
 
 			var datedHistoryBlock = new DatedHistoryBlock(
-				new List<SimpleFieldDef>{
-					new() { fieldName = "culture", setter = "culture", initialValue = ""},
-					new() { fieldName = "title", setter = "title", initialValue = ""},
-					new() { fieldName = "monthly_alien_sightings", setter = "monthly_alien_sightings", initialValue = "0" }
+				new List<SimpleFieldDef>
+				{
+					new() {fieldName = "culture", setter = "culture", initialValue = ""},
+					new() {fieldName = "title", setter = "title", initialValue = ""},
+					new()
+					{
+						fieldName = "monthly_alien_sightings", setter = "monthly_alien_sightings", initialValue = "0"
+					}
 				},
-				new List<ContainerFieldStruct>(),
+				new List<ContainerFieldDef>(),
 				reader
 			);
 			var contents = datedHistoryBlock.Contents;
@@ -43,7 +45,6 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			Assert.False(contents.simpleFieldContents.ContainsKey("development"));
 		}
 
-
 		[Fact]
 		public void QuotedStringsAreNotReadAsKeys() {
 			var reader = new BufferedReader(
@@ -57,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				new List<SimpleFieldDef> {
 					new() { fieldName = "religion", setter = "religion", initialValue = null }
 				},
-				new List<ContainerFieldStruct>(),
+				new List<ContainerFieldDef>(),
 				reader
 			).Contents;
 
