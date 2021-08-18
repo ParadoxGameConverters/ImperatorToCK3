@@ -5,7 +5,7 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Region {
 	public class ImperatorRegionTests {
 		[Fact]
-		public void blankRegionLoadsWithNoAreas() {
+		public void BlankRegionLoadsWithNoAreas() {
 			var reader = new BufferedReader(string.Empty);
 			var region = new ImperatorRegion(reader);
 
@@ -13,7 +13,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		}
 
 		[Fact]
-		public void areaCanBeLoaded() {
+		public void AreaCanBeLoaded() {
 			var reader = new BufferedReader("areas = { testarea } \n");
 			var region = new ImperatorRegion(reader);
 
@@ -23,7 +23,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		}
 
 		[Fact]
-		public void multipleAreasCanBeLoaded() {
+		public void MultipleAreasCanBeLoaded() {
 			var reader = new BufferedReader("areas = { test1 test2 test3 } \n");
 			var region = new ImperatorRegion(reader);
 
@@ -35,7 +35,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		}
 
 		[Fact]
-		public void regionCanBeLinkedToArea() {
+		public void RegionCanBeLinkedToArea() {
 			var reader1 = new BufferedReader("areas = { test1 test2 test3 } \n");
 			var region = new ImperatorRegion(reader1);
 
@@ -48,7 +48,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		}
 
 		[Fact]
-		public void linkedRegionCanLocateProvince() {
+		public void LinkedRegionCanLocateProvince() {
 			var reader1 = new BufferedReader(string.Empty);
 			var region = new ImperatorRegion(reader1);
 
@@ -61,7 +61,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		}
 
 		[Fact]
-		public void linkedRegionWillFailForProvinceMismatch() {
+		public void LinkedRegionWillFailForProvinceMismatch() {
 			var reader1 = new BufferedReader(string.Empty);
 			var region = new ImperatorRegion(reader1);
 

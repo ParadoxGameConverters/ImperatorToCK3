@@ -7,6 +7,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		private Dictionary<string, ImperatorRegion> regions = new();
 		private Dictionary<string, ImperatorArea> areas = new();
 
+		public ImperatorRegionMapper() { }
 		public ImperatorRegionMapper(string imperatorPath) {
 			Logger.Log(LogLevel.Info, "Initializing Imperator Geography");
 			var areaFilePath = Path.Combine(imperatorPath, "game/map_data/areas.txt");
@@ -62,7 +63,7 @@ namespace ImperatorToCK3.Mappers.Region {
 			}
 			return false;
 		}
-		string? GetParentRegionName(ulong provinceId) {
+		public string? GetParentRegionName(ulong provinceId) {
 			foreach (var (regionName, region) in regions) {
 				if (region is not null && region.ContainsProvince(provinceId)) {
 					return regionName;
@@ -71,7 +72,7 @@ namespace ImperatorToCK3.Mappers.Region {
 			Logger.Log(LogLevel.Warning, "Province ID " + provinceId + " has no parent region name!");
 			return null;
 		}
-		string? GetParentAreaName(ulong provinceId) {
+		public string? GetParentAreaName(ulong provinceId) {
 			foreach (var (areaName, area) in areas) {
 				if (area is not null && area.ContainsProvince(provinceId)) {
 					return areaName;
