@@ -55,7 +55,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 					new() { FieldName = "religion", Setter = "religion", InitialValue = null },
 					new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 				},
-				new() { }
+				new()
 			);
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
@@ -87,7 +87,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 						new() { FieldName = "religion", Setter = "religion", InitialValue = null },
 						new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 					},
-					new() { }
+					new()
 				);
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
@@ -117,7 +117,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 						new() { FieldName = "religion", Setter = "religion", InitialValue = null },
 						new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 					},
-					new() { }
+					new()
 				);
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
