@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Mappers.Region {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public bool AreaContainsProvince(ulong province) {
+		public bool ContainsProvince(ulong province) {
 			return Provinces.Contains(province);
 		}
 	}
