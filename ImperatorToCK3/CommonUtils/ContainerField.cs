@@ -4,12 +4,6 @@ using System.Linq;
 using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
-	public class ContainerFieldDef {
-		public string fieldName;
-		public string setter;
-		public List<string> initialValue;
-	}
-
 	public class ContainerField {
 		public ContainerField(List<string> initialValue) {
 			InitialValue = initialValue;

@@ -4,11 +4,6 @@ using System.Linq;
 using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
-	public class SimpleFieldDef {
-		public string fieldName;
-		public string setter;
-		public string? initialValue;
-	}
 	public class SimpleField {
 		public SortedDictionary<Date, string> ValueHistory { get; private set; } = new();
 		public string? InitialValue { private get; set; }

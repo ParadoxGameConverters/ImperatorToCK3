@@ -13,15 +13,15 @@ namespace ImperatorToCK3.CommonUtils {
 			this.containerFieldStructs = containerFieldStructs;
 
 			foreach (var fieldStruct in this.simpleFieldStructs) {
-				RegisterKeyword(fieldStruct.setter, (reader) => {
+				RegisterKeyword(fieldStruct.Setter, (reader) => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.simpleFields[fieldStruct.fieldName].InitialValue = new SingleString(reader).String;
+					history.simpleFields[fieldStruct.FieldName].InitialValue = new SingleString(reader).String;
 				});
 			}
 			foreach (var fieldStruct in this.containerFieldStructs) {
-				RegisterKeyword(fieldStruct.setter, (reader) => {
+				RegisterKeyword(fieldStruct.Setter, (reader) => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.containerFields[fieldStruct.fieldName].InitialValue = new StringList(reader).Strings;
+					history.containerFields[fieldStruct.FieldName].InitialValue = new StringList(reader).Strings;
 				});
 			}
 			RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
@@ -39,10 +39,10 @@ namespace ImperatorToCK3.CommonUtils {
 		public History GetHistory(BufferedReader reader) {
 			history = new History();
 			foreach (var fieldStruct in simpleFieldStructs) {
-				history.simpleFields[fieldStruct.fieldName] = new SimpleField(fieldStruct.initialValue);
+				history.simpleFields[fieldStruct.FieldName] = new SimpleField(fieldStruct.InitialValue);
 			}
 			foreach (var fieldStruct in containerFieldStructs) {
-				history.containerFields[fieldStruct.fieldName] = new ContainerField(fieldStruct.initialValue);
+				history.containerFields[fieldStruct.FieldName] = new ContainerField(fieldStruct.InitialValue);
 			}
 			ParseStream(reader);
 			return history;

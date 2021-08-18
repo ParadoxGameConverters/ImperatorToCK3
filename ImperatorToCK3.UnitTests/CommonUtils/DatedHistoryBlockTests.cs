@@ -7,8 +7,7 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.CommonUtils {
 	public class DatedHistoryBlockTests {
 		[Fact]
-		public void OnlyRegisteredThingsAreReturned()
-		{
+		public void OnlyRegisteredThingsAreReturned() {
 			var reader = new BufferedReader(
 				@" = {
 				culture = cuman
@@ -22,11 +21,11 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			var datedHistoryBlock = new DatedHistoryBlock(
 				new List<SimpleFieldDef>
 				{
-					new() {fieldName = "culture", setter = "culture", initialValue = ""},
-					new() {fieldName = "title", setter = "title", initialValue = ""},
+					new() {FieldName = "culture", Setter = "culture", InitialValue = ""},
+					new() {FieldName = "title", Setter = "title", InitialValue = ""},
 					new()
 					{
-						fieldName = "monthly_alien_sightings", setter = "monthly_alien_sightings", initialValue = "0"
+						FieldName = "monthly_alien_sightings", Setter = "monthly_alien_sightings", InitialValue = "0"
 					}
 				},
 				new List<ContainerFieldDef>(),
@@ -56,7 +55,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var contents = new DatedHistoryBlock(
 				new List<SimpleFieldDef> {
-					new() { fieldName = "religion", setter = "religion", initialValue = null }
+					new() { FieldName = "religion", Setter = "religion", InitialValue = null }
 				},
 				new List<ContainerFieldDef>(),
 				reader

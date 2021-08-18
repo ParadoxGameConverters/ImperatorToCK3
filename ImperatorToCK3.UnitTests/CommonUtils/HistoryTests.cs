@@ -19,9 +19,9 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistoryFactory = new HistoryFactory(
 				new() {
-					new() { fieldName = "culture", setter = "culture", initialValue = null },
-					new() { fieldName = "religion", setter = "religion", initialValue = null },
-					new() { fieldName = "holding", setter = "holding", initialValue = "none" }
+					new() { FieldName = "culture", Setter = "culture", InitialValue = null },
+					new() { FieldName = "religion", Setter = "religion", InitialValue = null },
+					new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 				},
 				new() { }
 			);
@@ -51,9 +51,9 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistoryFactory = new HistoryFactory(
 				new() {
-					new() { fieldName = "culture", setter = "culture", initialValue = null },
-					new() { fieldName = "religion", setter = "religion", initialValue = null },
-					new() { fieldName = "holding", setter = "holding", initialValue = "none" }
+					new() { FieldName = "culture", Setter = "culture", InitialValue = null },
+					new() { FieldName = "religion", Setter = "religion", InitialValue = null },
+					new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 				},
 				new() { }
 			);
@@ -83,9 +83,9 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistoryFactory = new HistoryFactory(
 					new() {
-						new() { fieldName = "culture", setter = "culture", initialValue = null },
-						new() { fieldName = "religion", setter = "religion", initialValue = null },
-						new() { fieldName = "holding", setter = "holding", initialValue = "none" }
+						new() { FieldName = "culture", Setter = "culture", InitialValue = null },
+						new() { FieldName = "religion", Setter = "religion", InitialValue = null },
+						new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 					},
 					new() { }
 				);
@@ -110,12 +110,12 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 					}
 				}"
 			);
-			
+
 			var provHistoryFactory = new HistoryFactory(
 					new() {
-						new() { fieldName = "culture", setter = "culture", initialValue = null },
-						new() { fieldName = "religion", setter = "religion", initialValue = null },
-						new() { fieldName = "holding", setter = "holding", initialValue = "none" }
+						new() { FieldName = "culture", Setter = "culture", InitialValue = null },
+						new() { FieldName = "religion", Setter = "religion", InitialValue = null },
+						new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 					},
 					new() { }
 				);
