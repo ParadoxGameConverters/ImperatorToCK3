@@ -3,27 +3,31 @@ using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
-	public class DatedHistoryBlock : Parser {
-		public Tuple<
-			Dictionary<string, List<string>>, // simpleFieldContents
-			Dictionary<string, List<List<string>>> // containerFieldContents
-		> Contents { get; private set; } = new(new(), new());
+	public class ContentsClass
+	{
+		public Dictionary<string, List<string>> simpleFieldContents = new();
+		public Dictionary<string, List<List<string>>> containerFieldContents = new();
+	}
 
-		private List<SimpleFieldStruct> simpleFieldStructs; // fieldName, setter, defaultValue
-		private List<ContainerFieldStruct> containerFieldStructs; // fieldName, setter
+	public class DatedHistoryBlock : Parser
+	{
+		public ContentsClass Contents { get; } = new();
 
-		public DatedHistoryBlock(List<SimpleFieldStruct> simpleFieldStructs, List<ContainerFieldStruct> containerFieldStructs, BufferedReader reader) {
-			this.simpleFieldStructs = simpleFieldStructs;
-			this.containerFieldStructs = containerFieldStructs;
-
-			foreach (var fieldStruct in this.simpleFieldStructs) {
+		public DatedHistoryBlock(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldStruct> containerFieldStructs, BufferedReader reader) {
+			foreach (var fieldStruct in simpleFieldStructs) {
 				RegisterKeyword(fieldStruct.setter, (reader) => {
-					Contents.Item1[fieldStruct.fieldName].Add(new SingleString(reader).String);
+					if (!Contents.simpleFieldContents.ContainsKey(fieldStruct.fieldName)) {
+						Contents.simpleFieldContents.Add(fieldStruct.fieldName, new());
+					}
+					Contents.simpleFieldContents[fieldStruct.fieldName].Add(new SingleString(reader).String);
 				});
 			}
-			foreach (var fieldStruct in this.containerFieldStructs) {
+			foreach (var fieldStruct in containerFieldStructs) {
 				RegisterKeyword(fieldStruct.setter, (reader) => {
-					Contents.Item2[fieldStruct.fieldName].Add(new StringList(reader).Strings);
+					if (!Contents.containerFieldContents.ContainsKey(fieldStruct.fieldName)) {
+						Contents.containerFieldContents.Add(fieldStruct.fieldName, new());
+					}
+					Contents.containerFieldContents[fieldStruct.fieldName].Add(new StringList(reader).Strings);
 				});
 			}
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);

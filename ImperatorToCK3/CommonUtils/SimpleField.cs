@@ -4,7 +4,7 @@ using System.Linq;
 using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
-	public struct SimpleFieldStruct {
+	public class SimpleFieldDef {
 		public string fieldName;
 		public string setter;
 		public string? initialValue;

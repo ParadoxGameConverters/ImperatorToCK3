@@ -5,15 +5,12 @@ using commonItems;
 namespace ImperatorToCK3.CommonUtils {
 	public class HistoryFactory : Parser {
 		private History history = new();
-		private readonly List<SimpleFieldStruct> simpleFieldStructs; // fieldName, setter, initialValue
+		private readonly List<SimpleFieldDef> simpleFieldStructs; // fieldName, setter, initialValue
 		private readonly List<ContainerFieldStruct> containerFieldStructs; // fieldName, setter, initialValue
 
-		public HistoryFactory(List<SimpleFieldStruct> simpleFieldStructs, List<ContainerFieldStruct> containerFieldStructs) {
+		public HistoryFactory(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldStruct> containerFieldStructs) {
 			this.simpleFieldStructs = simpleFieldStructs;
 			this.containerFieldStructs = containerFieldStructs;
-
-			//var tempSimpleFields = new Dictionary<string, SimpleField>();
-			//var tempContainerFields = new Dictionary<string, ContainerField>();
 
 			foreach (var fieldStruct in this.simpleFieldStructs) {
 				RegisterKeyword(fieldStruct.setter, (reader) => {
@@ -30,11 +27,11 @@ namespace ImperatorToCK3.CommonUtils {
 			RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
 				var date = new Date(dateString);
 				var contents = new DatedHistoryBlock(this.simpleFieldStructs, this.containerFieldStructs, reader).Contents;
-				foreach (var (fieldName, valuecList) in contents.Item1) {
-					history.simpleFields[fieldName].AddValueToHistory(valuecList.Last(), date);
+				foreach (var (fieldName, valuesList) in contents.simpleFieldContents) {
+					history.simpleFields[fieldName].AddValueToHistory(valuesList.Last(), date);
 				}
-				foreach (var (fieldName, valuecList) in contents.Item2) {
-					history.containerFields[fieldName].AddValueToHistory(valuecList.Last(), date);
+				foreach (var (fieldName, valuesList) in contents.containerFieldContents) {
+					history.containerFields[fieldName].AddValueToHistory(valuesList.Last(), date);
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
