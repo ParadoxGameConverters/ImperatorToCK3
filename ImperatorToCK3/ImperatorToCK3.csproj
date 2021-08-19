@@ -24,6 +24,18 @@
     <ProjectReference Include="..\commonItems.NET\commonItems\commonItems.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\rakaly-0.3.12-x86_64-apple-darwin\rakaly">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\rakaly-0.3.12-x86_64-pc-windows-msvc\rakaly.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\rakaly-0.3.12-x86_64-unknown-linux-musl\rakaly">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="Date" BeforeTargets="CoreCompile">
     <WriteLinesToFile File="$(IntermediateOutputPath)gen.cs" Lines="static partial class Builtin { public static long CompileTime = $([System.DateTime]::UtcNow.Ticks) %3B }" Overwrite="true" />
     <ItemGroup>
