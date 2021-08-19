@@ -3,14 +3,14 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.Trait {
 	public class TraitMapper : Parser {
-		private Dictionary<string, string> impToCK3TraitMap = new();
+		private readonly Dictionary<string, string> impToCK3TraitMap = new();
 
-		public TraitMapper() {
+		public TraitMapper(string filePath) {
 			Logger.Log(LogLevel.Info, "Parsing trait mappings.");
 			RegisterKeys();
-			ParseFile("configurables/trait_map.txt");
+			ParseFile(filePath);
 			ClearRegisteredRules();
-			Logger.Log(LogLevel.Info, "Loaded " + +impToCK3TraitMap.Count + " trait links.");
+			Logger.Log(LogLevel.Info, "Loaded " + impToCK3TraitMap.Count + " trait links.");
 		}
 		public TraitMapper(BufferedReader reader) {
 			RegisterKeys();
@@ -20,7 +20,7 @@ namespace ImperatorToCK3.Mappers.Trait {
 		private void RegisterKeys() {
 			RegisterKeyword("link", (reader) => {
 				var mapping = new TraitMapping(reader);
-				if (mapping.Ck3Trait != null) {
+				if (mapping.Ck3Trait is not null) {
 					foreach (var imperatorTrait in mapping.ImpTraits) {
 						impToCK3TraitMap.Add(imperatorTrait, mapping.Ck3Trait);
 					}
@@ -29,8 +29,7 @@ namespace ImperatorToCK3.Mappers.Trait {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public string? GetCK3TraitForImperatorTrait(string impTrait) {
-			var gotValue = impToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait);
-			if (gotValue) {
+			if (impToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait)) {
 				return ck3Trait;
 			}
 			return null;
