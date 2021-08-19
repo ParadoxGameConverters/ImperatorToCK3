@@ -10,7 +10,7 @@ namespace ImperatorToCK3.Mappers.Trait {
 			RegisterKeys();
 			ParseFile(filePath);
 			ClearRegisteredRules();
-			Logger.Log(LogLevel.Info, "Loaded " + impToCK3TraitMap.Count + " trait links.");
+			Logger.Log(LogLevel.Info, $"Loaded {impToCK3TraitMap.Count} trait links.");
 		}
 		public TraitMapper(BufferedReader reader) {
 			RegisterKeys();

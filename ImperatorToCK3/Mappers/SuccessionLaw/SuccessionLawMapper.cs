@@ -5,12 +5,12 @@ using commonItems;
 namespace ImperatorToCK3.Mappers.SuccessionLaw {
 	public class SuccessionLawMapper : Parser {
 		private Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
-		public SuccessionLawMapper() {
+		public SuccessionLawMapper(string filePath) {
 			Logger.Log(LogLevel.Info, "Parsing succession law mappings.");
 			RegisterKeys();
-			ParseFile("configurables/succession_law_map.txt");
+			ParseFile(filePath);
 			ClearRegisteredRules();
-			Logger.Log(LogLevel.Info, "Loaded " + impToCK3SuccessionLawMap.Count + " succession law links.");
+			Logger.Log(LogLevel.Info, $"Loaded {impToCK3SuccessionLawMap.Count} succession law links.");
 		}
 		public SuccessionLawMapper(BufferedReader reader) {
 			RegisterKeys();
@@ -33,8 +33,7 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 		public SortedSet<string> GetCK3LawsForImperatorLaws(SortedSet<string> impLaws) {
 			var lawsToReturn = new SortedSet<string>();
 			foreach (var impLaw in impLaws) {
-				var gotValue = impToCK3SuccessionLawMap.TryGetValue(impLaw, out var ck3Laws);
-				if (gotValue) {
+				if (impToCK3SuccessionLawMap.TryGetValue(impLaw, out var ck3Laws)) {
 					lawsToReturn.UnionWith(ck3Laws);
 				}
 			}
