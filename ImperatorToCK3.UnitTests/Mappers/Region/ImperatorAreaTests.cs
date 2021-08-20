@@ -33,5 +33,25 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 				item => Assert.Equal((ulong)69, item)
 			);
 		}
+
+		[Fact]
+		public void ContainsProvinceReturnsTrueForCorrectProvinces()
+		{
+			var reader = new BufferedReader("provinces = { 2 3 } \n");
+			var area = new ImperatorArea(reader);
+
+			Assert.True(area.ContainsProvince(2));
+			Assert.True(area.ContainsProvince(3));
+		}
+
+		[Fact]
+		public void ContainsProvinceReturnsFalseForMissingProvinces()
+		{
+			var reader = new BufferedReader("provinces = { 2 3 } \n");
+			var area = new ImperatorArea(reader);
+
+			Assert.False(area.ContainsProvince(4));
+			Assert.False(area.ContainsProvince(5));
+		}
 	}
 }
