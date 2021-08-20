@@ -19,6 +19,10 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>ImperatorToCK3Converter</AssemblyName>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.2.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\commonItems.NET\commonItems\commonItems.csproj" />
