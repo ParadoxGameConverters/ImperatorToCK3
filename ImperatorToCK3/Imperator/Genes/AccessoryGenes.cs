@@ -16,7 +16,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 			RegisterKeyword("index", reader => {
 				Index = (uint)new SingleInt(reader).Int;
 			});
-			RegisterRegex(CommonRegexes.StringRegex, (reader, geneName) => {
+			RegisterRegex(CommonRegexes.String, (reader, geneName) => {
 				Genes.Add(geneName, new AccessoryGene(reader));
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);

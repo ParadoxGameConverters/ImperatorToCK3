@@ -22,7 +22,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 					Inheritable = true;
 				}
 			});
-			RegisterRegex(CommonRegexes.StringRegex, (reader, geneTemplateName) => {
+			RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
 				GeneTemplates.Add(geneTemplateName, new AccessoryGeneTemplate(reader));
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);

@@ -19,8 +19,8 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistoryFactory = new HistoryFactory(
 				new() {
-					new() { FieldName = "culture", Setter = "culture", InitialValue = null },
-					new() { FieldName = "religion", Setter = "religion", InitialValue = null },
+					new() { FieldName = "culture", Setter = "culture", InitialValue = "roman" },
+					new() { FieldName = "religion", Setter = "religion", InitialValue = "orthodox" },
 					new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
 				},
 				new()
@@ -28,8 +28,8 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
-			Assert.Null(provHistory.GetSimpleFieldValue("culture", new Date(1, 1, 1)));
-			Assert.Null(provHistory.GetSimpleFieldValue("religion", new Date(1, 1, 1)));
+			Assert.Equal("roman", provHistory.GetSimpleFieldValue("culture", new Date(1, 1, 1)));
+			Assert.Equal("orthodox", provHistory.GetSimpleFieldValue("religion", new Date(1, 1, 1)));
 			Assert.Equal("none", provHistory.GetSimpleFieldValue("holding", new Date(1, 1, 1)));
 		}
 

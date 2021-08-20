@@ -12,12 +12,11 @@ namespace ImperatorToCK3.CommonUtils {
 			InitialValue = initialValue;
 		}
 		public string? GetValue(Date date) {
-			try {
-				var pairWithLastEarlierOrSameDate = ValueHistory.TakeWhile(d => d.Key <= date).Last();
-				return pairWithLastEarlierOrSameDate.Value;
-			} catch (Exception) {
-				return InitialValue;
+			var pairWithLastEarlierOrSameDate = ValueHistory.TakeWhile(d => d.Key <= date);
+			if (pairWithLastEarlierOrSameDate.Any()) {
+				return pairWithLastEarlierOrSameDate.Last().Value;
 			}
+			return InitialValue;
 		}
 		public void AddValueToHistory(string value, Date date) {
 			ValueHistory[date] = value;

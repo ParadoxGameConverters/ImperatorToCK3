@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using commonItems;
 
@@ -9,12 +8,11 @@ namespace ImperatorToCK3.CommonUtils {
 			InitialValue = initialValue;
 		}
 		public List<string> GetValue(Date date) {
-			try {
-				var pairWithLastEarlierOrSameDate = ValueHistory.TakeWhile(d => d.Key <= date).Last();
-				return pairWithLastEarlierOrSameDate.Value;
-			} catch (Exception) {
-				return InitialValue;
+			var pairsWithEarlierOrSameDate = ValueHistory.TakeWhile(d => d.Key <= date);
+			if (pairsWithEarlierOrSameDate.Any()) {
+				return pairsWithEarlierOrSameDate.Last().Value;
 			}
+			return InitialValue;
 		}
 		public SortedDictionary<Date, List<string>> ValueHistory { get; private set; } = new();
 		public List<string> InitialValue { private get; set; } = new();
