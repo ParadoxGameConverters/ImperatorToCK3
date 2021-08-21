@@ -6,11 +6,11 @@ namespace ImperatorToCK3.Mappers.Trait {
 		private readonly Dictionary<string, string> impToCK3TraitMap = new();
 
 		public TraitMapper(string filePath) {
-			Logger.Log(LogLevel.Info, "Parsing trait mappings.");
+			Logger.Info("Parsing trait mappings.");
 			RegisterKeys();
 			ParseFile(filePath);
 			ClearRegisteredRules();
-			Logger.Log(LogLevel.Info, $"Loaded {impToCK3TraitMap.Count} trait links.");
+			Logger.Info($"Loaded {impToCK3TraitMap.Count} trait links.");
 		}
 		public TraitMapper(BufferedReader reader) {
 			RegisterKeys();

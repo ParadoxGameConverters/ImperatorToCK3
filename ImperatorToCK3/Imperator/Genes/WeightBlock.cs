@@ -19,7 +19,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 				if (uint.TryParse(absoluteWeightStr, out var weight)) {
 					AddObject(newObjectName, weight);
 				} else {
-					Logger.Log(LogLevel.Error, "Could not parse absolute weight: " + absoluteWeightStr);
+					Logger.Error("Could not parse absolute weight: " + absoluteWeightStr);
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

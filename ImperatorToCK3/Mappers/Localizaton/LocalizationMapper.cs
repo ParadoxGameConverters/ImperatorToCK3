@@ -76,7 +76,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
         private readonly Dictionary<string, LocBlock> localizations = new();
 
         public void ScrapeLocalizations(Configuration configuration, Mods mods) {
-            Logger.Log(LogLevel.Info, "Reading Localization");
+            Logger.Info("Reading Localization");
             var impPath = configuration.ImperatorPath;
             var scrapingPath = Path.Combine(impPath, "game", "localization");
             ScrapeLanguage("english", scrapingPath);
@@ -89,7 +89,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
             foreach (var mod in mods) {
                 var modLocPath = Path.Combine(mod.Path, "localization");
                 if (Directory.Exists(modLocPath)) {
-                    Logger.Log(LogLevel.Info, "Found some localization in [" + mod.Name + "]");
+                    Logger.Info("Found some localization in [" + mod.Name + "]");
                     ScrapeLanguage("english", Path.Combine(mod.Path, "localization"));
                     ScrapeLanguage("french", Path.Combine(mod.Path, "localization"));
                     ScrapeLanguage("german", Path.Combine(mod.Path, "localization"));
@@ -104,7 +104,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
                     ScrapeLanguage("spanish", Path.Combine(mod.Path, "localization", "replace"));
                 }
             }
-            Logger.Log(LogLevel.Info, localizations.Count.ToString() + "localization lines read.");
+            Logger.Info(localizations.Count.ToString() + "localization lines read.");
         }
         private void ScrapeLanguage(string language, string path) {
             var languagePath = Path.Combine(path, language);
@@ -120,7 +120,7 @@ namespace ImperatorToCK3.Mappers.Localizaton {
                     ScrapeStream(reader, language);
                     stream.Close();
                 } catch (Exception e) {
-                    Logger.Log(LogLevel.Warning, "Could not parse localization file " + filePath + " : " + e);
+                    Logger.Warn("Could not parse localization file " + filePath + " : " + e);
                 }
             }
         }

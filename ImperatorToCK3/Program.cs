@@ -10,13 +10,13 @@ namespace ImperatorToCK3 {
                 converterVersion.LoadVersion("configurables/version.txt");
                 VersionOutputter.LogConverterVersion(converterVersion);
                 if (args.Length > 0) {
-                    Logger.Log(LogLevel.Warning, "ImperatorToCK3 takes no parameters.");
-                    Logger.Log(LogLevel.Warning, "It uses configuration.txt, configured manually or by the frontend.");
+                    Logger.Warn("ImperatorToCK3 takes no parameters.");
+                    Logger.Warn("It uses configuration.txt, configured manually or by the frontend.");
                 }
                 Converter.ConvertImperatorToCK3();
                 return 0;
             } catch (Exception e) {
-                Logger.Log(LogLevel.Error, e.ToString());
+                Logger.Error(e.ToString());
                 return -1;
             }
 

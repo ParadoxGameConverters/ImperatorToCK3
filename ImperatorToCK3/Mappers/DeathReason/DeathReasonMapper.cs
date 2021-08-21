@@ -4,11 +4,11 @@ using commonItems;
 namespace ImperatorToCK3.Mappers.DeathReason {
     public class DeathReasonMapper : Parser {
         public DeathReasonMapper() {
-            Logger.Log(LogLevel.Info, "Parsing death reason mappings.");
+            Logger.Info("Parsing death reason mappings.");
             RegisterKeys();
             ParseFile("configurables/deathMappings.txt");
             ClearRegisteredRules();
-            Logger.Log(LogLevel.Info, "Loaded " + impToCK3ReasonMap.Count + " death reason links.");
+            Logger.Info("Loaded " + impToCK3ReasonMap.Count + " death reason links.");
         }
         public DeathReasonMapper(BufferedReader reader) {
             RegisterKeys();
