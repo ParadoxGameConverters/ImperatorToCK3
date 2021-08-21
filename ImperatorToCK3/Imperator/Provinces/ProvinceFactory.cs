@@ -49,7 +49,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public Province? GetProvince(BufferedReader reader, ulong provinceID) {
+		public Province GetProvince(BufferedReader reader, ulong provinceID) {
 			province = new Province(provinceID);
 			ParseStream(reader);
 			return province;

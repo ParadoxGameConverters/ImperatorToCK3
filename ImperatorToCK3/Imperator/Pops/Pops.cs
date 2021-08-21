@@ -4,7 +4,6 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Pops {
     public class Pops {
-        private PopFactory popFactory = new();
         public Dictionary<ulong, Pop> StoredPops { get; } = new();
         public void LoadPops(BufferedReader reader) {
             var parser = new Parser();
@@ -17,7 +16,7 @@ namespace ImperatorToCK3.Imperator.Pops {
                 var popStr = new StringOfItem(reader).String;
                 if (popStr.IndexOf('{') != -1) {
                     var tempStream = new BufferedReader(popStr);
-                    var pop = popFactory.GetPop(thePopID, tempStream);
+                    var pop = Pop.Parse(thePopID, tempStream);
                     StoredPops.Add(pop.ID, pop);
                 }
             });
