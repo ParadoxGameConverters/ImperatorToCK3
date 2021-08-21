@@ -7,29 +7,47 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			private static Province province = new(0);
 			private static readonly Parser provinceParser = new();
 			static ProvinceFactory() {
-				provinceParser.RegisterKeyword("province_name", reader => province.Name = new ProvinceName(reader).Name);
-				provinceParser.RegisterKeyword("culture", reader => province.Culture = new SingleString(reader).String);
-				provinceParser.RegisterKeyword("religion", reader => province.Religion = new SingleString(reader).String);
+				provinceParser.RegisterKeyword("province_name", reader =>
+					province.Name = new ProvinceName(reader).Name
+				);
+				provinceParser.RegisterKeyword("culture", reader =>
+					province.Culture = new SingleString(reader).String
+				);
+				provinceParser.RegisterKeyword("religion", reader =>
+					province.Religion = new SingleString(reader).String
+				);
 				provinceParser.RegisterKeyword("owner", reader =>
 					province.OwnerCountry = new(new SingleULong(reader).ULong, null)
 				);
-				provinceParser.RegisterKeyword("controller", reader => province.Controller = new SingleULong(reader).ULong);
-				provinceParser.RegisterKeyword("pop", reader => province.Pops.Add(new SingleULong(reader).ULong, null));
+				provinceParser.RegisterKeyword("controller", reader =>
+					province.Controller = new SingleULong(reader).ULong
+				);
+				provinceParser.RegisterKeyword("pop", reader =>
+					province.Pops.Add(new SingleULong(reader).ULong, null)
+				);
 				provinceParser.RegisterKeyword("civilization_value", reader =>
 					province.CivilizationValue = new SingleDouble(reader).Double
 				);
 				provinceParser.RegisterKeyword("province_rank", reader => {
 					var provinceRankStr = new SingleString(reader).String;
-					if (provinceRankStr == "settlement")
-						province.ProvinceRank = ProvinceRank.settlement;
-					else if (provinceRankStr == "city")
-						province.ProvinceRank = ProvinceRank.city;
-					else if (provinceRankStr == "city_metropolis")
-						province.ProvinceRank = ProvinceRank.city_metropolis;
-					else
-						Logger.Warn($"Unknown province rank for province {province.ID}: {provinceRankStr}");
+					switch (provinceRankStr) {
+						case "settlement":
+							province.ProvinceRank = ProvinceRank.settlement;
+							break;
+						case "city":
+							province.ProvinceRank = ProvinceRank.city;
+							break;
+						case "city_metropolis":
+							province.ProvinceRank = ProvinceRank.city_metropolis;
+							break;
+						default:
+							Logger.Warn($"Unknown province rank for province {province.ID}: {provinceRankStr}");
+							break;
+					}
 				});
-				provinceParser.RegisterKeyword("fort", reader => province.Fort = new SingleString(reader).String == "yes");
+				provinceParser.RegisterKeyword("fort", reader =>
+					province.Fort = new SingleString(reader).String == "yes"
+					);
 				provinceParser.RegisterKeyword("holy_site", reader => {
 					// 4294967295 is 2^32 − 1 and is the default value
 					province.HolySite = new SingleULong(reader).ULong != 4294967295;
