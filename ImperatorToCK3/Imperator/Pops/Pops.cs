@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 
-
 namespace ImperatorToCK3.Imperator.Pops {
     public class Pops {
         public Dictionary<ulong, Pop> StoredPops { get; } = new();

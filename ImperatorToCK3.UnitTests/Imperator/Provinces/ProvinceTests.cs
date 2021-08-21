@@ -46,7 +46,6 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			Assert.True(string.IsNullOrEmpty(theProvince.Culture));
 		}
 
-
 		[Fact]
 		public void ReligionCanBeSet() {
 			var reader = new BufferedReader(
