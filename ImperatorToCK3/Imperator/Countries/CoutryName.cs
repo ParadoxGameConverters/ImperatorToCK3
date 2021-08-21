@@ -90,6 +90,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 					tempCountryName.BaseName = Parse(reader);
 					countryName = (CountryName)tempCountryName.Clone();
 				});
+				parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			}
 
 			public static CountryName Parse(BufferedReader reader) {
