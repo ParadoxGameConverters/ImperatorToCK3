@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using commonItems;
+using ImperatorToCK3.TempMocks.Countries;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public enum ProvinceRank { settlement, city, city_metropolis };
@@ -12,7 +13,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public string Name { get; set; } = "";
 		public string Culture { get; set; } = "";
 		public string Religion { get; set; } = "";
-		public KeyValuePair<ulong, Countries.Country> OwnerCountry { get; set; } = new(0, null);
+		public KeyValuePair<ulong, Country> OwnerCountry { get; set; } = new(0, null);
 		public ulong Controller { get; set; } = 0;
 		public Dictionary<ulong, Pops.Pop?> Pops { get; set; } = new();
 		public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
@@ -35,7 +36,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			if (country.ID != OwnerCountry.Key) {
 				Logger.Log(LogLevel.Warning, $"Province {ID}: cannot link country {country.ID}: wrong ID!");
 			} else {
-				OwnerCountry.Value = country;
+				OwnerCountry = new(OwnerCountry.Key, country);
 			}
 		}
 	}

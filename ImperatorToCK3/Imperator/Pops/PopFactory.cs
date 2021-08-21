@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.Imperator.Pops {
     public class PopFactory : commonItems.Parser {
-        public Pop Pop { get; private set; }
+		public Pop Pop { get; private set; } = new();
         public PopFactory() {
             RegisterKeyword("type", (sr) => {
                 Pop.Type = new SingleString(sr).String;
