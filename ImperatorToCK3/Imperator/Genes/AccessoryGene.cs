@@ -33,7 +33,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 					return geneTemplatePair;
 				}
 			}
-			Logger.Log(LogLevel.Warning, "Could not find gene template by index from DNA: " + indexInDna);
+			Logger.Warn("Could not find gene template by index from DNA: " + indexInDna);
 			return GeneTemplates.First(); // fallback: return first element
 		}
 	}

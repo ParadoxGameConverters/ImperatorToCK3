@@ -7,13 +7,13 @@ namespace ImperatorToCK3.Mappers.CoA {
         public CoaMapper(Configuration theConfiguration) {
             var coasPath = Path.Combine(theConfiguration.ImperatorPath, "game", "common", "coat_of_arms", "coat_of_arms");
             var fileNames = SystemUtils.GetAllFilesInFolderRecursive(coasPath);
-            Logger.Log(LogLevel.Info, "Parsing CoAs.");
+            Logger.Info("Parsing CoAs.");
             RegisterKeys();
             foreach (var fileName in fileNames) {
                 ParseFile(Path.Combine(coasPath, fileName));
             }
             ClearRegisteredRules();
-            Logger.Log(LogLevel.Info, "Loaded " + coasMap.Count + " coats of arms.");
+            Logger.Info("Loaded " + coasMap.Count + " coats of arms.");
         }
         public CoaMapper(string coaFilePath) {
             RegisterKeys();

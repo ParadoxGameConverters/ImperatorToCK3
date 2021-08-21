@@ -5,7 +5,7 @@ using ImperatorToCK3.Mappers.Nickname;
 namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 	public class NicknameMapperTests {
 		[Fact]
-		public void nonMatchGivesEmptyOptional() {
+		public void NonMatchGivesEmptyOptional() {
 			var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
 			var mapper = new NicknameMapper(reader);
 
@@ -13,9 +13,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 			Assert.Null(ck3Nickname);
 		}
 
-
 		[Fact]
-		public void ck3NicknameCanBeFound() {
+		public void Ck3NicknameCanBeFound() {
 			var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
 			var mapper = new NicknameMapper(reader);
 
@@ -23,9 +22,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 			Assert.Equal("ck3Nickname", ck3Nickname);
 		}
 
-
 		[Fact]
-		public void multipleImpNicknamesCanBeInARule() {
+		public void MultipleImpNicknamesCanBeInARule() {
 			var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname imp = impNickname2 }");
 			var mapper = new NicknameMapper(reader);
 
@@ -33,9 +31,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 			Assert.Equal("ck3Nickname", ck3Nickname);
 		}
 
-
 		[Fact]
-		public void correctRuleMatches() {
+		public void CorrectRuleMatches() {
 			var reader = new BufferedReader(
 				"link = { ck3 = ck3Nickname imp = impNickname }" +
 				"link = { ck3 = ck3Nickname2 imp = impNickname2 }"
@@ -44,6 +41,14 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 
 			var ck3Nickname = mapper.GetCK3NicknameForImperatorNickname("impNickname2");
 			Assert.Equal("ck3Nickname2", ck3Nickname);
+		}
+
+		[Fact] public void MappingsAreReadFromFile() {
+			var mapper = new NicknameMapper("TestFiles/configurables/nickname_map.txt");
+			Assert.Equal("dull", mapper.GetCK3NicknameForImperatorNickname("dull"));
+			Assert.Equal("dull", mapper.GetCK3NicknameForImperatorNickname("stupid"));
+			Assert.Equal("kind", mapper.GetCK3NicknameForImperatorNickname("friendly"));
+			Assert.Equal("brave", mapper.GetCK3NicknameForImperatorNickname("brave"));
 		}
 	}
 }
