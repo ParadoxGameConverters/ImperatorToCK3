@@ -6,11 +6,11 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 	public class SuccessionLawMapper : Parser {
 		private Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
 		public SuccessionLawMapper(string filePath) {
-			Logger.Log(LogLevel.Info, "Parsing succession law mappings.");
+			Logger.Info("Parsing succession law mappings.");
 			RegisterKeys();
 			ParseFile(filePath);
 			ClearRegisteredRules();
-			Logger.Log(LogLevel.Info, $"Loaded {impToCK3SuccessionLawMap.Count} succession law links.");
+			Logger.Info($"Loaded {impToCK3SuccessionLawMap.Count} succession law links.");
 		}
 		public SuccessionLawMapper(BufferedReader reader) {
 			RegisterKeys();
@@ -21,7 +21,7 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 			RegisterKeyword("link", (reader) => {
 				var mapping = new SuccessionLawMapping(reader);
 				if (mapping.Ck3SuccessionLaws.Count == 0) {
-					Logger.Log(LogLevel.Warning, "SuccessionLawMapper: link with no CK3 successions laws");
+					Logger.Warn("SuccessionLawMapper: link with no CK3 successions laws");
 					return;
 				}
 				if (impToCK3SuccessionLawMap.TryAdd(mapping.ImperatorLaw, mapping.Ck3SuccessionLaws) == false) {

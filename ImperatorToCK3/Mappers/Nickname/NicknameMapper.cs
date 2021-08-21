@@ -10,11 +10,11 @@ namespace ImperatorToCK3.Mappers.Nickname {
 		private Dictionary<string, string> impToCK3NicknameMap = new();
 
 		public NicknameMapper(string filePath) {
-			Logger.Log(LogLevel.Info, "Parsing nickname mappings.");
+			Logger.Info("Parsing nickname mappings.");
 			RegisterKeys();
 			ParseFile(filePath);
 			ClearRegisteredRules();
-			Logger.Log(LogLevel.Info, $"Loaded {impToCK3NicknameMap.Count} nickname links.");
+			Logger.Info($"Loaded {impToCK3NicknameMap.Count} nickname links.");
 		}
 		public NicknameMapper(BufferedReader reader) {
 			RegisterKeys();

@@ -9,7 +9,7 @@ namespace ImperatorToCK3.Mappers.Region {
 
 		public ImperatorRegionMapper() { }
 		public ImperatorRegionMapper(string imperatorPath) {
-			Logger.Log(LogLevel.Info, "Initializing Imperator Geography");
+			Logger.Info("Initializing Imperator Geography");
 			var areaFilePath = Path.Combine(imperatorPath, "game/map_data/areas.txt");
 			var regionFilePath = Path.Combine(imperatorPath, "game/map_data/regions.txt");
 			using var areaFileStream = new FileStream(areaFilePath, FileMode.Open);
@@ -69,7 +69,7 @@ namespace ImperatorToCK3.Mappers.Region {
 					return regionName;
 				}
 			}
-			Logger.Log(LogLevel.Warning, "Province ID " + provinceId + " has no parent region name!");
+			Logger.Warn("Province ID " + provinceId + " has no parent region name!");
 			return null;
 		}
 		public string? GetParentAreaName(ulong provinceId) {
@@ -78,7 +78,7 @@ namespace ImperatorToCK3.Mappers.Region {
 					return areaName;
 				}
 			}
-			Logger.Log(LogLevel.Warning, "Province ID " + provinceId + " has no parent area name!");
+			Logger.Warn("Province ID " + provinceId + " has no parent area name!");
 			return null;
 		}
 		private void LinkRegions() {

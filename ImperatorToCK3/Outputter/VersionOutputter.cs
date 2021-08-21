@@ -12,11 +12,11 @@ namespace ImperatorToCK3.Outputter {
 			var compileTime = new DateTime(Builtin.CompileTime, DateTimeKind.Utc);
 			// read commit id
 			string commitID = File.ReadAllText("../commit_id.txt", Encoding.UTF8).Trim();
-			Logger.Log(LogLevel.Info, "************ -= The Paradox Converters Team =- ********************");
-			Logger.Log(LogLevel.Info, "* Converter build based on commit " + commitID);
-			Logger.Log(LogLevel.Info, "* " + versionParser.GetDescription());
-			Logger.Log(LogLevel.Info, "* Built on " + compileTime.ToShortDateString() + " " + compileTime.ToLongTimeString());
-			Logger.Log(LogLevel.Info, "*********** + Imperator: Rome To Crusader Kings III + *************\n");
+			Logger.Info("************ -= The Paradox Converters Team =- ********************");
+			Logger.Info("* Converter build based on commit " + commitID);
+			Logger.Info("* " + versionParser.GetDescription());
+			Logger.Info("* Built on " + compileTime.ToShortDateString() + " " + compileTime.ToLongTimeString());
+			Logger.Info("*********** + Imperator: Rome To Crusader Kings III + *************\n");
 		}
 	}
 }
