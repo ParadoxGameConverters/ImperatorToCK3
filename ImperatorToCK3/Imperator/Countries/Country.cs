@@ -27,7 +27,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Color? Color2 { get; private set; }
 		public Color? Color3 { get; private set; }
 		public CountryCurrencies Currencies { get; private set; } = new();
-		public Dictionary<ulong, Family?> Families { get; private set; } = new();
+		public Dictionary<ulong, Families.Family?> Families { get; private set; } = new();
 		private readonly SortedSet<Provinces.Province> ownedProvinces = new();
 
 		//ImperatorToCK3.CK3.Titles.Title? ck3Title = new(); // TODO: ENABLE
@@ -62,7 +62,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 			return CountryRank.greatPower;
 		}
-		public void SetFamilies(Dictionary<ulong, Family?> newFamilies) {
+		public void SetFamilies(Dictionary<ulong, Families.Family?> newFamilies) {
 			Families = newFamilies;
 		}
 		public void RegisterProvince(Provinces.Province? province) {

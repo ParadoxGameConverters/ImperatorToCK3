@@ -7,8 +7,9 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class Countries : Parser {
-		public Dictionary<ulong, Country?> StoredCountries { get; private set; }
+		public Dictionary<ulong, Country?> StoredCountries { get; } = new();
 
+		public Countries() { }
 		public Countries(BufferedReader reader) {
 			RegisterKeys();
 			ParseStream(reader);
@@ -25,8 +26,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 			var counter = 0;
 			SortedSet<ulong> idsWithoutDefinition = new();
 			foreach (var country in StoredCountries.Values) {
+				if (country is null) {
+					Logger.Warn("Skipping linking null country to family");
+					continue;
+				}
 				if (country.Families.Count > 0) {
-					var newFamilies = new Dictionary<ulong, Family?>();
+					var newFamilies = new Dictionary<ulong, Families.Family?>();
 					foreach (var familyID in country.Families.Keys) {
 						if (families.TryGetValue(familyID, out var familyToLink)) {
 							newFamilies.Add(familyID, familyToLink);
@@ -50,8 +55,21 @@ namespace ImperatorToCK3.Imperator.Countries {
 				var warningStr = warningBuilder.ToString();
 				Logger.Debug(warningStr[0..^1]); // remove last comma
 			}
-			
-			Logger.Info($"{counter} families linked to countries.")
+
+			Logger.Info($"{counter} families linked to countries.");
+		}
+		public static Countries ParseBloc(BufferedReader reader) {
+			var blocParser = new Parser();
+			Countries countries = new();
+			blocParser.RegisterKeyword("country_database", reader =>
+				countries = new Countries(reader)
+			);
+			blocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+			blocParser.ParseStream(reader);
+			blocParser.ClearRegisteredRules();
+
+			return countries;
 		}
 	}
 }
