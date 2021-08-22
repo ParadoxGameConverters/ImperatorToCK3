@@ -63,5 +63,4 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			return province;
 		}
 	}
-
 }
