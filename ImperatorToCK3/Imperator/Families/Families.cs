@@ -48,9 +48,9 @@ namespace ImperatorToCK3.Imperator.Families {
 		public static Families ParseBloc(BufferedReader reader) {
 			var blocParser = new Parser();
 			var families = new Families();
-			blocParser.RegisterKeyword("families", reader => {
-				families.LoadFamilies(reader);
-			});
+			blocParser.RegisterKeyword("families", reader =>
+				families.LoadFamilies(reader)
+			);
 			blocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			blocParser.ParseStream(reader);

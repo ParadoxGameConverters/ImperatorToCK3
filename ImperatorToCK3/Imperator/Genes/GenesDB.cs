@@ -16,9 +16,9 @@ namespace ImperatorToCK3.Imperator.Genes {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("accessory_genes", reader => {
-				Genes = new AccessoryGenes(reader);
-			});
+			RegisterKeyword("accessory_genes", reader =>
+				Genes = new AccessoryGenes(reader)
+			);
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 	}
