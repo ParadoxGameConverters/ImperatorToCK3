@@ -2,6 +2,7 @@
 using System.IO;
 using commonItems;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Countries;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
@@ -265,7 +266,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var province = Province.Parse(reader, 42);
 
 			var countryReader = new BufferedReader(string.Empty);
-			var country = Countries.Country.Parse(countryReader, 49);
+			var country = Country.Parse(countryReader, 49);
 
 			var output = new StringWriter();
 			Console.SetOut(output);
@@ -280,7 +281,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var province = Province.Parse(reader, 42);
 
 			var countryReader = new BufferedReader(string.Empty);
-			var country = Countries.Country.Parse(countryReader, 50);
+			var country = Country.Parse(countryReader, 50);
 
 			province.LinkOwnerCountry(country);
 			Assert.Equal((ulong)50, province.OwnerCountry.Value.ID);

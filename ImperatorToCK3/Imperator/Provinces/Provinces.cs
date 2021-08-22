@@ -39,7 +39,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			}
 			Logger.Info($"{counter} pops linked to provinces.");
 		}
-		public void LinkCountries(TempMocks.Countries.Countries countries) {
+		public void LinkCountries(Countries.Countries countries) {
 			var counter = 0;
 			foreach(var (provId, province) in StoredProvinces) {
 				if (province is null) {

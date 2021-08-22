@@ -82,5 +82,9 @@ namespace ImperatorToCK3.Imperator.Families {
 				return family;
 			}
 		}
+
+		public static Family Parse(BufferedReader reader, ulong ID) {
+			return FamilyFactory.Parse(reader, ID);
+		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using commonItems;
-using ImperatorToCK3.TempMocks.Countries;
+using ImperatorToCK3.Imperator.Countries;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public enum ProvinceRank { settlement, city, city_metropolis };
