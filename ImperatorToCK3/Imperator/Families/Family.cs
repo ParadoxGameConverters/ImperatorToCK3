@@ -20,13 +20,13 @@ namespace ImperatorToCK3.Imperator.Families {
 		public Family(ulong ID) {
 			this.ID = ID;
 		}
-		public void LinkMember(Character? newMember) {
+		public void LinkMember(Characters.Character? newMember) {
 			if (newMember is null) {
 				Logger.Warn($"Family {ID}: cannot link null member!");
 				return;
 			}
 			foreach(DictionaryEntry memberPair in Members) {
-				if (memberPair.Key == newMember.ID) {
+				if ((ulong)memberPair.Key == newMember.ID) {
 					Members[memberPair.Key] = newMember;
 					return;
 				}

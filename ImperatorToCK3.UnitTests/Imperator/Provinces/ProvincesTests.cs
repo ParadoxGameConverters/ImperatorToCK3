@@ -9,6 +9,8 @@ using ImperatorToCK3.Imperator;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvincesTests {
 		[Fact] public void ProvincesDefaultToEmpty() {
 			var reader = new BufferedReader("={}");
@@ -70,8 +72,6 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			pops.LoadPops(reader2);
 			provinces.LinkPops(pops);
 
-			provinces.LinkPops(pops);
-
 			var province = provinces.StoredProvinces[42];
 			var pop = province.Pops[8];
 			var province2 = provinces.StoredProvinces[43];
@@ -106,11 +106,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			pops.LoadPops(reader2);
 
 			var output = new StringWriter();
+			Console.SetOut(output);
 
 			provinces.LinkPops(pops);
 
 			var logStr = output.ToString();
-			Assert.Contains("[WARN] Pop ID: 10 has no definition!", logStr);
+			Assert.Contains("[WARN] Pop with ID 10 has no definition!", logStr);
 		}
 	}
 }

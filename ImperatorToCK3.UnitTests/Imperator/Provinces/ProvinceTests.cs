@@ -6,6 +6,8 @@ using ImperatorToCK3.Imperator.Countries;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvinceTests {
 		[Fact]
 		public void IDCanBeSet() {
@@ -257,7 +259,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			province.LinkOwnerCountry(null);
 
 			var logStr = output.ToString();
-			Assert.Contains("[WARN] Province 42: cannot link nullptr country!", logStr);
+			Assert.Contains("[WARN] Province 42: cannot link null country!", logStr);
 		}
 
 		[Fact]
