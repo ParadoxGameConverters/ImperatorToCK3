@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using commonItems;
+﻿using commonItems;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class CountryCurrencies : Parser {
@@ -16,6 +11,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public double PoliticalInfluence { get; private set; } = 0;
 		public double MilitaryExperience { get; private set; } = 0;
 
+		public CountryCurrencies() { }
 		public CountryCurrencies(BufferedReader reader) {
 			RegisterKeys();
 			ParseStream(reader);
