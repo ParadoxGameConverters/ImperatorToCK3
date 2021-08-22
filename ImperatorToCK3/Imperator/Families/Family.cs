@@ -54,21 +54,21 @@ namespace ImperatorToCK3.Imperator.Families {
 			private static readonly Parser parser = new();
 			private static Family family = new(0);
 			static FamilyFactory() {
-				parser.RegisterKeyword("key", reader => {
-					family.Key = new SingleString(reader).String;
-				});
-				parser.RegisterKeyword("prestige", reader => {
-					family.Prestige = new SingleDouble(reader).Double;
-				});
-				parser.RegisterKeyword("prestige_ratio", reader => {
-					family.PrestigeRatio = new SingleDouble(reader).Double;
-				});
-				parser.RegisterKeyword("culture", reader => {
-					family.Culture = new SingleString(reader).String;
-				});
-				parser.RegisterKeyword("minor_family", reader => {
-					family.Minor = new SingleString(reader).String == "yes";
-				});
+				parser.RegisterKeyword("key", reader =>
+					family.Key = new SingleString(reader).String
+				);
+				parser.RegisterKeyword("prestige", reader =>
+					family.Prestige = new SingleDouble(reader).Double
+				);
+				parser.RegisterKeyword("prestige_ratio", reader =>
+					family.PrestigeRatio = new SingleDouble(reader).Double
+				);
+				parser.RegisterKeyword("culture", reader =>
+					family.Culture = new SingleString(reader).String
+				);
+				parser.RegisterKeyword("minor_family", reader =>
+					family.Minor = new SingleString(reader).String == "yes"
+				);
 				parser.RegisterKeyword("member", reader => {
 					foreach (var memberID in new ULongList(reader).ULongs) {
 						family.Members.Add(memberID, null);

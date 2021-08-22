@@ -23,7 +23,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public void LinkFamilies(Families families) {
+		public void LinkFamilies(Families.Families families) {
 			var counter = 0;
 			SortedSet<ulong> idsWithoutDefinition = new();
 			foreach (var country in StoredCountries.Values) {
@@ -34,7 +34,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				if (country.Families.Count > 0) {
 					var newFamilies = new Dictionary<ulong, Families.Family?>();
 					foreach (var familyID in country.Families.Keys) {
-						if (families.TryGetValue(familyID, out var familyToLink)) {
+						if (families.StoredFamilies.TryGetValue(familyID, out var familyToLink)) {
 							newFamilies.Add(familyID, familyToLink);
 							++counter;
 						} else {
