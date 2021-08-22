@@ -39,7 +39,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				var geneTemplateName = gene.GetGeneTemplateByIndex(characterGeneTemplateIndex).Key;
 				//Logger.Debug("\t\tgene template: " + fst);
 
-				var geneTemplateObjectByteIndex = colorGenesBytes + (accessoryGenesIndex + geneIndex - 3) * 4 + 1;
+				var geneTemplateObjectByteIndex = colorGenesBytes + ((accessoryGenesIndex + geneIndex - 3) * 4) + 1;
 				var characterGeneSliderValue = (uint)decodedDnaStr[geneTemplateObjectByteIndex] / 255;
 
 				if (gene.GeneTemplates[geneTemplateName].AgeSexWeightBlocks.TryGetValue(ageSexString, out var characterGeneFoundWeightBlock)) {
