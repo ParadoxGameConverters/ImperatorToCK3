@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters {
-	public class Coordinates {
-		public uint x = 256; // palettes are 512x512
-		public uint y = 256;
-	}
-	public class AccessoryGeneData {
-		public string geneName = "";
-		public string geneTemplate = "";
-		public string objectName = "";
-	}
 	public class PortraitData {
-		private Genes.GenesDB genes = new();
-		public Coordinates HairColorPaletteCoordinates { get; private set; } = new();
-		public Coordinates SkinColorPaletteCoordinates { get; private set; } = new();
-		public Coordinates EyeColorPaletteCoordinates { get; private set; } = new();
+		private readonly Genes.GenesDB genes = new();
+		public PaletteCoordinates HairColorPaletteCoordinates { get; private set; } = new();
+		public PaletteCoordinates SkinColorPaletteCoordinates { get; private set; } = new();
+		public PaletteCoordinates EyeColorPaletteCoordinates { get; private set; } = new();
 		public List<AccessoryGeneData> AccessoryGenesList { get; private set; } = new();
 
 		public PortraitData() { }
