@@ -10,12 +10,11 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public CountryName? BaseName { get; private set; }
 
 		public object Clone() {
-			var clone = new CountryName {
+			return new CountryName {
 				Name = Name,
 				adjective = adjective,
 				BaseName = BaseName
 			};
-			return clone;
 		}
 
 		public LocBlock? GetNameLocBlock(LocalizationMapper localizationMapper, Dictionary<ulong, Country?> imperatorCountries) {
@@ -25,9 +24,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 				if (BaseName is not null) {
 					var baseAdjLoc = BaseName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
 					if (baseAdjLoc is not null) {
-						directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) => {
-							orig = orig.Replace("$ADJ$", modifying);
-						});
+						directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
+							orig = orig.Replace("$ADJ$", modifying)
+						);
 						return directNameLocMatch;
 					}
 				}
@@ -42,16 +41,16 @@ namespace ImperatorToCK3.Imperator.Countries {
 				if (BaseName is not null) {
 					var baseAdjLoc = BaseName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
 					if (baseAdjLoc is not null) {
-						directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) => {
-							orig = orig.Replace("$ADJ$", modifying);
-						});
+						directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
+							orig = orig.Replace("$ADJ$", modifying)
+						);
 						return directAdjLocMatch;
 					}
 				}
 			} else {
 				foreach(var country in imperatorCountries.Values) {
 					if (country.Name == Name) {
-						var countryAdjective = country.GetCountryName().GetAdjective();
+						var countryAdjective = country.CountryName.GetAdjective();
 						var adjLoc = localizationMapper.GetLocBlockForKey(countryAdjective);
 						if (adjLoc is not null) {
 							return adjLoc;
@@ -76,15 +75,15 @@ namespace ImperatorToCK3.Imperator.Countries {
 		}
 
 		private static class CountryNameFactory {
-			private static Parser parser = new();
+			private static readonly Parser parser = new();
 			private static CountryName countryName = new();
 			static CountryNameFactory() {
-				parser.RegisterKeyword("name", reader => {
-					countryName.Name = new SingleString(reader).String;
-				});
-				parser.RegisterKeyword("adjective", reader => {
-					countryName.adjective = new SingleString(reader).String;
-				});
+				parser.RegisterKeyword("name", reader =>
+					countryName.Name = new SingleString(reader).String
+				);
+				parser.RegisterKeyword("adjective", reader =>
+					countryName.adjective = new SingleString(reader).String
+				);
 				parser.RegisterKeyword("base", reader => {
 					var tempCountryName = (CountryName)countryName.Clone();
 					tempCountryName.BaseName = Parse(reader);
@@ -99,7 +98,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				return countryName;
 			}
 		}
-		public CountryName Parse(BufferedReader reader) {
+		public static CountryName Parse(BufferedReader reader) {
 			return CountryNameFactory.Parse(reader);
 		}
 	}

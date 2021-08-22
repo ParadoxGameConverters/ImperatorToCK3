@@ -18,30 +18,30 @@ namespace ImperatorToCK3.Imperator.Countries {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("manpower", reader => {
-				Manpower = new SingleDouble(reader).Double;
-			});
-			RegisterKeyword("gold", reader => {
-				Gold = new SingleDouble(reader).Double;
-			});
-			RegisterKeyword("stability", reader => {
-				Stability = new SingleDouble(reader).Double;
-			});
-			RegisterKeyword("tyranny", reader => {
-				Tyranny = new SingleDouble(reader).Double;
-			});
-			RegisterKeyword("war_exhaustion", reader => {
-				WarExhaustion = new SingleDouble(reader).Double;
-			});
-			RegisterKeyword("aggressive_expansion", reader => {
-				AggressiveExpansion = new SingleDouble(reader).Double;
-			});
-			RegisterKeyword("political_influence", reader => {
-				PoliticalInfluence = new SingleDouble(reader).Double;
-			});
-			RegisterKeyword("military_experience", reader => {
-				MilitaryExperience = new SingleDouble(reader).Double;
-			});
+			RegisterKeyword("manpower", reader =>
+				Manpower = new SingleDouble(reader).Double
+			);
+			RegisterKeyword("gold", reader =>
+				Gold = new SingleDouble(reader).Double
+			);
+			RegisterKeyword("stability", reader =>
+				Stability = new SingleDouble(reader).Double
+			);
+			RegisterKeyword("tyranny", reader =>
+				Tyranny = new SingleDouble(reader).Double
+			);
+			RegisterKeyword("war_exhaustion", reader =>
+				WarExhaustion = new SingleDouble(reader).Double
+			);
+			RegisterKeyword("aggressive_expansion", reader =>
+				AggressiveExpansion = new SingleDouble(reader).Double
+			);
+			RegisterKeyword("political_influence", reader =>
+				PoliticalInfluence = new SingleDouble(reader).Double
+			);
+			RegisterKeyword("military_experience", reader =>
+				MilitaryExperience = new SingleDouble(reader).Double
+			);
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}
