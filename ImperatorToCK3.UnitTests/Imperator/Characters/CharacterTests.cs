@@ -3,8 +3,10 @@ using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CharacterTests {
-		readonly ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
+		private readonly ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
 		[Fact]
 		public void FieldsCanBeSet() {
 			var reader = new BufferedReader(
