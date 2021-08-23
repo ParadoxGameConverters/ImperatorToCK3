@@ -2,6 +2,8 @@
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CountryTests {
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
