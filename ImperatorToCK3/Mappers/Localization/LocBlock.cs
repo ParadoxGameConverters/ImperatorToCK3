@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using commonItems;
-using Mods = System.Collections.Generic.List<commonItems.Mod>;
-
-namespace ImperatorToCK3.Mappers.Localization {
-
+﻿namespace ImperatorToCK3.Mappers.Localization {
     public class LocBlock {
         public string english = "";
         public string french = "";
