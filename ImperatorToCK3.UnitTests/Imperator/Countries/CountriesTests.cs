@@ -47,7 +47,6 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			);
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries(reader);
 
-
 			var reader2 = new BufferedReader(
 				"8={key=\"Cornelli\" prestige=2 member={ 4479 4480}}\n"
 			);

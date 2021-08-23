@@ -98,7 +98,6 @@ namespace ImperatorToCK3.Imperator.Characters {
 					}
 				}
 
-
 				var fatherID = character.Father.Key;
 				if (fatherID != 0) {
 					if (StoredCharacters.TryGetValue(fatherID, out var fatherToLink)) {
