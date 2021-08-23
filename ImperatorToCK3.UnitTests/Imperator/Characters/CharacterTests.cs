@@ -35,11 +35,10 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 			var spouse1Reader = new BufferedReader(string.Empty);
 			var spouse2Reader = new BufferedReader(string.Empty);
-			var spouseDict = new Dictionary<ulong, ImperatorToCK3.Imperator.Characters.Character?>() {
+			character.Spouses = new Dictionary<ulong, ImperatorToCK3.Imperator.Characters.Character?>() {
 				{ 69, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse1Reader, "69", genesDB)},
 				{ 420, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "420", genesDB)}
 			};
-			character.Spouses = spouseDict;
 
 			Assert.Equal((ulong)42, character.ID);
 			Assert.Equal("paradoxian", character.Culture);

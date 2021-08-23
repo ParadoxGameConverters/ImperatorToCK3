@@ -11,7 +11,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			ParseStream(reader);
 			ClearRegisteredRules();
 		}
-		public Dictionary<ulong, Character?> StoredCharacters = new();
+		public Dictionary<ulong, Character?> StoredCharacters { get; } = new();
 		public void LinkFamilies(Families.Families families) {
 			var counter = 0;
 			var idsWithoutDefinition = new SortedSet<ulong>();
