@@ -84,7 +84,6 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			families.LoadFamilies(reader2);
 			countries.LinkFamilies(families);
 
-
 			var country = countries.StoredCountries[42];
 			var family = country.Families[8];
 
