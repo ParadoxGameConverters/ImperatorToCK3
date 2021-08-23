@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using commonItems;
-using ImperatorToCK3.Mappers.Localizaton;
+using ImperatorToCK3.Mappers.Localization;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class CountryName : ICloneable {

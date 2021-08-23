@@ -4,7 +4,7 @@ using System.IO;
 using commonItems;
 using Mods = System.Collections.Generic.List<commonItems.Mod>;
 
-namespace ImperatorToCK3.Mappers.Localizaton {
+namespace ImperatorToCK3.Mappers.Localization {
     public delegate void LocDelegate(ref string baseLoc, string modifyingLoc);
 
     public class LocBlock {
