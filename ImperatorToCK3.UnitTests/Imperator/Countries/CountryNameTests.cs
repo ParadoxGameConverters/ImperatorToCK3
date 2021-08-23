@@ -4,7 +4,8 @@ using ImperatorToCK3.Mappers.Localization;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 	public class CountryNameTests {
-		[Fact] public void NameDefaultsToEmpty() {
+		[Fact]
+		public void NameDefaultsToEmpty() {
 			var reader = new BufferedReader(string.Empty);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
@@ -65,7 +66,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
 			var locMapper = new LocalizationMapper();
-			Assert.Null(countryName.GetAdjectiveLocBlock(locMapper, new(){ }));
+			Assert.Null(countryName.GetAdjectiveLocBlock(locMapper, new() { }));
 		}
 
 		[Fact]
@@ -76,9 +77,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
 			var locMapper = new LocalizationMapper();
-			locMapper.AddLocalization("CIVILWAR_FACTION_ADJECTIVE", new LocBlock{ english = "$ADJ$" });
-			locMapper.AddLocalization("someAdjective", new LocBlock{ english = "Roman" });
-			Assert.Equal("Roman", countryName.GetAdjectiveLocBlock(locMapper, new(){ }).english);
+			locMapper.AddLocalization("CIVILWAR_FACTION_ADJECTIVE", new LocBlock { english = "$ADJ$" });
+			locMapper.AddLocalization("someAdjective", new LocBlock { english = "Roman" });
+			Assert.Equal("Roman", countryName.GetAdjectiveLocBlock(locMapper, new() { }).english);
 		}
 
 		[Fact]
@@ -87,7 +88,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
 			var locMapper = new LocalizationMapper();
-			Assert.Null(countryName.GetNameLocBlock(locMapper, new(){ }));
+			Assert.Null(countryName.GetNameLocBlock(locMapper, new() { }));
 		}
 
 		[Fact]
@@ -98,9 +99,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
 			var locMapper = new LocalizationMapper();
-			locMapper.AddLocalization("CIVILWAR_FACTION_NAME", new LocBlock{ english = "$ADJ$ Revolt" });
-			locMapper.AddLocalization("someAdjective", new LocBlock{ english = "Roman" });
-			Assert.Equal("Roman Revolt", countryName.GetNameLocBlock(locMapper, new(){ }).english);
+			locMapper.AddLocalization("CIVILWAR_FACTION_NAME", new LocBlock { english = "$ADJ$ Revolt" });
+			locMapper.AddLocalization("someAdjective", new LocBlock { english = "Roman" });
+			Assert.Equal("Roman Revolt", countryName.GetNameLocBlock(locMapper, new() { }).english);
 		}
 	}
 }
