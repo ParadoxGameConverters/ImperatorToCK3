@@ -152,7 +152,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
-		public static Character Parse(BufferedReader reader, string idString, Genes.GenesDB genesDB) {
+		public static Character Parse(BufferedReader reader, string idString, Genes.GenesDB? genesDB) {
 			parsedCharacter = new Character(ulong.Parse(idString)) {
 				genes = genesDB
 			};

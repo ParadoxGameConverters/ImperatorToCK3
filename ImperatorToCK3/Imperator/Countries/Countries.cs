@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using commonItems;
-using ImperatorToCK3.Imperator.Families;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class Countries : Parser {
