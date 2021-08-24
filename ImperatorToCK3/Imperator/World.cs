@@ -12,7 +12,7 @@ namespace ImperatorToCK3.Imperator {
 		public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 		private GameVersion imperatorVersion = new();
 		public Mods Mods { get; private set; } = new();
-		public SortedSet<string> dlcs = new();
+		private readonly SortedSet<string> dlcs = new();
 		public Families.Families Families { get; private set; } = new();
 		public Characters.Characters Characters { get; private set; } = new();
 		private Pops.Pops pops = new();
@@ -142,7 +142,7 @@ namespace ImperatorToCK3.Imperator {
 					Logger.Info("Importing regular Imperator save.");
 					ProcessCompressedEncodedSave(saveGamePath);
 					break;
-				case SaveType.INVALID:
+				default:
 					throw new InvalidDataException("Unknown save type.");
 			}
 		}
@@ -166,8 +166,10 @@ namespace ImperatorToCK3.Imperator {
 
 			saveStream.Position = 0;
 			var bigBuf = new byte[65536];
-			saveStream.Read(bigBuf);
-			Logger.Debug(bigBuf.Length.ToString()); // TODO: REMOVE DEBUG
+			var bytesReadCount = saveStream.Read(bigBuf);
+			if (bytesReadCount < 65536) {
+				throw new InvalidDataException("Read only " + bytesReadCount + "bytes.");
+			}
 			saveGame.saveType = SaveType.PLAINTEXT;
 			for (var i = 0; i < 65533; ++i) {
 				if (BitConverter.ToUInt32(bigBuf, i) == 0x04034B50 && BitConverter.ToUInt16(bigBuf, i - 2) == 4) {
