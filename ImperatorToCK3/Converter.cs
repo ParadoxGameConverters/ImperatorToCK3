@@ -8,10 +8,9 @@ using commonItems;
 
 namespace ImperatorToCK3 {
     class Converter {
-        public static void ConvertImperatorToCK3() {
+        public static void ConvertImperatorToCK3(ConverterVersion converterVersion) {
             var config = new Configuration();
-            var plainText = Helpers.RakalyCaller.ToPlainText(config.SaveGamePath);
-            Logger.Log(LogLevel.Debug, plainText.Split('\n').Length.ToString());
+			var imperatorWorld = new Imperator.World(config, converterVersion);
         }
 
         private void LogGameVersions(string imperatorPath, string ck3Path) {

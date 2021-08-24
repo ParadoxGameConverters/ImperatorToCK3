@@ -91,7 +91,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 							continue;
 						}
 						character.Mother = new(motherID, motherToLink);
-						motherToLink.Children.Add(characterID, character);
+						motherToLink.Children[characterID] = character;
 						++motherCounter;
 					} else {
 						Logger.Warn($"Mother ID: {motherID} has no definition!");
@@ -106,7 +106,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 							continue;
 						}
 						character.Father = new(fatherID, fatherToLink);
-						fatherToLink.Children.Add(characterID, character);
+						fatherToLink.Children[characterID] = character;
 						++fatherCounter;
 					} else {
 						Logger.Warn($"Father ID: {fatherID} has no definition!");

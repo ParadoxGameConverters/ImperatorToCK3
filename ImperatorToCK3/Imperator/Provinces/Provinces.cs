@@ -5,6 +5,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 	public class Provinces : Parser {
 		public Dictionary<ulong, Province?> StoredProvinces { get; } = new();
 
+		public Provinces() { }
 		public Provinces(BufferedReader reader) {
 			RegisterKeys();
 			ParseStream(reader);
