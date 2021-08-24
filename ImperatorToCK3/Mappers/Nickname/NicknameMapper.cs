@@ -9,12 +9,12 @@ namespace ImperatorToCK3.Mappers.Nickname {
 	public class NicknameMapper : Parser {
 		private Dictionary<string, string> impToCK3NicknameMap = new();
 
-		public NicknameMapper() {
-			Logger.Log(LogLevel.Info, "Parsing nickname mappings.");
+		public NicknameMapper(string filePath) {
+			Logger.Info("Parsing nickname mappings.");
 			RegisterKeys();
-			ParseFile("configurables/nickname_map.txt");
+			ParseFile(filePath);
 			ClearRegisteredRules();
-			Logger.Log(LogLevel.Info, "Loaded " + impToCK3NicknameMap.Count + " nickname links.");
+			Logger.Info($"Loaded {impToCK3NicknameMap.Count} nickname links.");
 		}
 		public NicknameMapper(BufferedReader reader) {
 			RegisterKeys();
@@ -33,8 +33,7 @@ namespace ImperatorToCK3.Mappers.Nickname {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public string? GetCK3NicknameForImperatorNickname(string impNickname) {
-			var gotValue = impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname);
-			if (gotValue) {
+			if (impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname)) {
 				return ck3Nickname;
 			}
 			return null;

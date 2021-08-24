@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using ImperatorToCK3.Mappers.Localizaton;
+using ImperatorToCK3.Mappers.Localization;
 using commonItems;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Localization {

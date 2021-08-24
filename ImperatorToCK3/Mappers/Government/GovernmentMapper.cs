@@ -7,11 +7,11 @@ namespace ImperatorToCK3.Mappers.Government {
         private Dictionary<string, string> impToCK3GovernmentMap = new();
 
         public GovernmentMapper() {
-            Logger.Log(LogLevel.Info, "Parsing government mappings.");
+            Logger.Info("Parsing government mappings.");
             RegisterKeys();
             ParseFile("configurables/government_map.txt");
             ClearRegisteredRules();
-            Logger.Log(LogLevel.Info, "Loaded " + impToCK3GovernmentMap.Count + " government links.");
+            Logger.Info("Loaded " + impToCK3GovernmentMap.Count + " government links.");
         }
         public GovernmentMapper(BufferedReader reader) {
             RegisterKeys();

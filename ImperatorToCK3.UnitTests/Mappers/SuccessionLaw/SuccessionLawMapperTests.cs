@@ -16,7 +16,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 			Assert.Empty(ck3Laws);
 		}
 
-
 		[Fact]
 		public void Ck3LawCanBeFound() {
 			var reader = new BufferedReader("link = { imp = implaw ck3 = ck3law }");
@@ -25,7 +24,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 			var ck3Laws = mapper.GetCK3LawsForImperatorLaws(new SortedSet<string> { "implaw" });
 			Assert.Equal(new SortedSet<string> { "ck3law" }, ck3Laws);
 		}
-
 
 		[Fact]
 		public void LinkWithNoCK3LawResultsInWarning() {
@@ -37,7 +35,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 
 			Assert.Contains("SuccessionLawMapper: link with no CK3 successions laws", output.ToString());
 		}
-
 
 		[Fact]
 		public void MultipleLawsCanBeReturned() {
@@ -52,6 +49,19 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 			var ck3Laws = mapper.GetCK3LawsForImperatorLaws(new SortedSet<string> { "implaw", "implaw3" });
 			var expectedReturnedLaws = new SortedSet<string> { "ck3law", "ck3law2", "ck3law3", "ck3law5" };
 			Assert.Equal(expectedReturnedLaws, ck3Laws);
+		}
+
+		[Fact] public void MappingsAreReadFromFile()
+        {
+			var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.txt");
+			Assert.Equal(
+				new SortedSet<string> { "ck3law1", "ck3law2" },
+				mapper.GetCK3LawsForImperatorLaws(new() { "implaw1" })
+			);
+			Assert.Equal(
+				new SortedSet<string> { "ck3law3" },
+				mapper.GetCK3LawsForImperatorLaws(new() { "implaw2" })
+			);
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace ImperatorToCK3 {
         public bool ConvertBirthAndDeathDates { get; internal set; } = true;
 
         public Configuration() {
-            Logger.Log(LogLevel.Info, "Reading configuration file");
+            Logger.Info("Reading configuration file");
             RegisterKeys();
             ParseFile("configuration.txt");
             ClearRegisteredRules();
@@ -27,7 +27,7 @@ namespace ImperatorToCK3 {
         void RegisterKeys() {
             RegisterKeyword("SaveGame", (sr) => {
                 SaveGamePath = new SingleString(sr).String;
-                Logger.Log(LogLevel.Info, "Save game set to: " + SaveGamePath);
+                Logger.Info("Save game set to: " + SaveGamePath);
             });
             RegisterKeyword("ImperatorDirectory", (sr) => {
                 ImperatorPath = new SingleString(sr).String;
@@ -43,15 +43,15 @@ namespace ImperatorToCK3 {
             });
             RegisterKeyword("output_name", (sr) => {
                 OutputModName = new SingleString(sr).String;
-                Logger.Log(LogLevel.Info, "Output name set to: " + OutputModName);
+                Logger.Info("Output name set to: " + OutputModName);
             });
             RegisterKeyword("ImperatorDeJure", (sr) => {
                 var deJureString = new SingleString(sr).String;
                 try {
                     ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(deJureString);
-                    Logger.Log(LogLevel.Info, "ImperatorDeJure set to: " + deJureString);
+                    Logger.Info("ImperatorDeJure set to: " + deJureString);
                 } catch (Exception e) {
-                    Logger.Log(LogLevel.Error, "Undefined error, ImperatorDeJure value was: " + deJureString + "; Error message: " + e.ToString());
+                    Logger.Error("Undefined error, ImperatorDeJure value was: " + deJureString + "; Error message: " + e.ToString());
                 }
             });
             RegisterKeyword("ConvertCharacterBirthAndDeathDates", (sr) => {
@@ -61,7 +61,7 @@ namespace ImperatorToCK3 {
                 } else {
                     ConvertBirthAndDeathDates = false;
                 }
-                Logger.Log(LogLevel.Info, "Conversion of characters' birth and death dates set to: " + ConvertBirthAndDeathDates);
+                Logger.Info("Conversion of characters' birth and death dates set to: " + ConvertBirthAndDeathDates);
             });
             RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
         }
@@ -73,7 +73,7 @@ namespace ImperatorToCK3 {
             if (!File.Exists(ImperatorPath + "/binaries/imperator.exe")) {
                 throw new FileNotFoundException(ImperatorPath + "does not contains Imperator: Rome!");
             }
-            Logger.Log(LogLevel.Info, "\tI:R install path is " + ImperatorPath);
+            Logger.Info("\tI:R install path is " + ImperatorPath);
         }
 
         void VerifyCK3Path() {
@@ -83,7 +83,7 @@ namespace ImperatorToCK3 {
             if (!File.Exists(Ck3Path + "/binaries/ck3.exe")) {
                 throw new FileNotFoundException(Ck3Path + " does not contain Crusader Kings III!");
             }
-            Logger.Log(LogLevel.Info, "\tCK3 install path is " + Ck3Path);
+            Logger.Info("\tCK3 install path is " + Ck3Path);
         }
 
         void SetOutputName() {
@@ -95,7 +95,7 @@ namespace ImperatorToCK3 {
             OutputModName = OutputModName.Replace(' ', '_');
 
             OutputModName = CommonFunctions.NormalizeUTF8Path(OutputModName);
-            Logger.Log(LogLevel.Info, "Using output name " + OutputModName);
+            Logger.Info("Using output name " + OutputModName);
         }
     }
 }
