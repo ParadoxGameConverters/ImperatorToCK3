@@ -19,7 +19,6 @@ namespace ImperatorToCK3 {
                 Logger.Error(e.ToString());
                 return -1;
             }
-
         }
     }
 }

@@ -8,7 +8,7 @@ using Mods = System.Collections.Generic.List<commonItems.Mod>;
 
 namespace ImperatorToCK3.Imperator {
 	public class World : Parser {
-		private Date startDate = new("450.10.1", AUC: true);
+		private readonly Date startDate = new("450.10.1", AUC: true);
 		public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 		private GameVersion imperatorVersion = new();
 		public Mods Mods { get; private set; } = new();
@@ -33,7 +33,7 @@ namespace ImperatorToCK3.Imperator {
 			ParseGenes(configuration);
 
 			// parse the save
-			RegisterRegex(@"\bSAV\w*\b", reader=> { });
+			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
 				var versionString = new SingleString(reader).String;
 				imperatorVersion = new GameVersion(versionString);
@@ -109,7 +109,6 @@ namespace ImperatorToCK3.Imperator {
 			var gameState = new BufferedReader(saveGame.gameState);
 			ParseStream(gameState);
 			ClearRegisteredRules();
-
 
 			Logger.Info("*** Building World ***");
 
