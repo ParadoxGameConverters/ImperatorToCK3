@@ -34,18 +34,23 @@ namespace ImperatorToCK3.Mappers.Province {
 		private void CreateMappings() {
 			foreach (var mapping in mappingsVersion.Mappings) {
 				// fix deliberate errors where we leave mappings without keys (CK2->EU4 asian wasteland comes to mind):
-				if (mapping.ImperatorProvinces.Count == 0)
+				if (mapping.ImperatorProvinces.Count == 0) {
 					continue;
-				if (mapping.CK3Provinces.Count == 0)
+				}
+
+				if (mapping.CK3Provinces.Count == 0) {
 					continue;
+				}
 
 				foreach (var impNumber in mapping.ImperatorProvinces) {
-					if (impNumber != 0)
+					if (impNumber != 0) {
 						imperatorToCK3ProvinceMap.Add(impNumber, mapping.CK3Provinces);
+					}
 				}
 				foreach (var ck3Number in mapping.CK3Provinces) {
-					if (ck3Number != 0)
+					if (ck3Number != 0) {
 						ck3ToImperatorProvinceMap.Add(ck3Number, mapping.ImperatorProvinces);
+					}
 				}
 			}
 		}
