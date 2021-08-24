@@ -24,7 +24,7 @@ namespace ImperatorToCK3.Helpers {
 			process.WaitForExit();
 			var returnCode = process.ExitCode;
 			if (returnCode != 0 && returnCode != 1) {
-				throw new ApplicationException($"Rakaly melter failed to melt {savePath} with exit code {returnCode}");
+				throw new FormatException($"Rakaly melter failed to melt {savePath} with exit code {returnCode}");
 			}
 			return plainText;
 		}
