@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using commonItems;
 using ImperatorToCK3.Imperator.Families;
 
@@ -148,11 +144,11 @@ namespace ImperatorToCK3.Imperator.Characters {
 				}
 			});
 			parser.RegisterKeyword("attributes", reader => {
-				var attributesFromBloc = CharacterAttributes.Parse(reader);
+				parsedCharacter.Attributes = CharacterAttributes.Parse(reader);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
-		public static Character Parse(BufferedReader reader, string idString, Genes.GenesDB genesDB) {
+		public static Character Parse(BufferedReader reader, string idString, Genes.GenesDB? genesDB) {
 			parsedCharacter = new Character(ulong.Parse(idString)) {
 				genes = genesDB
 			};

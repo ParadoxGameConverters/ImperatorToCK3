@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.Imperator.Countries {
@@ -20,22 +16,22 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public ulong? Capital { get; private set; }
 		public string? Government { get; private set; }
 		public GovernmentType GovernmentType { get; private set; } = GovernmentType.monarchy;
-		private readonly SortedSet<string> monarchyLaws = new();
-		private readonly SortedSet<string> republicLaws = new();
-		private readonly SortedSet<string> tribalLaws = new();
+		private readonly HashSet<string> monarchyLaws = new();
+		private readonly HashSet<string> republicLaws = new();
+		private readonly HashSet<string> tribalLaws = new();
 		public Color? Color1 { get; private set; }
 		public Color? Color2 { get; private set; }
 		public Color? Color3 { get; private set; }
 		public CountryCurrencies Currencies { get; private set; } = new();
 		public Dictionary<ulong, Families.Family?> Families { get; private set; } = new();
-		private readonly SortedSet<Provinces.Province> ownedProvinces = new();
+		private readonly HashSet<Provinces.Province> ownedProvinces = new();
 
 		//ImperatorToCK3.CK3.Titles.Title? ck3Title = new(); // TODO: ENABLE
 
 		public Country(ulong ID) {
 			this.ID = ID;
 		}
-		public SortedSet<string> GetLaws() {
+		public HashSet<string> GetLaws() {
 			return GovernmentType switch {
 				GovernmentType.monarchy => monarchyLaws,
 				GovernmentType.republic => republicLaws,

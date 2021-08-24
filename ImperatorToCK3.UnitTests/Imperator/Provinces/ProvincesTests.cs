@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
-using ImperatorToCK3.Imperator;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
