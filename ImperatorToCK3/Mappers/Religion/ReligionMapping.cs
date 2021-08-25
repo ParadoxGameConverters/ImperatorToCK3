@@ -69,13 +69,13 @@ namespace ImperatorToCK3.Mappers.Religion {
 				return ck3Religion;
 			// This is a CK3 regions check, it checks if provided ck3Province is within the mapping's ck3Regions
 			foreach (var region in ck3Regions) {
-				if (!ck3RegionMapper.RegionNameIsValid(region)) {
+				if (!CK3RegionMapper.RegionNameIsValid(region)) {
 					Logger.Warn($"Checking for religion {impReligion} inside invalid CK3 region: {region}! Fix the mapping rules!");
 					// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
 					// for the converter to explode across the logs with invalid names. So, continue.
 					continue;
 				}
-				if (ck3RegionMapper.ProvinceIsInRegion(ck3ProvinceID, region))
+				if (CK3RegionMapper.ProvinceIsInRegion(ck3ProvinceID, region))
 					return ck3Religion;
 			}
 
@@ -84,8 +84,8 @@ namespace ImperatorToCK3.Mappers.Religion {
 				return ck3Religion;
 			// This is an Imperator regions check, it checks if provided impProvince is within the mapping's imperatorRegions
 			foreach (var region in imperatorRegions) {
-				if (!imperatorRegionMapper->regionNameIsValid(region)) {
-					Log(LogLevel::Warning) << "Checking for religion " << impReligion << " inside invalid Imperator region: " << region << "! Fix the mapping rules!";
+				if (!ImperatorRegionMapper.RegionNameIsValid(region)) {
+					Logger.Warn($"Checking for religion {impReligion} inside invalid Imperator region: {region}! Fix the mapping rules!");
 					// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
 					// for the converter to explode across the logs with invalid names. So, continue.
 					continue;

@@ -65,10 +65,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			return null;
 		}
 
-		public Dictionary<string, Title?> StoredTitles { get; } = new(); // title name, title
+		public Dictionary<string, Title> StoredTitles { get; } = new(); // title name, title
 
 		private void RegisterKeys() {
-			RegisterRegex(@"((e|k|d|c|b)_[A-Za-z0-9_\-\']+)", (reader, titleNameStr) => {
+			RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
 				newTitle.LoadTitles(reader);

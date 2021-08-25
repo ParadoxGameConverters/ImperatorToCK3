@@ -7,5 +7,7 @@ using commonItems;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character {
+		public string ID { get; } = "0";
+		// TODO: ADD THE REST
 	}
 }

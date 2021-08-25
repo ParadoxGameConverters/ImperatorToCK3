@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.Mappers.Region {
@@ -12,9 +8,33 @@ namespace ImperatorToCK3.Mappers.Region {
 		public Dictionary<string, CK3.Titles.Title?> Counties { get; private set; } = new();
 		public SortedSet<ulong> Provinces { get; private set; } = new();
 
-		public void LinkRegion(string regionName, CK3Region? region);
-		public void LinkDuchy(CK3.Titles.Title? theDuchy);
-		public void LinkCounty(CK3.Titles.Title? theCounty);
+		public void LinkRegion(string regionName, CK3Region region) {
+			Regions[regionName] = region;
+		}
+		public void LinkDuchy(CK3.Titles.Title theDuchy) {
+			Duchies[theDuchy.Name] = theDuchy;
+		}
+		public void LinkCounty(CK3.Titles.Title theCounty) {
+			Counties[theCounty.Name] = theCounty;
+		}
+		public bool ContainsProvince(ulong provinceID) {
+			foreach (var region in Regions.Values) {
+				if (region?.ContainsProvince(provinceID) == true) {
+					return true;
+				}
+			}
+			foreach(var duchy in Duchies.Values) {
+				if (duchy?.DuchyContainsProvince(provinceID) == true) {
+					return true;
+				}
+			}
+			foreach(var county in Counties.Values) {
+				if (county?.CountyProvinces.Contains(provinceID) == true) {
+					return true;
+				}
+			}
+			return Provinces.Contains(provinceID);
+		}
 
 		private static readonly Parser parser = new();
 		private static CK3Region regionToReturn = new();

@@ -59,8 +59,6 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			SetRank();
 
-
-
 			// ------------------ determine holder
 			if (ImperatorCountry.Monarch is not null)
 				history.Holder = "imperator" + ImperatorCountry.Monarch.ToString();
@@ -91,14 +89,12 @@ namespace ImperatorToCK3.CK3.Titles {
 			if (srcCapital is not null) {
 				var provMappingsForImperatorCapital = provinceMapper.GetCK3ProvinceNumbers((ulong)srcCapital);
 				if (provMappingsForImperatorCapital.Count > 0) {
-					var foundCounty = landedTitles.getCountyForProvince(provMappingsForImperatorCapital[0]);
-					if (foundCounty) {
-						capitalCounty = new(*foundCounty, null);
+					var foundCounty = landedTitles.GetCountyForProvince(provMappingsForImperatorCapital[0]);
+					if (foundCounty is not null) {
+						CapitalCounty = new(foundCounty, null);
 					}
 				}
 			}
-
-
 
 			// ------------------ Country Name Locs
 
@@ -138,7 +134,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			Color2 = otherTitle.Color2;
 			CoA = otherTitle.CoA;
 
-			capitalCounty = otherTitle.capitalCounty;
+			CapitalCounty = otherTitle.CapitalCounty;
 		}
 		public void LoadTitles(BufferedReader reader) {
 			RegisterKeys();
@@ -159,10 +155,16 @@ namespace ImperatorToCK3.CK3.Titles {
 				holder = value;
 			}
 		}
+		public string HolderID { get { return history.Holder; } }
 		public int? DevelopmentLevel => history.DevelopmentLevel;
 
 		public Dictionary<string, LocBlock> Localizations { get; set; } = new();
 		public void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Imperator.Countries.Country?> imperatorCountries) {
+			if (ImperatorCountry is null) {
+				Logger.Warn($"Cannot set adjective for CK3 Title {Name} from null Imperator Country!");
+				return;
+			}
+
 			var adjSet = false;
 
 			if (ImperatorCountry.Tag == "PRY" || ImperatorCountry.Tag == "SEL" || ImperatorCountry.Tag == "MRY") { // these tags use customizable loc for adj
@@ -207,8 +209,10 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public string? CoA { get; private set; }
-		public KeyValuePair<string, Title?>? capitalCounty { get; private set; }
+		public KeyValuePair<string, Title?>? CapitalCounty { get; private set; }
 		public Imperator.Countries.Country? ImperatorCountry { get; private set; }
+		public Color? Color1 { get; private set; } // TODO: CHECK DIFFERENCE BETWEEN COLOR AND COLOR1 AND COLOR2
+		public Color? Color2 { get; private set; } // TODO: CHECK DIFFERENCE BETWEEN COLOR AND COLOR1 AND COLOR2
 		public Color? Color { get; private set; } // TODO: CHECK DIFFERENCE BETWEEN COLOR AND COLOR1 AND COLOR2
 
 		private Title? deJureLiege;
@@ -242,8 +246,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
 		public bool Landless { get; private set; } = false;
 		public bool HasDefiniteForm { get; private set; } = false;
-		public string HolderID { get { return history.Holder; } }
-		public Character? Holder { get; private set; }
 		public string? Government => history.Government;
 		public int? OwnOrInheritedDevelopmentLevel {
 			get {
@@ -256,15 +258,11 @@ namespace ImperatorToCK3.CK3.Titles {
 				return null;
 			}
 		}
-		public SortedSet<string> SuccessionLaws { get; } = new();
+		public SortedSet<string> SuccessionLaws { get; private set; } = new();
 		public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
-		
-
-
-
 
 		private void RegisterKeys() {
-			RegisterRegex(@"((k|d|c|b)_[A-Za-z0-9_\-\']+)", (reader, titleNameStr)=> {
+			RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr)=> {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
 				newTitle.LoadTitles(reader);
@@ -286,7 +284,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				Color = colorFactory.GetColor(reader);
 			});
 			RegisterKeyword("capital", reader => {
-				capitalCounty = new(ParserHelpers.GetString(reader), null);
+				CapitalCounty = new(ParserHelpers.GetString(reader), null);
 			});
 			RegisterKeyword("province", reader => {
 				Province = ParserHelpers.GetULong(reader);
@@ -294,7 +292,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 
-		internal static void AddFoundTitle(Title? newTitle, Dictionary<string, Title?> foundTitles) {
+		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title?> foundTitles) {
 			foreach (var (locatedTitleName, locatedTitle) in newTitle.foundTitles) {
 				if (newTitle.Rank == TitleRank.county) {
 					var baronyProvince = locatedTitle.Province;
@@ -318,6 +316,21 @@ namespace ImperatorToCK3.CK3.Titles {
 		private readonly Dictionary<string, Title?> foundTitles = new(); // title name, title. Titles are only held here during loading of landed_titles, then they are cleared		// used by duchy titles only
 
 		private static readonly ColorFactory colorFactory = new();
+
+		private void SetRank() {
+			if (Name.StartsWith('b'))
+				Rank = TitleRank.barony;
+			else if (Name.StartsWith('c'))
+				Rank = TitleRank.county;
+			else if (Name.StartsWith('d'))
+				Rank = TitleRank.duchy;
+			else if (Name.StartsWith('k'))
+				Rank = TitleRank.kingdom;
+			else if (Name.StartsWith('e'))
+				Rank = TitleRank.empire;
+			else
+				throw new FormatException("Title " + Name + ": unknown rank!");
+		}
 
 		// used by kingdom titles only
 		public bool KingdomContainsProvince(ulong provinceID) {
