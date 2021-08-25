@@ -26,7 +26,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Dictionary<ulong, Families.Family?> Families { get; private set; } = new();
 		private readonly HashSet<Provinces.Province> ownedProvinces = new();
 
-		//ImperatorToCK3.CK3.Titles.Title? ck3Title = new(); // TODO: ENABLE
+		ImperatorToCK3.CK3.Titles.Title? ck3Title = new();
 
 		public Country(ulong ID) {
 			this.ID = ID;
@@ -68,10 +68,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 				ownedProvinces.Add(province);
 			}
 		}
-		/*
-		public void SetCK3Title(ImperatorToCK3.CK3.Titles.Title? theTitle) { // TODO: ENABLE
+
+		public void SetCK3Title(ImperatorToCK3.CK3.Titles.Title? theTitle) {
 			ck3Title = theTitle;
 		}
-		*/
 	}
 }

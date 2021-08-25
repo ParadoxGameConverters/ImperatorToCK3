@@ -16,7 +16,6 @@ namespace ImperatorToCK3.Mappers.Region {
 		public void LinkDuchy(CK3.Titles.Title? theDuchy);
 		public void LinkCounty(CK3.Titles.Title? theCounty);
 
-
 		private static readonly Parser parser = new();
 		private static CK3Region regionToReturn = new();
 		static CK3Region() {
