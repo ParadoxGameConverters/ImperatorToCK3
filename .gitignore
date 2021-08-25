@@ -2,7 +2,6 @@
 *.d
 
 # Executables
-*.exe
 *.out
 *.app
 

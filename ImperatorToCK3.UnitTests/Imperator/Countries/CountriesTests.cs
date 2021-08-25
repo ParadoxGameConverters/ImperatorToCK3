@@ -4,6 +4,8 @@ using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CountriesTests {
 		[Fact]
 		public void CountriesDefaultToEmpty() {
