@@ -5,6 +5,13 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Province {
 	public class ProvinceMappingTests {
 		[Fact]
+		public void MappingDefaultsToEmpty() {
+			var reader = new BufferedReader(string.Empty);
+			var mapping = ProvinceMapping.Parse(reader);
+			Assert.Empty(mapping.CK3Provinces);
+			Assert.Empty(mapping.ImperatorProvinces);
+		}
+		[Fact]
 		public void CK3ProvinceCanBeAdded() {
 			var reader = new BufferedReader("= { ck3 = 2 ck3 = 1 }");
 			var mapping = ProvinceMapping.Parse(reader);
