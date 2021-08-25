@@ -32,7 +32,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			// ------------------ determine CK3 title
 
-			LocBlock? validatedName = null;
+			LocBlock? validatedName;
 			// hard code for Antigonid Kingdom, Seleucid Empire and Maurya (which use customizable localization for name and adjective)
 			if (ImperatorCountry.Name == "PRY_DYN")
 				validatedName = localizationMapper.GetLocBlockForKey("get_pry_name_fallback");
@@ -44,7 +44,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			else
 				validatedName = ImperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries);
 
-			string? title = null;
+			string? title;
 			if (validatedName is not null)
 				title = tagTitleMapper.GetTitleForTag(ImperatorCountry.Tag, ImperatorCountry.GetCountryRank(), validatedName.english);
 			else
@@ -288,7 +288,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 
-		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title?> foundTitles) {
+		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title> foundTitles) {
 			foreach (var (locatedTitleName, locatedTitle) in newTitle.foundTitles) {
 				if (newTitle.Rank == TitleRank.county) {
 					var baronyProvince = locatedTitle.Province;
@@ -309,7 +309,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		private TitleHistory history = new();
-		private readonly Dictionary<string, Title?> foundTitles = new(); // title name, title. Titles are only held here during loading of landed_titles, then they are cleared		// used by duchy titles only
+		private readonly Dictionary<string, Title> foundTitles = new(); // title name, title. Titles are only held here during loading of landed_titles, then they are cleared		// used by duchy titles only
 
 		private static readonly ColorFactory colorFactory = new();
 

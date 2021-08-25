@@ -29,30 +29,28 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 		public void EraseTitle(string name) {
 			if (StoredTitles.TryGetValue(name, out var titleToErase)) {
-				if (titleToErase is not null) {
-					var deJureLiege = titleToErase.DeJureLiege;
-					if (deJureLiege is not null) {
-						deJureLiege.DeJureVassals.Remove(name);
-					}
-
-					var deFactoLiege = titleToErase.DeFactoLiege;
-					if (deFactoLiege is not null) {
-						deFactoLiege.DeFactoVassals.Remove(name);
-					}
-
-					foreach (var vassal in titleToErase.DeJureVassals.Values) {
-						if (vassal is not null) {
-							vassal.DeJureLiege = null;
-						}
-					}
-					foreach (var vassal in titleToErase.DeFactoVassals.Values) {
-						if (vassal is not null) {
-							vassal.DeFactoLiege = null;
-						}
-					}
-
-					titleToErase.ImperatorCountry?.SetCK3Title(null);
+				var deJureLiege = titleToErase.DeJureLiege;
+				if (deJureLiege is not null) {
+					deJureLiege.DeJureVassals.Remove(name);
 				}
+
+				var deFactoLiege = titleToErase.DeFactoLiege;
+				if (deFactoLiege is not null) {
+					deFactoLiege.DeFactoVassals.Remove(name);
+				}
+
+				foreach (var vassal in titleToErase.DeJureVassals.Values) {
+					if (vassal is not null) {
+						vassal.DeJureLiege = null;
+					}
+				}
+				foreach (var vassal in titleToErase.DeFactoVassals.Values) {
+					if (vassal is not null) {
+						vassal.DeFactoLiege = null;
+					}
+				}
+
+				titleToErase.ImperatorCountry?.SetCK3Title(null);
 			}
 			StoredTitles.Remove(name);
 		}

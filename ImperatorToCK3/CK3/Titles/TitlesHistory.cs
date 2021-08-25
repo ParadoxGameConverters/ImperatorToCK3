@@ -34,7 +34,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
-		private readonly HistoryFactory historyFactory = new HistoryFactory(
+		private readonly HistoryFactory historyFactory = new(
 			simpleFieldDefs: new() {
 				new() { FieldName = "holder", Setter = "holder", InitialValue = "0" },
 				new() { FieldName = "liege", Setter = "liege", InitialValue = null },
@@ -43,6 +43,6 @@ namespace ImperatorToCK3.CK3.Titles {
 			},
 			containerFieldDefs: new()
 		);
-		private Dictionary<string, TitleHistory> historyDict = new();
+		private readonly Dictionary<string, TitleHistory> historyDict = new();
 	}
 }
