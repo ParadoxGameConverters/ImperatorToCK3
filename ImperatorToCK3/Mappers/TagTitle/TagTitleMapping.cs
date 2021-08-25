@@ -14,9 +14,9 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			return ck3Title;
 		}
 
-		private string ck3Title;
-		private string imperatorTag;
-		private SortedSet<string> ranks;
+		private string ck3Title = string.Empty;
+		private string imperatorTag = string.Empty;
+		private readonly SortedSet<string> ranks = new();
 
 		private static readonly Parser parser = new();
 		private static TagTitleMapping mappingToReturn = new();
