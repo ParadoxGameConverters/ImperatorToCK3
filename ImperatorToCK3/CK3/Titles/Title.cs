@@ -207,8 +207,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		public string? CoA { get; private set; }
 		public KeyValuePair<string, Title?>? CapitalCounty { get; private set; }
 		public Imperator.Countries.Country? ImperatorCountry { get; private set; }
-		public Color? Color1 { get; private set; } // TODO: CHECK DIFFERENCE BETWEEN COLOR AND COLOR1 AND COLOR2
-		public Color? Color2 { get; private set; } // TODO: CHECK DIFFERENCE BETWEEN COLOR AND COLOR1 AND COLOR2
+		public Color? Color1 { get; private set; }
+		public Color? Color2 { get; private set; }
 		public Color? Color { get; private set; } // TODO: CHECK DIFFERENCE BETWEEN COLOR AND COLOR1 AND COLOR2
 
 		private Title? deJureLiege;
