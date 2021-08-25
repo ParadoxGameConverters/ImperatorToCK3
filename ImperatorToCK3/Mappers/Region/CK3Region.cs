@@ -23,12 +23,12 @@ namespace ImperatorToCK3.Mappers.Region {
 					return true;
 				}
 			}
-			foreach(var duchy in Duchies.Values) {
+			foreach (var duchy in Duchies.Values) {
 				if (duchy?.DuchyContainsProvince(provinceID) == true) {
 					return true;
 				}
 			}
-			foreach(var county in Counties.Values) {
+			foreach (var county in Counties.Values) {
 				if (county?.CountyProvinces.Contains(provinceID) == true) {
 					return true;
 				}
@@ -39,7 +39,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		private static readonly Parser parser = new();
 		private static CK3Region regionToReturn = new();
 		static CK3Region() {
-			parser.RegisterKeyword("regions", reader=> {
+			parser.RegisterKeyword("regions", reader => {
 				foreach (var name in new StringList(reader).Strings)
 					regionToReturn.Regions.Add(name, null);
 			});

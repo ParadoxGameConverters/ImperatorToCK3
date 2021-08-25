@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
 using ImperatorToCK3.CK3.Titles;
 
@@ -69,7 +65,7 @@ namespace ImperatorToCK3.Mappers.Region {
 			return null;
 		}
 		public string? GetParentDuchyName(ulong provinceID) {
-			foreach(var (duchyName, duchy) in duchies) {
+			foreach (var (duchyName, duchy) in duchies) {
 				if (duchy?.DuchyContainsProvince(provinceID) == true) {
 					return duchyName;
 				}
@@ -88,7 +84,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 
 		private void RegisterRegionKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, regionName)=> {
+			RegisterRegex(@"[\w_&]+", (reader, regionName) => {
 				var newRegion = CK3Region.Parse(reader);
 				regions[regionName] = newRegion;
 			});

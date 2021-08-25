@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using commonItems;
-using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.CoA;
@@ -262,7 +258,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
 		private void RegisterKeys() {
-			RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr)=> {
+			RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
 				newTitle.LoadTitles(reader);
@@ -274,7 +270,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				AddFoundTitle(newTitle, foundTitles);
 				newTitle.DeJureLiege = this;
 			});
-			RegisterKeyword("definite_form", reader=> {
+			RegisterKeyword("definite_form", reader => {
 				HasDefiniteForm = ParserHelpers.GetString(reader) == "yes";
 			});
 			RegisterKeyword("landless", reader => {
@@ -352,7 +348,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				return false;
 			}
 
-			foreach(var vassal in DeJureVassals.Values) {
+			foreach (var vassal in DeJureVassals.Values) {
 				if (vassal?.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceID)) {
 					return true;
 				}
