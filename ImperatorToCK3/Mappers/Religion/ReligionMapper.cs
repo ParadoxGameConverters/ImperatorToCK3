@@ -33,7 +33,10 @@ namespace ImperatorToCK3.Mappers.Religion {
 		}
 
 		private void RegisterKeys() {
-
+			RegisterKeyword("link", reader => {
+				religionMappings.Add(ReligionMapping.Parse(reader));
+			});
+			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private readonly List<ReligionMapping> religionMappings = new();
 	}
