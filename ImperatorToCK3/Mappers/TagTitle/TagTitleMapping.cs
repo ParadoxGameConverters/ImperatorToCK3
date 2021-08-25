@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
@@ -12,7 +8,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			if (this.imperatorTag != imperatorTag) {
 				return null;
 			}
-			if (ranks.Count>0 && !ranks.Contains(rank)) {
+			if (ranks.Count > 0 && !ranks.Contains(rank)) {
 				return null;
 			}
 			return ck3Title;
@@ -25,7 +21,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		private static readonly Parser parser = new();
 		private static TagTitleMapping mappingToReturn = new();
 		static TagTitleMapping() {
-			parser.RegisterKeyword("ck3", reader=> {
+			parser.RegisterKeyword("ck3", reader => {
 				mappingToReturn.ck3Title = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("imp", reader => {
