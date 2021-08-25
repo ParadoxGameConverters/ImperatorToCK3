@@ -20,7 +20,7 @@ namespace ImperatorToCK3.Mappers.Religion {
 		public ImperatorRegionMapper? ImperatorRegionMapper { get; set; }
 		CK3RegionMapper? CK3RegionMapper { get; set; }
 
-		private static Parser parser = new();
+		private static readonly Parser parser = new();
 		private static ReligionMapping mappingToReturn = new();
 		static ReligionMapping() {
 			parser.RegisterKeyword("ck3", reader=> {
