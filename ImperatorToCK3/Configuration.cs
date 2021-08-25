@@ -7,7 +7,7 @@ namespace ImperatorToCK3 {
     public class Configuration : Parser {
         public string SaveGamePath { get; internal set; } = "";
         public string ImperatorPath { get; internal set; } = "";
-        public string ImperatorModsPath { get; internal set; } = "";
+        public string ImperatorDocPath { get; internal set; } = "";
         public string Ck3Path { get; internal set; } = "";
         public string Ck3ModsPath { get; internal set; } = "";
         public string OutputModName { get; internal set; } = "";
@@ -32,8 +32,8 @@ namespace ImperatorToCK3 {
             RegisterKeyword("ImperatorDirectory", (sr) => {
                 ImperatorPath = new SingleString(sr).String;
             });
-            RegisterKeyword("ImperatorModsDirectory", (sr) => {
-                ImperatorModsPath = new SingleString(sr).String;
+            RegisterKeyword("ImperatorDocDirectory", (sr) => {
+				ImperatorDocPath = new SingleString(sr).String;
             });
             RegisterKeyword("CK3directory", (sr) => {
                 Ck3Path = new SingleString(sr).String;
