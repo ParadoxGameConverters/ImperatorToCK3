@@ -3,7 +3,6 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
 	public class TagTitleMapping {
-		public TagTitleMapping() { }
 		public string? TagRankMatch(string imperatorTag, string rank) {
 			if (this.imperatorTag != imperatorTag) {
 				return null;

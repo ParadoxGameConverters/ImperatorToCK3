@@ -40,20 +40,24 @@ namespace ImperatorToCK3.Mappers.Region {
 		private static CK3Region regionToReturn = new();
 		static CK3Region() {
 			parser.RegisterKeyword("regions", reader => {
-				foreach (var name in new StringList(reader).Strings)
+				foreach (var name in new StringList(reader).Strings) {
 					regionToReturn.Regions.Add(name, null);
+				}
 			});
 			parser.RegisterKeyword("duchies", reader => {
-				foreach (var name in new StringList(reader).Strings)
+				foreach (var name in new StringList(reader).Strings) {
 					regionToReturn.Duchies.Add(name, null);
+				}
 			});
 			parser.RegisterKeyword("counties", reader => {
-				foreach (var name in new StringList(reader).Strings)
+				foreach (var name in new StringList(reader).Strings) {
 					regionToReturn.Counties.Add(name, null);
+				}
 			});
 			parser.RegisterKeyword("provinces", reader => {
-				foreach (var id in new ULongList(reader).ULongs)
+				foreach (var id in new ULongList(reader).ULongs) {
 					regionToReturn.Provinces.Add(id);
+				}
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}

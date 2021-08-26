@@ -34,34 +34,42 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			LocBlock? validatedName;
 			// hard code for Antigonid Kingdom, Seleucid Empire and Maurya (which use customizable localization for name and adjective)
-			if (ImperatorCountry.Name == "PRY_DYN")
+			if (ImperatorCountry.Name == "PRY_DYN") {
 				validatedName = localizationMapper.GetLocBlockForKey("get_pry_name_fallback");
-			else if (ImperatorCountry.Name == "SEL_DYN")
+			} else if (ImperatorCountry.Name == "SEL_DYN") {
 				validatedName = localizationMapper.GetLocBlockForKey("get_sel_name_fallback");
-			else if (ImperatorCountry.Name == "MRY_DYN")
+			} else if (ImperatorCountry.Name == "MRY_DYN") {
 				validatedName = localizationMapper.GetLocBlockForKey("get_mry_name_fallback");
+			}
 			// normal case
-			else
+			else {
 				validatedName = ImperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries);
+			}
 
 			string? title;
-			if (validatedName is not null)
+			if (validatedName is not null) {
 				title = tagTitleMapper.GetTitleForTag(ImperatorCountry.Tag, ImperatorCountry.GetCountryRank(), validatedName.english);
-			else
+			} else {
 				title = tagTitleMapper.GetTitleForTag(ImperatorCountry.Tag, ImperatorCountry.GetCountryRank());
-			if (title is null)
+			}
+
+			if (title is null) {
 				throw new ArgumentException("Country " + ImperatorCountry.Tag + " could not be mapped!");
+			}
+
 			Name = title;
 
 			SetRank();
 
 			// ------------------ determine holder
-			if (ImperatorCountry.Monarch is not null)
+			if (ImperatorCountry.Monarch is not null) {
 				history.Holder = "imperator" + ImperatorCountry.Monarch.ToString();
+			}
 
 			// ------------------ determine government
-			if (ImperatorCountry.Government is not null)
+			if (ImperatorCountry.Government is not null) {
 				history.Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
+			}
 
 			// ------------------ determine color
 			var color1Opt = ImperatorCountry.Color1;
@@ -107,8 +115,9 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 			// giving up
-			if (!nameSet)
+			if (!nameSet) {
 				Logger.Warn($"{Name} needs help with localization! {ImperatorCountry.Name}?");
+			}
 
 			// --------------- Adjective Locs
 			TrySetAdjectiveLoc(localizationMapper, imperatorCountries);
@@ -165,12 +174,13 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			if (ImperatorCountry.Tag == "PRY" || ImperatorCountry.Tag == "SEL" || ImperatorCountry.Tag == "MRY") { // these tags use customizable loc for adj
 				LocBlock? validatedAdj = null;
-				if (ImperatorCountry.Name == "PRY_DYN")
+				if (ImperatorCountry.Name == "PRY_DYN") {
 					validatedAdj = localizationMapper.GetLocBlockForKey("get_pry_adj_fallback");
-				else if (ImperatorCountry.Name == "SEL_DYN")
+				} else if (ImperatorCountry.Name == "SEL_DYN") {
 					validatedAdj = localizationMapper.GetLocBlockForKey("get_sel_adj_fallback");
-				else if (ImperatorCountry.Name == "MRY_DYN")
+				} else if (ImperatorCountry.Name == "MRY_DYN") {
 					validatedAdj = localizationMapper.GetLocBlockForKey("get_mry_adj_fallback");
+				}
 
 				if (validatedAdj is not null) {
 					Localizations.Add(Name + "_adj", validatedAdj);
@@ -192,8 +202,9 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 			// giving up
-			if (!adjSet)
+			if (!adjSet) {
 				Logger.Warn($"{Name} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
+			}
 		}
 		public void AddHistory(LandedTitles landedTitles, TitleHistory titleHistory) {
 			history = titleHistory;
@@ -314,18 +325,19 @@ namespace ImperatorToCK3.CK3.Titles {
 		private static readonly ColorFactory colorFactory = new();
 
 		private void SetRank() {
-			if (Name.StartsWith('b'))
+			if (Name.StartsWith('b')) {
 				Rank = TitleRank.barony;
-			else if (Name.StartsWith('c'))
+			} else if (Name.StartsWith('c')) {
 				Rank = TitleRank.county;
-			else if (Name.StartsWith('d'))
+			} else if (Name.StartsWith('d')) {
 				Rank = TitleRank.duchy;
-			else if (Name.StartsWith('k'))
+			} else if (Name.StartsWith('k')) {
 				Rank = TitleRank.kingdom;
-			else if (Name.StartsWith('e'))
+			} else if (Name.StartsWith('e')) {
 				Rank = TitleRank.empire;
-			else
+			} else {
 				throw new FormatException("Title " + Name + ": unknown rank!");
+			}
 		}
 
 		// used by kingdom titles only

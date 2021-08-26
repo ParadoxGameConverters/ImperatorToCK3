@@ -56,9 +56,9 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private static string GetCK3TitleRank(CountryRank imperatorRank, string localizedTitleName) {
-			if (localizedTitleName.IndexOf("Empire") != -1) {
+			if (localizedTitleName.IndexOf("Empire", System.StringComparison.Ordinal) != -1) {
 				return "e";
-			} else if (localizedTitleName.IndexOf("Kingdom") != -1) {
+			} else if (localizedTitleName.IndexOf("Kingdom", System.StringComparison.Ordinal) != -1) {
 				return "k";
 			} else {
 				return imperatorRank switch {
