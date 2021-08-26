@@ -22,10 +22,11 @@ namespace ImperatorToCK3.Mappers.Region {
 
 			foreach (var (titleName, title) in landedTitles.StoredTitles) {
 				var titleRank = title.Rank;
-				if (titleRank == TitleRank.county)
+				if (titleRank == TitleRank.county) {
 					counties[titleName] = title;
-				else if (titleRank == TitleRank.duchy)
+				} else if (titleRank == TitleRank.duchy) {
 					duchies[titleName] = title;
+				}
 			}
 
 			LinkRegions();
@@ -45,21 +46,26 @@ namespace ImperatorToCK3.Mappers.Region {
 				county?.CountyProvinces.Contains(provinceID) == true;
 		}
 		public bool RegionNameIsValid(string regionName) {
-			if (regions.ContainsKey(regionName))
+			if (regions.ContainsKey(regionName)) {
 				return true;
+			}
 
 			// Who knows what the mapper needs. All kinds of stuff.
-			if (duchies.ContainsKey(regionName))
+			if (duchies.ContainsKey(regionName)) {
 				return true;
-			if (counties.ContainsKey(regionName))
+			}
+
+			if (counties.ContainsKey(regionName)) {
 				return true;
+			}
 
 			return false;
 		}
 		public string? GetParentCountyName(ulong provinceID) {
 			foreach (var (countyName, county) in counties) {
-				if (county?.CountyProvinces.Contains(provinceID) == true)
+				if (county?.CountyProvinces.Contains(provinceID) == true) {
 					return countyName;
+				}
 			}
 			Logger.Warn($"Province ID {provinceID} has no parent county name!");
 			return null;
