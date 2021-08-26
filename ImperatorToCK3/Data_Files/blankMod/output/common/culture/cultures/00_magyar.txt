@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+﻿# ImperatorToCK3: Last updated CK3 patch 1.4.4
 magyar_group = {
 	graphical_cultures = {
 		steppe_building_gfx
