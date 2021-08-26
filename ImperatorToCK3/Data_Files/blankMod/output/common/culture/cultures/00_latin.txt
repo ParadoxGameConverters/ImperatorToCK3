@@ -1,4 +1,6 @@
-﻿latin_group = {
+﻿# ImperatorToCK3: Last updated CK3 patch 1.4.4
+ 
+latin_group = {
 	graphical_cultures = {
 		latin_group_coa_gfx
 		western_coa_gfx
