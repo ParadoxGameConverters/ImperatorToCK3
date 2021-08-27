@@ -1,0 +1,5 @@
+# for MatchOnRegion test
+test_region1 = { duchies = { d_hujhu } }
+
+# for MatchOnRegionFailsForWrongRegion test
+test_region2 = { duchies = { d_wakaba } }

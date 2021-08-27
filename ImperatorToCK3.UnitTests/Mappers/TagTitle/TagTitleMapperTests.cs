@@ -4,7 +4,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 	public class TagTitleMapperTests {
-		[Fact] public void TitleCanBeMatched() {
+		[Fact]
+		public void TitleCanBeMatched() {
 			var mapper = new TagTitleMapper("TestFiles/configurables/title_map.txt"); // reads title_map.txt from TestFiles
 			var match = mapper.GetTitleForTag("CRT", CountryRank.majorPower);
 
