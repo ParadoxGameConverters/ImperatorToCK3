@@ -5,7 +5,7 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 	public class ReligionMapperTests {
 		[Fact]
-		public void nonMatchGivesEmptyOptional() {
+		public void NonMatchGivesEmptyOptional() {
 			var reader = new BufferedReader("link = { ck3 = ck3Religion imp = impReligion }");
 			var mapper = new ReligionMapper(reader);
 			var impRegionMapper = new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper();
@@ -17,7 +17,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 		}
 
 		[Fact]
-		public void ck3ReligionCanBeFound() {
+		public void Ck3ReligionCanBeFound() {
 			var reader = new BufferedReader("link = { ck3 = ck3Religion imp = impReligion }");
 			var mapper = new ReligionMapper(reader);
 			var impRegionMapper = new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper();
@@ -29,7 +29,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 		}
 
 		[Fact]
-		public void multipleCK3ReligionsCanBeInARule() {
+		public void MultipleCK3ReligionsCanBeInARule() {
 			var reader = new BufferedReader(
 				"link = { ck3 = ck3Religion imp = impReligion imp = impReligion2 }"
 			);
@@ -43,7 +43,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 		}
 
 		[Fact]
-		public void correctRuleMatches() {
+		public void CorrectRuleMatches() {
 			var reader = new BufferedReader(
 				"link = { ck3 = ck3Religion imp = impReligion }" +
 				"link = { ck3 = ck3Religion2 imp = impReligion2 }"
