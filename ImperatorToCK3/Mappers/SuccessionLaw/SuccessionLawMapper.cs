@@ -4,7 +4,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw {
 	public class SuccessionLawMapper : Parser {
-		private Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
+		private readonly Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
 		public SuccessionLawMapper(string filePath) {
 			Logger.Info("Parsing succession law mappings.");
 			RegisterKeys();

@@ -71,7 +71,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public bool Female { get; private set; } = false;
 		public double Wealth { get; private set; } = 0;
 
-		//public ImperatorToCK3.CK3.Characters.Character? CK3Character { get; set; } // TODO: ENABLE
+		public CK3.Characters.Character? CK3Character { get; set; }
 
 		public void AddYears(int years) {
 			BirthDate.SubtractYears(years);

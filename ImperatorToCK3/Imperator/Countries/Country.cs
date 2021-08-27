@@ -16,9 +16,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public ulong? Capital { get; private set; }
 		public string? Government { get; private set; }
 		public GovernmentType GovernmentType { get; private set; } = GovernmentType.monarchy;
-		private readonly HashSet<string> monarchyLaws = new();
-		private readonly HashSet<string> republicLaws = new();
-		private readonly HashSet<string> tribalLaws = new();
+		private readonly SortedSet<string> monarchyLaws = new();
+		private readonly SortedSet<string> republicLaws = new();
+		private readonly SortedSet<string> tribalLaws = new();
 		public Color? Color1 { get; private set; }
 		public Color? Color2 { get; private set; }
 		public Color? Color3 { get; private set; }
@@ -26,12 +26,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Dictionary<ulong, Families.Family?> Families { get; private set; } = new();
 		private readonly HashSet<Provinces.Province> ownedProvinces = new();
 
-		//ImperatorToCK3.CK3.Titles.Title? ck3Title = new(); // TODO: ENABLE
+		private ImperatorToCK3.CK3.Titles.Title? ck3Title = new();
 
 		public Country(ulong ID) {
 			this.ID = ID;
 		}
-		public HashSet<string> GetLaws() {
+		public SortedSet<string> GetLaws() {
 			return GovernmentType switch {
 				GovernmentType.monarchy => monarchyLaws,
 				GovernmentType.republic => republicLaws,
@@ -68,10 +68,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 				ownedProvinces.Add(province);
 			}
 		}
-		/*
-		public void SetCK3Title(ImperatorToCK3.CK3.Titles.Title? theTitle) { // TODO: ENABLE
+
+		public void SetCK3Title(ImperatorToCK3.CK3.Titles.Title? theTitle) {
 			ck3Title = theTitle;
 		}
-		*/
 	}
 }
