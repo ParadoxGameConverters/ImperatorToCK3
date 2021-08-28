@@ -4,10 +4,10 @@ using ImperatorToCK3.Imperator.Countries;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
 	public class TagTitleMapper : Parser {
-		public TagTitleMapper() {
+		public TagTitleMapper(string filePath) {
 			Logger.Info("Parsing Title mappings.");
 			RegisterKeys();
-			ParseFile("configurables/title_map.txt");
+			ParseFile(filePath);
 			ClearRegisteredRules();
 			Logger.Info($"{mappings.Count} title mappings loaded.");
 		}

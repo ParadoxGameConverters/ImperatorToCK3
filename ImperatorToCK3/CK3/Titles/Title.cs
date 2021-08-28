@@ -161,10 +161,20 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 		public string HolderID { get { return history.Holder; } }
-		public int? DevelopmentLevel => history.DevelopmentLevel;
+		public int? DevelopmentLevel {
+			get {
+				return history.DevelopmentLevel;
+			}
+			set {
+				history.DevelopmentLevel = value;
+			}
+		}
 
 		public Dictionary<string, LocBlock> Localizations { get; set; } = new();
-		public void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Imperator.Countries.Country?> imperatorCountries) {
+		public void SetNameLoc(LocBlock locBlock) {
+			Localizations[Name] = locBlock;
+		}
+		private void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Imperator.Countries.Country?> imperatorCountries) {
 			if (ImperatorCountry is null) {
 				Logger.Warn($"Cannot set adjective for CK3 Title {Name} from null Imperator Country!");
 				return;

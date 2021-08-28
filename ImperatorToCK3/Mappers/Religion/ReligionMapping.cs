@@ -24,7 +24,7 @@ namespace ImperatorToCK3.Mappers.Religion {
 				mappingToReturn.ck3Religion = new SingleString(reader).String;
 			});
 			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.imperatorRegions.Add(new SingleString(reader).String);
+				mappingToReturn.imperatorReligions.Add(new SingleString(reader).String);
 			});
 			parser.RegisterKeyword("ck3Region", reader => {
 				mappingToReturn.ck3Regions.Add(new SingleString(reader).String);

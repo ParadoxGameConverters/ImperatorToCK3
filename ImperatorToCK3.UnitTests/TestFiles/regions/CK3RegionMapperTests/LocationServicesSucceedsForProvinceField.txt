@@ -1,0 +1,1 @@
+test_region = { provinces = { 1 2 69 7 } }

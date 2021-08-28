@@ -39,7 +39,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				new() { FieldName = "holder", Setter = "holder", InitialValue = "0" },
 				new() { FieldName = "liege", Setter = "liege", InitialValue = null },
 				new() { FieldName = "government", Setter = "government", InitialValue = null },
-				new() { FieldName = "development_level", Setter = "development_level", InitialValue = null },
+				new() { FieldName = "development_level", Setter = "change_development_level", InitialValue = null },
 			},
 			containerFieldDefs: new()
 		);
