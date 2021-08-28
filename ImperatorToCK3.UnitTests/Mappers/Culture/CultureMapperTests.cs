@@ -136,7 +136,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			Assert.Null(culMapper.Match("test", "thereligion", 4, 49, ""));
 		}
 
-
 		[Fact]
 		public void NonMatchGivesEmptyOptionalWithNonReligiousMatch() {
 			var reader = new BufferedReader(
