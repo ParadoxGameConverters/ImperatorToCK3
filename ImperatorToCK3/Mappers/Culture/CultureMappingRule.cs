@@ -3,7 +3,7 @@ using ImperatorToCK3.Mappers.Region;
 using commonItems;
 
 namespace ImperatorToCK3.Mappers.Culture {
-	class CultureMappingRule {
+	public class CultureMappingRule {
 		public CultureMappingRule() { }
 		private static readonly Parser parser = new();
 		private static CultureMappingRule mappingToReturn = new();
