@@ -1,0 +1,2 @@
+test_region = { duchies = { d_testduchy } }
+test_region2 = { duchies = { d_testduchy2 } }

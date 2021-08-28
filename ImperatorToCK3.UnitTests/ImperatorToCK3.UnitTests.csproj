@@ -60,6 +60,42 @@
     <None Update="TestFiles\mod\themod\README.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\CorrectParentLocationsReported.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\empty.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LoadingBrokenCountyWillThrowException.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LoadingBrokenDuchyWillThrowException.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LoadingBrokenRegionWillThrowException.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationNameValidationWorks.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesCorrectlyFail.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesFailForNonsense.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesSucceedsForCountyField.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesSucceedsForProvinceField.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesWork.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\regions\CK3RegionMapperTests\WrongParentLocationsReturnNull.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestFiles\regions\island_regions.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
