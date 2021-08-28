@@ -43,7 +43,7 @@ namespace ImperatorToCK3.Mappers.Culture {
 		public ImperatorRegionMapper? ImperatorRegionMapper { private get; set; }
 		public CK3RegionMapper? CK3RegionMapper { private get; set; }
 
-		string? Match(
+		public string? Match(
 			string impCulture,
 			string CK3religion,
 			ulong ck3ProvinceID,
@@ -117,7 +117,7 @@ namespace ImperatorToCK3.Mappers.Culture {
 
 			return null;
 		}
-		string? NonReligiousMatch(
+		public string? NonReligiousMatch(
 			string impCulture,
 			string CK3religion,
 			ulong ck3ProvinceID,
