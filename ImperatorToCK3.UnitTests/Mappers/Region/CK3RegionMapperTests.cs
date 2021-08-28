@@ -46,7 +46,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			void action() => mapper.LoadRegions(landedTitles, regionPath, islandRegionPath);
 			KeyNotFoundException exception = Assert.Throws<KeyNotFoundException>(action);
 			Assert.Equal("Region's test_region duchy d_aquitane does not exist!", exception.Message);
-
 		}
 		[Fact]
 		public void LoadingBrokenCountyWillThrowException() {
@@ -107,7 +106,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			);
 			landedTitles.LoadTitles(landedTitlesReader);
 			const string regionPath = "TestFiles/regions/CK3RegionMapperTests/LocationServicesFailForNonsense.txt";
-
 
 			mapper.LoadRegions(landedTitles, regionPath, islandRegionPath);
 
