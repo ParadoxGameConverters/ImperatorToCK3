@@ -50,7 +50,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 		}
 
 		[Fact]
-		public void matchOnRegionFailsForNoRegion() {
+		public void MatchOnRegionFailsForNoRegion() {
 			var ck3RegionMapper = new CK3RegionMapper();
 			var landedTitles = new LandedTitles();
 			var landedTitlesReader = new BufferedReader(string.Empty);
@@ -69,7 +69,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 		}
 
 		[Fact]
-		public void matchOnRegionFailsForNoProvince() {
+		public void MatchOnRegionFailsForNoProvince() {
 			var ck3RegionMapper = new CK3RegionMapper();
 			var landedTitles = new LandedTitles();
 			var landedTitlesReader = new BufferedReader(

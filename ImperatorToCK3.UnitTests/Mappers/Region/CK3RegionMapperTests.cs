@@ -5,8 +5,10 @@ using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3RegionMapperTests {
-		const string islandRegionPath = "TestFiles/regions/island_regions.txt";
+		private const string islandRegionPath = "TestFiles/regions/island_regions.txt";
 		[Fact]
 		public void RegionMapperCanBeEnabled() {
 			// We start humble, it's a machine.
