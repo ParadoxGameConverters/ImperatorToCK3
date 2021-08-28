@@ -107,4 +107,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CK3\Titles\" />
+  </ItemGroup>
+
 </Project>
