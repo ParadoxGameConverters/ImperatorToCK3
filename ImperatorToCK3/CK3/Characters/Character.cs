@@ -27,6 +27,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter;
+
 		public void InitializeFromImperator(
 			Imperator.Characters.Character impCharacter,
 			ReligionMapper religionMapper,
@@ -38,13 +39,26 @@ namespace ImperatorToCK3.CK3.Characters {
 			DeathReasonMapper deathReasonMapper,
 			bool ConvertBirthAndDeathDates = true
 		) {
-			var DateOnConversion = new Date(867, 1, 1); // TODO: FIX THIS
+			var dateOnConversion = new Date(867, 1, 1);
+			InitializeFromImperator(impCharacter, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, deathReasonMapper, ConvertBirthAndDeathDates, dateOnConversion);
+		}
+		public void InitializeFromImperator(
+			Imperator.Characters.Character impCharacter,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			TraitMapper traitMapper,
+			NicknameMapper nicknameMapper,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
+			DeathReasonMapper deathReasonMapper,
+			bool ConvertBirthAndDeathDates = true,
+			Date dateOnConversion
+		) {
 			ImperatorCharacter = impCharacter;
 			ID = "imperator" + ImperatorCharacter.ID.ToString();
 			Name = ImperatorCharacter.Name;
 			Female = ImperatorCharacter.Female;
 			Age = ImperatorCharacter.Age;
-
 
 			ulong ck3Province;  // for religion mapper
 
@@ -119,8 +133,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
 			if (!ConvertBirthAndDeathDates) {  // if option to convert character age is chosen
-				BirthDate.AddYears((int)new Date(867, 1, 1).DiffInYears(DateOnConversion));
-				DeathDate?.AddYears((int)new Date(867, 1, 1).DiffInYears(DateOnConversion));
+				BirthDate.AddYears((int)new Date(867, 1, 1).DiffInYears(dateOnConversion));
+				DeathDate?.AddYears((int)new Date(867, 1, 1).DiffInYears(dateOnConversion));
 			}
 		}
 
