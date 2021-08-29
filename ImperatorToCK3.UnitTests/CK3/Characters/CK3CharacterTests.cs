@@ -75,7 +75,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
-		[Fact] public void AllLinksCanBeRemoved() {
+		[Fact]
+		public void AllLinksCanBeRemoved() {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
 			var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2);
 			var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3);
@@ -121,7 +122,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			Assert.Empty(character.Spouses);
 		}
 
-		[Fact] public void TraitsCanBeInitializedFromImperator() {
+		[Fact]
+		public void TraitsCanBeInitializedFromImperator() {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Traits = new() { "strong", "humble", "craven" }
 			};
@@ -232,7 +234,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			Assert.Equal("Alexandros", character.Localizations["alexandros"].english);
 		}
 
-		[Fact] public void LinkingParentWithWrongIdIsLogged() {
+		[Fact]
+		public void LinkingParentWithWrongIdIsLogged() {
 			var character = new CK3CharacterBuilder().Build();
 			character.PendingMotherID = "imperator1";
 			character.PendingFatherID = "imperator2";
