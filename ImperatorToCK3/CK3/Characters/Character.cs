@@ -26,7 +26,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public SortedSet<string> Traits { get; } = new();
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
-		public Imperator.Characters.Character? ImperatorCharacter;
+		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
 		public void InitializeFromImperator(
 			Imperator.Characters.Character impCharacter,
@@ -51,7 +51,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			LocalizationMapper localizationMapper,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
-			bool ConvertBirthAndDeathDates = true,
+			bool ConvertBirthAndDeathDates,
 			Date dateOnConversion
 		) {
 			ImperatorCharacter = impCharacter;
