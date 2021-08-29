@@ -5,7 +5,7 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	public class LandedTitlesTests {
 		[Fact]
-		public void titlesDefaultToEmpty() {
+		public void TitlesDefaultToEmpty() {
 			var reader = new BufferedReader(string.Empty);
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
@@ -14,7 +14,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void titlesCanBeLoaded() {
+		public void TitlesCanBeLoaded() {
 			var reader = new BufferedReader(
 				"b_barony = { province = 12 }\n" +
 				"c_county = { landless = yes }\n"
@@ -32,7 +32,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void titlesCanBeLoadedRecursively() {
+		public void TitlesCanBeLoadedRecursively() {
 			var reader = new BufferedReader(
 				"e_empire1 = { k_kingdom2 = { d_duchy3 = { b_barony4 = { province = 12 } } } }\n" +
 				"c_county5 = { landless = yes }\n"
@@ -50,7 +50,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void titlesCanBeOverriddenByMods() {
+		public void TitlesCanBeOverriddenByMods() {
 			var reader = new BufferedReader(
 				"e_empire1 = { k_kingdom2 = { d_duchy3 = { b_barony4 = { province = 12 } } } }\n" +
 				"c_county5 = { landless = yes }\n"
@@ -74,7 +74,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void titlesCanBeAddedByMods() {
+		public void TitlesCanBeAddedByMods() {
 			var reader = new BufferedReader(
 				"e_empire1 = { k_kingdom2 = { d_duchy3 = { b_barony4 = { province = 12 } } } }\n" +
 				"c_county5 = { landless = yes }\n"

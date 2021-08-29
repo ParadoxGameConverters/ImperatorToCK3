@@ -23,19 +23,20 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Date? DeathDate { get; private set; }
 		public string? DeathReason { get; private set; }
 
-		public SortedSet<string> Traits { get; private set; } = new();
-		public Dictionary<string, LocBlock> Localizations { get; private set; } = new();
+		public SortedSet<string> Traits { get; } = new();
+		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter;
-		public void InitializeFromImperator(Imperator.Characters.Character impCharacter,
-											ReligionMapper religionMapper,
-											CultureMapper cultureMapper,
-											TraitMapper traitMapper,
-											NicknameMapper nicknameMapper,
-											LocalizationMapper localizationMapper,
-											ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
-											DeathReasonMapper deathReasonMapper,
-											bool ConvertBirthAndDeathDates = true
+		public void InitializeFromImperator(
+			Imperator.Characters.Character impCharacter,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			TraitMapper traitMapper,
+			NicknameMapper nicknameMapper,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
+			DeathReasonMapper deathReasonMapper,
+			bool ConvertBirthAndDeathDates = true
 		) {
 			var DateOnConversion = new Date(867, 1, 1); // TODO: FIX THIS
 			ImperatorCharacter = impCharacter;
@@ -124,24 +125,24 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void BreakAllLinks() {
-			mother.Value?.RemoveChild(ID);
+			Mother?.RemoveChild(ID);
 			RemoveMother();
-			father.Value?.RemoveChild(ID);
+			Father?.RemoveChild(ID);
 			RemoveFather();
-			foreach (var spouse in spouses.Values) {
+			foreach (var spouse in Spouses.Values) {
 				spouse.RemoveSpouse(ID);
 			}
-			spouses.Clear();
+			Spouses.Clear();
 			if (Female) {
-				foreach (var child in children.Values) {
+				foreach (var child in Children.Values) {
 					child.RemoveMother();
 				}
 			} else {
-				foreach (var child in children.Values) {
+				foreach (var child in Children.Values) {
 					child.RemoveFather();
 				}
 			}
-			children.Clear();
+			Children.Clear();
 
 			if (ImperatorCharacter is not null) {
 				ImperatorCharacter.CK3Character = null;
@@ -150,25 +151,47 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		private void RemoveSpouse(string spouseID) {
-			spouses.Remove(spouseID);
+			Spouses.Remove(spouseID);
 		}
 
 		private void RemoveFather() {
-			father = new("0", null);
+			Father = null;
 		}
 
 		private void RemoveMother() {
-			mother = new("0", null);
+			Mother = null;
 		}
 
 		private void RemoveChild(string childID) {
-			children.Remove(childID);
+			Children.Remove(childID);
 		}
 
-		private KeyValuePair<string, Character?> mother = new();
-		private KeyValuePair<string, Character?> father = new();
-		private readonly Dictionary<string, Character?> children = new();
-		private readonly Dictionary<string, Character?> spouses = new();
+		public string? PendingMotherID { get; set; }
+		private Character? mother;
+		public Character? Mother {
+			get { return mother; }
+			set {
+				if (PendingMotherID is not null && value is not null && value.ID != PendingMotherID) {
+					Logger.Warn($"Character {ID}: linking mother {value.ID} instead of expected {PendingMotherID}");
+				}
+				mother = value;
+				PendingMotherID = null;
+			}
+		}
+		public string? PendingFatherID { get; set; }
+		private Character? father;
+		public Character? Father {
+			get { return father; }
+			set {
+				if (PendingFatherID is not null && value is not null && value.ID != PendingFatherID) {
+					Logger.Warn($"Character {ID}: linking father {value.ID} instead of expected {PendingFatherID}");
+				}
+				father = value;
+				PendingFatherID = null;
+			}
+		}
+		public Dictionary<string, Character?> Children { get; set; } = new();
+		public Dictionary<string, Character?> Spouses { get; set; } = new();
 
 		private string? dynastyID; // not always set
 	}
