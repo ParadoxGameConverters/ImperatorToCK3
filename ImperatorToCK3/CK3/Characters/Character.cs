@@ -51,7 +51,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			LocalizationMapper localizationMapper,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
-			bool ConvertBirthAndDeathDates,
+			bool convertBirthAndDeathDates,
 			Date dateOnConversion
 		) {
 			ImperatorCharacter = impCharacter;
@@ -132,7 +132,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (impDeathReason is not null) {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
-			if (!ConvertBirthAndDeathDates) {  // if option to convert character age is chosen
+			if (!convertBirthAndDeathDates) {  // if option to convert character age is chosen
 				BirthDate.AddYears((int)new Date(867, 1, 1).DiffInYears(dateOnConversion));
 				DeathDate?.AddYears((int)new Date(867, 1, 1).DiffInYears(dateOnConversion));
 			}
