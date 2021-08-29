@@ -12,69 +12,69 @@ using ImperatorToCK3.Mappers.DeathReason;
 using System.IO;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters {
-	public class CK3CharacterBuilder {
-		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-		private ReligionMapper religionMapper = new();
-		private CultureMapper cultureMapper = new();
-		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
-		private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-		private LocalizationMapper localizationMapper = new();
-		private ProvinceMapper provinceMapper = new();
-		private DeathReasonMapper deathReasonMapper = new();
-		private bool convertBirthAndDeathDates = true;
-
-		public Character Build() {
-			var character = new Character();
-			character.InitializeFromImperator(
-				imperatorCharacter,
-				religionMapper,
-				cultureMapper,
-				traitMapper,
-				nicknameMapper,
-				localizationMapper,
-				provinceMapper,
-				deathReasonMapper,
-				convertBirthAndDeathDates
-			);
-			return character;
-		}
-		public CK3CharacterBuilder WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character imperatorCharacter) {
-			this.imperatorCharacter = imperatorCharacter;
-			return this;
-		}
-		public CK3CharacterBuilder WithReligionMapper(ReligionMapper religionMapper) {
-			this.religionMapper = religionMapper;
-			return this;
-		}
-		public CK3CharacterBuilder WithCultureMapper(CultureMapper cultureMapper) {
-			this.cultureMapper = cultureMapper;
-			return this;
-		}
-		public CK3CharacterBuilder WithTraitMapper(TraitMapper traitMapper) {
-			this.traitMapper = traitMapper;
-			return this;
-		}
-		public CK3CharacterBuilder WithNicknameMapper(NicknameMapper nicknameMapper) {
-			this.nicknameMapper = nicknameMapper;
-			return this;
-		}
-		public CK3CharacterBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-			this.localizationMapper = localizationMapper;
-			return this;
-		}
-		public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
-			this.provinceMapper = provinceMapper;
-			return this;
-		}
-		public CK3CharacterBuilder WithDeathReasonMapper(DeathReasonMapper deathReasonMapper) {
-			this.deathReasonMapper = deathReasonMapper;
-			return this;
-		}
-	}
-
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
+		private class CK3CharacterBuilder {
+			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
+			private ReligionMapper religionMapper = new();
+			private CultureMapper cultureMapper = new();
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
+			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
+			private LocalizationMapper localizationMapper = new();
+			private ProvinceMapper provinceMapper = new();
+			private DeathReasonMapper deathReasonMapper = new();
+			private bool convertBirthAndDeathDates = true;
+
+			public Character Build() {
+				var character = new Character();
+				character.InitializeFromImperator(
+					imperatorCharacter,
+					religionMapper,
+					cultureMapper,
+					traitMapper,
+					nicknameMapper,
+					localizationMapper,
+					provinceMapper,
+					deathReasonMapper,
+					convertBirthAndDeathDates
+				);
+				return character;
+			}
+			public CK3CharacterBuilder WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character imperatorCharacter) {
+				this.imperatorCharacter = imperatorCharacter;
+				return this;
+			}
+			public CK3CharacterBuilder WithReligionMapper(ReligionMapper religionMapper) {
+				this.religionMapper = religionMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithCultureMapper(CultureMapper cultureMapper) {
+				this.cultureMapper = cultureMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithTraitMapper(TraitMapper traitMapper) {
+				this.traitMapper = traitMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithNicknameMapper(NicknameMapper nicknameMapper) {
+				this.nicknameMapper = nicknameMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
+				this.localizationMapper = localizationMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
+				this.provinceMapper = provinceMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithDeathReasonMapper(DeathReasonMapper deathReasonMapper) {
+				this.deathReasonMapper = deathReasonMapper;
+				return this;
+			}
+		}
+
 		[Fact]
 		public void AllLinksCanBeRemoved() {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
