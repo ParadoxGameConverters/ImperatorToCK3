@@ -3,7 +3,9 @@ using Xunit;
 using ImperatorToCK3.Imperator.Pops;
 
 namespace ImperatorToCK3.UnitTests {
-    public class PopTests {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
+	public class PopTests {
         [Fact] public void EverythingCanBeSet() {
             var reader = new BufferedReader(" = {" +
                 "culture=\"paradoxian\"\n" +

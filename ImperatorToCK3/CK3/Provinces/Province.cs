@@ -1,4 +1,5 @@
-﻿using commonItems;
+﻿using System.Collections.Generic;
+using commonItems;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 
@@ -66,6 +67,8 @@ namespace ImperatorToCK3.CK3.Provinces {
 				return details.Holding;
 			}
 		}
+
+		public List<string> Buildings => details.Buildings;
 		public Imperator.Provinces.Province? ImperatorProvince { get; set; }
 
 		private ProvinceDetails details = new();
