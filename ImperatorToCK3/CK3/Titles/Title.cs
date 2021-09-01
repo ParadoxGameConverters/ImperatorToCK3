@@ -257,7 +257,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 		public Dictionary<string, Title> DeJureVassals { get; private set; } = new(); // DIRECT de jure vassals
-		public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter = "bcdke") {
+		public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
+			return GetDeJureVassalsAndBelow("bcdke");
+		}
+		public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 			var rankFilterAsArray = rankFilter.ToCharArray();
 			Dictionary<string, Title> deJureVassalsAndBelow = new();
 			foreach (var (vassalTitleName, vassalTitle) in DeJureVassals) {
@@ -277,8 +280,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			return deJureVassalsAndBelow;
 		}
 		public Dictionary<string, Title> DeFactoVassals { get; private set; } = new(); // DIRECT de facto vassals
-		public Dictionary<string, Title> GetDeFactoVassalsAndBelow(string rankFilter = "bcdke") {
-
+		public Dictionary<string, Title> GetDeFactoVassalsAndBelow() {
+			return GetDeFactoVassalsAndBelow("bcdke");
+		}
+		public Dictionary<string, Title> GetDeFactoVassalsAndBelow(string rankFilter) {
 			var rankFilterAsArray = rankFilter.ToCharArray();
 			Dictionary<string, Title> deFactoVassalsAndBelow = new();
 			foreach (var (vassalTitleName, vassalTitle) in DeFactoVassals) {

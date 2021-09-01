@@ -12,13 +12,15 @@ namespace ImperatorToCK3.Outputter {
 			writer.WriteLine("\t867.1.1 = {");
 
 			var deFactoLiege = title.DeFactoLiege;
-			if (deFactoLiege is not null)
+			if (deFactoLiege is not null) {
 				writer.WriteLine("\t\tliege = " + deFactoLiege.Name);
+			}
 
 			writer.WriteLine("\t\tholder = " + title.HolderID);
 
-			if (title.Government is not null)
+			if (title.Government is not null) {
 				writer.WriteLine("\t\tgovernment = " + title.Government);
+			}
 
 			var succLaws = title.SuccessionLaws;
 			if (succLaws.Count > 0) {
@@ -31,8 +33,9 @@ namespace ImperatorToCK3.Outputter {
 
 			if (title.Rank != TitleRank.barony) {
 				var developmentLevelOpt = title.DevelopmentLevel;
-				if (developmentLevelOpt is not null)
+				if (developmentLevelOpt is not null) {
 					writer.WriteLine("\t\tchange_development_level = " + developmentLevelOpt);
+				}
 			}
 
 			writer.WriteLine("\t}");
