@@ -256,8 +256,47 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 		}
-		public Dictionary<string, Title?> DeJureVassals { get; private set; } = new(); // DIRECT de jure vassals
-		public Dictionary<string, Title?> DeFactoVassals { get; private set; } = new(); // DIRECT de facto vassals
+		public Dictionary<string, Title> DeJureVassals { get; private set; } = new(); // DIRECT de jure vassals
+		public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter = "bcdke") {
+			var rankFilterAsArray = rankFilter.ToCharArray();
+			Dictionary<string, Title> deJureVassalsAndBelow = new();
+			foreach (var (vassalTitleName, vassalTitle) in DeJureVassals) {
+				// add the direct part
+				if (vassalTitleName.IndexOfAny(rankFilterAsArray) == 0) {
+					deJureVassalsAndBelow[vassalTitleName] = vassalTitle;
+				}
+
+				// add the "below" part (recursive)
+				var belowTitles = vassalTitle.GetDeJureVassalsAndBelow(rankFilter);
+				foreach (var (belowTitleName, belowTitle) in belowTitles) {
+					if (belowTitleName.IndexOfAny(rankFilterAsArray) == 0) {
+						deJureVassalsAndBelow[belowTitleName] = belowTitle;
+					}
+				}
+			}
+			return deJureVassalsAndBelow;
+		}
+		public Dictionary<string, Title> DeFactoVassals { get; private set; } = new(); // DIRECT de facto vassals
+		public Dictionary<string, Title> GetDeFactoVassalsAndBelow(string rankFilter = "bcdke") {
+
+			var rankFilterAsArray = rankFilter.ToCharArray();
+			Dictionary<string, Title> deFactoVassalsAndBelow = new();
+			foreach (var (vassalTitleName, vassalTitle) in DeFactoVassals) {
+				// add the direct part
+				if (vassalTitleName.IndexOfAny(rankFilterAsArray) == 0) {
+					deFactoVassalsAndBelow[vassalTitleName] = vassalTitle;
+				}
+
+				// add the "below" part (recursive)
+				var belowTitles = vassalTitle.GetDeFactoVassalsAndBelow(rankFilter);
+				foreach (var (belowTitleName, belowTitle) in belowTitles) {
+					if (belowTitleName.IndexOfAny(rankFilterAsArray) == 0) {
+						deFactoVassalsAndBelow[belowTitleName] = belowTitle;
+					}
+				}
+			}
+			return deFactoVassalsAndBelow;
+		}
 
 		public string Name { get; private set; } = string.Empty; // e.g. d_latium
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
