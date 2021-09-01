@@ -50,7 +50,9 @@ namespace ImperatorToCK3.CK3.Titles {
 					}
 				}
 
-				titleToErase.ImperatorCountry?.SetCK3Title(null);
+				if (titleToErase.ImperatorCountry is not null) {
+					titleToErase.ImperatorCountry.CK3Title = null;
+				}
 			}
 			StoredTitles.Remove(name);
 		}

@@ -11,6 +11,13 @@ namespace ImperatorToCK3.CK3.Provinces {
 		public string Holding { get; set; } = "none";
 		public List<string> Buildings { get; } = new();
 
+		public ProvinceDetails() { }
+		public ProvinceDetails(ProvinceDetails otherDetails) {
+			this.Culture = otherDetails.Culture;
+			Religion = otherDetails.Religion;
+			Holding = otherDetails.Holding;
+			Buildings = new List<string>(otherDetails.Buildings);
+		}
 		public ProvinceDetails(BufferedReader reader) {
 			var history = historyFactory.GetHistory(reader);
 			var date = new Date(867, 1, 1);
