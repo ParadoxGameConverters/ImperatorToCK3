@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Provinces : Parser {
+		public Provinces() { }
 		public Provinces(string filePath) {
 			RegisterKeys();
 			ParseFile(filePath);
