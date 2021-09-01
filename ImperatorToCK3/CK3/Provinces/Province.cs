@@ -4,6 +4,7 @@ using ImperatorToCK3.Mappers.Religion;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Province {
+		public Province() { }
 		public Province(ulong id, BufferedReader reader) {
 			// Load from a country file, if one exists. Otherwise rely on defaults.
 			ID = id;
