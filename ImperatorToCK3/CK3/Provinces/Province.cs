@@ -156,6 +156,5 @@ namespace ImperatorToCK3.CK3.Provinces {
 					break;
 			}
 		}
-
 	}
 }

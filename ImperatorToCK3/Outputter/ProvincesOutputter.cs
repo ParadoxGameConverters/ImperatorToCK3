@@ -24,7 +24,6 @@ namespace ImperatorToCK3.Outputter {
 							alreadyOutputtedProvinces.Add(id);
 						}
 					}
-
 				}
 			}
 
