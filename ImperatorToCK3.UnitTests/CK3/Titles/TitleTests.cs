@@ -1,4 +1,5 @@
-﻿using ImperatorToCK3.CK3.Titles;
+﻿using System.Linq;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Localization;
 using commonItems;
 using Xunit;
@@ -107,10 +108,120 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void InheritedDevelopmentCanBeNullopt() {
-			var vassal = new Title("c_vassal");
-			vassal.DeJureLiege = new Title("d_liege");
+			var vassal = new Title("c_vassal") {
+				DeJureLiege = new Title("d_liege")
+			};
 
 			Assert.Null(vassal.OwnOrInheritedDevelopmentLevel);
+		}
+
+		[Fact] public void DeJureVassalsAndBelowAreCorrectlyReturned() {
+			var empire = new Title("e_empire");
+
+			var kingdom1 = new Title("k_kingdom1") {
+				DeJureLiege = empire
+			};
+
+			var kingdom2 = new Title("k_kingdom2") {
+				DeJureLiege = empire
+			};
+			var duchy = new Title("d_duchy") {
+				DeJureLiege = kingdom2
+			};
+			var county = new Title("c_county") {
+				DeJureLiege = duchy
+			};
+
+			var vassals = empire.GetDeJureVassalsAndBelow();
+			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			Assert.Collection(sortedVassals,
+				item1 => Assert.Equal("c_county", item1.Value.Name),
+				item2 => Assert.Equal("d_duchy", item2.Value.Name),
+				item3 => Assert.Equal("k_kingdom1", item3.Value.Name),
+				item4 => Assert.Equal("k_kingdom2", item4.Value.Name)
+			);
+		}
+		[Fact]
+		public void DeJureVassalsAndBelowCanBeFilteredByRank() {
+			var empire = new Title("e_empire");
+
+			var kingdom1 = new Title("k_kingdom1") {
+				DeJureLiege = empire
+			};
+
+			var kingdom2 = new Title("k_kingdom2") {
+				DeJureLiege = empire
+			};
+			var duchy = new Title("d_duchy") {
+				DeJureLiege = kingdom2
+			};
+			var county = new Title("c_county") {
+				DeJureLiege = duchy
+			};
+
+			var vassals = empire.GetDeJureVassalsAndBelow(rankFilter: "ck");
+			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			Assert.Collection(sortedVassals,
+				// only counties and kingdoms go through the filter
+				item1 => Assert.Equal("c_county", item1.Value.Name),
+				item2 => Assert.Equal("k_kingdom1", item2.Value.Name),
+				item3 => Assert.Equal("k_kingdom2", item3.Value.Name)
+			);
+		}
+
+		[Fact]
+		public void DeFactoVassalsAndBelowAreCorrectlyReturned() {
+			var empire = new Title("e_empire");
+
+			var kingdom1 = new Title("k_kingdom1") {
+				DeFactoLiege = empire
+			};
+
+			var kingdom2 = new Title("k_kingdom2") {
+				DeFactoLiege = empire
+			};
+			var duchy = new Title("d_duchy") {
+				DeFactoLiege = kingdom2
+			};
+			var county = new Title("c_county") {
+				DeFactoLiege = duchy
+			};
+
+			var vassals = empire.GetDeFactoVassalsAndBelow();
+			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			Assert.Collection(sortedVassals,
+				item1 => Assert.Equal("c_county", item1.Value.Name),
+				item2 => Assert.Equal("d_duchy", item2.Value.Name),
+				item3 => Assert.Equal("k_kingdom1", item3.Value.Name),
+				item4 => Assert.Equal("k_kingdom2", item4.Value.Name)
+			);
+		}
+		[Fact]
+		public void DeFactoVassalsAndBelowCanBeFilteredByRank() {
+			var empire = new Title("e_empire");
+
+			var kingdom1 = new Title("k_kingdom1") {
+				DeFactoLiege = empire
+			};
+
+			var kingdom2 = new Title("k_kingdom2") {
+				DeFactoLiege = empire
+			};
+			var duchy = new Title("d_duchy") {
+				DeFactoLiege = kingdom2
+			};
+			var county = new Title("c_county") {
+				DeFactoLiege = duchy
+			};
+
+			var vassals = empire.GetDeFactoVassalsAndBelow(rankFilter: "ck");
+			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			Assert.Collection(sortedVassals,
+				// only counties and kingdoms go through the filter
+				item1 => Assert.Equal("c_county", item1.Value.Name),
+				item2 => Assert.Equal("k_kingdom1", item2.Value.Name),
+				item3 => Assert.Equal("k_kingdom2", item3.Value.Name)
+			);
 		}
 	}
 }
