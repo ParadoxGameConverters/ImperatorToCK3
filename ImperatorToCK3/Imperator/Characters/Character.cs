@@ -19,18 +19,18 @@ namespace ImperatorToCK3.Imperator.Characters {
 				}
 				return culture;
 			}
-			private set {
+			set {
 				culture = value;
 			}
 		}
-		public string Religion { get; private set; } = string.Empty;
-		public string Name { get; private set; } = string.Empty;
-		public string Nickname { get; private set; } = string.Empty;
+		public string Religion { get; set; } = string.Empty;
+		public string Name { get; set; } = string.Empty;
+		public string Nickname { get; set; } = string.Empty;
 		public ulong ProvinceID { get; private set; } = 0;
 		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
 		public Date? DeathDate { get; private set; }
 		public bool IsDead => DeathDate is not null;
-		public string? DeathReason { get; private set; }
+		public string? DeathReason { get; set; }
 		public Dictionary<ulong, Character?> Spouses { get; set; } = new();
 		public Dictionary<ulong, Character?> Children { get; set; } = new();
 		public KeyValuePair<ulong, Character?> Mother { get; set; } = new();
