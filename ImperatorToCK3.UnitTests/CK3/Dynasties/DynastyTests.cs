@@ -91,7 +91,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var family = Family.Parse(reader, 45);
 
 			var locMapper = new LocalizationMapper();
-			locMapper.AddLocalization("cornelii", new LocBlock() { english = "Cornelii" });
+			locMapper.AddLocalization("cornelii", new LocBlock { english = "Cornelii" });
 			var dynasty = new Dynasty(family, locMapper);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
