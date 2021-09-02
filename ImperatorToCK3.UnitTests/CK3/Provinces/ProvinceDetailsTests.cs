@@ -38,5 +38,27 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			Assert.Equal("castle_holding", details.Holding);
 			Assert.Equal("orthodox", details.Religion);
 		}
+
+		[Fact]
+		public void DetailsCanBeCopyConstructed() {
+			var reader = new BufferedReader(
+				"= {" +
+				"\treligion = catholic\n" +
+				"\tculture = roman\n" +
+				"\tbuildings = { orchard tavern }" +
+				"\t850.1.1 = { religion=orthodox holding=castle_holding }" +
+				"}"
+			);
+			var details1 = new ProvinceDetails(reader);
+			var details2 = new ProvinceDetails(details1);
+
+			Assert.Equal("castle_holding", details2.Holding);
+			Assert.Equal("orthodox", details2.Religion);
+			Assert.Equal("roman", details2.Culture);
+			Assert.Collection(details2.Buildings,
+				item1 => Assert.Equal("orchard", item1),
+				item2 => Assert.Equal("tavern", item2)
+			);
+		}
 	}
 }
