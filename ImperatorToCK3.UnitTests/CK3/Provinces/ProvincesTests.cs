@@ -1,6 +1,8 @@
 ﻿using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvincesTests {
 		[Fact] public void ProvincesDefaltToEmpty() {
 			var provinces = new ImperatorToCK3.CK3.Provinces.Provinces();

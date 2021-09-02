@@ -55,6 +55,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Date dateOnConversion
 		) {
 			ImperatorCharacter = impCharacter;
+			ImperatorCharacter.CK3Character = this;
 			ID = "imperator" + ImperatorCharacter.ID.ToString();
 			Name = ImperatorCharacter.Name;
 			Female = ImperatorCharacter.Female;
@@ -207,6 +208,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Dictionary<string, Character?> Children { get; set; } = new();
 		public Dictionary<string, Character?> Spouses { get; set; } = new();
 
-		private string? dynastyID; // not always set
+		public string? DynastyID { get; set; } // not always set
 	}
 }
