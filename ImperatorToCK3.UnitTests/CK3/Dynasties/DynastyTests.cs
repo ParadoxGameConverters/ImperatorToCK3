@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ImperatorToCK3.CK3.Characters;
+﻿using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Culture;
@@ -78,7 +73,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			}
 		}
 
-		[Fact] public void IdAndNameAreProperlyConverted() {
+		[Fact]
+		public void IdAndNameAreProperlyConverted() {
 			var reader = new BufferedReader(string.Empty);
 			var family = Family.Parse(reader, 45);
 
