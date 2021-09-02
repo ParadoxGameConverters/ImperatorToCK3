@@ -17,7 +17,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 	/// 
 	/// Now 6874 history is same as 6872 history.
 	/// </summary>
-	class ProvinceMappings : Parser {
+	public class ProvinceMappings : Parser {
 		public ProvinceMappings(string filePath) {
 			RegisterKeys();
 			ParseFile(filePath);
