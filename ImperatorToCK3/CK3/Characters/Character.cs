@@ -55,6 +55,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Date dateOnConversion
 		) {
 			ImperatorCharacter = impCharacter;
+			ImperatorCharacter.CK3Character = this;
 			ID = "imperator" + ImperatorCharacter.ID.ToString();
 			Name = ImperatorCharacter.Name;
 			Female = ImperatorCharacter.Female;

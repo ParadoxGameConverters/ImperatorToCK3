@@ -11,8 +11,10 @@ namespace ImperatorToCK3.CK3.Dynasties {
 
 			var imperatorMembers = imperatorFamily.Members;
 			if (imperatorMembers.Count > 0) {
-				var firstMember = imperatorMembers[0] as Imperator.Characters.Character;
-				Culture = firstMember.Culture; // make head's culture the dynasty culture
+				Imperator.Characters.Character? firstMember = imperatorMembers[0] as Imperator.Characters.Character;
+				if (firstMember?.CK3Character is not null) {
+					Culture = firstMember.CK3Character.Culture; // make head's culture the dynasty culture
+				}
 			} else {
 				Logger.Warn($"Couldn't determine culture for dynasty {ID}, needs manual setting!");
 			}
