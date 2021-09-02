@@ -84,6 +84,31 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.ID);
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Name);
 		}
+
+		[Fact]
+		public void LocalizationIsConverted() {
+			var reader = new BufferedReader("key = cornelii");
+			var family = Family.Parse(reader, 45);
+
+			var locMapper = new LocalizationMapper();
+			locMapper.AddLocalization("cornelii", new LocBlock() { english = "Cornelii" });
+			var dynasty = new Dynasty(family, locMapper);
+
+			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
+			Assert.Equal("Cornelii", dynasty.Localization.Value.english);
+		}
+
+		[Fact]
+		public void LocalizationDefaultsToUnlocalizedKey() {
+			var reader = new BufferedReader("key = cornelii");
+			var family = Family.Parse(reader, 45);
+
+			var locMapper = new LocalizationMapper();
+			var dynasty = new Dynasty(family, locMapper);
+
+			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
+			Assert.Equal("cornelii", dynasty.Localization.Value.english);
+		}
 		[Fact]
 		public void CultureIsBasedOnFirstImperatorMember() {
 			var reader = new BufferedReader("member = { 21 22 23 }");
