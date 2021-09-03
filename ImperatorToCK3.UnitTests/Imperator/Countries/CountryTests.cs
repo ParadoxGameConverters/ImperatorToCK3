@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using Xunit;
+using ImperatorToCK3.Imperator.Countries;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 	[Collection("Sequential")]
@@ -8,7 +10,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
 			var reader = new BufferedReader(string.Empty);
-			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 42);
+			var country = Country.Parse(reader, 42);
 			Assert.Equal(string.Empty, country.Tag);
 			Assert.Equal(string.Empty, country.Name);
 			Assert.Null(country.Capital);
@@ -42,7 +44,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"\tcolor3 = rgb { 7 8 9 }" +
 				"}"
 			);
-			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 42);
+			var country = Country.Parse(reader, 42);
 			Assert.Equal((ulong)42, country.ID);
 			Assert.Equal("WTF", country.Tag);
 			Assert.Equal("WTF", country.Name);
@@ -63,37 +65,37 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		[Fact]
 		public void CorrectCountryRankIsReturned() {
 			var reader = new BufferedReader(string.Empty);
-			var country1 = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 1);
+			var country1 = Country.Parse(reader, 1);
 
-			var country2 = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 2);
+			var country2 = Country.Parse(reader, 2);
 			country2.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(0));
 
-			var country3 = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 3);
+			var country3 = Country.Parse(reader, 3);
 			for (ulong i = 0; i < 4; ++i) {
 				country3.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 			}
 
-			var country4 = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 4);
+			var country4 = Country.Parse(reader, 4);
 			for (ulong i = 0; i < 25; ++i) {
 				country4.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 			}
 
-			var country5 = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 5);
+			var country5 = Country.Parse(reader, 5);
 			for (ulong i = 0; i < 200; ++i) {
 				country5.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 			}
 
-			var country6 = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 6);
+			var country6 = Country.Parse(reader, 6);
 			for (ulong i = 0; i < 753; ++i) {
 				country6.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 			}
 
-			Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryRank.migrantHorde, country1.GetCountryRank());
-			Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryRank.cityState, country2.GetCountryRank());
-			Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryRank.localPower, country3.GetCountryRank());
-			Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryRank.regionalPower, country4.GetCountryRank());
-			Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryRank.majorPower, country5.GetCountryRank());
-			Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryRank.greatPower, country6.GetCountryRank());
+			Assert.Equal(CountryRank.migrantHorde, country1.GetCountryRank());
+			Assert.Equal(CountryRank.cityState, country2.GetCountryRank());
+			Assert.Equal(CountryRank.localPower, country3.GetCountryRank());
+			Assert.Equal(CountryRank.regionalPower, country4.GetCountryRank());
+			Assert.Equal(CountryRank.majorPower, country5.GetCountryRank());
+			Assert.Equal(CountryRank.greatPower, country6.GetCountryRank());
 		}
 
 		[Fact]
@@ -107,7 +109,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"}"
 			);
 			// gov type is monarchy by default
-			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 42);
+			var country = Country.Parse(reader, 42);
 			Assert.Collection(country.GetLaws(),
 				item => Assert.Equal("lawA", item),
 				item => Assert.Equal("lawD", item)
@@ -122,8 +124,21 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"}"
 			);
 			// gov type is monarchy by default
-			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(reader, 42);
+			var country = Country.Parse(reader, 42);
 			Assert.Empty(country.GetLaws());
+		}
+
+		[Fact]
+		public void IgnoredTokensAreSaved() {
+			var reader1 = new BufferedReader("= { monarch=20 ignoredKeyword1=something ignoredKeyword2={} }");
+			var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
+			_ = Country.Parse(reader1, 1);
+			_ = Country.Parse(reader2, 2);
+
+			var expectedIgnoredTokens = new HashSet<string> {
+				"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
+			};
+			Assert.True(Country.IgnoredTokens.SetEquals(expectedIgnoredTokens));
 		}
 	}
 }
