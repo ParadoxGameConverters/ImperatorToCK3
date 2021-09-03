@@ -35,6 +35,21 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
+		private void AddHistoryToVanillaTitles() {
+			foreach (var (name, title) in LandedTitles) {
+				var historyOpt = titlesHistory.PopTitleHistory(name);
+				if (historyOpt is not null)
+					title.AddHistory(landedTitles, historyOpt);
+			}
+			// add vanilla development to counties
+			// for counties that inherit development level from de jure lieges, assign it to them directly for better reliability
+			foreach (var title in LandedTitles.Values) {
+				if (title.Rank == TitleRank.county && title.DevelopmentLevel is null) {
+					title.DevelopmentLevel = title.OwnOrInheritedDevelopmentLevel;
+				}
+			}
+		}
+
 		private void OverWriteCountiesHistory() {
 			Logger.Info("Overwriting counties' history.");
 			foreach (var title in LandedTitles.Values) {
