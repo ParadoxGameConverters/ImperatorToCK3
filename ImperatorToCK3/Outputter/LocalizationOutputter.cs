@@ -90,7 +90,6 @@ namespace ImperatorToCK3.Outputter {
 				simp_chineseDynLoc.WriteLine($" {key}: \"{loc.simp_chinese}\"");
 				spanishDynLoc.WriteLine($" {key}: \"{loc.spanish}\"");
 			}
-
 		}
 	}
 }
