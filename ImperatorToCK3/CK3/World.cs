@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
@@ -20,15 +18,14 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
-using ImperatorToCK3.Imperator;
 using commonItems;
 using ImperatorToCK3.Imperator.Countries;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
-		public Dictionary<string, Character> Characters { get; private set; } = new();
-		public Dictionary<string, Dynasty> Dynasties { get; private set; } = new();
-		public Dictionary<ulong, Province> Provinces { get; private set; } = new();
+		public Dictionary<string, Character> Characters { get; } = new();
+		public Dictionary<string, Dynasty> Dynasties { get; } = new();
+		public Dictionary<ulong, Province> Provinces { get; } = new();
 		private readonly LandedTitles landedTitles = new();
 		public Dictionary<string, Title> LandedTitles {
 			get {
@@ -37,52 +34,48 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		public World(Imperator.World impWorld, Configuration theConfiguration, ConverterVersion converterVersion) {
-	Logger.Info("*** Hello CK3, let's get painting. ***");
-	// Scraping localizations from Imperator so we may know proper names for our countries.
-	localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
+			Logger.Info("*** Hello CK3, let's get painting. ***");
+			// Scraping localizations from Imperator so we may know proper names for our countries.
+			localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
 
-	// Loading Imperator CoAs to use them for generated CK3 titles
-	coaMapper = new CoaMapper(theConfiguration);
+			// Loading Imperator CoAs to use them for generated CK3 titles
+			coaMapper = new CoaMapper(theConfiguration);
 
 			// Load vanilla titles history
 			var titlesHistoryPath = Path.Combine(theConfiguration.Ck3Path, "game/history/titles");
-	titlesHistory = new TitlesHistory(titlesHistoryPath);
+			titlesHistory = new TitlesHistory(titlesHistoryPath);
 
 			// Loading vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
-		landedTitles.LoadTitles(landedTitlesPath);
-	AddHistoryToVanillaTitles();
+			landedTitles.LoadTitles(landedTitlesPath);
+			AddHistoryToVanillaTitles();
 
-		// Loading regions
-		ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, landedTitles);
-	imperatorRegionMapper = new ImperatorRegionMapper(theConfiguration.ImperatorPath);
-	// Use the region mappers in other mappers
-	religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
-	cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+			// Loading regions
+			ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, landedTitles);
+			imperatorRegionMapper = new ImperatorRegionMapper(theConfiguration.ImperatorPath);
+			// Use the region mappers in other mappers
+			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-	ImportImperatorCountries(impWorld.Countries.StoredCountries);
+			ImportImperatorCountries(impWorld.Countries.StoredCountries);
 
-		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
-		// Some of it will be overwritten, but not all.
-		ImportVanillaProvinces(theConfiguration.Ck3Path);
+			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
+			// Some of it will be overwritten, but not all.
+			ImportVanillaProvinces(theConfiguration.Ck3Path);
 
-		// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-		ImportImperatorProvinces(impWorld);
+			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
+			ImportImperatorProvinces(impWorld);
 
-		ImportImperatorCharacters(impWorld, theConfiguration.ConvertBirthAndDeathDates, impWorld.EndDate);
-		LinkSpouses();
-		LinkMothersAndFathers();
+			ImportImperatorCharacters(impWorld, theConfiguration.ConvertBirthAndDeathDates, impWorld.EndDate);
+			LinkSpouses();
+			LinkMothersAndFathers();
 
-		ImportImperatorFamilies(impWorld);
+			ImportImperatorFamilies(impWorld);
 
-		OverWriteCountiesHistory();
-		RemoveInvalidLandlessTitles();
+			OverWriteCountiesHistory();
+			RemoveInvalidLandlessTitles();
 
-		PurgeLandlessVanillaCharacters();
-	}
-
-	private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates) {
-			ImportImperatorCharacters(impWorld, convertBirthAndDeathDates, new Date(867, 1, 1));
+			PurgeLandlessVanillaCharacters();
 		}
 		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates, Date endDate) {
 			Logger.Info("Importing Imperator Characters.");
@@ -129,7 +122,7 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorCountry(
 					KeyValuePair<ulong, Country> country,
 					Dictionary<ulong, Country> imperatorCountries
-				) {
+		) {
 			// Create a new title
 			var newTitle = new Title();
 			newTitle.InitializeFromTag(
@@ -165,14 +158,12 @@ namespace ImperatorToCK3.CK3 {
 					continue;
 				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
 				try {
-
 					var newProvinces = new Provinces.Provinces(provincesPath);
 					foreach (var (newProvinceID, newProvince) in newProvinces.StoredProvinces) {
 						if (Provinces.ContainsKey(newProvinceID)) {
 							Logger.Warn($"Vanilla province duplication - {newProvinceID} already loaded! Overwriting.");
 						}
 						Provinces[newProvinceID] = newProvince;
-
 					}
 				} catch (Exception e) {
 					Logger.Warn($"Invalid province filename: {provincesPath} ({e})");
@@ -249,11 +240,9 @@ namespace ImperatorToCK3.CK3 {
 
 					var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
 					theShares[ownerID] = devValue;
-
 				} else {
 					Logger.Warn($"Source province {imperatorProvinceID} is not on the list of known provinces!");
 					continue; // Broken mapping, or loaded a mod changing provinces without using it.
-
 				}
 			}
 			// Let's see who the lucky winner is.
@@ -436,7 +425,6 @@ namespace ImperatorToCK3.CK3 {
 			}
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");
 		}
-
 
 		private void ImportImperatorFamilies(Imperator.World impWorld) {
 			Logger.Info("Importing Imperator Families.");

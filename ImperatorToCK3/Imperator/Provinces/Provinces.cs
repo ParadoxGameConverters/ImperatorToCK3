@@ -3,7 +3,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public class Provinces : Parser {
-		public Dictionary<ulong, Province?> StoredProvinces { get; } = new();
+		public Dictionary<ulong, Province> StoredProvinces { get; } = new();
 
 		public Provinces() { }
 		public Provinces(BufferedReader reader) {
@@ -21,10 +21,6 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public void LinkPops(Pops.Pops pops) {
 			var counter = 0;
 			foreach (var (provId, province) in StoredProvinces) {
-				if (province is null) {
-					Logger.Warn($"Not linking pops to null province {provId}");
-					continue;
-				}
 				if (province.GetPopCount() > 0) {
 					var newPops = new Dictionary<ulong, Pops.Pop?>();
 					foreach (var popId in province.Pops.Keys) {
@@ -43,10 +39,6 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public void LinkCountries(Countries.Countries countries) {
 			var counter = 0;
 			foreach(var (provId, province) in StoredProvinces) {
-				if (province is null) {
-					Logger.Warn($"Not linking country to null province {provId}");
-					continue;
-				}
 				if (countries.StoredCountries.TryGetValue(province.OwnerCountry.Key, out var countryToLink)) {
 					// link both ways
 					province.LinkOwnerCountry(countryToLink);
