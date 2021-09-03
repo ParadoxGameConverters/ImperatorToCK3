@@ -33,7 +33,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		public World(Imperator.World impWorld, Configuration theConfiguration, ConverterVersion converterVersion) {
+		public World(Imperator.World impWorld, Configuration theConfiguration) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
 			// Scraping localizations from Imperator so we may know proper names for our countries.
 			localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
