@@ -35,6 +35,59 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
+		private KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
+			List<ulong> impProvinceNumbers,
+			Imperator.World impWorld
+		) {
+			// determine ownership by province development.
+			var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
+			var theShares = new Dictionary<ulong, int>(); // owner, development                                               
+			ulong? winner = null;
+			long maxDev = -1;
+
+			foreach (var imperatorProvinceID in impProvinceNumbers) {
+				if (impWorld.Provinces.StoredProvinces.TryGetValue(imperatorProvinceID, out var impProvince)) {
+					var ownerID = impProvince.OwnerCountry.Key;
+					theClaims[ownerID].Add(impProvince);
+
+					var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
+					theShares[ownerID] = devValue;
+
+				} else {
+					Logger.Warn($"Source province {imperatorProvinceID} is not on the list of known provinces!");
+					continue; // Broken mapping, or loaded a mod changing provinces without using it.
+
+				}
+			}
+			// Let's see who the lucky winner is.
+			foreach (var (owner, development) in theShares) {
+				if (development > maxDev) {
+					winner = owner;
+					maxDev = development;
+				}
+			}
+			if (winner is null) {
+				return null;
+			}
+
+			// Now that we have a winning owner, let's find its largest province to use as a source.
+			maxDev = -1; // We can have winning provinces with weight = 0;
+
+			var toReturn = new KeyValuePair<ulong, Imperator.Provinces.Province>();
+			foreach (var province in theClaims[(ulong)winner]) {
+				long provinceWeight = province.BuildingCount + province.GetPopCount();
+
+				if (provinceWeight > maxDev) {
+					toReturn = new(province.ID, province);
+					maxDev = provinceWeight;
+				}
+			}
+			if (toReturn.Key == 0 || toReturn.Value is null) {
+				return null;
+			}
+			return toReturn;
+		}
+
 		private void AddHistoryToVanillaTitles() {
 			foreach (var (name, title) in LandedTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(name);
@@ -64,7 +117,7 @@ namespace ImperatorToCK3.CK3 {
 							if (impCountry is not null && impCountry.CountryType != CountryType.rebels) {
 								var impMonarch = impCountry.Monarch;
 								if (impMonarch is not null) {
-									if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder){
+									if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder)){
 										title.Holder = holder;
 									}
 									title.DeFactoLiege = null;
