@@ -29,13 +29,59 @@ namespace ImperatorToCK3.CK3 {
 		public Dictionary<string, Character> Characters { get; private set; } = new();
 		public Dictionary<string, Dynasty> Dynasties { get; private set; } = new();
 		public Dictionary<ulong, Province> Provinces { get; private set; } = new();
-		private LandedTitles landedTitles;
+		private readonly LandedTitles landedTitles = new();
 		public Dictionary<string, Title> LandedTitles {
 			get {
 				return landedTitles.StoredTitles;
 			}
 		}
-		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates) {
+
+		public World(Imperator.World impWorld, Configuration theConfiguration, ConverterVersion converterVersion) {
+	Logger.Info("*** Hello CK3, let's get painting. ***");
+	// Scraping localizations from Imperator so we may know proper names for our countries.
+	localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
+
+	// Loading Imperator CoAs to use them for generated CK3 titles
+	coaMapper = new CoaMapper(theConfiguration);
+
+			// Load vanilla titles history
+			var titlesHistoryPath = Path.Combine(theConfiguration.Ck3Path, "game/history/titles");
+	titlesHistory = new TitlesHistory(titlesHistoryPath);
+
+			// Loading vanilla CK3 landed titles
+			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
+		landedTitles.LoadTitles(landedTitlesPath);
+	AddHistoryToVanillaTitles();
+
+		// Loading regions
+		ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, landedTitles);
+	imperatorRegionMapper = new ImperatorRegionMapper(theConfiguration.ImperatorPath);
+	// Use the region mappers in other mappers
+	religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+	cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+
+	ImportImperatorCountries(impWorld.Countries.StoredCountries);
+
+		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
+		// Some of it will be overwritten, but not all.
+		ImportVanillaProvinces(theConfiguration.Ck3Path);
+
+		// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
+		ImportImperatorProvinces(impWorld);
+
+		ImportImperatorCharacters(impWorld, theConfiguration.ConvertBirthAndDeathDates, impWorld.EndDate);
+		LinkSpouses();
+		LinkMothersAndFathers();
+
+		ImportImperatorFamilies(impWorld);
+
+		OverWriteCountiesHistory();
+		RemoveInvalidLandlessTitles();
+
+		PurgeLandlessVanillaCharacters();
+	}
+
+	private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates) {
 			ImportImperatorCharacters(impWorld, convertBirthAndDeathDates, new Date(867, 1, 1));
 		}
 		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates, Date endDate) {
@@ -186,7 +232,7 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info($"{impWorld.Provinces.StoredProvinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
 		}
 
-		private KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
+		private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
 			List<ulong> impProvinceNumbers,
 			Imperator.World impWorld
 		) {
@@ -406,21 +452,21 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info($"{Dynasties.Count} total families imported.");
 		}
 
-		private CoaMapper coaMapper;
-		private CultureMapper cultureMapper;
-		private DeathReasonMapper deathReasonMapper;
-		private GovernmentMapper governmentMapper;
-		private LocalizationMapper localizationMapper;
-		private NicknameMapper nicknameMapper;
-		private ProvinceMapper provinceMapper;
-		private ReligionMapper religionMapper;
-		private SuccessionLawMapper successionLawMapper;
-		private TagTitleMapper tagTitleMapper;
-		private TraitMapper traitMapper;
-		private CK3RegionMapper ck3RegionMapper;
-		private ImperatorRegionMapper imperatorRegionMapper;
-		private TitlesHistory titlesHistory;
+		private readonly CoaMapper coaMapper;
+		private readonly CultureMapper cultureMapper = new();
+		private readonly DeathReasonMapper deathReasonMapper = new();
+		private readonly GovernmentMapper governmentMapper = new();
+		private readonly LocalizationMapper localizationMapper = new();
+		private readonly NicknameMapper nicknameMapper = new("configurables/nickname_map.txt");
+		private readonly ProvinceMapper provinceMapper = new();
+		private readonly ReligionMapper religionMapper = new();
+		private readonly SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.txt");
+		private readonly TagTitleMapper tagTitleMapper = new("configurables/title_map.txt");
+		private readonly TraitMapper traitMapper = new("configurables/trait_map.txt");
+		private readonly CK3RegionMapper ck3RegionMapper;
+		private readonly ImperatorRegionMapper imperatorRegionMapper;
+		private readonly TitlesHistory titlesHistory;
 
-		private HashSet<string> countyHoldersCache = new(); // used by RemoveInvalidLandlessTitles
+		private readonly HashSet<string> countyHoldersCache = new(); // used by RemoveInvalidLandlessTitles
 	}
 }
