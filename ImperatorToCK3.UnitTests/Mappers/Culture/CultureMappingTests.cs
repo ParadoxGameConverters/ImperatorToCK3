@@ -5,8 +5,10 @@ using ImperatorToCK3.Mappers.Culture;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CultureMappingTests {
-		const string islandRegionPath = "TestFiles/regions/island_regions.txt";
+		private const string islandRegionPath = "TestFiles/regions/island_regions.txt";
 		[Fact] public void MatchOnRegion() {
 			var ck3RegionMapper = new CK3RegionMapper();
 			var landedTitles = new LandedTitles();

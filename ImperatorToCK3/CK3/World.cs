@@ -35,6 +35,29 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
+		private void ImportImperatorProvinces(Imperator.World impWorld) {
+			Logger.Info("Importing Imperator Provinces.");
+			var counter = 0;
+			// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
+			foreach (var (provinceID, province) in Provinces) {
+				var impProvinces = provinceMapper.GetImperatorProvinceNumbers(provinceID);
+				// Provinces we're not affecting will not be in this list.
+				if (impProvinces.Count == 0)
+					continue;
+				// Next, we find what province to use as its initializing source.
+				var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
+				if (sourceProvince is null) {
+					Logger.Warn($"Could not determine source province for CK3 province {provinceID}!");
+					continue; // MISMAP, or simply have mod provinces loaded we're not using.
+				} else {
+					province.InitializeFromImperator(sourceProvince.Value.Value, cultureMapper, religionMapper);
+				}
+				// And finally, initialize it.
+				++counter;
+			}
+			Logger.Info($"{impWorld.Provinces.StoredProvinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
+		}
+
 		private KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
 			List<ulong> impProvinceNumbers,
 			Imperator.World impWorld
@@ -117,7 +140,7 @@ namespace ImperatorToCK3.CK3 {
 							if (impCountry is not null && impCountry.CountryType != CountryType.rebels) {
 								var impMonarch = impCountry.Monarch;
 								if (impMonarch is not null) {
-									if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder)){
+									if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder)) {
 										title.Holder = holder;
 									}
 									title.DeFactoLiege = null;
