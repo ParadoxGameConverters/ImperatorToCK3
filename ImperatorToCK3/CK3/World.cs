@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,60 @@ namespace ImperatorToCK3.CK3 {
 			get {
 				return landedTitles.StoredTitles;
 			}
+		}
+
+		private void ImportVanillaProvinces(string ck3Path) {
+			Logger.Info("Importing Vanilla Provinces.");
+			// ---- Loading history/provinces
+			var path = Path.Combine(ck3Path, "game/history/provinces");
+			var fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
+			foreach (var fileName in fileNames) {
+				if (!fileName.EndsWith(".txt"))
+					continue;
+				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
+				try {
+
+					var newProvinces = new Provinces.Provinces(provincesPath);
+					foreach (var (newProvinceID, newProvince) in newProvinces.StoredProvinces) {
+						if (Provinces.ContainsKey(newProvinceID)) {
+							Logger.Warn($"Vanilla province duplication - {newProvinceID} already loaded! Overwriting.");
+						}
+						Provinces[newProvinceID] = newProvince;
+
+					}
+				} catch (Exception e) {
+					Logger.Warn($"Invalid province filename: {provincesPath} ({e})");
+				}
+			}
+
+			// now load the provinces that don't have unique entries in history/provinces
+			// they instead use history/province_mapping
+			path = Path.Combine(ck3Path, "game/history/province_mapping");
+			fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
+			foreach (var fileName in fileNames) {
+				if (!fileName.EndsWith(".txt"))
+					continue;
+				var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
+				try {
+					var newProvinces = new ProvinceMappings(provinceMappingsPath);
+					foreach (var (newProvinceID, baseProvinceID) in newProvinces.Mappings) {
+						if (!Provinces.ContainsKey(baseProvinceID)) {
+							Logger.Warn($"Base province {baseProvinceID} not found for province {newProvinceID}.");
+							continue;
+						}
+						if (Provinces.ContainsKey(newProvinceID)) {
+							Logger.Info($"Vanilla province duplication - {newProvinceID} already loaded! Preferring unique entry over mapping.");
+						} else {
+							var newProvince = new Province(newProvinceID, Provinces[baseProvinceID]);
+							Provinces.Add(newProvinceID, newProvince);
+						}
+					}
+				} catch (Exception e) {
+					Logger.Warn($"Invalid province filename: {provinceMappingsPath}: ({e})");
+				}
+			}
+
+			Logger.Info($"Loaded {Provinces.Count} province definitions.");
 		}
 
 		private void ImportImperatorProvinces(Imperator.World impWorld) {
