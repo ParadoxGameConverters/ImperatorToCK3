@@ -15,6 +15,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private static readonly SortedSet<string> tribalGovernments = new() { "tribal_chiefdom", "tribal_kingdom", "tribal_federation" };
 		private static readonly Parser parser = new();
 		private static Country country = new(0);
+		public static HashSet<string> IgnoredTokens { get; private set; } = new();
 		static Country() {
 			parser.RegisterKeyword("tag", reader =>
 				country.Tag = new SingleString(reader).String
@@ -96,7 +97,10 @@ namespace ImperatorToCK3.Imperator.Countries {
 			parser.RegisterRegex(tribalLawRegexStr, reader =>
 				country.tribalLaws.Add(new SingleString(reader).String)
 			);
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+				IgnoredTokens.Add(token);
+				ParserHelpers.IgnoreItem(reader);
+			});
 		}
 		public static Country Parse(BufferedReader reader, ulong countryID) {
 			country = new Country(countryID);

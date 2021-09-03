@@ -100,7 +100,10 @@ namespace ImperatorToCK3.Imperator {
 				pops = new PopsBloc(reader).PopsFromBloc;
 				Logger.Info("Loaded " + pops.StoredPops.Count + " pops.");
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+				ignoredTokens.Add(token);
+				ParserHelpers.IgnoreItem(reader);
+			});
 
 			Logger.Info("Verifying Imperator save.");
 			VerifySave(configuration.SaveGamePath);
@@ -109,6 +112,7 @@ namespace ImperatorToCK3.Imperator {
 			var gameState = new BufferedReader(saveGame.gameState);
 			ParseStream(gameState);
 			ClearRegisteredRules();
+			Logger.Debug("Ignored World tokens: " + string.Join(", ", ignoredTokens));
 
 			Logger.Info("*** Building World ***");
 
@@ -185,5 +189,7 @@ namespace ImperatorToCK3.Imperator {
 		private void ProcessCompressedEncodedSave(string saveGamePath) {
 			saveGame.gameState = Helpers.RakalyCaller.ToPlainText(saveGamePath);
 		}
+
+		private readonly HashSet<string> ignoredTokens = new();
 	}
 }
