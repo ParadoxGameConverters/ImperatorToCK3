@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.Imperator.Families {
 	public class Families : Parser {
-		public Dictionary<ulong, Family?> StoredFamilies { get; private set; } = new();
-		public Families() { }
+		public Dictionary<ulong, Family> StoredFamilies { get; } = new();
 		public void LoadFamilies(string path) {
 			RegisterKeys();
 			ParseFile(path);
@@ -36,11 +31,7 @@ namespace ImperatorToCK3.Imperator.Families {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void RemoveUnlinkedMembers() {
-			foreach (var (familyID, family) in StoredFamilies) {
-				if (family is null) {
-					Logger.Warn($"Can't remove unlinked members from null family {familyID}");
-					continue;
-				}
+			foreach (var family in StoredFamilies.Values) {
 				family.RemoveUnlinkedMembers();
 			}
 		}
