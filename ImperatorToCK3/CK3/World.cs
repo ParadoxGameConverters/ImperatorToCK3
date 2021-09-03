@@ -21,6 +21,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Imperator;
 using commonItems;
+using ImperatorToCK3.Imperator.Countries;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
@@ -33,6 +34,41 @@ namespace ImperatorToCK3.CK3 {
 				return landedTitles.StoredTitles;
 			}
 		}
+
+		private void OverWriteCountiesHistory() {
+			Logger.Info("Overwriting counties' history.");
+			foreach (var title in LandedTitles.Values) {
+				if (title.Rank == TitleRank.county && title.CapitalBaronyProvince > 0) { // title is a county and its capital province has a valid ID (0 is not a valid province in CK3)
+					if (!Provinces.ContainsKey(title.CapitalBaronyProvince)) {
+						Logger.Warn($"Capital barony province not found {title.CapitalBaronyProvince}");
+					} else {
+						var ck3CapitalBaronyProvince = Provinces[title.CapitalBaronyProvince];
+						var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
+						if (impProvince is not null) {
+							var impCountry = impProvince.OwnerCountry.Value;
+							if (impCountry is not null && impCountry.CountryType != CountryType.rebels) {
+								var impMonarch = impCountry.Monarch;
+								if (impMonarch is not null) {
+									if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder){
+										title.Holder = holder;
+									}
+									title.DeFactoLiege = null;
+									countyHoldersCache.Add(title.HolderID);
+								}
+							} else { // e.g. uncolonised Imperator province
+								title.Holder = null;
+								title.DeFactoLiege = null;
+							}
+						} else { // county is probably outside of Imperator map
+							if (!string.IsNullOrEmpty(title.HolderID) && title.HolderID != "0") {
+								countyHoldersCache.Add(title.HolderID);
+							}
+						}
+					}
+				}
+			}
+		}
+
 		private void RemoveInvalidLandlessTitles() {
 			Logger.Info("Removing invalid landless titles.");
 			var removedGeneratedTitles = new HashSet<string>();
@@ -83,11 +119,11 @@ namespace ImperatorToCK3.CK3 {
 					farewellIds.Remove(id);
 				}
 			}
-			foreach(var title in LandedTitles.Values) {
+			foreach (var title in LandedTitles.Values) {
 				farewellIds.Remove(title.HolderID);
 			}
 
-			foreach(var characterId in farewellIds) {
+			foreach (var characterId in farewellIds) {
 				Characters[characterId].BreakAllLinks();
 				Characters.Remove(characterId);
 			}
