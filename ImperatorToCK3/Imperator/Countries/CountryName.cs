@@ -17,7 +17,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			};
 		}
 
-		public LocBlock? GetNameLocBlock(LocalizationMapper localizationMapper, Dictionary<ulong, Country?> imperatorCountries) {
+		public LocBlock? GetNameLocBlock(LocalizationMapper localizationMapper, Dictionary<ulong, Country> imperatorCountries) {
 			var directNameLocMatch = localizationMapper.GetLocBlockForKey(Name);
 			if (directNameLocMatch is not null && Name == "CIVILWAR_FACTION_NAME") {
 				// special case for revolts
@@ -33,7 +33,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 			return directNameLocMatch;
 		}
-		public LocBlock? GetAdjectiveLocBlock(LocalizationMapper localizationMapper, Dictionary<ulong, Country?> imperatorCountries) {
+		public LocBlock? GetAdjectiveLocBlock(LocalizationMapper localizationMapper, Dictionary<ulong, Country> imperatorCountries) {
 			var adj = GetAdjective();
 			var directAdjLocMatch = localizationMapper.GetLocBlockForKey(adj);
 			if (directAdjLocMatch is not null && adj == "CIVILWAR_FACTION_ADJECTIVE") {

@@ -35,6 +35,79 @@ namespace ImperatorToCK3.CK3 {
 				return landedTitles.StoredTitles;
 			}
 		}
+		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates) {
+			ImportImperatorCharacters(impWorld, convertBirthAndDeathDates, new Date(867, 1, 1));
+		}
+		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates, Date endDate) {
+			Logger.Info("Importing Imperator Characters.");
+
+			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
+				ImportImperatorCharacter(character, convertBirthAndDeathDates, endDate);
+			}
+			Logger.Info($"{Characters.Count} total characters recognized.");
+		}
+
+		private void ImportImperatorCharacter(
+			Imperator.Characters.Character character,
+			bool convertBirthAndDeathDates,
+			Date endDate
+		) {
+			// Create a new CK3 character
+			var newCharacter = new Character();
+			newCharacter.InitializeFromImperator(character,
+				religionMapper,
+				cultureMapper,
+				traitMapper,
+				nicknameMapper,
+				localizationMapper,
+				provinceMapper,
+				deathReasonMapper,
+				convertBirthAndDeathDates,
+				endDate
+			);
+			character.CK3Character = newCharacter;
+			Characters.Add(newCharacter.ID, newCharacter);
+		}
+
+		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
+			Logger.Info("Importing Imperator Countries.");
+
+			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
+			// add new ones from Imperator tags.
+			foreach (var title in imperatorCountries) {
+				ImportImperatorCountry(title, imperatorCountries);
+			}
+			Logger.Info($"{LandedTitles.Count} total countries recognized.");
+		}
+
+		private void ImportImperatorCountry(
+					KeyValuePair<ulong, Country> country,
+					Dictionary<ulong, Country> imperatorCountries
+				) {
+			// Create a new title
+			var newTitle = new Title();
+			newTitle.InitializeFromTag(
+				country.Value,
+				imperatorCountries,
+				localizationMapper,
+				landedTitles,
+				provinceMapper,
+				coaMapper,
+				tagTitleMapper,
+				governmentMapper,
+				successionLawMapper
+			);
+
+			var name = newTitle.Name;
+			if (LandedTitles.TryGetValue(name, out var title)) {
+				var vanillaTitle = title;
+				vanillaTitle.UpdateFromTitle(newTitle);
+				country.Value.CK3Title = vanillaTitle;
+			} else {
+				landedTitles.InsertTitle(newTitle);
+				country.Value.CK3Title = newTitle;
+			}
+		}
 
 		private void ImportVanillaProvinces(string ck3Path) {
 			Logger.Info("Importing Vanilla Provinces.");

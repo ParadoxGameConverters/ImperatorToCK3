@@ -4,7 +4,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class Countries : Parser {
-		public Dictionary<ulong, Country?> StoredCountries { get; } = new();
+		public Dictionary<ulong, Country> StoredCountries { get; } = new();
 
 		public Countries() { }
 		public Countries(BufferedReader reader) {
@@ -23,10 +23,6 @@ namespace ImperatorToCK3.Imperator.Countries {
 			var counter = 0;
 			SortedSet<ulong> idsWithoutDefinition = new();
 			foreach (var country in StoredCountries.Values) {
-				if (country is null) {
-					Logger.Warn("Skipping linking null country to family");
-					continue;
-				}
 				if (country.Families.Count > 0) {
 					var newFamilies = new Dictionary<ulong, Families.Family?>();
 					foreach (var familyID in country.Families.Keys) {
