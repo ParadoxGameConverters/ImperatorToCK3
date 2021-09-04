@@ -47,5 +47,9 @@ namespace ImperatorToCK3.CommonUtils {
 			ParseStream(reader);
 			return history;
 		}
+		public void UpdateHistory(History existingHistory, BufferedReader reader) {
+			history = existingHistory;
+			ParseStream(reader);
+		}
 	}
 }
