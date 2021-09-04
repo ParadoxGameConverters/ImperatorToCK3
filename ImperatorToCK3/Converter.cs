@@ -11,10 +11,13 @@ namespace ImperatorToCK3 {
         public static void ConvertImperatorToCK3(ConverterVersion converterVersion) {
             var config = new Configuration();
 			var imperatorWorld = new Imperator.World(config, converterVersion);
-        }
+			var ck3World = new CK3.World(imperatorWorld, config);
+			Outputter.WorldOutputter.OutputWorld(ck3World, config);
+			Logger.Info("* Conversion complete! *");
+		}
 
         private void LogGameVersions(string imperatorPath, string ck3Path) {
-
-        }
+			// TODO
+		}
     }
 }

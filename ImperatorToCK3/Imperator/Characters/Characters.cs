@@ -11,16 +11,12 @@ namespace ImperatorToCK3.Imperator.Characters {
 			ParseStream(reader);
 			ClearRegisteredRules();
 		}
-		public Dictionary<ulong, Character?> StoredCharacters { get; } = new();
+		public Dictionary<ulong, Character> StoredCharacters { get; } = new();
 		public void LinkFamilies(Families.Families families) {
 			var counter = 0;
 			var idsWithoutDefinition = new SortedSet<ulong>();
 
 			foreach (var (characterID, character) in StoredCharacters) {
-				if (character is null) {
-					Logger.Warn($"Cannot link family to null character {characterID}.");
-					continue;
-				}
 				var familyID = character.Family.Key;
 				if (families.StoredFamilies.TryGetValue(familyID, out var familyToLink)) {
 					if (familyToLink is null) {
@@ -51,20 +47,12 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public void LinkSpouses() {
 			var spouseCounter = 0;
 			foreach (var (characterID, character) in StoredCharacters) {
-				if (character is null) {
-					Logger.Warn($"Cannot link spouse to null character {characterID}.");
-					continue;
-				}
 				if (character.Spouses.Count == 0) {
 					continue;
 				}
 				var newSpouses = new Dictionary<ulong, Character?>();
 				foreach (var spouseID in character.Spouses.Keys) {
 					if (StoredCharacters.TryGetValue(spouseID, out var spouseToLink)) {
-						if (spouseToLink is null) {
-							Logger.Warn($"Cannot link null spouse {spouseID} to character {characterID}.");
-							continue;
-						}
 						newSpouses.Add(spouseToLink.ID, spouseToLink);
 						++spouseCounter;
 					} else {
@@ -79,17 +67,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 			var motherCounter = 0;
 			var fatherCounter = 0;
 			foreach (var (characterID, character) in StoredCharacters) {
-				if (character is null) {
-					Logger.Warn($"Cannot link parents to null character {characterID}.");
-					continue;
-				}
 				var motherID = character.Mother.Key;
 				if (motherID != 0) {
 					if (StoredCharacters.TryGetValue(motherID, out var motherToLink)) {
-						if (motherToLink is null) {
-							Logger.Warn($"Cannot link null mother {motherID} to character {characterID}.");
-							continue;
-						}
 						character.Mother = new(motherID, motherToLink);
 						motherToLink.Children[characterID] = character;
 						++motherCounter;
@@ -101,10 +81,6 @@ namespace ImperatorToCK3.Imperator.Characters {
 				var fatherID = character.Father.Key;
 				if (fatherID != 0) {
 					if (StoredCharacters.TryGetValue(fatherID, out var fatherToLink)) {
-						if (fatherToLink is null) {
-							Logger.Warn($"Cannot link null father {fatherID} to character {characterID}.");
-							continue;
-						}
 						character.Father = new(fatherID, fatherToLink);
 						fatherToLink.Children[characterID] = character;
 						++fatherCounter;
