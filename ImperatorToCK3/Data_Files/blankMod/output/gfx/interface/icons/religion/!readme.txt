@@ -1,1 +1,0 @@
-# This folder has no use for CK3 versions 1.3.0 or later

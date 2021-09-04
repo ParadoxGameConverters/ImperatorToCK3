@@ -28,5 +28,6 @@ Idhrendur	- Setting up the project, sanity checks and review
 IhateTrains	- Lead, programming, data files, testing
 lukaslunt	- Data files
 Zemurin		- Review, advice
+Plati		- Faith icons
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
