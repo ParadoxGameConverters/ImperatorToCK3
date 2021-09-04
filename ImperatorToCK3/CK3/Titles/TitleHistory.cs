@@ -32,6 +32,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public string? Government { get; set; }
 		public int? DevelopmentLevel { get; set; }
 
-		private History history;
+		private readonly History history;
 	}
 }
