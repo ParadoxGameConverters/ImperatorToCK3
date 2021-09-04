@@ -218,5 +218,18 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 
 			Assert.Equal("1.1.1", character.BirthDate.ToString());
 		}
+
+		[Fact]
+		public void IgnoredTokensAreSaved() {
+			var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
+			var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
+			_ = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "1", null);
+			_ = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "2", null);
+
+			var expectedIgnoredTokens = new HashSet<string> {
+				"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
+			};
+			Assert.True(ImperatorToCK3.Imperator.Characters.Character.IgnoredTokens.SetEquals(expectedIgnoredTokens));
+		}
 	}
 }

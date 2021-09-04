@@ -1,10 +1,12 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public partial class Province {
 		private static Province province = new(0);
 		private static readonly Parser provinceParser = new();
+		public static HashSet<string> IgnoredTokens { get; } = new();
 		static Province() {
 			provinceParser.RegisterKeyword("province_name", reader =>
 				province.Name = new ProvinceName(reader).Name
@@ -55,7 +57,10 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				var buildingsList = new IntList(reader).Ints;
 				province.BuildingCount = (uint)buildingsList.Sum();
 			});
-			provinceParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			provinceParser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+				IgnoredTokens.Add(token);
+				ParserHelpers.IgnoreItem(reader);
+			});
 		}
 		public static Province Parse(BufferedReader reader, ulong provinceID) {
 			province = new Province(provinceID);
