@@ -28,8 +28,12 @@ namespace ImperatorToCK3.CK3.Titles {
 				var historyItem = new StringOfItem(reader).String;
 				if (historyItem.IndexOf('{') != -1) {
 					var tempReader = new BufferedReader(historyItem);
-					var history = historyFactory.GetHistory(tempReader);
-					historyDict.Add(titleName, new TitleHistory(history));
+					if (historyDict.TryGetValue(titleName, out var existingHistory)) {
+						existingHistory.Update(historyFactory, tempReader);
+					} else {
+						var history = historyFactory.GetHistory(tempReader);
+						historyDict.Add(titleName, new TitleHistory(history));
+					}
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
