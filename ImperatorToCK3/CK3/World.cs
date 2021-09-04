@@ -236,6 +236,9 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var imperatorProvinceID in impProvinceNumbers) {
 				if (impWorld.Provinces.StoredProvinces.TryGetValue(imperatorProvinceID, out var impProvince)) {
 					var ownerID = impProvince.OwnerCountry.Key;
+					if (!theClaims.ContainsKey(ownerID)) {
+						theClaims[ownerID] = new();
+					}
 					theClaims[ownerID].Add(impProvince);
 
 					var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
