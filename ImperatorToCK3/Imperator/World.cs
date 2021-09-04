@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using commonItems;
+using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using Mods = System.Collections.Generic.List<commonItems.Mod>;
@@ -88,6 +89,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces");
 				Provinces = new Provinces.Provinces(reader);
+				Logger.Debug("Ingnored Province tokens: " + string.Join(", ", Province.IgnoredTokens));
 				Logger.Info("Loaded " + Provinces.StoredProvinces.Count + " provinces.");
 			});
 			RegisterKeyword("country", reader => {

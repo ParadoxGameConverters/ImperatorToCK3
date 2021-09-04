@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using commonItems;
 using ImperatorToCK3.Imperator.Provinces;
@@ -287,6 +288,19 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 
 			province.LinkOwnerCountry(country);
 			Assert.Equal((ulong)50, province.OwnerCountry.Value.ID);
+		}
+
+		[Fact]
+		public void IgnoredTokensAreSaved() {
+			var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
+			var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
+			_ = Province.Parse(reader1, 1);
+			_ = Province.Parse(reader2, 2);
+
+			var expectedIgnoredTokens = new HashSet<string> {
+				"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
+			};
+			Assert.True(Province.IgnoredTokens.SetEquals(expectedIgnoredTokens));
 		}
 	}
 }

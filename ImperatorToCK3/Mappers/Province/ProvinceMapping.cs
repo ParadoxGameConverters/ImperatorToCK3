@@ -15,6 +15,7 @@ namespace ImperatorToCK3.Mappers.Province {
 			parser.RegisterKeyword("imp", reader => {
 				tempMapping.ImperatorProvinces.Add(new SingleULong(reader).ULong);
 			});
+			parser.RegisterKeyword("comment", ParserHelpers.IgnoreItem);
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static ProvinceMapping Parse(BufferedReader reader) {

@@ -81,6 +81,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 		private static readonly Parser parser = new();
 		private static Character parsedCharacter = new(0);
+		public static HashSet<string> IgnoredTokens { get; } = new();
 		static Character() {
 			parser.RegisterKeyword("first_name_loc", reader => {
 				parsedCharacter.Name = new CharacterName(reader).Name;
@@ -146,7 +147,10 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("attributes", reader => {
 				parsedCharacter.Attributes = CharacterAttributes.Parse(reader);
 			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+				IgnoredTokens.Add(token);
+				ParserHelpers.IgnoreItem(reader);
+			});
 		}
 		public static Character Parse(BufferedReader reader, string idString, Genes.GenesDB? genesDB) {
 			parsedCharacter = new Character(ulong.Parse(idString)) {
