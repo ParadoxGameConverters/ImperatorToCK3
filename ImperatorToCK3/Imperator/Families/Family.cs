@@ -46,6 +46,7 @@ namespace ImperatorToCK3.Imperator.Families {
 			}
 		}
 
+		public static HashSet<string> IgnoredTokens { get; private set; } = new();
 		private static class FamilyFactory {
 			private static readonly Parser parser = new();
 			private static Family family = new(0);
@@ -70,7 +71,10 @@ namespace ImperatorToCK3.Imperator.Families {
 						family.Members.Add(memberID, null);
 					}
 				});
-				parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+				parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+					IgnoredTokens.Add(token);
+					ParserHelpers.IgnoreItem(reader);
+				});
 			}
 			public static Family Parse(BufferedReader reader, ulong ID) {
 				family = new Family(ID);
