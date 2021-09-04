@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -39,6 +39,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+	<ItemGroup>
+		<FronterConfigurationFiles Include="Data_Files/fronter_configuration/**/*.*"/>
+	</ItemGroup>
+
+	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
+	</Target>
 
   <Target Name="Date" BeforeTargets="CoreCompile">
     <WriteLinesToFile File="$(IntermediateOutputPath)gen.cs" Lines="static partial class Builtin { public static long CompileTime = $([System.DateTime]::UtcNow.Ticks) %3B }" Overwrite="true" />
