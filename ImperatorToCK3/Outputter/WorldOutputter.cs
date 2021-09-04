@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using ImperatorToCK3.CK3;
 using commonItems;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
 		public static void OutputWorld(World ck3World, Configuration theConfiguration) {
-			Logger.Info("Clearing the output mod folder.");
 			var directoryToClear = "output/" + theConfiguration.OutputModName;
-			System.IO.DirectoryInfo di = new DirectoryInfo(directoryToClear);
-			foreach (FileInfo file in di.EnumerateFiles()) {
-				file.Delete();
-			}
-			foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-				dir.Delete(true);
+			var di = new DirectoryInfo(directoryToClear);
+			if (di.Exists) {
+				Logger.Info("Clearing the output mod folder.");
+				foreach (FileInfo file in di.EnumerateFiles()) {
+					file.Delete();
+				}
+				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
+					dir.Delete(true);
+				}
 			}
 
 			var outputName = theConfiguration.OutputModName;
@@ -67,7 +64,7 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void CreateModFolder(string outputName) {
 			var modPath = Path.Combine("output", outputName);
-			Directory.CreateDirectory(modPath);
+			SystemUtils.TryCreateFolder(modPath);
 		}
 
 		private static void CreateFolders(string outputName) {
