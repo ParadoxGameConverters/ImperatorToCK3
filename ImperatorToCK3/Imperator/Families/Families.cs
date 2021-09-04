@@ -55,6 +55,8 @@ namespace ImperatorToCK3.Imperator.Families {
 
 			blocParser.ParseStream(reader);
 			blocParser.ClearRegisteredRules();
+
+			Logger.Debug("Ignored Family tokens: " + string.Join(", ", Family.IgnoredTokens));
 			return families;
 		}
 	}
