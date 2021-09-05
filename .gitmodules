@@ -1,6 +1,3 @@
-[submodule "ZipLib"]
-	path = ZipLib
-	url = git://github.com/ParadoxGameConverters/ZipLib
 [submodule "Fronter"]
 	path = Fronter
 	url = git://github.com/ParadoxGameConverters/Fronter
