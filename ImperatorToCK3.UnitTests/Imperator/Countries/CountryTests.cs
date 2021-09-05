@@ -140,5 +140,21 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			};
 			Assert.True(Country.IgnoredTokens.SetEquals(expectedIgnoredTokens));
 		}
+
+		[Fact] public void IgnoredCountryCurrenciesTokensAreSaved() {
+			var reader = new BufferedReader(
+				"= { currency_data={ manpower=1 innovations=0 } }"
+			);
+			var reader2 = new BufferedReader(
+				"= { currency_data={ ignoredKeyword1=stuff ignoredKeyword2=stuff } }"
+			);
+			_ = Country.Parse(reader, 1);
+			_ = Country.Parse(reader2, 2);
+
+			var expectedIgnoredTokens = new HashSet<string> {
+				"ignoredKeyword1", "ignoredKeyword2", "innovations"
+			};
+			Assert.True(CountryCurrencies.IgnoredTokens.SetEquals(expectedIgnoredTokens));
+		}
 	}
 }
