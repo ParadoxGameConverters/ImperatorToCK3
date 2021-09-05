@@ -99,7 +99,6 @@ namespace ImperatorToCK3.CK3.Characters {
 					ck3Owner = imperatorCountry.CK3Title.Name;
 				}
 			}
-
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
 				Religion, ck3Province,
