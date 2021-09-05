@@ -8,6 +8,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			this.ID = ID;
 		}
 		public ulong ID { get; } = 0;
+		public KeyValuePair<ulong, Countries.Country?>? Country { get; set; }
 		private string culture = string.Empty;
 		public string Culture {
 			get {
@@ -86,61 +87,63 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("first_name_loc", reader => {
 				parsedCharacter.Name = new CharacterName(reader).Name;
 			});
+			parser.RegisterKeyword("country", reader => {
+				parsedCharacter.Country = new(ParserHelpers.GetULong(reader), null);
+			});
 			parser.RegisterKeyword("province", reader => {
-				parsedCharacter.ProvinceID = new SingleULong(reader).ULong;
+				parsedCharacter.ProvinceID = ParserHelpers.GetULong(reader);
 			});
 			parser.RegisterKeyword("culture", reader => {
-				parsedCharacter.culture = new SingleString(reader).String;
+				parsedCharacter.culture = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("religion", reader => {
-				parsedCharacter.Religion = new SingleString(reader).String;
+				parsedCharacter.Religion = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("female", reader => {
-				var femStr = new SingleString(reader).String;
-				parsedCharacter.Female = femStr == "yes";
+				parsedCharacter.Female = ParserHelpers.GetString(reader) == "yes";
 			});
 			parser.RegisterKeyword("traits", reader => {
-				parsedCharacter.Traits = new StringList(reader).Strings;
+				parsedCharacter.Traits = ParserHelpers.GetStrings(reader);
 			});
 			parser.RegisterKeyword("birth_date", reader => {
-				var dateStr = new SingleString(reader).String;
+				var dateStr = ParserHelpers.GetString(reader);
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
 			});
 			parser.RegisterKeyword("death_date", reader => {
-				var dateStr = new SingleString(reader).String;
+				var dateStr = ParserHelpers.GetString(reader);
 				parsedCharacter.DeathDate = new Date(dateStr, true); // converted to AD
 			});
 			parser.RegisterKeyword("death", reader => {
-				parsedCharacter.DeathReason = new SingleString(reader).String;
+				parsedCharacter.DeathReason = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("age", reader => {
-				parsedCharacter.Age = (uint)new SingleInt(reader).Int;
+				parsedCharacter.Age = (uint)ParserHelpers.GetInt(reader);
 			});
 			parser.RegisterKeyword("nickname", reader => {
-				parsedCharacter.Nickname = new SingleString(reader).String;
+				parsedCharacter.Nickname = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("family", reader => {
-				parsedCharacter.family = new(new SingleULong(reader).ULong, null);
+				parsedCharacter.family = new(ParserHelpers.GetULong(reader), null);
 			});
 			parser.RegisterKeyword("dna", reader => {
-				parsedCharacter.DNA = new SingleString(reader).String;
+				parsedCharacter.DNA = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("mother", reader => {
-				parsedCharacter.Mother = new(new SingleULong(reader).ULong, null);
+				parsedCharacter.Mother = new(ParserHelpers.GetULong(reader), null);
 			});
 			parser.RegisterKeyword("father", reader => {
-				parsedCharacter.Father = new(new SingleULong(reader).ULong, null);
+				parsedCharacter.Father = new(ParserHelpers.GetULong(reader), null);
 			});
 			parser.RegisterKeyword("wealth", reader => {
-				parsedCharacter.Wealth = new SingleDouble(reader).Double;
+				parsedCharacter.Wealth = ParserHelpers.GetDouble(reader);
 			});
 			parser.RegisterKeyword("spouse", reader => {
-				foreach (var spouse in new ULongList(reader).ULongs) {
+				foreach (var spouse in ParserHelpers.GetULongs(reader)) {
 					parsedCharacter.Spouses.Add(spouse, null);
 				}
 			});
 			parser.RegisterKeyword("children", reader => {
-				foreach (var child in new ULongList(reader).ULongs) {
+				foreach (var child in ParserHelpers.GetULongs(reader)) {
 					parsedCharacter.Children.Add(child, null);
 				}
 			});
