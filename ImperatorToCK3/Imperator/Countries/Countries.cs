@@ -61,6 +61,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 			blocParser.ParseStream(reader);
 			blocParser.ClearRegisteredRules();
+			Logger.Debug("Ignored CountryCurrencies tokens: " + string.Join(", ", CountryCurrencies.IgnoredTokens));
 			Logger.Debug("Ignored Country tokens: " + string.Join(", ", Country.IgnoredTokens));
 			return countries;
 		}

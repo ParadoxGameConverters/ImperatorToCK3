@@ -1,4 +1,5 @@
-﻿using commonItems;
+﻿using System.Collections.Generic;
+using commonItems;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class CountryCurrencies : Parser {
@@ -42,7 +43,11 @@ namespace ImperatorToCK3.Imperator.Countries {
 			RegisterKeyword("military_experience", reader =>
 				MilitaryExperience = new SingleDouble(reader).Double
 			);
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+				IgnoredTokens.Add(token);
+				ParserHelpers.IgnoreItem(reader);
+			});
 		}
+		public static HashSet<string> IgnoredTokens { get; } = new();
 	}
 }
