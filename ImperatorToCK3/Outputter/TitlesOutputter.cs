@@ -82,8 +82,8 @@ namespace ImperatorToCK3.Outputter {
 
 				if (title.IsImportedOrUpdatedFromImperator && name.IndexOf("IMPTOCK3") != -1) {  // title is not from CK3
 					var outputPath = Path.Combine("output", outputModName, "common", "landed_titles", name + ".txt");
-					using var output = new StreamWriter(outputPath);
-					output.Write(CommonFunctions.UTF8BOM);
+					using var outputStream = File.OpenWrite(outputPath);
+					using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 					TitleOutputter.OutputTitle(output, title);
 				}
 			}

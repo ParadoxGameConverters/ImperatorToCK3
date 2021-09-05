@@ -29,8 +29,8 @@ namespace ImperatorToCK3.Outputter {
 
 			//create province mapping file
 			var provinceMappingFilePath = "output/" + outputModName + "/history/province_mapping/province_mapping.txt";
-			using (var provinceMappingOutput = new StreamWriter(provinceMappingFilePath)) {
-				provinceMappingOutput.Write(CommonFunctions.UTF8BOM);
+			using var provinceMappingStream = File.OpenWrite(provinceMappingFilePath);
+			using (var provinceMappingOutput = new StreamWriter(provinceMappingStream, System.Text.Encoding.UTF8)) {
 				if (alreadyOutputtedProvinces.Count != provinces.Count) {
 					foreach (var (id, province) in provinces) {
 						if (!alreadyOutputtedProvinces.Contains(id)) {
