@@ -26,7 +26,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\tfamily=125" +
 				"\twealth=\"420.5\"" +
 				"\tfirst_name_loc = {\n" +
-				"\t\tname=\"Biggus Dickus\"\n" +
+				"\t\tname=\"Biggus_Dickus\"\n" +
+				"\t\tcustom_name=\"CUSTOM NAME\"\n" +
 				"\t}\n" +
 				"\tnickname = \"the Great\"\n" +
 				"\tattributes={ martial=1 finesse=2 charisma=3 zeal=4 }" +
@@ -78,7 +79,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Equal((ulong)124, character.Father.Key);
 			Assert.Equal((ulong)125, character.Family.Key);
 			Assert.Equal(420.5, character.Wealth);
-			Assert.Equal("Biggus Dickus", character.Name);
+			Assert.Equal("Biggus_Dickus", character.Name);
+			Assert.Equal("CUSTOM NAME", character.CustomName);
 			Assert.Equal("the Great", character.Nickname);
 			Assert.Equal(1, character.Attributes.Martial);
 			Assert.Equal(2, character.Attributes.Finesse);
@@ -107,6 +109,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Equal((ulong)0, character.Family.Key);
 			Assert.Equal(0, character.Wealth);
 			Assert.Equal(string.Empty, character.Name);
+			Assert.Null(character.CustomName);
 			Assert.Equal(string.Empty, character.Nickname);
 			Assert.Equal(0, character.Attributes.Martial);
 			Assert.Equal(0, character.Attributes.Finesse);
