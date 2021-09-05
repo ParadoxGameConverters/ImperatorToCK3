@@ -23,6 +23,7 @@ jobs:
       with:
         dotnet-version: '5.*'
     - name: Build
-      run: cd ImperatorToCK3
-      run: dotnet restore
-      run: dotnet build
+      run: |
+       cd ImperatorToCK3
+       dotnet restore
+       dotnet build
