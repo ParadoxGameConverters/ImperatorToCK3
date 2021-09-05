@@ -100,7 +100,12 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 
-			match = cultureMapper.Match(ImperatorCharacter.Culture, Religion, ck3Province, ImperatorCharacter.ProvinceID, ck3Owner);
+			match = cultureMapper.Match(
+				ImperatorCharacter.Culture,
+				Religion, ck3Province,
+				ImperatorCharacter.ProvinceID,
+				ck3Owner
+			);
 			if (match is not null) {
 				Culture = match;
 			}
