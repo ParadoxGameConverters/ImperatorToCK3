@@ -26,6 +26,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 		public string Religion { get; set; } = string.Empty;
 		public string Name { get; set; } = string.Empty;
+		public string? CustomName { get; set; }
 		public string Nickname { get; set; } = string.Empty;
 		public ulong ProvinceID { get; private set; } = 0;
 		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
@@ -85,7 +86,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public static HashSet<string> IgnoredTokens { get; } = new();
 		static Character() {
 			parser.RegisterKeyword("first_name_loc", reader => {
-				parsedCharacter.Name = new CharacterName(reader).Name;
+				var characterName = new CharacterName(reader);
+				parsedCharacter.Name = characterName.Name;
+				parsedCharacter.CustomName = characterName.CustomName;
 			});
 			parser.RegisterKeyword("country", reader => {
 				parsedCharacter.Country = new(ParserHelpers.GetULong(reader), null);

@@ -2,13 +2,8 @@
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class CharacterName : Parser {
-		private string name = string.Empty;
-		private string? customName;
-		public string Name {
-			get {
-				return customName ?? name;
-			}
-		}
+		public string Name { get; private set; } = string.Empty; // key for localization
+		public string? CustomName { get; private set; } // localized
 
 		public CharacterName(BufferedReader reader) {
 			RegisterKeys();
@@ -16,8 +11,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("name", reader => name = ParserHelpers.GetString(reader));
-			RegisterKeyword("custom_name", reader => customName = ParserHelpers.GetString(reader));
+			RegisterKeyword("name", reader => Name = ParserHelpers.GetString(reader));
+			RegisterKeyword("custom_name", reader => CustomName = ParserHelpers.GetString(reader));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}

@@ -57,7 +57,37 @@ namespace ImperatorToCK3.CK3.Characters {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
 			ID = "imperator" + ImperatorCharacter.ID.ToString();
-			Name = ImperatorCharacter.Name;
+
+			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
+				var loc = ImperatorCharacter.CustomName;
+				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
+				Localizations.Add(Name, new LocBlock {
+					english = loc,
+					french = loc,
+					german = loc,
+					russian = loc,
+					simp_chinese = loc,
+					spanish = loc
+				});
+			} else {
+				Name = ImperatorCharacter.Name;
+				if (!string.IsNullOrEmpty(Name)) {
+					var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
+					if (impNameLoc is not null) {
+						Localizations.Add(Name, impNameLoc);
+					} else {  // fallback: use unlocalized name as displayed name
+						Localizations.Add(Name, new LocBlock {
+							english = Name,
+							french = Name,
+							german = Name,
+							russian = Name,
+							simp_chinese = Name,
+							spanish = Name
+						});
+					}
+				}
+			}
+
 			Female = ImperatorCharacter.Female;
 			Age = ImperatorCharacter.Age;
 
@@ -107,22 +137,6 @@ namespace ImperatorToCK3.CK3.Characters {
 			);
 			if (match is not null) {
 				Culture = match;
-			}
-
-			if (!string.IsNullOrEmpty(Name)) {
-				var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
-				if (impNameLoc is not null) {
-					Localizations.Add(Name, impNameLoc);
-				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock {
-						english = Name,
-						french = Name,
-						german = Name,
-						russian = Name,
-						simp_chinese = Name,
-						spanish = Name
-					});
-				}
 			}
 
 			foreach (var impTrait in ImperatorCharacter.Traits) {
