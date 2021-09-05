@@ -2,7 +2,13 @@
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class CharacterName : Parser {
-		public string Name { get; private set; } = "";
+		private string name = string.Empty;
+		private string? customName;
+		public string Name {
+			get {
+				return customName ?? name;
+			}
+		}
 
 		public CharacterName(BufferedReader reader) {
 			RegisterKeys();
@@ -10,9 +16,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("name", reader => {
-				Name = new SingleString(reader).String;
-			});
+			RegisterKeyword("name", reader => name = ParserHelpers.GetString(reader));
+			RegisterKeyword("custom_name", reader => customName = ParserHelpers.GetString(reader));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}

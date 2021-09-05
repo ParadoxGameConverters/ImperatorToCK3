@@ -11,6 +11,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		public void FieldsCanBeSet() {
 			var reader = new BufferedReader(
 				"= {" +
+				"\tcountry=69" +
 				"\tculture=\"paradoxian\"" +
 				"\treligion=\"orthodox\"" +
 				"\tfemale=yes" +
@@ -43,6 +44,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			};
 
 			Assert.Equal((ulong)42, character.ID);
+			Assert.Equal((ulong)69, character.Country.Value.Key);
 			Assert.Equal("paradoxian", character.Culture);
 			Assert.Equal("orthodox", character.Religion);
 			Assert.True(character.Female);
@@ -90,6 +92,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		public void FieldsDefaultToCorrectValues() {
 			var reader = new BufferedReader(string.Empty);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+			Assert.Null(character.Country);
 			Assert.Equal(string.Empty, character.Culture);
 			Assert.Equal(string.Empty, character.Religion);
 			Assert.False(character.Female);
