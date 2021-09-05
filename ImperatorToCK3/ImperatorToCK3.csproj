@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+	<Nullable>enable</Nullable>
+	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Release\ImperatorToCK3\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AssemblyName>ImperatorToCK3Converter</AssemblyName>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\commonItems.NET\commonItems\commonItems.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\rakaly-0.3.12-x86_64-apple-darwin\rakaly">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\rakaly-0.3.12-x86_64-pc-windows-msvc\rakaly.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\rakaly-0.3.12-x86_64-unknown-linux-musl\rakaly">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+	<ItemGroup>
+		<FronterConfigurationFiles Include="Data_Files/fronter_configuration/**/*.*" />
+	</ItemGroup>
+	<ItemGroup>
+		<Configurables Include="Data_Files/configurables/**/*.*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ConverterGlobals Include="Data_Files/converter_globals/**/*.*" />
+	</ItemGroup>
+	<ItemGroup>
+        <BlankMod Include="Data_Files/blankMod/**/*.*" />
+    </ItemGroup>
+	
+	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)/configurables" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
+	    <Copy 
+          SourceFiles="@(BlankMod)" 
+          DestinationFolder="$(OutputPath)\blankMod\%(RecursiveDir)" 
+          SkipUnchangedFiles="true"
+          OverwriteReadOnlyFiles="true" 
+          Retries="3"
+          RetryDelayMilliseconds="300"
+	    />
+	</Target>
+
+  <Target Name="Date" BeforeTargets="CoreCompile">
+    <WriteLinesToFile File="$(IntermediateOutputPath)gen.cs" Lines="static partial class Builtin { public static long CompileTime = $([System.DateTime]::UtcNow.Ticks) %3B }" Overwrite="true" />
+    <ItemGroup>
+      <Compile Include="$(IntermediateOutputPath)gen.cs" />
+    </ItemGroup>
+  </Target>
+
+</Project>

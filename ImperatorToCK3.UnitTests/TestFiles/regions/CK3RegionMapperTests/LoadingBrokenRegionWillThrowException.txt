@@ -1,0 +1,2 @@
+test_region_broken = { counties = { c_mers } }
+test_region2 = { regions = { test_region } }

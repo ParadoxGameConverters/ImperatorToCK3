@@ -5,8 +5,6 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
 
 jobs:
   test_windows:
@@ -18,14 +16,22 @@ jobs:
     - name: "Init submodules"
       run: |
        git submodule update --init --recursive
-    - name: "Build test project"
+    # install dependencies, build, and test
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.*'
+    - name: Test
       run: |
-       cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-       .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:ImperatorToCK3Tests
-    - name: "Run tests"
-      run: |
-       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3Tests\Release\
-       .\ImperatorToCK3Tests.exe
+       cd ImperatorToCK3.UnitTests
+       dotnet restore
+       dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+    - name: Publish coverage report to coveralls.io
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ImperatorToCK3.UnitTests/TestResults/coverage.info
+
 
   test_ubuntu:
     runs-on: ubuntu-latest
@@ -36,52 +42,13 @@ jobs:
     - name: "Init submodules"
       run: |
        git submodule update --init --recursive
-    - name: "Install other packages"
+    # install dependencies, build, and test
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.*'
+    - name: Test
       run: |
-       sudo apt-get install curl
-       sudo apt-get install libgtest-dev
-       sudo apt-get install lcov
-    - name: "Install GCC 11"
-      run: |
-       sudo apt-get install gcc-11 g++-11
-    - name: "Link gcc-11 and g++-11 to their standard commands"
-      run: |
-       sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
-       sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
-       sudo ln -s /usr/bin/gcov-11 /usr/local/bin/gcov
-       sudo ln -s /usr/bin/lcov /usr/local/bin/lcov
-       sudo ln -s /usr/bin/geninfo /usr/local/bin/geninfo
-    - name: "Check versions of gcc, g++ and cmake"
-      run: |
-       gcc -v && g++ -v && cmake --version
-    - name: "Check version of gcov"
-      run: |
-       gcov --version
-    - name: "Build Tests"
-      run: |
-       cd ImperatorToCK3Tests
-       export CC=/usr/bin/gcc-11
-       export CXX=/usr/bin/g++-11
-       cmake -H. -Bbuild && cmake --build build -- -j3
-    - name: "Run Tests"
-      run: |
-       cp -r ImperatorToCK3Tests/TestFiles/. ImperatorToCK3Tests/build/TestFiles/
-       ls -R ImperatorToCK3Tests/build/TestFiles
-       cat ImperatorToCK3Tests/build/TestFiles/title_history/TitlesHistory.txt
-       cp -r ImperatorToCK3/Data_Files/configurables/. ImperatorToCK3Tests/build/configurables/
-       cd ImperatorToCK3Tests/build
-       ./ImperatorToCK3Tests
-    - name: "Build gcov"
-      run: |
-       cd ImperatorToCK3Tests/build
-       export CC=/usr/bin/gcc-11
-       export CXX=/usr/bin/g++-11
-       make init
-       make gcov
-    - name: "Check test coverage"
-      run: |
-       cd ImperatorToCK3Tests/build
-       /usr/local/bin/lcov --directory . --capture --output-file coverage.info
-       /usr/local/bin/lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
-       /usr/local/bin/lcov --list coverage.info
-       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+       cd ImperatorToCK3.UnitTests
+       dotnet restore
+       dotnet test

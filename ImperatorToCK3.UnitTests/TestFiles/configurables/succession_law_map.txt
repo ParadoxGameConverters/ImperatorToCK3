@@ -1,0 +1,2 @@
+﻿link = { imp = implaw1 ck3 = ck3law1 ck3 = ck3law2 }
+link = { imp = implaw2 ck3 = ck3law3 }
