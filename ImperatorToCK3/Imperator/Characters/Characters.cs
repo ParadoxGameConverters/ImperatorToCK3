@@ -91,6 +91,26 @@ namespace ImperatorToCK3.Imperator.Characters {
 			}
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked.");
 		}
+
+		public void LinkCountries(Countries.Countries countries) {
+			var counter = 0;
+			foreach (var (characterId, character) in StoredCharacters) {
+				if (!character.Country.HasValue) {
+					Logger.Warn($"Character {characterId} has no country!");
+					continue;
+				}
+				var countryId = character.Country.Value.Key;
+				if (countries.StoredCountries.TryGetValue(countryId, out var countryToLink)) {
+					// link both ways
+					character.Country = new(countryId, countryToLink);
+					++counter;
+				} else {
+					Logger.Warn($"Country with ID {countryId} has no definition!");
+				}
+			}
+			Logger.Info($"{counter} countries linked to characters.");
+		}
+
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
 				var newCharacter = Character.Parse(reader, charIdStr, genesDB);

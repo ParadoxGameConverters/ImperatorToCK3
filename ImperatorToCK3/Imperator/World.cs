@@ -126,6 +126,8 @@ namespace ImperatorToCK3.Imperator {
 			Characters.LinkSpouses();
 			Logger.Info("Linking Characters with Mothers and Fathers");
 			Characters.LinkMothersAndFathers();
+			Logger.Info("Linking Characters with Countries");
+			Characters.LinkCountries(Countries);
 			Logger.Info("Linking Provinces with Pops");
 			Provinces.LinkPops(pops);
 			Logger.Info("Linking Provinces with Countries");

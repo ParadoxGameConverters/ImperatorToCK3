@@ -182,6 +182,41 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		}
 
 		[Fact]
+		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
+			var countryReader = new BufferedReader("tag = RAN");
+			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
+			var ck3Title = new ImperatorToCK3.CK3.Titles.Title("d_rankless");
+			country.CK3Title = ck3Title;
+
+			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
+				Culture = "greek",
+				Country = new(69, country)
+			};
+			var imperatorCharacter2 = new ImperatorToCK3.Imperator.Characters.Character(2) {
+				Culture = "greek"
+			};
+
+			var mapReader = new BufferedReader(
+				"link = { imp=greek ck3=macedonian owner=d_rankless }" +
+				"link = { imp=greek ck3=greek }"
+			);
+			var cultureMapper = new CultureMapper(mapReader);
+			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+
+			var character1 = new CK3CharacterBuilder()
+				.WithImperatorCharacter(imperatorCharacter1)
+				.WithCultureMapper(cultureMapper)
+				.Build();
+			var character2 = new CK3CharacterBuilder()
+				.WithImperatorCharacter(imperatorCharacter2)
+				.WithCultureMapper(cultureMapper)
+				.Build();
+
+			Assert.Equal("macedonian", character1.Culture);
+			Assert.Equal("greek", character2.Culture);
+		}
+
+		[Fact]
 		public void NicknameCanBeInitializedFromImperator() {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Nickname = "the_goose"
