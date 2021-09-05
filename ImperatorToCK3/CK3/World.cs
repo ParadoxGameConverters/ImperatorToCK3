@@ -348,24 +348,10 @@ namespace ImperatorToCK3.CK3 {
 				}
 			}
 			if (removedGeneratedTitles.Count > 0) {
-				var sb = new StringBuilder();
-				sb.Append("Found landless generated titles that can't be landless:");
-				foreach (var name in removedGeneratedTitles) {
-					sb.Append(' ');
-					sb.Append(name);
-					sb.Append(',');
-				}
-				Logger.Debug(sb.ToString()[0..^1]); // remove last comma
+				Logger.Debug("Found landless generated titles that can't be landless: " + string.Join(", ", removedGeneratedTitles));
 			}
 			if (revokedVanillaTitles.Count > 0) {
-				var sb = new StringBuilder();
-				sb.Append("Found landless vanilla titles that can't be landless: ");
-				foreach (var name in revokedVanillaTitles) {
-					sb.Append(' ');
-					sb.Append(name);
-					sb.Append(',');
-				}
-				Logger.Debug(sb.ToString()[0..^1]); // remove last comma
+				Logger.Debug("Found landless vanilla titles that can't be landless: " + string.Join(", ", revokedVanillaTitles));
 			}
 		}
 
