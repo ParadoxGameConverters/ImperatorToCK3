@@ -38,7 +38,7 @@ namespace ImperatorToCK3.Mappers.Localization {
                     ScrapeLanguage("spanish", Path.Combine(mod.Path, "localization", "replace"));
                 }
             }
-            Logger.Info(localizations.Count.ToString() + "localization lines read.");
+            Logger.Info($"{localizations.Count} localization lines read.");
         }
         private void ScrapeLanguage(string language, string path) {
             var languagePath = Path.Combine(path, language);

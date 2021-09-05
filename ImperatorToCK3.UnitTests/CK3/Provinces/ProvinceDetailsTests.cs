@@ -3,6 +3,8 @@ using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvinceDetailsTests {
 		[Fact] public void FieldsDefaultToCorrectValues() {
 			var details = new ProvinceDetails();
