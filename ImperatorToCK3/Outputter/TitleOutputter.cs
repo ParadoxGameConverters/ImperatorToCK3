@@ -8,12 +8,12 @@ namespace ImperatorToCK3.Outputter {
 			writer.WriteLine(title.Name + " = {");
 
 			if (title.Color1 is not null) {
-				writer.WriteLine("\tcolor " + title.Color1.OutputRgb());
+				writer.WriteLine("\tcolor " + title.Color1.Output());
 			} else {
 				Logger.Warn($"Title {title.Name} has no color.");
 			}
 			if (title.Color2 is not null) {
-				writer.WriteLine("\tcolor2 " + title.Color2.OutputRgb());
+				writer.WriteLine("\tcolor2 " + title.Color2.Output());
 			} else {
 				Logger.Warn($"Title {title.Name} has no color2.");
 			}

@@ -30,7 +30,10 @@ namespace ImperatorToCK3.CK3.Provinces {
 				var targetProvID = ulong.Parse(provIdString);
 				var baseProvID = ParserHelpers.GetULong(reader);
 				if (targetProvID != baseProvID) { // if left and right IDs are equal, no point in mapping
-					Mappings.Add(targetProvID, baseProvID);
+					if (Mappings.ContainsKey(targetProvID)) {
+						Logger.Warn($"Duplicate province mapping for {targetProvID}, overwriting!");
+					}
+					Mappings[targetProvID] = baseProvID;
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

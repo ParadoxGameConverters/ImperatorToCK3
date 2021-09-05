@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 using ImperatorToCK3.CK3.Dynasties;
-using commonItems;
+using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class DynastiesOutputter {
@@ -15,8 +15,9 @@ namespace ImperatorToCK3.Outputter {
 
 		public static void OutputDynasties(string outputModName, Dictionary<string, Dynasty> dynasties) {
 			var outputPath = Path.Combine("output", outputModName, "common/dynasties/imp_dynasties.txt");
-			using var output = new StreamWriter(outputPath); // dumping all into one file
-			output.Write(CommonFunctions.UTF8BOM);
+
+			using FileStream stream = File.OpenWrite(outputPath);
+			using var output = new StreamWriter(stream, encoding: Encoding.UTF8); // dumping all into one file
 			foreach (var dynasty in dynasties.Values) {
 				OutputDynasty(output, dynasty);
 			}
