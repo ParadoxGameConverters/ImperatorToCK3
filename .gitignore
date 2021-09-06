@@ -2,7 +2,6 @@
 *.d
 
 # Executables
-*.exe
 *.out
 *.app
 
@@ -20,5 +19,8 @@ ReleaseIntermediate/
 Release-Linux/
 Debug/
 DebugIntermediate/
+ImperatorToCK3.UnitTests/obj/
+ImperatorToCK3/obj/
+
 
 log.txt

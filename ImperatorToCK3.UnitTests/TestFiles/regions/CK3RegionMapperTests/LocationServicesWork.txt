@@ -1,0 +1,3 @@
+test_region = { duchies = { d_aquitane } }
+test_region_bigger = { regions = { test_region } }
+test_region_biggest = { regions = { test_region_bigger } }

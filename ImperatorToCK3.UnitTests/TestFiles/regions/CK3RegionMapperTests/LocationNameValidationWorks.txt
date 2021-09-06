@@ -1,0 +1,3 @@
+test_region = { duchies = { d_wakaba } }
+test_region2 = { duchies = { d_hujhu } }
+test_region3 = { regions = { test_region test_region2 } counties = { c_county } }
