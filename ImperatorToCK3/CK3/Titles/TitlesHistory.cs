@@ -5,10 +5,10 @@ using ImperatorToCK3.CommonUtils;
 namespace ImperatorToCK3.CK3.Titles {
 	public class TitlesHistory : Parser {
 		public TitlesHistory() { }
-		public TitlesHistory(string folderPath) {
+		public TitlesHistory(string folderPath, Date ck3BookmarkDate) {
 			var filenames = SystemUtils.GetAllFilesInFolderRecursive(folderPath);
 			Logger.Info("Parsing title history.");
-			RegisterKeys();
+			RegisterKeys(ck3BookmarkDate);
 			foreach (var filename in filenames) {
 				ParseFile(System.IO.Path.Combine(folderPath, filename));
 			}
@@ -23,7 +23,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			return null;
 		}
 
-		private void RegisterKeys() {
+		private void RegisterKeys(Date ck3BookmarkDate) {
 			RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleName) => {
 				var historyItem = new StringOfItem(reader).String;
 				if (historyItem.IndexOf('{') != -1) {
@@ -32,7 +32,7 @@ namespace ImperatorToCK3.CK3.Titles {
 						existingHistory.Update(historyFactory, tempReader);
 					} else {
 						var history = historyFactory.GetHistory(tempReader);
-						historyDict.Add(titleName, new TitleHistory(history));
+						historyDict.Add(titleName, new TitleHistory(history, ck3BookmarkDate));
 					}
 				}
 			});

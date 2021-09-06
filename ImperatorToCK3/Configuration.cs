@@ -13,6 +13,7 @@ namespace ImperatorToCK3 {
 		public string OutputModName { get; internal set; } = "";
 		public IMPERATOR_DE_JURE ImperatorDeJure { get; internal set; } = IMPERATOR_DE_JURE.NO;
 		public bool ConvertBirthAndDeathDates { get; internal set; } = true;
+		public Date Ck3BookmarkDate { get; private set; } = new(867, 1, 1);
 
 		public Configuration(ConverterVersion converterVersion) {
 			Logger.Info("Reading configuration file");
@@ -26,7 +27,7 @@ namespace ImperatorToCK3 {
 			VerifyCK3Version(converterVersion);
 		}
 
-		void RegisterKeys() {
+		private void RegisterKeys() {
 			RegisterKeyword("SaveGame", (sr) => {
 				SaveGamePath = new SingleString(sr).String;
 				Logger.Info("Save game set to: " + SaveGamePath);
@@ -58,12 +59,15 @@ namespace ImperatorToCK3 {
 			});
 			RegisterKeyword("ConvertCharacterBirthAndDeathDates", (sr) => {
 				var valStr = new SingleString(sr).String;
-				if (valStr == "true") {
-					ConvertBirthAndDeathDates = true;
-				} else {
-					ConvertBirthAndDeathDates = false;
-				}
+				ConvertBirthAndDeathDates = valStr == "true";
 				Logger.Info("Conversion of characters' birth and death dates set to: " + ConvertBirthAndDeathDates);
+			});
+
+			RegisterKeyword("bookmark_date", reader => {
+				var dateStr = ParserHelpers.GetString(reader);
+				Logger.Info($"Entered CK3 bookmark date: {dateStr}");
+				Ck3BookmarkDate = new Date(dateStr);
+				Logger.Info($"CK3 bookmark date set to: {Ck3BookmarkDate}");
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
@@ -113,12 +117,12 @@ namespace ImperatorToCK3 {
 			if (converterVersion.MinSource > ImpVersion) {
 				Logger.Error($"Imperator version is v{ImpVersion.ToShortString()}," +
 					$" converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
-				throw new ArgumentOutOfRangeException("Converter vs Imperator installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(ImpVersion), "Converter vs Imperator installation mismatch!");
 			}
 			if (!converterVersion.MaxSource.IsLargerishThan(ImpVersion)) {
 				Logger.Error($"Imperator version is v{ImpVersion.ToShortString()}, converter requires maximum v" +
 						 $"{converterVersion.MaxSource.ToShortString()}!");
-				throw new ArgumentOutOfRangeException("Converter vs Imperator installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(ImpVersion), "Converter vs Imperator installation mismatch!");
 			}
 		}
 
@@ -135,12 +139,12 @@ namespace ImperatorToCK3 {
 			if (converterVersion.MinTarget > CK3Version) {
 				Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires minimum v" +
 						 $"{converterVersion.MinTarget.ToShortString()}!");
-				throw new ArgumentOutOfRangeException("Converter vs CK3 installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(CK3Version), "Converter vs CK3 installation mismatch!");
 			}
 			if (!converterVersion.MaxTarget.IsLargerishThan(CK3Version)) {
 				Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires maximum v" +
 						 $"{converterVersion.MaxTarget.ToShortString()} !");
-				throw new ArgumentOutOfRangeException("Converter vs CK3 installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(CK3Version), "Converter vs CK3 installation mismatch!");
 			}
 		}
 	}

@@ -6,10 +6,10 @@ using ImperatorToCK3.Mappers.Religion;
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Province {
 		public Province() { }
-		public Province(ulong id, BufferedReader reader) {
+		public Province(ulong id, BufferedReader reader, Date ck3BookmarkDate) {
 			// Load from a country file, if one exists. Otherwise rely on defaults.
 			ID = id;
-			details = new ProvinceDetails(reader);
+			details = new ProvinceDetails(reader, ck3BookmarkDate);
 		}
 		public Province(ulong id, Province otherProvince) {
 			ID = id;

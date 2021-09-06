@@ -4,7 +4,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CharacterOutputter {
-		public static void OutputCharacter(StreamWriter output, Character character) {
+		public static void OutputCharacter(StreamWriter output, Character character, Date ck3BookmarkDate) {
 			// output ID, name, sex, culture, religion
 			output.WriteLine($"{character.ID} = {{");
 			if (!string.IsNullOrEmpty(character.Name)) {
@@ -34,12 +34,12 @@ namespace ImperatorToCK3.Outputter {
 			// output spouse
 			// TODO: output add_spouse with earlier date if the pair has a born or unborn child
 			foreach (var spouseID in character.Spouses.Keys) {
-				output.WriteLine($"\t867.1.1 = {{ add_spouse = {spouseID} }}");
+				output.WriteLine($"\t{ck3BookmarkDate} = {{ add_spouse = {spouseID} }}");
 			}
 
 			// output nickname
 			if (character.Nickname is not null) {
-				var nicknameDate = new Date(867, 1, 1);
+				var nicknameDate = ck3BookmarkDate;
 				if (character.DeathDate is not null) {
 					nicknameDate = character.DeathDate;
 				}

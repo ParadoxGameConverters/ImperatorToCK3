@@ -1,5 +1,6 @@
 ﻿using ImperatorToCK3.CK3.Titles;
 using Xunit;
+using commonItems;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	public class TitleHistoryTests {
@@ -33,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HistoryCanBeLoadedFromStream() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history");
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867,1,1));
 			var history = titlesHistory.PopTitleHistory("k_rome");
 
 			Assert.Equal("67", history.Holder);
@@ -42,7 +43,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HistoryIsLoadedFromDatedBlocks() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history");
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
 			var history = titlesHistory.PopTitleHistory("k_greece");
 
 			Assert.Equal("420", history.Holder);

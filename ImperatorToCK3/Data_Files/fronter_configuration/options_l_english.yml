@@ -13,8 +13,12 @@ l_english:
  CONVERTCHARACTERBIRTHANDDEATHDATES_1: "Birth date"
  CONVERTCHARACTERBIRTHANDDEATHDATES_1_TIP: "Recommended when you're converting without a big time gap."
  CONVERTCHARACTERBIRTHANDDEATHDATES_2: "Age"
- CONVERTCHARACTERBIRTHANDDEATHDATES_2_TIP: "Recommended when you're converting much earlier than 867 AD."
+ CONVERTCHARACTERBIRTHANDDEATHDATES_2_TIP: "Recommended when you're converting much earlier than the CK3 bookmark date."
 
  MODNAME: "Mod Output Name (optional):"
- MODNAMETIP: "Please, stick to Latin letters"
- MODNAMETIP2: "Optional name for the converted mod (default name is the one of the savegame)"
+ MODNAMETIP: "Please, stick to Latin letters."
+ MODNAMETIP2: "Optional name for the converted mod (default name is the one of the savegame)."
+
+ BOOKMARKDATE: "CK3 bookmark date"
+ BOOKMARKDATETIP: "Date of the generated CK3 bookmark, can not be earlier than the Imperator save date"
+ BOOKMARKDATETIP2: "year.month.day format"

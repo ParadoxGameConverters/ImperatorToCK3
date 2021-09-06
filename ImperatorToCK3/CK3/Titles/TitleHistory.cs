@@ -4,19 +4,18 @@ using ImperatorToCK3.CommonUtils;
 namespace ImperatorToCK3.CK3.Titles {
 	public class TitleHistory {
 		public TitleHistory() { }
-		public TitleHistory(History history) {
+		public TitleHistory(History history, Date ck3BookmarkDate) {
 			this.history = history;
-			var date = new Date(867, 1, 1);
-			var holderFromHistory = history.GetSimpleFieldValue("holder", date);
+			var holderFromHistory = history.GetSimpleFieldValue("holder", ck3BookmarkDate);
 			if (holderFromHistory is null) {
 				Logger.Warn("TitleHistory: holder should not be null!");
 			} else {
 				Holder = holderFromHistory;
 			}
-			Liege = history.GetSimpleFieldValue("liege", date);
-			Government = history.GetSimpleFieldValue("government", date);
+			Liege = history.GetSimpleFieldValue("liege", ck3BookmarkDate);
+			Government = history.GetSimpleFieldValue("government", ck3BookmarkDate);
 
-			var developmentLevelOpt = history.GetSimpleFieldValue("development_level", date);
+			var developmentLevelOpt = history.GetSimpleFieldValue("development_level", ck3BookmarkDate);
 			if (developmentLevelOpt is not null) {
 				DevelopmentLevel = int.Parse(developmentLevelOpt);
 			}

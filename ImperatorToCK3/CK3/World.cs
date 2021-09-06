@@ -43,7 +43,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Load vanilla titles history
 			var titlesHistoryPath = Path.Combine(theConfiguration.Ck3Path, "game/history/titles");
-			titlesHistory = new TitlesHistory(titlesHistoryPath);
+			titlesHistory = new TitlesHistory(titlesHistoryPath, theConfiguration.Ck3BookmarkDate);
 
 			// Loading vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
@@ -61,12 +61,17 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			ImportVanillaProvinces(theConfiguration.Ck3Path);
+			ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			ImportImperatorProvinces(impWorld);
 
-			ImportImperatorCharacters(impWorld, theConfiguration.ConvertBirthAndDeathDates, impWorld.EndDate);
+			ImportImperatorCharacters(
+				impWorld,
+				theConfiguration.ConvertBirthAndDeathDates,
+				impWorld.EndDate,
+				theConfiguration.Ck3BookmarkDate
+			);
 			LinkSpouses();
 			LinkMothersAndFathers();
 
@@ -77,11 +82,11 @@ namespace ImperatorToCK3.CK3 {
 
 			PurgeLandlessVanillaCharacters();
 		}
-		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates, Date endDate) {
+		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates, Date endDate, Date ck3BookmarkDate) {
 			Logger.Info("Importing Imperator Characters.");
 
 			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
-				ImportImperatorCharacter(character, convertBirthAndDeathDates, endDate);
+				ImportImperatorCharacter(character, convertBirthAndDeathDates, endDate, ck3BookmarkDate);
 			}
 			Logger.Info($"{Characters.Count} total characters recognized.");
 		}
@@ -89,7 +94,8 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorCharacter(
 			Imperator.Characters.Character character,
 			bool convertBirthAndDeathDates,
-			Date endDate
+			Date endDate,
+			Date ck3BookmarkDate
 		) {
 			// Create a new CK3 character
 			var newCharacter = new Character();
@@ -102,7 +108,8 @@ namespace ImperatorToCK3.CK3 {
 				provinceMapper,
 				deathReasonMapper,
 				convertBirthAndDeathDates,
-				endDate
+				endDate,
+				ck3BookmarkDate
 			);
 			character.CK3Character = newCharacter;
 			Characters.Add(newCharacter.ID, newCharacter);
@@ -148,7 +155,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void ImportVanillaProvinces(string ck3Path) {
+		private void ImportVanillaProvinces(string ck3Path, Date ck3BookmarkDate) {
 			Logger.Info("Importing Vanilla Provinces.");
 			// ---- Loading history/provinces
 			var path = Path.Combine(ck3Path, "game/history/provinces");
@@ -158,7 +165,7 @@ namespace ImperatorToCK3.CK3 {
 					continue;
 				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
 				try {
-					var newProvinces = new Provinces.Provinces(provincesPath);
+					var newProvinces = new Provinces.Provinces(provincesPath, ck3BookmarkDate);
 					foreach (var (newProvinceID, newProvince) in newProvinces.StoredProvinces) {
 						if (Provinces.ContainsKey(newProvinceID)) {
 							Logger.Warn($"Vanilla province duplication - {newProvinceID} already loaded! Overwriting.");
