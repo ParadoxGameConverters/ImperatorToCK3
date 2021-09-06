@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using commonItems;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class RulerTerm {
 		public ulong? CharacterId { get; private set; }
-		public Date? StartDate { get; private set; }
+		public Date StartDate { get; private set; } = new();
 		public string? Government { get; private set; }
 
 		public static RulerTerm Parse(BufferedReader reader) {
@@ -17,7 +13,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			return parsedTerm;
 		}
 
-		private static readonly HashSet<string> IgnoredTokens= new();
+		public static readonly HashSet<string> IgnoredTokens = new();
 		private static readonly Parser parser = new();
 		private static RulerTerm parsedTerm = new();
 		static RulerTerm() {

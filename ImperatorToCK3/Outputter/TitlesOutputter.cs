@@ -6,43 +6,6 @@ using ImperatorToCK3.Imperator.Countries;
 
 namespace ImperatorToCK3.Outputter {
 	public static class TitlesOutputter {
-		public static void OutputTitleHistory(Title title, StreamWriter writer) {
-			writer.WriteLine(title.Name + " = {");
-
-			writer.WriteLine("\t867.1.1 = {");
-
-			var deFactoLiege = title.DeFactoLiege;
-			if (deFactoLiege is not null) {
-				writer.WriteLine("\t\tliege = " + deFactoLiege.Name);
-			}
-
-			writer.WriteLine("\t\tholder = " + title.HolderID);
-
-			if (title.Government is not null) {
-				writer.WriteLine("\t\tgovernment = " + title.Government);
-			}
-
-			var succLaws = title.SuccessionLaws;
-			if (succLaws.Count > 0) {
-				writer.WriteLine("\t\tsuccession_laws = {");
-				foreach (var law in succLaws) {
-					writer.WriteLine("\t\t\t" + law);
-				}
-				writer.WriteLine("\t\t}");
-			}
-
-			if (title.Rank != TitleRank.barony) {
-				var developmentLevelOpt = title.DevelopmentLevel;
-				if (developmentLevelOpt is not null) {
-					writer.WriteLine("\t\tchange_development_level = " + developmentLevelOpt);
-				}
-			}
-
-			writer.WriteLine("\t}");
-
-			writer.WriteLine("}");
-		}
-
 		public static void OutputTitlesHistory(string outputModName, Dictionary<string, Title> titles) {
 			//output title history
 			var alreadyOutputtedTitles = new HashSet<string>();
@@ -50,12 +13,12 @@ namespace ImperatorToCK3.Outputter {
 				if (title.Rank == TitleRank.kingdom && title.DeJureVassals.Count > 0) { // is a de jure kingdom
 					var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", name + ".txt");
 					using var historyOutput = new StreamWriter(historyOutputPath);                      // output the kingdom's history
-					OutputTitleHistory(title, historyOutput);
+					title.OutputHistory(historyOutput);
 					alreadyOutputtedTitles.Add(name);
 
 					// output the kingdom's de jure vassals' history
 					foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
-						OutputTitleHistory(deJureVassal, historyOutput);
+						deJureVassal.OutputHistory(historyOutput);
 						alreadyOutputtedTitles.Add(deJureVassalName);
 					}
 				}
@@ -65,7 +28,7 @@ namespace ImperatorToCK3.Outputter {
 			using (var historyOutput = new StreamWriter(otherTitlesPath)) {
 				foreach (var (name, title) in titles) { // output the remaining titles
 					if (!alreadyOutputtedTitles.Contains(name)) {
-						OutputTitleHistory(title, historyOutput);
+						title.OutputHistory(historyOutput);
 						alreadyOutputtedTitles.Add(name);
 					}
 				}

@@ -5,24 +5,24 @@ namespace ImperatorToCK3.CK3.Titles {
 	public class TitleHistory {
 		public TitleHistory() { }
 		public TitleHistory(History history) {
-			this.history = history;
+			this.History = history;
 			var date = new Date(867, 1, 1);
-			var holderFromHistory = history.GetSimpleFieldValue("holder", date);
+			var holderFromHistory = History.GetSimpleFieldValue("holder", date);
 			if (holderFromHistory is null) {
 				Logger.Warn("TitleHistory: holder should not be null!");
 			} else {
 				Holder = holderFromHistory;
 			}
-			Liege = history.GetSimpleFieldValue("liege", date);
-			Government = history.GetSimpleFieldValue("government", date);
+			Liege = History.GetSimpleFieldValue("liege", date);
+			Government = History.GetSimpleFieldValue("government", date);
 
-			var developmentLevelOpt = history.GetSimpleFieldValue("development_level", date);
+			var developmentLevelOpt = History.GetSimpleFieldValue("development_level", date);
 			if (developmentLevelOpt is not null) {
 				DevelopmentLevel = int.Parse(developmentLevelOpt);
 			}
 		}
 		public void Update(HistoryFactory historyFactory, BufferedReader reader) {
-			historyFactory.UpdateHistory(history, reader);
+			historyFactory.UpdateHistory(History, reader);
 		}
 
 		// These values are open to ease management.
@@ -32,6 +32,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public string? Government { get; set; }
 		public int? DevelopmentLevel { get; set; }
 
-		private readonly History history = new();
+		public History History { get; } = new();
 	}
 }
