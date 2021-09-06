@@ -19,6 +19,6 @@ l_english:
  MODNAMETIP: "Please, stick to Latin letters."
  MODNAMETIP2: "Optional name for the converted mod (default name is the one of the savegame)."
 
- BOOKMARKDATE: "CK3 bookmark date"
- BOOKMARKDATETIP: "Date of the generated CK3 bookmark, can not be earlier than the Imperator save date"
+ BOOKMARKDATE: "CK3 bookmark date (AD)"
+ BOOKMARKDATETIP: "Anno Domini date of the generated CK3 bookmark, can not be earlier than the Anno Domini Imperator save date"
  BOOKMARKDATETIP2: "year.month.day format"

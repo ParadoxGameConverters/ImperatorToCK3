@@ -18,6 +18,3 @@ l_english:
  IMPFILETIP: "Path to ImperatorToCK3Converter.exe"
  IMPSAVE: "Path to the Imperator: Rome savegame"
  IMPSAVETIP: "Path to your savegame from Imperator: Rome"
-
- BOOKMARKDATE: "CK3 bookmark date"
- BOOKMARKDATETIP: "Date of the generated CK3 bookmark, can not be earlier than the Imperator save date"
