@@ -8,6 +8,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 	public partial class Country {
 		public ulong ID { get; } = 0;
 		public ulong? Monarch { get; private set; }  // >=0 are valid
+		public List<RulerTerm> RulerTerms { get; private set; } = new();
 		public string Tag { get; private set; } = "";
 		public string Name => CountryName.Name;
 		public CountryName CountryName { get; private set; } = new();
