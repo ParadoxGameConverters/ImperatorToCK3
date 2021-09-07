@@ -1,4 +1,5 @@
 ﻿using ImperatorToCK3.CK3.Provinces;
+using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
@@ -14,11 +15,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 		[Fact]
 		public void MappingsCanBeLoadedFromFile() {
 			var provinceMappings = new ProvinceMappings(testFilePath);
-			var province1 = new Province(id: 1, new commonItems.BufferedReader(string.Empty));
 			Assert.Collection(provinceMappings.Mappings,
 				mapping1 => { Assert.Equal((ulong)3, mapping1.Key); Assert.Equal((ulong)1, mapping1.Value); },
-				mapping1 => { Assert.Equal((ulong)4, mapping1.Key); Assert.Equal((ulong)1, mapping1.Value); },
-				mapping1 => { Assert.Equal((ulong)5, mapping1.Key); Assert.Equal((ulong)4, mapping1.Value); }
+				mapping2 => { Assert.Equal((ulong)4, mapping2.Key); Assert.Equal((ulong)1, mapping2.Value); },
+				mapping3 => { Assert.Equal((ulong)5, mapping3.Key); Assert.Equal((ulong)4, mapping3.Value); }
 			);
 		}
 	}

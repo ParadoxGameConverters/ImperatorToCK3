@@ -6,10 +6,10 @@ using ImperatorToCK3.Imperator.Countries;
 
 namespace ImperatorToCK3.Outputter {
 	public static class TitlesOutputter {
-		public static void OutputTitleHistory(Title title, StreamWriter writer) {
+		public static void OutputTitleHistory(Title title, StreamWriter writer, Date ck3BookmarkDate) {
 			writer.WriteLine(title.Name + " = {");
 
-			writer.WriteLine("\t867.1.1 = {");
+			writer.WriteLine($"\t{ck3BookmarkDate} = {{");
 
 			var deFactoLiege = title.DeFactoLiege;
 			if (deFactoLiege is not null) {
@@ -43,19 +43,19 @@ namespace ImperatorToCK3.Outputter {
 			writer.WriteLine("}");
 		}
 
-		public static void OutputTitlesHistory(string outputModName, Dictionary<string, Title> titles) {
+		public static void OutputTitlesHistory(string outputModName, Dictionary<string, Title> titles, Date ck3BookmarkDate) {
 			//output title history
 			var alreadyOutputtedTitles = new HashSet<string>();
 			foreach (var (name, title) in titles) { // first output kindoms + their de jure vassals to files named after the kingdoms
 				if (title.Rank == TitleRank.kingdom && title.DeJureVassals.Count > 0) { // is a de jure kingdom
 					var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", name + ".txt");
 					using var historyOutput = new StreamWriter(historyOutputPath);                      // output the kingdom's history
-					OutputTitleHistory(title, historyOutput);
+					OutputTitleHistory(title, historyOutput, ck3BookmarkDate);
 					alreadyOutputtedTitles.Add(name);
 
 					// output the kingdom's de jure vassals' history
 					foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
-						OutputTitleHistory(deJureVassal, historyOutput);
+						OutputTitleHistory(deJureVassal, historyOutput, ck3BookmarkDate);
 						alreadyOutputtedTitles.Add(deJureVassalName);
 					}
 				}
@@ -65,14 +65,14 @@ namespace ImperatorToCK3.Outputter {
 			using (var historyOutput = new StreamWriter(otherTitlesPath)) {
 				foreach (var (name, title) in titles) { // output the remaining titles
 					if (!alreadyOutputtedTitles.Contains(name)) {
-						OutputTitleHistory(title, historyOutput);
+						OutputTitleHistory(title, historyOutput, ck3BookmarkDate);
 						alreadyOutputtedTitles.Add(name);
 					}
 				}
 			}
 		}
 
-		public static void OutputTitles(string outputModName, string ck3Path, Dictionary<string, Title> titles, IMPERATOR_DE_JURE deJure) {
+		public static void OutputTitles(string outputModName, string ck3Path, Dictionary<string, Title> titles, IMPERATOR_DE_JURE deJure, Date ck3BookmarkDate) {
 			//output to landed_titles folder
 			foreach (var (name, title) in titles) {
 				var impCountry = title.ImperatorCountry;
@@ -93,7 +93,7 @@ namespace ImperatorToCK3.Outputter {
 				}
 			}
 
-			OutputTitlesHistory(outputModName, titles);
+			OutputTitlesHistory(outputModName, titles, ck3BookmarkDate);
 		}
 	}
 }

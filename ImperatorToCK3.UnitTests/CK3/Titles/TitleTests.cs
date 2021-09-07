@@ -87,7 +87,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HistoryCanBeAdded() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history");
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867,1,1));
 			var history = titlesHistory.PopTitleHistory("k_greece");
 			var title = new Title();
 			title.AddHistory(new LandedTitles(), history);
