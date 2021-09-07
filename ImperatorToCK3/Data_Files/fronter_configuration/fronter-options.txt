@@ -52,3 +52,14 @@ option = {
 		tooltip = MODNAMETIP2
 	}
 }
+
+option = {
+	name = bookmark_date
+	displayName = BOOKMARKDATE
+	tooltip = BOOKMARKDATETIP
+	textSelector = {	
+		value = "867.1.1"
+		editable = true
+		tooltip = BOOKMARKDATETIP2
+	}
+}

@@ -37,7 +37,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 					localizationMapper,
 					provinceMapper,
 					deathReasonMapper,
-					convertBirthAndDeathDates
+					convertBirthAndDeathDates,
+					new Date(867, 1, 1),
+					new Date(867, 1, 1)
 				);
 				return character;
 			}
