@@ -416,7 +416,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		public void OutputHistory(StreamWriter writer) {
+		public void OutputHistory(StreamWriter writer, Date ck3BookmarkDate) {
 			writer.WriteLine(Name + " = {");
 
 			if (history.History.SimpleFields.ContainsKey("holder")) {
@@ -430,7 +430,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 
-			writer.WriteLine("\t867.1.1 = {");
+			writer.WriteLine($"\t{ck3BookmarkDate} = {{");
 
 			var deFactoLiege = DeFactoLiege;
 			if (deFactoLiege is not null) {
