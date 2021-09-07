@@ -25,7 +25,7 @@ namespace ImperatorToCK3.Outputter {
 			CreateFolders(outputName);
 
 			Logger.Info("Writing Characters.");
-			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters);
+			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, theConfiguration.Ck3BookmarkDate);
 
 			Logger.Info("Writing Dynasties.");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
@@ -34,23 +34,42 @@ namespace ImperatorToCK3.Outputter {
 			ProvincesOutputter.OutputProvinces(outputName, ck3World.Provinces, ck3World.LandedTitles);
 
 			Logger.Info("Writing Landed Titles.");
-			TitlesOutputter.OutputTitles(outputName, theConfiguration.Ck3Path, ck3World.LandedTitles, theConfiguration.ImperatorDeJure);
+			TitlesOutputter.OutputTitles(
+				outputName,
+				theConfiguration.Ck3Path,
+				ck3World.LandedTitles,
+				theConfiguration.ImperatorDeJure,
+				theConfiguration.Ck3BookmarkDate
+			);
 
 			Logger.Info("Writing Localization.");
-			LocalizationOutputter.OutputLocalization(theConfiguration.ImperatorPath, outputName, ck3World, theConfiguration.ImperatorDeJure);
+			LocalizationOutputter.OutputLocalization(
+				theConfiguration.ImperatorPath,
+				outputName,
+				ck3World,
+				theConfiguration.ImperatorDeJure
+			);
+
+			var outputPath = "output/" + theConfiguration.OutputModName;
 
 			Logger.Info("Copying named colors.");
 			SystemUtils.TryCopyFile(theConfiguration.ImperatorPath + "/game/common/named_colors/default_colors.txt",
-									 "output/" + theConfiguration.OutputModName + "/common/named_colors/imp_colors.txt");
+									 outputPath + "/common/named_colors/imp_colors.txt");
 
 			Logger.Info("Copying Coats of Arms.");
 			ColoredEmblemsOutputter.CopyColoredEmblems(theConfiguration, outputName);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
 			SystemUtils.TryCopyFolder(theConfiguration.ImperatorPath + "/game/gfx/coat_of_arms/patterns",
-							"output/" + theConfiguration.OutputModName + "/gfx/coat_of_arms/patterns");
+							outputPath + "/gfx/coat_of_arms/patterns");
 
 			Logger.Info("Copying blankMod files to output.");
-			SystemUtils.TryCopyFolder("blankMod/output", "output/" + theConfiguration.OutputModName);
+			SystemUtils.TryCopyFolder("blankMod/output", outputPath);
+
+			Logger.Info("Setting bookmark date.");
+			var bookmarkPath = Path.Combine(outputPath, "common/bookmarks/00_bookmarks.txt");
+			string text = File.ReadAllText(bookmarkPath);
+			text = text.Replace("867.1.1", theConfiguration.Ck3BookmarkDate.ToString());
+			File.WriteAllText(bookmarkPath, text);
 		}
 
 		private static void OutputModFile(string outputName) {

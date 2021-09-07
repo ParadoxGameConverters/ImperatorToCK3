@@ -37,22 +37,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			LocalizationMapper localizationMapper,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
-			bool ConvertBirthAndDeathDates = true
-		) {
-			var dateOnConversion = new Date(867, 1, 1);
-			InitializeFromImperator(impCharacter, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, deathReasonMapper, ConvertBirthAndDeathDates, dateOnConversion);
-		}
-		public void InitializeFromImperator(
-			Imperator.Characters.Character impCharacter,
-			ReligionMapper religionMapper,
-			CultureMapper cultureMapper,
-			TraitMapper traitMapper,
-			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
-			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
-			DeathReasonMapper deathReasonMapper,
 			bool convertBirthAndDeathDates,
-			Date dateOnConversion
+			Date dateOnConversion,
+			Date ck3BookmarkDate
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
@@ -160,8 +147,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
 			if (!convertBirthAndDeathDates) {  // if option to convert character age is chosen
-				BirthDate.AddYears((int)new Date(867, 1, 1).DiffInYears(dateOnConversion));
-				DeathDate?.AddYears((int)new Date(867, 1, 1).DiffInYears(dateOnConversion));
+				BirthDate.AddYears((int)ck3BookmarkDate.DiffInYears(dateOnConversion));
+				DeathDate?.AddYears((int)ck3BookmarkDate.DiffInYears(dateOnConversion));
 			}
 		}
 

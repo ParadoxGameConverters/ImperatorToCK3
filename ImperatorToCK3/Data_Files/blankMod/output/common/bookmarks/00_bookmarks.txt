@@ -1,11 +1,5 @@
-﻿bm_867_converted = {
+﻿bm_converted = {
 	start_date = 867.1.1
-	is_playable = yes
-	recommended = yes
-}
-
-bm_150_ad = {
-	start_date = 150.1.1
 	is_playable = yes
 	recommended = yes
 }
