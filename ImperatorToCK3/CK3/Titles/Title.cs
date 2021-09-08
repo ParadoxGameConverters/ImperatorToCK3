@@ -63,13 +63,20 @@ namespace ImperatorToCK3.CK3.Titles {
 			SetRank();
 
 			// ------------------ determine previous and current holders
+			var firstPossibleDate = new Date(0, 1, 1); // there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
+
 			foreach(var impRulerTerm in ImperatorCountry.RulerTerms) {
 				var rulerTerm = new RulerTerm(impRulerTerm, governmentMapper);
 				var characterId = rulerTerm.CharacterId;
 				var gov = rulerTerm.Government;
 				var startDate = rulerTerm.StartDate;
-				if (startDate < new Date(1, 1, 1)) {
-					startDate = new Date(1, 1, 1); // TODO: remove this workaround when CK3 supports negative dates
+				if (startDate < firstPossibleDate) {
+					startDate = firstPossibleDate; // TODO: remove this workaround when CK3 supports negative dates
+					if (firstPossibleDate.Day < 28) { // this only works if you have less ruler than there are days in a month, TODO: use ChangeByDays(1) when commonItems PR is merged
+						firstPossibleDate = new(firstPossibleDate.Year, firstPossibleDate.Month, firstPossibleDate.Day + 1);
+					} else {
+						firstPossibleDate.IncreaseByMonths(1);
+					}
 				}
 
 				if (!history.History.SimpleFields.ContainsKey("holder")) { // TODO: move this to History
