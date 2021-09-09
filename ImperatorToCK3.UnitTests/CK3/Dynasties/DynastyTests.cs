@@ -22,7 +22,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			private LocalizationMapper localizationMapper = new();
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
-			private bool convertBirthAndDeathDates = true;
 
 			public Character Build() {
 				var character = new Character();
@@ -35,7 +34,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 					localizationMapper,
 					provinceMapper,
 					deathReasonMapper,
-					convertBirthAndDeathDates,
 					new Date(867, 1, 1),
 					new Date(867, 1, 1)
 				);
