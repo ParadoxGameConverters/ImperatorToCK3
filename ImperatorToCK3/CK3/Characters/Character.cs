@@ -19,7 +19,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? Nickname { get; private set; }
 
 		public uint Age { get; private set; } = 0; // used when option to convert character age is chosen
-		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
+		public Date BirthDate { get; private set; } = new Date(0, 1, 1);
 		public Date? DeathDate { get; private set; }
 		public string? DeathReason { get; private set; }
 
@@ -141,7 +141,13 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			BirthDate = ImperatorCharacter.BirthDate;
+			if (BirthDate.Year < 0) {
+				BirthDate = new Date(0, 1, 1);
+			}
 			DeathDate = ImperatorCharacter.DeathDate;
+			if (DeathDate?.Year < 0) {
+				DeathDate = new Date(0, 12, 31);
+			}
 			var impDeathReason = ImperatorCharacter.DeathReason;
 			if (impDeathReason is not null) {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);

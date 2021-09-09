@@ -86,9 +86,6 @@ namespace ImperatorToCK3.CK3.Titles {
 					history.History.SimpleFields["government"].AddValueToHistory(gov, startDate);
 				}
 			}
-			//if (ImperatorCountry.Monarch is not null) {
-			//	history.Holder = "imperator" + ImperatorCountry.Monarch.ToString();
-			//}
 
 			// ------------------ determine government
 			//if (ImperatorCountry.Government is not null) {
@@ -170,21 +167,15 @@ namespace ImperatorToCK3.CK3.Titles {
 			ParseStream(reader);
 			ClearRegisteredRules();
 		}
-		private CK3.Characters.Character? holder;
-		public CK3.Characters.Character? Holder {
-			get {
-				return holder;
-			}
-			set {
-				if (value is not null) {
-					history.Holder = value.ID;
-				} else {
-					history.Holder = "0";
-				}
-				holder = value;
-			}
+
+		public string GetHolderId(Date date) {
+			var id = history.GetHolderId(date);
+			return id;
 		}
-		public string HolderID { get { return history.Holder; } }
+		public void SetHolderId(string id, Date date) {
+			history.History.AddSimpleFieldValue("holder", id, date);
+		}
+
 		public List<RulerTerm> RulerTerms { get; private set; } = new();
 		public int? DevelopmentLevel {
 			get {
