@@ -147,8 +147,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
 			if (!convertBirthAndDeathDates) {  // if option to convert character age is chosen
-				BirthDate.AddYears((int)ck3BookmarkDate.DiffInYears(dateOnConversion));
-				DeathDate?.AddYears((int)ck3BookmarkDate.DiffInYears(dateOnConversion));
+				BirthDate.ChangeByYears((int)ck3BookmarkDate.DiffInYears(dateOnConversion));
+				DeathDate?.ChangeByYears((int)ck3BookmarkDate.DiffInYears(dateOnConversion));
 			}
 		}
 

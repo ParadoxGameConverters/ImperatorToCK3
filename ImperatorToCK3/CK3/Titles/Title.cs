@@ -72,11 +72,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				var startDate = rulerTerm.StartDate;
 				if (startDate < firstPossibleDate) {
 					startDate = firstPossibleDate; // TODO: remove this workaround when CK3 supports negative dates
-					if (firstPossibleDate.Day < 28) { // this only works if you have less ruler than there are days in a month, TODO: use ChangeByDays(1) when commonItems PR is merged
-						firstPossibleDate = new(firstPossibleDate.Year, firstPossibleDate.Month, firstPossibleDate.Day + 1);
-					} else {
-						firstPossibleDate.IncreaseByMonths(1);
-					}
+					firstPossibleDate.ChangeByDays(1);
 				}
 
 				if (!history.History.SimpleFields.ContainsKey("holder")) { // TODO: move this to History
