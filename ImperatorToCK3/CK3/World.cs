@@ -68,7 +68,6 @@ namespace ImperatorToCK3.CK3 {
 
 			ImportImperatorCharacters(
 				impWorld,
-				theConfiguration.ConvertBirthAndDeathDates,
 				impWorld.EndDate,
 				theConfiguration.Ck3BookmarkDate
 			);
@@ -82,18 +81,17 @@ namespace ImperatorToCK3.CK3 {
 
 			PurgeLandlessVanillaCharacters();
 		}
-		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates, Date endDate, Date ck3BookmarkDate) {
+		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Date ck3BookmarkDate) {
 			Logger.Info("Importing Imperator Characters.");
 
 			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
-				ImportImperatorCharacter(character, convertBirthAndDeathDates, endDate, ck3BookmarkDate);
+				ImportImperatorCharacter(character, endDate, ck3BookmarkDate);
 			}
 			Logger.Info($"{Characters.Count} total characters recognized.");
 		}
 
 		private void ImportImperatorCharacter(
 			Imperator.Characters.Character character,
-			bool convertBirthAndDeathDates,
 			Date endDate,
 			Date ck3BookmarkDate
 		) {
@@ -107,7 +105,6 @@ namespace ImperatorToCK3.CK3 {
 				localizationMapper,
 				provinceMapper,
 				deathReasonMapper,
-				convertBirthAndDeathDates,
 				endDate,
 				ck3BookmarkDate
 			);
