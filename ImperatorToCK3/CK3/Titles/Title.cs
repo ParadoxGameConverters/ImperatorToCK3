@@ -162,9 +162,14 @@ namespace ImperatorToCK3.CK3.Titles {
 			ClearRegisteredRules();
 		}
 
+		public Date GetDateOfLastHolderChange() {
+			var field = history.History.SimpleFields["holder"];
+			var dates = new SortedSet<Date>(field.ValueHistory.Keys);
+			var lastDate = dates.Max;
+			return lastDate ?? new Date(1, 1, 1);
+		}
 		public string GetHolderId(Date date) {
-			var id = history.GetHolderId(date);
-			return id;
+			return history.GetHolderId(date);
 		}
 		public void SetHolderId(string id, Date date) {
 			history.History.AddSimpleFieldValue("holder", id, date);

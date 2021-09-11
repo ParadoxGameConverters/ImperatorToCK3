@@ -308,10 +308,10 @@ namespace ImperatorToCK3.CK3 {
 						if (impProvince is not null) {
 							var impCountry = impProvince.OwnerCountry.Value;
 							if (impCountry is not null && impCountry.CountryType != CountryType.rebels) {
-								var impMonarch = impCountry.Monarch;
-								if (impMonarch is not null) {
-									if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder)) {
-										title.SetHolderId(holder.ID, ck3BookmarkDate);
+								var ck3Country = impCountry.CK3Title;
+								if (ck3Country is not null) {
+									if (Characters.TryGetValue(ck3Country.GetHolderId(ck3BookmarkDate), out var holder)) {
+										title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
 									}
 									title.DeFactoLiege = null;
 									countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
