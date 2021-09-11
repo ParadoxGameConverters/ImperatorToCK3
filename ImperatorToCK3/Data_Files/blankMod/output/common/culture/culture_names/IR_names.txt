@@ -14,7 +14,10 @@ ir_genobaud = { Genobald Genobaud }
 ir_gundobald = { Gundebold Gundobald }
 ir_gundmar = { Gundmar Gundemar Gundemaro }
 ir_ingomar = { Ingomar Ingomer }
-ir_segimund = { Segimund Sigismond Sigismund Sigimund Sigmund Zygmunt }
+sigmund_male = {
+	Sigmund Siegmund Sigismond Sigismund Zikmund Zsigmond Zygmunt # vanilla
+	Segimund Sigimund # converter
+}
 ir_theodo = { Theodo Teuto }
 ir_theobald = { Theobald Theobold Theodobald }
 ir_ingiburg = { Ingiburg IngbjO_rg Inge IngebjO_rg Ingebjorg Ingeborg }
@@ -235,41 +238,39 @@ Atelhojt }
 agnes_female = { Agnes A_gnes A_ine AgnE_s Agne Agnese Agnieszka AinE_s Aines Annest Auni InEEs InE_s Nest Nesta Uunis Aknes }
 beatrice_female = { Beatrice BE_atrice BE_atrix Beathoc Beatrijs Beatritz Beatriu Beatrix Beatriz Beitris Bia Brethoc Brites Peatrix Pia }
 bertha_female = { Bertha Berta Berthe Berthildis Pertha }
-ir_bertrada = { Bertrada Pertrata }
-ir_bisina = { Bisina Pisina }
-ir_bithild = { Bithild Pithilt }
-ir_diedke = { Diedke TI_tke }
-ir_eilika = { Eilika Ojlika }
+ir_bertrada_female = { Bertrada Pertrata }
+ir_bisina_female = { Bisina Pisina }
+ir_bithild_female = { Bithild Pithilt }
+ir_diedke_female = { Diedke TI_tke }
+ir_eilika_female = { Eilika Ojlika }
 elisabeth_female = { Elisabeth Beileag Bet EisabE_u ElZ_bieta Elisa ElisabE_ta Elisabet Elisabeta Elisabetta Elisaveta Elise Elizabeta Elizabeth Elspeth ErzsE_bet Isabela IsabE_la IsabE_u Isabeau Isabel Isabella Isabelle Isobel Lillias Lise Lisebet Lys Yelizaveta Aaleyaamma Elesbed Elisaued Uusbail Ysbail Zabel AlZ_bEE_ta Sabela Elisapeth }
-ir_enda = { Enda Enta }
-ir_frederuna = { Frederuna Freteruna }
-ir_geilana = { Geilana Kojlana }
+ir_enda_female = { Enda Enta }
+ir_frederuna_female = { Frederuna Freteruna }
+ir_geilana_female = { Geilana Kojlana }
 gerberga_female = { Gerberga GerbE_rga Gerberge Gerburgis Gerperga Kerperka }
 gertrude_female = { Gertrude Geretrudis Gertrud Gertruda Gheertrude Gjertrud
 Kertrut }
 gisela_female = { Gisela GisE_le Giselle Giseltrude Gisla Gizella Guisla Kisela }
-ir_glismod = { Glismod Klismot }
+ir_glismod_female = { Glismod Klismot }
 hedwig_female = { Hedwig Hadwig Hatwik }
-ir_heilwig = { Heilwig Hojlwik }
+ir_heilwig_female = { Heilwig Hojlwik }
 hildegard_female = { Hildegard IldE_garde Hiltekart }
 ida_female = { Ida Ide Yda Ita }
 ermengarde_female = { Ermengarde Ermegardis Ermengard Ermengarda Ermengardis Ermingarde Irmgard Irmkart }
-ir_irminburg = { Irminburg Irminpurk }
+ir_irminburg_female = { Irminburg Irminpurk }
 kunigunde_female = { Kunigunde Cunigunda Kunigunda Kunikunte }
-ir_luitgard = { Luitgard Luitkart }
+ir_luitgard_female = { Luitgard Luitkart }
 margaret_female = { Margaret MA_irgred Maisie Marared Margalida MargarE_ta Margareta Margarete Margarid Margarida Margarita Margherita Margred Margrete Margrethe Margrud Marguarite Marguerite Peigi Markarete }
 matilda_female = { Matilda Mafalda Mahaut Mathilde Matild Matylda Maud Mauda Mautild Mawd Mechthild Mathilda Mahalta Matilde Mathilte Mechthilt }
 ute_female = { Ute Oda Uta Ota }
-ir_othelindis = { Othelindis Othelintis }
-ir_radegund = { Radegund Ratekund }
-ir_reginlint = { Reginlint Rekinlint }
+ir_othelindis_female = { Othelindis Othelintis }
+ir_radegund_female = { Radegund Ratekund }
+ir_reginlint_female = { Reginlint Rekinlint }
 ricarda_female = { Ricarda Ricciarda RichE_nda Richara Richardis Richenda Richartis }
-ir_rodelinda = { Rodelinda Rotelinta }
+ir_rodelinda_female = { Rodelinda Rotelinta }
 swanahild_female = { Swanahild Suanhilde Suanhilte }
-ir_theodrada = { Theodrada Theotrata }
-ir_thiedburga = { Thiedburga ThI_tpurka }
-ir_wienke = { Wienke FI_nke }
-ir_wiltrud = { Wiltrud Filtrut }
+ir_theodrada_female = { Theodrada Theotrata }
+ir_thiedburga_female = { Thiedburga ThI_tpurka }
+ir_wienke_female = { Wienke FI_nke }
+ir_wiltrud_female = { Wiltrud Filtrut }
 ulfhild_female = { Ulfhild Wulfhild Wulfhilde Fulfhilt }
-
-
