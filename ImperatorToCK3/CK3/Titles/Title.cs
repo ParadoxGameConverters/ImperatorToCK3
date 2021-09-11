@@ -61,6 +61,8 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			SetRank();
 
+			PlayerCountry = ImperatorCountry.PlayerCountry;
+
 			// ------------------ determine holder
 			if (ImperatorCountry.Monarch is not null) {
 				history.Holder = "imperator" + ImperatorCountry.Monarch.ToString();
@@ -130,10 +132,16 @@ namespace ImperatorToCK3.CK3.Titles {
 			Name = otherTitle.Name;
 			Localizations = otherTitle.Localizations;
 
+			PlayerCountry = otherTitle.PlayerCountry;
 			IsImportedOrUpdatedFromImperator = otherTitle.IsImportedOrUpdatedFromImperator;
 			ImperatorCountry = otherTitle.ImperatorCountry;
 
 			history = otherTitle.history;
+
+			DeJureLiege = otherTitle.DeJureLiege;
+			DeFactoLiege = otherTitle.DeFactoLiege;
+			DeJureVassals = otherTitle.DeFactoVassals;
+			DeFactoVassals = otherTitle.DeFactoVassals;
 
 			Color1 = otherTitle.Color1;
 			Color2 = otherTitle.Color2;
@@ -303,6 +311,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			return deFactoVassalsAndBelow;
 		}
 
+		public bool PlayerCountry { get; private set; }
 		public string Name { get; private set; } = string.Empty; // e.g. d_latium
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
 		public bool Landless { get; private set; } = false;

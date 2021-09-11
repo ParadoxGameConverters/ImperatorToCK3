@@ -105,6 +105,15 @@ namespace ImperatorToCK3.Imperator {
 				pops = new PopsBloc(reader).PopsFromBloc;
 				Logger.Info("Loaded " + pops.StoredPops.Count + " pops.");
 			});
+			RegisterKeyword("played_country", reader => {
+				var playedCountryBlocParser = new Parser();
+				playedCountryBlocParser.RegisterKeyword("country", reader => {
+					var countryId = ParserHelpers.GetULong(reader);
+					Countries.StoredCountries[countryId].PlayerCountry = true;
+				});
+				playedCountryBlocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+				playedCountryBlocParser.ParseStream(reader);
+			});
 			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				ignoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);
