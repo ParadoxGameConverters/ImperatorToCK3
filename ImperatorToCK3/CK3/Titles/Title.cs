@@ -75,15 +75,9 @@ namespace ImperatorToCK3.CK3.Titles {
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				if (!history.History.SimpleFields.ContainsKey("holder")) { // TODO: move this to History
-					history.History.SimpleFields.Add("holder", new("0"));
-				}
-				history.History.SimpleFields["holder"].AddValueToHistory(characterId, startDate);
+				history.History.AddSimpleFieldValue("holder", characterId, startDate);
 				if (gov is not null) {
-					if (!history.History.SimpleFields.ContainsKey("government")) { // TODO: move this to History
-						history.History.SimpleFields.Add("government", new(null));
-					}
-					history.History.SimpleFields["government"].AddValueToHistory(gov, startDate);
+					history.History.AddSimpleFieldValue("government", gov, startDate);
 				}
 			}
 
