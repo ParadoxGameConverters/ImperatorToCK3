@@ -69,7 +69,7 @@ namespace ImperatorToCK3.Outputter {
 			var bookmarkPath = Path.Combine(outputPath, "common/bookmarks/00_bookmarks.txt");
 			string text = File.ReadAllText(bookmarkPath);
 			text = text.Replace("867.1.1", theConfiguration.Ck3BookmarkDate.ToString());
-			File.WriteAllText(bookmarkPath, text);
+			File.WriteAllText(bookmarkPath, text, System.Text.Encoding.UTF8);
 		}
 
 		private static void OutputModFile(string outputName) {
