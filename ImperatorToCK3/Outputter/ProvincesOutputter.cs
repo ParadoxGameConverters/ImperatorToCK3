@@ -38,7 +38,7 @@ namespace ImperatorToCK3.Outputter {
 							if (baseProvID is null) {
 								Logger.Warn($"Leftover province {id} has no base province id!");
 							} else {
-								provinceMappingOutput.Write($"{id} = {baseProvID}");
+								provinceMappingOutput.WriteLine($"{id} = {baseProvID}");
 								alreadyOutputtedProvinces.Add(id);
 							}
 						}
