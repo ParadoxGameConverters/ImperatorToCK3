@@ -138,11 +138,6 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			history = otherTitle.history;
 
-			DeJureLiege = otherTitle.DeJureLiege;
-			DeFactoLiege = otherTitle.DeFactoLiege;
-			DeJureVassals = otherTitle.DeFactoVassals;
-			DeFactoVassals = otherTitle.DeFactoVassals;
-
 			Color1 = otherTitle.Color1;
 			Color2 = otherTitle.Color2;
 			CoA = otherTitle.CoA;
