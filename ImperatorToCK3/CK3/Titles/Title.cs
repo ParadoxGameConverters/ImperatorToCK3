@@ -25,7 +25,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
 			GovernmentMapper governmentMapper,
-			SuccessionLawMapper successionLawMapper
+			SuccessionLawMapper successionLawMapper,
+			DefiniteFormMapper definiteFormMapper
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
@@ -45,6 +46,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			else {
 				validatedName = ImperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries);
 			}
+
+			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
 
 			string? title;
 			if (validatedName is not null) {

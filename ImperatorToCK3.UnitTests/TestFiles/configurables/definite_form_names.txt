@@ -1,0 +1,34 @@
+names = {
+
+#Fixed tags
+PRY_DYN #(Antigonid Kingdom)
+BPK #(Bosporan Kingdom)
+DOD #(Dodekaschoinos, from Greek The Twelve Cities)
+DEL #(Nesiotic League)
+SEL_DYN #(Seleucid Empire)
+
+
+#Dynamic tags
+HELLENIC_LEAGUE_NAME #(Hellenic League)
+ARGEAD_NAME #(Argead Empire)
+roman_empire_name #(Roman Empire)
+western_roman_republic_name #(WRE)
+western_roman_empire_name #(WRE)
+western_roman_kingdom_name #(WRE)
+western_rome_name #(WRE)
+eastern_roman_republic_name #(ERE)
+eastern_roman_empire_name #(ERE)
+eastern_roman_kingdom_name #(ERE)
+eastern_rome_name #(ERE)
+roman_kingdom_name #(Roman Kingdom)
+PERSIAN_EMPIRE_NAME #(Persian Empire)
+MESOPOTAMIAN_EMPIRE_NAME #(Mesopotamian Empire)
+MEDIAN_EMPIRE_NAME #(Median Empire)
+CYRENAICAN_OPPOSITION #(Cyrenaican Opposition)
+PELOPONNESIAN_LEAGUE_NAME #(Peloponnesian League)
+SYR_TYRANNY #(Syracusan Tyranny)
+MAMERYES #(Marsades Republic)
+MAGADHA_EMPIRE_NAME #(Magadhan Empire)
+MACEDONIAN_EMPIRE_NAME #(Macedonian Empire)
+
+}

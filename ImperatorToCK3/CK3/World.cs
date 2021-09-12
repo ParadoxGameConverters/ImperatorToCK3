@@ -138,7 +138,8 @@ namespace ImperatorToCK3.CK3 {
 				coaMapper,
 				tagTitleMapper,
 				governmentMapper,
-				successionLawMapper
+				successionLawMapper,
+				definiteFormMapper
 			);
 
 			var name = newTitle.Name;
@@ -436,6 +437,7 @@ namespace ImperatorToCK3.CK3 {
 		private readonly CoaMapper coaMapper;
 		private readonly CultureMapper cultureMapper = new();
 		private readonly DeathReasonMapper deathReasonMapper = new();
+		private readonly DefiniteFormMapper definiteFormMapper = new("configurables/definite_form_names.txt");
 		private readonly GovernmentMapper governmentMapper = new();
 		private readonly LocalizationMapper localizationMapper = new();
 		private readonly NicknameMapper nicknameMapper = new("configurables/nickname_map.txt");
