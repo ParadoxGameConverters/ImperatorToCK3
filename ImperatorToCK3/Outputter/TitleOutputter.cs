@@ -7,6 +7,10 @@ namespace ImperatorToCK3.Outputter {
 		public static void OutputTitle(StreamWriter writer, Title title) {
 			writer.WriteLine(title.Name + " = {");
 
+			if (title.HasDefiniteForm) {
+				writer.WriteLine("\tdefinite_form=yes");
+			}
+
 			if (title.Color1 is not null) {
 				writer.WriteLine("\tcolor " + title.Color1.Output());
 			} else {

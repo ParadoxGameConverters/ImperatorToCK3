@@ -19,7 +19,7 @@ namespace ImperatorToCK3.Imperator {
 		private Pops.Pops pops = new();
 		public Provinces.Provinces Provinces { get; private set; } = new();
 		public Countries.Countries Countries { get; private set; } = new();
-		private Genes.GenesDB genesDB = new();
+		private GenesDB genesDB = new();
 
 		private enum SaveType { INVALID = 0, PLAINTEXT = 1, COMPRESSED_ENCODED = 2 }
 
