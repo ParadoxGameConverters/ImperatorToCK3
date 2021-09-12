@@ -66,7 +66,12 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCopyFolder("blankMod/output", outputPath);
 
 			Logger.Info("Creating bookmark.");
-			BookmarkOutputter.OutputBookmark(outputName, ck3World.LandedTitles, theConfiguration.Ck3BookmarkDate);
+			BookmarkOutputter.OutputBookmark(
+				outputName,
+				ck3World.Characters,
+				ck3World.LandedTitles,
+				theConfiguration.Ck3BookmarkDate
+			);
 		}
 
 		private static void OutputModFile(string outputName) {

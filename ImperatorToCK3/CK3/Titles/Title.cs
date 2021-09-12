@@ -20,7 +20,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void InitializeFromTag(
 			Imperator.Countries.Country country,
 			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
-			Dictionary<string, Characters.Character> characters,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -67,7 +66,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			SetRank();
 
 			PlayerCountry = ImperatorCountry.PlayerCountry;
-			
+
 			// ------------------ determine previous and current holders
 			var firstPossibleDate = new Date(0, 1, 1); // there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
 

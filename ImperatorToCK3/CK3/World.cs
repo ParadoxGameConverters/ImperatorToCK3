@@ -73,7 +73,7 @@ namespace ImperatorToCK3.CK3 {
 			);
 			LinkSpouses();
 			LinkMothersAndFathers();
-			LinkHolders();
+			ClearFeaturedCharactersDescriptions(theConfiguration.Ck3BookmarkDate);
 
 			ImportImperatorFamilies(impWorld);
 
@@ -83,14 +83,15 @@ namespace ImperatorToCK3.CK3 {
 			PurgeLandlessVanillaCharacters(theConfiguration.Ck3BookmarkDate);
 		}
 
-		private void LinkHolders() {
-			Logger.Info("Linking titles to holders.");
+		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
+			Logger.Info("Clearing featured characters' descriptions.");
 			foreach (var title in LandedTitles.Values) {
-				if (title.HolderID != "0" && Characters.TryGetValue(title.HolderID, out var holder)) {
-					title.Holder = holder;
-					if (title.PlayerCountry) {
-						title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
-					}
+				if (!title.PlayerCountry) {
+					continue;
+				}
+				var holderId = title.GetHolderId(ck3BookmarkDate);
+				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
+					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
 				}
 			}
 		}
@@ -146,7 +147,6 @@ namespace ImperatorToCK3.CK3 {
 			newTitle.InitializeFromTag(
 				country.Value,
 				imperatorCountries,
-				Characters,
 				localizationMapper,
 				landedTitles,
 				provinceMapper,
