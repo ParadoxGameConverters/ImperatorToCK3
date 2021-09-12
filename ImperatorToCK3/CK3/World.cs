@@ -88,6 +88,9 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var title in LandedTitles.Values) {
 				if (title.HolderID != "0" && Characters.TryGetValue(title.HolderID, out var holder)) {
 					title.Holder = holder;
+					if (title.PlayerCountry) {
+						title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
+					}
 				}
 			}
 		}
