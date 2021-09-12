@@ -19,6 +19,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void InitializeFromTag(
 			Imperator.Countries.Country country,
 			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
+			Dictionary<string, Characters.Character> characters,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -63,6 +64,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			Name = title;
 
 			SetRank();
+
+			PlayerCountry = ImperatorCountry.PlayerCountry;
 
 			// ------------------ determine holder
 			if (ImperatorCountry.Monarch is not null) {
@@ -133,6 +136,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			Name = otherTitle.Name;
 			Localizations = otherTitle.Localizations;
 
+			PlayerCountry = otherTitle.PlayerCountry;
 			IsImportedOrUpdatedFromImperator = otherTitle.IsImportedOrUpdatedFromImperator;
 			ImperatorCountry = otherTitle.ImperatorCountry;
 
@@ -306,6 +310,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			return deFactoVassalsAndBelow;
 		}
 
+		public bool PlayerCountry { get; private set; }
 		public string Name { get; private set; } = string.Empty; // e.g. d_latium
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
 		public bool Landless { get; private set; } = false;

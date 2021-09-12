@@ -158,7 +158,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		}
 
 		[Fact]
-		public void GetAgeSexReturnsCorrectString() {
+		public void AgeSexReturnsCorrectString() {
 			var reader1 = new BufferedReader(
 				"=\n" +
 			"{\n" +

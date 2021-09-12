@@ -27,6 +27,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Null(country.Color2);
 			Assert.Null(country.Color3);
 			Assert.Empty(country.GetLaws());
+			Assert.False(country.PlayerCountry);
 		}
 		[Fact]
 		public void FieldsCanBeSet() {
