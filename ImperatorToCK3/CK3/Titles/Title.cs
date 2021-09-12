@@ -47,9 +47,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				validatedName = ImperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries);
 			}
 
-			if (definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name)) {
-				HasDefiniteForm = true;
-			}
+			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
 
 			string? title;
 			if (validatedName is not null) {
