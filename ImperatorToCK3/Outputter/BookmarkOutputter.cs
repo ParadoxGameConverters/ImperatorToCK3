@@ -47,10 +47,7 @@ namespace ImperatorToCK3.Outputter {
 					xPos += 200;
 					if (xPos > 1700) {
 						xPos = 430;
-					}
-					yPos += 200;
-					if (yPos > 800) {
-						yPos = 190;
+						yPos += 200;
 					}
 				}
 			}
