@@ -24,32 +24,46 @@ namespace ImperatorToCK3.Outputter {
 			var yPos = 190;
 			foreach (var title in playerTitles) {
 				var holder = title.Holder;
-				if (holder is not null) {
-					output.WriteLine("\tcharacter = {");
-
-					output.WriteLine($"\t\tname = {holder.Name}");
-					output.WriteLine($"\t\tdynasty = {holder.DynastyID}");
-					output.WriteLine("\t\tdynasty_splendor_level = 1");
-					var sex = holder.Female ? "female" : "male";
-					output.WriteLine($"\t\ttype = {sex}");
-					output.WriteLine($"\t\thistory_id = {holder.ID}");
-					output.WriteLine($"\t\tbirth = {holder.BirthDate}");
-					output.WriteLine($"\t\ttitle = {title.Name}");
-					output.WriteLine($"\t\tgovernment = {title.Government}");
-					output.WriteLine($"\t\tculture = {holder.Culture}");
-					output.WriteLine($"\t\treligion = {holder.Religion}");
-					output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-					output.WriteLine($"\t\tposition = {{ {xPos} {yPos} }}");
-					output.WriteLine("\t\tanimation = personality_rational");
-
-					output.WriteLine("\t}");
-
-					xPos += 200;
-					if (xPos > 1700) {
-						xPos = 430;
-						yPos += 200;
-					}
+				if (holder is null) {
+					continue;
 				}
+
+				output.WriteLine("\tcharacter = {");
+
+				output.WriteLine($"\t\tname = {holder.Name}");
+				output.WriteLine($"\t\tdynasty = {holder.DynastyID}");
+				output.WriteLine("\t\tdynasty_splendor_level = 1");
+				output.WriteLine($"\t\ttype = {holder.AgeSex}");
+				output.WriteLine($"\t\thistory_id = {holder.ID}");
+				output.WriteLine($"\t\tbirth = {holder.BirthDate}");
+				output.WriteLine($"\t\ttitle = {title.Name}");
+				output.WriteLine($"\t\tgovernment = {title.Government}");
+				output.WriteLine($"\t\tculture = {holder.Culture}");
+				output.WriteLine($"\t\treligion = {holder.Religion}");
+				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
+				output.WriteLine($"\t\tposition = {{ {xPos} {yPos} }}");
+				output.WriteLine("\t\tanimation = personality_rational");
+
+				output.WriteLine("\t}");
+
+				xPos += 200;
+				if (xPos > 1700) {
+					xPos = 430;
+					yPos += 200;
+				}
+
+				string templateText;
+				string templatePath = holder.AgeSex switch {
+					"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
+					"girl" => "blankMod/templates/common/bookmark_portraits/girl.txt",
+					"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
+					_ => "blankMod/templates/common/bookmark_portraits/male.txt",
+				};
+				templateText = File.ReadAllText(templatePath);
+				templateText = templateText.Replace("REPLACE_ME_NAME", holder.Name);
+				templateText = templateText.Replace("REPLACE_ME_AGE", holder.Age.ToString());
+				var outPortraitPath = "output/" + outputModName + "/common/bookmark_portraits/" + $"{holder.Name}.txt";
+				File.WriteAllText(outPortraitPath, templateText);
 			}
 
 			output.WriteLine("}");
