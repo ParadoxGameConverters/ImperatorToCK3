@@ -20,13 +20,15 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void InitializeFromTag(
 			Imperator.Countries.Country country,
 			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
+			Dictionary<string, Characters.Character> characters,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
 			GovernmentMapper governmentMapper,
-			SuccessionLawMapper successionLawMapper
+			SuccessionLawMapper successionLawMapper,
+			DefiniteFormMapper definiteFormMapper
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
@@ -47,6 +49,8 @@ namespace ImperatorToCK3.CK3.Titles {
 				validatedName = ImperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries);
 			}
 
+			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
+
 			string? title;
 			if (validatedName is not null) {
 				title = tagTitleMapper.GetTitleForTag(ImperatorCountry.Tag, ImperatorCountry.GetCountryRank(), validatedName.english);
@@ -62,6 +66,8 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			SetRank();
 
+			PlayerCountry = ImperatorCountry.PlayerCountry;
+			
 			// ------------------ determine previous and current holders
 			var firstPossibleDate = new Date(0, 1, 1); // there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
 
@@ -145,6 +151,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			Name = otherTitle.Name;
 			Localizations = otherTitle.Localizations;
 
+			PlayerCountry = otherTitle.PlayerCountry;
 			IsImportedOrUpdatedFromImperator = otherTitle.IsImportedOrUpdatedFromImperator;
 			ImperatorCountry = otherTitle.ImperatorCountry;
 
@@ -318,6 +325,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			return deFactoVassalsAndBelow;
 		}
 
+		public bool PlayerCountry { get; private set; }
 		public string Name { get; private set; } = string.Empty; // e.g. d_latium
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
 		public bool Landless { get; private set; } = false;

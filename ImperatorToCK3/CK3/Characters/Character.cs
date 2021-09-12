@@ -19,7 +19,21 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? Nickname { get; private set; }
 
 		public uint Age { get; private set; } = 0; // used when option to convert character age is chosen
-		public Date BirthDate { get; private set; } = new Date(0, 1, 1);
+		public string AgeSex {
+			get {
+				if (Age >= 16) {
+					if (Female) {
+						return "female";
+					}
+					return "male";
+				}
+				if (Female) {
+					return "girl";
+				}
+				return "boy";
+			}
+		}
+		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
 		public Date? DeathDate { get; private set; }
 		public string? DeathReason { get; private set; }
 

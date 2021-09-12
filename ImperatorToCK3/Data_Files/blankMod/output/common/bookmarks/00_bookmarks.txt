@@ -1,5 +1,0 @@
-﻿bm_converted = {
-	start_date = 867.1.1
-	is_playable = yes
-	recommended = yes
-}

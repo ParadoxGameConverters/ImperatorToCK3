@@ -17,6 +17,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Null(title.Color);
 			Assert.Null(title.CapitalCounty);
 			Assert.Null(title.Province);
+			Assert.False(title.PlayerCountry);
 		}
 
 		[Fact]
