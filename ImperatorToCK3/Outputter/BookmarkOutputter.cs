@@ -19,7 +19,9 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\tis_playable = yes");
 			output.WriteLine("\trecommended = yes");
 
-			var playerTitles = titles.Values.Where(title => title.PlayerCountry);
+			var playerTitles = new SortedSet<Title>(titles.Values.Where(title => title.PlayerCountry));
+			var xPos = 430;
+			var yPos = 190;
 			foreach (var title in playerTitles) {
 				var holder = title.Holder;
 				if (holder is not null) {
@@ -37,10 +39,19 @@ namespace ImperatorToCK3.Outputter {
 					output.WriteLine($"\t\tculture = {holder.Culture}");
 					output.WriteLine($"\t\treligion = {holder.Religion}");
 					output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-					output.WriteLine("\t\tposition = { 430 190 }");
+					output.WriteLine($"\t\tposition = {{ {xPos} {yPos} }}");
 					output.WriteLine("\t\tanimation = personality_rational");
 
 					output.WriteLine("\t}");
+
+					xPos += 200;
+					if (xPos > 1700) {
+						xPos = 430;
+					}
+					yPos += 200;
+					if (yPos > 800) {
+						yPos = 190;
+					}
 				}
 			}
 
