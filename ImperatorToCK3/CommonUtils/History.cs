@@ -26,8 +26,8 @@ namespace ImperatorToCK3.CommonUtils {
 		}
 
 		public void AddSimpleFieldValue(string fieldName, string value, Date date) {
-			if (SimpleFields.TryGetValue(fieldName, out var simpleField)) {
-				simpleField.AddValueToHistory(value, date);
+			if (SimpleFields.ContainsKey(fieldName)) {
+				SimpleFields[fieldName].AddValueToHistory(value, date);
 			} else {
 				var field = new SimpleField(null);
 				field.AddValueToHistory(value, date);
@@ -35,8 +35,8 @@ namespace ImperatorToCK3.CommonUtils {
 			}
 		}
 		public void AddContainerFieldValue(string fieldName, List<string> value, Date date) {
-			if (ContainerFields.TryGetValue(fieldName, out var containerField)) {
-				containerField.AddValueToHistory(value, date);
+			if (ContainerFields.ContainsKey(fieldName)) {
+				ContainerFields[fieldName].AddValueToHistory(value, date);
 			} else {
 				var field = new ContainerField(new());
 				field.AddValueToHistory(value, date);

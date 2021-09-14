@@ -22,7 +22,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void GovernmentDefaultsToNull() {
 			var history = new TitleHistory();
 
-			Assert.Null(history.Government);
+			Assert.Null(history.GetGovernment(new Date(867, 1, 1)));
 		}
 
 		[Fact]
@@ -34,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HistoryCanBeLoadedFromStream() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867,1,1));
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
 			var history = titlesHistory.PopTitleHistory("k_rome");
 
 			Assert.Equal("67", history.History.GetSimpleFieldValue("holder", new Date(867, 1, 1)));

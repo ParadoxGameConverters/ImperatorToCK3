@@ -168,5 +168,50 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			Assert.Equal("kabarism", provHistory.GetSimpleFieldValue("religion", date));
 			Assert.Equal("castle_holding", provHistory.GetSimpleFieldValue("holding", date));
 		}
+
+		[Fact] public void SimpleFieldValueCanBeAdded() {
+			var history = new History();
+			history.AddSimpleFieldValue("holder", "0", new Date(1, 1, 1)); // new field is created
+			history.AddSimpleFieldValue("holder", "69", new Date(867, 1, 1)); // existing field is updated
+			Assert.Collection(history.SimpleFields,
+				item1 => Assert.Equal("holder", item1.Key)
+			);
+			Assert.Collection(history.SimpleFields["holder"].ValueHistory,
+				item1 => {
+					Assert.Equal(new Date(1, 1, 1), item1.Key);
+					Assert.Equal("0", item1.Value);
+				},
+				item2 => {
+					Assert.Equal(new Date(867, 1, 1), item2.Key);
+					Assert.Equal("69", item2.Value);
+				}
+			);
+		}
+		[Fact]
+		public void ContainerFieldValueCanBeAdded() {
+			var history = new History();
+			history.AddContainerFieldValue( // new field is created
+				"buldings",
+				new(),
+				new Date(1, 1, 1));
+			history.AddContainerFieldValue(  // existing field is updated
+				"buldings",
+				new() { "aqueduct", "temple" },
+				new Date(867, 1, 1))
+			;
+			Assert.Collection(history.ContainerFields,
+				item1 => Assert.Equal("buldings", item1.Key)
+			);
+			Assert.Collection(history.ContainerFields["buldings"].ValueHistory,
+				item1 => {
+					Assert.Equal(new Date(1, 1, 1), item1.Key);
+					Assert.Equal(new(), item1.Value);
+				},
+				item2 => {
+					Assert.Equal(new Date(867, 1, 1), item2.Key);
+					Assert.Equal(new() { "aqueduct", "temple" }, item2.Value);
+				}
+			);
+		}
 	}
 }

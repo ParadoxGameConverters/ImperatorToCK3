@@ -74,13 +74,17 @@ namespace ImperatorToCK3.CK3.Titles {
 				var rulerTerm = new RulerTerm(impRulerTerm, governmentMapper);
 				var characterId = rulerTerm.CharacterId;
 				var gov = rulerTerm.Government;
+
 				var startDate = rulerTerm.StartDate;
 				if (startDate < firstPossibleDate) {
 					startDate = firstPossibleDate; // TODO: remove this workaround if CK3 supports negative dates
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				history.History.AddSimpleFieldValue("holder", characterId, startDate);
+				history.History.AddSimpleFieldValue("holder", characterId, startDate); // TODO: CHECK THIS
+				if (Name == "e_roman_empire") {
+					Logger.Debug($"ROMAN_EMPIRE {characterId} {startDate}");
+				}
 				if (gov is not null) {
 					history.History.AddSimpleFieldValue("government", gov, startDate);
 				}
@@ -149,7 +153,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			IsImportedOrUpdatedFromImperator = otherTitle.IsImportedOrUpdatedFromImperator;
 			ImperatorCountry = otherTitle.ImperatorCountry;
 
-			history = otherTitle.history;
+			history = otherTitle.history; // TODO: CHECK THIS
 
 			Color1 = otherTitle.Color1;
 			Color2 = otherTitle.Color2;
@@ -421,8 +425,14 @@ namespace ImperatorToCK3.CK3.Titles {
 					writer.WriteLine($"\t{date} = {{ holder = {holderId} }}");
 				}
 			}
+
 			if (history.History.SimpleFields.ContainsKey("government")) {
-				foreach (var (date, government) in history.History.SimpleFields["government"].ValueHistory) {
+				var govField = history.History.SimpleFields["government"];
+				var initialGovernment = govField.InitialValue;
+				if (initialGovernment is not null) {
+					writer.WriteLine($"\t\tgovernment = {initialGovernment}");
+				}
+				foreach (var (date, government) in govField.ValueHistory) {
 					writer.WriteLine($"\t{date} = {{ government = {government} }}");
 				}
 			}
@@ -432,11 +442,6 @@ namespace ImperatorToCK3.CK3.Titles {
 			var deFactoLiege = DeFactoLiege;
 			if (deFactoLiege is not null) {
 				writer.WriteLine("\t\tliege = " + deFactoLiege.Name);
-			}
-
-			var gov = GetGovernment(ck3BookmarkDate);
-			if (gov is not null) {
-				writer.WriteLine($"\t\tgovernment = {gov}");
 			}
 
 			var succLaws = SuccessionLaws;
