@@ -68,23 +68,23 @@ namespace ImperatorToCK3.CK3.Titles {
 			PlayerCountry = ImperatorCountry.PlayerCountry;
 
 			// ------------------ determine previous and current holders
-			var firstPossibleDate = new Date(0, 1, 1); // there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
+			history.History.SimpleFields.Remove("holder");
+			history.History.SimpleFields.Remove("government");
+			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
+			var firstPossibleDate = new Date(0, 1, 1);
 
-			foreach(var impRulerTerm in ImperatorCountry.RulerTerms) {
+			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
 				var rulerTerm = new RulerTerm(impRulerTerm, governmentMapper);
 				var characterId = rulerTerm.CharacterId;
 				var gov = rulerTerm.Government;
 
-				var startDate = rulerTerm.StartDate;
+				var startDate = new Date(rulerTerm.StartDate);
 				if (startDate < firstPossibleDate) {
-					startDate = firstPossibleDate; // TODO: remove this workaround if CK3 supports negative dates
+					startDate = new Date(firstPossibleDate); // TODO: remove this workaround if CK3 supports negative dates
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				history.History.AddSimpleFieldValue("holder", characterId, startDate); // TODO: CHECK THIS
-				if (Name == "e_roman_empire") {
-					Logger.Debug($"ROMAN_EMPIRE {characterId} {startDate}");
-				}
+				history.History.AddSimpleFieldValue("holder", characterId, startDate);
 				if (gov is not null) {
 					history.History.AddSimpleFieldValue("government", gov, startDate);
 				}
@@ -153,7 +153,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			IsImportedOrUpdatedFromImperator = otherTitle.IsImportedOrUpdatedFromImperator;
 			ImperatorCountry = otherTitle.ImperatorCountry;
 
-			history = otherTitle.history; // TODO: CHECK THIS
+			history = otherTitle.history;
 
 			Color1 = otherTitle.Color1;
 			Color2 = otherTitle.Color2;

@@ -36,12 +36,8 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var spouseID in character.Spouses.Keys) {
 				Date marriageDate;
 				if (character.DeathDate is not null) {
-					marriageDate = new Date(character.DeathDate.Year, character.DeathDate.Month, character.DeathDate.Day);
+					marriageDate = new Date(character.DeathDate);
 					marriageDate.ChangeByDays(-1);
-					if (marriageDate.Day == 0) { // TODO: REMOVE THIS TEMP FIX FOR CHANGEBYDAYS ERROR
-						marriageDate = new Date(marriageDate.Year, marriageDate.Month, 28);
-						marriageDate.ChangeByMonths(-1);
-					}
 				} else {
 					marriageDate = ck3BookmarkDate;
 				}
