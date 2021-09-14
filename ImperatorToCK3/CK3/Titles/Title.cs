@@ -180,6 +180,9 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void SetHolderId(string id, Date date) {
 			history.History.AddSimpleFieldValue("holder", id, date);
 		}
+		public string? GetGovernment(Date date) {
+			return history.GetGovernment(date);
+		}
 
 		public List<RulerTerm> RulerTerms { get; private set; } = new();
 		public int? DevelopmentLevel {
@@ -329,7 +332,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
 		public bool Landless { get; private set; } = false;
 		public bool HasDefiniteForm { get; private set; } = false;
-		public string? Government => history.Government;
 		public int? OwnOrInheritedDevelopmentLevel {
 			get {
 				if (history.DevelopmentLevel is not null) { // if development level is already set, just return it
@@ -437,8 +439,9 @@ namespace ImperatorToCK3.CK3.Titles {
 				writer.WriteLine("\t\tliege = " + deFactoLiege.Name);
 			}
 
-			if (Government is not null) {
-				writer.WriteLine("\t\tgovernment = " + Government);
+			var gov = GetGovernment(ck3BookmarkDate);
+			if (gov is not null) {
+				writer.WriteLine($"\t\tgovernment = {gov}");
 			}
 
 			var succLaws = SuccessionLaws;

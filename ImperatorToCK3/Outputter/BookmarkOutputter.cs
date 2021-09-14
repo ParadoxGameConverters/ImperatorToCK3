@@ -35,7 +35,10 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\thistory_id = {holder.ID}");
 				output.WriteLine($"\t\tbirth = {holder.BirthDate}");
 				output.WriteLine($"\t\ttitle = {title.Name}");
-				output.WriteLine($"\t\tgovernment = {title.Government}");
+				var gov = title.GetGovernment(ck3BookmarkDate);
+				if (gov is not null) {
+					output.WriteLine($"\t\tgovernment = {gov}");
+				}
 				output.WriteLine($"\t\tculture = {holder.Culture}");
 				output.WriteLine($"\t\treligion = {holder.Religion}");
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
