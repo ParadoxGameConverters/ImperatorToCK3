@@ -5,7 +5,7 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Trait {
 	public class TraitMapperTests {
 		[Fact]
-		public void NonMatchGivesEmptyOptional() {
+		public void NonMatchGivesNull() {
 			var reader = new BufferedReader("link = { ck3 = ck3Trait imp = impTrait }");
 			var mapper = new TraitMapper(reader);
 
