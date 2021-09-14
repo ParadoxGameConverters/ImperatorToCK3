@@ -76,7 +76,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				var gov = rulerTerm.Government;
 				var startDate = rulerTerm.StartDate;
 				if (startDate < firstPossibleDate) {
-					startDate = firstPossibleDate; // TODO: remove this workaround when CK3 supports negative dates
+					startDate = firstPossibleDate; // TODO: remove this workaround if CK3 supports negative dates
 					firstPossibleDate.ChangeByDays(1);
 				}
 
@@ -85,11 +85,6 @@ namespace ImperatorToCK3.CK3.Titles {
 					history.History.AddSimpleFieldValue("government", gov, startDate);
 				}
 			}
-
-			// ------------------ determine government
-			//if (ImperatorCountry.Government is not null) {
-			//	history.Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
-			//}
 
 			// ------------------ determine color
 			var color1Opt = ImperatorCountry.Color1;
