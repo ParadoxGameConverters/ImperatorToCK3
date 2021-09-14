@@ -4,11 +4,11 @@ using commonItems;
 namespace ImperatorToCK3.Mappers.War {
 	public class WarMapping {
 		public SortedSet<string> ImperatorWarGoals { get; set; } = new();
-		public string? Ck3CasusBelli { get; set; }
+		public string? CK3CasusBelli { get; set; }
 
 		static WarMapping() {
 			parser.RegisterKeyword("ck3", (reader) =>
-				mappingToReturn.Ck3CasusBelli = ParserHelpers.GetString(reader)
+				mappingToReturn.CK3CasusBelli = ParserHelpers.GetString(reader)
 			);
 			parser.RegisterKeyword("imp", (reader) =>
 				mappingToReturn.ImperatorWarGoals.Add(ParserHelpers.GetString(reader))

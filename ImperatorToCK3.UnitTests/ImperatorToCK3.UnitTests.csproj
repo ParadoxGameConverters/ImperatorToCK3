@@ -52,6 +52,9 @@
     <None Update="TestFiles\configurables\trait_map.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestFiles\configurables\wargoal_mappings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestFiles\mod\brokenmod.mod">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
