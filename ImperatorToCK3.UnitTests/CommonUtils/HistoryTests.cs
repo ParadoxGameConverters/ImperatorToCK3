@@ -169,7 +169,8 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			Assert.Equal("castle_holding", provHistory.GetSimpleFieldValue("holding", date));
 		}
 
-		[Fact] public void SimpleFieldValueCanBeAdded() {
+		[Fact]
+		public void SimpleFieldValueCanBeAdded() {
 			var history = new History();
 			history.AddSimpleFieldValue("holder", "0", new Date(1, 1, 1)); // new field is created
 			history.AddSimpleFieldValue("holder", "69", new Date(867, 1, 1)); // existing field is updated
@@ -193,12 +194,13 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			history.AddContainerFieldValue( // new field is created
 				"buldings",
 				new(),
-				new Date(1, 1, 1));
+				new Date(1, 1, 1)
+			);
 			history.AddContainerFieldValue(  // existing field is updated
 				"buldings",
 				new() { "aqueduct", "temple" },
-				new Date(867, 1, 1))
-			;
+				new Date(867, 1, 1)
+			);
 			Assert.Collection(history.ContainerFields,
 				item1 => Assert.Equal("buldings", item1.Key)
 			);
