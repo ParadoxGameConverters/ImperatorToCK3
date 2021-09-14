@@ -33,19 +33,19 @@
 
   <ItemGroup>
     <None Update="Data_Files\configurables\definite_form_names.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Data_Files\converter_globals\after_converting.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Data_Files\converter_globals\FAQ.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Data_Files\converter_globals\license.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Data_Files\converter_globals\ReadMe.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Resources\rakaly-0.3.12-x86_64-apple-darwin\rakaly">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -71,11 +71,16 @@
         <BlankMod Include="Data_Files/blankMod/**/*.*" />
     </ItemGroup>
 	
-	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)/configurables" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
-	    <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutputPath)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+	    <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+	</Target>
+
+	<Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
+		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(PublishDir)/configurables" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
   <Target Name="Date" BeforeTargets="CoreCompile">

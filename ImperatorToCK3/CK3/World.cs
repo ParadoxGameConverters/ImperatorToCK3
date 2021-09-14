@@ -327,6 +327,7 @@ namespace ImperatorToCK3.CK3 {
 								var ck3Country = impCountry.CK3Title;
 								if (ck3Country is not null) {
 									if (Characters.TryGetValue(ck3Country.GetHolderId(ck3BookmarkDate), out var holder)) {
+										title.ClearHolderHistory();
 										title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
 									}
 									title.DeFactoLiege = null;

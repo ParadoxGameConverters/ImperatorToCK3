@@ -376,6 +376,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 
+		internal void ClearHolderHistory() {
+			history.History.SimpleFields.Remove("holder");
+		}
+
 		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title> foundTitles) {
 			foreach (var (locatedTitleName, locatedTitle) in newTitle.foundTitles) {
 				if (newTitle.Rank == TitleRank.county) {
