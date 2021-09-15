@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using commonItems;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
@@ -54,7 +55,7 @@ namespace ImperatorToCK3.Imperator {
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info("Date: " + dateString);
 				if (EndDate > configuration.Ck3BookmarkDate) {
-					Logger.Error("Save date is later than CK3 bookmark date, proceeding at your own risk!");
+					throw new ArgumentOutOfRangeException(nameof(EndDate), "Save date is later than CK3 bookmark date you inputted!");
 				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
@@ -104,6 +105,10 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading Pops");
 				pops = new PopsBloc(reader).PopsFromBloc;
 				Logger.Info("Loaded " + pops.StoredPops.Count + " pops.");
+			});
+			RegisterKeyword("diplomacy", reader => {
+				Logger.Info("Loading Diplomacy");
+				var diplomacy = new Diplomacy.Diplomacy(reader);
 			});
 			RegisterKeyword("played_country", reader => {
 				var playedCountryBlocParser = new Parser();
