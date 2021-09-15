@@ -274,3 +274,13 @@ ir_thiedburga_female = { Thiedburga ThI_tpurka }
 ir_wienke_female = { Wienke FI_nke }
 ir_wiltrud_female = { Wiltrud Filtrut }
 ulfhild_female = { Ulfhild Wulfhild Wulfhilde Fulfhilt }
+
+
+### Child numbering
+first_male = { Primus Pervoy }
+second_male = { Secundus Vtorak }
+third_male = { Tertius Tretyak }
+fourth_male = { Quartus Chetvertak }
+fifth_male = { Quintus Pyatak }
+sixth_male = { Sextus Shestak }
+seventh_male = { Septimus Semoy }

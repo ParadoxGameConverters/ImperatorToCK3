@@ -4,7 +4,7 @@
 # [normal adjective]: something-ск, without dots or endings
 
  # version 0.1
- old_egyptian:0 "Богерск"
+ old_egyptian:0 "Староегиптянск"
  old_egyptian_collective_noun:1 "Египтяне"
  
  numidian:0 "Нумидийск"
@@ -269,3 +269,28 @@
  arvanite_group_collective_noun:0 "Арваниты"
  albanian:0 "Албанск"
  albanian_collective_noun:0 "Албанцы"
+ 
+ galatian:0 "Галатск"
+ galatian_collective_noun:0 "Галаты"
+ hunnic:0 "Гуннск"
+ hunnic_collective_noun:0 "Гунны"
+ urslavic:0 "Славянск"
+ urslavic_collective_noun:0 "Славяне"
+ oscan:0 "Осканск"
+ oscan_collective_noun:0 "Осканы"
+ samnite:0 "Самнитск"
+ samnite_collective_noun:0 "Самниты"
+ venetic:0 "Венетск"
+ venetic_collective_noun:0 "Венеты"
+ ligustic:0 "Лигустск"
+ ligustic_collective_noun:0 "Лигуры"
+ messapic:0 "Мессапианцск"
+ messapic_collective_noun:0 "Мессапианцы"
+ sardonian:0 "Сардонск"
+ sardonian_collective_noun:0 "Сардонианцы"
+ siculian:0 "Сикулийск"
+ siculian_collective_noun:0 "Сикулийцы"
+ adnanite:0 "Аднанитск"
+ adnanite_collective_noun:0 "Сыновья Аднана"
+ qahtanite:0 "Кахтанитск"
+ qahtanite_collective_noun:0 "Сыновья Кахтана"
