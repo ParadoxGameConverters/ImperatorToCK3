@@ -7,6 +7,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 	public enum GovernmentType { monarchy, republic, tribal }
 	public partial class Country {
 		public ulong ID { get; } = 0;
+		public bool PlayerCountry { get; set; }
 		public ulong? Monarch { get; private set; }  // >=0 are valid
 		public string Tag { get; private set; } = "";
 		public string Name => CountryName.Name;

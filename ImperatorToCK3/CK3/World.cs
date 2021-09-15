@@ -68,12 +68,12 @@ namespace ImperatorToCK3.CK3 {
 
 			ImportImperatorCharacters(
 				impWorld,
-				theConfiguration.ConvertBirthAndDeathDates,
 				impWorld.EndDate,
 				theConfiguration.Ck3BookmarkDate
 			);
 			LinkSpouses();
 			LinkMothersAndFathers();
+			LinkHolders();
 
 			ImportImperatorFamilies(impWorld);
 
@@ -82,18 +82,30 @@ namespace ImperatorToCK3.CK3 {
 
 			PurgeLandlessVanillaCharacters();
 		}
-		private void ImportImperatorCharacters(Imperator.World impWorld, bool convertBirthAndDeathDates, Date endDate, Date ck3BookmarkDate) {
+
+		private void LinkHolders() {
+			Logger.Info("Linking titles to holders.");
+			foreach (var title in LandedTitles.Values) {
+				if (title.HolderID != "0" && Characters.TryGetValue(title.HolderID, out var holder)) {
+					title.Holder = holder;
+					if (title.PlayerCountry) {
+						title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
+					}
+				}
+			}
+		}
+
+		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Date ck3BookmarkDate) {
 			Logger.Info("Importing Imperator Characters.");
 
 			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
-				ImportImperatorCharacter(character, convertBirthAndDeathDates, endDate, ck3BookmarkDate);
+				ImportImperatorCharacter(character, endDate, ck3BookmarkDate);
 			}
 			Logger.Info($"{Characters.Count} total characters recognized.");
 		}
 
 		private void ImportImperatorCharacter(
 			Imperator.Characters.Character character,
-			bool convertBirthAndDeathDates,
 			Date endDate,
 			Date ck3BookmarkDate
 		) {
@@ -107,7 +119,6 @@ namespace ImperatorToCK3.CK3 {
 				localizationMapper,
 				provinceMapper,
 				deathReasonMapper,
-				convertBirthAndDeathDates,
 				endDate,
 				ck3BookmarkDate
 			);
@@ -135,13 +146,15 @@ namespace ImperatorToCK3.CK3 {
 			newTitle.InitializeFromTag(
 				country.Value,
 				imperatorCountries,
+				Characters,
 				localizationMapper,
 				landedTitles,
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
 				governmentMapper,
-				successionLawMapper
+				successionLawMapper,
+				definiteFormMapper
 			);
 
 			var name = newTitle.Name;
@@ -439,6 +452,7 @@ namespace ImperatorToCK3.CK3 {
 		private readonly CoaMapper coaMapper;
 		private readonly CultureMapper cultureMapper = new();
 		private readonly DeathReasonMapper deathReasonMapper = new();
+		private readonly DefiniteFormMapper definiteFormMapper = new("configurables/definite_form_names.txt");
 		private readonly GovernmentMapper governmentMapper = new();
 		private readonly LocalizationMapper localizationMapper = new();
 		private readonly NicknameMapper nicknameMapper = new("configurables/nickname_map.txt");

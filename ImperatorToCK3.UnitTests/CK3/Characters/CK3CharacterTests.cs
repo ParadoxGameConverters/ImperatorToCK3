@@ -24,7 +24,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private LocalizationMapper localizationMapper = new();
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
-			private bool convertBirthAndDeathDates = true;
 
 			public Character Build() {
 				var character = new Character();
@@ -37,7 +36,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 					localizationMapper,
 					provinceMapper,
 					deathReasonMapper,
-					convertBirthAndDeathDates,
 					new Date(867, 1, 1),
 					new Date(867, 1, 1)
 				);
@@ -77,6 +75,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			}
 		}
 
+		private readonly CK3CharacterBuilder builder = new();
 		[Fact]
 		public void AllLinksCanBeRemoved() {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
@@ -90,19 +89,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			imperatorCharacter.Children.Add(imperatorChild.ID, imperatorChild);
 			imperatorCharacter.Spouses.Add(imperatorSpouse.ID, imperatorSpouse);
 
-			var character = new CK3CharacterBuilder()
+			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.Build();
-			var mother = new CK3CharacterBuilder()
+			var mother = builder
 				.WithImperatorCharacter(imperatorMother)
 				.Build();
-			var father = new CK3CharacterBuilder()
+			var father = builder
 				.WithImperatorCharacter(imperatorFather)
 				.Build();
-			var child = new CK3CharacterBuilder()
+			var child = builder
 				.WithImperatorCharacter(imperatorChild)
 				.Build();
-			var spouse = new CK3CharacterBuilder()
+			var spouse = builder
 				.WithImperatorCharacter(imperatorSpouse)
 				.Build();
 
@@ -134,7 +133,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			);
 			var traitMapper = new TraitMapper(traitMapReader);
 
-			var character = new CK3CharacterBuilder()
+			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithTraitMapper(traitMapper)
 				.Build();
@@ -157,7 +156,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var religionMapper = new ReligionMapper(mapReader);
 			religionMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
 
-			var character = new CK3CharacterBuilder()
+			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithReligionMapper(religionMapper)
 				.Build();
@@ -176,7 +175,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var cultureMapper = new CultureMapper(mapReader);
 			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
 
-			var character = new CK3CharacterBuilder()
+			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithCultureMapper(cultureMapper)
 				.Build();
@@ -205,11 +204,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var cultureMapper = new CultureMapper(mapReader);
 			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
 
-			var character1 = new CK3CharacterBuilder()
+			var character1 = builder
 				.WithImperatorCharacter(imperatorCharacter1)
 				.WithCultureMapper(cultureMapper)
 				.Build();
-			var character2 = new CK3CharacterBuilder()
+			var character2 = builder
 				.WithImperatorCharacter(imperatorCharacter2)
 				.WithCultureMapper(cultureMapper)
 				.Build();
@@ -228,7 +227,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				"link = { imp=the_goose ck3=nick_the_goose }"
 			);
 
-			var character = new CK3CharacterBuilder()
+			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithNicknameMapper(new NicknameMapper(mapReader))
 				.Build();
@@ -245,7 +244,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				"link = { imp=shat_to_death ck3=diarrhea }"
 			);
 
-			var character = new CK3CharacterBuilder()
+			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithDeathReasonMapper(new DeathReasonMapper(mapReader))
 				.Build();
@@ -263,7 +262,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var localizationMapper = new LocalizationMapper();
 			localizationMapper.AddLocalization("alexandros", nameLocBlock);
 
-			var character = new CK3CharacterBuilder()
+			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithLocalizationMapper(localizationMapper)
 				.Build();
@@ -272,15 +271,63 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		}
 
 		[Fact]
+		public void AgeSexReturnsCorrectString() {
+			ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
+			var reader1 = new BufferedReader(
+				"= {\n" +
+				"\tage=56\n" +
+				"\tfemale=yes\n" +
+				"}"
+			);
+			var reader2 = new BufferedReader(
+				"= {\n" +
+				"\tage=56\n" +
+				"}"
+			);
+			var reader3 = new BufferedReader(
+				"= {\n" +
+				"\tage=8\n" +
+				"\tfemale=yes\n" +
+				"}"
+			);
+			var reader4 = new BufferedReader(
+				"= {\n" +
+				"\tage=8\n" +
+				"}"
+			);
+			var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "42", genesDB);
+			var impCharacter2 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "43", genesDB);
+			var impCharacter3 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader3, "44", genesDB);
+			var impCharacter4 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader4, "45", genesDB);
+			var character1 = builder
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			var character2 = builder
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+			var character3 = builder
+				.WithImperatorCharacter(impCharacter3)
+				.Build();
+			var character4 = builder
+				.WithImperatorCharacter(impCharacter4)
+				.Build();
+
+			Assert.Equal("female", character1.AgeSex);
+			Assert.Equal("male", character2.AgeSex);
+			Assert.Equal("girl", character3.AgeSex);
+			Assert.Equal("boy", character4.AgeSex);
+		}
+
+		[Fact]
 		public void LinkingParentWithWrongIdIsLogged() {
-			var character = new CK3CharacterBuilder().Build();
+			var character = builder.Build();
 			character.PendingMotherID = "imperator1";
 			character.PendingFatherID = "imperator2";
 
-			var mother = new CK3CharacterBuilder()
+			var mother = builder
 				.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(69))
 				.Build();
-			var father = new CK3CharacterBuilder()
+			var father = builder
 				.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(420))
 				.Build();
 
