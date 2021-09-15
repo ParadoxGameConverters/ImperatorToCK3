@@ -181,3 +181,5 @@
  holy_site_prusa_effect_name:0 "Por [holy_site|lE] #weak ($holy_site_prusa_name$)#!"
  holy_site_giza_effect_name:0 "Por [holy_site|lE] #weak ($holy_site_giza_name$)#!"
  holy_site_bahnasa_effect_name:0 "Por [holy_site|lE] #weak ($holy_site_bahnasa_name$)#!"
+ 
+ holy_site_celtic_dublin_name:0 "$b_dublin$"

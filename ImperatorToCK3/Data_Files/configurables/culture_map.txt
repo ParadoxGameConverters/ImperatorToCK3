@@ -56,7 +56,7 @@ link = { ck3 = lydian imp = lydian }
 link = { ck3 = hittite imp = lycaonian imp = cilician imp = kennataian imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
 link = { ck3 = phrygian imp = phrygian imp = mysian }
 #Invictus mod
-link = { ck3 = greek imp = galatian } # TODO: add Galatian culture to CK3
+link = { ck3 = galatian imp = galatian }
 
 ## Aryan
 link = { ck3 = marathi imp = vidharban imp = maharashtran }
@@ -69,31 +69,19 @@ link = { ck3 = sindhi imp = sindhi }
 link = { ck3 = kashmiri imp = dardic }
 
 ## Bactrian
-link = { ck3 = bactrian imp = bactrian }
-link = { ck3 = sogdian imp = wusun imp = sogdian imp = shule }
-link = { ck3 = saka imp = saka }
+link = { ck3 = bactrian imp = bactrian imp = yuezhi }
+link = { ck3 = pecheneg imp = wusun }
+link = { ck3 = sogdian imp = sogdian }
+link = { ck3 = saka imp = saka imp = shule }
 link = { ck3 = tocharian imp = tocharian imp = phryni }
-link = { ck3 = indogreek imp = tayuan imp = yuezhi } #https://en.wikipedia.org/wiki/Dayuan
+link = { ck3 = indogreek imp = tayuan } #https://en.wikipedia.org/wiki/Dayuan
 link = { ck3 = tajik imp = margian }
 
 ## Baltic & Slavic (Venedia is Proto-Slavic)
 link = { ck3 = lithuanian imp = aestian ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
 link = { ck3 = prussian imp = aestian ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
 link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
-link = { ck3 = bosnian imp = aestian ck3Province = 3527 ck3Province = 504 ck3Province = 3524 ck3Province = 3525 ck3Province = 3526 ck3Province = 3504 ck3Province = 3505 ck3Province = 3506 ck3Province = 3507 ck3Province = 3508 ck3Province = 3564 ck3Province = 3565 ck3Province = 3566 ck3Province = 3567 ck3Province = 3568 ck3Province = 3518 ck3Province = 3519 ck3Province = 3515 ck3Province = 3516 ck3Province = 3517 ck3Province = 3512 ck3Province = 3513 ck3Province = 3514 ck3Province = 463 ck3Province = 3509 ck3Province = 3510 ck3Province = 3511 ck3Province = 3521 ck3Province = 3522 ck3Province = 3523 }
-link = { ck3 = bosnian imp = aestian ck3Province = 466 ck3Province = 3557 ck3Province = 3559 ck3Province = 3560 ck3Province = 3561 ck3Province = 3562 ck3Province = 3563 ck3Province = 3558 ck3Province = 3500 ck3Province = 3501 ck3Province = 3502 ck3Province = 3503 ck3Province = 3553 ck3Province = 3555 ck3Province = 3556 }
-link = { ck3 = croatian imp = aestian ck3Province = 465 ck3Province = 3545 ck3Province = 3546 ck3Province = 3547 ck3Province = 3548 ck3Province = 3549 ck3Province = 3550 ck3Province = 3551 ck3Province = 3552 ck3Province = 467 }
-link = { ck3 = croatian imp = aestian ck3Province = 464 ck3Province = 3540 ck3Province = 2523 ck3Province = 3541 ck3Province = 3542 ck3Province = 3543 ck3Province = 3544 ck3Province = 2521 ck3Province = 459 ck3Province = 3536 ck3Province = 3537 ck3Province = 3538 ck3Province = 3539 }
-link = { ck3 = croatian imp = aestian ck3Province = 461 ck3Province = 3533 ck3Province = 3534 ck3Province = 3535 ck3Province = 458 ck3Province = 460 ck3Province = 462 ck3Province = 3531 ck3Province = 3532 ck3Province = 3528 ck3Province = 3529 ck3Province = 3530 ck3Province = 3608 ck3Province = 3609 ck3Province = 3610 }
-link = { ck3 = serbian imp = aestian ck3Province = 502 ck3Province = 3591 ck3Province = 3592 ck3Province = 3587 ck3Province = 3588 ck3Province = 3589 ck3Province = 3590 ck3Province = 3598 ck3Province = 3599 ck3Province = 3600 ck3Province = 3581 ck3Province = 3582 ck3Province = 3583 ck3Province = 3584 ck3Province = 3585 ck3Province = 3586 ck3Province = 3593 ck3Province = 3594 ck3Province = 3595 ck3Province = 3596 ck3Province = 3597 }
-link = { ck3 = serbian imp = aestian ck3Province = 3604 ck3Province = 3605 ck3Province = 3606 ck3Province = 3607 ck3Province = 505 ck3Province = 3601 ck3Province = 3602 ck3Province = 3603 ck3Province = 469 ck3Province = 503 ck3Province = 3577 ck3Province = 3578 ck3Province = 3579 ck3Province = 3580 ck3Province = 3574 ck3Province = 3575 ck3Province = 3576 ck3Province = 3571 ck3Province = 3572 ck3Province = 3573 }
-link = { ck3 = bulgarian imp = aestian ck3Province = 499 ck3Province = 500 ck3Province = 507 ck3Province = 508 ck3Province = 3678 ck3Province = 3691 ck3Province = 510 ck3Province = 498 ck3Province = 501 ck3Province = 3658 ck3Province = 3656 ck3Province = 3653 ck3Province = 3650 ck3Province = 3643 ck3Province = 471 ck3Province = 3636 }
-link = { ck3 = pommeranian imp = aestian ck3Province = 2823 ck3Province = 2818 ck3Province = 3154 ck3Province = 2826 ck3Province = 3187 ck3Province = 3152 ck3Province = 2830 ck3Province = 2827 ck3Province = 3190 ck3Province = 3196 }
-link = { ck3 = czech imp = aestian impRegion = bohemia_area }
-link = { ck3 = polish imp = aestian impRegion = venedia_region impRegion = vistulia_region }
-link = { ck3 = slovien imp = aestian ck3Province = 3089 ck3Province = 3808 ck3Province = 3805 ck3Province = 3835 ck3Province = 3827 ck3Province = 3839 ck3Province = 3842 ck3Province = 3831 ck3Province = 524 ck3Province = 525 ck3Province = 3811 ck3Province = 3854 ck3Province = 3856 ck3Province = 3846 ck3Province = 3848 ck3Province = 3815 ck3Province = 3870 ck3Province = 3862 ck3Province = 3823 ck3Province = 3817 ck3Province = 3820 ck3Province = 3826 impRegion = pannonia_region impRegion = dacia_region }
-link = { ck3 = russian imp = aestian impRegion = sarmatia_europea_region impRegion = sarmatia_asiatica_region impRegion = taurica_region }
-link = { ck3 = estonian imp = aestian } # Fallback
+link = { ck3 = urslavic imp = aestian }
 
 ## Belgea (sic)
 link = { ck3 = belgae imp = sennonian imp = bellovacian imp = veliocassian imp = morinian imp = nervian imp = eburonian imp = belgae imp = belgic imp = treverian imp = aduatacian }
@@ -287,11 +275,14 @@ link = { ck3 = castilian imp = roman imp = osco_umbrian imp = umbrian imp = samn
 link = { ck3 = portuguese imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian impRegion = lusitania_region }
 
 # Default
-link = { ck3 = cisalpine imp = venetic imp = ligurian }
-link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite }
-link = { ck3 = italian imp = lucanian imp = bruttian imp = messapic }
-link = { ck3 = sardinian imp = sardonian }
-link = { ck3 = sicilian imp = siculian }
+link = { ck3 = ligustic imp = ligurian }
+link = { ck3 = venetic imp = venetic }
+link = { ck3 = roman imp = roman }
+link = { ck3 = samnite imp = samnite }
+link = { ck3 = oscan imp = osco_umbrian imp = umbrian }
+link = { ck3 = messapic imp = lucanian imp = bruttian imp = messapic }
+link = { ck3 = sardonian imp = sardonian }
+link = { ck3 = siculian imp = siculian }
 
 # Tyrrenic
 link = { ck3 = rhaetian imp = etruscan imp = rhaetian impRegion = germania_superior_region impRegion = belgica_region impRegion = germania_region impRegion = bohemia_area impRegion = venedia_region impRegion = scandinavia_region }
@@ -340,12 +331,8 @@ link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyr
 link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci }
 
 ## South Levantine
-link = { ck3 = andalusian imp = thamudi imp = hadhrami imp = makan imp = taif imp = qedarite imp = qatabanian imp = sheban imp = minaean imp = himjar impRegion = baetica_region impRegion = contestania_region impRegion = tarraconensis_region impRegion = lusitania_region impRegion = gallaecia_region }
-link = { ck3 = egyptian imp = thamudi imp = hadhrami imp = makan imp = taif imp = qedarite imp = qatabanian imp = sheban imp = minaean imp = himjar impRegion = cyrenaica_region impRegion = lower_egypt_region impRegion = upper_egypt_region }
-link = { ck3 = maghrebi imp = thamudi imp = hadhrami imp = makan imp = taif imp = qedarite imp = qatabanian imp = sheban imp = minaean imp = himjar impRegion = mauretainia_region impRegion = numidia_region impRegion = africa_region }
-link = { ck3 = bedouin imp = thamudi imp = hadhrami imp = makan imp = taif }
-link = { ck3 = levantine imp = qedarite }
-link = { ck3 = yemeni imp = qatabanian imp = sheban imp = minaean imp = himjar }
+link = { ck3 = adnanite imp = thamudi imp = qedarite imp = taif } # Pre-Islamic North Arabian
+link = { ck3 = qahtanite imp = hadhrami imp = himjar imp = minaean imp = qatabanian imp = sheban imp = makan } # Pre-Islamic South Arabian
 
 ## Tibetan
 link = { ck3 = lhomon imp = zhangzhung imp = sumpa imp = yarlung imp = tsang ck3Province = 9145 ck3Province = 9146 ck3Province = 9179 ck3Province = 9149 ck3Province = 9148 ck3Province = 9147 ck3Province = 9143 ck3Province = 9144 ck3Province = 9137 ck3Province = 9138 ck3Province = 9139 ck3Province = 9142 ck3Province = 9140 ck3Province = 9141 ck3Province = 9128 ck3Province = 9129 ck3Province = 9133 ck3Province = 9134 ck3Province = 9135 ck3Province = 9154 ck3Province = 9155 ck3Province = 9156 ck3Province = 9150 ck3Province = 9151 ck3Province = 9152 ck3Province = 9153 ck3Province = 9157 ck3Province = 9158 ck3Province = 9159 ck3Province = 9160 ck3Province = 9161 ck3Province = 9162 ck3Province = 9170 ck3Province = 9169 ck3Province = 9171 ck3Province = 9172 ck3Province = 9163 ck3Province = 9173 ck3Province = 9174 ck3Province = 9175 ck3Province = 9176 ck3Province = 9177 ck3Province = 9178 ck3Province = 9165 ck3Province = 9164 ck3Province = 9166 ck3Province = 9167 ck3Province = 9168 }
