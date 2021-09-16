@@ -3,10 +3,10 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Diplomacy {
 	public class War {
-		public Date? StartDate { get; private set; }
+		public Date StartDate { get; private set; } = new(1, 1, 1);
 		public List<ulong> AttackerCountryIds { get; } = new();
 		public List<ulong> DefenderCountryIds { get; } = new();
-		public string? WarGoal { get; private set; }
+		public string WarGoal { get; private set; } = "raiding_wargoal";
 
 		static War() {
 			parser.RegisterKeyword("start_date", reader => {
@@ -36,12 +36,11 @@ namespace ImperatorToCK3.Imperator.Diplomacy {
 		public static War Parse(BufferedReader reader) {
 			warToReturn = new War();
 			parser.ParseStream(reader);
-			if (warToReturn.StartDate is null
-				|| warToReturn.WarGoal is null
-				|| warToReturn.AttackerCountryIds.Count == 0
-				|| warToReturn.DefenderCountryIds.Count == 0
-			) {
-				throw new System.FormatException("War is not fully defined!");
+			if (warToReturn.AttackerCountryIds.Count == 0) {
+				throw new System.FormatException("War has no attackers");
+			}
+			if (warToReturn.DefenderCountryIds.Count == 0) {
+				throw new System.FormatException("War has no defenders!");
 			}
 			return warToReturn;
 		}

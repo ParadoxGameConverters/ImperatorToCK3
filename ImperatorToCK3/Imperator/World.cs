@@ -20,6 +20,7 @@ namespace ImperatorToCK3.Imperator {
 		private Pops.Pops pops = new();
 		public Provinces.Provinces Provinces { get; private set; } = new();
 		public Countries.Countries Countries { get; private set; } = new();
+		public List<War> Wars { get; private set; } = new();
 		private GenesDB genesDB = new();
 
 		private enum SaveType { INVALID = 0, PLAINTEXT = 1, COMPRESSED_ENCODED = 2 }
@@ -109,6 +110,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("diplomacy", reader => {
 				Logger.Info("Loading Diplomacy");
 				var diplomacy = new Diplomacy.Diplomacy(reader);
+				Wars = diplomacy.Wars;
 			});
 			RegisterKeyword("played_country", reader => {
 				var playedCountryBlocParser = new Parser();
