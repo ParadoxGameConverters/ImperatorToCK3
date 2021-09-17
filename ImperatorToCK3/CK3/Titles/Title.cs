@@ -443,9 +443,8 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			writer.WriteLine($"\t{ck3BookmarkDate} = {{");
 
-			var deFactoLiege = DeFactoLiege;
-			if (deFactoLiege is not null) {
-				writer.WriteLine("\t\tliege = " + deFactoLiege.Name);
+			if (DeFactoLiege is not null) {
+				writer.WriteLine($"\t\tliege = {DeFactoLiege.Name}");
 			}
 
 			var succLaws = SuccessionLaws;
