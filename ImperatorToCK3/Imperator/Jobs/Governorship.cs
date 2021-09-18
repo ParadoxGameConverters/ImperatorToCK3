@@ -6,6 +6,7 @@ namespace ImperatorToCK3.Imperator.Jobs {
 		public ulong CharacterID { get; private set; } = 0;
 		public Date StartDate { get; private set; } = new(1, 1, 1);
 		public string RegionName { get; private set; } = string.Empty;
+		public bool LiegeAdjective { get; set; } = false;
 
 		public Governorship(BufferedReader reader) {
 			var parser = new Parser();

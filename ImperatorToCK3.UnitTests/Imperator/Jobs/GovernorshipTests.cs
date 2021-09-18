@@ -12,6 +12,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs {
 			Assert.Equal((ulong)0, governorship.CharacterID);
 			Assert.Equal(new Date(1, 1, 1), governorship.StartDate);
 			Assert.True(string.IsNullOrEmpty(governorship.RegionName));
+			Assert.False(governorship.LiegeAdjective);
 		}
 		[Fact]
 		public void FieldsCanBeSet() {

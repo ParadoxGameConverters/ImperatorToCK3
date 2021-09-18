@@ -2,9 +2,9 @@
 using commonItems;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
-	public class TagTitleMapping {
-		public string? TagRankMatch(string imperatorTag, string rank) {
-			if (this.imperatorTag != imperatorTag) {
+	public class Mapping {
+		public string? RankMatch(string imperatorTagOrRegion, string rank) {
+			if (this.imperatorTagOrRegion != imperatorTagOrRegion) {
 				return null;
 			}
 			if (ranks.Count > 0 && !ranks.Contains(rank)) {
@@ -14,25 +14,25 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		}
 
 		private string ck3Title = string.Empty;
-		private string imperatorTag = string.Empty;
+		private string imperatorTagOrRegion = string.Empty;
 		private readonly SortedSet<string> ranks = new();
 
 		private static readonly Parser parser = new();
-		private static TagTitleMapping mappingToReturn = new();
-		static TagTitleMapping() {
+		private static Mapping mappingToReturn = new();
+		static Mapping() {
 			parser.RegisterKeyword("ck3", reader => {
 				mappingToReturn.ck3Title = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.imperatorTag = ParserHelpers.GetString(reader);
+				mappingToReturn.imperatorTagOrRegion = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("rank", reader => {
 				mappingToReturn.ranks.Add(ParserHelpers.GetString(reader));
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public static TagTitleMapping Parse(BufferedReader reader) {
-			mappingToReturn = new TagTitleMapping();
+		public static Mapping Parse(BufferedReader reader) {
+			mappingToReturn = new Mapping();
 			parser.ParseStream(reader);
 			return mappingToReturn;
 		}
