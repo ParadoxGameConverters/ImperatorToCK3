@@ -6,17 +6,17 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
     public class LocalizationMapperTests {
 		[Fact] public void LocalisationsCanBeLoadedAndMatched() {
 			var reader1 = new BufferedReader(
-				CommonFunctions.UTF8BOM + "l_english:\n" +
+				"l_english:\n" +
 				" key1:0 \"value 1\" # comment\n" +
 				" key2:0 \"value \"subquoted\" 2\"\n"
 			);
 			var reader2 = new BufferedReader(
-				CommonFunctions.UTF8BOM + "l_french:\n" +
+				"l_french:\n" +
 				" key1:0 \"valuee 1\"\n" +
 				" key2:0 \"valuee \"subquoted\" 2\"\n"
 			);
 			var reader3 = new BufferedReader(
-				CommonFunctions.UTF8BOM + "l_english:\n" +
+				"l_english:\n" +
 				" key1:0 \"replaced value 1\"\n"
 			);
 
@@ -34,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 		[Fact]
 		public void UnquotedLocIsIgnored() {
 			var reader = new BufferedReader(
-				CommonFunctions.UTF8BOM + "l_english:\n" +
+				"l_english:\n" +
 				" key1:0 unqotedValue"
 			);
 			var locMapper = new LocalizationMapper();
@@ -45,7 +45,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 		[Fact]
 		public void LocUnseparatedFromKeyIsIgnored() {
 			var reader = new BufferedReader(
-				CommonFunctions.UTF8BOM + "l_english:\n" +
+				"l_english:\n" +
 				" key1 \"loc\""
 			);
 			var locMapper = new LocalizationMapper();
@@ -56,7 +56,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 		[Fact]
 		public void CommentLinesAreIgnored() {
 			var reader = new BufferedReader(
-				CommonFunctions.UTF8BOM + "l_english:\n" +
+				"l_english:\n" +
 				"#key1: \"loc\""
 			);
 			var locMapper = new LocalizationMapper();
@@ -74,7 +74,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 		public void LocalisationsReturnsEnglishForMissingLanguage() {
 			var locs = new LocalizationMapper();
 			var reader = new BufferedReader(
-				CommonFunctions.UTF8BOM + "l_english:\n" +
+				"l_english:\n" +
 				" key1:1 \"value 1\" # comment\n"
 			 );
 			locs.ScrapeStream(reader, "english");
