@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using commonItems;
-using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
