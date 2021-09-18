@@ -9,8 +9,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs {
 	public class JobsTests {
 		[Fact]
 		public void GovernorshipsDefaultToEmpty() {
-			var reader = new BufferedReader(string.Empty);
-			var jobs = new ImperatorToCK3.Imperator.Jobs.Jobs(reader);
+			var jobs = new ImperatorToCK3.Imperator.Jobs.Jobs();
 			Assert.Empty(jobs.Governorships);
 		}
 		[Fact]

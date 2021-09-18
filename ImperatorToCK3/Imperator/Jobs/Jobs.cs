@@ -5,6 +5,7 @@ namespace ImperatorToCK3.Imperator.Jobs {
 	public class Jobs {
 		public List<Governorship> Governorships { get; } = new();
 
+		public Jobs() { }
 		public Jobs(BufferedReader reader) {
 			var ignoredTokens = new List<string>();
 			var parser = new Parser();
