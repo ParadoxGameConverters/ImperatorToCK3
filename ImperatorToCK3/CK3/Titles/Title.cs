@@ -440,5 +440,112 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		// used by barony titles only
 		public ulong? Province { get; private set; } // province is area on map. b_ barony is its corresponding title.
+
+
+
+
+
+
+
+		public void InitializeFromGovernorship (
+			Imperator.Countries.Country country,
+			Imperator.Jobs.Governorship governorship,
+			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
+			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters,
+			LocalizationMapper localizationMapper,
+			LandedTitles landedTitles,
+			ProvinceMapper provinceMapper,
+			CoaMapper coaMapper,
+			TagTitleMapper tagTitleMapper,
+			GovernmentMapper governmentMapper,
+			DefiniteFormMapper definiteFormMapper,
+			Mappers.Region.ImperatorRegionMapper imperatorRegionMapper
+		) {
+			IsImportedOrUpdatedFromImperator = true;
+
+			// ------------------ determine CK3 title
+
+			LocBlock? localizedName = localizationMapper.GetLocBlockForKey(governorship.RegionName);
+
+			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
+
+			string? title = null;
+			if (country.CK3Title is not null) {
+				title = tagTitleMapper.GetTitleForRegion(governorship.RegionName, country.CK3Title.Name);
+			}
+			if (title is null) {
+				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
+			}
+
+			Name = title;
+
+			SetRank();
+
+			PlayerCountry = false;
+
+			var impGovernor = imperatorCharacters[governorship.CharacterID];
+			// ------------------ determine holder
+			if (impGovernor.CK3Character is null) {
+				throw new NullReferenceException($"Cannot convert governorship without a valid CK3 character for {impGovernor.ID}");
+			}
+			history.Holder = impGovernor.CK3Character.Name;
+
+
+			// ------------------ determine government
+			if (country.Government is not null) {
+				history.Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(country.Government);
+			}
+
+			// ------------------ determine color
+			var color1Opt = country.Color1;
+			if (color1Opt is not null) {
+				Color1 = color1Opt;
+			}
+			var color2Opt = country.Color2;
+			if (color2Opt is not null) {
+				Color2 = color2Opt;
+			}
+
+			// determine successions laws
+			// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
+			SuccessionLaws = new() { "high_partition_succession_law" };
+
+			// ------------------ determine CoA
+			CoA = coaMapper.GetCoaForFlagName(country.Flag);
+
+			// ------------------ determine capital
+			var governorProvince = impGovernor.ProvinceID;
+			if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.RegionName)) {
+				var provMappingsForImperatorCapital = provinceMapper.GetCK3ProvinceNumbers(governorProvince);
+				foreach (var ck3Prov in provMappingsForImperatorCapital) {
+					var foundCounty = landedTitles.GetCountyForProvince(ck3Prov);
+					if (foundCounty is not null) {
+						CapitalCounty = new(foundCounty, null);
+						break;
+					}
+				}
+			}
+
+			// ------------------ Country Name Locs
+			var nameSet = false;
+			if (localizedName is not null) {
+				Localizations.Add(Name, localizedName);
+				nameSet = true;
+			}
+			if (!nameSet) {
+				Logger.Warn($"{Name} needs help with localization!");
+			}
+
+			// --------------- Adjective Locs
+			var countryAdjectiveLocBlock = country.CountryName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
+			var adjLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
+			if (countryAdjectiveLocBlock is null || adjLocBlock is null) {
+				Logger.Warn($"Cannot set localization for {Name}!");
+			} else {
+				adjLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
+					(ref string orig, string adj) => orig = $"{adj} {orig}"
+				);
+			}
+		}
 	}
 }

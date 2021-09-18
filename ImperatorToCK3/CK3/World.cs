@@ -20,6 +20,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using commonItems;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Jobs;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
@@ -138,8 +139,8 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private void ImportImperatorCountry(
-					KeyValuePair<ulong, Country> country,
-					Dictionary<ulong, Country> imperatorCountries
+			KeyValuePair<ulong, Country> country,
+			Dictionary<ulong, Country> imperatorCountries
 		) {
 			// Create a new title
 			var newTitle = new Title();
@@ -167,7 +168,18 @@ namespace ImperatorToCK3.CK3 {
 				country.Value.CK3Title = newTitle;
 			}
 		}
+		/*
+		private void ImportImperatorGovernorships(List<Governorship> governorships) {
+			Logger.Info("Importing Imperator Countries.");
 
+			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
+			// add new ones from Imperator tags.
+			foreach (var governorship in governorships) {
+				ImportImperatorGovernorship(governorship, imperatorCountries);
+			}
+			Logger.Info($"{LandedTitles.Count} total countries recognized.");
+		}
+		*/
 		private void ImportVanillaProvinces(string ck3Path, Date ck3BookmarkDate) {
 			Logger.Info("Importing Vanilla Provinces.");
 			// ---- Loading history/provinces
