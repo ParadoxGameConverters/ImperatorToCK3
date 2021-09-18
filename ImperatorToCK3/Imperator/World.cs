@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using commonItems;
-using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
+using ImperatorToCK3.Imperator.Provinces;
 using Mods = System.Collections.Generic.List<commonItems.Mod>;
 
 namespace ImperatorToCK3.Imperator {
@@ -19,6 +20,7 @@ namespace ImperatorToCK3.Imperator {
 		private Pops.Pops pops = new();
 		public Provinces.Provinces Provinces { get; private set; } = new();
 		public Countries.Countries Countries { get; private set; } = new();
+		public Jobs.Jobs Jobs { get; private set; } = new();
 		private GenesDB genesDB = new();
 
 		private enum SaveType { INVALID = 0, PLAINTEXT = 1, COMPRESSED_ENCODED = 2 }
@@ -104,6 +106,9 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading Pops");
 				pops = new PopsBloc(reader).PopsFromBloc;
 				Logger.Info("Loaded " + pops.StoredPops.Count + " pops.");
+			});
+			RegisterKeyword("jobs", reader => {
+				Jobs = new Jobs.Jobs(reader);
 			});
 			RegisterKeyword("played_country", reader => {
 				var playedCountryBlocParser = new Parser();
