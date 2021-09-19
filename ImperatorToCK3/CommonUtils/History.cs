@@ -24,5 +24,24 @@ namespace ImperatorToCK3.CommonUtils {
 			}
 			return null;
 		}
+
+		public void AddSimpleFieldValue(string fieldName, string value, Date date) {
+			if (SimpleFields.ContainsKey(fieldName)) {
+				SimpleFields[fieldName].AddValueToHistory(value, date);
+			} else {
+				var field = new SimpleField(null);
+				field.AddValueToHistory(value, date);
+				SimpleFields.Add(fieldName, field);
+			}
+		}
+		public void AddContainerFieldValue(string fieldName, List<string> value, Date date) {
+			if (ContainerFields.ContainsKey(fieldName)) {
+				ContainerFields[fieldName].AddValueToHistory(value, date);
+			} else {
+				var field = new ContainerField(new());
+				field.AddValueToHistory(value, date);
+				ContainerFields.Add(fieldName, field);
+			}
+		}
 	}
 }

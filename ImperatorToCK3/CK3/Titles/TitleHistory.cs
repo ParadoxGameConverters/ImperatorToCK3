@@ -5,15 +5,8 @@ namespace ImperatorToCK3.CK3.Titles {
 	public class TitleHistory {
 		public TitleHistory() { }
 		public TitleHistory(History history, Date ck3BookmarkDate) {
-			this.history = history;
-			var holderFromHistory = history.GetSimpleFieldValue("holder", ck3BookmarkDate);
-			if (holderFromHistory is null) {
-				Logger.Warn("TitleHistory: holder should not be null!");
-			} else {
-				Holder = holderFromHistory;
-			}
+			InternalHistory = history;
 			Liege = history.GetSimpleFieldValue("liege", ck3BookmarkDate);
-			Government = history.GetSimpleFieldValue("government", ck3BookmarkDate);
 
 			var developmentLevelOpt = history.GetSimpleFieldValue("development_level", ck3BookmarkDate);
 			if (developmentLevelOpt is not null) {
@@ -21,16 +14,22 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 		public void Update(HistoryFactory historyFactory, BufferedReader reader) {
-			historyFactory.UpdateHistory(history, reader);
+			historyFactory.UpdateHistory(InternalHistory, reader);
 		}
 
-		// These values are open to ease management.
-		// This is a storage container for CK3::Title.
-		public string Holder { get; set; } = "0"; // ID of Character holding the Title
+		public string GetHolderId(Date date) {
+			var idFromHistory = InternalHistory.GetSimpleFieldValue("holder", date);
+			if (idFromHistory is not null) {
+				return idFromHistory;
+			}
+			return "0";
+		}
+		public string? GetGovernment(Date date) {
+			return InternalHistory.GetSimpleFieldValue("government", date);
+		}
 		public string? Liege { get; set; }
-		public string? Government { get; set; }
 		public int? DevelopmentLevel { get; set; }
 
-		private readonly History history = new();
+		public History InternalHistory { get; } = new();
 	}
 }
