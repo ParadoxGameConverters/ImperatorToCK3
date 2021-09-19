@@ -472,6 +472,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			string? title = null;
 			if (country.CK3Title is not null) {
 				title = tagTitleMapper.GetTitleForRegion(governorship.RegionName, country.CK3Title.Name);
+				DeJureLiege = country.CK3Title;
 			}
 			if (title is null) {
 				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
@@ -485,11 +486,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			var impGovernor = imperatorCharacters[governorship.CharacterID];
 			// ------------------ determine holder
-			if (impGovernor.CK3Character is null) {
-				throw new NullReferenceException($"Cannot convert governorship without a valid CK3 character for {impGovernor.ID}");
-			}
-			history.Holder = impGovernor.CK3Character.Name;
-
+			history.Holder = $"imperator{impGovernor.ID}";
 
 			// ------------------ determine government
 			if (country.Government is not null) {
@@ -511,7 +508,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			SuccessionLaws = new() { "high_partition_succession_law" };
 
 			// ------------------ determine CoA
-			CoA = coaMapper.GetCoaForFlagName(country.Flag);
+			CoA = coaMapper.GetCoaForFlagName(country.Flag); // using liege coa for now, TODO: change
 
 			// ------------------ determine capital
 			var governorProvince = impGovernor.ProvinceID;
