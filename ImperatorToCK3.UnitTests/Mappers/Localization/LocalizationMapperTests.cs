@@ -125,5 +125,23 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 			Assert.Equal("Roman", locBlock.simp_chinese);
 			Assert.Equal("Roman", locBlock.spanish);
         }
+
+		[Fact] public void LocBlockCanBeCopyConstructed() {
+			var origLocBlock = new LocBlock() {
+				english = "a",
+				french = "b",
+				german = "c",
+				russian = "d",
+				simp_chinese = "e",
+				spanish = "f"
+			};
+			var copyLocBlock = new LocBlock(origLocBlock);
+			Assert.Equal("a", copyLocBlock.english);
+			Assert.Equal("b", copyLocBlock.french);
+			Assert.Equal("c", copyLocBlock.german);
+			Assert.Equal("d", copyLocBlock.russian);
+			Assert.Equal("e", copyLocBlock.simp_chinese);
+			Assert.Equal("f", copyLocBlock.spanish);
+		}
 	}
 }
