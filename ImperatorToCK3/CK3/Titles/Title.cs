@@ -203,7 +203,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			SuccessionLaws = new() { "high_partition_succession_law" };
 
 			// ------------------ determine CoA
-			CoA = coaMapper.GetCoaForFlagName(country.Flag); // using liege coa for now, TODO: change
+			CoA = null; // using game-randomized CoA
 
 			// ------------------ determine capital
 			var governorProvince = impGovernor.ProvinceID;
@@ -266,6 +266,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 
 			history = otherTitle.history;
+
+			DeFactoLiege = otherTitle.DeFactoLiege;
+			DeJureLiege = otherTitle.DeJureLiege;
 
 			Color1 = otherTitle.Color1;
 			Color2 = otherTitle.Color2;
