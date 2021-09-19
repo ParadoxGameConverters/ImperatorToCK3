@@ -57,7 +57,6 @@ link = { imp = colchis_region ck3 = d_georgia rank = d }
 link = { imp = armenia_region ck3 = k_armenian_principality rank = k }
 link = { imp = bohemia_area ck3 = k_bohemia rank = k }
 link = { imp = bohemia_area ck3 = d_bohemia rank = d }
-link = { imp = magna_graecia_region ck3 = k_sicily rank = k }
 link = { imp = belgica_region ck3 = k_lotharingia rank = k }
 link = { imp = vistulia_region ck3 = k_galicia-volhynia rank = k }
 link = { imp = macedonia_region ck3 = k_thessalonika rank = k }

@@ -66,6 +66,19 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				return titleToReturn;
 			}
 
+			// Attempt a title match
+			foreach (var mapping in mappings) {
+				var match = mapping.RankMatch(imperatorRegion, rank);
+				if (match is not null) {
+					if (usedTitles.Contains(match)) {
+						continue;
+					}
+
+					RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
+					return match;
+				}
+			}
+
 			// Generate a new title
 			var generatedTitle = GenerateNewTitle(imperatorRegion, imperatorCountryTag, ck3LiegeTitle);
 			RegisterGovernorship(imperatorRegion, imperatorCountryTag, generatedTitle);

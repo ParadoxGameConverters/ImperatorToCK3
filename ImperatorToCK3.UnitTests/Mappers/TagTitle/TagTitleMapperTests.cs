@@ -16,6 +16,13 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 
 			Assert.Equal("k_krete", match);
 		}
+		[Fact]
+		public void TitleCanBeMatchedFromGovernorship() {
+			var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath); // reads title_map.txt from TestFiles
+			var match = mapper.GetTitleForGovernorship("central_italy_region", "ROM", "e_roman_empire");
+
+			Assert.Equal("k_romagna", match);
+		}
 
 		[Fact]
 		public void TitleCanBeMatchedByRanklessLink() {
