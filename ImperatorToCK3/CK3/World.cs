@@ -422,7 +422,8 @@ namespace ImperatorToCK3.CK3 {
 								var governorship = matchingGovernorships[0];
 								var ck3GovernorshipName = tagTitleMapper.GetTitleForRegion(governorship.RegionName, impCountry.Tag, ck3Country.Name);
 								if (ck3GovernorshipName is null) {
-									throw new NullReferenceException(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
+									Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
+									continue;
 								}
 								var ck3Governorship = LandedTitles[ck3GovernorshipName];
 								if (Characters.TryGetValue(ck3Governorship.GetHolderId(ck3BookmarkDate), out var governor)) {

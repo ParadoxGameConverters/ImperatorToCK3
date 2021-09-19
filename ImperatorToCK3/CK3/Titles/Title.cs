@@ -165,11 +165,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 
 			string? title = null;
-			if (country.CK3Title is not null) {
-				title = tagTitleMapper.GetTitleForRegion(governorship.RegionName, country.Tag, country.CK3Title.Name);
-				DeJureLiege = country.CK3Title;
-				DeFactoLiege = country.CK3Title;
-			}
+			title = tagTitleMapper.GetTitleForRegion(governorship.RegionName, country.Tag, country.CK3Title.Name);
+			DeJureLiege = country.CK3Title;
+			DeFactoLiege = country.CK3Title;
 			if (title is null) {
 				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
 			}
@@ -221,10 +219,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 
 			// ------------------ Country Name Locs
-
 			var nameSet = false;
 			LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
-			var countryAdjectiveLocBlock = country.CountryName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
+			var countryAdjectiveLocBlock = country.CK3Title.Localizations[country.CK3Title.Name + "_adj"];
 			if (regionLocBlock is not null && countryAdjectiveLocBlock is not null) {
 				var nameLocBlock = new LocBlock(regionLocBlock);
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
