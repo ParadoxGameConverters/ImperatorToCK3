@@ -24,7 +24,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"list = { unused }"
 			);
 			_ = RulerTerm.Parse(reader2);
-			Assert.True(RulerTerm.IgnoredTokens.SetEquals(new HashSet<string>() { "corruption", "list" }));
+			Assert.True(RulerTerm.IgnoredTokens.SetEquals(new HashSet<string>{ "corruption", "list" }));
 		}
 	}
 }
