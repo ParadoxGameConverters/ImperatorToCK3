@@ -79,7 +79,9 @@
 	</Target>
 
 	<Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
+		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(PublishDir)/../Configuration" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(PublishDir)/configurables" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(PublishDir)/.." SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
