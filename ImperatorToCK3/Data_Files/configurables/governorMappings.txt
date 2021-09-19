@@ -2,7 +2,7 @@
 #link = { imp = a ck3 = b rank = c }
 #a = the I:R region
 #b = the CK3 landed title
-#c = the rank the overlord has (can only be k or e)
+#c = the rank the converted governorship will have (can only be d or k)
 
 link = { imp = central_italy_region ck3 = k_romagna rank = k }
 link = { imp = taurica_region ck3 = k_pontic_steppe rank = k }
