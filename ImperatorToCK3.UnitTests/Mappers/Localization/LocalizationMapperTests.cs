@@ -3,8 +3,9 @@ using ImperatorToCK3.Mappers.Localization;
 using commonItems;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Localization {
-    public class LocalizationMapperTests {
-		[Fact] public void LocalisationsCanBeLoadedAndMatched() {
+	public class LocalizationMapperTests {
+		[Fact]
+		public void LocalisationsCanBeLoadedAndMatched() {
 			var reader1 = new BufferedReader(
 				"l_english:\n" +
 				" key1:0 \"value 1\" # comment\n" +
@@ -82,7 +83,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 			Assert.Equal("value 1", ((LocBlock)locs.GetLocBlockForKey("key1")).french);
 		}
 
-		[Fact] public void LocCanBeModifiedByMethodForEveryLanguage() {
+		[Fact]
+		public void LocCanBeModifiedByMethodForEveryLanguage() {
 			var nameLocBlock = new LocBlock {
 				english = "$ADJ$ Revolt",
 				french = "$ADJ$ révolte",
@@ -110,11 +112,13 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 			Assert.Equal("Romana revuelta", nameLocBlock.spanish);
 		}
 
-		[Fact] public void LocalizationCanBeAddedForKey() {
+		[Fact]
+		public void LocalizationCanBeAddedForKey() {
 			var localizationMapper = new LocalizationMapper();
 			Assert.Null(localizationMapper.GetLocBlockForKey("key1"));
 			localizationMapper.AddLocalization("key1", new LocBlock {
-				english = "Roman", french = "Romain"
+				english = "Roman",
+				french = "Romain"
 			});
 
 			var locBlock = localizationMapper.GetLocBlockForKey("key1");
@@ -124,9 +128,10 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 			Assert.Equal("Roman", locBlock.russian);
 			Assert.Equal("Roman", locBlock.simp_chinese);
 			Assert.Equal("Roman", locBlock.spanish);
-        }
+		}
 
-		[Fact] public void LocBlockCanBeCopyConstructed() {
+		[Fact]
+		public void LocBlockCanBeCopyConstructed() {
 			var origLocBlock = new LocBlock() {
 				english = "a",
 				french = "b",
