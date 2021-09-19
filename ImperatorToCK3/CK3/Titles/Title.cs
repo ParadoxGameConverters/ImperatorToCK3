@@ -144,7 +144,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void InitializeFromGovernorship(
 			Imperator.Countries.Country country,
 			Imperator.Jobs.Governorship governorship,
-			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
 			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,

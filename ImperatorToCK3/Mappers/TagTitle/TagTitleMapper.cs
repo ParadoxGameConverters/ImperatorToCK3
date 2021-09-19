@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
 	public class TagTitleMapper : Parser {
-		public TagTitleMapper(string filePath) {
+		public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath) {
 			Logger.Info("Parsing Title mappings.");
 			RegisterKeys();
-			ParseFile(filePath);
+			ParseFile(tagTitleMappingsPath);
+			ParseFile(governorshipTitleMappingsPath);
 			ClearRegisteredRules();
 			Logger.Info($"{mappings.Count} title mappings loaded.");
 		}
@@ -63,19 +64,6 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			// look up register
 			if (registeredGovernorshipTitles.TryGetValue($"{imperatorCountryTag}_{imperatorRegion}", out var titleToReturn)) {
 				return titleToReturn;
-			}
-
-			// Attempt a title match
-			foreach (var mapping in mappings) {
-				var match = mapping.RankMatch(imperatorRegion, rank);
-				if (match is not null) {
-					if (usedTitles.Contains(match)) {
-						continue;
-					}
-
-					RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
-					return match;
-				}
 			}
 
 			// Generate a new title

@@ -198,7 +198,6 @@ namespace ImperatorToCK3.CK3 {
 			newTitle.InitializeFromGovernorship(
 				imperatorCountries[governorship.CountryID],
 				governorship,
-				imperatorCountries,
 				imperatorCharacters,
 				localizationMapper,
 				landedTitles,
@@ -568,7 +567,7 @@ namespace ImperatorToCK3.CK3 {
 		private readonly ProvinceMapper provinceMapper = new();
 		private readonly ReligionMapper religionMapper = new();
 		private readonly SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.txt");
-		private readonly TagTitleMapper tagTitleMapper = new("configurables/title_map.txt");
+		private readonly TagTitleMapper tagTitleMapper = new("configurables/title_map.txt", "configurables/governorMappings.txt");
 		private readonly TraitMapper traitMapper = new("configurables/trait_map.txt");
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
