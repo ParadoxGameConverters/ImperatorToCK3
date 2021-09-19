@@ -25,7 +25,7 @@ jobs:
         cd ImperatorToCK3
         dotnet publish -p:PublishProfile=win-x64 -c:Release
         cd ..
-        rmdir /s /q "Release\ImperatorToCK3"
+        Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
         Xcopy /E /Y Publish Release
     - name: "Build frontend"
       run: |

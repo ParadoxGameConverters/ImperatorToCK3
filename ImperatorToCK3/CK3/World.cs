@@ -174,8 +174,9 @@ namespace ImperatorToCK3.CK3 {
 			var path = Path.Combine(ck3Path, "game/history/provinces");
 			var fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
 			foreach (var fileName in fileNames) {
-				if (!fileName.EndsWith(".txt"))
+				if (!fileName.EndsWith(".txt")) {
 					continue;
+				}
 				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
 				try {
 					var newProvinces = new Provinces.Provinces(provincesPath, ck3BookmarkDate);
@@ -300,8 +301,9 @@ namespace ImperatorToCK3.CK3 {
 		private void AddHistoryToVanillaTitles() {
 			foreach (var (name, title) in LandedTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(name);
-				if (historyOpt is not null)
+				if (historyOpt is not null) {
 					title.AddHistory(landedTitles, historyOpt);
+				}
 			}
 			// add vanilla development to counties
 			// for counties that inherit development level from de jure lieges, assign it to them directly for better reliability
@@ -442,8 +444,9 @@ namespace ImperatorToCK3.CK3 {
 
 			// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
 			foreach (var family in impWorld.Families.StoredFamilies.Values) {
-				if (family.Minor)
+				if (family.Minor) {
 					continue;
+				}
 
 				var newDynasty = new Dynasty(family, localizationMapper);
 				Dynasties.Add(newDynasty.ID, newDynasty);
