@@ -114,7 +114,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				if (provMappingsForImperatorCapital.Count > 0) {
 					var foundCounty = landedTitles.GetCountyForProvince(provMappingsForImperatorCapital[0]);
 					if (foundCounty is not null) {
-						CapitalCounty = new(foundCounty, null);
+						CapitalCounty = new(foundCounty.Name, foundCounty);
 					}
 				}
 			}
@@ -249,7 +249,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public string? CoA { get; private set; }
-		public KeyValuePair<string, Title?>? CapitalCounty { get; private set; }
+		public KeyValuePair<string, Title?>? CapitalCounty { get; set; }
 		public Imperator.Countries.Country? ImperatorCountry { get; private set; }
 		public Color? Color1 { get; private set; }
 		public Color? Color2 { get; private set; }
@@ -584,11 +584,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			// ------------------ determine capital
 			var governorProvince = impGovernor.ProvinceID;
 			if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.RegionName)) {
-				var provMappingsForImperatorCapital = provinceMapper.GetCK3ProvinceNumbers(governorProvince);
-				foreach (var ck3Prov in provMappingsForImperatorCapital) {
+				foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince)) {
 					var foundCounty = landedTitles.GetCountyForProvince(ck3Prov);
 					if (foundCounty is not null) {
-						CapitalCounty = new(foundCounty, null);
+						CapitalCounty = new(foundCounty.Name, foundCounty);
 						break;
 					}
 				}
