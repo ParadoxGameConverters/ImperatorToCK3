@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Imperator.Jobs {
 			});
 			parser.RegisterKeyword("start_date", reader => {
 				var dateStr = ParserHelpers.GetString(reader);
-				StartDate = new Date(dateStr);
+				StartDate = new Date(dateStr, AUC: true);
 			});
 			parser.RegisterKeyword("governorship", reader => {
 				RegionName = ParserHelpers.GetString(reader);

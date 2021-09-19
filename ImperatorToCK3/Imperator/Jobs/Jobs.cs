@@ -7,7 +7,7 @@ namespace ImperatorToCK3.Imperator.Jobs {
 
 		public Jobs() { }
 		public Jobs(BufferedReader reader) {
-			var ignoredTokens = new List<string>();
+			var ignoredTokens = new SortedSet<string>();
 			var parser = new Parser();
 			parser.RegisterKeyword("province_job", reader => {
 				var governorship = new Governorship(reader);

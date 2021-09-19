@@ -513,7 +513,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 
 
-		public void InitializeFromGovernorship (
+		public void InitializeFromGovernorship(
 			Imperator.Countries.Country country,
 			Imperator.Jobs.Governorship governorship,
 			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
@@ -523,7 +523,6 @@ namespace ImperatorToCK3.CK3.Titles {
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
-			GovernmentMapper governmentMapper,
 			DefiniteFormMapper definiteFormMapper,
 			Mappers.Region.ImperatorRegionMapper imperatorRegionMapper
 		) {
@@ -541,8 +540,9 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			string? title = null;
 			if (country.CK3Title is not null) {
-				title = tagTitleMapper.GetTitleForRegion(governorship.RegionName, country.CK3Title.Name);
+				title = tagTitleMapper.GetTitleForRegion(governorship.RegionName, country.Tag, country.CK3Title.Name);
 				DeJureLiege = country.CK3Title;
+				DeFactoLiege = country.CK3Title;
 			}
 			if (title is null) {
 				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
@@ -555,13 +555,14 @@ namespace ImperatorToCK3.CK3.Titles {
 			PlayerCountry = false;
 
 			var impGovernor = imperatorCharacters[governorship.CharacterID];
+			var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
 			// ------------------ determine holder
-			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.ID}", governorship.StartDate);
+			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.ID}", normalizedStartDate);
 
 			// ------------------ determine government
 			var ck3LiegeGov = country.CK3Title.GetGovernment(governorship.StartDate);
 			if (ck3LiegeGov is not null) {
-				history.InternalHistory.AddSimpleFieldValue("government", ck3LiegeGov, governorship.StartDate);
+				history.InternalHistory.AddSimpleFieldValue("government", ck3LiegeGov, normalizedStartDate);
 			}
 
 			// ------------------ determine color

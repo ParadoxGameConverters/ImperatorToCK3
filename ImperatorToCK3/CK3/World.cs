@@ -173,7 +173,7 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private void ImportImperatorGovernorships(Imperator.World impWorld) {
-			Logger.Info("Importing Imperator Countries.");
+			Logger.Info("Importing Imperator Governorships.");
 
 			var governorships = impWorld.Jobs.Governorships;
 			var imperatorCountries = impWorld.Countries.StoredCountries;
@@ -205,7 +205,6 @@ namespace ImperatorToCK3.CK3 {
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
-				governmentMapper,
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
@@ -421,9 +420,14 @@ namespace ImperatorToCK3.CK3 {
 								}
 							} else if (matchingGovernorships.Count > 0) { // otherwise, give it to the governor
 								var governorship = matchingGovernorships[0];
-								if (Characters.TryGetValue("imperator" + governorship.CharacterID.ToString(), out var governor)) {
+								var ck3GovernorshipName = tagTitleMapper.GetTitleForRegion(governorship.RegionName, impCountry.Tag, ck3Country.Name);
+								if (ck3GovernorshipName is null) {
+									throw new NullReferenceException(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
+								}
+								var ck3Governorship = LandedTitles[ck3GovernorshipName];
+								if (Characters.TryGetValue(ck3Governorship.GetHolderId(ck3BookmarkDate), out var governor)) {
 									title.ClearHolderHistory();
-									title.SetHolderId(governor.ID, governorship.StartDate);
+									title.SetHolderId(governor.ID, ck3Governorship.GetDateOfLastHolderChange());
 								}
 								title.DeFactoLiege = null;
 								countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
@@ -459,7 +463,7 @@ namespace ImperatorToCK3.CK3 {
 				// this also removes landless titles initialized from Imperator
 				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
 					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
-						if (title.IsImportedOrUpdatedFromImperator && name.IndexOf("IMPTOCK3") != -1) {
+						if (title.IsImportedOrUpdatedFromImperator && name.Contains("IMPTOCK3")) {
 							removedGeneratedTitles.Add(name);
 							landedTitles.EraseTitle(name);
 						} else {

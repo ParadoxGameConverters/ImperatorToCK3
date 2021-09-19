@@ -15,8 +15,8 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			registeredTagTitles.Add(imperatorTag, ck3Title);
 			usedTitles.Add(ck3Title);
 		}
-		public void RegisterRegion(string imperatorRegion, string ck3Title) {
-			registeredRegionTitles.Add(imperatorRegion, ck3Title);
+		public void RegisterRegion(string imperatorRegion, string imperatorCountryTag, string ck3Title) {
+			registeredRegionTitles.Add($"{imperatorCountryTag}_{imperatorRegion}", ck3Title);
 			usedTitles.Add(ck3Title);
 		}
 		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank, string localizedTitleName) {
@@ -52,7 +52,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank) {
 			return GetTitleForTag(imperatorTag, countryRank, string.Empty);
 		}
-		public string? GetTitleForRegion(string imperatorRegion, string ck3LiegeTitle) {
+		public string? GetTitleForRegion(string imperatorRegion, string imperatorCountryTag, string ck3LiegeTitle) {
 			string rank = GetCK3TitleRank(ck3LiegeTitle);
 
 			// the only case where we fail is on invalid invocation. Otherwise, failure is not an option!
@@ -61,7 +61,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			}
 
 			// look up register
-			if (registeredRegionTitles.TryGetValue(imperatorRegion, out var titleToReturn)) {
+			if (registeredRegionTitles.TryGetValue($"{imperatorCountryTag}_{imperatorRegion}", out var titleToReturn)) {
 				return titleToReturn;
 			}
 
@@ -73,14 +73,14 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 						continue;
 					}
 
-					RegisterRegion(imperatorRegion, match);
+					RegisterRegion(imperatorRegion, imperatorCountryTag, match);
 					return match;
 				}
 			}
 
 			// Generate a new title
-			var generatedTitle = GenerateNewTitle(imperatorRegion, ck3LiegeTitle);
-			RegisterRegion(imperatorRegion, generatedTitle);
+			var generatedTitle = GenerateNewTitle(imperatorRegion, imperatorCountryTag, ck3LiegeTitle);
+			RegisterRegion(imperatorRegion, imperatorCountryTag, generatedTitle);
 			return generatedTitle;
 		}
 
@@ -121,10 +121,11 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 
 			return ck3Tag;
 		}
-		private static string GenerateNewTitle(string imperatorRegion, string ck3LiegeTitle) {
+		private static string GenerateNewTitle(string imperatorRegion, string imperatorCountryTag, string ck3LiegeTitle) {
 			var ck3Tag = GetCK3TitleRank(ck3LiegeTitle);
 			ck3Tag += "_";
-			ck3Tag += ck3LiegeTitle;
+			ck3Tag += generatedCK3TitlePrefix;
+			ck3Tag += imperatorCountryTag;
 			ck3Tag += "_";
 			ck3Tag += imperatorRegion;
 

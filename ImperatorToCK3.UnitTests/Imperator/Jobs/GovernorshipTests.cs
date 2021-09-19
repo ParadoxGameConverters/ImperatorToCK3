@@ -25,7 +25,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs {
 			var governorship = new Governorship(reader);
 			Assert.Equal((ulong)589, governorship.CountryID);
 			Assert.Equal((ulong)25212, governorship.CharacterID);
-			Assert.Equal(new Date(450, 10, 1), governorship.StartDate);
+			Assert.Equal(new Date(450, 10, 1, AUC: true), governorship.StartDate);
 			Assert.Equal("galatia_region", governorship.RegionName);
 		}
 	}
