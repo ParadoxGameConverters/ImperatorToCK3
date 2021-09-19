@@ -387,7 +387,7 @@ namespace ImperatorToCK3.CK3 {
 					if (impCountry is not null && impCountry.CountryType != CountryType.rebels) {
 						var ck3Country = impCountry.CK3Title;
 						if (ck3Country is null) {
-							Logger.Debug($"IMPCOUNTRY {impCountry.Name} has no CK3 TITLE!!!");
+							Logger.Warn($"{impCountry.Name} has no CK3 title!"); // should not happen
 							continue;
 						}
 						var ck3CapitalCounty = ck3Country.CapitalCounty;
@@ -397,28 +397,23 @@ namespace ImperatorToCK3.CK3 {
 							g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.ID)
 						));
 
+						if (!ck3CapitalCounty.HasValue || ck3CapitalCounty.Value.Value is null) {
+							if (impMonarch is not null) {
+								GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch, ck3BookmarkDate);
+							} else {
+								Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Name}!");
+							}
+							continue;
+						}
 						// if title belongs to country ruler's capital's de jure duchy, make it directly held by the ruler
-						if (!ck3CapitalCounty.HasValue) {
-							Logger.Debug($"ck3CapitalCounty of {ck3Country.Name} has no VALUE!!!");
-							continue;
-						}
-						if (ck3CapitalCounty.Value.Value is null) {
-							Logger.Debug($"ck3CapitalCounty {ck3Country.Name} VALUE IS NULL!!!");
-							continue;
-						}
 						var countryCapitalDuchy = ck3CapitalCounty.Value.Value.DeJureLiege;
 						var titleLiegeDuchy = title.DeJureLiege;
 						if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
-							// TODO: FIX DUPLICATE CODE
 							if (impMonarch is not null) {
-								if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder)) {
-									title.ClearHolderHistory();
-									title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
-								}
-								title.DeFactoLiege = null;
-								countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
+								GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch, ck3BookmarkDate);
 							}
-						} else if (matchingGovernorships.Count > 0) { // otherwise, give it to the governor
+						} else if (matchingGovernorships.Count > 0) {
+							// give county to governor
 							var governorship = matchingGovernorships[0];
 							var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Name);
 							if (ck3GovernorshipName is null) {
@@ -433,12 +428,7 @@ namespace ImperatorToCK3.CK3 {
 							title.DeFactoLiege = null;
 							countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
 						} else if (impMonarch is not null) {
-							if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder)) {
-								title.ClearHolderHistory();
-								title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
-							}
-							title.DeFactoLiege = null;
-							countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
+							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch, ck3BookmarkDate);
 						}
 					} else { // e.g. uncolonised Imperator province
 						title.SetHolderId("0", ck3BookmarkDate);
@@ -450,6 +440,17 @@ namespace ImperatorToCK3.CK3 {
 						countyHoldersCache.Add(holderId);
 					}
 				}
+			}
+
+			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarch, Date ck3BookmarkDate) {
+				if (Characters.TryGetValue("imperator" + impMonarch.ToString(), out var holder)) {
+					title.ClearHolderHistory();
+					title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
+				} else {
+					Logger.Warn($"Holder doesn't exist for county {title.Name}!");
+				}
+				title.DeFactoLiege = null;
+				countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
 			}
 		}
 
