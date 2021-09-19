@@ -4,36 +4,6 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.Culture {
 	public class CultureMappingRule {
-		public CultureMappingRule() { }
-		private static readonly Parser parser = new();
-		private static CultureMappingRule mappingToReturn = new();
-		static CultureMappingRule() {
-			parser.RegisterKeyword("ck3", reader => {
-				mappingToReturn.destinationCulture = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.cultures.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("religion", reader => {
-				mappingToReturn.religions.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("owner", reader => {
-				mappingToReturn.owners.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("ck3Region", reader => {
-				mappingToReturn.ck3Regions.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("impRegion", reader => {
-				mappingToReturn.imperatorRegions.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("ck3Province", reader => {
-				mappingToReturn.ck3Provinces.Add(ParserHelpers.GetULong(reader));
-			});
-			parser.RegisterKeyword("impProvince", reader => {
-				mappingToReturn.imperatorProvinces.Add(ParserHelpers.GetULong(reader));
-			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
 		public static CultureMappingRule Parse(BufferedReader reader) {
 			mappingToReturn = new CultureMappingRule();
 			parser.ParseStream(reader);
@@ -123,11 +93,12 @@ namespace ImperatorToCK3.Mappers.Culture {
 			ulong ck3ProvinceID,
 			ulong impProvinceID,
 			string CK3ownerTitle
-			) {
+		) {
 			// This is a non religious match. We need a mapping without any religion, so if the
 			// mapping rule has any religious qualifiers it needs to fail.
-			if (religions.Count > 0)
+			if (religions.Count > 0) {
 				return null;
+			}
 
 			// Otherwise, as usual.
 			return Match(impCulture, CK3religion, ck3ProvinceID, impProvinceID, CK3ownerTitle);
@@ -141,5 +112,35 @@ namespace ImperatorToCK3.Mappers.Culture {
 		private readonly SortedSet<ulong> ck3Provinces = new();
 		private readonly SortedSet<string> imperatorRegions = new();
 		private readonly SortedSet<string> ck3Regions = new();
+
+		static CultureMappingRule() {
+			parser.RegisterKeyword("ck3", reader => {
+				mappingToReturn.destinationCulture = ParserHelpers.GetString(reader);
+			});
+			parser.RegisterKeyword("imp", reader => {
+				mappingToReturn.cultures.Add(ParserHelpers.GetString(reader));
+			});
+			parser.RegisterKeyword("religion", reader => {
+				mappingToReturn.religions.Add(ParserHelpers.GetString(reader));
+			});
+			parser.RegisterKeyword("owner", reader => {
+				mappingToReturn.owners.Add(ParserHelpers.GetString(reader));
+			});
+			parser.RegisterKeyword("ck3Region", reader => {
+				mappingToReturn.ck3Regions.Add(ParserHelpers.GetString(reader));
+			});
+			parser.RegisterKeyword("impRegion", reader => {
+				mappingToReturn.imperatorRegions.Add(ParserHelpers.GetString(reader));
+			});
+			parser.RegisterKeyword("ck3Province", reader => {
+				mappingToReturn.ck3Provinces.Add(ParserHelpers.GetULong(reader));
+			});
+			parser.RegisterKeyword("impProvince", reader => {
+				mappingToReturn.imperatorProvinces.Add(ParserHelpers.GetULong(reader));
+			});
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		}
+		private static readonly Parser parser = new();
+		private static CultureMappingRule mappingToReturn = new();
 	}
 }

@@ -5,7 +5,7 @@ using commonItems;
 namespace ImperatorToCK3.CommonUtils {
 	public class SimpleField {
 		public SortedDictionary<Date, string> ValueHistory { get; private set; } = new();
-		public string? InitialValue { private get; set; }
+		public string? InitialValue { get; set; }
 
 		public SimpleField(string? initialValue) {
 			InitialValue = initialValue;

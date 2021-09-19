@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
 	<Nullable>enable</Nullable>
+	<RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
 	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -13,11 +14,13 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>ImperatorToCK3Converter</AssemblyName>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
   
   <ItemGroup>
@@ -30,7 +33,19 @@
 
   <ItemGroup>
     <None Update="Data_Files\configurables\definite_form_names.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Data_Files\converter_globals\after_converting.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Data_Files\converter_globals\FAQ.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Data_Files\converter_globals\license.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Data_Files\converter_globals\ReadMe.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Resources\rakaly-0.3.12-x86_64-apple-darwin\rakaly">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -56,11 +71,18 @@
         <BlankMod Include="Data_Files/blankMod/**/*.*" />
     </ItemGroup>
 	
-	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)/configurables" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
-	    <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutputPath)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+	    <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+	</Target>
+
+	<Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
+		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(PublishDir)/../Configuration" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(PublishDir)/configurables" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(PublishDir)/.." SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
   <Target Name="Date" BeforeTargets="CoreCompile">

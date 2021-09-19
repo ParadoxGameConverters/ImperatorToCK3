@@ -8,7 +8,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void HolderDefaultsToZeroString() {
 			var history = new TitleHistory();
 
-			Assert.Equal("0", history.Holder);
+			Assert.Equal("0", history.GetHolderId(new Date(867, 1, 1)));
 		}
 
 		[Fact]
@@ -22,7 +22,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void GovernmentDefaultsToNull() {
 			var history = new TitleHistory();
 
-			Assert.Null(history.Government);
+			Assert.Null(history.GetGovernment(new Date(867, 1, 1)));
 		}
 
 		[Fact]
@@ -34,10 +34,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HistoryCanBeLoadedFromStream() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867,1,1));
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
 			var history = titlesHistory.PopTitleHistory("k_rome");
 
-			Assert.Equal("67", history.Holder);
+			Assert.Equal("67", history.InternalHistory.GetSimpleFieldValue("holder", new Date(867, 1, 1)));
 			Assert.Equal("e_italia", history.Liege);
 		}
 
@@ -46,7 +46,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
 			var history = titlesHistory.PopTitleHistory("k_greece");
 
-			Assert.Equal("420", history.Holder);
+			Assert.Equal("420", history.InternalHistory.GetSimpleFieldValue("holder", new Date(867, 1, 1)));
 			Assert.Equal(20, history.DevelopmentLevel);
 		}
 	}
