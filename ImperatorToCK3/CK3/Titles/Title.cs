@@ -68,8 +68,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			PlayerCountry = ImperatorCountry.PlayerCountry;
 
 			// ------------------ determine previous and current holders
-			history.History.SimpleFields.Remove("holder");
-			history.History.SimpleFields.Remove("government");
+			history.InternalHistory.SimpleFields.Remove("holder");
+			history.InternalHistory.SimpleFields.Remove("government");
 			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
 			var firstPossibleDate = new Date(0, 1, 1);
 
@@ -84,9 +84,9 @@ namespace ImperatorToCK3.CK3.Titles {
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				history.History.AddSimpleFieldValue("holder", characterId, startDate);
+				history.InternalHistory.AddSimpleFieldValue("holder", characterId, startDate);
 				if (gov is not null) {
-					history.History.AddSimpleFieldValue("government", gov, startDate);
+					history.InternalHistory.AddSimpleFieldValue("government", gov, startDate);
 				}
 			}
 
@@ -168,7 +168,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public Date GetDateOfLastHolderChange() {
-			var field = history.History.SimpleFields["holder"];
+			var field = history.InternalHistory.SimpleFields["holder"];
 			var dates = new SortedSet<Date>(field.ValueHistory.Keys);
 			var lastDate = dates.Max;
 			return lastDate ?? new Date(1, 1, 1);
@@ -177,7 +177,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			return history.GetHolderId(date);
 		}
 		public void SetHolderId(string id, Date date) {
-			history.History.AddSimpleFieldValue("holder", id, date);
+			history.InternalHistory.AddSimpleFieldValue("holder", id, date);
 		}
 		public string? GetGovernment(Date date) {
 			return history.GetGovernment(date);
@@ -377,7 +377,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		internal void ClearHolderHistory() {
-			history.History.SimpleFields.Remove("holder");
+			history.InternalHistory.SimpleFields.Remove("holder");
 		}
 
 		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title> foundTitles) {
@@ -424,14 +424,14 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void OutputHistory(StreamWriter writer, Date ck3BookmarkDate) {
 			writer.WriteLine(Name + " = {");
 
-			if (history.History.SimpleFields.ContainsKey("holder")) {
-				foreach (var (date, holderId) in history.History.SimpleFields["holder"].ValueHistory) {
+			if (history.InternalHistory.SimpleFields.ContainsKey("holder")) {
+				foreach (var (date, holderId) in history.InternalHistory.SimpleFields["holder"].ValueHistory) {
 					writer.WriteLine($"\t{date} = {{ holder = {holderId} }}");
 				}
 			}
 
-			if (history.History.SimpleFields.ContainsKey("government")) {
-				var govField = history.History.SimpleFields["government"];
+			if (history.InternalHistory.SimpleFields.ContainsKey("government")) {
+				var govField = history.InternalHistory.SimpleFields["government"];
 				var initialGovernment = govField.InitialValue;
 				if (initialGovernment is not null) {
 					writer.WriteLine($"\t\tgovernment = {initialGovernment}");

@@ -37,7 +37,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
 			var history = titlesHistory.PopTitleHistory("k_rome");
 
-			Assert.Equal("67", history.History.GetSimpleFieldValue("holder", new Date(867, 1, 1)));
+			Assert.Equal("67", history.InternalHistory.GetSimpleFieldValue("holder", new Date(867, 1, 1)));
 			Assert.Equal("e_italia", history.Liege);
 		}
 
@@ -46,7 +46,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
 			var history = titlesHistory.PopTitleHistory("k_greece");
 
-			Assert.Equal("420", history.History.GetSimpleFieldValue("holder", new Date(867, 1, 1)));
+			Assert.Equal("420", history.InternalHistory.GetSimpleFieldValue("holder", new Date(867, 1, 1)));
 			Assert.Equal(20, history.DevelopmentLevel);
 		}
 	}
