@@ -534,8 +534,6 @@ namespace ImperatorToCK3.CK3.Titles {
 				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
 			}
 
-			LocBlock? localizedName = localizationMapper.GetLocBlockForKey(governorship.RegionName);
-
 			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 
 			string? title = null;
@@ -595,9 +593,21 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 
 			// ------------------ Country Name Locs
+
 			var nameSet = false;
-			if (localizedName is not null) {
-				Localizations.Add(Name, localizedName);
+			LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
+			var countryAdjectiveLocBlock = country.CountryName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
+			if (regionLocBlock is not null && countryAdjectiveLocBlock is not null) {
+				var nameLocBlock = new LocBlock(regionLocBlock);
+				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
+					(ref string orig, string adj) => orig = $"{adj} {orig}"
+				);
+				Localizations.Add(Name, nameLocBlock);
+				nameSet = true;
+			}
+			if (!nameSet && regionLocBlock is not null) {
+				var nameLocBlock = new LocBlock(regionLocBlock);
+				Localizations.Add(Name, nameLocBlock);
 				nameSet = true;
 			}
 			if (!nameSet) {
@@ -605,14 +615,14 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 
 			// --------------- Adjective Locs
-			var countryAdjectiveLocBlock = country.CountryName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
-			var adjLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
-			if (countryAdjectiveLocBlock is null || adjLocBlock is null) {
-				Logger.Warn($"Cannot set localization for {Name}!");
-			} else {
-				adjLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-					(ref string orig, string adj) => orig = $"{adj} {orig}"
-				);
+			var adjSet = false;
+			if (countryAdjectiveLocBlock is not null) {
+				var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
+				Localizations.Add(Name + "_adj", adjLocBlock);
+				adjSet = true;
+			}
+			if (!adjSet) {
+				Logger.Warn($"{Name} needs help with adjective localization!");
 			}
 		}
 	}
