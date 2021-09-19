@@ -1598,7 +1598,7 @@
 	link = { comment = "# Southern Anatolia" }
 	link = { imp = 1882 imp = 1884 ck3 = 762 } # Adana, Syme -> Adana
 	link = { imp = 1796 imp = 1799 ck3 = 737 } # Arasaxa, Mazaka -> Kaisereia
-	link = { imp = 6420 ck3 = 5617 } # Eulepa -> Charsianon
+	link = { imp = 6420 imp = 7972 ck3 = 5617 } # Eulepa, Synnada Mountains -> Charsianon
 	link = { imp = 1805 imp = 7970 ck3 = 5614 } # Anisa, Eulepa Mountains -> Armaxa
 	link = { imp = 1803 imp = 1802 imp = 7979 ck3 = 5615 } # Herpha, Euagina, Arasaxa Mountains -> Herpha
 	link = { imp = 1931 imp = 1927 imp = 1921 ck3 = 5663 } # Adada, Tityassos, Amblada -> Adada
