@@ -531,6 +531,10 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			// ------------------ determine CK3 title
 
+			if (country.CK3Title is null) {
+				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
+			}
+
 			LocBlock? localizedName = localizationMapper.GetLocBlockForKey(governorship.RegionName);
 
 			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
@@ -552,11 +556,12 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			var impGovernor = imperatorCharacters[governorship.CharacterID];
 			// ------------------ determine holder
-			history.Holder = $"imperator{impGovernor.ID}";
+			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.ID}", governorship.StartDate);
 
 			// ------------------ determine government
-			if (country.Government is not null) {
-				history.Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(country.Government);
+			var ck3LiegeGov = country.CK3Title.GetGovernment(governorship.StartDate);
+			if (ck3LiegeGov is not null) {
+				history.InternalHistory.AddSimpleFieldValue("government", ck3LiegeGov, governorship.StartDate);
 			}
 
 			// ------------------ determine color
