@@ -3,7 +3,7 @@ using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
-	public class TagTitleMappingTests {
+	public class MappingTests {
 		[Fact]
 		public void SimpleTagMatch() {
 			var reader = new BufferedReader("{ ck3 = e_roman_empire imp = ROM }");

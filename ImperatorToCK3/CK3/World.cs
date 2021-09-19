@@ -384,7 +384,6 @@ namespace ImperatorToCK3.CK3 {
 
 				if (impProvince is not null) {
 					var impCountry = impProvince.OwnerCountry.Value;
-					var region = imperatorRegionMapper.GetParentRegionName(impProvince.ID);
 
 					if (impCountry is not null && impCountry.CountryType != CountryType.rebels) {
 						var ck3Country = impCountry.CK3Title;
@@ -422,7 +421,7 @@ namespace ImperatorToCK3.CK3 {
 							}
 						} else if (matchingGovernorships.Count > 0) { // otherwise, give it to the governor
 							var governorship = matchingGovernorships[0];
-							var ck3GovernorshipName = tagTitleMapper.GetTitleForRegion(governorship.RegionName, impCountry.Tag, ck3Country.Name);
+							var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Name);
 							if (ck3GovernorshipName is null) {
 								Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
 								continue;

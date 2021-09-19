@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Imperator.Countries;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
 	public class TagTitleMapper : Parser {
@@ -15,8 +15,8 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			registeredTagTitles.Add(imperatorTag, ck3Title);
 			usedTitles.Add(ck3Title);
 		}
-		public void RegisterRegion(string imperatorRegion, string imperatorCountryTag, string ck3Title) {
-			registeredRegionTitles.Add($"{imperatorCountryTag}_{imperatorRegion}", ck3Title);
+		public void RegisterGovernorship(string imperatorRegion, string imperatorCountryTag, string ck3Title) {
+			registeredGovernorshipTitles.Add($"{imperatorCountryTag}_{imperatorRegion}", ck3Title);
 			usedTitles.Add(ck3Title);
 		}
 		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank, string localizedTitleName) {
@@ -52,7 +52,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank) {
 			return GetTitleForTag(imperatorTag, countryRank, string.Empty);
 		}
-		public string? GetTitleForRegion(string imperatorRegion, string imperatorCountryTag, string ck3LiegeTitle) {
+		public string? GetTitleForGovernorship(string imperatorRegion, string imperatorCountryTag, string ck3LiegeTitle) {
 			string rank = GetCK3TitleRank(ck3LiegeTitle);
 
 			// the only case where we fail is on invalid invocation. Otherwise, failure is not an option!
@@ -61,7 +61,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			}
 
 			// look up register
-			if (registeredRegionTitles.TryGetValue($"{imperatorCountryTag}_{imperatorRegion}", out var titleToReturn)) {
+			if (registeredGovernorshipTitles.TryGetValue($"{imperatorCountryTag}_{imperatorRegion}", out var titleToReturn)) {
 				return titleToReturn;
 			}
 
@@ -73,14 +73,14 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 						continue;
 					}
 
-					RegisterRegion(imperatorRegion, imperatorCountryTag, match);
+					RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
 					return match;
 				}
 			}
 
 			// Generate a new title
 			var generatedTitle = GenerateNewTitle(imperatorRegion, imperatorCountryTag, ck3LiegeTitle);
-			RegisterRegion(imperatorRegion, imperatorCountryTag, generatedTitle);
+			RegisterGovernorship(imperatorRegion, imperatorCountryTag, generatedTitle);
 			return generatedTitle;
 		}
 
@@ -134,7 +134,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 
 		private readonly List<Mapping> mappings = new();
 		private readonly Dictionary<string, string> registeredTagTitles = new(); // We store already mapped countries here.
-		private readonly Dictionary<string, string> registeredRegionTitles = new(); // We store already mapped regions here.
+		private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 		private readonly SortedSet<string> usedTitles = new();
 
 		private const string generatedCK3TitlePrefix = "IMPTOCK3_";

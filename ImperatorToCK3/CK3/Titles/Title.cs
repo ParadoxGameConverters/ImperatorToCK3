@@ -165,7 +165,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 
 			string? title = null;
-			title = tagTitleMapper.GetTitleForRegion(governorship.RegionName, country.Tag, country.CK3Title.Name);
+			title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Name);
 			DeJureLiege = country.CK3Title;
 			DeFactoLiege = country.CK3Title;
 			if (title is null) {
@@ -262,6 +262,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			PlayerCountry = otherTitle.PlayerCountry;
 			IsImportedOrUpdatedFromImperator = otherTitle.IsImportedOrUpdatedFromImperator;
 			ImperatorCountry = otherTitle.ImperatorCountry;
+			if (ImperatorCountry is not null) {
+				ImperatorCountry.CK3Title = this;
+			}
 
 			history = otherTitle.history;
 
