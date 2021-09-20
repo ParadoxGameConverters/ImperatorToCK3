@@ -132,7 +132,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 
 		[Fact]
 		public void LocBlockCanBeCopyConstructed() {
-			var origLocBlock = new LocBlock() {
+			var origLocBlock = new LocBlock {
 				english = "a",
 				french = "b",
 				german = "c",
