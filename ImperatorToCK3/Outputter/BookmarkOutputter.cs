@@ -106,17 +106,18 @@ namespace ImperatorToCK3.Outputter {
 					heldProvinces.UnionWith(county.CountyProvinces);
 				}
 
+				using var copyImage = new MagickImage(provincesImage);
 				foreach (var province in heldProvinces) {
 					var provinceColor = provDefinitions[province].Color;
 					// make pixels of the province black
-					provincesImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
+					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
 				}
 				// replace black with title color
-				provincesImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
+				copyImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
 				// make pixels all colors but the country color transparent
-				provincesImage.InverseTransparent(magickColorOnMap);
+				copyImage.InverseTransparent(magickColorOnMap);
 				// add the image on top of blank map image
-				bookmarkMapImage.Composite(provincesImage, Gravity.Center, CompositeOperator.Over);
+				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
 			}
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.dds");
 			bookmarkMapImage.Write(outputPath);
