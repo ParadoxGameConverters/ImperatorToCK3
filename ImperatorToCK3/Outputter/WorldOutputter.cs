@@ -42,6 +42,9 @@ namespace ImperatorToCK3.Outputter {
 				theConfiguration.Ck3BookmarkDate
 			);
 
+			Logger.Info("Writing Wars.");
+			WarsOutputter.OutputWars(outputName, ck3World.Wars);
+
 			Logger.Info("Writing Localization.");
 			LocalizationOutputter.OutputLocalization(
 				theConfiguration.ImperatorPath,
@@ -50,7 +53,7 @@ namespace ImperatorToCK3.Outputter {
 				theConfiguration.ImperatorDeJure
 			);
 
-			var outputPath = "output/" + theConfiguration.OutputModName;
+			var outputPath = "output/" + outputName;
 
 			Logger.Info("Copying named colors.");
 			SystemUtils.TryCopyFile(theConfiguration.ImperatorPath + "/game/common/named_colors/default_colors.txt",
@@ -81,6 +84,7 @@ namespace ImperatorToCK3.Outputter {
 			modFile.WriteLine("replace_path = \"history/province_mapping\"");
 			modFile.WriteLine("replace_path = \"history/provinces\"");
 			modFile.WriteLine("replace_path = \"history/titles\"");
+			modFile.WriteLine("replace_path = \"history/wars\"");
 		}
 
 		private static void CreateModFolder(string outputName) {
@@ -90,10 +94,11 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void CreateFolders(string outputName) {
 			SystemUtils.TryCreateFolder("output/" + outputName + "/history");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/history/titles");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/history/characters");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/history/provinces");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/history/province_mapping");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/history/titles");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/history/wars");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/bookmarks");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/bookmark_portraits");

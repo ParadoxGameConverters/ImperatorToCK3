@@ -20,6 +20,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using commonItems;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Mappers.War;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
@@ -32,6 +33,7 @@ namespace ImperatorToCK3.CK3 {
 				return landedTitles.StoredTitles;
 			}
 		}
+		public List<Wars.War> Wars { get; } = new();
 
 		public World(Imperator.World impWorld, Configuration theConfiguration) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
@@ -81,6 +83,15 @@ namespace ImperatorToCK3.CK3 {
 			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
 			PurgeLandlessVanillaCharacters(theConfiguration.Ck3BookmarkDate);
+
+			ImportImperatorWars(impWorld, theConfiguration.Ck3BookmarkDate);
+		}
+
+		private void ImportImperatorWars(Imperator.World impWorld, Date ck3BookmarkDate) {
+			foreach (var impWar in impWorld.Wars) {
+				var ck3War = new Wars.War(impWar, impWorld.Countries, warMapper, ck3BookmarkDate);
+				Wars.Add(ck3War);
+			}
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -468,6 +479,8 @@ namespace ImperatorToCK3.CK3 {
 		private readonly TraitMapper traitMapper = new("configurables/trait_map.txt");
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
+		private readonly WarMapper warMapper = new("configurables/wargoal_mappings.txt");
+
 		private readonly TitlesHistory titlesHistory;
 
 		private readonly HashSet<string> countyHoldersCache = new(); // used by RemoveInvalidLandlessTitles
