@@ -15,7 +15,7 @@ namespace ImperatorToCK3.CommonUtils {
 			return InitialValue;
 		}
 		public SortedDictionary<Date, List<string>> ValueHistory { get; private set; } = new();
-		public List<string> InitialValue { private get; set; } = new();
+		public List<string> InitialValue { get; set; } = new();
 		public void AddValueToHistory(List<string> value, Date date) {
 			ValueHistory[date] = value;
 		}

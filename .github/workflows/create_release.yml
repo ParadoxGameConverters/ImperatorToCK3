@@ -22,7 +22,11 @@ jobs:
         dotnet-version: '5.*'
     - name: "Build backend"
       run: |
-        dotnet build --configuration Release
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=win-x64 -c:Release
+        cd ..
+        Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
+        Xcopy /E /Y Publish Release
     - name: "Build frontend"
       run: |
         cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"

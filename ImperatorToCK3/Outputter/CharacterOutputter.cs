@@ -34,7 +34,14 @@ namespace ImperatorToCK3.Outputter {
 			// output spouse
 			// TODO: output add_spouse with earlier date if the pair has a born or unborn child
 			foreach (var spouseID in character.Spouses.Keys) {
-				output.WriteLine($"\t{ck3BookmarkDate} = {{ add_spouse = {spouseID} }}");
+				Date marriageDate;
+				if (character.DeathDate is not null) {
+					marriageDate = new Date(character.DeathDate);
+					marriageDate.ChangeByDays(-1);
+				} else {
+					marriageDate = ck3BookmarkDate;
+				}
+				output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouseID} }}");
 			}
 
 			// output nickname

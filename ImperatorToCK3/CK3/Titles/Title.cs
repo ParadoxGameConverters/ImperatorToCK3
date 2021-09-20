@@ -7,6 +7,7 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.SuccessionLaw;
+using System.IO;
 
 namespace ImperatorToCK3.CK3.Titles {
 	public enum TitleRank { barony, county, duchy, kingdom, empire }
@@ -19,7 +20,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void InitializeFromTag(
 			Imperator.Countries.Country country,
 			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
-			Dictionary<string, Characters.Character> characters,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -67,14 +67,27 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			PlayerCountry = ImperatorCountry.PlayerCountry;
 
-			// ------------------ determine holder
-			if (ImperatorCountry.Monarch is not null) {
-				history.Holder = "imperator" + ImperatorCountry.Monarch.ToString();
-			}
+			// ------------------ determine previous and current holders
+			history.InternalHistory.SimpleFields.Remove("holder");
+			history.InternalHistory.SimpleFields.Remove("government");
+			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
+			var firstPossibleDate = new Date(0, 1, 1);
 
-			// ------------------ determine government
-			if (ImperatorCountry.Government is not null) {
-				history.Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
+			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
+				var rulerTerm = new RulerTerm(impRulerTerm, governmentMapper);
+				var characterId = rulerTerm.CharacterId;
+				var gov = rulerTerm.Government;
+
+				var startDate = new Date(rulerTerm.StartDate);
+				if (startDate < firstPossibleDate) {
+					startDate = new Date(firstPossibleDate); // TODO: remove this workaround if CK3 supports negative dates
+					firstPossibleDate.ChangeByDays(1);
+				}
+
+				history.InternalHistory.AddSimpleFieldValue("holder", characterId, startDate);
+				if (gov is not null) {
+					history.InternalHistory.AddSimpleFieldValue("government", gov, startDate);
+				}
 			}
 
 			// ------------------ determine color
@@ -153,21 +166,24 @@ namespace ImperatorToCK3.CK3.Titles {
 			ParseStream(reader);
 			ClearRegisteredRules();
 		}
-		private CK3.Characters.Character? holder;
-		public CK3.Characters.Character? Holder {
-			get {
-				return holder;
-			}
-			set {
-				if (value is not null) {
-					history.Holder = value.ID;
-				} else {
-					history.Holder = "0";
-				}
-				holder = value;
-			}
+
+		public Date GetDateOfLastHolderChange() {
+			var field = history.InternalHistory.SimpleFields["holder"];
+			var dates = new SortedSet<Date>(field.ValueHistory.Keys);
+			var lastDate = dates.Max;
+			return lastDate ?? new Date(1, 1, 1);
 		}
-		public string HolderID { get { return history.Holder; } }
+		public string GetHolderId(Date date) {
+			return history.GetHolderId(date);
+		}
+		public void SetHolderId(string id, Date date) {
+			history.InternalHistory.AddSimpleFieldValue("holder", id, date);
+		}
+		public string? GetGovernment(Date date) {
+			return history.GetGovernment(date);
+		}
+
+		public List<RulerTerm> RulerTerms { get; private set; } = new();
 		public int? DevelopmentLevel {
 			get {
 				return history.DevelopmentLevel;
@@ -315,7 +331,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
 		public bool Landless { get; private set; } = false;
 		public bool HasDefiniteForm { get; private set; } = false;
-		public string? Government => history.Government;
 		public int? OwnOrInheritedDevelopmentLevel {
 			get {
 				if (history.DevelopmentLevel is not null) { // if development level is already set, just return it
@@ -361,6 +376,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 
+		internal void ClearHolderHistory() {
+			history.InternalHistory.SimpleFields.Remove("holder");
+		}
+
 		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title> foundTitles) {
 			foreach (var (locatedTitleName, locatedTitle) in newTitle.foundTitles) {
 				if (newTitle.Rank == TitleRank.county) {
@@ -400,6 +419,53 @@ namespace ImperatorToCK3.CK3.Titles {
 			} else {
 				throw new FormatException("Title " + Name + ": unknown rank!");
 			}
+		}
+
+		public void OutputHistory(StreamWriter writer, Date ck3BookmarkDate) {
+			writer.WriteLine(Name + " = {");
+
+			if (history.InternalHistory.SimpleFields.ContainsKey("holder")) {
+				foreach (var (date, holderId) in history.InternalHistory.SimpleFields["holder"].ValueHistory) {
+					writer.WriteLine($"\t{date} = {{ holder = {holderId} }}");
+				}
+			}
+
+			if (history.InternalHistory.SimpleFields.ContainsKey("government")) {
+				var govField = history.InternalHistory.SimpleFields["government"];
+				var initialGovernment = govField.InitialValue;
+				if (initialGovernment is not null) {
+					writer.WriteLine($"\t\tgovernment = {initialGovernment}");
+				}
+				foreach (var (date, government) in govField.ValueHistory) {
+					writer.WriteLine($"\t{date} = {{ government = {government} }}");
+				}
+			}
+
+			writer.WriteLine($"\t{ck3BookmarkDate} = {{");
+
+			if (DeFactoLiege is not null) {
+				writer.WriteLine($"\t\tliege = {DeFactoLiege.Name}");
+			}
+
+			var succLaws = SuccessionLaws;
+			if (succLaws.Count > 0) {
+				writer.WriteLine("\t\tsuccession_laws = {");
+				foreach (var law in succLaws) {
+					writer.WriteLine("\t\t\t" + law);
+				}
+				writer.WriteLine("\t\t}");
+			}
+
+			if (Rank != TitleRank.barony) {
+				var developmentLevelOpt = DevelopmentLevel;
+				if (developmentLevelOpt is not null) {
+					writer.WriteLine("\t\tchange_development_level = " + developmentLevelOpt);
+				}
+			}
+
+			writer.WriteLine("\t}");
+
+			writer.WriteLine("}");
 		}
 
 		// used by kingdom titles only

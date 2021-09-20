@@ -54,7 +54,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("date", reader => {
 				var dateString = new SingleString(reader).String;
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
-				Logger.Info("Date: " + dateString);
+				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
 				if (EndDate > configuration.Ck3BookmarkDate) {
 					throw new ArgumentOutOfRangeException(nameof(EndDate), "Save date is later than CK3 bookmark date you inputted!");
 				}

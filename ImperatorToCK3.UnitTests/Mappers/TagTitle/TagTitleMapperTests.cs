@@ -3,6 +3,8 @@ using ImperatorToCK3.Imperator.Countries;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class TagTitleMapperTests {
 		[Fact]
 		public void TitleCanBeMatched() {

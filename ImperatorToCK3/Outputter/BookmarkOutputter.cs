@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
-		public static void OutputBookmark(string outputModName, Dictionary<string, Title> titles, Date ck3BookmarkDate) {
+		public static void OutputBookmark(string outputModName, Dictionary<string, Character> characters, Dictionary<string, Title> titles, Date ck3BookmarkDate) {
 			var path = "output/" + outputModName + "/common/bookmarks/00_bookmarks.txt";
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -23,10 +24,7 @@ namespace ImperatorToCK3.Outputter {
 			var xPos = 430;
 			var yPos = 190;
 			foreach (var title in playerTitles) {
-				var holder = title.Holder;
-				if (holder is null) {
-					continue;
-				}
+				var holder = characters[title.GetHolderId(ck3BookmarkDate)];
 
 				output.WriteLine("\tcharacter = {");
 
@@ -37,7 +35,10 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\thistory_id = {holder.ID}");
 				output.WriteLine($"\t\tbirth = {holder.BirthDate}");
 				output.WriteLine($"\t\ttitle = {title.Name}");
-				output.WriteLine($"\t\tgovernment = {title.Government}");
+				var gov = title.GetGovernment(ck3BookmarkDate);
+				if (gov is not null) {
+					output.WriteLine($"\t\tgovernment = {gov}");
+				}
 				output.WriteLine($"\t\tculture = {holder.Culture}");
 				output.WriteLine($"\t\treligion = {holder.Religion}");
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");

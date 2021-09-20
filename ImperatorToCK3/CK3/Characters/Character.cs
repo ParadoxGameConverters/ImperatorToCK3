@@ -154,7 +154,13 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			BirthDate = ImperatorCharacter.BirthDate;
+			if (BirthDate.Year < 0) {
+				BirthDate = new Date(0, 1, 1);
+			}
 			DeathDate = ImperatorCharacter.DeathDate;
+			if (DeathDate?.Year < 0) {
+				DeathDate = new Date(0, 12, 31);
+			}
 			var impDeathReason = ImperatorCharacter.DeathReason;
 			if (impDeathReason is not null) {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
