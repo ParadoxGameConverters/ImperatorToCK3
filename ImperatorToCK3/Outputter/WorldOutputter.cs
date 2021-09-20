@@ -67,10 +67,9 @@ namespace ImperatorToCK3.Outputter {
 
 			Logger.Info("Creating bookmark.");
 			BookmarkOutputter.OutputBookmark(
-				outputName,
 				ck3World.Characters,
 				ck3World.LandedTitles,
-				theConfiguration.Ck3BookmarkDate
+				theConfiguration
 			);
 		}
 
