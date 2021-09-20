@@ -90,6 +90,14 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorWars(Imperator.World impWorld, Date ck3BookmarkDate) {
 			foreach (var impWar in impWorld.Wars) {
 				var ck3War = new Wars.War(impWar, impWorld.Countries, warMapper, ck3BookmarkDate);
+				if (ck3War.Attackers.Count == 0) {
+					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no attackers!");
+					continue;
+				}
+				if (ck3War.Defenders.Count == 0) {
+					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no defenders!");
+					continue;
+				}
 				Wars.Add(ck3War);
 			}
 		}

@@ -4,7 +4,7 @@ using commonItems;
 namespace ImperatorToCK3.CK3.Wars {
 	public class War {
 		public Date StartDate { get; } = new(1, 1, 1);
-		public Date? EndDate { get; }
+		public Date EndDate { get; }
 		public List<string> TargetedTitles { get; } = new();
 		public string? CasusBelli { get; }
 		public List<string> Attackers { get; } = new();
@@ -16,8 +16,8 @@ namespace ImperatorToCK3.CK3.Wars {
 			if (StartDate.Year < 0) {
 				StartDate = new Date(1, 1, 1);
 			}
-			//EndDate = new Date(ck3BookmarkDate);
-			//EndDate.ChangeByDays(1);
+			EndDate = new Date(ck3BookmarkDate);
+			EndDate.ChangeByDays(1);
 
 			foreach (var countryId in impWar.AttackerCountryIds) {
 				var impCountry = impCountries.StoredCountries[countryId];
