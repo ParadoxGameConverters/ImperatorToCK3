@@ -70,39 +70,59 @@ namespace ImperatorToCK3.Outputter {
 
 			output.WriteLine("}");
 
-			DrawBookmarkMap(config);
+			DrawBookmarkMap(config, playerTitles, titles);
 		}
 
-		private static void DrawBookmarkMap(Configuration config) {
+		private static void DrawBookmarkMap(Configuration config, SortedSet<Title> playerTitles, Dictionary<string, Title> titles) {
 			Logger.Info("Drawing bookmark map.");
 
-			var blankMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
+			var bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
 			var provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
 
-			var image = new MagickImage(provincesMapPath);
+			using var bookmarkMapImage = new MagickImage(bookmarkMapPath);
+			using var provincesImage = new MagickImage(provincesMapPath);
 
-			var byzantionColor = new MagickColor(42, 210, 48);
-			var byzantionNeighborColor = new MagickColor(5, 81, 210);
+			var byzantionColor = MagickColor.FromRgb(42, 210, 48);
+			var byzantionNeighborColor = MagickColor.FromRgb(5, 81, 210);
 			var countryColors = new List<MagickColor> {
 				byzantionColor,
 				byzantionNeighborColor
 			};
-
-			foreach (var color in image.Histogram().Keys) {
-				Logger.Debug("Checking color " + color.ToShortString());
-				var toTransparent = true;
-				foreach(var countryColor in countryColors) {
-					if (color.Equals(countryColor)) {
-						// province belongs to player country, should not be made transparent
-						Logger.Debug("HIT!");
-						toTransparent = false;
-					}
-				}
-				if (toTransparent) {
-					image.Transparent(color);
+			
+			foreach(var playerTitle in playerTitles) {
+				var holderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
+				var heldCounties = titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == holderId && t.Rank == TitleRank.county);
+				var heldProvinces = new HashSet<ulong>();
+				foreach(var county in heldCounties) {
+					heldProvinces.UnionWith(county.CountyProvinces);
 				}
 			}
-			image.Write("AWESOME.png");
+
+			foreach (var countryColor in countryColors) {
+				using var copyImage = new MagickImage(provincesImage);
+				copyImage.InverseTransparent(countryColor);
+				copyImage.Opaque(countryColor, MagickColor.FromRgb(82, 71, 101));
+				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 4);
+				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
+			}
+			bookmarkMapImage.Write("AWESOME.png");
+			/*
+			using (var images = new MagickImageCollection()) {
+				// Add the first image
+				var first = new MagickImage("Snakeware.png");
+				images.Add(first);
+
+				// Add the second image
+				var second = new MagickImage("Snakeware.png");
+				images.Add(second);
+
+				// Create a mosaic from both images
+				using (var result = images.) {
+					// Save the result
+					result.Write("Mosaic.png");
+				}
+			}
+			*/
 		}
 	}
 }
