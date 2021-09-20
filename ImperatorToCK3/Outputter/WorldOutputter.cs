@@ -113,6 +113,8 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/colored_emblems");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/patterns");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/interface");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/interface/bookmarks");
 		}
 	}
 }

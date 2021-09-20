@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ImageMagick;
+using System;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
@@ -21,7 +22,7 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\tis_playable = yes");
 			output.WriteLine("\trecommended = yes");
 
-			var playerTitles = new SortedSet<Title>(titles.Values.Where(title => title.PlayerCountry));
+			var playerTitles = new List<Title>(titles.Values.Where(title => title.PlayerCountry));
 			var xPos = 430;
 			var yPos = 190;
 			foreach (var title in playerTitles) {
@@ -73,56 +74,93 @@ namespace ImperatorToCK3.Outputter {
 			DrawBookmarkMap(config, playerTitles, titles);
 		}
 
-		private static void DrawBookmarkMap(Configuration config, SortedSet<Title> playerTitles, Dictionary<string, Title> titles) {
+		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, Dictionary<string, Title> titles) {
 			Logger.Info("Drawing bookmark map.");
 
 			var bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
-			var provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
-
 			using var bookmarkMapImage = new MagickImage(bookmarkMapPath);
-			using var provincesImage = new MagickImage(provincesMapPath);
+			bookmarkMapImage.FilterType = FilterType.Point;
+			bookmarkMapImage.Resize(2160, 1080);
+			bookmarkMapImage.Crop(1920, 1080);
+			bookmarkMapImage.RePage();
 
-			var byzantionColor = MagickColor.FromRgb(42, 210, 48);
-			var byzantionNeighborColor = MagickColor.FromRgb(5, 81, 210);
-			var countryColors = new List<MagickColor> {
-				byzantionColor,
-				byzantionNeighborColor
-			};
-			
-			foreach(var playerTitle in playerTitles) {
+			var provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
+			using var provincesImage = new MagickImage(provincesMapPath);
+			provincesImage.FilterType = FilterType.Point;
+			provincesImage.Resize(2160, 1080);
+			provincesImage.Crop(1920, 1080);
+			provincesImage.RePage();
+
+			var provDefinitions = LoadProvinceDefinitions(config);
+
+			var colorFactory = new ColorFactory();
+			foreach (var playerTitle in playerTitles) {
+				var colorOnMap = playerTitle.Color1 ?? new Color(new int[] { 0, 0, 0 });
+				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
+
 				var holderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
-				var heldCounties = titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == holderId && t.Rank == TitleRank.county);
+				var heldCounties = new List<Title>(
+					titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
+				);
 				var heldProvinces = new HashSet<ulong>();
-				foreach(var county in heldCounties) {
+				foreach (var county in heldCounties) {
 					heldProvinces.UnionWith(county.CountyProvinces);
 				}
-			}
 
-			foreach (var countryColor in countryColors) {
 				using var copyImage = new MagickImage(provincesImage);
-				copyImage.InverseTransparent(countryColor);
-				copyImage.Opaque(countryColor, MagickColor.FromRgb(82, 71, 101));
-				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 4);
+				foreach (var province in heldProvinces) {
+					var provinceColor = provDefinitions[province].Color;
+					// make pixels of the province black
+					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
+				}
+				// replace black with title color
+				copyImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
+				// make pixels all colors but the country color transparent
+				copyImage.InverseTransparent(magickColorOnMap);
+				// add the image on top of blank map image
 				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
 			}
-			bookmarkMapImage.Write("AWESOME.png");
-			/*
-			using (var images = new MagickImageCollection()) {
-				// Add the first image
-				var first = new MagickImage("Snakeware.png");
-				images.Add(first);
+			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.dds");
+			bookmarkMapImage.Write(outputPath);
+		}
 
-				// Add the second image
-				var second = new MagickImage("Snakeware.png");
-				images.Add(second);
+		private class ProvinceDefinition {
+			public ulong ID { get; }
+			public MagickColor Color { get; }
+			public ProvinceDefinition(ulong id, byte r, byte g, byte b) {
+				ID = id;
+				Color = MagickColor.FromRgb(r, g, b);
+			}
+		}
 
-				// Create a mosaic from both images
-				using (var result = images.) {
-					// Save the result
-					result.Write("Mosaic.png");
+		private static Dictionary<ulong, ProvinceDefinition> LoadProvinceDefinitions(Configuration config) {
+			var definitionsFilePath = Path.Combine(config.Ck3Path, "game/map_data/definition.csv");
+			using var fileStream = File.OpenRead(definitionsFilePath);
+			using var definitionFileReader = new StreamReader(fileStream);
+
+			var definitions = new Dictionary<ulong, ProvinceDefinition>();
+
+			definitionFileReader.ReadLine(); // discard first line
+
+			while (!definitionFileReader.EndOfStream) {
+				var line = definitionFileReader.ReadLine();
+				if (line is null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
+					continue;
+				}
+
+				try {
+					var columns = line.Split(';');
+					var id = ulong.Parse(columns[0]);
+					var r = byte.Parse(columns[1]);
+					var g = byte.Parse(columns[2]);
+					var b = byte.Parse(columns[3]);
+					var definition = new ProvinceDefinition(id, r, g, b);
+					definitions.Add(definition.ID, definition);
+				} catch (Exception e) {
+					throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
 				}
 			}
-			*/
+			return definitions;
 		}
 	}
 }
