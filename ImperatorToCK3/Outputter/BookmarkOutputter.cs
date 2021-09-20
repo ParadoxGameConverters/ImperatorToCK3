@@ -93,9 +93,8 @@ namespace ImperatorToCK3.Outputter {
 
 			var provDefinitions = LoadProvinceDefinitions(config);
 
-			var colorFactory = new ColorFactory();
 			foreach (var playerTitle in playerTitles) {
-				var colorOnMap = playerTitle.Color1 ?? new Color(new int[] { 0, 0, 0 });
+				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
 				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 
 				var holderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
@@ -107,18 +106,17 @@ namespace ImperatorToCK3.Outputter {
 					heldProvinces.UnionWith(county.CountyProvinces);
 				}
 
-				using var copyImage = new MagickImage(provincesImage);
 				foreach (var province in heldProvinces) {
 					var provinceColor = provDefinitions[province].Color;
 					// make pixels of the province black
-					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
+					provincesImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
 				}
 				// replace black with title color
-				copyImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
+				provincesImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
 				// make pixels all colors but the country color transparent
-				copyImage.InverseTransparent(magickColorOnMap);
+				provincesImage.InverseTransparent(magickColorOnMap);
 				// add the image on top of blank map image
-				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
+				bookmarkMapImage.Composite(provincesImage, Gravity.Center, CompositeOperator.Over);
 			}
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.dds");
 			bookmarkMapImage.Write(outputPath);
