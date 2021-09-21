@@ -116,6 +116,8 @@ namespace ImperatorToCK3.Outputter {
 				copyImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
 				// make pixels all colors but the country color transparent
 				copyImage.InverseTransparent(magickColorOnMap);
+				// make country on map semi-transparent
+				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 3);
 				// add the image on top of blank map image
 				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
 			}
