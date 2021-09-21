@@ -11,6 +11,7 @@ using System;
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
 		public static void OutputBookmark(Dictionary<string, Character> characters, Dictionary<string, Title> titles, Configuration config) {
+			OpenCL.IsEnabled = true; // enable OpenCL in ImageMagick
 			var path = "output/" + config.OutputModName + "/common/bookmarks/00_bookmarks.txt";
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -79,8 +80,7 @@ namespace ImperatorToCK3.Outputter {
 
 			var bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
 			using var bookmarkMapImage = new MagickImage(bookmarkMapPath);
-			bookmarkMapImage.FilterType = FilterType.Point;
-			bookmarkMapImage.Resize(2160, 1080);
+			bookmarkMapImage.Scale(2160, 1080);
 			bookmarkMapImage.Crop(1920, 1080);
 			bookmarkMapImage.RePage();
 
@@ -91,7 +91,8 @@ namespace ImperatorToCK3.Outputter {
 			provincesImage.Crop(1920, 1080);
 			provincesImage.RePage();
 
-			var provDefinitions = LoadProvinceDefinitions(config);
+			var provDefinitions = new ProvinceDefinitions(config);
+			var mapData = new MapData(provincesImage, provDefinitions);
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
@@ -108,7 +109,7 @@ namespace ImperatorToCK3.Outputter {
 
 				using var copyImage = new MagickImage(provincesImage);
 				foreach (var province in heldProvinces) {
-					var provinceColor = provDefinitions[province].Color;
+					var provinceColor = provDefinitions.ProvinceToDefinitionDict[province].Color;
 					// make pixels of the province black
 					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
 				}
@@ -134,34 +135,135 @@ namespace ImperatorToCK3.Outputter {
 			}
 		}
 
-		private static Dictionary<ulong, ProvinceDefinition> LoadProvinceDefinitions(Configuration config) {
-			var definitionsFilePath = Path.Combine(config.Ck3Path, "game/map_data/definition.csv");
-			using var fileStream = File.OpenRead(definitionsFilePath);
-			using var definitionFileReader = new StreamReader(fileStream);
+		private class ProvinceDefinitions {
+			public Dictionary<MagickColor, ulong> ColorToProvinceDict { get; } = new();
+			public SortedDictionary<ulong, ProvinceDefinition> ProvinceToDefinitionDict { get; } = new();
+			public ProvinceDefinitions(Configuration config) {
+				var definitionsFilePath = Path.Combine(config.Ck3Path, "game/map_data/definition.csv");
+				using var fileStream = File.OpenRead(definitionsFilePath);
+				using var definitionFileReader = new StreamReader(fileStream);
 
-			var definitions = new Dictionary<ulong, ProvinceDefinition>();
+				definitionFileReader.ReadLine(); // discard first line
 
-			definitionFileReader.ReadLine(); // discard first line
+				while (!definitionFileReader.EndOfStream) {
+					var line = definitionFileReader.ReadLine();
+					if (line is null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
+						continue;
+					}
 
-			while (!definitionFileReader.EndOfStream) {
-				var line = definitionFileReader.ReadLine();
-				if (line is null || line.Length < 4 || line[0] == '#' || line[1] == '#') {
-					continue;
-				}
-
-				try {
-					var columns = line.Split(';');
-					var id = ulong.Parse(columns[0]);
-					var r = byte.Parse(columns[1]);
-					var g = byte.Parse(columns[2]);
-					var b = byte.Parse(columns[3]);
-					var definition = new ProvinceDefinition(id, r, g, b);
-					definitions.Add(definition.ID, definition);
-				} catch (Exception e) {
-					throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
+					try {
+						var columns = line.Split(';');
+						var id = ulong.Parse(columns[0]);
+						var r = byte.Parse(columns[1]);
+						var g = byte.Parse(columns[2]);
+						var b = byte.Parse(columns[3]);
+						var definition = new ProvinceDefinition(id, r, g, b);
+						ProvinceToDefinitionDict.Add(definition.ID, definition);
+						ColorToProvinceDict[definition.Color] = definition.ID;
+					} catch (Exception e) {
+						throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
+					}
 				}
 			}
-			return definitions;
+		}
+
+		private struct Point {
+			public int X { get; set; }
+			public int Y { get; set; }
+			public Point(int x, int y) {
+				X = x;
+				Y = y;
+			}
+		}
+		private class MapData {
+			public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
+			public MapData(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions) {
+				var height = provincesMap.Height;
+				var width = provincesMap.Width;
+				for (var y = 0; y < height; ++y){
+					for (var x = 0; x < width; ++x) {
+						var position = new Point( x, y );
+
+						var centerColor = GetCenterColor(position, provincesMap);
+						var aboveColor = GetAboveColor(position, provincesMap);
+						var belowColor = GetBelowColor(position, height, provincesMap);
+						var leftColor = GetLeftColor(position, provincesMap);
+						var rightColor = GetRightColor(position, width, provincesMap);
+
+						if (!centerColor.Equals(aboveColor)) {
+							HandleNeighbor(centerColor, aboveColor, provinceDefinitions);
+						}
+						if (!centerColor.Equals(rightColor)) {
+							HandleNeighbor(centerColor, rightColor, provinceDefinitions);
+						}
+						if (!centerColor.Equals(belowColor)) {
+							HandleNeighbor(centerColor, belowColor, provinceDefinitions);
+						}
+						if (!centerColor.Equals(leftColor)) {
+							HandleNeighbor(centerColor, leftColor, provinceDefinitions);
+						}
+					}
+				}
+
+				// debug logging
+				foreach(var (prov, neighbors) in NeighborsDict) {
+					Logger.Debug($"Province {prov} has neighbors: " + string.Join(", ", neighbors));
+				}
+			}
+			private static MagickColor GetCenterColor(Point position, MagickImage provincesMap) {
+				return GetPixelColor(position, provincesMap);
+			}
+			private static MagickColor GetAboveColor(Point position, MagickImage provincesMap) {
+				if (position.Y > 0) {
+					--position.Y;
+				}
+				return GetPixelColor(position, provincesMap);
+			}
+			private static MagickColor GetBelowColor(Point position, int height, MagickImage provincesMap) {
+				if (position.Y < height - 1) {
+					++position.Y;
+				}
+				return GetPixelColor(position, provincesMap);
+			}
+			private static MagickColor GetLeftColor(Point position, MagickImage provincesMap) {
+				if (position.X > 0) {
+					--position.X;
+				}
+				return GetPixelColor(position, provincesMap);
+			}
+			private static MagickColor GetRightColor(Point position, int width, MagickImage provincesMap) {
+				if (position.X < width - 1) {
+					++position.X;
+				}
+				return GetPixelColor(position, provincesMap);
+			}
+			private static MagickColor GetPixelColor(Point position, MagickImage provincesMap) {
+				var pixels = provincesMap.GetPixels();
+				var pixel = pixels.GetPixel(position.X, position.Y);
+				var color = pixel.ToColor();
+				if (color is null) {
+					throw new IndexOutOfRangeException($"Cannot get color for position {position.X}, {position.Y}");
+				}
+				return new MagickColor(color);
+			}
+			
+			private void HandleNeighbor(
+				MagickColor centerColor,
+				MagickColor otherColor,
+				ProvinceDefinitions provinceDefinitions
+			) {
+				var centerProvince = provinceDefinitions.ColorToProvinceDict[centerColor];
+				var otherProvince = provinceDefinitions.ColorToProvinceDict[otherColor];
+				AddNeighbor(centerProvince, otherProvince);
+			}
+
+			private void AddNeighbor(ulong mainProvince, ulong neighborProvince) {
+				if (NeighborsDict.TryGetValue(mainProvince, out var neighbors)) {
+					neighbors.Add(neighborProvince);
+				} else {
+					NeighborsDict[mainProvince] = new() { neighborProvince };
+				}
+			}
 		}
 	}
 }
