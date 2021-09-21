@@ -177,12 +177,16 @@ namespace ImperatorToCK3.Outputter {
 		}
 		private class MapData {
 			public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
-			public MapData(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions) {
+			public HashSet<ulong> ColorableImpassableProvinces { get; } = new();
+			public MapData(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions, Configuration config) {
+				DetermineNeighbors(provincesMap, provinceDefinitions);
+			}
+			private void DetermineNeighbors(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions) {
 				var height = provincesMap.Height;
 				var width = provincesMap.Width;
-				for (var y = 0; y < height; ++y){
+				for (var y = 0; y < height; ++y) {
 					for (var x = 0; x < width; ++x) {
-						var position = new Point( x, y );
+						var position = new Point(x, y);
 
 						var centerColor = GetCenterColor(position, provincesMap);
 						var aboveColor = GetAboveColor(position, provincesMap);
@@ -206,9 +210,29 @@ namespace ImperatorToCK3.Outputter {
 				}
 
 				// debug logging
-				foreach(var (prov, neighbors) in NeighborsDict) {
+				foreach (var (prov, neighbors) in NeighborsDict) {
 					Logger.Debug($"Province {prov} has neighbors: " + string.Join(", ", neighbors));
 				}
+			}
+			private void FindImpassables(Configuration config) {
+				var filePath = Path.Combine(config.Ck3Path, "game/map_data/default.map");
+				var parser = new Parser();
+				parser.RegisterKeyword("impassable_terrain", reader => {
+					var typeOfGroup = ParserHelpers.GetString(reader);
+					var provIds = ParserHelpers.GetULongs(reader);
+					if (typeOfGroup == "RANGE") {
+						if (provIds.Count is < 1 or > 2) {
+							throw new FormatException("A range of provinces should have 1 or 2 elements!");
+						}
+						var beginning = provIds[0];
+						var end = provIds.Last();
+						for(var id = beginning; id<= end; ++id) {
+							ColorableImpassableProvinces.Add(id);
+						}
+					} else { // type is "LIST"
+						ColorableImpassableProvinces.UnionWith(provIds);
+					}
+				});
 			}
 			private static MagickColor GetCenterColor(Point position, MagickImage provincesMap) {
 				return GetPixelColor(position, provincesMap);
@@ -246,7 +270,7 @@ namespace ImperatorToCK3.Outputter {
 				}
 				return new MagickColor(color);
 			}
-			
+
 			private void HandleNeighbor(
 				MagickColor centerColor,
 				MagickColor otherColor,
