@@ -92,7 +92,7 @@ namespace ImperatorToCK3.Outputter {
 			provincesImage.RePage();
 
 			var provDefinitions = new ProvinceDefinitions(config);
-			var mapData = new MapData(provincesImage, provDefinitions);
+			var mapData = new MapData(provincesImage, provDefinitions, config);
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
@@ -106,9 +106,25 @@ namespace ImperatorToCK3.Outputter {
 				foreach (var county in heldCounties) {
 					heldProvinces.UnionWith(county.CountyProvinces);
 				}
+				// determine which impassable should be be colored by the country
+				var provincesToColor = new HashSet<ulong>(heldProvinces);
+				foreach (var impassableId in mapData.ColorableImpassableProvinces) {
+					if (!mapData.NeighborsDict.ContainsKey(impassableId)) {
+						Logger.Debug($"Province {impassableId} has no neighbors!");
+						continue;
+					}
+					var neighborProvs = mapData.NeighborsDict[impassableId];
+					var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
+					if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
+						provincesToColor.Add(impassableId);
+						Logger.Debug($"Added {impassableId} to provinces to color.");
+					}
+				}
+				var diff = provincesToColor.Count - heldProvinces.Count;// debug
+				Logger.Debug($"Added {diff} impassable provinces to color.");
 
 				using var copyImage = new MagickImage(provincesImage);
-				foreach (var province in heldProvinces) {
+				foreach (var province in provincesToColor) {
 					var provinceColor = provDefinitions.ProvinceToDefinitionDict[province].Color;
 					// make pixels of the province black
 					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
@@ -180,6 +196,7 @@ namespace ImperatorToCK3.Outputter {
 			public HashSet<ulong> ColorableImpassableProvinces { get; } = new();
 			public MapData(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions, Configuration config) {
 				DetermineNeighbors(provincesMap, provinceDefinitions);
+				FindImpassables(config);
 			}
 			private void DetermineNeighbors(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions) {
 				var height = provincesMap.Height;
@@ -217,22 +234,28 @@ namespace ImperatorToCK3.Outputter {
 			private void FindImpassables(Configuration config) {
 				var filePath = Path.Combine(config.Ck3Path, "game/map_data/default.map");
 				var parser = new Parser();
-				parser.RegisterKeyword("impassable_terrain", reader => {
-					var typeOfGroup = ParserHelpers.GetString(reader);
+				var listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
+				parser.RegisterRegex(listRegex, (reader, keyword) => {
+					Parser.GetNextTokenWithoutMatching(reader); // equals sign
+					var typeOfGroup = Parser.GetNextTokenWithoutMatching(reader);
 					var provIds = ParserHelpers.GetULongs(reader);
-					if (typeOfGroup == "RANGE") {
-						if (provIds.Count is < 1 or > 2) {
-							throw new FormatException("A range of provinces should have 1 or 2 elements!");
+					if (keyword == "impassable_mountains") {
+						if (typeOfGroup == "RANGE") {
+							if (provIds.Count is < 1 or > 2) {
+								throw new FormatException("A range of provinces should have 1 or 2 elements!");
+							}
+							var beginning = provIds[0];
+							var end = provIds.Last();
+							for (var id = beginning; id <= end; ++id) {
+								ColorableImpassableProvinces.Add(id);
+							}
+						} else { // type is "LIST"
+							ColorableImpassableProvinces.UnionWith(provIds);
 						}
-						var beginning = provIds[0];
-						var end = provIds.Last();
-						for(var id = beginning; id<= end; ++id) {
-							ColorableImpassableProvinces.Add(id);
-						}
-					} else { // type is "LIST"
-						ColorableImpassableProvinces.UnionWith(provIds);
 					}
 				});
+				parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+				parser.ParseFile(filePath);
 			}
 			private static MagickColor GetCenterColor(Point position, MagickImage provincesMap) {
 				return GetPixelColor(position, provincesMap);
