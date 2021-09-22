@@ -405,7 +405,7 @@ namespace ImperatorToCK3.CK3 {
 
 					if (!ck3CapitalCounty.HasValue || ck3CapitalCounty.Value.Value is null) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch, ck3BookmarkDate);
+							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 						} else {
 							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Name}!");
 						}
@@ -416,7 +416,7 @@ namespace ImperatorToCK3.CK3 {
 					var titleLiegeDuchy = title.DeJureLiege;
 					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch, ck3BookmarkDate);
+							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 						}
 					} else if (matchingGovernorships.Count > 0) {
 						// give county to governor
