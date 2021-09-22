@@ -12,7 +12,6 @@ namespace ImperatorToCK3.Imperator.Jobs {
 			parser.RegisterKeyword("province_job", reader => {
 				var governorship = new Governorship(reader);
 				Governorships.Add(governorship);
-				var regionName = governorship.RegionName;
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				ignoredTokens.Add(token);

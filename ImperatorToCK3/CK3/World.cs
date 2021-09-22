@@ -387,7 +387,10 @@ namespace ImperatorToCK3.CK3 {
 
 				var impCountry = impProvince.OwnerCountry.Value;
 
-				if (impCountry is not null && impCountry.CountryType != CountryType.rebels) {
+				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonised Imperator province
+					title.SetHolderId("0", ck3BookmarkDate);
+					title.DeFactoLiege = null;
+				} else {
 					var ck3Country = impCountry.CK3Title;
 					if (ck3Country is null) {
 						Logger.Warn($"{impCountry.Name} has no CK3 title!"); // should not happen
@@ -425,15 +428,12 @@ namespace ImperatorToCK3.CK3 {
 						}
 						GiverCountryToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
-						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch, ck3BookmarkDate);
+						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 					}
-				} else { // e.g. uncolonised Imperator province
-					title.SetHolderId("0", ck3BookmarkDate);
-					title.DeFactoLiege = null;
 				}
 			}
 
-			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarch, Date ck3BookmarkDate) {
+			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarch) {
 				var holderId = "imperator" + impMonarch.ToString();
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					title.ClearHolderHistory();
