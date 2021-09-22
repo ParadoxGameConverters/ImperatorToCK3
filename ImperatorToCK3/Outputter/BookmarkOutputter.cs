@@ -1,12 +1,12 @@
 ﻿using commonItems;
+using ImageMagick;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ImageMagick;
-using System;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
@@ -113,14 +113,11 @@ namespace ImperatorToCK3.Outputter {
 				// determine which impassable should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				foreach (var impassableId in mapData.ColorableImpassableProvinces) {
-					if (!mapData.NeighborsDict.ContainsKey(impassableId)) {
-						Logger.Debug($"Province {impassableId} has no neighbors!");
-						continue;
-					}
-					var neighborProvs = mapData.NeighborsDict[impassableId];
-					var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
-					if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
-						provincesToColor.Add(impassableId);
+					if (mapData.NeighborsDict.TryGetValue(impassableId, out var neighborProvs)) {
+						var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
+						if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
+							provincesToColor.Add(impassableId);
+						}
 					}
 				}
 				var diff = provincesToColor.Count - heldProvinces.Count;// debug
