@@ -20,11 +20,15 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\tis_playable = yes");
 			output.WriteLine("\trecommended = yes");
 
-			var playerTitles = new SortedSet<Title>(titles.Values.Where(title => title.PlayerCountry));
+			var playerTitles = new List<Title>(titles.Values.Where(title => title.PlayerCountry));
 			var xPos = 430;
 			var yPos = 190;
 			foreach (var title in playerTitles) {
-				var holder = characters[title.GetHolderId(ck3BookmarkDate)];
+				var holderId = title.GetHolderId(ck3BookmarkDate);
+				if (holderId == "0") {
+					continue;
+				}
+				var holder = characters[holderId];
 
 				output.WriteLine("\tcharacter = {");
 

@@ -72,12 +72,13 @@ namespace ImperatorToCK3.Imperator.Countries {
 				var governmentStr = ParserHelpers.GetString(reader);
 				country.Government = governmentStr;
 				// set government type
-				if (monarchyGovernments.Contains(governmentStr))
+				if (monarchyGovernments.Contains(governmentStr)) {
 					country.GovernmentType = GovernmentType.monarchy;
-				else if (republicGovernments.Contains(governmentStr))
+				} else if (republicGovernments.Contains(governmentStr)) {
 					country.GovernmentType = GovernmentType.republic;
-				else if (tribalGovernments.Contains(governmentStr))
+				} else if (tribalGovernments.Contains(governmentStr)) {
 					country.GovernmentType = GovernmentType.tribal;
+				}
 			});
 			parser.RegisterKeyword("family", reader =>
 				country.Families.Add(ParserHelpers.GetULong(reader), null)

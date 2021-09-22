@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using commonItems;
 using ImperatorToCK3.Imperator.Diplomacy;
-using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
+using ImperatorToCK3.Imperator.Provinces;
 using Mods = System.Collections.Generic.List<commonItems.Mod>;
 
 namespace ImperatorToCK3.Imperator {
@@ -21,6 +21,7 @@ namespace ImperatorToCK3.Imperator {
 		public Provinces.Provinces Provinces { get; private set; } = new();
 		public Countries.Countries Countries { get; private set; } = new();
 		public List<War> Wars { get; private set; } = new();
+		public Jobs.Jobs Jobs { get; private set; } = new();
 		private GenesDB genesDB = new();
 
 		private enum SaveType { INVALID = 0, PLAINTEXT = 1, COMPRESSED_ENCODED = 2 }
@@ -112,14 +113,21 @@ namespace ImperatorToCK3.Imperator {
 				var diplomacy = new Diplomacy.Diplomacy(reader);
 				Wars = diplomacy.Wars;
 			});
+			RegisterKeyword("jobs", reader => {
+				Jobs = new Jobs.Jobs(reader);
+			});
 			RegisterKeyword("played_country", reader => {
+				var playerCountriesToLog = new List<string>();
 				var playedCountryBlocParser = new Parser();
 				playedCountryBlocParser.RegisterKeyword("country", reader => {
 					var countryId = ParserHelpers.GetULong(reader);
-					Countries.StoredCountries[countryId].PlayerCountry = true;
+					var country = Countries.StoredCountries[countryId];
+					country.PlayerCountry = true;
+					playerCountriesToLog.Add(country.Tag);
 				});
 				playedCountryBlocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 				playedCountryBlocParser.ParseStream(reader);
+				Logger.Info("Player countries: " + string.Join(", ", playerCountriesToLog));
 			});
 			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				ignoredTokens.Add(token);
