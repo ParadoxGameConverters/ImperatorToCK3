@@ -420,13 +420,7 @@ namespace ImperatorToCK3.CK3 {
 								Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
 								continue;
 							}
-							var ck3Governorship = LandedTitles[ck3GovernorshipName];
-							if (Characters.TryGetValue(ck3Governorship.GetHolderId(ck3BookmarkDate), out var governor)) {
-								title.ClearHolderHistory();
-								title.SetHolderId(governor.ID, ck3Governorship.GetDateOfLastHolderChange());
-							}
-							title.DeFactoLiege = null;
-							countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
+							GiverCountryToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
 						} else if (impMonarch is not null) {
 							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch, ck3BookmarkDate);
 						}
@@ -448,6 +442,16 @@ namespace ImperatorToCK3.CK3 {
 					title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
 				} else {
 					Logger.Warn($"Holder doesn't exist for county {title.Name}!");
+				}
+				title.DeFactoLiege = null;
+				countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
+			}
+
+			void GiverCountryToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
+				var ck3Governorship = LandedTitles[ck3GovernorshipName];
+				if (Characters.TryGetValue(ck3Governorship.GetHolderId(ck3BookmarkDate), out var governor)) {
+					title.ClearHolderHistory();
+					title.SetHolderId(governor.ID, ck3Governorship.GetDateOfLastHolderChange());
 				}
 				title.DeFactoLiege = null;
 				countyHoldersCache.Add(title.GetHolderId(ck3BookmarkDate));
