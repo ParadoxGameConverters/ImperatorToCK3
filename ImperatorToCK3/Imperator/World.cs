@@ -110,13 +110,17 @@ namespace ImperatorToCK3.Imperator {
 				Jobs = new Jobs.Jobs(reader);
 			});
 			RegisterKeyword("played_country", reader => {
+				var playerCountriesToLog = new List<string>();
 				var playedCountryBlocParser = new Parser();
 				playedCountryBlocParser.RegisterKeyword("country", reader => {
 					var countryId = ParserHelpers.GetULong(reader);
-					Countries.StoredCountries[countryId].PlayerCountry = true;
+					var country = Countries.StoredCountries[countryId];
+					country.PlayerCountry = true;
+					playerCountriesToLog.Add(country.Tag);
 				});
 				playedCountryBlocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 				playedCountryBlocParser.ParseStream(reader);
+				Logger.Info("Player countries: " + string.Join(", ", playerCountriesToLog));
 			});
 			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				ignoredTokens.Add(token);
