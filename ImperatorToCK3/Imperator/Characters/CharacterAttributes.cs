@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using commonItems;
+﻿using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class CharacterAttributes {
@@ -11,8 +6,6 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public int Finesse { get; private set; } = 0;
 		public int Charisma { get; private set; } = 0;
 		public int Zeal { get; private set; } = 0;
-
-		public CharacterAttributes() { }
 
 		private static CharacterAttributes parsedAttributes = new();
 		private static readonly Parser parser = new();
