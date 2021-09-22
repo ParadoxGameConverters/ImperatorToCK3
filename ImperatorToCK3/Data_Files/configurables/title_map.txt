@@ -56,9 +56,8 @@ link = { imp = TRE ck3 = d_thrace rank = d }
 link = { imp = TRE ck3 = k_thessalonika rank = k }
 link = { imp = ODR ck3 = k_bulgaria rank = k }
 
-## Asia Minor
+# Asia Minor
 
-link = { imp = COR ck3 = d_vaspurakan rank = d }
 
 #New
 
