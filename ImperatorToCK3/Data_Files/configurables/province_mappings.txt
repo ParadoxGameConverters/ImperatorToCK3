@@ -1414,13 +1414,13 @@
 	link = { imp = 75 imp = 5002 imp = 74 imp = 76 ck3 = 2626 ck3 = 8751 } # MANY-TO-MANY: Hipponium, Serrae, Stylacium, Temesa -> SQUILLUCE, Tropea
 	link = { imp = 72 imp = 73 imp = 5001 ck3 = 2627 } # Rhegium, Locri, Aspromons -> REGGIO
 	link = { comment = "# Sicilia and Malta" }
-	link = { imp = 90 ck3 = 2645 } # Hippana -> CALATAFIMI
-	link = { imp = 91 ck3 = 2644 } # Heraclea Minoa -> MAZARA
+	link = { imp = 90 imp = 7843 ck3 = 2645 } # Hippana, Adranon -> CALATAFIMI
+	link = { imp = 91 imp = 93 ck3 = 2644 } # Heraclea Minoa, Selinus -> MAZARA
 	link = { imp = 7839 imp = 89 imp = 5149 imp = 7841 ck3 = 2640 } # Capitium, Henna, IMPASSIBLE TERRAIN 149, Myttistraton -> CASTROGIOVANNI
 	link = { imp = 88 ck3 = 2641 } # Murgantia -> CALTANISETTA
 	link = { imp = 86 ck3 = 2637 } # Acragas -> GIRGENTI
 	link = { imp = 85 imp = 7840 ck3 = 2642 } # Gela, Menae -> CALTAGIRONE
-	link = { imp = 95 imp = 94 imp = 92 imp = 93 imp = 7843 ck3 = 2636 } # Eryx, Lilybaeum, Egesta, Selinus, Adranon -> TRAPANI
+	link = { imp = 95 imp = 94 imp = 92 ck3 = 2636 } # Eryx, Lilybaeum, Egesta -> TRAPANI
 	link = { imp = 7842 imp = 97 imp = 96 ck3 = 2635 } # Soluntum, Thermai, Panorumus -> PALERMO
 	link = { imp = 100 imp = 98 imp = 5150 ck3 = 2634 } # Calacte, Cephaloedium, IMPASSIBLE TERRAIN 150 -> CEFALU
 	link = { imp = 80 imp = 81 imp = 5000 imp = 99 imp = 5147 imp = 1472 imp = 7861 ck3 = 2633 } # Messana, Tauromenium, Aetna Volcano, Tyndaris, IMPASSIBLE TERRAIN 147, Liparae, Strongyle Volcano -> MESSINA

@@ -27,7 +27,11 @@ namespace ImperatorToCK3.Outputter {
 			var xPos = 430;
 			var yPos = 190;
 			foreach (var title in playerTitles) {
-				var holder = characters[title.GetHolderId(config.Ck3BookmarkDate)];
+				var holderId = title.GetHolderId(config.Ck3BookmarkDate);
+				if (holderId == "0") {
+					continue;
+				}
+				var holder = characters[holderId];
 
 				output.WriteLine("\tcharacter = {");
 
