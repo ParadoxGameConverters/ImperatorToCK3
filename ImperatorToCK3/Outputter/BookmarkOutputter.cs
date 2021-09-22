@@ -10,11 +10,42 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
+		private class ProvincePosition {
+			public double X;
+			public double Y;
+			public static ProvincePosition Parse(BufferedReader reader) {
+				positionToReturn = new();
+				parser.ParseStream(reader);
+				return positionToReturn;
+			}
+			static ProvincePosition() {
+				parser.RegisterKeyword("position", reader => {
+					var positionsList = ParserHelpers.GetDoubles(reader);
+					positionToReturn.X = positionsList[0];
+					positionToReturn.Y = positionsList[1];
+				});
+				parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			}
+			private static ProvincePosition positionToReturn = new();
+			private static readonly Parser parser = new();
+		}
 		public static void OutputBookmark(Dictionary<string, Character> characters, Dictionary<string, Title> titles, Configuration config) {
 			OpenCL.IsEnabled = true; // enable OpenCL in ImageMagick
 			var path = "output/" + config.OutputModName + "/common/bookmarks/00_bookmarks.txt";
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
+
+			// calculate position for player character
+			var provincePositionsPath = Path.Combine(config.Ck3Path, "game/map_data/positions.txt");
+			var provincePositions = new Dictionary<ulong, ProvincePosition>();
+			var listParser = new Parser();
+			listParser.RegisterRegex(CommonRegexes.Integer, (reader, idString) => {
+				var provId = ulong.Parse(idString);
+				provincePositions[provId] = ProvincePosition.Parse(reader);
+			});
+			listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			listParser.ParseFile(provincePositionsPath);
+
 
 			output.WriteLine("bm_converted = {");
 
@@ -24,8 +55,6 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\trecommended = yes");
 
 			var playerTitles = new List<Title>(titles.Values.Where(title => title.PlayerCountry));
-			var xPos = 430;
-			var yPos = 190;
 			foreach (var title in playerTitles) {
 				var holderId = title.GetHolderId(config.Ck3BookmarkDate);
 				if (holderId == "0") {
@@ -50,16 +79,27 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\tculture = {holder.Culture}");
 				output.WriteLine($"\t\treligion = {holder.Religion}");
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-				output.WriteLine($"\t\tposition = {{ {xPos} {yPos} }}");
+
+				var count = 0;
+				var sumX = 0.0d;
+				var sumY = 0.0d;
+				Logger.Debug("================================================");
+				foreach (var provId in GetProvincesInCountry(titles, title, config).Reverse()) {
+						Logger.Debug("PROVINCE : " + provId);
+					if (provincePositions.TryGetValue(provId, out var pos)) {
+						sumX += pos.X;
+						sumY += pos.Y;
+						++count;
+						Logger.Debug($"{sumX} {sumY} {count}");
+					}
+				}
+				var meanX = (int)Math.Round(sumX / count);
+				var meanY = (int)Math.Round(sumY / count);
+				output.WriteLine($"\t\tposition = {{ {meanX} {meanY} }}");
+
 				output.WriteLine("\t\tanimation = personality_rational");
 
 				output.WriteLine("\t}");
-
-				xPos += 200;
-				if (xPos > 1700) {
-					xPos = 430;
-					yPos += 200;
-				}
 
 				string templateText;
 				string templatePath = holder.AgeSex switch {
@@ -102,15 +142,7 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
 				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-
-				var holderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
-				var heldCounties = new List<Title>(
-					titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
-				);
-				var heldProvinces = new HashSet<ulong>();
-				foreach (var county in heldCounties) {
-					heldProvinces.UnionWith(county.CountyProvinces);
-				}
+				HashSet<ulong> heldProvinces = GetProvincesInCountry(titles, playerTitle, config);
 				// determine which impassable should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				foreach (var impassableId in mapData.ColorableImpassableProvinces) {
@@ -121,8 +153,8 @@ namespace ImperatorToCK3.Outputter {
 						}
 					}
 				}
-				var diff = provincesToColor.Count - heldProvinces.Count;// debug
-				Logger.Debug($"Added {diff} impassable provinces to color.");
+				var diff = provincesToColor.Count - heldProvinces.Count;
+				Logger.Debug($"Colored {diff} impassable provinces with color of {playerTitle.Name}");
 
 				using var copyImage = new MagickImage(provincesImage);
 				foreach (var province in provincesToColor) {
@@ -151,6 +183,21 @@ namespace ImperatorToCK3.Outputter {
 			}
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.dds");
 			bookmarkMapImage.Write(outputPath);
+		}
+
+		private static HashSet<ulong> GetProvincesInCountry(Dictionary<string, Title> titles, Title playerTitle, Configuration config) {
+			var holderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
+			var heldCounties = new List<Title>(
+				titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
+			);
+			var heldProvinces = new HashSet<ulong>();
+			foreach (var county in heldCounties) {
+				heldProvinces.UnionWith(county.CountyProvinces);
+			}
+
+			
+			Logger.Debug($"HELD PROVINCES OF {holderId}: " + string.Join(", ", heldProvinces)); // debug
+			return heldProvinces;
 		}
 
 		private class ProvinceDefinition {
