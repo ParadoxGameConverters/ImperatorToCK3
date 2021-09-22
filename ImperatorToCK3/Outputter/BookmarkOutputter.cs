@@ -72,10 +72,10 @@ namespace ImperatorToCK3.Outputter {
 
 			output.WriteLine("}");
 
-			DrawBookmarkMap(config, playerTitles, titles);
+			DrawBookmarkMap(config, playerTitles, titles, characters);
 		}
 
-		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, Dictionary<string, Title> titles) {
+		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, Dictionary<string, Title> titles, Dictionary<string, Character> characters) {
 			Logger.Info("Drawing bookmark map.");
 
 			var bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
@@ -117,7 +117,6 @@ namespace ImperatorToCK3.Outputter {
 					var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
 					if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
 						provincesToColor.Add(impassableId);
-						Logger.Debug($"Added {impassableId} to provinces to color.");
 					}
 				}
 				var diff = provincesToColor.Count - heldProvinces.Count;// debug
@@ -133,8 +132,18 @@ namespace ImperatorToCK3.Outputter {
 				copyImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
 				// make pixels all colors but the country color transparent
 				copyImage.InverseTransparent(magickColorOnMap);
+
+				// create realm highlight file
+				var holder = characters[playerTitle.GetHolderId(config.Ck3BookmarkDate)];
+				var highlightPath = Path.Combine(
+					"output",
+					config.OutputModName,
+					$"gfx/interface/bookmarks/bm_converted_{holder.Name}.dds"
+				);
+				copyImage.Write(highlightPath);
+
 				// make country on map semi-transparent
-				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 3);
+				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 4);
 				// add the image on top of blank map image
 				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
 			}
@@ -225,16 +234,11 @@ namespace ImperatorToCK3.Outputter {
 						}
 					}
 				}
-
-				// debug logging
-				foreach (var (prov, neighbors) in NeighborsDict) {
-					Logger.Debug($"Province {prov} has neighbors: " + string.Join(", ", neighbors));
-				}
 			}
 			private void FindImpassables(Configuration config) {
 				var filePath = Path.Combine(config.Ck3Path, "game/map_data/default.map");
 				var parser = new Parser();
-				var listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
+				const string listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
 				parser.RegisterRegex(listRegex, (reader, keyword) => {
 					Parser.GetNextTokenWithoutMatching(reader); // equals sign
 					var typeOfGroup = Parser.GetNextTokenWithoutMatching(reader);
