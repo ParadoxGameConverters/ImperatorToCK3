@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using commonItems;
 
 namespace ImperatorToCK3.CK3.Titles {
@@ -10,11 +11,15 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeys();
 			ParseFile(fileName);
 			ClearRegisteredRules();
+
+			LinkCapitals();
 		}
 		public void LoadTitles(BufferedReader reader) {
 			RegisterKeys();
 			ParseStream(reader);
 			ClearRegisteredRules();
+
+			LinkCapitals();
 		}
 		public void InsertTitle(Title? title) {
 			if (title is null) {
@@ -56,10 +61,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			StoredTitles.Remove(name);
 		}
-		public string? GetCountyForProvince(ulong provinceID) {
-			foreach (var (titleName, title) in StoredTitles) {
-				if (title?.Rank == TitleRank.county && title.CountyProvinces.Contains(provinceID)) {
-					return titleName;
+		public Title? GetCountyForProvince(ulong provinceID) {
+			var counties = StoredTitles.Values.Where(title => title.Rank == TitleRank.county);
+			foreach (var county in counties) {
+				if (county?.CountyProvinces.Contains(provinceID) == true) {
+					return county;
 				}
 			}
 			return null;
@@ -76,6 +82,15 @@ namespace ImperatorToCK3.CK3.Titles {
 				Title.AddFoundTitle(newTitle, StoredTitles);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		}
+		
+		private void LinkCapitals() {
+			foreach (var title in StoredTitles.Values) {
+				if (title.CapitalCounty is not null && title.CapitalCounty.Value.Value is null) {
+					var countyName = title.CapitalCounty.Value.Key;
+					title.CapitalCounty = new(countyName, StoredTitles[countyName]);
+				}
+			}
 		}
 	}
 }
