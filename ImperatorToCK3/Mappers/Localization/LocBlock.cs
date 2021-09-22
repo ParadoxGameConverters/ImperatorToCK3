@@ -7,6 +7,16 @@
         public string simp_chinese = "";
         public string spanish = "";
 
+		public LocBlock() { }
+		public LocBlock(LocBlock otherLocBlock) {
+			english = otherLocBlock.english;
+			french = otherLocBlock.french;
+			german = otherLocBlock.german;
+			russian = otherLocBlock.russian;
+			simp_chinese = otherLocBlock.simp_chinese;
+			spanish = otherLocBlock.spanish;
+		}
+
         // ModifyForEveryLanguage helps remove boilerplate by applying modifyingMethod to every language in the struct
         //
         // For example:

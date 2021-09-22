@@ -12,7 +12,7 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var (name, title) in titles) { // first output kindoms + their de jure vassals to files named after the kingdoms
 				if (title.Rank == TitleRank.kingdom && title.DeJureVassals.Count > 0) { // is a de jure kingdom
 					var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", name + ".txt");
-					using var historyOutput = new StreamWriter(historyOutputPath);                      // output the kingdom's history
+					using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
 					title.OutputHistory(historyOutput, ck3BookmarkDate);
 					alreadyOutputtedTitles.Add(name);
 
@@ -43,7 +43,7 @@ namespace ImperatorToCK3.Outputter {
 					continue;
 				}
 
-				if (title.IsImportedOrUpdatedFromImperator && name.IndexOf("IMPTOCK3") != -1) {  // title is not from CK3
+				if (title.IsImportedOrUpdatedFromImperator && name.Contains("IMPTOCK3")) {  // title is not from CK3
 					var outputPath = Path.Combine("output", outputModName, "common", "landed_titles", name + ".txt");
 					using var outputStream = File.OpenWrite(outputPath);
 					using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);

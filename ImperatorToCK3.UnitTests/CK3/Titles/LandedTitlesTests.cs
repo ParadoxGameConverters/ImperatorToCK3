@@ -92,5 +92,22 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			Assert.Equal(10, titles.StoredTitles.Count);
 		}
+
+		[Fact]
+		public void CapitalsAreLinked() {
+			var reader = new BufferedReader(
+				"e_empire = { capital=c_county " +
+				"k_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } } " +
+				"}"
+			);
+			var titles = new LandedTitles();
+			titles.LoadTitles(reader);
+
+			var empire = titles.StoredTitles["e_empire"];
+			var capitalCounty = empire.CapitalCounty;
+			Assert.True(capitalCounty.HasValue);
+			Assert.Equal("c_county", capitalCounty.Value.Key);
+			Assert.Equal("c_county", capitalCounty.Value.Value.Name);
+		}
 	}
 }
