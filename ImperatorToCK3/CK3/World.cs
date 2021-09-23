@@ -429,7 +429,7 @@ namespace ImperatorToCK3.CK3 {
 							Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
 							continue;
 						}
-						GiverCountryToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
+						GiveCountryToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
 						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 					}
@@ -447,7 +447,7 @@ namespace ImperatorToCK3.CK3 {
 				title.DeFactoLiege = null;
 			}
 
-			void GiverCountryToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
+			void GiveCountryToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
 				var ck3Governorship = LandedTitles[ck3GovernorshipName];
 				var holderId = ck3Governorship.GetHolderId(ck3BookmarkDate);
 				if (Characters.TryGetValue(holderId, out var governor)) {
