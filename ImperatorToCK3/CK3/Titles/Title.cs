@@ -8,6 +8,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using System.IO;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Titles {
 	public enum TitleRank { barony, county, duchy, kingdom, empire }
@@ -538,11 +539,15 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public void OutputHistory(StreamWriter writer, Date ck3BookmarkDate) {
-			writer.WriteLine(Name + " = {");
+			bool needsToBeOutput = false;
+			var sb = new StringBuilder();
+
+			sb.AppendLine($"{Name} = {{");
 
 			if (history.InternalHistory.SimpleFields.ContainsKey("holder")) {
+				needsToBeOutput = true;
 				foreach (var (date, holderId) in history.InternalHistory.SimpleFields["holder"].ValueHistory) {
-					writer.WriteLine($"\t{date} = {{ holder = {holderId} }}");
+					sb.AppendLine($"\t{date} = {{ holder = {holderId} }}");
 				}
 			}
 
@@ -550,38 +555,47 @@ namespace ImperatorToCK3.CK3.Titles {
 				var govField = history.InternalHistory.SimpleFields["government"];
 				var initialGovernment = govField.InitialValue;
 				if (initialGovernment is not null) {
-					writer.WriteLine($"\t\tgovernment = {initialGovernment}");
+					needsToBeOutput = true;
+					sb.AppendLine($"\t\tgovernment = {initialGovernment}");
 				}
 				foreach (var (date, government) in govField.ValueHistory) {
-					writer.WriteLine($"\t{date} = {{ government = {government} }}");
+					needsToBeOutput = true;
+					sb.AppendLine($"\t{date} = {{ government = {government} }}");
 				}
 			}
 
-			writer.WriteLine($"\t{ck3BookmarkDate} = {{");
+			sb.AppendLine($"\t{ck3BookmarkDate} = {{");
 
 			if (DeFactoLiege is not null) {
-				writer.WriteLine($"\t\tliege = {DeFactoLiege.Name}");
+				needsToBeOutput = true;
+				sb.AppendLine($"\t\tliege = {DeFactoLiege.Name}");
 			}
 
 			var succLaws = SuccessionLaws;
 			if (succLaws.Count > 0) {
-				writer.WriteLine("\t\tsuccession_laws = {");
+				needsToBeOutput = true;
+				sb.AppendLine("\t\tsuccession_laws = {");
 				foreach (var law in succLaws) {
-					writer.WriteLine("\t\t\t" + law);
+					sb.AppendLine($"\t\t\t{law}");
 				}
-				writer.WriteLine("\t\t}");
+				sb.AppendLine("\t\t}");
 			}
 
 			if (Rank != TitleRank.barony) {
 				var developmentLevelOpt = DevelopmentLevel;
 				if (developmentLevelOpt is not null) {
-					writer.WriteLine("\t\tchange_development_level = " + developmentLevelOpt);
+					needsToBeOutput = true;
+					sb.AppendLine($"\t\tchange_development_level = {developmentLevelOpt}");
 				}
 			}
 
-			writer.WriteLine("\t}");
+			sb.AppendLine("\t}");
 
-			writer.WriteLine("}");
+			sb.AppendLine("}");
+
+			if (needsToBeOutput) {
+				writer.Write(sb);
+			}
 		}
 
 		// used by kingdom titles only
