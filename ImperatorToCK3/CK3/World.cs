@@ -439,7 +439,7 @@ namespace ImperatorToCK3.CK3 {
 			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarch) {
 				var holderId = "imperator" + impMonarch.ToString();
 				if (Characters.TryGetValue(holderId, out var holder)) {
-					title.ClearHolderHistory();
+					title.ClearHolderSpecificHistory();
 					title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
@@ -451,7 +451,7 @@ namespace ImperatorToCK3.CK3 {
 				var ck3Governorship = LandedTitles[ck3GovernorshipName];
 				var holderId = ck3Governorship.GetHolderId(ck3BookmarkDate);
 				if (Characters.TryGetValue(holderId, out var governor)) {
-					title.ClearHolderHistory();
+					title.ClearHolderSpecificHistory();
 					title.SetHolderId(governor.ID, ck3Governorship.GetDateOfLastHolderChange());
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
@@ -468,7 +468,7 @@ namespace ImperatorToCK3.CK3 {
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
 			foreach (var (name, title) in LandedTitles) {
-				//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
+				// important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 				// this also removes landless titles initialized from Imperator
 				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
 					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
@@ -477,7 +477,7 @@ namespace ImperatorToCK3.CK3 {
 							landedTitles.EraseTitle(name);
 						} else {
 							revokedVanillaTitles.Add(name);
-							title.SetHolderId("0", ck3BookmarkDate);
+							title.ClearHolderSpecificHistory();
 							title.DeFactoLiege = null;
 						}
 					}

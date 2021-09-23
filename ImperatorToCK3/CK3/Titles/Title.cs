@@ -491,8 +491,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 
-		internal void ClearHolderHistory() {
+		internal void ClearHolderSpecificHistory() {
 			history.InternalHistory.SimpleFields.Remove("holder");
+			history.InternalHistory.SimpleFields.Remove("government");
 		}
 
 		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title> foundTitles) {
