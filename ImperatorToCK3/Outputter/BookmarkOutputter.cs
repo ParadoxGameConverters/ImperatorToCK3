@@ -11,6 +11,7 @@ using System.Text;
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
 		private class ProvincePosition {
+			public ulong ID;
 			public double X;
 			public double Y;
 			public static ProvincePosition Parse(BufferedReader reader) {
@@ -19,6 +20,9 @@ namespace ImperatorToCK3.Outputter {
 				return positionToReturn;
 			}
 			static ProvincePosition() {
+				parser.RegisterRegex("id", reader => {
+					positionToReturn.ID = ParserHelpers.GetULong(reader);
+				});
 				parser.RegisterKeyword("position", reader => {
 					var positionsList = ParserHelpers.GetDoubles(reader);
 					positionToReturn.X = positionsList[0];
@@ -36,7 +40,7 @@ namespace ImperatorToCK3.Outputter {
 			using var output = new StreamWriter(stream, Encoding.UTF8);
 
 			// calculate position for player character
-			var provincePositionsPath = Path.Combine(config.Ck3Path, "game/map_data/positions.txt");
+			var provincePositionsPath = Path.Combine(config.Ck3Path, "game/gfx/map/map_object_data/building_locators.txt");
 			var provincePositions = new Dictionary<ulong, ProvincePosition>();
 			var listParser = new Parser();
 			listParser.RegisterRegex(CommonRegexes.Integer, (reader, idString) => {
