@@ -26,7 +26,7 @@ namespace ImperatorToCK3.Outputter {
 				parser.RegisterKeyword("position", reader => {
 					var positionsList = ParserHelpers.GetDoubles(reader);
 					positionToReturn.X = positionsList[0];
-					positionToReturn.Y = positionsList[1];
+					positionToReturn.Y = positionsList[2];
 				});
 				parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 			}
@@ -39,17 +39,25 @@ namespace ImperatorToCK3.Outputter {
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
 
-			// calculate position for player character
+			// get province positions
 			var provincePositionsPath = Path.Combine(config.Ck3Path, "game/gfx/map/map_object_data/building_locators.txt");
 			var provincePositions = new Dictionary<ulong, ProvincePosition>();
-			var listParser = new Parser();
-			listParser.RegisterRegex(CommonRegexes.Integer, (reader, idString) => {
-				var provId = ulong.Parse(idString);
-				provincePositions[provId] = ProvincePosition.Parse(reader);
+			var fileParser = new Parser();
+			fileParser.RegisterKeyword("game_object_locator", reader => {
+				var listParser = new Parser();
+				listParser.RegisterKeyword("instances", instancesReader => {
+					foreach(var blob in new BlobList(instancesReader).Blobs) {
+						var blobReader = new BufferedReader(blob);
+						var instance = ProvincePosition.Parse(blobReader);
+						provincePositions[instance.ID] = instance;
+						Logger.Debug("PROV POSITION " + instance.ID + " " + instance.X);
+					}
+				});
+				listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+				listParser.ParseStream(reader);
 			});
-			listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-			listParser.ParseFile(provincePositionsPath);
-
+			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			fileParser.ParseFile(provincePositionsPath);
 
 			output.WriteLine("bm_converted = {");
 
@@ -89,7 +97,6 @@ namespace ImperatorToCK3.Outputter {
 				var sumY = 0.0d;
 				Logger.Debug("================================================");
 				foreach (var provId in GetProvincesInCountry(titles, title, config).Reverse()) {
-						Logger.Debug("PROVINCE : " + provId);
 					if (provincePositions.TryGetValue(provId, out var pos)) {
 						sumX += pos.X;
 						sumY += pos.Y;
@@ -99,7 +106,10 @@ namespace ImperatorToCK3.Outputter {
 				}
 				var meanX = (int)Math.Round(sumX / count);
 				var meanY = (int)Math.Round(sumY / count);
-				output.WriteLine($"\t\tposition = {{ {meanX} {meanY} }}");
+				const double scale = (double)1080 / 4096;
+				var finalX = scale * meanX;
+				var finalY = scale * meanY;
+				output.WriteLine($"\t\tposition = {{ {finalX} {finalY} }}");
 
 				output.WriteLine("\t\tanimation = personality_rational");
 
@@ -199,7 +209,6 @@ namespace ImperatorToCK3.Outputter {
 				heldProvinces.UnionWith(county.CountyProvinces);
 			}
 
-			
 			Logger.Debug($"HELD PROVINCES OF {holderId}: " + string.Join(", ", heldProvinces)); // debug
 			return heldProvinces;
 		}
