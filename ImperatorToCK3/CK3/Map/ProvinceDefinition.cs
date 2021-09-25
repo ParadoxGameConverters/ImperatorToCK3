@@ -2,10 +2,10 @@
 
 namespace ImperatorToCK3.CK3.Map {
 	public class ProvinceDefinition {
-		public ulong ID { get; }
+		public ulong Id { get; }
 		public MagickColor Color { get; }
 		public ProvinceDefinition(ulong id, byte r, byte g, byte b) {
-			ID = id;
+			Id = id;
 			Color = MagickColor.FromRgb(r, g, b);
 		}
 	}

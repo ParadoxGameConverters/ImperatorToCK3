@@ -27,8 +27,8 @@ namespace ImperatorToCK3.CK3.Map {
 					var g = byte.Parse(columns[2]);
 					var b = byte.Parse(columns[3]);
 					var definition = new ProvinceDefinition(id, r, g, b);
-					ProvinceToDefinitionDict.Add(definition.ID, definition);
-					ColorToProvinceDict[definition.Color] = definition.ID;
+					ProvinceToDefinitionDict.Add(definition.Id, definition);
+					ColorToProvinceDict[definition.Color] = definition.Id;
 				} catch (Exception e) {
 					throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
 				}

@@ -126,7 +126,7 @@ namespace ImperatorToCK3.CK3.Map {
 			if (NeighborsDict.TryGetValue(mainProvince, out var neighbors)) {
 				neighbors.Add(neighborProvince);
 			} else {
-				NeighborsDict[mainProvince] = new() { neighborProvince };
+				NeighborsDict[mainProvince] = new HashSet<ulong> { neighborProvince };
 			}
 		}
 	}
