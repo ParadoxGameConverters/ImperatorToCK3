@@ -6,9 +6,9 @@ using System.IO;
 namespace ImperatorToCK3.CK3.Map {
 	public class ProvinceDefinitions {
 		public Dictionary<MagickColor, ulong> ColorToProvinceDict { get; } = new();
-		public SortedDictionary<ulong, ProvinceDefinition> ProvinceToDefinitionDict { get; } = new();
-		public ProvinceDefinitions(Configuration config) {
-			var definitionsFilePath = Path.Combine(config.Ck3Path, "game/map_data/definition.csv");
+		public SortedDictionary<ulong, MagickColor> ProvinceToColorDict { get; } = new();
+		public ProvinceDefinitions(string ck3Path) {
+			var definitionsFilePath = Path.Combine(ck3Path, "game/map_data/definition.csv");
 			using var fileStream = File.OpenRead(definitionsFilePath);
 			using var definitionFileReader = new StreamReader(fileStream);
 
@@ -26,9 +26,9 @@ namespace ImperatorToCK3.CK3.Map {
 					var r = byte.Parse(columns[1]);
 					var g = byte.Parse(columns[2]);
 					var b = byte.Parse(columns[3]);
-					var definition = new ProvinceDefinition(id, r, g, b);
-					ProvinceToDefinitionDict.Add(definition.Id, definition);
-					ColorToProvinceDict[definition.Color] = definition.Id;
+					var color = MagickColor.FromRgb(r, g, b);
+					ProvinceToColorDict.Add(id, color);
+					ColorToProvinceDict[color] = id;
 				} catch (Exception e) {
 					throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
 				}

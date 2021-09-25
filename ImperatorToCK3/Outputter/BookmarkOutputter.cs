@@ -126,7 +126,7 @@ namespace ImperatorToCK3.Outputter {
 			provincesImage.Crop(1920, 1080);
 			provincesImage.RePage();
 
-			var provDefs = new ProvinceDefinitions(config);
+			var provDefs = new ProvinceDefinitions(config.Ck3Path);
 			var mapData = new MapData(provincesImage, provDefs, config);
 
 			foreach (var playerTitle in playerTitles) {
@@ -149,7 +149,7 @@ namespace ImperatorToCK3.Outputter {
 				Logger.Debug($"Colored {diff} impassable provinces with color of {playerTitle.Name}");
 
 				using var copyImage = new MagickImage(provincesImage);
-				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToDefinitionDict[province].Color))
+				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToColorDict[province]))
 				{
 					// make pixels of the province black
 					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
