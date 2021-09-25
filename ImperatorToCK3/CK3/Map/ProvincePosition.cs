@@ -1,6 +1,6 @@
 ﻿using commonItems;
 
-namespace ImperatorToCK3.CK3.Provinces {
+namespace ImperatorToCK3.CK3.Map {
 	public class ProvincePosition {
 		public ulong ID;
 		public double X;
