@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImageMagick;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using System;
 using System.Collections.Generic;
@@ -10,29 +11,6 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
-		private class ProvincePosition {
-			public ulong ID;
-			public double X;
-			public double Y;
-			public static ProvincePosition Parse(BufferedReader reader) {
-				positionToReturn = new();
-				parser.ParseStream(reader);
-				return positionToReturn;
-			}
-			static ProvincePosition() {
-				parser.RegisterRegex("id", reader => {
-					positionToReturn.ID = ParserHelpers.GetULong(reader);
-				});
-				parser.RegisterKeyword("position", reader => {
-					var positionsList = ParserHelpers.GetDoubles(reader);
-					positionToReturn.X = positionsList[0];
-					positionToReturn.Y = positionsList[2];
-				});
-				parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
-			}
-			private static ProvincePosition positionToReturn = new();
-			private static readonly Parser parser = new();
-		}
 		public static void OutputBookmark(Dictionary<string, Character> characters, Dictionary<string, Title> titles, Configuration config) {
 			OpenCL.IsEnabled = true; // enable OpenCL in ImageMagick
 			var path = "output/" + config.OutputModName + "/common/bookmarks/00_bookmarks.txt";
@@ -104,11 +82,11 @@ namespace ImperatorToCK3.Outputter {
 						Logger.Debug($"{sumX} {sumY} {count}");
 					}
 				}
-				var meanX = (int)Math.Round(sumX / count);
-				var meanY = (int)Math.Round(sumY / count);
+				var meanX = Math.Round(sumX / count);
+				var meanY = Math.Round(sumY / count);
 				const double scale = (double)1080 / 4096;
-				var finalX = scale * meanX;
-				var finalY = scale * meanY;
+				var finalX = (int)(scale * meanX);
+				var finalY = 1080 - (int)(scale * meanY);
 				output.WriteLine($"\t\tposition = {{ {finalX} {finalY} }}");
 
 				output.WriteLine("\t\tanimation = personality_rational");
@@ -191,7 +169,7 @@ namespace ImperatorToCK3.Outputter {
 				copyImage.Write(highlightPath);
 
 				// make country on map semi-transparent
-				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 4);
+				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 2);
 				// add the image on top of blank map image
 				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
 			}
