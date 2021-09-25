@@ -28,7 +28,6 @@ namespace ImperatorToCK3.Outputter {
 						var blobReader = new BufferedReader(blob);
 						var instance = ProvincePosition.Parse(blobReader);
 						provincePositions[instance.ID] = instance;
-						Logger.Debug("PROV POSITION " + instance.ID + " " + instance.X);
 					}
 				});
 				listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
@@ -70,37 +69,36 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\treligion = {holder.Religion}");
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
 
-				var count = 0;
-				var sumX = 0.0d;
-				var sumY = 0.0d;
-				Logger.Debug("================================================");
-				foreach (var provId in GetProvincesInCountry(titles, title, config).Reverse()) {
-					if (provincePositions.TryGetValue(provId, out var pos)) {
-						sumX += pos.X;
-						sumY += pos.Y;
-						++count;
-						Logger.Debug($"{sumX} {sumY} {count}");
+				int count = 0;
+				double sumX = 0;
+				double sumY = 0;
+				foreach (ulong provId in GetProvincesInCountry(titles, title, config).Reverse()) {
+					if (!provincePositions.TryGetValue(provId, out var pos)) {
+						continue;
 					}
+
+					sumX += pos.X;
+					sumY += pos.Y;
+					++count;
 				}
-				var meanX = Math.Round(sumX / count);
-				var meanY = Math.Round(sumY / count);
+				double meanX = Math.Round(sumX / count);
+				double meanY = Math.Round(sumY / count);
 				const double scale = (double)1080 / 4096;
-				var finalX = (int)(scale * meanX);
-				var finalY = 1080 - (int)(scale * meanY);
+				int finalX = (int)(scale * meanX);
+				int finalY = 1080 - (int)(scale * meanY);
 				output.WriteLine($"\t\tposition = {{ {finalX} {finalY} }}");
 
 				output.WriteLine("\t\tanimation = personality_rational");
 
 				output.WriteLine("\t}");
 
-				string templateText;
 				string templatePath = holder.AgeSex switch {
 					"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
 					"girl" => "blankMod/templates/common/bookmark_portraits/girl.txt",
 					"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
 					_ => "blankMod/templates/common/bookmark_portraits/male.txt",
 				};
-				templateText = File.ReadAllText(templatePath);
+				string templateText = File.ReadAllText(templatePath);
 				templateText = templateText.Replace("REPLACE_ME_NAME", holder.Name);
 				templateText = templateText.Replace("REPLACE_ME_AGE", holder.Age.ToString());
 				var outPortraitPath = "output/" + config.OutputModName + "/common/bookmark_portraits/" + $"{holder.Name}.txt";
@@ -115,21 +113,21 @@ namespace ImperatorToCK3.Outputter {
 		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, Dictionary<string, Title> titles, Dictionary<string, Character> characters) {
 			Logger.Info("Drawing bookmark map.");
 
-			var bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
+			string bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
 			using var bookmarkMapImage = new MagickImage(bookmarkMapPath);
 			bookmarkMapImage.Scale(2160, 1080);
 			bookmarkMapImage.Crop(1920, 1080);
 			bookmarkMapImage.RePage();
 
-			var provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
+			string provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
 			using var provincesImage = new MagickImage(provincesMapPath);
 			provincesImage.FilterType = FilterType.Point;
 			provincesImage.Resize(2160, 1080);
 			provincesImage.Crop(1920, 1080);
 			provincesImage.RePage();
 
-			var provDefinitions = new ProvinceDefinitions(config);
-			var mapData = new MapData(provincesImage, provDefinitions, config);
+			var provDefs = new ProvinceDefinitions(config);
+			var mapData = new MapData(provincesImage, provDefs, config);
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
@@ -138,19 +136,21 @@ namespace ImperatorToCK3.Outputter {
 				// determine which impassable should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				foreach (var impassableId in mapData.ColorableImpassableProvinces) {
-					if (mapData.NeighborsDict.TryGetValue(impassableId, out var neighborProvs)) {
-						var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
-						if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
-							provincesToColor.Add(impassableId);
-						}
+					if (!mapData.NeighborsDict.TryGetValue(impassableId, out var neighborProvs)) {
+						continue;
+					}
+
+					var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
+					if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
+						provincesToColor.Add(impassableId);
 					}
 				}
 				var diff = provincesToColor.Count - heldProvinces.Count;
 				Logger.Debug($"Colored {diff} impassable provinces with color of {playerTitle.Name}");
 
 				using var copyImage = new MagickImage(provincesImage);
-				foreach (var province in provincesToColor) {
-					var provinceColor = provDefinitions.ProvinceToDefinitionDict[province].Color;
+				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToDefinitionDict[province].Color))
+				{
 					// make pixels of the province black
 					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
 				}
