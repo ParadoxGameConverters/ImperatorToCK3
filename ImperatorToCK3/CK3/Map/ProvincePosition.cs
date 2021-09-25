@@ -2,17 +2,17 @@
 
 namespace ImperatorToCK3.CK3.Map {
 	public class ProvincePosition {
-		public ulong ID;
+		public ulong Id;
 		public double X;
 		public double Y;
 		public static ProvincePosition Parse(BufferedReader reader) {
-			positionToReturn = new();
+			positionToReturn = new ProvincePosition();
 			parser.ParseStream(reader);
 			return positionToReturn;
 		}
 		static ProvincePosition() {
 			parser.RegisterRegex("id", reader =>
-				positionToReturn.ID = ParserHelpers.GetULong(reader)
+				positionToReturn.Id = ParserHelpers.GetULong(reader)
 			);
 			parser.RegisterKeyword("position", reader => {
 				var positionsList = ParserHelpers.GetDoubles(reader);

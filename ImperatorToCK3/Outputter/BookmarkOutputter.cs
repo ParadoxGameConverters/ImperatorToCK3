@@ -27,7 +27,7 @@ namespace ImperatorToCK3.Outputter {
 					foreach(var blob in new BlobList(instancesReader).Blobs) {
 						var blobReader = new BufferedReader(blob);
 						var instance = ProvincePosition.Parse(blobReader);
-						provincePositions[instance.ID] = instance;
+						provincePositions[instance.Id] = instance;
 					}
 				});
 				listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);

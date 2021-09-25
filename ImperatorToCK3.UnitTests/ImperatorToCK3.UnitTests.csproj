@@ -129,8 +129,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CK3\Map\" />
-  </ItemGroup>
-
 </Project>
