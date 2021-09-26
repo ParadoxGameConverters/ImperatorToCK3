@@ -69,14 +69,15 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			// Attempt a title match
 			foreach (var mapping in mappings) {
 				var match = mapping.RankMatch(imperatorRegion, rank);
-				if (match is not null) {
-					if (usedTitles.Contains(match)) {
-						continue;
-					}
-
-					RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
-					return match;
+				if (match is null) {
+					continue;
 				}
+
+				if (usedTitles.Contains(match)) {
+					continue;
+				}
+				RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
+				return match;
 			}
 
 			// Generate a new title
