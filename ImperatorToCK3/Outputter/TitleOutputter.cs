@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using commonItems;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class TitleOutputter {
@@ -28,6 +28,10 @@ namespace ImperatorToCK3.Outputter {
 
 			/* This line keeps the Seleucids Seleucid and not "[Dynasty]s" */
 			writer.WriteLine("\truler_uses_title_name = no");
+
+			foreach (var vassal in title.DeJureVassals.Values) {
+				OutputTitle(writer, vassal);
+			}
 
 			writer.WriteLine("}");
 		}
