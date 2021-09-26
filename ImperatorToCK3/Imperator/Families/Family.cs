@@ -11,7 +11,7 @@ namespace ImperatorToCK3.Imperator.Families {
 		public double Prestige { get; private set; } = 0;
 		public double PrestigeRatio { get; private set; } = 0;
 		public OrderedDictionary Members { get; private set; } = new();
-		public bool Minor { get; private set; } = false;
+		public ParadoxBool Minor { get; private set; } = new(false);
 
 		public Family(ulong ID) {
 			this.ID = ID;
@@ -64,7 +64,7 @@ namespace ImperatorToCK3.Imperator.Families {
 					family.Culture = new SingleString(reader).String
 				);
 				parser.RegisterKeyword("minor_family", reader =>
-					family.Minor = new SingleString(reader).String == "yes"
+					family.Minor = new ParadoxBool(reader)
 				);
 				parser.RegisterKeyword("member", reader => {
 					foreach (var memberID in new ULongList(reader).ULongs) {

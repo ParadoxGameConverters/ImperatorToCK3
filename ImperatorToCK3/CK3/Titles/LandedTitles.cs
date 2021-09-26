@@ -11,6 +11,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeys();
 			ParseFile(fileName);
 			ClearRegisteredRules();
+			Logger.Debug("Ignored title tokens: " + string.Join(", ", Title.IgnoredTokens));
 
 			LinkCapitals();
 		}
@@ -18,6 +19,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeys();
 			ParseStream(reader);
 			ClearRegisteredRules();
+			Logger.Debug("Ignored title tokens: " + string.Join(", ", Title.IgnoredTokens));
 
 			LinkCapitals();
 		}
@@ -83,7 +85,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		
+
 		private void LinkCapitals() {
 			foreach (var title in StoredTitles.Values) {
 				if (title.CapitalCounty is not null && title.CapitalCounty.Value.Value is null) {

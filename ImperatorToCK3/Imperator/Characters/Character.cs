@@ -70,7 +70,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return "boy";
 			}
 		}
-		public bool Female { get; private set; } = false;
+		public ParadoxBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
 
 		public CK3.Characters.Character? CK3Character { get; set; }

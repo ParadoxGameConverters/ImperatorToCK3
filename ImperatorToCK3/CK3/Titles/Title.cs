@@ -49,7 +49,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				validatedName = ImperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries);
 			}
 
-			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
+			HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
 
 			string? title;
 			if (validatedName is not null) {
@@ -162,10 +162,9 @@ namespace ImperatorToCK3.CK3.Titles {
 				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
 			}
 
-			HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
+			HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 
-			string? title = null;
-			title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Name);
+			string? title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Name);
 			DeJureLiege = country.CK3Title;
 			DeFactoLiege = country.CK3Title;
 			if (title is null) {
@@ -445,8 +444,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		public bool PlayerCountry { get; private set; }
 		public string Name { get; private set; } = string.Empty; // e.g. d_latium
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
-		public bool Landless { get; private set; } = false;
-		public bool HasDefiniteForm { get; private set; } = false;
+		public ParadoxBool Landless { get; private set; } = new(false);
+		public ParadoxBool HasDefiniteForm { get; private set; } = new(false);
 		public int? OwnOrInheritedDevelopmentLevel {
 			get {
 				if (history.DevelopmentLevel is not null) { // if development level is already set, just return it
@@ -475,10 +474,10 @@ namespace ImperatorToCK3.CK3.Titles {
 				newTitle.DeJureLiege = this;
 			});
 			RegisterKeyword("definite_form", reader => {
-				HasDefiniteForm = ParserHelpers.GetString(reader) == "yes";
+				HasDefiniteForm = new ParadoxBool(reader);
 			});
 			RegisterKeyword("landless", reader => {
-				Landless = ParserHelpers.GetString(reader) == "yes";
+				Landless = new ParadoxBool(reader);
 			});
 			RegisterKeyword("color", reader => {
 				Color = colorFactory.GetColor(reader);
@@ -489,7 +488,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeyword("province", reader => {
 				Province = ParserHelpers.GetULong(reader);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+				IgnoredTokens.Add(token);
+				ParserHelpers.IgnoreItem(reader);
+			});
 		}
 
 		internal void ClearHolderSpecificHistory() {
@@ -597,6 +599,8 @@ namespace ImperatorToCK3.CK3.Titles {
 				writer.Write(sb);
 			}
 		}
+
+		public static HashSet<string> IgnoredTokens { get; } = new();
 
 		// used by kingdom titles only
 		public bool KingdomContainsProvince(ulong provinceID) {

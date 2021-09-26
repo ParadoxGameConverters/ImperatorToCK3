@@ -13,7 +13,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public ulong Controller { get; set; } = 0;
 		public Dictionary<ulong, Pops.Pop?> Pops { get; set; } = new();
 		public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
-		public bool Fort { get; set; } = false;
+		public ParadoxBool Fort { get; set; } = new(false);
 		public bool HolySite { get; set; } = false;
 		public uint BuildingCount { get; set; } = 0;
 		public double CivilizationValue { get; set; } = 0;
