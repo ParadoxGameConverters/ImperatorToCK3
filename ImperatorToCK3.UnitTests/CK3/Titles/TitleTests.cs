@@ -1,6 +1,13 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Mappers.CoA;
+using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.SuccessionLaw;
+using ImperatorToCK3.Mappers.TagTitle;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -8,6 +15,76 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class TitleTests {
+		private class TitleBuilder {
+			private Country country = new(0);
+			private Dictionary<ulong, Country> imperatorCountries = new();
+			private LocalizationMapper localizationMapper = new();
+			private LandedTitles landedTitles = new();
+			private ProvinceMapper provinceMapper = new();
+			private CoaMapper coaMapper = new("TestFiles/CoatsOfArms.txt");
+			private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
+			private GovernmentMapper governmentMapper = new();
+			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
+			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
+
+			public Title BuildFromTag() {
+				return new Title(
+					country,
+					imperatorCountries,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper
+				);
+			}
+			public TitleBuilder WithCountry(Country country) {
+				this.country = country;
+				return this;
+			}
+			public TitleBuilder WithImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
+				this.imperatorCountries = imperatorCountries;
+				return this;
+			}
+			public TitleBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
+				this.localizationMapper = localizationMapper;
+				return this;
+			}
+			public TitleBuilder WithLandedTitles(LandedTitles landedTitles) {
+				this.landedTitles = landedTitles;
+				return this;
+			}
+			public TitleBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
+				this.provinceMapper = provinceMapper;
+				return this;
+			}
+			public TitleBuilder WithCoatsOfArmsMapper(CoaMapper coaMapper) {
+				this.coaMapper = coaMapper;
+				return this;
+			}
+			public TitleBuilder WithTagTitleMapper(TagTitleMapper tagTitleMapper) {
+				this.tagTitleMapper = tagTitleMapper;
+				return this;
+			}
+			public TitleBuilder WithGovernmentMapper(GovernmentMapper governmentMapper) {
+				this.governmentMapper = governmentMapper;
+				return this;
+			}
+			public TitleBuilder WithSuccessionLawMapper(SuccessionLawMapper successionLawMapper) {
+				this.successionLawMapper = successionLawMapper;
+				return this;
+			}
+			public TitleBuilder WithDefiniteFormMapper(DefiniteFormMapper definiteFormMapper) {
+				this.definiteFormMapper = definiteFormMapper;
+				return this;
+			}
+		}
+
+		private readonly TitleBuilder builder = new();
+
 		[Fact]
 		public void TitlePrimitivesDefaultToBlank() {
 			var reader = new BufferedReader(string.Empty);
@@ -222,14 +299,17 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 		}
 
-		[Fact] public void DeFactoLiegeChangeRemovesTitleFromVassalsOfPreviousLege() {
+		[Fact]
+		public void DeFactoLiegeChangeRemovesTitleFromVassalsOfPreviousLege() {
 			var vassal = new Title("d_vassal");
 			var oldLiege = new Title("k_old_liege");
 			vassal.DeFactoLiege = oldLiege;
+			Assert.Equal("k_old_liege", vassal.DeFactoLiege.Name);
 			Assert.True(oldLiege.DeFactoVassals.ContainsKey("d_vassal"));
 
 			var newLiege = new Title("k_new_liege");
 			vassal.DeFactoLiege = newLiege;
+			Assert.Equal("k_new_liege", vassal.DeFactoLiege.Name);
 			Assert.False(oldLiege.DeFactoVassals.ContainsKey("d_vassal"));
 			Assert.True(newLiege.DeFactoVassals.ContainsKey("d_vassal"));
 		}
@@ -288,7 +368,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			duchy.DeJureLiege = kingdom;
 			Assert.True(kingdom.KingdomContainsProvince(1));
 		}
-		[Fact] public void KingdomContainsProvinceCorrectlyReturnsFalse() {
+		[Fact]
+		public void KingdomContainsProvinceCorrectlyReturnsFalse() {
 			var county = new Title("c_county");
 			county.CountyProvinces.Add(1);
 			var duchy = new Title("d_duchy");
