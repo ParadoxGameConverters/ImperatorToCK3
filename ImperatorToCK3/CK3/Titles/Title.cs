@@ -368,13 +368,10 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Imperator.Countries.Country? ImperatorCountry { get; private set; }
 		public Color? Color1 { get; private set; }
 		public Color? Color2 { get; private set; }
-		public Color? Color { get; private set; } // TODO: CHECK DIFFERENCE BETWEEN COLOR AND COLOR1 AND COLOR2
 
 		private Title? deJureLiege;
-		public Title? DeJureLiege { // direct de jure liege title name, e.g. e_hispania
-			get {
-				return deJureLiege;
-			}
+		public Title? DeJureLiege { // direct de jure liege title
+			get => deJureLiege;
 			set {
 				deJureLiege = value;
 				if (value is not null) {
@@ -383,10 +380,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 		private Title? deFactoLiege;
-		public Title? DeFactoLiege { // direct de facto liege title name, e.g. e_hispania
-			get {
-				return deFactoLiege;
-			}
+		public Title? DeFactoLiege { // direct de facto liege title
+			get => deFactoLiege;
 			set {
 				deFactoLiege = value;
 				if (value is not null) {
@@ -480,9 +475,12 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeyword("landless", reader => {
 				Landless = new ParadoxBool(reader);
 			});
-			RegisterKeyword("color", reader => {
-				Color = colorFactory.GetColor(reader);
-			});
+			RegisterKeyword("color", reader =>
+				Color1 = colorFactory.GetColor(reader)
+			);
+			RegisterKeyword("color2", reader =>
+				Color2 = colorFactory.GetColor(reader)
+			);
 			RegisterKeyword("capital", reader => {
 				CapitalCounty = new(ParserHelpers.GetString(reader), null);
 			});

@@ -14,7 +14,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			Assert.False(title.HasDefiniteForm);
 			Assert.False(title.Landless);
-			Assert.Null(title.Color);
+			Assert.Null(title.Color1);
+			Assert.Null(title.Color2);
 			Assert.Null(title.CapitalCounty);
 			Assert.Null(title.Province);
 			Assert.False(title.PlayerCountry);
@@ -35,7 +36,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			Assert.True(title.HasDefiniteForm);
 			Assert.True(title.Landless);
-			Assert.Equal("= rgb { 23 23 23 }", title.Color.OutputRgb());
+			Assert.Equal("= rgb { 23 23 23 }", title.Color1.OutputRgb());
 			Assert.Equal("c_roma", title.CapitalCounty.Value.Key);
 			Assert.Equal((ulong)345, title.Province);
 		}

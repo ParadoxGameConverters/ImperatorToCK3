@@ -43,18 +43,23 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		public static void OutputTitles(string outputModName, Dictionary<string, Title> titles, IMPERATOR_DE_JURE deJure, Date ck3BookmarkDate) {
+			var outputPath = Path.Combine("output", outputModName, "common/landed_titles/00_landed_titles.txt");
+			using var outputStream = File.OpenWrite(outputPath);
+			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+
 			// output to landed_titles folder
-			foreach (var (name, title) in titles) {
+			foreach (var title in titles.Values) {
 				var impCountry = title.ImperatorCountry;
 				if (impCountry is not null && impCountry.CountryType != CountryType.real) {
 					// we don't need pirates, barbarians etc.
 					continue;
 				}
 
-				var outputPath = Path.Combine("output", outputModName, "common/00_landed_titles.txt");
-				using var outputStream = File.OpenWrite(outputPath);
-				using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
-				TitleOutputter.OutputTitle(output, title);
+				if (title.DeJureLiege is not null) {
+					continue; // will be outputted under liege
+				}
+
+				TitleOutputter.OutputTitle(output, title, "");
 			}
 			if (deJure == IMPERATOR_DE_JURE.REGIONS) {
 				if (!SystemUtils.TryCopyFolder("blankMod/optionalFiles/ImperatorDeJure/common/landed_titles", "output/" + outputModName + "/common/landed_titles/")) {
