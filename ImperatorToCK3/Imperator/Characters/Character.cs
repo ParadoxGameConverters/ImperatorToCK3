@@ -102,9 +102,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("religion", reader => {
 				parsedCharacter.Religion = ParserHelpers.GetString(reader);
 			});
-			parser.RegisterKeyword("female", reader => {
-				parsedCharacter.Female = ParserHelpers.GetString(reader) == "yes";
-			});
+			parser.RegisterKeyword("female", reader =>
+				parsedCharacter.Female = new ParadoxBool(reader)
+			);
 			parser.RegisterKeyword("traits", reader => {
 				parsedCharacter.Traits = ParserHelpers.GetStrings(reader);
 			});

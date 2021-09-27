@@ -3,6 +3,8 @@ using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
 		[Fact]
 		public void TitlesDefaultToEmpty() {
@@ -61,7 +63,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			var reader2 = new BufferedReader(
 				"b_barony4 = { province = 15 }\n" +
-				"c_county5 = { landless = NO }\n"
+				"c_county5 = { landless = no }\n"
 			);
 			titles.LoadTitles(reader2);
 
@@ -84,7 +86,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			titles.LoadTitles(reader);
 
 			var reader2 = new BufferedReader(
-				"c_county5 = { landless = NO }\n" + // Overrides existing instance
+				"c_county5 = { landless = no }\n" + // Overrides existing instance
 				"e_empire6 = { k_kingdom7 = { d_duchy8 = { b_barony9 = { province = 12 } } } }\n" +
 				"c_county10 = { landless = yes }\n"
 			);

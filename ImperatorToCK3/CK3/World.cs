@@ -28,11 +28,7 @@ namespace ImperatorToCK3.CK3 {
 		public Dictionary<string, Dynasty> Dynasties { get; } = new();
 		public Dictionary<ulong, Province> Provinces { get; } = new();
 		private readonly LandedTitles landedTitles = new();
-		public Dictionary<string, Title> LandedTitles {
-			get {
-				return landedTitles.StoredTitles;
-			}
-		}
+		public Dictionary<string, Title> LandedTitles => landedTitles.StoredTitles;
 
 		public World(Imperator.World impWorld, Configuration theConfiguration) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");

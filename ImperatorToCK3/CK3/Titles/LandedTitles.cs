@@ -11,7 +11,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeys();
 			ParseFile(fileName);
 			ClearRegisteredRules();
-			Logger.Debug("Ignored title tokens: " + string.Join(", ", Title.IgnoredTokens));
+			Logger.Debug("Ignored Title tokens: " + string.Join(", ", Title.IgnoredTokens));
 
 			LinkCapitals();
 		}
@@ -19,7 +19,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeys();
 			ParseStream(reader);
 			ClearRegisteredRules();
-			Logger.Debug("Ignored title tokens: " + string.Join(", ", Title.IgnoredTokens));
+			Logger.Debug("Ignored Title tokens: " + string.Join(", ", Title.IgnoredTokens));
 
 			LinkCapitals();
 		}
@@ -47,14 +47,10 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 
 				foreach (var vassal in titleToErase.DeJureVassals.Values) {
-					if (vassal is not null) {
-						vassal.DeJureLiege = null;
-					}
+					vassal.DeJureLiege = null;
 				}
 				foreach (var vassal in titleToErase.DeFactoVassals.Values) {
-					if (vassal is not null) {
-						vassal.DeFactoLiege = null;
-					}
+					vassal.DeFactoLiege = null;
 				}
 
 				if (titleToErase.ImperatorCountry is not null) {

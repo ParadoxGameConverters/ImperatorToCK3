@@ -466,7 +466,8 @@ namespace ImperatorToCK3.CK3.Titles {
 				var newTitle = new Title(titleNameStr);
 				newTitle.LoadTitles(reader);
 
-				if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBarony)) { // title is a barony, and no other barony has been found in this scope yet
+				if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBarony)) {
+					// title is a barony, and no other barony has been found in this scope yet
 					CapitalBarony = newTitle.Name;
 				}
 
