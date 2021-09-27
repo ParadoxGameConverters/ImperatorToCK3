@@ -65,6 +65,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Empty(title.Localizations);
 			Assert.Null(title.CoA);
 			Assert.Null(title.CapitalCounty);
+			Assert.Null(title.ImperatorCountry);
 		}
 
 		[Fact]
@@ -219,6 +220,33 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				item2 => Assert.Equal("k_kingdom1", item2.Value.Name),
 				item3 => Assert.Equal("k_kingdom2", item3.Value.Name)
 			);
+		}
+
+		[Fact] public void DeFactoLiegeChangeRemovesTitleFromVassalsOfPreviousLege() {
+			var vassal = new Title("d_vassal");
+			var oldLiege = new Title("k_old_liege");
+			vassal.DeFactoLiege = oldLiege;
+			Assert.True(oldLiege.DeFactoVassals.ContainsKey("d_vassal"));
+
+			var newLiege = new Title("k_new_liege");
+			vassal.DeFactoLiege = newLiege;
+			Assert.False(oldLiege.DeFactoVassals.ContainsKey("d_vassal"));
+			Assert.True(newLiege.DeFactoVassals.ContainsKey("d_vassal"));
+		}
+
+		[Fact]
+		public void DeJureLiegeChangeRemovesTitleFromVassalsOfPreviousLege() {
+			var vassal = new Title("d_vassal");
+			var oldLiege = new Title("k_old_liege");
+			vassal.DeJureLiege = oldLiege;
+			Assert.Equal("k_old_liege", vassal.DeJureLiege.Name);
+			Assert.True(oldLiege.DeJureVassals.ContainsKey("d_vassal"));
+
+			var newLiege = new Title("k_new_liege");
+			vassal.DeJureLiege = newLiege;
+			Assert.Equal("k_new_liege", vassal.DeJureLiege.Name);
+			Assert.False(oldLiege.DeJureVassals.ContainsKey("d_vassal"));
+			Assert.True(newLiege.DeJureVassals.ContainsKey("d_vassal"));
 		}
 
 		[Fact]
