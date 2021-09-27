@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Localization;
-using commonItems;
+using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
@@ -9,7 +9,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void TitlePrimitivesDefaultToBlank() {
 			var reader = new BufferedReader(string.Empty);
-			var title = new Title();
+			var title = new Title("k_testtitle");
 			title.LoadTitles(reader);
 
 			Assert.False(title.HasDefiniteForm);
@@ -31,7 +31,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"province = 345\n"
 			);
 
-			var title = new Title();
+			var title = new Title("k_testtitle");
 			title.LoadTitles(reader);
 
 			Assert.True(title.HasDefiniteForm);
@@ -43,7 +43,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void LocalizationCanBeSet() {
-			var title = new Title();
+			var title = new Title("k_testtitle");
 			var locBlock = new LocBlock {
 				english = "engloc",
 				french = "frloc",
@@ -58,9 +58,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void MembersDefaultToBlank() {
-			var title = new Title();
+			var title = new Title("k_testtitle");
 
-			Assert.True(string.IsNullOrEmpty(title.Name));
 			Assert.Empty(title.Localizations);
 			Assert.Null(title.CoA);
 			Assert.Null(title.CapitalCounty);
@@ -68,23 +67,23 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HolderIdDefaultsTo0String() {
-			var title = new Title();
+			var title = new Title("k_testtitle");
 
-			Assert.Equal("0", title.GetHolderId(new Date(867,1,1)));
+			Assert.Equal("0", title.GetHolderId(new Date(867, 1, 1)));
 		}
 
 		[Fact]
 		public void CapitalBaronyDefaultsToZero() {
-			var title = new Title();
+			var title = new Title("k_testtitle");
 
 			Assert.Equal((ulong)0, title.CapitalBaronyProvince);
 		}
 
 		[Fact]
 		public void HistoryCanBeAdded() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867,1,1));
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
 			var history = titlesHistory.PopTitleHistory("k_greece");
-			var title = new Title();
+			var title = new Title("k_testtitle");
 			title.AddHistory(new LandedTitles(), history);
 
 			Assert.Equal("420", title.GetHolderId(new Date(867, 1, 1)));
@@ -110,7 +109,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Null(vassal.OwnOrInheritedDevelopmentLevel);
 		}
 
-		[Fact] public void DeJureVassalsAndBelowAreCorrectlyReturned() {
+		[Fact]
+		public void DeJureVassalsAndBelowAreCorrectlyReturned() {
 			var empire = new Title("e_empire");
 
 			var kingdom1 = new Title("k_kingdom1") {

@@ -1,26 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Mappers.CoA;
+using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Province;
-using ImperatorToCK3.Mappers.CoA;
-using ImperatorToCK3.Mappers.TagTitle;
-using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.SuccessionLaw;
+using ImperatorToCK3.Mappers.TagTitle;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Titles {
 	public enum TitleRank { barony, county, duchy, kingdom, empire }
 	public class Title : Parser {
-		public Title() { }
 		public Title(string name) {
 			Name = name;
 			SetRank();
 		}
-		public void InitializeFromTag(
-			Imperator.Countries.Country country,
-			Dictionary<ulong, Imperator.Countries.Country> imperatorCountries,
+
+		public Title(
+			Country country,
+			Dictionary<ulong, Country> imperatorCountries,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -30,41 +34,64 @@ namespace ImperatorToCK3.CK3.Titles {
 			SuccessionLawMapper successionLawMapper,
 			DefiniteFormMapper definiteFormMapper
 		) {
+			Name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
+			SetRank();
+			InitializeFromTag(
+				country, imperatorCountries, localizationMapper, landedTitles,
+				provinceMapper,
+				coaMapper,
+				governmentMapper,
+				successionLawMapper,
+				definiteFormMapper
+			);
+		}
+		public Title(
+			Governorship governorship,
+			Country country,
+			Dictionary<ulong, Character> imperatorCharacters,
+			LocalizationMapper localizationMapper,
+			LandedTitles landedTitles,
+			ProvinceMapper provinceMapper,
+			CoaMapper coaMapper,
+			TagTitleMapper tagTitleMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ImperatorRegionMapper imperatorRegionMapper
+		) {
+			Name = DetermineName(governorship, country, tagTitleMapper);
+			SetRank();
+			InitializeFromGovernorship(
+				governorship,
+				country,
+				imperatorCharacters,
+				localizationMapper,
+				landedTitles,
+				provinceMapper,
+				coaMapper,
+				tagTitleMapper,
+				definiteFormMapper,
+				imperatorRegionMapper
+			);
+		}
+		public void InitializeFromTag(
+			Country country,
+			Dictionary<ulong, Country> imperatorCountries,
+			LocalizationMapper localizationMapper,
+			LandedTitles landedTitles,
+			ProvinceMapper provinceMapper,
+			CoaMapper coaMapper,
+			GovernmentMapper governmentMapper,
+			SuccessionLawMapper successionLawMapper,
+			DefiniteFormMapper definiteFormMapper
+		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
+			ImperatorCountry.CK3Title = this;
 
 			// ------------------ determine CK3 title
 
-			LocBlock? validatedName;
-			// hard code for Antigonid Kingdom, Seleucid Empire and Maurya (which use customizable localization for name and adjective)
-			if (ImperatorCountry.Name == "PRY_DYN") {
-				validatedName = localizationMapper.GetLocBlockForKey("get_pry_name_fallback");
-			} else if (ImperatorCountry.Name == "SEL_DYN") {
-				validatedName = localizationMapper.GetLocBlockForKey("get_sel_name_fallback");
-			} else if (ImperatorCountry.Name == "MRY_DYN") {
-				validatedName = localizationMapper.GetLocBlockForKey("get_mry_name_fallback");
-			}
-			// normal case
-			else {
-				validatedName = ImperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries);
-			}
+			LocBlock? validatedName = GetValidatedName(country, imperatorCountries, localizationMapper);
 
 			HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
-
-			string? title;
-			if (validatedName is not null) {
-				title = tagTitleMapper.GetTitleForTag(ImperatorCountry.Tag, ImperatorCountry.GetCountryRank(), validatedName.english);
-			} else {
-				title = tagTitleMapper.GetTitleForTag(ImperatorCountry.Tag, ImperatorCountry.GetCountryRank());
-			}
-
-			if (title is null) {
-				throw new ArgumentException("Country " + ImperatorCountry.Tag + " could not be mapped!");
-			}
-
-			Name = title;
-
-			SetRank();
 
 			PlayerCountry = ImperatorCountry.PlayerCountry;
 
@@ -142,17 +169,64 @@ namespace ImperatorToCK3.CK3.Titles {
 			// --------------- Adjective Locs
 			TrySetAdjectiveLoc(localizationMapper, imperatorCountries);
 		}
-		public void InitializeFromGovernorship(
-			Imperator.Countries.Country country,
-			Imperator.Jobs.Governorship governorship,
-			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters,
+
+		private static LocBlock? GetValidatedName(Country imperatorCountry, Dictionary<ulong, Country> imperatorCountries, LocalizationMapper localizationMapper) {
+			return imperatorCountry.Name switch {
+				// hard code for Antigonid Kingdom, Seleucid Empire and Maurya
+				// these countries use customizable localization for name and adjective
+				"PRY_DYN" => localizationMapper.GetLocBlockForKey("get_pry_name_fallback"),
+				"SEL_DYN" => localizationMapper.GetLocBlockForKey("get_sel_name_fallback"),
+				"MRY_DYN" => localizationMapper.GetLocBlockForKey("get_mry_name_fallback"),
+				_ => imperatorCountry.CountryName.GetNameLocBlock(localizationMapper, imperatorCountries)
+			};
+		}
+
+		public static string DetermineName(
+			Country imperatorCountry,
+			Dictionary<ulong, Country> imperatorCountries,
+			TagTitleMapper tagTitleMapper,
+			LocalizationMapper localizationMapper
+		) {
+			var validatedName = GetValidatedName(imperatorCountry, imperatorCountries, localizationMapper);
+
+			string? title;
+			if (validatedName is not null) {
+				title = tagTitleMapper.GetTitleForTag(
+					imperatorCountry.Tag,
+					imperatorCountry.GetCountryRank(),
+					validatedName.english
+				);
+			} else {
+				title = tagTitleMapper.GetTitleForTag(imperatorCountry.Tag, imperatorCountry.GetCountryRank());
+			}
+
+			if (title is null) {
+				throw new ArgumentException($"Country {imperatorCountry.Tag} could not be mapped to CK3 Title!");
+			}
+
+			return title;
+		}
+		public static string DetermineName(Governorship governorship, Country country, TagTitleMapper tagTitleMapper) {
+			if (country.CK3Title is null) {
+				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: country has no CK3Title!");
+			}
+			string? title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Name);
+			if (title is null) {
+				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
+			}
+			return title;
+		}
+
+		public void InitializeFromGovernorship(Governorship governorship,
+			Country country,
+			Dictionary<ulong, Character> imperatorCharacters,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
 			DefiniteFormMapper definiteFormMapper,
-			Mappers.Region.ImperatorRegionMapper imperatorRegionMapper
+			ImperatorRegionMapper imperatorRegionMapper
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 
@@ -162,18 +236,10 @@ namespace ImperatorToCK3.CK3.Titles {
 				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
 			}
 
-			HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
-
-			string? title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Name);
 			DeJureLiege = country.CK3Title;
 			DeFactoLiege = country.CK3Title;
-			if (title is null) {
-				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
-			}
 
-			Name = title;
-
-			SetRank();
+			HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 
 			PlayerCountry = false;
 
@@ -255,7 +321,6 @@ namespace ImperatorToCK3.CK3.Titles {
 				Logger.Error($"{Name} can not be updated from {otherTitle.Name}: different title names!");
 				return;
 			}
-			Name = otherTitle.Name;
 			Localizations = otherTitle.Localizations;
 
 			PlayerCountry = otherTitle.PlayerCountry;
@@ -437,7 +502,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public bool PlayerCountry { get; private set; }
-		public string Name { get; private set; } = string.Empty; // e.g. d_latium
+		public string Name { get; } // e.g. d_latium
 		public TitleRank Rank { get; private set; } = TitleRank.duchy;
 		public ParadoxBool Landless { get; private set; } = new(false);
 		public ParadoxBool HasDefiniteForm { get; private set; } = new(false);

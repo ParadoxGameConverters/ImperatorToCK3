@@ -142,29 +142,35 @@ namespace ImperatorToCK3.CK3 {
 			KeyValuePair<ulong, Country> country,
 			Dictionary<ulong, Country> imperatorCountries
 		) {
-			// Create a new title
-			var newTitle = new Title();
-			newTitle.InitializeFromTag(
-				country.Value,
-				imperatorCountries,
-				localizationMapper,
-				landedTitles,
-				provinceMapper,
-				coaMapper,
-				tagTitleMapper,
-				governmentMapper,
-				successionLawMapper,
-				definiteFormMapper
-			);
+			// Create a new title or update existing title
+			var name = Title.DetermineName(country.Value, imperatorCountries, tagTitleMapper, localizationMapper);
 
-			var name = newTitle.Name;
-			if (LandedTitles.TryGetValue(name, out var title)) {
-				var vanillaTitle = title;
-				vanillaTitle.UpdateFromTitle(newTitle);
-				country.Value.CK3Title = vanillaTitle;
+			if (LandedTitles.TryGetValue(name, out var existingTitle)) {
+				existingTitle.InitializeFromTag(
+					country.Value,
+					imperatorCountries,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper
+				);
 			} else {
+				var newTitle = new Title(
+					country.Value,
+					imperatorCountries,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper
+				);
 				landedTitles.InsertTitle(newTitle);
-				country.Value.CK3Title = newTitle;
 			}
 		}
 
@@ -189,26 +195,36 @@ namespace ImperatorToCK3.CK3 {
 			Dictionary<ulong, Country> imperatorCountries,
 			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters
 		) {
-			// Create a new title
-			var newTitle = new Title();
-			newTitle.InitializeFromGovernorship(
-				imperatorCountries[governorship.CountryID],
-				governorship,
-				imperatorCharacters,
-				localizationMapper,
-				landedTitles,
-				provinceMapper,
-				coaMapper,
-				tagTitleMapper,
-				definiteFormMapper,
-				imperatorRegionMapper
-			);
+			var country = imperatorCountries[governorship.CountryID];
+			// Create a new title or update existing title
+			var name = Title.DetermineName(governorship, country, tagTitleMapper);
 
-			var name = newTitle.Name;
-			if (LandedTitles.TryGetValue(name, out var title)) {
-				var vanillaTitle = title;
-				vanillaTitle.UpdateFromTitle(newTitle);
+			if (LandedTitles.TryGetValue(name, out var existingTitle)) {
+				existingTitle.InitializeFromGovernorship(
+					governorship,
+					country,
+					imperatorCharacters,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					definiteFormMapper,
+					imperatorRegionMapper
+				);
 			} else {
+				var newTitle = new Title(
+					governorship,
+					country,
+					imperatorCharacters,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					definiteFormMapper,
+					imperatorRegionMapper
+				);
 				landedTitles.InsertTitle(newTitle);
 			}
 		}
