@@ -67,7 +67,6 @@ namespace ImperatorToCK3.CK3.Titles {
 				landedTitles,
 				provinceMapper,
 				coaMapper,
-				tagTitleMapper,
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
@@ -86,8 +85,6 @@ namespace ImperatorToCK3.CK3.Titles {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
 			ImperatorCountry.CK3Title = this;
-
-			// ------------------ determine CK3 title
 
 			LocBlock? validatedName = GetValidatedName(country, imperatorCountries, localizationMapper);
 
@@ -151,13 +148,13 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			var nameSet = false;
 			if (validatedName is not null) {
-				Localizations.Add(Name, validatedName);
+				Localizations[Name] = validatedName;
 				nameSet = true;
 			}
 			if (!nameSet) {
 				var impTagLoc = localizationMapper.GetLocBlockForKey(ImperatorCountry.Tag);
 				if (impTagLoc is not null) {
-					Localizations.Add(Name, impTagLoc);
+					Localizations[Name] = impTagLoc;
 					nameSet = true;
 				}
 			}
@@ -224,13 +221,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
-			TagTitleMapper tagTitleMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper
 		) {
 			IsImportedOrUpdatedFromImperator = true;
-
-			// ------------------ determine CK3 title
 
 			if (country.CK3Title is null) {
 				throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
@@ -292,12 +286,11 @@ namespace ImperatorToCK3.CK3.Titles {
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
 					(ref string orig, string adj) => orig = $"{adj} {orig}"
 				);
-				Localizations.Add(Name, nameLocBlock);
+				Localizations[Name] = nameLocBlock;
 				nameSet = true;
 			}
 			if (!nameSet && regionLocBlock is not null) {
-				var nameLocBlock = new LocBlock(regionLocBlock);
-				Localizations.Add(Name, nameLocBlock);
+				Localizations[Name] = new LocBlock(regionLocBlock);
 				nameSet = true;
 			}
 			if (!nameSet) {
@@ -396,21 +389,21 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 
 				if (validatedAdj is not null) {
-					Localizations.Add(Name + "_adj", validatedAdj);
+					Localizations[Name + "_adj"] = validatedAdj;
 					adjSet = true;
 				}
 			}
 			if (!adjSet) {
 				var adjOpt = ImperatorCountry.CountryName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
 				if (adjOpt is not null) {
-					Localizations.Add(Name + "_adj", adjOpt);
+					Localizations[Name + "_adj"] = adjOpt;
 					adjSet = true;
 				}
 			}
 			if (!adjSet) { // final fallback
 				var adjLocalizationMatch = localizationMapper.GetLocBlockForKey(ImperatorCountry.Tag);
 				if (adjLocalizationMatch is not null) {
-					Localizations.Add(Name + "_adj", adjLocalizationMatch);
+					Localizations[Name + "_adj"] = adjLocalizationMatch;
 					adjSet = true;
 				}
 			}
