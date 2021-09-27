@@ -379,7 +379,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.False(kingdom.KingdomContainsProvince(2));
 		}
 
-		[Fact] public void TitleCanBeConstructedFromCountry() {
+		[Fact]
+		public void TitleCanBeConstructedFromCountry() {
 			var countryReader = new BufferedReader("tag = HRE");
 			var country = Country.Parse(countryReader, 666);
 
