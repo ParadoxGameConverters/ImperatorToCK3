@@ -378,5 +378,15 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			duchy.DeJureLiege = kingdom;
 			Assert.False(kingdom.KingdomContainsProvince(2));
 		}
+
+		[Fact] public void TitleCanBeConstructedFromCountry() {
+			var countryReader = new BufferedReader("tag = HRE");
+			var country = Country.Parse(countryReader, 666);
+
+			var title = builder
+				.WithCountry(country)
+				.BuildFromTag();
+			Assert.Equal("d_IMPTOCK3_HRE", title.Name);
+		}
 	}
 }
