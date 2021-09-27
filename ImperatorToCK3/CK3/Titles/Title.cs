@@ -431,6 +431,9 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Title? DeJureLiege { // direct de jure liege title
 			get => deJureLiege;
 			set {
+				if (deJureLiege is not null) {
+					deJureLiege.DeJureVassals.Remove(Name);
+				}
 				deJureLiege = value;
 				if (value is not null) {
 					value.DeJureVassals[Name] = this;
@@ -441,6 +444,9 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Title? DeFactoLiege { // direct de facto liege title
 			get => deFactoLiege;
 			set {
+				if (deFactoLiege is not null) {
+					deFactoLiege.DeFactoVassals.Remove(Name);
+				}
 				deFactoLiege = value;
 				if (value is not null) {
 					value.DeFactoVassals[Name] = this;
