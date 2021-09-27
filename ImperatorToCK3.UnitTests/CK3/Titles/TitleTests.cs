@@ -5,6 +5,8 @@ using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class TitleTests {
 		[Fact]
 		public void TitlePrimitivesDefaultToBlank() {
@@ -217,6 +219,55 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				item2 => Assert.Equal("k_kingdom1", item2.Value.Name),
 				item3 => Assert.Equal("k_kingdom2", item3.Value.Name)
 			);
+		}
+
+		[Fact]
+		public void DuchyContainsProvinceWhenTitleIsNotDuchy() {
+			var county = new Title("c_county");
+			county.CountyProvinces.Add(69);
+			Assert.False(county.DuchyContainsProvince(69));
+		}
+		[Fact]
+		public void DuchyContainsProvinceCorrectlyReturnsTrue() {
+			var county = new Title("c_county");
+			county.CountyProvinces.Add(1);
+			var duchy = new Title("d_duchy");
+			county.DeJureLiege = duchy;
+			Assert.True(duchy.DuchyContainsProvince(1));
+		}
+		[Fact]
+		public void DuchyContainsProvinceCorrectlyReturnsFalse() {
+			var county = new Title("c_county");
+			county.CountyProvinces.Add(1);
+			var duchy = new Title("d_duchy");
+			county.DeJureLiege = duchy;
+			Assert.False(duchy.DuchyContainsProvince(2));
+		}
+
+		[Fact]
+		public void KingdomContainsProvinceWhenTitleIsNotKingdom() {
+			var county = new Title("c_county");
+			county.CountyProvinces.Add(69);
+			Assert.False(county.KingdomContainsProvince(69));
+		}
+		[Fact]
+		public void KingdomContainsProvinceCorrectlyReturnsTrue() {
+			var county = new Title("c_county");
+			county.CountyProvinces.Add(1);
+			var duchy = new Title("d_duchy");
+			county.DeJureLiege = duchy;
+			var kingdom = new Title("k_kingdom");
+			duchy.DeJureLiege = kingdom;
+			Assert.True(kingdom.KingdomContainsProvince(1));
+		}
+		[Fact] public void KingdomContainsProvinceCorrectlyReturnsFalse() {
+			var county = new Title("c_county");
+			county.CountyProvinces.Add(1);
+			var duchy = new Title("d_duchy");
+			county.DeJureLiege = duchy;
+			var kingdom = new Title("k_kingdom");
+			duchy.DeJureLiege = kingdom;
+			Assert.False(kingdom.KingdomContainsProvince(2));
 		}
 	}
 }

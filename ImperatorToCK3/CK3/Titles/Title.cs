@@ -423,7 +423,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public string? CoA { get; private set; }
 		public KeyValuePair<string, Title?>? CapitalCounty { get; set; }
-		public Imperator.Countries.Country? ImperatorCountry { get; private set; }
+		public Country? ImperatorCountry { get; private set; }
 		public Color? Color1 { get; private set; }
 		public Color? Color2 { get; private set; }
 
