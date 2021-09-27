@@ -280,7 +280,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			// ------------------ Country Name Locs
 			var nameSet = false;
 			LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
-			var countryAdjectiveLocBlock = country.CK3Title.Localizations[country.CK3Title.Name + "_adj"];
+			country.CK3Title.Localizations.TryGetValue(country.CK3Title.Name + "_adj", out var countryAdjectiveLocBlock);
 			if (regionLocBlock is not null && countryAdjectiveLocBlock is not null) {
 				var nameLocBlock = new LocBlock(regionLocBlock);
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
