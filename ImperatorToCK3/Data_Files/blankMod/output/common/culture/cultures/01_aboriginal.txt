@@ -44,6 +44,7 @@ aboriginal_group = {
 		patronym_suffix_female = "suffix_ar"
 		founder_named_dynasties = yes
 		always_use_patronym = yes
+		dynasty_title_names = no
 
 		mercenary_names = {
 			
@@ -105,6 +106,7 @@ aboriginal_group = {
 		patronym_prefix_female = "dynnp_de"
 		founder_named_dynasties = yes
 		always_use_patronym = yes
+		dynasty_title_names = no
 
 		ethnicities = {
 			10 = mediterranean
