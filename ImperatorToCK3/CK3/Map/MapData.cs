@@ -111,7 +111,7 @@ namespace ImperatorToCK3.CK3.Map {
 			var pixel = pixels.GetPixel(position.X, position.Y);
 			var color = pixel.ToColor();
 			if (color is null) {
-				throw new IndexOutOfRangeException($"Cannot get color for position {position.X}, {position.Y}");
+				throw new ArgumentException($"Cannot get color for position {position.X}, {position.Y}");
 			}
 			return new MagickColor(color);
 		}

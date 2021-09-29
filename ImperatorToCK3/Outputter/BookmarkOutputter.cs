@@ -133,7 +133,7 @@ namespace ImperatorToCK3.Outputter {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
 				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 				HashSet<ulong> heldProvinces = GetProvincesInCountry(titles, playerTitle, config);
-				// determine which impassable should be be colored by the country
+				// determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				var impassables = mapData.ColorableImpassableProvinces;
 				foreach (var impassableId in impassables) {
@@ -149,7 +149,7 @@ namespace ImperatorToCK3.Outputter {
 					}
 				}
 				var diff = provincesToColor.Count - heldProvinces.Count;
-				Logger.Debug($"Colored {diff} impassable provinces with color of {playerTitle.Name}");
+				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Name}.");
 
 				using var copyImage = new MagickImage(provincesImage);
 				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToColorDict[province])) {
@@ -192,6 +192,10 @@ namespace ImperatorToCK3.Outputter {
 			// add vassals' counties
 			foreach (var vassal in playerTitle.GetDeFactoVassalsAndBelow().Values) {
 				var vassalHolderId = vassal.GetHolderId(config.Ck3BookmarkDate);
+				if (vassalHolderId == "0") {
+					Logger.Warn($"Player title {playerTitle.Name}'s vassal {vassal.Name} has 0 holder!");
+					continue;
+				}
 				var heldVassalCounties = new List<Title>(
 					titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
 				);
