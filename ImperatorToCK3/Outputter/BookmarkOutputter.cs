@@ -135,12 +135,13 @@ namespace ImperatorToCK3.Outputter {
 				HashSet<ulong> heldProvinces = GetProvincesInCountry(titles, playerTitle, config);
 				// determine which impassable should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
-				foreach (var impassableId in mapData.ColorableImpassableProvinces) {
+				var impassables = mapData.ColorableImpassableProvinces;
+				foreach (var impassableId in impassables) {
 					if (!mapData.NeighborsDict.TryGetValue(impassableId, out var neighborProvs)) {
 						continue;
 					}
-					if (heldProvinces.IsProperSupersetOf(neighborProvs)) {
-						Logger.Debug($"Coloring impassable province {impassableId}"); // TODO: REMOVE DEBUG
+					var nonImpassableNeighborProvs = neighborProvs.Except(impassables);
+					if (heldProvinces.IsProperSupersetOf(nonImpassableNeighborProvs)) {
 						provincesToColor.Add(impassableId);
 					}
 
@@ -186,8 +187,21 @@ namespace ImperatorToCK3.Outputter {
 				titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
 			);
 			var heldProvinces = new HashSet<ulong>();
+			// add directly held counties
 			foreach (var county in heldCounties) {
 				heldProvinces.UnionWith(county.CountyProvinces);
+			}
+			// add vassals' counties
+			foreach (var vassal in playerTitle.GetDeFactoVassalsAndBelow()) {
+				var vassalHolderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
+				foreach (var county in heldCounties) {
+					var heldVassalCounties = new List<Title>(
+						titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
+					);
+					foreach (var vassalCounty in heldVassalCounties) {
+						heldProvinces.UnionWith(vassalCounty.CountyProvinces);
+					}
+				}
 			}
 			return heldProvinces;
 		}
