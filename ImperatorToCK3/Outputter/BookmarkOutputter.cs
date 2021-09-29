@@ -140,13 +140,12 @@ namespace ImperatorToCK3.Outputter {
 					if (!mapData.NeighborsDict.TryGetValue(impassableId, out var neighborProvs)) {
 						continue;
 					}
-					var nonImpassableNeighborProvs = neighborProvs.Except(impassables);
+					var nonImpassableNeighborProvs = new HashSet<ulong>(neighborProvs.Except(impassables));
+					if (nonImpassableNeighborProvs.Count == 0) {
+						continue;
+					}
 					if (heldProvinces.IsProperSupersetOf(nonImpassableNeighborProvs)) {
 						provincesToColor.Add(impassableId);
-					}
-
-					var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
-					if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
 					}
 				}
 				var diff = provincesToColor.Count - heldProvinces.Count;
