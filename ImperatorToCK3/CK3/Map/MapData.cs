@@ -17,9 +17,9 @@ namespace ImperatorToCK3.CK3.Map {
 		}
 		public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
 		public HashSet<ulong> ColorableImpassableProvinces { get; } = new();
-		public MapData(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions, Configuration config) {
+		public MapData(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions, string ck3Path) {
 			DetermineNeighbors(provincesMap, provinceDefinitions);
-			FindImpassables(config);
+			FindImpassables(ck3Path);
 		}
 		private void DetermineNeighbors(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions) {
 			var height = provincesMap.Height;
@@ -49,8 +49,8 @@ namespace ImperatorToCK3.CK3.Map {
 				}
 			}
 		}
-		private void FindImpassables(Configuration config) {
-			var filePath = Path.Combine(config.Ck3Path, "game/map_data/default.map");
+		private void FindImpassables(string ck3Path) {
+			var filePath = Path.Combine(ck3Path, "game/map_data/default.map");
 			var parser = new Parser();
 			const string listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
 			parser.RegisterRegex(listRegex, (reader, keyword) => {
@@ -67,7 +67,7 @@ namespace ImperatorToCK3.CK3.Map {
 						for (var id = beginning; id <= end; ++id) {
 							ColorableImpassableProvinces.Add(id);
 						}
-					} else { // type is "LIST"
+					} else {
 						ColorableImpassableProvinces.UnionWith(provIds);
 					}
 				}
@@ -117,8 +117,14 @@ namespace ImperatorToCK3.CK3.Map {
 			MagickColor otherColor,
 			ProvinceDefinitions provinceDefinitions
 		) {
-			var centerProvince = provinceDefinitions.ColorToProvinceDict[centerColor];
-			var otherProvince = provinceDefinitions.ColorToProvinceDict[otherColor];
+			if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(centerColor, out ulong centerProvince)) {
+				Logger.Warn($"Province not found for color {centerColor.ToHexString()}!");
+				return;
+			}
+			if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(otherColor, out ulong otherProvince)) {
+				Logger.Warn($"Province not found for color {otherColor.ToHexString()}!");
+				return;
+			}
 			AddNeighbor(centerProvince, otherProvince);
 		}
 

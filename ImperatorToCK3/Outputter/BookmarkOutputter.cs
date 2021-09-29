@@ -127,7 +127,7 @@ namespace ImperatorToCK3.Outputter {
 			provincesImage.RePage();
 
 			var provDefs = new ProvinceDefinitions(config.Ck3Path);
-			var mapData = new MapData(provincesImage, provDefs, config);
+			var mapData = new MapData(provincesImage, provDefs, config.Ck3Path);
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
@@ -139,10 +139,13 @@ namespace ImperatorToCK3.Outputter {
 					if (!mapData.NeighborsDict.TryGetValue(impassableId, out var neighborProvs)) {
 						continue;
 					}
+					if (heldProvinces.IsProperSupersetOf(neighborProvs)) {
+						Logger.Debug($"Coloring impassable province {impassableId}"); // TODO: REMOVE DEBUG
+						provincesToColor.Add(impassableId);
+					}
 
 					var neighborProvsHeldByCountry = new HashSet<ulong>(neighborProvs.Intersect(heldProvinces));
 					if ((double)neighborProvsHeldByCountry.Count / neighborProvs.Count >= 0.5) {
-						provincesToColor.Add(impassableId);
 					}
 				}
 				var diff = provincesToColor.Count - heldProvinces.Count;

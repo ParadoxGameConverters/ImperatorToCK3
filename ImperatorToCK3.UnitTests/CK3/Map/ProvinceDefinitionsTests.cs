@@ -4,6 +4,8 @@ using System;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Map {
+	[Collection("MapTests")]
+	[CollectionDefinition("MapTests", DisableParallelization = true)]
 	public class ProvinceDefinitionsTests {
 		private const string testCK3Path = "TestFiles/CK3";
 		[Fact]

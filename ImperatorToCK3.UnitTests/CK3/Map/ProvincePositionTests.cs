@@ -3,6 +3,8 @@ using ImperatorToCK3.CK3.Map;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Map {
+	[Collection("MapTests")]
+	[CollectionDefinition("MapTests", DisableParallelization = true)]
 	public class ProvincePositionTests {
 		[Fact]
 		public void PositionCanBeParsed() {
