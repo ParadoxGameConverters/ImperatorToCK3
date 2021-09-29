@@ -2,9 +2,9 @@
 
 namespace ImperatorToCK3.CK3.Map {
 	public class ProvincePosition {
-		public ulong Id;
-		public double X;
-		public double Y;
+		public ulong Id { get; private set; }
+		public double X { get; private set; }
+		public double Y { get; private set; }
 		public static ProvincePosition Parse(BufferedReader reader) {
 			positionToReturn = new ProvincePosition();
 			parser.ParseStream(reader);
