@@ -24,7 +24,7 @@ namespace ImperatorToCK3.Outputter {
 			fileParser.RegisterKeyword("game_object_locator", reader => {
 				var listParser = new Parser();
 				listParser.RegisterKeyword("instances", instancesReader => {
-					foreach(var blob in new BlobList(instancesReader).Blobs) {
+					foreach (var blob in new BlobList(instancesReader).Blobs) {
 						var blobReader = new BufferedReader(blob);
 						var instance = ProvincePosition.Parse(blobReader);
 						provincePositions[instance.Id] = instance;
@@ -153,8 +153,7 @@ namespace ImperatorToCK3.Outputter {
 				Logger.Debug($"Colored {diff} impassable provinces with color of {playerTitle.Name}");
 
 				using var copyImage = new MagickImage(provincesImage);
-				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToColorDict[province]))
-				{
+				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToColorDict[province])) {
 					// make pixels of the province black
 					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
 				}
@@ -192,8 +191,8 @@ namespace ImperatorToCK3.Outputter {
 				heldProvinces.UnionWith(county.CountyProvinces);
 			}
 			// add vassals' counties
-			foreach (var vassal in playerTitle.GetDeFactoVassalsAndBelow()) {
-				var vassalHolderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
+			foreach (var vassal in playerTitle.GetDeFactoVassalsAndBelow().Values) {
+				var vassalHolderId = vassal.GetHolderId(config.Ck3BookmarkDate);
 				foreach (var county in heldCounties) {
 					var heldVassalCounties = new List<Title>(
 						titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
