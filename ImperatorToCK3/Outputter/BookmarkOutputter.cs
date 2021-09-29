@@ -193,13 +193,11 @@ namespace ImperatorToCK3.Outputter {
 			// add vassals' counties
 			foreach (var vassal in playerTitle.GetDeFactoVassalsAndBelow().Values) {
 				var vassalHolderId = vassal.GetHolderId(config.Ck3BookmarkDate);
-				foreach (var county in heldCounties) {
-					var heldVassalCounties = new List<Title>(
-						titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
-					);
-					foreach (var vassalCounty in heldVassalCounties) {
-						heldProvinces.UnionWith(vassalCounty.CountyProvinces);
-					}
+				var heldVassalCounties = new List<Title>(
+					titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
+				);
+				foreach (var vassalCounty in heldVassalCounties) {
+					heldProvinces.UnionWith(vassalCounty.CountyProvinces);
 				}
 			}
 			return heldProvinces;
