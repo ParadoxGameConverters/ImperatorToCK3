@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Diplomacy {
 	public class War {
@@ -27,7 +27,7 @@ namespace ImperatorToCK3.Imperator.Diplomacy {
 				typeParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 				typeParser.ParseStream(reader);
 			});
-			// todo: check "previous" keyword
+			// TODO: check "previous" keyword
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
 				IgnoredTokens.Add(keyword);
 				ParserHelpers.IgnoreItem(reader);

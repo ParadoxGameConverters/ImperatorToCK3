@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Wars {
 	public class War {
@@ -37,7 +37,7 @@ namespace ImperatorToCK3.CK3.Wars {
 					var ck3RulerId = ck3Title.GetHolderId(ck3BookmarkDate);
 					if (ck3RulerId != "0") {
 						if (Defenders.Count == 0) {
-							TargetedTitles.Add(ck3Title.Name);// this is a dev workaround, TODO: replace TargetedTitles setting with properly determined CK3 title
+							TargetedTitles.Add(ck3Title.Name); // this is a dev workaround, TODO: replace TargetedTitles setting with properly determined CK3 title
 						}
 						Defenders.Add(ck3RulerId);
 					}

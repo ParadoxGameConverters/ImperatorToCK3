@@ -109,7 +109,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loaded " + pops.StoredPops.Count + " pops.");
 			});
 			RegisterKeyword("diplomacy", reader => {
-				Logger.Info("Loading Diplomacy");
+				Logger.Info("Loading Diplomacy...");
 				var diplomacy = new Diplomacy.Diplomacy(reader);
 				Wars = diplomacy.Wars;
 			});
