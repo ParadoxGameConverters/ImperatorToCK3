@@ -26,6 +26,7 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var title in playerTitles) {
 				var holderId = title.GetHolderId(ck3BookmarkDate);
 				if (holderId == "0") {
+					Logger.Warn($"Cannot add player title {title.Name} to bookmark screen: holder is 0!");
 					continue;
 				}
 				var holder = characters[holderId];

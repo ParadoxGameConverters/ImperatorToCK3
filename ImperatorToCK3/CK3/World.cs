@@ -264,8 +264,10 @@ namespace ImperatorToCK3.CK3 {
 			path = Path.Combine(ck3Path, "game/history/province_mapping");
 			fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
 			foreach (var fileName in fileNames) {
-				if (!fileName.EndsWith(".txt"))
+				if (!fileName.EndsWith(".txt")) {
 					continue;
+				}
+
 				var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
 				try {
 					var newProvinces = new ProvinceMappings(provinceMappingsPath);
@@ -296,8 +298,9 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var (provinceID, province) in Provinces) {
 				var impProvinces = provinceMapper.GetImperatorProvinceNumbers(provinceID);
 				// Provinces we're not affecting will not be in this list.
-				if (impProvinces.Count == 0)
+				if (impProvinces.Count == 0) {
 					continue;
+				}
 				// Next, we find what province to use as its initializing source.
 				var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
 				if (sourceProvince is null) {
