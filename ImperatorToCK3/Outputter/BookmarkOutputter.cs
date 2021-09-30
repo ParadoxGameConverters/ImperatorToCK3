@@ -111,7 +111,7 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, Dictionary<string, Title> titles, Dictionary<string, Character> characters) {
-			Logger.Info("Drawing bookmark map.");
+			Logger.Info("Drawing bookmark map...");
 
 			string bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
 			using var bookmarkMapImage = new MagickImage(bookmarkMapPath);
@@ -144,12 +144,14 @@ namespace ImperatorToCK3.Outputter {
 					if (nonImpassableNeighborProvs.Count == 0) {
 						continue;
 					}
-					if (heldProvinces.IsProperSupersetOf(nonImpassableNeighborProvs)) {
+					var heldNonImpassableNeighborProvs = nonImpassableNeighborProvs.Intersect(heldProvinces);
+					if (heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
+						// realm controls more than half of non-impassable neigbors of the impassable
 						provincesToColor.Add(impassableId);
 					}
 				}
 				var diff = provincesToColor.Count - heldProvinces.Count;
-				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Name}.");
+				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Name}...");
 
 				using var copyImage = new MagickImage(provincesImage);
 				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToColorDict[province])) {
