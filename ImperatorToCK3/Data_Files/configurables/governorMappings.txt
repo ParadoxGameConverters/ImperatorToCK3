@@ -23,7 +23,6 @@ link = { imp = ariana_region ck3 = k_khorasan rank = k }
 link = { imp = syria_region ck3 = k_syria rank = k }
 link = { imp = palestine_region ck3 = k_jerusalem rank = k }
 link = { imp = palestine_region ck3 = d_palestine rank = d }
-link = { imp = sarmatia_europea_region ck3 = k_moldavia rank = k }
 link = { imp = arabia_region ck3 = k_arabia rank = k }
 link = { imp = arabia_felix_region ck3 = k_yemen rank = k }
 link = { imp = gandhara_region ck3 = k_kashmir rank = k }
@@ -68,7 +67,6 @@ link = { imp = armorica_region ck3 = d_brittany rank = d }
 link = { imp = mauretainia_region ck3 = k_maghreb rank = k }
 link = { imp = aquitaine_region ck3 = k_aquitaine rank = k }
 link = { imp = tarraconensis_region ck3 = k_aragon rank = k }
-link = { imp = britain_region ck3 = k_england rank = k }
 link = { imp = cisalpine_gaul_region ck3 = k_italy rank = k }
 link = { imp = africa_region ck3 = k_africa rank = k }
 link = { imp = rhaetia_region ck3 = k_bavaria rank = k }

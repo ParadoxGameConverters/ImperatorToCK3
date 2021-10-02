@@ -70,7 +70,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return "boy";
 			}
 		}
-		public bool Female { get; private set; } = false;
+		public ParadoxBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
 
 		public CK3.Characters.Character? CK3Character { get; set; }
@@ -102,9 +102,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("religion", reader => {
 				parsedCharacter.Religion = ParserHelpers.GetString(reader);
 			});
-			parser.RegisterKeyword("female", reader => {
-				parsedCharacter.Female = ParserHelpers.GetString(reader) == "yes";
-			});
+			parser.RegisterKeyword("female", reader =>
+				parsedCharacter.Female = new ParadoxBool(reader)
+			);
 			parser.RegisterKeyword("traits", reader => {
 				parsedCharacter.Traits = ParserHelpers.GetStrings(reader);
 			});
