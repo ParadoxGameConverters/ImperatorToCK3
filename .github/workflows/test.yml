@@ -49,5 +49,4 @@ jobs:
     - name: Test
       run: |
        cd ImperatorToCK3.UnitTests
-       dotnet restore
        dotnet test

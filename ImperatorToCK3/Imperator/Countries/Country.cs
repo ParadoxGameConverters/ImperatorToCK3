@@ -28,7 +28,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Dictionary<ulong, Families.Family?> Families { get; private set; } = new();
 		private readonly HashSet<Provinces.Province> ownedProvinces = new();
 
-		public CK3.Titles.Title? CK3Title { get; set; } = new();
+		public CK3.Titles.Title? CK3Title { get; set; }
 
 		public Country(ulong ID) {
 			this.ID = ID;

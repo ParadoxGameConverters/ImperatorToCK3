@@ -69,14 +69,15 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			// Attempt a title match
 			foreach (var mapping in mappings) {
 				var match = mapping.RankMatch(imperatorRegion, rank);
-				if (match is not null) {
-					if (usedTitles.Contains(match)) {
-						continue;
-					}
-
-					RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
-					return match;
+				if (match is null) {
+					continue;
 				}
+
+				if (usedTitles.Contains(match)) {
+					continue;
+				}
+				RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
+				return match;
 			}
 
 			// Generate a new title
@@ -92,9 +93,9 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private static string GetCK3TitleRank(CountryRank imperatorRank, string localizedTitleName) {
-			if (localizedTitleName.IndexOf("Empire", System.StringComparison.Ordinal) != -1) {
+			if (localizedTitleName.Contains("Empire", System.StringComparison.Ordinal)) {
 				return "e";
-			} else if (localizedTitleName.IndexOf("Kingdom", System.StringComparison.Ordinal) != -1) {
+			} else if (localizedTitleName.Contains("Kingdom", System.StringComparison.Ordinal)) {
 				return "k";
 			} else {
 				return imperatorRank switch {

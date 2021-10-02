@@ -36,7 +36,6 @@ namespace ImperatorToCK3.Outputter {
 			Logger.Info("Writing Landed Titles.");
 			TitlesOutputter.OutputTitles(
 				outputName,
-				theConfiguration.Ck3Path,
 				ck3World.LandedTitles,
 				theConfiguration.ImperatorDeJure,
 				theConfiguration.Ck3BookmarkDate
@@ -77,6 +76,7 @@ namespace ImperatorToCK3.Outputter {
 			using var modFile = new StreamWriter("output/" + outputName + ".mod");
 			modFile.WriteLine($"name = \"Converted - {outputName}\"");
 			modFile.WriteLine($"path = \"mod/{outputName}\"");
+			modFile.WriteLine("replace_path = \"common/landed_titles\"");
 			modFile.WriteLine("replace_path = \"history/province_mapping\"");
 			modFile.WriteLine("replace_path = \"history/provinces\"");
 			modFile.WriteLine("replace_path = \"history/titles\"");

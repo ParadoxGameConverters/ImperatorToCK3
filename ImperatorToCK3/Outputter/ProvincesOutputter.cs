@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using commonItems;
@@ -14,12 +15,32 @@ namespace ImperatorToCK3.Outputter {
 			// output provinces to files named after their de jure kingdoms
 			var alreadyOutputtedProvinces = new HashSet<ulong>();
 
-			foreach (var (name, title) in titles) {
-				if (title.Rank == TitleRank.kingdom && title.DeJureVassals.Count > 0) {  // title is a de jure kingdom
-					var filePath = "output/" + outputModName + "/history/provinces/" + name + ".txt";
-					using var historyOutput = new StreamWriter(filePath);
+			var deJureKingdoms = titles.Values.Where(
+				t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0
+			);
+			foreach (var kingdom in deJureKingdoms) {
+				var filePath = $"output/{outputModName}/history/provinces/{kingdom.Name}.txt";
+				using var historyOutput = new StreamWriter(filePath);
+				foreach (var (id, province) in provinces) {
+					if (kingdom.KingdomContainsProvince(id)) {
+						ProvinceOutputter.OutputProvince(historyOutput, province);
+						alreadyOutputtedProvinces.Add(id);
+					}
+				}
+			}
+			if (alreadyOutputtedProvinces.Count != provinces.Count) {
+				var filePath = $"output/{outputModName}/history/provinces/onlyDeJureDuchy.txt";
+				using var historyOutput = new StreamWriter(filePath);
+				var deJureDuchies = titles.Values.Where(
+					t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0
+				);
+				foreach (var duchy in deJureDuchies) {
 					foreach (var (id, province) in provinces) {
-						if (title.KingdomContainsProvince(id)) {
+						if (alreadyOutputtedProvinces.Contains(id)) {
+							continue;
+						}
+						if (duchy.DuchyContainsProvince(id)) {
+							historyOutput.WriteLine($"# {duchy.Name}");
 							ProvinceOutputter.OutputProvince(historyOutput, province);
 							alreadyOutputtedProvinces.Add(id);
 						}
@@ -28,19 +49,20 @@ namespace ImperatorToCK3.Outputter {
 			}
 
 			//create province mapping file
-			var provinceMappingFilePath = "output/" + outputModName + "/history/province_mapping/province_mapping.txt";
+			var provinceMappingFilePath = $"output/{outputModName}/history/province_mapping/province_mapping.txt";
 			using var provinceMappingStream = File.OpenWrite(provinceMappingFilePath);
 			using (var provinceMappingOutput = new StreamWriter(provinceMappingStream, System.Text.Encoding.UTF8)) {
 				if (alreadyOutputtedProvinces.Count != provinces.Count) {
 					foreach (var (id, province) in provinces) {
-						if (!alreadyOutputtedProvinces.Contains(id)) {
-							var baseProvID = province.BaseProvinceID;
-							if (baseProvID is null) {
-								Logger.Warn($"Leftover province {id} has no base province id!");
-							} else {
-								provinceMappingOutput.WriteLine($"{id} = {baseProvID}");
-								alreadyOutputtedProvinces.Add(id);
-							}
+						if (alreadyOutputtedProvinces.Contains(id)) {
+							continue;
+						}
+						var baseProvID = province.BaseProvinceID;
+						if (baseProvID is null) {
+							Logger.Warn($"Leftover province {id} has no base province id!");
+						} else {
+							provinceMappingOutput.WriteLine($"{id} = {baseProvID}");
+							alreadyOutputtedProvinces.Add(id);
 						}
 					}
 				}
