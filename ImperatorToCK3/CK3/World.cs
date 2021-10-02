@@ -207,7 +207,6 @@ namespace ImperatorToCK3.CK3 {
 					localizationMapper,
 					landedTitles,
 					provinceMapper,
-					coaMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
 				);

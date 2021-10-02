@@ -66,7 +66,6 @@ namespace ImperatorToCK3.CK3.Titles {
 				localizationMapper,
 				landedTitles,
 				provinceMapper,
-				coaMapper,
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
@@ -220,7 +219,6 @@ namespace ImperatorToCK3.CK3.Titles {
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
-			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper
 		) {
@@ -280,35 +278,52 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 
-			// ------------------ Country Name Locs
-			var nameSet = false;
-			LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
-			country.CK3Title.Localizations.TryGetValue(country.CK3Title.Name + "_adj", out var countryAdjectiveLocBlock);
-			if (regionLocBlock is not null && countryAdjectiveLocBlock is not null) {
-				var nameLocBlock = new LocBlock(regionLocBlock);
-				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-					(ref string orig, string adj) => orig = $"{adj} {orig}"
-				);
-				Localizations[Name] = nameLocBlock;
-				nameSet = true;
-			}
-			if (!nameSet && regionLocBlock is not null) {
-				Localizations[Name] = new LocBlock(regionLocBlock);
-				nameSet = true;
-			}
-			if (!nameSet) {
-				Logger.Warn($"{Name} needs help with localization!");
-			}
+			TrySetNameFromGovernorship(governorship, country, localizationMapper);
+			TrySetAdjectiveFromGovernorship(country);
+		}
 
-			// --------------- Adjective Locs
-			var adjSet = false;
-			if (countryAdjectiveLocBlock is not null) {
-				var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
-				Localizations.Add(Name + "_adj", adjLocBlock);
-				adjSet = true;
+		private void TrySetAdjectiveFromGovernorship(Country country) {
+			var adjKey = Name + "_adj";
+			if (!Localizations.ContainsKey(adjKey)) {
+				var adjSet = false;
+				var ck3Country = country.CK3Title;
+				if (ck3Country is null) {
+					return;
+				}
+				if (ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
+					var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
+					Localizations.Add(adjKey, adjLocBlock);
+					adjSet = true;
+				}
+				if (!adjSet) {
+					Logger.Warn($"{Name} needs help with adjective localization!");
+				}
 			}
-			if (!adjSet) {
-				Logger.Warn($"{Name} needs help with adjective localization!");
+		}
+
+		private void TrySetNameFromGovernorship(Governorship governorship, Country country, LocalizationMapper localizationMapper) {
+			if (!Localizations.ContainsKey(Name)) {
+				var nameSet = false;
+				LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
+
+				if (regionLocBlock is not null) {
+					var ck3Country = country.CK3Title;
+					if (ck3Country is not null && ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
+						var nameLocBlock = new LocBlock(regionLocBlock);
+						nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
+							(ref string orig, string adj) => orig = $"{adj} {orig}"
+						);
+						Localizations[Name] = nameLocBlock;
+						nameSet = true;
+					}
+				}
+				if (!nameSet && regionLocBlock is not null) {
+					Localizations[Name] = new LocBlock(regionLocBlock);
+					nameSet = true;
+				}
+				if (!nameSet) {
+					Logger.Warn($"{Name} needs help with localization!");
+				}
 			}
 		}
 
