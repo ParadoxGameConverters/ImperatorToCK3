@@ -49,6 +49,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			Governorship governorship,
 			Country country,
 			Dictionary<ulong, Character> imperatorCharacters,
+			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -63,6 +64,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				governorship,
 				country,
 				imperatorCharacters,
+				regionHasMultipleGovernorships,
 				localizationMapper,
 				landedTitles,
 				provinceMapper,
@@ -216,6 +218,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void InitializeFromGovernorship(Governorship governorship,
 			Country country,
 			Dictionary<ulong, Character> imperatorCharacters,
+			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -278,7 +281,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 
-			TrySetNameFromGovernorship(governorship, country, localizationMapper);
+			TrySetNameFromGovernorship(governorship, country, regionHasMultipleGovernorships, localizationMapper);
 			TrySetAdjectiveFromGovernorship(country);
 		}
 
@@ -301,12 +304,17 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		private void TrySetNameFromGovernorship(Governorship governorship, Country country, LocalizationMapper localizationMapper) {
+		private void TrySetNameFromGovernorship(
+			Governorship governorship,
+			Country country,
+			bool regionHasMultipleGovernorships,
+			LocalizationMapper localizationMapper
+		) {
 			if (!Localizations.ContainsKey(Name)) {
 				var nameSet = false;
 				LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
 
-				if (regionLocBlock is not null) {
+				if (regionHasMultipleGovernorships && regionLocBlock is not null) {
 					var ck3Country = country.CK3Title;
 					if (ck3Country is not null && ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
 						var nameLocBlock = new LocBlock(regionLocBlock);

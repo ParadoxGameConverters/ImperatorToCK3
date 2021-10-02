@@ -181,11 +181,19 @@ namespace ImperatorToCK3.CK3 {
 			var imperatorCountries = impWorld.Countries.StoredCountries;
 			var imperatorCharacters = impWorld.Characters.StoredCharacters;
 
+			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
+				.ToDictionary(g => g.Key, g => g.Count());
+
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator governorships.
 			var counter = 0;
 			foreach (var governorship in governorships) {
-				ImportImperatorGovernorship(governorship, imperatorCountries, imperatorCharacters);
+				ImportImperatorGovernorship(
+					governorship,
+					imperatorCountries,
+					imperatorCharacters,
+					governorshipsPerRegion[governorship.RegionName] > 1
+				);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} governorships from I:R.");
@@ -193,7 +201,8 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
 			Dictionary<ulong, Country> imperatorCountries,
-			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters
+			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters,
+			bool regionHasMultipleGovernorships
 		) {
 			var country = imperatorCountries[governorship.CountryID];
 			// Create a new title or update existing title
@@ -204,6 +213,7 @@ namespace ImperatorToCK3.CK3 {
 					governorship,
 					country,
 					imperatorCharacters,
+					regionHasMultipleGovernorships,
 					localizationMapper,
 					landedTitles,
 					provinceMapper,
@@ -215,6 +225,7 @@ namespace ImperatorToCK3.CK3 {
 					governorship,
 					country,
 					imperatorCharacters,
+					regionHasMultipleGovernorships,
 					localizationMapper,
 					landedTitles,
 					provinceMapper,
