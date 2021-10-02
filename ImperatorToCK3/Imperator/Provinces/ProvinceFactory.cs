@@ -47,8 +47,8 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				}
 			});
 			provinceParser.RegisterKeyword("fort", reader =>
-				province.Fort = new SingleString(reader).String == "yes"
-				);
+				province.Fort = new ParadoxBool(reader)
+			);
 			provinceParser.RegisterKeyword("holy_site", reader => {
 				// 4294967295 is 2^32 − 1 and is the default value
 				province.HolySite = new SingleULong(reader).ULong != 4294967295;

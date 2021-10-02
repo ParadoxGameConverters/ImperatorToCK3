@@ -28,11 +28,7 @@ namespace ImperatorToCK3.CK3 {
 		public Dictionary<string, Dynasty> Dynasties { get; } = new();
 		public Dictionary<ulong, Province> Provinces { get; } = new();
 		private readonly LandedTitles landedTitles = new();
-		public Dictionary<string, Title> LandedTitles {
-			get {
-				return landedTitles.StoredTitles;
-			}
-		}
+		public Dictionary<string, Title> LandedTitles => landedTitles.StoredTitles;
 
 		public World(Imperator.World impWorld, Configuration theConfiguration) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
@@ -146,32 +142,39 @@ namespace ImperatorToCK3.CK3 {
 			KeyValuePair<ulong, Country> country,
 			Dictionary<ulong, Country> imperatorCountries
 		) {
-			// Create a new title
-			var newTitle = new Title();
-			newTitle.InitializeFromTag(
-				country.Value,
-				imperatorCountries,
-				localizationMapper,
-				landedTitles,
-				provinceMapper,
-				coaMapper,
-				tagTitleMapper,
-				governmentMapper,
-				successionLawMapper,
-				definiteFormMapper,
-				religionMapper,
-				cultureMapper,
-				Characters
-			);
+			// Create a new title or update existing title
+			var name = Title.DetermineName(country.Value, imperatorCountries, tagTitleMapper, localizationMapper);
 
-			var name = newTitle.Name;
-			if (LandedTitles.TryGetValue(name, out var title)) {
-				var vanillaTitle = title;
-				vanillaTitle.UpdateFromTitle(newTitle);
-				country.Value.CK3Title = vanillaTitle;
+			if (LandedTitles.TryGetValue(name, out var existingTitle)) {
+				existingTitle.InitializeFromTag(
+					country.Value,
+					imperatorCountries,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					Characters
+				);
 			} else {
+				var newTitle = new Title(
+					country.Value,
+					imperatorCountries,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper
+				);
 				landedTitles.InsertTitle(newTitle);
-				country.Value.CK3Title = newTitle;
 			}
 		}
 
@@ -196,26 +199,35 @@ namespace ImperatorToCK3.CK3 {
 			Dictionary<ulong, Country> imperatorCountries,
 			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters
 		) {
-			// Create a new title
-			var newTitle = new Title();
-			newTitle.InitializeFromGovernorship(
-				imperatorCountries[governorship.CountryID],
-				governorship,
-				imperatorCharacters,
-				localizationMapper,
-				landedTitles,
-				provinceMapper,
-				coaMapper,
-				tagTitleMapper,
-				definiteFormMapper,
-				imperatorRegionMapper
-			);
+			var country = imperatorCountries[governorship.CountryID];
+			// Create a new title or update existing title
+			var name = Title.DetermineName(governorship, country, tagTitleMapper);
 
-			var name = newTitle.Name;
-			if (LandedTitles.TryGetValue(name, out var title)) {
-				var vanillaTitle = title;
-				vanillaTitle.UpdateFromTitle(newTitle);
+			if (LandedTitles.TryGetValue(name, out var existingTitle)) {
+				existingTitle.InitializeFromGovernorship(
+					governorship,
+					country,
+					imperatorCharacters,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					definiteFormMapper,
+					imperatorRegionMapper
+				);
 			} else {
+				var newTitle = new Title(
+					governorship,
+					country,
+					imperatorCharacters,
+					localizationMapper,
+					landedTitles,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					definiteFormMapper,
+					imperatorRegionMapper
+				);
 				landedTitles.InsertTitle(newTitle);
 			}
 		}
@@ -432,7 +444,7 @@ namespace ImperatorToCK3.CK3 {
 							Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
 							continue;
 						}
-						GiverCountryToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
+						GiveCountryToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
 						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 					}
@@ -442,7 +454,7 @@ namespace ImperatorToCK3.CK3 {
 			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarch) {
 				var holderId = "imperator" + impMonarch.ToString();
 				if (Characters.TryGetValue(holderId, out var holder)) {
-					title.ClearHolderHistory();
+					title.ClearHolderSpecificHistory();
 					title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
@@ -450,11 +462,11 @@ namespace ImperatorToCK3.CK3 {
 				title.DeFactoLiege = null;
 			}
 
-			void GiverCountryToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
+			void GiveCountryToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
 				var ck3Governorship = LandedTitles[ck3GovernorshipName];
 				var holderId = ck3Governorship.GetHolderId(ck3BookmarkDate);
 				if (Characters.TryGetValue(holderId, out var governor)) {
-					title.ClearHolderHistory();
+					title.ClearHolderSpecificHistory();
 					title.SetHolderId(governor.ID, ck3Governorship.GetDateOfLastHolderChange());
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
@@ -471,7 +483,7 @@ namespace ImperatorToCK3.CK3 {
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
 			foreach (var (name, title) in LandedTitles) {
-				//important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
+				// important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 				// this also removes landless titles initialized from Imperator
 				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
 					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
@@ -480,7 +492,7 @@ namespace ImperatorToCK3.CK3 {
 							landedTitles.EraseTitle(name);
 						} else {
 							revokedVanillaTitles.Add(name);
-							title.SetHolderId("0", ck3BookmarkDate);
+							title.ClearHolderSpecificHistory();
 							title.DeFactoLiege = null;
 						}
 					}
