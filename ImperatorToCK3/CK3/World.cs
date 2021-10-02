@@ -99,7 +99,7 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Date ck3BookmarkDate) {
-			Logger.Info("Importing Imperator Characters.");
+			Logger.Info("Importing Imperator Characters...");
 
 			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
 				ImportImperatorCharacter(character, endDate, ck3BookmarkDate);
@@ -158,7 +158,10 @@ namespace ImperatorToCK3.CK3 {
 				tagTitleMapper,
 				governmentMapper,
 				successionLawMapper,
-				definiteFormMapper
+				definiteFormMapper,
+				religionMapper,
+				cultureMapper,
+				Characters
 			);
 
 			var name = newTitle.Name;
@@ -526,6 +529,11 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var ck3Character in Characters.Values) {
 				var newSpouses = new Dictionary<ulong, Character>();
 				// make links between Imperator characters
+				if (ck3Character.ImperatorCharacter is null) {
+					// imperatorRegnal characters do not have ImperatorCharacter
+					Logger.Debug("LINKSPOUSES SKIPPING " + ck3Character.ID); // TODO: REMOVE DEBUG
+					continue;
+				}
 				foreach (var impSpouseCharacter in ck3Character.ImperatorCharacter.Spouses.Values) {
 					if (impSpouseCharacter is not null) {
 						var ck3SpouseCharacter = impSpouseCharacter.CK3Character;
@@ -543,6 +551,11 @@ namespace ImperatorToCK3.CK3 {
 			var fatherCounter = 0;
 			foreach (var ck3Character in Characters.Values) {
 				// make links between Imperator characters
+				if (ck3Character.ImperatorCharacter is null) {
+					// imperatorRegnal characters do not have ImperatorCharacter
+					Logger.Debug("LinkMothersAndFathers SKIPPING " + ck3Character.ID); // TODO: REMOVE DEBUG
+					continue;
+				}
 				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother.Value;
 				if (impMotherCharacter is not null) {
 					var ck3MotherCharacter = impMotherCharacter.CK3Character;

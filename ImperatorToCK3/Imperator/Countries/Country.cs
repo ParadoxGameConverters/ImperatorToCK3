@@ -10,6 +10,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public bool PlayerCountry { get; set; }
 		public ulong? Monarch { get; private set; }  // >=0 are valid
 		public List<RulerTerm> RulerTerms { get; private set; } = new();
+		public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
 		public string Tag { get; private set; } = "";
 		public string Name => CountryName.Name;
 		public CountryName CountryName { get; private set; } = new();
