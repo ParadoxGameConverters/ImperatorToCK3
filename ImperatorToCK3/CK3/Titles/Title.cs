@@ -92,9 +92,9 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			PlayerCountry = ImperatorCountry.PlayerCountry;
 
+			ClearHolderSpecificHistory();
+
 			// ------------------ determine previous and current holders
-			history.InternalHistory.SimpleFields.Remove("holder");
-			history.InternalHistory.SimpleFields.Remove("government");
 			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
 			var firstPossibleDate = new Date(0, 1, 1);
 
@@ -239,11 +239,14 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			var impGovernor = imperatorCharacters[governorship.CharacterID];
 			var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
+
+			ClearHolderSpecificHistory();
+
 			// ------------------ determine holder
 			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.ID}", normalizedStartDate);
 
 			// ------------------ determine government
-			var ck3LiegeGov = country.CK3Title.GetGovernment(governorship.StartDate);
+			var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
 			if (ck3LiegeGov is not null) {
 				history.InternalHistory.AddSimpleFieldValue("government", ck3LiegeGov, normalizedStartDate);
 			}
