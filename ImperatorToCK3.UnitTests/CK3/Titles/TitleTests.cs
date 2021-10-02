@@ -1,10 +1,13 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.CoA;
+using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System.Collections.Generic;
@@ -27,6 +30,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
+			private ReligionMapper religionMapper = new();
+			private CultureMapper cultureMapper = new();
+			private Dictionary<string, Character> charactersDict = new();
+
 			public Title BuildFromTag() {
 				return new Title(
 					country,
@@ -38,7 +45,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 					tagTitleMapper,
 					governmentMapper,
 					successionLawMapper,
-					definiteFormMapper
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					charactersDict
 				);
 			}
 			public TitleBuilder WithCountry(Country country) {

@@ -153,7 +153,6 @@ namespace ImperatorToCK3.CK3 {
 					landedTitles,
 					provinceMapper,
 					coaMapper,
-					tagTitleMapper,
 					governmentMapper,
 					successionLawMapper,
 					definiteFormMapper,
@@ -172,7 +171,10 @@ namespace ImperatorToCK3.CK3 {
 					tagTitleMapper,
 					governmentMapper,
 					successionLawMapper,
-					definiteFormMapper
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					Characters
 				);
 				landedTitles.InsertTitle(newTitle);
 			}

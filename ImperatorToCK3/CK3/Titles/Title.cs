@@ -47,7 +47,10 @@ namespace ImperatorToCK3.CK3.Titles {
 				coaMapper,
 				governmentMapper,
 				successionLawMapper,
-				definiteFormMapper
+				definiteFormMapper,
+				religionMapper,
+				cultureMapper,
+				charactersDict
 			);
 		}
 		public Title(
@@ -85,7 +88,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
 			SuccessionLawMapper successionLawMapper,
-			DefiniteFormMapper definiteFormMapper
+			DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			Dictionary<string, Characters.Character> charactersDict
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
@@ -727,7 +733,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void AddCountyProvince(ulong provinceID) {
 			CountyProvinces.Add(provinceID);
 		}
-		public SortedSet<ulong> CountyProvinces { get; private set; } = new();
+		public SortedSet<ulong> CountyProvinces { get; } = new();
 		public string CapitalBarony { get; private set; } = string.Empty; // used when parsing inside county to save first barony
 		public ulong CapitalBaronyProvince { get; private set; } = 0; // county barony's province; 0 is not a valid barony ID
 
