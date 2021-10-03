@@ -1,5 +1,6 @@
 ﻿using commonItems;
-using ImageMagick;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,12 +26,18 @@ namespace ImperatorToCK3.CK3.Map {
 		public ProvinceDefinitions ProvinceDefinitions { get; }
 		public MapData(string ck3Path) {
 			string provincesMapPath = Path.Combine(ck3Path, "game/map_data/provinces.png");
-			using var provincesMap = new MagickImage(provincesMapPath);
+			Logger.Debug("Loaded provinces map.");
 
 			ProvinceDefinitions = new ProvinceDefinitions(ck3Path);
+			Logger.Debug("Loaded province definitions.");
 			DetermineProvincePositions(ck3Path);
-			DetermineNeighbors(provincesMap, ProvinceDefinitions);
+			Logger.Debug("Loaded province positions.");
+			using (Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath)) {
+				DetermineNeighbors(provincesMap, ProvinceDefinitions);
+			}
+			Logger.Debug("Determined province neighbors.");
 			FindImpassables(ck3Path);
+			Logger.Debug("Found impassables.");
 		}
 
 		private void DetermineProvincePositions(string ck3Path) {
@@ -52,7 +59,7 @@ namespace ImperatorToCK3.CK3.Map {
 			fileParser.ParseFile(provincePositionsPath);
 		}
 
-		private void DetermineNeighbors(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions) {
+		private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
 			var height = provincesMap.Height;
 			var width = provincesMap.Width;
 			for (var y = 0; y < height; ++y) {
@@ -106,54 +113,48 @@ namespace ImperatorToCK3.CK3.Map {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(filePath);
 		}
-		private static MagickColor GetCenterColor(Point position, MagickImage provincesMap) {
+		private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {
 			return GetPixelColor(position, provincesMap);
 		}
-		private static MagickColor GetAboveColor(Point position, MagickImage provincesMap) {
+		private static Rgb24 GetAboveColor(Point position, Image<Rgb24> provincesMap) {
 			if (position.Y > 0) {
 				--position.Y;
 			}
 			return GetPixelColor(position, provincesMap);
 		}
-		private static MagickColor GetBelowColor(Point position, int height, MagickImage provincesMap) {
+		private static Rgb24 GetBelowColor(Point position, int height, Image<Rgb24> provincesMap) {
 			if (position.Y < height - 1) {
 				++position.Y;
 			}
 			return GetPixelColor(position, provincesMap);
 		}
-		private static MagickColor GetLeftColor(Point position, MagickImage provincesMap) {
+		private static Rgb24 GetLeftColor(Point position, Image<Rgb24> provincesMap) {
 			if (position.X > 0) {
 				--position.X;
 			}
 			return GetPixelColor(position, provincesMap);
 		}
-		private static MagickColor GetRightColor(Point position, int width, MagickImage provincesMap) {
+		private static Rgb24 GetRightColor(Point position, int width, Image<Rgb24> provincesMap) {
 			if (position.X < width - 1) {
 				++position.X;
 			}
 			return GetPixelColor(position, provincesMap);
 		}
-		private static MagickColor GetPixelColor(Point position, MagickImage provincesMap) {
-			var pixels = provincesMap.GetPixels();
-			var pixel = pixels.GetPixel(position.X, position.Y);
-			var color = pixel.ToColor();
-			if (color is null) {
-				throw new ArgumentException($"Cannot get color for position {position.X}, {position.Y}");
-			}
-			return new MagickColor(color);
+		private static Rgb24 GetPixelColor(Point position, Image<Rgb24> provincesMap) {
+			return provincesMap[position.X, position.Y];
 		}
 
 		private void HandleNeighbor(
-			MagickColor centerColor,
-			MagickColor otherColor,
+			Rgb24 centerColor,
+			Rgb24 otherColor,
 			ProvinceDefinitions provinceDefinitions
 		) {
 			if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(centerColor, out ulong centerProvince)) {
-				Logger.Warn($"Province not found for color {centerColor.ToHexString()}!");
+				Logger.Warn($"Province not found for color {centerColor}!");
 				return;
 			}
 			if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(otherColor, out ulong otherProvince)) {
-				Logger.Warn($"Province not found for color {otherColor.ToHexString()}!");
+				Logger.Warn($"Province not found for color {otherColor}!");
 				return;
 			}
 			AddNeighbor(centerProvince, otherProvince);

@@ -1,12 +1,12 @@
-﻿using ImageMagick;
+﻿using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.CK3.Map {
 	public class ProvinceDefinitions {
-		public Dictionary<MagickColor, ulong> ColorToProvinceDict { get; } = new();
-		public SortedDictionary<ulong, MagickColor> ProvinceToColorDict { get; } = new();
+		public Dictionary<Rgb24, ulong> ColorToProvinceDict { get; } = new();
+		public SortedDictionary<ulong, Rgb24> ProvinceToColorDict { get; } = new();
 		public ProvinceDefinitions(string ck3Path) {
 			var definitionsFilePath = Path.Combine(ck3Path, "game/map_data/definition.csv");
 			using var fileStream = File.OpenRead(definitionsFilePath);
@@ -26,7 +26,7 @@ namespace ImperatorToCK3.CK3.Map {
 					var r = byte.Parse(columns[1]);
 					var g = byte.Parse(columns[2]);
 					var b = byte.Parse(columns[3]);
-					var color = MagickColor.FromRgb(r, g, b);
+					var color = new Rgb24(r, g, b);
 					ProvinceToColorDict.Add(id, color);
 					ColorToProvinceDict[color] = id;
 				} catch (Exception e) {

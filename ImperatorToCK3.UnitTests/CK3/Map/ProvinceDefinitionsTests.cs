@@ -1,5 +1,5 @@
-﻿using ImageMagick;
-using ImperatorToCK3.CK3.Map;
+﻿using ImperatorToCK3.CK3.Map;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
 using Xunit;
 
@@ -13,36 +13,36 @@ namespace ImperatorToCK3.UnitTests.CK3.Map {
 			var provDefs = new ProvinceDefinitions(testCK3Path);
 			Assert.Collection(provDefs.ColorToProvinceDict,
 				pair1 => {
-					(MagickColor key, ulong value) = pair1;
-					Assert.Equal(MagickColor.FromRgb(42, 3, 128), key);
+					(Rgb24 key, ulong value) = pair1;
+					Assert.Equal(new Rgb24(42, 3, 128), key);
 					Assert.Equal((ulong)1, value);
 				},
 				pair2 => {
-					(MagickColor key, ulong value) = pair2;
-					Assert.Equal(MagickColor.FromRgb(84, 6, 1), key);
+					(Rgb24 key, ulong value) = pair2;
+					Assert.Equal(new Rgb24(84, 6, 1), key);
 					Assert.Equal((ulong)2, value);
 				},
 				pair3 => {
-					(MagickColor key, ulong value) = pair3;
-					Assert.Equal(MagickColor.FromRgb(126, 9, 129), key);
+					(Rgb24 key, ulong value) = pair3;
+					Assert.Equal(new Rgb24(126, 9, 129), key);
 					Assert.Equal((ulong)3, value);
 				}
 			);
 			Assert.Collection(provDefs.ProvinceToColorDict,
 				pair1 => {
-					(ulong key, MagickColor value) = pair1;
+					(ulong key, Rgb24 value) = pair1;
 					Assert.Equal((ulong)1, key);
-					Assert.Equal(MagickColor.FromRgb(42, 3, 128), value);
+					Assert.Equal(new Rgb24(42, 3, 128), value);
 				},
 				pair2 => {
-					(ulong key, MagickColor value) = pair2;
+					(ulong key, Rgb24 value) = pair2;
 					Assert.Equal((ulong)2, key);
-					Assert.Equal(MagickColor.FromRgb(84, 6, 1), value);
+					Assert.Equal(new Rgb24(84, 6, 1), value);
 				},
 				pair3 => {
-					(ulong key, MagickColor value) = pair3;
+					(ulong key, Rgb24 value) = pair3;
 					Assert.Equal((ulong)3, key);
-					Assert.Equal(MagickColor.FromRgb(126, 9, 129), value);
+					Assert.Equal(new Rgb24(126, 9, 129), value);
 				}
 			);
 		}

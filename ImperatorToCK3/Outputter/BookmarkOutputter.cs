@@ -110,6 +110,8 @@ namespace ImperatorToCK3.Outputter {
 			var mapData = ck3World.MapData;
 			var provDefs = mapData.ProvinceDefinitions;
 
+			var magickBlack = MagickColor.FromRgb(0, 0, 0);
+
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
 				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
@@ -137,10 +139,11 @@ namespace ImperatorToCK3.Outputter {
 				using var copyImage = new MagickImage(provincesImage);
 				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToColorDict[province])) {
 					// make pixels of the province black
-					copyImage.Opaque(provinceColor, MagickColor.FromRgb(0, 0, 0));
+					var magickProvinceColor = MagickColor.FromRgb(provinceColor.R, provinceColor.G, provinceColor.B);
+					copyImage.Opaque(magickProvinceColor, magickBlack);
 				}
 				// replace black with title color
-				copyImage.Opaque(MagickColor.FromRgb(0, 0, 0), magickColorOnMap);
+				copyImage.Opaque(magickBlack, magickColorOnMap);
 				// make pixels all colors but the country color transparent
 				copyImage.InverseTransparent(magickColorOnMap);
 

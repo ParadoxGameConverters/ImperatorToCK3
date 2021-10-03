@@ -42,7 +42,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Map {
 
 			const string testCK3Path2 = "TestFiles/MapData/CK3_all_prov_defs";
 			_ = new MapData(testCK3Path2);
-			Assert.Contains("Province not found for color #1E1E1E", output.ToString());
+			Assert.Contains("Province not found for color Rgb24(30, 30, 30)", output.ToString());
 		}
 	}
 }
