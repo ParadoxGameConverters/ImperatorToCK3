@@ -72,7 +72,7 @@ namespace ImperatorToCK3.Outputter {
 				int count = 0;
 				double sumX = 0;
 				double sumY = 0;
-				foreach (ulong provId in GetProvincesInCountry(titles, title, config).Reverse()) {
+				foreach (ulong provId in title.GetProvincesInCountry(titles, config.Ck3BookmarkDate)) {
 					if (!provincePositions.TryGetValue(provId, out var pos)) {
 						continue;
 					}
@@ -132,7 +132,7 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
 				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-				HashSet<ulong> heldProvinces = GetProvincesInCountry(titles, playerTitle, config);
+				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(titles, config.Ck3BookmarkDate);
 				// determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				var impassables = mapData.ColorableImpassableProvinces;
@@ -181,31 +181,6 @@ namespace ImperatorToCK3.Outputter {
 			bookmarkMapImage.Write(outputPath);
 		}
 
-		private static HashSet<ulong> GetProvincesInCountry(Dictionary<string, Title> titles, Title playerTitle, Configuration config) {
-			var holderId = playerTitle.GetHolderId(config.Ck3BookmarkDate);
-			var heldCounties = new List<Title>(
-				titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
-			);
-			var heldProvinces = new HashSet<ulong>();
-			// add directly held counties
-			foreach (var county in heldCounties) {
-				heldProvinces.UnionWith(county.CountyProvinces);
-			}
-			// add vassals' counties
-			foreach (var vassal in playerTitle.GetDeFactoVassalsAndBelow().Values) {
-				var vassalHolderId = vassal.GetHolderId(config.Ck3BookmarkDate);
-				if (vassalHolderId == "0") {
-					Logger.Warn($"Player title {playerTitle.Name}'s vassal {vassal.Name} has 0 holder!");
-					continue;
-				}
-				var heldVassalCounties = new List<Title>(
-					titles.Values.Where(t => t.GetHolderId(config.Ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
-				);
-				foreach (var vassalCounty in heldVassalCounties) {
-					heldProvinces.UnionWith(vassalCounty.CountyProvinces);
-				}
-			}
-			return heldProvinces;
-		}
+
 	}
 }
