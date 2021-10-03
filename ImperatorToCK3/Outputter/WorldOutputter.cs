@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using commonItems;
 using ImperatorToCK3.CK3;
-using commonItems;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {

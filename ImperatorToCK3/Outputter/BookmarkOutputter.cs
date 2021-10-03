@@ -1,7 +1,5 @@
 ﻿using commonItems;
 using ImageMagick;
-using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
 using System;
 using System.Collections.Generic;
