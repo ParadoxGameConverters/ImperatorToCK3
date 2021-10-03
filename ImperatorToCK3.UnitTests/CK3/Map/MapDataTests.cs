@@ -23,20 +23,20 @@ namespace ImperatorToCK3.UnitTests.CK3.Map {
 			const ulong byzantionId = 496;
 			var provincesMap = new ImageMagick.MagickImage(testCK3Path2 + "/game/map_data/provinces.png");
 			var definitions = new ProvinceDefinitions(testCK3Path2);
-			Assert.True(definitions.ProvinceToColorDict.ContainsKey(496));
+			Assert.True(definitions.ProvinceToColorDict.ContainsKey(byzantionId));
 
 			var data = new MapData(provincesMap, definitions, testCK3Path);
-			Assert.True(data.NeighborsDict.ContainsKey(496));
+			Assert.True(data.NeighborsDict.ContainsKey(byzantionId));
 
 			var byzantionNeighborProvs = data.NeighborsDict[byzantionId];
-			var expectedByzantionProvs = new HashSet<ulong> {
+			var expectedByzantionNeighborProvs = new HashSet<ulong> {
 				3761, // Selymbria
 				8668, // sea_bosporus
 				947 // sea_marmara
 				// There is also a dark grey circle in the middle of Byzantion,
 				// but the color is not found in definition.csv, so there's no ID to add to neighbors.
 			};
-			Assert.True(byzantionNeighborProvs.SetEquals(expectedByzantionProvs));
+			Assert.True(byzantionNeighborProvs.SetEquals(expectedByzantionNeighborProvs));
 		}
 
 		[Fact]
