@@ -11,30 +11,13 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
-		public static void OutputBookmark(Dictionary<string, Character> characters, Dictionary<string, Title> titles, Configuration config) {
+		public static void OutputBookmark(CK3.World world, Configuration config) {
 			OpenCL.IsEnabled = true; // enable OpenCL in ImageMagick
 			var path = "output/" + config.OutputModName + "/common/bookmarks/00_bookmarks.txt";
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
 
-			// get province positions
-			var provincePositionsPath = Path.Combine(config.Ck3Path, "game/gfx/map/map_object_data/building_locators.txt");
-			var provincePositions = new Dictionary<ulong, ProvincePosition>();
-			var fileParser = new Parser();
-			fileParser.RegisterKeyword("game_object_locator", reader => {
-				var listParser = new Parser();
-				listParser.RegisterKeyword("instances", instancesReader => {
-					foreach (var blob in new BlobList(instancesReader).Blobs) {
-						var blobReader = new BufferedReader(blob);
-						var instance = ProvincePosition.Parse(blobReader);
-						provincePositions[instance.Id] = instance;
-					}
-				});
-				listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
-				listParser.ParseStream(reader);
-			});
-			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
-			fileParser.ParseFile(provincePositionsPath);
+			var provincePositions = world.MapData.ProvincePositions;
 
 			output.WriteLine("bm_converted = {");
 
@@ -43,14 +26,14 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\tis_playable = yes");
 			output.WriteLine("\trecommended = yes");
 
-			var playerTitles = new List<Title>(titles.Values.Where(title => title.PlayerCountry));
+			var playerTitles = new List<Title>(world.LandedTitles.Values.Where(title => title.PlayerCountry));
 			foreach (var title in playerTitles) {
 				var holderId = title.GetHolderId(config.Ck3BookmarkDate);
 				if (holderId == "0") {
 					Logger.Warn($"Cannot add player title {title.Name} to bookmark screen: holder is 0!");
 					continue;
 				}
-				var holder = characters[holderId];
+				var holder = world.Characters[holderId];
 
 				output.WriteLine("\tcharacter = {");
 
@@ -72,7 +55,7 @@ namespace ImperatorToCK3.Outputter {
 				int count = 0;
 				double sumX = 0;
 				double sumY = 0;
-				foreach (ulong provId in title.GetProvincesInCountry(titles, config.Ck3BookmarkDate)) {
+				foreach (ulong provId in title.GetProvincesInCountry(world.LandedTitles, config.Ck3BookmarkDate)) {
 					if (!provincePositions.TryGetValue(provId, out var pos)) {
 						continue;
 					}
@@ -107,10 +90,10 @@ namespace ImperatorToCK3.Outputter {
 
 			output.WriteLine("}");
 
-			DrawBookmarkMap(config, playerTitles, titles, characters);
+			DrawBookmarkMap(config, playerTitles, world);
 		}
 
-		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, Dictionary<string, Title> titles, Dictionary<string, Character> characters) {
+		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, CK3.World ck3World) {
 			Logger.Info("Drawing bookmark map...");
 
 			string bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
@@ -126,13 +109,13 @@ namespace ImperatorToCK3.Outputter {
 			provincesImage.Crop(1920, 1080);
 			provincesImage.RePage();
 
-			var provDefs = new ProvinceDefinitions(config.Ck3Path);
-			var mapData = new MapData(provincesImage, provDefs, config.Ck3Path);
+			var mapData = ck3World.MapData;
+			var provDefs = mapData.ProvinceDefinitions;
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
 				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(titles, config.Ck3BookmarkDate);
+				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(ck3World.LandedTitles, config.Ck3BookmarkDate);
 				// determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				var impassables = mapData.ColorableImpassableProvinces;
@@ -164,7 +147,7 @@ namespace ImperatorToCK3.Outputter {
 				copyImage.InverseTransparent(magickColorOnMap);
 
 				// create realm highlight file
-				var holder = characters[playerTitle.GetHolderId(config.Ck3BookmarkDate)];
+				var holder = ck3World.Characters[playerTitle.GetHolderId(config.Ck3BookmarkDate)];
 				var highlightPath = Path.Combine(
 					"output",
 					config.OutputModName,
@@ -180,7 +163,5 @@ namespace ImperatorToCK3.Outputter {
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.dds");
 			bookmarkMapImage.Write(outputPath);
 		}
-
-
 	}
 }

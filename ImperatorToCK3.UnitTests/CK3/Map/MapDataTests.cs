@@ -8,24 +8,20 @@ namespace ImperatorToCK3.UnitTests.CK3.Map {
 	[Collection("MapTests")]
 	[CollectionDefinition("MapTests", DisableParallelization = true)]
 	public class MapDataTests {
-		private const string testCK3Path = "TestFiles/CK3";
+		private const string testCK3Path = "TestFiles/MapData/CK3_1_province_map";
 		[Fact]
 		public void NeighborsDictDefaultsToEmpty() {
-			var provincesMap = new ImageMagick.MagickImage();
-			var definitions = new ProvinceDefinitions(testCK3Path);
-			var data = new MapData(provincesMap, definitions, testCK3Path);
+			var data = new MapData(testCK3Path);
 
 			Assert.Empty(data.NeighborsDict);
 		}
 		[Fact]
 		public void NeighborProvincesCanBeDetermined() {
-			const string testCK3Path2 = "TestFiles/CK3_all_prov_defs";
+			const string testCK3Path2 = "TestFiles/MapData/CK3_all_prov_defs";
 			const ulong byzantionId = 496;
-			var provincesMap = new ImageMagick.MagickImage(testCK3Path2 + "/game/map_data/provinces.png");
-			var definitions = new ProvinceDefinitions(testCK3Path2);
-			Assert.True(definitions.ProvinceToColorDict.ContainsKey(byzantionId));
 
-			var data = new MapData(provincesMap, definitions, testCK3Path);
+			var data = new MapData(testCK3Path2);
+			Assert.True(data.ProvinceDefinitions.ProvinceToColorDict.ContainsKey(byzantionId));
 			Assert.True(data.NeighborsDict.ContainsKey(byzantionId));
 
 			var byzantionNeighborProvs = data.NeighborsDict[byzantionId];
@@ -44,11 +40,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Map {
 			var output = new StringWriter();
 			Console.SetOut(output);
 
-			const string testCK3Path2 = "TestFiles/CK3_all_prov_defs";
-			var provincesMap = new ImageMagick.MagickImage(testCK3Path2 + "/game/map_data/provinces.png");
-			var definitions = new ProvinceDefinitions(testCK3Path2);
-
-			_ = new MapData(provincesMap, definitions, testCK3Path);
+			const string testCK3Path2 = "TestFiles/MapData/CK3_all_prov_defs";
+			_ = new MapData(testCK3Path2);
 			Assert.Contains("Province not found for color #1E1E1E", output.ToString());
 		}
 	}

@@ -21,10 +21,37 @@ namespace ImperatorToCK3.CK3.Map {
 		}
 		public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
 		public HashSet<ulong> ColorableImpassableProvinces { get; } = new();
-		public MapData(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions, string ck3Path) {
-			DetermineNeighbors(provincesMap, provinceDefinitions);
+		public Dictionary<ulong, ProvincePosition> ProvincePositions { get; } = new();
+		public ProvinceDefinitions ProvinceDefinitions { get; }
+		public MapData(string ck3Path) {
+			string provincesMapPath = Path.Combine(ck3Path, "game/map_data/provinces.png");
+			using var provincesMap = new MagickImage(provincesMapPath);
+
+			ProvinceDefinitions = new ProvinceDefinitions(ck3Path);
+			DetermineProvincePositions(ck3Path);
+			DetermineNeighbors(provincesMap, ProvinceDefinitions);
 			FindImpassables(ck3Path);
 		}
+
+		private void DetermineProvincePositions(string ck3Path) {
+			var provincePositionsPath = Path.Combine(ck3Path, "game/gfx/map/map_object_data/building_locators.txt");
+			var fileParser = new Parser();
+			fileParser.RegisterKeyword("game_object_locator", reader => {
+				var listParser = new Parser();
+				listParser.RegisterKeyword("instances", instancesReader => {
+					foreach (var blob in new BlobList(instancesReader).Blobs) {
+						var blobReader = new BufferedReader(blob);
+						var instance = ProvincePosition.Parse(blobReader);
+						ProvincePositions[instance.Id] = instance;
+					}
+				});
+				listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+				listParser.ParseStream(reader);
+			});
+			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			fileParser.ParseFile(provincePositionsPath);
+		}
+
 		private void DetermineNeighbors(MagickImage provincesMap, ProvinceDefinitions provinceDefinitions) {
 			var height = provincesMap.Height;
 			var width = provincesMap.Width;
