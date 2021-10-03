@@ -2,6 +2,8 @@
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Families {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class FamiliesTests {
 		[Fact]
 		public void FamiliesDefaultToEmpty() {

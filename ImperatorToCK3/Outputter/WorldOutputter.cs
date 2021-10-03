@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using commonItems;
 using ImperatorToCK3.CK3;
-using commonItems;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
@@ -8,7 +8,7 @@ namespace ImperatorToCK3.Outputter {
 			var directoryToClear = "output/" + theConfiguration.OutputModName;
 			var di = new DirectoryInfo(directoryToClear);
 			if (di.Exists) {
-				Logger.Info("Clearing the output mod folder.");
+				Logger.Info("Clearing the output mod folder...");
 				foreach (FileInfo file in di.EnumerateFiles()) {
 					file.Delete();
 				}
@@ -21,19 +21,19 @@ namespace ImperatorToCK3.Outputter {
 			CreateModFolder(outputName);
 			OutputModFile(outputName);
 
-			Logger.Info("Creating folders.");
+			Logger.Info("Creating folders...");
 			CreateFolders(outputName);
 
-			Logger.Info("Writing Characters.");
+			Logger.Info("Writing Characters...");
 			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, theConfiguration.Ck3BookmarkDate);
 
-			Logger.Info("Writing Dynasties.");
+			Logger.Info("Writing Dynasties...");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
 
-			Logger.Info("Writing Provinces.");
+			Logger.Info("Writing Provinces...");
 			ProvincesOutputter.OutputProvinces(outputName, ck3World.Provinces, ck3World.LandedTitles);
 
-			Logger.Info("Writing Landed Titles.");
+			Logger.Info("Writing Landed Titles...");
 			TitlesOutputter.OutputTitles(
 				outputName,
 				ck3World.LandedTitles,
@@ -41,7 +41,7 @@ namespace ImperatorToCK3.Outputter {
 				theConfiguration.Ck3BookmarkDate
 			);
 
-			Logger.Info("Writing Localization.");
+			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
 				theConfiguration.ImperatorPath,
 				outputName,
@@ -51,25 +51,23 @@ namespace ImperatorToCK3.Outputter {
 
 			var outputPath = "output/" + theConfiguration.OutputModName;
 
-			Logger.Info("Copying named colors.");
+			Logger.Info("Copying named colors...");
 			SystemUtils.TryCopyFile(theConfiguration.ImperatorPath + "/game/common/named_colors/default_colors.txt",
 									 outputPath + "/common/named_colors/imp_colors.txt");
 
-			Logger.Info("Copying Coats of Arms.");
+			Logger.Info("Copying Coats of Arms...");
 			ColoredEmblemsOutputter.CopyColoredEmblems(theConfiguration, outputName);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
 			SystemUtils.TryCopyFolder(theConfiguration.ImperatorPath + "/game/gfx/coat_of_arms/patterns",
 							outputPath + "/gfx/coat_of_arms/patterns");
 
-			Logger.Info("Copying blankMod files to output.");
+			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder("blankMod/output", outputPath);
 
-			Logger.Info("Creating bookmark.");
+			Logger.Info("Creating bookmark...");
 			BookmarkOutputter.OutputBookmark(
-				outputName,
-				ck3World.Characters,
-				ck3World.LandedTitles,
-				theConfiguration.Ck3BookmarkDate
+				ck3World,
+				theConfiguration
 			);
 		}
 
@@ -114,6 +112,8 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/colored_emblems");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/patterns");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/interface");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/interface/bookmarks");
 		}
 	}
 }

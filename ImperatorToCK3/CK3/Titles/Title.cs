@@ -12,6 +12,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Titles {
@@ -687,6 +688,33 @@ namespace ImperatorToCK3.CK3.Titles {
 			if (needsToBeOutput) {
 				writer.Write(sb);
 			}
+		}
+
+		public HashSet<ulong> GetProvincesInCountry(Dictionary<string, Title> titles, Date ck3BookmarkDate) {
+			var holderId = GetHolderId(ck3BookmarkDate);
+			var heldCounties = new List<Title>(
+				titles.Values.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
+			);
+			var heldProvinces = new HashSet<ulong>();
+			// add directly held counties
+			foreach (var county in heldCounties) {
+				heldProvinces.UnionWith(county.CountyProvinces);
+			}
+			// add vassals' counties
+			foreach (var vassal in GetDeFactoVassalsAndBelow().Values) {
+				var vassalHolderId = vassal.GetHolderId(ck3BookmarkDate);
+				if (vassalHolderId == "0") {
+					Logger.Warn($"Player title {Name}'s vassal {vassal.Name} has 0 holder!");
+					continue;
+				}
+				var heldVassalCounties = new List<Title>(
+					titles.Values.Where(t => t.GetHolderId(ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
+				);
+				foreach (var vassalCounty in heldVassalCounties) {
+					heldProvinces.UnionWith(vassalCounty.CountyProvinces);
+				}
+			}
+			return heldProvinces;
 		}
 
 		public static HashSet<string> IgnoredTokens { get; } = new();

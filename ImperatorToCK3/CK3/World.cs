@@ -29,9 +29,14 @@ namespace ImperatorToCK3.CK3 {
 		public Dictionary<ulong, Province> Provinces { get; } = new();
 		private readonly LandedTitles landedTitles = new();
 		public Dictionary<string, Title> LandedTitles => landedTitles.StoredTitles;
+		public Map.MapData MapData { get; }
 
 		public World(Imperator.World impWorld, Configuration theConfiguration) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
+
+			Logger.Info("Loading map data...");
+			MapData = new Map.MapData(theConfiguration.Ck3Path);
+
 			// Scraping localizations from Imperator so we may know proper names for our countries.
 			localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
 
