@@ -15,6 +15,10 @@ namespace ImperatorToCK3.Outputter {
 				writer.WriteLine($"{indent}\tdefinite_form=yes");
 			}
 
+			if (title.Landless) {
+				writer.WriteLine($"{indent}\tlandless=yes");
+			}
+
 			if (title.Color1 is not null) {
 				writer.WriteLine($"{indent}\tcolor{title.Color1.Output()}");
 			} else {
