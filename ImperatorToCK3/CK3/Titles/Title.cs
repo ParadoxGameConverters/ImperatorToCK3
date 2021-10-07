@@ -3,17 +3,18 @@ using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
+using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using ImperatorToCK3.Mappers.Religion;
-using ImperatorToCK3.Mappers.Culture;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Titles {
@@ -57,6 +58,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			Governorship governorship,
 			Country country,
 			Dictionary<ulong, Character> imperatorCharacters,
+			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -71,10 +73,10 @@ namespace ImperatorToCK3.CK3.Titles {
 				governorship,
 				country,
 				imperatorCharacters,
+				regionHasMultipleGovernorships,
 				localizationMapper,
 				landedTitles,
 				provinceMapper,
-				coaMapper,
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
@@ -103,15 +105,15 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			PlayerCountry = ImperatorCountry.PlayerCountry;
 
+			ClearHolderSpecificHistory();
+
 			// ------------------ determine previous and current holders
-			history.InternalHistory.SimpleFields.Remove("holder");
-			history.InternalHistory.SimpleFields.Remove("government");
 			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
 			var firstPossibleDate = new Date(0, 1, 1);
 
 			foreach (var (name, number) in ImperatorCountry.HistoricalRegnalNumbers) {
 				Logger.Debug($"REGNAL {name} { number}");
-				for (int i=1; i<=number; ++i) {
+				for (int i = 1; i <= number; ++i) {
 					// create a new shell of a character
 					var character = new Characters.Character(
 						ImperatorCountry,
@@ -253,10 +255,10 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void InitializeFromGovernorship(Governorship governorship,
 			Country country,
 			Dictionary<ulong, Character> imperatorCharacters,
+			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
-			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper
 		) {
@@ -275,11 +277,14 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			var impGovernor = imperatorCharacters[governorship.CharacterID];
 			var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
+
+			ClearHolderSpecificHistory();
+
 			// ------------------ determine holder
 			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.ID}", normalizedStartDate);
 
 			// ------------------ determine government
-			var ck3LiegeGov = country.CK3Title.GetGovernment(governorship.StartDate);
+			var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
 			if (ck3LiegeGov is not null) {
 				history.InternalHistory.AddSimpleFieldValue("government", ck3LiegeGov, normalizedStartDate);
 			}
@@ -313,35 +318,57 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 
-			// ------------------ Country Name Locs
-			var nameSet = false;
-			LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
-			country.CK3Title.Localizations.TryGetValue(country.CK3Title.Name + "_adj", out var countryAdjectiveLocBlock);
-			if (regionLocBlock is not null && countryAdjectiveLocBlock is not null) {
-				var nameLocBlock = new LocBlock(regionLocBlock);
-				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-					(ref string orig, string adj) => orig = $"{adj} {orig}"
-				);
-				Localizations[Name] = nameLocBlock;
-				nameSet = true;
-			}
-			if (!nameSet && regionLocBlock is not null) {
-				Localizations[Name] = new LocBlock(regionLocBlock);
-				nameSet = true;
-			}
-			if (!nameSet) {
-				Logger.Warn($"{Name} needs help with localization!");
-			}
+			TrySetNameFromGovernorship(governorship, country, regionHasMultipleGovernorships, localizationMapper);
+			TrySetAdjectiveFromGovernorship(country);
+		}
 
-			// --------------- Adjective Locs
-			var adjSet = false;
-			if (countryAdjectiveLocBlock is not null) {
-				var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
-				Localizations.Add(Name + "_adj", adjLocBlock);
-				adjSet = true;
+		private void TrySetAdjectiveFromGovernorship(Country country) {
+			var adjKey = Name + "_adj";
+			if (!Localizations.ContainsKey(adjKey)) {
+				var adjSet = false;
+				var ck3Country = country.CK3Title;
+				if (ck3Country is null) {
+					return;
+				}
+				if (ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
+					var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
+					Localizations.Add(adjKey, adjLocBlock);
+					adjSet = true;
+				}
+				if (!adjSet) {
+					Logger.Warn($"{Name} needs help with adjective localization!");
+				}
 			}
-			if (!adjSet) {
-				Logger.Warn($"{Name} needs help with adjective localization!");
+		}
+
+		private void TrySetNameFromGovernorship(
+			Governorship governorship,
+			Country country,
+			bool regionHasMultipleGovernorships,
+			LocalizationMapper localizationMapper
+		) {
+			if (!Localizations.ContainsKey(Name)) {
+				var nameSet = false;
+				LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
+
+				if (regionHasMultipleGovernorships && regionLocBlock is not null) {
+					var ck3Country = country.CK3Title;
+					if (ck3Country is not null && ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
+						var nameLocBlock = new LocBlock(regionLocBlock);
+						nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
+							(ref string orig, string adj) => orig = $"{adj} {orig}"
+						);
+						Localizations[Name] = nameLocBlock;
+						nameSet = true;
+					}
+				}
+				if (!nameSet && regionLocBlock is not null) {
+					Localizations[Name] = new LocBlock(regionLocBlock);
+					nameSet = true;
+				}
+				if (!nameSet) {
+					Logger.Warn($"{Name} needs help with localization!");
+				}
 			}
 		}
 
@@ -697,6 +724,33 @@ namespace ImperatorToCK3.CK3.Titles {
 			if (needsToBeOutput) {
 				writer.Write(sb);
 			}
+		}
+
+		public HashSet<ulong> GetProvincesInCountry(Dictionary<string, Title> titles, Date ck3BookmarkDate) {
+			var holderId = GetHolderId(ck3BookmarkDate);
+			var heldCounties = new List<Title>(
+				titles.Values.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
+			);
+			var heldProvinces = new HashSet<ulong>();
+			// add directly held counties
+			foreach (var county in heldCounties) {
+				heldProvinces.UnionWith(county.CountyProvinces);
+			}
+			// add vassals' counties
+			foreach (var vassal in GetDeFactoVassalsAndBelow().Values) {
+				var vassalHolderId = vassal.GetHolderId(ck3BookmarkDate);
+				if (vassalHolderId == "0") {
+					Logger.Warn($"Player title {Name}'s vassal {vassal.Name} has 0 holder!");
+					continue;
+				}
+				var heldVassalCounties = new List<Title>(
+					titles.Values.Where(t => t.GetHolderId(ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
+				);
+				foreach (var vassalCounty in heldVassalCounties) {
+					heldProvinces.UnionWith(vassalCounty.CountyProvinces);
+				}
+			}
+			return heldProvinces;
 		}
 
 		public static HashSet<string> IgnoredTokens { get; } = new();

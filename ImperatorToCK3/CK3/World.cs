@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
-using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -18,9 +17,10 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
-using commonItems;
-using ImperatorToCK3.Imperator.Countries;
-using ImperatorToCK3.Imperator.Jobs;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
@@ -29,9 +29,14 @@ namespace ImperatorToCK3.CK3 {
 		public Dictionary<ulong, Province> Provinces { get; } = new();
 		private readonly LandedTitles landedTitles = new();
 		public Dictionary<string, Title> LandedTitles => landedTitles.StoredTitles;
+		public Map.MapData MapData { get; }
 
 		public World(Imperator.World impWorld, Configuration theConfiguration) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
+
+			Logger.Info("Loading map data...");
+			MapData = new Map.MapData(theConfiguration.Ck3Path);
+
 			// Scraping localizations from Imperator so we may know proper names for our countries.
 			localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
 
@@ -187,11 +192,19 @@ namespace ImperatorToCK3.CK3 {
 			var imperatorCountries = impWorld.Countries.StoredCountries;
 			var imperatorCharacters = impWorld.Characters.StoredCharacters;
 
+			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
+				.ToDictionary(g => g.Key, g => g.Count());
+
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator governorships.
 			var counter = 0;
 			foreach (var governorship in governorships) {
-				ImportImperatorGovernorship(governorship, imperatorCountries, imperatorCharacters);
+				ImportImperatorGovernorship(
+					governorship,
+					imperatorCountries,
+					imperatorCharacters,
+					governorshipsPerRegion[governorship.RegionName] > 1
+				);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} governorships from I:R.");
@@ -199,7 +212,8 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
 			Dictionary<ulong, Country> imperatorCountries,
-			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters
+			Dictionary<ulong, Imperator.Characters.Character> imperatorCharacters,
+			bool regionHasMultipleGovernorships
 		) {
 			var country = imperatorCountries[governorship.CountryID];
 			// Create a new title or update existing title
@@ -210,10 +224,10 @@ namespace ImperatorToCK3.CK3 {
 					governorship,
 					country,
 					imperatorCharacters,
+					regionHasMultipleGovernorships,
 					localizationMapper,
 					landedTitles,
 					provinceMapper,
-					coaMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
 				);
@@ -222,6 +236,7 @@ namespace ImperatorToCK3.CK3 {
 					governorship,
 					country,
 					imperatorCharacters,
+					regionHasMultipleGovernorships,
 					localizationMapper,
 					landedTitles,
 					provinceMapper,
@@ -446,7 +461,7 @@ namespace ImperatorToCK3.CK3 {
 							Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
 							continue;
 						}
-						GiveCountryToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
+						GiveCountyToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
 						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 					}
@@ -464,12 +479,13 @@ namespace ImperatorToCK3.CK3 {
 				title.DeFactoLiege = null;
 			}
 
-			void GiveCountryToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
+			void GiveCountyToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
 				var ck3Governorship = LandedTitles[ck3GovernorshipName];
 				var holderId = ck3Governorship.GetHolderId(ck3BookmarkDate);
 				if (Characters.TryGetValue(holderId, out var governor)) {
 					title.ClearHolderSpecificHistory();
-					title.SetHolderId(governor.ID, ck3Governorship.GetDateOfLastHolderChange());
+					var date = ck3Governorship.GetDateOfLastHolderChange();
+					title.SetHolderId(governor.ID, date);
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
 				}
