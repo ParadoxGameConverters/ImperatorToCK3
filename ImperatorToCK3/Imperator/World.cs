@@ -191,6 +191,11 @@ namespace ImperatorToCK3.Imperator {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(filePath);
 
+			foreach(var country in Countries.StoredCountries.Values) {
+				country.RulerTerms = country.RulerTerms.OrderBy(t => t.StartDate).ToList();
+			}
+
+			// verify with data from historical_regnal_numbers
 			var regnalNameCounts = new Dictionary<ulong, Dictionary<string, int>>(); // <country id, <name, count>>
 			foreach (var countryId in Countries.StoredCountries.Keys) {
 				if (!preImperatorRulerTerms.ContainsKey(countryId)) {
@@ -217,7 +222,6 @@ namespace ImperatorToCK3.Imperator {
 					}
 				}
 			}
-			// verify with data from historical_regnal_numbers
 			foreach (var country in Countries.StoredCountries.Values) {
 				bool equal;
 				if (!regnalNameCounts.ContainsKey(country.ID)) {

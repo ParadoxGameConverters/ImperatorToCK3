@@ -501,7 +501,7 @@ namespace ImperatorToCK3.CK3 {
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
 			foreach (var (name, title) in LandedTitles) {
-				// important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
+				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 				// this also removes landless titles initialized from Imperator
 				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
 					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
