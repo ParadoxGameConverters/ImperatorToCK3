@@ -1,15 +1,15 @@
-﻿using System;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.Mappers.Religion;
-using Xunit;
 using ImperatorToCK3.Mappers.Culture;
-using ImperatorToCK3.Mappers.Trait;
-using ImperatorToCK3.Mappers.Nickname;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.IO;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
@@ -133,7 +133,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			character.BreakAllLinks();
 			Assert.Contains("[WARN] Spouse spouseId of imperator0 is null!", output.ToString());
 		}
-		[Fact] public void BreakAllLinksWarnsWhenChildIsNull() {
+		[Fact]
+		public void BreakAllLinksWarnsWhenChildIsNull() {
 			var output = new StringWriter();
 			Console.SetOut(output);
 
