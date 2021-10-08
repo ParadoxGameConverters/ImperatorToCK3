@@ -30,9 +30,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
-			private ReligionMapper religionMapper = new();
-			private CultureMapper cultureMapper = new();
-			private Dictionary<string, Character> charactersDict = new();
+			private readonly ReligionMapper religionMapper = new();
+			private readonly CultureMapper cultureMapper = new();
+			private readonly Dictionary<string, Character> charactersDict = new();
 
 			public Title BuildFromTag() {
 				return new Title(
