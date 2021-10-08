@@ -188,6 +188,7 @@ namespace ImperatorToCK3.Imperator {
 					preImperatorRulerTerms[countryId] = new() { rulerTerm };
 				}
 			});
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(filePath);
 
 			var regnalNameCounts = new Dictionary<ulong, Dictionary<string, int>>(); // <country id, <name, count>>
@@ -209,8 +210,8 @@ namespace ImperatorToCK3.Imperator {
 						Logger.Warn("Pre-Imperator ruler has no country name!");
 						continue;
 					}
-					if (countryRulerTerms.TryGetValue(name, out var count)) {
-						++count;
+					if (countryRulerTerms.ContainsKey(name)) {
+						++countryRulerTerms[name];
 					} else {
 						countryRulerTerms[name] = 1;
 					}
