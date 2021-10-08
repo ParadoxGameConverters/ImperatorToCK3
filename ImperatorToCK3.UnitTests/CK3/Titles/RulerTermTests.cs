@@ -41,7 +41,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void PreImperatorTermIsCorrectlyConverted() {
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
-			var countryReader = new BufferedReader("= { tag = SPA }");
+			var countryReader = new BufferedReader("= { tag = SPA capital=420 }");
 			var sparta = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
 			countries.StoredCountries.Add(sparta.ID, sparta);
 
@@ -54,13 +54,18 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
+			var religionMapper = new ReligionMapper(new BufferedReader("link={imp=hellenic ck3=hellenic}"));
+			religionMapper.LoadRegionMappers(
+				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
+				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
+			);
 			var ck3CharactersDict = new Dictionary<string, Character>();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
 				ck3CharactersDict,
 				govMapper,
 				new LocalizationMapper(),
-				new ReligionMapper(),
-				new CultureMapper(),
+				religionMapper,
+				new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }")),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 				new ProvinceMapper()
 			);
@@ -75,6 +80,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal(new Date(0, 1, 30), ck3Character.DeathDate); // BC dates are not supported by CK3
 			Assert.Equal("Alexander", ck3Character.Name);
 			Assert.Equal("dull", ck3Character.Nickname);
+			Assert.Equal("greek", ck3Character.Culture);
+			Assert.Equal("hellenic", ck3Character.Religion);
 		}
 	}
 }

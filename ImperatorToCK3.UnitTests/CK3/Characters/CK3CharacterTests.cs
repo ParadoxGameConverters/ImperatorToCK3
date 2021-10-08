@@ -173,7 +173,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				"link = { imp=macedonian ck3=greek }"
 			);
 			var cultureMapper = new CultureMapper(mapReader);
-			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+			cultureMapper.LoadRegionMappers(
+				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
+				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
+			);
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
