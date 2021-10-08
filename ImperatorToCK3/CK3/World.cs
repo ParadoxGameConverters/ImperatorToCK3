@@ -561,7 +561,6 @@ namespace ImperatorToCK3.CK3 {
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
-					Logger.Debug("LINKSPOUSES SKIPPING " + ck3Character.ID); // TODO: REMOVE DEBUG
 					continue;
 				}
 				foreach (var impSpouseCharacter in ck3Character.ImperatorCharacter.Spouses.Values) {
@@ -583,7 +582,6 @@ namespace ImperatorToCK3.CK3 {
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
-					Logger.Debug("LinkMothersAndFathers SKIPPING " + ck3Character.ID); // TODO: REMOVE DEBUG
 					continue;
 				}
 				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother.Value;

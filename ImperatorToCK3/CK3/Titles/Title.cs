@@ -110,34 +110,17 @@ namespace ImperatorToCK3.CK3.Titles {
 			// ------------------ determine previous and current holders
 			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
 			var firstPossibleDate = new Date(0, 1, 1);
-
-			foreach (var (name, number) in ImperatorCountry.HistoricalRegnalNumbers) {
-				Logger.Debug($"REGNAL {name} { number}");
-				for (int i = 1; i <= number; ++i) {
-					// create a new shell of a character
-					var character = new Characters.Character(
-						ImperatorCountry,
-						name,
-						i,
-						localizationMapper,
-						religionMapper,
-						cultureMapper,
-						provinceMapper
-					);
-					charactersDict.Add(character.ID, character);
-					Logger.Debug($"ADDED {character.ID} to characters dict!"); // TODO: REMOVE DEBUG
-
-					var startDate = new Date(character.BirthDate);
-					if (startDate < firstPossibleDate) {
-						startDate = new Date(firstPossibleDate); // TODO: remove this workaround if CK3 supports negative dates
-						firstPossibleDate.ChangeByDays(1);
-					}
-					history.InternalHistory.AddSimpleFieldValue("holder", character.ID, startDate);
-				}
-
-			}
 			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
-				var rulerTerm = new RulerTerm(impRulerTerm, governmentMapper);
+				var rulerTerm = new RulerTerm(
+					impRulerTerm,
+					charactersDict,
+					governmentMapper,
+					localizationMapper,
+					religionMapper,
+					cultureMapper,
+					provinceMapper
+				);
+
 				var characterId = rulerTerm.CharacterId;
 				var gov = rulerTerm.Government;
 

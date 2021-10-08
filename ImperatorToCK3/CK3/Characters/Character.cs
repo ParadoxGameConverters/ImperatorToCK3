@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using commonItems;
-using ImperatorToCK3.Mappers.Localization;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character {
@@ -44,16 +44,16 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Character() { }
 		public Character(
+			Imperator.Countries.RulerTerm.PreImperatorRulerInfo preImperatorRuler,
+			Date rulerTermStart,
 			Imperator.Countries.Country imperatorCountry,
-			string regnalName,
-			int regnalNumber,
 			LocalizationMapper localizationMapper,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			ProvinceMapper provinceMapper
 		) {
-			ID = $"imperatorRegnal{imperatorCountry.Name}_{regnalName}{regnalNumber}";
-			Name = regnalName;
+			ID = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			Name = preImperatorRuler.Name ?? ID;
 			if (!string.IsNullOrEmpty(Name)) {
 				var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
 				if (impNameLoc is not null) {
@@ -71,9 +71,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			BirthDate = new Date(0, 1, 1);
-			BirthDate.ChangeByDays(regnalNumber - 1);
-			DeathDate = new Date(0, 1, 2);
-			DeathDate.ChangeByDays(regnalNumber - 1);
+			DeathDate = new Date(0, 1, 30);
 
 			// determine culture and religion
 			ulong ck3Province = 0;
@@ -84,20 +82,22 @@ namespace ImperatorToCK3.CK3.Characters {
 					ck3Province = ck3Provinces[0];
 				}
 
-				if (imperatorCountry.Religion is not null) {
-					var religionMatch = religionMapper.Match(imperatorCountry.Religion, ck3Province, impProvince);
+				var srcReligion = preImperatorRuler.Religion ?? imperatorCountry.Religion;
+				if (srcReligion is not null) {
+					var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince);
 					if (religionMatch is not null) {
 						Religion = religionMatch;
 					}
 				}
 
-				if (imperatorCountry.PrimaryCulture is not null && imperatorCountry.CK3Title is not null) {
-					var cultureMatch = cultureMapper.Match(imperatorCountry.PrimaryCulture, Religion, ck3Province, impProvince, imperatorCountry.CK3Title.Name);
+				var srcCulture = preImperatorRuler.Culture ?? imperatorCountry.PrimaryCulture;
+				if (srcCulture is not null && imperatorCountry.CK3Title is not null) {
+					var cultureMatch = cultureMapper.Match(srcCulture, Religion, ck3Province, impProvince, imperatorCountry.CK3Title.Name);
+					if (cultureMatch is not null) {
+						Culture = cultureMatch;
+					}
 				}
-
-
 			}
-			
 		}
 
 		public void InitializeFromImperator(

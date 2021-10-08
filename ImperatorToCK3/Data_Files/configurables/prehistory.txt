@@ -18,28 +18,13 @@ throne_date = 320.1.1 religion = roman_pantheon culture = macedonian
 country = MAC }
 
 # Alexander I
-ruler = { name = "Alexander" birth_date = 330.1.1 death_date = 340.1.1
+ruler = { name = "Alexandros" birth_date = 330.1.1 death_date = 340.1.1
 throne_date = 330.1.1 religion = roman_pantheon culture = macedonian
 country = MAC }
 
 # Alexander II
-ruler = { name = "Alexander" birth_date = 363.1.1 death_date = 386.1.1
+ruler = { name = "Alexandros" birth_date = 363.1.1 death_date = 386.1.1
 throne_date = 384.1.1 religion = roman_pantheon culture = macedonian
-country = MAC }
-
-# Philip II
-ruler = { name = "Philippos" birth_date = 372.1.1 death_date = 418.10.1
-throne_date = 394.1.1 religion = roman_pantheon culture = macedonian
-country = MAC }
-
-# Alexander III
-ruler = { name = "Alexander" birth_date = 398.7.1 death_date = 431.6.1
-throne_date = 418.10.1 religion = roman_pantheon culture = macedonian
-nickname="NICKNAME_THE_GREAT" country = MAC }
-
-# Alexander IV
-ruler = { name = "Alexander" birth_date = 431.8.1 death_date = 445.8.1
-throne_date = 431.6.1 religion = roman_pantheon culture = macedonian
 country = MAC }
 
 
@@ -80,6 +65,19 @@ ruler = { name = "Alketas" birth_date = 388.1.1 death_date = 448.12.15
 throne_date = 441.7.24 religion = roman_pantheon culture = epirote
 country = EPI }
 
+
+##Syracuse
+## https://en.wikipedia.org/wiki/List_of_tyrants_of_Syracuse
+# Gelon I
+ruler = { name = "Gelon" birth_date=220.1.1 death_date=276.1.1 throne_date=269.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Dionysius the Elder
+ruler = { name = "Dionysios" birth_date=322.1.1 death_date=387.1.1 throne_date=349.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Dionysius the Younger
+ruler = { name = "Dionysios" birth_date=357.1.1 death_date=411.1.1 throne_date=387.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Dion
+ruler = { name = "Dion" birth_date=346.1.1 death_date=400.1.1 throne_date=397.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Timoleon
+ruler = { name = "Timoleon" birth_date=343.1.1 death_date=417.1.1 throne_date=409.1.1 religion=roman_pantheon culture=achaean country=SYR }
 
 ## Kingdom of Judah/Samaria
 # King David, who doesn't know him?

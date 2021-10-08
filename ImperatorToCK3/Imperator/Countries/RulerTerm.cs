@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class RulerTerm {
-		internal class PreImperatorRulerInfo {
+		public class PreImperatorRulerInfo {
 			public string? Name { get; set; }
 			public Date? BirthDate { get; set; }
 			public Date? DeathDate { get; set; }
 			public string? Religion { get; set; }
 			public string? Culture { get; set; }
 			public string? Nickname { get; set; }
-			public ulong? CountryId { get; set; }
+			public Country? Country { get; set; }
 		}
 		public ulong? CharacterId { get; private set; }
 		public Date StartDate { get; private set; } = new();
@@ -76,8 +76,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 			});
 			prehistoryParser.RegisterKeyword("country", reader => {
 				var tag = ParserHelpers.GetString(reader);
-				if (tagToCountryIdCache.TryGetValue(tag, out var id)) {
-					PreImperatorRuler.CountryId = id;
+				if (tagToCountryCache.TryGetValue(tag, out var cachedCountry)) {
+					PreImperatorRuler.Country = cachedCountry;
 				} else {
 					var matchingCountries = countries.StoredCountries.Values.Where(c => c.Tag == tag);
 					if (matchingCountries.Count() != 1) {
@@ -85,13 +85,13 @@ namespace ImperatorToCK3.Imperator.Countries {
 						return;
 					}
 					var countryId = matchingCountries.First().ID;
-					PreImperatorRuler.CountryId = countryId;
-					tagToCountryIdCache.Add(tag, countryId);
+					PreImperatorRuler.Country = countries.StoredCountries[countryId];
+					tagToCountryCache.Add(tag, PreImperatorRuler.Country);
 				}
 			});
 
 			prehistoryParser.ParseStream(prehistoryRulerReader);
 		}
-		private static readonly Dictionary<string, ulong> tagToCountryIdCache = new();
+		private static readonly Dictionary<string, Country> tagToCountryCache = new();
 	}
 }

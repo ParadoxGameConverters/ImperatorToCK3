@@ -167,6 +167,7 @@ namespace ImperatorToCK3.Imperator {
 			const string filePath = "configurables/prehistory.txt";
 			const string noRulerWarning = "Pre-Imperator ruler term has no pre-Imperator ruler!";
 			const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
+
 			var preImperatorRulerTerms = new Dictionary<ulong, List<Countries.RulerTerm>>(); // <country id, list of terms>
 			var parser = new Parser();
 			parser.RegisterKeyword("ruler", reader => {
@@ -175,11 +176,12 @@ namespace ImperatorToCK3.Imperator {
 					Logger.Warn(noRulerWarning);
 					return;
 				}
-				if (rulerTerm.PreImperatorRuler.CountryId is null) {
+				if (rulerTerm.PreImperatorRuler.Country is null) {
 					Logger.Warn(noCountryIdWarning);
 					return;
 				}
-				var countryId = (ulong)rulerTerm.PreImperatorRuler.CountryId;
+				var countryId = rulerTerm.PreImperatorRuler.Country.ID;
+				Countries.StoredCountries[countryId].RulerTerms.Add(rulerTerm);
 				if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
 					list.Add(rulerTerm);
 				} else {
@@ -226,7 +228,7 @@ namespace ImperatorToCK3.Imperator {
 				}
 
 				if (!equal) {
-					Logger.Warn($"List of pre-Imperator rulers of {country.Tag} doesn't match data from save!");
+					Logger.Debug($"List of pre-Imperator rulers of {country.Tag} doesn't match data from save!");
 				}
 			}
 		}
