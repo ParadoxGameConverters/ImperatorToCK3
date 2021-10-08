@@ -8,6 +8,7 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
 using Xunit;
+using ImperatorToCK3.Mappers.Nickname;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
@@ -29,6 +30,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				new LocalizationMapper(),
 				new ReligionMapper(),
 				new CultureMapper(),
+				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 				new ProvinceMapper()
 			);
 			Assert.Equal("imperator69", ck3RulerTerm.CharacterId);
@@ -45,19 +47,21 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			var preImpTermReader = new BufferedReader("= { name=\"Alexander\"" +
 				" birth_date=200.1.1 death_date=300.1.1 throne_date=250.1.1" +
-				" nickname=THE_BOLD religion=hellenic culture=spartan" +
+				" nickname=stupid religion=hellenic culture=spartan" +
 				" country=SPA }"
 			);
 			var impRulerTerm = new ImperatorToCK3.Imperator.Countries.RulerTerm(preImpTermReader, countries);
 
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
+			var ck3CharactersDict = new Dictionary<string, Character>();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
-				new Dictionary<string, Character>(),
+				ck3CharactersDict,
 				govMapper,
 				new LocalizationMapper(),
 				new ReligionMapper(),
 				new CultureMapper(),
+				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 				new ProvinceMapper()
 			);
 			Assert.Equal("imperatorRegnalSPAAlexander504.1.1BC", ck3RulerTerm.CharacterId);
@@ -65,6 +69,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var ruler = ck3RulerTerm.PreImperatorRuler;
 			Assert.NotNull(ruler);
 			Assert.Equal("Alexander", ruler.Name);
+
+			var ck3Character = ck3CharactersDict["imperatorRegnalSPAAlexander504.1.1BC"];
+			Assert.Equal(new Date(0, 1, 1), ck3Character.BirthDate); // BC dates are not supported by CK3
+			Assert.Equal(new Date(0, 1, 30), ck3Character.DeathDate); // BC dates are not supported by CK3
+			Assert.Equal("Alexander", ck3Character.Name);
+			Assert.Equal("dull", ck3Character.Nickname);
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			LocalizationMapper localizationMapper,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
 			ProvinceMapper provinceMapper
 		) {
 			if (imperatorRulerTerm.CharacterId is not null) {
@@ -40,6 +42,7 @@ namespace ImperatorToCK3.CK3.Titles {
 					localizationMapper,
 					religionMapper,
 					cultureMapper,
+					nicknameMapper,
 					provinceMapper
 				);
 				charactersDict.Add(character.ID, character);

@@ -6,6 +6,7 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
@@ -38,6 +39,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
 			Dictionary<string, Characters.Character> charactersDict
 		) {
 			Name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
@@ -51,6 +53,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				definiteFormMapper,
 				religionMapper,
 				cultureMapper,
+				nicknameMapper,
 				charactersDict
 			);
 		}
@@ -93,6 +96,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
 			Dictionary<string, Characters.Character> charactersDict
 		) {
 			IsImportedOrUpdatedFromImperator = true;
@@ -118,6 +122,7 @@ namespace ImperatorToCK3.CK3.Titles {
 					localizationMapper,
 					religionMapper,
 					cultureMapper,
+					nicknameMapper,
 					provinceMapper
 				);
 

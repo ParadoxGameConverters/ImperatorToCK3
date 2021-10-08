@@ -50,6 +50,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			LocalizationMapper localizationMapper,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
 			ProvinceMapper provinceMapper
 		) {
 			ID = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
@@ -98,6 +99,8 @@ namespace ImperatorToCK3.CK3.Characters {
 					}
 				}
 			}
+
+			Nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
 		}
 
 		public void InitializeFromImperator(

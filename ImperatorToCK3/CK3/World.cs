@@ -163,6 +163,7 @@ namespace ImperatorToCK3.CK3 {
 					definiteFormMapper,
 					religionMapper,
 					cultureMapper,
+					nicknameMapper,
 					Characters
 				);
 			} else {
@@ -179,6 +180,7 @@ namespace ImperatorToCK3.CK3 {
 					definiteFormMapper,
 					religionMapper,
 					cultureMapper,
+					nicknameMapper,
 					Characters
 				);
 				landedTitles.InsertTitle(newTitle);
