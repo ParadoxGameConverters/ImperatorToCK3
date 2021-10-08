@@ -6,9 +6,13 @@ using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
-	[Collection("Sequential")]
-	[CollectionDefinition("Sequential", DisableParallelization = true)]
+	[Collection("RulerTermTests")]
+	[CollectionDefinition("RulerTermTests", DisableParallelization = true)]
 	public class RulerTermTests {
+		private static readonly StringWriter consoleOutput = new();
+		static RulerTermTests() {
+			Console.SetOut(consoleOutput);
+		}
 		[Fact]
 		public void IgnoredTokensAreStored() {
 			var reader1 = new BufferedReader(
@@ -59,17 +63,14 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 
 		[Fact]
 		public void WrongTagIsLoggedForPreImperatorRulers() {
-			var output = new StringWriter();
-			Console.SetOut(output);
-
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
 			Assert.Empty(countries.StoredCountries);
 
 			var preImpTermReader = new BufferedReader(
-				"= { name=\"Alexander\" throne_date=250.1.1 country=SPA }"
+				"= { name=\"Alexander\" throne_date=250.1.1 country=WER }"
 			);
 			_ = new RulerTerm(preImpTermReader, countries);
-			Assert.Contains("[WARN] Pre-Imperator ruler has wrong tag: SPA!", output.ToString());
+			Assert.Contains("[WARN] Pre-Imperator ruler has wrong tag: WER!", consoleOutput.ToString());
 		}
 	}
 }
