@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using commonItems;
-using ImperatorToCK3.Mappers.Localization;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character {
@@ -172,16 +172,28 @@ namespace ImperatorToCK3.CK3.Characters {
 			RemoveMother();
 			Father?.RemoveChild(ID);
 			RemoveFather();
-			foreach (var spouse in Spouses.Values) {
+			foreach (var (spouseId, spouse) in Spouses) {
+				if (spouse is null) {
+					Logger.Warn($"Spouse {spouseId} of {ID} is null!");
+					continue;
+				}
 				spouse.RemoveSpouse(ID);
 			}
 			Spouses.Clear();
 			if (Female) {
-				foreach (var child in Children.Values) {
+				foreach (var (childId, child) in Children) {
+					if (child is null) {
+						Logger.Warn($"Child {childId} of {ID} is null!");
+						continue;
+					}
 					child.RemoveMother();
 				}
 			} else {
-				foreach (var child in Children.Values) {
+				foreach (var (childId, child) in Children) {
+					if (child is null) {
+						Logger.Warn($"Child {childId} of {ID} is null!");
+						continue;
+					}
 					child.RemoveFather();
 				}
 			}
