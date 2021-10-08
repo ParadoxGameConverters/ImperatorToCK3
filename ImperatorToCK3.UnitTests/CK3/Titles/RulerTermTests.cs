@@ -1,13 +1,13 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
 using Xunit;
-using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.Religion;
-using ImperatorToCK3.Mappers.Culture;
-using ImperatorToCK3.Mappers.Province;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
@@ -36,7 +36,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal("feudal_government", ck3RulerTerm.Government);
 		}
 
-		[Fact] public void PreImperatorTermIsCorrectlyConverted() {
+		[Fact]
+		public void PreImperatorTermIsCorrectlyConverted() {
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
 			var countryReader = new BufferedReader("= { tag = SPA }");
 			var sparta = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
@@ -60,7 +61,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				new ProvinceMapper()
 			);
 			Assert.Equal("imperatorRegnalSPAAlexander504.1.1BC", ck3RulerTerm.CharacterId);
-			Assert.Equal(new Date(250,1,1, AUC: true), ck3RulerTerm.StartDate);
+			Assert.Equal(new Date(250, 1, 1, AUC: true), ck3RulerTerm.StartDate);
 			var ruler = ck3RulerTerm.PreImperatorRuler;
 			Assert.NotNull(ruler);
 			Assert.Equal("Alexander", ruler.Name);

@@ -6,6 +6,8 @@ using System.IO;
 using System;
 
 namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class SuccessionLawMapperTests {
 		[Fact]
 		public void NonMatchGivesEmptySet() {

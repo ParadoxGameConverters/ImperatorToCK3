@@ -16,7 +16,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public ulong? CharacterId { get; private set; }
 		public Date StartDate { get; private set; } = new();
 		public string? Government { get; private set; }
-		internal PreImperatorRulerInfo? PreImperatorRuler { get; set; }
+		public PreImperatorRulerInfo? PreImperatorRuler { get; set; }
 
 		public static RulerTerm Parse(BufferedReader reader) {
 			parsedTerm = new RulerTerm();
