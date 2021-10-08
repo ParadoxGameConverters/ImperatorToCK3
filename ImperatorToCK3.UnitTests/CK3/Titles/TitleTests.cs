@@ -6,6 +6,7 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
@@ -32,6 +33,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			private readonly ReligionMapper religionMapper = new();
 			private readonly CultureMapper cultureMapper = new();
+			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private readonly Dictionary<string, Character> charactersDict = new();
 
 			public Title BuildFromTag() {
@@ -48,6 +50,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 					definiteFormMapper,
 					religionMapper,
 					cultureMapper,
+					nicknameMapper,
 					charactersDict
 				);
 			}
