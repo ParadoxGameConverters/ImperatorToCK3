@@ -1,4 +1,49 @@
 0.0.0 = {
+	link = { comment = "SCANDINAVIAN PENINSULA" }
+	link = { imp = 6042 ck3 = 252 } # Eunixia -> JATHARR
+	link = { imp = 6021 ck3 = 333 ck3 = 332 ck3 = 335 } # Aska -> SKAENNINGE, LIUNGA, WISINGHNO
+	link = { imp = 6020 ck3 = 310 } # Kinda -> VIMMERBY
+	link = { imp = 6018 ck3 = 313 } # Vist -> EKSJO
+	link = { imp = 6016 ck3 = 311 ck3 = 312 } # Thwetum -> HULTABY, JONKOPING
+	link = { imp = 6017 ck3 = 306 ck3 = 305 } # Vitala -> UPPVIDINGE, NORRVIDINGE
+	link = { imp = 6015 ck3 = 303 ck3 = 304 ck3 = 302 } # Warinia -> ALLBO, KINNEVALD, VAXJO
+	link = { imp = 6014 ck3 = 300 } # Finnaithae -> LIONGBY
+	link = { imp = 6013 ck3 = 8725 ck3 = 301 } # Gautigothia -> Kindaholm, WANNAMO
+	link = { imp = 6023 ck3 = 317 ck3 = 8723 } # Gothalia -> LODOSE, Lacko
+	link = { imp = 6022 ck3 = 319 ck3 = 8724 } # Hio -> FALKÖPING, Opensten
+	link = { imp = 6024 ck3 = 316 ck3 = 320 } # Rane -> SKARA, VARNHEM
+	link = { imp = 6027 ck3 = 328 } # Tivedia -> RISEBERGA
+	link = { imp = 6028 ck3 = 334 ck3 = 327 } # Arbugae -> VRETA, ORABRO
+	link = { imp = 6031 ck3 = 343 } # Arosia -> ENESCOPINGE
+	link = { imp = 6032 ck3 = 341 ck3 = 344 } # Broborg -> SIGTUNA, OSTHAMMAR
+	link = { imp = 6030 ck3 = 336 } # Birka -> TALJE
+	link = { imp = 6029 ck3 = 337 ck3 = 339 ck3 = 338 } # Rekarne -> NYKOPUNG, STRIGINES, SUNDBY
+	link = { imp = 6026 ck3 = 8733 ck3 = 340 } # Miriquidui -> Norrkoping, BIRKEVIK
+	link = { imp = 6019 ck3 = 331 ck3 = 330 ck3 = 8734 } # Vikbo -> HAMARKINDA, SUDHERKOPUNG, Grebo
+	link = { imp = 6008 ck3 = 8727 ck3 = 309 } # Theustia -> Stegeholm, HULINGSRYD
+	link = { imp = 6007 ck3 = 307 ck3 = 308 } # Meore -> KALMAR, HOGSBY
+	link = { imp = 6006 ck3 = 79 ck3 = 80 ck3 = 8726 } # Borgamo -> RONNEBY, AVASKAR, Torsas
+	link = { imp = 6005 ck3 = 87 ck3 = 78 } # Vang -> LISTER, BREGNE
+	link = { imp = 6002 ck3 = 86 } # Guthisbo -> GOINGE
+	link = { imp = 6001 ck3 = 72 } # Svimraros -> TOMMERUP
+	link = { imp = 6010 ck3 = 371 ck3 = 370 ck3 = 369 ck3 = 372 } # Vineta -> BURSS, GARNAE, WYSBU, FAROO
+	link = { imp = 6009 ck3 = 315 ck3 = 314 } # Eowia -> EKETORP, BORGHOLM
+	link = { imp = 6004 ck3 = 77 } # Burgundarholm -> RONNE
+	link = { imp = 6000 ck3 = 70 ck3 = 71 } # Uppakra -> LUND, TRELLEBORG
+	link = { imp = 6003 ck3 = 73 ck3 = 76 } # Bergio -> HELSINGBORG, LAHOLM
+	link = { imp = 6011 ck3 = 74 } # Feruiria -> HALMSTAD
+	link = { imp = 6012 ck3 = 229 ck3 = 318 ck3 = 75 } # Konghelle -> BAGAHUS, KUNGAHALLA, ONSALA
+	link = { imp = 6025 ck3 = 8770 ck3 = 321 } # Ragnaricia -> Uddevalla, DALABORG
+	link = { imp = 6034 ck3 = 230 } # Tanum -> RANIRIKI
+	link = { imp = 6036 imp = 6033 ck3 = 322 } # Rania, Vrine -> TISSELSKOG
+	link = { imp = 6035 ck3 = 231 ck3 = 285 } # Vinovilothia -> AUSTFOLD, BORGARSYSLAR
+	link = { imp = 6037 ck3 = 246 ck3 = 234 ck3 = 8768 } # Raumariki -> DRAFN, OSLOSYSLAR, Ski
+	link = { imp = 6038 ck3 = 287 ck3 = 286 } # Lingum -> SKIRINGSSAL, TUNSBERG
+	link = { imp = 6039 ck3 = 248 } # Grannia -> TELEMARK
+	link = { imp = 6040 ck3 = 249 } # Augandzia -> ARENDALL
+	link = { imp = 5381 ck3 = 290 ck3 = 250 ck3 = 292 } # Thule -> HEIANE, RAABOIGDE, ARAK
+	link = { imp = 6041 ck3 = 251 ck3 = 289 } # Aetelrugia -> LISTER, OTTRUNES
+	link = { imp = 6043 ck3 = 254 ck3 = 253 } # Arothia -> HAUGELAND, RYFYLKI
 	link = { comment = "IRELAND" }
 	link = { imp = 2196 ck3 = 26 } # Eblania Occidentalis -> LONGFORD
 	link = { imp = 2168 ck3 = 27 } # Caucia -> CAVAN
