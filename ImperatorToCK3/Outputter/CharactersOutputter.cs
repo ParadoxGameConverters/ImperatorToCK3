@@ -20,7 +20,7 @@ namespace ImperatorToCK3.Outputter {
 		private static void OutputDNA(string outputModName, Dictionary<string, Character> characters) {
 			Logger.Info("Outputting DNA...");
 			// dumping all into one file
-			var path = "output/" + outputModName + "/common/dna_data/ir_map_data.txt";
+			var path = "output/" + outputModName + "/common/dna_data/ir_dna_data.txt";
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
 			foreach(var character in characters.Values) {
