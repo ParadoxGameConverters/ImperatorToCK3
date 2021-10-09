@@ -56,7 +56,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 					if (characterGeneObjectName is not null) {
 						AccessoryGenesList.Add(new AccessoryGeneData() { geneName = geneName, geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
 					} else {
-						Logger.Warn($"\t\t\tgene template object name {geneTemplateName} for {ageSexString} could not be extracted from DNA.");
+						Logger.Warn($"\t\t\tGene template object name {geneTemplateName} for {ageSexString} could not be extracted from DNA!");
 					}
 				}
 			}
