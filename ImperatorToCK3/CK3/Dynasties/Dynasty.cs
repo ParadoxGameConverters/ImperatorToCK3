@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using ImperatorToCK3.Mappers.Localization;
+﻿using commonItems;
 using ImperatorToCK3.Imperator.Families;
-using commonItems;
+using ImperatorToCK3.Mappers.Localization;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Dynasties {
 	public class Dynasty {
@@ -20,7 +20,7 @@ namespace ImperatorToCK3.CK3.Dynasties {
 			}
 
 			foreach (var member in imperatorMembers.Values) {
-				var ck3Member = (member as Imperator.Characters.Character).CK3Character;
+				var ck3Member = (member as Imperator.Characters.Character)?.CK3Character;
 				if (ck3Member is not null) {
 					ck3Member.DynastyID = ID;
 				}
@@ -42,7 +42,7 @@ namespace ImperatorToCK3.CK3.Dynasties {
 			}
 		}
 		public string ID { get; } = string.Empty;
-		public string Name { get; private set; } = string.Empty;
+		public string Name { get; } = string.Empty;
 		public string Culture { get; private set; } = string.Empty;
 
 		public KeyValuePair<string, LocBlock> Localization { get; } = new();

@@ -239,16 +239,28 @@ namespace ImperatorToCK3.CK3.Characters {
 			RemoveMother();
 			Father?.RemoveChild(ID);
 			RemoveFather();
-			foreach (var spouse in Spouses.Values) {
+			foreach (var (spouseId, spouse) in Spouses) {
+				if (spouse is null) {
+					Logger.Warn($"Spouse {spouseId} of {ID} is null!");
+					continue;
+				}
 				spouse.RemoveSpouse(ID);
 			}
 			Spouses.Clear();
 			if (Female) {
-				foreach (var child in Children.Values) {
+				foreach (var (childId, child) in Children) {
+					if (child is null) {
+						Logger.Warn($"Child {childId} of {ID} is null!");
+						continue;
+					}
 					child.RemoveMother();
 				}
 			} else {
-				foreach (var child in Children.Values) {
+				foreach (var (childId, child) in Children) {
+					if (child is null) {
+						Logger.Warn($"Child {childId} of {ID} is null!");
+						continue;
+					}
 					child.RemoveFather();
 				}
 			}
