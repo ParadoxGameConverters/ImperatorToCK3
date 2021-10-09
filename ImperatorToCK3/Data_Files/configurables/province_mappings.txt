@@ -1,4 +1,29 @@
 0.0.0 = {
+	link = { comment = "DENMARK" }
+	link = { imp = 3873 ck3 = 57 } # Eudosia Borealis -> AARHUS
+	link = { imp = 3871 ck3 = 226 } # Eudosia Cimbrica -> DJURSLAND
+	link = { imp = 3877 ck3 = 224 } # Cimbria Australis -> RANDROS
+	link = { imp = 3878 ck3 = 81 } # Cimbria Centralis -> AALBORG
+	link = { imp = 3887 ck3 = 433 ck3 = 85 } # Herulia Orientalis -> HELSINGORA, HAFN
+	link = { imp = 3886 ck3 = 69 ck3 = 63 } # Herulia Borealis -> SLAGELSE, ROSKILDE
+	link = { imp = 3885 ck3 = 64 } # Herulia Centralis -> NAESTVED
+	link = { imp = 3884 ck3 = 68 ck3 = 67 } # Herulia Australis -> NAKSKOV, NYKOBING
+	link = { imp = 3881 ck3 = 66 } # Insula Anglorum -> SVENDBORG
+	link = { imp = 3883 ck3 = 65 } # Reudingia Minor -> ODENSE
+	link = { imp = 3882 ck3 = 228 } # Reudingia Maior -> MIDDELFART
+	link = { imp = 3872 ck3 = 222 } # Eudosia Centralis -> ORMSTRUP
+	link = { imp = 3876 ck3 = 56 } # Teutonia Centralis -> VIBORG
+	link = { imp = 3874 ck3 = 221 } # Teutonia Minor -> HOLSTEBRO
+	link = { imp = 3867 ck3 = 82 ck3 = 225 ck3 = 223 } # Sigulonia Borealis -> RINGKOBING, TARM, YCOST
+	link = { imp = 3866 ck3 = 59 ck3 = 83 } # Sigulonia Australis -> VORBASSE, VARDE
+	link = { imp = 3864 ck3 = 60 ck3 = 220 } # Avionia Maior -> RIBE, STRAND
+	link = { imp = 3863 ck3 = 84 } # Avionia Minor -> HUSUMBRO
+	link = { imp = 3862 ck3 = 62 } # Anglia Borealis -> HEDEBY
+	link = { imp = 3865 ck3 = 61 } # Cimbrica Minor -> AABENRAA
+	link = { imp = 3868 ck3 = 434 } # Cobandia Minor -> KOLDING
+	link = { imp = 3869 ck3 = 227 } # Cobandia Maior -> TAULOV
+	link = { imp = 3870 ck3 = 58 } # Eudosia Australis -> JELLING
+	link = { imp = 3879 imp = 3880 imp = 3875 ck3 = 55 } # Cimbria Borealis, Cimbria Maior, Teutonia Maior -> LINDHOLM
 	link = { comment = "SCANDINAVIAN PENINSULA" }
 	link = { imp = 6042 ck3 = 252 } # Eunixia -> JATHARR
 	link = { imp = 6021 ck3 = 333 ck3 = 332 ck3 = 335 } # Aska -> SKAENNINGE, LIUNGA, WISINGHNO
