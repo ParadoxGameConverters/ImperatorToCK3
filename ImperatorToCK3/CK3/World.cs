@@ -72,7 +72,7 @@ namespace ImperatorToCK3.CK3 {
 			ImportImperatorCharacters(
 				impWorld,
 				impWorld.EndDate,
-				theConfiguration.Ck3BookmarkDate
+				theConfiguration
 			);
 			LinkSpouses();
 			LinkMothersAndFathers();
@@ -99,11 +99,11 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Date ck3BookmarkDate) {
+		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Configuration config) {
 			Logger.Info("Importing Imperator Characters...");
 
 			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
-				ImportImperatorCharacter(character, endDate, ck3BookmarkDate);
+				ImportImperatorCharacter(character, endDate, config);
 			}
 			Logger.Info($"{Characters.Count} total characters recognized.");
 		}
@@ -111,7 +111,7 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorCharacter(
 			Imperator.Characters.Character character,
 			Date endDate,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			// Create a new CK3 character
 			var newCharacter = new Character();
@@ -124,7 +124,7 @@ namespace ImperatorToCK3.CK3 {
 				provinceMapper,
 				deathReasonMapper,
 				endDate,
-				ck3BookmarkDate
+				config
 			);
 			character.CK3Character = newCharacter;
 			Characters.Add(newCharacter.ID, newCharacter);

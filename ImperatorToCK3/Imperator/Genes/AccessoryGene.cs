@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.Linq;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Genes {
 	public class AccessoryGene : Parser {
@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 		}
 		private void RegisterKeys() {
 			RegisterKeyword("index", reader => {
-				Index = (uint)new SingleInt(reader).Int;
+				Index = (uint)ParserHelpers.GetInt(reader);
 			});
 			RegisterKeyword("inheritable", reader =>
 				Inheritable = new ParadoxBool(reader)

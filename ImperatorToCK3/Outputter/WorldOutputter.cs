@@ -97,6 +97,7 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/bookmark_portraits");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/coat_of_arms");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/coat_of_arms/coat_of_arms");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/common/dna_data");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/dynasties");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/landed_titles");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/named_colors");

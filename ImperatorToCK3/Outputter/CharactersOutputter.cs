@@ -13,6 +13,40 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var character in characters.Values) {
 				CharacterOutputter.OutputCharacter(output, character, ck3BookmarkDate);
 			}
+
+			OutputDNA(outputModName, characters);
+		}
+
+		private static void OutputDNA(string outputModName, Dictionary<string, Character> characters) {
+			Logger.Info("Outputting DNA...");
+			// dumping all into one file
+			var path = "output/" + outputModName + "/common/dna_data/ir_map_data.txt";
+			using var stream = File.OpenWrite(path);
+			using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+			foreach(var character in characters.Values) {
+				var dna = character.DNA;
+				if (dna is null) {
+					continue;
+				}
+				output.WriteLine($"{dna.Id}={{");
+				output.WriteLine("\tportrait_info={");
+				output.WriteLine("\t\tgenes={");
+
+				var hairCoords1 = dna.HairCoordinates;
+				var hairCoords2 = dna.HairCoordinates2;
+				output.WriteLine($"\t\t\thair_color={{{hairCoords1.x} {hairCoords1.y} {hairCoords2.x} {hairCoords2.y}}}");
+				var skinCoords1 = dna.SkinCoordinates;
+				var skinCoords2 = dna.SkinCoordinates2;
+				output.WriteLine($"\t\t\tskin_color={{{skinCoords1.x} {skinCoords1.y} {skinCoords2.x} {skinCoords2.y}}}");
+				var eyeCoords1 = dna.EyeCoordinates;
+				var eyeCoords2 = dna.EyeCoordinates2;
+				output.WriteLine($"\t\t\teye_color={{{eyeCoords1.x} {eyeCoords1.y} {eyeCoords2.x} {eyeCoords2.y}}}");
+
+				output.WriteLine("\t\t}");
+				output.WriteLine("\t}");
+				output.WriteLine("\tenabled=yes");
+				output.WriteLine("}");
+			}
 		}
 	}
 }

@@ -1,13 +1,16 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.Collections.Generic;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class PortraitData {
 		private readonly Genes.GenesDB genes = new();
 		public PaletteCoordinates HairColorPaletteCoordinates { get; private set; } = new();
+		public PaletteCoordinates HairColor2PaletteCoordinates { get; private set; } = new();
 		public PaletteCoordinates SkinColorPaletteCoordinates { get; private set; } = new();
+		public PaletteCoordinates SkinColor2PaletteCoordinates { get; private set; } = new();
 		public PaletteCoordinates EyeColorPaletteCoordinates { get; private set; } = new();
+		public PaletteCoordinates EyeColor2PaletteCoordinates { get; private set; } = new();
 		public List<AccessoryGeneData> AccessoryGenesList { get; private set; } = new();
 
 		public PortraitData() { }
@@ -15,21 +18,24 @@ namespace ImperatorToCK3.Imperator.Characters {
 			genes = genesDB;
 			var decodedDnaStr = Convert.FromBase64String(dnaString);
 			const int hairColorPaletteXIndex = 0;
-			const int hairColorPaletteYIndex = 1;
 			const int skinColorPaletteXIndex = 4;
-			const int skinColorPaletteYIndex = 5;
 			const int eyeColorPaletteXIndex = 8;
-			const int eyeColorPaletteYIndex = 9;
 
 			// hair
-			HairColorPaletteCoordinates.x = (uint)decodedDnaStr[hairColorPaletteXIndex] * 2;
-			HairColorPaletteCoordinates.y = (uint)decodedDnaStr[hairColorPaletteYIndex] * 2;
+			HairColorPaletteCoordinates.x = decodedDnaStr[hairColorPaletteXIndex] * 2;
+			HairColorPaletteCoordinates.y = decodedDnaStr[hairColorPaletteXIndex + 1] * 2;
+			HairColor2PaletteCoordinates.x = decodedDnaStr[hairColorPaletteXIndex + 2] * 2;
+			HairColor2PaletteCoordinates.y = decodedDnaStr[hairColorPaletteXIndex + 3] * 2;
 			// skin
-			SkinColorPaletteCoordinates.x = (uint)decodedDnaStr[skinColorPaletteXIndex] * 2;
-			SkinColorPaletteCoordinates.y = (uint)decodedDnaStr[skinColorPaletteYIndex] * 2;
+			SkinColorPaletteCoordinates.x = decodedDnaStr[skinColorPaletteXIndex] * 2;
+			SkinColorPaletteCoordinates.y = decodedDnaStr[skinColorPaletteXIndex + 1] * 2;
+			SkinColor2PaletteCoordinates.x = decodedDnaStr[skinColorPaletteXIndex + 2] * 2;
+			SkinColor2PaletteCoordinates.y = decodedDnaStr[skinColorPaletteXIndex + 3] * 2;
 			// eyes
-			EyeColorPaletteCoordinates.x = (uint)decodedDnaStr[eyeColorPaletteXIndex] * 2;
-			EyeColorPaletteCoordinates.y = (uint)decodedDnaStr[eyeColorPaletteYIndex] * 2;
+			EyeColorPaletteCoordinates.x = decodedDnaStr[eyeColorPaletteXIndex] * 2;
+			EyeColorPaletteCoordinates.y = decodedDnaStr[eyeColorPaletteXIndex + 1] * 2;
+			EyeColor2PaletteCoordinates.x = decodedDnaStr[eyeColorPaletteXIndex + 2] * 2;
+			EyeColor2PaletteCoordinates.y = decodedDnaStr[eyeColorPaletteXIndex + 3] * 2;
 
 			// accessory genes
 			const uint colorGenesBytes = 12;

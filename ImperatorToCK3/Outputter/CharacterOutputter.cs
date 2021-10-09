@@ -72,6 +72,11 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine("\t}");
 			}
 
+			// output DNA key
+			if (character.DNA is not null) {
+				output.WriteLine($"dna={character.DNA.Id}");
+			}
+
 			output.WriteLine("}");
 		}
 	}

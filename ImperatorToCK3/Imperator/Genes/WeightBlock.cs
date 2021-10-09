@@ -1,6 +1,6 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.Collections.Generic;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Genes {
 	public class WeightBlock : Parser {
@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 		}
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, absoluteWeightStr) => {
-				var newObjectName = new SingleString(reader).String;
+				var newObjectName = ParserHelpers.GetString(reader);
 				if (uint.TryParse(absoluteWeightStr, out var weight)) {
 					AddObject(newObjectName, weight);
 				} else {

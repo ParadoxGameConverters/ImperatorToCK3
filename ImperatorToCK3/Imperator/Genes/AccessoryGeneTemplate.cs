@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Genes {
 	public class AccessoryGeneTemplate : Parser {
@@ -13,7 +13,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 		}
 		private void RegisterKeys() {
 			RegisterKeyword("index", reader => {
-				Index = (uint)new SingleInt(reader).Int;
+				Index = (uint)ParserHelpers.GetInt(reader);
 			});
 			RegisterRegex("male|female|boy|girl", (reader, ageSexStr) => {
 				var stringOfItem = new StringOfItem(reader).String;

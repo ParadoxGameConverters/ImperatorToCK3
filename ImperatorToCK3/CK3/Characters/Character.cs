@@ -40,6 +40,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public SortedSet<string> Traits { get; } = new();
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
+		public DNA? DNA;
+
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
 		public Character() { }
@@ -119,7 +121,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
@@ -157,6 +159,9 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			Female = ImperatorCharacter.Female;
 			Age = ImperatorCharacter.Age;
+			if (ImperatorCharacter.PortraitData is not null) {
+				DNA = new DNA(ID, ImperatorCharacter.PortraitData, config);
+			}
 
 			ulong ck3Province;  // for religion mapper
 

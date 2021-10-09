@@ -35,7 +35,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
-					new Date(867, 1, 1)
+					new Configuration()
 				);
 				return character;
 			}
