@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Imperator.Genes {
 	public class AccessoryGenes : Parser {
 		public uint Index { get; private set; } = 0;
-		public Dictionary<string, AccessoryGene> Genes { get; private set; } = new();
+		public Dictionary<string, AccessoryGene> Genes { get; } = new();
 
 		public AccessoryGenes() { }
 		public AccessoryGenes(BufferedReader reader) {
