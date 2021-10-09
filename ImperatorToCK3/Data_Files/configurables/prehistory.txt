@@ -1,0 +1,120 @@
+# I:R rulers who died before game start
+# but are needed for the sake of regnal numbering
+
+# ruler = { name = "Name" birth_date = yy.mm.dd death_date = yy.mm.dd
+# throne_date = yy.mm.dd religion = "religion" culture = "culture"
+# nickname = "Nickname" country = TAG }
+
+# Nickname is an optional field
+
+# All the dates are in AVC!
+
+
+## Macedonia
+# (dates are screwed up until Alexander II)
+# Philip I
+ruler = { name = "Philippos" birth_date = 320.1.1 death_date = 330.1.1
+throne_date = 320.1.1 religion = roman_pantheon culture = macedonian
+country = MAC }
+
+# Alexander I
+ruler = { name = "Alexandros" birth_date = 330.1.1 death_date = 340.1.1
+throne_date = 330.1.1 religion = roman_pantheon culture = macedonian
+country = MAC }
+
+# Alexander II
+ruler = { name = "Alexandros" birth_date = 363.1.1 death_date = 386.1.1
+throne_date = 384.1.1 religion = roman_pantheon culture = macedonian
+country = MAC }
+
+
+##Epirus
+# Alcetas I
+ruler = { name = "Alketas" birth_date = 327.1.1 death_date = 384.7.2
+throne_date = 361.1.1 religion = roman_pantheon culture = epirote
+country = EPI }
+
+# Neoptolemos I
+ruler = { name = "Neoptolemos" birth_date = 353.1.1 death_date = 399.10.9
+throne_date = 384.7.2 religion = roman_pantheon culture = epirote
+country = EPI }
+
+# Arybbas
+ruler = { name = "Arybbas" birth_date = 355.1.1 death_date = 411.4.3
+throne_date = 399.10.9 religion = roman_pantheon culture = epirote
+country = EPI }
+
+# Alexander I
+ruler = { name = "Alexandros" birth_date = 383.1.1 death_date = 423.11.12
+throne_date = 411.4.3 religion = roman_pantheon culture = epirote
+country = EPI }
+
+# Aeacides
+ruler = { name = "Aiakides" birth_date = 391.1.1 death_date = 441.7.24
+throne_date = 423.11.12 religion = roman_pantheon culture = epirote
+country = EPI }
+# he technically ruled twice, but we count only the first reign here
+
+# Neoptolemus II - still alive!
+ruler = { name = "Neoptolemos" birth_date = 433.1.1 death_date = 456.1.1
+throne_date = 451.1.1 religion = roman_pantheon culture = epirote
+country = EPI }
+
+# Alcetas II
+ruler = { name = "Alketas" birth_date = 388.1.1 death_date = 448.12.15
+throne_date = 441.7.24 religion = roman_pantheon culture = epirote
+country = EPI }
+
+
+##Syracuse
+## https://en.wikipedia.org/wiki/List_of_tyrants_of_Syracuse
+# Gelon I
+ruler = { name = "Gelon" birth_date=220.1.1 death_date=276.1.1 throne_date=269.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Dionysius the Elder
+ruler = { name = "Dionysios" birth_date=322.1.1 death_date=387.1.1 throne_date=349.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Dionysius the Younger
+ruler = { name = "Dionysios" birth_date=357.1.1 death_date=411.1.1 throne_date=387.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Dion
+ruler = { name = "Dion" birth_date=346.1.1 death_date=400.1.1 throne_date=397.1.1 religion=roman_pantheon culture=syracusan country=SYR }
+# Timoleon
+ruler = { name = "Timoleon" birth_date=343.1.1 death_date=417.1.1 throne_date=409.1.1 religion=roman_pantheon culture=achaean country=SYR }
+
+## Kingdom of Judah/Samaria
+# King David, who doesn't know him?
+# Dates are extremely compressed
+
+# Saul
+ruler = { name = "Saul" birth_date = 310.1.1 death_date = 315.1.1
+throne_date = 310.1.1 religion = judaism culture = hebrew country = JUD }
+ruler = { name = "Saul" birth_date = 310.1.1 death_date = 315.1.1
+throne_date = 310.1.1 religion = judaism culture = hebrew country = SMA }
+
+# Ish-bosheth/Esbaal
+ruler = { name = "Eshbaal" birth_date = 315.1.1 death_date = 325.1.1
+throne_date = 315.1.1 religion = judaism culture = hebrew country = JUD }
+ruler = { name = "Eshbaal" birth_date = 315.1.1 death_date = 325.1.1
+throne_date = 315.1.1 religion = judaism culture = hebrew country = SMA }
+
+# David
+ruler = { name = "David" birth_date = 320.1.1 death_date = 330.1.1
+throne_date = 320.1.1 religion = judaism culture = hebrew country = JUD }
+ruler = { name = "David" birth_date = 320.1.1 death_date = 330.1.1
+throne_date = 320.1.1 religion = judaism culture = hebrew country = SMA }
+
+# Adonijah
+ruler = { name = "Adonijah" birth_date = 325.1.1 death_date = 335.1.1
+throne_date = 325.1.1 religion = judaism culture = hebrew country = JUD }
+ruler = { name = "Adonijah" birth_date = 325.1.1 death_date = 335.1.1
+throne_date = 325.1.1 religion = judaism culture = hebrew country = SMA }
+
+# Solomon
+ruler = { name = "Solomon" birth_date = 330.1.1 death_date = 340.1.1
+throne_date = 335.1.1 religion = judaism culture = hebrew country = JUD }
+ruler = { name = "Solomon" birth_date = 330.1.1 death_date = 340.1.1
+throne_date = 335.1.1 religion = judaism culture = hebrew country = SMA }
+
+# Rehoboam
+ruler = { name = "Rehoboam" birth_date = 335.1.1 death_date = 345.1.1
+throne_date = 340.1.1 religion = judaism culture = hebrew country = JUD }
+ruler = { name = "Rehoboam" birth_date = 335.1.1 death_date = 345.1.1
+throne_date = 340.1.1 religion = judaism culture = hebrew country = SMA }

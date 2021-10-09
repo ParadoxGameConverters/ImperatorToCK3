@@ -3,10 +3,13 @@ using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
+using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
@@ -33,7 +36,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			TagTitleMapper tagTitleMapper,
 			GovernmentMapper governmentMapper,
 			SuccessionLawMapper successionLawMapper,
-			DefiniteFormMapper definiteFormMapper
+			DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
+			Dictionary<string, Characters.Character> charactersDict
 		) {
 			Name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 			SetRank();
@@ -43,7 +50,11 @@ namespace ImperatorToCK3.CK3.Titles {
 				coaMapper,
 				governmentMapper,
 				successionLawMapper,
-				definiteFormMapper
+				definiteFormMapper,
+				religionMapper,
+				cultureMapper,
+				nicknameMapper,
+				charactersDict
 			);
 		}
 		public Title(
@@ -82,7 +93,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
 			SuccessionLawMapper successionLawMapper,
-			DefiniteFormMapper definiteFormMapper
+			DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
+			Dictionary<string, Characters.Character> charactersDict
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
@@ -99,9 +114,18 @@ namespace ImperatorToCK3.CK3.Titles {
 			// ------------------ determine previous and current holders
 			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
 			var firstPossibleDate = new Date(0, 1, 1);
-
 			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
-				var rulerTerm = new RulerTerm(impRulerTerm, governmentMapper);
+				var rulerTerm = new RulerTerm(
+					impRulerTerm,
+					charactersDict,
+					governmentMapper,
+					localizationMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					provinceMapper
+				);
+
 				var characterId = rulerTerm.CharacterId;
 				var gov = rulerTerm.Government;
 
@@ -751,7 +775,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void AddCountyProvince(ulong provinceID) {
 			CountyProvinces.Add(provinceID);
 		}
-		public SortedSet<ulong> CountyProvinces { get; private set; } = new();
+		public SortedSet<ulong> CountyProvinces { get; } = new();
 		public string CapitalBarony { get; private set; } = string.Empty; // used when parsing inside county to save first barony
 		public ulong CapitalBaronyProvince { get; private set; } = 0; // county barony's province; 0 is not a valid barony ID
 

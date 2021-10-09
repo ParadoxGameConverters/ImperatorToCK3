@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public partial class Country {
@@ -16,6 +17,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private static readonly Parser parser = new();
 		private static Country country = new(0);
 		public static HashSet<string> IgnoredTokens { get; private set; } = new();
+		public string? PrimaryCulture { get; private set; }
+		public string? Religion { get; private set; }
+
 		static Country() {
 			parser.RegisterKeyword("tag", reader =>
 				country.Tag = ParserHelpers.GetString(reader)
@@ -68,6 +72,19 @@ namespace ImperatorToCK3.Imperator.Countries {
 					country.Capital = capitalProvID;
 				}
 			});
+			parser.RegisterKeyword("historical_regnal_numbers", reader => {
+				country.HistoricalRegnalNumbers = new Dictionary<string, int>(
+					ParserHelpers.GetAssignments(reader).ToDictionary(
+						t => t.Key, t => int.Parse(t.Value)
+					)
+				);
+			});
+			parser.RegisterKeyword("primary_culture", reader =>
+				country.PrimaryCulture = ParserHelpers.GetString(reader)
+			);
+			parser.RegisterKeyword("religion", reader =>
+				country.Religion = ParserHelpers.GetString(reader)
+			);
 			parser.RegisterKeyword("government_key", reader => {
 				var governmentStr = ParserHelpers.GetString(reader);
 				country.Government = governmentStr;

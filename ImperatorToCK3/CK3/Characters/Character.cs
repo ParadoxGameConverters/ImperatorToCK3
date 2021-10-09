@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using commonItems;
-using ImperatorToCK3.Mappers.Localization;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character {
@@ -41,6 +41,73 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
+
+		public Character() { }
+		public Character(
+			Imperator.Countries.RulerTerm.PreImperatorRulerInfo preImperatorRuler,
+			Date rulerTermStart,
+			Imperator.Countries.Country imperatorCountry,
+			LocalizationMapper localizationMapper,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
+			ProvinceMapper provinceMapper
+		) {
+			ID = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			Name = preImperatorRuler.Name ?? ID;
+			if (!string.IsNullOrEmpty(Name)) {
+				var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
+				if (impNameLoc is not null) {
+					Localizations.Add(Name, impNameLoc);
+				} else {  // fallback: use unlocalized name as displayed name
+					Localizations.Add(Name, new LocBlock {
+						english = Name,
+						french = Name,
+						german = Name,
+						russian = Name,
+						simp_chinese = Name,
+						spanish = Name
+					});
+				}
+			}
+
+			BirthDate = new Date(0, 1, 1);
+			DeathDate = new Date(0, 1, 30);
+
+			// determine culture and religion
+			ulong ck3Province = 0;
+			ulong impProvince = 0;
+			var srcReligion = preImperatorRuler.Religion ?? imperatorCountry.Religion;
+			var srcCulture = preImperatorRuler.Culture ?? imperatorCountry.PrimaryCulture;
+			var ck3TitleNameForMappers = string.Empty;
+			if (imperatorCountry.Capital is not null) {
+				impProvince = (ulong)imperatorCountry.Capital;
+				var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(impProvince);
+				if (ck3Provinces.Count > 0) {
+					ck3Province = ck3Provinces[0];
+				}
+
+				if (imperatorCountry.CK3Title is not null) {
+					ck3TitleNameForMappers = imperatorCountry.CK3Title.Name;
+				}
+			}
+
+			if (srcReligion is not null) {
+				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince);
+				if (religionMatch is not null) {
+					Religion = religionMatch;
+				}
+			}
+
+			if (srcCulture is not null) {
+				var cultureMatch = cultureMapper.Match(srcCulture, Religion, ck3Province, impProvince, ck3TitleNameForMappers);
+				if (cultureMatch is not null) {
+					Culture = cultureMatch;
+				}
+			}
+
+			Nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
+		}
 
 		public void InitializeFromImperator(
 			Imperator.Characters.Character impCharacter,

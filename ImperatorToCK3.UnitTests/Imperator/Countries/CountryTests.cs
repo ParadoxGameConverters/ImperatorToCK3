@@ -37,9 +37,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"\tcountry_name = {\n" +
 				"\t\tname=\"WTF\"\n" +
 				"\t}\n" +
+				"\tflag=\"WTF\"" +
 				"\tcapital = 32\n" +
 				"\tcurrency_data={ manpower=1 gold=2 stability=69 tyranny=4 war_exhaustion=2 aggressive_expansion=50 political_influence=4 military_experience=1}" +
 				"\tmonarch=69" +
+				"\tprimary_culture=athenian" +
+				"\treligion=hellenic" +
 				"\tcolor = rgb { 1 2 3 }" +
 				"\tcolor2 = rgb { 4 5 6 }" +
 				"\tcolor3 = rgb { 7 8 9 }" +
@@ -49,6 +52,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal((ulong)42, country.ID);
 			Assert.Equal("WTF", country.Tag);
 			Assert.Equal("WTF", country.Name);
+			Assert.Equal("WTF", country.Flag);
 			Assert.Equal((ulong)32, country.Capital);
 			Assert.Equal(1, country.Currencies.Manpower);
 			Assert.Equal(2, country.Currencies.Gold);
@@ -59,6 +63,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal(4, country.Currencies.PoliticalInfluence);
 			Assert.Equal(1, country.Currencies.MilitaryExperience);
 			Assert.Equal((ulong)69, country.Monarch);
+			Assert.Equal("athenian", country.PrimaryCulture);
+			Assert.Equal("hellenic", country.Religion);
 			Assert.Equal(new Color(new[] { 1, 2, 3 }), country.Color1);
 			Assert.Equal(new Color(new[] { 4, 5, 6 }), country.Color2);
 			Assert.Equal(new Color(new[] { 7, 8, 9 }), country.Color3);

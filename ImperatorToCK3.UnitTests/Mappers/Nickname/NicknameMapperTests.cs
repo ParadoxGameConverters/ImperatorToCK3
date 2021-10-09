@@ -5,12 +5,20 @@ using ImperatorToCK3.Mappers.Nickname;
 namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 	public class NicknameMapperTests {
 		[Fact]
-		public void NonMatchGivesEmptyOptional() {
+		public void NonMatchGivesNull() {
 			var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
 			var mapper = new NicknameMapper(reader);
 
 			var ck3Nickname = mapper.GetCK3NicknameForImperatorNickname("nonMatchingNickname");
 			Assert.Null(ck3Nickname);
+		}
+		[Fact]
+		public void NullInNullOut() {
+			var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
+			var mapper = new NicknameMapper(reader);
+
+			var match = mapper.GetCK3NicknameForImperatorNickname(null);
+			Assert.Null(match);
 		}
 
 		[Fact]

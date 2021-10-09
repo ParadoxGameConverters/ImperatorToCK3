@@ -100,7 +100,7 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Date ck3BookmarkDate) {
-			Logger.Info("Importing Imperator Characters.");
+			Logger.Info("Importing Imperator Characters...");
 
 			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
 				ImportImperatorCharacter(character, endDate, ck3BookmarkDate);
@@ -160,7 +160,11 @@ namespace ImperatorToCK3.CK3 {
 					coaMapper,
 					governmentMapper,
 					successionLawMapper,
-					definiteFormMapper
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					Characters
 				);
 			} else {
 				var newTitle = new Title(
@@ -173,7 +177,11 @@ namespace ImperatorToCK3.CK3 {
 					tagTitleMapper,
 					governmentMapper,
 					successionLawMapper,
-					definiteFormMapper
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					Characters
 				);
 				landedTitles.InsertTitle(newTitle);
 			}
@@ -495,7 +503,7 @@ namespace ImperatorToCK3.CK3 {
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
 			foreach (var (name, title) in LandedTitles) {
-				// important check: if duchy/kingdom/empire title holder holds no county (is landless), remove the title
+				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 				// this also removes landless titles initialized from Imperator
 				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
 					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
@@ -553,6 +561,10 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var ck3Character in Characters.Values) {
 				var newSpouses = new Dictionary<ulong, Character>();
 				// make links between Imperator characters
+				if (ck3Character.ImperatorCharacter is null) {
+					// imperatorRegnal characters do not have ImperatorCharacter
+					continue;
+				}
 				foreach (var impSpouseCharacter in ck3Character.ImperatorCharacter.Spouses.Values) {
 					if (impSpouseCharacter is not null) {
 						var ck3SpouseCharacter = impSpouseCharacter.CK3Character;
@@ -570,6 +582,10 @@ namespace ImperatorToCK3.CK3 {
 			var fatherCounter = 0;
 			foreach (var ck3Character in Characters.Values) {
 				// make links between Imperator characters
+				if (ck3Character.ImperatorCharacter is null) {
+					// imperatorRegnal characters do not have ImperatorCharacter
+					continue;
+				}
 				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother.Value;
 				if (impMotherCharacter is not null) {
 					var ck3MotherCharacter = impMotherCharacter.CK3Character;
