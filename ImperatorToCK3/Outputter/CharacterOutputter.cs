@@ -58,7 +58,7 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\ttrait = {trait}");
 			}
 
-			// output birthdate and deathdate
+			// output birth date and death date
 			output.WriteLine($"\t{character.BirthDate} = {{ birth = yes }}");
 			if (character.DeathDate is not null) {
 				output.WriteLine($"\t{character.DeathDate} = {{");

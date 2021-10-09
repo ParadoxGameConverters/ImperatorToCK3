@@ -9,7 +9,6 @@ link = { imp = taurica_region ck3 = k_pontic_steppe rank = k }
 link = { imp = sarmatia_asiatica_region ck3 = d_don_valley rank = d }
 link = { imp = greece_region ck3 = k_hellas rank = k }
 link = { imp = greece_region ck3 = d_achaia rank = d }
-link = { imp = asia_region ck3 = k_nikaea rank = k }
 link = { imp = cilicia_region ck3 = d_cilicia rank = d }
 link = { imp = galatia_region ck3 = k_anatolia rank = k }
 link = { imp = galatia_region ck3 = d_anatolia rank = d }
@@ -23,7 +22,6 @@ link = { imp = ariana_region ck3 = k_khorasan rank = k }
 link = { imp = syria_region ck3 = k_syria rank = k }
 link = { imp = palestine_region ck3 = k_jerusalem rank = k }
 link = { imp = palestine_region ck3 = d_palestine rank = d }
-link = { imp = sarmatia_europea_region ck3 = k_moldavia rank = k }
 link = { imp = arabia_region ck3 = k_arabia rank = k }
 link = { imp = arabia_felix_region ck3 = k_yemen rank = k }
 link = { imp = gandhara_region ck3 = k_kashmir rank = k }
@@ -34,7 +32,6 @@ link = { imp = madhyadesa_region ck3 = k_kosala rank = k }
 link = { imp = pracya_region ck3 = k_bengal rank = k }
 link = { imp = vindhyaprstha_region ck3 = k_orissa rank = k }
 link = { imp = dravida_region ck3 = k_tamilakam rank = k }
-link = { imp = aparanta_region ck3 = k_gondwana rank = k }
 link = { imp = karnata_region ck3 = k_karnata rank = k }
 link = { imp = himalayan_region ck3 = k_himalaya rank = k }
 link = { imp = cyrenaica_region ck3 = d_cyrenaica rank = d }
@@ -57,7 +54,6 @@ link = { imp = colchis_region ck3 = d_georgia rank = d }
 link = { imp = armenia_region ck3 = k_armenian_principality rank = k }
 link = { imp = bohemia_area ck3 = k_bohemia rank = k }
 link = { imp = bohemia_area ck3 = d_bohemia rank = d }
-link = { imp = belgica_region ck3 = k_lotharingia rank = k }
 link = { imp = vistulia_region ck3 = k_galicia-volhynia rank = k }
 link = { imp = macedonia_region ck3 = k_thessalonika rank = k }
 link = { imp = germania_superior_region ck3 = d_swabia rank = d }
@@ -68,7 +64,6 @@ link = { imp = armorica_region ck3 = d_brittany rank = d }
 link = { imp = mauretainia_region ck3 = k_maghreb rank = k }
 link = { imp = aquitaine_region ck3 = k_aquitaine rank = k }
 link = { imp = tarraconensis_region ck3 = k_aragon rank = k }
-link = { imp = britain_region ck3 = k_england rank = k }
 link = { imp = cisalpine_gaul_region ck3 = k_italy rank = k }
 link = { imp = africa_region ck3 = k_africa rank = k }
 link = { imp = rhaetia_region ck3 = k_bavaria rank = k }

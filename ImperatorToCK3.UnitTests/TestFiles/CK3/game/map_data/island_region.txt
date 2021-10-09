@@ -1,0 +1,125 @@
+# Island regions - no land path from the continent
+# The AI needs these to optimize path finding
+#
+# NOTE: do not add any regions here that are NOT islands
+#
+# Island regions can be declared with one or more of the following fields:
+#	duchies = { }, takes county title names declared in landed_titles.txt
+#	counties = { }, takes county title names declared in landed_titles.txt
+#	provinces = { }, takes province id numbers declared in /history/provinces
+
+island_region_iceland = {
+	duchies = {	d_iceland }
+}
+
+island_region_faereyar = {
+	counties = { c_faereyar }
+}
+
+island_region_shetland = {
+	counties = { c_shetland }
+}
+
+island_region_britain = {
+	duchies = {
+		d_moray
+		d_western_isles
+		d_albany
+		d_lothian
+		d_galloway
+		d_the_isles
+		d_northumberland
+		d_york
+		d_lancaster
+		d_gwynedd
+		d_powys
+		d_hereford
+		d_norfolk
+		d_deheubarth
+		d_gloucester
+		d_bedford
+		d_cornwall
+		d_somerset
+		d_canterbury
+		
+		d_ulster
+		d_connacht
+		d_meath
+		d_munster
+		d_leinster
+	}
+	
+	counties = {
+		c_orkney
+	}
+}
+
+#island_region_baleares = {
+#	counties = {
+#		c_menorca
+#		c_mallorca
+#		c_iviza
+#	}
+#}
+
+island_region_menorca = {
+	counties = { c_menorca }
+}
+
+island_region_mallorca = {
+	counties = { c_mallorca }
+}
+
+island_region_iviza = {
+	counties = { c_iviza }
+}
+
+island_region_sardinia_corsica = {
+	duchies = {
+		d_sardinia
+		d_corsica
+	}
+}
+
+island_region_malta = {
+	counties = { c_malta }
+}
+
+island_region_crete = {
+	duchies = { d_krete }
+}
+
+island_region_cyprus = {
+	duchies = { d_cyprus }
+}
+
+island_region_socotra = {
+	counties = { c_socotra }
+}
+
+island_region_maldives = { 
+	counties = { c_maldives }
+}
+
+island_region_canarias = {
+	counties = {
+		c_canarias
+		c_fuerteventura
+	}
+}
+
+island_region_madeira = {
+	counties = { c_madeira }
+}
+
+island_region_venice = { 
+	counties = { c_venezia }
+}
+
+island_region_gutland = {
+	counties = { c_gutland }
+}
+
+island_region_bornholm = {
+	counties = { c_bornholm }
+}

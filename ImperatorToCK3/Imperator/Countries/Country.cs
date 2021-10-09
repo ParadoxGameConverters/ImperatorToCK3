@@ -9,7 +9,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public ulong ID { get; } = 0;
 		public bool PlayerCountry { get; set; }
 		public ulong? Monarch { get; private set; }  // >=0 are valid
-		public List<RulerTerm> RulerTerms { get; private set; } = new();
+		public List<RulerTerm> RulerTerms { get; set; } = new();
+		public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
 		public string Tag { get; private set; } = "";
 		public string Name => CountryName.Name;
 		public CountryName CountryName { get; private set; } = new();
@@ -28,7 +29,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Dictionary<ulong, Families.Family?> Families { get; private set; } = new();
 		private readonly HashSet<Provinces.Province> ownedProvinces = new();
 
-		public CK3.Titles.Title? CK3Title { get; set; } = new();
+		public CK3.Titles.Title? CK3Title { get; set; }
 
 		public Country(ulong ID) {
 			this.ID = ID;

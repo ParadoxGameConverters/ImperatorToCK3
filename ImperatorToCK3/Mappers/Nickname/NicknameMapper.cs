@@ -32,7 +32,10 @@ namespace ImperatorToCK3.Mappers.Nickname {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public string? GetCK3NicknameForImperatorNickname(string impNickname) {
+		public string? GetCK3NicknameForImperatorNickname(string? impNickname) {
+			if (impNickname is null) {
+				return null;
+			}
 			if (impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname)) {
 				return ck3Nickname;
 			}

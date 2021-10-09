@@ -1,15 +1,15 @@
-﻿using System;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.Mappers.Religion;
-using Xunit;
 using ImperatorToCK3.Mappers.Culture;
-using ImperatorToCK3.Mappers.Trait;
-using ImperatorToCK3.Mappers.Nickname;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.IO;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
@@ -76,6 +76,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		}
 
 		private readonly CK3CharacterBuilder builder = new();
+
 		[Fact]
 		public void AllLinksCanBeRemoved() {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
@@ -121,6 +122,34 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			Assert.Null(character.Father);
 			Assert.Empty(character.Children);
 			Assert.Empty(character.Spouses);
+		}
+		[Fact]
+		public void BreakAllLinksWarnsWhenSpouseIsNull() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var character = builder.Build();
+			character.Spouses.Add("spouseId", null);
+			character.BreakAllLinks();
+			Assert.Contains("[WARN] Spouse spouseId of imperator0 is null!", output.ToString());
+		}
+		[Fact]
+		public void BreakAllLinksWarnsWhenChildIsNull() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var male = builder.Build();
+			male.Children.Add("childId", null);
+			male.BreakAllLinks();
+			Assert.Contains("[WARN] Child childId of imperator0 is null!", output.ToString());
+			output.Flush();
+
+			var impFemaleReader = new BufferedReader("female = yes");
+			var impFemaleCharacter = ImperatorToCK3.Imperator.Characters.Character.Parse(impFemaleReader, "1", null);
+			var female = builder.WithImperatorCharacter(impFemaleCharacter).Build();
+			female.Children.Add("child2Id", null);
+			female.BreakAllLinks();
+			Assert.Contains("[WARN] Child child2Id of imperator1 is null!", output.ToString());
 		}
 
 		[Fact]
@@ -173,7 +202,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				"link = { imp=macedonian ck3=greek }"
 			);
 			var cultureMapper = new CultureMapper(mapReader);
-			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+			cultureMapper.LoadRegionMappers(
+				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
+				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
+			);
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)

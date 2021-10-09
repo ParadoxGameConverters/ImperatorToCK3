@@ -24,7 +24,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.3.1" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.3.2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,15 +48,6 @@
     <None Update="Data_Files\converter_globals\ReadMe.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\rakaly-0.3.12-x86_64-apple-darwin\rakaly">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\rakaly-0.3.12-x86_64-pc-windows-msvc\rakaly.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\rakaly-0.3.12-x86_64-unknown-linux-musl\rakaly">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 	<ItemGroup>
@@ -63,6 +55,9 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Configurables Include="Data_Files/configurables/**/*.*" />
+	</ItemGroup>
+	<ItemGroup>
+		<RakalyBinaries Include="Resources/rakaly/**/*.*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ConverterGlobals Include="Data_Files/converter_globals/**/*.*" />
@@ -74,6 +69,7 @@
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)/configurables" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
 	    <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
@@ -81,6 +77,7 @@
 	<Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(PublishDir)/../Configuration" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(PublishDir)/configurables" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(PublishDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(PublishDir)/.." SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
