@@ -11,8 +11,8 @@ namespace ImperatorToCK3.CK3.Characters {
 	public class DNA {
 		public class PaletteCoordinates {
 			// hair, skin and eye color palettes are 256x256
-			public int x = 128;
-			public int y = 128;
+			public int X { get; set; } = 128;
+			public int Y { get; set; } = 128;
 		}
 
 		public string Id { get; }
@@ -129,7 +129,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				double colorDistance = Math.Pow(rDiff, 3) + Math.Pow(gDiff, 3) + Math.Pow(bDiff, 3);
 
 				if (colorDistance < minColorDistance) {
-					bestCoordinates = new() { x = pixel.X, y = pixel.Y };
+					bestCoordinates = new() { X = pixel.X, Y = pixel.Y };
 					minColorDistance = colorDistance;
 					if (minColorDistance == 0) {
 						return bestCoordinates;

@@ -34,13 +34,13 @@ namespace ImperatorToCK3.Outputter {
 
 				var hairCoords1 = dna.HairCoordinates;
 				var hairCoords2 = dna.HairCoordinates2;
-				output.WriteLine($"\t\t\thair_color={{{hairCoords1.x} {hairCoords1.y} {hairCoords2.x} {hairCoords2.y}}}");
+				output.WriteLine($"\t\t\thair_color={{{hairCoords1.X} {hairCoords1.Y} {hairCoords2.X} {hairCoords2.Y}}}");
 				var skinCoords1 = dna.SkinCoordinates;
 				var skinCoords2 = dna.SkinCoordinates2;
-				output.WriteLine($"\t\t\tskin_color={{{skinCoords1.x} {skinCoords1.y} {skinCoords2.x} {skinCoords2.y}}}");
+				output.WriteLine($"\t\t\tskin_color={{{skinCoords1.X} {skinCoords1.Y} {skinCoords2.X} {skinCoords2.Y}}}");
 				var eyeCoords1 = dna.EyeCoordinates;
 				var eyeCoords2 = dna.EyeCoordinates2;
-				output.WriteLine($"\t\t\teye_color={{{eyeCoords1.x} {eyeCoords1.y} {eyeCoords2.x} {eyeCoords2.y}}}");
+				output.WriteLine($"\t\t\teye_color={{{eyeCoords1.X} {eyeCoords1.Y} {eyeCoords2.X} {eyeCoords2.Y}}}");
 				foreach (var line in dna.DNALines) {
 					output.WriteLine(line);
 				}

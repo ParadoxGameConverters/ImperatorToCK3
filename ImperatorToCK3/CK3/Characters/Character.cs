@@ -40,7 +40,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public SortedSet<string> Traits { get; } = new();
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
-		public DNA? DNA;
+		public DNA? DNA { get; private set; }
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
