@@ -79,11 +79,15 @@ namespace ImperatorToCK3.CK3.Characters {
 				impPortraitData.EyeColor2PaletteCoordinates, impEyePalettePixels, ck3EyePalettePixels
 			);
 
+
 			const string geneSetName = "all_beards";
 			if (genesDB is null) {
 				Logger.Error("Cannot determine accessory genes: genes DB is uninitialized!");
 			} else {
-				var impSetEntry = impPortraitData.AccessoryGenesList.First(g => g.geneName == "beards").objectName;
+				if (!impPortraitData.AccessoryGenesDict.TryGetValue("beards", out var geneInfo)) {
+					return;
+				}
+				var impSetEntry = geneInfo.objectName;
 				var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
 
 				var geneSet = genesDB.Genes.Genes["beards"].GeneTemplates[geneSetName];

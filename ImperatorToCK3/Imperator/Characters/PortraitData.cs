@@ -12,7 +12,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public PaletteCoordinates SkinColor2PaletteCoordinates { get; private set; } = new();
 		public PaletteCoordinates EyeColorPaletteCoordinates { get; private set; } = new();
 		public PaletteCoordinates EyeColor2PaletteCoordinates { get; private set; } = new();
-		public List<AccessoryGeneData> AccessoryGenesList { get; private set; } = new();
+		public Dictionary<string, AccessoryGeneData> AccessoryGenesDict { get; private set; } = new();
 
 		public PortraitData() { }
 		public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
@@ -41,21 +41,24 @@ namespace ImperatorToCK3.Imperator.Characters {
 			// accessory genes
 			const uint colorGenesBytes = 12;
 			var accessoryGenes = genes.Genes.Genes;
-			var accessoryGenesIndex = genes.Genes.Index;
+
 			foreach (var (geneName, gene) in accessoryGenes) {
 				var geneIndex = gene.Index;
+				if (geneIndex is null) {
+					continue;
+				}
 
-				var geneTemplateByteIndex = colorGenesBytes + ((accessoryGenesIndex + geneIndex - 3) * 4);
+				var geneTemplateByteIndex = colorGenesBytes + (((uint)geneIndex - 3) * 4);
 				var characterGeneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 				var geneTemplateName = gene.GetGeneTemplateByIndex(characterGeneTemplateIndex).Key;
 
-				var geneTemplateObjectByteIndex = colorGenesBytes + ((accessoryGenesIndex + geneIndex - 3) * 4) + 1;
-				var characterGeneSliderValue = (uint)decodedDnaStr[geneTemplateObjectByteIndex] / 255;
+				var geneTemplateObjectByteIndex = colorGenesBytes + (((uint)geneIndex - 3) * 4) + 1;
+				var characterGeneSliderPercentage = (double)decodedDnaStr[geneTemplateObjectByteIndex] / 255;
 
 				if (gene.GeneTemplates[geneTemplateName].AgeSexWeightBlocks.TryGetValue(ageSexString, out var characterGeneFoundWeightBlock)) {
-					var characterGeneObjectName = characterGeneFoundWeightBlock.GetMatchingObject(characterGeneSliderValue);
+					var characterGeneObjectName = characterGeneFoundWeightBlock.GetMatchingObject(characterGeneSliderPercentage);
 					if (characterGeneObjectName is not null) {
-						AccessoryGenesList.Add(new AccessoryGeneData() { geneName = geneName, geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
+						AccessoryGenesDict.Add(geneName, new AccessoryGeneData() { geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
 					} else {
 						Logger.Warn($"\t\t\tGene template object name {geneTemplateName} for {ageSexString} could not be extracted from DNA!");
 					}
@@ -63,8 +66,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 			}
 
 			if (dnaString.StartsWith("CewJ7LyKvIr48fjxApYClgJ6AnoCkgKSAo4CjgKJAokCcAJwAmoCagKWApYCdAJ0ApUClQJ7AnsCagJqApkCmQKCAoIClAKUA6oDqgJ0AnQCaQJ")) {
-				foreach (var gene in AccessoryGenesList) {
-					Logger.Notice("GENE: " + gene.geneName + " TEMPLATE: " + gene.geneTemplate + " OBJECT: " + gene.objectName);
+				foreach (var (geneName, data) in AccessoryGenesDict) {
+					Logger.Notice("GENE: " + geneName + " TEMPLATE: " + data.geneTemplate + " OBJECT: " + data.objectName);
 				}
 			}
 		}

@@ -15,6 +15,7 @@ namespace ImperatorToCK3.CommonUtils.Genes {
 			RegisterKeyword("index", reader => {
 				Index = (uint)ParserHelpers.GetInt(reader);
 			});
+			RegisterKeyword("set_tags", ParserHelpers.IgnoreAndLogItem);
 			RegisterRegex("male|female|boy|girl", (reader, ageSexStr) => {
 				var stringOfItem = new StringOfItem(reader).String;
 				var tempStream = new BufferedReader(stringOfItem);
