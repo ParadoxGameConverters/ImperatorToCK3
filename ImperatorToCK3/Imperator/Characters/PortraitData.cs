@@ -1,10 +1,11 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils.Genes;
 using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class PortraitData {
-		private readonly Genes.GenesDB genes = new();
+		private readonly GenesDB genes = new();
 		public PaletteCoordinates HairColorPaletteCoordinates { get; private set; } = new();
 		public PaletteCoordinates HairColor2PaletteCoordinates { get; private set; } = new();
 		public PaletteCoordinates SkinColorPaletteCoordinates { get; private set; } = new();
@@ -14,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public List<AccessoryGeneData> AccessoryGenesList { get; private set; } = new();
 
 		public PortraitData() { }
-		public PortraitData(string dnaString, Genes.GenesDB genesDB, string ageSexString = "male") {
+		public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
 			genes = genesDB;
 			var decodedDnaStr = Convert.FromBase64String(dnaString);
 			const int hairColorPaletteXIndex = 0;

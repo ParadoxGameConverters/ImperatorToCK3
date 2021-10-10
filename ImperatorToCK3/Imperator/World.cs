@@ -1,5 +1,5 @@
 ﻿using commonItems;
-using ImperatorToCK3.Imperator.Genes;
+using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using System;
@@ -191,7 +191,7 @@ namespace ImperatorToCK3.Imperator {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(filePath);
 
-			foreach(var country in Countries.StoredCountries.Values) {
+			foreach (var country in Countries.StoredCountries.Values) {
 				country.RulerTerms = country.RulerTerms.OrderBy(t => t.StartDate).ToList();
 			}
 

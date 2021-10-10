@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Genes {
+namespace ImperatorToCK3.CommonUtils.Genes {
 	public class WeightBlock : Parser {
 		public uint SumOfAbsoluteWeights { get; private set; } = 0;
 		private readonly List<KeyValuePair<string, uint>> objectsList = new();
@@ -44,12 +44,13 @@ namespace ImperatorToCK3.Imperator.Genes {
 		}
 		public string? GetMatchingObject(double percentAsDecimal) { // argument must be in range <0; 1>
 			if (percentAsDecimal < 0 || percentAsDecimal > 1) {
-				throw new ArgumentOutOfRangeException("percentAsDecimal is " + percentAsDecimal + ", should be in range <0;1>");
+				throw new ArgumentOutOfRangeException($"percentAsDecimal is {percentAsDecimal}, should be >=0 and <=1");
 			}
 			uint sumOfPrecedingAbsoluteWeights = 0;
 			foreach (var (key, value) in objectsList) {
 				sumOfPrecedingAbsoluteWeights += value;
-				if (sumOfPrecedingAbsoluteWeights > 0 && percentAsDecimal <= (double)sumOfPrecedingAbsoluteWeights / SumOfAbsoluteWeights) {
+				var maxEntryPercent = (double)sumOfPrecedingAbsoluteWeights / SumOfAbsoluteWeights;
+				if (sumOfPrecedingAbsoluteWeights > 0 && percentAsDecimal <= maxEntryPercent) {
 					return key;
 				}
 			}

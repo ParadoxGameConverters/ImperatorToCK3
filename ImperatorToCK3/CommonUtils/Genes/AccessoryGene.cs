@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Genes {
+namespace ImperatorToCK3.CommonUtils.Genes {
 	public class AccessoryGene : Parser {
 		public uint Index { get; private set; } = 0;
 		public ParadoxBool Inheritable { get; private set; } = new(false);

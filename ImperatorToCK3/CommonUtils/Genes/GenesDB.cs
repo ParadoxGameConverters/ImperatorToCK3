@@ -1,6 +1,6 @@
 ﻿using commonItems;
 
-namespace ImperatorToCK3.Imperator.Genes {
+namespace ImperatorToCK3.CommonUtils.Genes {
 	public class GenesDB : Parser {
 		public AccessoryGenes Genes { get; private set; } = new();
 
@@ -16,6 +16,10 @@ namespace ImperatorToCK3.Imperator.Genes {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
+			RegisterKeyword("special_genes", reader => {
+				var db = new GenesDB(reader);
+				Genes = db.Genes;
+			});
 			RegisterKeyword("accessory_genes", reader =>
 				Genes = new AccessoryGenes(reader)
 			);

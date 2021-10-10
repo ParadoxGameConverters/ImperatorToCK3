@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Genes {
+namespace ImperatorToCK3.CommonUtils.Genes {
 	public class AccessoryGeneTemplate : Parser {
 		public uint Index { get; private set; } = 0;
 		public Dictionary<string, WeightBlock> AgeSexWeightBlocks { get; private set; } = new();

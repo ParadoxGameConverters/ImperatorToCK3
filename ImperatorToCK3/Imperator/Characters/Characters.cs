@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using ImperatorToCK3.CommonUtils.Genes;
+using System.Collections.Generic;
 using System.Text;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class Characters : Parser {
 		public Characters() { }
-		public Characters(BufferedReader reader, Genes.GenesDB? genesDB) {
+		public Characters(BufferedReader reader, GenesDB? genesDB) {
 			this.genesDB = genesDB;
 			RegisterKeys();
 			ParseStream(reader);
@@ -118,9 +119,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		private readonly Genes.GenesDB? genesDB;
+		private readonly GenesDB? genesDB;
 
-		public static Characters ParseBloc(BufferedReader reader, Genes.GenesDB genesDB) {
+		public static Characters ParseBloc(BufferedReader reader, GenesDB genesDB) {
 			var blocParser = new Parser();
 			var parsedCharacters = new Characters();
 			blocParser.RegisterKeyword("character_database", reader => {

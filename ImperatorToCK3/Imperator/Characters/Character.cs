@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.CommonUtils.Genes;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class Character {
@@ -79,7 +80,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			BirthDate.ChangeByYears(-years);
 		}
 
-		private Genes.GenesDB? genes;
+		private GenesDB? genes;
 
 		private static readonly Parser parser = new();
 		private static Character parsedCharacter = new(0);
@@ -158,7 +159,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				ParserHelpers.IgnoreItem(reader);
 			});
 		}
-		public static Character Parse(BufferedReader reader, string idString, Genes.GenesDB? genesDB) {
+		public static Character Parse(BufferedReader reader, string idString, GenesDB? genesDB) {
 			parsedCharacter = new Character(ulong.Parse(idString)) {
 				genes = genesDB
 			};
