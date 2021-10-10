@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using commonItems;
-using Xunit;
+﻿using commonItems;
 using ImperatorToCK3.CommonUtils.Genes;
+using System.Collections.Generic;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 	[Collection("Sequential")]

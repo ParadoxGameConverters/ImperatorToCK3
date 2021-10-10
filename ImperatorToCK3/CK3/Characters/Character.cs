@@ -160,7 +160,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Female = ImperatorCharacter.Female;
 			Age = ImperatorCharacter.Age;
 			if (ImperatorCharacter.PortraitData is not null) {
-				DNA = new DNA(ID, ImperatorCharacter.PortraitData);
+				DNA = new DNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
 			}
 
 			ulong ck3Province;  // for religion mapper

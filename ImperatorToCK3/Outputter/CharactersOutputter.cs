@@ -41,6 +41,9 @@ namespace ImperatorToCK3.Outputter {
 				var eyeCoords1 = dna.EyeCoordinates;
 				var eyeCoords2 = dna.EyeCoordinates2;
 				output.WriteLine($"\t\t\teye_color={{{eyeCoords1.x} {eyeCoords1.y} {eyeCoords2.x} {eyeCoords2.y}}}");
+				foreach (var line in dna.DNALines) {
+					output.WriteLine(line);
+				}
 
 				output.WriteLine("\t\t}");
 				output.WriteLine("\t}");

@@ -102,7 +102,7 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Configuration config) {
 			Logger.Info("Importing Imperator Characters...");
 
-			DNA.LoadPalettes(config);
+			DNA.Initialize(config);
 			foreach (var character in impWorld.Characters.StoredCharacters.Values) {
 				ImportImperatorCharacter(character, endDate, config);
 			}

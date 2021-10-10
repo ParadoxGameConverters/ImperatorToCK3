@@ -1,7 +1,11 @@
 ﻿using commonItems;
 using ImageMagick;
+using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.Mappers.Gene;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class DNA {
@@ -19,7 +23,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		public PaletteCoordinates EyeCoordinates { get; set; } = new();
 		public PaletteCoordinates EyeCoordinates2 { get; set; } = new();
 
-		//MagickColor[,] 
 		private static IUnsafePixelCollection<ushort>? impHairPalettePixels;
 		private static IUnsafePixelCollection<ushort>? ck3HairPalettePixels;
 
@@ -29,7 +32,11 @@ namespace ImperatorToCK3.CK3.Characters {
 		private static IUnsafePixelCollection<ushort>? impEyePalettePixels;
 		private static IUnsafePixelCollection<ushort>? ck3EyePalettePixels;
 
-		public static void LoadPalettes(Configuration config) {
+		private static GenesDB? genesDB;
+		private static readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
+		public List<string> DNALines { get; } = new();
+
+		public static void Initialize(Configuration config) {
 			var impHairPalettePath = Path.Combine(config.ImperatorPath, "game/gfx/portraits/hair_palette.dds");
 			impHairPalettePixels = new MagickImage(impHairPalettePath).GetPixelsUnsafe();
 			var ck3HairPalettePath = Path.Combine(config.Ck3Path, "game/gfx/portraits/hair_palette.dds");
@@ -44,9 +51,13 @@ namespace ImperatorToCK3.CK3.Characters {
 			impEyePalettePixels = new MagickImage(impEyePalettePath).GetPixelsUnsafe();
 			var ck3EyePalettePath = Path.Combine(config.Ck3Path, "game/gfx/portraits/eye_palette.dds");
 			ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
+
+			var genesPath = Path.Combine(config.Ck3Path, "game/common/genes/04_genes_special_accessories_beards.txt");
+			genesDB = new GenesDB(genesPath);
 		}
-		public DNA(string characterId, Imperator.Characters.PortraitData impPortraitData) {
-			Id = "dna_" + characterId;
+		public DNA(Imperator.Characters.Character impCharacter, Imperator.Characters.PortraitData impPortraitData) {
+			Id = "dna_" + impCharacter.ID;
+
 			HairCoordinates = GetPaletteCoordinates(
 				impPortraitData.HairColorPaletteCoordinates, impHairPalettePixels, ck3HairPalettePixels
 			);
@@ -68,11 +79,23 @@ namespace ImperatorToCK3.CK3.Characters {
 				impPortraitData.EyeColor2PaletteCoordinates, impEyePalettePixels, ck3EyePalettePixels
 			);
 
+			const string geneSetName = "all_beards";
+			if (genesDB is null) {
+				Logger.Error("Cannot determine accessory genes: genes DB is uninitialized!");
+			} else {
+				var impSetEntry = impPortraitData.AccessoryGenesList.First(g => g.geneName == "beards").objectName;
+				var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
 
-			// TODO: READ CK3 GENES
+				var geneSet = genesDB.Genes.Genes["beards"].GeneTemplates[geneSetName];
+				var ageSex = impCharacter.AgeSex;
+				var matchingPercentage = geneSet.AgeSexWeightBlocks[ageSex].GetMatchingPercentage(convertedSetEntry);
+				int intSliderValue = (int)(Math.Ceiling(matchingPercentage) * 255);
 
-
-
+				// currently only dominant entry for the beard gene is outputted (twice)
+				// TODO: convert recessive entries
+				var dnaLine = $"beards={{{convertedSetEntry} {intSliderValue} {convertedSetEntry} {intSliderValue}}}";
+				DNALines.Add(dnaLine);
+			}
 		}
 		private static PaletteCoordinates GetPaletteCoordinates(
 			Imperator.Characters.PaletteCoordinates impPaletteCoordinates,
