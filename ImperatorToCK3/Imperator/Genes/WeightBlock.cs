@@ -32,7 +32,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 			}
 			return 0;
 		}
-		public double GetMatchingPercentage(string objectName) { // TODO: ADD TESTS
+		public double GetMatchingPercentage(string objectName) {
 			uint sumOfPrecedingAbsoluteWeights = 0;
 			foreach (var (key, value) in objectsList) {
 				if (key == objectName) {

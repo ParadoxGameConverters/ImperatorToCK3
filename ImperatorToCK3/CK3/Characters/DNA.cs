@@ -67,6 +67,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			EyeCoordinates2 = GetPaletteCoordinates(
 				impPortraitData.EyeColor2PaletteCoordinates, impEyePalettePixels, ck3EyePalettePixels
 			);
+
+
+			// TODO: READ CK3 GENES
+
+
+
 		}
 		private static PaletteCoordinates GetPaletteCoordinates(
 			Imperator.Characters.PaletteCoordinates impPaletteCoordinates,

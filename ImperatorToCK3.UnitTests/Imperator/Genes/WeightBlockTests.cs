@@ -1,11 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using commonItems;
 using ImperatorToCK3.Imperator.Genes;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 	public class WeightBlockTests {
+		[Fact]
+		public void ErrorIsLoggedOnUnparsableWeight() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+			var reader = new BufferedReader(
+				"={\n" +
+				"\t2 = sdfsdf\n" +
+				"\t-2 = female_hair_greek_1\n" +
+				"}"
+			);
+			_ = new WeightBlock(reader);
+			Assert.Contains("[ERROR] Could not parse absolute weight: -2", output.ToString());
+		}
 		[Fact]
 		public void ObjectsCanBeAdded() {
 			var reader = new BufferedReader(

@@ -6,7 +6,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 	public class AccessoryGene : Parser {
 		public uint Index { get; private set; } = 0;
 		public ParadoxBool Inheritable { get; private set; } = new(false);
-		public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; private set; } = new();
+		public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
 
 		public AccessoryGene(BufferedReader reader) {
 			RegisterKeys();
