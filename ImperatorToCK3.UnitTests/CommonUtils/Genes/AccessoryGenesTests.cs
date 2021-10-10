@@ -6,19 +6,6 @@ namespace ImperatorToCK3.UnitTests.CommonUtils.Genes {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class AccessoryGenesTests {
-		/*
-		[Fact]
-		public void IndexCanBeSet() {
-			var reader = new BufferedReader(
-				"= {\n" +
-				"\tindex=69" +
-				"}"
-			);
-			var genes = new AccessoryGenes(reader);
-
-			Assert.Equal((uint)69, genes.Index);
-		}*/
-
 		[Fact]
 		public void IndexDefaultsToNull() {
 			var reader = new BufferedReader("= {}");
