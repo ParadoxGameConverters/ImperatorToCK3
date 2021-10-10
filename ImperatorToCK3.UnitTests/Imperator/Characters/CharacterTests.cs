@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 using Xunit;
+using ImperatorToCK3.CommonUtils.Genes;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CharacterTests {
-		private readonly ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
+		private readonly GenesDB genesDB = new();
 		[Fact]
 		public void FieldsCanBeSet() {
 			var reader = new BufferedReader(

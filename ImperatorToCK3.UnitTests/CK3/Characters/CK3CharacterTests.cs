@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Localization;
@@ -304,7 +305,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void AgeSexReturnsCorrectString() {
-			ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
+			GenesDB genesDB = new();
 			var reader1 = new BufferedReader(
 				"= {\n" +
 				"\tage=56\n" +

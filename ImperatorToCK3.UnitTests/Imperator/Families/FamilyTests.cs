@@ -79,7 +79,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			var family = Family.Parse(reader, 42);
 
 			var characterReader = new BufferedReader("= { culture = kushite }");
-			var genesDB = new ImperatorToCK3.Imperator.Genes.GenesDB();
+			var genesDB = new ImperatorToCK3.CommonUtils.Genes.GenesDB();
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "50", genesDB);
 			family.LinkMember(character);
 
