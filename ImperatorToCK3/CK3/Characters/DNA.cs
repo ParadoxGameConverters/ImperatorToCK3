@@ -88,15 +88,18 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 				var impSetEntry = geneInfo.objectName;
 				var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
+				if (impCharacter.ID == 20607) {
+					Logger.Notice(impSetEntry);
+					Logger.Notice(convertedSetEntry);
+				}
 
 				var geneSet = genesDB.Genes.Genes["beards"].GeneTemplates[geneSetName];
 				var ageSex = impCharacter.AgeSex;
 				var matchingPercentage = geneSet.AgeSexWeightBlocks[ageSex].GetMatchingPercentage(convertedSetEntry);
-				int intSliderValue = (int)(Math.Ceiling(matchingPercentage) * 255);
+				int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
 
-				// currently only dominant entry for the beard gene is outputted (twice)
 				// TODO: convert recessive entries
-				var dnaLine = $"beards={{{convertedSetEntry} {intSliderValue} {convertedSetEntry} {intSliderValue}}}";
+				var dnaLine = $"beards={{ \"{geneSetName}\" {intSliderValue} \"no_beard\" 0 }}";
 				DNALines.Add(dnaLine);
 			}
 		}
@@ -141,6 +144,25 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			return bestCoordinates;
+		}
+
+		public void OutputGenes(StreamWriter output) {
+			output.WriteLine("\t\tgenes={");
+
+			var hairCoords1 = HairCoordinates;
+			var hairCoords2 = HairCoordinates2;
+			output.WriteLine($"\t\t\thair_color={{ {hairCoords1.X} {hairCoords1.Y} {hairCoords2.X} {hairCoords2.Y} }}");
+			var skinCoords1 = SkinCoordinates;
+			var skinCoords2 = SkinCoordinates2;
+			output.WriteLine($"\t\t\tskin_color={{ {skinCoords1.X} {skinCoords1.Y} {skinCoords2.X} {skinCoords2.Y} }}");
+			var eyeCoords1 = EyeCoordinates;
+			var eyeCoords2 = EyeCoordinates2;
+			output.WriteLine($"\t\t\teye_color={{ {eyeCoords1.X} {eyeCoords1.Y} {eyeCoords2.X} {eyeCoords2.Y} }}");
+			foreach (var line in DNALines) {
+				output.WriteLine("\t\t\t" + line);
+			}
+
+			output.WriteLine("\t\t}");
 		}
 	}
 }
