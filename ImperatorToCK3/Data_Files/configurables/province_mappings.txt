@@ -1,4 +1,89 @@
 0.0.0 = {
+	link = { comment = "SOUTHERN FRANCE" }
+	link = { imp = 3517 imp = 3540 ck3 = 2019 } # Tauroention, Pergantion -> TOULON
+	link = { imp = 2288 imp = 2272 ck3 = 2198 } # Praemiacum, Cossium -> BAZADAIS
+	link = { imp = 2261 ck3 = 2219 ck3 = 2220 } # Luteva -> LODEVE, NAVACELLES
+	link = { imp = 2263 ck3 = 2215 } # Albiga -> ALBI
+	link = { imp = 2267 ck3 = 2212 } # Elusio -> CASTELNAUDARY
+	link = { imp = 2265 ck3 = 2214 } # Tolosa -> TOULOUSE
+	link = { imp = 2266 ck3 = 2207 } # Aquae Siccae -> MURET
+	link = { imp = 2277 ck3 = 2206 } # Belsinum -> ASTARAC
+	link = { imp = 2285 ck3 = 2221 } # Gabalum -> MENDE
+	link = { imp = 2295 ck3 = 2222 } # Ad Silanum -> MILAU
+	link = { imp = 3309 ck3 = 2226 } # Canniaco -> RODEZ
+	link = { imp = 2262 ck3 = 2229 } # Segodunum -> LA PEYRADE
+	link = { imp = 2268 ck3 = 2228 } # Carantomagus -> LA SALLE
+	link = { imp = 2269 imp = 2280 ck3 = 2231 ck3 = 2230 } # MANY-TO-MANY: Divona, Marinavas -> QUERCY, MONTAUBAN
+	link = { imp = 2293 imp = 2270 ck3 = 2232 } # Excisum, Aginnum -> AGEN
+	link = { imp = 2279 ck3 = 2213 } # Sarnali -> CASTELSARRASIN
+	link = { imp = 2278 ck3 = 2208 } # Casinomagus -> BEAUMONT
+	link = { imp = 2275 ck3 = 2205 } # Elimberrum -> LOMAGNE
+	link = { imp = 2271 ck3 = 2204 } # Lactora -> LECTOURE
+	link = { imp = 2273 ck3 = 2203 } # Eleusa -> FESENSAC
+	link = { imp = 2281 ck3 = 2200 } # Ussubium -> GABARDAN
+	link = { imp = 2250 imp = 2274 ck3 = 2199 ck3 = 2201 } # MANY-TO-MANY: Atura, Saviniago -> MARSAN, ARMAGNAC
+	link = { imp = 2249 ck3 = 2202 } # Tarba -> PARDIAC
+	link = { imp = 2247 ck3 = 2193 } # Bene Harnum -> PAU
+	link = { imp = 2243 ck3 = 2194 } # Aquae Tarbellicae -> TURSAN
+	link = { imp = 2242 ck3 = 2195 } # Coequosa -> TARTAS
+	link = { imp = 2241 ck3 = 2196 } # Telonnum -> ALBRET
+	link = { imp = 2245 ck3 = 2197 } # Stomatas -> LANGON
+	link = { imp = 2235 ck3 = 2140 } # Akroterion -> LA-TESTE-DE-BUCH
+	link = { imp = 2238 imp = 2237 ck3 = 2139 } # Segosa, Losa -> MIMIZAN
+	link = { imp = 2239 ck3 = 2138 } # Mosconnum -> DAX
+	link = { imp = 2240 ck3 = 2012 } # Lapurdum -> BAYONNE
+	link = { imp = 2246 imp = 2244 ck3 = 2011 } # Iluro, Carasa -> OLORON
+	link = { imp = 2248 imp = 2251 ck3 = 2010 } # Novum Oppidum, Aquae Convenarum -> TARBES
+	link = { imp = 2252 ck3 = 2009 } # Lugdunum Convenarum -> BERTRAND-DE-COMMINGES
+	link = { imp = 2276 ck3 = 2008 } # Calagorris -> SAINT-LIZIER
+	link = { imp = 2253 ck3 = 2209 } # Consoranni -> FOIX
+	link = { imp = 2254 ck3 = 2211 ck3 = 2007 } # Tarusco -> PAMIERS, MONTBEL
+	link = { imp = 2258 imp = 2255 ck3 = 2006 } # Usuerva, Carcasso -> CARCASSONE
+	link = { imp = 1079 ck3 = 2447 } # Ad Vicensi -> LIMOUX
+	link = { imp = 1001 ck3 = 1865 } # Rhoda -> ROSES
+	link = { imp = 2257 ck3 = 1866 } # Ruscino -> PERPIGNAN
+	link = { imp = 2256 ck3 = 2005 } # Narbo -> NARBONNE
+	link = { imp = 2259 ck3 = 2013 } # Baeterrae -> BEZIERS
+	link = { imp = 2260 ck3 = 2014 } # Agatha -> AGDE
+	link = { imp = 2315 imp = 2313 imp = 2312 ck3 = 2015 } # Briginnum, Sextantio, Andusia -> MONTPELLIER
+	link = { imp = 2297 ck3 = 2218 } # Cebennia -> CEVENNES
+	link = { imp = 2317 imp = 2316 ck3 = 2216 } # Ucetia, Staturnae -> USES
+	link = { imp = 2318 imp = 2314 ck3 = 2016 } # Rhodanousia, Nemausus -> NIMES
+	link = { imp = 2323 imp = 2319 ck3 = 2017 } # Pisavi, Arelatis -> ARLES
+	link = { imp = 2325 ck3 = 2018 } # Massalia -> MARSEILLE
+	link = { imp = 3523 ck3 = 2023 } # Verunia -> AIX
+	link = { imp = 2324 ck3 = 2060 } # Apta Iulia -> APT
+	link = { imp = 2321 imp = 2322 ck3 = 2059 } # Avennio, Carpentorate -> AVIGNON
+	link = { imp = 2320 ck3 = 2062 } # Arausio -> ORANGE
+	link = { imp = 3519 ck3 = 2067 } # Vasio -> VAISON
+	link = { imp = 3528 ck3 = 2061 } # Mons Seleucus -> FORCALQUIER
+	link = { imp = 3622 imp = 3626 ck3 = 2069 } # Isarnodurum, Antro -> BELLEY
+	link = { imp = 3621 imp = 3623 ck3 = 2034 } # Venetonimagus, Boutae -> ANNECY
+	link = { imp = 3608 ck3 = 2031 } # Mantala -> MOUTIERS
+	link = { imp = 3537 ck3 = 2029 } # Maurienna -> SAINT-MICHEL-DE-MAURIENNE
+	link = { imp = 3532 ck3 = 8718 } # Catorissium -> Briancon
+	link = { imp = 5022 ck3 = 8721 } # IMPASSIBLE TERRAIN 022 -> Puget
+	link = { imp = 3545 imp = 3546 ck3 = 2022 } # Album Intimilium, Albom Ingaunom -> MONACO
+	link = { imp = 3543 imp = 3544 ck3 = 2021 } # Antipolis, Navelis -> NICE
+	link = { imp = 3541 ck3 = 2020 } # Agathom -> GRASSE
+	link = { imp = 3522 imp = 3529 ck3 = 8720 } # Sanitium, Rigomagus -> Barcelonnette
+	link = { imp = 3521 imp = 3542 ck3 = 2024 } # Tegulata, Matavo -> DRAGUGNIAN
+	link = { imp = 3518 ck3 = 2025 } # Griselica -> Castellane
+	link = { imp = 3520 ck3 = 2026 } # Segustero -> SISTERON
+	link = { imp = 3524 ck3 = 2027 } # Vappincum -> EMBRUN
+	link = { imp = 3533 ck3 = 2028 } # Murissa -> GAP
+	link = { imp = 3531 ck3 = 2030 } # Cularo -> GRENOBLE
+	link = { imp = 3526 imp = 3527 imp = 3525 ck3 = 2066 } # Darentiaca, Vologatae, Vocontiorum -> DIE
+	link = { imp = 2308 imp = 2309 imp = 2310 ck3 = 8717 } # Valentia, Batiana, Cerebelliaca -> Monteil
+	link = { imp = 2311 ck3 = 2063 } # Alba Helviorum -> VIVIERS
+	link = { imp = 2296 ck3 = 2217 } # Condate Arvernorum -> ALES
+	link = { imp = 2338 imp = 2339 ck3 = 2234 } # Eustriacum, Uxellodunum -> FIGEAC
+	link = { imp = 2327 imp = 2326 imp = 2335 ck3 = 2233 } # Acuciago, Decaniacum, Marcelliago -> CAHORS
+	link = { imp = 2292 ck3 = 2236 } # Pompegiaco -> BERGERAC
+	link = { imp = 2294 ck3 = 2235 } # Travectus -> AGENAIS
+	link = { imp = 2289 ck3 = 2143 } # Lucaniacum -> FRONSAC
+	link = { imp = 2236 ck3 = 2142 } # Burdigala -> BORDEAUX
+	link = { imp = 2233 ck3 = 2141 } # Noviomagus Aquitanum -> MEDOC
 	link = { comment = "CENTRAL FRANCE" }
 	link = { imp = 3010 ck3 = 2057 } # Valtudurum -> MONTPELLIARD
 	link = { imp = 2427 ck3 = 2076 } # Segobodium -> BESANCON
@@ -40,7 +125,7 @@
 	link = { imp = 2328 ck3 = 2240 } # Briva -> TURENNE
 	link = { imp = 2337 ck3 = 2294 } # Argenta -> AURILLAC
 	link = { imp = 5047 ck3 = 2295 ck3 = 2290 ck3 = 2291 ck3 = 2223 ck3 = 2227 ck3 = 2224 ck3 = 2292 ck3 = 2293 } # Arverni Highland -> LA TOUR, MERCAEUR, LANGEAC, GEVAUDAN, MARVEJOLS, SAINT-FLOUR, MURAT, CARLAT
-	link = { imp = 5046 ck3 = 2298 ck3 = 2297 ck3 = 2065 ck3 = 3258 ck3 = 2063 ck3 = 2296 } # IMPASSIBLE TERRAIN 046 -> MONTBRISON, FEURS, LYON, Annonay, VIVIERS, VELAY
+	link = { imp = 5046 ck3 = 2298 ck3 = 2297 ck3 = 2065 ck3 = 3258 ck3 = 2296 } # IMPASSIBLE TERRAIN 046 -> MONTBRISON, FEURS, LYON, Annonay, VELAY
 	link = { imp = 2298 ck3 = 2300 } # Brivas -> AMBERT
 	link = { imp = 2286 ck3 = 2225 } # Vellavorum -> LE PUY
 	link = { imp = 2307 ck3 = 2068 } # Morginnum -> ROMANS
