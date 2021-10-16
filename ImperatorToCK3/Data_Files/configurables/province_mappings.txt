@@ -117,15 +117,17 @@
 	link = { imp = 3309 ck3 = 2226 } # Canniaco -> RODEZ
 	link = { imp = 2262 ck3 = 2229 } # Segodunum -> LA PEYRADE
 	link = { imp = 2268 ck3 = 2228 } # Carantomagus -> LA SALLE
-	link = { imp = 2269 imp = 2280 ck3 = 2231 ck3 = 2230 } # MANY-TO-MANY: Divona, Marinavas -> QUERCY, MONTAUBAN
-	link = { imp = 2293 imp = 2270 ck3 = 2232 } # Excisum, Aginnum -> AGEN
+	link = { imp = 2280 ck3 = 2230 } # Marinavas -> MONTAUBAN
+	link = { imp = 2269 ck3 = 2231 } # Divona -> QUERCY
+	link = { imp = 2270 imp = 2293 ck3 = 2232 } # Aginnum, Excisum -> AGEN
 	link = { imp = 2279 ck3 = 2213 } # Sarnali -> CASTELSARRASIN
 	link = { imp = 2278 ck3 = 2208 } # Casinomagus -> BEAUMONT
 	link = { imp = 2275 ck3 = 2205 } # Elimberrum -> LOMAGNE
 	link = { imp = 2271 ck3 = 2204 } # Lactora -> LECTOURE
 	link = { imp = 2273 ck3 = 2203 } # Eleusa -> FESENSAC
 	link = { imp = 2281 ck3 = 2200 } # Ussubium -> GABARDAN
-	link = { imp = 2250 imp = 2274 ck3 = 2199 ck3 = 2201 } # MANY-TO-MANY: Atura, Saviniago -> MARSAN, ARMAGNAC
+	link = { imp = 2250 ck3 = 2201 } # Atura -> ARMAGNAC
+	link = { imp = 2274 ck3 = 2199 } # Saviniago -> MARSAN
 	link = { imp = 2249 ck3 = 2202 } # Tarba -> PARDIAC
 	link = { imp = 2247 ck3 = 2193 } # Bene Harnum -> PAU
 	link = { imp = 2243 ck3 = 2194 } # Aquae Tarbellicae -> TURSAN
@@ -152,8 +154,8 @@
 	link = { imp = 2315 imp = 2313 imp = 2312 ck3 = 2015 } # Briginnum, Sextantio, Andusia -> MONTPELLIER
 	link = { imp = 2297 ck3 = 2218 } # Cebennia -> CEVENNES
 	link = { imp = 2317 imp = 2316 ck3 = 2216 } # Ucetia, Staturnae -> USES
-	link = { imp = 2318 imp = 2314 ck3 = 2016 } # Rhodanousia, Nemausus -> NIMES
-	link = { imp = 2323 imp = 2319 ck3 = 2017 } # Pisavi, Arelatis -> ARLES
+	link = { imp = 2314 imp = 2318 ck3 = 2016 } # Nemausus, Rhodanousia -> NIMES
+	link = { imp = 2319 imp = 2323 ck3 = 2017 } # Arelatis, Pisavi -> ARLES
 	link = { imp = 2325 ck3 = 2018 } # Massalia -> MARSEILLE
 	link = { imp = 3523 ck3 = 2023 } # Verunia -> AIX
 	link = { imp = 2324 ck3 = 2060 } # Apta Iulia -> APT
@@ -161,7 +163,7 @@
 	link = { imp = 2320 ck3 = 2062 } # Arausio -> ORANGE
 	link = { imp = 3519 ck3 = 2067 } # Vasio -> VAISON
 	link = { imp = 3528 ck3 = 2061 } # Mons Seleucus -> FORCALQUIER
-	link = { imp = 3622 imp = 3626 ck3 = 2069 } # Isarnodurum, Antro -> BELLEY
+	link = { imp = 3622 ck3 = 2069 } # Isarnodurum -> BELLEY
 	link = { imp = 3621 imp = 3623 ck3 = 2034 } # Venetonimagus, Boutae -> ANNECY
 	link = { imp = 3608 ck3 = 2031 } # Mantala -> MOUTIERS
 	link = { imp = 3537 ck3 = 2029 } # Maurienna -> SAINT-MICHEL-DE-MAURIENNE
@@ -170,7 +172,7 @@
 	link = { imp = 3545 imp = 3546 ck3 = 2022 } # Album Intimilium, Albom Ingaunom -> MONACO
 	link = { imp = 3543 imp = 3544 ck3 = 2021 } # Antipolis, Navelis -> NICE
 	link = { imp = 3541 ck3 = 2020 } # Agathom -> GRASSE
-	link = { imp = 3522 imp = 3529 ck3 = 8720 } # Sanitium, Rigomagus -> Barcelonnette
+	link = { imp = 3529 imp = 3522 ck3 = 8720 } # Rigomagus, Sanitium -> Barcelonnette
 	link = { imp = 3521 imp = 3542 ck3 = 2024 } # Tegulata, Matavo -> DRAGUGNIAN
 	link = { imp = 3518 ck3 = 2025 } # Griselica -> Castellane
 	link = { imp = 3520 ck3 = 2026 } # Segustero -> SISTERON
@@ -236,7 +238,7 @@
 	link = { imp = 2307 ck3 = 2068 } # Morginnum -> ROMANS
 	link = { imp = 3539 imp = 3538 ck3 = 2455 } # Labisco, Voludnia -> CHAMBERY
 	link = { imp = 2305 ck3 = 2032 } # Allobrogia -> CHARTREUSE
-	link = { imp = 3627 ck3 = 2457 } # Bodgalio -> CHAMPAGNOLE
+	link = { imp = 3627 imp = 3626 ck3 = 2457 } # Bodgalio, Antro -> CHAMPAGNOLE
 	link = { imp = 3628 ck3 = 2072 } # Filomusiacum -> SALINS
 	link = { imp = 2306 ck3 = 2064 } # Figlinae -> VALENCE
 	link = { imp = 2304 imp = 2303 ck3 = 2033 } # Vienna, Octavus -> VIENNE
