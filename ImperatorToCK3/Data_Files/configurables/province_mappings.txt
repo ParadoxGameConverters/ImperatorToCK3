@@ -192,13 +192,13 @@
 	link = { imp = 3010 ck3 = 2057 } # Valtudurum -> MONTPELLIARD
 	link = { imp = 2427 ck3 = 2076 } # Segobodium -> BESANCON
 	link = { imp = 2363 ck3 = 2191 } # Pons Ariola -> QUINGEY
-	link = { imp = 2411 ck3 = 2314 } # Segivomicus -> SANCERRE
+	link = { imp = 2414 imp = 2411 ck3 = 2314 } # Condate Avaricum, Segivomicus -> SANCERRE
 	link = { imp = 2407 ck3 = 2315 } # Gabris -> VIERZON
 	link = { imp = 2406 ck3 = 2316 } # Leprosum -> ROMORANTIN
 	link = { imp = 2405 ck3 = 2277 } # Pontiniacum -> VALENCAY
 	link = { imp = 2419 imp = 2420 ck3 = 2276 } # Claudiomagus, Iciodoro -> LA HAYE
-	link = { imp = 2387 imp = 2385 imp = 2384 ck3 = 2253 } # Exidualum, Andecamulum, Vosagum -> CHATELLERAULT
-	link = { imp = 2345 ck3 = 2252 } # Limonum -> POITIERS
+	link = { imp = 2385 imp = 2384 ck3 = 2253 } # Andecamulum, Vosagum -> CHATELLERAULT
+	link = { imp = 2345 imp = 2387 ck3 = 2252 } # Limonum, Exidualum -> POITIERS
 	link = { imp = 2391 imp = 2390 ck3 = 2254 } # Brigiosum, Rauranum -> NIORT
 	link = { imp = 2393 ck3 = 2255 } # Voglada -> PARTHENAY
 	link = { imp = 2396 ck3 = 2256 } # Clinno -> LOUDUN
@@ -211,7 +211,7 @@
 	link = { imp = 2229 ck3 = 2146 } # Novioregum Santonum -> ROYAN
 	link = { imp = 2389 ck3 = 2249 } # Cassinomagum -> LUSIGNAN
 	link = { imp = 2392 ck3 = 2250 } # Aunnedonacum -> MELLE
-	link = { imp = 2230 ck3 = 2243 } # Mediolanum Santonum -> TAILLEBOURG
+	link = { imp = 2230 ck3 = 2242 ck3 = 2243 } # Mediolanum Santonum -> SAINTES, TAILLEBOURG
 	link = { imp = 2369 ck3 = 2303 ck3 = 2304 } # Berberensis -> SEMUR-EN-BRIONNAIS, CLUNY
 	link = { imp = 2346 ck3 = 2279 } # Argentomagus -> CHATEAUROUX
 	link = { imp = 2383 ck3 = 2464 } # Ferruciacum -> LA TREMOUILLE
@@ -220,8 +220,9 @@
 	link = { imp = 2283 imp = 2386 ck3 = 2284 } # Augustoritum, Ambiacum -> BELLAC
 	link = { imp = 2334 imp = 2388 ck3 = 2251 } # Campaniacum, Comodoliacus -> RUFFEC
 	link = { imp = 2333 ck3 = 2245 } # Canaviacum -> SAINT-JUNIEN
-	link = { imp = 2231 imp = 3000 ck3 = 2462 ck3 = 2242 } # MANY-TO-MANY: Lamnum, Sermanicomago -> COGNAC, SAINTES
-	link = { imp = 2232 ck3 = 2145 ck3 = 2241 } # Tannum -> JONZAC, SAINTOGNE
+	link = { imp = 3000 ck3 = 2462 } # Sermanicomago -> COGNAC
+	link = { imp = 2231 ck3 = 2145 } # Lamnum -> JONZAC
+	link = { imp = 2232 ck3 = 2241 } # Tannum -> SAINTOGNE
 	link = { imp = 2234 ck3 = 2144 } # Burgus -> BLAYE
 	link = { imp = 2282 imp = 2287 ck3 = 2237 } # Vesunna, Corterate -> PERIGUEUX
 	link = { imp = 2329 ck3 = 2238 } # Nonniacus -> MONTIGNAC
@@ -229,7 +230,7 @@
 	link = { imp = 2328 ck3 = 2240 } # Briva -> TURENNE
 	link = { imp = 2337 ck3 = 2294 } # Argenta -> AURILLAC
 	link = { imp = 5047 ck3 = 2295 ck3 = 2290 ck3 = 2291 ck3 = 2223 ck3 = 2227 ck3 = 2224 ck3 = 2292 ck3 = 2293 } # Arverni Highland -> LA TOUR, MERCAEUR, LANGEAC, GEVAUDAN, MARVEJOLS, SAINT-FLOUR, MURAT, CARLAT
-	link = { imp = 5046 ck3 = 2298 ck3 = 2297 ck3 = 2065 ck3 = 3258 ck3 = 2296 } # IMPASSIBLE TERRAIN 046 -> MONTBRISON, FEURS, LYON, Annonay, VELAY
+	link = { imp = 5046 ck3 = 2298 ck3 = 2297 ck3 = 3258 ck3 = 2296 } # IMPASSIBLE TERRAIN 046 -> MONTBRISON, FEURS, Annonay, VELAY
 	link = { imp = 2298 ck3 = 2300 } # Brivas -> AMBERT
 	link = { imp = 2286 ck3 = 2225 } # Vellavorum -> LE PUY
 	link = { imp = 2307 ck3 = 2068 } # Morginnum -> ROMANS
@@ -238,8 +239,8 @@
 	link = { imp = 3627 ck3 = 2457 } # Bodgalio -> CHAMPAGNOLE
 	link = { imp = 3628 ck3 = 2072 } # Filomusiacum -> SALINS
 	link = { imp = 2306 ck3 = 2064 } # Figlinae -> VALENCE
-	link = { imp = 2303 imp = 2304 ck3 = 2033 } # Octavus, Vienna -> VIENNE
-	link = { imp = 2301 ck3 = 2070 } # Lugdunum -> Villars
+	link = { imp = 2304 imp = 2303 ck3 = 2033 } # Vienna, Octavus -> VIENNE
+	link = { imp = 2301 ck3 = 2065 ck3 = 2070 } # Lugdunum -> LYON, Villars
 	link = { imp = 2358 imp = 2357 imp = 2356 ck3 = 2071 } # Lunna, Brioratis, Ludna -> BOURG
 	link = { imp = 2355 ck3 = 2459 } # Vesontio -> ORNANS
 	link = { imp = 2361 ck3 = 2073 } # Crucinae -> LONS-LE-SAUNIER
@@ -251,12 +252,13 @@
 	link = { imp = 2373 ck3 = 2309 } # Ricomagus -> SAINT-POURCAIN
 	link = { imp = 2372 imp = 2371 ck3 = 2306 } # Sitilia, Aquae Calidae -> JILAGNY
 	link = { imp = 2374 ck3 = 2307 } # Arthona -> MOULINS
-	link = { imp = 2368 ck3 = 2312 } # Tincontium -> BOURGES
+	link = { imp = 2439 ck3 = 2349 } # Aballo -> VEZELAY
+	link = { imp = 2368 imp = 2412 ck3 = 2313 } # Tincontium, Nogeomagus -> HERRY
 	link = { imp = 2377 ck3 = 2311 } # Derventum -> ORVAL
 	link = { imp = 2382 ck3 = 2280 } # Idunum -> DEOLS
 	link = { imp = 2410 imp = 2409 ck3 = 2278 } # Exolidunum, Ernodurum -> ISSOUDUN
-	link = { imp = 2347 ck3 = 2313 } # Avaricum -> HERRY
-	link = { imp = 2412 ck3 = 2344 } # Nogeomagus -> POUGUES-LES-EAUX
+	link = { imp = 2347 ck3 = 2312 } # Avaricum -> BOURGES
+	link = { imp = 2434 ck3 = 2344 } # Cervidunum -> POUGUES-LES-EAUX
 	link = { imp = 2367 ck3 = 2343 } # Decetia -> NEVERS
 	link = { imp = 2348 imp = 2366 ck3 = 2347 } # Augustodunum, Allsincum -> AUTUN
 	link = { imp = 2437 imp = 2435 ck3 = 2376 } # Sidoloucum, Vidubia -> BEAUNE
@@ -269,12 +271,12 @@
 	link = { imp = 2404 imp = 2341 ck3 = 2248 } # Sisciacum, Curisiacum -> LIMOGES
 	link = { imp = 2344 ck3 = 2287 } # Durotincum -> AUBUSSON
 	link = { imp = 1719 imp = 2342 ck3 = 2289 } # Avitacum, Ubiquum -> CLERMONT-SUR-ALLIER
-	link = { imp = 2284 ck3 = 2299 ck3 = 2288 } # Gergovia -> THIERS, MONTEPENSIER
-	link = { imp = 2300 imp = 2370 imp = 2299 ck3 = 2305 } # Aquae Segetae, Transalium, Biliomagus -> ROANNE
+	link = { imp = 2284 ck3 = 2288 } # Gergovia -> MONTEPENSIER
+	link = { imp = 2299 ck3 = 2299 } # Biliomagus -> THIERS
+	link = { imp = 2300 imp = 2370 ck3 = 2305 } # Aquae Segetae, Transalium -> ROANNE
 	link = { imp = 2364 imp = 2302 ck3 = 2301 } # Rodumna, Seguslavorum -> BEAUJEU
 	link = { imp = 2365 ck3 = 2302 } # Pocrinnium -> MACON
-	link = { imp = 2438 imp = 2439 ck3 = 2378 } # Bibracte, Aballo -> MORVAN
-	link = { imp = 2434 ck3 = 2349 } # Cervidunum -> VEZELAY
+	link = { imp = 2438 ck3 = 2378 } # Bibracte -> MORVAN
 	link = { imp = 2416 ck3 = 2463 } # Brivodurum -> SULLY-SUR-LOIRE
 	link = { imp = 2408 ck3 = 2317 } # Biturigum -> OLIVET
 	link = { imp = 2421 imp = 2422 ck3 = 2275 } # Cisomagus, Onia -> LOCHES
@@ -330,7 +332,7 @@
 	link = { imp = 3048 ck3 = 2396 } # Verbinum -> ROMIGNY
 	link = { imp = 2451 ck3 = 2391 } # Durocortorum -> RETHEL
 	link = { imp = 3050 imp = 2494 ck3 = 2395 } # Mosomagus, Basillia -> VERDUN
-	link = { imp = 2415 imp = 2413 imp = 2414 ck3 = 2345 } # Intaranum, Vicus Massava, Condate Avaricum -> DONZY
+	link = { imp = 2415 imp = 2413 ck3 = 2345 } # Intaranum, Vicus Massava -> DONZY
 	link = { imp = 2432 ck3 = 2346 } # Cora Vicus -> AUXERRE
 	link = { imp = 2433 imp = 2354 ck3 = 2381 } # Benevellum, Andematunnum -> CHAUMONT
 	link = { imp = 2428 ck3 = 2383 ck3 = 2382 } # Varcia -> GY, GRAY
