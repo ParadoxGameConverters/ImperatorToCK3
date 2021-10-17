@@ -188,6 +188,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				// use unlocalized name if not empty
 				var name = ImperatorCountry.Name;
 				if (!string.IsNullOrEmpty(name)) {
+					Logger.Warn($"Using unlocalized Imperator name {name} as name for {Name}!");
 					Localizations[Name] = new LocBlock(name);
 					nameSet = true;
 				}
@@ -417,12 +418,8 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public List<RulerTerm> RulerTerms { get; private set; } = new();
 		public int? DevelopmentLevel {
-			get {
-				return history.DevelopmentLevel;
-			}
-			set {
-				history.DevelopmentLevel = value;
-			}
+			get => history.DevelopmentLevel;
+			set => history.DevelopmentLevel = value;
 		}
 
 		public Dictionary<string, LocBlock> Localizations { get; set; } = new();
@@ -458,7 +455,7 @@ namespace ImperatorToCK3.CK3.Titles {
 					adjSet = true;
 				}
 			}
-			if (!adjSet) { // final fallback
+			if (!adjSet) {
 				var adjLocalizationMatch = localizationMapper.GetLocBlockForKey(ImperatorCountry.Tag);
 				if (adjLocalizationMatch is not null) {
 					Localizations[Name + "_adj"] = adjLocalizationMatch;
@@ -469,6 +466,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				// use unlocalized name if not empty
 				var name = ImperatorCountry.Name;
 				if (!string.IsNullOrEmpty(name)) {
+					Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Name}!");
 					Localizations[Name + "_adj"] = new LocBlock(name);
 					adjSet = true;
 				}
