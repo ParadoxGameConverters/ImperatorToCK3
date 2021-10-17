@@ -2,9 +2,9 @@ REPLACE_ME_NAME={
 	type=female
 	#id=7777
 	age=0.REPLACE_ME_AGE
-	genes={ 		hair_color={ 49 234 49 234 }
- 		skin_color={ 141 213 141 213 }
- 		eye_color={ 49 245 49 245 }
+	genes={ 			
+		ADD_GENES
+
  		gene_chin_forward={ "chin_forward_pos" 134 "chin_forward_pos" 134 }
  		gene_chin_height={ "chin_height_pos" 131 "chin_height_pos" 131 }
  		gene_chin_width={ "chin_width_neg" 96 "chin_width_neg" 96 }

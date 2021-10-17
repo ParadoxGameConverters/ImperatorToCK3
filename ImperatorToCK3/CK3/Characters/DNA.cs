@@ -64,6 +64,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			HairCoordinates2 = GetPaletteCoordinates(
 				impPortraitData.HairColor2PaletteCoordinates, impHairPalettePixels, ck3HairPalettePixels
 			);
+			var hairLine = $"hair_color={{{HairCoordinates.X} {HairCoordinates.Y} {HairCoordinates2.X} {HairCoordinates2.Y}}}";
+			DNALines.Add(hairLine);
 
 			SkinCoordinates = GetPaletteCoordinates(
 				impPortraitData.SkinColorPaletteCoordinates, impSkinPalettePixels, ck3SkinPalettePixels
@@ -71,6 +73,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			SkinCoordinates2 = GetPaletteCoordinates(
 				impPortraitData.SkinColor2PaletteCoordinates, impSkinPalettePixels, ck3SkinPalettePixels
 			);
+			var skinLine = $"skin_color={{{SkinCoordinates.X} {SkinCoordinates.Y} {SkinCoordinates2.X} {SkinCoordinates2.Y}}}";
+			DNALines.Add(skinLine);
 
 			EyeCoordinates = GetPaletteCoordinates(
 				impPortraitData.EyeColorPaletteCoordinates, impEyePalettePixels, ck3EyePalettePixels
@@ -78,8 +82,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			EyeCoordinates2 = GetPaletteCoordinates(
 				impPortraitData.EyeColor2PaletteCoordinates, impEyePalettePixels, ck3EyePalettePixels
 			);
+			var eyeLine = $"eye_color={{{EyeCoordinates.X} {EyeCoordinates.Y} {EyeCoordinates2.X} {EyeCoordinates2.Y}}}";
+			DNALines.Add(eyeLine);
 
-			const string geneSetName = "all_beards";
+			const string geneSetName = "scripted_character_beards_01";
 			if (genesDB is null) {
 				Logger.Error("Cannot determine accessory genes: genes DB is uninitialized!");
 			} else {
@@ -88,10 +94,6 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 				var impSetEntry = geneInfo.objectName;
 				var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
-				if (impCharacter.ID == 20607) {
-					Logger.Notice(impSetEntry);
-					Logger.Notice(convertedSetEntry);
-				}
 
 				var geneSet = genesDB.Genes.Genes["beards"].GeneTemplates[geneSetName];
 				var ageSex = impCharacter.AgeSex;
@@ -149,15 +151,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		public void OutputGenes(StreamWriter output) {
 			output.WriteLine("\t\tgenes={");
 
-			var hairCoords1 = HairCoordinates;
-			var hairCoords2 = HairCoordinates2;
-			output.WriteLine($"\t\t\thair_color={{ {hairCoords1.X} {hairCoords1.Y} {hairCoords2.X} {hairCoords2.Y} }}");
-			var skinCoords1 = SkinCoordinates;
-			var skinCoords2 = SkinCoordinates2;
-			output.WriteLine($"\t\t\tskin_color={{ {skinCoords1.X} {skinCoords1.Y} {skinCoords2.X} {skinCoords2.Y} }}");
-			var eyeCoords1 = EyeCoordinates;
-			var eyeCoords2 = EyeCoordinates2;
-			output.WriteLine($"\t\t\teye_color={{ {eyeCoords1.X} {eyeCoords1.Y} {eyeCoords2.X} {eyeCoords2.Y} }}");
 			foreach (var line in DNALines) {
 				output.WriteLine("\t\t\t" + line);
 			}

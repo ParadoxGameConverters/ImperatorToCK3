@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ImperatorToCK3.CK3.Characters;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
@@ -80,9 +81,13 @@ namespace ImperatorToCK3.Outputter {
 					_ => "blankMod/templates/common/bookmark_portraits/male.txt",
 				};
 				string templateText = File.ReadAllText(templatePath);
+
 				templateText = templateText.Replace("REPLACE_ME_NAME", holder.Name);
 				templateText = templateText.Replace("REPLACE_ME_AGE", holder.Age.ToString());
-				var outPortraitPath = "output/" + config.OutputModName + "/common/bookmark_portraits/" + $"{holder.Name}.txt";
+				var genesStr = holder.DNA is not null ? string.Join("\n", holder.DNA.DNALines) : string.Empty;
+				templateText = templateText.Replace("ADD_GENES", genesStr);
+
+				var outPortraitPath = $"output/{config.OutputModName}/common/bookmark_portraits/{holder.Name}.txt";
 				File.WriteAllText(outPortraitPath, templateText);
 			}
 
@@ -128,8 +133,8 @@ namespace ImperatorToCK3.Outputter {
 						continue;
 					}
 					var heldNonImpassableNeighborProvs = nonImpassableNeighborProvs.Intersect(heldProvinces);
-					if (heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
-						// realm controls more than half of non-impassable neigbors of the impassable
+					if ((double)heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
+						// realm controls more than half of non-impassable neighbors of the impassable
 						provincesToColor.Add(impassableId);
 					}
 				}
