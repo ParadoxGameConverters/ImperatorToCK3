@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class Characters : Parser {
@@ -45,22 +46,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Logger.Info($"{counter} families linked to characters.");
 		}
 		public void LinkSpouses() {
-			var spouseCounter = 0;
-			foreach (var (characterID, character) in StoredCharacters) {
-				if (character.Spouses.Count == 0) {
-					continue;
-				}
-				var newSpouses = new Dictionary<ulong, Character?>();
-				foreach (var spouseID in character.Spouses.Keys) {
-					if (StoredCharacters.TryGetValue(spouseID, out var spouseToLink)) {
-						newSpouses.Add(spouseToLink.Id, spouseToLink);
-						++spouseCounter;
-					} else {
-						Logger.Warn($"Spouse ID: {spouseID} has no definition!");
-					}
-				}
-				character.Spouses = newSpouses;
-			}
+			var spouseCounter = StoredCharacters.Values.Sum(character => character.LinkSpouses(StoredCharacters));
 			Logger.Info($"{spouseCounter} spouses linked.");
 		}
 		public void LinkMothersAndFathers() {
