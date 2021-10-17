@@ -123,7 +123,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
-			ID = "imperator" + ImperatorCharacter.ID.ToString();
+			ID = "imperator" + ImperatorCharacter.Id.ToString();
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
@@ -161,19 +161,19 @@ namespace ImperatorToCK3.CK3.Characters {
 			ulong ck3Province;  // for religion mapper
 
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
-			var impProvForProvinceMapper = ImperatorCharacter.ProvinceID;
+			var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Father.Value.ProvinceID;
+				impProvForProvinceMapper = ImperatorCharacter.Father.Value.ProvinceId;
 			}
 
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Mother.Value.ProvinceID;
+				impProvForProvinceMapper = ImperatorCharacter.Mother.Value.ProvinceId;
 			}
 
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Spouses.Count > 0) {
 				var firstSpouse = ImperatorCharacter.Spouses.First().Value;
 				if (firstSpouse is not null) {
-					impProvForProvinceMapper = firstSpouse.ProvinceID;
+					impProvForProvinceMapper = firstSpouse.ProvinceId;
 				}
 			}
 
@@ -184,7 +184,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				ck3Province = ck3ProvinceNumbers[0];
 			}
 
-			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceID);
+			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId);
 			if (match is not null) {
 				Religion = match;
 			}
@@ -199,7 +199,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
 				Religion, ck3Province,
-				ImperatorCharacter.ProvinceID,
+				ImperatorCharacter.ProvinceId,
 				ck3Owner
 			);
 			if (match is not null) {

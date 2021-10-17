@@ -44,7 +44,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				{ 420, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "420", genesDB) }
 			};
 
-			Assert.Equal((ulong)42, character.ID);
+			Assert.Equal((ulong)42, character.Id);
 			Assert.Equal((ulong)69, character.Country.Value.Key);
 			Assert.Equal("paradoxian", character.Culture);
 			Assert.Equal("orthodox", character.Religion);
@@ -60,11 +60,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Collection(character.Spouses,
 				item => {
 					Assert.Equal((ulong)69, item.Key);
-					Assert.Equal((ulong)69, item.Value.ID);
+					Assert.Equal((ulong)69, item.Value.Id);
 				},
 				item => {
 					Assert.Equal((ulong)420, item.Key);
-					Assert.Equal((ulong)420, item.Value.ID);
+					Assert.Equal((ulong)420, item.Value.Id);
 				}
 			);
 			Assert.Collection(character.Children,
@@ -88,7 +88,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Equal(4, character.Attributes.Zeal);
 			Assert.Equal("paradoxianDna", character.DNA);
 			Assert.Equal((uint)56, character.Age);
-			Assert.Equal((ulong)69, character.ProvinceID);
+			Assert.Equal((ulong)69, character.ProvinceId);
 		}
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
@@ -117,7 +117,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Equal(0, character.Attributes.Zeal);
 			Assert.Null(character.DNA);
 			Assert.Equal((uint)0, character.Age);
-			Assert.Equal((ulong)0, character.ProvinceID);
+			Assert.Equal((ulong)0, character.ProvinceId);
 		}
 
 		[Fact]

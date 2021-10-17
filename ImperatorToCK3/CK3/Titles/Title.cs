@@ -269,7 +269,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			ClearHolderSpecificHistory();
 
 			// ------------------ determine holder
-			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.ID}", normalizedStartDate);
+			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate);
 
 			// ------------------ determine government
 			var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
@@ -295,7 +295,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			CoA = null; // using game-randomized CoA
 
 			// ------------------ determine capital
-			var governorProvince = impGovernor.ProvinceID;
+			var governorProvince = impGovernor.ProvinceId;
 			if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.RegionName)) {
 				foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince)) {
 					var foundCounty = landedTitles.GetCountyForProvince(ck3Prov);

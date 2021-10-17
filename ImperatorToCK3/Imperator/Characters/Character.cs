@@ -4,10 +4,10 @@ using ImperatorToCK3.Imperator.Families;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class Character {
-		public Character(ulong ID) {
-			this.ID = ID;
+		public Character(ulong id) {
+			Id = id;
 		}
-		public ulong ID { get; } = 0;
+		public ulong Id { get; } = 0;
 		public KeyValuePair<ulong, Countries.Country?>? Country { get; set; }
 		private string culture = string.Empty;
 		public string Culture {
@@ -28,7 +28,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string Name { get; set; } = string.Empty;
 		public string? CustomName { get; set; }
 		public string Nickname { get; set; } = string.Empty;
-		public ulong ProvinceID { get; private set; } = 0;
+		public ulong ProvinceId { get; private set; } = 0;
 		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
 		public Date? DeathDate { get; private set; }
 		public bool IsDead => DeathDate is not null;
@@ -44,7 +44,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			}
 			set {
 				if (value.Value is null) {
-					Logger.Warn($"Setting null family {value.Key} to character {ID}!");
+					Logger.Warn($"Setting null family {value.Key} to character {Id}!");
 				} else if (value.Value.ID != value.Key) {
 					Logger.Warn($"Setting family with ID mismatch: {value.Key} v. {value.Value.ID}!");
 				}
@@ -94,7 +94,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				parsedCharacter.Country = new(ParserHelpers.GetULong(reader), null);
 			});
 			parser.RegisterKeyword("province", reader => {
-				parsedCharacter.ProvinceID = ParserHelpers.GetULong(reader);
+				parsedCharacter.ProvinceId = ParserHelpers.GetULong(reader);
 			});
 			parser.RegisterKeyword("culture", reader => {
 				parsedCharacter.culture = ParserHelpers.GetString(reader);

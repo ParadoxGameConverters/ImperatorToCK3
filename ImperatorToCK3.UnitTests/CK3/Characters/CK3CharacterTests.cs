@@ -85,10 +85,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4);
 			var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5);
 
-			imperatorCharacter.Mother = new(imperatorMother.ID, imperatorMother);
-			imperatorCharacter.Father = new(imperatorFather.ID, imperatorFather);
-			imperatorCharacter.Children.Add(imperatorChild.ID, imperatorChild);
-			imperatorCharacter.Spouses.Add(imperatorSpouse.ID, imperatorSpouse);
+			imperatorCharacter.Mother = new(imperatorMother.Id, imperatorMother);
+			imperatorCharacter.Father = new(imperatorFather.Id, imperatorFather);
+			imperatorCharacter.Children.Add(imperatorChild.Id, imperatorChild);
+			imperatorCharacter.Spouses.Add(imperatorSpouse.Id, imperatorSpouse);
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
