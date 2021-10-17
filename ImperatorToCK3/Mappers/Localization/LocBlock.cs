@@ -8,6 +8,11 @@
         public string spanish = "";
 
 		public LocBlock() { }
+
+		public LocBlock(string englishLoc) {
+			english = englishLoc;
+			FillMissingLocsWithEnglish();
+		}
 		public LocBlock(LocBlock otherLocBlock) {
 			english = otherLocBlock.english;
 			french = otherLocBlock.french;

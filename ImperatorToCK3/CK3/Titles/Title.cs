@@ -184,6 +184,15 @@ namespace ImperatorToCK3.CK3.Titles {
 					nameSet = true;
 				}
 			}
+			if (!nameSet) {
+				// use unlocalized name if not empty
+				var name = ImperatorCountry.Name;
+				if (!string.IsNullOrEmpty(name)) {
+					Logger.Warn($"Using unlocalized Imperator name {name} as name for {Name}!");
+					Localizations[Name] = new LocBlock(name);
+					nameSet = true;
+				}
+			}
 			// giving up
 			if (!nameSet) {
 				Logger.Warn($"{Name} needs help with localization! {ImperatorCountry.Name}?");
@@ -409,12 +418,8 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public List<RulerTerm> RulerTerms { get; private set; } = new();
 		public int? DevelopmentLevel {
-			get {
-				return history.DevelopmentLevel;
-			}
-			set {
-				history.DevelopmentLevel = value;
-			}
+			get => history.DevelopmentLevel;
+			set => history.DevelopmentLevel = value;
 		}
 
 		public Dictionary<string, LocBlock> Localizations { get; set; } = new();
@@ -429,15 +434,14 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			var adjSet = false;
 
-			if (ImperatorCountry.Tag == "PRY" || ImperatorCountry.Tag == "SEL" || ImperatorCountry.Tag == "MRY") { // these tags use customizable loc for adj
-				LocBlock? validatedAdj = null;
-				if (ImperatorCountry.Name == "PRY_DYN") {
-					validatedAdj = localizationMapper.GetLocBlockForKey("get_pry_adj_fallback");
-				} else if (ImperatorCountry.Name == "SEL_DYN") {
-					validatedAdj = localizationMapper.GetLocBlockForKey("get_sel_adj_fallback");
-				} else if (ImperatorCountry.Name == "MRY_DYN") {
-					validatedAdj = localizationMapper.GetLocBlockForKey("get_mry_adj_fallback");
-				}
+			if (ImperatorCountry.Tag is "PRY" or "SEL" or "MRY") {
+				// these tags use customizable loc for adj
+				LocBlock? validatedAdj = ImperatorCountry.Name switch {
+					"PRY_DYN" => localizationMapper.GetLocBlockForKey("get_pry_adj_fallback"),
+					"SEL_DYN" => localizationMapper.GetLocBlockForKey("get_sel_adj_fallback"),
+					"MRY_DYN" => localizationMapper.GetLocBlockForKey("get_mry_adj_fallback"),
+					_ => null
+				};
 
 				if (validatedAdj is not null) {
 					Localizations[Name + "_adj"] = validatedAdj;
@@ -451,10 +455,19 @@ namespace ImperatorToCK3.CK3.Titles {
 					adjSet = true;
 				}
 			}
-			if (!adjSet) { // final fallback
+			if (!adjSet) {
 				var adjLocalizationMatch = localizationMapper.GetLocBlockForKey(ImperatorCountry.Tag);
 				if (adjLocalizationMatch is not null) {
 					Localizations[Name + "_adj"] = adjLocalizationMatch;
+					adjSet = true;
+				}
+			}
+			if (!adjSet) {
+				// use unlocalized name if not empty
+				var name = ImperatorCountry.Name;
+				if (!string.IsNullOrEmpty(name)) {
+					Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Name}!");
+					Localizations[Name + "_adj"] = new LocBlock(name);
 					adjSet = true;
 				}
 			}
