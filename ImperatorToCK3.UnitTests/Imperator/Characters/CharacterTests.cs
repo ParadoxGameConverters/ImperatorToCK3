@@ -77,7 +77,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 			Assert.Equal((ulong)123, character.Mother.Key);
 			Assert.Equal((ulong)124, character.Father.Key);
-			Assert.Equal((ulong)125, character.Family.Key);
+			Assert.Null(character.Family); // Despite "family=125" in character definition, Family is null until linked.
 			Assert.Equal(420.5, character.Wealth);
 			Assert.Equal("Biggus_Dickus", character.Name);
 			Assert.Equal("CUSTOM NAME", character.CustomName);
@@ -106,7 +106,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Empty(character.Children);
 			Assert.Equal((ulong)0, character.Mother.Key);
 			Assert.Equal((ulong)0, character.Father.Key);
-			Assert.Equal((ulong)0, character.Family.Key);
+			Assert.Null(character.Family);
 			Assert.Equal(0, character.Wealth);
 			Assert.Equal(string.Empty, character.Name);
 			Assert.Null(character.CustomName);
@@ -130,7 +130,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 			var family = ImperatorToCK3.Imperator.Families.Family.Parse(familyReader, 42);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "69", genesDB);
-			character.Family = new(42, family);
+			character.Family = family;
 			Assert.Equal("paradoxian", character.Culture);
 		}
 
@@ -149,6 +149,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 
+			Assert.NotNull(character.PortraitData);
 			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.x);
 			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.y);
 			Assert.Equal((uint)0, character.PortraitData.SkinColorPaletteCoordinates.x);
@@ -160,30 +161,26 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		[Fact]
 		public void AgeSexReturnsCorrectString() {
 			var reader1 = new BufferedReader(
-				"=\n" +
-			"{\n" +
-			"\tage=56\n" +
-			"\tfemale=yes\n" +
-			"}"
+				"= {\n" +
+				"\tage=56\n" +
+				"\tfemale=yes\n" +
+				"}"
 			);
 			var reader2 = new BufferedReader(
-				"=\n" +
-			"{\n" +
-			"\tage=56\n" +
-			"}"
+				"= {\n" +
+				"\tage=56\n" +
+				"}"
 			);
 			var reader3 = new BufferedReader(
-				"=\n" +
-			"{\n" +
-			"\tage=8\n" +
-			 "\tfemale=yes\n" +
-			 "}"
+				"= {\n" +
+				"\tage=8\n" +
+				"\tfemale=yes\n" +
+				"}"
 			);
 			var reader4 = new BufferedReader(
-				 "=\n" +
-			"{\n" +
-			 "\tage=8\n" +
-			 "}"
+				"= {\n" +
+				"\tage=8\n" +
+				"}"
 			);
 			var character1 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "42", genesDB);
 			var character2 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "43", genesDB);
