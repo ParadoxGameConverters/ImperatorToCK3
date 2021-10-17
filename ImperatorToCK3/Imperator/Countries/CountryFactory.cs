@@ -67,9 +67,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 				country.Currencies = new CountryCurrencies(reader)
 			);
 			parser.RegisterKeyword("capital", reader => {
-				var capitalProvID = ParserHelpers.GetULong(reader);
-				if (capitalProvID > 0) {
-					country.Capital = capitalProvID;
+				var capitalProvId = ParserHelpers.GetULong(reader);
+				if (capitalProvId > 0) {
+					country.Capital = capitalProvId;
 				}
 			});
 			parser.RegisterKeyword("historical_regnal_numbers", reader => {
@@ -98,10 +98,10 @@ namespace ImperatorToCK3.Imperator.Countries {
 				}
 			});
 			parser.RegisterKeyword("family", reader =>
-				country.Families.Add(ParserHelpers.GetULong(reader), null)
+				country.parsedFamilyIds.Add(ParserHelpers.GetULong(reader))
 			);
 			parser.RegisterKeyword("minor_family", reader =>
-				country.Families.Add(ParserHelpers.GetULong(reader), null)
+				country.parsedFamilyIds.Add(ParserHelpers.GetULong(reader))
 			);
 			parser.RegisterKeyword("monarch", reader =>
 				country.Monarch = ParserHelpers.GetULong(reader)
@@ -123,8 +123,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 				ParserHelpers.IgnoreItem(reader);
 			});
 		}
-		public static Country Parse(BufferedReader reader, ulong countryID) {
-			country = new Country(countryID);
+		public static Country Parse(BufferedReader reader, ulong countryId) {
+			country = new Country(countryId);
 			parser.ParseStream(reader);
 			return country;
 		}

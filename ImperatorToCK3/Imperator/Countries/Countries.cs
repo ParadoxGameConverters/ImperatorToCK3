@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class Countries : Parser {
@@ -20,33 +20,11 @@ namespace ImperatorToCK3.Imperator.Countries {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void LinkFamilies(Families.Families families) {
-			var counter = 0;
 			SortedSet<ulong> idsWithoutDefinition = new();
-			foreach (var country in StoredCountries.Values) {
-				if (country.Families.Count > 0) {
-					var newFamilies = new Dictionary<ulong, Families.Family?>();
-					foreach (var familyID in country.Families.Keys) {
-						if (families.StoredFamilies.TryGetValue(familyID, out var familyToLink)) {
-							newFamilies.Add(familyID, familyToLink);
-							++counter;
-						} else {
-							idsWithoutDefinition.Add(familyID);
-						}
-					}
-					country.SetFamilies(newFamilies);
-				}
-			}
+			var counter = StoredCountries.Values.Sum(country => country.LinkFamilies(families, idsWithoutDefinition));
 
 			if (idsWithoutDefinition.Count > 0) {
-				var warningBuilder = new StringBuilder();
-				warningBuilder.Append("Families without definition:");
-				foreach(var id in idsWithoutDefinition) {
-					warningBuilder.Append(' ');
-					warningBuilder.Append(id);
-					warningBuilder.Append(',');
-				}
-				var warningStr = warningBuilder.ToString();
-				Logger.Debug(warningStr[0..^1]); // remove last comma
+				Logger.Debug($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");
 			}
 
 			Logger.Info($"{counter} families linked to countries.");
