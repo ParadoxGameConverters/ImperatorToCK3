@@ -29,8 +29,8 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				Logger.Warn($"Province {ID}: cannot link null country!");
 				return;
 			}
-			if (country.ID != OwnerCountry.Key) {
-				Logger.Warn($"Province {ID}: cannot link country {country.ID}: wrong ID!");
+			if (country.Id != OwnerCountry.Key) {
+				Logger.Warn($"Province {ID}: cannot link country {country.Id}: wrong ID!");
 			} else {
 				OwnerCountry = new(OwnerCountry.Key, country);
 			}

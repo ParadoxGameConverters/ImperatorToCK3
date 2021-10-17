@@ -84,7 +84,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 						Logger.Warn($"Pre-Imperator ruler has wrong tag: {tag}!");
 						return;
 					}
-					var countryId = matchingCountries.First().ID;
+					var countryId = matchingCountries.First().Id;
 					PreImperatorRuler.Country = countries.StoredCountries[countryId];
 					tagToCountryCache.Add(tag, PreImperatorRuler.Country);
 				}

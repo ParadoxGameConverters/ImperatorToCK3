@@ -49,7 +49,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"}"
 			);
 			var country = Country.Parse(reader, 42);
-			Assert.Equal((ulong)42, country.ID);
+			Assert.Equal((ulong)42, country.Id);
 			Assert.Equal("WTF", country.Tag);
 			Assert.Equal("WTF", country.Name);
 			Assert.Equal("WTF", country.Flag);

@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, countryID) => {
 				var newCountry = Country.Parse(reader, ulong.Parse(countryID));
-				StoredCountries.Add(newCountry.ID, newCountry);
+				StoredCountries.Add(newCountry.Id, newCountry);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}

@@ -6,7 +6,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 	public enum CountryRank { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower }
 	public enum GovernmentType { monarchy, republic, tribal }
 	public partial class Country {
-		public ulong ID { get; } = 0;
+		public ulong Id { get; } = 0;
 		public bool PlayerCountry { get; set; }
 		public ulong? Monarch { get; private set; }  // >=0 are valid
 		public List<RulerTerm> RulerTerms { get; set; } = new();
@@ -26,14 +26,14 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Color? Color2 { get; private set; }
 		public Color? Color3 { get; private set; }
 		public CountryCurrencies Currencies { get; private set; } = new();
-		private HashSet<ulong> parsedFamilyIds = new();
+		private readonly HashSet<ulong> parsedFamilyIds = new();
 		public Dictionary<ulong, Families.Family> Families { get; private set; } = new();
 		private readonly HashSet<Provinces.Province> ownedProvinces = new();
 
 		public CK3.Titles.Title? CK3Title { get; set; }
 
-		public Country(ulong ID) {
-			this.ID = ID;
+		public Country(ulong id) {
+			Id = id;
 		}
 		public SortedSet<string> GetLaws() {
 			return GovernmentType switch {

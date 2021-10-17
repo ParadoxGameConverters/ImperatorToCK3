@@ -176,7 +176,7 @@ namespace ImperatorToCK3.Imperator {
 					Logger.Warn(noCountryIdWarning);
 					return;
 				}
-				var countryId = rulerTerm.PreImperatorRuler.Country.ID;
+				var countryId = rulerTerm.PreImperatorRuler.Country.Id;
 				Countries.StoredCountries[countryId].RulerTerms.Add(rulerTerm);
 				if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
 					list.Add(rulerTerm);
@@ -220,11 +220,11 @@ namespace ImperatorToCK3.Imperator {
 			}
 			foreach (var country in Countries.StoredCountries.Values) {
 				bool equal;
-				if (!regnalNameCounts.ContainsKey(country.ID)) {
+				if (!regnalNameCounts.ContainsKey(country.Id)) {
 					equal = country.HistoricalRegnalNumbers.Count == 0;
 				} else {
 					equal = country.HistoricalRegnalNumbers.OrderBy(kvp => kvp.Key)
-						.SequenceEqual(regnalNameCounts[country.ID].OrderBy(kvp => kvp.Key)
+						.SequenceEqual(regnalNameCounts[country.Id].OrderBy(kvp => kvp.Key)
 					);
 				}
 

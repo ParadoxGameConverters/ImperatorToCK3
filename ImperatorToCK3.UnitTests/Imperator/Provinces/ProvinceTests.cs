@@ -287,7 +287,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var country = Country.Parse(countryReader, 50);
 
 			province.LinkOwnerCountry(country);
-			Assert.Equal((ulong)50, province.OwnerCountry.Value.ID);
+			Assert.Equal((ulong)50, province.OwnerCountry.Value.Id);
 		}
 
 		[Fact]

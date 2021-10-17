@@ -38,7 +38,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
 			var countryReader = new BufferedReader("= { tag = SPA }");
 			var sparta = Country.Parse(countryReader, 69);
-			countries.StoredCountries.Add(sparta.ID, sparta);
+			countries.StoredCountries.Add(sparta.Id, sparta);
 
 			var preImpTermReader = new BufferedReader("= { name=\"Alexander\"" +
 				" birth_date=200.1.1 death_date=300.1.1 throne_date=250.1.1" +
