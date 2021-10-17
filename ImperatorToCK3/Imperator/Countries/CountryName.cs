@@ -19,18 +19,21 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 		public LocBlock? GetNameLocBlock(LocalizationMapper localizationMapper, Dictionary<ulong, Country> imperatorCountries) {
 			var directNameLocMatch = localizationMapper.GetLocBlockForKey(Name);
-			if (directNameLocMatch is not null && Name == "CIVILWAR_FACTION_NAME") {
-				// special case for revolts
-				if (BaseName is not null) {
-					var baseAdjLoc = BaseName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
-					if (baseAdjLoc is not null) {
-						directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
-							orig = orig.Replace("$ADJ$", modifying)
-						);
-						return directNameLocMatch;
-					}
-				}
+			if (directNameLocMatch is null || Name != "CIVILWAR_FACTION_NAME") {
+				return directNameLocMatch;
 			}
+
+			// special case for revolts
+			if (BaseName is null) {
+				return directNameLocMatch;
+			}
+			var baseAdjLoc = BaseName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
+			if (baseAdjLoc is null) {
+				return directNameLocMatch;
+			}
+			directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
+				orig = orig.Replace("$ADJ$", modifying)
+			);
 			return directNameLocMatch;
 		}
 		public LocBlock? GetAdjectiveLocBlock(LocalizationMapper localizationMapper, Dictionary<ulong, Country> imperatorCountries) {
