@@ -143,10 +143,6 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("Linking Characters with Families");
 			Characters.LinkFamilies(Families);
 			Families.RemoveUnlinkedMembers();
-			Logger.Info("Linking Characters with Spouses");
-			Characters.LinkSpouses();
-			Logger.Info("Linking Characters with Mothers and Fathers");
-			Characters.LinkMothersAndFathers();
 			Logger.Info("Linking Characters with Countries");
 			Characters.LinkCountries(Countries);
 			Logger.Info("Linking Provinces with Pops");

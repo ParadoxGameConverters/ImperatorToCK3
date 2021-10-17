@@ -559,19 +559,20 @@ namespace ImperatorToCK3.CK3 {
 		private void LinkSpouses() {
 			var spouseCounter = 0;
 			foreach (var ck3Character in Characters.Values) {
-				var newSpouses = new Dictionary<ulong, Character>();
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
 					continue;
 				}
 				foreach (var impSpouseCharacter in ck3Character.ImperatorCharacter.Spouses.Values) {
-					if (impSpouseCharacter is not null) {
-						var ck3SpouseCharacter = impSpouseCharacter.CK3Character;
-						ck3Character.Spouses[ck3SpouseCharacter.ID] = ck3SpouseCharacter;
-						ck3SpouseCharacter.Spouses[ck3Character.ID] = ck3Character;
-						++spouseCounter;
+					var ck3SpouseCharacter = impSpouseCharacter.CK3Character;
+					if (ck3SpouseCharacter is null) {
+						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
+						continue;
 					}
+					ck3Character.Spouses[ck3SpouseCharacter.ID] = ck3SpouseCharacter;
+					ck3SpouseCharacter.Spouses[ck3Character.ID] = ck3Character;
+					++spouseCounter;
 				}
 			}
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");

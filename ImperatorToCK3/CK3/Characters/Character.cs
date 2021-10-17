@@ -172,9 +172,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Spouses.Count > 0) {
 				var firstSpouse = ImperatorCharacter.Spouses.First().Value;
-				if (firstSpouse is not null) {
-					impProvForProvinceMapper = firstSpouse.ProvinceId;
-				}
+				impProvForProvinceMapper = firstSpouse.ProvinceId;
 			}
 
 			var ck3ProvinceNumbers = provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper);
