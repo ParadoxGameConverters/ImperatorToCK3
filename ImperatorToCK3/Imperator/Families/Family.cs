@@ -22,17 +22,17 @@ namespace ImperatorToCK3.Imperator.Families {
 				return;
 			}
 			foreach(DictionaryEntry memberPair in Members) {
-				if ((ulong)memberPair.Key == newMember.ID) {
+				if ((ulong)memberPair.Key == newMember.Id) {
 					Members[memberPair.Key] = newMember;
 					return;
 				}
 			}
 			if (newMember.DeathDate is not null) { // if character is dead, his ID needs to be added to the dict
-				Members.Add(newMember.ID, newMember);
+				Members.Add(newMember.Id, newMember);
 				return;
 			}
 			// matching ID was not found
-			Logger.Warn($"Family {ID}: cannot link {newMember.ID} (not found in members)!");
+			Logger.Warn($"Family {ID}: cannot link {newMember.Id} (not found in members)!");
 		}
 		public void RemoveUnlinkedMembers() {
 			var toRemove = new List<ulong>();

@@ -53,7 +53,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				var newSpouses = new Dictionary<ulong, Character?>();
 				foreach (var spouseID in character.Spouses.Keys) {
 					if (StoredCharacters.TryGetValue(spouseID, out var spouseToLink)) {
-						newSpouses.Add(spouseToLink.ID, spouseToLink);
+						newSpouses.Add(spouseToLink.Id, spouseToLink);
 						++spouseCounter;
 					} else {
 						Logger.Warn($"Spouse ID: {spouseID} has no definition!");
@@ -114,7 +114,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
 				var newCharacter = Character.Parse(reader, charIdStr, genesDB);
-				StoredCharacters.Add(newCharacter.ID, newCharacter);
+				StoredCharacters.Add(newCharacter.Id, newCharacter);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
