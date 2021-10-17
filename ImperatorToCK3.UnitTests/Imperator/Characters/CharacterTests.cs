@@ -77,7 +77,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 			Assert.Equal((ulong)123, character.Mother.Key);
 			Assert.Equal((ulong)124, character.Father.Key);
-			Assert.Null(character.Family); // Despite family=125 in character definition, Family is null until linked.
+			Assert.Null(character.Family); // Despite "family=125" in character definition, Family is null until linked.
 			Assert.Equal(420.5, character.Wealth);
 			Assert.Equal("Biggus_Dickus", character.Name);
 			Assert.Equal("CUSTOM NAME", character.CustomName);
