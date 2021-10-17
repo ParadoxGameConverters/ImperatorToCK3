@@ -377,3 +377,6 @@ link = { ck3 = sephardi imp = hebrew impRegion = baetica_region impRegion = cont
 link = { ck3 = khazar imp = hebrew impRegion = sarmatia_asiatica_region impRegion = taurica_region impRegion = colchis_region impRegion = bithynia_region impRegion = cappadocia_region impRegion = galatia_region impRegion = cilicia_region }
 link = { ck3 = hebrew imp = hebrew }
 link = { ck3 = nabatean imp = nabatean }
+
+# Simple Timeline Extender mod
+link = { ck3 = hunnic imp = hunnic }
