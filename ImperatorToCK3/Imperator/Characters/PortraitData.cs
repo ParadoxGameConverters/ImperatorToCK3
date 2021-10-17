@@ -64,12 +64,6 @@ namespace ImperatorToCK3.Imperator.Characters {
 					}
 				}
 			}
-
-			if (dnaString.StartsWith("CewJ7LyKvIr48fjxApYClgJ6AnoCkgKSAo4CjgKJAokCcAJwAmoCagKWApYCdAJ0ApUClQJ7AnsCagJqApkCmQKCAoIClAKUA6oDqgJ0AnQCaQJ")) {
-				foreach (var (geneName, data) in AccessoryGenesDict) {
-					Logger.Notice("GENE: " + geneName + " TEMPLATE: " + data.geneTemplate + " OBJECT: " + data.objectName);
-				}
-			}
 		}
 	}
 }
