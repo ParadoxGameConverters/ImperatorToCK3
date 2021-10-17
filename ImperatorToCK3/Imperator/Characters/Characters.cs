@@ -22,30 +22,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 			var counter = 0;
 			var idsWithoutDefinition = new SortedSet<ulong>();
 
-			foreach (var (characterID, character) in StoredCharacters) {
-				var familyID = character.Family.Key;
-				if (families.StoredFamilies.TryGetValue(familyID, out var familyToLink)) {
-					if (familyToLink is null) {
-						Logger.Warn($"Cannot link null family {familyID} to character {characterID}.");
-						continue;
-					}
-					character.Family = new(familyID, familyToLink);
-					familyToLink.LinkMember(character);
+			foreach (var character in StoredCharacters.Values) {
+				if (character.LinkFamily(families, idsWithoutDefinition)) {
 					++counter;
-				} else {
-					idsWithoutDefinition.Add(familyID);
 				}
 			}
 
 			if (idsWithoutDefinition.Count > 0) {
-				var logBuilder = new StringBuilder();
-				logBuilder.Append("Families without definition:");
-				foreach (var id in idsWithoutDefinition) {
-					logBuilder.Append(' ');
-					logBuilder.Append(id);
-					logBuilder.Append(',');
-				}
-				Logger.Info(logBuilder.ToString()[0..^1]); // remove last comma
+				Logger.Info($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");
 			}
 
 			Logger.Info($"{counter} families linked to characters.");
