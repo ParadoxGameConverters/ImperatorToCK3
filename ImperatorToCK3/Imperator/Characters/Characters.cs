@@ -11,6 +11,11 @@ namespace ImperatorToCK3.Imperator.Characters {
 			RegisterKeys();
 			ParseStream(reader);
 			ClearRegisteredRules();
+
+			Logger.Info("Linking Characters with Spouses...");
+			LinkSpouses();
+			Logger.Info("Linking Characters with Mothers and Fathers...");
+			LinkMothersAndFathers();
 		}
 		public Dictionary<ulong, Character> StoredCharacters { get; } = new();
 		public void LinkFamilies(Families.Families families) {
@@ -45,11 +50,12 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 			Logger.Info($"{counter} families linked to characters.");
 		}
-		public void LinkSpouses() {
+		private void LinkSpouses() {
 			var spouseCounter = StoredCharacters.Values.Sum(character => character.LinkSpouses(StoredCharacters));
 			Logger.Info($"{spouseCounter} spouses linked.");
 		}
-		public void LinkMothersAndFathers() {
+
+		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
 			foreach (var (characterID, character) in StoredCharacters) {
