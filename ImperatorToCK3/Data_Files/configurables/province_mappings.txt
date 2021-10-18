@@ -1,4 +1,66 @@
 0.0.0 = {
+	link = { comment = "CENTRAL IBERIAN PENINSULA" }
+	link = { imp = 1319 ck3 = 1754 } # Olisipo -> LISBOA
+	link = { imp = 1046 imp = 1180 ck3 = 1914 } # Salmantica, Vettonia Deserta -> MEDINA DEL CAMPO
+	link = { imp = 1437 imp = 1304 imp = 1201 ck3 = 1917 } # Augustobriga Vettonia, Caellonico, Vettonia Inferioris -> ALMARAZ
+	link = { imp = 1227 ck3 = 1931 } # Lagni -> MEDINACELI
+	link = { imp = 1226 ck3 = 1930 } # Mallia -> SIGUENZA
+	link = { imp = 1219 ck3 = 1926 } # Uxama Argaela -> UCEDA
+	link = { imp = 1225 imp = 1223 ck3 = 1927 } # Tucris, Segontia -> GUDALAJARA
+	link = { imp = 1211 imp = 1210 imp = 1224 ck3 = 1944 } # Ocules, Opta, Loutia -> ZURITA
+	link = { imp = 1207 ck3 = 1929 } # Caracca -> VILLAREJO DE SALVANES
+	link = { imp = 1203 ck3 = 1928 } # Titulcia -> ARGANDA
+	link = { imp = 1400 imp = 1423 imp = 1431 ck3 = 1834 } # Augusta Emerita, Evandriana, Ad Sorores -> MERIDA
+	link = { imp = 1425 imp = 1427 ck3 = 1775 } # Ad Atrum Flumen, Matsuarum -> CRATO
+	link = { imp = 1469 ck3 = 2002 } # Mago -> MINORCA
+	link = { imp = 1467 imp = 1468 ck3 = 2001 } # Pollentia, Tuci -> MALLORCA
+	link = { imp = 1465 imp = 1466 ck3 = 8735 } # Palma, Guium -> Palma
+	link = { imp = 1464 ck3 = 2000 } # Ebusus -> IVIZA
+	link = { imp = 1323 ck3 = 1777 } # Ebora -> EVORA
+	link = { imp = 1327 ck3 = 1780 } # Calanta -> VIANA DO ALENTEJO
+	link = { imp = 1428 ck3 = 1776 } # Celtica Superioris -> ELVAS
+	link = { imp = 1315 imp = 1320 imp = 1328 ck3 = 1779 } # Aritium Praetorium, Malateca, Sefiana -> MONTEMOR
+	link = { imp = 1318 imp = 1321 ck3 = 1753 } # Barbarion, Caetobriga -> SETUBAL
+	link = { imp = 1309 imp = 1329 ck3 = 1778 } # Vicus Carnalocensis, Taporia -> AVIS
+	link = { imp = 1310 ck3 = 1774 } # Ammaia -> NISA
+	link = { imp = 1430 ck3 = 1832 } # Ad Fines Hiberiae -> ALCANTARA
+	link = { imp = 1426 ck3 = 1833 } # Budua -> ZALACA
+	link = { imp = 1434 imp = 1432 ck3 = 1954 } # Tamusia, Norba -> CACERES
+	link = { imp = 1454 imp = 1435 ck3 = 1956 } # Brutobriga, Lacipea -> CASTILBLANCO
+	link = { imp = 340 ck3 = 1955 } # Turgalium -> TRUJILLO
+	link = { imp = 1462 imp = 1461 ck3 = 1957 } # Catonita, Bocouriqua -> LA JARA
+	link = { imp = 1463 ck3 = 1961 } # Solorbes -> CABANEROS
+	link = { imp = 1456 imp = 1455 ck3 = 1962 } # Pilonicoria, Satella -> LA PUEBLA DE MONTALBAN
+	link = { imp = 1458 ck3 = 1960 } # Dunites -> MALAGON
+	link = { imp = 1452 imp = 1457 ck3 = 1959 } # Alaba, Solicia Carpetania -> QUINTANAR
+	link = { imp = 1025 ck3 = 1958 } # Consabura -> OCANA
+	link = { imp = 1024 imp = 1204 ck3 = 1919 } # Toletum, Ioppe Iberia -> TOLEDO
+	link = { imp = 1023 imp = 1206 ck3 = 1923 } # Mantua Carpetania, Complutum -> MADRID
+	link = { imp = 1202 ck3 = 1920 } # Vaddua -> MAQUEDA
+	link = { imp = 1438 imp = 1200 ck3 = 1918 } # Caesarobriga, Vettonia Superioris -> TALAVERA
+	link = { imp = 1177 imp = 1193 ck3 = 1924 } # Cauca, Confluentia -> SEGOVIA
+	link = { imp = 1176 ck3 = 1922 } # Nivaria -> CORACERA
+	link = { imp = 1196 ck3 = 1921 } # Tullium -> LA ADRADA
+	link = { imp = 1198 imp = 1197 ck3 = 1916 } # Coloricum, Ad Lippos -> SIERRA DE GREDOS
+	link = { imp = 1159 ck3 = 1913 } # Polibedenses -> BEJAR
+	link = { imp = 1306 imp = 1433 imp = 1305 ck3 = 1831 } # Lama, Tourmogon, Capera -> PLASENCIA
+	link = { imp = 1307 imp = 1311 ck3 = 1830 } # Caurium, Tongorigum -> CORIA
+	link = { imp = 1312 imp = 1301 ck3 = 1771 } # Castra Cecilia, Igaeditania -> IDANHA
+	link = { imp = 1303 imp = 1308 ck3 = 1773 } # Herminium, Aritium -> CASTELO BRANCO
+	link = { imp = 1300 imp = 1302 ck3 = 1770 } # Vicus Veniensis, Ocelum -> TRANCOSO
+	link = { imp = 1295 imp = 1299 ck3 = 1769 } # Areocelum, Centum Cellas -> VISEU
+	link = { imp = 1313 imp = 1298 ck3 = 1772 } # Tubucci, Sellium -> ABRANTES
+	link = { imp = 1316 imp = 1317 imp = 1314 ck3 = 1755 } # Eburobrittium, Arabriga, Scallabis -> SANTAREM
+	link = { imp = 1297 ck3 = 1756 } # Collippo -> OBIDOS
+	link = { imp = 1294 ck3 = 1757 } # Conimbriga -> LEIRIA
+	link = { imp = 1293 ck3 = 1758 } # Aeminium -> COIMBRA
+	link = { imp = 1175 ck3 = 1915 } # Septimanca -> OLMEDO
+	link = { imp = 1173 imp = 1179 ck3 = 1912 } # Arboukale, Vettonia Relicta -> AVILA
+	link = { imp = 1043 imp = 1161 ck3 = 1828 } # Ocelum Duri, Sibaris -> SALAMANCA
+	link = { imp = 1158 imp = 1162 ck3 = 1829 } # Cobelcorum, Bletsima -> CIDUAD RODRIGO
+	link = { imp = 1290 ck3 = 1768 } # Aravorum -> LAMEGO
+	link = { imp = 1292 ck3 = 2003 } # Visseria -> GRALHEIRA
+	link = { imp = 1291 ck3 = 1759 } # Langobriga -> AVEIRO
 	link = { comment = "NORTHERN IBERIAN PENINSULA" }
 	link = { imp = 1150 ck3 = 1781 ck3 = 1761 } # Vicus Spacorum -> TUI, BRAGA
 	link = { imp = 1149 ck3 = 1782 } # Ad Duos Pontes -> VIGO
@@ -63,7 +125,30 @@
 	link = { imp = 5182 ck3 = 3303 } # IMPASSIBLE TERRAIN 182 -> IBERIAN IMPASSIBLE TERRAIN 4
 	link = { imp = 1091 ck3 = 1902 } # Augustobriga -> TARAZONA
 	link = { imp = 1011 imp = 1212 ck3 = 1891 } # Celsa, Sermonae -> BELCHITE
-	link = { imp = 1013 imp = 1015 imp = 1090 imp = 1089 ck3 = 1887 } # Salduba, Bilbilis, Tertakom, Cascantum -> ZARAGOZA
+	link = { imp = 1242 imp = 1244 ck3 = 1893 } # Lassira, Roburum -> CALACEITE
+	link = { imp = 1208 ck3 = 1953 } # Vicus Cuminarius -> MORA
+	link = { imp = 1270 imp = 1272 imp = 1269 ck3 = 1952 } # Alces, Domum, Pons Rugio -> UCLES
+	link = { imp = 1209 ck3 = 1951 } # Segobriga -> HUETE
+	link = { imp = 1233 imp = 1028 ck3 = 1947 } # Bellia Superioris, Valeria -> CUENCA
+	link = { imp = 1266 ck3 = 1946 } # Edetania Inferioris -> ADEMUZ
+	link = { imp = 1238 imp = 1217 ck3 = 1937 } # Lautumiae, Lobeton -> TERUEL
+	link = { imp = 1246 imp = 1215 ck3 = 1942 } # Dentum, Agiria -> MAESTRAZGO
+	link = { imp = 1240 imp = 1245 ck3 = 1857 } # Etobesa, Rubium -> CASTELLON DE LA PLANA
+	link = { imp = 1029 imp = 1235 ck3 = 1856 } # Saguntum, Sebelaci -> MURVIEDRO
+	link = { imp = 1236 imp = 1216 ck3 = 1941 } # Arcus, Urbiaca -> SEGORBE
+	link = { imp = 1234 imp = 1237 imp = 1267 ck3 = 1938 } # Edeta, Edetania Centralis, Edetania Superioris -> MONTANEJOS
+	link = { imp = 1214 imp = 1247 ck3 = 1943 } # Carae, Columbarium -> SIERRA DE SAN JUST
+	link = { imp = 1243 ck3 = 1892 } # Sedetania -> ALCANIZ
+	link = { imp = 1030 imp = 1032 ck3 = 1855 } # Valentia, Portus Sucronis -> VALENCIA
+	link = { imp = 1239 ck3 = 1858 } # Indibilis -> AMPOSTA
+	link = { imp = 1062 ck3 = 1883 } # Ad Novas Iberia -> CASPE
+	link = { imp = 1213 ck3 = 1934 } # Segeda -> DAROCA
+	link = { imp = 1230 ck3 = 1936 } # Bellia Desolata -> ALBARRACIN
+	link = { imp = 1228 ck3 = 1935 } # Colenda -> MOLINA
+	link = { imp = 1229 imp = 1232 imp = 1231 ck3 = 1945 } # Confluenta Celtiberia, Bellia Inferioris, Bellia Relicta -> ALTO TAJO
+	link = { imp = 1222 imp = 1221 ck3 = 1933 } # Okilis, Arcobriga -> ABLANQUE
+	link = { imp = 1220 imp = 1015 ck3 = 1932 } # Aquae Bilbitonorum, Bilbilis -> CALATAYUD
+	link = { imp = 1013 imp = 1090 imp = 1089 ck3 = 1887 } # Salduba, Tertakom, Cascantum -> ZARAGOZA
 	link = { imp = 1085 imp = 1016 ck3 = 1890 } # Barbariana, Calagurris Iulia -> TUDELA
 	link = { imp = 1086 ck3 = 1810 } # Tritium Magallum -> LOGRONO
 	link = { imp = 1184 ck3 = 1925 } # Vaccaeia Relicta -> CUELLAR
