@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters {
@@ -45,7 +45,14 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			};
 
 			Assert.Equal((ulong)42, character.Id);
-			Assert.Equal((ulong)69, character.Country.Value.Key);
+
+			Assert.Null(character.Country); // we have a country id, but no linked country yet
+			var countriesReader = new BufferedReader("={ 69={} }");
+			var countries = new ImperatorToCK3.Imperator.Countries.Countries(countriesReader);
+			character.LinkCountry(countries);
+			Assert.NotNull(character.Country);
+			Assert.Equal((ulong)69, character.Country.Id);
+
 			Assert.Equal("paradoxian", character.Culture);
 			Assert.Equal("orthodox", character.Religion);
 			Assert.True(character.Female);

@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class Characters : Parser {
@@ -19,15 +18,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 		public Dictionary<ulong, Character> StoredCharacters { get; } = new();
 		public void LinkFamilies(Families.Families families) {
-			var counter = 0;
 			var idsWithoutDefinition = new SortedSet<ulong>();
-
-			foreach (var character in StoredCharacters.Values) {
-				if (character.LinkFamily(families, idsWithoutDefinition)) {
-					++counter;
-				}
-			}
-
+			var counter = StoredCharacters.Values.Count(character => character.LinkFamily(families, idsWithoutDefinition));
 			if (idsWithoutDefinition.Count > 0) {
 				Logger.Info($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");
 			}
@@ -42,26 +34,26 @@ namespace ImperatorToCK3.Imperator.Characters {
 		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
-			foreach (var (characterID, character) in StoredCharacters) {
-				var motherID = character.Mother.Key;
-				if (motherID != 0) {
-					if (StoredCharacters.TryGetValue(motherID, out var motherToLink)) {
-						character.Mother = new(motherID, motherToLink);
-						motherToLink.Children[characterID] = character;
+			foreach (var (characterId, character) in StoredCharacters) {
+				var motherId = character.Mother.Key;
+				if (motherId != 0) {
+					if (StoredCharacters.TryGetValue(motherId, out var motherToLink)) {
+						character.Mother = new(motherId, motherToLink);
+						motherToLink.Children[characterId] = character;
 						++motherCounter;
 					} else {
-						Logger.Warn($"Mother ID: {motherID} has no definition!");
+						Logger.Warn($"Mother ID: {motherId} has no definition!");
 					}
 				}
 
-				var fatherID = character.Father.Key;
-				if (fatherID != 0) {
-					if (StoredCharacters.TryGetValue(fatherID, out var fatherToLink)) {
-						character.Father = new(fatherID, fatherToLink);
-						fatherToLink.Children[characterID] = character;
+				var fatherId = character.Father.Key;
+				if (fatherId != 0) {
+					if (StoredCharacters.TryGetValue(fatherId, out var fatherToLink)) {
+						character.Father = new(fatherId, fatherToLink);
+						fatherToLink.Children[characterId] = character;
 						++fatherCounter;
 					} else {
-						Logger.Warn($"Father ID: {fatherID} has no definition!");
+						Logger.Warn($"Father ID: {fatherId} has no definition!");
 					}
 				}
 			}
@@ -69,21 +61,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		public void LinkCountries(Countries.Countries countries) {
-			var counter = 0;
-			foreach (var (characterId, character) in StoredCharacters) {
-				if (!character.Country.HasValue) {
-					Logger.Warn($"Character {characterId} has no country!");
-					continue;
-				}
-				var countryId = character.Country.Value.Key;
-				if (countries.StoredCountries.TryGetValue(countryId, out var countryToLink)) {
-					// link both ways
-					character.Country = new(countryId, countryToLink);
-					++counter;
-				} else {
-					Logger.Warn($"Country with ID {countryId} has no definition!");
-				}
-			}
+			var counter = StoredCharacters.Values.Count(character => character.LinkCountry(countries));
 			Logger.Info($"{counter} countries linked to characters.");
 		}
 

@@ -223,7 +223,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",
-				Country = new(69, country)
+				Country = country
 			};
 			var imperatorCharacter2 = new ImperatorToCK3.Imperator.Characters.Character(2) {
 				Culture = "greek"

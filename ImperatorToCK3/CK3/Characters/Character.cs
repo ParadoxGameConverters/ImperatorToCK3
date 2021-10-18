@@ -188,11 +188,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			var ck3Owner = "";
-			if (ImperatorCharacter.Country is not null) {
-				var imperatorCountry = ImperatorCharacter.Country.Value.Value;
-				if (imperatorCountry?.CK3Title is not null) {
-					ck3Owner = imperatorCountry.CK3Title.Name;
-				}
+			var imperatorCountry = ImperatorCharacter.Country;
+			if (imperatorCountry?.CK3Title != null) {
+				ck3Owner = imperatorCountry.CK3Title.Name;
 			}
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
