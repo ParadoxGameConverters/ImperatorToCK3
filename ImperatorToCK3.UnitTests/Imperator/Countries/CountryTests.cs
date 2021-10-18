@@ -28,6 +28,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Null(country.Color3);
 			Assert.Empty(country.GetLaws());
 			Assert.False(country.PlayerCountry);
+			Assert.Null(country.Government);
+			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 		}
 		[Fact]
 		public void FieldsCanBeSet() {
@@ -46,10 +48,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"\tcolor = rgb { 1 2 3 }" +
 				"\tcolor2 = rgb { 4 5 6 }" +
 				"\tcolor3 = rgb { 7 8 9 }" +
+				"\tgovernment_key = dictatorship" +
 				"}"
 			);
 			var country = Country.Parse(reader, 42);
-			Assert.Equal((ulong)42, country.ID);
+			Assert.Equal((ulong)42, country.Id);
 			Assert.Equal("WTF", country.Tag);
 			Assert.Equal("WTF", country.Name);
 			Assert.Equal("WTF", country.Flag);
@@ -68,6 +71,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal(new Color(new[] { 1, 2, 3 }), country.Color1);
 			Assert.Equal(new Color(new[] { 4, 5, 6 }), country.Color2);
 			Assert.Equal(new Color(new[] { 7, 8, 9 }), country.Color3);
+			Assert.Equal("dictatorship", country.Government);
+			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 		}
 		[Fact]
 		public void CorrectCountryRankIsReturned() {

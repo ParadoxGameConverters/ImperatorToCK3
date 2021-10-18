@@ -10,9 +10,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		[Fact]
 		public void CountriesDefaultToEmpty() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= { }"
 			);
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries(reader);
 
@@ -22,8 +20,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		[Fact]
 		public void CountriesCanBeLoaded() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"42={}\n" +
 				"43={}\n" +
 				"}"
@@ -33,11 +30,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Collection(countries.StoredCountries,
 				item => {
 					Assert.Equal((ulong)42, item.Key);
-					Assert.Equal((ulong)42, item.Value.ID);
+					Assert.Equal((ulong)42, item.Value.Id);
 				},
 				item => {
 					Assert.Equal((ulong)43, item.Key);
-					Assert.Equal((ulong)43, item.Value.ID);
+					Assert.Equal((ulong)43, item.Value.Id);
 				}
 			);
 		}
@@ -58,8 +55,6 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 
 			var country = countries.StoredCountries[42];
 			var family = country.Families[8];
-
-			Assert.NotNull(family);
 			Assert.Equal(2, family.Prestige);
 		}
 
@@ -94,11 +89,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var country3 = countries.StoredCountries[44];
 			var family3 = country3.Families[9];
 
-			Assert.NotNull(family);
 			Assert.Equal(2, family.Prestige);
-			Assert.NotNull(family2);
 			Assert.Equal(7, family2.Prestige);
-			Assert.NotNull(family3);
 			Assert.Equal(69, family3.Prestige);
 		}
 
@@ -107,8 +99,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var reader = new BufferedReader(
 				"={\n" +
 				"42={ family = 8 }\n" +
-				"44={ minor_family = 10 }\n" + /// no pop 10
-				"}\n"
+				"44={ minor_family = 10 }\n" + // no pop 10
+			 "}\n"
 			);
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries(reader);
 

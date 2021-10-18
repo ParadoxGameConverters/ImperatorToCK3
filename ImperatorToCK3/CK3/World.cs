@@ -436,7 +436,7 @@ namespace ImperatorToCK3.CK3 {
 					var ck3CapitalCounty = ck3Country.CapitalCounty;
 					var impMonarch = impCountry.Monarch;
 					var matchingGovernorships = new List<Governorship>(governorships.Where(g =>
-						g.CountryID == impCountry.ID &&
+						g.CountryID == impCountry.Id &&
 						g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.ID)
 					));
 

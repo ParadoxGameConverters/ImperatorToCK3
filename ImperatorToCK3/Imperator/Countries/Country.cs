@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public enum CountryType { rebels, pirates, barbarians, mercenaries, real }
 	public enum CountryRank { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower }
 	public enum GovernmentType { monarchy, republic, tribal }
 	public partial class Country {
-		public ulong ID { get; } = 0;
+		public ulong Id { get; } = 0;
 		public bool PlayerCountry { get; set; }
 		public ulong? Monarch { get; private set; }  // >=0 are valid
 		public List<RulerTerm> RulerTerms { get; set; } = new();
@@ -26,13 +26,14 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Color? Color2 { get; private set; }
 		public Color? Color3 { get; private set; }
 		public CountryCurrencies Currencies { get; private set; } = new();
-		public Dictionary<ulong, Families.Family?> Families { get; private set; } = new();
+		private readonly HashSet<ulong> parsedFamilyIds = new();
+		public Dictionary<ulong, Families.Family> Families { get; private set; } = new();
 		private readonly HashSet<Provinces.Province> ownedProvinces = new();
 
 		public CK3.Titles.Title? CK3Title { get; set; }
 
-		public Country(ulong ID) {
-			this.ID = ID;
+		public Country(ulong id) {
+			Id = id;
 		}
 		public SortedSet<string> GetLaws() {
 			return GovernmentType switch {
@@ -61,15 +62,27 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 			return CountryRank.greatPower;
 		}
-		public void SetFamilies(Dictionary<ulong, Families.Family?> newFamilies) {
-			Families = newFamilies;
-		}
 		public void RegisterProvince(Provinces.Province? province) {
 			if (province is null) {
 				Logger.Warn($"Didn't register null province to country {Name}.");
 			} else {
 				ownedProvinces.Add(province);
 			}
+		}
+
+		// Returns counter of families linked to the country
+		public int LinkFamilies(Families.Families families, SortedSet<ulong> idsWithoutDefinition) {
+			var counter = 0;
+			foreach (var familyId in parsedFamilyIds) {
+				if (families.StoredFamilies.TryGetValue(familyId, out var familyToLink)) {
+					Families.Add(familyId, familyToLink);
+					++counter;
+				} else {
+					idsWithoutDefinition.Add(familyId);
+				}
+			}
+
+			return counter;
 		}
 	}
 }
