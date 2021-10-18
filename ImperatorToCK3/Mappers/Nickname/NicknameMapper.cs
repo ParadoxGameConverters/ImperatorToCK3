@@ -36,10 +36,7 @@ namespace ImperatorToCK3.Mappers.Nickname {
 			if (impNickname is null) {
 				return null;
 			}
-			if (impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname)) {
-				return ck3Nickname;
-			}
-			return null;
+			return impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname) ? ck3Nickname : null;
 		}
 	}
 }

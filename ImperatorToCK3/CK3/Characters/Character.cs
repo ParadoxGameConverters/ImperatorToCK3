@@ -158,8 +158,6 @@ namespace ImperatorToCK3.CK3.Characters {
 			Female = ImperatorCharacter.Female;
 			Age = ImperatorCharacter.Age;
 
-			ulong ck3Province;  // for religion mapper
-
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
 			var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father.Value is not null) {
@@ -176,11 +174,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			var ck3ProvinceNumbers = provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper);
-			if (ck3ProvinceNumbers.Count == 0) {
-				ck3Province = 0;
-			} else {
-				ck3Province = ck3ProvinceNumbers[0];
-			}
+			// determine CK3 province for religionMapper
+			ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
 
 			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId);
 			if (match is not null) {
@@ -189,7 +184,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			var ck3Owner = "";
 			var imperatorCountry = ImperatorCharacter.Country;
-			if (imperatorCountry?.CK3Title != null) {
+			if (imperatorCountry?.CK3Title is not null) {
 				ck3Owner = imperatorCountry.CK3Title.Name;
 			}
 			match = cultureMapper.Match(
@@ -209,11 +204,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 
-			if (ImperatorCharacter.Nickname is not null) {
-				var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
-				if (nicknameMatch is not null) {
-					Nickname = nicknameMatch;
-				}
+			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
+			if (nicknameMatch is not null) {
+				Nickname = nicknameMatch;
 			}
 
 			BirthDate = ImperatorCharacter.BirthDate;
@@ -268,8 +261,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		private void RemoveSpouse(string spouseID) {
-			Spouses.Remove(spouseID);
+		private void RemoveSpouse(string spouseId) {
+			Spouses.Remove(spouseId);
 		}
 
 		private void RemoveFather() {
@@ -280,32 +273,32 @@ namespace ImperatorToCK3.CK3.Characters {
 			Mother = null;
 		}
 
-		private void RemoveChild(string childID) {
-			Children.Remove(childID);
+		private void RemoveChild(string childId) {
+			Children.Remove(childId);
 		}
 
-		public string? PendingMotherID { get; set; }
+		public string? PendingMotherId { get; set; }
 		private Character? mother;
 		public Character? Mother {
-			get { return mother; }
+			get => mother;
 			set {
-				if (PendingMotherID is not null && value is not null && value.ID != PendingMotherID) {
-					Logger.Warn($"Character {ID}: linking mother {value.ID} instead of expected {PendingMotherID}");
+				if (PendingMotherId is not null && value is not null && value.ID != PendingMotherId) {
+					Logger.Warn($"Character {ID}: linking mother {value.ID} instead of expected {PendingMotherId}");
 				}
 				mother = value;
-				PendingMotherID = null;
+				PendingMotherId = null;
 			}
 		}
-		public string? PendingFatherID { get; set; }
+		public string? PendingFatherId { get; set; }
 		private Character? father;
 		public Character? Father {
-			get { return father; }
+			get => father;
 			set {
-				if (PendingFatherID is not null && value is not null && value.ID != PendingFatherID) {
-					Logger.Warn($"Character {ID}: linking father {value.ID} instead of expected {PendingFatherID}");
+				if (PendingFatherId is not null && value is not null && value.ID != PendingFatherId) {
+					Logger.Warn($"Character {ID}: linking father {value.ID} instead of expected {PendingFatherId}");
 				}
 				father = value;
-				PendingFatherID = null;
+				PendingFatherId = null;
 			}
 		}
 		public Dictionary<string, Character?> Children { get; set; } = new();

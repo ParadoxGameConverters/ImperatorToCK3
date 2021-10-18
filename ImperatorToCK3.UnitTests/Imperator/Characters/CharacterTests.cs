@@ -117,7 +117,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Equal(0, character.Wealth);
 			Assert.Equal(string.Empty, character.Name);
 			Assert.Null(character.CustomName);
-			Assert.Equal(string.Empty, character.Nickname);
+			Assert.Null(character.Nickname);
 			Assert.Equal(0, character.Attributes.Martial);
 			Assert.Equal(0, character.Attributes.Finesse);
 			Assert.Equal(0, character.Attributes.Charisma);

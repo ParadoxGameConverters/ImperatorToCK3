@@ -44,7 +44,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			return false;
 		}
 
-		public string Nickname { get; set; } = string.Empty;
+		public string? Nickname { get; set; }
 		public ulong ProvinceId { get; private set; } = 0;
 		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
 		public Date? DeathDate { get; private set; }
