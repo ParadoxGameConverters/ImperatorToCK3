@@ -223,7 +223,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",
-				Country = new(69, country)
+				Country = country
 			};
 			var imperatorCharacter2 = new ImperatorToCK3.Imperator.Characters.Character(2) {
 				Culture = "greek"
@@ -353,8 +353,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		[Fact]
 		public void LinkingParentWithWrongIdIsLogged() {
 			var character = builder.Build();
-			character.PendingMotherID = "imperator1";
-			character.PendingFatherID = "imperator2";
+			character.PendingMotherId = "imperator1";
+			character.PendingFatherId = "imperator2";
 
 			var mother = builder
 				.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(69))

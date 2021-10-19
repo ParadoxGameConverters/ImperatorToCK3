@@ -9,7 +9,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Id = id;
 		}
 		public ulong Id { get; } = 0;
-		public KeyValuePair<ulong, Countries.Country?>? Country { get; set; }
+		private ulong? parsedCountryId;
+		public Countries.Country? Country { get; set; }
 		private string culture = string.Empty;
 		public string Culture {
 			get {
@@ -21,9 +22,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				}
 				return culture;
 			}
-			set {
-				culture = value;
-			}
+			set => culture = value;
 		}
 		public string Religion { get; set; } = string.Empty;
 		public string Name { get; set; } = string.Empty;
@@ -45,7 +44,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			return false;
 		}
 
-		public string Nickname { get; set; } = string.Empty;
+		public string? Nickname { get; set; }
 		public ulong ProvinceId { get; private set; } = 0;
 		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
 		public Date? DeathDate { get; private set; }
@@ -107,7 +106,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				parsedCharacter.CustomName = characterName.CustomName;
 			});
 			parser.RegisterKeyword("country", reader => {
-				parsedCharacter.Country = new(ParserHelpers.GetULong(reader), null);
+				parsedCharacter.parsedCountryId = ParserHelpers.GetULong(reader);
 			});
 			parser.RegisterKeyword("province", reader => {
 				parsedCharacter.ProvinceId = ParserHelpers.GetULong(reader);
@@ -198,6 +197,21 @@ namespace ImperatorToCK3.Imperator.Characters {
 			}
 
 			return counter;
+		}
+
+		// Returns whether a country was linked
+		public bool LinkCountry(Countries.Countries countries) {
+			if (parsedCountryId is null) {
+				Logger.Warn($"Character {Id} has no country!");
+				return false;
+			}
+			var countryId = (ulong)parsedCountryId;
+			if (countries.StoredCountries.TryGetValue(countryId, out var countryToLink)) {
+				Country = countryToLink;
+				return false;
+			}
+			Logger.Warn($"Country with ID {countryId} has no definition!");
+			return false;
 		}
 	}
 }
