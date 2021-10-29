@@ -374,7 +374,7 @@ namespace ImperatorToCK3.CK3 {
 				long provinceWeight = province.BuildingCount + province.GetPopCount();
 
 				if (provinceWeight > maxDev) {
-					toReturn = new(province.ID, province);
+					toReturn = new(province.Id, province);
 					maxDev = provinceWeight;
 				}
 			}
@@ -437,7 +437,7 @@ namespace ImperatorToCK3.CK3 {
 					var impMonarch = impCountry.Monarch;
 					var matchingGovernorships = new List<Governorship>(governorships.Where(g =>
 						g.CountryID == impCountry.Id &&
-						g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.ID)
+						g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 					));
 
 					if (!ck3CapitalCounty.HasValue || ck3CapitalCounty.Value.Value is null) {

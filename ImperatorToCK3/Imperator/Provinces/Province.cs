@@ -5,7 +5,7 @@ using ImperatorToCK3.Imperator.Countries;
 namespace ImperatorToCK3.Imperator.Provinces {
 	public enum ProvinceRank { settlement, city, city_metropolis }
 	public partial class Province {
-		public ulong ID { get; } = 0;
+		public ulong Id { get; } = 0;
 		public string Name { get; set; } = "";
 		public string Culture { get; set; } = "";
 		public string Religion { get; set; } = "";
@@ -19,18 +19,18 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public double CivilizationValue { get; set; } = 0;
 
 		public Province(ulong ID) {
-			this.ID = ID;
+			this.Id = ID;
 		}
 		public int GetPopCount() {
 			return Pops.Count;
 		}
 		public void LinkOwnerCountry(Country? country) {
 			if (country is null) {
-				Logger.Warn($"Province {ID}: cannot link null country!");
+				Logger.Warn($"Province {Id}: cannot link null country!");
 				return;
 			}
 			if (country.Id != OwnerCountry.Key) {
-				Logger.Warn($"Province {ID}: cannot link country {country.Id}: wrong ID!");
+				Logger.Warn($"Province {Id}: cannot link country {country.Id}: wrong ID!");
 			} else {
 				OwnerCountry = new(OwnerCountry.Key, country);
 			}

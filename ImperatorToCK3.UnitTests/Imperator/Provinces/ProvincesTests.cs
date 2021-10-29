@@ -24,8 +24,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			);
 			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
 
-			Assert.Equal((ulong)42, provinces.StoredProvinces[42].ID);
-			Assert.Equal((ulong)43, provinces.StoredProvinces[43].ID);
+			Assert.Equal((ulong)42, provinces.StoredProvinces[42].Id);
+			Assert.Equal((ulong)43, provinces.StoredProvinces[43].Id);
 		}
 
 		[Fact] public void PopCanBeLinked() {

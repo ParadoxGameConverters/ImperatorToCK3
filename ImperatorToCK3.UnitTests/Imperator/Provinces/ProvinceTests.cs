@@ -20,7 +20,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 
 			var theProvince = Province.Parse(reader, 42);
 
-			Assert.Equal((ulong)42, theProvince.ID);
+			Assert.Equal((ulong)42, theProvince.Id);
 		}
 
 		[Fact]

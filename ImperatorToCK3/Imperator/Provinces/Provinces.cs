@@ -14,7 +14,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 				var newProvince = Province.Parse(reader, ulong.Parse(provIdStr));
-				StoredProvinces.Add(newProvince.ID, newProvince);
+				StoredProvinces.Add(newProvince.Id, newProvince);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}

@@ -42,7 +42,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 						province.ProvinceRank = ProvinceRank.city_metropolis;
 						break;
 					default:
-						Logger.Warn($"Unknown province rank for province {province.ID}: {provinceRankStr}");
+						Logger.Warn($"Unknown province rank for province {province.Id}: {provinceRankStr}");
 						break;
 				}
 			});

@@ -82,7 +82,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 			}
 
 			if (!string.IsNullOrEmpty(ImperatorProvince.Religion)) {
-				var religionMatch = religionMapper.Match(ImperatorProvince.Religion, ID, ImperatorProvince.ID);
+				var religionMatch = religionMapper.Match(ImperatorProvince.Religion, ID, ImperatorProvince.Id);
 				if (religionMatch is not null) {
 					details.Religion = religionMatch;
 					religionSet = true;
@@ -111,7 +111,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 				string ownerTitleName = string.Empty;
 				if (ownerTitle is not null)
 					ownerTitleName = ownerTitle.Name;
-				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, ID, ImperatorProvince.ID, ownerTitleName);
+				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, ID, ImperatorProvince.Id, ownerTitleName);
 				if (cultureMatch is not null) {
 					details.Culture = cultureMatch;
 					cultureSet = true;
