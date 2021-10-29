@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using commonItems;
 using System.Collections.Generic;
-using commonItems;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public partial class Province {
@@ -24,7 +24,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				province.Controller = new SingleULong(reader).ULong
 			);
 			provinceParser.RegisterKeyword("pop", reader =>
-				province.Pops.Add(new SingleULong(reader).ULong, null)
+				province.parsedPopIds.Add(ParserHelpers.GetULong(reader))
 			);
 			provinceParser.RegisterKeyword("civilization_value", reader =>
 				province.CivilizationValue = new SingleDouble(reader).Double

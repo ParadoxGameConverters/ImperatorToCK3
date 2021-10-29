@@ -1,9 +1,9 @@
-﻿using System;
+﻿using commonItems;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Provinces;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using commonItems;
-using ImperatorToCK3.Imperator.Provinces;
-using ImperatorToCK3.Imperator.Countries;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
@@ -161,6 +161,18 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 
 			var theProvince = Province.Parse(reader, 42);
 
+			Assert.Equal(0, theProvince.GetPopCount()); // pops not linked yet
+
+			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pop1 = new ImperatorToCK3.Imperator.Pops.Pop(69);
+			var pop2 = new ImperatorToCK3.Imperator.Pops.Pop(68);
+			var pop3 = new ImperatorToCK3.Imperator.Pops.Pop(12213);
+			var pop4 = new ImperatorToCK3.Imperator.Pops.Pop(23);
+			pops.StoredPops.Add(pop1.ID, pop1);
+			pops.StoredPops.Add(pop2.ID, pop2);
+			pops.StoredPops.Add(pop3.ID, pop3);
+			pops.StoredPops.Add(pop4.ID, pop4);
+			theProvince.LinkPops(pops);
 			Assert.Equal(4, theProvince.GetPopCount());
 		}
 

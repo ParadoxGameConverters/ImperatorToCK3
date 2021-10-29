@@ -1,20 +1,22 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.IO;
-using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvincesTests {
-		[Fact] public void ProvincesDefaultToEmpty() {
+		[Fact]
+		public void ProvincesDefaultToEmpty() {
 			var reader = new BufferedReader("={}");
 			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
 
 			Assert.Empty(provinces.StoredProvinces);
 		}
 
-		[Fact] public void ProvincesCanBeLoaded() {
+		[Fact]
+		public void ProvincesCanBeLoaded() {
 			var reader = new BufferedReader(
 				"=\n" +
 				"{\n" +
@@ -28,7 +30,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			Assert.Equal((ulong)43, provinces.StoredProvinces[43].Id);
 		}
 
-		[Fact] public void PopCanBeLinked() {
+		[Fact]
+		public void PopCanBeLinked() {
 			var reader = new BufferedReader("={42={pop=8}}\n");
 			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
 
@@ -46,7 +49,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			Assert.Equal("citizen", pop.Type);
 		}
 
-		[Fact] public void MultiplePopsCanBeLinked() {
+		[Fact]
+		public void MultiplePopsCanBeLinked() {
 			var reader = new BufferedReader(
 				"={\n" +
 				"43={ pop = 10}\n" +
@@ -82,12 +86,13 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			Assert.Equal("tribal", pop3.Type);
 		}
 
-		[Fact] public void BrokenLinkAttemptThrowsWarning() {
+		[Fact]
+		public void BrokenLinkAttemptThrowsWarning() {
 			var reader = new BufferedReader(
 				"={\n" +
 				"42={ pop = 8 }\n" +
 				"44={ pop = 10 }\n" + /// no pop 10
-				"}\n"
+			  "}\n"
 			);
 			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
 
