@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using commonItems;
 using System.Collections.Generic;
-using commonItems;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public partial class Province {
@@ -24,7 +24,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				province.Controller = new SingleULong(reader).ULong
 			);
 			provinceParser.RegisterKeyword("pop", reader =>
-				province.Pops.Add(new SingleULong(reader).ULong, null)
+				province.parsedPopIds.Add(ParserHelpers.GetULong(reader))
 			);
 			provinceParser.RegisterKeyword("civilization_value", reader =>
 				province.CivilizationValue = new SingleDouble(reader).Double
@@ -42,7 +42,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 						province.ProvinceRank = ProvinceRank.city_metropolis;
 						break;
 					default:
-						Logger.Warn($"Unknown province rank for province {province.ID}: {provinceRankStr}");
+						Logger.Warn($"Unknown province rank for province {province.Id}: {provinceRankStr}");
 						break;
 				}
 			});
@@ -62,8 +62,8 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				ParserHelpers.IgnoreItem(reader);
 			});
 		}
-		public static Province Parse(BufferedReader reader, ulong provinceID) {
-			province = new Province(provinceID);
+		public static Province Parse(BufferedReader reader, ulong provinceId) {
+			province = new Province(provinceId);
 			provinceParser.ParseStream(reader);
 			return province;
 		}
