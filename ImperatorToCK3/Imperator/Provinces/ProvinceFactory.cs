@@ -62,8 +62,8 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				ParserHelpers.IgnoreItem(reader);
 			});
 		}
-		public static Province Parse(BufferedReader reader, ulong provinceID) {
-			province = new Province(provinceID);
+		public static Province Parse(BufferedReader reader, ulong provinceId) {
+			province = new Province(provinceId);
 			provinceParser.ParseStream(reader);
 			return province;
 		}
