@@ -1,7 +1,7 @@
 ﻿using commonItems.Serialization;
-using System.IO;
-using System.Collections.Generic;
 using ImperatorToCK3.CK3.Dynasties;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace ImperatorToCK3.Outputter {
