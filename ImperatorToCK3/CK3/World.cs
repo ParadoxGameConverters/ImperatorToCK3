@@ -616,7 +616,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 
 				var newDynasty = new Dynasty(family, localizationMapper);
-				Dynasties.Add(newDynasty.ID, newDynasty);
+				Dynasties.Add(newDynasty.Id, newDynasty);
 			}
 			Logger.Info($"{Dynasties.Count} total families imported.");
 		}
