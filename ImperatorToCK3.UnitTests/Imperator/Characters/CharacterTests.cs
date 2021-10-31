@@ -19,7 +19,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\tbirth_date=408.6.28" + // will be converted to AD date on loading
 				"\tdeath_date=408.6.28" + // will be converted to AD date on loading
 				"\tdeath = killed_in_battle" +
-				"\tspouse= { 69 420 } " +
+				"\tspouse= { 3 4 } " +
 				"\tchildren = { 69 420 } " +
 				"\tmother=123" +
 				"\tfather=124" +
@@ -40,8 +40,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			var spouse1Reader = new BufferedReader(string.Empty);
 			var spouse2Reader = new BufferedReader(string.Empty);
 			character.Spouses = new() {
-				{ 69, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse1Reader, "69", genesDB) },
-				{ 420, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "420", genesDB) }
+				{ 3, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse1Reader, "3", genesDB) },
+				{ 4, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "4", genesDB) }
 			};
 
 			Assert.Equal((ulong)42, character.Id);
@@ -66,14 +66,25 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Equal("killed_in_battle", character.DeathReason);
 			Assert.Collection(character.Spouses,
 				item => {
-					Assert.Equal((ulong)69, item.Key);
-					Assert.Equal((ulong)69, item.Value.Id);
+					Assert.Equal((ulong)3, item.Key);
+					Assert.Equal((ulong)3, item.Value.Id);
 				},
 				item => {
-					Assert.Equal((ulong)420, item.Key);
-					Assert.Equal((ulong)420, item.Value.Id);
+					Assert.Equal((ulong)4, item.Key);
+					Assert.Equal((ulong)4, item.Value.Id);
 				}
 			);
+
+			Assert.Empty(character.Children); // children not linked yet
+			var characters = new ImperatorToCK3.Imperator.Characters.Characters();
+			characters.Add(character);
+			var child1 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "69", null);
+			var child2 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "420", null);
+			characters.Add(child1);
+			characters.Add(child2);
+			child1.LinkMother(characters);
+			child2.LinkMother(characters);
+
 			Assert.Collection(character.Children,
 				item => {
 					Assert.Equal((ulong)69, item.Key);

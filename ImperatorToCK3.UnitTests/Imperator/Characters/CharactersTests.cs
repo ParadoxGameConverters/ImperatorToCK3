@@ -24,13 +24,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
 
 			Assert.Collection(characters.StoredCharacters,
-				item => {
-					Assert.Equal((ulong)42, item.Key);
-					Assert.Equal((ulong)42, item.Value.Id);
+				character => {
+					Assert.Equal((ulong)42, character.Id);
 				},
-				item => {
-					Assert.Equal((ulong)43, item.Key);
-					Assert.Equal((ulong)43, item.Value.Id);
+				character => {
+					Assert.Equal((ulong)43, character.Id);
 				}
 			);
 		}
@@ -43,7 +41,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"}"
 			);
 			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
-			Assert.Equal((ulong)42, characters.StoredCharacters[43].Spouses[42].Id);
+			Assert.Equal((ulong)42, characters[43].Spouses[42].Id);
 		}
 
 		[Fact]
@@ -54,7 +52,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"}"
 			);
 			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
-			Assert.Empty(characters.StoredCharacters[43].Spouses);
+			Assert.Empty(characters[43].Spouses);
 		}
 	}
 }

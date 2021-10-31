@@ -1,25 +1,36 @@
 ﻿using commonItems;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters {
-	public class Characters : Parser {
+	public class Characters {
 		public Characters() { }
 		public Characters(BufferedReader reader, Genes.GenesDB? genesDB) {
 			this.genesDB = genesDB;
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 
 			Logger.Info("Linking Characters with Spouses...");
 			LinkSpouses();
 			Logger.Info("Linking Characters with Mothers and Fathers...");
 			LinkMothersAndFathers();
 		}
-		public Dictionary<ulong, Character> StoredCharacters { get; } = new();
+		private readonly Dictionary<ulong, Character> charactersDict = new();
+		public Dictionary<ulong, Character>.ValueCollection StoredCharacters => charactersDict.Values;
+
+		public void Add(Character character) {
+			charactersDict.Add(character.Id, character);
+		}
+		public bool TryGetCharacter(ulong characterId, [NotNullWhen(returnValue: true)] out Character? character) {
+			return charactersDict.TryGetValue(characterId, out character);
+		}
+		public Character this[ulong id] => charactersDict[id];
+
 		public void LinkFamilies(Families.Families families) {
 			var idsWithoutDefinition = new SortedSet<ulong>();
-			var counter = StoredCharacters.Values.Count(character => character.LinkFamily(families, idsWithoutDefinition));
+			var counter = charactersDict.Values.Count(character => character.LinkFamily(families, idsWithoutDefinition));
 			if (idsWithoutDefinition.Count > 0) {
 				Logger.Info($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");
 			}
@@ -27,50 +38,35 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Logger.Info($"{counter} families linked to characters.");
 		}
 		private void LinkSpouses() {
-			var spouseCounter = StoredCharacters.Values.Sum(character => character.LinkSpouses(StoredCharacters));
+			var spouseCounter = charactersDict.Values.Sum(character => character.LinkSpouses(charactersDict));
 			Logger.Info($"{spouseCounter} spouses linked.");
 		}
 
 		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
-			foreach (var (characterId, character) in StoredCharacters) {
-				var motherId = character.Mother.Key;
-				if (motherId != 0) {
-					if (StoredCharacters.TryGetValue(motherId, out var motherToLink)) {
-						character.Mother = new(motherId, motherToLink);
-						motherToLink.Children[characterId] = character;
-						++motherCounter;
-					} else {
-						Logger.Warn($"Mother ID: {motherId} has no definition!");
-					}
+			foreach (var character in charactersDict.Values) {
+				if (character.LinkMother(this)) {
+					++motherCounter;
 				}
-
-				var fatherId = character.Father.Key;
-				if (fatherId != 0) {
-					if (StoredCharacters.TryGetValue(fatherId, out var fatherToLink)) {
-						character.Father = new(fatherId, fatherToLink);
-						fatherToLink.Children[characterId] = character;
-						++fatherCounter;
-					} else {
-						Logger.Warn($"Father ID: {fatherId} has no definition!");
-					}
+				if (character.LinkFather(this)) {
+					++fatherCounter;
 				}
 			}
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked.");
 		}
 
 		public void LinkCountries(Countries.Countries countries) {
-			var counter = StoredCharacters.Values.Count(character => character.LinkCountry(countries));
+			var counter = charactersDict.Values.Count(character => character.LinkCountry(countries));
 			Logger.Info($"{counter} countries linked to characters.");
 		}
 
-		private void RegisterKeys() {
-			RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
 				var newCharacter = Character.Parse(reader, charIdStr, genesDB);
-				StoredCharacters.Add(newCharacter.Id, newCharacter);
+				Add(newCharacter);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private readonly Genes.GenesDB? genesDB;
 
