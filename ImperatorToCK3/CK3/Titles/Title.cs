@@ -135,9 +135,9 @@ namespace ImperatorToCK3.CK3.Titles {
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				history.InternalHistory.AddSimpleFieldValue("holder", characterId, startDate);
+				history.InternalHistory.AddFieldValue("holder", characterId, startDate);
 				if (gov is not null) {
-					history.InternalHistory.AddSimpleFieldValue("government", gov, startDate);
+					history.InternalHistory.AddFieldValue("government", gov, startDate);
 				}
 			}
 
@@ -278,12 +278,12 @@ namespace ImperatorToCK3.CK3.Titles {
 			ClearHolderSpecificHistory();
 
 			// ------------------ determine holder
-			history.InternalHistory.AddSimpleFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate);
+			history.InternalHistory.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate);
 
 			// ------------------ determine government
 			var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
 			if (ck3LiegeGov is not null) {
-				history.InternalHistory.AddSimpleFieldValue("government", ck3LiegeGov, normalizedStartDate);
+				history.InternalHistory.AddFieldValue("government", ck3LiegeGov, normalizedStartDate);
 			}
 
 			// ------------------ determine color
@@ -401,7 +401,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public Date GetDateOfLastHolderChange() {
-			var field = history.InternalHistory.SimpleFields["holder"];
+			var field = history.InternalHistory.Fields["holder"];
 			var dates = new SortedSet<Date>(field.ValueHistory.Keys);
 			var lastDate = dates.Max;
 			return lastDate ?? new Date(1, 1, 1);
@@ -410,7 +410,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			return history.GetHolderId(date);
 		}
 		public void SetHolderId(string id, Date date) {
-			history.InternalHistory.AddSimpleFieldValue("holder", id, date);
+			history.InternalHistory.AddFieldValue("holder", id, date);
 		}
 		public string? GetGovernment(Date date) {
 			return history.GetGovernment(date);
@@ -622,8 +622,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		internal void ClearHolderSpecificHistory() {
-			history.InternalHistory.SimpleFields.Remove("holder");
-			history.InternalHistory.SimpleFields.Remove("government");
+			history.InternalHistory.Fields.Remove("holder");
+			history.InternalHistory.Fields.Remove("government");
 		}
 
 		internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title> foundTitles) {
@@ -673,15 +673,15 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			sb.AppendLine($"{Name} = {{");
 
-			if (history.InternalHistory.SimpleFields.ContainsKey("holder")) {
+			if (history.InternalHistory.Fields.ContainsKey("holder")) {
 				needsToBeOutput = true;
-				foreach (var (date, holderId) in history.InternalHistory.SimpleFields["holder"].ValueHistory) {
+				foreach (var (date, holderId) in history.InternalHistory.Fields["holder"].ValueHistory) {
 					sb.AppendLine($"\t{date} = {{ holder = {holderId} }}");
 				}
 			}
 
-			if (history.InternalHistory.SimpleFields.ContainsKey("government")) {
-				var govField = history.InternalHistory.SimpleFields["government"];
+			if (history.InternalHistory.Fields.ContainsKey("government")) {
+				var govField = history.InternalHistory.Fields["government"];
 				var initialGovernment = govField.InitialValue;
 				if (initialGovernment is not null) {
 					needsToBeOutput = true;

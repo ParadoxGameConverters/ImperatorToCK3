@@ -21,25 +21,36 @@ namespace ImperatorToCK3.CK3.Provinces {
 		public ProvinceDetails(BufferedReader reader, Date ck3BookmarkDate) {
 			var history = historyFactory.GetHistory(reader);
 
-			var cultureOpt = history.GetSimpleFieldValue("culture", ck3BookmarkDate);
-			if (cultureOpt is not null) {
-				Culture = cultureOpt;
+			var cultureOpt = history.GetFieldValue("culture", ck3BookmarkDate);
+			if (cultureOpt is string cultureStr) {
+				Culture = cultureStr;
 			}
-			var religionOpt = history.GetSimpleFieldValue("religion", ck3BookmarkDate);
-			if (religionOpt is not null) {
-				Religion = religionOpt;
+			var religionOpt = history.GetFieldValue("religion", ck3BookmarkDate);
+			if (religionOpt is string religionStr) {
+				Religion = religionStr;
 			}
-			var holdingOpt = history.GetSimpleFieldValue("holding", ck3BookmarkDate);
-			if (holdingOpt is null) {
-				Logger.Warn("Province's holding can't be null!");
-			} else {
-				Holding = holdingOpt;
+			switch (history.GetFieldValue("holding", ck3BookmarkDate))
+			{
+				case null:
+					Logger.Warn("Province's holding can't be null!");
+					break;
+				case string holdingStr:
+					Holding = holdingStr;
+					break;
+				default:
+					Logger.Warn("Wrong province holding value!");
+					break;
 			}
-			var buildingsOpt = history.GetContainerFieldValue("buildings", ck3BookmarkDate);
-			if (buildingsOpt is null) {
-				Logger.Warn("Province's buildings list can't be null!");
-			} else {
-				Buildings = buildingsOpt;
+			switch (history.GetFieldValue("buildings", ck3BookmarkDate)) {
+				case null:
+					Logger.Warn("Province's buildings list can't be null!");
+					break;
+				case IList<string> buildingsList:
+					Buildings = (List<string>)buildingsList;
+					break;
+				default:
+					Logger.Warn("Wrong province buildings value!");
+					break;
 			}
 		}
 

@@ -1,46 +1,26 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils {
 	public class History {
-		public Dictionary<string, SimpleField> SimpleFields { get; } = new(); // fieldName, field
-		public Dictionary<string, ContainerField> ContainerFields { get; } = new(); // fieldName, field
+		public Dictionary<string, HistoryField> Fields { get; } = new(); // fieldName, field
 
 		public History() { }
-		public History(Dictionary<string, SimpleField> simpleFields, Dictionary<string, ContainerField> containerFields) {
-			this.SimpleFields = simpleFields;
-			this.ContainerFields = containerFields;
+		public History(Dictionary<string, HistoryField> fields) {
+			this.Fields = fields;
 		}
 
-		public string? GetSimpleFieldValue(string fieldName, Date date) {
-			if (SimpleFields.TryGetValue(fieldName, out var value)) {
-				return value.GetValue(date);
-			}
-			return null;
-		}
-		public List<string>? GetContainerFieldValue(string fieldName, Date date) {
-			if (ContainerFields.TryGetValue(fieldName, out var value)) {
-				return value.GetValue(date);
-			}
-			return null;
+		public object? GetFieldValue(string fieldName, Date date) {
+			return Fields.TryGetValue(fieldName, out var value) ? value.GetValue(date) : null;
 		}
 
-		public void AddSimpleFieldValue(string fieldName, string value, Date date) {
-			if (SimpleFields.TryGetValue(fieldName, out var field)) {
+		public void AddFieldValue(string fieldName, object value, Date date) {
+			if (Fields.TryGetValue(fieldName, out var field)) {
 				field.AddValueToHistory(value, date);
 			} else {
-				var newField = new SimpleField(null);
+				var newField = new HistoryField(null);
 				newField.AddValueToHistory(value, date);
-				SimpleFields.Add(fieldName, newField);
-			}
-		}
-		public void AddContainerFieldValue(string fieldName, List<string> value, Date date) {
-			if (ContainerFields.TryGetValue(fieldName, out var field)) {
-				field.AddValueToHistory(value, date);
-			} else {
-				var newField = new ContainerField(new());
-				newField.AddValueToHistory(value, date);
-				ContainerFields.Add(fieldName, newField);
+				Fields.Add(fieldName, newField);
 			}
 		}
 	}

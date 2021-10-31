@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils {
@@ -30,9 +31,9 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
-			Assert.Equal("roman", provHistory.GetSimpleFieldValue("culture", new Date(1, 1, 1)));
-			Assert.Equal("orthodox", provHistory.GetSimpleFieldValue("religion", new Date(1, 1, 1)));
-			Assert.Equal("none", provHistory.GetSimpleFieldValue("holding", new Date(1, 1, 1)));
+			Assert.Equal("roman", provHistory.GetFieldValue("culture", new Date(1, 1, 1)));
+			Assert.Equal("orthodox", provHistory.GetFieldValue("religion", new Date(1, 1, 1)));
+			Assert.Equal("none", provHistory.GetFieldValue("holding", new Date(1, 1, 1)));
 		}
 
 		[Fact]
@@ -62,9 +63,9 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
-			Assert.Equal("khazar", provHistory.GetSimpleFieldValue("culture", new Date(1, 1, 1)));
-			Assert.Equal("tengri_pagan", provHistory.GetSimpleFieldValue("religion", new Date(1, 1, 1)));
-			Assert.Equal("tribal_holding", provHistory.GetSimpleFieldValue("holding", new Date(1, 1, 1)));
+			Assert.Equal("khazar", provHistory.GetFieldValue("culture", new Date(1, 1, 1)));
+			Assert.Equal("tengri_pagan", provHistory.GetFieldValue("religion", new Date(1, 1, 1)));
+			Assert.Equal("tribal_holding", provHistory.GetFieldValue("holding", new Date(1, 1, 1)));
 		}
 
 		[Fact]
@@ -94,10 +95,10 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
-			Assert.Equal("tengri_pagan", provHistory.GetSimpleFieldValue("religion", new Date(750, 1, 1)));
-			Assert.Equal("kabarism", provHistory.GetSimpleFieldValue("religion", new Date(750, 1, 2)));
-			Assert.Equal("khazar", provHistory.GetSimpleFieldValue("culture", new Date(1000, 1, 1)));
-			Assert.Equal("cuman", provHistory.GetSimpleFieldValue("culture", new Date(1000, 1, 3)));
+			Assert.Equal("tengri_pagan", provHistory.GetFieldValue("religion", new Date(750, 1, 1)));
+			Assert.Equal("kabarism", provHistory.GetFieldValue("religion", new Date(750, 1, 2)));
+			Assert.Equal("khazar", provHistory.GetFieldValue("culture", new Date(1000, 1, 1)));
+			Assert.Equal("cuman", provHistory.GetFieldValue("culture", new Date(1000, 1, 3)));
 		}
 
 		[Fact]
@@ -124,7 +125,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
-			Assert.Null(provHistory.GetSimpleFieldValue("title", new Date(1000, 1, 1)));
+			Assert.Null(provHistory.GetFieldValue("title", new Date(1000, 1, 1)));
 		}
 
 		[Fact]
@@ -164,20 +165,20 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			provHistoryFactory.UpdateHistory(provHistory, reader3);
 
 			var date = new Date(1100, 1, 1);
-			Assert.Equal("roman", provHistory.GetSimpleFieldValue("culture", date));
-			Assert.Equal("kabarism", provHistory.GetSimpleFieldValue("religion", date));
-			Assert.Equal("castle_holding", provHistory.GetSimpleFieldValue("holding", date));
+			Assert.Equal("roman", provHistory.GetFieldValue("culture", date));
+			Assert.Equal("kabarism", provHistory.GetFieldValue("religion", date));
+			Assert.Equal("castle_holding", provHistory.GetFieldValue("holding", date));
 		}
 
 		[Fact]
 		public void SimpleFieldValueCanBeAdded() {
 			var history = new History();
-			history.AddSimpleFieldValue("holder", "0", new Date(1, 1, 1)); // new field is created
-			history.AddSimpleFieldValue("holder", "69", new Date(867, 1, 1)); // existing field is updated
-			Assert.Collection(history.SimpleFields,
+			history.AddFieldValue("holder", "0", new Date(1, 1, 1)); // new field is created
+			history.AddFieldValue("holder", "69", new Date(867, 1, 1)); // existing field is updated
+			Assert.Collection(history.Fields,
 				item1 => Assert.Equal("holder", item1.Key)
 			);
-			Assert.Collection(history.SimpleFields["holder"].ValueHistory,
+			Assert.Collection(history.Fields["holder"].ValueHistory,
 				item1 => {
 					Assert.Equal(new Date(1, 1, 1), item1.Key);
 					Assert.Equal("0", item1.Value);
@@ -191,27 +192,27 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 		[Fact]
 		public void ContainerFieldValueCanBeAdded() {
 			var history = new History();
-			history.AddContainerFieldValue( // new field is created
+			history.AddFieldValue( // new field is created
 				"buldings",
-				new(),
+				new List<string>(),
 				new Date(1, 1, 1)
 			);
-			history.AddContainerFieldValue(  // existing field is updated
+			history.AddFieldValue(  // existing field is updated
 				"buldings",
-				new() { "aqueduct", "temple" },
+				new List<string> { "aqueduct", "temple" },
 				new Date(867, 1, 1)
 			);
-			Assert.Collection(history.ContainerFields,
+			Assert.Collection(history.Fields,
 				item1 => Assert.Equal("buldings", item1.Key)
 			);
-			Assert.Collection(history.ContainerFields["buldings"].ValueHistory,
+			Assert.Collection(history.Fields["buldings"].ValueHistory,
 				item1 => {
 					Assert.Equal(new Date(1, 1, 1), item1.Key);
-					Assert.Equal(new(), item1.Value);
+					Assert.Equal(new List<string>(), item1.Value);
 				},
 				item2 => {
 					Assert.Equal(new Date(867, 1, 1), item2.Key);
-					Assert.Equal(new() { "aqueduct", "temple" }, item2.Value);
+					Assert.Equal(new List<string> { "aqueduct", "temple" }, item2.Value);
 				}
 			);
 		}
