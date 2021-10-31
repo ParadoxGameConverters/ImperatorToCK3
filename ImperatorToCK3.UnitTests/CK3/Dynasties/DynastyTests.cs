@@ -10,6 +10,7 @@ using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Imperator.Families;
 using commonItems;
 using Xunit;
+// ReSharper disable StringLiteralTypo
 
 namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 	public class DynastyTests {
@@ -81,7 +82,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var locMapper = new LocalizationMapper();
 			var dynasty = new Dynasty(family, locMapper);
 
-			Assert.Equal("dynn_IMPTOCK3_45", dynasty.ID);
+			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Name);
 		}
 
