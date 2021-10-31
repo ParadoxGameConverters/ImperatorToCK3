@@ -52,7 +52,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? DeathReason { get; set; }
 		private HashSet<ulong> parsedSpouseIds = new();
 		public Dictionary<ulong, Character> Spouses { get; set; } = new();
-		public Dictionary<ulong, Character?> Children { get; set; } = new();
+		private HashSet<ulong> parsedChildrenIds = new();
+		public Dictionary<ulong, Character> Children { get; set; } = new();
 		public KeyValuePair<ulong, Character?> Mother { get; set; } = new();
 		public KeyValuePair<ulong, Character?> Father { get; set; } = new();
 		private ulong? parsedFamilyId;
@@ -159,9 +160,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				parsedCharacter.parsedSpouseIds = ParserHelpers.GetULongs(reader).ToHashSet();
 			});
 			parser.RegisterKeyword("children", reader => {
-				foreach (var child in ParserHelpers.GetULongs(reader)) {
-					parsedCharacter.Children.Add(child, null);
-				}
+				parsedCharacter.parsedChildrenIds = ParserHelpers.GetULongs(reader).ToHashSet();
 			});
 			parser.RegisterKeyword("attributes", reader => {
 				parsedCharacter.Attributes = CharacterAttributes.Parse(reader);
@@ -211,6 +210,44 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return false;
 			}
 			Logger.Warn($"Country with ID {countryId} has no definition!");
+			return false;
+		}
+
+		// Returns whether a mother was linked
+		public bool LinkMother(Characters characters) {
+			var motherId = Mother.Key;
+			if (motherId == 0) {
+				return false;
+			}
+
+			if (characters.TryGetCharacter(motherId, out var motherToLink)) {
+				Mother = new(motherId, motherToLink);
+				if (motherToLink.parsedChildrenIds.Contains(Id)) {
+					Logger.Warn($"Only one-sided link found between character {Id} and mother {motherId}!");
+				}
+				motherToLink.Children[Id] = this;
+				return true;
+			}
+			Logger.Warn($"Mother ID: {motherId} has no definition!");
+			return false;
+		}
+
+		// Returns whether a father was linked
+		public bool LinkFather(Characters characters) {
+			var fatherId = Father.Key;
+			if (fatherId == 0) {
+				return false;
+			}
+
+			if (characters.TryGetCharacter(fatherId, out var fatherToLink)) {
+				Father = new(fatherId, fatherToLink);
+				if (fatherToLink.parsedChildrenIds.Contains(Id)) {
+					Logger.Warn($"Only one-sided link found between character {Id} and father {fatherId}!");
+				}
+				fatherToLink.Children[Id] = this;
+				return true;
+			}
+			Logger.Warn($"Father ID: {fatherId} has no definition!");
 			return false;
 		}
 	}
