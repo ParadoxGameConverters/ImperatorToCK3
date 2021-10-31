@@ -128,7 +128,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			Assert.True(title.HasDefiniteForm);
 			Assert.True(title.Landless);
-			Assert.Equal("= rgb { 23 23 23 }", title.Color1.OutputRgb());
+			Assert.NotNull(title.Color1);
+			Assert.Equal("rgb { 23 23 23 }", title.Color1.OutputRgb());
+			Assert.NotNull(title.CapitalCounty);
 			Assert.Equal("c_roma", title.CapitalCounty.Value.Key);
 			Assert.Equal((ulong)345, title.Province);
 		}
