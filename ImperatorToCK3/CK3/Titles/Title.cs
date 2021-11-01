@@ -135,9 +135,9 @@ namespace ImperatorToCK3.CK3.Titles {
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				history.InternalHistory.AddFieldValue("holder", characterId, startDate);
+				history.InternalHistory.AddFieldValue("holder", characterId, startDate, "holder");
 				if (gov is not null) {
-					history.InternalHistory.AddFieldValue("government", gov, startDate);
+					history.InternalHistory.AddFieldValue("government", gov, startDate, "government");
 				}
 			}
 
@@ -278,12 +278,12 @@ namespace ImperatorToCK3.CK3.Titles {
 			ClearHolderSpecificHistory();
 
 			// ------------------ determine holder
-			history.InternalHistory.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate);
+			history.InternalHistory.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate, "holder");
 
 			// ------------------ determine government
 			var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
 			if (ck3LiegeGov is not null) {
-				history.InternalHistory.AddFieldValue("government", ck3LiegeGov, normalizedStartDate);
+				history.InternalHistory.AddFieldValue("government", ck3LiegeGov, normalizedStartDate, "government");
 			}
 
 			// ------------------ determine color
@@ -410,7 +410,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			return history.GetHolderId(date);
 		}
 		public void SetHolderId(string id, Date date) {
-			history.InternalHistory.AddFieldValue("holder", id, date);
+			history.InternalHistory.AddFieldValue("holder", id, date, "holder");
 		}
 		public string? GetGovernment(Date date) {
 			return history.GetGovernment(date);

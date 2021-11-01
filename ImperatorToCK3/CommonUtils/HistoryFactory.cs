@@ -39,10 +39,10 @@ namespace ImperatorToCK3.CommonUtils {
 		public History GetHistory(BufferedReader reader) {
 			history = new History();
 			foreach (var def in simpleFieldDefs) {
-				history.Fields[def.FieldName] = new HistoryField(def.InitialValue);
+				history.Fields[def.FieldName] = new HistoryField(def.Setter, def.InitialValue);
 			}
 			foreach (var def in containerFieldDefs) {
-				history.Fields[def.FieldName] = new HistoryField(def.InitialValue);
+				history.Fields[def.FieldName] = new HistoryField(def.Setter, def.InitialValue);
 			}
 			ParseStream(reader);
 			return history;
