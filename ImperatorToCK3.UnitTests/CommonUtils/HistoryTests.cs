@@ -1,5 +1,7 @@
 ﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CommonUtils;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -217,6 +219,44 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 					Assert.Equal(new List<string> { "aqueduct", "temple" }, item2.Value);
 				}
 			);
+		}
+
+		[Fact]
+		public void HistoryCanBeSerialized() {
+			var fields = new Dictionary<string, HistoryField> {
+				{"holder", new HistoryField("holder", null)}, // simple field with null initial value
+				{"culture", new HistoryField("culture", "roman")}, // simple field with initial value
+				{"buildings", new HistoryField("buildings", new List<string>())} // container field initially empty
+			};
+			var history = new History(fields);
+
+			history.Fields["holder"].AddValueToHistory("nero", new Date(5, 1, 1));
+
+			// Entries with same date should be added to a single date block.
+			history.Fields["holder"].AddValueToHistory("justinian", new Date(540, 1, 1));
+			history.Fields["culture"].AddValueToHistory("better_roman", new Date(540, 1, 1));
+
+			// A field can have values of multiple types.
+			// Here we're adding a value as a set, while the initial value is a list.
+			history.Fields["buildings"].AddValueToHistory(new SortedSet<string> { "aqueduct", "baths" }, new Date(2, 1, 1));
+
+			var str = PDXSerializer.Serialize(history);
+
+			// Date blocks are ordered by date.
+			var expectedStr =
+				"culture = \"roman\"" + Environment.NewLine +
+				"buildings = { }" + Environment.NewLine +
+				"2.1.1 = {" + Environment.NewLine +
+				"\tbuildings = { \"aqueduct\" \"baths\" }" + Environment.NewLine +
+				"}" + Environment.NewLine +
+				"5.1.1 = {" + Environment.NewLine +
+				"\tholder = \"nero\"" + Environment.NewLine +
+				"}" + Environment.NewLine +
+				"540.1.1 = {" + Environment.NewLine +
+				"\tholder = \"justinian\"" + Environment.NewLine +
+				"\tculture = \"better_roman\"" + Environment.NewLine +
+				"}" + Environment.NewLine;
+			Assert.Equal(expectedStr, str);
 		}
 	}
 }
