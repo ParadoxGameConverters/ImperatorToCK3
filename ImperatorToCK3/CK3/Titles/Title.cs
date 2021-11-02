@@ -415,8 +415,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public string? GetGovernment(Date date) {
 			return history.GetGovernment(date);
 		}
-
-		public List<RulerTerm> RulerTerms { get; private set; } = new();
+		
 		public int? DevelopmentLevel {
 			get => history.DevelopmentLevel;
 			set => history.DevelopmentLevel = value;
