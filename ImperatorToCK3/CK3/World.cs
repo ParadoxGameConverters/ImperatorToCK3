@@ -439,7 +439,7 @@ namespace ImperatorToCK3.CK3 {
 						g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 					));
 
-					if (!ck3CapitalCounty.HasValue || ck3CapitalCounty.Value.Value is null) {
+					if (ck3CapitalCounty is null) {
 						if (impMonarch is not null) {
 							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 						} else {
@@ -448,7 +448,7 @@ namespace ImperatorToCK3.CK3 {
 						continue;
 					}
 					// if title belongs to country ruler's capital's de jure duchy, make it directly held by the ruler
-					var countryCapitalDuchy = ck3CapitalCounty.Value.Value.DeJureLiege;
+					var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
 					var titleLiegeDuchy = title.DeJureLiege;
 					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
 						if (impMonarch is not null) {

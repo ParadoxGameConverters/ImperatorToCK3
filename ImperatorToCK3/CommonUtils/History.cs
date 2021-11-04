@@ -32,7 +32,7 @@ namespace ImperatorToCK3.CommonUtils {
 			}
 		}
 
-		public string Serialize(string indent) {
+		public string Serialize(string indent, bool withBraces) {
 			var entriesByDate = new SortedDictionary<Date, List<KeyValuePair<string, object>>>(); // <date, list<setter, value>>
 			foreach (var field in Fields.Values) {
 				foreach (var (date, value) in field.ValueHistory) {
@@ -51,14 +51,14 @@ namespace ImperatorToCK3.CommonUtils {
 			foreach (HistoryField field in Fields.Values.Where(f => f.InitialValue is not null)) {
 				sb.Append(indent).Append(field.Setter)
 					.Append(" = ")
-					.AppendLine(PDXSerializer.GetValueRepresentation(field.InitialValue, indent));
+					.AppendLine(PDXSerializer.Serialize(field.InitialValue!, indent));
 			}
 			foreach (var (date, entries) in entriesByDate) {
 				sb.Append(indent).Append(date).AppendLine(" = {");
 				foreach (var (setter, value) in entries) {
 					sb.Append('\t').Append(setter)
 						.Append(" = ")
-						.AppendLine(PDXSerializer.GetValueRepresentation(value, indent));
+						.AppendLine(PDXSerializer.Serialize(value, indent));
 				}
 				sb.Append(indent).AppendLine("}");
 			}
