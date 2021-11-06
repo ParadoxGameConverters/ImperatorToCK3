@@ -34,6 +34,6 @@ jobs:
        pyinstaller --onefile --icon=updater.ico updater.py
        mkdir ../Release/Updater
        if [ "$RUNNER_OS" == "Windows" ]; then
-          mv dist/updater.exe ../Release/Updater/updater.exe
+          mv dist/updater.exe ../../Release/Updater/updater.exe
        else
-          mv dist/updater ../Release/Updater/updater
+          mv dist/updater ../../Release/Updater/updater
