@@ -1,7 +1,7 @@
 ﻿using commonItems;
-using Xunit;
 using ImperatorToCK3.Imperator.Countries;
 using System.Collections.Generic;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 	[Collection("Sequential")]
@@ -153,7 +153,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.True(Country.IgnoredTokens.SetEquals(expectedIgnoredTokens));
 		}
 
-		[Fact] public void IgnoredCountryCurrenciesTokensAreSaved() {
+		[Fact]
+		public void IgnoredCountryCurrenciesTokensAreSaved() {
 			var reader = new BufferedReader(
 				"= { currency_data={ manpower=1 innovations=0 } }"
 			);

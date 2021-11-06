@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3RegionMapper : Parser {

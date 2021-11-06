@@ -1,7 +1,7 @@
-﻿using ImperatorToCK3.Mappers.Religion;
-using ImperatorToCK3.Mappers.Region;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using commonItems;
+using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Religion {

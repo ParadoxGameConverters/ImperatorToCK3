@@ -1,5 +1,5 @@
-﻿using System.IO;
-using ImperatorToCK3.CK3.Provinces;
+﻿using ImperatorToCK3.CK3.Provinces;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class ProvinceOutputter {

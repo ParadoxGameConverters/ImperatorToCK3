@@ -1,7 +1,7 @@
 ﻿using commonItems;
 
 namespace ImperatorToCK3.Imperator.Pops {
-    public partial class Pop {
+	public partial class Pop {
 		private static Pop tempPop = new(0);
 		private static readonly Parser popParser = new();
 		static Pop() {
@@ -21,5 +21,5 @@ namespace ImperatorToCK3.Imperator.Pops {
 			popParser.ParseStream(reader);
 			return tempPop;
 		}
-    }
+	}
 }

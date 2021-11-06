@@ -1,6 +1,5 @@
-﻿using System;
+﻿using commonItems;
 using System.Collections.Generic;
-using commonItems;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw {
 	public class SuccessionLawMapper : Parser {

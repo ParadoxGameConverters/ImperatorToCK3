@@ -4,11 +4,11 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
 using Xunit;
-using ImperatorToCK3.Mappers.Nickname;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]

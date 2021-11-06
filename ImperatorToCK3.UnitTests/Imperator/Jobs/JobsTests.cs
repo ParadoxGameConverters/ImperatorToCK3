@@ -1,6 +1,6 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.IO;
-using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Jobs {

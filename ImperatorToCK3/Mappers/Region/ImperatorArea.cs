@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorArea : Parser {

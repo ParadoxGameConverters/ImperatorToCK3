@@ -1,5 +1,5 @@
-﻿using ImperatorToCK3.Mappers.Religion;
-using commonItems;
+﻿using commonItems;
+using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Religion {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Region;
+using System;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Religion {
 	public class ReligionMapping {

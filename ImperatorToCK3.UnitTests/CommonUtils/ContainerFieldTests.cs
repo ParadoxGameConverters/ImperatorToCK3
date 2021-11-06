@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils {

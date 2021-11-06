@@ -1,5 +1,5 @@
-﻿using ImperatorToCK3.CK3.Titles;
-using commonItems;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {

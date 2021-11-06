@@ -1,6 +1,6 @@
-﻿using Xunit;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Localization;
-using commonItems;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 	public class LocalizationMapperTests {

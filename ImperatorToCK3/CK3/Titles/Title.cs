@@ -401,7 +401,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			return history.GetGovernment(date);
 		}
 
-		[NonSerialized] public int? DevelopmentLevel {
+		[NonSerialized]
+		public int? DevelopmentLevel {
 			get => history.DevelopmentLevel;
 			set => history.DevelopmentLevel = value;
 		}
@@ -473,7 +474,8 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		private string? parsedCapitalCountyName;
 		[NonSerialized] public Title? CapitalCounty { get; set; }
-		[SerializedName("capital")] public string? CapitalCountyName =>
+		[SerializedName("capital")]
+		public string? CapitalCountyName =>
 			CapitalCounty is not null ? CapitalCounty.Name : parsedCapitalCountyName;
 
 		[NonSerialized] public Country? ImperatorCountry { get; private set; }
@@ -482,7 +484,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		[SerializedName("color2")] public Color? Color2 { get; private set; }
 
 		private Title? deJureLiege;
-		[NonSerialized] public Title? DeJureLiege { // direct de jure liege title
+		[NonSerialized]
+		public Title? DeJureLiege { // direct de jure liege title
 			get => deJureLiege;
 			set {
 				if (deJureLiege is not null) {
@@ -495,7 +498,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 		private Title? deFactoLiege;
-		[NonSerialized] public Title? DeFactoLiege { // direct de facto liege title
+		[NonSerialized]
+		public Title? DeFactoLiege { // direct de facto liege title
 			get => deFactoLiege;
 			set {
 				if (deFactoLiege is not null) {
@@ -563,7 +567,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
 
-		[NonSerialized] public int? OwnOrInheritedDevelopmentLevel {
+		[NonSerialized]
+		public int? OwnOrInheritedDevelopmentLevel {
 			get {
 				if (history.DevelopmentLevel is not null) { // if development level is already set, just return it
 					return history.DevelopmentLevel;

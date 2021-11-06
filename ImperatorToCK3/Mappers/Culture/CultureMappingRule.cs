@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Region;
-using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Culture {
 	public class CultureMappingRule {

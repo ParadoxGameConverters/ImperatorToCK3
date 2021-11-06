@@ -1,6 +1,6 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.Collections.Generic;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Genes {
 	public class WeightBlock : Parser {

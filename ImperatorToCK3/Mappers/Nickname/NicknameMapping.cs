@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Nickname {
 	public class NicknameMapping {
 		public SortedSet<string> ImperatorNicknames { get; private set; } = new();
 		public string? Ck3Nickname { get; private set; }
-		
+
 		public NicknameMapping(BufferedReader reader) {
 			var parser = new Parser();
 			parser.RegisterKeyword("ck3", (reader) => {

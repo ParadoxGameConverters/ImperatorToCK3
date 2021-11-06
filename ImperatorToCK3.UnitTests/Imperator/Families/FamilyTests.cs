@@ -1,15 +1,16 @@
-﻿using System;
-using System.IO;
-using commonItems;
-using Xunit;
+﻿using commonItems;
 using ImperatorToCK3.Imperator.Families;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Families {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class FamilyTests {
-		[Fact] public void FieldsCanBeSet() {
+		[Fact]
+		public void FieldsCanBeSet() {
 			var reader = new BufferedReader(
 				"= {" +
 				"\tculture=\"paradoxian\"" +
@@ -42,7 +43,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			Assert.Empty(family.Members);
 		}
 
-		[Fact] public void LinkingNullMemberIsLogged() {
+		[Fact]
+		public void LinkingNullMemberIsLogged() {
 			var reader = new BufferedReader(
 				"= { }"
 			);
@@ -86,7 +88,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			Assert.Equal("kushite", ((ImperatorToCK3.Imperator.Characters.Character)family.Members[1]).Culture);
 		}
 
-		[Fact] public void IgnoredTokensAreSaved() {
+		[Fact]
+		public void IgnoredTokensAreSaved() {
 			var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
 			var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
 			_ = Family.Parse(reader1, 1);

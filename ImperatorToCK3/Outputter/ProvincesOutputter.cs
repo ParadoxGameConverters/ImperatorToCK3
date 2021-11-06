@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using commonItems;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.Outputter {
 	public static class ProvincesOutputter {

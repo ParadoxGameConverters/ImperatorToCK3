@@ -187,7 +187,7 @@ namespace ImperatorToCK3.Imperator {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(filePath);
 
-			foreach(var country in Countries.StoredCountries.Values) {
+			foreach (var country in Countries.StoredCountries.Values) {
 				country.RulerTerms = country.RulerTerms.OrderBy(t => t.StartDate).ToList();
 			}
 

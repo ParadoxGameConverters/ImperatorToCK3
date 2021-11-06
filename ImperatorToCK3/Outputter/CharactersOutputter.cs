@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
-using commonItems;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CharactersOutputter {

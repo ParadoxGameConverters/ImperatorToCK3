@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Region;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture {
@@ -9,7 +9,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CultureMappingTests {
 		private const string islandRegionPath = "TestFiles/regions/island_regions.txt";
-		[Fact] public void MatchOnRegion() {
+		[Fact]
+		public void MatchOnRegion() {
 			var ck3RegionMapper = new CK3RegionMapper();
 			var landedTitles = new LandedTitles();
 			var landedTitlesReader = new BufferedReader(

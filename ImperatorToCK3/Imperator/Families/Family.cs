@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using commonItems;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Families {
 	public class Family {
@@ -21,7 +21,7 @@ namespace ImperatorToCK3.Imperator.Families {
 				Logger.Warn($"Family {Id}: cannot link null member!");
 				return;
 			}
-			foreach(DictionaryEntry memberPair in Members) {
+			foreach (DictionaryEntry memberPair in Members) {
 				if ((ulong)memberPair.Key == newMember.Id) {
 					Members[memberPair.Key] = newMember;
 					return;
@@ -36,7 +36,7 @@ namespace ImperatorToCK3.Imperator.Families {
 		}
 		public void RemoveUnlinkedMembers() {
 			var toRemove = new List<ulong>();
-			foreach(DictionaryEntry entry in Members) {
+			foreach (DictionaryEntry entry in Members) {
 				if (entry.Value is null) {
 					toRemove.Add((ulong)entry.Key);
 				}

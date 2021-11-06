@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.Linq;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Genes {
 	public class AccessoryGene : Parser {

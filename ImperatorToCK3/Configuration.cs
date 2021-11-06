@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using commonItems;
 using System;
-using commonItems;
+using System.IO;
 
 namespace ImperatorToCK3 {
 	public enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 }

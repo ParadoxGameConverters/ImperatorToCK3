@@ -1,6 +1,6 @@
-﻿using Xunit;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Nickname;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 	public class NicknameMapperTests {
@@ -51,7 +51,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 			Assert.Equal("ck3Nickname2", ck3Nickname);
 		}
 
-		[Fact] public void MappingsAreReadFromFile() {
+		[Fact]
+		public void MappingsAreReadFromFile() {
 			var mapper = new NicknameMapper("TestFiles/configurables/nickname_map.txt");
 			Assert.Equal("dull", mapper.GetCK3NicknameForImperatorNickname("dull"));
 			Assert.Equal("dull", mapper.GetCK3NicknameForImperatorNickname("stupid"));

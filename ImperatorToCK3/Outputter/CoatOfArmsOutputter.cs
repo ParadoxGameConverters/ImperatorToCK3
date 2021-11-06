@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ImperatorToCK3.CK3.Titles;
+using System.Collections.Generic;
 using System.IO;
-using ImperatorToCK3.CK3.Titles;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CoatOfArmsOutputter {

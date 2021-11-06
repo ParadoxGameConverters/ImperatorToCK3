@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Province {
