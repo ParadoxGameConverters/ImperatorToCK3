@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character {
-		public string ID { get; private set; } = "0";
+		public string Id { get; private set; } = "0";
 		public bool Female { get; private set; } = false;
 		public string Culture { get; private set; } = string.Empty;
 		public string Religion { get; private set; } = string.Empty;
@@ -53,8 +53,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			NicknameMapper nicknameMapper,
 			ProvinceMapper provinceMapper
 		) {
-			ID = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
-			Name = preImperatorRuler.Name ?? ID;
+			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
 				var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
 				if (impNameLoc is not null) {
@@ -123,7 +123,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
-			ID = "imperator" + ImperatorCharacter.Id.ToString();
+			Id = "imperator" + ImperatorCharacter.Id.ToString();
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
@@ -224,22 +224,22 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void BreakAllLinks() {
-			Mother?.RemoveChild(ID);
+			Mother?.RemoveChild(Id);
 			RemoveMother();
-			Father?.RemoveChild(ID);
+			Father?.RemoveChild(Id);
 			RemoveFather();
 			foreach (var (spouseId, spouse) in Spouses) {
 				if (spouse is null) {
-					Logger.Warn($"Spouse {spouseId} of {ID} is null!");
+					Logger.Warn($"Spouse {spouseId} of {Id} is null!");
 					continue;
 				}
-				spouse.RemoveSpouse(ID);
+				spouse.RemoveSpouse(Id);
 			}
 			Spouses.Clear();
 			if (Female) {
 				foreach (var (childId, child) in Children) {
 					if (child is null) {
-						Logger.Warn($"Child {childId} of {ID} is null!");
+						Logger.Warn($"Child {childId} of {Id} is null!");
 						continue;
 					}
 					child.RemoveMother();
@@ -247,7 +247,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			} else {
 				foreach (var (childId, child) in Children) {
 					if (child is null) {
-						Logger.Warn($"Child {childId} of {ID} is null!");
+						Logger.Warn($"Child {childId} of {Id} is null!");
 						continue;
 					}
 					child.RemoveFather();
@@ -282,8 +282,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Character? Mother {
 			get => mother;
 			set {
-				if (PendingMotherId is not null && value is not null && value.ID != PendingMotherId) {
-					Logger.Warn($"Character {ID}: linking mother {value.ID} instead of expected {PendingMotherId}");
+				if (PendingMotherId is not null && value is not null && value.Id != PendingMotherId) {
+					Logger.Warn($"Character {Id}: linking mother {value.Id} instead of expected {PendingMotherId}");
 				}
 				mother = value;
 				PendingMotherId = null;
@@ -294,8 +294,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Character? Father {
 			get => father;
 			set {
-				if (PendingFatherId is not null && value is not null && value.ID != PendingFatherId) {
-					Logger.Warn($"Character {ID}: linking father {value.ID} instead of expected {PendingFatherId}");
+				if (PendingFatherId is not null && value is not null && value.Id != PendingFatherId) {
+					Logger.Warn($"Character {Id}: linking father {value.Id} instead of expected {PendingFatherId}");
 				}
 				father = value;
 				PendingFatherId = null;
@@ -304,6 +304,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Dictionary<string, Character?> Children { get; set; } = new();
 		public Dictionary<string, Character?> Spouses { get; set; } = new();
 
-		public string? DynastyID { get; set; } // not always set
+		public string? DynastyId { get; set; } // not always set
 	}
 }

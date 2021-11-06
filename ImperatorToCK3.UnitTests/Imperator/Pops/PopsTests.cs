@@ -23,8 +23,8 @@ namespace ImperatorToCK3.UnitTests {
             var pop1= pops.StoredPops[42];
             var pop2 = pops.StoredPops[43];
             Assert.Equal(2, pops.StoredPops.Count);
-            Assert.Equal((ulong)42, pop1.ID);
-            Assert.Equal((ulong)43, pop2.ID);
+            Assert.Equal((ulong)42, pop1.Id);
+            Assert.Equal((ulong)43, pop2.Id);
         }
         [Fact]
         public void LiteralNonePopsAreNotLoaded() {
@@ -36,7 +36,7 @@ namespace ImperatorToCK3.UnitTests {
             Assert.True(pops.StoredPops.ContainsKey(43));
             Assert.False(pops.StoredPops.ContainsKey(44));
             var pop2 = pops.StoredPops[43];
-            Assert.Equal((ulong)43, pop2.ID);
+            Assert.Equal((ulong)43, pop2.Id);
         }
     }
 }

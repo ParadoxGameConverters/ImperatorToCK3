@@ -5,7 +5,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Families {
 	public class Family {
-		public ulong ID { get; } = 0;
+		public ulong Id { get; } = 0;
 		public string Key { get; private set; } = "";
 		public string Culture { get; private set; } = "";
 		public double Prestige { get; private set; } = 0;
@@ -13,12 +13,12 @@ namespace ImperatorToCK3.Imperator.Families {
 		public OrderedDictionary Members { get; private set; } = new();
 		public ParadoxBool Minor { get; private set; } = new(false);
 
-		public Family(ulong ID) {
-			this.ID = ID;
+		public Family(ulong id) {
+			Id = id;
 		}
 		public void LinkMember(Characters.Character? newMember) {
 			if (newMember is null) {
-				Logger.Warn($"Family {ID}: cannot link null member!");
+				Logger.Warn($"Family {Id}: cannot link null member!");
 				return;
 			}
 			foreach(DictionaryEntry memberPair in Members) {
@@ -32,7 +32,7 @@ namespace ImperatorToCK3.Imperator.Families {
 				return;
 			}
 			// matching ID was not found
-			Logger.Warn($"Family {ID}: cannot link {newMember.Id} (not found in members)!");
+			Logger.Warn($"Family {Id}: cannot link {newMember.Id} (not found in members)!");
 		}
 		public void RemoveUnlinkedMembers() {
 			var toRemove = new List<ulong>();
@@ -52,23 +52,23 @@ namespace ImperatorToCK3.Imperator.Families {
 			private static Family family = new(0);
 			static FamilyFactory() {
 				parser.RegisterKeyword("key", reader =>
-					family.Key = new SingleString(reader).String
+					family.Key = ParserHelpers.GetString(reader)
 				);
 				parser.RegisterKeyword("prestige", reader =>
-					family.Prestige = new SingleDouble(reader).Double
+					family.Prestige = ParserHelpers.GetDouble(reader)
 				);
 				parser.RegisterKeyword("prestige_ratio", reader =>
-					family.PrestigeRatio = new SingleDouble(reader).Double
+					family.PrestigeRatio = ParserHelpers.GetDouble(reader)
 				);
 				parser.RegisterKeyword("culture", reader =>
-					family.Culture = new SingleString(reader).String
+					family.Culture = ParserHelpers.GetString(reader)
 				);
 				parser.RegisterKeyword("minor_family", reader =>
 					family.Minor = new ParadoxBool(reader)
 				);
 				parser.RegisterKeyword("member", reader => {
-					foreach (var memberID in new ULongList(reader).ULongs) {
-						family.Members.Add(memberID, null);
+					foreach (var memberId in ParserHelpers.GetULongs(reader)) {
+						family.Members.Add(memberId, null);
 					}
 				});
 				parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
@@ -76,15 +76,15 @@ namespace ImperatorToCK3.Imperator.Families {
 					ParserHelpers.IgnoreItem(reader);
 				});
 			}
-			public static Family Parse(BufferedReader reader, ulong ID) {
-				family = new Family(ID);
+			public static Family Parse(BufferedReader reader, ulong id) {
+				family = new Family(id);
 				parser.ParseStream(reader);
 				return family;
 			}
 		}
 
-		public static Family Parse(BufferedReader reader, ulong ID) {
-			return FamilyFactory.Parse(reader, ID);
+		public static Family Parse(BufferedReader reader, ulong id) {
+			return FamilyFactory.Parse(reader, id);
 		}
 	}
 }

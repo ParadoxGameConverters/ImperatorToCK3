@@ -31,19 +31,19 @@ namespace ImperatorToCK3.Mappers.Region {
 
 			LinkRegions();
 		}
-		public bool ProvinceIsInRegion(ulong provinceID, string regionName) {
+		public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
 			if (regions.TryGetValue(regionName, out var region) && region is not null) {
-				return region.ContainsProvince(provinceID);
+				return region.ContainsProvince(provinceId);
 			}
 
 			// "Regions" are such a fluid term.
 			if (duchies.TryGetValue(regionName, out var duchy) && duchy is not null) {
-				return duchy.DuchyContainsProvince(provinceID);
+				return duchy.DuchyContainsProvince(provinceId);
 			}
 
 			// And sometimes they don't mean what people think they mean at all.
 			return counties.TryGetValue(regionName, out var county) &&
-				county?.CountyProvinces.Contains(provinceID) == true;
+				county?.CountyProvinces.Contains(provinceId) == true;
 		}
 		public bool RegionNameIsValid(string regionName) {
 			if (regions.ContainsKey(regionName)) {
@@ -61,31 +61,31 @@ namespace ImperatorToCK3.Mappers.Region {
 
 			return false;
 		}
-		public string? GetParentCountyName(ulong provinceID) {
+		public string? GetParentCountyName(ulong provinceId) {
 			foreach (var (countyName, county) in counties) {
-				if (county?.CountyProvinces.Contains(provinceID) == true) {
+				if (county?.CountyProvinces.Contains(provinceId) == true) {
 					return countyName;
 				}
 			}
-			Logger.Warn($"Province ID {provinceID} has no parent county name!");
+			Logger.Warn($"Province ID {provinceId} has no parent county name!");
 			return null;
 		}
-		public string? GetParentDuchyName(ulong provinceID) {
+		public string? GetParentDuchyName(ulong provinceId) {
 			foreach (var (duchyName, duchy) in duchies) {
-				if (duchy?.DuchyContainsProvince(provinceID) == true) {
+				if (duchy?.DuchyContainsProvince(provinceId) == true) {
 					return duchyName;
 				}
 			}
-			Logger.Warn($"Province ID {provinceID} has no parent duchy name!");
+			Logger.Warn($"Province ID {provinceId} has no parent duchy name!");
 			return null;
 		}
-		public string? GetParentRegionName(ulong provinceID) {
+		public string? GetParentRegionName(ulong provinceId) {
 			foreach (var (regionName, region) in regions) {
-				if (region?.ContainsProvince(provinceID) == true) {
+				if (region?.ContainsProvince(provinceId) == true) {
 					return regionName;
 				}
 			}
-			Logger.Warn($"Province ID {provinceID} has no parent region name!");
+			Logger.Warn($"Province ID {provinceId} has no parent region name!");
 			return null;
 		}
 

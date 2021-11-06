@@ -127,7 +127,7 @@ namespace ImperatorToCK3.CK3 {
 				ck3BookmarkDate
 			);
 			character.CK3Character = newCharacter;
-			Characters.Add(newCharacter.ID, newCharacter);
+			Characters.Add(newCharacter.Id, newCharacter);
 		}
 
 		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
@@ -217,7 +217,7 @@ namespace ImperatorToCK3.CK3 {
 			Imperator.Characters.Characters imperatorCharacters,
 			bool regionHasMultipleGovernorships
 		) {
-			var country = imperatorCountries[governorship.CountryID];
+			var country = imperatorCountries[governorship.CountryId];
 			// Create a new title or update existing title
 			var name = Title.DetermineName(governorship, country, tagTitleMapper);
 
@@ -263,11 +263,11 @@ namespace ImperatorToCK3.CK3 {
 				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
 				try {
 					var newProvinces = new Provinces.Provinces(provincesPath, ck3BookmarkDate);
-					foreach (var (newProvinceID, newProvince) in newProvinces.StoredProvinces) {
-						if (Provinces.ContainsKey(newProvinceID)) {
-							Logger.Warn($"Vanilla province duplication - {newProvinceID} already loaded! Overwriting.");
+					foreach (var (newProvinceId, newProvince) in newProvinces.StoredProvinces) {
+						if (Provinces.ContainsKey(newProvinceId)) {
+							Logger.Warn($"Vanilla province duplication - {newProvinceId} already loaded! Overwriting.");
 						}
-						Provinces[newProvinceID] = newProvince;
+						Provinces[newProvinceId] = newProvince;
 					}
 				} catch (Exception e) {
 					Logger.Warn($"Invalid province filename: {provincesPath} ({e})");
@@ -286,16 +286,16 @@ namespace ImperatorToCK3.CK3 {
 				var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
 				try {
 					var newProvinces = new ProvinceMappings(provinceMappingsPath);
-					foreach (var (newProvinceID, baseProvinceID) in newProvinces.Mappings) {
-						if (!Provinces.ContainsKey(baseProvinceID)) {
-							Logger.Warn($"Base province {baseProvinceID} not found for province {newProvinceID}.");
+					foreach (var (newProvinceId, baseProvinceId) in newProvinces.Mappings) {
+						if (!Provinces.ContainsKey(baseProvinceId)) {
+							Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 							continue;
 						}
-						if (Provinces.ContainsKey(newProvinceID)) {
-							Logger.Info($"Vanilla province duplication - {newProvinceID} already loaded! Preferring unique entry over mapping.");
+						if (Provinces.ContainsKey(newProvinceId)) {
+							Logger.Info($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
 						} else {
-							var newProvince = new Province(newProvinceID, Provinces[baseProvinceID]);
-							Provinces.Add(newProvinceID, newProvince);
+							var newProvince = new Province(newProvinceId, Provinces[baseProvinceId]);
+							Provinces.Add(newProvinceId, newProvince);
 						}
 					}
 				} catch (Exception e) {
@@ -310,8 +310,8 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info("Importing Imperator Provinces.");
 			var counter = 0;
 			// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-			foreach (var (provinceID, province) in Provinces) {
-				var impProvinces = provinceMapper.GetImperatorProvinceNumbers(provinceID);
+			foreach (var (provinceId, province) in Provinces) {
+				var impProvinces = provinceMapper.GetImperatorProvinceNumbers(provinceId);
 				// Provinces we're not affecting will not be in this list.
 				if (impProvinces.Count == 0) {
 					continue;
@@ -319,7 +319,7 @@ namespace ImperatorToCK3.CK3 {
 				// Next, we find what province to use as its initializing source.
 				var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
 				if (sourceProvince is null) {
-					Logger.Warn($"Could not determine source province for CK3 province {provinceID}!");
+					Logger.Warn($"Could not determine source province for CK3 province {provinceId}!");
 					continue; // MISMAP, or simply have mod provinces loaded we're not using.
 				} else {
 					province.InitializeFromImperator(sourceProvince.Value.Value, cultureMapper, religionMapper);
@@ -340,18 +340,18 @@ namespace ImperatorToCK3.CK3 {
 			ulong? winner = null;
 			long maxDev = -1;
 
-			foreach (var imperatorProvinceID in impProvinceNumbers) {
-				if (impWorld.Provinces.StoredProvinces.TryGetValue(imperatorProvinceID, out var impProvince)) {
-					var ownerID = impProvince.OwnerCountry.Key;
-					if (!theClaims.ContainsKey(ownerID)) {
-						theClaims[ownerID] = new();
+			foreach (var imperatorProvinceId in impProvinceNumbers) {
+				if (impWorld.Provinces.StoredProvinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
+					var ownerId = impProvince.OwnerCountry.Key;
+					if (!theClaims.ContainsKey(ownerId)) {
+						theClaims[ownerId] = new();
 					}
-					theClaims[ownerID].Add(impProvince);
+					theClaims[ownerId].Add(impProvince);
 
 					var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
-					theShares[ownerID] = devValue;
+					theShares[ownerId] = devValue;
 				} else {
-					Logger.Warn($"Source province {imperatorProvinceID} is not on the list of known provinces!");
+					Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
 					continue; // Broken mapping, or loaded a mod changing provinces without using it.
 				}
 			}
@@ -436,7 +436,7 @@ namespace ImperatorToCK3.CK3 {
 					var ck3CapitalCounty = ck3Country.CapitalCounty;
 					var impMonarch = impCountry.Monarch;
 					var matchingGovernorships = new List<Governorship>(governorships.Where(g =>
-						g.CountryID == impCountry.Id &&
+						g.CountryId == impCountry.Id &&
 						g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 					));
 
@@ -474,7 +474,7 @@ namespace ImperatorToCK3.CK3 {
 				var holderId = "imperator" + impMonarch.ToString();
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					title.ClearHolderSpecificHistory();
-					title.SetHolderId(holder.ID, ck3Country.GetDateOfLastHolderChange());
+					title.SetHolderId(holder.Id, ck3Country.GetDateOfLastHolderChange());
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
 				}
@@ -487,7 +487,7 @@ namespace ImperatorToCK3.CK3 {
 				if (Characters.TryGetValue(holderId, out var governor)) {
 					title.ClearHolderSpecificHistory();
 					var date = ck3Governorship.GetDateOfLastHolderChange();
-					title.SetHolderId(governor.ID, date);
+					title.SetHolderId(governor.Id, date);
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
 				}
@@ -570,8 +570,8 @@ namespace ImperatorToCK3.CK3 {
 						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
 						continue;
 					}
-					ck3Character.Spouses[ck3SpouseCharacter.ID] = ck3SpouseCharacter;
-					ck3SpouseCharacter.Spouses[ck3Character.ID] = ck3Character;
+					ck3Character.Spouses[ck3SpouseCharacter.Id] = ck3SpouseCharacter;
+					ck3SpouseCharacter.Spouses[ck3Character.Id] = ck3Character;
 					++spouseCounter;
 				}
 			}
@@ -591,7 +591,7 @@ namespace ImperatorToCK3.CK3 {
 				if (impMotherCharacter is not null) {
 					var ck3MotherCharacter = impMotherCharacter.CK3Character;
 					ck3Character.Mother = ck3MotherCharacter;
-					ck3MotherCharacter.Children[ck3Character.ID] = ck3Character;
+					ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
 					++motherCounter;
 				}
 
@@ -600,7 +600,7 @@ namespace ImperatorToCK3.CK3 {
 				if (impFatherCharacter is not null) {
 					var ck3FatherCharacter = impFatherCharacter.CK3Character;
 					ck3Character.Father = ck3FatherCharacter;
-					ck3FatherCharacter.Children[ck3Character.ID] = ck3Character;
+					ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
 					++fatherCounter;
 				}
 			}

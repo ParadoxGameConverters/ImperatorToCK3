@@ -13,7 +13,7 @@ namespace ImperatorToCK3.UnitTests {
                 "type=\"citizen\"\n" +
                 "}");
             var thePop = Pop.Parse("42", reader);
-            Assert.Equal((ulong)42, thePop.ID);
+            Assert.Equal((ulong)42, thePop.Id);
             Assert.Equal("paradoxian", thePop.Culture);
             Assert.Equal("nicene", thePop.Religion);
             Assert.Equal("citizen", thePop.Type);
@@ -24,7 +24,7 @@ namespace ImperatorToCK3.UnitTests {
 				"type=\"citizenus\"\n" +
 				"}");
 			var thePop2 = Pop.Parse("43", reader2);
-			Assert.Equal((ulong)43, thePop2.ID);
+			Assert.Equal((ulong)43, thePop2.Id);
 			Assert.Equal("paradoxus", thePop2.Culture);
 			Assert.Equal("nicenus", thePop2.Religion);
 			Assert.Equal("citizenus", thePop2.Type);

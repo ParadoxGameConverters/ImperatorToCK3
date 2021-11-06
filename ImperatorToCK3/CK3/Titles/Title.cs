@@ -282,7 +282,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			PlayerCountry = false;
 
-			var impGovernor = imperatorCharacters[governorship.CharacterID];
+			var impGovernor = imperatorCharacters[governorship.CharacterId];
 			var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
 
 			ClearHolderSpecificHistory();

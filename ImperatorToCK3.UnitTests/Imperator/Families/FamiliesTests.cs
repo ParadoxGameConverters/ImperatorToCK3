@@ -33,11 +33,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			Assert.Collection(families.StoredFamilies,
 				item => {
 					Assert.Equal((ulong)42, item.Key);
-					Assert.Equal((ulong)42, item.Value.ID);
+					Assert.Equal((ulong)42, item.Value.Id);
 				},
 				item => {
 					Assert.Equal((ulong)43, item.Key);
-					Assert.Equal((ulong)43, item.Value.ID);
+					Assert.Equal((ulong)43, item.Value.Id);
 				}
 			);
 		}
@@ -58,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			Assert.Collection(families.StoredFamilies,
 				item => {
 					Assert.Equal((ulong)43, item.Key);
-					Assert.Equal((ulong)43, item.Value.ID);
+					Assert.Equal((ulong)43, item.Value.Id);
 				}
 			);
 		}

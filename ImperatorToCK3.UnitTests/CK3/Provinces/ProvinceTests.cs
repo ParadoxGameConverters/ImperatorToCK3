@@ -9,7 +9,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
 			var province = new Province();
-			Assert.Equal((ulong)0, province.ID);
+			Assert.Equal((ulong)0, province.Id);
 			Assert.Equal(string.Empty, province.Religion);
 			Assert.Equal(string.Empty, province.Culture);
 			Assert.Equal("none", province.Holding);
@@ -30,7 +30,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 				"{ culture=roman random_key=random_value religion=orthodox holding=castle_holding }"
 			);
 			var province = new Province(42, reader, new Date(867,1,1));
-			Assert.Equal((ulong)42, province.ID);
+			Assert.Equal((ulong)42, province.Id);
 			Assert.Equal("orthodox", province.Religion);
 			Assert.Equal("roman", province.Culture);
 			Assert.Equal("castle_holding", province.Holding);

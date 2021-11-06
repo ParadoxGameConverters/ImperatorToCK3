@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.CK3.Dynasties {
 	public class Dynasty : IPDXSerializable {
 		public Dynasty(Family imperatorFamily, LocalizationMapper localizationMapper) {
-			Id = "dynn_IMPTOCK3_" + imperatorFamily.ID.ToString();
+			Id = "dynn_IMPTOCK3_" + imperatorFamily.Id.ToString();
 			Name = Id;
 
 			var imperatorMembers = imperatorFamily.Members;
@@ -24,7 +24,7 @@ namespace ImperatorToCK3.CK3.Dynasties {
 			foreach (var member in imperatorMembers.Values) {
 				var ck3Member = (member as Imperator.Characters.Character)?.CK3Character;
 				if (ck3Member is not null) {
-					ck3Member.DynastyID = Id;
+					ck3Member.DynastyId = Id;
 				}
 			}
 

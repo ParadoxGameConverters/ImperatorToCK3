@@ -2,18 +2,18 @@
 
 namespace ImperatorToCK3.Imperator.Jobs {
 	public class Governorship {
-		public ulong CountryID { get; private set; } = 0;
-		public ulong CharacterID { get; private set; } = 0;
+		public ulong CountryId { get; private set; } = 0;
+		public ulong CharacterId { get; private set; } = 0;
 		public Date StartDate { get; private set; } = new(1, 1, 1);
 		public string RegionName { get; private set; } = string.Empty;
 
 		public Governorship(BufferedReader reader) {
 			var parser = new Parser();
 			parser.RegisterKeyword("who", reader => {
-				CountryID = ParserHelpers.GetULong(reader);
+				CountryId = ParserHelpers.GetULong(reader);
 			});
 			parser.RegisterKeyword("character", reader => {
-				CharacterID = ParserHelpers.GetULong(reader);
+				CharacterId = ParserHelpers.GetULong(reader);
 			});
 			parser.RegisterKeyword("start_date", reader => {
 				var dateStr = ParserHelpers.GetString(reader);

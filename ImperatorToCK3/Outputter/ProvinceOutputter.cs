@@ -4,7 +4,7 @@ using ImperatorToCK3.CK3.Provinces;
 namespace ImperatorToCK3.Outputter {
 	public static class ProvinceOutputter {
 		public static void OutputProvince(StreamWriter writer, Province province) {
-			writer.WriteLine($"{province.ID} = {{");
+			writer.WriteLine($"{province.Id} = {{");
 			if (!string.IsNullOrEmpty(province.Culture)) {
 				writer.WriteLine($"\tculture = {province.Culture}");
 			}

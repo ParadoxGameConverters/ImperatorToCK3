@@ -20,7 +20,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 				"}"
 			);
 			var family = Family.Parse(reader, 42);
-			Assert.Equal((ulong)42, family.ID);
+			Assert.Equal((ulong)42, family.Id);
 			Assert.Equal("paradoxian", family.Culture);
 			Assert.Equal(420.5, family.Prestige);
 			Assert.Equal(0.75, family.PrestigeRatio);
@@ -33,7 +33,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 				"= { }"
 			);
 			var family = Family.Parse(reader, 42);
-			Assert.Equal((ulong)42, family.ID);
+			Assert.Equal((ulong)42, family.Id);
 			Assert.Equal(string.Empty, family.Culture);
 			Assert.Equal(0, family.Prestige);
 			Assert.Equal(0, family.PrestigeRatio);

@@ -168,10 +168,10 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var pop2 = new ImperatorToCK3.Imperator.Pops.Pop(68);
 			var pop3 = new ImperatorToCK3.Imperator.Pops.Pop(12213);
 			var pop4 = new ImperatorToCK3.Imperator.Pops.Pop(23);
-			pops.StoredPops.Add(pop1.ID, pop1);
-			pops.StoredPops.Add(pop2.ID, pop2);
-			pops.StoredPops.Add(pop3.ID, pop3);
-			pops.StoredPops.Add(pop4.ID, pop4);
+			pops.StoredPops.Add(pop1.Id, pop1);
+			pops.StoredPops.Add(pop2.Id, pop2);
+			pops.StoredPops.Add(pop3.Id, pop3);
+			pops.StoredPops.Add(pop4.Id, pop4);
 			theProvince.LinkPops(pops);
 			Assert.Equal(4, theProvince.GetPopCount());
 		}
