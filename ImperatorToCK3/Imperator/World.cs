@@ -38,21 +38,23 @@ namespace ImperatorToCK3.Imperator {
 			// parse the save
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
-				var versionString = new SingleString(reader).String;
+				var versionString = ParserHelpers.GetString(reader);
 				imperatorVersion = new GameVersion(versionString);
-				Logger.Info("Savegame version: " + versionString);
+				Logger.Info($"Savegame version: {versionString}");
 
 				if (converterVersion.MinSource > imperatorVersion) {
-					Logger.Error("Converter requires a minimum save from v" + converterVersion.MinSource.ToShortString());
+					Logger.Error(
+						$"Converter requires a minimum save from v{converterVersion.MinSource.ToShortString()}");
 					throw new FormatException("Savegame vs converter version mismatch!");
 				}
 				if (!converterVersion.MaxSource.IsLargerishThan(imperatorVersion)) {
-					Logger.Error("Converter requires a maximum save from v" + converterVersion.MaxSource.ToShortString());
+					Logger.Error(
+						$"Converter requires a maximum save from v{converterVersion.MaxSource.ToShortString()}");
 					throw new FormatException("Savegame vs converter version mismatch!");
 				}
 			});
 			RegisterKeyword("date", reader => {
-				var dateString = new SingleString(reader).String;
+				var dateString = ParserHelpers.GetString(reader);
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
 				if (EndDate > configuration.Ck3BookmarkDate) {
@@ -60,19 +62,19 @@ namespace ImperatorToCK3.Imperator {
 				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
-				var theDLCs = new StringList(reader).Strings;
+				var theDLCs = ParserHelpers.GetStrings(reader);
 				dlcs.UnionWith(theDLCs);
 				foreach (var dlc in dlcs) {
-					Logger.Info("Enabled DLC: " + dlc);
+					Logger.Info($"Enabled DLC: {dlc}");
 				}
 			});
 			RegisterKeyword("enabled_mods", reader => {
 				Logger.Info("Detecting used mods.");
 				var modsList = new StringList(reader).Strings;
-				Logger.Info("Savegame claims " + modsList.Count + " mods used:");
+				Logger.Info($"Savegame claims {modsList.Count} mods used:");
 				Mods incomingMods = new();
 				foreach (var modPath in modsList) {
-					Logger.Info("Used mod: " + modPath);
+					Logger.Info($"Used mod: {modPath}");
 					incomingMods.Add(new Mod("", modPath));
 				}
 
@@ -84,28 +86,28 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families");
 				Families = Imperator.Families.Families.ParseBloc(reader);
-				Logger.Info("Loaded " + Families.StoredFamilies.Count + " families.");
+				Logger.Info($"Loaded {Families.StoredFamilies.Count} families.");
 			});
 			RegisterKeyword("character", reader => {
 				Logger.Info("Loading Characters");
 				Characters = Imperator.Characters.Characters.ParseBloc(reader, genesDB);
-				Logger.Info("Loaded " + Characters.StoredCharacters.Count + " characters.");
+				Logger.Info($"Loaded {Characters.StoredCharacters.Count} characters.");
 			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces");
 				Provinces = new Provinces.Provinces(reader);
-				Logger.Debug("Ingnored Province tokens: " + string.Join(", ", Province.IgnoredTokens));
-				Logger.Info("Loaded " + Provinces.StoredProvinces.Count + " provinces.");
+				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
+				Logger.Info($"Loaded {Provinces.StoredProvinces.Count} provinces.");
 			});
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries");
 				Countries = Imperator.Countries.Countries.ParseBloc(reader);
-				Logger.Info("Loaded " + Countries.StoredCountries.Count + " countries.");
+				Logger.Info($"Loaded {Countries.StoredCountries.Count} countries.");
 			});
 			RegisterKeyword("population", reader => {
 				Logger.Info("Loading Pops");
 				pops = new PopsBloc(reader).PopsFromBloc;
-				Logger.Info("Loaded " + pops.StoredPops.Count + " pops.");
+				Logger.Info($"Loaded {pops.StoredPops.Count} pops.");
 			});
 			RegisterKeyword("jobs", reader => {
 				Jobs = new Jobs.Jobs(reader);
@@ -121,7 +123,7 @@ namespace ImperatorToCK3.Imperator {
 				});
 				playedCountryBlocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 				playedCountryBlocParser.ParseStream(reader);
-				Logger.Info("Player countries: " + string.Join(", ", playerCountriesToLog));
+				Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 			});
 			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				ignoredTokens.Add(token);
@@ -135,7 +137,7 @@ namespace ImperatorToCK3.Imperator {
 			var gameState = new BufferedReader(saveGame.gameState);
 			ParseStream(gameState);
 			ClearRegisteredRules();
-			Logger.Debug("Ignored World tokens: " + string.Join(", ", ignoredTokens));
+			Logger.Debug($"Ignored World tokens: {string.Join(", ", ignoredTokens)}");
 
 			Logger.Info("*** Building World ***");
 
@@ -187,7 +189,7 @@ namespace ImperatorToCK3.Imperator {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(filePath);
 
-			foreach(var country in Countries.StoredCountries.Values) {
+			foreach (var country in Countries.StoredCountries.Values) {
 				country.RulerTerms = country.RulerTerms.OrderBy(t => t.StartDate).ToList();
 			}
 
@@ -270,7 +272,7 @@ namespace ImperatorToCK3.Imperator {
 			var bigBuf = new byte[65536];
 			var bytesReadCount = saveStream.Read(bigBuf);
 			if (bytesReadCount < 65536) {
-				throw new InvalidDataException("Read only " + bytesReadCount + "bytes.");
+				throw new InvalidDataException($"Read only {bytesReadCount}bytes.");
 			}
 			saveGame.saveType = SaveType.PLAINTEXT;
 			for (var i = 0; i < 65533; ++i) {

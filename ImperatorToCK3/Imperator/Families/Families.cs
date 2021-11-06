@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Families {
 	public class Families : Parser {
@@ -14,18 +14,21 @@ namespace ImperatorToCK3.Imperator.Families {
 			ParseStream(reader);
 			ClearRegisteredRules();
 		}
-		public void RegisterKeys() {
-			RegisterRegex(CommonRegexes.Integer, (reader, familyIDStr) => {
+
+		private void RegisterKeys() {
+			RegisterRegex(CommonRegexes.Integer, (reader, familyIdStr) => {
 				var familyStr = new StringOfItem(reader).String;
-				if (familyStr.IndexOf('{') != -1) {
-					var tempReader = new BufferedReader(familyStr);
-					var ID = ulong.Parse(familyIDStr);
-					var newFamily = Family.Parse(tempReader, ID);
-					var inserted = StoredFamilies.TryAdd(newFamily.ID, newFamily);
-					if (!inserted) {
-						Logger.Debug($"Redefinition of family {familyIDStr}.");
-						StoredFamilies[newFamily.ID] = newFamily;
-					}
+				if (familyStr.IndexOf('{') == -1) {
+					return;
+				}
+
+				var tempReader = new BufferedReader(familyStr);
+				var id = ulong.Parse(familyIdStr);
+				var newFamily = Family.Parse(tempReader, id);
+				var inserted = StoredFamilies.TryAdd(newFamily.Id, newFamily);
+				if (!inserted) {
+					Logger.Debug($"Redefinition of family {familyIdStr}.");
+					StoredFamilies[newFamily.Id] = newFamily;
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

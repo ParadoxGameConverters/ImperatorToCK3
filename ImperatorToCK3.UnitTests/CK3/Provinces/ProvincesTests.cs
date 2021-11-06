@@ -1,11 +1,12 @@
-﻿using Xunit;
-using commonItems;
+﻿using commonItems;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvincesTests {
-		[Fact] public void ProvincesDefaltToEmpty() {
+		[Fact]
+		public void ProvincesDefaultToEmpty() {
 			var provinces = new ImperatorToCK3.CK3.Provinces.Provinces();
 
 			Assert.Empty(provinces.StoredProvinces);
@@ -13,7 +14,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 
 		[Fact]
 		public void ProvincesAreProperlyLoadedFromFile() {
-			var provinces = new ImperatorToCK3.CK3.Provinces.Provinces("TestFiles/CK3ProvincesHistoryFile.txt", new Date(867,1,1));
+			var provinces = new ImperatorToCK3.CK3.Provinces.Provinces("TestFiles/CK3ProvincesHistoryFile.txt", new Date(867, 1, 1));
 
 			Assert.Equal(4, provinces.StoredProvinces.Count);
 			Assert.Equal("slovien", provinces.StoredProvinces[3080].Culture);

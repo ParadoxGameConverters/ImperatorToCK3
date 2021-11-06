@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
@@ -16,7 +17,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public RulerTerm(
 			Imperator.Countries.RulerTerm imperatorRulerTerm,
-			Dictionary<string, Characters.Character> charactersDict,
+			IDictionary<string, Character> charactersDict,
 			GovernmentMapper governmentMapper,
 			LocalizationMapper localizationMapper,
 			ReligionMapper religionMapper,
@@ -35,7 +36,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
 			if (PreImperatorRuler?.Country is not null) {
 				// create a new ruler character
-				var character = new Characters.Character(
+				var character = new Character(
 					PreImperatorRuler,
 					StartDate,
 					PreImperatorRuler.Country,
@@ -45,8 +46,8 @@ namespace ImperatorToCK3.CK3.Titles {
 					nicknameMapper,
 					provinceMapper
 				);
-				charactersDict.Add(character.ID, character);
-				CharacterId = character.ID;
+				charactersDict.Add(character.Id, character);
+				CharacterId = character.Id;
 			}
 		}
 	}

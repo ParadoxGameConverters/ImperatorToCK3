@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.IO;
-using commonItems;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorRegionMapper : Parser {
@@ -44,41 +44,32 @@ namespace ImperatorToCK3.Mappers.Region {
 			LinkRegions();
 		}
 		public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
-			if (regions.TryGetValue(regionName, out var region) && region is not null) {
+			if (regions.TryGetValue(regionName, out var region)) {
 				return region.ContainsProvince(provinceId);
 			}
 			// "Regions" are such a fluid term.
-			if (areas.TryGetValue(regionName, out var area) && area is not null) {
-				return area.ContainsProvince(provinceId);
-			}
-			return false;
+			return areas.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
 		}
 		public bool RegionNameIsValid(string regionName) {
-			if (regions.ContainsKey(regionName)) {
-				return true;
-			}
 			// Who knows what the mapper needs. All kinds of stuff.
-			if (areas.ContainsKey(regionName)) {
-				return true;
-			}
-			return false;
+			return regions.ContainsKey(regionName) || areas.ContainsKey(regionName);
 		}
 		public string? GetParentRegionName(ulong provinceId) {
 			foreach (var (regionName, region) in regions) {
-				if (region is not null && region.ContainsProvince(provinceId)) {
+				if (region.ContainsProvince(provinceId)) {
 					return regionName;
 				}
 			}
-			Logger.Warn("Province ID " + provinceId + " has no parent region name!");
+			Logger.Warn($"Province ID {provinceId} has no parent region name!");
 			return null;
 		}
 		public string? GetParentAreaName(ulong provinceId) {
 			foreach (var (areaName, area) in areas) {
-				if (area is not null && area.ContainsProvince(provinceId)) {
+				if (area.ContainsProvince(provinceId)) {
 					return areaName;
 				}
 			}
-			Logger.Warn("Province ID " + provinceId + " has no parent area name!");
+			Logger.Warn($"Province ID {provinceId} has no parent area name!");
 			return null;
 		}
 		private void LinkRegions() {
@@ -87,7 +78,7 @@ namespace ImperatorToCK3.Mappers.Region {
 					if (areas.TryGetValue(requiredAreaName, out var area)) {
 						region.LinkArea(requiredAreaName, area);
 					} else {
-						throw new KeyNotFoundException("Region's " + regionName + " area " + requiredAreaName + " does not exist!");
+						throw new KeyNotFoundException($"Region's {regionName} area {requiredAreaName} does not exist!");
 					}
 				}
 			}

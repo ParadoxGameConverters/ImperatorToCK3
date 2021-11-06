@@ -1,19 +1,13 @@
 ﻿using commonItems;
 
 namespace ImperatorToCK3.Imperator.Pops {
-    public partial class Pop {
+	public partial class Pop {
 		private static Pop tempPop = new(0);
 		private static readonly Parser popParser = new();
 		static Pop() {
-			popParser.RegisterKeyword("type", (sr) => {
-				tempPop.Type = new SingleString(sr).String;
-			});
-			popParser.RegisterKeyword("culture", (sr) => {
-				tempPop.Culture = new SingleString(sr).String;
-			});
-			popParser.RegisterKeyword("religion", (sr) => {
-				tempPop.Religion = new SingleString(sr).String;
-			});
+			popParser.RegisterKeyword("type", reader => tempPop.Type = ParserHelpers.GetString(reader));
+			popParser.RegisterKeyword("culture", reader => tempPop.Culture = ParserHelpers.GetString(reader));
+			popParser.RegisterKeyword("religion", reader => tempPop.Religion = ParserHelpers.GetString(reader));
 			popParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static Pop Parse(string idString, BufferedReader reader) {
@@ -21,5 +15,5 @@ namespace ImperatorToCK3.Imperator.Pops {
 			popParser.ParseStream(reader);
 			return tempPop;
 		}
-    }
+	}
 }

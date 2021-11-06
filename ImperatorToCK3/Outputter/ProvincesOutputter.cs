@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using commonItems;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.Outputter {
 	public static class ProvincesOutputter {
@@ -57,11 +57,11 @@ namespace ImperatorToCK3.Outputter {
 						if (alreadyOutputtedProvinces.Contains(id)) {
 							continue;
 						}
-						var baseProvID = province.BaseProvinceID;
-						if (baseProvID is null) {
+						var baseProvId = province.BaseProvinceId;
+						if (baseProvId is null) {
 							Logger.Warn($"Leftover province {id} has no base province id!");
 						} else {
-							provinceMappingOutput.WriteLine($"{id} = {baseProvID}");
+							provinceMappingOutput.WriteLine($"{id} = {baseProvId}");
 							alreadyOutputtedProvinces.Add(id);
 						}
 					}

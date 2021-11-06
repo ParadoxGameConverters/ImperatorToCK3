@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Localization;
+using System;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class CountryName : ICloneable {
@@ -51,7 +51,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 					}
 				}
 			} else {
-				foreach(var country in imperatorCountries.Values) {
+				foreach (var country in imperatorCountries.Values) {
 					if (country.Name == Name) {
 						var countryAdjective = country.CountryName.GetAdjective();
 						var adjLoc = localizationMapper.GetLocBlockForKey(countryAdjective);
@@ -82,10 +82,10 @@ namespace ImperatorToCK3.Imperator.Countries {
 			private static CountryName countryName = new();
 			static CountryNameFactory() {
 				parser.RegisterKeyword("name", reader =>
-					countryName.Name = new SingleString(reader).String
+					countryName.Name = ParserHelpers.GetString(reader)
 				);
 				parser.RegisterKeyword("adjective", reader =>
-					countryName.adjective = new SingleString(reader).String
+					countryName.adjective = ParserHelpers.GetString(reader)
 				);
 				parser.RegisterKeyword("base", reader => {
 					var tempCountryName = (CountryName)countryName.Clone();

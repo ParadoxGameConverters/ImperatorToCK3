@@ -1,6 +1,6 @@
-﻿using ImperatorToCK3.CK3.Titles;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
 using Xunit;
-using commonItems;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	public class TitleHistoryTests {

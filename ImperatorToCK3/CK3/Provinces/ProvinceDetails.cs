@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
-using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class ProvinceDetails {
@@ -29,8 +29,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 			if (religionOpt is string religionStr) {
 				Religion = religionStr;
 			}
-			switch (history.GetFieldValue("holding", ck3BookmarkDate))
-			{
+			switch (history.GetFieldValue("holding", ck3BookmarkDate)) {
 				case null:
 					Logger.Warn("Province's holding can't be null!");
 					break;

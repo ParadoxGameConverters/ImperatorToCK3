@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
 using ImperatorToCK3.CK3;
-using commonItems;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter {

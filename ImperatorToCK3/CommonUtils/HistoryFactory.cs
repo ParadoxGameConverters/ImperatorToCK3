@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.Linq;
-using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
 	public class HistoryFactory : Parser {
@@ -13,13 +13,13 @@ namespace ImperatorToCK3.CommonUtils {
 			this.containerFieldDefs = containerFieldDefs;
 
 			foreach (var def in this.simpleFieldDefs) {
-				RegisterKeyword(def.Setter, (reader) => {
+				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
 					history.Fields[def.FieldName].InitialValue = ParserHelpers.GetString(reader);
 				});
 			}
 			foreach (var def in this.containerFieldDefs) {
-				RegisterKeyword(def.Setter, (reader) => {
+				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
 					history.Fields[def.FieldName].InitialValue = ParserHelpers.GetStrings(reader);
 				});

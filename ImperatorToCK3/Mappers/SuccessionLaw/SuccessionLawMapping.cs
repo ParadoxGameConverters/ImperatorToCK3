@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw {
 	public class SuccessionLawMapping {
@@ -7,12 +7,12 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 		public SortedSet<string> Ck3SuccessionLaws { get; set; } = new();
 		public SuccessionLawMapping(BufferedReader reader) {
 			var parser = new Parser();
-			parser.RegisterKeyword("imp", (reader) => {
-				ImperatorLaw = new SingleString(reader).String;
-			});
-			parser.RegisterKeyword("ck3", (reader) => {
-				Ck3SuccessionLaws.Add(new SingleString(reader).String);
-			});
+			parser.RegisterKeyword("imp", reader =>
+				ImperatorLaw = ParserHelpers.GetString(reader)
+			);
+			parser.RegisterKeyword("ck3", reader =>
+				Ck3SuccessionLaws.Add(ParserHelpers.GetString(reader))
+			);
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseStream(reader);
 			parser.ClearRegisteredRules();

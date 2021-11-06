@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Region;
-using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Culture {
 	public class CultureMapper : Parser {
@@ -32,13 +32,13 @@ namespace ImperatorToCK3.Mappers.Culture {
 		}
 		public string? Match(
 			string impCulture,
-			string ck3religion,
-			ulong ck3ProvinceID,
+			string ck3Religion,
+			ulong ck3ProvinceId,
 			ulong impProvinceID,
-			string ck3ownerTitle
+			string ck3OwnerTitle
 		) {
 			foreach (var cultureMappingRule in cultureMappingRules) {
-				var possibleMatch = cultureMappingRule.Match(impCulture, ck3religion, ck3ProvinceID, impProvinceID, ck3ownerTitle);
+				var possibleMatch = cultureMappingRule.Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceID, ck3OwnerTitle);
 				if (possibleMatch is not null)
 					return possibleMatch;
 			}
@@ -47,13 +47,13 @@ namespace ImperatorToCK3.Mappers.Culture {
 
 		public string? NonReligiousMatch(
 			string impCulture,
-			string ck3religion,
-			ulong ck3ProvinceID,
-			ulong impProvinceID,
-			string ck3ownerTitle
+			string ck3Religion,
+			ulong ck3ProvinceId,
+			ulong impProvinceId,
+			string ck3OwnerTitle
 		) {
 			foreach (var cultureMappingRule in cultureMappingRules) {
-				var possibleMatch = cultureMappingRule.NonReligiousMatch(impCulture, ck3religion, ck3ProvinceID, impProvinceID, ck3ownerTitle);
+				var possibleMatch = cultureMappingRule.NonReligiousMatch(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
 				if (possibleMatch is not null)
 					return possibleMatch;
 			}

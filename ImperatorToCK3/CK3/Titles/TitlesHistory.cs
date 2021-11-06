@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Titles {
 	public class TitlesHistory : Parser {

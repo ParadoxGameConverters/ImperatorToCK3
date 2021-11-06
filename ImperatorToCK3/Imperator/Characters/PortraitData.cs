@@ -1,6 +1,6 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.Collections.Generic;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class PortraitData {
@@ -48,7 +48,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				if (gene.GeneTemplates[geneTemplateName].AgeSexWeightBlocks.TryGetValue(ageSexString, out var characterGeneFoundWeightBlock)) {
 					var characterGeneObjectName = characterGeneFoundWeightBlock.GetMatchingObject(characterGeneSliderValue);
 					if (characterGeneObjectName is not null) {
-						AccessoryGenesList.Add(new AccessoryGeneData() { geneName = geneName, geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
+						AccessoryGenesList.Add(new AccessoryGeneData { geneName = geneName, geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
 					} else {
 						Logger.Warn($"\t\t\tgene template object name {geneTemplateName} for {ageSexString} could not be extracted from DNA.");
 					}

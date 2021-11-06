@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	/// <summary>
@@ -27,14 +27,16 @@ namespace ImperatorToCK3.CK3.Provinces {
 
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, provIdString) => {
-				var targetProvID = ulong.Parse(provIdString);
-				var baseProvID = ParserHelpers.GetULong(reader);
-				if (targetProvID != baseProvID) { // if left and right IDs are equal, no point in mapping
-					if (Mappings.ContainsKey(targetProvID)) {
-						Logger.Warn($"Duplicate province mapping for {targetProvID}, overwriting!");
-					}
-					Mappings[targetProvID] = baseProvID;
+				var targetProvId = ulong.Parse(provIdString);
+				var baseProvId = ParserHelpers.GetULong(reader);
+				if (targetProvId == baseProvId) { // if left and right IDs are equal, no point in mapping
+					return;
 				}
+
+				if (Mappings.ContainsKey(targetProvId)) {
+					Logger.Warn($"Duplicate province mapping for {targetProvId}, overwriting!");
+				}
+				Mappings[targetProvId] = baseProvId;
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}

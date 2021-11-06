@@ -1,12 +1,12 @@
-﻿using System.IO;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
-using commonItems;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CharacterOutputter {
 		public static void OutputCharacter(StreamWriter output, Character character, Date ck3BookmarkDate) {
 			// output ID, name, sex, culture, religion
-			output.WriteLine($"{character.ID} = {{");
+			output.WriteLine($"{character.Id} = {{");
 			if (!string.IsNullOrEmpty(character.Name)) {
 				output.WriteLine($"\tname = \"{character.Name}\"\n");
 			}
@@ -21,19 +21,19 @@ namespace ImperatorToCK3.Outputter {
 			}
 
 			// output dynasty
-			if (character.DynastyID is not null) {
-				output.WriteLine($"\tdynasty = {character.DynastyID}");
+			if (character.DynastyId is not null) {
+				output.WriteLine($"\tdynasty = {character.DynastyId}");
 			}
 
 			//output father and mother
 			if (character.Father is not null)
-				output.WriteLine($"\tfather = {character.Father.ID}");
+				output.WriteLine($"\tfather = {character.Father.Id}");
 			if (character.Mother is not null)
-				output.WriteLine($"\tmother = {character.Mother.ID}");
+				output.WriteLine($"\tmother = {character.Mother.Id}");
 
 			// output spouse
 			// TODO: output add_spouse with earlier date if the pair has a born or unborn child
-			foreach (var spouseID in character.Spouses.Keys) {
+			foreach (var spouseId in character.Spouses.Keys) {
 				Date marriageDate;
 				if (character.DeathDate is not null) {
 					marriageDate = new Date(character.DeathDate);
@@ -41,7 +41,7 @@ namespace ImperatorToCK3.Outputter {
 				} else {
 					marriageDate = ck3BookmarkDate;
 				}
-				output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouseID} }}");
+				output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouseId} }}");
 			}
 
 			// output nickname

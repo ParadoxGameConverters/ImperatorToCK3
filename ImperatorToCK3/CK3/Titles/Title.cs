@@ -282,7 +282,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			PlayerCountry = false;
 
-			var impGovernor = imperatorCharacters[governorship.CharacterID];
+			var impGovernor = imperatorCharacters[governorship.CharacterId];
 			var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
 
 			ClearHolderSpecificHistory();
@@ -401,7 +401,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			return history.GetGovernment(date);
 		}
 
-		[NonSerialized] public int? DevelopmentLevel {
+		[NonSerialized]
+		public int? DevelopmentLevel {
 			get => history.DevelopmentLevel;
 			set => history.DevelopmentLevel = value;
 		}
@@ -410,7 +411,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void SetNameLoc(LocBlock locBlock) {
 			Localizations[Name] = locBlock;
 		}
-		private void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Imperator.Countries.Country> imperatorCountries) {
+		private void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Country> imperatorCountries) {
 			if (ImperatorCountry is null) {
 				Logger.Warn($"Cannot set adjective for CK3 Title {Name} from null Imperator Country!");
 				return;
@@ -473,7 +474,8 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		private string? parsedCapitalCountyName;
 		[NonSerialized] public Title? CapitalCounty { get; set; }
-		[SerializedName("capital")] public string? CapitalCountyName =>
+		[SerializedName("capital")]
+		public string? CapitalCountyName =>
 			CapitalCounty is not null ? CapitalCounty.Name : parsedCapitalCountyName;
 
 		[NonSerialized] public Country? ImperatorCountry { get; private set; }
@@ -482,7 +484,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		[SerializedName("color2")] public Color? Color2 { get; private set; }
 
 		private Title? deJureLiege;
-		[NonSerialized] public Title? DeJureLiege { // direct de jure liege title
+		[NonSerialized]
+		public Title? DeJureLiege { // direct de jure liege title
 			get => deJureLiege;
 			set {
 				if (deJureLiege is not null) {
@@ -495,7 +498,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 		private Title? deFactoLiege;
-		[NonSerialized] public Title? DeFactoLiege { // direct de facto liege title
+		[NonSerialized]
+		public Title? DeFactoLiege { // direct de facto liege title
 			get => deFactoLiege;
 			set {
 				if (deFactoLiege is not null) {
@@ -563,7 +567,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
 
-		[NonSerialized] public int? OwnOrInheritedDevelopmentLevel {
+		[NonSerialized]
+		public int? OwnOrInheritedDevelopmentLevel {
 			get {
 				if (history.DevelopmentLevel is not null) { // if development level is already set, just return it
 					return history.DevelopmentLevel;
@@ -745,12 +750,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				return false;
 			}
 
-			foreach (var vassal in DeJureVassals.Values) {
-				if (vassal?.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId)) {
-					return true;
-				}
-			}
-			return false;
+			return DeJureVassals.Values.Any(vassal => vassal.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId));
 		}
 
 		// used by duchy titles only
@@ -759,12 +759,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				return false;
 			}
 
-			foreach (var vassal in DeJureVassals.Values) {
-				if (vassal?.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId)) {
-					return true;
-				}
-			}
-			return false;
+			return DeJureVassals.Values.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
 		}
 
 		// used by county titles only

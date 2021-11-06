@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using ImperatorToCK3.Mappers.Region;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using commonItems;
+using ImperatorToCK3.Mappers.Region;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region {

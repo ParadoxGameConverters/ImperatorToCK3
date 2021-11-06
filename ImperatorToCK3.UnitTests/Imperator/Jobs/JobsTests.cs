@@ -1,6 +1,6 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.IO;
-using commonItems;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Jobs {
@@ -19,8 +19,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs {
 			);
 			var jobs = new ImperatorToCK3.Imperator.Jobs.Jobs(reader);
 			Assert.Collection(jobs.Governorships,
-				item1 => Assert.Equal((ulong)1, item1.CountryID),
-				item2 => Assert.Equal((ulong)2, item2.CountryID)
+				item1 => Assert.Equal((ulong)1, item1.CountryId),
+				item2 => Assert.Equal((ulong)2, item2.CountryId)
 			);
 		}
 		[Fact]

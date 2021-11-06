@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3Region {
@@ -17,23 +17,23 @@ namespace ImperatorToCK3.Mappers.Region {
 		public void LinkCounty(CK3.Titles.Title theCounty) {
 			Counties[theCounty.Name] = theCounty;
 		}
-		public bool ContainsProvince(ulong provinceID) {
+		public bool ContainsProvince(ulong provinceId) {
 			foreach (var region in Regions.Values) {
-				if (region?.ContainsProvince(provinceID) == true) {
+				if (region?.ContainsProvince(provinceId) == true) {
 					return true;
 				}
 			}
 			foreach (var duchy in Duchies.Values) {
-				if (duchy?.DuchyContainsProvince(provinceID) == true) {
+				if (duchy?.DuchyContainsProvince(provinceId) == true) {
 					return true;
 				}
 			}
 			foreach (var county in Counties.Values) {
-				if (county?.CountyProvinces.Contains(provinceID) == true) {
+				if (county?.CountyProvinces.Contains(provinceId) == true) {
 					return true;
 				}
 			}
-			return Provinces.Contains(provinceID);
+			return Provinces.Contains(provinceId);
 		}
 
 		private static readonly Parser parser = new();

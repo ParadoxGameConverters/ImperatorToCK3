@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.Linq;
-using commonItems;
 
 namespace ImperatorToCK3.CK3.Titles {
 	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
@@ -60,10 +60,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			StoredTitles.Remove(name);
 		}
-		public Title? GetCountyForProvince(ulong provinceID) {
+		public Title? GetCountyForProvince(ulong provinceId) {
 			var counties = StoredTitles.Values.Where(title => title.Rank == TitleRank.county);
 			foreach (var county in counties) {
-				if (county?.CountyProvinces.Contains(provinceID) == true) {
+				if (county.CountyProvinces.Contains(provinceId)) {
 					return county;
 				}
 			}

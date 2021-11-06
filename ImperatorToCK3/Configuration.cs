@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using commonItems;
 using System;
-using commonItems;
+using System.IO;
 
 namespace ImperatorToCK3 {
 	public enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 }
@@ -27,33 +27,25 @@ namespace ImperatorToCK3 {
 		}
 
 		private void RegisterKeys() {
-			RegisterKeyword("SaveGame", (sr) => {
-				SaveGamePath = new SingleString(sr).String;
+			RegisterKeyword("SaveGame", reader => {
+				SaveGamePath = ParserHelpers.GetString(reader);
 				Logger.Info("Save game set to: " + SaveGamePath);
 			});
-			RegisterKeyword("ImperatorDirectory", (sr) => {
-				ImperatorPath = new SingleString(sr).String;
+			RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = ParserHelpers.GetString(reader));
+			RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = ParserHelpers.GetString(reader));
+			RegisterKeyword("CK3directory", reader => Ck3Path = ParserHelpers.GetString(reader));
+			RegisterKeyword("CK3ModsDirectory", reader => Ck3ModsPath = ParserHelpers.GetString(reader));
+			RegisterKeyword("output_name", reader => {
+				OutputModName = ParserHelpers.GetString(reader);
+				Logger.Info($"Output name set to: {OutputModName}");
 			});
-			RegisterKeyword("ImperatorDocDirectory", (sr) => {
-				ImperatorDocPath = new SingleString(sr).String;
-			});
-			RegisterKeyword("CK3directory", (sr) => {
-				Ck3Path = new SingleString(sr).String;
-			});
-			RegisterKeyword("CK3ModsDirectory", (sr) => {
-				Ck3ModsPath = new SingleString(sr).String;
-			});
-			RegisterKeyword("output_name", (sr) => {
-				OutputModName = new SingleString(sr).String;
-				Logger.Info("Output name set to: " + OutputModName);
-			});
-			RegisterKeyword("ImperatorDeJure", (sr) => {
-				var deJureString = new SingleString(sr).String;
+			RegisterKeyword("ImperatorDeJure", reader => {
+				var deJureString = ParserHelpers.GetString(reader);
 				try {
 					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(deJureString);
-					Logger.Info("ImperatorDeJure set to: " + deJureString);
+					Logger.Info($"ImperatorDeJure set to: {deJureString}");
 				} catch (Exception e) {
-					Logger.Error("Undefined error, ImperatorDeJure value was: " + deJureString + "; Error message: " + e.ToString());
+					Logger.Error($"Undefined error, ImperatorDeJure value was: {deJureString}; Error message: {e}");
 				}
 			});
 
@@ -100,45 +92,45 @@ namespace ImperatorToCK3 {
 
 		private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 			var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
-			var ImpVersion = GameVersion.ExtractVersionFromLauncher(path);
-			if (ImpVersion is null) {
+			var impVersion = GameVersion.ExtractVersionFromLauncher(path);
+			if (impVersion is null) {
 				Logger.Error("Imperator version could not be determined, proceeding blind!");
 				return;
 			}
 
-			Logger.Info($"Imperator version: {ImpVersion.ToShortString()}");
+			Logger.Info($"Imperator version: {impVersion.ToShortString()}");
 
-			if (converterVersion.MinSource > ImpVersion) {
-				Logger.Error($"Imperator version is v{ImpVersion.ToShortString()}," +
+			if (converterVersion.MinSource > impVersion) {
+				Logger.Error($"Imperator version is v{impVersion.ToShortString()}," +
 					$" converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
-				throw new ArgumentOutOfRangeException(nameof(ImpVersion), "Converter vs Imperator installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
 			}
-			if (!converterVersion.MaxSource.IsLargerishThan(ImpVersion)) {
-				Logger.Error($"Imperator version is v{ImpVersion.ToShortString()}, converter requires maximum v" +
+			if (!converterVersion.MaxSource.IsLargerishThan(impVersion)) {
+				Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires maximum v" +
 						 $"{converterVersion.MaxSource.ToShortString()}!");
-				throw new ArgumentOutOfRangeException(nameof(ImpVersion), "Converter vs Imperator installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
 			}
 		}
 
 		private void VerifyCK3Version(ConverterVersion converterVersion) {
 			var path = Path.Combine(Ck3Path, "launcher/launcher-settings.json");
-			var CK3Version = GameVersion.ExtractVersionFromLauncher(path);
-			if (CK3Version is null) {
+			var ck3Version = GameVersion.ExtractVersionFromLauncher(path);
+			if (ck3Version is null) {
 				Logger.Error("CK3 version could not be determined, proceeding blind!");
 				return;
 			}
 
-			Logger.Info($"CK3 version: {CK3Version.ToShortString()}");
+			Logger.Info($"CK3 version: {ck3Version.ToShortString()}");
 
-			if (converterVersion.MinTarget > CK3Version) {
-				Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires minimum v" +
+			if (converterVersion.MinTarget > ck3Version) {
+				Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v" +
 						 $"{converterVersion.MinTarget.ToShortString()}!");
-				throw new ArgumentOutOfRangeException(nameof(CK3Version), "Converter vs CK3 installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
 			}
-			if (!converterVersion.MaxTarget.IsLargerishThan(CK3Version)) {
-				Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires maximum v" +
+			if (!converterVersion.MaxTarget.IsLargerishThan(ck3Version)) {
+				Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v" +
 						 $"{converterVersion.MaxTarget.ToShortString()} !");
-				throw new ArgumentOutOfRangeException(nameof(CK3Version), "Converter vs CK3 installation mismatch!");
+				throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
 			}
 		}
 	}

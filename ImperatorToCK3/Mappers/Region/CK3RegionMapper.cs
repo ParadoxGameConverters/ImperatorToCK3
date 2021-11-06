@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3RegionMapper : Parser {
 		public CK3RegionMapper() { }
-		public CK3RegionMapper(string ck3Path, CK3.Titles.LandedTitles landedTitles) {
+		public CK3RegionMapper(string ck3Path, LandedTitles landedTitles) {
 			Logger.Info("Initializing Geography.");
 
 			var regionFilePath = Path.Combine(ck3Path, "game/map_data/geographical_region.txt");
@@ -31,19 +31,19 @@ namespace ImperatorToCK3.Mappers.Region {
 
 			LinkRegions();
 		}
-		public bool ProvinceIsInRegion(ulong provinceID, string regionName) {
+		public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
 			if (regions.TryGetValue(regionName, out var region) && region is not null) {
-				return region.ContainsProvince(provinceID);
+				return region.ContainsProvince(provinceId);
 			}
 
 			// "Regions" are such a fluid term.
 			if (duchies.TryGetValue(regionName, out var duchy) && duchy is not null) {
-				return duchy.DuchyContainsProvince(provinceID);
+				return duchy.DuchyContainsProvince(provinceId);
 			}
 
 			// And sometimes they don't mean what people think they mean at all.
 			return counties.TryGetValue(regionName, out var county) &&
-				county?.CountyProvinces.Contains(provinceID) == true;
+				county?.CountyProvinces.Contains(provinceId) == true;
 		}
 		public bool RegionNameIsValid(string regionName) {
 			if (regions.ContainsKey(regionName)) {
@@ -61,31 +61,31 @@ namespace ImperatorToCK3.Mappers.Region {
 
 			return false;
 		}
-		public string? GetParentCountyName(ulong provinceID) {
+		public string? GetParentCountyName(ulong provinceId) {
 			foreach (var (countyName, county) in counties) {
-				if (county?.CountyProvinces.Contains(provinceID) == true) {
+				if (county?.CountyProvinces.Contains(provinceId) == true) {
 					return countyName;
 				}
 			}
-			Logger.Warn($"Province ID {provinceID} has no parent county name!");
+			Logger.Warn($"Province ID {provinceId} has no parent county name!");
 			return null;
 		}
-		public string? GetParentDuchyName(ulong provinceID) {
+		public string? GetParentDuchyName(ulong provinceId) {
 			foreach (var (duchyName, duchy) in duchies) {
-				if (duchy?.DuchyContainsProvince(provinceID) == true) {
+				if (duchy?.DuchyContainsProvince(provinceId) == true) {
 					return duchyName;
 				}
 			}
-			Logger.Warn($"Province ID {provinceID} has no parent duchy name!");
+			Logger.Warn($"Province ID {provinceId} has no parent duchy name!");
 			return null;
 		}
-		public string? GetParentRegionName(ulong provinceID) {
+		public string? GetParentRegionName(ulong provinceId) {
 			foreach (var (regionName, region) in regions) {
-				if (region?.ContainsProvince(provinceID) == true) {
+				if (region?.ContainsProvince(provinceId) == true) {
 					return regionName;
 				}
 			}
-			Logger.Warn($"Province ID {provinceID} has no parent region name!");
+			Logger.Warn($"Province ID {provinceId} has no parent region name!");
 			return null;
 		}
 
@@ -131,7 +131,7 @@ namespace ImperatorToCK3.Mappers.Region {
 			}
 		}
 		private readonly Dictionary<string, CK3Region?> regions = new();
-		private readonly Dictionary<string, CK3.Titles.Title?> duchies = new();
-		private readonly Dictionary<string, CK3.Titles.Title?> counties = new();
+		private readonly Dictionary<string, Title?> duchies = new();
+		private readonly Dictionary<string, Title?> counties = new();
 	}
 }

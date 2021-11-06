@@ -1,6 +1,6 @@
-﻿using System;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Imperator.Genes;
+using System;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Genes {

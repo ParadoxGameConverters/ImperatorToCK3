@@ -1,8 +1,8 @@
 ﻿using commonItems;
 
 namespace ImperatorToCK3 {
-    internal static class Converter {
-        public static void ConvertImperatorToCK3(ConverterVersion converterVersion) {
+	internal static class Converter {
+		public static void ConvertImperatorToCK3(ConverterVersion converterVersion) {
 			Logger.Progress("0 %");
 			var config = new Configuration(converterVersion);
 			var imperatorWorld = new Imperator.World(config, converterVersion);
@@ -11,5 +11,5 @@ namespace ImperatorToCK3 {
 			Logger.Info("* Conversion complete! *");
 			Logger.Progress("100 %");
 		}
-    }
+	}
 }

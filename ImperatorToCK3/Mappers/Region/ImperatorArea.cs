@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorArea : Parser {
@@ -11,8 +11,8 @@ namespace ImperatorToCK3.Mappers.Region {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("provinces", (reader) => {
-				foreach (var id in new ULongList(reader).ULongs) {
+			RegisterKeyword("provinces", reader => {
+				foreach (var id in ParserHelpers.GetULongs(reader)) {
 					Provinces.Add(id);
 				}
 			});

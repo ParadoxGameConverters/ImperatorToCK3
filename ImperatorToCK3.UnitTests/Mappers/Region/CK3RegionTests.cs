@@ -1,6 +1,6 @@
-﻿using ImperatorToCK3.Mappers.Region;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using commonItems;
+using ImperatorToCK3.Mappers.Region;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region {

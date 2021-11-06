@@ -1,7 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using commonItems;
+using System;
 using System.IO;
-using commonItems;
+using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class VersionOutputter {
@@ -10,8 +10,8 @@ namespace ImperatorToCK3.Outputter {
 			Logger.Info("************ -= The Paradox Converters Team =- ********************");
 			try {
 				// read commit id
-				string commitID = File.ReadAllText("../commit_id.txt", Encoding.UTF8).Trim();
-				Logger.Info("* Converter build based on commit " + commitID);
+				string commitId = File.ReadAllText("../commit_id.txt", Encoding.UTF8).Trim();
+				Logger.Info("* Converter build based on commit " + commitId);
 			} catch {
 				Logger.Info("* Converter build based on unknown commit");
 			}

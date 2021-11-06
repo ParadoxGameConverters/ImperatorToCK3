@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Provinces : Parser {
@@ -13,9 +13,9 @@ namespace ImperatorToCK3.CK3.Provinces {
 
 		private void RegisterKeys(Date ck3BookmarkDate) {
 			RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
-				var provID = ulong.Parse(provinceIdString);
-				var newProvince = new Province(provID, reader, ck3BookmarkDate);
-				StoredProvinces.Add(provID, newProvince);
+				var provinceId = ulong.Parse(provinceIdString);
+				var newProvince = new Province(provinceId, reader, ck3BookmarkDate);
+				StoredProvinces.Add(provinceId, newProvince);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}

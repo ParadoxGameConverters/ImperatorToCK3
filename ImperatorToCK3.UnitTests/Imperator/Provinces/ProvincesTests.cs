@@ -91,8 +91,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var reader = new BufferedReader(
 				"={\n" +
 				"42={ pop = 8 }\n" +
-				"44={ pop = 10 }\n" + /// no pop 10
-			  "}\n"
+				"44={ pop = 10 }\n" + // no pop 10
+				"}\n"
 			);
 			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
 

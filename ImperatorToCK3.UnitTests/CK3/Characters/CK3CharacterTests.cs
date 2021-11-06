@@ -108,8 +108,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			character.Mother = mother;
 			character.Father = father;
-			character.Children.Add(child.ID, child);
-			character.Spouses.Add(spouse.ID, spouse);
+			character.Children.Add(child.Id, child);
+			character.Spouses.Add(spouse.Id, spouse);
 
 			Assert.NotNull(character.Mother);
 			Assert.NotNull(character.Father);

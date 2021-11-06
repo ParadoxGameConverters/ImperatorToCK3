@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Province {
 		public Province() { }
 		public Province(ulong id, BufferedReader reader, Date ck3BookmarkDate) {
 			// Load from a country file, if one exists. Otherwise rely on defaults.
-			ID = id;
+			Id = id;
 			details = new ProvinceDetails(reader, ck3BookmarkDate);
 		}
 		public Province(ulong id, Province otherProvince) {
-			ID = id;
-			BaseProvinceID = otherProvince.ID;
+			Id = id;
+			BaseProvinceId = otherProvince.Id;
 			details = new ProvinceDetails(otherProvince.details);
 		}
 
@@ -44,8 +44,8 @@ namespace ImperatorToCK3.CK3.Provinces {
 			details.Buildings.Clear();
 		}
 
-		public ulong ID { get; } = 0;
-		public ulong? BaseProvinceID { get; }
+		public ulong Id { get; } = 0;
+		public ulong? BaseProvinceId { get; }
 		public string Religion {
 			get {
 				return details.Religion;
@@ -77,12 +77,12 @@ namespace ImperatorToCK3.CK3.Provinces {
 		private void SetReligionFromImperator(ReligionMapper religionMapper) {
 			var religionSet = false;
 			if (ImperatorProvince is null) {
-				Logger.Warn($"CK3 Province {ID}: can't set religion from null Imperator Province!");
+				Logger.Warn($"CK3 Province {Id}: can't set religion from null Imperator Province!");
 				return;
 			}
 
 			if (!string.IsNullOrEmpty(ImperatorProvince.Religion)) {
-				var religionMatch = religionMapper.Match(ImperatorProvince.Religion, ID, ImperatorProvince.Id);
+				var religionMatch = religionMapper.Match(ImperatorProvince.Religion, Id, ImperatorProvince.Id);
 				if (religionMatch is not null) {
 					details.Religion = religionMatch;
 					religionSet = true;
@@ -96,13 +96,13 @@ namespace ImperatorToCK3.CK3.Provinces {
 			}*/
 			if (!religionSet) {
 				//Use default CK3 religion.
-				Logger.Debug($"Couldn't determine religion for province {ID} with source religion {ImperatorProvince.Religion}, using vanilla religion");
+				Logger.Debug($"Couldn't determine religion for province {Id} with source religion {ImperatorProvince.Religion}, using vanilla religion");
 			}
 		}
 		private void SetCultureFromImperator(CultureMapper cultureMapper) {
 			var cultureSet = false;
 			if (ImperatorProvince is null) {
-				Logger.Warn($"CK3 Province {ID}: can't set culture from null Imperator Province!");
+				Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator Province!");
 				return;
 			}
 
@@ -111,7 +111,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 				string ownerTitleName = string.Empty;
 				if (ownerTitle is not null)
 					ownerTitleName = ownerTitle.Name;
-				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, ID, ImperatorProvince.Id, ownerTitleName);
+				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
 				if (cultureMatch is not null) {
 					details.Culture = cultureMatch;
 					cultureSet = true;
@@ -125,12 +125,12 @@ namespace ImperatorToCK3.CK3.Provinces {
 			}*/
 			if (!cultureSet) {
 				//Use default CK3 culture.
-				Logger.Debug($"Couldn't determine culture for province {ID} with source culture {ImperatorProvince.Culture}, using vanilla culture");
+				Logger.Debug($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture");
 			}
 		}
 		private void SetHoldingFromImperator() {
 			if (ImperatorProvince is null) {
-				Logger.Warn($"CK3 Province {ID}: can't set holding from null Imperator Province!");
+				Logger.Warn($"CK3 Province {Id}: can't set holding from null Imperator Province!");
 				return;
 			}
 

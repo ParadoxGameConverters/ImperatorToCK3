@@ -8,8 +8,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs {
 		public void FieldsDefaultToCorrectValues() {
 			var reader = new BufferedReader(string.Empty);
 			var governorship = new Governorship(reader);
-			Assert.Equal((ulong)0, governorship.CountryID);
-			Assert.Equal((ulong)0, governorship.CharacterID);
+			Assert.Equal((ulong)0, governorship.CountryId);
+			Assert.Equal((ulong)0, governorship.CharacterId);
 			Assert.Equal(new Date(1, 1, 1), governorship.StartDate);
 			Assert.True(string.IsNullOrEmpty(governorship.RegionName));
 		}
@@ -22,8 +22,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs {
 				"governorship = \"galatia_region\""
 			);
 			var governorship = new Governorship(reader);
-			Assert.Equal((ulong)589, governorship.CountryID);
-			Assert.Equal((ulong)25212, governorship.CharacterID);
+			Assert.Equal((ulong)589, governorship.CountryId);
+			Assert.Equal((ulong)25212, governorship.CharacterId);
 			Assert.Equal(new Date(450, 10, 1, AUC: true), governorship.StartDate);
 			Assert.Equal("galatia_region", governorship.RegionName);
 		}
