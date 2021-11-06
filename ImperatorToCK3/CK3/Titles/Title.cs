@@ -473,10 +473,10 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		private string? parsedCapitalCountyName;
 		[NonSerialized] public Title? CapitalCounty { get; set; }
-		[SerializedName("capital")] public string? CapitalCountyName => 
+		[SerializedName("capital")] public string? CapitalCountyName =>
 			CapitalCounty is not null ? CapitalCounty.Name : parsedCapitalCountyName;
 
-		public Country? ImperatorCountry { get; private set; }
+		[NonSerialized] public Country? ImperatorCountry { get; private set; }
 
 		[SerializedName("color")] public Color? Color1 { get; private set; }
 		[SerializedName("color2")] public Color? Color2 { get; private set; }
@@ -772,7 +772,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			CountyProvinces.Add(provinceId);
 		}
 		[NonSerialized] public SortedSet<ulong> CountyProvinces { get; } = new();
-		[SerializedName("capital")] public string CapitalBarony { get; private set; } = string.Empty; // used when parsing inside county to save first barony
+		[NonSerialized] public string CapitalBarony { get; private set; } = string.Empty; // used when parsing inside county to save first barony
 		[NonSerialized] public ulong CapitalBaronyProvince { get; private set; } = 0; // county barony's province; 0 is not a valid barony ID
 
 		// used by barony titles only

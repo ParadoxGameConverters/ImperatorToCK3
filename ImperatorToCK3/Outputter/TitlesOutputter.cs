@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using commonItems;
+﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Imperator.Countries;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.Outputter {
 	public static class TitlesOutputter {
@@ -47,20 +48,10 @@ namespace ImperatorToCK3.Outputter {
 			using var outputStream = File.OpenWrite(outputPath);
 			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-			// output to landed_titles folder
-			foreach (var title in titles.Values) {
-				var impCountry = title.ImperatorCountry;
-				if (impCountry is not null && impCountry.CountryType != CountryType.real) {
-					// we don't need pirates, barbarians etc.
-					continue;
-				}
+			// titles with a de jure liege will be outputted under the liege
+			var topDeJureTitles = new Dictionary<string, Title>(titles.Where(pair => pair.Value.DeJureLiege is null));
+			output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
 
-				if (title.DeJureLiege is not null) {
-					continue; // will be outputted under liege
-				}
-
-				TitleOutputter.OutputTitle(output, title, "");
-			}
 			if (deJure == IMPERATOR_DE_JURE.REGIONS) {
 				if (!SystemUtils.TryCopyFolder("blankMod/optionalFiles/ImperatorDeJure/common/landed_titles", "output/" + outputModName + "/common/landed_titles/")) {
 					Logger.Error("Could not copy ImperatorDeJure landed titles!");
