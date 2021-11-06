@@ -30,7 +30,7 @@ jobs:
     - name: "Build frontend"
       run: |
         cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-        .\MSBuild.exe -m -p:Configuration=Release -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter /m /p:Configuration=Debug
+        .\MSBuild.exe -m -p:Configuration=Release -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter
     - name: "Build updater executable"
       run: |
        cd Fronter/Updater
