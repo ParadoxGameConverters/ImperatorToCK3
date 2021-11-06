@@ -30,7 +30,17 @@ jobs:
     - name: "Build frontend"
       run: |
         cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-        .\MSBuild.exe -m -p:Configuration=Release -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter
+        .\MSBuild.exe -m -p:Configuration=Release -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter /m /p:Configuration=Debug
+    - name: "Build updater executable"
+      run: |
+       cd Fronter/Updater
+       pip3 install -r requirements.txt
+       pyinstaller --onefile --icon=updater.ico updater.py
+       mkdir ../../Release/Updater
+       if [ "$RUNNER_OS" == "Windows" ]; then
+          mv dist/updater.exe ../../Release/Updater/updater.exe
+       else
+          mv dist/updater ../../Release/Updater/updater
     - name: "Save commit ID"
       run: |
        cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
