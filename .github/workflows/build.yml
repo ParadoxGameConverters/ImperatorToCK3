@@ -32,7 +32,7 @@ jobs:
        cd Fronter/Updater
        pip3 install -r requirements.txt
        pyinstaller --onefile --icon=updater.ico updater.py
-       mkdir ../Release/Updater
+       mkdir ../../Release/Updater
        if [ "$RUNNER_OS" == "Windows" ]; then
           mv dist/updater.exe ../../Release/Updater/updater.exe
        else
