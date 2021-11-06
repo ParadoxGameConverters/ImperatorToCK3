@@ -411,7 +411,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void SetNameLoc(LocBlock locBlock) {
 			Localizations[Name] = locBlock;
 		}
-		private void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Imperator.Countries.Country> imperatorCountries) {
+		private void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Country> imperatorCountries) {
 			if (ImperatorCountry is null) {
 				Logger.Warn($"Cannot set adjective for CK3 Title {Name} from null Imperator Country!");
 				return;

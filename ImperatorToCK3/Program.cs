@@ -3,8 +3,8 @@ using ImperatorToCK3.Outputter;
 using System;
 
 namespace ImperatorToCK3 {
-	class Program {
-		static int Main(string[] args) {
+	static class Program {
+		private static int Main(string[] args) {
 			try {
 				var converterVersion = new ConverterVersion();
 				converterVersion.LoadVersion("configurables/version.txt");

@@ -321,9 +321,8 @@ namespace ImperatorToCK3.CK3 {
 				if (sourceProvince is null) {
 					Logger.Warn($"Could not determine source province for CK3 province {provinceId}!");
 					continue; // MISMAP, or simply have mod provinces loaded we're not using.
-				} else {
-					province.InitializeFromImperator(sourceProvince.Value.Value, cultureMapper, religionMapper);
 				}
+				province.InitializeFromImperator(sourceProvince.Value.Value, cultureMapper, religionMapper);
 				// And finally, initialize it.
 				++counter;
 			}
@@ -468,8 +467,8 @@ namespace ImperatorToCK3.CK3 {
 				}
 			}
 
-			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarch) {
-				var holderId = "imperator" + impMonarch.ToString();
+			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarchId) {
+				var holderId = "imperator" + impMonarchId;
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					title.ClearHolderSpecificHistory();
 					title.SetHolderId(holder.Id, ck3Country.GetDateOfLastHolderChange());

@@ -19,7 +19,7 @@ namespace ImperatorToCK3.Mappers.Government {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("link", (reader) => {
+			RegisterKeyword("link", reader => {
 				var mapping = new GovernmentMapping(reader);
 				if (string.IsNullOrEmpty(mapping.Ck3Government)) {
 					throw new MissingFieldException("GovernmentMapper: link with no ck3Government");
@@ -32,11 +32,7 @@ namespace ImperatorToCK3.Mappers.Government {
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public string? GetCK3GovernmentForImperatorGovernment(string impGovernment) {
-			var gotValue = impToCK3GovernmentMap.TryGetValue(impGovernment, out var value);
-			if (gotValue) {
-				return value;
-			}
-			return null;
+			return impToCK3GovernmentMap.TryGetValue(impGovernment, out var value) ? value : null;
 		}
 	}
 }

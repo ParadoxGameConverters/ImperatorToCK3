@@ -7,8 +7,8 @@ namespace ImperatorToCK3.Mappers.Government {
 		public string Ck3Government { get; private set; } = "";
 		public GovernmentMapping(BufferedReader reader) {
 			var parser = new Parser();
-			parser.RegisterKeyword("ck3", (reader) => Ck3Government = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("imp", (reader) => ImperatorGovernments.Add(ParserHelpers.GetString(reader)));
+			parser.RegisterKeyword("ck3", reader => Ck3Government = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("imp", reader => ImperatorGovernments.Add(ParserHelpers.GetString(reader)));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			parser.ParseStream(reader);

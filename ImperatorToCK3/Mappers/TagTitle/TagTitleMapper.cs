@@ -95,19 +95,21 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		private static string GetCK3TitleRank(CountryRank imperatorRank, string localizedTitleName) {
 			if (localizedTitleName.Contains("Empire", System.StringComparison.Ordinal)) {
 				return "e";
-			} else if (localizedTitleName.Contains("Kingdom", System.StringComparison.Ordinal)) {
-				return "k";
-			} else {
-				return imperatorRank switch {
-					CountryRank.migrantHorde => "d",
-					CountryRank.cityState => "d",
-					CountryRank.localPower => "k",
-					CountryRank.regionalPower => "k",
-					CountryRank.majorPower => "k",
-					CountryRank.greatPower => "e",
-					_ => "d"
-				};
 			}
+
+			if (localizedTitleName.Contains("Kingdom", System.StringComparison.Ordinal)) {
+				return "k";
+			}
+
+			return imperatorRank switch {
+				CountryRank.migrantHorde => "d",
+				CountryRank.cityState => "d",
+				CountryRank.localPower => "k",
+				CountryRank.regionalPower => "k",
+				CountryRank.majorPower => "k",
+				CountryRank.greatPower => "e",
+				_ => "d"
+			};
 		}
 		private static string GetCK3TitleRank(string ck3LiegeTitle) {
 			if (ck3LiegeTitle.StartsWith('e')) {

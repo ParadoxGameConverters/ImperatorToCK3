@@ -82,10 +82,10 @@ namespace ImperatorToCK3.Imperator.Countries {
 			private static CountryName countryName = new();
 			static CountryNameFactory() {
 				parser.RegisterKeyword("name", reader =>
-					countryName.Name = new SingleString(reader).String
+					countryName.Name = ParserHelpers.GetString(reader)
 				);
 				parser.RegisterKeyword("adjective", reader =>
-					countryName.adjective = new SingleString(reader).String
+					countryName.adjective = ParserHelpers.GetString(reader)
 				);
 				parser.RegisterKeyword("base", reader => {
 					var tempCountryName = (CountryName)countryName.Clone();

@@ -16,20 +16,18 @@ namespace ImperatorToCK3.Mappers.DeathReason {
 			ClearRegisteredRules();
 		}
 		public string? GetCK3ReasonForImperatorReason(string impReason) {
-			var gotValue = impToCK3ReasonMap.TryGetValue(impReason, out var value);
-			if (gotValue) {
-				return value;
-			}
-			return null;
+			return impToCK3ReasonMap.TryGetValue(impReason, out var value) ? value : null;
 		}
 
 		private void RegisterKeys() {
-			RegisterKeyword("link", (reader) => {
+			RegisterKeyword("link", reader => {
 				var mapping = new DeathReasonMapping(reader);
-				if (mapping.Ck3Reason != null) {
-					foreach (var impReason in mapping.ImpReasons) {
-						impToCK3ReasonMap.Add(impReason, mapping.Ck3Reason);
-					}
+				if (mapping.Ck3Reason == null) {
+					return;
+				}
+
+				foreach (var impReason in mapping.ImpReasons) {
+					impToCK3ReasonMap.Add(impReason, mapping.Ck3Reason);
 				}
 			});
 		}

@@ -6,7 +6,7 @@ using System.IO;
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3RegionMapper : Parser {
 		public CK3RegionMapper() { }
-		public CK3RegionMapper(string ck3Path, CK3.Titles.LandedTitles landedTitles) {
+		public CK3RegionMapper(string ck3Path, LandedTitles landedTitles) {
 			Logger.Info("Initializing Geography.");
 
 			var regionFilePath = Path.Combine(ck3Path, "game/map_data/geographical_region.txt");
@@ -131,7 +131,7 @@ namespace ImperatorToCK3.Mappers.Region {
 			}
 		}
 		private readonly Dictionary<string, CK3Region?> regions = new();
-		private readonly Dictionary<string, CK3.Titles.Title?> duchies = new();
-		private readonly Dictionary<string, CK3.Titles.Title?> counties = new();
+		private readonly Dictionary<string, Title?> duchies = new();
+		private readonly Dictionary<string, Title?> counties = new();
 	}
 }

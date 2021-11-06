@@ -18,12 +18,14 @@ namespace ImperatorToCK3.Mappers.Nickname {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("link", (reader) => {
+			RegisterKeyword("link", reader => {
 				var mapping = new NicknameMapping(reader);
-				if (mapping.Ck3Nickname is not null) {
-					foreach (var imperatorNickname in mapping.ImperatorNicknames) {
-						impToCK3NicknameMap.Add(imperatorNickname, mapping.Ck3Nickname);
-					}
+				if (mapping.CK3Nickname is null) {
+					return;
+				}
+
+				foreach (var imperatorNickname in mapping.ImperatorNicknames) {
+					impToCK3NicknameMap.Add(imperatorNickname, mapping.CK3Nickname);
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

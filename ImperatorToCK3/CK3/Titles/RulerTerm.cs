@@ -36,7 +36,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
 			if (PreImperatorRuler?.Country is not null) {
 				// create a new ruler character
-				var character = new Characters.Character(
+				var character = new Character(
 					PreImperatorRuler,
 					StartDate,
 					PreImperatorRuler.Country,

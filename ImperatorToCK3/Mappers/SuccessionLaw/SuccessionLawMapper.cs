@@ -17,13 +17,13 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("link", (reader) => {
+			RegisterKeyword("link", reader => {
 				var mapping = new SuccessionLawMapping(reader);
 				if (mapping.Ck3SuccessionLaws.Count == 0) {
 					Logger.Warn("SuccessionLawMapper: link with no CK3 successions laws");
 					return;
 				}
-				if (impToCK3SuccessionLawMap.TryAdd(mapping.ImperatorLaw, mapping.Ck3SuccessionLaws) == false) {
+				if (!impToCK3SuccessionLawMap.TryAdd(mapping.ImperatorLaw, mapping.Ck3SuccessionLaws)) {
 					impToCK3SuccessionLawMap[mapping.ImperatorLaw].UnionWith(mapping.Ck3SuccessionLaws);
 				}
 			});

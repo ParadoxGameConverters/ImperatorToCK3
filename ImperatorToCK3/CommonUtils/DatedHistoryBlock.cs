@@ -7,15 +7,15 @@ namespace ImperatorToCK3.CommonUtils {
 
 		public DatedHistoryBlock(List<SimpleFieldDef> simpleFieldStructs, List<ContainerFieldDef> containerFieldStructs, BufferedReader reader) {
 			foreach (var fieldStruct in simpleFieldStructs) {
-				RegisterKeyword(fieldStruct.Setter, (reader) => {
+				RegisterKeyword(fieldStruct.Setter, reader => {
 					if (!Contents.SimpleFieldContents.ContainsKey(fieldStruct.FieldName)) {
 						Contents.SimpleFieldContents.Add(fieldStruct.FieldName, new());
 					}
-					Contents.SimpleFieldContents[fieldStruct.FieldName].Add(new SingleString(reader).String);
+					Contents.SimpleFieldContents[fieldStruct.FieldName].Add(ParserHelpers.GetString(reader));
 				});
 			}
 			foreach (var fieldStruct in containerFieldStructs) {
-				RegisterKeyword(fieldStruct.Setter, (reader) => {
+				RegisterKeyword(fieldStruct.Setter, reader => {
 					if (!Contents.ContainerFieldContents.ContainsKey(fieldStruct.FieldName)) {
 						Contents.ContainerFieldContents.Add(fieldStruct.FieldName, new());
 					}

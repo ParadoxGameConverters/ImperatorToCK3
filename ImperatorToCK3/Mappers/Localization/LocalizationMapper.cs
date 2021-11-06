@@ -64,9 +64,8 @@ namespace ImperatorToCK3.Mappers.Localization {
 				if (key is null || loc is null) {
 					continue;
 				}
-
-				var gotValue = localizations.TryGetValue(key, out var locBlock);
-				if (gotValue) {
+				
+				if (localizations.TryGetValue(key, out var locBlock)) {
 					locBlock.SetLocForLanguage(language, loc);
 				} else {
 					var newBlock = new LocBlock();
@@ -106,9 +105,8 @@ namespace ImperatorToCK3.Mappers.Localization {
 				string.IsNullOrEmpty(locBlock.simp_chinese) ||
 				string.IsNullOrEmpty(locBlock.spanish))
 			) {
-				var newBlock = locBlock;
-				newBlock.FillMissingLocsWithEnglish();
-				return newBlock;
+				locBlock.FillMissingLocsWithEnglish();
+				return locBlock;
 			}
 			// Either all is well, or we're missing english. Can't do anything about the latter.
 			return locBlock;

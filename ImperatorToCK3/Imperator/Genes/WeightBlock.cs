@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 		}
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, absoluteWeightStr) => {
-				var newObjectName = new SingleString(reader).String;
+				var newObjectName = ParserHelpers.GetString(reader);
 				if (uint.TryParse(absoluteWeightStr, out var weight)) {
 					AddObject(newObjectName, weight);
 				} else {

@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Localization;
@@ -12,13 +13,13 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character {
 		public string Id { get; private set; } = "0";
-		public bool Female { get; private set; } = false;
+		public bool Female { get; private set; }
 		public string Culture { get; private set; } = string.Empty;
 		public string Religion { get; private set; } = string.Empty;
 		public string Name { get; private set; } = string.Empty;
 		public string? Nickname { get; private set; }
 
-		public uint Age { get; private set; } = 0; // used when option to convert character age is chosen
+		public uint Age { get; private set; } // used when option to convert character age is chosen
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
@@ -38,9 +39,9 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Character() { }
 		public Character(
-			Imperator.Countries.RulerTerm.PreImperatorRulerInfo preImperatorRuler,
+			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
-			Imperator.Countries.Country imperatorCountry,
+			Country imperatorCountry,
 			LocalizationMapper localizationMapper,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
@@ -117,7 +118,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
-			Id = "imperator" + ImperatorCharacter.Id.ToString();
+			Id = "imperator" + ImperatorCharacter.Id;
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;

@@ -9,9 +9,7 @@ namespace ImperatorToCK3.Imperator.Pops {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("population", (reader) => {
-				PopsFromBloc.LoadPops(reader);
-			});
+			RegisterKeyword("population", reader => PopsFromBloc.LoadPops(reader));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}
