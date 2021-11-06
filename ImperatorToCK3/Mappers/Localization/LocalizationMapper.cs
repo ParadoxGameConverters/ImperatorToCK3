@@ -23,7 +23,7 @@ namespace ImperatorToCK3.Mappers.Localization {
 			foreach (var mod in mods) {
 				var modLocPath = Path.Combine(mod.Path, "localization");
 				if (Directory.Exists(modLocPath)) {
-					Logger.Info("Found some localization in [" + mod.Name + "]");
+					Logger.Info($"Found some localization in [{mod.Name}]");
 					ScrapeLanguage("english", Path.Combine(mod.Path, "localization"));
 					ScrapeLanguage("french", Path.Combine(mod.Path, "localization"));
 					ScrapeLanguage("german", Path.Combine(mod.Path, "localization"));
@@ -54,7 +54,7 @@ namespace ImperatorToCK3.Mappers.Localization {
 					ScrapeStream(reader, language);
 					stream.Close();
 				} catch (Exception e) {
-					Logger.Warn("Could not parse localization file " + filePath + " : " + e);
+					Logger.Warn($"Could not parse localization file {filePath}: {e}");
 				}
 			}
 		}
@@ -64,7 +64,7 @@ namespace ImperatorToCK3.Mappers.Localization {
 				if (key is null || loc is null) {
 					continue;
 				}
-				
+
 				if (localizations.TryGetValue(key, out var locBlock)) {
 					locBlock.SetLocForLanguage(language, loc);
 				} else {
@@ -93,8 +93,7 @@ namespace ImperatorToCK3.Mappers.Localization {
 			return new KeyValuePair<string?, string?>(key, value);
 		}
 		public LocBlock? GetLocBlockForKey(string key) {
-			var gotValue = localizations.TryGetValue(key, out var locBlock);
-			if (!gotValue) {
+			if (!localizations.TryGetValue(key, out var locBlock)) {
 				return null;
 			}
 

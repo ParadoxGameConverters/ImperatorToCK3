@@ -176,7 +176,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			};
 
 			parser.ParseStream(reader);
-			if (parsedCharacter.DNA?.Length == 552) {
+			if (parsedCharacter.DNA?.Length == 552 && parsedCharacter.genes is not null) {
 				parsedCharacter.PortraitData = new PortraitData(parsedCharacter.DNA, parsedCharacter.genes, parsedCharacter.AgeSex);
 			}
 

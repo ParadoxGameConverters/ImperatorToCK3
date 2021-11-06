@@ -129,7 +129,7 @@ namespace ImperatorToCK3.Outputter {
 					}
 					var heldNonImpassableNeighborProvs = nonImpassableNeighborProvs.Intersect(heldProvinces);
 					if (heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
-						// realm controls more than half of non-impassable neigbors of the impassable
+						// realm controls more than half of non-impassable neighbors of the impassable
 						provincesToColor.Add(impassableId);
 					}
 				}
