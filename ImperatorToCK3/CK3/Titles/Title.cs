@@ -750,12 +750,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				return false;
 			}
 
-			foreach (var vassal in DeJureVassals.Values) {
-				if (vassal?.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId)) {
-					return true;
-				}
-			}
-			return false;
+			return DeJureVassals.Values.Any(vassal => vassal.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId));
 		}
 
 		// used by duchy titles only
@@ -764,12 +759,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				return false;
 			}
 
-			foreach (var vassal in DeJureVassals.Values) {
-				if (vassal?.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId)) {
-					return true;
-				}
-			}
-			return false;
+			return DeJureVassals.Values.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
 		}
 
 		// used by county titles only

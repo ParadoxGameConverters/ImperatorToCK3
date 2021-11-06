@@ -36,8 +36,7 @@ namespace ImperatorToCK3.Mappers.Culture {
 			}
 
 			if (religions.Count > 0) {
-				if (string.IsNullOrEmpty(ck3Religion) || !religions.Contains(ck3Religion)) // (CK3 religion empty) or (CK3 religion not empty but not found in religions)
-{
+				if (string.IsNullOrEmpty(ck3Religion) || !religions.Contains(ck3Religion)) { // (CK3 religion empty) or (CK3 religion not empty but not found in religions)
 					return null;
 				}
 			}

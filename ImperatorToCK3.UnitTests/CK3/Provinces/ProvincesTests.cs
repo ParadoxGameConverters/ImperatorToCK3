@@ -6,7 +6,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvincesTests {
 		[Fact]
-		public void ProvincesDefaltToEmpty() {
+		public void ProvincesDefaultToEmpty() {
 			var provinces = new ImperatorToCK3.CK3.Provinces.Provinces();
 
 			Assert.Empty(provinces.StoredProvinces);

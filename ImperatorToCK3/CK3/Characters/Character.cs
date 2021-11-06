@@ -22,15 +22,9 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
-					if (Female) {
-						return "female";
-					}
-					return "male";
+					return Female ? "female" : "male";
 				}
-				if (Female) {
-					return "girl";
-				}
-				return "boy";
+				return Female ? "girl" : "boy";
 			}
 		}
 		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
