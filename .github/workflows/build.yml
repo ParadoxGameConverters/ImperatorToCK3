@@ -25,5 +25,4 @@ jobs:
     - name: Build
       run: |
        cd ImperatorToCK3
-       dotnet restore
        dotnet build
