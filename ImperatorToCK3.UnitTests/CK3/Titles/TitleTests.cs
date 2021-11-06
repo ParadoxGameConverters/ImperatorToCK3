@@ -120,7 +120,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"landless = yes\n" +
 				"color = { 23 23 23 }\n" +
 				"capital = c_roma\n" +
-				"province = 345\n"
+				"province = 345\n" +
+				"c_roma = {}"
 			);
 
 			var title = new Title("k_testtitle");
@@ -130,9 +131,15 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.True(title.Landless);
 			Assert.NotNull(title.Color1);
 			Assert.Equal("rgb { 23 23 23 }", title.Color1.OutputRgb());
-			Assert.NotNull(title.CapitalCounty);
-			Assert.Equal("c_roma", title.CapitalCounty.Value.Key);
+			Assert.Null(title.CapitalCounty); // capital county not linked yet
 			Assert.Equal((ulong)345, title.Province);
+
+			var roma = new Title("c_roma");
+			var titles = new LandedTitles();
+			titles.InsertTitle(roma);
+			titles.InsertTitle(title);
+			Assert.NotNull(title.CapitalCounty);
+			Assert.Equal("c_roma", title.CapitalCountyName);
 		}
 
 		[Fact]

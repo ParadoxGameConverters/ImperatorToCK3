@@ -30,6 +30,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			if (!string.IsNullOrEmpty(title.Name)) {
 				StoredTitles[title.Name] = title;
+				title.LinkCapital(StoredTitles);
 			} else {
 				Logger.Warn("Not inserting a Title with empty name!");
 			}
@@ -84,10 +85,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		private void LinkCapitals() {
 			foreach (var title in StoredTitles.Values) {
-				if (title.CapitalCounty is not null && title.CapitalCounty.Value.Value is null) {
-					var countyName = title.CapitalCounty.Value.Key;
-					title.CapitalCounty = new(countyName, StoredTitles[countyName]);
-				}
+				title.LinkCapital(StoredTitles);
 			}
 		}
 	}

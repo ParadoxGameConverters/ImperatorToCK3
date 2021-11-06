@@ -136,23 +136,24 @@ namespace ImperatorToCK3.CK3 {
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator tags.
 			var counter = 0;
-			foreach (var title in imperatorCountries) {
-				ImportImperatorCountry(title, imperatorCountries);
+			// We don't need pirates, barbarians etc.
+			foreach (var country in imperatorCountries.Values.Where(c => c.CountryType == CountryType.real)) {
+				ImportImperatorCountry(country, imperatorCountries);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} countries from I:R.");
 		}
 
 		private void ImportImperatorCountry(
-			KeyValuePair<ulong, Country> country,
+			Country country,
 			Dictionary<ulong, Country> imperatorCountries
 		) {
 			// Create a new title or update existing title
-			var name = Title.DetermineName(country.Value, imperatorCountries, tagTitleMapper, localizationMapper);
+			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 
 			if (LandedTitles.TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
-					country.Value,
+					country,
 					imperatorCountries,
 					localizationMapper,
 					landedTitles,
@@ -168,7 +169,7 @@ namespace ImperatorToCK3.CK3 {
 				);
 			} else {
 				var newTitle = new Title(
-					country.Value,
+					country,
 					imperatorCountries,
 					localizationMapper,
 					landedTitles,
@@ -439,7 +440,7 @@ namespace ImperatorToCK3.CK3 {
 						g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 					));
 
-					if (!ck3CapitalCounty.HasValue || ck3CapitalCounty.Value.Value is null) {
+					if (ck3CapitalCounty is null) {
 						if (impMonarch is not null) {
 							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
 						} else {
@@ -448,7 +449,7 @@ namespace ImperatorToCK3.CK3 {
 						continue;
 					}
 					// if title belongs to country ruler's capital's de jure duchy, make it directly held by the ruler
-					var countryCapitalDuchy = ck3CapitalCounty.Value.Value.DeJureLiege;
+					var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
 					var titleLiegeDuchy = title.DeJureLiege;
 					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
 						if (impMonarch is not null) {
