@@ -37,5 +37,3 @@ jobs:
           mv dist/updater.exe ../Release/Updater/updater.exe
        else
           mv dist/updater ../Release/Updater/updater
-
-       
