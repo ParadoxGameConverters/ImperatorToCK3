@@ -16,24 +16,27 @@ namespace ImperatorToCK3.CK3.Titles {
 			Logger.Info($"Loaded {historyDict.Count} title histories.");
 		}
 		public TitleHistory? PopTitleHistory(string titleName) { // "pop" as from stack, not Imperator Pop ;)
-			if (historyDict.TryGetValue(titleName, out var historyToReturn)) {
-				historyDict.Remove(titleName);
-				return historyToReturn;
+			if (!historyDict.TryGetValue(titleName, out var historyToReturn)) {
+				return null;
 			}
-			return null;
+
+			historyDict.Remove(titleName);
+			return historyToReturn;
 		}
 
 		private void RegisterKeys(Date ck3BookmarkDate) {
 			RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleName) => {
 				var historyItem = new StringOfItem(reader).String;
-				if (historyItem.IndexOf('{') != -1) {
-					var tempReader = new BufferedReader(historyItem);
-					if (historyDict.TryGetValue(titleName, out var existingHistory)) {
-						existingHistory.Update(historyFactory, tempReader);
-					} else {
-						var history = historyFactory.GetHistory(tempReader);
-						historyDict.Add(titleName, new TitleHistory(history, ck3BookmarkDate));
-					}
+				if (!historyItem.Contains('{')) {
+					return;
+				}
+
+				var tempReader = new BufferedReader(historyItem);
+				if (historyDict.TryGetValue(titleName, out var existingHistory)) {
+					existingHistory.Update(historyFactory, tempReader);
+				} else {
+					var history = historyFactory.GetHistory(tempReader);
+					historyDict.Add(titleName, new TitleHistory(history, ck3BookmarkDate));
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);

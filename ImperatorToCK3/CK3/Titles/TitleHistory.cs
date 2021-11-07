@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CommonUtils;
 
 namespace ImperatorToCK3.CK3.Titles {
@@ -35,6 +36,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public string? Liege { get; set; }
 		public int? DevelopmentLevel { get; set; }
 
-		public History InternalHistory { get; } = new();
+		[SerializeOnlyValue] public History InternalHistory { get; } = new();
 	}
 }

@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Outputter {
 					continue;
 				}
 
-				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", name + ".txt");
+				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", name, ".txt");
 				using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
 				title.OutputHistory(historyOutput, ck3BookmarkDate);
 				alreadyOutputtedTitles.Add(name);
@@ -53,7 +53,9 @@ namespace ImperatorToCK3.Outputter {
 			output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
 
 			if (deJure == IMPERATOR_DE_JURE.REGIONS) {
-				if (!SystemUtils.TryCopyFolder("blankMod/optionalFiles/ImperatorDeJure/common/landed_titles", "output/" + outputModName + "/common/landed_titles/")) {
+				const string srcPath = "blankMod/optionalFiles/ImperatorDeJure/common/landed_titles";
+				var dstPath = $"output/{outputModName}/common/landed_titles/";
+				if (!SystemUtils.TryCopyFolder(srcPath, dstPath)) {
 					Logger.Error("Could not copy ImperatorDeJure landed titles!");
 				}
 			}

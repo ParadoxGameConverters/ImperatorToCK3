@@ -687,12 +687,11 @@ namespace ImperatorToCK3.CK3.Titles {
 				needsToBeOutput = true;
 				sb.AppendLine($"\t\tliege = {DeFactoLiege.Name}");
 			}
-
-			var succLaws = SuccessionLaws;
-			if (succLaws.Count > 0) {
+			
+			if (SuccessionLaws.Count > 0) {
 				needsToBeOutput = true;
 				sb.AppendLine("\t\tsuccession_laws = {");
-				foreach (var law in succLaws) {
+				foreach (var law in SuccessionLaws) {
 					sb.AppendLine($"\t\t\t{law}");
 				}
 				sb.AppendLine("\t\t}");
