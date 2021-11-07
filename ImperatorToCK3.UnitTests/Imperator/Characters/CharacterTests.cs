@@ -168,12 +168,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 
 			Assert.NotNull(character.PortraitData);
-			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.x);
-			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.y);
-			Assert.Equal((uint)0, character.PortraitData.SkinColorPaletteCoordinates.x);
-			Assert.Equal((uint)0, character.PortraitData.SkinColorPaletteCoordinates.y);
-			Assert.Equal((uint)0, character.PortraitData.EyeColorPaletteCoordinates.x);
-			Assert.Equal((uint)0, character.PortraitData.EyeColorPaletteCoordinates.y);
+			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.X);
+			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.Y);
+			Assert.Equal((uint)0, character.PortraitData.SkinColorPaletteCoordinates.X);
+			Assert.Equal((uint)0, character.PortraitData.SkinColorPaletteCoordinates.Y);
+			Assert.Equal((uint)0, character.PortraitData.EyeColorPaletteCoordinates.X);
+			Assert.Equal((uint)0, character.PortraitData.EyeColorPaletteCoordinates.Y);
 		}
 
 		[Fact]
