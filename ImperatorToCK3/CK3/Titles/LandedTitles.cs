@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Titles {
@@ -29,39 +30,35 @@ namespace ImperatorToCK3.CK3.Titles {
 				return;
 			}
 			if (!string.IsNullOrEmpty(title.Name)) {
-				StoredTitles[title.Name] = title;
-				title.LinkCapital(StoredTitles);
+				titlesDict[title.Name] = title;
+				title.LinkCapital(titlesDict);
 			} else {
 				Logger.Warn("Not inserting a Title with empty name!");
 			}
 		}
 		public void EraseTitle(string name) {
-			if (StoredTitles.TryGetValue(name, out var titleToErase)) {
+			if (TryGetTitle(name, out var titleToErase)) {
 				var deJureLiege = titleToErase.DeJureLiege;
 				if (deJureLiege is not null) {
 					deJureLiege.DeJureVassals.Remove(name);
 				}
 
-				var deFactoLiege = titleToErase.DeFactoLiege;
-				if (deFactoLiege is not null) {
-					deFactoLiege.DeFactoVassals.Remove(name);
-				}
-
 				foreach (var vassal in titleToErase.DeJureVassals.Values) {
 					vassal.DeJureLiege = null;
 				}
-				foreach (var vassal in titleToErase.DeFactoVassals.Values) {
-					vassal.DeFactoLiege = null;
+
+				foreach (var title in StoredTitles) {
+					title.RemoveDeFactoLiegeReferences(name);
 				}
 
 				if (titleToErase.ImperatorCountry is not null) {
 					titleToErase.ImperatorCountry.CK3Title = null;
 				}
 			}
-			StoredTitles.Remove(name);
+			titlesDict.Remove(name);
 		}
 		public Title? GetCountyForProvince(ulong provinceId) {
-			var counties = StoredTitles.Values.Where(title => title.Rank == TitleRank.county);
+			var counties = titlesDict.Values.Where(title => title.Rank == TitleRank.county);
 			foreach (var county in counties) {
 				if (county.CountyProvinces.Contains(provinceId)) {
 					return county;
@@ -70,7 +67,13 @@ namespace ImperatorToCK3.CK3.Titles {
 			return null;
 		}
 
-		public Dictionary<string, Title> StoredTitles { get; } = new(); // title name, title
+		public bool TryGetTitle(string titleName, [NotNullWhen(returnValue: true)] out Title? title) {
+			return titlesDict.TryGetValue(titleName, out title);
+		}
+		public Title this[string titleName] => titlesDict[titleName];
+		public Dictionary<string, Title>.ValueCollection StoredTitles => titlesDict.Values;
+
+		private readonly Dictionary<string, Title> titlesDict = new(); // titleName, title
 
 		private void RegisterKeys() {
 			RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
@@ -78,14 +81,14 @@ namespace ImperatorToCK3.CK3.Titles {
 				var newTitle = new Title(titleNameStr);
 				newTitle.LoadTitles(reader);
 
-				Title.AddFoundTitle(newTitle, StoredTitles);
+				Title.AddFoundTitle(newTitle, titlesDict);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 
 		private void LinkCapitals() {
-			foreach (var title in StoredTitles.Values) {
-				title.LinkCapital(StoredTitles);
+			foreach (var title in titlesDict.Values) {
+				title.LinkCapital(titlesDict);
 			}
 		}
 	}

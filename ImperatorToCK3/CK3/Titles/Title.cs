@@ -56,6 +56,17 @@ namespace ImperatorToCK3.CK3.Titles {
 				charactersDict
 			);
 		}
+
+		internal void RemoveDeFactoLiegeReferences(string name) {
+			var liegeField = history.InternalHistory.Fields["liege"];
+			liegeField.ValueHistory = (SortedDictionary<Date, object>) liegeField.ValueHistory.Where(
+				pair => !(pair.Value is string str && str == name)
+			);
+			if (liegeField.InitialValue is string str && str == name) {
+				liegeField.InitialValue = null;
+			}
+		}
+
 		public Title(
 			Governorship governorship,
 			Country country,
@@ -67,7 +78,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
 			DefiniteFormMapper definiteFormMapper,
-			ImperatorRegionMapper imperatorRegionMapper
+			ImperatorRegionMapper imperatorRegionMapper,
+			Date ck3BookmarkDate
 		) {
 			Name = DetermineName(governorship, country, tagTitleMapper);
 			SetRank();
@@ -80,7 +92,8 @@ namespace ImperatorToCK3.CK3.Titles {
 				landedTitles,
 				provinceMapper,
 				definiteFormMapper,
-				imperatorRegionMapper
+				imperatorRegionMapper,
+				ck3BookmarkDate
 			);
 		}
 		public void InitializeFromTag(
@@ -266,7 +279,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
-			ImperatorRegionMapper imperatorRegionMapper
+			ImperatorRegionMapper imperatorRegionMapper,
+			Date ck3BookmarkDate
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 
@@ -275,7 +289,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 
 			DeJureLiege = country.CK3Title;
-			DeFactoLiege = country.CK3Title;
+			SetDeFactoLiege(country.CK3Title, ck3BookmarkDate);
 
 			HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 			RulerUsesTitleName.Value = false;
@@ -461,13 +475,8 @@ namespace ImperatorToCK3.CK3.Titles {
 				Logger.Warn($"{Name} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
 			}
 		}
-		public void AddHistory(LandedTitles landedTitles, TitleHistory titleHistory) {
+		public void AddHistory(TitleHistory titleHistory) {
 			history = titleHistory;
-			if (history.Liege is not null) {
-				if (landedTitles.StoredTitles.TryGetValue(history.Liege, out var liege)) {
-					DeFactoLiege = liege;
-				}
-			}
 		}
 
 		[NonSerialized] public string? CoA { get; private set; }
@@ -488,29 +497,26 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Title? DeJureLiege { // direct de jure liege title
 			get => deJureLiege;
 			set {
-				if (deJureLiege is not null) {
-					deJureLiege.DeJureVassals.Remove(Name);
-				}
+				deJureLiege?.DeJureVassals.Remove(Name);
 				deJureLiege = value;
 				if (value is not null) {
 					value.DeJureVassals[Name] = this;
 				}
 			}
 		}
-		private Title? deFactoLiege;
-		[NonSerialized]
-		public Title? DeFactoLiege { // direct de facto liege title
-			get => deFactoLiege;
-			set {
-				if (deFactoLiege is not null) {
-					deFactoLiege.DeFactoVassals.Remove(Name);
-				}
-				deFactoLiege = value;
-				if (value is not null) {
-					value.DeFactoVassals[Name] = this;
-				}
+		public Title? GetDeFactoLiege(Date date, LandedTitles landedTitles) { // direct de facto liege title
+			var liegeStr = history.GetLiege(date);
+			if (liegeStr is not null && landedTitles.TryGetTitle(liegeStr, out var liegeTitle)) {
+				return liegeTitle;
 			}
+
+			return null;
 		}
+		public void SetDeFactoLiege(Title? liege, Date date) {
+			string liegeStr = liege is not null ? liege.Name : "0";
+			history.InternalHistory.AddFieldValue("liege", liegeStr, date, "liege");
+		}
+
 		[SerializeOnlyValue] public Dictionary<string, Title> DeJureVassals { get; private set; } = new(); // DIRECT de jure vassals
 		public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
 			return GetDeJureVassalsAndBelow("bcdke");
@@ -534,21 +540,25 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			return deJureVassalsAndBelow;
 		}
-		[NonSerialized] public Dictionary<string, Title> DeFactoVassals { get; private set; } = new(); // DIRECT de facto vassals
-		public Dictionary<string, Title> GetDeFactoVassalsAndBelow() {
-			return GetDeFactoVassalsAndBelow("bcdke");
+		
+		public Dictionary<string, Title> GetDeFactoVassals(Date date, LandedTitles landedTitles) { // DIRECT de facto vassals
+			return landedTitles.StoredTitles.Where(t => t.GetDeFactoLiege(date, landedTitles)?.Name == Name)
+				.ToDictionary(t => t.Name, t => t);
 		}
-		public Dictionary<string, Title> GetDeFactoVassalsAndBelow(string rankFilter) {
+		public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, LandedTitles landedTitles) {
+			return GetDeFactoVassalsAndBelow(date, landedTitles, "bcdke");
+		}
+		public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, LandedTitles landedTitles, string rankFilter) {
 			var rankFilterAsArray = rankFilter.ToCharArray();
 			Dictionary<string, Title> deFactoVassalsAndBelow = new();
-			foreach (var (vassalTitleName, vassalTitle) in DeFactoVassals) {
+			foreach (var (vassalTitleName, vassalTitle) in GetDeFactoVassals(date, landedTitles)) {
 				// add the direct part
 				if (vassalTitleName.IndexOfAny(rankFilterAsArray) == 0) {
 					deFactoVassalsAndBelow[vassalTitleName] = vassalTitle;
 				}
 
 				// add the "below" part (recursive)
-				var belowTitles = vassalTitle.GetDeFactoVassalsAndBelow(rankFilter);
+				var belowTitles = vassalTitle.GetDeFactoVassalsAndBelow(date, landedTitles, rankFilter);
 				foreach (var (belowTitleName, belowTitle) in belowTitles) {
 					if (belowTitleName.IndexOfAny(rankFilterAsArray) == 0) {
 						deFactoVassalsAndBelow[belowTitleName] = belowTitle;
@@ -651,7 +661,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			} else if (Name.StartsWith('e')) {
 				Rank = TitleRank.empire;
 			} else {
-				throw new System.FormatException("Title " + Name + ": unknown rank!");
+				throw new System.FormatException($"Title {Name}: unknown rank!");
 			}
 		}
 
@@ -659,37 +669,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			bool needsToBeOutput = false;
 			var sb = new StringBuilder();
 
-			sb.AppendLine($"{Name} = {{");
-
-			if (history.InternalHistory.Fields.ContainsKey("holder")) {
-				needsToBeOutput = true;
-				foreach (var (date, holderId) in history.InternalHistory.Fields["holder"].ValueHistory) {
-					sb.AppendLine($"\t{date} = {{ holder = {holderId} }}");
-				}
-			}
-
-			if (history.InternalHistory.Fields.ContainsKey("government")) {
-				var govField = history.InternalHistory.Fields["government"];
-				var initialGovernment = govField.InitialValue;
-				if (initialGovernment is not null) {
-					needsToBeOutput = true;
-					sb.AppendLine($"\t\tgovernment = {initialGovernment}");
-				}
-				foreach (var (date, government) in govField.ValueHistory) {
-					needsToBeOutput = true;
-					sb.AppendLine($"\t{date} = {{ government = {government} }}");
-				}
-			}
+			sb.Append(Name).Append('=').AppendLine(PDXSerializer.Serialize(history.InternalHistory));
 
 			sb.AppendLine($"\t{ck3BookmarkDate} = {{");
 
-			if (DeFactoLiege is not null) {
-				needsToBeOutput = true;
-				sb.AppendLine($"\t\tliege = {DeFactoLiege.Name}");
-			}
-			
-			if (SuccessionLaws.Count > 0) {
-				needsToBeOutput = true;
+			if (SuccessionLaws.Count > 0) { // TODO: MOVE TO HISTORY
 				sb.AppendLine("\t\tsuccession_laws = {");
 				foreach (var law in SuccessionLaws) {
 					sb.AppendLine($"\t\t\t{law}");
@@ -697,27 +681,22 @@ namespace ImperatorToCK3.CK3.Titles {
 				sb.AppendLine("\t\t}");
 			}
 
-			if (Rank != TitleRank.barony) {
+			if (Rank != TitleRank.barony) { // TODO: MOVE TO HISTORY
 				var developmentLevelOpt = DevelopmentLevel;
 				if (developmentLevelOpt is not null) {
-					needsToBeOutput = true;
 					sb.AppendLine($"\t\tchange_development_level = {developmentLevelOpt}");
 				}
 			}
-
-			sb.AppendLine("\t}");
-
-			sb.AppendLine("}");
 
 			if (needsToBeOutput) {
 				writer.Write(sb);
 			}
 		}
 
-		public HashSet<ulong> GetProvincesInCountry(Dictionary<string, Title> titles, Date ck3BookmarkDate) {
-			var holderId = GetHolderId(ck3BookmarkDate);
+		public HashSet<ulong> GetProvincesInCountry(LandedTitles landedTitles, Date date) {
+			var holderId = GetHolderId(date);
 			var heldCounties = new List<Title>(
-				titles.Values.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
+				landedTitles.StoredTitles.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)
 			);
 			var heldProvinces = new HashSet<ulong>();
 			// add directly held counties
@@ -725,14 +704,14 @@ namespace ImperatorToCK3.CK3.Titles {
 				heldProvinces.UnionWith(county.CountyProvinces);
 			}
 			// add vassals' counties
-			foreach (var vassal in GetDeFactoVassalsAndBelow().Values) {
-				var vassalHolderId = vassal.GetHolderId(ck3BookmarkDate);
+			foreach (var vassal in GetDeFactoVassalsAndBelow(date, landedTitles).Values) {
+				var vassalHolderId = vassal.GetHolderId(date);
 				if (vassalHolderId == "0") {
 					Logger.Warn($"Player title {Name}'s vassal {vassal.Name} has 0 holder!");
 					continue;
 				}
 				var heldVassalCounties = new List<Title>(
-					titles.Values.Where(t => t.GetHolderId(ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
+					landedTitles.StoredTitles.Where(t => t.GetHolderId(date) == vassalHolderId && t.Rank == TitleRank.county)
 				);
 				foreach (var vassalCounty in heldVassalCounties) {
 					heldProvinces.UnionWith(vassalCounty.CountyProvinces);

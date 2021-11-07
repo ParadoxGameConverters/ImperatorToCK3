@@ -24,7 +24,7 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\tis_playable = yes");
 			output.WriteLine("\trecommended = yes");
 
-			var playerTitles = new List<Title>(world.LandedTitles.Values.Where(title => title.PlayerCountry));
+			var playerTitles = new List<Title>(world.LandedTitles.StoredTitles.Where(title => title.PlayerCountry));
 			foreach (var title in playerTitles) {
 				var holderId = title.GetHolderId(config.Ck3BookmarkDate);
 				if (holderId == "0") {

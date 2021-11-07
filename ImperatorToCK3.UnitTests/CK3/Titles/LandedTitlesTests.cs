@@ -25,8 +25,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
 
-			var barony = titles.StoredTitles["b_barony"];
-			var county = titles.StoredTitles["c_county"];
+			var barony = titles["b_barony"];
+			var county = titles["c_county"];
 
 			Assert.Equal(2, titles.StoredTitles.Count);
 			Assert.Equal((ulong)12, barony.Province);
@@ -43,8 +43,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
 
-			var barony = titles.StoredTitles["b_barony4"];
-			var county = titles.StoredTitles["c_county5"];
+			var barony = titles["b_barony4"];
+			var county = titles["c_county5"];
 
 			Assert.Equal(5, titles.StoredTitles.Count);
 			Assert.Equal((ulong)12, barony.Province);
@@ -67,8 +67,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 			titles.LoadTitles(reader2);
 
-			var barony = titles.StoredTitles["b_barony4"];
-			var county = titles.StoredTitles["c_county5"];
+			var barony = titles["b_barony4"];
+			var county = titles["c_county5"];
 
 			Assert.Equal(5, titles.StoredTitles.Count);
 			Assert.Equal((ulong)15, barony.Province);
@@ -105,7 +105,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
 
-			var empire = titles.StoredTitles["e_empire"];
+			var empire = titles["e_empire"];
 			var capitalCounty = empire.CapitalCounty;
 			Assert.NotNull(capitalCounty);
 			Assert.Equal("c_county", capitalCounty.Name);

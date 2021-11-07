@@ -1,17 +1,16 @@
 ﻿using ImperatorToCK3.CK3.Titles;
-using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CoatOfArmsOutputter {
-		public static void OutputCoas(string outputModName, Dictionary<string, Title> titles) {
+		public static void OutputCoas(string outputModName, LandedTitles landedTitles) {
 			// dumping all into one file
-			var path = "output/" + outputModName + "/common/coat_of_arms/coat_of_arms/fromImperator.txt";
+			var path = $"output/{outputModName}/common/coat_of_arms/coat_of_arms/fromImperator.txt";
 			using var output = new StreamWriter(path);
-			foreach (var (titleName, title) in titles) {
+			foreach (var title in landedTitles.StoredTitles) {
 				var coa = title.CoA;
 				if (coa is not null) {
-					output.WriteLine(titleName + coa);
+					output.WriteLine(title.Name + coa);
 				}
 			}
 		}

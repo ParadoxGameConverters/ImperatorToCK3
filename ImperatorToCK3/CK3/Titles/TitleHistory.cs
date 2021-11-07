@@ -7,9 +7,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public TitleHistory() { }
 		public TitleHistory(History history, Date ck3BookmarkDate) {
 			InternalHistory = history;
-			if (history.GetFieldValue("liege", ck3BookmarkDate) is string liegeStr) {
-				Liege = liegeStr;
-			}
 
 			var developmentLevelOpt = history.GetFieldValue("development_level", ck3BookmarkDate);
 			if (developmentLevelOpt is string devStr) {
@@ -33,7 +30,12 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			return null;
 		}
-		public string? Liege { get; set; }
+		public string? GetLiege(Date date) {
+			if (InternalHistory.GetFieldValue("liege", date) is string liegeStr) {
+				return liegeStr;
+			}
+			return null;
+		}
 		public int? DevelopmentLevel { get; set; }
 
 		[SerializeOnlyValue] public History InternalHistory { get; } = new();
