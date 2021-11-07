@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class CharacterName : Parser {
-		public string Name { get; private set; } = string.Empty; // key for localization
+		public string Name { get; private set; } = string.Empty; // key for localization or literal name
 		public string? CustomName { get; private set; } // localized
 
 		public CharacterName(BufferedReader reader) {
