@@ -123,29 +123,16 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
 				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
-				Localizations.Add(Name, new LocBlock {
-					english = loc,
-					french = loc,
-					german = loc,
-					russian = loc,
-					simp_chinese = loc,
-					spanish = loc
-				});
+				Localizations.Add(Name, new LocBlock(loc));
 			} else {
-				Name = ImperatorCharacter.Name;
+				var nameLoc = ImperatorCharacter.Name;
+				Name = nameLoc.Replace(' ', '_');
 				if (!string.IsNullOrEmpty(Name)) {
-					var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
-					if (impNameLoc is not null) {
-						Localizations.Add(Name, impNameLoc);
+					var matchedLocBlock = localizationMapper.GetLocBlockForKey(Name);
+					if (matchedLocBlock is not null) {
+						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						Localizations.Add(Name, new LocBlock {
-							english = Name,
-							french = Name,
-							german = Name,
-							russian = Name,
-							simp_chinese = Name,
-							spanish = Name
-						});
+						Localizations.Add(Name, new LocBlock(nameLoc));
 					}
 				}
 			}
