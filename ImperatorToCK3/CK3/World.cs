@@ -30,40 +30,40 @@ namespace ImperatorToCK3.CK3 {
 		public LandedTitles LandedTitles { get; } = new();
 		public Map.MapData MapData { get; }
 
-		public World(Imperator.World impWorld, Configuration theConfiguration) {
+		public World(Imperator.World impWorld, Configuration config) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
 
 			Logger.Info("Loading map data...");
-			MapData = new Map.MapData(theConfiguration.Ck3Path);
+			MapData = new Map.MapData(config.Ck3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
-			localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
+			localizationMapper.ScrapeLocalizations(config, impWorld.Mods);
 
 			// Loading Imperator CoAs to use them for generated CK3 titles
-			coaMapper = new CoaMapper(theConfiguration);
+			coaMapper = new CoaMapper(config);
 
 			// Load vanilla titles history
-			var titlesHistoryPath = Path.Combine(theConfiguration.Ck3Path, "game/history/titles");
-			titlesHistory = new TitlesHistory(titlesHistoryPath, theConfiguration.Ck3BookmarkDate);
+			var titlesHistoryPath = Path.Combine(config.Ck3Path, "game/history/titles");
+			titlesHistory = new TitlesHistory(titlesHistoryPath, config.Ck3BookmarkDate);
 
 			// Loading vanilla CK3 landed titles
-			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
+			var landedTitlesPath = Path.Combine(config.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
 			LandedTitles.LoadTitles(landedTitlesPath);
 			AddHistoryToVanillaTitles();
 
 			// Loading regions
-			ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, LandedTitles);
-			imperatorRegionMapper = new ImperatorRegionMapper(theConfiguration.ImperatorPath);
+			ck3RegionMapper = new CK3RegionMapper(config.Ck3Path, LandedTitles);
+			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath);
 			// Use the region mappers in other mappers
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-			ImportImperatorCountries(impWorld.Countries.StoredCountries);
-			ImportImperatorGovernorships(impWorld, theConfiguration);
+			ImportImperatorCountries(impWorld.Countries.StoredCountries, config);
+			ImportImperatorGovernorships(impWorld, config);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
+			ImportVanillaProvinces(config.Ck3Path, config.Ck3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			ImportImperatorProvinces(impWorld);
@@ -71,18 +71,18 @@ namespace ImperatorToCK3.CK3 {
 			ImportImperatorCharacters(
 				impWorld,
 				impWorld.EndDate,
-				theConfiguration.Ck3BookmarkDate
+				config.Ck3BookmarkDate
 			);
 			LinkSpouses();
 			LinkMothersAndFathers();
-			ClearFeaturedCharactersDescriptions(theConfiguration.Ck3BookmarkDate);
+			ClearFeaturedCharactersDescriptions(config.Ck3BookmarkDate);
 
 			ImportImperatorFamilies(impWorld);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate);
-			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
+			OverWriteCountiesHistory(impWorld.Jobs.Governorships, config.Ck3BookmarkDate);
+			RemoveInvalidLandlessTitles(config.Ck3BookmarkDate);
 
-			PurgeLandlessVanillaCharacters(theConfiguration.Ck3BookmarkDate);
+			PurgeLandlessVanillaCharacters(config.Ck3BookmarkDate);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -129,7 +129,7 @@ namespace ImperatorToCK3.CK3 {
 			Characters.Add(newCharacter.Id, newCharacter);
 		}
 
-		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
+		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries, Configuration config) {
 			Logger.Info("Importing Imperator Countries.");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
@@ -137,7 +137,7 @@ namespace ImperatorToCK3.CK3 {
 			var counter = 0;
 			// We don't need pirates, barbarians etc.
 			foreach (var country in imperatorCountries.Values.Where(c => c.CountryType == CountryType.real)) {
-				ImportImperatorCountry(country, imperatorCountries);
+				ImportImperatorCountry(country, imperatorCountries, config);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} countries from I:R.");
@@ -145,7 +145,8 @@ namespace ImperatorToCK3.CK3 {
 
 		private void ImportImperatorCountry(
 			Country country,
-			Dictionary<ulong, Country> imperatorCountries
+			Dictionary<ulong, Country> imperatorCountries,
+			Configuration config
 		) {
 			// Create a new title or update existing title
 			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
@@ -164,7 +165,8 @@ namespace ImperatorToCK3.CK3 {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					Characters
+					Characters,
+					config.Ck3BookmarkDate
 				);
 			} else {
 				var newTitle = new Title(
@@ -181,7 +183,8 @@ namespace ImperatorToCK3.CK3 {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					Characters
+					Characters,
+					config.Ck3BookmarkDate
 				);
 				LandedTitles.InsertTitle(newTitle);
 			}

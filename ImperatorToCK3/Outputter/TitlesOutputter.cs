@@ -20,12 +20,12 @@ namespace ImperatorToCK3.Outputter {
 
 				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", title.Name, ".txt");
 				using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
-				title.OutputHistory(historyOutput, ck3BookmarkDate);
+				title.OutputHistory(historyOutput);
 				alreadyOutputtedTitles.Add(title.Name);
 
 				// output the kingdom's de jure vassals' history
 				foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
-					deJureVassal.OutputHistory(historyOutput, ck3BookmarkDate);
+					deJureVassal.OutputHistory(historyOutput);
 					alreadyOutputtedTitles.Add(deJureVassalName);
 				}
 			}
@@ -37,7 +37,7 @@ namespace ImperatorToCK3.Outputter {
 					if (alreadyOutputtedTitles.Contains(title.Name)) {
 						continue;
 					}
-					title.OutputHistory(historyOutput, ck3BookmarkDate);
+					title.OutputHistory(historyOutput);
 					alreadyOutputtedTitles.Add(title.Name);
 				}
 			}

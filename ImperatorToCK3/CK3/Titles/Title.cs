@@ -39,7 +39,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Dictionary<string, Characters.Character> charactersDict
+			Dictionary<string, Characters.Character> charactersDict,
+			Date ck3BookmarkDate
 		) {
 			Name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 			SetRank();
@@ -53,13 +54,14 @@ namespace ImperatorToCK3.CK3.Titles {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				charactersDict
+				charactersDict,
+				ck3BookmarkDate
 			);
 		}
 
 		internal void RemoveDeFactoLiegeReferences(string name) {
 			var liegeField = history.InternalHistory.Fields["liege"];
-			liegeField.ValueHistory = (SortedDictionary<Date, object>) liegeField.ValueHistory.Where(
+			liegeField.ValueHistory = (SortedDictionary<Date, object>)liegeField.ValueHistory.Where(
 				pair => !(pair.Value is string str && str == name)
 			);
 			if (liegeField.InitialValue is string str && str == name) {
@@ -109,7 +111,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Dictionary<string, Characters.Character> charactersDict
+			Dictionary<string, Characters.Character> charactersDict,
+			Date ck3BookmarkDate
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
@@ -165,7 +168,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 
 			// determine successions laws
-			SuccessionLaws = successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws());
+			history.InternalHistory.AddFieldValue("succession_laws",
+				successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws()),
+				ck3BookmarkDate,
+				"succession_laws"
+			);
 
 			// ------------------ determine CoA
 			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
@@ -322,7 +329,11 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			// determine successions laws
 			// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
-			SuccessionLaws = new() { "high_partition_succession_law" };
+			history.InternalHistory.AddFieldValue("succession_laws",
+				new SortedSet<string> { "high_partition_succession_law" },
+				ck3BookmarkDate,
+				"succession_laws"
+			);
 
 			// ------------------ determine CoA
 			CoA = null; // using game-randomized CoA
@@ -344,21 +355,23 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		private void TrySetAdjectiveFromGovernorship(Country country) {
-			var adjKey = Name + "_adj";
-			if (!Localizations.ContainsKey(adjKey)) {
-				var adjSet = false;
-				var ck3Country = country.CK3Title;
-				if (ck3Country is null) {
-					return;
-				}
-				if (ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
-					var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
-					Localizations.Add(adjKey, adjLocBlock);
-					adjSet = true;
-				}
-				if (!adjSet) {
-					Logger.Warn($"{Name} needs help with adjective localization!");
-				}
+			var adjKey = $"{Name}_adj";
+			if (Localizations.ContainsKey(adjKey)) { // already set
+				return;
+			}
+
+			var adjSet = false;
+			var ck3Country = country.CK3Title;
+			if (ck3Country is null) {
+				return;
+			}
+			if (ck3Country.Localizations.TryGetValue($"{ck3Country.Name}_adj", out var countryAdjectiveLocBlock)) {
+				var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
+				Localizations.Add(adjKey, adjLocBlock);
+				adjSet = true;
+			}
+			if (!adjSet) {
+				Logger.Warn($"{Name} needs help with adjective localization!");
 			}
 		}
 
@@ -368,28 +381,30 @@ namespace ImperatorToCK3.CK3.Titles {
 			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper
 		) {
-			if (!Localizations.ContainsKey(Name)) {
-				var nameSet = false;
-				LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
+			if (Localizations.ContainsKey(Name)) { // already set
+				return;
+			}
 
-				if (regionHasMultipleGovernorships && regionLocBlock is not null) {
-					var ck3Country = country.CK3Title;
-					if (ck3Country is not null && ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
-						var nameLocBlock = new LocBlock(regionLocBlock);
-						nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-							(ref string orig, string adj) => orig = $"{adj} {orig}"
-						);
-						Localizations[Name] = nameLocBlock;
-						nameSet = true;
-					}
-				}
-				if (!nameSet && regionLocBlock is not null) {
-					Localizations[Name] = new LocBlock(regionLocBlock);
+			var nameSet = false;
+			LocBlock? regionLocBlock = localizationMapper.GetLocBlockForKey(governorship.RegionName);
+
+			if (regionHasMultipleGovernorships && regionLocBlock is not null) {
+				var ck3Country = country.CK3Title;
+				if (ck3Country is not null && ck3Country.Localizations.TryGetValue(ck3Country.Name + "_adj", out var countryAdjectiveLocBlock)) {
+					var nameLocBlock = new LocBlock(regionLocBlock);
+					nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
+						(ref string orig, string adj) => orig = $"{adj} {orig}"
+					);
+					Localizations[Name] = nameLocBlock;
 					nameSet = true;
 				}
-				if (!nameSet) {
-					Logger.Warn($"{Name} needs help with localization!");
-				}
+			}
+			if (!nameSet && regionLocBlock is not null) {
+				Localizations[Name] = new LocBlock(regionLocBlock);
+				nameSet = true;
+			}
+			if (!nameSet) {
+				Logger.Warn($"{Name} needs help with localization!");
 			}
 		}
 
@@ -443,21 +458,21 @@ namespace ImperatorToCK3.CK3.Titles {
 				};
 
 				if (validatedAdj is not null) {
-					Localizations[Name + "_adj"] = validatedAdj;
+					Localizations[$"{Name}_adj"] = validatedAdj;
 					adjSet = true;
 				}
 			}
 			if (!adjSet) {
 				var adjOpt = ImperatorCountry.CountryName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
 				if (adjOpt is not null) {
-					Localizations[Name + "_adj"] = adjOpt;
+					Localizations[$"{Name}_adj"] = adjOpt;
 					adjSet = true;
 				}
 			}
 			if (!adjSet) {
 				var adjLocalizationMatch = localizationMapper.GetLocBlockForKey(ImperatorCountry.Tag);
 				if (adjLocalizationMatch is not null) {
-					Localizations[Name + "_adj"] = adjLocalizationMatch;
+					Localizations[$"{Name}_adj"] = adjLocalizationMatch;
 					adjSet = true;
 				}
 			}
@@ -466,7 +481,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				var name = ImperatorCountry.Name;
 				if (!string.IsNullOrEmpty(name)) {
 					Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Name}!");
-					Localizations[Name + "_adj"] = new LocBlock(name);
+					Localizations[$"{Name}_adj"] = new LocBlock(name);
 					adjSet = true;
 				}
 			}
@@ -540,7 +555,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			return deJureVassalsAndBelow;
 		}
-		
+
 		public Dictionary<string, Title> GetDeFactoVassals(Date date, LandedTitles landedTitles) { // DIRECT de facto vassals
 			return landedTitles.StoredTitles.Where(t => t.GetDeFactoLiege(date, landedTitles)?.Name == Name)
 				.ToDictionary(t => t.Name, t => t);
@@ -589,7 +604,6 @@ namespace ImperatorToCK3.CK3.Titles {
 				return null;
 			}
 		}
-		[NonSerialized] public SortedSet<string> SuccessionLaws { get; private set; } = new();
 		[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
 		private void RegisterKeys() {
@@ -665,21 +679,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		public void OutputHistory(StreamWriter writer, Date ck3BookmarkDate) {
-			bool needsToBeOutput = false;
+		public void OutputHistory(StreamWriter writer) {
+			//bool needsToBeOutput = false;
 			var sb = new StringBuilder();
 
 			sb.Append(Name).Append('=').AppendLine(PDXSerializer.Serialize(history.InternalHistory));
-
-			sb.AppendLine($"\t{ck3BookmarkDate} = {{");
-
-			if (SuccessionLaws.Count > 0) { // TODO: MOVE TO HISTORY
-				sb.AppendLine("\t\tsuccession_laws = {");
-				foreach (var law in SuccessionLaws) {
-					sb.AppendLine($"\t\t\t{law}");
-				}
-				sb.AppendLine("\t\t}");
-			}
 
 			if (Rank != TitleRank.barony) { // TODO: MOVE TO HISTORY
 				var developmentLevelOpt = DevelopmentLevel;
@@ -688,9 +692,9 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 
-			if (needsToBeOutput) {
+			//if (needsToBeOutput) {
 				writer.Write(sb);
-			}
+			//}
 		}
 
 		public HashSet<ulong> GetProvincesInCountry(LandedTitles landedTitles, Date date) {
