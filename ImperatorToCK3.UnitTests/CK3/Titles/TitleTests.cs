@@ -185,33 +185,35 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HistoryCanBeAdded() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
+			var date = new Date(867, 1, 1);
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", date);
 			var history = titlesHistory.PopTitleHistory("k_greece");
 			Assert.NotNull(history);
 			var title = new Title("k_testtitle");
 			title.AddHistory(history);
 
-			Assert.Equal("420", title.GetHolderId(new Date(867, 1, 1)));
-			Assert.Equal(20, title.DevelopmentLevel);
+			Assert.Equal("420", title.GetHolderId(date));
+			Assert.Equal(20, title.GetDevelopmentLevel(date));
 		}
 
 		[Fact]
 		public void DevelopmentLevelCanBeInherited() {
+			var date = new Date(867, 1, 1);
 			var vassal = new Title("c_vassal");
-			vassal.DeJureLiege = new Title("d_liege") {
-				DevelopmentLevel = 8
-			};
+			vassal.DeJureLiege = new Title("d_liege");
+			vassal.DeJureLiege.SetDevelopmentLevel(8, date);
 
-			Assert.Equal(8, vassal.OwnOrInheritedDevelopmentLevel);
+			Assert.Equal(8, vassal.GetOwnOrInheritedDevelopmentLevel(date));
 		}
 
 		[Fact]
-		public void InheritedDevelopmentCanBeNullopt() {
+		public void InheritedDevelopmentCanBeNull() {
+			var date = new Date(867, 1, 1);
 			var vassal = new Title("c_vassal") {
 				DeJureLiege = new Title("d_liege")
 			};
 
-			Assert.Null(vassal.OwnOrInheritedDevelopmentLevel);
+			Assert.Null(vassal.GetOwnOrInheritedDevelopmentLevel(date));
 		}
 
 		[Fact]

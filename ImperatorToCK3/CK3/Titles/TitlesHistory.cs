@@ -48,7 +48,9 @@ namespace ImperatorToCK3.CK3.Titles {
 				new() { FieldName = "government", Setter = "government", InitialValue = null },
 				new() { FieldName = "development_level", Setter = "change_development_level", InitialValue = null },
 			},
-			containerFieldDefs: new()
+			containerFieldDefs: new() {
+				new() { FieldName = "succession_laws", Setter = "succession_laws" }
+			}
 		);
 		private readonly Dictionary<string, TitleHistory> historyDict = new();
 	}

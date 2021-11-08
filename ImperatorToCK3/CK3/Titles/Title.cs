@@ -430,10 +430,15 @@ namespace ImperatorToCK3.CK3.Titles {
 			return history.GetGovernment(date);
 		}
 
-		[NonSerialized]
-		public int? DevelopmentLevel {
-			get => history.DevelopmentLevel;
-			set => history.DevelopmentLevel = value;
+		public int? GetDevelopmentLevel(Date date) {
+			return history.GetDevelopmentLevel(date);
+		}
+		public void SetDevelopmentLevel(int value, Date date) {
+			if (Rank == TitleRank.barony) {
+				Logger.Warn($"Cannot set development level to a barony title {Name}!");
+				return;
+			}
+			history.InternalHistory.AddFieldValue("development_level", value, date, "change_development_level");
 		}
 
 		[NonSerialized] public Dictionary<string, LocBlock> Localizations { get; set; } = new();
@@ -592,17 +597,12 @@ namespace ImperatorToCK3.CK3.Titles {
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
 
-		[NonSerialized]
-		public int? OwnOrInheritedDevelopmentLevel {
-			get {
-				if (history.DevelopmentLevel is not null) { // if development level is already set, just return it
-					return history.DevelopmentLevel;
-				}
-				if (deJureLiege is not null) { // if de jure liege exists, return their level
-					return deJureLiege.OwnOrInheritedDevelopmentLevel;
-				}
-				return null;
+		public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
+			var ownLevel = GetDevelopmentLevel(date);
+			if (ownLevel is not null) { // if development level is already set, just return it
+				return ownLevel;
 			}
+			return deJureLiege?.GetOwnOrInheritedDevelopmentLevel(date);
 		}
 		[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
@@ -685,15 +685,10 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			sb.Append(Name).Append('=').AppendLine(PDXSerializer.Serialize(history.InternalHistory));
 
-			if (Rank != TitleRank.barony) { // TODO: MOVE TO HISTORY
-				var developmentLevelOpt = DevelopmentLevel;
-				if (developmentLevelOpt is not null) {
-					sb.AppendLine($"\t\tchange_development_level = {developmentLevelOpt}");
-				}
-			}
+			// TODO: FIX DEVELOPMENT LEVEL BEING A STRING, IT NEEDS TO BE AN INT
 
 			//if (needsToBeOutput) {
-				writer.Write(sb);
+			writer.Write(sb);
 			//}
 		}
 

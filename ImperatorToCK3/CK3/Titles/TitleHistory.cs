@@ -7,11 +7,6 @@ namespace ImperatorToCK3.CK3.Titles {
 		public TitleHistory() { }
 		public TitleHistory(History history, Date ck3BookmarkDate) {
 			InternalHistory = history;
-
-			var developmentLevelOpt = history.GetFieldValue("development_level", ck3BookmarkDate);
-			if (developmentLevelOpt is string devStr) {
-				DevelopmentLevel = int.Parse(devStr);
-			}
 		}
 		public void Update(HistoryFactory historyFactory, BufferedReader reader) {
 			historyFactory.UpdateHistory(InternalHistory, reader);
@@ -36,7 +31,17 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			return null;
 		}
-		public int? DevelopmentLevel { get; set; }
+
+		public int? GetDevelopmentLevel(Date date) {
+			if (InternalHistory.GetFieldValue("development_level", date) is not string devStr) {
+				return null;
+			}
+
+			if (int.TryParse(devStr, out int dev)) {
+				return dev;
+			}
+			return null;
+		}
 
 		[SerializeOnlyValue] public History InternalHistory { get; } = new();
 	}

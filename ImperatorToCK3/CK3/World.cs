@@ -49,7 +49,7 @@ namespace ImperatorToCK3.CK3 {
 			// Loading vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(config.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
 			LandedTitles.LoadTitles(landedTitlesPath);
-			AddHistoryToVanillaTitles();
+			AddHistoryToVanillaTitles(config.Ck3BookmarkDate);
 
 			// Loading regions
 			ck3RegionMapper = new CK3RegionMapper(config.Ck3Path, LandedTitles);
@@ -389,17 +389,18 @@ namespace ImperatorToCK3.CK3 {
 			return toReturn;
 		}
 
-		private void AddHistoryToVanillaTitles() {
+		private void AddHistoryToVanillaTitles(Date ck3BookmarkDate) {
 			foreach (var title in LandedTitles.StoredTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(title.Name);
 				if (historyOpt is not null) {
 					title.AddHistory(historyOpt);
 				}
 			}
-			// add vanilla development to counties
-			// for counties that inherit development level from de jure lieges, assign it to them directly for better reliability
-			foreach (Title title in LandedTitles.StoredTitles.Where(title => title.Rank == TitleRank.county && title.DevelopmentLevel is null)) {
-				title.DevelopmentLevel = title.OwnOrInheritedDevelopmentLevel;
+			// Add vanilla development to counties.
+			// For counties that inherit development level from de jure lieges, assign it to them directly just in case.
+			foreach (Title title in LandedTitles.StoredTitles.Where(title => title.Rank == TitleRank.county && title.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
+				var inheritedDev = title.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
+				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
 			}
 		}
 
@@ -508,7 +509,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// If duchy/kingdom/empire title holder holds no county (is landless), remove the title.
 			// This also removes landless titles initialized from Imperator.
-			foreach (var title in LandedTitles.StoredTitles.Where(t=> t.Rank is not TitleRank.county and not TitleRank.barony)) {
+			foreach (var title in LandedTitles.StoredTitles.Where(t => t.Rank is not TitleRank.county and not TitleRank.barony)) {
 				if (countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
 					// holds counties
 					continue;

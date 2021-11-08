@@ -28,7 +28,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void DevelopmentLevelDefaultsToNull() {
 			var history = new TitleHistory();
 
-			Assert.Null(history.DevelopmentLevel);
+			Assert.Null(history.GetDevelopmentLevel(new Date(867, 1, 1)));
 		}
 
 		[Fact]
@@ -44,12 +44,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void HistoryIsLoadedFromDatedBlocks() {
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", new Date(867, 1, 1));
+			var date = new Date(867, 1, 1);
+			var titlesHistory = new TitlesHistory("TestFiles/title_history", date);
 			var history = titlesHistory.PopTitleHistory("k_greece");
 
 			Assert.NotNull(history);
-			Assert.Equal("420", history.GetHolderId(new Date(867, 1, 1)));
-			Assert.Equal(20, history.DevelopmentLevel);
+			Assert.Equal("420", history.GetHolderId(date));
+			Assert.Equal(20, history.GetDevelopmentLevel(date));
 		}
 	}
 }
