@@ -1,6 +1,9 @@
 ﻿using commonItems;
 using ImageMagick;
 using ImperatorToCK3.CK3.Titles;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +13,6 @@ using System.Text;
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
 		public static void OutputBookmark(CK3.World world, Configuration config) {
-			OpenCL.IsEnabled = true; // enable OpenCL in ImageMagick
 			var path = "output/" + config.OutputModName + "/common/bookmarks/00_bookmarks.txt";
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -93,28 +95,47 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, CK3.World ck3World) {
 			Logger.Info("Drawing bookmark map...");
-
-			string bookmarkMapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
-			using var bookmarkMapImage = new MagickImage(bookmarkMapPath);
-			bookmarkMapImage.Scale(2160, 1080);
-			bookmarkMapImage.Crop(1920, 1080);
-			bookmarkMapImage.RePage();
-
 			string provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
-			using var provincesImage = new MagickImage(provincesMapPath);
-			provincesImage.FilterType = FilterType.Point;
-			provincesImage.Resize(2160, 1080);
-			provincesImage.Crop(1920, 1080);
-			provincesImage.RePage();
+			string flatmapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
+			const string tmpProvincesMapPath = "temp/provinces.png";
+			const string tmpFlatmapPath = "temp/flatmap.png";
+
+			using (var image = new MagickImage(provincesMapPath)) {
+				image.FilterType = FilterType.Point;
+				image.Scale(2160, 1080);
+				image.Crop(1920, 1080);
+				image.RePage();
+				image.Write(tmpProvincesMapPath);
+			}
+			using (var image = new MagickImage(flatmapPath)) {
+				image.Scale(2160, 1080);
+				image.Crop(1920, 1080);
+				image.RePage();
+				image.Write(tmpFlatmapPath);
+			}
+
+			using var provincesImage = Image.Load(tmpProvincesMapPath);
+			/*
+			provincesImage.Mutate(x => x.Resize(2160, 1080));
+			provincesImage.Mutate(x => x.Crop(1920, 1080));
+			*/
+			provincesImage.SaveAsPng("TEST1.PNG");       // TODO: REMOVE DEBUG
+
+			using var bookmarkMapImage = Image.Load(tmpFlatmapPath);
+			/*
+			bookmarkMapImage.Mutate(x => x.Pad(2160, 1080));
+			bookmarkMapImage.Mutate(x => x.Crop(1920, 1080));
+			*/
+			provincesImage.SaveAsPng("TEST2.PNG");       // TODO: REMOVE DEBUG
 
 			var mapData = ck3World.MapData;
 			var provDefs = mapData.ProvinceDefinitions;
 
-			var magickBlack = MagickColor.FromRgb(0, 0, 0);
+			var magickBlack = new Rgba32(0, 0, 0, 0);
 
 			foreach (var playerTitle in playerTitles) {
-				var colorOnMap = playerTitle.Color1 ?? new Color(new[] { 0, 0, 0 });
-				var magickColorOnMap = MagickColor.FromRgb((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
+				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
+				var magickColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(ck3World.LandedTitles, config.Ck3BookmarkDate);
 				// determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
@@ -136,33 +157,46 @@ namespace ImperatorToCK3.Outputter {
 				var diff = provincesToColor.Count - heldProvinces.Count;
 				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Name}...");
 
-				using var copyImage = new MagickImage(provincesImage);
+				using var copyImage = provincesImage.CloneAs<Rgba32>();
 				foreach (var provinceColor in provincesToColor.Select(province => provDefs.ProvinceToColorDict[province])) {
 					// make pixels of the province black
-					var magickProvinceColor = MagickColor.FromRgb(provinceColor.R, provinceColor.G, provinceColor.B);
-					copyImage.Opaque(magickProvinceColor, magickBlack);
+					var magickProvinceColor = new Rgba32(provinceColor.R, provinceColor.G, provinceColor.B);
+					ReplaceColorOnImage(magickProvinceColor, magickBlack, copyImage);
 				}
 				// replace black with title color
-				copyImage.Opaque(magickBlack, magickColorOnMap);
+				ReplaceColorOnImage(magickBlack, magickColorOnMap, copyImage);
 				// make pixels all colors but the country color transparent
-				copyImage.InverseTransparent(magickColorOnMap);
+				//copyImage.InverseTransparent(magickColorOnMap); // TODO
 
 				// create realm highlight file
 				var holder = ck3World.Characters[playerTitle.GetHolderId(config.Ck3BookmarkDate)];
 				var highlightPath = Path.Combine(
 					"output",
 					config.OutputModName,
-					$"gfx/interface/bookmarks/bm_converted_{holder.Name}.dds"
+					$"gfx/interface/bookmarks/bm_converted_{holder.Name}.tga"
 				);
-				copyImage.Write(highlightPath);
+				copyImage.SaveAsTga(highlightPath);
 
 				// make country on map semi-transparent
-				copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 2);
+				// copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 2); // TODO
 				// add the image on top of blank map image
-				bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over);
+				//bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over); // SHOULD BE REPLACED BY CODE BELOW
+				var options = new GraphicsOptions { AlphaCompositionMode = PixelAlphaCompositionMode.SrcIn };
+				bookmarkMapImage.Mutate(x => x.DrawImage(copyImage, 1));
 			}
-			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.dds");
-			bookmarkMapImage.Write(outputPath);
+			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.tga");
+			bookmarkMapImage.SaveAsTga(outputPath);
+		}
+
+		private static void ReplaceColorOnImage(Rgba32 source, Rgba32 target, Image<Rgba32> image) {
+			var colorAsVector = source.ToVector4();
+			image.Mutate(c => c.ProcessPixelRowsAsVector4(row => {
+				for (int x = 0; x < row.Length; x++) {
+					if (row[x].Equals(colorAsVector)) {
+						row[x] = target.ToVector4();
+					}
+				}
+			}));
 		}
 	}
 }
