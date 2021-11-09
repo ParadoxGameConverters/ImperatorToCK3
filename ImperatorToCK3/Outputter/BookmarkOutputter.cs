@@ -88,7 +88,7 @@ namespace ImperatorToCK3.Outputter {
 				templateText = templateText.Replace("REPLACE_ME_NAME", holder.Name);
 				templateText = templateText.Replace("REPLACE_ME_AGE", holder.Age.ToString());
 				var outPortraitPath = "output/" + config.OutputModName + "/common/bookmark_portraits/" +
-									  $"{holder.Name}.txt";
+									  $"{holder.Id}.txt";
 				File.WriteAllText(outPortraitPath, templateText);
 			}
 
@@ -174,19 +174,19 @@ namespace ImperatorToCK3.Outputter {
 				var highlightPath = Path.Combine(
 					"output",
 					config.OutputModName,
-					$"gfx/interface/bookmarks/bm_converted_{holder.Name}.png"
+					$"gfx/interface/bookmarks/bm_converted_{holder.Id}.png"
 				);
 				realmHighlightImage.SaveAsPng(highlightPath);
-
-				// Make country on map semi-transparent.
-				HalveOpacity(realmHighlightImage);
+				ResaveImageAsDDS(highlightPath);
 
 				// Add the image on top of blank map image.
-				bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 1));
+				// Make the realm on map semi-transparent.
+				bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
 			}
 
-			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.tga");
-			bookmarkMapImage.SaveAsTga(outputPath);
+			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
+			bookmarkMapImage.SaveAsPng(outputPath);
+			ResaveImageAsDDS(outputPath);
 		}
 
 		private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {
@@ -213,13 +213,11 @@ namespace ImperatorToCK3.Outputter {
 			}
 		}
 
-		private static void HalveOpacity(Image<Rgba32> image) {
-			for (int y = 0; y < image.Height; ++y) {
-				Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(y);
-				for (int x = 0; x < image.Width; ++x) {
-					pixelRowSpan[x].A = (byte)(pixelRowSpan[x].A / 2);
-				}
+		private static void ResaveImageAsDDS(string imagePath) {
+			using (var magickImage = new MagickImage(imagePath)) {
+				magickImage.Write(CommonFunctions.TrimExtension(imagePath) + ".dds");
 			}
+			File.Delete(imagePath);
 		}
 	}
 }
