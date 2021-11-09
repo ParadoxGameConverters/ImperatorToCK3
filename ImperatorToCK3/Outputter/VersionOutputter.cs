@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace ImperatorToCK3.Outputter {
 				Logger.Info("* Converter build based on unknown commit");
 			}
 			Logger.Info("* " + versionParser.GetDescription());
-			Logger.Info("* Built on " + compileTime.ToShortDateString() + " " + compileTime.ToLongTimeString());
+			Logger.Info("* Built on " + compileTime.ToString("u", CultureInfo.InvariantCulture));
 			Logger.Info("*********** + Imperator: Rome To Crusader Kings III + *************\n");
 		}
 	}
