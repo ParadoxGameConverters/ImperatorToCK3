@@ -113,38 +113,27 @@ namespace ImperatorToCK3.Outputter {
 				provincesMagickImage.Write(tmpProvincesMapPath);
 			}
 
-			using (var image = new MagickImage(flatmapPath)) {
-				image.Scale(2160, 1080);
-				image.Crop(1920, 1080);
-				image.RePage();
-				image.Write(tmpFlatmapPath);
+			using (var flatmapMagickImage = new MagickImage(flatmapPath)) {
+				flatmapMagickImage.Scale(2160, 1080);
+				flatmapMagickImage.Crop(1920, 1080);
+				flatmapMagickImage.RePage();
+				flatmapMagickImage.Write(tmpFlatmapPath);
 			}
 
 			using var provincesImage = Image.Load(tmpProvincesMapPath);
-			/*
-			provincesImage.Mutate(x => x.Resize(2160, 1080));
-			provincesImage.Mutate(x => x.Crop(1920, 1080));
-			*/
-			provincesImage.SaveAsPng("TEST1.PNG"); // TODO: REMOVE DEBUG
-
 			using var bookmarkMapImage = Image.Load(tmpFlatmapPath);
-			/*
-			bookmarkMapImage.Mutate(x => x.Pad(2160, 1080));
-			bookmarkMapImage.Mutate(x => x.Crop(1920, 1080));
-			*/
-			bookmarkMapImage.SaveAsPng("TEST2.PNG"); // TODO: REMOVE DEBUG
 
 			var mapData = ck3World.MapData;
 			var provDefs = mapData.ProvinceDefinitions;
 
-			var magickBlack = new Rgba32(0, 0, 0, 1);
+			var black = new Rgba32(0, 0, 0, 1);
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
-				var magickColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
+				var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 				HashSet<ulong> heldProvinces =
 					playerTitle.GetProvincesInCountry(ck3World.LandedTitles, config.Ck3BookmarkDate);
-				// determine which impassables should be be colored by the country
+				// Determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				var impassables = mapData.ColorableImpassableProvinces;
 				foreach (var impassableId in impassables) {
@@ -159,7 +148,7 @@ namespace ImperatorToCK3.Outputter {
 
 					var heldNonImpassableNeighborProvs = nonImpassableNeighborProvs.Intersect(heldProvinces);
 					if (heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
-						// realm controls more than half of non-impassable neighbors of the impassable
+						// Realm controls more than half of non-impassable neighbors of the impassable.
 						provincesToColor.Add(impassableId);
 					}
 				}
@@ -167,35 +156,33 @@ namespace ImperatorToCK3.Outputter {
 				var diff = provincesToColor.Count - heldProvinces.Count;
 				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Name}...");
 
-				using var copyImage = provincesImage.CloneAs<Rgba32>();
+				using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
 				foreach (var provinceColor in provincesToColor.Select(
 					province => provDefs.ProvinceToColorDict[province])) {
-					// make pixels of the province black
-					var magickProvinceColor =
-						new Rgba32(provinceColor.R, provinceColor.G, provinceColor.B, byte.MaxValue);
-					ReplaceColorOnImage(copyImage, magickProvinceColor, magickBlack);
+					// Make pixels of the province black.
+					var rgbaProvinceColor = new Rgba32(provinceColor.R, provinceColor.G, provinceColor.B);
+					ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
 				}
 
-				// replace black with title color
-				ReplaceColorOnImage(copyImage, magickBlack, magickColorOnMap);
-				// make pixels all colors but the country color transparent
-				InverseTransparent(copyImage, magickColorOnMap);
+				// Replace black with title color.
+				ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
+				// Make pixels all colors but the country color transparent.
+				InverseTransparent(realmHighlightImage, rgba32ColorOnMap);
 
-				// create realm highlight file
+				// Create realm highlight file.
 				var holder = ck3World.Characters[playerTitle.GetHolderId(config.Ck3BookmarkDate)];
 				var highlightPath = Path.Combine(
 					"output",
 					config.OutputModName,
 					$"gfx/interface/bookmarks/bm_converted_{holder.Name}.png"
 				);
-				copyImage.SaveAsPng(highlightPath);
+				realmHighlightImage.SaveAsPng(highlightPath);
 
-				// make country on map semi-transparent
-				// copyImage.Evaluate(Channels.Alpha, EvaluateOperator.Divide, 2); // TODO
-				// add the image on top of blank map image
-				//bookmarkMapImage.Composite(copyImage, Gravity.Center, CompositeOperator.Over); // SHOULD BE REPLACED BY CODE BELOW
-				var options = new GraphicsOptions { AlphaCompositionMode = PixelAlphaCompositionMode.SrcIn };
-				bookmarkMapImage.Mutate(x => x.DrawImage(copyImage, 1));
+				// Make country on map semi-transparent.
+				HalveOpacity(realmHighlightImage);
+
+				// Add the image on top of blank map image.
+				bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 1));
 			}
 
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.tga");
@@ -221,8 +208,16 @@ namespace ImperatorToCK3.Outputter {
 					if (pixelRowSpan[x].Equals(color)) {
 						continue;
 					}
-
 					pixelRowSpan[x] = transparent;
+				}
+			}
+		}
+
+		private static void HalveOpacity(Image<Rgba32> image) {
+			for (int y = 0; y < image.Height; ++y) {
+				Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(y);
+				for (int x = 0; x < image.Width; ++x) {
+					pixelRowSpan[x].A = (byte)(pixelRowSpan[x].A / 2);
 				}
 			}
 		}
