@@ -243,6 +243,10 @@ link = { ck3 = dalmatian imp = iapodian }
 link = { ck3 = kannada imp = kannadan }
 link = { ck3 = tamil imp = tamil }
 link = { ck3 = telugu imp = telugu }
+# Invictus mod
+link = { ck3 = kannada imp = kuntalan imp = alupan }
+link = { ck3 = tamil imp = cholan imp = cheran imp = pandyan }
+link = { ck3 = telugu imp = andhran imp = assaka }
 
 ## Latin
 # The Glory of Rome
