@@ -67,6 +67,13 @@ link = { ck3 = hindustani imp = shauraseni }
 link = { ck3 = rajput imp = avanti }
 link = { ck3 = sindhi imp = sindhi }
 link = { ck3 = kashmiri imp = dardic }
+# Invictus mod
+link = { ck3 = rajput imp = matsya imp = cedi }
+link = { ck3 = marathi imp = mulaka }
+link = { ck3 = gujarati imp = kaccha }
+link = { ck3 = marathi imp = rathikan }
+link = { ck3 = punjabi imp = sivi }
+link = { ck3 = hindustani imp = kosala imp = kuru }
 
 ## Bactrian
 link = { ck3 = bactrian imp = bactrian imp = yuezhi }
