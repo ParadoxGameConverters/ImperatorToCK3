@@ -23,14 +23,9 @@ namespace ImperatorToCK3.Imperator {
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		private GenesDB genesDB = new();
 
-		private enum SaveType { INVALID = 0, PLAINTEXT = 1, COMPRESSED_ENCODED = 2 }
+		private enum SaveType { INVALID, PLAINTEXT, COMPRESSED_ENCODED }
+		private SaveType saveType = SaveType.INVALID;
 
-		private class SaveData {
-			public SaveType saveType = SaveType.INVALID;
-			public int zipStart = 0;
-			public string gameState = string.Empty;
-		}
-		private readonly SaveData saveGame = new();
 		public World(Configuration configuration, ConverterVersion converterVersion) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 			ParseGenes(configuration);
@@ -40,17 +35,17 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("version", reader => {
 				var versionString = ParserHelpers.GetString(reader);
 				imperatorVersion = new GameVersion(versionString);
-				Logger.Info($"Savegame version: {versionString}");
+				Logger.Info($"Save game version: {versionString}");
 
 				if (converterVersion.MinSource > imperatorVersion) {
 					Logger.Error(
 						$"Converter requires a minimum save from v{converterVersion.MinSource.ToShortString()}");
-					throw new FormatException("Savegame vs converter version mismatch!");
+					throw new FormatException("Save game vs converter version mismatch!");
 				}
 				if (!converterVersion.MaxSource.IsLargerishThan(imperatorVersion)) {
 					Logger.Error(
 						$"Converter requires a maximum save from v{converterVersion.MaxSource.ToShortString()}");
-					throw new FormatException("Savegame vs converter version mismatch!");
+					throw new FormatException("Save game vs converter version mismatch!");
 				}
 			});
 			RegisterKeyword("date", reader => {
@@ -69,9 +64,9 @@ namespace ImperatorToCK3.Imperator {
 				}
 			});
 			RegisterKeyword("enabled_mods", reader => {
-				Logger.Info("Detecting used mods.");
-				var modsList = new StringList(reader).Strings;
-				Logger.Info($"Savegame claims {modsList.Count} mods used:");
+				Logger.Info("Detecting used mods...");
+				var modsList = ParserHelpers.GetStrings(reader);
+				Logger.Info($"Save game claims {modsList.Count} mods used:");
 				Mods incomingMods = new();
 				foreach (var modPath in modsList) {
 					Logger.Info($"Used mod: {modPath}");
@@ -84,33 +79,35 @@ namespace ImperatorToCK3.Imperator {
 				Mods = modLoader.UsableMods;
 			});
 			RegisterKeyword("family", reader => {
-				Logger.Info("Loading Families");
+				Logger.Info("Loading Families...");
 				Families = Imperator.Families.Families.ParseBloc(reader);
 				Logger.Info($"Loaded {Families.StoredFamilies.Count} families.");
 			});
 			RegisterKeyword("character", reader => {
-				Logger.Info("Loading Characters");
+				Logger.Info("Loading Characters...");
 				Characters = Imperator.Characters.Characters.ParseBloc(reader, genesDB);
 				Logger.Info($"Loaded {Characters.StoredCharacters.Count} characters.");
 			});
 			RegisterKeyword("provinces", reader => {
-				Logger.Info("Loading Provinces");
+				Logger.Info("Loading Provinces...");
 				Provinces = new Provinces.Provinces(reader);
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.StoredProvinces.Count} provinces.");
 			});
 			RegisterKeyword("country", reader => {
-				Logger.Info("Loading Countries");
+				Logger.Info("Loading Countries...");
 				Countries = Imperator.Countries.Countries.ParseBloc(reader);
 				Logger.Info($"Loaded {Countries.StoredCountries.Count} countries.");
 			});
 			RegisterKeyword("population", reader => {
-				Logger.Info("Loading Pops");
+				Logger.Info("Loading Pops...");
 				pops = new PopsBloc(reader).PopsFromBloc;
 				Logger.Info($"Loaded {pops.StoredPops.Count} pops.");
 			});
 			RegisterKeyword("jobs", reader => {
+				Logger.Info("Loading Jobs...");
 				Jobs = new Jobs.Jobs(reader);
+				Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
 			});
 			RegisterKeyword("played_country", reader => {
 				var playerCountriesToLog = new List<string>();
@@ -130,18 +127,16 @@ namespace ImperatorToCK3.Imperator {
 				ParserHelpers.IgnoreItem(reader);
 			});
 
-			Logger.Info("Verifying Imperator save.");
+			Logger.Info("Verifying Imperator save...");
 			VerifySave(configuration.SaveGamePath);
-			ProcessSave(configuration.SaveGamePath);
 
-			var gameState = new BufferedReader(saveGame.gameState);
-			ParseStream(gameState);
+			ParseStream(ProcessSave(configuration.SaveGamePath));
 			ClearRegisteredRules();
 			Logger.Debug($"Ignored World tokens: {string.Join(", ", ignoredTokens)}");
 
 			Logger.Info("*** Building World ***");
 
-			// Link all the intertwining pointers
+			// Link all the intertwining references
 			Logger.Info("Linking Characters with Families");
 			Characters.LinkFamilies(Families);
 			Families.RemoveUnlinkedMembers();
@@ -236,16 +231,14 @@ namespace ImperatorToCK3.Imperator {
 			}
 		}
 
-		private void ProcessSave(string saveGamePath) {
-			switch (saveGame.saveType) {
+		private BufferedReader ProcessSave(string saveGamePath) {
+			switch (saveType) {
 				case SaveType.PLAINTEXT:
 					Logger.Info("Importing debug_mode Imperator save.");
-					ProcessDebugModeSave(saveGamePath);
-					break;
+					return ProcessDebugModeSave(saveGamePath);
 				case SaveType.COMPRESSED_ENCODED:
 					Logger.Info("Importing regular Imperator save.");
-					ProcessCompressedEncodedSave(saveGamePath);
-					break;
+					return ProcessCompressedEncodedSave(saveGamePath);
 				default:
 					throw new InvalidDataException("Unknown save type.");
 			}
@@ -255,7 +248,7 @@ namespace ImperatorToCK3.Imperator {
 			var buffer = new byte[10];
 			saveStream.Read(buffer, 0, 4);
 			if (buffer[0] != 'S' || buffer[1] != 'A' || buffer[2] != 'V') {
-				throw new InvalidDataException("Savefile of unknown type!");
+				throw new InvalidDataException("Save game of unknown type!");
 			}
 
 			char ch;
@@ -265,7 +258,7 @@ namespace ImperatorToCK3.Imperator {
 
 			var length = saveStream.Length;
 			if (length < 65536) {
-				throw new InvalidDataException("Savegame seems a bit too small.");
+				throw new InvalidDataException("Save game seems a bit too small.");
 			}
 
 			saveStream.Position = 0;
@@ -274,20 +267,19 @@ namespace ImperatorToCK3.Imperator {
 			if (bytesReadCount < 65536) {
 				throw new InvalidDataException($"Read only {bytesReadCount}bytes.");
 			}
-			saveGame.saveType = SaveType.PLAINTEXT;
+			saveType = SaveType.PLAINTEXT;
 			for (var i = 0; i < 65533; ++i) {
 				if (BitConverter.ToUInt32(bigBuf, i) == 0x04034B50 && BitConverter.ToUInt16(bigBuf, i - 2) == 4) {
-					saveGame.zipStart = i;
-					saveGame.saveType = SaveType.COMPRESSED_ENCODED;
+					saveType = SaveType.COMPRESSED_ENCODED;
 				}
 			}
 		}
-		private void ProcessDebugModeSave(string saveGamePath) {
-			using var saveReader = new StreamReader(File.Open(saveGamePath, FileMode.Open));
-			saveGame.gameState = saveReader.ReadToEnd();
+		private static BufferedReader ProcessDebugModeSave(string saveGamePath) {
+			return new BufferedReader(File.Open(saveGamePath, FileMode.Open));
 		}
-		private void ProcessCompressedEncodedSave(string saveGamePath) {
-			saveGame.gameState = Helpers.RakalyCaller.ToPlainText(saveGamePath);
+		private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {
+			var saveText = Helpers.RakalyCaller.ToPlainText(saveGamePath);
+			return new BufferedReader(saveText);
 		}
 
 		private readonly HashSet<string> ignoredTokens = new();
