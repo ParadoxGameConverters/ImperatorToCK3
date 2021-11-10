@@ -207,7 +207,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 			var countryId = (ulong)parsedCountryId;
 			if (countries.StoredCountries.TryGetValue(countryId, out var countryToLink)) {
 				Country = countryToLink;
-				return false;
+				Country.TryLinkMonarch(this);
+				return true;
 			}
 			Logger.Warn($"Country with ID {countryId} has no definition!");
 			return false;

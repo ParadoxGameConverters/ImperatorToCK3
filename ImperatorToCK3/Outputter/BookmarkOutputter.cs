@@ -13,7 +13,7 @@ using System.Text;
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
 		public static void OutputBookmark(CK3.World world, Configuration config) {
-			var path = "output/" + config.OutputModName + "/common/bookmarks/00_bookmarks.txt";
+			var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
 
@@ -38,7 +38,7 @@ namespace ImperatorToCK3.Outputter {
 
 				output.WriteLine("\tcharacter = {");
 
-				output.WriteLine($"\t\tname = {holder.Name}");
+				output.WriteLine($"\t\tname = bm_converted{holder.Id}");
 				output.WriteLine($"\t\tdynasty = {holder.DynastyId}");
 				output.WriteLine("\t\tdynasty_splendor_level = 1");
 				output.WriteLine($"\t\ttype = {holder.AgeSex}");
@@ -87,8 +87,7 @@ namespace ImperatorToCK3.Outputter {
 				string templateText = File.ReadAllText(templatePath);
 				templateText = templateText.Replace("REPLACE_ME_NAME", holder.Name);
 				templateText = templateText.Replace("REPLACE_ME_AGE", holder.Age.ToString());
-				var outPortraitPath = "output/" + config.OutputModName + "/common/bookmark_portraits/" +
-									  $"{holder.Id}.txt";
+				var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/{holder.Id}.txt");
 				File.WriteAllText(outPortraitPath, templateText);
 			}
 
@@ -215,7 +214,7 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void ResaveImageAsDDS(string imagePath) {
 			using (var magickImage = new MagickImage(imagePath)) {
-				magickImage.Write(CommonFunctions.TrimExtension(imagePath) + ".dds");
+				magickImage.Write($"{CommonFunctions.TrimExtension(imagePath)}.dds");
 			}
 			File.Delete(imagePath);
 		}

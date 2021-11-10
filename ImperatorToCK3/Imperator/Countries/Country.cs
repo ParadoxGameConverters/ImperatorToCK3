@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.Imperator.Characters;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries {
@@ -8,7 +9,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 	public partial class Country {
 		public ulong Id { get; } = 0;
 		public bool PlayerCountry { get; set; }
-		public ulong? Monarch { get; private set; }  // >=0 are valid
+		private ulong? monarchId;  // >=0 are valid
+		public Character? Monarch { get; private set; }
 		public List<RulerTerm> RulerTerms { get; set; } = new();
 		public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
 		public string Tag { get; private set; } = "";
@@ -83,6 +85,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 
 			return counter;
+		}
+
+		public void TryLinkMonarch(Character character) {
+			if (monarchId == character.Id) {
+				Monarch = character;
+			}
 		}
 	}
 }

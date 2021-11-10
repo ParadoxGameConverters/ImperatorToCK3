@@ -59,7 +59,7 @@ namespace ImperatorToCK3.CK3 {
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-			ImportImperatorCountries(impWorld.Countries.StoredCountries);
+			ImportImperatorCountries(impWorld.Countries.StoredCountries, theConfiguration);
 			ImportImperatorGovernorships(impWorld);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -130,7 +130,7 @@ namespace ImperatorToCK3.CK3 {
 			Characters.Add(newCharacter.Id, newCharacter);
 		}
 
-		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
+		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries, Configuration config) {
 			Logger.Info("Importing Imperator Countries.");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
@@ -138,7 +138,7 @@ namespace ImperatorToCK3.CK3 {
 			var counter = 0;
 			// We don't need pirates, barbarians etc.
 			foreach (var country in imperatorCountries.Values.Where(c => c.CountryType == CountryType.real)) {
-				ImportImperatorCountry(country, imperatorCountries);
+				ImportImperatorCountry(country, imperatorCountries, config);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} countries from I:R.");
@@ -146,7 +146,8 @@ namespace ImperatorToCK3.CK3 {
 
 		private void ImportImperatorCountry(
 			Country country,
-			Dictionary<ulong, Country> imperatorCountries
+			Dictionary<ulong, Country> imperatorCountries,
+			Configuration config
 		) {
 			// Create a new title or update existing title
 			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
@@ -165,7 +166,8 @@ namespace ImperatorToCK3.CK3 {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					Characters
+					Characters,
+					config.Ck3BookmarkDate
 				);
 			} else {
 				var newTitle = new Title(
@@ -182,7 +184,8 @@ namespace ImperatorToCK3.CK3 {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					Characters
+					Characters,
+					config.Ck3BookmarkDate
 				);
 				landedTitles.InsertTitle(newTitle);
 			}
@@ -439,7 +442,7 @@ namespace ImperatorToCK3.CK3 {
 
 					if (ck3CapitalCounty is null) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 						} else {
 							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Name}!");
 						}
@@ -450,19 +453,19 @@ namespace ImperatorToCK3.CK3 {
 					var titleLiegeDuchy = title.DeJureLiege;
 					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 						}
 					} else if (matchingGovernorships.Count > 0) {
 						// give county to governor
 						var governorship = matchingGovernorships[0];
 						var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Name);
 						if (ck3GovernorshipName is null) {
-							Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
+							Logger.Warn($"{nameof(ck3GovernorshipName)} is null for {ck3Country.Name} {governorship.RegionName}!");
 							continue;
 						}
 						GiveCountyToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
-						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+						GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 					}
 				}
 			}
