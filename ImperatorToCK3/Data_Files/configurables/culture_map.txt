@@ -313,6 +313,8 @@ link = { ck3 = zaghawa imp = massylian imp = berber imp = gaetulian imp = socoss
 link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socossian imp = massaesylian }
 link = { ck3 = butr imp = libyan imp = garamantic }
 link = { ck3 = numidian imp = numidian }
+# Invictus mod
+link = { ck3 = butr imp = gyzantian imp = psyllic }
 
 ## Persia
 link = { ck3 = persian imp = carmanian imp = sagartian imp = elamite imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
