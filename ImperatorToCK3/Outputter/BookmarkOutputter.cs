@@ -42,10 +42,11 @@ namespace ImperatorToCK3.Outputter {
 
 				// Add character localization for bookmark screen.
 				localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
+				localizations.Add($"bm_converted_{holder.Id}_desc", new LocBlock(string.Empty));
 
 				output.WriteLine("\tcharacter = {");
 
-				output.WriteLine($"\t\tname = bm_converted{holder.Id}");
+				output.WriteLine($"\t\tname = bm_converted_{holder.Id}");
 				output.WriteLine($"\t\tdynasty = {holder.DynastyId}");
 				output.WriteLine("\t\tdynasty_splendor_level = 1");
 				output.WriteLine($"\t\ttype = {holder.AgeSex}");
@@ -72,9 +73,9 @@ namespace ImperatorToCK3.Outputter {
 					_ => "blankMod/templates/common/bookmark_portraits/male.txt",
 				};
 				string templateText = File.ReadAllText(templatePath);
-				templateText = templateText.Replace("REPLACE_ME_NAME", holder.Name);
+				templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
 				templateText = templateText.Replace("REPLACE_ME_AGE", holder.Age.ToString());
-				var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/{holder.Id}.txt");
+				var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
 				File.WriteAllText(outPortraitPath, templateText);
 			}
 
@@ -222,7 +223,7 @@ namespace ImperatorToCK3.Outputter {
 				var highlightPath = Path.Combine(
 					"output",
 					config.OutputModName,
-					$"gfx/interface/bookmarks/bm_converted_{holder.Id}.png"
+					$"gfx/interface/bookmarks/bm_converted_bm_converted_{holder.Id}.png"
 				);
 				realmHighlightImage.SaveAsPng(highlightPath);
 				ResaveImageAsDDS(highlightPath);
