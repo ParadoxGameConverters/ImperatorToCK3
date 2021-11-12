@@ -59,7 +59,7 @@ namespace ImperatorToCK3.CK3 {
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-			ImportImperatorCountries(impWorld.Countries.StoredCountries, theConfiguration);
+			ImportImperatorCountries(impWorld.Countries.StoredCountries);
 			ImportImperatorGovernorships(impWorld);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -130,7 +130,7 @@ namespace ImperatorToCK3.CK3 {
 			Characters.Add(newCharacter.Id, newCharacter);
 		}
 
-		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries, Configuration config) {
+		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
 			Logger.Info("Importing Imperator Countries.");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
@@ -138,7 +138,7 @@ namespace ImperatorToCK3.CK3 {
 			var counter = 0;
 			// We don't need pirates, barbarians etc.
 			foreach (var country in imperatorCountries.Values.Where(c => c.CountryType == CountryType.real)) {
-				ImportImperatorCountry(country, imperatorCountries, config);
+				ImportImperatorCountry(country, imperatorCountries);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} countries from I:R.");
@@ -146,8 +146,7 @@ namespace ImperatorToCK3.CK3 {
 
 		private void ImportImperatorCountry(
 			Country country,
-			Dictionary<ulong, Country> imperatorCountries,
-			Configuration config
+			Dictionary<ulong, Country> imperatorCountries
 		) {
 			// Create a new title or update existing title
 			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);

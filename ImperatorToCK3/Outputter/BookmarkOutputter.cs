@@ -39,7 +39,7 @@ namespace ImperatorToCK3.Outputter {
 				}
 
 				var holder = world.Characters[holderId];
-				
+
 				// Add character localization for bookmark screen.
 				localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
 
@@ -195,7 +195,7 @@ namespace ImperatorToCK3.Outputter {
 					}
 
 					var heldNonImpassableNeighborProvs = nonImpassableNeighborProvs.Intersect(heldProvinces);
-					if ((double) heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
+					if ((double)heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
 						// Realm controls more than half of non-impassable neighbors of the impassable.
 						provincesToColor.Add(impassableId);
 					}
