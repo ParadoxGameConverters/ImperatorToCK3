@@ -52,8 +52,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					charactersDict,
-					ck3BookmarkDate
+					charactersDict
 				);
 			}
 			public TitleBuilder WithCountry(Country country) {

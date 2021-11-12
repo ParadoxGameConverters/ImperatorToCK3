@@ -166,8 +166,7 @@ namespace ImperatorToCK3.CK3 {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					Characters,
-					config.Ck3BookmarkDate
+					Characters
 				);
 			} else {
 				var newTitle = new Title(
@@ -184,8 +183,7 @@ namespace ImperatorToCK3.CK3 {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					Characters,
-					config.Ck3BookmarkDate
+					Characters
 				);
 				landedTitles.InsertTitle(newTitle);
 			}
