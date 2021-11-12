@@ -111,11 +111,6 @@ namespace ImperatorToCK3.CK3.Titles {
 			RulerUsesTitleName.Value = false;
 
 			PlayerCountry = ImperatorCountry.PlayerCountry;
-			if (PlayerCountry && ImperatorCountry.Monarch is not null) {
-				var currentHolder = charactersDict[GetHolderId(ck3BookmarkDate)];
-				// Add localization for bookmark screen.
-				Localizations.Add($"bm_converted_{currentHolder.Id}", ImperatorCountry.Monarch.Name); // TODO
-			}
 
 			ClearHolderSpecificHistory();
 

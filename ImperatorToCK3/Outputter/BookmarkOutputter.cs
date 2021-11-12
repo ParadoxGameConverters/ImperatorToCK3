@@ -1,6 +1,9 @@
 ﻿using commonItems;
 using ImageMagick;
+using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Mappers.Localization;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -12,7 +15,7 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
-		public static void OutputBookmark(CK3.World world, Configuration config) {
+		public static void OutputBookmark(World world, Configuration config) {
 			var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -27,6 +30,7 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\trecommended = yes");
 
 			var playerTitles = new List<Title>(world.LandedTitles.Values.Where(title => title.PlayerCountry));
+			var localizations = new Dictionary<string, LocBlock>();
 			foreach (var title in playerTitles) {
 				var holderId = title.GetHolderId(config.Ck3BookmarkDate);
 				if (holderId == "0") {
@@ -35,6 +39,9 @@ namespace ImperatorToCK3.Outputter {
 				}
 
 				var holder = world.Characters[holderId];
+				
+				// Add character localization for bookmark screen.
+				localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
 
 				output.WriteLine("\tcharacter = {");
 
@@ -53,27 +60,7 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\tculture = {holder.Culture}");
 				output.WriteLine($"\t\treligion = {holder.Religion}");
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-
-				int count = 0;
-				double sumX = 0;
-				double sumY = 0;
-				foreach (ulong provId in title.GetProvincesInCountry(world.LandedTitles, config.Ck3BookmarkDate)) {
-					if (!provincePositions.TryGetValue(provId, out var pos)) {
-						continue;
-					}
-
-					sumX += pos.X;
-					sumY += pos.Y;
-					++count;
-				}
-
-				double meanX = Math.Round(sumX / count);
-				double meanY = Math.Round(sumY / count);
-				const double scale = (double)1080 / 4096;
-				int finalX = (int)(scale * meanX);
-				int finalY = 1080 - (int)(scale * meanY);
-				output.WriteLine($"\t\tposition = {{ {finalX} {finalY} }}");
-
+				WritePosition(output, world, title, config, provincePositions);
 				output.WriteLine("\t\tanimation = personality_rational");
 
 				output.WriteLine("\t}");
@@ -94,9 +81,71 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("}");
 
 			DrawBookmarkMap(config, playerTitles, world);
+			OutputBookmarkLoc(config, localizations);
 		}
 
-		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, CK3.World ck3World) {
+		private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
+			var outputName = config.OutputModName;
+			using var englishStream = File.OpenWrite(
+				$"output/{outputName}/localization/english/converter_bookmark_l_english.yml");
+			using var frenchStream = File.OpenWrite(
+				$"output/{outputName}/localization/french/converter_bookmark_l_french.yml");
+			using var germanStream = File.OpenWrite(
+				$"output/{outputName}/localization/german/converter_bookmark_l_german.yml");
+			using var russianStream = File.OpenWrite(
+				$"output/{outputName}/localization/russian/converter_bookmark_l_russian.yml");
+			using var simpChineseStream = File.OpenWrite(
+				$"output/{outputName}/localization/spanish/converter_bookmark_l_simp_chinese.yml");
+			using var spanishStream = File.OpenWrite(
+				$"output/{outputName}/localization/spanish/converter_bookmark_l_spanish.yml");
+			using var english = new StreamWriter(englishStream, Encoding.UTF8);
+			using var french = new StreamWriter(frenchStream, Encoding.UTF8);
+			using var german = new StreamWriter(germanStream, Encoding.UTF8);
+			using var russian = new StreamWriter(russianStream, Encoding.UTF8);
+			using var simpChinese = new StreamWriter(simpChineseStream, Encoding.UTF8);
+			using var spanish = new StreamWriter(spanishStream, Encoding.UTF8);
+
+			english.WriteLine("l_english:");
+			french.WriteLine("l_french:");
+			german.WriteLine("l_german:");
+			russian.WriteLine("l_russian:");
+			simpChinese.WriteLine("l_simp_chinese:");
+			spanish.WriteLine("l_spanish:");
+
+			// title localization
+			foreach (var (key, loc) in localizations) {
+				english.WriteLine($" {key}: \"{loc.english}\"");
+				french.WriteLine($" {key}: \"{loc.french}\"");
+				german.WriteLine($" {key}: \"{loc.german}\"");
+				russian.WriteLine($" {key}: \"{loc.russian}\"");
+				simpChinese.WriteLine($" {key}: \"{loc.simp_chinese}\"");
+				spanish.WriteLine($" {key}: \"{loc.spanish}\"");
+			}
+		}
+
+		private static void WritePosition(TextWriter output, World world, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+			int count = 0;
+			double sumX = 0;
+			double sumY = 0;
+			foreach (ulong provId in title.GetProvincesInCountry(world.LandedTitles, config.Ck3BookmarkDate)) {
+				if (!provincePositions.TryGetValue(provId, out var pos)) {
+					continue;
+				}
+
+				sumX += pos.X;
+				sumY += pos.Y;
+				++count;
+			}
+
+			double meanX = Math.Round(sumX / count);
+			double meanY = Math.Round(sumY / count);
+			const double scale = (double)1080 / 4096;
+			int finalX = (int)(scale * meanX);
+			int finalY = 1080 - (int)(scale * meanY);
+			output.WriteLine($"\t\tposition = {{ {finalX} {finalY} }}");
+		}
+
+		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
 			Logger.Info("Drawing bookmark map...");
 			string provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
 			string flatmapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
@@ -146,7 +195,7 @@ namespace ImperatorToCK3.Outputter {
 					}
 
 					var heldNonImpassableNeighborProvs = nonImpassableNeighborProvs.Intersect(heldProvinces);
-					if (heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
+					if ((double) heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
 						// Realm controls more than half of non-impassable neighbors of the impassable.
 						provincesToColor.Add(impassableId);
 					}

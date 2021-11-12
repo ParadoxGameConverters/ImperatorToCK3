@@ -47,7 +47,7 @@ namespace ImperatorToCK3.CK3 {
 			var titlesHistoryPath = Path.Combine(theConfiguration.Ck3Path, "game/history/titles");
 			titlesHistory = new TitlesHistory(titlesHistoryPath, theConfiguration.Ck3BookmarkDate);
 
-			// Loading vanilla CK3 landed titles
+			// Load vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
 			landedTitles.LoadTitles(landedTitlesPath);
 			AddHistoryToVanillaTitles();
