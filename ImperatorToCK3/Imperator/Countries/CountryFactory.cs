@@ -104,7 +104,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				country.parsedFamilyIds.Add(ParserHelpers.GetULong(reader))
 			);
 			parser.RegisterKeyword("monarch", reader =>
-				country.Monarch = ParserHelpers.GetULong(reader)
+				country.monarchId = ParserHelpers.GetULong(reader)
 			);
 			parser.RegisterKeyword("ruler_term", reader =>
 				country.RulerTerms.Add(RulerTerm.Parse(reader))

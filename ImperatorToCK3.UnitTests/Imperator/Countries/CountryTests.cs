@@ -65,7 +65,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal(50, country.Currencies.AggressiveExpansion);
 			Assert.Equal(4, country.Currencies.PoliticalInfluence);
 			Assert.Equal(1, country.Currencies.MilitaryExperience);
-			Assert.Equal((ulong)69, country.Monarch);
+			Assert.Null(country.Monarch); // not linked yet
 			Assert.Equal("athenian", country.PrimaryCulture);
 			Assert.Equal("hellenic", country.Religion);
 			Assert.Equal(new Color(new[] { 1, 2, 3 }), country.Color1);
@@ -73,6 +73,17 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal(new Color(new[] { 7, 8, 9 }), country.Color3);
 			Assert.Equal("dictatorship", country.Government);
 			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
+
+			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
+			countries.StoredCountries.Add(country.Id, country);
+			var monarch = ImperatorToCK3.Imperator.Characters.Character.Parse(
+				new BufferedReader("{ country=42 }"),
+				"69",
+				null
+			);
+			monarch.LinkCountry(countries);
+			Assert.NotNull(country.Monarch);
+			Assert.Equal((ulong)69, country.Monarch.Id);
 		}
 		[Fact]
 		public void CorrectCountryRankIsReturned() {

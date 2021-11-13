@@ -47,7 +47,7 @@ namespace ImperatorToCK3.CK3 {
 			var titlesHistoryPath = Path.Combine(theConfiguration.Ck3Path, "game/history/titles");
 			titlesHistory = new TitlesHistory(titlesHistoryPath, theConfiguration.Ck3BookmarkDate);
 
-			// Loading vanilla CK3 landed titles
+			// Load vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
 			landedTitles.LoadTitles(landedTitlesPath);
 			AddHistoryToVanillaTitles();
@@ -439,7 +439,7 @@ namespace ImperatorToCK3.CK3 {
 
 					if (ck3CapitalCounty is null) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 						} else {
 							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Name}!");
 						}
@@ -450,19 +450,19 @@ namespace ImperatorToCK3.CK3 {
 					var titleLiegeDuchy = title.DeJureLiege;
 					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 						}
 					} else if (matchingGovernorships.Count > 0) {
 						// give county to governor
 						var governorship = matchingGovernorships[0];
 						var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Name);
 						if (ck3GovernorshipName is null) {
-							Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
+							Logger.Warn($"{nameof(ck3GovernorshipName)} is null for {ck3Country.Name} {governorship.RegionName}!");
 							continue;
 						}
 						GiveCountyToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
-						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+						GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 					}
 				}
 			}
