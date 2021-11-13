@@ -27,7 +27,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				province.parsedPopIds.Add(ParserHelpers.GetULong(reader))
 			);
 			provinceParser.RegisterKeyword("civilization_value", reader =>
-				province.CivilizationValue = new SingleDouble(reader).Double
+				province.CivilizationValue = ParserHelpers.GetDouble(reader)
 			);
 			provinceParser.RegisterKeyword("province_rank", reader => {
 				var provinceRankStr = ParserHelpers.GetString(reader);

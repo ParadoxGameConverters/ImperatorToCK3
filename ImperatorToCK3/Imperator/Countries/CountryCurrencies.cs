@@ -20,28 +20,28 @@ namespace ImperatorToCK3.Imperator.Countries {
 		}
 		private void RegisterKeys() {
 			RegisterKeyword("manpower", reader =>
-				Manpower = new SingleDouble(reader).Double
+				Manpower = ParserHelpers.GetDouble(reader)
 			);
 			RegisterKeyword("gold", reader =>
-				Gold = new SingleDouble(reader).Double
+				Gold = ParserHelpers.GetDouble(reader)
 			);
 			RegisterKeyword("stability", reader =>
-				Stability = new SingleDouble(reader).Double
+				Stability = ParserHelpers.GetDouble(reader)
 			);
 			RegisterKeyword("tyranny", reader =>
-				Tyranny = new SingleDouble(reader).Double
+				Tyranny = ParserHelpers.GetDouble(reader)
 			);
 			RegisterKeyword("war_exhaustion", reader =>
-				WarExhaustion = new SingleDouble(reader).Double
+				WarExhaustion = ParserHelpers.GetDouble(reader)
 			);
 			RegisterKeyword("aggressive_expansion", reader =>
-				AggressiveExpansion = new SingleDouble(reader).Double
+				AggressiveExpansion = ParserHelpers.GetDouble(reader)
 			);
 			RegisterKeyword("political_influence", reader =>
-				PoliticalInfluence = new SingleDouble(reader).Double
+				PoliticalInfluence = ParserHelpers.GetDouble(reader)
 			);
 			RegisterKeyword("military_experience", reader =>
-				MilitaryExperience = new SingleDouble(reader).Double
+				MilitaryExperience = ParserHelpers.GetDouble(reader)
 			);
 			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
