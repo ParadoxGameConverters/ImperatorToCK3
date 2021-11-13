@@ -19,7 +19,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Titles {
 	public enum TitleRank { barony, county, duchy, kingdom, empire }
-	public class Title : Parser, IPDXSerializable {
+	public class Title : IPDXSerializable {
 		public Title(string name) {
 			Name = name;
 			SetRank();
@@ -380,9 +380,9 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public void LoadTitles(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 		}
 
 		public Date GetDateOfLastHolderChange() {
@@ -566,6 +566,11 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
+		
+		[SerializedName("destroy_if_invalid_heir")] public ParadoxBool? DestroyIfInvalidHeir { get; set; }
+		[SerializedName("no_automatic_claims")] public ParadoxBool? NoAutomaticClaims { get; set; }
+		[SerializedName("always_follows_primary_heir")] public ParadoxBool? AlwaysFollowsPrimaryHeir { get; set; }
+		[SerializedName("de_jure_drift_disabled")] public ParadoxBool? DeJureDriftDisabled { get; set; }
 
 		[NonSerialized]
 		public int? OwnOrInheritedDevelopmentLevel {
@@ -582,8 +587,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		[NonSerialized] public SortedSet<string> SuccessionLaws { get; private set; } = new();
 		[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
-		private void RegisterKeys() {
-			RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
 				newTitle.LoadTitles(reader);
@@ -596,14 +601,19 @@ namespace ImperatorToCK3.CK3.Titles {
 				AddFoundTitle(newTitle, foundTitles);
 				newTitle.DeJureLiege = this;
 			});
-			RegisterKeyword("definite_form", reader => HasDefiniteForm = new ParadoxBool(reader));
-			RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = new ParadoxBool(reader));
-			RegisterKeyword("landless", reader => Landless = new ParadoxBool(reader));
-			RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
-			RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
-			RegisterKeyword("capital", reader => parsedCapitalCountyName = ParserHelpers.GetString(reader));
-			RegisterKeyword("province", reader => Province = ParserHelpers.GetULong(reader));
-			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+			parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = new ParadoxBool(reader));
+			parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = new ParadoxBool(reader));
+			parser.RegisterKeyword("landless", reader => Landless = new ParadoxBool(reader));
+			parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
+			parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
+			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("province", reader => Province = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = new ParadoxBool(reader));
+			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = new ParadoxBool(reader));
+			parser.RegisterKeyword("always_follows_primary_heir", reader=>AlwaysFollowsPrimaryHeir = new ParadoxBool(reader));
+			parser.RegisterKeyword("de_jure_drift_disabled", reader=>DeJureDriftDisabled = new ParadoxBool(reader));
+
+			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);
 			});
