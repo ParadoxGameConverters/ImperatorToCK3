@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using ImperatorToCK3.Outputter;
 using System;
 
 namespace ImperatorToCK3 {
@@ -8,7 +7,7 @@ namespace ImperatorToCK3 {
 			try {
 				var converterVersion = new ConverterVersion();
 				converterVersion.LoadVersion("configurables/version.txt");
-				VersionOutputter.LogConverterVersion(converterVersion);
+				Logger.Info(converterVersion.ToString());
 				if (args.Length > 0) {
 					Logger.Warn("ImperatorToCK3 takes no parameters.");
 					Logger.Warn("It uses configuration.txt, configured manually or by the frontend.");
