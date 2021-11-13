@@ -566,6 +566,11 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
+		
+		[SerializedName("destroy_if_invalid_heir")] public ParadoxBool? DestroyIfInvalidHeir { get; set; }
+		[SerializedName("no_automatic_claims")] public ParadoxBool? NoAutomaticClaims { get; set; }
+		[SerializedName("always_follows_primary_heir")] public ParadoxBool? AlwaysFollowsPrimaryHeir { get; set; }
+		[SerializedName("de_jure_drift_disabled")] public ParadoxBool? DeJureDriftDisabled { get; set; }
 
 		[NonSerialized]
 		public int? OwnOrInheritedDevelopmentLevel {
@@ -603,6 +608,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = ParserHelpers.GetString(reader));
 			parser.RegisterKeyword("province", reader => Province = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = new ParadoxBool(reader));
+			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = new ParadoxBool(reader));
+			parser.RegisterKeyword("always_follows_primary_heir", reader=>AlwaysFollowsPrimaryHeir = new ParadoxBool(reader));
+			parser.RegisterKeyword("de_jure_drift_disabled", reader=>DeJureDriftDisabled = new ParadoxBool(reader));
+
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);

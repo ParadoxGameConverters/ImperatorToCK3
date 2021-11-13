@@ -11,7 +11,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeys();
 			ParseFile(fileName);
 			ClearRegisteredRules();
-			Logger.Debug("Ignored Title tokens: " + string.Join(", ", Title.IgnoredTokens));
+			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
 		}
@@ -19,7 +19,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			RegisterKeys();
 			ParseStream(reader);
 			ClearRegisteredRules();
-			Logger.Debug("Ignored Title tokens: " + string.Join(", ", Title.IgnoredTokens));
+			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
 		}
