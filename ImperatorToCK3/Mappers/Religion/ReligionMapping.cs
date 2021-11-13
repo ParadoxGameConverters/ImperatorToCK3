@@ -21,22 +21,22 @@ namespace ImperatorToCK3.Mappers.Religion {
 		private static ReligionMapping mappingToReturn = new();
 		static ReligionMapping() {
 			parser.RegisterKeyword("ck3", reader => {
-				mappingToReturn.ck3Religion = new SingleString(reader).String;
+				mappingToReturn.ck3Religion = ParserHelpers.GetString(reader);
 			});
 			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.imperatorReligions.Add(new SingleString(reader).String);
+				mappingToReturn.imperatorReligions.Add(ParserHelpers.GetString(reader));
 			});
 			parser.RegisterKeyword("ck3Region", reader => {
-				mappingToReturn.ck3Regions.Add(new SingleString(reader).String);
+				mappingToReturn.ck3Regions.Add(ParserHelpers.GetString(reader));
 			});
 			parser.RegisterKeyword("impRegion", reader => {
-				mappingToReturn.imperatorRegions.Add(new SingleString(reader).String);
+				mappingToReturn.imperatorRegions.Add(ParserHelpers.GetString(reader));
 			});
 			parser.RegisterKeyword("ck3Province", reader => {
-				mappingToReturn.ck3Provinces.Add(new SingleULong(reader).ULong);
+				mappingToReturn.ck3Provinces.Add(ParserHelpers.GetULong(reader));
 			});
 			parser.RegisterKeyword("impProvince", reader => {
-				mappingToReturn.imperatorProvinces.Add(new SingleULong(reader).ULong);
+				mappingToReturn.imperatorProvinces.Add(ParserHelpers.GetULong(reader));
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}

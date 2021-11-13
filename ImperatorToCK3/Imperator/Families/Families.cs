@@ -18,10 +18,9 @@ namespace ImperatorToCK3.Imperator.Families {
 		private void RegisterKeys() {
 			RegisterRegex(CommonRegexes.Integer, (reader, familyIdStr) => {
 				var familyStr = new StringOfItem(reader).String;
-				if (familyStr.IndexOf('{') == -1) {
+				if (!familyStr.Contains('{')) {
 					return;
 				}
-
 				var tempReader = new BufferedReader(familyStr);
 				var id = ulong.Parse(familyIdStr);
 				var newFamily = Family.Parse(tempReader, id);
