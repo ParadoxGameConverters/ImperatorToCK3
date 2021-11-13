@@ -20,6 +20,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.*'
+    - name: "Add version to version.txt"
+      shell: bash
+      run: |
+        cd ImperatorToCK3/Data_Files/configurables
+        printf "\n${{ steps.previoustag.outputs.tag }}" >> version.txt
     - name: "Build backend"
       run: |
         cd ImperatorToCK3
