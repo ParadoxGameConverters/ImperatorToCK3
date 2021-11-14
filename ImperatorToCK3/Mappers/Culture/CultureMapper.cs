@@ -25,22 +25,21 @@ namespace ImperatorToCK3.Mappers.Culture {
 		}
 
 		private void RegisterKeys() {
-			RegisterKeyword("link", reader => {
-				cultureMappingRules.Add(CultureMappingRule.Parse(reader));
-			});
+			RegisterKeyword("link", reader => cultureMappingRules.Add(CultureMappingRule.Parse(reader)));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public string? Match(
 			string impCulture,
 			string ck3Religion,
 			ulong ck3ProvinceId,
-			ulong impProvinceID,
+			ulong impProvinceId,
 			string ck3OwnerTitle
 		) {
 			foreach (var cultureMappingRule in cultureMappingRules) {
-				var possibleMatch = cultureMappingRule.Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceID, ck3OwnerTitle);
-				if (possibleMatch is not null)
+				var possibleMatch = cultureMappingRule.Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
+				if (possibleMatch is not null) {
 					return possibleMatch;
+				}
 			}
 			return null;
 		}
