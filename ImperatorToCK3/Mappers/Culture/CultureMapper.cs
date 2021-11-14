@@ -53,8 +53,9 @@ namespace ImperatorToCK3.Mappers.Culture {
 		) {
 			foreach (var cultureMappingRule in cultureMappingRules) {
 				var possibleMatch = cultureMappingRule.NonReligiousMatch(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
-				if (possibleMatch is not null)
-					return possibleMatch;
+				if (possibleMatch is not null) {
+                    return possibleMatch;
+                }
 			}
 			return null;
 		}
