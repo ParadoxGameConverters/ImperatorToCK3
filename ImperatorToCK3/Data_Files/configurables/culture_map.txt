@@ -48,6 +48,8 @@ link = { ck3 = beja imp = puntic imp = aksumite ck3Province = 8278 ck3Province =
 link = { ck3 = afar imp = puntic imp = aksumite ck3Province = 8286 ck3Province = 8326 ck3Province = 8344 ck3Province = 8334 ck3Province = 8332 ck3Province = 8339 ck3Province = 8342 }
 link = { ck3 = somali imp = puntic }
 link = { ck3 = ethiopian imp = aksumite }
+# Invictus mod
+link = { ck3 = ethiopian imp = boran }
 
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
@@ -67,6 +69,13 @@ link = { ck3 = hindustani imp = shauraseni }
 link = { ck3 = rajput imp = avanti }
 link = { ck3 = sindhi imp = sindhi }
 link = { ck3 = kashmiri imp = dardic }
+# Invictus mod
+link = { ck3 = rajput imp = matsya imp = cedi }
+link = { ck3 = marathi imp = mulaka }
+link = { ck3 = gujarati imp = kaccha }
+link = { ck3 = marathi imp = rathikan }
+link = { ck3 = punjabi imp = sivi imp = purus }
+link = { ck3 = hindustani imp = kosala imp = kuru }
 
 ## Bactrian
 link = { ck3 = bactrian imp = bactrian imp = yuezhi }
@@ -82,9 +91,15 @@ link = { ck3 = lithuanian imp = aestian ck3Province = 154 ck3Province = 155 ck3P
 link = { ck3 = prussian imp = aestian ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
 link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
 link = { ck3 = urslavic imp = aestian }
+# Invictus mod
+link = { ck3 = prussian imp = neuric }
+link = { ck3 = urslavic imp = sporic }
+
 
 ## Belgea (sic)
 link = { ck3 = belgae imp = sennonian imp = bellovacian imp = veliocassian imp = morinian imp = nervian imp = eburonian imp = belgae imp = belgic imp = treverian imp = aduatacian }
+# Invictus mod
+link = { ck3 = belgae imp = ubian }
 
 ## Britannic
 link = { ck3 = pictish imp = caledonian imp = votadinian imp = taexalian }
@@ -126,6 +141,8 @@ link = { ck3 = gaelic imp = manavian }
 ## Gallic
 link = { ck3 = gallic imp = volcae imp = salluvian imp = arverni imp = aulercian imp = pictonian imp = lemovician imp = santonian imp = carnuti imp = haedui imp = biturigan imp = lepontic imp = vindelician imp = helvetian }
 link = { ck3 = breton imp = aremorican }
+# Invictus mod
+link = { ck3 = gallic imp = cotinian }
 
 ## Germanic
 # Ethno-tribal kingdoms
@@ -243,6 +260,10 @@ link = { ck3 = dalmatian imp = iapodian }
 link = { ck3 = kannada imp = kannadan }
 link = { ck3 = tamil imp = tamil }
 link = { ck3 = telugu imp = telugu }
+# Invictus mod
+link = { ck3 = kannada imp = kuntalan imp = alupan }
+link = { ck3 = tamil imp = cholan imp = cheran imp = pandyan }
+link = { ck3 = telugu imp = andhran imp = assaka }
 
 ## Latin
 # The Glory of Rome
@@ -293,6 +314,8 @@ link = { ck3 = rhaetian imp = rhaetian }
 
 ## Meroitic
 link = { ck3 = nubian imp = blemmyan imp = meroitic }
+# Invictus mod
+link = { ck3 = nubian imp = lower_nubian imp = alutan imp = moyan }
 
 ## North African
 link = { ck3 = old_egyptian imp = egyptian imp = upper_egyptian imp = middle_egyptian }
@@ -302,6 +325,8 @@ link = { ck3 = zaghawa imp = massylian imp = berber imp = gaetulian imp = socoss
 link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socossian imp = massaesylian }
 link = { ck3 = butr imp = libyan imp = garamantic }
 link = { ck3 = numidian imp = numidian }
+# Invictus mod
+link = { ck3 = butr imp = gyzantian imp = psyllic }
 
 ## Persia
 link = { ck3 = persian imp = carmanian imp = sagartian imp = elamite imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
@@ -316,6 +341,10 @@ link = { ck3 = oriya imp = kalingan }
 link = { ck3 = assamese imp = kamarupi }
 link = { ck3 = bengali imp = bangli imp = atavi }
 link = { ck3 = nepali imp = magadhi imp = himalayan }
+# Invictus mod
+link = { ck3 = bengali imp = pandra imp = vanga }
+link = { ck3 = oriya imp = savara }
+link = { ck3 = nepali imp = kasi imp = vrji imp = malla }
 
 ## Proto European
 link = { ck3 = basque imp = cantabrian imp = ilergetian imp = autrigonian imp = vasconian imp = aquitani imp = talaiotic }
