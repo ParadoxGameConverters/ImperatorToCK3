@@ -18,7 +18,7 @@ jobs:
           title: ${{ github.repository }} ${{ github.event.release.tag_name }} now released
           url: https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/
           flair-id: d0f807c-6dbc-11e9-a011-0e85039fdf2a
-          comment: >
+          comment: |
             Rule 5:
             
             The converter can be found on the [Paradox Forums](https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/) and on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2255281636).
