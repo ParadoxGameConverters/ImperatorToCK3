@@ -109,8 +109,9 @@ namespace ImperatorToCK3.CK3.Provinces {
 			// do we even have a base culture?
 			if (!string.IsNullOrEmpty(ImperatorProvince.Culture)) {
 				string ownerTitleName = string.Empty;
-				if (ownerTitle is not null)
+				if (ownerTitle is not null) {
 					ownerTitleName = ownerTitle.Name;
+				}
 				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
 				if (cultureMatch is not null) {
 					details.Culture = cultureMatch;
