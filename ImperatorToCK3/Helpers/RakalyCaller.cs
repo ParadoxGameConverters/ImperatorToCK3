@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers {
 	public static class RakalyCaller {
 		public static string ToPlainText(string savePath) {
-			string executablePath = "Resources/rakaly/rakaly-0.3.13-x86_64-pc-windows-msvc/rakaly.exe";
+			string executablePath = "Resources/rakaly/rakaly-0.3.14-x86_64-pc-windows-msvc/rakaly.exe";
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-				executablePath = "Resources/rakaly/rakaly-0.3.13-x86_64-apple-darwin/rakaly";
+				executablePath = "Resources/rakaly/rakaly-0.3.14-x86_64-apple-darwin/rakaly";
 			} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-				executablePath = "Resources/rakaly/rakaly-0.3.13-x86_64-unknown-linux-musl/rakaly";
+				executablePath = "Resources/rakaly/rakaly-0.3.14-x86_64-unknown-linux-musl/rakaly";
 			}
 			string arguments = $"melt --unknown-key stringify --to-stdout \"{savePath}\"";
 			using Process process = new();
