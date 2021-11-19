@@ -15,7 +15,7 @@ jobs:
           app-id: ${{ secrets.REDDIT_APP_ID }}
           app-secret: ${{ secrets.REDDIT_APP_SECRET }}
           subreddit: Imperator # Submit to /r/Imperator
-          title: ${{ github.repository }} ${{ github.event.release.tag_name }} now released
+          title: ImperatorToCK3 ${{ github.event.release.tag_name }} now released
           url: https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/
           flair-id: d0f807c-6dbc-11e9-a011-0e85039fdf2a
           comment: |
