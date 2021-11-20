@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using System;
 using System.Globalization;
 
 namespace ImperatorToCK3 {
@@ -15,6 +16,8 @@ namespace ImperatorToCK3 {
 		}
 
 		private static void LogSystemInfo() {
+			OperatingSystem os = Environment.OSVersion;
+			Logger.DebugFormat("Operating system: {0}", os.VersionString);
 			CultureInfo ci = CultureInfo.InstalledUICulture;
 			Logger.DebugFormat("Installed UI Language Info: {0}", ci.Name);
 			ci = CultureInfo.CurrentUICulture;
