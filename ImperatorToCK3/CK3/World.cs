@@ -508,9 +508,6 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-
-
-
 		private void ImportImperatorFamilies(Imperator.World impWorld) {
 			Logger.Info("Importing Imperator Families.");
 

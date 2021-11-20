@@ -60,30 +60,37 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\ttrait = {trait}");
 			}
 
-			// output birth date and death date
-			output.WriteLine($"\t{character.BirthDate} = {{ birth = yes }}");
-			if (character.DeathDate is not null) {
-				output.WriteLine($"\t{character.DeathDate} = {{");
-				output.Write("\t\tdeath = ");
-				if (character.DeathReason is not null) {
-					output.WriteLine($"{{ death_reason = {character.DeathReason} }}");
-				} else {
-					output.WriteLine("yes");
-				}
-
-				output.WriteLine("\t}");
-			}
-
-			// output prisoners
-			if (character.PrisonerIds.Count > 0) {
-				output.WriteLine($"\t{conversionDate} = {{");
-				foreach (var (id, type) in character.PrisonerIds) {
-					output.WriteLine($"\t\timprison = {{ target = character:{id} type={type} }}");
-				}
-				output.WriteLine("\t}");
-			}
+			OutputBirthAndDeathDates(output, character);
+			OutputPrisoners(output, character, conversionDate);
 
 			output.WriteLine("}");
+		}
+
+		private static void OutputBirthAndDeathDates(TextWriter output, Character character) {
+			output.WriteLine($"\t{character.BirthDate}={{birth=yes}}");
+
+			if (character.DeathDate is null) {
+				return;
+			}
+
+			output.WriteLine($"\t{character.DeathDate}={{");
+			output.Write("\t\tdeath=");
+			output.WriteLine(
+				character.DeathReason is null ? "yes" : $"{{ death_reason={character.DeathReason} }}"
+			);
+			output.WriteLine("\t}");
+		}
+
+		private static void OutputPrisoners(TextWriter output, Character character, Date conversionDate) {
+			if (character.PrisonerIds.Count == 0) {
+				return;
+			}
+
+			output.WriteLine($"\t{conversionDate}={{");
+			foreach (var (id, type) in character.PrisonerIds) {
+				output.WriteLine($"\t\timprison={{target = character:{id} type={type}}}");
+			}
+			output.WriteLine("\t}");
 		}
 	}
 }
