@@ -421,7 +421,7 @@ namespace ImperatorToCK3.CK3 {
 
 				var impCountry = impProvince.OwnerCountry.Value;
 
-				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonised Imperator province
+				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
 					title.SetHolderId("0", ck3BookmarkDate);
 					title.DeFactoLiege = null;
 				} else {
@@ -521,18 +521,18 @@ namespace ImperatorToCK3.CK3 {
 			if (revokedVanillaTitles.Count > 0) {
 				Logger.Debug("Found landless vanilla titles that can't be landless: " + string.Join(", ", revokedVanillaTitles));
 			}
+		}
 
-			HashSet<string> GetCountyHolderIds(Date ck3BookmarkDate) {
-				var countyHoldersCache = new HashSet<string>();
-				foreach (var county in LandedTitles.Values.Where(t => t.Rank == TitleRank.county)) {
-					var holderId = county.GetHolderId(ck3BookmarkDate);
-					if (holderId != "0") {
-						countyHoldersCache.Add(holderId);
-					}
+		private HashSet<string> GetCountyHolderIds(Date date) {
+			var countyHoldersCache = new HashSet<string>();
+			foreach (var county in LandedTitles.Values.Where(t => t.Rank == TitleRank.county)) {
+				var holderId = county.GetHolderId(date);
+				if (holderId != "0") {
+					countyHoldersCache.Add(holderId);
 				}
-
-				return countyHoldersCache;
 			}
+
+			return countyHoldersCache;
 		}
 
 		private void PurgeLandlessVanillaCharacters(Date ck3BookmarkDate) {
