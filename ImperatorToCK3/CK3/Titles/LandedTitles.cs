@@ -6,19 +6,19 @@ namespace ImperatorToCK3.CK3.Titles {
 	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
-	public class LandedTitles : Parser {
+	public class LandedTitles : Dictionary<string, Title> { // <title name, title> dictionary
 		public void LoadTitles(string fileName) {
-			RegisterKeys();
-			ParseFile(fileName);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile(fileName);
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
 		}
 		public void LoadTitles(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
@@ -29,14 +29,14 @@ namespace ImperatorToCK3.CK3.Titles {
 				return;
 			}
 			if (!string.IsNullOrEmpty(title.Name)) {
-				StoredTitles[title.Name] = title;
-				title.LinkCapital(StoredTitles);
+				this[title.Name] = title;
+				title.LinkCapital(this);
 			} else {
 				Logger.Warn("Not inserting a Title with empty name!");
 			}
 		}
 		public void EraseTitle(string name) {
-			if (StoredTitles.TryGetValue(name, out var titleToErase)) {
+			if (TryGetValue(name, out var titleToErase)) {
 				var deJureLiege = titleToErase.DeJureLiege;
 				if (deJureLiege is not null) {
 					deJureLiege.DeJureVassals.Remove(name);
@@ -58,11 +58,10 @@ namespace ImperatorToCK3.CK3.Titles {
 					titleToErase.ImperatorCountry.CK3Title = null;
 				}
 			}
-			StoredTitles.Remove(name);
+			Remove(name);
 		}
 		public Title? GetCountyForProvince(ulong provinceId) {
-			var counties = StoredTitles.Values.Where(title => title.Rank == TitleRank.county);
-			foreach (var county in counties) {
+			foreach (var county in Values.Where(title => title.Rank == TitleRank.county)) {
 				if (county.CountyProvinces.Contains(provinceId)) {
 					return county;
 				}
@@ -70,22 +69,20 @@ namespace ImperatorToCK3.CK3.Titles {
 			return null;
 		}
 
-		public Dictionary<string, Title> StoredTitles { get; } = new(); // title name, title
-
-		private void RegisterKeys() {
-			RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
 				newTitle.LoadTitles(reader);
 
-				Title.AddFoundTitle(newTitle, StoredTitles);
+				Title.AddFoundTitle(newTitle, this);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 
 		private void LinkCapitals() {
-			foreach (var title in StoredTitles.Values) {
-				title.LinkCapital(StoredTitles);
+			foreach (var title in Values) {
+				title.LinkCapital(this);
 			}
 		}
 	}
