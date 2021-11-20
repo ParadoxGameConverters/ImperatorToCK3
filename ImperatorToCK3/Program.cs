@@ -2,7 +2,7 @@
 using System;
 
 namespace ImperatorToCK3 {
-	static class Program {
+	internal static class Program {
 		private static int Main(string[] args) {
 			try {
 				var converterVersion = new ConverterVersion();
