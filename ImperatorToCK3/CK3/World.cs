@@ -50,7 +50,7 @@ namespace ImperatorToCK3.CK3 {
 			// Load vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
 			landedTitles.LoadTitles(landedTitlesPath);
-			AddHistoryToVanillaTitles();
+			AddHistoryToVanillaTitles(theConfiguration.Ck3BookmarkDate);
 
 			// Loading regions
 			ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, landedTitles);
@@ -80,7 +80,7 @@ namespace ImperatorToCK3.CK3 {
 
 			ImportImperatorFamilies(impWorld);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate, impWorld.EndDate);
+			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate);
 			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
 			PurgeLandlessVanillaCharacters(theConfiguration.Ck3BookmarkDate);
@@ -383,7 +383,7 @@ namespace ImperatorToCK3.CK3 {
 			return toReturn;
 		}
 
-		private void AddHistoryToVanillaTitles() {
+		private void AddHistoryToVanillaTitles(Date ck3BookmarkDate) {
 			foreach (var (name, title) in LandedTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(name);
 				if (historyOpt is not null) {
@@ -395,9 +395,14 @@ namespace ImperatorToCK3.CK3 {
 			foreach (Title title in LandedTitles.Values.Where(title => title.Rank == TitleRank.county && title.DevelopmentLevel is null)) {
 				title.DevelopmentLevel = title.OwnOrInheritedDevelopmentLevel;
 			}
+
+			// remove history entries past the bookmark date
+			foreach (var title in LandedTitles.Values) {
+				title.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);
+			}
 		}
 
-		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date ck3BookmarkDate, Date conversionDate) {
+		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date ck3BookmarkDate) {
 			Logger.Info("Overwriting counties' history.");
 			foreach (var title in LandedTitles.Values) {
 				if (title.Rank != TitleRank.county) {

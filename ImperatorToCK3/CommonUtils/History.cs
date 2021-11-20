@@ -1,12 +1,13 @@
 ﻿using commonItems;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CommonUtils {
 	public class History : IPDXSerializable {
-		[NonSerialized] public Dictionary<string, HistoryField> Fields { get; } = new(); // fieldName, field
+		[commonItems.Serialization.NonSerialized] public Dictionary<string, HistoryField> Fields { get; } = new(); // fieldName, field
 
 		public History() { }
 		public History(Dictionary<string, HistoryField> fields) {
@@ -64,6 +65,15 @@ namespace ImperatorToCK3.CommonUtils {
 			}
 
 			return sb.ToString();
+		}
+
+		public void RemoveHistoryPastDate(Date date) {
+			foreach (var field in Fields.Values) {
+				field.ValueHistory = new SortedDictionary<Date, object>(
+					field.ValueHistory.Where(entry => entry.Key <= date)
+						.ToDictionary(pair => pair.Key, pair => pair.Value)
+				);
+			}
 		}
 	}
 }
