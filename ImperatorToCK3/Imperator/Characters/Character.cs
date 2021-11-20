@@ -39,7 +39,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return false;
 			}
 			var familyId = (ulong)parsedFamilyId;
-			if (families.StoredFamilies.TryGetValue(familyId, out var familyToLink)) {
+			if (families.TryGetValue(familyId, out var familyToLink)) {
 				Family = familyToLink;
 				familyToLink.LinkMember(this);
 				return true;
