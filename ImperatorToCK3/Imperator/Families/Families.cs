@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Families {
-	public class Families : Parser {
-		public Dictionary<ulong, Family> StoredFamilies { get; } = new();
+	public class Families : Dictionary<ulong, Family> {
 		public void LoadFamilies(string path) {
-			RegisterKeys();
-			ParseFile(path);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile(path);
 		}
 		public void LoadFamilies(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 		}
 
-		private void RegisterKeys() {
-			RegisterRegex(CommonRegexes.Integer, (reader, familyIdStr) => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.Integer, (reader, familyIdStr) => {
 				var familyStr = new StringOfItem(reader).String;
 				if (!familyStr.Contains('{')) {
 					return;
@@ -24,16 +23,16 @@ namespace ImperatorToCK3.Imperator.Families {
 				var tempReader = new BufferedReader(familyStr);
 				var id = ulong.Parse(familyIdStr);
 				var newFamily = Family.Parse(tempReader, id);
-				var inserted = StoredFamilies.TryAdd(newFamily.Id, newFamily);
+				var inserted = TryAdd(newFamily.Id, newFamily);
 				if (!inserted) {
 					Logger.Debug($"Redefinition of family {familyIdStr}.");
-					StoredFamilies[newFamily.Id] = newFamily;
+					this[newFamily.Id] = newFamily;
 				}
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void RemoveUnlinkedMembers() {
-			foreach (var family in StoredFamilies.Values) {
+			foreach (var family in Values) {
 				family.RemoveUnlinkedMembers();
 			}
 		}

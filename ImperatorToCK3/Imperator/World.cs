@@ -81,7 +81,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");
 				Families = Imperator.Families.Families.ParseBloc(reader);
-				Logger.Info($"Loaded {Families.StoredFamilies.Count} families.");
+				Logger.Info($"Loaded {Families.Count} families.");
 			});
 			RegisterKeyword("character", reader => {
 				Logger.Info("Loading Characters...");

@@ -517,7 +517,7 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info("Importing Imperator Families.");
 
 			// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
-			foreach (var family in impWorld.Families.StoredFamilies.Values) {
+			foreach (var family in impWorld.Families.Values) {
 				if (family.Minor) {
 					continue;
 				}
