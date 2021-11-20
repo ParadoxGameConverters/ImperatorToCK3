@@ -127,8 +127,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		private void LinkPrisoners() {
-			var prisonerCount = Values.Count(character => character.LinkJailer(this));
-			Logger.Info($"{prisonerCount} prisoners linked with jailers in CK3.");
+			var prisonerCount = Values.Count(character => character.LinkJailor(this));
+			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
 		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {

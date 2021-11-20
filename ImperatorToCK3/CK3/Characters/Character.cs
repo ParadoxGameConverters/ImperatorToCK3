@@ -211,7 +211,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				} else if (prisonCountry.CK3Title is null) {
 					Logger.Warn($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
 				} else {
-					jailerId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
+					jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
 				}
 			}
 		}
@@ -299,15 +299,15 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public string? DynastyId { get; set; } // not always set
 
-		private readonly string? jailerId;
+		private readonly string? jailorId;
 
 		public bool LinkJailer(Characters characters) {
-			if (jailerId is null) {
+			if (jailorId is null) {
 				return false;
 			}
 
 			var type = DynastyId is null ? "dungeon" : "house_arrest";
-			characters[jailerId].PrisonerIds.Add(Id, type);
+			characters[jailorId].PrisonerIds.Add(Id, type);
 			return true;
 		}
 	}
