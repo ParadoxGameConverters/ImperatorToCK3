@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CharacterOutputter {
-		public static void OutputCharacter(StreamWriter output, Character character, Date ck3BookmarkDate) {
+		public static void OutputCharacter(StreamWriter output, Character character, Date ck3BookmarkDate, Date conversionDate) {
 			// output ID, name, sex, culture, religion
 			output.WriteLine($"{character.Id} = {{");
 			if (!string.IsNullOrEmpty(character.Name)) {
@@ -41,14 +41,14 @@ namespace ImperatorToCK3.Outputter {
 					marriageDate = new Date(character.DeathDate);
 					marriageDate.ChangeByDays(-1);
 				} else {
-					marriageDate = ck3BookmarkDate;
+					marriageDate = conversionDate;
 				}
 				output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouseId} }}");
 			}
 
 			// output nickname
 			if (character.Nickname is not null) {
-				var nicknameDate = ck3BookmarkDate;
+				var nicknameDate = conversionDate;
 				if (character.DeathDate is not null) {
 					nicknameDate = character.DeathDate;
 				}
@@ -71,6 +71,15 @@ namespace ImperatorToCK3.Outputter {
 					output.WriteLine("yes");
 				}
 
+				output.WriteLine("\t}");
+			}
+
+			// output prisoners
+			if (character.PrisonerIds.Count > 0) {
+				output.WriteLine($"\t{conversionDate} = {{");
+				foreach (var prisonerId in character.PrisonerIds) {
+					output.WriteLine($"\t\timprison = {{ target = character:{prisonerId} }}");
+				}
 				output.WriteLine("\t}");
 			}
 

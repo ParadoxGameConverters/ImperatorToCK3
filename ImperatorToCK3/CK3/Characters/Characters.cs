@@ -26,7 +26,18 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info("Importing Imperator Characters...");
 
 			foreach (var character in impWorld.Characters.StoredCharacters) {
-				ImportImperatorCharacter(character, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, deathReasonMapper, endDate, ck3BookmarkDate);
+				ImportImperatorCharacter(
+					character,
+					religionMapper,
+					cultureMapper,
+					traitMapper,
+					nicknameMapper,
+					localizationMapper,
+					provinceMapper,
+					deathReasonMapper,
+					endDate,
+					ck3BookmarkDate
+				);
 			}
 			Logger.Info($"{Count} total characters recognized.");
 

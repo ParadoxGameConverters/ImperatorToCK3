@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, Configuration theConfiguration) {
+		public static void OutputWorld(World ck3World, Configuration theConfiguration, Date conversionDate) {
 			var directoryToClear = "output/" + theConfiguration.OutputModName;
 			var di = new DirectoryInfo(directoryToClear);
 			if (di.Exists) {
@@ -25,7 +25,7 @@ namespace ImperatorToCK3.Outputter {
 			CreateFolders(outputName);
 
 			Logger.Info("Writing Characters...");
-			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, theConfiguration.Ck3BookmarkDate);
+			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, theConfiguration.Ck3BookmarkDate, conversionDate);
 
 			Logger.Info("Writing Dynasties...");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
