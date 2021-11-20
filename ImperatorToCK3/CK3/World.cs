@@ -80,7 +80,7 @@ namespace ImperatorToCK3.CK3 {
 
 			ImportImperatorFamilies(impWorld);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate);
+			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate, impWorld.EndDate);
 			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
 			PurgeLandlessVanillaCharacters(theConfiguration.Ck3BookmarkDate);
@@ -397,7 +397,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void OverWriteCountiesHistory(List<Governorship> governorships, Date ck3BookmarkDate) {
+		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date ck3BookmarkDate, Date conversionDate) {
 			Logger.Info("Overwriting counties' history.");
 			foreach (var title in LandedTitles.Values) {
 				if (title.Rank != TitleRank.county) {
@@ -460,7 +460,7 @@ namespace ImperatorToCK3.CK3 {
 							Logger.Warn($"{nameof(ck3GovernorshipName)} is null for {ck3Country.Name} {governorship.RegionName}!");
 							continue;
 						}
-						GiveCountyToGovernor(ck3BookmarkDate, title, ck3GovernorshipName);
+						GiveCountyToGovernor(title, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
 						GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 					}
@@ -478,13 +478,13 @@ namespace ImperatorToCK3.CK3 {
 				title.DeFactoLiege = null;
 			}
 
-			void GiveCountyToGovernor(Date ck3BookmarkDate, Title title, string ck3GovernorshipName) {
+			void GiveCountyToGovernor(Title title, string ck3GovernorshipName) {
 				var ck3Governorship = LandedTitles[ck3GovernorshipName];
-				var holderId = ck3Governorship.GetHolderId(ck3BookmarkDate);
+				var holderChangeDate = ck3Governorship.GetDateOfLastHolderChange();
+				var holderId = ck3Governorship.GetHolderId(holderChangeDate);
 				if (Characters.TryGetValue(holderId, out var governor)) {
 					title.ClearHolderSpecificHistory();
-					var date = ck3Governorship.GetDateOfLastHolderChange();
-					title.SetHolderId(governor.Id, date);
+					title.SetHolderId(governor.Id, holderChangeDate);
 				} else {
 					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
 				}
