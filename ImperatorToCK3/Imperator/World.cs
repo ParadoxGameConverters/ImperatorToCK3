@@ -86,7 +86,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("character", reader => {
 				Logger.Info("Loading Characters...");
 				Characters = Imperator.Characters.Characters.ParseBloc(reader, genesDB);
-				Logger.Info($"Loaded {Characters.StoredCharacters.Count} characters.");
+				Logger.Info($"Loaded {Characters.Count} characters.");
 			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces...");

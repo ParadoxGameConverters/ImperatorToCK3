@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters {
-	public class Characters {
+	public class Characters : Dictionary<ulong, Character> {
 		public Characters() { }
 		public Characters(BufferedReader reader, Genes.GenesDB? genesDB) {
 			this.genesDB = genesDB;
@@ -17,20 +17,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Logger.Info("Linking Characters with Mothers and Fathers...");
 			LinkMothersAndFathers();
 		}
-		private readonly Dictionary<ulong, Character> charactersDict = new();
-		public Dictionary<ulong, Character>.ValueCollection StoredCharacters => charactersDict.Values;
 
 		public void Add(Character character) {
-			charactersDict.Add(character.Id, character);
+			Add(character.Id, character);
 		}
-		public bool TryGetCharacter(ulong characterId, [NotNullWhen(returnValue: true)] out Character? character) {
-			return charactersDict.TryGetValue(characterId, out character);
-		}
-		public Character this[ulong id] => charactersDict[id];
 
 		public void LinkFamilies(Families.Families families) {
 			var idsWithoutDefinition = new SortedSet<ulong>();
-			var counter = charactersDict.Values.Count(character => character.LinkFamily(families, idsWithoutDefinition));
+			var counter = Values.Count(character => character.LinkFamily(families, idsWithoutDefinition));
 			if (idsWithoutDefinition.Count > 0) {
 				Logger.Info($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");
 			}
@@ -38,14 +32,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Logger.Info($"{counter} families linked to characters.");
 		}
 		private void LinkSpouses() {
-			var spouseCounter = charactersDict.Values.Sum(character => character.LinkSpouses(charactersDict));
+			var spouseCounter = Values.Sum(character => character.LinkSpouses(this));
 			Logger.Info($"{spouseCounter} spouses linked.");
 		}
 
 		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
-			foreach (var character in charactersDict.Values) {
+			foreach (var character in Values) {
 				if (character.LinkMother(this)) {
 					++motherCounter;
 				}
@@ -57,10 +51,10 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		public void LinkCountries(Countries.Countries countries) {
-			var counter = charactersDict.Values.Count(character => character.LinkCountry(countries));
+			var counter = Values.Count(character => character.LinkCountry(countries));
 			Logger.Info($"{counter} countries linked to characters.");
 
-			counter = charactersDict.Values.Count(character => character.LinkPrisonerHome(countries));
+			counter = Values.Count(character => character.LinkPrisonerHome(countries));
 			Logger.Info($"{counter} prisoner homes linked to characters.");
 		}
 
