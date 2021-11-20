@@ -26,8 +26,7 @@ namespace ImperatorToCK3.CK3 {
 		public Characters.Characters Characters { get; } = new();
 		public Dictionary<string, Dynasty> Dynasties { get; } = new();
 		public Dictionary<ulong, Province> Provinces { get; } = new();
-		private readonly LandedTitles landedTitles = new();
-		public Dictionary<string, Title> LandedTitles => landedTitles.StoredTitles;
+		public LandedTitles LandedTitles { get; } = new();
 		public Map.MapData MapData { get; }
 
 		public World(Imperator.World impWorld, Configuration theConfiguration) {
@@ -48,11 +47,11 @@ namespace ImperatorToCK3.CK3 {
 
 			// Load vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
-			landedTitles.LoadTitles(landedTitlesPath);
+			LandedTitles.LoadTitles(landedTitlesPath);
 			AddHistoryToVanillaTitles();
 
 			// Loading regions
-			ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, landedTitles);
+			ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(theConfiguration.ImperatorPath);
 			// Use the region mappers in other mappers
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
@@ -87,7 +86,7 @@ namespace ImperatorToCK3.CK3 {
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate);
 			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
-			Characters.PurgeLandlessVanillaCharacters(landedTitles, theConfiguration.Ck3BookmarkDate);
+			Characters.PurgeLandlessVanillaCharacters(LandedTitles, theConfiguration.Ck3BookmarkDate);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -129,7 +128,7 @@ namespace ImperatorToCK3.CK3 {
 					country,
 					imperatorCountries,
 					localizationMapper,
-					landedTitles,
+					LandedTitles,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -145,7 +144,7 @@ namespace ImperatorToCK3.CK3 {
 					country,
 					imperatorCountries,
 					localizationMapper,
-					landedTitles,
+					LandedTitles,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -157,7 +156,7 @@ namespace ImperatorToCK3.CK3 {
 					nicknameMapper,
 					Characters
 				);
-				landedTitles.InsertTitle(newTitle);
+				LandedTitles.InsertTitle(newTitle);
 			}
 		}
 
@@ -201,7 +200,7 @@ namespace ImperatorToCK3.CK3 {
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					localizationMapper,
-					landedTitles,
+					LandedTitles,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
@@ -213,14 +212,14 @@ namespace ImperatorToCK3.CK3 {
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					localizationMapper,
-					landedTitles,
+					LandedTitles,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
 				);
-				landedTitles.InsertTitle(newTitle);
+				LandedTitles.InsertTitle(newTitle);
 			}
 		}
 
@@ -360,7 +359,7 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var (name, title) in LandedTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(name);
 				if (historyOpt is not null) {
-					title.AddHistory(landedTitles, historyOpt);
+					title.AddHistory(LandedTitles, historyOpt);
 				}
 			}
 			// add vanilla development to counties
@@ -479,7 +478,7 @@ namespace ImperatorToCK3.CK3 {
 					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
 						if (title.IsImportedOrUpdatedFromImperator && name.Contains("IMPTOCK3")) {
 							removedGeneratedTitles.Add(name);
-							landedTitles.EraseTitle(name);
+							LandedTitles.EraseTitle(name);
 						} else {
 							revokedVanillaTitles.Add(name);
 							title.ClearHolderSpecificHistory();

@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
 
-			Assert.Empty(titles.StoredTitles);
+			Assert.Empty(titles);
 		}
 
 		[Fact]
@@ -25,10 +25,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
 
-			var barony = titles.StoredTitles["b_barony"];
-			var county = titles.StoredTitles["c_county"];
+			var barony = titles["b_barony"];
+			var county = titles["c_county"];
 
-			Assert.Equal(2, titles.StoredTitles.Count);
+			Assert.Equal(2, titles.Count);
 			Assert.Equal((ulong)12, barony.Province);
 			Assert.True(county.Landless);
 		}
@@ -43,10 +43,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
 
-			var barony = titles.StoredTitles["b_barony4"];
-			var county = titles.StoredTitles["c_county5"];
+			var barony = titles["b_barony4"];
+			var county = titles["c_county5"];
 
-			Assert.Equal(5, titles.StoredTitles.Count);
+			Assert.Equal(5, titles.Count);
 			Assert.Equal((ulong)12, barony.Province);
 			Assert.True(county.Landless);
 		}
@@ -67,10 +67,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 			titles.LoadTitles(reader2);
 
-			var barony = titles.StoredTitles["b_barony4"];
-			var county = titles.StoredTitles["c_county5"];
+			var barony = titles["b_barony4"];
+			var county = titles["c_county5"];
 
-			Assert.Equal(5, titles.StoredTitles.Count);
+			Assert.Equal(5, titles.Count);
 			Assert.Equal((ulong)15, barony.Province);
 			Assert.False(county.Landless);
 		}
@@ -92,7 +92,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 			titles.LoadTitles(reader2);
 
-			Assert.Equal(10, titles.StoredTitles.Count);
+			Assert.Equal(10, titles.Count);
 		}
 
 		[Fact]
@@ -105,7 +105,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new LandedTitles();
 			titles.LoadTitles(reader);
 
-			var empire = titles.StoredTitles["e_empire"];
+			var empire = titles["e_empire"];
 			var capitalCounty = empire.CapitalCounty;
 			Assert.NotNull(capitalCounty);
 			Assert.Equal("c_county", capitalCounty.Name);
