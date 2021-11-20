@@ -235,7 +235,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return false;
 			}
 
-			if (characters.TryGetCharacter(motherId, out var motherToLink)) {
+			if (characters.TryGetValue(motherId, out var motherToLink)) {
 				Mother = new(motherId, motherToLink);
 				if (!motherToLink.parsedChildrenIds.Contains(Id)) {
 					Logger.Warn($"Only one-sided link found between character {Id} and mother {motherId}!");
@@ -254,7 +254,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return false;
 			}
 
-			if (characters.TryGetCharacter(fatherId, out var fatherToLink)) {
+			if (characters.TryGetValue(fatherId, out var fatherToLink)) {
 				Father = new(fatherId, fatherToLink);
 				if (!fatherToLink.parsedChildrenIds.Contains(Id)) {
 					Logger.Warn($"Only one-sided link found between character {Id} and father {fatherId}!");
