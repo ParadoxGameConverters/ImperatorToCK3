@@ -36,8 +36,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
-
-		public Character() { }
+		
 		public Character(
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
@@ -104,7 +103,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
 		}
 
-		public void InitializeFromImperator(
+		public Character(
 			Imperator.Characters.Character impCharacter,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,

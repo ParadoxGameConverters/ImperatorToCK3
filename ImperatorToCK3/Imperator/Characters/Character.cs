@@ -46,7 +46,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 		public string? Nickname { get; set; }
 		public ulong ProvinceId { get; private set; } = 0;
-		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
+		public Date BirthDate { get; private set; } = new(1, 1, 1);
 		public Date? DeathDate { get; private set; }
 		public bool IsDead => DeathDate is not null;
 		public string? DeathReason { get; set; }
@@ -75,19 +75,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
-					if (Female) {
-						return "female";
-					}
-					return "male";
+					return Female ? "female" : "male";
 				}
-				if (Female) {
-					return "girl";
-				}
-				return "boy";
+				return Female ? "girl" : "boy";
 			}
 		}
 		public ParadoxBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
+		public ulong? PrisonCountryId { get; set; }
 
 		public CK3.Characters.Character? CK3Character { get; set; }
 
@@ -165,6 +160,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("attributes", reader => {
 				parsedCharacter.Attributes = CharacterAttributes.Parse(reader);
 			});
+			parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.PrisonCountryId = ParserHelpers.GetULong(reader));
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);

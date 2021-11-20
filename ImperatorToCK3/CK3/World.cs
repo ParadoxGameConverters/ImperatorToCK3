@@ -114,8 +114,8 @@ namespace ImperatorToCK3.CK3 {
 			Date ck3BookmarkDate
 		) {
 			// Create a new CK3 character
-			var newCharacter = new Character();
-			newCharacter.InitializeFromImperator(character,
+			var newCharacter = new Character(
+				character,
 				religionMapper,
 				cultureMapper,
 				traitMapper,
