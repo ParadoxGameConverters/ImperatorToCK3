@@ -80,8 +80,6 @@ namespace ImperatorToCK3.CK3 {
 				impWorld.EndDate,
 				theConfiguration.Ck3BookmarkDate
 			);
-			Characters.LinkSpouses();
-			Characters.LinkMothersAndFathers();
 			ClearFeaturedCharactersDescriptions(theConfiguration.Ck3BookmarkDate);
 
 			ImportImperatorFamilies(impWorld);

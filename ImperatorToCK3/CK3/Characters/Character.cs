@@ -33,7 +33,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? DeathReason { get; private set; }
 
 		public SortedSet<string> Traits { get; } = new();
-		public HashSet<string> PrisonerIds { get; }= new();
+		public HashSet<string> PrisonerIds { get; } = new();
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
@@ -299,6 +299,15 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public string? DynastyId { get; set; } // not always set
 
-		private string? jailerId;
+		private readonly string? jailerId;
+
+		public bool LinkJailer(Characters characters) {
+			if (jailerId is null) {
+				return false;
+			}
+
+			characters[jailerId].PrisonerIds.Add(Id);
+			return true;
+		}
 	}
 }

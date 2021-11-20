@@ -29,6 +29,10 @@ namespace ImperatorToCK3.CK3.Characters {
 				ImportImperatorCharacter(character, religionMapper, cultureMapper, traitMapper, nicknameMapper, localizationMapper, provinceMapper, deathReasonMapper, endDate, ck3BookmarkDate);
 			}
 			Logger.Info($"{Count} total characters recognized.");
+
+			LinkMothersAndFathers();
+			LinkSpouses();
+			LinkPrisoners();
 		}
 
 		private void ImportImperatorCharacter(
@@ -60,7 +64,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Add(newCharacter.Id, newCharacter);
 		}
 
-		public void LinkMothersAndFathers() {
+		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
 			foreach (var ck3Character in Values) {
@@ -89,8 +93,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");
 		}
 
-
-		public void LinkSpouses() {
+		private void LinkSpouses() {
 			var spouseCounter = 0;
 			foreach (var ck3Character in Values) {
 				// make links between Imperator characters
@@ -110,6 +113,11 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
+		}
+
+		private void LinkPrisoners() {
+			var prisonerCount = Values.Count(character => character.LinkJailer(this));
+			Logger.Info($"{prisonerCount} prisoners linked with jailers in CK3.");
 		}
 
 		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {
