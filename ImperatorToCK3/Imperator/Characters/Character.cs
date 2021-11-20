@@ -205,7 +205,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return false;
 			}
 			var countryId = (ulong)parsedCountryId;
-			if (countries.StoredCountries.TryGetValue(countryId, out var countryToLink)) {
+			if (countries.TryGetValue(countryId, out var countryToLink)) {
 				Country = countryToLink;
 				Country.TryLinkMonarch(this);
 				return true;
@@ -220,7 +220,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return false;
 			}
 			var prisonerHomeId = (ulong)parsedPrisonerHomeId;
-			if (countries.StoredCountries.TryGetValue(prisonerHomeId, out var countryToLink)) {
+			if (countries.TryGetValue(prisonerHomeId, out var countryToLink)) {
 				PrisonerHome = countryToLink;
 				return true;
 			}
