@@ -81,18 +81,18 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");
 				Families = Imperator.Families.Families.ParseBloc(reader);
-				Logger.Info($"Loaded {Families.StoredFamilies.Count} families.");
+				Logger.Info($"Loaded {Families.Count} families.");
 			});
 			RegisterKeyword("character", reader => {
 				Logger.Info("Loading Characters...");
 				Characters = Imperator.Characters.Characters.ParseBloc(reader, genesDB);
-				Logger.Info($"Loaded {Characters.StoredCharacters.Count} characters.");
+				Logger.Info($"Loaded {Characters.Count} characters.");
 			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces...");
 				Provinces = new Provinces.Provinces(reader);
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
-				Logger.Info($"Loaded {Provinces.StoredProvinces.Count} provinces.");
+				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");

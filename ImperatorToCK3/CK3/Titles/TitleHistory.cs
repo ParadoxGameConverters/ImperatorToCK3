@@ -36,5 +36,9 @@ namespace ImperatorToCK3.CK3.Titles {
 		public int? DevelopmentLevel { get; set; }
 
 		public History InternalHistory { get; } = new();
+
+		public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {
+			InternalHistory.RemoveHistoryPastDate(ck3BookmarkDate);
+		}
 	}
 }

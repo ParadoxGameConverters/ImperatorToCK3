@@ -787,5 +787,9 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		// used by barony titles only
 		[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_ barony is its corresponding title.
+
+		public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {
+			history.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);
+		}
 	}
 }

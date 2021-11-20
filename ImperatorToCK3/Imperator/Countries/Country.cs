@@ -76,7 +76,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public int LinkFamilies(Families.Families families, SortedSet<ulong> idsWithoutDefinition) {
 			var counter = 0;
 			foreach (var familyId in parsedFamilyIds) {
-				if (families.StoredFamilies.TryGetValue(familyId, out var familyToLink)) {
+				if (families.TryGetValue(familyId, out var familyToLink)) {
 					Families.Add(familyId, familyToLink);
 					++counter;
 				} else {
