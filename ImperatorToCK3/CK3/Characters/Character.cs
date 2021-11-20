@@ -33,7 +33,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? DeathReason { get; private set; }
 
 		public SortedSet<string> Traits { get; } = new();
-		public HashSet<string> PrisonerIds { get; } = new();
+		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
@@ -306,7 +306,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				return false;
 			}
 
-			characters[jailerId].PrisonerIds.Add(Id);
+			var type = DynastyId is null ? "dungeon" : "house_arrest";
+			characters[jailerId].PrisonerIds.Add(Id, type);
 			return true;
 		}
 	}

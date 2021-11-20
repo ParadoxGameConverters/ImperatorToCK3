@@ -77,8 +77,8 @@ namespace ImperatorToCK3.Outputter {
 			// output prisoners
 			if (character.PrisonerIds.Count > 0) {
 				output.WriteLine($"\t{conversionDate} = {{");
-				foreach (var prisonerId in character.PrisonerIds) {
-					output.WriteLine($"\t\timprison = {{ target = character:{prisonerId} }}");
+				foreach (var (id, type) in character.PrisonerIds) {
+					output.WriteLine($"\t\timprison = {{ target = character:{id} type={type} }}");
 				}
 				output.WriteLine("\t}");
 			}
