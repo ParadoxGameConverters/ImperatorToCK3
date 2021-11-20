@@ -102,7 +102,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("population", reader => {
 				Logger.Info("Loading Pops...");
 				pops = new PopsBloc(reader).PopsFromBloc;
-				Logger.Info($"Loaded {pops.StoredPops.Count} pops.");
+				Logger.Info($"Loaded {pops.Count} pops.");
 			});
 			RegisterKeyword("jobs", reader => {
 				Logger.Info("Loading Jobs...");
