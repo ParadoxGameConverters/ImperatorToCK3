@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public class Provinces : Dictionary<ulong, Province> {
-
 		public Provinces() { }
 		public Provinces(BufferedReader reader) {
 			var parser = new Parser();
