@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CharacterOutputter {
-		public static void OutputCharacter(StreamWriter output, Character character, Date ck3BookmarkDate, Date conversionDate) {
+		public static void OutputCharacter(StreamWriter output, Character character, Date conversionDate) {
 			// output ID, name, sex, culture, religion
 			output.WriteLine($"{character.Id} = {{");
 			if (!string.IsNullOrEmpty(character.Name)) {
