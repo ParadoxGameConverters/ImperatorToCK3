@@ -65,5 +65,14 @@ namespace ImperatorToCK3.CommonUtils {
 
 			return sb.ToString();
 		}
+
+		public void RemoveHistoryPastDate(Date date) {
+			foreach (var field in Fields.Values) {
+				field.ValueHistory = new SortedDictionary<Date, object>(
+					field.ValueHistory.Where(entry => entry.Key <= date)
+						.ToDictionary(pair => pair.Key, pair => pair.Value)
+				);
+			}
+		}
 	}
 }
