@@ -12,11 +12,11 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character {
-		public string Id { get; private set; } = "0";
+		public string Id { get; private set; }
 		public bool Female { get; private set; }
 		public string Culture { get; private set; } = string.Empty;
 		public string Religion { get; private set; } = string.Empty;
-		public string Name { get; private set; } = string.Empty;
+		public string Name { get; private set; }
 		public string? Nickname { get; private set; }
 
 		public uint Age { get; private set; } // used when option to convert character age is chosen
@@ -28,15 +28,16 @@ namespace ImperatorToCK3.CK3.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
+		public Date BirthDate { get; private set; }
 		public Date? DeathDate { get; private set; }
 		public string? DeathReason { get; private set; }
 
 		public SortedSet<string> Traits { get; } = new();
+		public HashSet<string> PrisonerIds { get; }= new();
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
-		
+
 		public Character(
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
@@ -202,6 +203,17 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (impDeathReason is not null) {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
+
+			if (ImperatorCharacter.PrisonerHome is not null) {
+				var prisonCountry = ImperatorCharacter.Country;
+				if (prisonCountry is null) {
+					Logger.Warn($"Imperator character {ImperatorCharacter.Id} is imprisoned but has no country!");
+				} else if (prisonCountry.CK3Title is null) {
+					Logger.Warn($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
+				} else {
+					jailerId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
+				}
+			}
 		}
 
 		public void BreakAllLinks() {
@@ -286,5 +298,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Dictionary<string, Character?> Spouses { get; set; } = new();
 
 		public string? DynastyId { get; set; } // not always set
+
+		private string? jailerId;
 	}
 }

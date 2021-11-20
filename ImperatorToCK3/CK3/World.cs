@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
@@ -24,7 +23,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
-		public Dictionary<string, Character> Characters { get; } = new();
+		public Characters.Characters Characters { get; } = new();
 		public Dictionary<string, Dynasty> Dynasties { get; } = new();
 		public Dictionary<ulong, Province> Provinces { get; } = new();
 		private readonly LandedTitles landedTitles = new();
@@ -69,13 +68,20 @@ namespace ImperatorToCK3.CK3 {
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			ImportImperatorProvinces(impWorld);
 
-			ImportImperatorCharacters(
+			Characters.ImportImperatorCharacters(
 				impWorld,
+				religionMapper,
+				cultureMapper,
+				traitMapper,
+				nicknameMapper,
+				localizationMapper,
+				provinceMapper,
+				deathReasonMapper,
 				impWorld.EndDate,
 				theConfiguration.Ck3BookmarkDate
 			);
-			LinkSpouses();
-			LinkMothersAndFathers();
+			Characters.LinkSpouses();
+			Characters.LinkMothersAndFathers();
 			ClearFeaturedCharactersDescriptions(theConfiguration.Ck3BookmarkDate);
 
 			ImportImperatorFamilies(impWorld);
@@ -83,7 +89,7 @@ namespace ImperatorToCK3.CK3 {
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate);
 			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
-			PurgeLandlessVanillaCharacters(theConfiguration.Ck3BookmarkDate);
+			Characters.PurgeLandlessVanillaCharacters(landedTitles, theConfiguration.Ck3BookmarkDate);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -97,37 +103,6 @@ namespace ImperatorToCK3.CK3 {
 					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
 				}
 			}
-		}
-
-		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Date ck3BookmarkDate) {
-			Logger.Info("Importing Imperator Characters...");
-
-			foreach (var character in impWorld.Characters.StoredCharacters) {
-				ImportImperatorCharacter(character, endDate, ck3BookmarkDate);
-			}
-			Logger.Info($"{Characters.Count} total characters recognized.");
-		}
-
-		private void ImportImperatorCharacter(
-			Imperator.Characters.Character character,
-			Date endDate,
-			Date ck3BookmarkDate
-		) {
-			// Create a new CK3 character
-			var newCharacter = new Character(
-				character,
-				religionMapper,
-				cultureMapper,
-				traitMapper,
-				nicknameMapper,
-				localizationMapper,
-				provinceMapper,
-				deathReasonMapper,
-				endDate,
-				ck3BookmarkDate
-			);
-			character.CK3Character = newCharacter;
-			Characters.Add(newCharacter.Id, newCharacter);
 		}
 
 		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
@@ -535,74 +510,8 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void PurgeLandlessVanillaCharacters(Date ck3BookmarkDate) {
-			var farewellIds = new HashSet<string>(Characters.Keys);
-			foreach (var id in farewellIds) {
-				if (id.StartsWith("imperator")) {
-					farewellIds.Remove(id);
-				}
-			}
-			foreach (var title in LandedTitles.Values) {
-				farewellIds.Remove(title.GetHolderId(ck3BookmarkDate));
-			}
 
-			foreach (var characterId in farewellIds) {
-				Characters[characterId].BreakAllLinks();
-				Characters.Remove(characterId);
-			}
-			Logger.Info($"Purged {farewellIds.Count} landless vanilla characters.");
-		}
 
-		private void LinkSpouses() {
-			var spouseCounter = 0;
-			foreach (var ck3Character in Characters.Values) {
-				// make links between Imperator characters
-				if (ck3Character.ImperatorCharacter is null) {
-					// imperatorRegnal characters do not have ImperatorCharacter
-					continue;
-				}
-				foreach (var impSpouseCharacter in ck3Character.ImperatorCharacter.Spouses.Values) {
-					var ck3SpouseCharacter = impSpouseCharacter.CK3Character;
-					if (ck3SpouseCharacter is null) {
-						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
-						continue;
-					}
-					ck3Character.Spouses[ck3SpouseCharacter.Id] = ck3SpouseCharacter;
-					ck3SpouseCharacter.Spouses[ck3Character.Id] = ck3Character;
-					++spouseCounter;
-				}
-			}
-			Logger.Info($"{spouseCounter} spouses linked in CK3.");
-		}
-
-		private void LinkMothersAndFathers() {
-			var motherCounter = 0;
-			var fatherCounter = 0;
-			foreach (var ck3Character in Characters.Values) {
-				// make links between Imperator characters
-				if (ck3Character.ImperatorCharacter is null) {
-					// imperatorRegnal characters do not have ImperatorCharacter
-					continue;
-				}
-				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother.Value;
-				if (impMotherCharacter is not null) {
-					var ck3MotherCharacter = impMotherCharacter.CK3Character;
-					ck3Character.Mother = ck3MotherCharacter;
-					ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
-					++motherCounter;
-				}
-
-				// make links between Imperator characters
-				var impFatherCharacter = ck3Character.ImperatorCharacter.Father.Value;
-				if (impFatherCharacter is not null) {
-					var ck3FatherCharacter = impFatherCharacter.CK3Character;
-					ck3Character.Father = ck3FatherCharacter;
-					ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
-					++fatherCounter;
-				}
-			}
-			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");
-		}
 
 		private void ImportImperatorFamilies(Imperator.World impWorld) {
 			Logger.Info("Importing Imperator Families.");
