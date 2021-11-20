@@ -301,7 +301,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		private readonly string? jailorId;
 
-		public bool LinkJailer(Characters characters) {
+		public bool LinkJailor(Characters characters) {
 			if (jailorId is null) {
 				return false;
 			}

@@ -38,7 +38,7 @@ namespace ImperatorToCK3.Outputter {
 				outputName,
 				ck3World.LandedTitles,
 				theConfiguration.ImperatorDeJure,
-				theConfiguration.Ck3BookmarkDate
+				conversionDate
 			);
 
 			Logger.Info("Writing Localization...");
