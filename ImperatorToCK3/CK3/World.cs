@@ -299,7 +299,7 @@ namespace ImperatorToCK3.CK3 {
 				// And finally, initialize it.
 				++counter;
 			}
-			Logger.Info($"{impWorld.Provinces.StoredProvinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
+			Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
 		}
 
 		private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
@@ -313,7 +313,7 @@ namespace ImperatorToCK3.CK3 {
 			long maxDev = -1;
 
 			foreach (var imperatorProvinceId in impProvinceNumbers) {
-				if (impWorld.Provinces.StoredProvinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
+				if (impWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
 					var ownerId = impProvince.OwnerCountry.Key;
 					if (!theClaims.ContainsKey(ownerId)) {
 						theClaims[ownerId] = new();

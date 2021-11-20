@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var reader = new BufferedReader("={}");
 			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
 
-			Assert.Empty(provinces.StoredProvinces);
+			Assert.Empty(provinces);
 		}
 
 		[Fact]
@@ -26,8 +26,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			);
 			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
 
-			Assert.Equal((ulong)42, provinces.StoredProvinces[42].Id);
-			Assert.Equal((ulong)43, provinces.StoredProvinces[43].Id);
+			Assert.Equal((ulong)42, provinces[42].Id);
+			Assert.Equal((ulong)43, provinces[43].Id);
 		}
 
 		[Fact]
@@ -42,7 +42,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			pops.LoadPops(reader2);
 			provinces.LinkPops(pops);
 
-			var province = provinces.StoredProvinces[42];
+			var province = provinces[42];
 			var pop = province.Pops[8];
 
 			Assert.NotNull(pop);
@@ -71,11 +71,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			pops.LoadPops(reader2);
 			provinces.LinkPops(pops);
 
-			var province = provinces.StoredProvinces[42];
+			var province = provinces[42];
 			var pop = province.Pops[8];
-			var province2 = provinces.StoredProvinces[43];
+			var province2 = provinces[43];
 			var pop2 = province2.Pops[10];
-			var province3 = provinces.StoredProvinces[44];
+			var province3 = provinces[44];
 			var pop3 = province3.Pops[9];
 
 			Assert.NotNull(pop);
