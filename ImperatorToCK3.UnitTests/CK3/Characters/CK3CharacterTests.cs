@@ -26,8 +26,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private DeathReasonMapper deathReasonMapper = new();
 
 			public Character Build() {
-				var character = new Character();
-				character.InitializeFromImperator(
+				var character = new Character(
 					imperatorCharacter,
 					religionMapper,
 					cultureMapper,

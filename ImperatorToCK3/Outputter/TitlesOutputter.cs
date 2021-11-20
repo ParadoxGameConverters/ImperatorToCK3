@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Outputter {
 	public static class TitlesOutputter {
-		private static void OutputTitlesHistory(string outputModName, Dictionary<string, Title> titles, Date ck3BookmarkDate) {
+		private static void OutputTitlesHistory(string outputModName, Dictionary<string, Title> titles, Date conversionDate) {
 			//output title history
 			var alreadyOutputtedTitles = new HashSet<string>();
 			foreach (var (name, title) in titles) {
@@ -20,12 +20,12 @@ namespace ImperatorToCK3.Outputter {
 
 				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", name + ".txt");
 				using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
-				title.OutputHistory(historyOutput, ck3BookmarkDate);
+				title.OutputHistory(historyOutput, conversionDate);
 				alreadyOutputtedTitles.Add(name);
 
 				// output the kingdom's de jure vassals' history
 				foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
-					deJureVassal.OutputHistory(historyOutput, ck3BookmarkDate);
+					deJureVassal.OutputHistory(historyOutput, conversionDate);
 					alreadyOutputtedTitles.Add(deJureVassalName);
 				}
 			}
@@ -37,13 +37,13 @@ namespace ImperatorToCK3.Outputter {
 					if (alreadyOutputtedTitles.Contains(name)) {
 						continue;
 					}
-					title.OutputHistory(historyOutput, ck3BookmarkDate);
+					title.OutputHistory(historyOutput, conversionDate);
 					alreadyOutputtedTitles.Add(name);
 				}
 			}
 		}
 
-		public static void OutputTitles(string outputModName, Dictionary<string, Title> titles, IMPERATOR_DE_JURE deJure, Date ck3BookmarkDate) {
+		public static void OutputTitles(string outputModName, Dictionary<string, Title> titles, IMPERATOR_DE_JURE deJure, Date conversionDate) {
 			var outputPath = Path.Combine("output", outputModName, "common/landed_titles/00_landed_titles.txt");
 			using var outputStream = File.OpenWrite(outputPath);
 			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
@@ -58,7 +58,7 @@ namespace ImperatorToCK3.Outputter {
 				}
 			}
 
-			OutputTitlesHistory(outputModName, titles, ck3BookmarkDate);
+			OutputTitlesHistory(outputModName, titles, conversionDate);
 		}
 	}
 }

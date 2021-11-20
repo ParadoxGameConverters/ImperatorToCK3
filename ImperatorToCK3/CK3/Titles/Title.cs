@@ -672,7 +672,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		public void OutputHistory(StreamWriter writer, Date ck3BookmarkDate) {
+		public void OutputHistory(StreamWriter writer, Date conversionDate) {
 			bool needsToBeOutput = false;
 			var sb = new StringBuilder();
 
@@ -698,7 +698,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				}
 			}
 
-			sb.AppendLine($"\t{ck3BookmarkDate} = {{");
+			sb.AppendLine($"\t{conversionDate}={{");
 
 			if (DeFactoLiege is not null) {
 				needsToBeOutput = true;
