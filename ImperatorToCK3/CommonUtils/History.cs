@@ -1,13 +1,12 @@
 ﻿using commonItems;
 using commonItems.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CommonUtils {
 	public class History : IPDXSerializable {
-		[commonItems.Serialization.NonSerialized] public Dictionary<string, HistoryField> Fields { get; } = new(); // fieldName, field
+		[NonSerialized] public Dictionary<string, HistoryField> Fields { get; } = new(); // fieldName, field
 
 		public History() { }
 		public History(Dictionary<string, HistoryField> fields) {
