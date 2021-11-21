@@ -3,30 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces {
-	public class Provinces : Parser {
-		public Dictionary<ulong, Province> StoredProvinces { get; } = new();
-
+	public class Provinces : Dictionary<ulong, Province> {
 		public Provinces() { }
 		public Provinces(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 		}
-		private void RegisterKeys() {
-			RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 				var newProvince = Province.Parse(reader, ulong.Parse(provIdStr));
-				StoredProvinces.Add(newProvince.Id, newProvince);
+				Add(newProvince.Id, newProvince);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void LinkPops(Pops.Pops pops) {
-			var counter = StoredProvinces.Values.Sum(province => province.LinkPops(pops));
+			var counter = Values.Sum(province => province.LinkPops(pops));
 			Logger.Info($"{counter} pops linked to provinces.");
 		}
 		public void LinkCountries(Countries.Countries countries) {
 			var counter = 0;
-			foreach (var (provId, province) in StoredProvinces) {
-				if (countries.StoredCountries.TryGetValue(province.OwnerCountry.Key, out var countryToLink)) {
+			foreach (var province in Values) {
+				if (countries.TryGetValue(province.OwnerCountry.Key, out var countryToLink)) {
 					// link both ways
 					province.LinkOwnerCountry(countryToLink);
 					countryToLink.RegisterProvince(province);

@@ -10,7 +10,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		public void CharactersDefaultToEmpty() {
 			var reader = new BufferedReader("={}");
 			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
-			Assert.Empty(characters.StoredCharacters);
+			Assert.Empty(characters);
 		}
 
 		[Fact]
@@ -23,7 +23,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
 
-			Assert.Collection(characters.StoredCharacters,
+			Assert.Collection(characters.Values,
 				character => {
 					Assert.Equal((ulong)42, character.Id);
 				},

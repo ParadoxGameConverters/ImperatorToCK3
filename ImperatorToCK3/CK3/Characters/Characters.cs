@@ -25,7 +25,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			Logger.Info("Importing Imperator Characters...");
 
-			foreach (var character in impWorld.Characters.StoredCharacters) {
+			foreach (var character in impWorld.Characters.Values) {
 				ImportImperatorCharacter(
 					character,
 					religionMapper,
@@ -132,7 +132,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {
-			var landedCharacterIdSelect = titles.StoredTitles.Values.Select(t => t.GetHolderId(ck3BookmarkDate));
+			var landedCharacterIdSelect = titles.Values.Select(t => t.GetHolderId(ck3BookmarkDate));
 			var farewellIds = Keys.Where(
 				id => !id.StartsWith("imperator") && !landedCharacterIdSelect.Contains(id)
 			);

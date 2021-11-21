@@ -150,7 +150,6 @@ namespace ImperatorToCK3.Outputter {
 			Logger.Info("Drawing bookmark map...");
 			string provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
 			string flatmapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
-			SystemUtils.TryCreateFolder("temp");
 			const string tmpProvincesMapPath = "temp/provinces.tga";
 			const string tmpFlatmapPath = "temp/flatmap.png";
 

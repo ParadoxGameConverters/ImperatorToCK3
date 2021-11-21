@@ -15,7 +15,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			var families = new ImperatorToCK3.Imperator.Families.Families();
 			families.LoadFamilies(reader);
 
-			Assert.Empty(families.StoredFamilies);
+			Assert.Empty(families);
 		}
 
 		[Fact]
@@ -30,7 +30,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			var families = new ImperatorToCK3.Imperator.Families.Families();
 			families.LoadFamilies(reader);
 
-			Assert.Collection(families.StoredFamilies,
+			Assert.Collection(families,
 				item => {
 					Assert.Equal((ulong)42, item.Key);
 					Assert.Equal((ulong)42, item.Value.Id);
@@ -45,8 +45,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 		[Fact]
 		public void LiteralNoneFamiliesAreNotLoaded() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"={\n" +
 				"42=none\n" +
 				"43={}\n" +
 				"44=none\n" +
@@ -55,7 +54,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Families {
 			var families = new ImperatorToCK3.Imperator.Families.Families();
 			families.LoadFamilies(reader);
 
-			Assert.Collection(families.StoredFamilies,
+			Assert.Collection(families,
 				item => {
 					Assert.Equal((ulong)43, item.Key);
 					Assert.Equal((ulong)43, item.Value.Id);

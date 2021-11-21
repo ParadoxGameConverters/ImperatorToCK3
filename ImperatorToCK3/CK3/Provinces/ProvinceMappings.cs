@@ -3,42 +3,44 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	/// <summary>
+	/// <para>
 	/// This class is used to read game/history/province_mapping in CK3.
 	/// CK3 uses province_mapping to set history for provinces that don't need unique entries.
-	///
+	/// </para>
+	/// <para>
 	/// Example unique entry in game/history/provinces:
 	/// 6872 = {
 	/// 	religion = coptic
 	/// 	culture = coptic
 	/// }
-	///
+	/// </para>
+	/// <para>
 	/// Example province_mapping in game/history/province_mapping:
 	/// 6874 = 6872
-	///
-	/// Now 6874 history is same as 6872 history.
+	/// </para>
+	/// <para>Now 6874 history is same as 6872 history.</para>
 	/// </summary>
-	public class ProvinceMappings : Parser {
+	public class ProvinceMappings : Dictionary<ulong, ulong> {
 		public ProvinceMappings(string filePath) {
-			RegisterKeys();
-			ParseFile(filePath);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile(filePath);
 		}
-		public Dictionary<ulong, ulong> Mappings { get; private set; } = new();
 
-		private void RegisterKeys() {
-			RegisterRegex(CommonRegexes.Integer, (reader, provIdString) => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdString) => {
 				var targetProvId = ulong.Parse(provIdString);
 				var baseProvId = ParserHelpers.GetULong(reader);
 				if (targetProvId == baseProvId) { // if left and right IDs are equal, no point in mapping
 					return;
 				}
 
-				if (Mappings.ContainsKey(targetProvId)) {
+				if (ContainsKey(targetProvId)) {
 					Logger.Warn($"Duplicate province mapping for {targetProvId}, overwriting!");
 				}
-				Mappings[targetProvId] = baseProvId;
+				this[targetProvId] = baseProvId;
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}
 }

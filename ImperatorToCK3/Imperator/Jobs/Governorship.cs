@@ -9,19 +9,13 @@ namespace ImperatorToCK3.Imperator.Jobs {
 
 		public Governorship(BufferedReader reader) {
 			var parser = new Parser();
-			parser.RegisterKeyword("who", reader => {
-				CountryId = ParserHelpers.GetULong(reader);
-			});
-			parser.RegisterKeyword("character", reader => {
-				CharacterId = ParserHelpers.GetULong(reader);
-			});
+			parser.RegisterKeyword("who", reader => CountryId = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("character", reader => CharacterId = ParserHelpers.GetULong(reader));
 			parser.RegisterKeyword("start_date", reader => {
 				var dateStr = ParserHelpers.GetString(reader);
 				StartDate = new Date(dateStr, AUC: true);
 			});
-			parser.RegisterKeyword("governorship", reader => {
-				RegionName = ParserHelpers.GetString(reader);
-			});
+			parser.RegisterKeyword("governorship", reader => RegionName = ParserHelpers.GetString(reader));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			parser.ParseStream(reader);

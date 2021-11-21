@@ -14,7 +14,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			);
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries(reader);
 
-			Assert.Empty(countries.StoredCountries);
+			Assert.Empty(countries);
 		}
 
 		[Fact]
@@ -27,7 +27,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			);
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries(reader);
 
-			Assert.Collection(countries.StoredCountries,
+			Assert.Collection(countries,
 				item => {
 					Assert.Equal((ulong)42, item.Key);
 					Assert.Equal((ulong)42, item.Value.Id);
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			families.LoadFamilies(reader2);
 			countries.LinkFamilies(families);
 
-			var country = countries.StoredCountries[42];
+			var country = countries[42];
 			var family = country.Families[8];
 			Assert.Equal(2, family.Prestige);
 		}
@@ -80,13 +80,13 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			families.LoadFamilies(reader2);
 			countries.LinkFamilies(families);
 
-			var country = countries.StoredCountries[42];
+			var country = countries[42];
 			var family = country.Families[8];
 
-			var country2 = countries.StoredCountries[43];
+			var country2 = countries[43];
 			var family2 = country2.Families[10];
 
-			var country3 = countries.StoredCountries[44];
+			var country3 = countries[44];
 			var family3 = country3.Families[9];
 
 			Assert.Equal(2, family.Prestige);
