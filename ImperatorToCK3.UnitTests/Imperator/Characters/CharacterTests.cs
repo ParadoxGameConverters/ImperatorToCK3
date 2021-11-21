@@ -96,6 +96,14 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 
 			Assert.Null(character.Mother); // mother not linked yet
 			Assert.Null(character.Father); // father not linked yet
+			var mother = new ImperatorToCK3.Imperator.Characters.Character(123);
+			var father = new ImperatorToCK3.Imperator.Characters.Character(124);
+			characters.Add(mother);
+			characters.Add(father);
+			character.LinkMother(characters);
+			character.LinkFather(characters);
+			Assert.NotNull(character.Mother);
+			Assert.NotNull(character.Father);
 			Assert.Equal((ulong)123, character.Mother.Id);
 			Assert.Equal((ulong)124, character.Father.Id);
 
