@@ -278,8 +278,8 @@ namespace ImperatorToCK3.Imperator {
 			return new BufferedReader(File.Open(saveGamePath, FileMode.Open));
 		}
 		private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {
-			var saveText = Helpers.RakalyCaller.ToPlainText(saveGamePath);
-			return new BufferedReader(saveText);
+			Helpers.RakalyCaller.MeltSave(saveGamePath);
+			return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open));
 		}
 
 		private readonly HashSet<string> ignoredTokens = new();
