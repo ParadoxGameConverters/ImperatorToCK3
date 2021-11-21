@@ -236,7 +236,7 @@ namespace ImperatorToCK3.CK3 {
 				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
 				try {
 					var newProvinces = new Provinces.Provinces(provincesPath, ck3BookmarkDate);
-					foreach (var (newProvinceId, newProvince) in newProvinces.StoredProvinces) {
+					foreach (var (newProvinceId, newProvince) in newProvinces) {
 						if (Provinces.ContainsKey(newProvinceId)) {
 							Logger.Warn($"Vanilla province duplication - {newProvinceId} already loaded! Overwriting.");
 						}
