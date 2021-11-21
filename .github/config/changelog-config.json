@@ -1,0 +1,26 @@
+{
+    "categories": [
+        {
+            "title": "## 🚀 Features",
+            "labels": ["feature", "enhancement"]
+        },
+        {
+            "title": "## 🐛 Fixes",
+            "labels": ["fix"]
+        },
+        {
+            "title": "## 🧪 Tests",
+            "labels": ["test"]
+        },
+        {
+            "title": "## 📄 Documentation",
+            "labels": ["documentation"]
+        },
+        {
+            "title": "## 📦 Dependencies",
+            "labels": ["dependencies"]
+        }
+    ],
+    "max_pull_requests": 10000,
+    "max_back_track_time_days": 10000
+}
