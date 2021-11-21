@@ -84,7 +84,7 @@ namespace ImperatorToCK3.CK3.Characters {
 					// imperatorRegnal characters do not have ImperatorCharacter
 					continue;
 				}
-				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother.Value;
+				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother;
 				if (impMotherCharacter is not null) {
 					var ck3MotherCharacter = impMotherCharacter.CK3Character;
 					ck3Character.Mother = ck3MotherCharacter;
@@ -93,7 +93,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 
 				// make links between Imperator characters
-				var impFatherCharacter = ck3Character.ImperatorCharacter.Father.Value;
+				var impFatherCharacter = ck3Character.ImperatorCharacter.Father;
 				if (impFatherCharacter is not null) {
 					var ck3FatherCharacter = impFatherCharacter.CK3Character;
 					ck3Character.Father = ck3FatherCharacter;

@@ -61,8 +61,10 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public Dictionary<ulong, Character> Spouses { get; set; } = new();
 		private HashSet<ulong> parsedChildrenIds = new();
 		public Dictionary<ulong, Character> Children { get; set; } = new();
-		public KeyValuePair<ulong, Character?> Mother { get; set; } = new();
-		public KeyValuePair<ulong, Character?> Father { get; set; } = new();
+		private ulong? parsedMotherId;
+		public Character? Mother { get; set; }
+		private ulong? parsedFatherId;
+		public Character? Father { get; set; }
 		private ulong? parsedFamilyId;
 		private Family? family;
 		public Family? Family {
@@ -109,21 +111,11 @@ namespace ImperatorToCK3.Imperator.Characters {
 			});
 			parser.RegisterKeyword("country", reader => parsedCharacter.parsedCountryId = ParserHelpers.GetULong(reader));
 			parser.RegisterKeyword("home_country", reader => parsedCharacter.parsedHomeCountryId = ParserHelpers.GetULong(reader));
-			parser.RegisterKeyword("province", reader => {
-				parsedCharacter.ProvinceId = ParserHelpers.GetULong(reader);
-			});
-			parser.RegisterKeyword("culture", reader => {
-				parsedCharacter.culture = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("religion", reader => {
-				parsedCharacter.Religion = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("female", reader =>
-				parsedCharacter.Female = new ParadoxBool(reader)
-			);
-			parser.RegisterKeyword("traits", reader => {
-				parsedCharacter.Traits = ParserHelpers.GetStrings(reader);
-			});
+			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("female", reader => parsedCharacter.Female = new ParadoxBool(reader));
+			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = ParserHelpers.GetStrings(reader));
 			parser.RegisterKeyword("birth_date", reader => {
 				var dateStr = ParserHelpers.GetString(reader);
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
@@ -132,39 +124,17 @@ namespace ImperatorToCK3.Imperator.Characters {
 				var dateStr = ParserHelpers.GetString(reader);
 				parsedCharacter.DeathDate = new Date(dateStr, true); // converted to AD
 			});
-			parser.RegisterKeyword("death", reader => {
-				parsedCharacter.DeathReason = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("age", reader => {
-				parsedCharacter.Age = (uint)ParserHelpers.GetInt(reader);
-			});
-			parser.RegisterKeyword("nickname", reader => {
-				parsedCharacter.Nickname = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("family", reader => {
-				parsedCharacter.parsedFamilyId = ParserHelpers.GetULong(reader);
-			});
-			parser.RegisterKeyword("dna", reader => {
-				parsedCharacter.DNA = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("mother", reader => {
-				parsedCharacter.Mother = new(ParserHelpers.GetULong(reader), null);
-			});
-			parser.RegisterKeyword("father", reader => {
-				parsedCharacter.Father = new(ParserHelpers.GetULong(reader), null);
-			});
-			parser.RegisterKeyword("wealth", reader => {
-				parsedCharacter.Wealth = ParserHelpers.GetDouble(reader);
-			});
-			parser.RegisterKeyword("spouse", reader => {
-				parsedCharacter.parsedSpouseIds = ParserHelpers.GetULongs(reader).ToHashSet();
-			});
-			parser.RegisterKeyword("children", reader => {
-				parsedCharacter.parsedChildrenIds = ParserHelpers.GetULongs(reader).ToHashSet();
-			});
-			parser.RegisterKeyword("attributes", reader => {
-				parsedCharacter.Attributes = CharacterAttributes.Parse(reader);
-			});
+			parser.RegisterKeyword("death", reader => parsedCharacter.DeathReason = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("age", reader => parsedCharacter.Age = (uint)ParserHelpers.GetInt(reader));
+			parser.RegisterKeyword("nickname", reader => parsedCharacter.Nickname = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("dna", reader => parsedCharacter.DNA = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("mother", reader => parsedCharacter.parsedMotherId = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("father", reader => parsedCharacter.parsedFatherId = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("wealth", reader => parsedCharacter.Wealth = ParserHelpers.GetDouble(reader));
+			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = ParserHelpers.GetULongs(reader).ToHashSet());
+			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = ParserHelpers.GetULongs(reader).ToHashSet());
+			parser.RegisterKeyword("attributes", reader => parsedCharacter.Attributes = CharacterAttributes.Parse(reader));
 			parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.parsedPrisonerHomeId = ParserHelpers.GetULong(reader));
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
@@ -245,13 +215,13 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 		// Returns whether a mother was linked
 		public bool LinkMother(Characters characters) {
-			var motherId = Mother.Key;
-			if (motherId == 0) {
+			if (parsedMotherId is null) {
 				return false;
 			}
+			ulong motherId = (ulong)parsedMotherId;
 
 			if (characters.TryGetValue(motherId, out var motherToLink)) {
-				Mother = new(motherId, motherToLink);
+				Mother = motherToLink;
 				if (!motherToLink.parsedChildrenIds.Contains(Id)) {
 					Logger.Warn($"Only one-sided link found between character {Id} and mother {motherId}!");
 				}
@@ -264,13 +234,13 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 		// Returns whether a father was linked
 		public bool LinkFather(Characters characters) {
-			var fatherId = Father.Key;
-			if (fatherId == 0) {
+			if (parsedFatherId is null) {
 				return false;
 			}
+			ulong fatherId = (ulong)parsedFatherId;
 
 			if (characters.TryGetValue(fatherId, out var fatherToLink)) {
-				Father = new(fatherId, fatherToLink);
+				Father = fatherToLink;
 				if (!fatherToLink.parsedChildrenIds.Contains(Id)) {
 					Logger.Warn($"Only one-sided link found between character {Id} and father {fatherId}!");
 				}

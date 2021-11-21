@@ -142,12 +142,12 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
 			var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
-			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Father.Value.ProvinceId;
+			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father is not null) {
+				impProvForProvinceMapper = ImperatorCharacter.Father.ProvinceId;
 			}
 
-			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Mother.Value.ProvinceId;
+			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother is not null) {
+				impProvForProvinceMapper = ImperatorCharacter.Mother.ProvinceId;
 			}
 
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Spouses.Count > 0) {
