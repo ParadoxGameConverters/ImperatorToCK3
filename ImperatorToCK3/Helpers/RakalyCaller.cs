@@ -28,7 +28,7 @@ namespace ImperatorToCK3.Helpers {
 			}
 
 			var meltedSaveName = CommonFunctions.TrimExtension(savePath) + "_melted.rome";
-			var destFileName = "temp/melted_save.rome";
+			const string destFileName = "temp/melted_save.rome";
 			//first, delete target file if exists, as File.Move() does not support overwrite
 			if (File.Exists(destFileName)) {
 				File.Delete(destFileName);
