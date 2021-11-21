@@ -132,9 +132,9 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {
-			var landedCharacterIdSelect = titles.Values.Select(t => t.GetHolderId(ck3BookmarkDate));
+			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
 			var farewellIds = Keys.Where(
-				id => !id.StartsWith("imperator") && !landedCharacterIdSelect.Contains(id)
+				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
 			);
 
 			foreach (var characterId in farewellIds) {
@@ -142,6 +142,13 @@ namespace ImperatorToCK3.CK3.Characters {
 				Remove(characterId);
 			}
 			Logger.Info($"Purged {farewellIds.Count()} landless vanilla characters.");
+		}
+
+		public void RemoveEmployerIdFromLandedCharacters(LandedTitles titles, Date conversionDate) {
+			var landedCharacterIds = titles.GetHolderIds(conversionDate);
+			foreach (var character in Values.Where(character => landedCharacterIds.Contains(character.Id))) {
+				character.EmployerId = null;
+			}
 		}
 	}
 }
