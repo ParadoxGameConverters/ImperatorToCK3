@@ -7,6 +7,7 @@ namespace ImperatorToCK3 {
 		public static void ConvertImperatorToCK3(ConverterVersion converterVersion) {
 			Logger.Progress("0 %");
 			LogSystemInfo();
+			SystemUtils.TryCreateFolder("temp");
 			var config = new Configuration(converterVersion);
 			var imperatorWorld = new Imperator.World(config, converterVersion);
 			var ck3World = new CK3.World(imperatorWorld, config);
