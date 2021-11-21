@@ -54,6 +54,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 			var counter = Values.Count(character => character.LinkCountry(countries));
 			Logger.Info($"{counter} countries linked to characters.");
 
+			counter = Values.Count(character => character.LinkHomeCountry(countries));
+			Logger.Info($"{counter} home countries linked to characters.");
+
 			counter = Values.Count(character => character.LinkPrisonerHome(countries));
 			Logger.Info($"{counter} prisoner homes linked to characters.");
 		}
