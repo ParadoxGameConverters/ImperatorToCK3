@@ -204,7 +204,15 @@ namespace ImperatorToCK3.CK3.Characters {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
 
-			if (ImperatorCharacter.PrisonerHome is not null) {
+			// if character is imprisoned, set jailor
+			SetJailor();
+			SetEmployer();
+
+			void SetJailor() {
+				if (ImperatorCharacter.PrisonerHome is null) {
+					return;
+				}
+
 				var prisonCountry = ImperatorCharacter.Country;
 				if (prisonCountry is null) {
 					Logger.Warn($"Imperator character {ImperatorCharacter.Id} is imprisoned but has no country!");
@@ -212,6 +220,16 @@ namespace ImperatorToCK3.CK3.Characters {
 					Logger.Warn($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
 				} else {
 					jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
+				}
+			}
+
+			void SetEmployer() {
+				var prisonerHome = ImperatorCharacter.PrisonerHome;
+				var homeCountry = ImperatorCharacter.HomeCountry;
+				if (prisonerHome?.CK3Title is not null) { // is imprisoned
+					EmployerId = prisonerHome.CK3Title.GetHolderId(dateOnConversion);
+				} else if (homeCountry?.CK3Title is not null) {
+					EmployerId = homeCountry.CK3Title.GetHolderId(dateOnConversion);
 				}
 			}
 		}
@@ -299,7 +317,8 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public string? DynastyId { get; set; } // not always set
 
-		private readonly string? jailorId;
+		private string? jailorId;
+		public string? EmployerId { get; set; }
 
 		public bool LinkJailor(Characters characters) {
 			if (jailorId is null) {

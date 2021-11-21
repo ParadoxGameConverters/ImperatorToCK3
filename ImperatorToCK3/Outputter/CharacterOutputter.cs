@@ -62,6 +62,7 @@ namespace ImperatorToCK3.Outputter {
 
 			OutputBirthAndDeathDates(output, character);
 			OutputPrisoners(output, character, conversionDate);
+			OutputEmployer(output, character, conversionDate);
 
 			output.WriteLine("}");
 		}
@@ -91,6 +92,13 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\timprison={{target = character:{id} type={type}}}");
 			}
 			output.WriteLine("\t}");
+		}
+		private static void OutputEmployer(TextWriter output, Character character, Date conversionDate) {
+			if (character.EmployerId is null) {
+				return;
+			}
+
+			output.WriteLine($"\t{conversionDate}={{employer={character.EmployerId}}}");
 		}
 	}
 }
