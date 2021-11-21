@@ -258,8 +258,8 @@ namespace ImperatorToCK3.CK3 {
 
 				var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
 				try {
-					var newProvinces = new ProvinceMappings(provinceMappingsPath);
-					foreach (var (newProvinceId, baseProvinceId) in newProvinces.Mappings) {
+					var newMappings = new ProvinceMappings(provinceMappingsPath);
+					foreach (var (newProvinceId, baseProvinceId) in newMappings) {
 						if (!Provinces.ContainsKey(baseProvinceId)) {
 							Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 							continue;
