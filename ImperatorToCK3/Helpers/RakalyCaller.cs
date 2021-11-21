@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3.Helpers {
@@ -26,8 +27,13 @@ namespace ImperatorToCK3.Helpers {
 				throw new FormatException($"Rakaly melter failed to melt {savePath} with exit code {returnCode}");
 			}
 
-			var meltedSavePath = CommonFunctions.TrimExtension(savePath) + "_melted.rome";
-			System.IO.File.Move(meltedSavePath, "temp/melted_save.rome");
+			var meltedSaveName = CommonFunctions.TrimExtension(savePath) + "_melted.rome";
+			const string destFileName = "temp/melted_save.rome";
+			//first, delete target file if exists, as File.Move() does not support overwrite
+			if (File.Exists(destFileName)) {
+				File.Delete(destFileName);
+			}
+			File.Move(meltedSaveName, destFileName);
 		}
 	}
 }
