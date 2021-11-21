@@ -1,0 +1,2 @@
+4=1 # OK
+5=5 # left same as right
