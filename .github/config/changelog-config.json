@@ -21,6 +21,9 @@
             "labels": ["dependencies"]
         }
     ],
+    
+    "pr_template": "- ${{TITLE}} #${{NUMBER}} by @${{AUTHOR}}",
+
     "max_pull_requests": 10000,
     "max_back_track_time_days": 10000
 }
