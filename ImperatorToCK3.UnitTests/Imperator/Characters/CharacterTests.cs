@@ -93,8 +93,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 					Assert.Equal((ulong)420, item.Key);
 				}
 			);
-			Assert.Equal((ulong)123, character.Mother.Key);
-			Assert.Equal((ulong)124, character.Father.Key);
+
+			Assert.Null(character.Mother); // mother not linked yet
+			Assert.Null(character.Father); // father not linked yet
+			Assert.Equal((ulong)123, character.Mother.Id);
+			Assert.Equal((ulong)124, character.Father.Id);
+
 			Assert.Null(character.Family); // Despite "family=125" in character definition, Family is null until linked.
 			Assert.Equal(420.5, character.Wealth);
 			Assert.Equal("Biggus_Dickus", character.Name);
@@ -122,8 +126,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Null(character.DeathReason);
 			Assert.Empty(character.Spouses);
 			Assert.Empty(character.Children);
-			Assert.Equal((ulong)0, character.Mother.Key);
-			Assert.Equal((ulong)0, character.Father.Key);
+			Assert.Null(character.Mother);
+			Assert.Null(character.Father);
 			Assert.Null(character.Family);
 			Assert.Equal(0, character.Wealth);
 			Assert.Equal(string.Empty, character.Name);
