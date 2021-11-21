@@ -40,7 +40,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public int LinkPops(Pops.Pops pops) {
 			int counter = 0;
 			foreach (var popId in parsedPopIds) {
-				if (pops.StoredPops.TryGetValue(popId, out var popToLink)) {
+				if (pops.TryGetValue(popId, out var popToLink)) {
 					Pops.Add(popId, popToLink);
 					++counter;
 				} else {

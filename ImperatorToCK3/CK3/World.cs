@@ -58,7 +58,7 @@ namespace ImperatorToCK3.CK3 {
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-			ImportImperatorCountries(impWorld.Countries.StoredCountries);
+			ImportImperatorCountries(impWorld.Countries);
 			ImportImperatorGovernorships(impWorld);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -165,7 +165,7 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info("Importing Imperator Governorships.");
 
 			var governorships = impWorld.Jobs.Governorships;
-			var imperatorCountries = impWorld.Countries.StoredCountries;
+			var imperatorCountries = impWorld.Countries;
 
 			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
 				.ToDictionary(g => g.Key, g => g.Count());

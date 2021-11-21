@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Pops {
-	public class Pops {
-		public Dictionary<ulong, Pop> StoredPops { get; } = new();
+	public class Pops : Dictionary<ulong, Pop> {
 		public void LoadPops(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
@@ -16,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Pops {
 				if (popStr.Contains('{')) {
 					var tempStream = new BufferedReader(popStr);
 					var pop = Pop.Parse(thePopId, tempStream);
-					StoredPops.Add(pop.Id, pop);
+					Add(pop.Id, pop);
 				}
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

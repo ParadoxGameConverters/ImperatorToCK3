@@ -24,7 +24,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public void LinkCountries(Countries.Countries countries) {
 			var counter = 0;
 			foreach (var province in Values) {
-				if (countries.StoredCountries.TryGetValue(province.OwnerCountry.Key, out var countryToLink)) {
+				if (countries.TryGetValue(province.OwnerCountry.Key, out var countryToLink)) {
 					// link both ways
 					province.LinkOwnerCountry(countryToLink);
 					countryToLink.RegisterProvince(province);

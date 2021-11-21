@@ -9,16 +9,16 @@ namespace ImperatorToCK3.UnitTests {
 			var reader = new BufferedReader("= { }");
 			var pops = new Pops();
 			pops.LoadPops(reader);
-			Assert.Empty(pops.StoredPops);
+			Assert.Empty(pops);
 		}
 		[Fact]
 		public void PopsCanBeLoaded() {
 			var reader = new BufferedReader("= {\n 42={}\n 43 = {}\n }");
 			var pops = new Pops();
 			pops.LoadPops(reader);
-			var pop1 = pops.StoredPops[42];
-			var pop2 = pops.StoredPops[43];
-			Assert.Equal(2, pops.StoredPops.Count);
+			var pop1 = pops[42];
+			var pop2 = pops[43];
+			Assert.Equal(2, pops.Count);
 			Assert.Equal((ulong)42, pop1.Id);
 			Assert.Equal((ulong)43, pop2.Id);
 		}
@@ -27,11 +27,11 @@ namespace ImperatorToCK3.UnitTests {
 			var reader = new BufferedReader("= {\n 42=none\n 43={}\n 44=none\n }");
 			var pops = new Pops();
 			pops.LoadPops(reader);
-			Assert.Equal(1, pops.StoredPops.Count);
-			Assert.False(pops.StoredPops.ContainsKey(42));
-			Assert.True(pops.StoredPops.ContainsKey(43));
-			Assert.False(pops.StoredPops.ContainsKey(44));
-			var pop2 = pops.StoredPops[43];
+			Assert.Single(pops);
+			Assert.False(pops.ContainsKey(42));
+			Assert.True(pops.ContainsKey(43));
+			Assert.False(pops.ContainsKey(44));
+			var pop2 = pops[43];
 			Assert.Equal((ulong)43, pop2.Id);
 		}
 	}

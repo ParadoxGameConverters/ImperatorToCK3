@@ -97,12 +97,12 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");
 				Countries = Imperator.Countries.Countries.ParseBloc(reader);
-				Logger.Info($"Loaded {Countries.StoredCountries.Count} countries.");
+				Logger.Info($"Loaded {Countries.Count} countries.");
 			});
 			RegisterKeyword("population", reader => {
 				Logger.Info("Loading Pops...");
 				pops = new PopsBloc(reader).PopsFromBloc;
-				Logger.Info($"Loaded {pops.StoredPops.Count} pops.");
+				Logger.Info($"Loaded {pops.Count} pops.");
 			});
 			RegisterKeyword("jobs", reader => {
 				Logger.Info("Loading Jobs...");
@@ -114,7 +114,7 @@ namespace ImperatorToCK3.Imperator {
 				var playedCountryBlocParser = new Parser();
 				playedCountryBlocParser.RegisterKeyword("country", reader => {
 					var countryId = ParserHelpers.GetULong(reader);
-					var country = Countries.StoredCountries[countryId];
+					var country = Countries[countryId];
 					country.PlayerCountry = true;
 					playerCountriesToLog.Add(country.Tag);
 				});
@@ -174,7 +174,7 @@ namespace ImperatorToCK3.Imperator {
 					return;
 				}
 				var countryId = rulerTerm.PreImperatorRuler.Country.Id;
-				Countries.StoredCountries[countryId].RulerTerms.Add(rulerTerm);
+				Countries[countryId].RulerTerms.Add(rulerTerm);
 				if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
 					list.Add(rulerTerm);
 				} else {
@@ -184,13 +184,13 @@ namespace ImperatorToCK3.Imperator {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(filePath);
 
-			foreach (var country in Countries.StoredCountries.Values) {
+			foreach (var country in Countries.Values) {
 				country.RulerTerms = country.RulerTerms.OrderBy(t => t.StartDate).ToList();
 			}
 
 			// verify with data from historical_regnal_numbers
 			var regnalNameCounts = new Dictionary<ulong, Dictionary<string, int>>(); // <country id, <name, count>>
-			foreach (var countryId in Countries.StoredCountries.Keys) {
+			foreach (var countryId in Countries.Keys) {
 				if (!preImperatorRulerTerms.ContainsKey(countryId)) {
 					continue;
 				}
@@ -215,7 +215,7 @@ namespace ImperatorToCK3.Imperator {
 					}
 				}
 			}
-			foreach (var country in Countries.StoredCountries.Values) {
+			foreach (var country in Countries.Values) {
 				bool equal;
 				if (!regnalNameCounts.ContainsKey(country.Id)) {
 					equal = country.HistoricalRegnalNumbers.Count == 0;
