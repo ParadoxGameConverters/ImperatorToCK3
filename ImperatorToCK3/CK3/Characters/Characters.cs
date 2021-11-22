@@ -84,7 +84,7 @@ namespace ImperatorToCK3.CK3.Characters {
 					// imperatorRegnal characters do not have ImperatorCharacter
 					continue;
 				}
-				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother.Value;
+				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother;
 				if (impMotherCharacter is not null) {
 					var ck3MotherCharacter = impMotherCharacter.CK3Character;
 					ck3Character.Mother = ck3MotherCharacter;
@@ -93,7 +93,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 
 				// make links between Imperator characters
-				var impFatherCharacter = ck3Character.ImperatorCharacter.Father.Value;
+				var impFatherCharacter = ck3Character.ImperatorCharacter.Father;
 				if (impFatherCharacter is not null) {
 					var ck3FatherCharacter = impFatherCharacter.CK3Character;
 					ck3Character.Father = ck3FatherCharacter;
@@ -132,9 +132,9 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {
-			var landedCharacterIdSelect = titles.Values.Select(t => t.GetHolderId(ck3BookmarkDate));
+			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
 			var farewellIds = Keys.Where(
-				id => !id.StartsWith("imperator") && !landedCharacterIdSelect.Contains(id)
+				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
 			);
 
 			foreach (var characterId in farewellIds) {
@@ -142,6 +142,13 @@ namespace ImperatorToCK3.CK3.Characters {
 				Remove(characterId);
 			}
 			Logger.Info($"Purged {farewellIds.Count()} landless vanilla characters.");
+		}
+
+		public void RemoveEmployerIdFromLandedCharacters(LandedTitles titles, Date conversionDate) {
+			var landedCharacterIds = titles.GetHolderIds(conversionDate);
+			foreach (var character in Values.Where(character => landedCharacterIds.Contains(character.Id))) {
+				character.EmployerId = null;
+			}
 		}
 	}
 }

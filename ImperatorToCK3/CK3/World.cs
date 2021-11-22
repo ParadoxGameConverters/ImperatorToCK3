@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
@@ -88,6 +89,7 @@ namespace ImperatorToCK3.CK3 {
 			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, theConfiguration.Ck3BookmarkDate);
+			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, impWorld.EndDate);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -236,7 +238,7 @@ namespace ImperatorToCK3.CK3 {
 				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
 				try {
 					var newProvinces = new Provinces.Provinces(provincesPath, ck3BookmarkDate);
-					foreach (var (newProvinceId, newProvince) in newProvinces.StoredProvinces) {
+					foreach (var (newProvinceId, newProvince) in newProvinces) {
 						if (Provinces.ContainsKey(newProvinceId)) {
 							Logger.Warn($"Vanilla province duplication - {newProvinceId} already loaded! Overwriting.");
 						}

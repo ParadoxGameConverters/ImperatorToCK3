@@ -142,12 +142,12 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
 			var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
-			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Father.Value.ProvinceId;
+			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father is not null) {
+				impProvForProvinceMapper = ImperatorCharacter.Father.ProvinceId;
 			}
 
-			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Mother.Value.ProvinceId;
+			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother is not null) {
+				impProvForProvinceMapper = ImperatorCharacter.Mother.ProvinceId;
 			}
 
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Spouses.Count > 0) {
@@ -204,7 +204,15 @@ namespace ImperatorToCK3.CK3.Characters {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
 
-			if (ImperatorCharacter.PrisonerHome is not null) {
+			// if character is imprisoned, set jailor
+			SetJailor();
+			SetEmployer();
+
+			void SetJailor() {
+				if (ImperatorCharacter.PrisonerHome is null) {
+					return;
+				}
+
 				var prisonCountry = ImperatorCharacter.Country;
 				if (prisonCountry is null) {
 					Logger.Warn($"Imperator character {ImperatorCharacter.Id} is imprisoned but has no country!");
@@ -212,6 +220,16 @@ namespace ImperatorToCK3.CK3.Characters {
 					Logger.Warn($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
 				} else {
 					jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
+				}
+			}
+
+			void SetEmployer() {
+				var prisonerHome = ImperatorCharacter.PrisonerHome;
+				var homeCountry = ImperatorCharacter.HomeCountry;
+				if (prisonerHome?.CK3Title is not null) { // is imprisoned
+					EmployerId = prisonerHome.CK3Title.GetHolderId(dateOnConversion);
+				} else if (homeCountry?.CK3Title is not null) {
+					EmployerId = homeCountry.CK3Title.GetHolderId(dateOnConversion);
 				}
 			}
 		}
@@ -299,7 +317,8 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public string? DynastyId { get; set; } // not always set
 
-		private readonly string? jailorId;
+		private string? jailorId;
+		public string? EmployerId { get; set; }
 
 		public bool LinkJailor(Characters characters) {
 			if (jailorId is null) {

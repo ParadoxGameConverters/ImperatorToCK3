@@ -12,6 +12,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			var reader = new BufferedReader(
 				"= {" +
 				"\tcountry=69" +
+				"\thome_country=68" +
 				"\tculture=\"paradoxian\"" +
 				"\treligion=\"orthodox\"" +
 				"\tfemale=yes" +
@@ -34,6 +35,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\tdna=\"paradoxianDna\"" +
 				"\tage=56\n" +
 				"\tprovince=69" +
+				"\tprisoner_home=68" +
 				"}"
 			);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
@@ -47,11 +49,21 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Equal((ulong)42, character.Id);
 
 			Assert.Null(character.Country); // we have a country id, but no linked country yet
-			var countriesReader = new BufferedReader("={ 69={} }");
+			var countriesReader = new BufferedReader("={ 69={} 68={} }");
 			var countries = new ImperatorToCK3.Imperator.Countries.Countries(countriesReader);
 			character.LinkCountry(countries);
 			Assert.NotNull(character.Country);
 			Assert.Equal((ulong)69, character.Country.Id);
+
+			Assert.Null(character.HomeCountry); // we have a home country id, but no linked home country yet
+			character.LinkHomeCountry(countries);
+			Assert.NotNull(character.HomeCountry);
+			Assert.Equal((ulong)68, character.HomeCountry.Id);
+
+			Assert.Null(character.PrisonerHome); // we have a prisoner home id, but no linked prisoner home yet
+			character.LinkPrisonerHome(countries);
+			Assert.NotNull(character.PrisonerHome);
+			Assert.Equal((ulong)68, character.PrisonerHome.Id);
 
 			Assert.Equal("paradoxian", character.Culture);
 			Assert.Equal("orthodox", character.Religion);
@@ -93,8 +105,20 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 					Assert.Equal((ulong)420, item.Key);
 				}
 			);
-			Assert.Equal((ulong)123, character.Mother.Key);
-			Assert.Equal((ulong)124, character.Father.Key);
+
+			Assert.Null(character.Mother); // mother not linked yet
+			Assert.Null(character.Father); // father not linked yet
+			var mother = new ImperatorToCK3.Imperator.Characters.Character(123);
+			var father = new ImperatorToCK3.Imperator.Characters.Character(124);
+			characters.Add(mother);
+			characters.Add(father);
+			character.LinkMother(characters);
+			character.LinkFather(characters);
+			Assert.NotNull(character.Mother);
+			Assert.NotNull(character.Father);
+			Assert.Equal((ulong)123, character.Mother.Id);
+			Assert.Equal((ulong)124, character.Father.Id);
+
 			Assert.Null(character.Family); // Despite "family=125" in character definition, Family is null until linked.
 			Assert.Equal(420.5, character.Wealth);
 			Assert.Equal("Biggus_Dickus", character.Name);
@@ -122,8 +146,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Null(character.DeathReason);
 			Assert.Empty(character.Spouses);
 			Assert.Empty(character.Children);
-			Assert.Equal((ulong)0, character.Mother.Key);
-			Assert.Equal((ulong)0, character.Father.Key);
+			Assert.Null(character.Mother);
+			Assert.Null(character.Father);
 			Assert.Null(character.Family);
 			Assert.Equal(0, character.Wealth);
 			Assert.Equal(string.Empty, character.Name);
@@ -251,6 +275,18 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
 			};
 			Assert.True(ImperatorToCK3.Imperator.Characters.Character.IgnoredTokens.SetEquals(expectedIgnoredTokens));
+		}
+
+		[Fact]
+		public void CountryIsNotLinkedWithoutParsedId() {
+			var character = new ImperatorToCK3.Imperator.Characters.Character(1);
+			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
+			character.LinkCountry(countries);
+			character.LinkHomeCountry(countries);
+			character.LinkPrisonerHome(countries);
+			Assert.Null(character.Country);
+			Assert.Null(character.HomeCountry);
+			Assert.Null(character.PrisonerHome);
 		}
 	}
 }

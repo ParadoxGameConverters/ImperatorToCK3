@@ -69,6 +69,10 @@ namespace ImperatorToCK3.CK3.Titles {
 			return null;
 		}
 
+		public HashSet<string> GetHolderIds(Date date) {
+			return new HashSet<string>(Values.Select(t => t.GetHolderId(date)));
+		}
+
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.

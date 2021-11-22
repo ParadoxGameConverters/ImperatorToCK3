@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces {
-	public class Provinces : Parser {
+	public class Provinces : Dictionary<ulong, Province> {
 		public Provinces() { }
 		public Provinces(string filePath, Date ck3BookmarkDate) {
-			RegisterKeys(ck3BookmarkDate);
-			ParseFile(filePath);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser, ck3BookmarkDate);
+			parser.ParseFile(filePath);
 		}
-		public Dictionary<ulong, Province> StoredProvinces { get; } = new();
 
-		private void RegisterKeys(Date ck3BookmarkDate) {
-			RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
+		public void Add(Province newProvince) {
+			Add(newProvince.Id, newProvince);
+		}
+
+		private void RegisterKeys(Parser parser, Date ck3BookmarkDate) {
+			parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
 				var provinceId = ulong.Parse(provinceIdString);
 				var newProvince = new Province(provinceId, reader, ck3BookmarkDate);
-				StoredProvinces.Add(provinceId, newProvince);
+				Add(newProvince);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}
 }
