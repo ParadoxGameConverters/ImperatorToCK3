@@ -22,14 +22,11 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				}"
 			);
 
-			var provHistoryFactory = new HistoryFactory(
-				new() {
-					new() { FieldName = "culture", Setter = "culture", InitialValue = "roman" },
-					new() { FieldName = "religion", Setter = "religion", InitialValue = "orthodox" },
-					new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
-				},
-				new()
-			);
+			var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+				.WithSimpleField("culture", "culture", "roman")
+				.WithSimpleField("religion", "religion", "orthodox")
+				.WithSimpleField("holding", "holding", "none")
+				.Build();
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
@@ -54,14 +51,11 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				}"
 			);
 
-			var provHistoryFactory = new HistoryFactory(
-				new() {
-					new() { FieldName = "culture", Setter = "culture", InitialValue = null },
-					new() { FieldName = "religion", Setter = "religion", InitialValue = null },
-					new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
-				},
-				new()
-			);
+			var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+				.WithSimpleField("culture", "culture", null)
+				.WithSimpleField("religion", "religion", null)
+				.WithSimpleField("holding", "holding", "none")
+				.Build();
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
@@ -86,14 +80,11 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				}"
 			);
 
-			var provHistoryFactory = new HistoryFactory(
-					new() {
-						new() { FieldName = "culture", Setter = "culture", InitialValue = null },
-						new() { FieldName = "religion", Setter = "religion", InitialValue = null },
-						new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
-					},
-					new()
-				);
+			var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+				.WithSimpleField("culture", "culture", null)
+				.WithSimpleField("religion", "religion", null)
+				.WithSimpleField("holding", "holding", "none")
+				.Build();
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
@@ -116,14 +107,11 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				}"
 			);
 
-			var provHistoryFactory = new HistoryFactory(
-					new() {
-						new() { FieldName = "culture", Setter = "culture", InitialValue = null },
-						new() { FieldName = "religion", Setter = "religion", InitialValue = null },
-						new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
-					},
-					new()
-				);
+			var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+				.WithSimpleField("culture", "culture", null)
+				.WithSimpleField("religion", "religion", null)
+				.WithSimpleField("holding", "holding", "none")
+				.Build();
 
 			var provHistory = provHistoryFactory.GetHistory(reader);
 
@@ -153,14 +141,11 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				"}\n"
 			);
 
-			var provHistoryFactory = new HistoryFactory(
-					simpleFieldDefs: new() {
-						new() { FieldName = "culture", Setter = "culture", InitialValue = null },
-						new() { FieldName = "religion", Setter = "religion", InitialValue = null },
-						new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
-					},
-					containerFieldDefs: new()
-				);
+			var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+				.WithSimpleField("culture", "culture", null)
+				.WithSimpleField("religion", "religion", null)
+				.WithSimpleField("holding", "holding", "none")
+				.Build();
 
 			var provHistory = provHistoryFactory.GetHistory(reader1);
 			provHistoryFactory.UpdateHistory(provHistory, reader2);
