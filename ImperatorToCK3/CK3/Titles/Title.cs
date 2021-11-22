@@ -379,8 +379,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		public void LoadTitles(BufferedReader reader) {
-			var parser = new Parser();
+		public void LoadTitles(BufferedReader reader, Dictionary<string, object> variables) {
+			var parser = new Parser(variables);
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
 		}
@@ -565,6 +565,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
 
+		[SerializedName("ai_primary_priority")] public string? AIPrimaryPriority { get; private set; }
 		[SerializedName("destroy_if_invalid_heir")] public ParadoxBool? DestroyIfInvalidHeir { get; set; }
 		[SerializedName("no_automatic_claims")] public ParadoxBool? NoAutomaticClaims { get; set; }
 		[SerializedName("always_follows_primary_heir")] public ParadoxBool? AlwaysFollowsPrimaryHeir { get; set; }
@@ -593,7 +594,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
-				newTitle.LoadTitles(reader);
+				newTitle.LoadTitles(reader, parser.Variables);
 
 				if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBarony)) {
 					// title is a barony, and no other barony has been found in this scope yet
@@ -609,6 +610,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("ai_primary_priority", reader=>AIPrimaryPriority = new StringOfItem(reader, parser.Variables).String);
 			parser.RegisterKeyword("province", reader => Province = ParserHelpers.GetULong(reader));
 			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = new ParadoxBool(reader));
 			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = new ParadoxBool(reader));
