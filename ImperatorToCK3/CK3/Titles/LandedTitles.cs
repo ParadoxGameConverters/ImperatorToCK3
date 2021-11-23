@@ -24,22 +24,19 @@ namespace ImperatorToCK3.CK3.Titles {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseFile(fileName);
-			foreach (var (name, value) in parser.Variables) {
-				Variables[name] = value;
-			}
-			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
-
-			LinkCapitals();
+			ProcessPostLoad(parser);
 		}
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
+			ProcessPostLoad(parser);
+		}
+		private void ProcessPostLoad(Parser parser) {
 			foreach (var (name, value) in parser.Variables) {
 				Variables[name] = value;
 			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
-
 			LinkCapitals();
 		}
 
