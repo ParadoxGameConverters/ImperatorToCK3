@@ -379,8 +379,8 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		public void LoadTitles(BufferedReader reader) {
-			var parser = new Parser();
+		public void LoadTitles(BufferedReader reader, Dictionary<string, object>? variables = null) {
+			var parser = new Parser(variables);
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
 		}
@@ -565,6 +565,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
 
+		[SerializedName("ai_primary_priority")] public StringOfItem? AIPrimaryPriority { get; private set; }
 		[SerializedName("destroy_if_invalid_heir")] public ParadoxBool? DestroyIfInvalidHeir { get; set; }
 		[SerializedName("no_automatic_claims")] public ParadoxBool? NoAutomaticClaims { get; set; }
 		[SerializedName("always_follows_primary_heir")] public ParadoxBool? AlwaysFollowsPrimaryHeir { get; set; }
@@ -593,7 +594,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
-				newTitle.LoadTitles(reader);
+				newTitle.LoadTitles(reader, parser.Variables);
 
 				if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBarony)) {
 					// title is a barony, and no other barony has been found in this scope yet
@@ -608,15 +609,16 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterKeyword("landless", reader => Landless = new ParadoxBool(reader));
 			parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
-			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("province", reader => Province = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = reader.GetString());
+			parser.RegisterKeyword("ai_primary_priority", reader=>AIPrimaryPriority = reader.GetStringOfItem());
+			parser.RegisterKeyword("province", reader => Province = reader.GetULong());
 			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = new ParadoxBool(reader));
 			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = new ParadoxBool(reader));
 			parser.RegisterKeyword("always_follows_primary_heir", reader => AlwaysFollowsPrimaryHeir = new ParadoxBool(reader));
 			parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = new ParadoxBool(reader));
 			parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = new ParadoxBool(reader));
-			parser.RegisterKeyword("male_names", reader => MaleNames = ParserHelpers.GetStrings(reader));
-			parser.RegisterKeyword("cultural_names", reader => CulturalNames = ParserHelpers.GetAssignments(reader));
+			parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
+			parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignments());
 
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);

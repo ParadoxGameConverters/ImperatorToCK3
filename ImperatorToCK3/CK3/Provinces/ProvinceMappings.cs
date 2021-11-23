@@ -30,7 +30,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdString) => {
 				var targetProvId = ulong.Parse(provIdString);
-				var baseProvId = ParserHelpers.GetULong(reader);
+				var baseProvId = reader.GetULong();
 				if (targetProvId == baseProvId) { // if left and right IDs are equal, no point in mapping
 					return;
 				}

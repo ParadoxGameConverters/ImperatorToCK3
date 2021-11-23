@@ -52,22 +52,22 @@ namespace ImperatorToCK3.Imperator.Families {
 			private static Family family = new(0);
 			static FamilyFactory() {
 				parser.RegisterKeyword("key", reader =>
-					family.Key = ParserHelpers.GetString(reader)
+					family.Key = reader.GetString()
 				);
 				parser.RegisterKeyword("prestige", reader =>
-					family.Prestige = ParserHelpers.GetDouble(reader)
+					family.Prestige = reader.GetDouble()
 				);
 				parser.RegisterKeyword("prestige_ratio", reader =>
-					family.PrestigeRatio = ParserHelpers.GetDouble(reader)
+					family.PrestigeRatio = reader.GetDouble()
 				);
 				parser.RegisterKeyword("culture", reader =>
-					family.Culture = ParserHelpers.GetString(reader)
+					family.Culture = reader.GetString()
 				);
 				parser.RegisterKeyword("minor_family", reader =>
 					family.Minor = new ParadoxBool(reader)
 				);
 				parser.RegisterKeyword("member", reader => {
-					foreach (var memberId in ParserHelpers.GetULongs(reader)) {
+					foreach (var memberId in reader.GetULongs()) {
 						family.Members.Add(memberId, null);
 					}
 				});

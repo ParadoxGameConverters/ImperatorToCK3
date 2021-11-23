@@ -6,7 +6,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		public DefiniteFormMapper(string configurablePath) {
 			var parser = new Parser();
 			parser.RegisterKeyword("names", reader => {
-				impCountryNamesWithDefiniteForm = new HashSet<string>(ParserHelpers.GetStrings(reader));
+				impCountryNamesWithDefiniteForm = new HashSet<string>(reader.GetStrings());
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(configurablePath);

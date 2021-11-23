@@ -9,10 +9,10 @@ namespace ImperatorToCK3.Mappers.Nickname {
 		public NicknameMapping(BufferedReader reader) {
 			var parser = new Parser();
 			parser.RegisterKeyword("ck3", reader => {
-				CK3Nickname = ParserHelpers.GetString(reader);
+				CK3Nickname = reader.GetString();
 			});
 			parser.RegisterKeyword("imp", reader => {
-				ImperatorNicknames.Add(ParserHelpers.GetString(reader));
+				ImperatorNicknames.Add(reader.GetString());
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseStream(reader);

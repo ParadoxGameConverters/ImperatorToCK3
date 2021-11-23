@@ -28,19 +28,19 @@ namespace ImperatorToCK3 {
 
 		private void RegisterKeys() {
 			RegisterKeyword("SaveGame", reader => {
-				SaveGamePath = ParserHelpers.GetString(reader);
+				SaveGamePath = reader.GetString();
 				Logger.Info("Save game set to: " + SaveGamePath);
 			});
-			RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = ParserHelpers.GetString(reader));
-			RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = ParserHelpers.GetString(reader));
-			RegisterKeyword("CK3directory", reader => Ck3Path = ParserHelpers.GetString(reader));
-			RegisterKeyword("CK3ModsDirectory", reader => Ck3ModsPath = ParserHelpers.GetString(reader));
+			RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
+			RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
+			RegisterKeyword("CK3directory", reader => Ck3Path = reader.GetString());
+			RegisterKeyword("CK3ModsDirectory", reader => Ck3ModsPath = reader.GetString());
 			RegisterKeyword("output_name", reader => {
-				OutputModName = ParserHelpers.GetString(reader);
+				OutputModName = reader.GetString();
 				Logger.Info($"Output name set to: {OutputModName}");
 			});
 			RegisterKeyword("ImperatorDeJure", reader => {
-				var deJureString = ParserHelpers.GetString(reader);
+				var deJureString = reader.GetString();
 				try {
 					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(deJureString);
 					Logger.Info($"ImperatorDeJure set to: {deJureString}");
@@ -50,7 +50,7 @@ namespace ImperatorToCK3 {
 			});
 
 			RegisterKeyword("bookmark_date", reader => {
-				var dateStr = ParserHelpers.GetString(reader);
+				var dateStr = reader.GetString();
 				Logger.Info($"Entered CK3 bookmark date: {dateStr}");
 				Ck3BookmarkDate = new Date(dateStr);
 				Logger.Info($"CK3 bookmark date set to: {Ck3BookmarkDate}");

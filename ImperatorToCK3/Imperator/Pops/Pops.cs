@@ -11,7 +11,7 @@ namespace ImperatorToCK3.Imperator.Pops {
 		}
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, thePopId) => {
-				var popStr = new StringOfItem(reader).String;
+				var popStr = new StringOfItem(reader).ToString();
 				if (popStr.Contains('{')) {
 					var tempStream = new BufferedReader(popStr);
 					var pop = Pop.Parse(thePopId, tempStream);

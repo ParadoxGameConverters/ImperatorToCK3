@@ -12,7 +12,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 		private void RegisterKeys() {
 			RegisterKeyword("provinces", reader => {
-				foreach (var id in ParserHelpers.GetULongs(reader)) {
+				foreach (var id in reader.GetULongs()) {
 					Provinces.Add(id);
 				}
 			});

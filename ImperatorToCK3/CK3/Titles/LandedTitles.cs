@@ -18,10 +18,15 @@ namespace ImperatorToCK3.CK3.Titles {
 		public IEnumerator<KeyValuePair<string, Title>> GetEnumerator() => titlesDict.GetEnumerator();
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+		public Dictionary<string, object> Variables { get; } = new();
+
 		public void LoadTitles(string fileName) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseFile(fileName);
+			foreach (var (name, value) in parser.Variables) {
+				Variables[name] = value;
+			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
@@ -30,6 +35,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
+			foreach (var (name, value) in parser.Variables) {
+				Variables[name] = value;
+			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
@@ -89,7 +97,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = new Title(titleNameStr);
-				newTitle.LoadTitles(reader);
+				newTitle.LoadTitles(reader, parser.Variables);
 
 				Title.AddFoundTitle(newTitle, titlesDict);
 			});
