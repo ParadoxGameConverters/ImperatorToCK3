@@ -38,15 +38,13 @@ namespace ImperatorToCK3.CK3.Titles {
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
-		private readonly HistoryFactory historyFactory = new(
-			simpleFieldDefs: new() {
-				new() { FieldName = "holder", Setter = "holder", InitialValue = "0" },
-				new() { FieldName = "liege", Setter = "liege", InitialValue = null },
-				new() { FieldName = "government", Setter = "government", InitialValue = null },
-				new() { FieldName = "development_level", Setter = "change_development_level", InitialValue = null },
-			},
-			containerFieldDefs: new()
-		);
+
+		private readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
+			.WithSimpleField("holder", "holder", "0")
+			.WithSimpleField("government", "government", null)
+			.WithSimpleField("liege", "liege", null)
+			.WithSimpleField("development_level", "change_development_level", null)
+			.Build();
 		private readonly Dictionary<string, TitleHistory> historyDict = new();
 	}
 }
