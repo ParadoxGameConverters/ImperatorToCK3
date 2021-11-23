@@ -29,16 +29,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private static readonly Parser parser = new();
 		private static RulerTerm parsedTerm = new();
 		static RulerTerm() {
-			parser.RegisterKeyword("character", reader => {
-				parsedTerm.CharacterId = reader.GetULong();
-			});
+			parser.RegisterKeyword("character", reader => parsedTerm.CharacterId = reader.GetULong());
 			parser.RegisterKeyword("start_date", reader => {
 				var dateString = reader.GetString();
 				parsedTerm.StartDate = new Date(dateString, AUC: true);
 			});
-			parser.RegisterKeyword("government", reader => {
-				parsedTerm.Government = reader.GetString();
-			});
+			parser.RegisterKeyword("government", reader => parsedTerm.Government = reader.GetString());
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);
@@ -50,9 +46,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			PreImperatorRuler = new();
 			var prehistoryParser = new Parser();
 
-			prehistoryParser.RegisterKeyword("name", reader => {
-				PreImperatorRuler.Name = reader.GetString();
-			});
+			prehistoryParser.RegisterKeyword("name", reader => PreImperatorRuler.Name = reader.GetString());
 			prehistoryParser.RegisterKeyword("birth_date", reader => {
 				var dateStr = reader.GetString();
 				PreImperatorRuler.BirthDate = new Date(dateStr, AUC: true);
@@ -65,15 +59,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 				var dateStr = reader.GetString();
 				StartDate = new Date(dateStr, AUC: true);
 			});
-			prehistoryParser.RegisterKeyword("religion", reader => {
-				PreImperatorRuler.Religion = reader.GetString();
-			});
-			prehistoryParser.RegisterKeyword("culture", reader => {
-				PreImperatorRuler.Culture = reader.GetString();
-			});
-			prehistoryParser.RegisterKeyword("nickname", reader => {
-				PreImperatorRuler.Nickname = reader.GetString();
-			});
+			prehistoryParser.RegisterKeyword("religion", reader => PreImperatorRuler.Religion = reader.GetString());
+			prehistoryParser.RegisterKeyword("culture", reader => PreImperatorRuler.Culture = reader.GetString());
+			prehistoryParser.RegisterKeyword("nickname", reader => PreImperatorRuler.Nickname = reader.GetString());
 			prehistoryParser.RegisterKeyword("country", reader => {
 				var tag = reader.GetString();
 				if (tagToCountryCache.TryGetValue(tag, out var cachedCountry)) {
