@@ -22,9 +22,7 @@ namespace ImperatorToCK3.Mappers.CoA {
 		}
 		private void RegisterKeys() {
 			RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
-			RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => {
-				coasMap.Add(flagName, new StringOfItem(reader).ToString());
-			});
+			RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap.Add(flagName, new StringOfItem(reader).ToString()));
 		}
 
 		public string? GetCoaForFlagName(string impFlagName) {
