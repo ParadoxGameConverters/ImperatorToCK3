@@ -20,8 +20,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 					var ageSexBlock = new WeightBlock(tempStream);
 					AgeSexWeightBlocks.Add(ageSexStr, ageSexBlock);
 				} else { // for copies: "boy = male"
-					var sexAge = tempStream.GetString();
-					if (AgeSexWeightBlocks.TryGetValue(sexAge, out var blockToCopy)) {
+					if (AgeSexWeightBlocks.TryGetValue(stringOfItem, out var blockToCopy)) {
 						AgeSexWeightBlocks.Add(ageSexStr, blockToCopy);
 					}
 				}
