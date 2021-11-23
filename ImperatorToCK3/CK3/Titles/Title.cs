@@ -566,6 +566,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
 
 		[SerializedName("ai_primary_priority")] public StringOfItem? AIPrimaryPriority { get; private set; }
+		[SerializedName("can_create")] public StringOfItem? CanCreate { get; private set; }
+		[SerializedName("can_create_on_partition")] public StringOfItem? CanCreateOnPartition { get; private set; }
 		[SerializedName("destroy_if_invalid_heir")] public ParadoxBool? DestroyIfInvalidHeir { get; set; }
 		[SerializedName("no_automatic_claims")] public ParadoxBool? NoAutomaticClaims { get; set; }
 		[SerializedName("always_follows_primary_heir")] public ParadoxBool? AlwaysFollowsPrimaryHeir { get; set; }
@@ -610,7 +612,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = reader.GetString());
-			parser.RegisterKeyword("ai_primary_priority", reader=>AIPrimaryPriority = reader.GetStringOfItem());
+			parser.RegisterKeyword("ai_primary_priority", reader => AIPrimaryPriority = reader.GetStringOfItem());
+			parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
+			parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());
 			parser.RegisterKeyword("province", reader => Province = reader.GetULong());
 			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = new ParadoxBool(reader));
 			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = new ParadoxBool(reader));
