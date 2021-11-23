@@ -159,7 +159,7 @@ namespace ImperatorToCK3.CK3 {
 					nicknameMapper,
 					Characters
 				);
-				LandedTitles.InsertTitle(newTitle);
+				LandedTitles.Add(newTitle);
 			}
 		}
 
@@ -222,7 +222,7 @@ namespace ImperatorToCK3.CK3 {
 					definiteFormMapper,
 					imperatorRegionMapper
 				);
-				LandedTitles.InsertTitle(newTitle);
+				LandedTitles.Add(newTitle);
 			}
 		}
 
@@ -486,7 +486,7 @@ namespace ImperatorToCK3.CK3 {
 					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
 						if (title.IsImportedOrUpdatedFromImperator && name.Contains("IMPTOCK3")) {
 							removedGeneratedTitles.Add(name);
-							LandedTitles.EraseTitle(name);
+							LandedTitles.Remove(name);
 						} else {
 							revokedVanillaTitles.Add(name);
 							title.ClearHolderSpecificHistory();

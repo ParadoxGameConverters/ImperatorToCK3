@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Outputter {
 	public static class TitlesOutputter {
-		private static void OutputTitlesHistory(string outputModName, Dictionary<string, Title> titles, Date conversionDate) {
+		private static void OutputTitlesHistory(string outputModName, LandedTitles titles, Date conversionDate) {
 			//output title history
 			var alreadyOutputtedTitles = new HashSet<string>();
 			foreach (var (name, title) in titles) {
@@ -43,7 +43,7 @@ namespace ImperatorToCK3.Outputter {
 			}
 		}
 
-		public static void OutputTitles(string outputModName, Dictionary<string, Title> titles, IMPERATOR_DE_JURE deJure, Date conversionDate) {
+		public static void OutputTitles(string outputModName, LandedTitles titles, IMPERATOR_DE_JURE deJure, Date conversionDate) {
 			var outputPath = Path.Combine("output", outputModName, "common/landed_titles/00_landed_titles.txt");
 			using var outputStream = File.OpenWrite(outputPath);
 			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);

@@ -136,8 +136,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			var roma = new Title("c_roma");
 			var titles = new LandedTitles();
-			titles.InsertTitle(roma);
-			titles.InsertTitle(title);
+			titles.Add(roma);
+			titles.Add(title);
 			Assert.NotNull(title.CapitalCounty);
 			Assert.Equal("c_roma", title.CapitalCountyName);
 		}

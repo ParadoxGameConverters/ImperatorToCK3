@@ -202,7 +202,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			TrySetAdjectiveLoc(localizationMapper, imperatorCountries);
 		}
 
-		internal void LinkCapital(Dictionary<string, Title> titles) {
+		internal void LinkCapital(LandedTitles titles) {
 			if (parsedCapitalCountyName is null) {
 				return;
 			}
@@ -730,7 +730,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		public HashSet<ulong> GetProvincesInCountry(Dictionary<string, Title> titles, Date ck3BookmarkDate) {
+		public HashSet<ulong> GetProvincesInCountry(LandedTitles titles, Date ck3BookmarkDate) {
 			var holderId = GetHolderId(ck3BookmarkDate);
 			var heldCounties = new List<Title>(
 				titles.Values.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
