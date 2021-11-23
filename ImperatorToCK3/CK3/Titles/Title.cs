@@ -610,7 +610,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("ai_primary_priority", reader=>AIPrimaryPriority = new StringOfItem(reader, parser.Variables).String);
+			parser.RegisterKeyword("ai_primary_priority", reader=>AIPrimaryPriority = ParserHelpers.GetStringOfItem(reader));
 			parser.RegisterKeyword("province", reader => Province = ParserHelpers.GetULong(reader));
 			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = new ParadoxBool(reader));
 			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = new ParadoxBool(reader));
