@@ -18,13 +18,13 @@ namespace ImperatorToCK3.CK3.Titles {
 		public IEnumerator<KeyValuePair<string, Title>> GetEnumerator() => titlesDict.GetEnumerator();
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-		public Dictionary<string, object> Variables = new();
+		public Dictionary<string, object> Variables { get; } = new();
 
 		public void LoadTitles(string fileName) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseFile(fileName);
-			foreach (var(name, value) in parser.Variables){
+			foreach (var (name, value) in parser.Variables) {
 				Variables[name] = value;
 			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
@@ -35,7 +35,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
-			foreach (var(name, value) in parser.Variables){
+			foreach (var (name, value) in parser.Variables) {
 				Variables[name] = value;
 			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
