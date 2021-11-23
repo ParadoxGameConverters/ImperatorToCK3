@@ -24,7 +24,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseFile(fileName);
-			Variables.UnionWith(parser.Variables);
+			foreach (var(name, value) in parser.Variables){
+				Variables[name] = value;
+			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
@@ -33,7 +35,9 @@ namespace ImperatorToCK3.CK3.Titles {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
-			Variables.UnionWith(parser.Variables);
+			foreach (var(name, value) in parser.Variables){
+				Variables[name] = value;
+			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 
 			LinkCapitals();
