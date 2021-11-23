@@ -48,7 +48,10 @@ namespace ImperatorToCK3.Outputter {
 			using var outputStream = File.OpenWrite(outputPath);
 			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-			output.Write(PDXSerializer.Serialize(titles.Variables, string.Empty, false));
+			foreach (var (name, value) in titles.Variables) {
+				output.WriteLine($"@{name}={value}");
+			}
+
 			// titles with a de jure liege will be outputted under the liege
 			var topDeJureTitles = new Dictionary<string, Title>(titles.Where(pair => pair.Value.DeJureLiege is null));
 			output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));

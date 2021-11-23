@@ -379,7 +379,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		public void LoadTitles(BufferedReader reader, Dictionary<string, object> variables) {
+		public void LoadTitles(BufferedReader reader, Dictionary<string, object>? variables = null) {
 			var parser = new Parser(variables);
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
