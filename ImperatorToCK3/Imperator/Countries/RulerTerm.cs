@@ -67,12 +67,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 				if (tagToCountryCache.TryGetValue(tag, out var cachedCountry)) {
 					PreImperatorRuler.Country = cachedCountry;
 				} else {
-					var matchingCountries = countries.Values.Where(c => c.Tag == tag);
-					if (matchingCountries.Count() != 1) {
+					var matchingCountries = countries.Values.Where(c => c.Tag == tag).ToArray();
+					if (matchingCountries.Length != 1) {
 						Logger.Warn($"Pre-Imperator ruler has wrong tag: {tag}!");
 						return;
 					}
-					var countryId = matchingCountries.First().Id;
+					var countryId = matchingCountries[0].Id;
 					PreImperatorRuler.Country = countries[countryId];
 					tagToCountryCache.Add(tag, PreImperatorRuler.Country);
 				}
