@@ -25,7 +25,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		private void RegisterKeys(Date ck3BookmarkDate) {
 			RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleName) => {
-				var historyItem = new StringOfItem(reader).String;
+				var historyItem = new StringOfItem(reader).ToString();
 				if (historyItem.Contains('{')) {
 					var tempReader = new BufferedReader(historyItem);
 					if (historyDict.TryGetValue(titleName, out var existingHistory)) {

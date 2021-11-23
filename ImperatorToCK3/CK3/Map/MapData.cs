@@ -94,7 +94,7 @@ namespace ImperatorToCK3.CK3.Map {
 			parser.RegisterRegex(listRegex, (reader, keyword) => {
 				parser.GetNextTokenWithoutMatching(reader); // equals sign
 				var typeOfGroup = parser.GetNextTokenWithoutMatching(reader);
-				var provIds = ParserHelpers.GetULongs(reader);
+				var provIds = reader.GetULongs();
 				if (keyword == "impassable_mountains") {
 					if (typeOfGroup == "RANGE") {
 						if (provIds.Count is < 1 or > 2) {

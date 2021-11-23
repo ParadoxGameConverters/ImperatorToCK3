@@ -109,33 +109,33 @@ namespace ImperatorToCK3.Imperator.Characters {
 				parsedCharacter.Name = characterName.Name;
 				parsedCharacter.CustomName = characterName.CustomName;
 			});
-			parser.RegisterKeyword("country", reader => parsedCharacter.parsedCountryId = ParserHelpers.GetULong(reader));
-			parser.RegisterKeyword("home_country", reader => parsedCharacter.parsedHomeCountryId = ParserHelpers.GetULong(reader));
-			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = ParserHelpers.GetULong(reader));
-			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = ParserHelpers.GetString(reader));
+			parser.RegisterKeyword("country", reader => parsedCharacter.parsedCountryId = reader.GetULong());
+			parser.RegisterKeyword("home_country", reader => parsedCharacter.parsedHomeCountryId = reader.GetULong());
+			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
+			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
+			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
 			parser.RegisterKeyword("female", reader => parsedCharacter.Female = new ParadoxBool(reader));
-			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = ParserHelpers.GetStrings(reader));
+			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
 			parser.RegisterKeyword("birth_date", reader => {
-				var dateStr = ParserHelpers.GetString(reader);
+				var dateStr = reader.GetString();
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
 			});
 			parser.RegisterKeyword("death_date", reader => {
-				var dateStr = ParserHelpers.GetString(reader);
+				var dateStr = reader.GetString();
 				parsedCharacter.DeathDate = new Date(dateStr, true); // converted to AD
 			});
-			parser.RegisterKeyword("death", reader => parsedCharacter.DeathReason = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("age", reader => parsedCharacter.Age = (uint)ParserHelpers.GetInt(reader));
-			parser.RegisterKeyword("nickname", reader => parsedCharacter.Nickname = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = ParserHelpers.GetULong(reader));
-			parser.RegisterKeyword("dna", reader => parsedCharacter.DNA = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("mother", reader => parsedCharacter.parsedMotherId = ParserHelpers.GetULong(reader));
-			parser.RegisterKeyword("father", reader => parsedCharacter.parsedFatherId = ParserHelpers.GetULong(reader));
-			parser.RegisterKeyword("wealth", reader => parsedCharacter.Wealth = ParserHelpers.GetDouble(reader));
-			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = ParserHelpers.GetULongs(reader).ToHashSet());
-			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = ParserHelpers.GetULongs(reader).ToHashSet());
+			parser.RegisterKeyword("death", reader => parsedCharacter.DeathReason = reader.GetString());
+			parser.RegisterKeyword("age", reader => parsedCharacter.Age = (uint)reader.GetInt());
+			parser.RegisterKeyword("nickname", reader => parsedCharacter.Nickname = reader.GetString());
+			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
+			parser.RegisterKeyword("dna", reader => parsedCharacter.DNA = reader.GetString());
+			parser.RegisterKeyword("mother", reader => parsedCharacter.parsedMotherId = reader.GetULong());
+			parser.RegisterKeyword("father", reader => parsedCharacter.parsedFatherId = reader.GetULong());
+			parser.RegisterKeyword("wealth", reader => parsedCharacter.Wealth = reader.GetDouble());
+			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
+			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
 			parser.RegisterKeyword("attributes", reader => parsedCharacter.Attributes = CharacterAttributes.Parse(reader));
-			parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.parsedPrisonerHomeId = ParserHelpers.GetULong(reader));
+			parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.parsedPrisonerHomeId = reader.GetULong());
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);

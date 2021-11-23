@@ -16,7 +16,7 @@ namespace ImperatorToCK3.Imperator.Families {
 
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, familyIdStr) => {
-				var familyStr = new StringOfItem(reader).String;
+				var familyStr = new StringOfItem(reader).ToString();
 				if (!familyStr.Contains('{')) {
 					return;
 				}

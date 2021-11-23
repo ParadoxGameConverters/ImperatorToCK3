@@ -12,10 +12,10 @@ namespace ImperatorToCK3.CK3.Map {
 		}
 		static ProvincePosition() {
 			parser.RegisterRegex("id", reader =>
-				positionToReturn.Id = ParserHelpers.GetULong(reader)
+				positionToReturn.Id = reader.GetULong()
 			);
 			parser.RegisterKeyword("position", reader => {
-				var positionsList = ParserHelpers.GetDoubles(reader);
+				var positionsList = reader.GetDoubles();
 				positionToReturn.X = positionsList[0];
 				positionToReturn.Y = positionsList[2];
 			});

@@ -29,13 +29,13 @@ namespace ImperatorToCK3.CommonUtils {
 			foreach (var def in this.simpleFieldDefs) {
 				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.Fields[def.FieldName].InitialValue = ParserHelpers.GetString(reader);
+					history.Fields[def.FieldName].InitialValue = reader.GetString();
 				});
 			}
 			foreach (var def in this.containerFieldDefs) {
 				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.Fields[def.FieldName].InitialValue = ParserHelpers.GetStrings(reader);
+					history.Fields[def.FieldName].InitialValue = reader.GetStrings();
 				});
 			}
 			RegisterRegex(CommonRegexes.Date, (reader, dateString) => {

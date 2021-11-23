@@ -10,7 +10,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("name", reader => Name = ParserHelpers.GetString(reader));
+			RegisterKeyword("name", reader => Name = reader.GetString());
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}

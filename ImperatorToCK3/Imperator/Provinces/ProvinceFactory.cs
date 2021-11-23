@@ -12,25 +12,25 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				province.Name = new ProvinceName(reader).Name
 			);
 			provinceParser.RegisterKeyword("culture", reader =>
-				province.Culture = ParserHelpers.GetString(reader)
+				province.Culture = reader.GetString()
 			);
 			provinceParser.RegisterKeyword("religion", reader =>
-				province.Religion = ParserHelpers.GetString(reader)
+				province.Religion = reader.GetString()
 			);
 			provinceParser.RegisterKeyword("owner", reader =>
-				province.OwnerCountry = new(ParserHelpers.GetULong(reader), null)
+				province.OwnerCountry = new(reader.GetULong(), null)
 			);
 			provinceParser.RegisterKeyword("controller", reader =>
-				province.Controller = ParserHelpers.GetULong(reader)
+				province.Controller = reader.GetULong()
 			);
 			provinceParser.RegisterKeyword("pop", reader =>
-				province.parsedPopIds.Add(ParserHelpers.GetULong(reader))
+				province.parsedPopIds.Add(reader.GetULong())
 			);
 			provinceParser.RegisterKeyword("civilization_value", reader =>
-				province.CivilizationValue = ParserHelpers.GetDouble(reader)
+				province.CivilizationValue = reader.GetDouble()
 			);
 			provinceParser.RegisterKeyword("province_rank", reader => {
-				var provinceRankStr = ParserHelpers.GetString(reader);
+				var provinceRankStr = reader.GetString();
 				switch (provinceRankStr) {
 					case "settlement":
 						province.ProvinceRank = ProvinceRank.settlement;
@@ -51,10 +51,10 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			);
 			provinceParser.RegisterKeyword("holy_site", reader => {
 				// 4294967295 is 2^32 − 1 and is the default value
-				province.HolySite = ParserHelpers.GetULong(reader) != 4294967295;
+				province.HolySite = reader.GetULong() != 4294967295;
 			});
 			provinceParser.RegisterKeyword("buildings", reader => {
-				var buildingsList = ParserHelpers.GetInts(reader);
+				var buildingsList = reader.GetInts();
 				province.BuildingCount = (uint)buildingsList.Sum();
 			});
 			provinceParser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {

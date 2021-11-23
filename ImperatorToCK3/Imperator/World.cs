@@ -33,7 +33,7 @@ namespace ImperatorToCK3.Imperator {
 			// parse the save
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
-				var versionString = ParserHelpers.GetString(reader);
+				var versionString = reader.GetString();
 				imperatorVersion = new GameVersion(versionString);
 				Logger.Info($"Save game version: {versionString}");
 
@@ -49,7 +49,7 @@ namespace ImperatorToCK3.Imperator {
 				}
 			});
 			RegisterKeyword("date", reader => {
-				var dateString = ParserHelpers.GetString(reader);
+				var dateString = reader.GetString();
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
 				if (EndDate > configuration.Ck3BookmarkDate) {
@@ -57,7 +57,7 @@ namespace ImperatorToCK3.Imperator {
 				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
-				var theDLCs = ParserHelpers.GetStrings(reader);
+				var theDLCs = reader.GetStrings();
 				dlcs.UnionWith(theDLCs);
 				foreach (var dlc in dlcs) {
 					Logger.Info($"Enabled DLC: {dlc}");
@@ -65,7 +65,7 @@ namespace ImperatorToCK3.Imperator {
 			});
 			RegisterKeyword("enabled_mods", reader => {
 				Logger.Info("Detecting used mods...");
-				var modsList = ParserHelpers.GetStrings(reader);
+				var modsList = reader.GetStrings();
 				Logger.Info($"Save game claims {modsList.Count} mods used:");
 				Mods incomingMods = new();
 				foreach (var modPath in modsList) {
@@ -113,7 +113,7 @@ namespace ImperatorToCK3.Imperator {
 				var playerCountriesToLog = new List<string>();
 				var playedCountryBlocParser = new Parser();
 				playedCountryBlocParser.RegisterKeyword("country", reader => {
-					var countryId = ParserHelpers.GetULong(reader);
+					var countryId = reader.GetULong();
 					var country = Countries[countryId];
 					country.PlayerCountry = true;
 					playerCountriesToLog.Add(country.Tag);

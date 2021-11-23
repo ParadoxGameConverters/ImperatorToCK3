@@ -114,28 +114,28 @@ namespace ImperatorToCK3.Mappers.Culture {
 
 		static CultureMappingRule() {
 			parser.RegisterKeyword("ck3", reader => {
-				mappingToReturn.destinationCulture = ParserHelpers.GetString(reader);
+				mappingToReturn.destinationCulture = reader.GetString();
 			});
 			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.cultures.Add(ParserHelpers.GetString(reader));
+				mappingToReturn.cultures.Add(reader.GetString());
 			});
 			parser.RegisterKeyword("religion", reader => {
-				mappingToReturn.religions.Add(ParserHelpers.GetString(reader));
+				mappingToReturn.religions.Add(reader.GetString());
 			});
 			parser.RegisterKeyword("owner", reader => {
-				mappingToReturn.owners.Add(ParserHelpers.GetString(reader));
+				mappingToReturn.owners.Add(reader.GetString());
 			});
 			parser.RegisterKeyword("ck3Region", reader => {
-				mappingToReturn.ck3Regions.Add(ParserHelpers.GetString(reader));
+				mappingToReturn.ck3Regions.Add(reader.GetString());
 			});
 			parser.RegisterKeyword("impRegion", reader => {
-				mappingToReturn.imperatorRegions.Add(ParserHelpers.GetString(reader));
+				mappingToReturn.imperatorRegions.Add(reader.GetString());
 			});
 			parser.RegisterKeyword("ck3Province", reader => {
-				mappingToReturn.ck3Provinces.Add(ParserHelpers.GetULong(reader));
+				mappingToReturn.ck3Provinces.Add(reader.GetULong());
 			});
 			parser.RegisterKeyword("impProvince", reader => {
-				mappingToReturn.imperatorProvinces.Add(ParserHelpers.GetULong(reader));
+				mappingToReturn.imperatorProvinces.Add(reader.GetULong());
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}

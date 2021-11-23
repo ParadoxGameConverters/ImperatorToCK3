@@ -5,9 +5,9 @@ namespace ImperatorToCK3.Imperator.Pops {
 		private static Pop tempPop = new(0);
 		private static readonly Parser popParser = new();
 		static Pop() {
-			popParser.RegisterKeyword("type", reader => tempPop.Type = ParserHelpers.GetString(reader));
-			popParser.RegisterKeyword("culture", reader => tempPop.Culture = ParserHelpers.GetString(reader));
-			popParser.RegisterKeyword("religion", reader => tempPop.Religion = ParserHelpers.GetString(reader));
+			popParser.RegisterKeyword("type", reader => tempPop.Type = reader.GetString());
+			popParser.RegisterKeyword("culture", reader => tempPop.Culture = reader.GetString());
+			popParser.RegisterKeyword("religion", reader => tempPop.Religion = reader.GetString());
 			popParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static Pop Parse(string idString, BufferedReader reader) {

@@ -8,10 +8,10 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 		public SuccessionLawMapping(BufferedReader reader) {
 			var parser = new Parser();
 			parser.RegisterKeyword("imp", reader =>
-				ImperatorLaw = ParserHelpers.GetString(reader)
+				ImperatorLaw = reader.GetString()
 			);
 			parser.RegisterKeyword("ck3", reader =>
-				Ck3SuccessionLaws.Add(ParserHelpers.GetString(reader))
+				Ck3SuccessionLaws.Add(reader.GetString())
 			);
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseStream(reader);

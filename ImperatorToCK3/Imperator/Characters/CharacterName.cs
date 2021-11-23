@@ -11,8 +11,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("name", reader => Name = ParserHelpers.GetString(reader));
-			RegisterKeyword("custom_name", reader => CustomName = ParserHelpers.GetString(reader));
+			RegisterKeyword("name", reader => Name = reader.GetString());
+			RegisterKeyword("custom_name", reader => CustomName = reader.GetString());
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}

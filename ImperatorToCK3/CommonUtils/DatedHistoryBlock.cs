@@ -11,7 +11,7 @@ namespace ImperatorToCK3.CommonUtils {
 					if (!Contents.SimpleFieldContents.ContainsKey(fieldStruct.FieldName)) {
 						Contents.SimpleFieldContents.Add(fieldStruct.FieldName, new());
 					}
-					Contents.SimpleFieldContents[fieldStruct.FieldName].Add(ParserHelpers.GetString(reader));
+					Contents.SimpleFieldContents[fieldStruct.FieldName].Add(reader.GetString());
 				});
 			}
 			foreach (var fieldStruct in containerFieldStructs) {
@@ -19,7 +19,7 @@ namespace ImperatorToCK3.CommonUtils {
 					if (!Contents.ContainerFieldContents.ContainsKey(fieldStruct.FieldName)) {
 						Contents.ContainerFieldContents.Add(fieldStruct.FieldName, new());
 					}
-					Contents.ContainerFieldContents[fieldStruct.FieldName].Add(ParserHelpers.GetStrings(reader));
+					Contents.ContainerFieldContents[fieldStruct.FieldName].Add(reader.GetStrings());
 				});
 			}
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
