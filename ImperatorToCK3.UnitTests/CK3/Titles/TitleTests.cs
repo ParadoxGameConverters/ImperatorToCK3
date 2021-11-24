@@ -34,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private readonly ReligionMapper religionMapper = new();
 			private readonly CultureMapper cultureMapper = new();
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-			private readonly Dictionary<string, Character> charactersDict = new();
+			private readonly ImperatorToCK3.CK3.Characters.Characters characters = new();
 
 			public Title BuildFromTag() {
 				return new Title(
@@ -51,7 +51,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					charactersDict
+					characters
 				);
 			}
 			public TitleBuilder WithCountry(Country country) {
