@@ -39,7 +39,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Dictionary<string, Characters.Character> charactersDict
+			Characters.Characters characters
 		) {
 			Name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 			SetRank();
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				charactersDict
+				characters
 			);
 		}
 		public Title(
@@ -96,7 +96,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Dictionary<string, Characters.Character> charactersDict
+			Characters.Characters characters
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
@@ -117,7 +117,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
 				var rulerTerm = new RulerTerm(
 					impRulerTerm,
-					charactersDict,
+					characters,
 					governmentMapper,
 					localizationMapper,
 					religionMapper,
