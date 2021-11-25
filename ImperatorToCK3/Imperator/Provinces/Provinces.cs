@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces {
-	public class Provinces : Dictionary<ulong, Province> {
+	public class Provinces : IReadOnlyDictionary<ulong, Province> {
 		public Provinces() { }
 		public Provinces(BufferedReader reader) {
 			var parser = new Parser();
@@ -35,5 +35,15 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			}
 			Logger.Info($"{counter} countries linked to provinces.");
 		}
+
+		public bool ContainsKey(ulong key) => provincesDict.ContainsKey(key);
+		public bool TryGetValue(ulong key, [MaybeNullWhen(false)] out Province value) => provincesDict.TryGetValue(key, out value);
+		public IEnumerator<KeyValuePair<ulong, Province>> GetEnumerator() => provincesDict.GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => provincesDict.GetEnumerator();
+		public IEnumerable<ulong> Keys => provincesDict.Keys;
+		public IEnumerable<Province> Values => provincesDict.Values;
+		public int Count => provincesDict.Count;
+		public Province this[ulong key] => provincesDict[key];
+		private readonly Dictionary<ulong, Province> provincesDict = new();
 	}
 }
