@@ -297,7 +297,7 @@ namespace ImperatorToCK3.CK3 {
 					Logger.Warn($"Could not determine source province for CK3 province {provinceId}!");
 					continue; // MISMAP, or simply have mod provinces loaded we're not using.
 				}
-				province.InitializeFromImperator(sourceProvince.Value.Value, cultureMapper, religionMapper);
+				province.InitializeFromImperator(sourceProvince.Value.Value, LandedTitles, cultureMapper, religionMapper);
 				// And finally, initialize it.
 				++counter;
 			}
