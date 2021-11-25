@@ -24,17 +24,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			Logger.Info($"{counter} pops linked to provinces.");
 		}
 		public void LinkCountries(Countries.Countries countries) {
-			var counter = 0;
-			foreach (var province in Values) {
-				if (countries.TryGetValue(province.OwnerCountry.Key, out var countryToLink)) {
-					// link both ways
-					province.LinkOwnerCountry(countryToLink);
-					countryToLink.RegisterProvince(province);
-					++counter;
-				} else {
-					Logger.Warn($"Country with ID {province.OwnerCountry.Key} has no definition!");
-				}
-			}
+			var counter = Values.Count(province => province.TryLinkOwnerCounty(countries));
 			Logger.Info($"{counter} countries linked to provinces.");
 		}
 

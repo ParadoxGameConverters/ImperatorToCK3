@@ -30,7 +30,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 			// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 			// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
 
-			var impOwnerCountry = ImperatorProvince.OwnerCountry.Value;
+			var impOwnerCountry = ImperatorProvince.OwnerCountry;
 			if (impOwnerCountry is not null) {
 				ownerTitle = impOwnerCountry.CK3Title; // linking to our holder's title
 			}
@@ -75,7 +75,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 		public Imperator.Provinces.Province? ImperatorProvince { get; set; }
 
 		private ProvinceDetails details = new();
-		private Titles.Title? ownerTitle;
+		private Title? ownerTitle;
 
 		private void SetReligionFromImperator(ReligionMapper religionMapper) {
 			var religionSet = false;
@@ -138,14 +138,14 @@ namespace ImperatorToCK3.CK3.Provinces {
 				return;
 			}
 
-			if (ImperatorProvince.OwnerCountry.Value is null) {
+			if (ImperatorProvince.OwnerCountry is null) {
 				Logger.Warn($"CK3 Province {Id}: Imperator Province Owner Country is null!");
 				return;
 			}
-						
-			if (this.IsCountyCapital(landedTitles)) {
+
+			if (IsCountyCapital(landedTitles)) {
 				// CK3 Holdings that are Provincial Capitals always match the Government Type
-				switch (ImperatorProvince.OwnerCountry.Value.GovernmentType) {
+				switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 					case Imperator.Countries.GovernmentType.tribal:
 						details.Holding = "tribal_holding";
 						break;
@@ -163,17 +163,16 @@ namespace ImperatorToCK3.CK3.Provinces {
 				switch (ImperatorProvince.ProvinceRank) {
 					case Imperator.Provinces.ProvinceRank.city_metropolis:
 					case Imperator.Provinces.ProvinceRank.city:
-						switch (ImperatorProvince.OwnerCountry.Value.GovernmentType) {
+						switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 							case Imperator.Countries.GovernmentType.tribal:
 								if (ImperatorProvince.HolySite) {
 									details.Holding = "church_holding";
+								} else if (ImperatorProvince.Fort) {
+									details.Holding = "castle_holding";
 								} else {
-									if (ImperatorProvince.Fort) {
-										details.Holding = "castle_holding";
-									} else {
-										details.Holding = "city_holding";
-									}
+									details.Holding = "city_holding";
 								}
+
 								break;
 							case Imperator.Countries.GovernmentType.republic:
 								if (ImperatorProvince.HolySite) {
@@ -185,13 +184,12 @@ namespace ImperatorToCK3.CK3.Provinces {
 							case Imperator.Countries.GovernmentType.monarchy:
 								if (ImperatorProvince.HolySite) {
 									details.Holding = "church_holding";
+								} else if (ImperatorProvince.Fort) {
+									details.Holding = "castle_holding";
 								} else {
-									if (ImperatorProvince.Fort) {
-										details.Holding = "castle_holding";
-									} else {
-										details.Holding = "city_holding";
-									}
+									details.Holding = "city_holding";
 								}
+
 								break;
 							default:
 								details.Holding = "city_holding";
@@ -199,31 +197,29 @@ namespace ImperatorToCK3.CK3.Provinces {
 						}
 						break;
 					case Imperator.Provinces.ProvinceRank.settlement:
-						switch (ImperatorProvince.OwnerCountry.Value.GovernmentType) {
+						switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 							case Imperator.Countries.GovernmentType.tribal:
 								details.Holding = "none";
 								break;
 							case Imperator.Countries.GovernmentType.republic:
 								if (ImperatorProvince.HolySite) {
 									details.Holding = "church_holding";
+								} else if (ImperatorProvince.Fort) {
+									details.Holding = "city_holding";
 								} else {
-									if (ImperatorProvince.Fort) {
-										details.Holding = "city_holding";
-									} else {
-										details.Holding = "none";
-									}
+									details.Holding = "none";
 								}
+
 								break;
 							case Imperator.Countries.GovernmentType.monarchy:
 								if (ImperatorProvince.HolySite) {
 									details.Holding = "church_holding";
+								} else if (ImperatorProvince.Fort) {
+									details.Holding = "castle_holding";
 								} else {
-									if (ImperatorProvince.Fort) {
-										details.Holding = "castle_holding";
-									} else {
-										details.Holding = "none";
-									}
+									details.Holding = "none";
 								}
+
 								break;
 							default:
 								details.Holding = "tribal_holding";

@@ -9,7 +9,8 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public string Name { get; set; } = "";
 		public string Culture { get; set; } = "";
 		public string Religion { get; set; } = "";
-		public KeyValuePair<ulong, Country?> OwnerCountry { get; set; } = new(0, null);
+		private ulong? parsedOwnerCountryId;
+		public Country? OwnerCountry { get; set; }
 		public ulong Controller { get; set; } = 0;
 		public Dictionary<ulong, Pops.Pop> Pops { get; set; } = new();
 		public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
@@ -29,11 +30,28 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				Logger.Warn($"Province {Id}: cannot link null country!");
 				return;
 			}
-			if (country.Id != OwnerCountry.Key) {
-				Logger.Warn($"Province {Id}: cannot link country {country.Id}: wrong ID!");
-			} else {
-				OwnerCountry = new(OwnerCountry.Key, country);
+
+			if (parsedOwnerCountryId is not null && parsedOwnerCountryId != country.Id) {
+				Logger.Warn($"Province {Id}: linking owner {country.Id} that doesn't match owner from save ({parsedOwnerCountryId})!");
 			}
+
+			OwnerCountry = country;
+		}
+
+		public bool TryLinkOwnerCounty(Countries.Countries countries) {
+			if (parsedOwnerCountryId is null) {
+				return false;
+			}
+
+			if (countries.TryGetValue((ulong)parsedOwnerCountryId, out var countryToLink)) {
+				// link both ways
+				province.LinkOwnerCountry(countryToLink);
+				countryToLink.RegisterProvince(province);
+				return true;
+			}
+
+			Logger.Warn($"Country with ID {parsedOwnerCountryId} has no definition!");
+			return false;
 		}
 
 		// Returns a count of linked pops

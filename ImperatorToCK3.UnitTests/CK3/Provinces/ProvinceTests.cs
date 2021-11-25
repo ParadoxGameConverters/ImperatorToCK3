@@ -46,12 +46,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var reader5 = new BufferedReader(" = { province_rank=settlement fort=yes }");
 			var reader6 = new BufferedReader(" = { province_rank=settlement }");
 
+			var imperatorCountry = new ImperatorToCK3.Imperator.Countries.Country(1);
 			var impProvince = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader1, 42);
+			impProvince.LinkOwnerCountry(imperatorCountry);
 			var impProvince2 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader2, 43);
+			impProvince2.LinkOwnerCountry(imperatorCountry);
 			var impProvince3 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader3, 44);
+			impProvince3.LinkOwnerCountry(imperatorCountry);
 			var impProvince4 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader4, 45);
+			impProvince4.LinkOwnerCountry(imperatorCountry);
 			var impProvince5 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader5, 46);
+			impProvince5.LinkOwnerCountry(imperatorCountry);
 			var impProvince6 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader6, 47);
+			impProvince6.LinkOwnerCountry(imperatorCountry);
 
 			var province1 = new Province();
 			var province2 = new Province();
@@ -76,7 +83,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			Assert.Equal("city_holding", province3.Holding);
 			Assert.Equal("church_holding", province4.Holding);
 			Assert.Equal("castle_holding", province5.Holding);
-			Assert.Equal("tribal_holding", province6.Holding);
+			Assert.Equal("none", province6.Holding);
 		}
 	}
 }

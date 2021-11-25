@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				province.Religion = reader.GetString()
 			);
 			provinceParser.RegisterKeyword("owner", reader =>
-				province.OwnerCountry = new(reader.GetULong(), null)
+				province.parsedOwnerCountryId = reader.GetULong()
 			);
 			provinceParser.RegisterKeyword("controller", reader =>
 				province.Controller = reader.GetULong()
