@@ -83,7 +83,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			Assert.Equal("city_holding", province3.Holding);
 			Assert.Equal("church_holding", province4.Holding);
 			Assert.Equal("castle_holding", province5.Holding);
-			Assert.Equal("tribal_holding", province6.Holding);
+			Assert.Equal("none", province6.Holding);
 		}
 	}
 }
