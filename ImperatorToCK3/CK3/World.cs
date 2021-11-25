@@ -315,19 +315,20 @@ namespace ImperatorToCK3.CK3 {
 			long maxDev = -1;
 
 			foreach (var imperatorProvinceId in impProvinceNumbers) {
-				if (impWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
-					var ownerId = impProvince.OwnerCountry.Key;
-					if (!theClaims.ContainsKey(ownerId)) {
-						theClaims[ownerId] = new();
-					}
-					theClaims[ownerId].Add(impProvince);
-
-					var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
-					theShares[ownerId] = devValue;
-				} else {
+				if (!impWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
 					Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
 					continue; // Broken mapping, or loaded a mod changing provinces without using it.
 				}
+
+				var ownerId = impProvince.OwnerCountry?.Id ?? 0;
+				if (!theClaims.ContainsKey(ownerId)) {
+					theClaims[ownerId] = new();
+				}
+
+				theClaims[ownerId].Add(impProvince);
+
+				var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
+				theShares[ownerId] = devValue;
 			}
 			// Let's see who the lucky winner is.
 			foreach (var (owner, development) in theShares) {
@@ -400,7 +401,7 @@ namespace ImperatorToCK3.CK3 {
 					continue;
 				}
 
-				var impCountry = impProvince.OwnerCountry.Value;
+				var impCountry = impProvince.OwnerCountry;
 
 				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
 					title.SetHolderId("0", ck3BookmarkDate);
