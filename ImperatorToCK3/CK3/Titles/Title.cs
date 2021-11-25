@@ -789,7 +789,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 		[NonSerialized] public SortedSet<ulong> CountyProvinces { get; } = new();
 		[NonSerialized] public string CapitalBarony { get; private set; } = string.Empty; // used when parsing inside county to save first barony
-		[NonSerialized] public ulong CapitalBaronyProvince { get; private set; } = 0; // county barony's province; 0 is not a valid barony ID
+		[NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
 
 		// used by barony titles only
 		[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_ barony is its corresponding title.

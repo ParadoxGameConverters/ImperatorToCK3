@@ -175,10 +175,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void CapitalBaronyDefaultsToZero() {
+		public void CapitalBaronyDefaultsToNull() {
 			var title = new Title("k_testtitle");
 
-			Assert.Equal((ulong)0, title.CapitalBaronyProvince);
+			Assert.Null(title.CapitalBaronyProvince);
 		}
 
 		[Fact]
