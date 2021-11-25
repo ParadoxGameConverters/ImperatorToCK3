@@ -155,6 +155,9 @@ namespace ImperatorToCK3.CK3.Provinces {
 					case Imperator.Countries.GovernmentType.monarchy:
 						details.Holding = "castle_holding";
 						break;
+					default:
+						details.Holding = "none";
+						break;
 				}
 			} else {
 				switch (ImperatorProvince.ProvinceRank) {
@@ -226,6 +229,9 @@ namespace ImperatorToCK3.CK3.Provinces {
 								details.Holding = "tribal_holding";
 								break;
 						}
+						break;
+					default:
+						details.Holding = "none";
 						break;
 				}
 			}
