@@ -17,7 +17,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public RulerTerm(
 			Imperator.Countries.RulerTerm imperatorRulerTerm,
-			IDictionary<string, Character> charactersDict,
+			Characters.Characters characters,
 			GovernmentMapper governmentMapper,
 			LocalizationMapper localizationMapper,
 			ReligionMapper religionMapper,
@@ -46,7 +46,7 @@ namespace ImperatorToCK3.CK3.Titles {
 					nicknameMapper,
 					provinceMapper
 				);
-				charactersDict.Add(character.Id, character);
+				characters.Add(character);
 				CharacterId = character.Id;
 			}
 		}

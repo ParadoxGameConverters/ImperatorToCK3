@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
@@ -59,15 +60,16 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var province5 = new Province();
 			var province6 = new Province();
 
+			var landedTitles = new LandedTitles();
 			var cultureMapper = new CultureMapper();
 			var religionMapper = new ReligionMapper();
 
-			province1.InitializeFromImperator(impProvince, cultureMapper, religionMapper);
-			province2.InitializeFromImperator(impProvince2, cultureMapper, religionMapper);
-			province3.InitializeFromImperator(impProvince3, cultureMapper, religionMapper);
-			province4.InitializeFromImperator(impProvince4, cultureMapper, religionMapper);
-			province5.InitializeFromImperator(impProvince5, cultureMapper, religionMapper);
-			province6.InitializeFromImperator(impProvince6, cultureMapper, religionMapper);
+			province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper);
+			province2.InitializeFromImperator(impProvince2, landedTitles, cultureMapper, religionMapper);
+			province3.InitializeFromImperator(impProvince3, landedTitles, cultureMapper, religionMapper);
+			province4.InitializeFromImperator(impProvince4, landedTitles, cultureMapper, religionMapper);
+			province5.InitializeFromImperator(impProvince5, landedTitles, cultureMapper, religionMapper);
+			province6.InitializeFromImperator(impProvince6, landedTitles, cultureMapper, religionMapper);
 
 			Assert.Equal("city_holding", province1.Holding);
 			Assert.Equal("castle_holding", province2.Holding);

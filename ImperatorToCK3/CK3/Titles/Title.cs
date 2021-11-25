@@ -39,7 +39,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Dictionary<string, Characters.Character> charactersDict
+			Characters.Characters characters
 		) {
 			Name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 			SetRank();
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				charactersDict
+				characters
 			);
 		}
 		public Title(
@@ -96,7 +96,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Dictionary<string, Characters.Character> charactersDict
+			Characters.Characters characters
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;
@@ -117,7 +117,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
 				var rulerTerm = new RulerTerm(
 					impRulerTerm,
-					charactersDict,
+					characters,
 					governmentMapper,
 					localizationMapper,
 					religionMapper,
@@ -789,7 +789,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 		[NonSerialized] public SortedSet<ulong> CountyProvinces { get; } = new();
 		[NonSerialized] public string CapitalBarony { get; private set; } = string.Empty; // used when parsing inside county to save first barony
-		[NonSerialized] public ulong CapitalBaronyProvince { get; private set; } = 0; // county barony's province; 0 is not a valid barony ID
+		[NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
 
 		// used by barony titles only
 		[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_ barony is its corresponding title.

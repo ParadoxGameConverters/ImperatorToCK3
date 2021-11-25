@@ -7,11 +7,13 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class Characters : Dictionary<string, Character> {
+	public class Characters : IReadOnlyDictionary<string, Character> {
 		public void ImportImperatorCharacters(Imperator.World impWorld,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
@@ -72,13 +74,13 @@ namespace ImperatorToCK3.CK3.Characters {
 				ck3BookmarkDate
 			);
 			character.CK3Character = newCharacter;
-			Add(newCharacter.Id, newCharacter);
+			charactersDict.Add(newCharacter.Id, newCharacter);
 		}
 
 		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
-			foreach (var ck3Character in Values) {
+			foreach (var ck3Character in charactersDict.Values) {
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
@@ -106,7 +108,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		private void LinkSpouses() {
 			var spouseCounter = 0;
-			foreach (var ck3Character in Values) {
+			foreach (var ck3Character in charactersDict.Values) {
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
@@ -127,7 +129,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		private void LinkPrisoners() {
-			var prisonerCount = Values.Count(character => character.LinkJailor(this));
+			var prisonerCount = charactersDict.Values.Count(character => character.LinkJailor(this));
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
@@ -139,16 +141,30 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			foreach (var characterId in farewellIds) {
 				this[characterId].BreakAllLinks();
-				Remove(characterId);
+				charactersDict.Remove(characterId);
 			}
 			Logger.Info($"Purged {farewellIds.Count()} landless vanilla characters.");
 		}
 
 		public void RemoveEmployerIdFromLandedCharacters(LandedTitles titles, Date conversionDate) {
 			var landedCharacterIds = titles.GetHolderIds(conversionDate);
-			foreach (var character in Values.Where(character => landedCharacterIds.Contains(character.Id))) {
+			foreach (var character in charactersDict.Values.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;
 			}
 		}
+
+		public void Add(Character character) {
+			charactersDict.Add(character.Id, character);
+		}
+
+		private readonly Dictionary<string, Character> charactersDict = new();
+		public IEnumerator<KeyValuePair<string, Character>> GetEnumerator() => charactersDict.GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => charactersDict.GetEnumerator();
+		public int Count => charactersDict.Count;
+		public bool ContainsKey(string key) => charactersDict.ContainsKey(key);
+		public bool TryGetValue(string key, [MaybeNullWhen(false)] out Character value) => charactersDict.TryGetValue(key, out value);
+		public Character this[string key] => charactersDict[key];
+		public IEnumerable<string> Keys => charactersDict.Keys;
+		public IEnumerable<Character> Values => charactersDict.Values;
 	}
 }

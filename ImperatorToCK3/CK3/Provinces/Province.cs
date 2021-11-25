@@ -1,7 +1,9 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Province {
@@ -19,6 +21,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 
 		public void InitializeFromImperator(
 			Imperator.Provinces.Province impProvince,
+			LandedTitles landedTitles,
 			CultureMapper cultureMapper,
 			ReligionMapper religionMapper
 		) {
@@ -39,7 +42,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 			SetCultureFromImperator(cultureMapper);
 
 			// Holding type
-			SetHoldingFromImperator();
+			SetHoldingFromImperator(landedTitles);
 
 			details.Buildings.Clear();
 		}
@@ -129,7 +132,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 				Logger.Debug($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture");
 			}
 		}
-		private void SetHoldingFromImperator() {
+		private void SetHoldingFromImperator(LandedTitles landedTitles) {
 			if (ImperatorProvince is null) {
 				Logger.Warn($"CK3 Province {Id}: can't set holding from null Imperator Province!");
 				return;
@@ -207,6 +210,13 @@ namespace ImperatorToCK3.CK3.Provinces {
 					}
 					break;					
 			}
+		}
+
+		public bool IsCountyCapital(LandedTitles landedTitles) {
+			var capitalProvIds = landedTitles.Values
+				.Where(t => t.CapitalBaronyProvince is not null)
+				.Select(t => (ulong)t.CapitalBaronyProvince!);
+			return capitalProvIds.Contains(Id);
 		}
 	}
 }

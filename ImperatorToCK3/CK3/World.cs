@@ -297,7 +297,7 @@ namespace ImperatorToCK3.CK3 {
 					Logger.Warn($"Could not determine source province for CK3 province {provinceId}!");
 					continue; // MISMAP, or simply have mod provinces loaded we're not using.
 				}
-				province.InitializeFromImperator(sourceProvince.Value.Value, cultureMapper, religionMapper);
+				province.InitializeFromImperator(sourceProvince.Value.Value, LandedTitles, cultureMapper, religionMapper);
 				// And finally, initialize it.
 				++counter;
 			}
@@ -383,17 +383,18 @@ namespace ImperatorToCK3.CK3 {
 				if (title.Rank != TitleRank.county) {
 					continue;
 				}
-				if (title.CapitalBaronyProvince <= 0) {
+				ulong capitalBaronyProvinceId = (ulong)title.CapitalBaronyProvince!;
+				if (capitalBaronyProvinceId == 0) {
 					// title's capital province has an invalid ID (0 is not a valid province in CK3)
 					continue;
 				}
 
-				if (!Provinces.ContainsKey(title.CapitalBaronyProvince)) {
+				if (!Provinces.ContainsKey(capitalBaronyProvinceId)) {
 					Logger.Warn($"Capital barony province not found {title.CapitalBaronyProvince}");
 					continue;
 				}
 
-				var ck3CapitalBaronyProvince = Provinces[title.CapitalBaronyProvince];
+				var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvinceId];
 				var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
 				if (impProvince is null) {
 					continue;
