@@ -1,7 +1,9 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class Province {
@@ -156,6 +158,13 @@ namespace ImperatorToCK3.CK3.Provinces {
 					}
 					break;
 			}
+		}
+
+		public bool IsCapital(LandedTitles landedTitles) {
+			var capitalProvIds = landedTitles.Values
+				.Where(t => t.CapitalBaronyProvince is not null)
+				.Select(t => (ulong)t.CapitalBaronyProvince!);
+			return capitalProvIds.Contains(Id);
 		}
 	}
 }
