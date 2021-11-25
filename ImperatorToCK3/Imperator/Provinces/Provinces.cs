@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 				var newProvince = Province.Parse(reader, ulong.Parse(provIdStr));
-				Add(newProvince.Id, newProvince);
+				Add(newProvince);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
@@ -36,6 +36,10 @@ namespace ImperatorToCK3.Imperator.Provinces {
 				}
 			}
 			Logger.Info($"{counter} countries linked to provinces.");
+		}
+
+		public void Add(Province province) {
+			provincesDict.Add(province.Id, province);
 		}
 
 		public bool ContainsKey(ulong key) => provincesDict.ContainsKey(key);
