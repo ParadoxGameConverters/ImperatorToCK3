@@ -41,6 +41,9 @@ namespace ImperatorToCK3.Outputter {
 				conversionDate
 			);
 
+			Logger.Info("Writing Succession Triggers...");
+			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles);
+
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
 				theConfiguration.ImperatorPath,
@@ -100,6 +103,7 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/dynasties");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/landed_titles");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/common/named_colors");
+			SystemUtils.TryCreateFolder("output/" + outputName + "/common/scripted_triggers");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/localization");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace");
 			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace/english");
