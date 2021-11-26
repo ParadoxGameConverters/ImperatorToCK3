@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces {
-	public class Province {
+	public class Province : IIdentifiable<ulong> {
 		public Province() { }
 		public Province(ulong id, BufferedReader reader, Date ck3BookmarkDate) {
 			// Load from a country file, if one exists. Otherwise rely on defaults.
@@ -113,7 +114,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 			if (!string.IsNullOrEmpty(ImperatorProvince.Culture)) {
 				string ownerTitleName = string.Empty;
 				if (ownerTitle is not null) {
-					ownerTitleName = ownerTitle.Name;
+					ownerTitleName = ownerTitle.Id;
 				}
 				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
 				if (cultureMatch is not null) {
@@ -234,7 +235,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 		}
 
 		public bool IsCountyCapital(LandedTitles landedTitles) {
-			var capitalProvIds = landedTitles.Values
+			var capitalProvIds = landedTitles
 				.Where(t => t.CapitalBaronyProvince is not null)
 				.Select(t => (ulong)t.CapitalBaronyProvince!);
 			return capitalProvIds.Contains(Id);

@@ -20,12 +20,12 @@ namespace ImperatorToCK3.Mappers.Region {
 			ParseFile(islandRegionFilePath);
 			ClearRegisteredRules();
 
-			foreach (var (titleName, title) in landedTitles) {
+			foreach (var title in landedTitles) {
 				var titleRank = title.Rank;
 				if (titleRank == TitleRank.county) {
-					counties[titleName] = title;
+					counties[title.Id] = title;
 				} else if (titleRank == TitleRank.duchy) {
-					duchies[titleName] = title;
+					duchies[title.Id] = title;
 				}
 			}
 

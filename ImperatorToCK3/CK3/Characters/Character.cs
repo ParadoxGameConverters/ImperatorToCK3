@@ -83,7 +83,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 
 				if (imperatorCountry.CK3Title is not null) {
-					ck3TitleNameForMappers = imperatorCountry.CK3Title.Name;
+					ck3TitleNameForMappers = imperatorCountry.CK3Title.Id;
 				}
 			}
 
@@ -167,7 +167,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			var ck3Owner = "";
 			var imperatorCountry = ImperatorCharacter.Country;
 			if (imperatorCountry?.CK3Title is not null) {
-				ck3Owner = imperatorCountry.CK3Title.Name;
+				ck3Owner = imperatorCountry.CK3Title.Id;
 			}
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
