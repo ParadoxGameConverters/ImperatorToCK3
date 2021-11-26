@@ -139,12 +139,12 @@ namespace ImperatorToCK3.CK3.Provinces {
 			}
 
 			if (ImperatorProvince.OwnerCountry is null) {
-				Logger.Warn($"CK3 Province {Id}: Imperator Province Owner Country is null!");
+				details.Holding = "none";
 				return;
 			}
 
 			if (IsCountyCapital(landedTitles)) {
-				// CK3 Holdings that are Provincial Capitals always match the Government Type
+				// CK3 Holdings that are county capitals always match the Government Type
 				switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 					case Imperator.Countries.GovernmentType.tribal:
 						details.Holding = "tribal_holding";
