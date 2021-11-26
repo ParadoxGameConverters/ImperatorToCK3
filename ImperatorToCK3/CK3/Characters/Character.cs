@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -11,8 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class Character {
-		public string Id { get; private set; }
+	public class Character : IIdentifiable<string> {
+		public string Id { get; }
 		public bool Female { get; private set; }
 		public string Culture { get; private set; } = string.Empty;
 		public string Religion { get; private set; } = string.Empty;
@@ -320,7 +321,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		private string? jailorId;
 		public string? EmployerId { get; set; }
 
-		public bool LinkJailor(Characters characters) {
+		public bool LinkJailor(CharacterCollection characters) {
 			if (jailorId is null) {
 				return false;
 			}

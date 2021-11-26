@@ -40,7 +40,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Characters.Characters characters
+			Characters.CharacterCollection characters
 		) {
 			Id = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 			SetRank();
@@ -97,7 +97,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			Characters.Characters characters
+			Characters.CharacterCollection characters
 		) {
 			IsImportedOrUpdatedFromImperator = true;
 			ImperatorCountry = country;

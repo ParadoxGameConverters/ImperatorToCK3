@@ -17,7 +17,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public RulerTerm(
 			Imperator.Countries.RulerTerm imperatorRulerTerm,
-			Characters.Characters characters,
+			Characters.CharacterCollection characters,
 			GovernmentMapper governmentMapper,
 			LocalizationMapper localizationMapper,
 			ReligionMapper religionMapper,
