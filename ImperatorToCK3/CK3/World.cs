@@ -94,7 +94,7 @@ namespace ImperatorToCK3.CK3 {
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
 			Logger.Info("Clearing featured characters' descriptions.");
-			foreach (var title in LandedTitles.Values) {
+			foreach (var title in LandedTitles) {
 				if (!title.PlayerCountry) {
 					continue;
 				}
@@ -360,27 +360,27 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private void AddHistoryToVanillaTitles(Date ck3BookmarkDate) {
-			foreach (var (name, title) in LandedTitles) {
-				var historyOpt = titlesHistory.PopTitleHistory(name);
+			foreach (var title in LandedTitles) {
+				var historyOpt = titlesHistory.PopTitleHistory(title.Id);
 				if (historyOpt is not null) {
 					title.AddHistory(LandedTitles, historyOpt);
 				}
 			}
 			// add vanilla development to counties
 			// for counties that inherit development level from de jure lieges, assign it to them directly for better reliability
-			foreach (Title title in LandedTitles.Values.Where(title => title.Rank == TitleRank.county && title.DevelopmentLevel is null)) {
+			foreach (Title title in LandedTitles.Where(title => title.Rank == TitleRank.county && title.DevelopmentLevel is null)) {
 				title.DevelopmentLevel = title.OwnOrInheritedDevelopmentLevel;
 			}
 
 			// remove history entries past the bookmark date
-			foreach (var title in LandedTitles.Values) {
+			foreach (var title in LandedTitles) {
 				title.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);
 			}
 		}
 
 		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date ck3BookmarkDate) {
 			Logger.Info("Overwriting counties' history.");
-			foreach (var title in LandedTitles.Values) {
+			foreach (var title in LandedTitles) {
 				if (title.Rank != TitleRank.county) {
 					continue;
 				}
@@ -423,23 +423,23 @@ namespace ImperatorToCK3.CK3 {
 						if (impMonarch is not null) {
 							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 						} else {
-							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Name}!");
+							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Id}!");
 						}
 						continue;
 					}
 					// if title belongs to country ruler's capital's de jure duchy, make it directly held by the ruler
 					var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
 					var titleLiegeDuchy = title.DeJureLiege;
-					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
+					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Id == titleLiegeDuchy.Id) {
 						if (impMonarch is not null) {
 							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
 						}
 					} else if (matchingGovernorships.Count > 0) {
 						// give county to governor
 						var governorship = matchingGovernorships[0];
-						var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Name);
+						var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Id);
 						if (ck3GovernorshipName is null) {
-							Logger.Warn($"{nameof(ck3GovernorshipName)} is null for {ck3Country.Name} {governorship.RegionName}!");
+							Logger.Warn($"{nameof(ck3GovernorshipName)} is null for {ck3Country.Id} {governorship.RegionName}!");
 							continue;
 						}
 						GiveCountyToGovernor(title, ck3GovernorshipName);
@@ -455,7 +455,7 @@ namespace ImperatorToCK3.CK3 {
 					title.ClearHolderSpecificHistory();
 					title.SetHolderId(holder.Id, ck3Country.GetDateOfLastHolderChange());
 				} else {
-					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {title.Id} doesn't exist!");
 				}
 				title.DeFactoLiege = null;
 			}
@@ -468,7 +468,7 @@ namespace ImperatorToCK3.CK3 {
 					title.ClearHolderSpecificHistory();
 					title.SetHolderId(governor.Id, holderChangeDate);
 				} else {
-					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {title.Id} doesn't exist!");
 				}
 				title.DeFactoLiege = null;
 			}
@@ -481,16 +481,17 @@ namespace ImperatorToCK3.CK3 {
 
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
-			foreach (var (name, title) in LandedTitles) {
+			foreach (var title in LandedTitles) {
 				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 				// this also removes landless titles initialized from Imperator
 				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
-					if (!LandedTitles[name].Landless) { // does not have landless attribute set to true
-						if (title.IsImportedOrUpdatedFromImperator && name.Contains("IMPTOCK3")) {
-							removedGeneratedTitles.Add(name);
-							LandedTitles.Remove(name);
+					var id = title.Id;
+					if (!LandedTitles[id].Landless) { // does not have landless attribute set to true
+						if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
+							removedGeneratedTitles.Add(id);
+							LandedTitles.Remove(id);
 						} else {
-							revokedVanillaTitles.Add(name);
+							revokedVanillaTitles.Add(id);
 							title.ClearHolderSpecificHistory();
 							title.DeFactoLiege = null;
 						}
@@ -507,7 +508,7 @@ namespace ImperatorToCK3.CK3 {
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
 			var countyHoldersCache = new HashSet<string>();
-			foreach (var county in LandedTitles.Values.Where(t => t.Rank == TitleRank.county)) {
+			foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 				var holderId = county.GetHolderId(date);
 				if (holderId != "0") {
 					countyHoldersCache.Add(holderId);

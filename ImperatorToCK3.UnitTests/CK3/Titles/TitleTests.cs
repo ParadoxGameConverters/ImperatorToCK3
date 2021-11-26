@@ -232,10 +232,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var vassals = empire.GetDeJureVassalsAndBelow();
 			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
 			Assert.Collection(sortedVassals,
-				item1 => Assert.Equal("c_county", item1.Value.Name),
-				item2 => Assert.Equal("d_duchy", item2.Value.Name),
-				item3 => Assert.Equal("k_kingdom1", item3.Value.Name),
-				item4 => Assert.Equal("k_kingdom2", item4.Value.Name)
+				item1 => Assert.Equal("c_county", item1.Value.Id),
+				item2 => Assert.Equal("d_duchy", item2.Value.Id),
+				item3 => Assert.Equal("k_kingdom1", item3.Value.Id),
+				item4 => Assert.Equal("k_kingdom2", item4.Value.Id)
 			);
 		}
 		[Fact]
@@ -260,9 +260,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
 			Assert.Collection(sortedVassals,
 				// only counties and kingdoms go through the filter
-				item1 => Assert.Equal("c_county", item1.Value.Name),
-				item2 => Assert.Equal("k_kingdom1", item2.Value.Name),
-				item3 => Assert.Equal("k_kingdom2", item3.Value.Name)
+				item1 => Assert.Equal("c_county", item1.Value.Id),
+				item2 => Assert.Equal("k_kingdom1", item2.Value.Id),
+				item3 => Assert.Equal("k_kingdom2", item3.Value.Id)
 			);
 		}
 
@@ -287,10 +287,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var vassals = empire.GetDeFactoVassalsAndBelow();
 			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
 			Assert.Collection(sortedVassals,
-				item1 => Assert.Equal("c_county", item1.Value.Name),
-				item2 => Assert.Equal("d_duchy", item2.Value.Name),
-				item3 => Assert.Equal("k_kingdom1", item3.Value.Name),
-				item4 => Assert.Equal("k_kingdom2", item4.Value.Name)
+				item1 => Assert.Equal("c_county", item1.Value.Id),
+				item2 => Assert.Equal("d_duchy", item2.Value.Id),
+				item3 => Assert.Equal("k_kingdom1", item3.Value.Id),
+				item4 => Assert.Equal("k_kingdom2", item4.Value.Id)
 			);
 		}
 		[Fact]
@@ -315,9 +315,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
 			Assert.Collection(sortedVassals,
 				// only counties and kingdoms go through the filter
-				item1 => Assert.Equal("c_county", item1.Value.Name),
-				item2 => Assert.Equal("k_kingdom1", item2.Value.Name),
-				item3 => Assert.Equal("k_kingdom2", item3.Value.Name)
+				item1 => Assert.Equal("c_county", item1.Value.Id),
+				item2 => Assert.Equal("k_kingdom1", item2.Value.Id),
+				item3 => Assert.Equal("k_kingdom2", item3.Value.Id)
 			);
 		}
 
@@ -326,12 +326,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var vassal = new Title("d_vassal");
 			var oldLiege = new Title("k_old_liege");
 			vassal.DeFactoLiege = oldLiege;
-			Assert.Equal("k_old_liege", vassal.DeFactoLiege.Name);
+			Assert.Equal("k_old_liege", vassal.DeFactoLiege.Id);
 			Assert.True(oldLiege.DeFactoVassals.ContainsKey("d_vassal"));
 
 			var newLiege = new Title("k_new_liege");
 			vassal.DeFactoLiege = newLiege;
-			Assert.Equal("k_new_liege", vassal.DeFactoLiege.Name);
+			Assert.Equal("k_new_liege", vassal.DeFactoLiege.Id);
 			Assert.False(oldLiege.DeFactoVassals.ContainsKey("d_vassal"));
 			Assert.True(newLiege.DeFactoVassals.ContainsKey("d_vassal"));
 		}
@@ -341,12 +341,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var vassal = new Title("d_vassal");
 			var oldLiege = new Title("k_old_liege");
 			vassal.DeJureLiege = oldLiege;
-			Assert.Equal("k_old_liege", vassal.DeJureLiege.Name);
+			Assert.Equal("k_old_liege", vassal.DeJureLiege.Id);
 			Assert.True(oldLiege.DeJureVassals.ContainsKey("d_vassal"));
 
 			var newLiege = new Title("k_new_liege");
 			vassal.DeJureLiege = newLiege;
-			Assert.Equal("k_new_liege", vassal.DeJureLiege.Name);
+			Assert.Equal("k_new_liege", vassal.DeJureLiege.Id);
 			Assert.False(oldLiege.DeJureVassals.ContainsKey("d_vassal"));
 			Assert.True(newLiege.DeJureVassals.ContainsKey("d_vassal"));
 		}
@@ -409,7 +409,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var title = builder
 				.WithCountry(country)
 				.BuildFromTag();
-			Assert.Equal("d_IMPTOCK3_HRE", title.Name);
+			Assert.Equal("d_IMPTOCK3_HRE", title.Id);
 		}
 	}
 }

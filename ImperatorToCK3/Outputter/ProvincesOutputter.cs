@@ -15,11 +15,11 @@ namespace ImperatorToCK3.Outputter {
 			// output provinces to files named after their de jure kingdoms
 			var alreadyOutputtedProvinces = new HashSet<ulong>();
 
-			var deJureKingdoms = titles.Values.Where(
+			var deJureKingdoms = titles.Where(
 				t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0
 			);
 			foreach (var kingdom in deJureKingdoms) {
-				var filePath = $"output/{outputModName}/history/provinces/{kingdom.Name}.txt";
+				var filePath = $"output/{outputModName}/history/provinces/{kingdom.Id}.txt";
 				using var historyOutput = new StreamWriter(filePath);
 				foreach (var (id, province) in provinces) {
 					if (kingdom.KingdomContainsProvince(id)) {
@@ -31,7 +31,7 @@ namespace ImperatorToCK3.Outputter {
 			if (alreadyOutputtedProvinces.Count != provinces.Count) {
 				var filePath = $"output/{outputModName}/history/provinces/onlyDeJureDuchy.txt";
 				using var historyOutput = new StreamWriter(filePath);
-				var deJureDuchies = titles.Values.Where(
+				var deJureDuchies = titles.Where(
 					t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0
 				);
 				foreach (var duchy in deJureDuchies) {
@@ -40,7 +40,7 @@ namespace ImperatorToCK3.Outputter {
 							continue;
 						}
 						if (duchy.DuchyContainsProvince(id)) {
-							historyOutput.WriteLine($"# {duchy.Name}");
+							historyOutput.WriteLine($"# {duchy.Id}");
 							ProvinceOutputter.OutputProvince(historyOutput, province);
 							alreadyOutputtedProvinces.Add(id);
 						}

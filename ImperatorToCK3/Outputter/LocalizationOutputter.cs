@@ -41,7 +41,7 @@ namespace ImperatorToCK3.Outputter {
 			spanish.WriteLine("l_spanish:");
 
 			// title localization
-			foreach (var title in ck3World.LandedTitles.Values) {
+			foreach (var title in ck3World.LandedTitles) {
 				foreach (var (key, loc) in title.Localizations) {
 					english.WriteLine($" {key}: \"{loc.english}\"");
 					french.WriteLine($" {key}: \"{loc.french}\"");

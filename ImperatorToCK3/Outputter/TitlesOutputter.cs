@@ -10,7 +10,7 @@ namespace ImperatorToCK3.Outputter {
 		private static void OutputTitlesHistory(string outputModName, LandedTitles titles, Date conversionDate) {
 			//output title history
 			var alreadyOutputtedTitles = new HashSet<string>();
-			foreach (var (name, title) in titles) {
+			foreach (var title in titles) {
 				// first output kingdoms + their de jure vassals to files named after the kingdoms
 
 				if (title.Rank != TitleRank.kingdom || title.DeJureVassals.Count == 0) {
@@ -18,10 +18,10 @@ namespace ImperatorToCK3.Outputter {
 					continue;
 				}
 
-				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", name + ".txt");
+				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", title.Id + ".txt");
 				using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
 				title.OutputHistory(historyOutput, conversionDate);
-				alreadyOutputtedTitles.Add(name);
+				alreadyOutputtedTitles.Add(title.Id);
 
 				// output the kingdom's de jure vassals' history
 				foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
@@ -32,13 +32,13 @@ namespace ImperatorToCK3.Outputter {
 
 			var otherTitlesPath = Path.Combine("output", outputModName, "history/titles/00_other_titles.txt");
 			using (var historyOutput = new StreamWriter(otherTitlesPath)) {
-				foreach (var (name, title) in titles) {
+				foreach (var title in titles) {
 					// output the remaining titles
-					if (alreadyOutputtedTitles.Contains(name)) {
+					if (alreadyOutputtedTitles.Contains(title.Id)) {
 						continue;
 					}
 					title.OutputHistory(historyOutput, conversionDate);
-					alreadyOutputtedTitles.Add(name);
+					alreadyOutputtedTitles.Add(title.Id);
 				}
 			}
 		}
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.Outputter {
 			}
 
 			// titles with a de jure liege will be outputted under the liege
-			var topDeJureTitles = new Dictionary<string, Title>(titles.Where(pair => pair.Value.DeJureLiege is null));
+			var topDeJureTitles = new List<Title>(titles.Where(t => t.DeJureLiege is null));
 			output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
 
 			if (deJure == IMPERATOR_DE_JURE.REGIONS) {

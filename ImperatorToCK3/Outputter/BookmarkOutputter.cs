@@ -29,12 +29,12 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("\tis_playable = yes");
 			output.WriteLine("\trecommended = yes");
 
-			var playerTitles = new List<Title>(world.LandedTitles.Values.Where(title => title.PlayerCountry));
+			var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 			var localizations = new Dictionary<string, LocBlock>();
 			foreach (var title in playerTitles) {
 				var holderId = title.GetHolderId(config.Ck3BookmarkDate);
 				if (holderId == "0") {
-					Logger.Warn($"Cannot add player title {title.Name} to bookmark screen: holder is 0!");
+					Logger.Warn($"Cannot add player title {title.Id} to bookmark screen: holder is 0!");
 					continue;
 				}
 
@@ -52,7 +52,7 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\ttype = {holder.AgeSex}");
 				output.WriteLine($"\t\thistory_id = {holder.Id}");
 				output.WriteLine($"\t\tbirth = {holder.BirthDate}");
-				output.WriteLine($"\t\ttitle = {title.Name}");
+				output.WriteLine($"\t\ttitle = {title.Id}");
 				var gov = title.GetGovernment(config.Ck3BookmarkDate);
 				if (gov is not null) {
 					output.WriteLine($"\t\tgovernment = {gov}");
@@ -202,7 +202,7 @@ namespace ImperatorToCK3.Outputter {
 				}
 
 				var diff = provincesToColor.Count - heldProvinces.Count;
-				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Name}...");
+				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Id}...");
 
 				using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
 				foreach (var provinceColor in provincesToColor.Select(
