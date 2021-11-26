@@ -171,7 +171,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkCountry(Countries.Countries countries) {
+		public bool LinkCountry(Countries.CountryCollection countries) {
 			if (parsedCountryId is null) {
 				Logger.Warn($"Character {Id} has no country!");
 				return false;
@@ -187,7 +187,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkHomeCountry(Countries.Countries countries) {
+		public bool LinkHomeCountry(Countries.CountryCollection countries) {
 			if (parsedHomeCountryId is null) {
 				return false;
 			}
@@ -201,7 +201,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkPrisonerHome(Countries.Countries countries) {
+		public bool LinkPrisonerHome(Countries.CountryCollection countries) {
 			if (parsedPrisonerHomeId is null) {
 				return false;
 			}

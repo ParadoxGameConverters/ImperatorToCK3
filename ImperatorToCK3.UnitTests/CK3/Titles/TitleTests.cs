@@ -21,7 +21,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	public class TitleTests {
 		private class TitleBuilder {
 			private Country country = new(0);
-			private Dictionary<ulong, Country> imperatorCountries = new();
+			private CountryCollection imperatorCountries = new();
 			private LocalizationMapper localizationMapper = new();
 			private LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
@@ -58,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				this.country = country;
 				return this;
 			}
-			public TitleBuilder WithImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
+			public TitleBuilder WithImperatorCountries(CountryCollection imperatorCountries) {
 				this.imperatorCountries = imperatorCountries;
 				return this;
 			}

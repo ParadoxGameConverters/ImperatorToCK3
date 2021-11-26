@@ -39,7 +39,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			OwnerCountry = country;
 		}
 
-		public bool TryLinkOwnerCounty(Countries.Countries countries) {
+		public bool TryLinkOwnerCounty(Countries.CountryCollection countries) {
 			if (parsedOwnerCountryId is null) {
 				return false;
 			}

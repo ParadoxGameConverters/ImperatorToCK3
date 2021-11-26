@@ -1,11 +1,12 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries {
-	public class Countries : Dictionary<ulong, Country> {
-		public Countries() { }
-		public Countries(BufferedReader reader) {
+	public class CountryCollection : IdObjectCollection<ulong, Country> {
+		public CountryCollection() { }
+		public CountryCollection(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
@@ -13,13 +14,13 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, countryId) => {
 				var newCountry = Country.Parse(reader, ulong.Parse(countryId));
-				Add(newCountry.Id, newCountry);
+				Add(newCountry);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void LinkFamilies(Families.Families families) {
 			SortedSet<ulong> idsWithoutDefinition = new();
-			var counter = Values.Sum(country => country.LinkFamilies(families, idsWithoutDefinition));
+			var counter = this.Sum(country => country.LinkFamilies(families, idsWithoutDefinition));
 
 			if (idsWithoutDefinition.Count > 0) {
 				Logger.Debug($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");
@@ -27,11 +28,11 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 			Logger.Info($"{counter} families linked to countries.");
 		}
-		public static Countries ParseBloc(BufferedReader reader) {
+		public static CountryCollection ParseBloc(BufferedReader reader) {
 			var blocParser = new Parser();
-			Countries countries = new();
+			CountryCollection countries = new();
 			blocParser.RegisterKeyword("country_database", reader =>
-				countries = new Countries(reader)
+				countries = new CountryCollection(reader)
 			);
 			blocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 

@@ -21,7 +21,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			var counter = this.Sum(province => province.LinkPops(pops));
 			Logger.Info($"{counter} pops linked to provinces.");
 		}
-		public void LinkCountries(Countries.Countries countries) {
+		public void LinkCountries(Countries.CountryCollection countries) {
 			var counter = this.Count(province => province.TryLinkOwnerCounty(countries));
 			Logger.Info($"{counter} provinces linked to countries.");
 		}

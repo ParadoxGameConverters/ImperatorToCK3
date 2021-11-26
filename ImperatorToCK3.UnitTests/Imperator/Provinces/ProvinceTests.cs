@@ -107,7 +107,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 
 			Assert.Null(theProvince.OwnerCountry); // not linked yet
 
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries(new BufferedReader("69 = {}"));
+			var countries = new CountryCollection(new BufferedReader("69 = {}"));
 			theProvince.TryLinkOwnerCounty(countries);
 
 			Assert.NotNull(theProvince.OwnerCountry);

@@ -46,7 +46,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked.");
 		}
 
-		public void LinkCountries(Countries.Countries countries) {
+		public void LinkCountries(Countries.CountryCollection countries) {
 			var counter = this.Count(character => character.LinkCountry(countries));
 			Logger.Info($"{counter} countries linked to characters.");
 

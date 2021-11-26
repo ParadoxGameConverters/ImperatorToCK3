@@ -74,8 +74,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal("dictatorship", country.Government);
 			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
-			countries.Add(country.Id, country);
+			var countries = new CountryCollection();
+			countries.Add(country);
 			var monarch = ImperatorToCK3.Imperator.Characters.Character.Parse(
 				new BufferedReader("{ country=42 }"),
 				"69",
