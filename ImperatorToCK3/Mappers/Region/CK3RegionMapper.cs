@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Mappers.Region {
-	public class CK3RegionMapper : Parser {
+	public class CK3RegionMapper {
 		public CK3RegionMapper() { }
 		public CK3RegionMapper(string ck3Path, LandedTitles landedTitles) {
 			Logger.Info("Initializing Geography.");
@@ -15,10 +15,10 @@ namespace ImperatorToCK3.Mappers.Region {
 			LoadRegions(landedTitles, regionFilePath, islandRegionFilePath);
 		}
 		public void LoadRegions(LandedTitles landedTitles, string regionFilePath, string islandRegionFilePath) {
-			RegisterRegionKeys();
-			ParseFile(regionFilePath);
-			ParseFile(islandRegionFilePath);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterRegionKeys(parser);
+			parser.ParseFile(regionFilePath);
+			parser.ParseFile(islandRegionFilePath);
 
 			foreach (var title in landedTitles) {
 				var titleRank = title.Rank;
@@ -88,11 +88,11 @@ namespace ImperatorToCK3.Mappers.Region {
 			return null;
 		}
 
-		private void RegisterRegionKeys() {
-			RegisterRegex(CommonRegexes.String, (reader, regionName) => {
+		private void RegisterRegionKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
 				regions[regionName] = CK3Region.Parse(regionName, reader);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private void LinkRegions() {
 			foreach (var region in regions.Values) {
