@@ -56,7 +56,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		}
 
 		// Returns a count of linked pops
-		public int LinkPops(Pops.Pops pops) {
+		public int LinkPops(Pops.PopCollection pops) {
 			int counter = 0;
 			foreach (var popId in parsedPopIds) {
 				if (pops.TryGetValue(popId, out var popToLink)) {

@@ -7,14 +7,14 @@ namespace ImperatorToCK3.UnitTests {
 		[Fact]
 		public void PopsDefaultToEmpty() {
 			var reader = new BufferedReader("= { }");
-			var pops = new Pops();
+			var pops = new PopCollection();
 			pops.LoadPops(reader);
 			Assert.Empty(pops);
 		}
 		[Fact]
 		public void PopsCanBeLoaded() {
 			var reader = new BufferedReader("= {\n 42={}\n 43 = {}\n }");
-			var pops = new Pops();
+			var pops = new PopCollection();
 			pops.LoadPops(reader);
 			var pop1 = pops[42];
 			var pop2 = pops[43];
@@ -25,7 +25,7 @@ namespace ImperatorToCK3.UnitTests {
 		[Fact]
 		public void LiteralNonePopsAreNotLoaded() {
 			var reader = new BufferedReader("= {\n 42=none\n 43={}\n 44=none\n }");
-			var pops = new Pops();
+			var pops = new PopCollection();
 			pops.LoadPops(reader);
 			Assert.Single(pops);
 			Assert.False(pops.ContainsKey(42));

@@ -38,7 +38,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var reader2 = new BufferedReader(
 				 "8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n"
 			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			pops.LoadPops(reader2);
 			provinces.LinkPops(pops);
 
@@ -67,7 +67,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 				"10={type=\"freemen\" culture=\"greek\" religion=\"zoroastrian\"}\n" +
 				"}\n"
 			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			pops.LoadPops(reader2);
 			provinces.LinkPops(pops);
 
@@ -102,7 +102,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 				"9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n" +
 				"}\n"
 			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			pops.LoadPops(reader2);
 
 			var output = new StringWriter();

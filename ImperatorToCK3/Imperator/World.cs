@@ -17,7 +17,7 @@ namespace ImperatorToCK3.Imperator {
 		private readonly SortedSet<string> dlcs = new();
 		public Families.Families Families { get; private set; } = new();
 		public Characters.CharacterCollection Characters { get; private set; } = new();
-		private Pops.Pops pops = new();
+		private PopCollection pops = new();
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public Countries.Countries Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();

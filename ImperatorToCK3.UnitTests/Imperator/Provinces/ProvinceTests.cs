@@ -152,7 +152,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 
 			Assert.Equal(0, theProvince.GetPopCount()); // pops not linked yet
 
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			var pop1 = new ImperatorToCK3.Imperator.Pops.Pop(69);
 			var pop2 = new ImperatorToCK3.Imperator.Pops.Pop(68);
 			var pop3 = new ImperatorToCK3.Imperator.Pops.Pop(12213);

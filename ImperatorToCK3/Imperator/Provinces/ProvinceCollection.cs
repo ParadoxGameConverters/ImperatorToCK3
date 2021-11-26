@@ -17,7 +17,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public void LinkPops(Pops.Pops pops) {
+		public void LinkPops(Pops.PopCollection pops) {
 			var counter = this.Sum(province => province.LinkPops(pops));
 			Logger.Info($"{counter} pops linked to provinces.");
 		}
