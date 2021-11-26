@@ -93,7 +93,7 @@ namespace ImperatorToCK3.Outputter {
 			simp_chineseDynLoc.WriteLine("l_simp_chinese:");
 			spanishDynLoc.WriteLine("l_spanish:");
 
-			foreach (var dynasty in ck3World.Dynasties.Values) {
+			foreach (var dynasty in ck3World.Dynasties) {
 				var (key, loc) = dynasty.Localization;
 				englishDynLoc.WriteLine($" {key}: \"{loc.english}\"");
 				frenchDynLoc.WriteLine($" {key}: \"{loc.french}\"");

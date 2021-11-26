@@ -321,7 +321,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		private string? jailorId;
 		public string? EmployerId { get; set; }
 
-		public bool LinkJailor(Characters characters) {
+		public bool LinkJailor(CharacterCollection characters) {
 			if (jailorId is null) {
 				return false;
 			}

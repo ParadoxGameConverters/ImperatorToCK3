@@ -24,7 +24,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3 {
 	public class World {
 		public CharacterCollection Characters { get; } = new();
-		public Dictionary<string, Dynasty> Dynasties { get; } = new();
+		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
 		public LandedTitles LandedTitles { get; } = new();
 		public Map.MapData MapData { get; }
@@ -82,7 +82,7 @@ namespace ImperatorToCK3.CK3 {
 			);
 			ClearFeaturedCharactersDescriptions(theConfiguration.Ck3BookmarkDate);
 
-			ImportImperatorFamilies(impWorld);
+			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate);
 			RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
@@ -382,21 +382,6 @@ namespace ImperatorToCK3.CK3 {
 			}
 
 			return countyHoldersCache;
-		}
-
-		private void ImportImperatorFamilies(Imperator.World impWorld) {
-			Logger.Info("Importing Imperator Families.");
-
-			// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
-			foreach (var family in impWorld.Families.Values) {
-				if (family.Minor) {
-					continue;
-				}
-
-				var newDynasty = new Dynasty(family, localizationMapper);
-				Dynasties.Add(newDynasty.Id, newDynasty);
-			}
-			Logger.Info($"{Dynasties.Count} total families imported.");
 		}
 
 		private readonly CoaMapper coaMapper;
