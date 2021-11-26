@@ -21,15 +21,11 @@ namespace ImperatorToCK3.Mappers.Region {
 			LoadRegions(areaReader, regionReader);
 		}
 		private void RegisterRegionKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, regionName) => {
-				regions[regionName] = new ImperatorRegion(reader);
-			});
+			RegisterRegex(@"[\w_&]+", (reader, regionName) => regions[regionName] = new ImperatorRegion(regionName, reader));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private void RegisterAreaKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, areaName) => {
-				areas[areaName] = new ImperatorArea(reader);
-			});
+			RegisterRegex(@"[\w_&]+", (reader, areaName) => areas[areaName] = new ImperatorArea(reader));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void LoadRegions(BufferedReader areaReader, BufferedReader regionReader) {
@@ -73,14 +69,8 @@ namespace ImperatorToCK3.Mappers.Region {
 			return null;
 		}
 		private void LinkRegions() {
-			foreach (var (regionName, region) in regions) {
-				foreach (var requiredAreaName in region.Areas.Keys) {
-					if (areas.TryGetValue(requiredAreaName, out var area)) {
-						region.LinkArea(requiredAreaName, area);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} area {requiredAreaName} does not exist!");
-					}
-				}
+			foreach (var region in regions.Values) {
+				region.LinkAreas(areas);
 			}
 		}
 	}
