@@ -91,8 +91,7 @@ namespace ImperatorToCK3.Mappers.Region {
 
 		private void RegisterRegionKeys() {
 			RegisterRegex(@"[\w_&]+", (reader, regionName) => {
-				var newRegion = CK3Region.Parse(reader);
-				regions[regionName] = newRegion;
+				regions[regionName] = CK3Region.Parse(regionName, reader);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
@@ -102,35 +101,10 @@ namespace ImperatorToCK3.Mappers.Region {
 					Logger.Warn($"LinkRegions: {regionName} is null!");
 					continue;
 				}
-				// regions
-				foreach (var requiredRegionName in region.Regions.Keys) {
-					if (regions.TryGetValue(requiredRegionName, out var regionToLink) && regionToLink is not null) {
-						region.LinkRegion(requiredRegionName, regionToLink);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} region {requiredRegionName} does not exist!");
-					}
-				}
-
-				// duchies
-				foreach (var requiredDuchyName in region.Duchies.Keys) {
-					if (duchies.TryGetValue(requiredDuchyName, out var duchyToLink) && duchyToLink is not null) {
-						region.LinkDuchy(duchyToLink);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} duchy {requiredDuchyName} does not exist!");
-					}
-				}
-
-				// counties
-				foreach (var requiredCountyName in region.Counties.Keys) {
-					if (counties.TryGetValue(requiredCountyName, out var countyToLink) && countyToLink is not null) {
-						region.LinkCounty(countyToLink);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} county {requiredCountyName} does not exist!");
-					}
-				}
+				region.LinkRegions(regions, duchies, counties);
 			}
 		}
-		private readonly Dictionary<string, CK3Region?> regions = new();
+		private readonly Dictionary<string, CK3Region> regions = new();
 		private readonly Dictionary<string, Title?> duchies = new();
 		private readonly Dictionary<string, Title?> counties = new();
 	}
