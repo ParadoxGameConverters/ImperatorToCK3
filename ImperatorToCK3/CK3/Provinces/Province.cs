@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces {
-	public class Province {
+	public class Province : IIdentifiable<ulong> {
 		public Province() { }
 		public Province(ulong id, BufferedReader reader, Date ck3BookmarkDate) {
 			// Load from a country file, if one exists. Otherwise rely on defaults.

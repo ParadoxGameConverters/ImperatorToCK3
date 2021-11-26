@@ -9,7 +9,7 @@ namespace ImperatorToCK3.Outputter {
 	public static class ProvincesOutputter {
 		public static void OutputProvinces(
 			string outputModName,
-			Dictionary<ulong, Province> provinces,
+			ProvinceCollection provinces,
 			LandedTitles titles
 		) {
 			// output provinces to files named after their de jure kingdoms
@@ -21,10 +21,10 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var kingdom in deJureKingdoms) {
 				var filePath = $"output/{outputModName}/history/provinces/{kingdom.Id}.txt";
 				using var historyOutput = new StreamWriter(filePath);
-				foreach (var (id, province) in provinces) {
-					if (kingdom.KingdomContainsProvince(id)) {
+				foreach (var province in provinces) {
+					if (kingdom.KingdomContainsProvince(province.Id)) {
 						ProvinceOutputter.OutputProvince(historyOutput, province);
-						alreadyOutputtedProvinces.Add(id);
+						alreadyOutputtedProvinces.Add(province.Id);
 					}
 				}
 			}
@@ -35,14 +35,14 @@ namespace ImperatorToCK3.Outputter {
 					t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0
 				);
 				foreach (var duchy in deJureDuchies) {
-					foreach (var (id, province) in provinces) {
-						if (alreadyOutputtedProvinces.Contains(id)) {
+					foreach (var province in provinces) {
+						if (alreadyOutputtedProvinces.Contains(province.Id)) {
 							continue;
 						}
-						if (duchy.DuchyContainsProvince(id)) {
+						if (duchy.DuchyContainsProvince(province.Id)) {
 							historyOutput.WriteLine($"# {duchy.Id}");
 							ProvinceOutputter.OutputProvince(historyOutput, province);
-							alreadyOutputtedProvinces.Add(id);
+							alreadyOutputtedProvinces.Add(province.Id);
 						}
 					}
 				}
@@ -53,16 +53,16 @@ namespace ImperatorToCK3.Outputter {
 			using var provinceMappingStream = File.OpenWrite(provinceMappingFilePath);
 			using (var provinceMappingOutput = new StreamWriter(provinceMappingStream, System.Text.Encoding.UTF8)) {
 				if (alreadyOutputtedProvinces.Count != provinces.Count) {
-					foreach (var (id, province) in provinces) {
-						if (alreadyOutputtedProvinces.Contains(id)) {
+					foreach (var province in provinces) {
+						if (alreadyOutputtedProvinces.Contains(province.Id)) {
 							continue;
 						}
 						var baseProvId = province.BaseProvinceId;
 						if (baseProvId is null) {
-							Logger.Warn($"Leftover province {id} has no base province id!");
+							Logger.Warn($"Leftover province {province.Id} has no base province id!");
 						} else {
-							provinceMappingOutput.WriteLine($"{id} = {baseProvId}");
-							alreadyOutputtedProvinces.Add(id);
+							provinceMappingOutput.WriteLine($"{province.Id} = {baseProvId}");
+							alreadyOutputtedProvinces.Add(province.Id);
 						}
 					}
 				}

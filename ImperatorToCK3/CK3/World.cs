@@ -26,7 +26,7 @@ namespace ImperatorToCK3.CK3 {
 	public class World {
 		public Characters.Characters Characters { get; } = new();
 		public Dictionary<string, Dynasty> Dynasties { get; } = new();
-		public Dictionary<ulong, Province> Provinces { get; } = new();
+		public ProvinceCollection Provinces { get; } = new();
 		public LandedTitles LandedTitles { get; } = new();
 		public Map.MapData MapData { get; }
 
@@ -64,10 +64,10 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
+			Provinces.ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-			ImportImperatorProvinces(impWorld);
+			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
 
 			Characters.ImportImperatorCharacters(
 				impWorld,
@@ -224,139 +224,6 @@ namespace ImperatorToCK3.CK3 {
 				);
 				LandedTitles.Add(newTitle);
 			}
-		}
-
-		private void ImportVanillaProvinces(string ck3Path, Date ck3BookmarkDate) {
-			Logger.Info("Importing Vanilla Provinces.");
-			// ---- Loading history/provinces
-			var path = Path.Combine(ck3Path, "game/history/provinces");
-			var fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
-			foreach (var fileName in fileNames) {
-				if (!fileName.EndsWith(".txt")) {
-					continue;
-				}
-				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
-				try {
-					var newProvinces = new Provinces.Provinces(provincesPath, ck3BookmarkDate);
-					foreach (var (newProvinceId, newProvince) in newProvinces) {
-						if (Provinces.ContainsKey(newProvinceId)) {
-							Logger.Warn($"Vanilla province duplication - {newProvinceId} already loaded! Overwriting.");
-						}
-						Provinces[newProvinceId] = newProvince;
-					}
-				} catch (Exception e) {
-					Logger.Warn($"Invalid province filename: {provincesPath} ({e})");
-				}
-			}
-
-			// now load the provinces that don't have unique entries in history/provinces
-			// they instead use history/province_mapping
-			path = Path.Combine(ck3Path, "game/history/province_mapping");
-			fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
-			foreach (var fileName in fileNames) {
-				if (!fileName.EndsWith(".txt")) {
-					continue;
-				}
-
-				var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
-				try {
-					var newMappings = new ProvinceMappings(provinceMappingsPath);
-					foreach (var (newProvinceId, baseProvinceId) in newMappings) {
-						if (!Provinces.ContainsKey(baseProvinceId)) {
-							Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
-							continue;
-						}
-						if (Provinces.ContainsKey(newProvinceId)) {
-							Logger.Info($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
-						} else {
-							var newProvince = new Province(newProvinceId, Provinces[baseProvinceId]);
-							Provinces.Add(newProvinceId, newProvince);
-						}
-					}
-				} catch (Exception e) {
-					Logger.Warn($"Invalid province filename: {provinceMappingsPath}: ({e})");
-				}
-			}
-
-			Logger.Info($"Loaded {Provinces.Count} province definitions.");
-		}
-
-		private void ImportImperatorProvinces(Imperator.World impWorld) {
-			Logger.Info("Importing Imperator Provinces.");
-			var counter = 0;
-			// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-			foreach (var (provinceId, province) in Provinces) {
-				var impProvinces = provinceMapper.GetImperatorProvinceNumbers(provinceId);
-				// Provinces we're not affecting will not be in this list.
-				if (impProvinces.Count == 0) {
-					continue;
-				}
-				// Next, we find what province to use as its initializing source.
-				var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
-				if (sourceProvince is null) {
-					Logger.Warn($"Could not determine source province for CK3 province {provinceId}!");
-					continue; // MISMAP, or simply have mod provinces loaded we're not using.
-				}
-				province.InitializeFromImperator(sourceProvince.Value.Value, LandedTitles, cultureMapper, religionMapper);
-				// And finally, initialize it.
-				++counter;
-			}
-			Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
-		}
-
-		private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
-			List<ulong> impProvinceNumbers,
-			Imperator.World impWorld
-		) {
-			// determine ownership by province development.
-			var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
-			var theShares = new Dictionary<ulong, int>(); // owner, development                                               
-			ulong? winner = null;
-			long maxDev = -1;
-
-			foreach (var imperatorProvinceId in impProvinceNumbers) {
-				if (!impWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
-					Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
-					continue; // Broken mapping, or loaded a mod changing provinces without using it.
-				}
-
-				var ownerId = impProvince.OwnerCountry?.Id ?? 0;
-				if (!theClaims.ContainsKey(ownerId)) {
-					theClaims[ownerId] = new();
-				}
-
-				theClaims[ownerId].Add(impProvince);
-
-				var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
-				theShares[ownerId] = devValue;
-			}
-			// Let's see who the lucky winner is.
-			foreach (var (owner, development) in theShares) {
-				if (development > maxDev) {
-					winner = owner;
-					maxDev = development;
-				}
-			}
-			if (winner is null) {
-				return null;
-			}
-
-			// Now that we have a winning owner, let's find its largest province to use as a source.
-			maxDev = -1; // We can have winning provinces with weight = 0;
-
-			var toReturn = new KeyValuePair<ulong, Imperator.Provinces.Province>();
-			foreach (var province in theClaims[(ulong)winner]) {
-				long provinceWeight = province.BuildingCount + province.GetPopCount();
-
-				if (provinceWeight > maxDev) {
-					toReturn = new(province.Id, province);
-					maxDev = provinceWeight;
-				}
-			}
-			if (toReturn.Key == 0 || toReturn.Value is null) {
-				return null;
-			}
-			return toReturn;
 		}
 
 		private void AddHistoryToVanillaTitles(Date ck3BookmarkDate) {
