@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -7,13 +8,10 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class Characters : IReadOnlyDictionary<string, Character> {
+	public class CharacterCollection : IdObjectCollection<string, Character> {
 		public void ImportImperatorCharacters(Imperator.World impWorld,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
@@ -74,13 +72,13 @@ namespace ImperatorToCK3.CK3.Characters {
 				ck3BookmarkDate
 			);
 			character.CK3Character = newCharacter;
-			charactersDict.Add(newCharacter.Id, newCharacter);
+			Add(newCharacter);
 		}
 
 		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
-			foreach (var ck3Character in charactersDict.Values) {
+			foreach (var ck3Character in this) {
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
@@ -108,7 +106,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		private void LinkSpouses() {
 			var spouseCounter = 0;
-			foreach (var ck3Character in charactersDict.Values) {
+			foreach (var ck3Character in this) {
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
@@ -129,42 +127,28 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		private void LinkPrisoners() {
-			var prisonerCount = charactersDict.Values.Count(character => character.LinkJailor(this));
+			var prisonerCount = this.Count(character => character.LinkJailor(this));
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
 		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {
 			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
-			var farewellIds = Keys.Where(
+			var farewellIds = dict.Keys.Where(
 				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
 			);
 
 			foreach (var characterId in farewellIds) {
 				this[characterId].BreakAllLinks();
-				charactersDict.Remove(characterId);
+				Remove(characterId);
 			}
 			Logger.Info($"Purged {farewellIds.Count()} landless vanilla characters.");
 		}
 
 		public void RemoveEmployerIdFromLandedCharacters(LandedTitles titles, Date conversionDate) {
 			var landedCharacterIds = titles.GetHolderIds(conversionDate);
-			foreach (var character in charactersDict.Values.Where(character => landedCharacterIds.Contains(character.Id))) {
+			foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;
 			}
 		}
-
-		public void Add(Character character) {
-			charactersDict.Add(character.Id, character);
-		}
-
-		private readonly Dictionary<string, Character> charactersDict = new();
-		public IEnumerator<KeyValuePair<string, Character>> GetEnumerator() => charactersDict.GetEnumerator();
-		IEnumerator IEnumerable.GetEnumerator() => charactersDict.GetEnumerator();
-		public int Count => charactersDict.Count;
-		public bool ContainsKey(string key) => charactersDict.ContainsKey(key);
-		public bool TryGetValue(string key, [MaybeNullWhen(false)] out Character value) => charactersDict.TryGetValue(key, out value);
-		public Character this[string key] => charactersDict[key];
-		public IEnumerable<string> Keys => charactersDict.Keys;
-		public IEnumerable<Character> Values => charactersDict.Values;
 	}
 }

@@ -57,7 +57,7 @@ namespace ImperatorToCK3.Outputter {
 
 			// character name localization
 			var uniqueKeys = new HashSet<string>();
-			foreach (var character in ck3World.Characters.Values) {
+			foreach (var character in ck3World.Characters) {
 				foreach (var (key, loc) in character.Localizations) {
 					if (!uniqueKeys.Contains(key)) {
 						english.WriteLine($" {key}: \"{loc.english}\"");
