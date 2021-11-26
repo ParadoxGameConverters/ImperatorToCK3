@@ -37,7 +37,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? CustomName { get; set; }
 
 		// Returned value indicates whether a family was linked
-		internal bool LinkFamily(Families.Families families, SortedSet<ulong> missingDefinitionsSet) {
+		internal bool LinkFamily(Families.FamilyCollection families, SortedSet<ulong> missingDefinitionsSet) {
 			if (parsedFamilyId is null) {
 				return false;
 			}

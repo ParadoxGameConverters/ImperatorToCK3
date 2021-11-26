@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public void LinkFamilies(Families.Families families) {
+		public void LinkFamilies(Families.FamilyCollection families) {
 			SortedSet<ulong> idsWithoutDefinition = new();
 			var counter = this.Sum(country => country.LinkFamilies(families, idsWithoutDefinition));
 

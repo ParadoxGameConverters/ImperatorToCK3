@@ -74,7 +74,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		}
 
 		// Returns counter of families linked to the country
-		public int LinkFamilies(Families.Families families, SortedSet<ulong> idsWithoutDefinition) {
+		public int LinkFamilies(Families.FamilyCollection families, SortedSet<ulong> idsWithoutDefinition) {
 			var counter = 0;
 			foreach (var familyId in parsedFamilyIds) {
 				if (families.TryGetValue(familyId, out var familyToLink)) {

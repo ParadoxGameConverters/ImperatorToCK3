@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			LinkMothersAndFathers();
 		}
 
-		public void LinkFamilies(Families.Families families) {
+		public void LinkFamilies(Families.FamilyCollection families) {
 			var idsWithoutDefinition = new SortedSet<ulong>();
 			var counter = this.Count(character => character.LinkFamily(families, idsWithoutDefinition));
 			if (idsWithoutDefinition.Count > 0) {

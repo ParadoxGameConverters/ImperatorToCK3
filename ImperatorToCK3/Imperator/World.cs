@@ -1,5 +1,7 @@
 ﻿using commonItems;
+using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
@@ -16,8 +18,8 @@ namespace ImperatorToCK3.Imperator {
 		private GameVersion imperatorVersion = new();
 		public Mods Mods { get; private set; } = new();
 		private readonly SortedSet<string> dlcs = new();
-		public Families.Families Families { get; private set; } = new();
-		public Characters.CharacterCollection Characters { get; private set; } = new();
+		public FamilyCollection Families { get; private set; } = new();
+		public CharacterCollection Characters { get; private set; } = new();
 		private PopCollection pops = new();
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
@@ -81,23 +83,23 @@ namespace ImperatorToCK3.Imperator {
 			});
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");
-				Families = Imperator.Families.Families.ParseBloc(reader);
+				Families = FamilyCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {Families.Count} families.");
 			});
 			RegisterKeyword("character", reader => {
 				Logger.Info("Loading Characters...");
-				Characters = Imperator.Characters.CharacterCollection.ParseBloc(reader, genesDB);
+				Characters = CharacterCollection.ParseBloc(reader, genesDB);
 				Logger.Info($"Loaded {Characters.Count} characters.");
 			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces...");
-				Provinces = new Provinces.ProvinceCollection(reader);
+				Provinces = new ProvinceCollection(reader);
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");
-				Countries = Imperator.Countries.CountryCollection.ParseBloc(reader);
+				Countries = CountryCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {Countries.Count} countries.");
 			});
 			RegisterKeyword("population", reader => {
@@ -162,10 +164,10 @@ namespace ImperatorToCK3.Imperator {
 			const string noRulerWarning = "Pre-Imperator ruler term has no pre-Imperator ruler!";
 			const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
-			var preImperatorRulerTerms = new Dictionary<ulong, List<Countries.RulerTerm>>(); // <country id, list of terms>
+			var preImperatorRulerTerms = new Dictionary<ulong, List<RulerTerm>>(); // <country id, list of terms>
 			var parser = new Parser();
 			parser.RegisterKeyword("ruler", reader => {
-				var rulerTerm = new Countries.RulerTerm(reader, Countries);
+				var rulerTerm = new RulerTerm(reader, Countries);
 				if (rulerTerm.PreImperatorRuler is null) {
 					Logger.Warn(noRulerWarning);
 					return;

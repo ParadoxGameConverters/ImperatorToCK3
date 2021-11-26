@@ -42,7 +42,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var reader2 = new BufferedReader(
 				"8={key=\"Cornelli\" prestige=2 member={ 4479 4480}}\n"
 			);
-			var families = new ImperatorToCK3.Imperator.Families.Families();
+			var families = new ImperatorToCK3.Imperator.Families.FamilyCollection();
 			families.LoadFamilies(reader2);
 			countries.LinkFamilies(families);
 
@@ -69,7 +69,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"10={key=\"minor_rom\" prestige=7 minor_family=yes member={ 69 420} }\n" +
 				"}\n"
 			);
-			var families = new ImperatorToCK3.Imperator.Families.Families();
+			var families = new ImperatorToCK3.Imperator.Families.FamilyCollection();
 			families.LoadFamilies(reader2);
 			countries.LinkFamilies(families);
 
@@ -103,7 +103,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"9={key=\"minor_bmb\" prestige=0 minor_family=yes member={ 4479 4480}}\n" +
 				"}\n"
 			);
-			var families = new ImperatorToCK3.Imperator.Families.Families();
+			var families = new ImperatorToCK3.Imperator.Families.FamilyCollection();
 			families.LoadFamilies(reader2);
 
 			var output = new StringWriter();
