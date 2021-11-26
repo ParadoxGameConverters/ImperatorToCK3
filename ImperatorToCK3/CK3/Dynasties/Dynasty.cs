@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Serialization;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Localization;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 // ReSharper disable InconsistentNaming
 
 namespace ImperatorToCK3.CK3.Dynasties {
-	public class Dynasty : IPDXSerializable {
+	public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		public Dynasty(Family imperatorFamily, LocalizationMapper localizationMapper) {
 			Id = "dynn_IMPTOCK3_" + imperatorFamily.Id;
 			Name = Id;
@@ -43,7 +44,7 @@ namespace ImperatorToCK3.CK3.Dynasties {
 				});
 			}
 		}
-		[NonSerialized] public string Id { get; } = string.Empty;
+		[NonSerialized] public string Id { get; }
 		[SerializedName("name")] public string Name { get; } = string.Empty;
 		[SerializedName("culture")] public string Culture { get; private set; } = string.Empty;
 

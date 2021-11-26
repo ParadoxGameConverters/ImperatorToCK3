@@ -12,10 +12,10 @@ namespace ImperatorToCK3.Mappers.Region {
 			Regions[regionName] = region;
 		}
 		public void LinkDuchy(CK3.Titles.Title theDuchy) {
-			Duchies[theDuchy.Name] = theDuchy;
+			Duchies[theDuchy.Id] = theDuchy;
 		}
 		public void LinkCounty(CK3.Titles.Title theCounty) {
-			Counties[theCounty.Name] = theCounty;
+			Counties[theCounty.Id] = theCounty;
 		}
 		public bool ContainsProvince(ulong provinceId) {
 			foreach (var region in Regions.Values) {

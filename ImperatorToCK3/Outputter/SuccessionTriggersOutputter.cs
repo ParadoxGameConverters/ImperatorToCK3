@@ -18,12 +18,12 @@ namespace ImperatorToCK3.Outputter {
 			List<string> seniorityTitles = new List<string>();
 
 			foreach (var landedTitle in landedTitles) {
-				if (landedTitle.Value.DeFactoLiege == null) {					
-					if (landedTitle.Value.SuccessionLaws.Contains("single_heir_succession_law")) {
-						primogenitureTitles.Add(landedTitle.Key);
+				if (landedTitle.DeFactoLiege == null) {					
+					if (landedTitle.SuccessionLaws.Contains("single_heir_succession_law")) {
+						primogenitureTitles.Add(landedTitle.Id);
 					}
-					if (landedTitle.Value.SuccessionLaws.Contains("single_heir_dynasty_house")) {
-						seniorityTitles.Add(landedTitle.Key);
+					if (landedTitle.SuccessionLaws.Contains("single_heir_dynasty_house")) {
+						seniorityTitles.Add(landedTitle.Id);
 					}
 				}
 			}

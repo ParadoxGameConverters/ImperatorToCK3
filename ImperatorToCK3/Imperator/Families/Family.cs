@@ -1,10 +1,11 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace ImperatorToCK3.Imperator.Families {
-	public class Family {
+	public class Family : IIdentifiable<ulong> {
 		public ulong Id { get; } = 0;
 		public string Key { get; private set; } = "";
 		public string Culture { get; private set; } = "";

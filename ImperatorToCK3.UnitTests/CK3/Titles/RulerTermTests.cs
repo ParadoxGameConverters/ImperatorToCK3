@@ -25,7 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
-				new ImperatorToCK3.CK3.Characters.Characters(),
+				new ImperatorToCK3.CK3.Characters.CharacterCollection(),
 				govMapper,
 				new LocalizationMapper(),
 				new ReligionMapper(),
@@ -40,10 +40,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void PreImperatorTermIsCorrectlyConverted() {
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
 			var countryReader = new BufferedReader("= { tag = SPA capital=420 }");
 			var sparta = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
-			countries.Add(sparta.Id, sparta);
+			countries.Add(sparta);
 
 			var preImpTermReader = new BufferedReader("= { name=\"Alexander\"" +
 				" birth_date=200.1.1 death_date=300.1.1 throne_date=250.1.1" +
@@ -59,7 +59,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
 				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
 			);
-			var ck3Characters = new ImperatorToCK3.CK3.Characters.Characters();
+			var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
 				ck3Characters,
 				govMapper,
