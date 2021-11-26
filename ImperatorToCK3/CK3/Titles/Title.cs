@@ -60,7 +60,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Title(
 			Governorship governorship,
 			Country country,
-			Imperator.Characters.Characters imperatorCharacters,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
@@ -261,7 +261,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public void InitializeFromGovernorship(Governorship governorship,
 			Country country,
-			Imperator.Characters.Characters imperatorCharacters,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,

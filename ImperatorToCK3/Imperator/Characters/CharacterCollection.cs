@@ -1,12 +1,12 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters {
-	public class Characters : Dictionary<ulong, Character> {
-		public Characters() { }
-		public Characters(BufferedReader reader, Genes.GenesDB? genesDB) {
+	public class CharacterCollection : IdObjectCollection<ulong, Character> {
+		public CharacterCollection() { }
+		public CharacterCollection(BufferedReader reader, Genes.GenesDB? genesDB) {
 			this.genesDB = genesDB;
 			var parser = new Parser();
 			RegisterKeys(parser);
@@ -18,13 +18,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 			LinkMothersAndFathers();
 		}
 
-		public void Add(Character character) {
-			Add(character.Id, character);
-		}
-
 		public void LinkFamilies(Families.Families families) {
 			var idsWithoutDefinition = new SortedSet<ulong>();
-			var counter = Values.Count(character => character.LinkFamily(families, idsWithoutDefinition));
+			var counter = this.Count(character => character.LinkFamily(families, idsWithoutDefinition));
 			if (idsWithoutDefinition.Count > 0) {
 				Logger.Info($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");
 			}
@@ -32,14 +28,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Logger.Info($"{counter} families linked to characters.");
 		}
 		private void LinkSpouses() {
-			var spouseCounter = Values.Sum(character => character.LinkSpouses(this));
+			var spouseCounter = this.Sum(character => character.LinkSpouses(this));
 			Logger.Info($"{spouseCounter} spouses linked.");
 		}
 
 		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
-			foreach (var character in Values) {
+			foreach (var character in this) {
 				if (character.LinkMother(this)) {
 					++motherCounter;
 				}
@@ -51,13 +47,13 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		public void LinkCountries(Countries.Countries countries) {
-			var counter = Values.Count(character => character.LinkCountry(countries));
+			var counter = this.Count(character => character.LinkCountry(countries));
 			Logger.Info($"{counter} countries linked to characters.");
 
-			counter = Values.Count(character => character.LinkHomeCountry(countries));
+			counter = this.Count(character => character.LinkHomeCountry(countries));
 			Logger.Info($"{counter} home countries linked to characters.");
 
-			counter = Values.Count(character => character.LinkPrisonerHome(countries));
+			counter = this.Count(character => character.LinkPrisonerHome(countries));
 			Logger.Info($"{counter} prisoner homes linked to characters.");
 		}
 
@@ -70,11 +66,11 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 		private readonly Genes.GenesDB? genesDB;
 
-		public static Characters ParseBloc(BufferedReader reader, Genes.GenesDB genesDB) {
+		public static CharacterCollection ParseBloc(BufferedReader reader, Genes.GenesDB genesDB) {
 			var blocParser = new Parser();
-			var parsedCharacters = new Characters();
+			var parsedCharacters = new CharacterCollection();
 			blocParser.RegisterKeyword("character_database", reader => {
-				parsedCharacters = new Characters(reader, genesDB);
+				parsedCharacters = new CharacterCollection(reader, genesDB);
 			});
 			blocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 

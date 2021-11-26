@@ -9,7 +9,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		[Fact]
 		public void CharactersDefaultToEmpty() {
 			var reader = new BufferedReader("={}");
-			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
 			Assert.Empty(characters);
 		}
 
@@ -21,16 +21,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\t43={}\n" +
 				"}"
 			);
-			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
 
-			Assert.Collection(characters.Values,
-				character => {
-					Assert.Equal((ulong)42, character.Id);
-				},
-				character => {
-					Assert.Equal((ulong)43, character.Id);
-				}
-			);
+			Assert.Collection(characters,
+				character => Assert.Equal((ulong)42, character.Id),
+				character => Assert.Equal((ulong)43, character.Id));
 		}
 		[Fact]
 		public void SpousesAreLinked() {
@@ -40,7 +35,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\t43={ spouse = { 42 } }\n" +
 				"}"
 			);
-			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
 			Assert.Equal((ulong)42, characters[43].Spouses[42].Id);
 		}
 
@@ -51,7 +46,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\t43={ spouse = { 42 } }\n" + // character 42 is missing definition
 				"}"
 			);
-			var characters = new ImperatorToCK3.Imperator.Characters.Characters(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
 			Assert.Empty(characters[43].Spouses);
 		}
 	}

@@ -88,7 +88,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 
 			Assert.Empty(character.Children); // children not linked yet
-			var characters = new ImperatorToCK3.Imperator.Characters.Characters();
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
 			characters.Add(character);
 			var child1 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "69", null);
 			var child2 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "420", null);

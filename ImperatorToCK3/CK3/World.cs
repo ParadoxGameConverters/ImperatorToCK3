@@ -188,7 +188,7 @@ namespace ImperatorToCK3.CK3 {
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
 			Dictionary<ulong, Country> imperatorCountries,
-			Imperator.Characters.Characters imperatorCharacters,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships
 		) {
 			var country = imperatorCountries[governorship.CountryId];

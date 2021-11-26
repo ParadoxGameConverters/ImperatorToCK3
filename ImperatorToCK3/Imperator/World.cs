@@ -16,7 +16,7 @@ namespace ImperatorToCK3.Imperator {
 		public Mods Mods { get; private set; } = new();
 		private readonly SortedSet<string> dlcs = new();
 		public Families.Families Families { get; private set; } = new();
-		public Characters.Characters Characters { get; private set; } = new();
+		public Characters.CharacterCollection Characters { get; private set; } = new();
 		private Pops.Pops pops = new();
 		public Provinces.Provinces Provinces { get; private set; } = new();
 		public Countries.Countries Countries { get; private set; } = new();
@@ -85,7 +85,7 @@ namespace ImperatorToCK3.Imperator {
 			});
 			RegisterKeyword("character", reader => {
 				Logger.Info("Loading Characters...");
-				Characters = Imperator.Characters.Characters.ParseBloc(reader, genesDB);
+				Characters = Imperator.Characters.CharacterCollection.ParseBloc(reader, genesDB);
 				Logger.Info($"Loaded {Characters.Count} characters.");
 			});
 			RegisterKeyword("provinces", reader => {
