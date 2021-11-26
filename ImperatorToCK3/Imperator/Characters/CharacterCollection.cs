@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +20,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			LinkMothersAndFathers();
 		}
 
-		public void LinkFamilies(Families.FamilyCollection families) {
+		public void LinkFamilies(FamilyCollection families) {
 			var idsWithoutDefinition = new SortedSet<ulong>();
 			var counter = this.Count(character => character.LinkFamily(families, idsWithoutDefinition));
 			if (idsWithoutDefinition.Count > 0) {
@@ -46,7 +48,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked.");
 		}
 
-		public void LinkCountries(Countries.CountryCollection countries) {
+		public void LinkCountries(CountryCollection countries) {
 			var counter = this.Count(character => character.LinkCountry(countries));
 			Logger.Info($"{counter} countries linked to characters.");
 
@@ -76,7 +78,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 			blocParser.ParseStream(reader);
 			blocParser.ClearRegisteredRules();
-			Logger.Debug("Ignored Character tokens: " + string.Join(", ", Character.IgnoredTokens));
+			Logger.Debug($"Ignored Character tokens: {string.Join(", ", Character.IgnoredTokens)}");
 			return parsedCharacters;
 		}
 	}

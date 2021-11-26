@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Pops;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Provinces {
@@ -13,7 +14,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		private ulong? parsedOwnerCountryId;
 		public Country? OwnerCountry { get; set; }
 		public ulong Controller { get; set; } = 0;
-		public Dictionary<ulong, Pops.Pop> Pops { get; set; } = new();
+		public Dictionary<ulong, Pop> Pops { get; set; } = new();
 		public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 		public ParadoxBool Fort { get; set; } = new(false);
 		public bool HolySite { get; set; } = false;
@@ -39,7 +40,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			OwnerCountry = country;
 		}
 
-		public bool TryLinkOwnerCounty(Countries.CountryCollection countries) {
+		public bool TryLinkOwnerCounty(CountryCollection countries) {
 			if (parsedOwnerCountryId is null) {
 				return false;
 			}
@@ -56,7 +57,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		}
 
 		// Returns a count of linked pops
-		public int LinkPops(Pops.PopCollection pops) {
+		public int LinkPops(PopCollection pops) {
 			int counter = 0;
 			foreach (var popId in parsedPopIds) {
 				if (pops.TryGetValue(popId, out var popToLink)) {

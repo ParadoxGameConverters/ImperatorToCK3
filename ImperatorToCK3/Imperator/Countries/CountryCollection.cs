@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public void LinkFamilies(Families.FamilyCollection families) {
+		public void LinkFamilies(FamilyCollection families) {
 			SortedSet<ulong> idsWithoutDefinition = new();
 			var counter = this.Sum(country => country.LinkFamilies(families, idsWithoutDefinition));
 

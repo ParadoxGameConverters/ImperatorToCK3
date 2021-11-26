@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Pops;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces {
@@ -17,11 +19,11 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public void LinkPops(Pops.PopCollection pops) {
+		public void LinkPops(PopCollection pops) {
 			var counter = this.Sum(province => province.LinkPops(pops));
 			Logger.Info($"{counter} pops linked to provinces.");
 		}
-		public void LinkCountries(Countries.CountryCollection countries) {
+		public void LinkCountries(CountryCollection countries) {
 			var counter = this.Count(province => province.TryLinkOwnerCounty(countries));
 			Logger.Info($"{counter} provinces linked to countries.");
 		}

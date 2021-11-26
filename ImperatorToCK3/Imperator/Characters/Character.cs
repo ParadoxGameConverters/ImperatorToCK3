@@ -37,7 +37,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? CustomName { get; set; }
 
 		// Returned value indicates whether a family was linked
-		internal bool LinkFamily(Families.FamilyCollection families, SortedSet<ulong> missingDefinitionsSet) {
+		internal bool LinkFamily(FamilyCollection families, SortedSet<ulong> missingDefinitionsSet) {
 			if (parsedFamilyId is null) {
 				return false;
 			}
@@ -171,7 +171,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkCountry(Countries.CountryCollection countries) {
+		public bool LinkCountry(CountryCollection countries) {
 			if (parsedCountryId is null) {
 				Logger.Warn($"Character {Id} has no country!");
 				return false;
@@ -187,7 +187,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkHomeCountry(Countries.CountryCollection countries) {
+		public bool LinkHomeCountry(CountryCollection countries) {
 			if (parsedHomeCountryId is null) {
 				return false;
 			}
@@ -201,7 +201,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkPrisonerHome(Countries.CountryCollection countries) {
+		public bool LinkPrisonerHome(CountryCollection countries) {
 			if (parsedPrisonerHomeId is null) {
 				return false;
 			}
