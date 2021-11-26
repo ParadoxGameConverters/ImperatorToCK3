@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Imperator {
 		public Families.Families Families { get; private set; } = new();
 		public Characters.CharacterCollection Characters { get; private set; } = new();
 		private Pops.Pops pops = new();
-		public Provinces.Provinces Provinces { get; private set; } = new();
+		public ProvinceCollection Provinces { get; private set; } = new();
 		public Countries.Countries Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		private GenesDB genesDB = new();
@@ -90,7 +90,7 @@ namespace ImperatorToCK3.Imperator {
 			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces...");
-				Provinces = new Provinces.Provinces(reader);
+				Provinces = new Provinces.ProvinceCollection(reader);
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});

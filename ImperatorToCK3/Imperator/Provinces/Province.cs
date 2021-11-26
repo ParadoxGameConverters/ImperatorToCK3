@@ -1,10 +1,11 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Provinces {
 	public enum ProvinceRank { settlement, city, city_metropolis }
-	public partial class Province {
+	public partial class Province : IIdentifiable<ulong> {
 		public ulong Id { get; } = 0;
 		public string Name { get; set; } = "";
 		public string Culture { get; set; } = "";
