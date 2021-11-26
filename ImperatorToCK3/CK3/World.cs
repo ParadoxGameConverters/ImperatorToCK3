@@ -104,14 +104,14 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries) {
+		private void ImportImperatorCountries(CountryCollection imperatorCountries) {
 			Logger.Info("Importing Imperator Countries.");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator tags.
 			var counter = 0;
 			// We don't need pirates, barbarians etc.
-			foreach (var country in imperatorCountries.Values.Where(c => c.CountryType == CountryType.real)) {
+			foreach (var country in imperatorCountries.Where(c => c.CountryType == CountryType.real)) {
 				ImportImperatorCountry(country, imperatorCountries);
 				++counter;
 			}
@@ -120,7 +120,7 @@ namespace ImperatorToCK3.CK3 {
 
 		private void ImportImperatorCountry(
 			Country country,
-			Dictionary<ulong, Country> imperatorCountries
+			CountryCollection imperatorCountries
 		) {
 			// Create a new title or update existing title
 			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
@@ -187,8 +187,8 @@ namespace ImperatorToCK3.CK3 {
 		}
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
-			Dictionary<ulong, Country> imperatorCountries,
-			Imperator.Characters.Characters imperatorCharacters,
+			CountryCollection imperatorCountries,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships
 		) {
 			var country = imperatorCountries[governorship.CountryId];

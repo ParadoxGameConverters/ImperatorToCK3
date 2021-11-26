@@ -28,7 +28,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public Title(
 			Country country,
-			Dictionary<ulong, Country> imperatorCountries,
+			CountryCollection imperatorCountries,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -60,7 +60,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Title(
 			Governorship governorship,
 			Country country,
-			Imperator.Characters.Characters imperatorCharacters,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
@@ -86,7 +86,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 		public void InitializeFromTag(
 			Country country,
-			Dictionary<ulong, Country> imperatorCountries,
+			CountryCollection imperatorCountries,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
 			ProvinceMapper provinceMapper,
@@ -212,7 +212,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 		}
 
-		private static LocBlock? GetValidatedName(Country imperatorCountry, Dictionary<ulong, Country> imperatorCountries, LocalizationMapper localizationMapper) {
+		private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocalizationMapper localizationMapper) {
 			return imperatorCountry.Name switch {
 				// hard code for Antigonid Kingdom, Seleucid Empire and Maurya
 				// these countries use customizable localization for name and adjective
@@ -225,7 +225,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public static string DetermineName(
 			Country imperatorCountry,
-			Dictionary<ulong, Country> imperatorCountries,
+			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
 			LocalizationMapper localizationMapper
 		) {
@@ -261,7 +261,7 @@ namespace ImperatorToCK3.CK3.Titles {
 
 		public void InitializeFromGovernorship(Governorship governorship,
 			Country country,
-			Imperator.Characters.Characters imperatorCharacters,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			LocalizationMapper localizationMapper,
 			LandedTitles landedTitles,
@@ -412,7 +412,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public void SetNameLoc(LocBlock locBlock) {
 			Localizations[Id] = locBlock;
 		}
-		private void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, Dictionary<ulong, Country> imperatorCountries) {
+		private void TrySetAdjectiveLoc(LocalizationMapper localizationMapper, CountryCollection imperatorCountries) {
 			if (ImperatorCountry is null) {
 				Logger.Warn($"Cannot set adjective for CK3 Title {Id} from null Imperator Country!");
 				return;

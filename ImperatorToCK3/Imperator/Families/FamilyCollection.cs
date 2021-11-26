@@ -1,8 +1,9 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Families {
-	public class Families : Dictionary<ulong, Family> {
+	public class FamilyCollection : IdObjectCollection<ulong, Family> {
 		public void LoadFamilies(string path) {
 			var parser = new Parser();
 			RegisterKeys(parser);
@@ -23,23 +24,23 @@ namespace ImperatorToCK3.Imperator.Families {
 				var tempReader = new BufferedReader(familyStr);
 				var id = ulong.Parse(familyIdStr);
 				var newFamily = Family.Parse(tempReader, id);
-				var inserted = TryAdd(newFamily.Id, newFamily);
+				var inserted = TryAdd(newFamily);
 				if (!inserted) {
-					Logger.Debug($"Redefinition of family {familyIdStr}.");
-					this[newFamily.Id] = newFamily;
+					Logger.Debug($"Redefinition of family {id}.");
+					dict[newFamily.Id] = newFamily;
 				}
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void RemoveUnlinkedMembers() {
-			foreach (var family in Values) {
+			foreach (var family in this) {
 				family.RemoveUnlinkedMembers();
 			}
 		}
 
-		public static Families ParseBloc(BufferedReader reader) {
+		public static FamilyCollection ParseBloc(BufferedReader reader) {
 			var blocParser = new Parser();
-			var families = new Families();
+			var families = new FamilyCollection();
 			blocParser.RegisterKeyword("families", reader =>
 				families.LoadFamilies(reader)
 			);
@@ -48,7 +49,7 @@ namespace ImperatorToCK3.Imperator.Families {
 			blocParser.ParseStream(reader);
 			blocParser.ClearRegisteredRules();
 
-			Logger.Debug("Ignored Family tokens: " + string.Join(", ", Family.IgnoredTokens));
+			Logger.Debug($"Ignored Family tokens: {string.Join(", ", Family.IgnoredTokens)}");
 			return families;
 		}
 	}

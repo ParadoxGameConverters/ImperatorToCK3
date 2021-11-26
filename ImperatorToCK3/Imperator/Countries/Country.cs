@@ -1,12 +1,15 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public enum CountryType { rebels, pirates, barbarians, mercenaries, real }
 	public enum CountryRank { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower }
 	public enum GovernmentType { monarchy, republic, tribal }
-	public partial class Country {
+	public partial class Country : IIdentifiable<ulong> {
 		public ulong Id { get; } = 0;
 		public bool PlayerCountry { get; set; }
 		private ulong? monarchId;  // >=0 are valid
@@ -29,8 +32,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Color? Color3 { get; private set; }
 		public CountryCurrencies Currencies { get; private set; } = new();
 		private readonly HashSet<ulong> parsedFamilyIds = new();
-		public Dictionary<ulong, Families.Family> Families { get; private set; } = new();
-		private readonly HashSet<Provinces.Province> ownedProvinces = new();
+		public Dictionary<ulong, Family> Families { get; private set; } = new();
+		private readonly HashSet<Province> ownedProvinces = new();
 
 		public CK3.Titles.Title? CK3Title { get; set; }
 
@@ -64,7 +67,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 			return CountryRank.greatPower;
 		}
-		public void RegisterProvince(Provinces.Province? province) {
+		public void RegisterProvince(Province? province) {
 			if (province is null) {
 				Logger.Warn($"Didn't register null province to country {Name}.");
 			} else {
@@ -73,7 +76,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		}
 
 		// Returns counter of families linked to the country
-		public int LinkFamilies(Families.Families families, SortedSet<ulong> idsWithoutDefinition) {
+		public int LinkFamilies(FamilyCollection families, SortedSet<ulong> idsWithoutDefinition) {
 			var counter = 0;
 			foreach (var familyId in parsedFamilyIds) {
 				if (families.TryGetValue(familyId, out var familyToLink)) {
