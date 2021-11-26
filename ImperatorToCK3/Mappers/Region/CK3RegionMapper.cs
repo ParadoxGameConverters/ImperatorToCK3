@@ -32,18 +32,17 @@ namespace ImperatorToCK3.Mappers.Region {
 			LinkRegions();
 		}
 		public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
-			if (regions.TryGetValue(regionName, out var region) && region is not null) {
+			if (regions.TryGetValue(regionName, out var region)) {
 				return region.ContainsProvince(provinceId);
 			}
 
 			// "Regions" are such a fluid term.
-			if (duchies.TryGetValue(regionName, out var duchy) && duchy is not null) {
+			if (duchies.TryGetValue(regionName, out var duchy)) {
 				return duchy.DuchyContainsProvince(provinceId);
 			}
 
 			// And sometimes they don't mean what people think they mean at all.
-			return counties.TryGetValue(regionName, out var county) &&
-				county?.CountyProvinces.Contains(provinceId) == true;
+			return counties.TryGetValue(regionName, out var county) && county.CountyProvinces.Contains(provinceId);
 		}
 		public bool RegionNameIsValid(string regionName) {
 			if (regions.ContainsKey(regionName)) {
@@ -63,7 +62,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 		public string? GetParentCountyName(ulong provinceId) {
 			foreach (var (countyName, county) in counties) {
-				if (county?.CountyProvinces.Contains(provinceId) == true) {
+				if (county.CountyProvinces.Contains(provinceId)) {
 					return countyName;
 				}
 			}
@@ -72,7 +71,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 		public string? GetParentDuchyName(ulong provinceId) {
 			foreach (var (duchyName, duchy) in duchies) {
-				if (duchy?.DuchyContainsProvince(provinceId) == true) {
+				if (duchy.DuchyContainsProvince(provinceId)) {
 					return duchyName;
 				}
 			}
@@ -81,7 +80,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 		public string? GetParentRegionName(ulong provinceId) {
 			foreach (var (regionName, region) in regions) {
-				if (region?.ContainsProvince(provinceId) == true) {
+				if (region.ContainsProvince(provinceId)) {
 					return regionName;
 				}
 			}
@@ -90,22 +89,18 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 
 		private void RegisterRegionKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, regionName) => {
+			RegisterRegex(CommonRegexes.String, (reader, regionName) => {
 				regions[regionName] = CK3Region.Parse(regionName, reader);
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private void LinkRegions() {
-			foreach (var (regionName, region) in regions) {
-				if (region is null) {
-					Logger.Warn($"LinkRegions: {regionName} is null!");
-					continue;
-				}
+			foreach (var region in regions.Values) {
 				region.LinkRegions(regions, duchies, counties);
 			}
 		}
 		private readonly Dictionary<string, CK3Region> regions = new();
-		private readonly Dictionary<string, Title?> duchies = new();
-		private readonly Dictionary<string, Title?> counties = new();
+		private readonly Dictionary<string, Title> duchies = new();
+		private readonly Dictionary<string, Title> counties = new();
 	}
 }
