@@ -19,30 +19,14 @@ namespace ImperatorToCK3.Imperator.Countries {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("manpower", reader =>
-				Manpower = reader.GetDouble()
-			);
-			RegisterKeyword("gold", reader =>
-				Gold = reader.GetDouble()
-			);
-			RegisterKeyword("stability", reader =>
-				Stability = reader.GetDouble()
-			);
-			RegisterKeyword("tyranny", reader =>
-				Tyranny = reader.GetDouble()
-			);
-			RegisterKeyword("war_exhaustion", reader =>
-				WarExhaustion = reader.GetDouble()
-			);
-			RegisterKeyword("aggressive_expansion", reader =>
-				AggressiveExpansion = reader.GetDouble()
-			);
-			RegisterKeyword("political_influence", reader =>
-				PoliticalInfluence = reader.GetDouble()
-			);
-			RegisterKeyword("military_experience", reader =>
-				MilitaryExperience = reader.GetDouble()
-			);
+			RegisterKeyword("manpower", reader => Manpower = reader.GetDouble());
+			RegisterKeyword("gold", reader => Gold = reader.GetDouble());
+			RegisterKeyword("stability", reader => Stability = reader.GetDouble());
+			RegisterKeyword("tyranny", reader => Tyranny = reader.GetDouble());
+			RegisterKeyword("war_exhaustion", reader => WarExhaustion = reader.GetDouble());
+			RegisterKeyword("aggressive_expansion", reader => AggressiveExpansion = reader.GetDouble());
+			RegisterKeyword("political_influence", reader => PoliticalInfluence = reader.GetDouble());
+			RegisterKeyword("military_experience", reader => MilitaryExperience = reader.GetDouble());
 			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);

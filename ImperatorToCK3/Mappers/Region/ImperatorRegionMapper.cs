@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Mappers.Region {
-	public class ImperatorRegionMapper : Parser {
+	public class ImperatorRegionMapper {
 		private readonly Dictionary<string, ImperatorRegion> regions = new();
 		private readonly Dictionary<string, ImperatorArea> areas = new();
 
@@ -16,30 +16,26 @@ namespace ImperatorToCK3.Mappers.Region {
 			using var regionFileStream = new FileStream(regionFilePath, FileMode.Open);
 			var areaReader = new BufferedReader(areaFileStream);
 			var regionReader = new BufferedReader(regionFileStream);
-			AbsorbBOM(areaReader);
-			AbsorbBOM(regionReader);
+			Parser.AbsorbBOM(areaReader);
+			Parser.AbsorbBOM(regionReader);
 			LoadRegions(areaReader, regionReader);
 		}
-		private void RegisterRegionKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, regionName) => {
-				regions[regionName] = new ImperatorRegion(reader);
-			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		private void RegisterRegionKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions[regionName] = new ImperatorRegion(regionName, reader));
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		private void RegisterAreaKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, areaName) => {
-				areas[areaName] = new ImperatorArea(reader);
-			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		private void RegisterAreaKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas[areaName] = new ImperatorArea(reader));
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void LoadRegions(BufferedReader areaReader, BufferedReader regionReader) {
-			RegisterAreaKeys();
-			ParseStream(areaReader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterAreaKeys(parser);
+			parser.ParseStream(areaReader);
+			parser.ClearRegisteredRules();
 
-			RegisterRegionKeys();
-			ParseStream(regionReader);
-			ClearRegisteredRules();
+			RegisterRegionKeys(parser);
+			parser.ParseStream(regionReader);
 
 			LinkRegions();
 		}
@@ -73,14 +69,8 @@ namespace ImperatorToCK3.Mappers.Region {
 			return null;
 		}
 		private void LinkRegions() {
-			foreach (var (regionName, region) in regions) {
-				foreach (var requiredAreaName in region.Areas.Keys) {
-					if (areas.TryGetValue(requiredAreaName, out var area)) {
-						region.LinkArea(requiredAreaName, area);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} area {requiredAreaName} does not exist!");
-					}
-				}
+			foreach (var region in regions.Values) {
+				region.LinkAreas(areas);
 			}
 		}
 	}
