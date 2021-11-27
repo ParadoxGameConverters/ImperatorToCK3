@@ -284,5 +284,49 @@ namespace ImperatorToCK3.CK3.Titles {
 				Add(newTitle);
 			}
 		}
+
+		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
+			Logger.Info("Removing invalid landless titles.");
+			var removedGeneratedTitles = new HashSet<string>();
+			var revokedVanillaTitles = new HashSet<string>();
+
+			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
+
+			foreach (var title in this) {
+				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
+				// this also removes landless titles initialized from Imperator
+				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+					var id = title.Id;
+					if (!this[id].Landless) { // does not have landless attribute set to true
+						if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
+							removedGeneratedTitles.Add(id);
+							Remove(id);
+						} else {
+							revokedVanillaTitles.Add(id);
+							title.ClearHolderSpecificHistory();
+							title.DeFactoLiege = null;
+						}
+					}
+				}
+			}
+			if (removedGeneratedTitles.Count > 0) {
+				Logger.Debug($"Found landless generated titles that can't be landless: {string.Join(", ", removedGeneratedTitles)}");
+			}
+			if (revokedVanillaTitles.Count > 0) {
+				Logger.Debug($"Found landless vanilla titles that can't be landless: {string.Join(", ", revokedVanillaTitles)}");
+			}
+		}
+
+		private HashSet<string> GetCountyHolderIds(Date date) {
+			var countyHoldersCache = new HashSet<string>();
+			foreach (var county in this.Where(t => t.Rank == TitleRank.county)) {
+				var holderId = county.GetHolderId(date);
+				if (holderId != "0") {
+					countyHoldersCache.Add(holderId);
+				}
+			}
+
+			return countyHoldersCache;
+		}
 	}
 }
