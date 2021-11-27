@@ -32,6 +32,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Date BirthDate { get; private set; }
 		public Date? DeathDate { get; private set; }
 		public string? DeathReason { get; private set; }
+		public bool Dead => DeathDate is not null;
 
 		public SortedSet<string> Traits { get; } = new();
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
