@@ -97,6 +97,9 @@ namespace ImperatorToCK3.Outputter {
 			if (character.EmployerId is null) {
 				return;
 			}
+			if (character.Dead) {
+				return;
+			}
 
 			output.WriteLine($"\t{conversionDate}={{employer={character.EmployerId}}}");
 		}
