@@ -10,7 +10,7 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var title in titles) {
 				var coa = title.CoA;
 				if (coa is not null) {
-					output.WriteLine(title.Id + coa);
+					output.WriteLine($"{title.Id}={coa}");
 				}
 			}
 		}
