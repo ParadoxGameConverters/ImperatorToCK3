@@ -7,7 +7,7 @@ namespace ImperatorToCK3.CK3.Titles {
 		public TitlesHistory() { }
 		public TitlesHistory(string folderPath, Date ck3BookmarkDate) {
 			var filenames = SystemUtils.GetAllFilesInFolderRecursive(folderPath);
-			Logger.Info("Parsing title history.");
+			Logger.Info("Parsing title history...");
 			RegisterKeys(ck3BookmarkDate);
 			foreach (var filename in filenames) {
 				ParseFile(System.IO.Path.Combine(folderPath, filename));

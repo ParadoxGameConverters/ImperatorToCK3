@@ -7,7 +7,7 @@ namespace ImperatorToCK3.CK3.Titles {
 	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
-	public class LandedTitles : IdObjectCollection<string, Title> {
+	public class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = new();
 
 		public void LoadTitles(string fileName) {
@@ -54,10 +54,10 @@ namespace ImperatorToCK3.CK3.Titles {
 					deFactoLiege.DeFactoVassals.Remove(name);
 				}
 
-				foreach (var vassal in titleToErase.DeJureVassals.Values) {
+				foreach (var vassal in titleToErase.DeJureVassals) {
 					vassal.DeJureLiege = null;
 				}
-				foreach (var vassal in titleToErase.DeFactoVassals.Values) {
+				foreach (var vassal in titleToErase.DeFactoVassals) {
 					vassal.DeFactoLiege = null;
 				}
 
