@@ -67,12 +67,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 			return CountryRank.greatPower;
 		}
-		public void RegisterProvince(Province? province) {
-			if (province is null) {
-				Logger.Warn($"Didn't register null province to country {Name}.");
-			} else {
-				ownedProvinces.Add(province);
-			}
+		public void RegisterProvince(Province province) {
+			ownedProvinces.Add(province);
 		}
 
 		// Returns counter of families linked to the country

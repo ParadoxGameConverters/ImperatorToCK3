@@ -1,9 +1,5 @@
-﻿using System;
+﻿using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ImperatorToCK3.CK3.Titles;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter {
@@ -14,11 +10,11 @@ namespace ImperatorToCK3.Outputter {
 			using var outputStream = File.OpenWrite(outputPath);
 			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-			List<string> primogenitureTitles = new List<string>();
-			List<string> seniorityTitles = new List<string>();
+			var primogenitureTitles = new List<string>();
+			var seniorityTitles = new List<string>();
 
 			foreach (var landedTitle in landedTitles) {
-				if (landedTitle.DeFactoLiege == null) {					
+				if (landedTitle.DeFactoLiege is null) {
 					if (landedTitle.SuccessionLaws.Contains("single_heir_succession_law")) {
 						primogenitureTitles.Add(landedTitle.Id);
 					}
@@ -31,16 +27,18 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("historical_succession_access_single_heir_succession_law_trigger = {");
 			output.WriteLine(" OR = {");
 			foreach (var primogenitureTitle in primogenitureTitles) {
-				output.WriteLine("  has_title = title:" + primogenitureTitle);
+				output.WriteLine($"  has_title = title:{primogenitureTitle}");
 			}
 			output.WriteLine(" }");
+			output.WriteLine("}");
 
 			output.WriteLine("historical_succession_access_single_heir_dynasty_house_trigger = {");
 			output.WriteLine(" OR = {");
 			foreach (var seniorityTitle in seniorityTitles) {
-				output.WriteLine("  has_title = title:" + seniorityTitle);
+				output.WriteLine($"  has_title = title:{seniorityTitle}");
 			}
 			output.WriteLine(" }");
+			output.WriteLine("}");
 		}
 	}
 }
