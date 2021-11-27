@@ -681,7 +681,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			} else if (Id.StartsWith('e')) {
 				Rank = TitleRank.empire;
 			} else {
-				throw new System.FormatException("Title " + Id + ": unknown rank!");
+				throw new System.FormatException($"Title {Id}: unknown rank!");
 			}
 		}
 

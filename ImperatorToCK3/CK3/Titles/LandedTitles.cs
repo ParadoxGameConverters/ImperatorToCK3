@@ -122,7 +122,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters) {
-			Logger.Info("Importing Imperator Countries.");
+			Logger.Info("Importing Imperator Countries...");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator tags.
@@ -212,7 +212,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				ImperatorRegionMapper imperatorRegionMapper,
 				CoaMapper coaMapper
 			) {
-			Logger.Info("Importing Imperator Governorships.");
+			Logger.Info("Importing Imperator Governorships...");
 
 			var governorships = impWorld.Jobs.Governorships;
 			var imperatorCountries = impWorld.Countries;

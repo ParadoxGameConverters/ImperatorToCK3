@@ -106,7 +106,7 @@ namespace ImperatorToCK3.CK3 {
 
 			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, theConfiguration.Ck3BookmarkDate);
+			OverWriteCountiesHistory(impWorld.Jobs.Governorships, impWorld.EndDate);
 			LandedTitles.RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, theConfiguration.Ck3BookmarkDate);
@@ -145,8 +145,8 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date ck3BookmarkDate) {
-			Logger.Info("Overwriting counties' history.");
+		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date conversionDate) {
+			Logger.Info("Overwriting counties' history...");
 			foreach (var title in LandedTitles) {
 				if (title.Rank != TitleRank.county) {
 					continue;
@@ -171,7 +171,7 @@ namespace ImperatorToCK3.CK3 {
 				var impCountry = impProvince.OwnerCountry;
 
 				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
-					title.SetHolderId("0", ck3BookmarkDate);
+					title.SetHolderId("0", conversionDate);
 					title.DeFactoLiege = null;
 				} else {
 					var ck3Country = impCountry.CK3Title;
@@ -216,28 +216,28 @@ namespace ImperatorToCK3.CK3 {
 				}
 			}
 
-			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarchId) {
-				var holderId = "imperator" + impMonarchId;
+			void GiveCountyToMonarch(Title county, Title ck3Country, ulong impMonarchId) {
+				var holderId = $"imperator{impMonarchId}";
 				if (Characters.TryGetValue(holderId, out var holder)) {
-					title.ClearHolderSpecificHistory();
-					title.SetHolderId(holder.Id, ck3Country.GetDateOfLastHolderChange());
+					county.ClearHolderSpecificHistory();
+					county.SetHolderId(holder.Id, ck3Country.GetDateOfLastHolderChange());
 				} else {
-					Logger.Warn($"Holder {holderId} of county {title.Id} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
-				title.DeFactoLiege = null;
+				county.DeFactoLiege = null;
 			}
 
-			void GiveCountyToGovernor(Title title, string ck3GovernorshipName) {
+			void GiveCountyToGovernor(Title county, string ck3GovernorshipName) {
 				var ck3Governorship = LandedTitles[ck3GovernorshipName];
 				var holderChangeDate = ck3Governorship.GetDateOfLastHolderChange();
 				var holderId = ck3Governorship.GetHolderId(holderChangeDate);
 				if (Characters.TryGetValue(holderId, out var governor)) {
-					title.ClearHolderSpecificHistory();
-					title.SetHolderId(governor.Id, holderChangeDate);
+					county.ClearHolderSpecificHistory();
+					county.SetHolderId(governor.Id, holderChangeDate);
 				} else {
-					Logger.Warn($"Holder {holderId} of county {title.Id} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
-				title.DeFactoLiege = null;
+				county.DeFactoLiege = null;
 			}
 		}
 
