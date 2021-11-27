@@ -409,3 +409,4 @@ link = { ck3 = nabatean imp = nabatean }
 
 # Simple Timeline Extender mod
 link = { ck3 = hunnic imp = hunnic }
+link = { ck3 = hunnic imp = huna }
