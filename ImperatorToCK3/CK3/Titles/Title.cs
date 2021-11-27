@@ -487,12 +487,16 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Title? DeJureLiege { // direct de jure liege title
 			get => deJureLiege;
 			set {
+				if (value is not null && value.Rank <= Rank) {
+					Logger.Warn($"Cannot set de jure liege {value.Id} to {Id}: rank is not higher!");
+					return;
+				}
 				if (deJureLiege is not null) {
 					deJureLiege.DeJureVassals.Remove(Id);
 				}
 				deJureLiege = value;
 				if (value is not null) {
-					value.DeJureVassals[Id] = this;
+					value.DeJureVassals.Add(this);
 				}
 			}
 		}
@@ -501,26 +505,30 @@ namespace ImperatorToCK3.CK3.Titles {
 		public Title? DeFactoLiege { // direct de facto liege title
 			get => deFactoLiege;
 			set {
+				if (value is not null && value.Rank <= Rank) {
+					Logger.Warn($"Cannot set de facto liege {value.Id} to {Id}: rank is not higher!");
+					return;
+				}
 				if (deFactoLiege is not null) {
 					deFactoLiege.DeFactoVassals.Remove(Id);
 				}
 				deFactoLiege = value;
 				if (value is not null) {
-					value.DeFactoVassals[Id] = this;
+					value.DeFactoVassals.Add(this);
 				}
 			}
 		}
-		[SerializeOnlyValue] public Dictionary<string, Title> DeJureVassals { get; private set; } = new(); // DIRECT de jure vassals
+		[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
 		public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
 			return GetDeJureVassalsAndBelow("bcdke");
 		}
 		public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 			var rankFilterAsArray = rankFilter.ToCharArray();
 			Dictionary<string, Title> deJureVassalsAndBelow = new();
-			foreach (var (vassalTitleName, vassalTitle) in DeJureVassals) {
+			foreach (var vassalTitle in DeJureVassals) {
 				// add the direct part
-				if (vassalTitleName.IndexOfAny(rankFilterAsArray) == 0) {
-					deJureVassalsAndBelow[vassalTitleName] = vassalTitle;
+				if (vassalTitle.Id.IndexOfAny(rankFilterAsArray) == 0) {
+					deJureVassalsAndBelow[vassalTitle.Id] = vassalTitle;
 				}
 
 				// add the "below" part (recursive)
@@ -533,17 +541,17 @@ namespace ImperatorToCK3.CK3.Titles {
 			}
 			return deJureVassalsAndBelow;
 		}
-		[NonSerialized] public Dictionary<string, Title> DeFactoVassals { get; private set; } = new(); // DIRECT de facto vassals
+		[NonSerialized] public TitleCollection DeFactoVassals { get; } = new(); // DIRECT de facto vassals
 		public Dictionary<string, Title> GetDeFactoVassalsAndBelow() {
 			return GetDeFactoVassalsAndBelow("bcdke");
 		}
 		public Dictionary<string, Title> GetDeFactoVassalsAndBelow(string rankFilter) {
 			var rankFilterAsArray = rankFilter.ToCharArray();
 			Dictionary<string, Title> deFactoVassalsAndBelow = new();
-			foreach (var (vassalTitleName, vassalTitle) in DeFactoVassals) {
+			foreach (var vassalTitle in DeFactoVassals) {
 				// add the direct part
-				if (vassalTitleName.IndexOfAny(rankFilterAsArray) == 0) {
-					deFactoVassalsAndBelow[vassalTitleName] = vassalTitle;
+				if (vassalTitle.Id.IndexOfAny(rankFilterAsArray) == 0) {
+					deFactoVassalsAndBelow[vassalTitle.Id] = vassalTitle;
 				}
 
 				// add the "below" part (recursive)
@@ -772,7 +780,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				return false;
 			}
 
-			return DeJureVassals.Values.Any(vassal => vassal.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId));
+			return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId));
 		}
 
 		// used by duchy titles only
@@ -781,7 +789,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				return false;
 			}
 
-			return DeJureVassals.Values.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
+			return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
 		}
 
 		// used by county titles only
