@@ -295,7 +295,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			foreach (var title in this) {
 				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 				// this also removes landless titles initialized from Imperator
-				if (title.Rank != TitleRank.county && title.Rank != TitleRank.barony && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+				if (title.Rank > TitleRank.county && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
 					var id = title.Id;
 					if (!this[id].Landless) { // does not have landless attribute set to true
 						if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
