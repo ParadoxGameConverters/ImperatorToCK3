@@ -12,6 +12,8 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Mappers.Region;
 
 namespace ImperatorToCK3.CK3.Titles {
 	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
@@ -196,6 +198,88 @@ namespace ImperatorToCK3.CK3.Titles {
 					cultureMapper,
 					nicknameMapper,
 					characters
+				);
+				Add(newTitle);
+			}
+		}
+
+		public void ImportImperatorGovernorships(
+				Imperator.World impWorld,
+				TagTitleMapper tagTitleMapper,
+				LocalizationMapper localizationMapper,
+				ProvinceMapper provinceMapper,
+				DefiniteFormMapper definiteFormMapper,
+				ImperatorRegionMapper imperatorRegionMapper,
+				CoaMapper coaMapper
+			) {
+			Logger.Info("Importing Imperator Governorships.");
+
+			var governorships = impWorld.Jobs.Governorships;
+			var imperatorCountries = impWorld.Countries;
+
+			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
+				.ToDictionary(g => g.Key, g => g.Count());
+
+			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
+			// add new ones from Imperator governorships.
+			var counter = 0;
+			foreach (var governorship in governorships) {
+				ImportImperatorGovernorship(
+					governorship,
+					imperatorCountries,
+					impWorld.Characters,
+					governorshipsPerRegion[governorship.RegionName] > 1,
+					tagTitleMapper,
+					localizationMapper,
+					provinceMapper,
+					definiteFormMapper,
+					imperatorRegionMapper,
+					coaMapper
+				);
+				++counter;
+			}
+			Logger.Info($"Imported {counter} governorships from I:R.");
+		}
+		private void ImportImperatorGovernorship(
+			Governorship governorship,
+			CountryCollection imperatorCountries,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
+			bool regionHasMultipleGovernorships,
+			TagTitleMapper tagTitleMapper,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ImperatorRegionMapper imperatorRegionMapper,
+			CoaMapper coaMapper) {
+			var country = imperatorCountries[governorship.CountryId];
+			// Create a new title or update existing title
+			var name = Title.DetermineName(governorship, country, tagTitleMapper);
+
+			if (TryGetValue(name, out var existingTitle)) {
+				existingTitle.InitializeFromGovernorship(
+					governorship,
+					country,
+					imperatorCharacters,
+					regionHasMultipleGovernorships,
+					localizationMapper,
+					this,
+					provinceMapper,
+					definiteFormMapper,
+					imperatorRegionMapper
+				);
+			} else {
+				var newTitle = new Title(
+					governorship,
+					country,
+					imperatorCharacters,
+					regionHasMultipleGovernorships,
+					localizationMapper,
+					this,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					definiteFormMapper,
+					imperatorRegionMapper
 				);
 				Add(newTitle);
 			}

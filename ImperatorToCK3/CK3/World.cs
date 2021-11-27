@@ -72,7 +72,15 @@ namespace ImperatorToCK3.CK3 {
 				nicknameMapper,
 				Characters
 			);
-			ImportImperatorGovernorships(impWorld);
+			LandedTitles.ImportImperatorGovernorships(
+				impWorld,
+				tagTitleMapper,
+				localizationMapper,
+				provinceMapper,
+				definiteFormMapper,
+				imperatorRegionMapper,
+				coaMapper
+			);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
@@ -114,69 +122,6 @@ namespace ImperatorToCK3.CK3 {
 				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
 					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
 				}
-			}
-		}
-
-		private void ImportImperatorGovernorships(Imperator.World impWorld) {
-			Logger.Info("Importing Imperator Governorships.");
-
-			var governorships = impWorld.Jobs.Governorships;
-			var imperatorCountries = impWorld.Countries;
-
-			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
-				.ToDictionary(g => g.Key, g => g.Count());
-
-			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
-			// add new ones from Imperator governorships.
-			var counter = 0;
-			foreach (var governorship in governorships) {
-				ImportImperatorGovernorship(
-					governorship,
-					imperatorCountries,
-					impWorld.Characters,
-					governorshipsPerRegion[governorship.RegionName] > 1
-				);
-				++counter;
-			}
-			Logger.Info($"Imported {counter} governorships from I:R.");
-		}
-		private void ImportImperatorGovernorship(
-			Governorship governorship,
-			CountryCollection imperatorCountries,
-			Imperator.Characters.CharacterCollection imperatorCharacters,
-			bool regionHasMultipleGovernorships
-		) {
-			var country = imperatorCountries[governorship.CountryId];
-			// Create a new title or update existing title
-			var name = Title.DetermineName(governorship, country, tagTitleMapper);
-
-			if (LandedTitles.TryGetValue(name, out var existingTitle)) {
-				existingTitle.InitializeFromGovernorship(
-					governorship,
-					country,
-					imperatorCharacters,
-					regionHasMultipleGovernorships,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					definiteFormMapper,
-					imperatorRegionMapper
-				);
-			} else {
-				var newTitle = new Title(
-					governorship,
-					country,
-					imperatorCharacters,
-					regionHasMultipleGovernorships,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					coaMapper,
-					tagTitleMapper,
-					definiteFormMapper,
-					imperatorRegionMapper
-				);
-				LandedTitles.Add(newTitle);
 			}
 		}
 
