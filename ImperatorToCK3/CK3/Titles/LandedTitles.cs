@@ -1,6 +1,17 @@
 ﻿using commonItems;
+using ImperatorToCK3.Imperator.Countries;
 using System.Collections.Generic;
 using System.Linq;
+using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.TagTitle;
+using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.SuccessionLaw;
+using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.CoA;
+using ImperatorToCK3.Mappers.Province;
 
 namespace ImperatorToCK3.CK3.Titles {
 	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
@@ -93,6 +104,100 @@ namespace ImperatorToCK3.CK3.Titles {
 		private void LinkCapitals() {
 			foreach (var title in this) {
 				title.LinkCapital(this);
+			}
+		}
+
+		public void ImportImperatorCountries(
+			CountryCollection imperatorCountries,
+			TagTitleMapper tagTitleMapper,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,
+			CoaMapper coaMapper,
+			GovernmentMapper governmentMapper,
+			SuccessionLawMapper successionLawMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
+			CharacterCollection characters) {
+			Logger.Info("Importing Imperator Countries.");
+
+			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
+			// add new ones from Imperator tags.
+			var counter = 0;
+			// We don't need pirates, barbarians etc.
+			foreach (var country in imperatorCountries.Where(c => c.CountryType == CountryType.real)) {
+				ImportImperatorCountry(
+					country,
+					imperatorCountries,
+					tagTitleMapper,
+					localizationMapper,
+					provinceMapper,
+					coaMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					characters
+				);
+				++counter;
+			}
+			Logger.Info($"Imported {counter} countries from I:R.");
+		}
+
+		private void ImportImperatorCountry(
+			Country country,
+			CountryCollection imperatorCountries,
+			TagTitleMapper tagTitleMapper,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,
+			CoaMapper coaMapper,
+			GovernmentMapper governmentMapper,
+			SuccessionLawMapper successionLawMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
+			CharacterCollection characters) {
+			// Create a new title or update existing title
+			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
+
+			if (TryGetValue(name, out var existingTitle)) {
+				existingTitle.InitializeFromTag(
+					country,
+					imperatorCountries,
+					localizationMapper,
+					this,
+					provinceMapper,
+					coaMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					characters
+				);
+			} else {
+				var newTitle = new Title(
+					country,
+					imperatorCountries,
+					localizationMapper,
+					this,
+					provinceMapper,
+					coaMapper,
+					tagTitleMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					characters
+				);
+				Add(newTitle);
 			}
 		}
 	}

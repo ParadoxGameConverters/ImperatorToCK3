@@ -58,7 +58,20 @@ namespace ImperatorToCK3.CK3 {
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-			ImportImperatorCountries(impWorld.Countries);
+			LandedTitles.ImportImperatorCountries(
+				impWorld.Countries,
+				tagTitleMapper,
+				localizationMapper,
+				provinceMapper,
+				coaMapper,
+				governmentMapper,
+				successionLawMapper,
+				definiteFormMapper,
+				religionMapper,
+				cultureMapper,
+				nicknameMapper,
+				Characters
+			);
 			ImportImperatorGovernorships(impWorld);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -101,64 +114,6 @@ namespace ImperatorToCK3.CK3 {
 				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
 					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
 				}
-			}
-		}
-
-		private void ImportImperatorCountries(CountryCollection imperatorCountries) {
-			Logger.Info("Importing Imperator Countries.");
-
-			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
-			// add new ones from Imperator tags.
-			var counter = 0;
-			// We don't need pirates, barbarians etc.
-			foreach (var country in imperatorCountries.Where(c => c.CountryType == CountryType.real)) {
-				ImportImperatorCountry(country, imperatorCountries);
-				++counter;
-			}
-			Logger.Info($"Imported {counter} countries from I:R.");
-		}
-
-		private void ImportImperatorCountry(
-			Country country,
-			CountryCollection imperatorCountries
-		) {
-			// Create a new title or update existing title
-			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
-
-			if (LandedTitles.TryGetValue(name, out var existingTitle)) {
-				existingTitle.InitializeFromTag(
-					country,
-					imperatorCountries,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					coaMapper,
-					governmentMapper,
-					successionLawMapper,
-					definiteFormMapper,
-					religionMapper,
-					cultureMapper,
-					nicknameMapper,
-					Characters
-				);
-			} else {
-				var newTitle = new Title(
-					country,
-					imperatorCountries,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					coaMapper,
-					tagTitleMapper,
-					governmentMapper,
-					successionLawMapper,
-					definiteFormMapper,
-					religionMapper,
-					cultureMapper,
-					nicknameMapper,
-					Characters
-				);
-				LandedTitles.Add(newTitle);
 			}
 		}
 
