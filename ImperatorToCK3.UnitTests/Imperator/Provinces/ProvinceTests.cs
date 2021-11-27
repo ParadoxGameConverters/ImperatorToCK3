@@ -108,7 +108,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			Assert.Null(theProvince.OwnerCountry); // not linked yet
 
 			var countries = new CountryCollection(new BufferedReader("69 = {}"));
-			theProvince.TryLinkOwnerCounty(countries);
+			theProvince.TryLinkOwnerCountry(countries);
 
 			Assert.NotNull(theProvince.OwnerCountry);
 			Assert.Equal((ulong)69, theProvince.OwnerCountry.Id);
@@ -226,8 +226,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void BuildingsCountCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\tbuildings = {0 1 0 65 3}\n" +
 				"}"
 			);
@@ -240,28 +239,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void BuildingsCountDefaultsTo0() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"={}"
 			);
 
 			var theProvince = Province.Parse(reader, 42);
 
 			Assert.Equal((ulong)0, theProvince.BuildingCount);
-		}
-
-		[Fact]
-		public void LinkingNullCountryIsLogged() {
-			var reader = new BufferedReader("= {}");
-			var province = Province.Parse(reader, 42);
-
-			var output = new StringWriter();
-			Console.SetOut(output);
-
-			province.LinkOwnerCountry(null);
-
-			var logStr = output.ToString();
-			Assert.Contains("[WARN] Province 42: cannot link null country!", logStr);
 		}
 
 		[Fact]

@@ -24,15 +24,11 @@ namespace ImperatorToCK3.Imperator.Provinces {
 		public Province(ulong id) {
 			Id = id;
 		}
+
 		public int GetPopCount() {
 			return Pops.Count;
 		}
-		public void LinkOwnerCountry(Country? country) {
-			if (country is null) {
-				Logger.Warn($"Province {Id}: cannot link null country!");
-				return;
-			}
-
+		public void LinkOwnerCountry(Country country) {
 			if (parsedOwnerCountryId is not null && parsedOwnerCountryId != country.Id) {
 				Logger.Warn($"Province {Id}: linking owner {country.Id} that doesn't match owner from save ({parsedOwnerCountryId})!");
 			}
@@ -40,15 +36,14 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			OwnerCountry = country;
 		}
 
-		public bool TryLinkOwnerCounty(CountryCollection countries) {
+		public bool TryLinkOwnerCountry(CountryCollection countries) {
 			if (parsedOwnerCountryId is null) {
 				return false;
 			}
-
 			if (countries.TryGetValue((ulong)parsedOwnerCountryId, out var countryToLink)) {
 				// link both ways
 				province.LinkOwnerCountry(countryToLink);
-				countryToLink.RegisterProvince(province);
+				countryToLink.RegisterProvince(this);
 				return true;
 			}
 
