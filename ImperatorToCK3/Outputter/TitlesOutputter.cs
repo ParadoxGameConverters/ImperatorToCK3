@@ -53,11 +53,11 @@ namespace ImperatorToCK3.Outputter {
 			}
 
 			// titles with a de jure liege will be outputted under the liege
-			var topDeJureTitles = new List<Title>(titles.Where(t => t.DeJureLiege is null));
+			var topDeJureTitles = titles.Where(t => t.DeJureLiege is null);
 			output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
 
 			if (deJure == IMPERATOR_DE_JURE.REGIONS) {
-				if (!SystemUtils.TryCopyFolder("blankMod/optionalFiles/ImperatorDeJure/common/landed_titles", "output/" + outputModName + "/common/landed_titles/")) {
+				if (!SystemUtils.TryCopyFolder("blankMod/optionalFiles/ImperatorDeJure/common/landed_titles", $"output/{outputModName}/common/landed_titles/")) {
 					Logger.Error("Could not copy ImperatorDeJure landed titles!");
 				}
 			}
