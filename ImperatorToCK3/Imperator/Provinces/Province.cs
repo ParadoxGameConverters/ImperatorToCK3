@@ -42,7 +42,7 @@ namespace ImperatorToCK3.Imperator.Provinces {
 			}
 			if (countries.TryGetValue((ulong)parsedOwnerCountryId, out var countryToLink)) {
 				// link both ways
-				province.LinkOwnerCountry(countryToLink);
+				LinkOwnerCountry(countryToLink);
 				countryToLink.RegisterProvince(this);
 				return true;
 			}
