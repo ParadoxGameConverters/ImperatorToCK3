@@ -147,32 +147,29 @@ namespace ImperatorToCK3.CK3 {
 
 		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date conversionDate) {
 			Logger.Info("Overwriting counties' history...");
-			foreach (var title in LandedTitles) {
-				if (title.Rank != TitleRank.county) {
-					continue;
-				}
-				ulong capitalBaronyProvinceId = (ulong)title.CapitalBaronyProvince!;
+			foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
+				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
 				if (capitalBaronyProvinceId == 0) {
 					// title's capital province has an invalid ID (0 is not a valid province in CK3)
 					continue;
 				}
 
 				if (!Provinces.ContainsKey(capitalBaronyProvinceId)) {
-					Logger.Warn($"Capital barony province not found {title.CapitalBaronyProvince}");
+					Logger.Warn($"Capital barony province not found: {county.CapitalBaronyProvince}");
 					continue;
 				}
 
 				var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvinceId];
 				var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
-				if (impProvince is null) {
+				if (impProvince is null) { // probably outside of Imperator map
 					continue;
 				}
 
 				var impCountry = impProvince.OwnerCountry;
 
 				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
-					title.SetHolderId("0", conversionDate);
-					title.DeFactoLiege = null;
+					county.SetHolderId("0", conversionDate);
+					county.DeFactoLiege = null;
 				} else {
 					var ck3Country = impCountry.CK3Title;
 					if (ck3Country is null) {
@@ -188,18 +185,18 @@ namespace ImperatorToCK3.CK3 {
 
 					if (ck3CapitalCounty is null) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
+							GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
 						} else {
-							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Id}!");
+							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {county.Id}!");
 						}
 						continue;
 					}
 					// if title belongs to country ruler's capital's de jure duchy, make it directly held by the ruler
 					var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
-					var titleLiegeDuchy = title.DeJureLiege;
+					var titleLiegeDuchy = county.DeJureLiege;
 					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Id == titleLiegeDuchy.Id) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
+							GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
 						}
 					} else if (matchingGovernorships.Count > 0) {
 						// give county to governor
@@ -209,9 +206,9 @@ namespace ImperatorToCK3.CK3 {
 							Logger.Warn($"{nameof(ck3GovernorshipName)} is null for {ck3Country.Id} {governorship.RegionName}!");
 							continue;
 						}
-						GiveCountyToGovernor(title, ck3GovernorshipName);
+						GiveCountyToGovernor(county, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
-						GiveCountyToMonarch(title, ck3Country, impMonarch.Id);
+						GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
 					}
 				}
 			}
