@@ -54,9 +54,11 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			return GetTitleForTag(imperatorTag, countryRank, string.Empty);
 		}
 		public string? GetTitleForGovernorship(string imperatorRegion, string imperatorCountryTag, string ck3LiegeTitle) {
-			string rank = GetCK3TitleRank(ck3LiegeTitle);
+			var rank = GetCK3GovernorshipRank(ck3LiegeTitle);
+			if (rank is null) {
+				return null;
+			}
 
-			// the only case where we fail is on invalid invocation. Otherwise, failure is not an option!
 			if (string.IsNullOrEmpty(imperatorRegion)) {
 				return null;
 			}
@@ -111,11 +113,13 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				_ => "d"
 			};
 		}
-		private static string GetCK3TitleRank(string ck3LiegeTitle) {
+		private static string? GetCK3GovernorshipRank(string ck3LiegeTitle) {
 			if (ck3LiegeTitle.StartsWith('e')) {
 				return "k";
+			} else if (ck3LiegeTitle.StartsWith('k')) {
+				return "d";
 			}
-			return "d";
+			return null;
 		}
 		private static string GenerateNewTitle(string imperatorTag, CountryRank countryRank, string localizedTitleName) {
 			var ck3Tag = GetCK3TitleRank(countryRank, localizedTitleName);
@@ -126,7 +130,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			return ck3Tag;
 		}
 		private static string GenerateNewTitle(string imperatorRegion, string imperatorCountryTag, string ck3LiegeTitle) {
-			var ck3Tag = GetCK3TitleRank(ck3LiegeTitle);
+			var ck3Tag = GetCK3GovernorshipRank(ck3LiegeTitle);
 			ck3Tag += "_";
 			ck3Tag += generatedCK3TitlePrefix;
 			ck3Tag += imperatorCountryTag;

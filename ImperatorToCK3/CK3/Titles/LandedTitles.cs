@@ -254,6 +254,12 @@ namespace ImperatorToCK3.CK3.Titles {
 			var country = imperatorCountries[governorship.CountryId];
 			// Create a new title or update existing title
 			var name = Title.DetermineName(governorship, country, tagTitleMapper);
+			if (name is null) {
+				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
+				return;
+			}
+
+			//Logger.Notice($"GOVERNORSHIP {name} to {country.CK3Title.Id}");
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromGovernorship(
@@ -269,6 +275,7 @@ namespace ImperatorToCK3.CK3.Titles {
 				);
 			} else {
 				var newTitle = new Title(
+					name,
 					governorship,
 					country,
 					imperatorCharacters,

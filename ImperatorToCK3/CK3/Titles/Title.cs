@@ -58,6 +58,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			);
 		}
 		public Title(
+			string id,
 			Governorship governorship,
 			Country country,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -70,7 +71,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper
 		) {
-			Id = DetermineName(governorship, country, tagTitleMapper);
+			Id = id;
 			SetRank();
 			InitializeFromGovernorship(
 				governorship,
@@ -248,13 +249,13 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			return title;
 		}
-		public static string DetermineName(Governorship governorship, Country country, TagTitleMapper tagTitleMapper) {
+		public static string? DetermineName(Governorship governorship, Country country, TagTitleMapper tagTitleMapper) {
 			if (country.CK3Title is null) {
 				throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: country has no CK3Title!");
 			}
 			string? title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Id);
 			if (title is null) {
-				throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
+				Logger.Warn($"{country.Tag} governorship of {governorship.RegionName} can not be converted to a CK3 title!");
 			}
 			return title;
 		}
