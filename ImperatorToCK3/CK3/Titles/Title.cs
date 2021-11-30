@@ -396,7 +396,8 @@ namespace ImperatorToCK3.CK3.Titles {
 		public string GetHolderId(Date date) {
 			return history.GetHolderId(date);
 		}
-		public void SetHolderId(string id, Date date) {
+		public void SetHolder(Characters.Character? character, Date date) {
+			var id = character is null ? "0" : character.Id;
 			history.InternalHistory.AddFieldValue("holder", id, date, "holder");
 		}
 		public string? GetGovernment(Date date) {
