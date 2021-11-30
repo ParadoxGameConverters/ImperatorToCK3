@@ -50,7 +50,7 @@ aboriginal_group = {
 			
 		}
 		
-		graphical_cultures = { mongol_clothing_gfx mediterranean_building_gfx mena_unit_gfx }
+		graphical_cultures = { western_clothing_gfx mediterranean_building_gfx mena_unit_gfx iberian_group_coa_gfx }
 	}
 	
 	nuragic = {
@@ -112,7 +112,7 @@ aboriginal_group = {
 			10 = mediterranean
 		}
 		
-		graphical_cultures = { latin_group_coa_gfx mena_clothing_gfx mediterranean_building_gfx mena_unit_gfx }
+		graphical_cultures = { latin_group_coa_gfx western_clothing_gfx mediterranean_building_gfx mena_unit_gfx }
 
 		mercenary_names = {
 			
