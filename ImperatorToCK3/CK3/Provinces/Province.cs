@@ -92,18 +92,26 @@ namespace ImperatorToCK3.CK3.Provinces {
 					religionSet = true;
 				}
 			}
-			/*
-			// Attempt to use religion of country. #TODO(#34): use country religion as fallback
-			if (!religionSet && titleCountry.Value.Religion.Count>0) {
-				details.Religion = titleCountry.Value.Religion;
-				religionSet = true;
-			}*/
+			// As fallback, attempt to use religion of country.
+			if (!religionSet && ImperatorProvince.OwnerCountry?.Religion is not null) {
+				var religionMatch = religionMapper.Match(ImperatorProvince.OwnerCountry.Religion, Id, ImperatorProvince.Id);
+				if (religionMatch is not null) {
+					Logger.Warn($"Using country religion for province {Id}");
+					details.Religion = religionMatch;
+					religionSet = true;
+				}
+			}
 			if (!religionSet) {
 				//Use default CK3 religion.
 				Logger.Debug($"Couldn't determine religion for province {Id} with source religion {ImperatorProvince.Religion}, using vanilla religion");
 			}
 		}
 		private void SetCultureFromImperator(CultureMapper cultureMapper) {
+			string ownerTitleName = string.Empty;
+			if (ownerTitle is not null) {
+				ownerTitleName = ownerTitle.Id;
+			}
+
 			var cultureSet = false;
 			if (ImperatorProvince is null) {
 				Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator Province!");
@@ -112,22 +120,21 @@ namespace ImperatorToCK3.CK3.Provinces {
 
 			// do we even have a base culture?
 			if (!string.IsNullOrEmpty(ImperatorProvince.Culture)) {
-				string ownerTitleName = string.Empty;
-				if (ownerTitle is not null) {
-					ownerTitleName = ownerTitle.Id;
-				}
 				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
 				if (cultureMatch is not null) {
 					details.Culture = cultureMatch;
 					cultureSet = true;
 				}
 			}
-			/*
-			// Attempt to use primary culture of country. #TODO(#34): use country primary culture as fallback
-			if (!cultureSet && titleCountry.Value.Culture.Count > 0) {
-				details.Culture = titleCountry.Value.PrimaryCulture;
-				cultureSet = true;
-			}*/
+			// As fallback, attempt to use primary culture of country.
+			if (!cultureSet && ImperatorProvince.OwnerCountry?.PrimaryCulture is not null) {
+				var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
+				if (cultureMatch is not null) {
+					Logger.Warn($"Using country culture for province {Id}");
+					details.Culture = cultureMatch;
+					cultureSet = true;
+				}
+			}
 			if (!cultureSet) {
 				//Use default CK3 culture.
 				Logger.Debug($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture");
