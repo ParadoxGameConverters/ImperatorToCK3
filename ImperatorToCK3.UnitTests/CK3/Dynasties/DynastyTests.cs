@@ -1,15 +1,16 @@
-﻿using ImperatorToCK3.CK3.Characters;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
-using ImperatorToCK3.Mappers.Religion;
-using ImperatorToCK3.Mappers.Culture;
-using ImperatorToCK3.Mappers.Trait;
-using ImperatorToCK3.Mappers.Nickname;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.Province;
-using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Imperator.Families;
-using commonItems;
+using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.Trait;
 using Xunit;
+// ReSharper disable StringLiteralTypo
 
 namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 	public class DynastyTests {
@@ -24,8 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			private DeathReasonMapper deathReasonMapper = new();
 
 			public Character Build() {
-				var character = new Character();
-				character.InitializeFromImperator(
+				var character = new Character(
 					imperatorCharacter,
 					religionMapper,
 					cultureMapper,
@@ -81,7 +81,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var locMapper = new LocalizationMapper();
 			var dynasty = new Dynasty(family, locMapper);
 
-			Assert.Equal("dynn_IMPTOCK3_45", dynasty.ID);
+			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Name);
 		}
 

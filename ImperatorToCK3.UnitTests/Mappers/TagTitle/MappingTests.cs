@@ -1,5 +1,5 @@
-﻿using ImperatorToCK3.Mappers.TagTitle;
-using commonItems;
+﻿using commonItems;
+using ImperatorToCK3.Mappers.TagTitle;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {

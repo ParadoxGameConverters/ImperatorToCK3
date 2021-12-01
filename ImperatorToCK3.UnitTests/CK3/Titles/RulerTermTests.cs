@@ -4,11 +4,11 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
 using Xunit;
-using ImperatorToCK3.Mappers.Nickname;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
@@ -25,7 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
-				new Dictionary<string, Character>(),
+				new ImperatorToCK3.CK3.Characters.CharacterCollection(),
 				govMapper,
 				new LocalizationMapper(),
 				new ReligionMapper(),
@@ -40,10 +40,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void PreImperatorTermIsCorrectlyConverted() {
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
 			var countryReader = new BufferedReader("= { tag = SPA capital=420 }");
 			var sparta = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
-			countries.StoredCountries.Add(sparta.ID, sparta);
+			countries.Add(sparta);
 
 			var preImpTermReader = new BufferedReader("= { name=\"Alexander\"" +
 				" birth_date=200.1.1 death_date=300.1.1 throne_date=250.1.1" +
@@ -59,9 +59,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
 				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
 			);
-			var ck3CharactersDict = new Dictionary<string, Character>();
+			var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
-				ck3CharactersDict,
+				ck3Characters,
 				govMapper,
 				new LocalizationMapper(),
 				religionMapper,
@@ -75,7 +75,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.NotNull(ruler);
 			Assert.Equal("Alexander", ruler.Name);
 
-			var ck3Character = ck3CharactersDict["imperatorRegnalSPAAlexander504.1.1BC"];
+			var ck3Character = ck3Characters["imperatorRegnalSPAAlexander504.1.1BC"];
 			Assert.Equal(new Date(0, 1, 1), ck3Character.BirthDate); // BC dates are not supported by CK3
 			Assert.Equal(new Date(0, 1, 30), ck3Character.DeathDate); // BC dates are not supported by CK3
 			Assert.Equal("Alexander", ck3Character.Name);

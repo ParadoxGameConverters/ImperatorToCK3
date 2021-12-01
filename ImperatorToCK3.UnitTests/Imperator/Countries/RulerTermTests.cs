@@ -35,10 +35,10 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 
 		[Fact]
 		public void PreImperatorTermCanBeRead() {
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
+			var countries = new CountryCollection();
 			var countryReader = new BufferedReader("= { tag = SPA }");
 			var sparta = Country.Parse(countryReader, 69);
-			countries.StoredCountries.Add(sparta.ID, sparta);
+			countries.Add(sparta);
 
 			var preImpTermReader = new BufferedReader("= { name=\"Alexander\"" +
 				" birth_date=200.1.1 death_date=300.1.1 throne_date=250.1.1" +
@@ -63,8 +63,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 
 		[Fact]
 		public void WrongTagIsLoggedForPreImperatorRulers() {
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
-			Assert.Empty(countries.StoredCountries);
+			var countries = new CountryCollection();
+			Assert.Empty(countries);
 
 			var preImpTermReader = new BufferedReader(
 				"= { name=\"Alexander\" throne_date=250.1.1 country=WER }"

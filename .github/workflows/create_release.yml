@@ -20,6 +20,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.*'
+    - name: "Add version to version.txt"
+      shell: bash
+      run: |
+        cd ImperatorToCK3/Data_Files/configurables
+        printf "\nversion = ${{ steps.previoustag.outputs.tag }}" >> version.txt
     - name: "Build backend"
       run: |
         cd ImperatorToCK3
@@ -31,6 +36,13 @@ jobs:
       run: |
         cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
         .\MSBuild.exe -m -p:Configuration=Release -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter
+    - name: "Build updater executable"
+      run: |
+       cd Fronter/Updater
+       pip3 install -r requirements.txt
+       pyinstaller --onefile --icon=updater.ico updater.py
+       mkdir ../../Release/Updater
+       mv dist/updater.exe ../../Release/Updater/updater.exe
     - name: "Save commit ID"
       run: |
        cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
@@ -39,9 +51,18 @@ jobs:
       run: |
        cd "C:\Program Files\7-Zip\"
        .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3.zip $Env:GITHUB_WORKSPACE\Release\*
-    - name: "Release"
+
+    - name: "Build changelog"
+      id: build_changelog
+      uses: mikepenz/release-changelog-builder-action@v2
+      with:
+        configuration: ".github/config/changelog-config.json"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: "Create release"
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ steps.previoustag.outputs.tag }}
+        body: ${{ steps.build_changelog.outputs.changelog }}
         artifacts: ImperatorToCK3.zip
         token: ${{ secrets.API_TOKEN_GITHUB }}

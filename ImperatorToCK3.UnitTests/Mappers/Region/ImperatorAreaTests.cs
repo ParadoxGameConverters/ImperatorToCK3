@@ -35,8 +35,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		}
 
 		[Fact]
-		public void ContainsProvinceReturnsTrueForCorrectProvinces()
-		{
+		public void ContainsProvinceReturnsTrueForCorrectProvinces() {
 			var reader = new BufferedReader("provinces = { 2 3 } \n");
 			var area = new ImperatorArea(reader);
 
@@ -45,8 +44,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		}
 
 		[Fact]
-		public void ContainsProvinceReturnsFalseForMissingProvinces()
-		{
+		public void ContainsProvinceReturnsFalseForMissingProvinces() {
 			var reader = new BufferedReader("provinces = { 2 3 } \n");
 			var area = new ImperatorArea(reader);
 

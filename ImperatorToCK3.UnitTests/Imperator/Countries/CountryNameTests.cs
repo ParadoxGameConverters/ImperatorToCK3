@@ -1,6 +1,6 @@
 ﻿using commonItems;
-using Xunit;
 using ImperatorToCK3.Mappers.Localization;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 	public class CountryNameTests {

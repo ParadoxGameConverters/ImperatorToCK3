@@ -1,37 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.Linq;
-using commonItems;
 
 namespace ImperatorToCK3.CommonUtils {
 	public class HistoryFactory : Parser {
-		private History history = new();
-		private readonly List<SimpleFieldDef> simpleFieldDefs; // fieldName, setter, initialValue
-		private readonly List<ContainerFieldDef> containerFieldDefs; // fieldName, setter, initialValue
+		public class HistoryFactoryBuilder {
+			private readonly List<SimpleFieldDef> simpleFieldDefs = new(); // fieldName, setter, initialValue
+			private readonly List<ContainerFieldDef> containerFieldDefs = new(); // fieldName, setter, initialValue
 
-		public HistoryFactory(List<SimpleFieldDef> simpleFieldDefs, List<ContainerFieldDef> containerFieldDefs) {
+			public HistoryFactoryBuilder WithSimpleField(string fieldName, string setter, string? initialValue) {
+				simpleFieldDefs.Add(new() { FieldName = fieldName, Setter = setter, InitialValue = initialValue });
+				return this;
+			}
+			public HistoryFactoryBuilder WithContainerField(string fieldName, string setter, List<string> initialValue) {
+				containerFieldDefs.Add(new() { FieldName = fieldName, Setter = setter, InitialValue = initialValue });
+				return this;
+			}
+
+			public HistoryFactory Build() {
+				return new HistoryFactory(simpleFieldDefs, containerFieldDefs);
+			}
+		}
+
+		private HistoryFactory(List<SimpleFieldDef> simpleFieldDefs, List<ContainerFieldDef> containerFieldDefs) {
 			this.simpleFieldDefs = simpleFieldDefs;
 			this.containerFieldDefs = containerFieldDefs;
 
 			foreach (var def in this.simpleFieldDefs) {
-				RegisterKeyword(def.Setter, (reader) => {
+				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.SimpleFields[def.FieldName].InitialValue = new SingleString(reader).String;
+					history.Fields[def.FieldName].InitialValue = reader.GetString();
 				});
 			}
 			foreach (var def in this.containerFieldDefs) {
-				RegisterKeyword(def.Setter, (reader) => {
+				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.ContainerFields[def.FieldName].InitialValue = new StringList(reader).Strings;
+					history.Fields[def.FieldName].InitialValue = reader.GetStrings();
 				});
 			}
 			RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
 				var date = new Date(dateString);
 				var contents = new DatedHistoryBlock(this.simpleFieldDefs, this.containerFieldDefs, reader).Contents;
 				foreach (var (fieldName, valuesList) in contents.SimpleFieldContents) {
-					history.SimpleFields[fieldName].AddValueToHistory(valuesList.Last(), date);
+					history.Fields[fieldName].AddValueToHistory(valuesList.Last(), date);
 				}
 				foreach (var (fieldName, valuesList) in contents.ContainerFieldContents) {
-					history.ContainerFields[fieldName].AddValueToHistory(valuesList.Last(), date);
+					history.Fields[fieldName].AddValueToHistory(valuesList.Last(), date);
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
@@ -39,10 +53,10 @@ namespace ImperatorToCK3.CommonUtils {
 		public History GetHistory(BufferedReader reader) {
 			history = new History();
 			foreach (var def in simpleFieldDefs) {
-				history.SimpleFields[def.FieldName] = new SimpleField(def.InitialValue);
+				history.Fields[def.FieldName] = new HistoryField(def.Setter, def.InitialValue);
 			}
 			foreach (var def in containerFieldDefs) {
-				history.ContainerFields[def.FieldName] = new ContainerField(def.InitialValue);
+				history.Fields[def.FieldName] = new HistoryField(def.Setter, def.InitialValue);
 			}
 			ParseStream(reader);
 			return history;
@@ -51,5 +65,9 @@ namespace ImperatorToCK3.CommonUtils {
 			history = existingHistory;
 			ParseStream(reader);
 		}
+
+		private readonly List<SimpleFieldDef> simpleFieldDefs; // fieldName, setter, initialValue
+		private readonly List<ContainerFieldDef> containerFieldDefs; // fieldName, setter, initialValue
+		private History history = new();
 	}
 }

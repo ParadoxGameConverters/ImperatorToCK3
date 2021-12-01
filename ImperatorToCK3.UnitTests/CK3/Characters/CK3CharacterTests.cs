@@ -26,8 +26,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private DeathReasonMapper deathReasonMapper = new();
 
 			public Character Build() {
-				var character = new Character();
-				character.InitializeFromImperator(
+				var character = new Character(
 					imperatorCharacter,
 					religionMapper,
 					cultureMapper,
@@ -85,10 +84,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4);
 			var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5);
 
-			imperatorCharacter.Mother = new(imperatorMother.ID, imperatorMother);
-			imperatorCharacter.Father = new(imperatorFather.ID, imperatorFather);
-			imperatorCharacter.Children.Add(imperatorChild.ID, imperatorChild);
-			imperatorCharacter.Spouses.Add(imperatorSpouse.ID, imperatorSpouse);
+			imperatorCharacter.Mother = imperatorMother;
+			imperatorCharacter.Father = imperatorFather;
+			imperatorCharacter.Children.Add(imperatorChild.Id, imperatorChild);
+			imperatorCharacter.Spouses.Add(imperatorSpouse.Id, imperatorSpouse);
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -108,8 +107,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			character.Mother = mother;
 			character.Father = father;
-			character.Children.Add(child.ID, child);
-			character.Spouses.Add(spouse.ID, spouse);
+			character.Children.Add(child.Id, child);
+			character.Spouses.Add(spouse.Id, spouse);
 
 			Assert.NotNull(character.Mother);
 			Assert.NotNull(character.Father);
@@ -223,7 +222,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",
-				Country = new(69, country)
+				Country = country
 			};
 			var imperatorCharacter2 = new ImperatorToCK3.Imperator.Characters.Character(2) {
 				Culture = "greek"
@@ -353,8 +352,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		[Fact]
 		public void LinkingParentWithWrongIdIsLogged() {
 			var character = builder.Build();
-			character.PendingMotherID = "imperator1";
-			character.PendingFatherID = "imperator2";
+			character.PendingMotherId = "imperator1";
+			character.PendingFatherId = "imperator2";
 
 			var mother = builder
 				.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(69))

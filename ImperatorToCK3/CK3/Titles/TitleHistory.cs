@@ -6,11 +6,13 @@ namespace ImperatorToCK3.CK3.Titles {
 		public TitleHistory() { }
 		public TitleHistory(History history, Date ck3BookmarkDate) {
 			InternalHistory = history;
-			Liege = history.GetSimpleFieldValue("liege", ck3BookmarkDate);
+			if (history.GetFieldValue("liege", ck3BookmarkDate) is string liegeStr) {
+				Liege = liegeStr;
+			}
 
-			var developmentLevelOpt = history.GetSimpleFieldValue("development_level", ck3BookmarkDate);
-			if (developmentLevelOpt is not null) {
-				DevelopmentLevel = int.Parse(developmentLevelOpt);
+			var developmentLevelOpt = history.GetFieldValue("development_level", ck3BookmarkDate);
+			if (developmentLevelOpt is string devStr) {
+				DevelopmentLevel = int.Parse(devStr);
 			}
 		}
 		public void Update(HistoryFactory historyFactory, BufferedReader reader) {
@@ -18,18 +20,25 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public string GetHolderId(Date date) {
-			var idFromHistory = InternalHistory.GetSimpleFieldValue("holder", date);
-			if (idFromHistory is not null) {
-				return idFromHistory;
+			var idFromHistory = InternalHistory.GetFieldValue("holder", date);
+			if (idFromHistory is string idStr) {
+				return idStr;
 			}
 			return "0";
 		}
 		public string? GetGovernment(Date date) {
-			return InternalHistory.GetSimpleFieldValue("government", date);
+			if (InternalHistory.GetFieldValue("government", date) is string govStr) {
+				return govStr;
+			}
+			return null;
 		}
 		public string? Liege { get; set; }
 		public int? DevelopmentLevel { get; set; }
 
 		public History InternalHistory { get; } = new();
+
+		public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {
+			InternalHistory.RemoveHistoryPastDate(ck3BookmarkDate);
+		}
 	}
 }

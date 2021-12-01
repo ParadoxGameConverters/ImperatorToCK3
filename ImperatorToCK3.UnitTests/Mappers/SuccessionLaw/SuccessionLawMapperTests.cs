@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Xunit;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.SuccessionLaw;
-using commonItems;
-using System.IO;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 	[Collection("Sequential")]
@@ -53,8 +53,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 			Assert.Equal(expectedReturnedLaws, ck3Laws);
 		}
 
-		[Fact] public void MappingsAreReadFromFile()
-        {
+		[Fact]
+		public void MappingsAreReadFromFile() {
 			var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.txt");
 			Assert.Equal(
 				new SortedSet<string> { "ck3law1", "ck3law2" },

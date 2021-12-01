@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.Linq;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Genes {
 	public class AccessoryGene : Parser {
 		public uint Index { get; private set; } = 0;
-		public ParadoxBool Inheritable { get; private set; } = new(false);
+		public PDXBool Inheritable { get; private set; } = new(false);
 		public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; private set; } = new();
 
 		public AccessoryGene(BufferedReader reader) {
@@ -18,7 +18,7 @@ namespace ImperatorToCK3.Imperator.Genes {
 				Index = (uint)new SingleInt(reader).Int;
 			});
 			RegisterKeyword("inheritable", reader =>
-				Inheritable = new ParadoxBool(reader)
+				Inheritable = reader.GetPDXBool()
 			);
 			RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
 				GeneTemplates.Add(geneTemplateName, new AccessoryGeneTemplate(reader));

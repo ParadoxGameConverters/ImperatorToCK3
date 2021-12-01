@@ -92,9 +92,9 @@ namespace ImperatorToCK3.CK3.Map {
 			var parser = new Parser();
 			const string listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
 			parser.RegisterRegex(listRegex, (reader, keyword) => {
-				Parser.GetNextTokenWithoutMatching(reader); // equals sign
-				var typeOfGroup = Parser.GetNextTokenWithoutMatching(reader);
-				var provIds = ParserHelpers.GetULongs(reader);
+				parser.GetNextTokenWithoutMatching(reader); // equals sign
+				var typeOfGroup = parser.GetNextTokenWithoutMatching(reader);
+				var provIds = reader.GetULongs();
 				if (keyword == "impassable_mountains") {
 					if (typeOfGroup == "RANGE") {
 						if (provIds.Count is < 1 or > 2) {

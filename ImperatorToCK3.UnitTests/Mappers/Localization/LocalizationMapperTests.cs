@@ -1,6 +1,6 @@
-﻿using Xunit;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Localization;
-using commonItems;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 	public class LocalizationMapperTests {
@@ -36,7 +36,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 		public void UnquotedLocIsIgnored() {
 			var reader = new BufferedReader(
 				"l_english:\n" +
-				" key1:0 unqotedValue"
+				" key1:0 unquotedValue"
 			);
 			var locMapper = new LocalizationMapper();
 			locMapper.ScrapeStream(reader, "english");
@@ -147,6 +147,17 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 			Assert.Equal("d", copyLocBlock.russian);
 			Assert.Equal("e", copyLocBlock.simp_chinese);
 			Assert.Equal("f", copyLocBlock.spanish);
+		}
+
+		[Fact]
+		public void LocBlockCanBeConstructedWithOnlyEnglishLoc() {
+			var block = new LocBlock("Rule Britannia");
+			const string expectedLoc = "Rule Britannia";
+			Assert.Equal(expectedLoc, block.english);
+			Assert.Equal(expectedLoc, block.german);
+			Assert.Equal(expectedLoc, block.russian);
+			Assert.Equal(expectedLoc, block.simp_chinese);
+			Assert.Equal(expectedLoc, block.spanish);
 		}
 	}
 }
