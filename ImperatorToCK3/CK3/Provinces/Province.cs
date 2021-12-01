@@ -125,12 +125,17 @@ namespace ImperatorToCK3.CK3.Provinces {
 					cultureSet = true;
 				}
 			}
-			/*
-			// Attempt to use primary culture of country. #TODO(#34): use country primary culture as fallback
-			if (!cultureSet && titleCountry.Value.Culture.Count > 0) {
+			// As fallback, attempt to use primary culture of country.
+			if (!cultureSet && ImperatorProvince.OwnerCountry?.PrimaryCulture is not null) {
+				var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
+				if (cultureMatch is not null) {
+					Logger.Warn($"Using country culture for province {Id}");
+					details.Culture = cultureMatch;
+					cultureSet = true;
+				}
 				details.Culture = titleCountry.Value.PrimaryCulture;
 				cultureSet = true;
-			}*/
+			}
 			if (!cultureSet) {
 				//Use default CK3 culture.
 				Logger.Debug($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture");
