@@ -107,6 +107,11 @@ namespace ImperatorToCK3.CK3.Provinces {
 			}
 		}
 		private void SetCultureFromImperator(CultureMapper cultureMapper) {
+			string ownerTitleName = string.Empty;
+			if (ownerTitle is not null) {
+				ownerTitleName = ownerTitle.Id;
+			}
+
 			var cultureSet = false;
 			if (ImperatorProvince is null) {
 				Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator Province!");
@@ -115,10 +120,6 @@ namespace ImperatorToCK3.CK3.Provinces {
 
 			// do we even have a base culture?
 			if (!string.IsNullOrEmpty(ImperatorProvince.Culture)) {
-				string ownerTitleName = string.Empty;
-				if (ownerTitle is not null) {
-					ownerTitleName = ownerTitle.Id;
-				}
 				var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
 				if (cultureMatch is not null) {
 					details.Culture = cultureMatch;
@@ -133,8 +134,6 @@ namespace ImperatorToCK3.CK3.Provinces {
 					details.Culture = cultureMatch;
 					cultureSet = true;
 				}
-				details.Culture = titleCountry.Value.PrimaryCulture;
-				cultureSet = true;
 			}
 			if (!cultureSet) {
 				//Use default CK3 culture.
