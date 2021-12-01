@@ -92,12 +92,15 @@ namespace ImperatorToCK3.CK3.Provinces {
 					religionSet = true;
 				}
 			}
-			/*
-			// Attempt to use religion of country. #TODO(#34): use country religion as fallback
-			if (!religionSet && titleCountry.Value.Religion.Count>0) {
-				details.Religion = titleCountry.Value.Religion;
-				religionSet = true;
-			}*/
+			// As fallback, attempt to use religion of country.
+			if (!religionSet && ImperatorProvince.OwnerCountry?.Religion is not null) {
+				var religionMatch = religionMapper.Match(ImperatorProvince.OwnerCountry.Religion, Id, ImperatorProvince.Id);
+				if (religionMatch is not null) {
+					Logger.Warn($"Using country religion for province {Id}");
+					details.Religion = religionMatch;
+					religionSet = true;
+				}
+			}
 			if (!religionSet) {
 				//Use default CK3 religion.
 				Logger.Debug($"Couldn't determine religion for province {Id} with source religion {ImperatorProvince.Religion}, using vanilla religion");
