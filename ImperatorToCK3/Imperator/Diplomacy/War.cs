@@ -10,19 +10,18 @@ namespace ImperatorToCK3.Imperator.Diplomacy {
 
 		static War() {
 			parser.RegisterKeyword("start_date", reader => {
-				var dateStr = ParserHelpers.GetString(reader);
-				warToReturn.StartDate = new Date(dateStr, AUC: true);
+				warToReturn.StartDate = new Date(reader.GetString(), AUC: true);
 			});
 			parser.RegisterKeyword("attacker", reader => {
-				warToReturn.AttackerCountryIds.Add(ParserHelpers.GetULong(reader));
+				warToReturn.AttackerCountryIds.Add(reader.GetULong());
 			});
 			parser.RegisterKeyword("defender", reader => {
-				warToReturn.DefenderCountryIds.Add(ParserHelpers.GetULong(reader));
+				warToReturn.DefenderCountryIds.Add(reader.GetULong());
 			});
 			parser.RegisterRegex(wargoalTypeRegex, reader => {
 				var typeParser = new Parser();
 				typeParser.RegisterKeyword("type", reader =>
-					warToReturn.WarGoal = ParserHelpers.GetString(reader)
+					warToReturn.WarGoal = reader.GetString()
 				);
 				typeParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 				typeParser.ParseStream(reader);

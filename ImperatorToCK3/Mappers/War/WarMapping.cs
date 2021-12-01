@@ -7,12 +7,8 @@ namespace ImperatorToCK3.Mappers.War {
 		public string? CK3CasusBelli { get; set; }
 
 		static WarMapping() {
-			parser.RegisterKeyword("ck3", (reader) =>
-				mappingToReturn.CK3CasusBelli = ParserHelpers.GetString(reader)
-			);
-			parser.RegisterKeyword("imp", (reader) =>
-				mappingToReturn.ImperatorWarGoals.Add(ParserHelpers.GetString(reader))
-			);
+			parser.RegisterKeyword("ck3", (reader) => mappingToReturn.CK3CasusBelli = reader.GetString());
+			parser.RegisterKeyword("imp", (reader) => mappingToReturn.ImperatorWarGoals.Add(reader.GetString()));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static WarMapping Parse (BufferedReader reader) {
