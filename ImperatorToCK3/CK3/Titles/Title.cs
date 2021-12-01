@@ -568,20 +568,20 @@ namespace ImperatorToCK3.CK3.Titles {
 		[NonSerialized] public bool PlayerCountry { get; private set; }
 		[NonSerialized] public string Id { get; } // e.g. d_latium
 		[NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
-		[SerializedName("landless")] public ParadoxBool Landless { get; private set; } = new(false);
-		[SerializedName("definite_form")] public ParadoxBool HasDefiniteForm { get; private set; } = new(false);
+		[SerializedName("landless")] public PDXBool Landless { get; private set; } = new(false);
+		[SerializedName("definite_form")] public PDXBool HasDefiniteForm { get; private set; } = new(false);
 
 		//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
-		[SerializedName("ruler_uses_title_name")] public ParadoxBool RulerUsesTitleName { get; set; } = new(false);
+		[SerializedName("ruler_uses_title_name")] public PDXBool RulerUsesTitleName { get; set; } = new(false);
 
 		[SerializedName("ai_primary_priority")] public StringOfItem? AIPrimaryPriority { get; private set; }
 		[SerializedName("can_create")] public StringOfItem? CanCreate { get; private set; }
 		[SerializedName("can_create_on_partition")] public StringOfItem? CanCreateOnPartition { get; private set; }
-		[SerializedName("destroy_if_invalid_heir")] public ParadoxBool? DestroyIfInvalidHeir { get; set; }
-		[SerializedName("no_automatic_claims")] public ParadoxBool? NoAutomaticClaims { get; set; }
-		[SerializedName("always_follows_primary_heir")] public ParadoxBool? AlwaysFollowsPrimaryHeir { get; set; }
-		[SerializedName("de_jure_drift_disabled")] public ParadoxBool? DeJureDriftDisabled { get; set; }
-		[SerializedName("can_be_named_after_dynasty")] public ParadoxBool? CanBeNamedAfterDynasty { get; set; }
+		[SerializedName("destroy_if_invalid_heir")] public PDXBool? DestroyIfInvalidHeir { get; set; }
+		[SerializedName("no_automatic_claims")] public PDXBool? NoAutomaticClaims { get; set; }
+		[SerializedName("always_follows_primary_heir")] public PDXBool? AlwaysFollowsPrimaryHeir { get; set; }
+		[SerializedName("de_jure_drift_disabled")] public PDXBool? DeJureDriftDisabled { get; set; }
+		[SerializedName("can_be_named_after_dynasty")] public PDXBool? CanBeNamedAfterDynasty { get; set; }
 		[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 		// <culture, loc key>
 		[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
@@ -615,9 +615,9 @@ namespace ImperatorToCK3.CK3.Titles {
 				AddFoundTitle(newTitle, foundTitles);
 				newTitle.DeJureLiege = this;
 			});
-			parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = new ParadoxBool(reader));
-			parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = new ParadoxBool(reader));
-			parser.RegisterKeyword("landless", reader => Landless = new ParadoxBool(reader));
+			parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetPDXBool());
+			parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetPDXBool());
+			parser.RegisterKeyword("landless", reader => Landless = reader.GetPDXBool());
 			parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
 			parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = reader.GetString());
@@ -625,11 +625,11 @@ namespace ImperatorToCK3.CK3.Titles {
 			parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
 			parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());
 			parser.RegisterKeyword("province", reader => Province = reader.GetULong());
-			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = new ParadoxBool(reader));
-			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = new ParadoxBool(reader));
-			parser.RegisterKeyword("always_follows_primary_heir", reader => AlwaysFollowsPrimaryHeir = new ParadoxBool(reader));
-			parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = new ParadoxBool(reader));
-			parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = new ParadoxBool(reader));
+			parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = reader.GetPDXBool());
+			parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = reader.GetPDXBool());
+			parser.RegisterKeyword("always_follows_primary_heir", reader => AlwaysFollowsPrimaryHeir = reader.GetPDXBool());
+			parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = reader.GetPDXBool());
+			parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = reader.GetPDXBool());
 			parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
 			parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignments());
 

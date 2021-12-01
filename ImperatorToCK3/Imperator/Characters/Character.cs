@@ -90,7 +90,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public ParadoxBool Female { get; private set; } = new(false);
+		public PDXBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
 
 		public CK3.Characters.Character? CK3Character { get; set; }
@@ -115,7 +115,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
 			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
 			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
-			parser.RegisterKeyword("female", reader => parsedCharacter.Female = new ParadoxBool(reader));
+			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetPDXBool());
 			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
 			parser.RegisterKeyword("birth_date", reader => {
 				var dateStr = reader.GetString();
