@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
-	public class TagTitleMapper : Parser {
+	public class TagTitleMapper {
 		public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath) {
-			Logger.Info("Parsing Title mappings.");
-			RegisterKeys();
-			ParseFile(tagTitleMappingsPath);
-			ParseFile(governorshipTitleMappingsPath);
-			ClearRegisteredRules();
+			Logger.Info("Parsing Title mappings...");
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile(tagTitleMappingsPath);
+			parser.ParseFile(governorshipTitleMappingsPath);
 			Logger.Info($"{mappings.Count} title mappings loaded.");
 		}
 		public void RegisterTag(string imperatorTag, string ck3Title) {
@@ -120,13 +120,8 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 					continue;
 				}
 
-
 				var ck3Country = impCountry.CK3Title;
-				if (ck3Country is null) {
-					continue;
-				}
-
-				var ck3CapitalCounty = ck3Country.CapitalCounty;
+				var ck3CapitalCounty = ck3Country?.CapitalCounty;
 				if (ck3CapitalCounty is null) {
 					continue;
 				}
@@ -137,18 +132,20 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 					continue;
 				}
 
-
-				if (governorship.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
-					return county.Id;
+				if (governorship.RegionName != imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
+					continue;
 				}
+
+				RegisterGovernorship(governorship.RegionName, impCountry.Tag, county.Id);
+				return county.Id;
 			}
 
 			return null;
 		}
 
-		private void RegisterKeys() {
-			RegisterKeyword("link", reader => mappings.Add(Mapping.Parse(reader)));
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterKeyword("link", reader => mappings.Add(Mapping.Parse(reader)));
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private static string GetCK3TitleRank(CountryRank imperatorRank, string localizedTitleName) {
 			if (localizedTitleName.Contains("Empire", System.StringComparison.Ordinal)) {
