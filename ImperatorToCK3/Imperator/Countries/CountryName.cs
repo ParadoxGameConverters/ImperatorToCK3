@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.Mappers.Localization;
 using System;
-using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public class CountryName : ICloneable {
@@ -41,14 +40,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 			var directAdjLocMatch = localizationMapper.GetLocBlockForKey(adj);
 			if (directAdjLocMatch is not null && adj == "CIVILWAR_FACTION_ADJECTIVE") {
 				// special case for revolts
-				if (BaseName is not null) {
-					var baseAdjLoc = BaseName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
-					if (baseAdjLoc is not null) {
-						directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
-							orig = orig.Replace("$ADJ$", modifying)
-						);
-						return directAdjLocMatch;
-					}
+				var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
+				if (baseAdjLoc is not null) {
+					directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
+						orig = orig.Replace("$ADJ$", modifying)
+					);
+					return directAdjLocMatch;
 				}
 			} else {
 				foreach (var country in imperatorCountries) {

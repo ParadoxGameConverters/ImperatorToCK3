@@ -26,8 +26,8 @@ namespace ImperatorToCK3.Imperator {
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		private GenesDB genesDB = new();
 
-		private enum SaveType { INVALID, PLAINTEXT, COMPRESSED_ENCODED }
-		private SaveType saveType = SaveType.INVALID;
+		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
+		private SaveType saveType = SaveType.Invalid;
 
 		public World(Configuration configuration, ConverterVersion converterVersion) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
@@ -60,8 +60,7 @@ namespace ImperatorToCK3.Imperator {
 				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
-				var theDLCs = reader.GetStrings();
-				dlcs.UnionWith(theDLCs);
+				dlcs.UnionWith(reader.GetStrings());
 				foreach (var dlc in dlcs) {
 					Logger.Info($"Enabled DLC: {dlc}");
 				}
@@ -236,10 +235,10 @@ namespace ImperatorToCK3.Imperator {
 
 		private BufferedReader ProcessSave(string saveGamePath) {
 			switch (saveType) {
-				case SaveType.PLAINTEXT:
+				case SaveType.Plaintext:
 					Logger.Info("Importing debug_mode Imperator save.");
 					return ProcessDebugModeSave(saveGamePath);
-				case SaveType.COMPRESSED_ENCODED:
+				case SaveType.CompressedEncoded:
 					Logger.Info("Importing regular Imperator save.");
 					return ProcessCompressedEncodedSave(saveGamePath);
 				default:
@@ -270,10 +269,10 @@ namespace ImperatorToCK3.Imperator {
 			if (bytesReadCount < 65536) {
 				throw new InvalidDataException($"Read only {bytesReadCount}bytes.");
 			}
-			saveType = SaveType.PLAINTEXT;
+			saveType = SaveType.Plaintext;
 			for (var i = 0; i < 65533; ++i) {
 				if (BitConverter.ToUInt32(bigBuf, i) == 0x04034B50 && BitConverter.ToUInt16(bigBuf, i - 2) == 4) {
-					saveType = SaveType.COMPRESSED_ENCODED;
+					saveType = SaveType.CompressedEncoded;
 				}
 			}
 		}
