@@ -1,19 +1,19 @@
 ﻿using commonItems;
-using ImperatorToCK3.Imperator.Countries;
-using System.Collections.Generic;
-using System.Linq;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
-using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.CoA;
-using ImperatorToCK3.Mappers.Province;
-using ImperatorToCK3.Imperator.Jobs;
-using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.TagTitle;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Titles {
 	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
@@ -210,8 +210,8 @@ namespace ImperatorToCK3.CK3.Titles {
 				ProvinceMapper provinceMapper,
 				DefiniteFormMapper definiteFormMapper,
 				ImperatorRegionMapper imperatorRegionMapper,
-				CoaMapper coaMapper
-			) {
+				CoaMapper coaMapper,
+				List<Governorship> countyLevelGovernorships) {
 			Logger.Info("Importing Imperator Governorships...");
 
 			var governorships = impWorld.Jobs.Governorships;
@@ -234,11 +234,13 @@ namespace ImperatorToCK3.CK3.Titles {
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
-					coaMapper
+					coaMapper,
+					countyLevelGovernorships
 				);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} governorships from I:R.");
+			Logger.Notice(string.Join(";;;", countyLevelGovernorships.Select(g => g.CharacterId.ToString() + g.RegionName)));
 		}
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
@@ -250,17 +252,21 @@ namespace ImperatorToCK3.CK3.Titles {
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
-			CoaMapper coaMapper) {
+			CoaMapper coaMapper,
+			List<Governorship> countyLevelGovernorships) {
 			var country = imperatorCountries[governorship.CountryId];
-			// Create a new title or update existing title
+
 			var name = Title.DetermineName(governorship, country, tagTitleMapper);
 			if (name is null) {
-				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
+				if (country.CK3Title?.Rank == TitleRank.duchy) {
+					countyLevelGovernorships.Add(governorship);
+				} else {
+					Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
+				}
 				return;
 			}
 
-			//Logger.Notice($"GOVERNORSHIP {name} to {country.CK3Title.Id}");
-
+			// Create a new title or update existing title
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromGovernorship(
 					governorship,

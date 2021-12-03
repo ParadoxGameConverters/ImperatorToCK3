@@ -253,11 +253,7 @@ namespace ImperatorToCK3.CK3.Titles {
 			if (country.CK3Title is null) {
 				throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: country has no CK3Title!");
 			}
-			string? title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Id);
-			if (title is null) {
-				Logger.Warn($"{country.Tag} governorship of {governorship.RegionName} can not be converted to a CK3 title!");
-			}
-			return title;
+			return tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Id);
 		}
 
 		public void InitializeFromGovernorship(Governorship governorship,

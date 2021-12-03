@@ -1,6 +1,11 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
 	public class TagTitleMapper : Parser {
@@ -21,13 +26,12 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			usedTitles.Add(ck3Title);
 		}
 		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank, string localizedTitleName) {
-			// the only case where we fail is on invalid invocation. Otherwise, failure is
-			// not an option!
+			// The only case where we fail is on invalid invocation. Otherwise, failure is not an option!
 			if (string.IsNullOrEmpty(imperatorTag)) {
 				return null;
 			}
 
-			// look up register
+			// Look up register
 			if (registeredTagTitles.TryGetValue(imperatorTag, out var titleToReturn)) {
 				return titleToReturn;
 			}
@@ -63,35 +67,87 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				return null;
 			}
 
-			// look up register
+			// Look up register
 			if (registeredGovernorshipTitles.TryGetValue($"{imperatorCountryTag}_{imperatorRegion}", out var titleToReturn)) {
 				return titleToReturn;
 			}
 
-			// Attempt a title match
-			foreach (var mapping in mappings) {
-				var match = mapping.RankMatch(imperatorRegion, rank);
-				if (match is null) {
+			if (rank == "c") {
+				return GetCountyForGovernorship(governorship, titles, provinces, imperatorRegionMapper);
+			} else {
+				// Attempt a title match
+				foreach (var mapping in mappings) {
+					var match = mapping.RankMatch(imperatorRegion, rank);
+					if (match is null) {
+						continue;
+					}
+
+					if (usedTitles.Contains(match)) {
+						continue;
+					}
+					RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
+					return match;
+				}
+
+				// Generate a new title
+				var generatedTitle = GenerateNewTitle(imperatorRegion, imperatorCountryTag, ck3LiegeTitle);
+				RegisterGovernorship(imperatorRegion, imperatorCountryTag, generatedTitle);
+				return generatedTitle;
+			}
+		}
+
+		private string? GetCountyForGovernorship(Governorship governorship, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
+			foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
+				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
+				if (capitalBaronyProvinceId == 0) {
+					// title's capital province has an invalid ID (0 is not a valid province in CK3)
 					continue;
 				}
 
-				if (usedTitles.Contains(match)) {
+				if (!provinces.ContainsKey(capitalBaronyProvinceId)) {
+					Logger.Warn($"Capital barony province not found: {county.CapitalBaronyProvince}");
 					continue;
 				}
-				RegisterGovernorship(imperatorRegion, imperatorCountryTag, match);
-				return match;
+
+				var ck3CapitalBaronyProvince = provinces[capitalBaronyProvinceId];
+				var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
+				if (impProvince is null) { // probably outside of Imperator map
+					continue;
+				}
+
+				var impCountry = impProvince.OwnerCountry;
+				if (impCountry is null) { // e.g. uncolonized Imperator province
+					continue;
+				}
+
+
+				var ck3Country = impCountry.CK3Title;
+				if (ck3Country is null) {
+					continue;
+				}
+
+				var ck3CapitalCounty = ck3Country.CapitalCounty;
+				if (ck3CapitalCounty is null) {
+					continue;
+				}
+				// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
+				var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
+				var deJureDuchyOfCounty = county.DeJureLiege;
+				if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
+					continue;
+				}
+
+
+				if (governorship.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
+					return county.Id;
+				}
 			}
 
-			// Generate a new title
-			var generatedTitle = GenerateNewTitle(imperatorRegion, imperatorCountryTag, ck3LiegeTitle);
-			RegisterGovernorship(imperatorRegion, imperatorCountryTag, generatedTitle);
-			return generatedTitle;
+			return null;
 		}
 
 		private void RegisterKeys() {
-			RegisterKeyword("link", reader => {
-				mappings.Add(Mapping.Parse(reader));
-			});
+			RegisterKeyword("link", reader => mappings.Add(Mapping.Parse(reader)));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private static string GetCK3TitleRank(CountryRank imperatorRank, string localizedTitleName) {
@@ -116,15 +172,19 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		private static string? GetCK3GovernorshipRank(string ck3LiegeTitle) {
 			if (ck3LiegeTitle.StartsWith('e')) {
 				return "k";
-			} else if (ck3LiegeTitle.StartsWith('k')) {
+			}
+			if (ck3LiegeTitle.StartsWith('k')) {
 				return "d";
+			}
+			if (ck3LiegeTitle.StartsWith('d')) {
+				return "c";
 			}
 			return null;
 		}
 		private static string GenerateNewTitle(string imperatorTag, CountryRank countryRank, string localizedTitleName) {
 			var ck3Tag = GetCK3TitleRank(countryRank, localizedTitleName);
 			ck3Tag += "_";
-			ck3Tag += generatedCK3TitlePrefix;
+			ck3Tag += GeneratedCK3TitlePrefix;
 			ck3Tag += imperatorTag;
 
 			return ck3Tag;
@@ -132,7 +192,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		private static string GenerateNewTitle(string imperatorRegion, string imperatorCountryTag, string ck3LiegeTitle) {
 			var ck3Tag = GetCK3GovernorshipRank(ck3LiegeTitle);
 			ck3Tag += "_";
-			ck3Tag += generatedCK3TitlePrefix;
+			ck3Tag += GeneratedCK3TitlePrefix;
 			ck3Tag += imperatorCountryTag;
 			ck3Tag += "_";
 			ck3Tag += imperatorRegion;
@@ -145,6 +205,6 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 		private readonly SortedSet<string> usedTitles = new();
 
-		private const string generatedCK3TitlePrefix = "IMPTOCK3_";
+		private const string GeneratedCK3TitlePrefix = "IMPTOCK3_";
 	}
 }
