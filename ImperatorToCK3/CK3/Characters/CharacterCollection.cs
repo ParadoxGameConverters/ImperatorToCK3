@@ -131,7 +131,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
-		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {
+		public void PurgeLandlessVanillaCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
 			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
 			var farewellIds = dict.Keys.Where(
 				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
@@ -144,7 +144,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"Purged {farewellIds.Count()} landless vanilla characters.");
 		}
 
-		public void RemoveEmployerIdFromLandedCharacters(LandedTitles titles, Date conversionDate) {
+		public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
 			var landedCharacterIds = titles.GetHolderIds(conversionDate);
 			foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;

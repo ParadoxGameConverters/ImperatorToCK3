@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 		[Fact]
 		public void MatchOnRegion() {
 			var ck3RegionMapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ghef = { d_hujhu = { c_defff = { b_newbarony2 = { province = 4 } } } }"
 			);
@@ -33,7 +33,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 		[Fact]
 		public void MatchOnRegionFailsForWrongRegion() {
 			var ck3RegionMapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } } } } \n" +
 				"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } } } } \n"
@@ -55,7 +55,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 		[Fact]
 		public void MatchOnRegionFailsForNoRegion() {
 			var ck3RegionMapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(string.Empty);
 			landedTitles.LoadTitles(landedTitlesReader);
 			const string regionPath = "TestFiles/regions/CultureMappingTests/empty.txt";
@@ -74,7 +74,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 		[Fact]
 		public void MatchOnRegionFailsForNoProvince() {
 			var ck3RegionMapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n"
 			);

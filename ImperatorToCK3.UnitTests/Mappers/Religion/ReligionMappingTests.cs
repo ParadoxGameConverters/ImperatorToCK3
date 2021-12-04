@@ -58,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 		[Fact]
 		public void MatchOnRegion() {
 			var theMapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } } } } \n" +
 				"k_ghef = { d_hujhu = { c_defff = { b_newbarony2 = { province = 4 } } } } \n"
@@ -77,7 +77,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 		[Fact]
 		public void MatchOnRegionFailsForWrongRegion() {
 			var theMapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { } } \n" +
 				"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } } } } \n"
@@ -96,7 +96,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 		[Fact]
 		public void MatchOnRegionFailsForNoRegion() {
 			var ck3Mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { } } \n" +
 				"k_ghef = { d_hujhu = { } } \n"
@@ -115,7 +115,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 		[Fact]
 		public void MatchOnRegionFailsForNoProvince() {
 			var ck3Mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { } } \n" +
 				"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n"

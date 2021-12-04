@@ -27,7 +27,7 @@ namespace ImperatorToCK3.CK3 {
 		public CharacterCollection Characters { get; } = new();
 		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
-		public LandedTitles LandedTitles { get; } = new();
+		public Title.LandedTitles LandedTitles { get; } = new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
@@ -132,7 +132,7 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var title in LandedTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(title.Id);
 				if (historyOpt is not null) {
-					title.AddHistory(LandedTitles, historyOpt);
+					title.AddHistory(historyOpt);
 				}
 			}
 			// add vanilla development to counties
