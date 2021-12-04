@@ -7,20 +7,19 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers {
 	public static class RakalyCaller {
 		public static void MeltSave(string savePath) {
-			string currentDir = Directory.GetCurrentDirectory();
-			string executablePath = $"{currentDir}/Resources/rakaly/rakaly-0.3.15-x86_64-pc-windows-msvc/rakaly.exe";
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-				executablePath = $"{currentDir}/Resources/rakaly/rakaly-0.3.15-x86_64-apple-darwin/rakaly";
-			} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-				executablePath = $"{currentDir}/Resources/rakaly/rakaly-0.3.15-x86_64-unknown-linux-musl/rakaly";
-			}
+			string executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-pc-windows-msvc/rakaly.exe";
 			string arguments = $"melt --unknown-key stringify \"{savePath}\"";
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+				executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-apple-darwin/rakaly";
+			} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+				executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-unknown-linux-musl/rakaly";
+				arguments = $"sudo {arguments}";
+			}
 			using Process process = new();
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.FileName = executablePath;
 			process.StartInfo.Arguments = arguments;
 			process.StartInfo.CreateNoWindow = true;
-			process.StartInfo.WorkingDirectory = CommonFunctions.GetPath(executablePath);
 			process.Start();
 
 			process.WaitForExit();
