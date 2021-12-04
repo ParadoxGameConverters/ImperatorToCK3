@@ -256,7 +256,6 @@ link = { imp = SMT ck3 = e_bengal rank = e }
 link = { imp = SXS ck3 = k_frisia rank = k } # NOT Saxony
 link = { imp = SXS ck3 = d_frisia rank = d }
 link = { imp = CMB ck3 = d_jylland rank = d }
-link = { imp = TIT ck3 = d_teutonic_order rank = d }
 link = { imp = GIT ck3 = d_vastergotland rank = d }
 link = { imp = SWE ck3 = d_svealand rank = d }
 link = { imp = RAM ck3 = d_viken rank = d }

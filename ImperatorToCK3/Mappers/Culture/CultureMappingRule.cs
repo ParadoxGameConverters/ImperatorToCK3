@@ -113,30 +113,14 @@ namespace ImperatorToCK3.Mappers.Culture {
 		private readonly SortedSet<string> ck3Regions = new();
 
 		static CultureMappingRule() {
-			parser.RegisterKeyword("ck3", reader => {
-				mappingToReturn.destinationCulture = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.cultures.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("religion", reader => {
-				mappingToReturn.religions.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("owner", reader => {
-				mappingToReturn.owners.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("ck3Region", reader => {
-				mappingToReturn.ck3Regions.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("impRegion", reader => {
-				mappingToReturn.imperatorRegions.Add(ParserHelpers.GetString(reader));
-			});
-			parser.RegisterKeyword("ck3Province", reader => {
-				mappingToReturn.ck3Provinces.Add(ParserHelpers.GetULong(reader));
-			});
-			parser.RegisterKeyword("impProvince", reader => {
-				mappingToReturn.imperatorProvinces.Add(ParserHelpers.GetULong(reader));
-			});
+			parser.RegisterKeyword("ck3", reader => mappingToReturn.destinationCulture = reader.GetString());
+			parser.RegisterKeyword("imp", reader => mappingToReturn.cultures.Add(reader.GetString()));
+			parser.RegisterKeyword("religion", reader => mappingToReturn.religions.Add(reader.GetString()));
+			parser.RegisterKeyword("owner", reader => mappingToReturn.owners.Add(reader.GetString()));
+			parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
+			parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
+			parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
+			parser.RegisterKeyword("impProvince", reader => mappingToReturn.imperatorProvinces.Add(reader.GetULong()));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private static readonly Parser parser = new();

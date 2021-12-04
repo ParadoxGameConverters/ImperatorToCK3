@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.Imperator.Pops {
 	class PopsBloc : Parser {
-		public Pops PopsFromBloc { get; private set; } = new();
+		public PopCollection PopsFromBloc { get; private set; } = new();
 		public PopsBloc(BufferedReader reader) {
 			RegisterKeys();
 			ParseStream(reader);

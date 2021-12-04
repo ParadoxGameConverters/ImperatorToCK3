@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  test_windows:
+  test_and_check_coverage:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.*'
+        dotnet-version: '6.*'
     - name: Test
       run: |
        cd ImperatorToCK3.UnitTests
@@ -32,8 +32,11 @@ jobs:
         path-to-lcov: ImperatorToCK3.UnitTests/TestResults/coverage.info
 
 
-  test_ubuntu:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
       with:
@@ -45,7 +48,7 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.*'
+        dotnet-version: '6.*'
     - name: Test
       run: |
        cd ImperatorToCK3.UnitTests

@@ -9,10 +9,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void TitlesDefaultToEmpty() {
 			var reader = new BufferedReader(string.Empty);
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
-			Assert.Empty(titles.StoredTitles);
+			Assert.Empty(titles);
 		}
 
 		[Fact]
@@ -22,13 +22,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var barony = titles["b_barony"];
 			var county = titles["c_county"];
 
-			Assert.Equal(2, titles.StoredTitles.Count);
+			Assert.Equal(2, titles.Count);
 			Assert.Equal((ulong)12, barony.Province);
 			Assert.True(county.Landless);
 		}
@@ -40,13 +40,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county5 = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var barony = titles["b_barony4"];
 			var county = titles["c_county5"];
 
-			Assert.Equal(5, titles.StoredTitles.Count);
+			Assert.Equal(5, titles.Count);
 			Assert.Equal((ulong)12, barony.Province);
 			Assert.True(county.Landless);
 		}
@@ -58,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county5 = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var reader2 = new BufferedReader(
@@ -70,7 +70,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var barony = titles["b_barony4"];
 			var county = titles["c_county5"];
 
-			Assert.Equal(5, titles.StoredTitles.Count);
+			Assert.Equal(5, titles.Count);
 			Assert.Equal((ulong)15, barony.Province);
 			Assert.False(county.Landless);
 		}
@@ -82,7 +82,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county5 = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var reader2 = new BufferedReader(
@@ -92,24 +92,25 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 			titles.LoadTitles(reader2);
 
-			Assert.Equal(10, titles.StoredTitles.Count);
+			Assert.Equal(10, titles.Count);
 		}
 
 		[Fact]
 		public void CapitalsAreLinked() {
 			var reader = new BufferedReader(
-				"e_empire = { capital=c_county " +
-				"k_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } } " +
+				"e_empire = {" +
+				"\tcapital=c_county " +
+				"\tk_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } } " +
 				"}"
 			);
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var empire = titles["e_empire"];
 			var capitalCounty = empire.CapitalCounty;
 			Assert.NotNull(capitalCounty);
-			Assert.Equal("c_county", capitalCounty.Name);
-			Assert.Equal("c_county", empire.CapitalCountyName);
+			Assert.Equal("c_county", capitalCounty.Id);
+			Assert.Equal("c_county", empire.CapitalCountyId);
 		}
 	}
 }

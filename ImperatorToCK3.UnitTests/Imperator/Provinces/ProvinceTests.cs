@@ -11,11 +11,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvinceTests {
 		[Fact]
-		public void IDCanBeSet() {
+		public void IdCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= {}"
 			);
 
 			var theProvince = Province.Parse(reader, 42);
@@ -26,8 +24,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void CultureCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\tculture=\"paradoxian\"" +
 				"}"
 			);
@@ -40,9 +37,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void CultureDefaultsToBlank() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= {}"
 			);
 
 			var theProvince = Province.Parse(reader, 42);
@@ -53,8 +48,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void ReligionCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\treligion=\"paradoxian\"" +
 				"}"
 			);
@@ -67,9 +61,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void ReligionDefaultsToBlank() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= {}"
 			);
 
 			var theProvince = Province.Parse(reader, 42);
@@ -80,8 +72,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void NameCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"province_name = {\n" +
 				"name=\"Biggus Dickus\"\n" +
 				"}\n" +
@@ -96,9 +87,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void NameDefaultsToBlank() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= {}"
 			);
 
 			var theProvince = Province.Parse(reader, 42);
@@ -109,35 +98,36 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void OwnerCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\towner=69\n" +
 				"}"
 			);
 
 			var theProvince = Province.Parse(reader, 42);
 
-			Assert.Equal((ulong)69, theProvince.OwnerCountry.Key);
+			Assert.Null(theProvince.OwnerCountry); // not linked yet
+
+			var countries = new CountryCollection(new BufferedReader("69 = {}"));
+			theProvince.TryLinkOwnerCountry(countries);
+
+			Assert.NotNull(theProvince.OwnerCountry);
+			Assert.Equal((ulong)69, theProvince.OwnerCountry.Id);
 		}
 
 		[Fact]
-		public void OwnerDefaultsTo0() {
+		public void OwnerDefaultsToNull() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"= {}"
 			);
-
 			var theProvince = Province.Parse(reader, 42);
 
-			Assert.Equal((ulong)0, theProvince.OwnerCountry.Key);
+			Assert.Null(theProvince.OwnerCountry);
 		}
 
 		[Fact]
 		public void ControllerCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\tcontroller=69\n" +
 				"}"
 			);
@@ -150,8 +140,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void PopsCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\tpop=69\n" +
 				"\tpop=68\n" +
 				"\tpop=12213\n" +
@@ -163,15 +152,15 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 
 			Assert.Equal(0, theProvince.GetPopCount()); // pops not linked yet
 
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			var pop1 = new ImperatorToCK3.Imperator.Pops.Pop(69);
 			var pop2 = new ImperatorToCK3.Imperator.Pops.Pop(68);
 			var pop3 = new ImperatorToCK3.Imperator.Pops.Pop(12213);
 			var pop4 = new ImperatorToCK3.Imperator.Pops.Pop(23);
-			pops.StoredPops.Add(pop1.Id, pop1);
-			pops.StoredPops.Add(pop2.Id, pop2);
-			pops.StoredPops.Add(pop3.Id, pop3);
-			pops.StoredPops.Add(pop4.Id, pop4);
+			pops.Add(pop1);
+			pops.Add(pop2);
+			pops.Add(pop3);
+			pops.Add(pop4);
 			theProvince.LinkPops(pops);
 			Assert.Equal(4, theProvince.GetPopCount());
 		}
@@ -237,8 +226,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void BuildingsCountCanBeSet() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\tbuildings = {0 1 0 65 3}\n" +
 				"}"
 			);
@@ -251,9 +239,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void BuildingsCountDefaultsTo0() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"}"
+				"={}"
 			);
 
 			var theProvince = Province.Parse(reader, 42);
@@ -262,21 +248,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		}
 
 		[Fact]
-		public void LinkingNullCountryIsLogged() {
-			var reader = new BufferedReader("= {}");
-			var province = Province.Parse(reader, 42);
-
-			var output = new StringWriter();
-			Console.SetOut(output);
-
-			province.LinkOwnerCountry(null);
-
-			var logStr = output.ToString();
-			Assert.Contains("[WARN] Province 42: cannot link null country!", logStr);
-		}
-
-		[Fact]
-		public void CannotLinkCountryWithoutMatchingID() {
+		public void LinkingCountryWithoutMatchingIdIsLogged() {
 			var reader = new BufferedReader("= { owner = 50 }");
 			var province = Province.Parse(reader, 42);
 
@@ -287,7 +259,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			Console.SetOut(output);
 			province.LinkOwnerCountry(country);
 			var logStr = output.ToString();
-			Assert.Contains("[WARN] Province 42: cannot link country 49: wrong ID!", logStr);
+			Assert.Contains("[WARN] Province 42: linking owner 49 that doesn't match owner from save (50)!", logStr);
 		}
 
 		[Fact]
@@ -299,7 +271,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 			var country = Country.Parse(countryReader, 50);
 
 			province.LinkOwnerCountry(country);
-			Assert.Equal((ulong)50, province.OwnerCountry.Value.Id);
+			Assert.NotNull(province.OwnerCountry);
+			Assert.Equal((ulong)50, province.OwnerCountry.Id);
 		}
 
 		[Fact]

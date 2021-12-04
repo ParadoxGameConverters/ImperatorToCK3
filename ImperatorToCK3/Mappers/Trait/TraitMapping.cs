@@ -8,8 +8,8 @@ namespace ImperatorToCK3.Mappers.Trait {
 
 		public TraitMapping(BufferedReader reader) {
 			var parser = new Parser();
-			parser.RegisterKeyword("ck3", reader => CK3Trait = ParserHelpers.GetString(reader));
-			parser.RegisterKeyword("imp", reader => ImpTraits.Add(ParserHelpers.GetString(reader)));
+			parser.RegisterKeyword("ck3", reader => CK3Trait = reader.GetString());
+			parser.RegisterKeyword("imp", reader => ImpTraits.Add(reader.GetString()));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseStream(reader);
 			parser.ClearRegisteredRules();

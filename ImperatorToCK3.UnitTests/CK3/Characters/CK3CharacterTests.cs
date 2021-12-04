@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Localization;
@@ -26,8 +27,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private DeathReasonMapper deathReasonMapper = new();
 
 			public Character Build() {
-				var character = new Character();
-				character.InitializeFromImperator(
+				var character = new Character(
 					imperatorCharacter,
 					religionMapper,
 					cultureMapper,
@@ -85,8 +85,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4);
 			var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5);
 
-			imperatorCharacter.Mother = new(imperatorMother.Id, imperatorMother);
-			imperatorCharacter.Father = new(imperatorFather.Id, imperatorFather);
+			imperatorCharacter.Mother = imperatorMother;
+			imperatorCharacter.Father = imperatorFather;
 			imperatorCharacter.Children.Add(imperatorChild.Id, imperatorChild);
 			imperatorCharacter.Spouses.Add(imperatorSpouse.Id, imperatorSpouse);
 
@@ -218,8 +218,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
 			var countryReader = new BufferedReader("tag = RAN");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
-			var ck3Title = new ImperatorToCK3.CK3.Titles.Title("d_rankless");
-			country.CK3Title = ck3Title;
+
+			var titles = new Title.LandedTitles();
+			country.CK3Title = titles.Add("d_rankless");
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",

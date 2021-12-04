@@ -22,16 +22,16 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 		static Country() {
 			parser.RegisterKeyword("tag", reader =>
-				country.Tag = ParserHelpers.GetString(reader)
+				country.Tag = reader.GetString()
 			);
 			parser.RegisterKeyword("country_name", reader =>
 				country.CountryName = CountryName.Parse(reader)
 			);
 			parser.RegisterKeyword("flag", reader =>
-				country.Flag = ParserHelpers.GetString(reader)
+				country.Flag = reader.GetString()
 			);
 			parser.RegisterKeyword("country_type", reader => {
-				var countryTypeStr = ParserHelpers.GetString(reader);
+				var countryTypeStr = reader.GetString();
 				switch (countryTypeStr) {
 					case "rebels":
 						country.CountryType = CountryType.rebels;
@@ -67,26 +67,26 @@ namespace ImperatorToCK3.Imperator.Countries {
 				country.Currencies = new CountryCurrencies(reader)
 			);
 			parser.RegisterKeyword("capital", reader => {
-				var capitalProvId = ParserHelpers.GetULong(reader);
+				var capitalProvId = reader.GetULong();
 				if (capitalProvId > 0) {
 					country.Capital = capitalProvId;
 				}
 			});
 			parser.RegisterKeyword("historical_regnal_numbers", reader => {
 				country.HistoricalRegnalNumbers = new Dictionary<string, int>(
-					ParserHelpers.GetAssignments(reader).ToDictionary(
+					reader.GetAssignments().ToDictionary(
 						t => t.Key, t => int.Parse(t.Value)
 					)
 				);
 			});
 			parser.RegisterKeyword("primary_culture", reader =>
-				country.PrimaryCulture = ParserHelpers.GetString(reader)
+				country.PrimaryCulture = reader.GetString()
 			);
 			parser.RegisterKeyword("religion", reader =>
-				country.Religion = ParserHelpers.GetString(reader)
+				country.Religion = reader.GetString()
 			);
 			parser.RegisterKeyword("government_key", reader => {
-				var governmentStr = ParserHelpers.GetString(reader);
+				var governmentStr = reader.GetString();
 				country.Government = governmentStr;
 				// set government type
 				if (monarchyGovernments.Contains(governmentStr)) {
@@ -98,25 +98,25 @@ namespace ImperatorToCK3.Imperator.Countries {
 				}
 			});
 			parser.RegisterKeyword("family", reader =>
-				country.parsedFamilyIds.Add(ParserHelpers.GetULong(reader))
+				country.parsedFamilyIds.Add(reader.GetULong())
 			);
 			parser.RegisterKeyword("minor_family", reader =>
-				country.parsedFamilyIds.Add(ParserHelpers.GetULong(reader))
+				country.parsedFamilyIds.Add(reader.GetULong())
 			);
 			parser.RegisterKeyword("monarch", reader =>
-				country.Monarch = ParserHelpers.GetULong(reader)
+				country.monarchId = reader.GetULong()
 			);
 			parser.RegisterKeyword("ruler_term", reader =>
 				country.RulerTerms.Add(RulerTerm.Parse(reader))
 			);
 			parser.RegisterRegex(monarchyLawRegexStr, reader =>
-				country.monarchyLaws.Add(ParserHelpers.GetString(reader))
+				country.monarchyLaws.Add(reader.GetString())
 			);
 			parser.RegisterRegex(republicLawRegexStr, reader =>
-				country.republicLaws.Add(ParserHelpers.GetString(reader))
+				country.republicLaws.Add(reader.GetString())
 			);
 			parser.RegisterRegex(tribalLawRegexStr, reader =>
-				country.tribalLaws.Add(ParserHelpers.GetString(reader))
+				country.tribalLaws.Add(reader.GetString())
 			);
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);

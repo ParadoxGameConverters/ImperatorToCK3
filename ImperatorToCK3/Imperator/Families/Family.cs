@@ -1,17 +1,18 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace ImperatorToCK3.Imperator.Families {
-	public class Family {
+	public class Family : IIdentifiable<ulong> {
 		public ulong Id { get; } = 0;
 		public string Key { get; private set; } = "";
 		public string Culture { get; private set; } = "";
 		public double Prestige { get; private set; } = 0;
 		public double PrestigeRatio { get; private set; } = 0;
 		public OrderedDictionary Members { get; private set; } = new();
-		public ParadoxBool Minor { get; private set; } = new(false);
+		public PDXBool Minor { get; private set; } = new(false);
 
 		public Family(ulong id) {
 			Id = id;
@@ -52,22 +53,22 @@ namespace ImperatorToCK3.Imperator.Families {
 			private static Family family = new(0);
 			static FamilyFactory() {
 				parser.RegisterKeyword("key", reader =>
-					family.Key = ParserHelpers.GetString(reader)
+					family.Key = reader.GetString()
 				);
 				parser.RegisterKeyword("prestige", reader =>
-					family.Prestige = ParserHelpers.GetDouble(reader)
+					family.Prestige = reader.GetDouble()
 				);
 				parser.RegisterKeyword("prestige_ratio", reader =>
-					family.PrestigeRatio = ParserHelpers.GetDouble(reader)
+					family.PrestigeRatio = reader.GetDouble()
 				);
 				parser.RegisterKeyword("culture", reader =>
-					family.Culture = ParserHelpers.GetString(reader)
+					family.Culture = reader.GetString()
 				);
 				parser.RegisterKeyword("minor_family", reader =>
-					family.Minor = new ParadoxBool(reader)
+					family.Minor = reader.GetPDXBool()
 				);
 				parser.RegisterKeyword("member", reader => {
-					foreach (var memberId in ParserHelpers.GetULongs(reader)) {
+					foreach (var memberId in reader.GetULongs()) {
 						family.Members.Add(memberId, null);
 					}
 				});

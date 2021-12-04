@@ -10,9 +10,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 		[Fact]
 		public void ProvincesDefaultToEmpty() {
 			var reader = new BufferedReader("={}");
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+			var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
-			Assert.Empty(provinces.StoredProvinces);
+			Assert.Empty(provinces);
 		}
 
 		[Fact]
@@ -24,25 +24,25 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 				"43={}\n" +
 				"}"
 			);
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+			var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
-			Assert.Equal((ulong)42, provinces.StoredProvinces[42].Id);
-			Assert.Equal((ulong)43, provinces.StoredProvinces[43].Id);
+			Assert.Equal((ulong)42, provinces[42].Id);
+			Assert.Equal((ulong)43, provinces[43].Id);
 		}
 
 		[Fact]
 		public void PopCanBeLinked() {
 			var reader = new BufferedReader("={42={pop=8}}\n");
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+			var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
 			var reader2 = new BufferedReader(
 				 "8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n"
 			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			pops.LoadPops(reader2);
 			provinces.LinkPops(pops);
 
-			var province = provinces.StoredProvinces[42];
+			var province = provinces[42];
 			var pop = province.Pops[8];
 
 			Assert.NotNull(pop);
@@ -58,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 				"44={pop= 9}\n" +
 				"}\n"
 			);
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+			var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
 			var reader2 = new BufferedReader(
 				"={\n" +
@@ -67,15 +67,15 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 				"10={type=\"freemen\" culture=\"greek\" religion=\"zoroastrian\"}\n" +
 				"}\n"
 			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			pops.LoadPops(reader2);
 			provinces.LinkPops(pops);
 
-			var province = provinces.StoredProvinces[42];
+			var province = provinces[42];
 			var pop = province.Pops[8];
-			var province2 = provinces.StoredProvinces[43];
+			var province2 = provinces[43];
 			var pop2 = province2.Pops[10];
-			var province3 = provinces.StoredProvinces[44];
+			var province3 = provinces[44];
 			var pop3 = province3.Pops[9];
 
 			Assert.NotNull(pop);
@@ -94,7 +94,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 				"44={ pop = 10 }\n" + // no pop 10
 				"}\n"
 			);
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+			var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
 			var reader2 = new BufferedReader(
 				"={\n" +
@@ -102,7 +102,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
 				"9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n" +
 				"}\n"
 			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
+			var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
 			pops.LoadPops(reader2);
 
 			var output = new StringWriter();

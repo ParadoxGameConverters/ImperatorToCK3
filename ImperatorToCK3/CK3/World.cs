@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
@@ -17,24 +18,25 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
-		public Dictionary<string, Character> Characters { get; } = new();
-		public Dictionary<string, Dynasty> Dynasties { get; } = new();
-		public Dictionary<ulong, Province> Provinces { get; } = new();
-		public LandedTitles LandedTitles { get; } = new();
-		public Map.MapData MapData { get; }
+		public CharacterCollection Characters { get; } = new();
+		public DynastyCollection Dynasties { get; } = new();
+		public ProvinceCollection Provinces { get; } = new();
+		public Title.LandedTitles LandedTitles { get; } = new();
+		public MapData MapData { get; }
+		public Date CorrectedDate { get; }
 
 		public World(Imperator.World impWorld, Configuration config) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
+			CorrectedDate = impWorld.EndDate.Year > 0 ? impWorld.EndDate : new Date(1, 1, 1);
 
 			Logger.Info("Loading map data...");
-			MapData = new Map.MapData(config.Ck3Path);
+			MapData = new MapData(theConfiguration.Ck3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
 			localizationMapper.ScrapeLocalizations(config, impWorld.Mods);
@@ -46,8 +48,9 @@ namespace ImperatorToCK3.CK3 {
 			var titlesHistoryPath = Path.Combine(config.Ck3Path, "game/history/titles");
 			titlesHistory = new TitlesHistory(titlesHistoryPath, config.Ck3BookmarkDate);
 
-			// Loading vanilla CK3 landed titles
+			// Load vanilla CK3 landed titles
 			var landedTitlesPath = Path.Combine(config.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
+
 			LandedTitles.LoadTitles(landedTitlesPath);
 			AddHistoryToVanillaTitles(config.Ck3BookmarkDate);
 
@@ -58,36 +61,63 @@ namespace ImperatorToCK3.CK3 {
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 
-			ImportImperatorCountries(impWorld.Countries.StoredCountries, config);
-			ImportImperatorGovernorships(impWorld, config);
+			LandedTitles.ImportImperatorCountries(
+				impWorld.Countries,
+				tagTitleMapper,
+				localizationMapper,
+				provinceMapper,
+				coaMapper,
+				governmentMapper,
+				successionLawMapper,
+				definiteFormMapper,
+				religionMapper,
+				cultureMapper,
+				nicknameMapper,
+				Characters
+			);
+			LandedTitles.ImportImperatorGovernorships(
+				impWorld,
+				tagTitleMapper,
+				localizationMapper,
+				provinceMapper,
+				definiteFormMapper,
+				imperatorRegionMapper,
+				coaMapper
+			);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			ImportVanillaProvinces(config.Ck3Path, config.Ck3BookmarkDate);
+			Provinces.ImportVanillaProvinces(config.Ck3Path, config.Ck3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-			ImportImperatorProvinces(impWorld);
+			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
 
-			ImportImperatorCharacters(
+			Characters.ImportImperatorCharacters(
 				impWorld,
-				impWorld.EndDate,
+				religionMapper,
+				cultureMapper,
+				traitMapper,
+				nicknameMapper,
+				localizationMapper,
+				provinceMapper,
+				deathReasonMapper,
+				CorrectedDate,
 				config.Ck3BookmarkDate
 			);
-			LinkSpouses();
-			LinkMothersAndFathers();
 			ClearFeaturedCharactersDescriptions(config.Ck3BookmarkDate);
 
-			ImportImperatorFamilies(impWorld);
+			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, config.Ck3BookmarkDate);
-			RemoveInvalidLandlessTitles(config.Ck3BookmarkDate);
+			OverWriteCountiesHistory(impWorld.Jobs.Governorships, CorrectedDate);
+			LandedTitles.RemoveInvalidLandlessTitles(config.Ck3BookmarkDate);
 
-			PurgeLandlessVanillaCharacters(config.Ck3BookmarkDate);
+			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.Ck3BookmarkDate);
+			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
 			Logger.Info("Clearing featured characters' descriptions.");
-			foreach (var title in LandedTitles.StoredTitles) {
+			foreach (var title in LandedTitles) {
 				if (!title.PlayerCountry) {
 					continue;
 				}
@@ -98,338 +128,50 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void ImportImperatorCharacters(Imperator.World impWorld, Date endDate, Date ck3BookmarkDate) {
-			Logger.Info("Importing Imperator Characters...");
-
-			foreach (var character in impWorld.Characters.StoredCharacters) {
-				ImportImperatorCharacter(character, endDate, ck3BookmarkDate);
-			}
-			Logger.Info($"{Characters.Count} total characters recognized.");
-		}
-
-		private void ImportImperatorCharacter(
-			Imperator.Characters.Character character,
-			Date endDate,
-			Date ck3BookmarkDate
-		) {
-			// Create a new CK3 character
-			var newCharacter = new Character();
-			newCharacter.InitializeFromImperator(character,
-				religionMapper,
-				cultureMapper,
-				traitMapper,
-				nicknameMapper,
-				localizationMapper,
-				provinceMapper,
-				deathReasonMapper,
-				endDate,
-				ck3BookmarkDate
-			);
-			character.CK3Character = newCharacter;
-			Characters.Add(newCharacter.Id, newCharacter);
-		}
-
-		private void ImportImperatorCountries(Dictionary<ulong, Country> imperatorCountries, Configuration config) {
-			Logger.Info("Importing Imperator Countries.");
-
-			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
-			// add new ones from Imperator tags.
-			var counter = 0;
-			// We don't need pirates, barbarians etc.
-			foreach (var country in imperatorCountries.Values.Where(c => c.CountryType == CountryType.real)) {
-				ImportImperatorCountry(country, imperatorCountries, config);
-				++counter;
-			}
-			Logger.Info($"Imported {counter} countries from I:R.");
-		}
-
-		private void ImportImperatorCountry(
-			Country country,
-			Dictionary<ulong, Country> imperatorCountries,
-			Configuration config
-		) {
-			// Create a new title or update existing title
-			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
-
-			if (LandedTitles.TryGetTitle(name, out var existingTitle)) {
-				existingTitle.InitializeFromTag(
-					country,
-					imperatorCountries,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					coaMapper,
-					governmentMapper,
-					successionLawMapper,
-					definiteFormMapper,
-					religionMapper,
-					cultureMapper,
-					nicknameMapper,
-					Characters,
-					config.Ck3BookmarkDate
-				);
-			} else {
-				var newTitle = new Title(
-					country,
-					imperatorCountries,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					coaMapper,
-					tagTitleMapper,
-					governmentMapper,
-					successionLawMapper,
-					definiteFormMapper,
-					religionMapper,
-					cultureMapper,
-					nicknameMapper,
-					Characters,
-					config.Ck3BookmarkDate
-				);
-				LandedTitles.InsertTitle(newTitle);
-			}
-		}
-
-		private void ImportImperatorGovernorships(Imperator.World impWorld, Configuration config) {
-			Logger.Info("Importing Imperator Governorships.");
-
-			var governorships = impWorld.Jobs.Governorships;
-			var imperatorCountries = impWorld.Countries.StoredCountries;
-
-			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
-				.ToDictionary(g => g.Key, g => g.Count());
-
-			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
-			// add new ones from Imperator governorships.
-			var counter = 0;
-			foreach (var governorship in governorships) {
-				ImportImperatorGovernorship(
-					governorship,
-					imperatorCountries,
-					impWorld.Characters,
-					governorshipsPerRegion[governorship.RegionName] > 1,
-					config
-				);
-				++counter;
-			}
-			Logger.Info($"Imported {counter} governorships from I:R.");
-		}
-		private void ImportImperatorGovernorship(
-			Governorship governorship,
-			IDictionary<ulong, Country> imperatorCountries,
-			Imperator.Characters.Characters imperatorCharacters,
-			bool regionHasMultipleGovernorships,
-			Configuration config
-		) {
-			var country = imperatorCountries[governorship.CountryId];
-			// Create a new title or update existing title
-			var name = Title.DetermineName(governorship, country, tagTitleMapper);
-
-			if (LandedTitles.TryGetTitle(name, out var existingTitle)) {
-				existingTitle.InitializeFromGovernorship(
-					governorship,
-					country,
-					imperatorCharacters,
-					regionHasMultipleGovernorships,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					definiteFormMapper,
-					imperatorRegionMapper,
-					config.Ck3BookmarkDate
-				);
-			} else {
-				var newTitle = new Title(
-					governorship,
-					country,
-					imperatorCharacters,
-					regionHasMultipleGovernorships,
-					localizationMapper,
-					LandedTitles,
-					provinceMapper,
-					coaMapper,
-					tagTitleMapper,
-					definiteFormMapper,
-					imperatorRegionMapper,
-					config.Ck3BookmarkDate
-				);
-				LandedTitles.InsertTitle(newTitle);
-			}
-		}
-
-		private void ImportVanillaProvinces(string ck3Path, Date ck3BookmarkDate) {
-			Logger.Info("Importing Vanilla Provinces.");
-			// ---- Loading history/provinces
-			var path = Path.Combine(ck3Path, "game/history/provinces");
-			var fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
-			foreach (var fileName in fileNames) {
-				if (!fileName.EndsWith(".txt")) {
-					continue;
-				}
-				var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
-				try {
-					var newProvinces = new Provinces.Provinces(provincesPath, ck3BookmarkDate);
-					foreach (var (newProvinceId, newProvince) in newProvinces.StoredProvinces) {
-						if (Provinces.ContainsKey(newProvinceId)) {
-							Logger.Warn($"Vanilla province duplication - {newProvinceId} already loaded! Overwriting.");
-						}
-						Provinces[newProvinceId] = newProvince;
-					}
-				} catch (Exception e) {
-					Logger.Warn($"Invalid province filename: {provincesPath} ({e})");
-				}
-			}
-
-			// now load the provinces that don't have unique entries in history/provinces
-			// they instead use history/province_mapping
-			path = Path.Combine(ck3Path, "game/history/province_mapping");
-			fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
-			foreach (var fileName in fileNames) {
-				if (!fileName.EndsWith(".txt")) {
-					continue;
-				}
-
-				var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
-				try {
-					var newProvinces = new ProvinceMappings(provinceMappingsPath);
-					foreach (var (newProvinceId, baseProvinceId) in newProvinces.Mappings) {
-						if (!Provinces.ContainsKey(baseProvinceId)) {
-							Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
-							continue;
-						}
-						if (Provinces.ContainsKey(newProvinceId)) {
-							Logger.Info($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
-						} else {
-							var newProvince = new Province(newProvinceId, Provinces[baseProvinceId]);
-							Provinces.Add(newProvinceId, newProvince);
-						}
-					}
-				} catch (Exception e) {
-					Logger.Warn($"Invalid province filename: {provinceMappingsPath}: ({e})");
-				}
-			}
-
-			Logger.Info($"Loaded {Provinces.Count} province definitions.");
-		}
-
-		private void ImportImperatorProvinces(Imperator.World impWorld) {
-			Logger.Info("Importing Imperator Provinces.");
-			var counter = 0;
-			// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-			foreach (var (provinceId, province) in Provinces) {
-				var impProvinces = provinceMapper.GetImperatorProvinceNumbers(provinceId);
-				// Provinces we're not affecting will not be in this list.
-				if (impProvinces.Count == 0) {
-					continue;
-				}
-				// Next, we find what province to use as its initializing source.
-				var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
-				if (sourceProvince is null) {
-					Logger.Warn($"Could not determine source province for CK3 province {provinceId}!");
-					continue; // MISMAP, or simply have mod provinces loaded we're not using.
-				}
-				province.InitializeFromImperator(sourceProvince.Value.Value, cultureMapper, religionMapper);
-				// And finally, initialize it.
-				++counter;
-			}
-			Logger.Info($"{impWorld.Provinces.StoredProvinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
-		}
-
-		private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
-			List<ulong> impProvinceNumbers,
-			Imperator.World impWorld
-		) {
-			// determine ownership by province development.
-			var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
-			var theShares = new Dictionary<ulong, int>(); // owner, development                                               
-			ulong? winner = null;
-			long maxDev = -1;
-
-			foreach (var imperatorProvinceId in impProvinceNumbers) {
-				if (impWorld.Provinces.StoredProvinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
-					var ownerId = impProvince.OwnerCountry.Key;
-					if (!theClaims.ContainsKey(ownerId)) {
-						theClaims[ownerId] = new();
-					}
-					theClaims[ownerId].Add(impProvince);
-
-					var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
-					theShares[ownerId] = devValue;
-				} else {
-					Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
-					continue; // Broken mapping, or loaded a mod changing provinces without using it.
-				}
-			}
-			// Let's see who the lucky winner is.
-			foreach (var (owner, development) in theShares) {
-				if (development > maxDev) {
-					winner = owner;
-					maxDev = development;
-				}
-			}
-			if (winner is null) {
-				return null;
-			}
-
-			// Now that we have a winning owner, let's find its largest province to use as a source.
-			maxDev = -1; // We can have winning provinces with weight = 0;
-
-			var toReturn = new KeyValuePair<ulong, Imperator.Provinces.Province>();
-			foreach (var province in theClaims[(ulong)winner]) {
-				long provinceWeight = province.BuildingCount + province.GetPopCount();
-
-				if (provinceWeight > maxDev) {
-					toReturn = new(province.Id, province);
-					maxDev = provinceWeight;
-				}
-			}
-			if (toReturn.Key == 0 || toReturn.Value is null) {
-				return null;
-			}
-			return toReturn;
-		}
-
 		private void AddHistoryToVanillaTitles(Date ck3BookmarkDate) {
-			foreach (var title in LandedTitles.StoredTitles) {
-				var historyOpt = titlesHistory.PopTitleHistory(title.Name);
+			foreach (var title in LandedTitles) {
+				var historyOpt = titlesHistory.PopTitleHistory(title.Id);
 				if (historyOpt is not null) {
 					title.AddHistory(historyOpt);
 				}
 			}
-			// Add vanilla development to counties.
-			// For counties that inherit development level from de jure lieges, assign it to them directly just in case.
-			foreach (Title title in LandedTitles.StoredTitles.Where(title => title.Rank == TitleRank.county && title.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
+			// Add vanilla development to counties
+			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability
+			foreach (Title title in LandedTitles.Where(title => title.Rank == TitleRank.county && title.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
 				var inheritedDev = title.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
 				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
 			}
+
+			// remove history entries past the bookmark date
+			foreach (var title in LandedTitles) {
+				title.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);
+			}
 		}
 
-		private void OverWriteCountiesHistory(ICollection<Governorship> governorships, Date ck3BookmarkDate) {
-			Logger.Info("Overwriting counties' history.");
-			foreach (var title in LandedTitles.StoredTitles) {
-				if (title.Rank != TitleRank.county) {
-					continue;
-				}
-				if (title.CapitalBaronyProvince <= 0) {
+		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date conversionDate) {
+			Logger.Info("Overwriting counties' history...");
+			foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
+				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
+				if (capitalBaronyProvinceId == 0) {
 					// title's capital province has an invalid ID (0 is not a valid province in CK3)
 					continue;
 				}
 
-				if (!Provinces.ContainsKey(title.CapitalBaronyProvince)) {
-					Logger.Warn($"Capital barony province not found {title.CapitalBaronyProvince}");
+				if (!Provinces.ContainsKey(capitalBaronyProvinceId)) {
+					Logger.Warn($"Capital barony province not found: {county.CapitalBaronyProvince}");
 					continue;
 				}
 
-				var ck3CapitalBaronyProvince = Provinces[title.CapitalBaronyProvince];
+				var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvinceId];
 				var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
-				if (impProvince is null) {
+				if (impProvince is null) { // probably outside of Imperator map
 					continue;
 				}
 
-				var impCountry = impProvince.OwnerCountry.Value;
+				var impCountry = impProvince.OwnerCountry;
 
-				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonised Imperator province
-					title.SetHolderId("0", ck3BookmarkDate);
+				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
+					county.SetHolderId("0", conversionDate);
 					title.SetDeFactoLiege(null, ck3BookmarkDate);
 				} else {
 					var ck3Country = impCountry.CK3Title;
@@ -446,191 +188,58 @@ namespace ImperatorToCK3.CK3 {
 
 					if (ck3CapitalCounty is null) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+							GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
 						} else {
-							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {title.Name}!");
+							Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {county.Id}!");
 						}
 						continue;
 					}
 					// if title belongs to country ruler's capital's de jure duchy, make it directly held by the ruler
 					var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
-					var titleLiegeDuchy = title.DeJureLiege;
-					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Name == titleLiegeDuchy.Name) {
+					var titleLiegeDuchy = county.DeJureLiege;
+					if (countryCapitalDuchy is not null && titleLiegeDuchy is not null && countryCapitalDuchy.Id == titleLiegeDuchy.Id) {
 						if (impMonarch is not null) {
-							GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+							GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
 						}
 					} else if (matchingGovernorships.Count > 0) {
 						// give county to governor
 						var governorship = matchingGovernorships[0];
-						var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Name);
+						var ck3GovernorshipName = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Id);
 						if (ck3GovernorshipName is null) {
-							Logger.Warn(nameof(ck3GovernorshipName) + $" is null for {ck3Country.Name} {governorship.RegionName}!");
+							Logger.Warn($"{nameof(ck3GovernorshipName)} is null for {ck3Country.Id} {governorship.RegionName}!");
 							continue;
 						}
-						GiveCountyToGovernor(title, ck3GovernorshipName);
+						GiveCountyToGovernor(county, ck3GovernorshipName);
 					} else if (impMonarch is not null) {
-						GiveCountyToMonarch(title, ck3Country, (ulong)impMonarch);
+						GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
 					}
 				}
 			}
 
-			void GiveCountyToMonarch(Title title, Title ck3Country, ulong impMonarchId) {
-				var holderId = "imperator" + impMonarchId;
-				var date = ck3Country.GetDateOfLastHolderChange();
+			void GiveCountyToMonarch(Title county, Title ck3Country, ulong impMonarchId) {
+				var holderId = $"imperator{impMonarchId}";
+				var date = ck3Country.GetDateOfLastHolderChange()
 				if (Characters.TryGetValue(holderId, out var holder)) {
-					title.ClearHolderSpecificHistory();
-					title.SetHolderId(holder.Id, date);
+					county.ClearHolderSpecificHistory();
+					county.SetHolderId(holder, date);
 				} else {
-					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
-				title.SetDeFactoLiege(null, date);
+				county.SetDeFactoLiege(null, date);
 			}
 
-			void GiveCountyToGovernor(Title title, string ck3GovernorshipName) {
+			void GiveCountyToGovernor(Title county, string ck3GovernorshipName) {
 				var ck3Governorship = LandedTitles[ck3GovernorshipName];
-				var date = ck3Governorship.GetDateOfLastHolderChange();
-				var holderId = ck3Governorship.GetHolderId(date);
+				var holderChangeDate = ck3Governorship.GetDateOfLastHolderChange();
+				var holderId = ck3Governorship.GetHolderId(holderChangeDate);
 				if (Characters.TryGetValue(holderId, out var governor)) {
-					title.ClearHolderSpecificHistory();
-					title.SetHolderId(governor.Id, date);
+					county.ClearHolderSpecificHistory();
+					county.SetHolderId(governor.Id, holderChangeDate);
 				} else {
-					Logger.Warn($"Holder {holderId} of county {title.Name} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
-				title.SetDeFactoLiege(null, date);
+				county.DeFactoLiege = null;
 			}
-		}
-
-		private void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
-			Logger.Info("Removing invalid landless titles.");
-			var removedGeneratedTitles = new HashSet<string>();
-			var revokedVanillaTitles = new HashSet<string>();
-
-			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
-
-			// If duchy/kingdom/empire title holder holds no county (is landless), remove the title.
-			// This also removes landless titles initialized from Imperator.
-			foreach (var title in LandedTitles.StoredTitles.Where(t => t.Rank is not TitleRank.county and not TitleRank.barony)) {
-				if (countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
-					// holds counties
-					continue;
-				}
-
-				if (title.Landless) {
-					continue;
-				}
-
-				// does not have landless attribute set to true
-				if (title.IsImportedOrUpdatedFromImperator && title.Name.Contains("IMPTOCK3")) {
-					removedGeneratedTitles.Add(title.Name);
-					LandedTitles.EraseTitle(title.Name);
-				} else {
-					revokedVanillaTitles.Add(title.Name);
-					title.ClearHolderSpecificHistory();
-					title.SetDeFactoLiege(null, ck3BookmarkDate);
-				}
-			}
-			if (removedGeneratedTitles.Count > 0) {
-				Logger.Debug("Found landless generated titles that can't be landless: " + string.Join(", ", removedGeneratedTitles));
-			}
-			if (revokedVanillaTitles.Count > 0) {
-				Logger.Debug("Found landless vanilla titles that can't be landless: " + string.Join(", ", revokedVanillaTitles));
-			}
-		}
-
-		private HashSet<string> GetCountyHolderIds(Date ck3BookmarkDate) {
-			var countyHoldersCache = new HashSet<string>();
-			foreach (var county in LandedTitles.StoredTitles.Where(t => t.Rank == TitleRank.county)) {
-				var holderId = county.GetHolderId(ck3BookmarkDate);
-				if (holderId != "0") {
-					countyHoldersCache.Add(holderId);
-				}
-			}
-
-			return countyHoldersCache;
-		}
-
-		private void PurgeLandlessVanillaCharacters(Date ck3BookmarkDate) {
-			var farewellIds = new HashSet<string>(Characters.Keys);
-			foreach (var id in farewellIds) {
-				if (id.StartsWith("imperator")) {
-					farewellIds.Remove(id);
-				}
-			}
-			foreach (var title in LandedTitles.StoredTitles) {
-				farewellIds.Remove(title.GetHolderId(ck3BookmarkDate));
-			}
-
-			foreach (var characterId in farewellIds) {
-				Characters[characterId].BreakAllLinks();
-				Characters.Remove(characterId);
-			}
-			Logger.Info($"Purged {farewellIds.Count} landless vanilla characters.");
-		}
-
-		private void LinkSpouses() {
-			var spouseCounter = 0;
-			foreach (var ck3Character in Characters.Values) {
-				// make links between Imperator characters
-				if (ck3Character.ImperatorCharacter is null) {
-					// imperatorRegnal characters do not have ImperatorCharacter
-					continue;
-				}
-				foreach (var impSpouseCharacter in ck3Character.ImperatorCharacter.Spouses.Values) {
-					var ck3SpouseCharacter = impSpouseCharacter.CK3Character;
-					if (ck3SpouseCharacter is null) {
-						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
-						continue;
-					}
-					ck3Character.Spouses[ck3SpouseCharacter.Id] = ck3SpouseCharacter;
-					ck3SpouseCharacter.Spouses[ck3Character.Id] = ck3Character;
-					++spouseCounter;
-				}
-			}
-			Logger.Info($"{spouseCounter} spouses linked in CK3.");
-		}
-
-		private void LinkMothersAndFathers() {
-			var motherCounter = 0;
-			var fatherCounter = 0;
-			foreach (var ck3Character in Characters.Values) {
-				// make links between Imperator characters
-				if (ck3Character.ImperatorCharacter is null) {
-					// imperatorRegnal characters do not have ImperatorCharacter
-					continue;
-				}
-				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother.Value;
-				if (impMotherCharacter is not null) {
-					var ck3MotherCharacter = impMotherCharacter.CK3Character;
-					ck3Character.Mother = ck3MotherCharacter;
-					ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
-					++motherCounter;
-				}
-
-				// make links between Imperator characters
-				var impFatherCharacter = ck3Character.ImperatorCharacter.Father.Value;
-				if (impFatherCharacter is not null) {
-					var ck3FatherCharacter = impFatherCharacter.CK3Character;
-					ck3Character.Father = ck3FatherCharacter;
-					ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
-					++fatherCounter;
-				}
-			}
-			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");
-		}
-
-		private void ImportImperatorFamilies(Imperator.World impWorld) {
-			Logger.Info("Importing Imperator Families.");
-
-			// dynasties only holds dynasties converted from Imperator families, as vanilla ones aren't modified
-			foreach (var family in impWorld.Families.StoredFamilies.Values) {
-				if (family.Minor) {
-					continue;
-				}
-
-				var newDynasty = new Dynasty(family, localizationMapper);
-				Dynasties.Add(newDynasty.Id, newDynasty);
-			}
-			Logger.Info($"{Dynasties.Count} total families imported.");
 		}
 
 		private readonly CoaMapper coaMapper;

@@ -20,24 +20,12 @@ namespace ImperatorToCK3.Mappers.Religion {
 		private static readonly Parser parser = new();
 		private static ReligionMapping mappingToReturn = new();
 		static ReligionMapping() {
-			parser.RegisterKeyword("ck3", reader => {
-				mappingToReturn.ck3Religion = new SingleString(reader).String;
-			});
-			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.imperatorReligions.Add(new SingleString(reader).String);
-			});
-			parser.RegisterKeyword("ck3Region", reader => {
-				mappingToReturn.ck3Regions.Add(new SingleString(reader).String);
-			});
-			parser.RegisterKeyword("impRegion", reader => {
-				mappingToReturn.imperatorRegions.Add(new SingleString(reader).String);
-			});
-			parser.RegisterKeyword("ck3Province", reader => {
-				mappingToReturn.ck3Provinces.Add(new SingleULong(reader).ULong);
-			});
-			parser.RegisterKeyword("impProvince", reader => {
-				mappingToReturn.imperatorProvinces.Add(new SingleULong(reader).ULong);
-			});
+			parser.RegisterKeyword("ck3", reader => mappingToReturn.ck3Religion = reader.GetString());
+			parser.RegisterKeyword("imp", reader => mappingToReturn.imperatorReligions.Add(reader.GetString()));
+			parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
+			parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
+			parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
+			parser.RegisterKeyword("impProvince", reader => mappingToReturn.imperatorProvinces.Add(reader.GetULong()));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static ReligionMapping Parse(BufferedReader reader) {

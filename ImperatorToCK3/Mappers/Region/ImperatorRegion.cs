@@ -1,33 +1,44 @@
 ﻿using commonItems;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region {
-	public class ImperatorRegion : Parser {
-		public Dictionary<string, ImperatorArea?> Areas { get; } = new();
+	public class ImperatorRegion {
+		private readonly HashSet<string> parsedAreas = new();
+		public Dictionary<string, ImperatorArea> Areas { get; } = new();
+		public string Name { get; }
 
-		public ImperatorRegion(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+		public ImperatorRegion(string name, BufferedReader reader) {
+			Name = name;
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 		}
-		private void RegisterKeys() {
-			RegisterKeyword("areas", reader => {
-				foreach (var name in new StringList(reader).Strings) {
-					Areas.Add(name, null);
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterKeyword("areas", reader => {
+				foreach (var name in reader.GetStrings()) {
+					parsedAreas.Add(name);
 				}
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
+
 		public bool ContainsProvince(ulong province) {
-			foreach (var (_, area) in Areas) {
-				if (area is not null && area.ContainsProvince(province)) {
-					return true;
+			return Areas.Values.Any(area => area.ContainsProvince(province));
+		}
+
+		private void AddArea(string name, ImperatorArea area) {
+			Areas[name] = area;
+		}
+		public void LinkAreas(Dictionary<string, ImperatorArea> areasDict) {
+			foreach (var requiredAreaName in parsedAreas) {
+				if (areasDict.TryGetValue(requiredAreaName, out var area)) {
+					AddArea(requiredAreaName, area);
+				} else {
+					throw new KeyNotFoundException($"Region's {Name} area {requiredAreaName} does not exist!");
 				}
 			}
-			return false;
-		}
-		public void LinkArea(string name, ImperatorArea area) {
-			Areas[name] = area;
 		}
 	}
 }

@@ -1,16 +1,24 @@
 ﻿using commonItems;
+using commonItems.Collections;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters {
-	public class Character {
+	public class Character : IIdentifiable<ulong> {
 		public Character(ulong id) {
 			Id = id;
 		}
 		public ulong Id { get; } = 0;
+
 		private ulong? parsedCountryId;
-		public Countries.Country? Country { get; set; }
+		public Country? Country { get; set; }
+		private ulong? parsedHomeCountryId;
+		public Country? HomeCountry { get; set; }
+		private ulong? parsedPrisonerHomeId;
+		public Country? PrisonerHome { get; private set; }
+
 		private string culture = string.Empty;
 		public string Culture {
 			get {
@@ -29,12 +37,12 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? CustomName { get; set; }
 
 		// Returned value indicates whether a family was linked
-		internal bool LinkFamily(Families.Families families, SortedSet<ulong> missingDefinitionsSet) {
+		internal bool LinkFamily(FamilyCollection families, SortedSet<ulong> missingDefinitionsSet) {
 			if (parsedFamilyId is null) {
 				return false;
 			}
 			var familyId = (ulong)parsedFamilyId;
-			if (families.StoredFamilies.TryGetValue(familyId, out var familyToLink)) {
+			if (families.TryGetValue(familyId, out var familyToLink)) {
 				Family = familyToLink;
 				familyToLink.LinkMember(this);
 				return true;
@@ -46,7 +54,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 		public string? Nickname { get; set; }
 		public ulong ProvinceId { get; private set; } = 0;
-		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
+		public Date BirthDate { get; private set; } = new(1, 1, 1);
 		public Date? DeathDate { get; private set; }
 		public bool IsDead => DeathDate is not null;
 		public string? DeathReason { get; set; }
@@ -54,8 +62,10 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public Dictionary<ulong, Character> Spouses { get; set; } = new();
 		private HashSet<ulong> parsedChildrenIds = new();
 		public Dictionary<ulong, Character> Children { get; set; } = new();
-		public KeyValuePair<ulong, Character?> Mother { get; set; } = new();
-		public KeyValuePair<ulong, Character?> Father { get; set; } = new();
+		private ulong? parsedMotherId;
+		public Character? Mother { get; set; }
+		private ulong? parsedFatherId;
+		public Character? Father { get; set; }
 		private ulong? parsedFamilyId;
 		private Family? family;
 		public Family? Family {
@@ -75,18 +85,12 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
-					if (Female) {
-						return "female";
-					}
-					return "male";
+					return Female ? "female" : "male";
 				}
-				if (Female) {
-					return "girl";
-				}
-				return "boy";
+				return Female ? "girl" : "boy";
 			}
 		}
-		public ParadoxBool Female { get; private set; } = new(false);
+		public PDXBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
 
 		public CK3.Characters.Character? CK3Character { get; set; }
@@ -106,65 +110,33 @@ namespace ImperatorToCK3.Imperator.Characters {
 				parsedCharacter.Name = characterName.Name;
 				parsedCharacter.CustomName = characterName.CustomName;
 			});
-			parser.RegisterKeyword("country", reader => {
-				parsedCharacter.parsedCountryId = ParserHelpers.GetULong(reader);
-			});
-			parser.RegisterKeyword("province", reader => {
-				parsedCharacter.ProvinceId = ParserHelpers.GetULong(reader);
-			});
-			parser.RegisterKeyword("culture", reader => {
-				parsedCharacter.culture = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("religion", reader => {
-				parsedCharacter.Religion = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("female", reader =>
-				parsedCharacter.Female = new ParadoxBool(reader)
-			);
-			parser.RegisterKeyword("traits", reader => {
-				parsedCharacter.Traits = ParserHelpers.GetStrings(reader);
-			});
+			parser.RegisterKeyword("country", reader => parsedCharacter.parsedCountryId = reader.GetULong());
+			parser.RegisterKeyword("home_country", reader => parsedCharacter.parsedHomeCountryId = reader.GetULong());
+			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
+			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
+			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
+			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetPDXBool());
+			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
 			parser.RegisterKeyword("birth_date", reader => {
-				var dateStr = ParserHelpers.GetString(reader);
+				var dateStr = reader.GetString();
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
 			});
 			parser.RegisterKeyword("death_date", reader => {
-				var dateStr = ParserHelpers.GetString(reader);
+				var dateStr = reader.GetString();
 				parsedCharacter.DeathDate = new Date(dateStr, true); // converted to AD
 			});
-			parser.RegisterKeyword("death", reader => {
-				parsedCharacter.DeathReason = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("age", reader => {
-				parsedCharacter.Age = (uint)ParserHelpers.GetInt(reader);
-			});
-			parser.RegisterKeyword("nickname", reader => {
-				parsedCharacter.Nickname = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("family", reader => {
-				parsedCharacter.parsedFamilyId = ParserHelpers.GetULong(reader);
-			});
-			parser.RegisterKeyword("dna", reader => {
-				parsedCharacter.DNA = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("mother", reader => {
-				parsedCharacter.Mother = new(ParserHelpers.GetULong(reader), null);
-			});
-			parser.RegisterKeyword("father", reader => {
-				parsedCharacter.Father = new(ParserHelpers.GetULong(reader), null);
-			});
-			parser.RegisterKeyword("wealth", reader => {
-				parsedCharacter.Wealth = ParserHelpers.GetDouble(reader);
-			});
-			parser.RegisterKeyword("spouse", reader => {
-				parsedCharacter.parsedSpouseIds = ParserHelpers.GetULongs(reader).ToHashSet();
-			});
-			parser.RegisterKeyword("children", reader => {
-				parsedCharacter.parsedChildrenIds = ParserHelpers.GetULongs(reader).ToHashSet();
-			});
-			parser.RegisterKeyword("attributes", reader => {
-				parsedCharacter.Attributes = CharacterAttributes.Parse(reader);
-			});
+			parser.RegisterKeyword("death", reader => parsedCharacter.DeathReason = reader.GetString());
+			parser.RegisterKeyword("age", reader => parsedCharacter.Age = (uint)reader.GetInt());
+			parser.RegisterKeyword("nickname", reader => parsedCharacter.Nickname = reader.GetString());
+			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
+			parser.RegisterKeyword("dna", reader => parsedCharacter.DNA = reader.GetString());
+			parser.RegisterKeyword("mother", reader => parsedCharacter.parsedMotherId = reader.GetULong());
+			parser.RegisterKeyword("father", reader => parsedCharacter.parsedFatherId = reader.GetULong());
+			parser.RegisterKeyword("wealth", reader => parsedCharacter.Wealth = reader.GetDouble());
+			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
+			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
+			parser.RegisterKeyword("attributes", reader => parsedCharacter.Attributes = CharacterAttributes.Parse(reader));
+			parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.parsedPrisonerHomeId = reader.GetULong());
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);
@@ -184,7 +156,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns counter of linked spouses
-		public int LinkSpouses(Dictionary<ulong, Character> characters) {
+		public int LinkSpouses(CharacterCollection characters) {
 			var counter = 0;
 			foreach (var spouseId in parsedSpouseIds) {
 				if (characters.TryGetValue(spouseId, out var spouseToLink)) {
@@ -199,29 +171,58 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkCountry(Countries.Countries countries) {
+		public bool LinkCountry(CountryCollection countries) {
 			if (parsedCountryId is null) {
 				Logger.Warn($"Character {Id} has no country!");
 				return false;
 			}
 			var countryId = (ulong)parsedCountryId;
-			if (countries.StoredCountries.TryGetValue(countryId, out var countryToLink)) {
+			if (countries.TryGetValue(countryId, out var countryToLink)) {
 				Country = countryToLink;
-				return false;
+				Country.TryLinkMonarch(this);
+				return true;
 			}
 			Logger.Warn($"Country with ID {countryId} has no definition!");
 			return false;
 		}
 
-		// Returns whether a mother was linked
-		public bool LinkMother(Characters characters) {
-			var motherId = Mother.Key;
-			if (motherId == 0) {
+		// Returns whether a country was linked
+		public bool LinkHomeCountry(CountryCollection countries) {
+			if (parsedHomeCountryId is null) {
 				return false;
 			}
+			var homeCountryId = (ulong)parsedHomeCountryId;
+			if (countries.TryGetValue(homeCountryId, out var countryToLink)) {
+				HomeCountry = countryToLink;
+				return true;
+			}
+			Logger.Warn($"Country with ID {homeCountryId} has no definition!");
+			return false;
+		}
 
-			if (characters.TryGetCharacter(motherId, out var motherToLink)) {
-				Mother = new(motherId, motherToLink);
+		// Returns whether a country was linked
+		public bool LinkPrisonerHome(CountryCollection countries) {
+			if (parsedPrisonerHomeId is null) {
+				return false;
+			}
+			var prisonerHomeId = (ulong)parsedPrisonerHomeId;
+			if (countries.TryGetValue(prisonerHomeId, out var countryToLink)) {
+				PrisonerHome = countryToLink;
+				return true;
+			}
+			Logger.Warn($"Country with ID {prisonerHomeId} has no definition!");
+			return false;
+		}
+
+		// Returns whether a mother was linked
+		public bool LinkMother(CharacterCollection characters) {
+			if (parsedMotherId is null) {
+				return false;
+			}
+			ulong motherId = (ulong)parsedMotherId;
+
+			if (characters.TryGetValue(motherId, out var motherToLink)) {
+				Mother = motherToLink;
 				if (!motherToLink.parsedChildrenIds.Contains(Id)) {
 					Logger.Warn($"Only one-sided link found between character {Id} and mother {motherId}!");
 				}
@@ -233,14 +234,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a father was linked
-		public bool LinkFather(Characters characters) {
-			var fatherId = Father.Key;
-			if (fatherId == 0) {
+		public bool LinkFather(CharacterCollection characters) {
+			if (parsedFatherId is null) {
 				return false;
 			}
+			ulong fatherId = (ulong)parsedFatherId;
 
-			if (characters.TryGetCharacter(fatherId, out var fatherToLink)) {
-				Father = new(fatherId, fatherToLink);
+			if (characters.TryGetValue(fatherId, out var fatherToLink)) {
+				Father = fatherToLink;
 				if (!fatherToLink.parsedChildrenIds.Contains(Id)) {
 					Logger.Warn($"Only one-sided link found between character {Id} and father {fatherId}!");
 				}

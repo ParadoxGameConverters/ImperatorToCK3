@@ -10,18 +10,10 @@ namespace ImperatorToCK3.Imperator.Characters {
 		private static CharacterAttributes parsedAttributes = new();
 		private static readonly Parser parser = new();
 		static CharacterAttributes() {
-			parser.RegisterKeyword("martial", reader => {
-				parsedAttributes.Martial = new SingleInt(reader).Int;
-			});
-			parser.RegisterKeyword("finesse", reader => {
-				parsedAttributes.Finesse = new SingleInt(reader).Int;
-			});
-			parser.RegisterKeyword("charisma", reader => {
-				parsedAttributes.Charisma = new SingleInt(reader).Int;
-			});
-			parser.RegisterKeyword("zeal", reader => {
-				parsedAttributes.Zeal = new SingleInt(reader).Int;
-			});
+			parser.RegisterKeyword("martial", reader => parsedAttributes.Martial = reader.GetInt());
+			parser.RegisterKeyword("finesse", reader => parsedAttributes.Finesse = reader.GetInt());
+			parser.RegisterKeyword("charisma", reader => parsedAttributes.Charisma = reader.GetInt());
+			parser.RegisterKeyword("zeal", reader => parsedAttributes.Zeal = reader.GetInt());
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static CharacterAttributes Parse(BufferedReader reader) {

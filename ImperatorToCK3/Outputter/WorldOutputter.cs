@@ -5,17 +5,7 @@ using System.IO;
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
 		public static void OutputWorld(World ck3World, Configuration theConfiguration) {
-			var directoryToClear = "output/" + theConfiguration.OutputModName;
-			var di = new DirectoryInfo(directoryToClear);
-			if (di.Exists) {
-				Logger.Info("Clearing the output mod folder...");
-				foreach (FileInfo file in di.EnumerateFiles()) {
-					file.Delete();
-				}
-				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-					dir.Delete(true);
-				}
-			}
+			ClearOutputModFolder();
 
 			var outputName = theConfiguration.OutputModName;
 			CreateModFolder(outputName);
@@ -25,7 +15,7 @@ namespace ImperatorToCK3.Outputter {
 			CreateFolders(outputName);
 
 			Logger.Info("Writing Characters...");
-			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, theConfiguration.Ck3BookmarkDate);
+			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, ck3World.CorrectedDate);
 
 			Logger.Info("Writing Dynasties...");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
@@ -38,8 +28,11 @@ namespace ImperatorToCK3.Outputter {
 				outputName,
 				ck3World.LandedTitles,
 				theConfiguration.ImperatorDeJure,
-				theConfiguration.Ck3BookmarkDate
+				ck3World.CorrectedDate
 			);
+
+			Logger.Info("Writing Succession Triggers...");
+			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles);
 
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
@@ -49,17 +42,17 @@ namespace ImperatorToCK3.Outputter {
 				theConfiguration.ImperatorDeJure
 			);
 
-			var outputPath = "output/" + theConfiguration.OutputModName;
+			var outputPath = $"output/{theConfiguration.OutputModName}";
 
 			Logger.Info("Copying named colors...");
-			SystemUtils.TryCopyFile(theConfiguration.ImperatorPath + "/game/common/named_colors/default_colors.txt",
-									 outputPath + "/common/named_colors/imp_colors.txt");
+			SystemUtils.TryCopyFile($"{theConfiguration.ImperatorPath}/game/common/named_colors/default_colors.txt",
+									 $"{outputPath}/common/named_colors/imp_colors.txt");
 
 			Logger.Info("Copying Coats of Arms...");
 			ColoredEmblemsOutputter.CopyColoredEmblems(theConfiguration, outputName);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
-			SystemUtils.TryCopyFolder(theConfiguration.ImperatorPath + "/game/gfx/coat_of_arms/patterns",
-							outputPath + "/gfx/coat_of_arms/patterns");
+			SystemUtils.TryCopyFolder($"{theConfiguration.ImperatorPath}/game/gfx/coat_of_arms/patterns",
+							$"{outputPath}/gfx/coat_of_arms/patterns");
 
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder("blankMod/output", outputPath);
@@ -69,10 +62,26 @@ namespace ImperatorToCK3.Outputter {
 				ck3World,
 				theConfiguration
 			);
+
+			void ClearOutputModFolder() {
+				var directoryToClear = $"output/{theConfiguration.OutputModName}";
+				var di = new DirectoryInfo(directoryToClear);
+				if (!di.Exists) {
+					return;
+				}
+
+				Logger.Info("Clearing the output mod folder...");
+				foreach (FileInfo file in di.EnumerateFiles()) {
+					file.Delete();
+				}
+				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
+					dir.Delete(true);
+				}
+			}
 		}
 
 		private static void OutputModFile(string outputName) {
-			using var modFile = new StreamWriter("output/" + outputName + ".mod");
+			using var modFile = new StreamWriter($"output/{outputName}.mod");
 			modFile.WriteLine($"name = \"Converted - {outputName}\"");
 			modFile.WriteLine($"path = \"mod/{outputName}\"");
 			modFile.WriteLine("replace_path = \"common/landed_titles\"");
@@ -87,33 +96,34 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void CreateFolders(string outputName) {
-			SystemUtils.TryCreateFolder("output/" + outputName + "/history");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/history/titles");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/history/characters");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/history/provinces");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/history/province_mapping");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common/bookmarks");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common/bookmark_portraits");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common/coat_of_arms");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common/coat_of_arms/coat_of_arms");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common/dynasties");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common/landed_titles");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/common/named_colors");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace/english");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace/french");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace/german");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace/russian");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace/simp_chinese");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/localization/replace/spanish");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/colored_emblems");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/coat_of_arms/patterns");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/interface");
-			SystemUtils.TryCreateFolder("output/" + outputName + "/gfx/interface/bookmarks");
+			SystemUtils.TryCreateFolder($"output/{outputName}/history");
+			SystemUtils.TryCreateFolder($"output/{outputName}/history/titles");
+			SystemUtils.TryCreateFolder($"output/{outputName}/history/characters");
+			SystemUtils.TryCreateFolder($"output/{outputName}/history/provinces");
+			SystemUtils.TryCreateFolder($"output/{outputName}/history/province_mapping");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/bookmarks");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/bookmark_portraits");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/coat_of_arms");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/coat_of_arms/coat_of_arms");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/dynasties");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/landed_titles");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/named_colors");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/scripted_triggers");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization/replace");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization/replace/english");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization/replace/french");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization/replace/german");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization/replace/russian");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization/replace/simp_chinese");
+			SystemUtils.TryCreateFolder($"output/{outputName}/localization/replace/spanish");
+			SystemUtils.TryCreateFolder($"output/{outputName}/gfx");
+			SystemUtils.TryCreateFolder($"output/{outputName}/gfx/coat_of_arms");
+			SystemUtils.TryCreateFolder($"output/{outputName}/gfx/coat_of_arms/colored_emblems");
+			SystemUtils.TryCreateFolder($"output/{outputName}/gfx/coat_of_arms/patterns");
+			SystemUtils.TryCreateFolder($"output/{outputName}/gfx/interface");
+			SystemUtils.TryCreateFolder($"output/{outputName}/gfx/interface/bookmarks");
 		}
 	}
 }

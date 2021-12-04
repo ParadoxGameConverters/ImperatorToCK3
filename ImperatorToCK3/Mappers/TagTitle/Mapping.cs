@@ -20,15 +20,9 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		private static readonly Parser parser = new();
 		private static Mapping mappingToReturn = new();
 		static Mapping() {
-			parser.RegisterKeyword("ck3", reader => {
-				mappingToReturn.ck3Title = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.imperatorTagOrRegion = ParserHelpers.GetString(reader);
-			});
-			parser.RegisterKeyword("rank", reader => {
-				mappingToReturn.ranks.Add(ParserHelpers.GetString(reader));
-			});
+			parser.RegisterKeyword("ck3", reader => mappingToReturn.ck3Title = reader.GetString());
+			parser.RegisterKeyword("imp", reader => mappingToReturn.imperatorTagOrRegion = reader.GetString());
+			parser.RegisterKeyword("rank", reader => mappingToReturn.ranks.Add(reader.GetString()));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static Mapping Parse(BufferedReader reader) {

@@ -13,7 +13,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 
 		public ProvinceDetails() { }
 		public ProvinceDetails(ProvinceDetails otherDetails) {
-			this.Culture = otherDetails.Culture;
+			Culture = otherDetails.Culture;
 			Religion = otherDetails.Religion;
 			Holding = otherDetails.Holding;
 			Buildings = new List<string>(otherDetails.Buildings);
@@ -53,15 +53,11 @@ namespace ImperatorToCK3.CK3.Provinces {
 			}
 		}
 
-		private static readonly HistoryFactory historyFactory = new(
-			simpleFieldDefs: new() {
-				new() { FieldName = "culture", Setter = "culture", InitialValue = null },
-				new() { FieldName = "religion", Setter = "religion", InitialValue = null },
-				new() { FieldName = "holding", Setter = "holding", InitialValue = "none" }
-			},
-			containerFieldDefs: new() {
-				new() { FieldName = "buildings", Setter = "buildings", InitialValue = new() }
-			}
-		);
+		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
+			.WithSimpleField("culture", "culture", null)
+			.WithSimpleField("religion", "religion", null)
+			.WithSimpleField("holding", "holding", "none")
+			.WithContainerField("buildings", "buildings", new())
+			.Build();
 	}
 }
