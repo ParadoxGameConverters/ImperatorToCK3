@@ -14,6 +14,7 @@ namespace ImperatorToCK3.Helpers {
 			string arguments = $"melt --unknown-key stringify \"{savePath}\"";
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
 				executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-apple-darwin/rakaly";
+				process.StartInfo.UseShellExecute = true;
 			} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
 				executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-unknown-linux-musl/rakaly";
 				Exec($"chmod +x {currentDir}/{executablePath}");
