@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -204,14 +205,16 @@ namespace ImperatorToCK3.CK3.Titles {
 		}
 
 		public void ImportImperatorGovernorships(
-				Imperator.World impWorld,
-				TagTitleMapper tagTitleMapper,
-				LocalizationMapper localizationMapper,
-				ProvinceMapper provinceMapper,
-				DefiniteFormMapper definiteFormMapper,
-				ImperatorRegionMapper imperatorRegionMapper,
-				CoaMapper coaMapper,
-				List<Governorship> countyLevelGovernorships) {
+			Imperator.World impWorld,
+			ProvinceCollection provinces,
+			TagTitleMapper tagTitleMapper,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ImperatorRegionMapper imperatorRegionMapper,
+			CoaMapper coaMapper,
+			List<Governorship> countryLevelGovernorships
+		) {
 			Logger.Info("Importing Imperator Governorships...");
 
 			var governorships = impWorld.Jobs.Governorships;
@@ -227,6 +230,8 @@ namespace ImperatorToCK3.CK3.Titles {
 				ImportImperatorGovernorship(
 					governorship,
 					imperatorCountries,
+					this,
+					provinces,
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
 					tagTitleMapper,
@@ -235,16 +240,17 @@ namespace ImperatorToCK3.CK3.Titles {
 					definiteFormMapper,
 					imperatorRegionMapper,
 					coaMapper,
-					countyLevelGovernorships
+					countryLevelGovernorships
 				);
 				++counter;
 			}
 			Logger.Info($"Imported {counter} governorships from I:R.");
-			Logger.Notice(string.Join(";;;", countyLevelGovernorships.Select(g => g.CharacterId.ToString() + g.RegionName)));
 		}
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
 			CountryCollection imperatorCountries,
+			LandedTitles titles,
+			ProvinceCollection provinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			TagTitleMapper tagTitleMapper,
@@ -253,16 +259,18 @@ namespace ImperatorToCK3.CK3.Titles {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
-			List<Governorship> countyLevelGovernorships) {
+			ICollection<Governorship> countryLevelGovernorships
+		) {
 			var country = imperatorCountries[governorship.CountryId];
 
-			var name = Title.DetermineName(governorship, country, tagTitleMapper);
+			var name = Title.DetermineName(governorship, country, titles, provinces, imperatorRegionMapper, tagTitleMapper);
 			if (name is null) {
-				if (country.CK3Title?.Rank == TitleRank.duchy) {
-					countyLevelGovernorships.Add(governorship);
-				} else {
-					Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
-				}
+				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
+				return;
+			}
+
+			if (name.StartsWith('c')) {
+				countryLevelGovernorships.Add(governorship);
 				return;
 			}
 

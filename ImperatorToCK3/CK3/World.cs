@@ -75,9 +75,18 @@ namespace ImperatorToCK3.CK3 {
 				nicknameMapper,
 				Characters
 			);
+
+			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
+			// Some of it will be overwritten, but not all.
+			Provinces.ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
+
+			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
+			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
+
 			var countyLevelGovernorships = new List<Governorship>();
 			LandedTitles.ImportImperatorGovernorships(
 				impWorld,
+				Provinces,
 				tagTitleMapper,
 				localizationMapper,
 				provinceMapper,
@@ -86,13 +95,6 @@ namespace ImperatorToCK3.CK3 {
 				coaMapper,
 				countyLevelGovernorships
 			);
-
-			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
-			// Some of it will be overwritten, but not all.
-			Provinces.ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
-
-			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
 
 			Characters.ImportImperatorCharacters(
 				impWorld,
@@ -110,7 +112,7 @@ namespace ImperatorToCK3.CK3 {
 
 			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, CorrectedDate);
+			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, theConfiguration.Ck3BookmarkDate);
@@ -149,7 +151,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, Date conversionDate) {
+		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, IReadOnlyCollection<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
 			Logger.Info("Overwriting counties' history...");
 			foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
@@ -159,7 +161,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 
 				if (!Provinces.ContainsKey(capitalBaronyProvinceId)) {
-					Logger.Warn($"Capital barony province not found: {county.CapitalBaronyProvince}");
+					Logger.Warn($"Capital barony province not found: {capitalBaronyProvinceId}");
 					continue;
 				}
 
@@ -242,12 +244,17 @@ namespace ImperatorToCK3.CK3 {
 
 				// give county to governor
 				var governorship = matchingGovernorships[0];
-				var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, impCountry.Tag, ck3Country.Id);
+				var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, impCountry, LandedTitles, Provinces, imperatorRegionMapper);
 				if (ck3GovernorshipId is null) {
 					Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country.Id} {governorship.RegionName}!");
 					return false;
 				}
-				GiveCountyToGovernor(county, ck3GovernorshipId);
+
+				if (countyLevelGovernorships.Contains(governorship)) {
+					GiveCountyToCountyLevelGovernor(county, governorship, ck3Country);
+				} else {
+					GiveCountyToGovernor(county, ck3GovernorshipId);
+				}
 				return true;
 			}
 
@@ -258,14 +265,22 @@ namespace ImperatorToCK3.CK3 {
 				if (Characters.TryGetValue(holderId, out var governor)) {
 					county.ClearHolderSpecificHistory();
 					county.SetHolder(governor, holderChangeDate);
-					Logger.Notice($"GIVING {county.Id} TO {ck3GovernorshipId}");
 				} else {
 					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
 				county.DeFactoLiege = null;
 			}
 
-			//void GiveCountyToCountyLevelGovernor(Title county); #TODO
+			void GiveCountyToCountyLevelGovernor(Title county, Governorship governorship, Title ck3Country) {
+				var holderChangeDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
+				var impGovernor = impCharacters[governorship.CharacterId];
+				var governor = impGovernor.CK3Character;
+
+				county.ClearHolderSpecificHistory();
+				county.SetHolder(governor, holderChangeDate);
+				Logger.Notice($"GIVING {county.Id} OF {governorship.CountryId}_{governorship.RegionName} TO {ck3Country.Id}");
+				county.DeFactoLiege = ck3Country;
+			}
 		}
 
 		private readonly CoaMapper coaMapper;

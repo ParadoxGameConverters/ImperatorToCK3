@@ -16,6 +16,9 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 			ParseStream(reader);
 			ClearRegisteredRules();
 		}
+
+		public SuccessionLawMapper() { }
+
 		private void RegisterKeys() {
 			RegisterKeyword("link", reader => {
 				var mapping = new SuccessionLawMapping(reader);

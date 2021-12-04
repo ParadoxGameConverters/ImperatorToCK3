@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -249,11 +250,11 @@ namespace ImperatorToCK3.CK3.Titles {
 
 			return title;
 		}
-		public static string? DetermineName(Governorship governorship, Country country, TagTitleMapper tagTitleMapper) {
+		public static string? DetermineName(Governorship governorship, Country country, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper) {
 			if (country.CK3Title is null) {
 				throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: country has no CK3Title!");
 			}
-			return tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Id);
+			return tagTitleMapper.GetTitleForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
 		}
 
 		public void InitializeFromGovernorship(Governorship governorship,

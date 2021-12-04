@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Mappers.CoA {
-	public class CoaMapper : Parser {
+	public class CoaMapper {
+		public CoaMapper() { }
 		public CoaMapper(Configuration theConfiguration) {
 			var coasPath = Path.Combine(theConfiguration.ImperatorPath, "game", "common", "coat_of_arms", "coat_of_arms");
 			var fileNames = SystemUtils.GetAllFilesInFolderRecursive(coasPath);
-			Logger.Info("Parsing CoAs.");
-			RegisterKeys();
+			Logger.Info("Parsing CoAs...");
+			var parser = new Parser();
+			RegisterKeys(parser);
 			foreach (var fileName in fileNames) {
-				ParseFile(Path.Combine(coasPath, fileName));
+				parser.ParseFile(Path.Combine(coasPath, fileName));
 			}
-			ClearRegisteredRules();
-			Logger.Info("Loaded " + coasMap.Count + " coats of arms.");
+			Logger.Info($"Loaded {coasMap.Count} coats of arms.");
 		}
 		public CoaMapper(string coaFilePath) {
-			RegisterKeys();
-			ParseFile(coaFilePath);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile(coaFilePath);
 		}
-		private void RegisterKeys() {
-			RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
-			RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap.Add(flagName, new StringOfItem(reader).ToString()));
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
+			parser.RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap.Add(flagName, reader.GetStringOfItem().ToString()));
 		}
 
 		public string? GetCoaForFlagName(string impFlagName) {

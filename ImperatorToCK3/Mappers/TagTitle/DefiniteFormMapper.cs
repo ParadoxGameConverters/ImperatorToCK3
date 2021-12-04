@@ -9,6 +9,10 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(configurablePath);
 		}
+
+		public DefiniteFormMapper() {
+		}
+
 		public bool IsDefiniteForm(string imperatorCountryName) {
 			return impCountryNamesWithDefiniteForm.Contains(imperatorCountryName);
 		}

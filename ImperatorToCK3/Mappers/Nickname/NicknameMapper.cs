@@ -17,6 +17,10 @@ namespace ImperatorToCK3.Mappers.Nickname {
 			ParseStream(reader);
 			ClearRegisteredRules();
 		}
+
+		public NicknameMapper() {
+		}
+
 		private void RegisterKeys() {
 			RegisterKeyword("link", reader => {
 				var mapping = new NicknameMapping(reader);
