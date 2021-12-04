@@ -22,7 +22,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private Country country = new(0);
 			private CountryCollection imperatorCountries = new();
 			private LocalizationMapper localizationMapper = new();
-			private Title.LandedTitles landedTitles = new();
+			private readonly Title.LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
 			private CoaMapper coaMapper = new("TestFiles/CoatsOfArms.txt");
 			private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
