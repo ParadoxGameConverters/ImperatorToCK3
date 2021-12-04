@@ -92,6 +92,7 @@ public partial class Title {
 		}
 
 		public Title Add(
+			string id,
 			Governorship governorship,
 			Country country,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -99,11 +100,11 @@ public partial class Title {
 			LocalizationMapper localizationMapper,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
-			TagTitleMapper tagTitleMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper
 		) {
 			var newTitle = new Title(this,
+				id,
 				governorship,
 				country,
 				imperatorCharacters,
@@ -111,7 +112,6 @@ public partial class Title {
 				localizationMapper,
 				provinceMapper,
 				coaMapper,
-				tagTitleMapper,
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
@@ -220,7 +220,7 @@ public partial class Title {
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters) {
 			// Create a new title or update existing title
-			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
+			var name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
@@ -340,6 +340,7 @@ public partial class Title {
 				);
 			} else {
 				Add(
+					name,
 					governorship,
 					country,
 					imperatorCharacters,
@@ -347,7 +348,6 @@ public partial class Title {
 					localizationMapper,
 					provinceMapper,
 					coaMapper,
-					tagTitleMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
 				);

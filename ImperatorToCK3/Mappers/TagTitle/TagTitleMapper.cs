@@ -57,7 +57,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank) {
 			return GetTitleForTag(imperatorTag, countryRank, string.Empty);
 		}
-		public string? GetTitleForGovernorship(Governorship governorship, Country country, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
+		public string? GetTitleForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
 			if (country.CK3Title is null) {
 				Logger.Warn($"Country {country.Tag} has no associated CK3 title!");
 				return null;
@@ -102,7 +102,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			return generatedTitle;
 		}
 
-		private string? GetCountyForGovernorship(Governorship governorship, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
+		private string? GetCountyForGovernorship(Governorship governorship, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
 			foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
 				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
 				if (capitalBaronyProvinceId == 0) {

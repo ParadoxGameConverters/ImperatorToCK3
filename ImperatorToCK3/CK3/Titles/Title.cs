@@ -62,8 +62,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			characters
 		);
 	}
-	private Title(
-		LandedTitles parentCollection,
+	private Title(LandedTitles parentCollection,
+		string id,
 		Governorship governorship,
 		Country country,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -71,12 +71,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		LocalizationMapper localizationMapper,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
-		TagTitleMapper tagTitleMapper,
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
 		this.parentCollection = parentCollection;
-		Id = DetermineName(governorship, country, tagTitleMapper, localizationMapper);
+		Id = id;
 		SetRank();
 		InitializeFromGovernorship(
 			governorship,
@@ -471,7 +470,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		private set => CapitalCountyId = value?.Id;
 	}
 
-
 	[NonSerialized] public Country? ImperatorCountry { get; private set; }
 
 	[SerializedName("color")] public Color? Color1 { get; private set; }
@@ -678,12 +676,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		bool needsToBeOutput = false;
 		var sb = new StringBuilder();
 
-		sb.AppendLine($"{Id} = {{");
+		sb.Append(Id).AppendLine("={");
 
 		if (history.InternalHistory.Fields.ContainsKey("holder")) {
 			needsToBeOutput = true;
 			foreach (var (date, holderId) in history.InternalHistory.Fields["holder"].ValueHistory) {
-				sb.AppendLine($"\t{date} = {{ holder = {holderId} }}");
+				sb.AppendLine($"\t{date}={{holder={holderId}}}");
 			}
 		}
 
@@ -692,11 +690,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var initialGovernment = govField.InitialValue;
 			if (initialGovernment is not null) {
 				needsToBeOutput = true;
-				sb.AppendLine($"\t\tgovernment = {initialGovernment}");
+				sb.AppendLine($"\t\tgovernment={initialGovernment}");
 			}
 			foreach (var (date, government) in govField.ValueHistory) {
 				needsToBeOutput = true;
-				sb.AppendLine($"\t{date} = {{ government = {government} }}");
+				sb.AppendLine($"\t{date}={{government={government}}}");
 			}
 		}
 
@@ -704,13 +702,13 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		if (DeFactoLiege is not null) {
 			needsToBeOutput = true;
-			sb.AppendLine($"\t\tliege = {DeFactoLiege.Id}");
+			sb.AppendLine($"\t\tliege={DeFactoLiege.Id}");
 		}
 
 		var succLaws = SuccessionLaws;
 		if (succLaws.Count > 0) {
 			needsToBeOutput = true;
-			sb.AppendLine("\t\tsuccession_laws = {");
+			sb.AppendLine("\t\tsuccession_laws={");
 			foreach (var law in succLaws) {
 				sb.AppendLine($"\t\t\t{law}");
 			}
@@ -721,7 +719,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var developmentLevelOpt = DevelopmentLevel;
 			if (developmentLevelOpt is not null) {
 				needsToBeOutput = true;
-				sb.AppendLine($"\t\tchange_development_level = {developmentLevelOpt}");
+				sb.AppendLine($"\t\tchange_development_level={developmentLevelOpt}");
 			}
 		}
 

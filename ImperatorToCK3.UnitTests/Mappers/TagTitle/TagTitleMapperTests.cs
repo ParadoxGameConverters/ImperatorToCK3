@@ -38,7 +38,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			mapper.RegisterTag("ROM", "e_roman_empire");
 
 			var impCountries = new CountryCollection(new BufferedReader(" 1={tag=ROM}"));
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.ImportImperatorCountries(impCountries,
 				mapper,
 				new LocalizationMapper(),
@@ -85,7 +85,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			mapper.RegisterTag("DRE", "k_dre_empire");
 
 			var impCountries = new CountryCollection(new BufferedReader(" 1={tag=ROM} 2={tag=DRE}"));
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.ImportImperatorCountries(impCountries,
 				mapper,
 				new LocalizationMapper(),
@@ -126,7 +126,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
 			var country = new Country(1);
 			var apuliaGov = new Governorship(new BufferedReader("who=1 governorship=apulia_region"));
-			var match = mapper.GetTitleForGovernorship(apuliaGov, country, new LandedTitles(), new ProvinceCollection(), new ImperatorRegionMapper());
+			var match = mapper.GetTitleForGovernorship(apuliaGov, country, new Title.LandedTitles(), new ProvinceCollection(), new ImperatorRegionMapper());
 
 			Assert.Null(match);
 			Assert.Contains("[WARN] Country  has no associated CK3 title!", output.ToString());
@@ -146,7 +146,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			mapper.RegisterTag("BOR", "e_roman_empire");
 
 			var impCountries = new CountryCollection(new BufferedReader(" 1={tag=BOR}"));
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.ImportImperatorCountries(impCountries,
 				mapper,
 				new LocalizationMapper(),
