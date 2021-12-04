@@ -20,6 +20,7 @@ namespace ImperatorToCK3.Helpers {
 			process.StartInfo.FileName = executablePath;
 			process.StartInfo.Arguments = arguments;
 			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.WorkingDirectory = CommonFunctions.GetPath(executablePath);
 			process.Start();
 
 			process.WaitForExit();
