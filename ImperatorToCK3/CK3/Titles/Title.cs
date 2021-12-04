@@ -657,7 +657,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				CapitalBaronyProvince = baronyProvinceId;
 				break;
 			}
-			AddCountyProvince(baronyProvinceId); // add found baronies' provinces to countyProvinces
 		}
 	}
 
@@ -793,15 +792,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	// used by county titles only
-	public void AddCountyProvince(ulong provinceId) {
-		CountyProvinces.Add(provinceId);
-	}
-	[NonSerialized] public SortedSet<ulong> CountyProvinces { get; } = new();
-	[NonSerialized] public string CapitalBaronyId { get; private set; } = string.Empty; // used when parsing inside county to save first barony
+	[NonSerialized] public IEnumerable<ulong> CountyProvinces => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
+	[NonSerialized] private string CapitalBaronyId { get; set; } = string.Empty; // used when parsing inside county to save first barony
 	[NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
 
 	// used by barony titles only
-	[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_ barony is its corresponding title.
+	[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_barony is its corresponding title.
 
 	public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {
 		history.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);

@@ -98,8 +98,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void CapitalsAreLinked() {
 			var reader = new BufferedReader(
-				"e_empire = { capital=c_county " +
-				"k_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } } " +
+				"e_empire = {" +
+				"\tcapital=c_county " +
+				"\tk_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } } " +
 				"}"
 			);
 			var titles = new Title.LandedTitles();

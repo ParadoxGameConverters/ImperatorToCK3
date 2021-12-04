@@ -48,14 +48,14 @@ public partial class Title {
 		}
 
 		public Title Add(string id) {
-			if (!string.IsNullOrEmpty(id)) {
-				var newTitle = new Title(this, id);
-				dict.Add(newTitle.Id, newTitle);
-				newTitle.LinkCapital();
-				return newTitle;
+			if (string.IsNullOrEmpty(id)) {
+				throw new ArgumentException("Not inserting a Title with empty id!");
 			}
 
-			throw new ArgumentException("Not inserting a Title with empty id!");
+			var newTitle = new Title(this, id);
+			dict[newTitle.Id] = newTitle;
+			newTitle.LinkCapital();
+			return newTitle;
 		}
 
 		public Title Add(
@@ -88,7 +88,7 @@ public partial class Title {
 				nicknameMapper,
 				characters
 			);
-			dict.Add(newTitle.Id, newTitle);
+			dict[newTitle.Id] = newTitle;
 			return newTitle;
 		}
 
@@ -116,7 +116,7 @@ public partial class Title {
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
-			dict.Add(newTitle.Id, newTitle);
+			dict[newTitle.Id] = newTitle;
 			return newTitle;
 		}
 		public override void Remove(string name) {
@@ -160,7 +160,7 @@ public partial class Title {
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-				var newTitle = new Title(this, titleNameStr);
+				var newTitle = Add(titleNameStr);
 				newTitle.LoadTitles(reader, parser.Variables);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

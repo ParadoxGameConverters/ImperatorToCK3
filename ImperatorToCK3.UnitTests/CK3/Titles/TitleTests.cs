@@ -346,17 +346,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void DuchyContainsProvinceWhenTitleIsNotDuchy() {
+		public void DuchyContainsProvinceReturnsFalseWhenTitleIsNotDuchy() {
 			var titles = new Title.LandedTitles();
+			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.CountyProvinces.Add(69);
-			Assert.False(county.DuchyContainsProvince(69));
+			county.LoadTitles(countyReader, null);
+			Assert.False(county.DuchyContainsProvince(1));
 		}
 		[Fact]
 		public void DuchyContainsProvinceCorrectlyReturnsTrue() {
 			var titles = new Title.LandedTitles();
+			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.CountyProvinces.Add(1);
+			county.LoadTitles(countyReader, null);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			Assert.True(duchy.DuchyContainsProvince(1));
@@ -364,25 +366,28 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void DuchyContainsProvinceCorrectlyReturnsFalse() {
 			var titles = new Title.LandedTitles();
+			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.CountyProvinces.Add(1);
+			county.LoadTitles(countyReader, null);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
-			Assert.False(duchy.DuchyContainsProvince(2));
+			Assert.False(duchy.DuchyContainsProvince(2)); // wrong id
 		}
 
 		[Fact]
 		public void KingdomContainsProvinceWhenTitleIsNotKingdom() {
 			var titles = new Title.LandedTitles();
+			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.CountyProvinces.Add(69);
-			Assert.False(county.KingdomContainsProvince(69));
+			county.LoadTitles(countyReader, null);
+			Assert.False(county.KingdomContainsProvince(1));
 		}
 		[Fact]
 		public void KingdomContainsProvinceCorrectlyReturnsTrue() {
 			var titles = new Title.LandedTitles();
+			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.CountyProvinces.Add(1);
+			county.LoadTitles(countyReader, null);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			var kingdom = titles.Add("k_kingdom");
@@ -392,8 +397,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void KingdomContainsProvinceCorrectlyReturnsFalse() {
 			var titles = new Title.LandedTitles();
+			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.CountyProvinces.Add(1);
+			county.LoadTitles(countyReader, null);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			var kingdom = titles.Add("k_kingdom");
