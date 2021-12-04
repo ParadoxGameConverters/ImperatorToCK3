@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class CoatOfArmsOutputter {
-		public static void OutputCoas(string outputModName, LandedTitles titles) {
+		public static void OutputCoas(string outputModName, Title.LandedTitles titles) {
 			// dumping all into one file
 			var path = $"output/{outputModName}/common/coat_of_arms/coat_of_arms/fromImperator.txt";
 			using var output = new StreamWriter(path);

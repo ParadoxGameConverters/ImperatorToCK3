@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class SuccessionTriggersOutputter {
-		public static void OutputSuccessionTriggers(string outputModName, LandedTitles landedTitles) {
+		public static void OutputSuccessionTriggers(string outputModName, Title.LandedTitles landedTitles) {
 			var outputPath = Path.Combine("output", outputModName, "common/scripted_triggers/IRToCK3_succession_triggers.txt");
 
 			using var outputStream = File.OpenWrite(outputPath);

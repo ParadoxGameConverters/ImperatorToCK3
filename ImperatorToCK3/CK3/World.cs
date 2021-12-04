@@ -27,7 +27,7 @@ namespace ImperatorToCK3.CK3 {
 		public CharacterCollection Characters { get; } = new();
 		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
-		public LandedTitles LandedTitles { get; } = new();
+		public Title.LandedTitles LandedTitles { get; } = new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
