@@ -129,11 +129,15 @@
     </None>
   </ItemGroup>
 
+
+	<ItemGroup>
+		<RakalyBinaryFiles Include="../ImperatorToCK3/Resources/rakaly/**/*.*" />
+	</ItemGroup>
 	<ItemGroup>
 		<TestFiles Include="TestFiles/**/*.*" />
 	</ItemGroup>
-
 	<Target Name="CopyCustomContent" AfterTargets="Build">
+		<Copy SourceFiles="@(RakalyBinaryFiles)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutDir)\TestFiles\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 </Project>

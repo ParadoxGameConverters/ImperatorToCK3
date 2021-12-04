@@ -2,19 +2,20 @@
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3RegionMapper {
 		public CK3RegionMapper() { }
-		public CK3RegionMapper(string ck3Path, LandedTitles landedTitles) {
-			Logger.Info("Initializing Geography.");
+		public CK3RegionMapper(string ck3Path, Title.LandedTitles landedTitles) {
+			Logger.Info("Initializing Geography...");
 
 			var regionFilePath = Path.Combine(ck3Path, "game/map_data/geographical_region.txt");
 			var islandRegionFilePath = Path.Combine(ck3Path, "game/map_data/island_region.txt");
 
 			LoadRegions(landedTitles, regionFilePath, islandRegionFilePath);
 		}
-		public void LoadRegions(LandedTitles landedTitles, string regionFilePath, string islandRegionFilePath) {
+		public void LoadRegions(Title.LandedTitles landedTitles, string regionFilePath, string islandRegionFilePath) {
 			var parser = new Parser();
 			RegisterRegionKeys(parser);
 			parser.ParseFile(regionFilePath);

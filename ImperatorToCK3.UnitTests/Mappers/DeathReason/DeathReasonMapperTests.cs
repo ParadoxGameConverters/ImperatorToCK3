@@ -36,5 +36,16 @@ namespace ImperatorToCK3.UnitTests.Mappers.DeathReason {
 			var ck3Reason2 = mapper.GetCK3ReasonForImperatorReason("impReason2");
 			Assert.Equal("ck3Reason2", ck3Reason2);
 		}
+
+		[Fact]
+		public void MappingsWithNoCK3ReasonAreIgnored() {
+			var reader = new BufferedReader(
+				"link = { imp = impReason }"
+			);
+			var mapper = new DeathReasonMapper(reader);
+
+			var ck3Reason = mapper.GetCK3ReasonForImperatorReason("impReason");
+			Assert.Null(ck3Reason);
+		}
 	}
 }
