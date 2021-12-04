@@ -7,11 +7,12 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers {
 	public static class RakalyCaller {
 		public static void MeltSave(string savePath) {
-			string executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-pc-windows-msvc/rakaly.exe";
+			string currentDir = Directory.GetCurrentDirectory();
+			string executablePath = $"{currentDir}/Resources/rakaly/rakaly-0.3.15-x86_64-pc-windows-msvc/rakaly.exe";
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-				executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-apple-darwin/rakaly";
+				executablePath = $"{currentDir}/Resources/rakaly/rakaly-0.3.15-x86_64-apple-darwin/rakaly";
 			} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-				executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-unknown-linux-musl/rakaly";
+				executablePath = $"{currentDir}/Resources/rakaly/rakaly-0.3.15-x86_64-unknown-linux-musl/rakaly";
 			}
 			string arguments = $"melt --unknown-key stringify \"{savePath}\"";
 			using Process process = new();
