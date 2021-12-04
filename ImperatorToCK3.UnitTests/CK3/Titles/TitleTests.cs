@@ -266,16 +266,16 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var empire = titles.Add("e_empire");
 
 			var kingdom1 = titles.Add("k_kingdom1");
-			kingdom1.DeJureLiege = empire;
+			kingdom1.DeFactoLiege = empire;
 
 			var kingdom2 = titles.Add("k_kingdom2");
-			kingdom2.DeJureLiege = empire;
+			kingdom2.DeFactoLiege = empire;
 
 			var duchy = titles.Add("d_duchy");
-			duchy.DeJureLiege = kingdom2;
+			duchy.DeFactoLiege = kingdom2;
 
 			var county = titles.Add("c_county");
-			county.DeJureLiege = duchy;
+			county.DeFactoLiege = duchy;
 
 			var vassals = empire.GetDeFactoVassalsAndBelow();
 			var sortedVassals = from entry in vassals orderby entry.Key select entry;
@@ -292,16 +292,16 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var empire = titles.Add("e_empire");
 
 			var kingdom1 = titles.Add("k_kingdom1");
-			kingdom1.DeJureLiege = empire;
+			kingdom1.DeFactoLiege = empire;
 
 			var kingdom2 = titles.Add("k_kingdom2");
-			kingdom2.DeJureLiege = empire;
+			kingdom2.DeFactoLiege = empire;
 
 			var duchy = titles.Add("d_duchy");
-			duchy.DeJureLiege = kingdom2;
+			duchy.DeFactoLiege = kingdom2;
 
 			var county = titles.Add("c_county");
-			county.DeJureLiege = duchy;
+			county.DeFactoLiege = duchy;
 
 			var vassals = empire.GetDeFactoVassalsAndBelow(rankFilter: "ck");
 			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;

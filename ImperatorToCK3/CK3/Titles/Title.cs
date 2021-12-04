@@ -386,6 +386,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var parser = new Parser(variables);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
+
+		TrySetCapitalBarony();
+		LinkCapital();
 	}
 
 	public Date GetDateOfLastHolderChange() {
@@ -609,12 +612,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var newTitle = parentCollection.Add(titleNameStr);
 			newTitle.LoadTitles(reader, parser.Variables);
 
-			if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBarony)) {
+			if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
 				// title is a barony, and no other barony has been found in this scope yet
-				CapitalBarony = newTitle.Id;
+				CapitalBaronyId = newTitle.Id;
 			}
 
-			AddFoundTitle(newTitle, foundTitles);
 			newTitle.DeJureLiege = this;
 		});
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetPDXBool());
@@ -640,35 +642,31 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			ParserHelpers.IgnoreItem(reader);
 		});
 	}
+	private void TrySetCapitalBarony() {
+		if (Rank != TitleRank.county) {
+			return;
+		}
+
+		foreach (var deJureVassal in DeJureVassals) {
+			if (deJureVassal.Province is null) {
+				continue;
+			}
+			ulong baronyProvinceId = (ulong)deJureVassal.Province;
+
+			if (deJureVassal.Id == CapitalBaronyId) {
+				CapitalBaronyProvince = baronyProvinceId;
+				break;
+			}
+			AddCountyProvince(baronyProvinceId); // add found baronies' provinces to countyProvinces
+		}
+	}
 
 	internal void ClearHolderSpecificHistory() {
 		history.InternalHistory.Fields.Remove("holder");
 		history.InternalHistory.Fields.Remove("government");
 	}
 
-	internal static void AddFoundTitle(Title newTitle, Dictionary<string, Title> foundTitles) {
-		foreach (var (locatedTitleName, locatedTitle) in newTitle.foundTitles) {
-			if (newTitle.Rank == TitleRank.county) {
-				var baronyProvince = locatedTitle.Province;
-				if (baronyProvince is not null) {
-					if (locatedTitleName == newTitle.CapitalBarony) {
-						newTitle.CapitalBaronyProvince = (ulong)baronyProvince;
-					}
-					newTitle.AddCountyProvince((ulong)baronyProvince); // add found baronies' provinces to countyProvinces
-				}
-			}
-			foundTitles[locatedTitleName] = locatedTitle;
-		}
-		// now that all titles under newTitle have been moved to main foundTitles, newTitle's foundTitles can be cleared
-		newTitle.foundTitles.Clear();
-
-		// And then add this one as well, overwriting existing.
-		foundTitles[newTitle.Id] = newTitle;
-	}
-
 	private TitleHistory history = new();
-	private readonly Dictionary<string, Title> foundTitles = new(); // title name, title. Titles are only held here during loading of landed_titles, then they are cleared		// used by duchy titles only
-
 	private static readonly ColorFactory colorFactory = new();
 
 	private void SetRank() {
@@ -799,7 +797,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CountyProvinces.Add(provinceId);
 	}
 	[NonSerialized] public SortedSet<ulong> CountyProvinces { get; } = new();
-	[NonSerialized] public string CapitalBarony { get; private set; } = string.Empty; // used when parsing inside county to save first barony
+	[NonSerialized] public string CapitalBaronyId { get; private set; } = string.Empty; // used when parsing inside county to save first barony
 	[NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
 
 	// used by barony titles only
