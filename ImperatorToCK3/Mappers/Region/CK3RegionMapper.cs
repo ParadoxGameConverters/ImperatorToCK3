@@ -8,7 +8,7 @@ namespace ImperatorToCK3.Mappers.Region {
 	public class CK3RegionMapper {
 		public CK3RegionMapper() { }
 		public CK3RegionMapper(string ck3Path, Title.LandedTitles landedTitles) {
-			Logger.Info("Initializing Geography.");
+			Logger.Info("Initializing Geography...");
 
 			var regionFilePath = Path.Combine(ck3Path, "game/map_data/geographical_region.txt");
 			var islandRegionFilePath = Path.Combine(ck3Path, "game/map_data/island_region.txt");
