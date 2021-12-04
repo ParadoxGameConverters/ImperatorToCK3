@@ -9,7 +9,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void TitlesDefaultToEmpty() {
 			var reader = new BufferedReader(string.Empty);
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			Assert.Empty(titles);
@@ -22,7 +22,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var barony = titles["b_barony"];
@@ -40,7 +40,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county5 = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var barony = titles["b_barony4"];
@@ -58,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county5 = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var reader2 = new BufferedReader(
@@ -82,7 +82,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"c_county5 = { landless = yes }\n"
 			);
 
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var reader2 = new BufferedReader(
@@ -102,7 +102,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"k_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } } " +
 				"}"
 			);
-			var titles = new LandedTitles();
+			var titles = new Title.LandedTitles();
 			titles.LoadTitles(reader);
 
 			var empire = titles["e_empire"];

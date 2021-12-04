@@ -206,12 +206,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		TrySetAdjectiveLoc(localizationMapper, imperatorCountries);
 	}
 
-	internal void LinkCapital(LandedTitles titles) {
+	internal void LinkCapital() {
 		if (parsedCapitalCountyName is null) {
 			return;
 		}
 		if (CapitalCounty is null) {
-			CapitalCounty = titles[parsedCapitalCountyName];
+			CapitalCounty = parentCollection[parsedCapitalCountyName];
 		}
 	}
 
@@ -464,9 +464,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
 		}
 	}
-	public void AddHistory(LandedTitles landedTitles, TitleHistory titleHistory) {
+	public void AddHistory(TitleHistory titleHistory) {
 		history = titleHistory;
-		if (history.Liege is not null && landedTitles.TryGetValue(history.Liege, out var liege)) {
+		if (history.Liege is not null && parentCollection.TryGetValue(history.Liege, out var liege)) {
 			DeFactoLiege = liege;
 		}
 	}
@@ -606,7 +606,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 			// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-			var newTitle = new Title(parentCollection, titleNameStr);
+			var newTitle = parentCollection.Add(titleNameStr);
 			newTitle.LoadTitles(reader, parser.Variables);
 
 			if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBarony)) {
@@ -747,10 +747,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	public HashSet<ulong> GetProvincesInCountry(LandedTitles titles, Date ck3BookmarkDate) {
+	public HashSet<ulong> GetProvincesInCountry(Date ck3BookmarkDate) {
 		var holderId = GetHolderId(ck3BookmarkDate);
 		var heldCounties = new List<Title>(
-			titles.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
+			parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
 		);
 		var heldProvinces = new HashSet<ulong>();
 		// add directly held counties
@@ -765,7 +765,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				continue;
 			}
 			var heldVassalCounties = new List<Title>(
-				titles.Where(t => t.GetHolderId(ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
+				parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
 			);
 			foreach (var vassalCounty in heldVassalCounties) {
 				heldProvinces.UnionWith(vassalCounty.CountyProvinces);

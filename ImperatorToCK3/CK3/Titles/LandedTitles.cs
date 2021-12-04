@@ -12,6 +12,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,17 +47,18 @@ public partial class Title {
 			LinkCapitals();
 		}
 
-		public void Add(string id) {
+		public Title Add(string id) {
 			if (!string.IsNullOrEmpty(id)) {
 				var newTitle = new Title(this, id);
 				dict.Add(newTitle.Id, newTitle);
-				newTitle.LinkCapital(this);
-			} else {
-				Logger.Warn("Not inserting a Title with empty name!");
+				newTitle.LinkCapital();
+				return newTitle;
 			}
+
+			throw new ArgumentException("Not inserting a Title with empty id!");
 		}
 
-		public void Add(
+		public Title Add(
 			Country country,
 			CountryCollection imperatorCountries,
 			LocalizationMapper localizationMapper,
@@ -87,9 +89,10 @@ public partial class Title {
 				characters
 			);
 			dict.Add(newTitle.Id, newTitle);
+			return newTitle;
 		}
 
-		public void Add(
+		public Title Add(
 			Governorship governorship,
 			Country country,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -113,6 +116,8 @@ public partial class Title {
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
+			dict.Add(newTitle.Id, newTitle);
+			return newTitle;
 		}
 		public override void Remove(string name) {
 			if (dict.TryGetValue(name, out var titleToErase)) {
@@ -158,14 +163,14 @@ public partial class Title {
 				var newTitle = new Title(this, titleNameStr);
 				newTitle.LoadTitles(reader, parser.Variables);
 
-				Title.AddFoundTitle(newTitle, dict);
+				AddFoundTitle(newTitle, dict);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 
 		private void LinkCapitals() {
 			foreach (var title in this) {
-				title.LinkCapital(this);
+				title.LinkCapital();
 			}
 		}
 

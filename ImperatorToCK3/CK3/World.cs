@@ -132,7 +132,7 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var title in LandedTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(title.Id);
 				if (historyOpt is not null) {
-					title.AddHistory(LandedTitles, historyOpt);
+					title.AddHistory(historyOpt);
 				}
 			}
 			// add vanilla development to counties

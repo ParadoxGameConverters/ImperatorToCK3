@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Localization;
@@ -217,8 +218,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
 			var countryReader = new BufferedReader("tag = RAN");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
-			var ck3Title = new ImperatorToCK3.CK3.Titles.Title("d_rankless");
-			country.CK3Title = ck3Title;
+
+			var titles = new Title.LandedTitles();
+			country.CK3Title = titles.Add("d_rankless");
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",
