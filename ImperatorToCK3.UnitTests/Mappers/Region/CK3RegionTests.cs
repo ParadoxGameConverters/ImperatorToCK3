@@ -71,7 +71,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var reader = new BufferedReader("duchies = { d_ivrea d_athens d_oppo }");
 			var region = CK3Region.Parse("region1", reader);
 
-
 			var titles = new Title.LandedTitles();
 			var reader2 = new BufferedReader(
 				"{ c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } }"
@@ -88,7 +87,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		public void LinkedRegionCanLocateProvince() {
 			var reader = new BufferedReader("duchies = { d_ivrea d_athens d_oppo }");
 			var region = CK3Region.Parse("region1", reader);
-
 
 			var titles = new Title.LandedTitles();
 			var reader2 = new BufferedReader(
