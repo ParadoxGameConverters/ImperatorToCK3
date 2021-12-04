@@ -206,15 +206,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		TrySetAdjectiveLoc(localizationMapper, imperatorCountries);
 	}
 
-	internal void LinkCapital() {
-		if (parsedCapitalCountyName is null) {
-			return;
-		}
-		if (CapitalCounty is null) {
-			CapitalCounty = parentCollection[parsedCapitalCountyName];
-		}
-	}
-
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocalizationMapper localizationMapper) {
 		return imperatorCountry.Name switch {
 			// hard code for Antigonid Kingdom, Seleucid Empire and Maurya
@@ -388,7 +379,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.ParseStream(reader);
 
 		TrySetCapitalBarony();
-		LinkCapital();
 	}
 
 	public Date GetDateOfLastHolderChange() {
@@ -476,11 +466,13 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	[NonSerialized] public string? CoA { get; private set; }
 
-	private string? parsedCapitalCountyName;
-	[NonSerialized] public Title? CapitalCounty { get; set; }
-	[SerializedName("capital")]
-	public string? CapitalCountyName =>
-		CapitalCounty is not null ? CapitalCounty.Id : parsedCapitalCountyName;
+	[SerializedName("capital")] public string? CapitalCountyId { get; private set; }
+	[NonSerialized]
+	public Title? CapitalCounty {
+		get => CapitalCountyId is null ? null : parentCollection[CapitalCountyId];
+		private set => CapitalCountyId = value?.Id;
+	}
+
 
 	[NonSerialized] public Country? ImperatorCountry { get; private set; }
 
@@ -624,7 +616,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetPDXBool());
 		parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
 		parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
-		parser.RegisterKeyword("capital", reader => parsedCapitalCountyName = reader.GetString());
+		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
 		parser.RegisterKeyword("ai_primary_priority", reader => AIPrimaryPriority = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());

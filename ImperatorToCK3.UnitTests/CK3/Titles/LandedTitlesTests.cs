@@ -110,7 +110,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var capitalCounty = empire.CapitalCounty;
 			Assert.NotNull(capitalCounty);
 			Assert.Equal("c_county", capitalCounty.Id);
-			Assert.Equal("c_county", empire.CapitalCountyName);
+			Assert.Equal("c_county", empire.CapitalCountyId);
 		}
 	}
 }

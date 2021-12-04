@@ -44,7 +44,6 @@ public partial class Title {
 				Variables[name] = value;
 			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
-			LinkCapitals();
 		}
 
 		public Title Add(string id) {
@@ -54,7 +53,6 @@ public partial class Title {
 
 			var newTitle = new Title(this, id);
 			dict[newTitle.Id] = newTitle;
-			newTitle.LinkCapital();
 			return newTitle;
 		}
 
@@ -164,12 +162,6 @@ public partial class Title {
 				newTitle.LoadTitles(reader, parser.Variables);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
-
-		private void LinkCapitals() {
-			foreach (var title in this) {
-				title.LinkCapital();
-			}
 		}
 
 		public void ImportImperatorCountries(

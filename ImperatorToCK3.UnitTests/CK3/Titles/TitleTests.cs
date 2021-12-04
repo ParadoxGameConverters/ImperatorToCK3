@@ -130,7 +130,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal((ulong)345, title.Province);
 
 			Assert.NotNull(title.CapitalCounty);
-			Assert.Equal("c_roma", title.CapitalCountyName);
+			Assert.Equal("c_roma", title.CapitalCountyId);
 		}
 
 		[Fact]
