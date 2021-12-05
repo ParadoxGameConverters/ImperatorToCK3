@@ -1,68 +1,104 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3Region {
-		public Dictionary<string, CK3Region?> Regions { get; private set; } = new();
-		public Dictionary<string, CK3.Titles.Title?> Duchies { get; private set; } = new();
-		public Dictionary<string, CK3.Titles.Title?> Counties { get; private set; } = new();
-		public SortedSet<ulong> Provinces { get; private set; } = new();
+		public string Name { get; }
+		private readonly HashSet<string> parsedRegionIds = new();
+		public Dictionary<string, CK3Region> Regions { get; } = new();
+		private readonly HashSet<string> parsedDuchyIds = new();
+		public Dictionary<string, Title> Duchies { get; } = new();
+		private readonly HashSet<string> parsedCountyIds = new();
+		public Dictionary<string, Title> Counties { get; } = new();
+		public SortedSet<ulong> Provinces { get; } = new();
 
-		public void LinkRegion(string regionName, CK3Region region) {
-			Regions[regionName] = region;
+		public CK3Region(string name) => Name = name;
+
+		public void LinkRegions(Dictionary<string, CK3Region> regions, Dictionary<string, Title> duchies, Dictionary<string, Title> counties) {
+			// regions
+			foreach (var requiredRegionName in parsedRegionIds) {
+				if (regions.TryGetValue(requiredRegionName, out var regionToLink)) {
+					LinkRegion(regionToLink);
+				} else {
+					throw new KeyNotFoundException($"Region's {Name} region {requiredRegionName} does not exist!");
+				}
+			}
+
+			// duchies
+			foreach (var requiredDuchyName in parsedDuchyIds) {
+				if (duchies.TryGetValue(requiredDuchyName, out var duchyToLink)) {
+					LinkDuchy(duchyToLink);
+				} else {
+					throw new KeyNotFoundException($"Region's {Name} duchy {requiredDuchyName} does not exist!");
+				}
+			}
+
+			// counties
+			foreach (var requiredCountyName in parsedCountyIds) {
+				if (counties.TryGetValue(requiredCountyName, out var countyToLink)) {
+					LinkCounty(countyToLink);
+				} else {
+					throw new KeyNotFoundException($"Region's {Name} county {requiredCountyName} does not exist!");
+				}
+			}
 		}
-		public void LinkDuchy(CK3.Titles.Title theDuchy) {
-			Duchies[theDuchy.Name] = theDuchy;
+		public void LinkRegion(CK3Region region) {
+			Regions[region.Name] = region;
 		}
-		public void LinkCounty(CK3.Titles.Title theCounty) {
-			Counties[theCounty.Name] = theCounty;
+		public void LinkDuchy(Title theDuchy) {
+			Duchies[theDuchy.Id] = theDuchy;
 		}
-		public bool ContainsProvince(ulong provinceID) {
+		public void LinkCounty(Title theCounty) {
+			Counties[theCounty.Id] = theCounty;
+		}
+		public bool ContainsProvince(ulong provinceId) {
 			foreach (var region in Regions.Values) {
-				if (region?.ContainsProvince(provinceID) == true) {
+				if (region.ContainsProvince(provinceId)) {
 					return true;
 				}
 			}
 			foreach (var duchy in Duchies.Values) {
-				if (duchy?.DuchyContainsProvince(provinceID) == true) {
+				if (duchy.DuchyContainsProvince(provinceId)) {
 					return true;
 				}
 			}
 			foreach (var county in Counties.Values) {
-				if (county?.CountyProvinces.Contains(provinceID) == true) {
+				if (county.CountyProvinces.Contains(provinceId)) {
 					return true;
 				}
 			}
-			return Provinces.Contains(provinceID);
+			return Provinces.Contains(provinceId);
 		}
 
 		private static readonly Parser parser = new();
-		private static CK3Region regionToReturn = new();
+		private static CK3Region regionToReturn = new(string.Empty);
 		static CK3Region() {
 			parser.RegisterKeyword("regions", reader => {
-				foreach (var name in new StringList(reader).Strings) {
-					regionToReturn.Regions.Add(name, null);
+				foreach (var id in reader.GetStrings()) {
+					regionToReturn.parsedRegionIds.Add(id);
 				}
 			});
 			parser.RegisterKeyword("duchies", reader => {
-				foreach (var name in new StringList(reader).Strings) {
-					regionToReturn.Duchies.Add(name, null);
+				foreach (var id in reader.GetStrings()) {
+					regionToReturn.parsedDuchyIds.Add(id);
 				}
 			});
 			parser.RegisterKeyword("counties", reader => {
-				foreach (var name in new StringList(reader).Strings) {
-					regionToReturn.Counties.Add(name, null);
+				foreach (var id in reader.GetStrings()) {
+					regionToReturn.parsedCountyIds.Add(id);
 				}
 			});
 			parser.RegisterKeyword("provinces", reader => {
-				foreach (var id in new ULongList(reader).ULongs) {
+				foreach (var id in reader.GetULongs()) {
 					regionToReturn.Provinces.Add(id);
 				}
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		public static CK3Region Parse(BufferedReader reader) {
-			regionToReturn = new CK3Region();
+		public static CK3Region Parse(string name, BufferedReader reader) {
+			regionToReturn = new CK3Region(name);
 			parser.ParseStream(reader);
 			return regionToReturn;
 		}

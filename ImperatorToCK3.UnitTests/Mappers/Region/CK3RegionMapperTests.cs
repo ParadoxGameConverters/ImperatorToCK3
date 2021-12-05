@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using ImperatorToCK3.Mappers.Region;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using commonItems;
+using ImperatorToCK3.Mappers.Region;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region {
@@ -13,7 +13,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		public void RegionMapperCanBeEnabled() {
 			// We start humble, it's a machine.
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			const string regionPath = "TestFiles/regions/CK3RegionMapperTests/empty.txt";
 
 			mapper.LoadRegions(landedTitles, regionPath, islandRegionPath);
@@ -26,7 +26,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LoadingBrokenRegionWillThrowException() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_anglia = { d_aquitane = { c_mers = { b_hgy = { province = 69 } } } }"
 			);
@@ -39,7 +39,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LoadingBrokenDuchyWillThrowException() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_anglia = { d_broken_aquitane = { c_mers = { b_hgy = { province = 69 } } } }"
 			);
@@ -52,7 +52,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LoadingBrokenCountyWillThrowException() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_anglia = { d_aquitane = { c_mers_broken = { b_hgy = { province = 69 } } } } \n"
 			);
@@ -66,7 +66,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LocationServicesWork() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"d_aquitane = { c_mers = { b_hgy = { province = 69 } } }"
 			);
@@ -84,7 +84,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LocationServicesCorrectlyFail() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"d_testduchy = { 1 2 3 } \n" +
 				"d_testduchy2 = { 4 5 6 } "
@@ -101,7 +101,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LocationServicesFailForNonsense() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n" +
 				"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } }"
@@ -118,7 +118,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void CorrectParentLocationsReported() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n" +
 				"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n"
@@ -139,7 +139,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void WrongParentLocationsReturnNull() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"d_testduchy = { 1 2 3 } \n" +
 				"d_testduchy2 = { 4 5 6 } "
@@ -157,7 +157,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LocationNameValidationWorks() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n" +
 				"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n" +
@@ -178,7 +178,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LocationServicesSucceedsForProvinceField() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			const string regionPath = "TestFiles/regions/CK3RegionMapperTests/LocationServicesSucceedsForProvinceField.txt";
 
 			mapper.LoadRegions(landedTitles, regionPath, islandRegionPath);
@@ -189,7 +189,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 		[Fact]
 		public void LocationServicesSucceedsForCountyField() {
 			var mapper = new CK3RegionMapper();
-			var landedTitles = new LandedTitles();
+			var landedTitles = new Title.LandedTitles();
 			var landedTitlesReader = new BufferedReader(
 				"c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } }"
 			);

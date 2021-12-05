@@ -1,13 +1,16 @@
 ﻿using commonItems;
+using commonItems.Collections;
+using commonItems.Serialization;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Localization;
 using System.Collections.Generic;
+// ReSharper disable InconsistentNaming
 
 namespace ImperatorToCK3.CK3.Dynasties {
-	public class Dynasty {
+	public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		public Dynasty(Family imperatorFamily, LocalizationMapper localizationMapper) {
-			ID = "dynn_IMPTOCK3_" + imperatorFamily.ID.ToString();
-			Name = ID;
+			Id = "dynn_IMPTOCK3_" + imperatorFamily.Id;
+			Name = Id;
 
 			var imperatorMembers = imperatorFamily.Members;
 			if (imperatorMembers.Count > 0) {
@@ -16,13 +19,13 @@ namespace ImperatorToCK3.CK3.Dynasties {
 					Culture = firstMember.CK3Character.Culture; // make head's culture the dynasty culture
 				}
 			} else {
-				Logger.Warn($"Couldn't determine culture for dynasty {ID}, needs manual setting!");
+				Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
 			}
 
 			foreach (var member in imperatorMembers.Values) {
 				var ck3Member = (member as Imperator.Characters.Character)?.CK3Character;
 				if (ck3Member is not null) {
-					ck3Member.DynastyID = ID;
+					ck3Member.DynastyId = Id;
 				}
 			}
 
@@ -41,10 +44,10 @@ namespace ImperatorToCK3.CK3.Dynasties {
 				});
 			}
 		}
-		public string ID { get; } = string.Empty;
-		public string Name { get; } = string.Empty;
-		public string Culture { get; private set; } = string.Empty;
+		[NonSerialized] public string Id { get; }
+		[SerializedName("name")] public string Name { get; } = string.Empty;
+		[SerializedName("culture")] public string Culture { get; private set; } = string.Empty;
 
-		public KeyValuePair<string, LocBlock> Localization { get; } = new();
+		[NonSerialized] public KeyValuePair<string, LocBlock> Localization { get; } = new();
 	}
 }

@@ -1,10 +1,10 @@
-﻿using System.IO;
-using ImperatorToCK3.CK3.Provinces;
+﻿using ImperatorToCK3.CK3.Provinces;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class ProvinceOutputter {
 		public static void OutputProvince(StreamWriter writer, Province province) {
-			writer.WriteLine($"{province.ID} = {{");
+			writer.WriteLine($"{province.Id} = {{");
 			if (!string.IsNullOrEmpty(province.Culture)) {
 				writer.WriteLine($"\tculture = {province.Culture}");
 			}

@@ -17,8 +17,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils.Genes {
 		[Fact]
 		public void AgeSexWeightBlocksCanBeLoaded() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"={\n" +
 				"male={}\n" +
 				"female={}\n" +
 				"boy=male\n" +

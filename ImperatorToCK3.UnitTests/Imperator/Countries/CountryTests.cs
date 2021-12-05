@@ -1,7 +1,7 @@
 ﻿using commonItems;
-using Xunit;
 using ImperatorToCK3.Imperator.Countries;
 using System.Collections.Generic;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 	[Collection("Sequential")]
@@ -28,6 +28,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Null(country.Color3);
 			Assert.Empty(country.GetLaws());
 			Assert.False(country.PlayerCountry);
+			Assert.Null(country.Government);
+			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 		}
 		[Fact]
 		public void FieldsCanBeSet() {
@@ -46,10 +48,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"\tcolor = rgb { 1 2 3 }" +
 				"\tcolor2 = rgb { 4 5 6 }" +
 				"\tcolor3 = rgb { 7 8 9 }" +
+				"\tgovernment_key = dictatorship" +
 				"}"
 			);
 			var country = Country.Parse(reader, 42);
-			Assert.Equal((ulong)42, country.ID);
+			Assert.Equal((ulong)42, country.Id);
 			Assert.Equal("WTF", country.Tag);
 			Assert.Equal("WTF", country.Name);
 			Assert.Equal("WTF", country.Flag);
@@ -62,12 +65,25 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal(50, country.Currencies.AggressiveExpansion);
 			Assert.Equal(4, country.Currencies.PoliticalInfluence);
 			Assert.Equal(1, country.Currencies.MilitaryExperience);
-			Assert.Equal((ulong)69, country.Monarch);
+			Assert.Null(country.Monarch); // not linked yet
 			Assert.Equal("athenian", country.PrimaryCulture);
 			Assert.Equal("hellenic", country.Religion);
 			Assert.Equal(new Color(new[] { 1, 2, 3 }), country.Color1);
 			Assert.Equal(new Color(new[] { 4, 5, 6 }), country.Color2);
 			Assert.Equal(new Color(new[] { 7, 8, 9 }), country.Color3);
+			Assert.Equal("dictatorship", country.Government);
+			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
+
+			var countries = new CountryCollection();
+			countries.Add(country);
+			var monarch = ImperatorToCK3.Imperator.Characters.Character.Parse(
+				new BufferedReader("{ country=42 }"),
+				"69",
+				null
+			);
+			monarch.LinkCountry(countries);
+			Assert.NotNull(country.Monarch);
+			Assert.Equal((ulong)69, country.Monarch.Id);
 		}
 		[Fact]
 		public void CorrectCountryRankIsReturned() {
@@ -148,7 +164,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.True(Country.IgnoredTokens.SetEquals(expectedIgnoredTokens));
 		}
 
-		[Fact] public void IgnoredCountryCurrenciesTokensAreSaved() {
+		[Fact]
+		public void IgnoredCountryCurrenciesTokensAreSaved() {
 			var reader = new BufferedReader(
 				"= { currency_data={ manpower=1 innovations=0 } }"
 			);

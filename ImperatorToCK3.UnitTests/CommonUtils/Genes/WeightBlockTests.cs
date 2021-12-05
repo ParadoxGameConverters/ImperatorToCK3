@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using commonItems;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.Imperator.Genes;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils.Genes {

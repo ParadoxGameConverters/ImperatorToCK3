@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.IO;
-using commonItems;
 
 namespace ImperatorToCK3.Mappers.Province {
 	public class ProvinceMapper : Parser {

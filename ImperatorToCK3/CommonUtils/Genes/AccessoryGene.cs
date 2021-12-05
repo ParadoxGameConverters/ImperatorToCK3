@@ -5,7 +5,7 @@ using System.Linq;
 namespace ImperatorToCK3.CommonUtils.Genes {
 	public class AccessoryGene : Parser {
 		public uint? Index { get; private set; }
-		public ParadoxBool Inheritable { get; private set; } = new(false);
+		public PDXBool Inheritable { get; private set; } = new(false);
 		public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
 
 		public AccessoryGene(BufferedReader reader) {
@@ -18,7 +18,7 @@ namespace ImperatorToCK3.CommonUtils.Genes {
 				Index = (uint)ParserHelpers.GetInt(reader);
 			});
 			RegisterKeyword("inheritable", reader =>
-				Inheritable = new ParadoxBool(reader)
+				Inheritable = reader.GetPDXBool()
 			);
 			RegisterKeyword("group", ParserHelpers.IgnoreAndLogItem);
 			RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Region;
+using System;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Religion {
 	public class ReligionMapping {
@@ -20,24 +20,12 @@ namespace ImperatorToCK3.Mappers.Religion {
 		private static readonly Parser parser = new();
 		private static ReligionMapping mappingToReturn = new();
 		static ReligionMapping() {
-			parser.RegisterKeyword("ck3", reader => {
-				mappingToReturn.ck3Religion = new SingleString(reader).String;
-			});
-			parser.RegisterKeyword("imp", reader => {
-				mappingToReturn.imperatorReligions.Add(new SingleString(reader).String);
-			});
-			parser.RegisterKeyword("ck3Region", reader => {
-				mappingToReturn.ck3Regions.Add(new SingleString(reader).String);
-			});
-			parser.RegisterKeyword("impRegion", reader => {
-				mappingToReturn.imperatorRegions.Add(new SingleString(reader).String);
-			});
-			parser.RegisterKeyword("ck3Province", reader => {
-				mappingToReturn.ck3Provinces.Add(new SingleULong(reader).ULong);
-			});
-			parser.RegisterKeyword("impProvince", reader => {
-				mappingToReturn.imperatorProvinces.Add(new SingleULong(reader).ULong);
-			});
+			parser.RegisterKeyword("ck3", reader => mappingToReturn.ck3Religion = reader.GetString());
+			parser.RegisterKeyword("imp", reader => mappingToReturn.imperatorReligions.Add(reader.GetString()));
+			parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
+			parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
+			parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
+			parser.RegisterKeyword("impProvince", reader => mappingToReturn.imperatorProvinces.Add(reader.GetULong()));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static ReligionMapping Parse(BufferedReader reader) {
@@ -46,7 +34,7 @@ namespace ImperatorToCK3.Mappers.Religion {
 			return mappingToReturn;
 		}
 
-		public string? Match(string impReligion, ulong ck3ProvinceID, ulong impProvinceID) {
+		public string? Match(string impReligion, ulong ck3ProvinceId, ulong impProvinceId) {
 			if (ImperatorRegionMapper is null) {
 				throw new InvalidOperationException("ImperatorRegionMapper is null!");
 			}
@@ -69,12 +57,12 @@ namespace ImperatorToCK3.Mappers.Religion {
 			}
 
 			// ID 0 means no province
-			if (ck3ProvinceID == 0 && impProvinceID == 0) {
+			if (ck3ProvinceId == 0 && impProvinceId == 0) {
 				return null;
 			}
 
 			// This is a CK3 provinces check
-			if (ck3Provinces.Contains(ck3ProvinceID)) {
+			if (ck3Provinces.Contains(ck3ProvinceId)) {
 				return ck3Religion;
 			}
 			// This is a CK3 regions check, it checks if provided ck3Province is within the mapping's ck3Regions
@@ -85,13 +73,13 @@ namespace ImperatorToCK3.Mappers.Religion {
 					// for the converter to explode across the logs with invalid names. So, continue.
 					continue;
 				}
-				if (CK3RegionMapper.ProvinceIsInRegion(ck3ProvinceID, region)) {
+				if (CK3RegionMapper.ProvinceIsInRegion(ck3ProvinceId, region)) {
 					return ck3Religion;
 				}
 			}
 
 			// This is an Imperator provinces check
-			if (imperatorProvinces.Contains(impProvinceID)) {
+			if (imperatorProvinces.Contains(impProvinceId)) {
 				return ck3Religion;
 			}
 			// This is an Imperator regions check, it checks if provided impProvince is within the mapping's imperatorRegions
@@ -102,7 +90,7 @@ namespace ImperatorToCK3.Mappers.Religion {
 					// for the converter to explode across the logs with invalid names. So, continue.
 					continue;
 				}
-				if (ImperatorRegionMapper.ProvinceIsInRegion(impProvinceID, region)) {
+				if (ImperatorRegionMapper.ProvinceIsInRegion(impProvinceId, region)) {
 					return ck3Religion;
 				}
 			}

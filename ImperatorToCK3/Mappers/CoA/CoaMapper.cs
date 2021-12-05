@@ -7,13 +7,13 @@ namespace ImperatorToCK3.Mappers.CoA {
 		public CoaMapper(Configuration theConfiguration) {
 			var coasPath = Path.Combine(theConfiguration.ImperatorPath, "game", "common", "coat_of_arms", "coat_of_arms");
 			var fileNames = SystemUtils.GetAllFilesInFolderRecursive(coasPath);
-			Logger.Info("Parsing CoAs.");
+			Logger.Info("Parsing CoAs...");
 			RegisterKeys();
 			foreach (var fileName in fileNames) {
 				ParseFile(Path.Combine(coasPath, fileName));
 			}
 			ClearRegisteredRules();
-			Logger.Info("Loaded " + coasMap.Count + " coats of arms.");
+			Logger.Info($"Loaded {coasMap.Count} coats of arms.");
 		}
 		public CoaMapper(string coaFilePath) {
 			RegisterKeys();
@@ -22,9 +22,7 @@ namespace ImperatorToCK3.Mappers.CoA {
 		}
 		private void RegisterKeys() {
 			RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
-			RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => {
-				coasMap.Add(flagName, new StringOfItem(reader).String);
-			});
+			RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap.Add(flagName, new StringOfItem(reader).ToString()));
 		}
 
 		public string? GetCoaForFlagName(string impFlagName) {

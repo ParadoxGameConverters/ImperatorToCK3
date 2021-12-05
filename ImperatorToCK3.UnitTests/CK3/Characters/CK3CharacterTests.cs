@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Localization;
@@ -27,8 +28,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private DeathReasonMapper deathReasonMapper = new();
 
 			public Character Build() {
-				var character = new Character();
-				character.InitializeFromImperator(
+				var character = new Character(
 					imperatorCharacter,
 					religionMapper,
 					cultureMapper,
@@ -86,10 +86,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4);
 			var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5);
 
-			imperatorCharacter.Mother = new(imperatorMother.ID, imperatorMother);
-			imperatorCharacter.Father = new(imperatorFather.ID, imperatorFather);
-			imperatorCharacter.Children.Add(imperatorChild.ID, imperatorChild);
-			imperatorCharacter.Spouses.Add(imperatorSpouse.ID, imperatorSpouse);
+			imperatorCharacter.Mother = imperatorMother;
+			imperatorCharacter.Father = imperatorFather;
+			imperatorCharacter.Children.Add(imperatorChild.Id, imperatorChild);
+			imperatorCharacter.Spouses.Add(imperatorSpouse.Id, imperatorSpouse);
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -109,8 +109,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			character.Mother = mother;
 			character.Father = father;
-			character.Children.Add(child.ID, child);
-			character.Spouses.Add(spouse.ID, spouse);
+			character.Children.Add(child.Id, child);
+			character.Spouses.Add(spouse.Id, spouse);
 
 			Assert.NotNull(character.Mother);
 			Assert.NotNull(character.Father);
@@ -219,12 +219,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
 			var countryReader = new BufferedReader("tag = RAN");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
-			var ck3Title = new ImperatorToCK3.CK3.Titles.Title("d_rankless");
-			country.CK3Title = ck3Title;
+
+			var titles = new Title.LandedTitles();
+			country.CK3Title = titles.Add("d_rankless");
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",
-				Country = new(69, country)
+				Country = country
 			};
 			var imperatorCharacter2 = new ImperatorToCK3.Imperator.Characters.Character(2) {
 				Culture = "greek"
@@ -354,8 +355,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		[Fact]
 		public void LinkingParentWithWrongIdIsLogged() {
 			var character = builder.Build();
-			character.PendingMotherID = "imperator1";
-			character.PendingFatherID = "imperator2";
+			character.PendingMotherId = "imperator1";
+			character.PendingFatherId = "imperator2";
 
 			var mother = builder
 				.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(69))

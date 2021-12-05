@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
 using ImperatorToCK3.CK3;
-using commonItems;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter {
@@ -41,7 +41,7 @@ namespace ImperatorToCK3.Outputter {
 			spanish.WriteLine("l_spanish:");
 
 			// title localization
-			foreach (var title in ck3World.LandedTitles.Values) {
+			foreach (var title in ck3World.LandedTitles) {
 				foreach (var (key, loc) in title.Localizations) {
 					english.WriteLine($" {key}: \"{loc.english}\"");
 					french.WriteLine($" {key}: \"{loc.french}\"");
@@ -57,7 +57,7 @@ namespace ImperatorToCK3.Outputter {
 
 			// character name localization
 			var uniqueKeys = new HashSet<string>();
-			foreach (var character in ck3World.Characters.Values) {
+			foreach (var character in ck3World.Characters) {
 				foreach (var (key, loc) in character.Localizations) {
 					if (!uniqueKeys.Contains(key)) {
 						english.WriteLine($" {key}: \"{loc.english}\"");
@@ -93,7 +93,7 @@ namespace ImperatorToCK3.Outputter {
 			simp_chineseDynLoc.WriteLine("l_simp_chinese:");
 			spanishDynLoc.WriteLine("l_spanish:");
 
-			foreach (var dynasty in ck3World.Dynasties.Values) {
+			foreach (var dynasty in ck3World.Dynasties) {
 				var (key, loc) = dynasty.Localization;
 				englishDynLoc.WriteLine($" {key}: \"{loc.english}\"");
 				frenchDynLoc.WriteLine($" {key}: \"{loc.french}\"");

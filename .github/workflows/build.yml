@@ -21,9 +21,8 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.*'
+        dotnet-version: '6.*'
     - name: Build
       run: |
        cd ImperatorToCK3
-       dotnet restore
        dotnet build

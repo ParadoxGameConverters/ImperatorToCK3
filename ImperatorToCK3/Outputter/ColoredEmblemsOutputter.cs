@@ -1,6 +1,6 @@
-﻿using System.IO;
-using commonItems;
+﻿using commonItems;
 using ImageMagick;
+using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class ColoredEmblemsOutputter {

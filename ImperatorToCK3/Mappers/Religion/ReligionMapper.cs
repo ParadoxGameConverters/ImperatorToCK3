@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Region;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Religion {
 	public class ReligionMapper : Parser {
@@ -22,9 +22,9 @@ namespace ImperatorToCK3.Mappers.Religion {
 				mapping.CK3RegionMapper = ck3RegionMapper;
 			}
 		}
-		public string? Match(string imperatorReligion, ulong ck3ProvinceID, ulong imperatorProvinceID) {
+		public string? Match(string imperatorReligion, ulong ck3ProvinceId, ulong imperatorProvinceId) {
 			foreach (var religionMapping in religionMappings) {
-				var possibleMatch = religionMapping.Match(imperatorReligion, ck3ProvinceID, imperatorProvinceID);
+				var possibleMatch = religionMapping.Match(imperatorReligion, ck3ProvinceId, imperatorProvinceId);
 				if (possibleMatch is not null) {
 					return possibleMatch;
 				}

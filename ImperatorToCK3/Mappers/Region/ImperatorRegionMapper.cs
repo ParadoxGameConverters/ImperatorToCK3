@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.IO;
-using commonItems;
 
 namespace ImperatorToCK3.Mappers.Region {
-	public class ImperatorRegionMapper : Parser {
+	public class ImperatorRegionMapper {
 		private readonly Dictionary<string, ImperatorRegion> regions = new();
 		private readonly Dictionary<string, ImperatorArea> areas = new();
 
@@ -16,80 +16,61 @@ namespace ImperatorToCK3.Mappers.Region {
 			using var regionFileStream = new FileStream(regionFilePath, FileMode.Open);
 			var areaReader = new BufferedReader(areaFileStream);
 			var regionReader = new BufferedReader(regionFileStream);
-			AbsorbBOM(areaReader);
-			AbsorbBOM(regionReader);
+			Parser.AbsorbBOM(areaReader);
+			Parser.AbsorbBOM(regionReader);
 			LoadRegions(areaReader, regionReader);
 		}
-		private void RegisterRegionKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, regionName) => {
-				regions[regionName] = new ImperatorRegion(reader);
-			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		private void RegisterRegionKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions[regionName] = new ImperatorRegion(regionName, reader));
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		private void RegisterAreaKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, areaName) => {
-				areas[areaName] = new ImperatorArea(reader);
-			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		private void RegisterAreaKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas[areaName] = new ImperatorArea(reader));
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void LoadRegions(BufferedReader areaReader, BufferedReader regionReader) {
-			RegisterAreaKeys();
-			ParseStream(areaReader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterAreaKeys(parser);
+			parser.ParseStream(areaReader);
+			parser.ClearRegisteredRules();
 
-			RegisterRegionKeys();
-			ParseStream(regionReader);
-			ClearRegisteredRules();
+			RegisterRegionKeys(parser);
+			parser.ParseStream(regionReader);
 
 			LinkRegions();
 		}
 		public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
-			if (regions.TryGetValue(regionName, out var region) && region is not null) {
+			if (regions.TryGetValue(regionName, out var region)) {
 				return region.ContainsProvince(provinceId);
 			}
 			// "Regions" are such a fluid term.
-			if (areas.TryGetValue(regionName, out var area) && area is not null) {
-				return area.ContainsProvince(provinceId);
-			}
-			return false;
+			return areas.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
 		}
 		public bool RegionNameIsValid(string regionName) {
-			if (regions.ContainsKey(regionName)) {
-				return true;
-			}
 			// Who knows what the mapper needs. All kinds of stuff.
-			if (areas.ContainsKey(regionName)) {
-				return true;
-			}
-			return false;
+			return regions.ContainsKey(regionName) || areas.ContainsKey(regionName);
 		}
 		public string? GetParentRegionName(ulong provinceId) {
 			foreach (var (regionName, region) in regions) {
-				if (region is not null && region.ContainsProvince(provinceId)) {
+				if (region.ContainsProvince(provinceId)) {
 					return regionName;
 				}
 			}
-			Logger.Warn("Province ID " + provinceId + " has no parent region name!");
+			Logger.Warn($"Province ID {provinceId} has no parent region name!");
 			return null;
 		}
 		public string? GetParentAreaName(ulong provinceId) {
 			foreach (var (areaName, area) in areas) {
-				if (area is not null && area.ContainsProvince(provinceId)) {
+				if (area.ContainsProvince(provinceId)) {
 					return areaName;
 				}
 			}
-			Logger.Warn("Province ID " + provinceId + " has no parent area name!");
+			Logger.Warn($"Province ID {provinceId} has no parent area name!");
 			return null;
 		}
 		private void LinkRegions() {
-			foreach (var (regionName, region) in regions) {
-				foreach (var requiredAreaName in region.Areas.Keys) {
-					if (areas.TryGetValue(requiredAreaName, out var area)) {
-						region.LinkArea(requiredAreaName, area);
-					} else {
-						throw new KeyNotFoundException("Region's " + regionName + " area " + requiredAreaName + " does not exist!");
-					}
-				}
+			foreach (var region in regions.Values) {
+				region.LinkAreas(areas);
 			}
 		}
 	}

@@ -43,12 +43,24 @@ namespace ImperatorToCK3.UnitTests.Mappers.Trait {
 			Assert.Equal("ck3Trait2", ck3Trait);
 		}
 
-		[Fact] public void MappingsAreReadFromFile() {
+		[Fact]
+		public void MappingsAreReadFromFile() {
 			var mapper = new TraitMapper("TestFiles/configurables/trait_map.txt");
 			Assert.Equal("dull", mapper.GetCK3TraitForImperatorTrait("dull"));
 			Assert.Equal("dull", mapper.GetCK3TraitForImperatorTrait("stupid"));
 			Assert.Equal("kind", mapper.GetCK3TraitForImperatorTrait("friendly"));
 			Assert.Equal("brave", mapper.GetCK3TraitForImperatorTrait("brave"));
+		}
+
+		[Fact]
+		public void MappingsWithNoCK3TraitAreIgnored() {
+			var reader = new BufferedReader(
+				"link = { imp = impTrait }"
+			);
+			var mapper = new TraitMapper(reader);
+
+			var ck3Trait = mapper.GetCK3TraitForImperatorTrait("impTrait");
+			Assert.Null(ck3Trait);
 		}
 	}
 }

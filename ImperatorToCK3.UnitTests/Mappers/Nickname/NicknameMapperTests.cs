@@ -1,6 +1,6 @@
-﻿using Xunit;
-using commonItems;
+﻿using commonItems;
 using ImperatorToCK3.Mappers.Nickname;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 	public class NicknameMapperTests {
@@ -51,12 +51,24 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 			Assert.Equal("ck3Nickname2", ck3Nickname);
 		}
 
-		[Fact] public void MappingsAreReadFromFile() {
+		[Fact]
+		public void MappingsAreReadFromFile() {
 			var mapper = new NicknameMapper("TestFiles/configurables/nickname_map.txt");
 			Assert.Equal("dull", mapper.GetCK3NicknameForImperatorNickname("dull"));
 			Assert.Equal("dull", mapper.GetCK3NicknameForImperatorNickname("stupid"));
 			Assert.Equal("kind", mapper.GetCK3NicknameForImperatorNickname("friendly"));
 			Assert.Equal("brave", mapper.GetCK3NicknameForImperatorNickname("brave"));
+		}
+
+		[Fact]
+		public void MappingsWithNoCK3NicknameAreIgnored() {
+			var reader = new BufferedReader(
+				"link = { imp = impNickname }"
+			);
+			var mapper = new NicknameMapper(reader);
+
+			var ck3Nickname = mapper.GetCK3NicknameForImperatorNickname("impNickname");
+			Assert.Null(ck3Nickname);
 		}
 	}
 }
