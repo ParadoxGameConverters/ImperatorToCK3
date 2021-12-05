@@ -6,16 +6,8 @@ namespace ImperatorToCK3.CK3.Titles;
 
 public class TitleHistory {
 	public TitleHistory() { }
-	public TitleHistory(History history, Date ck3BookmarkDate) {
+	public TitleHistory(History history) {
 		InternalHistory = history;
-		if (history.GetFieldValue("liege", ck3BookmarkDate) is string liegeStr) {
-			Liege = liegeStr;
-		}
-
-		var developmentLevelOpt = history.GetFieldValue("development_level", ck3BookmarkDate);
-		if (developmentLevelOpt is string devStr) {
-			DevelopmentLevel = int.Parse(devStr);
-		}
 	}
 	public void Update(HistoryFactory historyFactory, BufferedReader reader) {
 		historyFactory.UpdateHistory(InternalHistory, reader);
@@ -43,14 +35,12 @@ public class TitleHistory {
 	}
 
 	public int? GetDevelopmentLevel(Date date) {
-		if (InternalHistory.GetFieldValue("development_level", date) is not string devStr) {
-			return null;
-		}
-
-		if (int.TryParse(devStr, out int dev)) {
-			return dev;
-		}
-		return null;
+		var historyValue = InternalHistory.GetFieldValue("development_level", date);
+		return historyValue switch {
+			string devStr when int.TryParse(devStr, out int dev) => dev,
+			int devInt => devInt,
+			_ => null
+		};
 	}
 
 	public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {

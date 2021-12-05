@@ -35,7 +35,7 @@ public class TitlesHistory : Parser {
 				existingHistory.Update(historyFactory, tempReader);
 			} else {
 				var history = historyFactory.GetHistory(tempReader);
-				historyDict.Add(titleName, new TitleHistory(history, ck3BookmarkDate));
+				historyDict.Add(titleName, new TitleHistory(history));
 			}
 		});
 		RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);

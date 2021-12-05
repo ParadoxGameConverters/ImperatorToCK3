@@ -11,7 +11,7 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 				ImperatorLaw = reader.GetString()
 			);
 			parser.RegisterKeyword("ck3", reader =>
-				Ck3SuccessionLaws.Add(reader.GetString())
+				CK3SuccessionLaws.Add(reader.GetString())
 			);
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseStream(reader);

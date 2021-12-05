@@ -14,7 +14,6 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Titles;
@@ -70,7 +69,8 @@ public partial class Title {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			CharacterCollection characters
+			CharacterCollection characters,
+			Date conversionDate
 		) {
 			var newTitle = new Title(this,
 				country,
@@ -85,7 +85,8 @@ public partial class Title {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				characters
+				characters,
+				conversionDate
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -125,11 +126,11 @@ public partial class Title {
 					deJureLiege.DeJureVassals.Remove(name);
 				}
 
-				foreach (var vassal in titleToErase.DeJureVassals.Values) {
+				foreach (var vassal in titleToErase.DeJureVassals) {
 					vassal.DeJureLiege = null;
 				}
 
-				foreach (var title in StoredTitles) {
+				foreach (var title in this) {
 					title.RemoveDeFactoLiegeReferences(name);
 				}
 
@@ -173,7 +174,9 @@ public partial class Title {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			CharacterCollection characters) {
+			CharacterCollection characters,
+			Date conversionDate
+		) {
 			Logger.Info("Importing Imperator Countries...");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
@@ -194,7 +197,8 @@ public partial class Title {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					characters
+					characters,
+					conversionDate
 				);
 				++counter;
 			}
@@ -214,9 +218,11 @@ public partial class Title {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			CharacterCollection characters) {
+			CharacterCollection characters,
+			Date conversionDate
+		) {
 			// Create a new title or update existing title
-			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
+			var name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
@@ -231,7 +237,8 @@ public partial class Title {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					characters
+					characters,
+					conversionDate
 				);
 			} else {
 				Add(
@@ -247,7 +254,8 @@ public partial class Title {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					characters
+					characters,
+					conversionDate
 				);
 			}
 		}
@@ -302,7 +310,7 @@ public partial class Title {
 			CoaMapper coaMapper) {
 			var country = imperatorCountries[governorship.CountryId];
 			// Create a new title or update existing title
-			var name = Title.DetermineName(governorship, country, tagTitleMapper);
+			var name = DetermineName(governorship, country, tagTitleMapper);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromGovernorship(
@@ -350,7 +358,7 @@ public partial class Title {
 						} else {
 							revokedVanillaTitles.Add(id);
 							title.ClearHolderSpecificHistory();
-							title.DeFactoLiege = null;
+							title.SetDeFactoLiege(null, ck3BookmarkDate);
 						}
 					}
 				}

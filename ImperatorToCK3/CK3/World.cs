@@ -36,7 +36,7 @@ namespace ImperatorToCK3.CK3 {
 			CorrectedDate = impWorld.EndDate.Year > 0 ? impWorld.EndDate : new Date(1, 1, 1);
 
 			Logger.Info("Loading map data...");
-			MapData = new MapData(theConfiguration.Ck3Path);
+			MapData = new MapData(config.Ck3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
 			localizationMapper.ScrapeLocalizations(config, impWorld.Mods);
@@ -73,7 +73,8 @@ namespace ImperatorToCK3.CK3 {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				Characters
+				Characters,
+				CorrectedDate
 			);
 			LandedTitles.ImportImperatorGovernorships(
 				impWorld,
@@ -172,7 +173,7 @@ namespace ImperatorToCK3.CK3 {
 
 				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
 					county.SetHolderId("0", conversionDate);
-					title.SetDeFactoLiege(null, ck3BookmarkDate);
+					county.SetDeFactoLiege(null, conversionDate);
 				} else {
 					var ck3Country = impCountry.CK3Title;
 					if (ck3Country is null) {
@@ -218,10 +219,10 @@ namespace ImperatorToCK3.CK3 {
 
 			void GiveCountyToMonarch(Title county, Title ck3Country, ulong impMonarchId) {
 				var holderId = $"imperator{impMonarchId}";
-				var date = ck3Country.GetDateOfLastHolderChange()
+				var date = ck3Country.GetDateOfLastHolderChange();
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					county.ClearHolderSpecificHistory();
-					county.SetHolderId(holder, date);
+					county.SetHolderId(holder.Id, date);
 				} else {
 					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
@@ -238,7 +239,7 @@ namespace ImperatorToCK3.CK3 {
 				} else {
 					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
-				county.DeFactoLiege = null;
+				county.SetDeFactoLiege(null, holderChangeDate);
 			}
 		}
 
