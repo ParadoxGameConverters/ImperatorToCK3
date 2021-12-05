@@ -34,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void HistoryCanBeLoadedFromStream() {
 			var date = new Date(867, 1, 1);
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", date);
+			var titlesHistory = new TitlesHistory("TestFiles/title_history");
 			var history = titlesHistory.PopTitleHistory("k_rome");
 
 			Assert.NotNull(history);
@@ -45,7 +45,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void HistoryIsLoadedFromDatedBlocks() {
 			var date = new Date(867, 1, 1);
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", date);
+			var titlesHistory = new TitlesHistory("TestFiles/title_history");
 			var history = titlesHistory.PopTitleHistory("k_greece");
 
 			Assert.NotNull(history);

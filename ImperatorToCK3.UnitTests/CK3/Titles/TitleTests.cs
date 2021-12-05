@@ -11,7 +11,6 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -34,8 +33,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private readonly ReligionMapper religionMapper = new();
 			private readonly CultureMapper cultureMapper = new();
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-			private readonly Dictionary<string, Character> charactersDict = new();
-			private readonly Date ck3BookmarkDate = new Date(867, 1, 1);
+			private readonly Date ck3BookmarkDate = new(867, 1, 1);
 			private readonly CharacterCollection characters = new();
 
 			public Title BuildFromTag() {
@@ -183,7 +181,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void HistoryCanBeAdded() {
 			var date = new Date(867, 1, 1);
-			var titlesHistory = new TitlesHistory("TestFiles/title_history", date);
+			var titlesHistory = new TitlesHistory("TestFiles/title_history");
 			var history = titlesHistory.PopTitleHistory("k_greece");
 			Assert.NotNull(history);
 			var titles = new Title.LandedTitles();

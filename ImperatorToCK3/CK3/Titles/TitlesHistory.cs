@@ -6,10 +6,10 @@ namespace ImperatorToCK3.CK3.Titles;
 
 public class TitlesHistory : Parser {
 	public TitlesHistory() { }
-	public TitlesHistory(string folderPath, Date ck3BookmarkDate) {
+	public TitlesHistory(string folderPath) {
 		var filenames = SystemUtils.GetAllFilesInFolderRecursive(folderPath);
 		Logger.Info("Parsing title history...");
-		RegisterKeys(ck3BookmarkDate);
+		RegisterKeys();
 		foreach (var filename in filenames) {
 			ParseFile(System.IO.Path.Combine(folderPath, filename));
 		}
@@ -24,7 +24,7 @@ public class TitlesHistory : Parser {
 		return historyToReturn;
 	}
 
-	private void RegisterKeys(Date ck3BookmarkDate) {
+	private void RegisterKeys() {
 		RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleName) => {
 			var historyItem = new StringOfItem(reader).ToString();
 			if (!historyItem.Contains('{')) {
