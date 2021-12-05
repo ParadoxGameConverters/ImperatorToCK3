@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces {
 	public class ProvinceDetails {
@@ -44,8 +45,8 @@ namespace ImperatorToCK3.CK3.Provinces {
 				case null:
 					Logger.Warn("Province's buildings list can't be null!");
 					break;
-				case IList<string> buildingsList:
-					Buildings = (List<string>)buildingsList;
+				case IList<object> buildingsList:
+					Buildings = new List<string>(buildingsList.Select(b => b.ToString()!));
 					break;
 				default:
 					Logger.Warn("Wrong province buildings value!");

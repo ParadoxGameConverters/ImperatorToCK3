@@ -15,8 +15,8 @@ public class TitleHistory {
 
 	public string GetHolderId(Date date) {
 		var idFromHistory = InternalHistory.GetFieldValue("holder", date);
-		if (idFromHistory is string idStr) {
-			return idStr;
+		if (idFromHistory is not null) {
+			return idFromHistory.ToString()!;
 		}
 		return "0";
 	}

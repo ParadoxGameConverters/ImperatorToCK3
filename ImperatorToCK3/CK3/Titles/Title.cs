@@ -215,9 +215,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	internal void RemoveDeFactoLiegeReferences(string name) {
-		var liegeField = history.InternalHistory.Fields["liege"];
-		liegeField.ValueHistory = (SortedDictionary<Date, object>)liegeField.ValueHistory.Where(
-			pair => !(pair.Value is string str && str == name)
+		if (!history.InternalHistory.Fields.TryGetValue("liege", out var liegeField)) {
+			return;
+		}
+
+		liegeField.ValueHistory = new SortedDictionary<Date, object>(liegeField.ValueHistory.Where(
+				kvp => !(kvp.Value is string vStr && vStr == name)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
 		);
 		if (liegeField.InitialValue is string str && str == name) {
 			liegeField.InitialValue = null;
@@ -694,7 +697,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		//bool needsToBeOutput = false;
 		var sb = new StringBuilder();
 
-		sb.Append(Id).Append('=').AppendLine(PDXSerializer.Serialize(history.InternalHistory));
+		sb.Append(Id).AppendLine("={").AppendLine(PDXSerializer.Serialize(history.InternalHistory, "\t")).AppendLine("}");
 
 		// TODO: FIX DEVELOPMENT LEVEL BEING A STRING, IT NEEDS TO BE AN INT
 

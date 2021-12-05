@@ -225,23 +225,37 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			// Here we're adding a value as a set, while the initial value is a list.
 			history.Fields["buildings"].AddValueToHistory(new SortedSet<string> { "aqueduct", "baths" }, new Date(2, 1, 1));
 
-			var str = PDXSerializer.Serialize(history);
-
 			// Date blocks are ordered by date.
 			var expectedStr =
-				"culture = \"roman\"" + Environment.NewLine +
-				"buildings = { }" + Environment.NewLine +
-				"2.1.1 = {" + Environment.NewLine +
-				"\tbuildings = { \"aqueduct\" \"baths\" }" + Environment.NewLine +
+				"culture=\"roman\"" + Environment.NewLine +
+				"buildings={ }" + Environment.NewLine +
+				"2.1.1={" + Environment.NewLine +
+				"\tbuildings={ \"aqueduct\" \"baths\" }" + Environment.NewLine +
 				"}" + Environment.NewLine +
-				"5.1.1 = {" + Environment.NewLine +
-				"\tholder = \"nero\"" + Environment.NewLine +
+				"5.1.1={" + Environment.NewLine +
+				"\tholder=\"nero\"" + Environment.NewLine +
 				"}" + Environment.NewLine +
-				"540.1.1 = {" + Environment.NewLine +
-				"\tholder = \"justinian\"" + Environment.NewLine +
-				"\tculture = \"better_roman\"" + Environment.NewLine +
+				"540.1.1={" + Environment.NewLine +
+				"\tholder=\"justinian\"" + Environment.NewLine +
+				"\tculture=\"better_roman\"" + Environment.NewLine +
 				"}" + Environment.NewLine;
-			Assert.Equal(expectedStr, str);
+			Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
+		}
+
+		[Fact]
+		public void IntegersAreSerializedWithoutQuotes() {
+			var fields = new Dictionary<string, HistoryField> {
+				{"development_level", new HistoryField("change_development_level", 10)}
+			};
+			var history = new History(fields);
+			history.Fields["development_level"].AddValueToHistory(20, new Date(5, 1, 1));
+
+			var expectedStr =
+				"change_development_level=10" + Environment.NewLine +
+				"5.1.1={" + Environment.NewLine +
+				"\tchange_development_level=20" + Environment.NewLine +
+				"}" + Environment.NewLine;
+			Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 		}
 	}
 }
