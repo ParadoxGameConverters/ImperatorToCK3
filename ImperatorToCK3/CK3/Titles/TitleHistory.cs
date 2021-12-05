@@ -45,7 +45,6 @@ public class TitleHistory {
 
 	public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {
 		InternalHistory.RemoveHistoryPastDate(ck3BookmarkDate);
-
 	}
 
 	[SerializeOnlyValue] public History InternalHistory { get; } = new();

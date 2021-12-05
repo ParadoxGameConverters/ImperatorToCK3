@@ -291,6 +291,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
 		}
 
+		ClearHolderSpecificHistory();
+
 		DeJureLiege = country.CK3Title;
 		SetDeFactoLiege(country.CK3Title, normalizedStartDate);
 
@@ -301,7 +303,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		var impGovernor = imperatorCharacters[governorship.CharacterId];
 
-		ClearHolderSpecificHistory();
 
 		// ------------------ determine holder
 		history.InternalHistory.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate, "holder");
@@ -672,6 +673,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	internal void ClearHolderSpecificHistory() {
 		history.InternalHistory.Fields.Remove("holder");
 		history.InternalHistory.Fields.Remove("government");
+		history.InternalHistory.Fields.Remove("liege");
 	}
 
 	private TitleHistory history = new();
