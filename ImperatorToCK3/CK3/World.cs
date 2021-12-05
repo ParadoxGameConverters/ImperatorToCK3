@@ -79,7 +79,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			Provinces.ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
+			Provinces.ImportVanillaProvinces(config.Ck3Path, config.Ck3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
@@ -114,7 +114,7 @@ namespace ImperatorToCK3.CK3 {
 			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
-			LandedTitles.RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
+			LandedTitles.RemoveInvalidLandlessTitles(config.Ck3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.Ck3BookmarkDate);
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
@@ -176,7 +176,7 @@ namespace ImperatorToCK3.CK3 {
 				var impCountry = impProvince.OwnerCountry;
 
 				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
-					county.SetHolderId("0", conversionDate);
+					county.SetHolder(null, conversionDate);
 					county.SetDeFactoLiege(null, conversionDate);
 				} else {
 					bool given = TryGiveCountyToGovernor(county, impProvince, impCountry);
@@ -210,7 +210,7 @@ namespace ImperatorToCK3.CK3 {
 				var date = ck3Country.GetDateOfLastHolderChange();
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					county.ClearHolderSpecificHistory();
-					county.SetHolderId(holder.Id, date);
+					county.SetHolder(holder, date);
 				} else {
 					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
@@ -282,7 +282,7 @@ namespace ImperatorToCK3.CK3 {
 				county.ClearHolderSpecificHistory();
 				county.SetHolder(governor, holderChangeDate);
 				Logger.Notice($"GIVING {county.Id} OF {governorship.CountryId}_{governorship.RegionName} TO {ck3Country.Id}");
-				county.DeFactoLiege = ck3Country;
+				county.SetDeFactoLiege(ck3Country, holderChangeDate);
 			}
 		}
 

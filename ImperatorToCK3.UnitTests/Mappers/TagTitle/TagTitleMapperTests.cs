@@ -50,7 +50,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new ReligionMapper(),
 				new CultureMapper(),
 				new NicknameMapper(),
-				new CharacterCollection()
+				new CharacterCollection(),
+				new Date()
 			);
 
 			var centralItalyGov = new Governorship(new BufferedReader("who=1 governorship=central_italy_region"));
@@ -97,7 +98,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new ReligionMapper(),
 				new CultureMapper(),
 				new NicknameMapper(),
-				new CharacterCollection()
+				new CharacterCollection(),
+				new Date()
 			);
 
 			var apuliaGov = new Governorship(new BufferedReader("who=1 governorship=apulia_region"));
@@ -158,7 +160,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new ReligionMapper(),
 				new CultureMapper(),
 				new NicknameMapper(),
-				new CharacterCollection()
+				new CharacterCollection(),
+				new Date()
 			);
 
 			var provinces = new ProvinceCollection();
@@ -175,15 +178,15 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 		[Fact]
 		public void GetCK3TitleRankReturnsCorrectRank() {
 			var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
-			Assert.Equal('e', mapper.GetTitleForTag("TEST_TAG1", CountryRank.localPower, "Test Empire")[0]);
-			Assert.Equal('k', mapper.GetTitleForTag("TEST_TAG2", CountryRank.cityState, "Test Kingdom")[0]);
-			Assert.Equal('d', mapper.GetTitleForTag("TEST_TAG3", CountryRank.migrantHorde)[0]);
-			Assert.Equal('d', mapper.GetTitleForTag("TEST_TAG4", CountryRank.cityState)[0]);
-			Assert.Equal('k', mapper.GetTitleForTag("TEST_TAG5", CountryRank.localPower)[0]);
-			Assert.Equal('k', mapper.GetTitleForTag("TEST_TAG6", CountryRank.regionalPower)[0]);
-			Assert.Equal('k', mapper.GetTitleForTag("TEST_TAG7", CountryRank.majorPower)[0]);
-			Assert.Equal('e', mapper.GetTitleForTag("TEST_TAG8", CountryRank.greatPower)[0]);
-			Assert.Equal('e', mapper.GetTitleForTag("TEST_TAG8", CountryRank.greatPower)[0]);
+			Assert.StartsWith("e", mapper.GetTitleForTag("TEST_TAG1", CountryRank.localPower, "Test Empire"));
+			Assert.StartsWith("k", mapper.GetTitleForTag("TEST_TAG2", CountryRank.cityState, "Test Kingdom"));
+			Assert.StartsWith("d", mapper.GetTitleForTag("TEST_TAG3", CountryRank.migrantHorde));
+			Assert.StartsWith("d", mapper.GetTitleForTag("TEST_TAG4", CountryRank.cityState));
+			Assert.StartsWith("k", mapper.GetTitleForTag("TEST_TAG5", CountryRank.localPower));
+			Assert.StartsWith("k", mapper.GetTitleForTag("TEST_TAG6", CountryRank.regionalPower));
+			Assert.StartsWith("k", mapper.GetTitleForTag("TEST_TAG7", CountryRank.majorPower));
+			Assert.StartsWith("e", mapper.GetTitleForTag("TEST_TAG8", CountryRank.greatPower));
+			Assert.StartsWith("e", mapper.GetTitleForTag("TEST_TAG8", CountryRank.greatPower));
 		}
 	}
 }
