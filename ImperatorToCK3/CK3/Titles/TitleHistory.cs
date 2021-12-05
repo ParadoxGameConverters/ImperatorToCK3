@@ -1,20 +1,13 @@
 ﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CommonUtils;
 
 namespace ImperatorToCK3.CK3.Titles;
 
 public class TitleHistory {
 	public TitleHistory() { }
-	public TitleHistory(History history, Date ck3BookmarkDate) {
+	public TitleHistory(History history) {
 		InternalHistory = history;
-		if (history.GetFieldValue("liege", ck3BookmarkDate) is string liegeStr) {
-			Liege = liegeStr;
-		}
-
-		var developmentLevelOpt = history.GetFieldValue("development_level", ck3BookmarkDate);
-		if (developmentLevelOpt is string devStr) {
-			DevelopmentLevel = int.Parse(devStr);
-		}
 	}
 	public void Update(HistoryFactory historyFactory, BufferedReader reader) {
 		historyFactory.UpdateHistory(InternalHistory, reader);
@@ -22,8 +15,8 @@ public class TitleHistory {
 
 	public string GetHolderId(Date date) {
 		var idFromHistory = InternalHistory.GetFieldValue("holder", date);
-		if (idFromHistory is string idStr) {
-			return idStr;
+		if (idFromHistory is not null) {
+			return idFromHistory.ToString()!;
 		}
 		return "0";
 	}
@@ -33,12 +26,26 @@ public class TitleHistory {
 		}
 		return null;
 	}
-	public string? Liege { get; set; }
-	public int? DevelopmentLevel { get; set; }
 
-	public History InternalHistory { get; } = new();
+	public string? GetLiege(Date date) {
+		if (InternalHistory.GetFieldValue("liege", date) is string liegeStr) {
+			return liegeStr;
+		}
+		return null;
+	}
+
+	public int? GetDevelopmentLevel(Date date) {
+		var historyValue = InternalHistory.GetFieldValue("development_level", date);
+		return historyValue switch {
+			string devStr when int.TryParse(devStr, out int dev) => dev,
+			int devInt => devInt,
+			_ => null
+		};
+	}
 
 	public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {
 		InternalHistory.RemoveHistoryPastDate(ck3BookmarkDate);
 	}
+
+	[SerializeOnlyValue] public History InternalHistory { get; } = new();
 }

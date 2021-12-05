@@ -22,12 +22,12 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw {
 		private void RegisterKeys() {
 			RegisterKeyword("link", reader => {
 				var mapping = new SuccessionLawMapping(reader);
-				if (mapping.Ck3SuccessionLaws.Count == 0) {
+				if (mapping.CK3SuccessionLaws.Count == 0) {
 					Logger.Warn("SuccessionLawMapper: link with no CK3 successions laws");
 					return;
 				}
-				if (!impToCK3SuccessionLawMap.TryAdd(mapping.ImperatorLaw, mapping.Ck3SuccessionLaws)) {
-					impToCK3SuccessionLawMap[mapping.ImperatorLaw].UnionWith(mapping.Ck3SuccessionLaws);
+				if (!impToCK3SuccessionLawMap.TryAdd(mapping.ImperatorLaw, mapping.CK3SuccessionLaws)) {
+					impToCK3SuccessionLawMap[mapping.ImperatorLaw].UnionWith(mapping.CK3SuccessionLaws);
 				}
 			});
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
