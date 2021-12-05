@@ -1,9 +1,5 @@
-﻿using System;
+﻿using commonItems;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using commonItems;
 
 namespace ImperatorToCK3.Mappers.Gene {
 	public class AccessoryGeneMapper {
@@ -11,9 +7,7 @@ namespace ImperatorToCK3.Mappers.Gene {
 
 		public AccessoryGeneMapper(string mappingsFilePath) {
 			var parser = new Parser();
-			parser.RegisterKeyword("beards", reader =>
-				BeardMappings = ParserHelpers.GetAssignments(reader)
-			);
+			parser.RegisterKeyword("beards", reader => BeardMappings = reader.GetAssignments());
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			parser.ParseFile(mappingsFilePath);
 		}

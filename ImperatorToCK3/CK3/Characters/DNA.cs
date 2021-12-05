@@ -5,7 +5,6 @@ using ImperatorToCK3.Mappers.Gene;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class DNA {
@@ -56,7 +55,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			genesDB = new GenesDB(genesPath);
 		}
 		public DNA(Imperator.Characters.Character impCharacter, Imperator.Characters.PortraitData impPortraitData) {
-			Id = "dna_" + impCharacter.ID;
+			Id = $"dna_{impCharacter.Id}";
 
 			HairCoordinates = GetPaletteCoordinates(
 				impPortraitData.HairColorPaletteCoordinates, impHairPalettePixels, ck3HairPalettePixels
@@ -119,7 +118,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			var bestCoordinates = new PaletteCoordinates();
 
-			var impColor = impPalettePixels.GetPixel(impPaletteCoordinates.x, impPaletteCoordinates.y).ToColor();
+			var impColor = impPalettePixels.GetPixel(impPaletteCoordinates.X, impPaletteCoordinates.Y).ToColor();
 			if (impColor is null) {
 				Logger.Warn($"Cannot get color from palette {impPalettePixels}!");
 				return bestCoordinates;

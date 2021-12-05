@@ -23,20 +23,20 @@ namespace ImperatorToCK3.Imperator.Characters {
 			const int eyeColorPaletteXIndex = 8;
 
 			// hair
-			HairColorPaletteCoordinates.x = decodedDnaStr[hairColorPaletteXIndex] * 2;
-			HairColorPaletteCoordinates.y = decodedDnaStr[hairColorPaletteXIndex + 1] * 2;
-			HairColor2PaletteCoordinates.x = decodedDnaStr[hairColorPaletteXIndex + 2] * 2;
-			HairColor2PaletteCoordinates.y = decodedDnaStr[hairColorPaletteXIndex + 3] * 2;
+			HairColorPaletteCoordinates.X = decodedDnaStr[hairColorPaletteXIndex] * 2;
+			HairColorPaletteCoordinates.Y = decodedDnaStr[hairColorPaletteXIndex + 1] * 2;
+			HairColor2PaletteCoordinates.X = decodedDnaStr[hairColorPaletteXIndex + 2] * 2;
+			HairColor2PaletteCoordinates.Y = decodedDnaStr[hairColorPaletteXIndex + 3] * 2;
 			// skin
-			SkinColorPaletteCoordinates.x = decodedDnaStr[skinColorPaletteXIndex] * 2;
-			SkinColorPaletteCoordinates.y = decodedDnaStr[skinColorPaletteXIndex + 1] * 2;
-			SkinColor2PaletteCoordinates.x = decodedDnaStr[skinColorPaletteXIndex + 2] * 2;
-			SkinColor2PaletteCoordinates.y = decodedDnaStr[skinColorPaletteXIndex + 3] * 2;
+			SkinColorPaletteCoordinates.X = decodedDnaStr[skinColorPaletteXIndex] * 2;
+			SkinColorPaletteCoordinates.Y = decodedDnaStr[skinColorPaletteXIndex + 1] * 2;
+			SkinColor2PaletteCoordinates.X = decodedDnaStr[skinColorPaletteXIndex + 2] * 2;
+			SkinColor2PaletteCoordinates.Y = decodedDnaStr[skinColorPaletteXIndex + 3] * 2;
 			// eyes
-			EyeColorPaletteCoordinates.x = decodedDnaStr[eyeColorPaletteXIndex] * 2;
-			EyeColorPaletteCoordinates.y = decodedDnaStr[eyeColorPaletteXIndex + 1] * 2;
-			EyeColor2PaletteCoordinates.x = decodedDnaStr[eyeColorPaletteXIndex + 2] * 2;
-			EyeColor2PaletteCoordinates.y = decodedDnaStr[eyeColorPaletteXIndex + 3] * 2;
+			EyeColorPaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex] * 2;
+			EyeColorPaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 1] * 2;
+			EyeColor2PaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex + 2] * 2;
+			EyeColor2PaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 3] * 2;
 
 			// accessory genes
 			const uint colorGenesBytes = 12;

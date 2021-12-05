@@ -14,16 +14,10 @@ namespace ImperatorToCK3.CommonUtils.Genes {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("index", reader => {
-				Index = (uint)ParserHelpers.GetInt(reader);
-			});
-			RegisterKeyword("inheritable", reader =>
-				Inheritable = reader.GetPDXBool()
-			);
+			RegisterKeyword("index", reader => Index = (uint)reader.GetInt());
+			RegisterKeyword("inheritable", reader => Inheritable = reader.GetPDXBool());
 			RegisterKeyword("group", ParserHelpers.IgnoreAndLogItem);
-			RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
-				GeneTemplates.Add(geneTemplateName, new AccessoryGeneTemplate(reader));
-			});
+			RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => GeneTemplates.Add(geneTemplateName, new AccessoryGeneTemplate(reader)));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 		public KeyValuePair<string, AccessoryGeneTemplate> GetGeneTemplateByIndex(uint indexInDna) {

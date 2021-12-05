@@ -21,7 +21,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			Logger.Info("Importing Imperator Characters...");
 
@@ -36,7 +36,7 @@ namespace ImperatorToCK3.CK3.Characters {
 					provinceMapper,
 					deathReasonMapper,
 					endDate,
-					ck3BookmarkDate
+					config
 				);
 			}
 			Logger.Info($"{Count} total characters recognized.");
@@ -56,7 +56,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			// Create a new CK3 character
 			var newCharacter = new Character(
@@ -69,7 +69,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				provinceMapper,
 				deathReasonMapper,
 				endDate,
-				ck3BookmarkDate
+				config
 			);
 			character.CK3Character = newCharacter;
 			Add(newCharacter);
