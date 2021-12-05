@@ -504,11 +504,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	[NonSerialized] public Country? ImperatorCountry { get; private set; }
 
+	[SerializedName("color")] public Color? Color1 { get; private set; }
+	[SerializedName("color2")] public Color? Color2 { get; private set; }
+
 	private Title? deJureLiege;
 	[NonSerialized]
 	public Title? DeJureLiege { // direct de jure liege title
 		get => deJureLiege;
 		set {
+			if (value is not null && value.Rank <= Rank) {
+				Logger.Warn($"Cannot set de jure liege {value.Id} to {Id}: rank is not higher!");
+				return;
+			}
 			deJureLiege?.DeJureVassals.Remove(Id);
 			deJureLiege = value;
 			if (value is not null) {
@@ -524,8 +531,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		return null;
 	}
-	public void SetDeFactoLiege(Title? liege, Date date) {
-		string liegeStr = liege is not null ? liege.Id : "0";
+	public void SetDeFactoLiege(Title? newLiege, Date date) {
+		if (newLiege is not null && newLiege.Rank <= Rank) {
+			Logger.Warn($"Cannot set de facto liege {newLiege.Id} to {Id}: rank is not higher!");
+			return;
+		}
+		string liegeStr = newLiege is not null ? newLiege.Id : "0";
 		history.InternalHistory.AddFieldValue("liege", liegeStr, date, "liege");
 	}
 
@@ -585,8 +596,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
 	[SerializedName("landless")] public PDXBool Landless { get; private set; } = new(false);
 	[SerializedName("definite_form")] public PDXBool HasDefiniteForm { get; private set; } = new(false);
-	[SerializedName("color")] public Color? Color1 { get; private set; }
-	[SerializedName("color2")] public Color? Color2 { get; private set; }
 
 	//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
 	[SerializedName("ruler_uses_title_name")] public PDXBool RulerUsesTitleName { get; set; } = new(false);
