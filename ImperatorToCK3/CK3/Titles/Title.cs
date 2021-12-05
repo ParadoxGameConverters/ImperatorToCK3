@@ -694,16 +694,15 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	public void OutputHistory(StreamWriter writer) {
-		//bool needsToBeOutput = false;
 		var sb = new StringBuilder();
+		var content = PDXSerializer.Serialize(history.InternalHistory, "\t");
+		if (string.IsNullOrWhiteSpace(content)) {
+			// doesn't need to be output
+			return;
+		}
 
-		sb.Append(Id).AppendLine("={").AppendLine(PDXSerializer.Serialize(history.InternalHistory, "\t")).AppendLine("}");
-
-		// TODO: FIX DEVELOPMENT LEVEL BEING A STRING, IT NEEDS TO BE AN INT
-
-		//if (needsToBeOutput) {
+		sb.Append(Id).AppendLine("={").Append(content).AppendLine("}");
 		writer.Write(sb);
-		//}
 	}
 
 	public HashSet<ulong> GetProvincesInCountry(Date date) {

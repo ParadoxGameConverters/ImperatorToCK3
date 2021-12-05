@@ -211,7 +211,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			var fields = new Dictionary<string, HistoryField> {
 				{"holder", new HistoryField("holder", null)}, // simple field with null initial value
 				{"culture", new HistoryField("culture", "roman")}, // simple field with initial value
-				{"buildings", new HistoryField("buildings", new List<string>())} // container field initially empty
+				{"buildings", new HistoryField("buildings", new List<object> {"baths"})} // container field
 			};
 			var history = new History(fields);
 
@@ -228,7 +228,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			// Date blocks are ordered by date.
 			var expectedStr =
 				"culture=\"roman\"" + Environment.NewLine +
-				"buildings={ }" + Environment.NewLine +
+				"buildings={ \"baths\" }" + Environment.NewLine +
 				"2.1.1={" + Environment.NewLine +
 				"\tbuildings={ \"aqueduct\" \"baths\" }" + Environment.NewLine +
 				"}" + Environment.NewLine +
@@ -254,6 +254,21 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				"change_development_level=10" + Environment.NewLine +
 				"5.1.1={" + Environment.NewLine +
 				"\tchange_development_level=20" + Environment.NewLine +
+				"}" + Environment.NewLine;
+			Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
+		}
+
+		[Fact]
+		public void EmptyListInitialValuesAreNotSerialized() {
+			var fields = new Dictionary<string, HistoryField> {
+				{"buildings", new HistoryField("buildings", new List<object>())} // container field initially empty
+			};
+			var history = new History(fields);
+			history.Fields["buildings"].AddValueToHistory(new List<object> { "baths" }, new Date(5, 1, 1));
+
+			var expectedStr =
+				"5.1.1={" + Environment.NewLine +
+				"\tbuildings={ \"baths\" }" + Environment.NewLine +
 				"}" + Environment.NewLine;
 			Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 		}

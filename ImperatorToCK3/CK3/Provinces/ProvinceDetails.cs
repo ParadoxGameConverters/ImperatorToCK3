@@ -41,15 +41,20 @@ namespace ImperatorToCK3.CK3.Provinces {
 					Logger.Warn("Wrong province holding value!");
 					break;
 			}
-			switch (history.GetFieldValue("buildings", ck3BookmarkDate)) {
+
+			var buildingsValue = history.GetFieldValue("buildings", ck3BookmarkDate);
+			switch (buildingsValue) {
 				case null:
 					Logger.Warn("Province's buildings list can't be null!");
 					break;
 				case IList<object> buildingsList:
 					Buildings = new List<string>(buildingsList.Select(b => b.ToString()!));
 					break;
+				case IList<string> buildingsList:
+					Buildings = (List<string>)buildingsList;
+					break;
 				default:
-					Logger.Warn("Wrong province buildings value!");
+					Logger.Warn($"Wrong province buildings value: {buildingsValue}");
 					break;
 			}
 		}
