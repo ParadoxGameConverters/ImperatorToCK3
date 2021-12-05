@@ -1,10 +1,11 @@
-﻿using ImperatorToCK3.CK3.Titles;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class SuccessionTriggersOutputter {
-		public static void OutputSuccessionTriggers(string outputModName, Title.LandedTitles landedTitles) {
+		public static void OutputSuccessionTriggers(string outputModName, Title.LandedTitles landedTitles, Date ck3BookmarkDate) {
 			var outputPath = Path.Combine("output", outputModName, "common/scripted_triggers/IRToCK3_succession_triggers.txt");
 
 			using var outputStream = File.OpenWrite(outputPath);
@@ -14,7 +15,7 @@ namespace ImperatorToCK3.Outputter {
 			var seniorityTitles = new List<string>();
 
 			foreach (var landedTitle in landedTitles) {
-				if (landedTitle.DeFactoLiege is null) {
+				if (landedTitle.GetDeFactoLiege(ck3BookmarkDate) is null) {
 					if (landedTitle.SuccessionLaws.Contains("single_heir_succession_law")) {
 						primogenitureTitles.Add(landedTitle.Id);
 					}

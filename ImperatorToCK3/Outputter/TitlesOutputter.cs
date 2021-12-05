@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Outputter {
 	public static class TitlesOutputter {
-		private static void OutputTitlesHistory(string outputModName, Title.LandedTitles titles, Date conversionDate) {
+		private static void OutputTitlesHistory(string outputModName, Title.LandedTitles titles) {
 			//output title history
 			var alreadyOutputtedTitles = new HashSet<string>();
 			foreach (var title in titles) {
@@ -20,12 +20,12 @@ namespace ImperatorToCK3.Outputter {
 
 				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", title.Id + ".txt");
 				using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
-				title.OutputHistory(historyOutput, conversionDate);
+				title.OutputHistory(historyOutput);
 				alreadyOutputtedTitles.Add(title.Id);
 
 				// output the kingdom's de jure vassals' history
 				foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
-					deJureVassal.OutputHistory(historyOutput, conversionDate);
+					deJureVassal.OutputHistory(historyOutput);
 					alreadyOutputtedTitles.Add(deJureVassalName);
 				}
 			}
@@ -37,13 +37,13 @@ namespace ImperatorToCK3.Outputter {
 					if (alreadyOutputtedTitles.Contains(title.Id)) {
 						continue;
 					}
-					title.OutputHistory(historyOutput, conversionDate);
+					title.OutputHistory(historyOutput);
 					alreadyOutputtedTitles.Add(title.Id);
 				}
 			}
 		}
 
-		public static void OutputTitles(string outputModName, Title.LandedTitles titles, IMPERATOR_DE_JURE deJure, Date conversionDate) {
+		public static void OutputTitles(string outputModName, Title.LandedTitles titles, IMPERATOR_DE_JURE deJure) {
 			var outputPath = Path.Combine("output", outputModName, "common/landed_titles/00_landed_titles.txt");
 			using var outputStream = File.OpenWrite(outputPath);
 			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
@@ -57,12 +57,14 @@ namespace ImperatorToCK3.Outputter {
 			output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
 
 			if (deJure == IMPERATOR_DE_JURE.REGIONS) {
-				if (!SystemUtils.TryCopyFolder("blankMod/optionalFiles/ImperatorDeJure/common/landed_titles", $"output/{outputModName}/common/landed_titles/")) {
+				const string srcPath = "blankMod/optionalFiles/ImperatorDeJure/common/landed_titles";
+				var dstPath = $"output/{outputModName}/common/landed_titles/";
+				if (!SystemUtils.TryCopyFolder(srcPath, dstPath)) {
 					Logger.Error("Could not copy ImperatorDeJure landed titles!");
 				}
 			}
 
-			OutputTitlesHistory(outputModName, titles, conversionDate);
+			OutputTitlesHistory(outputModName, titles);
 		}
 	}
 }

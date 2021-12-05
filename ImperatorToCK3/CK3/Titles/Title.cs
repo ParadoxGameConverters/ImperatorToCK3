@@ -42,7 +42,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
-		CharacterCollection characters) {
+		CharacterCollection characters,
+		Date conversionDate
+	) {
 		this.parentCollection = parentCollection;
 		Id = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
 		SetRank();
@@ -58,7 +60,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			religionMapper,
 			cultureMapper,
 			nicknameMapper,
-			characters
+			characters,
+			conversionDate
 		);
 	}
 	private Title(
@@ -100,7 +103,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
-		CharacterCollection characters
+		CharacterCollection characters,
+		Date conversionDate
 	) {
 		IsImportedOrUpdatedFromImperator = true;
 		ImperatorCountry = country;
@@ -156,7 +160,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// determine successions laws
-		SuccessionLaws = successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws());
+		history.InternalHistory.AddFieldValue("succession_laws",
+			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws()),
+			conversionDate,
+			"succession_laws"
+		);
 
 		// ------------------ determine CoA
 		CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
@@ -204,6 +212,19 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// --------------- Adjective Locs
 		TrySetAdjectiveLoc(localizationMapper, imperatorCountries);
+	}
+
+	internal void RemoveDeFactoLiegeReferences(string name) {
+		if (!history.InternalHistory.Fields.TryGetValue("liege", out var liegeField)) {
+			return;
+		}
+
+		liegeField.ValueHistory = new SortedDictionary<Date, object>(liegeField.ValueHistory.Where(
+				kvp => !(kvp.Value is string vStr && vStr == name)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
+		);
+		if (liegeField.InitialValue is string str && str == name) {
+			liegeField.InitialValue = null;
+		}
 	}
 
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocalizationMapper localizationMapper) {
@@ -262,14 +283,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
+		var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
+
 		IsImportedOrUpdatedFromImperator = true;
 
 		if (country.CK3Title is null) {
 			throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
 		}
 
+		ClearHolderSpecificHistory();
+
 		DeJureLiege = country.CK3Title;
-		DeFactoLiege = country.CK3Title;
+		SetDeFactoLiege(country.CK3Title, normalizedStartDate);
 
 		HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 		RulerUsesTitleName.Value = false;
@@ -277,9 +302,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		PlayerCountry = false;
 
 		var impGovernor = imperatorCharacters[governorship.CharacterId];
-		var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
 
-		ClearHolderSpecificHistory();
 
 		// ------------------ determine holder
 		history.InternalHistory.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate, "holder");
@@ -302,7 +325,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
-		SuccessionLaws = new() { "high_partition_succession_law" };
+		history.InternalHistory.AddFieldValue("succession_laws",
+			new SortedSet<string> { "high_partition_succession_law" },
+			normalizedStartDate,
+			"succession_laws"
+		);
 
 		// ------------------ determine CoA
 		CoA = null; // using game-randomized CoA
@@ -331,7 +358,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (ck3Country is null) {
 				return;
 			}
-			if (ck3Country.Localizations.TryGetValue(ck3Country.Id + "_adj", out var countryAdjectiveLocBlock)) {
+			if (ck3Country.Localizations.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
 				var adjLocBlock = new LocBlock(countryAdjectiveLocBlock);
 				Localizations.Add(adjKey, adjLocBlock);
 				adjSet = true;
@@ -397,10 +424,15 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return history.GetGovernment(date);
 	}
 
-	[NonSerialized]
-	public int? DevelopmentLevel {
-		get => history.DevelopmentLevel;
-		set => history.DevelopmentLevel = value;
+	public int? GetDevelopmentLevel(Date date) {
+		return history.GetDevelopmentLevel(date);
+	}
+	public void SetDevelopmentLevel(int value, Date date) {
+		if (Rank == TitleRank.barony) {
+			Logger.Warn($"Cannot set development level to a barony title {Id}!");
+			return;
+		}
+		history.InternalHistory.AddFieldValue("development_level", value, date, "change_development_level");
 	}
 
 	[NonSerialized] public Dictionary<string, LocBlock> Localizations { get; set; } = new();
@@ -459,9 +491,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	public void AddHistory(TitleHistory titleHistory) {
 		history = titleHistory;
-		if (history.Liege is not null && parentCollection.TryGetValue(history.Liege, out var liege)) {
-			DeFactoLiege = liege;
-		}
 	}
 
 	[NonSerialized] public string? CoA { get; private set; }
@@ -472,7 +501,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		get => CapitalCountyId is null ? null : parentCollection[CapitalCountyId];
 		private set => CapitalCountyId = value?.Id;
 	}
-
 
 	[NonSerialized] public Country? ImperatorCountry { get; private set; }
 
@@ -488,33 +516,30 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				Logger.Warn($"Cannot set de jure liege {value.Id} to {Id}: rank is not higher!");
 				return;
 			}
-			if (deJureLiege is not null) {
-				deJureLiege.DeJureVassals.Remove(Id);
-			}
+			deJureLiege?.DeJureVassals.Remove(Id);
 			deJureLiege = value;
 			if (value is not null) {
 				value.DeJureVassals.Add(this);
 			}
 		}
 	}
-	private Title? deFactoLiege;
-	[NonSerialized]
-	public Title? DeFactoLiege { // direct de facto liege title
-		get => deFactoLiege;
-		set {
-			if (value is not null && value.Rank <= Rank) {
-				Logger.Warn($"Cannot set de facto liege {value.Id} to {Id}: rank is not higher!");
-				return;
-			}
-			if (deFactoLiege is not null) {
-				deFactoLiege.DeFactoVassals.Remove(Id);
-			}
-			deFactoLiege = value;
-			if (value is not null) {
-				value.DeFactoVassals.Add(this);
-			}
+	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title
+		var liegeStr = history.GetLiege(date);
+		if (liegeStr is not null && parentCollection.TryGetValue(liegeStr, out var liegeTitle)) {
+			return liegeTitle;
 		}
+
+		return null;
 	}
+	public void SetDeFactoLiege(Title? newLiege, Date date) {
+		if (newLiege is not null && newLiege.Rank <= Rank) {
+			Logger.Warn($"Cannot set de facto liege {newLiege.Id} to {Id}: rank is not higher!");
+			return;
+		}
+		string liegeStr = newLiege is not null ? newLiege.Id : "0";
+		history.InternalHistory.AddFieldValue("liege", liegeStr, date, "liege");
+	}
+
 	[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
 	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
 		return GetDeJureVassalsAndBelow("bcdke");
@@ -536,23 +561,27 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 			}
 		}
+
 		return deJureVassalsAndBelow;
 	}
-	[NonSerialized] public TitleCollection DeFactoVassals { get; } = new(); // DIRECT de facto vassals
-	public Dictionary<string, Title> GetDeFactoVassalsAndBelow() {
-		return GetDeFactoVassalsAndBelow("bcdke");
+	public Dictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
+		return parentCollection.Where(t => t.GetDeFactoLiege(date)?.Id == Id)
+			.ToDictionary(t => t.Id, t => t);
 	}
-	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(string rankFilter) {
+	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
+		return GetDeFactoVassalsAndBelow(date, "bcdke");
+	}
+	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deFactoVassalsAndBelow = new();
-		foreach (var vassalTitle in DeFactoVassals) {
+		foreach (var (vassalTitleName, vassalTitle) in GetDeFactoVassals(date)) {
 			// add the direct part
-			if (vassalTitle.Id.IndexOfAny(rankFilterAsArray) == 0) {
-				deFactoVassalsAndBelow[vassalTitle.Id] = vassalTitle;
+			if (vassalTitleName.IndexOfAny(rankFilterAsArray) == 0) {
+				deFactoVassalsAndBelow[vassalTitleName] = vassalTitle;
 			}
 
 			// add the "below" part (recursive)
-			var belowTitles = vassalTitle.GetDeFactoVassalsAndBelow(rankFilter);
+			var belowTitles = vassalTitle.GetDeFactoVassalsAndBelow(date, rankFilter);
 			foreach (var (belowTitleName, belowTitle) in belowTitles) {
 				if (belowTitleName.IndexOfAny(rankFilterAsArray) == 0) {
 					deFactoVassalsAndBelow[belowTitleName] = belowTitle;
@@ -583,17 +612,15 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	// <culture, loc key>
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
 
-	[NonSerialized]
-	public int? OwnOrInheritedDevelopmentLevel {
-		get {
-			if (history.DevelopmentLevel is not null) { // if development level is already set, just return it
-				return history.DevelopmentLevel;
-			}
-			if (deJureLiege is not null) { // if de jure liege exists, return their level
-				return deJureLiege.OwnOrInheritedDevelopmentLevel;
-			}
-			return null;
+	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
+		var ownDev = history.GetDevelopmentLevel(date);
+		if (ownDev is not null) { // if development level is already set, just return it
+			return ownDev;
 		}
+		if (deJureLiege is not null) { // if de jure liege exists, return their level
+			return deJureLiege.GetOwnOrInheritedDevelopmentLevel(date);
+		}
+		return null;
 	}
 	[NonSerialized] public SortedSet<string> SuccessionLaws { get; private set; } = new();
 	[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
@@ -655,6 +682,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	internal void ClearHolderSpecificHistory() {
 		history.InternalHistory.Fields.Remove("holder");
 		history.InternalHistory.Fields.Remove("government");
+		history.InternalHistory.Fields.Remove("liege");
 	}
 
 	private TitleHistory history = new();
@@ -676,70 +704,22 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	public void OutputHistory(StreamWriter writer, Date conversionDate) {
-		bool needsToBeOutput = false;
+	public void OutputHistory(StreamWriter writer) {
 		var sb = new StringBuilder();
-
-		sb.AppendLine($"{Id} = {{");
-
-		if (history.InternalHistory.Fields.ContainsKey("holder")) {
-			needsToBeOutput = true;
-			foreach (var (date, holderId) in history.InternalHistory.Fields["holder"].ValueHistory) {
-				sb.AppendLine($"\t{date} = {{ holder = {holderId} }}");
-			}
+		var content = PDXSerializer.Serialize(history.InternalHistory, "\t");
+		if (string.IsNullOrWhiteSpace(content)) {
+			// doesn't need to be output
+			return;
 		}
 
-		if (history.InternalHistory.Fields.ContainsKey("government")) {
-			var govField = history.InternalHistory.Fields["government"];
-			var initialGovernment = govField.InitialValue;
-			if (initialGovernment is not null) {
-				needsToBeOutput = true;
-				sb.AppendLine($"\t\tgovernment = {initialGovernment}");
-			}
-			foreach (var (date, government) in govField.ValueHistory) {
-				needsToBeOutput = true;
-				sb.AppendLine($"\t{date} = {{ government = {government} }}");
-			}
-		}
-
-		sb.AppendLine($"\t{conversionDate}={{");
-
-		if (DeFactoLiege is not null) {
-			needsToBeOutput = true;
-			sb.AppendLine($"\t\tliege = {DeFactoLiege.Id}");
-		}
-
-		var succLaws = SuccessionLaws;
-		if (succLaws.Count > 0) {
-			needsToBeOutput = true;
-			sb.AppendLine("\t\tsuccession_laws = {");
-			foreach (var law in succLaws) {
-				sb.AppendLine($"\t\t\t{law}");
-			}
-			sb.AppendLine("\t\t}");
-		}
-
-		if (Rank != TitleRank.barony) {
-			var developmentLevelOpt = DevelopmentLevel;
-			if (developmentLevelOpt is not null) {
-				needsToBeOutput = true;
-				sb.AppendLine($"\t\tchange_development_level = {developmentLevelOpt}");
-			}
-		}
-
-		sb.AppendLine("\t}");
-
-		sb.AppendLine("}");
-
-		if (needsToBeOutput) {
-			writer.Write(sb);
-		}
+		sb.Append(Id).AppendLine("={").Append(content).AppendLine("}");
+		writer.Write(sb);
 	}
 
-	public HashSet<ulong> GetProvincesInCountry(Date ck3BookmarkDate) {
-		var holderId = GetHolderId(ck3BookmarkDate);
+	public HashSet<ulong> GetProvincesInCountry(Date date) {
+		var holderId = GetHolderId(date);
 		var heldCounties = new List<Title>(
-			parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank == TitleRank.county)
+			parentCollection.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)
 		);
 		var heldProvinces = new HashSet<ulong>();
 		// add directly held counties
@@ -747,14 +727,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			heldProvinces.UnionWith(county.CountyProvinces);
 		}
 		// add vassals' counties
-		foreach (var vassal in GetDeFactoVassalsAndBelow().Values) {
-			var vassalHolderId = vassal.GetHolderId(ck3BookmarkDate);
+		foreach (var vassal in GetDeFactoVassalsAndBelow(date).Values) {
+			var vassalHolderId = vassal.GetHolderId(date);
 			if (vassalHolderId == "0") {
 				Logger.Warn($"Player title {Id}'s vassal {vassal.Id} has 0 holder!");
 				continue;
 			}
 			var heldVassalCounties = new List<Title>(
-				parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == vassalHolderId && t.Rank == TitleRank.county)
+				parentCollection.Where(t => t.GetHolderId(date) == vassalHolderId && t.Rank == TitleRank.county)
 			);
 			foreach (var vassalCounty in heldVassalCounties) {
 				heldProvinces.UnionWith(vassalCounty.CountyProvinces);
