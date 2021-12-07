@@ -75,11 +75,16 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 
 			// Look up register
 			if (registeredGovernorshipTitles.TryGetValue($"{country.Tag}_{governorship.RegionName}", out var titleToReturn)) {
+				if (titleToReturn.StartsWith('c')) {
+					Logger.Notice($"{governorship.RegionName} in {country.Tag} - {country.CK3Title.Id} = {titleToReturn}");
+				}
 				return titleToReturn;
 			}
 
 			if (rank == "c") {
-				return GetCountyForGovernorship(governorship, titles, provinces, imperatorRegionMapper);
+				var countyId = GetCountyForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
+				Logger.Notice($"========== {governorship.RegionName} in {country.Tag} - {country.CK3Title.Id} = {countyId}");
+				return countyId;
 			}
 
 			// Attempt a title match
@@ -102,7 +107,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			return generatedTitle;
 		}
 
-		private string? GetCountyForGovernorship(Governorship governorship, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
+		private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
 			foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
 				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
 				if (capitalBaronyProvinceId == 0) {
@@ -121,12 +126,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 					continue;
 				}
 
-				var impCountry = impProvince.OwnerCountry;
-				if (impCountry is null) { // e.g. uncolonized Imperator province
-					continue;
-				}
-
-				var ck3Country = impCountry.CK3Title;
+				var ck3Country = country.CK3Title;
 				var ck3CapitalCounty = ck3Country?.CapitalCounty;
 				if (ck3CapitalCounty is null) {
 					continue;
@@ -142,7 +142,8 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 					continue;
 				}
 
-				RegisterGovernorship(governorship.RegionName, impCountry.Tag, county.Id);
+				RegisterGovernorship(governorship.RegionName, country.Tag, county.Id);
+				Logger.Debug($"REGISTERED {governorship.RegionName} {country.Tag} {county.Id}");
 				return county.Id;
 			}
 
@@ -180,6 +181,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				return "d";
 			}
 			if (ck3LiegeTitle.StartsWith('d')) {
+				Logger.Debug($"COUNTY RANK vassal for {ck3LiegeTitle}");
 				return "c";
 			}
 			return null;

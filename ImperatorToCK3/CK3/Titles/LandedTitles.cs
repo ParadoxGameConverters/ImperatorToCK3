@@ -320,13 +320,13 @@ public partial class Title {
 		) {
 			var country = imperatorCountries[governorship.CountryId];
 
-			var name = Title.DetermineName(governorship, country, titles, provinces, imperatorRegionMapper, tagTitleMapper);
+			var name = DetermineName(governorship, country, titles, provinces, imperatorRegionMapper, tagTitleMapper);
 			if (name is null) {
 				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
 				return;
 			}
 
-			if (name.StartsWith('c')) {
+			if (name.StartsWith("c_")) {
 				countryLevelGovernorships.Add(governorship);
 				return;
 			}
