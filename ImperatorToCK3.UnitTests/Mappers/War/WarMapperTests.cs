@@ -10,28 +10,28 @@ namespace ImperatorToCK3.UnitTests.Mappers.War {
 			File.WriteAllText(tempTestFile, "link = { ck3 = ck3CB imp = goal }");
 			var mapper = new WarMapper(tempTestFile);
 
-			var ck3Trait = mapper.GetCK3CBForImperatorWarGoal("nonMatchingGoal");
-			Assert.Null(ck3Trait);
+			var ck3CB = mapper.GetCK3CBForImperatorWarGoal("nonMatchingGoal");
+			Assert.Null(ck3CB);
 		}
 
 		[Fact]
-		public void Ck3TraitCanBeFound() {
+		public void CK3CBCanBeFound() {
 			const string tempTestFile = "TestFiles/configurables/temp_wargoal_map_2.txt";
 			File.WriteAllText(tempTestFile, "link = { ck3 = ck3CB imp = goal }");
 			var mapper = new WarMapper(tempTestFile);
 
-			var ck3Trait = mapper.GetCK3CBForImperatorWarGoal("goal");
-			Assert.Equal("ck3CB", ck3Trait);
+			var ck3CB = mapper.GetCK3CBForImperatorWarGoal("goal");
+			Assert.Equal("ck3CB", ck3CB);
 		}
 
 		[Fact]
-		public void MultipleImpTraitsCanBeInARule() {
+		public void MultipleImperatorWarGoalsCanBeInARule() {
 			const string tempTestFile = "TestFiles/configurables/temp_wargoal_map_3.txt";
 			File.WriteAllText(tempTestFile, "link = { ck3=ck3CB imp=goal1 imp=goal2 }");
 			var mapper = new WarMapper(tempTestFile);
 
-			var ck3Trait = mapper.GetCK3CBForImperatorWarGoal("goal2");
-			Assert.Equal("ck3CB", ck3Trait);
+			var ck3CB = mapper.GetCK3CBForImperatorWarGoal("goal2");
+			Assert.Equal("ck3CB", ck3CB);
 		}
 
 		[Fact]
@@ -43,8 +43,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.War {
 			);
 			var mapper = new WarMapper(tempTestFile);
 
-			var ck3Trait = mapper.GetCK3CBForImperatorWarGoal("goal2");
-			Assert.Equal("ck3CB2", ck3Trait);
+			var ck3CB = mapper.GetCK3CBForImperatorWarGoal("goal2");
+			Assert.Equal("ck3CB2", ck3CB);
 		}
 
 		[Fact]
