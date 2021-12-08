@@ -61,7 +61,7 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\tculture = {holder.Culture}");
 				output.WriteLine($"\t\treligion = {holder.Religion}");
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-				WritePosition(output, world, title, config, provincePositions);
+				WritePosition(output, title, config, provincePositions);
 				output.WriteLine("\t\tanimation = personality_rational");
 
 				output.WriteLine("\t}");
@@ -124,11 +124,11 @@ namespace ImperatorToCK3.Outputter {
 			}
 		}
 
-		private static void WritePosition(TextWriter output, World world, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+		private static void WritePosition(TextWriter output, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 			int count = 0;
 			double sumX = 0;
 			double sumY = 0;
-			foreach (ulong provId in title.GetProvincesInCountry(world.LandedTitles, config.Ck3BookmarkDate)) {
+			foreach (ulong provId in title.GetProvincesInCountry(config.Ck3BookmarkDate)) {
 				if (!provincePositions.TryGetValue(provId, out var pos)) {
 					continue;
 				}
@@ -180,7 +180,7 @@ namespace ImperatorToCK3.Outputter {
 				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
 				var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 				HashSet<ulong> heldProvinces =
-					playerTitle.GetProvincesInCountry(ck3World.LandedTitles, config.Ck3BookmarkDate);
+					playerTitle.GetProvincesInCountry(config.Ck3BookmarkDate);
 				// Determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				var impassables = mapData.ColorableImpassableProvinces;

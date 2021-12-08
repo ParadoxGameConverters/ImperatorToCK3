@@ -59,5 +59,16 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname {
 			Assert.Equal("kind", mapper.GetCK3NicknameForImperatorNickname("friendly"));
 			Assert.Equal("brave", mapper.GetCK3NicknameForImperatorNickname("brave"));
 		}
+
+		[Fact]
+		public void MappingsWithNoCK3NicknameAreIgnored() {
+			var reader = new BufferedReader(
+				"link = { imp = impNickname }"
+			);
+			var mapper = new NicknameMapper(reader);
+
+			var ck3Nickname = mapper.GetCK3NicknameForImperatorNickname("impNickname");
+			Assert.Null(ck3Nickname);
+		}
 	}
 }

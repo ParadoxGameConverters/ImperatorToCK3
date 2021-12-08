@@ -79,7 +79,7 @@ namespace ImperatorToCK3.CK3.Provinces {
 			Logger.Info($"Loaded {Count} province definitions.");
 		}
 
-		public void ImportImperatorProvinces(Imperator.World impWorld, LandedTitles titles, CultureMapper cultureMapper, ReligionMapper religionMapper, ProvinceMapper provinceMapper) {
+		public void ImportImperatorProvinces(Imperator.World impWorld, Title.LandedTitles titles, CultureMapper cultureMapper, ReligionMapper religionMapper, ProvinceMapper provinceMapper) {
 			Logger.Info("Importing Imperator Provinces.");
 			var counter = 0;
 			// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.

@@ -4,20 +4,10 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, Configuration theConfiguration, Date conversionDate) {
-			var directoryToClear = $"output/{theConfiguration.OutputModName}";
-			var di = new DirectoryInfo(directoryToClear);
-			if (di.Exists) {
-				Logger.Info("Clearing the output mod folder...");
-				foreach (FileInfo file in di.EnumerateFiles()) {
-					file.Delete();
-				}
-				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-					dir.Delete(true);
-				}
-			}
+		public static void OutputWorld(World ck3World, Configuration config) {
+			ClearOutputModFolder();
 
-			var outputName = theConfiguration.OutputModName;
+			var outputName = config.OutputModName;
 			CreateModFolder(outputName);
 			OutputModFile(outputName);
 
@@ -25,7 +15,7 @@ namespace ImperatorToCK3.Outputter {
 			CreateFolders(outputName);
 
 			Logger.Info("Writing Characters...");
-			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, conversionDate);
+			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, ck3World.CorrectedDate);
 
 			Logger.Info("Writing Dynasties...");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
@@ -37,44 +27,56 @@ namespace ImperatorToCK3.Outputter {
 			TitlesOutputter.OutputTitles(
 				outputName,
 				ck3World.LandedTitles,
-				theConfiguration.ImperatorDeJure,
-				conversionDate
+				config.ImperatorDeJure
 			);
 
 			Logger.Info("Writing Wars...");
 			WarsOutputter.OutputWars(outputName, ck3World.Wars);
 
 			Logger.Info("Writing Succession Triggers...");
-			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles);
+			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.Ck3BookmarkDate);
 
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
-				theConfiguration.ImperatorPath,
+				config.ImperatorPath,
 				outputName,
 				ck3World,
-				theConfiguration.ImperatorDeJure
+				config.ImperatorDeJure
 			);
 
-			var outputPath = "output/" + outputName;
+			var outputPath = $"output/{config.OutputModName}";
 
 			Logger.Info("Copying named colors...");
-			SystemUtils.TryCopyFile($"{theConfiguration.ImperatorPath}/game/common/named_colors/default_colors.txt",
+			SystemUtils.TryCopyFile($"{config.ImperatorPath}/game/common/named_colors/default_colors.txt",
 									 $"{outputPath}/common/named_colors/imp_colors.txt");
 
 			Logger.Info("Copying Coats of Arms...");
-			ColoredEmblemsOutputter.CopyColoredEmblems(theConfiguration, outputName);
+			ColoredEmblemsOutputter.CopyColoredEmblems(config, outputName);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
-			SystemUtils.TryCopyFolder($"{theConfiguration.ImperatorPath}/game/gfx/coat_of_arms/patterns",
+			SystemUtils.TryCopyFolder($"{config.ImperatorPath}/game/gfx/coat_of_arms/patterns",
 							$"{outputPath}/gfx/coat_of_arms/patterns");
 
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder("blankMod/output", outputPath);
 
 			Logger.Info("Creating bookmark...");
-			BookmarkOutputter.OutputBookmark(
-				ck3World,
-				theConfiguration
-			);
+			BookmarkOutputter.OutputBookmark(ck3World, config);
+
+			void ClearOutputModFolder() {
+				var directoryToClear = $"output/{config.OutputModName}";
+				var di = new DirectoryInfo(directoryToClear);
+				if (!di.Exists) {
+					return;
+				}
+
+				Logger.Info("Clearing the output mod folder...");
+				foreach (FileInfo file in di.EnumerateFiles()) {
+					file.Delete();
+				}
+				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
+					dir.Delete(true);
+				}
+			}
 		}
 
 		private static void OutputModFile(string outputName) {

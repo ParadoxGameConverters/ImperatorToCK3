@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CommonUtils {
 	public class History : IPDXSerializable {
-		[NonSerialized] public Dictionary<string, HistoryField> Fields { get; } = new(); // fieldName, field
+		[commonItems.Serialization.NonSerialized] public Dictionary<string, HistoryField> Fields { get; } = new(); // fieldName, field
 
 		public History() { }
 		public History(Dictionary<string, HistoryField> fields) {
@@ -49,15 +49,20 @@ namespace ImperatorToCK3.CommonUtils {
 
 			var sb = new StringBuilder();
 			foreach (HistoryField field in Fields.Values.Where(f => f.InitialValue is not null)) {
+				if (field.InitialValue is IEnumerable<object> enumerable && !enumerable.Any()) {
+					// we don't need to output empty lists
+					continue;
+				}
+
 				sb.Append(indent).Append(field.Setter)
-					.Append(" = ")
+					.Append('=')
 					.AppendLine(PDXSerializer.Serialize(field.InitialValue!, indent));
 			}
 			foreach (var (date, entries) in entriesByDate) {
-				sb.Append(indent).Append(date).AppendLine(" = {");
+				sb.Append(indent).Append(date).AppendLine("={");
 				foreach (var (setter, value) in entries) {
-					sb.Append('\t').Append(setter)
-						.Append(" = ")
+					sb.Append(indent).Append('\t').Append(setter)
+						.Append('=')
 						.AppendLine(PDXSerializer.Serialize(value, indent));
 				}
 				sb.Append(indent).AppendLine("}");
