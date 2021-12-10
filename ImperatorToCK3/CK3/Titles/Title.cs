@@ -171,13 +171,13 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// ------------------ determine other attributes
 
-		var srcCapital = ImperatorCountry.Capital;
-		if (srcCapital is not null) {
-			var provMappingsForImperatorCapital = provinceMapper.GetCK3ProvinceNumbers((ulong)srcCapital);
-			if (provMappingsForImperatorCapital.Count > 0) {
-				var foundCounty = parentCollection.GetCountyForProvince(provMappingsForImperatorCapital[0]);
+		if (ImperatorCountry.Capital is not null) {
+			var srcCapital = (ulong)ImperatorCountry.Capital;
+			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
+				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
 				if (foundCounty is not null) {
 					CapitalCounty = foundCounty;
+					break;
 				}
 			}
 		}

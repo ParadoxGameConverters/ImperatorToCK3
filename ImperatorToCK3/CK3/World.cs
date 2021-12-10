@@ -223,12 +223,12 @@ namespace ImperatorToCK3.CK3 {
 					Logger.Warn($"{impCountry.Name} has no CK3 title!"); // should not happen
 					return false;
 				}
-				var ck3CapitalCounty = ck3Country.CapitalCounty;
 				var matchingGovernorships = new List<Governorship>(governorships.Where(g =>
 					g.CountryId == impCountry.Id &&
 					g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 				));
 
+				var ck3CapitalCounty = ck3Country.CapitalCounty;
 				if (ck3CapitalCounty is null) {
 					Logger.Warn($"{ck3Country.Id} has no capital county!");
 					return false;
