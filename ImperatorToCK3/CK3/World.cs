@@ -36,7 +36,7 @@ namespace ImperatorToCK3.CK3 {
 			CorrectedDate = impWorld.EndDate.Year > 0 ? impWorld.EndDate : new Date(1, 1, 1);
 
 			Logger.Info("Loading map data...");
-			MapData = new MapData(config.Ck3Path);
+			MapData = new MapData(config.CK3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
 			localizationMapper.ScrapeLocalizations(config, impWorld.Mods);
@@ -45,17 +45,17 @@ namespace ImperatorToCK3.CK3 {
 			coaMapper = new CoaMapper(config);
 
 			// Load vanilla titles history
-			var titlesHistoryPath = Path.Combine(config.Ck3Path, "game/history/titles");
+			var titlesHistoryPath = Path.Combine(config.CK3Path, "game/history/titles");
 			titlesHistory = new TitlesHistory(titlesHistoryPath);
 
 			// Load vanilla CK3 landed titles
-			var landedTitlesPath = Path.Combine(config.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
+			var landedTitlesPath = Path.Combine(config.CK3Path, "game/common/landed_titles/00_landed_titles.txt");
 
 			LandedTitles.LoadTitles(landedTitlesPath);
-			AddHistoryToVanillaTitles(config.Ck3BookmarkDate);
+			AddHistoryToVanillaTitles(config.CK3BookmarkDate);
 
 			// Loading regions
-			ck3RegionMapper = new CK3RegionMapper(config.Ck3Path, LandedTitles);
+			ck3RegionMapper = new CK3RegionMapper(config.CK3Path, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath);
 			// Use the region mappers in other mappers
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
@@ -107,16 +107,16 @@ namespace ImperatorToCK3.CK3 {
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
-				config.Ck3BookmarkDate
+				config.CK3BookmarkDate
 			);
-			ClearFeaturedCharactersDescriptions(config.Ck3BookmarkDate);
+			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.Ck3BookmarkDate);
 
-			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.Ck3BookmarkDate);
+			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.CK3BookmarkDate);
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		}
 
