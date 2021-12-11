@@ -71,7 +71,7 @@ namespace ImperatorToCK3.Mappers.Province {
 
 		public void DetermineValidProvinces(Configuration theConfiguration) {
 			Logger.Info("Loading Valid Provinces");
-			var filePath = Path.Combine(theConfiguration.Ck3Path, "game/map_data/definition.csv");
+			var filePath = Path.Combine(theConfiguration.CK3Path, "game/map_data/definition.csv");
 			using var definitionFileReader = new StreamReader(File.OpenRead(filePath));
 
 			while (!definitionFileReader.EndOfStream) {

@@ -13,7 +13,7 @@ namespace ImperatorToCK3.Outputter {
 			if (fileName == "ce_lion.dds" && !File.Exists(emblemFilePath)) { // something's wrong with ce_lion.dds
 																			 // instead of converting a broken file from Imperator, copy closest CK3 emblem
 				SystemUtils.TryCopyFile(
-					Path.Combine(configuration.Ck3Path, "game/gfx/coat_of_arms/colored_emblems/ce_lion_passant.dds"),
+					Path.Combine(configuration.CK3Path, "game/gfx/coat_of_arms/colored_emblems/ce_lion_passant.dds"),
 					emblemFilePath
 				);
 				return true;

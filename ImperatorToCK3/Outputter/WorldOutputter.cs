@@ -31,7 +31,7 @@ namespace ImperatorToCK3.Outputter {
 			);
 
 			Logger.Info("Writing Succession Triggers...");
-			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.Ck3BookmarkDate);
+			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);
 
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
