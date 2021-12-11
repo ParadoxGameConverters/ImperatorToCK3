@@ -119,42 +119,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		ClearHolderSpecificHistory();
 
-		// ------------------ determine previous and current holders
-		// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
-		var firstPossibleDate = new Date(0, 1, 1);
-		foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
-			var rulerTerm = new RulerTerm(
-				impRulerTerm,
-				characters,
-				governmentMapper,
-				localizationMapper,
-				religionMapper,
-				cultureMapper,
-				nicknameMapper,
-				provinceMapper
-			);
-
-			var characterId = rulerTerm.CharacterId;
-			var gov = rulerTerm.Government;
-
-			var startDate = new Date(rulerTerm.StartDate);
-			if (startDate < firstPossibleDate) {
-				startDate = new Date(firstPossibleDate); // TODO: remove this workaround if CK3 supports negative dates
-				firstPossibleDate.ChangeByDays(1);
-			}
-
-			history.InternalHistory.AddFieldValue("holder", characterId, startDate, "holder");
-			if (gov is not null) {
-				history.InternalHistory.AddFieldValue("government", gov, startDate, "government");
-			}
-		}
-		if (ImperatorCountry.Government is not null) {
-			var lastCK3TermGov = history.GetGovernment(conversionDate);
-			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
-			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
-				history.InternalHistory.AddFieldValue("government", ck3CountryGov, conversionDate, "government");
-			}
-		}
+		FillHolderAndGovernmentHistory();
 
 		// ------------------ determine color
 		var color1Opt = ImperatorCountry.Color1;
@@ -219,6 +184,46 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// --------------- Adjective Locs
 		TrySetAdjectiveLoc(localizationMapper, imperatorCountries);
+
+		void FillHolderAndGovernmentHistory() {
+			// ------------------ determine previous and current holders
+			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
+			var firstPossibleDate = new Date(0, 1, 1);
+			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
+				var rulerTerm = new RulerTerm(
+					impRulerTerm,
+					characters,
+					governmentMapper,
+					localizationMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					provinceMapper
+				);
+
+				var characterId = rulerTerm.CharacterId;
+				var gov = rulerTerm.Government;
+
+				var startDate = new Date(rulerTerm.StartDate);
+				if (startDate < firstPossibleDate) {
+					startDate = new Date(firstPossibleDate); // TODO: remove this workaround if CK3 supports negative dates
+					firstPossibleDate.ChangeByDays(1);
+				}
+
+				history.InternalHistory.AddFieldValue("holder", characterId, startDate, "holder");
+				if (gov is not null) {
+					history.InternalHistory.AddFieldValue("government", gov, startDate, "government");
+				}
+			}
+
+			if (ImperatorCountry.Government is not null) {
+				var lastCK3TermGov = history.GetGovernment(conversionDate);
+				var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
+				if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
+					history.InternalHistory.AddFieldValue("government", ck3CountryGov, conversionDate, "government");
+				}
+			}
+		}
 	}
 
 	internal void RemoveDeFactoLiegeReferences(string name) {
