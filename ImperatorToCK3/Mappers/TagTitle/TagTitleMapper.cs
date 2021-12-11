@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
 	public class TagTitleMapper {
+		public TagTitleMapper() { }
 		public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath) {
 			Logger.Info("Parsing Title mappings...");
 			var parser = new Parser();
@@ -75,16 +76,11 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 
 			// Look up register
 			if (registeredGovernorshipTitles.TryGetValue($"{country.Tag}_{governorship.RegionName}", out var titleToReturn)) {
-				if (titleToReturn.StartsWith('c')) {
-					Logger.Notice($"{governorship.RegionName} in {country.Tag} - {country.CK3Title.Id} = {titleToReturn}");
-				}
 				return titleToReturn;
 			}
 
 			if (rank == "c") {
-				var countyId = GetCountyForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
-				Logger.Notice($"========== {governorship.RegionName} in {country.Tag} - {country.CK3Title.Id} = {countyId}");
-				return countyId;
+				return GetCountyForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
 			}
 
 			// Attempt a title match
@@ -143,7 +139,6 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				}
 
 				RegisterGovernorship(governorship.RegionName, country.Tag, county.Id);
-				Logger.Debug($"REGISTERED {governorship.RegionName} {country.Tag} {county.Id}");
 				return county.Id;
 			}
 
@@ -181,7 +176,6 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				return "d";
 			}
 			if (ck3LiegeTitle.StartsWith('d')) {
-				Logger.Debug($"COUNTY RANK vassal for {ck3LiegeTitle}");
 				return "c";
 			}
 			return null;

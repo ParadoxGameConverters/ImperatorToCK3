@@ -79,7 +79,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			Provinces.ImportVanillaProvinces(config.Ck3Path, config.Ck3BookmarkDate);
+			Provinces.ImportVanillaProvinces(config.CK3Path, config.CK3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
@@ -114,7 +114,7 @@ namespace ImperatorToCK3.CK3 {
 			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
-			LandedTitles.RemoveInvalidLandlessTitles(config.Ck3BookmarkDate);
+			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.CK3BookmarkDate);
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
@@ -184,7 +184,7 @@ namespace ImperatorToCK3.CK3 {
 						given = TryGiveCountyToMonarch(county, impCountry);
 					}
 					if (!given) {
-						Logger.Warn($"County {county.Id} was not given to anyone!");
+						Logger.Warn($"County {county} was not given to anyone!");
 					}
 				}
 			}
@@ -198,7 +198,7 @@ namespace ImperatorToCK3.CK3 {
 
 				var impMonarch = impCountry.Monarch;
 				if (impMonarch is null) {
-					Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {county.Id}!");
+					Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {county}!");
 					return false;
 				}
 				GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
@@ -212,7 +212,7 @@ namespace ImperatorToCK3.CK3 {
 					county.ClearHolderSpecificHistory();
 					county.SetHolder(holder, date);
 				} else {
-					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {county} doesn't exist!");
 				}
 				county.SetDeFactoLiege(null, date);
 			}
@@ -230,7 +230,7 @@ namespace ImperatorToCK3.CK3 {
 
 				var ck3CapitalCounty = ck3Country.CapitalCounty;
 				if (ck3CapitalCounty is null) {
-					Logger.Warn($"{ck3Country.Id} has no capital county!");
+					Logger.Warn($"{ck3Country} has no capital county!");
 					return false;
 				}
 				// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
@@ -249,7 +249,7 @@ namespace ImperatorToCK3.CK3 {
 				var governorship = matchingGovernorships[0];
 				var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, impCountry, LandedTitles, Provinces, imperatorRegionMapper);
 				if (ck3GovernorshipId is null) {
-					Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country.Id} {governorship.RegionName}!");
+					Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.RegionName}!");
 					return false;
 				}
 
@@ -269,7 +269,7 @@ namespace ImperatorToCK3.CK3 {
 					county.ClearHolderSpecificHistory();
 					county.SetHolder(governor, holderChangeDate);
 				} else {
-					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
+					Logger.Warn($"Holder {holderId} of county {county} doesn't exist!");
 				}
 				county.SetDeFactoLiege(null, holderChangeDate);
 			}

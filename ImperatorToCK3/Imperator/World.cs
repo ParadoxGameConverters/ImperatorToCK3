@@ -29,6 +29,7 @@ namespace ImperatorToCK3.Imperator {
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 		private SaveType saveType = SaveType.Invalid;
 
+		public World() { }
 		public World(Configuration configuration, ConverterVersion converterVersion) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 			ParseGenes(configuration);

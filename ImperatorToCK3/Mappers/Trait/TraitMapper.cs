@@ -5,6 +5,7 @@ namespace ImperatorToCK3.Mappers.Trait {
 	public class TraitMapper {
 		private readonly Dictionary<string, string> impToCK3TraitMap = new();
 
+		public TraitMapper() { }
 		public TraitMapper(string filePath) {
 			Logger.Info("Parsing trait mappings...");
 			var parser = new Parser();

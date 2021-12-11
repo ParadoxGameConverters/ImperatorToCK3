@@ -34,7 +34,7 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var title in playerTitles) {
 				var holderId = title.GetHolderId(config.CK3BookmarkDate);
 				if (holderId == "0") {
-					Logger.Warn($"Cannot add player title {title.Id} to bookmark screen: holder is 0!");
+					Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
 					continue;
 				}
 
@@ -202,7 +202,7 @@ namespace ImperatorToCK3.Outputter {
 				}
 
 				var diff = provincesToColor.Count - heldProvinces.Count;
-				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Id}...");
+				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
 
 				using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
 				foreach (var provinceColor in provincesToColor.Select(

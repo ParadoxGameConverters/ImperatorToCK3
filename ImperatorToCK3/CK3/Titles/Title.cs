@@ -24,6 +24,10 @@ namespace ImperatorToCK3.CK3.Titles;
 
 public enum TitleRank { barony, county, duchy, kingdom, empire }
 public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
+	public override string ToString() {
+		return Id;
+	}
+
 	private Title(LandedTitles parentCollection, string id) {
 		this.parentCollection = parentCollection;
 		Id = id;
@@ -510,7 +514,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		get => deJureLiege;
 		set {
 			if (value is not null && value.Rank <= Rank) {
-				Logger.Warn($"Cannot set de jure liege {value.Id} to {Id}: rank is not higher!");
+				Logger.Warn($"Cannot set de jure liege {value} to {Id}: rank is not higher!");
 				return;
 			}
 			deJureLiege?.DeJureVassals.Remove(Id);
@@ -530,7 +534,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	public void SetDeFactoLiege(Title? newLiege, Date date) {
 		if (newLiege is not null && newLiege.Rank <= Rank) {
-			Logger.Warn($"Cannot set de facto liege {newLiege.Id} to {Id}: rank is not higher!");
+			Logger.Warn($"Cannot set de facto liege {newLiege} to {Id}: rank is not higher!");
 			return;
 		}
 		string liegeStr = newLiege is not null ? newLiege.Id : "0";
@@ -727,7 +731,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		foreach (var vassal in GetDeFactoVassalsAndBelow(date).Values) {
 			var vassalHolderId = vassal.GetHolderId(date);
 			if (vassalHolderId == "0") {
-				Logger.Warn($"Player title {Id}'s vassal {vassal.Id} has 0 holder!");
+				Logger.Warn($"Player title {Id}'s vassal {vassal} has 0 holder!");
 				continue;
 			}
 			var heldVassalCounties = new List<Title>(
