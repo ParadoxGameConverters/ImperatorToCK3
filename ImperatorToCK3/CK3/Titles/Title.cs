@@ -148,6 +148,13 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				history.InternalHistory.AddFieldValue("government", gov, startDate, "government");
 			}
 		}
+		if (ImperatorCountry.Government is not null) {
+			var lastCK3TermGov = history.GetGovernment(conversionDate);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
+			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
+				history.InternalHistory.AddFieldValue("government", ck3CountryGov, conversionDate, "government");
+			}
+		}
 
 		// ------------------ determine color
 		var color1Opt = ImperatorCountry.Color1;
