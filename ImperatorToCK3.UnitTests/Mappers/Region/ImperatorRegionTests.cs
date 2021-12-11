@@ -1,6 +1,6 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.Mappers.Region;
-using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region {
@@ -19,8 +19,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var region = new ImperatorRegion("region1", reader1);
 
 			var reader2 = new BufferedReader("{ provinces  = { 3 6 2 }}");
-			var area = new ImperatorArea(reader2);
-			var areas = new Dictionary<string, ImperatorArea> { ["test1"] = area };
+			var area = new ImperatorArea("test1", reader2);
+			var areas = new IdObjectCollection<string, ImperatorArea> { area };
 			region.LinkAreas(areas);
 
 			Assert.NotNull(region.Areas["test1"]);
@@ -32,16 +32,16 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var region = new ImperatorRegion("region1", reader);
 
 			var emptyReader = new BufferedReader(string.Empty);
-			var area1 = new ImperatorArea(emptyReader);
-			var area2 = new ImperatorArea(emptyReader);
-			var area3 = new ImperatorArea(emptyReader);
-			var areas = new Dictionary<string, ImperatorArea> { ["test1"] = area1, ["test2"] = area2, ["test3"] = area3 };
+			var area1 = new ImperatorArea("test1", emptyReader);
+			var area2 = new ImperatorArea("test2", emptyReader);
+			var area3 = new ImperatorArea("test3", emptyReader);
+			var areas = new IdObjectCollection<string, ImperatorArea> { area1, area2, area3 };
 			region.LinkAreas(areas);
 
 			Assert.Collection(region.Areas,
-				item => Assert.Equal("test1", item.Key),
-				item => Assert.Equal("test2", item.Key),
-				item => Assert.Equal("test3", item.Key)
+				item => Assert.Equal("test1", item.Id),
+				item => Assert.Equal("test2", item.Id),
+				item => Assert.Equal("test3", item.Id)
 			);
 		}
 
@@ -51,8 +51,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var region = new ImperatorRegion("region1", reader1);
 
 			var reader2 = new BufferedReader("{ provinces = { 3 6 2 }}");
-			var area = new ImperatorArea(reader2);
-			var areas = new Dictionary<string, ImperatorArea> {["area1"] = area};
+			var area = new ImperatorArea("area1", reader2);
+			var areas = new IdObjectCollection<string, ImperatorArea> { area };
 			region.LinkAreas(areas);
 
 			Assert.True(region.ContainsProvince(6));
@@ -64,8 +64,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var region = new ImperatorRegion("region1", reader1);
 
 			var reader2 = new BufferedReader("{ provinces  = { 3 6 2 }}");
-			var area = new ImperatorArea(reader2);
-			var areas = new Dictionary<string, ImperatorArea> { ["area1"] = area };
+			var area = new ImperatorArea("area1", reader2);
+			var areas = new IdObjectCollection<string, ImperatorArea> { area };
 			region.LinkAreas(areas);
 
 			Assert.False(region.ContainsProvince(7));

@@ -1,20 +1,34 @@
 ﻿using commonItems;
-using System;
+using commonItems.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region {
-	public class ImperatorRegion {
-		private readonly HashSet<string> parsedAreas = new();
-		public Dictionary<string, ImperatorArea> Areas { get; } = new();
-		public string Name { get; }
+	public class ImperatorRegion : IIdentifiable<string> {
+		public IdObjectCollection<string, ImperatorArea> Areas { get; } = new();
+		public string Id { get; }
 
-		public ImperatorRegion(string name, BufferedReader reader) {
-			Name = name;
+		public ImperatorRegion(string id, BufferedReader reader) {
+			Id = id;
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
 		}
+
+		public bool ContainsProvince(ulong province) {
+			return Areas.Any(area => area.ContainsProvince(province));
+		}
+
+		public void LinkAreas(IdObjectCollection<string, ImperatorArea> areasDict) {
+			foreach (var requiredAreaName in parsedAreas) {
+				if (areasDict.TryGetValue(requiredAreaName, out var area)) {
+					AddArea(area);
+				} else {
+					throw new KeyNotFoundException($"Region's {Id} area {requiredAreaName} does not exist!");
+				}
+			}
+		}
+
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterKeyword("areas", reader => {
 				foreach (var name in reader.GetStrings()) {
@@ -24,21 +38,10 @@ namespace ImperatorToCK3.Mappers.Region {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 
-		public bool ContainsProvince(ulong province) {
-			return Areas.Values.Any(area => area.ContainsProvince(province));
+		private void AddArea(ImperatorArea area) {
+			Areas.Add(area);
 		}
 
-		private void AddArea(string name, ImperatorArea area) {
-			Areas[name] = area;
-		}
-		public void LinkAreas(Dictionary<string, ImperatorArea> areasDict) {
-			foreach (var requiredAreaName in parsedAreas) {
-				if (areasDict.TryGetValue(requiredAreaName, out var area)) {
-					AddArea(requiredAreaName, area);
-				} else {
-					throw new KeyNotFoundException($"Region's {Name} area {requiredAreaName} does not exist!");
-				}
-			}
-		}
+		private readonly HashSet<string> parsedAreas = new();
 	}
 }
