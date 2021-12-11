@@ -139,6 +139,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
+			var areaReader = new BufferedReader("provinces = { 1 2 3 }");
+			var galatiaArea = new ImperatorArea(areaReader);
+			var regionReader = new BufferedReader("areas = {galatia_area}");
+			var galatiaRegion = new ImperatorRegion("galatia_region", regionReader);
+
 			var reader = new BufferedReader(
 				"who=589\n" +
 				"character=25212\n" +
