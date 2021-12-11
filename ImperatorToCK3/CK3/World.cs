@@ -281,7 +281,6 @@ namespace ImperatorToCK3.CK3 {
 
 				county.ClearHolderSpecificHistory();
 				county.SetHolder(governor, holderChangeDate);
-				Logger.Notice($"GIVING {county.Id} OF {governorship.CountryId}_{governorship.RegionName} TO {ck3Country.Id}");
 				county.SetDeFactoLiege(ck3Country, holderChangeDate);
 			}
 		}
