@@ -14,6 +14,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public bool PlayerCountry { get; set; }
 		private ulong? monarchId;  // >=0 are valid
 		public Character? Monarch { get; private set; }
+		public string? PrimaryCulture { get; private set; }
+		public string? Religion { get; private set; }
 		public List<RulerTerm> RulerTerms { get; set; } = new();
 		public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
 		public string Tag { get; private set; } = "";
