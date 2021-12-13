@@ -11,9 +11,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private const string tribalLawRegexStr = "tribal_religious_law|tribal_currency_laws|tribal_centralization_law|tribal_authority_laws|tribal_autonomy_laws|tribal_domestic_laws" +
 			"|tribal_decentralized_laws|tribal_centralized_laws|tribal_super_decentralized_laws|tribal_super_centralized_laws";
 
-		private static readonly SortedSet<string> monarchyGovernments = new() { "dictatorship", "despotic_monarchy", "aristocratic_monarchy", "stratocratic_monarchy", "theocratic_monarchy", "plutocratic_monarchy", "imperium", "imperial_cult" };
-		private static readonly SortedSet<string> republicGovernments = new() { "aristocratic_republic", "theocratic_republic", "oligarchic_republic", "democratic_republic", "plutocratic_republic", "athenian_republic" };
-		private static readonly SortedSet<string> tribalGovernments = new() { "tribal_chiefdom", "tribal_kingdom", "tribal_federation" };
+		private static readonly SortedSet<string> monarchyGovernments = new();
+		private static readonly SortedSet<string> republicGovernments = new();
+		private static readonly SortedSet<string> tribalGovernments = new();
 		private static readonly Parser parser = new();
 		private static Country parsedCountry = new(0);
 		public static HashSet<string> IgnoredTokens { get; private set; } = new();
@@ -95,6 +95,56 @@ namespace ImperatorToCK3.Imperator.Countries {
 			parsedCountry = new Country(countryId);
 			parser.ParseStream(reader);
 			return parsedCountry;
+		}
+
+		public static void LoadGovernments(Configuration config) {
+			string governmentName = string.Empty;
+			bool typeSpecified = false;
+
+			var governmentParser = new Parser();
+			governmentParser.RegisterKeyword("type", reader => {
+				switch (reader.GetString()) {
+					case "republic":
+						AddRepublicGovernment(governmentName);
+						typeSpecified = true;
+						break;
+					case "monarchy":
+						AddMonarchyGovernment(governmentName);
+						typeSpecified = true;
+						break;
+					case "tribal":
+						AddTribalGovernment(governmentName);
+						typeSpecified = true;
+						break;
+				}
+			});
+
+			var fileParser = new Parser();
+			fileParser.RegisterRegex(CommonRegexes.String, (reader, govName) => {
+				typeSpecified = false;
+				governmentName = govName;
+				governmentParser.ParseStream(reader);
+				if (!typeSpecified) {
+					// monarchy is the default type
+					AddMonarchyGovernment(governmentName);
+				}
+			});
+
+			static void AddRepublicGovernment(string name) {
+				republicGovernments.Add(name);
+				monarchyGovernments.Remove(name);
+				tribalGovernments.Remove(name);
+			}
+			static void AddMonarchyGovernment(string name) {
+				republicGovernments.Remove(name);
+				tribalGovernments.Remove(name);
+				monarchyGovernments.Add(name);
+			}
+			static void AddTribalGovernment(string name) {
+				republicGovernments.Remove(name);
+				monarchyGovernments.Remove(name);
+				tribalGovernments.Add(name);
+			}
 		}
 	}
 }

@@ -85,6 +85,22 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.NotNull(country.Monarch);
 			Assert.Equal((ulong)69, country.Monarch.Id);
 		}
+
+		[Fact]
+		public void CorrectGovernmentTypeIsRecognized() {
+			var config = new Configuration(new ConverterVersion());
+			config.CK3Path = "TestFiles/CK3";
+			config.CK3ModsPath = "TestFiles/documents/CK3/mod";
+			Country.LoadGovernments(config);
+
+			var republicReader = new BufferedReader("government_key = aristocratic_republic");
+			var republicCountry = Country.Parse(republicReader, 1);
+			Assert.Equal(GovernmentType.republic, republicCountry.GovernmentType);
+
+			var tribalReader = new BufferedReader("government_key = tribal_federation");
+			var tribalCountry = Country.Parse(tribalReader, 2);
+			Assert.Equal(GovernmentType.tribal, tribalCountry.GovernmentType);
+		}
 		[Fact]
 		public void CorrectCountryRankIsReturned() {
 			var reader = new BufferedReader(string.Empty);
