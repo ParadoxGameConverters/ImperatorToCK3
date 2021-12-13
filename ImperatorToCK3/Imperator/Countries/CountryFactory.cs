@@ -116,6 +116,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 						AddTribalGovernment(governmentName);
 						typeSpecified = true;
 						break;
+					default:
+						AddMonarchyGovernment(governmentName);
+						break;
 				}
 			});
 

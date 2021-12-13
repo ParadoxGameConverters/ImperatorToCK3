@@ -1,1 +1,2 @@
 tribal_federation = { type=tribal }
+super_monarchy={}

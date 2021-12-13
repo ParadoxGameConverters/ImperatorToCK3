@@ -98,12 +98,16 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			};
 			Country.LoadGovernments(config, mods);
 
+			var monarchyReader = new BufferedReader("government_key = super_monarchy");
+			var monarchyCountry = Country.Parse(monarchyReader, 1);
+			Assert.Equal(GovernmentType.monarchy, monarchyCountry.GovernmentType);
+
 			var republicReader = new BufferedReader("government_key = aristocratic_republic");
-			var republicCountry = Country.Parse(republicReader, 1);
+			var republicCountry = Country.Parse(republicReader, 2);
 			Assert.Equal(GovernmentType.republic, republicCountry.GovernmentType);
 
 			var tribalReader = new BufferedReader("government_key = tribal_federation");
-			var tribalCountry = Country.Parse(tribalReader, 2);
+			var tribalCountry = Country.Parse(tribalReader, 3);
 			Assert.Equal(GovernmentType.tribal, tribalCountry.GovernmentType);
 		}
 		[Fact]
