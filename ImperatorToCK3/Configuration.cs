@@ -14,6 +14,7 @@ namespace ImperatorToCK3 {
 		public IMPERATOR_DE_JURE ImperatorDeJure { get; set; } = IMPERATOR_DE_JURE.NO;
 		public Date CK3BookmarkDate { get; set; } = new(867, 1, 1);
 
+		public Configuration() { }
 		public Configuration(ConverterVersion converterVersion) {
 			Logger.Info("Reading configuration file...");
 			var parser = new Parser();

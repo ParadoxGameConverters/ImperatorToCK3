@@ -1,0 +1,1 @@
+tribal_federation = { type=tribal }

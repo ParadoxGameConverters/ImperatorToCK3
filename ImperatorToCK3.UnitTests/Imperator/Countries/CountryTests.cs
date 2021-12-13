@@ -1,6 +1,8 @@
 ﻿using commonItems;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
@@ -88,10 +90,13 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 
 		[Fact]
 		public void CorrectGovernmentTypeIsRecognized() {
-			var config = new Configuration(new ConverterVersion());
-			config.CK3Path = "TestFiles/CK3";
-			config.CK3ModsPath = "TestFiles/documents/CK3/mod";
-			Country.LoadGovernments(config);
+			var config = new Configuration {
+				CK3Path = "TestFiles/CK3"
+			};
+			var mods = new List<Mod> {
+				new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/CK3/mod/cool_mod"))
+			};
+			Country.LoadGovernments(config, mods);
 
 			var republicReader = new BufferedReader("government_key = aristocratic_republic");
 			var republicCountry = Country.Parse(republicReader, 1);
@@ -107,26 +112,26 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var country1 = Country.Parse(reader, 1);
 
 			var country2 = Country.Parse(reader, 2);
-			country2.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(0));
+			country2.RegisterProvince(new Province(0));
 
 			var country3 = Country.Parse(reader, 3);
 			for (ulong i = 0; i < 4; ++i) {
-				country3.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
+				country3.RegisterProvince(new Province(i));
 			}
 
 			var country4 = Country.Parse(reader, 4);
 			for (ulong i = 0; i < 25; ++i) {
-				country4.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
+				country4.RegisterProvince(new Province(i));
 			}
 
 			var country5 = Country.Parse(reader, 5);
 			for (ulong i = 0; i < 200; ++i) {
-				country5.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
+				country5.RegisterProvince(new Province(i));
 			}
 
 			var country6 = Country.Parse(reader, 6);
 			for (ulong i = 0; i < 753; ++i) {
-				country6.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
+				country6.RegisterProvince(new Province(i));
 			}
 
 			Assert.Equal(CountryRank.migrantHorde, country1.GetCountryRank());
