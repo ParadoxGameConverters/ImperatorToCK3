@@ -20,7 +20,7 @@ public class CoaMapper {
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
-		parser.RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap.Add(flagName, reader.GetStringOfItem().ToString()));
+		parser.RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap[flagName] = reader.GetStringOfItem().ToString());
 	}
 
 	public string? GetCoaForFlagName(string impFlagName) {
