@@ -98,38 +98,29 @@ namespace ImperatorToCK3.Imperator.Countries {
 		}
 
 		public static void LoadGovernments(Configuration config, List<Mod> mods) {
-			string governmentName = string.Empty;
-			bool typeSpecified = false;
+			string governmentType = "monarchy";
 
 			var governmentParser = new Parser();
-			governmentParser.RegisterKeyword("type", reader => {
-				switch (reader.GetString()) {
-					case "republic":
-						AddRepublicGovernment(governmentName);
-						typeSpecified = true;
-						break;
-					case "monarchy":
-						AddMonarchyGovernment(governmentName);
-						typeSpecified = true;
-						break;
-					case "tribal":
-						AddTribalGovernment(governmentName);
-						typeSpecified = true;
-						break;
-					default:
-						AddMonarchyGovernment(governmentName);
-						break;
-				}
-			});
+			governmentParser.RegisterKeyword("type", reader => governmentType = reader.GetString());
 
 			var fileParser = new Parser();
 			fileParser.RegisterRegex(CommonRegexes.String, (reader, govName) => {
-				typeSpecified = false;
-				governmentName = govName;
+				governmentType = "monarchy"; // default, overriden by parsed type
 				governmentParser.ParseStream(reader);
-				if (!typeSpecified) {
-					// monarchy is the default type
-					AddMonarchyGovernment(governmentName);
+
+				switch (governmentType) {
+					case "republic":
+						AddRepublicGovernment(govName);
+						break;
+					case "monarchy":
+						AddMonarchyGovernment(govName);
+						break;
+					case "tribal":
+						AddTribalGovernment(govName);
+						break;
+					default:
+						AddMonarchyGovernment(govName);
+						break;
 				}
 			});
 			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
