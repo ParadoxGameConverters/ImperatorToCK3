@@ -1,11 +1,11 @@
 ﻿using commonItems;
-using System.Collections.Generic;
+using commonItems.Collections;
 using System.IO;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorRegionMapper {
-		private readonly Dictionary<string, ImperatorRegion> regions = new();
-		private readonly Dictionary<string, ImperatorArea> areas = new();
+		private readonly IdObjectCollection<string, ImperatorRegion> regions = new();
+		private readonly IdObjectCollection<string, ImperatorArea> areas = new();
 
 		public ImperatorRegionMapper() { }
 		public ImperatorRegionMapper(string imperatorPath) {
@@ -21,11 +21,11 @@ namespace ImperatorToCK3.Mappers.Region {
 			LoadRegions(areaReader, regionReader);
 		}
 		private void RegisterRegionKeys(Parser parser) {
-			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions[regionName] = new ImperatorRegion(regionName, reader));
+			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions.Add(new ImperatorRegion(regionName, reader)));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private void RegisterAreaKeys(Parser parser) {
-			parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas[areaName] = new ImperatorArea(reader));
+			parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas.Add(new ImperatorArea(areaName, reader)));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public void LoadRegions(BufferedReader areaReader, BufferedReader regionReader) {
@@ -51,25 +51,25 @@ namespace ImperatorToCK3.Mappers.Region {
 			return regions.ContainsKey(regionName) || areas.ContainsKey(regionName);
 		}
 		public string? GetParentRegionName(ulong provinceId) {
-			foreach (var (regionName, region) in regions) {
+			foreach (var region in regions) {
 				if (region.ContainsProvince(provinceId)) {
-					return regionName;
+					return region.Id;
 				}
 			}
 			Logger.Warn($"Province ID {provinceId} has no parent region name!");
 			return null;
 		}
 		public string? GetParentAreaName(ulong provinceId) {
-			foreach (var (areaName, area) in areas) {
+			foreach (var area in areas) {
 				if (area.ContainsProvince(provinceId)) {
-					return areaName;
+					return area.Id;
 				}
 			}
 			Logger.Warn($"Province ID {provinceId} has no parent area name!");
 			return null;
 		}
 		private void LinkRegions() {
-			foreach (var region in regions.Values) {
+			foreach (var region in regions) {
 				region.LinkAreas(areas);
 			}
 		}

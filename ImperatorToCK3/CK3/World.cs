@@ -42,7 +42,7 @@ namespace ImperatorToCK3.CK3 {
 			localizationMapper.ScrapeLocalizations(config, impWorld.Mods);
 
 			// Loading Imperator CoAs to use them for generated CK3 titles
-			coaMapper = new CoaMapper(config);
+			coaMapper = new CoaMapper(config, impWorld.Mods);
 
 			// Load vanilla titles history
 			var titlesHistoryPath = Path.Combine(config.CK3Path, "game/history/titles");

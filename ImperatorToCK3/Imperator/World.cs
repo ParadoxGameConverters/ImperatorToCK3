@@ -73,7 +73,7 @@ namespace ImperatorToCK3.Imperator {
 				Mods incomingMods = new();
 				foreach (var modPath in modsList) {
 					Logger.Info($"Used mod: {modPath}");
-					incomingMods.Add(new Mod("", modPath));
+					incomingMods.Add(new Mod(string.Empty, modPath));
 				}
 
 				// Let's locate, verify and potentially update those mods immediately.
