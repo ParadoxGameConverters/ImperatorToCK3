@@ -19,6 +19,8 @@ namespace ImperatorToCK3.Mappers.Localization {
 			ScrapeLanguage("russian", scrapingPath);
 			ScrapeLanguage("simp_chinese", scrapingPath);
 			ScrapeLanguage("spanish", scrapingPath);
+			var vanillaLineCount = localizations.Count;
+			Logger.Info($"{vanillaLineCount} vanilla localization lines read.");
 
 			foreach (var mod in mods) {
 				var modLocPath = Path.Combine(mod.Path, "localization");
@@ -38,7 +40,7 @@ namespace ImperatorToCK3.Mappers.Localization {
 					ScrapeLanguage("spanish", Path.Combine(mod.Path, "localization", "replace"));
 				}
 			}
-			Logger.Info($"{localizations.Count} localization lines read.");
+			Logger.Info($"{localizations.Count - vanillaLineCount} mod localization lines read.");
 		}
 		private void ScrapeLanguage(string language, string path) {
 			var languagePath = Path.Combine(path, language);
