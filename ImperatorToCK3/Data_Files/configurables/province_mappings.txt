@@ -2,15 +2,15 @@
 	link = { comment = "SOUTHERN IBERIAN PENINSULA" }
 	link = { imp = 1415 ck3 = 1838 ck3 = 1991 } # Tharsis -> SERPA, NIEBLA
 	link = { imp = 1416 ck3 = 1992 } # Fons Siccus -> ZAFRA
-	link = { imp = 1277 ck3 = 1972 } # Ad Morum -> LORCA
-	link = { imp = 1397 imp = 1398 imp = 1392 ck3 = 1978 } # Ebura, Calecula, Antecaria -> GRANADA
+	link = { imp = 1277 imp = 1280 ck3 = 1972 } # Ad Morum, Tagili -> LORCA
+	link = { imp = 1397 imp = 1398 imp = 1392 imp = 1385 ck3 = 1978 } # Ebura, Calecula, Antecaria, Elvira -> GRANADA
 	link = { imp = 1287 imp = 1396 ck3 = 1976 } # Salaria, Vergilia -> QUESADA
 	link = { imp = 1281 imp = 1285 ck3 = 1975 } # Basti, Accis -> GUADIZ
 	link = { imp = 1279 ck3 = 1974 } # Tutugi -> BAZA
 	link = { imp = 1275 imp = 1039 ck3 = 1971 } # Elioucroca, Asso -> CARAVACA DE LA CRUZ
 	link = { imp = 1251 imp = 1040 ck3 = 1970 } # Segisa, Begastrum -> CIEZA
 	link = { imp = 1372 imp = 1371 imp = 1376 imp = 1386 ck3 = 1979 } # Segida, Astigi, Sabetanum, Claritas Iulia -> CABRA
-	link = { imp = 1355 imp = 1370 imp = 1374 ck3 = 1980 } # Hispalis, Basilippo, Carmo -> CARMONA
+	link = { imp = 1374 imp = 1370 imp = 1355 ck3 = 1980 } # Carmo, Basilippo, Hispalis -> CARMONA
 	link = { imp = 1353 imp = 1357 imp = 1360 ck3 = 1981 } # Urgia, Osset, Lucurgentum -> SEVILLA
 	link = { imp = 1346 imp = 1349 imp = 1352 imp = 1351 ck3 = 1982 } # Asido, Onoba, Ocuri, Turirecina -> ARCOS
 	link = { imp = 1379 imp = 1447 imp = 1443 imp = 1384 imp = 1380 ck3 = 1986 } # Sucia, Marianus Mons, Edeba, Baecula, Isiturgis -> ANDUJAR
@@ -21,7 +21,7 @@
 	link = { imp = 1440 imp = 1444 ck3 = 1988 } # Baedro, Solia -> PEDROCHE
 	link = { imp = 1411 imp = 1404 ck3 = 1999 } # Iporca, Flavium Velares -> GUADIATO
 	link = { imp = 1412 imp = 1405 imp = 1409 imp = 1373 ck3 = 1994 } # Lacunis, Regina, Munigua, Naeva -> CANTILLANA
-	link = { imp = 1414 imp = 1417 imp = 1359 imp = 1410 imp = 1356 imp = 1358 ck3 = 1993 } # Fodinae, Arucci, Ilpulla, Curiga, Italica, Olontigi -> TRIANA
+	link = { imp = 1414 imp = 1417 imp = 1359 imp = 1410 imp = 1356 ck3 = 1993 } # Fodinae, Arucci, Ilpulla, Curiga, Italica -> TRIANA
 	link = { imp = 1408 imp = 1407 ck3 = 1997 } # Phornakis, Iulipa -> HORNACHOS
 	link = { imp = 1418 imp = 1402 imp = 1401 ck3 = 1990 } # Seria, Perceiana, Ugultunia -> ILERENA
 	link = { imp = 1421 imp = 1419 ck3 = 1836 } # Luserium, Turdulia Inferioris -> OLIVENZA
@@ -32,10 +32,10 @@
 	link = { imp = 1449 imp = 1448 ck3 = 1987 } # Oretum, Carcuvium -> ALARCOS
 	link = { imp = 1451 ck3 = 1963 } # Ad Murum -> CALATRAVA
 	link = { imp = 1271 ck3 = 1965 } # Caput -> TOMELLOSO
-	link = { imp = 1026 imp = 1450 ck3 = 1966 } # Laminium, Ad Turres -> MENTESA
+	link = { imp = 1257 imp = 1026 imp = 1450 ck3 = 1966 } # Mentesa, Laminium, Ad Turres -> MENTESA
 	link = { imp = 1286 imp = 1382 imp = 1399 imp = 1381 ck3 = 1985 } # Ilugo, Vivatia, Baesucci, Castulo -> UBEDA
 	link = { imp = 1258 ck3 = 2004 } # Mariana Lobetania -> REOLID
-	link = { imp = 1254 imp = 1027 imp = 1257 ck3 = 1967 } # Salika, Libisosa, Mentesa -> ALCARAZ
+	link = { imp = 1254 imp = 1027 ck3 = 1967 } # Salika, Libisosa -> ALCARAZ
 	link = { imp = 1252 ck3 = 1973 } # Ilounon -> HUESCAR
 	link = { imp = 1262 ck3 = 1968 } # Ad Palem -> SEGURA
 	link = { imp = 1256 ck3 = 1949 } # Parietinae -> ALARCON
@@ -50,15 +50,15 @@
 	link = { imp = 1035 imp = 1038 ck3 = 1852 } # Thiar, Ilorci -> MURCIA
 	link = { imp = 1036 ck3 = 1851 } # Mastia -> CARTAGENA
 	link = { imp = 1276 imp = 1274 imp = 1273 ck3 = 1850 } # Baria, Longuntica, Ficariensis Locus -> AGUILAS
-	link = { imp = 1282 imp = 1278 ck3 = 1849 } # Murgi, Urci -> ALMERIA
+	link = { imp = 1282 imp = 1278 imp = 1284 ck3 = 1849 } # Murgi, Urci, Aboula -> ALMERIA
 	link = { imp = 1283 ck3 = 1848 } # Abdarat -> MOTRIL
 	link = { imp = 1366 imp = 1367 ck3 = 1847 } # Menova, Saxetanum -> NERJA
-	link = { imp = 1361 imp = 1362 imp = 1363 ck3 = 1846 } # Suel, Malaca, Cartima -> MALAGA
+	link = { imp = 1362 imp = 1361 imp = 1363 ck3 = 1846 } # Malaca, Suel, Cartima -> MALAGA
 	link = { imp = 1348 imp = 1350 ck3 = 1845 } # Carteia, Lacippo -> ALGECIRAS
 	link = { imp = 1347 imp = 1345 ck3 = 1844 } # Baelo, Mergablum -> TARIFA
 	link = { imp = 1344 ck3 = 1843 } # Gadir -> CADIZ
 	link = { imp = 1342 imp = 1343 ck3 = 1842 } # Menesthei Portus, Nabrissa -> JEREZ
-	link = { imp = 1340 imp = 1341 imp = 7665 ck3 = 1841 } # Ad Rubras, Tartessos, Lacus Ligustinus -> ALMONTE
+	link = { imp = 1340 imp = 1341 imp = 7665 imp = 1358 ck3 = 1841 } # Ad Rubras, Tartessos, Lacus Ligustinus, Olontigi -> ALMONTE
 	link = { imp = 1339 ck3 = 1839 ck3 = 1840 } # Praesidium -> AYAMONTE, HUELVA
 	link = { imp = 1338 imp = 1335 ck3 = 1748 } # Tartessia, Baal Saphon -> FARO
 	link = { imp = 1334 ck3 = 1747 } # Ossonoba -> SILVES
