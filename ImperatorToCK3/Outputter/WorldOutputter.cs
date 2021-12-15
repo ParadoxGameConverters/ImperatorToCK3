@@ -1,10 +1,11 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, Configuration config) {
+		public static void OutputWorld(World ck3World, IEnumerable<Mod> imperatorMods, Configuration config) {
 			ClearOutputModFolder();
 
 			var outputName = config.OutputModName;
@@ -48,7 +49,7 @@ namespace ImperatorToCK3.Outputter {
 									 $"{outputPath}/common/named_colors/imp_colors.txt");
 
 			Logger.Info("Copying Coats of Arms...");
-			ColoredEmblemsOutputter.CopyColoredEmblems(config, outputName);
+			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorMods);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
 			SystemUtils.TryCopyFolder($"{config.ImperatorPath}/game/gfx/coat_of_arms/patterns",
 							$"{outputPath}/gfx/coat_of_arms/patterns");
