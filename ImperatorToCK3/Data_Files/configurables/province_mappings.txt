@@ -23,7 +23,7 @@
 	link = { imp = 1412 imp = 1405 imp = 1409 imp = 1373 ck3 = 1994 } # Lacunis, Regina, Munigua, Naeva -> CANTILLANA
 	link = { imp = 1414 imp = 1417 imp = 1359 imp = 1410 imp = 1356 ck3 = 1993 } # Fodinae, Arucci, Ilpulla, Curiga, Italica -> TRIANA
 	link = { imp = 1408 imp = 1407 ck3 = 1997 } # Phornakis, Iulipa -> HORNACHOS
-	link = { imp = 1418 imp = 1402 imp = 1401 ck3 = 1990 } # Seria, Perceiana, Ugultunia -> ILERENA
+	link = { imp = 1418 imp = 1402 imp = 1401 imp = 1420 ck3 = 1990 } # Seria, Perceiana, Ugultunia, Varna -> ILERENA
 	link = { imp = 1421 imp = 1419 ck3 = 1836 } # Luserium, Turdulia Inferioris -> OLIVENZA
 	link = { imp = 1424 imp = 1429 ck3 = 1835 } # Dipo, Celtica Inferioris -> BADAJOZ
 	link = { imp = 1436 imp = 1403 ck3 = 1996 } # Metellinum, Caspiana -> MEDELLIN
