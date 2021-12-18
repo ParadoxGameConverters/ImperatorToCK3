@@ -56,7 +56,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Loading regions
 			ck3RegionMapper = new CK3RegionMapper(config.CK3Path, LandedTitles);
-			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath);
+			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath, impWorld.Mods);
 			// Use the region mappers in other mappers
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
