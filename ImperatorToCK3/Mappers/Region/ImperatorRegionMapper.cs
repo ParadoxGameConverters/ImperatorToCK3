@@ -8,26 +8,26 @@ namespace ImperatorToCK3.Mappers.Region {
 		private readonly IdObjectCollection<string, ImperatorArea> areas = new();
 
 		public ImperatorRegionMapper() { }
-		public ImperatorRegionMapper(Configuration config, IEnumerable<Mod> mods) {
+		public ImperatorRegionMapper(string imperatorPath, IEnumerable<Mod> mods) {
 			Logger.Info("Initializing Imperator Geography...");
 
 			var parser = new Parser();
 
 			RegisterAreaKeys(parser);
-			parser.ParseGameFile("map_data/areas.txt", config.ImperatorPath, mods);
+			parser.ParseGameFile("map_data/areas.txt", imperatorPath, mods);
 
 			parser.ClearRegisteredRules();
 			RegisterRegionKeys(parser);
-			parser.ParseGameFile("map_data/regions.txt", config.ImperatorPath, mods);
+			parser.ParseGameFile("map_data/regions.txt", imperatorPath, mods);
 
 			LinkRegions();
 		}
 		private void RegisterRegionKeys(Parser parser) {
-			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions.Add(new ImperatorRegion(regionName, reader)));
+			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions.AddOrReplace(new(regionName, reader)));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private void RegisterAreaKeys(Parser parser) {
-			parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas.Add(new ImperatorArea(areaName, reader)));
+			parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas.AddOrReplace(new(areaName, reader)));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 
