@@ -1,14 +1,8 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Families {
 	public class FamilyCollection : IdObjectCollection<ulong, Family> {
-		public void LoadFamilies(string path) {
-			var parser = new Parser();
-			RegisterKeys(parser);
-			parser.ParseFile(path);
-		}
 		public void LoadFamilies(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
