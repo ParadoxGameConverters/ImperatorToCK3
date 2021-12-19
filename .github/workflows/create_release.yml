@@ -6,7 +6,7 @@ on:
 jobs:
   create_release:
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
@@ -77,7 +77,7 @@ jobs:
        cd "C:\Program Files\7-Zip\"
        .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3.zip $Env:GITHUB_WORKSPACE\Release\*
     - name: Upload release asset
-      id: upload-release-asset 
+      id: upload-release-asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -150,7 +150,7 @@ jobs:
         path: Release/
         filename: 'ImperatorToCK3-Linux.zip'
     - name: Upload release asset
-      id: upload-release-asset 
+      id: upload-release-asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
