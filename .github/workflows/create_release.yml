@@ -5,7 +5,10 @@ on:
     - '*'
 jobs:
   create_release:
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      tag: ${{ steps.previoustag.outputs.tag }}
     steps:
     - uses: actions/checkout@v2
       with:
@@ -16,6 +19,28 @@ jobs:
     - name: "Init submodules"
       run: |
        git submodule update --init --recursive
+    - name: "Build changelog"
+      id: build_changelog
+      uses: mikepenz/release-changelog-builder-action@v2
+      with:
+        configuration: ".github/config/changelog-config.json"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: "Create release"
+      id: create_release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.previoustag.outputs.tag }}
+        body: ${{ steps.build_changelog.outputs.changelog }}
+        token: ${{ secrets.API_TOKEN_GITHUB }}
+
+  add_windows_zip:
+    needs: create_release
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
@@ -24,7 +49,7 @@ jobs:
       shell: bash
       run: |
         cd ImperatorToCK3/Data_Files/configurables
-        printf "\nversion = ${{ steps.previoustag.outputs.tag }}" >> version.txt
+        printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Build backend"
       run: |
         cd ImperatorToCK3
@@ -47,22 +72,91 @@ jobs:
       run: |
        cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
        .\Save_Commit_ID_Windows.bat
-    - name: "Archive release"
+    - name: "Archive release folder"
       run: |
        cd "C:\Program Files\7-Zip\"
        .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3.zip $Env:GITHUB_WORKSPACE\Release\*
-
-    - name: "Build changelog"
-      id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v2
-      with:
-        configuration: ".github/config/changelog-config.json"
+    - name: Upload release asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: "Create release"
-      uses: ncipollo/release-action@v1
       with:
-        tag: ${{ steps.previoustag.outputs.tag }}
-        body: ${{ steps.build_changelog.outputs.changelog }}
-        artifacts: ImperatorToCK3.zip
-        token: ${{ secrets.API_TOKEN_GITHUB }}
+        upload_url: ${{ needs.create_release.outputs.upload_url }}
+        asset_path: ./ImperatorToCK3.zip
+        asset_name: ImperatorToCK3.zip
+        asset_content_type: application/zip
+
+  add_linux_zip:
+    needs: create_release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.*'
+    - name: "Add version to version.txt"
+      shell: bash
+      run: |
+        cd ImperatorToCK3/Data_Files/configurables
+        printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=linux-x64 -c:Release
+        cd ..
+        rmdir "Release/ImperatorToCK3"
+        cp -R Publish/ Release/
+    - name: "Build frontend"
+      run: |
+        sudo apt install libcurl4-openssl-dev
+        sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+        sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt update
+        sudo apt install gcc-11 g++-11
+        sudo apt install libwxbase3.1-0-unofficial libwxbase3.1unofficial-dev libwxgtk3.1-0-unofficial libwxgtk3.1unofficial-dev wx3.1-headers wx-common
+        # Link gcc-11 and g++-11 to their standard commands
+        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
+        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
+        # Export CC and CXX to tell cmake which compiler to use
+        export CC=/usr/bin/gcc-11
+        export CXX=/usr/bin/g++-11
+        # Check versions of gcc, g++ and cmake
+        gcc -v && g++ -v && cmake --version
+
+        rm -rf Release/
+        cd Fronter
+        ./build_linux.sh
+        mv Release ../
+    - name: "Build updater executable"
+      run: |
+       cd Fronter/Updater
+       pip3 install -r requirements.txt
+       pyinstaller --onefile --icon=updater.ico updater.py
+       mkdir ../../Release/Updater
+       mv dist/updater ../../Release/Updater/updater
+    - name: "Save commit ID"
+      run: |
+       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
+       git rev-parse HEAD > ..\Release\commit_id.txt
+    - name: Archive Release folder
+      uses: thedoctor0/zip-release@master
+      with:
+        type: 'zip'
+        path: Release/
+        filename: 'ImperatorToCK3-Linux.zip'
+    - name: Upload release asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create_release.outputs.upload_url }}
+        asset_path: ./ImperatorToCK3-Linux.zip
+        asset_name: ImperatorToCK3-Linux.zip
+        asset_content_type: application/zip
+
