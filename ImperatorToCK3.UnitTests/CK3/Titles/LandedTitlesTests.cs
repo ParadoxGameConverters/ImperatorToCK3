@@ -139,15 +139,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var areaReader = new BufferedReader("provinces = { 1 2 3 }");
-			var galatiaArea = new ImperatorArea(areaReader);
-			var regionReader = new BufferedReader("areas = {galatia_area}");
-			var galatiaRegion = new ImperatorRegion("galatia_region", regionReader);
+			var impRegionMapper = new ImperatorRegionMapper("TestFiles/LandedTitlesTests/Imperator", new List<Mod>());
+			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area")); // TODO: REMOVE DEBUG
+			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region")); // TODO: REMOVE DEBUG
 
 			var reader = new BufferedReader(
-				"who=589\n" +
-				"character=25212\n" +
-				"start_date=450.10.1\n" +
+				"who=589 " +
+				"character=25212 " +
+				"start_date=450.10.1 " +
 				"governorship = \"galatia_region\""
 			);
 			var governorship1 = new Governorship(reader);
@@ -156,7 +155,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var countyLevelGovernorships = new List<Governorship>();
 
 			var tagTitleMapper = new TagTitleMapper();
-			var provinceMapper = new ProvinceMapper();
+			var provinceMapper = new ProvinceMapper(
+				new BufferedReader("0.0.0.0 = {" +
+								   "\tlink={imp=1 ck3=1}" +
+								   "\tlink={imp=2 ck3=2}" +
+								   "\tlink={imp=3 ck3=3}" +
+								   "}"
+				)
+			);
 			var locMapper = new LocalizationMapper();
 			var religionMapper = new ReligionMapper();
 			var cultureMapper = new CultureMapper();
@@ -178,8 +184,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 					Assert.Equal("d_IMPTOCK3_PRY", title.Id);
 				});
 
+			var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
+			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper);
 			// country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level
-			titles.ImportImperatorGovernorships(imperatorWorld, new ProvinceCollection(), tagTitleMapper, locMapper, provinceMapper, definiteFormMapper, new ImperatorRegionMapper(), coaMapper, countyLevelGovernorships);
+			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locMapper, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 
 			Assert.Collection(titles,
 				title => {

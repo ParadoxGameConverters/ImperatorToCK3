@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Mappers.Province {
-	public class ProvinceMapper : Parser {
+	public class ProvinceMapper {
 		private readonly Dictionary<ulong, List<ulong>> imperatorToCK3ProvinceMap = new();
 		private readonly Dictionary<ulong, List<ulong>> ck3ToImperatorProvinceMap = new();
 		private readonly SortedSet<ulong> validCK3Provinces = new();
 		private ProvinceMappingsVersion mappingsVersion = new();
 
 		public ProvinceMapper() {
-			Logger.Info("Parsing province mappings.");
-			RegisterKeys();
-			ParseFile("configurables/province_mappings.txt");
-			ClearRegisteredRules();
+			Logger.Info("Parsing province mappings...");
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile("configurables/province_mappings.txt");
 			CreateMappings();
 			Logger.Info($"{mappingsVersion.Mappings.Count} mappings loaded.");
 		}
 		public ProvinceMapper(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 			CreateMappings();
 		}
-		private void RegisterKeys() {
-			RegisterRegex("[0-9\\.]+", reader => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex("[0-9\\.]+", reader => {
 				// We support only a single, current version, so eu4-vic2 style multiple versions
 				// have been cut. There should only be a single, 0.0.0.0={} block inside province_mappings.txt
 				mappingsVersion = new ProvinceMappingsVersion(reader);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private void CreateMappings() {
 			foreach (var mapping in mappingsVersion.Mappings) {
@@ -69,9 +69,9 @@ namespace ImperatorToCK3.Mappers.Province {
 			return new List<ulong>();
 		}
 
-		public void DetermineValidProvinces(Configuration theConfiguration) {
+		public void DetermineValidProvinces(Configuration config) {
 			Logger.Info("Loading Valid Provinces");
-			var filePath = Path.Combine(theConfiguration.CK3Path, "game/map_data/definition.csv");
+			var filePath = Path.Combine(config.CK3Path, "game/map_data/definition.csv");
 			using var definitionFileReader = new StreamReader(File.OpenRead(filePath));
 
 			while (!definitionFileReader.EndOfStream) {
