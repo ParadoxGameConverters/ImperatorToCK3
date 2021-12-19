@@ -94,7 +94,6 @@ namespace ImperatorToCK3.CK3.Characters {
 					} else {
 						Logger.Warn($"Imperator mother {impMotherCharacter.Id} has no CK3 character!");
 					}
-
 				}
 
 				// make links between Imperator characters
