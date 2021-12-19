@@ -261,12 +261,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		string? title;
 		if (validatedName is not null) {
 			title = tagTitleMapper.GetTitleForTag(
-				imperatorCountry.Tag,
-				imperatorCountry.GetCountryRank(),
+				imperatorCountry,
 				validatedName.english
 			);
 		} else {
-			title = tagTitleMapper.GetTitleForTag(imperatorCountry.Tag, imperatorCountry.GetCountryRank());
+			title = tagTitleMapper.GetTitleForTag(imperatorCountry);
 		}
 
 		if (title is null) {
