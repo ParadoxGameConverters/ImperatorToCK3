@@ -87,18 +87,27 @@ namespace ImperatorToCK3.CK3.Characters {
 				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother;
 				if (impMotherCharacter is not null) {
 					var ck3MotherCharacter = impMotherCharacter.CK3Character;
-					ck3Character.Mother = ck3MotherCharacter;
-					ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
-					++motherCounter;
+					if (ck3MotherCharacter is not null) {
+						ck3Character.Mother = ck3MotherCharacter;
+						ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
+						++motherCounter;
+					} else {
+						Logger.Warn($"Imperator mother {impMotherCharacter.Id} has no CK3 character!");
+					}
+
 				}
 
 				// make links between Imperator characters
 				var impFatherCharacter = ck3Character.ImperatorCharacter.Father;
 				if (impFatherCharacter is not null) {
 					var ck3FatherCharacter = impFatherCharacter.CK3Character;
-					ck3Character.Father = ck3FatherCharacter;
-					ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
-					++fatherCounter;
+					if (ck3FatherCharacter is not null) {
+						ck3Character.Father = ck3FatherCharacter;
+						ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
+						++fatherCounter;
+					} else {
+						Logger.Warn($"Imperator father {impFatherCharacter.Id} has no CK3 character!");
+					}
 				}
 			}
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");

@@ -148,7 +148,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			};
 
 			title.SetNameLoc(locBlock);
-			Assert.Equal(1, title.Localizations.Count);
+			Assert.Single(title.Localizations);
 		}
 
 		[Fact]
