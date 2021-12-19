@@ -50,24 +50,26 @@ namespace ImperatorToCK3.Imperator.Countries {
 				_ => monarchyLaws,
 			};
 		}
-		public CountryRank GetCountryRank() {
-			var provCount = ownedProvinces.Count;
-			if (provCount == 0) {
-				return CountryRank.migrantHorde;
+		public CountryRank Rank {
+			get {
+				var provCount = ownedProvinces.Count;
+				if (provCount == 0) {
+					return CountryRank.migrantHorde;
+				}
+				if (provCount == 1) {
+					return CountryRank.cityState;
+				}
+				if (provCount <= 24) {
+					return CountryRank.localPower;
+				}
+				if (provCount <= 99) {
+					return CountryRank.regionalPower;
+				}
+				if (provCount <= 499) {
+					return CountryRank.majorPower;
+				}
+				return CountryRank.greatPower;
 			}
-			if (provCount == 1) {
-				return CountryRank.cityState;
-			}
-			if (provCount <= 24) {
-				return CountryRank.localPower;
-			}
-			if (provCount <= 99) {
-				return CountryRank.regionalPower;
-			}
-			if (provCount <= 499) {
-				return CountryRank.majorPower;
-			}
-			return CountryRank.greatPower;
 		}
 		public void RegisterProvince(Province province) {
 			ownedProvinces.Add(province);
