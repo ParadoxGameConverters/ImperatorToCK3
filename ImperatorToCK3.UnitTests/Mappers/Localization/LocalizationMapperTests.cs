@@ -66,21 +66,21 @@ namespace ImperatorToCK3.UnitTests.Mappers.Localization {
 		}
 
 		[Fact]
-		public void LocalisationsReturnNullForMissingKey() {
-			var locs = new LocalizationMapper();
-			Assert.Null(locs.GetLocBlockForKey("key1"));
+		public void LocalizationMapperReturnNullForMissingKey() {
+			var locMapper = new LocalizationMapper();
+			Assert.Null(locMapper.GetLocBlockForKey("key1"));
 		}
 
 		[Fact]
-		public void LocalisationsReturnsEnglishForMissingLanguage() {
-			var locs = new LocalizationMapper();
+		public void LocalizationMapperReturnsEnglishForMissingLanguage() {
+			var locMapper = new LocalizationMapper();
 			var reader = new BufferedReader(
 				"l_english:\n" +
 				" key1:1 \"value 1\" # comment\n"
-			 );
-			locs.ScrapeStream(reader, "english");
+			);
+			locMapper.ScrapeStream(reader, "english");
 
-			Assert.Equal("value 1", ((LocBlock)locs.GetLocBlockForKey("key1")).french);
+			Assert.Equal("value 1", locMapper.GetLocBlockForKey("key1")!.french);
 		}
 
 		[Fact]

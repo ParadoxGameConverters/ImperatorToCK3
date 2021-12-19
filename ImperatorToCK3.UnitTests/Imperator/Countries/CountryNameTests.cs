@@ -61,7 +61,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		}
 
 		[Fact]
-		public void AdjLocBlockDefaultsToNullopt() {
+		public void AdjLocBlockDefaultsToNull() {
 			var reader = new BufferedReader(string.Empty);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
@@ -83,7 +83,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		}
 
 		[Fact]
-		public void NameLocBlockDefaultsToNullopt() {
+		public void NameLocBlockDefaultsToNull() {
 			var reader = new BufferedReader(string.Empty);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 

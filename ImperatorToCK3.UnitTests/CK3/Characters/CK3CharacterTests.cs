@@ -289,7 +289,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Name = "alexandros"
 			};
-			var nameLocBlock = new LocBlock() { english = "Alexandros" };
+			var nameLocBlock = new LocBlock { english = "Alexandros" };
 			nameLocBlock.FillMissingLocsWithEnglish();
 
 			var localizationMapper = new LocalizationMapper();

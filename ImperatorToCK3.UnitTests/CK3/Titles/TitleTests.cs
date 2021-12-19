@@ -231,7 +231,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.DeJureLiege = duchy;
 
 			var vassals = empire.GetDeJureVassalsAndBelow();
-			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			var sortedVassals = from entry in vassals orderby entry.Key select entry;
 			Assert.Collection(sortedVassals,
 				item1 => Assert.Equal("c_county", item1.Value.Id),
 				item2 => Assert.Equal("d_duchy", item2.Value.Id),
@@ -257,7 +257,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.DeJureLiege = duchy;
 
 			var vassals = empire.GetDeJureVassalsAndBelow(rankFilter: "ck");
-			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			var sortedVassals = from entry in vassals orderby entry.Key select entry;
 			Assert.Collection(sortedVassals,
 				// only counties and kingdoms go through the filter
 				item1 => Assert.Equal("c_county", item1.Value.Id),
