@@ -75,7 +75,7 @@ jobs:
     - name: "Archive release folder"
       run: |
        cd "C:\Program Files\7-Zip\"
-       .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3.zip $Env:GITHUB_WORKSPACE\Release\*
+       .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3-win-x64.zip $Env:GITHUB_WORKSPACE\Release\*
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -83,8 +83,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./ImperatorToCK3.zip
-        asset_name: ImperatorToCK3.zip
+        asset_path: ./ImperatorToCK3-win-x64.zip
+        asset_name: ImperatorToCK3-win-x64.zip
         asset_content_type: application/zip
 
   add_linux_zip:
@@ -148,7 +148,7 @@ jobs:
       with:
         type: 'zip'
         path: Release/
-        filename: 'ImperatorToCK3-Linux.zip'
+        filename: 'ImperatorToCK3-linux-x64.zip'
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -156,7 +156,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./ImperatorToCK3-Linux.zip
-        asset_name: ImperatorToCK3-Linux.zip
+        asset_path: ./ImperatorToCK3-linux-x64.zip
+        asset_name: ImperatorToCK3-linux-x64.zip
         asset_content_type: application/zip
 
