@@ -1,9 +1,9 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Mappers.Localization;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -115,12 +115,12 @@ namespace ImperatorToCK3.Outputter {
 
 			// title localization
 			foreach (var (key, loc) in localizations) {
-				english.WriteLine($" {key}: \"{loc.english}\"");
-				french.WriteLine($" {key}: \"{loc.french}\"");
-				german.WriteLine($" {key}: \"{loc.german}\"");
-				russian.WriteLine($" {key}: \"{loc.russian}\"");
-				simpChinese.WriteLine($" {key}: \"{loc.simp_chinese}\"");
-				spanish.WriteLine($" {key}: \"{loc.spanish}\"");
+				english.WriteLine($" {key}: \"{loc["english"]}\"");
+				french.WriteLine($" {key}: \"{loc["french"]}\"");
+				german.WriteLine($" {key}: \"{loc["german"]}\"");
+				russian.WriteLine($" {key}: \"{loc["russian"]}\"");
+				simpChinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+				spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 			}
 		}
 

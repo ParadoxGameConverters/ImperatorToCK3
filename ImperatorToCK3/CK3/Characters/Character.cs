@@ -1,9 +1,9 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Localization;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -44,7 +44,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
 			Country imperatorCountry,
-			LocalizationMapper localizationMapper,
+			LocDB LocDB,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
-				var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
+				var impNameLoc = LocDB.GetLocBlockForKey(Name);
 				if (impNameLoc is not null) {
 					Localizations.Add(Name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
@@ -112,7 +112,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
+			LocDB LocDB,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
@@ -130,7 +130,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				var nameLoc = ImperatorCharacter.Name;
 				Name = nameLoc.Replace(' ', '_');
 				if (!string.IsNullOrEmpty(Name)) {
-					var matchedLocBlock = localizationMapper.GetLocBlockForKey(Name);
+					var matchedLocBlock = LocDB.GetLocBlockForKey(Name);
 					if (matchedLocBlock is not null) {
 						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name

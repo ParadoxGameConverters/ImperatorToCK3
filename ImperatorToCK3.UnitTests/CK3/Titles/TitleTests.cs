@@ -1,11 +1,11 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -21,7 +21,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		private class TitleBuilder {
 			private Country country = new(0);
 			private CountryCollection imperatorCountries = new();
-			private LocalizationMapper localizationMapper = new();
+			private LocDB locDB = new("english");
 			private readonly Title.LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
 			private CoaMapper coaMapper = new("TestFiles/CoatsOfArms.txt");
@@ -40,7 +40,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				return landedTitles.Add(
 					country,
 					imperatorCountries,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -62,8 +62,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				this.imperatorCountries = imperatorCountries;
 				return this;
 			}
-			public TitleBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-				this.localizationMapper = localizationMapper;
+			public TitleBuilder WithLocDB(LocDB LocDB) {
+				this.locDB = LocDB;
 				return this;
 			}
 			public TitleBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -139,12 +139,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void LocalizationCanBeSet() {
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_testtitle");
-			var locBlock = new LocBlock {
-				english = "engloc",
-				french = "frloc",
-				german = "germloc",
-				russian = "rusloc",
-				spanish = "spaloc"
+			var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+				["english"] = "engloc",
+				["french"] = "frloc",
+				["german"] = "germloc",
+				["russian"] = "rusloc",
+				["simp_chinese"] = "simploc",
+				["spanish"] = "spaloc"
 			};
 
 			title.SetNameLoc(locBlock);

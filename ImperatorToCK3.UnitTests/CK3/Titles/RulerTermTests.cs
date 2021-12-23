@@ -1,10 +1,11 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 
@@ -25,7 +26,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
 				new ImperatorToCK3.CK3.Characters.CharacterCollection(),
 				govMapper,
-				new LocalizationMapper(),
+				new LocDB("english"),
 				new ReligionMapper(),
 				new CultureMapper(),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
@@ -54,14 +55,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var govMapper = new GovernmentMapper(govReader);
 			var religionMapper = new ReligionMapper(new BufferedReader("link={imp=hellenic ck3=hellenic}"));
 			religionMapper.LoadRegionMappers(
-				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
-				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
+				new ImperatorRegionMapper(),
+				new CK3RegionMapper()
 			);
 			var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
 				ck3Characters,
 				govMapper,
-				new LocalizationMapper(),
+				new LocDB("english"),
 				religionMapper,
 				new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }")),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),

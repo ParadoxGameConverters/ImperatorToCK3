@@ -1,9 +1,9 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -17,7 +17,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
+			LocDB LocDB,
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
@@ -32,7 +32,7 @@ namespace ImperatorToCK3.CK3.Characters {
 					cultureMapper,
 					traitMapper,
 					nicknameMapper,
-					localizationMapper,
+					LocDB,
 					provinceMapper,
 					deathReasonMapper,
 					endDate,
@@ -52,7 +52,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
+			LocDB LocDB,
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
@@ -65,7 +65,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				localizationMapper,
+				LocDB,
 				provinceMapper,
 				deathReasonMapper,
 				endDate,

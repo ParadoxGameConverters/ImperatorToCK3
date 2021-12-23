@@ -1,14 +1,14 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Localization;
 using commonItems.Serialization;
 using ImperatorToCK3.Imperator.Families;
-using ImperatorToCK3.Mappers.Localization;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public class Dynasty : IPDXSerializable, IIdentifiable<string> {
-	public Dynasty(Family imperatorFamily, LocalizationMapper localizationMapper) {
+	public Dynasty(Family imperatorFamily, LocDB LocDB) {
 		Id = $"dynn_IMPTOCK3_{imperatorFamily.Id}";
 		Name = Id;
 
@@ -30,7 +30,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		var impFamilyLocKey = imperatorFamily.Key;
-		var impFamilyLoc = localizationMapper.GetLocBlockForKey(impFamilyLocKey);
+		var impFamilyLoc = LocDB.GetLocBlockForKey(impFamilyLocKey);
 		if (impFamilyLoc is not null) {
 			Localization = new(Name, impFamilyLoc);
 		} else { // fallback: use unlocalized Imperator family key
