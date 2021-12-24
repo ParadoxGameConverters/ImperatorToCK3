@@ -1,11 +1,11 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using ImperatorToCK3.Mappers.Localization;
+using commonItems.Localization;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public class DynastyCollection : IdObjectCollection<string, Dynasty> {
-	public void ImportImperatorFamilies(Imperator.World impWorld, LocalizationMapper localizationMapper) {
+	public void ImportImperatorFamilies(Imperator.World impWorld, LocDB locDB) {
 		Logger.Info("Importing Imperator Families...");
 
 		// the collection only holds dynasties converted from Imperator families, as vanilla ones aren't modified
@@ -14,7 +14,7 @@ public class DynastyCollection : IdObjectCollection<string, Dynasty> {
 				continue;
 			}
 
-			var newDynasty = new Dynasty(family, localizationMapper);
+			var newDynasty = new Dynasty(family, locDB);
 			Add(newDynasty);
 		}
 		Logger.Info($"{Count} total families imported.");

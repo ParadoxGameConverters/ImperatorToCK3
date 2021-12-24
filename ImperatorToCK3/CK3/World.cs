@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
@@ -10,7 +11,6 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -39,7 +39,7 @@ namespace ImperatorToCK3.CK3 {
 			MapData = new MapData(config.CK3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
-			localizationMapper.ScrapeLocalizations(config, impWorld.Mods);
+			locDB.ScrapeLocalizations(config.ImperatorPath, impWorld.Mods);
 
 			// Loading Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(config, impWorld.Mods);
@@ -64,7 +64,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
 				tagTitleMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				coaMapper,
 				governmentMapper,
@@ -79,7 +79,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.ImportImperatorGovernorships(
 				impWorld,
 				tagTitleMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
@@ -99,7 +99,7 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
@@ -107,7 +107,7 @@ namespace ImperatorToCK3.CK3 {
 			);
 			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
+			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
@@ -124,7 +124,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 				var holderId = title.GetHolderId(ck3BookmarkDate);
 				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
+					title.Localizations.AddLocBlock($"{holder.Name}_desc");
 				}
 			}
 		}
@@ -248,7 +248,7 @@ namespace ImperatorToCK3.CK3 {
 		private readonly DeathReasonMapper deathReasonMapper = new();
 		private readonly DefiniteFormMapper definiteFormMapper = new("configurables/definite_form_names.txt");
 		private readonly GovernmentMapper governmentMapper = new();
-		private readonly LocalizationMapper localizationMapper = new();
+		private readonly LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 		private readonly NicknameMapper nicknameMapper = new("configurables/nickname_map.txt");
 		private readonly ProvinceMapper provinceMapper = new();
 		private readonly ReligionMapper religionMapper = new();

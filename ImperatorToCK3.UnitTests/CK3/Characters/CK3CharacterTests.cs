@@ -1,9 +1,9 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -22,7 +22,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private CultureMapper cultureMapper = new();
 			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-			private LocalizationMapper localizationMapper = new();
+			private LocDB locDB = new("english");
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
 
@@ -33,7 +33,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 					cultureMapper,
 					traitMapper,
 					nicknameMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
@@ -61,8 +61,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				this.nicknameMapper = nicknameMapper;
 				return this;
 			}
-			public CK3CharacterBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-				this.localizationMapper = localizationMapper;
+			public CK3CharacterBuilder WithLocDB(LocDB LocDB) {
+				this.locDB = LocDB;
 				return this;
 			}
 			public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -289,18 +289,18 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Name = "alexandros"
 			};
-			var nameLocBlock = new LocBlock { english = "Alexandros" };
-			nameLocBlock.FillMissingLocsWithEnglish();
 
-			var localizationMapper = new LocalizationMapper();
-			localizationMapper.AddLocalization("alexandros", nameLocBlock);
+			var locDB = new LocDB("english");
+			var nameLocBlock = locDB.AddLocBlock("alexandros");
+			nameLocBlock["english"] = "Alexandros";
+			nameLocBlock.FillMissingLocWithBaseLanguageLoc();
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
-				.WithLocalizationMapper(localizationMapper)
+				.WithLocDB(locDB)
 				.Build();
 			Assert.Equal("alexandros", character.Name);
-			Assert.Equal("Alexandros", character.Localizations["alexandros"].english);
+			Assert.Equal("Alexandros", character.Localizations["alexandros"]["english"]);
 		}
 
 		[Fact]

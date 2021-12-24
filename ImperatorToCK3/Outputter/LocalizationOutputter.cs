@@ -43,12 +43,12 @@ public static class LocalizationOutputter {
 		// title localization
 		foreach (var title in ck3World.LandedTitles) {
 			foreach (var (key, loc) in title.Localizations) {
-				english.WriteLine($" {key}: \"{loc.english}\"");
-				french.WriteLine($" {key}: \"{loc.french}\"");
-				german.WriteLine($" {key}: \"{loc.german}\"");
-				russian.WriteLine($" {key}: \"{loc.russian}\"");
-				simp_chinese.WriteLine($" {key}: \"{loc.simp_chinese}\"");
-				spanish.WriteLine($" {key}: \"{loc.spanish}\"");
+				english.WriteLine($" {key}: \"{loc["english"]}\"");
+				french.WriteLine($" {key}: \"{loc["french"]}\"");
+				german.WriteLine($" {key}: \"{loc["german"]}\"");
+				russian.WriteLine($" {key}: \"{loc["russian"]}\"");
+				simp_chinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+				spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 			}
 		}
 		if (deJure == IMPERATOR_DE_JURE.REGIONS) {
@@ -60,12 +60,12 @@ public static class LocalizationOutputter {
 		foreach (var character in ck3World.Characters) {
 			foreach (var (key, loc) in character.Localizations) {
 				if (!uniqueKeys.Contains(key)) {
-					english.WriteLine($" {key}: \"{loc.english}\"");
-					french.WriteLine($" {key}: \"{loc.french}\"");
-					german.WriteLine($" {key}: \"{loc.german}\"");
-					russian.WriteLine($" {key}: \"{loc.russian}\"");
-					simp_chinese.WriteLine($" {key}: \"{loc.simp_chinese}\"");
-					spanish.WriteLine($" {key}: \"{loc.spanish}\"");
+					english.WriteLine($" {key}: \"{loc["english"]}\"");
+					french.WriteLine($" {key}: \"{loc["french"]}\"");
+					german.WriteLine($" {key}: \"{loc["german"]}\"");
+					russian.WriteLine($" {key}: \"{loc["russian"]}\"");
+					simp_chinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+					spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 
 					uniqueKeys.Add(key);
 				}
@@ -95,12 +95,12 @@ public static class LocalizationOutputter {
 
 		foreach (var dynasty in ck3World.Dynasties) {
 			var (key, loc) = dynasty.Localization;
-			englishDynLoc.WriteLine($" {key}: \"{loc.english}\"");
-			frenchDynLoc.WriteLine($" {key}: \"{loc.french}\"");
-			germanDynLoc.WriteLine($" {key}: \"{loc.german}\"");
-			russianDynLoc.WriteLine($" {key}: \"{loc.russian}\"");
-			simp_chineseDynLoc.WriteLine($" {key}: \"{loc.simp_chinese}\"");
-			spanishDynLoc.WriteLine($" {key}: \"{loc.spanish}\"");
+			englishDynLoc.WriteLine($" {key}: \"{loc["english"]}\"");
+			frenchDynLoc.WriteLine($" {key}: \"{loc["french"]}\"");
+			germanDynLoc.WriteLine($" {key}: \"{loc["german"]}\"");
+			russianDynLoc.WriteLine($" {key}: \"{loc["russian"]}\"");
+			simp_chineseDynLoc.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+			spanishDynLoc.WriteLine($" {key}: \"{loc["spanish"]}\"");
 		}
 	}
 }
