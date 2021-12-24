@@ -31,7 +31,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 					cultureMapper,
 					traitMapper,
 					nicknameMapper,
-					LocDB,
+					locDB,
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
@@ -59,8 +59,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 				this.nicknameMapper = nicknameMapper;
 				return this;
 			}
-			public CK3CharacterBuilder WithLocDB(LocDB LocDB) {
-				this.LocDB = LocDB;
+			public CK3CharacterBuilder WithLocDB(LocDB locDB) {
+				this.locDB = locDB;
 				return this;
 			}
 			public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -78,7 +78,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader(string.Empty);
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocDB();
+			var locMapper = new LocDB("english");
 			var dynasty = new Dynasty(family, locMapper);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
@@ -90,12 +90,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader("key = cornelii");
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocDB();
-			locMapper.AddLocalization("cornelii", new LocBlock { english = "Cornelii" });
-			var dynasty = new Dynasty(family, locMapper);
+			var locDB = new LocDB("english");
+			var dynLoc = locDB.AddLocBlock("cornelii");
+			dynLoc["english"] = "Cornelii";
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-			Assert.Equal("Cornelii", dynasty.Localization.Value.english);
+			Assert.Equal("Cornelii", dynasty.Localization.Value["english"]);
 		}
 
 		[Fact]
@@ -103,11 +104,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader("key = cornelii");
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocDB();
-			var dynasty = new Dynasty(family, locMapper);
+			var locDB = new LocDB("english");
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-			Assert.Equal("cornelii", dynasty.Localization.Value.english);
+			Assert.Equal("cornelii", dynasty.Localization.Value["english"]);
 		}
 		[Fact]
 		public void CultureIsBasedOnFirstImperatorMember() {

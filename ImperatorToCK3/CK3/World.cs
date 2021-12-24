@@ -124,7 +124,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 				var holderId = title.GetHolderId(ck3BookmarkDate);
 				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
+					title.Localizations.AddLocBlock($"{holder.Name}_desc");
 				}
 			}
 		}

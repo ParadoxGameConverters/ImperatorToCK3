@@ -57,13 +57,13 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (impNameLoc is not null) {
 					Localizations.Add(Name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock {
-						english = Name,
-						french = Name,
-						german = Name,
-						russian = Name,
-						simp_chinese = Name,
-						spanish = Name
+					Localizations.Add(Name, new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+						["english"] = Name,
+						["french"] = Name,
+						["german"] = Name,
+						["russian"] = Name,
+						["simp_chinese"] = Name,
+						["spanish"] = Name
 					});
 				}
 			}
@@ -112,7 +112,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocDB LocDB,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
@@ -125,16 +125,25 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
 				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
-				Localizations.Add(Name, new LocBlock(loc));
+
+				var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+					["english"] = loc
+				};
+				locBlock.FillMissingLocWithBaseLanguageLoc();
+				Localizations.Add(Name, locBlock);
 			} else {
 				var nameLoc = ImperatorCharacter.Name;
 				Name = nameLoc.Replace(' ', '_');
 				if (!string.IsNullOrEmpty(Name)) {
-					var matchedLocBlock = LocDB.GetLocBlockForKey(Name);
+					var matchedLocBlock = locDB.GetLocBlockForKey(Name);
 					if (matchedLocBlock is not null) {
 						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						Localizations.Add(Name, new LocBlock(nameLoc));
+						var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+							["english"] = nameLoc
+						};
+						locBlock.FillMissingLocWithBaseLanguageLoc();
+						Localizations.Add(Name, locBlock);
 					}
 				}
 			}

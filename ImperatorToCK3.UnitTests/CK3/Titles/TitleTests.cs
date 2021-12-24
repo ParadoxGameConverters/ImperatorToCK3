@@ -139,17 +139,15 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void LocalizationCanBeSet() {
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_testtitle");
-			var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
-				["english"] = "engloc",
-				["french"] = "frloc",
-				["german"] = "germloc",
-				["russian"] = "rusloc",
-				["simp_chinese"] = "simploc",
-				["spanish"] = "spaloc"
-			};
+			var nameLoc = title.Localizations.AddLocBlock(title.Id);
+			nameLoc["english"] = "engloc";
+			nameLoc["french"] = "frloc";
+			nameLoc["german"] = "germloc";
+			nameLoc["russian"] = "rusloc";
+			nameLoc["simp_chinese"] = "simploc";
+			nameLoc["spanish"] = "spaloc";
 
-			title.SetNameLoc(locBlock);
-			Assert.Single(title.Localizations);
+			Assert.Equal("engloc", title.Localizations.GetLocBlockForKey(title.Id)!["english"]);
 		}
 
 		[Fact]
@@ -157,7 +155,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_testtitle");
 
-			Assert.Empty(title.Localizations);
 			Assert.Null(title.CoA);
 			Assert.Null(title.CapitalCounty);
 			Assert.Null(title.ImperatorCountry);
