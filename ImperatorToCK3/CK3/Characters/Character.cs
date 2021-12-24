@@ -44,7 +44,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
 			Country imperatorCountry,
-			LocDB LocDB,
+			LocDB locDB,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
-				var impNameLoc = LocDB.GetLocBlockForKey(Name);
+				var impNameLoc = locDB.GetLocBlockForKey(Name);
 				if (impNameLoc is not null) {
 					Localizations.Add(Name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name

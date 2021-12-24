@@ -62,8 +62,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				this.imperatorCountries = imperatorCountries;
 				return this;
 			}
-			public TitleBuilder WithLocDB(LocDB LocDB) {
-				this.locDB = LocDB;
+			public TitleBuilder WithLocDB(LocDB locDB) {
+				this.locDB = locDB;
 				return this;
 			}
 			public TitleBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {

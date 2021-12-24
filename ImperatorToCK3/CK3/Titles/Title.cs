@@ -32,7 +32,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private Title(LandedTitles parentCollection,
 		Country country,
 		CountryCollection imperatorCountries,
-		LocDB LocDB,
+		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
 		TagTitleMapper tagTitleMapper,
@@ -46,12 +46,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Date conversionDate
 	) {
 		this.parentCollection = parentCollection;
-		Id = DetermineName(country, imperatorCountries, tagTitleMapper, LocDB);
+		Id = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
 		SetRank();
 		InitializeFromTag(
 			country,
 			imperatorCountries,
-			LocDB,
+			locDB,
 			provinceMapper,
 			coaMapper,
 			governmentMapper,
@@ -291,7 +291,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Country country,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
-		LocDB LocDB,
+		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
@@ -358,7 +358,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		TrySetNameFromGovernorship(governorship, country, regionHasMultipleGovernorships, LocDB);
+		TrySetNameFromGovernorship(governorship, country, regionHasMultipleGovernorships, locDB);
 		TrySetAdjectiveFromGovernorship(country);
 	}
 
