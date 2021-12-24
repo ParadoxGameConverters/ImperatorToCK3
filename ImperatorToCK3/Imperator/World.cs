@@ -33,7 +33,7 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 			ParseGenes(configuration);
 
-			// parse the save
+			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
 				var versionString = reader.GetString();
