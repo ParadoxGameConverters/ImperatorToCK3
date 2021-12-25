@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ImperatorToCK3.Mappers.Region {
 	public class ImperatorRegionMapper {
@@ -14,11 +15,11 @@ namespace ImperatorToCK3.Mappers.Region {
 			var parser = new Parser();
 
 			RegisterAreaKeys(parser);
-			parser.ParseGameFile("map_data/areas.txt", imperatorPath, mods);
+			parser.ParseGameFile(Path.Combine("map_data", "areas.txt"), imperatorPath, mods);
 
 			parser.ClearRegisteredRules();
 			RegisterRegionKeys(parser);
-			parser.ParseGameFile("map_data/regions.txt", imperatorPath, mods);
+			parser.ParseGameFile(Path.Combine("map_data", "regions.txt"), imperatorPath, mods);
 
 			LinkRegions();
 		}
