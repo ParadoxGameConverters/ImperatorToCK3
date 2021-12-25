@@ -114,7 +114,7 @@ jobs:
         cd ImperatorToCK3
         dotnet publish -p:PublishProfile=linux-x64 -c:Release
         cd ..
-        rmdir "Release/ImperatorToCK3"
+        rm -r "Release/ImperatorToCK3"
         cp -R Publish/ Release/
     - name: "Build frontend"
       run: |
