@@ -11,13 +11,13 @@ public static class ColoredEmblemsOutputter {
 		var emblemFilePath = Path.Combine(
 			"output",
 			config.OutputModName,
-			"gfx/coat_of_arms/colored_emblems/ce_lion.dds"
+			"gfx", "coat_of_arms", "colored_emblems", "ce_lion.dds"
 		);
 		// something's wrong with ce_lion.dds
 		if (fileName == "ce_lion.dds" && !File.Exists(emblemFilePath)) {
 			// instead of converting a broken file from Imperator, copy closest CK3 emblem
 			var wasCopied = SystemUtils.TryCopyFile(
-				Path.Combine(config.CK3Path, "game/gfx/coat_of_arms/colored_emblems/ce_lion_passant.dds"),
+				Path.Combine(config.CK3Path, "game", "gfx", "coat_of_arms", "colored_emblems", "ce_lion_passant.dds"),
 				emblemFilePath
 			);
 			if (!wasCopied) {
@@ -29,7 +29,7 @@ public static class ColoredEmblemsOutputter {
 	}
 
 	public static void CopyColoredEmblems(Configuration config, IEnumerable<Mod> mods) {
-		const string coloredEmblemsFolder = "gfx/coat_of_arms/colored_emblems";
+		const string coloredEmblemsFolder = Path.Combine("gfx", "coat_of_arms", "colored_emblems");
 		var vanillaEmblemsFolder = Path.Combine(config.ImperatorPath, "game", coloredEmblemsFolder);
 		foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(vanillaEmblemsFolder)) {
 			CopyEmblem(Path.Combine(vanillaEmblemsFolder, fileName), fileName);
@@ -49,7 +49,7 @@ public static class ColoredEmblemsOutputter {
 			var image = new MagickImage(filePath);
 			image.Negate(channels: Channels.Red);
 			// Write the image to new file.
-			var outputPath = Path.Combine("output", config.OutputModName, "gfx/coat_of_arms/colored_emblems", fileName);
+			var outputPath = Path.Combine("output", config.OutputModName, "gfx", "coat_of_arms", "colored_emblems", fileName);
 			image.Write(outputPath);
 		}
 	}
