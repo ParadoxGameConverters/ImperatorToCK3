@@ -29,7 +29,7 @@ public static class ColoredEmblemsOutputter {
 	}
 
 	public static void CopyColoredEmblems(Configuration config, IEnumerable<Mod> mods) {
-		const string coloredEmblemsFolder = Path.Combine("gfx", "coat_of_arms", "colored_emblems");
+		var coloredEmblemsFolder = Path.Combine("gfx", "coat_of_arms", "colored_emblems");
 		var vanillaEmblemsFolder = Path.Combine(config.ImperatorPath, "game", coloredEmblemsFolder);
 		foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(vanillaEmblemsFolder)) {
 			CopyEmblem(Path.Combine(vanillaEmblemsFolder, fileName), fileName);
