@@ -147,8 +147,7 @@ jobs:
        mv dist/updater ../../Release/Updater/updater
     - name: "Save commit ID"
       run: |
-       cd $Env:GITHUB_WORKSPACE/ImperatorToCK3
-       git rev-parse HEAD > ../Release/commit_id.txt
+       git rev-parse HEAD > Release/commit_id.txt
     - name: Archive Release folder
       uses: thedoctor0/zip-release@master
       with:
