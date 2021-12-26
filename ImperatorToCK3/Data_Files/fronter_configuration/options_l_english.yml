@@ -1,12 +1,12 @@
 l_english:
- IMPERATORDEJURE: "Whether or not to base CK3 de iure on Imperator setup."
- IMPERATORDEJURETIP: "CK3 de iure is recommended."
+ IMPERATORDEJURE: "Whether or not to base CK3 de jure on Imperator setup."
+ IMPERATORDEJURETIP: "CK3 de jure is recommended."
  IMPERATORDEJURE1: "Regions to kingdoms"
- IMPERATORDEJURE1TIP: "Make Imperator regions CK3 de iure kingdoms."
+ IMPERATORDEJURE1TIP: "Make Imperator regions CK3 de jure kingdoms."
  IMPERATORDEJURE2: "Countries"
- IMPERATORDEJURE2TIP: "Base CK3 de iure on Imperator countries."
+ IMPERATORDEJURE2TIP: "Base CK3 de jure on Imperator countries."
  IMPERATORDEJURE3: "No"
- IMPERATORDEJURE3TIP: "Keep vanilla CK3 de iure."
+ IMPERATORDEJURE3TIP: "Keep vanilla CK3 de jure."
 
  #CONVERTCHARACTERBIRTHANDDEATHDATES: "Base for character birth date conversion"
  #CONVERTCHARACTERBIRTHANDDEATHDATES_TIP: "Characters' birth dates can be based on either their birth dates in Imperator or their Imperator age."

@@ -8,7 +8,6 @@ Step One, sanity check:
 Step Two, testing:
 1. Start the game with the converted mod.
 2. Note all inconsistencies - look for anything that looks out of place.
- 
+
  In case of major inconsistencies or problems, come to PDX forums and upload your save, explaining the problems.
  We're always open to suggestions and will fix whatever we can.
- 
