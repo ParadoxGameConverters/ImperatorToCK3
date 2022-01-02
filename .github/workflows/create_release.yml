@@ -41,6 +41,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - name: "Init submodules"
+      run: |
+       git submodule update --init --recursive
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
@@ -94,6 +97,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - name: "Init submodules"
+      run: |
+       git submodule update --init --recursive
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
@@ -108,7 +114,7 @@ jobs:
         cd ImperatorToCK3
         dotnet publish -p:PublishProfile=linux-x64 -c:Release
         cd ..
-        rmdir "Release/ImperatorToCK3"
+        rm -r "Release/ImperatorToCK3"
         cp -R Publish/ Release/
     - name: "Build frontend"
       run: |
@@ -141,8 +147,7 @@ jobs:
        mv dist/updater ../../Release/Updater/updater
     - name: "Save commit ID"
       run: |
-       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
-       git rev-parse HEAD > ..\Release\commit_id.txt
+       git rev-parse HEAD > Release/commit_id.txt
     - name: Archive Release folder
       uses: thedoctor0/zip-release@master
       with:
