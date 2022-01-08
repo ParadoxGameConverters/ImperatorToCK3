@@ -108,7 +108,7 @@ jobs:
         dotnet publish -p:PublishProfile=linux-x64 -c:Release
         cd ..
         rm -r "Release/ImperatorToCK3"
-        cp -R Publish/ Release/
+        cp -R Publish/* Release/
     - name: "Build frontend"
       uses: ./Fronter/.github/actions/build_frontend
     - name: "Save commit ID"

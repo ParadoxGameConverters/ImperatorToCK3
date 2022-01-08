@@ -6,7 +6,7 @@ on:
       - test-wf
 
 jobs:
-  test_wf:
+  test_wf_linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
         dotnet publish -p:PublishProfile=linux-x64 -c:Release
         cd ..
         rm -r "Release/ImperatorToCK3"
-        cp -R Publish/ Release/
+        cp -R Publish/* Release/
     - name: "Save commit ID"
       run: |
        git rev-parse HEAD > Release/commit_id.txt
@@ -40,4 +40,45 @@ jobs:
     - name: Print directory tree
       run: |
        sudo apt-get install tree
-       tree
+       tree Release
+
+  test_wf_windows:
+    runs-on: windows-2022
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: "Init submodules"
+      run: |
+       git submodule update --init --recursive
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.*'
+    - name: "Add version to version.txt"
+      shell: bash
+      run: |
+        cd ImperatorToCK3/Data_Files/configurables
+        printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=win-x64 -c:Release
+        cd ..
+        Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
+        Xcopy /E /Y Publish Release
+    - name: "Build frontend"
+      uses: ./Fronter/.github/actions/build_frontend
+      with:
+        msbuild_path: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe"
+    - name: "Save commit ID"
+      run: |
+       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
+       .\Save_Commit_ID_Windows.bat
+    - name: "Archive release folder"
+      run: |
+       cd "C:\Program Files\7-Zip\"
+       .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3-win-x64.zip $Env:GITHUB_WORKSPACE\Release\*
+    - name: Print directory tree
+      run: |
+       tree Release
