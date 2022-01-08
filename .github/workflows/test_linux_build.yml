@@ -64,7 +64,7 @@ jobs:
         type: 'zip'
         directory: Release/
         filename: 'ImperatorToCK3-linux-x64.zip'
-    - name: Print tree
+    - name: Print directory tree
       run: |
        sudo apt-get install tree
        tree
