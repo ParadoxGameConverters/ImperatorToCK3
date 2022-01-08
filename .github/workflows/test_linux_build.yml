@@ -81,4 +81,4 @@ jobs:
        .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3-win-x64.zip $Env:GITHUB_WORKSPACE\Release\*
     - name: Print directory tree
       run: |
-       tree Release
+       tree Release /F
