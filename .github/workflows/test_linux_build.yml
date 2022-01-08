@@ -19,13 +19,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '6.*'
-    - name: "Build backend"
-      run: |
-        cd ImperatorToCK3
-        dotnet publish -p:PublishProfile=linux-x64 -c:Release
-        cd ..
-        rm -r "Release/ImperatorToCK3"
-        cp -R Publish/ Release/
     - name: "Build frontend"
       run: |
         sudo apt install libcurl4-openssl-dev
@@ -48,6 +41,13 @@ jobs:
         cd Fronter
         ./build_linux.sh
         mv Release ../
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=linux-x64 -c:Release
+        cd ..
+        rm -r "Release/ImperatorToCK3"
+        cp -R Publish/ Release/
     - name: "Build updater executable"
       run: |
        cd Fronter/Updater
