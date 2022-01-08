@@ -41,13 +41,6 @@ jobs:
         cd Fronter
         ./build_linux.sh
         mv Release ../
-    - name: "Build backend"
-      run: |
-        cd ImperatorToCK3
-        dotnet publish -p:PublishProfile=linux-x64 -c:Release
-        cd ..
-        rm -r "Release/ImperatorToCK3"
-        cp -R Publish/ Release/
     - name: "Build updater executable"
       run: |
        cd Fronter/Updater
@@ -55,6 +48,13 @@ jobs:
        pyinstaller --onefile --icon=updater.ico updater.py
        mkdir ../../Release/Updater
        mv dist/updater ../../Release/Updater/updater
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=linux-x64 -c:Release
+        cd ..
+        rm -r "Release/ImperatorToCK3"
+        cp -R Publish/ Release/
     - name: "Save commit ID"
       run: |
        git rev-parse HEAD > Release/commit_id.txt
