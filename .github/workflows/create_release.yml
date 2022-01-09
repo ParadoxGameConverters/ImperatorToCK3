@@ -16,9 +16,6 @@ jobs:
     - name: "Get previous tag"
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
     - name: "Build changelog"
       id: build_changelog
       uses: mikepenz/release-changelog-builder-action@v2
