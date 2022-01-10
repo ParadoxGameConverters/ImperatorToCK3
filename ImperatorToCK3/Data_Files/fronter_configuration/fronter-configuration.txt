@@ -1,5 +1,6 @@
 ﻿name = ImperatorToCK3
 converterFolder = ImperatorToCK3
+backendExePath = ImperatorToCK3Converter
 displayName = IMPDISPLAYNAME
 sourceGame = IMPGAME
 targetGame = CK3GAME
