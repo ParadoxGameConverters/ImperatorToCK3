@@ -43,17 +43,6 @@ requiredFolder = {
 	searchPath = "Paradox Interactive\Crusader Kings III\mod"
 }
 requiredFile = {
-	name = converterExe
-	displayName = IMPFILE
-	tooltip = IMPFILETIP
-	mandatory = true
-	outputtable = false
-	searchPathType = converterFolder
-	searchPath = "ImperatorToCK3"
-	allowedExtension = "*.exe"
-	fileName = "ImperatorToCK3Converter.exe"
-}
-requiredFile = {
 	name = SaveGame
 	displayName = IMPSAVE
 	tooltip = IMPSAVETIP
