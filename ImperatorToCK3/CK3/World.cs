@@ -103,7 +103,7 @@ namespace ImperatorToCK3.CK3 {
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
-				config.CK3BookmarkDate
+				config
 			);
 			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 

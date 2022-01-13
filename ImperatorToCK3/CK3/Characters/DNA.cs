@@ -38,20 +38,20 @@ namespace ImperatorToCK3.CK3.Characters {
 		public static void Initialize(Configuration config) {
 			var impHairPalettePath = Path.Combine(config.ImperatorPath, "game/gfx/portraits/hair_palette.dds");
 			impHairPalettePixels = new MagickImage(impHairPalettePath).GetPixelsUnsafe();
-			var ck3HairPalettePath = Path.Combine(config.Ck3Path, "game/gfx/portraits/hair_palette.dds");
+			var ck3HairPalettePath = Path.Combine(config.CK3Path, "game/gfx/portraits/hair_palette.dds");
 			ck3HairPalettePixels = new MagickImage(ck3HairPalettePath).GetPixelsUnsafe();
 
 			var impSkinPalettePath = Path.Combine(config.ImperatorPath, "game/gfx/portraits/skin_palette.dds");
 			impSkinPalettePixels = new MagickImage(impSkinPalettePath).GetPixelsUnsafe();
-			var ck3SkinPalettePath = Path.Combine(config.Ck3Path, "game/gfx/portraits/skin_palette.dds");
+			var ck3SkinPalettePath = Path.Combine(config.CK3Path, "game/gfx/portraits/skin_palette.dds");
 			ck3SkinPalettePixels = new MagickImage(ck3SkinPalettePath).GetPixelsUnsafe();
 
 			var impEyePalettePath = Path.Combine(config.ImperatorPath, "game/gfx/portraits/eye_palette.dds");
 			impEyePalettePixels = new MagickImage(impEyePalettePath).GetPixelsUnsafe();
-			var ck3EyePalettePath = Path.Combine(config.Ck3Path, "game/gfx/portraits/eye_palette.dds");
+			var ck3EyePalettePath = Path.Combine(config.CK3Path, "game/gfx/portraits/eye_palette.dds");
 			ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
 
-			var genesPath = Path.Combine(config.Ck3Path, "game/common/genes/04_genes_special_accessories_beards.txt");
+			var genesPath = Path.Combine(config.CK3Path, "game/common/genes/04_genes_special_accessories_beards.txt");
 			genesDB = new GenesDB(genesPath);
 		}
 		public DNA(Imperator.Characters.Character impCharacter, Imperator.Characters.PortraitData impPortraitData) {
