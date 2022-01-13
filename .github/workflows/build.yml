@@ -1,28 +1,56 @@
 name: Build
 
 on:
-  push:
-    branches-ignore:
-      - master
   pull_request:
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+      with:
+        submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '6.*'
-    - name: Build
+    - name: "Build backend"
       run: |
        cd ImperatorToCK3
        dotnet build
+    - name: "Build frontend (Linux)"
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt install libcurl4-openssl-dev
+        sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+        sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt update
+        sudo apt install gcc-11 g++-11
+        sudo apt install libwxbase3.1-0-unofficial libwxbase3.1unofficial-dev libwxgtk3.1-0-unofficial libwxgtk3.1unofficial-dev wx3.1-headers wx-common
+        # Link gcc-11 and g++-11 to their standard commands
+        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
+        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
+        # Export CC and CXX to tell cmake which compiler to use
+        export CC=/usr/bin/gcc-11
+        export CXX=/usr/bin/g++-11
+        # Check versions of gcc, g++ and cmake
+        gcc -v && g++ -v && cmake --version
+
+        rm -rf Release/
+        cd Fronter
+        ./build_linux.sh
+        mv Release ../
+    - name: "Build frontend (Windows)"
+      if: matrix.os == 'windows-2022'
+      run: |
+        cd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\"
+        .\MSBuild.exe -m -p:Configuration=Debug -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter
+    - name: "Build frontend (macOS)"
+      if: matrix.os == 'macos-latest'
+      run: |
+        echo "Building frontend on macOS is not supported yet"

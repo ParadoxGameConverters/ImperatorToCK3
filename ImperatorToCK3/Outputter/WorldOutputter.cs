@@ -1,13 +1,14 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, Configuration theConfiguration) {
+		public static void OutputWorld(World ck3World, IEnumerable<Mod> imperatorMods, Configuration config) {
 			ClearOutputModFolder();
 
-			var outputName = theConfiguration.OutputModName;
+			var outputName = config.OutputModName;
 			CreateModFolder(outputName);
 			OutputModFile(outputName);
 
@@ -27,44 +28,40 @@ namespace ImperatorToCK3.Outputter {
 			TitlesOutputter.OutputTitles(
 				outputName,
 				ck3World.LandedTitles,
-				theConfiguration.ImperatorDeJure,
-				ck3World.CorrectedDate
+				config.ImperatorDeJure
 			);
 
 			Logger.Info("Writing Succession Triggers...");
-			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles);
+			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);
 
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
-				theConfiguration.ImperatorPath,
+				config.ImperatorPath,
 				outputName,
 				ck3World,
-				theConfiguration.ImperatorDeJure
+				config.ImperatorDeJure
 			);
 
-			var outputPath = $"output/{theConfiguration.OutputModName}";
+			var outputPath = $"output/{config.OutputModName}";
 
 			Logger.Info("Copying named colors...");
-			SystemUtils.TryCopyFile($"{theConfiguration.ImperatorPath}/game/common/named_colors/default_colors.txt",
+			SystemUtils.TryCopyFile($"{config.ImperatorPath}/game/common/named_colors/default_colors.txt",
 									 $"{outputPath}/common/named_colors/imp_colors.txt");
 
 			Logger.Info("Copying Coats of Arms...");
-			ColoredEmblemsOutputter.CopyColoredEmblems(theConfiguration, outputName);
+			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorMods);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
-			SystemUtils.TryCopyFolder($"{theConfiguration.ImperatorPath}/game/gfx/coat_of_arms/patterns",
+			SystemUtils.TryCopyFolder($"{config.ImperatorPath}/game/gfx/coat_of_arms/patterns",
 							$"{outputPath}/gfx/coat_of_arms/patterns");
 
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder("blankMod/output", outputPath);
 
 			Logger.Info("Creating bookmark...");
-			BookmarkOutputter.OutputBookmark(
-				ck3World,
-				theConfiguration
-			);
+			BookmarkOutputter.OutputBookmark(ck3World, config);
 
 			void ClearOutputModFolder() {
-				var directoryToClear = $"output/{theConfiguration.OutputModName}";
+				var directoryToClear = $"output/{config.OutputModName}";
 				var di = new DirectoryInfo(directoryToClear);
 				if (!di.Exists) {
 					return;

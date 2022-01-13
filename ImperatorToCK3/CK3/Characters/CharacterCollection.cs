@@ -1,9 +1,9 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -17,7 +17,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
@@ -32,7 +32,7 @@ namespace ImperatorToCK3.CK3.Characters {
 					cultureMapper,
 					traitMapper,
 					nicknameMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					deathReasonMapper,
 					endDate,
@@ -52,7 +52,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
@@ -65,7 +65,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				deathReasonMapper,
 				endDate,
@@ -87,18 +87,26 @@ namespace ImperatorToCK3.CK3.Characters {
 				var impMotherCharacter = ck3Character.ImperatorCharacter.Mother;
 				if (impMotherCharacter is not null) {
 					var ck3MotherCharacter = impMotherCharacter.CK3Character;
-					ck3Character.Mother = ck3MotherCharacter;
-					ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
-					++motherCounter;
+					if (ck3MotherCharacter is not null) {
+						ck3Character.Mother = ck3MotherCharacter;
+						ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
+						++motherCounter;
+					} else {
+						Logger.Warn($"Imperator mother {impMotherCharacter.Id} has no CK3 character!");
+					}
 				}
 
 				// make links between Imperator characters
 				var impFatherCharacter = ck3Character.ImperatorCharacter.Father;
 				if (impFatherCharacter is not null) {
 					var ck3FatherCharacter = impFatherCharacter.CK3Character;
-					ck3Character.Father = ck3FatherCharacter;
-					ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
-					++fatherCounter;
+					if (ck3FatherCharacter is not null) {
+						ck3Character.Father = ck3FatherCharacter;
+						ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
+						++fatherCounter;
+					} else {
+						Logger.Warn($"Imperator father {impFatherCharacter.Id} has no CK3 character!");
+					}
 				}
 			}
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");

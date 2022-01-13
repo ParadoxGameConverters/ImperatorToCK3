@@ -4,22 +4,23 @@ using System.IO;
 
 namespace ImperatorToCK3 {
 	public enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 }
-	public class Configuration : Parser {
-		public string SaveGamePath { get; internal set; } = "";
-		public string ImperatorPath { get; internal set; } = "";
-		public string ImperatorDocPath { get; internal set; } = "";
-		public string Ck3Path { get; internal set; } = "";
-		public string Ck3ModsPath { get; internal set; } = "";
-		public string OutputModName { get; internal set; } = "";
-		public IMPERATOR_DE_JURE ImperatorDeJure { get; internal set; } = IMPERATOR_DE_JURE.NO;
-		public Date Ck3BookmarkDate { get; private set; } = new(867, 1, 1);
+	public class Configuration {
+		public string SaveGamePath { get; set; } = "";
+		public string ImperatorPath { get; set; } = "";
+		public string ImperatorDocPath { get; set; } = "";
+		public string CK3Path { get; set; } = "";
+		public string CK3ModsPath { get; set; } = "";
+		public string OutputModName { get; set; } = "";
+		public IMPERATOR_DE_JURE ImperatorDeJure { get; set; } = IMPERATOR_DE_JURE.NO;
+		public Date CK3BookmarkDate { get; set; } = new(867, 1, 1);
 
 		public Configuration() { }
 		public Configuration(ConverterVersion converterVersion) {
-			Logger.Info("Reading configuration file");
-			RegisterKeys();
-			ParseFile("configuration.txt");
-			ClearRegisteredRules();
+			Logger.Info("Reading configuration file...");
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile("configuration.txt");
+
 			SetOutputName();
 			VerifyImperatorPath();
 			VerifyImperatorVersion(converterVersion);
@@ -27,20 +28,20 @@ namespace ImperatorToCK3 {
 			VerifyCK3Version(converterVersion);
 		}
 
-		private void RegisterKeys() {
-			RegisterKeyword("SaveGame", reader => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterKeyword("SaveGame", reader => {
 				SaveGamePath = reader.GetString();
-				Logger.Info("Save game set to: " + SaveGamePath);
+				Logger.Info($"Save game set to: {SaveGamePath}");
 			});
-			RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
-			RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
-			RegisterKeyword("CK3directory", reader => Ck3Path = reader.GetString());
-			RegisterKeyword("CK3ModsDirectory", reader => Ck3ModsPath = reader.GetString());
-			RegisterKeyword("output_name", reader => {
+			parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
+			parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
+			parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
+			parser.RegisterKeyword("CK3ModsDirectory", reader => CK3ModsPath = reader.GetString());
+			parser.RegisterKeyword("output_name", reader => {
 				OutputModName = reader.GetString();
 				Logger.Info($"Output name set to: {OutputModName}");
 			});
-			RegisterKeyword("ImperatorDeJure", reader => {
+			parser.RegisterKeyword("ImperatorDeJure", reader => {
 				var deJureString = reader.GetString();
 				try {
 					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(deJureString);
@@ -50,33 +51,33 @@ namespace ImperatorToCK3 {
 				}
 			});
 
-			RegisterKeyword("bookmark_date", reader => {
+			parser.RegisterKeyword("bookmark_date", reader => {
 				var dateStr = reader.GetString();
 				Logger.Info($"Entered CK3 bookmark date: {dateStr}");
-				Ck3BookmarkDate = new Date(dateStr);
-				Logger.Info($"CK3 bookmark date set to: {Ck3BookmarkDate}");
+				CK3BookmarkDate = new Date(dateStr);
+				Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 
 		private void VerifyImperatorPath() {
 			if (!Directory.Exists(ImperatorPath)) {
-				throw new DirectoryNotFoundException(ImperatorPath + " does not exist!");
+				throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
 			}
-			if (!File.Exists(ImperatorPath + "/binaries/imperator.exe")) {
-				throw new FileNotFoundException(ImperatorPath + "does not contains Imperator: Rome!");
+			if (!File.Exists($"{ImperatorPath}/binaries/imperator.exe")) {
+				throw new FileNotFoundException($"{ImperatorPath}does not contains Imperator: Rome!");
 			}
-			Logger.Info("\tI:R install path is " + ImperatorPath);
+			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		}
 
 		private void VerifyCK3Path() {
-			if (!Directory.Exists(Ck3Path)) {
-				throw new DirectoryNotFoundException(Ck3Path + " does not exist!");
+			if (!Directory.Exists(CK3Path)) {
+				throw new DirectoryNotFoundException($"{CK3Path} does not exist!");
 			}
-			if (!File.Exists(Ck3Path + "/binaries/ck3.exe")) {
-				throw new FileNotFoundException(Ck3Path + " does not contain Crusader Kings III!");
+			if (!File.Exists($"{CK3Path}/binaries/ck3.exe")) {
+				throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
 			}
-			Logger.Info("\tCK3 install path is " + Ck3Path);
+			Logger.Info($"\tCK3 install path is {CK3Path}");
 		}
 
 		private void SetOutputName() {
@@ -88,7 +89,7 @@ namespace ImperatorToCK3 {
 			OutputModName = OutputModName.Replace(' ', '_');
 
 			OutputModName = CommonFunctions.NormalizeUTF8Path(OutputModName);
-			Logger.Info("Using output name " + OutputModName);
+			Logger.Info($"Using output name {OutputModName}");
 		}
 
 		private void VerifyImperatorVersion(ConverterVersion converterVersion) {
@@ -102,19 +103,17 @@ namespace ImperatorToCK3 {
 			Logger.Info($"Imperator version: {impVersion.ToShortString()}");
 
 			if (converterVersion.MinSource > impVersion) {
-				Logger.Error($"Imperator version is v{impVersion.ToShortString()}," +
-					$" converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
+				Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
 				throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
 			}
 			if (!converterVersion.MaxSource.IsLargerishThan(impVersion)) {
-				Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires maximum v" +
-						 $"{converterVersion.MaxSource.ToShortString()}!");
+				Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
 				throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
 			}
 		}
 
 		private void VerifyCK3Version(ConverterVersion converterVersion) {
-			var path = Path.Combine(Ck3Path, "launcher/launcher-settings.json");
+			var path = Path.Combine(CK3Path, "launcher/launcher-settings.json");
 			var ck3Version = GameVersion.ExtractVersionFromLauncher(path);
 			if (ck3Version is null) {
 				Logger.Error("CK3 version could not be determined, proceeding blind!");
@@ -124,13 +123,11 @@ namespace ImperatorToCK3 {
 			Logger.Info($"CK3 version: {ck3Version.ToShortString()}");
 
 			if (converterVersion.MinTarget > ck3Version) {
-				Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v" +
-						 $"{converterVersion.MinTarget.ToShortString()}!");
+				Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
 				throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
 			}
 			if (!converterVersion.MaxTarget.IsLargerishThan(ck3Version)) {
-				Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v" +
-						 $"{converterVersion.MaxTarget.ToShortString()} !");
+				Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
 				throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
 			}
 		}

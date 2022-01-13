@@ -1,10 +1,10 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -20,7 +20,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			private CultureMapper cultureMapper = new();
 			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-			private LocalizationMapper localizationMapper = new();
+			private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
 
@@ -31,7 +31,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 					cultureMapper,
 					traitMapper,
 					nicknameMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
@@ -59,8 +59,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 				this.nicknameMapper = nicknameMapper;
 				return this;
 			}
-			public CK3CharacterBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-				this.localizationMapper = localizationMapper;
+			public CK3CharacterBuilder WithLocDB(LocDB locDB) {
+				this.locDB = locDB;
 				return this;
 			}
 			public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -78,7 +78,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader(string.Empty);
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocalizationMapper();
+			var locMapper = new LocDB("english");
 			var dynasty = new Dynasty(family, locMapper);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
@@ -90,12 +90,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader("key = cornelii");
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocalizationMapper();
-			locMapper.AddLocalization("cornelii", new LocBlock { english = "Cornelii" });
-			var dynasty = new Dynasty(family, locMapper);
+			var locDB = new LocDB("english");
+			var dynLoc = locDB.AddLocBlock("cornelii");
+			dynLoc["english"] = "Cornelii";
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-			Assert.Equal("Cornelii", dynasty.Localization.Value.english);
+			Assert.Equal("Cornelii", dynasty.Localization.Value["english"]);
 		}
 
 		[Fact]
@@ -103,11 +104,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader("key = cornelii");
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocalizationMapper();
-			var dynasty = new Dynasty(family, locMapper);
+			var locDB = new LocDB("english");
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-			Assert.Equal("cornelii", dynasty.Localization.Value.english);
+			Assert.Equal("cornelii", dynasty.Localization.Value["english"]);
 		}
 		[Fact]
 		public void CultureIsBasedOnFirstImperatorMember() {
@@ -131,7 +132,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 					"link={imp=roman ck3=not_gypsy} link={imp=akan ck3=akan} link={imp=parthian ck3=parthian}"
 				)
 			);
-			var locMapper = new LocalizationMapper();
+			var locDB = new LocDB("english");
 			var ck3Member1 = new CK3CharacterBuilder()
 				.WithCultureMapper(cultureMapper)
 				.WithImperatorCharacter(member1)
@@ -144,7 +145,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 				.WithCultureMapper(cultureMapper)
 				.WithImperatorCharacter(member3)
 				.Build();
-			var dynasty = new Dynasty(family, locMapper);
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("not_gypsy", dynasty.Culture);
 		}

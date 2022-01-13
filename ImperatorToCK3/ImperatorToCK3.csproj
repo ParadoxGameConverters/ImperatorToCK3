@@ -24,8 +24,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.4.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.0.0-alpha.0.99" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.5.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>

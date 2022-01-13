@@ -33,7 +33,7 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 			ParseGenes(configuration);
 
-			// parse the save
+			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
 				var versionString = reader.GetString();
@@ -55,7 +55,7 @@ namespace ImperatorToCK3.Imperator {
 				var dateString = reader.GetString();
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
-				if (EndDate > configuration.Ck3BookmarkDate) {
+				if (EndDate > configuration.CK3BookmarkDate) {
 					Logger.Error("Save date is later than CK3 bookmark date, proceeding at your own risk!");
 				}
 			});
@@ -72,7 +72,7 @@ namespace ImperatorToCK3.Imperator {
 				Mods incomingMods = new();
 				foreach (var modPath in modsList) {
 					Logger.Info($"Used mod: {modPath}");
-					incomingMods.Add(new Mod("", modPath));
+					incomingMods.Add(new Mod(string.Empty, modPath));
 				}
 
 				// Let's locate, verify and potentially update those mods immediately.

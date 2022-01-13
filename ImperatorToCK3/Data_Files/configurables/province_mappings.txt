@@ -888,7 +888,7 @@
 	link = { comment = "# North & West Poland" }
 	link = { imp = 4002 ck3 = 3067 ck3 = 3065 ck3 = 3064 } # Budorigum -> SPROTTAU, BYTOM, GRUNBERG
 	link = { imp = 4887 ck3 = 527 ck3 = 4965 } # Cracovia -> Krakow, Tarnow
-	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen 
+	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen
 	link = { imp = 4864 ck3 = 3217 ck3 = 2835 ck3 = 3218 } # Venedica -> BRAUNSBERG, ELBLAG, LAUKITTEN
 	link = { imp = 4863 ck3 = 3197 } # Voreynica -> GRAUDENZ
 	link = { imp = 4862 ck3 = 2831 ck3 = 2834 } # Vistuliana -> WISLANA, MALBORK
@@ -1001,7 +1001,7 @@
 	link = { imp = 3704 ck3 = 2122 } # Nervia Prima -> COUVIN
 	link = { imp = 3046 imp = 3042 ck3 = 2119 } # Hermoniacum, Bagacum -> VALENCIENNES
 	link = { imp = 2474 imp = 2472 ck3 = 2181 } # Nemetodurum, Briva Isarae -> MANTES
-	link = { imp = 2473 ck3 = 2180 } # Avalocum -> GISORS 
+	link = { imp = 2473 ck3 = 2180 } # Avalocum -> GISORS
 	link = { imp = 2444 ck3 = 2190 ck3 = 2357 } # Catalacus -> BEAUMONT, SAINT-DENIS
 	link = { imp = 2446 ck3 = 2183 } # Caesaromagus -> BEAUVAIS
 	link = { imp = 3035 ck3 = 2184 } # Samarobriva -> AMIENS
@@ -1011,7 +1011,7 @@
 	link = { imp = 2493 ck3 = 2188 } # Isara -> NOYON
 	link = { imp = 3044 ck3 = 2187 } # Sefulae -> SAINT-QUENTIN
 	link = { imp = 3045 ck3 = 2118 } # Camaracum -> CAMBRAI
-	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN 
+	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN
 	link = { imp = 3039 ck3 = 2134 } # Estia -> AIRE
 	link = { imp = 3040 ck3 = 2126 } # Minariacum -> LILLE
 	link = { imp = 3675 ck3 = 2125 ck3 = 2123 } # Cortoriacum -> YPRES, COURTRAI

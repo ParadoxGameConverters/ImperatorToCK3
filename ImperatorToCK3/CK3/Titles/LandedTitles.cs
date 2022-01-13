@@ -1,11 +1,11 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -59,7 +59,7 @@ public partial class Title {
 		public Title Add(
 			Country country,
 			CountryCollection imperatorCountries,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
@@ -69,12 +69,13 @@ public partial class Title {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			CharacterCollection characters
+			CharacterCollection characters,
+			Date conversionDate
 		) {
 			var newTitle = new Title(this,
 				country,
 				imperatorCountries,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
@@ -84,7 +85,8 @@ public partial class Title {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				characters
+				characters,
+				conversionDate
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -95,7 +97,7 @@ public partial class Title {
 			Country country,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
@@ -107,7 +109,7 @@ public partial class Title {
 				country,
 				imperatorCharacters,
 				regionHasMultipleGovernorships,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
@@ -124,16 +126,12 @@ public partial class Title {
 					deJureLiege.DeJureVassals.Remove(name);
 				}
 
-				var deFactoLiege = titleToErase.DeFactoLiege;
-				if (deFactoLiege is not null) {
-					deFactoLiege.DeFactoVassals.Remove(name);
-				}
-
 				foreach (var vassal in titleToErase.DeJureVassals) {
 					vassal.DeJureLiege = null;
 				}
-				foreach (var vassal in titleToErase.DeFactoVassals) {
-					vassal.DeFactoLiege = null;
+
+				foreach (var title in this) {
+					title.RemoveDeFactoLiegeReferences(name);
 				}
 
 				if (titleToErase.ImperatorCountry is not null) {
@@ -167,7 +165,7 @@ public partial class Title {
 		public void ImportImperatorCountries(
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
@@ -176,7 +174,9 @@ public partial class Title {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			CharacterCollection characters) {
+			CharacterCollection characters,
+			Date conversionDate
+		) {
 			Logger.Info("Importing Imperator Countries...");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
@@ -188,7 +188,7 @@ public partial class Title {
 					country,
 					imperatorCountries,
 					tagTitleMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -197,7 +197,8 @@ public partial class Title {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					characters
+					characters,
+					conversionDate
 				);
 				++counter;
 			}
@@ -208,7 +209,7 @@ public partial class Title {
 			Country country,
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
@@ -217,15 +218,17 @@ public partial class Title {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			CharacterCollection characters) {
+			CharacterCollection characters,
+			Date conversionDate
+		) {
 			// Create a new title or update existing title
-			var name = Title.DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
+			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
 					country,
 					imperatorCountries,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -234,13 +237,14 @@ public partial class Title {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					characters
+					characters,
+					conversionDate
 				);
 			} else {
 				Add(
 					country,
 					imperatorCountries,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -250,7 +254,8 @@ public partial class Title {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					characters
+					characters,
+					conversionDate
 				);
 			}
 		}
@@ -258,7 +263,7 @@ public partial class Title {
 		public void ImportImperatorGovernorships(
 			Imperator.World impWorld,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
@@ -282,7 +287,7 @@ public partial class Title {
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
 					tagTitleMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
@@ -298,14 +303,14 @@ public partial class Title {
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper) {
 			var country = imperatorCountries[governorship.CountryId];
 			// Create a new title or update existing title
-			var name = Title.DetermineName(governorship, country, tagTitleMapper);
+			var name = DetermineName(governorship, country, tagTitleMapper);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromGovernorship(
@@ -313,7 +318,7 @@ public partial class Title {
 					country,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
@@ -324,7 +329,7 @@ public partial class Title {
 					country,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -344,18 +349,21 @@ public partial class Title {
 			foreach (var title in this) {
 				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
 				// this also removes landless titles initialized from Imperator
-				if (title.Rank > TitleRank.county && !countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
-					var id = title.Id;
-					if (!this[id].Landless) { // does not have landless attribute set to true
-						if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
-							removedGeneratedTitles.Add(id);
-							Remove(id);
-						} else {
-							revokedVanillaTitles.Add(id);
-							title.ClearHolderSpecificHistory();
-							title.DeFactoLiege = null;
-						}
-					}
+				if (title.Rank <= TitleRank.county || countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+					continue;
+				}
+				var id = title.Id;
+				if (this[id].Landless) {
+					continue;
+				}
+				// does not have landless attribute set to true
+				if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
+					removedGeneratedTitles.Add(id);
+					Remove(id);
+				} else {
+					revokedVanillaTitles.Add(id);
+					title.ClearHolderSpecificHistory();
+					title.SetDeFactoLiege(null, ck3BookmarkDate);
 				}
 			}
 			if (removedGeneratedTitles.Count > 0) {

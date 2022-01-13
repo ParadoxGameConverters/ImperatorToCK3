@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
@@ -10,7 +11,6 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -31,32 +31,32 @@ namespace ImperatorToCK3.CK3 {
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
-		public World(Imperator.World impWorld, Configuration theConfiguration) {
+		public World(Imperator.World impWorld, Configuration config) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
 			CorrectedDate = impWorld.EndDate.Year > 0 ? impWorld.EndDate : new Date(1, 1, 1);
 
 			Logger.Info("Loading map data...");
-			MapData = new MapData(theConfiguration.Ck3Path);
+			MapData = new MapData(config.CK3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
-			localizationMapper.ScrapeLocalizations(theConfiguration, impWorld.Mods);
+			locDB.ScrapeLocalizations(config.ImperatorPath, impWorld.Mods);
 
 			// Loading Imperator CoAs to use them for generated CK3 titles
-			coaMapper = new CoaMapper(theConfiguration);
+			coaMapper = new CoaMapper(config, impWorld.Mods);
 
 			// Load vanilla titles history
-			var titlesHistoryPath = Path.Combine(theConfiguration.Ck3Path, "game/history/titles");
-			titlesHistory = new TitlesHistory(titlesHistoryPath, theConfiguration.Ck3BookmarkDate);
+			var titlesHistoryPath = Path.Combine(config.CK3Path, "game/history/titles");
+			titlesHistory = new TitlesHistory(titlesHistoryPath);
 
 			// Load vanilla CK3 landed titles
-			var landedTitlesPath = Path.Combine(theConfiguration.Ck3Path, "game/common/landed_titles/00_landed_titles.txt");
+			var landedTitlesPath = Path.Combine(config.CK3Path, "game/common/landed_titles/00_landed_titles.txt");
 
 			LandedTitles.LoadTitles(landedTitlesPath);
-			AddHistoryToVanillaTitles(theConfiguration.Ck3BookmarkDate);
+			AddHistoryToVanillaTitles(config.CK3BookmarkDate);
 
 			// Loading regions
-			ck3RegionMapper = new CK3RegionMapper(theConfiguration.Ck3Path, LandedTitles);
-			imperatorRegionMapper = new ImperatorRegionMapper(theConfiguration.ImperatorPath);
+			ck3RegionMapper = new CK3RegionMapper(config.CK3Path, LandedTitles);
+			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath, impWorld.Mods);
 			// Use the region mappers in other mappers
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
 			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
@@ -64,7 +64,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
 				tagTitleMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				coaMapper,
 				governmentMapper,
@@ -73,12 +73,13 @@ namespace ImperatorToCK3.CK3 {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				Characters
+				Characters,
+				CorrectedDate
 			);
 			LandedTitles.ImportImperatorGovernorships(
 				impWorld,
 				tagTitleMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
@@ -87,7 +88,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			Provinces.ImportVanillaProvinces(theConfiguration.Ck3Path, theConfiguration.Ck3BookmarkDate);
+			Provinces.ImportVanillaProvinces(config.CK3Path, config.CK3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
@@ -98,20 +99,20 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
-				theConfiguration
+				config.CK3BookmarkDate
 			);
-			ClearFeaturedCharactersDescriptions(theConfiguration.Ck3BookmarkDate);
+			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
+			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, CorrectedDate);
-			LandedTitles.RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
+			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 
-			Characters.PurgeLandlessVanillaCharacters(LandedTitles, theConfiguration.Ck3BookmarkDate);
+			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.CK3BookmarkDate);
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		}
 
@@ -123,7 +124,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 				var holderId = title.GetHolderId(ck3BookmarkDate);
 				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
+					title.Localizations.AddLocBlock($"{holder.Name}_desc");
 				}
 			}
 		}
@@ -135,10 +136,11 @@ namespace ImperatorToCK3.CK3 {
 					title.AddHistory(historyOpt);
 				}
 			}
-			// add vanilla development to counties
-			// for counties that inherit development level from de jure lieges, assign it to them directly for better reliability
-			foreach (Title title in LandedTitles.Where(title => title.Rank == TitleRank.county && title.DevelopmentLevel is null)) {
-				title.DevelopmentLevel = title.OwnOrInheritedDevelopmentLevel;
+			// Add vanilla development to counties
+			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability
+			foreach (Title title in LandedTitles.Where(title => title.Rank == TitleRank.county && title.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
+				var inheritedDev = title.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
+				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
 			}
 
 			// remove history entries past the bookmark date
@@ -171,7 +173,7 @@ namespace ImperatorToCK3.CK3 {
 
 				if (impCountry is null || impCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
 					county.SetHolderId("0", conversionDate);
-					county.DeFactoLiege = null;
+					county.SetDeFactoLiege(null, conversionDate);
 				} else {
 					var ck3Country = impCountry.CK3Title;
 					if (ck3Country is null) {
@@ -217,13 +219,14 @@ namespace ImperatorToCK3.CK3 {
 
 			void GiveCountyToMonarch(Title county, Title ck3Country, ulong impMonarchId) {
 				var holderId = $"imperator{impMonarchId}";
+				var date = ck3Country.GetDateOfLastHolderChange();
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					county.ClearHolderSpecificHistory();
-					county.SetHolderId(holder.Id, ck3Country.GetDateOfLastHolderChange());
+					county.SetHolderId(holder.Id, date);
 				} else {
 					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
-				county.DeFactoLiege = null;
+				county.SetDeFactoLiege(null, date);
 			}
 
 			void GiveCountyToGovernor(Title county, string ck3GovernorshipName) {
@@ -236,7 +239,7 @@ namespace ImperatorToCK3.CK3 {
 				} else {
 					Logger.Warn($"Holder {holderId} of county {county.Id} doesn't exist!");
 				}
-				county.DeFactoLiege = null;
+				county.SetDeFactoLiege(null, holderChangeDate);
 			}
 		}
 
@@ -245,7 +248,7 @@ namespace ImperatorToCK3.CK3 {
 		private readonly DeathReasonMapper deathReasonMapper = new();
 		private readonly DefiniteFormMapper definiteFormMapper = new("configurables/definite_form_names.txt");
 		private readonly GovernmentMapper governmentMapper = new();
-		private readonly LocalizationMapper localizationMapper = new();
+		private readonly LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 		private readonly NicknameMapper nicknameMapper = new("configurables/nickname_map.txt");
 		private readonly ProvinceMapper provinceMapper = new();
 		private readonly ReligionMapper religionMapper = new();
