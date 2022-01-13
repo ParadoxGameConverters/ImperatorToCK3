@@ -1,8 +1,8 @@
 ﻿using commonItems;
-using ImperatorToCK3.Imperator.Genes;
+using ImperatorToCK3.CommonUtils.Genes;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Genes {
+namespace ImperatorToCK3.UnitTests.CommonUtils.Genes {
 	public class AccessoryGeneTemplateTests {
 		[Fact]
 		public void AgeSexWeightBlocksDefaultsToEmpty() {

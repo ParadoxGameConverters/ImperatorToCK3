@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils.Genes;
 using System.Collections.Generic;
 using Xunit;
 
@@ -6,7 +7,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CharacterTests {
-		private readonly ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
+		private readonly GenesDB genesDB = new();
 		[Fact]
 		public void FieldsCanBeSet() {
 			var reader = new BufferedReader(
@@ -191,13 +192,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 
-			Assert.NotNull(character.PortraitData);
-			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.X);
-			Assert.Equal((uint)0, character.PortraitData.HairColorPaletteCoordinates.Y);
-			Assert.Equal((uint)0, character.PortraitData.SkinColorPaletteCoordinates.X);
-			Assert.Equal((uint)0, character.PortraitData.SkinColorPaletteCoordinates.Y);
-			Assert.Equal((uint)0, character.PortraitData.EyeColorPaletteCoordinates.X);
-			Assert.Equal((uint)0, character.PortraitData.EyeColorPaletteCoordinates.Y);
+			Assert.Equal(0, character.PortraitData.HairColorPaletteCoordinates.X);
+			Assert.Equal(0, character.PortraitData.HairColorPaletteCoordinates.Y);
+			Assert.Equal(0, character.PortraitData.SkinColorPaletteCoordinates.X);
+			Assert.Equal(0, character.PortraitData.SkinColorPaletteCoordinates.Y);
+			Assert.Equal(0, character.PortraitData.EyeColorPaletteCoordinates.X);
+			Assert.Equal(0, character.PortraitData.EyeColorPaletteCoordinates.Y);
 		}
 
 		[Fact]

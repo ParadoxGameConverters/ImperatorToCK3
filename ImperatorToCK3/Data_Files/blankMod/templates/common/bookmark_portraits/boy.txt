@@ -2,9 +2,9 @@ REPLACE_ME_NAME={
 	type=boy
 	#id=9156
 	age=0.REPLACE_ME_AGE
-	genes={ 		hair_color={ 67 56 32 235 }
- 		skin_color={ 133 103 91 102 }
- 		eye_color={ 202 141 34 252 }
+	genes={ 		
+		ADD_GENES
+
  		gene_chin_forward={ "chin_forward_neg" 127 "chin_forward_pos" 144 }
  		gene_chin_height={ "chin_height_pos" 140 "chin_height_neg" 121 }
  		gene_chin_width={ "chin_width_neg" 117 "chin_width_pos" 140 }
@@ -107,7 +107,6 @@ REPLACE_ME_NAME={
  		teeth_accessory={ "normal_teeth" 0 "normal_teeth" 0 }
  		eyelashes_accessory={ "asian_eyelashes" 78 "asian_eyelashes" 78 }
  		pose={ "" 255 "" 0 }
- 		beards={ "no_beard" 5 "no_beard" 0 }
  		clothes={ "steppe_commoner_clothes" 65 "most_clothes" 0 }
  		hairstyles={ "steppe_hairstyles_wavy" 123 "all_hairstyles" 0 }
  		headgear={ "no_headgear" 5 "no_headgear" 0 }

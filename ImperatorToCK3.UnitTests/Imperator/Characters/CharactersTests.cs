@@ -1,11 +1,12 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils.Genes;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CharactersTests {
-		private readonly ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
+		private readonly GenesDB genesDB = new();
 		[Fact]
 		public void CharactersDefaultToEmpty() {
 			var reader = new BufferedReader("={}");

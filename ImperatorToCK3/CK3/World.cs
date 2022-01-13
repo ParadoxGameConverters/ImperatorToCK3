@@ -27,11 +27,13 @@ namespace ImperatorToCK3.CK3 {
 		public CharacterCollection Characters { get; } = new();
 		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
-		public LandedTitles LandedTitles { get; } = new();
+		public Title.LandedTitles LandedTitles { get; } = new();
 		public MapData MapData { get; }
+		public Date CorrectedDate { get; }
 
 		public World(Imperator.World impWorld, Configuration theConfiguration) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
+			CorrectedDate = impWorld.EndDate.Year > 0 ? impWorld.EndDate : new Date(1, 1, 1);
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(theConfiguration.Ck3Path);
@@ -99,18 +101,18 @@ namespace ImperatorToCK3.CK3 {
 				localizationMapper,
 				provinceMapper,
 				deathReasonMapper,
-				impWorld.EndDate,
-				theConfiguration.Ck3BookmarkDate
+				CorrectedDate,
+				theConfiguration
 			);
 			ClearFeaturedCharactersDescriptions(theConfiguration.Ck3BookmarkDate);
 
 			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, impWorld.EndDate);
+			OverWriteCountiesHistory(impWorld.Jobs.Governorships, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(theConfiguration.Ck3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, theConfiguration.Ck3BookmarkDate);
-			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, impWorld.EndDate);
+			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -130,7 +132,7 @@ namespace ImperatorToCK3.CK3 {
 			foreach (var title in LandedTitles) {
 				var historyOpt = titlesHistory.PopTitleHistory(title.Id);
 				if (historyOpt is not null) {
-					title.AddHistory(LandedTitles, historyOpt);
+					title.AddHistory(historyOpt);
 				}
 			}
 			// add vanilla development to counties

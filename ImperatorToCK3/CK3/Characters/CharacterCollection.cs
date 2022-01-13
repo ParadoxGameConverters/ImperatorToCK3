@@ -21,7 +21,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			Logger.Info("Importing Imperator Characters...");
 
@@ -36,7 +36,7 @@ namespace ImperatorToCK3.CK3.Characters {
 					provinceMapper,
 					deathReasonMapper,
 					endDate,
-					ck3BookmarkDate
+					config
 				);
 			}
 			Logger.Info($"{Count} total characters recognized.");
@@ -56,7 +56,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,
 			DeathReasonMapper deathReasonMapper,
 			Date endDate,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			// Create a new CK3 character
 			var newCharacter = new Character(
@@ -69,7 +69,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				provinceMapper,
 				deathReasonMapper,
 				endDate,
-				ck3BookmarkDate
+				config
 			);
 			character.CK3Character = newCharacter;
 			Add(newCharacter);
@@ -131,7 +131,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
-		public void PurgeLandlessVanillaCharacters(LandedTitles titles, Date ck3BookmarkDate) {
+		public void PurgeLandlessVanillaCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
 			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
 			var farewellIds = dict.Keys.Where(
 				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
@@ -144,7 +144,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"Purged {farewellIds.Count()} landless vanilla characters.");
 		}
 
-		public void RemoveEmployerIdFromLandedCharacters(LandedTitles titles, Date conversionDate) {
+		public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
 			var landedCharacterIds = titles.GetHolderIds(conversionDate);
 			foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;

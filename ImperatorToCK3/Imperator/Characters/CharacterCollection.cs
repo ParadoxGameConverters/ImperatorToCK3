@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Characters {
 	public class CharacterCollection : IdObjectCollection<ulong, Character> {
 		public CharacterCollection() { }
-		public CharacterCollection(BufferedReader reader, Genes.GenesDB? genesDB) {
+		public CharacterCollection(BufferedReader reader, GenesDB? genesDB) {
 			this.genesDB = genesDB;
 			var parser = new Parser();
 			RegisterKeys(parser);
@@ -66,9 +67,9 @@ namespace ImperatorToCK3.Imperator.Characters {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		private readonly Genes.GenesDB? genesDB;
+		private readonly GenesDB? genesDB;
 
-		public static CharacterCollection ParseBloc(BufferedReader reader, Genes.GenesDB genesDB) {
+		public static CharacterCollection ParseBloc(BufferedReader reader, GenesDB genesDB) {
 			var blocParser = new Parser();
 			var parsedCharacters = new CharacterCollection();
 			blocParser.RegisterKeyword("character_database", reader => {

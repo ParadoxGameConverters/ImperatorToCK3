@@ -60,6 +60,11 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\ttrait = {trait}");
 			}
 
+			// output DNA key
+			if (character.DNA is not null) {
+				output.WriteLine($"dna={character.DNA.Id}");
+			}
+
 			OutputBirthAndDeathDates(output, character);
 			OutputPrisoners(output, character, conversionDate);
 			OutputEmployer(output, character, conversionDate);
@@ -79,6 +84,8 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine(
 				character.DeathReason is null ? "yes" : $"{{ death_reason={character.DeathReason} }}"
 			);
+			output.WriteLine("\t\t}");
+			
 			output.WriteLine("\t}");
 		}
 

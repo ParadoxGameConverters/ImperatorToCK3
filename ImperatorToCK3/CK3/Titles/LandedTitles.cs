@@ -1,21 +1,26 @@
 ﻿using commonItems;
-using ImperatorToCK3.Imperator.Countries;
-using System.Collections.Generic;
-using System.Linq;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.Localization;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
-using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.CoA;
-using ImperatorToCK3.Mappers.Province;
-using ImperatorToCK3.Imperator.Jobs;
-using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.TagTitle;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace ImperatorToCK3.CK3.Titles {
+namespace ImperatorToCK3.CK3.Titles;
+
+public partial class Title {
+	[commonItems.Serialization.NonSerialized] private readonly LandedTitles parentCollection;
+
 	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
@@ -39,20 +44,78 @@ namespace ImperatorToCK3.CK3.Titles {
 				Variables[name] = value;
 			}
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
-			LinkCapitals();
 		}
 
-		public override void Add(Title? title) {
-			if (title is null) {
-				Logger.Warn("Cannot insert null Title to LandedTitles!");
-				return;
+		public Title Add(string id) {
+			if (string.IsNullOrEmpty(id)) {
+				throw new ArgumentException("Not inserting a Title with empty id!");
 			}
-			if (!string.IsNullOrEmpty(title.Id)) {
-				dict[title.Id] = title;
-				title.LinkCapital(this);
-			} else {
-				Logger.Warn("Not inserting a Title with empty name!");
-			}
+
+			var newTitle = new Title(this, id);
+			dict[newTitle.Id] = newTitle;
+			return newTitle;
+		}
+
+		public Title Add(
+			Country country,
+			CountryCollection imperatorCountries,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,
+			CoaMapper coaMapper,
+			TagTitleMapper tagTitleMapper,
+			GovernmentMapper governmentMapper,
+			SuccessionLawMapper successionLawMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
+			CharacterCollection characters
+		) {
+			var newTitle = new Title(this,
+				country,
+				imperatorCountries,
+				localizationMapper,
+				provinceMapper,
+				coaMapper,
+				tagTitleMapper,
+				governmentMapper,
+				successionLawMapper,
+				definiteFormMapper,
+				religionMapper,
+				cultureMapper,
+				nicknameMapper,
+				characters
+			);
+			dict[newTitle.Id] = newTitle;
+			return newTitle;
+		}
+
+		public Title Add(
+			Governorship governorship,
+			Country country,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
+			bool regionHasMultipleGovernorships,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,
+			CoaMapper coaMapper,
+			TagTitleMapper tagTitleMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ImperatorRegionMapper imperatorRegionMapper
+		) {
+			var newTitle = new Title(this,
+				governorship,
+				country,
+				imperatorCharacters,
+				regionHasMultipleGovernorships,
+				localizationMapper,
+				provinceMapper,
+				coaMapper,
+				tagTitleMapper,
+				definiteFormMapper,
+				imperatorRegionMapper
+			);
+			dict[newTitle.Id] = newTitle;
+			return newTitle;
 		}
 		public override void Remove(string name) {
 			if (dict.TryGetValue(name, out var titleToErase)) {
@@ -95,18 +158,10 @@ namespace ImperatorToCK3.CK3.Titles {
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-				var newTitle = new Title(titleNameStr);
+				var newTitle = Add(titleNameStr);
 				newTitle.LoadTitles(reader, parser.Variables);
-
-				Title.AddFoundTitle(newTitle, dict);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
-
-		private void LinkCapitals() {
-			foreach (var title in this) {
-				title.LinkCapital(this);
-			}
 		}
 
 		public void ImportImperatorCountries(
@@ -171,7 +226,6 @@ namespace ImperatorToCK3.CK3.Titles {
 					country,
 					imperatorCountries,
 					localizationMapper,
-					this,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -183,11 +237,10 @@ namespace ImperatorToCK3.CK3.Titles {
 					characters
 				);
 			} else {
-				var newTitle = new Title(
+				Add(
 					country,
 					imperatorCountries,
 					localizationMapper,
-					this,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -199,19 +252,18 @@ namespace ImperatorToCK3.CK3.Titles {
 					nicknameMapper,
 					characters
 				);
-				Add(newTitle);
 			}
 		}
 
 		public void ImportImperatorGovernorships(
-				Imperator.World impWorld,
-				TagTitleMapper tagTitleMapper,
-				LocalizationMapper localizationMapper,
-				ProvinceMapper provinceMapper,
-				DefiniteFormMapper definiteFormMapper,
-				ImperatorRegionMapper imperatorRegionMapper,
-				CoaMapper coaMapper
-			) {
+			Imperator.World impWorld,
+			TagTitleMapper tagTitleMapper,
+			LocalizationMapper localizationMapper,
+			ProvinceMapper provinceMapper,
+			DefiniteFormMapper definiteFormMapper,
+			ImperatorRegionMapper imperatorRegionMapper,
+			CoaMapper coaMapper
+		) {
 			Logger.Info("Importing Imperator Governorships...");
 
 			var governorships = impWorld.Jobs.Governorships;
@@ -262,26 +314,23 @@ namespace ImperatorToCK3.CK3.Titles {
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					localizationMapper,
-					this,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
 				);
 			} else {
-				var newTitle = new Title(
+				Add(
 					governorship,
 					country,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					localizationMapper,
-					this,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
 				);
-				Add(newTitle);
 			}
 		}
 

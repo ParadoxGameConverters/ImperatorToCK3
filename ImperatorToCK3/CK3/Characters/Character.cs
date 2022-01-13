@@ -38,6 +38,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
+		public DNA? DNA { get; private set; }
+
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
 		public Character(
@@ -116,7 +118,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
@@ -141,6 +143,9 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			Female = ImperatorCharacter.Female;
 			Age = ImperatorCharacter.Age;
+			if (ImperatorCharacter.PortraitData is not null) {
+				DNA = new DNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
+			}
 
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
 			var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
@@ -323,7 +328,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? EmployerId { get; set; }
 
 		public bool LinkJailor(CharacterCollection characters) {
-			if (jailorId is null || jailorId == "0") {
+			if (jailorId is null or "0") {
 				return false;
 			}
 

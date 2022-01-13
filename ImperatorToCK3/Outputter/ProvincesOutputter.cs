@@ -10,7 +10,7 @@ namespace ImperatorToCK3.Outputter {
 		public static void OutputProvinces(
 			string outputModName,
 			ProvinceCollection provinces,
-			LandedTitles titles
+			Title.LandedTitles titles
 		) {
 			// output provinces to files named after their de jure kingdoms
 			var alreadyOutputtedProvinces = new HashSet<ulong>();

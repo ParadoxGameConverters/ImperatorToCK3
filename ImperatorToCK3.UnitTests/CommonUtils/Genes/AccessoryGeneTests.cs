@@ -1,8 +1,8 @@
 ﻿using commonItems;
-using ImperatorToCK3.Imperator.Genes;
+using ImperatorToCK3.CommonUtils.Genes;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Genes {
+namespace ImperatorToCK3.UnitTests.CommonUtils.Genes {
 	public class AccessoryGeneTests {
 		[Fact]
 		public void IndexCanBeSet() {
@@ -18,11 +18,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void IndexDefaultsTo0() {
+		public void IndexDefaultsToNull() { // special_genes accessory genes don't have an index
 			var reader = new BufferedReader("={}");
 			var gene = new AccessoryGene(reader);
 
-			Assert.Equal((uint)0, gene.Index);
+			Assert.Null(gene.Index);
 		}
 
 		[Fact]

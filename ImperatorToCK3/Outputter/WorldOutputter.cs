@@ -4,18 +4,8 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, Configuration theConfiguration, Date conversionDate) {
-			var directoryToClear = $"output/{theConfiguration.OutputModName}";
-			var di = new DirectoryInfo(directoryToClear);
-			if (di.Exists) {
-				Logger.Info("Clearing the output mod folder...");
-				foreach (FileInfo file in di.EnumerateFiles()) {
-					file.Delete();
-				}
-				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-					dir.Delete(true);
-				}
-			}
+		public static void OutputWorld(World ck3World, Configuration theConfiguration) {
+			ClearOutputModFolder();
 
 			var outputName = theConfiguration.OutputModName;
 			CreateModFolder(outputName);
@@ -25,7 +15,7 @@ namespace ImperatorToCK3.Outputter {
 			CreateFolders(outputName);
 
 			Logger.Info("Writing Characters...");
-			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, conversionDate);
+			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, ck3World.CorrectedDate);
 
 			Logger.Info("Writing Dynasties...");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
@@ -38,7 +28,7 @@ namespace ImperatorToCK3.Outputter {
 				outputName,
 				ck3World.LandedTitles,
 				theConfiguration.ImperatorDeJure,
-				conversionDate
+				ck3World.CorrectedDate
 			);
 
 			Logger.Info("Writing Succession Triggers...");
@@ -52,7 +42,7 @@ namespace ImperatorToCK3.Outputter {
 				theConfiguration.ImperatorDeJure
 			);
 
-			var outputPath = "output/" + theConfiguration.OutputModName;
+			var outputPath = $"output/{theConfiguration.OutputModName}";
 
 			Logger.Info("Copying named colors...");
 			SystemUtils.TryCopyFile($"{theConfiguration.ImperatorPath}/game/common/named_colors/default_colors.txt",
@@ -72,6 +62,22 @@ namespace ImperatorToCK3.Outputter {
 				ck3World,
 				theConfiguration
 			);
+
+			void ClearOutputModFolder() {
+				var directoryToClear = $"output/{theConfiguration.OutputModName}";
+				var di = new DirectoryInfo(directoryToClear);
+				if (!di.Exists) {
+					return;
+				}
+
+				Logger.Info("Clearing the output mod folder...");
+				foreach (FileInfo file in di.EnumerateFiles()) {
+					file.Delete();
+				}
+				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
+					dir.Delete(true);
+				}
+			}
 		}
 
 		private static void OutputModFile(string outputName) {
@@ -100,6 +106,7 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder($"output/{outputName}/common/bookmark_portraits");
 			SystemUtils.TryCreateFolder($"output/{outputName}/common/coat_of_arms");
 			SystemUtils.TryCreateFolder($"output/{outputName}/common/coat_of_arms/coat_of_arms");
+			SystemUtils.TryCreateFolder($"output/{outputName}/common/dna_data");
 			SystemUtils.TryCreateFolder($"output/{outputName}/common/dynasties");
 			SystemUtils.TryCreateFolder($"output/{outputName}/common/landed_titles");
 			SystemUtils.TryCreateFolder($"output/{outputName}/common/named_colors");

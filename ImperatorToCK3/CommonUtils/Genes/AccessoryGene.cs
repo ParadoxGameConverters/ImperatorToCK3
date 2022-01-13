@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Genes {
+namespace ImperatorToCK3.CommonUtils.Genes {
 	public class AccessoryGene : Parser {
-		public uint Index { get; private set; } = 0;
+		public uint? Index { get; private set; }
 		public PDXBool Inheritable { get; private set; } = new(false);
-		public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; private set; } = new();
+		public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
 
 		public AccessoryGene(BufferedReader reader) {
 			RegisterKeys();
@@ -14,15 +14,10 @@ namespace ImperatorToCK3.Imperator.Genes {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
-			RegisterKeyword("index", reader => {
-				Index = (uint)new SingleInt(reader).Int;
-			});
-			RegisterKeyword("inheritable", reader =>
-				Inheritable = reader.GetPDXBool()
-			);
-			RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
-				GeneTemplates.Add(geneTemplateName, new AccessoryGeneTemplate(reader));
-			});
+			RegisterKeyword("index", reader => Index = (uint)reader.GetInt());
+			RegisterKeyword("inheritable", reader => Inheritable = reader.GetPDXBool());
+			RegisterKeyword("group", ParserHelpers.IgnoreAndLogItem);
+			RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => GeneTemplates.Add(geneTemplateName, new AccessoryGeneTemplate(reader)));
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		}
 		public KeyValuePair<string, AccessoryGeneTemplate> GetGeneTemplateByIndex(uint indexInDna) {

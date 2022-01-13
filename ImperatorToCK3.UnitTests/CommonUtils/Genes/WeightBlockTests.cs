@@ -1,15 +1,29 @@
-﻿using commonItems;
-using ImperatorToCK3.Imperator.Genes;
+using commonItems;
+using ImperatorToCK3.CommonUtils.Genes;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Genes {
+namespace ImperatorToCK3.UnitTests.CommonUtils.Genes {
 	public class WeightBlockTests {
+		[Fact]
+		public void ErrorIsLoggedOnUnparsableWeight() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+			var reader = new BufferedReader(
+				"={\n" +
+				"\t2 = sdfsdf\n" +
+				"\t-2 = female_hair_greek_1\n" +
+				"}"
+			);
+			_ = new WeightBlock(reader);
+			Assert.Contains("[ERROR] Could not parse absolute weight: -2", output.ToString());
+		}
 		[Fact]
 		public void ObjectsCanBeAdded() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"={\n" +
 				"\t5 = female_hair_greek_1\n" +
 				"\t2 = sdfsdf\n" +
 				"\t6 = random\n" +
@@ -42,9 +56,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 
 		[Fact]
 		public void SumOfAbsoluteWeightsDefaultsToZero() {
-			var reader = new BufferedReader(
-				"= {}"
-			);
+			var reader = new BufferedReader("= {}");
 			var weightBlock = new WeightBlock(reader);
 
 			Assert.Equal((uint)0, weightBlock.SumOfAbsoluteWeights);
@@ -53,8 +65,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		[Fact]
 		public void GetMatchingObjectThrowsErrorOnNegativeArgument() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"={\n" +
 				"\t2 = female_hair_greek_2\n" +
 				"}"
 			);
@@ -66,8 +77,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		[Fact]
 		public void GetMatchingObjectThrowsErrorOnArgumentGreaterThan1() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"={\n" +
 				"\t2 = female_hair_greek_2\n" +
 				"}"
 			);
@@ -84,6 +94,23 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 			var weightBlock = new WeightBlock(reader);
 
 			Assert.Null(weightBlock.GetMatchingObject(0.345));
+		}
+
+		[Fact]
+		public void GetMatchingPercentageReturnsCorrectValues() {
+			var weightBlock = new WeightBlock();
+			weightBlock.AddObject("a", 1);
+			weightBlock.AddObject("b", 1);
+
+			Assert.Equal(0d, weightBlock.GetMatchingPercentage("a"));
+			Assert.Equal(0.5d, weightBlock.GetMatchingPercentage("b"));
+		}
+
+		[Fact]
+		public void GetMatchingPercentageThrowsOnWrongEntryName() {
+			var weightBlock = new WeightBlock();
+			var e = Assert.Throws<KeyNotFoundException>(() => weightBlock.GetMatchingPercentage("ENTRY"));
+			Assert.Contains("Set entry ENTRY not found!", e.ToString());
 		}
 	}
 }

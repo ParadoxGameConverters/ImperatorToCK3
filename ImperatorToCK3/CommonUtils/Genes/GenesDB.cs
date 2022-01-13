@@ -1,6 +1,7 @@
 ﻿using commonItems;
+using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Genes {
+namespace ImperatorToCK3.CommonUtils.Genes {
 	public class GenesDB : Parser {
 		public AccessoryGenes Genes { get; private set; } = new();
 
@@ -16,10 +17,17 @@ namespace ImperatorToCK3.Imperator.Genes {
 			ClearRegisteredRules();
 		}
 		private void RegisterKeys() {
+			RegisterKeyword("special_genes", reader => {
+				var specialGenes = new SpecialGenes(reader);
+				Genes.Genes = Genes.Genes
+					.Concat(specialGenes.Genes.Genes)
+					.GroupBy(d => d.Key)
+					.ToDictionary(d => d.Key, d => d.Last().Value);
+			});
 			RegisterKeyword("accessory_genes", reader =>
-				Genes = new AccessoryGenes(reader)
+				Genes.LoadGenes(reader)
 			);
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 	}
 }
