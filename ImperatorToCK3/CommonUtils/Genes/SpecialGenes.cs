@@ -2,18 +2,18 @@
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class SpecialGenes : Parser {
+public class SpecialGenes {
 	public AccessoryGenes Genes { get; private set; } = new();
 
 	public SpecialGenes(BufferedReader reader) {
-		RegisterKeys();
-		ParseStream(reader);
-		ClearRegisteredRules();
+		var parser = new Parser();
+		RegisterKeys(parser);
+		parser.ParseStream(reader);
 	}
-	private void RegisterKeys() {
-		RegisterKeyword("accessory_genes", reader => {
+	private void RegisterKeys(Parser parser) {
+		parser.RegisterKeyword("accessory_genes", reader => {
 			Genes.LoadGenes(reader);
 		});
-		RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 }

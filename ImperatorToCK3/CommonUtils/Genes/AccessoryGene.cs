@@ -27,7 +27,7 @@ public class AccessoryGene : Parser {
 				return geneTemplatePair;
 			}
 		}
-		Logger.Warn("Could not find gene template by index from DNA: " + indexInDna);
+		Logger.Warn($"Could not find gene template by index from DNA: {indexInDna}");
 		return GeneTemplates.First(); // fallback: return first element
 	}
 }
