@@ -212,8 +212,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-			var characterId = rulerTerm.CharacterId;
-			var gov = rulerTerm.Government;
+				history.InternalHistory.AddFieldValue("holder", characterId, startDate, "holder");
+				if (gov is not null) {
+					history.InternalHistory.AddFieldValue("government", gov, startDate, "government");
+				}
+			}
 
 			if (ImperatorCountry.Government is not null) {
 				var lastCK3TermGov = history.GetGovernment(conversionDate);
@@ -725,7 +728,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			// doesn't need to be output
 			return;
 		}
-	}
 
 		sb.Append(Id).AppendLine("={").Append(content).AppendLine("}");
 		writer.Write(sb);
