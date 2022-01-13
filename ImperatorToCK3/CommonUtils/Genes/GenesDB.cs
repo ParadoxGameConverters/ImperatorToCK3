@@ -1,4 +1,6 @@
 ﻿using commonItems;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
@@ -7,10 +9,10 @@ public class GenesDB {
 	public AccessoryGenes Genes { get; private set; } = new();
 
 	public GenesDB() { }
-	public GenesDB(string path) {
+	public GenesDB(string gamePath, IEnumerable<Mod> mods) {
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseFile(path);
+		parser.ParseGameFolder(Path.Combine("common", "genes"), gamePath, mods, true);
 	}
 	public GenesDB(BufferedReader reader) {
 		var parser = new Parser();

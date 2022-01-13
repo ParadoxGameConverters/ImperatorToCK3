@@ -156,7 +156,7 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 		}
 		private void ParseGenes(Configuration config) {
-			genesDB = new GenesDB(Path.Combine(config.ImperatorPath, "game/common/genes/00_genes.txt"));
+			genesDB = new GenesDB(config.ImperatorPath, Mods);
 		}
 		private void LoadPreImperatorRulers() {
 			const string filePath = "configurables/prehistory.txt";

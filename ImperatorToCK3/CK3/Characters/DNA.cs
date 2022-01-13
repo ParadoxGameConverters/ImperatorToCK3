@@ -52,8 +52,7 @@ public class DNA {
 		var ck3EyePalettePath = Path.Combine(config.CK3Path, "game/gfx/portraits/eye_palette.dds");
 		ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
 
-		var genesPath = Path.Combine(config.CK3Path, "game/common/genes/04_genes_special_accessories_beards.txt");
-		genesDB = new GenesDB(genesPath);
+		genesDB = new GenesDB(config.CK3Path, new List<Mod>());
 	}
 	public DNA(Imperator.Characters.Character impCharacter, Imperator.Characters.PortraitData impPortraitData) {
 		Id = $"dna_{impCharacter.Id}";
