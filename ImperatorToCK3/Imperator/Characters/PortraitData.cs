@@ -40,7 +40,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 			// accessory genes
 			const uint colorGenesBytes = 12;
-			var accessoryGenes = genes.Genes.Genes;
+			var accessoryGenes = genes.Genes;
 
 			foreach (var (geneName, gene) in accessoryGenes) {
 				var geneIndex = gene.Index;

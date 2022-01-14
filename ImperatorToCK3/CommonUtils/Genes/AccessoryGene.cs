@@ -4,9 +4,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class AccessoryGene {
-	public uint? Index { get; private set; }
-	public PDXBool Inheritable { get; private set; } = new(false);
+public class AccessoryGene : Gene {
 	public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
 
 	public AccessoryGene(BufferedReader reader) {

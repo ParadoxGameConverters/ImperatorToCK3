@@ -1,12 +1,11 @@
 ﻿using commonItems;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
 public class GenesDB {
-	public AccessoryGenes Genes { get; private set; } = new();
+	public Dictionary<string, AccessoryGene> Genes { get; set; } = new();
 
 	public GenesDB() { }
 	public GenesDB(string gamePath, IEnumerable<Mod> mods) {
@@ -19,17 +18,27 @@ public class GenesDB {
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
+
 	private void RegisterKeys(Parser parser) {
-		parser.RegisterKeyword("special_genes", reader => {
-			var specialGenes = new SpecialGenes(reader);
-			Genes.Genes = Genes.Genes
-				.Concat(specialGenes.Genes.Genes)
-				.GroupBy(d => d.Key)
-				.ToDictionary(d => d.Key, d => d.Last().Value);
-		});
-		parser.RegisterKeyword("accessory_genes", reader =>
-			Genes.LoadGenes(reader)
+		var accessoryGenesParser = new Parser();
+		accessoryGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) =>
+			Genes.Add(geneName, new AccessoryGene(geneReader))
 		);
+		accessoryGenesParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+		var specialGenesParser = new Parser();
+		specialGenesParser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
+		specialGenesParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+		parser.RegisterKeyword("special_genes", LoadSpecialGenes);
+		parser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+		void LoadSpecialGenes(BufferedReader reader) {
+			specialGenesParser.ParseStream(reader);
+		}
+		void LoadAccessoryGenes(BufferedReader reader) {
+			accessoryGenesParser.ParseStream(reader);
+		}
 	}
 }

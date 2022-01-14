@@ -94,7 +94,7 @@ public class DNA {
 			var impSetEntry = geneInfo.objectName;
 			var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
 
-			var geneSet = genesDB.Genes.Genes["beards"].GeneTemplates[geneSetName];
+			var geneSet = genesDB.Genes["beards"].GeneTemplates[geneSetName];
 			var ageSex = impCharacter.AgeSex;
 			var matchingPercentage = geneSet.AgeSexWeightBlocks[ageSex].GetMatchingPercentage(convertedSetEntry);
 			int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
