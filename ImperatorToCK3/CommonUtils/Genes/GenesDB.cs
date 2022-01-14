@@ -32,6 +32,7 @@ public class GenesDB {
 
 		parser.RegisterKeyword("special_genes", LoadSpecialGenes);
 		parser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
+		//parser.RegisterKeyword("morph_genes", LoadMorphGenes); // TODO
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 		void LoadSpecialGenes(BufferedReader reader) {

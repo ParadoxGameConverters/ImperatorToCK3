@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImageMagick;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Mappers.Gene;
 using System;
 using System.Collections.Generic;
@@ -84,26 +85,31 @@ public class DNA {
 		var eyeLine = $"eye_color={{{EyeCoordinates.X} {EyeCoordinates.Y} {EyeCoordinates2.X} {EyeCoordinates2.Y}}}";
 		DNALines.Add(eyeLine);
 
-		const string geneSetName = "scripted_character_beards_01";
+		ConvertAccessoryGene(impCharacter, impPortraitData, "genes", "genes", "scripted_character_beards_01");
+	}
+
+	private void ConvertAccessoryGene(Imperator.Characters.Character impCharacter, PortraitData impPortraitData, string imperatorGeneName, string ck3GeneName, string ck3GeneSetName) {
+		if (!impPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
+			return;
+		}
 		if (genesDB is null) {
 			Logger.Error("Cannot determine accessory genes: genes DB is uninitialized!");
-		} else {
-			if (!impPortraitData.AccessoryGenesDict.TryGetValue("beards", out var geneInfo)) {
-				return;
-			}
-			var impSetEntry = geneInfo.objectName;
-			var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
-
-			var geneSet = genesDB.Genes["beards"].GeneTemplates[geneSetName];
-			var ageSex = impCharacter.AgeSex;
-			var matchingPercentage = geneSet.AgeSexWeightBlocks[ageSex].GetMatchingPercentage(convertedSetEntry);
-			int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
-
-			// TODO: convert recessive entries
-			var dnaLine = $"beards={{ \"{geneSetName}\" {intSliderValue} \"no_beard\" 0 }}";
-			DNALines.Add(dnaLine);
+			return;
 		}
+
+		var impSetEntry = geneInfo.objectName;
+		var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
+
+		var geneSet = genesDB.Genes[ck3GeneName].GeneTemplates[ck3GeneSetName];
+		var ageSex = impCharacter.AgeSex;
+		var matchingPercentage = geneSet.AgeSexWeightBlocks[ageSex].GetMatchingPercentage(convertedSetEntry);
+		int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
+
+		// TODO: convert recessive entries
+		var dnaLine = $"{ck3GeneName}={{ \"{ck3GeneSetName}\" {intSliderValue} \"no_beard\" 0 }}";
+		DNALines.Add(dnaLine);
 	}
+
 	private static PaletteCoordinates GetPaletteCoordinates(
 		Imperator.Characters.PaletteCoordinates impPaletteCoordinates,
 		IUnsafePixelCollection<ushort>? impPalettePixels,
