@@ -104,8 +104,9 @@ public class DNA {
 		}
 		var geneSet = genesDB.Genes[ck3GeneName].GeneTemplates[ck3GeneSetName];
 
-		var convertedSetEntry = accessoryGeneMapper.BeardMappings[geneInfo.ObjectName];
-		var convertedSetEntryRecessive = accessoryGeneMapper.BeardMappings[geneInfo.ObjectNameRecessive];
+		var mappings = accessoryGeneMapper.Mappings[imperatorGeneName];
+		var convertedSetEntry = mappings[geneInfo.ObjectName];
+		var convertedSetEntryRecessive = mappings[geneInfo.ObjectNameRecessive];
 
 		var matchingPercentage = geneSet.AgeSexWeightBlocks[impCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
 		var matchingPercentageRecessive = geneSet.AgeSexWeightBlocks[impCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);

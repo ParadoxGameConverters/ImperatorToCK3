@@ -20,3 +20,13 @@ beards = {
 	male_beard_17=male_beard_mena_01
 	male_beard_18=male_beard_steppe_02
 }
+
+eye_accessory = {
+	male_blindfold_1=special_headgear_blindfold.blindfold.male_headgear_special_blindfold_01
+	female_blindfold_1=special_headgear_blindfold.blindfold.female_headgear_special_blindfold_01
+	
+	male_eyepatch_1=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
+	female_eyepatch_1=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
+	male_eyepatch_2=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
+	female_eyepatch_2=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
+}
