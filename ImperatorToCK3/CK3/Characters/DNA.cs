@@ -85,10 +85,16 @@ public class DNA {
 		var eyeLine = $"eye_color={{{EyeCoordinates.X} {EyeCoordinates.Y} {EyeCoordinates2.X} {EyeCoordinates2.Y}}}";
 		DNALines.Add(eyeLine);
 
-		ConvertAccessoryGene(impCharacter, impPortraitData, "genes", "genes", "scripted_character_beards_01");
+		ConvertAccessoryGene(impCharacter, impPortraitData, "beards", "beards", "scripted_character_beards_01");
 	}
 
-	private void ConvertAccessoryGene(Imperator.Characters.Character impCharacter, PortraitData impPortraitData, string imperatorGeneName, string ck3GeneName, string ck3GeneSetName) {
+	private void ConvertAccessoryGene(
+		Imperator.Characters.Character impCharacter,
+		PortraitData impPortraitData,
+		string imperatorGeneName,
+		string ck3GeneName,
+		string ck3GeneSetName
+	) {
 		if (!impPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
 			return;
 		}
