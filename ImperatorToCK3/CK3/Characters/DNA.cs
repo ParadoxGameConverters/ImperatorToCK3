@@ -96,17 +96,17 @@ public class DNA {
 			Logger.Error("Cannot determine accessory genes: genes DB is uninitialized!");
 			return;
 		}
-
-		var impSetEntry = geneInfo.objectName;
-		var convertedSetEntry = accessoryGeneMapper.BeardMappings[impSetEntry];
-
 		var geneSet = genesDB.Genes[ck3GeneName].GeneTemplates[ck3GeneSetName];
-		var ageSex = impCharacter.AgeSex;
-		var matchingPercentage = geneSet.AgeSexWeightBlocks[ageSex].GetMatchingPercentage(convertedSetEntry);
-		int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
 
-		// TODO: convert recessive entries
-		var dnaLine = $"{ck3GeneName}={{ \"{ck3GeneSetName}\" {intSliderValue} \"no_beard\" 0 }}";
+		var convertedSetEntry = accessoryGeneMapper.BeardMappings[geneInfo.ObjectName];
+		var convertedSetEntryRecessive = accessoryGeneMapper.BeardMappings[geneInfo.ObjectNameRecessive];
+
+		var matchingPercentage = geneSet.AgeSexWeightBlocks[impCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
+		var matchingPercentageRecessive = geneSet.AgeSexWeightBlocks[impCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);
+		int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
+		int intSliderValueRecessive = (int)Math.Ceiling(matchingPercentageRecessive * 255);
+
+		var dnaLine = $"{ck3GeneName}={{ \"{ck3GeneSetName}\" {intSliderValue} \"{ck3GeneSetName}\" {intSliderValueRecessive} }}";
 		DNALines.Add(dnaLine);
 	}
 

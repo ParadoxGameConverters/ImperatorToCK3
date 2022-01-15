@@ -6,8 +6,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		[Fact]
 		public void MembersDefaultToEmptyStrings() {
 			var data = new AccessoryGeneData();
-			Assert.Empty(data.geneTemplate);
-			Assert.Empty(data.objectName);
+			Assert.Empty(data.GeneTemplate);
+			Assert.Empty(data.ObjectName);
 		}
 	}
 }

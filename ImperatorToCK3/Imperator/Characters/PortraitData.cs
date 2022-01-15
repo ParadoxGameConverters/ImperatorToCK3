@@ -49,19 +49,34 @@ namespace ImperatorToCK3.Imperator.Characters {
 				}
 
 				var geneTemplateByteIndex = colorGenesBytes + (((uint)geneIndex - 3) * 4);
-				var characterGeneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
-				var geneTemplateName = gene.GetGeneTemplateByIndex(characterGeneTemplateIndex).Key;
+				var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
+				var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
+				var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex).Key;
+				var geneTemplateNameRecessive = gene.GetGeneTemplateByIndex(geneTemplateRecessiveIndex).Key;
 
-				var geneTemplateObjectByteIndex = colorGenesBytes + (((uint)geneIndex - 3) * 4) + 1;
-				var characterGeneSliderPercentage = (double)decodedDnaStr[geneTemplateObjectByteIndex] / 255;
+				var geneTemplateObjectByteIndex = geneTemplateByteIndex + 1;
+				var geneTemplateObjectRecessiveByteIndex = geneTemplateByteIndex + 3;
+				var geneSliderPercentage = (double)decodedDnaStr[geneTemplateObjectByteIndex] / 255;
+				var geneSliderRecessivePercentage = (double)decodedDnaStr[geneTemplateObjectRecessiveByteIndex] / 255;
 
-				if (gene.GeneTemplates[geneTemplateName].AgeSexWeightBlocks.TryGetValue(ageSexString, out var characterGeneFoundWeightBlock)) {
-					var characterGeneObjectName = characterGeneFoundWeightBlock.GetMatchingObject(characterGeneSliderPercentage);
-					if (characterGeneObjectName is not null) {
-						AccessoryGenesDict.Add(geneName, new AccessoryGeneData() { geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
-					} else {
-						Logger.Warn($"\t\t\tGene template object name {geneTemplateName} for {ageSexString} could not be extracted from DNA!");
-					}
+				if (!gene.GeneTemplates[geneTemplateName].AgeSexWeightBlocks.TryGetValue(ageSexString, out var foundWeightBlock)) {
+					continue;
+				}
+				if (!gene.GeneTemplates[geneTemplateNameRecessive].AgeSexWeightBlocks.TryGetValue(ageSexString, out var foundWeightBlockRecessive)) {
+					continue;
+				}
+
+				var geneObjectName = foundWeightBlock.GetMatchingObject(geneSliderPercentage);
+				var geneObjectNameRecessive = foundWeightBlockRecessive.GetMatchingObject(geneSliderRecessivePercentage);
+				if (geneObjectName is not null && geneObjectNameRecessive is not null) {
+					AccessoryGenesDict.Add(geneName, new AccessoryGeneData {
+						GeneTemplate = geneTemplateName,
+						ObjectName = geneObjectName,
+						GeneTemplateRecessive = geneTemplateNameRecessive,
+						ObjectNameRecessive = geneObjectNameRecessive
+					});
+				} else {
+					Logger.Warn($"{ageSexString} Gene template object name for {geneTemplateName} for  could not be extracted from DNA!");
 				}
 			}
 		}
