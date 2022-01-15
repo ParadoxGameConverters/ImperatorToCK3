@@ -93,6 +93,7 @@ namespace ImperatorToCK3.CK3 {
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
 
+			DNA.Initialize(config);
 			Characters.ImportImperatorCharacters(
 				impWorld,
 				religionMapper,

@@ -11,7 +11,7 @@ public class GenesDB {
 	public GenesDB(string gamePath, IEnumerable<Mod> mods) {
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseGameFolder(Path.Combine("common", "genes"), gamePath, mods, true);
+		parser.ParseGameFolder(Path.Combine("common", "genes"), gamePath, "txt", mods, true);
 	}
 	public GenesDB(BufferedReader reader) {
 		var parser = new Parser();

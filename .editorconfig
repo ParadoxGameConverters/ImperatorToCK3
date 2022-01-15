@@ -7,7 +7,7 @@ root = true
 guidelines = 80
 # C# or VB files
 [*.{cs,vb}]
-guidelines = 120
+guidelines = 150
 
 # C# files
 [*.cs]
