@@ -639,7 +639,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		return null;
 	}
-	[NonSerialized] public SortedSet<string> SuccessionLaws { get; private set; } = new();
+	[NonSerialized] public SortedSet<string> SuccessionLaws { get; } = new();
 	[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser) {
