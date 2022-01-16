@@ -5,7 +5,7 @@ namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
 	public static void OutputCoas(string outputModName, Title.LandedTitles titles) {
 		// dumping all into one file
-		var path = $"output/{outputModName}/common/coat_of_arms/coat_of_arms/fromImperator.txt";
+		var path = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
 		using var output = new StreamWriter(path);
 		foreach (var title in titles) {
 			var coa = title.CoA;

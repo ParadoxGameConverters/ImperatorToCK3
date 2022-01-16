@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
 	public class TagTitleMapper {
+		public TagTitleMapper() { }
 		public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath) {
 			Logger.Info("Parsing Title mappings...");
 
