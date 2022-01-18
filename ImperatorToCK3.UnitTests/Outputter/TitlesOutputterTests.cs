@@ -94,4 +94,26 @@ public class TitlesOutputterTests {
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 	}
+
+	[Fact]
+	public void VariablesAreOutputted() {
+		const string outputModName = "outputMod2";
+		var titles = new Title.LandedTitles();
+		titles.Variables.Add("default_ai_priority", 20);
+		titles.Variables.Add("default_ai_aggressiveness", 40);
+
+		var titleHistoryPath = Path.Combine("output", outputModName, "history", "titles");
+		SystemUtils.TryCreateFolder(titleHistoryPath);
+		var landedTitlesPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
+		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(landedTitlesPath));
+
+		TitlesOutputter.OutputTitles(outputModName, titles, IMPERATOR_DE_JURE.NO);
+
+		Assert.True(File.Exists(landedTitlesPath));
+		using var landedTitlesFile = File.OpenRead(landedTitlesPath);
+		var reader = new StreamReader(landedTitlesFile);
+		Assert.Equal("@default_ai_priority=20", reader.ReadLine());
+		Assert.Equal("@default_ai_aggressiveness=40", reader.ReadLine());
+		Assert.True(reader.EndOfStream);
+	}
 }
