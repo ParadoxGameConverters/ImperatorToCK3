@@ -45,11 +45,11 @@ namespace ImperatorToCK3.CK3 {
 			coaMapper = new CoaMapper(config, impWorld.Mods);
 
 			// Load vanilla titles history
-			var titlesHistoryPath = Path.Combine(config.CK3Path, "game/history/titles");
+			var titlesHistoryPath = Path.Combine(config.CK3Path, "game", "history", "titles");
 			titlesHistory = new TitlesHistory(titlesHistoryPath);
 
 			// Load vanilla CK3 landed titles
-			var landedTitlesPath = Path.Combine(config.CK3Path, "game/common/landed_titles/00_landed_titles.txt");
+			var landedTitlesPath = Path.Combine(config.CK3Path, "game", "common", "landed_titles", "00_landed_titles.txt");
 
 			LandedTitles.LoadTitles(landedTitlesPath);
 			AddHistoryToVanillaTitles(config.CK3BookmarkDate);
@@ -117,7 +117,7 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
-			Logger.Info("Clearing featured characters' descriptions.");
+			Logger.Info("Clearing featured characters' descriptions...");
 			foreach (var title in LandedTitles) {
 				if (!title.PlayerCountry) {
 					continue;
@@ -246,15 +246,18 @@ namespace ImperatorToCK3.CK3 {
 		private readonly CoaMapper coaMapper;
 		private readonly CultureMapper cultureMapper = new();
 		private readonly DeathReasonMapper deathReasonMapper = new();
-		private readonly DefiniteFormMapper definiteFormMapper = new("configurables/definite_form_names.txt");
+		private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 		private readonly GovernmentMapper governmentMapper = new();
 		private readonly LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
-		private readonly NicknameMapper nicknameMapper = new("configurables/nickname_map.txt");
+		private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 		private readonly ProvinceMapper provinceMapper = new();
 		private readonly ReligionMapper religionMapper = new();
-		private readonly SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.txt");
-		private readonly TagTitleMapper tagTitleMapper = new("configurables/title_map.txt", "configurables/governorMappings.txt");
-		private readonly TraitMapper traitMapper = new("configurables/trait_map.txt");
+		private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
+		private readonly TagTitleMapper tagTitleMapper = new(
+			tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
+			governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
+		);
+		private readonly TraitMapper traitMapper = new(Path.Combine("configurables", "trait_map.txt"));
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
 		private readonly TitlesHistory titlesHistory;
