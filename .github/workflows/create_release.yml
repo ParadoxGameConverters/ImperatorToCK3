@@ -111,8 +111,9 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         type: 'zip'
-        path: 'Release/'
-        filename: 'ImperatorToCK3-linux-x64.zip'
+        directory: 'Release'
+        path: '*'
+        filename: '../ImperatorToCK3-linux-x64.zip'
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
