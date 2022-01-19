@@ -26,23 +26,23 @@ public class MapData {
 	public Dictionary<ulong, ProvincePosition> ProvincePositions { get; } = new();
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 	public MapData(string ck3Path) {
-		string provincesMapPath = Path.Combine(ck3Path, "game/map_data/provinces.png");
-		Logger.Debug("Loaded provinces map.");
+		string provincesMapPath = Path.Combine(ck3Path, "game", "map_data", "provinces.png");
+		Logger.Info("Loaded provinces map.");
 
 		ProvinceDefinitions = new ProvinceDefinitions(ck3Path);
-		Logger.Debug("Loaded province definitions.");
+		Logger.Info("Loaded province definitions.");
 		DetermineProvincePositions(ck3Path);
-		Logger.Debug("Loaded province positions.");
+		Logger.Info("Loaded province positions.");
 		using (Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath)) {
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);
 		}
-		Logger.Debug("Determined province neighbors.");
+		Logger.Info("Determined province neighbors.");
 		FindImpassables(ck3Path);
-		Logger.Debug("Found impassables.");
+		Logger.Info("Found impassables.");
 	}
 
 	private void DetermineProvincePositions(string ck3Path) {
-		var provincePositionsPath = Path.Combine(ck3Path, "game/gfx/map/map_object_data/building_locators.txt");
+		var provincePositionsPath = Path.Combine(ck3Path, "game", "gfx", "map", "map_object_data", "building_locators.txt");
 		var fileParser = new Parser();
 		fileParser.RegisterKeyword("game_object_locator", reader => {
 			var listParser = new Parser();
@@ -89,7 +89,7 @@ public class MapData {
 		}
 	}
 	private void FindImpassables(string ck3Path) {
-		var filePath = Path.Combine(ck3Path, "game/map_data/default.map");
+		var filePath = Path.Combine(ck3Path, "game", "map_data", "default.map");
 		var parser = new Parser();
 		const string listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
 		parser.RegisterRegex(listRegex, (reader, keyword) => {
