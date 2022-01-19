@@ -30,19 +30,22 @@ public partial class Title {
 		public void LoadTitles(string fileName) {
 			var parser = new Parser();
 			RegisterKeys(parser);
-			parser.ParseFile(fileName);
-			ProcessPostLoad(parser);
+			var reader = parser.ParseFile(fileName);
+			ProcessPostLoad(reader);
 		}
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
-			ProcessPostLoad(parser);
+			ProcessPostLoad(reader);
 		}
-		private void ProcessPostLoad(Parser parser) {
-			foreach (var (name, value) in parser.Variables) {
-				Variables[name] = value;
+		private void ProcessPostLoad(BufferedReader? reader) {
+			if (reader is not null) {
+				foreach (var (name, value) in reader.Variables) {
+					Variables[name] = value;
+				}
 			}
+
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 		}
 
@@ -157,7 +160,7 @@ public partial class Title {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = Add(titleNameStr);
-				newTitle.LoadTitles(reader, parser.Variables);
+				newTitle.LoadTitles(reader);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
