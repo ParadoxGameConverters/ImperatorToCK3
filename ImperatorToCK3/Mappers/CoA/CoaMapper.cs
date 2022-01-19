@@ -9,7 +9,7 @@ public class CoaMapper {
 		var parser = new Parser();
 		RegisterKeys(parser);
 		const string coasPath = "common/coat_of_arms/coat_of_arms";
-		parser.ParseGameFolder(coasPath, config.ImperatorPath, mods, true);
+		parser.ParseGameFolder(coasPath, config.ImperatorPath, "txt", mods, true);
 
 		Logger.Info($"Loaded {coasMap.Count} coats of arms.");
 	}

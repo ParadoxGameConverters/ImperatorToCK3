@@ -413,8 +413,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	public void LoadTitles(BufferedReader reader, Dictionary<string, object>? variables = null) {
-		var parser = new Parser(variables);
+	public void LoadTitles(BufferedReader reader) {
+		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 
@@ -646,7 +646,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 			// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 			var newTitle = parentCollection.Add(titleNameStr);
-			newTitle.LoadTitles(reader, parser.Variables);
+			newTitle.LoadTitles(reader);
 
 			if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
 				// title is a barony, and no other barony has been found in this scope yet
