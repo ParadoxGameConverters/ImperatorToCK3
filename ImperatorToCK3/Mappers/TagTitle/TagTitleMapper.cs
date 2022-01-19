@@ -3,13 +3,16 @@ using ImperatorToCK3.Imperator.Countries;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.TagTitle {
-	public class TagTitleMapper : Parser {
+	public class TagTitleMapper {
+		public TagTitleMapper() { }
 		public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath) {
-			Logger.Info("Parsing Title mappings.");
-			RegisterKeys();
-			ParseFile(tagTitleMappingsPath);
-			ParseFile(governorshipTitleMappingsPath);
-			ClearRegisteredRules();
+			Logger.Info("Parsing Title mappings...");
+
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseFile(tagTitleMappingsPath);
+			parser.ParseFile(governorshipTitleMappingsPath);
+
 			Logger.Info($"{mappings.Count} title mappings loaded.");
 		}
 		public void RegisterTag(string imperatorTag, string ck3Title) {
@@ -86,11 +89,11 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			return generatedTitle;
 		}
 
-		private void RegisterKeys() {
-			RegisterKeyword("link", reader => {
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterKeyword("link", reader => {
 				mappings.Add(Mapping.Parse(reader));
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private static string GetCK3TitleRank(Country country, string localizedTitleName) {
 			if (localizedTitleName.Contains("Empire", System.StringComparison.Ordinal)) {

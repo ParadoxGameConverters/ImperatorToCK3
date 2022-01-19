@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.CoA;
 
 public class CoaMapper {
-	public CoaMapper(Configuration config, List<Mod> mods) {
+	public CoaMapper(Configuration config, IEnumerable<Mod> mods) {
 		Logger.Info("Parsing CoAs...");
 		var parser = new Parser();
 		RegisterKeys(parser);
