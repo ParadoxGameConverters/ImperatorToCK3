@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Outputter;
+using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -20,13 +21,23 @@ public class SuccessionTriggersOutputterTests {
 
 		var date = new Date(476, 1, 1);
 		var titles = new Title.LandedTitles();
+
 		var kingdomPrimogeniture = titles.Add("k_kingdom1");
-		kingdomPrimogeniture.SuccessionLaws.Add("single_heir_succession_law");
+		var kingdomPrimogenitureHistory = new TitleHistory();
+		kingdomPrimogenitureHistory.InternalHistory.AddFieldValue("succession_laws", new List<string> { "single_heir_succession_law" }, date, "succession_laws");
+		kingdomPrimogeniture.AddHistory(kingdomPrimogenitureHistory);
+
 		var kingdomSeniority = titles.Add("k_kingdom2");
-		kingdomSeniority.SuccessionLaws.Add("single_heir_dynasty_house");
+		var kingdomSeniorityHistory = new TitleHistory();
+		kingdomSeniorityHistory.InternalHistory.AddFieldValue("succession_laws", new List<string> { "single_heir_dynasty_house" }, date, "succession_laws");
+		kingdomSeniority.AddHistory(kingdomSeniorityHistory);
+
 		var vassal = titles.Add("d_vassal");
-		vassal.SuccessionLaws.Add("single_heir_succession_law");
+		var vassalHistory = new TitleHistory();
+		vassalHistory.InternalHistory.AddFieldValue("succession_laws", new List<string> { "single_heir_succession_law" }, date, "succession_laws");
+		vassal.AddHistory(vassalHistory);
 		vassal.SetDeFactoLiege(kingdomPrimogeniture, date); // has de facto liege, will not be added to the trigger
+
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputFilePath));
 
 		SuccessionTriggersOutputter.OutputSuccessionTriggers(outputModName, titles, date);
