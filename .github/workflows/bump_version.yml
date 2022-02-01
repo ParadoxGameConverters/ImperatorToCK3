@@ -9,10 +9,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 2
-        persist-credentials: false
+        fetch-depth: '0'
     - name: "Bump version and push tag"
       uses: anothrNick/github-tag-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         DEFAULT_BUMP: none
+        WITH_V: false
