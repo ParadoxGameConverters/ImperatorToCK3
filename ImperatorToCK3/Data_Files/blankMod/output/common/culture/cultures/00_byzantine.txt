@@ -1549,6 +1549,63 @@
 		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
 		
 	}
+
+	hellenistic = {
+		color = hsv { 0.65 0.7 0.8 }
+
+		cadet_dynasty_names = {
+			dynn_Agathoklid dynn_Alketid dynn_Apollonid dynn_Aratid dynn_Helladid dynn_Omirid dynn_Peithid dynn_Peneid dynn_Philonid dynn_Proktid dynn_Pytheid dynn_Sosiklid dynn_Tauromeneid
+			dynn_Therid dynn_Theronid dynn_Timolid dynn_Xenonid dynn_Zagreid dynn_Zosimid dynn_Zotikid dynn_Pelopid dynn_Philetid dynn_Proteid dynn_Zenonid dynn_Sostratid dynn_Tauriskid dynn_Sosthenid dynn_Pyhrrid dynn_Leonidid dynn_Killistratid
+			dynn_Nikoklid dynn_Pantauchid dynn_Leukonid dynn_Onomastid dynn_Kephistodid dynn_Karsid dynn_Nikokrid dynn_Persid dynn_Hippostratid dynn_Epandrid dynn_Gylippid dynn_Helenid dynn_Megalid dynn_Charinid dynn_Dydid dynn_Dionid dynn_Hiketasid
+			dynn_Stratoklid dynn_Spartokid dynn_Stratonikid dynn_Taurid dynn_Timaid dynn_Timarchid dynn_Timoleid dynn_Timotheid dynn_Tryphid dynn_Xanthippid dynn_Xenarid dynn_Xenokratid dynn_Xenophid dynn_Zenid
+			dynn_Lagid dynn_Magid dynn_Euryklid dynn_Aleuadai dynn_Philaidai dynn_Demostenid dynn_Achaid dynn_Agatharchidid dynn_Agathid dynn_Agelaid dynn_Agenid dynn_Agesipolid dynn_Agid dynn_Aknonid dynn_Akrotatid dynn_Alexandrid dynn_Alexarchid dynn_Alketid dynn_Alkimid dynn_Amantid dynn_Amnytid dynn_Amphoterid dynn_Anaxarchid dynn_Anaxikratid dynn_Anaximandrid dynn_Andagorid dynn_Andromachid dynn_Andromenid dynn_Andronikid dynn_Apollodorid dynn_Aristodemid dynn_Asandrid dynn_Bryaxid dynn_Charid dynn_Charidemid dynn_Chariklid dynn_Demadid dynn_Eupolemid dynn_Gorgid dynn_Gylippid dynn_Hekataid dynn_Hektid dynn_Helenid dynn_Heliodorid dynn_Helioklid dynn_Herakid dynn_Hermogenid dynn_Hippalid dynn_Hyperbatid dynn_Kalliarchid dynn_Kebalinid dynn_Kephisodotid dynn_Kleomenid dynn_Ktesiklid dynn_Leontid dynn_Leosthenid dynn_Lydiadid dynn_Lykurgid dynn_Menedemid dynn_Menid dynn_Menippid dynn_Mnesidemid dynn_Nearchid dynn_Nikagorid dynn_Niketid dynn_Nikid dynn_Olympiodorid dynn_Onomarchid dynn_Onomastid dynn_Ophellid dynn_Orestid dynn_Parmenid dynn_Polyperchid dynn_Proteid dynn_Stratonid dynn_Xenophid dynn_Zeuxid dynn_Pheraeid
+		}
+
+		dynasty_names = {
+			dynn_Agathoklid dynn_Alketid dynn_Apollonid dynn_Aratid dynn_Helladid dynn_Omirid dynn_Peithid dynn_Peneid dynn_Philonid dynn_Proktid dynn_Pytheid dynn_Sosiklid dynn_Tauromeneid
+			dynn_Therid dynn_Theronid dynn_Timolid dynn_Xenonid dynn_Zagreid dynn_Zosimid dynn_Zotikid dynn_Pelopid dynn_Philetid dynn_Proteid dynn_Zenonid dynn_Sostratid dynn_Tauriskid dynn_Sosthenid dynn_Pyhrrid dynn_Leonidid dynn_Killistratid
+			dynn_Nikoklid dynn_Pantauchid dynn_Leukonid dynn_Onomastid dynn_Kephistodid dynn_Karsid dynn_Nikokrid dynn_Persid dynn_Hippostratid dynn_Epandrid dynn_Gylippid dynn_Helenid dynn_Megalid dynn_Charinid dynn_Dydid dynn_Dionid dynn_Hiketasid
+			dynn_Stratoklid dynn_Spartokid dynn_Stratonikid dynn_Taurid dynn_Timaid dynn_Timarchid dynn_Timoleid dynn_Timotheid dynn_Tryphid dynn_Xanthippid dynn_Xenarid dynn_Xenokratid dynn_Xenophid dynn_Zenid
+			dynn_Lagid dynn_Magid dynn_Euryklid dynn_Aleuadai dynn_Philaidai dynn_Demostenid dynn_Achaid dynn_Agatharchidid dynn_Agathid dynn_Agelaid dynn_Agenid dynn_Agesipolid dynn_Agid dynn_Aknonid dynn_Akrotatid dynn_Alexandrid dynn_Alexarchid dynn_Alketid dynn_Alkimid dynn_Amantid dynn_Amnytid dynn_Amphoterid dynn_Anaxarchid dynn_Anaxikratid dynn_Anaximandrid dynn_Andagorid dynn_Andromachid dynn_Andromenid dynn_Andronikid dynn_Apollodorid dynn_Aristodemid dynn_Asandrid dynn_Bryaxid dynn_Charid dynn_Charidemid dynn_Chariklid dynn_Demadid dynn_Eupolemid dynn_Gorgid dynn_Gylippid dynn_Hekataid dynn_Hektid dynn_Helenid dynn_Heliodorid dynn_Helioklid dynn_Herakid dynn_Hermogenid dynn_Hippalid dynn_Hyperbatid dynn_Kalliarchid dynn_Kebalinid dynn_Kephisodotid dynn_Kleomenid dynn_Ktesiklid dynn_Leontid dynn_Leosthenid dynn_Lydiadid dynn_Lykurgid dynn_Menedemid dynn_Menid dynn_Menippid dynn_Mnesidemid dynn_Nearchid dynn_Nikagorid dynn_Niketid dynn_Nikid dynn_Olympiodorid dynn_Onomarchid dynn_Onomastid dynn_Ophellid dynn_Orestid dynn_Parmenid dynn_Polyperchid dynn_Proteid dynn_Stratonid dynn_Xenophid dynn_Zeuxid dynn_Pheraeid
+		}
+
+		male_names = {
+			Abreas Achaios Aineias Airopos Agaios Agatharchides Agathokles Agathon Agelaos Agenor Agesipolis Agis Aiakides Aischines Aknonios Akrotatos Alexandros Alexarchos Alketas Alkimachos Alkimos Amantas Amphoteros Amyntas Anaxarchos Anaxikrates Anaximandros Anaxippos Andragoras Andromachos Andromenes Andronikos Androsthenes Antenor Antialkidas Antigonos Antikles Antimachos Antiochos Antipatros Antiphates Antiphilos Antisthenes Aphrodisios Apollodoros Apollodotos Apollonios Apollophanes Aratos Archagathos Archebios Archelaos Archias Archidamos Archimedes Archippos Aretas Areus Aristarchos Aristobulos Aristodemos Aristogeiton Aristomachos Ariston Aristonikos Aristophanes Aristophon Aristoteles Arrhabaios Arrhidaios Arseas Artemidoros Artemidotos Asandros Asklepiades Athanadoros Athenodoros Attalos Audoleon Bakchides Balakros Bikon Bryaxis Chabrias Chairestratos Chairondas Chares Charidemos Charikles Charinos Chremes Chremonides Chrysippos Damokrates Damophon Damoteles Deimachos Deinippos Demades Demaratos Demetrios Demochares Demodamas Demogenes Demokleides Demokritos Demophanes Demosthenes Derdas Deriades Didas Dikaiarchos Dikaios Dimnos Diodoros Diodotos Diogenes Diomedes Dion Dionysios Dropidas Echekrates Eisigonos Ekdemos Empedokles Epameinondas Epandros Epikuros Epikydes Epimenes Epokillos Erasistratos Eratosthenes Erigyios Euainetos Euandros Eubulos Eudamidas Eudoxos Euhemeros Eukleides Eukrates Eukratides Euktemon Eumenes Eupolemos Euripides Eurylochos Euthydemos Euthykrates Euthykritos Eutychides Euxenippos Gelon Glaukias Gorgias Gorgippos Gorgos Gylippos Hagesandros Halkyoneus Harpalos Hegemachos Hegesias Hekataios Hektor Helenos Heliodoros Heliokles Hephaistion Herakleides Herakon Hermaios Hermarchos Hermesianax Hermias Hermogenes Hermolaos Herodas Heromenes Herophilos Hierax Hieron Hieronymos Hiketas Hippalos Hipparchos Hippokrates Hippostratos Hyakinthos Hyperbatas Hypereides Ikadion Iollas Iphikrates Ismenias Isokrates Kalas Kalliarchos Kallines Kallisthenes Kallistratos Kallixeinos Karneades Karsis Kassandros Kebalinos Kephalon Kephisodoros Kephisodotos Kephisophon Kineas Kleandros Kleanthes Klearchos Kleitos Kleombrotos Kleomenes Kleonymos Koinos Koroibos Krateros Krates Krateuas Krenides Ktesikles Lachares Laomedon Leonidas Leonnatos Leontios Leosthenes Leostratos Leukon Lydiadas Lykurgos Lysandridas Lysandros Lysias Lysimachos Lysippos Lysistratos Machanidas Machatas Magas Makartatos Marsyas Megaleas Megasthenes Meleagros Memnon Menandros Menedemos Menelaos Menes Menidas Menippos Menon Menos Metrodoros Metron Milon Mnaseas Mnesidemos Molon Nabis Neaichmos Nearchos Neoptolemos Nikagoras Nikandros Nikanor Nikarchos Nikephoros Nikeratos Niketes Nikias Nikodoros Nikokles Nikokrates Nikokreon Nikomachos Nikomedes Nikostratos Numenios Olympiodoros Onomarchos Onomastos Ophellas Orestes Paionios Pairisades Pantaleon Pantauchos Pantordanos Parmenion Patrokles Pausanias Peithagoras Peithon Pelopidas Pelops Perdikkas Peroidas Perseus Peukestas Peukolaos Pherekles Philemon Philetairos Philetas Philinos Philippos Philokles Philon Philonides Philopoimenos Philotas Philoxenos Phrynichos Phylarkhos Phyromachos Platon Pleistarchos Polemon Polybios Polydamas Polydoros Polyeuktos Polygnotos Polyperchon Poseidippos Poseidonios Praxibulos Praxiteles Prepelaos Proteas Ptolemaios Pyrrhias Pyrrhos Pytheas Pythodelos Satyros Seleukos Simmias Simonides Sophytes Sopolis Sosistratos Sosthenes Sostratos Sotas Spalyris Spartokos Stasanor Stilpon Stratokles Straton Stratonikos Taurion Tauriskos Teisikrates Telesarchos Thearidas Themistios Theodamas Theodoros Theodotos Theokritos Theophilos Theophrastos Thoas Thoinias Thoinon Thrasykles Timaios Timarchos Timoleon Timotheos Tryphon Xanthippos Xenares Xenokrates Xenophon Zeionises Zenon Zeuxis Zoilos Zopyrion
+
+			# More
+			Argaios Dioskourides Dokimos Telesphoros
+		}
+		female_names = {
+			Charis Demetria Diantha Dionysia Agathokleia Agiatis Antiochis Apame
+			Apollonia Ariadne Arsinoe Artemisia Athenais Belistiche Berenike Damarate
+			Daphne Demo Elpis Eirene Euphemia Euthalia Hypatia Kandake Kassandra Megaira
+			Melaina Narkissa Nysa Olympia Phila Phile Eurydike Histieia Isidora Kalliope
+			Kallista Kellanthis Kleio Kratesikleia Lanassa Laodike
+			Libys Lysandra Lysis Mestris Monime Nephoris Oinanthe
+			Phthia Ptolema Sofia Sostrate Thais Theophila Thetima Timo Xanthe Xene Xenia
+			Ptolemais Selene Sophe Stratonike Theoxene Thoeris Tryphaina Zosime
+			
+			Ada Aigyptia Anthis Antigona Antigone Aphrodisia Archestrate Archilla Archippe Aristagora 
+			Ariste Aristion Aristo Aristoboule Aristodike Aristokleia Aristokrateia Aristomache 
+			Aristonike Aristylla Artemis Aspasia Beroaia Biote Boidion Chairestrate Chairippe Choirine 
+			Chrysilla Chrysis Deidamia Demokrateia Demostrate Diokleia Doris Dorkas Eukleia Eukoline Euphrosyne 
+			Euporia Eutychis Glykera Hedeia Hediste Hedyle Hedyline Herais Hiero Hierokleia Hippostrate 
+			Homolois Kadmeia Kallimache Kallippe Kallis Kallistion Kallisto Kallistomache Kallistrate Kleagora 
+			Kleariste Kleino Kleito Kleo Kleopatra Kleostrate Krateia Leaina Leontis Lysimache 
+			Lysistrate Malthake Mania Melissa Melitta Menestrate Meniske Metrodora Mika Mnesarete Mnesistrate 
+			Murrhine Nausistrate Nikagora Nikaia Nikareta Nikarete Nikeso Niko Nikomache Nikostrate Olympias
+			Pamphile Parthenis Patrokleia Phanagora Phano Phanostrate Philainis Phileia Philias Philinna Philippa 
+			Philista Phillo Philokleia Philostrate Philotera Philotis Philoumene Philoxena Plangon Plathane Pythias 
+			Rhode Satyra Sima Simale Simon Syra Theano Theodora Theodote Thessalonike Thraitta Timagora Timarete Timokleia 
+			Timostrate Troias Xeno Xenokrateia Zopyra Zopyris
+
+			# More
+			Nikesipolis Gygaia
+		}
+
+		graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
+	}
+
 	indogreek = {
 		color = hsv { 0.03 0.7 0.7 }
 
