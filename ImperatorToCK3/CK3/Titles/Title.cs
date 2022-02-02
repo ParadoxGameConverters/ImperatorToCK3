@@ -639,7 +639,27 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		return null;
 	}
-	[NonSerialized] public SortedSet<string> SuccessionLaws { get; } = new();
+
+	public ICollection<string> GetSuccessionLaws(Date date) {
+		switch (history.InternalHistory.GetFieldValue("succession_laws", date)) {
+			case null:
+				return new SortedSet<string>();
+			case ICollection<string> stringCollection:
+				return stringCollection;
+			case ICollection<object> objectCollection:
+				var setToReturn = new SortedSet<string>();
+				foreach (var item in objectCollection) {
+					var itemStr = item.ToString();
+					if (itemStr is null) {
+						continue;
+					}
+					setToReturn.Add(itemStr);
+				}
+				return setToReturn;
+			default:
+				return new SortedSet<string>();
+		}
+	}
 	[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser) {

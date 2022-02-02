@@ -19,10 +19,11 @@ public static class SuccessionTriggersOutputter {
 				continue;
 			}
 
-			if (landedTitle.SuccessionLaws.Contains("single_heir_succession_law")) {
+			var laws = landedTitle.GetSuccessionLaws(ck3BookmarkDate);
+			if (laws.Contains("single_heir_succession_law")) {
 				primogenitureTitles.Add(landedTitle.Id);
 			}
-			if (landedTitle.SuccessionLaws.Contains("single_heir_dynasty_house")) {
+			if (laws.Contains("single_heir_dynasty_house")) {
 				seniorityTitles.Add(landedTitle.Id);
 			}
 		}
