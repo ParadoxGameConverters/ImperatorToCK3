@@ -143,13 +143,13 @@ namespace ImperatorToCK3.CK3.Characters {
 			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
 			var farewellIds = dict.Keys.Where(
 				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
-			);
+			).ToHashSet();
 
 			foreach (var characterId in farewellIds) {
 				this[characterId].BreakAllLinks();
 				Remove(characterId);
 			}
-			Logger.Info($"Purged {farewellIds.Count()} landless vanilla characters.");
+			Logger.Info($"Purged {farewellIds.Count} landless vanilla characters.");
 		}
 
 		public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
