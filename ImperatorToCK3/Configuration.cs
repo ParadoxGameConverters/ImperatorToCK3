@@ -36,7 +36,7 @@ namespace ImperatorToCK3 {
 			parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
 			parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
 			parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
-			parser.RegisterKeyword("CK3ModsDirectory", reader => CK3ModsPath = reader.GetString());
+			parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = reader.GetString());
 			parser.RegisterKeyword("output_name", reader => {
 				OutputModName = reader.GetString();
 				Logger.Info($"Output name set to: {OutputModName}");
