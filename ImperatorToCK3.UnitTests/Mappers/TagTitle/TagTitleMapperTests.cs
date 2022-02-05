@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
@@ -7,13 +8,11 @@ using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
-using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.IO;
@@ -47,7 +46,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			var titles = new Title.LandedTitles();
 			titles.ImportImperatorCountries(impCountries,
 				mapper,
-				new LocalizationMapper(),
+				new LocDB("english"),
 				new ProvinceMapper(),
 				new CoaMapper(),
 				new GovernmentMapper(),
@@ -109,7 +108,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			var titles = new Title.LandedTitles();
 			titles.ImportImperatorCountries(impCountries,
 				mapper,
-				new LocalizationMapper(),
+				new LocDB("english"),
 				new ProvinceMapper(),
 				new CoaMapper(),
 				new GovernmentMapper(),
@@ -178,7 +177,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			var titles = new Title.LandedTitles();
 			titles.ImportImperatorCountries(impCountries,
 				mapper,
-				new LocalizationMapper(),
+				new LocDB("english"),
 				new ProvinceMapper(),
 				new CoaMapper(),
 				new GovernmentMapper(),

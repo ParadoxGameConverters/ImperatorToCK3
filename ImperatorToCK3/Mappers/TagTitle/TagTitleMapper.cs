@@ -4,6 +4,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.Region;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -105,6 +106,8 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		}
 
 		private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
+
+			// throw new Exception(titles.Count(t => t.Rank == TitleRank.county).ToString()); // TODO: REMOVE DEBUG
 			foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
 				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
 				if (capitalBaronyProvinceId == 0) {
@@ -143,6 +146,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				return county.Id;
 			}
 
+			throw new Exception(county.Id);
 			return null;
 		}
 
@@ -188,7 +192,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 		private static string GenerateNewTitle(Country country, string localizedTitleName) {
 			var ck3Tag = GetCK3TitleRank(country, localizedTitleName);
 			ck3Tag += "_";
-			ck3Tag += generatedCK3TitlePrefix;
+			ck3Tag += GeneratedCK3TitlePrefix;
 			ck3Tag += country.Tag;
 
 			return ck3Tag;
