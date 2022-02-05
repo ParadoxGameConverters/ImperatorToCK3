@@ -1,1 +1,1 @@
-galatia_area = { provinces = { 1 2 3 } }
+galatia_area = { provinces = { 2 3 } }

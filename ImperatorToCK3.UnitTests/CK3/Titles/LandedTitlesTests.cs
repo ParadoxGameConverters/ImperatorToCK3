@@ -140,7 +140,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var governor = new ImperatorToCK3.Imperator.Characters.Character(25212);
 			imperatorWorld.Characters.Add(governor);
 
-			var countryReader = new BufferedReader("tag=PRY");
+			var countryReader = new BufferedReader("tag=PRY capital=1");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
@@ -157,7 +157,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var governorship1 = new Governorship(reader);
 			imperatorWorld.Jobs.Governorships.Add(governorship1);
 			var titles = new Title.LandedTitles();
-			titles.LoadTitles(new BufferedReader("c_galatia = { b_galatia={province=1} }"));
+			titles.LoadTitles(new BufferedReader(
+				"c_county1 = { b_barony1={province=1} } " +
+				"c_county2 = { b_barony2={province=2} } " +
+				"c_county3 = { b_barony3={province=3} }")
+			);
 			var countyLevelGovernorships = new List<Governorship>();
 
 			var tagTitleMapper = new TagTitleMapper();
@@ -179,35 +183,44 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var deathReasonMapper = new DeathReasonMapper();
 			var conversionDate = new Date(500, 1, 1);
 
-			// import Imperator governor
+			// Import Imperator governor.
 			var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
 			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, conversionDate);
 
-			// import country 589
+			// Import country 589.
 			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate);
 			Assert.Collection(titles,
-				title => Assert.Equal("c_galatia", title.Id),
-				title => Assert.Equal("b_galatia", title.Id),
+				title => Assert.Equal("c_county1", title.Id),
+				title => Assert.Equal("b_barony1", title.Id),
+				title => Assert.Equal("c_county2", title.Id),
+				title => Assert.Equal("b_barony2", title.Id),
+				title => Assert.Equal("c_county3", title.Id),
+				title => Assert.Equal("b_barony3", title.Id),
 				title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
 			);
 
 			var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
 			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper);
-			// country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level
+			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 
 			Assert.Collection(titles,
-				title => Assert.Equal("c_galatia", title.Id),
-				title => Assert.Equal("b_galatia", title.Id),
+				title => Assert.Equal("c_county1", title.Id),
+				title => Assert.Equal("b_barony1", title.Id),
+				title => Assert.Equal("c_county2", title.Id),
+				title => Assert.Equal("b_barony2", title.Id),
+				title => Assert.Equal("c_county3", title.Id),
+				title => Assert.Equal("b_barony3", title.Id),
 				title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
-			// governorship is not added as a new title
+			// Governorship is not added as a new title.
 			);
 			Assert.Collection(countyLevelGovernorships,
 				clg1 => {
 					Assert.Equal("galatia_region", clg1.RegionName);
 					Assert.Equal((ulong)589, clg1.CountryId);
 					Assert.Equal((ulong)25212, clg1.CharacterId);
-				});
+				}
+			);
 		}
 	}
 }
