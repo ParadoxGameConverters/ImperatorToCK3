@@ -1,14 +1,14 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Localization;
 using commonItems.Serialization;
 using ImperatorToCK3.Imperator.Families;
-using ImperatorToCK3.Mappers.Localization;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public class Dynasty : IPDXSerializable, IIdentifiable<string> {
-	public Dynasty(Family imperatorFamily, LocalizationMapper localizationMapper) {
+	public Dynasty(Family imperatorFamily, LocDB locDB) {
 		Id = $"dynn_IMPTOCK3_{imperatorFamily.Id}";
 		Name = Id;
 
@@ -30,16 +30,20 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		var impFamilyLocKey = imperatorFamily.Key;
-		var impFamilyLoc = localizationMapper.GetLocBlockForKey(impFamilyLocKey);
+		var impFamilyLoc = locDB.GetLocBlockForKey(impFamilyLocKey);
 		if (impFamilyLoc is not null) {
 			Localization = new(Name, impFamilyLoc);
 		} else { // fallback: use unlocalized Imperator family key
-			Localization = new(Name, new LocBlock(impFamilyLocKey));
+			var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+				["english"] = impFamilyLocKey
+			};
+			locBlock.FillMissingLocWithBaseLanguageLoc();
+			Localization = new(Name, locBlock);
 		}
 	}
 	[NonSerialized] public string Id { get; }
-	[SerializedName("name")] public string Name { get; } = string.Empty;
-	[SerializedName("culture")] public string Culture { get; private set; } = string.Empty;
+	[SerializedName("name")] public string Name { get; }
+	[SerializedName("culture")] public string? Culture { get; set; }
 
 	[NonSerialized] public KeyValuePair<string, LocBlock> Localization { get; } = new();
 }

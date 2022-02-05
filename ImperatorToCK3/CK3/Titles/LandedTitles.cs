@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Imperator.Countries;
@@ -6,7 +7,6 @@ using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -31,19 +31,22 @@ public partial class Title {
 		public void LoadTitles(string fileName) {
 			var parser = new Parser();
 			RegisterKeys(parser);
-			parser.ParseFile(fileName);
-			ProcessPostLoad(parser);
+			var reader = parser.ParseFile(fileName);
+			ProcessPostLoad(reader);
 		}
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
-			ProcessPostLoad(parser);
+			ProcessPostLoad(reader);
 		}
-		private void ProcessPostLoad(Parser parser) {
-			foreach (var (name, value) in parser.Variables) {
-				Variables[name] = value;
+		private void ProcessPostLoad(BufferedReader? reader) {
+			if (reader is not null) {
+				foreach (var (name, value) in reader.Variables) {
+					Variables[name] = value;
+				}
 			}
+
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 		}
 
@@ -60,7 +63,7 @@ public partial class Title {
 		public Title Add(
 			Country country,
 			CountryCollection imperatorCountries,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
@@ -76,7 +79,7 @@ public partial class Title {
 			var newTitle = new Title(this,
 				country,
 				imperatorCountries,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
@@ -99,7 +102,7 @@ public partial class Title {
 			Country country,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
@@ -111,7 +114,7 @@ public partial class Title {
 				country,
 				imperatorCharacters,
 				regionHasMultipleGovernorships,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				coaMapper,
 				definiteFormMapper,
@@ -158,7 +161,7 @@ public partial class Title {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 				var newTitle = Add(titleNameStr);
-				newTitle.LoadTitles(reader, parser.Variables);
+				newTitle.LoadTitles(reader);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
@@ -166,7 +169,7 @@ public partial class Title {
 		public void ImportImperatorCountries(
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
@@ -189,7 +192,7 @@ public partial class Title {
 					country,
 					imperatorCountries,
 					tagTitleMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -210,7 +213,7 @@ public partial class Title {
 			Country country,
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
@@ -223,13 +226,13 @@ public partial class Title {
 			Date conversionDate
 		) {
 			// Create a new title or update existing title
-			var name = DetermineName(country, imperatorCountries, tagTitleMapper, localizationMapper);
+			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
 					country,
 					imperatorCountries,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -245,7 +248,7 @@ public partial class Title {
 				Add(
 					country,
 					imperatorCountries,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -265,7 +268,7 @@ public partial class Title {
 			Imperator.World impWorld,
 			ProvinceCollection provinces,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
@@ -292,7 +295,7 @@ public partial class Title {
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
 					tagTitleMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
@@ -311,7 +314,7 @@ public partial class Title {
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			TagTitleMapper tagTitleMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
@@ -338,7 +341,7 @@ public partial class Title {
 					country,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
@@ -350,7 +353,7 @@ public partial class Title {
 					country,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					definiteFormMapper,

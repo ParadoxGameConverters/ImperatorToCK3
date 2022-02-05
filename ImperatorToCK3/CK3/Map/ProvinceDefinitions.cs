@@ -9,7 +9,7 @@ public class ProvinceDefinitions {
 	public Dictionary<Rgb24, ulong> ColorToProvinceDict { get; } = new();
 	public SortedDictionary<ulong, Rgb24> ProvinceToColorDict { get; } = new();
 	public ProvinceDefinitions(string ck3Path) {
-		var definitionsFilePath = Path.Combine(ck3Path, "game/map_data/definition.csv");
+		var definitionsFilePath = Path.Combine(ck3Path, "game", "map_data", "definition.csv");
 		using var fileStream = File.OpenRead(definitionsFilePath);
 		using var definitionFileReader = new StreamReader(fileStream);
 

@@ -18,7 +18,7 @@ public static class TitlesOutputter {
 				continue;
 			}
 
-			var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", title.Id + ".txt");
+			var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", $"{title.Id}.txt");
 			using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
 			title.OutputHistory(historyOutput);
 			alreadyOutputtedTitles.Add(title.Id);
@@ -30,7 +30,7 @@ public static class TitlesOutputter {
 			}
 		}
 
-		var otherTitlesPath = Path.Combine("output", outputModName, "history/titles/00_other_titles.txt");
+		var otherTitlesPath = Path.Combine("output", outputModName, "history", "titles", "00_other_titles.txt");
 		using (var historyOutput = new StreamWriter(otherTitlesPath)) {
 			foreach (var title in titles) {
 				// output the remaining titles
@@ -44,7 +44,7 @@ public static class TitlesOutputter {
 	}
 
 	public static void OutputTitles(string outputModName, Title.LandedTitles titles, IMPERATOR_DE_JURE deJure) {
-		var outputPath = Path.Combine("output", outputModName, "common/landed_titles/00_landed_titles.txt");
+		var outputPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
@@ -57,8 +57,8 @@ public static class TitlesOutputter {
 		output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
 
 		if (deJure == IMPERATOR_DE_JURE.REGIONS) {
-			const string srcPath = "blankMod/optionalFiles/ImperatorDeJure/common/landed_titles";
-			var dstPath = $"output/{outputModName}/common/landed_titles/";
+			var srcPath = Path.Combine("blankMod", "optionalFiles", "ImperatorDeJure", "common", "landed_titles");
+			var dstPath = Path.Combine("output", outputModName, "common", "landed_titles");
 			if (!SystemUtils.TryCopyFolder(srcPath, dstPath)) {
 				Logger.Error("Could not copy ImperatorDeJure landed titles!");
 			}

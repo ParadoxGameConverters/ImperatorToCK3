@@ -1,5 +1,4 @@
 ﻿using ImperatorToCK3.CK3.Provinces;
-using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
@@ -43,7 +42,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 		}
 
 		[Fact]
-		public void MappingsWithSameTargetProvAreOverwriteen() {
+		public void MappingsWithSameTargetProvAreOverwritten() {
 			var mappings = new ProvinceMappings("TestFiles/CK3_province_mappings_messy2.txt");
 			Assert.Collection(mappings,
 				mapping1 => {

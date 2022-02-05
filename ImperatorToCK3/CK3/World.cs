@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
@@ -10,7 +11,6 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -39,17 +39,17 @@ namespace ImperatorToCK3.CK3 {
 			MapData = new MapData(config.CK3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
-			localizationMapper.ScrapeLocalizations(config, impWorld.Mods);
+			locDB.ScrapeLocalizations(config.ImperatorPath, impWorld.Mods);
 
 			// Loading Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(config, impWorld.Mods);
 
 			// Load vanilla titles history
-			var titlesHistoryPath = Path.Combine(config.CK3Path, "game/history/titles");
+			var titlesHistoryPath = Path.Combine(config.CK3Path, "game", "history", "titles");
 			titlesHistory = new TitlesHistory(titlesHistoryPath);
 
 			// Load vanilla CK3 landed titles
-			var landedTitlesPath = Path.Combine(config.CK3Path, "game/common/landed_titles/00_landed_titles.txt");
+			var landedTitlesPath = Path.Combine(config.CK3Path, "game", "common", "landed_titles", "00_landed_titles.txt");
 
 			LandedTitles.LoadTitles(landedTitlesPath);
 			AddHistoryToVanillaTitles(config.CK3BookmarkDate);
@@ -64,7 +64,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
 				tagTitleMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				coaMapper,
 				governmentMapper,
@@ -89,7 +89,7 @@ namespace ImperatorToCK3.CK3 {
 				impWorld,
 				Provinces,
 				tagTitleMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
@@ -103,7 +103,7 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				localizationMapper,
+				locDB,
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
@@ -111,7 +111,7 @@ namespace ImperatorToCK3.CK3 {
 			);
 			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-			Dynasties.ImportImperatorFamilies(impWorld, localizationMapper);
+			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
@@ -121,14 +121,14 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
-			Logger.Info("Clearing featured characters' descriptions.");
+			Logger.Info("Clearing featured characters' descriptions...");
 			foreach (var title in LandedTitles) {
 				if (!title.PlayerCountry) {
 					continue;
 				}
 				var holderId = title.GetHolderId(ck3BookmarkDate);
 				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-					title.Localizations.Add($"{holder.Name}_desc", new LocBlock());
+					title.Localizations.AddLocBlock($"{holder.Name}_desc");
 				}
 			}
 		}
@@ -288,15 +288,18 @@ namespace ImperatorToCK3.CK3 {
 		private readonly CoaMapper coaMapper;
 		private readonly CultureMapper cultureMapper = new();
 		private readonly DeathReasonMapper deathReasonMapper = new();
-		private readonly DefiniteFormMapper definiteFormMapper = new("configurables/definite_form_names.txt");
+		private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 		private readonly GovernmentMapper governmentMapper = new();
-		private readonly LocalizationMapper localizationMapper = new();
-		private readonly NicknameMapper nicknameMapper = new("configurables/nickname_map.txt");
+		private readonly LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
+		private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 		private readonly ProvinceMapper provinceMapper = new();
 		private readonly ReligionMapper religionMapper = new();
-		private readonly SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.txt");
-		private readonly TagTitleMapper tagTitleMapper = new("configurables/title_map.txt", "configurables/governorMappings.txt");
-		private readonly TraitMapper traitMapper = new("configurables/trait_map.txt");
+		private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
+		private readonly TagTitleMapper tagTitleMapper = new(
+			tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
+			governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
+		);
+		private readonly TraitMapper traitMapper = new(Path.Combine("configurables", "trait_map.txt"));
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
 		private readonly TitlesHistory titlesHistory;

@@ -76,8 +76,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal("dictatorship", country.Government);
 			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 
-			var countries = new CountryCollection();
-			countries.Add(country);
+			var countries = new CountryCollection { country };
 			var monarch = ImperatorToCK3.Imperator.Characters.Character.Parse(
 				new BufferedReader("{ country=42 }"),
 				"69",
@@ -134,16 +133,16 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			}
 
 			var country6 = Country.Parse(reader, 6);
-			for (ulong i = 0; i < 753; ++i) {
+			for (ulong i = 0; i < 600; ++i) {
 				country6.RegisterProvince(new Province(i));
 			}
 
-			Assert.Equal(CountryRank.migrantHorde, country1.GetCountryRank());
-			Assert.Equal(CountryRank.cityState, country2.GetCountryRank());
-			Assert.Equal(CountryRank.localPower, country3.GetCountryRank());
-			Assert.Equal(CountryRank.regionalPower, country4.GetCountryRank());
-			Assert.Equal(CountryRank.majorPower, country5.GetCountryRank());
-			Assert.Equal(CountryRank.greatPower, country6.GetCountryRank());
+			Assert.Equal(CountryRank.migrantHorde, country1.Rank);
+			Assert.Equal(CountryRank.cityState, country2.Rank);
+			Assert.Equal(CountryRank.localPower, country3.Rank);
+			Assert.Equal(CountryRank.regionalPower, country4.Rank);
+			Assert.Equal(CountryRank.majorPower, country5.Rank);
+			Assert.Equal(CountryRank.greatPower, country6.Rank);
 		}
 
 		[Fact]

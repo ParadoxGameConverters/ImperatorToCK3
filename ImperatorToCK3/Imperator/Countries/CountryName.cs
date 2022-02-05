@@ -1,5 +1,5 @@
 ﻿using commonItems;
-using ImperatorToCK3.Mappers.Localization;
+using commonItems.Localization;
 using System;
 
 namespace ImperatorToCK3.Imperator.Countries {
@@ -16,8 +16,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 			};
 		}
 
-		public LocBlock? GetNameLocBlock(LocalizationMapper localizationMapper, CountryCollection imperatorCountries) {
-			var directNameLocMatch = localizationMapper.GetLocBlockForKey(Name);
+		public LocBlock? GetNameLocBlock(LocDB locDB, CountryCollection imperatorCountries) {
+			var directNameLocMatch = locDB.GetLocBlockForKey(Name);
 			if (directNameLocMatch is null || Name != "CIVILWAR_FACTION_NAME") {
 				return directNameLocMatch;
 			}
@@ -26,24 +26,24 @@ namespace ImperatorToCK3.Imperator.Countries {
 			if (BaseName is null) {
 				return directNameLocMatch;
 			}
-			var baseAdjLoc = BaseName.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
+			var baseAdjLoc = BaseName.GetAdjectiveLocBlock(locDB, imperatorCountries);
 			if (baseAdjLoc is null) {
 				return directNameLocMatch;
 			}
-			directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
-				orig = orig.Replace("$ADJ$", modifying)
+			directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc,
+				(orig, modifying) => orig.Replace("$ADJ$", modifying)
 			);
 			return directNameLocMatch;
 		}
-		public LocBlock? GetAdjectiveLocBlock(LocalizationMapper localizationMapper, CountryCollection imperatorCountries) {
+		public LocBlock? GetAdjectiveLocBlock(LocDB locDB, CountryCollection imperatorCountries) {
 			var adj = GetAdjective();
-			var directAdjLocMatch = localizationMapper.GetLocBlockForKey(adj);
+			var directAdjLocMatch = locDB.GetLocBlockForKey(adj);
 			if (directAdjLocMatch is not null && adj == "CIVILWAR_FACTION_ADJECTIVE") {
 				// special case for revolts
-				var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(localizationMapper, imperatorCountries);
+				var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(locDB, imperatorCountries);
 				if (baseAdjLoc is not null) {
-					directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (ref string orig, string modifying) =>
-						orig = orig.Replace("$ADJ$", modifying)
+					directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying) =>
+						orig.Replace("$ADJ$", modifying)
 					);
 					return directAdjLocMatch;
 				}
@@ -54,7 +54,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 					}
 
 					var countryAdjective = country.CountryName.GetAdjective();
-					var adjLoc = localizationMapper.GetLocBlockForKey(countryAdjective);
+					var adjLoc = locDB.GetLocBlockForKey(countryAdjective);
 					if (adjLoc is not null) {
 						return adjLoc;
 					}
@@ -62,7 +62,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 
 			if (!string.IsNullOrEmpty(Name)) { // as fallback, use country name (which is apparently what Imperator does)
-				var adjLocalizationMatch = localizationMapper.GetLocBlockForKey(Name);
+				var adjLocalizationMatch = locDB.GetLocBlockForKey(Name);
 				if (adjLocalizationMatch is not null) {
 					return adjLocalizationMatch;
 				}

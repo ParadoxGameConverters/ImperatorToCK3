@@ -88,19 +88,19 @@ l_english:
  # version 0.2
  brythonic:0 "Brythonic"
  brythonic_collective_noun:1 "Brythonics"
- 
+
  ionic:0 "Ionic"
  ionic_collective_noun:1 "Ionics"
- 
+
  indogreek:0 "Indo-Greek"
  indogreek_collective_noun:1 "Indo-Greeks"
- 
+
  lusoiberian:0 "Lusitanian"
  lusoiberian_collective_noun:1 "Lusitanians"
- 
+
  gothic:0 "Gothic"
  gothic_collective_noun:1 "Goths"
- 
+
  # Update III
  gaulish_group:0 "Gaulish"
  gaulish_group_collective_noun:0 "Gauls"
@@ -110,7 +110,7 @@ l_english:
  punic_group_collective_noun:0 "Carthaginians"
  chaldean_group:0 "Chaldean"
  chaldean_group_collective_noun:0 "Chaldeans"
- 
+
  iweric:0 "Iweric"
  iweric_collective_noun:0 "Iwerians"
  transadrianic:0 "Transadrianic"
@@ -289,3 +289,6 @@ l_english:
  adnanite_collective_noun:0 "Sons of 'Adnān"
  qahtanite:0 "Qahtanite"
  qahtanite_collective_noun:0 "Sons of Qahtān"
+
+ hellenistic:0 "Hellenistic"
+ hellenistic_collective_noun:0 "Hellenists"

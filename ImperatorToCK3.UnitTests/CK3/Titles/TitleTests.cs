@@ -1,11 +1,11 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -21,7 +21,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		private class TitleBuilder {
 			private Country country = new(0);
 			private CountryCollection imperatorCountries = new();
-			private LocalizationMapper localizationMapper = new();
+			private LocDB locDB = new("english");
 			private readonly Title.LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
 			private CoaMapper coaMapper = new("TestFiles/CoatsOfArms.txt");
@@ -40,7 +40,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				return landedTitles.Add(
 					country,
 					imperatorCountries,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -62,8 +62,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				this.imperatorCountries = imperatorCountries;
 				return this;
 			}
-			public TitleBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-				this.localizationMapper = localizationMapper;
+			public TitleBuilder WithLocDB(LocDB locDB) {
+				this.locDB = locDB;
 				return this;
 			}
 			public TitleBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -139,16 +139,15 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void LocalizationCanBeSet() {
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_testtitle");
-			var locBlock = new LocBlock {
-				english = "engloc",
-				french = "frloc",
-				german = "germloc",
-				russian = "rusloc",
-				spanish = "spaloc"
-			};
+			var nameLoc = title.Localizations.AddLocBlock(title.Id);
+			nameLoc["english"] = "engloc";
+			nameLoc["french"] = "frloc";
+			nameLoc["german"] = "germloc";
+			nameLoc["russian"] = "rusloc";
+			nameLoc["simp_chinese"] = "simploc";
+			nameLoc["spanish"] = "spaloc";
 
-			title.SetNameLoc(locBlock);
-			Assert.Equal(1, title.Localizations.Count);
+			Assert.Equal("engloc", title.Localizations.GetLocBlockForKey(title.Id)!["english"]);
 		}
 
 		[Fact]
@@ -156,7 +155,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_testtitle");
 
-			Assert.Empty(title.Localizations);
 			Assert.Null(title.CoA);
 			Assert.Null(title.CapitalCounty);
 			Assert.Null(title.ImperatorCountry);
@@ -231,7 +229,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.DeJureLiege = duchy;
 
 			var vassals = empire.GetDeJureVassalsAndBelow();
-			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			var sortedVassals = from entry in vassals orderby entry.Key select entry;
 			Assert.Collection(sortedVassals,
 				item1 => Assert.Equal("c_county", item1.Value.Id),
 				item2 => Assert.Equal("d_duchy", item2.Value.Id),
@@ -257,7 +255,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.DeJureLiege = duchy;
 
 			var vassals = empire.GetDeJureVassalsAndBelow(rankFilter: "ck");
-			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			var sortedVassals = from entry in vassals orderby entry.Key select entry;
 			Assert.Collection(sortedVassals,
 				// only counties and kingdoms go through the filter
 				item1 => Assert.Equal("c_county", item1.Value.Id),
@@ -359,7 +357,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			Assert.False(county.DuchyContainsProvince(1));
 		}
 		[Fact]
@@ -367,7 +365,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			Assert.True(duchy.DuchyContainsProvince(1));
@@ -377,7 +375,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			Assert.False(duchy.DuchyContainsProvince(2)); // wrong id
@@ -388,7 +386,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			Assert.False(county.KingdomContainsProvince(1));
 		}
 		[Fact]
@@ -396,7 +394,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			var kingdom = titles.Add("k_kingdom");
@@ -408,7 +406,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			var kingdom = titles.Add("k_kingdom");

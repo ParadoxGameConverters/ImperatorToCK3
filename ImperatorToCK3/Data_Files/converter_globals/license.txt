@@ -1,4 +1,4 @@
-Copyright (c) 2020 The Paradox Game Converters Group
+Copyright (c) 2019-2022 The Paradox Game Converters Group
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 Targa reader/writer code http://dmr.ath.cx/gfx/targa/
 
-Copyright © 2001-2004 Emil Mikulic.
+Copyright Â© 2001-2004 Emil Mikulic.
 
 Source and binary redistribution of this code, with or without changes, for free or for profit, is allowed as long as this copyright notice is kept intact. Modified versions have to be clearly marked as modified.
 

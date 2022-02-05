@@ -4,6 +4,8 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.Nickname;
 
 public class NicknameMapper {
+	private readonly Dictionary<string, string> impToCK3NicknameMap = new();
+
 	public NicknameMapper() { }
 	public NicknameMapper(string filePath) {
 		Logger.Info("Parsing nickname mappings...");
@@ -36,6 +38,4 @@ public class NicknameMapper {
 		}
 		return impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname) ? ck3Nickname : null;
 	}
-	
-	private readonly Dictionary<string, string> impToCK3NicknameMap = new();
 }

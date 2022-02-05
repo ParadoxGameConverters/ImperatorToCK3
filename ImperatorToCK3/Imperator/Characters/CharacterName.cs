@@ -1,19 +1,19 @@
 ﻿using commonItems;
 
-namespace ImperatorToCK3.Imperator.Characters {
-	public class CharacterName : Parser {
-		public string Name { get; private set; } = string.Empty; // key for localization or literal name
-		public string? CustomName { get; private set; } // localized
+namespace ImperatorToCK3.Imperator.Characters;
 
-		public CharacterName(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
-		}
-		private void RegisterKeys() {
-			RegisterKeyword("name", reader => Name = reader.GetString());
-			RegisterKeyword("custom_name", reader => CustomName = reader.GetString());
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
+public class CharacterName {
+	public string Name { get; private set; } = string.Empty; // key for localization or literal name
+	public string? CustomName { get; private set; } // localized
+
+	public CharacterName(BufferedReader reader) {
+		var parser = new Parser();
+		RegisterKeys(parser);
+		parser.ParseStream(reader);
+	}
+	private void RegisterKeys(Parser parser) {
+		parser.RegisterKeyword("name", reader => Name = reader.GetString());
+		parser.RegisterKeyword("custom_name", reader => CustomName = reader.GetString());
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 }

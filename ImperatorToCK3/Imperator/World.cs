@@ -30,11 +30,11 @@ namespace ImperatorToCK3.Imperator {
 		private SaveType saveType = SaveType.Invalid;
 
 		public World() { }
-		public World(Configuration configuration, ConverterVersion converterVersion) {
+		public World(Configuration config, ConverterVersion converterVersion) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
-			ParseGenes(configuration);
+			ParseGenes(config);
 
-			// parse the save
+			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
 				var versionString = reader.GetString();
@@ -56,7 +56,10 @@ namespace ImperatorToCK3.Imperator {
 				var dateString = reader.GetString();
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
-				if (EndDate > configuration.CK3BookmarkDate) {
+				if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
+					config.CK3BookmarkDate = EndDate;
+					Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
+				} else if (EndDate > config.CK3BookmarkDate) {
 					Logger.Error("Save date is later than CK3 bookmark date, proceeding at your own risk!");
 				}
 			});
@@ -78,7 +81,7 @@ namespace ImperatorToCK3.Imperator {
 
 				// Let's locate, verify and potentially update those mods immediately.
 				ModLoader modLoader = new();
-				modLoader.LoadMods(configuration.ImperatorDocPath, incomingMods);
+				modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
 				Mods = modLoader.UsableMods;
 			});
 			RegisterKeyword("family", reader => {
@@ -131,9 +134,9 @@ namespace ImperatorToCK3.Imperator {
 			});
 
 			Logger.Info("Verifying Imperator save...");
-			VerifySave(configuration.SaveGamePath);
+			VerifySave(config.SaveGamePath);
 
-			ParseStream(ProcessSave(configuration.SaveGamePath));
+			ParseStream(ProcessSave(config.SaveGamePath));
 			ClearRegisteredRules();
 			Logger.Debug($"Ignored World tokens: {string.Join(", ", ignoredTokens)}");
 

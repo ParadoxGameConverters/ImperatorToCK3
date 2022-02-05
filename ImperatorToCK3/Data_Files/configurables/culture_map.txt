@@ -245,6 +245,7 @@ link = { ck3 = lousitanian imp = athenian imp = peloponnesian imp = massalian im
 
 link = { ck3 = greek imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean }
 link = { ck3 = macedonian imp = macedonian }
+link = { ck3 = hellenistic imp = hellenistic }
 link = { ck3 = thracian imp = thracian }
 
 ## Iberia

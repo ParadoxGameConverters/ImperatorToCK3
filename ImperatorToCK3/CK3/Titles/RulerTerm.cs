@@ -1,8 +1,8 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -19,7 +19,7 @@ public class RulerTerm {
 		Imperator.Countries.RulerTerm imperatorRulerTerm,
 		Characters.CharacterCollection characters,
 		GovernmentMapper governmentMapper,
-		LocalizationMapper localizationMapper,
+		LocDB locDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
@@ -40,7 +40,7 @@ public class RulerTerm {
 				PreImperatorRuler,
 				StartDate,
 				PreImperatorRuler.Country,
-				localizationMapper,
+				locDB,
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,

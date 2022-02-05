@@ -26,37 +26,38 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			registeredGovernorshipTitles.Add($"{imperatorCountryTag}_{imperatorRegion}", ck3Title);
 			usedTitles.Add(ck3Title);
 		}
-		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank, string localizedTitleName) {
-			// The only case where we fail is on invalid invocation. Otherwise, failure is not an option!
-			if (string.IsNullOrEmpty(imperatorTag)) {
+		public string? GetTitleForTag(Country country, string localizedTitleName) {
+			// the only case where we fail is on invalid invocation. Otherwise, failure is
+			// not an option!
+			if (string.IsNullOrEmpty(country.Tag)) {
 				return null;
 			}
 
-			// Look up register
-			if (registeredTagTitles.TryGetValue(imperatorTag, out var titleToReturn)) {
+			// look up register
+			if (registeredTagTitles.TryGetValue(country.Tag, out var titleToReturn)) {
 				return titleToReturn;
 			}
 
 			// Attempt a title match
 			foreach (var mapping in mappings) {
-				var match = mapping.RankMatch(imperatorTag, GetCK3TitleRank(countryRank, localizedTitleName));
+				var match = mapping.RankMatch(country.Tag, GetCK3TitleRank(country, localizedTitleName));
 				if (match is not null) {
 					if (usedTitles.Contains(match)) {
 						continue;
 					}
 
-					RegisterTag(imperatorTag, match);
+					RegisterTag(country.Tag, match);
 					return match;
 				}
 			}
 
 			// Generate a new title
-			var generatedTitle = GenerateNewTitle(imperatorTag, countryRank, localizedTitleName);
-			RegisterTag(imperatorTag, generatedTitle);
+			var generatedTitle = GenerateNewTitle(country, localizedTitleName);
+			RegisterTag(country.Tag, generatedTitle);
 			return generatedTitle;
 		}
-		public string? GetTitleForTag(string imperatorTag, CountryRank countryRank) {
-			return GetTitleForTag(imperatorTag, countryRank, string.Empty);
+		public string? GetTitleForTag(Country country) {
+			return GetTitleForTag(country, string.Empty);
 		}
 		public string? GetTitleForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
 			if (country.CK3Title is null) {
@@ -149,7 +150,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			parser.RegisterKeyword("link", reader => mappings.Add(Mapping.Parse(reader)));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		private static string GetCK3TitleRank(CountryRank imperatorRank, string localizedTitleName) {
+		private static string GetCK3TitleRank(Country country, string localizedTitleName) {
 			if (localizedTitleName.Contains("Empire", System.StringComparison.Ordinal)) {
 				return "e";
 			}
@@ -158,15 +159,19 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				return "k";
 			}
 
-			return imperatorRank switch {
-				CountryRank.migrantHorde => "d",
-				CountryRank.cityState => "d",
-				CountryRank.localPower => "k",
-				CountryRank.regionalPower => "k",
-				CountryRank.majorPower => "k",
-				CountryRank.greatPower => "e",
-				_ => "d"
-			};
+			switch (country.Rank) {
+				case CountryRank.migrantHorde:
+				case CountryRank.cityState:
+					return "d";
+				case CountryRank.localPower:
+				case CountryRank.regionalPower:
+				case CountryRank.majorPower:
+					return "k";
+				case CountryRank.greatPower:
+					return "e";
+				default:
+					return "d";
+			}
 		}
 		private static string? GetCK3GovernorshipRank(string ck3LiegeTitle) {
 			if (ck3LiegeTitle.StartsWith('e')) {
@@ -180,11 +185,11 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			}
 			return null;
 		}
-		private static string GenerateNewTitle(string imperatorTag, CountryRank countryRank, string localizedTitleName) {
-			var ck3Tag = GetCK3TitleRank(countryRank, localizedTitleName);
+		private static string GenerateNewTitle(Country country, string localizedTitleName) {
+			var ck3Tag = GetCK3TitleRank(country, localizedTitleName);
 			ck3Tag += "_";
-			ck3Tag += GeneratedCK3TitlePrefix;
-			ck3Tag += imperatorTag;
+			ck3Tag += generatedCK3TitlePrefix;
+			ck3Tag += country.Tag;
 
 			return ck3Tag;
 		}

@@ -1,7 +1,7 @@
 ## The FAQ
 
 Q: Is this an official converter?
-A: This converter has been done by the same team that specializes in other Paradox converters: 
+A: This converter has been done by the same team that specializes in other Paradox converters:
 EU4->Vic2, Vic2->HoI4, CK2->EU3, EU3->Vic2, Vic2->HoI3, CK2->EU4
 It is not official.
 

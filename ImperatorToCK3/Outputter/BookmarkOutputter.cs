@@ -1,9 +1,9 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Mappers.Localization;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -42,7 +42,8 @@ namespace ImperatorToCK3.Outputter {
 
 				// Add character localization for bookmark screen.
 				localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
-				localizations.Add($"bm_converted_{holder.Id}_desc", new LocBlock(string.Empty));
+				var descLocBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish");
+				localizations.Add($"bm_converted_{holder.Id}_desc", descLocBlock);
 
 				output.WriteLine("\tcharacter = {");
 
@@ -115,12 +116,12 @@ namespace ImperatorToCK3.Outputter {
 
 			// title localization
 			foreach (var (key, loc) in localizations) {
-				english.WriteLine($" {key}: \"{loc.english}\"");
-				french.WriteLine($" {key}: \"{loc.french}\"");
-				german.WriteLine($" {key}: \"{loc.german}\"");
-				russian.WriteLine($" {key}: \"{loc.russian}\"");
-				simpChinese.WriteLine($" {key}: \"{loc.simp_chinese}\"");
-				spanish.WriteLine($" {key}: \"{loc.spanish}\"");
+				english.WriteLine($" {key}: \"{loc["english"]}\"");
+				french.WriteLine($" {key}: \"{loc["french"]}\"");
+				german.WriteLine($" {key}: \"{loc["german"]}\"");
+				russian.WriteLine($" {key}: \"{loc["russian"]}\"");
+				simpChinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+				spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 			}
 		}
 

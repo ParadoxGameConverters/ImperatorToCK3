@@ -50,9 +50,8 @@ jobs:
         dotnet-version: '6.*'
     - name: Custom steps
       run: |
-       # Run the Linux build script
-       chmod u+x build_linux.sh
-       ./build_linux.sh
+       cd ImperatorToCK3
+       dotnet build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
