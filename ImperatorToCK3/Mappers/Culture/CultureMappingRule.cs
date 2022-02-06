@@ -124,8 +124,7 @@ public class CultureMappingRule {
 		parser.RegisterKeyword("impProvince", reader => mappingToReturn.imperatorProvinces.Add(reader.GetULong()));
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
 			var variableValue = reader.ResolveVariable(variableName).ToString() ?? string.Empty;
-			var variableReader = new BufferedReader(variableValue);
-			parser.ParseStream(variableReader);
+			parser.ParseStream(new BufferedReader(variableValue));
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
