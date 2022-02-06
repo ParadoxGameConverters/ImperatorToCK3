@@ -16,6 +16,19 @@
 # multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, owner
 # multiple entries not allowed for: ck3
 
+# Variables
+# Use them to avoid duplicating long conditions
+# A variable must be defined BEFORE it's used in a link
+# For example:
+# Instead of:
+# link = { ck3=belgae imp=sennonian imp=bellovacian imp=veliocassian imp=morinian impProvince=1}
+# link = { ck3=delgae imp=sennonian imp=bellovacian imp=veliocassian imp=morinian impProvince=2}
+# Use:
+# @germ_cultures = "imp=sennonian imp=bellovacian imp=veliocassian imp=morinian" # don't forget the quotes
+# link = { ck3=belgae @germ_cultures impProvince=1}
+# link = { ck3=delgae @germ_cultures impProvince=2}
+
+
 ## Approximate regions according to https://user-images.githubusercontent.com/24550392/107758425-23666f80-6d27-11eb-9e96-9fdf79aa9dc9.png
 ## A: ck3Province = 28 ck3Province = 29 ck3Province = 30 ck3Province = 31 ck3Province = 32 ck3Province = 34 ck3Province = 33 ck3Province = 36 ck3Province = 15 ck3Province = 13 ck3Province = 14 ck3Province = 18 ck3Province = 17 ck3Province = 19 ck3Province = 9 ck3Province = 10 ck3Province = 11 ck3Province = 12 ck3Province = 20 ck3Province = 21 ck3Province = 22 ck3Province = 23 ck3Province = 24 ck3Province = 25 ck3Province = 26 ck3Province = 27 ck3Province = 37 ck3Province = 38 ck3Province = 39 ck3Province = 40 ck3Province = 43 ck3Province = 41 ck3Province = 42 ck3Province = 44 ck3Province = 45 ck3Province = 46 ck3Province = 47 ck3Province = 48 ck3Province = 49 ck3Province = 50 ck3Province = 51 ck3Province = 52 ck3Province = 53 ck3Province = 54 ck3Province = 8745 ck3Province = 16
 ## B (overlaps with A, so put it AFTER): impRegion = caledonia_region
