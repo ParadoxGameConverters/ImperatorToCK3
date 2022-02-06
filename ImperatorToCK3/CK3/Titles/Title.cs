@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -23,6 +24,10 @@ namespace ImperatorToCK3.CK3.Titles;
 
 public enum TitleRank { barony, county, duchy, kingdom, empire }
 public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
+	public override string ToString() {
+		return Id;
+	}
+
 	private Title(LandedTitles parentCollection, string id) {
 		this.parentCollection = parentCollection;
 		Id = id;
@@ -64,8 +69,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			conversionDate
 		);
 	}
-	private Title(
-		LandedTitles parentCollection,
+	private Title(LandedTitles parentCollection,
+		string id,
 		Governorship governorship,
 		Country country,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -73,12 +78,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
-		TagTitleMapper tagTitleMapper,
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
 		this.parentCollection = parentCollection;
-		Id = DetermineName(governorship, country, tagTitleMapper);
+		Id = id;
 		SetRank();
 		InitializeFromGovernorship(
 			governorship,
@@ -142,14 +146,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
 
 		// determine other attributes
-		var srcCapital = ImperatorCountry.Capital;
-		if (srcCapital is not null) {
-			var provMappingsForImperatorCapital = provinceMapper.GetCK3ProvinceNumbers((ulong)srcCapital);
-			if (provMappingsForImperatorCapital.Count > 0) {
-				var foundCounty = parentCollection.GetCountyForProvince(provMappingsForImperatorCapital[0]);
-				if (foundCounty is not null) {
-					CapitalCounty = foundCounty;
+		if (ImperatorCountry.Capital is not null) {
+			var srcCapital = (ulong)ImperatorCountry.Capital;
+			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
+				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
+				if (foundCounty is null) {
+					continue;
 				}
+
+				CapitalCounty = foundCounty;
+				break;
 			}
 		}
 
@@ -273,18 +279,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (title is null) {
 			throw new System.ArgumentException($"Country {imperatorCountry.Tag} could not be mapped to CK3 Title!");
 		}
-
 		return title;
 	}
-	public static string DetermineName(Governorship governorship, Country country, TagTitleMapper tagTitleMapper) {
+
+	public static string? DetermineName(Governorship governorship, Country country, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper) {
 		if (country.CK3Title is null) {
 			throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: country has no CK3Title!");
 		}
-		string? title = tagTitleMapper.GetTitleForGovernorship(governorship.RegionName, country.Tag, country.CK3Title.Id);
-		if (title is null) {
-			throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title!");
-		}
-		return title;
+		return tagTitleMapper.GetTitleForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
 	}
 
 	public void InitializeFromGovernorship(Governorship governorship,
@@ -430,7 +432,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public string GetHolderId(Date date) {
 		return history.GetHolderId(date);
 	}
-	public void SetHolderId(string id, Date date) {
+	public void SetHolder(Characters.Character? character, Date date) {
+		var id = character is null ? "0" : character.Id;
 		history.InternalHistory.AddFieldValue("holder", id, date, "holder");
 	}
 	public string? GetGovernment(Date date) {
@@ -530,7 +533,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		get => deJureLiege;
 		set {
 			if (value is not null && value.Rank <= Rank) {
-				Logger.Warn($"Cannot set de jure liege {value.Id} to {Id}: rank is not higher!");
+				Logger.Warn($"Cannot set de jure liege {value} to {Id}: rank is not higher!");
 				return;
 			}
 			deJureLiege?.DeJureVassals.Remove(Id);
@@ -550,7 +553,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	public void SetDeFactoLiege(Title? newLiege, Date date) {
 		if (newLiege is not null && newLiege.Rank <= Rank) {
-			Logger.Warn($"Cannot set de facto liege {newLiege.Id} to {Id}: rank is not higher!");
+			Logger.Warn($"Cannot set de facto liege {newLiege} to {Id}: rank is not higher!");
 			return;
 		}
 		string liegeStr = newLiege is not null ? newLiege.Id : "0";
@@ -767,7 +770,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		foreach (var vassal in GetDeFactoVassalsAndBelow(date).Values) {
 			var vassalHolderId = vassal.GetHolderId(date);
 			if (vassalHolderId == "0") {
-				Logger.Warn($"Player title {Id}'s vassal {vassal.Id} has 0 holder!");
+				Logger.Warn($"Player title {Id}'s vassal {vassal} has 0 holder!");
 				continue;
 			}
 			var heldVassalCounties = new List<Title>(

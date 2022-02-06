@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -96,6 +97,7 @@ public partial class Title {
 		}
 
 		public Title Add(
+			string id,
 			Governorship governorship,
 			Country country,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -103,11 +105,11 @@ public partial class Title {
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
-			TagTitleMapper tagTitleMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper
 		) {
 			var newTitle = new Title(this,
+				id,
 				governorship,
 				country,
 				imperatorCharacters,
@@ -115,7 +117,6 @@ public partial class Title {
 				locDB,
 				provinceMapper,
 				coaMapper,
-				tagTitleMapper,
 				definiteFormMapper,
 				imperatorRegionMapper
 			);
@@ -265,12 +266,14 @@ public partial class Title {
 
 		public void ImportImperatorGovernorships(
 			Imperator.World impWorld,
+			ProvinceCollection provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
-			CoaMapper coaMapper
+			CoaMapper coaMapper,
+			List<Governorship> countryLevelGovernorships
 		) {
 			Logger.Info("Importing Imperator Governorships...");
 
@@ -287,6 +290,8 @@ public partial class Title {
 				ImportImperatorGovernorship(
 					governorship,
 					imperatorCountries,
+					this,
+					provinces,
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
 					tagTitleMapper,
@@ -294,7 +299,8 @@ public partial class Title {
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
-					coaMapper
+					coaMapper,
+					countryLevelGovernorships
 				);
 				++counter;
 			}
@@ -303,6 +309,8 @@ public partial class Title {
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
 			CountryCollection imperatorCountries,
+			LandedTitles titles,
+			ProvinceCollection provinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			TagTitleMapper tagTitleMapper,
@@ -310,11 +318,23 @@ public partial class Title {
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
-			CoaMapper coaMapper) {
+			CoaMapper coaMapper,
+			ICollection<Governorship> countryLevelGovernorships
+		) {
 			var country = imperatorCountries[governorship.CountryId];
-			// Create a new title or update existing title
-			var name = DetermineName(governorship, country, tagTitleMapper);
 
+			var name = DetermineName(governorship, country, titles, provinces, imperatorRegionMapper, tagTitleMapper);
+			if (name is null) {
+				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
+				return;
+			}
+
+			if (name.StartsWith("c_")) {
+				countryLevelGovernorships.Add(governorship);
+				return;
+			}
+
+			// Create a new title or update existing title
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromGovernorship(
 					governorship,
@@ -328,6 +348,7 @@ public partial class Title {
 				);
 			} else {
 				Add(
+					name,
 					governorship,
 					country,
 					imperatorCharacters,
@@ -335,7 +356,6 @@ public partial class Title {
 					locDB,
 					provinceMapper,
 					coaMapper,
-					tagTitleMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
 				);

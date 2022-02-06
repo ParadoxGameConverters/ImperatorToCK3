@@ -10,12 +10,15 @@ public class Governorship {
 
 	public Governorship(BufferedReader reader) {
 		var parser = new Parser();
+		RegisterKeywords(parser);
+		parser.ParseStream(reader);
+	}
+	
+	private void RegisterKeywords(Parser parser) {
 		parser.RegisterKeyword("who", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("character", reader => CharacterId = reader.GetULong());
 		parser.RegisterKeyword("start_date", reader => StartDate = new Date(reader.GetString(), AUC: true));
 		parser.RegisterKeyword("governorship", reader => RegionName = reader.GetString());
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-
-		parser.ParseStream(reader);
 	}
 }

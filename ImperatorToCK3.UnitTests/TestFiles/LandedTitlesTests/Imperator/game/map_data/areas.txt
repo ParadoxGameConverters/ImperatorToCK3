@@ -1,0 +1,1 @@
+galatia_area = { provinces = { 2 3 } }
