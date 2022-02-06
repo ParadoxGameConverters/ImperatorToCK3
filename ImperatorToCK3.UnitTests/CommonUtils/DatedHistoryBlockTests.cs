@@ -30,17 +30,16 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				new List<ContainerFieldDef>(),
 				reader
 			);
-			var contents = datedHistoryBlock.Contents;
 
-			Assert.Equal(3, contents.SimpleFieldContents.Count);
+			Assert.Equal(3, datedHistoryBlock.SimpleFieldContents.Count);
 
-			Assert.Equal("cuman", contents.SimpleFieldContents["culture"][0]);
-			Assert.Equal("bashkiri", contents.SimpleFieldContents["culture"][1]);
-			Assert.Equal("c_sarkel", contents.SimpleFieldContents["title"].Last());
-			Assert.Equal(5, contents.SimpleFieldContents["monthly_alien_sightings"].Last());
+			Assert.Equal("cuman", datedHistoryBlock.SimpleFieldContents["culture"][0]);
+			Assert.Equal("bashkiri", datedHistoryBlock.SimpleFieldContents["culture"][1]);
+			Assert.Equal("c_sarkel", datedHistoryBlock.SimpleFieldContents["title"].Last());
+			Assert.Equal(5, datedHistoryBlock.SimpleFieldContents["monthly_alien_sightings"].Last());
 
-			Assert.False(contents.SimpleFieldContents.ContainsKey("religion"));
-			Assert.False(contents.SimpleFieldContents.ContainsKey("development"));
+			Assert.False(datedHistoryBlock.SimpleFieldContents.ContainsKey("religion"));
+			Assert.False(datedHistoryBlock.SimpleFieldContents.ContainsKey("development"));
 		}
 
 		[Fact]
@@ -52,15 +51,15 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				}"
 			);
 
-			var contents = new DatedHistoryBlock(
+			var datedHistoryBlock = new DatedHistoryBlock(
 				new List<SimpleFieldDef> {
 					new() { FieldName = "religion", Setter = "religion", InitialValue = null }
 				},
 				new List<ContainerFieldDef>(),
 				reader
-			).Contents;
+			);
 
-			Assert.Empty(contents.SimpleFieldContents);
+			Assert.Empty(datedHistoryBlock.SimpleFieldContents);
 		}
 	}
 }

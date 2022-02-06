@@ -43,11 +43,11 @@ namespace ImperatorToCK3.CommonUtils {
 			}
 			RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
 				var date = new Date(dateString);
-				var contents = new DatedHistoryBlock(this.simpleFieldDefs, this.containerFieldDefs, reader).Contents;
-				foreach (var (fieldName, valuesList) in contents.SimpleFieldContents) {
+				var datedHistoryBlock = new DatedHistoryBlock(this.simpleFieldDefs, this.containerFieldDefs, reader);
+				foreach (var (fieldName, valuesList) in datedHistoryBlock.SimpleFieldContents) {
 					history.Fields[fieldName].AddValueToHistory(valuesList.Last(), date);
 				}
-				foreach (var (fieldName, valuesList) in contents.ContainerFieldContents) {
+				foreach (var (fieldName, valuesList) in datedHistoryBlock.ContainerFieldContents) {
 					history.Fields[fieldName].AddValueToHistory(valuesList.Last(), date);
 				}
 			});
