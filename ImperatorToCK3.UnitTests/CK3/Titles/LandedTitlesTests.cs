@@ -136,7 +136,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			imperatorWorld.Provinces.Add(new Province(2));
 			imperatorWorld.Provinces.Add(new Province(3));
 
-
 			var governor = new ImperatorToCK3.Imperator.Characters.Character(25212);
 			imperatorWorld.Characters.Add(governor);
 
