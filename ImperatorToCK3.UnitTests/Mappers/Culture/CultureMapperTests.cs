@@ -205,5 +205,19 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 
 			Assert.Equal("culture", culMapper.NonReligiousMatch("test", "thereligion", 56, 49, "e_title"));
 		}
+
+		[Fact]
+		public void VariablesWorkInLinks() {
+			var reader = new BufferedReader(
+				"@germ_cultures = \"imp=sennonian imp=bellovacian imp=veliocassian imp=morinian\" \r\n" +
+				"link = { ck3=low_germ @germ_cultures impProvince=1}\r\n" +
+				"link = { ck3=high_germ @germ_cultures impProvince=2}"
+			);
+			var cultureMapper = new CultureMapper(reader);
+
+			Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", "", 0, impProvinceId: 1, ""));
+			Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, impProvinceId: 1, ""));
+			Assert.Equal("high_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, impProvinceId: 2, ""));
+		}
 	}
 }
