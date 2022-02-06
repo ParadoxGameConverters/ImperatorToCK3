@@ -441,7 +441,7 @@ link = { ck3 = carthaginian imp = carthaginian }
 link = { ck3 = phoenician imp = phoenician }
 link = { ck3 = shuadit imp = hebrew @culture_splitting_region_F }
 link = { ck3 = zarphatic imp = hebrew @culture_splitting_region_E }
-link = { ck3 = ashkenazi imp = hebrew impRegion = @culture_splitting_region_D @culture_splitting_region_G @culture_splitting_region_H }
+link = { ck3 = ashkenazi imp = hebrew @culture_splitting_region_D @culture_splitting_region_G @culture_splitting_region_H }
 link = { ck3 = sephardi imp = hebrew impRegion = baetica_region impRegion = contestania_region impRegion = tarraconensis_region @culture_splitting_region_Y impRegion = gallaecia_region }
 link = { ck3 = khazar imp = hebrew @culture_splitting_region_L }
 link = { ck3 = hebrew imp = hebrew }
