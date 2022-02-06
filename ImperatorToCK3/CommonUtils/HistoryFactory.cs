@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils {
@@ -50,8 +51,9 @@ namespace ImperatorToCK3.CommonUtils {
 					history.Fields[fieldName].AddValueToHistory(valuesList.Last(), date);
 				}
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
+
 		public History GetHistory(BufferedReader reader) {
 			history = new History();
 			foreach (var def in simpleFieldDefs) {
@@ -63,6 +65,23 @@ namespace ImperatorToCK3.CommonUtils {
 			ParseStream(reader);
 			return history;
 		}
+		public History GetHistory(string historyPath, string gamePath) {
+			history = new History();
+			foreach (var def in simpleFieldDefs) {
+				history.Fields[def.FieldName] = new HistoryField(def.Setter, def.InitialValue);
+			}
+			foreach (var def in containerFieldDefs) {
+				history.Fields[def.FieldName] = new HistoryField(def.Setter, def.InitialValue);
+			}
+
+			if (File.Exists(historyPath)) {
+				ParseGameFile(historyPath, gamePath, new List<Mod>());
+			} else {
+				ParseGameFolder(historyPath, gamePath, "txt", new List<Mod>(), true);
+			}
+			return history;
+		}
+
 		public void UpdateHistory(History existingHistory, BufferedReader reader) {
 			history = existingHistory;
 			ParseStream(reader);
