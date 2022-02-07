@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
@@ -175,7 +176,7 @@ namespace ImperatorToCK3.Outputter {
 			var mapData = ck3World.MapData;
 			var provDefs = mapData.ProvinceDefinitions;
 
-			var black = new Rgba32(0, 0, 0, 1);
+			Rgba32 black = Color.Black;
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
@@ -239,27 +240,29 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {
-			for (int y = 0; y < image.Height; ++y) {
-				Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(y);
-				for (int x = 0; x < image.Width; ++x) {
-					if (pixelRowSpan[x].Equals(sourceColor)) {
-						pixelRowSpan[x] = targetColor;
+			image.ProcessPixelRows(accessor => {
+				for (int y = 0; y < image.Height; ++y) {
+					foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
+						if (pixel.Equals(sourceColor)) {
+							pixel = targetColor;
+						}
 					}
 				}
-			}
+			});
 		}
 
 		private static void InverseTransparent(Image<Rgba32> image, Rgba32 color) {
-			var transparent = new Rgba32(0, 0, 0, 0);
-			for (int y = 0; y < image.Height; ++y) {
-				Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(y);
-				for (int x = 0; x < image.Width; ++x) {
-					if (pixelRowSpan[x].Equals(color)) {
-						continue;
+			Rgba32 transparent = Color.Transparent;
+			image.ProcessPixelRows(accessor => {
+				for (int y = 0; y < image.Height; ++y) {
+					foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
+						if (pixel.Equals(color)) {
+							continue;
+						}
+						pixel = transparent;
 					}
-					pixelRowSpan[x] = transparent;
 				}
-			}
+			});
 		}
 
 		private static void ResaveImageAsDDS(string imagePath) {
