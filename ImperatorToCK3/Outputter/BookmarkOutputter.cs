@@ -267,7 +267,7 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void ResaveImageAsDDS(string imagePath) {
 			using (var magickImage = new MagickImage(imagePath)) {
-				magickImage.Write($"{CommonFunctions.TrimExtension(imagePath)}.dds");
+				magickImage.Write(Path.ChangeExtension(imagePath, ".dds"));
 			}
 			File.Delete(imagePath);
 		}
