@@ -154,7 +154,7 @@ namespace ImperatorToCK3.Outputter {
 			string flatmapPath = Path.Combine(config.CK3Path, "game/gfx/map/terrain/flatmap.dds");
 			const string tmpFlatmapPath = "temp/flatmap.png";
 
-			using var provincesImage = Image.Load<Rgba32>(provincesMapPath);
+			using var provincesImage = Image.Load(provincesMapPath);
 			provincesImage.Mutate(x => x.Resize(2160, 1080, KnownResamplers.NearestNeighbor));
 			provincesImage.Mutate(x => x.Crop(1920, 1080));
 
@@ -198,7 +198,7 @@ namespace ImperatorToCK3.Outputter {
 				var diff = provincesToColor.Count - heldProvinces.Count;
 				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
 
-				using var realmHighlightImage = provincesImage.Clone();
+				using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
 				foreach (var provinceColor in provincesToColor.Select(
 					province => provDefs.ProvinceToColorDict[province])) {
 					// Make pixels of the province black.
@@ -248,14 +248,14 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void InverseTransparent(Image<Rgba32> image, Rgba32 color) {
-			var transparent = new Rgba32(0, 0, 0, 0);
+			var transparent = Color.Transparent;
 			image.ProcessPixelRows(accessor => {
 				for (int y = 0; y < image.Height; ++y) {
 					foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
 						if (pixel.Equals(color)) {
 							continue;
 						}
-						pixel = Color.YellowGreen; // todo: fix debug
+						pixel = transparent;
 					}
 				}
 			});
