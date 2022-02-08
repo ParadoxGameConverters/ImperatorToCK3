@@ -214,15 +214,12 @@ namespace ImperatorToCK3.Outputter {
 					provinceColor.ToRgba32(ref rgbaProvinceColor);
 					ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
 				}
-				realmHighlightImage.SaveAsPng("temp/A.png");// TODO: REMOVE DEBUG
 
 				// Make all non-black pixels transparent.
 				InverseTransparent(realmHighlightImage, black);
-				realmHighlightImage.SaveAsPng("temp/B.png");// TODO: REMOVE DEBUG
 
 				// Replace black with title color.
 				ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
-				realmHighlightImage.SaveAsPng("temp/C.png");// TODO: REMOVE DEBUG
 
 				// Create realm highlight file.
 				var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
