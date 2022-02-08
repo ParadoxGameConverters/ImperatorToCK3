@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System;
@@ -152,25 +153,25 @@ namespace ImperatorToCK3.Outputter {
 			Logger.Info("Drawing bookmark map...");
 			string provincesMapPath = Path.Combine(config.CK3Path, "game/map_data/provinces.png");
 			string flatmapPath = Path.Combine(config.CK3Path, "game/gfx/map/terrain/flatmap.dds");
-			const string tmpProvincesMapPath = "temp/provinces.tga";
 			const string tmpFlatmapPath = "temp/flatmap.png";
 
-			using (var provincesMagickImage = new MagickImage(provincesMapPath)) {
-				provincesMagickImage.FilterType = FilterType.Point;
-				provincesMagickImage.Resize(2160, 1080);
-				provincesMagickImage.Crop(1920, 1080);
-				provincesMagickImage.RePage();
-				provincesMagickImage.Write(tmpProvincesMapPath);
-			}
+			SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
+				TransparentColorMode = PngTransparentColorMode.Clear,
+				ColorType = PngColorType.RgbWithAlpha,
+			});
+			using var provincesImage = Image.Load(provincesMapPath);
+			provincesImage.Mutate(x =>
+				x.Resize(2160, 1080, KnownResamplers.NearestNeighbor)
+				.Crop(1920, 1080)
+				.BackgroundColor(Color.Transparent)
+			);
 
 			using (var flatmapMagickImage = new MagickImage(flatmapPath)) {
 				flatmapMagickImage.Scale(2160, 1080);
 				flatmapMagickImage.Crop(1920, 1080);
-				flatmapMagickImage.RePage();
 				flatmapMagickImage.Write(tmpFlatmapPath);
 			}
 
-			using var provincesImage = Image.Load(tmpProvincesMapPath);
 			using var bookmarkMapImage = Image.Load(tmpFlatmapPath);
 
 			var mapData = ck3World.MapData;
@@ -181,8 +182,7 @@ namespace ImperatorToCK3.Outputter {
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
 				var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-				HashSet<ulong> heldProvinces =
-					playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
+				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 				// Determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				var impassables = mapData.ColorableImpassableProvinces;
@@ -210,14 +210,16 @@ namespace ImperatorToCK3.Outputter {
 				foreach (var provinceColor in provincesToColor.Select(
 					province => provDefs.ProvinceToColorDict[province])) {
 					// Make pixels of the province black.
-					var rgbaProvinceColor = new Rgba32(provinceColor.R, provinceColor.G, provinceColor.B);
+					var rgbaProvinceColor = new Rgba32();
+					provinceColor.ToRgba32(ref rgbaProvinceColor);
 					ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
 				}
 
+				// Make all non-black pixels transparent.
+				InverseTransparent(realmHighlightImage, black);
+
 				// Replace black with title color.
 				ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
-				// Make pixels all colors but the country color transparent.
-				InverseTransparent(realmHighlightImage, rgba32ColorOnMap);
 
 				// Create realm highlight file.
 				var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
@@ -267,7 +269,7 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void ResaveImageAsDDS(string imagePath) {
 			using (var magickImage = new MagickImage(imagePath)) {
-				magickImage.Write($"{CommonFunctions.TrimExtension(imagePath)}.dds");
+				magickImage.Write(Path.ChangeExtension(imagePath, ".dds"));
 			}
 			File.Delete(imagePath);
 		}
