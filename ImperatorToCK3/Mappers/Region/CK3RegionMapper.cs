@@ -10,16 +10,16 @@ namespace ImperatorToCK3.Mappers.Region {
 		public CK3RegionMapper(string ck3Path, Title.LandedTitles landedTitles) {
 			Logger.Info("Initializing Geography...");
 
-			var ck3MapDataPath = Path.Combine(ck3Path, "game", "map_data");
-			var regionFilePath = Path.Combine(ck3MapDataPath, "geographical_region.txt");
-			var islandRegionFilePath = Path.Combine(ck3MapDataPath, "island_region.txt");
-
-			LoadRegions(landedTitles, regionFilePath, islandRegionFilePath);
+			LoadRegions(landedTitles, ck3Path);
 		}
-		public void LoadRegions(Title.LandedTitles landedTitles, string regionFilePath, string islandRegionFilePath) {
+		public void LoadRegions(Title.LandedTitles landedTitles, string ck3Path) {
 			var parser = new Parser();
 			RegisterRegionKeys(parser);
-			parser.ParseFile(regionFilePath);
+
+			var regionsFolderPath = Path.Combine("map_data", "geographical_regions");
+			parser.ParseGameFolder(regionsFolderPath, ck3Path, "txt", new List<Mod>(), true);
+
+			var islandRegionFilePath = Path.Combine(ck3Path, "game", "map_data", "island_region.txt");
 			parser.ParseFile(islandRegionFilePath);
 
 			foreach (var title in landedTitles) {
