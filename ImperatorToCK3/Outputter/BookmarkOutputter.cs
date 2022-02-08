@@ -254,7 +254,7 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void InverseTransparent(Image<Rgba32> image, Rgba32 color) {
-			var transparent = Color.Transparent;
+			Rgba32 transparent = Color.Transparent;
 			image.ProcessPixelRows(accessor => {
 				for (int y = 0; y < image.Height; ++y) {
 					foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
