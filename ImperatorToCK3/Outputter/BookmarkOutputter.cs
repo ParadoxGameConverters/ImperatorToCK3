@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System;
@@ -154,9 +155,16 @@ namespace ImperatorToCK3.Outputter {
 			string flatmapPath = Path.Combine(config.CK3Path, "game/gfx/map/terrain/flatmap.dds");
 			const string tmpFlatmapPath = "temp/flatmap.png";
 
+			SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
+				TransparentColorMode = PngTransparentColorMode.Clear,
+				ColorType = PngColorType.RgbWithAlpha,
+			});
 			using var provincesImage = Image.Load(provincesMapPath);
-			provincesImage.Mutate(x => x.Resize(2160, 1080, KnownResamplers.NearestNeighbor));
-			provincesImage.Mutate(x => x.Crop(1920, 1080));
+			provincesImage.Mutate(x =>
+				x.Resize(2160, 1080, KnownResamplers.NearestNeighbor)
+				.Crop(1920, 1080)
+				.BackgroundColor(Color.Transparent)
+			);
 
 			using (var flatmapMagickImage = new MagickImage(flatmapPath)) {
 				flatmapMagickImage.Scale(2160, 1080);
@@ -202,7 +210,8 @@ namespace ImperatorToCK3.Outputter {
 				foreach (var provinceColor in provincesToColor.Select(
 					province => provDefs.ProvinceToColorDict[province])) {
 					// Make pixels of the province black.
-					var rgbaProvinceColor = new Rgba32(provinceColor.R, provinceColor.G, provinceColor.B);
+					var rgbaProvinceColor = new Rgba32();
+					provinceColor.ToRgba32(ref rgbaProvinceColor);
 					ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
 				}
 				realmHighlightImage.SaveAsPng("temp/A.png");// TODO: REMOVE DEBUG
@@ -265,7 +274,7 @@ namespace ImperatorToCK3.Outputter {
 			using (var magickImage = new MagickImage(imagePath)) {
 				magickImage.Write(Path.ChangeExtension(imagePath, ".dds"));
 			}
-			//File.Delete(imagePath);
+			File.Delete(imagePath);
 		}
 	}
 }
