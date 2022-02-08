@@ -6,6 +6,8 @@ using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvinceTests {
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
