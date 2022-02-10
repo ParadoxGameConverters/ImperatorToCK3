@@ -1,0 +1,92 @@
+### CONVERTER ###
+# Proto-Slavic
+urslavic = {
+	
+	color = { 0.2 0.1 0.4 }
+
+	cadet_dynasty_names = {
+		"dynn_Pervoyov" "dynn_Vtorakov" "dynn_Tretyakov" "dynn_Chetvertakov"
+		"dynn_Pyatakov" "dynn_Shestakov" "dynn_Semoyov" "dynn_Chernyshov"
+		"dynn_Chernyaiov" "dynn_Belov" "dynn_Belyaiov" "dynn_Belyakov"
+		"dynn_Beloukhov" "dynn_Malov" "dynn_Malyutaov" "dynn_Maloyov"
+		"dynn_Dolgoyov" "dynn_Sukhoyov" "dynn_Tolstoy" "dynn_Golovov"
+		"dynn_Golovachov" "dynn_Lobanov" "dynn_Bespaloyov" "dynn_Zabavov"
+		"dynn_Istomaov" "dynn_Krikov" "dynn_Skryabov" "dynn_Molchanov"
+		"dynn_Neulybov" "dynn_Bulgakov" "dynn_Smeyanaov" "dynn_Nesmeyanov"
+		"dynn_Bogdanov" "dynn_Bazhenov" "dynn_Golubov" "dynn_Lyubabaov" "dynn_Zhdanov"
+		"dynn_Nezhdanov" "dynn_Khotenov" "dynn_Chayanov" "dynn_Nechayov"
+		"dynn_Veshnyakov" "dynn_Zimov" "dynn_Morozov" "dynn_Bykov" "dynn_Volkov"
+		"dynn_Voronov" "dynn_Schukaov" "dynn_Kotov" "dynn_Koshkaov" "dynn_Zherebetzov"
+		"dynn_Korovov" "dynn_Schaveyov" "dynn_Travov" "dynn_Pyreyov" "dynn_Goryainov" "dynn_Nemilov" "dynn_Nekrasov" "dynn_Nelyubov" "dynn_Neustroyov"
+		"dynn_Zlobaov" "dynn_Tugarinov" "dynn_Chudinov" "dynn_Karelov" "dynn_Tatarinov"
+		"dynn_Kozarinov" "dynn_Ontomanov"
+	}
+
+	dynasty_names = {
+		"dynn_Pervoyov" "dynn_Vtorakov" "dynn_Tretyakov" "dynn_Chetvertakov"
+		"dynn_Pyatakov" "dynn_Shestakov" "dynn_Semoyov" "dynn_Chernyshov"
+		"dynn_Chernyaiov" "dynn_Belov" "dynn_Belyaiov" "dynn_Belyakov"
+		"dynn_Beloukhov" "dynn_Malov" "dynn_Malyutaov" "dynn_Maloyov"
+		"dynn_Dolgoyov" "dynn_Sukhoyov" "dynn_Tolstoy" "dynn_Golovov"
+		"dynn_Golovachov" "dynn_Lobanov" "dynn_Bespaloyov" "dynn_Zabavov"
+		"dynn_Istomaov" "dynn_Krikov" "dynn_Skryabov" "dynn_Molchanov"
+		"dynn_Neulybov" "dynn_Bulgakov" "dynn_Smeyanaov" "dynn_Nesmeyanov"
+		"dynn_Bogdanov" "dynn_Bazhenov" "dynn_Golubov" "dynn_Lyubabaov" "dynn_Zhdanov"
+		"dynn_Nezhdanov" "dynn_Khotenov" "dynn_Chayanov" "dynn_Nechayov"
+		"dynn_Veshnyakov" "dynn_Zimov" "dynn_Morozov" "dynn_Bykov" "dynn_Volkov"
+		"dynn_Voronov" "dynn_Schukaov" "dynn_Kotov" "dynn_Koshkaov" "dynn_Zherebetzov"
+		"dynn_Korovov" "dynn_Schaveyov" "dynn_Travov" "dynn_Pyreyov" "dynn_Goryainov" "dynn_Nemilov" "dynn_Nekrasov" "dynn_Nelyubov" "dynn_Neustroyov"
+		"dynn_Zlobaov" "dynn_Tugarinov" "dynn_Chudinov" "dynn_Karelov" "dynn_Tatarinov"
+		"dynn_Kozarinov" "dynn_Ontomanov"
+	}
+
+	male_names = {
+		Pervoy Vtorak Tretyak Chetvertak Pyatak Shestak Semoy
+		Chernysh Chernyai Chernyava
+		Bel Belyai Belyak Beloukha
+		Mal Malyuta Maloy Dolgoy Sukhoy Tolstoy
+		Golova Golovach Loban Bespaloy
+		Zabava Istoma Krik Skryaba Molchan Neulyba
+		Bulgak Smeyana Nesmeyana
+		Bogdan Bazhen Goluba Lyubaba Zhdan
+		Nezhdan Khoten Chayan Nechay
+		Veshnyak Zima Moroz
+		Byk Volk Voron Schuka Kot Koshka Zherebetz
+		Korova Schavey Trava Pyrey
+		Goryain Nemil Nekras Nelyuba Neustroy
+		Zloba Tugarin
+		Chudin Karel Tatarin Kozarin Ontoman
+		###
+		Vladimir Yaroslav Iziaslav Yaropolk Sviatoslav
+		Sviatopolk Viacheslav Vsevolod
+		Oleg Igor Gleb
+	}
+	female_names = {
+		Agafya Agrafena Alexandra Anastasia Anna Boleslava Darya Dobrava Dobronega Dobroslava Yefimia Yefrosinia Yekaterina
+		Yelizaveta Yevdokia Yevpraxia Feodora Feodosia Fevronia Gorislava Gradislava Gremislava Irina Xenia Liubava
+		Liudmila Malfrida Malusha Maria Marina Olena Olga Pereyaslava Praskovya Praxida Prebrana Predslava Premyslava
+		Pribislava Rogneda Rostislava Sbyslava Sofia Sviatoslava Tatyana Ulita Ulyana Varvara Vasilisa Veleslava Verkhoslava
+		Vseslava Viacheslava Yaroslava Zabava Zvenislava
+	}
+	dynasty_of_location_prefix = "dynnp_of"
+	
+	patronym_suffix_male = "dynnpat_suf_ovich"
+	patronym_suffix_female = "dynnpat_suf_ovna"
+
+	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+	pat_grf_name_chance = 50
+	mat_grf_name_chance = 40
+	father_name_chance = 0
+	
+	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+	pat_grm_name_chance = 30
+	mat_grm_name_chance = 30
+	mother_name_chance = 0
+
+	ethnicities = {
+		60 = slavic_northern_blond
+		5 = slavic_northern_ginger
+		25 = slavic_northern_brown_hair
+		10 = slavic_northern_dark_hair
+	}
+}
