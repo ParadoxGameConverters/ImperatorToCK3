@@ -1,4 +1,3 @@
-### CONVERTER ###
 old_egyptian = {
 	color = hsv { 0.15  1  0.7 }
 

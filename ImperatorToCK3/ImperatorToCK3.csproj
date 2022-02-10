@@ -65,6 +65,9 @@
 	<ItemGroup>
         <BlankMod Include="Data_Files/blankMod/**/*.*" />
     </ItemGroup>
+	<ItemGroup>
+	  <BlankMod Remove="Data_Files\blankMod\output\common\culture\cultures\IRToCK3_cultures_info.html" />
+	</ItemGroup>
 	
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
