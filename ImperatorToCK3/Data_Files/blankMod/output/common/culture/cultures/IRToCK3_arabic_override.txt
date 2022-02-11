@@ -1,0 +1,5 @@
+# Make Arabic Egyptian a hybrid of Bedouin and Coptic
+egyptian = {
+	created = 640.1.1
+	parents = { bedouin old_egyptian }
+}
