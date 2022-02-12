@@ -337,7 +337,7 @@ l_english:
  judajca_prefix:0 "Judajca"
  hittite_group:0 "Hittite"
  hittite_group_collective_noun:0 "Hittites"
- hittite_prefix:0 "Hitti"
+ #hittite_group_prefix:0 "Hittito" # found "Hittito-Egyptian"
  luwian:0 "Luwian"
  luwian_collective_noun:0 "Luwians"
  luwian_prefix:0 "Luwio" # found "Luwio-Semitic"
