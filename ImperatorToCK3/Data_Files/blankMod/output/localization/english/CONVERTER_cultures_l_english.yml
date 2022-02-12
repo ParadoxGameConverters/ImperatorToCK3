@@ -343,7 +343,7 @@ l_english:
  luwian_prefix:0 "Luwio" # found "Luwio-Semitic"
  lydian:0 "Lydian"
  lydian_collective_noun:0 "Lydians"
- lydian_prefix:0 "Lydio" # found "Lydio-Persian" in https://books.google.pl/books?id=Dq0aBQAAQBAJ&printsec=frontcover&hl=pl 
+ lydian_prefix:0 "Lydio" # found "Lydio-Persian" in https://books.google.pl/books?id=Dq0aBQAAQBAJ&printsec=frontcover&hl=pl
  hittite:0 "Hittite"
  hittite_collective_noun:0 "Hittites"
  hittite_prefix:0 "Hittito" # found "Hittito-Egyptian"
