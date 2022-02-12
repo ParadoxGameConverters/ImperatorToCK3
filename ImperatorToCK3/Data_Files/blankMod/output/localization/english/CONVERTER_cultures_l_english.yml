@@ -46,7 +46,7 @@ l_english:
  cappadocian_prefix:0 "Cappadocio"
 
  phrygian:0 "Phrygian"
- phrygian_collective_noun:1 "Phrygians"
+ phrygian_collective_noun:0 "Phrygians"
  phrygian_prefix:0 "Phrygo" # see Phrygo-Roman
 
  pontic:0 "Pontic"
@@ -347,9 +347,6 @@ l_english:
  hittite:0 "Hittite"
  hittite_collective_noun:0 "Hittites"
  hittite_prefix:0 "Hittito" # found "Hittito-Egyptian"
- phrygian:0 "Phrygian"
- phrygian_collective_noun:0 "Phrygians"
- phrygian_prefix:0 "Phrygo" # see Phrygo-Roman
  south_germanic_group:0 "South Germanic"
  south_germanic_group_collective_noun:0 "South Germans"
  #south_germanic_group_prefix:0 "South German"
