@@ -3,27 +3,27 @@
 l_english:
  old_egyptian:0 "Old Egyptian"
  old_egyptian_collective_noun:1 "Fellahim"
- old_egyptian_prefix:0 "Old Egypto"
+ old_egyptian_prefix:0 "Egypto" # found "Egypto-Roman"
 
  numidian:0 "Numidian"
  numidian_collective_noun:1 "Numidians"
- numidian_prefix:0 "Numido"
+ numidian_prefix:0 "Numido" # found "Numido-Roman site of Tiddis"
 
  celtic_pannonian:0 "Scordiscian"
  celtic_pannonian_collective_noun:1 "Scordiscians"
- celtic_pannonian_prefix:0 "Scordisco"
+ celtic_pannonian_prefix:0 "Scordisco" # found "specifice scordisco-dacice"
 
  celtiberian:0 "Celtiberian"
  celtiberian_collective_noun:1 "Celtiberians"
- celtiberian_prefix:0 "Celtibero"
+ celtiberian_prefix:0 "Celtibero" # found "ciudad celtibero-romana"
 
  belgae:0 "Belgae"
  belgae_collective_noun:1 "Belgae"
- belgae_prefix:0 "Belgo"
+ belgae_prefix:0 "Belgo" # found "Belgo-Germanic people"
 
  gallic:0 "Gallic"
  gallic_collective_noun:1 "Gauls"
- gallic_prefix:0 "Gallo" # see Gallo-Roman
+ gallic_prefix:0 "Gallo" # see "Gallo-Roman"
 
  macedonian:0 "Macedonian"
  macedonian_collective_noun:1 "Macedonians"
@@ -31,23 +31,23 @@ l_english:
 
  thracian:0 "Thracian"
  thracian_collective_noun:1 "Thracians"
- thracian_prefix:0 "Thraco" # see Thraco-Roman
+ thracian_prefix:0 "Thraco" # see "Thraco-Roman"
 
- dacian:0 "Albocensian"
- dacian_collective_noun:1 "Albocenses"
- dacian_prefix:0 "Albocenso"
+ dacian:0 "Dacian"
+ dacian_collective_noun:1 "Dacians"
+ dacian_prefix:0 "Daco" # found https://en.wikipedia.org/wiki/Daco-Roman
 
  getian:0 "Getian"
  getian_collective_noun:1 "Getians"
- getian_prefix:0 "Geto" # see Geto-Dacian
+ getian_prefix:0 "Geto" # see "Geto-Dacian"
 
  cappadocian:0 "Cappadocian"
  cappadocian_collective_noun:1 "Cappadocians"
- cappadocian_prefix:0 "Cappadocio"
+ cappadocian_prefix:0 "Cappadoco" # found "Cappadoco-Armenian language"
 
  phrygian:0 "Phrygian"
  phrygian_collective_noun:0 "Phrygians"
- phrygian_prefix:0 "Phrygo" # see Phrygo-Roman
+ phrygian_prefix:0 "Phrygo" # found "Phrygo-Roman"
 
  pontic:0 "Pontic"
  pontic_collective_noun:1 "Pontians"
@@ -55,12 +55,12 @@ l_english:
 
  carthaginian:0 "Punic"
  carthaginian_collective_noun:1 "Carthaginians"
- carthaginian_prefix:0 "Punio"
+ carthaginian_prefix:0 "Puno" # found "Puno-Numidian"
 
  phoenician:0 "Phoenician"
  phoenician_collective_noun:1 "Phoenicians"
- phoenician_prefix:0 "Phoenicio"
-
+ phoenician_prefix:0 "Phoenico" # found "Phoenico-Israelite trade"
+ 
  nabatean:0 "Nabatean"
  nabatean_collective_noun:1 "Nabateans"
  nabatean_prefix:0 "Nabateo"
