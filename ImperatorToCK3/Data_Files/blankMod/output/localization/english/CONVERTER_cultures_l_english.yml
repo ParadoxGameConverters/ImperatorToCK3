@@ -374,7 +374,7 @@ l_english:
 
  arvanite_group:0 "Arvanite"
  arvanite_group_collective_noun:0 "Arvanites"
- arvanite_group_prefix:0 "Arvanito" # found "Takime arbëresho-arvanito-shqiptare në gjysmën e dytë të shek. XIX."
+ #arvanite_group_prefix:0 "Arvanito" # found "Takime arbëresho-arvanito-shqiptare në gjysmën e dytë të shek. XIX."
  albanian:0 "Albanian"
  albanian_collective_noun:0 "Albanians"
  albanian_prefix:0 "Albano" # found "Albano-Greek Union"
