@@ -107,7 +107,7 @@ l_english:
 
  hebrew:0 "Hebrew"
  hebrew_collective_noun:1 "Hebrews"
- hebrew_prefix:0 "Hebrew"
+ hebrew_prefix:0 "Judeo" # found "Judeo-Roman culinary tradition"
 
  etruscan:0 "Etruscan"
  etruscan_collective_noun:1 "Etruscans"
