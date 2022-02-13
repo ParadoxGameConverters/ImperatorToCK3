@@ -2,43 +2,11 @@
 bactrian = {
 	color = hsv { 0.03 0.7 0.7 }
 
-	cadet_dynasty_names = {
-		dynn_Tarixanian dynn_Arzakanian dynn_Axumenian dynn_Wanxanian dynn_Rachnian
-		dynn_Burzenid dynn_Semshanian dynn_Orzan dynn_Bharzunian dynn_Wyaran dynn_Oxian
-		dynn_Arxatan dynn_Spitamenian dynn_Artaxian dynn_Orxenian dynn_Arzunian dynn_Aynian
-	}
-
-	dynasty_names = {
-		dynn_Tarixanian dynn_Arzakanian dynn_Axumenian dynn_Wanxanian dynn_Rachnian
-		dynn_Burzenid dynn_Semshanian dynn_Orzan dynn_Bharzunian dynn_Wyaran dynn_Oxian
-		dynn_Arxatan dynn_Spitamenian dynn_Artaxian dynn_Orxenian dynn_Arzunian dynn_Aynian
-	}
-
-	male_names = {
-		Tarxun Ramch Axak Maxak Uxuchan Shaow Wanxanak Awekat Baxuman
-		Chukshek Ratsh Ramtish Ayus Katch Arxata Exak Sheshch Oxyartes
-		Spitamenes Artaxerxes Burz Orzek Samtish Bexak Arzun Shaw Entysh
-		Anxach Wius Bharzun Bharxuman 
-	}
-	female_names = {
-		Roxana Rayun Roshanak Baxunash Roshan Saryash Zunesh Mayara
-		Koshana Hephta Hashchana Ixeni Oniya Wyara Awxa Oshan Riyun 
-	}
+	name_list = name_list_bactrian
 
 	ethnicities = {
 		7 = arab
 		5 = mediterranean
-	}
-	
-	founder_named_dynasties = yes
-
-	dynasty_of_location_prefix = "dynnp_m"
-	patronym_prefix_male = "dynnpat_pre_zk"
-	patronym_prefix_female = "dynnpat_pre_zk"
-
-	mercenary_names = {
-		{ name = "mercenary_company_company_of_bukhara" }
-		{ name = "mercenary_company_dehqan_warriors" }
 	}
 	
 	graphical_cultures = { mena_clothing_gfx mena_building_gfx mena_unit_gfx }
@@ -47,38 +15,11 @@ bactrian = {
 scythian = {
 	color = hsv { 0.2 0.5 0.8 }
 
-	cadet_dynasty_names = {
-		dynn_Kausalid dynn_Gankari dynn_Tenarian dynn_Ytarimid dynn_Tripuskaran dynn_Dantapurian
-		dynn_Baransian dynn_Yurpaskan dynn_Rohinian dynn_Vaidan dynn_Vaisalian dynn_Iksvakuian
-		dynn_Kausikan dynn_Sakkan dynn_Kasakid dynn_Yarkamid dynn_Bharukid dynn_Cadotid dynn_Lyamid dynn_Kunlayad
-	}
-
-	dynasty_names = {
-		dynn_Kausalid dynn_Gankari dynn_Tenarian dynn_Ytarimid dynn_Tripuskaran dynn_Dantapurian
-		dynn_Baransian dynn_Yurpaskan dynn_Rohinian dynn_Vaidan dynn_Vaisalian dynn_Iksvakuian
-		dynn_Kausikan dynn_Sakkan dynn_Kasakid dynn_Yarkamid dynn_Bharukid dynn_Cadotid dynn_Lyamid dynn_Kunlayad
-	}
-
-	male_names = {
-		Airawanta Ajatasatru Ajite Alp Ambare Ampratasarme Amrataraksite Amratodane Anande Anathapindike Aniruddhe Andhave Anktsas Arjune Aranemi Arnyartate Arslam Arthadarsi Aryamarg Aryaske Aryatewe Aryawarme Aryottame Asokamitre Asokaraksite Asoke Asarte Astawi Atakke Atidivakare Atyuccagami Atraikatte Bimbasare Caitike Caiytiska Cakravar Cakule Candramukhe Candravasu Candre Caracate Cina Cinatyuti Citre Cittaraksite Cowaske Dandakamal Devarakste Dhanike Dipankar Dirghanakhe Dravyasvare Durmukhe Ekasrinke Erkatsole Esmine Etrise Gayakasyape Gayasirs Gaye Gunacamdre Gunasampade Hariscandre Hastake Hetubalike Indradhvaje Indratewe Indre Indriske Issapake Jatisrone Jetavam JN_anacamndre JN_anaghose JN_anakame JN_anakupte JN_anamokse JN_anasene JN_anasome JN_anasthite JN_anawirye Kadike Kalodaye Kalyanamokse Kalyanavraddhi Kalyanawartane Kanake Kanaske Kanthake Kapilavarne Kapilavastu Kas Kasyap Katakarni Kaundinye
-		Kauravye Kausal Kemarcune Kentarske Kercampey Kercapiske Kerdipole Kereptanne Kimne Klenkarako Klpapatre Klyotiska Kotile Koysam Ksemankare Ksmarjune Ksmawarme Ksmate Ksmateworsa Ksmika Kulkera Kumarapunye Kumpante Kunacamttrakau Kunacamttre Kwirapabhadra Lariska Mahasammate Mahisvare Manisvare Mitrakseme Mitraske Mitre Moksasene Moksasome Moksawarme Molyoke Mukalanti Munkhare Murdhagate Nandabala Nandake Nande Nandipale Nasme Natte Naradeve Nirot Nupura Nyagrodhe Padmakesar Padmottare Pakacandre PaN_casikhi Pawaske Pesane Prabhankare Prabhase Pranada Prasamnake
-		Pravare Priyadeve Ptompile PuN_aiyse PuN_akame PuN_araksite PuN_icamndre Punyamitre Purtas Rahule Raktadewe Ratnacuda Ratnasikhi Rsivadam Rudramukhe Rudrasarme Sagare Samantatir Samcite Samghatrate Sanavasi Sanghasarme Sankene Sanum Saputanase Sarasike Sarmacamdre Sarsire Satuma Satyake Satyaraksite Sidhasamgha Siladewe Silamitre Silarakite Silaraksi Silasoma Silavande Silawarne Silayase Silopake Simpraye SiN_cake Sinke Sinku Skanatatte Skwarle Slacamndre Solarke Some Srestake Sudarse Sudas Suddhodane Sujate Sukase Suklodane Sunaksatre Sunetre Sutasome Sutate Swarnabuspe Swarnatepe Tarmacandre Tarmaraksite Tenare Tohkem Tonke Tukik Tunka Tusi Udanalankar Udayi Ulkamukhe Uluke Upage Upagupte Upanande
-		Uposathe Urbilvakasyape Uttaraphalguni Uttare Vaisravane Vaitike Varddhane Vidusake Vimalapuspe Vinaise Visale Wamsok Warwattaske Waryaruci Waryasene Wasampile Wasave Wiryadewe Wiryamitre Wiryasanti WiryasiN_i Wisikke Wrauske Yanayase Yarpalaske Yasa Yasawine Yase Yasonaka Yastare Yonge Yonu Ype Yudhisthire Yugaraje
-	}
-	female_names = {
-		Ampratasene Amratasene Arjuna Arunavati Aryakose Aryaraksite Ayardhyame Bhadra Canca Dhrtirastre JN_ati Kolite Kosthile Malika Maya Nagasene Priyasarini Punyasene Purike Purnaya Purohite Putere Raknaska Revati Roce Saci Santa Santisene Sari Sthulananda Sudarsane Sumagati Sumaise Sumati Sundari Suwarte Tarmawirne Tartvisara Tati Tisye Upatisye Uppal Uppalavarna Vasisthe Vitasake Yasaraksite Yasodhara
-	}
+	name_list = name_list_scythian
 
 	ethnicities = {
 		7 = arab
 		5 = mediterranean
-	}
-	
-	founder_named_dynasties = yes
-
-	mercenary_names = {
-		{ name = "the_cimmerians" }
-		{ name = "the_old_guard" coat_of_arms = "scythia" }
 	}
 	
 	graphical_cultures = { steppe_coa_gfx mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
@@ -87,38 +28,11 @@ scythian = {
 sarmatian = {
 	color = rgb { 222 124 28 }
 
-	cadet_dynasty_names = {
-		dynn_Kausalid dynn_Gankari dynn_Tenarian dynn_Ytarimid dynn_Tripuskaran dynn_Dantapurian
-		dynn_Baransian dynn_Yurpaskan dynn_Rohinian dynn_Vaidan dynn_Vaisalian dynn_Iksvakuian
-		dynn_Kausikan dynn_Sakkan dynn_Kasakid dynn_Yarkamid dynn_Bharukid dynn_Cadotid dynn_Lyamid dynn_Kunlayad
-	}
-
-	dynasty_names = {
-		dynn_Kausalid dynn_Gankari dynn_Tenarian dynn_Ytarimid dynn_Tripuskaran dynn_Dantapurian
-		dynn_Baransian dynn_Yurpaskan dynn_Rohinian dynn_Vaidan dynn_Vaisalian dynn_Iksvakuian
-		dynn_Kausikan dynn_Sakkan dynn_Kasakid dynn_Yarkamid dynn_Bharukid dynn_Cadotid dynn_Lyamid dynn_Kunlayad
-	}
-
-	male_names = {
-		Airawanta Ajatasatru Ajite Alp Ambare Ampratasarme Amrataraksite Amratodane Anande Anathapindike Aniruddhe Andhave Anktsas Arjune Aranemi Arnyartate Arslam Arthadarsi Aryamarg Aryaske Aryatewe Aryawarme Aryottame Asokamitre Asokaraksite Asoke Asarte Astawi Atakke Atidivakare Atyuccagami Atraikatte Bimbasare Caitike Caiytiska Cakravar Cakule Candramukhe Candravasu Candre Caracate Cina Cinatyuti Citre Cittaraksite Cowaske Dandakamal Devarakste Dhanike Dipankar Dirghanakhe Dravyasvare Durmukhe Ekasrinke Erkatsole Esmine Etrise Gayakasyape Gayasirs Gaye Gunacamdre Gunasampade Hariscandre Hastake Hetubalike Indradhvaje Indratewe Indre Indriske Issapake Jatisrone Jetavam JN_anacamndre JN_anaghose JN_anakame JN_anakupte JN_anamokse JN_anasene JN_anasome JN_anasthite JN_anawirye Kadike Kalodaye Kalyanamokse Kalyanavraddhi Kalyanawartane Kanake Kanaske Kanthake Kapilavarne Kapilavastu Kas Kasyap Katakarni Kaundinye
-		Kauravye Kausal Kemarcune Kentarske Kercampey Kercapiske Kerdipole Kereptanne Kimne Klenkarako Klpapatre Klyotiska Kotile Koysam Ksemankare Ksmarjune Ksmawarme Ksmate Ksmateworsa Ksmika Kulkera Kumarapunye Kumpante Kunacamttrakau Kunacamttre Kwirapabhadra Lariska Mahasammate Mahisvare Manisvare Mitrakseme Mitraske Mitre Moksasene Moksasome Moksawarme Molyoke Mukalanti Munkhare Murdhagate Nandabala Nandake Nande Nandipale Nasme Natte Naradeve Nirot Nupura Nyagrodhe Padmakesar Padmottare Pakacandre PaN_casikhi Pawaske Pesane Prabhankare Prabhase Pranada Prasamnake
-		Pravare Priyadeve Ptompile PuN_aiyse PuN_akame PuN_araksite PuN_icamndre Punyamitre Purtas Rahule Raktadewe Ratnacuda Ratnasikhi Rsivadam Rudramukhe Rudrasarme Sagare Samantatir Samcite Samghatrate Sanavasi Sanghasarme Sankene Sanum Saputanase Sarasike Sarmacamdre Sarsire Satuma Satyake Satyaraksite Sidhasamgha Siladewe Silamitre Silarakite Silaraksi Silasoma Silavande Silawarne Silayase Silopake Simpraye SiN_cake Sinke Sinku Skanatatte Skwarle Slacamndre Solarke Some Srestake Sudarse Sudas Suddhodane Sujate Sukase Suklodane Sunaksatre Sunetre Sutasome Sutate Swarnabuspe Swarnatepe Tarmacandre Tarmaraksite Tenare Tohkem Tonke Tukik Tunka Tusi Udanalankar Udayi Ulkamukhe Uluke Upage Upagupte Upanande
-		Uposathe Urbilvakasyape Uttaraphalguni Uttare Vaisravane Vaitike Varddhane Vidusake Vimalapuspe Vinaise Visale Wamsok Warwattaske Waryaruci Waryasene Wasampile Wasave Wiryadewe Wiryamitre Wiryasanti WiryasiN_i Wisikke Wrauske Yanayase Yarpalaske Yasa Yasawine Yase Yasonaka Yastare Yonge Yonu Ype Yudhisthire Yugaraje
-	}
-	female_names = {
-		Ampratasene Amratasene Arjuna Arunavati Aryakose Aryaraksite Ayardhyame Bhadra Canca Dhrtirastre JN_ati Kolite Kosthile Malika Maya Nagasene Priyasarini Punyasene Purike Purnaya Purohite Putere Raknaska Revati Roce Saci Santa Santisene Sari Sthulananda Sudarsane Sumagati Sumaise Sumati Sundari Suwarte Tarmawirne Tartvisara Tati Tisye Upatisye Uppal Uppalavarna Vasisthe Vitasake Yasaraksite Yasodhara
-	}
+	name_list = name_list_sarmatian
 
 	ethnicities = {
 		7 = arab
 		5 = mediterranean
-	}
-	
-	founder_named_dynasties = yes
-
-	mercenary_names = {
-		{ name = "the_cimmerians" }
-		{ name = "the_old_guard" coat_of_arms = "scythia" }			
 	}
 	
 	graphical_cultures = { steppe_coa_gfx mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
@@ -127,60 +41,11 @@ sarmatian = {
 parthian = {
 	color = hsv { 0.52 0.77 0.72 }
 
-	cadet_dynasty_names = {
-		dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid dynn_Savacid
-		dynn_Vardanid
-	}
-
-	dynasty_names = {
-		dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid dynn_Savacid
-		dynn_Vardanid
-	}
-
-	male_names = {
-		Abulites Achaimenes Anaphes Arbupales Ariabignes Ariaspes
-		Ariobarzanes Aristozanes Arsames Arses Arsites Artabazos
-		Artaphernes Artayntes Artaxerxes Artochmes Artostes Aspastes
-		Aspathines Atizyes Atropates Autophradates Bagoas Barsaintes
-		Baryaxes Barzanes Batis Belesys Bessos Bisthanes Bubales
-		Chorienes Dareios Datames Dataphernes Datis Gergis Harmamitres
-		Haustanes Histanes Hydarnes Hystaspes Ithamitres Katanes Kophenes
-		Kyros Madates Mardonios Masistes Mauakes Mazakes Mazaios Mazaros
-		Megapanos Mithradates Mithraustes Mithrines Mithrobaios Mithrobuzanes
-		Nabarzanes Niphates Ochos Oiobazos Okontobates Omares Onthotopates Ordanes
-		Orontes Orxines Otaspes Oxathres Oxyartes Oxydates Petines Pharasmanes
-		Pharnabazos Pharnuches Pherendates Phrasaortes Phrataphernes Prexaspes
-		Rheomitres Rhoisakes Sabakos Sataspes Satibarzanes Siromitres Sisamnes
-		Sisines Smerdomenes Spitamenes Spithridates Tiriaspes Tissaphernes
-		Tritantaichmes Xerxes Abdagas Ara Aram Aramu Arbaces Ardashir Argishti
-		Ariovast Arkha Armin Arsaces Artabanus Artabazus Artasyras Artavazd
-		Artaxias Aryanes Asheri Asina Ashina Astashpa Astyages Atamaita
-		Aturpat BagayashBayad Chosroes Cyaxares Cyrus Darius Deioces
-		Evagoras Fravarti Gaumata Gobryas Gotarzes Haldita Hidarnes Manchihr Mardonius
-		Martiya Mazaces Megabyzus Menua Nambed Napad Orodes Osroes Pacorus Peucestas
-		Phraates Phraortes Rusa Sames Sarduri Sarsamas Savaces Shapur Sinatruces
-		Tigraios Tigranes Tiridates Umamaita Upadarma Vahbarz Vardanes Vologases
-		Vonones
-	}
-	female_names = {
-		Amastris Amytis Anzaza Artazostre Artystone Atossa Barsine Damaspia Mandane
-		Parmys Parysatis Phaedymia Rinu Stateira Vashti Apame Artakama Artanis
-		Arystone Orypetis Rhoxane Sisygambis
-	}
-	
-	dynasty_title_names = yes
-	founder_named_dynasties = yes
-
-	patronym_suffix_male = "dynnpat_suf_zade"
-	patronym_suffix_female = "dynnpat_suf_dokht"
+	name_list = name_list_parthian
 	
 	ethnicities = {
 		7 = arab
 		5 = mediterranean
-	}
-
-	mercenary_names = {
-		{ name = "the_fire_of_achaemenes" coat_of_arms = "ACHAEMENID_FLAG" }
 	}
 	
 	graphical_cultures = { mena_clothing_gfx mena_building_gfx mena_unit_gfx }
