@@ -1,0 +1,80 @@
+name_list_old_egyptian = {
+	cadet_dynasty_names = {
+		dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+		dynn_Senuid dynn_Setnid dynn_Arganid dynn_Psammid dynn_Philothid dynn_Timolid dynn_Zosid dynn_Phileid
+		dynn_Nicodemid dynn_Nefarid dynn_Bastid dynn_Xeneid dynn_Naravid dynn_Ezanid dynn_Ahmid dynn_Alarid
+		dynn_Harsiotid dynn_Henid dynn_Ibid dynn_Khabbashid	 dynn_Amasid dynn_Nectanebid
+		dynn_Petubastid dynn_Djedhid dynn_Tachyid dynn_Magid
+	}
+
+	dynasty_names = {
+		dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+		dynn_Senuid dynn_Setnid dynn_Arganid dynn_Psammid dynn_Philothid dynn_Timolid dynn_Zosid dynn_Phileid
+		dynn_Nicodemid dynn_Nefarid dynn_Bastid dynn_Xeneid dynn_Naravid dynn_Ezanid dynn_Ahmid dynn_Alarid
+		dynn_Harsiotid dynn_Henid dynn_Ibid dynn_Khabbashid	 dynn_Amasid dynn_Nectanebid
+		dynn_Petubastid dynn_Djedhid dynn_Tachyid dynn_Magid
+	}
+
+	male_names = {
+		Amyrteos Ankhmachis Anemhor Aratos Arganos Charias Djedhor Ezena Horemakhet Isocrates Khabbabash Leonippus Lydiadas Manetho Massiva
+		Nakhthoreb Naravas Nefaarud Neferibre Nesisti Nicias Nicodemus Oezalces Oxyntas Pedubast Peneus Perdiccas Philocrates 
+		Philotheos Polyperchon Psherenamun Psherenptah Psammuthes Ptolemy Theocritus Therapon Timoleon Xanthos Xenon Zeteres Zosimus Ahmes
+		Ahmose Alarus Amasus Ameny Bakenrenef Cleomenes Euclid Harsiotef Henut Ibi Khabash Lagus Nectanebo Kheperkare Neferkare Nehi Osorkon Pami
+		Petubastis Teos
+	}
+	female_names = {
+		Agape Agathoclea Amanishabheto Antigone Apame Apollonia Aristomache Artemisia Aspacia Athenais Berenice Charis Cleopatra Cynna
+		Demetria Elpis Eirene Eudocia Eunice Euphemia Eurydice Euthalia Hypatia Nysa Oenanthe Olympia Phila Phile Sostrate Stratonice Thais
+		Theophila Thetima Thessaloniki Thorakis Timo Arsinoe Lysandra Kiya Qelhata
+	}
+	
+	dynasty_of_location_prefix = "dynnp_mn"
+	
+	# https://en.wikipedia.org/wiki/Nomen_(Ancient_Egypt)
+	patronym_prefix_male = "dynnp_sa"
+	
+	founder_named_dynasties = yes
+
+	mercenary_names = {
+		{ name = "ir_nubian_mercenaries" coat_of_arms = "k_nubia" }
+		{ name = "ir_maryannu" coat_of_arms = "EGYPTIAN_FLAG" }
+	}
+}
+
+name_list_numidian = {
+	cadet_dynasty_names = {
+		dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+		dynn_Senuid dynn_Setnid
+		dynn_Adherbid dynn_Masinnid dynn_Tacfarinid dynn_Syphid dynn_Verminid
+		dynn_Galid dynn_Jugurthid
+	}
+
+	dynasty_names = {
+		dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
+		dynn_Senuid dynn_Setnid
+		dynn_Adherbid dynn_Masinnid dynn_Tacfarinid dynn_Syphid dynn_Verminid
+		dynn_Galid dynn_Jugurthid
+	}
+
+	male_names = {
+		Adherbal Bomilcar Ezena	Gauda Gulussa Hiempsal
+		Iampsas	Jugurtha Masinissa Massiva Mastanabal Micipsa
+		Nabdalsa Naravas Oxyntas Sypax Syphax Tacfarinas
+		Tychaeus Vermina Zeteres Gala Amastan Mastan 
+	}
+	female_names = {
+		Anno Salammbo Sophonisba Panisba Ena Palema Synno Narva Enno Adhierno Ballanba 
+	}
+	
+	# https://glosbe.com/en/mis_ber/from
+	dynasty_of_location_prefix = "dynnp_seg"
+	
+	patronym_prefix_male = "dynnp_mem"
+	
+	
+	founder_named_dynasties = yes
+
+	mercenary_names = {
+		{ name = "ir_numidian_cavalry" }
+	}
+}

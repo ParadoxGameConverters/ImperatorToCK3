@@ -2,7 +2,7 @@
 egyptian = {
 	color = { 0.1 0.6 0.1 }
 
-	# ImperatorToCK3: Make Arabic Egyptian a hybrid of Bedouin and Coptic
+	# ImperatorToCK3: Make Arabic Egyptian a hybrid of Bedouin and Old Egyptian
 	created = 640.1.1
 	parents = { bedouin old_egyptian }
 	
