@@ -8,7 +8,10 @@ old_egyptian = {
 		4 = african
 	}
 
-	graphical_cultures = { mena_clothing_gfx dde_abbasid_clothing_gfx mena_building_gfx sub_sahran_unit_gfx }
+	coa_gfx = { berber_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { sub_sahran_unit_gfx }
 }
 
 numidian = {
@@ -21,5 +24,8 @@ numidian = {
 		4 = african
 	}
 	
-	graphical_cultures = { mena_clothing_gfx berber_group_buiding_gfx mena_unit_gfx }
+	coa_gfx = { berber_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
