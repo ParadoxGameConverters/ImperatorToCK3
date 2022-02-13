@@ -9,7 +9,10 @@ bactrian = {
 		5 = mediterranean
 	}
 	
-	graphical_cultures = { mena_clothing_gfx mena_building_gfx mena_unit_gfx }
+	coa_gfx = { iranian_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
 
 scythian = {
@@ -22,7 +25,10 @@ scythian = {
 		5 = mediterranean
 	}
 	
-	graphical_cultures = { steppe_coa_gfx mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
+	coa_gfx = { steppe_coa_gfx }
+	building_gfx = { steppe_building_gfx }
+	clothing_gfx = { mongol_clothing_gfx }
+	unit_gfx = { mongol_unit_gfx }
 }
 
 sarmatian = {
@@ -35,7 +41,10 @@ sarmatian = {
 		5 = mediterranean
 	}
 	
-	graphical_cultures = { steppe_coa_gfx mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
+	coa_gfx = { steppe_coa_gfx }
+	building_gfx = { steppe_building_gfx }
+	clothing_gfx = { mongol_clothing_gfx }
+	unit_gfx = { mongol_unit_gfx }
 }
 
 parthian = {
@@ -48,5 +57,8 @@ parthian = {
 		5 = mediterranean
 	}
 	
-	graphical_cultures = { mena_clothing_gfx mena_building_gfx mena_unit_gfx }
+	coa_gfx = { iranian_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }

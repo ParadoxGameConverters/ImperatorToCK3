@@ -1,5 +1,5 @@
 ### CONVERTER ###
-hebrew = {
+hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 	color = rgb { 99 193 217 }
 
 	name_list = name_list_hebrew
@@ -8,10 +8,13 @@ hebrew = {
 		10 = arab
 	}
 	
-	graphical_cultures = { byzantine_clothing_gfx mediterranean_building_gfx eastern_unit_gfx }
+	coa_gfx = { israelite_group_coa_gfx }
+	building_gfx = { mediterranean_building_gfx mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
 }
 
-shuadit = {
+shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	color = { 0.2 0.2 0.7 }
 
 	name_list = name_list_shuadit
@@ -19,9 +22,14 @@ shuadit = {
 	ethnicities = {
 		10 = arab
 	}
+
+	coa_gfx = { israelite_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
 
-zarphatic = {
+zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	color = { 0.7 0.2 0.2 }
 
 	name_list = name_list_zarphatic
@@ -29,4 +37,9 @@ zarphatic = {
 	ethnicities = {
 		10 = arab
 	}
+
+	coa_gfx = { israelite_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }

@@ -23,6 +23,4 @@ brythonic = {
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
-	graphical_cultures = { welsh_coa_gfx northern_clothing_gfx steppe_building_gfx northern_unit_gfx }
 }
