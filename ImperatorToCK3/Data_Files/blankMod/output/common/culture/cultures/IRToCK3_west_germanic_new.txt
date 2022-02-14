@@ -1,183 +1,25 @@
 ## CONVERTER
 
 iweric = {
-	graphical_cultures = {
-		irish_coa_gfx
-	}
+	parents = { old_saxon irish }
+	heritage = heritage_west_germanic
+	language = language_anglic
+	martial_custom = martial_custom_male_only
 	
 	color = hsv{ 0.8 0.035 0.8 }
 
-	cadet_dynasty_names = {
-		{ "dynnp_de" "dynn_Kald" }
-		{ "dynnp_de" "dynn_la_Haya" }
-		{ "dynnp_de" "dynn_Lindsay" }
-		{ "dynnp_de" "dynn_Loudoun" }
-		{ "dynnp_de" "dynn_Ramsay" }
-		{ "dynnp_of" "dynn_Angus" }
-		{ "dynnp_of" "dynn_Carrick" }
-		{ "dynnp_of" "dynn_Galloway" }
-		{ "dynnp_of" "dynn_Galloway" }
-		{ "dynnp_of" "dynn_Scotland" }
-		{ "dynnp_of" "dynn_Strathearn" }
-		{ "dynnp_of" "dynn_Tullibardine" }
-		dynn_Abernethy
-		dynn_Arbuthnot
-		dynn_Archil
-		dynn_Armstrong
-		dynn_Ballantyne
-		dynn_Bannock
-		dynn_Barclay
-		dynn_Blackadder
-		dynn_Borthwick
-		dynn_Bradnigh
-		dynn_Branain
-		dynn_Bruce
-		dynn_Buchan
-		dynn_Cameron
-		dynn_Campbell
-		dynn_Camshron
-		dynn_Carrun
-		dynn_Cockburn
-		dynn_Cosmungho
-		dynn_Craigies
-		dynn_Dean
-		dynn_Douglas
-		dynn_Errol
-		dynn_Forbes
-		dynn_Fothriff
-		dynn_Fraser
-		dynn_Friseal
-		dynn_Gillespie
-		dynn_Glenklochar
-		dynn_Gordon
-		dynn_Graham
-		dynn_Grant
-		dynn_Johnston
-		dynn_Kennoway
-		dynn_Kyle
-		dynn_Lochore
-		dynn_Lowden
-		dynn_Menteith
-		dynn_Murray
-		dynn_Olifard
-		dynn_Rannaire
-		dynn_Saint-Clair
-		dynn_Scoine
-		dynn_Strathearn
-		dynn_Turnbull
-		dynn_Wallace
-	}
+	coa_gfx = { irish_coa_gfx anglo_saxon_coa_gfx scottish_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { northern_clothing_gfx } 
+	clothing_gfx = { fp1_norse_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 	
 
-	dynasty_names = {
-		{ "dynnp_de" "dynn_Kald" }
-		{ "dynnp_de" "dynn_la_Haya" }
-		{ "dynnp_de" "dynn_Lindsay" }
-		{ "dynnp_de" "dynn_Loudoun" }
-		{ "dynnp_de" "dynn_Ramsay" }
-		{ "dynnp_of" "dynn_Angus" }
-		{ "dynnp_of" "dynn_Carrick" }
-		{ "dynnp_of" "dynn_Galloway" }
-		{ "dynnp_of" "dynn_Galloway" }
-		{ "dynnp_of" "dynn_Scotland" }
-		{ "dynnp_of" "dynn_Strathearn" }
-		{ "dynnp_of" "dynn_Tullibardine" }
-		dynn_Abernethy
-		dynn_Arbuthnot
-		dynn_Archil
-		dynn_Armstrong
-		dynn_Ballantyne
-		dynn_Bannock
-		dynn_Barclay
-		dynn_Blackadder
-		dynn_Borthwick
-		dynn_Bradnigh
-		dynn_Branain
-		dynn_Bruce
-		dynn_Buchan
-		dynn_Cameron
-		dynn_Campbell
-		dynn_Camshron
-		dynn_Carrun
-		dynn_Cockburn
-		dynn_Cosmungho
-		dynn_Craigies
-		dynn_Dean
-		dynn_Douglas
-		dynn_Errol
-		dynn_Forbes
-		dynn_Fothriff
-		dynn_Fraser
-		dynn_Friseal
-		dynn_Gillespie
-		dynn_Glenklochar
-		dynn_Gordon
-		dynn_Graham
-		dynn_Grant
-		dynn_Johnston
-		dynn_Kennoway
-		dynn_Kyle
-		dynn_Lochore
-		dynn_Lowden
-		dynn_Menteith
-		dynn_Murray
-		dynn_Olifard
-		dynn_Rannaire
-		dynn_Saint-Clair
-		dynn_Scoine
-		dynn_Strathearn
-		dynn_Turnbull
-		dynn_Wallace
-	}
-	
-
-	male_names = {
-		Adam Alpin Alan Alastair Alexander Andrew
-		Angus Archibald Arthur Arran Aulay Beathan Brian Brice Cailean Calum Carbrey Colban
-		Colin Conall Conan Constantine David Dermid Donald Douglas Duff Dugald
-		Duncan Edgar Edward Edwin Eric Evander Ewan Farquhar Fergus Fingal Findlay Frang
-		Gavin Gilbert Gilbride Gilchrist Gillespie Gilpatrick Gilroy Giric Glenn Godfrey Gregor
-		Hamish Hector Henry Hugh Iain Indulf James John Kenneth Kentigern Lachlan Laurence Lennon
-		Lulach Macbeth Magnus Malcolm Maldoven Maldred Malise Malmure Maoilios Marcas Malsnectan
-		Matad Matthew Michael Morgan Muir Mungo Murdoch Murray Neil Ninian Oscar
-		Patrick Paul Peter Philip Radulf Ranald Richard Robert Roderick Ronald Rory Ross Roy
-		Shaw Sholto Simon Somerled Stephan Sweeny Taig Talore Thomas Torquil Uhtred Uisdean Walan
-		Waldeve Walter William
-	}
-	female_names = {
-		Ablach A_edammair Affraic AI_binn AibilI_n Aileann A_ine Anlaith ArO_c Barrdub Ben-Laigen Ben-MI_de Ben-Muman Ben-Ulad Brigit  BE_-FA_il BE_binn Cacht Caillech-FhinnE_in
-		Cainnech CaissE_ne CaitilI_n CaI_ntigern CaI_rech CathA_n CatrI_ona Cellach Ciar Cnes Coblaith Cobflaith Conchenn CondA_l CrI_nO_ch CrI_stina Cumman
-		Deirdre Der-bForgaill DerbA_il Derborgaill Der-Ilei Der-Lugdach Dianaim Doriend Dub-Dil Dub-Essa Dub-Lemna Dubchoblaig Dubgilla DU_insech DU_nlaith Echrad E_ibhleann
-		Eilionora Eithne EllbrI_g Emer E_taI_n E_ua Euginia FaI_lenn Fedelm Finneacht Finnguala Flann Forbflaith FI_ne Garb GelgE_is GerrO_c Gnathnad Gormflaith
-		Gormlaith GrA_inne Imag I_te Lann LasairfI_ona Lathir Lerben Lerthan LI_gach Lucia Martha Mauda Muadhnait Muirenn Muirgel Muirne MA_el-Mide
-		MA_el-Muire MA_ire MA_iread MA_irgred MO_r MO_r-Muman NA_rbflaith Nuala O_rlaith O_rnat RO_is Sadb Samthann ScA_thach SE_bdann Selblaith Seonaid Sinech SiobA_n
-		Sisuile SlA_I_ne Sorcha Suaibsech SA_erlaith SE_tach SI_thmaith Tailefhlaith Tailltiu Temair Tuathflaith TO_mnat Uallach Uasal U_na
-	}
-	
-	patronym_prefix_male = "dynnpat_pre_mac"
-	patronym_prefix_male_vowel = "dynnpat_pre_vow_mag"
-	patronym_prefix_female = "dynnpat_pre_nic"
-	patronym_prefix_female_vowel = "dynnpat_pre_vow_nig"
-	
-	always_use_patronym = yes	
-
-	pat_grf_name_chance = 30
-	mat_grf_name_chance = 15
-	father_name_chance = 5
-	
-	pat_grm_name_chance = 30
-	mat_grm_name_chance = 15
-	mother_name_chance = 10
-
-	mercenary_names = {
-		{ name = mercenary_company_band_of_kerns }
-		{ name = mercenary_company_madhmanns_company }
-		{ name = mercenary_company_company_of_shield_and_scian }
-	}
-	
-	ethnicities = { 	
-		5 = caucasian_blond
-		30 = caucasian_ginger
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
 		35 = caucasian_brown_hair
-		30 = caucasian_dark_hair
+		25 = caucasian_dark_hair
 	}
+
+	name_list = name_list_iweric
 }
