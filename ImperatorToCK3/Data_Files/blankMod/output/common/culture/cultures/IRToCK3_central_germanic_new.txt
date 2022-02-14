@@ -1,189 +1,29 @@
-
 ### CONVERTER ###
 vandal = {
 	color = hsv { 0.05 0.7 0.3 }
 
-	cadet_dynasty_names = {
-		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
-		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
-		dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
-		dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
-	}
-
-	dynasty_names = {
-		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
-		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
-		dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
-		dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
-	}
-
-	male_names = {
-		Acthram Acthrauc Actmund Actobald Actogais Actogast Actoleik Actomar
-		Actrand Actric Actwald Agenaric Aginaric Aktumer Arbogais Arbogan
-		Arbogast Arbolaik Arbomund Arbram Arbrand Arbrauc Arbric Arbwald Ariogaesus Ariogais Ascaric Ascobald Ascogast Ascoger Ascohram
-		Ascohrauc Ascoht Ascoleik Ascomund Ascorand Ascoric Ascowald
-		Baldhrauc Baldo Baldogais Baldogast Baldric Baldwald Bauto
-		Casthrauc Castleik Castrand Castric Charietto Chariovalda
-		Chrocus Danko Duomact Duomeid Duomogan Duomogar Duomogast
-		Duomolaik Duomorand Duomorauc Duomoric Edobich Eidgais
-		Eidgast Eidhram Eidhrauc Eidleik Eidmund Eidobald Eidoht
-		Eidowald Eidrand Eidric Erbemar Erbo Erpmund Flavius Geno Genobald Genobaud
-		Genomund Genoram Genorand Genric Genwald Gerand Gerhram
-		Gerhrauc Geric Gero Gerogast Gerolaik Gerorauc Gerwald
-		Gundhram Gundleik Gundmar Gundobald Gundogan Gundogar Gundogast
-		Gundomund Gundowald Gundrand Gundrauc Gundric Hariowald Heri
-		Hildeid Hildgan Hildhram Hildobald Hildogais Hildogast Hildoht
-		Hildoleik Hildomund Hildrand Hildrauc Hildric Hildwald Hrambald
-		Hramgast Hramleik Hramo Hramric Hramund Hramwald Hraucwald
-		Hraugmund Hraugram Hraugric Hroco Ingast Ingbald Inger Ingmund
-		Ingoht Ingoleik Ingomar Ingram Ingrand Ingrauc Ingric Ingsun
-		Inguiomer Ingwald Laikwald Leigmund Leikbolad Leikrauc Leko
-		Malact Malleik Mallobald Mallobaudes Mallovendus Malo Malobald
-		Malogan Malogast Maloger Malogund Maloram Malorand Malorauc
-		Maloric Malowind Malwald Marcobold Marcogan Marcogast Marcoger
-		Marcogund Marcoleik Marcomer Marcomund Marcoram Marcorauc
-		Marcwald Markoht Marobod Marodouus Mederic Mero Merobald
-		Merobaudes Merogais Mundobald Mundogast Mundoger Nebigast
-		Randleik Randmund Rando Randobald Randram Randrauc Richomeres
-		Ricomar Rigleik Rigmund Rigrand Rigwald Segestes Segimer
-		Segimund Sesithank Sigact Sigeid Sigibald Sigigais Sigigan
-		Sigigast Sigigund Sigimar Sigimund Sigiram Sigirand Sigirauc
-		Sigismund Sigisun Siglaik Sigo Sigric Sigwald Sunbald Sungan
-		Sunger Sunlaik Sunnact Sunneid Sunneram Sunno Sunnogast
-		Sunnomund Sunnorauc Sunnoric Sunrand Sunwald Tanchild Tancoht
-		Tancram Tancrand Tancric Tancwald Teutomer Theodeid Theodlaik
-		Theodo Theodobald Theodogais Theodogan Theodogast Theodogund
-		Theodoht Theodomer Theodomund Theodoram Theodorand Theodoric
-		Theodrauc Theodwald Thumelicus Thuribald Thurigais Thurigast
-		Thurisegan Thuriseid Thuriserand Thuriseric Thurismund
-		Thurisoht Thuriswald Tuombald Tuomo Tuomogund Tuomoleik
-		Tuomomund Tuomwald Ukromer Vakromar Valao Vangio Walao
-		Walbald Waldmund Waldo Waldogast Waldrand Walgar Walgast
-		Walha Walmund Walogan Walolaik Walorand Walram Walrauc Walric Windo
-	}
-	female_names = {
-		Actihild Aschild Baldhild Casthild Castiburg Duomburg Duomhild
-		Eidburg Eidhild Eidsunne Eidwalda Geriburg Gerrhild Gunborg
-		Gundhild Hildborg Hildwald Hramburg Hramhild Hramis Hrauchild
-		Hraugiburg Ingiburg Ingihild Laighild Leigiburg Malburg Malhild
-		Marchild Mundhild Randild Rhamis Richild Rigiburg Sigiburg
-		Sigihild Sunburg Sunhild Theodeburg Theothild Thurishilda
-		Thurisinburg Thurisinhilda Thusnelda Walburg Waldburg
-		Walhild Waloburg Waluburg
-	}
+	name_list = name_list_vandal
 
 	ethnicities = {
 		25 = caucasian_blond
 		15 = caucasian_ginger
 		35 = caucasian_brown_hair
 		25 = caucasian_dark_hair
-	}
-	
-	dynasty_of_location_prefix = "dynnp_fane"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 5
-	father_name_chance = 10
-
-	mercenary_names = {
-		{ name = "the_vandals" }
 	}
 	
 	graphical_cultures = { mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
-	
 }
+
 gothic = {
 	color = hsv { 0.1 0.7 0.05 }
 
-	cadet_dynasty_names = {
-		{ "dynn_Amaling" }
-		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
-		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
-		dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
-		dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
-	}
-
-	dynasty_names = {
-		{ "dynn_Amaling" }
-		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
-		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
-		dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
-		dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
-	}
-
-	male_names = {
-		Acthram Acthrauc Actmund Actobald Actogais Actogast Actoleik Actomar
-		Actrand Actric Actwald Agenaric Aginaric Aktumer Arbogais Arbogan
-		Arbogast Arbolaik Arbomund Arbram Arbrand Arbrauc Arbric Arbwald Ariogaesus Ariogais Ascaric Ascobald Ascogast Ascoger Ascohram
-		Ascohrauc Ascoht Ascoleik Ascomund Ascorand Ascoric Ascowald
-		Baldhrauc Baldo Baldogais Baldogast Baldric Baldwald Bauto
-		Casthrauc Castleik Castrand Castric Charietto Chariovalda
-		Chrocus Danko Duomact Duomeid Duomogan Duomogar Duomogast
-		Duomolaik Duomorand Duomorauc Duomoric Edobich Eidgais
-		Eidgast Eidhram Eidhrauc Eidleik Eidmund Eidobald Eidoht
-		Eidowald Eidrand Eidric Erbemar Erbo Erpmund Flavius Geno Genobald Genobaud
-		Genomund Genoram Genorand Genric Genwald Gerand Gerhram
-		Gerhrauc Geric Gero Gerogast Gerolaik Gerorauc Gerwald
-		Gundhram Gundleik Gundmar Gundobald Gundogan Gundogar Gundogast
-		Gundomund Gundowald Gundrand Gundrauc Gundric Hariowald Heri
-		Hildeid Hildgan Hildhram Hildobald Hildogais Hildogast Hildoht
-		Hildoleik Hildomund Hildrand Hildrauc Hildric Hildwald Hrambald
-		Hramgast Hramleik Hramo Hramric Hramund Hramwald Hraucwald
-		Hraugmund Hraugram Hraugric Hroco Ingast Ingbald Inger Ingmund
-		Ingoht Ingoleik Ingomar Ingram Ingrand Ingrauc Ingric Ingsun
-		Inguiomer Ingwald Laikwald Leigmund Leikbolad Leikrauc Leko
-		Malact Malleik Mallobald Mallobaudes Mallovendus Malo Malobald
-		Malogan Malogast Maloger Malogund Maloram Malorand Malorauc
-		Maloric Malowind Malwald Marcobold Marcogan Marcogast Marcoger
-		Marcogund Marcoleik Marcomer Marcomund Marcoram Marcorauc
-		Marcwald Markoht Marobod Marodouus Mederic Mero Merobald
-		Merobaudes Merogais Mundobald Mundogast Mundoger Nebigast
-		Randleik Randmund Rando Randobald Randram Randrauc Richomeres
-		Ricomar Rigleik Rigmund Rigrand Rigwald Segestes Segimer
-		Segimund Sesithank Sigact Sigeid Sigibald Sigigais Sigigan
-		Sigigast Sigigund Sigimar Sigimund Sigiram Sigirand Sigirauc
-		Sigismund Sigisun Siglaik Sigo Sigric Sigwald Sunbald Sungan
-		Sunger Sunlaik Sunnact Sunneid Sunneram Sunno Sunnogast
-		Sunnomund Sunnorauc Sunnoric Sunrand Sunwald Tanchild Tancoht
-		Tancram Tancrand Tancric Tancwald Teutomer Theodeid Theodlaik
-		Theodo Theodobald Theodogais Theodogan Theodogast Theodogund
-		Theodoht Theodomer Theodomund Theodoram Theodorand Theodoric
-		Theodrauc Theodwald Thumelicus Thuribald Thurigais Thurigast
-		Thurisegan Thuriseid Thuriserand Thuriseric Thurismund
-		Thurisoht Thuriswald Tuombald Tuomo Tuomogund Tuomoleik
-		Tuomomund Tuomwald Ukromer Vakromar Valao Vangio Walao
-		Walbald Waldmund Waldo Waldogast Waldrand Walgar Walgast
-		Walha Walmund Walogan Walolaik Walorand Walram Walrauc Walric Windo
-	}
-	female_names = {
-		Actihild Aschild Baldhild Casthild Castiburg Duomburg Duomhild
-		Eidburg Eidhild Eidsunne Eidwalda Geriburg Gerrhild Gunborg
-		Gundhild Hildborg Hildwald Hramburg Hramhild Hramis Hrauchild
-		Hraugiburg Ingiburg Ingihild Laighild Leigiburg Malburg Malhild
-		Marchild Mundhild Randild Rhamis Richild Rigiburg Sigiburg
-		Sigihild Sunburg Sunhild Theodeburg Theothild Thurishilda
-		Thurisinburg Thurisinhilda Thusnelda Walburg Waldburg
-		Walhild Waloburg Waluburg
-	}
+	name_list = name_list_gothic
 
 	ethnicities = {
 		25 = caucasian_blond
 		15 = caucasian_ginger
 		35 = caucasian_brown_hair
 		25 = caucasian_dark_hair
-	}
-
-	dynasty_of_location_prefix = "dynnp_af"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 5
-	father_name_chance = 10
-	
-	mercenary_names = {
-		{ name = "ostrogothic_band" }
-		{ name = "visigothic_band" }
 	}
 	
 	graphical_cultures = { western_clothing_gfx western_building_gfx western_unit_gfx }		
