@@ -34,7 +34,8 @@ adnanite = { # https://en.wikipedia.org/wiki/Adnanites
 		tradition_desert_nomads
 	}
 
-	name_list = name_list_adnanite
+	name_list = name_list_bedouin
+	name_list = name_list_levantine
 
 	ethnicities = {
 		10 = arab
@@ -61,7 +62,8 @@ qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
 		tradition_maritime_mercantilism
 	}
 
-	name_list = name_list_qahtanite
+	name_list = name_list_bedouin
+	name_list = name_list_yemeni
 
 	ethnicities = {
 		10 = arab
