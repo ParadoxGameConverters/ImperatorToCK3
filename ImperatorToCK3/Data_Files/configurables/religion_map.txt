@@ -60,7 +60,7 @@ link = { ck3 = rabbinism imp = judaism }
 
 # Germanic
 link = { ck3 = finnish_pagan imp = germanic_religion impProvince = 5976 }
-link = { ck3 = norse_pagan imp = germanic_religion impRegion = scandinavia_region impRegion = venedia_region impRegion = vistulia_region impRegion = sarmatia_europea_region impProvince = 5952 impProvince = 5953 }
+link = { ck3 = norse_pagan imp = germanic_religion impRegion = scandinavia_region impProvince = 5952 impProvince = 5953 }
 link = { ck3 = anglo_pagan imp = germanic_religion impRegion = caledonia_region impRegion = britain_region impRegion = armorica_region impRegion = aquitaine_region }
 link = { ck3 = germanic_pagan imp = germanic_religion }
 

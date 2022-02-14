@@ -1,21 +1,9 @@
+
 ### CONVERTER ###
 vandal = {
+	heritage = heritage_central_germanic
+	# language = language_vandalic
 	color = hsv { 0.05 0.7 0.3 }
-
-	name_list = name_list_vandal
-
-	ethnicities = {
-		25 = caucasian_blond
-		15 = caucasian_ginger
-		35 = caucasian_brown_hair
-		25 = caucasian_dark_hair
-	}
-	
-	graphical_cultures = { mongol_clothing_gfx steppe_building_gfx mongol_unit_gfx }
-}
-
-gothic = {
-	color = hsv { 0.1 0.7 0.05 }
 
 	name_list = name_list_gothic
 
@@ -26,228 +14,12 @@ gothic = {
 		25 = caucasian_dark_hair
 	}
 	
-	graphical_cultures = { western_clothing_gfx western_building_gfx western_unit_gfx }		
 }
-
-pemis = {
-	color = { 89 73 47 }
-
-	cadet_dynasty_names = {
-		{ "dynnp_von" "dynn_PrantAEpurk" }
-		{ "dynnp_von" "dynn_Holstojn" }
-		{ "dynnp_von" "dynn_Slesvik" }
-		{ "dynn_Fettin" }
-		{ "dynnp_von" "dynn_Fettin" }
-		{ "dynnp_von" "dynn_Versflet" }
-		{ "dynnp_von" "dynn_FinzAEpurk" }
-		{ "dynn_Fitte" }
-		{ "dynnp_von" "dynn_HakAE" }
-		{ "dynn_Steneke" }
-		{ "dynn_Pleskow" }
-		{ "dynnp_von" "dynn_FumS_torf" }
-		{ "dynnp_von" "dynn_Koltern" }
-		{ "dynnp_von" "dynn_Felpe" }
-		{ "dynnp_von" "dynn_A_re" }
-		{ "dynnp_von" "dynn_S_tojnfurt" }
-		{ "dynnp_von" "dynn_TeklAEpurk" }
-		{ "dynnp_von" "dynn_Ravensperk" }
-		{ "dynnp_von" "dynn_FeY_e" }
-		{ "dynnp_von" "dynn_Hoya" }
-		{ "dynnp_von" "dynn_PuxtojvAE" }
-		{ "dynnp_von" "dynn_S_werin" }
-		{ "dynnp_von" "dynn_Haseltorf" }
-		{ "dynnp_von" "dynn_FrI_sak" }
-		{ "dynnp_von" "dynn_Patewite" }
-		{ "dynnp_von" "dynn_Fassel" }
-		{ "dynnp_von" "dynn_Tassel" }
-		{ "dynnp_von" "dynn_tAE_Lippe" }
-		{ "dynnp_von" "dynn_S_O_AEpurk" }
-		{ "dynnp_von" "dynn_Sekeperk" }
-		{ "dynn_PO_lAE" }
-		{ "dynnp_von" "dynn_Utlete" }
-		{ "dynn_Niklotit" }
-		{ "dynnp_von" "dynn_Arnsperk" }
-		{ "dynnp_von" "dynn_LI_pnitz" }
-		{ "dynnp_von" "dynn_Partewik" }
-		{ "dynn_Vorrate" }
-		{ "dynn_FarAEtorp" }
-		{ "dynn_Lynepurk" }
-		{ "dynn_FittAEpork" }
-		{ "dynnp_von" "dynn_KlinkAEperk" }
-		{ "dynnp_von" "dynn_Parchim" }
-		{ "dynnp_von" "dynn_HanovAE" }
-		{ "dynnp_von" "dynn_PommAEn" }
-		{ "dynnp_von" "dynn_RykAE" }
-		{ "dynnp_von" "dynn_FittAEperk" }
-		{ "dynnp_von" "dynn_S_tate" }
-		{ "dynnp_von" "dynn_SachsAE" }
-		{ "dynn_Prunsfik" }
-		{ "dynn_Ytulfink" }
-		{ "dynnp_von" "dynn_S_tat" }
-		{ "dynnp_von" "dynn_Rinkelhojm" }
-		{ "dynn_FullAEpunt" }
-		{ "dynnp_von" "dynn_Melln" }
-		{ "dynnp_von" "dynn_Arnepurk" }
-		{ "dynnp_von" "dynn_SE_purk" }
-		{ "dynnp_von" "dynn_Poksperk" }
-		{ "dynnp_von" "dynn_RukAE" }
-		{ "dynnp_von" "dynn_Ratzepurk" }
-		{ "dynnp_von" "dynn_S_lawe" }
-		{ "dynnp_von" "dynn_KI_l" }
-		{ "dynnp_von" "dynn_Rostok" }
-		{ "dynnp_von" "dynn_Kustrow" }
-		{ "dynnp_von" "dynn_Rentspurk" }
-		{ "dynnp_von" "dynn_NojhO_s" }
-		{ "dynnp_von" "dynn_FyrstAEperk" }
-		{ "dynnp_von" "dynn_PrO_nS_wojk" }
-		{ "dynnp_von" "dynn_Zelle" }
-		{ "dynnp_von" "dynn_MeklAEpurk" }
-		{ "dynnp_von" "dynn_Lypek" }
-		{ "dynnp_von" "dynn_Amsperk" }
-		{ "dynnp_von" "dynn_Altmark" }
-		{ "dynnp_von" "dynn_Anhalt" }
-		{ "dynnp_von" "dynn_PlO_AE" }
-		{ "dynnp_von" "dynn_AS_an" }
-		{ "dynnp_von" "dynn_S_tettin" }
-		{ "dynnp_von" "dynn_Pismark" }
-		{ "dynnp_von" "dynn_Potek" }
-	}
-
-	dynasty_names = {
-		{ "dynnp_von" "dynn_PrantAEpurk" }
-		{ "dynnp_von" "dynn_Holstojn" }
-		{ "dynnp_von" "dynn_Slesvik" }
-		{ "dynn_Fettin" }
-		{ "dynnp_von" "dynn_Fettin" }
-		{ "dynnp_von" "dynn_Versflet" }
-		{ "dynnp_von" "dynn_FinzAEpurk" }
-		{ "dynn_Fitte" }
-		{ "dynnp_von" "dynn_HakAE" }
-		{ "dynn_Steneke" }
-		{ "dynn_Pleskow" }
-		{ "dynnp_von" "dynn_FumS_torf" }
-		{ "dynnp_von" "dynn_Koltern" }
-		{ "dynnp_von" "dynn_Felpe" }
-		{ "dynnp_von" "dynn_A_re" }
-		{ "dynnp_von" "dynn_Stojnfurt" }
-		{ "dynnp_von" "dynn_TeklAEpurk" }
-		{ "dynnp_von" "dynn_Ravensperk" }
-		{ "dynnp_von" "dynn_FeY_e" }
-		{ "dynnp_von" "dynn_Hoya" }
-		{ "dynnp_von" "dynn_PuxtojvAE" }
-		{ "dynnp_von" "dynn_S_werin" }
-		{ "dynnp_von" "dynn_Haseltorf" }
-		{ "dynnp_von" "dynn_FrI_sak" }
-		{ "dynnp_von" "dynn_Patewite" }
-		{ "dynnp_von" "dynn_Fassel" }
-		{ "dynnp_von" "dynn_Tassel" }
-		{ "dynnp_von" "dynn_tAE_Lippe" }
-		{ "dynnp_von" "dynn_S_O_AEpurk" }
-		{ "dynnp_von" "dynn_Sekeperk" }
-		{ "dynn_PO_lAE" }
-		{ "dynnp_von" "dynn_Utlete" }
-		{ "dynn_Niklotit" }
-		{ "dynnp_von" "dynn_Arnsperk" }
-		{ "dynnp_von" "dynn_LI_pnitz" }
-		{ "dynnp_von" "dynn_Partewik" }
-		{ "dynn_Vorrate" }
-		{ "dynn_FarAEtorp" }
-		{ "dynn_Lynepurk" }
-		{ "dynn_FittAEpork" }
-		{ "dynnp_von" "dynn_KlinkAEperk" }
-		{ "dynnp_von" "dynn_Parchim" }
-		{ "dynnp_von" "dynn_HanovAE" }
-		{ "dynnp_von" "dynn_PommAEn" }
-		{ "dynnp_von" "dynn_RykAE" }
-		{ "dynnp_von" "dynn_FittAEperk" }
-		{ "dynnp_von" "dynn_State" }
-		{ "dynnp_von" "dynn_SachsAE" }
-		{ "dynn_Prunsfik" }
-		{ "dynn_Ytulfink" }
-		{ "dynnp_von" "dynn_Stat" }
-		{ "dynnp_von" "dynn_Rinkelhojm" }
-		{ "dynn_FullAEpunt" }
-		{ "dynnp_von" "dynn_Melln" }
-		{ "dynnp_von" "dynn_Arnepurk" }
-		{ "dynnp_von" "dynn_SE_purk" }
-		{ "dynnp_von" "dynn_Poksperk" }
-		{ "dynnp_von" "dynn_RukAE" }
-		{ "dynnp_von" "dynn_Ratzepurk" }
-		{ "dynnp_von" "dynn_S_lawe" }
-		{ "dynnp_von" "dynn_KI_l" }
-		{ "dynnp_von" "dynn_Rostok" }
-		{ "dynnp_von" "dynn_Kustrow" }
-		{ "dynnp_von" "dynn_Rentspurk" }
-		{ "dynnp_von" "dynn_NojhO_s" }
-		{ "dynnp_von" "dynn_FyrstAEperk" }
-		{ "dynnp_von" "dynn_PrO_nS_wojk" }
-		{ "dynnp_von" "dynn_Zelle" }
-		{ "dynnp_von" "dynn_MeklAEpurk" }
-		{ "dynnp_von" "dynn_Lypek" }
-		{ "dynnp_von" "dynn_Amsperk" }
-		{ "dynnp_von" "dynn_Altmark" }
-		{ "dynnp_von" "dynn_Anhalt" }
-		{ "dynnp_von" "dynn_PlO_AE" }
-		{ "dynnp_von" "dynn_AS_an" }
-		{ "dynnp_von" "dynn_S_tettin" }
-		{ "dynnp_von" "dynn_Pismark" }
-		{ "dynnp_von" "dynn_Potek" }
-	}
-
-	male_names = {
-		A_pO_ A_talpE_rO_ A_talpert A_talprant A_taltak A_talkar A_talkot A_tolf E_le
-		Alprecht A_leprant Altfrit Anskar Arnt Arnolt A_sik
-		Paltuin Palthasar Panzlojp PE_nE_kE_ PennO_ Pernt
-		Pernhart Pertolt Pertram Pottic Prun PrU_nO_ Purchart ZissA_
-		KlO_s KO_ppO_ Kort Kyprian TA_kO_ TE_tO_ Tethart Tetleff Tetmar TI_trik TO_nar
-		Ekkert Ekilmar Ekpert Enkelpert Enkelhart Erik Erp EsikO_ Evert Ewalt
-		Floripert Freawine Freterik
-		KE_rke Kelter KerO_ Kerolt Kevert Chert Kiselher Kiselmar KosS_alk Koswin
-		Kunzelin Ketke Kynther
-		Hans Harthkate Hartwik Hojteke Henkest Henneke Herpert Hermann Hinrik Hoker Hulteric HumfrI_t
-		Immet Isitor Jacop Jaspar Jochim JO_ann JurI_s
-		Kersten Kepke
-		LO_rentz Lempert Lojteric LiawizO_ LI_mar Liutker Luter Lutolf Lutwik
-		Maknus Marpolt Marquart Mathias Mojnwerk Merten Michael
-		Norpert OtO_ Ortulf Peter Philipp
-		Ratke Rekinpern Rojnpern Rojneke Rojnmar Rutikar Rutolf
-		Sikpert Sikfrit Sikwart Simon Steffen
-		Thankmar Theoteric Theotoric Theotwin ThimO_ Thomas Tope Tymmeke
-		Utu OttO_ Unwan
-		Viric Volkwin Volrat
-		Falpert Faltemar Falteret Faltart Farin Farinechin Fecta Fenzel Ferneke
-		Feyprecht Fichpert Fichmann FichO_ Fitukint Fikepert Filprant Fillichin
-		Fithkils Fitikint Fitta Flencink Folter Fulff Thurkot
-	}
-	female_names = {
-		Attila Atelhojt Alof Aknes Anna Athela
-		Peatrix Pertha Pertrata Pia Pisina Pithilt Prikita
-		Christina TI_tke Ojlika Elisapeth Enta Freteruna
-		Kojlana Kerperka Kertrut Kisela Klismot
-		Hatwik Hasala Hojlwik Helene Hiltekart Hrothwina
-		Ita Imma Irmkart Irminpurk Jutta
-		Katharina Kunikunte Luitkart
-		Markarete Mathilte Mechthilt
-		Ota Othelintis
-		Ratekunt Rekinlint Richartis Rotelinta
-		Sophia Suanhilte
-		Theotrata ThI_tpurka
-		FI_nke Filtrut Fulfhilt
-	}
-	dynasty_of_location_prefix = "dynnp_von"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 5
-	father_name_chance = 10
-	patronym_suffix_male = "dynnpat_suf_son"
-	patronym_suffix_female = "dynnpat_suf_son"
-	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 10
-	mat_grm_name_chance = 50
-	mother_name_chance = 5
-	
+gothic = {
+	color = hsv { 0.1 0.7 0.05 }
+	# heritage = heritage_gothic
+	# language = language_gothic
+	name_list = name_list_gothic
 	ethnicities = {
 		25 = caucasian_blond
 		15 = caucasian_ginger
@@ -255,107 +27,46 @@ pemis = {
 		25 = caucasian_dark_hair
 	}
 
-	mercenary_names = {
-		{ name = "mercenary_company_teutonic_brotherhood" }
-		{ name = "mercenary_company_saxon_steelbearers" }
-		{ name = "mercenary_company_hansa_guard" }
-		{ name = "mercenary_company_sons_of_widukind" }
-		{ name = "mercenary_company_veterans_of_the_marches" }
+	coa_gfx = { german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+
+pemis = {
+	color = { 89 73 47 }
+	parents = { german czech }
+	heritage = heritage_central_germanic
+	language = language_high_german
+	
+	name_list = name_list_pemis
+	
+	coa_gfx = { west_slavic_group_coa_gfx german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx eastern_unit_gfx } 	
+
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
 	}
 }
 
 ostrogothic = {
 	color = rgb { 114 162 166 }
-
-	cadet_dynasty_names = {
-		{ "dynn_Amaling" }
-		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
-		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
-		dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
-		dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
-	}
-
-	dynasty_names = {
-		{ "dynn_Amaling" }
-		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
-		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
-		dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
-		dynn_Gerhaucrian dynn_Hildganid dynn_Hramrid dynn_Ingohdrid dynn_Ingrammid dynn_Malactian
-	}
-
-	male_names = {
-		Acthram Acthrauc Actmund Actobald Actogais Actogast Actoleik Actomar
-		Actrand Actric Actwald Agenaric Aginaric Aktumer Arbogais Arbogan
-		Arbogast Arbolaik Arbomund Arbram Arbrand Arbrauc Arbric Arbwald Ariogaesus Ariogais Ascaric Ascobald Ascogast Ascoger Ascohram
-		Ascohrauc Ascoht Ascoleik Ascomund Ascorand Ascoric Ascowald
-		Baldhrauc Baldo Baldogais Baldogast Baldric Baldwald Bauto
-		Casthrauc Castleik Castrand Castric Charietto Chariovalda
-		Chrocus Danko Duomact Duomeid Duomogan Duomogar Duomogast
-		Duomolaik Duomorand Duomorauc Duomoric Edobich Eidgais
-		Eidgast Eidhram Eidhrauc Eidleik Eidmund Eidobald Eidoht
-		Eidowald Eidrand Eidric Erbemar Erbo Erpmund Flavius Geno Genobald Genobaud
-		Genomund Genoram Genorand Genric Genwald Gerand Gerhram
-		Gerhrauc Geric Gero Gerogast Gerolaik Gerorauc Gerwald
-		Gundhram Gundleik Gundmar Gundobald Gundogan Gundogar Gundogast
-		Gundomund Gundowald Gundrand Gundrauc Gundric Hariowald Heri
-		Hildeid Hildgan Hildhram Hildobald Hildogais Hildogast Hildoht
-		Hildoleik Hildomund Hildrand Hildrauc Hildric Hildwald Hrambald
-		Hramgast Hramleik Hramo Hramric Hramund Hramwald Hraucwald
-		Hraugmund Hraugram Hraugric Hroco Ingast Ingbald Inger Ingmund
-		Ingoht Ingoleik Ingomar Ingram Ingrand Ingrauc Ingric Ingsun
-		Inguiomer Ingwald Laikwald Leigmund Leikbolad Leikrauc Leko
-		Malact Malleik Mallobald Mallobaudes Mallovendus Malo Malobald
-		Malogan Malogast Maloger Malogund Maloram Malorand Malorauc
-		Maloric Malowind Malwald Marcobold Marcogan Marcogast Marcoger
-		Marcogund Marcoleik Marcomer Marcomund Marcoram Marcorauc
-		Marcwald Markoht Marobod Marodouus Mederic Mero Merobald
-		Merobaudes Merogais Mundobald Mundogast Mundoger Nebigast
-		Randleik Randmund Rando Randobald Randram Randrauc Richomeres
-		Ricomar Rigleik Rigmund Rigrand Rigwald Segestes Segimer
-		Segimund Sesithank Sigact Sigeid Sigibald Sigigais Sigigan
-		Sigigast Sigigund Sigimar Sigimund Sigiram Sigirand Sigirauc
-		Sigismund Sigisun Siglaik Sigo Sigric Sigwald Sunbald Sungan
-		Sunger Sunlaik Sunnact Sunneid Sunneram Sunno Sunnogast
-		Sunnomund Sunnorauc Sunnoric Sunrand Sunwald Tanchild Tancoht
-		Tancram Tancrand Tancric Tancwald Teutomer Theodeid Theodlaik
-		Theodo Theodobald Theodogais Theodogan Theodogast Theodogund
-		Theodoht Theodomer Theodomund Theodoram Theodorand Theodoric
-		Theodrauc Theodwald Thumelicus Thuribald Thurigais Thurigast
-		Thurisegan Thuriseid Thuriserand Thuriseric Thurismund
-		Thurisoht Thuriswald Tuombald Tuomo Tuomogund Tuomoleik
-		Tuomomund Tuomwald Ukromer Vakromar Valao Vangio Walao
-		Walbald Waldmund Waldo Waldogast Waldrand Walgar Walgast
-		Walha Walmund Walogan Walolaik Walorand Walram Walrauc Walric Windo
-	}
-	female_names = {
-		Actihild Aschild Baldhild Casthild Castiburg Duomburg Duomhild
-		Eidburg Eidhild Eidsunne Eidwalda Geriburg Gerrhild Gunborg
-		Gundhild Hildborg Hildwald Hramburg Hramhild Hramis Hrauchild
-		Hraugiburg Ingiburg Ingihild Laighild Leigiburg Malburg Malhild
-		Marchild Mundhild Randild Rhamis Richild Rigiburg Sigiburg
-		Sigihild Sunburg Sunhild Theodeburg Theothild Thurishilda
-		Thurisinburg Thurisinhilda Thusnelda Walburg Waldburg
-		Walhild Waloburg Waluburg
-	}
-
+	# heritage = heritage_gothic
+	# language = language_gothic
+	name_list = name_list_gothic
 	ethnicities = {
 		25 = caucasian_blond
 		15 = caucasian_ginger
 		35 = caucasian_brown_hair
 		25 = caucasian_dark_hair
 	}
-
-	dynasty_of_location_prefix = "dynnp_af"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 5
-	father_name_chance = 10
-	
-	mercenary_names = {
-		{ name = "ostrogothic_band" }
-		{ name = "visigothic_band" }
-	}
-	
-	graphical_cultures = { western_clothing_gfx western_building_gfx western_unit_gfx }		
+	coa_gfx = { german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
 }

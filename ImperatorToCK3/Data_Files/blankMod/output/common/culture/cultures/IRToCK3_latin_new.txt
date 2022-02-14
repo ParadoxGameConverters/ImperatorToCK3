@@ -1,866 +1,121 @@
-
-
-### CONVERTER ###
-
 salinatorian = {
+	color = { 133 129 152 }
+
+	parents = { roman carthaginian }
 	
-	color = rgb { 133 129 152 }
-
-	cadet_dynasty_names = {
-		"dynn_Gesualdu"
-		"dynn_Fidiricu"
-		"dynn_Mazzarinu"
-		"dynn_Palazzu"
-		{ "dynnp_di" "dynn_Altavilla" }
-		{ "dynnp_di" "dynn_Apulia" }
-		{ "dynnp_di" "dynn_Arena" }
-		{ "dynnp_di" "dynn_Avola" }
-		{ "dynnp_di" "dynn_Acquaviva" }
-		{ "dynnp_di" "dynn_Basilicata" }
-		{ "dynnp_di" "dynn_CalA_bbria" }
-		{ "dynnp_di" "dynn_Casaranu" }
-		{ "dynnp_di" "dynn_Campania" }
-		{ "dynnp_di" "dynn_Campubassu" }
-		{ "dynnp_di" "dynn_Castellaneta" }
-		{ "dynnp_di" "dynn_Conversanu" }
-		{ "dynnp_di" "dynn_Cuma" }
-		{ "dynnp_di" "dynn_Cunigghiuni" }
-		{ "dynnp_di" "dynn_Gaeta" }
-		{ "dynnp_di" "dynn_Galati" }
-		{ "dynnp_di" "dynn_Gallucciu" }
-		{ "dynnp_di" "dynn_Gravina" }
-		{ "dynnp_di" "dynn_Gruttaghie" }
-		{ "dynnp_della" "dynn_I_sula" }
-		{ "dynnp_di" "dynn_L_Abbruzzu" }
-		{ "dynnp_di" "dynn_Lampidusa" }
-		{ "dynnp_di" "dynn_Lucania" }
-		{ "dynnp_di" "dynn_Lucera" }
-		{ "dynnp_di" "dynn_Malta" }
-		{ "dynnp_di" "dynn_Manduria" }
-		{ "dynnp_di" "dynn_Marineu" }
-		{ "dynnp_di" "dynn_Massafra" }
-		{ "dynnp_di" "dynn_Milazzu" }
-		{ "dynnp_di" "dynn_Miletu" }
-		{ "dynnp_di" "dynn_Militeddu" }
-		{ "dynnp_di" "dynn_Mottola" }
-		{ "dynnp_di" "dynn_Mulisi" }
-		{ "dynnp_di" "dynn_Muntalauni" }
-		{ "dynnp_di" "dynn_Muntiscagghiusu" }
-		{ "dynnp_di" "dynn_Murriali" }
-		{ "dynnp_di" "dynn_NA_puli" }
-		{ "dynnp_di" "dynn_Oria" }
-		{ "dynnp_di" "dynn_Otrantu" }
-		{ "dynnp_di" "dynn_Pellari" }
-		{ "dynnp_di" "dynn_Piamunti" }
-		{ "dynnp_di" "dynn_San_Giuvanni" }
-		{ "dynnp_di" "dynn_San_Grigoriu" }
-		{ "dynnp_di" "dynn_Sant_Anastasia" }
-		{ "dynnp_di" "dynn_Sant_Antoniu" }
-		{ "dynnp_di" "dynn_Santu_Catallu" }
-		{ "dynnp_di" "dynn_Santa_Catarina" }
-		{ "dynnp_di" "dynn_Santu_Frateddu" }
-		{ "dynnp_di" "dynn_San_Marcu" }
-		{ "dynnp_di" "dynn_San_Micheli" }
-		{ "dynnp_di" "dynn_San_PA_ulu" }
-		{ "dynnp_di" "dynn_San_Petru" }
-		{ "dynnp_di" "dynn_San_Vitu" }
-		{ "dynnp_di" "dynn_Sicilia" }
-		{ "dynnp_di" "dynn_Squillache" }
-		{ "dynnp_di" "dynn_Sulmona" }
-		{ "dynnp_di" "dynn_Taranto" }
-		{ "dynnp_di" "dynn_Trinacria" }
-		{ "dynnp_di" "dynn_Unale_of_Naples" }
-		{ "dynnp_di" "dynn_Villafranca" }
-		{ "dynnp_di" "dynn_Villarosa" }
-		{ "dynnp_di" "dynn_Vintimigghia" }
-	}
-
-	dynasty_names = {
-		"dynn_Angelerio"
-		"dynn_Boccasini"
-		"dynn_Cossa"
-		"dynn_Curliuni"
-		"dynn_Dauferio"
-		"dynn_Fimetta"
-		"dynn_Giustiniano"
-		"dynn_Grecu"
-		"dynn_Lombardu"
-		"dynn_Masci"
-		"dynn_Migliorati"
-		"dynn_Nurmannu"
-		"dynn_Pachinu"
-		"dynn_Pellegrino"
-		"dynn_Pirovano"
-		"dynn_Prignano"
-		"dynn_Polizzi"
-		"dynn_Rangoni"
-		"dynn_Ruffo"
-		"dynn_Sormella"
-		"dynn_Sturzo"
-		"dynn_Tomacelli"
-		"dynn_Uppezzhingi"
-		"dynn_Valenti"
-		"dynn_Vetrano"
-		{ "dynnp_di" "dynn_Agrigento" }
-		{ "dynnp_di" "dynn_Aiellu" }
-		{ "dynnp_di" "dynn_Alissandria" }
-		{ "dynnp_di" "dynn_Amalfi" }
-		{ "dynnp_di" "dynn_Andria" }
-		{ "dynnp_di" "dynn_Apulia" }
-		{ "dynnp_di" "dynn_Avillinu" }
-		{ "dynnp_di" "dynn_Bari" }
-		{ "dynnp_di" "dynn_Barletta" }
-		{ "dynnp_di" "dynn_Benevento" }
-		{ "dynnp_di" "dynn_Bonacossi" }
-		{ "dynnp_di" "dynn_Brindisi" }
-		{ "dynnp_di" "dynn_CalA_bbria" }
-		{ "dynnp_di" "dynn_Cammarata" }
-		{ "dynnp_di" "dynn_Capua" }
-		{ "dynnp_di" "dynn_Castalnasetta" }
-		{ "dynnp_di" "dynn_Castiddubbuonu" }
-		{ "dynnp_di" "dynn_Castrugiovanni" }
-		{ "dynnp_di" "dynn_Catania" }
-		{ "dynnp_di" "dynn_Catanzaro" }
-		{ "dynnp_di" "dynn_Chiaramonte" }
-		{ "dynnp_di" "dynn_Consenza" }
-		{ "dynnp_di" "dynn_Cutroni" }
-		{ "dynnp_di" "dynn_Enna" }
-		{ "dynnp_di" "dynn_Foggia" }
-		{ "dynnp_di" "dynn_Isernia" }
-		{ "dynnp_di" "dynn_Lauria" }
-		{ "dynnp_di" "dynn_Lecci" }
-		{ "dynnp_di" "dynn_Leone" }
-		{ "dynnp_di" "dynn_Licinardo" }
-		{ "dynnp_di" "dynn_Lintini" }
-		{ "dynnp_di" "dynn_Loritello" }
-		{ "dynnp_di" "dynn_Malta" }
-		{ "dynnp_di" "dynn_Melfi" }
-		{ "dynnp_di" "dynn_Messina" }
-		{ "dynnp_di" "dynn_Montelongo" }
-		{ "dynnp_di" "dynn_Morra" }
-		{ "dynnp_di" "dynn_NA_puli" }
-		{ "dynnp_di" "dynn_NicusI_a" }
-		{ "dynnp_di" "dynn_Nissa" }
-		{ "dynnp_di" "dynn_Nuoto" }
-		{ "dynnp_di" "dynn_Palermo" }
-		{ "dynnp_di" "dynn_Palizzi" }
-		{ "dynnp_di" "dynn_PaternO_" }
-		{ "dynnp_di" "dynn_Pecoriari" }
-		{ "dynnp_di" "dynn_Putenza" }
-		{ "dynnp_di" "dynn_Rausa" }
-		{ "dynnp_di" "dynn_Reggio" }
-		{ "dynnp_di" "dynn_Salentu" }
-		{ "dynnp_di" "dynn_Salernu" }
-		{ "dynnp_di" "dynn_San_Lucido" }
-		{ "dynnp_di" "dynn_Sanseverino" }
-		{ "dynnp_di" "dynn_Siracusa" }
-		{ "dynnp_di" "dynn_Sorrento" }
-		{ "dynnp_di" "dynn_Squillache" }
-		{ "dynnp_di" "dynn_Taranto" }
-		{ "dynnp_di" "dynn_TE_rmini" }
-		{ "dynnp_di" "dynn_Trani" }
-		{ "dynnp_di" "dynn_Trapani" }
-		{ "dynnp_del" "dynn_Zotto" }
-	}
-
-	male_names = {
-		Abbilardu Acciardu Ademariu Adrianu Agapitu Albanu Albertu Alessiu Alissandru
-		Alfonzu Ambbrogghiu Andrea Annirea A_ngilu Anteru Antoniu Antuninu Anselmu Arricu
-		Arduinu Ascaniu Atanasiu Atenolfu Augustu Austinu Aureliu Baccu Basiliu Belisariu
-		Biaggiu Birnardu Binidittu Boemunnu Bonifaziu Cabbrieli Caiu Callistu CalO_giru Carbonellu
-		Carlu CE_sari Cilistinu ClA_udiu Climenti CristO_furu CO_simu Curneliu Curradu Custanti
-		Custantinu Custanzu DA_masu Damianu Danieli Dauferiu DumI_nicu Eduardu Elia Eracliu
-		Ermannu Euggeniu Eufemiu Fabrizziu Fidiricu Filici Filippu Firdinannu Florianu Franciscu
-		Frateddu Fulcone Furtunatu Gaitanu Giordanu Giorgi Girardu Giuacchinu Giulianu Giuseppi
-		Giustinu Giuvanni Girvasiu Gisulfu Gnazziu Guaimariu Guffredu Gugghiermu Grazzianu Grigoriu
-		Guidu Ilariu JA_picu Lambertu Lanciottu Landolfu Libberiu Lissandru Liuni Luca
-		Luduvicu Luiggi Luciu Lupu Lurenzu Manfredi Mansone Marcu Margaritu Marianu
-		Marinu Mariu Martinu Massimu Massiminu Matteu MA_uru Micheli Napuliuni Nicefuru
-		Nicola Nicudemu Nnuccenzu Olimpiu Onoriu Orazzu Orlannu Ottaviu Pandone Pandolfu
-		Pasquale PA_ulu Petru Piu PO_litu Ranieri Rainulfu Ramuni Riccardu Rinaldu
-		Rinatu Rubbertu Rudolfu Ruffredu Ruggeru Samueli Sanciu Sarvaturi Sebastianu Sergiu
-		Severinu Sigeriu Silvestru Simuni StE_fanu Tancredi TelE_sfuru Teodosiu Tiudoru Tiuduricu
-		Tumasi Ugu Umbertu Unfredu Uttuni Valenti Valintinu Valirianu Vicenzu Vinciguerra
-		Vittoriu Vitu Zaccaria ZO_simu
-	}
-
-	female_names = {
-		Adelia Adriana Adilasia A_gata Agnesa Agrippina Albina Arianna Alessia
-		Alvisa A_ngila Anna Antonia Anastasia Augusta Aurelia Austina Bianca Biata
-		Biatrici Biniditta Bricita Brunhilda Berta Bona CalO_gira Camilla Candida Carulina
-		Catarina Chiara Cicilia ClA_udia Climenza Colella Cristina Cuncetta Curnelia
-		Curradina Custanza Damiana Desiderata DumI_nica Dora E_lina Eleunora Elvira Emma
-		Eudissia Eufemia Euggenia Fausta FilicitA_ Fidirica Filippa Filumena Flavia Flora
-		Fortunata Francisca Gaitana Gesualda Giacinta Gimarca Ginuvra Giordana Giorgia Giuditta
-		Giulia Giuseppa Giuvanna Gohilda Isabella Laura Lionora Lisabetta Litizzia Livia
-		Lucia Lucina Lucrezzia Luiggia Luisa Macalda Maddalena MarIIa Marianna Marina
-		Marghirita Martina MA_ura Medania Olimpia Oria Ottavia PA_ula Pulchera Rosa
-		Sibbila Simuna Tiresa Valdrada Valintina Virginia Vittoria Viulanti
-	}
-
-	dynasty_of_location_prefix = "dynnp_di"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 40
-	mat_grf_name_chance = 5
-	father_name_chance = 40
+	heritage = heritage_latin
+	language = language_latin
+	martial_custom = martial_custom_male_only
 	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 30
-	mother_name_chance = 10
-
+	name_list = name_list_sicilian
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	
 	ethnicities = {
 		10 = mediterranean
-	}
-
-	mercenary_names = {
-		{ name = "mercenary_company_condottiere_band" }
-		{ name = "mercenary_company_sicilian_band" }
-	}
+	}	
 }
+
 # Old Italian
 oscan = {	
-	graphical_cultures = {
-		byzantine_clothing_gfx
-		dde_hre_clothing_gfx
-		eastern_unit_gfx
-		mediterranean_building_gfx
-	}
-	
-# Tria nomina:
-# Praenomen: Given name
-# Nomen: "Gens", i.e. dynasty name
-# Cognomen: Dynasty branch name
-	
 	color = { 117 131 50 }
-
-	cadet_dynasty_names = {
-		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
-		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
-		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
-		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
-		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
-		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
-		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
-		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
-		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
-		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
-		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
-		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
-		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
-		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
-		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
-		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
-		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
-		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
-		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
-		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
-		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
-		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
-		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
-		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
-		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
-		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
-		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
-	}
-
-	dynasty_names = {
-		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
-		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
-		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
-		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
-	}
-
-	male_names = {
-		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
-		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
-		Vibius
-		Amulius Camillus Decius Drusus Faustus Flavius Gallus
-		Herius Hostus Opiter Octavius Postumus Primus Proculus
-		Secundus Tertius Ancus
-	}
-	female_names = {
-		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
-		Gnaea Spuria Mania Servia Appia Numeria Vibia
-		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
-		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
-	}
+	# heritage = heritage_proto_italic
+	# language = language_oscan
+	martial_custom = martial_custom_male_only
 	
-	dynasty_of_location_prefix = "dynnp_a"
-	patronym_prefix_male = "dynnp__"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 0
-	father_name_chance = 50
+	name_list = name_list_roman
 	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 50
-	mother_name_chance = 0
-
-	ethnicities = {
-		10 = mediterranean
-	}
-	
-	mercenary_names = {
-	}
-	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
 }
 samnite = {	
-	graphical_cultures = {
-		byzantine_clothing_gfx
-		dde_hre_clothing_gfx
-		eastern_unit_gfx
-		mediterranean_building_gfx
-	}
+	# heritage = heritage_proto_italic
+	# language = language_samnite
+	martial_custom = martial_custom_male_only
 	
-# Tria nomina:
-# Praenomen: Given name
-# Nomen: "Gens", i.e. dynasty name
-# Cognomen: Dynasty branch name
+	name_list = name_list_roman
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
 	
 	color = { 117 131 150 }
-
-	cadet_dynasty_names = {
-		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
-		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
-		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
-		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
-		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
-		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
-		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
-		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
-		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
-		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
-		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
-		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
-		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
-		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
-		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
-		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
-		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
-		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
-		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
-		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
-		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
-		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
-		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
-		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
-		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
-		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
-		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
-	}
-
-	dynasty_names = {
-		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
-		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
-		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
-		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
-	}
-
-	male_names = {
-		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
-		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
-		Vibius
-		Amulius Camillus Decius Drusus Faustus Flavius Gallus
-		Herius Hostus Opiter Octavius Postumus Primus Proculus
-		Secundus Tertius Ancus
-	}
-	female_names = {
-		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
-		Gnaea Spuria Mania Servia Appia Numeria Vibia
-		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
-		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
-	}
-	
-	dynasty_of_location_prefix = "dynnp_a"
-	patronym_prefix_male = "dynnp__"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 0
-	father_name_chance = 50
-	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 50
-	mother_name_chance = 0
-
-	ethnicities = {
-		10 = mediterranean
-	}
-	
-	mercenary_names = {
-	}
-	
 }
 venetic = {	
-	graphical_cultures = {
-		byzantine_clothing_gfx
-		dde_hre_clothing_gfx
-		eastern_unit_gfx
-		mediterranean_building_gfx
-	}
+	# heritage = heritage_proto_italic
+	# language = language_venetic
+	martial_custom = martial_custom_male_only
 	
-# Tria nomina:
-# Praenomen: Given name
-# Nomen: "Gens", i.e. dynasty name
-# Cognomen: Dynasty branch name
+	name_list = name_list_roman
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
 	
 	color = { 193 117 241 }
-
-	cadet_dynasty_names = {
-		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
-		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
-		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
-		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
-		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
-		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
-		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
-		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
-		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
-		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
-		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
-		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
-		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
-		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
-		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
-		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
-		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
-		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
-		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
-		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
-		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
-		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
-		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
-		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
-		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
-		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
-		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
-	}
-
-	dynasty_names = {
-		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
-		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
-		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
-		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
-	}
-
-	male_names = {
-		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
-		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
-		Vibius
-		Amulius Camillus Decius Drusus Faustus Flavius Gallus
-		Herius Hostus Opiter Octavius Postumus Primus Proculus
-		Secundus Tertius Ancus
-	}
-	female_names = {
-		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
-		Gnaea Spuria Mania Servia Appia Numeria Vibia
-		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
-		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
-	}
-	
-	dynasty_of_location_prefix = "dynnp_a"
-	patronym_prefix_male = "dynnp__"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 0
-	father_name_chance = 50
-	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 50
-	mother_name_chance = 0
-
-	ethnicities = {
-		10 = mediterranean
-	}
-	
-	mercenary_names = {
-	}
-	
 }
 ligustic = {	
-	graphical_cultures = {
-		byzantine_clothing_gfx
-		dde_hre_clothing_gfx
-		eastern_unit_gfx
-		mediterranean_building_gfx
-	}
+	# heritage = heritage_proto_italic
+	# language = language_ligustic
+	martial_custom = martial_custom_male_only
 	
-# Tria nomina:
-# Praenomen: Given name
-# Nomen: "Gens", i.e. dynasty name
-# Cognomen: Dynasty branch name
+	name_list = name_list_roman
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
 	
 	color = { 211 208 124 }
-
-	cadet_dynasty_names = {
-		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
-		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
-		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
-		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
-		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
-		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
-		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
-		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
-		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
-		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
-		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
-		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
-		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
-		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
-		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
-		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
-		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
-		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
-		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
-		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
-		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
-		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
-		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
-		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
-		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
-		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
-		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
-	}
-
-	dynasty_names = {
-		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
-		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
-		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
-		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
-	}
-
-	male_names = {
-		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
-		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
-		Vibius
-		Amulius Camillus Decius Drusus Faustus Flavius Gallus
-		Herius Hostus Opiter Octavius Postumus Primus Proculus
-		Secundus Tertius Ancus
-	}
-	female_names = {
-		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
-		Gnaea Spuria Mania Servia Appia Numeria Vibia
-		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
-		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
-	}
-	
-	dynasty_of_location_prefix = "dynnp_a"
-	patronym_prefix_male = "dynnp__"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 0
-	father_name_chance = 50
-	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 50
-	mother_name_chance = 0
-
-	ethnicities = {
-		10 = mediterranean
-	}
-	
-	mercenary_names = {
-	}
-	
 }
 messapic = {	
-	graphical_cultures = {
-		byzantine_clothing_gfx
-		dde_hre_clothing_gfx
-		eastern_unit_gfx
-		mediterranean_building_gfx
-	}
+	# heritage = heritage_proto_italic
+	# language = language_messapic
+	martial_custom = martial_custom_male_only
 	
-# Tria nomina:
-# Praenomen: Given name
-# Nomen: "Gens", i.e. dynasty name
-# Cognomen: Dynasty branch name
+	name_list = name_list_roman
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
 	
 	color = { 5 52 113 }
-
-	cadet_dynasty_names = {
-		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
-		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
-		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
-		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
-		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
-		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
-		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
-		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
-		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
-		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
-		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
-		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
-		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
-		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
-		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
-		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
-		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
-		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
-		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
-		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
-		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
-		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
-		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
-		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
-		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
-		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
-		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
-	}
-
-	dynasty_names = {
-		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
-		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
-		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
-		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
-	}
-
-	male_names = {
-		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
-		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
-		Vibius
-		Amulius Camillus Decius Drusus Faustus Flavius Gallus
-		Herius Hostus Opiter Octavius Postumus Primus Proculus
-		Secundus Tertius Ancus
-	}
-	female_names = {
-		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
-		Gnaea Spuria Mania Servia Appia Numeria Vibia
-		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
-		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
-	}
-	
-	dynasty_of_location_prefix = "dynnp_a"
-	patronym_prefix_male = "dynnp__"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 0
-	father_name_chance = 50
-	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 50
-	mother_name_chance = 0
-
-	ethnicities = {
-		10 = mediterranean
-	}
-	
-	mercenary_names = {
-	}
 	
 }
 sardonian = {	
-	graphical_cultures = {
-		byzantine_clothing_gfx
-		dde_hre_clothing_gfx
-		eastern_unit_gfx
-		mediterranean_building_gfx
-	}
+	# heritage = heritage_proto_italic
+	# language = language_sardonian
+	martial_custom = martial_custom_male_only
 	
-# Tria nomina:
-# Praenomen: Given name
-# Nomen: "Gens", i.e. dynasty name
-# Cognomen: Dynasty branch name
+	name_list = name_list_sardinian
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
 	
 	color = { 29 16 31 }
-
-	cadet_dynasty_names = {
-		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
-		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
-		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
-		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
-		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
-		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
-		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
-		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
-		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
-		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
-		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
-		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
-		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
-		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
-		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
-		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
-		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
-		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
-		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
-		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
-		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
-		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
-		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
-		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
-		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
-		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
-		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
-	}
-
-	dynasty_names = {
-		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
-		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
-		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
-		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
-	}
-
-	male_names = {
-		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
-		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
-		Vibius
-		Amulius Camillus Decius Drusus Faustus Flavius Gallus
-		Herius Hostus Opiter Octavius Postumus Primus Proculus
-		Secundus Tertius Ancus
-	}
-	female_names = {
-		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
-		Gnaea Spuria Mania Servia Appia Numeria Vibia
-		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
-		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
-	}
-	
-	dynasty_of_location_prefix = "dynnp_a"
-	patronym_prefix_male = "dynnp__"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 0
-	father_name_chance = 50
-	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 50
-	mother_name_chance = 0
-
-	ethnicities = {
-		10 = mediterranean
-	}
-	
-	mercenary_names = {
-	}
 	
 }
 siculian = {	
-	graphical_cultures = {
-		byzantine_clothing_gfx
-		dde_hre_clothing_gfx
-		eastern_unit_gfx
-		mediterranean_building_gfx
-	}
+	# heritage = heritage_proto_italic
+	# language = language_siculian
+	martial_custom = martial_custom_male_only
 	
-# Tria nomina:
-# Praenomen: Given name
-# Nomen: "Gens", i.e. dynasty name
-# Cognomen: Dynasty branch name
+	name_list = name_list_sicilian
 	
-	color = { 226 216 174 }
-
-	cadet_dynasty_names = {
-		agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
-		agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-		agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
-		agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
-		agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
-		agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
-		agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
-		agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-		agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
-		agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
-		agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
-		agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
-		agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
-		agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
-		agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
-		agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
-		agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
-		agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
-		agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
-		agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
-		agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
-		agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
-		agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
-		agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-		agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
-		agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
-		agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
-		agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
-		agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
-		agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
-	}
-
-	dynasty_names = {
-		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
-		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
-		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
-		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
-		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
-	}
-
-	male_names = {
-		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
-		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
-		Vibius
-		Amulius Camillus Decius Drusus Faustus Flavius Gallus
-		Herius Hostus Opiter Octavius Postumus Primus Proculus
-		Secundus Tertius Ancus
-	}
-	female_names = {
-		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
-		Gnaea Spuria Mania Servia Appia Numeria Vibia
-		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
-		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
-	}
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
 	
-	dynasty_of_location_prefix = "dynnp_a"
-	patronym_prefix_male = "dynnp__"
-
-	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
-	pat_grf_name_chance = 50
-	mat_grf_name_chance = 0
-	father_name_chance = 50
-	
-	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
-	pat_grm_name_chance = 50
-	mat_grm_name_chance = 50
-	mother_name_chance = 0
-
-	ethnicities = {
-		10 = mediterranean
-	}
-	
-	mercenary_names = {
-	}
-	
+	color = { 226 216 174 }	
 }
