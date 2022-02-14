@@ -30,6 +30,10 @@ heritage_romano_german = {
 	type = heritage
 }
 
+heritage_east_germanic = {
+	type = heritage
+}
+
 heritage_south_germanic = {
 	type = heritage
 }

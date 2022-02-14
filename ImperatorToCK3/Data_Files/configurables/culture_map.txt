@@ -257,7 +257,6 @@ link = { ck3 = norse @imp_norse_cultures }
 
 #TODO: link for langobard
 
-
 # "German" is a fallback
 link = { ck3 = german @imp_all_germanic_cultures }
 
