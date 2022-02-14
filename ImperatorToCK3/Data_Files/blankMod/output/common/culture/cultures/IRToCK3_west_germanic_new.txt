@@ -1,11 +1,25 @@
 ## CONVERTER
 
 iweric = {
-	graphical_cultures = {
-		irish_coa_gfx
-	}
+	parents = { old_saxon irish }
+	heritage = heritage_west_germanic
+	language = language_anglic
+	martial_custom = martial_custom_male_only
 	
 	color = hsv{ 0.8 0.035 0.8 }
+
+	coa_gfx = { irish_coa_gfx anglo_saxon_coa_gfx scottish_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { northern_clothing_gfx } 
+	clothing_gfx = { fp1_norse_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 	
+
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
 
 	cadet_dynasty_names = {
 		{ "dynnp_de" "dynn_Kald" }
@@ -167,17 +181,4 @@ iweric = {
 	pat_grm_name_chance = 30
 	mat_grm_name_chance = 15
 	mother_name_chance = 10
-
-	mercenary_names = {
-		{ name = mercenary_company_band_of_kerns }
-		{ name = mercenary_company_madhmanns_company }
-		{ name = mercenary_company_company_of_shield_and_scian }
-	}
-	
-	ethnicities = { 	
-		5 = caucasian_blond
-		30 = caucasian_ginger
-		35 = caucasian_brown_hair
-		30 = caucasian_dark_hair
-	}
 }
