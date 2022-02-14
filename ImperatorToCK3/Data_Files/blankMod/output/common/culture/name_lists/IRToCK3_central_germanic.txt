@@ -1,5 +1,5 @@
 name_list_gothic = {
-		cadet_dynasty_names = {
+	cadet_dynasty_names = {
 		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
 		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian
 		dynn_Gundrid dynn_Segimandrid dynn_Dwaldid dynn_Merobaudian dynn_Eidigian
@@ -79,9 +79,8 @@ name_list_gothic = {
 		{ name = "the_vandals" }
 	}
 }
+
 name_list_pemis = {
-
-
 	cadet_dynasty_names = {
 		{ "dynnp_von" "dynn_PrantAEpurk" }
 		{ "dynnp_von" "dynn_Holstojn" }
