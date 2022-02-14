@@ -16,6 +16,7 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 
 shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	color = { 0.2 0.2 0.7 }
+	parents = { hebrew occitan }
 
 	name_list = name_list_hebrew
 	
@@ -31,6 +32,7 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 
 zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	color = { 0.7 0.2 0.2 }
+	parents = { hebrew french }
 
 	name_list = name_list_hebrew
 	
