@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 1.3.0
+# Last updated: CK3 patch 1.5.0
 
 # Called from code after history generation
 # Empty scope
@@ -269,6 +269,17 @@ on_game_start_after_lobby = {
 			trigger_event = {
 				id = welcome.1
 				days = 0
+			}
+		}
+		every_living_character = { ## No culture in setup
+			limit = {
+				has_culture = culture:aaa_noculture
+			}
+			every_player = {
+				trigger_event = {
+					id = welcome.2
+					days = 0
+				}
 			}
 		}
 		# Pregnancy time!
