@@ -1,5 +1,8 @@
 hunnic = { # ImperatorToCK3
 	color = { 254 204 50 }
+	
+	# heritage = heritage_???
+	# language = language_hunnic
 
 	name_list = name_list_hunnic
 	
