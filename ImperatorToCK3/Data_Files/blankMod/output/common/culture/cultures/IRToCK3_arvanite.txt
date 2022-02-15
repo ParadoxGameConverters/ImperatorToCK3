@@ -1,0 +1,43 @@
+dalmatian = {
+	color = rgb { 246 223 15 }
+
+	heritage = heritage_arvanite
+	# language = language_albanian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_illyrian
+	name_list = name_list_albanian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+albanian = {
+	color = { 0.4 0.01 0.02 }
+
+	heritage = heritage_arvanite
+	# language = language_albanian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_albanian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
