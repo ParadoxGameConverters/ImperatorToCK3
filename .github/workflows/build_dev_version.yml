@@ -1,0 +1,35 @@
+name: Build development version
+on:
+  push:
+    branches:
+    - 'master'
+
+jobs:
+  build_dev_version:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.*'
+    - name: "Build frontend"
+      uses: ./Fronter/.github/actions/build_frontend
+      with:
+        msbuild_path: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe"
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=win-x64 -c:Release
+        cd ..
+        Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
+        Xcopy /E /Y Publish Release
+    - name: Archive artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dev-version
+        path: Release/
+        retention-days: 1
