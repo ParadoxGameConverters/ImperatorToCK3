@@ -1,7 +1,8 @@
-## CONVERTER
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 varangian = {
 	heritage = heritage_north_germanic
 	language = language_norse
+	parents = { norse }
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_things
@@ -19,6 +20,7 @@ varangian = {
 mikligardrish = {
 	heritage = heritage_north_germanic
 	language = language_norse
+	parents = { norse greek }
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_things

@@ -1,0 +1,66 @@
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
+etruscan = {
+	color = rgb { 48 30 180 }
+
+	heritage = heritage_tyrrhenian
+	# language = language_etruscan
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_etruscan
+
+	ethnicities = {	
+		10 = mediterranean
+	}
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+rhaetian = {
+	color = rgb { 175 178 102 }
+	# Hybrid with Latin: Rhaeto-Romansch
+
+	heritage = heritage_tyrrhenian
+	# language = language_etruscan
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_etruscan
+
+	ethnicities = {	
+		10 = mediterranean
+	}
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+lemnian = {
+	color = rgb { 148 26 254 }
+	parents = { etruscan greek }
+
+	heritage = heritage_tyrrhenian
+	# language = language_etruscan
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_etruscan
+
+	ethnicities = {	
+		10 = mediterranean
+	}
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}

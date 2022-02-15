@@ -1,0 +1,76 @@
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
+breathanach = {
+	color = rgb { 127 143 104 }
+	parents = { roman irish }
+
+	heritage = heritage_romano_british
+	# language = language_breathanach
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_breathanach
+
+	ethnicities = {	
+		5 = caucasian_blond
+		30 = caucasian_ginger
+		35 = caucasian_brown_hair
+		30 = caucasian_dark_hair
+	}
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { northern_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+transadrianic = {
+	color = rgb { 127 143 104 }
+	parents = { roman pictish }
+
+	heritage = heritage_romano_british
+	# language = language_breathanach
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_breathanach
+
+	ethnicities = {	
+		5 = caucasian_blond
+		30 = caucasian_ginger
+		35 = caucasian_brown_hair
+		30 = caucasian_dark_hair
+	}
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { northern_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+brythenig = {
+	color = rgb { 127 143 104 }
+	parents = { roman brythonic }
+
+	heritage = heritage_romano_british
+	# language = language_breathanach
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_breathanach
+
+	ethnicities = {	
+		5 = caucasian_blond
+		30 = caucasian_ginger
+		35 = caucasian_brown_hair
+		30 = caucasian_dark_hair
+	}
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { northern_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}

@@ -1,0 +1,85 @@
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
+luwian = {
+	color = hsv { 0.32 0.45 0.9 }
+
+	heritage = heritage_anatolian
+	# language = language_luwian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_luwian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+lydian = {
+	color = rgb { 149 101 186 }
+
+	heritage = heritage_anatolian
+	# language = language_lydian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_lydian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+hittite = {
+	color = hsv { 0.42 0.45 0.3 }
+
+	heritage = heritage_anatolian
+	# language = language_hittite
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_hittite
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+phrygian = {
+	color = rgb { 246 223 15 }
+
+	heritage = heritage_anatolian
+	# language = language_phrygian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_phrygian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
