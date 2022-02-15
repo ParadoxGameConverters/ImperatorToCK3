@@ -23,7 +23,7 @@ l_english:
 
  gallic:0 "Gallic"
  gallic_collective_noun:1 "Gauls"
- gallic_prefix:0 "Gallo" # see "Gallo-Roman"
+ gallic_prefix:0 "Gallo" # found "Gallo-Roman"
 
  macedonian:0 "Macedonian"
  macedonian_collective_noun:1 "Macedonians"
@@ -31,7 +31,7 @@ l_english:
 
  thracian:0 "Thracian"
  thracian_collective_noun:1 "Thracians"
- thracian_prefix:0 "Thraco" # see "Thraco-Roman"
+ thracian_prefix:0 "Thraco" # found "Thraco-Roman"
 
  dacian:0 "Dacian"
  dacian_collective_noun:1 "Dacians"
@@ -39,7 +39,7 @@ l_english:
 
  getian:0 "Getian"
  getian_collective_noun:1 "Getians"
- getian_prefix:0 "Geto" # see "Geto-Dacian"
+ getian_prefix:0 "Geto" # found "Geto-Dacian"
 
  cappadocian:0 "Cappadocian"
  cappadocian_collective_noun:1 "Cappadocians"
