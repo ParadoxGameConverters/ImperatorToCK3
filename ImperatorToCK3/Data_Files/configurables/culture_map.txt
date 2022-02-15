@@ -241,7 +241,7 @@ link = { ck3 = gepid @imp_gothic_cultures
 }
 link = { ck3 = gothic @imp_gothic_cultures }
 link = { ck3 = vandal @imp_vandal_cultures }
-link = { ck3 = vandilian @imp_vandilian_cultures } # TODO: ADD THIS CULTURE
+link = { ck3 = vandilian @imp_vandilian_cultures }
 
 # Ingvaeonic mappings
 link = { ck3 = old_saxon @imp_old_saxon_cultures }
