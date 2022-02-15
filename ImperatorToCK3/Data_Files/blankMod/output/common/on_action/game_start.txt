@@ -271,7 +271,9 @@ on_game_start_after_lobby = {
 				days = 0
 			}
 		}
-		every_living_character = { ## No culture in setup
+		
+		# Detect no culture in setup
+		every_living_character = {
 			limit = {
 				has_culture = culture:aaa_noculture
 			}
@@ -282,6 +284,19 @@ on_game_start_after_lobby = {
 				}
 			}
 		}
+		every_province = {
+			limit = {
+				culture = culture:aaa_noculture
+			}
+			every_player = {
+				trigger_event = {
+					id = welcome.2
+					days = 0
+				}
+			}
+		}
+		
+		
 		# Pregnancy time!
 		every_living_character = {
 			limit = { has_trait = pregnant }
