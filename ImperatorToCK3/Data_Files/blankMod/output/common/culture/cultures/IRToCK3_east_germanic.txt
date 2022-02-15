@@ -15,7 +15,7 @@ vandal = {
 }
 
 gothic = {
-	color = hsv { 0.1 0.7 0.05 }
+	color = gothic
 	heritage = heritage_east_germanic
 	language = language_gothic
 	name_list = name_list_gothic
@@ -33,7 +33,7 @@ gothic = {
 }
 
 gepid = {
-	color = hsv { 0.1 0.7 0.05 }
+	color = rgb { 91 66 30 }
 	heritage = heritage_east_germanic
 	language = language_gothic
 	name_list = name_list_gothic
