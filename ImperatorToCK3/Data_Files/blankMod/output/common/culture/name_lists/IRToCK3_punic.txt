@@ -1,4 +1,4 @@
-name_list_punic = {
+﻿name_list_punic = {
 
 		cadet_dynasty_names = {
 			dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid

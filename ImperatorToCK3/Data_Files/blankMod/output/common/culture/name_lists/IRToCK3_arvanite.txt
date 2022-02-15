@@ -1,4 +1,4 @@
-name_list_illyrian = {
+﻿name_list_illyrian = {
 		cadet_dynasty_names = {
 			dynn_Andinid dynn_Andid dynn_Annesid dynn_Annid dynn_Aplid dynn_Apludid dynn_Apurid dynn_Baizid dynn_Bardurid
 			dynn_Batid dynn_Beukid dynn_Beusid dynn_Bizid dynn_Karrid dynn_Daitorid dynn_Dasid dynn_Dazomenid dynn_Dazid

@@ -1,4 +1,4 @@
-name_list_iberian = {
+﻿name_list_iberian = {
 		cadet_dynasty_names = {
 			dynn_Andosinus dynn_Ausetanus dynn_Bastetanus dynn_Mastienus dynn_Bergistanus
 			dynn_Castellanus dynn_Cessetanus dynn_Cerretanus dynn_Contestanus dynn_Deitanus

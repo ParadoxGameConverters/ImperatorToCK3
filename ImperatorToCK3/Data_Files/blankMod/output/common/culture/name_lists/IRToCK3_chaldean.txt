@@ -1,4 +1,4 @@
-name_list_aramaic = {
+﻿name_list_aramaic = {
 		cadet_dynasty_names = {
 			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
 			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui

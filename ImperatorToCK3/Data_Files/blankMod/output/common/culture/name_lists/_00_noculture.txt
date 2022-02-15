@@ -1,4 +1,4 @@
-name_list_empty = {
+﻿name_list_empty = {
 
 	cadet_dynasty_names = {
 		"dynn_Lowborn"

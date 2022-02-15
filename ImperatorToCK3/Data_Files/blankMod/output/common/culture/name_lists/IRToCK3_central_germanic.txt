@@ -1,4 +1,4 @@
-name_list_gothic = {
+﻿name_list_gothic = {
 	cadet_dynasty_names = {
 		dynn_Tuomid dynn_Andicid dynn_Dagaricid dynn_Gelimerian dynn_Geroldian dynn_Malaricid
 		dynn_Marbodian dynn_Theodian dynn_Marcolian dynn_Sigid dynn_Rigleikid dynn_Tancrid dynn_Malogrian

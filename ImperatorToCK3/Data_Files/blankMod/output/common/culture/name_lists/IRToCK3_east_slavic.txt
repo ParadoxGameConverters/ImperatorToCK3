@@ -1,4 +1,4 @@
-name_list_urslavic = {
+﻿name_list_urslavic = {
 	cadet_dynasty_names = {
 		"dynn_Pervoyov" "dynn_Vtorakov" "dynn_Tretyakov" "dynn_Chetvertakov"
 		"dynn_Pyatakov" "dynn_Shestakov" "dynn_Semoyov" "dynn_Chernyshov"

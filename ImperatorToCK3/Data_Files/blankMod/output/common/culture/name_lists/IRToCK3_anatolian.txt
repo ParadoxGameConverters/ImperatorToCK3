@@ -1,4 +1,4 @@
-name_list_luwian = {
+﻿name_list_luwian = {
 		cadet_dynasty_names = {
 			dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
 			dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid

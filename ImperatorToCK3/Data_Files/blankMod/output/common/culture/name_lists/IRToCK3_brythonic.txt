@@ -1,4 +1,4 @@
-name_list_brythonic = {
+﻿name_list_brythonic = {
 	cadet_dynasty_names = {
 		dynn_Correid dynn_Divicid dynn_Duratid dynn_Elitovid dynn_Galbid dynn_Iacian dynn_Marganian
 		dynn_Sinatian dynn_Vodenosian dynn_Caractian dynn_Venutian dynn_Bolgian dynn_Celatid
