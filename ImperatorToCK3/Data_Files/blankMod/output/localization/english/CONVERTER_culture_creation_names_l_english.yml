@@ -2,3 +2,11 @@
  gothogreek_name:0 "Gothogreek"
  gothogreek_collective_noun:0 "Gothogreek"
  gothogreek_prefix:0 "Gothograeco"
+
+ thracian_gothic_name:0 "Moesogothic"
+ thracian_gothic_collective_noun:0 "Moesogoths"
+ thracian_gothic_prefix:0 "Moesogotho"
+
+ crimean_gothic_name:0 "Crimean Gothic"
+ crimean_gothic_collective_noun:0 "Crimean Goths"
+ crimean_gothic_prefix:0 "Gotho"

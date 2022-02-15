@@ -1,0 +1,59 @@
+crimean_gothic = {
+	trigger = {
+		capital_county = {
+			title:d_crimea = {
+				is_de_jure_liege_or_above_target = prev
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:gothic
+					culture = { any_parent_culture_or_above = { this = culture:gothic } }
+				}
+			}
+			duchy = title:d_crimea
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:gothic
+				culture = { any_parent_culture_or_above = { this = culture:gothic } }
+			}
+		}
+	}
+}
+
+thracian_gothic = {
+	trigger = {
+		capital_county = {
+			OR = {
+				target_is_de_jure_liege_or_above = title:d_turnovo
+				target_is_de_jure_liege_or_above = title:d_dobrudja
+				target_is_de_jure_liege_or_above = title:d_philippopolis
+				target_is_de_jure_liege_or_above = title:d_thrace
+				target_is_de_jure_liege_or_above = title:d_strymon
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:gothic
+					culture = { any_parent_culture_or_above = { this = culture:gothic } }
+				}
+			}
+			OR = {
+				target_is_de_jure_liege_or_above = title:d_turnovo
+				target_is_de_jure_liege_or_above = title:d_dobrudja
+				target_is_de_jure_liege_or_above = title:d_philippopolis
+				target_is_de_jure_liege_or_above = title:d_thrace
+				target_is_de_jure_liege_or_above = title:d_strymon
+			}
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:gothic
+				culture = { any_parent_culture_or_above = { this = culture:gothic } }
+			}
+		}
+	}
+}
