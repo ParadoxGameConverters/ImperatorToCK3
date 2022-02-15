@@ -1,0 +1,43 @@
+iberian = {
+	color = hsv { 0.07 1.0 1.0 }
+
+	heritage = heritage_aboriginal
+	language = language_basque
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_basque
+	name_list = name_list_iberian
+
+	ethnicities = {
+		10 = mediterranean
+	}
+	
+	coa_gfx = { iberian_group_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx } 
+	unit_gfx = { mena_unit_gfx } 
+}
+nuragic = {
+	color = hsv { 0.2 0.25 0.5 }
+
+	heritage = heritage_aboriginal
+	# language = language_nuragic
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_nuragic
+
+	ethnicities = {
+		10 = mediterranean
+	}
+	
+	coa_gfx = { latin_group_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx } 
+	unit_gfx = { mena_unit_gfx } 
+}

@@ -1,0 +1,58 @@
+name_list_gaulish = {
+		cadet_dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		male_names = {
+			AdiatorI_x BitorI_x BrogimA_ros CA_mmA_ DomneiU_ EponI_ OlorI_x
+			SmertomA_rA_ TectomA_ros
+		}
+		female_names = {
+			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
+			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
+			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mapos"
+		patronym_prefix_female = "dynnpat_pre_duxtir"
+}
+name_list_galatian = {
+		cadet_dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		dynasty_names = {
+			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
+			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian
+			dynn_Galbid dynn_Iacid dynn_Marganid dynn_Sinatid dynn_Vodenosian dynn_Indutian dynn_Dumnid dynn_Epatticid
+			dynn_Teutomalian dynn_Viridorrian dynn_Magunnid dynn_Brennid dynn_Boian dynn_Tannid dynn_Iccian dynn_Galanid
+		}
+
+		male_names = {
+			AdiatorI_x BitorI_x BrogimA_ros CA_mmA_ DomneiU_ EponI_ OlorI_x
+			SmertomA_rA_ TectomA_ros
+		}
+		female_names = {
+			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
+			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
+			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mapos"
+		patronym_prefix_female = "dynnpat_pre_duxtir"
+}
