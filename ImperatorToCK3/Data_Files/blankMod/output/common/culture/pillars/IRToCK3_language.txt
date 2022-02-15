@@ -1,4 +1,4 @@
-language_gothic = {
+language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
