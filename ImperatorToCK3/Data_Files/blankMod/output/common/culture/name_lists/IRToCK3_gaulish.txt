@@ -1,4 +1,4 @@
-name_list_gaulish = {
+﻿name_list_gaulish = {
 		cadet_dynasty_names = {
 			dynn_Ambonid dynn_Auarosian dynn_Audaxian dynn_Carosian dynn_Culchian dynn_Leukian dynn_Mandonian
 			dynn_Punician dynn_Tautalid dynn_Correian dynn_Divicid dynn_Duratian dynn_Elitovian

@@ -1,4 +1,4 @@
-name_list_hunnic = {
+﻿name_list_hunnic = {
 	cadet_dynasty_names = {
 		"dynn_A_rpA_dy"
 		"dynn_CsA_szA_r"

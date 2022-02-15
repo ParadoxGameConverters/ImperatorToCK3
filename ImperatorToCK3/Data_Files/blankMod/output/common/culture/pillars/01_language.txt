@@ -1,4 +1,4 @@
-language_nolanguage = {
+﻿language_nolanguage = {
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {

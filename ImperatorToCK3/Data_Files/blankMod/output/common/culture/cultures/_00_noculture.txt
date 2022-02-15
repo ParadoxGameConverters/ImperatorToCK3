@@ -1,4 +1,4 @@
-aaa_noculture = {
+﻿aaa_noculture = {
 	color = { 0 0 0 }
 	
 	ethos = ethos_communal

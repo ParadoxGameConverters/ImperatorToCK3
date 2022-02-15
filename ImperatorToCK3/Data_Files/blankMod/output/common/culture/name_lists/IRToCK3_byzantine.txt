@@ -1,4 +1,4 @@
-name_list_ancient_greek = {
+﻿name_list_ancient_greek = {
 	cadet_dynasty_names = {
 		dynn_Agathoklid dynn_Alketid dynn_Apollonid dynn_Aratid dynn_Helladid dynn_Omirid dynn_Peithid dynn_Peneid dynn_Philonid dynn_Proktid dynn_Pytheid dynn_Sosiklid dynn_Tauromeneid
 		dynn_Therid dynn_Theronid dynn_Timolid dynn_Xenonid dynn_Zagreid dynn_Zosimid dynn_Zotikid dynn_Pelopid dynn_Philetid dynn_Proteid dynn_Zenonid dynn_Sostratid dynn_Tauriskid dynn_Sosthenid dynn_Pyhrrid dynn_Leonidid dynn_Killistratid
