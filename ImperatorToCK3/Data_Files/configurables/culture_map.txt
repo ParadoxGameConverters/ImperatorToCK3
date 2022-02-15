@@ -259,7 +259,6 @@ link = { ck3 = langobard @imp_irminonic_cultures
 link = { ck3 = langobard @imp_irminonic_cultures
 	@culture_splitting_region_I @culture_splitting_region_J
 	@culture_splitting_region_P @culture_splitting_region_Q @culture_splitting_region_S
-	@culture_splitting_region_K @culture_splitting_region_L @culture_splitting_region_R
 }
 
 # Norse mappings
