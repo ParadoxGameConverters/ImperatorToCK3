@@ -1,0 +1,64 @@
+thracian = {
+	color = rgb { 5 162 25 }
+
+	heritage = heritage_thracian
+	# language = language_thracian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_thracian
+
+	ethnicities = {	
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+dacian = {
+	color = hsv { 0.0 0.5 1.0 }
+
+	heritage = heritage_thracian
+	# language = language_dacian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_dacian
+
+	ethnicities = {	
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+getian = {
+	color = rgb { 112 190 71 }
+	parents = { thracian }
+
+	heritage = heritage_thracian
+	# language = language_thracian
+	martial_custom = martial_custom_male_only
+	traditions = {
+	
+	}
+
+	name_list = name_list_thracian
+
+	ethnicities = {	
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
