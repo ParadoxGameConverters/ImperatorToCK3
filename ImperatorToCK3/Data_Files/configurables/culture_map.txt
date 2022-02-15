@@ -190,7 +190,7 @@ link = { ck3 = gallic imp = cotinian }
 
 
 ### Germanic
-#https://en.wikipedia.org/wiki/List_of_ancient_Germanic_peoples#Possible_ethnolinguistic_kinship
+# https://en.wikipedia.org/wiki/List_of_ancient_Germanic_peoples#Possible_ethnolinguistic_kinship
 
 ## East Germanic (Vandilian)
 @imp_vandal_cultures = "imp = vandal"
