@@ -202,7 +202,7 @@ link = { ck3 = gallic imp = cotinian }
 @imp_frisian_cultures = "imp = frisian"
 @imp_angle_cultures = "imp = anglian"
 @imp_old_saxon_cultures = "imp = saxonian"
-@imp_ingvaeonic_cultures = "imp = ingvaeonic imp = reudingian imp = cimbrian imp = teutonian @imp_frisian_cultures @imp_angle_cultures @imp_saxon_cultures"
+@imp_ingvaeonic_cultures = "imp = ingvaeonic imp = reudingian imp = cimbrian imp = teutonian @imp_frisian_cultures @imp_angle_cultures @imp_old_saxon_cultures"
 # Wesser-Rhine Germanic (Istvaeonic)
 @imp_frankish_cultures = "imp = istvaeonic"
 @imp_istvaeonic_cultures = "@imp_frankish_cultures"
