@@ -1,4 +1,4 @@
-### CONVERTER ###
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 angle = { # https://en.wikipedia.org/wiki/Angles
 	color = rgb { 142 66 30 }
 	

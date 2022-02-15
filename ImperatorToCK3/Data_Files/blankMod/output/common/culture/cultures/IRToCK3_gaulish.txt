@@ -1,3 +1,4 @@
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 celtic_pannonian = {
 	color = hsv { 0.25 0.85 0.25 }
 
