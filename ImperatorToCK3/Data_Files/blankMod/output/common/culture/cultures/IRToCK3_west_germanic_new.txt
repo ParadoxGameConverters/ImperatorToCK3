@@ -1,4 +1,35 @@
-## CONVERTER
+### CONVERTER ###
+angle = { # https://en.wikipedia.org/wiki/Angles
+	color = rgb { 142 66 30 }
+	
+	ethos = ethos_bellicose
+	heritage = heritage_west_germanic
+	language = language_anglic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_things
+		tradition_seafaring
+	}
+	
+	dlc_tradition = {
+		trait = tradition_malleable_invaders
+		requires_dlc_flag = hybridize_culture
+	}
+	
+	name_list = name_list_old_saxon
+
+	coa_gfx = { western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx } 	
+
+	ethnicities = {
+		25 = caucasian_northern_blond
+		15 = caucasian_northern_ginger
+		35 = caucasian_northern_brown_hair
+		25 = caucasian_northern_dark_hair
+	}
+}
 
 iweric = {
 	parents = { old_saxon irish }

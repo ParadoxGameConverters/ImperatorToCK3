@@ -215,13 +215,13 @@ link = { ck3 = gallic imp = cotinian }
 
 @imp_all_germanic_cultures = "@imp_vandilian_cultures @imp_ingvaeonic_cultures @imp_istvaeonic_cultures @imp_irminonic_cultures @imp_norse_cultures"
 
+
 # Finnish - because I:R lacks it, but CK3 does not
 # Finnish is restored because we overwrite Finland and Lapponia through I:R input...
 # ...and there is really no reason to force a Norse takeover in the 8th century.
 link = { ck3 = sami @imp_all_germanic_cultures ck3Province = 430 ck3Province = 428 ck3Province = 374 ck3Province = 373 ck3Province = 422 ck3Province = 421 ck3Province = 385 ck3Province = 8782 ck3Province = 380 ck3Province = 384 ck3Province = 393 ck3Province = 397 ck3Province = 396 ck3Province = 425 ck3Province = 419 ck3Province = 454 ck3Province = 409 ck3Province = 390 ck3Province = 391 ck3Province = 8789 ck3Province = 417 ck3Province = 413 ck3Province = 410 ck3Province = 414 }
 link = { ck3 = finnish @imp_all_germanic_cultures ck3Province = 454 ck3Province = 171 ck3Province = 172 ck3Province = 173 ck3Province = 174 ck3Province = 175 ck3Province = 176 ck3Province = 177 ck3Province = 178 ck3Province = 179 ck3Province = 180 ck3Province = 181 ck3Province = 182 ck3Province = 183 ck3Province = 184 ck3Province = 185 ck3Province = 186 ck3Province = 187 ck3Province = 188 ck3Province = 189 ck3Province = 190 ck3Province = 191 ck3Province = 192 ck3Province = 193 ck3Province = 194 ck3Province = 195 ck3Province = 196 ck3Province = 197 ck3Province = 198 ck3Province = 199 ck3Province = 200 ck3Province = 201 ck3Province = 202 ck3Province = 203 ck3Province = 204 ck3Province = 205 ck3Province = 206 ck3Province = 207 ck3Province = 208 ck3Province = 209 ck3Province = 210 ck3Province = 211 ck3Province = 212 ck3Province = 213 ck3Province = 214 ck3Province = 215 ck3Province = 216 ck3Province = 217 ck3Province = 218 ck3Province = 219 ck3Province = 442 ck3Province = 443 ck3Province = 444 ck3Province = 445 ck3Province = 446 ck3Province = 447 ck3Province = 448 ck3Province = 449 ck3Province = 450 ck3Province = 451 ck3Province = 452 ck3Province = 453 }
 # Karelian, Vepsian skipped because out of scope
-
 
 # East Germanic mappings
 link = { ck3 = visigothic @imp_gothic_cultures
@@ -236,7 +236,7 @@ link = { ck3 = ostrogothic @imp_gothic_cultures
 	@culture_splitting_region_K @culture_splitting_region_L @culture_splitting_region_R
 	@culture_splitting_region_M @culture_splitting_region_N 
 }
-link = { ck3 = gepid @imp_gothic_cultures # TODO: ADD THIS CULTURE
+link = { ck3 = gepid @imp_gothic_cultures
 	@culture_splitting_region_J2
 }
 link = { ck3 = gothic @imp_gothic_cultures }
@@ -245,6 +245,7 @@ link = { ck3 = vandilian @imp_vandilian_cultures } # TODO: ADD THIS CULTURE
 
 # Ingvaeonic mappings
 link = { ck3 = old_saxon @imp_old_saxon_cultures }
+link = { ck3 = angle @imp_angle_cultures }
 # Istvaeonic mappings
 link = { ck3 = frankish @imp_frankish_cultures }
 # Irminonic mappings
@@ -255,7 +256,7 @@ link = { ck3 = bavarian @imp_irminonic_cultures ck3Province = 2964 ck3Province =
 # Norse mappings
 link = { ck3 = norse @imp_norse_cultures }
 
-#TODO: link for langobard
+# TODO: link for langobard
 
 # "German" is a fallback
 link = { ck3 = german @imp_all_germanic_cultures }
