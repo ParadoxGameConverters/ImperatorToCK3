@@ -1,9 +1,12 @@
-﻿emperor_feudal_male_old_egyptian = { # Pharaoh
+# Last updated: CK3 patch 1.5.0
+emperor_feudal_male_old_egyptian = { # Pharaoh
 	gender = male
 	special = holder
 	tier = empire
 	priority = 301
+	governments = { feudal_government }
 	faiths = { egyptian_pagan atenist_pagan }
+	top_liege = yes
 }
 
 emperor_feudal_female_old_egyptian = { # Pharaohess
@@ -11,13 +14,17 @@ emperor_feudal_female_old_egyptian = { # Pharaohess
 	special = holder
 	tier = empire
 	priority = 301
+	governments = { feudal_government }
 	faiths = { egyptian_pagan atenist_pagan }
+	top_liege = yes
 }
 
 duke_republic_male_carthaginian = { # Suffet
 	gender = male
 	special = holder
+	governments = { republic_government }
 	# tier = any
 	priority = 301
-	culture_groups = { punic_group }
+	heritages = { punic_group }
+	top_liege = yes
 }

@@ -1,0 +1,19 @@
+name_list_empty = {
+
+	cadet_dynasty_names = {
+		"dynn_Lowborn"
+	}
+
+	dynasty_names = {
+		"dynn_Lowborn"
+	}
+
+	male_names = {
+		0 = { No_Name }
+	}
+
+	female_names = {
+		0 = { No_Name }
+	}
+  
+}
