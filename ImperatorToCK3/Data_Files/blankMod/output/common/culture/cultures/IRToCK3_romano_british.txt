@@ -1,3 +1,4 @@
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 breathanach = {
 	color = rgb { 127 143 104 }
 	parents = { roman irish }
