@@ -1,0 +1,92 @@
+name_list_aramaic = {
+		cadet_dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		male_names = {
+			Bardo Bardol Barnahy Barta Bartalan Bartel Barthelemy Bartley Bartol Batt Beartlaidh
+			Berti Jagur Mar Myrron Parlan Parthalan Tadeo Tam Tammy Teoma Thaddeus Thady
+			Thom Thomas Tom Tommy Zacchaeus Zebedeo 
+		}
+		female_names = {
+			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
+			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
+			Wardat-Ninurta 
+		}
+		
+		patronym_prefix_male = prefix_yiliydoa
+		patronym_prefix_female = prefix_dbartoa
+		dynasty_of_location_prefix = prefix_dmen
+}
+name_list_babylonian = {
+		cadet_dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		dynasty_names = {
+			Bit_Ayyabuti Bit_Ayyakki Bit_Azamriti Bit_Azari Bit_Babalti
+			Bit_Babari Bit_Balati Bit_Niptsi Bit_Nitsirti Bit_Shaddui
+			Bit_Shagimi Bit_Shahapi Bit_Shunnati Bit_Taqqiti Bit_Taqridi
+			Bit_Taqrubti Bit_Targagi Bit_Tarkubti
+		}
+
+		male_names = {
+			Marduk-beli Marduk-belshunu Marduk-eriba Marduk-etir Marduk-ibni
+			Marduk-iddin Marduk-uballit Kidin-Marduk Lusthammar-Marduk Nidinti-Marduk
+			Rihat-Marduk Shamshi-Marduk Shipqat-Marduk Tanittu-Marduk Tukulti-Marduk
+			Bel-beli Bel-belshunu Bel-eriba Bel-etir Bel-ibni Bel-iddin Bel-uballit
+			Kidin-Bel Lusthammar-Bel Nidinti-Bel Rihat-Bel Shamshi-Bel Shipqat-Bel
+			Tanittu-Bel Tukulti-Bel Shamash-beli Shamash-belshunu Shamash-eriba
+			Shamash-etir Shamash-ibni Shamash-iddin Shamash-uballit Kidin-Shamash
+			Lusthammar-Shamash Nidinti-Shamash Rihat-Shamash Shamshi-Shamash
+			Shipqat-Shamash Tanittu-Shamash Tukulti-Shamash Ashshur-beli
+			Ashshur-belshunu Ashshur-eriba Ashshur-etir Ashshur-ibni Ashshur-iddin
+			Ashshur-uballit Kidin-Ashshur Lusthammar-Ashshur Nidinti-Ashshur
+			Rihat-Ashshur Shamshi-Ashshur Shipqat-Ashshur Tanittu-Ashshur
+			Tukulti-Ashshur Ishtar-beli Ishtar-belshunu Ishtar-eriba Ishtar-etir
+			Ishtar-ibni Ishtar-iddin Ishtar-uballit Kidin-Ishtar Lusthammar-Ishtar
+			Nidinti-Ishtar Rihat-Ishtar Shamshi-Ishtar Shipqat-Ishtar Tanittu-Ishtar
+			Tukulti-Ishtar Adad-beli Adad-belshunu Adad-eriba Adad-etir Adad-ibni
+			Adad-iddin Adad-uballit Kidin-Adad Lusthammar-Adad Nidinti-Adad Rihat-Adad
+			Shamshi-Adad Shipqat-Adad Tanittu-Adad Tukulti-Adad Nergal-beli
+			Nergal-belshunu Nergal-eriba Nergal-etir Nergal-ibni Nergal-iddin
+			Nergal-uballit Kidin-Nergal Lusthammar-Nergal Nidinti-Nergal Rihat-Nergal
+			Shamshi-Nergal Shipqat-Nergal Tanittu-Nergal Tukulti-Nergal Sin-beli
+			Sin-belshunu Sin-eriba Sin-etir Sin-ibni Sin-iddin Sin-uballit Kidin-Sin
+			Lusthammar-Sin Nidinti-Sin Rihat-Sin Shamshi-Sin Shipqat-Sin Tanittu-Sin
+			Tukulti-Sin Enlil-beli Enlil-belshunu Enlil-eriba Enlil-etir Enlil-ibni
+			Enlil-iddin Enlil-uballit Kidin-Enlil Lusthammar-Enlil Nidinti-Enlil
+			Rihat-Enlil Shamshi-Enlil Shipqat-Enlil Tanittu-Enlil Tukulti-Enlil
+			Ninurta-beli Ninurta-belshunu Ninurta-eriba Ninurta-etir Ninurta-ibni
+			Ninurta-iddin Ninurta-uballit Kidin-Ninurta Lusthammar-Ninurta
+			Nidinti-Ninurta Rihat-Ninurta Shamshi-Ninurta Shipqat-Ninurta
+			Tanittu-Ninurta Tukulti-Ninurta 
+		}
+		female_names = {
+			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
+			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
+			Wardat-Ninurta 
+		}
+
+		mercenary_names = {
+			{ name = "ir_chariots_of_marduk" coat_of_arms = "BABYLON_FLAG" }
+		}
+		
+		patronym_prefix_male = prefix_aplu
+		patronym_prefix_female = prefix_bintu
+		dynasty_of_location_prefix = prefix_ildu
+		always_use_patronym = yes
+}
