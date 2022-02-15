@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 	color = rgb { 14  20  31 }
 
@@ -9,6 +9,7 @@ nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 	traditions = {
 		tradition_caravaneers # https://books.openedition.org/momeditions/8587
 		tradition_dryland_dwellers
+		tradition_warriors_of_the_dry
 	}
 
 	name_list = name_list_nabatean
@@ -33,6 +34,7 @@ adnanite = { # https://en.wikipedia.org/wiki/Adnanites
 	traditions = {
 		tradition_caravaneers
 		tradition_desert_nomads
+		tradition_warriors_of_the_dry
 	}
 
 	name_list = name_list_bedouin

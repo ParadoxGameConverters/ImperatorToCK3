@@ -1,12 +1,13 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 luwian = {
 	color = hsv { 0.32 0.45 0.9 }
 
 	heritage = heritage_anatolian
-	# language = language_luwian
+	language = language_luwian
 	martial_custom = martial_custom_male_only
+	ethos = ethos_stoic # Random
 	traditions = {
-	
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_luwian
@@ -24,10 +25,11 @@ lydian = {
 	color = rgb { 149 101 186 }
 
 	heritage = heritage_anatolian
-	# language = language_lydian
+	language = language_lydian
 	martial_custom = martial_custom_male_only
+	ethos = ethos_communal
 	traditions = {
-	
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_lydian
@@ -45,10 +47,11 @@ hittite = {
 	color = hsv { 0.42 0.45 0.3 }
 
 	heritage = heritage_anatolian
-	# language = language_hittite
+	language = language_hittite
 	martial_custom = martial_custom_male_only
+	ethos = ethos_bureaucratic # Earliest constitutional monarchy
 	traditions = {
-	
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_hittite
@@ -66,10 +69,11 @@ phrygian = {
 	color = rgb { 246 223 15 }
 
 	heritage = heritage_anatolian
-	# language = language_phrygian
+	language = language_phrygian
 	martial_custom = martial_custom_male_only
+	ethos = ethos_communal # Unknown
 	traditions = {
-	
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_phrygian

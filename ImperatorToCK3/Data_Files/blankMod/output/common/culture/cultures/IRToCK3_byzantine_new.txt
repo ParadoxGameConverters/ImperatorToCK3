@@ -1,13 +1,18 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 macedonian = {
 	heritage = heritage_byzantine
 	language = language_greek
 	color = { 0.8 0.55 0.6 }
 
 	name_list = name_list_ancient_greek
-
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bellicose
 	ethnicities = {
 		10 = mediterranean_byzantine
+	}
+	
+	traditions = {
+		tradition_swords_for_hire
 	}
 	
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -22,9 +27,17 @@ hellenistic = {
 	heritage = heritage_byzantine
 	language = language_greek
 	parents = { macedonian persian }
+	created = 20.1.1
+	ethos = ethos_courtly
 	
 	name_list = name_list_ancient_greek
 	name_list = name_list_persian
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+		tradition_xenophilic
+	}
 	
 	coa_gfx = { byzantine_group_coa_gfx iranian_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx mena_building_gfx }
@@ -37,13 +50,20 @@ indogreek = {
 	heritage = heritage_byzantine
 	language = language_greek
 	parents = { greek bactrian }
+	created = 20.1.1
+	ethos = ethos_bureaucratic
 
 	name_list = name_list_indo_greek
+	martial_custom = martial_custom_male_only
 	
 	coa_gfx = { indo_aryan_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { indian_clothing_gfx }
 	unit_gfx = { indian_unit_gfx }
+	
+	traditions = {
+		tradition_formation_fighting
+	}
 	
 	ethnicities = {
 		10 = mediterranean_byzantine
@@ -61,6 +81,7 @@ indogreek = {
 eblanic = {
 	color = rgb { 104 140 255 }
 	parents = { greek irish }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -71,10 +92,17 @@ eblanic = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 scotinous = {
 	color = hsv { 136 90 255 }
 	parents = { greek pictish }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -85,10 +113,17 @@ scotinous = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 prettanian = {
 	color = rgb { 166 125 255 }
 	parents = { greek brythonic }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -99,9 +134,16 @@ prettanian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 hyperborean = {
 	parents = { greek }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -113,10 +155,17 @@ hyperborean = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 velgese = {
 	color = rgb { 177 151 255 }
 	parents = { greek belgae }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -127,11 +176,18 @@ velgese = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 metalpesian = {
 
 	color = rgb { 96 95 255 }
 	parents = { greek }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -142,11 +198,18 @@ metalpesian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}	
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 prinelbite = {
 
 	color = rgb { 122 110 255 }
 	parents = { greek old_saxon }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -157,11 +220,18 @@ prinelbite = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 metalbite = {
 
 	color = rgb { 183 133 255 }
 	parents = { greek }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -172,11 +242,18 @@ metalbite = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 prinalpesian = {
 
 	color = rgb { 119 162 255 }
 	parents = { greek gaulish }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -187,11 +264,18 @@ prinalpesian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 delmatic = {
 
 	color = rgb { 145 113 255 }
 	parents = { greek dalmatian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -202,11 +286,18 @@ delmatic = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 anatolian = {
 
 	color = rgb { 183 109 255 }
 	parents = { greek }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -217,10 +308,17 @@ anatolian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 	
 }
 susite = {
 	parents = { greek persian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -233,9 +331,16 @@ susite = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 azotite = {
 	parents = { greek hebrew }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -248,9 +353,16 @@ azotite = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 carchidonian = {
 	parents = { greek carthaginian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -263,10 +375,17 @@ carchidonian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 
 italiote = {
 	parents = { greek siculian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -279,9 +398,16 @@ italiote = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 hyperochian = {
 	parents = { greek oscan }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -294,9 +420,16 @@ hyperochian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 xarthic = {
 	parents = { greek }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -309,9 +442,16 @@ xarthic = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 varquelonic = {
 	parents = { greek iberian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -324,9 +464,16 @@ varquelonic = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 vaskician = {
 	parents = { greek basque }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -339,9 +486,16 @@ vaskician = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 vaitic = {
 	parents = { greek iberian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -354,9 +508,16 @@ vaitic = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 lousitanian = {
 	parents = { greek lusoiberian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -369,10 +530,17 @@ lousitanian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 
 euxinian = {
 	parents = { greek scythian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -386,11 +554,18 @@ euxinian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }
 
 
 xliponian = {
 	parents = { greek albanian }
+	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
@@ -405,4 +580,10 @@ xliponian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
 }

@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 angle = { # https://en.wikipedia.org/wiki/Angles
 	color = rgb { 142 66 30 }
 	
@@ -33,9 +33,15 @@ angle = { # https://en.wikipedia.org/wiki/Angles
 
 iweric = {
 	parents = { old_saxon irish }
+	created = 20.1.1
 	heritage = heritage_west_germanic
 	language = language_anglic
 	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_things
+		tradition_horse_breeder
+	}
 	
 	color = hsv{ 0.8 0.035 0.8 }
 
@@ -53,4 +59,6 @@ iweric = {
 	}
 
 	name_list = name_list_iweric
+	
+	ethos = ethos_stoic
 }

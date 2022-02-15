@@ -1,15 +1,17 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 aramaic = {
 	color = { 0.05 1.0 0.5 }
 
 	heritage = heritage_chaldean
-	# language = language_aramaic
+	language = language_aramaic
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_warriors_of_the_dry
 	}
 
 	name_list = name_list_aramaic
+	
+	ethos = ethos_bureaucratic
 
 	ethnicities = {
 		10 = mediterranean_byzantine
@@ -24,13 +26,15 @@ babylonian = {
 	color = hsv { 0.7 0.15 0.77 }
 
 	heritage = heritage_chaldean
-	# language = language_babylonian
+	language = language_babylonian
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_warriors_of_the_dry
 	}
 
 	name_list = name_list_babylonian
+	
+	ethos = ethos_spiritual
 
 	ethnicities = {
 		10 = arab
@@ -46,13 +50,15 @@ bazramani = {
 	color = { 0.4 0.6 0.0 }
 	
 	parents = { roman persian }
+	created = 20.1.1
 
 	heritage = heritage_chaldean
 	language = language_roman
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_warriors_of_the_dry
 	}
+	ethos = ethos_bellicose
 
 	name_list = name_list_roman
 	name_list = name_list_persian
@@ -71,13 +77,15 @@ judajca = {
 	color = { 0.0 0.3 0.6 }
 	
 	parents = { roman hebrew }
+	created = 20.1.1
 
 	heritage = heritage_chaldean
 	language = language_roman
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_warriors_of_the_dry
 	}
+	ethos = ethos_courtly
 
 	name_list = name_list_roman
 	name_list = name_list_hebrew
