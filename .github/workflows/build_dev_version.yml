@@ -27,9 +27,14 @@ jobs:
         cd ..
         Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
         Xcopy /E /Y Publish Release
-    - name: Archive artifact
+    - name: Remove old artifacts
+      uses: kolpav/purge-artifacts-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        expire-in: 0
+    - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: dev-version
         path: Release/
-        retention-days: 1
+        retention-days: 30
