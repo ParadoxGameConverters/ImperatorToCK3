@@ -290,5 +290,18 @@
  qahtanite:0 "qahtanitisch"
  qahtanite_collective_noun:0 "Söhne von Qahtān"
 
- hellenistic:0 "Hellenistic"
- hellenistic_collective_noun:0 "Hellenists"
+ hellenistic:0 "hellenistisch"
+ hellenistic_collective_noun:0 "Hellener"
+ hellenistic_prefix:0 "helleno"
+
+ angle:0 "anglisch"
+ angle_collective_noun:1 "Angler"
+ angle_prefix:0 "anglo"
+ 
+ gepid:0 "gepidisch"
+ gepid_collective_noun:1 "Gepiden"
+ gepid_prefix:0 "gepido"
+ 
+ vandilian:0 "wandilisch"
+ vandilian_collective_noun:1 "Wandiler"
+ vandilian_prefix:0 "wandilo"

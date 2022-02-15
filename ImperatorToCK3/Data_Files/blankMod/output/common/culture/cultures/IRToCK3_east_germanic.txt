@@ -1,0 +1,85 @@
+### CONVERTER ###
+vandal = { # https://en.wikipedia.org/wiki/Vandals
+	heritage = heritage_east_germanic
+	language = language_gothic
+	color = hsv { 0.05 0.7 0.3 }
+
+	name_list = name_list_gothic
+
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+}
+
+gothic = { # https://en.wikipedia.org/wiki/Goths
+	color = gothic
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+
+	coa_gfx = { german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+
+gepid = { # https://en.wikipedia.org/wiki/Gepids
+	color = rgb { 91 66 30 }
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+
+	coa_gfx = { german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+
+ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
+	color = rgb { 114 162 166 }
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+	coa_gfx = { german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}
+
+vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
+	color = rgb { 215 246 166 }
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+	coa_gfx = { german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx } 
+}

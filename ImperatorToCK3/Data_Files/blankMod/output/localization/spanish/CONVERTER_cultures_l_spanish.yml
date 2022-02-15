@@ -293,3 +293,15 @@
 
  hellenistic:0 "Hellenistic"
  hellenistic_collective_noun:0 "Hellenists"
+
+ angle:0 "anglesa"
+ angle_collective_noun:1 "Anglos"
+ angle_prefix:0 "anglo"
+ 
+ gepid:0 "Gepid"
+ gepid_collective_noun:1 "Gepids"
+ gepid_prefix:0 "Gepido"
+ 
+ vandilian:0 "Vandilian"
+ vandilian_collective_noun:1 "Vandilians"
+ vandilian_prefix:0 "Vandilo"

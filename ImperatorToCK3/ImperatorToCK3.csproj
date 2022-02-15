@@ -67,13 +67,6 @@
     </ItemGroup>
 	<ItemGroup>
 	  <BlankMod Remove="Data_Files\blankMod\output\common\culture\cultures\IRToCK3_cultures_info.html" />
-	  <BlankMod Remove="Data_Files\blankMod\output\common\culture\name_lists\IRToCK3_latin_override.txt" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="Data_Files\blankMod\output\common\culture\name_lists\IRToCK3_latin_override.txt" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Content Include="Data_Files\blankMod\output\common\culture\name_lists\IRToCK3_latin_override.txt" />
 	</ItemGroup>
 	
 	<Target Name="CopyCustomContent" AfterTargets="Build">
