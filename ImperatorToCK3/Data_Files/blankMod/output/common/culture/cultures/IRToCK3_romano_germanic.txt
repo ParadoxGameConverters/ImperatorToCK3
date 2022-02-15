@@ -1,3 +1,4 @@
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 laessin = {
 	color = rgb { 166 160 148 }
 	parents = { roman german }
