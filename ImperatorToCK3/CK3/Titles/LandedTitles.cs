@@ -398,57 +398,55 @@ public partial class Title {
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate) {
-			var deJureDuchies = this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0);
-			foreach (var duchy in deJureDuchies) {
-				var kingdomRealmShares = new Dictionary<string, int>(); // realm, number of provinces held in duchy
-				var empireRealmShares = new Dictionary<string, int>(); // realm, number of provinces held in duchy
-				var duchyProvincesCount = 0;
-
-				foreach (var county in duchy.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinces.Count();
-					duchyProvincesCount += countyProvincesCount;
-
-					var kingdomRealm = county.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
-					if (kingdomRealm is not null) {
-						kingdomRealmShares.TryGetValue(kingdomRealm.Id, out var currentCount);
-						kingdomRealmShares[kingdomRealm.Id] = currentCount + countyProvincesCount;
-					}
-
-					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
-					if (empireRealm is not null) {
-						empireRealmShares.TryGetValue(empireRealm.Id, out var currentCount);
-						empireRealmShares[empireRealm.Id] = currentCount + countyProvincesCount;
-					}
-				}
-
-				// If multiple empires own the duchy counties, don't assign it to anyone.
-				if (empireRealmShares.Count > 1) {
+			// Set de jure kingdoms.
+			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
+				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
+				var capitalRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
+				if (capitalRealm is not null) {
+					duchy.DeJureLiege = capitalRealm;
 					continue;
 				}
 
-				switch (kingdomRealmShares.Count) {
-					case 0:
-						// No candidates for de jure kingdoms...
-						// ...BUT we can still make the duchy a direct de jure vassal of an empire.
-						if (empireRealmShares.Count == 1) {
-							var (topRealmId, provsCount) = empireRealmShares.First();
-							if (provsCount == duchyProvincesCount) { // duchy fully owned by empire
-								duchy.DeJureLiege = this[topRealmId];
-							}
-						}
-						break;
-					case 1:
-						// If the entire duchy is controlled by 1 kingdom, the winner is clear.
-						duchy.DeJureLiege = this[kingdomRealmShares.First().Key];
-						break;
-					default:
-						// If duchy is controlled by multiple kingdoms, check if they belong to the same empire.
-						// If they do, give the duchy to the kingdom that owns the most provinces in the duchy.
-						if (empireRealmShares.Count == 1 && empireRealmShares.First().Value == duchyProvincesCount) {
-							var kingdomWithBiggestShare = kingdomRealmShares.OrderByDescending(pair => pair.Value).First().Key;
-							duchy.DeJureLiege = this[kingdomWithBiggestShare];
-						}
-						break;
+				// Otherwise, use the kingdom that owns the biggest percentage of the duchy.
+				var kingdomRealmShares = new Dictionary<string, int>(); // realm, number of provinces held in duchy
+				foreach (var county in duchy.GetDeJureVassalsAndBelow("c").Values) {
+					var kingdomRealm = county.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
+					if (kingdomRealm is null) {
+						continue;
+					}
+
+					kingdomRealmShares.TryGetValue(kingdomRealm.Id, out var currentCount);
+					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinces.Count();
+				}
+				if (kingdomRealmShares.Count > 0) {
+					var biggestShare = kingdomRealmShares.OrderByDescending(pair => pair.Value).First();
+					duchy.DeJureLiege = this[biggestShare.Key];
+				}
+			}
+
+			// Set de jure empires.
+			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
+				// If capital county belongs to an empire, make the empire a de jure liege of the kingdom.
+				var capitalRealm = kingdom.CapitalCounty?.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
+				if (capitalRealm is not null) {
+					kingdom.DeJureLiege = capitalRealm;
+					continue;
+				}
+
+				// Otherwise, use the empire that owns the biggest percentage of the kingdom.
+				var empireRealmShares = new Dictionary<string, int>(); // realm, number of provinces held in duchy
+				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
+					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
+					if (empireRealm is null) {
+						continue;
+					}
+
+					empireRealmShares.TryGetValue(empireRealm.Id, out var currentCount);
+					empireRealmShares[empireRealm.Id] = currentCount + county.CountyProvinces.Count();
+				}
+				if (empireRealmShares.Count > 0) {
+					var biggestShare = empireRealmShares.OrderByDescending(pair => pair.Value).First();
+					kingdom.DeJureLiege = this[biggestShare.Key];
 				}
 			}
 		}
