@@ -15,7 +15,7 @@ urslavic = {
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
-	
+	ethos = ethos_communal
 	ethnicities = {
 		60 = slavic_northern_blond
 		5 = slavic_northern_ginger

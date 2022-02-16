@@ -5,8 +5,9 @@ iberian = {
 	heritage = heritage_aboriginal
 	language = language_basque
 	martial_custom = martial_custom_male_only
+	ethos = ethos_courtly # Iberian system of obligation
 	traditions = {
-	
+		tradition_hit_and_run
 	}
 
 	name_list = name_list_basque
@@ -25,10 +26,12 @@ nuragic = {
 	color = hsv { 0.2 0.25 0.5 }
 
 	heritage = heritage_aboriginal
-	# language = language_nuragic
+	language = language_nuragic
+	ethos = ethos_egalitarian # No idea
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_seafaring
+		tradition_agrarian
 	}
 
 	name_list = name_list_nuragic

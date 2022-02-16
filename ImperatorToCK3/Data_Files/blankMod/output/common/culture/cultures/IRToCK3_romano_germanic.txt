@@ -2,12 +2,13 @@
 laessin = {
 	color = rgb { 166 160 148 }
 	parents = { roman german }
+	created = 20.1.1
 
 	heritage = heritage_romano_germanic
-	# language = language_laessin
+	language = language_laessin
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_martial_admiration
 	}
 
 	name_list = name_list_wenedyk
@@ -23,16 +24,19 @@ laessin = {
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	
+	ethos = ethos_stoic
 }
 wenedyk = {
 	color = rgb { 179 101 78 }
 	parents = { roman urslavic }
+	created = 20.1.1
 
 	heritage = heritage_romano_germanic
-	# language = language_laessin
+	language = language_laessin
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_martial_admiration
 	}
 
 	name_list = name_list_wenedyk
@@ -48,16 +52,19 @@ wenedyk = {
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	
+	ethos = ethos_stoic
 }
 pannonian = {
 	color = rgb { 159 134 93 }
 	parents = { roman celtic_pannonian }
+	created = 20.1.1
 
 	heritage = heritage_romano_germanic
 	language = language_gaulish
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_martial_admiration
 	}
 
 	name_list = name_list_roman
@@ -74,4 +81,6 @@ pannonian = {
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	
+	ethos = ethos_stoic
 }

@@ -3,11 +3,13 @@ celtic_pannonian = {
 	color = hsv { 0.25 0.85 0.25 }
 
 	heritage = heritage_gaulish
-	# language = language_gaulish
-	martial_custom = martial_custom_male_only
+	language = language_gaulish
+	martial_custom = martial_custom_equal
 	traditions = {
-	
+		tradition_hit_and_run
 	}
+	
+	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
 
@@ -27,11 +29,13 @@ celtiberian = {
 	color = hsv { 0.2 0.8 0.6 }
 
 	heritage = heritage_gaulish
-	# language = language_gaulish
-	martial_custom = martial_custom_male_only
+	language = language_gaulish
+	martial_custom = martial_custom_equal
 	traditions = {
-	
+		tradition_hit_and_run
 	}
+	
+	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
 
@@ -49,14 +53,17 @@ celtiberian = {
 }
 belgae = {
 	color = hsv { 0.45 0.8 0.45 }
-	parents = { german }
+	parents = { german gallic }
+	created = 20.1.1
 
 	heritage = heritage_gaulish
-	# language = language_gaulish
-	martial_custom = martial_custom_male_only
+	language = language_gaulish
+	martial_custom = martial_custom_equal
 	traditions = {
-	
+		tradition_hit_and_run
 	}
+	
+	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
 
@@ -76,11 +83,13 @@ gallic = {
 	color = hsv { 0.3 0.7 0.4 }
 
 	heritage = heritage_gaulish
-	# language = language_gaulish
-	martial_custom = martial_custom_male_only
+	language = language_gaulish
+	martial_custom = martial_custom_equal
 	traditions = {
-	
+		tradition_hit_and_run
 	}
+	
+	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
 
@@ -99,12 +108,15 @@ gallic = {
 lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	color = hsv { 0.6 0.8 0.2 }
 	parents = { celtiberian iberian }
+	created = 20.1.1
 
 	heritage = heritage_gaulish
-	# language = language_gaulish
-	martial_custom = martial_custom_male_only
-	traditions = {
+	language = language_gaulish
+	martial_custom = martial_custom_equal
 	
+	ethos = ethos_stoic
+	traditions = {
+		tradition_hit_and_run
 	}
 
 	name_list = name_list_gaulish
@@ -125,12 +137,16 @@ galatian = {
 	color = rgb { 159 255 135 }
 	
 	parents = { gallic anatolian }
+	created = 20.1.1
 
 	heritage = heritage_gaulish
-	# language = language_gaulish
+	language = language_gaulish
 	martial_custom = martial_custom_male_only
-	traditions = {
 	
+	ethos = ethos_bellicose
+	
+	traditions = {
+		tradition_hit_and_run
 	}
 
 	name_list = name_list_galatian

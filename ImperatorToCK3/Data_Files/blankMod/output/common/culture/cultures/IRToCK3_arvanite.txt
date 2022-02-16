@@ -1,16 +1,18 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+# ImperatorToCK3: Last updated CK3 patch 1.5.0
 dalmatian = {
 	color = rgb { 246 223 15 }
 
 	heritage = heritage_arvanite
-	# language = language_albanian
-	martial_custom = martial_custom_male_only
+	language = language_albanian
+	martial_custom = martial_custom_equal
 	traditions = {
-	
+		tradition_hit_and_run
 	}
 
 	name_list = name_list_illyrian
 	name_list = name_list_albanian
+	
+	ethos = ethos_bellicose # Regarded as warlike by Greeks and Romans
 
 	ethnicities = {
 		10 = mediterranean_byzantine
@@ -23,12 +25,16 @@ dalmatian = {
 }
 albanian = {
 	color = { 0.4 0.01 0.02 }
+	parents = { dalmatian }
+	created = 350.1.1
 
 	heritage = heritage_arvanite
-	# language = language_albanian
+	language = language_albanian
 	martial_custom = martial_custom_male_only
-	traditions = {
 	
+	ethos = ethos_communal
+	traditions = {
+		tradition_druzhina
 	}
 
 	name_list = name_list_albanian

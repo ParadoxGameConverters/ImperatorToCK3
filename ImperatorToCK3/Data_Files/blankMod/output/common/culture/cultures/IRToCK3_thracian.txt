@@ -3,10 +3,10 @@ thracian = {
 	color = rgb { 5 162 25 }
 
 	heritage = heritage_thracian
-	# language = language_thracian
+	language = language_thracian
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_thracian
@@ -19,15 +19,17 @@ thracian = {
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx } 
 	unit_gfx = { eastern_unit_gfx } 
+	
+	ethos = ethos_stoic
 }
 dacian = {
 	color = hsv { 0.0 0.5 1.0 }
 
 	heritage = heritage_thracian
-	# language = language_dacian
+	language = language_dacian
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_dacian
@@ -40,16 +42,19 @@ dacian = {
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx } 
 	unit_gfx = { eastern_unit_gfx } 
+	
+	ethos = ethos_stoic
 }
 getian = {
 	color = rgb { 112 190 71 }
 	parents = { thracian }
+	created = 20.1.1
 
 	heritage = heritage_thracian
-	# language = language_thracian
+	language = language_thracian
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_thracian
@@ -62,4 +67,6 @@ getian = {
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx } 
 	unit_gfx = { eastern_unit_gfx } 
+	
+	ethos = ethos_stoic
 }

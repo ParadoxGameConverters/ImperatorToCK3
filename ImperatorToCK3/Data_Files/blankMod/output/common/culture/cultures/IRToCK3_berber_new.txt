@@ -4,7 +4,15 @@ old_egyptian = {
 
 	name_list = name_list_old_egyptian
 	# heritage = heritage_kemetic
-	# language = language_kemetic
+	heritage = heritage_berber
+	language = language_kemetic
+	martial_custom = martial_custom_male_only
+	
+	ethos = ethos_spiritual
+	
+	traditions = {
+		tradition_warriors_of_the_dry
+	}
 
 	ethnicities = {
 		10 = arab
@@ -24,6 +32,13 @@ numidian = {
 	
 	heritage = heritage_berber
 	language = language_berber
+	martial_custom = martial_custom_male_only
+	
+	ethos = ethos_stoic
+	
+	traditions = {
+		tradition_warriors_by_merit
+	}
 
 	ethnicities = {
 		10 = arab

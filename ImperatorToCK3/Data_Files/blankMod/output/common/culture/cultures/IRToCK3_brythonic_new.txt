@@ -8,8 +8,9 @@ brythonic = {
 	traditions = {
 		tradition_concubines
 		tradition_hill_dwellers
+		tradition_horse_breeder
 	}
-	martial_custom = martial_custom_male_only
+	martial_custom = martial_custom_equal
 	
 	coa_gfx = { breton_coa_gfx welsh_coa_gfx }
 	building_gfx = { western_building_gfx }

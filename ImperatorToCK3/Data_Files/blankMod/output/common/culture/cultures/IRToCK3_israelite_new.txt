@@ -8,40 +8,60 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 		10 = arab
 	}
 	
+	ethos = ethos_stoic
+	
 	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx mena_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
+	martial_custom = martial_custom_male_only
+	
+	heritage = heritage_israelite
+	language = language_hebrew
 }
 
 shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	color = { 0.2 0.2 0.7 }
 	parents = { hebrew occitan }
+	created = 20.1.1
 
 	name_list = name_list_hebrew
 	
 	ethnicities = {
 		10 = arab
 	}
+	
+	ethos = ethos_egalitarian
 
 	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
+	martial_custom = martial_custom_male_only
+	
+	heritage = heritage_israelite
+	language = language_hebrew
 }
 
 zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	color = { 0.7 0.2 0.2 }
 	parents = { hebrew french }
+	created = 20.1.1
 
 	name_list = name_list_hebrew
 	
 	ethnicities = {
 		10 = arab
 	}
+	
+	ethos = ethos_egalitarian
 
 	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
+	martial_custom = martial_custom_male_only
+	
+	heritage = heritage_israelite
+	language = language_hebrew
 }
