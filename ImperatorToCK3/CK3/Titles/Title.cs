@@ -803,22 +803,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
 	}
 
-	public Title? GetDeFactoDuchyOfCounty(Date ck3BookmarkDate) {
-		var dfLiege = GetDeFactoLiege(ck3BookmarkDate);
-		if (dfLiege is not null) {
-			// case: count under duke
-			// case: 
-			return dfLiege.Rank == TitleRank.duchy ? dfLiege : null;
-		}
-
-		foreach (var duchy in parentCollection.Where(t => t.Rank == TitleRank.duchy)) {
-			if (GetHolderId(ck3BookmarkDate) == duchy.GetHolderId(ck3BookmarkDate)) {
-				return duchy;
-			}
-		}
-		return null;
-	}
-
 	public Title? GetRealmOfRank(TitleRank rank, Date ck3BookmarkDate) {
 		if (rank == Rank) {
 			return this;

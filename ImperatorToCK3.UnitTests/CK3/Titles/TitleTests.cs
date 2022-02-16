@@ -481,5 +481,102 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Null(duchy.GetRealmOfRank(TitleRank.county, date));
 			Assert.Null(county.GetRealmOfRank(TitleRank.barony, date));
 		}
+
+		[Fact]
+		public void GetRealmOfRankWorksWithGapsInHierarchy() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var county = titles.Add("c_county");
+
+			var impCharacter1 = new Character(1);
+			var emperor = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			empire.SetHolder(emperor, date);
+
+			var impCharacter2 = new Character(2);
+			var count = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+			county.SetHolder(count, date);
+
+			county.SetDeFactoLiege(empire, date);
+
+			Assert.Equal("e_empire", county.GetRealmOfRank(TitleRank.empire, date)!.Id);
+			Assert.Null(county.GetRealmOfRank(TitleRank.kingdom, date));
+			Assert.Null(county.GetRealmOfRank(TitleRank.duchy, date));
+			Assert.Equal("c_county", county.GetRealmOfRank(TitleRank.county, date)!.Id);
+		}
+
+		[Fact]
+		public void GetRealmOfRankReturnsNullOnNoRealm() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var county = titles.Add("c_county");
+
+			var impCharacter = new Character(2);
+			var count = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter)
+				.Build();
+			county.SetHolder(count, date);
+
+			Assert.Null(county.GetRealmOfRank(TitleRank.duchy, date));
+		}
+
+		[Fact]
+		public void GetRealmOfRankWorksWithMultipleLiegesInHierarchy() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var kingdom = titles.Add("k_kingdom");
+			var duchy = titles.Add("d_duchy");
+			var county = titles.Add("c_county");
+			var barony = titles.Add("b_barony");
+
+			var impCharacter1 = new Character(1);
+			var emperor = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			empire.SetHolder(emperor, date);
+
+			var impCharacter2 = new Character(2);
+			var king = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+			kingdom.SetHolder(king, date);
+
+			var impCharacter3 = new Character(3);
+			var duke = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter3)
+				.Build();
+			duchy.SetHolder(duke, date);
+
+			var impCharacter4 = new Character(4);
+			var count = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter4)
+				.Build();
+			county.SetHolder(count, date);
+
+			var impCharacter5 = new Character(5);
+			var baron = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter5)
+				.Build();
+			barony.SetHolder(baron, date);
+
+			barony.SetDeFactoLiege(county, date);
+			county.SetDeFactoLiege(duchy, date);
+			duchy.SetDeFactoLiege(kingdom, date);
+			kingdom.SetDeFactoLiege(empire, date);
+
+			Assert.Equal("e_empire", barony.GetRealmOfRank(TitleRank.empire, date)!.Id);
+			Assert.Equal("k_kingdom", barony.GetRealmOfRank(TitleRank.kingdom, date)!.Id);
+			Assert.Equal("d_duchy", barony.GetRealmOfRank(TitleRank.duchy, date)!.Id);
+			Assert.Equal("c_county", barony.GetRealmOfRank(TitleRank.county, date)!.Id);
+			Assert.Equal("b_barony", barony.GetRealmOfRank(TitleRank.barony, date)!.Id);
+		}
 	}
 }
