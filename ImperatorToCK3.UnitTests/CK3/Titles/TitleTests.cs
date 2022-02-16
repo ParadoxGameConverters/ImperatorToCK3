@@ -267,6 +267,17 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
+		public void GetDeJureVassalsAndBelowCanFilterEvenDirectVassals() {
+			var titles = new Title.LandedTitles();
+			var empire = titles.Add("e_empire");
+
+			var duchy = titles.Add("d_duchy");
+			duchy.DeJureLiege = empire; // make duchy a direct de jure vassal of the empire
+
+			Assert.Empty(empire.GetDeJureVassalsAndBelow("k"));
+		}
+
+		[Fact]
 		public void DeFactoVassalsAndBelowAreCorrectlyReturned() {
 			var date = new Date(476, 1, 1);
 			var titles = new Title.LandedTitles();
