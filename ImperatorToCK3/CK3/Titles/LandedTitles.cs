@@ -426,28 +426,16 @@ public partial class Title {
 
 			// Set de jure empires.
 			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
-				// If capital county belongs to an empire, make the empire a de jure liege of the kingdom.
-				var capitalRealm = kingdom.CapitalCounty?.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
-				if (capitalRealm is not null) {
-					kingdom.DeJureLiege = capitalRealm;
-					continue;
-				}
-
-				// Otherwise, use the empire that owns the biggest percentage of the kingdom.
-				var empireRealmShares = new Dictionary<string, int>(); // realm, number of provinces held in duchy
+				// Only assign de jure empire to kingdoms that are completely owned by the empire.
+				var empiresOwningKingdom = new HashSet<string>();
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
 					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
 					if (empireRealm is null) {
 						continue;
 					}
-
-					empireRealmShares.TryGetValue(empireRealm.Id, out var currentCount);
-					empireRealmShares[empireRealm.Id] = currentCount + county.CountyProvinces.Count();
+					empiresOwningKingdom.Add(empireRealm.Id);
 				}
-				if (empireRealmShares.Count > 0) {
-					var biggestShare = empireRealmShares.OrderByDescending(pair => pair.Value).First();
-					kingdom.DeJureLiege = this[biggestShare.Key];
-				}
+				kingdom.DeJureLiege = empiresOwningKingdom.Count == 1 ? this[empiresOwningKingdom.First()] : null;
 			}
 		}
 
