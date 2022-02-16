@@ -410,12 +410,14 @@ public partial class Title {
 
 					var kingdomRealm = county.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
 					if (kingdomRealm is not null) {
-						kingdomRealmShares[kingdomRealm.Id] += countyProvincesCount;
+						kingdomRealmShares.TryGetValue(kingdomRealm.Id, out var currentCount);
+						kingdomRealmShares[kingdomRealm.Id] = currentCount + countyProvincesCount;
 					}
 
 					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
 					if (empireRealm is not null) {
-						empireRealmShares[empireRealm.Id] += countyProvincesCount;
+						empireRealmShares.TryGetValue(empireRealm.Id, out var currentCount);
+						empireRealmShares[empireRealm.Id] = currentCount + countyProvincesCount;
 					}
 				}
 
