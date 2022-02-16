@@ -397,6 +397,17 @@ public partial class Title {
 			}
 		}
 
+		public void FixDeJure() {
+			var deJureDuchies = this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0);
+			foreach (var duchy in deJureDuchies) {
+				var deJureCounties = duchy.DeJureVassals.Where(t => t.Rank == TitleRank.county);
+				foreach (var county in deJureCounties) {
+					var numOfProvinces = county.CountyProvinces.Count();
+
+				}
+			}
+		}
+
 		private HashSet<string> GetCountyHolderIds(Date date) {
 			var countyHoldersCache = new HashSet<string>();
 			foreach (var county in this.Where(t => t.Rank == TitleRank.county)) {

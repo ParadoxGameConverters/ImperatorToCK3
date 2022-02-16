@@ -16,7 +16,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
-		private class CK3CharacterBuilder {
+		public class CK3CharacterBuilder {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
 			private CultureMapper cultureMapper = new();

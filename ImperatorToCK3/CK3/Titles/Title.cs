@@ -803,6 +803,42 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
 	}
 
+	public Title? GetDeFactoDuchyOfCounty(Date ck3BookmarkDate) {
+		var dfLiege = GetDeFactoLiege(ck3BookmarkDate);
+		if (dfLiege is not null) {
+			// case: count under duke
+			// case: 
+			return dfLiege.Rank == TitleRank.duchy ? dfLiege : null;
+		}
+
+		foreach (var duchy in parentCollection.Where(t => t.Rank == TitleRank.duchy)) {
+			if (GetHolderId(ck3BookmarkDate) == duchy.GetHolderId(ck3BookmarkDate)) {
+				return duchy;
+			}
+		}
+		return null;
+	}
+
+	public Title? GetRealmOfRank(TitleRank rank, Date ck3BookmarkDate) {
+		if (rank == Rank) {
+			return this;
+		}
+
+		// case: title is not independent
+		var dfLiege = GetDeFactoLiege(ck3BookmarkDate);
+		while (dfLiege is not null) { // title is not independent
+			if (dfLiege.Rank == rank) {
+				return dfLiege;
+			}
+			dfLiege = dfLiege.GetDeFactoLiege(ck3BookmarkDate);
+		}
+
+		// case: title is independent
+		var holderId = GetHolderId(ck3BookmarkDate);
+		return parentCollection.Where(t => t.Rank == rank && t.Rank > this.Rank && t.GetHolderId(ck3BookmarkDate) == holderId)
+			.FirstOrDefault(defaultValue: null);
+	}
+
 	// used by county titles only
 	[NonSerialized] public IEnumerable<ulong> CountyProvinces => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
 	[NonSerialized] private string CapitalBaronyId { get; set; } = string.Empty; // used when parsing inside county to save first barony
