@@ -1,11 +1,11 @@
 ﻿name_list_empty = {
 
 	cadet_dynasty_names = {
-		"dynn_Lowborn"
+		"dynn_Lowborn" "No_Name"
 	}
 
 	dynasty_names = {
-		"dynn_Lowborn"
+		"dynn_Lowborn" "No_Name"
 	}
 
 	male_names = {
