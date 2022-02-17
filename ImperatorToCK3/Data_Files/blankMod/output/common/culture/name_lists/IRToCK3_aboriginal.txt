@@ -26,7 +26,6 @@
 		patronym_suffix_female = "suffix_ar"
 		founder_named_dynasties = yes
 		always_use_patronym = yes
-		dynasty_title_names = no
 }
 name_list_nuragic = {
 		cadet_dynasty_names = {
@@ -78,5 +77,4 @@ name_list_nuragic = {
 		patronym_prefix_female = "dynnp_de"
 		founder_named_dynasties = yes
 		always_use_patronym = yes
-		dynasty_title_names = no
 }

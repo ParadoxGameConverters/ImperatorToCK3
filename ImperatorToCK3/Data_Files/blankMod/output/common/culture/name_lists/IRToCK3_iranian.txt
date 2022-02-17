@@ -138,7 +138,6 @@ name_list_parthian = {
 		Arystone Orypetis Rhoxane Sisygambis
 	}
 	
-	dynasty_title_names = yes
 	founder_named_dynasties = yes
 
 	patronym_suffix_male = "dynnpat_suf_zade"
