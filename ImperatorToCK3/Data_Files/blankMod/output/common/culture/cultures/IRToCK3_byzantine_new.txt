@@ -68,10 +68,6 @@ indogreek = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-
-	mercenary_names = {
-		{ name = "ir_alexanders_followers" coat_of_arms = "alexander_the_great" }
-	}
 }
 
 
