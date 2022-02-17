@@ -1,4 +1,4 @@
-# Last updated: CK3 patch 1.5.0
+﻿# Last updated: CK3 patch 1.5.0
 emperor_feudal_male_old_egyptian = { # Pharaoh
 	gender = male
 	special = holder
