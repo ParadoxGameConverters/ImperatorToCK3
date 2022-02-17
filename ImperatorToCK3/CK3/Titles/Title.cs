@@ -811,7 +811,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	public Title? GetRealmOfRank(TitleRank realmRank, Date ck3BookmarkDate) {
 		var holderId = GetHolderId(ck3BookmarkDate);
-		if (holderId == "0") { // TODO: ADD TEST CASE FOR THIS
+		if (holderId == "0") {
 			return null;
 		}
 
@@ -829,7 +829,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// case: title is independent
-		// TODO: ADD TEST CASE FOR holder1: c_byzantion, k_kingdom being vassal of e_empire
 		var higherTitlesOfHolder = parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank > Rank)
 			.OrderByDescending(t => t.Rank);
 		var highestTitleRank = higherTitlesOfHolder.FirstOrDefault(defaultValue: null)?.Rank;

@@ -598,5 +598,49 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal("c_county", barony.GetRealmOfRank(TitleRank.county, date)!.Id);
 			Assert.Equal("b_barony", barony.GetRealmOfRank(TitleRank.barony, date)!.Id);
 		}
+
+		[Fact]
+		public void GetRealmOfRankReturnsCorrectRealmForLowerTitlesOfRulers() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var kingdom = titles.Add("k_kingdom");
+			var county = titles.Add("c_county");
+
+			var impCharacter1 = new Character(1);
+			var emperor = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			empire.SetHolder(emperor, date);
+
+			var impCharacter2 = new Character(2);
+			var king = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+			kingdom.SetHolder(king, date);
+			kingdom.SetDeFactoLiege(empire, date);
+			county.SetHolder(king, date); // county is a lower title of the king
+
+			Assert.Equal("e_empire", county.GetRealmOfRank(TitleRank.empire, date)!.Id);
+		}
+
+		[Fact]
+		public void GetRealmOfRankCanReturnHigherTitleOfSameRuler() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var kingdom = titles.Add("k_kingdom");
+			var county = titles.Add("c_county");
+
+			var impCharacter1 = new Character(2);
+			var king = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			kingdom.SetHolder(king, date);
+			county.SetHolder(king, date); // county is a lower title of the king
+
+			Assert.Equal("k_kingdom", county.GetRealmOfRank(TitleRank.kingdom, date)!.Id);
+		}
 	}
 }
