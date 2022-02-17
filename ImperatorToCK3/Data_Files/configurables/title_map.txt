@@ -9,7 +9,8 @@
 # let map into a title with a different rank than the output
 # (E.g. a duchy Mauryan Empire will be mapped to an empire title nevertheless)
 # Names come from I:R and overwrite those of CK3!
-# Geographical equivalence is good to rename de jure setups
+
+# DO NOT use CK3 de jure duchies in mappings!
 
 # There is no need for all tags to be mapped
 

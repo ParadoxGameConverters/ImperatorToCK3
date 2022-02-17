@@ -439,6 +439,15 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
+		public void GetRealmOfRankReturnsNullWhenNoHolder() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var county = titles.Add("c_county");
+			Assert.Null(county.GetRealmOfRank(TitleRank.county, date));
+		}
+
+		[Fact]
 		public void GetRealmOfRankCanReturnSameTitle() {
 			var titles = new Title.LandedTitles();
 			var date = new Date(476, 1, 1);

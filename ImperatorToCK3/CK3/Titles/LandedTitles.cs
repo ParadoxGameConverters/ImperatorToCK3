@@ -414,7 +414,6 @@ public partial class Title {
 					if (kingdomRealm is null) {
 						continue;
 					}
-
 					kingdomRealmShares.TryGetValue(kingdomRealm.Id, out var currentCount);
 					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinces.Count();
 				}
@@ -427,15 +426,30 @@ public partial class Title {
 			// Set de jure empires.
 			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
 				// Only assign de jure empire to kingdoms that are completely owned by the empire.
-				var empiresOwningKingdom = new HashSet<string>();
+				var empireShares = new Dictionary<string, int>();
+				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
+					var countyProvincesCount = county.CountyProvinces.Count();
+					kingdomProvincesCount += countyProvincesCount;
+
 					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
 					if (empireRealm is null) {
 						continue;
 					}
-					empiresOwningKingdom.Add(empireRealm.Id);
+					empireShares.TryGetValue(empireRealm.Id, out var currentCount);
+					empireShares[empireRealm.Id] = currentCount + countyProvincesCount;
 				}
-				kingdom.DeJureLiege = empiresOwningKingdom.Count == 1 ? this[empiresOwningKingdom.First()] : null;
+
+				if (empireShares.Count is not 1) {
+					kingdom.DeJureLiege = null;
+					continue;
+				}
+				(string empireId, int share) = empireShares.First();
+				if (share != kingdomProvincesCount) {
+					kingdom.DeJureLiege = null;
+					continue;
+				}
+				kingdom.DeJureLiege = this[empireId];
 			}
 		}
 
