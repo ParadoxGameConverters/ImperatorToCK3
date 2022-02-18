@@ -42,7 +42,7 @@ oscan = {
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
-	}	
+
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -63,7 +63,7 @@ samnite = {
 	unit_gfx = { western_unit_gfx }	
 	
 	color = { 117 131 150 }
-	}	
+	
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -84,7 +84,7 @@ venetic = {
 	unit_gfx = { western_unit_gfx }	
 	
 	color = { 193 117 241 }
-	}	
+
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -105,7 +105,7 @@ ligustic = {
 	unit_gfx = { western_unit_gfx }	
 	
 	color = { 211 208 124 }
-	}	
+
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -126,11 +126,10 @@ messapic = {
 	unit_gfx = { western_unit_gfx }	
 	
 	color = { 5 52 113 }
-	}	
+	
 	traditions = {
 		tradition_only_the_strong
 	}	
-	
 }
 sardonian = {	
 	# heritage = heritage_proto_italic
@@ -148,11 +147,10 @@ sardonian = {
 	unit_gfx = { western_unit_gfx }	
 	
 	color = { 29 16 31 }
-	}	
+
 	traditions = {
 		tradition_only_the_strong
 	}	
-	
 }
 siculian = {	
 	# heritage = heritage_proto_italic
@@ -170,7 +168,7 @@ siculian = {
 	unit_gfx = { western_unit_gfx }	
 	
 	color = { 226 216 174 }	
-	}	
+
 	traditions = {
 		tradition_only_the_strong
 	}	
