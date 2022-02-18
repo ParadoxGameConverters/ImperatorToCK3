@@ -1,0 +1,23 @@
+﻿aaa_noculture = {
+	color = { 0 0 0 }
+	
+	ethos = ethos_communal
+	heritage = heritage_noheritage
+	language = language_nolanguage
+	martial_custom = martial_custom_equal
+	traditions = {
+		tradition_isolationist
+		tradition_staunch_traditionalists
+	}
+	
+	name_list = name_list_empty
+	
+	coa_gfx = { western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	
+	ethnicities = {
+		0 = caucasian_blond
+	}
+}

@@ -1,0 +1,1 @@
+aristocratic_republic = { type=republic }

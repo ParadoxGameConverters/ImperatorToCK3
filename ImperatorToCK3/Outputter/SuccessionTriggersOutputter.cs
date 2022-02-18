@@ -1,46 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
+using System.Collections.Generic;
 using System.IO;
 
-namespace ImperatorToCK3.Outputter {
-	public static class SuccessionTriggersOutputter {
-		public static void OutputSuccessionTriggers(string outputModName, LandedTitles landedTitles) {
-			var outputPath = Path.Combine("output", outputModName, "common/scripted_triggers/00_succession_triggers.txt");
+namespace ImperatorToCK3.Outputter;
+public static class SuccessionTriggersOutputter {
+	public static void OutputSuccessionTriggers(string outputModName, Title.LandedTitles landedTitles, Date ck3BookmarkDate) {
+		var outputPath = Path.Combine("output", outputModName, "common", "scripted_triggers", "IRToCK3_succession_triggers.txt");
 
-			using var outputStream = File.OpenWrite(outputPath);
-			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var outputStream = File.OpenWrite(outputPath);
+		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-			List<string> primogenitureTitles = new List<string>();
-			List<string> seniorityTitles = new List<string>();
+		var primogenitureTitles = new List<string>();
+		var seniorityTitles = new List<string>();
 
-			foreach (var landedTitle in landedTitles) {
-				if (landedTitle.Value.DeFactoLiege == null) {					
-					if (landedTitle.Value.SuccessionLaws.Contains("single_heir_succession_law")) {
-						primogenitureTitles.Add(landedTitle.Key);
-					}
-					if (landedTitle.Value.SuccessionLaws.Contains("single_heir_dynasty_house")) {
-						seniorityTitles.Add(landedTitle.Key);
-					}
-				}
+		foreach (var landedTitle in landedTitles) {
+			if (landedTitle.GetDeFactoLiege(ck3BookmarkDate) is not null) {
+				continue;
 			}
 
-			output.WriteLine("historical_succession_access_single_heir_succession_law_trigger = {");
-			output.WriteLine(" OR = {");
-			foreach (var primogenitureTitle in primogenitureTitles) {
-				output.WriteLine("  has_title = title:" + primogenitureTitle);
+			var laws = landedTitle.GetSuccessionLaws(ck3BookmarkDate);
+			if (laws.Contains("single_heir_succession_law")) {
+				primogenitureTitles.Add(landedTitle.Id);
 			}
-			output.WriteLine(" }");
-
-			output.WriteLine("historical_succession_access_single_heir_dynasty_house_trigger = {");
-			output.WriteLine(" OR = {");
-			foreach (var seniorityTitle in seniorityTitles) {
-				output.WriteLine("  has_title = title:" + seniorityTitle);
+			if (laws.Contains("single_heir_dynasty_house")) {
+				seniorityTitles.Add(landedTitle.Id);
 			}
-			output.WriteLine(" }");
 		}
+
+		output.WriteLine("historical_succession_access_single_heir_succession_law_trigger={");
+		output.WriteLine("\tOR={");
+		foreach (var primogenitureTitle in primogenitureTitles) {
+			output.WriteLine($"\t\thas_title=title:{primogenitureTitle}");
+		}
+		output.WriteLine("\t}");
+		output.WriteLine("}");
+
+		output.WriteLine("historical_succession_access_single_heir_dynasty_house_trigger={");
+		output.WriteLine("\tOR={");
+		foreach (var seniorityTitle in seniorityTitles) {
+			output.WriteLine($"\t\thas_title=title:{seniorityTitle}");
+		}
+		output.WriteLine("\t}");
+		output.WriteLine("}");
 	}
 }

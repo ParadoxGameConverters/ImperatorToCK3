@@ -11,122 +11,136 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private const string tribalLawRegexStr = "tribal_religious_law|tribal_currency_laws|tribal_centralization_law|tribal_authority_laws|tribal_autonomy_laws|tribal_domestic_laws" +
 			"|tribal_decentralized_laws|tribal_centralized_laws|tribal_super_decentralized_laws|tribal_super_centralized_laws";
 
-		private static readonly SortedSet<string> monarchyGovernments = new() { "dictatorship", "despotic_monarchy", "aristocratic_monarchy", "stratocratic_monarchy", "theocratic_monarchy", "plutocratic_monarchy", "imperium", "imperial_cult" };
-		private static readonly SortedSet<string> republicGovernments = new() { "aristocratic_republic", "theocratic_republic", "oligarchic_republic", "democratic_republic", "plutocratic_republic", "athenian_republic" };
-		private static readonly SortedSet<string> tribalGovernments = new() { "tribal_chiefdom", "tribal_kingdom", "tribal_federation" };
+		private static readonly SortedSet<string> monarchyGovernments = new();
+		private static readonly SortedSet<string> republicGovernments = new();
+		private static readonly SortedSet<string> tribalGovernments = new();
 		private static readonly Parser parser = new();
-		private static Country country = new(0);
+		private static Country parsedCountry = new(0);
 		public static HashSet<string> IgnoredTokens { get; private set; } = new();
-		public string? PrimaryCulture { get; private set; }
-		public string? Religion { get; private set; }
 
 		static Country() {
-			parser.RegisterKeyword("tag", reader =>
-				country.Tag = reader.GetString()
-			);
-			parser.RegisterKeyword("country_name", reader =>
-				country.CountryName = CountryName.Parse(reader)
-			);
-			parser.RegisterKeyword("flag", reader =>
-				country.Flag = reader.GetString()
-			);
+			parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());
+			parser.RegisterKeyword("country_name", reader => parsedCountry.CountryName = CountryName.Parse(reader));
+			parser.RegisterKeyword("flag", reader => parsedCountry.Flag = reader.GetString());
 			parser.RegisterKeyword("country_type", reader => {
 				var countryTypeStr = reader.GetString();
 				switch (countryTypeStr) {
 					case "rebels":
-						country.CountryType = CountryType.rebels;
+						parsedCountry.CountryType = CountryType.rebels;
 						break;
 					case "pirates":
-						country.CountryType = CountryType.pirates;
+						parsedCountry.CountryType = CountryType.pirates;
 						break;
 					case "barbarians":
-						country.CountryType = CountryType.barbarians;
+						parsedCountry.CountryType = CountryType.barbarians;
 						break;
 					case "mercenaries":
-						country.CountryType = CountryType.mercenaries;
+						parsedCountry.CountryType = CountryType.mercenaries;
 						break;
 					case "real":
-						country.CountryType = CountryType.real;
+						parsedCountry.CountryType = CountryType.real;
 						break;
 					default:
 						Logger.Error($"Unrecognized country type: {countryTypeStr}, defaulting to real.");
-						country.CountryType = CountryType.real;
+						parsedCountry.CountryType = CountryType.real;
 						break;
 				}
 			});
-			parser.RegisterKeyword("color", reader =>
-				country.Color1 = new ColorFactory().GetColor(reader)
-			);
-			parser.RegisterKeyword("color2", reader =>
-				country.Color2 = new ColorFactory().GetColor(reader)
-			);
-			parser.RegisterKeyword("color3", reader =>
-				country.Color3 = new ColorFactory().GetColor(reader)
-			);
+			parser.RegisterKeyword("color", reader => parsedCountry.Color1 = new ColorFactory().GetColor(reader));
+			parser.RegisterKeyword("color2", reader => parsedCountry.Color2 = new ColorFactory().GetColor(reader));
+			parser.RegisterKeyword("color3", reader => parsedCountry.Color3 = new ColorFactory().GetColor(reader));
 			parser.RegisterKeyword("currency_data", reader =>
-				country.Currencies = new CountryCurrencies(reader)
+				parsedCountry.Currencies = new CountryCurrencies(reader)
 			);
 			parser.RegisterKeyword("capital", reader => {
 				var capitalProvId = reader.GetULong();
 				if (capitalProvId > 0) {
-					country.Capital = capitalProvId;
+					parsedCountry.Capital = capitalProvId;
 				}
 			});
 			parser.RegisterKeyword("historical_regnal_numbers", reader => {
-				country.HistoricalRegnalNumbers = new Dictionary<string, int>(
+				parsedCountry.HistoricalRegnalNumbers = new Dictionary<string, int>(
 					reader.GetAssignments().ToDictionary(
 						t => t.Key, t => int.Parse(t.Value)
 					)
 				);
 			});
-			parser.RegisterKeyword("primary_culture", reader =>
-				country.PrimaryCulture = reader.GetString()
-			);
-			parser.RegisterKeyword("religion", reader =>
-				country.Religion = reader.GetString()
-			);
+			parser.RegisterKeyword("primary_culture", reader => parsedCountry.PrimaryCulture = reader.GetString());
+			parser.RegisterKeyword("religion", reader => parsedCountry.Religion = reader.GetString());
 			parser.RegisterKeyword("government_key", reader => {
 				var governmentStr = reader.GetString();
-				country.Government = governmentStr;
+				parsedCountry.Government = governmentStr;
 				// set government type
 				if (monarchyGovernments.Contains(governmentStr)) {
-					country.GovernmentType = GovernmentType.monarchy;
+					parsedCountry.GovernmentType = GovernmentType.monarchy;
 				} else if (republicGovernments.Contains(governmentStr)) {
-					country.GovernmentType = GovernmentType.republic;
+					parsedCountry.GovernmentType = GovernmentType.republic;
 				} else if (tribalGovernments.Contains(governmentStr)) {
-					country.GovernmentType = GovernmentType.tribal;
+					parsedCountry.GovernmentType = GovernmentType.tribal;
 				}
 			});
-			parser.RegisterKeyword("family", reader =>
-				country.parsedFamilyIds.Add(reader.GetULong())
-			);
-			parser.RegisterKeyword("minor_family", reader =>
-				country.parsedFamilyIds.Add(reader.GetULong())
-			);
-			parser.RegisterKeyword("monarch", reader =>
-				country.monarchId = reader.GetULong()
-			);
-			parser.RegisterKeyword("ruler_term", reader =>
-				country.RulerTerms.Add(RulerTerm.Parse(reader))
-			);
-			parser.RegisterRegex(monarchyLawRegexStr, reader =>
-				country.monarchyLaws.Add(reader.GetString())
-			);
-			parser.RegisterRegex(republicLawRegexStr, reader =>
-				country.republicLaws.Add(reader.GetString())
-			);
-			parser.RegisterRegex(tribalLawRegexStr, reader =>
-				country.tribalLaws.Add(reader.GetString())
-			);
+			parser.RegisterKeyword("family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
+			parser.RegisterKeyword("minor_family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
+			parser.RegisterKeyword("monarch", reader => parsedCountry.monarchId = reader.GetULong());
+			parser.RegisterKeyword("ruler_term", reader => parsedCountry.RulerTerms.Add(RulerTerm.Parse(reader)));
+			parser.RegisterRegex(monarchyLawRegexStr, reader => parsedCountry.monarchyLaws.Add(reader.GetString()));
+			parser.RegisterRegex(republicLawRegexStr, reader => parsedCountry.republicLaws.Add(reader.GetString()));
+			parser.RegisterRegex(tribalLawRegexStr, reader => parsedCountry.tribalLaws.Add(reader.GetString()));
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);
 			});
 		}
 		public static Country Parse(BufferedReader reader, ulong countryId) {
-			country = new Country(countryId);
+			parsedCountry = new Country(countryId);
 			parser.ParseStream(reader);
-			return country;
+			return parsedCountry;
+		}
+
+		public static void LoadGovernments(Configuration config, List<Mod> mods) {
+			string governmentType = "monarchy";
+
+			var governmentParser = new Parser();
+			governmentParser.RegisterKeyword("type", reader => governmentType = reader.GetString());
+
+			var fileParser = new Parser();
+			fileParser.RegisterRegex(CommonRegexes.String, (reader, govName) => {
+				governmentType = "monarchy"; // default, overriden by parsed type
+				governmentParser.ParseStream(reader);
+
+				switch (governmentType) {
+					case "republic":
+						AddRepublicGovernment(govName);
+						break;
+					case "monarchy":
+						AddMonarchyGovernment(govName);
+						break;
+					case "tribal":
+						AddTribalGovernment(govName);
+						break;
+					default:
+						AddMonarchyGovernment(govName);
+						break;
+				}
+			});
+			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			fileParser.ParseGameFolder("common/governments", config.CK3Path, "txt", mods, true);
+
+			static void AddRepublicGovernment(string name) {
+				republicGovernments.Add(name);
+				monarchyGovernments.Remove(name);
+				tribalGovernments.Remove(name);
+			}
+			static void AddMonarchyGovernment(string name) {
+				republicGovernments.Remove(name);
+				tribalGovernments.Remove(name);
+				monarchyGovernments.Add(name);
+			}
+			static void AddTribalGovernment(string name) {
+				republicGovernments.Remove(name);
+				monarchyGovernments.Remove(name);
+				tribalGovernments.Add(name);
+			}
 		}
 	}
 }

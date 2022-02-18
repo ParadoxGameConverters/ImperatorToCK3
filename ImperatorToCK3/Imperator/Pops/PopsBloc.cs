@@ -1,16 +1,16 @@
 ﻿using commonItems;
 
-namespace ImperatorToCK3.Imperator.Pops {
-	class PopsBloc : Parser {
-		public Pops PopsFromBloc { get; private set; } = new();
-		public PopsBloc(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
-		}
-		private void RegisterKeys() {
-			RegisterKeyword("population", reader => PopsFromBloc.LoadPops(reader));
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
+namespace ImperatorToCK3.Imperator.Pops;
+
+internal class PopsBloc {
+	public PopCollection PopsFromBloc { get; private set; } = new();
+	public PopsBloc(BufferedReader reader) {
+		var parser = new Parser();
+		RegisterKeys(parser);
+		parser.ParseStream(reader);
+	}
+	private void RegisterKeys(Parser parser) {
+		parser.RegisterKeyword("population", reader => PopsFromBloc.LoadPops(reader));
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 }

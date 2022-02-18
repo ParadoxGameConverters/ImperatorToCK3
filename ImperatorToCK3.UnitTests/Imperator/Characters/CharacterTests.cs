@@ -50,7 +50,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 
 			Assert.Null(character.Country); // we have a country id, but no linked country yet
 			var countriesReader = new BufferedReader("={ 69={} 68={} }");
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries(countriesReader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(countriesReader);
 			character.LinkCountry(countries);
 			Assert.NotNull(character.Country);
 			Assert.Equal((ulong)69, character.Country.Id);
@@ -88,7 +88,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 
 			Assert.Empty(character.Children); // children not linked yet
-			var characters = new ImperatorToCK3.Imperator.Characters.Characters();
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
 			characters.Add(character);
 			var child1 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "69", null);
 			var child2 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "420", null);
@@ -179,6 +179,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		[Fact]
 		public void PortraitDataIsNotExtractedFromDnaOfWrongLength() {
 			var reader = new BufferedReader(
+				// ReSharper disable once StringLiteralTypo
 				"={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/==\"}"
 			);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
@@ -187,6 +188,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		[Fact]
 		public void ColorPaletteCoordinatesCanBeExtractedFromDNA() {
 			var reader = new BufferedReader(
+				// ReSharper disable once StringLiteralTypo
 				"={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}"
 			);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
@@ -280,7 +282,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		[Fact]
 		public void CountryIsNotLinkedWithoutParsedId() {
 			var character = new ImperatorToCK3.Imperator.Characters.Character(1);
-			var countries = new ImperatorToCK3.Imperator.Countries.Countries();
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
 			character.LinkCountry(countries);
 			character.LinkHomeCountry(countries);
 			character.LinkPrisonerHome(countries);

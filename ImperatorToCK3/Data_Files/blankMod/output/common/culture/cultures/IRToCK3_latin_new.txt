@@ -1,0 +1,177 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+salinatorian = {
+	color = { 133 129 152 }
+
+	parents = { roman carthaginian }
+	created = 20.1.1
+	
+	heritage = heritage_latin
+	language = language_latin
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_sicilian
+	
+	ethos = ethos_stoic
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+}
+
+# Old Italian
+oscan = {	
+	color = { 117 131 50 }
+	# heritage = heritage_proto_italic
+	heritage = heritage_latin
+	language = language_oscan
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_roman
+	
+	ethos = ethos_egalitarian
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+}
+samnite = {	
+	# heritage = heritage_proto_italic
+	heritage = heritage_latin
+	language = language_samnite
+	martial_custom = martial_custom_egalitarian
+	
+	name_list = name_list_roman
+	
+	ethos = ethos_stoic
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
+	
+	color = { 117 131 150 }
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+}
+venetic = {	
+	# heritage = heritage_proto_italic
+	heritage = heritage_latin
+	language = language_venetic
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_roman
+	
+	ethos = ethos_stoic
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
+	
+	color = { 193 117 241 }
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+}
+ligustic = {	
+	# heritage = heritage_proto_italic
+	heritage = heritage_latin
+	language = language_ligustic
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_roman
+	
+	ethos = ethos_stoic
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
+	
+	color = { 211 208 124 }
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+}
+messapic = {	
+	# heritage = heritage_proto_italic
+	heritage = heritage_latin
+	language = language_messapic
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_roman
+	
+	ethos = ethos_stoic
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
+	
+	color = { 5 52 113 }
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+	
+}
+sardonian = {	
+	# heritage = heritage_proto_italic
+	heritage = heritage_latin
+	language = language_sardonian
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_sardinian
+	
+	ethos = ethos_stoic
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
+	
+	color = { 29 16 31 }
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+	
+}
+siculian = {	
+	# heritage = heritage_proto_italic
+	heritage = heritage_latin
+	language = language_siculian
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_sicilian
+	
+	ethos = ethos_stoic
+	
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }	
+	
+	color = { 226 216 174 }	
+	}	
+	traditions = {
+		tradition_only_the_strong
+	}	
+}

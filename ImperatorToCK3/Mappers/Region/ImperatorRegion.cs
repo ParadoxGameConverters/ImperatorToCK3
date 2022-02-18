@@ -1,33 +1,47 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region {
-	public class ImperatorRegion : Parser {
-		public Dictionary<string, ImperatorArea?> Areas { get; } = new();
+	public class ImperatorRegion : IIdentifiable<string> {
+		public IdObjectCollection<string, ImperatorArea> Areas { get; } = new();
+		public string Id { get; }
 
-		public ImperatorRegion(BufferedReader reader) {
-			RegisterKeys();
-			ParseStream(reader);
-			ClearRegisteredRules();
+		public ImperatorRegion(string id, BufferedReader reader) {
+			Id = id;
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
 		}
-		private void RegisterKeys() {
-			RegisterKeyword("areas", reader => {
-				foreach (var name in new StringList(reader).Strings) {
-					Areas.Add(name, null);
-				}
-			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
+
 		public bool ContainsProvince(ulong province) {
-			foreach (var (_, area) in Areas) {
-				if (area is not null && area.ContainsProvince(province)) {
-					return true;
+			return Areas.Any(area => area.ContainsProvince(province));
+		}
+
+		public void LinkAreas(IdObjectCollection<string, ImperatorArea> areasDict) {
+			foreach (var requiredAreaName in parsedAreas) {
+				if (areasDict.TryGetValue(requiredAreaName, out var area)) {
+					AddArea(area);
+				} else {
+					throw new KeyNotFoundException($"Region's {Id} area {requiredAreaName} does not exist!");
 				}
 			}
-			return false;
 		}
-		public void LinkArea(string name, ImperatorArea area) {
-			Areas[name] = area;
+
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterKeyword("areas", reader => {
+				foreach (var name in reader.GetStrings()) {
+					parsedAreas.Add(name);
+				}
+			});
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
+
+		private void AddArea(ImperatorArea area) {
+			Areas.Add(area);
+		}
+
+		private readonly HashSet<string> parsedAreas = new();
 	}
 }

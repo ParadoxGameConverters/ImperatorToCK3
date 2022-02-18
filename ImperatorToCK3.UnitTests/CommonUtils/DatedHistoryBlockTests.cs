@@ -23,8 +23,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 				{
 					new() {FieldName = "culture", Setter = "culture", InitialValue = ""},
 					new() {FieldName = "title", Setter = "title", InitialValue = ""},
-					new()
-					{
+					new() {
 						FieldName = "monthly_alien_sightings", Setter = "monthly_alien_sightings", InitialValue = "0"
 					}
 				},
@@ -38,7 +37,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			Assert.Equal("cuman", contents.SimpleFieldContents["culture"][0]);
 			Assert.Equal("bashkiri", contents.SimpleFieldContents["culture"][1]);
 			Assert.Equal("c_sarkel", contents.SimpleFieldContents["title"].Last());
-			Assert.Equal("5", contents.SimpleFieldContents["monthly_alien_sightings"].Last());
+			Assert.Equal(5, contents.SimpleFieldContents["monthly_alien_sightings"].Last());
 
 			Assert.False(contents.SimpleFieldContents.ContainsKey("religion"));
 			Assert.False(contents.SimpleFieldContents.ContainsKey("development"));

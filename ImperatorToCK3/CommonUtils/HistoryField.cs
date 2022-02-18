@@ -14,7 +14,8 @@ namespace ImperatorToCK3.CommonUtils {
 		}
 		public object? GetValue(Date date) {
 			var pairsWithEarlierOrSameDate = ValueHistory.TakeWhile(d => d.Key <= date);
-			return pairsWithEarlierOrSameDate.Any() ? pairsWithEarlierOrSameDate.Last().Value : InitialValue;
+			var withEarlierOrSameDate = pairsWithEarlierOrSameDate.ToList();
+			return withEarlierOrSameDate.Count > 0 ? withEarlierOrSameDate.Last().Value : InitialValue;
 		}
 		public void AddValueToHistory(object value, Date date) {
 			ValueHistory[date] = value;

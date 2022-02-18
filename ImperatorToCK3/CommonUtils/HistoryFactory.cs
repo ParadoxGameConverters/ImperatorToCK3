@@ -29,13 +29,15 @@ namespace ImperatorToCK3.CommonUtils {
 			foreach (var def in this.simpleFieldDefs) {
 				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.Fields[def.FieldName].InitialValue = reader.GetString();
+					history.Fields[def.FieldName].InitialValue = GetValue(reader.GetString());
 				});
 			}
 			foreach (var def in this.containerFieldDefs) {
 				RegisterKeyword(def.Setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.Fields[def.FieldName].InitialValue = reader.GetStrings();
+					var strings = reader.GetStrings();
+					var values = new List<object>(strings.Select(GetValue));
+					history.Fields[def.FieldName].InitialValue = values;
 				});
 			}
 			RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
@@ -64,6 +66,18 @@ namespace ImperatorToCK3.CommonUtils {
 		public void UpdateHistory(History existingHistory, BufferedReader reader) {
 			history = existingHistory;
 			ParseStream(reader);
+		}
+
+		public static object GetValue(string str) {
+			if (int.TryParse(str, out int intValue)) {
+				return intValue;
+			}
+
+			if (double.TryParse(str, out double doubleValue)) {
+				return doubleValue;
+			}
+
+			return str;
 		}
 
 		private readonly List<SimpleFieldDef> simpleFieldDefs; // fieldName, setter, initialValue

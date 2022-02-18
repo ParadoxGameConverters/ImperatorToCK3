@@ -1,10 +1,11 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Mappers.Localization;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
@@ -25,16 +27,16 @@ namespace ImperatorToCK3.Outputter {
 			output.WriteLine("bm_converted = {");
 
 			output.WriteLine("\tdefault = yes");
-			output.WriteLine($"\tstart_date = {config.Ck3BookmarkDate}");
+			output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
 			output.WriteLine("\tis_playable = yes");
 			output.WriteLine("\trecommended = yes");
 
-			var playerTitles = new List<Title>(world.LandedTitles.Values.Where(title => title.PlayerCountry));
+			var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 			var localizations = new Dictionary<string, LocBlock>();
 			foreach (var title in playerTitles) {
-				var holderId = title.GetHolderId(config.Ck3BookmarkDate);
+				var holderId = title.GetHolderId(config.CK3BookmarkDate);
 				if (holderId == "0") {
-					Logger.Warn($"Cannot add player title {title.Name} to bookmark screen: holder is 0!");
+					Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
 					continue;
 				}
 
@@ -42,7 +44,8 @@ namespace ImperatorToCK3.Outputter {
 
 				// Add character localization for bookmark screen.
 				localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
-				localizations.Add($"bm_converted_{holder.Id}_desc", new LocBlock(string.Empty));
+				var descLocBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish");
+				localizations.Add($"bm_converted_{holder.Id}_desc", descLocBlock);
 
 				output.WriteLine("\tcharacter = {");
 
@@ -52,8 +55,8 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\ttype = {holder.AgeSex}");
 				output.WriteLine($"\t\thistory_id = {holder.Id}");
 				output.WriteLine($"\t\tbirth = {holder.BirthDate}");
-				output.WriteLine($"\t\ttitle = {title.Name}");
-				var gov = title.GetGovernment(config.Ck3BookmarkDate);
+				output.WriteLine($"\t\ttitle = {title.Id}");
+				var gov = title.GetGovernment(config.CK3BookmarkDate);
 				if (gov is not null) {
 					output.WriteLine($"\t\tgovernment = {gov}");
 				}
@@ -61,7 +64,7 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine($"\t\tculture = {holder.Culture}");
 				output.WriteLine($"\t\treligion = {holder.Religion}");
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-				WritePosition(output, world, title, config, provincePositions);
+				WritePosition(output, title, config, provincePositions);
 				output.WriteLine("\t\tanimation = personality_rational");
 
 				output.WriteLine("\t}");
@@ -115,20 +118,20 @@ namespace ImperatorToCK3.Outputter {
 
 			// title localization
 			foreach (var (key, loc) in localizations) {
-				english.WriteLine($" {key}: \"{loc.english}\"");
-				french.WriteLine($" {key}: \"{loc.french}\"");
-				german.WriteLine($" {key}: \"{loc.german}\"");
-				russian.WriteLine($" {key}: \"{loc.russian}\"");
-				simpChinese.WriteLine($" {key}: \"{loc.simp_chinese}\"");
-				spanish.WriteLine($" {key}: \"{loc.spanish}\"");
+				english.WriteLine($" {key}: \"{loc["english"]}\"");
+				french.WriteLine($" {key}: \"{loc["french"]}\"");
+				german.WriteLine($" {key}: \"{loc["german"]}\"");
+				russian.WriteLine($" {key}: \"{loc["russian"]}\"");
+				simpChinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+				spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 			}
 		}
 
-		private static void WritePosition(TextWriter output, World world, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+		private static void WritePosition(TextWriter output, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 			int count = 0;
 			double sumX = 0;
 			double sumY = 0;
-			foreach (ulong provId in title.GetProvincesInCountry(world.LandedTitles, config.Ck3BookmarkDate)) {
+			foreach (ulong provId in title.GetProvincesInCountry(config.CK3BookmarkDate)) {
 				if (!provincePositions.TryGetValue(provId, out var pos)) {
 					continue;
 				}
@@ -148,39 +151,38 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
 			Logger.Info("Drawing bookmark map...");
-			string provincesMapPath = Path.Combine(config.Ck3Path, "game/map_data/provinces.png");
-			string flatmapPath = Path.Combine(config.Ck3Path, "game/gfx/map/terrain/flatmap.dds");
-			const string tmpProvincesMapPath = "temp/provinces.tga";
+			string provincesMapPath = Path.Combine(config.CK3Path, "game/map_data/provinces.png");
+			string flatmapPath = Path.Combine(config.CK3Path, "game/gfx/map/terrain/flatmap.dds");
 			const string tmpFlatmapPath = "temp/flatmap.png";
 
-			using (var provincesMagickImage = new MagickImage(provincesMapPath)) {
-				provincesMagickImage.FilterType = FilterType.Point;
-				provincesMagickImage.Resize(2160, 1080);
-				provincesMagickImage.Crop(1920, 1080);
-				provincesMagickImage.RePage();
-				provincesMagickImage.Write(tmpProvincesMapPath);
-			}
+			SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
+				TransparentColorMode = PngTransparentColorMode.Clear,
+				ColorType = PngColorType.RgbWithAlpha,
+			});
+			using var provincesImage = Image.Load(provincesMapPath);
+			provincesImage.Mutate(x =>
+				x.Resize(2160, 1080, KnownResamplers.NearestNeighbor)
+				.Crop(1920, 1080)
+				.BackgroundColor(Color.Transparent)
+			);
 
 			using (var flatmapMagickImage = new MagickImage(flatmapPath)) {
 				flatmapMagickImage.Scale(2160, 1080);
 				flatmapMagickImage.Crop(1920, 1080);
-				flatmapMagickImage.RePage();
 				flatmapMagickImage.Write(tmpFlatmapPath);
 			}
 
-			using var provincesImage = Image.Load(tmpProvincesMapPath);
 			using var bookmarkMapImage = Image.Load(tmpFlatmapPath);
 
 			var mapData = ck3World.MapData;
 			var provDefs = mapData.ProvinceDefinitions;
 
-			var black = new Rgba32(0, 0, 0, 1);
+			Rgba32 black = Color.Black;
 
 			foreach (var playerTitle in playerTitles) {
 				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
 				var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-				HashSet<ulong> heldProvinces =
-					playerTitle.GetProvincesInCountry(ck3World.LandedTitles, config.Ck3BookmarkDate);
+				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 				// Determine which impassables should be be colored by the country
 				var provincesToColor = new HashSet<ulong>(heldProvinces);
 				var impassables = mapData.ColorableImpassableProvinces;
@@ -202,23 +204,25 @@ namespace ImperatorToCK3.Outputter {
 				}
 
 				var diff = provincesToColor.Count - heldProvinces.Count;
-				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle.Name}...");
+				Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
 
 				using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
 				foreach (var provinceColor in provincesToColor.Select(
 					province => provDefs.ProvinceToColorDict[province])) {
 					// Make pixels of the province black.
-					var rgbaProvinceColor = new Rgba32(provinceColor.R, provinceColor.G, provinceColor.B);
+					var rgbaProvinceColor = new Rgba32();
+					provinceColor.ToRgba32(ref rgbaProvinceColor);
 					ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
 				}
 
+				// Make all non-black pixels transparent.
+				InverseTransparent(realmHighlightImage, black);
+
 				// Replace black with title color.
 				ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
-				// Make pixels all colors but the country color transparent.
-				InverseTransparent(realmHighlightImage, rgba32ColorOnMap);
 
 				// Create realm highlight file.
-				var holder = ck3World.Characters[playerTitle.GetHolderId(config.Ck3BookmarkDate)];
+				var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
 				var highlightPath = Path.Combine(
 					"output",
 					config.OutputModName,
@@ -238,32 +242,34 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {
-			for (int y = 0; y < image.Height; ++y) {
-				Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(y);
-				for (int x = 0; x < image.Width; ++x) {
-					if (pixelRowSpan[x].Equals(sourceColor)) {
-						pixelRowSpan[x] = targetColor;
+			image.ProcessPixelRows(accessor => {
+				for (int y = 0; y < image.Height; ++y) {
+					foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
+						if (pixel.Equals(sourceColor)) {
+							pixel = targetColor;
+						}
 					}
 				}
-			}
+			});
 		}
 
 		private static void InverseTransparent(Image<Rgba32> image, Rgba32 color) {
-			var transparent = new Rgba32(0, 0, 0, 0);
-			for (int y = 0; y < image.Height; ++y) {
-				Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(y);
-				for (int x = 0; x < image.Width; ++x) {
-					if (pixelRowSpan[x].Equals(color)) {
-						continue;
+			Rgba32 transparent = Color.Transparent;
+			image.ProcessPixelRows(accessor => {
+				for (int y = 0; y < image.Height; ++y) {
+					foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
+						if (pixel.Equals(color)) {
+							continue;
+						}
+						pixel = transparent;
 					}
-					pixelRowSpan[x] = transparent;
 				}
-			}
+			});
 		}
 
 		private static void ResaveImageAsDDS(string imagePath) {
 			using (var magickImage = new MagickImage(imagePath)) {
-				magickImage.Write($"{CommonFunctions.TrimExtension(imagePath)}.dds");
+				magickImage.Write(Path.ChangeExtension(imagePath, ".dds"));
 			}
 			File.Delete(imagePath);
 		}

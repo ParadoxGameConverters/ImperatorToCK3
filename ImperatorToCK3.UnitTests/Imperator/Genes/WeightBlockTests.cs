@@ -8,23 +8,22 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		[Fact]
 		public void ObjectsCanBeAdded() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\t5 = female_hair_greek_1\n" +
-				"\t2 = sdfsdf\n" +
-				"\t6 = random\n" +
+				"\t2 = female_hair_greek_2\n" +
+				"\t6 = female_hair_greek_3\n" +
 				"}"
 			);
 			var weightBlock = new WeightBlock(reader);
 
 			Assert.Equal((uint)5, weightBlock.GetAbsoluteWeight("female_hair_greek_1"));
-			Assert.Equal((uint)2, weightBlock.GetAbsoluteWeight("sdfsdf"));
-			Assert.Equal((uint)6, weightBlock.GetAbsoluteWeight("random"));
+			Assert.Equal((uint)2, weightBlock.GetAbsoluteWeight("female_hair_greek_2"));
+			Assert.Equal((uint)6, weightBlock.GetAbsoluteWeight("female_hair_greek_3"));
 			Assert.Equal((uint)13, weightBlock.SumOfAbsoluteWeights);
 
 			Assert.Equal("female_hair_greek_1", weightBlock.GetMatchingObject(0.37234234));
-			Assert.Equal("sdfsdf", weightBlock.GetMatchingObject(0.52234234234));
-			Assert.Equal("random", weightBlock.GetMatchingObject(1));
+			Assert.Equal("female_hair_greek_2", weightBlock.GetMatchingObject(0.52234234234));
+			Assert.Equal("female_hair_greek_3", weightBlock.GetMatchingObject(1));
 		}
 
 		[Fact]
@@ -53,8 +52,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		[Fact]
 		public void GetMatchingObjectThrowsErrorOnNegativeArgument() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\t2 = female_hair_greek_2\n" +
 				"}"
 			);
@@ -66,8 +64,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		[Fact]
 		public void GetMatchingObjectThrowsErrorOnArgumentGreaterThan1() {
 			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
+				"= {\n" +
 				"\t2 = female_hair_greek_2\n" +
 				"}"
 			);
@@ -77,7 +74,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Genes {
 		}
 
 		[Fact]
-		public void GetMatchingObjectReturnsNulloptWhenObjectsMapIsEmpty() {
+		public void GetMatchingObjectReturnsNullWhenObjectsMapIsEmpty() {
 			var reader = new BufferedReader(
 				"= {}"
 			);

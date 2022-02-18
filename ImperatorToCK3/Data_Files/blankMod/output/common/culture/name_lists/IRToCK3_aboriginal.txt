@@ -1,0 +1,80 @@
+﻿name_list_iberian = {
+		cadet_dynasty_names = {
+			dynn_Andosinus dynn_Ausetanus dynn_Bastetanus dynn_Mastienus dynn_Bergistanus
+			dynn_Castellanus dynn_Cessetanus dynn_Cerretanus dynn_Contestanus dynn_Deitanus
+			dynn_Edetanus dynn_Helisyx dynn_Ilercavo dynn_Ilergeta dynn_Indigeta dynn_Lacetanus
+			dynn_Laietanus dynn_Oretanus dynn_Sedetanus dynn_Sordo dynn_Vescetanus
+		}
+
+		dynasty_names = {
+			dynn_Andosinus dynn_Ausetanus dynn_Bastetanus dynn_Mastienus dynn_Bergistanus
+			dynn_Castellanus dynn_Cessetanus dynn_Cerretanus dynn_Contestanus dynn_Deitanus
+			dynn_Edetanus dynn_Helisyx dynn_Ilercavo dynn_Ilergeta dynn_Indigeta dynn_Lacetanus
+			dynn_Laietanus dynn_Oretanus dynn_Sedetanus dynn_Sordo dynn_Vescetanus
+		}
+
+		male_names = {
+			Abadutiker Punicus Ambon Abaraban Andobales Balkar Babpo Biurtetel Bosilkas Budar Caro Culcas Gargoris Indo Iscerbeles Kara Korbis Korribilo Mandonio Magavarico
+			Lagunas Orisos Otirgeter Nisunin Nereildun Tiresio Otigirteker Redukeno Sakarbik Sosintaucer Sosian Seihar Skarisker Sacarisker Tureno Turibas Unibelos Urcetices Uxentio Umarilo Talskubilos
+		}
+		female_names = {
+			Ana Ama Aretaunin Aunia Auruningica Canine Daleninar Similce Sicounin Stena Aife Thurinninar Secetaunin Teite Tettingica Nerseada
+		}
+		
+		dynasty_of_location_prefix = "dynnp_de"
+		patronym_suffix_male = "suffix_ar"
+		patronym_suffix_female = "suffix_ar"
+		founder_named_dynasties = yes
+		always_use_patronym = yes
+}
+name_list_nuragic = {
+		cadet_dynasty_names = {
+			dynn_Ligur dynn_Corsus dynn_Belato dynn_Cervinus dynn_Cilebensis dynn_Cumanensis
+			dynn_Lestrigo dynn_Licininus dynn_Longonensis dynn_Macrinus dynn_Opinus dynn_Subasanus
+			dynn_Sumbrus dynn_Tarabenus dynn_Tibulatus dynn_Titianus dynn_Venacinus dynn_Balar
+			dynn_Buduntinus dynn_Coracensis dynn_Giddilitanus dynn_Lucuidonensis dynn_Nurritanus
+			dynn_Perfuga dynn_Turritanus dynn_Uddadhaddaritanus dynn_Iliensis dynn_Iolaes 
+			dynn_Diagesbes dynn_Acconitis dynn_Aechilenensis dynn_Aesaronenses dynn_Alcitanus
+			dynn_Alticiensis dynn_Barbaricinus dynn_Barsanis dynn_Beronicenssi dynn_Bulgar
+			dynn_Campanus dynn_Caralitanus dynn_Carensis dynn_Celsitanus dynn_Corpicensis 
+			dynn_Cunusitanus dynn_Euthychianus dynn_Fifensis dynn_Galillensis dynn_Hypsitanus
+			dynn_Lesitanus dynn_Maltamonensis dynn_Martensis dynn_Maurus dynn_Moddol 
+			dynn_Muthonensis dynn_Neapolitanus dynn_Noritanus dynn_Norensis dynn_Nurrensis
+			dynn_Paratus dynn_Patulcensis dynn_Patulcius dynn_Rubrensis dynn_Ruber dynn_Rubrinsis
+			dynn_Rucensis dynn_Salcitanus dynn_Sarrapitanus dynn_Scapitanus dynn_Semilitensis 
+			dynn_Siculensis dynn_Sossinatis dynn_Sulcitanus dynn_Uterinus dynn_Uthicensis 
+			dynn_Othocensis dynn_Valentinus dynn_Vitensis dynn_Numisiarus
+		}
+
+		dynasty_names = {
+			dynn_Ligur dynn_Corsus dynn_Belato dynn_Cervinus dynn_Cilebensis dynn_Cumanensis
+			dynn_Lestrigo dynn_Licininus dynn_Longonensis dynn_Macrinus dynn_Opinus dynn_Subasanus
+			dynn_Sumbrus dynn_Tarabenus dynn_Tibulatus dynn_Titianus dynn_Venacinus dynn_Balar
+			dynn_Buduntinus dynn_Coracensis dynn_Giddilitanus dynn_Lucuidonensis dynn_Nurritanus
+			dynn_Perfuga dynn_Turritanus dynn_Uddadhaddaritanus dynn_Iliensis dynn_Iolaes 
+			dynn_Diagesbes dynn_Acconitis dynn_Aechilenensis dynn_Aesaronenses dynn_Alcitanus
+			dynn_Alticiensis dynn_Barbaricinus dynn_Barsanis dynn_Beronicenssi dynn_Bulgar
+			dynn_Campanus dynn_Caralitanus dynn_Carensis dynn_Celsitanus dynn_Corpicensis 
+			dynn_Cunusitanus dynn_Euthychianus dynn_Fifensis dynn_Galillensis dynn_Hypsitanus
+			dynn_Lesitanus dynn_Maltamonensis dynn_Martensis dynn_Maurus dynn_Moddol 
+			dynn_Muthonensis dynn_Neapolitanus dynn_Noritanus dynn_Norensis dynn_Nurrensis
+			dynn_Paratus dynn_Patulcensis dynn_Patulcius dynn_Rubrensis dynn_Ruber dynn_Rubrinsis
+			dynn_Rucensis dynn_Salcitanus dynn_Sarrapitanus dynn_Scapitanus dynn_Semilitensis 
+			dynn_Siculensis dynn_Sossinatis dynn_Sulcitanus dynn_Uterinus dynn_Uthicensis 
+			dynn_Othocensis dynn_Valentinus dynn_Vitensis dynn_Numisiarus
+		}
+
+		male_names = {
+			Abadutiker Punicus Ambon Abaraban Andobales Balkar Babpo Biurtetel Bosilkas Budar Caro Culcas Gargoris Indo Iscerbeles Kara Korbis Korribilo Mandonio Magavarico
+			Lagunas Orisos Otirgeter Nisunin Nereildun Tiresio Otigirteker Redukeno Sakarbik Sosintaucer Sosian Seihar Skarisker Sacarisker Tureno Turibas Unibelos Urcetices Uxentio Umarilo Talskubilos
+		}
+		female_names = {
+			Ana Ama Aretaunin Aunia Auruningica Canine Daleninar Similce Sicounin Stena Aife Thurinninar Secetaunin Teite Tettingica Nerseada
+		}
+		
+		dynasty_of_location_prefix = "dynnp_de"
+		patronym_suffix_male = "suffix_itanus"
+		patronym_prefix_female = "dynnp_de"
+		founder_named_dynasties = yes
+		always_use_patronym = yes
+}

@@ -42,7 +42,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		}
 
 		public RulerTerm() { }
-		public RulerTerm(BufferedReader prehistoryRulerReader, Countries countries) {
+		public RulerTerm(BufferedReader prehistoryRulerReader, CountryCollection countries) {
 			PreImperatorRuler = new();
 			var prehistoryParser = new Parser();
 
@@ -67,7 +67,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				if (tagToCountryCache.TryGetValue(tag, out var cachedCountry)) {
 					PreImperatorRuler.Country = cachedCountry;
 				} else {
-					var matchingCountries = countries.Values.Where(c => c.Tag == tag).ToArray();
+					var matchingCountries = countries.Where(c => c.Tag == tag).ToArray();
 					if (matchingCountries.Length != 1) {
 						Logger.Warn($"Pre-Imperator ruler has wrong tag: {tag}!");
 						return;

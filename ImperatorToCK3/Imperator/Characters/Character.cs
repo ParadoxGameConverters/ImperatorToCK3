@@ -1,11 +1,12 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters {
-	public class Character {
+	public class Character : IIdentifiable<ulong> {
 		public Character(ulong id) {
 			Id = id;
 		}
@@ -36,7 +37,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? CustomName { get; set; }
 
 		// Returned value indicates whether a family was linked
-		internal bool LinkFamily(Families.Families families, SortedSet<ulong> missingDefinitionsSet) {
+		internal bool LinkFamily(FamilyCollection families, SortedSet<ulong> missingDefinitionsSet) {
 			if (parsedFamilyId is null) {
 				return false;
 			}
@@ -89,7 +90,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public ParadoxBool Female { get; private set; } = new(false);
+		public PDXBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
 
 		public CK3.Characters.Character? CK3Character { get; set; }
@@ -114,7 +115,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
 			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
 			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
-			parser.RegisterKeyword("female", reader => parsedCharacter.Female = new ParadoxBool(reader));
+			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetPDXBool());
 			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
 			parser.RegisterKeyword("birth_date", reader => {
 				var dateStr = reader.GetString();
@@ -155,7 +156,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns counter of linked spouses
-		public int LinkSpouses(Dictionary<ulong, Character> characters) {
+		public int LinkSpouses(CharacterCollection characters) {
 			var counter = 0;
 			foreach (var spouseId in parsedSpouseIds) {
 				if (characters.TryGetValue(spouseId, out var spouseToLink)) {
@@ -170,7 +171,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkCountry(Countries.Countries countries) {
+		public bool LinkCountry(CountryCollection countries) {
 			if (parsedCountryId is null) {
 				Logger.Warn($"Character {Id} has no country!");
 				return false;
@@ -186,7 +187,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkHomeCountry(Countries.Countries countries) {
+		public bool LinkHomeCountry(CountryCollection countries) {
 			if (parsedHomeCountryId is null) {
 				return false;
 			}
@@ -200,7 +201,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a country was linked
-		public bool LinkPrisonerHome(Countries.Countries countries) {
+		public bool LinkPrisonerHome(CountryCollection countries) {
 			if (parsedPrisonerHomeId is null) {
 				return false;
 			}
@@ -214,7 +215,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a mother was linked
-		public bool LinkMother(Characters characters) {
+		public bool LinkMother(CharacterCollection characters) {
 			if (parsedMotherId is null) {
 				return false;
 			}
@@ -233,7 +234,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 
 		// Returns whether a father was linked
-		public bool LinkFather(Characters characters) {
+		public bool LinkFather(CharacterCollection characters) {
 			if (parsedFatherId is null) {
 				return false;
 			}

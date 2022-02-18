@@ -1,16 +1,21 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries {
 	public enum CountryType { rebels, pirates, barbarians, mercenaries, real }
 	public enum CountryRank { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower }
 	public enum GovernmentType { monarchy, republic, tribal }
-	public partial class Country {
+	public partial class Country : IIdentifiable<ulong> {
 		public ulong Id { get; } = 0;
 		public bool PlayerCountry { get; set; }
 		private ulong? monarchId;  // >=0 are valid
 		public Character? Monarch { get; private set; }
+		public string? PrimaryCulture { get; private set; }
+		public string? Religion { get; private set; }
 		public List<RulerTerm> RulerTerms { get; set; } = new();
 		public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
 		public string Tag { get; private set; } = "";
@@ -29,8 +34,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public Color? Color3 { get; private set; }
 		public CountryCurrencies Currencies { get; private set; } = new();
 		private readonly HashSet<ulong> parsedFamilyIds = new();
-		public Dictionary<ulong, Families.Family> Families { get; private set; } = new();
-		private readonly HashSet<Provinces.Province> ownedProvinces = new();
+		public Dictionary<ulong, Family> Families { get; private set; } = new();
+		private readonly HashSet<Province> ownedProvinces = new();
 
 		public CK3.Titles.Title? CK3Title { get; set; }
 
@@ -45,35 +50,33 @@ namespace ImperatorToCK3.Imperator.Countries {
 				_ => monarchyLaws,
 			};
 		}
-		public CountryRank GetCountryRank() {
-			var provCount = ownedProvinces.Count;
-			if (provCount == 0) {
-				return CountryRank.migrantHorde;
+		public CountryRank Rank {
+			get {
+				var provCount = ownedProvinces.Count;
+				if (provCount == 0) {
+					return CountryRank.migrantHorde;
+				}
+				if (provCount == 1) {
+					return CountryRank.cityState;
+				}
+				if (provCount <= 24) {
+					return CountryRank.localPower;
+				}
+				if (provCount <= 99) {
+					return CountryRank.regionalPower;
+				}
+				if (provCount <= 499) {
+					return CountryRank.majorPower;
+				}
+				return CountryRank.greatPower;
 			}
-			if (provCount == 1) {
-				return CountryRank.cityState;
-			}
-			if (provCount <= 24) {
-				return CountryRank.localPower;
-			}
-			if (provCount <= 99) {
-				return CountryRank.regionalPower;
-			}
-			if (provCount <= 499) {
-				return CountryRank.majorPower;
-			}
-			return CountryRank.greatPower;
 		}
-		public void RegisterProvince(Provinces.Province? province) {
-			if (province is null) {
-				Logger.Warn($"Didn't register null province to country {Name}.");
-			} else {
-				ownedProvinces.Add(province);
-			}
+		public void RegisterProvince(Province province) {
+			ownedProvinces.Add(province);
 		}
 
 		// Returns counter of families linked to the country
-		public int LinkFamilies(Families.Families families, SortedSet<ulong> idsWithoutDefinition) {
+		public int LinkFamilies(FamilyCollection families, SortedSet<ulong> idsWithoutDefinition) {
 			var counter = 0;
 			foreach (var familyId in parsedFamilyIds) {
 				if (families.TryGetValue(familyId, out var familyToLink)) {

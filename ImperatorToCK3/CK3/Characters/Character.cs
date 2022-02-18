@@ -1,8 +1,9 @@
 ﻿using commonItems;
+using commonItems.Collections;
+using commonItems.Localization;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -11,8 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class Character {
-		public string Id { get; private set; }
+	public class Character : IIdentifiable<string> {
+		public string Id { get; }
 		public bool Female { get; private set; }
 		public string Culture { get; private set; } = string.Empty;
 		public string Religion { get; private set; } = string.Empty;
@@ -31,6 +32,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Date BirthDate { get; private set; }
 		public Date? DeathDate { get; private set; }
 		public string? DeathReason { get; private set; }
+		public bool Dead => DeathDate is not null;
 
 		public SortedSet<string> Traits { get; } = new();
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
@@ -42,7 +44,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
 			Country imperatorCountry,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
@@ -51,17 +53,17 @@ namespace ImperatorToCK3.CK3.Characters {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
-				var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
+				var impNameLoc = locDB.GetLocBlockForKey(Name);
 				if (impNameLoc is not null) {
 					Localizations.Add(Name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock {
-						english = Name,
-						french = Name,
-						german = Name,
-						russian = Name,
-						simp_chinese = Name,
-						spanish = Name
+					Localizations.Add(Name, new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+						["english"] = Name,
+						["french"] = Name,
+						["german"] = Name,
+						["russian"] = Name,
+						["simp_chinese"] = Name,
+						["spanish"] = Name
 					});
 				}
 			}
@@ -83,7 +85,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 
 				if (imperatorCountry.CK3Title is not null) {
-					ck3TitleNameForMappers = imperatorCountry.CK3Title.Name;
+					ck3TitleNameForMappers = imperatorCountry.CK3Title.Id;
 				}
 			}
 
@@ -110,7 +112,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
@@ -123,16 +125,25 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
 				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
-				Localizations.Add(Name, new LocBlock(loc));
+
+				var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+					["english"] = loc
+				};
+				locBlock.FillMissingLocWithBaseLanguageLoc();
+				Localizations.Add(Name, locBlock);
 			} else {
 				var nameLoc = ImperatorCharacter.Name;
 				Name = nameLoc.Replace(' ', '_');
 				if (!string.IsNullOrEmpty(Name)) {
-					var matchedLocBlock = localizationMapper.GetLocBlockForKey(Name);
+					var matchedLocBlock = locDB.GetLocBlockForKey(Name);
 					if (matchedLocBlock is not null) {
 						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						Localizations.Add(Name, new LocBlock(nameLoc));
+						var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+							["english"] = nameLoc
+						};
+						locBlock.FillMissingLocWithBaseLanguageLoc();
+						Localizations.Add(Name, locBlock);
 					}
 				}
 			}
@@ -167,7 +178,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			var ck3Owner = "";
 			var imperatorCountry = ImperatorCharacter.Country;
 			if (imperatorCountry?.CK3Title is not null) {
-				ck3Owner = imperatorCountry.CK3Title.Name;
+				ck3Owner = imperatorCountry.CK3Title.Id;
 			}
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
@@ -320,8 +331,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		private string? jailorId;
 		public string? EmployerId { get; set; }
 
-		public bool LinkJailor(Characters characters) {
-			if (jailorId is null) {
+		public bool LinkJailor(CharacterCollection characters) {
+			if (jailorId is null or "0") {
 				return false;
 			}
 

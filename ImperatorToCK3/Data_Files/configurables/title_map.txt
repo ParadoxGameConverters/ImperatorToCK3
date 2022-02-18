@@ -9,7 +9,8 @@
 # let map into a title with a different rank than the output
 # (E.g. a duchy Mauryan Empire will be mapped to an empire title nevertheless)
 # Names come from I:R and overwrite those of CK3!
-# Geographical equivalence is good to rename de jure setups
+
+# DO NOT use CK3 de jure duchies in mappings!
 
 # There is no need for all tags to be mapped
 
@@ -110,7 +111,6 @@ link = { imp = JUD ck3 = d_palestine rank = d } # *cough*
 link = { imp = ROM ck3 = e_roman_empire rank = e }
 link = { imp = ROM ck3 = e_roman_empire rank = k } # Because yes
 link = { imp = ROM ck3 = d_latium rank = d }
-link = { imp = SAM ck3 = d_spoleto rank = d }
 link = { imp = ETR ck3 = d_toscana rank = d }
 link = { imp = APU ck3 = d_apulia rank = d }
 link = { imp = NEP ck3 = k_naples rank = k }
@@ -256,7 +256,6 @@ link = { imp = SMT ck3 = e_bengal rank = e }
 link = { imp = SXS ck3 = k_frisia rank = k } # NOT Saxony
 link = { imp = SXS ck3 = d_frisia rank = d }
 link = { imp = CMB ck3 = d_jylland rank = d }
-link = { imp = TIT ck3 = d_teutonic_order rank = d }
 link = { imp = GIT ck3 = d_vastergotland rank = d }
 link = { imp = SWE ck3 = d_svealand rank = d }
 link = { imp = RAM ck3 = d_viken rank = d }

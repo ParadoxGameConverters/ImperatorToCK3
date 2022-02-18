@@ -1,12 +1,13 @@
 ﻿using ImperatorToCK3.Mappers.CoA;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers {
+namespace ImperatorToCK3.UnitTests.Mappers.Coa {
 	public class CoaMapperTests {
 		[Fact]
 		public void GetCoaForFlagNameReturnsCoaOnMatch() {
 			var coaMapper = new CoaMapper("TestFiles/CoatsOfArms.txt");
-			var coa1 = @"= {
+			// ReSharper disable once StringLiteralTypo
+			const string coa1 = @"{
                 pattern=""pattern_solid.tga""
                 color1=ck2_green    color2=bone_white   color3=pitch_black  colored_emblem={
                     color1=bone_white       color2=ck2_blue     texture=""ce_lamassu_01.dds""
@@ -35,33 +36,33 @@ namespace ImperatorToCK3.UnitTests.Mappers {
                     }
                 }
             }";
-			var coa2 = "= {\n" +
-			"\tpattern =\"pattern_solid.tga\"\n" +
-			"\tcolor1 =\"dark_green\"\n" +
-			"\tcolor2 =\"offwhite\"\n" +
-			"\tcolored_emblem ={\n" +
-			"\t\ttexture =\"ce_pegasus_01.dds\"\n" +
-			"\t\tcolor1 =\"bone_white\"\n" +
-			"\t\tcolor2 =\"offwhite\"\n" +
-			"\t\tinstance ={\n" +
-			"\t\t\tscale ={-0.9 0.9 }\"\n" +
-			"\t\t}\n" +
-			"\t}\n" +
-			"\tcolored_emblem ={\n" +
-			"\t\ttexture =\"ce_border_simple_02.tga\"\n" +
-			"\t\tcolor1 =\"bone_white\"\n" +
-			"\t\tcolor2 =\"dark_green\"\n" +
-			"\t\tinstance ={\n" +
-			"\t\t\trotation =0\n" +
-			"\t\t\tscale ={-1.0 1.0 }\n" +
-			"\t\t}\n" +
-			"\t\tinstance ={\n" +
-			"\t\t\trotation =180\n" +
-			"\t\t\tscale ={-1.0 1.0 }\n" +
-			"\t\t}\n" +
-			"\t}\n" +
-			"}";
-			var coa3 = @"= {
+			const string coa2 = "{\n" +
+								"\tpattern =\"pattern_solid.tga\"\n" +
+								"\tcolor1 =\"dark_green\"\n" +
+								"\tcolor2 =\"offwhite\"\n" +
+								"\tcolored_emblem ={\n" +
+								"\t\ttexture =\"ce_pegasus_01.dds\"\n" +
+								"\t\tcolor1 =\"bone_white\"\n" +
+								"\t\tcolor2 =\"offwhite\"\n" +
+								"\t\tinstance ={\n" +
+								"\t\t\tscale ={-0.9 0.9 }\"\n" +
+								"\t\t}\n" +
+								"\t}\n" +
+								"\tcolored_emblem ={\n" +
+								"\t\ttexture =\"ce_border_simple_02.tga\"\n" +
+								"\t\tcolor1 =\"bone_white\"\n" +
+								"\t\tcolor2 =\"dark_green\"\n" +
+								"\t\tinstance ={\n" +
+								"\t\t\trotation =0\n" +
+								"\t\t\tscale ={-1.0 1.0 }\n" +
+								"\t\t}\n" +
+								"\t\tinstance ={\n" +
+								"\t\t\trotation =180\n" +
+								"\t\t\tscale ={-1.0 1.0 }\n" +
+								"\t\t}\n" +
+								"\t}\n" +
+								"}";
+			const string coa3 = @"{
 	            pattern =""pattern_solid.tga""
 	            color1=""offwhite""
                 color2 =""phrygia_red""
@@ -82,7 +83,7 @@ namespace ImperatorToCK3.UnitTests.Mappers {
 		}
 
 		[Fact]
-		public void GetCoaForFlagNameReturnsNulloptOnNonMatch() {
+		public void GetCoaForFlagNameReturnsNullOnNonMatch() {
 			var coaMapper = new CoaMapper("TestFiles/CoatsOfArms.txt");
 			Assert.Null(coaMapper.GetCoaForFlagName("e_IMPTOCK3_WRONG"));
 		}

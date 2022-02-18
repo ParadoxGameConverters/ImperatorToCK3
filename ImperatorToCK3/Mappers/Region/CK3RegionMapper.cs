@@ -2,48 +2,49 @@
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region {
-	public class CK3RegionMapper : Parser {
+	public class CK3RegionMapper {
 		public CK3RegionMapper() { }
-		public CK3RegionMapper(string ck3Path, LandedTitles landedTitles) {
-			Logger.Info("Initializing Geography.");
+		public CK3RegionMapper(string ck3Path, Title.LandedTitles landedTitles) {
+			Logger.Info("Initializing Geography...");
 
-			var regionFilePath = Path.Combine(ck3Path, "game/map_data/geographical_region.txt");
-			var islandRegionFilePath = Path.Combine(ck3Path, "game/map_data/island_region.txt");
-
-			LoadRegions(landedTitles, regionFilePath, islandRegionFilePath);
+			LoadRegions(landedTitles, ck3Path);
 		}
-		public void LoadRegions(LandedTitles landedTitles, string regionFilePath, string islandRegionFilePath) {
-			RegisterRegionKeys();
-			ParseFile(regionFilePath);
-			ParseFile(islandRegionFilePath);
-			ClearRegisteredRules();
+		public void LoadRegions(Title.LandedTitles landedTitles, string ck3Path) {
+			var parser = new Parser();
+			RegisterRegionKeys(parser);
 
-			foreach (var (titleName, title) in landedTitles) {
+			var regionsFolderPath = Path.Combine("map_data", "geographical_regions");
+			parser.ParseGameFolder(regionsFolderPath, ck3Path, "txt", new List<Mod>(), true);
+
+			var islandRegionFilePath = Path.Combine(ck3Path, "game", "map_data", "island_region.txt");
+			parser.ParseFile(islandRegionFilePath);
+
+			foreach (var title in landedTitles) {
 				var titleRank = title.Rank;
 				if (titleRank == TitleRank.county) {
-					counties[titleName] = title;
+					counties[title.Id] = title;
 				} else if (titleRank == TitleRank.duchy) {
-					duchies[titleName] = title;
+					duchies[title.Id] = title;
 				}
 			}
 
 			LinkRegions();
 		}
 		public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
-			if (regions.TryGetValue(regionName, out var region) && region is not null) {
+			if (regions.TryGetValue(regionName, out var region)) {
 				return region.ContainsProvince(provinceId);
 			}
 
 			// "Regions" are such a fluid term.
-			if (duchies.TryGetValue(regionName, out var duchy) && duchy is not null) {
+			if (duchies.TryGetValue(regionName, out var duchy)) {
 				return duchy.DuchyContainsProvince(provinceId);
 			}
 
 			// And sometimes they don't mean what people think they mean at all.
-			return counties.TryGetValue(regionName, out var county) &&
-				county?.CountyProvinces.Contains(provinceId) == true;
+			return counties.TryGetValue(regionName, out var county) && county.CountyProvinces.Contains(provinceId);
 		}
 		public bool RegionNameIsValid(string regionName) {
 			if (regions.ContainsKey(regionName)) {
@@ -63,7 +64,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 		public string? GetParentCountyName(ulong provinceId) {
 			foreach (var (countyName, county) in counties) {
-				if (county?.CountyProvinces.Contains(provinceId) == true) {
+				if (county.CountyProvinces.Contains(provinceId)) {
 					return countyName;
 				}
 			}
@@ -72,7 +73,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 		public string? GetParentDuchyName(ulong provinceId) {
 			foreach (var (duchyName, duchy) in duchies) {
-				if (duchy?.DuchyContainsProvince(provinceId) == true) {
+				if (duchy.DuchyContainsProvince(provinceId)) {
 					return duchyName;
 				}
 			}
@@ -81,7 +82,7 @@ namespace ImperatorToCK3.Mappers.Region {
 		}
 		public string? GetParentRegionName(ulong provinceId) {
 			foreach (var (regionName, region) in regions) {
-				if (region?.ContainsProvince(provinceId) == true) {
+				if (region.ContainsProvince(provinceId)) {
 					return regionName;
 				}
 			}
@@ -89,49 +90,19 @@ namespace ImperatorToCK3.Mappers.Region {
 			return null;
 		}
 
-		private void RegisterRegionKeys() {
-			RegisterRegex(@"[\w_&]+", (reader, regionName) => {
-				var newRegion = CK3Region.Parse(reader);
-				regions[regionName] = newRegion;
+		private void RegisterRegionKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
+				regions[regionName] = CK3Region.Parse(regionName, reader);
 			});
-			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		private void LinkRegions() {
-			foreach (var (regionName, region) in regions) {
-				if (region is null) {
-					Logger.Warn($"LinkRegions: {regionName} is null!");
-					continue;
-				}
-				// regions
-				foreach (var requiredRegionName in region.Regions.Keys) {
-					if (regions.TryGetValue(requiredRegionName, out var regionToLink) && regionToLink is not null) {
-						region.LinkRegion(requiredRegionName, regionToLink);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} region {requiredRegionName} does not exist!");
-					}
-				}
-
-				// duchies
-				foreach (var requiredDuchyName in region.Duchies.Keys) {
-					if (duchies.TryGetValue(requiredDuchyName, out var duchyToLink) && duchyToLink is not null) {
-						region.LinkDuchy(duchyToLink);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} duchy {requiredDuchyName} does not exist!");
-					}
-				}
-
-				// counties
-				foreach (var requiredCountyName in region.Counties.Keys) {
-					if (counties.TryGetValue(requiredCountyName, out var countyToLink) && countyToLink is not null) {
-						region.LinkCounty(countyToLink);
-					} else {
-						throw new KeyNotFoundException($"Region's {regionName} county {requiredCountyName} does not exist!");
-					}
-				}
+			foreach (var region in regions.Values) {
+				region.LinkRegions(regions, duchies, counties);
 			}
 		}
-		private readonly Dictionary<string, CK3Region?> regions = new();
-		private readonly Dictionary<string, Title?> duchies = new();
-		private readonly Dictionary<string, Title?> counties = new();
+		private readonly Dictionary<string, CK3Region> regions = new();
+		private readonly Dictionary<string, Title> duchies = new();
+		private readonly Dictionary<string, Title> counties = new();
 	}
 }
