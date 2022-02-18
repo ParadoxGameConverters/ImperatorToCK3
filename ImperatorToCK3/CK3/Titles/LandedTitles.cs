@@ -465,7 +465,7 @@ public partial class Title {
 			return countyHoldersCache;
 		}
 
-		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date correctedDate) {
+		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date date) {
 			Logger.Info("Importing development from Imperator...");
 
 			var counties = this.Where(t => t.Rank == TitleRank.county);
@@ -499,10 +499,10 @@ public partial class Title {
 				}
 
 				var provsCount = countyProvinces.Count();
-				dev /= provsCount * Math.Sqrt(provsCount);
+				dev /= provsCount;
 
 				county.history.InternalHistory.Fields.Remove("development_level");
-				county.history.InternalHistory.AddFieldValue("development_level", (int)dev, correctedDate, "change_development_level");
+				county.history.InternalHistory.AddFieldValue("development_level", (int)dev, date, "change_development_level");
 			}
 		}
 	}

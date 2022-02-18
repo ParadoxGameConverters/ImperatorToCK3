@@ -221,5 +221,71 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				}
 			);
 		}
+
+		[Fact]
+		public void DevelopmentIsNotChangedForCountiesOutsideOfImperatorMap() {
+			var date = new Date(476, 1, 1);
+			var titles = new Title.LandedTitles();
+			var county = titles.Add("c_county");
+			county.SetDevelopmentLevel(33, date);
+
+			var imperatorProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+			var provMapper = new ProvinceMapper();
+
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+
+			Assert.Equal(33, county.GetDevelopmentLevel(date));
+		}
+
+		[Fact]
+		public void DevelopmentFromImperatorProvinceCanBeSplitForTargetProvinces() {
+			var date = new Date(476, 1, 1);
+			var titles = new Title.LandedTitles();
+			var titlesReader = new BufferedReader(
+				"c_county1={ b_barony1={province=1} } " +
+				"c_county2={ b_barony2={province=2} } " +
+				"c_county3={ b_barony3={province=3} } "
+			);
+			titles.LoadTitles(titlesReader);
+
+			var imperatorProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+			var impProv = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 21 };
+			imperatorProvinces.Add(impProv);
+
+			var mappingsReader = new BufferedReader("0.0.0.0={ link={ imp=1 ck3=1 ck3=2 ck3=3 } }");
+			var provMapper = new ProvinceMapper(mappingsReader);
+
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+
+			Assert.Equal(7, titles["c_county1"].GetDevelopmentLevel(date));
+			Assert.Equal(7, titles["c_county2"].GetDevelopmentLevel(date));
+			Assert.Equal(7, titles["c_county3"].GetDevelopmentLevel(date));
+		}
+
+		[Fact]
+		public void DevelopmentOfCountyIsCalculatedFromAllCountyProvinces() {
+			var date = new Date(476, 1, 1);
+			var titles = new Title.LandedTitles();
+			var titlesReader = new BufferedReader(
+				"c_county1={ b_barony1={province=1} b_barony2={province=2} } "
+			);
+			titles.LoadTitles(titlesReader);
+
+			var imperatorProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+			var impProv1 = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 10 };
+			imperatorProvinces.Add(impProv1);
+			var impProv2 = new ImperatorToCK3.Imperator.Provinces.Province(2) { CivilizationValue = 40 };
+			imperatorProvinces.Add(impProv2);
+
+			var mappingsReader = new BufferedReader("0.0.0.0={" +
+													" link={ imp=1 ck3=1 } " +
+													" link={ imp=2 ck3=2 } " +
+													"}");
+			var provMapper = new ProvinceMapper(mappingsReader);
+
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+
+			Assert.Equal(25, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2
+		}
 	}
 }
