@@ -33,7 +33,7 @@ namespace ImperatorToCK3.CK3 {
 
 		public World(Imperator.World impWorld, Configuration config) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
-			CorrectedDate = impWorld.EndDate.Year > 0 ? impWorld.EndDate : new Date(1, 1, 1);
+			CorrectedDate = impWorld.EndDate.Year > 1 ? impWorld.EndDate : new Date(2, 1, 1);
 			if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
 				config.CK3BookmarkDate = CorrectedDate;
 				Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");

@@ -247,6 +247,8 @@ link = { ck3 = vandilian @imp_vandilian_cultures }
 # Ingvaeonic mappings
 link = { ck3 = old_saxon @imp_old_saxon_cultures }
 link = { ck3 = angle @imp_angle_cultures }
+link = { ck3 = frisian @imp_frisian_cultures }
+link = { ck3 = old_saxon @imp_ingvaeonic_cultures } # fallback for Ingvaeonic cultures
 # Istvaeonic mappings
 link = { ck3 = frankish @imp_frankish_cultures }
 # Irminonic mappings
@@ -260,6 +262,7 @@ link = { ck3 = langobard @imp_irminonic_cultures
 	@culture_splitting_region_I @culture_splitting_region_J
 	@culture_splitting_region_P @culture_splitting_region_Q @culture_splitting_region_S
 }
+link = { ck3 = suebi @imp_irminonic_cultures } # fallback for Irminonic cultures
 
 # Norse mappings
 link = { ck3 = norse @imp_norse_cultures }
