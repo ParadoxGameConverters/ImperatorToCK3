@@ -56,12 +56,6 @@ namespace ImperatorToCK3.Imperator {
 				var dateString = reader.GetString();
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
-				if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
-					config.CK3BookmarkDate = EndDate;
-					Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
-				} else if (EndDate > config.CK3BookmarkDate) {
-					Logger.Error("Save date is later than CK3 bookmark date, proceeding at your own risk!");
-				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
 				dlcs.UnionWith(reader.GetStrings());
