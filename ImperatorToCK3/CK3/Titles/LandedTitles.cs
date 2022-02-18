@@ -500,6 +500,7 @@ public partial class Title {
 
 				var provsCount = countyProvinces.Count();
 				dev /= provsCount;
+				dev -= Math.Sqrt(dev);
 
 				county.history.InternalHistory.Fields.Remove("development_level");
 				county.history.InternalHistory.AddFieldValue("development_level", (int)dev, date, "change_development_level");

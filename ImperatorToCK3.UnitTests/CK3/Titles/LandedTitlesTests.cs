@@ -257,9 +257,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
 
-			Assert.Equal(7, titles["c_county1"].GetDevelopmentLevel(date));
-			Assert.Equal(7, titles["c_county2"].GetDevelopmentLevel(date));
-			Assert.Equal(7, titles["c_county3"].GetDevelopmentLevel(date));
+			Assert.Equal(4, titles["c_county1"].GetDevelopmentLevel(date)); // 7 - sqrt(7)
+			Assert.Equal(4, titles["c_county2"].GetDevelopmentLevel(date)); // same
+			Assert.Equal(4, titles["c_county3"].GetDevelopmentLevel(date)); // same
 		}
 
 		[Fact]
@@ -285,7 +285,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
 
-			Assert.Equal(25, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2
+			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2 - sqrt(25)
 		}
 	}
 }
