@@ -22,6 +22,7 @@ hunnic = { # ImperatorToCK3
 	}	
 	traditions = {
 		tradition_horse_breeder
+		tradition_pastoralists
 	}	
 	
 	ethos = ethos_bellicose

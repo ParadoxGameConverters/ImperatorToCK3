@@ -18,6 +18,11 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 	
 	heritage = heritage_israelite
 	language = language_hebrew
+	
+	traditions = {
+		tradition_diasporic
+		tradition_mobile_guards
+	}
 }
 
 shuadit = { # https://en.wikipedia.org/wiki/Shuadit
@@ -41,6 +46,11 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	
 	heritage = heritage_israelite
 	language = language_hebrew
+	
+	traditions = {
+		tradition_diasporic
+		tradition_hard_working
+	}
 }
 
 zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
@@ -64,4 +74,9 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	
 	heritage = heritage_israelite
 	language = language_hebrew
+	
+	traditions = {
+		tradition_diasporic
+		tradition_hard_working
+	}
 }

@@ -18,6 +18,7 @@ bactrian = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_of_the_dry
+		tradition_stalwart_defenders
 	}
 	heritage = heritage_iranian
 	language = language_iranian
@@ -44,6 +45,7 @@ scythian = {
 	martial_custom = martial_custom_equal
 	traditions = {
 		tradition_horse_breeder
+		tradition_pastoralists
 	}	
 }
 
@@ -69,6 +71,7 @@ sarmatian = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_horse_breeder
+		tradition_pastoralists
 	}	
 }
 
@@ -94,5 +97,6 @@ parthian = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_of_the_dry
+		tradition_agrarian
 	}	
 }
