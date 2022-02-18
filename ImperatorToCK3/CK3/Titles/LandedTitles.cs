@@ -398,7 +398,7 @@ public partial class Title {
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate) {
-			// Set de jure kingdoms.
+			Logger.Info("Setting de jure kingdoms...");
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
 				var capitalRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
@@ -423,7 +423,7 @@ public partial class Title {
 				}
 			}
 
-			// Set de jure empires.
+			Logger.Info("Setting de jure empires...");
 			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
 				// Only assign de jure empire to kingdoms that are completely owned by the empire.
 				var empireShares = new Dictionary<string, int>();
@@ -463,6 +463,45 @@ public partial class Title {
 			}
 
 			return countyHoldersCache;
+		}
+
+		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date correctedDate) {
+			Logger.Info("Importing development from Imperator...");
+
+			var counties = this.Where(t => t.Rank == TitleRank.county);
+			var impProvsPerCounty = new Dictionary<string, int>();
+
+			var ck3ProvsPerImperatorProv = new Dictionary<ulong, int>(); // Imperator province ID, number of CK3 provs mapped to it
+			foreach (var county in counties) {
+				var imperatorProvs = new HashSet<ulong>();
+				foreach (var ck3ProvId in county.CountyProvinces) {
+					foreach (var impProvId in provMapper.GetImperatorProvinceNumbers(ck3ProvId)) {
+						imperatorProvs.Add(impProvId);
+						ck3ProvsPerImperatorProv.TryGetValue(impProvId, out var currentValue);
+						ck3ProvsPerImperatorProv[impProvId] = currentValue + 1;
+					}
+				}
+
+				impProvsPerCounty[county.Id] = imperatorProvs.Count;
+			}
+
+			foreach (var county in counties) {
+				if (impProvsPerCounty[county.Id] == 0) {
+					// Don't change development for counties outside of Imperator map.
+					continue;
+				}
+
+				double dev = 0;
+				var countyProvinces = county.CountyProvinces;
+				foreach (var ck3ProvId in countyProvinces) {
+					dev += provMapper.GetImperatorProvinceNumbers(ck3ProvId)
+						.Sum(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImperatorProv[impProvId]);
+				}
+				dev /= countyProvinces.Count();
+
+				county.history.InternalHistory.Fields.Remove("development_level");
+				county.history.InternalHistory.AddFieldValue("development_level", (int)dev, correctedDate, "change_development_level");
+			}
 		}
 	}
 }

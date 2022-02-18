@@ -114,6 +114,7 @@ namespace ImperatorToCK3.CK3 {
 			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
+			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
