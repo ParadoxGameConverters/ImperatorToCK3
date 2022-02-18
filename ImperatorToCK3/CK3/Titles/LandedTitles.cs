@@ -497,7 +497,9 @@ public partial class Title {
 					dev += provMapper.GetImperatorProvinceNumbers(ck3ProvId)
 						.Sum(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImperatorProv[impProvId]);
 				}
-				dev /= countyProvinces.Count();
+
+				var provsCount = countyProvinces.Count();
+				dev /= provsCount * Math.Sqrt(provsCount);
 
 				county.history.InternalHistory.Fields.Remove("development_level");
 				county.history.InternalHistory.AddFieldValue("development_level", (int)dev, correctedDate, "change_development_level");
