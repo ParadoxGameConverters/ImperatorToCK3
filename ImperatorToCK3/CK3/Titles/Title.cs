@@ -562,8 +562,13 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"Cannot set de facto liege {newLiege} to {Id}: rank is not higher!");
 			return;
 		}
-		string liegeStr = newLiege is not null ? newLiege.Id : "0";
-		history.InternalHistory.AddFieldValue("liege", liegeStr, date, "liege");
+
+		const string fieldName = "liege";
+		if (newLiege is null) {
+			history.InternalHistory.AddFieldValue(fieldName, 0, date, fieldName);
+		} else {
+			history.InternalHistory.AddFieldValue(fieldName, newLiege.Id, date, fieldName);
+		}
 	}
 
 	[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
