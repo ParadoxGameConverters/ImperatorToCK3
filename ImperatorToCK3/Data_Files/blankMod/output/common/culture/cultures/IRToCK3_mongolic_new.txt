@@ -19,9 +19,10 @@ hunnic = { # ImperatorToCK3
 	clothing_gfx = { mongol_clothing_gfx } 
 	unit_gfx = { mongol_unit_gfx } 
 	martial_custom = martial_custom_male_only
-	}	
+	
 	traditions = {
 		tradition_horse_breeder
+		tradition_pastoralists
 	}	
 	
 	ethos = ethos_bellicose

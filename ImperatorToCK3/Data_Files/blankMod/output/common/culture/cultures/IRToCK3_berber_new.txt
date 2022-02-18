@@ -12,6 +12,7 @@ old_egyptian = {
 	
 	traditions = {
 		tradition_warriors_of_the_dry
+		tradition_artisans # Pyramids
 	}
 
 	ethnicities = {
@@ -38,6 +39,7 @@ numidian = {
 	
 	traditions = {
 		tradition_warriors_by_merit
+		tradition_warriors_of_the_dry
 	}
 
 	ethnicities = {

@@ -228,13 +228,14 @@ link = { ck3 = visigothic @imp_gothic_cultures
  	@culture_splitting_region_A @culture_splitting_region_B @culture_splitting_region_C
 	@culture_splitting_region_E @culture_splitting_region_F
 	@culture_splitting_region_T @culture_splitting_region_U @culture_splitting_region_V @culture_splitting_region_W @culture_splitting_region_X @culture_splitting_region_Y
-	@culture_splitting_region_O 
+	ck3Region=world_africa
 }
 link = { ck3 = ostrogothic @imp_gothic_cultures
 	@culture_splitting_region_I @culture_splitting_region_J1
 	@culture_splitting_region_P @culture_splitting_region_Q @culture_splitting_region_S
 	@culture_splitting_region_K @culture_splitting_region_L @culture_splitting_region_R
-	@culture_splitting_region_M @culture_splitting_region_N 
+	@culture_splitting_region_M @culture_splitting_region_N
+	ck3Region=world_middle_east ck3Region=world_india ck3Region=world_steppe ck3Region=world_tibet ck3Region=world_burma
 }
 link = { ck3 = gepid @imp_gothic_cultures
 	@culture_splitting_region_J2
@@ -246,17 +247,25 @@ link = { ck3 = vandilian @imp_vandilian_cultures }
 # Ingvaeonic mappings
 link = { ck3 = old_saxon @imp_old_saxon_cultures }
 link = { ck3 = angle @imp_angle_cultures }
+link = { ck3 = frisian @imp_frisian_cultures }
+link = { ck3 = old_saxon @imp_ingvaeonic_cultures } # fallback for Ingvaeonic cultures
 # Istvaeonic mappings
 link = { ck3 = frankish @imp_frankish_cultures }
 # Irminonic mappings
 link = { ck3 = suebi @imp_suebian_cultures }
 link = { ck3 = swabian @imp_irminonic_cultures ck3Province = 2055 ck3Province = 2053 ck3Province = 2051 ck3Province = 2721 ck3Province = 2751 ck3Province = 2717 ck3Province = 2057 ck3Province = 2768 ck3Province = 2773 ck3Province = 2748 ck3Province = 2746 ck3Province = 2763 ck3Province = 2759 ck3Province = 2757 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2046 ck3Province = 2049 ck3Province = 2460 }
 link = { ck3 = bavarian @imp_irminonic_cultures ck3Province = 2964 ck3Province = 2945 ck3Province = 2949 ck3Province = 2942 ck3Province = 2957 ck3Province = 2959 ck3Province = 2956 ck3Province = 2883 ck3Province = 2960 ck3Province = 2878 ck3Province = 2990 ck3Province = 2987 ck3Province = 2989 ck3Province = 2975 ck3Province = 2977 ck3Province = 3135 ck3Province = 3131 ck3Province = 2971 ck3Province = 3117 ck3Province = 3092 ck3Province = 3109 ck3Province = 3121 ck3Province = 3086 ck3Province = 3081 ck3Province = 3089 ck3Province = 3073 ck3Province = 3093 ck3Province = 3088 ck3Province = 2950 ck3Province = 2955 ck3Province = 3134 ck3Province = 3105 ck3Province = 3128 ck3Province = 3125 ck3Province = 3099 }
+link = { ck3 = langobard @imp_irminonic_cultures
+	ck3Region=custom_hungary ck3Region=custom_core_austria ck3Region=d_bohemia ck3Region=d_moravia 
+}
+link = { ck3 = langobard @imp_irminonic_cultures
+	@culture_splitting_region_I @culture_splitting_region_J
+	@culture_splitting_region_P @culture_splitting_region_Q @culture_splitting_region_S
+}
+link = { ck3 = suebi @imp_irminonic_cultures } # fallback for Irminonic cultures
 
 # Norse mappings
 link = { ck3 = norse @imp_norse_cultures }
-
-# TODO: link for langobard
 
 # "German" is a fallback
 link = { ck3 = german @imp_all_germanic_cultures }

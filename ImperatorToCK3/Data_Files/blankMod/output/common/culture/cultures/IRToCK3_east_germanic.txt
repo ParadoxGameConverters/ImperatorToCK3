@@ -18,6 +18,7 @@ vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_martial_admiration
+		tradition_forest_fighters
 	}
 	ethos = ethos_bellicose
 }
@@ -41,6 +42,7 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_martial_admiration
+		tradition_battlefield_looters
 	}
 	ethos = ethos_bellicose
 }
@@ -93,6 +95,7 @@ ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_martial_admiration
+		tradition_battlefield_looters
 	}
 	ethos = ethos_bellicose
 }
@@ -116,6 +119,7 @@ gepid = { # https://en.wikipedia.org/wiki/Gepids
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_martial_admiration
+		tradition_battlefield_looters
 	}
 	ethos = ethos_bellicose
 }
@@ -141,6 +145,7 @@ vandal = { # https://en.wikipedia.org/wiki/Vandals
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_martial_admiration
+		tradition_battlefield_looters
 	}
 	ethos = ethos_bellicose
 }

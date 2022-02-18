@@ -7,6 +7,7 @@ etruscan = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_by_merit
+		tradition_city_keepers
 	}
 
 	name_list = name_list_etruscan
@@ -31,6 +32,7 @@ rhaetian = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_by_merit
+		tradition_mountain_homes
 	}
 
 	name_list = name_list_etruscan
@@ -56,6 +58,7 @@ lemnian = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_by_merit
+		tradition_maritime_mercantilism
 	}
 
 	name_list = name_list_etruscan

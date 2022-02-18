@@ -7,6 +7,7 @@ dalmatian = {
 	martial_custom = martial_custom_equal
 	traditions = {
 		tradition_hit_and_run
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_illyrian
@@ -35,6 +36,7 @@ albanian = {
 	ethos = ethos_communal
 	traditions = {
 		tradition_druzhina
+		tradition_swords_for_hire
 	}
 
 	name_list = name_list_albanian

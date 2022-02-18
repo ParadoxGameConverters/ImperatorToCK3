@@ -25,6 +25,6 @@ duke_republic_male_carthaginian = { # Suffet
 	governments = { republic_government }
 	# tier = any
 	priority = 301
-	heritages = { punic_group }
+	heritages = { heritage_punic }
 	top_liege = yes
 }
