@@ -7,6 +7,7 @@ urslavic = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_druzhina
+		tradition_forest_folk
 	}
 
 	name_list = name_list_urslavic

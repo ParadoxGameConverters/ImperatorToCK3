@@ -6,7 +6,8 @@ thracian = {
 	language = language_thracian
 	martial_custom = martial_custom_male_only
 	traditions = {
-		tradition_swords_for_hire
+		tradition_stand_and_fight
+		tradition_adaptive_skirmishing
 	}
 
 	name_list = name_list_thracian
@@ -29,7 +30,8 @@ dacian = {
 	language = language_dacian
 	martial_custom = martial_custom_male_only
 	traditions = {
-		tradition_swords_for_hire
+		tradition_stand_and_fight
+		tradition_adaptive_skirmishing
 	}
 
 	name_list = name_list_dacian
@@ -54,7 +56,8 @@ getian = {
 	language = language_thracian
 	martial_custom = martial_custom_male_only
 	traditions = {
-		tradition_swords_for_hire
+		tradition_stand_and_fight
+		tradition_adaptive_skirmishing
 	}
 
 	name_list = name_list_thracian

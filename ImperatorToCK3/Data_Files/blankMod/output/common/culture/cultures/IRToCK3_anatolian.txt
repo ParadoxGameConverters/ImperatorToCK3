@@ -5,9 +5,10 @@ luwian = {
 	heritage = heritage_anatolian
 	language = language_luwian
 	martial_custom = martial_custom_male_only
-	ethos = ethos_stoic # Random
+	ethos = ethos_communal # Tribal society
 	traditions = {
-		tradition_swords_for_hire
+		tradition_quarrelsome
+		tradition_hill_dwellers
 	}
 
 	name_list = name_list_luwian
@@ -27,9 +28,10 @@ lydian = {
 	heritage = heritage_anatolian
 	language = language_lydian
 	martial_custom = martial_custom_male_only
-	ethos = ethos_communal
+	ethos = ethos_courtly # Kingdom of Lydia
 	traditions = {
-		tradition_swords_for_hire
+		tradition_metal_craftsmanship # First use of coinage
+		tradition_strength_in_numbers # Large armies fielded against Cyrus the Great
 	}
 
 	name_list = name_list_lydian
@@ -51,7 +53,8 @@ hittite = {
 	martial_custom = martial_custom_male_only
 	ethos = ethos_bureaucratic # Earliest constitutional monarchy
 	traditions = {
-		tradition_swords_for_hire
+		tradition_legalistic # Hittite laws
+		tradition_hereditary_hierarchy # Prosperity under competent kings, downfall of Hittite kingdoms under poor kings
 	}
 
 	name_list = name_list_hittite
@@ -71,9 +74,10 @@ phrygian = {
 	heritage = heritage_anatolian
 	language = language_phrygian
 	martial_custom = martial_custom_male_only
-	ethos = ethos_communal # Unknown
+	ethos = ethos_bellicose # Involved in multiple wars before, during and after the existence of the Phrygian Kingdom in 7th Century BC
 	traditions = {
-		tradition_swords_for_hire
+		tradition_sorcerous_metallurgy # Legendary King Midas
+		tradition_astute_diplomats # Recorded to be allied with various powers
 	}
 
 	name_list = name_list_phrygian

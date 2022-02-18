@@ -7,6 +7,7 @@ celtic_pannonian = {
 	martial_custom = martial_custom_equal
 	traditions = {
 		tradition_hit_and_run
+		tradition_adaptive_skirmishing
 	}
 	
 	ethos = ethos_stoic
@@ -33,6 +34,7 @@ celtiberian = {
 	martial_custom = martial_custom_equal
 	traditions = {
 		tradition_hit_and_run
+		tradition_adaptive_skirmishing
 	}
 	
 	ethos = ethos_stoic
@@ -61,6 +63,7 @@ belgae = {
 	martial_custom = martial_custom_equal
 	traditions = {
 		tradition_hit_and_run
+		tradition_adaptive_skirmishing
 	}
 	
 	ethos = ethos_stoic
@@ -87,6 +90,7 @@ gallic = {
 	martial_custom = martial_custom_equal
 	traditions = {
 		tradition_hit_and_run
+		tradition_adaptive_skirmishing
 	}
 	
 	ethos = ethos_stoic
@@ -117,6 +121,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	ethos = ethos_stoic
 	traditions = {
 		tradition_hit_and_run
+		tradition_adaptive_skirmishing
 	}
 
 	name_list = name_list_gaulish
@@ -147,6 +152,7 @@ galatian = {
 	
 	traditions = {
 		tradition_hit_and_run
+		tradition_adaptive_skirmishing
 	}
 
 	name_list = name_list_galatian
