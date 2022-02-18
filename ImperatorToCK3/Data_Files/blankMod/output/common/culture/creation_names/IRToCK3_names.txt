@@ -1,4 +1,4 @@
-crimean_gothic = {
+﻿crimean_gothic = {
 	trigger = {
 		capital_county = {
 			title:d_crimea = {
@@ -9,7 +9,7 @@ crimean_gothic = {
 			culture = {
 				OR = {
 					culture = culture:gothic
-					culture = { any_parent_culture_or_above = { this = culture:gothic } }
+					any_parent_culture_or_above = { this = culture:gothic }
 				}
 			}
 			duchy = title:d_crimea
@@ -17,7 +17,7 @@ crimean_gothic = {
 		scope:culture = {
 			OR = {
 				culture = culture:gothic
-				culture = { any_parent_culture_or_above = { this = culture:gothic } }
+				any_parent_culture_or_above = { this = culture:gothic }
 			}
 		}
 	}
@@ -38,7 +38,7 @@ thracian_gothic = {
 			culture = {
 				OR = {
 					culture = culture:gothic
-					culture = { any_parent_culture_or_above = { this = culture:gothic } }
+					any_parent_culture_or_above = { this = culture:gothic }
 				}
 			}
 			OR = {
@@ -52,7 +52,7 @@ thracian_gothic = {
 		scope:culture = {
 			OR = {
 				culture = culture:gothic
-				culture = { any_parent_culture_or_above = { this = culture:gothic } }
+				any_parent_culture_or_above = { this = culture:gothic }
 			}
 		}
 	}

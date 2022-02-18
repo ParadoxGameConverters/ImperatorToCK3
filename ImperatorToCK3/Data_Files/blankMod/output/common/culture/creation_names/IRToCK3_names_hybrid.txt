@@ -1,11 +1,11 @@
-gothogreek = { # https://en.wikipedia.org/wiki/Gothograecia
+﻿gothogreek = { # https://en.wikipedia.org/wiki/Gothograecia
 	trigger = {
 		OR = {
 			AND = {
 				scope:culture = {
 					OR = {
 						culture = culture:gothic
-						culture = { any_parent_culture_or_above = { this = culture:gothic } }
+						any_parent_culture_or_above = { this = culture:gothic }
 					}
 				}
 				scope:other_culture = { has_cultural_pillar = language_greek }
@@ -15,7 +15,7 @@ gothogreek = { # https://en.wikipedia.org/wiki/Gothograecia
 				scope:other_culture = {
 					OR = {
 						culture = culture:gothic
-						culture = { any_parent_culture_or_above = { this = culture:gothic } }
+						any_parent_culture_or_above = { this = culture:gothic }
 					}
 				}
 			}
