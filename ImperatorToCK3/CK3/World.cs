@@ -115,6 +115,7 @@ namespace ImperatorToCK3.CK3 {
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.CK3BookmarkDate);
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);

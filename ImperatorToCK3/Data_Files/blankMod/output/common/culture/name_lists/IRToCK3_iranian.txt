@@ -1,4 +1,4 @@
-name_list_bactrian = {
+﻿name_list_bactrian = {
 	cadet_dynasty_names = {
 		dynn_Tarixanian dynn_Arzakanian dynn_Axumenian dynn_Wanxanian dynn_Rachnian
 		dynn_Burzenid dynn_Semshanian dynn_Orzan dynn_Bharzunian dynn_Wyaran dynn_Oxian
@@ -138,7 +138,6 @@ name_list_parthian = {
 		Arystone Orypetis Rhoxane Sisygambis
 	}
 	
-	dynasty_title_names = yes
 	founder_named_dynasties = yes
 
 	patronym_suffix_male = "dynnpat_suf_zade"

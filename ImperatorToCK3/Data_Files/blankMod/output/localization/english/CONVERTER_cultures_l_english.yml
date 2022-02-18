@@ -3,27 +3,27 @@
 l_english:
  old_egyptian:0 "Old Egyptian"
  old_egyptian_collective_noun:1 "Fellahim"
- old_egyptian_prefix:0 "Egypto" # found "Egypto-Roman"
+ old_egyptian_prefix:0 "Egypto" # found 'Egypto-Roman'
 
  numidian:0 "Numidian"
  numidian_collective_noun:1 "Numidians"
- numidian_prefix:0 "Numido" # found "Numido-Roman site of Tiddis"
+ numidian_prefix:0 "Numido" # found 'Numido-Roman site of Tiddis'
 
  celtic_pannonian:0 "Scordiscian"
  celtic_pannonian_collective_noun:1 "Scordiscians"
- celtic_pannonian_prefix:0 "Scordisco" # found "specifice scordisco-dacice"
+ celtic_pannonian_prefix:0 "Scordisco" # found 'specifice scordisco-dacice'
 
  celtiberian:0 "Celtiberian"
  celtiberian_collective_noun:1 "Celtiberians"
- celtiberian_prefix:0 "Celtibero" # found "ciudad celtibero-romana"
+ celtiberian_prefix:0 "Celtibero" # found 'ciudad celtibero-romana'
 
  belgae:0 "Belgae"
  belgae_collective_noun:1 "Belgae"
- belgae_prefix:0 "Belgo" # found "Belgo-Germanic people"
+ belgae_prefix:0 "Belgo" # found 'Belgo-Germanic people'
 
  gallic:0 "Gallic"
  gallic_collective_noun:1 "Gauls"
- gallic_prefix:0 "Gallo" # see "Gallo-Roman"
+ gallic_prefix:0 "Gallo" # found 'Gallo-Roman'
 
  macedonian:0 "Macedonian"
  macedonian_collective_noun:1 "Macedonians"
@@ -31,7 +31,7 @@ l_english:
 
  thracian:0 "Thracian"
  thracian_collective_noun:1 "Thracians"
- thracian_prefix:0 "Thraco" # see "Thraco-Roman"
+ thracian_prefix:0 "Thraco" # found 'Thraco-Roman'
 
  dacian:0 "Dacian"
  dacian_collective_noun:1 "Dacians"
@@ -39,15 +39,15 @@ l_english:
 
  getian:0 "Getian"
  getian_collective_noun:1 "Getians"
- getian_prefix:0 "Geto" # see "Geto-Dacian"
+ getian_prefix:0 "Geto" # found 'Geto-Dacian'
 
  cappadocian:0 "Cappadocian"
  cappadocian_collective_noun:1 "Cappadocians"
- cappadocian_prefix:0 "Cappadoco" # found "Cappadoco-Armenian language"
+ cappadocian_prefix:0 "Cappadoco" # found 'Cappadoco-Armenian language'
 
  phrygian:0 "Phrygian"
  phrygian_collective_noun:0 "Phrygians"
- phrygian_prefix:0 "Phrygo" # found "Phrygo-Roman"
+ phrygian_prefix:0 "Phrygo" # found 'Phrygo-Roman'
 
  pontic:0 "Pontic"
  pontic_collective_noun:1 "Pontians"
@@ -55,11 +55,11 @@ l_english:
 
  carthaginian:0 "Punic"
  carthaginian_collective_noun:1 "Carthaginians"
- carthaginian_prefix:0 "Puno" # found "Puno-Numidian"
+ carthaginian_prefix:0 "Puno" # found 'Puno-Numidian'
 
  phoenician:0 "Phoenician"
  phoenician_collective_noun:1 "Phoenicians"
- phoenician_prefix:0 "Phoenico" # found "Phoenico-Israelite trade"
+ phoenician_prefix:0 "Phoenico" # found 'Phoenico-Israelite trade'
  
  nabatean:0 "Nabatean"
  nabatean_collective_noun:1 "Nabateans"
@@ -71,7 +71,7 @@ l_english:
 
  aramaic:0 "Aramaic"
  aramaic_collective_noun:1 "Arameans"
- aramaic_prefix:0 "Arameo" # found "Arameo-Greek"
+ aramaic_prefix:0 "Arameo" # found 'Arameo-Greek'
 
  babylonian:0 "Babylonian"
  babylonian_collective_noun:1 "Babylonians"
@@ -79,11 +79,11 @@ l_english:
 
  vandal:0 "Vandalic"
  vandal_collective_noun:1 "Vandals"
- vandal_prefix:0 "Vandalo" # found "Vandalo-Roman General Stilicho"
+ vandal_prefix:0 "Vandalo" # found 'Vandalo-Roman General Stilicho'
 
  iberian:0 "Iberian"
  iberian_collective_noun:1 "Iberians"
- iberian_prefix:0 "Ibero" # found "Ibero-Roman"
+ iberian_prefix:0 "Ibero" # found 'Ibero-Roman'
 
  nuragic:0 "Nuragic"
  nuragic_collective_noun:1 "Nuragics"
@@ -91,35 +91,35 @@ l_english:
 
  bactrian:0 "Bactrian"
  bactrian_collective_noun:1 "Bactrians"
- bactrian_prefix:0 "Bactro" # found "Bactro-Gandharan"
+ bactrian_prefix:0 "Bactro" # found 'Bactro-Gandharan'
 
  scythian:0 "Scythian"
  scythian_collective_noun:1 "Scythians"
- scythian_prefix:0 "Scytho" # found "Scytho-Sarmatian"
+ scythian_prefix:0 "Scytho" # found 'Scytho-Sarmatian'
 
  sarmatian:0 "Sarmatian"
  sarmatian_collective_noun:1 "Sarmatians"
- sarmatian_prefix:0 "Sarmato" # found "Sarmato-Alan"
+ sarmatian_prefix:0 "Sarmato" # found 'Sarmato-Alan'
 
  parthian:0 "Parthian"
  parthian_collective_noun:1 "Parthians"
- parthian_prefix:0 "Partho" # found "Partho-Roman Mesopotamia"
+ parthian_prefix:0 "Partho" # found 'Partho-Roman Mesopotamia'
 
  hebrew:0 "Hebrew"
  hebrew_collective_noun:1 "Hebrews"
- hebrew_prefix:0 "Judeo" # found "Judeo-Roman culinary tradition"
+ hebrew_prefix:0 "Judeo" # found 'Judeo-Roman culinary tradition'
 
  etruscan:0 "Etruscan"
  etruscan_collective_noun:1 "Etruscans"
- etruscan_prefix:0 "Etrusco" # found "Cacus and Marsyas in Etrusco-Roman Legend"
+ etruscan_prefix:0 "Etrusco" # found 'Cacus and Marsyas in Etrusco-Roman Legend'
 
  brythonic:0 "Brythonic"
  brythonic_collective_noun:1 "Brythonics"
- brythonic_prefix:0 "Brythono" # found "Brythono-Germanic"
+ brythonic_prefix:0 "Brythono" # found 'Brythono-Germanic'
 
  ionic:0 "Ionic"
  ionic_collective_noun:1 "Ionics"
- ionic_prefix:0 "Iono" # found "Iono-Attic style of building"
+ ionic_prefix:0 "Iono" # found 'Iono-Attic style of building'
 
  indogreek:0 "Indo-Greek"
  indogreek_collective_noun:1 "Indo-Greeks"
@@ -127,11 +127,11 @@ l_english:
 
  lusoiberian:0 "Lusitanian"
  lusoiberian_collective_noun:1 "Lusitanians"
- lusoiberian_prefix:0 "Lusitano" # found "Villa Lusitano-Romana de Torre de Palma"
+ lusoiberian_prefix:0 "Lusitano" # found 'Villa Lusitano-Romana de Torre de Palma'
 
  gothic:0 "Gothic"
  gothic_collective_noun:1 "Goths"
- gothic_prefix:0 "Gotho" # found "Gotho-Greek"
+ gothic_prefix:0 "Gotho" # found 'Gotho-Greek'
 
  gaulish_group:0 "Gaulish"
  gaulish_group_collective_noun:0 "Gauls"
@@ -292,7 +292,7 @@ l_english:
  ostrogothic_prefix:0 "Ostrogotho" # we use Gotho for Gothic
  varangian:0 "Varangian"
  varangian_collective_noun:0 "Varangians"
- varangian_prefix:0 "Varango" # found "Varango-English Company in Constantinople"
+ varangian_prefix:0 "Varango" # found 'Varango-English Company in Constantinople'
  aryan:0 "Aryan"
  aryan_collective_noun:0 "Aryans"
  aryan_prefix:0 "Aryano"
@@ -319,7 +319,7 @@ l_english:
  wenedyk_prefix:0 "Wenedo"
  pannonian:0 "Pannonian"
  pannonian_collective_noun:0 "Pannonians"
- pannonian_prefix:0 "Pannono" # found "Pannono-Dacian military centres" in https://books.google.pl/books?id=fcj1DwAAQBAJ&dq=pannono-roman&hl=pl&source=gbs_navlinks_s
+ pannonian_prefix:0 "Pannono" # found 'Pannono-Dacian military centres' in https://books.google.pl/books?id=fcj1DwAAQBAJ&dq=pannono-roman&hl=pl&source=gbs_navlinks_s
  salinatorian:0 "Salinatorian"
  salinatorian_collective_noun:0 "Saltmen"
  salinatorian_prefix:0 "Salinatorio"
@@ -337,16 +337,16 @@ l_english:
  judajca_prefix:0 "Judajca"
  hittite_group:0 "Hittite"
  hittite_group_collective_noun:0 "Hittites"
- #hittite_group_prefix:0 "Hittito" # found "Hittito-Egyptian"
+ #hittite_group_prefix:0 "Hittito" # found 'Hittito-Egyptian'
  luwian:0 "Luwian"
  luwian_collective_noun:0 "Luwians"
- luwian_prefix:0 "Luwio" # found "Luwio-Semitic"
+ luwian_prefix:0 "Luwio" # found 'Luwio-Semitic'
  lydian:0 "Lydian"
  lydian_collective_noun:0 "Lydians"
- lydian_prefix:0 "Lydio" # found "Lydio-Persian" in https://books.google.pl/books?id=Dq0aBQAAQBAJ&printsec=frontcover&hl=pl
+ lydian_prefix:0 "Lydio" # found 'Lydio-Persian' in https://books.google.pl/books?id=Dq0aBQAAQBAJ&printsec=frontcover&hl=pl
  hittite:0 "Hittite"
  hittite_collective_noun:0 "Hittites"
- hittite_prefix:0 "Hittito" # found "Hittito-Egyptian"
+ hittite_prefix:0 "Hittito" # found 'Hittito-Egyptian'
  south_germanic_group:0 "South Germanic"
  south_germanic_group_collective_noun:0 "South Germans"
  #south_germanic_group_prefix:0 "South German"
@@ -361,7 +361,7 @@ l_english:
  aboriginal_prefix:0 "Aboriginal"
  tyrrhenian:0 "Tyrrhenian"
  tyrrhenian_collective_noun:0 "Tyrrhenians"
- tyrrhenian_prefix:0 "Tyrrheno" # found "Tyrrheno-Pelasgians" in: Thucydides. The Peloponnesian War (English) [ Thuc. book 4 chapter 109 section 4 ]
+ tyrrhenian_prefix:0 "Tyrrheno" # found 'Tyrrheno-Pelasgians' in: Thucydides. The Peloponnesian War (English) [ Thuc. book 4 chapter 109 section 4 ]
  rhaetian:0 "Rhaetian"
  rhaetian_collective_noun:0 "Rhaetians"
  rhaetian_prefix:0 "Rhaeto" # https://en.wikipedia.org/wiki/Rhaeto-Romance_languages
@@ -374,38 +374,38 @@ l_english:
  #arvanite_group_prefix:0 "Arvanito" # found "Takime arbëresho-arvanito-shqiptare në gjysmën e dytë të shek. XIX."
  albanian:0 "Albanian"
  albanian_collective_noun:0 "Albanians"
- albanian_prefix:0 "Albano" # found "Albano-Greek Union"
+ albanian_prefix:0 "Albano" # found 'Albano-Greek Union'
 
  galatian:0 "Galatian"
  galatian_collective_noun:0 "Galatians"
- galatian_prefix:0 "Galato" # found "Galato–Lycaonian"
+ galatian_prefix:0 "Galato" # found 'Galato–Lycaonian'
  hunnic:0 "Hunnic"
  hunnic_collective_noun:0 "Huns"
- hunnic_prefix:0 "Hunno" # found "Hunno-Germanic"
+ hunnic_prefix:0 "Hunno" # found 'Hunno-Germanic'
  urslavic:0 "Slavic"
  urslavic_collective_noun:0 "Slavs"
- urslavic_prefix:0 "Slavo" # found "Slavo-Germanic"
+ urslavic_prefix:0 "Slavo" # found 'Slavo-Germanic'
  oscan:0 "Oscan"
  oscan_collective_noun:0 "Oscans"
- oscan_prefix:0 "Osco" # found "Osco-Umbrian"
+ oscan_prefix:0 "Osco" # found 'Osco-Umbrian'
  samnite:0 "Samnite"
  samnite_collective_noun:0 "Samnites"
- samnite_prefix:0 "Samnito" # found "Acta Provinciae Samnito-Hirpinae"
+ samnite_prefix:0 "Samnito" # found 'Acta Provinciae Samnito-Hirpinae'
  venetic:0 "Venetic"
  venetic_collective_noun:0 "Veneti"
- venetic_prefix:0 "Veneto" # found "Veneto-Illyrian tribes"
+ venetic_prefix:0 "Veneto" # found 'Veneto-Illyrian tribes'
  ligustic:0 "Ligustic"
  ligustic_collective_noun:0 "Ligures"
- ligustic_prefix:0 "Liguro" # found "Liguro-Romans"
+ ligustic_prefix:0 "Liguro" # found 'Liguro-Romans'
  messapic:0 "Messapic"
  messapic_collective_noun:0 "Messapians"
- messapic_prefix:0 "Messapo" # found "Messapo-Illyrian"
+ messapic_prefix:0 "Messapo" # found 'Messapo-Illyrian'
  sardonian:0 "Sardonian"
  sardonian_collective_noun:0 "Sardonians"
  sardonian_prefix:0 "Sardonio"
  siculian:0 "Siculian"
  siculian_collective_noun:0 "Siculians"
- siculian_prefix:0 "Siculo" # found "Siculo-Norman"
+ siculian_prefix:0 "Siculo" # found 'Siculo-Norman'
  adnanite:0 "Adnanite"
  adnanite_collective_noun:0 "Sons of 'Adnān"
  adnanite_prefix:0 "Adnani"
@@ -415,7 +415,7 @@ l_english:
 
  hellenistic:0 "Hellenistic"
  hellenistic_collective_noun:0 "Hellenists"
- hellenistic_prefix:0 "Hellenistico" # found "Hellenistico-Roman period"
+ hellenistic_prefix:0 "Hellenistico" # found 'Hellenistico-Roman period'
 
  angle:0 "Angle"
  angle_collective_noun:1 "Angles"

@@ -1,4 +1,4 @@
-name_list_old_egyptian = {
+﻿name_list_old_egyptian = {
 	cadet_dynasty_names = {
 		dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
 		dynn_Senuid dynn_Setnid dynn_Arganid dynn_Psammid dynn_Philothid dynn_Timolid dynn_Zosid dynn_Phileid

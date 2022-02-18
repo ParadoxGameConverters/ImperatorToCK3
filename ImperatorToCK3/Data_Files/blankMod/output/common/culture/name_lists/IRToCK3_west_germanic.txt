@@ -1,4 +1,4 @@
-name_list_iweric = {
+﻿name_list_iweric = {
 	cadet_dynasty_names = {
 		{ "dynnp_de" "dynn_Kald" }
 		{ "dynnp_de" "dynn_la_Haya" }

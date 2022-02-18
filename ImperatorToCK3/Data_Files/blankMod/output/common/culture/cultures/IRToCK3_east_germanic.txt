@@ -1,4 +1,4 @@
-# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
 
 vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
 	color = rgb { 215 246 166 }
@@ -15,6 +15,12 @@ vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
 	building_gfx = { western_building_gfx } 
 	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_forest_fighters
+	}
+	ethos = ethos_bellicose
 }
 
 gothic = { # https://en.wikipedia.org/wiki/Goths
@@ -33,11 +39,18 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 	building_gfx = { western_building_gfx } 
 	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
 }
 
 visigothic = { # overwrites vanilla
 	color = { 0.55 0.55 0.15 }
 	parents = { gothic }
+	created = 20.1.1
 
 	ethos = ethos_bellicose
 	heritage = heritage_east_germanic
@@ -64,6 +77,7 @@ visigothic = { # overwrites vanilla
 ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
 	color = rgb { 114 162 166 }
 	parents = { gothic }
+	created = 20.1.1
 	
 	heritage = heritage_east_germanic
 	language = language_gothic
@@ -78,6 +92,12 @@ ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
 	building_gfx = { western_building_gfx } 
 	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
 }
 
 gepid = { # https://en.wikipedia.org/wiki/Gepids
@@ -96,6 +116,12 @@ gepid = { # https://en.wikipedia.org/wiki/Gepids
 	building_gfx = { western_building_gfx } 
 	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
 }
 
 vandal = { # https://en.wikipedia.org/wiki/Vandals
@@ -116,4 +142,10 @@ vandal = { # https://en.wikipedia.org/wiki/Vandals
 	building_gfx = { western_building_gfx } 
 	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
 }

@@ -1,4 +1,4 @@
-# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
 bactrian = {
 	color = hsv { 0.03 0.7 0.7 }
 
@@ -9,10 +9,19 @@ bactrian = {
 		5 = mediterranean
 	}
 	
+	ethos = ethos_stoic
+	
 	coa_gfx = { iranian_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { mena_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_warriors_of_the_dry
+		tradition_stalwart_defenders
+	}
+	heritage = heritage_iranian
+	language = language_iranian
 }
 
 scythian = {
@@ -24,11 +33,20 @@ scythian = {
 		7 = arab
 		5 = mediterranean
 	}
+	heritage = heritage_iranian
+	language = language_scythian
+	
+	ethos = ethos_bellicose
 	
 	coa_gfx = { steppe_coa_gfx }
 	building_gfx = { steppe_building_gfx }
 	clothing_gfx = { mongol_clothing_gfx }
 	unit_gfx = { mongol_unit_gfx }
+	martial_custom = martial_custom_equal
+	traditions = {
+		tradition_horse_breeder
+		tradition_pastoralists
+	}	
 }
 
 sarmatian = {
@@ -41,10 +59,20 @@ sarmatian = {
 		5 = mediterranean
 	}
 	
+	ethos = ethos_stoic
+	
+	heritage = heritage_iranian
+	language = language_scythian
+	
 	coa_gfx = { steppe_coa_gfx }
 	building_gfx = { steppe_building_gfx }
 	clothing_gfx = { mongol_clothing_gfx }
 	unit_gfx = { mongol_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_horse_breeder
+		tradition_pastoralists
+	}	
 }
 
 parthian = {
@@ -57,8 +85,18 @@ parthian = {
 		5 = mediterranean
 	}
 	
+	ethos = ethos_courtly
+	
+	heritage = heritage_iranian
+	language = language_iranian
+	
 	coa_gfx = { iranian_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { mena_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_warriors_of_the_dry
+		tradition_agrarian
+	}	
 }

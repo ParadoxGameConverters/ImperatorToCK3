@@ -1,4 +1,4 @@
-heritage_aboriginal = {
+﻿heritage_aboriginal = {
 	type = heritage
 }
 

@@ -1,4 +1,4 @@
-name_list_thracian = {
+﻿name_list_thracian = {
 		cadet_dynasty_names = {
 			dynn_Adaid dynn_Amatokid dynn_Aulouporid dynn_Aulouzonid dynn_Bendidorid dynn_Berisadid dynn_Bessid dynn_Bithid
 			dynn_Brinkainid dynn_Brinkazenid dynn_Brinkazerid dynn_Brinkazid dynn_Bryzid dynn_Byzid dynn_Kelsinid dynn_Kelsid

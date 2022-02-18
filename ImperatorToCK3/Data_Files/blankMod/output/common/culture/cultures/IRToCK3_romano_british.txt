@@ -1,13 +1,14 @@
-# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
 breathanach = {
 	color = rgb { 127 143 104 }
 	parents = { roman irish }
+	created = 20.1.1
 
 	heritage = heritage_romano_british
-	# language = language_breathanach
+	language = language_breathanach
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_horse_breeder
 	}
 
 	name_list = name_list_breathanach
@@ -23,16 +24,19 @@ breathanach = {
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	
+	ethos = ethos_stoic
 }
 transadrianic = {
 	color = rgb { 127 143 104 }
 	parents = { roman pictish }
+	created = 20.1.1
 
 	heritage = heritage_romano_british
-	# language = language_breathanach
+	language = language_breathanach
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_horse_breeder
 	}
 
 	name_list = name_list_breathanach
@@ -48,16 +52,19 @@ transadrianic = {
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	
+	ethos = ethos_stoic
 }
 brythenig = {
 	color = rgb { 127 143 104 }
 	parents = { roman brythonic }
+	created = 20.1.1
 
 	heritage = heritage_romano_british
-	# language = language_breathanach
+	language = language_breathanach
 	martial_custom = martial_custom_male_only
 	traditions = {
-	
+		tradition_horse_breeder
 	}
 
 	name_list = name_list_breathanach
@@ -73,4 +80,6 @@ brythenig = {
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
+	
+	ethos = ethos_stoic
 }

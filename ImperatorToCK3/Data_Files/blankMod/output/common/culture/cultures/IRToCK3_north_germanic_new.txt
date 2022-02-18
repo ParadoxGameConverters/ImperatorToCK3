@@ -1,12 +1,15 @@
-# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
 varangian = {
 	heritage = heritage_north_germanic
 	language = language_norse
 	parents = { norse }
+	created = 20.1.1
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_things
 	}
+	
+	ethos = ethos_bellicose
 	
 	name_list = name_list_norse
 	
@@ -21,10 +24,13 @@ mikligardrish = {
 	heritage = heritage_north_germanic
 	language = language_norse
 	parents = { norse greek }
+	created = 20.1.1
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_things
 	}
+	
+	ethos = ethos_courtly
 	
 	name_list = name_list_norse
 	
