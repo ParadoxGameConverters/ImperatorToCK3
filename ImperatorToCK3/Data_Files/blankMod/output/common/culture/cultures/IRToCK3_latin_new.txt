@@ -152,7 +152,7 @@ sardonian = {
 		tradition_only_the_strong
 	}	
 }
-siculian = {	
+siculian = {
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_siculian

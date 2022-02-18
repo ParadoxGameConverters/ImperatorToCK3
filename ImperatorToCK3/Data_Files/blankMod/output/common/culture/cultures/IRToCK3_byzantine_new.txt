@@ -245,10 +245,10 @@ metalbite = {
 	}
 	ethos = ethos_communal
 }
-prinalpesian = {
 
+prinalpesian = {
 	color = rgb { 119 162 255 }
-	parents = { greek gaulish }
+	parents = { greek gallic }
 	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek

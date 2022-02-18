@@ -22,6 +22,7 @@ luwian = {
 	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
 	unit_gfx = { eastern_unit_gfx } 
 }
+
 lydian = {
 	color = rgb { 149 101 186 }
 
@@ -45,6 +46,7 @@ lydian = {
 	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
 	unit_gfx = { eastern_unit_gfx } 
 }
+
 hittite = {
 	color = hsv { 0.42 0.45 0.3 }
 
@@ -68,6 +70,7 @@ hittite = {
 	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
 	unit_gfx = { eastern_unit_gfx } 
 }
+
 phrygian = {
 	color = rgb { 246 223 15 }
 
