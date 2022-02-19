@@ -494,8 +494,11 @@ public partial class Title {
 				double dev = 0;
 				var countyProvinces = county.CountyProvinces;
 				foreach (var ck3ProvId in countyProvinces) {
-					dev += provMapper.GetImperatorProvinceNumbers(ck3ProvId)
-						.Sum(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImperatorProv[impProvId]);
+					var impProvs = provMapper.GetImperatorProvinceNumbers(ck3ProvId);
+					if (impProvs.Count == 0) {
+						continue;
+					}
+					dev += impProvs.Average(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImperatorProv[impProvId]);
 				}
 
 				var provsCount = countyProvinces.Count();
