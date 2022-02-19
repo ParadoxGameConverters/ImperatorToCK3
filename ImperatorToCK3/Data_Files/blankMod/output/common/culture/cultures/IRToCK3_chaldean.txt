@@ -23,6 +23,7 @@ aramaic = {
 	clothing_gfx = { mena_clothing_gfx dde_abbasid_clothing_gfx } 
 	unit_gfx = { mena_unit_gfx } 
 }
+
 babylonian = {
 	color = hsv { 0.7 0.15 0.77 }
 
@@ -48,6 +49,7 @@ babylonian = {
 	clothing_gfx = { mena_clothing_gfx dde_abbasid_clothing_gfx } 
 	unit_gfx = { mena_unit_gfx } 
 }
+
 bazramani = {
 	color = { 0.4 0.6 0.0 }
 	
@@ -55,7 +57,7 @@ bazramani = {
 	created = 20.1.1
 
 	heritage = heritage_chaldean
-	language = language_roman
+	language = language_latin
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_of_the_dry
@@ -76,6 +78,7 @@ bazramani = {
 	clothing_gfx = { mena_clothing_gfx dde_abbasid_clothing_gfx } 
 	unit_gfx = { eastern_unit_gfx } 
 }
+
 judajca = {
 	color = { 0.0 0.3 0.6 }
 	

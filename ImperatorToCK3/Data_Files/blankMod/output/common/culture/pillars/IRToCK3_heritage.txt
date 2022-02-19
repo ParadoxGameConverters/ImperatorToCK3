@@ -2,6 +2,10 @@
 	type = heritage
 }
 
+heritage_anatolian = {
+	type = heritage
+}
+
 heritage_hittite = {
 	type = heritage
 }
