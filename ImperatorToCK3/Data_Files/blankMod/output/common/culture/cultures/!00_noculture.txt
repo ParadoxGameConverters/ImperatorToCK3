@@ -18,6 +18,6 @@
 	unit_gfx = { western_unit_gfx }
 	
 	ethnicities = {
-		0 = caucasian_blond
+		1 = caucasian_blond
 	}
 }

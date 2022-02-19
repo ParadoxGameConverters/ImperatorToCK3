@@ -42,7 +42,7 @@ public class TitlesHistory : Parser {
 	}
 
 	private readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
-		.WithSimpleField("holder", "holder", "0")
+		.WithSimpleField("holder", "holder", null)
 		.WithSimpleField("government", "government", null)
 		.WithSimpleField("liege", "liege", null)
 		.WithSimpleField("development_level", "change_development_level", null)

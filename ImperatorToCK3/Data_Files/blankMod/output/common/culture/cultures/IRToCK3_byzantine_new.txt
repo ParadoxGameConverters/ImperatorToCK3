@@ -39,6 +39,10 @@ hellenistic = {
 		tradition_xenophilic
 	}
 	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
 	coa_gfx = { byzantine_group_coa_gfx iranian_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx mena_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx mena_clothing_gfx }
@@ -180,7 +184,6 @@ velgese = {
 	ethos = ethos_communal
 }
 metalpesian = {
-
 	color = rgb { 96 95 255 }
 	parents = { greek }
 	created = 20.1.1
@@ -202,7 +205,6 @@ metalpesian = {
 	ethos = ethos_communal
 }
 prinelbite = {
-
 	color = rgb { 122 110 255 }
 	parents = { greek old_saxon }
 	created = 20.1.1
@@ -224,7 +226,6 @@ prinelbite = {
 	ethos = ethos_communal
 }
 metalbite = {
-
 	color = rgb { 183 133 255 }
 	parents = { greek }
 	created = 20.1.1
@@ -245,10 +246,10 @@ metalbite = {
 	}
 	ethos = ethos_communal
 }
-prinalpesian = {
 
+prinalpesian = {
 	color = rgb { 119 162 255 }
-	parents = { greek gaulish }
+	parents = { greek gallic }
 	created = 20.1.1
 	heritage = heritage_byzantine
 	language = language_greek
