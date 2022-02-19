@@ -1,0 +1,28 @@
+﻿sigmund_male = {
+	Sigmund Siegmund Sigismond Sigismund Zikmund Zsigmond Zygmunt # vanilla
+	Segimund Sigimund # converter
+}
+ingeborg_female = {
+	Ingeborg IngebjO_rg IngibjO_rg # vanilla
+	Ingiburg IngbjO_rg Inge Ingebjorg # converter
+}
+ptolemy_male = {
+	Ptolemy Ptolemee PtolE_mE_e # vanilla
+	Ptolemaios # converter
+}
+alexandra_female = {
+	Alexandra Saundra # vanilla
+	Alessandra Kassandra # converter
+}
+melisende_female = {
+	Melisende ME_lisande ME_lisende MelisE_nda Melisant Melissa # vanilla
+	Melitta # converter
+}
+vishtasb_male = {
+	Vishtasb VI_S_tap # vanilla
+	Hystaspes Vishtasb_Vishtasb # converter
+}
+tiberius_male = {
+	Tiberius Tiberios # vanilla
+	Thefri # converter
+}

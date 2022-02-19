@@ -149,7 +149,7 @@ link = { ck3 = belgae imp = ubian }
 link = { ck3 = pictish imp = caledonian imp = votadinian imp = taexalian }
 link = { ck3 = cumbrian imp = damnonian }
 link = { ck3 = welsh imp = demetian imp = ordovitian }
-link = { ck3 = brythonic imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
+link = { ck3 = brythonic imp=britannic imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
 link = { ck3 = cornish imp = dumnonian }
 
 ## Caucasian

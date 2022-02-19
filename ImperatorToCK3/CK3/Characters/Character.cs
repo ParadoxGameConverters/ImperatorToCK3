@@ -186,7 +186,10 @@ namespace ImperatorToCK3.CK3.Characters {
 				ImperatorCharacter.ProvinceId,
 				ck3Owner
 			);
-			if (match is not null) {
+			if (match is null) {
+				Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter}" +
+							$" with culture {ImperatorCharacter.Culture}!");
+			} else {
 				Culture = match;
 			}
 
