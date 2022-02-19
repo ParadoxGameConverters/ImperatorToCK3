@@ -1,9 +1,12 @@
 ﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
-varangian = {
-	heritage = heritage_north_germanic
-	language = language_norse
+varangian = {	
+	color = { 0.3 0.55 0.8 }
+
 	parents = { norse }
 	created = 20.1.1
+
+	heritage = heritage_north_germanic
+	language = language_norse
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_things
@@ -17,8 +20,13 @@ varangian = {
 	building_gfx = { norse_building_gfx mediterranean_building_gfx }
 	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx byzantine_clothing_gfx }
 	unit_gfx = { norse_unit_gfx }
-	
-	color = { 0.3 0.55 0.8 }
+
+	ethnicities = { # copied from norse
+		70 = caucasian_northern_blond
+		15 = caucasian_northern_ginger
+		10 = caucasian_northern_brown_hair
+		5 = caucasian_northern_dark_hair
+	}
 }
 mikligardrish = {
 	heritage = heritage_north_germanic
@@ -40,4 +48,12 @@ mikligardrish = {
 	unit_gfx = { norse_unit_gfx }
 	
 	color = { 0.3 0.55 0.8 }
+	
+	ethnicities = {
+		35 = caucasian_northern_blond
+		5 = caucasian_northern_ginger
+		10 = caucasian_northern_brown_hair
+		10 = caucasian_northern_dark_hair
+		40 = mediterranean_byzantine
+	}
 }

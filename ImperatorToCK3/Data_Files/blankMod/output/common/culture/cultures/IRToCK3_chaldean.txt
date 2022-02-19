@@ -86,7 +86,7 @@ judajca = {
 	created = 20.1.1
 
 	heritage = heritage_chaldean
-	language = language_roman
+	language = language_latin
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_of_the_dry
