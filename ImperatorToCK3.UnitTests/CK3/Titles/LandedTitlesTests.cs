@@ -238,6 +238,27 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
+		public void DevelopmentIsCorrectlyCalculatedFor1ProvinceTo1BaronyCountyMapping() {
+			var date = new Date(476, 1, 1);
+			var titles = new Title.LandedTitles();
+			var titlesReader = new BufferedReader(
+				"c_county1={ b_barony1={province=1} } "
+			);
+			titles.LoadTitles(titlesReader);
+
+			var imperatorProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+			var impProv = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 25 };
+			imperatorProvinces.Add(impProv);
+
+			var mappingsReader = new BufferedReader("0.0.0.0={ link={ imp=1 ck3=1 } }");
+			var provMapper = new ProvinceMapper(mappingsReader);
+
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+
+			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // 25 - sqrt(25)
+		}
+
+		[Fact]
 		public void DevelopmentFromImperatorProvinceCanBeSplitForTargetProvinces() {
 			var date = new Date(476, 1, 1);
 			var titles = new Title.LandedTitles();

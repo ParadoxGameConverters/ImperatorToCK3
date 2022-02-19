@@ -466,44 +466,60 @@ public partial class Title {
 		}
 
 		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date date) {
-			Logger.Info("Importing development from Imperator...");
-
-			var counties = this.Where(t => t.Rank == TitleRank.county);
-			var impProvsPerCounty = new Dictionary<string, int>();
-
-			var ck3ProvsPerImperatorProv = new Dictionary<ulong, int>(); // Imperator province ID, number of CK3 provs mapped to it
-			foreach (var county in counties) {
-				var imperatorProvs = new HashSet<ulong>();
-				foreach (var ck3ProvId in county.CountyProvinces) {
-					foreach (var impProvId in provMapper.GetImperatorProvinceNumbers(ck3ProvId)) {
-						imperatorProvs.Add(impProvId);
-						ck3ProvsPerImperatorProv.TryGetValue(impProvId, out var currentValue);
-						ck3ProvsPerImperatorProv[impProvId] = currentValue + 1;
+			static (Dictionary<string, int>, Dictionary<ulong, int>) GetImpProvsPerCounty(ProvinceMapper provMapper, IEnumerable<Title> counties) {
+				var impProvsPerCounty = new Dictionary<string, int>();
+				var ck3ProvsPerImperatorProv = new Dictionary<ulong, int>();
+				foreach (var county in counties) {
+					var imperatorProvs = new HashSet<ulong>();
+					foreach (var ck3ProvId in county.CountyProvinces) {
+						foreach (var impProvId in provMapper.GetImperatorProvinceNumbers(ck3ProvId)) {
+							imperatorProvs.Add(impProvId);
+							ck3ProvsPerImperatorProv.TryGetValue(impProvId, out var currentValue);
+							ck3ProvsPerImperatorProv[impProvId] = currentValue + 1;
+						}
 					}
+
+					impProvsPerCounty[county.Id] = imperatorProvs.Count;
 				}
 
-				impProvsPerCounty[county.Id] = imperatorProvs.Count;
+				return (impProvsPerCounty, ck3ProvsPerImperatorProv);
 			}
 
-			foreach (var county in counties) {
-				if (impProvsPerCounty[county.Id] == 0) {
-					// Don't change development for counties outside of Imperator map.
-					continue;
-				}
+			static bool IsCountyOutsideImperatorMap(Title county, IReadOnlyDictionary<string, int> impProvsPerCounty) {
+				return impProvsPerCounty[county.Id] == 0;
+			}
 
+			double CalculateCountyDevelopment(Title county, IReadOnlyDictionary<ulong, int> ck3ProvsPerImpProv) {
 				double dev = 0;
 				var countyProvinces = county.CountyProvinces;
+				var provsCount = 0;
 				foreach (var ck3ProvId in countyProvinces) {
+					++provsCount;
 					var impProvs = provMapper.GetImperatorProvinceNumbers(ck3ProvId);
 					if (impProvs.Count == 0) {
 						continue;
 					}
-					dev += impProvs.Average(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImperatorProv[impProvId]);
+
+					dev += impProvs.Average(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImpProv[impProvId]);
 				}
 
-				var provsCount = countyProvinces.Count();
 				dev /= provsCount;
 				dev -= Math.Sqrt(dev);
+				return dev;
+			}
+
+			Logger.Info("Importing development from Imperator...");
+
+			var counties = this.Where(t => t.Rank == TitleRank.county);
+			var (impProvsPerCounty, ck3ProvsPerImperatorProv) = GetImpProvsPerCounty(provMapper, counties);
+
+			foreach (var county in counties) {
+				if (IsCountyOutsideImperatorMap(county, impProvsPerCounty)) {
+					// Don't change development for counties outside of Imperator map.
+					continue;
+				}
+
+				double dev = CalculateCountyDevelopment(county, ck3ProvsPerImperatorProv);
 
 				county.history.InternalHistory.Fields.Remove("development_level");
 				county.history.InternalHistory.AddFieldValue("development_level", (int)dev, date, "change_development_level");
