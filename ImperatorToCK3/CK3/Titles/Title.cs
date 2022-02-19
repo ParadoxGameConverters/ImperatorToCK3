@@ -145,12 +145,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// determine CoA
 		CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
 
-		// determine other attributes
+		// Determine other attributes:
+		// Set capital to Imperator tag's capital.
 		if (ImperatorCountry.Capital is not null) {
 			var srcCapital = (ulong)ImperatorCountry.Capital;
 			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
 				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
 				if (foundCounty is null) {
+					continue;
+				}
+
+				// If the title is a de jure duchy, potential capital must be within it.
+				if (Rank == TitleRank.duchy && DeJureVassals.Count > 0 && foundCounty.DeJureLiege?.Id != Id) {
 					continue;
 				}
 
@@ -556,8 +562,13 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"Cannot set de facto liege {newLiege} to {Id}: rank is not higher!");
 			return;
 		}
-		string liegeStr = newLiege is not null ? newLiege.Id : "0";
-		history.InternalHistory.AddFieldValue("liege", liegeStr, date, "liege");
+
+		const string fieldName = "liege";
+		if (newLiege is null) {
+			history.InternalHistory.AddFieldValue(fieldName, 0, date, fieldName);
+		} else {
+			history.InternalHistory.AddFieldValue(fieldName, newLiege.Id, date, fieldName);
+		}
 	}
 
 	[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
@@ -801,6 +812,45 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
+	}
+
+	public Title? GetRealmOfRank(TitleRank realmRank, Date ck3BookmarkDate) {
+		var holderId = GetHolderId(ck3BookmarkDate);
+		if (holderId == "0") {
+			return null;
+		}
+
+		if (realmRank == Rank) {
+			return this;
+		}
+
+		// case: title is not independent
+		var dfLiege = GetDeFactoLiege(ck3BookmarkDate);
+		while (dfLiege is not null) { // title is not independent
+			if (dfLiege.Rank == realmRank) {
+				return dfLiege;
+			}
+			dfLiege = dfLiege.GetDeFactoLiege(ck3BookmarkDate);
+		}
+
+		// case: title is independent
+		var higherTitlesOfHolder = parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank > Rank)
+			.OrderByDescending(t => t.Rank);
+		var highestTitleRank = higherTitlesOfHolder.FirstOrDefault(defaultValue: null)?.Rank;
+		if (highestTitleRank is null) {
+			return null;
+		}
+		foreach (var title in higherTitlesOfHolder.Where(t => t.Rank == highestTitleRank)) {
+			if (title.Rank == realmRank) {
+				return title;
+			}
+			var realm = title.GetRealmOfRank(realmRank, ck3BookmarkDate);
+			if (realm is not null) {
+				return realm;
+			}
+		}
+
+		return null;
 	}
 
 	// used by county titles only

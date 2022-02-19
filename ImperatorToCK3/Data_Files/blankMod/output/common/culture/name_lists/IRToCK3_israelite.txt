@@ -1,0 +1,41 @@
+﻿name_list_hebrew = {
+	cadet_dynasty_names = {
+		"dynn_Shaoul"
+		"dynn_Ben_Sol"
+		"dynn_Ben_Shlomo"
+		"dynn_Ben_Shimon"
+		"dynn_Ben_Yitzhak"
+		"dynn_Ya_akov"
+		"dynn_Ben_Yankev"
+		"dynn_Yeshayahu"
+		"dynn_Ben_Yosef"
+		dynn_Abiatarid dynn_Akabonid dynn_Amitid dynn_Amramid dynn_Boazid dynn_Dorid dynn_Dovid dynn_Eiranid
+		dynn_Eleazid dynn_Heroid dynn_Honioid dynn_Hillelid dynn_Joazid dynn_Kahanid dynn_Nahumid dynn_Nirid
+		dynn_Nogahid dynn_Oferid dynn_Omrid dynn_Pinchasid dynn_Raananid dynn_Shemidid dynn_Yairid
+	}
+
+	dynasty_names = {
+		dynn_Abiatarid dynn_Akabonid dynn_Amitid dynn_Amramid dynn_Boazid dynn_Dorid dynn_Dovid dynn_Eiranid
+		dynn_Eleazid dynn_Heroid dynn_Honioid dynn_Hillelid dynn_Joazid dynn_Kahanid dynn_Nahumid dynn_Nirid
+		dynn_Nogahid dynn_Oferid dynn_Omrid dynn_Pinchasid dynn_Raananid dynn_Shemidid dynn_Yairid
+	}
+
+	male_names = {
+		Simon Joseph Judah Eleazar Yohanan Joshua Hananiah Jonathan
+		Mattathias Menahem Jacob Hanan Dositheus Zachariah Ishmael Levi
+		Saul Onias Samuel Ezekiah Gadish Gani Hagai Hanilai Harsom Harqaq
+		Maro Nathanel Nathan Nebalta Nicandus Jason Jeremiah Kasaias 
+	}
+	
+	female_names = {
+		Hannah Mariam Salome Shelamzion Martha Joanna Shiphra Berenice
+		Sarah Imma Hermione Helene Grapte Elisheba Esther Lysia Judith
+		Julia Mara 
+	}
+	
+	dynasty_of_location_prefix = "dynnpat_pre_Bar"
+
+	mercenary_names = {
+		
+	}
+}

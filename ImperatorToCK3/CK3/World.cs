@@ -33,7 +33,13 @@ namespace ImperatorToCK3.CK3 {
 
 		public World(Imperator.World impWorld, Configuration config) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
-			CorrectedDate = impWorld.EndDate.Year > 0 ? impWorld.EndDate : new Date(1, 1, 1);
+			CorrectedDate = impWorld.EndDate.Year > 1 ? impWorld.EndDate : new Date(2, 1, 1);
+			if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
+				config.CK3BookmarkDate = CorrectedDate;
+				Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
+			} else if (CorrectedDate > config.CK3BookmarkDate) {
+				Logger.Error("Corrected save date is later than CK3 bookmark date, proceeding at your own risk!");
+			}
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
@@ -114,7 +120,9 @@ namespace ImperatorToCK3.CK3 {
 			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
+			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
 			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.CK3BookmarkDate);
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
