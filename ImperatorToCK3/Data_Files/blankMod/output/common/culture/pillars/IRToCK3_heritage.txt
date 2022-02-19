@@ -2,6 +2,10 @@
 	type = heritage
 }
 
+heritage_anatolian = {
+	type = heritage
+}
+
 heritage_hittite = {
 	type = heritage
 }
@@ -26,7 +30,7 @@ heritage_romano_british = {
 	type = heritage
 }
 
-heritage_romano_german = {
+heritage_romano_germanic = {
 	type = heritage
 }
 

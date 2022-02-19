@@ -20,7 +20,7 @@ salinatorian = {
 	
 	ethnicities = {
 		10 = mediterranean
-	}	
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -43,6 +43,9 @@ oscan = {
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
 
+	ethnicities = {
+		10 = mediterranean
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -51,7 +54,7 @@ samnite = {
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_samnite
-	martial_custom = martial_custom_egalitarian
+	martial_custom = martial_custom_equal
 	
 	name_list = name_list_roman
 	
@@ -64,6 +67,9 @@ samnite = {
 	
 	color = { 117 131 150 }
 	
+	ethnicities = {
+		10 = mediterranean
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -85,6 +91,9 @@ venetic = {
 	
 	color = { 193 117 241 }
 
+	ethnicities = {
+		10 = mediterranean
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -106,6 +115,9 @@ ligustic = {
 	
 	color = { 211 208 124 }
 
+	ethnicities = {
+		10 = mediterranean
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -127,6 +139,9 @@ messapic = {
 	
 	color = { 5 52 113 }
 	
+	ethnicities = {
+		10 = mediterranean
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -148,6 +163,9 @@ sardonian = {
 	
 	color = { 29 16 31 }
 
+	ethnicities = {
+		10 = mediterranean
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
@@ -169,6 +187,9 @@ siculian = {
 	
 	color = { 226 216 174 }	
 
+	ethnicities = {
+		10 = mediterranean
+	}
 	traditions = {
 		tradition_only_the_strong
 	}	
