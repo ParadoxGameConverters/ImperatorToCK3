@@ -113,7 +113,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 		private ulong? parsedOriginCountryId = null;
 		private Country? originCountry = null;
-		public Country? OriginCountry {
+		public Country OriginCountry {
 			get {
 				var countyToReturn = this;
 				while (countyToReturn.originCountry is not null) {

@@ -14,6 +14,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var reader = new BufferedReader(string.Empty);
 			var country = Country.Parse(reader, 42);
 			Assert.Equal(string.Empty, country.Tag);
+			Assert.Equal(country.Id, country.OriginCountry.Id);
 			Assert.Equal(string.Empty, country.Name);
 			Assert.Null(country.Capital);
 			Assert.Equal(0, country.Currencies.Manpower);
@@ -38,6 +39,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var reader = new BufferedReader(
 				"= {\n" +
 				"\ttag=\"WTF\"" +
+				"\torigin=60" +
 				"\tcountry_name = {\n" +
 				"\t\tname=\"WTF\"\n" +
 				"\t}\n" +
@@ -56,6 +58,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var country = Country.Parse(reader, 42);
 			Assert.Equal((ulong)42, country.Id);
 			Assert.Equal("WTF", country.Tag);
+			Assert.Equal(country.Id, country.OriginCountry.Id); // not linked with country 60 yet
 			Assert.Equal("WTF", country.Name);
 			Assert.Equal("WTF", country.Flag);
 			Assert.Equal((ulong)32, country.Capital);
@@ -76,7 +79,11 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal("dictatorship", country.Government);
 			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 
-			var countries = new CountryCollection { country };
+			var originCountry = new Country(60);
+			var countries = new CountryCollection { country, originCountry };
+			countries.LinkCountries();
+			Assert.Equal((ulong)60, country.OriginCountry.Id);
+
 			var monarch = ImperatorToCK3.Imperator.Characters.Character.Parse(
 				new BufferedReader("{ country=42 }"),
 				"69",
@@ -85,6 +92,29 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			monarch.LinkCountry(countries);
 			Assert.NotNull(country.Monarch);
 			Assert.Equal((ulong)69, country.Monarch.Id);
+		}
+
+		[Fact]
+		public void OriginCountyCanBeRecursive() {
+			var countriesReader = new BufferedReader(
+				"1 = {\n" +
+				"\ttag=\"AAA\"" +
+				"}\n" +
+				"2 = {\n" +
+				"\ttag=\"BBB\"" +
+				"\torigin=1" +
+				"}\n" +
+				"3 = {\n" +
+				"\ttag=\"CCC\"" +
+				"\torigin=3" +
+				"}\n" +
+				"4 = {\n" +
+				"\ttag=\"DDD\"" +
+				"\torigin=3" +
+				"}\n"
+			);
+			var countries = new CountryCollection(countriesReader);
+			Assert.Equal((ulong)1, countries[4].OriginCountry.Id);
 		}
 
 		[Fact]

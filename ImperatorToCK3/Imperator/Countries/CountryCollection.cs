@@ -32,7 +32,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 			Logger.Info($"{counter} families linked to countries.");
 		}
-		private void LinkCountries() {
+		public void LinkCountries() {
 			SortedSet<ulong> idsWithoutDefinition = new();
 			var counter = this.Count(country => country.LinkCountries(this, idsWithoutDefinition));
 
