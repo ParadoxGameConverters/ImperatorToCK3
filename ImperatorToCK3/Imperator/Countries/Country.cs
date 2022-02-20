@@ -97,6 +97,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 
 			var countryId = (ulong)parsedOriginCountryId;
+			if (countryId == Id) {
+				return false;
+			}
 			if (countries.TryGetValue(countryId, out var countryToLink)) {
 				originCountry = countryToLink;
 				return true;

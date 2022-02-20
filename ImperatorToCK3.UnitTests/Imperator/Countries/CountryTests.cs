@@ -95,7 +95,18 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		}
 
 		[Fact]
-		public void OriginCountyCanBeRecursive() {
+		public void OriginCountryWithSameIdDoesNotCauseInfiniteLoop() {
+			var reader = new BufferedReader(
+				" = {\n" +
+				"\ttag=\"AAA\"" +
+				"\torigin=42" +
+				"}\n"
+			);
+			var country = Country.Parse(reader, 42);
+			Assert.Equal((ulong)42, country.OriginCountry.Id);
+		}
+		[Fact]
+		public void OriginCountryCanBeRecursive() {
 			var countriesReader = new BufferedReader(
 				"1 = {\n" +
 				"\ttag=\"AAA\"" +
@@ -106,7 +117,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"}\n" +
 				"3 = {\n" +
 				"\ttag=\"CCC\"" +
-				"\torigin=3" +
+				"\torigin=2" +
 				"}\n" +
 				"4 = {\n" +
 				"\ttag=\"DDD\"" +
