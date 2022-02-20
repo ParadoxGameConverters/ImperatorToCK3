@@ -19,6 +19,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public List<RulerTerm> RulerTerms { get; set; } = new();
 		public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
 		public string Tag { get; private set; } = "";
+		public string HistoricalTag { get; private set; } = "";
 		public string Name => CountryName.Name;
 		public CountryName CountryName { get; private set; } = new();
 		public string Flag { get; private set; } = "";
@@ -90,40 +91,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 			return counter;
 		}
 
-		// Returns whether an origin country was linked to the country
-		public bool LinkCountries(CountryCollection countries, SortedSet<ulong> idsWithoutDefinition) {
-			if (parsedOriginCountryId is null) {
-				return false;
-			}
-
-			var countryId = (ulong)parsedOriginCountryId;
-			if (countryId == Id) {
-				return false;
-			}
-			if (countries.TryGetValue(countryId, out var countryToLink)) {
-				originCountry = countryToLink;
-				return true;
-			}
-			idsWithoutDefinition.Add(countryId);
-			return false;
-		}
-
 		public void TryLinkMonarch(Character character) {
 			if (monarchId == character.Id) {
 				Monarch = character;
-			}
-		}
-
-		private ulong? parsedOriginCountryId = null;
-		private Country? originCountry = null;
-		public Country OriginCountry {
-			get {
-				var countyToReturn = this;
-				while (countyToReturn.originCountry is not null) {
-					countyToReturn = countyToReturn.originCountry;
-				}
-
-				return countyToReturn;
 			}
 		}
 	}
