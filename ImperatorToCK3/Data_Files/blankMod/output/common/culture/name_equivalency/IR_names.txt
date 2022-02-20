@@ -6,7 +6,6 @@ ir_ahmose_male = { Ahmes Ahmose }
 ir_khabash_male = { Khabbabash Khabash }
 ir_nectanebo_male = { Nakhthoreb Nectanebo }
 ir_pedubast_male = { Pedubast Petubastis }
-ir_gala_male = { Gala Gaius }
 ir_vosenius_male = { Vosenius Vodenos }
 ir_gwendolen_female = { Guendolen Gwendolen }
 ir_donwen_female = { Donwen Dynwen }
