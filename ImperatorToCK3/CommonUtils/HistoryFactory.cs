@@ -9,7 +9,7 @@ namespace ImperatorToCK3.CommonUtils {
 		public class HistoryFactoryBuilder {
 			private readonly List<SimpleFieldDef> simpleFieldDefs = new(); // fieldName, setter, initialValue
 			private readonly List<ContainerFieldDef> containerFieldDefs = new(); // fieldName, setter, initialValue
-			private readonly List<ContainerKeyFieldDef> containerKeyFieldDefs = new(); // fieldName, inserter, remover, initialValue
+			private readonly List<AdditiveContainerFieldDef> containerKeyFieldDefs = new(); // fieldName, inserter, remover, initialValue
 
 			public HistoryFactoryBuilder WithSimpleField(string fieldName, string setter, string? initialValue) {
 				simpleFieldDefs.Add(new() { FieldName = fieldName, Setter = setter, InitialValue = initialValue });
@@ -33,11 +33,11 @@ namespace ImperatorToCK3.CommonUtils {
 		private HistoryFactory(
 			List<SimpleFieldDef> simpleFieldDefs,
 			List<ContainerFieldDef> containerFieldDefs,
-			List<ContainerKeyFieldDef> containerKeyFieldDefs
+			List<AdditiveContainerFieldDef> containerKeyFieldDefs
 		) {
 			this.simpleFieldDefs = simpleFieldDefs;
 			this.containerFieldDefs = containerFieldDefs;
-			this.containerKeyFieldDefs = containerKeyFieldDefs;
+			this.additiveContainerFieldDefs = containerKeyFieldDefs;
 
 			foreach (var def in this.simpleFieldDefs) {
 				RegisterKeyword(def.Setter, reader => {
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.CommonUtils {
 					history.Fields[def.FieldName].InitialValue = values;
 				});
 			}
-			foreach (var def in this.containerKeyFieldDefs) {
+			foreach (var def in this.additiveContainerFieldDefs) {
 				history.Fields[def.FieldName]
 				RegisterKeyword(def.Inserter, reader => {
 					var value = reader.GetString();
@@ -123,7 +123,7 @@ namespace ImperatorToCK3.CommonUtils {
 
 		private readonly List<SimpleFieldDef> simpleFieldDefs;
 		private readonly List<ContainerFieldDef> containerFieldDefs;
-		private readonly List<ContainerKeyFieldDef> containerKeyFieldDefs;
+		private readonly List<AdditiveContainerFieldDef> additiveContainerFieldDefs;
 		private History history = new();
 	}
 }

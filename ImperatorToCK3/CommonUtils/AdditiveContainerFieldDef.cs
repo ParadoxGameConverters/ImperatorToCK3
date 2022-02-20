@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.CommonUtils;
 
-internal class ContainerKeyFieldDef {
+internal class AdditiveContainerFieldDef {
 	public string FieldName { get; set; } = "";
 	public string Inserter { get; set; } = "";
 	public string Remover { get; set; } = "";
