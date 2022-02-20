@@ -4,21 +4,21 @@
 
 # Usage:
 # link = {
-#	ck3 = ck3Culture
-#	imp = impCulture
-#	owner = ck3Title (optional)
-#	religion = ck3Religion (optional)
-#	impProvince = impProvince (optional)
-#	ck3Province = ck3Province (optional)
-#	impRegion = impRegion (optional)
-#	ck3Region = ck3Region (optional)
+#	ck3 = <CK3 culture>
+#	imp = <Imperator culture>
+#	owner = <CK3 title> (optional)
+#	religion = <CK3 religion> (optional)
+#	impProvince = <Imperator province> (optional)
+#	ck3Province = <CK3 province> (optional)
+#	impRegion = <Imperator region> (optional)
+#	ck3Region = <CK3 region> (optional)
 #}
 # multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, owner
 # multiple entries not allowed for: ck3
 
-# Variables
-# Use them to avoid duplicating long conditions
-# A variable must be defined BEFORE it's used in a link
+# Variables:
+# Use them to avoid duplicating long conditions.
+# A variable must be defined BEFORE it's used in a link.
 # For example:
 # Instead of:
 # link = { ck3=belgae imp=sennonian imp=bellovacian imp=veliocassian imp=morinian impProvince=1}

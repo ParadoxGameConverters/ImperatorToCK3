@@ -137,16 +137,16 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Building World ***");
 
 			// Link all the intertwining references
-			Logger.Info("Linking Characters with Families");
+			Logger.Info("Linking Characters with Families...");
 			Characters.LinkFamilies(Families);
 			Families.RemoveUnlinkedMembers();
-			Logger.Info("Linking Characters with Countries");
+			Logger.Info("Linking Characters with Countries...");
 			Characters.LinkCountries(Countries);
-			Logger.Info("Linking Provinces with Pops");
+			Logger.Info("Linking Provinces with Pops...");
 			Provinces.LinkPops(pops);
-			Logger.Info("Linking Provinces with Countries");
+			Logger.Info("Linking Provinces with Countries...");
 			Provinces.LinkCountries(Countries);
-			Logger.Info("Linking Countries with Families");
+			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 
 			LoadPreImperatorRulers();

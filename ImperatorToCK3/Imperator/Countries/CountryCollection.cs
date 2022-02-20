@@ -11,6 +11,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
+
+			Logger.Info("Linking Countries with Countries...");
+			LinkCountries();
 		}
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, countryId) => {
@@ -29,6 +32,17 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 			Logger.Info($"{counter} families linked to countries.");
 		}
+		private void LinkCountries() {
+			SortedSet<ulong> idsWithoutDefinition = new();
+			var counter = this.Count(country => country.LinkCountries(this, idsWithoutDefinition));
+
+			if (idsWithoutDefinition.Count > 0) {
+				Logger.Debug($"Countries without definition: {string.Join(", ", idsWithoutDefinition)}");
+			}
+
+			Logger.Info($"{counter} countries linked to countries.");
+		}
+
 		public static CountryCollection ParseBloc(BufferedReader reader) {
 			var blocParser = new Parser();
 			CountryCollection countries = new();

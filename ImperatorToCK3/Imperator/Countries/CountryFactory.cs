@@ -20,6 +20,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 		static Country() {
 			parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());
+			parser.RegisterKeyword("origin", reader => parsedCountry.parsedOriginCountryId = reader.GetULong());
 			parser.RegisterKeyword("country_name", reader => parsedCountry.CountryName = CountryName.Parse(reader));
 			parser.RegisterKeyword("flag", reader => parsedCountry.Flag = reader.GetString());
 			parser.RegisterKeyword("country_type", reader => {
