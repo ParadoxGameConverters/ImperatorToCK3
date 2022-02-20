@@ -94,6 +94,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
+			RegisterKeyword("armies", reader => reader.GetStringOfItem());
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
