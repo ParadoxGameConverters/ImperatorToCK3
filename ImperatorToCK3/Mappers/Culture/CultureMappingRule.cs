@@ -19,7 +19,7 @@ public class CultureMappingRule {
 		string ck3Religion,
 		ulong ck3ProvinceId,
 		ulong impProvinceId,
-		string ck3OwnerTitle
+		string historicalTag
 	) {
 		// We need at least a viable impCulture.
 		if (string.IsNullOrEmpty(impCulture)) {
@@ -30,8 +30,8 @@ public class CultureMappingRule {
 			return null;
 		}
 
-		if (owners.Count > 0) {
-			if (string.IsNullOrEmpty(ck3OwnerTitle) || !owners.Contains(ck3OwnerTitle)) {
+		if (tags.Count > 0) {
+			if (string.IsNullOrEmpty(historicalTag) || !tags.Contains(historicalTag)) {
 				return null;
 			}
 		}
@@ -92,7 +92,7 @@ public class CultureMappingRule {
 		string ck3Religion,
 		ulong ck3ProvinceId,
 		ulong impProvinceId,
-		string ck3OwnerTitle
+		string historicalTag
 	) {
 		// This is a non religious match. We need a mapping without any religion, so if the
 		// mapping rule has any religious qualifiers it needs to fail.
@@ -101,13 +101,13 @@ public class CultureMappingRule {
 		}
 
 		// Otherwise, as usual.
-		return Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
+		return Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, historicalTag);
 	}
 
 	private string destinationCulture = string.Empty;
 	private readonly SortedSet<string> cultures = new();
 	private readonly SortedSet<string> religions = new();
-	private readonly SortedSet<string> owners = new();
+	private readonly SortedSet<string> tags = new();
 	private readonly SortedSet<ulong> imperatorProvinces = new();
 	private readonly SortedSet<ulong> ck3Provinces = new();
 	private readonly SortedSet<string> imperatorRegions = new();
@@ -117,7 +117,7 @@ public class CultureMappingRule {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.destinationCulture = reader.GetString());
 		parser.RegisterKeyword("imp", reader => mappingToReturn.cultures.Add(reader.GetString()));
 		parser.RegisterKeyword("religion", reader => mappingToReturn.religions.Add(reader.GetString()));
-		parser.RegisterKeyword("owner", reader => mappingToReturn.owners.Add(reader.GetString()));
+		parser.RegisterKeyword("tag", reader => mappingToReturn.tags.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
 		parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));

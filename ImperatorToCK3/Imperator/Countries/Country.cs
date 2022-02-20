@@ -19,7 +19,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 		public List<RulerTerm> RulerTerms { get; set; } = new();
 		public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
 		public string Tag { get; private set; } = "";
-		public string HistoricalTag { get; private set; } = "";
+		private string? historicalTag;
+		public string HistoricalTag {
+			get => historicalTag ?? Tag;
+			private set => historicalTag = value;
+		}
+
 		public string Name => CountryName.Name;
 		public CountryName CountryName { get; private set; } = new();
 		public string Flag { get; private set; } = "";
