@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
@@ -24,6 +25,7 @@ namespace ImperatorToCK3.Imperator {
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
+		public LegionCollection Legions { get; private set; } = new();
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -94,7 +96,14 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
-			RegisterKeyword("armies", reader => reader.GetStringOfItem());
+			RegisterKeyword("armies", reader => {
+				Logger.Info("Loading Units...");
+				var armiesParser = new Parser();
+				armiesParser.RegisterKeyword("subunit_database", ParserHelpers.IgnoreItem);
+				armiesParser.RegisterKeyword("units_database", unitsReader => Legions.LoadUnits(unitsReader));
+
+				armiesParser.ParseStream(reader);
+			});
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
