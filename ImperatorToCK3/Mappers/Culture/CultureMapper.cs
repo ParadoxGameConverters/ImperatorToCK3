@@ -34,10 +34,10 @@ public class CultureMapper {
 		string ck3Religion,
 		ulong ck3ProvinceId,
 		ulong impProvinceId,
-		string ck3OwnerTitle
+		string historicalTag
 	) {
 		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
+			var possibleMatch = cultureMappingRule.Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, historicalTag);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}
@@ -50,10 +50,10 @@ public class CultureMapper {
 		string ck3Religion,
 		ulong ck3ProvinceId,
 		ulong impProvinceId,
-		string ck3OwnerTitle
+		string historicalTag
 	) {
 		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.NonReligiousMatch(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
+			var possibleMatch = cultureMappingRule.NonReligiousMatch(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, historicalTag);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}

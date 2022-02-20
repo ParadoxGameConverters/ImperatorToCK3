@@ -4,21 +4,21 @@
 
 # Usage:
 # link = {
-#	ck3 = ck3Culture
-#	imp = impCulture
-#	owner = ck3Title (optional)
-#	religion = ck3Religion (optional)
-#	impProvince = impProvince (optional)
-#	ck3Province = ck3Province (optional)
-#	impRegion = impRegion (optional)
-#	ck3Region = ck3Region (optional)
+#	ck3 = <CK3 culture>
+#	imp = <Imperator culture>
+#	tag = <historical Imperator tag> (optional)
+#	religion = <CK3 religion> (optional)
+#	impProvince = <Imperator province> (optional)
+#	ck3Province = <CK3 province> (optional)
+#	impRegion = <Imperator region> (optional)
+#	ck3Region = <CK3 region> (optional)
 #}
-# multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, owner
+# multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, tag
 # multiple entries not allowed for: ck3
 
-# Variables
-# Use them to avoid duplicating long conditions
-# A variable must be defined BEFORE it's used in a link
+# Variables:
+# Use them to avoid duplicating long conditions.
+# A variable must be defined BEFORE it's used in a link.
 # For example:
 # Instead of:
 # link = { ck3=belgae imp=sennonian imp=bellovacian imp=veliocassian imp=morinian impProvince=1}
@@ -174,7 +174,7 @@ link = { ck3 = thracian imp = triballoi imp = moesi imp = odrysi imp = paeonian 
 
 ## East Levantine
 link = { ck3 = assyrian imp = assyrian }
-link = { ck3 = hebrew imp = aramaic owner = k_israel } # Historical assimilation
+link = { ck3 = hebrew imp = aramaic tag=JUD } # Historical assimilation
 link = { ck3 = aramaic imp = aramaic }
 link = { ck3 = babylonian imp = babylonian }
 
@@ -253,15 +253,9 @@ link = { ck3 = old_saxon @imp_ingvaeonic_cultures } # fallback for Ingvaeonic cu
 link = { ck3 = frankish @imp_frankish_cultures }
 # Irminonic mappings
 link = { ck3 = suebi @imp_suebian_cultures }
+link = { ck3 = langobard @imp_irminonic_cultures tag=LGB }
 link = { ck3 = swabian @imp_irminonic_cultures ck3Province = 2055 ck3Province = 2053 ck3Province = 2051 ck3Province = 2721 ck3Province = 2751 ck3Province = 2717 ck3Province = 2057 ck3Province = 2768 ck3Province = 2773 ck3Province = 2748 ck3Province = 2746 ck3Province = 2763 ck3Province = 2759 ck3Province = 2757 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2046 ck3Province = 2049 ck3Province = 2460 }
 link = { ck3 = bavarian @imp_irminonic_cultures ck3Province = 2964 ck3Province = 2945 ck3Province = 2949 ck3Province = 2942 ck3Province = 2957 ck3Province = 2959 ck3Province = 2956 ck3Province = 2883 ck3Province = 2960 ck3Province = 2878 ck3Province = 2990 ck3Province = 2987 ck3Province = 2989 ck3Province = 2975 ck3Province = 2977 ck3Province = 3135 ck3Province = 3131 ck3Province = 2971 ck3Province = 3117 ck3Province = 3092 ck3Province = 3109 ck3Province = 3121 ck3Province = 3086 ck3Province = 3081 ck3Province = 3089 ck3Province = 3073 ck3Province = 3093 ck3Province = 3088 ck3Province = 2950 ck3Province = 2955 ck3Province = 3134 ck3Province = 3105 ck3Province = 3128 ck3Province = 3125 ck3Province = 3099 }
-link = { ck3 = langobard @imp_irminonic_cultures
-	ck3Region=custom_hungary ck3Region=custom_core_austria ck3Region=d_bohemia ck3Region=d_moravia 
-}
-link = { ck3 = langobard @imp_irminonic_cultures
-	@culture_splitting_region_I @culture_splitting_region_J
-	@culture_splitting_region_P @culture_splitting_region_Q @culture_splitting_region_S
-}
 link = { ck3 = suebi @imp_irminonic_cultures } # fallback for Irminonic cultures
 
 # Norse mappings
@@ -323,7 +317,7 @@ link = { ck3 = telugu imp = andhran imp = assaka }
 
 ## Latin
 # The Glory of Rome
-link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian owner = e_roman_empire }
+link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian tag=ROM }
 
 # Splitting according to regions
 link = { ck3 = breathanach imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_A }

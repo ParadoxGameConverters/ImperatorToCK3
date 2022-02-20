@@ -29,6 +29,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 			Logger.Info($"{counter} families linked to countries.");
 		}
+
 		public static CountryCollection ParseBloc(BufferedReader reader) {
 			var blocParser = new Parser();
 			CountryCollection countries = new();
