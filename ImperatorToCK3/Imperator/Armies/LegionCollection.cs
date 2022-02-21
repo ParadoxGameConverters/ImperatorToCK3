@@ -7,8 +7,13 @@ public class LegionCollection : IdObjectCollection<ulong, Legion> {
 	public void LoadUnits(BufferedReader reader) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
+			var itemStr = reader.GetStringOfItem().ToString();
+			if (itemStr == "none") {
+				return;
+			}
+
 			var id = ulong.Parse(idStr);
-			dict[id] = new Legion(id, reader);
+			dict[id] = new Legion(id, new BufferedReader(itemStr));
 
 			Logger.Notice(id.ToString());
 		});
