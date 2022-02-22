@@ -159,4 +159,9 @@ name_list_elamite = {
 	female_names = {
 		Tabguri Shatilu Shashru Iapru Gizili Hu-urti Azahar Iapulmat Napganaza Shimuthisha Liliriri Temukra Zana Zanidah Kikki Napir-Asu
 	}
+
+	founder_named_dynasties = yes # copied from name_list_persian
+
+	patronym_suffix_male = "dynnpat_suf_zade" # copied from name_list_persian
+	patronym_suffix_female = "dynnpat_suf_dokht" # copied from name_list_persian
 }
