@@ -16,7 +16,7 @@ jobs:
         submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.*'
     - name: Test
@@ -42,7 +42,7 @@ jobs:
         submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.*'
     - name: Test
