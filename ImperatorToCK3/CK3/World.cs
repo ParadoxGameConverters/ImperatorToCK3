@@ -149,13 +149,16 @@ namespace ImperatorToCK3.CK3 {
 				}
 			}
 			// Add vanilla development to counties
-			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability
-			foreach (Title title in LandedTitles.Where(title => title.Rank == TitleRank.county && title.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
+			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability.
+			foreach (var title in LandedTitles.Where(t => t.Rank == TitleRank.county && t.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
 				var inheritedDev = title.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
 				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
 			}
+			foreach (var title in LandedTitles.Where(t => t.Rank > TitleRank.county)) {
+				title.History.InternalHistory.Fields.Remove("development_level");
+			}
 
-			// remove history entries past the bookmark date
+			// Remove history entries past the bookmark date.
 			foreach (var title in LandedTitles) {
 				title.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);
 			}
