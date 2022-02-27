@@ -11,13 +11,13 @@ public static class RakalyCaller {
 		using Process process = new();
 
 		string currentDir = Directory.GetCurrentDirectory();
-		string executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-pc-windows-msvc/rakaly.exe";
+		string executablePath = "Resources/rakaly/rakaly-0.3.16-x86_64-pc-windows-msvc/rakaly.exe";
 		string arguments = $"melt --unknown-key stringify \"{savePath}\"";
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-			executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-apple-darwin/rakaly";
+			executablePath = "Resources/rakaly/rakaly-0.3.16-x86_64-apple-darwin/rakaly";
 			Exec($"chmod +x {currentDir}/{executablePath}");
 		} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-			executablePath = "Resources/rakaly/rakaly-0.3.15-x86_64-unknown-linux-musl/rakaly";
+			executablePath = "Resources/rakaly/rakaly-0.3.16-x86_64-unknown-linux-musl/rakaly";
 			Exec($"chmod +x {currentDir}/{executablePath}");
 		}
 
