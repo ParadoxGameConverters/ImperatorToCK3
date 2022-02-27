@@ -101,22 +101,22 @@ parthian = {
 	}	
 }
 
-elamite = {
+elamite = { # https://en.wikipedia.org/wiki/Elam
 	color = elamite
 	
-	ethos = ethos_courtly # TODO
+	ethos = ethos_stoic
 	heritage = heritage_iranian
 	language = language_elamite
 	martial_custom = martial_custom_male_only
 	traditions = { # TODO
-		tradition_poetry
-		tradition_philosopher_culture
-		tradition_gardening
-		tradition_dryland_dwellers
-		tradition_futuwaa
+		# https://study.com/academy/lesson/elamite-empire-art-culture.html
+		# The location of Elam was also very rich agriculturally. This not only provided adequate nutrition and security to the Elamites, but a steady source of good for packaging and selling to other nations and people who traveled through and traded with the Elamites. 
+		tradition_hill_dwellers
+		# The area of Iran occupied for millennia by the Elamite Empire was a known trade hot spot. Located along the Persian Gulf with access to major shipping routes across land and sea, Elam was a mainstay in getting numerous resources wherever they needed to go throughout the Middle East and Asia.
+		tradition_maritime_mercantilism
 	}
 	
-	name_list = name_list_persian
+	name_list = name_list_elamite
 	
 	coa_gfx = { iranian_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
