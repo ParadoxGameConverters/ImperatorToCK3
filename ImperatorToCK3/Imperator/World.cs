@@ -29,9 +29,10 @@ namespace ImperatorToCK3.Imperator {
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 		private SaveType saveType = SaveType.Invalid;
 
-		public World(Configuration configuration, ConverterVersion converterVersion) {
+		public World() { }
+		public World(Configuration config, ConverterVersion converterVersion) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
-			ParseGenes(configuration);
+			ParseGenes(config);
 
 			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
@@ -55,9 +56,6 @@ namespace ImperatorToCK3.Imperator {
 				var dateString = reader.GetString();
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
-				if (EndDate > configuration.CK3BookmarkDate) {
-					Logger.Error("Save date is later than CK3 bookmark date, proceeding at your own risk!");
-				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
 				dlcs.UnionWith(reader.GetStrings());
@@ -77,7 +75,7 @@ namespace ImperatorToCK3.Imperator {
 
 				// Let's locate, verify and potentially update those mods immediately.
 				ModLoader modLoader = new();
-				modLoader.LoadMods(configuration.ImperatorDocPath, incomingMods);
+				modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
 				Mods = modLoader.UsableMods;
 			});
 			RegisterKeyword("family", reader => {
@@ -96,6 +94,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
+			RegisterKeyword("armies", reader => reader.GetStringOfItem());
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
@@ -130,25 +129,25 @@ namespace ImperatorToCK3.Imperator {
 			});
 
 			Logger.Info("Verifying Imperator save...");
-			VerifySave(configuration.SaveGamePath);
+			VerifySave(config.SaveGamePath);
 
-			ParseStream(ProcessSave(configuration.SaveGamePath));
+			ParseStream(ProcessSave(config.SaveGamePath));
 			ClearRegisteredRules();
 			Logger.Debug($"Ignored World tokens: {string.Join(", ", ignoredTokens)}");
 
 			Logger.Info("*** Building World ***");
 
 			// Link all the intertwining references
-			Logger.Info("Linking Characters with Families");
+			Logger.Info("Linking Characters with Families...");
 			Characters.LinkFamilies(Families);
 			Families.RemoveUnlinkedMembers();
-			Logger.Info("Linking Characters with Countries");
+			Logger.Info("Linking Characters with Countries...");
 			Characters.LinkCountries(Countries);
-			Logger.Info("Linking Provinces with Pops");
+			Logger.Info("Linking Provinces with Pops...");
 			Provinces.LinkPops(pops);
-			Logger.Info("Linking Provinces with Countries");
+			Logger.Info("Linking Provinces with Countries...");
 			Provinces.LinkCountries(Countries);
-			Logger.Info("Linking Countries with Families");
+			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 
 			LoadPreImperatorRulers();

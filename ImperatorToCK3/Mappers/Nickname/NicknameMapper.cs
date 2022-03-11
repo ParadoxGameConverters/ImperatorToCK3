@@ -6,6 +6,7 @@ namespace ImperatorToCK3.Mappers.Nickname;
 public class NicknameMapper {
 	private readonly Dictionary<string, string> impToCK3NicknameMap = new();
 
+	public NicknameMapper() { }
 	public NicknameMapper(string filePath) {
 		Logger.Info("Parsing nickname mappings...");
 		var parser = new Parser();

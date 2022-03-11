@@ -1,0 +1,365 @@
+﻿name_list_roman = {
+	cadet_dynasty_names = {
+		"dynn_Julio_Claudian"
+		"dynn_Flavian"
+		"dynn_Nerva_Antonine"
+		"dynn_Severan"
+		"dynn_Gordian"
+		"dynn_Constantinian"
+		"dynn_Valentinian"
+		"dynn_Theodosian"
+		"dynn_Leonid"
+		"dynn_Justinian"
+		"dynn_Heraclian"
+		"dynn_Isaurian"
+		"dynn_Nikephorian"
+		"dynn_Amorian"
+		"dynn_Macedonian"
+		"dynn_Doukid"
+		"dynn_Komnenid"
+		"dynn_Angelid"
+		"dynn_Laskarid"
+		"dynn_Palaiologan"
+	agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
+	agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
+	agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
+	agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
+	agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
+	agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
+	agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
+	agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
+	agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
+	agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
+	agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
+	agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
+	agn_Figulus agn_Fimbria agn_Flaccus agn_Flavus agn_Florus agn_Fronto agn_Fullo
+	agn_Fusus agn_Galeo agn_Gemellus agn_Glabrio agn_Gracchus agn_Gurges agn_Habitus
+	agn_Helva agn_Imperiosus agn_Iullus agn_Labeo agn_Lactuca agn_Laenas agn_Lanatus
+	agn_Laevinus agn_Laterensis agn_Lentulus agn_Lepidus agn_Libo agn_Licinus agn_Longus
+	agn_Lucullus agn_Lupus agn_Lurco agn_Macer agn_Macula agn_Malleolus agn_Mamercus
+	agn_Marcellus agn_Maro agn_Merenda agn_Mergus agn_Merula agn_Messalla agn_Metellus
+	agn_Murena agn_Mus agn_Musca agn_Nasica agn_Naso agn_Natta agn_Nepos agn_Nero
+	agn_Nerva agn_Niger agn_Novellus agn_Ocella agn_Pacilus agn_Paetus agn_Pansa
+	agn_Papus agn_Paterculus agn_Paullus agn_Pavo agn_Pera agn_Pictor agn_Piso
+	agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
+	agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
+	agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
+	agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
+	agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
+	agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
+	agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus
+	agn_Tuditanus agn_Tullus agn_Turdus agn_Varro agn_Varus agn_Vatia agn_Verres
+	agn_Vespillo agn_Vetus agn_Vitulus agn_Volusus
+	}
+
+	dynasty_names = {
+		gens_Aemilia gens_Antonia gens_Atilia gens_Atia gens_Aufidia gens_Aurelia gens_Caecilia gens_Calpurnia gens_Cassia gens_Claudia
+		gens_Clodia gens_Cornelia gens_Domitia gens_Fabia gens_Flavia gens_Fulvia gens_Furia gens_Gabinia gens_Galeria gens_Horatia gens_Julia
+		gens_Junia gens_Licinia gens_Livia gens_Lucia gens_Mamilia gens_Manlia gens_Maria gens_Memmia gens_Nigidia gens_Octavia gens_Papiria gens_Plinia
+		gens_Postumia gens_Pompeia gens_Rabiria gens_Quinctia gens_Salvia gens_Scribonia gens_Sempronia gens_Sertoria gens_Silia gens_Titia
+		gens_Tullia gens_Ulpia gens_Valeria gens_Vesuvia gens_Vinicia gens_Viridia gens_Vitellia
+	}
+
+	male_names = {
+		Gaius Lucius Marcus Publius Quintus Titus Tiberius Sextus
+		Aulus Decimus Gnaeus Spurius Manius Servius Appius Numerius
+		Vibius
+		Amulius Camillus Decius Drusus Faustus Flavius Gallus
+		Herius Hostus Opiter Octavius Postumus Primus Proculus
+		Secundus Tertius Ancus
+	}
+	female_names = {
+		Gaia Lucia Marca Publia Quinta Tita Tiberia Sexta Aula Decima
+		Gnaea Spuria Mania Servia Appia Numeria Vibia
+		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
+		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
+	}
+	
+	dynasty_of_location_prefix = "dynnp_a"
+	patronym_prefix_male = "dynnp__"
+
+	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+	pat_grf_name_chance = 50
+	mat_grf_name_chance = 0
+	father_name_chance = 50
+	
+	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+	pat_grm_name_chance = 50
+	mat_grm_name_chance = 50
+	mother_name_chance = 0
+	
+	mercenary_names = {
+		{ name = "mercenary_company_numeri" coat_of_arms = "e_roman_empire" }
+	}
+}
+name_list_breathanach = {
+		cadet_dynasty_names = {
+			dynn_BE_nE_vE_ntos dynn_CaradO_ci_Eos dynn_Cr_EsciE_nt_Eos dynn_Domizianos
+			dynn_Dr_Estan_Eos dynn_Azi_Egos dynn_Anicios dynn_E_ispO_litos
+			dynn_ApO_ll_Enar_Es
+			dynn_Aragi_Egos dynn_AratrO_ dynn_Flaccos dynn_Gadrici_Eos dynn_CiE_l_Eanos
+			dynn_CiE_sO_ninos dynn_GiE_rE_nzi_Eos dynn_V_EjtrO_ dynn_SE_gondos
+			dynn_SE_rp_Enzi_Eos dynn_Savinos
+			dynn_Simmagos dynn_S_Evigi_Eos dynn_Lanual_Eos dynn_Ligatos dynn_Ll_El_Eos
+			dynn_Luci_Eanos dynn_Mais_Emos dynn_ME_lcun_Eos dynn_MaiO_r_Eanos
+			dynn_M_Er_Eadoci_Eos dynn_MogiE_stos
+			dynn_Aur_El_Eanos dynn_Ov_En_Eanos dynn_P_EscatrO_ dynn_P_Eos
+		}
+
+		dynasty_names = {
+			dynn_BE_nE_vE_ntos dynn_CaradO_ci_Eos dynn_Cr_EsciE_nt_Eos dynn_Domizianos
+			dynn_Dr_Estan_Eos dynn_Azi_Egos dynn_Anicios dynn_E_ispO_litos
+			dynn_ApO_ll_Enar_Es
+			dynn_Aragi_Egos dynn_AratrO_ dynn_Flaccos dynn_Gadrici_Eos dynn_CiE_l_Eanos
+			dynn_CiE_sO_ninos dynn_GiE_rE_nzi_Eos dynn_V_EjtrO_ dynn_SE_gondos
+			dynn_SE_rp_Enzi_Eos dynn_Savinos
+			dynn_Simmagos dynn_S_Evigi_Eos dynn_Lanual_Eos dynn_Ligatos dynn_Ll_El_Eos
+			dynn_Luci_Eanos dynn_Mais_Emos dynn_ME_lcun_Eos dynn_MaiO_r_Eanos
+			dynn_M_Er_Eadoci_Eos dynn_MogiE_stos
+			dynn_Aur_El_Eanos dynn_Ov_En_Eanos dynn_P_EscatrO_ dynn_P_Eos
+		}
+
+		male_names = {
+			Abono Adcobrovatus Ag_Ear_Eo Agrau_Eno AgrauE_no Agr_Epe Alano Albano Albo Al_Eno AlE_sandrE_ AmbrO_sino Amminius Annans
+			AntO_nino Appeo Apullius AradO_co Arau_Eno Arazi_Eco Ard_Eualo Arduro Aroto Arviragus Aulo AurE_l_Eo Azzil_Eo Bal_Eno
+			Bal_Es BE_d_Eno BE_turo Bl_Egino Bl_Ezico Bodiccius BO_rs Brano Br_Eno Br_Etann_Eco Brigomaglos Brocano BrO_cimalo BrO_civalo
+			Bruto Cacumattus Cadano Cadello Cadoco CalE_dino Cal_Eto Caraleto Caraleto Caranacus Caratacus CaratO_co Carau_Eno
+			Car_Eco Car_Eto Casovallono Cassivellaunus Catarico Catavignus Catovallo Catovallo CatovallO_no Catovio Cauano
+			Ceanatis C_Eo Ci_Ecileo CiE_l_Egino Ci_El_Eo Ci_Elvino Ci_Eno CiE_r_Elodo Ci_ErE_ns CiE_rE_vano CiE_rE_z_Eaco CiE_r_Ezico CiE_rgino
+			Ci_Erlino CiE_rO_v_Eno Cierreto Ci_ErtO_co Ci_Erv_Eno Ci_Ervino Ci_Erzi_Eco Ci_EtO_vino Cingetorix Cintugnatus Cintusmus
+			Cistumucus Cogidubnos ColO_co Commius ConO_vallO_no ConO_varco ConO_vE_lino ConO_vino Cor_En_Eo CO_rnE_l_Eo CO_sc_Enino
+			Cr_Evido Crodo Crotus Crovido Cunittus Cunobarrus Cunobelinus Cunomorus Cunopectus Cunovindus Davido DE_ci_Emo
+			Dobr_Ez_Eo DO_mizeano Dorrico DO_rvalo Dovrigo Drostano Drostano Dubnovellaunus Dumnocoveros _Eci_Erno E_dano
+			E_d_Erno _EdO_valo _Egnono _Eitro E_ldoco E_lv_Edo E_lv_Eno E_lv_Eno E_m_Eris Enemnogenus Enestinus _Eorveto _Erbino
+			_Erm_Edo _Esse _Ev_Elo _Ez_Eo _Ezilo Fab_Eano Flauio Folvio Gau_Eno G_Eo GiE_llado Gi_Eniolo GiE_ralto GiE_r_Ell_E Giulio
+			GotO_vano Graz_Eano Ivomagus Ladarno LanO_valo LanO_valo L_Ecato L_EgiE_ssaco L_Eodono L_Erio L_Ev_Eo Litugenus Locr_Ezio
+			LO__Elino LoitE_maro Longi_Eno Lucio Lugotorix Madoco Malcoro MalcO_ro Mal_Eno Malvino Malvino Mandubracius Mapono
+			MarciE_llo Marco Mardoco Mar_Eano Mar_Eto Mario Maslorius Mass_Emiano Mass_Emo Matugenus M_Eliro Melisus M_Elo
+			M_Enaco M_Er_Eco M_Eriatoco M_EriO_no M_Erveno MO_ri_Eno Morirex MO_rrizico MO_rvans Motius Murico Naboro Nasiens
+			Nectovelius N_Ero Odono Oitau_Eano Oitau_Eo Oraz_Eo OrE_to O_v_Eno Padarno Paderno Paulo PE_rE_turo PE_rE_turo
+			PE_rgi_Elo PE_rt_Enais Plin_Eo Ponz_Eo Prasutagus Primo Quinto R_Egi_Erto R_Egolo R_Enalo Rianorix RO_gi_Erico RO_v_Eno
+			Rufo Saccius SE_condo S_Edollo Segovax Senaculus Sennianus Senorix SE_sto Setibogius SE_tt_Emo Setto SE_v_Ero
+			Tac_Eto TaliE_s_Eno Tamesubugus Tancorix Tasciovanus Taximagulus T_EO_dO_r_Eis TE_rz_Eo T_Eto Tincommius Togodumnus
+			TutO_vales TutO_vallO_no UriE_ns UziE_ro ValE_r_Eano ValE_r_Eno Var_Eo Vellocatus V_Elodino Venutius Vergalo VE_roz_Eo
+			VE_rt_Erno VE_toro V_Etris Vindex Vindomorucius VindO_tO_r_Eis Virssuccius Vital_Eno
+		}
+		female_names = {
+			Ablach A_edammair Affraic AI_binn AibilI_n Aileann A_ine Anlaith ArO_c Barrdub Ben-Laigen Ben-MI_de Ben-Muman Ben-Ulad Brigit  BE_-FA_il BE_binn Cacht Caillech-FhinnE_in
+			Cainnech CaissE_ne CaitilI_n CaI_ntigern CaI_rech CathA_n CatrI_ona Cellach Ciar Cnes Coblaith Cobflaith Conchenn CondA_l CrI_nO_ch CrI_stina Cumman
+			Deirdre Der-bForgaill DerbA_il Derborgaill Der-Ilei Der-Lugdach Dianaim Doriend Dub-Dil Dub-Essa Dub-Lemna Dubchoblaig Dubgilla DU_insech DU_nlaith Echrad E_ibhleann
+			Eilionora Eithne EllbrI_g Emer E_taI_n E_ua Euginia FaI_lenn Fedelm Finneacht Finnguala Flann Forbflaith FI_ne Garb GelgE_is GerrO_c Gnathnad Gormflaith
+			Gormlaith GrA_inne Imag I_te Lann LasairfI_ona Lathir Lerben Lerthan LI_gach Lucia Martha Mauda Muadhnait Muirenn Muirgel Muirne MA_el-Mide
+			MA_el-Muire MA_ire MA_iread MA_irgred MO_r MO_r-Muman NA_rbflaith Nuala O_rlaith O_rnat RO_is Sadb Samthann ScA_thach SE_bdann Selblaith Seonaid Sinech SiobA_n
+			Sisuile SlA_I_ne Sorcha Suaibsech SA_erlaith SE_tach SI_thmaith Tailefhlaith Tailltiu Temair Tuathflaith TO_mnat Uallach Uasal U_na
+		}
+		
+		patronym_prefix_male = "dynnpat_pre_mac"
+		patronym_prefix_male_vowel = "dynnpat_pre_vow_mag"
+		patronym_prefix_female = "dynnpat_pre_nic"
+		patronym_prefix_female_vowel = "dynnpat_pre_vow_nig"
+		
+		always_use_patronym = yes	
+
+		
+		pat_grf_name_chance = 30
+		mat_grf_name_chance = 15
+		father_name_chance = 5
+		
+		pat_grm_name_chance = 30
+		mat_grm_name_chance = 15
+		mother_name_chance = 10
+}
+name_list_wenedyk = {
+		cadet_dynasty_names = {
+			dynn_Amiandy
+			dynn_Bezu
+			dynn_CE_uiaty
+			dynn_CuS_eiy
+			dynn_Dentupeany
+			dynn_Dracunsy
+			dynn_Iuy
+			dynn_Floeiy
+			dynn_IE_ntury
+			dynn_Iepy
+			dynn_MarS_ea
+			dynn_Meie
+			dynn_Oiechara
+			dynn_Panuiy
+			dynn_Preuiaty
+			dynn_Prubeany
+			dynn_Prucuiy
+			dynn_Pumpuiy
+			dynn_PuS_enseny
+			dynn_Reparaty
+			dynn_Scurzescy
+			dynn_S_E_iey
+			dynn_S_E_mpruia
+			dynn_S_E_rS_e
+			dynn_S_eru
+			dynn_S_eS_eru
+			dynn_S_eZ_eny
+			dynn_S_eraiy
+			dynn_Ueatru
+			dynn_UE_nusta
+			dynn_Uiebrey
+			dynn_Unue
+			dynn_U_toeany
+			dynn_Z_usupureany
+		}
+
+		dynasty_names = {
+			dynn_Amiandy
+			dynn_Bezu
+			dynn_CE_uiaty
+			dynn_CuS_eiy
+			dynn_Dentupeany
+			dynn_Dracunsy
+			dynn_Iuy
+			dynn_Floeiy
+			dynn_IE_ntury
+			dynn_Iepy
+			dynn_MarS_ea
+			dynn_Meie
+			dynn_Oiechara
+			dynn_Panuiy
+			dynn_Preuiaty
+			dynn_Prubeany
+			dynn_Prucuiy
+			dynn_Pumpuiy
+			dynn_PuS_enseny
+			dynn_Reparaty
+			dynn_Scurzescy
+			dynn_S_E_iey
+			dynn_S_E_mpruia
+			dynn_S_E_rS_e
+			dynn_S_eru
+			dynn_S_eS_eru
+			dynn_S_eZ_eny
+			dynn_S_eraiy
+			dynn_Ueatru
+			dynn_UE_nusta
+			dynn_Uiebrey
+			dynn_Unue
+			dynn_U_toeany
+			dynn_Z_usupureany
+		}
+
+		male_names = {
+			Abucatui Achemnatui Acheporecui Adrian Albinui Albui Allepsandri Ambarui AmbroS_ui Anaronacui AnastaS_ui
+			Andriai AN_echui AN_erestui AntoN_inui AntoN_ui AN_ui AporoN_ui Arcadzui Archemnui Artapsiai Auetui Augstinui
+			Augstui Aurelleanui Aurellui Bartoromeui BaS_ellui Bechellui Bellesariui BeN_acui BeN_edeptui Betumnatui
+			BraN_odZ_enui BreN_ui BretaN_ecui Brezui BuldZ_ui CamurodZ_enui Carinui Carui CaS_ui Centui ChE_chellui ChE_llestinui
+			Cheprianui CherS_i ChE_sa Chetsiui Chetui ChodoS_ui Chuspai Ciaudzui Ciementsui Cometai ConstaN_i Constantinui
+			Constantsui CorN_ellui Crasui Dadacui Dariui DecaS_ui Dechemui Dechui Dentupei Desachentui Domechanui DomeN_ecui
+			Dometsui Drusui DZ_eraS_ui DZ_ermanui DZ_esatorecui DZ_E_ui E_dZ_edzui Ellanui Elpedzui E_melleanui E_mellui Emnatsui
+			EN_odzui Eposomnatui Eptapori Ercullui Esarnui E_tsui Eubarnacui Fabeanui Fabiui Fabrichui FaranS_i Faustui
+			Fellepui Felli Flaueanui Floreanui Gallenui Galleriui Garui Gordeanui Grachanui Gracui IoaN_i Ioueanui
+			Iulleanui Iullui IuN_ui IuscheN_eanui Iustinui Laurentsui Lleberiui LlecheN_ui Llo Llontsui Luchui Madacui
+			Magarui Mamnui Mapsemeanui Mapseminui Mapsemui Marcheanui Marchelinui Marcherui Marcomamnui Marcui Marinui
+			Mariui Martinui Mucapiui N_epochanui N_erua Numereanui Onoriui Optaueanui Optauiui Pascarui Paulinui Paurui
+			PetroN_ui Pompeiui Ponchanui Prescui Probui Publlui Rascui Resui Romanui Romurui Rufinui Rutsellui SabeN_eanui
+			Samomnatui Sandasatrui Satrei Saturninui Scherai S_emmacui S_emproN_ui S_epstui S_eptsemiui S_erdZ_ui S_euerinui
+			S_euerui Sturanui Tachetui Tarutsenui Teberiui Teredatsei TollemE_ui TrE_anui UallencheN_anui UalleN_i Uallereanui
+			Ualleriui UardaN_i UedZ_ellui Uenantsui Ueptorinui Ueptro UespaS_eanui Uetalleanui UoruS_eanui Urbanui Z_ocllechanui
+			Z_odorui Z_oN_eS_ui Z_opui Z_osporui
+		}
+		female_names = {
+			Actihild Aschild Baldhild Casthild Castiburg Duomburg Duomhild
+			Eidburg Eidhild Eidsunne Eidwalda Geriburg Gerrhild Gunborg
+			Gundhild Hildborg Hildwald Hramburg Hramhild Hramis Hrauchild
+			Hraugiburg Ingiburg Ingihild Laighild Leigiburg Malburg Malhild
+			Marchild Mundhild Randild Rhamis Richild Rigiburg Sigiburg
+			Sigihild Sunburg Sunhild Theodeburg Theothild Thurishilda
+			Thurisinburg Thurisinhilda Thusnelda Walburg Waldburg
+			Walhild Waloburg Waluburg
+		}
+
+		dynasty_of_location_prefix = "dynnp_af"
+
+		# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+		pat_grf_name_chance = 50
+		mat_grf_name_chance = 5
+		father_name_chance = 10
+		
+		mercenary_names = {
+			{ name = "ostrogothic_band" }
+			{ name = "visigothic_band" }
+		}
+}
+name_list_etruscan = {
+		cadet_dynasty_names = {
+			dynn_cadet_ACILU dynn_cadet_ACRATE dynn_cadet_APURTHE dynn_cadet_CAMPANE
+			dynn_cadet_CEICE dynn_cadet_CENCU dynn_cadet_CREICE dynn_cadet_CESU
+			dynn_cadet_CRESPE dynn_cadet_CURCES dynn_cadet_CUTHNA dynn_cadet_HERMA
+			dynn_cadet_LATINI dynn_cadet_NUFRE dynn_cadet_NUSTE dynn_cadet_PALPE
+			dynn_cadet_PAPA dynn_cadet_PREZU dynn_cadet_PURCE dynn_cadet_SENATE
+			dynn_cadet_SEPU dynn_cadet_SINU dynn_cadet_TREPUNI dynn_cadet_TREPU
+			dynn_cadet_TUMU dynn_cadet_TURSIKINA dynn_cadet_VENALA dynn_cadet_VENTESE
+			dynn_cadet_VERU dynn_cadet_ZALLE
+		}
+
+		dynasty_names = {
+			dynn_Uclina dynn_Acnatru dynn_Acriena dynn_Acvilnas dynn_Afunas dynn_Aisina
+			dynn_Alethnas dynn_Alfi dynn_Alfni dynn_Alsinas dynn_Alvethna dynn_Amuni
+			dynn_Anani dynn_Aneithur dynn_Anes dynn_Aninas dynn_Anthiaia dynn_Apatru
+			dynn_Apianas dynn_Apries dynn_Aprthnas dynn_Apunas dynn_Apvcuia dynn_Araziia
+			dynn_Arnthna dynn_Aremsnas dynn_Arnies dynn_Arthunas dynn_Arunzina dynn_Arznas
+			dynn_Ateina dynn_Atelinas dynn_Aties dynn_Atnas dynn_Ufle dynn_Aucana dynn_Auclina
+			dynn_Aves dynn_Aznie dynn_Cafates dynn_Cahate dynn_Ceie dynn_Cale dynn_Caliathe
+			dynn_Calisna dynn_Camitlnas dynn_Camnas dynn_Campanes dynn_Canatnes dynn_Carpnate
+			dynn_Carsu dynn_Catne dynn_Cazi dynn_Ceisinies dynn_Celatina dynn_Cheiras dynn_Churcles
+			dynn_Churinas dynn_Cicunias dynn_Cilnii dynn_Cisvite dynn_Clute dynn_Clavtiethur
+			dynn_Clevsinas dynn_Cneuna dynn_Cravzathura dynn_Creicese dynn_Crepus dynn_Cuclni
+			dynn_Cucrinathur dynn_Curunas dynn_Cusinas dynn_Cusuthur dynn_Cvinte dynn_Cuthnas
+			dynn_Cutu dynn_Ecnate dynn_Einana dynn_Eucle dynn_Ezpus dynn_Fapi dynn_Felces
+			dynn_Felsnas dynn_Felsni dynn_Felusce dynn_Fisis dynn_Fulni dynn_Fulu dynn_Fulvena
+			dynn_Hanu dynn_Hapisna dynn_Hapre dynn_Hepni dynn_Havrnas dynn_Hele dynn_Hercnas 
+			dynn_Herma dynn_Hermenas dynn_Hirsuneie dynn_Hulchnie dynn_Hupni dynn_Ceicna
+			dynn_Cansinei dynn_Culeniie dynn_Curtinas dynn_Lapicane dynn_Larani dynn_Larecena
+			dynn_Larna dynn_Lucina dynn_Larecena dynn_Lartle dynn_Latherna dynn_Latni dynn_Leinies
+			dynn_Lethe dynn_Luisna dynn_Macre dynn_Malamena dynn_Marcna dynn_Marcnithur
+			dynn_Matulna dynn_Mutunas dynn_Meclas dynn_Mefanates dynn_Melacina dynn_Meluta
+			dynn_Metle dynn_Minie dynn_Murias dynn_Murinas dynn_Nerinei dynn_Ninie dynn_Nuiclnas
+			dynn_Numclanie dynn_Numnas dynn_Nuni dynn_Nufre dynn_Pachie dynn_Peithunas
+			dynn_Palazus dynn_Paprsina dynn_Papathnas dynn_Papni dynn_Parmne dynn_Partunus
+			dynn_Paziathe dynn_Percumsna dynn_Petrnii dynn_Phersnalas dynn_Phursethna
+			dynn_Pinies dynn_Pithe dynn_Platia dynn_Plute dynn_Plecus dynn_Plinia dynn_Prastna
+			dynn_Precuthur dynn_Presnte dynn_Puince dynn_Pulenas dynn_Pumpli dynn_Pumpna
+			dynn_Pumpus dynn_Pupena dynn_Puplina dynn_Purni dynn_Purzena dynn_Puslina
+			dynn_Pustmina dynn_Rufi dynn_Ramnuna dynn_Ranazu dynn_Rasunies dynn_Remzna
+			dynn_Riertu dynn_Rufres dynn_Rusci dynn_Santu dynn_Safice dynn_Salini dynn_Saties
+			dynn_Satlna dynn_Savpunias dynn_Scevas dynn_Scurfiu dynn_Sefre dynn_Seiante
+			dynn_Seitithe dynn_Semne dynn_Sentinate dynn_Sepu dynn_Sethre dynn_Silgatana
+			dynn_Sinu dynn_Siprisni dynn_Slanzu dynn_Spantu dynn_Spite dynn_Spurinas
+			dynn_Srutzna dynn_Statlanes dynn_Supelnas dynn_Suthrina dynn_Sveitus dynn_Svelthienas
+			dynn_Tarchunies dynn_Tarcnas dynn_Tarna dynn_Teithurna dynn_Teitur dynn_Telathur
+			dynn_Telicles dynn_Tetnies dynn_Thactra dynn_Thansina dynn_Thefri dynn_Thucerna 
+			dynn_Thusatur dynn_Tiphile dynn_Titie dynn_Tlesna dynn_Tularia dynn_Tulumnes
+			dynn_Turmna dynn_Thursethna dynn_Trepe dynn_Tutna dynn_Tutes dynn_Ucrine
+			dynn_Uftave dynn_Ulthes dynn_Ultimne dynn_Ulzna dynn_Ursmna dynn_Uslna dynn_Vania
+			dynn_Varati dynn_Velara dynn_Velcheina dynn_Velchas dynn_Velcii dynn_Vlesi dynn_Velie
+			dynn_Velna dynn_Velethna dynn_Velimnas dynn_Velthina dynn_Velthinathur
+			dynn_Velthurna dynn_Venala dynn_Venete dynn_Verate dynn_Vestarenies dynn_Vestirci
+			dynn_Vete dynn_Vilasnas dynn_Visnas dynn_Vipena dynn_Vipinans dynn_Vipithur
+			dynn_Zalthu dynn_Zane dynn_Zertnei dynn_Zili
+		}
+
+		male_names = {
+			Amtnie Amuni Anche Anthai Aninas Arunth Araz Arzni Arnth Autu Aule Cei Ceile Ceisi
+			Cire Cnaive Clate Cruthni Cuinte Cursni Fapi Felce Felsnas Fulu Hapre Hirumina Husi
+			Carcuna Carthasie Ceisie Cavie Larce Laris Larth Larthuza Laucie Lauche Lethei
+			Licine Lucer Mamurce Marce Murila Numna Pesna Petru Plikasnas Plute Presnte
+			Pumpu Puplie Cupe Ranazu Rasce Ruvfe Ruifre Sanchuna Scarpe Sethre Spitus Spurie Squrie
+			Tarchi Teitur Thefri Thucer Ticusna Tite Tlesna Tursikina Tusnute Uchsie Uchulni Usele
+			Vel Velchaie Velthur Venel Vetus Vipie
+		}
+
+		female_names = {
+			Anina Aprthni Apunei Arunthia Arzna Arntha Ati Aula Ceia Culni Cursi Cusua Fasthi
+			Hasthi Hercnei Kanuta Larthi Lethi Luci Matun Metli Numni Pulia Racu Ramtha Ranthu
+			Ravnthu Satlnei Sela Semni Sethri Squria Squlina Tanchuil Tarcha Teituri Thanchvil
+			Thana Thefrina Thestia Thuceru Ticusnei Titi Veli Velchina Venela Vesi Vipi
+		}
+		
+		dynasty_of_location_prefix = "dynnp_de"
+}

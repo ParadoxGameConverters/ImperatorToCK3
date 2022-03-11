@@ -76,16 +76,11 @@ namespace ImperatorToCK3.CK3.Characters {
 			ulong impProvince = 0;
 			var srcReligion = preImperatorRuler.Religion ?? imperatorCountry.Religion;
 			var srcCulture = preImperatorRuler.Culture ?? imperatorCountry.PrimaryCulture;
-			var ck3TitleNameForMappers = string.Empty;
 			if (imperatorCountry.Capital is not null) {
 				impProvince = (ulong)imperatorCountry.Capital;
 				var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(impProvince);
 				if (ck3Provinces.Count > 0) {
 					ck3Province = ck3Provinces[0];
-				}
-
-				if (imperatorCountry.CK3Title is not null) {
-					ck3TitleNameForMappers = imperatorCountry.CK3Title.Id;
 				}
 			}
 
@@ -97,7 +92,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (srcCulture is not null) {
-				var cultureMatch = cultureMapper.Match(srcCulture, Religion, ck3Province, impProvince, ck3TitleNameForMappers);
+				var cultureMatch = cultureMapper.Match(srcCulture, Religion, ck3Province, impProvince, imperatorCountry.HistoricalTag);
 				if (cultureMatch is not null) {
 					Culture = cultureMatch;
 				}
@@ -175,18 +170,16 @@ namespace ImperatorToCK3.CK3.Characters {
 				Religion = match;
 			}
 
-			var ck3Owner = "";
-			var imperatorCountry = ImperatorCharacter.Country;
-			if (imperatorCountry?.CK3Title is not null) {
-				ck3Owner = imperatorCountry.CK3Title.Id;
-			}
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
 				Religion, ck3Province,
 				ImperatorCharacter.ProvinceId,
-				ck3Owner
+				ImperatorCharacter.Country?.HistoricalTag ?? string.Empty
 			);
-			if (match is not null) {
+			if (match is null) {
+				Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter.Id}" +
+							$" with culture {ImperatorCharacter.Culture}!");
+			} else {
 				Culture = match;
 			}
 

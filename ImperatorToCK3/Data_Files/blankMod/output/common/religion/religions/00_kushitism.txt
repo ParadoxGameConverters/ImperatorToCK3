@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.3.0
+﻿# Last updated: CK3 patch 1.5.1
 kushitism_religion = {
 	family = rf_pagan
 
@@ -51,6 +51,7 @@ kushitism_religion = {
 
 	localization = {
 		HighGodName = kushitism_high_god_name
+		HighGodName2 = kushitism_high_god_name_2
 		HighGodNamePossessive = kushitism_high_god_name_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -137,6 +138,8 @@ kushitism_religion = {
 
 
 		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { kushitism_high_god_name kushitism_high_god_name_alternate kushitism_health_god_name kushitism_household_god_name kushitism_fate_god_name kushitism_fertility_god_name kushitism_creator_god_name }
 		DevilName = kushitism_devil_name
@@ -146,9 +149,15 @@ kushitism_religion = {
 		DevilHerselfHimself = CHARACTER_HIMSELF
 		EvilGodNames = { kushitism_devil_name paganism_evil_god_drought paganism_evil_god_chaos }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = kushitism_religious_symbol
+		ReligiousSymbol2 = kushitism_religious_symbol_2
+		ReligiousSymbol3 = kushitism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = zunism_religious_head_title
 		ReligiousHeadTitleName = zunism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -171,13 +180,20 @@ kushitism_religion = {
 		BishopNeuter = christianity_priest_male
 		BishopNeuterPlural = christianity_priest_male_plural
 		DivineRealm = kushitism_divine_realm
+		DivineRealm2 = kushitism_divine_realm_2
+		DivineRealm3 = kushitism_divine_realm_3
 		PositiveAfterLife = kushitism_divine_realm
+		PositiveAfterLife2 = kushitism_divine_realm_2
+		PositiveAfterLife3 = kushitism_divine_realm_3
 		NegativeAfterLife = kushitism_divine_realm
+		NegativeAfterLife2 = kushitism_divine_realm_2
+		NegativeAfterLife3 = kushitism_divine_realm_3
 		DeathDeityName = kushitism_high_god_name
 		DeathDeityNamePossessive = kushitism_high_god_name_possessive
 		DeathDeitySheHe = CHARACTER_SHEHE_HE
 		DeathDeityHerHis = CHARACTER_HERHIS_HIS
 		WitchGodName = witchgodname_kushitism_heka
+		WitchGodNamePossessive = witchgodname_kushitism_heka_possessive
 		WitchGodHerHis = CHARACTER_HERHIS_HER
 		WitchGodSheHe = CHARACTER_SHEHE_SHE
 		WitchGodHerHim = CHARACTER_HERHIM_HER

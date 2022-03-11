@@ -1,11 +1,11 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using System;
@@ -16,7 +16,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
-		private class CK3CharacterBuilder {
+		public class CK3CharacterBuilder {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
 			private CultureMapper cultureMapper = new();
@@ -183,7 +183,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				"link = { imp=chalcedonian ck3=orthodox }"
 			);
 			var religionMapper = new ReligionMapper(mapReader);
-			religionMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+			religionMapper.LoadRegionMappers(new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -203,8 +203,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			);
 			var cultureMapper = new CultureMapper(mapReader);
 			cultureMapper.LoadRegionMappers(
-				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
-				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
+				new ImperatorRegionMapper(),
+				new CK3RegionMapper()
 			);
 
 			var character = builder
@@ -216,11 +216,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
-			var countryReader = new BufferedReader("tag = RAN");
+			var countryReader = new BufferedReader("tag = MAC");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
-
-			var titles = new Title.LandedTitles();
-			country.CK3Title = titles.Add("d_rankless");
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",
@@ -231,11 +228,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			};
 
 			var mapReader = new BufferedReader(
-				"link = { imp=greek ck3=macedonian owner=d_rankless }" +
+				"link = { imp=greek ck3=macedonian tag=MAC }" +
 				"link = { imp=greek ck3=greek }"
 			);
 			var cultureMapper = new CultureMapper(mapReader);
-			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+			cultureMapper.LoadRegionMappers(new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character1 = builder
 				.WithImperatorCharacter(imperatorCharacter1)

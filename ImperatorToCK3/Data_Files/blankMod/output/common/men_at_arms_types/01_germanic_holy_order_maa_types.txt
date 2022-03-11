@@ -1,31 +1,42 @@
-﻿# New (Germanic)
+﻿# Last updated: CK3 patch 1.5.0
+# New (Germanic)
 
 @maa_buy_cost = 150
 
 einherjar = {
 	type = heavy_infantry
+	icon = heavy_infantry
+
+	can_recruit = { always = no }
 	
-	can_recruit = no
-	
-	damage = 45
-	toughness = 28
+
 	pursuit = 0
 	screen = 24
+	damage = 45
+	toughness = 28
+	siege_value = 0.5
+
+	fights_in_main_phase = no
+	siege_tier = 1
+
+	# Costs. Support gold, prestige, and piety
+	buy_cost = { gold = heavy_infantry_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_high_maint_cost }
 	
 	terrain_bonus = {
 		taiga = { damage = 8 }
 		forest = { damage = 8 }
+	}
+	era_bonus = {
+	###
 	}
 	
 	counters = {
 		pikemen = 1
 		archers = 1
 	}
-	
-	buy_cost = { gold = heavy_infantry_recruitment_cost }
-	low_maintenance_cost = { gold = heavy_infantry_low_maint_cost }
-	high_maintenance_cost = { gold = heavy_infantry_high_maint_cost }
-	
+
 	stack = 100
-	icon = heavy_infantry
+	hired_stack_size = 25
 }

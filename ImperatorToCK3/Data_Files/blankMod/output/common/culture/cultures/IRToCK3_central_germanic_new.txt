@@ -1,0 +1,30 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+pemis = {
+	color = { 89 73 47 }
+	parents = { german czech }
+	created = 20.1.1
+	heritage = heritage_central_germanic
+	language = language_high_german
+	martial_custom = martial_custom_male_only
+	
+	name_list = name_list_pemis
+	
+	ethos = ethos_courtly
+	
+	traditions = {
+		tradition_druzhina
+		tradition_adaptive_skirmishing
+	}
+	
+	coa_gfx = { west_slavic_group_coa_gfx german_group_coa_gfx western_coa_gfx } 
+	building_gfx = { western_building_gfx } 
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx } 
+	unit_gfx = { western_unit_gfx eastern_unit_gfx } 	
+
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+}

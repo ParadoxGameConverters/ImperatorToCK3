@@ -5,6 +5,8 @@ namespace ImperatorToCK3.Mappers.SuccessionLaw;
 
 public class SuccessionLawMapper {
 	private readonly Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
+
+	public SuccessionLawMapper() { }
 	public SuccessionLawMapper(string filePath) {
 		Logger.Info("Parsing succession law mappings...");
 		var parser = new Parser();

@@ -1,0 +1,42 @@
+﻿name_list_nabatean = {
+	cadet_dynasty_names = {
+		dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+		dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+		dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+		dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+	}
+
+	dynasty_names = {
+		dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid
+		dynn_Bodonid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid
+		dynn_Hiramid dynn_Magid dynn_Mattanid dynn_Metallid dynn_Milkiramid dynn_Philosirid
+		dynn_Gisgoid dynn_Gerbalid dynn_Hammid dynn_Eugarid dynn_Mashhid dynn_Ummashid
+	}
+
+	male_names = {
+		Abiyasa Abraha Alhan Amdan Amkarib Ammdhakhar
+		Ammshafiq Ammyitha Abkarib Abyada Bi_athtar
+		Dhamar_ali Dhamarkarib Fara_karib Ghaylan Hasan
+		Hawfi_amm Hawfi_athat Hayu Hufn Il_azz Ilrayum
+		Ilsama Ilsharah Ilyafa Karib_il Khalkarib Ma_ad_il
+		Ma_adkarib Mabhad Malikkarib Marthad Marthad_ilum
+		Mas_ud Muhaqim Muratta Nabat Nabatali Nasha_karib
+		Ra_ab_il Rabbshams Sa_dshams Shahr Shamdar Shammar
+		Sharah_il Simyafa Sumhu_ali Sumhuyafa Tha_ran
+		Tubba_karib Wahab Waqah_il Waraw_il Watar Yada_ab
+		Yada_ib Yada_il Yadhmurmalik Yakribmalik Yashhur_il
+		Yashhurmalik Yasir Yasuduq_il Yazil Yigal Yitha_amar
+		Yitha_il Yuhaqam Yuhar_il Yusuf
+	}
+	female_names = {
+		Adiya Baslu Gamilath Hind Huldu Layla Mamah Maryam Masah
+		Mawiya Shagilath Shamsi Suhaimah Tabua Te_lkhunu Yapa
+		Yathi_eh Yutab Zabibah Zarqa
+	}
+
+	mercenary_names = {
+		# Taken from Arabic
+		{ name = "mercenary_company_the_wanderers" }
+		{ name = "mercenary_company_bedouin_company_of_place" }
+	}
+}

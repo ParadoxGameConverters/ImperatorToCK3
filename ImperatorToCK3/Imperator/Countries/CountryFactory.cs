@@ -20,6 +20,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 
 		static Country() {
 			parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());
+			parser.RegisterKeyword("historical", reader => parsedCountry.HistoricalTag = reader.GetString());
 			parser.RegisterKeyword("country_name", reader => parsedCountry.CountryName = CountryName.Parse(reader));
 			parser.RegisterKeyword("flag", reader => parsedCountry.Flag = reader.GetString());
 			parser.RegisterKeyword("country_type", reader => {
@@ -124,7 +125,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				}
 			});
 			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-			fileParser.ParseGameFolder("common/governments", config.CK3Path, mods, true);
+			fileParser.ParseGameFolder("common/governments", config.CK3Path, "txt", mods, true);
 
 			static void AddRepublicGovernment(string name) {
 				republicGovernments.Add(name);

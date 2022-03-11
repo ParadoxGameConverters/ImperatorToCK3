@@ -10,7 +10,7 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: "Get previous tag"
@@ -35,14 +35,12 @@ jobs:
     needs: create_release
     runs-on: windows-2022
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+        submodules: recursive
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.*'
     - name: "Add version to version.txt"
@@ -84,14 +82,12 @@ jobs:
     needs: create_release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+        submodules: recursive
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.*'
     - name: "Add version to version.txt"
@@ -115,8 +111,9 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         type: 'zip'
-        directory: Release/
-        filename: 'ImperatorToCK3-linux-x64.zip'
+        directory: 'Release'
+        path: '*'
+        filename: '../ImperatorToCK3-linux-x64.zip'
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
