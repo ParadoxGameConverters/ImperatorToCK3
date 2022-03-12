@@ -149,6 +149,14 @@ name_list_parthian = {
 }
 
 name_list_elamite = {
+	# dynasty names based on https://en.wikipedia.org/wiki/List_of_Elamite_kings
+	cadet_dynasty_names = {
+		dynn_Awan dynn_Shimashki dynn_Sukkalmah dynn_Kidinuid dynn_Igihalkid dynn_Shutrukid dynn_Hubanid
+	}
+	dynasty_names = {
+		dynn_Awan dynn_Shimashki dynn_Sukkalmah dynn_Kidinuid dynn_Igihalkid dynn_Shutrukid dynn_Hubanid
+	}
+
 	male_names = {
 		Kur-Ishshak Peli Tata Ukku-Tanhish Hishutash Shushun-Tarana Napi-Ilhush Kkku-Siwe-Temti Hishep-Ratep Luh-Ishshan Emahsini Helu Hita Kutik-Inshushinak Gir-Namme
 		Tazitta Eparti Lurak-Luhhan Hutran-Temti Idattu-Inshushinak Kindattu Tan-Ruhuratir Indattu-Napir Indattu-Temti Shilhaha Kuk-Nashur Atta-hushu Tetep-Mada Palar-Ishshan
