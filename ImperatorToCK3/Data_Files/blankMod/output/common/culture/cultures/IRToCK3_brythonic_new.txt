@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.1
 brythonic = {
 	color = hsv { 0.57 0.7 0.4 }
 
@@ -12,7 +12,7 @@ brythonic = {
 	}
 	martial_custom = martial_custom_equal
 	
-	coa_gfx = { breton_coa_gfx welsh_coa_gfx }
+	coa_gfx = { breton_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }

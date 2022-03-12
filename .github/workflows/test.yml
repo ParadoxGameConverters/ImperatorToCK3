@@ -10,13 +10,13 @@ jobs:
   test_and_check_coverage:
     runs-on: windows-2022
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
         submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.*'
     - name: Test
@@ -36,13 +36,13 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
         submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.*'
     - name: Test

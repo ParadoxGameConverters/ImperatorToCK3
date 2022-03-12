@@ -379,18 +379,19 @@ link = { ck3 = numidian imp = numidian }
 link = { ck3 = butr imp = gyzantian imp = psyllic }
 
 ## Persia
-link = { ck3 = persian imp = carmanian imp = sagartian imp = elamite imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
+link = { ck3 = persian imp = carmanian imp = sagartian imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
 link = { ck3 = baloch imp = gedrosian imp = parecanian }
 link = { ck3 = daylamite imp = hyrcanian }
 link = { ck3 = parthian imp = parthian }
 link = { ck3 = kurdish imp = median }
 link = { ck3 = afghan imp = pactyan imp = sattagydian }
+link = { ck3 = elamite imp = elamite }
 
 ## Pracyan
 link = { ck3 = oriya imp = kalingan }
 link = { ck3 = assamese imp = kamarupi }
-link = { ck3 = bengali imp = bangli imp = atavi }
-link = { ck3 = nepali imp = magadhi imp = himalayan }
+link = { ck3 = bengali imp = bangli imp = atavi imp = magadhi }
+link = { ck3 = nepali imp = himalayan }
 # Invictus mod
 link = { ck3 = bengali imp = pandra imp = vanga }
 link = { ck3 = oriya imp = savara }
