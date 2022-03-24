@@ -19,7 +19,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		public class CK3CharacterBuilder {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
-			private CultureMapper cultureMapper = new();
+			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private LocDB locDB = new("english");
@@ -201,11 +201,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var mapReader = new BufferedReader(
 				"link = { imp=macedonian ck3=greek }"
 			);
-			var cultureMapper = new CultureMapper(mapReader);
-			cultureMapper.LoadRegionMappers(
-				new ImperatorRegionMapper(),
-				new CK3RegionMapper()
-			);
+			var cultureMapper = new CultureMapper(mapReader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -231,8 +227,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				"link = { imp=greek ck3=macedonian tag=MAC }" +
 				"link = { imp=greek ck3=greek }"
 			);
-			var cultureMapper = new CultureMapper(mapReader);
-			cultureMapper.LoadRegionMappers(new ImperatorRegionMapper(), new CK3RegionMapper());
+			var cultureMapper = new CultureMapper(mapReader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character1 = builder
 				.WithImperatorCharacter(imperatorCharacter1)

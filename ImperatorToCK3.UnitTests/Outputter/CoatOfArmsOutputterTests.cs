@@ -8,6 +8,7 @@ using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
@@ -31,6 +32,8 @@ public class CoatOfArmsOutputterTests {
 		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
+		var imperatorRegionMapper = new ImperatorRegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
 			new TagTitleMapper(),
 			new LocDB("english"),
@@ -40,7 +43,7 @@ public class CoatOfArmsOutputterTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(),
-			new CultureMapper(),
+			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1)
@@ -70,6 +73,8 @@ public class CoatOfArmsOutputterTests {
 		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
+		var imperatorRegionMapper = new ImperatorRegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
 			new TagTitleMapper(),
 			new LocDB("english"),
@@ -79,7 +84,7 @@ public class CoatOfArmsOutputterTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(),
-			new CultureMapper(),
+			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1)
