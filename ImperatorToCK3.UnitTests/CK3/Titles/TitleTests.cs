@@ -15,6 +15,7 @@ using ImperatorToCK3.UnitTests.CK3.Characters;
 using System.Linq;
 using Xunit;
 using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
+using ImperatorToCK3.Mappers.Region;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
@@ -33,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 			private readonly ReligionMapper religionMapper = new();
-			private readonly CultureMapper cultureMapper = new();
+			private readonly CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private readonly Date ck3BookmarkDate = new(867, 1, 1);
 			private readonly CharacterCollection characters = new();

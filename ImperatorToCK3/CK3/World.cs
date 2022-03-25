@@ -65,7 +65,7 @@ namespace ImperatorToCK3.CK3 {
 			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath, impWorld.Mods);
 			// Use the region mappers in other mappers
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
-			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
@@ -297,7 +297,6 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private readonly CoaMapper coaMapper;
-		private readonly CultureMapper cultureMapper = new();
 		private readonly DeathReasonMapper deathReasonMapper = new();
 		private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 		private readonly GovernmentMapper governmentMapper = new();

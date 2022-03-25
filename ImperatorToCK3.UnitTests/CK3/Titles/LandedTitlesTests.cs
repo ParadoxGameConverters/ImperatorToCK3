@@ -174,7 +174,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 			var locDB = new LocDB("english");
 			var religionMapper = new ReligionMapper();
-			var cultureMapper = new CultureMapper();
+			var cultureMapper = new CultureMapper(impRegionMapper, new CK3RegionMapper());
 			var coaMapper = new CoaMapper();
 			var definiteFormMapper = new DefiniteFormMapper();
 			var traitMapper = new TraitMapper();
