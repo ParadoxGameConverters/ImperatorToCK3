@@ -23,12 +23,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(reader);
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
+			var imperatorRegionMapper = new ImperatorRegionMapper();
+			var ck3RegionMapper = new CK3RegionMapper();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
 				new ImperatorToCK3.CK3.Characters.CharacterCollection(),
 				govMapper,
 				new LocDB("english"),
 				new ReligionMapper(),
-				new CultureMapper(),
+				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 				new ProvinceMapper()
 			);
@@ -53,10 +55,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
+			var imperatorRegionMapper = new ImperatorRegionMapper();
+			var ck3RegionMapper = new CK3RegionMapper();
 			var religionMapper = new ReligionMapper(new BufferedReader("link={imp=hellenic ck3=hellenic}"));
 			religionMapper.LoadRegionMappers(
-				new ImperatorRegionMapper(),
-				new CK3RegionMapper()
+				imperatorRegionMapper,
+				ck3RegionMapper
 			);
 			var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
@@ -64,7 +68,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				govMapper,
 				new LocDB("english"),
 				religionMapper,
-				new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }")),
+				new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }"), imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 				new ProvinceMapper()
 			);

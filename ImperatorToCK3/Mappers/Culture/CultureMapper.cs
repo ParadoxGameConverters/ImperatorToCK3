@@ -5,24 +5,23 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.Culture;
 
 public class CultureMapper {
-	public CultureMapper() {
+	public CultureMapper(ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
+		this.imperatorRegionMapper = imperatorRegionMapper;
+		this.ck3RegionMapper = ck3RegionMapper;
+
 		Logger.Info("Parsing culture mappings...");
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/culture_map.txt");
 		Logger.Info($"Loaded {cultureMappingRules.Count} cultural links.");
 	}
-	public CultureMapper(BufferedReader reader) {
+	public CultureMapper(BufferedReader reader, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
+		this.imperatorRegionMapper = imperatorRegionMapper;
+		this.ck3RegionMapper = ck3RegionMapper;
+
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
-	}
-
-	public void LoadRegionMappers(ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
-		foreach (var mapping in cultureMappingRules) {
-			mapping.ImperatorRegionMapper = imperatorRegionMapper;
-			mapping.CK3RegionMapper = ck3RegionMapper;
-		}
 	}
 
 	private void RegisterKeys(Parser parser) {
@@ -34,10 +33,10 @@ public class CultureMapper {
 		string ck3Religion,
 		ulong ck3ProvinceId,
 		ulong impProvinceId,
-		string ck3OwnerTitle
+		string historicalTag
 	) {
 		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
+			var possibleMatch = cultureMappingRule.Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, historicalTag, imperatorRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}
@@ -50,10 +49,10 @@ public class CultureMapper {
 		string ck3Religion,
 		ulong ck3ProvinceId,
 		ulong impProvinceId,
-		string ck3OwnerTitle
+		string historicalTag
 	) {
 		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.NonReligiousMatch(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, ck3OwnerTitle);
+			var possibleMatch = cultureMappingRule.NonReligiousMatch(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, historicalTag, imperatorRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}
@@ -62,4 +61,6 @@ public class CultureMapper {
 	}
 
 	private readonly List<CultureMappingRule> cultureMappingRules = new();
+	private readonly ImperatorRegionMapper imperatorRegionMapper;
+	private readonly CK3RegionMapper ck3RegionMapper;
 }

@@ -7,6 +7,7 @@ using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using Xunit;
@@ -17,7 +18,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 		private class CK3CharacterBuilder {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
-			private CultureMapper cultureMapper = new();
+			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
@@ -130,7 +131,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var cultureMapper = new CultureMapper(
 				new BufferedReader(
 					"link={imp=roman ck3=not_gypsy} link={imp=akan ck3=akan} link={imp=parthian ck3=parthian}"
-				)
+				),
+				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
+				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
 			);
 			var locDB = new LocDB("english");
 			var ck3Member1 = new CK3CharacterBuilder()

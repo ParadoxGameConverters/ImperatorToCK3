@@ -1,9 +1,9 @@
 # Version info
 
-name = "Caligula"
+name = "Claudius"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.4"
-maxTarget = "1.4"
+minTarget = "1.5"
+maxTarget = "1.5"

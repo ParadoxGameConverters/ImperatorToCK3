@@ -74,9 +74,9 @@ public class ProvinceMapper {
 		return new List<ulong>();
 	}
 
-	public void DetermineValidProvinces(Configuration theConfiguration) {
+	public void DetermineValidProvinces(Configuration config) {
 		Logger.Info("Loading Valid Provinces");
-		var filePath = Path.Combine(theConfiguration.CK3Path, "game/map_data/definition.csv");
+		var filePath = Path.Combine(config.CK3Path, "game/map_data/definition.csv");
 		using var definitionFileReader = new StreamReader(File.OpenRead(filePath));
 
 		while (!definitionFileReader.EndOfStream) {

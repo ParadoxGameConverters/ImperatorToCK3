@@ -12,7 +12,7 @@ namespace ImperatorToCK3 {
 		public string CK3ModsPath { get; set; } = "";
 		public string OutputModName { get; set; } = "";
 		public IMPERATOR_DE_JURE ImperatorDeJure { get; set; } = IMPERATOR_DE_JURE.NO;
-		public Date CK3BookmarkDate { get; set; } = new(867, 1, 1);
+		public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 
 		public Configuration() { }
 		public Configuration(ConverterVersion converterVersion) {
@@ -36,7 +36,7 @@ namespace ImperatorToCK3 {
 			parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
 			parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
 			parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
-			parser.RegisterKeyword("CK3ModsDirectory", reader => CK3ModsPath = reader.GetString());
+			parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = reader.GetString());
 			parser.RegisterKeyword("output_name", reader => {
 				OutputModName = reader.GetString();
 				Logger.Info($"Output name set to: {OutputModName}");
@@ -53,6 +53,10 @@ namespace ImperatorToCK3 {
 
 			parser.RegisterKeyword("bookmark_date", reader => {
 				var dateStr = reader.GetString();
+				if (string.IsNullOrEmpty(dateStr)) {
+					return;
+				}
+
 				Logger.Info($"Entered CK3 bookmark date: {dateStr}");
 				CK3BookmarkDate = new Date(dateStr);
 				Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");

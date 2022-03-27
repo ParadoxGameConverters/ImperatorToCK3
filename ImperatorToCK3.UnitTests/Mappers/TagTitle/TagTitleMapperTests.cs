@@ -1,6 +1,21 @@
 ﻿using commonItems;
+using commonItems.Localization;
+using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Mappers.CoA;
+using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using System;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
@@ -25,7 +40,30 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 		[Fact]
 		public void TitleCanBeMatchedFromGovernorship() {
 			var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath); // reads title_map.txt from TestFiles
-			var match = mapper.GetTitleForGovernorship("central_italy_region", "ROM", "e_roman_empire");
+			mapper.RegisterTag("ROM", "e_roman_empire");
+
+			var impCountries = new CountryCollection(new BufferedReader(" 1={tag=ROM}"));
+			var titles = new Title.LandedTitles();
+			var imperatorRegionMapper = new ImperatorRegionMapper();
+			var ck3RegionMapper = new CK3RegionMapper();
+			titles.ImportImperatorCountries(impCountries,
+				mapper,
+				new LocDB("english"),
+				new ProvinceMapper(),
+				new CoaMapper(),
+				new GovernmentMapper(),
+				new SuccessionLawMapper(),
+				new DefiniteFormMapper(),
+				new ReligionMapper(),
+				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+				new NicknameMapper(),
+				new CharacterCollection(),
+				new Date()
+			);
+
+			var centralItalyGov = new Governorship(new BufferedReader("who=1 governorship=central_italy_region"));
+			var provinces = new ProvinceCollection();
+			var match = mapper.GetTitleForGovernorship(centralItalyGov, impCountries[1], titles, provinces, imperatorRegionMapper);
 
 			Assert.Equal("k_romagna", match);
 		}
@@ -64,8 +102,33 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 		[Fact]
 		public void TitleCanBeGeneratedFromGovernorship() {
 			var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
-			var match = mapper.GetTitleForGovernorship("apulia_region", "ROM", "e_roman_empire");
-			var match2 = mapper.GetTitleForGovernorship("pepe_region", "DRE", "k_dre_empire");
+			mapper.RegisterTag("ROM", "e_roman_empire");
+			mapper.RegisterTag("DRE", "k_dre_empire");
+
+			var impCountries = new CountryCollection(new BufferedReader(" 1={tag=ROM} 2={tag=DRE}"));
+			var titles = new Title.LandedTitles();
+			var imperatorRegionMapper = new ImperatorRegionMapper();
+			var ck3RegionMapper = new CK3RegionMapper();
+			titles.ImportImperatorCountries(impCountries,
+				mapper,
+				new LocDB("english"),
+				new ProvinceMapper(),
+				new CoaMapper(),
+				new GovernmentMapper(),
+				new SuccessionLawMapper(),
+				new DefiniteFormMapper(),
+				new ReligionMapper(),
+				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+				new NicknameMapper(),
+				new CharacterCollection(),
+				new Date()
+			);
+
+			var apuliaGov = new Governorship(new BufferedReader("who=1 governorship=apulia_region"));
+			var pepeGov = new Governorship(new BufferedReader("who=2 governorship=pepe_region"));
+			var provinces = new ProvinceCollection();
+			var match = mapper.GetTitleForGovernorship(apuliaGov, impCountries[1], titles, provinces, imperatorRegionMapper);
+			var match2 = mapper.GetTitleForGovernorship(pepeGov, impCountries[2], titles, provinces, imperatorRegionMapper);
 
 			Assert.Equal("k_IMPTOCK3_ROM_apulia_region", match);
 			Assert.Equal("d_IMPTOCK3_DRE_pepe_region", match2);
@@ -81,11 +144,17 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			Assert.Null(match);
 		}
 		[Fact]
-		public void GetTitleGovernorshipTagReturnsNullOnEmptyParameter() {
+		public void GetTitleGovernorshipTagReturnsNullOnCountryWithNoCK3Title() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
 			var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
-			var match = mapper.GetTitleForGovernorship("", "", "");
+			var country = new Country(1);
+			var apuliaGov = new Governorship(new BufferedReader("who=1 governorship=apulia_region"));
+			var match = mapper.GetTitleForGovernorship(apuliaGov, country, new Title.LandedTitles(), new ProvinceCollection(), new ImperatorRegionMapper());
 
 			Assert.Null(match);
+			Assert.Contains("[WARN] Country  has no associated CK3 title!", output.ToString());
 		}
 
 		[Fact]
@@ -104,8 +173,33 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 		[Fact]
 		public void GovernorshipCanBeRegistered() {
 			var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
+			mapper.RegisterTag("BOR", "e_roman_empire");
+
+			var impCountries = new CountryCollection(new BufferedReader(" 1={tag=BOR}"));
+			var titles = new Title.LandedTitles();
+			var imperatorRegionMapper = new ImperatorRegionMapper();
+			var ck3RegionMapper = new CK3RegionMapper();
+			titles.ImportImperatorCountries(impCountries,
+				mapper,
+				new LocDB("english"),
+				new ProvinceMapper(),
+				new CoaMapper(),
+				new GovernmentMapper(),
+				new SuccessionLawMapper(),
+				new DefiniteFormMapper(),
+				new ReligionMapper(),
+				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+				new NicknameMapper(),
+				new CharacterCollection(),
+				new Date()
+			);
+
+			var provinces = new ProvinceCollection();
+
 			mapper.RegisterGovernorship("aquitaine_region", "BOR", "k_atlantis");
-			var match = mapper.GetTitleForGovernorship("aquitaine_region", "BOR", "e_roman_empire");
+
+			var aquitaneGov = new Governorship(new BufferedReader("who=1 governorship=aquitaine_region"));
+			var match = mapper.GetTitleForGovernorship(aquitaneGov, impCountries[1], titles, provinces, imperatorRegionMapper);
 
 			Assert.Equal("k_atlantis", match);
 		}

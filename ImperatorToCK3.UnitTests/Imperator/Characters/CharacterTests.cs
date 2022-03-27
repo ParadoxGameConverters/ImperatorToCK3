@@ -1,6 +1,8 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils.Genes;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters {
@@ -289,6 +291,44 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			Assert.Null(character.Country);
 			Assert.Null(character.HomeCountry);
 			Assert.Null(character.PrisonerHome);
+		}
+
+		[Fact] public void LinkingCountryWithNoDefinitionIsLogged() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var characterReader = new BufferedReader("= { country=69 }");
+			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			character.LinkCountry(countries);
+
+			Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
+		}
+
+		[Fact]
+		public void LinkingHomeCountryWithNoDefinitionIsLogged() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var characterReader = new BufferedReader("= { home_country=69 }");
+			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			character.LinkHomeCountry(countries);
+
+			Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
+		}
+
+		[Fact]
+		public void LinkingPrisonerHomeWithNoDefinitionIsLogged() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var characterReader = new BufferedReader("= { prisoner_home=69 }");
+			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			character.LinkPrisonerHome(countries);
+
+			Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
 		}
 	}
 }

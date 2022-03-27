@@ -1,0 +1,96 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+luwian = {
+	color = hsv { 0.32 0.45 0.9 }
+
+	heritage = heritage_anatolian
+	language = language_luwian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_communal # Tribal society
+	traditions = {
+		tradition_quarrelsome
+		tradition_hill_dwellers
+	}
+
+	name_list = name_list_luwian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+
+lydian = {
+	color = rgb { 149 101 186 }
+
+	heritage = heritage_anatolian
+	language = language_lydian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_courtly # Kingdom of Lydia
+	traditions = {
+		tradition_metal_craftsmanship # First use of coinage
+		tradition_strength_in_numbers # Large armies fielded against Cyrus the Great
+	}
+
+	name_list = name_list_lydian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+
+hittite = {
+	color = hsv { 0.42 0.45 0.3 }
+
+	heritage = heritage_anatolian
+	language = language_hittite
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bureaucratic # Earliest constitutional monarchy
+	traditions = {
+		tradition_legalistic # Hittite laws
+		tradition_hereditary_hierarchy # Prosperity under competent kings, downfall of Hittite kingdoms under poor kings
+	}
+
+	name_list = name_list_hittite
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}
+
+phrygian = {
+	color = rgb { 246 223 15 }
+
+	heritage = heritage_anatolian
+	language = language_phrygian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bellicose # Involved in multiple wars before, during and after the existence of the Phrygian Kingdom in 7th Century BC
+	traditions = {
+		tradition_sorcerous_metallurgy # Legendary King Midas
+		tradition_astute_diplomats # Recorded to be allied with various powers
+	}
+
+	name_list = name_list_phrygian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 
+}

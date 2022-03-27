@@ -2,10 +2,13 @@
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvinceTests {
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
@@ -68,7 +71,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var province6 = new Province();
 
 			var landedTitles = new Title.LandedTitles();
-			var cultureMapper = new CultureMapper();
+			var imperatorRegionMapper = new ImperatorRegionMapper();
+			var ck3RegionMapper = new CK3RegionMapper();
+			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 			var religionMapper = new ReligionMapper();
 
 			province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper);
