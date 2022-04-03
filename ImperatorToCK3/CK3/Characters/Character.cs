@@ -14,6 +14,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
 		public string Id { get; }
+		public bool FromImperator { get; } = false;
 		public bool Female { get; private set; }
 		public string Culture { get; private set; } = string.Empty;
 		public string Religion { get; private set; } = string.Empty;
@@ -51,6 +52,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper
 		) {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			FromImperator = true;
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
 				var impNameLoc = locDB.GetLocBlockForKey(Name);
@@ -116,6 +118,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
 			Id = "imperator" + ImperatorCharacter.Id;
+			FromImperator = true;
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;

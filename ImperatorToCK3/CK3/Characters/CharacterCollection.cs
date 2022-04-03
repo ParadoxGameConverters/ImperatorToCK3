@@ -8,6 +8,7 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
@@ -75,6 +76,11 @@ namespace ImperatorToCK3.CK3.Characters {
 			Add(newCharacter);
 		}
 
+		public override void Remove(string key) {
+			this[key].BreakAllLinks();
+			base.Remove(key);
+		}
+
 		private void LinkMothersAndFathers() {
 			var motherCounter = 0;
 			var fatherCounter = 0;
@@ -139,17 +145,33 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
-		public void PurgeLandlessVanillaCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
+		public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
 			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
-			var farewellIds = dict.Keys.Where(
-				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
-			).ToHashSet();
+			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id));
+			var dynastyIdsOfLandedCharacters = landedCharacters.Select(character => character.DynastyId).Distinct();
+
+			var farewellIds = new HashSet<string>();
+			foreach (var character in this) {
+				var id = character.Id;
+
+				if (landedCharacterIds.Contains(id)) {
+					continue;
+				}
+				if (character.DynastyId is not null && dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
+					continue;
+				}
+
+				if (character.FromImperator && !character.Dead) {
+					continue;
+				}
+
+				farewellIds.Add(id);
+			}
 
 			foreach (var characterId in farewellIds) {
-				this[characterId].BreakAllLinks();
 				Remove(characterId);
 			}
-			Logger.Info($"Purged {farewellIds.Count} landless vanilla characters.");
+			Logger.Info($"Purged {farewellIds.Count} unneeded characters.");
 		}
 
 		public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
