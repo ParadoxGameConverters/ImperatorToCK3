@@ -146,22 +146,22 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
+			Logger.Info("Purging unneeded characters...");
 			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
-			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id));
-			var dynastyIdsOfLandedCharacters = landedCharacters.Select(character => character.DynastyId).Distinct();
+			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id)).ToHashSet();
+			var dynastyIdsOfLandedCharacters = landedCharacters.Select(character => character.DynastyId).Distinct().ToHashSet();
 
-			var farewellIds = new HashSet<string>();
-			foreach (var character in this) {
+			var farewellIds = new List<string>();
+
+			var charactersToCheck = this.Except(landedCharacters);
+			foreach (var character in charactersToCheck) {
 				var id = character.Id;
 
-				if (landedCharacterIds.Contains(id)) {
-					continue;
-				}
-				if (character.DynastyId is not null && dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
+				if (character.FromImperator && !character.Dead) {
 					continue;
 				}
 
-				if (character.FromImperator && !character.Dead) {
+				if (dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
 					continue;
 				}
 
@@ -175,6 +175,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
+			Logger.Info("Removing employer id from landed characters...");
 			var landedCharacterIds = titles.GetHolderIds(conversionDate);
 			foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;
