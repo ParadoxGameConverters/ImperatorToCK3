@@ -441,7 +441,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public HashSet<string> GetAllHolderIds() {
 		var field = History.InternalHistory.Fields["holder"];
 
-		var ids = field.ValueHistory.Values.Cast<string>().ToHashSet();
+		var ids = field.ValueHistory.Values.OfType<string>().ToHashSet();
 		if (field.InitialValue is not null) {
 			ids.Add((string)field.InitialValue);
 		}

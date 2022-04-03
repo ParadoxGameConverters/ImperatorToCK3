@@ -396,7 +396,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			var impFamily = new Family(1);
 			var impFamilies = new FamilyCollection { impFamily };
-			
+
 			var impCharacterReader = new BufferedReader("{ death_date=450.1.1 family=1 }");
 			var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null);
 			impCharacter1.LinkFamily(impFamilies);
