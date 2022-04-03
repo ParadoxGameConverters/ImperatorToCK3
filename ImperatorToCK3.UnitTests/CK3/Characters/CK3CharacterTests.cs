@@ -413,8 +413,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.Build();
 
 			var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, new LocDB("english"));
-			Assert.Equal("dynn_IMPTOCK3_1", landedCharacter.DynastyId);
-			Assert.Equal("dynn_IMPTOCK3_1", relativeOfLandedCharacter.DynastyId);
+			Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
+			Assert.Equal(dynasty.Id, relativeOfLandedCharacter.DynastyId);
 
 			var characters = new CharacterCollection{
 				landedCharacter,
