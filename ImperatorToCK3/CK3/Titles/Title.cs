@@ -439,14 +439,17 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return History.GetHolderId(date);
 	}
 	public HashSet<string> GetAllHolderIds() {
-		var field = History.InternalHistory.Fields["holder"];
+		if (History.InternalHistory.Fields.TryGetValue("holder", out var holderField)) {
+			var ids = holderField.ValueHistory.Values.OfType<string>().ToHashSet();
+			if (holderField.InitialValue is not null) {
+				ids.Add((string)holderField.InitialValue);
+			}
 
-		var ids = field.ValueHistory.Values.OfType<string>().ToHashSet();
-		if (field.InitialValue is not null) {
-			ids.Add((string)field.InitialValue);
+			return ids;
 		}
-
-		return ids;
+		else {
+			return new HashSet<string>();
+		}
 	}
 	public void SetHolder(Character? character, Date date) {
 		var id = character is null ? "0" : character.Id;
