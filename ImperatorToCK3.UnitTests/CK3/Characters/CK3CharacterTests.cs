@@ -370,17 +370,22 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void UnneededCharactersArePurged() {
+			// dead and unlanded from Imperator
 			var impCharacterReader = new BufferedReader("death_date = 1.1.1");
-			var character = builder
+			var imperatorUnlanded = builder
 				.WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null))
 				.Build();
 
+			// dead and unlanded from CK3
+			var ck3Unlanded = new Character("bob", "Bob", birthDate: new Date("50.1.1"));
+
 			var characters = new CharacterCollection {
-				character
+				imperatorUnlanded,
+				ck3Unlanded
 			};
 
 			var titles = new Title.LandedTitles();
-			characters.PurgeUnneededCharacters(titles, new Date("476.1.1"));
+			characters.PurgeUnneededCharacters(titles);
 
 			Assert.Empty(characters);
 		}
@@ -420,7 +425,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				landedCharacter,
 				relativeOfLandedCharacter
 			};
-			characters.PurgeUnneededCharacters(titles, new Date("476.1.1"));
+			characters.PurgeUnneededCharacters(titles);
 
 			Assert.Collection(characters,
 				character => Assert.Same(landedCharacter, character),

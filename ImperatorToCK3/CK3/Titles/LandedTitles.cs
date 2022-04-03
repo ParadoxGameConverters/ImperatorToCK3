@@ -156,6 +156,9 @@ public partial class Title {
 		public HashSet<string> GetHolderIds(Date date) {
 			return new HashSet<string>(this.Select(t => t.GetHolderId(date)));
 		}
+		public HashSet<string> GetAllHolderIds() {
+			return this.SelectMany(t => t.GetAllHolderIds()).ToHashSet();
+		}
 
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {

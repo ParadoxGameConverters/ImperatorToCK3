@@ -145,10 +145,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
-		public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
+		public void PurgeUnneededCharacters(Title.LandedTitles titles) {
 			Logger.Info("Purging unneeded characters...");
-			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
-			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id)).ToHashSet();
+			var landedCharacterIds = titles.GetAllHolderIds();
+			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id));
 			var dynastyIdsOfLandedCharacters = landedCharacters.Select(character => character.DynastyId).Distinct().ToHashSet();
 
 			var farewellIds = new List<string>();

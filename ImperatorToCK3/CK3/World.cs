@@ -125,7 +125,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
-			Characters.PurgeUnneededCharacters(LandedTitles, config.CK3BookmarkDate);
+			Characters.PurgeUnneededCharacters(LandedTitles);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
