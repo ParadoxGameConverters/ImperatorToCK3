@@ -14,11 +14,12 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
 		public string Id { get; }
+		public bool FromImperator { get; } = false;
 		public bool Female { get; private set; }
-		public string Culture { get; private set; } = string.Empty;
-		public string Religion { get; private set; } = string.Empty;
-		public string Name { get; private set; }
-		public string? Nickname { get; private set; }
+		public string Culture { get; set; } = string.Empty;
+		public string Religion { get; set; } = string.Empty;
+		public string Name { get; set; }
+		public string? Nickname { get; set; }
 
 		public uint Age { get; private set; } // used when option to convert character age is chosen
 		public string AgeSex {
@@ -29,9 +30,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public Date BirthDate { get; private set; }
-		public Date? DeathDate { get; private set; }
-		public string? DeathReason { get; private set; }
+		public Date BirthDate { get; set; }
+		public Date? DeathDate { get; set; }
+		public string? DeathReason { get; set; }
 		public bool Dead => DeathDate is not null;
 
 		public SortedSet<string> Traits { get; } = new();
@@ -40,6 +41,11 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
+		public Character(string id, string name, Date birthDate) {
+			Id = id;
+			Name = name;
+			BirthDate = birthDate;
+		}
 		public Character(
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
@@ -51,6 +57,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper
 		) {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			FromImperator = true;
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
 				var impNameLoc = locDB.GetLocBlockForKey(Name);
@@ -116,6 +123,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
 			Id = "imperator" + ImperatorCharacter.Id;
+			FromImperator = true;
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;

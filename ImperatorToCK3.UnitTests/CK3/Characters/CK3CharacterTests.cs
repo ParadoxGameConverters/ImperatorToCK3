@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
@@ -11,6 +12,7 @@ using ImperatorToCK3.Mappers.Trait;
 using System;
 using System.IO;
 using Xunit;
+using ImperatorToCK3.Imperator.Families;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
@@ -364,6 +366,71 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			Assert.Contains("Character imperator0: linking mother imperator69 instead of expected imperator1", output.ToString());
 			Assert.Contains("Character imperator0: linking father imperator420 instead of expected imperator2", output.ToString());
+		}
+
+		[Fact]
+		public void UnneededCharactersArePurged() {
+			// dead and unlanded from Imperator
+			var impCharacterReader = new BufferedReader("death_date = 1.1.1");
+			var imperatorUnlanded = builder
+				.WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null))
+				.Build();
+
+			// dead and unlanded from CK3
+			var ck3Unlanded = new Character("bob", "Bob", birthDate: new Date("50.1.1"));
+
+			var characters = new CharacterCollection {
+				imperatorUnlanded,
+				ck3Unlanded
+			};
+
+			var titles = new Title.LandedTitles();
+			characters.PurgeUnneededCharacters(titles);
+
+			Assert.Empty(characters);
+		}
+
+		[Fact]
+		public void NeededCharactersAreNotPurged() {
+			var titles = new Title.LandedTitles();
+
+			var impFamily = new Family(1);
+			var impFamilies = new FamilyCollection { impFamily };
+
+			var impCharacterReader = new BufferedReader("{ death_date=450.1.1 family=1 }");
+			var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null);
+			impCharacter1.LinkFamily(impFamilies);
+
+			impCharacterReader = new BufferedReader("{ death_date=2.1.1 family=1 }");
+			var impCharacter2 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "2", null);
+			impCharacter2.LinkFamily(impFamilies);
+
+			// dead but won't be purged because he's landed
+			var landedCharacter = builder
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			var kingdom = titles.Add("k_dead_georgia_boys");
+			kingdom.SetHolder(landedCharacter, new Date("400.1.1"));
+
+			// dead but won't be purged because he belongs to a dynasty of a landed character
+			var relativeOfLandedCharacter = builder
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+
+			var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, new LocDB("english"));
+			Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
+			Assert.Equal(dynasty.Id, relativeOfLandedCharacter.DynastyId);
+
+			var characters = new CharacterCollection{
+				landedCharacter,
+				relativeOfLandedCharacter
+			};
+			characters.PurgeUnneededCharacters(titles);
+
+			Assert.Collection(characters,
+				character => Assert.Same(landedCharacter, character),
+				character => Assert.Same(relativeOfLandedCharacter, character)
+			);
 		}
 	}
 }

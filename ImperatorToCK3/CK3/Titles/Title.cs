@@ -438,7 +438,20 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public string GetHolderId(Date date) {
 		return History.GetHolderId(date);
 	}
-	public void SetHolder(Characters.Character? character, Date date) {
+	public HashSet<string> GetAllHolderIds() {
+		if (History.InternalHistory.Fields.TryGetValue("holder", out var holderField)) {
+			var ids = holderField.ValueHistory.Values.OfType<string>().ToHashSet();
+			if (holderField.InitialValue is not null) {
+				ids.Add((string)holderField.InitialValue);
+			}
+
+			return ids;
+		}
+		else {
+			return new HashSet<string>();
+		}
+	}
+	public void SetHolder(Character? character, Date date) {
 		var id = character is null ? "0" : character.Id;
 		History.InternalHistory.AddFieldValue("holder", id, date, "holder");
 	}
