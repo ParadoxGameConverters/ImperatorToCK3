@@ -1,7 +1,9 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Trait;
@@ -84,5 +86,14 @@ public class TraitMapperTests {
 		Assert.Collection(mapper.GetCK3TraitsForImperatorTraits(impTraits),
 			trait => Assert.Equal("wise", trait)
 		);
+	}
+
+	[Fact]
+	public void WarningIsLoggedWhenMappingContainsUndefinedCK3Trait() {
+		var logWriter = new StringWriter();
+		Console.SetOut(logWriter);
+		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_undefined_ck3_trait.txt", new Configuration() { CK3Path = "TestFiles/CK3" });
+
+		Assert.Contains("[WARN] Couldn't find definition for CK3 trait undefined, skipping!", logWriter.ToString());
 	}
 }

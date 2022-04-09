@@ -160,8 +160,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		[Fact]
 		public void TraitsCanBeInitializedFromImperator() {
 			var ck3Traits = new IdObjectCollection<string, Trait> {
-				new Trait("strong"),
-				new Trait("humble"),
+				new Trait("powerful"),
 				new Trait("craven")
 			};
 			var impToCK3TraitDict = new Dictionary<string, string> {
