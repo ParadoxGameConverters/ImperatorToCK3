@@ -24,6 +24,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
+			private Configuration config = new() {
+				CK3BookmarkDate = new Date(867, 1, 1)
+			};
 
 			public Character Build() {
 				var character = new Character(
@@ -36,7 +39,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
-					new Date(867, 1, 1)
+					config
 				);
 				return character;
 			}
@@ -70,6 +73,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			}
 			public CK3CharacterBuilder WithDeathReasonMapper(DeathReasonMapper deathReasonMapper) {
 				this.deathReasonMapper = deathReasonMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithConfiguration(Configuration config) {
+				this.config = config;
 				return this;
 			}
 		}

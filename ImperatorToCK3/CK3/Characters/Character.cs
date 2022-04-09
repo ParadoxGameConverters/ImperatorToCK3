@@ -54,7 +54,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			ProvinceMapper provinceMapper
+			ProvinceMapper provinceMapper,
+			Configuration config
 		) {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
 			FromImperator = true;
@@ -92,7 +93,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (srcReligion is not null) {
-				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince);
+				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, config);
 				if (religionMatch is not null) {
 					Religion = religionMatch;
 				}
@@ -118,7 +119,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
@@ -173,7 +174,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			// determine CK3 province for religionMapper
 			ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
 
-			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId);
+			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, config);
 			if (match is not null) {
 				Religion = match;
 			}

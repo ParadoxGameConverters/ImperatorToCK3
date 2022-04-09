@@ -58,7 +58,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper(),
 				new CharacterCollection(),
-				new Date()
+				new Date(),
+				new Configuration()
 			);
 
 			var centralItalyGov = new Governorship(new BufferedReader("who=1 governorship=central_italy_region"));
@@ -121,7 +122,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper(),
 				new CharacterCollection(),
-				new Date()
+				new Date(),
+				new Configuration()
 			);
 
 			var apuliaGov = new Governorship(new BufferedReader("who=1 governorship=apulia_region"));
@@ -191,7 +193,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper(),
 				new CharacterCollection(),
-				new Date()
+				new Date(),
+				new Configuration()
 			);
 
 			var provinces = new ProvinceCollection();

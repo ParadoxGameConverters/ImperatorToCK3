@@ -80,7 +80,8 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				nicknameMapper,
 				Characters,
-				CorrectedDate
+				CorrectedDate,
+				config
 			);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -88,7 +89,7 @@ namespace ImperatorToCK3.CK3 {
 			Provinces.ImportVanillaProvinces(config.CK3Path, config.CK3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
+			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, config);
 
 			var countyLevelGovernorships = new List<Governorship>();
 			LandedTitles.ImportImperatorGovernorships(
@@ -115,7 +116,7 @@ namespace ImperatorToCK3.CK3 {
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
-				config.CK3BookmarkDate
+				config
 			);
 			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 

@@ -74,7 +74,8 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
-			Date conversionDate
+			Date conversionDate,
+			Configuration config
 		) {
 			var newTitle = new Title(this,
 				country,
@@ -90,7 +91,8 @@ public partial class Title {
 				cultureMapper,
 				nicknameMapper,
 				characters,
-				conversionDate
+				conversionDate,
+				config
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -182,7 +184,8 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
-			Date conversionDate
+			Date conversionDate,
+			Configuration config
 		) {
 			Logger.Info("Importing Imperator Countries...");
 
@@ -205,7 +208,8 @@ public partial class Title {
 					cultureMapper,
 					nicknameMapper,
 					characters,
-					conversionDate
+					conversionDate,
+					config
 				);
 				++counter;
 			}
@@ -226,7 +230,8 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
-			Date conversionDate
+			Date conversionDate,
+			Configuration config
 		) {
 			// Create a new title or update existing title
 			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
@@ -245,7 +250,8 @@ public partial class Title {
 					cultureMapper,
 					nicknameMapper,
 					characters,
-					conversionDate
+					conversionDate,
+					config
 				);
 			} else {
 				Add(
@@ -262,7 +268,8 @@ public partial class Title {
 					cultureMapper,
 					nicknameMapper,
 					characters,
-					conversionDate
+					conversionDate,
+					config
 				);
 			}
 		}

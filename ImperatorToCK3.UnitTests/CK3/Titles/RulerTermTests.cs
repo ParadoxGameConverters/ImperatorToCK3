@@ -32,7 +32,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				new ReligionMapper(),
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
-				new ProvinceMapper()
+				new ProvinceMapper(),
+				new Configuration()
 			);
 			Assert.Equal("imperator69", ck3RulerTerm.CharacterId);
 			Assert.Equal(new Date(500, 2, 3, AUC: true), ck3RulerTerm.StartDate);
@@ -70,7 +71,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				religionMapper,
 				new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }"), imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
-				new ProvinceMapper()
+				new ProvinceMapper(),
+				new Configuration()
 			);
 			Assert.Equal("imperatorRegnalSPAAlexander504.1.1BC", ck3RulerTerm.CharacterId);
 			Assert.Equal(new Date(250, 1, 1, AUC: true), ck3RulerTerm.StartDate);
