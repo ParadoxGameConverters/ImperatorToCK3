@@ -10,7 +10,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Trait;
 
 public class TraitMapperTests {
 	public class TestTraitMapper : TraitMapper {
-		public TestTraitMapper(Dictionary<string, string> impToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) : base() {
+		public TestTraitMapper(Dictionary<string, string> impToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
 			this.ImpToCK3TraitMap = impToCK3TraitMap;
 			this.CK3Traits = ck3Traits;
 		}
@@ -36,8 +36,8 @@ public class TraitMapperTests {
 	}
 
 	[Fact]
-	public void MultipleImpTraitsCanBeInARule() {
-		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_multiple_ck3_in_rule.txt", new Configuration() { CK3Path = "TestFiles/CK3" });
+	public void MultipleImperatorTraitsCanBeInARule() {
+		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_multiple_ck3_in_rule.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 
 		var ck3Trait = mapper.GetCK3TraitForImperatorTrait("impTrait2");
 		Assert.Equal("ck3Trait", ck3Trait);
@@ -58,7 +58,7 @@ public class TraitMapperTests {
 
 	[Fact]
 	public void MappingsAreReadFromFile() {
-		var mapper = new TraitMapper("TestFiles/configurables/trait_map.txt", new Configuration() { CK3Path = "TestFiles/CK3" });
+		var mapper = new TraitMapper("TestFiles/configurables/trait_map.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 		Assert.Equal("dull", mapper.GetCK3TraitForImperatorTrait("dull"));
 		Assert.Equal("dull", mapper.GetCK3TraitForImperatorTrait("stupid"));
 		Assert.Equal("kind", mapper.GetCK3TraitForImperatorTrait("friendly"));
@@ -67,7 +67,7 @@ public class TraitMapperTests {
 
 	[Fact]
 	public void MappingsWithNoCK3TraitAreIgnored() {
-		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_mapping_with_no_ck3.txt", new Configuration() { CK3Path = "TestFiles/CK3" });
+		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_mapping_with_no_ck3.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 
 		var ck3Trait = mapper.GetCK3TraitForImperatorTrait("impTrait");
 		Assert.Null(ck3Trait);
@@ -92,7 +92,7 @@ public class TraitMapperTests {
 	public void WarningIsLoggedWhenMappingContainsUndefinedCK3Trait() {
 		var logWriter = new StringWriter();
 		Console.SetOut(logWriter);
-		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_undefined_ck3_trait.txt", new Configuration() { CK3Path = "TestFiles/CK3" });
+		_ = new TraitMapper("TestFiles/TraitMapperTests/trait_map_undefined_ck3_trait.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 
 		Assert.Contains("[WARN] Couldn't find definition for CK3 trait undefined, skipping!", logWriter.ToString());
 	}

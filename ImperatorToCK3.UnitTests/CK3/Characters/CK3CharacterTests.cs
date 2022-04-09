@@ -25,7 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
-			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", new Configuration(){CK3Path = "TestFiles/CK3"});
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private LocDB locDB = new("english");
 			private ProvinceMapper provinceMapper = new();
