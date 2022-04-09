@@ -75,7 +75,7 @@ public class TraitMapperTests {
 
 	[Fact]
 	public void OppositeTraitsAreNotReturned() {
-		var mapper = new TraitMapper("TestFiles/configurables/trait_map.txt", new Configuration() { CK3Path = "TestFiles/CK3" });
+		var mapper = new TraitMapper("TestFiles/configurables/trait_map.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 
 		// when checked separately, mapper returns both
 		Assert.Equal("wise", mapper.GetCK3TraitForImperatorTrait("wise"));
