@@ -103,6 +103,8 @@ namespace ImperatorToCK3.CK3 {
 				countyLevelGovernorships
 			);
 
+			traitMapper = new(Path.Combine("configurables", "trait_map.txt"), config);
+
 			Characters.ImportImperatorCharacters(
 				impWorld,
 				religionMapper,
@@ -309,7 +311,7 @@ namespace ImperatorToCK3.CK3 {
 			tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
 			governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
 		);
-		private readonly TraitMapper traitMapper = new(Path.Combine("configurables", "trait_map.txt"));
+		private readonly TraitMapper traitMapper;
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
 		private readonly TitlesHistory titlesHistory;

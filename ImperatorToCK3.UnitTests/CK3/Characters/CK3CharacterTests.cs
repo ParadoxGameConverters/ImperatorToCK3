@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
@@ -10,9 +11,11 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Xunit;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.UnitTests.Mappers.Trait;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
@@ -22,7 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
-			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", new Configuration(){CK3Path = "TestFiles/CK3"});
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private LocDB locDB = new("english");
 			private ProvinceMapper provinceMapper = new();
@@ -156,14 +159,20 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void TraitsCanBeInitializedFromImperator() {
+			var ck3Traits = new IdObjectCollection<string, Trait> {
+				new Trait("strong"),
+				new Trait("humble"),
+				new Trait("craven")
+			};
+			var impToCK3TraitDict = new Dictionary<string, string> {
+				{"strong", "powerful"},
+				{"craven", "craven"}
+			};
+			var traitMapper = new TraitMapperTests.TestTraitMapper(impToCK3TraitDict, ck3Traits);
+
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Traits = new() { "strong", "humble", "craven" }
 			};
-			var traitMapReader = new BufferedReader(
-				"link = { imp = strong ck3 = powerful } link = { imp = craven ck3 = craven }"
-			);
-			var traitMapper = new TraitMapper(traitMapReader);
-
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithTraitMapper(traitMapper)
