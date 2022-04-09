@@ -8,6 +8,11 @@ l_english:
  IMPERATORDEJURE3: "No"
  IMPERATORDEJURE3TIP: "Keep vanilla CK3 de jure."
 
+ HERESIES_IN_HISTORICAL_AREAS: "TODO"
+ HERESIES_IN_HISTORICAL_AREAS_TIP: "TODO"
+ HERESIES_IN_HISTORICAL_AREAS_1: "Yes"
+ HERESIES_IN_HISTORICAL_AREAS_2: "No"
+
  #CONVERTCHARACTERBIRTHANDDEATHDATES: "Base for character birth date conversion"
  #CONVERTCHARACTERBIRTHANDDEATHDATES_TIP: "Characters' birth dates can be based on either their birth dates in Imperator or their Imperator age."
  #CONVERTCHARACTERBIRTHANDDEATHDATES_1: "Birth date"
