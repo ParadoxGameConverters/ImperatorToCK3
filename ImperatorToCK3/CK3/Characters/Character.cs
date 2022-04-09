@@ -191,12 +191,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				Culture = match;
 			}
 
-			foreach (var impTrait in ImperatorCharacter.Traits) {
-				var traitMatch = traitMapper.GetCK3TraitForImperatorTrait(impTrait);
-				if (traitMatch is not null) {
-					Traits.Add(traitMatch);
-				}
-			}
+			Traits.UnionWith(traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits));
 
 			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
 			if (nicknameMatch is not null) {
