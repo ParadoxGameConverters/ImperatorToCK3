@@ -338,9 +338,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// ------------------ determine color
-		var color1Opt = country.Color1;
-		if (color1Opt is not null) {
-			Color1 = color1Opt;
+		var countryColor = country.Color1;
+		if (countryColor is not null) {
+			Color1 = parentCollection.GetNewColor(countryColor);
 		}
 		var color2Opt = country.Color2;
 		if (color2Opt is not null) {

@@ -535,5 +535,20 @@ public partial class Title {
 				county.History.InternalHistory.AddFieldValue("development_level", (int)dev, date, "change_development_level");
 			}
 		}
+
+		public Color GetNewColor(Color baseColor) {
+			IEnumerable<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001)!;
+
+			for (double v = 0; v <= 1; v += 0.02) {
+				var newColor = new Color(baseColor.HsvComponents) { HsvComponents = { [2] = v } };
+				if (usedColors.Contains(newColor)) {
+					continue;
+				}
+				return newColor;
+			}
+
+			Logger.Warn($"Couldn't generate new color from base {baseColor}");
+			return baseColor;
+		}
 	}
 }
