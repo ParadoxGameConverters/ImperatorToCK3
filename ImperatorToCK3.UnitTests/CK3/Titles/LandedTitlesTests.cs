@@ -313,7 +313,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void DerivedColorsHaveSameHueAsBase() {
+		public void DerivedColorsHaveCorrectComponents() {
 			var titles = new Title.LandedTitles();
 			var baseColor = new Color(0.2, 0.3, 0.4);
 
@@ -329,9 +329,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			derivedTitle2.Color1 = derivedColor2;
 
 			Assert.Equal(baseColor.H, derivedColor1.H);
+			Assert.Equal(baseColor.S, derivedColor1.S);
 			Assert.NotEqual(baseColor.V, derivedColor1.V);
 
 			Assert.Equal(baseColor.H, derivedColor2.H);
+			Assert.Equal(baseColor.S, derivedColor2.S);
 			Assert.NotEqual(baseColor.V, derivedColor2.V);
 
 			Assert.NotEqual(derivedColor1.V, derivedColor2.V);
