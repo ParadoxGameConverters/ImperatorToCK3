@@ -313,29 +313,26 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		[Fact]
 		public void DerivedColorsHaveSameHueAsBase() {
 			var titles = new Title.LandedTitles();
-			var baseColor = new Color(new double[] {0.2, 0.3, 0.4});
+			var baseColor = new Color(0.2, 0.3, 0.4);
 
 			var baseTitle = titles.Add("e_base");
 			baseTitle.Color1 = baseColor;
-			//Assert.Equal(0.4, baseTitle.Color1.V); // TODO: REMOVE DEBUG
 
 			var derivedTitle1 = titles.Add("k_derived1");
 			var derivedColor1 = titles.GetDerivedColor(baseColor);
 			derivedTitle1.Color1 = derivedColor1;
-			//Assert.Equal(0.07, derivedTitle1.Color1.V); // TODO: REMOVE DEBUG
 
 			var derivedTitle2 = titles.Add("k_derived2");
 			var derivedColor2 = titles.GetDerivedColor(baseColor);
 			derivedTitle2.Color1 = derivedColor2;
-			//Assert.Equal(0.05, derivedTitle2.Color1.V); // TODO: REMOVE DEBUG
 
 			Assert.Equal(baseColor.H, derivedColor1.H);
-			Assert.NotEqual(baseColor.V, derivedColor1.V); // TODO: REENABLE
+			Assert.NotEqual(baseColor.V, derivedColor1.V);
 
 			Assert.Equal(baseColor.H, derivedColor2.H);
-			//Assert.NotEqual(baseColor.V, derivedColor2.V); // TODO: REENABLE
+			Assert.NotEqual(baseColor.V, derivedColor2.V);
 
-			//Assert.NotEqual(derivedColor1.V, derivedColor2.V);
+			Assert.NotEqual(derivedColor1.V, derivedColor2.V);
 		}
 	}
 }

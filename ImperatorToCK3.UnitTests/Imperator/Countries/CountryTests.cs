@@ -73,9 +73,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Null(country.Monarch); // not linked yet
 			Assert.Equal("athenian", country.PrimaryCulture);
 			Assert.Equal("hellenic", country.Religion);
-			Assert.Equal(new Color(new[] { 1, 2, 3 }), country.Color1);
-			Assert.Equal(new Color(new[] { 4, 5, 6 }), country.Color2);
-			Assert.Equal(new Color(new[] { 7, 8, 9 }), country.Color3);
+			Assert.Equal(new Color(1, 2, 3), country.Color1);
+			Assert.Equal(new Color(4, 5, 6), country.Color2);
+			Assert.Equal(new Color(7, 8, 9), country.Color3);
 			Assert.Equal("dictatorship", country.Government);
 			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 
