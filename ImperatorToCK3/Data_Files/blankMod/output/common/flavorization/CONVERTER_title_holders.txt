@@ -28,3 +28,23 @@ duke_republic_male_carthaginian = { # Suffet
 	heritages = { heritage_punic }
 	top_liege = yes
 }
+
+king_feudal_male_elamite = { # Sunkir
+	gender = male
+	special = holder
+	tier = kingdom
+	priority = 301
+	governments = { feudal_government }
+	name_lists = { name_list_elamite }
+	top_liege = yes
+}
+
+emperor_feudal_male_elamite = { # Rishar Sunkir
+	gender = male
+	special = holder
+	tier = empire
+	priority = 301
+	governments = { feudal_government }
+	name_lists = { name_list_elamite }
+	top_liege = yes
+}
