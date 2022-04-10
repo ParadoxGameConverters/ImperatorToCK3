@@ -14,7 +14,9 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
@@ -333,6 +335,25 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.NotEqual(baseColor.V, derivedColor2.V);
 
 			Assert.NotEqual(derivedColor1.V, derivedColor2.V);
+		}
+
+		[Fact]
+		public void WarningIsLoggedWhenColorCanNotBeDerived() {
+			var titles = new Title.LandedTitles();
+			var baseColor = new Color(0.2, 0.3, 0.4);
+			var baseTitle = titles.Add("e_base");
+			baseTitle.Color1 = baseColor;
+
+			for (double v = 0; v <= 1; v += 0.01) {
+				var color = new Color(baseColor.H, baseColor.S, v);
+				var title = titles.Add($"k_{color.OutputHex()}");
+				title.Color1 = color;
+			}
+
+			var logWriter = new StringWriter();
+			Console.SetOut(logWriter);
+			_ = titles.GetDerivedColor(baseColor);
+			Assert.Contains("Couldn't generate new color from base", logWriter.ToString());
 		}
 	}
 }
