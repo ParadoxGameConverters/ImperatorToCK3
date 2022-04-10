@@ -181,13 +181,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var nicknameMapper = new NicknameMapper();
 			var deathReasonMapper = new DeathReasonMapper();
 			var conversionDate = new Date(500, 1, 1);
+			var config = new Configuration();
 
 			// Import Imperator governor.
 			var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
-			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, conversionDate);
+			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, config);
 
 			// Import country 589.
-			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate);
+			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config);
 			Assert.Collection(titles,
 				title => Assert.Equal("c_county1", title.Id),
 				title => Assert.Equal("b_barony1", title.Id),
@@ -199,7 +200,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 
 			var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
-			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper);
+			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 

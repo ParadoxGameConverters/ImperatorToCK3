@@ -75,13 +75,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 			var religionMapper = new ReligionMapper();
+			var config = new Configuration();
 
-			province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper);
-			province2.InitializeFromImperator(impProvince2, landedTitles, cultureMapper, religionMapper);
-			province3.InitializeFromImperator(impProvince3, landedTitles, cultureMapper, religionMapper);
-			province4.InitializeFromImperator(impProvince4, landedTitles, cultureMapper, religionMapper);
-			province5.InitializeFromImperator(impProvince5, landedTitles, cultureMapper, religionMapper);
-			province6.InitializeFromImperator(impProvince6, landedTitles, cultureMapper, religionMapper);
+			province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper, config);
+			province2.InitializeFromImperator(impProvince2, landedTitles, cultureMapper, religionMapper, config);
+			province3.InitializeFromImperator(impProvince3, landedTitles, cultureMapper, religionMapper, config);
+			province4.InitializeFromImperator(impProvince4, landedTitles, cultureMapper, religionMapper, config);
+			province5.InitializeFromImperator(impProvince5, landedTitles, cultureMapper, religionMapper, config);
+			province6.InitializeFromImperator(impProvince6, landedTitles, cultureMapper, religionMapper, config);
 
 			Assert.Equal("city_holding", province1.Holding);
 			Assert.Equal("castle_holding", province2.Holding);

@@ -46,7 +46,8 @@ public class CoatOfArmsOutputterTests {
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
-			new Date(400, 1, 1)
+			new Date(400, 1, 1),
+			new Configuration()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles);
@@ -87,7 +88,8 @@ public class CoatOfArmsOutputterTests {
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
-			new Date(400, 1, 1)
+			new Date(400, 1, 1),
+			new Configuration()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles);

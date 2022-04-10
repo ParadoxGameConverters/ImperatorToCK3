@@ -48,7 +48,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
 		CharacterCollection characters,
-		Date conversionDate
+		Date conversionDate,
+		Configuration config
 	) {
 		this.parentCollection = parentCollection;
 		Id = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
@@ -66,7 +67,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			cultureMapper,
 			nicknameMapper,
 			characters,
-			conversionDate
+			conversionDate,
+			config
 		);
 	}
 	private Title(LandedTitles parentCollection,
@@ -108,7 +110,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
 		CharacterCollection characters,
-		Date conversionDate
+		Date conversionDate,
+		Configuration config
 	) {
 		IsImportedOrUpdatedFromImperator = true;
 		ImperatorCountry = country;
@@ -212,7 +215,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					provinceMapper
+					provinceMapper,
+					config
 				);
 
 				var characterId = rulerTerm.CharacterId;
