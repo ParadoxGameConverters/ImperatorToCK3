@@ -340,7 +340,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// ------------------ determine color
 		var countryColor = country.Color1;
 		if (countryColor is not null) {
-			Color1 = parentCollection.GetNewColor(countryColor);
+			Color1 = parentCollection.GetDerivedColor(countryColor);
 		}
 		var color2Opt = country.Color2;
 		if (color2Opt is not null) {
@@ -547,8 +547,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	[NonSerialized] public Country? ImperatorCountry { get; private set; }
 
-	[SerializedName("color")] public Color? Color1 { get; private set; }
-	[SerializedName("color2")] public Color? Color2 { get; private set; }
+	[SerializedName("color")] public Color? Color1 { get; set; }
+	[SerializedName("color2")] public Color? Color2 { get; set; }
 
 	private Title? deJureLiege;
 	[NonSerialized]

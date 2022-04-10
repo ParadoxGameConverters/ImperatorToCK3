@@ -536,10 +536,10 @@ public partial class Title {
 			}
 		}
 
-		public Color GetNewColor(Color baseColor) {
-			IEnumerable<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001)!;
+		public Color GetDerivedColor(Color baseColor) {
+			HashSet<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet()!;
 
-			for (double v = 0; v <= 1; v += 0.02) {
+			for (double v = 0.05; v <= 1; v += 0.02) {
 				var newColor = new Color(baseColor.HsvComponents) { HsvComponents = { [2] = v } };
 				if (usedColors.Contains(newColor)) {
 					continue;
