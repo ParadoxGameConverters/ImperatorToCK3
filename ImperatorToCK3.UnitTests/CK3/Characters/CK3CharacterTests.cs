@@ -121,7 +121,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			character.Mother = mother;
 			character.Father = father;
 			character.Children.Add(child.Id, child);
-			character.Spouses.Add(spouse.Id, spouse);
+			character.Spouses.Add(spouse);
 
 			Assert.NotNull(character.Mother);
 			Assert.NotNull(character.Father);
@@ -134,16 +134,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			Assert.Null(character.Father);
 			Assert.Empty(character.Children);
 			Assert.Empty(character.Spouses);
-		}
-		[Fact]
-		public void BreakAllLinksWarnsWhenSpouseIsNull() {
-			var output = new StringWriter();
-			Console.SetOut(output);
-
-			var character = builder.Build();
-			character.Spouses.Add("spouseId", null);
-			character.BreakAllLinks();
-			Assert.Contains("[WARN] Spouse spouseId of imperator0 is null!", output.ToString());
 		}
 		[Fact]
 		public void BreakAllLinksWarnsWhenChildIsNull() {

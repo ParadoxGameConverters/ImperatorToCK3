@@ -247,11 +247,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			RemoveMother();
 			Father?.RemoveChild(Id);
 			RemoveFather();
-			foreach (var (spouseId, spouse) in Spouses) {
-				if (spouse is null) {
-					Logger.Warn($"Spouse {spouseId} of {Id} is null!");
-					continue;
-				}
+			foreach (var spouse in Spouses) {
 				spouse.RemoveSpouse(Id);
 			}
 			Spouses.Clear();
@@ -321,7 +317,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 		public Dictionary<string, Character?> Children { get; set; } = new();
-		public Dictionary<string, Character?> Spouses { get; set; } = new();
+		public IdObjectCollection<string, Character> Spouses { get; set; } = new();
 
 		public string? DynastyId { get; set; } // not always set
 
