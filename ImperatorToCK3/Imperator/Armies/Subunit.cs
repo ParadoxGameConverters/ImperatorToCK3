@@ -10,8 +10,8 @@ namespace ImperatorToCK3.Imperator.Armies;
 
 internal class Subunit : IIdentifiable<ulong> {
 	public ulong Id { get; }
-	public string Category { get; private set; }
-	public string Type { get; private set; }
+	public string Category { get; private set; } = "levy";
+	public string Type { get; private set; } = "heavy_infantry";
 	public double Strength { get; private set; }
 	public ulong CountryId { get; private set; }
 
