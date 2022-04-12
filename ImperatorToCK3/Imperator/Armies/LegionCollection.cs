@@ -4,7 +4,7 @@ using commonItems.Collections;
 namespace ImperatorToCK3.Imperator.Armies;
 
 public class LegionCollection : IdObjectCollection<ulong, Legion> {
-	public void LoadUnits(BufferedReader reader) {
+	public void LoadUnits(BufferedReader unitsReader) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
@@ -18,6 +18,6 @@ public class LegionCollection : IdObjectCollection<ulong, Legion> {
 			Logger.Notice(id.ToString());
 		});
 
-		parser.ParseStream(reader);
+		parser.ParseStream(unitsReader);
 	}
 }

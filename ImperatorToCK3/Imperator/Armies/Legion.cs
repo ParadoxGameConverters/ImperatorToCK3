@@ -9,7 +9,7 @@ public class Legion : IIdentifiable<ulong> {
 	public ulong CountryId { get; set; }
 	public ulong LeaderId { get; set; }
 
-	public Legion(ulong id, BufferedReader reader) {
+	public Legion(ulong id, BufferedReader legionReader) {
 		Id = id;
 
 		var parser = new Parser();
@@ -18,6 +18,6 @@ public class Legion : IIdentifiable<ulong> {
 		parser.RegisterKeyword("leader", reader => LeaderId = reader.GetULong());
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
-		parser.ParseStream(reader);
+		parser.ParseStream(legionReader);
 	}
 }
