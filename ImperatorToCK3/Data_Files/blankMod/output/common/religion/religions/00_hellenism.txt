@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.5.1
+﻿# Last updated: CK3 patch 1.5.1.1
 hellenism_religion = {
 	family = rf_pagan
 
@@ -214,9 +214,9 @@ hellenism_religion = {
 
 			holy_site = rome
 			holy_site = athens
-			holy_site = sparta
 			holy_site = alexandria
 			holy_site = carthage
+			holy_site = olympus
 
 			doctrine = unreformed_faith_doctrine
 

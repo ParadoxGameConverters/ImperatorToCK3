@@ -14,11 +14,12 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
 		public string Id { get; }
+		public bool FromImperator { get; } = false;
 		public bool Female { get; private set; }
-		public string Culture { get; private set; } = string.Empty;
-		public string Religion { get; private set; } = string.Empty;
-		public string Name { get; private set; }
-		public string? Nickname { get; private set; }
+		public string Culture { get; set; } = string.Empty;
+		public string Religion { get; set; } = string.Empty;
+		public string Name { get; set; }
+		public string? Nickname { get; set; }
 
 		public uint Age { get; private set; } // used when option to convert character age is chosen
 		public string AgeSex {
@@ -29,9 +30,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public Date BirthDate { get; private set; }
-		public Date? DeathDate { get; private set; }
-		public string? DeathReason { get; private set; }
+		public Date BirthDate { get; set; }
+		public Date? DeathDate { get; set; }
+		public string? DeathReason { get; set; }
 		public bool Dead => DeathDate is not null;
 
 		public SortedSet<string> Traits { get; } = new();
@@ -40,6 +41,11 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
+		public Character(string id, string name, Date birthDate) {
+			Id = id;
+			Name = name;
+			BirthDate = birthDate;
+		}
 		public Character(
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
@@ -48,9 +54,11 @@ namespace ImperatorToCK3.CK3.Characters {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			ProvinceMapper provinceMapper
+			ProvinceMapper provinceMapper,
+			Configuration config
 		) {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			FromImperator = true;
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
 				var impNameLoc = locDB.GetLocBlockForKey(Name);
@@ -85,7 +93,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (srcReligion is not null) {
-				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince);
+				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, config);
 				if (religionMatch is not null) {
 					Religion = religionMatch;
 				}
@@ -111,11 +119,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
 			Id = "imperator" + ImperatorCharacter.Id;
+			FromImperator = true;
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
@@ -165,7 +174,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			// determine CK3 province for religionMapper
 			ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
 
-			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId);
+			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, config);
 			if (match is not null) {
 				Religion = match;
 			}
@@ -183,12 +192,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				Culture = match;
 			}
 
-			foreach (var impTrait in ImperatorCharacter.Traits) {
-				var traitMatch = traitMapper.GetCK3TraitForImperatorTrait(impTrait);
-				if (traitMatch is not null) {
-					Traits.Add(traitMatch);
-				}
-			}
+			Traits.UnionWith(traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits));
 
 			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
 			if (nicknameMatch is not null) {
@@ -243,11 +247,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			RemoveMother();
 			Father?.RemoveChild(Id);
 			RemoveFather();
-			foreach (var (spouseId, spouse) in Spouses) {
-				if (spouse is null) {
-					Logger.Warn($"Spouse {spouseId} of {Id} is null!");
-					continue;
-				}
+			foreach (var spouse in Spouses) {
 				spouse.RemoveSpouse(Id);
 			}
 			Spouses.Clear();
@@ -317,7 +317,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 		public Dictionary<string, Character?> Children { get; set; } = new();
-		public Dictionary<string, Character?> Spouses { get; set; } = new();
+		public IdObjectCollection<string, Character> Spouses { get; set; } = new();
 
 		public string? DynastyId { get; set; } // not always set
 

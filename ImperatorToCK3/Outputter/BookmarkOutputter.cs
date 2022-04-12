@@ -180,7 +180,7 @@ namespace ImperatorToCK3.Outputter {
 			Rgba32 black = Color.Black;
 
 			foreach (var playerTitle in playerTitles) {
-				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
+				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(0, 0, 0);
 				var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 				// Determine which impassables should be be colored by the country

@@ -14,6 +14,8 @@ namespace ImperatorToCK3.Mappers.Religion {
 		private readonly SortedSet<string> imperatorRegions = new();
 		private readonly SortedSet<string> ck3Regions = new();
 
+		private PDXBool? heresiesInHistoricalAreas;
+
 		public ImperatorRegionMapper? ImperatorRegionMapper { get; set; }
 		public CK3RegionMapper? CK3RegionMapper { get; set; }
 
@@ -26,6 +28,7 @@ namespace ImperatorToCK3.Mappers.Religion {
 			parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 			parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
 			parser.RegisterKeyword("impProvince", reader => mappingToReturn.imperatorProvinces.Add(reader.GetULong()));
+			parser.RegisterKeyword("heresiesInHistoricalAreas", reader => mappingToReturn.heresiesInHistoricalAreas = new PDXBool(reader));
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 		public static ReligionMapping Parse(BufferedReader reader) {
@@ -34,7 +37,7 @@ namespace ImperatorToCK3.Mappers.Religion {
 			return mappingToReturn;
 		}
 
-		public string? Match(string impReligion, ulong ck3ProvinceId, ulong impProvinceId) {
+		public string? Match(string impReligion, ulong ck3ProvinceId, ulong impProvinceId, Configuration config) {
 			if (ImperatorRegionMapper is null) {
 				throw new InvalidOperationException("ImperatorRegionMapper is null!");
 			}
@@ -48,6 +51,11 @@ namespace ImperatorToCK3.Mappers.Religion {
 			}
 
 			if (!imperatorReligions.Contains(impReligion)) {
+				return null;
+			}
+
+			if (heresiesInHistoricalAreas is not null &&
+			    config.HeresiesInHistoricalAreas != heresiesInHistoricalAreas.Value) {
 				return null;
 			}
 

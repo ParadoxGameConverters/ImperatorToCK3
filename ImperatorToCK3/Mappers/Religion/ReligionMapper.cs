@@ -27,9 +27,9 @@ public class ReligionMapper {
 			mapping.CK3RegionMapper = ck3RegionMapper;
 		}
 	}
-	public string? Match(string imperatorReligion, ulong ck3ProvinceId, ulong imperatorProvinceId) {
+	public string? Match(string imperatorReligion, ulong ck3ProvinceId, ulong imperatorProvinceId, Configuration config) {
 		foreach (var religionMapping in religionMappings) {
-			var possibleMatch = religionMapping.Match(imperatorReligion, ck3ProvinceId, imperatorProvinceId);
+			var possibleMatch = religionMapping.Match(imperatorReligion, ck3ProvinceId, imperatorProvinceId, config);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}

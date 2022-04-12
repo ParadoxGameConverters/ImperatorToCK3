@@ -65,7 +65,7 @@ namespace ImperatorToCK3.CK3 {
 			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath, impWorld.Mods);
 			// Use the region mappers in other mappers
 			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
-			cultureMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
@@ -80,7 +80,8 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				nicknameMapper,
 				Characters,
-				CorrectedDate
+				CorrectedDate,
+				config
 			);
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -88,7 +89,7 @@ namespace ImperatorToCK3.CK3 {
 			Provinces.ImportVanillaProvinces(config.CK3Path, config.CK3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper);
+			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, config);
 
 			var countyLevelGovernorships = new List<Governorship>();
 			LandedTitles.ImportImperatorGovernorships(
@@ -103,6 +104,8 @@ namespace ImperatorToCK3.CK3 {
 				countyLevelGovernorships
 			);
 
+			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), config);
+
 			Characters.ImportImperatorCharacters(
 				impWorld,
 				religionMapper,
@@ -113,7 +116,7 @@ namespace ImperatorToCK3.CK3 {
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
-				config.CK3BookmarkDate
+				config
 			);
 			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
@@ -124,8 +127,8 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
-			Characters.PurgeLandlessVanillaCharacters(LandedTitles, config.CK3BookmarkDate);
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
+			Characters.PurgeUnneededCharacters(LandedTitles);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -297,7 +300,6 @@ namespace ImperatorToCK3.CK3 {
 		}
 
 		private readonly CoaMapper coaMapper;
-		private readonly CultureMapper cultureMapper = new();
 		private readonly DeathReasonMapper deathReasonMapper = new();
 		private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 		private readonly GovernmentMapper governmentMapper = new();
@@ -310,7 +312,6 @@ namespace ImperatorToCK3.CK3 {
 			tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
 			governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
 		);
-		private readonly TraitMapper traitMapper = new(Path.Combine("configurables", "trait_map.txt"));
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
 		private readonly TitlesHistory titlesHistory;

@@ -1,0 +1,14 @@
+wise = {
+	opposites = { dumb }
+}
+dumb = {
+	opposites = { wise }
+}
+
+
+dull = {}
+kind = {}
+brave = {}
+
+ck3Trait = {}
+ck3Trait2 = {}
