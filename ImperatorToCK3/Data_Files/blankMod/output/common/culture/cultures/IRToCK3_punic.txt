@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.1
 carthaginian = {
 	color = rgb { 74 174 85 }
 	parents = { phoenician }
@@ -21,7 +21,7 @@ carthaginian = {
 	}
 	
 	coa_gfx = { arabic_group_coa_gfx } 
-	building_gfx = { berber_group_building_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
 	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
 	unit_gfx = { mena_unit_gfx } 
 }
@@ -45,7 +45,7 @@ phoenician = {
 	}
 	
 	coa_gfx = { arabic_group_coa_gfx } 
-	building_gfx = { berber_group_building_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
 	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
 	unit_gfx = { mena_unit_gfx } 
 }

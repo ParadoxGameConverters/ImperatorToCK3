@@ -5,15 +5,18 @@
 *.out
 *.app
 
-#Visual Studio stuff
+# Visual Studio stuff
 .vs
 
-#OpenCppCoverageStuff
+# Rider stuff
+.idea/
+
+# OpenCppCoverageStuff
 *.log
 ImperatorToCK3/.opencppcov/
 ImperatorToCK3Tests/.opencppcov/
 
-#Output folders
+# Output folders
 Release/
 ReleaseIntermediate/
 Release-Linux/

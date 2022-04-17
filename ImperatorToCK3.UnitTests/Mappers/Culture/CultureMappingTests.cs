@@ -24,10 +24,8 @@ public class CultureMappingTests {
 			"ck3 = dutch imp = german ck3Region = test_region1"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
-		theMapping.CK3RegionMapper = ck3RegionMapper;
-		theMapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Equal("dutch", theMapping.Match("german", "", 4, 0, ""));
+		Assert.Equal("dutch", theMapping.Match("german", "", 4, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
 	}
 
 	[Fact]
@@ -46,10 +44,8 @@ public class CultureMappingTests {
 			"ck3 = dutch imp = german ck3Region = test_region2"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
-		theMapping.CK3RegionMapper = ck3RegionMapper;
-		theMapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(theMapping.Match("german", "", 79, 0, ""));
+		Assert.Null(theMapping.Match("german", "", 79, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
 	}
 
 	[Fact]
@@ -65,10 +61,8 @@ public class CultureMappingTests {
 			"ck3 = dutch imp = german ck3Region = test_region3"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
-		theMapping.CK3RegionMapper = ck3RegionMapper;
-		theMapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(theMapping.Match("german", "", 17, 0, ""));
+		Assert.Null(theMapping.Match("german", "", 17, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
 	}
 
 	[Fact]
@@ -86,9 +80,7 @@ public class CultureMappingTests {
 			"ck3 = dutch imp = german ck3Region = d_hujhu"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
-		theMapping.CK3RegionMapper = ck3RegionMapper;
-		theMapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(theMapping.Match("german", "", 0, 0, ""));
+		Assert.Null(theMapping.Match("german", "", 0, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
 	}
 }

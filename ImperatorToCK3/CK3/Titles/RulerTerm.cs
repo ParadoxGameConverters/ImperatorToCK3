@@ -23,7 +23,8 @@ public class RulerTerm {
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
-		ProvinceMapper provinceMapper
+		ProvinceMapper provinceMapper,
+		Configuration config
 	) {
 		if (imperatorRulerTerm.CharacterId is not null) {
 			CharacterId = $"imperator{imperatorRulerTerm.CharacterId}";
@@ -44,7 +45,8 @@ public class RulerTerm {
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				provinceMapper
+				provinceMapper,
+				config
 			);
 			characters.Add(character);
 			CharacterId = character.Id;

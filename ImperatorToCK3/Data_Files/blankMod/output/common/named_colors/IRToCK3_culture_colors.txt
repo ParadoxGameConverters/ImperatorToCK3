@@ -1,4 +1,5 @@
 colors = {
 	# used by IRToCK3's culture and languages
 	gothic = hsv { 0.1 0.7 0.05 }
+	elamite = rgb { 127 137 70 }
 }

@@ -33,7 +33,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: dev-version
         path: Release/

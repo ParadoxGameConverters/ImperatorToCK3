@@ -12,6 +12,7 @@ namespace ImperatorToCK3 {
 		public string CK3ModsPath { get; set; } = "";
 		public string OutputModName { get; set; } = "";
 		public IMPERATOR_DE_JURE ImperatorDeJure { get; set; } = IMPERATOR_DE_JURE.NO;
+		public bool HeresiesInHistoricalAreas { get; set; } = false;
 		public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 
 		public Configuration() { }
@@ -42,12 +43,21 @@ namespace ImperatorToCK3 {
 				Logger.Info($"Output name set to: {OutputModName}");
 			});
 			parser.RegisterKeyword("ImperatorDeJure", reader => {
-				var deJureString = reader.GetString();
+				var valueString = reader.GetString();
 				try {
-					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(deJureString);
-					Logger.Info($"ImperatorDeJure set to: {deJureString}");
+					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(valueString);
+					Logger.Info($"ImperatorDeJure set to: {valueString}");
 				} catch (Exception e) {
-					Logger.Error($"Undefined error, ImperatorDeJure value was: {deJureString}; Error message: {e}");
+					Logger.Error($"Undefined error, ImperatorDeJure value was: {valueString}; Error message: {e}");
+				}
+			});
+			parser.RegisterKeyword("HeresiesInHistoricalAreas", reader => {
+				var valueString = reader.GetString();
+				try {
+					HeresiesInHistoricalAreas = Convert.ToInt32(valueString) == 1;
+					Logger.Info($"HeresiesInHistoricalAreas set to: {HeresiesInHistoricalAreas}");
+				} catch (Exception e) {
+					Logger.Error($"Undefined error, HeresiesInHistoricalAreas value was: {valueString}; Error message: {e}");
 				}
 			});
 

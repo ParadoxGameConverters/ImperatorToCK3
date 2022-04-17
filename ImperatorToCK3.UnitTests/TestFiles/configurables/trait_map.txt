@@ -1,3 +1,6 @@
 ﻿link = { ck3 = dull imp = dull imp = stupid }
 link = { ck3 = kind imp = friendly }
 link = { ck3 = brave imp = brave }
+
+link = { ck3 = wise imp = wise }
+link = { ck3 = dumb imp = dumb }

@@ -48,7 +48,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
 		CharacterCollection characters,
-		Date conversionDate
+		Date conversionDate,
+		Configuration config
 	) {
 		this.parentCollection = parentCollection;
 		Id = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
@@ -66,7 +67,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			cultureMapper,
 			nicknameMapper,
 			characters,
-			conversionDate
+			conversionDate,
+			config
 		);
 	}
 	private Title(LandedTitles parentCollection,
@@ -108,7 +110,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
 		CharacterCollection characters,
-		Date conversionDate
+		Date conversionDate,
+		Configuration config
 	) {
 		IsImportedOrUpdatedFromImperator = true;
 		ImperatorCountry = country;
@@ -212,7 +215,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					religionMapper,
 					cultureMapper,
 					nicknameMapper,
-					provinceMapper
+					provinceMapper,
+					config
 				);
 
 				var characterId = rulerTerm.CharacterId;
@@ -334,9 +338,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// ------------------ determine color
-		var color1Opt = country.Color1;
-		if (color1Opt is not null) {
-			Color1 = color1Opt;
+		var countryColor = country.Color1;
+		if (countryColor is not null) {
+			Color1 = parentCollection.GetDerivedColor(countryColor);
 		}
 		var color2Opt = country.Color2;
 		if (color2Opt is not null) {
@@ -438,7 +442,20 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public string GetHolderId(Date date) {
 		return History.GetHolderId(date);
 	}
-	public void SetHolder(Characters.Character? character, Date date) {
+	public HashSet<string> GetAllHolderIds() {
+		if (History.InternalHistory.Fields.TryGetValue("holder", out var holderField)) {
+			var ids = holderField.ValueHistory.Values.OfType<string>().ToHashSet();
+			if (holderField.InitialValue is not null) {
+				ids.Add((string)holderField.InitialValue);
+			}
+
+			return ids;
+		}
+		else {
+			return new HashSet<string>();
+		}
+	}
+	public void SetHolder(Character? character, Date date) {
 		var id = character is null ? "0" : character.Id;
 		History.InternalHistory.AddFieldValue("holder", id, date, "holder");
 	}
@@ -530,8 +547,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	[NonSerialized] public Country? ImperatorCountry { get; private set; }
 
-	[SerializedName("color")] public Color? Color1 { get; private set; }
-	[SerializedName("color2")] public Color? Color2 { get; private set; }
+	[SerializedName("color")] public Color? Color1 { get; set; }
+	[SerializedName("color2")] public Color? Color2 { get; set; }
 
 	private Title? deJureLiege;
 	[NonSerialized]
