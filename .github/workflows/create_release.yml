@@ -18,7 +18,7 @@ jobs:
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
     - name: "Build changelog"
       id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v2
+      uses: mikepenz/release-changelog-builder-action@v3
       with:
         configuration: ".github/config/changelog-config.json"
       env:
