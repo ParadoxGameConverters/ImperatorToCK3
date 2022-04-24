@@ -49,7 +49,7 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Build frontend"
-      uses: ./Fronter/.github/actions/build_frontend
+      uses: ./Fronter.NET/.github/actions/build_frontend
       with:
         msbuild_path: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe"
     - name: "Build backend"
