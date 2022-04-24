@@ -1,3 +1,6 @@
 [submodule "commonItems.NET"]
 	path = commonItems.NET
 	url = https://github.com/ParadoxGameConverters/commonItems.NET
+[submodule "Fronter.NET"]
+	path = Fronter.NET
+	url = https://github.com/ParadoxGameConverters/Fronter.NET
