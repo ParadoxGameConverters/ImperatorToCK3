@@ -132,8 +132,8 @@ namespace ImperatorToCK3.CK3.Characters {
 						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
 						continue;
 					}
-					ck3Character.Spouses.Add(ck3SpouseCharacter);
-					ck3SpouseCharacter.Spouses.Add(ck3Character);
+					ck3Character.Spouses.TryAdd(ck3SpouseCharacter);
+					ck3SpouseCharacter.Spouses.TryAdd(ck3Character);
 					++spouseCounter;
 				}
 			}
