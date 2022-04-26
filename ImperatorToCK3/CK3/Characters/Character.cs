@@ -65,7 +65,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (impNameLoc is not null) {
 					Localizations.Add(Name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+					Localizations.Add(Name, new LocBlock(Name, "english") {
 						["english"] = Name,
 						["french"] = Name,
 						["german"] = Name,
@@ -130,10 +130,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				var loc = ImperatorCharacter.CustomName;
 				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
 
-				var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+				var locBlock = new LocBlock(Name, "english") {
 					["english"] = loc
 				};
-				locBlock.FillMissingLocWithBaseLanguageLoc();
 				Localizations.Add(Name, locBlock);
 			} else {
 				var nameLoc = ImperatorCharacter.Name;
@@ -143,10 +142,9 @@ namespace ImperatorToCK3.CK3.Characters {
 					if (matchedLocBlock is not null) {
 						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+						var locBlock = new LocBlock(Name, "english") {
 							["english"] = nameLoc
 						};
-						locBlock.FillMissingLocWithBaseLanguageLoc();
 						Localizations.Add(Name, locBlock);
 					}
 				}
