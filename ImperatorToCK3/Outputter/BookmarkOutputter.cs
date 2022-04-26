@@ -45,7 +45,9 @@ namespace ImperatorToCK3.Outputter {
 				// Add character localization for bookmark screen.
 				localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
 				var descLocKey = $"bm_converted_{holder.Id}_desc";
-				var descLocBlock = new LocBlock(descLocKey, "english");
+				var descLocBlock = new LocBlock(descLocKey, "english") {
+					["english"] = string.Empty
+				};
 				localizations.Add(descLocKey, descLocBlock);
 
 				output.WriteLine("\tcharacter = {");
