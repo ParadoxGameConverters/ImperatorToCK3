@@ -190,7 +190,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				Logger.Warn($"Using unlocalized Imperator name {name} as name for {Id}!");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock["english"] = name;
-				nameLocBlock.FillMissingLocWithBaseLanguageLoc();
 				nameSet = true;
 			}
 		}
@@ -275,13 +274,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		LocDB locDB
 	) {
 		var validatedName = GetValidatedName(imperatorCountry, imperatorCountries, locDB);
+		var validatedEnglishName = validatedName?["english"];
 
 		string? title;
-		if (validatedName is not null) {
-			title = tagTitleMapper.GetTitleForTag(
-				imperatorCountry,
-				validatedName["english"]
-			);
+
+		if (validatedEnglishName is not null) {
+			title = tagTitleMapper.GetTitleForTag(imperatorCountry, validatedEnglishName);
 		} else {
 			title = tagTitleMapper.GetTitleForTag(imperatorCountry);
 		}
@@ -523,7 +521,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Id}!");
 				var adjLocBlock = Localizations.AddLocBlock(locKey);
 				adjLocBlock["english"] = name;
-				adjLocBlock.FillMissingLocWithBaseLanguageLoc();
 				adjSet = true;
 			}
 		}

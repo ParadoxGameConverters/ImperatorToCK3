@@ -292,7 +292,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var locDB = new LocDB("english");
 			var nameLocBlock = locDB.AddLocBlock("alexandros");
 			nameLocBlock["english"] = "Alexandros";
-			nameLocBlock.FillMissingLocWithBaseLanguageLoc();
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)

@@ -34,10 +34,9 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		if (impFamilyLoc is not null) {
 			Localization = new(Name, impFamilyLoc);
 		} else { // fallback: use unlocalized Imperator family key
-			var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+			var locBlock = new LocBlock(Name, "english") {
 				["english"] = impFamilyLocKey
 			};
-			locBlock.FillMissingLocWithBaseLanguageLoc();
 			Localization = new(Name, locBlock);
 		}
 	}
