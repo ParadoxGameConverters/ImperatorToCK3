@@ -169,11 +169,11 @@ public class HistoryTests {
 		Assert.Collection(history.Fields["holder"].ValueHistory,
 			item1 => {
 				Assert.Equal(new Date(1, 1, 1), item1.Key);
-				Assert.Equal("0", item1.Value);
+				Assert.Equal("0", item1.Value.Value);
 			},
 			item2 => {
 				Assert.Equal(new Date(867, 1, 1), item2.Key);
-				Assert.Equal("69", item2.Value);
+				Assert.Equal("69", item2.Value.Value);
 			}
 		);
 	}
@@ -198,11 +198,11 @@ public class HistoryTests {
 		Assert.Collection(history.Fields["buildings"].ValueHistory,
 			item1 => {
 				Assert.Equal(new Date(1, 1, 1), item1.Key);
-				Assert.Equal(new List<string>(), item1.Value);
+				Assert.Equal(new List<string>(), item1.Value.Value);
 			},
 			item2 => {
 				Assert.Equal(new Date(867, 1, 1), item2.Key);
-				Assert.Equal(new List<string> { "aqueduct", "temple" }, item2.Value);
+				Assert.Equal(new List<string> { "aqueduct", "temple" }, item2.Value.Value);
 			}
 		);
 	}
@@ -216,15 +216,15 @@ public class HistoryTests {
 		};
 		var history = new History(fields);
 
-		history.Fields["holder"].AddValueToHistory("nero", new Date(5, 1, 1));
+		history.Fields["holder"].AddValueToHistory("nero", "holder", new Date(5, 1, 1));
 
 		// Entries with same date should be added to a single date block.
-		history.Fields["holder"].AddValueToHistory("justinian", new Date(540, 1, 1));
-		history.Fields["culture"].AddValueToHistory("better_roman", new Date(540, 1, 1));
+		history.Fields["holder"].AddValueToHistory("justinian", "holder", new Date(540, 1, 1));
+		history.Fields["culture"].AddValueToHistory("better_roman", "culture", new Date(540, 1, 1));
 
 		// A field can have values of multiple types.
 		// Here we're adding a value as a set, while the initial value is a list.
-		history.Fields["buildings"].AddValueToHistory(new SortedSet<string> { "aqueduct", "baths" }, new Date(2, 1, 1));
+		history.Fields["buildings"].AddValueToHistory(new SortedSet<string> { "aqueduct", "baths" }, "buildings", new Date(2, 1, 1));
 
 		// Date blocks are ordered by date.
 		var expectedStr =
@@ -249,7 +249,7 @@ public class HistoryTests {
 			{"development_level", new HistoryField("change_development_level", 10)}
 		};
 		var history = new History(fields);
-		history.Fields["development_level"].AddValueToHistory(20, new Date(5, 1, 1));
+		history.Fields["development_level"].AddValueToHistory(20, "change_development_level", new Date(5, 1, 1));
 
 		var expectedStr =
 			"change_development_level=10" + Environment.NewLine +
@@ -265,7 +265,7 @@ public class HistoryTests {
 			{"buildings", new HistoryField("buildings", new List<object>())} // container field initially empty
 		};
 		var history = new History(fields);
-		history.Fields["buildings"].AddValueToHistory(new List<object> { "baths" }, new Date(5, 1, 1));
+		history.Fields["buildings"].AddValueToHistory(new List<object> { "baths" }, "buildings", new Date(5, 1, 1));
 
 		var expectedStr =
 			"5.1.1={" + Environment.NewLine +
@@ -288,12 +288,12 @@ public class HistoryTests {
 );
 
 		var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
-			.WithSimpleField(fieldName: "holding", setters: new string[] {"holder", "holder_ignore_head_of_faith_requirement" }, initialValue: 0)
+			.WithSimpleField(fieldName: "holder", setters: new string[] { "holder", "holder_ignore_head_of_faith_requirement" }, initialValue: 0)
 			.Build();
 
 		var provHistory = provHistoryFactory.GetHistory(reader);
 
-		Assert.Equal("69", provHistory.GetFieldValue("culture", new Date(100, 1, 1)));
-		Assert.Equal("420", provHistory.GetFieldValue("culture", new Date(200, 1, 1)));
+		Assert.Equal(69, provHistory.GetFieldValue("holder", new Date(101, 1, 1)));
+		Assert.Equal(420, provHistory.GetFieldValue("holder", new Date(200, 1, 1)));
 	}
 }

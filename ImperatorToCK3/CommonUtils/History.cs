@@ -17,56 +17,57 @@ namespace ImperatorToCK3.CommonUtils {
 			return Fields.TryGetValue(fieldName, out var value) ? value.GetValue(date) : null;
 		}
 
-		// The setter parameter is used when a new history field needs to be created
-		public void AddFieldValue(string fieldName, object value, Date date, string setter) {
-			AddFieldValue(fieldName, value, date, new string[] { setter });
+		public void AddFieldValue(string fieldName, object? value, Date date, string setter) {
+			AddFieldValue(fieldName, value, date, setter, new string[] { setter });
 		}
-		public void AddFieldValue(string fieldName, object value, Date date, IEnumerable<string>? setters) {
+		// The allSetters parameter is used when a new history field needs to be created
+		public void AddFieldValue(string fieldName, object? value, Date date, string setter, IEnumerable<string> allSetters) {
 			if (Fields.TryGetValue(fieldName, out var field)) {
-				field.AddValueToHistory(value, date);
+				field.AddValueToHistory(value, setter, date);
 			} else {
-				if (setters is null) {
+				if (allSetters is null) {
 					Logger.Error($"Cannot create history field {fieldName} without a setter!");
 					return;
 				}
-				var newField = new HistoryField(setters, null);
-				newField.AddValueToHistory(value, date);
+				var newField = new HistoryField(allSetters, null);
+				newField.AddValueToHistory(value, setter, date);
 				Fields.Add(fieldName, newField);
 			}
 		}
 
 		public string Serialize(string indent, bool withBraces) {
-			var entriesByDate = new SortedDictionary<Date, List<KeyValuePair<string, object>>>(); // <date, list<setter, value>>
+			var entriesByDate = new SortedDictionary<Date, List<FieldValue>>(); // <date, list<setter, value>>
 			foreach (var field in Fields.Values) {
-				foreach (var (date, value) in field.ValueHistory) {
-					var setterValuePair = new KeyValuePair<string, object>(field.Setter, value);
+				foreach (var (date, fieldValue) in field.ValueHistory) {
 					if (entriesByDate.TryGetValue(date, out var listForDate)) {
-						listForDate.Add(setterValuePair);
+						listForDate.Add(fieldValue);
 					} else {
-						var entryList = new List<KeyValuePair<string, object>>();
+						var entryList = new List<FieldValue>();
 						entriesByDate[date] = entryList;
-						entryList.Add(setterValuePair);
+						entryList.Add(fieldValue);
 					}
 				}
 			}
 
 			var sb = new StringBuilder();
-			foreach (HistoryField field in Fields.Values.Where(f => f.InitialValue is not null)) {
-				if (field.InitialValue is IEnumerable<object> enumerable && !enumerable.Any()) {
+			foreach (HistoryField field in Fields.Values.Where(f => f.InitialValue.Value is not null)) {
+				var initialValue = field.InitialValue;
+
+				if (initialValue.Value is IEnumerable<object> enumerable && !enumerable.Any()) {
 					// we don't need to output empty lists
 					continue;
 				}
 
-				sb.Append(indent).Append(field.Setter)
+				sb.Append(indent).Append(initialValue.Setter)
 					.Append('=')
-					.AppendLine(PDXSerializer.Serialize(field.InitialValue!, indent));
+					.AppendLine(PDXSerializer.Serialize(initialValue.Value ?? "none", indent));
 			}
-			foreach (var (date, entries) in entriesByDate) {
+			foreach (var (date, fieldEntries) in entriesByDate) {
 				sb.Append(indent).Append(date).AppendLine("={");
-				foreach (var (setter, value) in entries) {
-					sb.Append(indent).Append('\t').Append(setter)
+				foreach (var entry in fieldEntries) {
+					sb.Append(indent).Append('\t').Append(entry.Setter)
 						.Append('=')
-						.AppendLine(PDXSerializer.Serialize(value, indent));
+						.AppendLine(PDXSerializer.Serialize(entry.Value ?? "none", indent));
 				}
 				sb.Append(indent).AppendLine("}");
 			}
@@ -76,7 +77,7 @@ namespace ImperatorToCK3.CommonUtils {
 
 		public void RemoveHistoryPastDate(Date date) {
 			foreach (var field in Fields.Values) {
-				field.ValueHistory = new SortedDictionary<Date, object>(
+				field.ValueHistory = new SortedDictionary<Date, FieldValue>(
 					field.ValueHistory.Where(entry => entry.Key <= date)
 						.ToDictionary(pair => pair.Key, pair => pair.Value)
 				);

@@ -33,10 +33,10 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			Assert.Equal(3, datedHistoryBlock.SimpleFieldContents.Count);
 
-			Assert.Equal("cuman", datedHistoryBlock.SimpleFieldContents["culture"][0]);
-			Assert.Equal("bashkiri", datedHistoryBlock.SimpleFieldContents["culture"][1]);
-			Assert.Equal("c_sarkel", datedHistoryBlock.SimpleFieldContents["title"].Last());
-			Assert.Equal(5, datedHistoryBlock.SimpleFieldContents["monthly_alien_sightings"].Last());
+			Assert.Equal("cuman", datedHistoryBlock.SimpleFieldContents["culture"][0].Value);
+			Assert.Equal("bashkiri", datedHistoryBlock.SimpleFieldContents["culture"][1].Value);
+			Assert.Equal("c_sarkel", datedHistoryBlock.SimpleFieldContents["title"].Last().Value);
+			Assert.Equal(5, datedHistoryBlock.SimpleFieldContents["monthly_alien_sightings"].Last().Value);
 
 			Assert.False(datedHistoryBlock.SimpleFieldContents.ContainsKey("religion"));
 			Assert.False(datedHistoryBlock.SimpleFieldContents.ContainsKey("development"));

@@ -4,6 +4,7 @@ using commonItems.Localization;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -248,11 +249,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return;
 		}
 
-		liegeField.ValueHistory = new SortedDictionary<Date, object>(liegeField.ValueHistory.Where(
-				kvp => !(kvp.Value is string vStr && vStr == name)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
+		liegeField.ValueHistory = new SortedDictionary<Date, FieldValue>(liegeField.ValueHistory.Where(
+				kvp => !(kvp.Value.Value is string vStr && vStr == name)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
 		);
-		if (liegeField.InitialValue is string str && str == name) {
-			liegeField.InitialValue = null;
+		if (liegeField.InitialValue.Value is string str && str == name) {
+			liegeField.InitialValue.Value = null;
 		}
 	}
 
@@ -443,13 +444,19 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public HashSet<string> GetAllHolderIds() {
 		if (History.InternalHistory.Fields.TryGetValue("holder", out var holderField)) {
 			var ids = holderField.ValueHistory.Values.OfType<string>().ToHashSet();
-			if (holderField.InitialValue is not null) {
-				ids.Add((string)holderField.InitialValue);
+
+			var initialHolderValue = holderField.InitialValue.Value;
+			if (initialHolderValue is not null) {
+				var strValue = initialHolderValue.ToString();
+				if (strValue is null) {
+					Logger.Warn($"Cannot convert holder {initialHolderValue} of {Id} to string!");
+				} else {
+					ids.Add(strValue);
+				}
 			}
 
 			return ids;
-		}
-		else {
+		} else {
 			return new HashSet<string>();
 		}
 	}
