@@ -10,7 +10,12 @@ public interface IHistoryField : IIdentifiable<string> {
 	public List<KeyValuePair<string, object>> InitialEntries { get; }
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; }
 	public object? GetValue(Date date);
-	public void RemoveHistoryPastDate(Date date);
+	
+	public void RemoveHistoryPastDate(Date date) {
+		foreach (var item in DateToEntriesDict.Where(kv => kv.Key > date).ToList()) {
+			DateToEntriesDict.Remove(item.Key);
+		}
+	}
 	public void AddEntryToHistory(Date date, string keyword, object value);
 
 	/// <summary>

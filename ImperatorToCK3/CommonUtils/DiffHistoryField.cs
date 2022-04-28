@@ -47,12 +47,6 @@ internal class DiffHistoryField : IHistoryField {
 
 		return toReturn;
 	}
-
-	public void RemoveHistoryPastDate(Date date) {
-		foreach (var item in DateToEntriesDict.Where(kv => kv.Key > date)) {
-			DateToEntriesDict.Remove(item.Key);
-		}
-	}
 	
 	public void AddEntryToHistory(Date date, string keyword, object value) {
 		if (insertKeywords.Contains(keyword) || removeKeywords.Contains(keyword)) {

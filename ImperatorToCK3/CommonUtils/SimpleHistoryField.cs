@@ -22,8 +22,14 @@ public class SimpleHistoryField : IHistoryField {
 	}
 	private KeyValuePair<string, object>? GetLastEntry(Date date) {
 		var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
-		var pairList = pairsWithEarlierOrSameDate.ToList();
-		return pairList.Count > 0 ? pairList.Last().Value.Last() : InitialEntries.LastOrDefault();
+
+		foreach (var (_, entries) in pairsWithEarlierOrSameDate.Reverse()) {
+			foreach (var entry in Enumerable.Reverse(entries)) {
+				return entry;
+			}
+		}
+		
+		return InitialEntries.LastOrDefault();
 	}
 	public object? GetValue(Date date) {
 		return GetLastEntry(date)?.Value;
@@ -41,12 +47,6 @@ public class SimpleHistoryField : IHistoryField {
 			DateToEntriesDict.Add(date, new List<KeyValuePair<string, object>> {
 				newEntry
 			});
-		}
-	}
-
-	public void RemoveHistoryPastDate(Date date) {
-		foreach (var item in DateToEntriesDict.Where(kv => kv.Key > date)) {
-			DateToEntriesDict.Remove(item.Key);
 		}
 	}
 

@@ -88,10 +88,16 @@ public sealed class HistoryFactory : Parser {
 			foreach (var field in history.Fields.Values) {
 				field.RegisterKeywords(dateBlockParser, date);
 			}
-			dateBlockParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			dateBlockParser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
+				history.IgnoredKeywords.Add(keyword);
+				ParserHelpers.IgnoreItem(reader);
+			});
 			dateBlockParser.ParseStream(reader);
 		});
-		RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
+			history.IgnoredKeywords.Add(keyword);
+			ParserHelpers.IgnoreItem(reader);
+		});
 	}
 
 	public History GetHistory(BufferedReader reader) {
@@ -106,6 +112,10 @@ public sealed class HistoryFactory : Parser {
 			history.Fields[def.FieldName] = new DiffHistoryField(def.FieldName, new OrderedSet<string> {def.Inserter}, new OrderedSet<string> {def.Remover});
 		}
 		ParseStream(reader);
+		
+		if (history.IgnoredKeywords.Count > 0) {
+			Logger.Debug($"Ignored history keywords: {string.Join(", ", history.IgnoredKeywords)}");
+		}
 		return history;
 	}
 	public History GetHistory(string historyPath, string gamePath) {
@@ -124,6 +134,10 @@ public sealed class HistoryFactory : Parser {
 			ParseGameFile(historyPath, gamePath, new List<Mod>());
 		} else {
 			ParseGameFolder(historyPath, gamePath, "txt", new List<Mod>(), true);
+		}
+
+		if (history.IgnoredKeywords.Count > 0) {
+			Logger.Debug($"Ignored history keywords: {string.Join(", ", history.IgnoredKeywords)}");
 		}
 		return history;
 	}
