@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Serialization;
 using ImperatorToCK3.CommonUtils;
 using System;
@@ -181,17 +182,9 @@ public class HistoryTests {
 	public void ContainerFieldValueCanBeAdded() {
 		var history = new History();
 		history.AddFieldValue( // new field is created
-			"buildings",
-			new List<string>(),
-			new Date(1, 1, 1),
-			"buildings"
-		);
+			"buildings", new List<string>(), new Date(1, 1, 1), "buildings");
 		history.AddFieldValue(  // existing field is updated
-			"buildings",
-			new List<string> { "aqueduct", "temple" },
-			new Date(867, 1, 1),
-			"buildings"
-		);
+			"buildings", new List<string> { "aqueduct", "temple" }, new Date(867, 1, 1), "buildings");
 		Assert.Collection(history.Fields,
 			item1 => Assert.Equal("buildings", item1.Key)
 		);
@@ -209,10 +202,10 @@ public class HistoryTests {
 
 	[Fact]
 	public void HistoryCanBeSerialized() {
-		var fields = new Dictionary<string, HistoryField> {
-			{"holder", new HistoryField("holder", null)}, // simple field with null initial value
-			{"culture", new HistoryField("culture", "roman")}, // simple field with initial value
-			{"buildings", new HistoryField("buildings", new List<object> {"baths"})} // container field
+		var fields = new Dictionary<string, SimpleHistoryField> {
+			{"holder", new SimpleHistoryField(setterKeywords: new[]{"holder"}, null)}, // simple field with null initial value
+			{"culture", new SimpleHistoryField(setterKeywords: new[]{"culture"}, "roman")}, // simple field with initial value
+			{"buildings", new SimpleHistoryField(setterKeywords: new[] { "buildings" }, new List<object> {"baths"})} // container field
 		};
 		var history = new History(fields);
 
@@ -245,8 +238,8 @@ public class HistoryTests {
 
 	[Fact]
 	public void IntegersAreSerializedWithoutQuotes() {
-		var fields = new Dictionary<string, HistoryField> {
-			{"development_level", new HistoryField("change_development_level", 10)}
+		var fields = new Dictionary<string, SimpleHistoryField> {
+			{"development_level", new SimpleHistoryField(new[]{"change_development_level"}, 10)}
 		};
 		var history = new History(fields);
 		history.Fields["development_level"].AddValueToHistory(20, "change_development_level", new Date(5, 1, 1));
@@ -261,8 +254,8 @@ public class HistoryTests {
 
 	[Fact]
 	public void EmptyListInitialValuesAreNotSerialized() {
-		var fields = new Dictionary<string, HistoryField> {
-			{"buildings", new HistoryField("buildings", new List<object>())} // container field initially empty
+		var fields = new Dictionary<string, SimpleHistoryField> {
+			{"buildings", new SimpleHistoryField(new[] { "buildings" }, new List<object>())} // container field initially empty
 		};
 		var history = new History(fields);
 		history.Fields["buildings"].AddValueToHistory(new List<object> { "baths" }, "buildings", new Date(5, 1, 1));
@@ -277,15 +270,15 @@ public class HistoryTests {
 	[Fact]
 	public void SimpleFieldCanHaveMultipleSetters() {
 		var reader = new BufferedReader(
-@"= {		#Sarkel
-					100.1.1 = {
-						holder = ""69""
-					}
-					200.1.1 = {
-						holder_ignore_head_of_faith_requirement = ""420""
-					}
-				}"
-);
+			@"= {
+				100.1.1 = {
+					holder = ""69""
+				}
+				200.1.1 = {
+					holder_ignore_head_of_faith_requirement = ""420""
+				}
+			}"
+		);
 
 		var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
 			.WithSimpleField(fieldName: "holder", setters: new string[] { "holder", "holder_ignore_head_of_faith_requirement" }, initialValue: 0)
@@ -295,5 +288,42 @@ public class HistoryTests {
 
 		Assert.Equal(69, provHistory.GetFieldValue("holder", new Date(101, 1, 1)));
 		Assert.Equal(420, provHistory.GetFieldValue("holder", new Date(200, 1, 1)));
+	}
+
+	[Fact]
+	public void ValuesCanBeAddedAndRemovedFromAdditiveField() {
+		var reader = new BufferedReader(
+			@"= {
+				add_trait = dumb
+				100.1.1 = {
+					add_trait = infertile
+				}
+				150.1.1 = {
+					remove_trait = dumb
+				}
+			}"
+		);
+
+		var chararacterHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+			.WithAdditiveContainerField(fieldName: "traits", inserter: "add_trait", remover: "remove_trait")
+			.Build();
+
+		var characterHistory = chararacterHistoryFactory.GetHistory(reader);
+
+		var traits = characterHistory.GetFieldValue("traits", new Date(50, 1, 1)) as OrderedSet<string>;
+		Assert.NotNull(traits);
+		Assert.Collection(traits,
+			trait => Assert.Equal("dumb", trait));
+
+		traits = characterHistory.GetFieldValue("traits", new Date(100, 1, 1)) as OrderedSet<string>;
+		Assert.NotNull(traits);
+		Assert.Collection(traits,
+			trait => Assert.Equal("dumb", trait),
+			trait => Assert.Equal("infertile", trait));
+
+		traits = characterHistory.GetFieldValue("traits", new Date(150, 1, 1)) as OrderedSet<string>;
+		Assert.NotNull(traits);
+		Assert.Collection(traits,
+			trait => Assert.Equal("infertile", trait));
 	}
 }

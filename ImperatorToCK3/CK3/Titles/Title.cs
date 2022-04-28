@@ -140,11 +140,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// determine successions laws
-		History.AddFieldValue("succession_laws",
-			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws()),
-			conversionDate,
-			"succession_laws"
-		);
+		History.AddFieldValue(conversionDate, "succession_laws", "succession_laws", successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws()));
 
 		// determine CoA
 		CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
@@ -228,9 +224,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				History.AddFieldValue("holder", characterId, startDate, "holder");
+				History.AddFieldValue(startDate,"holder",  "holder", characterId);
 				if (gov is not null) {
-					History.AddFieldValue("government", gov, startDate, "government");
+					History.AddFieldValue(startDate, "government", "government", gov);
 				}
 			}
 
@@ -238,23 +234,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var lastCK3TermGov = History.GetGovernment(conversionDate);
 				var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
 				if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
-					History.AddFieldValue("government", ck3CountryGov, conversionDate, "government");
+					History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
 				}
 			}
 		}
 	}
 
-	internal void RemoveDeFactoLiegeReferences(string name) {
+	internal void RemoveDeFactoLiegeReferences(string liegeName) {
 		if (!History.Fields.TryGetValue("liege", out var liegeField)) {
 			return;
 		}
 
-		liegeField.ValueHistory = new SortedDictionary<Date, FieldValue>(liegeField.ValueHistory.Where(
-				kvp => !(kvp.Value.Value is string vStr && vStr == name)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
-		);
-		if (liegeField.InitialValue.Value is string str && str == name) {
-			liegeField.InitialValue.Value = null;
-		}
+		liegeField.RemoveAll(v=>v is string str && str == liegeName);
 	}
 
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocDB locDB) {
@@ -328,12 +319,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var impGovernor = imperatorCharacters[governorship.CharacterId];
 
 		// ------------------ determine holder
-		History.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate, "holder");
+		History.AddFieldValue(normalizedStartDate, "holder", "holder", $"imperator{impGovernor.Id}");
 
 		// ------------------ determine government
 		var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
 		if (ck3LiegeGov is not null) {
-			History.AddFieldValue("government", ck3LiegeGov, normalizedStartDate, "government");
+			History.AddFieldValue(normalizedStartDate, "government", "government", ck3LiegeGov);
 		}
 
 		// ------------------ determine color
@@ -348,11 +339,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
-		History.AddFieldValue("succession_laws",
-			new SortedSet<string> { "high_partition_succession_law" },
-			normalizedStartDate,
-			"succession_laws"
-		);
+		History.AddFieldValue( normalizedStartDate, "succession_laws", "succession_laws", new SortedSet<string> { "high_partition_succession_law" });
 
 		// ------------------ determine CoA
 		CoA = null; // using game-randomized CoA
@@ -434,7 +421,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	public Date GetDateOfLastHolderChange() {
 		var field = History.Fields["holder"];
-		var dates = new SortedSet<Date>(field.ValueHistory.Keys);
+		var dates = new SortedSet<Date>(field.DateToEntriesDict.Keys);
 		var lastDate = dates.Max;
 		return lastDate ?? new Date(1, 1, 1);
 	}
@@ -444,23 +431,27 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public HashSet<string> GetAllHolderIds() {
 		if (History.Fields.TryGetValue("holder", out var holderField)) {
 			var ids = new HashSet<string>();
-			var holderEntries = holderField.ValueHistory.Values;
-			foreach (var entry in holderEntries) {
-				var strValue = entry.Value?.ToString();
-				if (strValue is not null) {
-					ids.Add(strValue);
+			var holderEntriesByDate = holderField.DateToEntriesDict.Values;
+			foreach (var entries in holderEntriesByDate) {
+				foreach (var entry in entries) {
+					var holderStrValue = entry.Value.ToString();
+					if (holderStrValue is not null) {
+						ids.Add(holderStrValue);
+					}
 				}
 			}
 
-			var initialHolderValue = holderField.InitialValue.Value;
-			if (initialHolderValue is not null) {
-				var strValue = initialHolderValue.ToString();
-				if (strValue is null) {
-					Logger.Warn($"Cannot convert holder {initialHolderValue} of {Id} to string!");
+			var initialHolderEntries = holderField.InitialEntries;
+			foreach (var entry in initialHolderEntries) {
+				var value = entry.Value;
+				var holderStrValue = value.ToString();
+				if (holderStrValue is null) {
+					Logger.Warn($"Cannot convert holder {value} of {Id} to string!");
 				} else {
-					ids.Add(strValue);
+					ids.Add(holderStrValue);
 				}
 			}
+			
 
 			return ids;
 		} else {
@@ -469,7 +460,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	public void SetHolder(Character? character, Date date) {
 		var id = character is null ? "0" : character.Id;
-		History.AddFieldValue("holder", id, date, "holder");
+		History.AddFieldValue(date, "holder", "holder", id);
 	}
 	public string? GetGovernment(Date date) {
 		return History.GetGovernment(date);
@@ -483,7 +474,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"Cannot set development level to a barony title {Id}!");
 			return;
 		}
-		History.AddFieldValue("development_level", value, date, "change_development_level");
+		History.AddFieldValue(date, "development_level", "change_development_level", value);
 	}
 
 	[NonSerialized] public LocDB Localizations { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
@@ -593,9 +584,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		const string fieldName = "liege";
 		if (newLiege is null) {
-			History.AddFieldValue(fieldName, 0, date, fieldName);
+			History.AddFieldValue(date, fieldName, fieldName, 0);
 		} else {
-			History.AddFieldValue(fieldName, newLiege.Id, date, fieldName);
+			History.AddFieldValue(date, fieldName, fieldName, newLiege.Id);
 		}
 	}
 

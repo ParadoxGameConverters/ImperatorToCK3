@@ -1,4 +1,6 @@
-﻿namespace ImperatorToCK3.CommonUtils;
+﻿using commonItems;
+
+namespace ImperatorToCK3.CommonUtils;
 
 public class FieldValue {
 	public object? Value { get; set; }
@@ -6,5 +8,20 @@ public class FieldValue {
 	public FieldValue(object? value, string setter) {
 		Value = value;
 		Setter = setter;
+	}
+
+	public void Add(string valueToAdd) {
+		if (Value is commonItems.Collections.OrderedSet<string> additiveCollection) {
+			additiveCollection.Add(valueToAdd);
+		} else {
+			Logger.Warn($"Cannot additively add value to {Value}!");
+		}
+	}
+	public void Remove(string valueToRemove) {
+		if (Value is commonItems.Collections.OrderedSet<string> additiveCollection) {
+			additiveCollection.Remove(valueToRemove);
+		} else {
+			Logger.Warn($"Cannot additively remove value from {Value}!");
+		}
 	}
 }

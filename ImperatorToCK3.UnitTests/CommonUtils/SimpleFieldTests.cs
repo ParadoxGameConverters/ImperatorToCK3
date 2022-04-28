@@ -7,14 +7,14 @@ namespace ImperatorToCK3.UnitTests.CommonUtils;
 public class SimpleFieldTests {
 	[Fact]
 	public void ValueCanBeAddedToHistory() {
-		var cultureField = new HistoryField("culture", initialValue: "greek");
+		var cultureField = new SimpleHistoryField(setterKeywords: new[] { "culture" }, initialValue: "greek");
 		cultureField.AddValueToHistory("roman", "culture", new Date(100, 1, 1));
 		Assert.Equal("greek", cultureField.GetValue(new Date(99, 1, 1)));
 		Assert.Equal("roman", cultureField.GetValue(new Date(100, 1, 1)));
 	}
 	[Fact]
 	public void InitialValueCanBeChanged() {
-		var cultureField = new HistoryField("culture", initialValue: "greek");
+		var cultureField = new SimpleHistoryField(setterKeywords: new[] { "culture" }, initialValue: "greek");
 		Assert.Equal("greek", cultureField.GetValue(new Date(1, 1, 1)));
 		cultureField.InitialValue.Value = "roman";
 		Assert.Equal("roman", cultureField.GetValue(new Date(1, 1, 1)));

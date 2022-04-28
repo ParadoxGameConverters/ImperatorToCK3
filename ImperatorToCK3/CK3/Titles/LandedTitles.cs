@@ -532,7 +532,7 @@ public partial class Title {
 				double dev = CalculateCountyDevelopment(county, ck3ProvsPerImperatorProv);
 
 				county.History.Fields.Remove("development_level");
-				county.History.AddFieldValue("development_level", (int)dev, date, "change_development_level");
+				county.History.AddFieldValue( date, "development_level", "change_development_level", (int)dev);
 			}
 		}
 
