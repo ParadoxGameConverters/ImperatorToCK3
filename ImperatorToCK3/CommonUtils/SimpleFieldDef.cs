@@ -1,7 +1,9 @@
-﻿namespace ImperatorToCK3.CommonUtils {
+﻿using System.Collections.Generic;
+
+namespace ImperatorToCK3.CommonUtils {
 	public class SimpleFieldDef {
 		public string FieldName { get; set; } = "";
-		public string Setter { get; set; } = "";
-		public string? InitialValue { get; set; }
+		public ISet<string> Setters { get; set; } = new HashSet<string>();
+		public object? InitialValue { get; set; }
 	}
 }

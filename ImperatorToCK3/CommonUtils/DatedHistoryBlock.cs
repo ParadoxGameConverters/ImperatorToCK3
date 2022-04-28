@@ -9,23 +9,27 @@ namespace ImperatorToCK3.CommonUtils {
 
 		public DatedHistoryBlock(IEnumerable<SimpleFieldDef> simpleFieldStructs, IEnumerable<ContainerFieldDef> containerFieldStructs, BufferedReader reader) {
 			foreach (var fieldStruct in simpleFieldStructs) {
-				RegisterKeyword(fieldStruct.Setter, reader => {
-					if (!SimpleFieldContents.ContainsKey(fieldStruct.FieldName)) {
-						SimpleFieldContents.Add(fieldStruct.FieldName, new());
-					}
-					SimpleFieldContents[fieldStruct.FieldName].Add(HistoryFactory.GetValue(reader.GetString()));
-				});
+				foreach (var setter in fieldStruct.Setters) {
+					RegisterKeyword(setter, reader => {
+						if (!SimpleFieldContents.ContainsKey(fieldStruct.FieldName)) {
+							SimpleFieldContents.Add(fieldStruct.FieldName, new());
+						}
+						SimpleFieldContents[fieldStruct.FieldName].Add(HistoryFactory.GetValue(reader.GetString()));
+					});
+				}
 			}
 			foreach (var fieldStruct in containerFieldStructs) {
-				RegisterKeyword(fieldStruct.Setter, reader => {
-					if (!ContainerFieldContents.ContainsKey(fieldStruct.FieldName)) {
-						ContainerFieldContents.Add(fieldStruct.FieldName, new());
-					}
+				foreach (var setter in fieldStruct.Setters) {
+					RegisterKeyword(setter, reader => {
+						if (!ContainerFieldContents.ContainsKey(fieldStruct.FieldName)) {
+							ContainerFieldContents.Add(fieldStruct.FieldName, new());
+						}
 
-					var strings = reader.GetStrings();
-					var values = new List<object>(strings.Select(HistoryFactory.GetValue));
-					ContainerFieldContents[fieldStruct.FieldName].Add(values);
-				});
+						var strings = reader.GetStrings();
+						var values = new List<object>(strings.Select(HistoryFactory.GetValue));
+						ContainerFieldContents[fieldStruct.FieldName].Add(values);
+					});
+				}
 			}
 			RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			ParseStream(reader);

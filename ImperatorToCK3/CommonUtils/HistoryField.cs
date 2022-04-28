@@ -6,10 +6,11 @@ namespace ImperatorToCK3.CommonUtils {
 	public class HistoryField {
 		public SortedDictionary<Date, object> ValueHistory { get; set; } = new();
 		public object? InitialValue { get; set; }
-		public string Setter { get; }
+		public ISet<string> Setters { get; }
 
-		public HistoryField(string setter, object? initialValue) {
-			Setter = setter;
+		public HistoryField(string setter, object? initialValue) : this(new string[] {setter}, initialValue) { }
+		public HistoryField(IEnumerable<string> setters, object? initialValue) {
+			Setters = setters.ToHashSet();
 			InitialValue = initialValue;
 		}
 		public object? GetValue(Date date) {

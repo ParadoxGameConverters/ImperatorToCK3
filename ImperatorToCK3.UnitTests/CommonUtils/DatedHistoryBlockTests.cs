@@ -21,10 +21,10 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			var datedHistoryBlock = new DatedHistoryBlock(
 				new List<SimpleFieldDef>
 				{
-					new() {FieldName = "culture", Setter = "culture", InitialValue = ""},
-					new() {FieldName = "title", Setter = "title", InitialValue = ""},
+					new() {FieldName = "culture", Setters = {"culture"}, InitialValue = ""},
+					new() {FieldName = "title", Setters = {"title"}, InitialValue = ""},
 					new() {
-						FieldName = "monthly_alien_sightings", Setter = "monthly_alien_sightings", InitialValue = "0"
+						FieldName = "monthly_alien_sightings", Setters = {"monthly_alien_sightings"}, InitialValue = "0"
 					}
 				},
 				new List<ContainerFieldDef>(),
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 
 			var datedHistoryBlock = new DatedHistoryBlock(
 				new List<SimpleFieldDef> {
-					new() { FieldName = "religion", Setter = "religion", InitialValue = null }
+					new() { FieldName = "religion", Setters = {"religion"}, InitialValue = null }
 				},
 				new List<ContainerFieldDef>(),
 				reader

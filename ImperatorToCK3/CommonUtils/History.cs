@@ -18,15 +18,18 @@ namespace ImperatorToCK3.CommonUtils {
 		}
 
 		// The setter parameter is used when a new history field needs to be created
-		public void AddFieldValue(string fieldName, object value, Date date, string? setter) {
+		public void AddFieldValue(string fieldName, object value, Date date, string setter) {
+			AddFieldValue(fieldName, value, date, new string[] { setter });
+		}
+		public void AddFieldValue(string fieldName, object value, Date date, IEnumerable<string>? setters) {
 			if (Fields.TryGetValue(fieldName, out var field)) {
 				field.AddValueToHistory(value, date);
 			} else {
-				if (setter is null) {
+				if (setters is null) {
 					Logger.Error($"Cannot create history field {fieldName} without a setter!");
 					return;
 				}
-				var newField = new HistoryField(setter, null);
+				var newField = new HistoryField(setters, null);
 				newField.AddValueToHistory(value, date);
 				Fields.Add(fieldName, newField);
 			}

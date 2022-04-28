@@ -6,5 +6,5 @@ internal class AdditiveContainerFieldDef {
 	public string FieldName { get; set; } = "";
 	public string Inserter { get; set; } = "";
 	public string Remover { get; set; } = "";
-	public List<string> InitialValue { get; set; } = new();
+	public List<object> InitialValue { get; set; } = new();
 }
