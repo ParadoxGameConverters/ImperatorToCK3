@@ -140,7 +140,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// determine successions laws
-		History.InternalHistory.AddFieldValue("succession_laws",
+		History.AddFieldValue("succession_laws",
 			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws()),
 			conversionDate,
 			"succession_laws"
@@ -228,9 +228,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					firstPossibleDate.ChangeByDays(1);
 				}
 
-				History.InternalHistory.AddFieldValue("holder", characterId, startDate, "holder");
+				History.AddFieldValue("holder", characterId, startDate, "holder");
 				if (gov is not null) {
-					History.InternalHistory.AddFieldValue("government", gov, startDate, "government");
+					History.AddFieldValue("government", gov, startDate, "government");
 				}
 			}
 
@@ -238,14 +238,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var lastCK3TermGov = History.GetGovernment(conversionDate);
 				var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
 				if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
-					History.InternalHistory.AddFieldValue("government", ck3CountryGov, conversionDate, "government");
+					History.AddFieldValue("government", ck3CountryGov, conversionDate, "government");
 				}
 			}
 		}
 	}
 
 	internal void RemoveDeFactoLiegeReferences(string name) {
-		if (!History.InternalHistory.Fields.TryGetValue("liege", out var liegeField)) {
+		if (!History.Fields.TryGetValue("liege", out var liegeField)) {
 			return;
 		}
 
@@ -328,12 +328,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var impGovernor = imperatorCharacters[governorship.CharacterId];
 
 		// ------------------ determine holder
-		History.InternalHistory.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate, "holder");
+		History.AddFieldValue("holder", $"imperator{impGovernor.Id}", normalizedStartDate, "holder");
 
 		// ------------------ determine government
 		var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
 		if (ck3LiegeGov is not null) {
-			History.InternalHistory.AddFieldValue("government", ck3LiegeGov, normalizedStartDate, "government");
+			History.AddFieldValue("government", ck3LiegeGov, normalizedStartDate, "government");
 		}
 
 		// ------------------ determine color
@@ -348,7 +348,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
-		History.InternalHistory.AddFieldValue("succession_laws",
+		History.AddFieldValue("succession_laws",
 			new SortedSet<string> { "high_partition_succession_law" },
 			normalizedStartDate,
 			"succession_laws"
@@ -433,7 +433,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	public Date GetDateOfLastHolderChange() {
-		var field = History.InternalHistory.Fields["holder"];
+		var field = History.Fields["holder"];
 		var dates = new SortedSet<Date>(field.ValueHistory.Keys);
 		var lastDate = dates.Max;
 		return lastDate ?? new Date(1, 1, 1);
@@ -442,8 +442,15 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return History.GetHolderId(date);
 	}
 	public HashSet<string> GetAllHolderIds() {
-		if (History.InternalHistory.Fields.TryGetValue("holder", out var holderField)) {
-			var ids = holderField.ValueHistory.Values.OfType<string>().ToHashSet();
+		if (History.Fields.TryGetValue("holder", out var holderField)) {
+			var ids = new HashSet<string>();
+			var holderEntries = holderField.ValueHistory.Values;
+			foreach (var entry in holderEntries) {
+				var strValue = entry.Value?.ToString();
+				if (strValue is not null) {
+					ids.Add(strValue);
+				}
+			}
 
 			var initialHolderValue = holderField.InitialValue.Value;
 			if (initialHolderValue is not null) {
@@ -462,7 +469,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	public void SetHolder(Character? character, Date date) {
 		var id = character is null ? "0" : character.Id;
-		History.InternalHistory.AddFieldValue("holder", id, date, "holder");
+		History.AddFieldValue("holder", id, date, "holder");
 	}
 	public string? GetGovernment(Date date) {
 		return History.GetGovernment(date);
@@ -476,7 +483,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"Cannot set development level to a barony title {Id}!");
 			return;
 		}
-		History.InternalHistory.AddFieldValue("development_level", value, date, "change_development_level");
+		History.AddFieldValue("development_level", value, date, "change_development_level");
 	}
 
 	[NonSerialized] public LocDB Localizations { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
@@ -586,9 +593,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		const string fieldName = "liege";
 		if (newLiege is null) {
-			History.InternalHistory.AddFieldValue(fieldName, 0, date, fieldName);
+			History.AddFieldValue(fieldName, 0, date, fieldName);
 		} else {
-			History.InternalHistory.AddFieldValue(fieldName, newLiege.Id, date, fieldName);
+			History.AddFieldValue(fieldName, newLiege.Id, date, fieldName);
 		}
 	}
 
@@ -676,7 +683,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	public ICollection<string> GetSuccessionLaws(Date date) {
-		switch (History.InternalHistory.GetFieldValue("succession_laws", date)) {
+		switch (History.GetFieldValue("succession_laws", date)) {
 			case null:
 				return new SortedSet<string>();
 			case ICollection<string> stringCollection:
@@ -752,9 +759,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	internal void ClearHolderSpecificHistory() {
-		History.InternalHistory.Fields.Remove("holder");
-		History.InternalHistory.Fields.Remove("government");
-		History.InternalHistory.Fields.Remove("liege");
+		History.Fields.Remove("holder");
+		History.Fields.Remove("government");
+		History.Fields.Remove("liege");
 	}
 
 	[NonSerialized] public TitleHistory History { get; private set; } = new();
@@ -778,7 +785,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	public void OutputHistory(StreamWriter writer) {
 		var sb = new StringBuilder();
-		var content = PDXSerializer.Serialize(History.InternalHistory, "\t");
+		var content = PDXSerializer.Serialize(History, "\t");
 		if (string.IsNullOrWhiteSpace(content)) {
 			// doesn't need to be output
 			return;
@@ -882,7 +889,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	// used by barony titles only
 	[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_barony is its corresponding title.
 
-	public void RemoveHistoryPastBookmarkDate(Date ck3BookmarkDate) {
-		History.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);
+	public void RemoveHistoryPastDate(Date ck3BookmarkDate) {
+		History.RemoveHistoryPastDate(ck3BookmarkDate);
 	}
 }
