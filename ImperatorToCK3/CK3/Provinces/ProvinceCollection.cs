@@ -80,7 +80,14 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		Logger.Info($"Loaded {Count} province definitions.");
 	}
 
-	public void ImportImperatorProvinces(Imperator.World impWorld, Title.LandedTitles titles, CultureMapper cultureMapper, ReligionMapper religionMapper, ProvinceMapper provinceMapper) {
+	public void ImportImperatorProvinces(
+		Imperator.World impWorld,
+		Title.LandedTitles titles,
+		CultureMapper cultureMapper,
+		ReligionMapper religionMapper,
+		ProvinceMapper provinceMapper,
+		Configuration config
+	) {
 		Logger.Info("Importing Imperator Provinces...");
 		var counter = 0;
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
@@ -96,7 +103,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				Logger.Warn($"Could not determine source province for CK3 province {province.Id}!");
 				continue; // MISMAP, or simply have mod provinces loaded we're not using.
 			}
-			province.InitializeFromImperator(sourceProvince.Value.Value, titles, cultureMapper, religionMapper);
+			province.InitializeFromImperator(sourceProvince.Value.Value, titles, cultureMapper, religionMapper, config);
 			// And finally, initialize it.
 			++counter;
 		}

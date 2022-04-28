@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.Mappers.Culture;
 using Xunit;
+using ImperatorToCK3.Mappers.Region;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 	[Collection("Sequential")]
@@ -11,9 +12,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = culture }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.Match("nonMatchingCulture", "", 56, 49, "e_title"));
+			Assert.Null(culMapper.Match("nonMatchingCulture", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -21,9 +22,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = test }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.Match("test", "", 56, 49, "e_title"));
+			Assert.Equal("culture", culMapper.Match("test", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -31,9 +32,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.Match("test", "", 56, 49, "e_title"));
+			Assert.Equal("culture", culMapper.Match("test", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -41,9 +42,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.Match("test", "thereligion", 56, 49, "e_title"));
+			Assert.Equal("culture", culMapper.Match("test", "thereligion", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -51,9 +52,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.Match("test", "unreligion", 56, 49, "e_title"));
+			Assert.Null(culMapper.Match("test", "unreligion", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -61,9 +62,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.Match("test", "", 56, 49, "e_title"));
+			Assert.Null(culMapper.Match("test", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -71,9 +72,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, "e_title"));
+			Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, "ROM"));
 		}
 
 		[Fact]
@@ -81,57 +82,57 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.Match("test", "thereligion", 3, 49, "e_title"));
+			Assert.Null(culMapper.Match("test", "thereligion", 3, 49, "ROM"));
 		}
 
 		[Fact]
-		public void CultureMatchesWithOwnerTitle() {
+		public void CultureMatchesWithHistoricalTag() {
 			var reader = new BufferedReader(
-				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }"
+				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 tag = ROM }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, "e_roman_empire"));
+			Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, "ROM"));
 		}
 
 		[Fact]
-		public void CultureFailsWithWrongOwnerTitle() {
+		public void CultureFailsWithWrongHistoricalTag() {
 			var reader = new BufferedReader(
-				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }"
+				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 tag = ROM }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.Match("test", "thereligion", 4, 49, "e_reman_empire"));
+			Assert.Null(culMapper.Match("test", "thereligion", 4, 49, "WRO"));
 		}
 
 		[Fact]
-		public void CultureMatchesWithNoOwnerTitle() {
+		public void CultureMatchesWithNoHistoricalTag() {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, ""));
 		}
 
 		[Fact]
-		public void CultureMatchesWithNoOwnerTitleInRule() {
+		public void CultureMatchesWithNoHistoricalTagInRule() {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4}"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, "e_roman_empire"));
+			Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, "ROM"));
 		}
 
 		[Fact]
-		public void CultureFailsWithOwnerTitleInRule() {
+		public void CultureFailsWithHistoricalTagInRule() {
 			var reader = new BufferedReader(
-				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 owner = e_roman_empire }"
+				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 tag = ROM }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			Assert.Null(culMapper.Match("test", "thereligion", 4, 49, ""));
 		}
@@ -141,9 +142,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = culture }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.NonReligiousMatch("nonMatchingCulture", "", 56, 49, "e_title"));
+			Assert.Null(culMapper.NonReligiousMatch("nonMatchingCulture", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -151,9 +152,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = test }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.NonReligiousMatch("test", "", 56, 49, "e_title"));
+			Assert.Equal("culture", culMapper.NonReligiousMatch("test", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -161,9 +162,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.NonReligiousMatch("test", "", 56, 49, "e_title"));
+			Assert.Equal("culture", culMapper.NonReligiousMatch("test", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -171,9 +172,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.NonReligiousMatch("test", "thereligion", 56, 49, "e_title"));
+			Assert.Null(culMapper.NonReligiousMatch("test", "thereligion", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -181,9 +182,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.NonReligiousMatch("test", "unreligion", 56, 49, "e_title"));
+			Assert.Null(culMapper.NonReligiousMatch("test", "unreligion", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -191,9 +192,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Null(culMapper.NonReligiousMatch("test", "", 56, 49, "e_title"));
+			Assert.Null(culMapper.NonReligiousMatch("test", "", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -201,9 +202,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 			var reader = new BufferedReader(
 				"link = { ck3 = culture imp = qwe imp = test imp = poi }"
 			);
-			var culMapper = new CultureMapper(reader);
+			var culMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
-			Assert.Equal("culture", culMapper.NonReligiousMatch("test", "thereligion", 56, 49, "e_title"));
+			Assert.Equal("culture", culMapper.NonReligiousMatch("test", "thereligion", 56, 49, "ROM"));
 		}
 
 		[Fact]
@@ -213,7 +214,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture {
 				"link = { ck3=low_germ @germ_cultures impProvince=1}\r\n" +
 				"link = { ck3=high_germ @germ_cultures impProvince=2}"
 			);
-			var cultureMapper = new CultureMapper(reader);
+			var cultureMapper = new CultureMapper(reader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", "", 0, impProvinceId: 1, ""));
 			Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, impProvinceId: 1, ""));

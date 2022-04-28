@@ -19,7 +19,7 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = new CK3RegionMapper();
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Equal("flemish", mapping.Match("dutch", 0, 0));
+		Assert.Equal("flemish", mapping.Match("dutch", 0, 0, new Configuration()));
 	}
 
 	[Fact]
@@ -30,7 +30,7 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = new CK3RegionMapper();
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Equal("dutch", mapping.Match("german", 17, 0));
+		Assert.Equal("dutch", mapping.Match("german", 17, 0, new Configuration()));
 	}
 
 	[Fact]
@@ -41,7 +41,7 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = new CK3RegionMapper();
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(mapping.Match("german", 19, 0));
+		Assert.Null(mapping.Match("german", 19, 0, new Configuration()));
 	}
 
 	[Fact]
@@ -52,7 +52,7 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = new CK3RegionMapper();
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(mapping.Match("german", 0, 0));
+		Assert.Null(mapping.Match("german", 0, 0, new Configuration()));
 	}
 
 	[Fact]
@@ -71,7 +71,7 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = theMapper;
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Equal("dutch", mapping.Match("german", 4, 0));
+		Assert.Equal("dutch", mapping.Match("german", 4, 0, new Configuration()));
 	}
 
 	[Fact]
@@ -90,7 +90,7 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = theMapper;
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(mapping.Match("german", 79, 0));
+		Assert.Null(mapping.Match("german", 79, 0, new Configuration()));
 	}
 
 	[Fact]
@@ -109,7 +109,7 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = ck3Mapper;
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(mapping.Match("german", 17, 0));
+		Assert.Null(mapping.Match("german", 17, 0, new Configuration()));
 	}
 
 	[Fact]
@@ -128,6 +128,50 @@ public class ReligionMappingTests {
 		mapping.CK3RegionMapper = ck3Mapper;
 		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
 
-		Assert.Null(mapping.Match("german", 0, 0));
+		Assert.Null(mapping.Match("german", 0, 0, new Configuration()));
+	}
+
+	[Fact]
+	public void HeresiesInHistoricalAreasValueCorrectlyMatchesYes() {
+		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=yes");
+		var mapping = ReligionMapping.Parse(reader);
+		mapping.CK3RegionMapper = new CK3RegionMapper();
+		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
+		var config = new Configuration { HeresiesInHistoricalAreas = true };
+
+		Assert.Equal("dutch", mapping.Match("german", 0, 0, config));
+	}
+
+	[Fact]
+	public void HeresiesInHistoricalAreasValueCorrectlyMismatchesYes() {
+		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=yes");
+		var mapping = ReligionMapping.Parse(reader);
+		mapping.CK3RegionMapper = new CK3RegionMapper();
+		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
+		var config = new Configuration { HeresiesInHistoricalAreas = false };
+
+		Assert.Null(mapping.Match("german", 0, 0, config));
+	}
+
+	[Fact]
+	public void HeresiesInHistoricalAreasValueCorrectlyMatchesNo() {
+		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=no");
+		var mapping = ReligionMapping.Parse(reader);
+		mapping.CK3RegionMapper = new CK3RegionMapper();
+		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
+		var config = new Configuration { HeresiesInHistoricalAreas = false };
+
+		Assert.Equal("dutch", mapping.Match("german", 0, 0, config));
+	}
+
+	[Fact]
+	public void HeresiesInHistoricalAreasValueCorrectlyMismatchesNo() {
+		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=no");
+		var mapping = ReligionMapping.Parse(reader);
+		mapping.CK3RegionMapper = new CK3RegionMapper();
+		mapping.ImperatorRegionMapper = new ImperatorRegionMapper();
+		var config = new Configuration { HeresiesInHistoricalAreas = true };
+
+		Assert.Null(mapping.Match("german", 0, 0, config));
 	}
 }

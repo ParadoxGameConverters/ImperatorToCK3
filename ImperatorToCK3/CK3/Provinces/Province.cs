@@ -25,7 +25,8 @@ public class Province : IIdentifiable<ulong> {
 		Imperator.Provinces.Province impProvince,
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
-		ReligionMapper religionMapper
+		ReligionMapper religionMapper,
+		Configuration config
 	) {
 		ImperatorProvince = impProvince;
 
@@ -38,7 +39,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 
 		// Religion first
-		SetReligionFromImperator(religionMapper);
+		SetReligionFromImperator(religionMapper, config);
 
 		// Then culture
 		SetCultureFromImperator(cultureMapper);
@@ -79,7 +80,7 @@ public class Province : IIdentifiable<ulong> {
 	private ProvinceDetails details = new();
 	private Title? ownerTitle;
 
-	private void SetReligionFromImperator(ReligionMapper religionMapper) {
+	private void SetReligionFromImperator(ReligionMapper religionMapper, Configuration config) {
 		var religionSet = false;
 		if (ImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set religion from null Imperator Province!");
@@ -87,7 +88,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 
 		if (!string.IsNullOrEmpty(ImperatorProvince.Religion)) {
-			var religionMatch = religionMapper.Match(ImperatorProvince.Religion, Id, ImperatorProvince.Id);
+			var religionMatch = religionMapper.Match(ImperatorProvince.Religion, Id, ImperatorProvince.Id, config);
 			if (religionMatch is not null) {
 				details.Religion = religionMatch;
 				religionSet = true;
@@ -95,7 +96,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 		// As fallback, attempt to use religion of country.
 		if (!religionSet && ImperatorProvince.OwnerCountry?.Religion is not null) {
-			var religionMatch = religionMapper.Match(ImperatorProvince.OwnerCountry.Religion, Id, ImperatorProvince.Id);
+			var religionMatch = religionMapper.Match(ImperatorProvince.OwnerCountry.Religion, Id, ImperatorProvince.Id, config);
 			if (religionMatch is not null) {
 				Logger.Warn($"Using country religion for province {Id}");
 				details.Religion = religionMatch;
@@ -108,11 +109,6 @@ public class Province : IIdentifiable<ulong> {
 		}
 	}
 	private void SetCultureFromImperator(CultureMapper cultureMapper) {
-		string ownerTitleName = string.Empty;
-		if (ownerTitle is not null) {
-			ownerTitleName = ownerTitle.Id;
-		}
-
 		var cultureSet = false;
 		if (ImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator Province!");
@@ -121,7 +117,7 @@ public class Province : IIdentifiable<ulong> {
 
 		// do we even have a base culture?
 		if (!string.IsNullOrEmpty(ImperatorProvince.Culture)) {
-			var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
+			var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
 			if (cultureMatch is not null) {
 				details.Culture = cultureMatch;
 				cultureSet = true;
@@ -129,7 +125,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 		// As fallback, attempt to use primary culture of country.
 		if (!cultureSet && ImperatorProvince.OwnerCountry?.PrimaryCulture is not null) {
-			var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, details.Religion, Id, ImperatorProvince.Id, ownerTitleName);
+			var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, details.Religion, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
 			if (cultureMatch is not null) {
 				Logger.Warn($"Using country culture for province {Id}");
 				details.Culture = cultureMatch;

@@ -14,7 +14,9 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
@@ -174,20 +176,21 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 			var locDB = new LocDB("english");
 			var religionMapper = new ReligionMapper();
-			var cultureMapper = new CultureMapper();
+			var cultureMapper = new CultureMapper(impRegionMapper, new CK3RegionMapper());
 			var coaMapper = new CoaMapper();
 			var definiteFormMapper = new DefiniteFormMapper();
 			var traitMapper = new TraitMapper();
 			var nicknameMapper = new NicknameMapper();
 			var deathReasonMapper = new DeathReasonMapper();
 			var conversionDate = new Date(500, 1, 1);
+			var config = new Configuration();
 
 			// Import Imperator governor.
 			var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
-			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, conversionDate);
+			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, config);
 
 			// Import country 589.
-			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate);
+			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config);
 			Assert.Collection(titles,
 				title => Assert.Equal("c_county1", title.Id),
 				title => Assert.Equal("b_barony1", title.Id),
@@ -199,7 +202,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 
 			var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
-			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper);
+			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 
@@ -307,6 +310,52 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
 
 			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2 - sqrt(25)
+		}
+
+		[Fact]
+		public void DerivedColorsHaveCorrectComponents() {
+			var titles = new Title.LandedTitles();
+			var baseColor = new Color(0.2, 0.3, 0.4);
+
+			var baseTitle = titles.Add("e_base");
+			baseTitle.Color1 = baseColor;
+
+			var derivedTitle1 = titles.Add("k_derived1");
+			var derivedColor1 = titles.GetDerivedColor(baseColor);
+			derivedTitle1.Color1 = derivedColor1;
+
+			var derivedTitle2 = titles.Add("k_derived2");
+			var derivedColor2 = titles.GetDerivedColor(baseColor);
+			derivedTitle2.Color1 = derivedColor2;
+
+			Assert.Equal(baseColor.H, derivedColor1.H);
+			Assert.Equal(baseColor.S, derivedColor1.S);
+			Assert.NotEqual(baseColor.V, derivedColor1.V);
+
+			Assert.Equal(baseColor.H, derivedColor2.H);
+			Assert.Equal(baseColor.S, derivedColor2.S);
+			Assert.NotEqual(baseColor.V, derivedColor2.V);
+
+			Assert.NotEqual(derivedColor1.V, derivedColor2.V);
+		}
+
+		[Fact]
+		public void WarningIsLoggedWhenColorCanNotBeDerived() {
+			var titles = new Title.LandedTitles();
+			var baseColor = new Color(0.2, 0.3, 0.4);
+			var baseTitle = titles.Add("e_base");
+			baseTitle.Color1 = baseColor;
+
+			for (double v = 0; v <= 1; v += 0.01) {
+				var color = new Color(baseColor.H, baseColor.S, v);
+				var title = titles.Add($"k_{color.OutputHex()}");
+				title.Color1 = color;
+			}
+
+			var logWriter = new StringWriter();
+			Console.SetOut(logWriter);
+			_ = titles.GetDerivedColor(baseColor);
+			Assert.Contains("Couldn't generate new color from base", logWriter.ToString());
 		}
 	}
 }

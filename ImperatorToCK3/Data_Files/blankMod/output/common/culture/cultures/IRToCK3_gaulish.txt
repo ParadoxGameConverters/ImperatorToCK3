@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.5.1
 celtic_pannonian = {
 	color = hsv { 0.25 0.85 0.25 }
 
@@ -21,7 +21,7 @@ celtic_pannonian = {
 		30 = caucasian_dark_hair
 	}
 	
-	coa_gfx = { welsh_coa_gfx polish_coa_gfx } 
+	coa_gfx = { welsh_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
@@ -48,7 +48,7 @@ celtiberian = {
 		30 = caucasian_dark_hair
 	}
 	
-	coa_gfx = { iberian_group_coa_gfx welsh_coa_gfx } 
+	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
@@ -77,7 +77,7 @@ belgae = {
 		30 = caucasian_dark_hair
 	}
 	
-	coa_gfx = { breton_coa_gfx welsh_coa_gfx } 
+	coa_gfx = { breton_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
@@ -104,7 +104,7 @@ gallic = {
 		30 = caucasian_dark_hair
 	}
 	
-	coa_gfx = { breton_coa_gfx welsh_coa_gfx } 
+	coa_gfx = { breton_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 
@@ -133,7 +133,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 		30 = caucasian_dark_hair
 	}
 	
-	coa_gfx = { iberian_group_coa_gfx welsh_coa_gfx } 
+	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx } 
 	unit_gfx = { western_unit_gfx } 

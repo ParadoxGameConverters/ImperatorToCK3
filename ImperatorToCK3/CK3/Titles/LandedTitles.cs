@@ -74,7 +74,8 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
-			Date conversionDate
+			Date conversionDate,
+			Configuration config
 		) {
 			var newTitle = new Title(this,
 				country,
@@ -90,7 +91,8 @@ public partial class Title {
 				cultureMapper,
 				nicknameMapper,
 				characters,
-				conversionDate
+				conversionDate,
+				config
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -156,6 +158,9 @@ public partial class Title {
 		public HashSet<string> GetHolderIds(Date date) {
 			return new HashSet<string>(this.Select(t => t.GetHolderId(date)));
 		}
+		public HashSet<string> GetAllHolderIds() {
+			return this.SelectMany(t => t.GetAllHolderIds()).ToHashSet();
+		}
 
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
@@ -179,7 +184,8 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
-			Date conversionDate
+			Date conversionDate,
+			Configuration config
 		) {
 			Logger.Info("Importing Imperator Countries...");
 
@@ -202,7 +208,8 @@ public partial class Title {
 					cultureMapper,
 					nicknameMapper,
 					characters,
-					conversionDate
+					conversionDate,
+					config
 				);
 				++counter;
 			}
@@ -223,7 +230,8 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
-			Date conversionDate
+			Date conversionDate,
+			Configuration config
 		) {
 			// Create a new title or update existing title
 			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
@@ -242,7 +250,8 @@ public partial class Title {
 					cultureMapper,
 					nicknameMapper,
 					characters,
-					conversionDate
+					conversionDate,
+					config
 				);
 			} else {
 				Add(
@@ -259,7 +268,8 @@ public partial class Title {
 					cultureMapper,
 					nicknameMapper,
 					characters,
-					conversionDate
+					conversionDate,
+					config
 				);
 			}
 		}
@@ -521,9 +531,24 @@ public partial class Title {
 
 				double dev = CalculateCountyDevelopment(county, ck3ProvsPerImperatorProv);
 
-				county.history.InternalHistory.Fields.Remove("development_level");
-				county.history.InternalHistory.AddFieldValue("development_level", (int)dev, date, "change_development_level");
+				county.History.InternalHistory.Fields.Remove("development_level");
+				county.History.InternalHistory.AddFieldValue("development_level", (int)dev, date, "change_development_level");
 			}
+		}
+
+		public Color GetDerivedColor(Color baseColor) {
+			HashSet<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet()!;
+
+			for (double v = 0.05; v <= 1; v += 0.02) {
+				var newColor = new Color(baseColor.H, baseColor.S, v);
+				if (usedColors.Contains(newColor)) {
+					continue;
+				}
+				return newColor;
+			}
+
+			Logger.Warn($"Couldn't generate new color from base {baseColor}");
+			return baseColor;
 		}
 	}
 }

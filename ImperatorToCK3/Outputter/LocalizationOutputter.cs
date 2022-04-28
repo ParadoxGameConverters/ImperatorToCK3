@@ -42,7 +42,8 @@ public static class LocalizationOutputter {
 
 		// title localization
 		foreach (var title in ck3World.LandedTitles) {
-			foreach (var (key, loc) in title.Localizations) {
+			foreach (var loc in title.Localizations) {
+				var key = loc.Id;
 				english.WriteLine($" {key}: \"{loc["english"]}\"");
 				french.WriteLine($" {key}: \"{loc["french"]}\"");
 				german.WriteLine($" {key}: \"{loc["german"]}\"");
