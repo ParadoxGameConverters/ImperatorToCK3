@@ -43,7 +43,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ImperatorToCK3-win-x64-dev.zip
+        name: ImperatorToCK3-win-x64-dev
         path: Release/
         retention-days: 30
 
@@ -75,6 +75,6 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ImperatorToCK3-linux-x64-dev.zip
+        name: ImperatorToCK3-linux-x64-dev
         path: Release/
         retention-days: 30
