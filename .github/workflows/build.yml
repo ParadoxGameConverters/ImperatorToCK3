@@ -20,8 +20,8 @@ jobs:
         dotnet-version: '6.*'
     - name: "Build backend"
       run: |
-       cd ImperatorToCK3
-       dotnet build
+        cd ImperatorToCK3
+        dotnet build
     - name: "Build frontend"
       run: |
         cd Fronter.NET

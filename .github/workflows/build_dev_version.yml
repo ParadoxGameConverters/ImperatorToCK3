@@ -17,9 +17,10 @@ jobs:
       with:
         dotnet-version: '6.*'
     - name: "Build frontend"
-      uses: ./Fronter/.github/actions/build_frontend
+      uses: ./Fronter.NET/.github/actions/build_frontend
       with:
-        msbuild_path: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe"
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
     - name: "Build backend"
       run: |
         cd ImperatorToCK3
