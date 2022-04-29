@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -34,12 +35,28 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Date? DeathDate { get; set; }
 		public string? DeathReason { get; set; }
 		public bool Dead => DeathDate is not null;
-
-		public SortedSet<string> Traits { get; } = new();
+		
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
+
+		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
+			//.WithSimpleField("name", "name", null)
+			//.WithSimpleField("female", "female", null)
+			//.WithSimpleField("dynasty", "dynasty", null)
+			//.WithSimpleField("martial", "martial", null)
+			//.WithSimpleField("diplomacy", "diplomacy", null)
+			//.WithSimpleField("intrigue", "intrigue", null)
+			//.WithSimpleField("stewardship", "stewardship", null)
+			//.WithSimpleField("culture", "culture", null)
+			//.WithSimpleField("religion", "religion", null)
+			.WithDiffField("traits", new OrderedSet<string>{"trait", "add_trait"}, new OrderedSet<string>{"remove_trait"})
+			//.WithSimpleField("dna", "dna", null)
+			//.WithSimpleField("mother", "mother", null)
+			//.WithSimpleField("father", "father", null)
+			.Build();
+		public History History { get; } = historyFactory.GetHistory();
 
 		public Character(string id, string name, Date birthDate) {
 			Id = id;
@@ -190,7 +207,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				Culture = match;
 			}
 
-			Traits.UnionWith(traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits));
+			foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
+				History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
+			}
 
 			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
 			if (nicknameMatch is not null) {

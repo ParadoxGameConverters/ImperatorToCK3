@@ -9,7 +9,7 @@ public sealed class HistoryFactory : Parser {
 	public class HistoryFactoryBuilder {
 		private readonly List<SimpleFieldDef> simpleFieldDefs = new(); // fieldName, setters, initialValue
 		private readonly List<ContainerFieldDef> containerFieldDefs = new(); // fieldName, setter, initialValue
-		private readonly List<AdditiveContainerFieldDef> containerKeyFieldDefs = new(); // fieldName, inserter, remover, initialValue
+		private readonly List<DiffFieldDef> diffFieldDefs = new(); // fieldName, inserter, remover, initialValue
 
 		public HistoryFactoryBuilder WithSimpleField(string fieldName, string setter, object? initialValue) {
 			return WithSimpleField(fieldName, new OrderedSet<string> { setter }, initialValue);
@@ -27,20 +27,23 @@ public sealed class HistoryFactory : Parser {
 			return this;
 		}
 
-		public HistoryFactoryBuilder WithAdditiveContainerField(string fieldName, string inserter, string remover) {
-			containerKeyFieldDefs.Add(new() { FieldName = fieldName, Inserter = inserter, Remover = remover });
+		public HistoryFactoryBuilder WithDiffField(string fieldName, string inserter, string remover) {
+			return WithDiffField(fieldName, new OrderedSet<string> { inserter }, new OrderedSet<string> { remover });
+		}
+		public HistoryFactoryBuilder WithDiffField(string fieldName, OrderedSet<string> inserters, OrderedSet<string> removers) {
+			diffFieldDefs.Add(new() { FieldName = fieldName, Inserters = inserters, Removers = removers });
 			return this;
 		}
 
 		public HistoryFactory Build() {
-			return new HistoryFactory(simpleFieldDefs, containerFieldDefs, containerKeyFieldDefs);
+			return new HistoryFactory(simpleFieldDefs, containerFieldDefs, diffFieldDefs);
 		}
 	}
 
 	private HistoryFactory(
 		List<SimpleFieldDef> simpleFieldDefs,
 		List<ContainerFieldDef> containerFieldDefs,
-		List<AdditiveContainerFieldDef> diffFieldDefs
+		List<DiffFieldDef> diffFieldDefs
 	) {
 		this.simpleFieldDefs = simpleFieldDefs;
 		this.containerFieldDefs = containerFieldDefs;
@@ -70,16 +73,21 @@ public sealed class HistoryFactory : Parser {
 			}
 		}
 		foreach (var def in this.diffFieldDefs) {
-			RegisterKeyword(def.Inserter, reader => {
-				var diffField = (DiffHistoryField)history.Fields[def.FieldName];
-				var valueToInsert = GetValue(reader.GetString());
-				diffField.InitialEntries.Add(new KeyValuePair<string, object>(def.Inserter, valueToInsert));
-			});
-			RegisterKeyword(def.Remover, reader => {
-				var diffField = (DiffHistoryField)history.Fields[def.FieldName];
-				var valueToRemove = GetValue(reader.GetString());
-				diffField.InitialEntries.Add(new KeyValuePair<string, object>(def.Remover, valueToRemove));
-			});
+			foreach (var inserterKeyword in def.Inserters) {
+				RegisterKeyword(inserterKeyword, reader => {
+					var diffField = (DiffHistoryField)history.Fields[def.FieldName];
+					var valueToInsert = GetValue(reader.GetString());
+					diffField.InitialEntries.Add(new KeyValuePair<string, object>(inserterKeyword, valueToInsert));
+				});
+			}
+
+			foreach (var removerKeyword in def.Removers) {
+				RegisterKeyword(removerKeyword, reader => {
+					var diffField = (DiffHistoryField)history.Fields[def.FieldName];
+					var valueToRemove = GetValue(reader.GetString());
+					diffField.InitialEntries.Add(new KeyValuePair<string, object>(removerKeyword, valueToRemove));
+				});
+			}
 		}
 		RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
 			var date = new Date(dateString);
@@ -100,7 +108,7 @@ public sealed class HistoryFactory : Parser {
 		});
 	}
 
-	public History GetHistory(BufferedReader reader) {
+	private History InitializeHistory() {
 		history = new History();
 		foreach (var def in simpleFieldDefs) {
 			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue)); 
@@ -109,8 +117,17 @@ public sealed class HistoryFactory : Parser {
 			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
 		}
 		foreach (var def in diffFieldDefs) {
-			history.Fields.Add(new DiffHistoryField(def.FieldName, new OrderedSet<string> {def.Inserter}, new OrderedSet<string> {def.Remover}));
+			history.Fields.Add(new DiffHistoryField(def.FieldName, def.Inserters, def.Removers));
 		}
+
+		return history;
+	}
+	public History GetHistory() {
+		return InitializeHistory();
+	}
+	public History GetHistory(BufferedReader reader) {
+		history = InitializeHistory();
+
 		ParseStream(reader);
 		
 		if (history.IgnoredKeywords.Count > 0) {
@@ -119,16 +136,7 @@ public sealed class HistoryFactory : Parser {
 		return history;
 	}
 	public History GetHistory(string historyPath, string gamePath) {
-		history = new History();
-		foreach (var def in simpleFieldDefs) {
-			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
-		}
-		foreach (var def in containerFieldDefs) {
-			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
-		}
-		foreach (var def in diffFieldDefs) {
-			history.Fields.Add(new DiffHistoryField(def.FieldName, new OrderedSet<string> {def.Inserter}, new OrderedSet<string> {def.Remover}));
-		}
+		history = InitializeHistory();
 
 		if (File.Exists(historyPath)) {
 			ParseGameFile(historyPath, gamePath, new List<Mod>());
@@ -161,6 +169,6 @@ public sealed class HistoryFactory : Parser {
 
 	private readonly List<SimpleFieldDef> simpleFieldDefs;
 	private readonly List<ContainerFieldDef> containerFieldDefs;
-	private readonly List<AdditiveContainerFieldDef> diffFieldDefs;
+	private readonly List<DiffFieldDef> diffFieldDefs;
 	private History history = new();
 }

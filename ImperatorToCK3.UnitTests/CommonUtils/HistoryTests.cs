@@ -308,23 +308,23 @@ public class HistoryTests {
 		);
 
 		var characterHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
-			.WithAdditiveContainerField(fieldName: "traits", inserter: "add_trait", remover: "remove_trait")
+			.WithDiffField(fieldName: "traits", inserter: "add_trait", remover: "remove_trait")
 			.Build();
 
 		var characterHistory = characterHistoryFactory.GetHistory(reader);
 
-		var traits = characterHistory.GetFieldValue("traits", new Date(50, 1, 1)) as OrderedSet<object>;
+		var traits = characterHistory.GetFieldValueAsCollection("traits", new Date(50, 1, 1));
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
 			trait => Assert.Equal("dumb", trait));
 
-		traits = characterHistory.GetFieldValue("traits", new Date(100, 1, 1)) as OrderedSet<object>;
+		traits = characterHistory.GetFieldValueAsCollection("traits", new Date(100, 1, 1));
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
 			trait => Assert.Equal("dumb", trait),
 			trait => Assert.Equal("infertile", trait));
 
-		traits = characterHistory.GetFieldValue("traits", new Date(150, 1, 1)) as OrderedSet<object>;
+		traits = characterHistory.GetFieldValueAsCollection("traits", new Date(150, 1, 1));
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
 			trait => Assert.Equal("infertile", trait));

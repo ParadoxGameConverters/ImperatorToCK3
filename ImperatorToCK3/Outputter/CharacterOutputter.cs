@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
 using System.IO;
 
@@ -55,10 +56,8 @@ public static class CharacterOutputter {
 			output.WriteLine($"\t{nicknameDate} = {{ give_nickname = {character.Nickname} }}");
 		}
 
-		// output traits
-		foreach (var trait in character.Traits) {
-			output.WriteLine($"\ttrait = {trait}");
-		}
+		// output history
+		output.WriteLine(PDXSerializer.Serialize(character.History));
 
 		OutputBirthAndDeathDates(output, character);
 		OutputPrisoners(output, character, conversionDate);
