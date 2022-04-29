@@ -20,37 +20,9 @@ jobs:
         dotnet-version: '6.*'
     - name: "Build backend"
       run: |
-       cd ImperatorToCK3
-       dotnet build
-    - name: "Build frontend (Linux)"
-      if: matrix.os == 'ubuntu-latest'
+        cd ImperatorToCK3
+        dotnet build
+    - name: "Build frontend"
       run: |
-        sudo apt install libcurl4-openssl-dev
-        sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
-        sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt update
-        sudo apt install gcc-11 g++-11
-        sudo apt install libwxbase3.1-0-unofficial libwxbase3.1unofficial-dev libwxgtk3.1-0-unofficial libwxgtk3.1unofficial-dev wx3.1-headers wx-common
-        # Link gcc-11 and g++-11 to their standard commands
-        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
-        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
-        # Export CC and CXX to tell cmake which compiler to use
-        export CC=/usr/bin/gcc-11
-        export CXX=/usr/bin/g++-11
-        # Check versions of gcc, g++ and cmake
-        gcc -v && g++ -v && cmake --version
-
-        rm -rf Release/
-        cd Fronter
-        ./build_linux.sh
-        mv Release ../
-    - name: "Build frontend (Windows)"
-      if: matrix.os == 'windows-2022'
-      run: |
-        cd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\"
-        .\MSBuild.exe -m -p:Configuration=Debug -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter
-    - name: "Build frontend (macOS)"
-      if: matrix.os == 'macos-latest'
-      run: |
-        echo "Building frontend on macOS is not supported yet"
+        cd Fronter.NET
+        dotnet build

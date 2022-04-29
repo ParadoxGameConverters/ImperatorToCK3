@@ -5,7 +5,19 @@ on:
     - 'master'
 
 jobs:
-  build_dev_version:
+  remove_old_artifacts:
+    name: Remove old artifacts
+    runs-on: ubuntu-latest
+    steps:
+    - name: Remove old artifacts
+      uses: kolpav/purge-artifacts-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        expire-in: 0
+
+
+  build_dev_version_windows:
+    needs: remove_old_artifacts
     runs-on: windows-2022
     steps:
     - uses: actions/checkout@v3
@@ -17,9 +29,10 @@ jobs:
       with:
         dotnet-version: '6.*'
     - name: "Build frontend"
-      uses: ./Fronter/.github/actions/build_frontend
+      uses: ./Fronter.NET/.github/actions/build_frontend
       with:
-        msbuild_path: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe"
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
     - name: "Build backend"
       run: |
         cd ImperatorToCK3
@@ -27,14 +40,41 @@ jobs:
         cd ..
         Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
         Xcopy /E /Y Publish Release
-    - name: Remove old artifacts
-      uses: kolpav/purge-artifacts-action@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        expire-in: 0
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: dev-version
+        name: ImperatorToCK3-win-x64-dev
+        path: Release/
+        retention-days: 30
+
+
+  build_dev_version_linux:
+    needs: remove_old_artifacts
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.*'
+    - name: "Build frontend"
+      uses: ./Fronter.NET/.github/actions/build_frontend
+      with:
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=linux-x64 -c:Release
+        cd ..
+        rm -r "Release/ImperatorToCK3"
+        cp -R Publish/* Release/
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ImperatorToCK3-linux-x64-dev
         path: Release/
         retention-days: 30

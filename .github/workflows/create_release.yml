@@ -49,9 +49,10 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Build frontend"
-      uses: ./Fronter/.github/actions/build_frontend
+      uses: ./Fronter.NET/.github/actions/build_frontend
       with:
-        msbuild_path: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe"
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
     - name: "Build backend"
       run: |
         cd ImperatorToCK3
@@ -96,7 +97,10 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Build frontend"
-      uses: ./Fronter/.github/actions/build_frontend
+      uses: ./Fronter.NET/.github/actions/build_frontend
+      with:
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
     - name: "Build backend"
       run: |
         cd ImperatorToCK3
@@ -123,5 +127,55 @@ jobs:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
         asset_path: ./ImperatorToCK3-linux-x64.zip
         asset_name: ImperatorToCK3-linux-x64.zip
+        asset_content_type: application/zip
+
+  add_osx_zip:
+    needs: create_release
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.*'
+    - name: "Add version to version.txt"
+      shell: bash
+      run: |
+        cd ImperatorToCK3/Data_Files/configurables
+        printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
+    - name: "Build frontend"
+      uses: ./Fronter.NET/.github/actions/build_frontend
+      with:
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=osx-x64 -c:Release
+        cd ..
+        rm -r "Release/ImperatorToCK3"
+        cp -R Publish/* Release/
+    - name: "Save commit ID"
+      run: |
+       git rev-parse HEAD > Release/commit_id.txt
+    - name: Archive Release folder
+      uses: thedoctor0/zip-release@master
+      with:
+        type: 'zip'
+        directory: 'Release'
+        path: '*'
+        filename: '../ImperatorToCK3-osx-x64.zip'
+    - name: Upload release asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create_release.outputs.upload_url }}
+        asset_path: ./ImperatorToCK3-osx-x64.zip
+        asset_name: ImperatorToCK3-osx-x64.zip
         asset_content_type: application/zip
 
