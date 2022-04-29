@@ -4,6 +4,7 @@ using commonItems.Serialization;
 using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils;
@@ -162,19 +163,19 @@ public class HistoryTests {
 	[Fact]
 	public void SimpleFieldValueCanBeAdded() {
 		var history = new History();
-		history.AddFieldValue("holder", "0", new Date(1, 1, 1), "holder"); // new field is created
-		history.AddFieldValue("holder", "69", new Date(867, 1, 1), "holder"); // existing field is updated
+		history.AddFieldValue(new Date(1, 1, 1),"holder",  "holder", "0"); // new field is created
+		history.AddFieldValue(new Date(867, 1, 1), "holder", "holder", "69"); // existing field is updated
 		Assert.Collection(history.Fields,
-			item1 => Assert.Equal("holder", item1.Key)
+			field => Assert.Equal("holder", field.Id)
 		);
-		Assert.Collection(history.Fields["holder"].ValueHistory,
-			item1 => {
-				Assert.Equal(new Date(1, 1, 1), item1.Key);
-				Assert.Equal("0", item1.Value.Value);
+		Assert.Collection(history.Fields["holder"].DateToEntriesDict,
+			datedBlock => {
+				Assert.Equal(new Date(1, 1, 1), datedBlock.Key);
+				Assert.Equal("0", datedBlock.Value.Last().Value);
 			},
-			item2 => {
-				Assert.Equal(new Date(867, 1, 1), item2.Key);
-				Assert.Equal("69", item2.Value.Value);
+			datedBlock => {
+				Assert.Equal(new Date(867, 1, 1), datedBlock.Key);
+				Assert.Equal("69", datedBlock.Value.Last().Value);
 			}
 		);
 	}
@@ -182,42 +183,43 @@ public class HistoryTests {
 	public void ContainerFieldValueCanBeAdded() {
 		var history = new History();
 		history.AddFieldValue( // new field is created
-			"buildings", new List<string>(), new Date(1, 1, 1), "buildings");
+			new Date(1, 1, 1), "buildings", "buildings", new List<string>());
 		history.AddFieldValue(  // existing field is updated
-			"buildings", new List<string> { "aqueduct", "temple" }, new Date(867, 1, 1), "buildings");
+			new Date(867, 1, 1), "buildings", "buildings", new List<string> { "aqueduct", "temple" });
 		Assert.Collection(history.Fields,
-			item1 => Assert.Equal("buildings", item1.Key)
+			item1 => Assert.Equal("buildings", item1.Id)
 		);
-		Assert.Collection(history.Fields["buildings"].ValueHistory,
-			item1 => {
-				Assert.Equal(new Date(1, 1, 1), item1.Key);
-				Assert.Equal(new List<string>(), item1.Value.Value);
+		Assert.Collection(history.Fields["buildings"].DateToEntriesDict,
+			datedBlock => {
+				Assert.Equal(new Date(1, 1, 1), datedBlock.Key);
+				Assert.Equal(new List<string>(), datedBlock.Value.Last().Value);
 			},
-			item2 => {
-				Assert.Equal(new Date(867, 1, 1), item2.Key);
-				Assert.Equal(new List<string> { "aqueduct", "temple" }, item2.Value.Value);
+			datedBlock => {
+				Assert.Equal(new Date(867, 1, 1), datedBlock.Key);
+				Assert.Equal(new List<string> { "aqueduct", "temple" }, datedBlock.Value.Last().Value);
 			}
 		);
 	}
 
 	[Fact]
 	public void HistoryCanBeSerialized() {
-		var fields = new Dictionary<string, SimpleHistoryField> {
-			{"holder", new SimpleHistoryField(setterKeywords: new[]{"holder"}, null)}, // simple field with null initial value
-			{"culture", new SimpleHistoryField(setterKeywords: new[]{"culture"}, "roman")}, // simple field with initial value
-			{"buildings", new SimpleHistoryField(setterKeywords: new[] { "buildings" }, new List<object> {"baths"})} // container field
+		var fields = new IdObjectCollection<string, IHistoryField> {
+			new SimpleHistoryField("holder", setterKeywords: new OrderedSet<string> {"holder"}, null), // simple field with null initial value
+			new SimpleHistoryField("culture", setterKeywords: new OrderedSet<string> {"culture"}, "roman"), // simple field with initial value
+			new SimpleHistoryField("buildings", setterKeywords: new OrderedSet<string> {"buildings"}, new List<object> {"baths"}) // container field
 		};
+
 		var history = new History(fields);
 
-		history.Fields["holder"].AddValueToHistory("nero", "holder", new Date(5, 1, 1));
+		history.Fields["holder"].AddEntryToHistory(new Date(5, 1, 1), "holder", "nero");
 
 		// Entries with same date should be added to a single date block.
-		history.Fields["holder"].AddValueToHistory("justinian", "holder", new Date(540, 1, 1));
-		history.Fields["culture"].AddValueToHistory("better_roman", "culture", new Date(540, 1, 1));
+		history.Fields["holder"].AddEntryToHistory(new Date(540, 1, 1), "holder", "justinian");
+		history.Fields["culture"].AddEntryToHistory(new Date(540, 1, 1), "culture", "better_roman");
 
 		// A field can have values of multiple types.
 		// Here we're adding a value as a set, while the initial value is a list.
-		history.Fields["buildings"].AddValueToHistory(new SortedSet<string> { "aqueduct", "baths" }, "buildings", new Date(2, 1, 1));
+		history.Fields["buildings"].AddEntryToHistory(new Date(2, 1, 1), "buildings",new SortedSet<string> { "aqueduct", "baths" });
 
 		// Date blocks are ordered by date.
 		var expectedStr =
@@ -238,11 +240,11 @@ public class HistoryTests {
 
 	[Fact]
 	public void IntegersAreSerializedWithoutQuotes() {
-		var fields = new Dictionary<string, SimpleHistoryField> {
-			{"development_level", new SimpleHistoryField(new[]{"change_development_level"}, 10)}
-		};
+		var fields = new IdObjectCollection<string, IHistoryField>();
+		fields.Add(new SimpleHistoryField("development_level", new OrderedSet<string>{"change_development_level"}, 10));
+
 		var history = new History(fields);
-		history.Fields["development_level"].AddValueToHistory(20, "change_development_level", new Date(5, 1, 1));
+		history.Fields["development_level"].AddEntryToHistory(new Date(5, 1, 1), "change_development_level", 20);
 
 		var expectedStr =
 			"change_development_level=10" + Environment.NewLine +
@@ -254,11 +256,12 @@ public class HistoryTests {
 
 	[Fact]
 	public void EmptyListInitialValuesAreNotSerialized() {
-		var fields = new Dictionary<string, SimpleHistoryField> {
-			{"buildings", new SimpleHistoryField(new[] { "buildings" }, new List<object>())} // container field initially empty
+		var fields = new IdObjectCollection<string, IHistoryField> {
+			new SimpleHistoryField("buildings", new OrderedSet<string> { "buildings" }, new List<object>())
 		};
+
 		var history = new History(fields);
-		history.Fields["buildings"].AddValueToHistory(new List<object> { "baths" }, "buildings", new Date(5, 1, 1));
+		history.Fields["buildings"].AddEntryToHistory( new Date(5, 1, 1), "buildings", new List<object> { "baths" });
 
 		var expectedStr =
 			"5.1.1={" + Environment.NewLine +
@@ -281,7 +284,7 @@ public class HistoryTests {
 		);
 
 		var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
-			.WithSimpleField(fieldName: "holder", setters: new string[] { "holder", "holder_ignore_head_of_faith_requirement" }, initialValue: 0)
+			.WithSimpleField(fieldName: "holder", setters: new OrderedSet<string> { "holder", "holder_ignore_head_of_faith_requirement" }, initialValue: 0)
 			.Build();
 
 		var provHistory = provHistoryFactory.GetHistory(reader);
@@ -304,24 +307,24 @@ public class HistoryTests {
 			}"
 		);
 
-		var chararacterHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+		var characterHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
 			.WithAdditiveContainerField(fieldName: "traits", inserter: "add_trait", remover: "remove_trait")
 			.Build();
 
-		var characterHistory = chararacterHistoryFactory.GetHistory(reader);
+		var characterHistory = characterHistoryFactory.GetHistory(reader);
 
-		var traits = characterHistory.GetFieldValue("traits", new Date(50, 1, 1)) as OrderedSet<string>;
+		var traits = characterHistory.GetFieldValue("traits", new Date(50, 1, 1)) as OrderedSet<object>;
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
 			trait => Assert.Equal("dumb", trait));
 
-		traits = characterHistory.GetFieldValue("traits", new Date(100, 1, 1)) as OrderedSet<string>;
+		traits = characterHistory.GetFieldValue("traits", new Date(100, 1, 1)) as OrderedSet<object>;
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
 			trait => Assert.Equal("dumb", trait),
 			trait => Assert.Equal("infertile", trait));
 
-		traits = characterHistory.GetFieldValue("traits", new Date(150, 1, 1)) as OrderedSet<string>;
+		traits = characterHistory.GetFieldValue("traits", new Date(150, 1, 1)) as OrderedSet<object>;
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
 			trait => Assert.Equal("infertile", trait));

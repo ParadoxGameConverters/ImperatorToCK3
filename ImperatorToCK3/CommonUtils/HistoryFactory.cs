@@ -85,7 +85,7 @@ public sealed class HistoryFactory : Parser {
 			var date = new Date(dateString);
 			
 			var dateBlockParser = new Parser();
-			foreach (var field in history.Fields.Values) {
+			foreach (var field in history.Fields) {
 				field.RegisterKeywords(dateBlockParser, date);
 			}
 			dateBlockParser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
@@ -103,13 +103,13 @@ public sealed class HistoryFactory : Parser {
 	public History GetHistory(BufferedReader reader) {
 		history = new History();
 		foreach (var def in simpleFieldDefs) {
-			history.Fields[def.FieldName] = new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue);
+			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue)); 
 		}
 		foreach (var def in containerFieldDefs) {
-			history.Fields[def.FieldName] = new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue);
+			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
 		}
 		foreach (var def in diffFieldDefs) {
-			history.Fields[def.FieldName] = new DiffHistoryField(def.FieldName, new OrderedSet<string> {def.Inserter}, new OrderedSet<string> {def.Remover});
+			history.Fields.Add(new DiffHistoryField(def.FieldName, new OrderedSet<string> {def.Inserter}, new OrderedSet<string> {def.Remover}));
 		}
 		ParseStream(reader);
 		
@@ -121,13 +121,13 @@ public sealed class HistoryFactory : Parser {
 	public History GetHistory(string historyPath, string gamePath) {
 		history = new History();
 		foreach (var def in simpleFieldDefs) {
-			history.Fields[def.FieldName] = new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue);
+			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
 		}
 		foreach (var def in containerFieldDefs) {
-			history.Fields[def.FieldName] = new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue);
+			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
 		}
 		foreach (var def in diffFieldDefs) {
-			history.Fields[def.FieldName] = new DiffHistoryField(def.FieldName, new OrderedSet<string> {def.Inserter}, new OrderedSet<string> {def.Remover});
+			history.Fields.Add(new DiffHistoryField(def.FieldName, new OrderedSet<string> {def.Inserter}, new OrderedSet<string> {def.Remover}));
 		}
 
 		if (File.Exists(historyPath)) {

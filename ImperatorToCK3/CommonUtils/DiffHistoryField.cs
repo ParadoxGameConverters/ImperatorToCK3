@@ -70,5 +70,11 @@ internal class DiffHistoryField : IHistoryField {
 				AddEntryToHistory(date, keyword, value);
 			});
 		}
+		foreach (var keyword in removeKeywords) {
+			parser.RegisterKeyword(keyword, reader => {
+				var value = HistoryFactory.GetValue(reader.GetString());
+				AddEntryToHistory(date, keyword, value);
+			});
+		}
 	}
 }

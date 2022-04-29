@@ -15,7 +15,7 @@ public class TitlesOutputterTests {
 		var titles = new Title.LandedTitles();
 		var kingdom = titles.Add("k_kingdom");
 		var history = new History();
-		history.AddFieldValue("liege", 0, new Date(20, 1, 1), "liege");
+		history.AddFieldValue(new Date(20, 1, 1), "liege", "liege", 0);
 		var kingdomHistory = new TitleHistory(history);
 		kingdom.AddHistory(kingdomHistory);
 
@@ -30,7 +30,7 @@ public class TitlesOutputterTests {
 
 		var specialTitle = titles.Add("k_special_title");
 		var specialHistory = new History();
-		specialHistory.AddFieldValue("holder", "bob_42", new Date(20, 1, 1), "holder");
+		specialHistory.AddFieldValue( new Date(20, 1, 1), "holder", "holder", "bob_42");
 		var specialTitleHistory = new TitleHistory(specialHistory);
 		specialTitle.AddHistory(specialTitleHistory);
 

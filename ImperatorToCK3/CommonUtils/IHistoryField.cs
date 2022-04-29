@@ -9,6 +9,7 @@ namespace ImperatorToCK3.CommonUtils;
 public interface IHistoryField : IIdentifiable<string> {
 	public List<KeyValuePair<string, object>> InitialEntries { get; }
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; }
+	
 	public object? GetValue(Date date);
 	
 	public void RemoveHistoryPastDate(Date date) {

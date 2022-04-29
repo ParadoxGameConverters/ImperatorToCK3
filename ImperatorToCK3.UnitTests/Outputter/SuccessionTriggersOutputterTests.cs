@@ -24,17 +24,17 @@ public class SuccessionTriggersOutputterTests {
 
 		var kingdomPrimogeniture = titles.Add("k_kingdom1");
 		var kingdomPrimogenitureHistory = new TitleHistory();
-		kingdomPrimogenitureHistory.AddFieldValue("succession_laws", new List<string> { "single_heir_succession_law" }, date, "succession_laws");
+		kingdomPrimogenitureHistory.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
 		kingdomPrimogeniture.AddHistory(kingdomPrimogenitureHistory);
 
 		var kingdomSeniority = titles.Add("k_kingdom2");
 		var kingdomSeniorityHistory = new TitleHistory();
-		kingdomSeniorityHistory.AddFieldValue("succession_laws", new List<string> { "single_heir_dynasty_house" }, date, "succession_laws");
+		kingdomSeniorityHistory.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_dynasty_house" });
 		kingdomSeniority.AddHistory(kingdomSeniorityHistory);
 
 		var vassal = titles.Add("d_vassal");
 		var vassalHistory = new TitleHistory();
-		vassalHistory.AddFieldValue("succession_laws", new List<string> { "single_heir_succession_law" }, date, "succession_laws");
+		vassalHistory.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
 		vassal.AddHistory(vassalHistory);
 		vassal.SetDeFactoLiege(kingdomPrimogeniture, date); // has de facto liege, will not be added to the trigger
 

@@ -8,11 +8,11 @@ using System.Text;
 namespace ImperatorToCK3.CommonUtils;
 
 public class History : IPDXSerializable {
-	[NonSerialized] public Dictionary<string, IHistoryField> Fields { get; } = new(); // fieldName, field
+	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = new(); // fieldName, field
 	[NonSerialized] public OrderedSet<string> IgnoredKeywords { get; } = new();
 
 	public History() { }
-	public History(Dictionary<string, IHistoryField> fields) {
+	public History(IdObjectCollection<string, IHistoryField> fields) {
 		Fields = fields;
 	}
 
@@ -26,20 +26,24 @@ public class History : IPDXSerializable {
 		} else {
 			var newField = new SimpleHistoryField(fieldName, new OrderedSet<string>(){setter}, null);
 			newField.AddEntryToHistory(date, setter, value);
-			Fields.Add(fieldName, newField);
+			Fields.Add(newField);
 		}
 	}
 
 	public string Serialize(string indent, bool withBraces) {
 		var sb = new StringBuilder();
-		foreach (IHistoryField field in Fields.Values.Where(f => f.InitialEntries.Count > 0)) {
+		foreach (IHistoryField field in Fields.Where(f => f.InitialEntries.Count > 0)) {
 			foreach (var entry in field.InitialEntries) {
+				if (entry.Value is IEnumerable<object> enumerable && !enumerable.Any()) {
+					// don't serialize empty lists
+					continue;
+				}
 				sb.AppendLine(PDXSerializer.Serialize(entry, indent));
 			}
 		}
 
 		var entriesByDate = new SortedDictionary<Date, List<KeyValuePair<string, object>>>(); // <date, list<effect name, value>>
-		foreach (var field in Fields.Values) {
+		foreach (var field in Fields) {
 			foreach (var (date, entries) in field.DateToEntriesDict) {
 				if (entriesByDate.TryGetValue(date, out var listForDate)) {
 					listForDate.AddRange(entries);
@@ -54,9 +58,7 @@ public class History : IPDXSerializable {
 		foreach (var (date, fieldEntries) in entriesByDate) {
 			sb.Append(indent).Append(date).AppendLine("={");
 			foreach (var entry in fieldEntries) {
-				sb.Append(indent).Append('\t').Append(entry.Key)
-					.Append('=')
-					.AppendLine(PDXSerializer.Serialize(entry.Value ?? "none", indent));
+				sb.Append(indent).Append('\t').AppendLine(PDXSerializer.Serialize(entry, indent+'\t'));
 			}
 			sb.Append(indent).AppendLine("}");
 		}
@@ -65,7 +67,7 @@ public class History : IPDXSerializable {
 	}
 
 	public void RemoveHistoryPastDate(Date date) {
-		foreach (var field in Fields.Values) {
+		foreach (var field in Fields) {
 			field.RemoveHistoryPastDate(date);
 		}
 	}
