@@ -17,7 +17,7 @@ public partial class CharacterCollection {
 		.WithSimpleField("stewardship", "stewardship", null)
 		.WithSimpleField("culture", "culture", null)
 		.WithSimpleField("religion", "religion", null)
-		.WithSimpleField("trait", "trait", null) // TODO: USE INSERTERFIELD INSTEAD OF SIMPLEFIELD
+		.WithAdditiveContainerField("traits", "add_trait", "remove_trait")
 		.WithSimpleField("dna", "dna", null)
 		.WithSimpleField("mother", "mother", null)
 		.WithSimpleField("father", "father", null)
