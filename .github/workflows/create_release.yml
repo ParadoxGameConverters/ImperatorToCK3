@@ -31,7 +31,7 @@ jobs:
         body: ${{ steps.build_changelog.outputs.changelog }}
         token: ${{ secrets.API_TOKEN_GITHUB }}
 
-  add_windows_zip:
+  add_windows_archive:
     needs: create_release
     runs-on: windows-2022
     steps:
@@ -79,7 +79,7 @@ jobs:
         asset_name: ImperatorToCK3-win-x64.zip
         asset_content_type: application/zip
 
-  add_linux_zip:
+  add_linux_archive:
     needs: create_release
     runs-on: ubuntu-latest
     steps:
@@ -114,10 +114,10 @@ jobs:
     - name: Archive Release folder
       uses: thedoctor0/zip-release@master
       with:
-        type: 'zip'
+        type: 'tar'
         directory: 'Release'
         path: '*'
-        filename: '../ImperatorToCK3-linux-x64.zip'
+        filename: '../ImperatorToCK3-linux-x64.tgz'
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -125,11 +125,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./ImperatorToCK3-linux-x64.zip
-        asset_name: ImperatorToCK3-linux-x64.zip
-        asset_content_type: application/zip
+        asset_path: ./ImperatorToCK3-linux-x64.tgz
+        asset_name: ImperatorToCK3-linux-x64.tgz
+        asset_content_type: application/gzip
 
-  add_osx_zip:
+  add_osx_archive:
     needs: create_release
     runs-on: macos-latest
     steps:
@@ -164,10 +164,10 @@ jobs:
     - name: Archive Release folder
       uses: thedoctor0/zip-release@master
       with:
-        type: 'zip'
+        type: 'tar'
         directory: 'Release'
         path: '*'
-        filename: '../ImperatorToCK3-osx-x64.zip'
+        filename: '../ImperatorToCK3-osx-x64.tgz'
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -175,7 +175,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./ImperatorToCK3-osx-x64.zip
-        asset_name: ImperatorToCK3-osx-x64.zip
-        asset_content_type: application/zip
+        asset_path: ./ImperatorToCK3-osx-x64.tgz
+        asset_name: ImperatorToCK3-osx-x64.tgz
+        asset_content_type: application/gzip
 
