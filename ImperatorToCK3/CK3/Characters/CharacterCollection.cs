@@ -12,7 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class CharacterCollection : IdObjectCollection<string, Character> {
+	public partial class CharacterCollection : IdObjectCollection<string, Character> {
+		public CharacterCollection() { }
 		public void ImportImperatorCharacters(Imperator.World impWorld,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
