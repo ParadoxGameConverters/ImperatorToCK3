@@ -16,7 +16,8 @@ jobs:
         expire-in: 0
 
 
-  upload_dev_version_artifact:
+  upload_dev_build_artifact:
+    name: Upload development build
     needs: remove_old_artifacts
     runs-on: ${{ matrix.os }}
     strategy:
@@ -51,9 +52,6 @@ jobs:
       run: |
         cd ImperatorToCK3
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
-        cd ..
-        Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
-        Xcopy /E /Y Publish Release
     - name: "Remove Release/ImperatorToCK3 directory"
       uses: JesseTG/rm@v1.0.2
       with:
