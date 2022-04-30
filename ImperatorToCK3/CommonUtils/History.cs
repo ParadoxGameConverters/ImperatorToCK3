@@ -42,7 +42,7 @@ public class History : IPDXSerializable {
 					// don't serialize empty lists
 					continue;
 				}
-				sb.AppendLine(PDXSerializer.Serialize(entry, indent));
+				sb.Append(indent).AppendLine(PDXSerializer.Serialize(entry));
 			}
 		}
 
@@ -59,13 +59,7 @@ public class History : IPDXSerializable {
 			}
 		}
 
-		foreach (var (date, fieldEntries) in entriesByDate) {
-			sb.Append(indent).Append(date).AppendLine("={");
-			foreach (var entry in fieldEntries) {
-				sb.Append(indent).Append('\t').AppendLine(PDXSerializer.Serialize(entry, indent+'\t'));
-			}
-			sb.Append(indent).AppendLine("}");
-		}
+		sb.Append(indent).Append(PDXSerializer.Serialize(entriesByDate, indent, false));
 
 		return sb.ToString();
 	}

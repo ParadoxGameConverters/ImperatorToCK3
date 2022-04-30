@@ -142,10 +142,11 @@ public sealed class HistoryFactory : Parser {
 
 		if (str.TrimStart().StartsWith('{')) {
 			var collectionReader = new BufferedReader(str);
-			return collectionReader.GetStrings();
+			var strings = collectionReader.GetStrings();
+			return strings;
 		}
 
-		return str;
+		return StringUtils.RemQuotes(str);
 	}
 
 	private readonly List<SimpleFieldDef> simpleFieldDefs;
