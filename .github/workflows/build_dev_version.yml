@@ -56,10 +56,10 @@ jobs:
       uses: JesseTG/rm@v1.0.2
       with:
         path: Release/ImperatorToCK3
-    - name: "Move Publish to Release"
+    - name: "Copy Publish files to Release directory"
       shell: bash
       run: |
-        mv Publish/* Release/
+        cp -R Publish/* Release/
     - name: Archive Release folder
       uses: thedoctor0/zip-release@master
       with:
