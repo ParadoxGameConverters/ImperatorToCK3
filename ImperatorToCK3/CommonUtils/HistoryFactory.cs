@@ -8,7 +8,6 @@ namespace ImperatorToCK3.CommonUtils;
 public sealed class HistoryFactory : Parser {
 	public class HistoryFactoryBuilder {
 		private readonly List<SimpleFieldDef> simpleFieldDefs = new(); // fieldName, setters, initialValue
-		private readonly List<ContainerFieldDef> containerFieldDefs = new(); // fieldName, setter, initialValue
 		private readonly List<DiffFieldDef> diffFieldDefs = new(); // fieldName, inserter, remover, initialValue
 
 		public HistoryFactoryBuilder WithSimpleField(string fieldName, string setter, object? initialValue) {
@@ -16,14 +15,6 @@ public sealed class HistoryFactory : Parser {
 		}
 		public HistoryFactoryBuilder WithSimpleField(string fieldName, OrderedSet<string> setters, object? initialValue) {
 			simpleFieldDefs.Add(new() { FieldName = fieldName, Setters = setters, InitialValue = initialValue });
-			return this;
-		}
-
-		public HistoryFactoryBuilder WithContainerField(string fieldName, string setter, List<object> initialValue) {
-			return WithContainerField(fieldName, new OrderedSet<string> { setter }, initialValue);
-		}
-		public HistoryFactoryBuilder WithContainerField(string fieldName, OrderedSet<string> setters, List<object> initialValue) {
-			containerFieldDefs.Add(new() { FieldName = fieldName, Setters = setters, InitialValue = initialValue });
 			return this;
 		}
 
@@ -36,38 +27,26 @@ public sealed class HistoryFactory : Parser {
 		}
 
 		public HistoryFactory Build() {
-			return new HistoryFactory(simpleFieldDefs, containerFieldDefs, diffFieldDefs);
+			return new HistoryFactory(simpleFieldDefs, diffFieldDefs);
 		}
 	}
 
 	private HistoryFactory(
 		List<SimpleFieldDef> simpleFieldDefs,
-		List<ContainerFieldDef> containerFieldDefs,
 		List<DiffFieldDef> diffFieldDefs
 	) {
 		this.simpleFieldDefs = simpleFieldDefs;
-		this.containerFieldDefs = containerFieldDefs;
 		this.diffFieldDefs = diffFieldDefs;
 
 		foreach (var def in this.simpleFieldDefs) {
 			foreach (var setter in def.Setters) {
 				RegisterKeyword(setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
-					history.Fields[def.FieldName].InitialEntries.Add(
-						new KeyValuePair<string, object>(setter, GetValue(reader.GetString()))
-					);
-				});
-			}
-		}
-		foreach (var def in this.containerFieldDefs) {
-			foreach (var setter in def.Setters) {
-				RegisterKeyword(setter, reader => {
-					// if the value is set outside of dated blocks, override the initial value
-					var strings = reader.GetStrings();
-					var values = new List<object>(strings.Select(GetValue));
+					var itemStr = reader.GetStringOfItem().ToString();
+					var value = GetValue(itemStr);
 
 					history.Fields[def.FieldName].InitialEntries.Add(
-						new KeyValuePair<string, object>(setter, values)
+						new KeyValuePair<string, object>(setter, value)
 					);
 				});
 			}
@@ -112,9 +91,6 @@ public sealed class HistoryFactory : Parser {
 		history = new History();
 		foreach (var def in simpleFieldDefs) {
 			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue)); 
-		}
-		foreach (var def in containerFieldDefs) {
-			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
 		}
 		foreach (var def in diffFieldDefs) {
 			history.Fields.Add(new DiffHistoryField(def.FieldName, def.Inserters, def.Removers));
@@ -164,11 +140,15 @@ public sealed class HistoryFactory : Parser {
 			return doubleValue;
 		}
 
+		if (str.TrimStart().StartsWith('{')) {
+			var collectionReader = new BufferedReader(str);
+			return collectionReader.GetStrings();
+		}
+
 		return str;
 	}
 
 	private readonly List<SimpleFieldDef> simpleFieldDefs;
-	private readonly List<ContainerFieldDef> containerFieldDefs;
 	private readonly List<DiffFieldDef> diffFieldDefs;
 	private History history = new();
 }

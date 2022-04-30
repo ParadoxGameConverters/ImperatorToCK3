@@ -140,7 +140,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// determine successions laws
-		History.AddFieldValue(conversionDate, "succession_laws", "succession_laws", successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws()));
+		History.AddFieldValue(conversionDate,
+			"succession_laws",
+			"succession_laws",
+			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws())
+		);
 
 		// determine CoA
 		CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
@@ -339,7 +343,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
-		History.AddFieldValue( normalizedStartDate, "succession_laws", "succession_laws", new SortedSet<string> { "high_partition_succession_law" });
+		History.AddFieldValue(normalizedStartDate,
+			"succession_laws", 
+			"succession_laws",
+			new SortedSet<string> { "high_partition_succession_law" }
+		);
 
 		// ------------------ determine CoA
 		CoA = null; // using game-randomized CoA

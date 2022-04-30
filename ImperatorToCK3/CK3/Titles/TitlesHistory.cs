@@ -47,7 +47,7 @@ public class TitlesHistory : Parser {
 		.WithSimpleField("government", "government", null)
 		.WithSimpleField("liege", "liege", null)
 		.WithSimpleField("development_level", "change_development_level", null)
-		.WithContainerField("succession_laws", "succession_laws", new())
+		.WithSimpleField("succession_laws", "succession_laws", new List<string>())
 		.Build();
 	private readonly Dictionary<string, TitleHistory> historyDict = new();
 }

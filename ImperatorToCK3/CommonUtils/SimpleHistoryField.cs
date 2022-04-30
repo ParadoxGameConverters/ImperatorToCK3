@@ -40,20 +40,16 @@ public class SimpleHistoryField : IHistoryField {
 			Logger.Warn($"Setter {setter} does not belong to history field's setters!");
 		}
 
-		var newEntry = new KeyValuePair<string, object>(setter, value);
-		if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
-			entriesList.Add(newEntry);
-		} else {
-			DateToEntriesDict.Add(date, new List<KeyValuePair<string, object>> {
-				newEntry
-			});
-		}
+		DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
+			new(setter, value)
+		};
 	}
 
 	public void RegisterKeywords(Parser parser, Date date) {
 		foreach (var setter in setterKeywords) {
 			parser.RegisterKeyword(setter, reader => {
-				var value = HistoryFactory.GetValue(reader.GetString());
+				var itemStr = reader.GetStringOfItem().ToString();
+				var value = HistoryFactory.GetValue(itemStr);
 				AddEntryToHistory(date, setter, value);
 			});
 		}
