@@ -11,7 +11,7 @@ public class SimpleHistoryField : IHistoryField {
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
 	
-	private OrderedSet<string> setterKeywords;
+	private readonly OrderedSet<string> setterKeywords;
 	
 	public SimpleHistoryField(string fieldName, OrderedSet<string> setterKeywords, object? initialValue) {
 		Id = fieldName;
