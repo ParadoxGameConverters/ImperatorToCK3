@@ -57,7 +57,7 @@ public static class CharacterOutputter {
 		}
 
 		// output history
-		output.WriteLine(PDXSerializer.Serialize(character.History, "\t"));
+		output.Write(PDXSerializer.Serialize(character.History, "\t"));
 
 		OutputBirthAndDeathDates(output, character);
 		OutputPrisoners(output, character, conversionDate);

@@ -205,7 +205,7 @@ public class HistoryTests {
 	public void HistoryCanBeSerialized() {
 		var fields = new IdObjectCollection<string, IHistoryField> {
 			new SimpleHistoryField("holder", setterKeywords: new OrderedSet<string> {"holder"}, null), // simple field with null initial value
-			new SimpleHistoryField("culture", setterKeywords: new OrderedSet<string> {"culture"}, "roman"), // simple field with initial value
+			new SimpleHistoryField("culture", setterKeywords: new OrderedSet<string> {"culture"}, "greek"), // simple field with initial value
 			new SimpleHistoryField("buildings", setterKeywords: new OrderedSet<string> {"buildings"}, new List<object> {"baths"}) // container field
 		};
 
@@ -215,7 +215,7 @@ public class HistoryTests {
 
 		// Entries with same date should be added to a single date block.
 		history.Fields["holder"].AddEntryToHistory(new Date(540, 1, 1), "holder", "justinian");
-		history.Fields["culture"].AddEntryToHistory(new Date(540, 1, 1), "culture", "better_roman");
+		history.Fields["culture"].AddEntryToHistory(new Date(540, 1, 1), "culture", "roman");
 
 		// A field can have values of multiple types.
 		// Here we're adding a value as a set, while the initial value is a list.
@@ -223,18 +223,11 @@ public class HistoryTests {
 
 		// Date blocks are ordered by date.
 		var expectedStr =
-			"culture=\"roman\"" + Environment.NewLine +
+			"culture=\"greek\"" + Environment.NewLine +
 			"buildings={ \"baths\" }" + Environment.NewLine +
-			"2.1.1={" + Environment.NewLine +
-			"\tbuildings={ \"aqueduct\" \"baths\" }" + Environment.NewLine +
-			"}" + Environment.NewLine +
-			"5.1.1={" + Environment.NewLine +
-			"\tholder=\"nero\"" + Environment.NewLine +
-			"}" + Environment.NewLine +
-			"540.1.1={" + Environment.NewLine +
-			"\tholder=\"justinian\"" + Environment.NewLine +
-			"\tculture=\"better_roman\"" + Environment.NewLine +
-			"}" + Environment.NewLine;
+			"2.1.1={ buildings={ \"aqueduct\" \"baths\" } }" + Environment.NewLine +
+			"5.1.1={ holder=\"nero\" }" + Environment.NewLine +
+			"540.1.1={ holder=\"justinian\" culture=\"roman\" }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -248,9 +241,7 @@ public class HistoryTests {
 
 		var expectedStr =
 			"change_development_level=10" + Environment.NewLine +
-			"5.1.1={" + Environment.NewLine +
-			"\tchange_development_level=20" + Environment.NewLine +
-			"}" + Environment.NewLine;
+			"5.1.1={ change_development_level=20 }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -263,10 +254,7 @@ public class HistoryTests {
 		var history = new History(fields);
 		history.Fields["buildings"].AddEntryToHistory( new Date(5, 1, 1), "buildings", new List<object> { "baths" });
 
-		var expectedStr =
-			"5.1.1={" + Environment.NewLine +
-			"\tbuildings={ \"baths\" }" + Environment.NewLine +
-			"}" + Environment.NewLine;
+		var expectedStr = "5.1.1={ buildings={ \"baths\" } }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -289,8 +277,8 @@ public class HistoryTests {
 
 		var provHistory = provHistoryFactory.GetHistory(reader);
 
-		Assert.Equal(69, provHistory.GetFieldValue("holder", new Date(101, 1, 1)));
-		Assert.Equal(420, provHistory.GetFieldValue("holder", new Date(200, 1, 1)));
+		Assert.Equal("69", provHistory.GetFieldValue("holder", new Date(100, 1, 1)));
+		Assert.Equal("420", provHistory.GetFieldValue("holder", new Date(200, 1, 1)));
 	}
 
 	[Fact]

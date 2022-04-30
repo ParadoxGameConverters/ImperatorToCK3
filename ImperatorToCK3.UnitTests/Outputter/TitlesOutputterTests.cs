@@ -48,9 +48,7 @@ public class TitlesOutputterTests {
 		using var kingdomHistoryFile = File.OpenRead(kingdomHistoryPath);
 		var reader = new StreamReader(kingdomHistoryFile);
 		Assert.Equal("k_kingdom={", reader.ReadLine());
-		Assert.Equal("\t20.1.1={", reader.ReadLine());
-		Assert.Equal("\t\tliege=0", reader.ReadLine());
-		Assert.Equal("\t}", reader.ReadLine());
+		Assert.Equal("\t20.1.1={ liege=0 }", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 
@@ -58,9 +56,7 @@ public class TitlesOutputterTests {
 		using var otherTitlesHistoryFile = File.OpenRead(otherTitlesHistoryPath);
 		reader = new StreamReader(otherTitlesHistoryFile);
 		Assert.Equal("k_special_title={", reader.ReadLine());
-		Assert.Equal("\t20.1.1={", reader.ReadLine());
-		Assert.Equal("\t\tholder=\"bob_42\"", reader.ReadLine());
-		Assert.Equal("\t}", reader.ReadLine());
+		Assert.Equal("\t20.1.1={ holder=\"bob_42\" }", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 

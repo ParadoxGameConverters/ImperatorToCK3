@@ -59,7 +59,7 @@ public class History : IPDXSerializable {
 			}
 		}
 
-		sb.Append(indent).Append(PDXSerializer.Serialize(entriesByDate, indent, false));
+		sb.Append(indent).AppendLine(PDXSerializer.Serialize(entriesByDate, indent, false));
 
 		return sb.ToString();
 	}
