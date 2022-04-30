@@ -64,9 +64,9 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         type: ${{ matrix.archive_type }}
-        directory: 'Release'
-        path: '*'
-        filename: 'ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
+        directory: '.'
+        path: 'Release'
+        filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:

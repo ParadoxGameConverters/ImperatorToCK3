@@ -115,9 +115,9 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         type: 'tar'
-        directory: 'Release'
-        path: '*'
-        filename: 'ImperatorToCK3-linux-x64.tgz'
+        directory: '.'
+        path: 'Release'
+        filename: '../ImperatorToCK3-linux-x64.tgz'
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
@@ -165,9 +165,9 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         type: 'tar'
-        directory: 'Release'
-        path: '*'
-        filename: 'ImperatorToCK3-osx-x64.tgz'
+        directory: '.'
+        path: 'Release'
+        filename: '../ImperatorToCK3-osx-x64.tgz'
     - name: Upload release asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
