@@ -66,7 +66,7 @@ jobs:
         type: ${{ matrix.archive_type }}
         directory: 'Release'
         path: '*'
-        filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
+        filename: 'ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
