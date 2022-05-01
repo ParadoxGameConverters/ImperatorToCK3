@@ -1754,7 +1754,6 @@
 	link = { imp = 3551 ck3 = 2041 } # Taurasia -> TURIN
 	link = { imp = 3550 imp = 3564 ck3 = 2467 ck3 = 2045 } # MANY-TO-MANY: Coeba, Pollentia -> ALBA, CHIERI
 	link = { imp = 3548 imp = 3530 ck3 = 2043 } # Bagiennia, Mustiae Calmes -> CUNEO
-	link = { imp = 3544 ck3 = 2021 } # Navelis -> NICE
 	link = { imp = 23 imp = 104 ck3 = 2586 } # Narnia, Amiternum -> TERNI
 	link = { imp = 16 ck3 = 2579 } # Veii -> FARFA
 	link = { imp = 18 ck3 = 2574 } # Nepete -> PATERNO
