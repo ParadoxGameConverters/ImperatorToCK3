@@ -459,7 +459,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					ids.Add(holderStrValue);
 				}
 			}
-			
 
 			return ids;
 		} else {
