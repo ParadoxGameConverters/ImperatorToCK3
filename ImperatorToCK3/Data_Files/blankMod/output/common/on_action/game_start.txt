@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 1.3.0
+﻿# Last updated: CK3 patch 1.5.1
 
 # Called from code after history generation
 # Empty scope
@@ -7,6 +7,9 @@ on_game_start = {
 		fp1_scandinavian_adventurers.0004	# FP1 - Organise Norse adventurers.
 		fp1_scandinavian_adventurers.0011	# FP1 - Corral famous Norse adventurers that haven't done much yet.
 		fp1_scandinavian_adventurers.0021	# FP1 - Mark game-start prioritised adventurers.
+		#Guaranteed historical artifacts fixed spawning
+		debug_portraits.1 					# Debug portraits for animation testing
+		easteregg_event.0001				# Charna and Jakub duel.
 	}
 
 	effect = {
@@ -20,9 +23,11 @@ on_game_start = {
 					}
 					vassal_contract_decrease_obligation_level = feudal_government_taxes
 					vassal_contract_decrease_obligation_level = feudal_government_levies
+					set_vassal_contract_modification_blocked = no
 				}
 			}
 		}
+
 		### RELIGIOUS THINGS ###
 		religion:islam_religion = { # Set up Holy Site Buildings to be buildable in Holy Sites
 			every_faith = {
@@ -218,6 +223,22 @@ on_game_start = {
 			title:c_dublin = { set_coa = c_dublin_norse }
 			title:c_argyll = { set_coa = c_argyll_norse }
 		}
+		
+		#Royal Court: Set starting Grandeur to be the same as Expected
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+			}
+			every_character_with_royal_court = {
+				set_current_court_grandeur = court_grandeur_minimum_expected
+				apply_hold_court_grace_effect = yes
+				# Stops Hold Court reminders at game start
+				set_variable = {
+					name = last_hold_court_date
+					value = current_year
+				}
+			}
+		}
 	}
 }
 
@@ -271,6 +292,32 @@ on_game_start_after_lobby = {
 				days = 0
 			}
 		}
+		
+		# Detect no culture in setup
+		every_living_character = {
+			limit = {
+				has_culture = culture:aaa_noculture
+			}
+			every_player = {
+				trigger_event = {
+					id = welcome.2
+					days = 0
+				}
+			}
+		}
+		every_province = {
+			limit = {
+				culture = culture:aaa_noculture
+			}
+			every_player = {
+				trigger_event = {
+					id = welcome.2
+					days = 0
+				}
+			}
+		}
+		
+		
 		# Pregnancy time!
 		every_living_character = {
 			limit = { has_trait = pregnant }
@@ -288,5 +335,6 @@ on_game_start_after_lobby = {
 	events = {
 		game_rule.1000	#Autopopulate families.
 		game_rule.1011	#Hungarian Migration management.
+		historical_artifacts.0023			# Historical Artifacts Generator
 	}
 }

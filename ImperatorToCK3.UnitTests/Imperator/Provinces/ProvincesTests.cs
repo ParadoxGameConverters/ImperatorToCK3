@@ -1,112 +1,117 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.IO;
-using commonItems;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Provinces {
-	[Collection("Sequential")]
-	[CollectionDefinition("Sequential", DisableParallelization = true)]
-	public class ProvincesTests {
-		[Fact] public void ProvincesDefaultToEmpty() {
-			var reader = new BufferedReader("={}");
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 
-			Assert.Empty(provinces.StoredProvinces);
-		}
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
+public class ProvincesTests {
+	[Fact]
+	public void ProvincesDefaultToEmpty() {
+		var reader = new BufferedReader("={}");
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
-		[Fact] public void ProvincesCanBeLoaded() {
-			var reader = new BufferedReader(
-				"=\n" +
-				"{\n" +
-				"42={}\n" +
-				"43={}\n" +
-				"}"
-			);
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+		Assert.Empty(provinces);
+	}
 
-			Assert.Equal((ulong)42, provinces.StoredProvinces[42].ID);
-			Assert.Equal((ulong)43, provinces.StoredProvinces[43].ID);
-		}
+	[Fact]
+	public void ProvincesCanBeLoaded() {
+		var reader = new BufferedReader(
+			"=\n" +
+			"{\n" +
+			"42={}\n" +
+			"43={}\n" +
+			"}"
+		);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
-		[Fact] public void PopCanBeLinked() {
-			var reader = new BufferedReader("={42={pop=8}}\n");
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+		Assert.Equal((ulong)42, provinces[42].Id);
+		Assert.Equal((ulong)43, provinces[43].Id);
+	}
 
-			var reader2 = new BufferedReader(
-				 "8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n"
-			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
-			pops.LoadPops(reader2);
-			provinces.LinkPops(pops);
+	[Fact]
+	public void PopCanBeLinked() {
+		var reader = new BufferedReader("={42={pop=8}}\n");
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
-			var province = provinces.StoredProvinces[42];
-			var pop = province.Pops[8];
+		var reader2 = new BufferedReader(
+			"8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n"
+		);
+		var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
+		pops.LoadPops(reader2);
+		provinces.LinkPops(pops);
 
-			Assert.NotNull(pop);
-			Assert.Equal("citizen", pop.Type);
-		}
+		var province = provinces[42];
+		var pop = province.Pops[8];
 
-		[Fact] public void MultiplePopsCanBeLinked() {
-			var reader = new BufferedReader(
-				"={\n" +
-				"43={ pop = 10}\n" +
-				"42={pop=8}\n" +
-				"44={pop= 9}\n" +
-				"}\n"
-			);
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+		Assert.NotNull(pop);
+		Assert.Equal("citizen", pop.Type);
+	}
 
-			var reader2 = new BufferedReader(
-				"={\n" +
-				"8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n" +
-				"9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n" +
-				"10={type=\"freemen\" culture=\"greek\" religion=\"zoroastrian\"}\n" +
-				"}\n"
-			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
-			pops.LoadPops(reader2);
-			provinces.LinkPops(pops);
+	[Fact]
+	public void MultiplePopsCanBeLinked() {
+		var reader = new BufferedReader(
+			"={\n" +
+			"43={ pop = 10}\n" +
+			"42={pop=8}\n" +
+			"44={pop= 9}\n" +
+			"}\n"
+		);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
-			var province = provinces.StoredProvinces[42];
-			var pop = province.Pops[8];
-			var province2 = provinces.StoredProvinces[43];
-			var pop2 = province2.Pops[10];
-			var province3 = provinces.StoredProvinces[44];
-			var pop3 = province3.Pops[9];
+		var reader2 = new BufferedReader(
+			"={\n" +
+			"8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n" +
+			"9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n" +
+			"10={type=\"freemen\" culture=\"greek\" religion=\"zoroastrian\"}\n" +
+			"}\n"
+		);
+		var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
+		pops.LoadPops(reader2);
+		provinces.LinkPops(pops);
 
-			Assert.NotNull(pop);
-			Assert.Equal("citizen", pop.Type);
-			Assert.NotNull(pop2);
-			Assert.Equal("freemen", pop2.Type);
-			Assert.NotNull(pop3);
-			Assert.Equal("tribal", pop3.Type);
-		}
+		var province = provinces[42];
+		var pop = province.Pops[8];
+		var province2 = provinces[43];
+		var pop2 = province2.Pops[10];
+		var province3 = provinces[44];
+		var pop3 = province3.Pops[9];
 
-		[Fact] public void BrokenLinkAttemptThrowsWarning() {
-			var reader = new BufferedReader(
-				"={\n" +
-				"42={ pop = 8 }\n" +
-				"44={ pop = 10 }\n" + /// no pop 10
-				"}\n"
-			);
-			var provinces = new ImperatorToCK3.Imperator.Provinces.Provinces(reader);
+		Assert.NotNull(pop);
+		Assert.Equal("citizen", pop.Type);
+		Assert.NotNull(pop2);
+		Assert.Equal("freemen", pop2.Type);
+		Assert.NotNull(pop3);
+		Assert.Equal("tribal", pop3.Type);
+	}
 
-			var reader2 = new BufferedReader(
-				"={\n" +
-				"8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n" +
-				"9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n" +
-				"}\n"
-			);
-			var pops = new ImperatorToCK3.Imperator.Pops.Pops();
-			pops.LoadPops(reader2);
+	[Fact]
+	public void BrokenLinkAttemptThrowsWarning() {
+		var reader = new BufferedReader(
+			"={\n" +
+			"42={ pop = 8 }\n" +
+			"44={ pop = 10 }\n" + // no pop 10
+			"}\n"
+		);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
 
-			var output = new StringWriter();
-			Console.SetOut(output);
+		var reader2 = new BufferedReader(
+			"={\n" +
+			"8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n" +
+			"9={type=\"tribal\" culture=\"persian\" religion=\"gsg\"}\n" +
+			"}\n"
+		);
+		var pops = new ImperatorToCK3.Imperator.Pops.PopCollection();
+		pops.LoadPops(reader2);
 
-			provinces.LinkPops(pops);
+		var output = new StringWriter();
+		Console.SetOut(output);
 
-			var logStr = output.ToString();
-			Assert.Contains("[WARN] Pop with ID 10 has no definition!", logStr);
-		}
+		provinces.LinkPops(pops);
+
+		var logStr = output.ToString();
+		Assert.Contains("[WARN] Pop with ID 10 has no definition!", logStr);
 	}
 }

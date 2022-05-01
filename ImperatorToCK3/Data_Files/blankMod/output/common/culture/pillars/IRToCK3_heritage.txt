@@ -1,0 +1,51 @@
+﻿heritage_aboriginal = {
+	type = heritage
+}
+
+heritage_anatolian = {
+	type = heritage
+}
+
+heritage_hittite = {
+	type = heritage
+}
+
+heritage_arvanite = {
+	type = heritage
+}
+
+heritage_chaldean = {
+	type = heritage
+}
+
+heritage_gaulish = {
+	type = heritage
+}
+
+heritage_punic = {
+	type = heritage
+}
+
+heritage_romano_british = {
+	type = heritage
+}
+
+heritage_romano_germanic = {
+	type = heritage
+}
+
+heritage_east_germanic = {
+	type = heritage
+}
+
+heritage_south_germanic = {
+	type = heritage
+}
+
+heritage_thracian = {
+	type = heritage
+}
+
+heritage_tyrrhenian = {
+	type = heritage
+}

@@ -1,42 +1,43 @@
-﻿using System.Collections;
+﻿using commonItems;
+using commonItems.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Families {
-	public class Family {
-		public ulong ID { get; } = 0;
+	public class Family : IIdentifiable<ulong> {
+		public ulong Id { get; } = 0;
 		public string Key { get; private set; } = "";
 		public string Culture { get; private set; } = "";
 		public double Prestige { get; private set; } = 0;
 		public double PrestigeRatio { get; private set; } = 0;
 		public OrderedDictionary Members { get; private set; } = new();
-		public ParadoxBool Minor { get; private set; } = new(false);
+		public PDXBool Minor { get; private set; } = new(false);
 
-		public Family(ulong ID) {
-			this.ID = ID;
+		public Family(ulong id) {
+			Id = id;
 		}
 		public void LinkMember(Characters.Character? newMember) {
 			if (newMember is null) {
-				Logger.Warn($"Family {ID}: cannot link null member!");
+				Logger.Warn($"Family {Id}: cannot link null member!");
 				return;
 			}
-			foreach(DictionaryEntry memberPair in Members) {
-				if ((ulong)memberPair.Key == newMember.ID) {
+			foreach (DictionaryEntry memberPair in Members) {
+				if ((ulong)memberPair.Key == newMember.Id) {
 					Members[memberPair.Key] = newMember;
 					return;
 				}
 			}
 			if (newMember.DeathDate is not null) { // if character is dead, his ID needs to be added to the dict
-				Members.Add(newMember.ID, newMember);
+				Members.Add(newMember.Id, newMember);
 				return;
 			}
 			// matching ID was not found
-			Logger.Warn($"Family {ID}: cannot link {newMember.ID} (not found in members)!");
+			Logger.Warn($"Family {Id}: cannot link {newMember.Id} (not found in members)!");
 		}
 		public void RemoveUnlinkedMembers() {
 			var toRemove = new List<ulong>();
-			foreach(DictionaryEntry entry in Members) {
+			foreach (DictionaryEntry entry in Members) {
 				if (entry.Value is null) {
 					toRemove.Add((ulong)entry.Key);
 				}
@@ -52,23 +53,23 @@ namespace ImperatorToCK3.Imperator.Families {
 			private static Family family = new(0);
 			static FamilyFactory() {
 				parser.RegisterKeyword("key", reader =>
-					family.Key = new SingleString(reader).String
+					family.Key = reader.GetString()
 				);
 				parser.RegisterKeyword("prestige", reader =>
-					family.Prestige = new SingleDouble(reader).Double
+					family.Prestige = reader.GetDouble()
 				);
 				parser.RegisterKeyword("prestige_ratio", reader =>
-					family.PrestigeRatio = new SingleDouble(reader).Double
+					family.PrestigeRatio = reader.GetDouble()
 				);
 				parser.RegisterKeyword("culture", reader =>
-					family.Culture = new SingleString(reader).String
+					family.Culture = reader.GetString()
 				);
 				parser.RegisterKeyword("minor_family", reader =>
-					family.Minor = new ParadoxBool(reader)
+					family.Minor = reader.GetPDXBool()
 				);
 				parser.RegisterKeyword("member", reader => {
-					foreach (var memberID in new ULongList(reader).ULongs) {
-						family.Members.Add(memberID, null);
+					foreach (var memberId in reader.GetULongs()) {
+						family.Members.Add(memberId, null);
 					}
 				});
 				parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
@@ -76,15 +77,15 @@ namespace ImperatorToCK3.Imperator.Families {
 					ParserHelpers.IgnoreItem(reader);
 				});
 			}
-			public static Family Parse(BufferedReader reader, ulong ID) {
-				family = new Family(ID);
+			public static Family Parse(BufferedReader reader, ulong id) {
+				family = new Family(id);
 				parser.ParseStream(reader);
 				return family;
 			}
 		}
 
-		public static Family Parse(BufferedReader reader, ulong ID) {
-			return FamilyFactory.Parse(reader, ID);
+		public static Family Parse(BufferedReader reader, ulong id) {
+			return FamilyFactory.Parse(reader, id);
 		}
 	}
 }

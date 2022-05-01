@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.DeathReason {
-    public class DeathReasonMapping : Parser {
-        public SortedSet<string> ImpReasons { get; set; } = new();
-        public string? Ck3Reason { get; set; }
+namespace ImperatorToCK3.Mappers.DeathReason;
 
-        public DeathReasonMapping(BufferedReader reader) {
-            RegisterKeyword("ck3", (reader) => {
-                Ck3Reason = new SingleString(reader).String;
-            });
-            RegisterKeyword("imp", (reader) => {
-                ImpReasons.Add(new SingleString(reader).String);
-            });
-            RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+public class DeathReasonMapping {
+	public SortedSet<string> ImpReasons { get; } = new();
+	public string? Ck3Reason { get; set; }
 
-            ParseStream(reader);
-            ClearRegisteredRules();
-        }
-    }
+	public DeathReasonMapping(BufferedReader reader) {
+		var parser = new Parser();
+		parser.RegisterKeyword("ck3", reader => Ck3Reason = reader.GetString());
+		parser.RegisterKeyword("imp", reader => ImpReasons.Add(reader.GetString()));
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+		parser.ParseStream(reader);
+	}
 }

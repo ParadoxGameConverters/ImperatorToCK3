@@ -3,6 +3,8 @@ using ImperatorToCK3.Imperator.Genes;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Genes {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class AccessoryGenesTests {
 		[Fact]
 		public void IndexCanBeSet() {

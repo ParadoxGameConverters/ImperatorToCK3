@@ -1,29 +1,28 @@
 name: Build
 
 on:
-  push:
-    branches-ignore:
-      - master
   pull_request:
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '5.*'
-    - name: Build
+        dotnet-version: '6.*'
+    - name: "Build backend"
       run: |
-       cd ImperatorToCK3
-       dotnet restore
-       dotnet build
+        cd ImperatorToCK3
+        dotnet build
+    - name: "Build frontend"
+      run: |
+        cd Fronter.NET
+        dotnet build

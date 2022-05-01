@@ -1,0 +1,1 @@
+galatia_region = { areas = {galatia_area} }

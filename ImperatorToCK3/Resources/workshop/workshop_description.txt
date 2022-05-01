@@ -8,7 +8,7 @@ Running a continuous campaign from Imperator all the way to Hearts o Iron is cal
 [list]
 [*] This converter currently supports Imperator 2.0 and CK3 1.3. Imperator DLCs are optional, as are CK3 DLCs.
 [*] This mod is not intended to be enabled in game. It is only a [i]delivery vehicle[/i] for the converter's download link.
-[*] You can also download the converter directly from our [url=https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/]forums thread[/url] or from Github.
+[*] You can also download the converter directly from our [url=https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/]forums thread[/url] or from GitHub.
 [/list]
 
 [h3]Setting up the converter.[/h3]
@@ -23,7 +23,7 @@ To set up the converter, you’ll need to follow the simple steps below:
 [*] Finally, go to the extracted converter's directory and fire it up by running [i]ConverterFrontend.exe[/i].
 [/olist]
 
-If you downloaded the converter directly from forums or github, you only need to execute steps 6 and 7.
+If you downloaded the converter directly from forums or GitHub, you only need to execute steps 6 and 7.
 
 [h2]How does it work?[/h2]
 Every converter has a detailed documentation available at its [url=https://imperator.paradoxwikis.com/Imperator_To_CK3_Converter]wiki page[/url].

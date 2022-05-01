@@ -1,0 +1,2 @@
+test_region = { areas = { test_area } }
+test_region2 = { areas = { test_area2 } }

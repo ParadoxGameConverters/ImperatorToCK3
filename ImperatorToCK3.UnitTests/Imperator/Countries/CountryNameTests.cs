@@ -1,6 +1,6 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using Xunit;
-using ImperatorToCK3.Mappers.Localization;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 	public class CountryNameTests {
@@ -61,12 +61,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		}
 
 		[Fact]
-		public void AdjLocBlockDefaultsToNullopt() {
+		public void AdjLocBlockDefaultsToNull() {
 			var reader = new BufferedReader(string.Empty);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			var locMapper = new LocalizationMapper();
-			Assert.Null(countryName.GetAdjectiveLocBlock(locMapper, new()));
+			var locDB = new LocDB("english");
+			Assert.Null(countryName.GetAdjectiveLocBlock(locDB, new()));
 		}
 
 		[Fact]
@@ -76,19 +76,21 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			var locMapper = new LocalizationMapper();
-			locMapper.AddLocalization("CIVILWAR_FACTION_ADJECTIVE", new LocBlock { english = "$ADJ$" });
-			locMapper.AddLocalization("someAdjective", new LocBlock { english = "Roman" });
-			Assert.Equal("Roman", countryName.GetAdjectiveLocBlock(locMapper, new()).english);
+			var locDB = new LocDB("english");
+			var locBlock1 = locDB.AddLocBlock("CIVILWAR_FACTION_ADJECTIVE");
+			locBlock1["english"] = "$ADJ$";
+			var locBlock2 = locDB.AddLocBlock("someAdjective");
+			locBlock2["english"] = "Roman";
+			Assert.Equal("Roman", countryName.GetAdjectiveLocBlock(locDB, new())!["english"]);
 		}
 
 		[Fact]
-		public void NameLocBlockDefaultsToNullopt() {
+		public void NameLocBlockDefaultsToNull() {
 			var reader = new BufferedReader(string.Empty);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			var locMapper = new LocalizationMapper();
-			Assert.Null(countryName.GetNameLocBlock(locMapper, new()));
+			var locDB = new LocDB("english");
+			Assert.Null(countryName.GetNameLocBlock(locDB, new()));
 		}
 
 		[Fact]
@@ -98,10 +100,12 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			var locMapper = new LocalizationMapper();
-			locMapper.AddLocalization("CIVILWAR_FACTION_NAME", new LocBlock { english = "$ADJ$ Revolt" });
-			locMapper.AddLocalization("someAdjective", new LocBlock { english = "Roman" });
-			Assert.Equal("Roman Revolt", countryName.GetNameLocBlock(locMapper, new()).english);
+			var locDB = new LocDB("english");
+			var locBlock1 = locDB.AddLocBlock("CIVILWAR_FACTION_NAME");
+			locBlock1["english"] = "$ADJ$ Revolt";
+			var locBlock2 = locDB.AddLocBlock("someAdjective");
+			locBlock2["english"] = "Roman";
+			Assert.Equal("Roman Revolt", countryName.GetNameLocBlock(locDB, new())!["english"]);
 		}
 	}
 }

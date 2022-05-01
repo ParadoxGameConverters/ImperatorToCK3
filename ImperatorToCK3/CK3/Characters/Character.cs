@@ -1,89 +1,168 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using commonItems;
-using ImperatorToCK3.Mappers.Localization;
+﻿using commonItems;
+using commonItems.Collections;
+using commonItems.Localization;
+using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class Character {
-		public string ID { get; private set; } = "0";
-		public bool Female { get; private set; } = false;
-		public string Culture { get; private set; } = string.Empty;
-		public string Religion { get; private set; } = string.Empty;
-		public string Name { get; private set; } = string.Empty;
-		public string? Nickname { get; private set; }
+	public class Character : IIdentifiable<string> {
+		public string Id { get; }
+		public bool FromImperator { get; } = false;
+		public bool Female { get; private set; }
+		public string Culture { get; set; } = string.Empty;
+		public string Religion { get; set; } = string.Empty;
+		public string Name { get; set; }
+		public string? Nickname { get; set; }
 
-		public uint Age { get; private set; } = 0; // used when option to convert character age is chosen
+		public uint Age { get; private set; } // used when option to convert character age is chosen
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
-					if (Female) {
-						return "female";
-					}
-					return "male";
+					return Female ? "female" : "male";
 				}
-				if (Female) {
-					return "girl";
-				}
-				return "boy";
+				return Female ? "girl" : "boy";
 			}
 		}
-		public Date BirthDate { get; private set; } = new Date(1, 1, 1);
-		public Date? DeathDate { get; private set; }
-		public string? DeathReason { get; private set; }
-
-		public SortedSet<string> Traits { get; } = new();
+		public Date BirthDate { get; set; }
+		public Date? DeathDate { get; set; }
+		public string? DeathReason { get; set; }
+		public bool Dead => DeathDate is not null;
+		
+		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
-		public void InitializeFromImperator(
+		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
+			//.WithSimpleField("name", "name", null)
+			//.WithSimpleField("female", "female", null)
+			//.WithSimpleField("dynasty", "dynasty", null)
+			//.WithSimpleField("martial", "martial", null)
+			//.WithSimpleField("diplomacy", "diplomacy", null)
+			//.WithSimpleField("intrigue", "intrigue", null)
+			//.WithSimpleField("stewardship", "stewardship", null)
+			//.WithSimpleField("culture", "culture", null)
+			//.WithSimpleField("religion", "religion", null)
+			.WithDiffField("traits", new OrderedSet<string>{"trait", "add_trait"}, new OrderedSet<string>{"remove_trait"})
+			//.WithSimpleField("dna", "dna", null)
+			//.WithSimpleField("mother", "mother", null)
+			//.WithSimpleField("father", "father", null)
+			.Build();
+		public History History { get; } = historyFactory.GetHistory();
+
+		public Character(string id, string name, Date birthDate) {
+			Id = id;
+			Name = name;
+			BirthDate = birthDate;
+		}
+		public Character(
+			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
+			Date rulerTermStart,
+			Country imperatorCountry,
+			LocDB locDB,
+			ReligionMapper religionMapper,
+			CultureMapper cultureMapper,
+			NicknameMapper nicknameMapper,
+			ProvinceMapper provinceMapper,
+			Configuration config
+		) {
+			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			FromImperator = true;
+			Name = preImperatorRuler.Name ?? Id;
+			if (!string.IsNullOrEmpty(Name)) {
+				var impNameLoc = locDB.GetLocBlockForKey(Name);
+				if (impNameLoc is not null) {
+					Localizations.Add(Name, impNameLoc);
+				} else {  // fallback: use unlocalized name as displayed name
+					Localizations.Add(Name, new LocBlock(Name, "english") {
+						["english"] = Name,
+						["french"] = Name,
+						["german"] = Name,
+						["russian"] = Name,
+						["simp_chinese"] = Name,
+						["spanish"] = Name
+					});
+				}
+			}
+
+			BirthDate = new Date(0, 1, 1);
+			DeathDate = new Date(0, 1, 30);
+
+			// determine culture and religion
+			ulong ck3Province = 0;
+			ulong impProvince = 0;
+			var srcReligion = preImperatorRuler.Religion ?? imperatorCountry.Religion;
+			var srcCulture = preImperatorRuler.Culture ?? imperatorCountry.PrimaryCulture;
+			if (imperatorCountry.Capital is not null) {
+				impProvince = (ulong)imperatorCountry.Capital;
+				var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(impProvince);
+				if (ck3Provinces.Count > 0) {
+					ck3Province = ck3Provinces[0];
+				}
+			}
+
+			if (srcReligion is not null) {
+				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, config);
+				if (religionMatch is not null) {
+					Religion = religionMatch;
+				}
+			}
+
+			if (srcCulture is not null) {
+				var cultureMatch = cultureMapper.Match(srcCulture, Religion, ck3Province, impProvince, imperatorCountry.HistoricalTag);
+				if (cultureMatch is not null) {
+					Culture = cultureMatch;
+				}
+			}
+
+			Nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
+		}
+
+		public Character(
 			Imperator.Characters.Character impCharacter,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
 			NicknameMapper nicknameMapper,
-			LocalizationMapper localizationMapper,
+			LocDB locDB,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
 			Date dateOnConversion,
-			Date ck3BookmarkDate
+			Configuration config
 		) {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
-			ID = "imperator" + ImperatorCharacter.ID.ToString();
+			Id = "imperator" + ImperatorCharacter.Id;
+			FromImperator = true;
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
 				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
-				Localizations.Add(Name, new LocBlock {
-					english = loc,
-					french = loc,
-					german = loc,
-					russian = loc,
-					simp_chinese = loc,
-					spanish = loc
-				});
+
+				var locBlock = new LocBlock(Name, "english") {
+					["english"] = loc
+				};
+				Localizations.Add(Name, locBlock);
 			} else {
-				Name = ImperatorCharacter.Name;
+				var nameLoc = ImperatorCharacter.Name;
+				Name = nameLoc.Replace(' ', '_');
 				if (!string.IsNullOrEmpty(Name)) {
-					var impNameLoc = localizationMapper.GetLocBlockForKey(Name);
-					if (impNameLoc is not null) {
-						Localizations.Add(Name, impNameLoc);
+					var matchedLocBlock = locDB.GetLocBlockForKey(Name);
+					if (matchedLocBlock is not null) {
+						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						Localizations.Add(Name, new LocBlock {
-							english = Name,
-							french = Name,
-							german = Name,
-							russian = Name,
-							simp_chinese = Name,
-							spanish = Name
-						});
+						var locBlock = new LocBlock(Name, "english") {
+							["english"] = nameLoc
+						};
+						Localizations.Add(Name, locBlock);
 					}
 				}
 			}
@@ -91,66 +170,50 @@ namespace ImperatorToCK3.CK3.Characters {
 			Female = ImperatorCharacter.Female;
 			Age = ImperatorCharacter.Age;
 
-			ulong ck3Province;  // for religion mapper
-
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
-			var impProvForProvinceMapper = ImperatorCharacter.ProvinceID;
-			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Father.Value.ProvinceID;
+			var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
+			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father is not null) {
+				impProvForProvinceMapper = ImperatorCharacter.Father.ProvinceId;
 			}
 
-			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother.Value is not null) {
-				impProvForProvinceMapper = ImperatorCharacter.Mother.Value.ProvinceID;
+			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother is not null) {
+				impProvForProvinceMapper = ImperatorCharacter.Mother.ProvinceId;
 			}
 
 			if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Spouses.Count > 0) {
 				var firstSpouse = ImperatorCharacter.Spouses.First().Value;
-				if (firstSpouse is not null) {
-					impProvForProvinceMapper = firstSpouse.ProvinceID;
-				}
+				impProvForProvinceMapper = firstSpouse.ProvinceId;
 			}
 
 			var ck3ProvinceNumbers = provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper);
-			if (ck3ProvinceNumbers.Count == 0) {
-				ck3Province = 0;
-			} else {
-				ck3Province = ck3ProvinceNumbers[0];
-			}
+			// determine CK3 province for religionMapper
+			ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
 
-			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceID);
+			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, config);
 			if (match is not null) {
 				Religion = match;
 			}
 
-			var ck3Owner = "";
-			if (ImperatorCharacter.Country is not null) {
-				var imperatorCountry = ImperatorCharacter.Country.Value.Value;
-				if (imperatorCountry?.CK3Title is not null) {
-					ck3Owner = imperatorCountry.CK3Title.Name;
-				}
-			}
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
 				Religion, ck3Province,
-				ImperatorCharacter.ProvinceID,
-				ck3Owner
+				ImperatorCharacter.ProvinceId,
+				ImperatorCharacter.Country?.HistoricalTag ?? string.Empty
 			);
-			if (match is not null) {
+			if (match is null) {
+				Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter.Id}" +
+							$" with culture {ImperatorCharacter.Culture}!");
+			} else {
 				Culture = match;
 			}
 
-			foreach (var impTrait in ImperatorCharacter.Traits) {
-				var traitMatch = traitMapper.GetCK3TraitForImperatorTrait(impTrait);
-				if (traitMatch is not null) {
-					Traits.Add(traitMatch);
-				}
+			foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
+				History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
 			}
 
-			if (ImperatorCharacter.Nickname is not null) {
-				var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
-				if (nicknameMatch is not null) {
-					Nickname = nicknameMatch;
-				}
+			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
+			if (nicknameMatch is not null) {
+				Nickname = nicknameMatch;
 			}
 
 			BirthDate = ImperatorCharacter.BirthDate;
@@ -165,23 +228,60 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (impDeathReason is not null) {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
+
+			// if character is imprisoned, set jailor
+			SetJailor();
+			SetEmployer();
+
+			void SetJailor() {
+				if (ImperatorCharacter.PrisonerHome is null) {
+					return;
+				}
+
+				var prisonCountry = ImperatorCharacter.Country;
+				if (prisonCountry is null) {
+					Logger.Warn($"Imperator character {ImperatorCharacter.Id} is imprisoned but has no country!");
+				} else if (prisonCountry.CK3Title is null) {
+					Logger.Warn($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
+				} else {
+					jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
+				}
+			}
+
+			void SetEmployer() {
+				var prisonerHome = ImperatorCharacter.PrisonerHome;
+				var homeCountry = ImperatorCharacter.HomeCountry;
+				if (prisonerHome?.CK3Title is not null) { // is imprisoned
+					EmployerId = prisonerHome.CK3Title.GetHolderId(dateOnConversion);
+				} else if (homeCountry?.CK3Title is not null) {
+					EmployerId = homeCountry.CK3Title.GetHolderId(dateOnConversion);
+				}
+			}
 		}
 
 		public void BreakAllLinks() {
-			Mother?.RemoveChild(ID);
+			Mother?.RemoveChild(Id);
 			RemoveMother();
-			Father?.RemoveChild(ID);
+			Father?.RemoveChild(Id);
 			RemoveFather();
-			foreach (var spouse in Spouses.Values) {
-				spouse.RemoveSpouse(ID);
+			foreach (var spouse in Spouses) {
+				spouse.RemoveSpouse(Id);
 			}
 			Spouses.Clear();
 			if (Female) {
-				foreach (var child in Children.Values) {
+				foreach (var (childId, child) in Children) {
+					if (child is null) {
+						Logger.Warn($"Child {childId} of {Id} is null!");
+						continue;
+					}
 					child.RemoveMother();
 				}
 			} else {
-				foreach (var child in Children.Values) {
+				foreach (var (childId, child) in Children) {
+					if (child is null) {
+						Logger.Warn($"Child {childId} of {Id} is null!");
+						continue;
+					}
 					child.RemoveFather();
 				}
 			}
@@ -193,8 +293,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		private void RemoveSpouse(string spouseID) {
-			Spouses.Remove(spouseID);
+		private void RemoveSpouse(string spouseId) {
+			Spouses.Remove(spouseId);
 		}
 
 		private void RemoveFather() {
@@ -205,37 +305,50 @@ namespace ImperatorToCK3.CK3.Characters {
 			Mother = null;
 		}
 
-		private void RemoveChild(string childID) {
-			Children.Remove(childID);
+		private void RemoveChild(string childId) {
+			Children.Remove(childId);
 		}
 
-		public string? PendingMotherID { get; set; }
+		public string? PendingMotherId { get; set; }
 		private Character? mother;
 		public Character? Mother {
-			get { return mother; }
+			get => mother;
 			set {
-				if (PendingMotherID is not null && value is not null && value.ID != PendingMotherID) {
-					Logger.Warn($"Character {ID}: linking mother {value.ID} instead of expected {PendingMotherID}");
+				if (PendingMotherId is not null && value is not null && value.Id != PendingMotherId) {
+					Logger.Warn($"Character {Id}: linking mother {value.Id} instead of expected {PendingMotherId}");
 				}
 				mother = value;
-				PendingMotherID = null;
+				PendingMotherId = null;
 			}
 		}
-		public string? PendingFatherID { get; set; }
+		public string? PendingFatherId { get; set; }
 		private Character? father;
 		public Character? Father {
-			get { return father; }
+			get => father;
 			set {
-				if (PendingFatherID is not null && value is not null && value.ID != PendingFatherID) {
-					Logger.Warn($"Character {ID}: linking father {value.ID} instead of expected {PendingFatherID}");
+				if (PendingFatherId is not null && value is not null && value.Id != PendingFatherId) {
+					Logger.Warn($"Character {Id}: linking father {value.Id} instead of expected {PendingFatherId}");
 				}
 				father = value;
-				PendingFatherID = null;
+				PendingFatherId = null;
 			}
 		}
 		public Dictionary<string, Character?> Children { get; set; } = new();
-		public Dictionary<string, Character?> Spouses { get; set; } = new();
+		public IdObjectCollection<string, Character> Spouses { get; set; } = new();
 
-		public string? DynastyID { get; set; } // not always set
+		public string? DynastyId { get; set; } // not always set
+
+		private string? jailorId;
+		public string? EmployerId { get; set; }
+
+		public bool LinkJailor(CharacterCollection characters) {
+			if (jailorId is null or "0") {
+				return false;
+			}
+
+			var type = DynastyId is null ? "dungeon" : "house_arrest";
+			characters[jailorId].PrisonerIds.Add(Id, type);
+			return true;
+		}
 	}
 }
