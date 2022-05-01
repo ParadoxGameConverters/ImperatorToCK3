@@ -289,7 +289,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 
 			void GiveCountyToCountyLevelGovernor(Title county, Governorship governorship, Title ck3Country) {
-				var holderChangeDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
+				var holderChangeDate = governorship.StartDate;
 				var impGovernor = impCharacters[governorship.CharacterId];
 				var governor = impGovernor.CK3Character;
 
