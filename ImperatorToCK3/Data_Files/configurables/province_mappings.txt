@@ -1760,7 +1760,6 @@
 	link = { imp = 18 ck3 = 2574 } # Nepete -> PATERNO
 	link = { imp = 14 ck3 = 2573 } # Pyrgi -> SUTRI
 	link = { imp = 17 ck3 = 2571 ck3 = 2572 } # Tarquini -> CIVITAVECCHIA, VITERBO
-	link = { imp = 3546 imp = 3545 ck3 = 2022 } # Albom Ingaunom, Album Intimilium -> MONACO
 	link = { imp = 116 imp = 125 ck3 = 2565 } # Clusium, Ad Novas -> CHIUSI
 	link = { imp = 115 ck3 = 2567 } # Rusellae -> MONTALCINO
 	link = { imp = 114 ck3 = 2562 } # Vetulonia -> GROSSETO
