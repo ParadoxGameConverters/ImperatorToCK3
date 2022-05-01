@@ -9,7 +9,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Trait {
 			var reader = new BufferedReader("={}");
 			var mapping = new TraitMapping(reader);
 			Assert.Empty(mapping.ImpTraits);
-			Assert.Null(mapping.Ck3Trait);
+			Assert.Null(mapping.CK3Trait);
 		}
 		[Fact]
 		public void FieldsCanBeSet() {
@@ -19,7 +19,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Trait {
 				item => Assert.Equal("trait1", item),
 				item => Assert.Equal("trait2", item)
 			);
-			Assert.Equal("ck3Trait", mapping.Ck3Trait);
+			Assert.Equal("ck3Trait", mapping.CK3Trait);
 		}
 	}
 }

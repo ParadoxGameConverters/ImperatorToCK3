@@ -1,41 +1,45 @@
-﻿using ImperatorToCK3.CK3.Characters;
+﻿using commonItems;
+using commonItems.Localization;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
-using ImperatorToCK3.Mappers.Religion;
-using ImperatorToCK3.Mappers.Culture;
-using ImperatorToCK3.Mappers.Trait;
-using ImperatorToCK3.Mappers.Nickname;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.Province;
-using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Imperator.Families;
-using commonItems;
+using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.Trait;
 using Xunit;
+// ReSharper disable StringLiteralTypo
 
 namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 	public class DynastyTests {
 		private class CK3CharacterBuilder {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
-			private CultureMapper cultureMapper = new();
-			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
+			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-			private LocalizationMapper localizationMapper = new();
+			private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
+			private Configuration config = new() {
+				CK3BookmarkDate = new Date(867, 1, 1)
+			};
 
 			public Character Build() {
-				var character = new Character();
-				character.InitializeFromImperator(
+				var character = new Character(
 					imperatorCharacter,
 					religionMapper,
 					cultureMapper,
 					traitMapper,
 					nicknameMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
-					new Date(867, 1, 1)
+					config
 				);
 				return character;
 			}
@@ -59,8 +63,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 				this.nicknameMapper = nicknameMapper;
 				return this;
 			}
-			public CK3CharacterBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-				this.localizationMapper = localizationMapper;
+			public CK3CharacterBuilder WithLocDB(LocDB locDB) {
+				this.locDB = locDB;
 				return this;
 			}
 			public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -71,6 +75,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 				this.deathReasonMapper = deathReasonMapper;
 				return this;
 			}
+			public CK3CharacterBuilder WithConfiguration(Configuration config) {
+				this.config = config;
+				return this;
+			}
 		}
 
 		[Fact]
@@ -78,10 +86,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader(string.Empty);
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocalizationMapper();
+			var locMapper = new LocDB("english");
 			var dynasty = new Dynasty(family, locMapper);
 
-			Assert.Equal("dynn_IMPTOCK3_45", dynasty.ID);
+			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Name);
 		}
 
@@ -90,12 +98,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader("key = cornelii");
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocalizationMapper();
-			locMapper.AddLocalization("cornelii", new LocBlock { english = "Cornelii" });
-			var dynasty = new Dynasty(family, locMapper);
+			var locDB = new LocDB("english");
+			var dynLoc = locDB.AddLocBlock("cornelii");
+			dynLoc["english"] = "Cornelii";
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-			Assert.Equal("Cornelii", dynasty.Localization.Value.english);
+			Assert.Equal("Cornelii", dynasty.Localization.Value["english"]);
 		}
 
 		[Fact]
@@ -103,11 +112,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var reader = new BufferedReader("key = cornelii");
 			var family = Family.Parse(reader, 45);
 
-			var locMapper = new LocalizationMapper();
-			var dynasty = new Dynasty(family, locMapper);
+			var locDB = new LocDB("english");
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-			Assert.Equal("cornelii", dynasty.Localization.Value.english);
+			Assert.Equal("cornelii", dynasty.Localization.Value["english"]);
 		}
 		[Fact]
 		public void CultureIsBasedOnFirstImperatorMember() {
@@ -129,9 +138,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			var cultureMapper = new CultureMapper(
 				new BufferedReader(
 					"link={imp=roman ck3=not_gypsy} link={imp=akan ck3=akan} link={imp=parthian ck3=parthian}"
-				)
+				),
+				new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(),
+				new ImperatorToCK3.Mappers.Region.CK3RegionMapper()
 			);
-			var locMapper = new LocalizationMapper();
+			var locDB = new LocDB("english");
 			var ck3Member1 = new CK3CharacterBuilder()
 				.WithCultureMapper(cultureMapper)
 				.WithImperatorCharacter(member1)
@@ -144,7 +155,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 				.WithCultureMapper(cultureMapper)
 				.WithImperatorCharacter(member3)
 				.Build();
-			var dynasty = new Dynasty(family, locMapper);
+			var dynasty = new Dynasty(family, locDB);
 
 			Assert.Equal("not_gypsy", dynasty.Culture);
 		}

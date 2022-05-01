@@ -1,43 +1,52 @@
-﻿using System;
-using commonItems;
+﻿using commonItems;
+using commonItems.Collections;
+using commonItems.Localization;
+using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.Mappers.Religion;
-using Xunit;
+using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
-using ImperatorToCK3.Mappers.Trait;
-using ImperatorToCK3.Mappers.Nickname;
-using ImperatorToCK3.Mappers.Localization;
-using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Nickname;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.Mappers.Trait;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
-		private class CK3CharacterBuilder {
+		public class CK3CharacterBuilder {
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new();
-			private CultureMapper cultureMapper = new();
-			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
+			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-			private LocalizationMapper localizationMapper = new();
+			private LocDB locDB = new("english");
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
+			private Configuration config = new() {
+				CK3BookmarkDate = new Date(867, 1, 1)
+			};
 
 			public Character Build() {
-				var character = new Character();
-				character.InitializeFromImperator(
+				var character = new Character(
 					imperatorCharacter,
 					religionMapper,
 					cultureMapper,
 					traitMapper,
 					nicknameMapper,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
-					new Date(867, 1, 1)
+					config
 				);
 				return character;
 			}
@@ -61,8 +70,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				this.nicknameMapper = nicknameMapper;
 				return this;
 			}
-			public CK3CharacterBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-				this.localizationMapper = localizationMapper;
+			public CK3CharacterBuilder WithLocDB(LocDB LocDB) {
+				this.locDB = LocDB;
 				return this;
 			}
 			public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -73,9 +82,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				this.deathReasonMapper = deathReasonMapper;
 				return this;
 			}
+			public CK3CharacterBuilder WithConfiguration(Configuration config) {
+				this.config = config;
+				return this;
+			}
 		}
 
 		private readonly CK3CharacterBuilder builder = new();
+
 		[Fact]
 		public void AllLinksCanBeRemoved() {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
@@ -84,10 +98,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4);
 			var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5);
 
-			imperatorCharacter.Mother = new(imperatorMother.ID, imperatorMother);
-			imperatorCharacter.Father = new(imperatorFather.ID, imperatorFather);
-			imperatorCharacter.Children.Add(imperatorChild.ID, imperatorChild);
-			imperatorCharacter.Spouses.Add(imperatorSpouse.ID, imperatorSpouse);
+			imperatorCharacter.Mother = imperatorMother;
+			imperatorCharacter.Father = imperatorFather;
+			imperatorCharacter.Children.Add(imperatorChild.Id, imperatorChild);
+			imperatorCharacter.Spouses.Add(imperatorSpouse.Id, imperatorSpouse);
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -107,8 +121,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			character.Mother = mother;
 			character.Father = father;
-			character.Children.Add(child.ID, child);
-			character.Spouses.Add(spouse.ID, spouse);
+			character.Children.Add(child.Id, child);
+			character.Spouses.Add(spouse);
 
 			Assert.NotNull(character.Mother);
 			Assert.NotNull(character.Father);
@@ -122,26 +136,48 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			Assert.Empty(character.Children);
 			Assert.Empty(character.Spouses);
 		}
+		[Fact]
+		public void BreakAllLinksWarnsWhenChildIsNull() {
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var male = builder.Build();
+			male.Children.Add("childId", null);
+			male.BreakAllLinks();
+			Assert.Contains("[WARN] Child childId of imperator0 is null!", output.ToString());
+			output.Flush();
+
+			var impFemaleReader = new BufferedReader("female = yes");
+			var impFemaleCharacter = ImperatorToCK3.Imperator.Characters.Character.Parse(impFemaleReader, "1", null);
+			var female = builder.WithImperatorCharacter(impFemaleCharacter).Build();
+			female.Children.Add("child2Id", null);
+			female.BreakAllLinks();
+			Assert.Contains("[WARN] Child child2Id of imperator1 is null!", output.ToString());
+		}
 
 		[Fact]
 		public void TraitsCanBeInitializedFromImperator() {
+			var definedCK3Traits = new IdObjectCollection<string, Trait> {
+				new Trait("powerful"),
+				new Trait("craven")
+			};
+			var impToCK3TraitDict = new Dictionary<string, string> {
+				{"strong", "powerful"},
+				{"craven", "craven"}
+			};
+			var traitMapper = new TraitMapperTests.TestTraitMapper(impToCK3TraitDict, definedCK3Traits);
+
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Traits = new() { "strong", "humble", "craven" }
 			};
-			var traitMapReader = new BufferedReader(
-				"link = { imp = strong ck3 = powerful } link = { imp = craven ck3 = craven }"
-			);
-			var traitMapper = new TraitMapper(traitMapReader);
-
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithTraitMapper(traitMapper)
 				.Build();
 
-			Assert.Collection(character.Traits,
-				item => Assert.Equal("craven", item),
-				item => Assert.Equal("powerful", item)
-			);
+			var traits = character.History.GetFieldValueAsCollection("traits", new Date());
+			Assert.NotNull(traits);
+			traits.Should().BeEquivalentTo(new[] {"craven", "powerful"});
 		}
 
 		[Fact]
@@ -154,7 +190,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				"link = { imp=chalcedonian ck3=orthodox }"
 			);
 			var religionMapper = new ReligionMapper(mapReader);
-			religionMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+			religionMapper.LoadRegionMappers(new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -172,8 +208,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var mapReader = new BufferedReader(
 				"link = { imp=macedonian ck3=greek }"
 			);
-			var cultureMapper = new CultureMapper(mapReader);
-			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+			var cultureMapper = new CultureMapper(mapReader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -184,25 +219,22 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
-			var countryReader = new BufferedReader("tag = RAN");
+			var countryReader = new BufferedReader("tag = MAC");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
-			var ck3Title = new ImperatorToCK3.CK3.Titles.Title("d_rankless");
-			country.CK3Title = ck3Title;
 
 			var imperatorCharacter1 = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Culture = "greek",
-				Country = new(69, country)
+				Country = country
 			};
 			var imperatorCharacter2 = new ImperatorToCK3.Imperator.Characters.Character(2) {
 				Culture = "greek"
 			};
 
 			var mapReader = new BufferedReader(
-				"link = { imp=greek ck3=macedonian owner=d_rankless }" +
+				"link = { imp=greek ck3=macedonian tag=MAC }" +
 				"link = { imp=greek ck3=greek }"
 			);
-			var cultureMapper = new CultureMapper(mapReader);
-			cultureMapper.LoadRegionMappers(new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper(), new ImperatorToCK3.Mappers.Region.CK3RegionMapper());
+			var cultureMapper = new CultureMapper(mapReader, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character1 = builder
 				.WithImperatorCharacter(imperatorCharacter1)
@@ -256,18 +288,17 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Name = "alexandros"
 			};
-			var nameLocBlock = new LocBlock() { english = "Alexandros" };
-			nameLocBlock.FillMissingLocsWithEnglish();
 
-			var localizationMapper = new LocalizationMapper();
-			localizationMapper.AddLocalization("alexandros", nameLocBlock);
+			var locDB = new LocDB("english");
+			var nameLocBlock = locDB.AddLocBlock("alexandros");
+			nameLocBlock["english"] = "Alexandros";
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
-				.WithLocalizationMapper(localizationMapper)
+				.WithLocDB(locDB)
 				.Build();
 			Assert.Equal("alexandros", character.Name);
-			Assert.Equal("Alexandros", character.Localizations["alexandros"].english);
+			Assert.Equal("Alexandros", character.Localizations["alexandros"]["english"]);
 		}
 
 		[Fact]
@@ -321,8 +352,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		[Fact]
 		public void LinkingParentWithWrongIdIsLogged() {
 			var character = builder.Build();
-			character.PendingMotherID = "imperator1";
-			character.PendingFatherID = "imperator2";
+			character.PendingMotherId = "imperator1";
+			character.PendingFatherId = "imperator2";
 
 			var mother = builder
 				.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(69))
@@ -339,6 +370,74 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			Assert.Contains("Character imperator0: linking mother imperator69 instead of expected imperator1", output.ToString());
 			Assert.Contains("Character imperator0: linking father imperator420 instead of expected imperator2", output.ToString());
+		}
+
+		[Fact]
+		public void UnneededCharactersArePurged() {
+			// dead and unlanded from Imperator
+			var impCharacterReader = new BufferedReader("death_date = 1.1.1");
+			var imperatorUnlanded = builder
+				.WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null))
+				.Build();
+
+			// dead and unlanded from CK3
+			var ck3Unlanded = new Character("bob", "Bob", birthDate: new Date("50.1.1"));
+
+			var characters = new CharacterCollection {
+				imperatorUnlanded,
+				ck3Unlanded
+			};
+
+			var titles = new Title.LandedTitles();
+			characters.PurgeUnneededCharacters(titles);
+
+			Assert.Empty(characters);
+		}
+
+		[Fact]
+		public void NeededCharactersAreNotPurged() {
+			var titles = new Title.LandedTitles();
+
+			var impFamily = new Family(1);
+			var impFamilies = new FamilyCollection { impFamily };
+
+			var impCharacterReader = new BufferedReader("{ death_date=450.1.1 family=1 }");
+			var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null);
+			impCharacter1.LinkFamily(impFamilies);
+
+			impCharacterReader = new BufferedReader("{ death_date=2.1.1 family=1 }");
+			var impCharacter2 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "2", null);
+			impCharacter2.LinkFamily(impFamilies);
+
+			// dead but won't be purged because he's landed
+			var landedCharacter = builder
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			var kingdom = titles.Add("k_dead_georgia_boys");
+			kingdom.SetHolder(landedCharacter, new Date("400.1.1"));
+			Assert.Equal("imperator1", kingdom.GetHolderId(new Date("400.1.1")));
+			Assert.Collection(kingdom.GetAllHolderIds(),
+				id => Assert.Equal("imperator1", id));
+
+			// dead but won't be purged because he belongs to a dynasty of a landed character
+			var relativeOfLandedCharacter = builder
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+
+			var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, new LocDB("english"));
+			Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
+			Assert.Equal(dynasty.Id, relativeOfLandedCharacter.DynastyId);
+
+			var characters = new CharacterCollection{
+				landedCharacter,
+				relativeOfLandedCharacter
+			};
+			characters.PurgeUnneededCharacters(titles);
+
+			Assert.Collection(characters,
+				character => Assert.Same(landedCharacter, character),
+				character => Assert.Same(relativeOfLandedCharacter, character)
+			);
 		}
 	}
 }

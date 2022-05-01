@@ -1,71 +1,72 @@
-﻿using System.Linq;
+﻿using commonItems;
 using System.Collections.Generic;
-using commonItems;
+using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Provinces {
-	public partial class Province {
-		private static Province province = new(0);
-		private static readonly Parser provinceParser = new();
-		public static HashSet<string> IgnoredTokens { get; } = new();
-		static Province() {
-			provinceParser.RegisterKeyword("province_name", reader =>
-				province.Name = new ProvinceName(reader).Name
-			);
-			provinceParser.RegisterKeyword("culture", reader =>
-				province.Culture = new SingleString(reader).String
-			);
-			provinceParser.RegisterKeyword("religion", reader =>
-				province.Religion = new SingleString(reader).String
-			);
-			provinceParser.RegisterKeyword("owner", reader =>
-				province.OwnerCountry = new(new SingleULong(reader).ULong, null)
-			);
-			provinceParser.RegisterKeyword("controller", reader =>
-				province.Controller = new SingleULong(reader).ULong
-			);
-			provinceParser.RegisterKeyword("pop", reader =>
-				province.Pops.Add(new SingleULong(reader).ULong, null)
-			);
-			provinceParser.RegisterKeyword("civilization_value", reader =>
-				province.CivilizationValue = new SingleDouble(reader).Double
-			);
-			provinceParser.RegisterKeyword("province_rank", reader => {
-				var provinceRankStr = new SingleString(reader).String;
-				switch (provinceRankStr) {
-					case "settlement":
-						province.ProvinceRank = ProvinceRank.settlement;
-						break;
-					case "city":
-						province.ProvinceRank = ProvinceRank.city;
-						break;
-					case "city_metropolis":
-						province.ProvinceRank = ProvinceRank.city_metropolis;
-						break;
-					default:
-						Logger.Warn($"Unknown province rank for province {province.ID}: {provinceRankStr}");
-						break;
-				}
-			});
-			provinceParser.RegisterKeyword("fort", reader =>
-				province.Fort = new ParadoxBool(reader)
-			);
-			provinceParser.RegisterKeyword("holy_site", reader => {
-				// 4294967295 is 2^32 − 1 and is the default value
-				province.HolySite = new SingleULong(reader).ULong != 4294967295;
-			});
-			provinceParser.RegisterKeyword("buildings", reader => {
-				var buildingsList = new IntList(reader).Ints;
-				province.BuildingCount = (uint)buildingsList.Sum();
-			});
-			provinceParser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
-				IgnoredTokens.Add(token);
-				ParserHelpers.IgnoreItem(reader);
-			});
-		}
-		public static Province Parse(BufferedReader reader, ulong provinceID) {
-			province = new Province(provinceID);
-			provinceParser.ParseStream(reader);
-			return province;
-		}
+namespace ImperatorToCK3.Imperator.Provinces;
+
+public partial class Province {
+	public static HashSet<string> IgnoredTokens { get; } = new();
+	static Province() {
+		provinceParser.RegisterKeyword("province_name", reader =>
+			parsedProvince.Name = new ProvinceName(reader).Name
+		);
+		provinceParser.RegisterKeyword("culture", reader =>
+			parsedProvince.Culture = reader.GetString()
+		);
+		provinceParser.RegisterKeyword("religion", reader =>
+			parsedProvince.Religion = reader.GetString()
+		);
+		provinceParser.RegisterKeyword("owner", reader =>
+			parsedProvince.parsedOwnerCountryId = reader.GetULong()
+		);
+		provinceParser.RegisterKeyword("controller", reader =>
+			parsedProvince.Controller = reader.GetULong()
+		);
+		provinceParser.RegisterKeyword("pop", reader =>
+			parsedProvince.parsedPopIds.Add(reader.GetULong())
+		);
+		provinceParser.RegisterKeyword("civilization_value", reader =>
+			parsedProvince.CivilizationValue = reader.GetDouble()
+		);
+		provinceParser.RegisterKeyword("province_rank", reader => {
+			var provinceRankStr = reader.GetString();
+			switch (provinceRankStr) {
+				case "settlement":
+					parsedProvince.ProvinceRank = ProvinceRank.settlement;
+					break;
+				case "city":
+					parsedProvince.ProvinceRank = ProvinceRank.city;
+					break;
+				case "city_metropolis":
+					parsedProvince.ProvinceRank = ProvinceRank.city_metropolis;
+					break;
+				default:
+					Logger.Warn($"Unknown province rank for province {parsedProvince.Id}: {provinceRankStr}");
+					break;
+			}
+		});
+		provinceParser.RegisterKeyword("fort", reader =>
+			parsedProvince.Fort = reader.GetPDXBool()
+		);
+		provinceParser.RegisterKeyword("holy_site", reader => {
+			// 4294967295 is 2^32 − 1 and is the default value
+			parsedProvince.HolySite = reader.GetULong() != 4294967295;
+		});
+		provinceParser.RegisterKeyword("buildings", reader => {
+			var buildingsList = reader.GetInts();
+			parsedProvince.BuildingCount = (uint)buildingsList.Sum();
+		});
+		provinceParser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+			IgnoredTokens.Add(token);
+			ParserHelpers.IgnoreItem(reader);
+		});
 	}
+	public static Province Parse(BufferedReader reader, ulong provinceId) {
+		parsedProvince = new Province(provinceId);
+		provinceParser.ParseStream(reader);
+		return parsedProvince;
+	}
+
+	private static Province parsedProvince = new(0);
+	private static readonly Parser provinceParser = new();
 }

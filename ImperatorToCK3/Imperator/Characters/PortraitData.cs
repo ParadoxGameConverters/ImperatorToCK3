@@ -1,6 +1,6 @@
-﻿using System;
+﻿using commonItems;
+using System;
 using System.Collections.Generic;
-using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters {
 	public class PortraitData {
@@ -22,14 +22,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 			const int eyeColorPaletteYIndex = 9;
 
 			// hair
-			HairColorPaletteCoordinates.x = (uint)decodedDnaStr[hairColorPaletteXIndex] * 2;
-			HairColorPaletteCoordinates.y = (uint)decodedDnaStr[hairColorPaletteYIndex] * 2;
+			HairColorPaletteCoordinates.X = (uint)decodedDnaStr[hairColorPaletteXIndex] * 2;
+			HairColorPaletteCoordinates.Y = (uint)decodedDnaStr[hairColorPaletteYIndex] * 2;
 			// skin
-			SkinColorPaletteCoordinates.x = (uint)decodedDnaStr[skinColorPaletteXIndex] * 2;
-			SkinColorPaletteCoordinates.y = (uint)decodedDnaStr[skinColorPaletteYIndex] * 2;
+			SkinColorPaletteCoordinates.X = (uint)decodedDnaStr[skinColorPaletteXIndex] * 2;
+			SkinColorPaletteCoordinates.Y = (uint)decodedDnaStr[skinColorPaletteYIndex] * 2;
 			// eyes
-			EyeColorPaletteCoordinates.x = (uint)decodedDnaStr[eyeColorPaletteXIndex] * 2;
-			EyeColorPaletteCoordinates.y = (uint)decodedDnaStr[eyeColorPaletteYIndex] * 2;
+			EyeColorPaletteCoordinates.X = (uint)decodedDnaStr[eyeColorPaletteXIndex] * 2;
+			EyeColorPaletteCoordinates.Y = (uint)decodedDnaStr[eyeColorPaletteYIndex] * 2;
 
 			// accessory genes
 			const uint colorGenesBytes = 12;
@@ -48,7 +48,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				if (gene.GeneTemplates[geneTemplateName].AgeSexWeightBlocks.TryGetValue(ageSexString, out var characterGeneFoundWeightBlock)) {
 					var characterGeneObjectName = characterGeneFoundWeightBlock.GetMatchingObject(characterGeneSliderValue);
 					if (characterGeneObjectName is not null) {
-						AccessoryGenesList.Add(new AccessoryGeneData() { geneName = geneName, geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
+						AccessoryGenesList.Add(new AccessoryGeneData { geneName = geneName, geneTemplate = geneTemplateName, objectName = characterGeneObjectName });
 					} else {
 						Logger.Warn($"\t\t\tgene template object name {geneTemplateName} for {ageSexString} could not be extracted from DNA.");
 					}

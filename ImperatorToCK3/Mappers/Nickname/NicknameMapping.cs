@@ -1,22 +1,17 @@
-﻿using System.Collections.Generic;
-using commonItems;
+﻿using commonItems;
+using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.Nickname {
-	public class NicknameMapping {
-		public SortedSet<string> ImperatorNicknames { get; private set; } = new();
-		public string? Ck3Nickname { get; private set; }
-		
-		public NicknameMapping(BufferedReader reader) {
-			var parser = new Parser();
-			parser.RegisterKeyword("ck3", (reader) => {
-				Ck3Nickname = new SingleString(reader).String;
-			});
-			parser.RegisterKeyword("imp", (reader) => {
-				ImperatorNicknames.Add(new SingleString(reader).String);
-			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-			parser.ParseStream(reader);
-			parser.ClearRegisteredRules();
-		}
+namespace ImperatorToCK3.Mappers.Nickname;
+
+public class NicknameMapping {
+	public SortedSet<string> ImperatorNicknames { get; } = new();
+	public string? CK3Nickname { get; private set; }
+
+	public NicknameMapping(BufferedReader reader) {
+		var parser = new Parser();
+		parser.RegisterKeyword("ck3", reader => CK3Nickname = reader.GetString());
+		parser.RegisterKeyword("imp", reader => ImperatorNicknames.Add(reader.GetString()));
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseStream(reader);
 	}
 }

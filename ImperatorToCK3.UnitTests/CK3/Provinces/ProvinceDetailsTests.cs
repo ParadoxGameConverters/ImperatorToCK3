@@ -1,5 +1,5 @@
-﻿using ImperatorToCK3.CK3.Provinces;
-using commonItems;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Provinces;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Provinces {
@@ -7,7 +7,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class ProvinceDetailsTests {
 		private readonly Date ck3BookmarkDate = new(867, 1, 1);
-		[Fact] public void FieldsDefaultToCorrectValues() {
+		[Fact]
+		public void FieldsDefaultToCorrectValues() {
 			var details = new ProvinceDetails();
 			Assert.Equal(string.Empty, details.Culture);
 			Assert.Equal(string.Empty, details.Religion);

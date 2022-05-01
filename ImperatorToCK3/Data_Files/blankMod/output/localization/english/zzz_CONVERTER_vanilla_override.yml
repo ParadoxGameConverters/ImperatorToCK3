@@ -1,0 +1,6 @@
+﻿# MUST READ:
+# for every overridden loc, explain why we're overriding it!
+
+l_english:
+ # "Eastern Roman" makes little sense for cultures diverging from Roman culture in the West. It's also weird for Roman culture to have "Roman Legacy".
+ tradition_roman_legacy_name:1 "Imperial Legacy"

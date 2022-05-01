@@ -1,5 +1,5 @@
-﻿using ImperatorToCK3.Mappers.Religion;
-using commonItems;
+﻿using commonItems;
+using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Religion {
@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 			var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
 			mapper.LoadRegionMappers(impRegionMapper, ck3RegionMapper);
 
-			var ck3Religion = mapper.Match("nonMatchingReligion", 0, 0);
+			var ck3Religion = mapper.Match("nonMatchingReligion", 0, 0, new Configuration());
 			Assert.Null(ck3Religion);
 		}
 
@@ -24,7 +24,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 			var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
 			mapper.LoadRegionMappers(impRegionMapper, ck3RegionMapper);
 
-			var ck3Religion = mapper.Match("impReligion", 45, 456);
+			var ck3Religion = mapper.Match("impReligion", 45, 456, new Configuration());
 			Assert.Equal("ck3Religion", ck3Religion);
 		}
 
@@ -38,7 +38,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 			var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
 			mapper.LoadRegionMappers(impRegionMapper, ck3RegionMapper);
 
-			var ck3Religion = mapper.Match("impReligion2", 45, 456);
+			var ck3Religion = mapper.Match("impReligion2", 45, 456, new Configuration());
 			Assert.Equal("ck3Religion", ck3Religion);
 		}
 
@@ -53,7 +53,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion {
 			var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
 			mapper.LoadRegionMappers(impRegionMapper, ck3RegionMapper);
 
-			var ck3Religion = mapper.Match("impReligion2", 45, 456);
+			var ck3Religion = mapper.Match("impReligion2", 45, 456, new Configuration());
 			Assert.Equal("ck3Religion2", ck3Religion);
 		}
 	}
