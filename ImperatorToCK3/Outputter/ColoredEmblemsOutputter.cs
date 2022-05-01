@@ -31,25 +31,33 @@ public static class ColoredEmblemsOutputter {
 	public static void CopyColoredEmblems(Configuration config, IEnumerable<Mod> mods) {
 		var coloredEmblemsFolder = Path.Combine("gfx", "coat_of_arms", "colored_emblems");
 		var vanillaEmblemsFolder = Path.Combine(config.ImperatorPath, "game", coloredEmblemsFolder);
+		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 		foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(vanillaEmblemsFolder)) {
-			CopyEmblem(Path.Combine(vanillaEmblemsFolder, fileName), fileName);
+			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(fileName))) {
+				continue;
+			}
+			CopyEmblem(vanillaEmblemsFolder, fileName);
 		}
 
 		foreach (var modEmblemsFolder in mods.Select(mod => Path.Combine(mod.Path, coloredEmblemsFolder))) {
 			foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(modEmblemsFolder)) {
-				CopyEmblem(Path.Combine(modEmblemsFolder, fileName), fileName);
+				if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(fileName))) {
+					continue;
+				}
+				CopyEmblem(modEmblemsFolder, fileName);
 			}
 		}
 
-		void CopyEmblem(string filePath, string fileName) {
-			if (IsBrokenEmblem(fileName, config)) {
+		void CopyEmblem(string emblemsFolderPath, string emblemsFileName) {
+			var emblemsFilePath = Path.Combine(emblemsFolderPath, emblemsFileName);
+			if (IsBrokenEmblem(emblemsFileName, config)) {
 				return;
 			}
 			// Load an image.
-			var image = new MagickImage(filePath);
+			var image = new MagickImage(emblemsFilePath);
 			image.Negate(channels: Channels.Red);
 			// Write the image to new file.
-			var outputPath = Path.Combine("output", config.OutputModName, "gfx", "coat_of_arms", "colored_emblems", fileName);
+			var outputPath = Path.Combine("output", config.OutputModName, "gfx", "coat_of_arms", "colored_emblems", emblemsFileName);
 			image.Write(outputPath);
 		}
 	}

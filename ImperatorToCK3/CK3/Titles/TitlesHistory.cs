@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 
@@ -42,11 +43,11 @@ public class TitlesHistory : Parser {
 	}
 
 	private readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
-		.WithSimpleField("holder", "holder", null)
+		.WithSimpleField("holder", new OrderedSet<string>{"holder", "holder_ignore_head_of_faith_requirement"}, null)
 		.WithSimpleField("government", "government", null)
 		.WithSimpleField("liege", "liege", null)
 		.WithSimpleField("development_level", "change_development_level", null)
-		.WithContainerField("succession_laws", "succession_laws", new())
+		.WithSimpleField("succession_laws", "succession_laws", new SortedSet<string>())
 		.Build();
 	private readonly Dictionary<string, TitleHistory> historyDict = new();
 }

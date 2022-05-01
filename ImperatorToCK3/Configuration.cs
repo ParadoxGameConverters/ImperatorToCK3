@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3 {
 	public enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 }
@@ -12,6 +13,7 @@ namespace ImperatorToCK3 {
 		public string CK3ModsPath { get; set; } = "";
 		public string OutputModName { get; set; } = "";
 		public IMPERATOR_DE_JURE ImperatorDeJure { get; set; } = IMPERATOR_DE_JURE.NO;
+		public bool HeresiesInHistoricalAreas { get; set; } = false;
 		public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 
 		public Configuration() { }
@@ -42,12 +44,21 @@ namespace ImperatorToCK3 {
 				Logger.Info($"Output name set to: {OutputModName}");
 			});
 			parser.RegisterKeyword("ImperatorDeJure", reader => {
-				var deJureString = reader.GetString();
+				var valueString = reader.GetString();
 				try {
-					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(deJureString);
-					Logger.Info($"ImperatorDeJure set to: {deJureString}");
+					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(valueString);
+					Logger.Info($"ImperatorDeJure set to: {valueString}");
 				} catch (Exception e) {
-					Logger.Error($"Undefined error, ImperatorDeJure value was: {deJureString}; Error message: {e}");
+					Logger.Error($"Undefined error, ImperatorDeJure value was: {valueString}; Error message: {e}");
+				}
+			});
+			parser.RegisterKeyword("HeresiesInHistoricalAreas", reader => {
+				var valueString = reader.GetString();
+				try {
+					HeresiesInHistoricalAreas = Convert.ToInt32(valueString) == 1;
+					Logger.Info($"HeresiesInHistoricalAreas set to: {HeresiesInHistoricalAreas}");
+				} catch (Exception e) {
+					Logger.Error($"Undefined error, HeresiesInHistoricalAreas value was: {valueString}; Error message: {e}");
 				}
 			});
 
@@ -68,8 +79,13 @@ namespace ImperatorToCK3 {
 			if (!Directory.Exists(ImperatorPath)) {
 				throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
 			}
-			if (!File.Exists($"{ImperatorPath}/binaries/imperator.exe")) {
-				throw new FileNotFoundException($"{ImperatorPath}does not contains Imperator: Rome!");
+
+			var imperatorExePath = Path.Combine(ImperatorPath, "binaries", "imperator");
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+				imperatorExePath += ".exe";
+			}
+			if (!File.Exists(imperatorExePath)) {
+				throw new FileNotFoundException($"{ImperatorPath} does not contains Imperator: Rome!");
 			}
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		}
@@ -78,7 +94,12 @@ namespace ImperatorToCK3 {
 			if (!Directory.Exists(CK3Path)) {
 				throw new DirectoryNotFoundException($"{CK3Path} does not exist!");
 			}
-			if (!File.Exists($"{CK3Path}/binaries/ck3.exe")) {
+			
+			var ck3ExePath = Path.Combine(CK3Path, "binaries", "ck3");
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+				ck3ExePath += ".exe";
+			}
+			if (!File.Exists(ck3ExePath)) {
 				throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
 			}
 			Logger.Info($"\tCK3 install path is {CK3Path}");

@@ -5,36 +5,71 @@ on:
     - 'master'
 
 jobs:
-  build_dev_version:
-    runs-on: windows-2022
+  remove_old_artifacts:
+    name: Remove old artifacts
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        submodules: recursive
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.*'
-    - name: "Build frontend"
-      uses: ./Fronter/.github/actions/build_frontend
-      with:
-        msbuild_path: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe"
-    - name: "Build backend"
-      run: |
-        cd ImperatorToCK3
-        dotnet publish -p:PublishProfile=win-x64 -c:Release
-        cd ..
-        Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
-        Xcopy /E /Y Publish Release
     - name: Remove old artifacts
       uses: kolpav/purge-artifacts-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
+
+
+  upload_dev_build_artifact:
+    name: Upload development build
+    needs: remove_old_artifacts
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build:
+        - win-x64
+        - linux-x64
+        include:
+        - build: win-x64
+          os: windows-2022
+          archive_type: zip
+          archive_extension: .zip
+        - build: linux-x64
+          os: ubuntu-latest
+          archive_type: tar
+          archive_extension: .tgz
+    steps:
+    - uses: actions/checkout@v3
       with:
-        name: dev-version
-        path: Release/
+        fetch-depth: 0
+        submodules: recursive
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.*'
+    - name: "Build frontend"
+      uses: ./Fronter.NET/.github/actions/build_frontend
+      with:
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
+    - name: "Remove Release/ImperatorToCK3 directory"
+      uses: JesseTG/rm@v1.0.2
+      with:
+        path: Release/ImperatorToCK3
+    - name: "Copy Publish files to Release directory"
+      shell: bash
+      run: |
+        cp -R Publish/* Release/
+    - name: Archive Release folder
+      uses: thedoctor0/zip-release@master
+      with:
+        type: ${{ matrix.archive_type }}
+        directory: '.'
+        path: 'Release'
+        filename: 'ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ImperatorToCK3-${{ matrix.build }}-dev
+        path: ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}
         retention-days: 30

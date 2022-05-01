@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
 using System.IO;
 
@@ -35,7 +36,7 @@ public static class CharacterOutputter {
 
 		// output spouse
 		// TODO: output add_spouse with earlier date if the pair has a born or unborn child
-		foreach (var spouseId in character.Spouses.Keys) {
+		foreach (var spouse in character.Spouses) {
 			Date marriageDate;
 			if (character.DeathDate is not null) {
 				marriageDate = new Date(character.DeathDate);
@@ -43,7 +44,7 @@ public static class CharacterOutputter {
 			} else {
 				marriageDate = conversionDate;
 			}
-			output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouseId} }}");
+			output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouse.Id} }}");
 		}
 
 		// output nickname
@@ -55,10 +56,8 @@ public static class CharacterOutputter {
 			output.WriteLine($"\t{nicknameDate} = {{ give_nickname = {character.Nickname} }}");
 		}
 
-		// output traits
-		foreach (var trait in character.Traits) {
-			output.WriteLine($"\ttrait = {trait}");
-		}
+		// output history
+		output.Write(PDXSerializer.Serialize(character.History, "\t"));
 
 		OutputBirthAndDeathDates(output, character);
 		OutputPrisoners(output, character, conversionDate);

@@ -94,6 +94,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
+			RegisterKeyword("armies", reader => reader.GetStringOfItem());
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
@@ -101,7 +102,7 @@ namespace ImperatorToCK3.Imperator {
 			});
 			RegisterKeyword("population", reader => {
 				Logger.Info("Loading Pops...");
-				pops = new PopsBloc(reader).PopsFromBloc;
+				pops = PopCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {pops.Count} pops.");
 			});
 			RegisterKeyword("jobs", reader => {
@@ -137,16 +138,16 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Building World ***");
 
 			// Link all the intertwining references
-			Logger.Info("Linking Characters with Families");
+			Logger.Info("Linking Characters with Families...");
 			Characters.LinkFamilies(Families);
 			Families.RemoveUnlinkedMembers();
-			Logger.Info("Linking Characters with Countries");
+			Logger.Info("Linking Characters with Countries...");
 			Characters.LinkCountries(Countries);
-			Logger.Info("Linking Provinces with Pops");
+			Logger.Info("Linking Provinces with Pops...");
 			Provinces.LinkPops(pops);
-			Logger.Info("Linking Provinces with Countries");
+			Logger.Info("Linking Provinces with Countries...");
 			Provinces.LinkCountries(Countries);
-			Logger.Info("Linking Countries with Families");
+			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 
 			LoadPreImperatorRulers();
