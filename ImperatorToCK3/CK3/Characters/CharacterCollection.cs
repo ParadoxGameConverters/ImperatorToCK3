@@ -12,7 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class CharacterCollection : IdObjectCollection<string, Character> {
+	public partial class CharacterCollection : IdObjectCollection<string, Character> {
+		public CharacterCollection() { }
 		public void ImportImperatorCharacters(Imperator.World impWorld,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
@@ -132,8 +133,8 @@ namespace ImperatorToCK3.CK3.Characters {
 						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
 						continue;
 					}
-					ck3Character.Spouses.Add(ck3SpouseCharacter);
-					ck3SpouseCharacter.Spouses.Add(ck3Character);
+					ck3Character.Spouses.TryAdd(ck3SpouseCharacter);
+					ck3SpouseCharacter.Spouses.TryAdd(ck3Character);
 					++spouseCounter;
 				}
 			}
