@@ -64,12 +64,12 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         type: ${{ matrix.archive_type }}
-        directory: '.'
-        path: 'Release'
-        filename: 'ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
+        directory: 'Release'
+        path: '.'
+        filename: '../ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: ImperatorToCK3-${{ matrix.build }}-dev
-        path: ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}
+        path: 'ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
         retention-days: 30
