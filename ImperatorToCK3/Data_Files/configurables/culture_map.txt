@@ -409,13 +409,14 @@ link = { ck3 = basque imp = cantabrian imp = ilergetian imp = autrigonian imp = 
 link = { ck3 = nuragic imp = nuragic imp = corsian }
 
 ## Scythian - As a weird replacement for Turks
-link = { ck3 = avar imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci impRegion = pannonia_region impRegion = dacia_region }
+link = { ck3 = avar imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci impRegion = pannonia_region impRegion = dacia_region }
 
 ## Scythian
-link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
+link = { ck3=alan imp=roxolanian }
+link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
 link = { ck3 = khwarezmian imp = kharesmian }
 link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyrsian }
-link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci }
+link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci }
 # Invictus mod
 link = { ck3=scythian imp=khotanese imp=gelonian }
 
