@@ -120,6 +120,7 @@ link = { ck3 = gujarati imp = kaccha }
 link = { ck3 = marathi imp = rathikan }
 link = { ck3 = punjabi imp = sivi imp = purus }
 link = { ck3 = hindustani imp = kosala imp = kuru }
+link = { ck3=sinhala imp=dhivehi }
 
 ## Bactrian
 link = { ck3 = bactrian imp = bactrian imp = yuezhi }
@@ -137,7 +138,7 @@ link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Pr
 link = { ck3 = urslavic imp = aestian }
 # Invictus mod
 link = { ck3 = prussian imp = neuric }
-link = { ck3 = urslavic imp = sporic }
+link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian }
 
 
 ## Belgea (sic)
@@ -151,6 +152,8 @@ link = { ck3 = cumbrian imp = damnonian }
 link = { ck3 = welsh imp = demetian imp = ordovitian }
 link = { ck3 = brythonic imp=britannic imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
 link = { ck3 = cornish imp = dumnonian }
+# Invictus mod
+link = { ck3=brythonic imp=parisian imp=monapian }
 
 ## Caucasian
 link = { ck3 = georgian imp = albanian imp = ibero imp = colchian }
@@ -164,7 +167,7 @@ link = { ck3 = celtiberian imp = oppidanian }
 
 ## Celto Pannonian
 link = { ck3 = celtic_pannonian imp = boian imp = noric imp = celtic_pannonian imp = letobician imp = carnian imp = eravisci }
-#Invictus mod
+# Invictus mod
 link = { ck3 = celtic_pannonian imp = pannonian }
 
 ## Dacian
@@ -181,12 +184,14 @@ link = { ck3 = babylonian imp = babylonian }
 ## Gaelic
 link = { ck3 = irish imp = hibernian }
 link = { ck3 = gaelic imp = manavian }
+# Invictus mod
+link = { ck3=irish imp=ivernian imp=voluntian }
 
 ## Gallic
 link = { ck3 = gallic imp = volcae imp = salluvian imp = arverni imp = aulercian imp = pictonian imp = lemovician imp = santonian imp = carnuti imp = haedui imp = biturigan imp = lepontic imp = vindelician imp = helvetian }
 link = { ck3 = breton imp = aremorican }
 # Invictus mod
-link = { ck3 = gallic imp = cotinian }
+link = { ck3=gallic imp=cotinian imp=allobrogian imp=teurian }
 
 
 ### Germanic
@@ -411,6 +416,8 @@ link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian
 link = { ck3 = khwarezmian imp = kharesmian }
 link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyrsian }
 link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci }
+# Invictus mod
+link = { ck3=scythian imp=khotanese imp=gelonian }
 
 ## South Levantine
 link = { ck3 = adnanite imp = thamudi imp = qedarite imp = taif } # Pre-Islamic North Arabian
