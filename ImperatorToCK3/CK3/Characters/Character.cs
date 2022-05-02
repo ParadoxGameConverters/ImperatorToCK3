@@ -93,8 +93,14 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 
-			BirthDate = new Date(0, 1, 1);
-			DeathDate = new Date(0, 1, 30);
+			BirthDate = preImperatorRuler.BirthDate!;
+			if (BirthDate.Year < 1) {
+				BirthDate.ChangeByYears(-1);
+			}
+			DeathDate = preImperatorRuler.DeathDate!;
+			if (DeathDate.Year < 1) {
+				DeathDate.ChangeByYears(-1);
+			}
 
 			// determine culture and religion
 			ulong ck3Province = 0;
@@ -217,12 +223,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			BirthDate = ImperatorCharacter.BirthDate;
-			if (BirthDate.Year < 0) {
-				BirthDate = new Date(0, 1, 1);
+			if (BirthDate.Year < 1) {
+				BirthDate.ChangeByYears(-1);
 			}
 			DeathDate = ImperatorCharacter.DeathDate;
-			if (DeathDate?.Year < 0) {
-				DeathDate = new Date(0, 12, 31);
+			if (DeathDate?.Year < 1) {
+				DeathDate.ChangeByYears(-1);
 			}
 			var impDeathReason = ImperatorCharacter.DeathReason;
 			if (impDeathReason is not null) {

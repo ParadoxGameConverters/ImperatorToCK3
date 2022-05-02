@@ -204,8 +204,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		void FillHolderAndGovernmentHistory() {
 			// ------------------ determine previous and current holders
-			// there was no 0 AD, but year 0 works in game and serves well for adding BC characters to holder history
-			var firstPossibleDate = new Date(0, 1, 1);
+			
 			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
 				var rulerTerm = new RulerTerm(
 					impRulerTerm,
@@ -222,15 +221,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var characterId = rulerTerm.CharacterId;
 				var gov = rulerTerm.Government;
 
-				var startDate = new Date(rulerTerm.StartDate);
-				if (startDate < firstPossibleDate) {
-					startDate = new Date(firstPossibleDate); // TODO: remove this workaround if CK3 supports negative dates
-					firstPossibleDate.ChangeByDays(1);
-				}
+				var termStartDate = new Date(rulerTerm.StartDate);
 
-				History.AddFieldValue(startDate,"holder",  "holder", characterId);
+				History.AddFieldValue(termStartDate,"holder",  "holder", characterId);
 				if (gov is not null) {
-					History.AddFieldValue(startDate, "government", "government", gov);
+					History.AddFieldValue(termStartDate, "government", "government", gov);
 				}
 			}
 
@@ -302,7 +297,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
-		var normalizedStartDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
+		var governorshipStartDate = governorship.StartDate;
 
 		IsImportedOrUpdatedFromImperator = true;
 
@@ -313,7 +308,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		ClearHolderSpecificHistory();
 
 		DeJureLiege = country.CK3Title;
-		SetDeFactoLiege(country.CK3Title, normalizedStartDate);
+		SetDeFactoLiege(country.CK3Title, governorshipStartDate);
 
 		HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
 		RulerUsesTitleName.Value = false;
@@ -323,12 +318,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var impGovernor = imperatorCharacters[governorship.CharacterId];
 
 		// ------------------ determine holder
-		History.AddFieldValue(normalizedStartDate, "holder", "holder", $"imperator{impGovernor.Id}");
+		History.AddFieldValue(governorshipStartDate, "holder", "holder", $"imperator{impGovernor.Id}");
 
 		// ------------------ determine government
-		var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedStartDate);
+		var ck3LiegeGov = country.CK3Title.GetGovernment(governorshipStartDate);
 		if (ck3LiegeGov is not null) {
-			History.AddFieldValue(normalizedStartDate, "government", "government", ck3LiegeGov);
+			History.AddFieldValue(governorshipStartDate, "government", "government", ck3LiegeGov);
 		}
 
 		// ------------------ determine color
@@ -343,7 +338,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
-		History.AddFieldValue(normalizedStartDate,
+		History.AddFieldValue(governorshipStartDate,
 			"succession_laws", 
 			"succession_laws",
 			new SortedSet<string> { "high_partition_succession_law" }
