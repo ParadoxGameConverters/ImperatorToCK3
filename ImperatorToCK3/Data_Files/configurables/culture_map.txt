@@ -376,9 +376,9 @@ link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socoss
 link = { ck3 = butr imp = libyan imp = garamantic }
 link = { ck3 = numidian imp = numidian }
 # Invictus mod
-link = { ck3=baranis imp=lixitoi imp=autolalean }
-link = { ck3=butr imp=gyzantian imp=psyllic imp=nasamonian imp=perorsian imp=phazani imp=canarian imp=daphnitaean }
-link = { ck3=numidian imp=capariensian }
+link = { ck3=baranis imp=lixitoi imp=autolalean imp=cetianian imp=nectiberean }
+link = { ck3=butr imp=gyzantian imp=psyllic imp=nasamonian imp=perorsian imp=phazani imp=canarian imp=daphnitaean imp=macaean }
+link = { ck3=numidian imp=capariensian imp=lotophagoi imp=abannaean }
 
 ## Persia
 link = { ck3 = persian imp = carmanian imp = sagartian imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
