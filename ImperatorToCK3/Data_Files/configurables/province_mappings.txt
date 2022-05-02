@@ -33,7 +33,8 @@
 	link = { imp = 3844 ck3 = 2113 ck3 = 2108 } # Fletio -> BERGEN OP ZOOM, ROSENDAAL
 	link = { imp = 3843 ck3 = 2115 ck3 = 2112 } # Ganuenta -> BRUGES, MIDDELBURG
 	link = { imp = 3675 ck3 = 2128 ck3 = 2125 } # Cortoriacum -> VEURNE, YPRES
-	link = { imp = 3723 imp = 3701 ck3 = 2694 } # Bingium, Mogontiacum -> MAINZ
+	link = { imp = 3701 imp = 3723 ck3 = 2694 } # Mogontiacum, Bingium -> MAINZ
+
 	link = { imp = 3722 ck3 = 2695 } # Vosolvia -> BOPPARD
 	link = { imp = 3721 ck3 = 2086 ck3 = 2084 } # Confluentes -> ADENAU, KOBLENZ
 	link = { imp = 7738 ck3 = 2685 } # Rigomagus -> NAUENAHR
