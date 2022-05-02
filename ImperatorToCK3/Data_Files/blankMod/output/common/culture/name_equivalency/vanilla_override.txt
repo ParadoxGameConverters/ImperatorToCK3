@@ -1,56 +1,77 @@
-﻿sigmund_male = {
-	Sigmund Siegmund Sigismond Sigismund Zikmund Zsigmond Zygmunt # vanilla
-	Segimund Sigimund # converter
-}
-ingeborg_female = {
-	Ingeborg IngebjO_rg IngibjO_rg # vanilla
-	Ingiburg IngbjO_rg Inge Ingebjorg # converter
-}
-ptolemy_male = {
-	Ptolemy Ptolemee PtolE_mE_e # vanilla
-	Ptolemaios # converter
-}
-alexandra_female = {
-	Alexandra Saundra # vanilla
-	Alessandra Kassandra # converter
-}
-melisende_female = {
-	Melisende ME_lisande ME_lisende MelisE_nda Melisant Melissa # vanilla
-	Melitta # converter
-}
-vishtasb_male = {
-	Vishtasb VI_S_tap # vanilla
-	Hystaspes Vishtasb_Vishtasb # converter
-}
-tiberius_male = {
-	Tiberius Tiberios # vanilla
-	Thefri # converter
-}
-darius_male = {
-	Darius Dariush DaryU_S_ # vanilla
-	Dareios # converter
-}
-anna_female = {
-	Anna Ana Annamma Anne Annes Anah # vanilla
-	Hannah Hanna # converter
-}
-marcus_male = {
-	Marcus MA_rk Marcas March Marchell Marco Marek Margh Margos Mark Marko Markos Markose Markus Morcar # vanilla
-	Marce Marc Marcu # converter
-}
-joakim_male = {
-	Joakim Jochim # vanilla
-	Alcimus Joachim Joacim # converter
-}
-hyacinth_male = {
-	Hyacinth Jacek Jacenty # vanilla
-	Giacinto Hyakinthos # converter
+﻿# MALE
+abahu_male = {
+	Abahu Avda # vanilla
+	Abdagas # converter
 }
 abraham_male = {
 	Abraham Abraam Avraaham Brahim Ebrahim Ibrahim YaravAm # vanilla
 	Abraha Abram Ebrahim_Abraham # converter
 }
+asher_male = {
+	Asher Ashur # vanilla
+	Asheri # converter
+}
+darius_male = {
+	Darius Dariush DaryU_S_ # vanilla
+	Dareios # converter
+}
 farhad_male = {
 	Farhad Ferhad # vanilla
 	Phraates Farhad_Farhad # converter
+}
+herman_male = {
+	Herman Hermann Ermannu # vanilla
+	Armin # converter
+}
+hyacinth_male = {
+	Hyacinth Jacek Jacenty # vanilla
+	Giacinto Hyakinthos # converter
+}
+joakim_male = {
+	Joakim Jochim # vanilla
+	Alcimus Joachim Joacim # converter
+}
+marcus_male = {
+	Marcus MA_rk Marcas March Marchell Marco Marek Margh Margos Mark Marko Markos Markose Markus Morcar # vanilla
+	Marce Marc Marcu # converter
+}
+ptolemy_male = {
+	Ptolemy Ptolemee PtolE_mE_e # vanilla
+	Ptolemaios # converter
+}
+sigmund_male = {
+	Sigmund Siegmund Sigismond Sigismund Zikmund Zsigmond Zygmunt # vanilla
+	Segimund Sigimund # converter
+}
+tiberius_male = {
+	Tiberius Tiberios # vanilla
+	Thefri # converter
+}
+vishtasb_male = {
+	Vishtasb VI_S_tap # vanilla
+	Hystaspes Vishtasb_Vishtasb # converter
+}
+
+
+
+# FEMALE
+alexandra_female = {
+	Alexandra Saundra # vanilla
+	Alessandra Kassandra # converter
+}
+anna_female = {
+	Anna Ana Annamma Anne Annes Anah # vanilla
+	Hannah Hanna # converter
+}
+brigit_female = {
+	Brigit Breaca Breage Bride Ffraid Bridei Brude Bruide Brigide Bricita # vanilla
+	Brigantia Prikita # converter
+}
+ingeborg_female = {
+	Ingeborg IngebjO_rg IngibjO_rg # vanilla
+	Ingiburg IngbjO_rg Inge Ingebjorg # converter
+}
+melisende_female = {
+	Melisende ME_lisande ME_lisende MelisE_nda Melisant Melissa # vanilla
+	Melitta # converter
 }
