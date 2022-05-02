@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Province;
 
@@ -36,8 +37,12 @@ public class ProvinceMappingsVersion {
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 		parser.ParseStream(reader);
-		
-		Logger.Warn($"I:R provinces referenced more than once: {string.Join(", ", imperatorProvsReferencedMoreThanOnce)}");
-		Logger.Warn($"CK3 provinces referenced more than once: {string.Join(", ", ck3ProvsReferencedMoreThanOnce)}");
+
+		if (imperatorProvsReferencedMoreThanOnce.Any()) {
+			Logger.Warn($"I:R provinces referenced more than once: {string.Join(", ", imperatorProvsReferencedMoreThanOnce)}");
+		}
+		if (ck3ProvsReferencedMoreThanOnce.Any()) {
+			Logger.Warn($"CK3 provinces referenced more than once: {string.Join(", ", ck3ProvsReferencedMoreThanOnce)}");
+		}
 	}
 }
