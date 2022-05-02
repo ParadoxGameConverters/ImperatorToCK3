@@ -36,7 +36,8 @@
 	link = { imp = 3701 imp = 3723 ck3 = 2694 } # Mogontiacum, Bingium -> MAINZ
 
 	link = { imp = 3722 ck3 = 2695 } # Vosolvia -> BOPPARD
-	link = { imp = 3721 ck3 = 2086 ck3 = 2084 } # Confluentes -> ADENAU, KOBLENZ
+	link = { imp = 3721 ck3 = 2084 ck3 = 2086 } # Confluentes -> KOBLENZ, ADENAU
+
 	link = { imp = 7738 ck3 = 2685 } # Rigomagus -> NAUENAHR
 	link = { imp = 3719 ck3 = 2094 ck3 = 2448 } # Belsonancum -> LA ROCHE, LIMBOURG
 	link = { imp = 3689 ck3 = 2449 } # Andethanna -> CLERVAUX
