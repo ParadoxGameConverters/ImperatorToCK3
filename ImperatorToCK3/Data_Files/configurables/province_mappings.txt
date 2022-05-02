@@ -169,7 +169,8 @@
 	link = { imp = 1023 imp = 1206 ck3 = 1923 } # Mantua Carpetania, Complutum -> MADRID
 	link = { imp = 1202 ck3 = 1920 } # Vaddua -> MAQUEDA
 	link = { imp = 1438 imp = 1200 ck3 = 1918 } # Caesarobriga, Vettonia Superioris -> TALAVERA
-	link = { imp = 1177 imp = 1193 imp = 1022 imp = 1205 imp = 1195 ck3 = 1924 } # Cauca, Confluentia, Segovia, Carpetana Luga, Miaccum -> SEGOVIA
+	link = { imp = 1022 imp = 1177 imp = 1193 imp = 1205 imp = 1195 ck3 = 1924 } # Segovia, Cauca, Confluentia, Carpetana Luga, Miaccum -> SEGOVIA
+
 	link = { imp = 1176 ck3 = 1922 } # Nivaria -> CORACERA
 	link = { imp = 1196 imp = 1194 imp = 1199 ck3 = 1921 } # Tullium, Avila, Platanus -> LA ADRADA
 	link = { imp = 1198 imp = 1197 ck3 = 1916 } # Coloricum, Ad Lippos -> SIERRA DE GREDOS
