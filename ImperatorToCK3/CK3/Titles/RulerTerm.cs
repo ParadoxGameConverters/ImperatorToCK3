@@ -35,7 +35,13 @@ public class RulerTerm {
 		}
 
 		PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
-		if (PreImperatorRuler?.Country is not null) {
+		if (PreImperatorRuler?.BirthDate is null) {
+			return;
+		}
+		if (PreImperatorRuler.DeathDate is null) {
+			return;
+		}
+		if (PreImperatorRuler.Country is not null) {
 			// create a new ruler character
 			var character = new Character(
 				PreImperatorRuler,

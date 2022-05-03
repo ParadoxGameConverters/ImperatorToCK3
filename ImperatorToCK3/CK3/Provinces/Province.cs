@@ -105,7 +105,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 		if (!religionSet) {
 			//Use default CK3 religion.
-			Logger.Error($"Couldn't determine religion for province {Id} with source religion {ImperatorProvince.Religion}, using vanilla religion");
+			Logger.Warn($"Couldn't determine religion for province {Id} with source religion {ImperatorProvince.Religion}, using vanilla religion");
 		}
 	}
 	private void SetCultureFromImperator(CultureMapper cultureMapper) {
@@ -134,7 +134,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 		if (!cultureSet) {
 			//Use default CK3 culture.
-			Logger.Error($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture");
+			Logger.Warn($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture");
 		}
 	}
 	private void SetHoldingFromImperator(Title.LandedTitles landedTitles) {
