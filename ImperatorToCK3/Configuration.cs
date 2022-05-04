@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3 {
 	public enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 }
@@ -78,8 +79,13 @@ namespace ImperatorToCK3 {
 			if (!Directory.Exists(ImperatorPath)) {
 				throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
 			}
-			if (!File.Exists($"{ImperatorPath}/binaries/imperator.exe")) {
-				throw new FileNotFoundException($"{ImperatorPath}does not contains Imperator: Rome!");
+
+			var imperatorExePath = Path.Combine(ImperatorPath, "binaries", "imperator");
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+				imperatorExePath += ".exe";
+			}
+			if (!File.Exists(imperatorExePath)) {
+				throw new FileNotFoundException($"{ImperatorPath} does not contains Imperator: Rome!");
 			}
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		}
@@ -88,7 +94,12 @@ namespace ImperatorToCK3 {
 			if (!Directory.Exists(CK3Path)) {
 				throw new DirectoryNotFoundException($"{CK3Path} does not exist!");
 			}
-			if (!File.Exists($"{CK3Path}/binaries/ck3.exe")) {
+			
+			var ck3ExePath = Path.Combine(CK3Path, "binaries", "ck3");
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+				ck3ExePath += ".exe";
+			}
+			if (!File.Exists(ck3ExePath)) {
 				throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
 			}
 			Logger.Info($"\tCK3 install path is {CK3Path}");

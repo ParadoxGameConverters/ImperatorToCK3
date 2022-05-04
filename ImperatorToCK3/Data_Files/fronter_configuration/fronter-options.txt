@@ -57,7 +57,7 @@ option = {
 	displayName = BOOKMARKDATE
 	tooltip = BOOKMARKDATETIP
 	textSelector = {	
-		value = "867.1.1"
+		value = ""
 		editable = true
 		tooltip = BOOKMARKDATETIP2
 	}

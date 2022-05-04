@@ -64,6 +64,6 @@ public class ProvinceDetails {
 		.WithSimpleField("culture", "culture", null)
 		.WithSimpleField("religion", "religion", null)
 		.WithSimpleField("holding", "holding", "none")
-		.WithContainerField("buildings", "buildings", new())
+		.WithSimpleField("buildings", "buildings", new List<string>())
 		.Build();
 }

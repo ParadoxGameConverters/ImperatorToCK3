@@ -158,12 +158,12 @@ namespace ImperatorToCK3.CK3 {
 				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
 			}
 			foreach (var title in LandedTitles.Where(t => t.Rank > TitleRank.county)) {
-				title.History.InternalHistory.Fields.Remove("development_level");
+				title.History.Fields.Remove("development_level");
 			}
 
 			// Remove history entries past the bookmark date.
 			foreach (var title in LandedTitles) {
-				title.RemoveHistoryPastBookmarkDate(ck3BookmarkDate);
+				title.RemoveHistoryPastDate(ck3BookmarkDate);
 			}
 		}
 
@@ -289,7 +289,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 
 			void GiveCountyToCountyLevelGovernor(Title county, Governorship governorship, Title ck3Country) {
-				var holderChangeDate = governorship.StartDate.Year > 0 ? governorship.StartDate : new Date(1, 1, 1);
+				var holderChangeDate = governorship.StartDate;
 				var impGovernor = impCharacters[governorship.CharacterId];
 				var governor = impGovernor.CK3Character;
 

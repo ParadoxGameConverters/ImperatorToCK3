@@ -1,8 +1,10 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
@@ -10,12 +12,11 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.Mappers.Trait;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
-using ImperatorToCK3.Imperator.Families;
-using ImperatorToCK3.UnitTests.Mappers.Trait;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
@@ -156,7 +157,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void TraitsCanBeInitializedFromImperator() {
-			var ck3Traits = new IdObjectCollection<string, Trait> {
+			var definedCK3Traits = new IdObjectCollection<string, Trait> {
 				new Trait("powerful"),
 				new Trait("craven")
 			};
@@ -164,7 +165,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				{"strong", "powerful"},
 				{"craven", "craven"}
 			};
-			var traitMapper = new TraitMapperTests.TestTraitMapper(impToCK3TraitDict, ck3Traits);
+			var traitMapper = new TraitMapperTests.TestTraitMapper(impToCK3TraitDict, definedCK3Traits);
 
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Traits = new() { "strong", "humble", "craven" }
@@ -174,10 +175,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithTraitMapper(traitMapper)
 				.Build();
 
-			Assert.Collection(character.Traits,
-				item => Assert.Equal("craven", item),
-				item => Assert.Equal("powerful", item)
-			);
+			var traits = character.History.GetFieldValueAsCollection("traits", new Date());
+			Assert.NotNull(traits);
+			traits.Should().BeEquivalentTo(new[] {"craven", "powerful"});
 		}
 
 		[Fact]
@@ -292,7 +292,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var locDB = new LocDB("english");
 			var nameLocBlock = locDB.AddLocBlock("alexandros");
 			nameLocBlock["english"] = "Alexandros";
-			nameLocBlock.FillMissingLocWithBaseLanguageLoc();
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -416,6 +415,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.Build();
 			var kingdom = titles.Add("k_dead_georgia_boys");
 			kingdom.SetHolder(landedCharacter, new Date("400.1.1"));
+			Assert.Equal("imperator1", kingdom.GetHolderId(new Date("400.1.1")));
+			Assert.Collection(kingdom.GetAllHolderIds(),
+				id => Assert.Equal("imperator1", id));
 
 			// dead but won't be purged because he belongs to a dynasty of a landed character
 			var relativeOfLandedCharacter = builder
