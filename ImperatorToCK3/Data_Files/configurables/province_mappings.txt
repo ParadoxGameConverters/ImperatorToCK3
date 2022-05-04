@@ -1,5 +1,42 @@
 0.0.0.0 = {
 	link = { comment = "=== NEW MAPPINGS BY RADU ===" }
+	link = { comment = "WALLACHIA BY RADU" }
+	link = { imp = 4823 ck3 = 515 } # Tiriscum -> Targoviste
+	link = { imp = 4815 ck3 = 4996 } # Pirum -> Targsor
+	link = { imp = 4813 ck3 = 4995 } # Sensiana -> Bucuresti
+	link = { imp = 4810 imp = 4816 ck3 = 4991 } # Piephigiana, Napuca -> Comana
+	link = { imp = 4809 ck3 = 4998 } # Piephigia -> Radovanu
+	link = { imp = 4811 ck3 = 4997 } # Sornus -> Calarasi
+	link = { imp = 4271 ck3 = 5007 } # Confluentiana -> Filiasi
+	link = { imp = 4275 imp = 4274 ck3 = 4978 } # Ad Mutriam, Confluentia Malvensis -> Targu Jiu
+	link = { imp = 4282 imp = 4283 ck3 = 3932 } # Sarmizegetusa, Iscronia -> Harszoc
+	link = { imp = 4279 ck3 = 4983 } # Dumbrava -> Strehaia
+	link = { imp = 4211 ck3 = 4979 } # Drobeta -> Baia de Arama
+
+	link = { imp = 4210 ck3 = 516 } # Dierna -> Severin
+	link = { imp = 4277 ck3 = 4982 } # Salcia -> Cujmir
+	link = { imp = 4812 ck3 = 5002 } # Sensia -> Ploiesti
+	link = { imp = 4805 ck3 = 5000 } # Cotesia -> Buzau
+	link = { imp = 4814 ck3 = 4989 } # Netindava -> Tabla Butii
+	link = { imp = 4824 ck3 = 4980 } # Confluentia Roxolania -> Zoresti
+	link = { imp = 4803 ck3 = 4977 } # Rhamidava -> Dumbraveni
+	link = { imp = 4804 ck3 = 5004 } # Britolagia -> Ramnicu Sarat
+	link = { imp = 4808 ck3 = 5001 } # Isteriana -> Slobozia
+	link = { imp = 4806 ck3 = 5003 } # Cotesiana -> Braila
+	link = { imp = 4821 ck3 = 5008 ck3 = 5009 } # Ardeiscus -> Arges, Campulung
+	link = { imp = 4822 ck3 = 4993 } # Ciagisiana -> Pitesti
+	link = { imp = 4820 ck3 = 4988 } # Ciagisia -> Rusii de Vede
+	link = { imp = 4273 ck3 = 5005 } # Buridava -> Polovragi
+	link = { imp = 4269 imp = 4272 ck3 = 5006 } # Rusidava, Pons Aluti -> Govora
+	link = { imp = 4268 ck3 = 4985 } # Acidava -> Craiova
+	link = { imp = 4270 ck3 = 4987 } # Pelendava -> Dragasani
+	link = { imp = 4278 ck3 = 4984 } # Amutria -> Segarcea
+	link = { imp = 4276 ck3 = 4981 } # Castra Bistrita -> Calafat
+	link = { imp = 4266 imp = 4267 ck3 = 4986 } # Romula Saldensica, Castris Novis -> Corabia
+	link = { imp = 4819 ck3 = 4994 } # Ordessia -> Costesti
+	link = { imp = 4818 ck3 = 514 ck3 = 4992 } # Pinion -> Turnu, Glavacioc
+	link = { imp = 4817 ck3 = 4990 } # Tiasum -> Giurgiu
+	link = { imp = 4807 ck3 = 4999 } # Isteria -> Fetesti
 	link = { comment = "SWITZERLAND BY RADU" }
 	link = { imp = 3633 ck3 = 2051 ck3 = 2461 ck3 = 3107 ck3 = 2048 } # Vindonissa -> ZURICH, SCHWYZ, ENGELBERG, LUCERNE
 	link = { imp = 3632 ck3 = 2050 } # Salodurum -> BASEL
@@ -922,40 +959,6 @@
 	link = { imp = 2132 ck3 = 8 } # Orcades -> KIRKWALL
 	link = { imp = 2129 ck3 = 1693 } # Dumna Borealis -> LEWIS
 	link = { comment = "OLD MAPPINGS" }
-	link = { comment = "# Wallachia" }
-	link = { imp = 4804 imp = 4803 ck3 = 5004 } # Britolagia, Rhamidava -> Ramnicu Sarat
-	link = { imp = 4824 ck3 = 4980 ck3 = 4977 } # Confluentia Roxolania -> Zoresti, Dumbraveni
-	link = { imp = 4808 ck3 = 5001 } # Isteriana -> Slobozia
-	link = { imp = 4812 ck3 = 5002 } # Sensia -> Ploiesti
-	link = { imp = 4805 ck3 = 5000 } # Cotesia -> Buzau
-	link = { imp = 4814 ck3 = 4989 } # Netindava -> Tabla Butii
-	link = { imp = 4806 ck3 = 5003 } # Cotesiana -> Braila
-	link = { imp = 4819 imp = 4282 ck3 = 4993 ck3 = 3932 } # MANY-TO-MANY: Ordessia, Sarmizegetusa -> Pitesti, Harszoc
-	link = { imp = 4275 imp = 4274 imp = 4283 ck3 = 4978 } # Ad Mutriam, Confluentia Malvensis, Iscronia -> Targu Jiu
-	link = { imp = 4211 ck3 = 4979 ck3 = 894 } # Drobeta -> Baia de Arama, SOUTH CARPATHIANS
-	link = { imp = 4210 ck3 = 516 } # Dierna -> Severin
-	link = { imp = 4279 ck3 = 4983 } # Dumbrava -> Strehaia
-	link = { imp = 4278 ck3 = 4984 } # Amutria -> Segarcea
-	link = { imp = 4276 ck3 = 4981 } # Castra Bistrita -> Calafat
-	link = { imp = 4268 ck3 = 4985 } # Acidava -> Craiova
-	link = { imp = 4270 ck3 = 4987 } # Pelendava -> Dragasani
-	link = { imp = 4272 imp = 4269 ck3 = 5006 } # Pons Aluti, Rusidava -> Govora
-	link = { imp = 4273 ck3 = 5005 } # Buridava -> Polovragi
-	link = { imp = 4271 ck3 = 5007 } # Confluentiana -> Filiasi
-	link = { imp = 4266 imp = 4267 ck3 = 4986 } # Romula Saldensica, Castris Novis -> Corabia
-	link = { imp = 4815 ck3 = 4996 } # Pirum -> Targsor
-	link = { imp = 4823 ck3 = 515 } # Tiriscum -> Targoviste
-	link = { imp = 4821 ck3 = 5009 } # Ardeiscus -> Campulung
-	link = { imp = 4822 imp = 4280 ck3 = 5008 } # Ciagisiana, Arutela -> Arges
-	link = { imp = 4820 ck3 = 4988 } # Ciagisia -> Rusii de Vede
-	link = { imp = 4816 ck3 = 4994 } # Napuca -> Costesti
-	link = { imp = 4817 ck3 = 4990 ck3 = 3962 } # Tiasum -> Giurgiu, Khajuraho
-	link = { imp = 4818 ck3 = 514 ck3 = 4992 } # Pinion -> Turnu, Glavacioc
-	link = { imp = 4810 ck3 = 4991 } # Piephigiana -> Comana
-	link = { imp = 4813 imp = 4809 ck3 = 4995 } # Sensiana, Piephigia -> Bucuresti
-	link = { imp = 4811 ck3 = 4997 ck3 = 4998 } # Sornus -> Calarasi, Radovanu
-	link = { imp = 4807 ck3 = 4999 } # Isteria -> Fetesti
-	link = { imp = 4277 ck3 = 4982 } # Salcia -> Cujmir
 	link = { comment = "# North Serbia" }
 	link = { imp = 4261 ck3 = 3882 } # Putea -> Kraso
 	link = { imp = 4262 ck3 = 4976 } # Ad Pannonios -> Mehadia
