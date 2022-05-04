@@ -10,7 +10,9 @@
 	link = { imp = 4271 ck3 = 5007 } # Confluentiana -> Filiasi
 	link = { imp = 4275 imp = 4274 ck3 = 4978 } # Ad Mutriam, Confluentia Malvensis -> Targu Jiu
 	link = { imp = 4282 imp = 4283 ck3 = 3932 } # Sarmizegetusa, Iscronia -> Harszoc
-	link = { imp = 4211 imp = 4279 ck3 = 4983 ck3 = 4979 } # MANY-TO-MANY: Drobeta, Dumbrava -> Strehaia, Baia de Arama
+	link = { imp = 4279 ck3 = 4983 } # Dumbrava -> Strehaia
+	link = { imp = 4211 ck3 = 4979 } # Drobeta -> Baia de Arama
+
 	link = { imp = 4210 ck3 = 516 } # Dierna -> Severin
 	link = { imp = 4277 ck3 = 4982 } # Salcia -> Cujmir
 	link = { imp = 4812 ck3 = 5002 } # Sensia -> Ploiesti
