@@ -60,7 +60,7 @@ namespace ImperatorToCK3.CK3 {
 			ck3RegionMapper = new CK3RegionMapper(config.CK3Path, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath, impWorld.Mods);
 			// Use the region mappers in other mappers
-			religionMapper.LoadRegionMappers(imperatorRegionMapper, ck3RegionMapper);
+			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 
 			LandedTitles.ImportImperatorCountries(
@@ -280,7 +280,6 @@ namespace ImperatorToCK3.CK3 {
 		private readonly LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 		private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 		private readonly ProvinceMapper provinceMapper = new();
-		private readonly ReligionMapper religionMapper = new();
 		private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
 		private readonly TagTitleMapper tagTitleMapper = new(
 			tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),

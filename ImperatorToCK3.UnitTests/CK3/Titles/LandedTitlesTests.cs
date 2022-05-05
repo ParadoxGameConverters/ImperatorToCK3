@@ -148,6 +148,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impRegionMapper = new ImperatorRegionMapper("TestFiles/LandedTitlesTests/Imperator", new List<Mod>());
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
+			var ck3RegionMapper = new CK3RegionMapper();
 
 			var reader = new BufferedReader(
 				"who=589 " +
@@ -175,8 +176,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				)
 			);
 			var locDB = new LocDB("english");
-			var religionMapper = new ReligionMapper();
-			var cultureMapper = new CultureMapper(impRegionMapper, new CK3RegionMapper());
+			var religionMapper = new ReligionMapper(impRegionMapper, ck3RegionMapper);
+			var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 			var coaMapper = new CoaMapper();
 			var definiteFormMapper = new DefiniteFormMapper();
 			var traitMapper = new TraitMapper();

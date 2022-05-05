@@ -51,7 +51,7 @@ public partial class Title {
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
 				var variableValue = reader.GetString();
-				Variables[variableName] = variableValue;
+				Variables[variableName[1..]] = variableValue;
 			});
 			parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
 				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.

@@ -29,7 +29,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				new ImperatorToCK3.CK3.Characters.CharacterCollection(),
 				govMapper,
 				new LocDB("english"),
-				new ReligionMapper(),
+				new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 				new ProvinceMapper(),
@@ -58,8 +58,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var govMapper = new GovernmentMapper(govReader);
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
-			var religionMapper = new ReligionMapper(new BufferedReader("link={imp=hellenic ck3=hellenic}"));
-			religionMapper.LoadRegionMappers(
+			var religionMapper = new ReligionMapper(
+				new BufferedReader("link={imp=hellenic ck3=hellenic}"),
 				imperatorRegionMapper,
 				ck3RegionMapper
 			);
