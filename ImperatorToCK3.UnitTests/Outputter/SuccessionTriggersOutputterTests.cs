@@ -23,19 +23,13 @@ public class SuccessionTriggersOutputterTests {
 		var titles = new Title.LandedTitles();
 
 		var kingdomPrimogeniture = titles.Add("k_kingdom1");
-		var kingdomPrimogenitureHistory = new TitleHistory();
-		kingdomPrimogenitureHistory.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
-		kingdomPrimogeniture.AddHistory(kingdomPrimogenitureHistory);
+		kingdomPrimogeniture.History.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
 
 		var kingdomSeniority = titles.Add("k_kingdom2");
-		var kingdomSeniorityHistory = new TitleHistory();
-		kingdomSeniorityHistory.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_dynasty_house" });
-		kingdomSeniority.AddHistory(kingdomSeniorityHistory);
+		kingdomSeniority.History.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_dynasty_house" });
 
 		var vassal = titles.Add("d_vassal");
-		var vassalHistory = new TitleHistory();
-		vassalHistory.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
-		vassal.AddHistory(vassalHistory);
+		vassal.History.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
 		vassal.SetDeFactoLiege(kingdomPrimogeniture, date); // has de facto liege, will not be added to the trigger
 
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputFilePath));

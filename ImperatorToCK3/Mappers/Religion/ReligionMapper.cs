@@ -6,7 +6,10 @@ using System.IO;
 namespace ImperatorToCK3.Mappers.Religion;
 
 public class ReligionMapper {
-	public ReligionMapper() {
+	public ReligionMapper(ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
+		this.imperatorRegionMapper = imperatorRegionMapper;
+		this.ck3RegionMapper = ck3RegionMapper;
+		
 		Logger.Info("Parsing religion mappings...");
 
 		var parser = new Parser();
@@ -16,20 +19,18 @@ public class ReligionMapper {
 
 		Logger.Info($"Loaded {religionMappings.Count} religious links.");
 	}
-	public ReligionMapper(BufferedReader reader) {
+	public ReligionMapper(BufferedReader reader, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
+		this.imperatorRegionMapper = imperatorRegionMapper;
+		this.ck3RegionMapper = ck3RegionMapper;
+		
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
-	public void LoadRegionMappers(ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
-		foreach (var mapping in religionMappings) {
-			mapping.ImperatorRegionMapper = imperatorRegionMapper;
-			mapping.CK3RegionMapper = ck3RegionMapper;
-		}
-	}
+
 	public string? Match(string imperatorReligion, ulong ck3ProvinceId, ulong imperatorProvinceId, Configuration config) {
 		foreach (var religionMapping in religionMappings) {
-			var possibleMatch = religionMapping.Match(imperatorReligion, ck3ProvinceId, imperatorProvinceId, config);
+			var possibleMatch = religionMapping.Match(imperatorReligion, ck3ProvinceId, imperatorProvinceId, config, imperatorRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}
@@ -44,4 +45,6 @@ public class ReligionMapper {
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 	private readonly List<ReligionMapping> religionMappings = new();
+	private readonly ImperatorRegionMapper imperatorRegionMapper;
+	private readonly CK3RegionMapper ck3RegionMapper;
 }

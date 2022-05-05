@@ -16,9 +16,6 @@ namespace ImperatorToCK3.Mappers.Religion {
 
 		private PDXBool? heresiesInHistoricalAreas;
 
-		public ImperatorRegionMapper? ImperatorRegionMapper { get; set; }
-		public CK3RegionMapper? CK3RegionMapper { get; set; }
-
 		private static readonly Parser parser = new();
 		private static ReligionMapping mappingToReturn = new();
 		static ReligionMapping() {
@@ -37,14 +34,13 @@ namespace ImperatorToCK3.Mappers.Religion {
 			return mappingToReturn;
 		}
 
-		public string? Match(string impReligion, ulong ck3ProvinceId, ulong impProvinceId, Configuration config) {
-			if (ImperatorRegionMapper is null) {
-				throw new InvalidOperationException("ImperatorRegionMapper is null!");
-			}
-			if (CK3RegionMapper is null) {
-				throw new InvalidOperationException("CK3RegionMapper is null!");
-			}
-
+		public string? Match(string impReligion,
+			ulong ck3ProvinceId,
+			ulong impProvinceId,
+			Configuration config,
+			ImperatorRegionMapper imperatorRegionMapper,
+			CK3RegionMapper ck3RegionMapper
+		) {
 			// We need at least a viable Imperator religion
 			if (string.IsNullOrEmpty(impReligion)) {
 				return null;
@@ -75,13 +71,13 @@ namespace ImperatorToCK3.Mappers.Religion {
 			}
 			// This is a CK3 regions check, it checks if provided ck3Province is within the mapping's ck3Regions
 			foreach (var region in ck3Regions) {
-				if (!CK3RegionMapper.RegionNameIsValid(region)) {
+				if (!ck3RegionMapper.RegionNameIsValid(region)) {
 					Logger.Warn($"Checking for religion {impReligion} inside invalid CK3 region: {region}! Fix the mapping rules!");
 					// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
 					// for the converter to explode across the logs with invalid names. So, continue.
 					continue;
 				}
-				if (CK3RegionMapper.ProvinceIsInRegion(ck3ProvinceId, region)) {
+				if (ck3RegionMapper.ProvinceIsInRegion(ck3ProvinceId, region)) {
 					return ck3Religion;
 				}
 			}
@@ -92,13 +88,13 @@ namespace ImperatorToCK3.Mappers.Religion {
 			}
 			// This is an Imperator regions check, it checks if provided impProvince is within the mapping's imperatorRegions
 			foreach (var region in imperatorRegions) {
-				if (!ImperatorRegionMapper.RegionNameIsValid(region)) {
+				if (!imperatorRegionMapper.RegionNameIsValid(region)) {
 					Logger.Warn($"Checking for religion {impReligion} inside invalid Imperator region: {region}! Fix the mapping rules!");
 					// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
 					// for the converter to explode across the logs with invalid names. So, continue.
 					continue;
 				}
-				if (ImperatorRegionMapper.ProvinceIsInRegion(impProvinceId, region)) {
+				if (imperatorRegionMapper.ProvinceIsInRegion(impProvinceId, region)) {
 					return ck3Religion;
 				}
 			}

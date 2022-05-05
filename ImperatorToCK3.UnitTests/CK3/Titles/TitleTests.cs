@@ -33,7 +33,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
-			private readonly ReligionMapper religionMapper = new();
+			private readonly ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private readonly Date ck3BookmarkDate = new(867, 1, 1);
@@ -179,20 +179,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var title = titles.Add("k_testtitle");
 
 			Assert.Null(title.CapitalBaronyProvince);
-		}
-
-		[Fact]
-		public void HistoryCanBeAdded() {
-			var date = new Date(867, 1, 1);
-			var titlesHistory = new TitlesHistory("TestFiles/title_history");
-			var history = titlesHistory.PopTitleHistory("k_greece");
-			Assert.NotNull(history);
-			var titles = new Title.LandedTitles();
-			var title = titles.Add("k_testtitle");
-			title.AddHistory(history);
-
-			Assert.Equal("420", title.GetHolderId(date));
-			Assert.Equal(20, title.GetDevelopmentLevel(date));
 		}
 
 		[Fact]
