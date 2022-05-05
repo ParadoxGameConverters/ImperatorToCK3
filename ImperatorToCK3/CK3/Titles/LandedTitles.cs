@@ -591,9 +591,7 @@ public partial class Title {
 			
 			Logger.Info("Parsing title history...");
 			titlesHistoryParser.ParseGameFolder("history/titles", ck3Path, "txt", new List<Mod>(), true);
-
 			Logger.Info($"Loaded {loadedHistoriesCount} title histories.");
-			
 			
 			// Add vanilla development to counties
 			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability.
