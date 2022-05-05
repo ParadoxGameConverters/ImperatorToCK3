@@ -1,10 +1,12 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -50,15 +52,9 @@ namespace ImperatorToCK3.CK3 {
 			// Loading Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(config, impWorld.Mods);
 
-			// Load vanilla titles history
-			var titlesHistoryPath = Path.Combine(config.CK3Path, "game", "history", "titles");
-			titlesHistory = new TitlesHistory(titlesHistoryPath);
-
-			// Load vanilla CK3 landed titles
-			var landedTitlesPath = Path.Combine(config.CK3Path, "game", "common", "landed_titles", "00_landed_titles.txt");
-
-			LandedTitles.LoadTitles(landedTitlesPath);
-			AddHistoryToVanillaTitles(config.CK3BookmarkDate);
+			// Load vanilla CK3 landed titles and their history
+			LandedTitles.LoadTitles(config.CK3Path);
+			LandedTitles.LoadHistory(config);
 
 			// Loading regions
 			ck3RegionMapper = new CK3RegionMapper(config.CK3Path, LandedTitles);
@@ -141,29 +137,6 @@ namespace ImperatorToCK3.CK3 {
 				if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
 					title.Localizations.AddLocBlock($"{holder.Name}_desc");
 				}
-			}
-		}
-
-		private void AddHistoryToVanillaTitles(Date ck3BookmarkDate) {
-			foreach (var title in LandedTitles) {
-				var historyOpt = titlesHistory.PopTitleHistory(title.Id);
-				if (historyOpt is not null) {
-					title.AddHistory(historyOpt);
-				}
-			}
-			// Add vanilla development to counties
-			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability.
-			foreach (var title in LandedTitles.Where(t => t.Rank == TitleRank.county && t.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
-				var inheritedDev = title.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
-				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
-			}
-			foreach (var title in LandedTitles.Where(t => t.Rank > TitleRank.county)) {
-				title.History.Fields.Remove("development_level");
-			}
-
-			// Remove history entries past the bookmark date.
-			foreach (var title in LandedTitles) {
-				title.RemoveHistoryPastDate(ck3BookmarkDate);
 			}
 		}
 
@@ -314,6 +287,5 @@ namespace ImperatorToCK3.CK3 {
 		);
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
-		private readonly TitlesHistory titlesHistory;
 	}
 }

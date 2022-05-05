@@ -357,5 +357,39 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			_ = titles.GetDerivedColor(baseColor);
 			Assert.Contains("Couldn't generate new color from base", logWriter.ToString());
 		}
+
+		[Fact]
+		public void HistoryCanBeLoadedFromInitialValues() {
+			var date = new Date(867, 1, 1);
+			var config = new Configuration {
+				CK3BookmarkDate = date,
+				CK3Path = "TestFiles/LandedTitlesTests/CK3"
+			};
+
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_rome");
+
+			titles.LoadHistory(config);
+
+			Assert.Equal("67", title.GetHolderId(date));
+			Assert.Equal("e_italia", title.GetLiege(date));
+		}
+
+		[Fact]
+		public void HistoryIsLoadedFromDatedBlocks() {
+			var date = new Date(867, 1, 1);
+			var config = new Configuration {
+				CK3BookmarkDate = date,
+				CK3Path = "TestFiles/LandedTitlesTests/CK3"
+			};
+
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_greece");
+
+			titles.LoadHistory(config);
+
+			Assert.Equal("420", title.GetHolderId(date));
+			Assert.Equal(20, title.GetDevelopmentLevel(date));
+		}
 	}
 }

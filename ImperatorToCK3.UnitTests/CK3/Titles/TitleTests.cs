@@ -182,20 +182,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
-		public void HistoryCanBeAdded() {
-			var date = new Date(867, 1, 1);
-			var titlesHistory = new TitlesHistory("TestFiles/title_history");
-			var history = titlesHistory.PopTitleHistory("k_greece");
-			Assert.NotNull(history);
-			var titles = new Title.LandedTitles();
-			var title = titles.Add("k_testtitle");
-			title.AddHistory(history);
-
-			Assert.Equal("420", title.GetHolderId(date));
-			Assert.Equal(20, title.GetDevelopmentLevel(date));
-		}
-
-		[Fact]
 		public void DevelopmentLevelCanBeInherited() {
 			var date = new Date(867, 1, 1);
 			var titles = new Title.LandedTitles();
