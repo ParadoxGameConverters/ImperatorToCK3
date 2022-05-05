@@ -33,10 +33,11 @@ namespace ImperatorToCK3.Outputter {
 
 			var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 			var localizations = new Dictionary<string, LocBlock>();
-			foreach (var title in playerTitles) {
+			foreach (var title in playerTitles.ToList()) {
 				var holderId = title.GetHolderId(config.CK3BookmarkDate);
 				if (holderId == "0") {
 					Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
+					playerTitles.Remove(title);
 					continue;
 				}
 
