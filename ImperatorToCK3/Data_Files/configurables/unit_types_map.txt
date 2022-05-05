@@ -1,5 +1,5 @@
-# imp - Imperator unit type
-# ck3 - CK3 men-at-arms regiment
+# imp - Imperator unit type, multiple allowed
+# ck3 - CK3 men-at-arms regiment, maximum 1 per link allowed
 
 link = { imp=chariots } # drop
 
