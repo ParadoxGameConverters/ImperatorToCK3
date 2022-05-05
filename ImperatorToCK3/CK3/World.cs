@@ -140,12 +140,17 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void OverWriteCountiesHistory(IReadOnlyCollection<Governorship> governorships, IReadOnlyCollection<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
+		private void OverWriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
 			Logger.Info("Overwriting counties' history...");
 			foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
-				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
+				if (county.CapitalBaronyProvince is null) {
+					Logger.Warn($"County {county} has no capital barony province!");
+					continue;
+				}
+				ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince;
 				if (capitalBaronyProvinceId == 0) {
 					// title's capital province has an invalid ID (0 is not a valid province in CK3)
+					Logger.Warn($"County {county} has invalid capital barony province!");
 					continue;
 				}
 
@@ -183,18 +188,14 @@ namespace ImperatorToCK3.CK3 {
 					return false;
 				}
 
-				var impMonarch = impCountry.Monarch;
-				if (impMonarch is null) {
-					Logger.Warn($"Imperator ruler doesn't exist for {impCountry.Name} owning {county}!");
-					return false;
-				}
-				GiveCountyToMonarch(county, ck3Country, impMonarch.Id);
+				GiveCountyToMonarch(county, ck3Country);
 				return true;
 			}
 
-			void GiveCountyToMonarch(Title county, Title ck3Country, ulong impMonarchId) {
-				var holderId = $"imperator{impMonarchId}";
+			void GiveCountyToMonarch(Title county, Title ck3Country) {
 				var date = ck3Country.GetDateOfLastHolderChange();
+				var holderId = ck3Country.GetHolderId(date);
+				
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					county.ClearHolderSpecificHistory();
 					county.SetHolder(holder, date);

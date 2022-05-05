@@ -553,7 +553,7 @@ public partial class Title {
 				return newColor;
 			}
 
-			Logger.Warn($"Couldn't generate new color from base {baseColor}");
+			Logger.Warn($"Couldn't generate new color from base {baseColor.OutputRgb()}");
 			return baseColor;
 		}
 		

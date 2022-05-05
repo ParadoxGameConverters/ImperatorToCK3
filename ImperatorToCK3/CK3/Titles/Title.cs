@@ -224,9 +224,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var termStartDate = new Date(rulerTerm.StartDate);
 
 				History.AddFieldValue(termStartDate, "holder", "holder", characterId);
-				if (Id == "e_roman_empire") { // todo: remove debug
-					Logger.Notice($"Adding holder {characterId} with start date {termStartDate.ToString()}");
-				}
 				if (gov is not null) {
 					History.AddFieldValue(termStartDate, "government", "government", gov);
 				}
