@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
-public class Legion : IIdentifiable<ulong> {
+public class Unit : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public PDXBool IsArmy { get; set; } = new PDXBool(true);
 	public ulong CountryId { get; set; }
@@ -12,7 +12,7 @@ public class Legion : IIdentifiable<ulong> {
 	public ulong Location { get; set; } // province id
 	public List<ulong> CohortIds { get; } = new();
 
-	public Legion(ulong id, BufferedReader legionReader) {
+	public Unit(ulong id, BufferedReader legionReader) {
 		Id = id;
 
 		var parser = new Parser();

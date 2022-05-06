@@ -25,7 +25,7 @@ namespace ImperatorToCK3.Imperator {
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
-		public LegionCollection Legions { get; private set; } = new();
+		public UnitCollection Units { get; private set; } = new();
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -100,7 +100,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading Units...");
 				var armiesParser = new Parser();
 				armiesParser.RegisterKeyword("subunit_database", ParserHelpers.IgnoreItem);
-				armiesParser.RegisterKeyword("units_database", unitsReader => Legions.LoadUnits(unitsReader));
+				armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader));
 
 				armiesParser.ParseStream(reader);
 			});
