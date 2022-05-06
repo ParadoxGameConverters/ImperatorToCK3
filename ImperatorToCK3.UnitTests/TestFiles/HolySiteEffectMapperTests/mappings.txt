@@ -1,0 +1,3 @@
+link = { imp=effect_to_multiply ck3=doubled_effect factor=2 }
+link = { imp=effect_to_divide ck3=divided_effect factor=0.5 }
+link = { imp=effect_to_nullify ck3=nullified_effect factor=0 }
