@@ -1,5 +1,22 @@
 0.0.0.0 = {
 	link = { comment = "=== NEW MAPPINGS BY RADU ===" }
+	link = { comment = "NORTH SERBIA BY RADU" }
+	link = { imp = 4264 ck3 = 3881 } # Tibiscum -> Karansebes
+	link = { imp = 4262 ck3 = 4976 } # Ad Pannonios -> Mehadia
+	link = { imp = 4261 ck3 = 3882 } # Putea -> Kraso
+	link = { imp = 4833 imp = 4828 imp = 4829 imp = 4265 ck3 = 3973 } # Bersovia, Vallum Romanum, Centum Putea, Caput Bubali -> Boksanbanya
+	link = { imp = 4263 ck3 = 4975 } # Ad Scorfulas -> Orsova
+	link = { imp = 4260 ck3 = 3884 } # Castra Arcidava -> Fehertemplom
+	link = { imp = 4827 ck3 = 3883 } # Lederata -> Ersomlyo
+	link = { imp = 4826 ck3 = 3877 } # Tricomium -> Kevevar
+	link = { imp = 4831 ck3 = 3878 } # Ad Sextum -> Pancsova
+	link = { imp = 4832 ck3 = 3879 } # Tibirsia -> Becse
+	link = { imp = 4285 ck3 = 3933 } # Petris -> Deva
+	link = { imp = 4830 ck3 = 3880 } # Maschianae -> Lugos
+	link = { imp = 4839 imp = 4288 ck3 = 3975 } # Grissia, Micia -> Pankota
+	link = { imp = 4837 imp = 4838 ck3 = 3906 } # Potulatensia, Potulatensiana -> Lippa
+	link = { imp = 4834 ck3 = 521 ck3 = 517 } # Lixisis -> Csanad, Temes
+	link = { imp = 4835 ck3 = 3872 } # Albocensia -> Szeged
 	link = { comment = "WALLACHIA BY RADU" }
 	link = { imp = 4823 ck3 = 515 } # Tiriscum -> Targoviste
 	link = { imp = 4815 ck3 = 4996 } # Pirum -> Targsor
@@ -12,7 +29,6 @@
 	link = { imp = 4282 imp = 4283 ck3 = 3932 } # Sarmizegetusa, Iscronia -> Harszoc
 	link = { imp = 4279 ck3 = 4983 } # Dumbrava -> Strehaia
 	link = { imp = 4211 ck3 = 4979 } # Drobeta -> Baia de Arama
-
 	link = { imp = 4210 ck3 = 516 } # Dierna -> Severin
 	link = { imp = 4277 ck3 = 4982 } # Salcia -> Cujmir
 	link = { imp = 4812 ck3 = 5002 } # Sensia -> Ploiesti
@@ -26,7 +42,7 @@
 	link = { imp = 4821 ck3 = 5008 ck3 = 5009 } # Ardeiscus -> Arges, Campulung
 	link = { imp = 4822 ck3 = 4993 } # Ciagisiana -> Pitesti
 	link = { imp = 4820 ck3 = 4988 } # Ciagisia -> Rusii de Vede
-	link = { imp = 4273 ck3 = 5005 } # Buridava -> Polovragi
+	link = { imp = 4273 imp = 4280 ck3 = 5005 } # Buridava, Arutela -> Polovragi
 	link = { imp = 4269 imp = 4272 ck3 = 5006 } # Rusidava, Pons Aluti -> Govora
 	link = { imp = 4268 ck3 = 4985 } # Acidava -> Craiova
 	link = { imp = 4270 ck3 = 4987 } # Pelendava -> Dragasani
@@ -959,22 +975,6 @@
 	link = { imp = 2132 ck3 = 8 } # Orcades -> KIRKWALL
 	link = { imp = 2129 ck3 = 1693 } # Dumna Borealis -> LEWIS
 	link = { comment = "OLD MAPPINGS" }
-	link = { comment = "# North Serbia" }
-	link = { imp = 4261 ck3 = 3882 } # Putea -> Kraso
-	link = { imp = 4262 ck3 = 4976 } # Ad Pannonios -> Mehadia
-	link = { imp = 4264 ck3 = 3881 } # Tibiscum -> Karansebes
-	link = { imp = 4830 ck3 = 3880 } # Maschianae -> Lugos
-	link = { imp = 4828 imp = 4829 imp = 4265 ck3 = 3973 } # Vallum Romanum, Centum Putea, Caput Bubali -> Boksanbanya
-	link = { imp = 4833 ck3 = 517 } # Bersovia -> Temes
-	link = { imp = 4831 imp = 4832 ck3 = 3879 } # Ad Sextum, Tibirsia -> Becse
-	link = { imp = 4827 ck3 = 3883 } # Lederata -> Ersomlyo
-	link = { imp = 4826 ck3 = 3877 ck3 = 3878 } # Tricomium -> Kevevar, Pancsova
-	link = { imp = 4260 ck3 = 3884 } # Castra Arcidava -> Fehertemplom
-	link = { imp = 4263 ck3 = 4975 } # Ad Scorfulas -> Orsova
-	link = { imp = 4288 imp = 4285 ck3 = 3933 ck3 = 3931 } # MANY-TO-MANY: Micia, Petris -> Deva, Vajdahunyad
-	link = { imp = 4837 imp = 4838 ck3 = 3906 } # Potulatensia, Potulatensiana -> Lippa
-	link = { imp = 4834 ck3 = 521 } # Lixisis -> Csanad
-	link = { imp = 4835 ck3 = 3872 } # Albocensia -> Szeged
 	link = { comment = "# Carpathia" }
 	link = { imp = 4506 ck3 = 3926 ck3 = 3928 } # Napoca -> Koloszvar, Aranyosbanya
 	link = { imp = 4911 ck3 = 5029 } # Tamasidava -> Stoenesti
@@ -1006,7 +1006,6 @@
 	link = { imp = 4851 ck3 = 3873 } # Crisia -> Bekes
 	link = { imp = 4841 ck3 = 3905 } # Marisia -> Arad
 	link = { imp = 4836 ck3 = 3903 } # Ziridava Iazygia -> Zarand
-	link = { imp = 4839 ck3 = 3975 } # Grissia -> Pankota
 	link = { imp = 4290 ck3 = 3904 } # Ziridava -> Nagyhalmagy
 	link = { imp = 4840 ck3 = 3974 } # Zurobara -> Nagylak
 	link = { imp = 4856 ck3 = 3875 } # Crisiana -> Oroshaza
