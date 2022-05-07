@@ -7,7 +7,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void ReligionsAreGroupedByFile() {
 		var religions = new ReligionCollection();
-		religions.LoadReligions("TestFiles/CK3/religion/religions");
+		religions.LoadReligions("TestFiles/CK3/game/common/religion/religions");
 		
 		Assert.Collection(religions.ReligionsPerFile["religion_a.txt"],
 			religion=>Assert.Equal("religion_a", religion.Id));
