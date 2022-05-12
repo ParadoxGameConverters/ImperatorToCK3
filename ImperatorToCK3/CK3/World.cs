@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
@@ -46,10 +47,15 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
 
-			// Scraping localizations from Imperator so we may know proper names for our countries.
+			// Scrape localizations from Imperator so we may know proper names for our countries.
 			locDB.ScrapeLocalizations(config.ImperatorPath, impWorld.Mods);
+			
+			// Load CK3 religions from game and blankMod
+			var relativeReligionsPath = Path.Join("common", "religion", "religions");
+			religionCollection.LoadReligions(Path.Combine(config.CK3Path, "game", relativeReligionsPath));
+			religionCollection.LoadReligions(Path.Combine("blankMod", "output", relativeReligionsPath));
 
-			// Loading Imperator CoAs to use them for generated CK3 titles
+			// Load Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(config, impWorld.Mods);
 
 			// Load vanilla CK3 landed titles and their history
@@ -287,5 +293,6 @@ namespace ImperatorToCK3.CK3 {
 		);
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
+		private readonly ReligionCollection religionCollection = new();
 	}
 }
