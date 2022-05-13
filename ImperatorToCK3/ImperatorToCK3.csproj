@@ -24,7 +24,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="11.1.0" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="11.1.1" />
     <PackageReference Include="PGCG.commonItems" Version="0.3.1" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
   </ItemGroup>
