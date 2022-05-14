@@ -1,5 +1,101 @@
 0.0.0.0 = {
 	link = { comment = "=== NEW MAPPINGS BY RADU ===" }
+	link = { comment = "CARPATHIA BY RADU" }
+	link = { imp = 4843 ck3 = 518 } # Onagrinum -> Bacs
+	link = { imp = 4844 imp = 4845 ck3 = 3863 } # Florentia, Agria -> Bodrog
+	link = { imp = 4842 ck3 = 3830 } # Acumincum -> Titel
+	link = { imp = 4872 ck3 = 3856 ck3 = 3852 ck3 = 3851 ck3 = 3853 } # Amatria -> Zolyom, Losonc, Korporna, Selmecbanya
+	link = { imp = 4873 ck3 = 3858 ck3 = 3857 ck3 = 3859 } # Collata -> Murany, Breznobanya, Rimaszombat
+	link = { imp = 4016 ck3 = 4159 } # Oreinia -> Spytihnev
+	link = { imp = 4017 ck3 = 3812 ck3 = 8999 } # Asanca -> Puho, Veseli
+	link = { imp = 4297 ck3 = 3935 } # Salinae Porolissenses -> Kukullovar
+	link = { imp = 4906 ck3 = 3920 ck3 = 3915 } # Petrodava -> Radna, Borsa
+	link = { imp = 4299 imp = 4298 ck3 = 3939 } # Deva Apulensis, Media -> Szaszkezd
+	link = { imp = 4836 ck3 = 3903 } # Ziridava Iazygia -> Zarand
+	link = { imp = 4841 ck3 = 3905 } # Marisia -> Arad
+	link = { imp = 4840 ck3 = 3974 } # Zurobara -> Nagylak
+	link = { imp = 4856 ck3 = 3875 } # Crisiana -> Oroshaza
+	link = { imp = 4851 ck3 = 3873 } # Crisia -> Bekes
+	link = { imp = 4881 ck3 = 3899 } # Iconeia -> Gyozeg
+	link = { imp = 4859 ck3 = 3947 } # Metanastiana -> Elesd
+	link = { imp = 4860 ck3 = 3901 ck3 = 520 } # Aurariae Dacicae -> Belenyes, Bihar
+	link = { imp = 4861 ck3 = 3902 } # Ad Statuam -> Zolonta
+	link = { imp = 4290 ck3 = 3904 } # Ziridava -> Nagyhalmagy
+	link = { imp = 4289 ck3 = 3936 } # Ampelum -> Abrudbanya
+	link = { imp = 4291 ck3 = 519 } # Apulum -> Feher
+	link = { imp = 4295 imp = 4287 ck3 = 3937 } # Cedonia, Decidava -> Nagyszeben
+	link = { imp = 4296 imp = 4286 imp = 4284 ck3 = 3938 } # Zidava, Blandiana, Bucium -> Alvinc
+	link = { imp = 4503 ck3 = 3929 } # Marcodava -> Marosvasarhely
+	link = { imp = 4502 ck3 = 3927 } # Sandava -> Szaszregen
+	link = { imp = 4501 ck3 = 540 } # Caput Stenarum -> Szekelyfold
+	link = { imp = 4292 imp = 4281 ck3 = 3940 } # Comidava, Caput Stenarum -> Fogaras
+	link = { imp = 4500 ck3 = 3944 } # Hargita -> Sepsiszentgyorgy
+	link = { imp = 4858 ck3 = 3874 ck3 = 3900 } # Metanastia -> Svarvas, Debrecen
+	link = { imp = 4857 ck3 = 3867 } # Tisia -> Tur
+	link = { imp = 4883 ck3 = 3913 ck3 = 3907 } # Voconis -> Nagyszolos, Szatmar
+	link = { imp = 4905 ck3 = 3914 ck3 = 3917 } # Patridava -> Tecso, Huszt
+	link = { imp = 4908 ck3 = 539 ck3 = 3908 } # Mallites -> Marmaros, Nagybanya
+	link = { imp = 4907 ck3 = 3923 } # Vidava -> Laposbanya
+	link = { imp = 4882 ck3 = 3910 ck3 = 3909 ck3 = 3911 } # Olate -> Kraszna, Szilagy, Tasnad
+	link = { imp = 4508 imp = 4509 ck3 = 3921 } # Samum, Porolissum -> Des
+	link = { imp = 4511 imp = 4510 ck3 = 3925 } # Optatiana, Resculum -> Banffyhunyad
+	link = { imp = 4506 ck3 = 3926 ck3 = 3928 } # Napoca -> Koloszvar, Aranyosbanya
+	link = { imp = 4505 ck3 = 3924 } # Potaissa -> Torda
+	link = { imp = 4504 imp = 4507 ck3 = 3922 } # Brancona, Arcobara -> Szek
+	link = { imp = 4910 ck3 = 3946 ck3 = 5035 ck3 = 3919 } # Attidava -> Gyergyoszentmiklos, Vatra Dornei, Beszterce
+	link = { imp = 4909 ck3 = 3930 } # Utidava -> Csikszereda
+	link = { imp = 4911 ck3 = 5029 } # Tamasidava -> Stoenesti
+	link = { imp = 4294 ck3 = 3943 ck3 = 3945 } # Angustia -> Balvanyos, Kovaszna
+	link = { imp = 4293 ck3 = 3942 } # Ramidava -> Brasso
+	link = { imp = 4892 ck3 = 3810 } # Ibadura -> Twardosczino
+	link = { imp = 4870 ck3 = 3855 ck3 = 3861 ck3 = 525 } # Maronis -> Nemetlipcse, Kesmark, Orava
+	link = { imp = 4871 ck3 = 3854 } # Bekum -> Liptoujvar
+	link = { imp = 4866 ck3 = 3811 ck3 = 3833 ck3 = 3814 ck3 = 3813 } # Laugaricio -> Trenscen, Bajmoc, Turoc, Zsolna
+	link = { imp = 4869 ck3 = 3831 ck3 = 3847 } # Marrica -> Nyitra, Kormocbanya
+	link = { imp = 3925 ck3 = 3832 } # Felicia -> Pecsen
+	link = { imp = 3924 ck3 = 3816 ck3 = 3834 } # Rhacatia -> Szomolany, Sasvar
+	link = { imp = 3919 ck3 = 3815 } # Anduetium -> Poszony
+	link = { imp = 3927 ck3 = 3934 } # Celamantia -> Somorja
+	link = { imp = 4868 ck3 = 3846 ck3 = 3976 ck3 = 3916 } # Brocasta -> Bars, Beny, Batorkeszi
+	link = { imp = 4867 ck3 = 3848 ck3 = 3849 } # Navata -> Hont, Nograd
+	link = { imp = 4852 ck3 = 3869 } # Burgus Quadorum -> Gyongyospata
+	link = { imp = 4874 ck3 = 3850 } # Astrum -> Balassagyarmat
+	link = { imp = 4875 ck3 = 524 ck3 = 3870 } # Antia -> Gemer, Borsod
+	link = { imp = 4878 ck3 = 3979 ck3 = 538 ck3 = 3876 } # Aborisia -> Szendro, Abauj, Kassa
+	link = { imp = 4888 ck3 = 3978 ck3 = 533 ck3 = 3862 } # Dolum -> Torna, Saris, Locse
+	link = { imp = 4876 ck3 = 3871 ck3 = 3886 } # Obatis -> Miskolc, Szerencs
+	link = { imp = 4879 ck3 = 3885 } # Mabatorum -> Zemplen
+	link = { imp = 4886 ck3 = 3897 ck3 = 3896 } # Obutora -> Ungvar, Varanno
+	link = { imp = 4926 ck3 = 3895 ck3 = 3887 ck3 = 3888 } # Dure -> Nagyberezna, Zynna, Toporo
+	link = { imp = 4927 ck3 = 3918 ck3 = 3894 } # Mittarium -> Okormezo, Alsoverecke
+	link = { imp = 4885 ck3 = 3898 ck3 = 537 ck3 = 3893 } # Tolitum -> Borsova, Bereg, Munkacz
+	link = { imp = 4884 ck3 = 3912 } # Acronodumia -> Nagykaroly
+	link = { imp = 4880 ck3 = 3890 ck3 = 3889 } # Bilatis -> Nyir, Szabolcs
+	link = { imp = 4877 ck3 = 3891 ck3 = 3892 } # Mebatunum -> Nagyboszormeny, Szoboszlo
+	link = { imp = 4853 ck3 = 523 ck3 = 3948 } # Anartia -> Hewes, Eger
+	link = { imp = 4854 ck3 = 3802 ck3 = 3804 ck3 = 3868 } # Anartiana -> Cegled, Kecskemet, Szolnok
+	link = { imp = 4855 ck3 = 522 } # Ocara -> Pest
+	link = { imp = 4849 ck3 = 3807 } # Iazygia -> Kalocsa
+	link = { imp = 4847 imp = 4850 ck3 = 3865 } # Partiskon, Iazygiana -> Csongrad
+	link = { imp = 4848 ck3 = 3866 } # Triticum -> Kiskunhalas
+	link = { imp = 4846 ck3 = 3864 } # Tibiscua -> Zenta
+	link = { comment = "NORTH SERBIA BY RADU" }
+	link = { imp = 4264 ck3 = 3881 } # Tibiscum -> Karansebes
+	link = { imp = 4262 ck3 = 4976 } # Ad Pannonios -> Mehadia
+	link = { imp = 4261 ck3 = 3882 } # Putea -> Kraso
+	link = { imp = 4833 imp = 4828 imp = 4829 imp = 4265 ck3 = 3973 } # Bersovia, Vallum Romanum, Centum Putea, Caput Bubali -> Boksanbanya
+	link = { imp = 4263 ck3 = 4975 } # Ad Scorfulas -> Orsova
+	link = { imp = 4260 ck3 = 3884 } # Castra Arcidava -> Fehertemplom
+	link = { imp = 4827 ck3 = 3883 } # Lederata -> Ersomlyo
+	link = { imp = 4826 ck3 = 3877 } # Tricomium -> Kevevar
+	link = { imp = 4831 ck3 = 3878 } # Ad Sextum -> Pancsova
+	link = { imp = 4832 ck3 = 3879 } # Tibirsia -> Becse
+	link = { imp = 4285 ck3 = 3933 } # Petris -> Deva
+	link = { imp = 4830 ck3 = 3880 } # Maschianae -> Lugos
+	link = { imp = 4839 imp = 4288 ck3 = 3975 } # Grissia, Micia -> Pankota
+	link = { imp = 4837 imp = 4838 ck3 = 3906 } # Potulatensia, Potulatensiana -> Lippa
+	link = { imp = 4834 ck3 = 521 ck3 = 517 } # Lixisis -> Csanad, Temes
+	link = { imp = 4835 ck3 = 3872 } # Albocensia -> Szeged
 	link = { comment = "WALLACHIA BY RADU" }
 	link = { imp = 4823 ck3 = 515 } # Tiriscum -> Targoviste
 	link = { imp = 4815 ck3 = 4996 } # Pirum -> Targsor
@@ -12,7 +108,6 @@
 	link = { imp = 4282 imp = 4283 ck3 = 3932 } # Sarmizegetusa, Iscronia -> Harszoc
 	link = { imp = 4279 ck3 = 4983 } # Dumbrava -> Strehaia
 	link = { imp = 4211 ck3 = 4979 } # Drobeta -> Baia de Arama
-
 	link = { imp = 4210 ck3 = 516 } # Dierna -> Severin
 	link = { imp = 4277 ck3 = 4982 } # Salcia -> Cujmir
 	link = { imp = 4812 ck3 = 5002 } # Sensia -> Ploiesti
@@ -26,7 +121,7 @@
 	link = { imp = 4821 ck3 = 5008 ck3 = 5009 } # Ardeiscus -> Arges, Campulung
 	link = { imp = 4822 ck3 = 4993 } # Ciagisiana -> Pitesti
 	link = { imp = 4820 ck3 = 4988 } # Ciagisia -> Rusii de Vede
-	link = { imp = 4273 ck3 = 5005 } # Buridava -> Polovragi
+	link = { imp = 4273 imp = 4280 ck3 = 5005 } # Buridava, Arutela -> Polovragi
 	link = { imp = 4269 imp = 4272 ck3 = 5006 } # Rusidava, Pons Aluti -> Govora
 	link = { imp = 4268 ck3 = 4985 } # Acidava -> Craiova
 	link = { imp = 4270 ck3 = 4987 } # Pelendava -> Dragasani
@@ -959,101 +1054,6 @@
 	link = { imp = 2132 ck3 = 8 } # Orcades -> KIRKWALL
 	link = { imp = 2129 ck3 = 1693 } # Dumna Borealis -> LEWIS
 	link = { comment = "OLD MAPPINGS" }
-	link = { comment = "# North Serbia" }
-	link = { imp = 4261 ck3 = 3882 } # Putea -> Kraso
-	link = { imp = 4262 ck3 = 4976 } # Ad Pannonios -> Mehadia
-	link = { imp = 4264 ck3 = 3881 } # Tibiscum -> Karansebes
-	link = { imp = 4830 ck3 = 3880 } # Maschianae -> Lugos
-	link = { imp = 4828 imp = 4829 imp = 4265 ck3 = 3973 } # Vallum Romanum, Centum Putea, Caput Bubali -> Boksanbanya
-	link = { imp = 4833 ck3 = 517 } # Bersovia -> Temes
-	link = { imp = 4831 imp = 4832 ck3 = 3879 } # Ad Sextum, Tibirsia -> Becse
-	link = { imp = 4827 ck3 = 3883 } # Lederata -> Ersomlyo
-	link = { imp = 4826 ck3 = 3877 ck3 = 3878 } # Tricomium -> Kevevar, Pancsova
-	link = { imp = 4260 ck3 = 3884 } # Castra Arcidava -> Fehertemplom
-	link = { imp = 4263 ck3 = 4975 } # Ad Scorfulas -> Orsova
-	link = { imp = 4288 imp = 4285 ck3 = 3933 ck3 = 3931 } # MANY-TO-MANY: Micia, Petris -> Deva, Vajdahunyad
-	link = { imp = 4837 imp = 4838 ck3 = 3906 } # Potulatensia, Potulatensiana -> Lippa
-	link = { imp = 4834 ck3 = 521 } # Lixisis -> Csanad
-	link = { imp = 4835 ck3 = 3872 } # Albocensia -> Szeged
-	link = { comment = "# Carpathia" }
-	link = { imp = 4506 ck3 = 3926 ck3 = 3928 } # Napoca -> Koloszvar, Aranyosbanya
-	link = { imp = 4911 ck3 = 5029 } # Tamasidava -> Stoenesti
-	link = { imp = 4294 ck3 = 3943 ck3 = 3945 } # Angustia -> Balvanyos, Kovaszna
-	link = { imp = 4293 ck3 = 3942 ck3 = 3941 } # Ramidava -> Brasso, Torcsvar
-	link = { imp = 4281 imp = 4292 ck3 = 3940 } # Caput Stenarum, Comidava -> Fogaras
-	link = { imp = 4502 imp = 4503 ck3 = 3929 } # Sandava, Marcodava -> Marosvasarhely
-	link = { imp = 5998 ck3 = 3927 } # Transyvlanian Impassable -> Szaszregen
-	link = { imp = 4501 ck3 = 540 } # Caput Stenarum -> Szekelyfold
-	link = { imp = 4909 ck3 = 3930 } # Utidava -> Csikszereda
-	link = { imp = 4296 imp = 4297 ck3 = 3935 } # Zidava, Salinae Porolissenses -> Kukullovar
-	link = { imp = 4500 ck3 = 3944 } # Hargita -> Sepsiszentgyorgy
-	link = { imp = 4299 imp = 4298 ck3 = 3939 } # Deva Apulensis, Media -> Szaszkezd
-	link = { imp = 4287 imp = 4295 ck3 = 3937 } # Decidava, Cedonia -> Nagyszeben
-	link = { imp = 4286 imp = 4284 ck3 = 3938 } # Blandiana, Bucium -> Alvinc
-	link = { imp = 4927 ck3 = 3894 ck3 = 3918 } # Mittarium -> Alsoverecke, Okormezo
-	link = { imp = 4905 ck3 = 3917 ck3 = 3914 } # Patridava -> Huszt, Tecso
-	link = { imp = 4908 ck3 = 539 } # Mallites -> Marmaros
-	link = { imp = 4907 ck3 = 3923 } # Vidava -> Laposbanya
-	link = { imp = 4910 ck3 = 5035 ck3 = 3946 ck3 = 732 } # Attidava -> Vatra Dornei, Gyergyoszentmiklos, CARPATHIANS
-	link = { imp = 4906 ck3 = 3920 ck3 = 3915 } # Petrodava -> Radna, Borsa
-	link = { imp = 4504 ck3 = 3919 } # Brancona -> Beszterce
-	link = { imp = 4507 ck3 = 3922 } # Arcobara -> Szek
-	link = { imp = 4505 ck3 = 3924 } # Potaissa -> Torda
-	link = { imp = 4291 ck3 = 519 } # Apulum -> Feher
-	link = { imp = 4289 ck3 = 3936 } # Ampelum -> Abrudbanya
-	link = { imp = 4861 ck3 = 3902 } # Ad Statuam -> Zolonta
-	link = { imp = 4860 ck3 = 520 ck3 = 3901 } # Aurariae Dacicae -> Bihar, Belenyes
-	link = { imp = 4851 ck3 = 3873 } # Crisia -> Bekes
-	link = { imp = 4841 ck3 = 3905 } # Marisia -> Arad
-	link = { imp = 4836 ck3 = 3903 } # Ziridava Iazygia -> Zarand
-	link = { imp = 4839 ck3 = 3975 } # Grissia -> Pankota
-	link = { imp = 4290 ck3 = 3904 } # Ziridava -> Nagyhalmagy
-	link = { imp = 4840 ck3 = 3974 } # Zurobara -> Nagylak
-	link = { imp = 4856 ck3 = 3875 } # Crisiana -> Oroshaza
-	link = { imp = 4881 ck3 = 3890 } # Iconeia -> Nyir
-	link = { imp = 4884 ck3 = 3912 } # Acronodumia -> Nagykaroly
-	link = { imp = 4883 ck3 = 3907 ck3 = 3913 } # Voconis -> Szatmar, Nagyszolos
-	link = { imp = 4882 ck3 = 3909 ck3 = 3908 ck3 = 3911 } # Olate -> Szilagy, Nagybanya, Tasnad
-	link = { imp = 4508 imp = 4509 ck3 = 3921 } # Samum, Porolissum -> Des
-	link = { imp = 4511 imp = 4510 ck3 = 3925 } # Optatiana, Resculum -> Banffyhunyad
-	link = { imp = 4859 ck3 = 3947 ck3 = 3899 ck3 = 3910 } # Metanastiana -> Elesd, Gyozeg, Kraszna
-	link = { imp = 4858 ck3 = 3874 ck3 = 3900 } # Metanastia -> Svarvas, Debrecen
-	link = { imp = 4877 ck3 = 3891 ck3 = 3892 } # Mebatunum -> Nagyboszormeny, Szoboszlo
-	link = { imp = 4857 ck3 = 3867 } # Tisia -> Tur
-	link = { imp = 4854 ck3 = 3868 ck3 = 3802 ck3 = 3804 } # Anartiana -> Szolnok, Cegled, Kecskemet
-	link = { imp = 4849 ck3 = 3807 } # Iazygia -> Kalocsa
-	link = { imp = 4847 imp = 4850 ck3 = 3865 } # Partiskon, Iazygiana -> Csongrad
-	link = { imp = 4848 ck3 = 3866 } # Triticum -> Kiskunhalas
-	link = { imp = 4845 imp = 4844 ck3 = 3863 } # Agria, Florentia -> Bodrog
-	link = { imp = 4846 ck3 = 3864 } # Tibiscua -> Zenta
-	link = { imp = 4842 ck3 = 3830 } # Acumincum -> Titel
-	link = { imp = 4843 ck3 = 518 } # Onagrinum -> Bacs
-	link = { imp = 4853 ck3 = 523 } # Anartia -> Hewes
-	link = { imp = 4852 imp = 4855 ck3 = 522 } # Burgus Quadorum, Ocara -> Pest
-	link = { imp = 4926 ck3 = 3895 } # Dure -> Nagyberezna
-	link = { imp = 4886 ck3 = 3888 ck3 = 3887 } # Obutora -> Toporo, Zynna
-	link = { imp = 4885 ck3 = 3897 ck3 = 3893 ck3 = 3898 ck3 = 537 } # Tolitum -> Ungvar, Munkacz, Borsova, Bereg
-	link = { imp = 4879 ck3 = 3896 ck3 = 3885 } # Mabatorum -> Varanno, Zemplen
-	link = { imp = 4880 ck3 = 3886 ck3 = 3889 } # Bilatis -> Szerencs, Szabolcs
-	link = { imp = 3919 ck3 = 3816 ck3 = 3815 } # Anduetium -> Szomolany, Poszony
-	link = { imp = 3924 ck3 = 3834 } # Rhacatia -> Sasvar
-	link = { imp = 3925 ck3 = 8999 ck3 = 3832 } # Felicia -> Veseli, Pecsen
-	link = { imp = 4016 imp = 4017 ck3 = 4159 } # Oreinia, Asanca -> Spytihnev
-	link = { imp = 3927 ck3 = 3934 } # Celamantia -> Somorja
-	link = { imp = 4892 ck3 = 3810 ck3 = 525 } # Ibadura -> Twardosczino, Orava
-	link = { imp = 4871 ck3 = 3814 ck3 = 3847 } # Bekum -> Turoc, Kormocbanya
-	link = { imp = 4866 ck3 = 3811 ck3 = 3812 ck3 = 3813 ck3 = 3833 } # Laugaricio -> Trenscen, Puho, Zsolna, Bajmoc
-	link = { imp = 4869 ck3 = 3831 ck3 = 3846 } # Marrica -> Nyitra, Bars
-	link = { imp = 4868 ck3 = 3916 ck3 = 3976 } # Brocasta -> Batorkeszi, Beny
-	link = { imp = 4870 ck3 = 3855 ck3 = 3854 } # Maronis -> Nemetlipcse, Liptoujvar
-	link = { imp = 4888 ck3 = 3862 ck3 = 533 ck3 = 3861 } # Dolum -> Locse, Saris, Kesmark
-	link = { imp = 4878 ck3 = 538 ck3 = 3876 ck3 = 3978 } # Aborisia -> Abauj, Kassa, Torna
-	link = { imp = 4876 ck3 = 3871 ck3 = 3948 } # Obatis -> Miskolc, Eger
-	link = { imp = 4875 ck3 = 524 ck3 = 3870 ck3 = 3979 } # Antia -> Gemer, Borsod, Szendro
-	link = { imp = 4874 ck3 = 3850 ck3 = 3852 ck3 = 3869 } # Astrum -> Balassagyarmat, Losonc, Gyongyospata
-	link = { imp = 4873 ck3 = 3857 ck3 = 3858 ck3 = 3859 } # Collata -> Breznobanya, Murany, Rimaszombat
-	link = { imp = 4872 ck3 = 3853 ck3 = 3856 ck3 = 3851 } # Amatria -> Selmecbanya, Zolyom, Korporna
-	link = { imp = 4867 ck3 = 3848 ck3 = 3849 } # Navata -> Hont, Nograd
 	link = { comment = "# Germany" }
 	link = { imp = 3840 ck3 = 2837 } # Ad Pontem -> BRUCHHAUSEN
 	link = { imp = 3829 ck3 = 2839 } # Ascalingium -> HOYA
