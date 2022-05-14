@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using FluentAssertions;
 using ImperatorToCK3.Mappers.Trait;
 using System;
 using System.Collections.Generic;
@@ -94,6 +95,14 @@ public class TraitMapperTests {
 		Console.SetOut(logWriter);
 		_ = new TraitMapper("TestFiles/TraitMapperTests/trait_map_undefined_ck3_trait.txt", new Configuration { CK3Path = "TestFiles/CK3" });
 
-		Assert.Contains("[WARN] Couldn't find definition for CK3 trait undefined, skipping!", logWriter.ToString());
+		Assert.Contains("[WARN] Couldn't find definition for CK3 trait undefined!", logWriter.ToString());
+	}
+
+	[Fact]
+	public void UndefinedCK3TraitsAreNotSkipped() {
+		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_undefined_ck3_trait.txt", new Configuration { CK3Path = "TestFiles/CK3" });
+
+		var ck3Traits = mapper.GetCK3TraitsForImperatorTraits(new[] {"impTrait"});
+		ck3Traits.Should().Contain("undefined");
 	}
 }
