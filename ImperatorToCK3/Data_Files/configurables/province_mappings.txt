@@ -8,7 +8,8 @@
 	link = { imp = 3641 ck3 = 2947 } # Arces Covelicae -> WOLFRATSHAUSEN
 	link = { imp = 3642 ck3 = 2984 } # Isinisca -> MARQUARDSTEIN
 	link = { imp = 3753 ck3 = 2958 } # Bratananium -> ERDING
-	link = { imp = 3764 imp = 3754 ck3 = 2973 ck3 = 2981 ck3 = 2961 } # MANY-TO-MANY: Innaba, Ad Pontes Tessenios -> BRAUNAU, BURGHAUSEN, DORNBERG
+	link = { imp = 3764 ck3 = 2973 ck3 = 2961 } # Innaba -> BRAUNAU, DORNBERG
+	link = { imp = 3754 ck3 = 2981 } # Ad Pontes Tessenios -> BURGHAUSEN
 	link = { imp = 3643 ck3 = 2982 } # Artobriga -> LAUFEN
 	link = { imp = 3644 ck3 = 2975 ck3 = 2983 } # Iuvavum -> SALZBURG, TRAUNSTEIN
 	link = { imp = 3670 ck3 = 2978 ck3 = 2977 ck3 = 2985 } # Anisus -> HALLEIN, BERCHTESGADEN, LAUKENTAL
@@ -109,10 +110,10 @@
 	link = { imp = 3741 ck3 = 2774 ck3 = 2775 } # Caelius Mons -> BERGE, KIRCHBERG
 	link = { imp = 3740 ck3 = 2776 } # Cassiliacum -> MARSTETTEN
 	link = { imp = 3739 ck3 = 2785 } # Vemania -> MEMMINGEN
-	link = { imp = 3637 ck3 = 2786 ck3 = 2787 ck3 = 2782 ck3 = 2783 } # Vernania -> RAVENSBURG, BREGENZ, SCHONGAU, KEMPTEN
+	link = { imp = 3637 ck3 = 2783 ck3 = 2782 ck3 = 2786 } # Vernania -> KEMPTEN, SCHONGAU, RAVENSBURG
+	link = { imp = 3636 ck3 = 2787 ck3 = 2053 } # Brigantium -> BREGENZ, SANKT GALLEN
 	link = { imp = 3639 ck3 = 2761 } # Arbor Felix -> HEILIGENBERG
 	link = { imp = 3746 ck3 = 2773 } # Raetia Orientalis -> GRUNINGEN
-	link = { imp = 3636 ck3 = 2053 } # Brigantium -> SANKT GALLEN
 	link = { imp = 3634 imp = 3635 ck3 = 2054 } # Vitudurum, Constantia -> KONSTANZ
 	link = { imp = 3732 ck3 = 2762 } # Tasgetium -> NELLENBURG
 	link = { imp = 3745 ck3 = 2767 ck3 = 2758 } # Raetia Occidentalis -> SIGMARINGEN, LUPFEN
@@ -136,7 +137,7 @@
 	link = { imp = 3700 ck3 = 2855 ck3 = 2863 } # Taunensium -> FRANKFURT, HANAU
 	link = { imp = 3789 ck3 = 2851 ck3 = 2856 } # Usipetia -> DIEZ, HOMBURG
 	link = { imp = 3889 ck3 = 2798 } # Treva -> ITZEHOE
-	link = { imp = 3699 ck3 = 2692 ck3 = 2693 ck3 = 2854 } # Aquae Mattiacorum -> KATZENELNBOGEN, WIESBADEN, LIMBURG
+	link = { imp = 3699 ck3 = 2693 ck3 = 2692 ck3 = 2854 } # Aquae Mattiacorum -> WIESBADEN, KATZENELNBOGEN, LIMBURG
 	link = { imp = 3892 ck3 = 2808 } # Alisus -> SCHWERIN
 	link = { imp = 3895 ck3 = 2805 } # Suardonia -> AHRENSBURG
 	link = { imp = 3858 ck3 = 2804 } # Marionis -> LUBECK
