@@ -341,6 +341,9 @@ l_english:
  luwian:0 "Luwian"
  luwian_collective_noun:0 "Luwians"
  luwian_prefix:0 "Luwio" # found 'Luwio-Semitic'
+ cilician:0 "Cilician"
+ cilician_collective_noun:0 "Cilicians"
+ cilician_prefix:0 "Cilicio"
  lydian:0 "Lydian"
  lydian_collective_noun:0 "Lydians"
  lydian_prefix:0 "Lydio" # found 'Lydio-Persian' in https://books.google.pl/books?id=Dq0aBQAAQBAJ&printsec=frontcover&hl=pl
@@ -371,7 +374,7 @@ l_english:
 
  arvanite_group:0 "Arvanite"
  arvanite_group_collective_noun:0 "Arvanites"
- #arvanite_group_prefix:0 "Arvanito" # found "Takime arbëresho-arvanito-shqiptare në gjysmën e dytë të shek. XIX."
+ #arvanite_group_prefix:0 "Arvanito" # found 'Takime arbëresho-arvanito-shqiptare në gjysmën e dytë të shek. XIX.'
  albanian:0 "Albanian"
  albanian_collective_noun:0 "Albanians"
  albanian_prefix:0 "Albano" # found 'Albano-Greek Union'

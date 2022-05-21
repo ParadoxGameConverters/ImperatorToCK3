@@ -99,7 +99,8 @@ link = { ck3 = ethiopian imp = boran }
 link = { ck3 = armenian imp = armenian }
 link = { ck3 = luwian imp = carian imp = lycian imp = isaurian imp = pisidian }
 link = { ck3 = lydian imp = lydian }
-link = { ck3 = hittite imp = lycaonian imp = cilician imp = kennataian imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
+link = { ck3=cilician imp=cilician imp=kennataian }
+link = { ck3=hittite imp=lycaonian imp=pamphylian imp=cappadocian imp=pontic imp=paphlagonian imp=milyadian imp=oroandian imp=cabalian imp=lalasian imp=cennatean imp=morimenian imp=cataonian }
 link = { ck3 = phrygian imp = phrygian imp = mysian }
 #Invictus mod
 link = { ck3 = galatian imp = galatian }
