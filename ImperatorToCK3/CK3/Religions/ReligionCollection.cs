@@ -6,6 +6,8 @@ using System.IO;
 namespace ImperatorToCK3.CK3.Religions; 
 
 public class ReligionCollection {
+	public Dictionary<string, OrderedSet<Religion>> ReligionsPerFile { get; } = new();
+	
 	public void LoadReligions(string religionsFolderPath) {
 		var files = SystemUtils.GetAllFilesInFolderRecursive(religionsFolderPath);
 		foreach (var file in files) {
@@ -25,5 +27,13 @@ public class ReligionCollection {
 		}
 	}
 
-	public Dictionary<string, OrderedSet<Religion>> ReligionsPerFile { get; } = new();
+	public void DetermineHolySites() {
+		foreach (var religionsSet in ReligionsPerFile.Values) {
+			foreach (var religion in religionsSet) {
+				foreach (var faith in religion.Faiths) {
+					
+				}
+			}
+		}
+	}
 }

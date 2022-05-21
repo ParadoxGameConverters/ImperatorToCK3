@@ -131,6 +131,8 @@ namespace ImperatorToCK3.CK3 {
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
+			
+			//religionCollection.ConvertHolySites // TODO: FINISH
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
