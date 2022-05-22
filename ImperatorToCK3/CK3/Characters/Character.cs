@@ -22,7 +22,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string Name { get; set; }
 		public string? Nickname { get; set; }
 
-		public uint Age { get; private set; } // used when option to convert character age is chosen
+		public uint Age { get; private set; }
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
@@ -55,6 +55,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			//.WithSimpleField("dna", "dna", null)
 			//.WithSimpleField("mother", "mother", null)
 			//.WithSimpleField("father", "father", null)
+			.WithDiffField("spouses", new OrderedSet<string>(){"add_spouse", "add_matrilineal_spouse"}, new OrderedSet<string>(){"remove_spouse"})
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
@@ -260,15 +261,38 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		public void BreakAllLinks() {
+		public void BreakAllLinks(CharacterCollection characters) {
 			Mother?.RemoveChild(Id);
 			RemoveMother();
 			Father?.RemoveChild(Id);
 			RemoveFather();
-			foreach (var spouse in Spouses) {
-				spouse.RemoveSpouse(Id);
+			
+			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
+				foreach (var (_, value) in spousesHistory.InitialEntries) {
+					var spouseId = value.ToString();
+					if (spouseId is null){
+						continue;
+					}
+					if (characters.TryGetValue(spouseId, out var spouse)) {
+						spouse.RemoveSpouse(Id);
+					}
+				}
+				foreach (var entriesList in spousesHistory.DateToEntriesDict.Values) {
+					foreach (var (_, value) in entriesList) {
+						var spouseId = value.ToString();
+						if (spouseId is null){
+							continue;
+						}
+						if (characters.TryGetValue(spouseId, out var spouse)) {
+							spouse.RemoveSpouse(Id);
+						}
+					}
+				}
+				
+				spousesHistory.InitialEntries.Clear();
+				spousesHistory.DateToEntriesDict.Clear();
 			}
-			Spouses.Clear();
+				
 			if (Female) {
 				foreach (var (childId, child) in Children) {
 					if (child is null) {
@@ -294,8 +318,16 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
+		public OrderedSet<object>? GetSpouseIds(Date date) {
+			return History.GetFieldValueAsCollection("spouses", date);
+		}
+		public void AddSpouse(Date date, Character spouse) {
+			History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
+		}
 		private void RemoveSpouse(string spouseId) {
-			Spouses.Remove(spouseId);
+			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
+				spousesHistory.RemoveAll(value=>(value.ToString() ?? string.Empty).Equals(spouseId));
+			}
 		}
 
 		private void RemoveFather() {
@@ -335,7 +367,6 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 		public Dictionary<string, Character?> Children { get; set; } = new();
-		public IdObjectCollection<string, Character> Spouses { get; set; } = new();
 
 		public string? DynastyId { get; set; } // not always set
 

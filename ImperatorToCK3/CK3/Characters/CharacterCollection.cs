@@ -44,7 +44,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{Count} total characters recognized.");
 
 			LinkMothersAndFathers();
-			LinkSpouses();
+			LinkSpouses(endDate);
 			LinkPrisoners();
 		}
 
@@ -78,7 +78,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public override void Remove(string key) {
-			this[key].BreakAllLinks();
+			this[key].BreakAllLinks(this);
 			base.Remove(key);
 		}
 
@@ -119,9 +119,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");
 		}
 
-		private void LinkSpouses() {
+		private void LinkSpouses(Date conversionDate) {
 			var spouseCounter = 0;
 			foreach (var ck3Character in this) {
+				if (ck3Character.Female) {
+					continue; // we set spouses for males to avoid doubling marriages
+				}
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
@@ -133,12 +136,47 @@ namespace ImperatorToCK3.CK3.Characters {
 						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
 						continue;
 					}
-					ck3Character.Spouses.TryAdd(ck3SpouseCharacter);
-					ck3SpouseCharacter.Spouses.TryAdd(ck3Character);
+					
+					// Imperator saves don't seem to store marriage date
+					Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter);
+
+					ck3Character.AddSpouse(estimatedMarriageDate, ck3SpouseCharacter);
 					++spouseCounter;
 				}
 			}
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
+
+			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
+				Date estimatedMarriageDate; // Imperator saves don't seem to store marriage date
+				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
+				if (birthDateOfCommonChild is not null) {
+					estimatedMarriageDate = new Date(birthDateOfCommonChild);
+					estimatedMarriageDate.ChangeByMonths(-9); // we assume the child was conceived after marriage
+				} else if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
+					if (imperatorCharacter.DeathDate < imperatorSpouse.DeathDate) {
+						estimatedMarriageDate = new Date(imperatorCharacter.DeathDate);
+					} else {
+						estimatedMarriageDate = new Date(imperatorSpouse.DeathDate);
+					}
+					estimatedMarriageDate.ChangeByDays(-1); // death is not a good moment to marry
+				} else if (imperatorCharacter.DeathDate is not null) {
+					estimatedMarriageDate = new Date(imperatorCharacter.DeathDate);
+					estimatedMarriageDate.ChangeByDays(-1);
+				} else if (imperatorSpouse.DeathDate is not null) {
+					estimatedMarriageDate = new Date(imperatorSpouse.DeathDate);
+					estimatedMarriageDate.ChangeByDays(-1);
+				} else {
+					estimatedMarriageDate = new Date(conversionDate);
+				}
+
+				return estimatedMarriageDate;
+			}
+			Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
+				var childrenOfFather = father.Children.Values.ToHashSet();
+				var childrenOfMother = mother.Children.Values.ToHashSet();
+				var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child=>child.BirthDate).ToList();
+				return commonChildren.Any() ? commonChildren.FirstOrDefault()?.BirthDate : null;
+			}
 		}
 
 		private void LinkPrisoners() {

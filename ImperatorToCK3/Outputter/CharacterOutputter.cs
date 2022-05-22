@@ -34,19 +34,6 @@ public static class CharacterOutputter {
 			output.WriteLine($"\tmother = {character.Mother.Id}");
 		}
 
-		// output spouse
-		// TODO: output add_spouse with earlier date if the pair has a born or unborn child
-		foreach (var spouse in character.Spouses) {
-			Date marriageDate;
-			if (character.DeathDate is not null) {
-				marriageDate = new Date(character.DeathDate);
-				marriageDate.ChangeByDays(-1);
-			} else {
-				marriageDate = conversionDate;
-			}
-			output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouse.Id} }}");
-		}
-
 		// output nickname
 		if (character.Nickname is not null) {
 			var nicknameDate = conversionDate;
