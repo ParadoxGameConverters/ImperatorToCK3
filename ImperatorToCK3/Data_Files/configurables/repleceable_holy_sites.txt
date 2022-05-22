@@ -1,5 +1,0 @@
-# Usage:
-# <faith_id> = "all"/<list of replaceable sites>
-
-pagan_faith = all # makes all holy sites of pagan_faith dynamic
-dacian_pagan = { buridava } # only buridava holy site will be replaced by dynamic one
