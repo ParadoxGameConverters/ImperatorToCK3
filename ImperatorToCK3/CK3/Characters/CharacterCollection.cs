@@ -147,24 +147,30 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
 
 			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
+			// TODO: ALSO CONSIDER UNBORNS 
+			// unborn={ {
+			// 	mother=211966
+			// 	father=208340
+			// 	date=1233.2.8 // DATE OF BIRTH
+			// 	}
+			// }
+			
 				Date estimatedMarriageDate; // Imperator saves don't seem to store marriage date
 				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 				if (birthDateOfCommonChild is not null) {
 					estimatedMarriageDate = new Date(birthDateOfCommonChild);
-					estimatedMarriageDate.ChangeByMonths(-9); // we assume the child was conceived after marriage
+					estimatedMarriageDate = estimatedMarriageDate.ChangeByMonths(-9); // we assume the child was conceived after marriage
 				} else if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
 					if (imperatorCharacter.DeathDate < imperatorSpouse.DeathDate) {
 						estimatedMarriageDate = new Date(imperatorCharacter.DeathDate);
 					} else {
 						estimatedMarriageDate = new Date(imperatorSpouse.DeathDate);
 					}
-					estimatedMarriageDate.ChangeByDays(-1); // death is not a good moment to marry
+					estimatedMarriageDate = estimatedMarriageDate.ChangeByDays(-1); // death is not a good moment to marry
 				} else if (imperatorCharacter.DeathDate is not null) {
-					estimatedMarriageDate = new Date(imperatorCharacter.DeathDate);
-					estimatedMarriageDate.ChangeByDays(-1);
+					estimatedMarriageDate = new Date(imperatorCharacter.DeathDate).ChangeByDays(-1);
 				} else if (imperatorSpouse.DeathDate is not null) {
-					estimatedMarriageDate = new Date(imperatorSpouse.DeathDate);
-					estimatedMarriageDate.ChangeByDays(-1);
+					estimatedMarriageDate = new Date(imperatorSpouse.DeathDate).ChangeByDays(-1);
 				} else {
 					estimatedMarriageDate = new Date(conversionDate);
 				}

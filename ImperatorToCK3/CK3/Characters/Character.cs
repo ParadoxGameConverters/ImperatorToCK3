@@ -91,11 +91,11 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			BirthDate = preImperatorRuler.BirthDate!;
 			if (BirthDate.Year < 1) {
-				BirthDate.ChangeByYears(-1);
+				BirthDate = BirthDate.ChangeByYears(-1);
 			}
 			DeathDate = preImperatorRuler.DeathDate!;
 			if (DeathDate.Year < 1) {
-				DeathDate.ChangeByYears(-1);
+				DeathDate = DeathDate.ChangeByYears(-1);
 			}
 
 			// determine culture and religion
@@ -220,11 +220,11 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			BirthDate = ImperatorCharacter.BirthDate;
 			if (BirthDate.Year < 1) {
-				BirthDate.ChangeByYears(-1);
+				BirthDate = BirthDate.ChangeByYears(-1);
 			}
 			DeathDate = ImperatorCharacter.DeathDate;
 			if (DeathDate?.Year < 1) {
-				DeathDate.ChangeByYears(-1);
+				DeathDate = DeathDate.ChangeByYears(-1);
 			}
 			var impDeathReason = ImperatorCharacter.DeathReason;
 			if (impDeathReason is not null) {

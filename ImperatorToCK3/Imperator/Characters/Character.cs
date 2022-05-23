@@ -96,7 +96,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public CK3.Characters.Character? CK3Character { get; set; }
 
 		public void AddYears(int years) {
-			BirthDate.ChangeByYears(-years);
+			BirthDate = BirthDate.ChangeByYears(-years);
 		}
 
 		private Genes.GenesDB? genes;
