@@ -25,7 +25,7 @@ link = { ck3 = berber_pagan imp = berber_religion }
 link = { ck3 = scythian_pagan imp = indo_iranian_religion }
 # Invictus mod
 link = { ck3=waaqism_pagan imp=puntic_religion }
-link = { ck3=pagan imp=pre_indo_european_religion }
+link = { ck3=basque_pagan imp=pre_indo_european_religion }
 
 
 # Arabic
