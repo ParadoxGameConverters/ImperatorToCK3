@@ -58,7 +58,8 @@ thracian_gothic = { # https://en.wikipedia.org/wiki/Thracian_Goths
 	}
 }
 
-pmpese = { # Carthaginian divergence in Sardinia, name fictional?
+pmpese = { # Carthaginian divergence in Sardinia, name based on PMP tag from Imperator
+	# https://imperator.paradoxwikis.com/Countries#:~:text=P%27mpe-,PMP,-Magna%20Graecia
 	trigger = {
 		capital_county = {
 			title:d_sardinia = {
@@ -83,7 +84,8 @@ pmpese = { # Carthaginian divergence in Sardinia, name fictional?
 	}
 }
 
-taliaite = { # Carthaginian divergence in Italia, name fictional?
+taliaite = { # Carthaginian divergence in Italia, name based on ITA tag from Imperator
+	# https://imperator.paradoxwikis.com/Countries#:~:text=20px%20%27Talia-,ITA,-Italia
 	trigger = {
 		capital_province = {
 			geographical_region = ghw_region_italy
