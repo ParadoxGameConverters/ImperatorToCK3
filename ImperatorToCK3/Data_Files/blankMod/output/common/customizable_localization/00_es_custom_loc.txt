@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.5.0
+﻿# Last updated: CK3 patch 1.6.0
 ### SPANISH CUSTOM LOCALIZATION
 ### Por Jaime Ortega
 
@@ -55,11 +55,6 @@
 # ES_ReyReina (rey/reina)
 # ES_HijoHija (hijo/hija)
 # ES_SirvienteSirvienta (sirviente/sirvienta)
-
-##################################
-# II. REEMPLAZO DE COMANDOS EN INGLÉS
-##################################
-# ES_FaithGenderedAdj - GetFaith.GetAdjective\GetFaith.GetAdherentName (scope: CHARACTER)
 
 ##################################
 # II. ARTICULOS DELANTE DE COMANDOS #
@@ -244,35 +239,6 @@ ES_LeLaOpp = {
 	}
 	text = {
 		localization_key = CustomLoc_ES_LeLaOpp_male
-		fallback = yes
-	}
-}
-
-ES_DDe = {
-	type = character
-	log_loc_errors = no
-	text = {
-		trigger = {
-			trigger_if = {
-				limit = {
-					exists = this
-					NOT = { exists = scope:second }
-				}
-				this = { is_female = yes }
-			}
-			trigger_if = {
-				limit = {
-					exists = this
-					exists = scope:second
-				}
-				this = { is_female = yes }
-				scope:second = { is_female = yes }
-			}
-		}
-		localization_key = CustomLoc_ES_DDe_female
-	}
-	text = {
-		localization_key = CustomLoc_ES_DDe_male
 		fallback = yes
 	}
 }
@@ -2254,11 +2220,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_court_physician_female
 		trigger = {
 			scope:second = { is_female = yes }
-			has_court_position = court_physician_court_position
-			is_court_position_employer = {
-		        court_position = court_physician_court_position
-		        who = root
-		    }
+			has_relation_court_physician = scope:second
 		}
 	}
 
@@ -2266,11 +2228,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_court_physician_female
 		trigger = {
 			scope:second = { is_male = yes }
-			has_court_position = court_physician_court_position
-			is_court_position_employer = {
-		        court_position = court_physician_court_position
-		        who = root
-		    }
+			has_relation_court_physician = scope:second
 		}
 	}
 
@@ -2435,26 +2393,6 @@ ES_ElLa_Relation = {
 	}
 }
 
-ES_FaithGenderedAdj = { 
-	type = character
-	log_loc_errors = no
-	text = {
-		trigger = {
-			trigger_if = {
-				limit = { 
-					exists = this
-				}
-				this = { is_female = yes }
-			}
-		}
-		localization_key = CustomLoc_ES_FaithGenderedAdj_female
-	}
-	text = {
-		localization_key = CustomLoc_ES_FaithGenderedAdj_male
-		fallback = yes
-	}
-}
-
 ES_only_el_GetTitledFirstName = {
 	type = character
 	log_loc_errors = no
@@ -2516,8 +2454,8 @@ ES_only_el_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
+						culture = culture:german # Kaiser
+						culture = culture:greek # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
@@ -2567,7 +2505,7 @@ ES_only_el_GetTitledFirstName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = { has_name_list = name_list_uyghur }
+					culture = culture:uyghur
 					OR = {
 						has_government = feudal_government
 						has_government = clan_government
@@ -2583,7 +2521,7 @@ ES_only_el_GetTitledFirstName = {
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = { has_name_list = name_list_sogdian }
+					culture = culture:sogdian
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
@@ -2605,9 +2543,9 @@ ES_only_el_GetTitledFirstName = {
 								has_government = feudal_government
 								has_government = tribal_government
 							}
-							culture = { has_name_list = name_list_english }
-							culture = { has_name_list = name_list_anglo_saxon }
-							culture = { has_name_list = name_list_scottish }
+							culture = culture:english
+							culture = culture:anglo_saxon
+							culture = culture:scottish
 						}
 					}
 				}
@@ -2730,8 +2668,8 @@ ES_only_del_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
+						culture = culture:german # Kaiser
+						culture = culture:greek # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
@@ -2781,7 +2719,7 @@ ES_only_del_GetTitledFirstName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = { has_name_list = name_list_uyghur }
+					culture = culture:uyghur
 					OR = {
 						has_government = feudal_government
 						has_government = clan_government
@@ -2797,7 +2735,7 @@ ES_only_del_GetTitledFirstName = {
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = { has_name_list = name_list_sogdian }
+					culture = culture:sogdian
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
@@ -2819,9 +2757,9 @@ ES_only_del_GetTitledFirstName = {
 								has_government = feudal_government
 								has_government = tribal_government
 							}
-							culture = { has_name_list = name_list_english }
-							culture = { has_name_list = name_list_anglo_saxon }
-							culture = { has_name_list = name_list_scottish }
+							culture = culture:english
+							culture = culture:anglo_saxon
+							culture = culture:scottish
 						}
 					}
 				}
@@ -2944,8 +2882,8 @@ ES_only_al_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
+						culture = culture:german # Kaiser
+						culture = culture:greek # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
@@ -2995,7 +2933,7 @@ ES_only_al_GetTitledFirstName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = { has_name_list = name_list_uyghur }
+					culture = culture:uyghur
 					OR = {
 						has_government = feudal_government
 						has_government = clan_government
@@ -3011,7 +2949,7 @@ ES_only_al_GetTitledFirstName = {
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = { has_name_list = name_list_sogdian }
+					culture = culture:sogdian
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
@@ -3033,9 +2971,9 @@ ES_only_al_GetTitledFirstName = {
 								has_government = feudal_government
 								has_government = tribal_government
 							}
-							culture = { has_name_list = name_list_english }
-							culture = { has_name_list = name_list_anglo_saxon }
-							culture = { has_name_list = name_list_scottish }
+							culture = culture:english
+							culture = culture:anglo_saxon
+							culture = culture:scottish
 						}
 					}
 				}
@@ -3164,8 +3102,8 @@ ES_only_el_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
+						culture = culture:german # Kaiser
+						culture = culture:greek # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
@@ -3215,7 +3153,7 @@ ES_only_el_GetShortUIName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = { has_name_list = name_list_uyghur }
+					culture = culture:uyghur
 					OR = {
 						has_government = feudal_government
 						has_government = clan_government
@@ -3231,7 +3169,7 @@ ES_only_el_GetShortUIName = {
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = { has_name_list = name_list_sogdian }
+					culture = culture:sogdian
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
@@ -3253,9 +3191,9 @@ ES_only_el_GetShortUIName = {
 								has_government = feudal_government
 								has_government = tribal_government
 							}
-							culture = { has_name_list = name_list_english }
-							culture = { has_name_list = name_list_anglo_saxon }
-							culture = { has_name_list = name_list_scottish }
+							culture = culture:english
+							culture = culture:anglo_saxon
+							culture = culture:scottish
 						}
 					}
 				}
@@ -3384,8 +3322,8 @@ ES_only_de_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
+						culture = culture:german # Kaiser
+						culture = culture:greek # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
@@ -3435,7 +3373,7 @@ ES_only_de_GetShortUIName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = { has_name_list = name_list_uyghur }
+					culture = culture:uyghur
 					OR = {
 						has_government = feudal_government
 						has_government = clan_government
@@ -3451,7 +3389,7 @@ ES_only_de_GetShortUIName = {
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = { has_name_list = name_list_sogdian }
+					culture = culture:sogdian
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
@@ -3473,9 +3411,9 @@ ES_only_de_GetShortUIName = {
 								has_government = feudal_government
 								has_government = tribal_government
 							}
-							culture = { has_name_list = name_list_english }
-							culture = { has_name_list = name_list_anglo_saxon }
-							culture = { has_name_list = name_list_scottish }
+							culture = culture:english
+							culture = culture:anglo_saxon
+							culture = culture:scottish
 						}
 					}
 				}
@@ -3604,8 +3542,8 @@ ES_only_a_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
+						culture = culture:german # Kaiser
+						culture = culture:greek # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
@@ -3655,7 +3593,7 @@ ES_only_a_GetShortUIName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = { has_name_list = name_list_uyghur }
+					culture = culture:uyghur
 					OR = {
 						has_government = feudal_government
 						has_government = clan_government
@@ -3671,7 +3609,7 @@ ES_only_a_GetShortUIName = {
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = { has_name_list = name_list_sogdian }
+					culture = culture:sogdian
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
@@ -3693,9 +3631,9 @@ ES_only_a_GetShortUIName = {
 								has_government = feudal_government
 								has_government = tribal_government
 							}
-							culture = { has_name_list = name_list_english }
-							culture = { has_name_list = name_list_anglo_saxon }
-							culture = { has_name_list = name_list_scottish }
+							culture = culture:english
+							culture = culture:anglo_saxon
+							culture = culture:scottish
 						}
 					}
 				}
