@@ -434,9 +434,6 @@ link = { ck3 = bodpa imp = yarlung }
 link = { ck3 = tsangpa imp = tsang }
 
 ## West Levantine
-# Splitting according to regions - to be reworked!
-#link = { ck3 = taliaite imp = carthaginian @culture_splitting_region_P }
-
 link = { ck3 = carthaginian imp = carthaginian }
 link = { ck3 = phoenician imp = phoenician }
 link = { ck3 = shuadit imp = hebrew @culture_splitting_region_F }
