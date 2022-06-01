@@ -1,5 +1,10 @@
 # Usage:
 # <faith_id> = all/<list of replaceable sites>
+# 
+# Examples:
+# pagan = all # makes all holy sites of the generic pagan faith dynamic
+# dacian_pagan = { spinopara buridava } # only spinopara and buridava holy sites will be replaced by dynamic ones
+
 
 pagan = all
 dacian_pagan = all
