@@ -82,3 +82,28 @@ pmpese = { # Carthaginian divergence in Sardinia, name fictional?
 		}
 	}
 }
+
+taliaite = { # Carthaginian divergence in Italia, name fictional?
+	trigger = {
+		capital_province = {
+			geographical_region = ghw_region_italy
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:carthaginian
+					any_parent_culture_or_above = { this = culture:carthaginian }
+				}
+			}
+			title_province = {
+				geographical_region = ghw_region_italy
+			}
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:carthaginian
+				any_parent_culture_or_above = { this = culture:carthaginian }
+			}
+		}
+	}
+}
