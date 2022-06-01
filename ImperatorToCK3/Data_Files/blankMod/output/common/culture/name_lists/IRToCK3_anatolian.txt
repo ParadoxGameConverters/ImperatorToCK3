@@ -25,11 +25,20 @@
 		Lysithous Melanippus Mylius Philaemon Telestas Antinous Astynomus Axion Biantes Brissonius Cheirodamas
 		Chrysolaus Dolon Eresus Heron Hippasus Hipposidus Ilagus Lysides Palaemon Polymelus Proneos Protodamas
 		Chaon Idaeus Chryses
+
+		# from ImperatorToCK2 Cilician:
+		Morzios Pylaemenes Mithridates Datames Ariobarzanes Ariamnes Ariarathes Croesus Gyges Ardys Sadyattes Atys Adrastus Gordias Midas
+		Hecatomnus Hyssaldomus Mausolus Idrieus Pixodarus Lygdamis Kybernis Kuprilli
+		Arppakhu Arbinas Kheriga Kherei Abistamenes Syennesis Appuasu Oromedon
+		Zipoetes Bas Ziaelas Prusias Arcathias Xiphares Darius
 	}
 	female_names = {
 		Cassandra Laodice Theano Penthesilea Cleomestra Hecuba Medesicaste Creusa Medusa
 		Aristodeme Lysimache Polyxena Demnosia Demosthea Ethionome Henicea Iliona Lysianassa
 		Nereis Phegea Philomela Aristomache Clymene Xenodice Deinome Metioche Peisis Cleodice
+
+		# from ImperatorToCK2 Cilician:
+		Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
 	}
 	
 	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.

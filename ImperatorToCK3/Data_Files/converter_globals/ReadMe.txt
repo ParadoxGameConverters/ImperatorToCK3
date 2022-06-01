@@ -10,8 +10,8 @@ Development build: https://github.com/ParadoxGameConverters/ImperatorToCK3/relea
 ----
 REQUIREMENTS
 ----
-Imperator: Rome - version 1.5 or higher
-Crusader Kings III - version 1.1 or higher
+Imperator: Rome - version 2.0 or higher
+Crusader Kings III - version 1.6 or higher
 
 -----
 INSTRUCTIONS
@@ -23,11 +23,13 @@ INSTRUCTIONS
 CREDITS
 ----
 
+Iohannes	- Data files, ideas
 comagoosie	- librakaly save melter
 Idhrendur	- Setting up the project, sanity checks and review
 IhateTrains	- Lead, programming, data files, testing
 lukaslunt	- Data files
 Zemurin		- Review, advice
 Plati		- Faith icons
+Radu		- Ideas, province mappings
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

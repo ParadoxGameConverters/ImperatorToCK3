@@ -98,8 +98,9 @@ link = { ck3 = ethiopian imp = boran }
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
 link = { ck3 = luwian imp = carian imp = lycian imp = isaurian imp = pisidian }
+link = { ck3=cilician imp=cilician imp=kennataian imp=cennatean }
 link = { ck3 = lydian imp = lydian }
-link = { ck3 = hittite imp = lycaonian imp = cilician imp = kennataian imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
+link = { ck3=hittite imp=lycaonian imp=pamphylian imp=cappadocian imp=pontic imp=paphlagonian imp=milyadian imp=oroandian imp=cabalian imp=lalasian imp=morimenian imp=cataonian }
 link = { ck3 = phrygian imp = phrygian imp = mysian }
 #Invictus mod
 link = { ck3 = galatian imp = galatian }
@@ -433,31 +434,6 @@ link = { ck3 = bodpa imp = yarlung }
 link = { ck3 = tsangpa imp = tsang }
 
 ## West Levantine
-# Splitting according to regions - to be reworked!
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_A }
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_B }
-#link = { ck3 = ualonuth imp = carthaginian @culture_splitting_region_C }
-#link = { ck3 = sicorathi imp = carthaginian @culture_splitting_region_D @culture_splitting_region_G }
-#link = { ck3 = symacom imp = carthaginian @culture_splitting_region_E }
-#link = { ck3 = ysthyalm imp = carthaginian @culture_splitting_region_F }
-#link = { ck3 = sythchy imp = carthaginian @culture_splitting_region_H }
-#link = { ck3 = ynnocho imp = carthaginian @culture_splitting_region_I }
-#link = { ck3 = mlachthi imp = carthaginian @culture_splitting_region_J }
-#link = { ck3 = inythmum imp = carthaginian @culture_splitting_region_K }
-#link = { ck3 = gadolite imp = carthaginian @culture_splitting_region_L }
-#link = { ck3 = bythlimmoth imp = carthaginian @culture_splitting_region_M }
-#link = { ck3 = sidonian imp = carthaginian @culture_splitting_region_N }
-#link = { ck3 = pmpese imp = carthaginian @culture_splitting_region_S }
-#link = { ck3 = taliaite imp = carthaginian @culture_splitting_region_P }
-#link = { ck3 = lacanite imp = carthaginian @culture_splitting_region_Q }
-#link = { ck3 = epicrateian imp = carthaginian @culture_splitting_region_R }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_T }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_U }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_V }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_W }
-#link = { ck3 = liphocaneth imp = carthaginian @culture_splitting_region_X }
-#link = { ck3 = mysehi imp = carthaginian @culture_splitting_region_Y }
-
 link = { ck3 = carthaginian imp = carthaginian }
 link = { ck3 = phoenician imp = phoenician }
 link = { ck3 = shuadit imp = hebrew @culture_splitting_region_F }

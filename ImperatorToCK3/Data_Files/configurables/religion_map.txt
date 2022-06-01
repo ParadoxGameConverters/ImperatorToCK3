@@ -25,7 +25,7 @@ link = { ck3 = berber_pagan imp = berber_religion }
 link = { ck3 = scythian_pagan imp = indo_iranian_religion }
 # Invictus mod
 link = { ck3=waaqism_pagan imp=puntic_religion }
-link = { ck3=pagan imp=pre_indo_european_religion }
+link = { ck3=basque_pagan imp=pre_indo_european_religion }
 
 
 # Arabic
@@ -127,11 +127,13 @@ link = { ck3 = azariqa imp = kharijite }
 link = { ck3 = arian imp = arian }
 
 # The Christian Schism
-link = { ck3 = orthodox imp = christianity impRegion = taurica_region impRegion = sarmatia_asiatica_region impRegion = greece_region impRegion = asia_region impRegion = cilicia_region impRegion = galatia_region impRegion = bithynia_region impRegion = cappadocia_region impRegion = syria_region impRegion = palestine_region impRegion = sarmatia_europea_region impRegion = scythia_region impRegion = thrace_region impRegion = moesia_region impRegion = dacia_region impRegion = colchis_region impRegion = albania_region impRegion = macedonia_region impRegion = cappadocia_pontica_region }
 link = { ck3 = priscillianism imp = christianity heresiesInHistoricalAreas=yes ck3Province = 1831 ck3Province = 1912 ck3Province = 1919 ck3Province = 1954 impRegion = lusitania_region }
+link = { ck3 = valentinianism imp = christianity heresiesInHistoricalAreas=yes impRegion = decapolis_area impRegion = peraea_area impRegion = arabia_petrea_area impRegion = sinai_area }
+link = { ck3 = orthodox imp = christianity impRegion = taurica_region impRegion = sarmatia_asiatica_region impRegion = greece_region impRegion = asia_region impRegion = cilicia_region impRegion = galatia_region impRegion = bithynia_region impRegion = cappadocia_region impRegion = syria_region impRegion = palestine_region impRegion = sarmatia_europea_region impRegion = scythia_region impRegion = thrace_region impRegion = moesia_region impRegion = dacia_region impRegion = colchis_region impRegion = albania_region impRegion = macedonia_region impRegion = cappadocia_pontica_region }
+
 link = { ck3 = catholic imp = christianity impRegion = central_italy_region impRegion = lusitania_region impRegion = germania_region impRegion = transalpine_gaul_region impRegion = gallaecia_region impRegion = pannonia_region impRegion = bohemia_area impRegion = illyria_region impRegion = magna_graecia_region impRegion = belgica_region impRegion = vistulia_region impRegion = venedia_region impRegion = central_gaul_region impRegion = germania_superior_region impRegion = contestania_region impRegion = armorica_region impRegion = mauretainia_region impRegion = aquitaine_region impRegion = tarraconensis_region impRegion = cisalpine_gaul_region impRegion = africa_region impRegion = numidia_region impRegion = rhaetia_region impRegion = baetica_region impRegion = scandinavia_region }
 link = { ck3 = insular_celtic imp = christianity impRegion = caledonia_region impRegion = britain_region }
 link = { ck3 = coptic imp = christianity impRegion = arabia_felix_region impRegion = arabia_region impRegion = cyrenaica_region impRegion = lower_egypt_region impRegion = nubia_region impRegion = punt_region impRegion = upper_egypt_region }
-link = { ck3 = nestorian imp = christianity heresiesInHistoricalAreas=yes impRegion = assyria_region impRegion = mesopotamia_region impRegion = persis_region impRegion = media_region impRegion = bactriana_region impRegion = gedrosia_region  impRegion = ariana_region impRegion = parthia_region impRegion = gandhara_region impRegion = maru_region impRegion = avanti_region impRegion = madhyadesa_region impRegion = pracya_region impRegion = vindhyaprstha_region impRegion = dravida_region impRegion = aparanta_region impRegion = karnata_region impRegion = tibet_region impRegion = himalayan_region impRegion = sogdiana_region }
+link = { ck3 = nestorian imp = christianity impRegion = assyria_region impRegion = mesopotamia_region impRegion = persis_region impRegion = media_region impRegion = bactriana_region impRegion = gedrosia_region  impRegion = ariana_region impRegion = parthia_region impRegion = gandhara_region impRegion = maru_region impRegion = avanti_region impRegion = madhyadesa_region impRegion = pracya_region impRegion = vindhyaprstha_region impRegion = dravida_region impRegion = aparanta_region impRegion = karnata_region impRegion = tibet_region impRegion = himalayan_region impRegion = sogdiana_region }
 link = { ck3 = armenian_apostolic imp = christianity impRegion = armenia_region }
 link = { ck3 = orthodox imp = christianity } # fallback

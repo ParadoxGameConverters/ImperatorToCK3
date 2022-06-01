@@ -62,6 +62,24 @@ namespace ImperatorToCK3.CK3 {
 			// Use the region mappers in other mappers
 			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
+			
+			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), config);
+
+			Characters.ImportImperatorCharacters(
+				impWorld,
+				religionMapper,
+				cultureMapper,
+				traitMapper,
+				nicknameMapper,
+				locDB,
+				provinceMapper,
+				deathReasonMapper,
+				CorrectedDate,
+				config
+			);
+			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
+
+			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
@@ -99,24 +117,6 @@ namespace ImperatorToCK3.CK3 {
 				coaMapper,
 				countyLevelGovernorships
 			);
-
-			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), config);
-
-			Characters.ImportImperatorCharacters(
-				impWorld,
-				religionMapper,
-				cultureMapper,
-				traitMapper,
-				nicknameMapper,
-				locDB,
-				provinceMapper,
-				deathReasonMapper,
-				CorrectedDate,
-				config
-			);
-			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
-
-			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate);

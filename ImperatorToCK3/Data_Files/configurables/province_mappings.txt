@@ -279,7 +279,8 @@
 	link = { imp = 4289 ck3 = 3936 } # Ampelum -> Abrudbanya
 	link = { imp = 4291 ck3 = 519 } # Apulum -> Feher
 	link = { imp = 4295 imp = 4287 ck3 = 3937 } # Cedonia, Decidava -> Nagyszeben
-	link = { imp = 4296 imp = 4286 imp = 4284 ck3 = 3938 } # Zidava, Blandiana, Bucium -> Alvinc
+	link = { imp = 4284 ck3 = 3931 } # Bucium -> Vajdahunyad
+	link = { imp = 4296 imp = 4286 ck3 = 3938 } # Zidava, Blandiana -> Alvinc
 	link = { imp = 4503 ck3 = 3929 } # Marcodava -> Marosvasarhely
 	link = { imp = 4502 ck3 = 3927 } # Sandava -> Szaszregen
 	link = { imp = 4501 ck3 = 540 } # Caput Stenarum -> Szekelyfold
@@ -301,7 +302,7 @@
 	link = { imp = 4909 ck3 = 3930 } # Utidava -> Csikszereda
 	link = { imp = 4911 ck3 = 5029 } # Tamasidava -> Stoenesti
 	link = { imp = 4294 ck3 = 3943 ck3 = 3945 } # Angustia -> Balvanyos, Kovaszna
-	link = { imp = 4293 ck3 = 3942 } # Ramidava -> Brasso
+	link = { imp = 4293 ck3 = 3942 ck3 = 3941 } # Ramidava -> Brasso, Torcsvar
 	link = { imp = 4892 ck3 = 3810 } # Ibadura -> Twardosczino
 	link = { imp = 4870 ck3 = 3855 ck3 = 3861 ck3 = 525 } # Maronis -> Nemetlipcse, Kesmark, Orava
 	link = { imp = 4871 ck3 = 3854 } # Bekum -> Liptoujvar
@@ -594,23 +595,27 @@
 	link = { imp = 1078 imp = 1077 ck3 = 1806 } # Pompelo, Iluberis -> PAMPLONA
 	link = { imp = 1081 imp = 1082 ck3 = 1889 } # Carta, Andelos -> TAFALLA
 	link = { imp = 1076 ck3 = 1807 } # Iacca -> JACA
-	link = { imp = 1080 imp = 1074 ck3 = 3221 } # Segia, Forum Gallorum -> ALTO ARAGON
+	link = { imp = 1080 ck3 = 8793 } # Segia -> Uncastillo
+	link = { imp = 1074 ck3 = 3221 } # Forum Gallorum -> ALTO ARAGON
 	link = { imp = 1088 ck3 = 1888 } # Ilurcis -> EJEA
 	link = { imp = 1073 imp = 1071 imp = 1072 ck3 = 1886 } # Bortina, Presuina, Gallicum -> ZUERA
 	link = { imp = 1014 ck3 = 1873 } # Osca -> HUESCA
-	link = { imp = 1075 ck3 = 1872 } # Fibularia -> AINSA
-	link = { imp = 1067 ck3 = 1871 } # Labitolosa -> RIBAGORZA
-	link = { imp = 1066 imp = 1065 ck3 = 1874 } # Mendiculeia, Caum -> BARBASTRO
+	link = { imp = 1067 ck3 = 1872 } # Labitolosa -> AINSA
+	link = { imp = 1075 ck3 = 8794 } # Fibularia -> Biescas
+	link = { imp = 1066 ck3 = 8795 } # Mendiculeia -> Monzon
+	link = { imp = 1065 ck3 = 1874 } # Caum -> BARBASTRO
 	link = { imp = 1070 ck3 = 1885 } # Gallika Phlaouia -> SARINENA
 	link = { imp = 1064 ck3 = 1882 } # Keresos -> FRAGA
-	link = { imp = 1010 imp = 1069 ck3 = 1881 } # Ilerda, Ager -> LLEIDA
+	link = { imp = 1069 ck3 = 8799 ck3 = 1871 } # Ager -> Pallars Jussa, RIBAGORZA
+	link = { imp = 1010 ck3 = 1881 } # Ilerda -> LLEIDA
 	link = { imp = 5053 ck3 = 1870 } # IMPASSIBLE TERRAIN 053 -> VIELHA
 	link = { imp = 5132 ck3 = 1869 ck3 = 2210 } # IMPASSIBLE TERRAIN 132 -> ANDORRA, TARASCON
-	link = { imp = 1068 ck3 = 1884 } # Aeso -> BALAGUER
+	link = { imp = 1068 ck3 = 1884 ck3 = 8800 } # Aeso -> BALAGUER, Pallars Sobira
 	link = { imp = 1241 ck3 = 1880 } # Otobesa -> MAIALS
-	link = { imp = 1057 imp = 1061 ck3 = 1879 } # Lesos, Ad Septimum -> PRADES
+	link = { imp = 1057 ck3 = 8796 } # Lesos -> Agramunt
+	link = { imp = 1061 ck3 = 1879 } # Ad Septimum -> PRADES
 	link = { imp = 1055 imp = 1052 ck3 = 1877 } # Sigarra, Subur -> MANRESA
-	link = { imp = 1056 ck3 = 1878 } # Setelsis -> URGELL
+	link = { imp = 1056 ck3 = 1878 ck3 = 8801 } # Setelsis -> URGELL, Seu d'Urgell
 	link = { imp = 1058 ck3 = 1876 } # Orgia -> BERGA
 	link = { imp = 1059 ck3 = 1868 } # Urgellum -> PUIGCERDA
 	link = { imp = 1005 ck3 = 1875 } # Auso -> VIC
@@ -745,7 +750,8 @@
 	link = { imp = 2254 ck3 = 2211 ck3 = 2007 } # Tarusco -> PAMIERS, MONTBEL
 	link = { imp = 2258 imp = 2255 ck3 = 2006 } # Usuerva, Carcasso -> CARCASSONE
 	link = { imp = 1079 ck3 = 2447 } # Ad Vicensi -> LIMOUX
-	link = { imp = 1001 imp = 1060 ck3 = 1865 } # Rhoda, Ioulia Libika -> ROSES
+	link = { imp = 1060 ck3 = 8797 ck3 = 8798 } # Ioulia Libika -> Llivia, Prades in Rossello
+	link = { imp = 1001 ck3 = 1865 } # Rhoda -> ROSES
 	link = { imp = 2257 ck3 = 1866 } # Ruscino -> PERPIGNAN
 	link = { imp = 2256 ck3 = 2005 } # Narbo -> NARBONNE
 	link = { imp = 2259 ck3 = 2013 } # Baeterrae -> BEZIERS
