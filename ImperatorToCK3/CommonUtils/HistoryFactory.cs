@@ -2,10 +2,9 @@
 using commonItems.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils;
-public sealed class HistoryFactory : Parser {
+public sealed class HistoryFactory {
 	public class HistoryFactoryBuilder {
 		private readonly List<SimpleFieldDef> simpleFieldDefs = new(); // fieldName, setters, initialValue
 		private readonly List<DiffFieldDef> diffFieldDefs = new(); // fieldName, inserter, remover, initialValue
@@ -40,7 +39,7 @@ public sealed class HistoryFactory : Parser {
 
 		foreach (var def in this.simpleFieldDefs) {
 			foreach (var setter in def.Setters) {
-				RegisterKeyword(setter, reader => {
+				parser.RegisterKeyword(setter, reader => {
 					// if the value is set outside of dated blocks, override the initial value
 					var itemStr = reader.GetStringOfItem().ToString();
 					var value = GetValue(itemStr);
@@ -53,7 +52,7 @@ public sealed class HistoryFactory : Parser {
 		}
 		foreach (var def in this.diffFieldDefs) {
 			foreach (var inserterKeyword in def.Inserters) {
-				RegisterKeyword(inserterKeyword, reader => {
+				parser.RegisterKeyword(inserterKeyword, reader => {
 					var diffField = (DiffHistoryField)history.Fields[def.FieldName];
 					var valueToInsert = GetValue(reader.GetString());
 					diffField.InitialEntries.Add(new KeyValuePair<string, object>(inserterKeyword, valueToInsert));
@@ -61,16 +60,16 @@ public sealed class HistoryFactory : Parser {
 			}
 
 			foreach (var removerKeyword in def.Removers) {
-				RegisterKeyword(removerKeyword, reader => {
+				parser.RegisterKeyword(removerKeyword, reader => {
 					var diffField = (DiffHistoryField)history.Fields[def.FieldName];
 					var valueToRemove = GetValue(reader.GetString());
 					diffField.InitialEntries.Add(new KeyValuePair<string, object>(removerKeyword, valueToRemove));
 				});
 			}
 		}
-		RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
+		parser.RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
 			var date = new Date(dateString);
-			
+
 			var dateBlockParser = new Parser();
 			foreach (var field in history.Fields) {
 				field.RegisterKeywords(dateBlockParser, date);
@@ -81,43 +80,44 @@ public sealed class HistoryFactory : Parser {
 			});
 			dateBlockParser.ParseStream(reader);
 		});
-		RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
+		parser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
 			history.IgnoredKeywords.Add(keyword);
 			ParserHelpers.IgnoreItem(reader);
 		});
 	}
 
-	private History InitializeHistory() {
-		history = new History();
+	private void InitializeHistory() {
 		foreach (var def in simpleFieldDefs) {
-			history.Fields.Add(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue)); 
+			history.Fields.TryAdd(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
 		}
 		foreach (var def in diffFieldDefs) {
-			history.Fields.Add(new DiffHistoryField(def.FieldName, def.Inserters, def.Removers));
+			history.Fields.TryAdd(new DiffHistoryField(def.FieldName, def.Inserters, def.Removers));
 		}
-
-		return history;
 	}
 	public History GetHistory() {
-		return InitializeHistory();
+		history = new History();
+		InitializeHistory();
+		return history;
 	}
 	public History GetHistory(BufferedReader reader) {
-		history = InitializeHistory();
+		history = new History();
+		InitializeHistory();
 
-		ParseStream(reader);
-		
+		parser.ParseStream(reader);
+
 		if (history.IgnoredKeywords.Count > 0) {
 			Logger.Debug($"Ignored history keywords: {string.Join(", ", history.IgnoredKeywords)}");
 		}
 		return history;
 	}
 	public History GetHistory(string historyPath, string gamePath) {
-		history = InitializeHistory();
+		history = new History();
+		InitializeHistory();
 
 		if (File.Exists(historyPath)) {
-			ParseGameFile(historyPath, gamePath, new List<Mod>());
+			parser.ParseGameFile(historyPath, gamePath, new List<Mod>());
 		} else {
-			ParseGameFolder(historyPath, gamePath, "txt", new List<Mod>(), true);
+			parser.ParseGameFolder(historyPath, gamePath, "txt", new List<Mod>(), true);
 		}
 
 		if (history.IgnoredKeywords.Count > 0) {
@@ -128,7 +128,9 @@ public sealed class HistoryFactory : Parser {
 
 	public void UpdateHistory(History existingHistory, BufferedReader reader) {
 		history = existingHistory;
-		ParseStream(reader);
+		InitializeHistory();
+
+		parser.ParseStream(reader);
 	}
 
 	public static object GetValue(string str) {
@@ -151,5 +153,6 @@ public sealed class HistoryFactory : Parser {
 
 	private readonly List<SimpleFieldDef> simpleFieldDefs;
 	private readonly List<DiffFieldDef> diffFieldDefs;
+	private readonly Parser parser = new();
 	private History history = new();
 }

@@ -222,15 +222,20 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var gov = rulerTerm.Government;
 
 				var termStartDate = new Date(rulerTerm.StartDate);
+				var ruler = characters[characterId];
+				if (ruler.DeathDate is not null && ruler.DeathDate < termStartDate) {
+					Logger.Warn($"{ruler.Id} can not begin his rule over {Id} after his death, skipping!");
+					continue;
+				}
 
-				History.AddFieldValue(termStartDate,"holder",  "holder", characterId);
+				History.AddFieldValue(termStartDate, "holder", "holder", characterId);
 				if (gov is not null) {
 					History.AddFieldValue(termStartDate, "government", "government", gov);
 				}
 			}
 
 			if (ImperatorCountry.Government is not null) {
-				var lastCK3TermGov = History.GetGovernment(conversionDate);
+				var lastCK3TermGov = GetGovernment(conversionDate);
 				var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government);
 				if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 					History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
@@ -428,9 +433,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var lastDate = dates.Max;
 		return lastDate ?? new Date(1, 1, 1);
 	}
-	public string GetHolderId(Date date) {
-		return History.GetHolderId(date);
-	}
+	
 	public HashSet<string> GetAllHolderIds() {
 		if (History.Fields.TryGetValue("holder", out var holderField)) {
 			var ids = new HashSet<string>();
@@ -464,13 +467,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var id = character is null ? "0" : character.Id;
 		History.AddFieldValue(date, "holder", "holder", id);
 	}
-	public string? GetGovernment(Date date) {
-		return History.GetGovernment(date);
-	}
-
-	public int? GetDevelopmentLevel(Date date) {
-		return History.GetDevelopmentLevel(date);
-	}
+	
 	public void SetDevelopmentLevel(int value, Date date) {
 		if (Rank == TitleRank.barony) {
 			Logger.Warn($"Cannot set development level to a barony title {Id}!");
@@ -536,10 +533,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
 		}
 	}
-	public void AddHistory(TitleHistory titleHistory) {
-		History = titleHistory;
-	}
-
 	[NonSerialized] public string? CoA { get; private set; }
 
 	[SerializedName("capital")] public string? CapitalCountyId { get; private set; }
@@ -571,7 +564,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title
-		var liegeStr = History.GetLiege(date);
+		var liegeStr = GetLiege(date);
 		if (liegeStr is not null && parentCollection.TryGetValue(liegeStr, out var liegeTitle)) {
 			return liegeTitle;
 		}
@@ -665,7 +658,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
-		var ownDev = History.GetDevelopmentLevel(date);
+		var ownDev = GetDevelopmentLevel(date);
 		if (ownDev is not null) { // if development level is already set, just return it
 			return ownDev;
 		}
@@ -698,7 +691,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser) {
-		parser.RegisterRegex(@"(k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
+		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
 			// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
 			var newTitle = parentCollection.Add(titleNameStr);
 			newTitle.LoadTitles(reader);
@@ -757,7 +750,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.Fields.Remove("liege");
 	}
 
-	[NonSerialized] public TitleHistory History { get; private set; } = new();
+	[NonSerialized] public History History { get; } = new();
 	private static readonly ColorFactory colorFactory = new();
 
 	private void SetRank() {

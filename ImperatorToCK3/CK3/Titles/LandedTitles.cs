@@ -1,7 +1,9 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -15,6 +17,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Titles;
@@ -28,25 +31,37 @@ public partial class Title {
 	public class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = new();
 
-		public void LoadTitles(string fileName) {
+		public void LoadTitles(string ck3Path) {
 			var parser = new Parser();
 			RegisterKeys(parser);
-			var reader = parser.ParseFile(fileName);
-			ProcessPostLoad(reader);
+			
+			var landedTitlesPath = Path.Combine("common", "landed_titles");
+			parser.ParseGameFolder(landedTitlesPath, ck3Path, "txt", new List<Mod>(), true);
+			
+			LogIgnoredTokens();
 		}
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
-			ProcessPostLoad(reader);
+			
+			LogIgnoredTokens();
 		}
-		private void ProcessPostLoad(BufferedReader? reader) {
-			if (reader is not null) {
-				foreach (var (name, value) in reader.Variables) {
-					Variables[name] = value;
-				}
-			}
 
+		private void RegisterKeys(Parser parser) {
+			parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
+				var variableValue = reader.GetString();
+				Variables[variableName[1..]] = variableValue;
+			});
+			parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
+				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
+				var newTitle = Add(titleNameStr);
+				newTitle.LoadTitles(reader);
+			});
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		}
+		
+		private static void LogIgnoredTokens() {
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 		}
 
@@ -160,15 +175,6 @@ public partial class Title {
 		}
 		public HashSet<string> GetAllHolderIds() {
 			return this.SelectMany(t => t.GetAllHolderIds()).ToHashSet();
-		}
-
-		private void RegisterKeys(Parser parser) {
-			parser.RegisterRegex(@"(e|k|d|c|b)_[A-Za-z0-9_\-\']+", (reader, titleNameStr) => {
-				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-				var newTitle = Add(titleNameStr);
-				newTitle.LoadTitles(reader);
-			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
 
 		public void ImportImperatorCountries(
@@ -547,8 +553,57 @@ public partial class Title {
 				return newColor;
 			}
 
-			Logger.Warn($"Couldn't generate new color from base {baseColor}");
+			Logger.Warn($"Couldn't generate new color from base {baseColor.OutputRgb()}");
 			return baseColor;
+		}
+		
+		private readonly HistoryFactory titleHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+			.WithSimpleField("holder", new OrderedSet<string>{"holder", "holder_ignore_head_of_faith_requirement"}, null)
+			.WithSimpleField("government", "government", null)
+			.WithSimpleField("liege", "liege", null)
+			.WithSimpleField("development_level", "change_development_level", null)
+			.WithSimpleField("succession_laws", "succession_laws", new SortedSet<string>())
+			.Build();
+
+		public void LoadHistory(Configuration config) {
+			var ck3Path = config.CK3Path;
+			var ck3BookmarkDate = config.CK3BookmarkDate;
+
+			int loadedHistoriesCount = 0;
+			
+			var titlesHistoryParser = new Parser();
+			titlesHistoryParser.RegisterRegex(Regexes.TitleId, (reader, titleName) => {
+				var historyItem = reader.GetStringOfItem().ToString();
+				if (!historyItem.Contains('{')) {
+					return;
+				}
+				
+				if (!TryGetValue(titleName, out var title)) {
+					return;
+				}
+				
+				var tempReader = new BufferedReader(historyItem);
+				
+				titleHistoryFactory.UpdateHistory(title.History, tempReader);
+				++loadedHistoriesCount;
+			});
+			titlesHistoryParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			
+			Logger.Info("Parsing title history...");
+			titlesHistoryParser.ParseGameFolder("history/titles", ck3Path, "txt", new List<Mod>(), true);
+			Logger.Info($"Loaded {loadedHistoriesCount} title histories.");
+			
+			// Add vanilla development to counties
+			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability.
+			foreach (var title in this.Where(t => t.Rank == TitleRank.county && t.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
+				var inheritedDev = title.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
+				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
+			}
+
+			// Remove history entries past the bookmark date.
+			foreach (var title in this) {
+				title.RemoveHistoryPastDate(ck3BookmarkDate);
+			}
 		}
 	}
 }

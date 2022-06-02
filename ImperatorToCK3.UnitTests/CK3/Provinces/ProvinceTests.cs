@@ -74,7 +74,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
-			var religionMapper = new ReligionMapper();
+			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
 			var config = new Configuration();
 
 			province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper, config);

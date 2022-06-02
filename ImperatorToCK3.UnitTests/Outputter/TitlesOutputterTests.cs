@@ -14,10 +14,7 @@ public class TitlesOutputterTests {
 
 		var titles = new Title.LandedTitles();
 		var kingdom = titles.Add("k_kingdom");
-		var history = new History();
-		history.AddFieldValue(new Date(20, 1, 1), "liege", "liege", 0);
-		var kingdomHistory = new TitleHistory(history);
-		kingdom.AddHistory(kingdomHistory);
+		kingdom.History.AddFieldValue(new Date(20, 1, 1), "liege", "liege", 0);
 
 		var duchy = titles.Add("d_duchy");
 		duchy.DeJureLiege = kingdom;
@@ -29,10 +26,7 @@ public class TitlesOutputterTests {
 		barony.DeJureLiege = county;
 
 		var specialTitle = titles.Add("k_special_title");
-		var specialHistory = new History();
-		specialHistory.AddFieldValue( new Date(20, 1, 1), "holder", "holder", "bob_42");
-		var specialTitleHistory = new TitleHistory(specialHistory);
-		specialTitle.AddHistory(specialTitleHistory);
+		specialTitle.History.AddFieldValue( new Date(20, 1, 1), "holder", "holder", "bob_42");
 
 		var titleHistoryPath = Path.Combine("output", outputModName, "history", "titles");
 		var kingdomHistoryPath = Path.Combine(titleHistoryPath, "k_kingdom.txt");

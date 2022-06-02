@@ -2,6 +2,7 @@
 using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
@@ -85,13 +86,19 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void OutputModFile(string outputName) {
-			using var modFile = new StreamWriter(Path.Combine("output", $"{outputName}.mod"));
-			modFile.WriteLine($"name = \"Converted - {outputName}\"");
-			modFile.WriteLine($"path = \"mod/{outputName}\"");
-			modFile.WriteLine("replace_path = \"common/landed_titles\"");
-			modFile.WriteLine("replace_path = \"history/province_mapping\"");
-			modFile.WriteLine("replace_path = \"history/provinces\"");
-			modFile.WriteLine("replace_path = \"history/titles\"");
+			var modFileBuilder = new StringBuilder();
+			modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
+			modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
+			modFileBuilder.AppendLine("replace_path = \"common/landed_titles\"");
+			modFileBuilder.AppendLine("replace_path = \"history/province_mapping\"");
+			modFileBuilder.AppendLine("replace_path = \"history/provinces\"");
+			modFileBuilder.AppendLine("replace_path = \"history/titles\"");
+			var modText = modFileBuilder.ToString();
+
+			var modFilePath = Path.Combine("output", $"{outputName}.mod");
+			var descriptorFilePath = Path.Combine("output", outputName, "descriptor.mod");
+			File.WriteAllText(modFilePath, modText);
+			File.WriteAllText(descriptorFilePath, modText);
 		}
 
 		private static void CreateModFolder(string outputName) {

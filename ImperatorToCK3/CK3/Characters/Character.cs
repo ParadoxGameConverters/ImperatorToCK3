@@ -84,11 +84,6 @@ namespace ImperatorToCK3.CK3.Characters {
 				} else {  // fallback: use unlocalized name as displayed name
 					Localizations.Add(Name, new LocBlock(Name, "english") {
 						["english"] = Name,
-						["french"] = Name,
-						["german"] = Name,
-						["russian"] = Name,
-						["simp_chinese"] = Name,
-						["spanish"] = Name
 					});
 				}
 			}
