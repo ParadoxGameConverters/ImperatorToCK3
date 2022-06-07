@@ -147,13 +147,13 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
 
 			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
-			// TODO: ALSO CONSIDER UNBORNS 
-			// unborn={ {
-			// 	mother=211966
-			// 	father=208340
-			// 	date=1233.2.8 // DATE OF BIRTH
-			// 	}
-			// }
+				// TODO: ALSO CONSIDER UNBORNS 
+				// unborn={ {
+				// 	mother=211966
+				// 	father=208340
+				// 	date=1233.2.8 // DATE OF BIRTH
+				// 	}
+				// }
 			
 				Date estimatedMarriageDate; // Imperator saves don't seem to store marriage date
 				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
