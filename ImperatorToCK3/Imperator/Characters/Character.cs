@@ -3,6 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters {
@@ -92,7 +93,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 		public PDXBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
-		public List<Unborn> Unborns { get; } = new List<Unborn>();
+		public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
 		public CK3.Characters.Character? CK3Character { get; set; }
 
@@ -137,9 +138,11 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("father", reader => parsedCharacter.parsedFatherId = reader.GetULong());
 			parser.RegisterKeyword("wealth", reader => parsedCharacter.Wealth = reader.GetDouble());
 			parser.RegisterKeyword("unborn", reader => {
+				var unborns = new List<Unborn>();
 				foreach (var blob in new BlobList(reader).Blobs) {
 					var blobReader = new BufferedReader(blob);
-					parsedCharacter.Unborns.Add(new Unborn(blobReader));
+					unborns.Add(new Unborn(blobReader));
+					parsedCharacter.Unborns = unborns.ToImmutableList();
 				}
 			});
 			parser.RegisterKeyword("attributes", reader => parsedCharacter.Attributes = CharacterAttributes.Parse(reader));
