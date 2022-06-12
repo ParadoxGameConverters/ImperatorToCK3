@@ -147,14 +147,6 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
 
 			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
-				// TODO: ALSO CONSIDER UNBORNS 
-				// unborn={ {
-				// 	mother=211966
-				// 	father=208340
-				// 	date=1233.2.8 // DATE OF BIRTH
-				// 	}
-				// }
-			
 				Date estimatedMarriageDate; // Imperator saves don't seem to store marriage date
 				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 				if (birthDateOfCommonChild is not null) {
@@ -181,7 +173,16 @@ namespace ImperatorToCK3.CK3.Characters {
 				var childrenOfFather = father.Children.Values.ToHashSet();
 				var childrenOfMother = mother.Children.Values.ToHashSet();
 				var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child=>child.BirthDate).ToList();
-				return commonChildren.Any() ? commonChildren.FirstOrDefault()?.BirthDate : null;
+
+				Date? dateToReturn = commonChildren.Any() ? commonChildren.FirstOrDefault()?.BirthDate : null;
+				if (dateToReturn is not null) {
+					return dateToReturn;
+				}
+
+				var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u=>u.BirthDate).ToList();
+				dateToReturn = unborns.FirstOrDefault()?.BirthDate;
+
+				return dateToReturn;
 			}
 		}
 
