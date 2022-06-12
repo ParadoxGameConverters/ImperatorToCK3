@@ -5,7 +5,7 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter;
 public static class LocalizationOutputter {
-	public static void OutputLocalization(string imperatorPath, string outputName, World ck3World, IMPERATOR_DE_JURE deJure) {
+	public static void OutputLocalization(string imperatorPath, string outputName, World ck3World) {
 		// copy character/family names localization
 		SystemUtils.TryCopyFile(imperatorPath + "/game/localization/english/character_names_l_english.yml",
 			"output/" + outputName + "/localization/replace/english/IMPERATOR_character_names_l_english.yml");
@@ -51,9 +51,6 @@ public static class LocalizationOutputter {
 				simp_chinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
 				spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 			}
-		}
-		if (deJure == IMPERATOR_DE_JURE.REGIONS) {
-			SystemUtils.TryCopyFolder("blankMod/optionalFiles/ImperatorDeJure/localization", "output/" + outputName + "/localization/");
 		}
 
 		// character name localization
