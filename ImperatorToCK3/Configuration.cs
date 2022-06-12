@@ -4,7 +4,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3 {
-	public enum IMPERATOR_DE_JURE { REGIONS = 1, COUNTRIES = 2, NO = 3 }
 	public class Configuration {
 		public string SaveGamePath { get; set; } = "";
 		public string ImperatorPath { get; set; } = "";
@@ -12,7 +11,6 @@ namespace ImperatorToCK3 {
 		public string CK3Path { get; set; } = "";
 		public string CK3ModsPath { get; set; } = "";
 		public string OutputModName { get; set; } = "";
-		public IMPERATOR_DE_JURE ImperatorDeJure { get; set; } = IMPERATOR_DE_JURE.NO;
 		public bool HeresiesInHistoricalAreas { get; set; } = false;
 		public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 
@@ -42,15 +40,6 @@ namespace ImperatorToCK3 {
 			parser.RegisterKeyword("output_name", reader => {
 				OutputModName = reader.GetString();
 				Logger.Info($"Output name set to: {OutputModName}");
-			});
-			parser.RegisterKeyword("ImperatorDeJure", reader => {
-				var valueString = reader.GetString();
-				try {
-					ImperatorDeJure = (IMPERATOR_DE_JURE)Convert.ToInt32(valueString);
-					Logger.Info($"ImperatorDeJure set to: {valueString}");
-				} catch (Exception e) {
-					Logger.Error($"Undefined error, ImperatorDeJure value was: {valueString}; Error message: {e}");
-				}
 			});
 			parser.RegisterKeyword("HeresiesInHistoricalAreas", reader => {
 				var valueString = reader.GetString();
@@ -94,7 +83,7 @@ namespace ImperatorToCK3 {
 			if (!Directory.Exists(CK3Path)) {
 				throw new DirectoryNotFoundException($"{CK3Path} does not exist!");
 			}
-			
+
 			var ck3ExePath = Path.Combine(CK3Path, "binaries", "ck3");
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 				ck3ExePath += ".exe";
