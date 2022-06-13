@@ -1,11 +1,13 @@
 ﻿using commonItems;
 using commonItems.Serialization;
-using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.Imperator.Characters;
+using System.Collections.Immutable;
 using System.IO;
+using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
-	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
+	public static void OutputCharacter(TextWriter output, Character character, CharacterCollection imperatorCharacters, Date conversionDate) {
 		// output ID, name, sex, culture, religion
 		output.WriteLine($"{character.Id} = {{");
 		if (!string.IsNullOrEmpty(character.Name)) {
@@ -45,6 +47,8 @@ public static class CharacterOutputter {
 
 		// output history
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
+		
+		OutputUnborns(output, character, imperatorCharacters, conversionDate);
 
 		OutputBirthAndDeathDates(output, character);
 		OutputPrisoners(output, character, conversionDate);
@@ -88,5 +92,44 @@ public static class CharacterOutputter {
 		}
 
 		output.WriteLine($"\t{conversionDate}={{employer={character.EmployerId}}}");
+	}
+
+	/// <summary>
+	/// Outputs unborn children if pregnancy has lasted at most 3 months in Imperator
+	/// </summary>
+	private static void OutputUnborns(
+		TextWriter output,
+		Character character,
+		CharacterCollection imperatorCharacters,
+		Date conversionDate
+	) {
+		foreach (var unborn in character.ImperatorCharacter?.Unborns ?? ImmutableList<Unborn>.Empty) {
+			var conceptionDate = unborn.EstimatedConceptionDate;
+			if (conceptionDate is null) {
+				continue;
+			}
+			
+			var pregnancyLenght = conversionDate.DiffInYears(conceptionDate);
+			if (pregnancyLenght > 0.25) {
+				continue;
+			}
+
+			if (unborn.FatherId is null) {
+				continue;
+			}
+
+			if (!imperatorCharacters.TryGetValue((ulong)unborn.FatherId, out var imperatorFather)) {
+				continue;
+			}
+
+			var ck3Father = imperatorFather.CK3Character;
+			if (ck3Father is null) {
+				continue;
+			}
+
+
+			string fatherReference = $"character:{ck3Father.Id}";
+			output.WriteLine($"\t{conceptionDate}={{ effect={{ make_pregnant={{father={fatherReference} }} }} }}");
+		}
 	}
 }
