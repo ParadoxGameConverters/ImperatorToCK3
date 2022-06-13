@@ -6,7 +6,7 @@ public class Unborn {
 	public ulong? MotherId { get; private set; }
 	public ulong? FatherId { get; private set; }
 	public Date? BirthDate { get; private set; }
-	public Date? EstimatedConceptionDate => BirthDate?.ChangeByDays(280);
+	public Date? EstimatedConceptionDate => BirthDate?.ChangeByDays(-280);
 
 	public Unborn(BufferedReader unbornReader) {
 		var parser = new Parser();

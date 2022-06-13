@@ -7,7 +7,7 @@ using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
-	public static void OutputCharacter(TextWriter output, Character character, CharacterCollection imperatorCharacters, Date conversionDate) {
+	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
 		// output ID, name, sex, culture, religion
 		output.WriteLine($"{character.Id} = {{");
 		if (!string.IsNullOrEmpty(character.Name)) {
@@ -48,7 +48,7 @@ public static class CharacterOutputter {
 		// output history
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
 		
-		OutputUnborns(output, character, imperatorCharacters, conversionDate);
+		OutputUnborns(output, character);
 
 		OutputBirthAndDeathDates(output, character);
 		OutputPrisoners(output, character, conversionDate);
@@ -99,36 +99,11 @@ public static class CharacterOutputter {
 	/// </summary>
 	private static void OutputUnborns(
 		TextWriter output,
-		Character character,
-		CharacterCollection imperatorCharacters,
-		Date conversionDate
+		Character character
 	) {
-		foreach (var unborn in character.ImperatorCharacter?.Unborns ?? ImmutableList<Unborn>.Empty) {
-			var conceptionDate = unborn.EstimatedConceptionDate;
-			if (conceptionDate is null) {
-				continue;
-			}
-			
-			var pregnancyLenght = conversionDate.DiffInYears(conceptionDate);
-			if (pregnancyLenght > 0.25) {
-				continue;
-			}
-
-			if (unborn.FatherId is null) {
-				continue;
-			}
-
-			if (!imperatorCharacters.TryGetValue((ulong)unborn.FatherId, out var imperatorFather)) {
-				continue;
-			}
-
-			var ck3Father = imperatorFather.CK3Character;
-			if (ck3Father is null) {
-				continue;
-			}
-
-
-			string fatherReference = $"character:{ck3Father.Id}";
+		foreach (var pregnancy in character.Pregnancies) {
+			Date conceptionDate = pregnancy.EstimatedConceptionDate;
+			string fatherReference = $"character:{pregnancy.FatherId}";
 			output.WriteLine($"\t{conceptionDate}={{ effect={{ make_pregnant={{father={fatherReference} }} }} }}");
 		}
 	}

@@ -14,7 +14,8 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters {
 	public partial class CharacterCollection : IdObjectCollection<string, Character> {
 		public CharacterCollection() { }
-		public void ImportImperatorCharacters(Imperator.World impWorld,
+		public void ImportImperatorCharacters(
+			Imperator.World impWorld,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
@@ -27,7 +28,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			Logger.Info("Importing Imperator Characters...");
 
-			foreach (var character in impWorld.Characters) {
+			var imperatorCharacters = impWorld.Characters;
+			foreach (var character in imperatorCharacters) {
 				ImportImperatorCharacter(
 					character,
 					religionMapper,
@@ -46,6 +48,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			LinkMothersAndFathers();
 			LinkSpouses(endDate);
 			LinkPrisoners();
+
+			ImportPregnancies(imperatorCharacters, endDate);
 		}
 
 		private void ImportImperatorCharacter(
@@ -189,6 +193,46 @@ namespace ImperatorToCK3.CK3.Characters {
 		private void LinkPrisoners() {
 			var prisonerCount = this.Count(character => character.LinkJailor(this));
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
+		}
+
+		private void ImportPregnancies(ImperatorToCK3.Imperator.Characters.CharacterCollection imperatorCharacters, Date conversionDate) {
+			Logger.Info("Importing pregnancies...");
+			foreach (var female in this.Where(c=>c.Female)) {
+				var imperatorFemale = female.ImperatorCharacter;
+				if (imperatorFemale is null) {
+					continue;
+				}
+
+				foreach (var unborn in imperatorFemale.Unborns) {
+					var conceptionDate = unborn.EstimatedConceptionDate;
+					if (conceptionDate is null) {
+						continue;
+					}
+			
+					var pregnancyLenght = conversionDate.DiffInYears(conceptionDate);
+					if (pregnancyLenght > 0.25) {
+						continue;
+					}
+
+					if (unborn.FatherId is null) {
+						continue;
+					}
+
+					if (!imperatorCharacters.TryGetValue((ulong)unborn.FatherId, out var imperatorFather)) {
+						continue;
+					}
+
+					var ck3Father = imperatorFather.CK3Character;
+					if (ck3Father is null) {
+						continue;
+					}
+
+					var pregnancy = new Pregnancy {
+						BirthDate = unborn.BirthDate!, FatherId = ck3Father.Id, MotherId = female.Id
+					};
+					female.Pregnancies.Add(pregnancy);
+				}
+			}
 		}
 
 		public void PurgeUnneededCharacters(Title.LandedTitles titles) {

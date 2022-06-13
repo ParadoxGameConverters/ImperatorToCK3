@@ -35,7 +35,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Date? DeathDate { get; set; }
 		public string? DeathReason { get; set; }
 		public bool Dead => DeathDate is not null;
-		
+		public List<Pregnancy> Pregnancies { get; } = new();
+
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
