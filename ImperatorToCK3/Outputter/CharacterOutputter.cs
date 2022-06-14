@@ -11,7 +11,7 @@ public static class CharacterOutputter {
 		// output ID, name, sex, culture, religion
 		output.WriteLine($"{character.Id} = {{");
 		if (!string.IsNullOrEmpty(character.Name)) {
-			output.WriteLine($"\tname = \"{character.Name}\"\n");
+			output.WriteLine($"\tname = \"{character.Name}\"");
 		}
 		if (character.Female) {
 			output.WriteLine("\tfemale = yes");

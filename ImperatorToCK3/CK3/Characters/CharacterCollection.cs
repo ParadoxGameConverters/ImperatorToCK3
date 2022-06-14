@@ -208,9 +208,12 @@ namespace ImperatorToCK3.CK3.Characters {
 					if (conceptionDate is null) {
 						continue;
 					}
-			
-					var pregnancyLenght = conversionDate.DiffInYears(conceptionDate);
-					if (pregnancyLenght > 0.25) {
+					
+					// in CK3 the make_pregnant effect used in character history is executed on game start, so
+					// it only makes sense to convert pregnancies that lasted around 3 months or less
+					// (longest recorded pregnancy was around 12 months)
+					var pregnancyLength = conversionDate.DiffInYears(conceptionDate);
+					if (pregnancyLength > 0.25) {
 						continue;
 					}
 
