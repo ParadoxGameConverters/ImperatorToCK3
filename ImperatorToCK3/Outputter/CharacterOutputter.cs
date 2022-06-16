@@ -12,7 +12,7 @@ public static class CharacterOutputter {
 			output.WriteLine($"\tname = \"{character.Name}\"");
 		}
 		if (character.Female) {
-			output.WriteLine("\tfemale = yes");
+			output.WriteLine("\tfemale=yes");
 		}
 		if (!string.IsNullOrEmpty(character.Culture)) {
 			output.WriteLine($"\tculture = {character.Culture}");
@@ -102,7 +102,7 @@ public static class CharacterOutputter {
 		foreach (var pregnancy in character.Pregnancies) {
 			Date conceptionDate = pregnancy.EstimatedConceptionDate;
 			string fatherReference = $"character:{pregnancy.FatherId}";
-			output.WriteLine($"\t{conceptionDate}={{ effect={{ make_pregnant={{father={fatherReference} }} }} }}");
+			output.WriteLine($"\t{conceptionDate}={{ effect={{ make_pregnant={{ father={fatherReference} }} }} }}");
 		}
 	}
 }

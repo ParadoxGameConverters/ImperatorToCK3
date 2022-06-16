@@ -16,7 +16,7 @@ namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
 		public string Id { get; }
 		public bool FromImperator { get; } = false;
-		public bool Female { get; private set; }
+		public bool Female { get; init; }
 		public string Culture { get; set; } = string.Empty;
 		public string Religion { get; set; } = string.Empty;
 		public string Name { get; set; }
