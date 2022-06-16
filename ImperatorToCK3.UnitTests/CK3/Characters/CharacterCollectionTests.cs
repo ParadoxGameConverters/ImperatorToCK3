@@ -103,7 +103,7 @@ public class CharacterCollectionTests {
 	}
 
 	[Fact]
-	public void OnlyEarlyPregananciesAreImportedFromImperator() {
+	public void OnlyEarlyPregnanciesAreImportedFromImperator() {
 		var conversionDate = new Date(900, 2, 1, AUC: true);
 		var imperatorWorld = new World();
 
@@ -119,11 +119,12 @@ public class CharacterCollectionTests {
 
 		var female3Reader = new BufferedReader("female=yes unborn={ { mother=3 father=1 date=900.6.1 } }");
 		// child will be born 4 months after conversion date, will not be imported
-		var female3 = ImperatorToCK3.Imperator.Characters.Character.Parse(female2Reader, "4", null);
+		var female3 = ImperatorToCK3.Imperator.Characters.Character.Parse(female3Reader, "4", null);
 
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female1);
 		imperatorWorld.Characters.Add(female2);
+		imperatorWorld.Characters.Add(female3);
 
 		var configuration = new Configuration { CK3BookmarkDate = conversionDate };
 		var imperatorRegionMapper = new ImperatorRegionMapper();

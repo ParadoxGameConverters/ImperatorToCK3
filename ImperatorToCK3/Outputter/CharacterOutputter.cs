@@ -1,7 +1,5 @@
 ﻿using commonItems;
 using commonItems.Serialization;
-using ImperatorToCK3.Imperator.Characters;
-using System.Collections.Immutable;
 using System.IO;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 
@@ -47,7 +45,7 @@ public static class CharacterOutputter {
 
 		// output history
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
-		
+
 		OutputUnborns(output, character);
 
 		OutputBirthAndDeathDates(output, character);
