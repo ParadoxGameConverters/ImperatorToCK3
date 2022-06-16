@@ -1,5 +1,4 @@
-﻿using commonItems;
-using commonItems.Serialization;
+﻿using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +42,7 @@ public static class TitlesOutputter {
 		}
 	}
 
-	public static void OutputTitles(string outputModName, Title.LandedTitles titles, IMPERATOR_DE_JURE deJure) {
+	public static void OutputTitles(string outputModName, Title.LandedTitles titles) {
 		var outputPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
@@ -55,14 +54,6 @@ public static class TitlesOutputter {
 		// titles with a de jure liege will be outputted under the liege
 		var topDeJureTitles = titles.Where(t => t.DeJureLiege is null);
 		output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
-
-		if (deJure == IMPERATOR_DE_JURE.REGIONS) {
-			var srcPath = Path.Combine("blankMod", "optionalFiles", "ImperatorDeJure", "common", "landed_titles");
-			var dstPath = Path.Combine("output", outputModName, "common", "landed_titles");
-			if (!SystemUtils.TryCopyFolder(srcPath, dstPath)) {
-				Logger.Error("Could not copy ImperatorDeJure landed titles!");
-			}
-		}
 
 		OutputTitlesHistory(outputModName, titles);
 	}

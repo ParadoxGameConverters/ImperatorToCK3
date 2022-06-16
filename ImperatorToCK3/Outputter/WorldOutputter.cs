@@ -28,8 +28,7 @@ namespace ImperatorToCK3.Outputter {
 			Logger.Info("Writing Landed Titles...");
 			TitlesOutputter.OutputTitles(
 				outputName,
-				ck3World.LandedTitles,
-				config.ImperatorDeJure
+				ck3World.LandedTitles
 			);
 
 			Logger.Info("Writing Succession Triggers...");
@@ -39,8 +38,7 @@ namespace ImperatorToCK3.Outputter {
 			LocalizationOutputter.OutputLocalization(
 				config.ImperatorPath,
 				outputName,
-				ck3World,
-				config.ImperatorDeJure
+				ck3World
 			);
 
 			var outputPath = Path.Combine("output", config.OutputModName);
