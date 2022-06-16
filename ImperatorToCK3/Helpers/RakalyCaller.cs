@@ -11,7 +11,7 @@ public static class RakalyCaller {
 		using Process process = new();
 
 		string currentDir = Directory.GetCurrentDirectory();
-		const string rakalyVersion = "0.3.17";
+		const string rakalyVersion = "0.3.19";
 		string executablePath = $"Resources/rakaly/rakaly-{rakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
 		string arguments = $"melt --unknown-key stringify \"{savePath}\"";
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
