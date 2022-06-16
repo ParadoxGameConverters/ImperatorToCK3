@@ -8,6 +8,7 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -190,11 +191,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
-		private void ImportPregnancies(ImperatorToCK3.Imperator.Characters.CharacterCollection imperatorCharacters, Date conversionDate) {
+		private void ImportPregnancies(Imperator.Characters.CharacterCollection imperatorCharacters, Date conversionDate) {
 			Logger.Info("Importing pregnancies...");
 			foreach (var female in this.Where(c => c.Female)) {
 				var imperatorFemale = female.ImperatorCharacter;
 				if (imperatorFemale is null) {
+					throw new Exception("1");
 					continue;
 				}
 
@@ -206,24 +208,22 @@ namespace ImperatorToCK3.CK3.Characters {
 					// (longest recorded pregnancy was around 12 months)
 					var pregnancyLength = conversionDate.DiffInYears(conceptionDate);
 					if (pregnancyLength > 0.25) {
+						throw new Exception("2");
 						continue;
 					}
 
 					if (!imperatorCharacters.TryGetValue(unborn.FatherId, out var imperatorFather)) {
+						throw new Exception("3");
 						continue;
 					}
 
 					var ck3Father = imperatorFather.CK3Character;
 					if (ck3Father is null) {
+						throw new Exception("4");
 						continue;
 					}
 
-					var pregnancy = new Pregnancy {
-						BirthDate = unborn.BirthDate!,
-						FatherId = ck3Father.Id,
-						MotherId = female.Id
-					};
-					female.Pregnancies.Add(pregnancy);
+					female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate));
 				}
 			}
 		}
