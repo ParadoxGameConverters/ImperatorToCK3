@@ -141,9 +141,13 @@ namespace ImperatorToCK3.Imperator.Characters {
 				var unborns = new List<Unborn>();
 				foreach (var blob in new BlobList(reader).Blobs) {
 					var blobReader = new BufferedReader(blob);
-					unborns.Add(new Unborn(blobReader));
-					parsedCharacter.Unborns = unborns.ToImmutableList();
+					var unborn = Unborn.Parse(blobReader);
+					if (unborn is null) {
+						continue;
+					}
+					unborns.Add(unborn);
 				}
+				parsedCharacter.Unborns = unborns.ToImmutableList();
 			});
 			parser.RegisterKeyword("attributes", reader => parsedCharacter.Attributes = CharacterAttributes.Parse(reader));
 			parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.parsedPrisonerHomeId = reader.GetULong());

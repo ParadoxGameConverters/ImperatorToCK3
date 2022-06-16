@@ -28,8 +28,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			Logger.Info("Importing Imperator Characters...");
 
-			var imperatorCharacters = impWorld.Characters;
-			foreach (var character in imperatorCharacters) {
+			foreach (var character in impWorld.Characters) {
 				ImportImperatorCharacter(
 					character,
 					religionMapper,
@@ -49,7 +48,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			LinkSpouses(endDate);
 			LinkPrisoners();
 
-			ImportPregnancies(imperatorCharacters, endDate);
+			ImportPregnancies(impWorld.Characters, endDate);
 		}
 
 		private void ImportImperatorCharacter(
@@ -205,9 +204,6 @@ namespace ImperatorToCK3.CK3.Characters {
 
 				foreach (var unborn in imperatorFemale.Unborns) {
 					var conceptionDate = unborn.EstimatedConceptionDate;
-					if (conceptionDate is null) {
-						continue;
-					}
 					
 					// in CK3 the make_pregnant effect used in character history is executed on game start, so
 					// it only makes sense to convert pregnancies that lasted around 3 months or less
@@ -217,11 +213,7 @@ namespace ImperatorToCK3.CK3.Characters {
 						continue;
 					}
 
-					if (unborn.FatherId is null) {
-						continue;
-					}
-
-					if (!imperatorCharacters.TryGetValue((ulong)unborn.FatherId, out var imperatorFather)) {
+					if (!imperatorCharacters.TryGetValue(unborn.FatherId, out var imperatorFather)) {
 						continue;
 					}
 

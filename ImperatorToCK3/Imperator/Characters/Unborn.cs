@@ -1,19 +1,35 @@
 using commonItems;
 
-namespace ImperatorToCK3.Imperator.Characters; 
+namespace ImperatorToCK3.Imperator.Characters;
 
 public class Unborn {
-	public ulong? MotherId { get; private set; }
-	public ulong? FatherId { get; private set; }
-	public Date? BirthDate { get; private set; }
-	public Date? EstimatedConceptionDate => BirthDate?.ChangeByDays(-280);
+	public ulong MotherId { get; private set; }
+	public ulong FatherId { get; private set; }
+	public Date BirthDate { get; private set; }
+	public Date EstimatedConceptionDate => BirthDate.ChangeByDays(-280);
 
-	public Unborn(BufferedReader unbornReader) {
+	public Unborn(ulong motherId, ulong fatherId, Date birthDate) {
+		MotherId = motherId;
+		FatherId = fatherId;
+		BirthDate = birthDate;
+	}
+
+	public static Unborn? Parse(BufferedReader unbornReader) {
+		ulong? motherId = null;
+		ulong? fatherId = null;
+		Date? birthDate = null;
+
 		var parser = new Parser();
-		parser.RegisterKeyword("mother", reader=>MotherId = reader.GetULong());
-		parser.RegisterKeyword("father", reader=>FatherId = reader.GetULong());
-		parser.RegisterKeyword("date", reader=>BirthDate = new Date(reader.GetString(), AUC: true));
+		parser.RegisterKeyword("mother", reader => motherId = reader.GetULong());
+		parser.RegisterKeyword("father", reader => fatherId = reader.GetULong());
+		parser.RegisterKeyword("date", reader => birthDate = new Date(reader.GetString(), AUC: true));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseStream(unbornReader);
+
+		if (motherId is null || fatherId is null || birthDate is null) {
+			return null;
+		}
+
+		return new Unborn((ulong)motherId, (ulong)fatherId, birthDate);
 	}
 }
