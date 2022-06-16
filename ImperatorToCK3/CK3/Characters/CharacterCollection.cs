@@ -139,7 +139,7 @@ namespace ImperatorToCK3.CK3.Characters {
 						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
 						continue;
 					}
-					
+
 					// Imperator saves don't seem to store marriage date
 					Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter);
 
@@ -150,42 +150,38 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
 
 			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
-				Date estimatedMarriageDate; // Imperator saves don't seem to store marriage date
+				// Imperator saves don't seem to store marriage date
+
 				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 				if (birthDateOfCommonChild is not null) {
-					estimatedMarriageDate = new Date(birthDateOfCommonChild);
-					estimatedMarriageDate = estimatedMarriageDate.ChangeByDays(-280); // we assume the child was conceived after marriage
-				} else if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
-					if (imperatorCharacter.DeathDate < imperatorSpouse.DeathDate) {
-						estimatedMarriageDate = new Date(imperatorCharacter.DeathDate);
-					} else {
-						estimatedMarriageDate = new Date(imperatorSpouse.DeathDate);
-					}
-					estimatedMarriageDate = estimatedMarriageDate.ChangeByDays(-1); // death is not a good moment to marry
-				} else if (imperatorCharacter.DeathDate is not null) {
-					estimatedMarriageDate = new Date(imperatorCharacter.DeathDate).ChangeByDays(-1);
-				} else if (imperatorSpouse.DeathDate is not null) {
-					estimatedMarriageDate = new Date(imperatorSpouse.DeathDate).ChangeByDays(-1);
-				} else {
-					estimatedMarriageDate = new Date(conversionDate);
+					return birthDateOfCommonChild.ChangeByDays(-280); // we assume the child was conceived after marriage
 				}
-
-				return estimatedMarriageDate;
+				if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
+					Date marriageDeathDate;
+					if (imperatorCharacter.DeathDate < imperatorSpouse.DeathDate) {
+						marriageDeathDate = imperatorCharacter.DeathDate;
+					} else {
+						marriageDeathDate = imperatorSpouse.DeathDate;
+					}
+					return marriageDeathDate.ChangeByDays(-1); // death is not a good moment to marry
+				}
+				if (imperatorCharacter.DeathDate is not null) {
+					return imperatorCharacter.DeathDate.ChangeByDays(-1);
+				}
+				return imperatorSpouse.DeathDate is not null ? imperatorSpouse.DeathDate.ChangeByDays(-1) : conversionDate;
 			}
 			Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
 				var childrenOfFather = father.Children.Values.ToHashSet();
 				var childrenOfMother = mother.Children.Values.ToHashSet();
-				var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child=>child.BirthDate).ToList();
+				var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToList();
 
-				Date? dateToReturn = commonChildren.Any() ? commonChildren.FirstOrDefault()?.BirthDate : null;
-				if (dateToReturn is not null) {
-					return dateToReturn;
+				Date? firstChildBirthDate = commonChildren.Count > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+				if (firstChildBirthDate is not null) {
+					return firstChildBirthDate;
 				}
 
-				var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u=>u.BirthDate).ToList();
-				dateToReturn = unborns.FirstOrDefault()?.BirthDate;
-
-				return dateToReturn;
+				var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToList();
+				return unborns.FirstOrDefault()?.BirthDate;
 			}
 		}
 
@@ -196,7 +192,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		private void ImportPregnancies(ImperatorToCK3.Imperator.Characters.CharacterCollection imperatorCharacters, Date conversionDate) {
 			Logger.Info("Importing pregnancies...");
-			foreach (var female in this.Where(c=>c.Female)) {
+			foreach (var female in this.Where(c => c.Female)) {
 				var imperatorFemale = female.ImperatorCharacter;
 				if (imperatorFemale is null) {
 					continue;
@@ -204,7 +200,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 				foreach (var unborn in imperatorFemale.Unborns) {
 					var conceptionDate = unborn.EstimatedConceptionDate;
-					
+
 					// in CK3 the make_pregnant effect used in character history is executed on game start, so
 					// it only makes sense to convert pregnancies that lasted around 3 months or less
 					// (longest recorded pregnancy was around 12 months)
@@ -223,7 +219,9 @@ namespace ImperatorToCK3.CK3.Characters {
 					}
 
 					var pregnancy = new Pregnancy {
-						BirthDate = unborn.BirthDate!, FatherId = ck3Father.Id, MotherId = female.Id
+						BirthDate = unborn.BirthDate!,
+						FatherId = ck3Father.Id,
+						MotherId = female.Id
 					};
 					female.Pregnancies.Add(pregnancy);
 				}

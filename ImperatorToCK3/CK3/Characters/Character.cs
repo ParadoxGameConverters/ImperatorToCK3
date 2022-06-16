@@ -52,11 +52,11 @@ namespace ImperatorToCK3.CK3.Characters {
 			//.WithSimpleField("stewardship", "stewardship", null)
 			//.WithSimpleField("culture", "culture", null)
 			//.WithSimpleField("religion", "religion", null)
-			.WithDiffField("traits", new OrderedSet<string>{"trait", "add_trait"}, new OrderedSet<string>{"remove_trait"})
+			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
 			//.WithSimpleField("dna", "dna", null)
 			//.WithSimpleField("mother", "mother", null)
 			//.WithSimpleField("father", "father", null)
-			.WithDiffField("spouses", new OrderedSet<string>(){"add_spouse", "add_matrilineal_spouse"}, new OrderedSet<string>(){"remove_spouse"})
+			.WithDiffField("spouses", new() { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
@@ -267,11 +267,11 @@ namespace ImperatorToCK3.CK3.Characters {
 			RemoveMother();
 			Father?.RemoveChild(Id);
 			RemoveFather();
-			
+
 			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
 				foreach (var (_, value) in spousesHistory.InitialEntries) {
 					var spouseId = value.ToString();
-					if (spouseId is null){
+					if (spouseId is null) {
 						continue;
 					}
 					if (characters.TryGetValue(spouseId, out var spouse)) {
@@ -281,7 +281,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				foreach (var entriesList in spousesHistory.DateToEntriesDict.Values) {
 					foreach (var (_, value) in entriesList) {
 						var spouseId = value.ToString();
-						if (spouseId is null){
+						if (spouseId is null) {
 							continue;
 						}
 						if (characters.TryGetValue(spouseId, out var spouse)) {
@@ -289,11 +289,11 @@ namespace ImperatorToCK3.CK3.Characters {
 						}
 					}
 				}
-				
+
 				spousesHistory.InitialEntries.Clear();
 				spousesHistory.DateToEntriesDict.Clear();
 			}
-				
+
 			if (Female) {
 				foreach (var (childId, child) in Children) {
 					if (child is null) {
@@ -327,7 +327,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 		private void RemoveSpouse(string spouseId) {
 			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
-				spousesHistory.RemoveAll(value=>(value.ToString() ?? string.Empty).Equals(spouseId));
+				spousesHistory.RemoveAll(value => (value.ToString() ?? string.Empty).Equals(spouseId));
 			}
 		}
 
