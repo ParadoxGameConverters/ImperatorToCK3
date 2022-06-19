@@ -339,20 +339,6 @@ on_game_start_after_lobby = {
 				}
 			}
 		}
-		
-		
-		# Pregnancy time!
-		every_living_character = {
-			limit = { has_trait = pregnant }
-			every_spouse = { # i.e. the husband
-				limit = { is_alive = yes }
-				save_temporary_scope_as = thefather
-			}
-			make_pregnant = {
-				father = scope:thefather
-				number_of_children = 1
-			}
-		}
 	}
 
 	events = {

@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
@@ -9,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Mods = System.Collections.Generic.List<commonItems.Mod>;
+using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
 
 namespace ImperatorToCK3.Imperator {
 	public class World : Parser {
