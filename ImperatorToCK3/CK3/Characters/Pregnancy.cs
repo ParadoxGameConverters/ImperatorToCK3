@@ -7,10 +7,12 @@ public class Pregnancy {
 	public string MotherId { get; init; }
 	public Date BirthDate { get; init; }
 	public Date EstimatedConceptionDate => BirthDate.ChangeByDays(-280);
+	public bool IsBastard { get; init; }
 
-	public Pregnancy(string fatherId, string motherId, Date birthDate) {
+	public Pregnancy(string fatherId, string motherId, Date birthDate, bool isBastard) {
 		FatherId = fatherId;
 		MotherId = motherId;
 		BirthDate = birthDate;
+		IsBastard = isBastard;
 	}
 }

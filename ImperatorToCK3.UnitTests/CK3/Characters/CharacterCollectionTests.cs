@@ -113,7 +113,7 @@ public class CharacterCollectionTests {
 		// child will be born 7 months after conversion date, will be imported
 		var female1 = ImperatorToCK3.Imperator.Characters.Character.Parse(female1Reader, "2", null);
 
-		var female2Reader = new BufferedReader("female=yes unborn={ { mother=3 father=1 date=900.10.1 } }");
+		var female2Reader = new BufferedReader("female=yes unborn={ { mother=3 father=1 date=900.10.1 is_bastard=yes } }");
 		// child will be born 8 months after conversion date, will be imported
 		var female2 = ImperatorToCK3.Imperator.Characters.Character.Parse(female2Reader, "3", null);
 
@@ -144,10 +144,10 @@ public class CharacterCollectionTests {
 
 		ck3Characters["imperator2"].Pregnancies
 			.Should()
-			.ContainEquivalentOf(new Pregnancy("imperator1", "imperator2", new Date(900, 9, 1, AUC: true)));
+			.ContainEquivalentOf(new Pregnancy("imperator1", "imperator2", new Date(900, 9, 1, AUC: true), isBastard: false));
 		ck3Characters["imperator3"].Pregnancies
 			.Should()
-			.ContainEquivalentOf(new Pregnancy("imperator1", "imperator3", new Date(900, 10, 1, AUC: true)));
+			.ContainEquivalentOf(new Pregnancy("imperator1", "imperator3", new Date(900, 10, 1, AUC: true), isBastard: true));
 		ck3Characters["imperator4"].Pregnancies.Should().BeEmpty();
 	}
 }

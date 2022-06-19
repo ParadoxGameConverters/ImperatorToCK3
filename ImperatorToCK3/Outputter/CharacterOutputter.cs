@@ -102,7 +102,9 @@ public static class CharacterOutputter {
 		foreach (var pregnancy in character.Pregnancies) {
 			Date conceptionDate = pregnancy.EstimatedConceptionDate;
 			string fatherReference = $"character:{pregnancy.FatherId}";
-			output.WriteLine($"\t{conceptionDate}={{ effect={{ make_pregnant={{ father={fatherReference} }} }} }}");
+			output.Write($"\t{conceptionDate}={{ effect={{ ");
+			output.Write($"make_pregnant_no_checks={{ father={fatherReference} {(pregnancy.IsBastard ? "known_bastard=yes " : "")}}} ");
+			output.WriteLine("} }");
 		}
 	}
 }

@@ -218,7 +218,7 @@ namespace ImperatorToCK3.CK3.Characters {
 						continue;
 					}
 
-					female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate));
+					female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate, unborn.IsBastard));
 				}
 			}
 		}
