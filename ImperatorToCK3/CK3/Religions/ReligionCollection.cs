@@ -8,7 +8,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 public class ReligionCollection {
 	public Dictionary<string, OrderedSet<Religion>> ReligionsPerFile { get; } = new();
-	public Dictionary<string, OrderedSet<string>> HolySitesByFaith = new();
+	public Dictionary<string, OrderedSet<string>> HolySitesByFaith { get; } = new();
 	
 	public void LoadReligions(string religionsFolderPath) {
 		var files = SystemUtils.GetAllFilesInFolderRecursive(religionsFolderPath);
@@ -41,16 +41,15 @@ public class ReligionCollection {
 			}
 
 			var value = reader.GetStringOfItem();
-			// TODO: USE value.IsArrayOrObject
 			var valueStr = value.ToString();
-			var indexOfBracket = valueStr.IndexOf('{');
-			if (indexOfBracket != -1 && (!valueStr.Contains('"') || valueStr.IndexOf('"') > indexOfBracket)) {
-				// is array
+			if (value.IsArrayOrObject()) {
 				HolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
 			} else if (valueStr == "all") {
 				HolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySites);
 			} else Logger.Warn($"Unexpected value: {valueStr}");
 		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseFile(filePath);
 	}
 
 	public Faith? GetFaith(string id) {

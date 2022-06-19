@@ -1,3 +1,3 @@
 religion_a_faith = all # makes all holy sites replaceable
 religion_b_faith = { site1 } # 1 replaceable site
-religion_c_faith = { site1 site2 site 3 } # multiple replaceable sites
+religion_c_faith = { site1 site2 site3 } # multiple replaceable sites
