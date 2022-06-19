@@ -92,6 +92,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void AllLinksCanBeRemoved() {
+			var date = new Date(400, 1, 1);
+			
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
 			var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2);
 			var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3);
@@ -103,55 +105,68 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			imperatorCharacter.Children.Add(imperatorChild.Id, imperatorChild);
 			imperatorCharacter.Spouses.Add(imperatorSpouse.Id, imperatorSpouse);
 
+			var characters = new CharacterCollection();
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.Build();
+			characters.Add(character);
 			var mother = builder
 				.WithImperatorCharacter(imperatorMother)
 				.Build();
+			characters.Add(mother);
 			var father = builder
 				.WithImperatorCharacter(imperatorFather)
 				.Build();
+			characters.Add(father);
 			var child = builder
 				.WithImperatorCharacter(imperatorChild)
 				.Build();
+			characters.Add(child);
 			var spouse = builder
 				.WithImperatorCharacter(imperatorSpouse)
 				.Build();
-
+			characters.Add(spouse);
+			
 			character.Mother = mother;
 			character.Father = father;
 			character.Children.Add(child.Id, child);
-			character.Spouses.Add(spouse);
+			character.AddSpouse(date, spouse);
 
 			Assert.NotNull(character.Mother);
 			Assert.NotNull(character.Father);
 			Assert.NotNull(character.Children["imperator4"]);
-			Assert.NotNull(character.Spouses["imperator5"]);
+			var spousesAtDate = character.GetSpouseIds(date);
+			Assert.NotNull(spousesAtDate);
+			Assert.Contains("imperator5", spousesAtDate);
 
-			character.BreakAllLinks();
+			character.BreakAllLinks(characters);
 
 			Assert.Null(character.Mother);
 			Assert.Null(character.Father);
 			Assert.Empty(character.Children);
-			Assert.Empty(character.Spouses);
+			spousesAtDate = character.GetSpouseIds(date);
+			Assert.NotNull(spousesAtDate);
+			Assert.Empty(spousesAtDate);
 		}
 		[Fact]
 		public void BreakAllLinksWarnsWhenChildIsNull() {
 			var output = new StringWriter();
 			Console.SetOut(output);
 
+			var characters = new CharacterCollection();
 			var male = builder.Build();
+			characters.Add(male);
 			male.Children.Add("childId", null);
-			male.BreakAllLinks();
+			male.BreakAllLinks(characters);
 			Assert.Contains("[WARN] Child childId of imperator0 is null!", output.ToString());
 			output.Flush();
 
 			var impFemaleReader = new BufferedReader("female = yes");
 			var impFemaleCharacter = ImperatorToCK3.Imperator.Characters.Character.Parse(impFemaleReader, "1", null);
 			var female = builder.WithImperatorCharacter(impFemaleCharacter).Build();
+			characters.Add(female);
 			female.Children.Add("child2Id", null);
-			female.BreakAllLinks();
+			female.BreakAllLinks(characters);
 			Assert.Contains("[WARN] Child child2Id of imperator1 is null!", output.ToString());
 		}
 

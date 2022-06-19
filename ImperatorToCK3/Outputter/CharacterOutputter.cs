@@ -1,50 +1,37 @@
 ﻿using commonItems;
 using commonItems.Serialization;
-using ImperatorToCK3.CK3.Characters;
 using System.IO;
+using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
 	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
 		// output ID, name, sex, culture, religion
-		output.WriteLine($"{character.Id} = {{");
+		output.WriteLine($"{character.Id}={{");
 		if (!string.IsNullOrEmpty(character.Name)) {
-			output.WriteLine($"\tname = \"{character.Name}\"\n");
+			output.WriteLine($"\tname=\"{character.Name}\"");
 		}
 		if (character.Female) {
-			output.WriteLine("\tfemale = yes");
+			output.WriteLine("\tfemale=yes");
 		}
 		if (!string.IsNullOrEmpty(character.Culture)) {
-			output.WriteLine($"\tculture = {character.Culture}");
+			output.WriteLine($"\tculture={character.Culture}");
 		}
 		if (!string.IsNullOrEmpty(character.Religion)) {
-			output.WriteLine($"\treligion = {character.Religion}");
+			output.WriteLine($"\treligion={character.Religion}");
 		}
 
 		// output dynasty
 		if (character.DynastyId is not null) {
-			output.WriteLine($"\tdynasty = {character.DynastyId}");
+			output.WriteLine($"\tdynasty={character.DynastyId}");
 		}
 
 		//output father and mother
 		if (character.Father is not null) {
-			output.WriteLine($"\tfather = {character.Father.Id}");
+			output.WriteLine($"\tfather={character.Father.Id}");
 		}
 		if (character.Mother is not null) {
-			output.WriteLine($"\tmother = {character.Mother.Id}");
-		}
-
-		// output spouse
-		// TODO: output add_spouse with earlier date if the pair has a born or unborn child
-		foreach (var spouse in character.Spouses) {
-			Date marriageDate;
-			if (character.DeathDate is not null) {
-				marriageDate = new Date(character.DeathDate);
-				marriageDate.ChangeByDays(-1);
-			} else {
-				marriageDate = conversionDate;
-			}
-			output.WriteLine($"\t{marriageDate} = {{ add_spouse = {spouse.Id} }}");
+			output.WriteLine($"\tmother={character.Mother.Id}");
 		}
 
 		// output nickname
@@ -53,13 +40,15 @@ public static class CharacterOutputter {
 			if (character.DeathDate is not null) {
 				nicknameDate = character.DeathDate;
 			}
-			output.WriteLine($"\t{nicknameDate} = {{ give_nickname = {character.Nickname} }}");
+			output.WriteLine($"\t{nicknameDate}={{ give_nickname={character.Nickname} }}");
 		}
 
 		// output history
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
-
+		
 		OutputBirthAndDeathDates(output, character);
+		OutputPregnancies(output, character);
+		
 		OutputPrisoners(output, character, conversionDate);
 		OutputEmployer(output, character, conversionDate);
 
@@ -101,5 +90,21 @@ public static class CharacterOutputter {
 		}
 
 		output.WriteLine($"\t{conversionDate}={{employer={character.EmployerId}}}");
+	}
+
+	/// <summary>
+	/// Outputs unborn children if pregnancy has lasted at most 3 months in Imperator
+	/// </summary>
+	private static void OutputPregnancies(
+		TextWriter output,
+		Character character
+	) {
+		foreach (var pregnancy in character.Pregnancies) {
+			Date conceptionDate = pregnancy.EstimatedConceptionDate;
+			string fatherReference = $"character:{pregnancy.FatherId}";
+			output.Write($"\t{conceptionDate}={{ effect={{ ");
+			output.Write($"make_pregnant_no_checks={{ father={fatherReference} {(pregnancy.IsBastard ? "known_bastard=yes " : "")}}} ");
+			output.WriteLine("} }");
+		}
 	}
 }
