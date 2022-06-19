@@ -7,31 +7,31 @@ namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
 	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
 		// output ID, name, sex, culture, religion
-		output.WriteLine($"{character.Id} = {{");
+		output.WriteLine($"{character.Id}={{");
 		if (!string.IsNullOrEmpty(character.Name)) {
-			output.WriteLine($"\tname = \"{character.Name}\"");
+			output.WriteLine($"\tname=\"{character.Name}\"");
 		}
 		if (character.Female) {
 			output.WriteLine("\tfemale=yes");
 		}
 		if (!string.IsNullOrEmpty(character.Culture)) {
-			output.WriteLine($"\tculture = {character.Culture}");
+			output.WriteLine($"\tculture={character.Culture}");
 		}
 		if (!string.IsNullOrEmpty(character.Religion)) {
-			output.WriteLine($"\treligion = {character.Religion}");
+			output.WriteLine($"\treligion={character.Religion}");
 		}
 
 		// output dynasty
 		if (character.DynastyId is not null) {
-			output.WriteLine($"\tdynasty = {character.DynastyId}");
+			output.WriteLine($"\tdynasty={character.DynastyId}");
 		}
 
 		//output father and mother
 		if (character.Father is not null) {
-			output.WriteLine($"\tfather = {character.Father.Id}");
+			output.WriteLine($"\tfather={character.Father.Id}");
 		}
 		if (character.Mother is not null) {
-			output.WriteLine($"\tmother = {character.Mother.Id}");
+			output.WriteLine($"\tmother={character.Mother.Id}");
 		}
 
 		// output nickname
@@ -40,7 +40,7 @@ public static class CharacterOutputter {
 			if (character.DeathDate is not null) {
 				nicknameDate = character.DeathDate;
 			}
-			output.WriteLine($"\t{nicknameDate} = {{ give_nickname = {character.Nickname} }}");
+			output.WriteLine($"\t{nicknameDate}={{ give_nickname={character.Nickname} }}");
 		}
 
 		// output history
