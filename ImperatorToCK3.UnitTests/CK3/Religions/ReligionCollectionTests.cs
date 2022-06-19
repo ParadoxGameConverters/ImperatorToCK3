@@ -26,13 +26,13 @@ public class ReligionCollectionTests {
 		religions.LoadReligions(TestReligionsDirectory);
 		religions.LoadReplaceableHolySites(TestReplaceableHolySitesFile);
 
-		religions.HolySitesByFaith["religion_a_faith"]
+		religions.ReplaceableHolySitesByFaith["religion_a_faith"]
 			.Should()
 			.BeEquivalentTo("site1", "site2", "site3", "site4", "site5");
-		religions.HolySitesByFaith["religion_b_faith"]
+		religions.ReplaceableHolySitesByFaith["religion_b_faith"]
 			.Should()
 			.BeEquivalentTo("site1");
-		religions.HolySitesByFaith["religion_c_faith"]
+		religions.ReplaceableHolySitesByFaith["religion_c_faith"]
 			.Should()
 			.BeEquivalentTo("site1", "site2", "site3");
 	}
