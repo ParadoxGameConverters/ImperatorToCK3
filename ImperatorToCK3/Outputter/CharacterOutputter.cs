@@ -45,10 +45,10 @@ public static class CharacterOutputter {
 
 		// output history
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
-
-		OutputUnborns(output, character);
-
+		
 		OutputBirthAndDeathDates(output, character);
+		OutputPregnancies(output, character);
+		
 		OutputPrisoners(output, character, conversionDate);
 		OutputEmployer(output, character, conversionDate);
 
@@ -95,7 +95,7 @@ public static class CharacterOutputter {
 	/// <summary>
 	/// Outputs unborn children if pregnancy has lasted at most 3 months in Imperator
 	/// </summary>
-	private static void OutputUnborns(
+	private static void OutputPregnancies(
 		TextWriter output,
 		Character character
 	) {
