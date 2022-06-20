@@ -9,14 +9,15 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Provinces;
 
 public class Province : IIdentifiable<ulong> {
-	public Province() { }
-	public Province(ulong id, BufferedReader reader, Date ck3BookmarkDate) {
-		// Load from a country file, if one exists. Otherwise rely on defaults.
+	public Province() {}
+	public Province(ulong id) {
 		Id = id;
+	}
+	public Province(ulong id, BufferedReader reader, Date ck3BookmarkDate): this(id) {
+		// Load from a country file, if one exists. Otherwise rely on defaults.
 		details = new ProvinceDetails(reader, ck3BookmarkDate);
 	}
-	public Province(ulong id, Province otherProvince) {
-		Id = id;
+	public Province(ulong id, Province otherProvince): this(id) {
 		BaseProvinceId = otherProvince.Id;
 		details = new ProvinceDetails(otherProvince.details);
 	}
