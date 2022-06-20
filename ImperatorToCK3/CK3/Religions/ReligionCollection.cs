@@ -67,18 +67,20 @@ public class ReligionCollection {
 		return null;
 	}
 
-	public void DetermineHolySites() {
+	public void DetermineHolySites(ProvinceCollection ck3Provinces, Title.LandedTitles titles) {
+		var provincesByFaith = GetProvincesByFaith(ck3Provinces);
+		
 		foreach (var religionsSet in ReligionsPerFile.Values) {
 			foreach (var religion in religionsSet) {
 				foreach (var faith in religion.Faiths) {
-					
+					var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
 				}
 			}
 		}
 	}
 
-	// Returns CK3 a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith
-	public IDictionary<string, ISet<Province>> GetProvincesByFaith(ProvinceCollection ck3Provinces) {
+	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith
+	public static IDictionary<string, ISet<Province>> GetProvincesByFaith(ProvinceCollection ck3Provinces) {
 		var provincesByFaith = new Dictionary<string, ISet<Province>>();
 
 		foreach (var province in ck3Provinces) {
@@ -98,9 +100,7 @@ public class ReligionCollection {
 		return provincesByFaith;
 	}
 
-	private IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith, Title.LandedTitles titles) {
-		var baroniesToReturn = new List<Title>();
-		
+	private static IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith, Title.LandedTitles titles) {
 		// Collect all Imperator territories that are mapped to this faith.
 		ISet<Province> faithTerritories;
 		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
