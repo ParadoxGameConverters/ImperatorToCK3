@@ -171,7 +171,7 @@ public class Province : IIdentifiable<ulong> {
 				case Imperator.Provinces.ProvinceRank.city:
 					switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 						case Imperator.Countries.GovernmentType.tribal:
-							if (ImperatorProvince.HolySite) {
+							if (ImperatorProvince.IsHolySite) {
 								details.Holding = "church_holding";
 							} else if (ImperatorProvince.Fort) {
 								details.Holding = "castle_holding";
@@ -181,14 +181,14 @@ public class Province : IIdentifiable<ulong> {
 
 							break;
 						case Imperator.Countries.GovernmentType.republic:
-							if (ImperatorProvince.HolySite) {
+							if (ImperatorProvince.IsHolySite) {
 								details.Holding = "church_holding";
 							} else {
 								details.Holding = "city_holding";
 							}
 							break;
 						case Imperator.Countries.GovernmentType.monarchy:
-							if (ImperatorProvince.HolySite) {
+							if (ImperatorProvince.IsHolySite) {
 								details.Holding = "church_holding";
 							} else if (ImperatorProvince.Fort) {
 								details.Holding = "castle_holding";
@@ -208,7 +208,7 @@ public class Province : IIdentifiable<ulong> {
 							details.Holding = "none";
 							break;
 						case Imperator.Countries.GovernmentType.republic:
-							if (ImperatorProvince.HolySite) {
+							if (ImperatorProvince.IsHolySite) {
 								details.Holding = "church_holding";
 							} else if (ImperatorProvince.Fort) {
 								details.Holding = "city_holding";
@@ -218,7 +218,7 @@ public class Province : IIdentifiable<ulong> {
 
 							break;
 						case Imperator.Countries.GovernmentType.monarchy:
-							if (ImperatorProvince.HolySite) {
+							if (ImperatorProvince.IsHolySite) {
 								details.Holding = "church_holding";
 							} else if (ImperatorProvince.Fort) {
 								details.Holding = "castle_holding";

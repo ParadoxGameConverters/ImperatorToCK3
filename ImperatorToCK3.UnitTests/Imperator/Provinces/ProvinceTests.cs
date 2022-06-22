@@ -210,7 +210,7 @@ public class ProvinceTests {
 		var reader = new BufferedReader(" = { }");
 		var province = Province.Parse(reader, 42);
 
-		Assert.False(province.HolySite);
+		Assert.False(province.IsHolySite);
 	}
 
 	[Fact]
@@ -220,8 +220,8 @@ public class ProvinceTests {
 		var province = Province.Parse(reader, 42);
 		var province2 = Province.Parse(reader2, 43);
 
-		Assert.False(province.HolySite);
-		Assert.True(province2.HolySite);
+		Assert.False(province.IsHolySite);
+		Assert.True(province2.IsHolySite);
 	}
 
 	[Fact]

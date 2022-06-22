@@ -111,7 +111,7 @@ public class ReligionCollection {
 
 		// Split the territories into 2 sets: territories that have a holy site and territories that do not.
 		// Order both sets in descending order by population.
-		var provincesWithHolySite = faithTerritories.Where(p => p.ImperatorProvince!.HolySite)
+		var provincesWithHolySite = faithTerritories.Where(p => p.ImperatorProvince!.IsHolySite)
 			.OrderByDescending(p=>p.ImperatorProvince!.GetPopCount())
 			.ToList();
 		var provincesWithoutHolySite = faithTerritories.Except(provincesWithHolySite)

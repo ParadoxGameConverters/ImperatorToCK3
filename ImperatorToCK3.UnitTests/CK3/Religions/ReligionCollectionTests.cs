@@ -1,6 +1,8 @@
 using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
+using ImperatorToCK3.Imperator.Pops;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -55,5 +57,50 @@ public class ReligionCollectionTests {
 		provsByFaith.Should().HaveCount(2);
 		provsByFaith["faith1"].Should().Equal(prov1, prov2);
 		provsByFaith["faith2"].Should().Equal(prov3);
+	}
+
+
+	public class TestImperatorProvince : ImperatorToCK3.Imperator.Provinces.Province {
+		public TestImperatorProvince(ulong id): base(id) { }
+	}
+	[Fact]
+	public void ImperatorHolySitesAndMostPopulousProvinceAreSelectedForDynamicHolySites() {
+		ImperatorToCK3.Imperator.Provinces.Province GenerateImperatorProvinceWithPops(ulong provId, int popCount) {
+			var imperatorProv = new ImperatorToCK3.Imperator.Provinces.Province(provId);
+			for (int i = 0; i < popCount; ++i) {
+				var popId = (ulong)HashCode.Combine(provId, i);
+				imperatorProv.Pops.Add(popId, new Pop(popId));
+			}
+			return imperatorProv;
+			imperatorProv.HolySiteDeityId = provId;
+		}
+		
+		var irProv1 = GenerateImperatorProvinceWithPops(1, popCount: 1);
+		var irProv2 = GenerateImperatorProvinceWithPops(1, popCount: 7);
+		var irProv3 = GenerateImperatorProvinceWithPops(1, popCount: 4);
+		var irProv4 = GenerateImperatorProvinceWithPops(1, popCount: 2);
+		var irProv5 = GenerateImperatorProvinceWithPops(1, popCount: 3);
+		var irProv6 = GenerateImperatorProvinceWithPops(1, popCount: 6);
+		var irProv7 = GenerateImperatorProvinceWithPops(1, popCount: 5);
+
+		var ck3Prov1 = new Province(1) {Religion = "faith1", ImperatorProvince = irProv1};
+		var ck3Prov2 = new Province(2) {Religion = "faith1", ImperatorProvince = irProv2};
+		var ck3Prov3 = new Province(3) {Religion = "faith1", ImperatorProvince = irProv3};
+		var ck3Prov4 = new Province(4) {Religion = "faith1", ImperatorProvince = irProv4};
+		var ck3Prov5 = new Province(5) {Religion = "faith1", ImperatorProvince = irProv5};
+		var ck3Prov6 = new Province(6) {Religion = "faith1", ImperatorProvince = irProv6};
+		var ck3Prov7 = new Province(7) {Religion = "faith1", ImperatorProvince = irProv7};
+
+		var provinces = new ProvinceCollection {
+			ck3Prov1,
+			ck3Prov2,
+			ck3Prov3,
+			ck3Prov4,
+			ck3Prov5,
+			ck3Prov6,
+			ck3Prov7
+		};
+		
+		throw new NotImplementedException();
 	}
 }

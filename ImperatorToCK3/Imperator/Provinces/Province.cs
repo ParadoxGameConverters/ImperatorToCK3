@@ -18,7 +18,8 @@ public partial class Province : IIdentifiable<ulong> {
 	public Dictionary<ulong, Pop> Pops { get; set; } = new();
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 	public PDXBool Fort { get; set; } = new(false);
-	public bool HolySite { get; set; } = false;
+	public bool IsHolySite => HolySiteDeityId is not null;
+	public ulong? HolySiteDeityId { get; set; } = null;
 	public uint BuildingCount { get; set; } = 0;
 	public double CivilizationValue { get; set; } = 0;
 
