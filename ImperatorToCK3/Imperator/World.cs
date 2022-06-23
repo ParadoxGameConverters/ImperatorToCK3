@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
@@ -6,6 +7,7 @@ using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +27,7 @@ namespace ImperatorToCK3.Imperator {
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
+		public IdObjectCollection<string, Religion> Religions
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }

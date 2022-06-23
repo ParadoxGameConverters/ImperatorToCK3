@@ -1,6 +1,8 @@
+using commonItems;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
 using System;
 using System.Linq;
@@ -71,8 +73,8 @@ public class ReligionCollectionTests {
 				var popId = (ulong)HashCode.Combine(provId, i);
 				imperatorProv.Pops.Add(popId, new Pop(popId));
 			}
-			return imperatorProv;
 			imperatorProv.HolySiteDeityId = provId;
+			return imperatorProv;
 		}
 		
 		var irProv1 = GenerateImperatorProvinceWithPops(1, popCount: 1);
@@ -100,6 +102,20 @@ public class ReligionCollectionTests {
 			ck3Prov6,
 			ck3Prov7
 		};
+		
+		var titles = new Title.LandedTitles();
+		var titlesReader = new BufferedReader(
+			"b_barony1={province=1} " +
+			"b_barony2={province=2} " +
+			"b_barony3={province=3} " +
+			"b_barony4={province=4} " +
+			"b_barony5={province=5} " +
+			"b_barony6={province=6} " +
+			"b_barony7={province=7} ");
+		titles.LoadTitles(titlesReader);
+
+		var religions = new ReligionCollection();
+		religions.DetermineHolySites(provinces, titles);
 		
 		throw new NotImplementedException();
 	}

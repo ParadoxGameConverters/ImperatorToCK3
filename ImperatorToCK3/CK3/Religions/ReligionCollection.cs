@@ -2,8 +2,6 @@ using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.Mappers.Province;
-using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,6 +71,7 @@ public class ReligionCollection {
 		foreach (var religionsSet in ReligionsPerFile.Values) {
 			foreach (var religion in religionsSet) {
 				foreach (var faith in religion.Faiths) {
+					var replaceableSites = ReplaceableHolySitesByFaith[faith.Id];
 					var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
 				}
 			}
