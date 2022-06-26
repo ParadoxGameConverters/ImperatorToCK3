@@ -137,6 +137,10 @@
 	<ItemGroup>
 		<TestFiles Include="TestFiles/**/*.*" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="TestFiles\documents\Imperator\mod\cool_mod\common\script_values\script_values.txt" />
+	  <Content Include="TestFiles\Imperator\game\common\script_values\script_values.txt" />
+	</ItemGroup>
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(RakalyBinaryFiles)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutDir)\TestFiles\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
