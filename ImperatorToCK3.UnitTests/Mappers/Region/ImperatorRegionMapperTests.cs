@@ -24,7 +24,7 @@ public class ImperatorRegionMapperTests {
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var mods = new List<Mod>();
 		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
-		
+
 		Assert.Throws<KeyNotFoundException>(() => _ = new ImperatorRegionMapper(imperatorModFS));
 	}
 
@@ -100,18 +100,18 @@ public class ImperatorRegionMapperTests {
 	}
 
 	[Fact]
-	public void ModAreasAndRegionsAreLoaded() {
+	public void ModAreasAndRegionsCanBeLoaded() {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test8/CK3";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var mods = new List<Mod> { new("mod1", "TestFiles/ImperatorRegionMapper/test8/mod1") };
 		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS);
 
-		Assert.True(theMapper.RegionNameIsValid("vanilla_area"));
+		Assert.False(theMapper.RegionNameIsValid("vanilla_area")); // present only in vanilla file which is overriden by mod
 		Assert.True(theMapper.RegionNameIsValid("common_area"));
 		Assert.True(theMapper.RegionNameIsValid("mod_area"));
 
-		Assert.True(theMapper.RegionNameIsValid("vanilla_region"));
+		Assert.False(theMapper.RegionNameIsValid("vanilla_region")); // present only in vanilla file which is overriden by mod
 		Assert.True(theMapper.RegionNameIsValid("common_region"));
 		Assert.True(theMapper.RegionNameIsValid("mod_region"));
 	}

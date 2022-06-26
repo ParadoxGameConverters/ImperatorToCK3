@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
@@ -367,11 +368,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				CK3BookmarkDate = date,
 				CK3Path = "TestFiles/LandedTitlesTests/CK3"
 			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_rome");
 
-			titles.LoadHistory(config);
+			titles.LoadHistory(config, ck3ModFS);
 
 			Assert.Equal("67", title.GetHolderId(date));
 			Assert.Equal("e_italia", title.GetLiege(date));
@@ -384,11 +386,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				CK3BookmarkDate = date,
 				CK3Path = "TestFiles/LandedTitlesTests/CK3"
 			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_greece");
 
-			titles.LoadHistory(config);
+			titles.LoadHistory(config, ck3ModFS);
 
 			Assert.Equal("420", title.GetHolderId(date));
 			Assert.Equal(20, title.GetDevelopmentLevel(date));

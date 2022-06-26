@@ -6,12 +6,12 @@ namespace ImperatorToCK3.Mappers.CoA;
 
 public class CoaMapper {
 	public CoaMapper() { }
-	public CoaMapper(ModFilesystem modFS) {
+	public CoaMapper(ModFilesystem imperatorModFS) {
 		Logger.Info("Parsing CoAs...");
 		var parser = new Parser();
 		RegisterKeys(parser);
 		const string coasPath = "common/coat_of_arms/coat_of_arms";
-		parser.ParseGameFolder(coasPath, modFS, "txt", true);
+		parser.ParseGameFolder(coasPath, imperatorModFS, "txt", true);
 
 		Logger.Info($"Loaded {coasMap.Count} coats of arms.");
 	}

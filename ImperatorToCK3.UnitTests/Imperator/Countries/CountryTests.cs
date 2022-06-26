@@ -132,7 +132,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/Imperator/mod/cool_mod"))
 			};
 			var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
-			
+
 			Country.LoadGovernments(imperatorModFS);
 
 			var monarchyReader = new BufferedReader("government_key = super_monarchy");
