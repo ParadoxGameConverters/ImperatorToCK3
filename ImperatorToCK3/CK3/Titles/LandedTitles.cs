@@ -32,20 +32,20 @@ public partial class Title {
 	public class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = new();
 
-		public void LoadTitles(string ck3Path) {
+		public void LoadTitles(ModFilesystem ck3ModFS) {
 			var parser = new Parser();
 			RegisterKeys(parser);
-			
+
 			var landedTitlesPath = Path.Combine("common", "landed_titles");
-			parser.ParseGameFolder(landedTitlesPath, ck3Path, "txt", new List<Mod>(), true);
-			
+			parser.ParseGameFolder(landedTitlesPath, ck3ModFS, "txt", true);
+
 			LogIgnoredTokens();
 		}
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
-			
+
 			LogIgnoredTokens();
 		}
 
@@ -61,7 +61,7 @@ public partial class Title {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		}
-		
+
 		private static void LogIgnoredTokens() {
 			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
 		}
@@ -539,7 +539,7 @@ public partial class Title {
 				double dev = CalculateCountyDevelopment(county, ck3ProvsPerImperatorProv);
 
 				county.History.Fields.Remove("development_level");
-				county.History.AddFieldValue( date, "development_level", "change_development_level", (int)dev);
+				county.History.AddFieldValue(date, "development_level", "change_development_level", (int)dev);
 			}
 		}
 
@@ -557,43 +557,42 @@ public partial class Title {
 			Logger.Warn($"Couldn't generate new color from base {baseColor.OutputRgb()}");
 			return baseColor;
 		}
-		
+
 		private readonly HistoryFactory titleHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
-			.WithSimpleField("holder", new OrderedSet<string>{"holder", "holder_ignore_head_of_faith_requirement"}, null)
+			.WithSimpleField("holder", new OrderedSet<string> { "holder", "holder_ignore_head_of_faith_requirement" }, null)
 			.WithSimpleField("government", "government", null)
 			.WithSimpleField("liege", "liege", null)
 			.WithSimpleField("development_level", "change_development_level", null)
 			.WithSimpleField("succession_laws", "succession_laws", new SortedSet<string>())
 			.Build();
 
-		public void LoadHistory(Configuration config) {
-			var ck3Path = config.CK3Path;
+		public void LoadHistory(Configuration config, ModFilesystem ck3ModFS) {
 			var ck3BookmarkDate = config.CK3BookmarkDate;
 
 			int loadedHistoriesCount = 0;
-			
+
 			var titlesHistoryParser = new Parser();
 			titlesHistoryParser.RegisterRegex(Regexes.TitleId, (reader, titleName) => {
 				var historyItem = reader.GetStringOfItem().ToString();
 				if (!historyItem.Contains('{')) {
 					return;
 				}
-				
+
 				if (!TryGetValue(titleName, out var title)) {
 					return;
 				}
-				
+
 				var tempReader = new BufferedReader(historyItem);
-				
+
 				titleHistoryFactory.UpdateHistory(title.History, tempReader);
 				++loadedHistoriesCount;
 			});
 			titlesHistoryParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-			
+
 			Logger.Info("Parsing title history...");
-			titlesHistoryParser.ParseGameFolder("history/titles", ck3Path, "txt", new List<Mod>(), true);
+			titlesHistoryParser.ParseGameFolder("history/titles", ck3ModFS, "txt", true);
 			Logger.Info($"Loaded {loadedHistoriesCount} title histories.");
-			
+
 			// Add vanilla development to counties
 			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability.
 			foreach (var title in this.Where(t => t.Rank == TitleRank.county && t.GetDevelopmentLevel(ck3BookmarkDate) is null)) {

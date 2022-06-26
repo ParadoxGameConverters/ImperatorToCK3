@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
@@ -23,17 +24,24 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
 		public class CK3CharacterBuilder {
+			private const string CK3Path = "TestFiles/CK3";
+			private const string CK3Root = "TestFiles/CK3/root";
+
+			private Configuration config = new() {
+				CK3BookmarkDate = "867.1.1",
+				CK3Path = CK3Path
+			};
+
+			private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
+
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
-			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", new Configuration { CK3Path = "TestFiles/CK3" });
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private LocDB locDB = new("english");
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
-			private Configuration config = new() {
-				CK3BookmarkDate = new Date(867, 1, 1)
-			};
 
 			public Character Build() {
 				var character = new Character(
@@ -93,7 +101,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		[Fact]
 		public void AllLinksCanBeRemoved() {
 			var date = new Date(400, 1, 1);
-			
+
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
 			var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2);
 			var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3);
@@ -126,7 +134,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithImperatorCharacter(imperatorSpouse)
 				.Build();
 			characters.Add(spouse);
-			
+
 			character.Mother = mother;
 			character.Father = father;
 			character.Children.Add(child.Id, child);
@@ -192,7 +200,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			var traits = character.History.GetFieldValueAsCollection("traits", new Date());
 			Assert.NotNull(traits);
-			traits.Should().BeEquivalentTo(new[] {"craven", "powerful"});
+			traits.Should().BeEquivalentTo(new[] { "craven", "powerful" });
 		}
 
 		[Fact]

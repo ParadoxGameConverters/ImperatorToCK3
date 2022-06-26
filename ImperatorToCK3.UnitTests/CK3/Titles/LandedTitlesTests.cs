@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using commonItems.Localization;
-using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
@@ -134,7 +133,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void GovernorshipsCanBeRecognizedAsCountyLevel() {
-			var imperatorWorld = new ImperatorToCK3.Imperator.World();
+			var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
+			var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+
 			imperatorWorld.Provinces.Add(new Province(1));
 			imperatorWorld.Provinces.Add(new Province(2));
 			imperatorWorld.Provinces.Add(new Province(3));
@@ -146,7 +147,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var impRegionMapper = new ImperatorRegionMapper("TestFiles/LandedTitlesTests/Imperator", new List<Mod>());
+			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 			var ck3RegionMapper = new CK3RegionMapper();
@@ -185,7 +186,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var nicknameMapper = new NicknameMapper();
 			var deathReasonMapper = new DeathReasonMapper();
 			var conversionDate = new Date(500, 1, 1);
-			var config = new Configuration();
 
 			// Import Imperator governor.
 			var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();

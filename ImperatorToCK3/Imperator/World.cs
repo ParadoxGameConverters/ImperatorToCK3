@@ -17,7 +17,7 @@ namespace ImperatorToCK3.Imperator {
 		private readonly Date startDate = new("450.10.1", AUC: true);
 		public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 		private GameVersion imperatorVersion = new();
-		public Mods Mods { get; private set; } = new();
+		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
@@ -30,9 +30,13 @@ namespace ImperatorToCK3.Imperator {
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 		private SaveType saveType = SaveType.Invalid;
 
-		public World() { }
-		public World(Configuration config, ConverterVersion converterVersion) {
+		public World(Configuration config) {
+			ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
+		}
+		public World(Configuration config, ConverterVersion converterVersion): this(config) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
+
+			var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 			ParseGenes(config);
 
 			// Parse the save.
@@ -77,7 +81,10 @@ namespace ImperatorToCK3.Imperator {
 				// Let's locate, verify and potentially update those mods immediately.
 				ModLoader modLoader = new();
 				modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
-				Mods = modLoader.UsableMods;
+				ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+				
+				// Now that we have the list of mods used, we can load Imperator governments from game and mods
+				Country.LoadGovernments(ModFS);
 			});
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");

@@ -8,20 +8,20 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3RegionMapper {
 		public CK3RegionMapper() { }
-		public CK3RegionMapper(string ck3Path, Title.LandedTitles landedTitles) {
+		public CK3RegionMapper(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 			Logger.Info("Initializing Geography...");
 
-			LoadRegions(landedTitles, ck3Path);
+			LoadRegions(ck3ModFS, landedTitles);
 		}
-		public void LoadRegions(Title.LandedTitles landedTitles, string ck3Path) {
+		public void LoadRegions(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 			var parser = new Parser();
 			RegisterRegionKeys(parser);
 
 			var regionsFolderPath = Path.Combine("map_data", "geographical_regions");
-			parser.ParseGameFolder(regionsFolderPath, ck3Path, "txt", new List<Mod>(), true);
+			parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", true);
 
-			var islandRegionFilePath = Path.Combine(ck3Path, "game", "map_data", "island_region.txt");
-			parser.ParseFile(islandRegionFilePath);
+			var islandRegionFilePath = Path.Combine("map_data", "island_region.txt");
+			parser.ParseGameFile(islandRegionFilePath, ck3ModFS);
 
 			foreach (var title in landedTitles) {
 				var titleRank = title.Rank;
