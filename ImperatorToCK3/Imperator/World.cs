@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
+using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator {
 	public class World : Parser {
@@ -27,7 +28,7 @@ namespace ImperatorToCK3.Imperator {
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
-		public IdObjectCollection<string, Religion> Religions
+		public IdObjectCollection<string, Religion> Religions { get; } = new(); // TODO: load religions into this collection
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
