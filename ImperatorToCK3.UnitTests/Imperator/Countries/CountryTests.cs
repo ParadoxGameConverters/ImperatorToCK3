@@ -125,12 +125,15 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		[Fact]
 		public void CorrectGovernmentTypeIsRecognized() {
 			var config = new Configuration {
-				CK3Path = "TestFiles/CK3"
+				ImperatorPath = "TestFiles/Imperator"
 			};
+			var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 			var mods = new List<Mod> {
-				new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/CK3/mod/cool_mod"))
+				new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/Imperator/mod/cool_mod"))
 			};
-			Country.LoadGovernments(config, mods);
+			var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
+
+			Country.LoadGovernments(imperatorModFS);
 
 			var monarchyReader = new BufferedReader("government_key = super_monarchy");
 			var monarchyCountry = Country.Parse(monarchyReader, 1);

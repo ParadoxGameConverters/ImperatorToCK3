@@ -1,7 +1,10 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
+using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Religion;
@@ -10,6 +13,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ReligionMappingTests {
 	private const string ck3Path = "TestFiles/regions/ReligionMappingTests";
+	private string CK3Root => Path.Combine(ck3Path, "game");
 
 	[Fact]
 	public void RegularMatchOnSimpleReligion() {
@@ -52,7 +56,9 @@ public class ReligionMappingTests {
 			"k_ghef = { d_hujhu = { c_defff = { b_newbarony2 = { province = 4 } } } } \n"
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+
+		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region1");
 		var mapping = ReligionMapping.Parse(reader);
@@ -69,7 +75,9 @@ public class ReligionMappingTests {
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } } } } \n"
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+
+		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region1");
 		var mapping = ReligionMapping.Parse(reader);
@@ -79,36 +87,40 @@ public class ReligionMappingTests {
 
 	[Fact]
 	public void MatchOnRegionFailsForNoRegion() {
-		var ck3Mapper = new CK3RegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 		var landedTitles = new Title.LandedTitles();
 		var landedTitlesReader = new BufferedReader(
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { } } \n"
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
-		ck3Mapper.LoadRegions(landedTitles, ck3Path);
+
+		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region3");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 17, 0, new Configuration(), new ImperatorRegionMapper(), ck3Mapper));
+		Assert.Null(mapping.Match("german", 17, 0, new Configuration(), new ImperatorRegionMapper(), ck3RegionMapper));
 	}
 
 	[Fact]
 	public void MatchOnRegionFailsForNoProvince() {
-		var ck3Mapper = new CK3RegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 		var landedTitles = new Title.LandedTitles();
 		var landedTitlesReader = new BufferedReader(
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n"
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
-		ck3Mapper.LoadRegions(landedTitles, ck3Path);
+
+		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = d_hujhu");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 0, 0, new Configuration(), new ImperatorRegionMapper(), ck3Mapper));
+		Assert.Null(mapping.Match("german", 0, 0, new Configuration(), new ImperatorRegionMapper(), ck3RegionMapper));
 	}
 
 	[Fact]

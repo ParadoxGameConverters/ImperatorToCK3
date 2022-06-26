@@ -64,7 +64,8 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '6.*'
+        dotnet-version: '7.*'
+        include-prerelease: true
     - name: "Add version to version.txt"
       shell: bash
       run: |
