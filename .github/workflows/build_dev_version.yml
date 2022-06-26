@@ -42,7 +42,8 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '6.*'
+        dotnet-version: '7.*'
+        include-prerelease: true
     - name: "Build frontend"
       uses: ./Fronter.NET/.github/actions/build_frontend
       with:

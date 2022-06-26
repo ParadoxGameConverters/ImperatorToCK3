@@ -99,7 +99,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			return parsedCountry;
 		}
 
-		public static void LoadGovernments(Configuration config, List<Mod> mods) {
+		public static void LoadGovernments(ModFilesystem imperatorModFS) {
 			string governmentType = "monarchy";
 
 			var governmentParser = new Parser();
@@ -126,7 +126,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				}
 			});
 			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-			fileParser.ParseGameFolder("common/governments", config.CK3Path, "txt", mods, true);
+			fileParser.ParseGameFolder("common/governments", imperatorModFS, "txt", true);
 
 			static void AddRepublicGovernment(string name) {
 				republicGovernments.Add(name);

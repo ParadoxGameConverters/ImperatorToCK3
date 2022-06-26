@@ -134,7 +134,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void GovernorshipsCanBeRecognizedAsCountyLevel() {
-			var imperatorWorld = new ImperatorToCK3.Imperator.World();
+			var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
+			var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+
 			imperatorWorld.Provinces.Add(new Province(1));
 			imperatorWorld.Provinces.Add(new Province(2));
 			imperatorWorld.Provinces.Add(new Province(3));
@@ -146,7 +148,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var impRegionMapper = new ImperatorRegionMapper("TestFiles/LandedTitlesTests/Imperator", new List<Mod>());
+			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 			var ck3RegionMapper = new CK3RegionMapper();
@@ -185,7 +187,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var nicknameMapper = new NicknameMapper();
 			var deathReasonMapper = new DeathReasonMapper();
 			var conversionDate = new Date(500, 1, 1);
-			var config = new Configuration();
 
 			// Import Imperator governor.
 			var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
@@ -367,11 +368,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				CK3BookmarkDate = date,
 				CK3Path = "TestFiles/LandedTitlesTests/CK3"
 			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_rome");
 
-			titles.LoadHistory(config);
+			titles.LoadHistory(config, ck3ModFS);
 
 			Assert.Equal("67", title.GetHolderId(date));
 			Assert.Equal("e_italia", title.GetLiege(date));
@@ -384,11 +386,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				CK3BookmarkDate = date,
 				CK3Path = "TestFiles/LandedTitlesTests/CK3"
 			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_greece");
 
-			titles.LoadHistory(config);
+			titles.LoadHistory(config, ck3ModFS);
 
 			Assert.Equal("420", title.GetHolderId(date));
 			Assert.Equal(20, title.GetDevelopmentLevel(date));

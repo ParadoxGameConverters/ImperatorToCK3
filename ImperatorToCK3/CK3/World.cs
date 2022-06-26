@@ -1,12 +1,11 @@
 ﻿using commonItems;
-using commonItems.Collections;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -43,27 +42,29 @@ namespace ImperatorToCK3.CK3 {
 				Logger.Error("Corrected save date is later than CK3 bookmark date, proceeding at your own risk!");
 			}
 
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
+
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
-			locDB.ScrapeLocalizations(config.ImperatorPath, impWorld.Mods);
+			locDB.ScrapeLocalizations(impWorld.ModFS);
 
 			// Loading Imperator CoAs to use them for generated CK3 titles
-			coaMapper = new CoaMapper(config, impWorld.Mods);
+			coaMapper = new CoaMapper(impWorld.ModFS);
 
 			// Load vanilla CK3 landed titles and their history
-			LandedTitles.LoadTitles(config.CK3Path);
-			LandedTitles.LoadHistory(config);
+			LandedTitles.LoadTitles(ck3ModFS);
+			LandedTitles.LoadHistory(config, ck3ModFS);
 
 			// Loading regions
-			ck3RegionMapper = new CK3RegionMapper(config.CK3Path, LandedTitles);
-			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath, impWorld.Mods);
+			ck3RegionMapper = new CK3RegionMapper(ck3ModFS, LandedTitles);
+			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
 			// Use the region mappers in other mappers
 			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
-			
-			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), config);
+
+			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ck3ModFS);
 
 			Characters.ImportImperatorCharacters(
 				impWorld,
@@ -195,7 +196,7 @@ namespace ImperatorToCK3.CK3 {
 			void GiveCountyToMonarch(Title county, Title ck3Country) {
 				var date = ck3Country.GetDateOfLastHolderChange();
 				var holderId = ck3Country.GetHolderId(date);
-				
+
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					county.ClearHolderSpecificHistory();
 					county.SetHolder(holder, date);

@@ -11,10 +11,10 @@ public class TraitMapper {
 	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = new();
 
 	public TraitMapper() { }
-	public TraitMapper(string mappingsPath, Configuration config) {
+	public TraitMapper(string mappingsPath, ModFilesystem ck3ModFS) {
 		var traitsParser = new Parser();
 		traitsParser.RegisterRegex(CommonRegexes.String, (reader, traitId) => CK3Traits.AddOrReplace(new(traitId, reader)));
-		traitsParser.ParseGameFolder("common/traits", config.CK3Path, "txt", new List<Mod>(), true);
+		traitsParser.ParseGameFolder("common/traits", ck3ModFS, "txt", true);
 
 		Logger.Info("Parsing trait mappings...");
 		var parser = new Parser();

@@ -111,14 +111,14 @@ public sealed class HistoryFactory {
 		}
 		return history;
 	}
-	public History GetHistory(string historyPath, string gamePath) {
+	public History GetHistory(string historyPath, ModFilesystem ck3ModFS) {
 		history = new History();
 		InitializeHistory();
 
 		if (File.Exists(historyPath)) {
-			parser.ParseGameFile(historyPath, gamePath, new List<Mod>());
+			parser.ParseGameFile(historyPath, ck3ModFS);
 		} else {
-			parser.ParseGameFolder(historyPath, gamePath, "txt", new List<Mod>(), true);
+			parser.ParseGameFolder(historyPath, ck3ModFS, "txt", true);
 		}
 
 		if (history.IgnoredKeywords.Count > 0) {

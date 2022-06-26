@@ -20,7 +20,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 public class CharacterCollectionTests {
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromChild() {
-		var imperatorWorld = new World();
+		var endDate = new Date(1100, 1, 1, AUC: true);
+		var configuration = new Configuration { CK3BookmarkDate = endDate };
+		var imperatorWorld = new World(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var childReader = new BufferedReader("father=1 mother=2 birth_date=900.1.1");
@@ -33,9 +35,6 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
 		imperatorWorld.Characters.Add(child);
-
-		var endDate = new Date(1100, 1, 1, AUC: true);
-		var configuration = new Configuration { CK3BookmarkDate = endDate };
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
@@ -66,7 +65,9 @@ public class CharacterCollectionTests {
 
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromUnbornChild() {
-		var imperatorWorld = new World();
+		var endDate = new Date(1100, 1, 1, AUC: true);
+		var configuration = new Configuration { CK3BookmarkDate = endDate };
+		var imperatorWorld = new World(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var femaleReader = new BufferedReader("unborn={ { mother=2 father=1 date=900.1.1 } }");
@@ -76,8 +77,6 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
 
-		var endDate = new Date(1100, 1, 1, AUC: true);
-		var configuration = new Configuration { CK3BookmarkDate = endDate };
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
@@ -105,7 +104,8 @@ public class CharacterCollectionTests {
 	[Fact]
 	public void OnlyEarlyPregnanciesAreImportedFromImperator() {
 		var conversionDate = new Date(900, 2, 1, AUC: true);
-		var imperatorWorld = new World();
+		var configuration = new Configuration { CK3BookmarkDate = conversionDate };
+		var imperatorWorld = new World(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 
@@ -126,7 +126,6 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(female2);
 		imperatorWorld.Characters.Add(female3);
 
-		var configuration = new Configuration { CK3BookmarkDate = conversionDate };
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
