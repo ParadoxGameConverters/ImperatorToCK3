@@ -19,6 +19,7 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '7.*'
+        include-prerelease: true
     - name: Test
       run: |
        cd ImperatorToCK3.UnitTests
@@ -45,6 +46,7 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '7.*'
+        include-prerelease: true
     - name: Test
       run: |
        cd ImperatorToCK3.UnitTests
