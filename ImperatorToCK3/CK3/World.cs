@@ -48,7 +48,7 @@ namespace ImperatorToCK3.CK3 {
 			MapData = new MapData(config.CK3Path);
 
 			// Scraping localizations from Imperator so we may know proper names for our countries.
-			locDB.ScrapeLocalizations(config.ImperatorPath, new List<Mod>()); // TODO: USE MODFILESYSTEM
+			locDB.ScrapeLocalizations(impWorld.ModFS);
 
 			// Loading Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(impWorld.ModFS);
