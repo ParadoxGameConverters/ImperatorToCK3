@@ -53,12 +53,12 @@ public class Province : IIdentifiable<ulong> {
 
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; }
-	public string Religion {
+	public string FaithId {
 		get {
-			return details.Religion;
+			return details.FaithId;
 		}
 		set {
-			details.Religion = value;
+			details.FaithId = value;
 		}
 	}
 	public string Culture {
@@ -91,7 +91,7 @@ public class Province : IIdentifiable<ulong> {
 		if (!string.IsNullOrEmpty(ImperatorProvince.Religion)) {
 			var religionMatch = religionMapper.Match(ImperatorProvince.Religion, Id, ImperatorProvince.Id, config);
 			if (religionMatch is not null) {
-				details.Religion = religionMatch;
+				details.FaithId = religionMatch;
 				religionSet = true;
 			}
 		}
@@ -100,7 +100,7 @@ public class Province : IIdentifiable<ulong> {
 			var religionMatch = religionMapper.Match(ImperatorProvince.OwnerCountry.Religion, Id, ImperatorProvince.Id, config);
 			if (religionMatch is not null) {
 				Logger.Warn($"Using country religion for province {Id}");
-				details.Religion = religionMatch;
+				details.FaithId = religionMatch;
 				religionSet = true;
 			}
 		}
@@ -118,7 +118,7 @@ public class Province : IIdentifiable<ulong> {
 
 		// do we even have a base culture?
 		if (!string.IsNullOrEmpty(ImperatorProvince.Culture)) {
-			var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
+			var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.FaithId, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
 			if (cultureMatch is not null) {
 				details.Culture = cultureMatch;
 				cultureSet = true;
@@ -126,7 +126,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 		// As fallback, attempt to use primary culture of country.
 		if (!cultureSet && ImperatorProvince.OwnerCountry?.PrimaryCulture is not null) {
-			var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, details.Religion, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
+			var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, details.FaithId, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
 			if (cultureMatch is not null) {
 				Logger.Warn($"Using country culture for province {Id}");
 				details.Culture = cultureMatch;

@@ -88,7 +88,7 @@ public class ReligionCollection {
 				continue;
 			}
 
-			var faith = province.Religion;
+			var faith = province.FaithId;
 			if (provincesByFaith.TryGetValue(faith, out var set)) {
 				set.Add(province);
 			} else {
