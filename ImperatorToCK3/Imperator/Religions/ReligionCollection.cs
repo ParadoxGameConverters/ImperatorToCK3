@@ -1,31 +1,37 @@
 using commonItems;
-using System;
+using commonItems.Collections;
+using commonItems.Mods;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Religions; 
 
-public class ReligionCollection {
-	public ReligionCollection() {
-		religionParser = new Parser();
+public class ReligionCollection : IdObjectCollection<string, Religion> {
+	public ReligionCollection(IReadOnlyDictionary<string, float> scriptValues) {
+		IDictionary<string, float> parsedReligionModifiers;
+		Parser religionParser = new();
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
-			var modifiers = modifiersAssignments.Select(kvp=>GetModifierValue())
-			parsedReligionModifier = 
+			parsedReligionModifiers = modifiersAssignments
+				.ToDictionary(kvp => kvp.Key, kvp => GetModifierValue(kvp.Value, scriptValues));
 		});
+		religionParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		
 		religionsParser = new Parser();
 		religionsParser.RegisterRegex(CommonRegexes.String, (reader, religionId) => {
-			parsedReligionId = religionId;
+			parsedReligionModifiers = new Dictionary<string, float>();
 			
+			religionParser.ParseStream(reader);
+			AddOrReplace(new Religion(religionId, parsedReligionModifiers));
 		});
+		religionsParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 
-	private float GetModifierValue(string valueStr) {
+	private static float GetModifierValue(string valueStr, IReadOnlyDictionary<string, float> scriptValues) {
 		if (float.TryParse(valueStr, out var parsedValue)) {
 			return parsedValue;
 		}
-		// TODO: READ IMPERATOR game/common/script_values
-		if (ScriptValues.TryGetValue(valueStr, out float definedValue)) {
+		if (scriptValues.TryGetValue(valueStr, out float definedValue)) {
 			return definedValue;
 		}
 
@@ -34,12 +40,9 @@ public class ReligionCollection {
 		return defaultValue;
 	}
 
-	public void LoadReligions(string filePath) {
-		// TODO: use ModFileSystem instead to load from game and mods
+	public void LoadReligions(ModFilesystem imperatorModFS) {
+		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
 	}
 
-	private string parsedReligionId = string.Empty;
-	private string parsedReligionModifier = string.Empty;
-	private Parser religionsParser;
-	private Parser religionParser;
+	private readonly Parser religionsParser;
 }
