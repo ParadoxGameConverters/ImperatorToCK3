@@ -4,6 +4,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
@@ -35,7 +36,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
 
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-			private ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
@@ -212,7 +213,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var mapReader = new BufferedReader(
 				"link = { imp=chalcedonian ck3=orthodox }"
 			);
-			var religionMapper = new ReligionMapper(mapReader, new ImperatorRegionMapper(), new CK3RegionMapper());
+			var religionMapper = new ReligionMapper(mapReader, new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)

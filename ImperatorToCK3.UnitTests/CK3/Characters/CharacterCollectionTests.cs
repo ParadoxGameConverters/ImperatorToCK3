@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Localization;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -35,12 +36,14 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
 		imperatorWorld.Characters.Add(child);
+
+		var ck3Religions = new ReligionCollection();
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
@@ -77,12 +80,13 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
 
+		var ck3Religions = new ReligionCollection();
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
@@ -126,12 +130,13 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(female2);
 		imperatorWorld.Characters.Add(female3);
 
+		var ck3Religions = new ReligionCollection();
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),

@@ -67,7 +67,7 @@ namespace ImperatorToCK3.CK3 {
 			ck3RegionMapper = new CK3RegionMapper(ck3ModFS, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
 			// Use the region mappers in other mappers
-			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
+			var religionMapper = new ReligionMapper(religionCollection, imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 
 			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ck3ModFS);

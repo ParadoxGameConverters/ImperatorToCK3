@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
@@ -179,7 +180,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				)
 			);
 			var locDB = new LocDB("english");
-			var religionMapper = new ReligionMapper(impRegionMapper, ck3RegionMapper);
+			var ck3Religions = new ReligionCollection();
+			var religionMapper = new ReligionMapper(ck3Religions, impRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 			var coaMapper = new CoaMapper();
 			var definiteFormMapper = new DefiniteFormMapper();

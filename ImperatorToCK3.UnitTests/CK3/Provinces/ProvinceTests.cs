@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
@@ -70,11 +71,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var province5 = new Province();
 			var province6 = new Province();
 
+			var ck3Religions = new ReligionCollection();
 			var landedTitles = new Title.LandedTitles();
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
-			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
+			var religionMapper = new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper);
 			var config = new Configuration();
 
 			province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper, config);
