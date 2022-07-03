@@ -41,6 +41,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 
 	public void LoadReligions(ModFilesystem imperatorModFS) {
+		Logger.Info("Loading religions...");
 		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
 	}
 
