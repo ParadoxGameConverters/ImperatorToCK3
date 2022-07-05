@@ -81,7 +81,7 @@ jobs:
         cd ImperatorToCK3
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
     - name: "Remove Release/ImperatorToCK3 directory"
-      uses: JesseTG/rm@v1.0.2
+      uses: JesseTG/rm@v1.0.3
       with:
         path: Release/ImperatorToCK3
     - name: "Copy Publish files to Release directory"
