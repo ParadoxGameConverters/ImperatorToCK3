@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using System.Collections.Generic;
@@ -12,10 +13,13 @@ namespace ImperatorToCK3.CK3.Religions;
 public class ReligionCollection {
 	public Dictionary<string, OrderedSet<Religion>> ReligionsPerFile { get; } = new();
 	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
-	
+
 	public void LoadReligions(string religionsFolderPath) {
+		Logger.Info($"Loading religions from {religionsFolderPath}...");
 		var files = SystemUtils.GetAllFilesInFolderRecursive(religionsFolderPath);
 		foreach (var file in files) {
+			Logger.Error("FILE: " + file); // TODO: REMOVE DEBUG
+			
 			var religionsInFile = new OrderedSet<Religion>();
 			
 			var parser = new Parser();
@@ -26,6 +30,28 @@ public class ReligionCollection {
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			var filePath = Path.Combine(religionsFolderPath, file);
+			parser.ParseFile(filePath);
+
+			ReligionsPerFile[file] = religionsInFile;
+		}
+	}
+	public void LoadReligions(ModFilesystem ck3ModFs) {
+		Logger.Info("Loading religions from CK3 game and mods...");
+		const string religionsPath = "common/religion/religions";
+		var files = ck3ModFs.GetAllFilesInFolderRecursive(religionsPath);
+		foreach (var file in files) {
+			Logger.Error("FILE: " + file); // TODO: REMOVE DEBUG
+			
+			var religionsInFile = new OrderedSet<Religion>();
+			
+			var parser = new Parser();
+			parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
+				var religion = new Religion(religionId, religionReader);
+				religionsInFile.Add(religion);
+			});
+			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+			var filePath = Path.Combine(religionsPath, file);
 			parser.ParseFile(filePath);
 
 			ReligionsPerFile[file] = religionsInFile;

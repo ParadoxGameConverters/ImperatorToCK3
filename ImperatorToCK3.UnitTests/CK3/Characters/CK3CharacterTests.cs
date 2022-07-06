@@ -24,17 +24,16 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
+		private const string CK3Path = "TestFiles/CK3";
+		private const string CK3Root = "TestFiles/CK3/root";
+		private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
+		
 		public class CK3CharacterBuilder {
-			private const string CK3Path = "TestFiles/CK3";
-			private const string CK3Root = "TestFiles/CK3/root";
-
 			private Configuration config = new() {
 				CK3BookmarkDate = "867.1.1",
 				CK3Path = CK3Path
 			};
-
-			private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
-
+			
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 			private ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
@@ -209,11 +208,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Religion = "chalcedonian"
 			};
+			
+			var ck3Religions = new ReligionCollection();
+			ck3Religions.LoadReligions(ck3ModFS);
 
 			var mapReader = new BufferedReader(
 				"link = { imp=chalcedonian ck3=orthodox }"
 			);
-			var religionMapper = new ReligionMapper(mapReader, new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
+			var religionMapper = new ReligionMapper(mapReader, ck3Religions, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
