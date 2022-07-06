@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
@@ -12,13 +13,15 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.CK3.Religions; 
 
 public class ReligionCollectionTests {
+	private const string CK3Root = "TestFiles/CK3/game";
+	private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
 	private const string TestReligionsDirectory = "TestFiles/CK3/game/common/religion/religions";
 	private const string TestReplaceableHolySitesFile = "TestFiles/configurables/replaceable_holy_sites.txt";
 	
 	[Fact]
 	public void ReligionsAreLoaded() {
 		var religions = new ReligionCollection();
-		religions.LoadReligions(TestReligionsDirectory);
+		religions.LoadReligions(ck3ModFs);
 
 		var religionIds = religions.Select(r => r.Id);
 		religionIds.Should().Contain("religion_a", "religion_b", "religion_c");
@@ -86,13 +89,13 @@ public class ReligionCollectionTests {
 		var irProv6 = GenerateImperatorProvinceWithPops(1, popCount: 6, holySite: false);
 		var irProv7 = GenerateImperatorProvinceWithPops(1, popCount: 5, holySite: false);
 
-		var ck3Prov1 = new Province(1) {FaithId = "faith1", ImperatorProvince = irProv1};
-		var ck3Prov2 = new Province(2) {FaithId = "faith1", ImperatorProvince = irProv2};
-		var ck3Prov3 = new Province(3) {FaithId = "faith1", ImperatorProvince = irProv3};
-		var ck3Prov4 = new Province(4) {FaithId = "faith1", ImperatorProvince = irProv4};
-		var ck3Prov5 = new Province(5) {FaithId = "faith1", ImperatorProvince = irProv5};
-		var ck3Prov6 = new Province(6) {FaithId = "faith1", ImperatorProvince = irProv6};
-		var ck3Prov7 = new Province(7) {FaithId = "faith1", ImperatorProvince = irProv7};
+		var ck3Prov1 = new Province(1) {FaithId = "ck3Faith", ImperatorProvince = irProv1};
+		var ck3Prov2 = new Province(2) {FaithId = "ck3Faith", ImperatorProvince = irProv2};
+		var ck3Prov3 = new Province(3) {FaithId = "ck3Faith", ImperatorProvince = irProv3};
+		var ck3Prov4 = new Province(4) {FaithId = "ck3Faith", ImperatorProvince = irProv4};
+		var ck3Prov5 = new Province(5) {FaithId = "ck3Faith", ImperatorProvince = irProv5};
+		var ck3Prov6 = new Province(6) {FaithId = "ck3Faith", ImperatorProvince = irProv6};
+		var ck3Prov7 = new Province(7) {FaithId = "ck3Faith", ImperatorProvince = irProv7};
 
 		var provinces = new ProvinceCollection {
 			ck3Prov1,
@@ -116,11 +119,12 @@ public class ReligionCollectionTests {
 		titles.LoadTitles(titlesReader);
 
 		var religions = new ReligionCollection();
+		religions.LoadReligions(ck3ModFs);
 		religions.DetermineHolySites(provinces, titles);
 
-		var faith = religions.GetFaith("faith1");
+		var faith = religions.GetFaith("ck3Faith");
 		Assert.NotNull(faith);
-		faith.HolySites.Should().Equal(
+		faith.HolySiteIds.Should().Equal(
 			"b_barony2", // holy site, 7 pops
 			"b_barony3", // holy site, 4 pops
 			"b_barony4", // holy site, 2 pops

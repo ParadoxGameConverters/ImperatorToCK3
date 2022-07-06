@@ -8,13 +8,15 @@ using System.IO;
 using System.Linq;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
-namespace ImperatorToCK3.CK3.Religions; 
+namespace ImperatorToCK3.CK3.Religions;
 
 public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
+	public IdObjectCollection<string, HolySite> HolySites { get; }
 
 	public void LoadReligions(string religionsFolderPath) {
 		Logger.Info($"Loading religions from {religionsFolderPath}...");
+		
 		var files = SystemUtils.GetAllFilesInFolderRecursive(religionsFolderPath);
 		foreach (var file in files) {
 			var parser = new Parser();
@@ -30,22 +32,30 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 	public void LoadReligions(ModFilesystem ck3ModFs) {
 		Logger.Info("Loading religions from CK3 game and mods...");
-		const string religionsPath = "common/religion/religions";
-		var files = ck3ModFs.GetAllFilesInFolderRecursive(religionsPath);
-		foreach (var filePath in files) {
-			var parser = new Parser();
-			parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-				var religion = new Religion(religionId, religionReader);
-				Add(religion);
-			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
-			parser.ParseFile(filePath);
-		}
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
+			Add(new Religion(religionId, religionReader));
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+		parser.ParseGameFolder("common/religion/religions", ck3ModFs, "txt", recursive: true);
+	}
+
+	public void LoadHolySites(ModFilesystem ck3ModFs) {
+		Logger.Info("Loading CK3 holy sites");
+
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (holySiteReader, holySiteId) => {
+			HolySites.Add(new HolySite(holySiteId, holySiteReader));
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFs, "txt", recursive: true);
 	}
 
 	public void LoadReplaceableHolySites(string filePath) {
-		Logger.Info("Loading replaceable holy sites...");
+		Logger.Info("Loading replaceable holy site IDs...");
 		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
@@ -60,7 +70,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			if (value.IsArrayOrObject()) {
 				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
 			} else if (valueStr == "all") {
-				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySites);
+				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySiteIds);
 			} else Logger.Warn($"Unexpected value: {valueStr}");
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
@@ -82,8 +92,14 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		
 		foreach (var religion in this) {
 			foreach (var faith in religion.Faiths) {
-				var replaceableSites = ReplaceableHolySitesByFaith[faith.Id];
+				if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
+					continue;
+				}
+				
 				var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
+				foreach (var replaceableSiteId in replaceableSiteIds) {
+					//var barony = rep
+				}
 			}
 		}
 	}

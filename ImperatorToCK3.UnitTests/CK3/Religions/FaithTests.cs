@@ -10,7 +10,7 @@ public class FaithTests {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
 		var faith = new Faith("chalcedonian", reader);
 		
-		Assert.Collection(faith.HolySites,
+		Assert.Collection(faith.HolySiteIds,
 			site=>Assert.Equal("rome", site),
 			site=>Assert.Equal("constantinople", site),
 			site=>Assert.Equal("antioch", site));

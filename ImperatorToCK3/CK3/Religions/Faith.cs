@@ -12,13 +12,13 @@ public class Faith : IIdentifiable<string> {
 		Id = id;
 
 		var parser = new Parser();
-		parser.RegisterKeyword("holy_site", reader=>HolySites.Add(reader.GetString()));
+		parser.RegisterKeyword("holy_site", reader => HolySiteIds.Add(reader.GetString()));
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		parser.ParseStream(faithReader);
 	}
 
-	public OrderedSet<string> HolySites { get; } = new();
+	public OrderedSet<string> HolySiteIds { get; } = new();
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
 }
