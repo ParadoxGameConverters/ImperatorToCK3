@@ -100,10 +100,12 @@ namespace ImperatorToCK3.Imperator.Countries {
 		}
 
 		public static void LoadGovernments(ModFilesystem imperatorModFS) {
+			Logger.Info("Loading Imperator governments...");
 			string governmentType = "monarchy";
 
 			var governmentParser = new Parser();
 			governmentParser.RegisterKeyword("type", reader => governmentType = reader.GetString());
+			governmentParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 
 			var fileParser = new Parser();
 			fileParser.RegisterRegex(CommonRegexes.String, (reader, govName) => {
