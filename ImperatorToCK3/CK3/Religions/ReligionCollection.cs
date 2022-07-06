@@ -18,8 +18,6 @@ public class ReligionCollection {
 		Logger.Info($"Loading religions from {religionsFolderPath}...");
 		var files = SystemUtils.GetAllFilesInFolderRecursive(religionsFolderPath);
 		foreach (var file in files) {
-			Logger.Error("FILE: " + file); // TODO: REMOVE DEBUG
-			
 			var religionsInFile = new OrderedSet<Religion>();
 			
 			var parser = new Parser();
@@ -39,9 +37,7 @@ public class ReligionCollection {
 		Logger.Info("Loading religions from CK3 game and mods...");
 		const string religionsPath = "common/religion/religions";
 		var files = ck3ModFs.GetAllFilesInFolderRecursive(religionsPath);
-		foreach (var file in files) {
-			Logger.Error("FILE: " + file); // TODO: REMOVE DEBUG
-			
+		foreach (var filePath in files) {
 			var religionsInFile = new OrderedSet<Religion>();
 			
 			var parser = new Parser();
@@ -51,10 +47,9 @@ public class ReligionCollection {
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
-			var filePath = Path.Combine(religionsPath, file);
 			parser.ParseFile(filePath);
 
-			ReligionsPerFile[file] = religionsInFile;
+			ReligionsPerFile[filePath] = religionsInFile;
 		}
 	}
 

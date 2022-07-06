@@ -25,7 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
 		private const string CK3Path = "TestFiles/CK3";
-		private const string CK3Root = "TestFiles/CK3/root";
+		private const string CK3Root = "TestFiles/CK3/game";
 		private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
 		
 		public class CK3CharacterBuilder {
