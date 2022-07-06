@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
@@ -6,6 +7,9 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Religion; 
 
 public class ReligionMapperTests {
+	private const string CK3Root = "TestFiles/CK3/game";
+	private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
+	
 	[Fact]
 	public void NonMatchGivesNull() {
 		var ck3Religions = new ReligionCollection();
@@ -22,6 +26,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void CK3FaithCanBeFound() {
 		var ck3Religions = new ReligionCollection();
+		ck3Religions.LoadReligions(ck3ModFs);
 		var impRegionMapper = new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper();
 		var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
 			
@@ -35,6 +40,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void MultipleImperatorReligionsCanBeInARule() {
 		var ck3Religions = new ReligionCollection();
+		ck3Religions.LoadReligions(ck3ModFs);
 		var impRegionMapper = new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper();
 		var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
 			
@@ -50,6 +56,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void CorrectRuleMatches() {
 		var ck3Religions = new ReligionCollection();
+		ck3Religions.LoadReligions(ck3ModFs);
 		var impRegionMapper = new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper();
 		var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
 			

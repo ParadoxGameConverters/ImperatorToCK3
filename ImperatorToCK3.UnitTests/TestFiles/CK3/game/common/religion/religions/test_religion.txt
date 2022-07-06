@@ -1,0 +1,6 @@
+test_religion = {
+	faiths = {
+		ck3Faith={}
+		ck3Faith2={}
+	}
+}

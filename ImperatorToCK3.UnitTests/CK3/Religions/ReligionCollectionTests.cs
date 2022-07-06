@@ -16,14 +16,12 @@ public class ReligionCollectionTests {
 	private const string TestReplaceableHolySitesFile = "TestFiles/configurables/replaceable_holy_sites.txt";
 	
 	[Fact]
-	public void ReligionsAreGroupedByFile() {
+	public void ReligionsAreLoaded() {
 		var religions = new ReligionCollection();
 		religions.LoadReligions(TestReligionsDirectory);
-		
-		religions.ReligionsPerFile["religion_a.txt"].Select(r=>r.Id)
-			.Should().BeEquivalentTo("religion_a");
-		religions.ReligionsPerFile["multiple_religions.txt"].Select(r=>r.Id)
-			.Should().BeEquivalentTo("religion_b", "religion_c");
+
+		var religionIds = religions.Select(r => r.Id);
+		religionIds.Should().Contain("religion_a", "religion_b", "religion_c");
 	}
 
 	[Fact]

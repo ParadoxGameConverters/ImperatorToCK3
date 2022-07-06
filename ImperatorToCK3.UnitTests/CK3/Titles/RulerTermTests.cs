@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
@@ -14,6 +15,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class RulerTermTests {
+		private const string CK3Root = "TestFiles/CK3/game";
+		private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
+		
 		[Fact]
 		public void ImperatorRulerTermIsCorrectlyConverted() {
 			var reader = new BufferedReader(
@@ -57,6 +61,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impRulerTerm = new ImperatorToCK3.Imperator.Countries.RulerTerm(preImpTermReader, countries);
 
 			var ck3Religions = new ReligionCollection();
+			ck3Religions.LoadReligions(ck3ModFs);
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
 			var imperatorRegionMapper = new ImperatorRegionMapper();

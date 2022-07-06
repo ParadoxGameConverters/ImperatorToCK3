@@ -10,27 +10,22 @@ using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
-public class ReligionCollection {
-	public Dictionary<string, OrderedSet<Religion>> ReligionsPerFile { get; } = new();
+public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
 
 	public void LoadReligions(string religionsFolderPath) {
 		Logger.Info($"Loading religions from {religionsFolderPath}...");
 		var files = SystemUtils.GetAllFilesInFolderRecursive(religionsFolderPath);
 		foreach (var file in files) {
-			var religionsInFile = new OrderedSet<Religion>();
-			
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 				var religion = new Religion(religionId, religionReader);
-				religionsInFile.Add(religion);
+				Add(religion);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			var filePath = Path.Combine(religionsFolderPath, file);
 			parser.ParseFile(filePath);
-
-			ReligionsPerFile[file] = religionsInFile;
 		}
 	}
 	public void LoadReligions(ModFilesystem ck3ModFs) {
@@ -38,18 +33,14 @@ public class ReligionCollection {
 		const string religionsPath = "common/religion/religions";
 		var files = ck3ModFs.GetAllFilesInFolderRecursive(religionsPath);
 		foreach (var filePath in files) {
-			var religionsInFile = new OrderedSet<Religion>();
-			
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 				var religion = new Religion(religionId, religionReader);
-				religionsInFile.Add(religion);
+				Add(religion);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			parser.ParseFile(filePath);
-
-			ReligionsPerFile[filePath] = religionsInFile;
 		}
 	}
 
@@ -77,7 +68,7 @@ public class ReligionCollection {
 	}
 
 	public Faith? GetFaith(string id) {
-		foreach (Religion religion in ReligionsPerFile.Values.SelectMany(religionSet => religionSet)) {
+		foreach (Religion religion in this) {
 			if (religion.Faiths.TryGetValue(id, out var faith)) {
 				return faith;
 			}
@@ -89,12 +80,10 @@ public class ReligionCollection {
 	public void DetermineHolySites(ProvinceCollection ck3Provinces, Title.LandedTitles titles) {
 		var provincesByFaith = GetProvincesByFaith(ck3Provinces);
 		
-		foreach (var religionsSet in ReligionsPerFile.Values) {
-			foreach (var religion in religionsSet) {
-				foreach (var faith in religion.Faiths) {
-					var replaceableSites = ReplaceableHolySitesByFaith[faith.Id];
-					var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
-				}
+		foreach (var religion in this) {
+			foreach (var faith in religion.Faiths) {
+				var replaceableSites = ReplaceableHolySitesByFaith[faith.Id];
+				var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
 			}
 		}
 	}
