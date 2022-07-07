@@ -30,6 +30,7 @@ namespace ImperatorToCK3.CK3 {
 		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
 		public Title.LandedTitles LandedTitles { get; } = new();
+		public ReligionCollection Religions { get; } = new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
@@ -52,10 +53,10 @@ namespace ImperatorToCK3.CK3 {
 			locDB.ScrapeLocalizations(impWorld.ModFS);
 			
 			// Load CK3 religions from game and blankMod
-			religionCollection.LoadHolySites(ck3ModFS);
-			religionCollection.LoadReligions(ck3ModFS);
+			Religions.LoadHolySites(ck3ModFS);
+			Religions.LoadReligions(ck3ModFS);
 			var blankModReligionsPath = Path.Join("blankMod", "output","common", "religion", "religions");
-			religionCollection.LoadReligions(blankModReligionsPath);
+			Religions.LoadReligions(blankModReligionsPath);
 
 			// Load Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(impWorld.ModFS);
@@ -68,7 +69,7 @@ namespace ImperatorToCK3.CK3 {
 			ck3RegionMapper = new CK3RegionMapper(ck3ModFS, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
 			// Use the region mappers in other mappers
-			var religionMapper = new ReligionMapper(religionCollection, imperatorRegionMapper, ck3RegionMapper);
+			var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 
 			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ck3ModFS);
@@ -297,6 +298,5 @@ namespace ImperatorToCK3.CK3 {
 		);
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
-		private readonly ReligionCollection religionCollection = new();
 	}
 }

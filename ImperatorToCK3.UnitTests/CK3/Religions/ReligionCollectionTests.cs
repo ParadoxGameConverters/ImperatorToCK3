@@ -62,11 +62,7 @@ public class ReligionCollectionTests {
 		provsByFaith["faith1"].Should().Equal(prov1, prov2);
 		provsByFaith["faith2"].Should().Equal(prov3);
 	}
-
-
-	public class TestImperatorProvince : ImperatorToCK3.Imperator.Provinces.Province {
-		public TestImperatorProvince(ulong id): base(id) { }
-	}
+	
 	[Fact]
 	public void ImperatorHolySitesAndMostPopulousProvinceAreSelectedForDynamicHolySites() {
 		Province GenerateCK3AndImperatorProvinceWithPops(ulong provId, int popCount, bool holySite) {
@@ -128,11 +124,11 @@ public class ReligionCollectionTests {
 		religions.DetermineHolySites(provinces, titles);
 
 		faith.HolySiteIds.Should().Equal(
-			"IRtoCK3_site_b_barony2_ck3Faith", // holy site, 7 pops
-			"IRtoCK3_site_b_barony3_ck3Faith", // holy site, 4 pops
-			"IRtoCK3_site_b_barony4_ck3Faith", // holy site, 2 pops
-			"IRtoCK3_site_b_barony1_ck3Faith", // holy site, 1 pop
-			"IRtoCK3_site_b_barony6_ck3Faith" // 6 pops - most populous province without an Imperator holy site
+			"IRtoCK3_b_barony2_ck3Faith", // holy site, 7 pops
+			"IRtoCK3_b_barony3_ck3Faith", // holy site, 4 pops
+			"IRtoCK3_b_barony4_ck3Faith", // holy site, 2 pops
+			"IRtoCK3_b_barony1_ck3Faith", // holy site, 1 pop
+			"IRtoCK3_b_barony6_ck3Faith" // 6 pops - most populous province without an Imperator holy site
 		);
 	}
 }
