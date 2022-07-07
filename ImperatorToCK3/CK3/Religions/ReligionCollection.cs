@@ -28,7 +28,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 				var religion = new Religion(religionId, religionReader);
-				Add(religion);
+				AddOrReplace(religion);
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
