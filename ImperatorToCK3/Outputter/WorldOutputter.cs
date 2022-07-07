@@ -129,6 +129,9 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "english"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "french"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "german"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "english"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "french"));
@@ -136,6 +139,9 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "russian"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "simp_chinese"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "spanish"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "russian"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "simp_chinese"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "spanish"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));
