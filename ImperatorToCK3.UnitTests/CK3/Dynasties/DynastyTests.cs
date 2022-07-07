@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.Imperator.Families;
@@ -14,12 +15,24 @@ using Xunit;
 // ReSharper disable StringLiteralTypo
 
 namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
+	[Collection("Sequential")]
+	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class DynastyTests {
 		private class CK3CharacterBuilder {
+			private const string CK3Path = "TestFiles/CK3";
+			private const string CK3Root = "TestFiles/CK3/root";
+
+			private Configuration config = new() {
+				CK3BookmarkDate = "867.1.1",
+				CK3Path = CK3Path
+			};
+
+			private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
+
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-			private ReligionMapper religionMapper = new();
+			private ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
-			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt");
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 			private ProvinceMapper provinceMapper = new();
@@ -36,7 +49,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 					provinceMapper,
 					deathReasonMapper,
 					new Date(867, 1, 1),
-					new Configuration()
+					config
 				);
 				return character;
 			}
@@ -70,6 +83,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			}
 			public CK3CharacterBuilder WithDeathReasonMapper(DeathReasonMapper deathReasonMapper) {
 				this.deathReasonMapper = deathReasonMapper;
+				return this;
+			}
+			public CK3CharacterBuilder WithConfiguration(Configuration config) {
+				this.config = config;
 				return this;
 			}
 		}

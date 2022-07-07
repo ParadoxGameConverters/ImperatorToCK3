@@ -16,7 +16,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		LoadProvinces(filePath, ck3BookmarkDate);
 	}
 
-	public void LoadProvinces(string filePath, Date ck3BookmarkDate) {
+	private void LoadProvinces(string filePath, Date ck3BookmarkDate) {
 		var parser = new Parser();
 		RegisterKeys(parser, ck3BookmarkDate);
 		parser.ParseFile(filePath);
@@ -38,28 +38,28 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public void ImportVanillaProvinces(string ck3Path, Date ck3BookmarkDate) {
 		Logger.Info("Importing Vanilla Provinces...");
 		// ---- Loading history/provinces
-		var path = Path.Combine(ck3Path, "game/history/provinces");
-		var fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
+		var provinceHistoryPath = Path.Combine(ck3Path, "game", "history", "provinces");
+		var fileNames = SystemUtils.GetAllFilesInFolderRecursive(provinceHistoryPath);
 		foreach (var fileName in fileNames) {
 			if (!fileName.EndsWith(".txt")) {
 				continue;
 			}
-			var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
-			LoadProvinces(provincesPath, ck3BookmarkDate);
+			var historyFilePath = Path.Combine(provinceHistoryPath, fileName);
+			LoadProvinces(historyFilePath, ck3BookmarkDate);
 		}
 
 		// now load the provinces that don't have unique entries in history/provinces
 		// they instead use history/province_mapping
-		path = Path.Combine(ck3Path, "game/history/province_mapping");
-		fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
+		var provinceMappingsPath = Path.Combine(ck3Path, "game", "history", "province_mapping");
+		fileNames = SystemUtils.GetAllFilesInFolderRecursive(provinceMappingsPath);
 		foreach (var fileName in fileNames) {
 			if (!fileName.EndsWith(".txt")) {
 				continue;
 			}
 
-			var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
+			var mappingsFilePath = Path.Combine(provinceMappingsPath, fileName);
 			try {
-				var newMappings = new ProvinceMappings(provinceMappingsPath);
+				var newMappings = new ProvinceMappings(mappingsFilePath);
 				foreach (var (newProvinceId, baseProvinceId) in newMappings) {
 					if (!ContainsKey(baseProvinceId)) {
 						Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
@@ -73,14 +73,21 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 					}
 				}
 			} catch (Exception e) {
-				Logger.Warn($"Invalid province filename: {provinceMappingsPath}: ({e})");
+				Logger.Warn($"Invalid province filename: {mappingsFilePath}: ({e})");
 			}
 		}
 
 		Logger.Info($"Loaded {Count} province definitions.");
 	}
 
-	public void ImportImperatorProvinces(Imperator.World impWorld, Title.LandedTitles titles, CultureMapper cultureMapper, ReligionMapper religionMapper, ProvinceMapper provinceMapper) {
+	public void ImportImperatorProvinces(
+		Imperator.World impWorld,
+		Title.LandedTitles titles,
+		CultureMapper cultureMapper,
+		ReligionMapper religionMapper,
+		ProvinceMapper provinceMapper,
+		Configuration config
+	) {
 		Logger.Info("Importing Imperator Provinces...");
 		var counter = 0;
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
@@ -96,7 +103,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				Logger.Warn($"Could not determine source province for CK3 province {province.Id}!");
 				continue; // MISMAP, or simply have mod provinces loaded we're not using.
 			}
-			province.InitializeFromImperator(sourceProvince.Value.Value, titles, cultureMapper, religionMapper);
+			province.InitializeFromImperator(sourceProvince.Value.Value, titles, cultureMapper, religionMapper, config);
 			// And finally, initialize it.
 			++counter;
 		}

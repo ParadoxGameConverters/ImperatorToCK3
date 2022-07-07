@@ -34,10 +34,11 @@ namespace ImperatorToCK3.Outputter {
 
 			var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 			var localizations = new Dictionary<string, LocBlock>();
-			foreach (var title in playerTitles) {
+			foreach (var title in playerTitles.ToList()) {
 				var holderId = title.GetHolderId(config.CK3BookmarkDate);
 				if (holderId == "0") {
 					Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
+					playerTitles.Remove(title);
 					continue;
 				}
 
@@ -45,8 +46,11 @@ namespace ImperatorToCK3.Outputter {
 
 				// Add character localization for bookmark screen.
 				localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
-				var descLocBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish");
-				localizations.Add($"bm_converted_{holder.Id}_desc", descLocBlock);
+				var descLocKey = $"bm_converted_{holder.Id}_desc";
+				var descLocBlock = new LocBlock(descLocKey, "english") {
+					["english"] = string.Empty
+				};
+				localizations.Add(descLocKey, descLocBlock);
 
 				output.WriteLine("\tcharacter = {");
 
@@ -185,7 +189,7 @@ namespace ImperatorToCK3.Outputter {
 			Rgba32 black = Color.Black;
 
 			foreach (var playerTitle in playerTitles) {
-				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(new[] { 0, 0, 0 });
+				var colorOnMap = playerTitle.Color1 ?? new commonItems.Color(0, 0, 0);
 				var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 				HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 				// Determine which impassables should be be colored by the country

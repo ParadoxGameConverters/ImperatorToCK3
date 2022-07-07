@@ -4,6 +4,7 @@ using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.CommonUtils.Genes;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters {
@@ -38,7 +39,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? CustomName { get; set; }
 
 		// Returned value indicates whether a family was linked
-		internal bool LinkFamily(FamilyCollection families, SortedSet<ulong> missingDefinitionsSet) {
+		public bool LinkFamily(FamilyCollection families, SortedSet<ulong>? missingDefinitionsSet = null) {
 			if (parsedFamilyId is null) {
 				return false;
 			}
@@ -49,7 +50,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return true;
 			}
 
-			missingDefinitionsSet.Add(familyId);
+			missingDefinitionsSet?.Add(familyId);
 			return false;
 		}
 
@@ -93,11 +94,12 @@ namespace ImperatorToCK3.Imperator.Characters {
 		}
 		public PDXBool Female { get; private set; } = new(false);
 		public double Wealth { get; private set; } = 0;
+		public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
 		public CK3.Characters.Character? CK3Character { get; set; }
 
 		public void AddYears(int years) {
-			BirthDate.ChangeByYears(-years);
+			BirthDate = BirthDate.ChangeByYears(-years);
 		}
 
 		private GenesDB? genes;
@@ -116,8 +118,11 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
 			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
 			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
-			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetPDXBool());
+			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
 			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
+			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetPDXBool());
+			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
+			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
 			parser.RegisterKeyword("birth_date", reader => {
 				var dateStr = reader.GetString();
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
@@ -129,13 +134,22 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("death", reader => parsedCharacter.DeathReason = reader.GetString());
 			parser.RegisterKeyword("age", reader => parsedCharacter.Age = (uint)reader.GetInt());
 			parser.RegisterKeyword("nickname", reader => parsedCharacter.Nickname = reader.GetString());
-			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
 			parser.RegisterKeyword("dna", reader => parsedCharacter.DNA = reader.GetString());
 			parser.RegisterKeyword("mother", reader => parsedCharacter.parsedMotherId = reader.GetULong());
 			parser.RegisterKeyword("father", reader => parsedCharacter.parsedFatherId = reader.GetULong());
 			parser.RegisterKeyword("wealth", reader => parsedCharacter.Wealth = reader.GetDouble());
-			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
-			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
+			parser.RegisterKeyword("unborn", reader => {
+				var unborns = new List<Unborn>();
+				foreach (var blob in new BlobList(reader).Blobs) {
+					var blobReader = new BufferedReader(blob);
+					var unborn = Unborn.Parse(blobReader);
+					if (unborn is null) {
+						continue;
+					}
+					unborns.Add(unborn);
+				}
+				parsedCharacter.Unborns = unborns.ToImmutableList();
+			});
 			parser.RegisterKeyword("attributes", reader => parsedCharacter.Attributes = CharacterAttributes.Parse(reader));
 			parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.parsedPrisonerHomeId = reader.GetULong());
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {

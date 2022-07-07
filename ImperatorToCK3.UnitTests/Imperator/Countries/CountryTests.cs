@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
@@ -73,9 +74,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Null(country.Monarch); // not linked yet
 			Assert.Equal("athenian", country.PrimaryCulture);
 			Assert.Equal("hellenic", country.Religion);
-			Assert.Equal(new Color(new[] { 1, 2, 3 }), country.Color1);
-			Assert.Equal(new Color(new[] { 4, 5, 6 }), country.Color2);
-			Assert.Equal(new Color(new[] { 7, 8, 9 }), country.Color3);
+			Assert.Equal(new Color(1, 2, 3), country.Color1);
+			Assert.Equal(new Color(4, 5, 6), country.Color2);
+			Assert.Equal(new Color(7, 8, 9), country.Color3);
 			Assert.Equal("dictatorship", country.Government);
 			Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
 
@@ -124,12 +125,15 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		[Fact]
 		public void CorrectGovernmentTypeIsRecognized() {
 			var config = new Configuration {
-				CK3Path = "TestFiles/CK3"
+				ImperatorPath = "TestFiles/Imperator"
 			};
+			var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 			var mods = new List<Mod> {
-				new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/CK3/mod/cool_mod"))
+				new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/Imperator/mod/cool_mod"))
 			};
-			Country.LoadGovernments(config, mods);
+			var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
+
+			Country.LoadGovernments(imperatorModFS);
 
 			var monarchyReader = new BufferedReader("government_key = super_monarchy");
 			var monarchyCountry = Country.Parse(monarchyReader, 1);

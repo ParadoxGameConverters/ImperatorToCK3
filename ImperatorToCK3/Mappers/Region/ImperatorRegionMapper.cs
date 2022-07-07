@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,17 +10,17 @@ namespace ImperatorToCK3.Mappers.Region {
 		private readonly IdObjectCollection<string, ImperatorArea> areas = new();
 
 		public ImperatorRegionMapper() { }
-		public ImperatorRegionMapper(string imperatorPath, IEnumerable<Mod> mods) {
+		public ImperatorRegionMapper(ModFilesystem imperatorModFS) {
 			Logger.Info("Initializing Imperator Geography...");
 
 			var parser = new Parser();
 
 			RegisterAreaKeys(parser);
-			parser.ParseGameFile(Path.Combine("map_data", "areas.txt"), imperatorPath, mods);
+			parser.ParseGameFile(Path.Combine("map_data", "areas.txt"), imperatorModFS);
 
 			parser.ClearRegisteredRules();
 			RegisterRegionKeys(parser);
-			parser.ParseGameFile(Path.Combine("map_data", "regions.txt"), imperatorPath, mods);
+			parser.ParseGameFile(Path.Combine("map_data", "regions.txt"), imperatorModFS);
 
 			LinkRegions();
 		}

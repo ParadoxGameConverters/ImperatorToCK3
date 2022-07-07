@@ -98,8 +98,9 @@ link = { ck3 = ethiopian imp = boran }
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
 link = { ck3 = luwian imp = carian imp = lycian imp = isaurian imp = pisidian }
+link = { ck3=cilician imp=cilician imp=kennataian imp=cennatean }
 link = { ck3 = lydian imp = lydian }
-link = { ck3 = hittite imp = lycaonian imp = cilician imp = kennataian imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
+link = { ck3=hittite imp=lycaonian imp=pamphylian imp=cappadocian imp=pontic imp=paphlagonian imp=milyadian imp=oroandian imp=cabalian imp=lalasian imp=morimenian imp=cataonian }
 link = { ck3 = phrygian imp = phrygian imp = mysian }
 #Invictus mod
 link = { ck3 = galatian imp = galatian }
@@ -120,6 +121,7 @@ link = { ck3 = gujarati imp = kaccha }
 link = { ck3 = marathi imp = rathikan }
 link = { ck3 = punjabi imp = sivi imp = purus }
 link = { ck3 = hindustani imp = kosala imp = kuru }
+link = { ck3=sinhala imp=dhivehi }
 
 ## Bactrian
 link = { ck3 = bactrian imp = bactrian imp = yuezhi }
@@ -137,7 +139,7 @@ link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Pr
 link = { ck3 = urslavic imp = aestian }
 # Invictus mod
 link = { ck3 = prussian imp = neuric }
-link = { ck3 = urslavic imp = sporic }
+link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian }
 
 
 ## Belgea (sic)
@@ -151,6 +153,8 @@ link = { ck3 = cumbrian imp = damnonian }
 link = { ck3 = welsh imp = demetian imp = ordovitian }
 link = { ck3 = brythonic imp=britannic imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
 link = { ck3 = cornish imp = dumnonian }
+# Invictus mod
+link = { ck3=brythonic imp=parisian imp=monapian }
 
 ## Caucasian
 link = { ck3 = georgian imp = albanian imp = ibero imp = colchian }
@@ -164,7 +168,7 @@ link = { ck3 = celtiberian imp = oppidanian }
 
 ## Celto Pannonian
 link = { ck3 = celtic_pannonian imp = boian imp = noric imp = celtic_pannonian imp = letobician imp = carnian imp = eravisci }
-#Invictus mod
+# Invictus mod
 link = { ck3 = celtic_pannonian imp = pannonian }
 
 ## Dacian
@@ -181,12 +185,14 @@ link = { ck3 = babylonian imp = babylonian }
 ## Gaelic
 link = { ck3 = irish imp = hibernian }
 link = { ck3 = gaelic imp = manavian }
+# Invictus mod
+link = { ck3=irish imp=ivernian imp=voluntian }
 
 ## Gallic
 link = { ck3 = gallic imp = volcae imp = salluvian imp = arverni imp = aulercian imp = pictonian imp = lemovician imp = santonian imp = carnuti imp = haedui imp = biturigan imp = lepontic imp = vindelician imp = helvetian }
 link = { ck3 = breton imp = aremorican }
 # Invictus mod
-link = { ck3 = gallic imp = cotinian }
+link = { ck3=gallic imp=cotinian imp=allobrogian imp=teurian }
 
 
 ### Germanic
@@ -376,7 +382,9 @@ link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socoss
 link = { ck3 = butr imp = libyan imp = garamantic }
 link = { ck3 = numidian imp = numidian }
 # Invictus mod
-link = { ck3 = butr imp = gyzantian imp = psyllic }
+link = { ck3=baranis imp=lixitoi imp=autolalean imp=cetianian imp=nectiberean }
+link = { ck3=butr imp=gyzantian imp=psyllic imp=nasamonian imp=perorsian imp=phazani imp=canarian imp=daphnitaean imp=macaean }
+link = { ck3=numidian imp=capariensian imp=lotophagoi imp=abannaean }
 
 ## Persia
 link = { ck3 = persian imp = carmanian imp = sagartian imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
@@ -402,13 +410,16 @@ link = { ck3 = basque imp = cantabrian imp = ilergetian imp = autrigonian imp = 
 link = { ck3 = nuragic imp = nuragic imp = corsian }
 
 ## Scythian - As a weird replacement for Turks
-link = { ck3 = avar imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci impRegion = pannonia_region impRegion = dacia_region }
+link = { ck3 = avar imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci impRegion = pannonia_region impRegion = dacia_region }
 
 ## Scythian
-link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
+link = { ck3=alan imp=roxolanian }
+link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
 link = { ck3 = khwarezmian imp = kharesmian }
 link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyrsian }
-link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci }
+link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci }
+# Invictus mod
+link = { ck3=scythian imp=khotanese imp=gelonian }
 
 ## South Levantine
 link = { ck3 = adnanite imp = thamudi imp = qedarite imp = taif } # Pre-Islamic North Arabian
@@ -423,31 +434,6 @@ link = { ck3 = bodpa imp = yarlung }
 link = { ck3 = tsangpa imp = tsang }
 
 ## West Levantine
-# Splitting according to regions - to be reworked!
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_A }
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_B }
-#link = { ck3 = ualonuth imp = carthaginian @culture_splitting_region_C }
-#link = { ck3 = sicorathi imp = carthaginian @culture_splitting_region_D @culture_splitting_region_G }
-#link = { ck3 = symacom imp = carthaginian @culture_splitting_region_E }
-#link = { ck3 = ysthyalm imp = carthaginian @culture_splitting_region_F }
-#link = { ck3 = sythchy imp = carthaginian @culture_splitting_region_H }
-#link = { ck3 = ynnocho imp = carthaginian @culture_splitting_region_I }
-#link = { ck3 = mlachthi imp = carthaginian @culture_splitting_region_J }
-#link = { ck3 = inythmum imp = carthaginian @culture_splitting_region_K }
-#link = { ck3 = gadolite imp = carthaginian @culture_splitting_region_L }
-#link = { ck3 = bythlimmoth imp = carthaginian @culture_splitting_region_M }
-#link = { ck3 = sidonian imp = carthaginian @culture_splitting_region_N }
-#link = { ck3 = pmpese imp = carthaginian @culture_splitting_region_S }
-#link = { ck3 = taliaite imp = carthaginian @culture_splitting_region_P }
-#link = { ck3 = lacanite imp = carthaginian @culture_splitting_region_Q }
-#link = { ck3 = epicrateian imp = carthaginian @culture_splitting_region_R }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_T }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_U }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_V }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_W }
-#link = { ck3 = liphocaneth imp = carthaginian @culture_splitting_region_X }
-#link = { ck3 = mysehi imp = carthaginian @culture_splitting_region_Y }
-
 link = { ck3 = carthaginian imp = carthaginian }
 link = { ck3 = phoenician imp = phoenician }
 link = { ck3 = shuadit imp = hebrew @culture_splitting_region_F }

@@ -12,7 +12,7 @@ public class ProvincePosition {
 		return positionToReturn;
 	}
 	static ProvincePosition() {
-		parser.RegisterRegex("id", reader =>
+		parser.RegisterKeyword("id", reader =>
 			positionToReturn.Id = reader.GetULong()
 		);
 		parser.RegisterKeyword("position", reader => {

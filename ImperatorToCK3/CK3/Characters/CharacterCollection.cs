@@ -8,11 +8,14 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters {
-	public class CharacterCollection : IdObjectCollection<string, Character> {
-		public void ImportImperatorCharacters(Imperator.World impWorld,
+	public partial class CharacterCollection : IdObjectCollection<string, Character> {
+		public CharacterCollection() { }
+		public void ImportImperatorCharacters(
+			Imperator.World impWorld,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
@@ -42,8 +45,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{Count} total characters recognized.");
 
 			LinkMothersAndFathers();
-			LinkSpouses();
+			LinkSpouses(endDate);
 			LinkPrisoners();
+
+			ImportPregnancies(impWorld.Characters, endDate);
 		}
 
 		private void ImportImperatorCharacter(
@@ -73,6 +78,11 @@ namespace ImperatorToCK3.CK3.Characters {
 			);
 			character.CK3Character = newCharacter;
 			Add(newCharacter);
+		}
+
+		public override void Remove(string key) {
+			this[key].BreakAllLinks(this);
+			base.Remove(key);
 		}
 
 		private void LinkMothersAndFathers() {
@@ -112,9 +122,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{motherCounter} mothers and {fatherCounter} fathers linked in CK3.");
 		}
 
-		private void LinkSpouses() {
+		private void LinkSpouses(Date conversionDate) {
 			var spouseCounter = 0;
 			foreach (var ck3Character in this) {
+				if (ck3Character.Female) {
+					continue; // we set spouses for males to avoid doubling marriages
+				}
 				// make links between Imperator characters
 				if (ck3Character.ImperatorCharacter is null) {
 					// imperatorRegnal characters do not have ImperatorCharacter
@@ -126,12 +139,50 @@ namespace ImperatorToCK3.CK3.Characters {
 						Logger.Warn($"Imperator spouse {impSpouseCharacter.Id} has no CK3 character!");
 						continue;
 					}
-					ck3Character.Spouses[ck3SpouseCharacter.Id] = ck3SpouseCharacter;
-					ck3SpouseCharacter.Spouses[ck3Character.Id] = ck3Character;
+
+					// Imperator saves don't seem to store marriage date
+					Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter);
+
+					ck3Character.AddSpouse(estimatedMarriageDate, ck3SpouseCharacter);
 					++spouseCounter;
 				}
 			}
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
+
+			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
+				// Imperator saves don't seem to store marriage date
+
+				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
+				if (birthDateOfCommonChild is not null) {
+					return birthDateOfCommonChild.ChangeByDays(-280); // we assume the child was conceived after marriage
+				}
+				if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
+					Date marriageDeathDate;
+					if (imperatorCharacter.DeathDate < imperatorSpouse.DeathDate) {
+						marriageDeathDate = imperatorCharacter.DeathDate;
+					} else {
+						marriageDeathDate = imperatorSpouse.DeathDate;
+					}
+					return marriageDeathDate.ChangeByDays(-1); // death is not a good moment to marry
+				}
+				if (imperatorCharacter.DeathDate is not null) {
+					return imperatorCharacter.DeathDate.ChangeByDays(-1);
+				}
+				return imperatorSpouse.DeathDate is not null ? imperatorSpouse.DeathDate.ChangeByDays(-1) : conversionDate;
+			}
+			Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
+				var childrenOfFather = father.Children.Values.ToHashSet();
+				var childrenOfMother = mother.Children.Values.ToHashSet();
+				var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToList();
+
+				Date? firstChildBirthDate = commonChildren.Count > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+				if (firstChildBirthDate is not null) {
+					return firstChildBirthDate;
+				}
+
+				var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToList();
+				return unborns.FirstOrDefault()?.BirthDate;
+			}
 		}
 
 		private void LinkPrisoners() {
@@ -139,20 +190,70 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 		}
 
-		public void PurgeLandlessVanillaCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
-			var landedCharacterIds = titles.GetHolderIds(ck3BookmarkDate);
-			var farewellIds = dict.Keys.Where(
-				id => !id.StartsWith("imperator") && !landedCharacterIds.Contains(id)
-			).ToHashSet();
+		private void ImportPregnancies(Imperator.Characters.CharacterCollection imperatorCharacters, Date conversionDate) {
+			Logger.Info("Importing pregnancies...");
+			foreach (var female in this.Where(c => c.Female)) {
+				var imperatorFemale = female.ImperatorCharacter;
+				if (imperatorFemale is null) {
+					continue;
+				}
+
+				foreach (var unborn in imperatorFemale.Unborns) {
+					var conceptionDate = unborn.EstimatedConceptionDate;
+
+					// in CK3 the make_pregnant effect used in character history is executed on game start, so
+					// it only makes sense to convert pregnancies that lasted around 3 months or less
+					// (longest recorded pregnancy was around 12 months)
+					var pregnancyLength = conversionDate.DiffInYears(conceptionDate);
+					if (pregnancyLength > 0.25) {
+						continue;
+					}
+
+					if (!imperatorCharacters.TryGetValue(unborn.FatherId, out var imperatorFather)) {
+						continue;
+					}
+
+					var ck3Father = imperatorFather.CK3Character;
+					if (ck3Father is null) {
+						continue;
+					}
+
+					female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate, unborn.IsBastard));
+				}
+			}
+		}
+
+		public void PurgeUnneededCharacters(Title.LandedTitles titles) {
+			Logger.Info("Purging unneeded characters...");
+			var landedCharacterIds = titles.GetAllHolderIds();
+			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id));
+			var dynastyIdsOfLandedCharacters = landedCharacters.Select(character => character.DynastyId).Distinct().ToHashSet();
+
+			var farewellIds = new List<string>();
+
+			var charactersToCheck = this.Except(landedCharacters);
+			foreach (var character in charactersToCheck) {
+				var id = character.Id;
+
+				if (character.FromImperator && !character.Dead) {
+					continue;
+				}
+
+				if (dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
+					continue;
+				}
+
+				farewellIds.Add(id);
+			}
 
 			foreach (var characterId in farewellIds) {
-				this[characterId].BreakAllLinks();
 				Remove(characterId);
 			}
-			Logger.Info($"Purged {farewellIds.Count} landless vanilla characters.");
+			Logger.Info($"Purged {farewellIds.Count} unneeded characters.");
 		}
 
 		public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
+			Logger.Info("Removing employer id from landed characters...");
 			var landedCharacterIds = titles.GetHolderIds(conversionDate);
 			foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;

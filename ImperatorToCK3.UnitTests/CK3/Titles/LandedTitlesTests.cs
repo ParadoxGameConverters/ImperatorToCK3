@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
@@ -14,7 +15,9 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
@@ -131,7 +134,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void GovernorshipsCanBeRecognizedAsCountyLevel() {
-			var imperatorWorld = new ImperatorToCK3.Imperator.World();
+			var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
+			var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+
 			imperatorWorld.Provinces.Add(new Province(1));
 			imperatorWorld.Provinces.Add(new Province(2));
 			imperatorWorld.Provinces.Add(new Province(3));
@@ -143,9 +148,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var impRegionMapper = new ImperatorRegionMapper("TestFiles/LandedTitlesTests/Imperator", new List<Mod>());
+			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
+			var ck3RegionMapper = new CK3RegionMapper();
 
 			var reader = new BufferedReader(
 				"who=589 " +
@@ -173,8 +179,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				)
 			);
 			var locDB = new LocDB("english");
-			var religionMapper = new ReligionMapper();
-			var cultureMapper = new CultureMapper(impRegionMapper, new CK3RegionMapper());
+			var religionMapper = new ReligionMapper(impRegionMapper, ck3RegionMapper);
+			var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 			var coaMapper = new CoaMapper();
 			var definiteFormMapper = new DefiniteFormMapper();
 			var traitMapper = new TraitMapper();
@@ -184,10 +190,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			// Import Imperator governor.
 			var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
-			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, conversionDate);
+			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, config);
 
 			// Import country 589.
-			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate);
+			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config);
 			Assert.Collection(titles,
 				title => Assert.Equal("c_county1", title.Id),
 				title => Assert.Equal("b_barony1", title.Id),
@@ -199,7 +205,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 
 			var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
-			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper);
+			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 
@@ -307,6 +313,88 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
 
 			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2 - sqrt(25)
+		}
+
+		[Fact]
+		public void DerivedColorsHaveCorrectComponents() {
+			var titles = new Title.LandedTitles();
+			var baseColor = new Color(0.2, 0.3, 0.4);
+
+			var baseTitle = titles.Add("e_base");
+			baseTitle.Color1 = baseColor;
+
+			var derivedTitle1 = titles.Add("k_derived1");
+			var derivedColor1 = titles.GetDerivedColor(baseColor);
+			derivedTitle1.Color1 = derivedColor1;
+
+			var derivedTitle2 = titles.Add("k_derived2");
+			var derivedColor2 = titles.GetDerivedColor(baseColor);
+			derivedTitle2.Color1 = derivedColor2;
+
+			Assert.Equal(baseColor.H, derivedColor1.H);
+			Assert.Equal(baseColor.S, derivedColor1.S);
+			Assert.NotEqual(baseColor.V, derivedColor1.V);
+
+			Assert.Equal(baseColor.H, derivedColor2.H);
+			Assert.Equal(baseColor.S, derivedColor2.S);
+			Assert.NotEqual(baseColor.V, derivedColor2.V);
+
+			Assert.NotEqual(derivedColor1.V, derivedColor2.V);
+		}
+
+		[Fact]
+		public void WarningIsLoggedWhenColorCanNotBeDerived() {
+			var titles = new Title.LandedTitles();
+			var baseColor = new Color(0.2, 0.3, 0.4);
+			var baseTitle = titles.Add("e_base");
+			baseTitle.Color1 = baseColor;
+
+			for (double v = 0; v <= 1; v += 0.01) {
+				var color = new Color(baseColor.H, baseColor.S, v);
+				var title = titles.Add($"k_{color.OutputHex()}");
+				title.Color1 = color;
+			}
+
+			var logWriter = new StringWriter();
+			Console.SetOut(logWriter);
+			_ = titles.GetDerivedColor(baseColor);
+			Assert.Contains("Couldn't generate new color from base", logWriter.ToString());
+		}
+
+		[Fact]
+		public void HistoryCanBeLoadedFromInitialValues() {
+			var date = new Date(867, 1, 1);
+			var config = new Configuration {
+				CK3BookmarkDate = date,
+				CK3Path = "TestFiles/LandedTitlesTests/CK3"
+			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
+
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_rome");
+
+			titles.LoadHistory(config, ck3ModFS);
+
+			Assert.Equal("67", title.GetHolderId(date));
+			Assert.Equal("e_italia", title.GetLiege(date));
+		}
+
+		[Fact]
+		public void HistoryIsLoadedFromDatedBlocks() {
+			var date = new Date(867, 1, 1);
+			var config = new Configuration {
+				CK3BookmarkDate = date,
+				CK3Path = "TestFiles/LandedTitlesTests/CK3"
+			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
+
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_greece");
+
+			titles.LoadHistory(config, ck3ModFS);
+
+			Assert.Equal("420", title.GetHolderId(date));
+			Assert.Equal(20, title.GetDevelopmentLevel(date));
 		}
 	}
 }

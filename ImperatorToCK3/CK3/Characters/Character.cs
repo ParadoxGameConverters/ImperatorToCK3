@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -14,13 +15,14 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
 		public string Id { get; }
-		public bool Female { get; private set; }
-		public string Culture { get; private set; } = string.Empty;
-		public string Religion { get; private set; } = string.Empty;
-		public string Name { get; private set; }
-		public string? Nickname { get; private set; }
+		public bool FromImperator { get; } = false;
+		public bool Female { get; init; }
+		public string Culture { get; set; } = string.Empty;
+		public string Religion { get; set; } = string.Empty;
+		public string Name { get; set; }
+		public string? Nickname { get; set; }
 
-		public uint Age { get; private set; } // used when option to convert character age is chosen
+		public uint Age { get; private set; }
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
@@ -29,12 +31,12 @@ namespace ImperatorToCK3.CK3.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public Date BirthDate { get; private set; }
-		public Date? DeathDate { get; private set; }
-		public string? DeathReason { get; private set; }
+		public Date BirthDate { get; set; }
+		public Date? DeathDate { get; set; }
+		public string? DeathReason { get; set; }
 		public bool Dead => DeathDate is not null;
+		public List<Pregnancy> Pregnancies { get; } = new();
 
-		public SortedSet<string> Traits { get; } = new();
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
@@ -42,6 +44,29 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
+		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
+			//.WithSimpleField("name", "name", null)
+			//.WithSimpleField("female", "female", null)
+			//.WithSimpleField("dynasty", "dynasty", null)
+			//.WithSimpleField("martial", "martial", null)
+			//.WithSimpleField("diplomacy", "diplomacy", null)
+			//.WithSimpleField("intrigue", "intrigue", null)
+			//.WithSimpleField("stewardship", "stewardship", null)
+			//.WithSimpleField("culture", "culture", null)
+			//.WithSimpleField("religion", "religion", null)
+			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
+			//.WithSimpleField("dna", "dna", null)
+			//.WithSimpleField("mother", "mother", null)
+			//.WithSimpleField("father", "father", null)
+			.WithDiffField("spouses", new() { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
+			.Build();
+		public History History { get; } = historyFactory.GetHistory();
+
+		public Character(string id, string name, Date birthDate) {
+			Id = id;
+			Name = name;
+			BirthDate = birthDate;
+		}
 		public Character(
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
@@ -50,28 +75,31 @@ namespace ImperatorToCK3.CK3.Characters {
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
-			ProvinceMapper provinceMapper
+			ProvinceMapper provinceMapper,
+			Configuration config
 		) {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			FromImperator = true;
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
 				var impNameLoc = locDB.GetLocBlockForKey(Name);
 				if (impNameLoc is not null) {
 					Localizations.Add(Name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+					Localizations.Add(Name, new LocBlock(Name, "english") {
 						["english"] = Name,
-						["french"] = Name,
-						["german"] = Name,
-						["russian"] = Name,
-						["simp_chinese"] = Name,
-						["spanish"] = Name
 					});
 				}
 			}
 
-			BirthDate = new Date(0, 1, 1);
-			DeathDate = new Date(0, 1, 30);
+			BirthDate = preImperatorRuler.BirthDate!;
+			if (BirthDate.Year < 1) {
+				BirthDate = BirthDate.ChangeByYears(-1);
+			}
+			DeathDate = preImperatorRuler.DeathDate!;
+			if (DeathDate.Year < 1) {
+				DeathDate = DeathDate.ChangeByYears(-1);
+			}
 
 			// determine culture and religion
 			ulong ck3Province = 0;
@@ -87,7 +115,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (srcReligion is not null) {
-				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince);
+				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, config);
 				if (religionMatch is not null) {
 					Religion = religionMatch;
 				}
@@ -118,15 +146,15 @@ namespace ImperatorToCK3.CK3.Characters {
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
 			Id = "imperator" + ImperatorCharacter.Id;
+			FromImperator = true;
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
 				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
 
-				var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+				var locBlock = new LocBlock(Name, "english") {
 					["english"] = loc
 				};
-				locBlock.FillMissingLocWithBaseLanguageLoc();
 				Localizations.Add(Name, locBlock);
 			} else {
 				var nameLoc = ImperatorCharacter.Name;
@@ -136,10 +164,9 @@ namespace ImperatorToCK3.CK3.Characters {
 					if (matchedLocBlock is not null) {
 						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						var locBlock = new LocBlock("english", "french", "german", "russian", "simp_chinese", "spanish") {
+						var locBlock = new LocBlock(Name, "english") {
 							["english"] = nameLoc
 						};
-						locBlock.FillMissingLocWithBaseLanguageLoc();
 						Localizations.Add(Name, locBlock);
 					}
 				}
@@ -170,7 +197,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			// determine CK3 province for religionMapper
 			ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
 
-			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId);
+			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, config);
 			if (match is not null) {
 				Religion = match;
 			}
@@ -188,11 +215,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				Culture = match;
 			}
 
-			foreach (var impTrait in ImperatorCharacter.Traits) {
-				var traitMatch = traitMapper.GetCK3TraitForImperatorTrait(impTrait);
-				if (traitMatch is not null) {
-					Traits.Add(traitMatch);
-				}
+			foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
+				History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
 			}
 
 			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
@@ -201,12 +225,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			BirthDate = ImperatorCharacter.BirthDate;
-			if (BirthDate.Year < 0) {
-				BirthDate = new Date(0, 1, 1);
+			if (BirthDate.Year < 1) {
+				BirthDate = BirthDate.ChangeByYears(-1);
 			}
 			DeathDate = ImperatorCharacter.DeathDate;
-			if (DeathDate?.Year < 0) {
-				DeathDate = new Date(0, 12, 31);
+			if (DeathDate?.Year < 1) {
+				DeathDate = DeathDate.ChangeByYears(-1);
 			}
 			var impDeathReason = ImperatorCharacter.DeathReason;
 			if (impDeathReason is not null) {
@@ -243,19 +267,38 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		public void BreakAllLinks() {
+		public void BreakAllLinks(CharacterCollection characters) {
 			Mother?.RemoveChild(Id);
 			RemoveMother();
 			Father?.RemoveChild(Id);
 			RemoveFather();
-			foreach (var (spouseId, spouse) in Spouses) {
-				if (spouse is null) {
-					Logger.Warn($"Spouse {spouseId} of {Id} is null!");
-					continue;
+
+			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
+				foreach (var (_, value) in spousesHistory.InitialEntries) {
+					var spouseId = value.ToString();
+					if (spouseId is null) {
+						continue;
+					}
+					if (characters.TryGetValue(spouseId, out var spouse)) {
+						spouse.RemoveSpouse(Id);
+					}
 				}
-				spouse.RemoveSpouse(Id);
+				foreach (var entriesList in spousesHistory.DateToEntriesDict.Values) {
+					foreach (var (_, value) in entriesList) {
+						var spouseId = value.ToString();
+						if (spouseId is null) {
+							continue;
+						}
+						if (characters.TryGetValue(spouseId, out var spouse)) {
+							spouse.RemoveSpouse(Id);
+						}
+					}
+				}
+
+				spousesHistory.InitialEntries.Clear();
+				spousesHistory.DateToEntriesDict.Clear();
 			}
-			Spouses.Clear();
+
 			if (Female) {
 				foreach (var (childId, child) in Children) {
 					if (child is null) {
@@ -281,8 +324,16 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
+		public OrderedSet<object>? GetSpouseIds(Date date) {
+			return History.GetFieldValueAsCollection("spouses", date);
+		}
+		public void AddSpouse(Date date, Character spouse) {
+			History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
+		}
 		private void RemoveSpouse(string spouseId) {
-			Spouses.Remove(spouseId);
+			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
+				spousesHistory.RemoveAll(value => (value.ToString() ?? string.Empty).Equals(spouseId));
+			}
 		}
 
 		private void RemoveFather() {
@@ -322,7 +373,6 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 		public Dictionary<string, Character?> Children { get; set; } = new();
-		public Dictionary<string, Character?> Spouses { get; set; } = new();
 
 		public string? DynastyId { get; set; } // not always set
 
