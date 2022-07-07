@@ -1,6 +1,12 @@
 test_religion = {
 	faiths = {
-		ck3Faith={}
+		ck3Faith={
+		    holy_site = holy_site_1
+		    holy_site = holy_site_2
+		    holy_site = holy_site_3
+		    holy_site = holy_site_4
+		    holy_site = holy_site_5
+		}
 		ck3Faith2={}
 	}
 }

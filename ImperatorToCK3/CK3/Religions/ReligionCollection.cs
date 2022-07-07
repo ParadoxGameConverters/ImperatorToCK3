@@ -12,7 +12,13 @@ namespace ImperatorToCK3.CK3.Religions;
 
 public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
-	public IdObjectCollection<string, HolySite> HolySites { get; }
+	public IdObjectCollection<string, HolySite> HolySites { get; } = new();
+
+	public IEnumerable<Faith> Faiths {
+		get {
+			return this.SelectMany(r => r.Faiths);
+		}
+	}
 
 	public void LoadReligions(string religionsFolderPath) {
 		Logger.Info($"Loading religions from {religionsFolderPath}...");
@@ -87,18 +93,63 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		return null;
 	}
 
+	private static Title? GetHolySiteBarony(HolySite holySite, Title.LandedTitles titles) {
+		if (holySite.BaronyId is not null) {
+			return titles[holySite.BaronyId];
+		}
+
+		if (holySite.CountyId is null) {
+			return null;
+		}
+
+		var capitalBaronyProvince = titles[holySite.CountyId].CapitalBaronyProvince;
+		if (capitalBaronyProvince is not null) {
+			return titles.GetBaronyForProvince((ulong)capitalBaronyProvince);
+		}
+
+		return null;
+	}
+
 	public void DetermineHolySites(ProvinceCollection ck3Provinces, Title.LandedTitles titles) {
 		var provincesByFaith = GetProvincesByFaith(ck3Provinces);
 		
-		foreach (var religion in this) {
-			foreach (var faith in religion.Faiths) {
-				if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
+		foreach (var faith in Faiths) {
+			if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
+				continue;
+			}
+			Logger.Info($"Determining holy sites for faith {faith.Id}...");
+			
+			var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
+			foreach (var holySiteId in faith.HolySiteIds.ToList()) {
+				if (!HolySites.TryGetValue(holySiteId, out var holySite)) {
+					Logger.Warn($"Holy site with ID {holySiteId} not found!");
 					continue;
 				}
-				
-				var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
-				foreach (var replaceableSiteId in replaceableSiteIds) {
-					//var barony = rep
+
+				var holySiteBarony = GetHolySiteBarony(holySite, titles);
+				if (holySiteBarony is not null && dynamicHolySiteBaronies.Contains(holySiteBarony)) {
+					// One of dynamic holy site baronies is same as an exising holy site's barony.
+					// We need to avoid faith having two holy sites in one barony.
+					
+					if (replaceableSiteIds.Contains(holySiteId)) {
+						var newHolySiteInSameBarony = new HolySite(holySiteBarony, faith, titles);
+						HolySites.Add(newHolySiteInSameBarony);
+						
+						faith.HolySiteIds.Remove(holySiteId);
+						faith.HolySiteIds.Add(newHolySiteInSameBarony.Id);
+					}
+					dynamicHolySiteBaronies.Remove(holySiteBarony);
+				} else if (!replaceableSiteIds.Contains(holySiteId)) {
+					continue;
+				} else if (dynamicHolySiteBaronies.Any()) {
+					var selectedDynamicBarony = dynamicHolySiteBaronies[0];
+					dynamicHolySiteBaronies.Remove(selectedDynamicBarony);
+
+					var replacementSite = new HolySite(selectedDynamicBarony, faith, titles);
+					HolySites.Add(replacementSite);
+
+					faith.HolySiteIds.Remove(holySiteId);
+					faith.HolySiteIds.Add(replacementSite.Id);
 				}
 			}
 		}
