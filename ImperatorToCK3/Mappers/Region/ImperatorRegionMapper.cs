@@ -14,13 +14,19 @@ namespace ImperatorToCK3.Mappers.Region {
 			Logger.Info("Initializing Imperator Geography...");
 
 			var parser = new Parser();
-
+			
+			const string areasFilePath = "map_data/areas.txt";
+			Logger.Debug($"Imperator areas file location: {imperatorModFS.GetActualFileLocation(areasFilePath)}");
+			
 			RegisterAreaKeys(parser);
-			parser.ParseGameFile(Path.Combine("map_data", "areas.txt"), imperatorModFS);
-
+			parser.ParseGameFile(areasFilePath, imperatorModFS);
 			parser.ClearRegisteredRules();
+
+			const string regionsFilePath = "map_data/regions.txt";
+			Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
+			
 			RegisterRegionKeys(parser);
-			parser.ParseGameFile(Path.Combine("map_data", "regions.txt"), imperatorModFS);
+			parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
 			LinkRegions();
 		}
