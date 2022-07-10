@@ -49,8 +49,8 @@ link = { imp = media_region ck3 = d_daylam rank = d }
 link = { imp = parthia_region ck3 = k_khorasan rank = k }
 link = { imp = parthia_region ck3 = d_nishapur rank = d }
 
-link = { imp = gedrosia_region ck3 = k_makran rank = d }
-link = { imp = gedrosia_region ck3 = d_makran rank = k }
+link = { imp = gedrosia_region ck3 = k_makran rank = k }
+link = { imp = gedrosia_region ck3 = d_makran rank = d }
 
 link = { imp = asia_region ck3 = d_ephese rank = d }
 
@@ -105,7 +105,10 @@ link = { imp = aparanta_region ck3 = k_maharastra rank = k }
 link = { imp = aparanta_region ck3 = d_lata rank = d }
 
 link = { imp = germania_region ck3 = k_saxony rank = k }
-link = { imp = germania_region ck3 = d_westfalen rank = k }
+link = { imp = germania_region ck3 = d_westfalen rank = d }
+
+link = { imp = germania_magna_region ck3 = k_saxony rank = k }
+link = { imp = germania_magna_region ck3 = d_westfalen rank = d }
 
 link = { imp = transalpine_gaul_region ck3 = k_burgundy rank = k }
 link = { imp = transalpine_gaul_region ck3 = d_burgundy rank = d }
@@ -129,16 +132,22 @@ link = { imp = thrace_region ck3 = d_thrace rank = d }
 link = { imp = moesia_region ck3 = k_bulgaria rank = k }
 link = { imp = moesia_region ck3 = d_turnovo rank = d }
 
+link = { imp = moesia_s_region ck3 = k_serbia rank = k }
+link = { imp = moesia_s_region ck3 = d_rashka rank = d }
+
 link = { imp = dacia_region ck3 = k_dacia rank = k }
 link = { imp = dacia_region ck3 = d_transylvania rank = d }
 
 link = { imp = colchis_region ck3 = d_georgia rank = d }
 
 link = { imp = armenia_region ck3 = k_armenian_principality rank = k }
-link = { imp = armenia_region ck3 = d_greater_armenia rank = k }
+link = { imp = armenia_region ck3 = d_greater_armenia rank = d }
 
 link = { imp = bohemia_area ck3 = k_bohemia rank = k }
 link = { imp = bohemia_area ck3 = d_bohemia rank = d }
+
+link = { imp = bohemia_region ck3 = k_bohemia rank = k }
+link = { imp = bohemia_region ck3 = d_bohemia rank = d }
 
 link = { imp = vistulia_region ck3 = k_galicia-volhynia rank = k }
 link = { imp = vistulia_region ck3 = d_lesser_poland rank = d }
