@@ -142,9 +142,6 @@ namespace ImperatorToCK3.CK3.Characters {
 
 					// Imperator saves don't seem to store marriage date
 					Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter);
-					if (estimatedMarriageDate.Year < 1) {
-						estimatedMarriageDate = estimatedMarriageDate.ChangeByYears(-1);
-					}
 
 					ck3Character.AddSpouse(estimatedMarriageDate, ck3SpouseCharacter);
 					++spouseCounter;
