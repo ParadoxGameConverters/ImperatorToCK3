@@ -43,7 +43,7 @@
 ## F:
 @culture_splitting_region_F = "impRegion = aquitaine_region impRegion = transalpine_gaul_region"
 ## G:
-@culture_splitting_region_G = "impRegion = germania_superior_region impRegion = belgica_region impRegion = germania_region impRegion = bohemia_area"
+@culture_splitting_region_G = "impRegion=germania_superior_region impRegion=belgica_region impRegion=germania_region impRegion=bohemia_area impRegion=bohemia_region impRegion=germania_magna_region"
 ## H:
 @culture_splitting_region_H = "impRegion = venedia_region"
 ## I:
@@ -53,7 +53,7 @@
 @culture_splitting_region_J2 = "impRegion=pannonia_terminus_area impRegion=transcarpathia_occidentalis_area impRegion=carnuntia_area impRegion=dacia_region"
 @culture_splitting_region_J = "@culture_splitting_region_J1 @culture_splitting_region_J2"
 ## K:
-@culture_splitting_region_K1 = "impRegion = moesia_region impRegion = thrace_region impRegion = macedonia_region"
+@culture_splitting_region_K1 = "impRegion=moesia_region impRegion=moesia_s_region impRegion=thrace_region impRegion=macedonia_region"
 @culture_splitting_region_K2 = "impRegion = vistulia_region impRegion = sarmatia_europea_region"
 @culture_splitting_region_K = "@culture_splitting_region_K1 @culture_splitting_region_K2"
 ## L:
