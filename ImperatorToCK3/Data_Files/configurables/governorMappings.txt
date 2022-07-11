@@ -110,9 +110,6 @@ link = { imp = germania_region ck3 = d_westfalen rank = d }
 link = { imp = germania_magna_region ck3 = k_saxony rank = k }
 link = { imp = germania_magna_region ck3 = d_westfalen rank = d }
 
-link = { imp = transalpine_gaul_region ck3 = k_burgundy rank = k }
-link = { imp = transalpine_gaul_region ck3 = d_burgundy rank = d }
-
 link = { imp = gallaecia_region ck3 = k_spanish_galicia rank = k }
 link = { imp = gallaecia_region ck3 = d_galicia rank = d }
 
