@@ -90,8 +90,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal("Alexander", ruler.Name);
 
 			var ck3Character = ck3Characters["imperatorRegnalSPAAlexander504.1.1BC"];
-			Assert.Equal(new Date(-555, 1, 1), ck3Character.BirthDate);
-			Assert.Equal(new Date(-455, 1, 1), ck3Character.DeathDate);
+			Assert.Equal("-554.1.1", ck3Character.BirthDate);
+			Assert.Equal("-454.1.1", ck3Character.DeathDate);
 			Assert.Equal("Alexander", ck3Character.Name);
 			Assert.Equal("dull", ck3Character.Nickname);
 			Assert.Equal("greek", ck3Character.Culture);

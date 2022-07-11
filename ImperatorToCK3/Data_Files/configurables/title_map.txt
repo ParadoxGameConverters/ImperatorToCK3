@@ -115,6 +115,7 @@ link = { imp = RGG ck3 = k_pomerania rank = k }
 link = { imp = IVE ck3 = k_ireland rank = k }
 
 # Extra Baltic
-link = { imp = VND ck3 = k_winideheim rank = k }
 link = { imp = VND ck3 = e_wendish_empire rank = e }
+link = { imp = VND ck3 = k_winideheim rank = k }
+link = { imp = VND ck3 = k_sorbia rank = k }
 link = { imp = AES ck3 = k_esthonia rank = k }

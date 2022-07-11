@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.6.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
 
 # Called from code after history generation
 # Empty scope
@@ -44,7 +44,6 @@ on_game_start = {
 				}
 			}
 		}
-		
 		religion:christianity_religion = {
 			every_faith = {
 				every_holy_site = {
@@ -81,8 +80,7 @@ on_game_start = {
 					}
 				}
 			}
-		}
-		
+		}		
 		every_religion_global = {
 			limit = {
 				is_in_family = rf_pagan
@@ -100,7 +98,6 @@ on_game_start = {
 				}
 			}
 		}
-		
 		every_religion_global = {
 			every_faith = {
 				every_holy_site = {
