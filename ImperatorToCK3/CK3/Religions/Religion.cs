@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
-public class Religion : IIdentifiable<string> {
-	public string Id { get; }
+public class Religion : IIdentifiable<string>, IPDXSerializable {
+	[NonSerialized] public string Id { get; }
 
 	public Religion(string id, BufferedReader religionReader) {
 		Id = id;
