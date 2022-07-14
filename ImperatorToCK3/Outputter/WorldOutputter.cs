@@ -32,8 +32,8 @@ namespace ImperatorToCK3.Outputter {
 				ck3World.LandedTitles
 			);
 
-			Logger.Info("Writing holy sites...");
 			ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
+			ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
 
 			Logger.Info("Writing Succession Triggers...");
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);

@@ -7,6 +7,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 public class Faith : IIdentifiable<string> {
 	public string Id { get; }
+	public bool ModifiedByConverter { get; set; } = false;
 
 	public Faith(string id, BufferedReader faithReader) {
 		Id = id;

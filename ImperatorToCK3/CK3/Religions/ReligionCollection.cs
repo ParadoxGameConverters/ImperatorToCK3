@@ -137,6 +137,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 						
 						faith.HolySiteIds.Remove(holySiteId);
 						faith.HolySiteIds.Add(newHolySiteInSameBarony.Id);
+						faith.ModifiedByConverter = true;
 					}
 					dynamicHolySiteBaronies.Remove(holySiteBarony);
 				} else if (!replaceableSiteIds.Contains(holySiteId)) {
@@ -150,6 +151,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 					faith.HolySiteIds.Remove(holySiteId);
 					faith.HolySiteIds.Add(replacementSite.Id);
+					faith.ModifiedByConverter = true;
 				}
 			}
 		}

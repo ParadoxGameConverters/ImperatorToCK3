@@ -1,3 +1,4 @@
+using commonItems;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Religions;
 using System.IO;
@@ -7,6 +8,8 @@ namespace ImperatorToCK3.Outputter;
 
 public static class ReligionsOutputter {
 	public static void OutputHolySites(string outputModName, ReligionCollection ck3ReligionCollection) {
+		Logger.Info("Writing holy sites...");
+		
 		var outputPath = Path.Combine("output", outputModName, "common", "religion", "holy_sites", "IRtoCK3_sites.txt");
 
 		using var outputStream = File.OpenWrite(outputPath);
@@ -63,6 +66,20 @@ public static class ReligionsOutputter {
 			russianLocWriter.WriteLine(holySiteEffectLocLine);
 			simpChineseLocWriter.WriteLine(holySiteEffectLocLine);
 			spanishLocWriter.WriteLine(holySiteEffectLocLine);
+		}
+	}
+
+	public static void OutputModifiedReligions(string outputModName, ReligionCollection ck3ReligionCollection) {
+		Logger.Info("Writing modified religions...");
+		
+		var religionsToBeOutput = ck3ReligionCollection.Where(r => r.Faiths.Any(f => f.ModifiedByConverter));
+		
+		var outputPath = Path.Combine("output", outputModName, "common", "religion", "religions", "zzz_IRtoCK3_modified_religions.txt");
+		using var outputStream = File.OpenWrite(outputPath);
+		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+
+		foreach (var religion in religionsToBeOutput) {
+			output.WriteLine($"{religion.Id}={PDXSerializer.Serialize(religion)}");
 		}
 	}
 }
