@@ -53,10 +53,12 @@ namespace ImperatorToCK3.CK3 {
 			locDB.ScrapeLocalizations(impWorld.ModFS);
 			
 			// Load CK3 religions from game and blankMod
+			var blankModReligionPath = Path.Join("blankMod", "output","common", "religion", "religions");
 			Religions.LoadHolySites(ck3ModFS);
+			Religions.LoadHolySites(Path.Combine(blankModReligionPath, "holy_sites"));
 			Religions.LoadReligions(ck3ModFS);
-			var blankModReligionsPath = Path.Join("blankMod", "output","common", "religion", "religions");
-			Religions.LoadReligions(blankModReligionsPath);
+			Religions.LoadReligions(Path.Combine(blankModReligionPath, "religions"));
+			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
 			// Load Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(impWorld.ModFS);

@@ -1,11 +1,13 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
-public class Faith : IIdentifiable<string> {
+public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public bool ModifiedByConverter { get; set; } = false;
 
@@ -22,4 +24,28 @@ public class Faith : IIdentifiable<string> {
 
 	public OrderedSet<string> HolySiteIds { get; } = new();
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
+
+	public string Serialize(String indent, Boolean withBraces) {
+		var contentIndent = indent;
+		if (withBraces) {
+			contentIndent += '\t';
+		}
+		
+		var sb = new StringBuilder();
+		if (withBraces) {
+			sb.AppendLine("{");
+		}
+
+		foreach (var holySiteId in HolySiteIds) {
+			sb.AppendLine($"holy_site={holySiteId}");
+		}
+
+		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent, withBraces: false));
+
+		if (withBraces) {
+			sb.Append(indent).Append('}');
+		}
+
+		return sb.ToString();
+	}
 }

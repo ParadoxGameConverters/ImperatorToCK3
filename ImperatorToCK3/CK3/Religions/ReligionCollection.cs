@@ -20,17 +20,20 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 	}
 
+	private void RegisterReligionsKeywords(Parser parser) {
+		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
+			var religion = new Religion(religionId, religionReader);
+			AddOrReplace(religion);
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+	}
 	public void LoadReligions(string religionsFolderPath) {
 		Logger.Info($"Loading religions from {religionsFolderPath}...");
 		
 		var files = SystemUtils.GetAllFilesInFolderRecursive(religionsFolderPath);
 		foreach (var file in files) {
 			var parser = new Parser();
-			parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-				var religion = new Religion(religionId, religionReader);
-				AddOrReplace(religion);
-			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			RegisterReligionsKeywords(parser);
 
 			var filePath = Path.Combine(religionsFolderPath, file);
 			parser.ParseFile(filePath);
@@ -40,22 +43,34 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		Logger.Info("Loading religions from CK3 game and mods...");
 
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-			Add(new Religion(religionId, religionReader));
-		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		RegisterReligionsKeywords(parser);
 
 		parser.ParseGameFolder("common/religion/religions", ck3ModFs, "txt", recursive: true);
 	}
 
-	public void LoadHolySites(ModFilesystem ck3ModFs) {
-		Logger.Info("Loading CK3 holy sites");
-
-		var parser = new Parser();
+	private void RegisterHolySitesKeywords(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (holySiteReader, holySiteId) => {
 			HolySites.Add(new HolySite(holySiteId, holySiteReader));
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+	}
+	public void LoadHolySites(string holySitesFolderPath) {
+		Logger.Info($"Loading holy sites from {holySitesFolderPath}...");
+		
+		var files = SystemUtils.GetAllFilesInFolderRecursive(holySitesFolderPath);
+		foreach (var file in files) {
+			var parser = new Parser();
+			RegisterHolySitesKeywords(parser);
+
+			var filePath = Path.Combine(holySitesFolderPath, file);
+			parser.ParseFile(filePath);
+		}
+	}
+	public void LoadHolySites(ModFilesystem ck3ModFs) {
+		Logger.Info("Loading CK3 holy sites...");
+
+		var parser = new Parser();
+		RegisterHolySitesKeywords(parser);
 
 		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFs, "txt", recursive: true);
 	}
