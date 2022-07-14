@@ -2,11 +2,12 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
 public class Religion : IIdentifiable<string>, IPDXSerializable {
-	[NonSerialized] public string Id { get; }
+	public string Id { get; }
 
 	public Religion(string id, BufferedReader religionReader) {
 		Id = id;
@@ -26,6 +27,30 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		religionParser.ParseStream(religionReader);
 	}
 
-	[SerializedName("faiths")] public IdObjectCollection<string, Faith> Faiths { get; } = new();
-	[SerializeOnlyValue] private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
+	public IdObjectCollection<string, Faith> Faiths { get; } = new();
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
+	
+	public string Serialize(string indent, bool withBraces) {
+		var contentIndent = indent;
+		if (withBraces) {
+			contentIndent += '\t';
+		}
+		
+		var sb = new StringBuilder();
+		if (withBraces) {
+			sb.AppendLine("{");
+		}
+
+		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent+'\t', withBraces: false));
+
+		sb.Append(contentIndent).AppendLine("faiths={");
+		sb.AppendLine(PDXSerializer.Serialize(Faiths, contentIndent+'\t'));
+		sb.Append(contentIndent).AppendLine("}");
+
+		if (withBraces) {
+			sb.Append(indent).Append('}');
+		}
+
+		return sb.ToString();
+	}
 }

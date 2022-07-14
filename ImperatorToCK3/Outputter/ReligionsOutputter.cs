@@ -79,7 +79,7 @@ public static class ReligionsOutputter {
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
 		foreach (var religion in religionsToBeOutput) {
-			output.WriteLine($"{religion.Id}={PDXSerializer.Serialize(religion)}");
+			output.WriteLine($"{religion.Id}={PDXSerializer.Serialize(religion, indent: "\t")}");
 		}
 	}
 }

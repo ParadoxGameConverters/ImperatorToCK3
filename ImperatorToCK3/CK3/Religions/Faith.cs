@@ -25,7 +25,7 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public OrderedSet<string> HolySiteIds { get; } = new();
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
 
-	public string Serialize(String indent, Boolean withBraces) {
+	public string Serialize(string indent, bool withBraces) {
 		var contentIndent = indent;
 		if (withBraces) {
 			contentIndent += '\t';
@@ -37,7 +37,7 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		foreach (var holySiteId in HolySiteIds) {
-			sb.AppendLine($"holy_site={holySiteId}");
+			sb.Append(contentIndent).AppendLine($"holy_site={holySiteId}");
 		}
 
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent, withBraces: false));
