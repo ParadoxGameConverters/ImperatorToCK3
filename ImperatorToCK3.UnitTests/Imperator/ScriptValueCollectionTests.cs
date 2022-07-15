@@ -5,13 +5,14 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator; 
 
-public class ScriptValuesReaderTests {
+public class ScriptValueCollectionTests {
 	[Fact]
 	public void ScriptValuesAreReadFromGameAndMods() {
 		const string imperatorRoot = "TestFiles/Imperator/game";
 		var mods = new List<Mod> { new("mod1", "TestFiles/documents/Imperator/mod/cool_mod") };
 		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
-		var values = ScriptValuesReader.GetScriptValues(imperatorModFS);
+		var values = new ScriptValueCollection();
+		values.LoadScriptValues(imperatorModFS);
 		
 		Assert.Equal(5, values.Count);
 		Assert.Equal(0.4f, values["value1"]);

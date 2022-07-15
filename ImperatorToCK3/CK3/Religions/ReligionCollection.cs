@@ -3,6 +3,8 @@ using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -125,12 +127,46 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		return null;
 	}
 
+	private Imperator.Provinces.Province? GetImperatorProvinceForBarony(Title barony, ProvinceCollection ck3Provinces) {
+		var provinceId = barony.Province;
+		if (provinceId is null) {
+			return null;
+		}
+		if (!ck3Provinces.TryGetValue((ulong)provinceId, out var province)) {
+			return null;
+		}
+		return province.ImperatorProvince;
+	}
+
+	private Imperator.Religions.Religion GetImperatorReligionForImperatorProvince(Imperator.Provinces.Province imperatorProvince, Imperator.Religions.ReligionCollection imperatorReligions) {
+		return imperatorReligions[imperatorProvince.Religion];
+	}
+
+	private Imperator.Religions.Deity? GetImperatorDeityForImperatorProvince(Imperator.Provinces.Province imperatorProvince) {
+		
+	}
+
+	private HolySite GenerateHolySiteForBarony(Title barony, Faith ck3Faith, Title.LandedTitles titles, ProvinceCollection ck3Provinces, Imperator.Religions.ReligionCollection imperatorReligions) {
+		var imperatorProvince = GetImperatorProvinceForBarony(barony, ck3Provinces);
+		if (imperatorProvince is null) {
+			return new HolySite(barony, ck3Faith, titles);
+		}
+
+		var deity = imperatorProvince.GetDeity();
+		
+		if (deity is null) {
+			//return new HolySite(); // TODO: generate from religion
+		}
+
+		var religion = imperatorProvince.GetReligion(imperatorReligions);
+		//return new HolySite(); // TODO: generate from deity
+	}
+
 	public void DetermineHolySites(ProvinceCollection ck3Provinces, Title.LandedTitles titles) {
 		var provincesByFaith = GetProvincesByFaith(ck3Provinces);
 		
 		foreach (var faith in Faiths) {
 			if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
-				Logger.Debug($"DETERMINE SKIPPING {faith.Id}"); // TODO: REMOVE DEBUG
 				continue;
 			}
 			Logger.Info($"Determining holy sites for faith {faith.Id}...");

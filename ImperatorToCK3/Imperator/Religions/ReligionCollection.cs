@@ -7,13 +7,15 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Religions; 
 
 public class ReligionCollection : IdObjectCollection<string, Religion> {
-	public ReligionCollection(IReadOnlyDictionary<string, float> scriptValues) {
+	public IdObjectCollection<string, Deity> Deities { get; }
+
+	public ReligionCollection(ScriptValueCollection scriptValues) {
 		IDictionary<string, float> parsedReligionModifiers;
 		Parser religionParser = new();
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
 			parsedReligionModifiers = modifiersAssignments
-				.ToDictionary(kvp => kvp.Key, kvp => GetModifierValue(kvp.Value, scriptValues));
+				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetModifierValue(kvp.Value));
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		
@@ -27,22 +29,18 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		religionsParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 
-	private static float GetModifierValue(string valueStr, IReadOnlyDictionary<string, float> scriptValues) {
-		if (float.TryParse(valueStr, out var parsedValue)) {
-			return parsedValue;
-		}
-		if (scriptValues.TryGetValue(valueStr, out float definedValue)) {
-			return definedValue;
-		}
-
-		const float defaultValue = 1;
-		Logger.Warn($"Could not determine modifier value from string \"{valueStr}\", defaulting to {defaultValue}");
-		return defaultValue;
-	}
+	
 
 	public void LoadReligions(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator religions...");
 		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
+	}
+
+	public void LoadDeities(ModFilesystem imperatorModFS) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (deityReader, deityId) => {
+			
+		});
 	}
 
 	private readonly Parser religionsParser;

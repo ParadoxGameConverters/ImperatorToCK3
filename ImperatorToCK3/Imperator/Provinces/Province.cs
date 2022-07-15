@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Pops;
+using ImperatorToCK3.Imperator.Religions;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Provinces;
@@ -30,6 +31,11 @@ public partial class Province : IIdentifiable<ulong> {
 	public int GetPopCount() {
 		return Pops.Count;
 	}
+
+	public Religion GetReligion(ReligionCollection religions) {
+		return religions[Religion];
+	}
+
 	public void LinkOwnerCountry(Country country) {
 		if (parsedOwnerCountryId is not null && parsedOwnerCountryId != country.Id) {
 			Logger.Warn($"Province {Id}: linking owner {country.Id} that doesn't match owner from save ({parsedOwnerCountryId})!");

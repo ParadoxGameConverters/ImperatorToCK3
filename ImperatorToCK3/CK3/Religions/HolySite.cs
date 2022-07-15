@@ -27,13 +27,18 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 		parser.ParseStream(holySiteReader);
 	}
 
+	private static string GenerateHolySiteId(Title barony, Faith faith) {
+		return $"IRtoCK3_{barony.Id}_{faith.Id}";
+	}
 	public HolySite(Title barony, Faith faith, Title.LandedTitles titles) {
 		IsGeneratedByConverter = true;
-		Id = $"IRtoCK3_{barony.Id}_{faith.Id}";
+		Id = GenerateHolySiteId(barony, faith);
 		CountyId = titles.GetCountyForProvince((ulong)barony.Province!)!.Id;
 		BaronyId = barony.Id;
 	}
 	public HolySite(Title barony, Faith faith, Title.LandedTitles titles, HolySiteEffectMapper holySiteEffectMapper): this(barony, faith, titles) {
+		IsGeneratedByConverter = true;
+		Id = GenerateHolySiteId(barony, faith);
 		// TODO: CONVERT MODIFIER FROM EITHER IMPERATOR RELIGION OR DEITY
 		throw new NotImplementedException();
 	}

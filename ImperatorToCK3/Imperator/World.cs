@@ -36,7 +36,7 @@ namespace ImperatorToCK3.Imperator {
 
 		public World(Configuration config) {
 			ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
-			Religions = new ReligionCollection(new Dictionary<string, float>());
+			Religions = new ReligionCollection(new ScriptValueCollection());
 		}
 		public World(Configuration config, ConverterVersion converterVersion): this(config) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
@@ -163,7 +163,8 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 
-			var scriptValues = ScriptValuesReader.GetScriptValues(ModFS);
+			var scriptValues = new ScriptValueCollection();
+			scriptValues.LoadScriptValues(ModFS);
 			Religions = new ReligionCollection(scriptValues);
 			Religions.LoadReligions(ModFS);
 			
