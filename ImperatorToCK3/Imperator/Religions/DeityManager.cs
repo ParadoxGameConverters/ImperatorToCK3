@@ -7,6 +7,8 @@ public class DeityManager {
 	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDictionary = new();
 
 	public void LoadHolySiteDatabase(BufferedReader deityManagerReader) {
+		Logger.Info("Loading Imperator holy site database...");
+		
 		var parser = new Parser();
 		parser.RegisterKeyword("deities_database", databaseReader => {
 			var databaseParser = new Parser();
