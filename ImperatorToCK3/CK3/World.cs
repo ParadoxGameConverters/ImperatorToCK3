@@ -53,7 +53,7 @@ namespace ImperatorToCK3.CK3 {
 			locDB.ScrapeLocalizations(impWorld.ModFS);
 			
 			// Load CK3 religions from game and blankMod
-			var blankModReligionPath = Path.Join("blankMod", "output","common", "religion", "religions");
+			var blankModReligionPath = Path.Join("blankMod", "output", "common", "religion");
 			Religions.LoadHolySites(ck3ModFS);
 			Religions.LoadHolySites(Path.Combine(blankModReligionPath, "holy_sites"));
 			Religions.LoadReligions(ck3ModFS);
