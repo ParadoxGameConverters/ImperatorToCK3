@@ -28,7 +28,7 @@ namespace ImperatorToCK3.Imperator {
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
-		public IdObjectCollection<string, Religion> Religions { get; } = new(); // TODO: load religions into this collection
+		public ReligionCollection Religions { get; }
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -162,6 +162,10 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 
+			var scriptValues = ScriptValuesReader.GetScriptValues(ModFS);
+			Religions = new ReligionCollection(scriptValues);
+			Religions.LoadReligions(ModFS);
+			
 			LoadPreImperatorRulers();
 
 			Logger.Info("*** Good-bye Imperator, rest in peace. ***");
