@@ -36,6 +36,7 @@ namespace ImperatorToCK3.Imperator {
 
 		public World(Configuration config) {
 			ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
+			Religions = new ReligionCollection(new Dictionary<string, float>());
 		}
 		public World(Configuration config, ConverterVersion converterVersion): this(config) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");

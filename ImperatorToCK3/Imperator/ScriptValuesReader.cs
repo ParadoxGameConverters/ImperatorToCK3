@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Mods;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -8,27 +9,25 @@ namespace ImperatorToCK3.Imperator;
 
 public static class ScriptValuesReader {
 	public static IImmutableDictionary<string, float> GetScriptValues(ModFilesystem modFilesystem) {
+		Logger.Info("Reading Imperator script values...");
 		var dict = new Dictionary<string, float>();
-		
-		var files = modFilesystem.GetAllFilesInFolderRecursive("common/script_values");
-		if (files.Count == 0) {
-			return dict.ToImmutableDictionary();
-		}
 
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, name) => {
-			var valueStr = reader.GetStringOfItem();
-			if (valueStr.IsArrayOrObject()) {
+			var valueStringOfItem = reader.GetStringOfItem();
+			if (valueStringOfItem.IsArrayOrObject()) {
 				return;
 			}
+			Logger.Debug(valueStringOfItem.ToString());
 
-			dict[name] = float.Parse(valueStr.ToString(), CultureInfo.InvariantCulture);
+			try {
+				dict[name] = float.Parse(valueStringOfItem.ToString(), CultureInfo.InvariantCulture);
+			} catch (FormatException e) {
+				Logger.Warn($"Can't parse {valueStringOfItem} as float! {e}");
+			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		
-		foreach (var file in files) {
-			parser.ParseFile(file);
-		}
+		parser.ParseGameFolder("common/script_values", modFilesystem, "txt", recursive: true);
 
 		return dict.ToImmutableDictionary();
 	}

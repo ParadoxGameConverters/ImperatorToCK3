@@ -81,12 +81,12 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
+			var value = reader.GetStringOfItem();
 			if (faith is null) {
 				Logger.Warn($"Faith \"{faithId}\" not found!");
 				return;
 			}
 
-			var value = reader.GetStringOfItem();
 			var valueStr = value.ToString();
 			if (value.IsArrayOrObject()) {
 				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
@@ -130,6 +130,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		
 		foreach (var faith in Faiths) {
 			if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
+				Logger.Debug($"DETERMINE SKIPPING {faith.Id}"); // TODO: REMOVE DEBUG
 				continue;
 			}
 			Logger.Info($"Determining holy sites for faith {faith.Id}...");
