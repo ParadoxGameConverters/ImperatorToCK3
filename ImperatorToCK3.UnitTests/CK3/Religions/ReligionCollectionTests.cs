@@ -72,7 +72,7 @@ public class ReligionCollectionTests {
 				imperatorProv.Pops.Add(popId, new Pop(popId));
 			}
 			if (holySite) {
-				imperatorProv.HolySiteDeityId = provId;
+				imperatorProv.HolySiteId = provId;
 			}
 
 			var ck3Prov = new Province(provId) {FaithId = "ck3Faith", ImperatorProvince = imperatorProv};

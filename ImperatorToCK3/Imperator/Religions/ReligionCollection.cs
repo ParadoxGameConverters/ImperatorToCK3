@@ -7,7 +7,7 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Religions; 
 
 public class ReligionCollection : IdObjectCollection<string, Religion> {
-	public IdObjectCollection<string, Deity> Deities { get; }
+	public IdObjectCollection<string, Deity> Deities { get; } = new();
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
 		IDictionary<string, float> parsedReligionModifiers;
@@ -27,6 +27,12 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			AddOrReplace(new Religion(religionId, parsedReligionModifiers));
 		});
 		religionsParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+
+		deitiesParser = new Parser();
+		deitiesParser.RegisterRegex(CommonRegexes.String, (deityReader, deityId) => {
+			var deity = new Deity(deityId, deityReader, scriptValues);
+			Deities.AddOrReplace(deity);
+		});
 	}
 
 	
@@ -37,11 +43,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 
 	public void LoadDeities(ModFilesystem imperatorModFS) {
-		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (deityReader, deityId) => {
-			
-		});
+		Logger.Info("Loading Imperator deities...");
+		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
 	}
 
 	private readonly Parser religionsParser;
+	private readonly Parser deitiesParser;
 }

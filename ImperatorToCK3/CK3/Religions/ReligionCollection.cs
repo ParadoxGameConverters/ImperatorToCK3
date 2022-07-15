@@ -3,8 +3,10 @@ using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -142,22 +144,20 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		return imperatorReligions[imperatorProvince.Religion];
 	}
 
-	private Imperator.Religions.Deity? GetImperatorDeityForImperatorProvince(Imperator.Provinces.Province imperatorProvince) {
-		
-	}
-
-	private HolySite GenerateHolySiteForBarony(Title barony, Faith ck3Faith, Title.LandedTitles titles, ProvinceCollection ck3Provinces, Imperator.Religions.ReligionCollection imperatorReligions) {
+	private HolySite GenerateHolySiteForBarony(Title barony, Faith ck3Faith, Title.LandedTitles titles, ProvinceCollection ck3Provinces, Imperator.Religions.ReligionCollection imperatorReligions, DeityManager imperatorDeityManager) {
 		var imperatorProvince = GetImperatorProvinceForBarony(barony, ck3Provinces);
 		if (imperatorProvince is null) {
 			return new HolySite(barony, ck3Faith, titles);
 		}
 
-		var deity = imperatorProvince.GetDeity();
+		var deity = imperatorProvince.GetHolySiteDeity(imperatorDeityManager, imperatorReligions.Deities);
 		
 		if (deity is null) {
+			throw new NotImplementedException();
 			//return new HolySite(); // TODO: generate from religion
 		}
 
+		throw new NotImplementedException();
 		var religion = imperatorProvince.GetReligion(imperatorReligions);
 		//return new HolySite(); // TODO: generate from deity
 	}
