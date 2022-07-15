@@ -19,7 +19,6 @@ public class ScriptValueCollection : IReadOnlyDictionary<string, float> {
 			if (valueStringOfItem.IsArrayOrObject()) {
 				return;
 			}
-			Logger.Debug(valueStringOfItem.ToString());
 
 			try {
 				dict[name] = float.Parse(valueStringOfItem.ToString(), CultureInfo.InvariantCulture);
@@ -50,7 +49,7 @@ public class ScriptValueCollection : IReadOnlyDictionary<string, float> {
 	public IEnumerable<float> Values => dict.Values;
 	
 	public float GetModifierValue(string valueStr) {
-		if (float.TryParse(valueStr, out var parsedValue)) {
+		if (float.TryParse(valueStr, CultureInfo.InvariantCulture, out var parsedValue)) {
 			return parsedValue;
 		}
 		if (TryGetValue(valueStr, out float definedValue)) {
