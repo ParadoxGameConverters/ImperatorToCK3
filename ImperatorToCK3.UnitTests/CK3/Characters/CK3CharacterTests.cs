@@ -240,6 +240,18 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		}
 
 		[Fact]
+		public void GoldCanBeConverterFromImperator() {
+			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
+				Wealth = 420.69
+			};
+
+			var character = builder
+				.WithImperatorCharacter(imperatorCharacter)
+				.Build();
+			Assert.Equal(420.69, character.Gold);
+		}
+
+		[Fact]
 		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
 			var countryReader = new BufferedReader("tag = MAC");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
