@@ -10,7 +10,14 @@ namespace ImperatorToCK3.UnitTests.Imperator.Religions;
 public class DeityTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly List<Mod> mods = new();
-	private readonly ModFilesystem imperatorModFS = new ModFilesystem(ImperatorRoot, mods);
+	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, mods);
+
+	[Fact]
+	public void ConstructedDeityHasCorrectId() {
+		var deity = new Deity("test_deity", new BufferedReader(), new ScriptValueCollection());
+		
+		Assert.Equal("test_deity", deity.Id);
+	}
 
 	[Fact]
 	public void ModifiersAreRead() {
