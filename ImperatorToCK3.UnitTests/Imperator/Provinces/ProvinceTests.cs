@@ -206,22 +206,25 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void HolySiteDefaultsToFalse() {
+	public void HolySiteIdDefaultsToNull() {
 		var reader = new BufferedReader(" = { }");
 		var province = Province.Parse(reader, 42);
 
 		Assert.False(province.IsHolySite);
+		Assert.Null(province.HolySiteId);
 	}
 
 	[Fact]
-	public void HolySiteCanBeSet() {
+	public void HolySiteIdCanBeSet() {
 		var reader = new BufferedReader(" = { holy_site=4294967295 }"); // this value means no holy site
 		var reader2 = new BufferedReader(" = { holy_site=56 }");
 		var province = Province.Parse(reader, 42);
 		var province2 = Province.Parse(reader2, 43);
 
 		Assert.False(province.IsHolySite);
+		Assert.Null(province.HolySiteId);
 		Assert.True(province2.IsHolySite);
+		Assert.Equal((ulong)56, province2.HolySiteId);
 	}
 
 	[Fact]
