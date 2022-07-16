@@ -124,7 +124,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
-			DistributeCountriesGold(config);
+			Characters.DistributeCountriesGold(LandedTitles, config);
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
@@ -273,29 +273,6 @@ namespace ImperatorToCK3.CK3 {
 				county.ClearHolderSpecificHistory();
 				county.SetHolder(governor, holderChangeDate);
 				county.SetDeFactoLiege(ck3Country, holderChangeDate);
-			}
-		}
-
-		private void DistributeCountriesGold(Configuration config) {
-			var ck3CountriesFromImperator = LandedTitles.GetCountriesImportedFromImperator();
-			foreach (var ck3Country in ck3CountriesFromImperator) {
-				var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
-
-				var directVassalCharacters = ck3Country.GetDeFactoVassals(CorrectedDate).Values
-					.Select(t => Characters[t.GetHolderId(config.CK3BookmarkDate)])
-					.ToHashSet();
-				
-				// ruler should also get a share, he has double weight, so we add 2 to the count
-				var mouthsToFeedCount = directVassalCharacters.Count + 2;
-
-				var goldPerVassal = imperatorGold / mouthsToFeedCount;
-				foreach (var vassalCharacter in directVassalCharacters) {
-					vassalCharacter.Gold += goldPerVassal;
-					imperatorGold -= goldPerVassal;
-				}
-
-				var ruler = Characters[ck3Country.GetHolderId(config.CK3BookmarkDate)];
-				ruler.Gold += imperatorGold;
 			}
 		}
 
