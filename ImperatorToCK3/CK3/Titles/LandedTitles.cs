@@ -543,6 +543,10 @@ public partial class Title {
 			}
 		}
 
+		public IEnumerable<Title> GetCountriesImportedFromImperator() {
+			return this.Where(t => t.ImperatorCountry is not null);
+		}
+
 		public Color GetDerivedColor(Color baseColor) {
 			HashSet<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet()!;
 
