@@ -1,4 +1,6 @@
 using commonItems;
+using commonItems.Serialization;
+using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
 using Xunit;
 
@@ -14,5 +16,22 @@ public class FaithTests {
 			site=>Assert.Equal("rome", site),
 			site=>Assert.Equal("constantinople", site),
 			site=>Assert.Equal("antioch", site));
+	}
+
+	[Fact]
+	public void FaithAttributesAreReadAndSerialized() {
+		var reader = new BufferedReader(@"{
+			icon = celtic_pagan
+			doctrine = tenet_esotericism
+			doctrine = tenet_human_sacrifice # should not replace the line above
+		}");
+		var faith = new Faith("celtic_pagan", reader);
+
+		var faithStr = PDXSerializer.Serialize(faith);
+		faithStr.Should().ContainAll(
+			"icon=celtic_pagan",
+			"doctrine=tenet_esotericism",
+			"doctrine=tenet_human_sacrifice"
+		);
 	}
 }
