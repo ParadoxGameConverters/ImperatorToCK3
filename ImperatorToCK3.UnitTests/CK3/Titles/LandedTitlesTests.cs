@@ -398,5 +398,22 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal("420", title.GetHolderId(date));
 			Assert.Equal(20, title.GetDevelopmentLevel(date));
 		}
+
+		[Fact]
+		public void GetBaronyForProvinceReturnsCorrectBaronyOrNullWhenNotFound() {
+			var titles = new Title.LandedTitles();
+			var titlesReader = new BufferedReader(@"
+				c_county = {
+					b_barony1 = { province=1 }
+					b_barony2 = { province=2 }
+					b_barony3 = { province=3 }
+				}");
+			titles.LoadTitles(titlesReader);
+			
+			Assert.Equal("b_barony1", titles.GetBaronyForProvince(1)?.Id);
+			Assert.Equal("b_barony2", titles.GetBaronyForProvince(2)?.Id);
+			Assert.Equal("b_barony3", titles.GetBaronyForProvince(3)?.Id);
+			Assert.Null(titles.GetBaronyForProvince(4));
+		}
 	}
 }
