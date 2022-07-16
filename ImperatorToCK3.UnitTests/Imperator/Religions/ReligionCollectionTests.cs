@@ -12,7 +12,7 @@ public class ReligionCollectionTests {
 	
 	[Fact]
 	public void ReligionsAreLoadedFromGameAndMods() {
-		var mods = new Mod[] { new("cool_mod", "TestFiles/documents/Imperator/mod/cool_mod")};
+		var mods = new[] { new Mod("cool_mod", "TestFiles/documents/Imperator/mod/cool_mod")};
 		var imperatorModFS = new ModFilesystem(ImperatorRoot, mods);
 		var scriptValues = new ScriptValueCollection();
 		scriptValues.LoadScriptValues(imperatorModFS);
