@@ -222,7 +222,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (ImperatorCharacter.Wealth != 0) {
-				Gold = ImperatorCharacter.Wealth;
+				Gold = ImperatorCharacter.Wealth * config.ImperatorCurrencyRate;
 			}
 
 			// if character is imprisoned, set jailor
