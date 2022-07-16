@@ -323,6 +323,5 @@ public class CharacterCollectionTests {
 				Assert.Equal("imperator1002", ck3Vassal2.Id);
 				Assert.Equal(25, ck3Vassal2.Gold);
 			});
-		
 	}
 }
