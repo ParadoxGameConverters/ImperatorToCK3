@@ -18,15 +18,16 @@ namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
 public class ReligionCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
+	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
 	private const string CK3Root = "TestFiles/CK3/game";
-	private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
+	private readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
 	private const string TestReligionsDirectory = "TestFiles/CK3/game/common/religion/religions";
 	private const string TestReplaceableHolySitesFile = "TestFiles/configurables/replaceable_holy_sites.txt";
 	
 	[Fact]
 	public void ReligionsAreLoaded() {
 		var religions = new ReligionCollection();
-		religions.LoadReligions(ck3ModFs);
+		religions.LoadReligions(ck3ModFS);
 
 		var religionIds = religions.Select(r => r.Id);
 		religionIds.Should().Contain("religion_a", "religion_b", "religion_c");
@@ -83,6 +84,24 @@ public class ReligionCollectionTests {
 			var ck3Prov = new Province(provId) {FaithId = "ck3Faith", ImperatorProvince = imperatorProv};
 			return ck3Prov;
 		}
+
+		var imperatorScriptValues = new ScriptValueCollection();
+		var imperatorReligions = new ImperatorToCK3.Imperator.Religions.ReligionCollection(imperatorScriptValues);
+		imperatorReligions.LoadDeities(imperatorModFS);
+
+		var deityManager = new DeityManager();
+		var deityManagerReader = new BufferedReader(
+			@"deities_database = {
+				1 = { deity=""deity1"" }
+				2 = { deity=""deity2"" }
+				3 = { deity=""deity3"" }
+				4 = { deity=""deity4"" }
+				5 = { deity=""deity5"" }
+				6 = { deity=""deity6"" }
+				7 = { deity=""deity7"" }
+			}"
+		);
+		deityManager.LoadHolySiteDatabase(deityManagerReader);
 		
 		var provinces = new ProvinceCollection {
 			// provinces for dynamic holy sites
@@ -111,6 +130,8 @@ public class ReligionCollectionTests {
 			"c_county5={ b_barony5={province=5} } " +
 			"c_county6={ b_barony6={province=6} } " +
 			"c_county7={ b_barony7={province=7} } " +
+			
+			// baronies for existing (predefined) holy sites of faith ck3Faith
 			"c_site_county1={ b_site_barony1={province=8} } " +
 			"c_site_county2={ b_site_barony2={province=9} } " +
 			"c_site_county3={ b_site_barony3={province=10} } " +
@@ -119,20 +140,18 @@ public class ReligionCollectionTests {
 		titles.LoadTitles(titlesReader);
 
 		var religions = new ReligionCollection();
-		religions.LoadHolySites(ck3ModFs);
-		religions.LoadReligions(ck3ModFs);
+		religions.LoadHolySites(ck3ModFS);
+		religions.LoadReligions(ck3ModFS);
 		religions.LoadReplaceableHolySites("TestFiles/configurables/replaceable_holy_sites.txt");
 		
 		var faith = religions.GetFaith("ck3Faith");
 		Assert.NotNull(faith);
-
-		var imperatorScriptValues = new ScriptValueCollection();
-		var imperatorReligions = new ImperatorToCK3.Imperator.Religions.ReligionCollection(imperatorScriptValues);
+		
 		religions.DetermineHolySites(
 			provinces,
 			titles,
 			imperatorReligions,
-			new DeityManager(),
+			deityManager,
 			new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt")
 		);
 
