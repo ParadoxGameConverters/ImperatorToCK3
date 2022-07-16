@@ -32,8 +32,8 @@ public partial class Province : IIdentifiable<ulong> {
 		return Pops.Count;
 	}
 
-	public Religion GetReligion(ReligionCollection religions) {
-		return religions[Religion];
+	public Religion? GetReligion(ReligionCollection religions) {
+		return religions.TryGetValue(Religion, out var religion) ? religion : null;
 	}
 
 	public Deity? GetHolySiteDeity(DeityManager deityManager, IdObjectCollection<string, Deity> deities) {

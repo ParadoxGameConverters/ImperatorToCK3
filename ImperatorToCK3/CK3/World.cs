@@ -13,6 +13,7 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.HolySiteEffect;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -136,8 +137,9 @@ namespace ImperatorToCK3.CK3 {
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
-			
-			Religions.DetermineHolySites(Provinces, LandedTitles);
+
+			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
+			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, impWorld.DeityManager, holySiteEffectMapper);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {

@@ -2,17 +2,22 @@ using commonItems;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Imperator.Pops;
+using ImperatorToCK3.Imperator.Religions;
+using ImperatorToCK3.Mappers.HolySiteEffect;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Xunit;
+using ReligionCollection = ImperatorToCK3.CK3.Religions.ReligionCollection;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions; 
 
 public class ReligionCollectionTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
 	private const string TestReligionsDirectory = "TestFiles/CK3/game/common/religion/religions";
@@ -120,8 +125,16 @@ public class ReligionCollectionTests {
 		
 		var faith = religions.GetFaith("ck3Faith");
 		Assert.NotNull(faith);
-		
-		religions.DetermineHolySites(provinces, titles);
+
+		var imperatorScriptValues = new ScriptValueCollection();
+		var imperatorReligions = new ImperatorToCK3.Imperator.Religions.ReligionCollection(imperatorScriptValues);
+		religions.DetermineHolySites(
+			provinces,
+			titles,
+			imperatorReligions,
+			new DeityManager(),
+			new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt")
+		);
 
 		faith.HolySiteIds.Should().Equal(
 			"IRtoCK3_b_barony2_ck3Faith", // holy site, 7 pops

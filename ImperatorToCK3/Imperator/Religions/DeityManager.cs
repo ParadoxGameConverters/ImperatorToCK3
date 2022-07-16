@@ -13,7 +13,7 @@ public class DeityManager {
 		parser.RegisterKeyword("deities_database", databaseReader => {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
-				var deityId = reader.GetAssignments()["deity"];
+				var deityId = StringUtils.RemQuotes(reader.GetAssignments()["deity"]);
 				holySiteIdToDeityIdDictionary[ulong.Parse(holySiteIdStr)] = deityId;
 			});
 			databaseParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
