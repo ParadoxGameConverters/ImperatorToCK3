@@ -2,19 +2,23 @@ using commonItems;
 using commonItems.Serialization;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
+using System.Text.RegularExpressions;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions; 
 
 public class ReligionTests {
 	[Fact]
-	public void FaithsAreLoaded() {
+	public void FaithsAreLoadedAndSerialized() {
 		var reader = new BufferedReader("{ faiths={ orthodox={} catholic={} } }");
 		var religion = new Religion("christianity", reader);
 		
 		Assert.Collection(religion.Faiths,
 			faith=>Assert.Equal("orthodox", faith.Id),
 			faith=>Assert.Equal("catholic", faith.Id));
+
+		var religionStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(religion), @"\s", "");
+		religionStrWithoutWhitespace.Should().Contain("orthodox={}", "catholic={}");
 	}
 
 	[Fact]
