@@ -5,9 +5,6 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.HolySiteEffect;
-using ImperatorToCK3.Mappers.Province;
-using ImperatorToCK3.Mappers.Religion;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -98,7 +95,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
 			} else if (valueStr == "all") {
 				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySiteIds);
-			} else Logger.Warn($"Unexpected value: {valueStr}");
+			} else {
+				Logger.Warn($"Unexpected value: {valueStr}");
+			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(filePath);

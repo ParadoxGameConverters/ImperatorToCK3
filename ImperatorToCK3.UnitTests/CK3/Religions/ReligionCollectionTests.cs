@@ -8,8 +8,6 @@ using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Xunit;
 using ReligionCollection = ImperatorToCK3.CK3.Religions.ReligionCollection;
