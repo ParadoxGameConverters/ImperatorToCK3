@@ -257,6 +257,44 @@ public class ProvinceTests {
 	}
 
 	[Fact]
+	public void GetHolySiteDeityReturnsCorrectDeity() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadDeities(imperatorModFS);
+
+		var holySiteManager = new DeityManager();
+		var holySitesReader = new BufferedReader(@"deities_database = {
+				1 = { deity=""deity1"" }
+				34 = { deity=""deity3"" }
+				2 = { deity=""deity4"" }
+			}");
+		holySiteManager.LoadHolySiteDatabase(holySitesReader);
+		// holy site 34 belongs to deity "deity3"
+		var province = new Province(1) {HolySiteId = 34};
+
+		var deity = province.GetHolySiteDeity(holySiteManager, religions.Deities);
+		Assert.NotNull(deity);
+		Assert.Equal("deity3", deity.Id);
+	}
+	
+	[Fact]
+	public void GetHolySiteDeityReturnsNullHolySiteIdIsNull() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadDeities(imperatorModFS);
+
+		var holySiteManager = new DeityManager();
+		var holySitesReader = new BufferedReader(@"deities_database = {
+				1 = { deity=""deity1"" }
+				34 = { deity=""deity3"" }
+				2 = { deity=""deity4"" }
+			}");
+		holySiteManager.LoadHolySiteDatabase(holySitesReader);
+		var province = new Province(1) {HolySiteId = null};
+
+		var deity = province.GetHolySiteDeity(holySiteManager, religions.Deities);
+		Assert.Null(deity);
+	}
+
+	[Fact]
 	public void BuildingsCountCanBeSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
