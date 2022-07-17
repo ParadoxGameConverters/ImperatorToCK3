@@ -29,7 +29,7 @@ namespace ImperatorToCK3.Imperator {
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		public ReligionCollection Religions { get; }
-		public DeityManager DeityManager { get; } = new();
+		public HolySiteIdToDeityIdDictionary HolySiteIdToDeityIdDictionary { get; } = new();
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -125,7 +125,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
 			});
 			RegisterKeyword("deity_manager", reader => {
-				DeityManager.LoadHolySiteDatabase(reader);
+				HolySiteIdToDeityIdDictionary.LoadHolySiteDatabase(reader);
 			});
 			RegisterKeyword("played_country", reader => {
 				var playerCountriesToLog = new List<string>();

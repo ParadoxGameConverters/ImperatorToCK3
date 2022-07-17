@@ -87,7 +87,7 @@ public class ReligionCollectionTests {
 		var imperatorReligions = new ImperatorToCK3.Imperator.Religions.ReligionCollection(imperatorScriptValues);
 		imperatorReligions.LoadDeities(imperatorModFS);
 
-		var deityManager = new DeityManager();
+		var siteIdToDeityIdDictionary = new HolySiteIdToDeityIdDictionary();
 		var deityManagerReader = new BufferedReader(
 			@"deities_database = {
 				1 = { deity=""deity1"" }
@@ -99,7 +99,7 @@ public class ReligionCollectionTests {
 				7 = { deity=""deity7"" }
 			}"
 		);
-		deityManager.LoadHolySiteDatabase(deityManagerReader);
+		siteIdToDeityIdDictionary.LoadHolySiteDatabase(deityManagerReader);
 		
 		var provinces = new ProvinceCollection {
 			// provinces for dynamic holy sites
@@ -149,7 +149,7 @@ public class ReligionCollectionTests {
 			provinces,
 			titles,
 			imperatorReligions,
-			deityManager,
+			siteIdToDeityIdDictionary,
 			new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt")
 		);
 
