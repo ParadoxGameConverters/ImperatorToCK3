@@ -11,7 +11,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
 		IDictionary<string, float> parsedReligionModifiers;
-		Parser religionParser = new();
+		var religionParser = new Parser();
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
 			parsedReligionModifiers = modifiersAssignments
