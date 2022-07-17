@@ -123,7 +123,6 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		Title.LandedTitles titles,
 		ProvinceCollection ck3Provinces,
 		Imperator.Religions.ReligionCollection imperatorReligions,
-		HolySiteIdToDeityIdDictionary imperatorHolySiteIdToDeityIdDictionary,
 		HolySiteEffectMapper holySiteEffectMapper
 	) {
 		var imperatorProvince = GetImperatorProvinceForBarony(barony, ck3Provinces);
@@ -133,7 +132,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 
 		IReadOnlyDictionary<string, double> imperatorModifiers;
-		var deity = imperatorProvince.GetHolySiteDeity(imperatorHolySiteIdToDeityIdDictionary, imperatorReligions.Deities);
+		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
 			imperatorModifiers = deity.PassiveModifiers;
 		} else {
@@ -152,7 +151,6 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		ProvinceCollection ck3Provinces,
 		Title.LandedTitles titles,
 		Imperator.Religions.ReligionCollection imperatorReligions,
-		HolySiteIdToDeityIdDictionary imperatorHolySiteIdToDeityIdDictionary,
 		HolySiteEffectMapper holySiteEffectMapper
 	) {
 		var provincesByFaith = GetProvincesByFaith(ck3Provinces);
@@ -182,7 +180,6 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 							titles,
 							ck3Provinces,
 							imperatorReligions,
-							imperatorHolySiteIdToDeityIdDictionary,
 							holySiteEffectMapper
 						);
 						HolySites.Add(newHolySiteInSameBarony);
@@ -202,7 +199,6 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 						titles,
 						ck3Provinces,
 						imperatorReligions,
-						imperatorHolySiteIdToDeityIdDictionary,
 						holySiteEffectMapper
 					);
 					HolySites.Add(replacementSite);

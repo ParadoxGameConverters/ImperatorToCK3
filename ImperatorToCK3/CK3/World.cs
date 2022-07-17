@@ -140,7 +140,7 @@ namespace ImperatorToCK3.CK3 {
 			Characters.PurgeUnneededCharacters(LandedTitles);
 
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
-			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, impWorld.HolySiteIdToDeityIdDictionary, holySiteEffectMapper);
+			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {

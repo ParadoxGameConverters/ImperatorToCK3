@@ -8,6 +8,8 @@ namespace ImperatorToCK3.Imperator.Religions;
 
 public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public IdObjectCollection<string, Deity> Deities { get; } = new();
+	
+	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = new();
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
 		IDictionary<string, double> parsedReligionModifiers;
@@ -45,6 +47,35 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadDeities(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator deities...");
 		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
+	}
+
+	public void LoadHolySiteDatabase(BufferedReader deityManagerReader) {
+		Logger.Info("Loading Imperator holy site database...");
+		
+		var parser = new Parser();
+		parser.RegisterKeyword("deities_database", databaseReader => {
+			var databaseParser = new Parser();
+			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
+				var deityId = StringUtils.RemQuotes(reader.GetAssignments()["deity"]);
+				holySiteIdToDeityIdDict[ulong.Parse(holySiteIdStr)] = deityId;
+			});
+			databaseParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			databaseParser.ParseStream(databaseReader);
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+		
+		parser.ParseStream(deityManagerReader);
+	}
+	
+	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
+		return holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId) ? deityId : null;
+	}
+	public Deity? GetDeityForHolySiteId(ulong holySiteId) {
+		var deityId = GetDeityIdForHolySiteId(holySiteId);
+		if (deityId is null) {
+			return null;
+		}
+		return Deities.TryGetValue(deityId, out var deity) ? deity : null;
 	}
 
 	private readonly Parser religionsParser;

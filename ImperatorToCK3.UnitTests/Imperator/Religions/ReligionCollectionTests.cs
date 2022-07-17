@@ -1,3 +1,4 @@
+using commonItems;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.Imperator;
@@ -65,5 +66,41 @@ public class ReligionCollectionTests {
 			"mod_deity1",
 			"mod_deity2"
 		);
+	}
+
+	[Fact]
+	public void GetDeityForHolySiteIdReturnsCorrectDeityOrNullWhenIdIsNotFoundOrWhenDeityIsNotFound() {
+		var scriptValues = new ScriptValueCollection();
+		scriptValues.LoadScriptValues(imperatorModFS);
+		
+		var religions = new ReligionCollection(scriptValues);
+		religions.LoadDeities(imperatorModFS);
+		var deityManagerReader = new BufferedReader(
+			@"deities_database = {
+				1 = { deity=""deity1"" }
+				2 = { deity=""deity2"" }
+				3 = { deity=""deity3"" }
+				404 = { deity=""undefined_deity"" }
+			}"
+		);
+		religions.LoadHolySiteDatabase(deityManagerReader);
+		
+		var deity = religions.GetDeityForHolySiteId(1);
+		Assert.NotNull(deity);
+		Assert.Equal("deity1", deity.Id);
+		deity = religions.GetDeityForHolySiteId(2);
+		Assert.NotNull(deity);
+		Assert.Equal("deity2", deity.Id);
+		deity = religions.GetDeityForHolySiteId(3);
+		Assert.NotNull(deity);
+		Assert.Equal("deity3", deity.Id);
+
+		// holy site ID not found
+		deity = religions.GetDeityForHolySiteId(4);
+		Assert.Null(deity);
+		
+		// holy site deity not found
+		deity = religions.GetDeityForHolySiteId(404);
+		Assert.Null(deity);
 	}
 }

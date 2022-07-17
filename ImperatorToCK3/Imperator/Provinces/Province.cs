@@ -36,13 +36,12 @@ public partial class Province : IIdentifiable<ulong> {
 		return religions.TryGetValue(Religion, out var religion) ? religion : null;
 	}
 
-	public Deity? GetHolySiteDeity(HolySiteIdToDeityIdDictionary holySiteIdToDeityIdDictionary, IdObjectCollection<string, Deity> deities) {
+	public Deity? GetHolySiteDeity(ReligionCollection religions) {
 		if (HolySiteId is null) {
 			return null;
 		}
 
-		var deityId = holySiteIdToDeityIdDictionary[(ulong)HolySiteId];
-		return deities[deityId];
+		return religions.GetDeityForHolySiteId((ulong)HolySiteId);
 	}
 
 	public void LinkOwnerCountry(Country country) {
