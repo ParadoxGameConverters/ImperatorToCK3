@@ -1,6 +1,9 @@
 ﻿using commonItems;
+using commonItems.Mods;
+using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +14,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
+	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
+	
 	[Fact]
 	public void IdCanBeSet() {
 		var reader = new BufferedReader(
@@ -23,7 +29,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void CultureCanBeSet() {
+	public void CultureIdCanBeSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
 			"\tculture=\"paradoxian\"" +
@@ -36,7 +42,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void CultureDefaultsToBlank() {
+	public void CultureIdDefaultsToBlank() {
 		var reader = new BufferedReader(
 			"= {}"
 		);
@@ -47,7 +53,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void ReligionCanBeSet() {
+	public void ReligionIdCanBeSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
 			"\treligion=\"paradoxian\"" +
@@ -60,7 +66,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void ReligionDefaultsToBlank() {
+	public void ReligionIdDefaultsToBlank() {
 		var reader = new BufferedReader(
 			"= {}"
 		);
@@ -68,6 +74,29 @@ public class ProvinceTests {
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.Religion));
+	}
+
+	[Fact]
+	public void GetReligionReturnsCorrectReligion() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadReligions(imperatorModFS);
+		
+		var province = new Province(1) {Religion = "roman_pantheon"};
+
+		var religion = province.GetReligion(religions);
+		Assert.NotNull(religion);
+		Assert.Equal("roman_pantheon", religion.Id);
+	}
+
+	[Fact]
+	public void GetReligionReturnsNullWhenReligionIsNotFound() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadReligions(imperatorModFS);
+		
+		var province = new Province(1) {Religion = "missing_religion"};
+
+		var religion = province.GetReligion(religions);
+		Assert.Null(religion);
 	}
 
 	[Fact]
