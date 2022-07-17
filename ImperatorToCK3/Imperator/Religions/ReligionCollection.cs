@@ -10,7 +10,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public IdObjectCollection<string, Deity> Deities { get; } = new();
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
-		IDictionary<string, float> parsedReligionModifiers;
+		IDictionary<string, double> parsedReligionModifiers;
 		var religionParser = new Parser();
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
@@ -21,7 +21,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		
 		religionsParser = new Parser();
 		religionsParser.RegisterRegex(CommonRegexes.String, (reader, religionId) => {
-			parsedReligionModifiers = new Dictionary<string, float>();
+			parsedReligionModifiers = new Dictionary<string, double>();
 			
 			religionParser.ParseStream(reader);
 			AddOrReplace(new Religion(religionId, parsedReligionModifiers));

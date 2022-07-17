@@ -20,13 +20,13 @@ public class ScriptValueCollectionTests {
 		Assert.Equal(5, scriptValueCollection.Count);
 		
 		scriptValueCollection.Keys.Should().BeEquivalentTo("value1", "value2", "value3", "value4", "mod_value");
-		scriptValueCollection.Values.Should().BeEquivalentTo(new List<float>{0.4f, -0.4f, 1f, -3f, 3.2f});
+		scriptValueCollection.Values.Should().BeEquivalentTo(new List<double>{0.4d, -0.4d, 1d, -3d, 3.2d});
 		
-		Assert.Equal(0.4f, scriptValueCollection["value1"]);
-		Assert.Equal(-0.4f, scriptValueCollection["value2"]);
-		Assert.Equal(1f, scriptValueCollection["value3"]);
-		Assert.Equal(-3f, scriptValueCollection["value4"]);
-		Assert.Equal(3.2f, scriptValueCollection["mod_value"]);
+		Assert.Equal(0.4d, scriptValueCollection["value1"]);
+		Assert.Equal(-0.4d, scriptValueCollection["value2"]);
+		Assert.Equal(1d, scriptValueCollection["value3"]);
+		Assert.Equal(-3d, scriptValueCollection["value4"]);
+		Assert.Equal(3.2d, scriptValueCollection["mod_value"]);
 	}
 
 	[Fact]
@@ -42,7 +42,7 @@ public class ScriptValueCollectionTests {
 		const string invalidNumberString = "2e";
 		
 		// default value is 1
-		Assert.Equal(1f, scriptValueCollection.GetModifierValue(invalidNumberString));
+		Assert.Equal(1d, scriptValueCollection.GetModifierValue(invalidNumberString));
 	}
 
 	[Fact]
@@ -50,7 +50,7 @@ public class ScriptValueCollectionTests {
 		var scriptValueCollection = new ScriptValueCollection();
 		scriptValueCollection.LoadScriptValues(imperatorModFS);
 		
-		Assert.Equal(0.4f, scriptValueCollection.GetModifierValue("value1"));
+		Assert.Equal(0.4d, scriptValueCollection.GetModifierValue("value1"));
 	}
 
 	[Fact]

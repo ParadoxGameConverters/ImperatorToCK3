@@ -31,7 +31,7 @@ public class DeityTests {
 			}
 		");
 		var deity = new Deity("deity1", deityReader, scriptValues);
-		Assert.Equal(5.4f, deity.PassiveModifiers["effect_1"]);
-		Assert.Equal(0.4f, deity.PassiveModifiers["effect_2"]);
+		Assert.Equal(5.4d, deity.PassiveModifiers["effect_1"]);
+		Assert.Equal(0.4d, deity.PassiveModifiers["effect_2"]);
 	}
 }

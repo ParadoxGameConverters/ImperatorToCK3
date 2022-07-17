@@ -7,8 +7,8 @@ using System.Globalization;
 
 namespace ImperatorToCK3.Imperator; 
 
-public class ScriptValueCollection : IReadOnlyDictionary<string, float> {
-	private readonly Dictionary<string, float> dict = new();
+public class ScriptValueCollection : IReadOnlyDictionary<string, double> {
+	private readonly Dictionary<string, double> dict = new();
 	public void LoadScriptValues(ModFilesystem modFilesystem) {
 		Logger.Info("Reading Imperator script values...");
 
@@ -20,7 +20,7 @@ public class ScriptValueCollection : IReadOnlyDictionary<string, float> {
 			}
 
 			try {
-				dict[name] = float.Parse(valueStringOfItem.ToString(), CultureInfo.InvariantCulture);
+				dict[name] = double.Parse(valueStringOfItem.ToString(), CultureInfo.InvariantCulture);
 			} catch (FormatException e) {
 				Logger.Warn($"Can't parse {valueStringOfItem} as float! {e}");
 			}
@@ -29,7 +29,7 @@ public class ScriptValueCollection : IReadOnlyDictionary<string, float> {
 		parser.ParseGameFolder("common/script_values", modFilesystem, "txt", recursive: true);
 	}
 
-	public IEnumerator<KeyValuePair<string, float>> GetEnumerator() {
+	public IEnumerator<KeyValuePair<string, double>> GetEnumerator() {
 		return dict.GetEnumerator();
 	}
 
@@ -40,22 +40,22 @@ public class ScriptValueCollection : IReadOnlyDictionary<string, float> {
 	public int Count => dict.Count;
 	public bool ContainsKey(string key) => dict.ContainsKey(key);
 
-	public bool TryGetValue(string key, out float value) => dict.TryGetValue(key, out value);
+	public bool TryGetValue(string key, out double value) => dict.TryGetValue(key, out value);
 
-	public float this[string key] => dict[key];
+	public double this[string key] => dict[key];
 
 	public IEnumerable<string> Keys => dict.Keys;
-	public IEnumerable<float> Values => dict.Values;
+	public IEnumerable<double> Values => dict.Values;
 	
-	public float GetModifierValue(string valueStr) {
-		if (float.TryParse(valueStr, CultureInfo.InvariantCulture, out var parsedValue)) {
+	public double GetModifierValue(string valueStr) {
+		if (double.TryParse(valueStr, CultureInfo.InvariantCulture, out var parsedValue)) {
 			return parsedValue;
 		}
-		if (TryGetValue(valueStr, out float definedValue)) {
+		if (TryGetValue(valueStr, out double definedValue)) {
 			return definedValue;
 		}
 
-		const float defaultValue = 1;
+		const double defaultValue = 1;
 		Logger.Warn($"Could not determine modifier value from string \"{valueStr}\", defaulting to {defaultValue}");
 		return defaultValue;
 	}

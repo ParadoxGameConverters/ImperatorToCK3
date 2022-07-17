@@ -22,6 +22,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 
 		[Fact]
 		public void FieldsCanBeSet() {
+			// ReSharper disable once UseObjectOrCollectionInitializer
 			var province = new Province(1);
 			province.FaithId = "orthodox";
 			Assert.Equal("orthodox", province.FaithId);

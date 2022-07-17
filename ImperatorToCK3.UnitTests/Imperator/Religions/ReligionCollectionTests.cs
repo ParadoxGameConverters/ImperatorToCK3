@@ -27,6 +27,21 @@ public class ReligionCollectionTests {
 			"egyptian_pantheon", // from mod
 			"carthaginian_pantheon" // from mod
 		);
+
+		// test if modifiers are correctly loaded
+		Assert.Collection(religions["judaism"].Modifiers,
+			kvp => {
+				Assert.Equal("global_pop_assimilation_speed_modifier", kvp.Key);
+				Assert.Equal(0.2, kvp.Value);
+			},
+			kvp => {
+				Assert.Equal("omen_duration", kvp.Key);
+				Assert.Equal(0.5, kvp.Value);
+			},
+			kvp => {
+				Assert.Equal("omen_power", kvp.Key);
+				Assert.Equal(0.15, kvp.Value);
+			});
 	}
 
 	[Fact]

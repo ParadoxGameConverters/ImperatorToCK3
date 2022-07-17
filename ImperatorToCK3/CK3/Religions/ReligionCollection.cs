@@ -132,7 +132,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			return new HolySite(barony, ck3Faith, titles);
 		}
 
-		IReadOnlyDictionary<string, float> imperatorModifiers;
+		IReadOnlyDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorDeityManager, imperatorReligions.Deities);
 		if (deity is not null) {
 			imperatorModifiers = deity.PassiveModifiers;
@@ -142,7 +142,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				imperatorModifiers = religion.Modifiers.ToImmutableDictionary();
 			} else {
 				Logger.Warn($"No Imperator religion or deity found for holy site generated in {barony} for {ck3Faith}!");
-				imperatorModifiers = new Dictionary<string, float>();
+				imperatorModifiers = new Dictionary<string, double>();
 			}
 		}
 		return new HolySite(barony, ck3Faith, titles, imperatorModifiers, holySiteEffectMapper);

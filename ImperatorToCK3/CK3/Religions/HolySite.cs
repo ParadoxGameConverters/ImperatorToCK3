@@ -41,7 +41,7 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 		Title barony,
 		Faith faith,
 		Title.LandedTitles titles,
-		IReadOnlyDictionary<string, float> imperatorEffects,
+		IReadOnlyDictionary<string, double> imperatorEffects,
 		HolySiteEffectMapper holySiteEffectMapper
 	) : this(barony, faith, titles) {
 		foreach (var (effect, value) in imperatorEffects) {
