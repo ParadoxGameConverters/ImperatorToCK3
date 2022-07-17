@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
@@ -6,11 +7,13 @@ using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
+using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator {
 	public class World : Parser {
@@ -25,6 +28,7 @@ namespace ImperatorToCK3.Imperator {
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
+		public ReligionCollection Religions { get; }
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -32,6 +36,7 @@ namespace ImperatorToCK3.Imperator {
 
 		public World(Configuration config) {
 			ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
+			Religions = new ReligionCollection(new ScriptValueCollection());
 		}
 		public World(Configuration config, ConverterVersion converterVersion): this(config) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
@@ -118,6 +123,9 @@ namespace ImperatorToCK3.Imperator {
 				Jobs = new Jobs.Jobs(reader);
 				Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
 			});
+			RegisterKeyword("deity_manager", reader => {
+				Religions.LoadHolySiteDatabase(reader);
+			});
 			RegisterKeyword("played_country", reader => {
 				var playerCountriesToLog = new List<string>();
 				var playedCountryBlocParser = new Parser();
@@ -158,6 +166,12 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 
+			var scriptValues = new ScriptValueCollection();
+			scriptValues.LoadScriptValues(ModFS);
+			Religions = new ReligionCollection(scriptValues);
+			Religions.LoadDeities(ModFS);
+			Religions.LoadReligions(ModFS);
+			
 			LoadPreImperatorRulers();
 
 			Logger.Info("*** Good-bye Imperator, rest in peace. ***");

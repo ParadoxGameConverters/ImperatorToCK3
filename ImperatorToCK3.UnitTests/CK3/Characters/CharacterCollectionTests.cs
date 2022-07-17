@@ -2,8 +2,10 @@ using commonItems;
 using commonItems.Localization;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -44,12 +46,14 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
 		imperatorWorld.Characters.Add(child);
+
+		var ck3Religions = new ReligionCollection();
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
@@ -86,12 +90,13 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
 
+		var ck3Religions = new ReligionCollection();
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
@@ -135,12 +140,13 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(female2);
 		imperatorWorld.Characters.Add(female3);
 
+		var ck3Religions = new ReligionCollection();
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
@@ -250,7 +256,7 @@ public class CharacterCollectionTests {
 		var countryLocBlock = locDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
 		
-		var religionMapper = new ReligionMapper(impRegionMapper, ck3RegionMapper);
+		var religionMapper = new ReligionMapper(new ReligionCollection(), impRegionMapper, ck3RegionMapper);
 		var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 		var coaMapper = new CoaMapper();
 		var definiteFormMapper = new DefiniteFormMapper();

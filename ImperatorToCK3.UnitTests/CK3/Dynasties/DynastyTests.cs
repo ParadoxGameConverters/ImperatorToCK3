@@ -3,6 +3,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -30,7 +31,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties {
 			private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
 
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-			private ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");

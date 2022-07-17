@@ -171,6 +171,11 @@ public partial class Title {
 			return null;
 		}
 
+		public Title? GetBaronyForProvince(ulong provinceId) {
+			var baronies = this.Where(title => title.Rank == TitleRank.barony);
+			return baronies.FirstOrDefault(b => provinceId == b?.Province, defaultValue: null);
+		}
+
 		public HashSet<string> GetHolderIds(Date date) {
 			return new HashSet<string>(this.Select(t => t.GetHolderId(date)));
 		}

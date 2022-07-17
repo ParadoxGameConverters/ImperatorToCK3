@@ -1,0 +1,7 @@
+deity1 = {}
+deity2 = {}
+deity3 = {}
+deity4 = {}
+deity5 = {}
+deity6 = {}
+deity7 = {}

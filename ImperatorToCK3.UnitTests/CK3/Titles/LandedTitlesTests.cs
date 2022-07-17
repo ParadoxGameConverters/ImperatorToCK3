@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
@@ -179,7 +180,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				)
 			);
 			var locDB = new LocDB("english");
-			var religionMapper = new ReligionMapper(impRegionMapper, ck3RegionMapper);
+			var ck3Religions = new ReligionCollection();
+			var religionMapper = new ReligionMapper(ck3Religions, impRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 			var coaMapper = new CoaMapper();
 			var definiteFormMapper = new DefiniteFormMapper();
@@ -395,6 +397,23 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			Assert.Equal("420", title.GetHolderId(date));
 			Assert.Equal(20, title.GetDevelopmentLevel(date));
+		}
+
+		[Fact]
+		public void GetBaronyForProvinceReturnsCorrectBaronyOrNullWhenNotFound() {
+			var titles = new Title.LandedTitles();
+			var titlesReader = new BufferedReader(@"
+				c_county = {
+					b_barony1 = { province=1 }
+					b_barony2 = { province=2 }
+					b_barony3 = { province=3 }
+				}");
+			titles.LoadTitles(titlesReader);
+			
+			Assert.Equal("b_barony1", titles.GetBaronyForProvince(1)?.Id);
+			Assert.Equal("b_barony2", titles.GetBaronyForProvince(2)?.Id);
+			Assert.Equal("b_barony3", titles.GetBaronyForProvince(3)?.Id);
+			Assert.Null(titles.GetBaronyForProvince(4));
 		}
 	}
 }

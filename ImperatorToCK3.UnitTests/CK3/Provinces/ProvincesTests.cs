@@ -18,13 +18,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 
 			Assert.Equal(4, provinces.Count);
 			Assert.Equal("slovien", provinces[3080].Culture);
-			Assert.Equal("catholic", provinces[3080].Religion);
+			Assert.Equal("catholic", provinces[3080].FaithId);
 			Assert.Equal("slovien", provinces[4165].Culture);
-			Assert.Equal("catholic", provinces[4165].Religion);
+			Assert.Equal("catholic", provinces[4165].FaithId);
 			Assert.Equal("czech", provinces[4125].Culture);
-			Assert.Equal("slavic_pagan", provinces[4125].Religion);
+			Assert.Equal("slavic_pagan", provinces[4125].FaithId);
 			Assert.Equal("czech", provinces[4161].Culture);
-			Assert.Equal("slavic_pagan", provinces[4161].Religion);
+			Assert.Equal("slavic_pagan", provinces[4161].FaithId);
 		}
 	}
 }
