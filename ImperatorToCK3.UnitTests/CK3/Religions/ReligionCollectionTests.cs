@@ -28,7 +28,7 @@ public class ReligionCollectionTests {
 		religions.LoadReligions(ck3ModFS);
 
 		var religionIds = religions.Select(r => r.Id);
-		religionIds.Should().Contain("religion_a", "religion_b", "religion_c");
+		religionIds.Should().Contain(new[] {"religion_a", "religion_b", "religion_c" });
 	}
 
 	[Fact]

@@ -18,7 +18,7 @@ public class ReligionTests {
 			faith=>Assert.Equal("catholic", faith.Id));
 
 		var religionStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(religion), @"\s", "");
-		religionStrWithoutWhitespace.Should().Contain("orthodox={}", "catholic={}");
+		religionStrWithoutWhitespace.Should().ContainAll("orthodox={}", "catholic={}");
 	}
 
 	[Fact]

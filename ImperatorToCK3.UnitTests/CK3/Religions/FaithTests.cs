@@ -4,13 +4,14 @@ using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions; 
 
 public class FaithTests {
 	[Fact]
-	public void HolySitesAreLoaded() {
+	public void HolySiteIdsAreLoadedAndSerialized() {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
 		var faith = new Faith("chalcedonian", reader);
 		
@@ -18,6 +19,12 @@ public class FaithTests {
 			site=>Assert.Equal("rome", site),
 			site=>Assert.Equal("constantinople", site),
 			site=>Assert.Equal("antioch", site));
+		
+		var faithStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(faith), @"\s", "");
+		faithStrWithoutWhitespace.Should().ContainAll(
+			"holy_site=rome",
+			"holy_site=constantinople",
+			"holy_site=antioch");
 	}
 
 	[Fact]
