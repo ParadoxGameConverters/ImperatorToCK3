@@ -96,6 +96,7 @@ link = { ck3=beja imp=blemmyan } # Beja were formerly referred to as Blemmyes: h
 link = { ck3=ethiopian
 	imp=boran
 	imp=athagaun # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
+	imp=daamoti # https://en.wikipedia.org/wiki/D%CA%BFmt
 }
 link = { ck3=somali
 	imp=berberian # not to be confused with Berbers
