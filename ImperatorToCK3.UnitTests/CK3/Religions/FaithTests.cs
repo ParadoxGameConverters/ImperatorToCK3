@@ -2,6 +2,8 @@ using commonItems;
 using commonItems.Serialization;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
+using System;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions; 
@@ -38,11 +40,26 @@ public class FaithTests {
 	[Fact]
 	public void HolySiteIdCanBeReplaced() {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("chalcedonian", reader);
+		var faith = new Faith("orthodox", reader);
 		Assert.False(faith.ModifiedByConverter);
 		
 		faith.ReplaceHolySiteId("antioch", "jerusalem");
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "jerusalem");
 		Assert.True(faith.ModifiedByConverter);
+	}
+
+	[Fact]
+	public void ReplacingMissingHolySiteIdDoesNotChangeHolySites() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+		
+		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
+		var faith = new Faith("orthodox", reader);
+		Assert.False(faith.ModifiedByConverter);
+		
+		faith.ReplaceHolySiteId("washington", "jerusalem");
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
+		Assert.False(faith.ModifiedByConverter);
+		Assert.Contains("washington does not belong to holy sites of faith orthodox and cannot be replaced!", output.ToString());
 	}
 }
