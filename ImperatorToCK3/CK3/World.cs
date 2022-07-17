@@ -45,7 +45,11 @@ namespace ImperatorToCK3.CK3 {
 				Logger.Error("Corrected save date is later than CK3 bookmark date, proceeding at your own risk!");
 			}
 
-			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
+			var ck3Mods = new List<Mod> {
+				// include a fake mod pointing to blankMod
+				new("blankMod", "blankMod/output")
+			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
@@ -54,11 +58,8 @@ namespace ImperatorToCK3.CK3 {
 			locDB.ScrapeLocalizations(impWorld.ModFS);
 			
 			// Load CK3 religions from game and blankMod
-			var blankModReligionPath = Path.Join("blankMod", "output", "common", "religion");
 			Religions.LoadHolySites(ck3ModFS);
-			Religions.LoadHolySites(Path.Combine(blankModReligionPath, "holy_sites"));
 			Religions.LoadReligions(ck3ModFS);
-			Religions.LoadReligions(Path.Combine(blankModReligionPath, "religions"));
 			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
 			// Load Imperator CoAs to use them for generated CK3 titles

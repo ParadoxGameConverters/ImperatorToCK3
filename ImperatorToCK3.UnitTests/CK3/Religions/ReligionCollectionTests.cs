@@ -34,7 +34,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void ReplaceableHolySitesCanBeLoaded() {
 		var religions = new ReligionCollection();
-		religions.LoadReligions(TestReligionsDirectory);
+		religions.LoadReligions(ck3ModFS);
 		religions.LoadReplaceableHolySites(TestReplaceableHolySitesFile);
 
 		religions.ReplaceableHolySitesByFaith["religion_a_faith"]
