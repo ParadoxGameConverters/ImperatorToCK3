@@ -9,7 +9,6 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Provinces;
 
 public class Province : IIdentifiable<ulong> {
-	public Province() {}
 	public Province(ulong id) {
 		Id = id;
 	}

@@ -13,8 +13,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 	public class ProvinceTests {
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
-			var province = new Province();
-			Assert.Equal((ulong)0, province.Id);
+			var province = new Province(1);
+			Assert.Equal((ulong)1, province.Id);
 			Assert.Equal(string.Empty, province.FaithId);
 			Assert.Equal(string.Empty, province.Culture);
 			Assert.Equal("none", province.Holding);
@@ -22,7 +22,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 
 		[Fact]
 		public void FieldsCanBeSet() {
-			var province = new Province();
+			var province = new Province(1);
 			province.FaithId = "orthodox";
 			Assert.Equal("orthodox", province.FaithId);
 			province.Culture = "roman";
@@ -64,12 +64,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var impProvince6 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader6, 47);
 			impProvince6.LinkOwnerCountry(imperatorCountry);
 
-			var province1 = new Province();
-			var province2 = new Province();
-			var province3 = new Province();
-			var province4 = new Province();
-			var province5 = new Province();
-			var province6 = new Province();
+			var province1 = new Province(1);
+			var province2 = new Province(2);
+			var province3 = new Province(3);
+			var province4 = new Province(4);
+			var province5 = new Province(5);
+			var province6 = new Province(6);
 
 			var ck3Religions = new ReligionCollection();
 			var landedTitles = new Title.LandedTitles();
