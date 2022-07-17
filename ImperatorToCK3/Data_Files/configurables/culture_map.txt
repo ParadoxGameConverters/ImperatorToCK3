@@ -93,8 +93,14 @@ link = { ck3=somali imp=puntic }
 link = { ck3=ethiopian imp=aksumite }
 # Invictus mod
 link = { ck3=beja imp=blemmyan } # Beja were formerly referred to as Blemmyes: https://en.wikipedia.org/wiki/Beja_people
-link = { ck3=ethiopian imp=boran imp=athagaun } # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
-link = { ck3=somali imp=berberian } # not to be confused with Berbers, https://en.wikipedia.org/wiki/Berbera
+link = { ck3=ethiopian
+	imp=boran
+	imp=athagaun # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
+}
+link = { ck3=somali
+	imp=berberian # not to be confused with Berbers
+	imp=avalitian # "The people of Avalites were probably proto-Somalis, called Barbaras": https://en.wikipedia.org/wiki/Avalites
+}
 
 ## Meroitic
 link = { ck3=nubian imp=meroitic }
