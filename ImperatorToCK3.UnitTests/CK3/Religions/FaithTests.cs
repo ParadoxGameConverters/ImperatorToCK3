@@ -34,4 +34,15 @@ public class FaithTests {
 			"doctrine=tenet_human_sacrifice"
 		);
 	}
+
+	[Fact]
+	public void HolySiteIdCanBeReplaced() {
+		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
+		var faith = new Faith("chalcedonian", reader);
+		Assert.False(faith.ModifiedByConverter);
+		
+		faith.ReplaceHolySiteId("antioch", "jerusalem");
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "jerusalem");
+		Assert.True(faith.ModifiedByConverter);
+	}
 }
