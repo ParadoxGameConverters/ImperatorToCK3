@@ -124,6 +124,8 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
+			Characters.DistributeCountriesGold(LandedTitles, config);
+
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
 		}
