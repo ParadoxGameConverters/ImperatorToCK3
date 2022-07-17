@@ -88,12 +88,18 @@
 @culture_splitting_region_Y = "impRegion = lusitania_region"
 
 ## Aksumite
-link = { ck3 = beja imp = puntic imp = aksumite ck3Province = 8278 ck3Province = 6113 ck3Province = 6373 ck3Province = 6375 ck3Province = 6378 ck3Province = 6380 ck3Province = 6376 ck3Province = 6440 ck3Province = 6438 ck3Province = 6412 ck3Province = 6437 ck3Province = 6436 }
 link = { ck3 = afar imp = puntic imp = aksumite ck3Province = 8286 ck3Province = 8326 ck3Province = 8344 ck3Province = 8334 ck3Province = 8332 ck3Province = 8339 ck3Province = 8342 }
-link = { ck3 = somali imp = puntic }
-link = { ck3 = ethiopian imp = aksumite }
+link = { ck3=somali imp=puntic }
+link = { ck3=ethiopian imp=aksumite }
 # Invictus mod
-link = { ck3 = ethiopian imp = boran }
+link = { ck3=beja imp=blemmyan } # Beja were formerly referred to as Blemmyes: https://en.wikipedia.org/wiki/Beja_people
+link = { ck3=ethiopian imp=boran imp=athagaun } # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
+link = { ck3=somali imp=berberian } # not to be confused with Berbers, https://en.wikipedia.org/wiki/Berbera
+
+## Meroitic
+link = { ck3=nubian imp=meroitic }
+# Invictus mod
+link = { ck3=nubian imp=nubian imp=lower_nubian imp=alutan imp=moyan imp=adabulian }
 
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
@@ -367,11 +373,6 @@ link = { ck3 = etruscan imp = etruscan imp = rhaetian @culture_splitting_region_
 link = { ck3 = lemnian imp = etruscan imp = rhaetian @culture_splitting_region_J @culture_splitting_region_K @culture_splitting_region_R }
 link = { ck3 = etruscan imp = etruscan }
 link = { ck3 = rhaetian imp = rhaetian }
-
-## Meroitic
-link = { ck3 = nubian imp = blemmyan imp = meroitic }
-# Invictus mod
-link = { ck3 = nubian imp = lower_nubian imp = alutan imp = moyan }
 
 ## North African
 link = { ck3 = old_egyptian imp = egyptian imp = upper_egyptian imp = middle_egyptian }
