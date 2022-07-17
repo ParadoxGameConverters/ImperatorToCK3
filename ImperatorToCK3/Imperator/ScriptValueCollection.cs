@@ -47,16 +47,15 @@ public class ScriptValueCollection : IReadOnlyDictionary<string, double> {
 	public IEnumerable<string> Keys => dict.Keys;
 	public IEnumerable<double> Values => dict.Values;
 	
-	public double GetModifierValue(string valueStr) {
+	public double? GetValueForString(string valueStr) {
 		if (double.TryParse(valueStr, CultureInfo.InvariantCulture, out var parsedValue)) {
 			return parsedValue;
 		}
 		if (TryGetValue(valueStr, out double definedValue)) {
 			return definedValue;
 		}
-
-		const double defaultValue = 1;
-		Logger.Warn($"Could not determine modifier value from string \"{valueStr}\", defaulting to {defaultValue}");
-		return defaultValue;
+		
+		Logger.Warn($"No script value found for \"{valueStr}\"!");
+		return null;
 	}
 }

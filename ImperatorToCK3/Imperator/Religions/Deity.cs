@@ -15,9 +15,12 @@ public class Deity : IIdentifiable<string> {
 		var parser = new Parser();
 		parser.RegisterKeyword("passive_modifier", reader => {
 			var modifierValuePairs = reader.GetAssignments()
-				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetModifierValue(kvp.Value));
+				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetValueForString(kvp.Value));
 			foreach (var (modifierName, value) in modifierValuePairs) {
-				PassiveModifiers[modifierName] = value;
+				if (value is null) {
+					continue;
+				}
+				PassiveModifiers[modifierName] = (double)value;
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);

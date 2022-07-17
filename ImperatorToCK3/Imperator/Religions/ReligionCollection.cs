@@ -15,7 +15,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
 			parsedReligionModifiers = modifiersAssignments
-				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetModifierValue(kvp.Value));
+				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetValueForString(kvp.Value))
+				.Where(kvp=>kvp.Value is not null)
+				.ToDictionary(kvp => kvp.Key, kvp=>(double)kvp.Value!);
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		
