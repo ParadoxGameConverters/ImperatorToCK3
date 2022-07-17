@@ -21,6 +21,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string Religion { get; set; } = string.Empty;
 		public string Name { get; set; }
 		public string? Nickname { get; set; }
+		public double? Gold { get; set; }
 
 		public uint Age { get; private set; }
 		public string AgeSex {
@@ -218,6 +219,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			var impDeathReason = ImperatorCharacter.DeathReason;
 			if (impDeathReason is not null) {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
+			}
+
+			if (ImperatorCharacter.Wealth != 0) {
+				Gold = ImperatorCharacter.Wealth * config.ImperatorCurrencyRate;
 			}
 
 			// if character is imprisoned, set jailor

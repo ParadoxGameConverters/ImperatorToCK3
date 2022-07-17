@@ -1,1 +1,2 @@
-galatia_region = { areas = {galatia_area} }
+galatia_region = { areas = { galatia_area } }
+paphlagonia_region = { areas = { paphlagonia_area } }

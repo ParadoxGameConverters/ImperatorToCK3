@@ -12,6 +12,7 @@ namespace ImperatorToCK3 {
 		public string CK3ModsPath { get; set; } = "";
 		public string OutputModName { get; set; } = "";
 		public bool HeresiesInHistoricalAreas { get; set; } = false;
+		public double ImperatorCurrencyRate { get; set; } = 1.0d;
 		public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 
 		public Configuration() { }
@@ -45,10 +46,14 @@ namespace ImperatorToCK3 {
 				var valueString = reader.GetString();
 				try {
 					HeresiesInHistoricalAreas = Convert.ToInt32(valueString) == 1;
-					Logger.Info($"HeresiesInHistoricalAreas set to: {HeresiesInHistoricalAreas}");
+					Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
 				} catch (Exception e) {
-					Logger.Error($"Undefined error, HeresiesInHistoricalAreas value was: {valueString}; Error message: {e}");
+					Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
 				}
+			});
+			parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
+				ImperatorCurrencyRate = reader.GetDouble();
+				Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
 			});
 
 			parser.RegisterKeyword("bookmark_date", reader => {
