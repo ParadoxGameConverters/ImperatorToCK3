@@ -97,6 +97,7 @@ link = { ck3=ethiopian
 	imp=boran
 	imp=athagaun # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
 	imp=daamoti # https://en.wikipedia.org/wiki/D%CA%BFmt
+	link=ona
 }
 link = { ck3=somali
 	imp=berberian # not to be confused with Berbers
