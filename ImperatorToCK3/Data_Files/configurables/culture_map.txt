@@ -92,12 +92,18 @@ link = { ck3 = afar imp = puntic imp = aksumite ck3Province = 8286 ck3Province =
 link = { ck3=somali imp=puntic }
 link = { ck3=ethiopian imp=aksumite }
 # Invictus mod
-link = { ck3=beja imp=blemmyan } # Beja were formerly referred to as Blemmyes: https://en.wikipedia.org/wiki/Beja_people
+link = { ck3=beja
+	# Beja were formerly referred to as Blemmyes: https://en.wikipedia.org/wiki/Beja_people
+	imp=blemmyan
+	# "Adabulians could be classified as Blemmyan instead as they had intense relations and it seems the Blemmyans absorbed them anyway by the birth of Christ."
+	# ~shocky27 on Invictus discord
+	imp=adabulian
+}
 link = { ck3=ethiopian
 	imp=boran
 	imp=athagaun # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
 	imp=daamoti # https://en.wikipedia.org/wiki/D%CA%BFmt
-	link=ona
+	imp=ona
 }
 link = { ck3=somali
 	imp=berberian # not to be confused with Berbers
@@ -107,7 +113,7 @@ link = { ck3=somali
 ## Meroitic
 link = { ck3=nubian imp=meroitic }
 # Invictus mod
-link = { ck3=nubian imp=nubian imp=lower_nubian imp=alutan imp=moyan imp=adabulian }
+link = { ck3=nubian imp=nubian imp=lower_nubian imp=alutan imp=moyan }
 
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
