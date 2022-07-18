@@ -38,6 +38,7 @@ public partial class Province : IIdentifiable<ulong> {
 
 	public Deity? GetHolySiteDeity(ReligionCollection religions) {
 		if (HolySiteId is null) {
+			Logger.Debug($"HOLY SITE OF PROVINCE {Id} IS NULL"); // TODO: REMOVE DEBUG
 			return null;
 		}
 

@@ -56,8 +56,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.RegisterKeyword("deities_database", databaseReader => {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
-				var deityId = StringUtils.RemQuotes(reader.GetAssignments()["deity"]);
-				holySiteIdToDeityIdDict[ulong.Parse(holySiteIdStr)] = deityId;
+				var holySiteId = ulong.Parse(holySiteIdStr);
+				var deityId = reader.GetAssignments()["deity"].RemQuotes();
+				Logger.Debug($"ADDING HOLY SITE - DEITY PAIR {holySiteId}, {deityId}"); // TODO: REMOVE DEBUG
+				holySiteIdToDeityIdDict[holySiteId] = deityId;
 			});
 			databaseParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 			databaseParser.ParseStream(databaseReader);
@@ -73,6 +75,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public Deity? GetDeityForHolySiteId(ulong holySiteId) {
 		var deityId = GetDeityIdForHolySiteId(holySiteId);
 		if (deityId is null) {
+			
+			Logger.Debug($"DEITY ID FOR HOLY SITE ID {holySiteId} IS NULL"); // TODO: REMOVE DEBUG
 			return null;
 		}
 		return Deities.TryGetValue(deityId, out var deity) ? deity : null;

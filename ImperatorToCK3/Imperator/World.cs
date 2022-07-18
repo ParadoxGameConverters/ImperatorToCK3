@@ -170,6 +170,7 @@ namespace ImperatorToCK3.Imperator {
 			scriptValues.LoadScriptValues(ModFS);
 			Religions = new ReligionCollection(scriptValues);
 			Religions.LoadDeities(ModFS);
+			Logger.Notice($"DO DEITIES CONTAIN deity_hludana? {(Religions.Deities.ContainsKey("deity_hludana"))}");
 			Religions.LoadReligions(ModFS);
 			
 			LoadPreImperatorRulers();
