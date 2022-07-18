@@ -1,4 +1,6 @@
 ﻿l_english:
+ heritage_anatolian_name: "Anatolian"
+ heritage_anatolian_collective_noun: "Anatolians"
  heritage_gaulish_name:0 "$gaulish_group$"
  heritage_gaulish_collective_noun:0 "$gaulish_group_collective_noun$"
  heritage_thracian_name:0 "$thracian_group$"
@@ -21,3 +23,5 @@
  heritage_arvanite_collective_noun:0 "$arvanite_group_collective_noun$"
  heritage_east_germanic_name:0 "East Germanic"
  heritage_east_germanic_collective_noun:0 "East Germanics"
+ heritage_tyrrhenian_name: "Tyrrhenian"
+ heritage_tyrrhenian_collective_noun: "Tyrrhenians"
