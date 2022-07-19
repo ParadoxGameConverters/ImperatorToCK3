@@ -48,7 +48,7 @@ public class ScriptValueCollection : IReadOnlyDictionary<string, double> {
 	public IEnumerable<double> Values => dict.Values;
 	
 	public double? GetValueForString(string valueStr) {
-		if (double.TryParse(valueStr, CultureInfo.InvariantCulture, out var parsedValue)) {
+		if (double.TryParse(valueStr, out var parsedValue)) {
 			return parsedValue;
 		}
 		if (TryGetValue(valueStr, out double definedValue)) {

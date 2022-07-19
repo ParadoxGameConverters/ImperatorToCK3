@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -60,6 +61,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				var deityId = reader.GetAssignments()["deity"].RemQuotes();
 				Logger.Debug($"ADDING HOLY SITE - DEITY PAIR {holySiteId}, {deityId}"); // TODO: REMOVE DEBUG
 				holySiteIdToDeityIdDict[holySiteId] = deityId;
+				if (!holySiteIdToDeityIdDict.ContainsKey(holySiteId)) {
+					throw new Exception($"WHAT THE FUCK IS WRONG WITH {holySiteId}");
+				}
 			});
 			databaseParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 			databaseParser.ParseStream(databaseReader);
@@ -70,11 +74,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 	
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
+		Logger.Notice($"DICT COUNT: {holySiteIdToDeityIdDict.Count}");
+		
 		if (holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId)) {
 			Logger.Info($"DEITY ID {deityId} FOUND FOR HOLY SITE ID {holySiteId}"); // TODO: REMOVE DEBUG
 			return deityId;
 		} else {
-			Logger.Warn($"DEITY ID NOT FOUND FOR HOLY SITE ID {deityId}"); // TODO: REMOVE DEBUG
+			Logger.Warn($"DEITY ID NOT FOUND FOR HOLY SITE ID {holySiteId}"); // TODO: REMOVE DEBUG
 			return null;
 		}
 	}

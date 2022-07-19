@@ -42,7 +42,13 @@ public partial class Province : IIdentifiable<ulong> {
 			return null;
 		}
 
-		return religions.GetDeityForHolySiteId((ulong)HolySiteId);
+		Logger.Info($"HOLY SITE OF PROVINCE {Id} IS {HolySiteId}"); // TODO: REMOVE DEBUG
+		var ulongId = (ulong)HolySiteId;
+		Logger.Info($"\t\tulongId = {ulongId}"); // TODO: REMOVE DEBUG
+		var deity = religions.GetDeityForHolySiteId((ulong)HolySiteId);
+		Logger.Info($"\t\tdeity = {deity}"); // TODO: REMOVE DEBUG
+		
+		return deity;
 	}
 
 	public void LinkOwnerCountry(Country country) {
