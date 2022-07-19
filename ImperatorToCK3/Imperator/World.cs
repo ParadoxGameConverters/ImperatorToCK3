@@ -251,9 +251,10 @@ namespace ImperatorToCK3.Imperator {
 		}
 
 		private void LoadModFilesystemDependentData() {
+			ScriptValues.LoadScriptValues(ModFS);
+			
 			Country.LoadGovernments(ModFS);
 				
-			ScriptValues.LoadScriptValues(ModFS);
 			Religions = new ReligionCollection(ScriptValues);
 			Religions.LoadDeities(ModFS);
 			Religions.LoadReligions(ModFS);
