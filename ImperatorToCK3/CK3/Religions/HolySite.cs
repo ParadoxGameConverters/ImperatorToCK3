@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
@@ -13,7 +14,7 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public bool IsGeneratedByConverter { get; }
 	[SerializedName("county")] public string? CountyId { get; private set; }
 	[SerializedName("barony")] public string? BaronyId { get; private set; }
-	[SerializedName("character_modifier")] public Dictionary<string, string> CharacterModifier { get; set; } = new();
+	[SerializedName("character_modifier")] public Dictionary<string, object> CharacterModifier { get; set; } = new();
 	[SerializedName("flag")] public string? Flag { get; set; }
 	
 	public HolySite(string id, BufferedReader holySiteReader) {
@@ -22,7 +23,10 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 		var parser = new Parser();
 		parser.RegisterKeyword("county", reader => CountyId = reader.GetString());
 		parser.RegisterKeyword("barony", reader => BaronyId = reader.GetString());
-		parser.RegisterKeyword("character_modifier", reader => CharacterModifier = reader.GetAssignments());
+		parser.RegisterKeyword("character_modifier", reader => {
+			CharacterModifier = reader.GetAssignments()
+				.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
+		});
 		parser.RegisterKeyword("flag", reader => Flag = reader.GetString());
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseStream(holySiteReader);
@@ -50,7 +54,7 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 				continue;
 			}
 
-			CharacterModifier[ck3Effect.Key] = ck3Effect.Value.ToString(CultureInfo.InvariantCulture);
+			CharacterModifier[ck3Effect.Key] = (float)ck3Effect.Value;
 		}
 	}
 }

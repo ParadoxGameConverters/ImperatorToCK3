@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.HolySiteEffect;
@@ -71,7 +72,7 @@ public class HolySiteTests {
 		Assert.Collection(site.CharacterModifier,
 			kvp1 => {
 				Assert.Equal("knight_effectiveness_mult", kvp1.Key);
-				Assert.StartsWith("2.00000", kvp1.Value); // 0.2 * 10
+				Assert.Equal("2", PDXSerializer.Serialize(kvp1.Value)); // 0.2 * 10
 			});
 		Assert.Null(site.Flag);
 	}
