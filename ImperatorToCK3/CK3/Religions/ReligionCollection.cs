@@ -144,11 +144,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				imperatorModifiers = new Dictionary<string, double>();
 			}
 		}
-
-		if (barony.Id is "b_champs" or "b_enniscorthy" or "b_kabala" or "b_as-sus" or "b_sohar" or "b_lhasa" or "b_potala" or "b_lhunzhub") {
-			// TODO: remove debug logging
-			Logger.Notice($"{barony.Id} Imperator modifiers: {string.Join(',', imperatorModifiers)}");
-		}
+		
 		return new HolySite(barony, ck3Faith, titles, imperatorModifiers, holySiteEffectMapper);
 	}
 
