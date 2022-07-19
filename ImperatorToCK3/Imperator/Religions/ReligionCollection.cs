@@ -70,13 +70,18 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 	
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
-		return holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId) ? deityId : null;
+		if (holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId)) {
+			Logger.Info($"DEITY ID {deityId} FOUND FOR HOLY SITE ID {holySiteId}"); // TODO: REMOVE DEBUG
+			return deityId;
+		} else {
+			Logger.Warn($"DEITY ID NOT FOUND FOR HOLY SITE ID {deityId}"); // TODO: REMOVE DEBUG
+			return null;
+		}
 	}
 	public Deity? GetDeityForHolySiteId(ulong holySiteId) {
 		var deityId = GetDeityIdForHolySiteId(holySiteId);
 		if (deityId is null) {
-			
-			Logger.Debug($"DEITY ID FOR HOLY SITE ID {holySiteId} IS NULL"); // TODO: REMOVE DEBUG
+			Logger.Warn($"DEITY ID FOR HOLY SITE ID {holySiteId} IS NULL"); // TODO: REMOVE DEBUG
 			return null;
 		}
 		return Deities.TryGetValue(deityId, out var deity) ? deity : null;
