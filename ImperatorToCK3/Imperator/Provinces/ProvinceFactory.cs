@@ -20,7 +20,7 @@ public partial class Province {
 			parsedProvince.parsedOwnerCountryId = reader.GetULong()
 		);
 		provinceParser.RegisterKeyword("controller", reader =>
-			parsedProvince.ControllerId = reader.GetULong()
+			parsedProvince.parsedControllerId = reader.GetULong()
 		);
 		provinceParser.RegisterKeyword("pop", reader =>
 			parsedProvince.parsedPopIds.Add(reader.GetULong())

@@ -13,9 +13,33 @@ public partial class Province : IIdentifiable<ulong> {
 	public string Name { get; set; } = "";
 	public string Culture { get; set; } = "";
 	public string ReligionId { get; set; } = "";
+	
 	private ulong? parsedOwnerCountryId;
-	public Country? OwnerCountry { get; set; }
-	public ulong ControllerId { get; set; } = 0; // ID of controlling country
+	private Country? ownerCountry;
+	public Country? OwnerCountry {
+		get => ownerCountry;
+		set {
+			if (parsedOwnerCountryId is not null && value is not null && parsedOwnerCountryId != value.Id) {
+				Logger.Warn($"Province {Id}: linking owner {value.Id} that doesn't match owner from save ({parsedOwnerCountryId})!");
+			}
+
+			ownerCountry = value;
+		}
+	}
+
+	private ulong? parsedControllerId; // ID of controlling country
+	private Country? controllerCountry;
+	public Country? ControllerCountry {
+		get => controllerCountry;
+		private set {
+			if (parsedControllerId is not null && value is not null && parsedControllerId != value.Id) {
+				Logger.Warn($"Province {Id}: linking controller {value.Id} that doesn't match controller from save ({parsedControllerId})!");
+			}
+
+			controllerCountry = value;
+		}
+	}
+	
 	public Dictionary<ulong, Pop> Pops { get; set; } = new();
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 	public PDXBool Fort { get; set; } = new(false);
@@ -40,21 +64,28 @@ public partial class Province : IIdentifiable<ulong> {
 		return HolySiteId is null ? null : religions.GetDeityForHolySiteId((ulong)HolySiteId);
 	}
 
-	public void LinkOwnerCountry(Country country) {
-		if (parsedOwnerCountryId is not null && parsedOwnerCountryId != country.Id) {
-			Logger.Warn($"Province {Id}: linking owner {country.Id} that doesn't match owner from save ({parsedOwnerCountryId})!");
-		}
-
-		OwnerCountry = country;
-	}
-
 	public bool TryLinkOwnerCountry(CountryCollection countries) {
 		if (parsedOwnerCountryId is null) {
 			return false;
 		}
 		if (countries.TryGetValue((ulong)parsedOwnerCountryId, out var countryToLink)) {
 			// link both ways
-			LinkOwnerCountry(countryToLink);
+			OwnerCountry = countryToLink;
+			countryToLink.RegisterProvince(this);
+			return true;
+		}
+
+		Logger.Warn($"Country with ID {parsedOwnerCountryId} has no definition!");
+		return false;
+	}
+
+	public bool TryLinkControllerCountry(CountryCollection countries) {
+		if (parsedControllerId is null) {
+			return false;
+		}
+		if (countries.TryGetValue((ulong)parsedControllerId, out var countryToLink)) {
+			// link both ways
+			OwnerCountry = countryToLink;
 			countryToLink.RegisterProvince(this);
 			return true;
 		}

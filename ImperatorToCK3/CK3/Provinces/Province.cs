@@ -3,6 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,13 +23,13 @@ public class Province : IIdentifiable<ulong> {
 	}
 
 	public void InitializeFromImperator(
-		Imperator.Provinces.Province impProvince,
+		Imperator.Provinces.Province imperatorProvince,
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
 		Configuration config
 	) {
-		ImperatorProvince = impProvince;
+		ImperatorProvince = imperatorProvince;
 
 		// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
 		// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
@@ -36,6 +37,11 @@ public class Province : IIdentifiable<ulong> {
 		var impOwnerCountry = ImperatorProvince.OwnerCountry;
 		if (impOwnerCountry is not null) {
 			ownerTitle = impOwnerCountry.CK3Title; // linking to our holder's title
+		}
+
+		var imperatorController = ImperatorProvince.ControllerCountry;
+		if (imperatorController is not null) {
+			throw new NotImplementedException();
 		}
 
 		// Religion first

@@ -2,6 +2,7 @@
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
@@ -51,19 +52,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var reader5 = new BufferedReader(" = { province_rank=settlement fort=yes }");
 			var reader6 = new BufferedReader(" = { province_rank=settlement }");
 
-			var imperatorCountry = new ImperatorToCK3.Imperator.Countries.Country(1);
+			var imperatorCountry = new Country(1);
 			var impProvince = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader1, 42);
-			impProvince.LinkOwnerCountry(imperatorCountry);
+			impProvince.OwnerCountry = imperatorCountry;
 			var impProvince2 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader2, 43);
-			impProvince2.LinkOwnerCountry(imperatorCountry);
+			impProvince2.OwnerCountry = imperatorCountry;
 			var impProvince3 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader3, 44);
-			impProvince3.LinkOwnerCountry(imperatorCountry);
+			impProvince3.OwnerCountry = imperatorCountry;
 			var impProvince4 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader4, 45);
-			impProvince4.LinkOwnerCountry(imperatorCountry);
+			impProvince4.OwnerCountry = imperatorCountry;
 			var impProvince5 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader5, 46);
-			impProvince5.LinkOwnerCountry(imperatorCountry);
+			impProvince5.OwnerCountry = imperatorCountry;
 			var impProvince6 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader6, 47);
-			impProvince6.LinkOwnerCountry(imperatorCountry);
+			impProvince6.OwnerCountry = imperatorCountry;
 
 			var province1 = new Province(1);
 			var province2 = new Province(2);
@@ -73,6 +74,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var province6 = new Province(6);
 
 			var ck3Religions = new ReligionCollection();
+			var imperatorCountries = new CountryCollection();
 			var landedTitles = new Title.LandedTitles();
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();

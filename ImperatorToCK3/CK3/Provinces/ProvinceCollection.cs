@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -81,7 +82,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	public void ImportImperatorProvinces(
-		Imperator.World impWorld,
+		Imperator.World imperatorWorld,
 		Title.LandedTitles titles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
@@ -98,16 +99,21 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				continue;
 			}
 			// Next, we find what province to use as its initializing source.
-			var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
+			var sourceProvince = DetermineProvinceSource(impProvinces, imperatorWorld);
 			if (sourceProvince is null) {
 				Logger.Warn($"Could not determine source province for CK3 province {province.Id}!");
 				continue; // MISMAP, or simply have mod provinces loaded we're not using.
 			}
-			province.InitializeFromImperator(sourceProvince.Value.Value, titles, cultureMapper, religionMapper, config);
 			// And finally, initialize it.
+			province.InitializeFromImperator(
+				sourceProvince.Value.Value,
+				titles,
+				cultureMapper,
+				religionMapper,
+				config);
 			++counter;
 		}
-		Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
+		Logger.Info($"{imperatorWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
 	}
 
 	private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(

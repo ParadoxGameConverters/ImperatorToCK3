@@ -101,9 +101,7 @@ public class ProvinceTests {
 
 	[Fact]
 	public void NameDefaultsToBlank() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
+		var reader = new BufferedReader();
 
 		var theProvince = Province.Parse(reader, 42);
 
@@ -111,13 +109,10 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void OwnerCanBeSet() {
+	public void OwnerCountryCanBeSet() {
 		var reader = new BufferedReader(
-			"= {\n" +
-			"\towner=69\n" +
-			"}"
+			"= { owner=69 }"
 		);
-
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.Null(theProvince.OwnerCountry); // not linked yet
@@ -130,7 +125,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void OwnerDefaultsToNull() {
+	public void OwnerCountryDefaultsToNull() {
 		var reader = new BufferedReader();
 		var theProvince = Province.Parse(reader, 42);
 
@@ -138,13 +133,27 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void ControllerIdCanBeSet() {
+	public void ControllerCountryCanBeSet() {
 		var reader = new BufferedReader(
 			"= { controller=69 }"
 		);
 		var theProvince = Province.Parse(reader, 42);
 
-		Assert.Equal((ulong)69, theProvince.ControllerId);
+		Assert.Null(theProvince.ControllerCountry); // not linked yet
+
+		var countries = new CountryCollection(new BufferedReader("69 = {}"));
+		theProvince.TryLinkOwnerCountry(countries);
+
+		Assert.NotNull(theProvince.ControllerCountry);
+		Assert.Equal((ulong)69, theProvince.ControllerCountry.Id);
+	}
+
+	[Fact]
+	public void ControllerCountryDefaultsToNull() {
+		var reader = new BufferedReader();
+		var theProvince = Province.Parse(reader, 42);
+
+		Assert.Null(theProvince.ControllerCountry);
 	}
 
 	[Fact]
@@ -299,7 +308,7 @@ public class ProvinceTests {
 
 		var output = new StringWriter();
 		Console.SetOut(output);
-		province.LinkOwnerCountry(country);
+		province.OwnerCountry = country;
 		var logStr = output.ToString();
 		Assert.Contains("[WARN] Province 42: linking owner 49 that doesn't match owner from save (50)!", logStr);
 	}
@@ -312,7 +321,7 @@ public class ProvinceTests {
 		var countryReader = new BufferedReader(string.Empty);
 		var country = Country.Parse(countryReader, 50);
 
-		province.LinkOwnerCountry(country);
+		province.OwnerCountry = country;
 		Assert.NotNull(province.OwnerCountry);
 		Assert.Equal((ulong)50, province.OwnerCountry.Id);
 	}
