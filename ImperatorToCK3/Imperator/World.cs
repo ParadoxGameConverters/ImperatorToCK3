@@ -22,13 +22,14 @@ namespace ImperatorToCK3.Imperator {
 		private GameVersion imperatorVersion = new();
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
+		private ScriptValueCollection ScriptValues = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
 		private PopCollection pops = new();
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
-		public ReligionCollection Religions { get; }
+		public ReligionCollection Religions { get; private set; }
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -42,6 +43,7 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 
 			var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
+			
 			ParseGenes(config);
 
 			// Parse the save.
@@ -88,8 +90,8 @@ namespace ImperatorToCK3.Imperator {
 				modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
 				ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 				
-				// Now that we have the list of mods used, we can load Imperator governments from game and mods
-				Country.LoadGovernments(ModFS);
+				// Now that we have the list of mods used, we can load data from Imperator mod filesystem
+				LoadModFilesystemDependentData();
 			});
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");
@@ -124,7 +126,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
 			});
 			RegisterKeyword("deity_manager", reader => {
-				Religions.LoadHolySiteDatabase(reader);
+				Religions!.LoadHolySiteDatabase(reader);
 			});
 			RegisterKeyword("played_country", reader => {
 				var playerCountriesToLog = new List<string>();
@@ -165,13 +167,6 @@ namespace ImperatorToCK3.Imperator {
 			Provinces.LinkCountries(Countries);
 			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
-
-			var scriptValues = new ScriptValueCollection();
-			scriptValues.LoadScriptValues(ModFS);
-			Religions = new ReligionCollection(scriptValues);
-			Religions.LoadDeities(ModFS);
-			Logger.Notice($"DO DEITIES CONTAIN deity_hludana? {(Religions.Deities.ContainsKey("deity_hludana"))}");
-			Religions.LoadReligions(ModFS);
 			
 			LoadPreImperatorRulers();
 
@@ -253,6 +248,15 @@ namespace ImperatorToCK3.Imperator {
 					Logger.Debug($"List of pre-Imperator rulers of {country.Tag} doesn't match data from save!");
 				}
 			}
+		}
+
+		private void LoadModFilesystemDependentData() {
+			Country.LoadGovernments(ModFS);
+				
+			ScriptValues.LoadScriptValues(ModFS);
+			Religions = new ReligionCollection(ScriptValues);
+			Religions.LoadDeities(ModFS);
+			Religions.LoadReligions(ModFS);
 		}
 
 		private BufferedReader ProcessSave(string saveGamePath) {
