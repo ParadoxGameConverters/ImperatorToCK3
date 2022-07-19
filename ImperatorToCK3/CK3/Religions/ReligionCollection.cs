@@ -144,6 +144,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				imperatorModifiers = new Dictionary<string, double>();
 			}
 		}
+		
 		return new HolySite(barony, ck3Faith, titles, imperatorModifiers, holySiteEffectMapper);
 	}
 
