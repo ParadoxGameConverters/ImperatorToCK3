@@ -56,8 +56,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.RegisterKeyword("deities_database", databaseReader => {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
-				var deityId = StringUtils.RemQuotes(reader.GetAssignments()["deity"]);
-				holySiteIdToDeityIdDict[ulong.Parse(holySiteIdStr)] = deityId;
+				var holySiteId = ulong.Parse(holySiteIdStr);
+				var deityId = reader.GetAssignments()["deity"].RemQuotes();
+				holySiteIdToDeityIdDict[holySiteId] = deityId;
 			});
 			databaseParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 			databaseParser.ParseStream(databaseReader);

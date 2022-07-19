@@ -37,11 +37,7 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	public Deity? GetHolySiteDeity(ReligionCollection religions) {
-		if (HolySiteId is null) {
-			return null;
-		}
-
-		return religions.GetDeityForHolySiteId((ulong)HolySiteId);
+		return HolySiteId is null ? null : religions.GetDeityForHolySiteId((ulong)HolySiteId);
 	}
 
 	public void LinkOwnerCountry(Country country) {
