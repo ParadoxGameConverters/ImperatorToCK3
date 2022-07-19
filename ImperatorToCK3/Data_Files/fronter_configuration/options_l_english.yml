@@ -13,6 +13,10 @@ l_english:
  HERESIES_IN_HISTORICAL_AREAS_1: "Yes"
  HERESIES_IN_HISTORICAL_AREAS_2: "No"
 
+ IMPERATOR_CURRENCY_RATE: "Imperator currency rate"
+ IMPERATOR_CURRENCY_RATE_TIP: "How much CK3 gold is 1 Imperator gold unit worth"
+ IMPERATOR_CURRENCY_RATE_INPUT_TIP: "Use dot as decimal separator"
+
  #CONVERTCHARACTERBIRTHANDDEATHDATES: "Base for character birth date conversion"
  #CONVERTCHARACTERBIRTHANDDEATHDATES_TIP: "Characters' birth dates can be based on either their birth dates in Imperator or their Imperator age."
  #CONVERTCHARACTERBIRTHANDDEATHDATES_1: "Birth date"

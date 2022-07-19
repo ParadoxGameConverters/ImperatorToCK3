@@ -1,11 +1,13 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, IEnumerable<Mod> imperatorMods, Configuration config) {
+		public static void OutputWorld(World ck3World, ModFilesystem imperatorModFS, Configuration config) {
 			ClearOutputModFolder();
 
 			var outputName = config.OutputModName;
@@ -27,9 +29,11 @@ namespace ImperatorToCK3.Outputter {
 			Logger.Info("Writing Landed Titles...");
 			TitlesOutputter.OutputTitles(
 				outputName,
-				ck3World.LandedTitles,
-				config.ImperatorDeJure
+				ck3World.LandedTitles
 			);
+
+			ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
+			ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
 
 			Logger.Info("Writing Succession Triggers...");
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);
@@ -38,8 +42,7 @@ namespace ImperatorToCK3.Outputter {
 			LocalizationOutputter.OutputLocalization(
 				config.ImperatorPath,
 				outputName,
-				ck3World,
-				config.ImperatorDeJure
+				ck3World
 			);
 
 			var outputPath = Path.Combine("output", config.OutputModName);
@@ -51,7 +54,7 @@ namespace ImperatorToCK3.Outputter {
 			);
 
 			Logger.Info("Copying Coats of Arms...");
-			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorMods);
+			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorModFS);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
 			SystemUtils.TryCopyFolder(
 				Path.Combine(config.ImperatorPath, "game", "gfx", "coat_of_arms", "patterns"),
@@ -85,13 +88,19 @@ namespace ImperatorToCK3.Outputter {
 		}
 
 		private static void OutputModFile(string outputName) {
-			using var modFile = new StreamWriter(Path.Combine("output", $"{outputName}.mod"));
-			modFile.WriteLine($"name = \"Converted - {outputName}\"");
-			modFile.WriteLine($"path = \"mod/{outputName}\"");
-			modFile.WriteLine("replace_path = \"common/landed_titles\"");
-			modFile.WriteLine("replace_path = \"history/province_mapping\"");
-			modFile.WriteLine("replace_path = \"history/provinces\"");
-			modFile.WriteLine("replace_path = \"history/titles\"");
+			var modFileBuilder = new StringBuilder();
+			modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
+			modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
+			modFileBuilder.AppendLine("replace_path = \"common/landed_titles\"");
+			modFileBuilder.AppendLine("replace_path = \"history/province_mapping\"");
+			modFileBuilder.AppendLine("replace_path = \"history/provinces\"");
+			modFileBuilder.AppendLine("replace_path = \"history/titles\"");
+			var modText = modFileBuilder.ToString();
+
+			var modFilePath = Path.Combine("output", $"{outputName}.mod");
+			var descriptorFilePath = Path.Combine("output", outputName, "descriptor.mod");
+			File.WriteAllText(modFilePath, modText);
+			File.WriteAllText(descriptorFilePath, modText);
 		}
 
 		private static void CreateModFolder(string outputName) {
@@ -115,8 +124,14 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "english"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "french"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "german"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "english"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "french"));
@@ -124,6 +139,9 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "russian"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "simp_chinese"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "spanish"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "russian"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "simp_chinese"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "spanish"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));

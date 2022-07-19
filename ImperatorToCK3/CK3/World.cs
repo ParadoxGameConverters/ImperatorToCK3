@@ -1,18 +1,19 @@
 ﻿using commonItems;
-using commonItems.Collections;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Government;
+using ImperatorToCK3.Mappers.HolySiteEffect;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -30,6 +31,7 @@ namespace ImperatorToCK3.CK3 {
 		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
 		public Title.LandedTitles LandedTitles { get; } = new();
+		public ReligionCollection Religions { get; } = new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
@@ -43,25 +45,54 @@ namespace ImperatorToCK3.CK3 {
 				Logger.Error("Corrected save date is later than CK3 bookmark date, proceeding at your own risk!");
 			}
 
+			var ck3Mods = new List<Mod> {
+				// include a fake mod pointing to blankMod
+				new("blankMod", "blankMod/output")
+			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
+
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
 
-			// Scraping localizations from Imperator so we may know proper names for our countries.
-			locDB.ScrapeLocalizations(config.ImperatorPath, impWorld.Mods);
+			// Scrape localizations from Imperator so we may know proper names for our countries.
+			locDB.ScrapeLocalizations(impWorld.ModFS);
+			
+			// Load CK3 religions from game and blankMod
+			Religions.LoadHolySites(ck3ModFS);
+			Religions.LoadReligions(ck3ModFS);
+			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
-			// Loading Imperator CoAs to use them for generated CK3 titles
-			coaMapper = new CoaMapper(config, impWorld.Mods);
+			// Load Imperator CoAs to use them for generated CK3 titles
+			coaMapper = new CoaMapper(impWorld.ModFS);
 
 			// Load vanilla CK3 landed titles and their history
-			LandedTitles.LoadTitles(config.CK3Path);
-			LandedTitles.LoadHistory(config);
+			LandedTitles.LoadTitles(ck3ModFS);
+			LandedTitles.LoadHistory(config, ck3ModFS);
 
 			// Loading regions
-			ck3RegionMapper = new CK3RegionMapper(config.CK3Path, LandedTitles);
-			imperatorRegionMapper = new ImperatorRegionMapper(config.ImperatorPath, impWorld.Mods);
+			ck3RegionMapper = new CK3RegionMapper(ck3ModFS, LandedTitles);
+			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
 			// Use the region mappers in other mappers
-			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
+			var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
+
+			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ck3ModFS);
+
+			Characters.ImportImperatorCharacters(
+				impWorld,
+				religionMapper,
+				cultureMapper,
+				traitMapper,
+				nicknameMapper,
+				locDB,
+				provinceMapper,
+				deathReasonMapper,
+				CorrectedDate,
+				config
+			);
+			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
+
+			Dynasties.ImportImperatorFamilies(impWorld, locDB);
 
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
@@ -100,31 +131,18 @@ namespace ImperatorToCK3.CK3 {
 				countyLevelGovernorships
 			);
 
-			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), config);
-
-			Characters.ImportImperatorCharacters(
-				impWorld,
-				religionMapper,
-				cultureMapper,
-				traitMapper,
-				nicknameMapper,
-				locDB,
-				provinceMapper,
-				deathReasonMapper,
-				CorrectedDate,
-				config
-			);
-			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
-
-			Dynasties.ImportImperatorFamilies(impWorld, locDB);
-
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
+			Characters.DistributeCountriesGold(LandedTitles, config);
+
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
+
+			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
+			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -195,7 +213,7 @@ namespace ImperatorToCK3.CK3 {
 			void GiveCountyToMonarch(Title county, Title ck3Country) {
 				var date = ck3Country.GetDateOfLastHolderChange();
 				var holderId = ck3Country.GetHolderId(date);
-				
+
 				if (Characters.TryGetValue(holderId, out var holder)) {
 					county.ClearHolderSpecificHistory();
 					county.SetHolder(holder, date);

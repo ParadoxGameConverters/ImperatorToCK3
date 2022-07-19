@@ -1,7 +1,10 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
+using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture;
@@ -18,7 +21,9 @@ public class CultureMappingTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/MatchOnRegion";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = test_region1"
@@ -38,7 +43,9 @@ public class CultureMappingTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/MatchOnRegionFailsForWrongRegion";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = test_region2"
@@ -55,7 +62,9 @@ public class CultureMappingTests {
 		var landedTitlesReader = new BufferedReader(string.Empty);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/empty";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = test_region3"
@@ -74,7 +83,9 @@ public class CultureMappingTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/empty";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = d_hujhu"

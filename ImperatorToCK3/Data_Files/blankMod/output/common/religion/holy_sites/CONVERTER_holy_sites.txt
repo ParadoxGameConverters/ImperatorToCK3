@@ -217,17 +217,6 @@ valencia = {
 	}
 }
 
-toledo = {
-	county = c_toledo
-	barony = b_toledo
-	
-	character_modifier = {
-		name = holy_site_toledo_effect_name
-		prowess = 1
-		monthly_prestige_gain_mult = 0.05
-	}
-}
-
 algeciras = {
 	county = c_algeciras
 	barony = b_algeciras

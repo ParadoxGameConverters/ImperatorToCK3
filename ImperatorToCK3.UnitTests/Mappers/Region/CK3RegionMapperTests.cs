@@ -1,7 +1,9 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region;
@@ -15,8 +17,10 @@ public class CK3RegionMapperTests {
 		var mapper = new CK3RegionMapper();
 		var landedTitles = new Title.LandedTitles();
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/empty";
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 
-		mapper.LoadRegions(landedTitles, ck3Path);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 		Assert.False(mapper.ProvinceIsInRegion(1, "test"));
 		Assert.False(mapper.RegionNameIsValid("test"));
 		Assert.Null(mapper.GetParentCountyName(1));
@@ -32,7 +36,9 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenRegionWillThrowException";
-		void action() => mapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		void action() => mapper.LoadRegions(ck3ModFS, landedTitles);
 		KeyNotFoundException exception = Assert.Throws<KeyNotFoundException>(action);
 		Assert.Equal("Region's test_region2 region test_region does not exist!", exception.Message);
 	}
@@ -45,7 +51,9 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenDuchyWillThrowException";
-		void action() => mapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		void action() => mapper.LoadRegions(ck3ModFS, landedTitles);
 		KeyNotFoundException exception = Assert.Throws<KeyNotFoundException>(action);
 		Assert.Equal("Region's test_region duchy d_aquitane does not exist!", exception.Message);
 	}
@@ -58,7 +66,9 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenCountyWillThrowException";
-		void Action() => mapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		void Action() => mapper.LoadRegions(ck3ModFS, landedTitles);
 		KeyNotFoundException exception = Assert.Throws<KeyNotFoundException>(Action);
 		Assert.Equal("Region's test_region county c_mers does not exist!", exception.Message);
 	}
@@ -72,7 +82,9 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesWork";
-		mapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.True(mapper.ProvinceIsInRegion(69, "c_mers"));
 		Assert.True(mapper.ProvinceIsInRegion(69, "d_aquitane"));
@@ -91,7 +103,9 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesCorrectlyFail";
-		mapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.False(mapper.ProvinceIsInRegion(4, "d_testduchy")); // province in different duchy
 		Assert.False(mapper.ProvinceIsInRegion(9, "d_testduchy")); // province missing completely
@@ -108,8 +122,10 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesFailForNonsense";
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 
-		mapper.LoadRegions(landedTitles, ck3Path);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.False(mapper.ProvinceIsInRegion(1, "nonsense"));
 		Assert.False(mapper.ProvinceIsInRegion(6, "test_superregion"));
@@ -125,8 +141,10 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/CorrectParentLocationsReported";
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 
-		mapper.LoadRegions(landedTitles, ck3Path);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.Equal("c_athens", mapper.GetParentCountyName(79));
 		Assert.Equal("d_wakaba", mapper.GetParentDuchyName(79));
@@ -146,8 +164,10 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/WrongParentLocationsReturnNull";
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 
-		mapper.LoadRegions(landedTitles, ck3Path);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.Null(mapper.GetParentCountyName(7));
 		Assert.Null(mapper.GetParentDuchyName(7));
@@ -165,8 +185,10 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationNameValidationWorks";
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 
-		mapper.LoadRegions(landedTitles, ck3Path);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.True(mapper.RegionNameIsValid("d_wakaba"));
 		Assert.True(mapper.RegionNameIsValid("test_region2"));
@@ -180,8 +202,10 @@ public class CK3RegionMapperTests {
 		var mapper = new CK3RegionMapper();
 		var landedTitles = new Title.LandedTitles();
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesSucceedsForProvinceField";
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 
-		mapper.LoadRegions(landedTitles, ck3Path);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.True(mapper.ProvinceIsInRegion(69, "test_region"));
 	}
@@ -195,8 +219,10 @@ public class CK3RegionMapperTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesSucceedsForCountyField";
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 
-		mapper.LoadRegions(landedTitles, ck3Path);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
 
 		Assert.True(mapper.ProvinceIsInRegion(79, "test_region"));
 	}

@@ -1,4 +1,6 @@
 ﻿using commonItems;
+using commonItems.Collections;
+using commonItems.Mods;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
@@ -6,19 +8,22 @@ using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Mods = System.Collections.Generic.List<commonItems.Mod>;
+using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
+using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator {
 	public class World : Parser {
 		private readonly Date startDate = new("450.10.1", AUC: true);
 		public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 		private GameVersion imperatorVersion = new();
-		public Mods Mods { get; private set; } = new();
+		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
+		private readonly ScriptValueCollection scriptValues = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
 		private PopCollection pops = new();
@@ -26,14 +31,21 @@ namespace ImperatorToCK3.Imperator {
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		public UnitCollection Units { get; private set; } = new();
+		public ReligionCollection Religions { get; private set; }
 		private GenesDB genesDB = new();
 
 		private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 		private SaveType saveType = SaveType.Invalid;
 
-		public World() { }
-		public World(Configuration config, ConverterVersion converterVersion) {
+		public World(Configuration config) {
+			ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
+			Religions = new ReligionCollection(new ScriptValueCollection());
+		}
+		public World(Configuration config, ConverterVersion converterVersion): this(config) {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
+
+			var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
+			
 			ParseGenes(config);
 
 			// Parse the save.
@@ -78,7 +90,10 @@ namespace ImperatorToCK3.Imperator {
 				// Let's locate, verify and potentially update those mods immediately.
 				ModLoader modLoader = new();
 				modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
-				Mods = modLoader.UsableMods;
+				ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+				
+				// Now that we have the list of mods used, we can load data from Imperator mod filesystem
+				LoadModFilesystemDependentData();
 			});
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");
@@ -119,6 +134,9 @@ namespace ImperatorToCK3.Imperator {
 				Jobs = new Jobs.Jobs(reader);
 				Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
 			});
+			RegisterKeyword("deity_manager", reader => {
+				Religions!.LoadHolySiteDatabase(reader);
+			});
 			RegisterKeyword("played_country", reader => {
 				var playerCountriesToLog = new List<string>();
 				var playedCountryBlocParser = new Parser();
@@ -158,7 +176,7 @@ namespace ImperatorToCK3.Imperator {
 			Provinces.LinkCountries(Countries);
 			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
-
+			
 			LoadPreImperatorRulers();
 
 			Logger.Info("*** Good-bye Imperator, rest in peace. ***");
@@ -239,6 +257,16 @@ namespace ImperatorToCK3.Imperator {
 					Logger.Debug($"List of pre-Imperator rulers of {country.Tag} doesn't match data from save!");
 				}
 			}
+		}
+
+		private void LoadModFilesystemDependentData() {
+			scriptValues.LoadScriptValues(ModFS);
+			
+			Country.LoadGovernments(ModFS);
+				
+			Religions = new ReligionCollection(scriptValues);
+			Religions.LoadDeities(ModFS);
+			Religions.LoadReligions(ModFS);
 		}
 
 		private BufferedReader ProcessSave(string saveGamePath) {

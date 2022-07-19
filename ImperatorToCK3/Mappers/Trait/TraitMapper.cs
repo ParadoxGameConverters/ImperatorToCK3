@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,10 +11,10 @@ public class TraitMapper {
 	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = new();
 
 	public TraitMapper() { }
-	public TraitMapper(string mappingsPath, Configuration config) {
+	public TraitMapper(string mappingsPath, ModFilesystem ck3ModFS) {
 		var traitsParser = new Parser();
 		traitsParser.RegisterRegex(CommonRegexes.String, (reader, traitId) => CK3Traits.AddOrReplace(new(traitId, reader)));
-		traitsParser.ParseGameFolder("common/traits", config.CK3Path, "txt", new List<Mod>(), true);
+		traitsParser.ParseGameFolder("common/traits", ck3ModFS, "txt", true);
 
 		Logger.Info("Parsing trait mappings...");
 		var parser = new Parser();
@@ -31,8 +32,7 @@ public class TraitMapper {
 			foreach (var imperatorTrait in mapping.ImpTraits) {
 				var ck3TraitId = mapping.CK3Trait;
 				if (!CK3Traits.ContainsKey(ck3TraitId)) {
-					Logger.Warn($"Couldn't find definition for CK3 trait {ck3TraitId}, skipping!");
-					continue;
+					Logger.Warn($"Couldn't find definition for CK3 trait {ck3TraitId}!");
 				}
 				ImpToCK3TraitMap.Add(imperatorTrait, ck3TraitId);
 			}
@@ -57,7 +57,10 @@ public class TraitMapper {
 			if (!ck3TraitsToReturn.Contains(ck3TraitId)) {
 				continue;
 			}
-			ck3TraitsToReturn = ck3TraitsToReturn.Except(CK3Traits[ck3TraitId].Opposites).ToHashSet();
+
+			if (CK3Traits.TryGetValue(ck3TraitId, out var ck3Trait)) {
+				ck3TraitsToReturn = ck3TraitsToReturn.Except(ck3Trait.Opposites).ToHashSet();
+			}
 		}
 		return ck3TraitsToReturn;
 	}

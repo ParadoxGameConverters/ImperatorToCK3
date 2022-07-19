@@ -11,7 +11,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 		public void FieldsDefaultToCorrectValues() {
 			var details = new ProvinceDetails();
 			Assert.Equal(string.Empty, details.Culture);
-			Assert.Equal(string.Empty, details.Religion);
+			Assert.Equal(string.Empty, details.FaithId);
 			Assert.Equal("none", details.Holding);
 			Assert.Empty(details.Buildings);
 		}
@@ -24,7 +24,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var details = new ProvinceDetails(reader, ck3BookmarkDate);
 
 			Assert.Equal("roman", details.Culture);
-			Assert.Equal("orthodox", details.Religion);
+			Assert.Equal("orthodox", details.FaithId);
 		}
 
 		[Fact]
@@ -40,7 +40,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var details = new ProvinceDetails(reader, ck3BookmarkDate);
 
 			Assert.Equal("castle_holding", details.Holding);
-			Assert.Equal("orthodox", details.Religion);
+			Assert.Equal("orthodox", details.FaithId);
 		}
 
 		[Fact]
@@ -57,7 +57,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var details2 = new ProvinceDetails(details1);
 
 			Assert.Equal("castle_holding", details2.Holding);
-			Assert.Equal("orthodox", details2.Religion);
+			Assert.Equal("orthodox", details2.FaithId);
 			Assert.Equal("roman", details2.Culture);
 			Assert.Collection(details2.Buildings,
 				item1 => Assert.Equal("orchard", item1),

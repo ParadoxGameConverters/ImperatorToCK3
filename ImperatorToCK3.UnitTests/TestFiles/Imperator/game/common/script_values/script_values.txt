@@ -1,0 +1,5 @@
+value1 = 0.4
+value2 = -0.4
+value3 = 1
+value4 = -3
+common_value = 68

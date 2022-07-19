@@ -222,6 +222,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var gov = rulerTerm.Government;
 
 				var termStartDate = new Date(rulerTerm.StartDate);
+				var ruler = characters[characterId];
+				if (ruler.DeathDate is not null && ruler.DeathDate < termStartDate) {
+					Logger.Warn($"{ruler.Id} can not begin his rule over {Id} after his death, skipping!");
+					continue;
+				}
 
 				History.AddFieldValue(termStartDate, "holder", "holder", characterId);
 				if (gov is not null) {

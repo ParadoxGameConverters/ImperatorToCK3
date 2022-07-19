@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.5.1
+﻿# Last updated: CK3 patch 1.6.1.2
 ####################################
 #   FRENCH CUSTOM LOCALISATION     #
 #      By Xavier Zimmermann        #
@@ -119,6 +119,8 @@
 # FR_GetUnbelieverTerm_Gender pour GetUnbelieverTerm
 # FR_GetCrime_Nickname pour GetCrime
 # FR_GetInspirationTypeVerb_Inf pour GetInspirationTypeVerb
+# FR_au_BG_GameType pour BG_GameType
+# FR_de_BG_GameType pour BG_GameType
 
 # FR_FaithGenderedAdj - GetFaith.GetAdjective\GetFaith.GetAdherentName (scope: character)
 # FR_LocalAnimal_e - "e" du féminin pour LocalAnimal
@@ -176,6 +178,7 @@
 # FR_GetInspirationTypeObject_Le devant GetInspirationTypeObject (Sans espace apres)
 # FR_InspirationSmithBaseType_OnA devant InspirationSmithBaseType (Sans espace avant ; Sans espace apres)
 # FR_InspirationSmithBaseType_Le devant InspirationSmithBaseType (Sans espace apres)
+# FR_Artifact_OnA devant une commande d'artefact (Avec espace apres)
 
 ##################################################################
 ##################################################################
@@ -753,6 +756,18 @@ FR_get_region_flower_type_plural_Fix = {
 	suffix = _FR_Fix
 }
 
+FR_au_BG_GameType = { 
+	log_loc_errors = no
+	parent = BG_GameType
+	suffix = _FR_Au
+}
+
+FR_de_BG_GameType = { 
+	log_loc_errors = no
+	parent = BG_GameType
+	suffix = _FR_De
+}
+
 #############################################
 #############################################
 FR_FaithGenderedAdj = { 
@@ -1001,18 +1016,21 @@ FR_le_Char = {
 				AND = { # emperor (Empereur), emperor_female (Impératrice)
 					highest_held_title_tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
-						AND = { # emperor_feudal_male_altaic_group (Khagan)
-							OR = {
-								has_government = feudal_government
-								has_government = clan_government
-								has_government = tribal_government
+						OR = {
+							culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+							culture = { has_name_list = name_list_greek } # Basileus
+							AND = { # emperor_feudal_male_altaic_group (Khagan)
+								OR = {
+									has_government = feudal_government
+									has_government = clan_government
+									has_government = tribal_government
+								}
+								OR = {
+									culture = { has_cultural_pillar = heritage_mongolic }
+									culture = { has_cultural_pillar = heritage_turkic }
+								}
 							}
-							OR = {
-								culture = { has_cultural_pillar = heritage_mongolic }
-								culture = { has_cultural_pillar = heritage_turkic }
-							}
+							has_government = tribal_government # emperor_tribal_male (Grand roi), emperor_tribal_female (Grande reine)
 						}
 					}
 				}
@@ -1090,8 +1108,8 @@ FR_le_Char = {
 						}
 						top_liege = {
 							OR = {
-								culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émira)
-								culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émira)
+								culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émiresse)
+								culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émiresse)
 							}
 							OR = {
 								has_government = feudal_government
@@ -1101,8 +1119,8 @@ FR_le_Char = {
 						}
 					}
 					OR = {
-						culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émira)
-						culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émira)
+						culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émiresse)
+						culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émiresse)
 					}
 					highest_held_title_tier = tier_duchy
 					OR = {
@@ -1111,7 +1129,7 @@ FR_le_Char = {
 						has_government = tribal_government
 					}
 				}
-				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émira)
+				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émiresse)
 					trigger_if = {
 						limit = { 
 							exists = top_liege
@@ -1135,7 +1153,7 @@ FR_le_Char = {
 						has_government = clan_government
 					}
 				}
-				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émira)
+				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émiresse)
 					trigger_if = {
 						limit = { 
 							exists = top_liege
@@ -1393,18 +1411,21 @@ FR_du_Char = {
 				AND = { # emperor (Empereur), emperor_female (Impératrice)
 					highest_held_title_tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
-						AND = { # emperor_feudal_male_altaic_group (Khagan)
-							OR = {
-								has_government = feudal_government
-								has_government = clan_government
-								has_government = tribal_government
+						OR = {
+							culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+							culture = { has_name_list = name_list_greek } # Basileus
+							AND = { # emperor_feudal_male_altaic_group (Khagan)
+								OR = {
+									has_government = feudal_government
+									has_government = clan_government
+									has_government = tribal_government
+								}
+								OR = {
+									culture = { has_cultural_pillar = heritage_mongolic }
+									culture = { has_cultural_pillar = heritage_turkic }
+								}
 							}
-							OR = {
-								culture = { has_cultural_pillar = heritage_mongolic }
-								culture = { has_cultural_pillar = heritage_turkic }
-							}
+							has_government = tribal_government # emperor_tribal_male (Grand roi), emperor_tribal_female (Grande reine)
 						}
 					}
 				}
@@ -1482,8 +1503,8 @@ FR_du_Char = {
 						}
 						top_liege = {
 							OR = {
-								culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émira)
-								culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émira)
+								culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émiresse)
+								culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émiresse)
 							}
 							OR = {
 								has_government = feudal_government
@@ -1493,8 +1514,8 @@ FR_du_Char = {
 						}
 					}
 					OR = {
-						culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émira)
-						culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émira)
+						culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émiresse)
+						culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émiresse)
 					}
 					highest_held_title_tier = tier_duchy
 					OR = {
@@ -1503,7 +1524,7 @@ FR_du_Char = {
 						has_government = tribal_government
 					}
 				}
-				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émira)
+				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émiresse)
 					trigger_if = {
 						limit = { 
 							exists = top_liege
@@ -1527,7 +1548,7 @@ FR_du_Char = {
 						has_government = clan_government
 					}
 				}
-				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émira)
+				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émiresse)
 					trigger_if = {
 						limit = { 
 							exists = top_liege
@@ -1785,18 +1806,21 @@ FR_au_Char = {
 				AND = { # emperor (Empereur), emperor_female (Impératrice)
 					highest_held_title_tier = tier_empire
 					NOT = {
-						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
-						culture = { has_name_list = name_list_greek } # Basileus
-						AND = { # emperor_feudal_male_altaic_group (Khagan)
-							OR = {
-								has_government = feudal_government
-								has_government = clan_government
-								has_government = tribal_government
+						OR = {
+							culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+							culture = { has_name_list = name_list_greek } # Basileus
+							AND = { # emperor_feudal_male_altaic_group (Khagan)
+								OR = {
+									has_government = feudal_government
+									has_government = clan_government
+									has_government = tribal_government
+								}
+								OR = {
+									culture = { has_cultural_pillar = heritage_mongolic }
+									culture = { has_cultural_pillar = heritage_turkic }
+								}
 							}
-							OR = {
-								culture = { has_cultural_pillar = heritage_mongolic }
-								culture = { has_cultural_pillar = heritage_turkic }
-							}
+							has_government = tribal_government # emperor_tribal_male (Grand roi), emperor_tribal_female (Grande reine)
 						}
 					}
 				}
@@ -1874,8 +1898,8 @@ FR_au_Char = {
 						}
 						top_liege = {
 							OR = {
-								culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émira)
-								culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émira)
+								culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émiresse)
+								culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émiresse)
 							}
 							OR = {
 								has_government = feudal_government
@@ -1885,8 +1909,8 @@ FR_au_Char = {
 						}
 					}
 					OR = {
-						culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émira)
-						culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émira)
+						culture = { has_cultural_pillar = heritage_berber } # duke_feudal_male_berber_group (Émir), duke_feudal_female_berber_group (Émiresse)
+						culture = { has_name_list = name_list_beja } # duke_feudal_male_beja (Émir), duke_feudal_female_beja (Émiresse)
 					}
 					highest_held_title_tier = tier_duchy
 					OR = {
@@ -1895,7 +1919,7 @@ FR_au_Char = {
 						has_government = tribal_government
 					}
 				}
-				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émira)
+				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émiresse)
 					trigger_if = {
 						limit = { 
 							exists = top_liege
@@ -1919,7 +1943,7 @@ FR_au_Char = {
 						has_government = clan_government
 					}
 				}
-				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émira)
+				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émiresse)
 					trigger_if = {
 						limit = { 
 							exists = top_liege
@@ -2397,4 +2421,44 @@ FR_GetRandomPositiveTrait_OnA = {
 	log_loc_errors = no
 	parent = GetRandomPositiveTrait
 	suffix = _FR_On
+}
+
+FR_Artifact_OnA = { 
+	type = artifact
+	log_loc_errors = no
+	text = {
+		trigger = {
+			OR = {
+				artifact_type = dagger
+				artifact_type = axe
+				artifact_type = mace
+				artifact_type = spear
+				artifact_type = goblet
+				artifact_type = animal_hide
+				artifact_type = animal_hide_big
+				artifact_type = armor_brigandine
+				artifact_type = armor_laminar
+				artifact_type = armor_mail
+				artifact_type = armor_plate
+				artifact_type = brooch
+				artifact_type = panacea
+				artifact_type = philosophers_stone
+				artifact_type = sculpture
+				artifact_type = tapestry
+				has_variable = banner_dynasty
+				has_variable = banner_house
+				has_variable = christian_girdle
+				has_variable = pope_hat
+				has_variable = crown_of_justinian
+				has_variable = throne_scone
+				has_variable = buddhism_bowl
+				has_variable = islam_hand
+			}
+		}
+		localization_key = CustomLoc_FR_female_OnA
+	}
+	text = {
+		localization_key = CustomLoc_FR_male_OnA
+		fallback = yes
+	}
 }

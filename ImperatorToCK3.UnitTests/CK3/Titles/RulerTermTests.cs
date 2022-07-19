@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
@@ -13,6 +15,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class RulerTermTests {
+		private const string CK3Root = "TestFiles/CK3/game";
+		private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
+		
 		[Fact]
 		public void ImperatorRulerTermIsCorrectlyConverted() {
 			var reader = new BufferedReader(
@@ -23,13 +28,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(reader);
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
+			var ck3Religions = new ReligionCollection();
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var ck3RulerTerm = new RulerTerm(impRulerTerm,
 				new ImperatorToCK3.CK3.Characters.CharacterCollection(),
 				govMapper,
 				new LocDB("english"),
-				new ReligionMapper(imperatorRegionMapper, ck3RegionMapper),
+				new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 				new ProvinceMapper(),
@@ -54,12 +60,15 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			);
 			var impRulerTerm = new ImperatorToCK3.Imperator.Countries.RulerTerm(preImpTermReader, countries);
 
+			var ck3Religions = new ReligionCollection();
+			ck3Religions.LoadReligions(ck3ModFs);
 			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var religionMapper = new ReligionMapper(
 				new BufferedReader("link={imp=hellenic ck3=hellenic}"),
+				ck3Religions,
 				imperatorRegionMapper,
 				ck3RegionMapper
 			);
@@ -81,8 +90,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal("Alexander", ruler.Name);
 
 			var ck3Character = ck3Characters["imperatorRegnalSPAAlexander504.1.1BC"];
-			Assert.Equal(new Date(-555, 1, 1), ck3Character.BirthDate);
-			Assert.Equal(new Date(-455, 1, 1), ck3Character.DeathDate);
+			Assert.Equal("-554.1.1", ck3Character.BirthDate);
+			Assert.Equal("-454.1.1", ck3Character.DeathDate);
 			Assert.Equal("Alexander", ck3Character.Name);
 			Assert.Equal("dull", ck3Character.Nickname);
 			Assert.Equal("greek", ck3Character.Culture);

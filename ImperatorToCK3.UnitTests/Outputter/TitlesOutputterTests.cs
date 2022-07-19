@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Outputter;
 using System.IO;
 using Xunit;
@@ -26,7 +25,7 @@ public class TitlesOutputterTests {
 		barony.DeJureLiege = county;
 
 		var specialTitle = titles.Add("k_special_title");
-		specialTitle.History.AddFieldValue( new Date(20, 1, 1), "holder", "holder", "bob_42");
+		specialTitle.History.AddFieldValue(new Date(20, 1, 1), "holder", "holder", "bob_42");
 
 		var titleHistoryPath = Path.Combine("output", outputModName, "history", "titles");
 		var kingdomHistoryPath = Path.Combine(titleHistoryPath, "k_kingdom.txt");
@@ -36,7 +35,7 @@ public class TitlesOutputterTests {
 		var landedTitlesPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(landedTitlesPath));
 
-		TitlesOutputter.OutputTitles(outputModName, titles, IMPERATOR_DE_JURE.NO);
+		TitlesOutputter.OutputTitles(outputModName, titles);
 
 		Assert.True(File.Exists(kingdomHistoryPath));
 		using var kingdomHistoryFile = File.OpenRead(kingdomHistoryPath);
@@ -97,7 +96,7 @@ public class TitlesOutputterTests {
 		var landedTitlesPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(landedTitlesPath));
 
-		TitlesOutputter.OutputTitles(outputModName, titles, IMPERATOR_DE_JURE.NO);
+		TitlesOutputter.OutputTitles(outputModName, titles);
 
 		Assert.True(File.Exists(landedTitlesPath));
 		using var landedTitlesFile = File.OpenRead(landedTitlesPath);

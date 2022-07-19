@@ -14,7 +14,7 @@ public partial class Province {
 			parsedProvince.Culture = reader.GetString()
 		);
 		provinceParser.RegisterKeyword("religion", reader =>
-			parsedProvince.Religion = reader.GetString()
+			parsedProvince.ReligionId = reader.GetString()
 		);
 		provinceParser.RegisterKeyword("owner", reader =>
 			parsedProvince.parsedOwnerCountryId = reader.GetULong()
@@ -49,8 +49,12 @@ public partial class Province {
 			parsedProvince.Fort = reader.GetPDXBool()
 		);
 		provinceParser.RegisterKeyword("holy_site", reader => {
-			// 4294967295 is 2^32 − 1 and is the default value
-			parsedProvince.HolySite = reader.GetULong() != 4294967295;
+			var holySiteId = reader.GetULong();
+			// 4294967295 equals (2^32 − 1) and is the default value
+			// otherwise, the value is the ID of a deity (see deities_database block in the save)
+			if (holySiteId != 4294967295) {
+				parsedProvince.HolySiteId = holySiteId;
+			}
 		});
 		provinceParser.RegisterKeyword("buildings", reader => {
 			var buildingsList = reader.GetInts();

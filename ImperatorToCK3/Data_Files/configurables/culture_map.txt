@@ -43,7 +43,7 @@
 ## F:
 @culture_splitting_region_F = "impRegion = aquitaine_region impRegion = transalpine_gaul_region"
 ## G:
-@culture_splitting_region_G = "impRegion = germania_superior_region impRegion = belgica_region impRegion = germania_region impRegion = bohemia_area"
+@culture_splitting_region_G = "impRegion=germania_superior_region impRegion=belgica_region impRegion=germania_region impRegion=bohemia_area impRegion=bohemia_region impRegion=germania_magna_region"
 ## H:
 @culture_splitting_region_H = "impRegion = venedia_region"
 ## I:
@@ -53,7 +53,7 @@
 @culture_splitting_region_J2 = "impRegion=pannonia_terminus_area impRegion=transcarpathia_occidentalis_area impRegion=carnuntia_area impRegion=dacia_region"
 @culture_splitting_region_J = "@culture_splitting_region_J1 @culture_splitting_region_J2"
 ## K:
-@culture_splitting_region_K1 = "impRegion = moesia_region impRegion = thrace_region impRegion = macedonia_region"
+@culture_splitting_region_K1 = "impRegion=moesia_region impRegion=moesia_s_region impRegion=thrace_region impRegion=macedonia_region"
 @culture_splitting_region_K2 = "impRegion = vistulia_region impRegion = sarmatia_europea_region"
 @culture_splitting_region_K = "@culture_splitting_region_K1 @culture_splitting_region_K2"
 ## L:
@@ -88,18 +88,39 @@
 @culture_splitting_region_Y = "impRegion = lusitania_region"
 
 ## Aksumite
-link = { ck3 = beja imp = puntic imp = aksumite ck3Province = 8278 ck3Province = 6113 ck3Province = 6373 ck3Province = 6375 ck3Province = 6378 ck3Province = 6380 ck3Province = 6376 ck3Province = 6440 ck3Province = 6438 ck3Province = 6412 ck3Province = 6437 ck3Province = 6436 }
 link = { ck3 = afar imp = puntic imp = aksumite ck3Province = 8286 ck3Province = 8326 ck3Province = 8344 ck3Province = 8334 ck3Province = 8332 ck3Province = 8339 ck3Province = 8342 }
-link = { ck3 = somali imp = puntic }
-link = { ck3 = ethiopian imp = aksumite }
+link = { ck3=somali imp=puntic }
+link = { ck3=ethiopian imp=aksumite }
 # Invictus mod
-link = { ck3 = ethiopian imp = boran }
+link = { ck3=beja
+	# Beja were formerly referred to as Blemmyes: https://en.wikipedia.org/wiki/Beja_people
+	imp=blemmyan
+	# "Adabulians could be classified as Blemmyan instead as they had intense relations and it seems the Blemmyans absorbed them anyway by the birth of Christ."
+	# ~shocky27 on Invictus discord
+	imp=adabulian
+}
+link = { ck3=ethiopian
+	imp=boran
+	imp=athagaun # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
+	imp=daamoti # https://en.wikipedia.org/wiki/D%CA%BFmt
+	imp=ona
+}
+link = { ck3=somali
+	imp=berberian # not to be confused with Berbers
+	imp=avalitian # "The people of Avalites were probably proto-Somalis, called Barbaras": https://en.wikipedia.org/wiki/Avalites
+}
+
+## Meroitic
+link = { ck3=nubian imp=meroitic }
+# Invictus mod
+link = { ck3=nubian imp=nubian imp=lower_nubian imp=alutan imp=moyan }
 
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
 link = { ck3 = luwian imp = carian imp = lycian imp = isaurian imp = pisidian }
+link = { ck3=cilician imp=cilician imp=kennataian imp=cennatean }
 link = { ck3 = lydian imp = lydian }
-link = { ck3 = hittite imp = lycaonian imp = cilician imp = kennataian imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
+link = { ck3=hittite imp=lycaonian imp=pamphylian imp=cappadocian imp=pontic imp=paphlagonian imp=milyadian imp=oroandian imp=cabalian imp=lalasian imp=morimenian imp=cataonian }
 link = { ck3 = phrygian imp = phrygian imp = mysian }
 #Invictus mod
 link = { ck3 = galatian imp = galatian }
@@ -367,11 +388,6 @@ link = { ck3 = lemnian imp = etruscan imp = rhaetian @culture_splitting_region_J
 link = { ck3 = etruscan imp = etruscan }
 link = { ck3 = rhaetian imp = rhaetian }
 
-## Meroitic
-link = { ck3 = nubian imp = blemmyan imp = meroitic }
-# Invictus mod
-link = { ck3 = nubian imp = lower_nubian imp = alutan imp = moyan }
-
 ## North African
 link = { ck3 = old_egyptian imp = egyptian imp = upper_egyptian imp = middle_egyptian }
 
@@ -433,31 +449,6 @@ link = { ck3 = bodpa imp = yarlung }
 link = { ck3 = tsangpa imp = tsang }
 
 ## West Levantine
-# Splitting according to regions - to be reworked!
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_A }
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_B }
-#link = { ck3 = ualonuth imp = carthaginian @culture_splitting_region_C }
-#link = { ck3 = sicorathi imp = carthaginian @culture_splitting_region_D @culture_splitting_region_G }
-#link = { ck3 = symacom imp = carthaginian @culture_splitting_region_E }
-#link = { ck3 = ysthyalm imp = carthaginian @culture_splitting_region_F }
-#link = { ck3 = sythchy imp = carthaginian @culture_splitting_region_H }
-#link = { ck3 = ynnocho imp = carthaginian @culture_splitting_region_I }
-#link = { ck3 = mlachthi imp = carthaginian @culture_splitting_region_J }
-#link = { ck3 = inythmum imp = carthaginian @culture_splitting_region_K }
-#link = { ck3 = gadolite imp = carthaginian @culture_splitting_region_L }
-#link = { ck3 = bythlimmoth imp = carthaginian @culture_splitting_region_M }
-#link = { ck3 = sidonian imp = carthaginian @culture_splitting_region_N }
-#link = { ck3 = pmpese imp = carthaginian @culture_splitting_region_S }
-#link = { ck3 = taliaite imp = carthaginian @culture_splitting_region_P }
-#link = { ck3 = lacanite imp = carthaginian @culture_splitting_region_Q }
-#link = { ck3 = epicrateian imp = carthaginian @culture_splitting_region_R }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_T }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_U }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_V }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_W }
-#link = { ck3 = liphocaneth imp = carthaginian @culture_splitting_region_X }
-#link = { ck3 = mysehi imp = carthaginian @culture_splitting_region_Y }
-
 link = { ck3 = carthaginian imp = carthaginian }
 link = { ck3 = phoenician imp = phoenician }
 link = { ck3 = shuadit imp = hebrew @culture_splitting_region_F }

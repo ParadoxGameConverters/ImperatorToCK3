@@ -1,8 +1,10 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
@@ -22,18 +24,24 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class CK3CharacterTests {
+		private const string CK3Path = "TestFiles/CK3";
+		private const string CK3Root = "TestFiles/CK3/game";
+		private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
+		
 		public class CK3CharacterBuilder {
+			private Configuration config = new() {
+				CK3BookmarkDate = "867.1.1",
+				CK3Path = CK3Path
+			};
+			
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-			private ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
 			private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
-			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", new Configuration { CK3Path = "TestFiles/CK3" });
+			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private LocDB locDB = new("english");
 			private ProvinceMapper provinceMapper = new();
 			private DeathReasonMapper deathReasonMapper = new();
-			private Configuration config = new() {
-				CK3BookmarkDate = new Date(867, 1, 1)
-			};
 
 			public Character Build() {
 				var character = new Character(
@@ -92,6 +100,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 		[Fact]
 		public void AllLinksCanBeRemoved() {
+			var date = new Date(400, 1, 1);
+
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
 			var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2);
 			var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3);
@@ -103,55 +113,68 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			imperatorCharacter.Children.Add(imperatorChild.Id, imperatorChild);
 			imperatorCharacter.Spouses.Add(imperatorSpouse.Id, imperatorSpouse);
 
+			var characters = new CharacterCollection();
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
 				.Build();
+			characters.Add(character);
 			var mother = builder
 				.WithImperatorCharacter(imperatorMother)
 				.Build();
+			characters.Add(mother);
 			var father = builder
 				.WithImperatorCharacter(imperatorFather)
 				.Build();
+			characters.Add(father);
 			var child = builder
 				.WithImperatorCharacter(imperatorChild)
 				.Build();
+			characters.Add(child);
 			var spouse = builder
 				.WithImperatorCharacter(imperatorSpouse)
 				.Build();
+			characters.Add(spouse);
 
 			character.Mother = mother;
 			character.Father = father;
 			character.Children.Add(child.Id, child);
-			character.Spouses.Add(spouse);
+			character.AddSpouse(date, spouse);
 
 			Assert.NotNull(character.Mother);
 			Assert.NotNull(character.Father);
 			Assert.NotNull(character.Children["imperator4"]);
-			Assert.NotNull(character.Spouses["imperator5"]);
+			var spousesAtDate = character.GetSpouseIds(date);
+			Assert.NotNull(spousesAtDate);
+			Assert.Contains("imperator5", spousesAtDate);
 
-			character.BreakAllLinks();
+			character.BreakAllLinks(characters);
 
 			Assert.Null(character.Mother);
 			Assert.Null(character.Father);
 			Assert.Empty(character.Children);
-			Assert.Empty(character.Spouses);
+			spousesAtDate = character.GetSpouseIds(date);
+			Assert.NotNull(spousesAtDate);
+			Assert.Empty(spousesAtDate);
 		}
 		[Fact]
 		public void BreakAllLinksWarnsWhenChildIsNull() {
 			var output = new StringWriter();
 			Console.SetOut(output);
 
+			var characters = new CharacterCollection();
 			var male = builder.Build();
+			characters.Add(male);
 			male.Children.Add("childId", null);
-			male.BreakAllLinks();
+			male.BreakAllLinks(characters);
 			Assert.Contains("[WARN] Child childId of imperator0 is null!", output.ToString());
 			output.Flush();
 
 			var impFemaleReader = new BufferedReader("female = yes");
 			var impFemaleCharacter = ImperatorToCK3.Imperator.Characters.Character.Parse(impFemaleReader, "1", null);
 			var female = builder.WithImperatorCharacter(impFemaleCharacter).Build();
+			characters.Add(female);
 			female.Children.Add("child2Id", null);
-			female.BreakAllLinks();
+			female.BreakAllLinks(characters);
 			Assert.Contains("[WARN] Child child2Id of imperator1 is null!", output.ToString());
 		}
 
@@ -177,7 +200,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			var traits = character.History.GetFieldValueAsCollection("traits", new Date());
 			Assert.NotNull(traits);
-			traits.Should().BeEquivalentTo(new[] {"craven", "powerful"});
+			traits.Should().BeEquivalentTo(new[] { "craven", "powerful" });
 		}
 
 		[Fact]
@@ -185,11 +208,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Religion = "chalcedonian"
 			};
+			
+			var ck3Religions = new ReligionCollection();
+			ck3Religions.LoadReligions(ck3ModFS);
 
 			var mapReader = new BufferedReader(
 				"link = { imp=chalcedonian ck3=orthodox }"
 			);
-			var religionMapper = new ReligionMapper(mapReader, new ImperatorRegionMapper(), new CK3RegionMapper());
+			var religionMapper = new ReligionMapper(mapReader, ck3Religions, new ImperatorRegionMapper(), new CK3RegionMapper());
 
 			var character = builder
 				.WithImperatorCharacter(imperatorCharacter)
@@ -214,6 +240,18 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithCultureMapper(cultureMapper)
 				.Build();
 			Assert.Equal("greek", character.Culture);
+		}
+
+		[Fact]
+		public void GoldCanBeConverterFromImperator() {
+			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
+				Wealth = 420.69
+			};
+
+			var character = builder
+				.WithImperatorCharacter(imperatorCharacter)
+				.Build();
+			Assert.Equal(420.69, character.Gold);
 		}
 
 		[Fact]
