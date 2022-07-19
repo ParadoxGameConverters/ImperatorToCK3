@@ -19,10 +19,7 @@ public class ProvinceTests {
 	
 	[Fact]
 	public void IdCanBeSet() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
-
+		var reader = new BufferedReader();
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.Equal((ulong)42, theProvince.Id);
@@ -31,11 +28,8 @@ public class ProvinceTests {
 	[Fact]
 	public void CultureIdCanBeSet() {
 		var reader = new BufferedReader(
-			"= {\n" +
-			"\tculture=\"paradoxian\"" +
-			"}"
+			"= { \tculture=\"paradoxian\" }"
 		);
-
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.Equal("paradoxian", theProvince.Culture);
@@ -43,10 +37,7 @@ public class ProvinceTests {
 
 	[Fact]
 	public void CultureIdDefaultsToBlank() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
-
+		var reader = new BufferedReader();
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.Culture));
@@ -55,11 +46,8 @@ public class ProvinceTests {
 	[Fact]
 	public void ReligionIdCanBeSet() {
 		var reader = new BufferedReader(
-			"= {\n" +
-			"\treligion=\"paradoxian\"" +
-			"}"
+			"= { religion=\"paradoxian\" }"
 		);
-
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.Equal("paradoxian", theProvince.ReligionId);
@@ -67,10 +55,7 @@ public class ProvinceTests {
 
 	[Fact]
 	public void ReligionIdDefaultsToBlank() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
-
+		var reader = new BufferedReader();
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.ReligionId));
@@ -146,25 +131,20 @@ public class ProvinceTests {
 
 	[Fact]
 	public void OwnerDefaultsToNull() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
+		var reader = new BufferedReader();
 		var theProvince = Province.Parse(reader, 42);
 
 		Assert.Null(theProvince.OwnerCountry);
 	}
 
 	[Fact]
-	public void ControllerCanBeSet() {
+	public void ControllerIdCanBeSet() {
 		var reader = new BufferedReader(
-			"= {\n" +
-			"\tcontroller=69\n" +
-			"}"
+			"= { controller=69 }"
 		);
-
 		var theProvince = Province.Parse(reader, 42);
 
-		Assert.Equal((ulong)69, theProvince.Controller);
+		Assert.Equal((ulong)69, theProvince.ControllerId);
 	}
 
 	[Fact]

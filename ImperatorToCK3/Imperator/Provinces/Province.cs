@@ -15,7 +15,7 @@ public partial class Province : IIdentifiable<ulong> {
 	public string ReligionId { get; set; } = "";
 	private ulong? parsedOwnerCountryId;
 	public Country? OwnerCountry { get; set; }
-	public ulong Controller { get; set; } = 0;
+	public ulong ControllerId { get; set; } = 0; // ID of controlling country
 	public Dictionary<ulong, Pop> Pops { get; set; } = new();
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 	public PDXBool Fort { get; set; } = new(false);
