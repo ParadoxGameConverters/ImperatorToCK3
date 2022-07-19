@@ -22,7 +22,7 @@ namespace ImperatorToCK3.Imperator {
 		private GameVersion imperatorVersion = new();
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
-		private ScriptValueCollection ScriptValues = new();
+		private readonly ScriptValueCollection scriptValues = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
 		private PopCollection pops = new();
@@ -251,11 +251,11 @@ namespace ImperatorToCK3.Imperator {
 		}
 
 		private void LoadModFilesystemDependentData() {
-			ScriptValues.LoadScriptValues(ModFS);
+			scriptValues.LoadScriptValues(ModFS);
 			
 			Country.LoadGovernments(ModFS);
 				
-			Religions = new ReligionCollection(ScriptValues);
+			Religions = new ReligionCollection(scriptValues);
 			Religions.LoadDeities(ModFS);
 			Religions.LoadReligions(ModFS);
 		}
