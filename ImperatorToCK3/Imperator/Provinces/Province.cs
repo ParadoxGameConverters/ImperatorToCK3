@@ -12,7 +12,7 @@ public partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Name { get; set; } = "";
 	public string Culture { get; set; } = "";
-	public string Religion { get; set; } = "";
+	public string ReligionId { get; set; } = "";
 	private ulong? parsedOwnerCountryId;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;
@@ -33,7 +33,7 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	public Religion? GetReligion(ReligionCollection religions) {
-		return religions.TryGetValue(Religion, out var religion) ? religion : null;
+		return religions.TryGetValue(ReligionId, out var religion) ? religion : null;
 	}
 
 	public Deity? GetHolySiteDeity(ReligionCollection religions) {

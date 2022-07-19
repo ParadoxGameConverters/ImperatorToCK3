@@ -62,7 +62,7 @@ public class ProvinceTests {
 
 		var theProvince = Province.Parse(reader, 42);
 
-		Assert.Equal("paradoxian", theProvince.Religion);
+		Assert.Equal("paradoxian", theProvince.ReligionId);
 	}
 
 	[Fact]
@@ -73,7 +73,7 @@ public class ProvinceTests {
 
 		var theProvince = Province.Parse(reader, 42);
 
-		Assert.True(string.IsNullOrEmpty(theProvince.Religion));
+		Assert.True(string.IsNullOrEmpty(theProvince.ReligionId));
 	}
 
 	[Fact]
@@ -81,7 +81,7 @@ public class ProvinceTests {
 		var religions = new ReligionCollection(new ScriptValueCollection());
 		religions.LoadReligions(imperatorModFS);
 		
-		var province = new Province(1) {Religion = "roman_pantheon"};
+		var province = new Province(1) {ReligionId = "roman_pantheon"};
 
 		var religion = province.GetReligion(religions);
 		Assert.NotNull(religion);
@@ -93,7 +93,7 @@ public class ProvinceTests {
 		var religions = new ReligionCollection(new ScriptValueCollection());
 		religions.LoadReligions(imperatorModFS);
 		
-		var province = new Province(1) {Religion = "missing_religion"};
+		var province = new Province(1) {ReligionId = "missing_religion"};
 
 		var religion = province.GetReligion(religions);
 		Assert.Null(religion);
