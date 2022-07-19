@@ -14,7 +14,7 @@ public partial class Province {
 			parsedProvince.Culture = reader.GetString()
 		);
 		provinceParser.RegisterKeyword("religion", reader =>
-			parsedProvince.Religion = reader.GetString()
+			parsedProvince.ReligionId = reader.GetString()
 		);
 		provinceParser.RegisterKeyword("owner", reader =>
 			parsedProvince.parsedOwnerCountryId = reader.GetULong()
