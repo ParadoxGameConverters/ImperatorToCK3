@@ -134,15 +134,12 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		IReadOnlyDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
-			Logger.Debug($"USING DEITY MODIFIERS FOR {barony.Id}, {ck3Faith.Id}"); // TODO: remove debug
 			imperatorModifiers = deity.PassiveModifiers;
 		} else {
 			var religion = imperatorProvince.GetReligion(imperatorReligions);
 			if (religion is not null) {
-				Logger.Debug($"USING RELIGION MODIFIERS FOR {barony.Id}, {ck3Faith.Id}"); // TODO: remove debug
 				imperatorModifiers = religion.Modifiers.ToImmutableDictionary();
 			} else {
-				Logger.Warn($"No Imperator religion or deity found for holy site generated in {barony} for {ck3Faith.Id}!");
 				imperatorModifiers = new Dictionary<string, double>();
 			}
 		}

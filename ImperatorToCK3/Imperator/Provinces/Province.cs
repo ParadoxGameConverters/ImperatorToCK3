@@ -37,18 +37,7 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	public Deity? GetHolySiteDeity(ReligionCollection religions) {
-		if (HolySiteId is null) {
-			Logger.Debug($"HOLY SITE OF PROVINCE {Id} IS NULL"); // TODO: REMOVE DEBUG
-			return null;
-		}
-
-		Logger.Info($"HOLY SITE OF PROVINCE {Id} IS {HolySiteId}"); // TODO: REMOVE DEBUG
-		var ulongId = (ulong)HolySiteId;
-		Logger.Info($"\t\tulongId = {ulongId}"); // TODO: REMOVE DEBUG
-		var deity = religions.GetDeityForHolySiteId((ulong)HolySiteId);
-		Logger.Info($"\t\tdeity = {deity}"); // TODO: REMOVE DEBUG
-		
-		return deity;
+		return HolySiteId is null ? null : religions.GetDeityForHolySiteId((ulong)HolySiteId);
 	}
 
 	public void LinkOwnerCountry(Country country) {

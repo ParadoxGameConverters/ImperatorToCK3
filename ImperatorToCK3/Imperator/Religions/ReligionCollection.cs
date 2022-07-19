@@ -57,16 +57,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.RegisterKeyword("deities_database", databaseReader => {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
-				LOGHOLYSITEIDTODEITYIDDICTCOUNT();
 				var holySiteId = ulong.Parse(holySiteIdStr);
 				var deityId = reader.GetAssignments()["deity"].RemQuotes();
-				Logger.Debug($"ADDING HOLY SITE - DEITY PAIR {holySiteId}, {deityId}"); // TODO: REMOVE DEBUG
 				holySiteIdToDeityIdDict[holySiteId] = deityId;
-				if (!holySiteIdToDeityIdDict.ContainsKey(holySiteId)) {
-					throw new Exception($"WHAT THE FUCK IS WRONG WITH {holySiteId}");
-				}
-
-				LOGHOLYSITEIDTODEITYIDDICTCOUNT();
 			});
 			databaseParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 			databaseParser.ParseStream(databaseReader);
@@ -77,27 +70,14 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 	
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
-		LOGHOLYSITEIDTODEITYIDDICTCOUNT(); // TODO: REMOVE DEBUG
-		
-		if (holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId)) {
-			Logger.Info($"DEITY ID {deityId} FOUND FOR HOLY SITE ID {holySiteId}"); // TODO: REMOVE DEBUG
-			return deityId;
-		} else {
-			Logger.Warn($"DEITY ID NOT FOUND FOR HOLY SITE ID {holySiteId}"); // TODO: REMOVE DEBUG
-			return null;
-		}
+		return holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId) ? deityId : null;
 	}
 	public Deity? GetDeityForHolySiteId(ulong holySiteId) {
 		var deityId = GetDeityIdForHolySiteId(holySiteId);
 		if (deityId is null) {
-			Logger.Warn($"DEITY ID FOR HOLY SITE ID {holySiteId} IS NULL"); // TODO: REMOVE DEBUG
 			return null;
 		}
 		return Deities.TryGetValue(deityId, out var deity) ? deity : null;
-	}
-
-	private void LOGHOLYSITEIDTODEITYIDDICTCOUNT() { // TODO: REMOVE DEBUG
-		Logger.Notice($"LOGHOLYSITEIDTODEITYIDDICTCOUNT: {holySiteIdToDeityIdDict.Count}"); // TODO: REMOVE DEBUG
 	}
 
 	private readonly Parser religionsParser;
