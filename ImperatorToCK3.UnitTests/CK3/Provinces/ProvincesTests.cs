@@ -11,7 +11,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvincesTests {
 	private const string CK3Root = "TestFiles/CK3ProvincesTests";
-	private ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
+	private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
 	
 	[Fact]
 	public void ProvincesDefaultToEmpty() {

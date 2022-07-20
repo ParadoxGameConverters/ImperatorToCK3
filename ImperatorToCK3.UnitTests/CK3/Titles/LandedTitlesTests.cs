@@ -26,8 +26,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
-		private const string ck3Root = "TestFiles/LandedTitlesTests/CK3/game";
-		private ModFilesystem ck3ModFs = new(ck3Root, new List<Mod>());
+		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
+		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
 		
 		[Fact]
 		public void TitlesDefaultToEmpty() {
