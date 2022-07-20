@@ -17,11 +17,11 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		var parser = new Parser();
 		parser.RegisterKeyword("holy_site", reader => holySiteIds.Add(reader.GetString()));
-		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color", reader => Color = ColorFactory.GetColor(reader));
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(faithReader);
 	}
 
@@ -64,5 +64,5 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 		return sb.ToString();
 	}
 
-	private static readonly ColorFactory colorFactory = new();
+	public static ColorFactory ColorFactory { get; }= new();
 }
