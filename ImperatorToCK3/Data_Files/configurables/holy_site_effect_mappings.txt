@@ -33,12 +33,12 @@ link = { imp = global_monthly_state_loyalty ck3 = county_opinion_add factor = 10
 link = { imp = agressive_expansion_monthly_change ck3 = tyranny_loss_mult factor = -10 }
 link = { imp = global_monthly_food_modifier ck3 = tax_mult factor = 1 }
 link = { imp = global_manpower_modifier ck3 = levy_size factor = 1 }
-link = { imp = global_food_capacity ck3 = tax_mult factor = 0.1 }
+link = { imp = global_food_capacity ck3 = tax_mult factor = 0.001 }
 link = { imp = global_supply_limit_modifier ck3 = supply_duration factor = 1 }
 link = { imp = global_population_growth ck3 = development_growth_factor factor = 1 }
-link = { imp = monthly_political_influence_modifier ck3 = prestige_gain_mult factor = 1 }
+link = { imp = monthly_political_influence_modifier ck3 = general_opinion factor = 10 }
 link = { imp = global_nobles_happyness ck3 = vassal_opinion factor = 100 }
-link = { imp = global_start_experience ck3 = monthly_martial_lifestyle_xp_gain_mult factor = 1 }
+link = { imp = global_start_experience ck3 = monthly_martial_lifestyle_xp_gain_mult factor = 0.01 }
 link = { imp = land_morale_modifier ck3 = knight_effectiveness_mult factor = 10 }
 link = { imp = global_slaves_happyness ck3 = county_opinion_add factor = 100 }
 link = { imp = global_tax_modifier ck3 = tax_mult factor = 1 }
@@ -68,6 +68,6 @@ link = { imp = global_slaves_output ck3 = tax_mult factor = 1 }
 link = { imp = experience_decay ck3 = monthly_martial_lifestyle_xp_gain_mult factor = -10 }
 link = { imp = fabricate_claim_speed ck3 = tyranny_loss_mult factor = 1 }
 link = { imp = war_exhaustion ck3 = tyranny_loss_mult factor = -10 }
-link = { imp = monthly_legitimacy ck3 = prestige_gain_mult factor = 1 }
+link = { imp = monthly_legitimacy ck3 = general_opinion factor = 10 }
 link = { imp = monthly_experience_gain ck3 = monthly_martial_lifestyle_xp_gain_mult factor = 1 }
 link = { imp = monthly_wage_modifier ck3 = vassal_opinion factor = -100 }
