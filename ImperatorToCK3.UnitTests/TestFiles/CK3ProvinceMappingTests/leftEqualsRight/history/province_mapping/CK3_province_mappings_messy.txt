@@ -1,0 +1,2 @@
+104=101 # OK
+105=105 # left same as right

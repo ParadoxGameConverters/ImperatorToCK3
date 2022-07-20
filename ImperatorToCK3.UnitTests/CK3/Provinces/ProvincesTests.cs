@@ -1,30 +1,50 @@
 ﻿using commonItems;
+using commonItems.Mods;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.CK3.Provinces {
-	[Collection("Sequential")]
-	[CollectionDefinition("Sequential", DisableParallelization = true)]
-	public class ProvincesTests {
-		[Fact]
-		public void ProvincesDefaultToEmpty() {
-			var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection();
+namespace ImperatorToCK3.UnitTests.CK3.Provinces; 
 
-			Assert.Empty(provinces);
-		}
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
+public class ProvincesTests {
+	private const string CK3Root = "TestFiles/CK3ProvincesTests";
+	private ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
+	
+	[Fact]
+	public void ProvincesDefaultToEmpty() {
+		var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection();
 
-		[Fact]
-		public void ProvincesAreProperlyLoadedFromFile() {
-			var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection("TestFiles/CK3ProvincesHistoryFile.txt", new Date(867, 1, 1));
+		Assert.Empty(provinces);
+	}
 
-			Assert.Equal(4, provinces.Count);
-			Assert.Equal("slovien", provinces[3080].Culture);
-			Assert.Equal("catholic", provinces[3080].FaithId);
-			Assert.Equal("slovien", provinces[4165].Culture);
-			Assert.Equal("catholic", provinces[4165].FaithId);
-			Assert.Equal("czech", provinces[4125].Culture);
-			Assert.Equal("slavic_pagan", provinces[4125].FaithId);
-			Assert.Equal("czech", provinces[4161].Culture);
-			Assert.Equal("slavic_pagan", provinces[4161].FaithId);
-		}
+	[Fact]
+	public void ProvincesAreProperlyLoadedFromFilesystem() {
+		var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection(ck3ModFs, new Date(867, 1, 1));
+
+		Assert.Collection(provinces.OrderBy(p=>p.Id),
+			prov => {
+				Assert.Equal((ulong)3080, prov.Id);
+				Assert.Equal("slovien", prov.Culture);
+				Assert.Equal("catholic", prov.FaithId);
+			},
+			prov => {
+				Assert.Equal((ulong)4125, prov.Id);
+				Assert.Equal("czech", prov.Culture);
+				Assert.Equal("slavic_pagan", prov.FaithId);
+			},
+			prov => {
+				Assert.Equal((ulong)4161, prov.Id);
+				Assert.Equal("czech", prov.Culture);
+				Assert.Equal("slavic_pagan", prov.FaithId);
+			},
+			prov => {
+				Assert.Equal((ulong)4165, prov.Id);
+				Assert.Equal("slovien", prov.Culture);
+				Assert.Equal("catholic", prov.FaithId);
+			}
+		);
 	}
 }

@@ -33,11 +33,6 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
-	private void LoadProvinceMappings(ModFilesystem ck3ModFs) {
-		
-		parser.ParseGameFolder("history/province_mapping", ck3ModFs, "txt", recursive: true);
-	}
-
 	public void ImportVanillaProvinces(ModFilesystem ck3ModFs, Date ck3BookmarkDate) {
 		var existingProvinceDefinitionsCount = Count;
 		Logger.Info("Importing vanilla provinces...");

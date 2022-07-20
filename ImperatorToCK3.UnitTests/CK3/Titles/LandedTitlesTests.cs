@@ -26,6 +26,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
+		private const string ck3Root = "TestFiles/LandedTitlesTests/CK3/game";
+		private ModFilesystem ck3ModFs = new(ck3Root, new List<Mod>());
+		
 		[Fact]
 		public void TitlesDefaultToEmpty() {
 			var reader = new BufferedReader(string.Empty);
@@ -206,7 +209,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
 			);
 
-			var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
+			var provinces = new ProvinceCollection(ck3ModFs, conversionDate);
 			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
