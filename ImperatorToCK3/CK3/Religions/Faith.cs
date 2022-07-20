@@ -9,6 +9,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
+	public Color? Color { get; private set; }
 	public bool ModifiedByConverter { get; private set; } = false;
 
 	public Faith(string id, BufferedReader faithReader) {
@@ -16,9 +17,11 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		var parser = new Parser();
 		parser.RegisterKeyword("holy_site", reader => holySiteIds.Add(reader.GetString()));
-		parser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
+		parser.RegisterKeyword("color", reader => Color = ColorFactory.GetColor(reader));
+		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
+		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(faithReader);
 	}
 
@@ -46,10 +49,12 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 			sb.AppendLine("{");
 		}
 
+		if (Color is not null) {
+			sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
+		}
 		foreach (var holySiteId in HolySiteIds) {
 			sb.Append(contentIndent).AppendLine($"holy_site={holySiteId}");
 		}
-
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent, withBraces: false));
 
 		if (withBraces) {
@@ -58,4 +63,6 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		return sb.ToString();
 	}
+
+	public static ColorFactory ColorFactory { get; }= new();
 }
