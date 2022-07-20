@@ -140,10 +140,11 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			if (religion is not null) {
 				imperatorModifiers = religion.Modifiers.ToImmutableDictionary();
 			} else {
-				Logger.Warn($"No Imperator religion or deity found for holy site generated in {barony} for {ck3Faith}!");
+				Logger.Warn($"No Imperator religion or deity found for holy site generated in {barony} for {ck3Faith.Id}!");
 				imperatorModifiers = new Dictionary<string, double>();
 			}
 		}
+		
 		return new HolySite(barony, ck3Faith, titles, imperatorModifiers, holySiteEffectMapper);
 	}
 

@@ -28,6 +28,19 @@ public class FaithTests {
 	}
 
 	[Fact]
+	public void FaithColorIsReadAndSerialized() {
+		var reader = new BufferedReader("{ color = hsv { 0.15  1  0.7 } }");
+		var faith = new Faith("celtic_pagan", reader);
+		
+		Assert.Equal(new Color(0.15, 1, 0.7), faith.Color);
+
+		var faithStr = PDXSerializer.Serialize(faith);
+		faithStr.Should().Contain(
+			"color=rgb { 178 160 0 }"
+		);
+	}
+
+	[Fact]
 	public void FaithAttributesAreReadAndSerialized() {
 		var reader = new BufferedReader(@"{
 			icon = celtic_pagan
