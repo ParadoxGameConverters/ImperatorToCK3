@@ -274,6 +274,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 			
+			Logger.Debug("Distributing countries' gold...");
+			
 			var bookmarkDate = config.CK3BookmarkDate;
 			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
 			foreach (var ck3Country in ck3CountriesFromImperator) {
