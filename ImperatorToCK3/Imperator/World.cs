@@ -24,6 +24,7 @@ namespace ImperatorToCK3.Imperator {
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
 		private readonly ScriptValueCollection scriptValues = new();
+		public NamedColorCollection NamedColors { get; } = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
 		private PopCollection pops = new();
@@ -261,6 +262,7 @@ namespace ImperatorToCK3.Imperator {
 
 		private void LoadModFilesystemDependentData() {
 			scriptValues.LoadScriptValues(ModFS);
+			NamedColors.LoadNamedColors("common/named_colors", ModFS);
 			
 			Country.LoadGovernments(ModFS);
 				
