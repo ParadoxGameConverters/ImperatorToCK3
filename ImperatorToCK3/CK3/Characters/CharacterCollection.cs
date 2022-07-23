@@ -287,8 +287,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				
 				var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
 
-				Logger.Info($"Distributing gold in {ck3Country.Id}..."); // TODO: remove debug
 				var directVassalCharacters = ck3Country.GetDeFactoVassals(bookmarkDate).Values
+					.Where(vassalTitle => !vassalTitle.Landless)
 					.Select(vassalTitle => this[vassalTitle.GetHolderId(bookmarkDate)])
 					.ToHashSet();
 
