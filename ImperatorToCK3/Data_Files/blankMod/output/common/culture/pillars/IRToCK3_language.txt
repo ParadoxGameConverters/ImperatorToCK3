@@ -236,23 +236,6 @@ language_samnite = {
 
 	color = { 117 131 150 }
 }
-language_venetic = {
-	type = language
-	is_shown = {
-		language_is_shown_trigger = {
-		LANGUAGE = language_venetic
-		}
-	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_venetic }
-			multiply = 10
-		}
-	}
-
-	color = { 193 117 241 }
-}
 language_ligustic = {
 	type = language
 	is_shown = {

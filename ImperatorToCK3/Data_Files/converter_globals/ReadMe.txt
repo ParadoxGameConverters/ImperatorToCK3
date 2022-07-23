@@ -31,5 +31,7 @@ lukaslunt	- Data files
 Zemurin		- Review, advice
 Plati		- Faith icons
 Radu		- Ideas, province mappings
+Vielus      - Mapping tweaks
+derekmark   - Venetic culture flavour
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

@@ -74,29 +74,34 @@ samnite = {
 		tradition_only_the_strong
 	}	
 }
-venetic = {	
+venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
-	language = language_venetic
-	martial_custom = martial_custom_male_only
+	language = language_venetic_culture
+    martial_custom = martial_custom_male_only
 	
-	name_list = name_list_roman
+	name_list = name_list_venetic_culture
 	
 	ethos = ethos_stoic
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
-	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { western_clothing_gfx }
-	unit_gfx = { western_unit_gfx }	
+    
+    coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+    building_gfx = { mediterranean_building_gfx }
+    clothing_gfx = { western_clothing_gfx }
+    unit_gfx = { western_unit_gfx }
 	
 	color = { 193 117 241 }
 
 	ethnicities = {
 		10 = mediterranean
 	}
-	traditions = {
-		tradition_only_the_strong
-	}	
+	
+    traditions = {
+        tradition_ekvopetobos
+        tradition_horse_breeder
+        tradition_maritime_mercantilism
+        tradition_stalwart_defenders
+        tradition_sacred_groves
+    }
 }
 ligustic = {	
 	# heritage = heritage_proto_italic
