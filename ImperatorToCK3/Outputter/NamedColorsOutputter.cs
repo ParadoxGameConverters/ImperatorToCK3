@@ -12,7 +12,8 @@ public static class NamedColorsOutputter {
 	/// <param name="imperatorNamedColors"></param>
 	/// <param name="ck3NamedColors"></param>
 	public static void OutputNamedColors(string outputModName, NamedColorCollection imperatorNamedColors, NamedColorCollection ck3NamedColors) {
-		var diff = imperatorNamedColors.Except(ck3NamedColors).ToList();
+		var diff = imperatorNamedColors.Where(colorPair => !ck3NamedColors.ContainsKey(colorPair.Key))
+			.ToList();
 		if (!diff.Any()) {
 			return;
 		}
