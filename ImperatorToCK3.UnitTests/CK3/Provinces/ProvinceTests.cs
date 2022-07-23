@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
@@ -12,18 +13,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 	public class ProvinceTests {
 		[Fact]
 		public void FieldsDefaultToCorrectValues() {
-			var province = new Province();
-			Assert.Equal((ulong)0, province.Id);
-			Assert.Equal(string.Empty, province.Religion);
+			var province = new Province(1);
+			Assert.Equal((ulong)1, province.Id);
+			Assert.Equal(string.Empty, province.FaithId);
 			Assert.Equal(string.Empty, province.Culture);
 			Assert.Equal("none", province.Holding);
 		}
 
 		[Fact]
 		public void FieldsCanBeSet() {
-			var province = new Province();
-			province.Religion = "orthodox";
-			Assert.Equal("orthodox", province.Religion);
+			// ReSharper disable once UseObjectOrCollectionInitializer
+			var province = new Province(1);
+			province.FaithId = "orthodox";
+			Assert.Equal("orthodox", province.FaithId);
 			province.Culture = "roman";
 			Assert.Equal("roman", province.Culture);
 		}
@@ -35,7 +37,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			);
 			var province = new Province(42, reader, new Date(867, 1, 1));
 			Assert.Equal((ulong)42, province.Id);
-			Assert.Equal("orthodox", province.Religion);
+			Assert.Equal("orthodox", province.FaithId);
 			Assert.Equal("roman", province.Culture);
 			Assert.Equal("castle_holding", province.Holding);
 		}
@@ -63,18 +65,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces {
 			var impProvince6 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader6, 47);
 			impProvince6.LinkOwnerCountry(imperatorCountry);
 
-			var province1 = new Province();
-			var province2 = new Province();
-			var province3 = new Province();
-			var province4 = new Province();
-			var province5 = new Province();
-			var province6 = new Province();
+			var province1 = new Province(1);
+			var province2 = new Province(2);
+			var province3 = new Province(3);
+			var province4 = new Province(4);
+			var province5 = new Province(5);
+			var province6 = new Province(6);
 
+			var ck3Religions = new ReligionCollection();
 			var landedTitles = new Title.LandedTitles();
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
-			var religionMapper = new ReligionMapper(imperatorRegionMapper, ck3RegionMapper);
+			var religionMapper = new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper);
 			var config = new Configuration();
 
 			province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper, config);

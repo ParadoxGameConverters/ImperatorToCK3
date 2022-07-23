@@ -42,6 +42,11 @@ public static class CharacterOutputter {
 			}
 			output.WriteLine($"\t{nicknameDate}={{ give_nickname={character.Nickname} }}");
 		}
+		
+		// output gold
+		if (character.Gold is not null) {
+			output.WriteLine($"\t{conversionDate}={{ effect={{ add_gold={character.Gold} }} }}");
+		}
 
 		// output DNA key
 		if (character.DNA is not null) {

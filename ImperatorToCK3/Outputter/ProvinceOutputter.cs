@@ -9,8 +9,8 @@ public static class ProvinceOutputter {
 		if (!string.IsNullOrEmpty(province.Culture)) {
 			writer.WriteLine($"\tculture={province.Culture}");
 		}
-		if (!string.IsNullOrEmpty(province.Religion)) {
-			writer.WriteLine($"\treligion={province.Religion}");
+		if (!string.IsNullOrEmpty(province.FaithId)) {
+			writer.WriteLine($"\treligion={province.FaithId}");
 		}
 		writer.WriteLine($"\tholding={province.Holding}");
 		if (province.Buildings.Count > 0) {

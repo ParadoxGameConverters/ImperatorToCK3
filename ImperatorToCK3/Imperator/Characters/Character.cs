@@ -93,7 +93,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			}
 		}
 		public PDXBool Female { get; private set; } = new(false);
-		public double Wealth { get; private set; } = 0;
+		public double Wealth { get; set; } = 0;
 		public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
 		public CK3.Characters.Character? CK3Character { get; set; }

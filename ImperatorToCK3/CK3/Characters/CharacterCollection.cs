@@ -259,5 +259,48 @@ namespace ImperatorToCK3.CK3.Characters {
 				character.EmployerId = null;
 			}
 		}
+
+		/// <summary>
+		/// Distributes Imperator countries' gold among rulers and governors
+		/// </summary>
+		/// <param name="titles">Landed titles collection</param>
+		/// <param name="config">Current configuration</param>
+		public void DistributeCountriesGold(Title.LandedTitles titles, Configuration config) {
+			static void AddGoldToCharacter(Character character, double gold) {
+				if (character.Gold is null) {
+					character.Gold = gold;
+				} else {
+					character.Gold += gold;
+				}
+			}
+			
+			var bookmarkDate = config.CK3BookmarkDate;
+			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
+			foreach (var ck3Country in ck3CountriesFromImperator) {
+				var rulerId = ck3Country.GetHolderId(bookmarkDate);
+				if (rulerId == "0") {
+					Logger.Debug($"Can't distribute gold in {ck3Country} because it has no holder.");
+					continue;
+				}
+				
+				var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
+
+				var directVassalCharacters = ck3Country.GetDeFactoVassals(bookmarkDate).Values
+					.Select(vassalTitle => this[vassalTitle.GetHolderId(bookmarkDate)])
+					.ToHashSet();
+
+				// Ruler should also get a share, he has double weight, so we add 2 to the count.
+				var mouthsToFeedCount = directVassalCharacters.Count + 2;
+
+				var goldPerVassal = imperatorGold / mouthsToFeedCount;
+				foreach (var vassalCharacter in directVassalCharacters) {
+					AddGoldToCharacter(vassalCharacter, goldPerVassal);
+					imperatorGold -= goldPerVassal;
+				}
+				
+				var ruler = this[rulerId];
+				AddGoldToCharacter(ruler, imperatorGold);
+			}
+		}
 	}
 }

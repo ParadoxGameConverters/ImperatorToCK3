@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
@@ -33,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
-			private readonly ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private readonly ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private readonly Date ck3BookmarkDate = new(867, 1, 1);

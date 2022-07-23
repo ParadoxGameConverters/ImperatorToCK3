@@ -21,6 +21,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string Religion { get; set; } = string.Empty;
 		public string Name { get; set; }
 		public string? Nickname { get; set; }
+		public double? Gold { get; set; }
 
 		public uint Age { get; private set; }
 		public string AgeSex {
@@ -93,13 +94,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			BirthDate = preImperatorRuler.BirthDate!;
-			if (BirthDate.Year < 1) {
-				BirthDate = BirthDate.ChangeByYears(-1);
-			}
 			DeathDate = preImperatorRuler.DeathDate!;
-			if (DeathDate.Year < 1) {
-				DeathDate = DeathDate.ChangeByYears(-1);
-			}
 
 			// determine culture and religion
 			ulong ck3Province = 0;
@@ -225,16 +220,14 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			BirthDate = ImperatorCharacter.BirthDate;
-			if (BirthDate.Year < 1) {
-				BirthDate = BirthDate.ChangeByYears(-1);
-			}
 			DeathDate = ImperatorCharacter.DeathDate;
-			if (DeathDate?.Year < 1) {
-				DeathDate = DeathDate.ChangeByYears(-1);
-			}
 			var impDeathReason = ImperatorCharacter.DeathReason;
 			if (impDeathReason is not null) {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
+			}
+
+			if (ImperatorCharacter.Wealth != 0) {
+				Gold = ImperatorCharacter.Wealth * config.ImperatorCurrencyRate;
 			}
 
 			// if character is imprisoned, set jailor
