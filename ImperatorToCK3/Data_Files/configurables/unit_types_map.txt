@@ -9,9 +9,12 @@ link = { imp=supply_train } # drop
 link = { ck3=armored_horsemen imp=heavy_cavalry }
 link = { ck3=light_horsemen imp=light_cavalry }
 link = { ck3=horse_archers imp=horse_archers }
-link = { ck3=war_elephant imp=warelephant}
+link = { ck3=war_elephant imp=warelephant }
 link = { ck3=camel_rider imp=camels }
 
 link = { ck3=bowmen imp=archers }
 link = { ck3=armored_footmen imp=heavy_infantry }
 link = { ck3=light_footmen imp=light_infantry }
+
+# Invictus mod
+link = { ck3=pikemen_unit imp=spearmen }

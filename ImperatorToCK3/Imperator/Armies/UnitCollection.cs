@@ -1,11 +1,14 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
 public class UnitCollection : IdObjectCollection<ulong, Unit> {
 	private readonly IdObjectCollection<ulong, Subunit> subunits = new();
+	private readonly HashSet<string> ignoredSubunitTokens = new();
+	private readonly HashSet<string> ignoredUnitTokens = new();
 
 	public void LoadSubunits(BufferedReader subunitsReader) {
 		Logger.Info("Loading subunits...");
@@ -21,9 +24,10 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 
 			Logger.Notice(id.ToString()); // TODO: REMOVE DEBUG
 		});
-		parser.IgnoreAndLogUnregisteredItems();
+		parser.IgnoreAndStoreUnregisteredItems(ignoredSubunitTokens);
 
 		parser.ParseStream(subunitsReader);
+		Logger.Debug($"Ignored subunit tokens: {string.Join(',', ignoredSubunitTokens)}");
 	}
 	public void LoadUnits(BufferedReader unitsReader) {
 		Logger.Info("Loading units...");
@@ -39,8 +43,9 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 
 			Logger.Notice(id.ToString()); // TODO: REMOVE DEBUG
 		});
-		parser.IgnoreAndLogUnregisteredItems();
+		parser.IgnoreAndStoreUnregisteredItems(ignoredUnitTokens);
 
 		parser.ParseStream(unitsReader);
+		Logger.Debug($"Ignored unit tokens: {string.Join(',', ignoredUnitTokens)}");
 	}
 }
