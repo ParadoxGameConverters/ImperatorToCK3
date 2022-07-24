@@ -1,0 +1,17 @@
+﻿NGame = {
+	START_DATE = "450.10.1"
+	GAME_SPEED_TICKS = {	 #how many seconds should a day take in every game speed
+		1
+		0.75
+		0.5
+		0.25
+		0.0
+	}
+	SCORE_START_BASE = 50
+	SCORE_START_POP_WEIGHT = 0.45
+}
+NUnit = {
+	COHORT_SIZE = 500
+	
+}
+
