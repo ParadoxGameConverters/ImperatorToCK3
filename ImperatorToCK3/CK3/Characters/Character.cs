@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -9,8 +10,10 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
@@ -57,7 +60,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			//.WithSimpleField("dna", "dna", null)
 			//.WithSimpleField("mother", "mother", null)
 			//.WithSimpleField("father", "father", null)
-			.WithDiffField("spouses", new() { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
+			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
+			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
@@ -375,6 +379,32 @@ namespace ImperatorToCK3.CK3.Characters {
 			var type = DynastyId is null ? "dungeon" : "house_arrest";
 			characters[jailorId].PrisonerIds.Add(Id, type);
 			return true;
+		}
+
+		public void ImportLegions(IEnumerable<Unit> countryLegions, UnitCollection imperatorUnits) {
+			var sb = new StringBuilder();
+			sb.AppendLine("{");
+			foreach (var unit in countryLegions) 
+				
+				
+				//throw new NotImplementedException(); // TODO: REENABLE
+				var spawnArmyEffect = $@"spawn_army={{
+					name = {unit.Name}
+					men_at_arms={{
+						type=huscarl
+						men=1100
+					}}
+					men_at_arms={{
+						type=varangian_veterans
+						men=420
+					}}
+					location=province:2152
+					origin=province:2152
+					uses_supply=yes
+					inheritable=yes
+				}}";
+			}
+			sb.AppendLine("}");
 		}
 	}
 }

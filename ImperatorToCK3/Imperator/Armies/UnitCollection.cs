@@ -2,13 +2,12 @@
 using commonItems.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
 public class UnitCollection : IdObjectCollection<ulong, Unit> {
 	private readonly IdObjectCollection<ulong, Subunit> subunits = new();
-	private readonly HashSet<string> ignoredSubunitTokens = new();
-	private readonly HashSet<string> ignoredUnitTokens = new();
 
 	public void LoadSubunits(BufferedReader subunitsReader) {
 		Logger.Info("Loading subunits...");
@@ -21,13 +20,11 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 
 			var id = ulong.Parse(idStr);
 			subunits.AddOrReplace(new Subunit(id, new BufferedReader(itemStr)));
-
-			Logger.Notice(id.ToString()); // TODO: REMOVE DEBUG
 		});
-		parser.IgnoreAndStoreUnregisteredItems(ignoredSubunitTokens);
+		parser.IgnoreAndLogUnregisteredItems();
 
 		parser.ParseStream(subunitsReader);
-		Logger.Debug($"Ignored subunit tokens: {string.Join(',', ignoredSubunitTokens)}");
+		Logger.Debug($"Ignored subunit tokens: {string.Join(',', Subunit.IgnoredTokens)}");
 	}
 	public void LoadUnits(BufferedReader unitsReader) {
 		Logger.Info("Loading units...");
@@ -40,12 +37,16 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 
 			var id = ulong.Parse(idStr);
 			AddOrReplace(new Unit(id, new BufferedReader(itemStr)));
-
-			Logger.Notice(id.ToString()); // TODO: REMOVE DEBUG
 		});
-		parser.IgnoreAndStoreUnregisteredItems(ignoredUnitTokens);
+		parser.IgnoreAndLogUnregisteredItems();
 
 		parser.ParseStream(unitsReader);
-		Logger.Debug($"Ignored unit tokens: {string.Join(',', ignoredUnitTokens)}");
+		Logger.Debug($"Ignored unit tokens: {string.Join(',', Unit.IgnoredTokens)}");
+	}
+
+	public IDictionary<string, int> GetMenPerUnitType(Unit unit) {
+		return subunits.Where(s => unit.CohortIds.Contains(s.Id))
+			.GroupBy(s=>s.Type)
+			.ToDictionary(g => g.Key, g => (int)g.Sum(s => 500 * s.Strength)); // TODO: instead of assuming 500, read COHORT_SIZE from Imperator defines
 	}
 }

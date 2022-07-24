@@ -308,6 +308,11 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void ImportLegions(Title.LandedTitles titles, UnitCollection imperatorUnits, Date date) {
+			// tag HRE (ID=507) has 1 legion
+			// unit ID is 889192647
+			
+			
+			
 			Logger.Info("Importing Imperator armies...");
 			
 			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
@@ -319,12 +324,16 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 				
 				var imperatorCountry = ck3Country.ImperatorCountry!;
-				var countryUnits = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id).ToList();
-				if (!countryUnits.Any()) {
+				var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id)
+					.Where(unit => unit.IsArmy && unit.IsLegion) // drop navies and levies
+					.ToList();
+				if (!countryLegions.Any()) {
 					continue;
 				}
 				
-				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryUnits.Select(u=>u.Id))}"); // TODO: REMOVE DEBUG
+				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryLegions.Select(u=>u.Id))}"); // TODO: REMOVE DEBUG
+				var ruler = this[rulerId];
+				ruler.ImportLegions(countryLegions, imperatorUnits);
 			}
 		}
 	}

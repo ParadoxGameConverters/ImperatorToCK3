@@ -24,7 +24,10 @@ internal class Subunit : IIdentifiable<ulong> {
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("strength", reader => Strength = reader.GetDouble());
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 
 		parser.ParseStream(subunitReader);
 	}
+	
+	public static HashSet<string> IgnoredTokens { get; } = new();
 }
