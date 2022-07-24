@@ -308,6 +308,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void ImportLegions(Title.LandedTitles titles, UnitCollection imperatorUnits, Date date) {
+			Logger.Info("Importing Imperator armies...");
+			
 			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
 			foreach (var ck3Country in ck3CountriesFromImperator) {
 				var rulerId = ck3Country.GetHolderId(date);
@@ -317,8 +319,12 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 				
 				var imperatorCountry = ck3Country.ImperatorCountry!;
-				var countryUnits = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id);
-				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryUnits)}");
+				var countryUnits = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id).ToList();
+				if (!countryUnits.Any()) {
+					continue;
+				}
+				
+				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryUnits.Select(u=>u.Id))}"); // TODO: REMOVE DEBUG
 			}
 		}
 	}

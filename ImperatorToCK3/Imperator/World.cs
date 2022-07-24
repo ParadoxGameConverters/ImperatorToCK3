@@ -113,7 +113,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
 			RegisterKeyword("armies", reader => {
-				Logger.Info("Loading Units...");
+				Logger.Info("Loading armies...");
 				var armiesParser = new Parser();
 				armiesParser.RegisterKeyword("subunit_database", ParserHelpers.IgnoreItem);
 				armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader));
