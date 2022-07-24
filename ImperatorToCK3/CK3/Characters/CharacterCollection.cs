@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
@@ -300,6 +301,21 @@ namespace ImperatorToCK3.CK3.Characters {
 				
 				var ruler = this[rulerId];
 				AddGoldToCharacter(ruler, imperatorGold);
+			}
+		}
+
+		public void ImportLegions(Title.LandedTitles titles, UnitCollection imperatorUnits, Date date) {
+			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
+			foreach (var ck3Country in ck3CountriesFromImperator) {
+				var rulerId = ck3Country.GetHolderId(date);
+				if (rulerId == "0") {
+					Logger.Debug($"Can't add armies to {ck3Country} because it has no holder.");
+					continue;
+				}
+				
+				var imperatorCountry = ck3Country.ImperatorCountry!;
+				var countryUnits = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id);
+				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryUnits)}");
 			}
 		}
 	}

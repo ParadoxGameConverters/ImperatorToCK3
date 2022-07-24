@@ -140,6 +140,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
 			Characters.DistributeCountriesGold(LandedTitles, config);
+			Characters.ImportLegions(LandedTitles, impWorld.Units, CorrectedDate);
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
