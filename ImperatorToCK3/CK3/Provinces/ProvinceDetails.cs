@@ -9,14 +9,14 @@ public class ProvinceDetails {
 	// These values are open to ease management.
 	// This is a storage container for CK3::Province.
 	public string Culture { get; set; } = string.Empty;
-	public string Religion { get; set; } = string.Empty;
+	public string FaithId { get; set; } = string.Empty;
 	public string Holding { get; set; } = "none";
 	public List<string> Buildings { get; } = new();
 
 	public ProvinceDetails() { }
 	public ProvinceDetails(ProvinceDetails otherDetails) {
 		Culture = otherDetails.Culture;
-		Religion = otherDetails.Religion;
+		FaithId = otherDetails.FaithId;
 		Holding = otherDetails.Holding;
 		Buildings = new(otherDetails.Buildings);
 	}
@@ -27,9 +27,9 @@ public class ProvinceDetails {
 		if (cultureOpt is string cultureStr) {
 			Culture = cultureStr;
 		}
-		var religionOpt = history.GetFieldValue("religion", ck3BookmarkDate);
-		if (religionOpt is string religionStr) {
-			Religion = religionStr;
+		var faithOpt = history.GetFieldValue("religion", ck3BookmarkDate);
+		if (faithOpt is string faithStr) {
+			FaithId = faithStr;
 		}
 		switch (history.GetFieldValue("holding", ck3BookmarkDate)) {
 			case null:

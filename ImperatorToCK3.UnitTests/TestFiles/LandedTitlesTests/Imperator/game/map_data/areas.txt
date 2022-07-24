@@ -1,1 +1,2 @@
 galatia_area = { provinces = { 2 3 } }
+paphlagonia_area = { provinces = { 4 5 6 } }

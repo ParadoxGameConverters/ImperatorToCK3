@@ -17,6 +17,17 @@ option = {
 }
 
 option = {
+	name = ImperatorCurrencyRate
+	displayName = IMPERATOR_CURRENCY_RATE
+	tooltip = IMPERATOR_CURRENCY_RATE_TIP
+	textSelector = {	
+		value = "1.0"
+		editable = true
+		tooltip = IMPERATOR_CURRENCY_RATE_INPUT_TIP
+	}
+}
+
+option = {
 	name = output_name
 	displayName = MODNAME
 	tooltip = MODNAMETIP

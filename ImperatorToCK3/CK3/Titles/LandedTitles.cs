@@ -171,6 +171,11 @@ public partial class Title {
 			return null;
 		}
 
+		public Title? GetBaronyForProvince(ulong provinceId) {
+			var baronies = this.Where(title => title.Rank == TitleRank.barony);
+			return baronies.FirstOrDefault(b => provinceId == b?.Province, defaultValue: null);
+		}
+
 		public HashSet<string> GetHolderIds(Date date) {
 			return new HashSet<string>(this.Select(t => t.GetHolderId(date)));
 		}
@@ -541,6 +546,10 @@ public partial class Title {
 				county.History.Fields.Remove("development_level");
 				county.History.AddFieldValue(date, "development_level", "change_development_level", (int)dev);
 			}
+		}
+
+		public IEnumerable<Title> GetCountriesImportedFromImperator() {
+			return this.Where(t => t.ImperatorCountry is not null);
 		}
 
 		public Color GetDerivedColor(Color baseColor) {

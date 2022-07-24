@@ -75,7 +75,6 @@
  holy_site_zaragoza_name:0 "Сальдуба"
  holy_site_coruna_name:0 "Ерифия"
  holy_site_valencia_name:0 "Вирияфа"
- holy_site_toledo_name:0 "$b_toledo$"
  holy_site_algeciras_name:0 "Цетария"
  holy_site_german_dublin_name:0 "Каль-Томайр"
  holy_site_vestisland_name:0 "Хелгафелль"
@@ -166,7 +165,6 @@
  holy_site_zaragoza_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_zaragoza_name$)#!"
  holy_site_coruna_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_coruna_name$)#!"
  holy_site_valencia_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_valencia_name$)#!"
- holy_site_toledo_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_toledo_name$)#!"
  holy_site_algeciras_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_algeciras_name$)#!"
  holy_site_german_dublin_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_german_dublin_name$)#!"
  holy_site_vestisland_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_vestisland_name$)#!"
@@ -181,5 +179,5 @@
  holy_site_prusa_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_prusa_name$)#!"
  holy_site_giza_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_giza_name$)#!"
  holy_site_bahnasa_effect_name:0 "От [Concept( 'holy_site', 'святыни' )|E] #weak ($holy_site_bahnasa_name$)#!"
- 
+
  holy_site_celtic_dublin_name:0 "$b_dublin$"

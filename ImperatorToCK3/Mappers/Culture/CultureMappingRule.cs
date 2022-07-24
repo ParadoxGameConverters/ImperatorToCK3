@@ -74,9 +74,6 @@ public class CultureMappingRule {
 		// This is an Imperator regions check, it checks if provided impProvince is within the mapping's imperatorRegions
 		foreach (var region in imperatorRegions) {
 			if (!imperatorRegionMapper.RegionNameIsValid(region)) {
-				Logger.Warn($"Checking for religion {impCulture} inside invalid Imperator region: {region}! Fix the mapping rules!");
-				// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
-				// for the converter to explode across the logs with invalid names. So, continue.
 				continue;
 			}
 			if (imperatorRegionMapper.ProvinceIsInRegion(impProvinceId, region)) {
