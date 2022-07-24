@@ -23,7 +23,7 @@ public static class RakalyCaller {
 	}
 	
 	public static string GetJson(string filePath) {
-		string arguments = $"json --format windows-1252 {filePath}";
+		string arguments = $"json --format utf-8 {filePath}";
 		
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;

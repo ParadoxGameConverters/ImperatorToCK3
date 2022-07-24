@@ -2,7 +2,6 @@
 using ImperatorToCK3.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Text.Json.Nodes;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Helpers;
@@ -35,5 +34,12 @@ public class RakalyCallerTests {
 		Assert.Equal(50, jsonObject["NGame"]["SCORE_START_BASE"]);
 		Assert.Equal(0.45, jsonObject["NGame"]["SCORE_START_POP_WEIGHT"]);
 		Assert.Equal(500, jsonObject["NUnit"]["COHORT_SIZE"]);
+	}
+	
+	[Fact]
+	public void RakalyCallerReportsWrongExitCodeWhenConvertingFileToJson() {
+		const string missingFilePath = "missing.rome";
+		var e = Assert.Throws<FormatException>(() => RakalyCaller.GetJson(missingFilePath));
+		Assert.Contains($"Rakaly failed to convert {missingFilePath} to JSON with exit code 2", e.ToString());
 	}
 }
