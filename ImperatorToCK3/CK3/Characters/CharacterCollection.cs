@@ -275,6 +275,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 			
+			Logger.Info("Distributing countries' gold...");
+			
 			var bookmarkDate = config.CK3BookmarkDate;
 			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
 			foreach (var ck3Country in ck3CountriesFromImperator) {
@@ -287,6 +289,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
 
 				var directVassalCharacters = ck3Country.GetDeFactoVassals(bookmarkDate).Values
+					.Where(vassalTitle => !vassalTitle.Landless)
 					.Select(vassalTitle => this[vassalTitle.GetHolderId(bookmarkDate)])
 					.ToHashSet();
 
