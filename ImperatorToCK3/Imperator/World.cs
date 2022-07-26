@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
@@ -24,6 +23,7 @@ namespace ImperatorToCK3.Imperator {
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
 		private readonly ScriptValueCollection scriptValues = new();
+		public Defines Defines = new();
 		public NamedColorCollection NamedColors { get; } = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
@@ -262,6 +262,7 @@ namespace ImperatorToCK3.Imperator {
 
 		private void LoadModFilesystemDependentData() {
 			scriptValues.LoadScriptValues(ModFS);
+			Defines.LoadDefines(ModFS);
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
 			
 			Country.LoadGovernments(ModFS);

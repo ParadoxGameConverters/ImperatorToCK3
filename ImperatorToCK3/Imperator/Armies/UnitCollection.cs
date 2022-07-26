@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
@@ -44,9 +43,11 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		Logger.Debug($"Ignored unit tokens: {string.Join(',', Unit.IgnoredTokens)}");
 	}
 
-	public IDictionary<string, int> GetMenPerUnitType(Unit unit) {
+	public IDictionary<string, int> GetMenPerUnitType(Unit unit, Defines defines) {
+		var cohortSize = defines.CohortSize;
+		
 		return subunits.Where(s => unit.CohortIds.Contains(s.Id))
 			.GroupBy(s=>s.Type)
-			.ToDictionary(g => g.Key, g => (int)g.Sum(s => 500 * s.Strength)); // TODO: instead of assuming 500, read COHORT_SIZE from Imperator defines
+			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
 }

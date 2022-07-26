@@ -384,7 +384,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public void ImportLegions(IEnumerable<Unit> countryLegions, UnitCollection imperatorUnits) {
 			var sb = new StringBuilder();
 			sb.AppendLine("{");
-			foreach (var unit in countryLegions) 
+			foreach (var unit in countryLegions) {
 				
 				
 				//throw new NotImplementedException(); // TODO: REENABLE
