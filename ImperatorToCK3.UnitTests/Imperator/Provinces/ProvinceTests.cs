@@ -274,6 +274,22 @@ public class ProvinceTests {
 		Assert.NotNull(deity);
 		Assert.Equal("deity3", deity.Id);
 	}
+
+	[Fact]
+	public void WarningIsLoggedWhenHolySiteDefinitionHasNoDeity() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadDeities(imperatorModFS);
+
+		var output = new StringWriter();
+		Console.SetOut(output);
+		
+		var holySitesReader = new BufferedReader(@"deities_database = {
+				34 = {}
+			}");
+		religions.LoadHolySiteDatabase(holySitesReader);
+
+		Assert.Contains("Holy site 34 has no deity!", output.ToString());
+	}
 	
 	[Fact]
 	public void GetHolySiteDeityReturnsNullHolySiteIdIsNull() {
