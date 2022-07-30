@@ -382,7 +382,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			return true;
 		}
 
-		public void ImportLegions(IEnumerable<Unit> countryLegions, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper) {
+		public void ImportLegions(IEnumerable<Unit> countryLegions, Date date, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper) {
 			var sb = new StringBuilder();
 			sb.AppendLine("{");
 			foreach (var unit in countryLegions) {
@@ -411,6 +411,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				sb.AppendLine("\t\t}");
 			}
 			sb.AppendLine("}");
+			
+			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
 	}
 }

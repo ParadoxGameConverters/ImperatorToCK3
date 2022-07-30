@@ -334,7 +334,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				
 				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryLegions.Select(u=>u.Id))}"); // TODO: REMOVE DEBUG
 				var ruler = this[rulerId];
-				ruler.ImportLegions(countryLegions, unitTypeMapper, provinceMapper);
+				ruler.ImportLegions(countryLegions, date, unitTypeMapper, provinceMapper);
 			}
 		}
 	}
