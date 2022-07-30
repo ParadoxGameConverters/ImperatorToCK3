@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
@@ -21,6 +20,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -137,7 +137,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
 			Characters.DistributeCountriesGold(LandedTitles, config);
-			Characters.ImportLegions(LandedTitles, impWorld.Units, CorrectedDate);
+			Characters.ImportLegions(LandedTitles, impWorld.Units, CorrectedDate, unitTypeMapper, provinceMapper);
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
@@ -303,6 +303,7 @@ namespace ImperatorToCK3.CK3 {
 			tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
 			governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
 		);
+		private readonly UnitTypeMapper unitTypeMapper = new("configurables/unit_types_map.txt");
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
 	}

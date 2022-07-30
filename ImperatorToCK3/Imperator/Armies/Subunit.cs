@@ -1,14 +1,10 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Imperator.Armies; 
 
-internal class Subunit : IIdentifiable<ulong> {
+public class Subunit : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public string Category { get; private set; } = "levy";
 	public string Type { get; private set; } = "light_infantry";

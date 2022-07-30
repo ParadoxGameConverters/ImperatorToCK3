@@ -10,6 +10,7 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.UnitType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -381,28 +382,33 @@ namespace ImperatorToCK3.CK3.Characters {
 			return true;
 		}
 
-		public void ImportLegions(IEnumerable<Unit> countryLegions, UnitCollection imperatorUnits) {
+		public void ImportLegions(IEnumerable<Unit> countryLegions, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper) {
 			var sb = new StringBuilder();
 			sb.AppendLine("{");
 			foreach (var unit in countryLegions) {
+				var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
+				sb.AppendLine("\t\tspawn_army={");
 				
+				sb.AppendLine("\t\t\tuses_supply=yes");
+				sb.AppendLine("\t\t\tinheritable=yes");
 				
-				throw new NotImplementedException(); // TODO: REENABLE
-				var spawnArmyEffect = $@"spawn_army={{
-					name = {unit.LocalizedName}
-					men_at_arms={{
-						type=huscarl
-						men=1100
-					}}
-					men_at_arms={{
-						type=varangian_veterans
-						men=420
-					}}
-					location=province:2152
-					origin=province:2152
-					uses_supply=yes
-					inheritable=yes
-				}}";
+				if (unit.LocalizedName is not null) {
+					sb.AppendLine($"\t\t\tname={unit.NameLocKey}");
+				}
+				
+				foreach (var (type, men) in menPerUnitType) {
+					sb.AppendLine($"\t\t\tmen_at_arms={{type={type} men={men}}}");
+				}
+				
+				var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location)
+					.Cast<ulong?>()
+					.FirstOrDefault(defaultValue: null);
+				if (ck3Location is not null) {
+					sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
+					sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
+				}
+				
+				sb.AppendLine("\t\t}");
 			}
 			sb.AppendLine("}");
 		}

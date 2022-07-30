@@ -1,13 +1,11 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
 public class UnitCollection : IdObjectCollection<ulong, Unit> {
-	private readonly IdObjectCollection<ulong, Subunit> subunits = new();
+	public IdObjectCollection<ulong, Subunit> Subunits { get; } = new();
 
 	public void LoadSubunits(BufferedReader subunitsReader) {
 		Logger.Info("Loading subunits...");
@@ -19,14 +17,14 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 			}
 
 			var id = ulong.Parse(idStr);
-			subunits.AddOrReplace(new Subunit(id, new BufferedReader(itemStr)));
+			Subunits.AddOrReplace(new Subunit(id, new BufferedReader(itemStr)));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 
 		parser.ParseStream(subunitsReader);
 		Logger.Debug($"Ignored subunit tokens: {string.Join(',', Subunit.IgnoredTokens)}");
 	}
-	public void LoadUnits(BufferedReader unitsReader, LocDB locDB) {
+	public void LoadUnits(BufferedReader unitsReader, LocDB locDB, Defines defines) {
 		Logger.Info("Loading units...");
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
@@ -36,19 +34,11 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 			}
 
 			var id = ulong.Parse(idStr);
-			AddOrReplace(new Unit(id, new BufferedReader(itemStr), locDB));
+			AddOrReplace(new Unit(id, new BufferedReader(itemStr), this, locDB, defines));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 
 		parser.ParseStream(unitsReader);
 		Logger.Debug($"Ignored unit tokens: {string.Join(',', Unit.IgnoredTokens)}");
-	}
-
-	public IDictionary<string, int> GetMenPerUnitType(Unit unit, Defines defines) {
-		var cohortSize = defines.CohortSize;
-		
-		return subunits.Where(s => unit.CohortIds.Contains(s.Id))
-			.GroupBy(s=>s.Type)
-			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
 }

@@ -9,6 +9,7 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -307,7 +308,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		public void ImportLegions(Title.LandedTitles titles, UnitCollection imperatorUnits, Date date) {
+		public void ImportLegions(Title.LandedTitles titles, UnitCollection imperatorUnits, Date date, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper) {
 			// tag HRE (ID=507) has 1 legion
 			// unit ID is 889192647
 			
@@ -333,7 +334,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				
 				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryLegions.Select(u=>u.Id))}"); // TODO: REMOVE DEBUG
 				var ruler = this[rulerId];
-				ruler.ImportLegions(countryLegions, imperatorUnits);
+				ruler.ImportLegions(countryLegions, unitTypeMapper, provinceMapper);
 			}
 		}
 	}

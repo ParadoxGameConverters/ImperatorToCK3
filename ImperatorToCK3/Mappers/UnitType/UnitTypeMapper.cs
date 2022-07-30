@@ -29,4 +29,23 @@ public class UnitTypeMapper {
 	public string? Match(string imperatorUnitType) {
 		return unitTypeMap.GetValueOrDefault(imperatorUnitType, null);
 	}
+
+	public IDictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {
+		var toReturn = new Dictionary<string, int>();
+		
+		foreach (var (imperatorType, imperatorMen) in menPerImperatorUnitType) {
+			var ck3Type = Match(imperatorType);
+			if (ck3Type is null) {
+				continue;
+			}
+
+			if (toReturn.ContainsKey(ck3Type)) {
+				toReturn[ck3Type] += imperatorMen;
+			} else {
+				toReturn[ck3Type] = imperatorMen;
+			}
+		}
+
+		return toReturn;
+	}
 }

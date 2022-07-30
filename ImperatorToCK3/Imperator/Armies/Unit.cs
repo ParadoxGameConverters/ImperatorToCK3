@@ -1,9 +1,8 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
-using System;
 using System.Collections.Generic;
-using System.Security.Policy;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
@@ -12,14 +11,15 @@ public class Unit : IIdentifiable<ulong> {
 	public bool IsArmy { get; private set; } = true;
 	public bool IsLegion { get; private set; } = false;
 	public ulong CountryId { get; set; }
-	public ulong LeaderId { get; set; } // character id
+	public ulong LeaderId { get; set; } // character id, TODO: convert this
 	public ulong Location { get; set; } // province id
-	public List<ulong> CohortIds { get; } = new();
+	private List<ulong> CohortIds { get; } = new();
 	
 	public string NameLocKey { get; }
 	public LocBlock? LocalizedName;
+	public IDictionary<string, int> MenPerUnitType { get; }
 
-	public Unit(ulong id, BufferedReader legionReader, LocDB locDB) {
+	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB locDB, Defines defines) {
 		Id = id;
 		NameLocKey = $"IRToCK3_unit_{Id}";
 
@@ -35,11 +35,12 @@ public class Unit : IIdentifiable<ulong> {
 			IsLegion = true;
 		});
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
-
 		parser.ParseStream(legionReader);
+
+		MenPerUnitType = GetMenPerUnitType(unitCollection, defines);
 	}
 
-	private LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB locDB) {
+	private static LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB locDB) {
 		string? name = null;
 		int ordinal = 1;
 		LocBlock? baseNameLocBlock = null;
@@ -67,6 +68,14 @@ public class Unit : IIdentifiable<ulong> {
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ORDER$", ordinal.ToOrdinalSuffix(language)));
 
 		return nameLocBlock;
+	}
+	
+	private IDictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
+		var cohortSize = defines.CohortSize;
+		
+		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
+			.GroupBy(s=>s.Type)
+			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
 	
 	public static HashSet<string> IgnoredTokens { get; } = new();
