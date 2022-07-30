@@ -427,7 +427,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				sb.AppendLine("\t\t}");
 				
 				if (ck3Leader is not null) {
-					sb.AppendLine($"\t\tscope:{unit.NameLocKey}={{ set_commander=character:{ck3Leader.Id} }}");
+					sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.NameLocKey} }} scope:{unit.NameLocKey}={{ set_commander=character:{ck3Leader.Id} }} }}");
 				}
 			}
 			sb.AppendLine("}");
