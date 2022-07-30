@@ -12,7 +12,7 @@ namespace ImperatorToCK3.Imperator.Families {
 		public double Prestige { get; private set; } = 0;
 		public double PrestigeRatio { get; private set; } = 0;
 		public OrderedDictionary Members { get; private set; } = new();
-		public PDXBool Minor { get; private set; } = new(false);
+		public bool Minor { get; private set; } = false;
 
 		public Family(ulong id) {
 			Id = id;

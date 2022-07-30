@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Localization;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,7 +26,7 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		parser.ParseStream(subunitsReader);
 		Logger.Debug($"Ignored subunit tokens: {string.Join(',', Subunit.IgnoredTokens)}");
 	}
-	public void LoadUnits(BufferedReader unitsReader) {
+	public void LoadUnits(BufferedReader unitsReader, LocDB locDB) {
 		Logger.Info("Loading units...");
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
@@ -35,7 +36,7 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 			}
 
 			var id = ulong.Parse(idStr);
-			AddOrReplace(new Unit(id, new BufferedReader(itemStr)));
+			AddOrReplace(new Unit(id, new BufferedReader(itemStr), locDB));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 

@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Localization;
+using System;
 using System.Collections.Generic;
 using System.Security.Policy;
 
@@ -13,11 +15,16 @@ public class Unit : IIdentifiable<ulong> {
 	public ulong LeaderId { get; set; } // character id
 	public ulong Location { get; set; } // province id
 	public List<ulong> CohortIds { get; } = new();
+	
+	public string NameLocKey { get; }
+	public LocBlock? LocalizedName;
 
-	public Unit(ulong id, BufferedReader legionReader) {
+	public Unit(ulong id, BufferedReader legionReader, LocDB locDB) {
 		Id = id;
+		NameLocKey = $"IRToCK3_unit_{Id}";
 
 		var parser = new Parser();
+		parser.RegisterKeyword("unit_name", reader => LocalizedName = GetLocalizedName(reader, locDB));
 		parser.RegisterKeyword("is_army", reader => IsArmy = reader.GetBool());
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("leader", reader => LeaderId = reader.GetULong());
@@ -30,6 +37,36 @@ public class Unit : IIdentifiable<ulong> {
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 
 		parser.ParseStream(legionReader);
+	}
+
+	private LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB locDB) {
+		string? name = null;
+		int ordinal = 1;
+		LocBlock? baseNameLocBlock = null;
+		
+		// parse name block
+		var parser = new Parser();
+		parser.RegisterKeyword("name", reader => name = reader.GetString());
+		parser.RegisterKeyword("ordinal", reader => ordinal = reader.GetInt());
+		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, locDB));
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseStream(unitNameReader);
+		
+		// generate localized name for each language
+		if (name is null) {
+			return null;
+		}
+		var nameLocBlock = locDB.GetLocBlockForKey(name);
+		if (nameLocBlock is null) {
+			return null;
+		}
+		if (baseNameLocBlock is not null) {
+			nameLocBlock.ModifyForEveryLanguage(baseNameLocBlock, (loc, baseLoc, language) => loc?.Replace("$BASE$", baseLoc));	
+		}
+		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$NUM$", ordinal.ToString()));
+		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ORDER$", ordinal.ToOrdinalSuffix(language)));
+
+		return nameLocBlock;
 	}
 	
 	public static HashSet<string> IgnoredTokens { get; } = new();
