@@ -308,11 +308,16 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		public void ImportLegions(Title.LandedTitles titles, UnitCollection imperatorUnits, Date date, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper) {
+		public void ImportLegions(
+			Title.LandedTitles titles,
+			UnitCollection imperatorUnits,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
+			Date date,
+			UnitTypeMapper unitTypeMapper,
+			ProvinceMapper provinceMapper
+		) {
 			// tag HRE (ID=507) has 1 legion
 			// unit ID is 889192647
-			
-			
 			
 			Logger.Info("Importing Imperator armies...");
 			
@@ -332,9 +337,8 @@ namespace ImperatorToCK3.CK3.Characters {
 					continue;
 				}
 				
-				Logger.Debug($"{ck3Country} has units: {string.Join(',', countryLegions.Select(u=>u.Id))}"); // TODO: REMOVE DEBUG
 				var ruler = this[rulerId];
-				ruler.ImportLegions(countryLegions, date, unitTypeMapper, provinceMapper);
+				ruler.ImportLegions(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
 			}
 		}
 	}

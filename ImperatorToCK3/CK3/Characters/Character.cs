@@ -382,11 +382,21 @@ namespace ImperatorToCK3.CK3.Characters {
 			return true;
 		}
 
-		public void ImportLegions(IEnumerable<Unit> countryLegions, Date date, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper) {
+		public void ImportLegions(
+			IEnumerable<Unit> countryLegions,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
+			Date date,
+			UnitTypeMapper unitTypeMapper,
+			ProvinceMapper provinceMapper
+		) {
 			var sb = new StringBuilder();
 			sb.AppendLine("{");
 			foreach (var unit in countryLegions) {
 				var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
+
+				var imperatorLeader = imperatorCharacters[unit.LeaderId];
+				var ck3Leader = imperatorLeader.CK3Character;
+				
 				sb.AppendLine("\t\tspawn_army={");
 				
 				sb.AppendLine("\t\t\tuses_supply=yes");
@@ -394,6 +404,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				
 				if (unit.LocalizedName is not null) {
 					sb.AppendLine($"\t\t\tname={unit.NameLocKey}");
+					Localizations[unit.NameLocKey] = unit.LocalizedName;
 				}
 				
 				foreach (var (type, men) in menPerUnitType) {
@@ -408,7 +419,16 @@ namespace ImperatorToCK3.CK3.Characters {
 					sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
 				}
 				
+				if (ck3Leader is not null) {
+					// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
+					sb.AppendLine($"\t\t\tsave_temporary_scope_as={unit.NameLocKey}");
+				}
+				
 				sb.AppendLine("\t\t}");
+				
+				if (ck3Leader is not null) {
+					sb.AppendLine($"\t\tscope:{unit.NameLocKey}={{ set_commander=character:{ck3Leader.Id} }}");
+				}
 			}
 			sb.AppendLine("}");
 			
