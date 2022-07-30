@@ -387,9 +387,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			foreach (var unit in countryLegions) {
 				
 				
-				//throw new NotImplementedException(); // TODO: REENABLE
+				throw new NotImplementedException(); // TODO: REENABLE
 				var spawnArmyEffect = $@"spawn_army={{
-					name = {unit.Name}
+					name = {unit.LocalizedName}
 					men_at_arms={{
 						type=huscarl
 						men=1100

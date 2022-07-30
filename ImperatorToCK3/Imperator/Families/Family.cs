@@ -65,7 +65,7 @@ namespace ImperatorToCK3.Imperator.Families {
 					family.Culture = reader.GetString()
 				);
 				parser.RegisterKeyword("minor_family", reader =>
-					family.Minor = reader.GetPDXBool()
+					family.Minor = reader.GetBool()
 				);
 				parser.RegisterKeyword("member", reader => {
 					foreach (var memberId in reader.GetULongs()) {

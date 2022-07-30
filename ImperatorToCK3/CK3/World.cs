@@ -56,9 +56,6 @@ namespace ImperatorToCK3.CK3 {
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
-
-			// Scrape localizations from Imperator so we may know proper names for our countries.
-			locDB.ScrapeLocalizations(impWorld.ModFS);
 			
 			// Load CK3 religions from game and blankMod
 			Religions.LoadHolySites(ck3ModFS);
@@ -87,7 +84,7 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
@@ -95,12 +92,12 @@ namespace ImperatorToCK3.CK3 {
 			);
 			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-			Dynasties.ImportImperatorFamilies(impWorld, locDB);
+			Dynasties.ImportImperatorFamilies(impWorld, impWorld.LocDB);
 
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
 				tagTitleMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				coaMapper,
 				governmentMapper,
@@ -126,7 +123,7 @@ namespace ImperatorToCK3.CK3 {
 				impWorld,
 				Provinces,
 				tagTitleMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
@@ -299,7 +296,6 @@ namespace ImperatorToCK3.CK3 {
 		private readonly DeathReasonMapper deathReasonMapper = new();
 		private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 		private readonly GovernmentMapper governmentMapper = new();
-		private readonly LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 		private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 		private readonly ProvinceMapper provinceMapper = new();
 		private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));

@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
@@ -24,6 +25,8 @@ namespace ImperatorToCK3.Imperator {
 		private readonly SortedSet<string> dlcs = new();
 		private readonly ScriptValueCollection scriptValues = new();
 		public Defines Defines = new();
+		public LocDB LocDB { get; }= new("english", "french", "german", "russian", "simp_chinese", "spanish");
+
 		public NamedColorCollection NamedColors { get; } = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
@@ -116,7 +119,7 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading armies...");
 				var armiesParser = new Parser();
 				armiesParser.RegisterKeyword("subunit_database", subunitsReader => Units.LoadSubunits(subunitsReader));
-				armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader));
+				armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader, LocDB));
 
 				armiesParser.ParseStream(reader);
 			});
@@ -270,6 +273,8 @@ namespace ImperatorToCK3.Imperator {
 			Religions = new ReligionCollection(scriptValues);
 			Religions.LoadDeities(ModFS);
 			Religions.LoadReligions(ModFS);
+			
+			LocDB.ScrapeLocalizations(ModFS);
 		}
 
 		private BufferedReader ProcessSave(string saveGamePath) {
