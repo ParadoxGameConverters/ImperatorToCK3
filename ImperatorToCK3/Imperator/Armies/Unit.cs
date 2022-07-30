@@ -15,13 +15,11 @@ public class Unit : IIdentifiable<ulong> {
 	public ulong Location { get; set; } // province id
 	private List<ulong> CohortIds { get; } = new();
 	
-	public string NameLocKey { get; }
 	public LocBlock? LocalizedName;
 	public IDictionary<string, int> MenPerUnitType { get; }
 
 	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB locDB, Defines defines) {
 		Id = id;
-		NameLocKey = $"IRToCK3_unit_{Id}";
 
 		var parser = new Parser();
 		parser.RegisterKeyword("unit_name", reader => LocalizedName = GetLocalizedName(reader, locDB));
@@ -57,10 +55,17 @@ public class Unit : IIdentifiable<ulong> {
 		if (name is null) {
 			return null;
 		}
-		var nameLocBlock = locDB.GetLocBlockForKey(name);
-		if (nameLocBlock is null) {
+		var rawLoc = locDB.GetLocBlockForKey(name);
+		if (rawLoc is null) {
 			return null;
 		}
+
+		var nameLocBlockId = $"IRToCK3_unit_{name}_{ordinal}";
+		if (baseNameLocBlock is not null) {
+			nameLocBlockId += $"_{baseNameLocBlock?.Id}";
+		}
+		var nameLocBlock = new LocBlock(nameLocBlockId, rawLoc);
+
 		if (baseNameLocBlock is not null) {
 			nameLocBlock.ModifyForEveryLanguage(baseNameLocBlock, (loc, baseLoc, language) => loc?.Replace("$BASE$", baseLoc));	
 		}

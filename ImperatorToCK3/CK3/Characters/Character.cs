@@ -403,8 +403,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				sb.AppendLine("\t\t\tinheritable=yes");
 				
 				if (unit.LocalizedName is not null) {
-					sb.AppendLine($"\t\t\tname={unit.NameLocKey}");
-					Localizations[unit.NameLocKey] = unit.LocalizedName;
+					var locKey = unit.LocalizedName.Id;
+					sb.AppendLine($"\t\t\tname={locKey}");
+					Localizations[locKey] = unit.LocalizedName;
 				}
 				
 				foreach (var (type, men) in menPerUnitType) {
@@ -427,7 +428,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				sb.AppendLine("\t\t}");
 				
 				if (ck3Leader is not null) {
-					sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.NameLocKey} }} scope:{unit.NameLocKey}={{ set_commander=character:{ck3Leader.Id} }} }}");
+					sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.Id} }} scope:{unit.Id}={{ set_commander=character:{ck3Leader.Id} }} }}");
 				}
 			}
 			sb.AppendLine("}");
