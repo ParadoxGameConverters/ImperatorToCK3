@@ -422,7 +422,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				
 				if (ck3Leader is not null) {
 					// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
-					sb.AppendLine($"\t\t\tsave_temporary_scope_as={unit.NameLocKey}");
+					sb.AppendLine($"\t\t\tsave_temporary_scope_as={unit.Id}");
 				}
 				
 				sb.AppendLine("\t\t}");
