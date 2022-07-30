@@ -64,7 +64,7 @@ public class Unit : IIdentifiable<ulong> {
 		if (baseNameLocBlock is not null) {
 			nameLocBlock.ModifyForEveryLanguage(baseNameLocBlock, (loc, baseLoc, language) => loc?.Replace("$BASE$", baseLoc));	
 		}
-		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ROMAN$", CommonFunctions.CardinalToRoman(ordinal)));
+		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ROMAN$", ordinal.ToRomanNumeral()));
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$NUM$", ordinal.ToString()));
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ORDER$", ordinal.ToOrdinalSuffix(language)));
 
