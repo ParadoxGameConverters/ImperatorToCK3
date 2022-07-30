@@ -338,7 +338,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 				
 				var ruler = this[rulerId];
-				ruler.ImportLegions(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
+				ruler.ImportUnits(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
 			}
 		}
 	}

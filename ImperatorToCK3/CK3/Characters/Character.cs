@@ -382,8 +382,29 @@ namespace ImperatorToCK3.CK3.Characters {
 			return true;
 		}
 
-		public void ImportLegions(
-			IEnumerable<Unit> countryLegions,
+		public void ImportUnitsAsMenAtArms(
+			IEnumerable<Unit> countryUnits,
+			Date date
+		) {
+			var sb = new StringBuilder();
+			sb.AppendLine("{");
+			
+			sb.AppendLine("\t\tadd_character_modifier=IRToCK3_fuck_CK3_military_system_modifier");
+			
+			// TODO: use instabuild command to spawn maa at full strength
+			foreach (var unit in countryUnits) {
+				// TODO: use add_maa console command to add men at arms
+			}
+			// TODO: then disable instabuild command to spawn maa at full strength
+			
+			sb.AppendLine("\t\tremove_character_modifier=IRToCK3_fuck_CK3_military_system_modifier");
+			
+			sb.AppendLine("\t}");
+			
+			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		}
+		public void ImportUnits(
+			IEnumerable<Unit> countryUnits,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			Date date,
 			UnitTypeMapper unitTypeMapper,
@@ -391,7 +412,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			var sb = new StringBuilder();
 			sb.AppendLine("{");
-			foreach (var unit in countryLegions) {
+			
+			foreach (var unit in countryUnits) {
 				var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
 
 				var imperatorLeader = imperatorCharacters[unit.LeaderId];
@@ -431,8 +453,8 @@ namespace ImperatorToCK3.CK3.Characters {
 					sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.Id} }} scope:{unit.Id}={{ set_commander=character:{ck3Leader.Id} }} }}");
 				}
 			}
-			sb.AppendLine("}");
 			
+			sb.AppendLine("\t}");
 			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
 	}
