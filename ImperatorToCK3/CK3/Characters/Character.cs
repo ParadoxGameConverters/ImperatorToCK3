@@ -42,6 +42,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public bool Dead => DeathDate is not null;
 		public List<Pregnancy> Pregnancies { get; } = new();
 
+		public Dictionary<string, int> MenAtArmsStacksPerType { get; }
+
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
@@ -63,6 +65,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			//.WithSimpleField("father", "father", null)
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
+			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
@@ -384,15 +387,21 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public void ImportUnitsAsMenAtArms(
 			IEnumerable<Unit> countryUnits,
-			Date date
+			Date date,
+			UnitTypeMapper unitTypeMapper
 		) {
 			var sb = new StringBuilder();
 			sb.AppendLine("{");
 			
 			sb.AppendLine("\t\tadd_character_modifier=IRToCK3_fuck_CK3_military_system_modifier");
 			
+			// TODO: add a container like "titoggle1" in Imperator ABW mod
+			
+			
 			// TODO: use instabuild command to spawn maa at full strength
 			foreach (var unit in countryUnits) {
+				var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
+				
 				// TODO: use add_maa console command to add men at arms
 			}
 			// TODO: then disable instabuild command to spawn maa at full strength
