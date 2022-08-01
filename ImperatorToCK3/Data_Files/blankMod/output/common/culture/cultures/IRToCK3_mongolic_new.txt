@@ -26,3 +26,4 @@ hunnic = { # ImperatorToCK3
 	}	
 	
 	ethos = ethos_bellicose
+}
