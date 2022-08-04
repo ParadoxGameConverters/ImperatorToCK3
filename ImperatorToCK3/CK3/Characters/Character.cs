@@ -397,6 +397,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			
 			// TODO: add a container like "titoggle1" in Imperator ABW mod
 			
+			// TODO: for every ruler whose country had access to legions, give a modifier with "men_at_arms_cap = 6"
 			
 			// TODO: use instabuild command to spawn maa at full strength
 			foreach (var unit in countryUnits) {

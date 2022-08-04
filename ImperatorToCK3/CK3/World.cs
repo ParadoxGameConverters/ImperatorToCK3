@@ -1,5 +1,7 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
@@ -33,6 +35,7 @@ namespace ImperatorToCK3.CK3 {
 		public ProvinceCollection Provinces { get; } = new();
 		public Title.LandedTitles LandedTitles { get; } = new();
 		public ReligionCollection Religions { get; } = new();
+		public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes = new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
@@ -51,8 +54,11 @@ namespace ImperatorToCK3.CK3 {
 				new("blankMod", "blankMod/output")
 			};
 			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
+			
 			NamedColors.LoadNamedColors("common/named_colors", ck3ModFS);
 			Faith.ColorFactory.AddNamedColorDict(NamedColors);
+
+			LoadMenAtArmsTypes(ck3ModFS);
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
@@ -144,6 +150,18 @@ namespace ImperatorToCK3.CK3 {
 
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper);
+		}
+
+		private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS) {
+			Logger.Info("Loading men-at-arms types...");
+			
+			const string maaPath = "common/men_at_arms_types";
+			var parser = new Parser();
+			parser.RegisterRegex(CommonRegexes.String, (reader, typeId) => {
+				MenAtArmsTypes.Add(new MenAtArmsType(typeId, reader));
+			});
+			parser.IgnoreAndLogUnregisteredItems();
+			parser.ParseGameFolder(maaPath, ck3ModFS, "txt", true);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
