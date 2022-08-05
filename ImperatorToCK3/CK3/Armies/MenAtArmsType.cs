@@ -10,21 +10,27 @@ public class MenAtArmsType : IIdentifiable<string> {
 
 	public StringOfItem CanRecruit { get; private set; } = new("{}");
 	public int Stack { get; private set; } = 100;
-	[NonSerialized] private int Cost = 100;
+	[NonSerialized] private double Cost { get; set; } = 100;
+	public StringOfItem BuyCost => new($"{{ gold={Cost} }}");
 	
 	private Dictionary<string, StringOfItem> attributes = new();
 
 
-	public MenAtArmsType(string id, BufferedReader typeReader) {
+	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
 		Id = id;
 		
 		var parser = new Parser();
 		parser.RegisterKeyword("stack", reader => Stack = reader.GetInt());
 		parser.RegisterKeyword("can_recruit", reader => CanRecruit = reader.GetStringOfItem());
-		parser.RegisterKeyword("buy_cost", reader => {
+		parser.RegisterKeyword("buy_cost", costReader => {
 			var buyCostParser = new Parser();
-			// TODO: read CK3 script values to support this: buy_cost = { gold = huscarls_recruitment_cost }
-			buyCostParser.RegisterKeyword("gold", reader => Cost = reader.GetInt());
+			buyCostParser.RegisterKeyword("gold", goldReader => {
+				if (scriptValues.GetValueForString(goldReader.GetString()) is double goldValue) {
+					Cost = goldValue;
+				}
+			});
+			buyCostParser.IgnoreAndLogUnregisteredItems();
+			buyCostParser.ParseStream(costReader);
 		});
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			attributes[keyword] = reader.GetStringOfItem();

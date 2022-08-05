@@ -60,7 +60,7 @@ namespace ImperatorToCK3.CK3 {
 			NamedColors.LoadNamedColors("common/named_colors", ck3ModFS);
 			Faith.ColorFactory.AddNamedColorDict(NamedColors);
 
-			LoadMenAtArmsTypes(ck3ModFS);
+			LoadMenAtArmsTypes(ck3ModFS, ScriptValues);
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
@@ -154,13 +154,13 @@ namespace ImperatorToCK3.CK3 {
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper);
 		}
 
-		private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS) {
+		private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS, ScriptValueCollection scriptValues) {
 			Logger.Info("Loading men-at-arms types...");
 			
 			const string maaPath = "common/men_at_arms_types";
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (reader, typeId) => {
-				MenAtArmsTypes.Add(new MenAtArmsType(typeId, reader));
+				MenAtArmsTypes.Add(new MenAtArmsType(typeId, reader, scriptValues));
 			});
 			parser.IgnoreAndLogUnregisteredItems();
 			parser.ParseGameFolder(maaPath, ck3ModFS, "txt", true);
