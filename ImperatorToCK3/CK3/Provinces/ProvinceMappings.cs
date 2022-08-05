@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Provinces;
@@ -22,10 +23,10 @@ namespace ImperatorToCK3.CK3.Provinces;
 /// <para>Now 6874 history is same as 6872 history.</para>
 /// </summary>
 public class ProvinceMappings : Dictionary<ulong, ulong> {
-	public ProvinceMappings(string filePath) {
+	public ProvinceMappings(ModFilesystem ck3ModFs) {
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseFile(filePath);
+		parser.ParseGameFolder("history/province_mapping", ck3ModFs, "txt", recursive: true);
 	}
 
 	private void RegisterKeys(Parser parser) {
@@ -41,6 +42,6 @@ public class ProvinceMappings : Dictionary<ulong, ulong> {
 			}
 			this[targetProvId] = baseProvId;
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 }
