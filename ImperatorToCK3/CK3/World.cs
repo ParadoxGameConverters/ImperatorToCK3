@@ -29,6 +29,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
+		private ScriptValueCollection ScriptValues { get; } = new();
 		public NamedColorCollection NamedColors { get; } = new();
 		public CharacterCollection Characters { get; } = new();
 		public DynastyCollection Dynasties { get; } = new();
@@ -54,6 +55,7 @@ namespace ImperatorToCK3.CK3 {
 				new("blankMod", "blankMod/output")
 			};
 			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
+			ScriptValues.LoadScriptValues(ck3ModFS);
 			
 			NamedColors.LoadNamedColors("common/named_colors", ck3ModFS);
 			Faith.ColorFactory.AddNamedColorDict(NamedColors);
