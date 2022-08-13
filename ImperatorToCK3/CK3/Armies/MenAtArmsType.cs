@@ -1,21 +1,22 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Armies; 
 
-public class MenAtArmsType : IIdentifiable<string> {
+public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 
 	public StringOfItem CanRecruit { get; private set; } = new("{}");
 	public int Stack { get; private set; } = 100;
-	[NonSerialized] private double Cost { get; set; } = 100;
+	[commonItems.Serialization.NonSerialized] private double Cost { get; set; } = 100;
 	public StringOfItem BuyCost => new($"{{ gold={Cost} }}");
 	
-	private Dictionary<string, StringOfItem> attributes = new();
-
-
+	[commonItems.Serialization.NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
+	
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
 		Id = id;
 		
@@ -37,5 +38,15 @@ public class MenAtArmsType : IIdentifiable<string> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(typeReader);
+	}
+
+	public string Serialize(string indent, bool withBraces) {
+		var sb = new StringBuilder();
+		sb.AppendLine("{");
+		sb.Append((this as IPDXSerializable).SerializeMembers(indent));
+		sb.AppendLine(PDXSerializer.Serialize(attributes, indent, withBraces: false));
+		sb.AppendLine("}");
+
+		return sb.ToString();
 	}
 }
