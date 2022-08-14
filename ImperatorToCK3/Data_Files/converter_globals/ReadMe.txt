@@ -32,6 +32,6 @@ Zemurin		- Review, advice
 Plati		- Faith icons
 Radu		- Ideas, province mappings
 Vielus      - Mapping tweaks
-derekmark   - Venetic culture flavour
+derekmark   - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
