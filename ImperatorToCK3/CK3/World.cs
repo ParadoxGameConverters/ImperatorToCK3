@@ -71,6 +71,7 @@ namespace ImperatorToCK3.CK3 {
 			// Load vanilla CK3 landed titles and their history
 			LandedTitles.LoadTitles(ck3ModFS);
 			LandedTitles.LoadHistory(config, ck3ModFS);
+			LandedTitles.LoadCulturalNamesFromConfigurables();
 
 			// Loading regions
 			ck3RegionMapper = new CK3RegionMapper(ck3ModFS, LandedTitles);
