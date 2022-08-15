@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, ModFilesystem imperatorModFS, Configuration config) {
+		public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
 			ClearOutputModFolder();
 
 			var outputName = config.OutputModName;
@@ -47,14 +47,10 @@ namespace ImperatorToCK3.Outputter {
 
 			var outputPath = Path.Combine("output", config.OutputModName);
 
-			Logger.Info("Copying named colors...");
-			SystemUtils.TryCopyFile(
-				Path.Combine(config.ImperatorPath, "game", "common", "named_colors", "default_colors.txt"),
-				Path.Combine(outputPath, "common", "named_colors", "imp_colors.txt")
-			);
+			NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
 			Logger.Info("Copying Coats of Arms...");
-			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorModFS);
+			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorWorld.ModFS);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
 			SystemUtils.TryCopyFolder(
 				Path.Combine(config.ImperatorPath, "game", "gfx", "coat_of_arms", "patterns"),

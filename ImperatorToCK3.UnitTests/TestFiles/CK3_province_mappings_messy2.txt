@@ -1,2 +1,0 @@
-4=1 # OK
-4=2 # duplicate target prov, will overwrite

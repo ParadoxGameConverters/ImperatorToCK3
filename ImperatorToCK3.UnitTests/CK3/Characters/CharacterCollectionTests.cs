@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Religions;
@@ -29,6 +30,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CharacterCollectionTests {
+	private readonly ModFilesystem ck3ModFs = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
+	
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
@@ -294,8 +297,8 @@ public class CharacterCollectionTests {
 			characters,
 			conversionDate,
 			config);
-
-		var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
+		
+		var provinces = new ProvinceCollection(ck3ModFs, conversionDate);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 		
 		titles.ImportImperatorGovernorships(

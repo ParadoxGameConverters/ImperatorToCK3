@@ -117,7 +117,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			Provinces.ImportVanillaProvinces(config.CK3Path, config.CK3BookmarkDate);
+			Provinces.ImportVanillaProvinces(ck3ModFS, config.CK3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, config);
