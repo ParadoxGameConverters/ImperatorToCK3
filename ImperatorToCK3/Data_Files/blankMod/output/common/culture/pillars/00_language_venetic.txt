@@ -1,0 +1,32 @@
+﻿
+language_venetic = {
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_venetic
+		}
+	}
+	parameters = {
+		language_group_romance = yes
+		language_family_indo_european = yes 		
+	}
+
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_venetic }
+			multiply = 10
+		}
+        else_if = {
+			limit = { has_cultural_parameter = language_group_romance }
+			multiply = same_language_group_choice_factor
+		}
+		else_if = {
+			limit = { has_cultural_parameter = language_family_indo_european }
+			multiply = same_language_family_choice_factor
+		}
+
+	}
+	
+	color = venetic_culture
+}

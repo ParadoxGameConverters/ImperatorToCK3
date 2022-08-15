@@ -33,6 +33,8 @@ public partial class Title {
 		public Dictionary<string, object> Variables { get; } = new();
 
 		public void LoadTitles(ModFilesystem ck3ModFS) {
+			Logger.Info("Loading landed titles...");
+			
 			var parser = new Parser();
 			RegisterKeys(parser);
 
@@ -59,7 +61,7 @@ public partial class Title {
 				var newTitle = Add(titleNameStr);
 				newTitle.LoadTitles(reader);
 			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.IgnoreAndLogUnregisteredItems();
 		}
 
 		private static void LogIgnoredTokens() {
@@ -613,6 +615,29 @@ public partial class Title {
 			foreach (var title in this) {
 				title.RemoveHistoryPastDate(ck3BookmarkDate);
 			}
+		}
+
+		public void LoadCulturalNamesFromConfigurables() {
+			const string filePath = "configurables/cultural_title_names.txt";
+			Logger.Info($"Loading cultural title names from \"{filePath}\"...");
+			
+			var parser = new Parser();
+			parser.RegisterRegex(CommonRegexes.String, (reader, titleId) => {
+				var nameListToLocKeyDict = reader.GetAssignments();
+				
+				if (!TryGetValue(titleId, out var title)) {
+					return;
+				}
+				if (title.CulturalNames is null) {
+					title.CulturalNames = nameListToLocKeyDict;
+				} else {
+					foreach (var (nameList, locKey) in nameListToLocKeyDict) {
+						title.CulturalNames[nameList] = locKey;
+					}
+				}
+			});
+			parser.IgnoreAndLogUnregisteredItems();
+			parser.ParseFile(filePath);
 		}
 	}
 }
