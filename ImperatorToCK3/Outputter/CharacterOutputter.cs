@@ -45,7 +45,9 @@ public static class CharacterOutputter {
 		
 		// output gold
 		if (character.Gold is not null) {
-			output.WriteLine($"\t{conversionDate}={{ effect={{ add_gold={character.Gold} }} }}");
+			var gold = (int)character.Gold.Value;
+			var effectStr = gold >= 0 ? $"add_gold={gold}" : $"remove_long_term_gold={-gold}";
+			output.WriteLine($"\t{conversionDate}={{ effect={{ {effectStr} }} }}");
 		}
 
 		// output history
