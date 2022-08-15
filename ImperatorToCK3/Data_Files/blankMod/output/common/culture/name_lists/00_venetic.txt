@@ -1,0 +1,56 @@
+﻿name_list_venetic = {
+	cadet_dynasty_names = {
+	    "dynn_Aimio" "dynn_Aklonio" "dynn_Andetio" "dynn_Afrinio" "dynn_Aplisinio" "dynn_Arsoetigio" "dynn_Bagsonio" "dynn_Egotorio"
+		"dynn_Egestio" "dynn_Ersinio" "dynn_Egotorio" "dynn_Egetorio" "dynn_Enogenio"
+		"dynn_Enoklevio" "dynn_Fontio" "dynn_Fougontio" "dynn_Fuginio" "dynn_Fremaistio" "dynn_Hostihevio" "dynn_Iantio" "dynn_Iuvantio"
+		"dynn_Kantio" "dynn_Karamnio" "dynn_Lamusio" "dynn_Muskialonio"
+		"dynn_Naisonio" "dynn_Neirkio" "dynn_Nerkio" "dynn_Ostio" "dynn_Oppio" "dynn_Pilpotio" "dynn_Pledio" "dynn_Verkanio" "dynn_Voltiomnio"
+		"dynn_Veignio" "dynn_Vantio" "dynn_Votio" "dynn_Voltigenio"
+		"dynn_Akutio" "dynn_Fremio" "dynn_Fremaistinio" "dynn_Keutinio" "dynn_Ktulistio" "dynn_Moldio" "dynn_Resunkio" "dynn_Suronio"
+		"dynn_Tomatorinio" "dynn_Vantkinio"
+	}
+
+	dynasty_names = {
+	    "dynn_Aimio" "dynn_Aklonio" "dynn_Andetio" "dynn_Afrinio" "dynn_Aplisinio" "dynn_Arsoetigio" "dynn_Bagsonio" "dynn_Egotorio"
+		"dynn_Egestio" "dynn_Ersinio" "dynn_Egotorio" "dynn_Egetorio" "dynn_Enogenio"
+		"dynn_Enoklevio" "dynn_Fontio" "dynn_Fougontio" "dynn_Fuginio" "dynn_Fremaistio" "dynn_Hostihevio" "dynn_Iantio" "dynn_Iuvantio"
+		"dynn_Kantio" "dynn_Karamnio" "dynn_Lamusio" "dynn_Muskialonio"
+		"dynn_Naisonio" "dynn_Neirkio" "dynn_Nerkio" "dynn_Ostio" "dynn_Oppio" "dynn_Pilpotio" "dynn_Pledio" "dynn_Verkanio" "dynn_Voltiomnio"
+		"dynn_Veignio" "dynn_Vantio" "dynn_Votio" "dynn_Voltigenio"
+		"dynn_Akutio" "dynn_Fremio" "dynn_Fremaistinio" "dynn_Keutinio" "dynn_Ktulistio" "dynn_Moldio" "dynn_Resunkio" "dynn_Suronio"
+		"dynn_Tomatorinio" "dynn_Vantkinio"
+	}
+
+	male_names = {
+        Aimo Aklono Andeto Afro Aplisio Arsoetigo Bagsono Egotore Egesto Ersino Egotor Egetor Enogene
+		Enokleve Fonte Fougonte Fugio Fremaisto Hostihevo Iante Iuvante Kante Karamno Lamuso Muskialo
+		Naisono Osts Oppo Pilpoto Plede Verkano Voltiomno Veigno Vante Vants Voto Voltigene Voltigenes 
+		Akuto Fremo Fremaistino Keutino Ktulisto Moldo Resunko Suro Tomatorio Vantkenio 
+		
+		Albareno Alero Anteto Andetico Aplisiko Arbos Ariuns Askolo Afros Atto Baito Bellenes Boiialns
+		Boiio Boio Broicoko Broico Budicako Deipiiariko Deipiiaris Dilliko Dillis Ebo Einaio Einao Eneico
+		Eneis Eneto Enetio Feugo Fonto Fremaistio Gaio Gaiios Graiko Henotos Houvos Hovos Hutto Huttos Kastiko
+		Kastis Kataks Kello Kellos Kolo Ametiko Ametis Kvito Lants Lante Lavsko Lemetor Luks Metso Moldo
+		Moldono Muskials Muskialo Nagalkno Nagalo Naisonko Naisons Naisos Okicaiko Okicais Oppos Ossoko 
+		Osso Panario Panaro Peloniko Pelonis Pletes Raitevio Raitevo Reito Resunkos Resuns Rebetono Suro
+		Siko Taino Tekio Turico Trosto Uko Urkleio Urkles Usedis Vantkes Vasseno Veignos Veimes Vennonis
+		Vennon Verkondar Verkvalo
+	}
+
+	female_names = {
+        Aima Aklona Andeta Afra Aplisia Arsoetiga Bagsonia Egotora Egesta Ersina Egotora Egetora 
+		Enokleva Fetiana Fonta Fougonta Fugia Fukssia Fremaista Hostiheva Ianta Iuvanta Kanta Lamusa Muskiala
+		Naisona Neirka Nerka Osta Ostia Oppa Pilpota Pleda Verkana Veigna Vanta Vota
+		Akuta Frema Fremaistina Keutina Ktulista Molda Resunkia Suria Tomatoria Vantkenia
+		
+		Apia Askolia Ataina Atta Baitonia Brigdina Bukka Ebua Efa Iuanta Ituria Ikeveioneia Kolia
+		Kuikuta Makna Molda Moldona Musta Ostina Otnia Reitia Rebetona Taina Trostia Urkleia Urkleina
+		Usedica Vantkenia Venna Verkondarna 
+	}
+	patronym_suffix_male = "dynnpat_suf_io"
+	patronym_suffix_female = "dynnpat_suf_ia"
+
+	always_use_patronym = yes
+	
+	# dynasty_of_location_suffix = "ios" # doesn't work as of CK3 1.6 (vanilla uses dynasty_of_location_prefix)
+}
