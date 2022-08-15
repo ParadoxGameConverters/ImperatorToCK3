@@ -57,7 +57,16 @@ namespace ImperatorToCK3 {
 				ImperatorCurrencyRate = reader.GetDouble();
 				Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
 			});
-
+			parser.RegisterKeyword("LegionConversion", reader => {
+				var valueString = reader.GetString();
+				var success = Enum.TryParse(valueString, out LegionConversion selection);
+				if (success) {
+					LegionConversion = selection;
+					Logger.Info($"{nameof(LegionConversion)} set to {selection}.");
+				} else {
+					Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
+				}
+			});
 			parser.RegisterKeyword("bookmark_date", reader => {
 				var dateStr = reader.GetString();
 				if (string.IsNullOrEmpty(dateStr)) {
