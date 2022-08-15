@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
 hunnic = { # ImperatorToCK3
 	color = { 254 204 50 }
 	
@@ -14,7 +14,7 @@ hunnic = { # ImperatorToCK3
 		10 = circumpolar_blonde_hair
 	}
 
-	coa_gfx = { ugro_permian_group_coa_gfx } 
+	coa_gfx = { ugro_permian_group_coa_gfx steppe_coa_gfx } 
 	building_gfx = { steppe_building_gfx } 
 	clothing_gfx = { mongol_clothing_gfx } 
 	unit_gfx = { mongol_unit_gfx } 
