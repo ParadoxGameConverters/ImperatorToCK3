@@ -77,7 +77,7 @@ samnite = {
 venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
-	language = language_venetic_culture
+	language = language_venetic
     martial_custom = martial_custom_male_only
 	
 	name_list = name_list_venetic_culture

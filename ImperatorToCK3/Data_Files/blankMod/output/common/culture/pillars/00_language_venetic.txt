@@ -1,9 +1,9 @@
 ﻿
-language_venetic_culture = {
+language_venetic = {
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-			LANGUAGE = language_venetic_culture
+			LANGUAGE = language_venetic
 		}
 	}
 	parameters = {
@@ -14,7 +14,7 @@ language_venetic_culture = {
 	ai_will_do = {
 		value = 10
 		if = {
-			limit = { has_cultural_pillar = language_venetic_culture }
+			limit = { has_cultural_pillar = language_venetic }
 			multiply = 10
 		}
                 else_if = {
