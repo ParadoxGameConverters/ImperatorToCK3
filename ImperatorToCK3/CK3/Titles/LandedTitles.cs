@@ -33,6 +33,8 @@ public partial class Title {
 		public Dictionary<string, object> Variables { get; } = new();
 
 		public void LoadTitles(ModFilesystem ck3ModFS) {
+			Logger.Info("Loading landed titles...");
+			
 			var parser = new Parser();
 			RegisterKeys(parser);
 
@@ -59,7 +61,7 @@ public partial class Title {
 				var newTitle = Add(titleNameStr);
 				newTitle.LoadTitles(reader);
 			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.IgnoreAndLogUnregisteredItems();
 		}
 
 		private static void LogIgnoredTokens() {
@@ -628,7 +630,6 @@ public partial class Title {
 				}
 				if (title.CulturalNames is null) {
 					title.CulturalNames = nameListToLocKeyDict;
-					Logger.Notice($"{title} {nameListToLocKeyDict.Count}");
 				} else {
 					foreach (var (nameList, locKey) in nameListToLocKeyDict) {
 						title.CulturalNames[nameList] = locKey;
