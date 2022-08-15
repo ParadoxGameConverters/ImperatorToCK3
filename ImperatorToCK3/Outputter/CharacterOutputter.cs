@@ -45,9 +45,11 @@ public static class CharacterOutputter {
 		}
 		
 		// output gold
-		if (character.Gold is not null) {
+		if (character.Gold is not null && character.Gold != 0) {
 			var gold = (float)character.Gold.Value;
-			string effectStr = gold >= 0 ? $"add_gold={gold:0.00}" : $"remove_long_term_gold={-gold:0.00}";
+			string effectStr = gold > 0 ?
+				$"add_gold={gold.ToString("0.00", CultureInfo.InvariantCulture)}" :
+				$"remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)}";
 			output.WriteLine($"\t{conversionDate}={{effect={{{effectStr}}}}}");
 		}
 
