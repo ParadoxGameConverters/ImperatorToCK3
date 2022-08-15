@@ -5,7 +5,7 @@ duke_venetic_culture = {
 	special = holder
 	tier = duchy
 	priority = 27
-	name_lists = { name_list_venetic_culture }
+	name_lists = { name_list_venetic }
 }
 
 duke_female_venetic_culture = {
@@ -14,7 +14,7 @@ duke_female_venetic_culture = {
 	special = holder
 	tier = duchy
 	priority = 27
-	name_lists = { name_list_venetic_culture  }
+	name_lists = { name_list_venetic  }
 }
 
 king_venetic_culture = {
@@ -23,7 +23,7 @@ king_venetic_culture = {
 	special = holder
 	tier = kingdom
 	priority = 27
-	name_lists = { name_list_venetic_culture  }
+	name_lists = { name_list_venetic  }
 	top_liege = no
 }
 
@@ -33,6 +33,6 @@ king_female_venetic_culture = {
 	special = holder
 	tier = kingdom
 	priority = 27
-	name_lists = { name_list_venetic_culture  }
+	name_lists = { name_list_venetic }
 	top_liege = no
 }

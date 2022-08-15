@@ -80,7 +80,7 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 	language = language_venetic
     martial_custom = martial_custom_male_only
 	
-	name_list = name_list_venetic_culture
+	name_list = name_list_venetic
 	
 	ethos = ethos_stoic
     

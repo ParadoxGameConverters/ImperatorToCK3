@@ -1,36 +1,36 @@
 k_venice = {
-	name_list_venetic_culture = cn_k_venice_venetic
+	name_list_venetic = cn_k_venice_venetic
 }
 d_venice = {
-	name_list_venetic_culture = cn_d_venice_venetic
+	name_list_venetic = cn_d_venice_venetic
 }
 c_venice = {
-	name_list_venetic_culture = cn_c_venice_venetic
+	name_list_venetic = cn_c_venice_venetic
 }
 d_verona = {
-	name_list_venetic_culture = cn_d_verona_venetic
+	name_list_venetic = cn_d_verona_venetic
 }
 c_verona = {
-	name_list_venetic_culture = cn_c_verona_venetic
+	name_list_venetic = cn_c_verona_venetic
 }
 b_verona = {
-	name_list_venetic_culture = cn_b_verona_venetic
+	name_list_venetic = cn_b_verona_venetic
 }
 c_padua = {
-	name_list_venetic_culture = cn_c_padua_venetic
+	name_list_venetic = cn_c_padua_venetic
 }
 d_padua = {
-	name_list_venetic_culture = cn_d_padua_venetic
+	name_list_venetic = cn_d_padua_venetic
 }
 b_padua = {
-	name_list_venetic_culture = cn_b_padua_venetic
+	name_list_venetic = cn_b_padua_venetic
 }
 b_este = {
-	name_list_venetic_culture = cn_b_este_venetic
+	name_list_venetic = cn_b_este_venetic
 }
 d_istria = {
-	name_list_venetic_culture = cn_d_istria_venetic
+	name_list_venetic = cn_d_istria_venetic
 }
 c_istria = {
-	name_list_venetic_culture = cn_c_istria_venetic
+	name_list_venetic = cn_c_istria_venetic
 }

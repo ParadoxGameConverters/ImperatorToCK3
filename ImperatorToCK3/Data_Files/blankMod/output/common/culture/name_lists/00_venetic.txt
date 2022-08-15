@@ -1,4 +1,4 @@
-﻿name_list_venetic_culture = {
+﻿name_list_venetic = {
 		cadet_dynasty_names = {
 	    "dynn_Aimio" "dynn_Aklonio" "dynn_Andetio" "dynn_Afrinio" "dynn_Aplisinio" "dynn_Arsoetigio" "dynn_Bagsonio" "dynn_Egotorio"
 		"dynn_Egestio" "dynn_Ersinio" "dynn_Egotorio" "dynn_Egetorio" "dynn_Enogenio"
