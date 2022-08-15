@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Serialization;
+using System.Globalization;
 using System.IO;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 
@@ -45,9 +46,9 @@ public static class CharacterOutputter {
 		
 		// output gold
 		if (character.Gold is not null) {
-			var gold = (int)character.Gold.Value;
-			var effectStr = gold >= 0 ? $"add_gold={gold}" : $"remove_long_term_gold={-gold}";
-			output.WriteLine($"\t{conversionDate}={{ effect={{ {effectStr} }} }}");
+			var gold = (float)character.Gold.Value;
+			string effectStr = gold >= 0 ? $"add_gold={gold:0.00}" : $"remove_long_term_gold={-gold:0.00}";
+			output.WriteLine($"\t{conversionDate}={{effect={{{effectStr}}}}}");
 		}
 
 		// output history
