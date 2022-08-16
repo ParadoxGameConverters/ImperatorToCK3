@@ -16,6 +16,9 @@ public static class MenAtArmsOutputter {
 		
 		output.WriteLine("container={");
 		output.WriteLine("\tname=\"IRToCK3_maa_toogle\"");
+		output.WriteLine("\tparentanchor = top|hcenter"); // TODO: check if needed
+		output.WriteLine("\tposition = { 0 185 }"); // TODO: check if needed
+		output.WriteLine("\tlayer = top"); // TODO: check if needed
 		output.WriteLine("\tdatacontext=\"[GetScriptedGui('IRToCK3_create_maa')]\"");
 		output.WriteLine("\tvisible=\"[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]\"");
 		const float duration = 0.01f;
@@ -26,6 +29,6 @@ public static class MenAtArmsOutputter {
 				}
 			}
 		}
-		output.WriteLine();
+		output.WriteLine("}");
 	}
 }
