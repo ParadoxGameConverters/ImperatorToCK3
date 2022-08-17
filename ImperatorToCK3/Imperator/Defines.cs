@@ -7,7 +7,7 @@ namespace ImperatorToCK3.Imperator;
 public class Defines {
 	public int CohortSize { get; private set; } = 500;
 
-	public Defines(ModFilesystem imperatorModFs) {
+	public void LoadDefines(ModFilesystem imperatorModFs) {
 		var definesFiles = imperatorModFs.GetAllFilesInFolderRecursive("common/defines");
 		foreach (var filePath in definesFiles) {
 			var jsonString = RakalyCaller.GetJson(filePath);

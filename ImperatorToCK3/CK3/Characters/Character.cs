@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -9,8 +10,11 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.UnitType;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
@@ -38,6 +42,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public bool Dead => DeathDate is not null;
 		public List<Pregnancy> Pregnancies { get; } = new();
 
+		public Dictionary<string, int> MenAtArmsStacksPerType { get; } = new();
+
 		public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
 		public Dictionary<string, LocBlock> Localizations { get; } = new();
 
@@ -57,7 +63,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			//.WithSimpleField("dna", "dna", null)
 			//.WithSimpleField("mother", "mother", null)
 			//.WithSimpleField("father", "father", null)
-			.WithDiffField("spouses", new() { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
+			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
+			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
+			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
@@ -375,6 +383,84 @@ namespace ImperatorToCK3.CK3.Characters {
 			var type = DynastyId is null ? "dungeon" : "house_arrest";
 			characters[jailorId].PrisonerIds.Add(Id, type);
 			return true;
+		}
+
+		public void ImportUnitsAsMenAtArms(
+			IEnumerable<Unit> countryUnits,
+			Date date,
+			UnitTypeMapper unitTypeMapper
+		) {
+			var menPerUnitType = new Dictionary<string, int>();
+			foreach (var unit in countryUnits) {
+				foreach (var (type, menInUnit) in unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType)) {
+					if (menPerUnitType.TryGetValue(type, out var men)) {
+						menPerUnitType[type] = men + menInUnit;
+					} else {
+						menPerUnitType[type] = menInUnit;
+					}
+				}
+				// TODO: use add_maa console command to add men at arms
+			}
+			
+			
+			var sb = new StringBuilder();
+			sb.AppendLine("{ add_character_modifier=IRToCK3_fuck_CK3_military_system_modifier }");
+			
+			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		}
+		public void ImportUnitsAsSpecialTroops(
+			IEnumerable<Unit> countryUnits,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
+			Date date,
+			UnitTypeMapper unitTypeMapper,
+			ProvinceMapper provinceMapper
+		) {
+			var sb = new StringBuilder();
+			sb.AppendLine("{");
+			
+			foreach (var unit in countryUnits) {
+				var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
+
+				var imperatorLeader = imperatorCharacters[unit.LeaderId];
+				var ck3Leader = imperatorLeader.CK3Character;
+				
+				sb.AppendLine("\t\tspawn_army={");
+				
+				sb.AppendLine("\t\t\tuses_supply=yes");
+				sb.AppendLine("\t\t\tinheritable=yes");
+				
+				if (unit.LocalizedName is not null) {
+					var locKey = unit.LocalizedName.Id;
+					sb.AppendLine($"\t\t\tname={locKey}");
+					Localizations[locKey] = unit.LocalizedName;
+				}
+				
+				foreach (var (type, men) in menPerUnitType) {
+					sb.AppendLine($"\t\t\tmen_at_arms={{type={type} men={men}}}");
+				}
+				
+				var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location)
+					.Cast<ulong?>()
+					.FirstOrDefault(defaultValue: null);
+				if (ck3Location is not null) {
+					sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
+					sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
+				}
+				
+				if (ck3Leader is not null) {
+					// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
+					sb.AppendLine($"\t\t\tsave_temporary_scope_as={unit.Id}");
+				}
+				
+				sb.AppendLine("\t\t}");
+				
+				if (ck3Leader is not null) {
+					sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.Id} }} scope:{unit.Id}={{ set_commander=character:{ck3Leader.Id} }} }}");
+				}
+			}
+			
+			sb.AppendLine("\t}");
+			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
 	}
 }

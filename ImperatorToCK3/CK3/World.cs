@@ -1,6 +1,7 @@
 ﻿using commonItems;
-using commonItems.Localization;
+using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
@@ -21,18 +22,21 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
+		private ScriptValueCollection ScriptValues { get; } = new();
 		public NamedColorCollection NamedColors { get; } = new();
 		public CharacterCollection Characters { get; } = new();
 		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
 		public Title.LandedTitles LandedTitles { get; } = new();
 		public ReligionCollection Religions { get; } = new();
+		public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes = new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
@@ -51,14 +55,15 @@ namespace ImperatorToCK3.CK3 {
 				new("blankMod", "blankMod/output")
 			};
 			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
+			ScriptValues.LoadScriptValues(ck3ModFS);
+			
 			NamedColors.LoadNamedColors("common/named_colors", ck3ModFS);
 			Faith.ColorFactory.AddNamedColorDict(NamedColors);
 
+			LoadMenAtArmsTypes(ck3ModFS, ScriptValues);
+
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
-
-			// Scrape localizations from Imperator so we may know proper names for our countries.
-			locDB.ScrapeLocalizations(impWorld.ModFS);
 			
 			// Load CK3 religions from game and blankMod
 			Religions.LoadHolySites(ck3ModFS);
@@ -88,7 +93,7 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				deathReasonMapper,
 				CorrectedDate,
@@ -96,12 +101,12 @@ namespace ImperatorToCK3.CK3 {
 			);
 			ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-			Dynasties.ImportImperatorFamilies(impWorld, locDB);
+			Dynasties.ImportImperatorFamilies(impWorld, impWorld.LocDB);
 
 			LandedTitles.ImportImperatorCountries(
 				impWorld.Countries,
 				tagTitleMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				coaMapper,
 				governmentMapper,
@@ -127,7 +132,7 @@ namespace ImperatorToCK3.CK3 {
 				impWorld,
 				Provinces,
 				tagTitleMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
@@ -141,12 +146,25 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 
 			Characters.DistributeCountriesGold(LandedTitles, config);
+			Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, provinceMapper, config);
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
 
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper);
+		}
+
+		private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS, ScriptValueCollection scriptValues) {
+			Logger.Info("Loading men-at-arms types...");
+			
+			const string maaPath = "common/men_at_arms_types";
+			var parser = new Parser();
+			parser.RegisterRegex(CommonRegexes.String, (reader, typeId) => {
+				MenAtArmsTypes.Add(new MenAtArmsType(typeId, reader, scriptValues));
+			});
+			parser.IgnoreAndLogUnregisteredItems();
+			parser.ParseGameFolder(maaPath, ck3ModFS, "txt", true);
 		}
 
 		private void ClearFeaturedCharactersDescriptions(Date ck3BookmarkDate) {
@@ -299,7 +317,6 @@ namespace ImperatorToCK3.CK3 {
 		private readonly DeathReasonMapper deathReasonMapper = new();
 		private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 		private readonly GovernmentMapper governmentMapper = new();
-		private readonly LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 		private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 		private readonly ProvinceMapper provinceMapper = new();
 		private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
@@ -307,6 +324,7 @@ namespace ImperatorToCK3.CK3 {
 			tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
 			governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
 		);
+		private readonly UnitTypeMapper unitTypeMapper = new("configurables/unit_types_map.txt");
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
 	}

@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3 {
+	public enum LegionConversion { No, SpecialTroops, MenAtArms };
 	public class Configuration {
 		public string SaveGamePath { get; set; } = "";
 		public string ImperatorPath { get; set; } = "";
@@ -13,6 +14,7 @@ namespace ImperatorToCK3 {
 		public string OutputModName { get; set; } = "";
 		public bool HeresiesInHistoricalAreas { get; set; } = false;
 		public double ImperatorCurrencyRate { get; set; } = 1.0d;
+		public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 		public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 
 		public Configuration() { }
@@ -55,7 +57,16 @@ namespace ImperatorToCK3 {
 				ImperatorCurrencyRate = reader.GetDouble();
 				Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
 			});
-
+			parser.RegisterKeyword("LegionConversion", reader => {
+				var valueString = reader.GetString();
+				var success = Enum.TryParse(valueString, out LegionConversion selection);
+				if (success) {
+					LegionConversion = selection;
+					Logger.Info($"{nameof(LegionConversion)} set to {selection}.");
+				} else {
+					Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
+				}
+			});
 			parser.RegisterKeyword("bookmark_date", reader => {
 				var dateStr = reader.GetString();
 				if (string.IsNullOrEmpty(dateStr)) {

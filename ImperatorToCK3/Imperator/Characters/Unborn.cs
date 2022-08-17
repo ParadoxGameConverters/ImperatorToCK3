@@ -26,7 +26,7 @@ public class Unborn {
 		parser.RegisterKeyword("mother", reader => motherId = reader.GetULong());
 		parser.RegisterKeyword("father", reader => fatherId = reader.GetULong());
 		parser.RegisterKeyword("date", reader => birthDate = new Date(reader.GetString(), AUC: true));
-		parser.RegisterKeyword("is_bastard", reader => isBastard = reader.GetPDXBool().Value);
+		parser.RegisterKeyword("is_bastard", reader => isBastard = reader.GetBool());
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseStream(unbornReader);
 
