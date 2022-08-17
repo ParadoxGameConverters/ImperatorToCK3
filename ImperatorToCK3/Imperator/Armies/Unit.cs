@@ -42,6 +42,7 @@ public class Unit : IIdentifiable<ulong> {
 		string? name = null;
 		int ordinal = 1;
 		string? family = null;
+		string? governorship = null;
 		LocBlock? baseNameLocBlock = null;
 		
 		// parse name block
@@ -49,6 +50,7 @@ public class Unit : IIdentifiable<ulong> {
 		parser.RegisterKeyword("name", reader => name = reader.GetString());
 		parser.RegisterKeyword("ordinal", reader => ordinal = reader.GetInt());
 		parser.RegisterKeyword("family", reader => family = reader.GetString());
+		parser.RegisterKeyword("governorship", reader => governorship = reader.GetString());
 		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, locDB));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitNameReader);
@@ -75,6 +77,7 @@ public class Unit : IIdentifiable<ulong> {
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$NUM$", ordinal.ToString()));
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ORDER$", ordinal.ToOrdinalSuffix(language)));
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$FAMILY$", family));
+		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$GOVERNORSHIP$", governorship));
 
 		return nameLocBlock;
 	}
