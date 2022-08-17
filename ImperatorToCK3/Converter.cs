@@ -5,7 +5,7 @@ using System.Globalization;
 namespace ImperatorToCK3 {
 	internal static class Converter {
 		public static void ConvertImperatorToCK3(ConverterVersion converterVersion) {
-			Logger.Progress("0 %");
+			Logger.Progress(0);
 			LogSystemInfo();
 			SystemUtils.TryCreateFolder("temp");
 			var config = new Configuration(converterVersion);
@@ -13,7 +13,7 @@ namespace ImperatorToCK3 {
 			var ck3World = new CK3.World(imperatorWorld, config);
 			Outputter.WorldOutputter.OutputWorld(ck3World, imperatorWorld, config);
 			Logger.Info("* Conversion complete! *");
-			Logger.Progress("100 %");
+			Logger.Progress(100);
 		}
 
 		private static void LogSystemInfo() {

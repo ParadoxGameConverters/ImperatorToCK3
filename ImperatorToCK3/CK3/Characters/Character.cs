@@ -390,30 +390,25 @@ namespace ImperatorToCK3.CK3.Characters {
 			Date date,
 			UnitTypeMapper unitTypeMapper
 		) {
-			var sb = new StringBuilder();
-			sb.AppendLine("{");
-			
-			sb.AppendLine("\t\tadd_character_modifier=IRToCK3_fuck_CK3_military_system_modifier");
-			
-			// TODO: add a container like "titoggle1" in Imperator ABW mod
-			
-			// TODO: for every ruler whose country had access to legions, give a modifier with "men_at_arms_cap = 6"
-			
-			// TODO: use instabuild command to spawn maa at full strength
+			var menPerUnitType = new Dictionary<string, int>();
 			foreach (var unit in countryUnits) {
-				var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
-				
+				foreach (var (type, menInUnit) in unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType)) {
+					if (menPerUnitType.TryGetValue(type, out var men)) {
+						menPerUnitType[type] = men + menInUnit;
+					} else {
+						menPerUnitType[type] = menInUnit;
+					}
+				}
 				// TODO: use add_maa console command to add men at arms
 			}
-			// TODO: then disable instabuild command to spawn maa at full strength
 			
-			sb.AppendLine("\t\tremove_character_modifier=IRToCK3_fuck_CK3_military_system_modifier");
 			
-			sb.AppendLine("\t}");
+			var sb = new StringBuilder();
+			sb.AppendLine("{ add_character_modifier=IRToCK3_fuck_CK3_military_system_modifier }");
 			
 			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
-		public void ImportUnits(
+		public void ImportUnitsAsSpecialTroops(
 			IEnumerable<Unit> countryUnits,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			Date date,

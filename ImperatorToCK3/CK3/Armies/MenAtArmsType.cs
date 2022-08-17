@@ -46,11 +46,12 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		Stack = stack;
 		
 		BuyCost = new MenAtArmsCost {Gold = 0};
+		var stackRatio = stack / baseType.Stack;
 		if (baseType.LowMaintenanceCost is not null) {
-			LowMaintenanceCost = baseType.LowMaintenanceCost / baseType.Stack * stack;
+			LowMaintenanceCost = baseType.LowMaintenanceCost * stackRatio;
 		}
 		if (baseType.HighMaintenanceCost is not null) {
-			HighMaintenanceCost = baseType.HighMaintenanceCost / baseType.Stack * stack;
+			HighMaintenanceCost = baseType.HighMaintenanceCost * stackRatio;
 		}
 
 		attributes = new Dictionary<string, StringOfItem>(attributes);
