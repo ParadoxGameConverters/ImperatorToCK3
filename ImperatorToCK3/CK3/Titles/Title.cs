@@ -120,8 +120,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		LocBlock? validatedName = GetValidatedName(country, imperatorCountries, locDB);
 
-		HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
-		RulerUsesTitleName.Value = false;
+		HasDefiniteForm = definiteFormMapper.IsDefiniteForm(ImperatorCountry.Name);
+		RulerUsesTitleName = false;
 
 		PlayerCountry = ImperatorCountry.PlayerCountry;
 
@@ -315,8 +315,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		DeJureLiege = country.CK3Title;
 		SetDeFactoLiege(country.CK3Title, governorshipStartDate);
 
-		HasDefiniteForm.Value = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
-		RulerUsesTitleName.Value = false;
+		HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
+		RulerUsesTitleName = false;
 
 		PlayerCountry = false;
 
@@ -403,7 +403,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					var nameLocBlock = Localizations.AddLocBlock(Id);
 					nameLocBlock.CopyFrom(regionLocBlock);
 					nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-						(orig, adj) => $"{adj} {orig}"
+						(orig, adj, language) => $"{adj} {orig}"
 					);
 					nameSet = true;
 				}
@@ -639,20 +639,20 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[NonSerialized] public bool PlayerCountry { get; private set; }
 	[NonSerialized] public string Id { get; } // e.g. d_latium
 	[NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
-	[SerializedName("landless")] public PDXBool Landless { get; private set; } = new(false);
-	[SerializedName("definite_form")] public PDXBool HasDefiniteForm { get; private set; } = new(false);
+	[SerializedName("landless")] public bool Landless { get; private set; } = false;
+	[SerializedName("definite_form")] public bool HasDefiniteForm { get; private set; } = false;
 
 	//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
-	[SerializedName("ruler_uses_title_name")] public PDXBool RulerUsesTitleName { get; set; } = new(false);
+	[SerializedName("ruler_uses_title_name")] public bool RulerUsesTitleName { get; set; } = false;
 
 	[SerializedName("ai_primary_priority")] public StringOfItem? AIPrimaryPriority { get; private set; }
 	[SerializedName("can_create")] public StringOfItem? CanCreate { get; private set; }
 	[SerializedName("can_create_on_partition")] public StringOfItem? CanCreateOnPartition { get; private set; }
-	[SerializedName("destroy_if_invalid_heir")] public PDXBool? DestroyIfInvalidHeir { get; set; }
-	[SerializedName("no_automatic_claims")] public PDXBool? NoAutomaticClaims { get; set; }
-	[SerializedName("always_follows_primary_heir")] public PDXBool? AlwaysFollowsPrimaryHeir { get; set; }
-	[SerializedName("de_jure_drift_disabled")] public PDXBool? DeJureDriftDisabled { get; set; }
-	[SerializedName("can_be_named_after_dynasty")] public PDXBool? CanBeNamedAfterDynasty { get; set; }
+	[SerializedName("destroy_if_invalid_heir")] public bool? DestroyIfInvalidHeir { get; set; }
+	[SerializedName("no_automatic_claims")] public bool? NoAutomaticClaims { get; set; }
+	[SerializedName("always_follows_primary_heir")] public bool? AlwaysFollowsPrimaryHeir { get; set; }
+	[SerializedName("de_jure_drift_disabled")] public bool? DeJureDriftDisabled { get; set; }
+	[SerializedName("can_be_named_after_dynasty")] public bool? CanBeNamedAfterDynasty { get; set; }
 	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 	// <culture, loc key>
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
@@ -703,9 +703,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 			newTitle.DeJureLiege = this;
 		});
-		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetPDXBool());
-		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetPDXBool());
-		parser.RegisterKeyword("landless", reader => Landless = reader.GetPDXBool());
+		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
+		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
+		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
 		parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
 		parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
@@ -713,11 +713,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());
 		parser.RegisterKeyword("province", reader => Province = reader.GetULong());
-		parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = reader.GetPDXBool());
-		parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = reader.GetPDXBool());
-		parser.RegisterKeyword("always_follows_primary_heir", reader => AlwaysFollowsPrimaryHeir = reader.GetPDXBool());
-		parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = reader.GetPDXBool());
-		parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = reader.GetPDXBool());
+		parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = reader.GetBool());
+		parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = reader.GetBool());
+		parser.RegisterKeyword("always_follows_primary_heir", reader => AlwaysFollowsPrimaryHeir = reader.GetBool());
+		parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = reader.GetBool());
+		parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = reader.GetBool());
 		parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
 		parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignments());
 

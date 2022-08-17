@@ -24,20 +24,20 @@ public static class LocalizationOutputter {
 		using var frenchStream = File.OpenWrite("output/" + outputName + "/localization/replace/french/converter_l_french.yml");
 		using var germanStream = File.OpenWrite("output/" + outputName + "/localization/replace/german/converter_l_german.yml");
 		using var russianStream = File.OpenWrite("output/" + outputName + "/localization/replace/russian/converter_l_russian.yml");
-		using var simp_chineseStream = File.OpenWrite("output/" + outputName + "/localization/replace/spanish/converter_l_simp_chinese.yml");
+		using var simpChineseStream = File.OpenWrite("output/" + outputName + "/localization/replace/spanish/converter_l_simp_chinese.yml");
 		using var spanishStream = File.OpenWrite("output/" + outputName + "/localization/replace/spanish/converter_l_spanish.yml");
 		using var english = new StreamWriter(englishStream, System.Text.Encoding.UTF8);
 		using var french = new StreamWriter(frenchStream, System.Text.Encoding.UTF8);
 		using var german = new StreamWriter(germanStream, System.Text.Encoding.UTF8);
 		using var russian = new StreamWriter(russianStream, System.Text.Encoding.UTF8);
-		using var simp_chinese = new StreamWriter(simp_chineseStream, System.Text.Encoding.UTF8);
+		using var simpChinese = new StreamWriter(simpChineseStream, System.Text.Encoding.UTF8);
 		using var spanish = new StreamWriter(spanishStream, System.Text.Encoding.UTF8);
 
 		english.WriteLine("l_english:");
 		french.WriteLine("l_french:");
 		german.WriteLine("l_german:");
 		russian.WriteLine("l_russian:");
-		simp_chinese.WriteLine("l_simp_chinese:");
+		simpChinese.WriteLine("l_simp_chinese:");
 		spanish.WriteLine("l_spanish:");
 
 		// title localization
@@ -48,7 +48,7 @@ public static class LocalizationOutputter {
 				french.WriteLine($" {key}: \"{loc["french"]}\"");
 				german.WriteLine($" {key}: \"{loc["german"]}\"");
 				russian.WriteLine($" {key}: \"{loc["russian"]}\"");
-				simp_chinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+				simpChinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
 				spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 			}
 		}
@@ -62,7 +62,7 @@ public static class LocalizationOutputter {
 					french.WriteLine($" {key}: \"{loc["french"]}\"");
 					german.WriteLine($" {key}: \"{loc["german"]}\"");
 					russian.WriteLine($" {key}: \"{loc["russian"]}\"");
-					simp_chinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
+					simpChinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
 					spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
 
 					uniqueKeys.Add(key);

@@ -2,12 +2,14 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -304,6 +306,45 @@ namespace ImperatorToCK3.CK3.Characters {
 				var ruler = this[rulerId];
 				AddGoldToCharacter(ruler, imperatorGold);
 			}
+		}
+
+		public void ImportLegions(
+			Title.LandedTitles titles,
+			UnitCollection imperatorUnits,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
+			Date date,
+			UnitTypeMapper unitTypeMapper,
+			ProvinceMapper provinceMapper,
+			Configuration config
+		) {
+			Logger.Info("Importing Imperator armies...");
+			
+			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
+			foreach (var ck3Country in ck3CountriesFromImperator) {
+				var rulerId = ck3Country.GetHolderId(date);
+				if (rulerId == "0") {
+					Logger.Debug($"Can't add armies to {ck3Country} because it has no holder.");
+					continue;
+				}
+				
+				var imperatorCountry = ck3Country.ImperatorCountry!;
+				var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id)
+					.Where(unit => unit.IsArmy && unit.IsLegion) // drop navies and levies
+					.ToList();
+				if (!countryLegions.Any()) {
+					continue;
+				}
+				
+				var ruler = this[rulerId];
+
+				if (config.LegionConversion == LegionConversion.MenAtArms) {
+					ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper);
+				} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
+					ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
+				}
+			}
+			
+			Logger.IncrementProgress();
 		}
 	}
 }

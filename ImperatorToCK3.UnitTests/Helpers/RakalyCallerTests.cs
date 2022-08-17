@@ -29,11 +29,11 @@ public class RakalyCallerTests {
 				Assert.Equal("NUnit", property.Name);
 			});
 		
-		Assert.Equal("450.10.1", jsonObject["NGame"]["START_DATE"]);
-		jsonObject["NGame"]["GAME_SPEED_TICKS"].Should().Equal(1, 0.75, 0.5, 0.25, 0.0);
-		Assert.Equal(50, jsonObject["NGame"]["SCORE_START_BASE"]);
-		Assert.Equal(0.45, jsonObject["NGame"]["SCORE_START_POP_WEIGHT"]);
-		Assert.Equal(500, jsonObject["NUnit"]["COHORT_SIZE"]);
+		Assert.Equal("450.10.1", jsonObject["NGame"]?["START_DATE"]);
+		jsonObject["NGame"]?["GAME_SPEED_TICKS"].Should().Equal(1, 0.75, 0.5, 0.25, 0.0);
+		Assert.Equal(50, jsonObject["NGame"]?["SCORE_START_BASE"]);
+		Assert.Equal(0.45, jsonObject["NGame"]?["SCORE_START_POP_WEIGHT"]);
+		Assert.Equal(500, jsonObject["NUnit"]?["COHORT_SIZE"]);
 	}
 	
 	[Fact]

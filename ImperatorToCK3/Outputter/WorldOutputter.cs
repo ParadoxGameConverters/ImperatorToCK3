@@ -45,6 +45,10 @@ namespace ImperatorToCK3.Outputter {
 				ck3World
 			);
 
+			if (config.LegionConversion == LegionConversion.MenAtArms) {
+				MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.Characters);
+			}
+
 			var outputPath = Path.Combine("output", config.OutputModName);
 
 			NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);

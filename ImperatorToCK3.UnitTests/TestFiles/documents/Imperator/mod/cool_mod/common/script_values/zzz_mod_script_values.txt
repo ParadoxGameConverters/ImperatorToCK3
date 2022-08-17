@@ -1,2 +1,0 @@
-mod_value = 3.2
-common_value = 69
