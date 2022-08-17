@@ -154,10 +154,7 @@ namespace ImperatorToCK3.Imperator {
 				playedCountryBlocParser.ParseStream(reader);
 				Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 			});
-			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
-				ignoredTokens.Add(token);
-				ParserHelpers.IgnoreItem(reader);
-			});
+			this.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
 			Logger.Info("Verifying Imperator save...");
 			VerifySave(config.SaveGamePath);
