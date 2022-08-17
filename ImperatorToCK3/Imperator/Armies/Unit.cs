@@ -41,12 +41,14 @@ public class Unit : IIdentifiable<ulong> {
 	private static LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB locDB) {
 		string? name = null;
 		int ordinal = 1;
+		string? family = null;
 		LocBlock? baseNameLocBlock = null;
 		
 		// parse name block
 		var parser = new Parser();
 		parser.RegisterKeyword("name", reader => name = reader.GetString());
 		parser.RegisterKeyword("ordinal", reader => ordinal = reader.GetInt());
+		parser.RegisterKeyword("family", reader => family = reader.GetString());
 		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, locDB));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitNameReader);
@@ -72,6 +74,7 @@ public class Unit : IIdentifiable<ulong> {
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ROMAN$", ordinal.ToRomanNumeral()));
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$NUM$", ordinal.ToString()));
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ORDER$", ordinal.ToOrdinalSuffix(language)));
+		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$FAMILY$", family));
 
 		return nameLocBlock;
 	}

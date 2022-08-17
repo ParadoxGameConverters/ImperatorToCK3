@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
@@ -22,10 +23,13 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		parser.IgnoreAndLogUnregisteredItems();
 
 		parser.ParseStream(subunitsReader);
-		Logger.Debug($"Ignored subunit tokens: {string.Join(',', Subunit.IgnoredTokens)}");
+		if (Subunit.IgnoredTokens.Any()) {
+			Logger.Debug($"Ignored subunit tokens: {string.Join(", ", Subunit.IgnoredTokens)}");
+		}
 	}
 	public void LoadUnits(BufferedReader unitsReader, LocDB locDB, Defines defines) {
 		Logger.Info("Loading units...");
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
@@ -37,8 +41,10 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 			AddOrReplace(new Unit(id, new BufferedReader(itemStr), this, locDB, defines));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-
 		parser.ParseStream(unitsReader);
-		Logger.Debug($"Ignored unit tokens: {string.Join(',', Unit.IgnoredTokens)}");
+		
+		if (Unit.IgnoredTokens.Any()) {
+			Logger.Debug($"Ignored unit tokens: {string.Join(", ", Unit.IgnoredTokens)}");
+		}
 	}
 }

@@ -19,7 +19,6 @@ public class Subunit : IIdentifiable<ulong> {
 		parser.RegisterKeyword("type", reader => Type = reader.GetString());
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("strength", reader => Strength = reader.GetDouble());
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 
 		parser.ParseStream(subunitReader);
