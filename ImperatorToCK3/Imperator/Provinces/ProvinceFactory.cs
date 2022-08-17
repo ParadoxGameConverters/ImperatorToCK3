@@ -46,7 +46,7 @@ public partial class Province {
 			}
 		});
 		provinceParser.RegisterKeyword("fort", reader =>
-			parsedProvince.Fort = reader.GetPDXBool()
+			parsedProvince.Fort = reader.GetBool()
 		);
 		provinceParser.RegisterKeyword("holy_site", reader => {
 			var holySiteId = reader.GetULong();

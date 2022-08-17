@@ -1,6 +1,7 @@
 ﻿using commonItems;
-using commonItems.Collections;
+using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
@@ -23,6 +24,9 @@ namespace ImperatorToCK3.Imperator {
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
 		private readonly ScriptValueCollection scriptValues = new();
+		public Defines Defines = new();
+		public LocDB LocDB { get; }= new("english", "french", "german", "russian", "simp_chinese", "spanish");
+
 		public NamedColorCollection NamedColors { get; } = new();
 		public FamilyCollection Families { get; private set; } = new();
 		public CharacterCollection Characters { get; private set; } = new();
@@ -30,6 +34,7 @@ namespace ImperatorToCK3.Imperator {
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
+		public UnitCollection Units { get; private set; } = new();
 		public ReligionCollection Religions { get; private set; }
 		private GenesDB genesDB = new();
 
@@ -110,7 +115,14 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
-			RegisterKeyword("armies", reader => reader.GetStringOfItem());
+			RegisterKeyword("armies", reader => {
+				Logger.Info("Loading armies...");
+				var armiesParser = new Parser();
+				armiesParser.RegisterKeyword("subunit_database", subunitsReader => Units.LoadSubunits(subunitsReader));
+				armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader, LocDB, Defines));
+
+				armiesParser.ParseStream(reader);
+			});
 			RegisterKeyword("country", reader => {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
@@ -142,10 +154,7 @@ namespace ImperatorToCK3.Imperator {
 				playedCountryBlocParser.ParseStream(reader);
 				Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 			});
-			RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
-				ignoredTokens.Add(token);
-				ParserHelpers.IgnoreItem(reader);
-			});
+			this.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
 			Logger.Info("Verifying Imperator save...");
 			VerifySave(config.SaveGamePath);
@@ -253,6 +262,7 @@ namespace ImperatorToCK3.Imperator {
 
 		private void LoadModFilesystemDependentData() {
 			scriptValues.LoadScriptValues(ModFS);
+			Defines.LoadDefines(ModFS);
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
 			
 			Country.LoadGovernments(ModFS);
@@ -260,6 +270,8 @@ namespace ImperatorToCK3.Imperator {
 			Religions = new ReligionCollection(scriptValues);
 			Religions.LoadDeities(ModFS);
 			Religions.LoadReligions(ModFS);
+			
+			LocDB.ScrapeLocalizations(ModFS);
 		}
 
 		private BufferedReader ProcessSave(string saveGamePath) {
