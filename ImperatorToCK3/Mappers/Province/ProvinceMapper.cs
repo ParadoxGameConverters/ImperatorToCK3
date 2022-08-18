@@ -20,6 +20,8 @@ public class ProvinceMapper {
 
 		CreateMappings();
 		Logger.Info($"{mappingsVersion.Mappings.Count} mappings loaded.");
+		
+		Logger.IncrementProgress();
 	}
 	public ProvinceMapper(BufferedReader reader) {
 		var parser = new Parser();

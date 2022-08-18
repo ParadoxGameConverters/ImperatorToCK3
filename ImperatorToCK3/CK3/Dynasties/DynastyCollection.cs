@@ -18,5 +18,7 @@ public class DynastyCollection : IdObjectCollection<string, Dynasty> {
 			Add(newDynasty);
 		}
 		Logger.Info($"{Count} total families imported.");
+			
+		Logger.IncrementProgress();
 	}
 }

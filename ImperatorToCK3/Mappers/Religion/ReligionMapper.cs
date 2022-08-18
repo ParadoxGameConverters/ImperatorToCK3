@@ -22,6 +22,8 @@ public class ReligionMapper {
 		Logger.Info($"Loaded {religionMappings.Count} religious links.");
 
 		RemoveMappingsWithNonexistentCK3Faiths(ck3Religions);
+		
+		Logger.IncrementProgress();
 	}
 	public ReligionMapper(BufferedReader reader, ReligionCollection ck3Religions, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
 		this.imperatorRegionMapper = imperatorRegionMapper;

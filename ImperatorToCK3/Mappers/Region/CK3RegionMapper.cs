@@ -12,6 +12,8 @@ namespace ImperatorToCK3.Mappers.Region {
 			Logger.Info("Initializing Geography...");
 
 			LoadRegions(ck3ModFS, landedTitles);
+		
+			Logger.IncrementProgress();
 		}
 		public void LoadRegions(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 			var parser = new Parser();

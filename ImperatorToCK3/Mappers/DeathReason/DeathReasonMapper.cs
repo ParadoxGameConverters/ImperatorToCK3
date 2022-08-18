@@ -10,6 +10,8 @@ public class DeathReasonMapper {
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/deathMappings.txt");
 		Logger.Info($"Loaded {impToCK3ReasonMap.Count} death reason links.");
+		
+		Logger.IncrementProgress();
 	}
 	public DeathReasonMapper(BufferedReader reader) {
 		var parser = new Parser();

@@ -17,6 +17,8 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 			parser.ParseFile(tagTitleMappingsPath);
 			parser.ParseFile(governorshipTitleMappingsPath);
 			Logger.Info($"{mappings.Count} title mappings loaded.");
+		
+			Logger.IncrementProgress();
 		}
 		public void RegisterTag(string imperatorTag, string ck3Title) {
 			registeredTagTitles.Add(imperatorTag, ck3Title);

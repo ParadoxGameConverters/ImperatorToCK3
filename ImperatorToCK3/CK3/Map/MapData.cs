@@ -38,7 +38,7 @@ public class MapData {
 
 	public MapData(string ck3Path) {
 		string provincesMapPath = Path.Combine(ck3Path, "game", "map_data", "provinces.png");
-		Logger.Info("Loaded provinces map.");
+		Logger.Info("Loaded provinces map...");
 
 		ProvinceDefinitions = new ProvinceDefinitions(ck3Path);
 		Logger.Info("Loaded province definitions.");
@@ -51,6 +51,8 @@ public class MapData {
 		Logger.Info("Determined province neighbors.");
 		FindImpassables(ck3Path);
 		Logger.Info("Found impassables.");
+			
+		Logger.IncrementProgress();
 	}
 
 	private void DetermineProvincePositions(string ck3Path) {

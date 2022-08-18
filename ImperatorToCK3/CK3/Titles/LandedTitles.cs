@@ -42,6 +42,8 @@ public partial class Title {
 			parser.ParseGameFolder(landedTitlesPath, ck3ModFS, "txt", true);
 
 			LogIgnoredTokens();
+			
+			Logger.IncrementProgress();
 		}
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();

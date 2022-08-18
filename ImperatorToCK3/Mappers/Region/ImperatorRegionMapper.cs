@@ -29,6 +29,8 @@ namespace ImperatorToCK3.Mappers.Region {
 			parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
 			LinkRegions();
+		
+			Logger.IncrementProgress();
 		}
 		private void RegisterRegionKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions.AddOrReplace(new(regionName, reader)));
