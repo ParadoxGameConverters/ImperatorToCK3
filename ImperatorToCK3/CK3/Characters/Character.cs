@@ -410,6 +410,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			foreach (var (typeId, men) in menPerUnitType) {
 				var baseType = menAtArmsTypes[typeId];
 				var dedicatedType = new MenAtArmsType(baseType, this, men/8, date);
+				menAtArmsTypes.Add(dedicatedType);
 				MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 			}
 			
