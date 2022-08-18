@@ -42,7 +42,7 @@ public static class MenAtArmsOutputter {
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 		
-		foreach (var type in menAtArmsTypes) {
+		foreach (var type in menAtArmsTypes.Where(t=>t.ToBeOutputted)) {
 			output.WriteLine($"{type.Id}={PDXSerializer.Serialize(type)}");
 		}
 	}
