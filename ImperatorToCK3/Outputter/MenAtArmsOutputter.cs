@@ -74,7 +74,7 @@ public static class MenAtArmsOutputter {
 			"name=_show " +
 			$"next=state{state} " +
 			"on_start=\"[ExecuteConsoleCommand('effect debug_log=LOG_SPAWNING_MAA')]\" " +
-			$"duration={duration.ToString(CultureInfo.InvariantCulture)} }}"
+			$"duration={duration} }}"
 		);
 		foreach (var character in charactersWithMaa) {
 			foreach (var (maaType, stacks) in character.MenAtArmsStacksPerType) {
@@ -84,17 +84,25 @@ public static class MenAtArmsOutputter {
 						$"name=state{state++} " +
 						$"next=state{state} " +
 						$"on_start=\"[ExecuteConsoleCommand(Concatenate('add_maa {maaType} ', Localize('IRToCK3_character_{character.Id}')))]\" " +
-						$"duration={duration.ToString(CultureInfo.InvariantCulture)} }}");
+						$"duration={duration} }}");
 				}
 			}
 		}
 
+		// Toggle instabuild to give added regiments full strength.
 		output.WriteLine(
 			"\t\tstate = { " +
 			$"name=state{state} " +
-			"on_start=\"[ExecuteConsoleCommand('instabuild')]\" " + // Gives regiments full strength
-			$"duration={duration.ToString(CultureInfo.InvariantCulture)} " +
-			"on_finish=\"[ExecuteConsoleCommand('effect remove_global_variable=IRToCK3_create_maa_flag')]\" " +
+			"on_start=\"[ExecuteConsoleCommand('instabuild')]\" " +
+			$"duration={duration} " +
+			"on_finish=\"[ExecuteConsoleCommand('instabuild')]\" " +
+			"}");
+		
+		output.WriteLine(
+			"\t\tstate = { " +
+			$"name=state{state} " +
+			"on_start=\"[ExecuteConsoleCommand('effect remove_global_variable=IRToCK3_create_maa_flag')]\" " +
+			$"duration={duration} " +
 			"}");
 
 		output.WriteLine("\t}");

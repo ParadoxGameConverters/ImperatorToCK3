@@ -30,6 +30,7 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		parser.RegisterKeyword("low_maintenance_cost", costReader => LowMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("high_maintenance_cost", costReader => HighMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
+			Logger.Notice(keyword);
 			attributes[keyword] = reader.GetStringOfItem();
 		});
 		parser.IgnoreAndLogUnregisteredItems();
@@ -40,11 +41,12 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		ToBeOutputted = true;
 		
 		Id = $"IRToCK3_maa_{character.Id}_{baseType.Id}";
-		CanRecruit = new StringOfItem("{ " +
-		                              $"exists=character:{character.Id} " +
-		                              $"this=character:{character.Id} " +
-		                              $"current_date<={bookmarkDate.ChangeByMonths(1)} " +
-		                              "}");
+		CanRecruit = new StringOfItem(
+			"{ " +
+			$"exists=character:{character.Id} " +
+			$"this=character:{character.Id} " +
+			$"current_date<={bookmarkDate.ChangeByMonths(1)} " +
+			"}");
 		Stack = stack;
 		
 		BuyCost = new MenAtArmsCost {Gold = 0};
@@ -57,13 +59,18 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		attributes = new Dictionary<string, StringOfItem>(baseType.attributes);
+		if (!baseType.attributes.ContainsKey("icon")) {
+			attributes["icon"] = new StringOfItem(baseType.Id);
+		}
+
+		attributes["ai_quality"] = new StringOfItem("{ value=1 }");
 	}
 
 	public string Serialize(string indent, bool withBraces) {
 		var sb = new StringBuilder();
 		sb.AppendLine("{");
 		sb.Append((this as IPDXSerializable).SerializeMembers(indent + '\t'));
-		sb.AppendLine(PDXSerializer.Serialize(attributes, indent + '\t', withBraces: false));
+		sb.Append('\t').AppendLine(PDXSerializer.Serialize(attributes, indent + '\t', withBraces: false));
 		sb.AppendLine("}");
 
 		return sb.ToString();
