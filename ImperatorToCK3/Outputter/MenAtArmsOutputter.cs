@@ -3,6 +3,7 @@ using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -46,14 +47,14 @@ public static class MenAtArmsOutputter {
 		output.WriteLine("\tlayer = top"); // TODO: check if needed
 		output.WriteLine("\tdatacontext=\"[GetScriptedGui('IRToCK3_create_maa')]\"");
 		output.WriteLine("\tvisible=\"[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]\"");
+		
 		const float duration = 0.01f;
-
 		int state = 0;
 		output.WriteLine("\tstate = { " +
 		                 "name=_show " +
 		                 $"next=state{state} " +
 		                 "on_start=\"[ExecuteConsoleCommand('effect debug_log=\"Spawning men-at-arms...\"')]\" " +
-		                 $"duration={duration} }}");
+		                 $"duration={duration.ToString(CultureInfo.InvariantCulture)} }}");
 
 		var charactersWithMaa = ck3Characters.Where(c => c.MenAtArmsStacksPerType.Any()).ToList();
 		OutputHiddenEvent(outputModName, charactersWithMaa);
@@ -65,7 +66,7 @@ public static class MenAtArmsOutputter {
 		                 $"name=state{state++} " +
 		                 $"next=state{state} " +
 		                 $"on_start=\"[ExecuteConsoleCommand(Concatenate('add_maa {maaType} ', Localize('IRToCK3_character_{character.Id}')))]\" " +
-		                 $"duration={duration} }}");
+		                 $"duration={duration.ToString(CultureInfo.InvariantCulture)} }}");
 				}
 			}
 		}
@@ -73,7 +74,7 @@ public static class MenAtArmsOutputter {
 			"\tstate = { " +
 	         $"name=state{state} " +
 	         "on_start=\"[ExecuteConsoleCommand('instabuild')]\" " + // Gives regiments full strength
-	         $"duration={duration} " +
+	         $"duration={duration.ToString(CultureInfo.InvariantCulture)} " +
 	         "on_finish=\"[ExecuteConsoleCommand('effect remove_global_variable=IRToCK3_create_maa_flag')]\" " +
 	         "}");
 		
