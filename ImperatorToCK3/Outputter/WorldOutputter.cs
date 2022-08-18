@@ -45,6 +45,10 @@ namespace ImperatorToCK3.Outputter {
 				ck3World
 			);
 
+			if (config.LegionConversion == LegionConversion.MenAtArms) {
+				MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
+			}
+
 			var outputPath = Path.Combine("output", config.OutputModName);
 
 			NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
@@ -119,11 +123,14 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "events"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "english"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "french"));

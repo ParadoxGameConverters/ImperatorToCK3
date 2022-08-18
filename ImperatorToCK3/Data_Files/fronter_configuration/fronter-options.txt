@@ -28,6 +28,27 @@ option = {
 }
 
 option = {
+	name = LegionConversion
+	displayName = LEGION_CONVERSION
+	tooltip = LEGION_CONVERSION_TIP
+	radioSelector = {
+		radioOption = {
+			name = 0
+			displayName = LEGION_CONVERSION_NO
+			default = true
+		}
+		radioOption = {
+			name = 1
+			displayName = LEGION_CONVERSION_SPECIAL
+		}
+		radioOption = {
+			name = 2
+			displayName = LEGION_CONVERSION_MAA
+		}
+	}
+}
+
+option = {
 	name = output_name
 	displayName = MODNAME
 	tooltip = MODNAMETIP

@@ -31,7 +31,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				return directNameLocMatch;
 			}
 			directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc,
-				(orig, modifying) => orig?.Replace("$ADJ$", modifying)
+				(orig, modifying, language) => orig?.Replace("$ADJ$", modifying)
 			);
 			return directNameLocMatch;
 		}
@@ -42,7 +42,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 				// special case for revolts
 				var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(locDB, imperatorCountries);
 				if (baseAdjLoc is not null) {
-					directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying) =>
+					directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) =>
 						orig?.Replace("$ADJ$", modifying)
 					);
 					return directAdjLocMatch;

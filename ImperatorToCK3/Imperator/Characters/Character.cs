@@ -91,7 +91,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public PDXBool Female { get; private set; } = new(false);
+		public bool Female { get; private set; } = false;
 		public double Wealth { get; set; } = 0;
 		public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
@@ -119,7 +119,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
 			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
 			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
-			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetPDXBool());
+			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetBool());
 			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
 			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
 			parser.RegisterKeyword("birth_date", reader => {

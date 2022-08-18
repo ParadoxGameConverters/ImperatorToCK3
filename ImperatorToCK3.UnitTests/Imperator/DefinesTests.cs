@@ -10,7 +10,8 @@ public class DefinesTests {
 	
 	[Fact]
 	public void CohortSizeCanBeRead() {
-		var defines = new Defines(imperatorModFS);
+		var defines = new Defines();
+		defines.LoadDefines(imperatorModFS);
 		Assert.Equal(601, defines.CohortSize);
 	}
 }
