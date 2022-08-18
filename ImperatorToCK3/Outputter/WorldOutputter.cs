@@ -122,13 +122,13 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
-			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "gui"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "english"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "french"));

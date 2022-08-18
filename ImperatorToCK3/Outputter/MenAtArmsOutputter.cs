@@ -16,14 +16,18 @@ public static class MenAtArmsOutputter {
 		
 		output.WriteLine("namespace=IRToCK3_hidden_events");
 		output.WriteLine();
-		output.WriteLine("IRToCK3_hidden_events.0001={");
-		output.WriteLine("\ttype=character_event");
-		output.WriteLine("\thidden=yes");
-		output.WriteLine("\timmediate={");
+		output.WriteLine("IRToCK3_hidden_events.0001 = {");
+		output.WriteLine("\ttype = character_event");
+		output.WriteLine("\thidden = yes");
+		output.WriteLine("\timmediate = {");
 		foreach (var character in charactersWithMaa) {
-			output.WriteLine($"\t\tset_variable={{ name=IRToCK3_character_{character.Id} value=character:{character.Id} }}");
+			output.WriteLine(
+				"\t\tset_variable = { " +
+			    $"name=IRToCK3_character_{character.Id} " +
+			    $"value=character:{character.Id} " +
+				"}");
 		}
-		output.WriteLine("\t\tset_global_variable=IRToCK3_create_maa_flag");
+		output.WriteLine("\t\tset_global_variable = IRToCK3_create_maa_flag");
 		output.WriteLine("\t}");
 		output.WriteLine("}");
 	}
