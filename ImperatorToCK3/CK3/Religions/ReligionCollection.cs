@@ -37,6 +37,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		RegisterReligionsKeywords(parser);
 
 		parser.ParseGameFolder("common/religion/religions", ck3ModFs, "txt", recursive: true);
+			
+		Logger.IncrementProgress();
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser) {

@@ -55,6 +55,8 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			}
 		}
 		Logger.Info($"Loaded {Count-existingProvinceDefinitionsCount} province definitions.");
+			
+		Logger.IncrementProgress();
 	}
 
 	public void ImportImperatorProvinces(
@@ -85,6 +87,8 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			++counter;
 		}
 		Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
+			
+		Logger.IncrementProgress();
 	}
 
 	private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(

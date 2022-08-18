@@ -16,27 +16,35 @@ namespace ImperatorToCK3.Outputter {
 
 			Logger.Info("Creating folders...");
 			CreateFolders(outputName);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Characters...");
 			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, ck3World.CorrectedDate);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Dynasties...");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Provinces...");
 			ProvincesOutputter.OutputProvinces(outputName, ck3World.Provinces, ck3World.LandedTitles);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Landed Titles...");
 			TitlesOutputter.OutputTitles(
 				outputName,
 				ck3World.LandedTitles
 			);
+			Logger.IncrementProgress();
 
 			ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
+			Logger.IncrementProgress();
 			ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Succession Triggers...");
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
@@ -44,6 +52,7 @@ namespace ImperatorToCK3.Outputter {
 				outputName,
 				ck3World
 			);
+			Logger.IncrementProgress();
 
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
 				MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
@@ -52,6 +61,7 @@ namespace ImperatorToCK3.Outputter {
 			var outputPath = Path.Combine("output", config.OutputModName);
 
 			NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
+			Logger.IncrementProgress();
 
 			Logger.Info("Copying Coats of Arms...");
 			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorWorld.ModFS);
@@ -60,15 +70,18 @@ namespace ImperatorToCK3.Outputter {
 				Path.Combine(config.ImperatorPath, "game", "gfx", "coat_of_arms", "patterns"),
 				Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns")
 			);
+			Logger.IncrementProgress();
 
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder(
 				Path.Combine("blankMod", "output"),
 				outputPath
 			);
+			Logger.IncrementProgress();
 
 			Logger.Info("Creating bookmark...");
 			BookmarkOutputter.OutputBookmark(ck3World, config);
+			Logger.IncrementProgress();
 
 			void ClearOutputModFolder() {
 				var directoryToClear = $"output/{config.OutputModName}";

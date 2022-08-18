@@ -42,11 +42,15 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadReligions(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator religions...");
 		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
+			
+		Logger.IncrementProgress();
 	}
 
 	public void LoadDeities(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator deities...");
 		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
+			
+		Logger.IncrementProgress();
 	}
 
 	public void LoadHolySiteDatabase(BufferedReader deityManagerReader) {
@@ -69,6 +73,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		
 		parser.ParseStream(deityManagerReader);
+			
+		Logger.IncrementProgress();
 	}
 	
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
