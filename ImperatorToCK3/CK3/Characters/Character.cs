@@ -390,6 +390,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			Date date,
 			UnitTypeMapper unitTypeMapper
 		) {
+			var locKey = $"IRToCK3_character_{Id}";
+			var locBlock = new LocBlock(locKey, "english") {["english"] = "[GetPlayer.MakeScope.Var('boris').Char.GetID]"};
+			Localizations.Add(locKey, locBlock);
+			
 			var menPerUnitType = new Dictionary<string, int>();
 			foreach (var unit in countryUnits) {
 				foreach (var (type, menInUnit) in unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType)) {
@@ -399,7 +403,6 @@ namespace ImperatorToCK3.CK3.Characters {
 						menPerUnitType[type] = menInUnit;
 					}
 				}
-				// TODO: use add_maa console command to add men at arms
 			}
 			
 			

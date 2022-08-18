@@ -316,7 +316,12 @@ on_game_start_after_lobby = {
 		}
 		
 		# IRToCK3: add MAA regiments
-		set_global_variable = IRToCK3_create_maa_flag
+		random_player = {
+			trigger_event = {
+				id = IRToCK3_hidden_events.0001
+				days = 0
+			}
+		}
 		
 		# IRToCK3: Detect no culture in setup
 		every_living_character = {
