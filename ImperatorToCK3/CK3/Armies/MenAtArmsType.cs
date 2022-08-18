@@ -15,7 +15,7 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	
 	[SerializedName("buy_cost")] public MenAtArmsCost? BuyCost { get; set; }
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
-	[SerializedName("buy_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
+	[SerializedName("high_maintenance_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
 
 	[NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
 	[NonSerialized] public bool ToBeOutputted { get; } = false;
@@ -40,7 +40,11 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		ToBeOutputted = true;
 		
 		Id = $"IRToCK3_maa_{character.Id}_{baseType.Id}";
-		CanRecruit = new StringOfItem($"{{ this = character:{character.Id} current_date<={bookmarkDate.ChangeByMonths(1)} }}");
+		CanRecruit = new StringOfItem("{ " +
+		                              $"exists=character:{character.Id} " +
+		                              $"this=character:{character.Id} " +
+		                              $"current_date<={bookmarkDate.ChangeByMonths(1)} " +
+		                              "}");
 		Stack = stack;
 		
 		BuyCost = new MenAtArmsCost {Gold = 0};
@@ -52,7 +56,7 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 			HighMaintenanceCost = baseType.HighMaintenanceCost * stackRatio;
 		}
 
-		attributes = new Dictionary<string, StringOfItem>(attributes);
+		attributes = new Dictionary<string, StringOfItem>(baseType.attributes);
 	}
 
 	public string Serialize(string indent, bool withBraces) {
