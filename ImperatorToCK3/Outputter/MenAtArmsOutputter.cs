@@ -53,7 +53,7 @@ public static class MenAtArmsOutputter {
 		output.WriteLine("\tstate = { " +
 		                 "name=_show " +
 		                 $"next=state{state} " +
-		                 "on_start=\"[ExecuteConsoleCommand('effect debug_log=\"Spawning men-at-arms...\"')]\" " +
+		                 "on_start=\"[ExecuteConsoleCommand('effect debug_log=LOG_SPAWNING_MAA')]\" " +
 		                 $"duration={duration.ToString(CultureInfo.InvariantCulture)} }}");
 
 		var charactersWithMaa = ck3Characters.Where(c => c.MenAtArmsStacksPerType.Any()).ToList();
