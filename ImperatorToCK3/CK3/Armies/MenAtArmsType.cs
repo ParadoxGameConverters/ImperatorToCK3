@@ -14,14 +14,10 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[SerializedName("can_recruit")] public StringOfItem CanRecruit { get; private set; } = new("{}");
 	[SerializedName("stack")] public int Stack { get; private set; } = 100;
 	
-	
 	[SerializedName("buy_cost")] public MenAtArmsCost? BuyCost { get; set; }
-	
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
-	
 	[SerializedName("buy_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
-	
-	
+
 	[commonItems.Serialization.NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
 	
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {

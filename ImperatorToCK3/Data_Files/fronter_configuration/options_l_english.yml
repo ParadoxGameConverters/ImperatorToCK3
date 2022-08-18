@@ -16,7 +16,7 @@ l_english:
  IMPERATOR_CURRENCY_RATE: "Imperator currency rate"
  IMPERATOR_CURRENCY_RATE_TIP: "How much CK3 gold should 1 Imperator gold unit be worth?"
  IMPERATOR_CURRENCY_RATE_INPUT_TIP: "Use dot as decimal separator"
- 
+
  LEGION_CONVERSION: "[EXPERIMENTAL] How to import legions to CK3?"
  LEGION_CONVERSION_NO: "Don't."
  LEGION_CONVERSION_SPECIAL: "As special troops."
