@@ -15,7 +15,7 @@ public class Unit : IIdentifiable<ulong> {
 	public ulong Location { get; set; } // province id
 	private List<ulong> CohortIds { get; } = new();
 	
-	public LocBlock? LocalizedName;
+	public LocBlock? LocalizedName { get; private set; }
 	public IDictionary<string, int> MenPerUnitType { get; }
 
 	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB locDB, Defines defines) {

@@ -37,7 +37,7 @@ namespace ImperatorToCK3.CK3 {
 		public ProvinceCollection Provinces { get; } = new();
 		public Title.LandedTitles LandedTitles { get; } = new();
 		public ReligionCollection Religions { get; } = new();
-		public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes = new();
+		public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; }= new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
