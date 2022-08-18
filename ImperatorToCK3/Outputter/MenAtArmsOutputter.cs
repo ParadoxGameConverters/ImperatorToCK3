@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Mods;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
 using System;
@@ -33,24 +34,30 @@ public static class MenAtArmsOutputter {
 		output.WriteLine("}");
 	}
 	
-	public static void OutputMenAtArms(string outputModName, CharacterCollection ck3Characters) {
+	public static void OutputMenAtArms(string outputModName, ModFilesystem modFS, CharacterCollection ck3Characters) {
 		Logger.Info("Writing men-at-arms...");
-		
-		var outputPath = Path.Combine("output", outputModName, "gui", "IRToCK3_gui.gui");
+
+		const string relativeHudTopGuiPath = "gui/hud_top.gui";
+		var hudTopGuiPath = modFS.GetActualFileLocation(relativeHudTopGuiPath);
+		if (hudTopGuiPath is null) {
+			Logger.Warn($"{relativeHudTopGuiPath} not found, can't write MAA creation commands!");
+			return;
+		}
+		string guiText = File.ReadAllText(hudTopGuiPath);
+
+		var outputPath = Path.Combine("output", outputModName, relativeHudTopGuiPath);
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 		
-		output.WriteLine("container={");
-		output.WriteLine("\tname=\"IRToCK3_maa_toogle\"");
-		output.WriteLine("\tparentanchor = top|hcenter"); // TODO: check if needed
-		output.WriteLine("\tposition = { 0 185 }"); // TODO: check if needed
-		output.WriteLine("\tlayer = top"); // TODO: check if needed
-		output.WriteLine("\tdatacontext=\"[GetScriptedGui('IRToCK3_create_maa')]\"");
-		output.WriteLine("\tvisible=\"[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]\"");
+		output.WriteLine(guiText.TrimEnd().TrimEnd('}'));
+		output.WriteLine("\tcontainer={");
+		output.WriteLine("\t\tname=\"IRToCK3_maa_toogle\"");
+		output.WriteLine("\t\tdatacontext=\"[GetScriptedGui('IRToCK3_create_maa')]\"");
+		output.WriteLine("\t\tvisible=\"[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]\"");
 		
 		const float duration = 0.01f;
 		int state = 0;
-		output.WriteLine("\tstate = { " +
+		output.WriteLine("\t\tstate = { " +
 		                 "name=_show " +
 		                 $"next=state{state} " +
 		                 "on_start=\"[ExecuteConsoleCommand('effect debug_log=LOG_SPAWNING_MAA')]\" " +
@@ -62,7 +69,7 @@ public static class MenAtArmsOutputter {
 			foreach (var (maaType, stacks) in character.MenAtArmsStacksPerType) {
 				for (int i = 0; i < stacks; ++i) {
 					output.WriteLine(
-						"\tstate = { " +
+						"\t\tstate = { " +
 		                 $"name=state{state++} " +
 		                 $"next=state{state} " +
 		                 $"on_start=\"[ExecuteConsoleCommand(Concatenate('add_maa {maaType} ', Localize('IRToCK3_character_{character.Id}')))]\" " +
@@ -71,13 +78,14 @@ public static class MenAtArmsOutputter {
 			}
 		}
 		output.WriteLine(
-			"\tstate = { " +
+			"\t\tstate = { " +
 	         $"name=state{state} " +
 	         "on_start=\"[ExecuteConsoleCommand('instabuild')]\" " + // Gives regiments full strength
 	         $"duration={duration.ToString(CultureInfo.InvariantCulture)} " +
 	         "on_finish=\"[ExecuteConsoleCommand('effect remove_global_variable=IRToCK3_create_maa_flag')]\" " +
 	         "}");
 		
+		output.WriteLine("\t}");
 		output.WriteLine("}");
 	}
 }

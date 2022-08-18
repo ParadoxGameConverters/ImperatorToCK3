@@ -29,6 +29,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
+		public ModFilesystem ModFS { get; private set; }
 		private ScriptValueCollection ScriptValues { get; } = new();
 		public NamedColorCollection NamedColors { get; } = new();
 		public CharacterCollection Characters { get; } = new();
@@ -54,38 +55,38 @@ namespace ImperatorToCK3.CK3 {
 				// include a fake mod pointing to blankMod
 				new("blankMod", "blankMod/output")
 			};
-			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
-			ScriptValues.LoadScriptValues(ck3ModFS);
+			ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
+			ScriptValues.LoadScriptValues(ModFS);
 			
-			NamedColors.LoadNamedColors("common/named_colors", ck3ModFS);
+			NamedColors.LoadNamedColors("common/named_colors", ModFS);
 			Faith.ColorFactory.AddNamedColorDict(NamedColors);
 
-			LoadMenAtArmsTypes(ck3ModFS, ScriptValues);
+			LoadMenAtArmsTypes(ModFS, ScriptValues);
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(config.CK3Path);
 			
 			// Load CK3 religions from game and blankMod
-			Religions.LoadHolySites(ck3ModFS);
-			Religions.LoadReligions(ck3ModFS);
+			Religions.LoadHolySites(ModFS);
+			Religions.LoadReligions(ModFS);
 			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
 			// Load Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(impWorld.ModFS);
 
 			// Load vanilla CK3 landed titles and their history
-			LandedTitles.LoadTitles(ck3ModFS);
-			LandedTitles.LoadHistory(config, ck3ModFS);
+			LandedTitles.LoadTitles(ModFS);
+			LandedTitles.LoadHistory(config, ModFS);
 			LandedTitles.LoadCulturalNamesFromConfigurables();
 
 			// Loading regions
-			ck3RegionMapper = new CK3RegionMapper(ck3ModFS, LandedTitles);
+			ck3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
 			// Use the region mappers in other mappers
 			var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
 
-			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ck3ModFS);
+			var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
 			Characters.ImportImperatorCharacters(
 				impWorld,
@@ -122,7 +123,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			Provinces.ImportVanillaProvinces(ck3ModFS, config.CK3BookmarkDate);
+			Provinces.ImportVanillaProvinces(ModFS, config.CK3BookmarkDate);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, config);
