@@ -8,7 +8,7 @@ using System.Text;
 namespace ImperatorToCK3.CK3.Armies; 
 
 public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
-	public string Id { get; }
+	[NonSerialized] public string Id { get; }
 
 	[SerializedName("can_recruit")] public StringOfItem CanRecruit { get; private set; } = new("{}");
 	[SerializedName("stack")] public int Stack { get; private set; } = 100;
@@ -58,8 +58,8 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	public string Serialize(string indent, bool withBraces) {
 		var sb = new StringBuilder();
 		sb.AppendLine("{");
-		sb.Append((this as IPDXSerializable).SerializeMembers(indent));
-		sb.AppendLine(PDXSerializer.Serialize(attributes, indent, withBraces: false));
+		sb.Append((this as IPDXSerializable).SerializeMembers(indent + '\t'));
+		sb.AppendLine(PDXSerializer.Serialize(attributes, indent + '\t', withBraces: false));
 		sb.AppendLine("}");
 
 		return sb.ToString();
