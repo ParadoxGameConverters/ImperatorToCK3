@@ -46,7 +46,7 @@ namespace ImperatorToCK3.Outputter {
 			);
 
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
-				MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters);
+				MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
 			}
 
 			var outputPath = Path.Combine("output", config.OutputModName);

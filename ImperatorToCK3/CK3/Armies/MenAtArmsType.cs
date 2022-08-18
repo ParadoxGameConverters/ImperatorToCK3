@@ -2,8 +2,6 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Titles;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,7 +17,8 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
 	[SerializedName("buy_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
 
-	[commonItems.Serialization.NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
+	[NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
+	[NonSerialized] public bool ToBeOutputted { get; } = false;
 	
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
 		Id = id;
@@ -38,6 +37,8 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	}
 
 	public MenAtArmsType(MenAtArmsType baseType, Character character, int stack, Date bookmarkDate) {
+		ToBeOutputted = true;
+		
 		Id = $"IRToCK3_maa_{character.Id}_{baseType.Id}";
 		CanRecruit = new StringOfItem($"{{ this = character:{character.Id} current_date<={bookmarkDate.ChangeByMonths(1)} }}");
 		Stack = stack;
