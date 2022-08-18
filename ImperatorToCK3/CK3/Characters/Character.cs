@@ -412,6 +412,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				var dedicatedType = new MenAtArmsType(baseType, this, men/8, date);
 				menAtArmsTypes.Add(dedicatedType);
 				MenAtArmsStacksPerType[dedicatedType.Id] = 1;
+
+				var maaTypeLocBlock = new LocBlock(dedicatedType.Id, "english") {["english"] = $"${baseType.Id}$"};
+				Localizations.Add(dedicatedType.Id, maaTypeLocBlock);
 			}
 			
 			var sb = new StringBuilder();
