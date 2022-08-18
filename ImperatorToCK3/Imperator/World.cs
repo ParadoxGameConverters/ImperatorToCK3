@@ -24,8 +24,8 @@ namespace ImperatorToCK3.Imperator {
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
 		private readonly ScriptValueCollection scriptValues = new();
-		public Defines Defines = new();
-		public LocDB LocDB { get; }= new("english", "french", "german", "russian", "simp_chinese", "spanish");
+		public Defines Defines { get; }= new();
+		public LocDB LocDB { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 
 		public NamedColorCollection NamedColors { get; } = new();
 		public FamilyCollection Families { get; private set; } = new();

@@ -101,7 +101,6 @@ public static class MenAtArmsOutputter {
 		output.WriteLine("}");
 	}
 	
-
 	public static void OutputMenAtArms(string outputModName, ModFilesystem modFS, CharacterCollection ck3Characters, IdObjectCollection<string, MenAtArmsType> menAtArmsTypes) {
 		Logger.Info("Writing men-at-arms spawning script...");
 
