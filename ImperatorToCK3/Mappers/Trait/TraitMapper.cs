@@ -21,6 +21,8 @@ public class TraitMapper {
 		RegisterKeys(parser);
 		parser.ParseFile(mappingsPath);
 		Logger.Info($"Loaded {ImpToCK3TraitMap.Count} trait links.");
+		
+		Logger.IncrementProgress();
 	}
 
 	private void RegisterKeys(Parser parser) {
