@@ -21,8 +21,6 @@ namespace ImperatorToCK3 {
 			Logger.DebugFormat("Operating system: {0}", os.VersionString);
 			CultureInfo ci = CultureInfo.InstalledUICulture;
 			Logger.DebugFormat("Installed UI Language Info: {0}", ci.Name);
-			ci = CultureInfo.CurrentUICulture;
-			Logger.DebugFormat("Current UI Language Info: {0}", ci.Name);
 		}
 	}
 }

@@ -1,10 +1,16 @@
 ﻿using commonItems;
 using System;
+using System.Globalization;
 
 namespace ImperatorToCK3 {
 	internal static class Program {
 		private static int Main(string[] args) {
 			try {
+				CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+				CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
+				CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+				CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+				
 				var converterVersion = new ConverterVersion();
 				converterVersion.LoadVersion("configurables/version.txt");
 				Logger.Info(converterVersion.ToString());
