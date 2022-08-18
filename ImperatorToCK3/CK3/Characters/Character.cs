@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Countries;
@@ -388,10 +389,11 @@ namespace ImperatorToCK3.CK3.Characters {
 		public void ImportUnitsAsMenAtArms(
 			IEnumerable<Unit> countryUnits,
 			Date date,
-			UnitTypeMapper unitTypeMapper
+			UnitTypeMapper unitTypeMapper,
+			IdObjectCollection<string, MenAtArmsType> menAtArmsTypes
 		) {
 			var locKey = $"IRToCK3_character_{Id}";
-			var locBlock = new LocBlock(locKey, "english") {["english"] = "[GetPlayer.MakeScope.Var('boris').Char.GetID]"};
+			var locBlock = new LocBlock(locKey, "english") {["english"] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]"};
 			Localizations.Add(locKey, locBlock);
 			
 			var menPerUnitType = new Dictionary<string, int>();
@@ -404,7 +406,12 @@ namespace ImperatorToCK3.CK3.Characters {
 					}
 				}
 			}
-			
+
+			foreach (var (typeId, men) in menPerUnitType) {
+				var baseType = menAtArmsTypes[typeId];
+				var dedicatedType = new MenAtArmsType(baseType, this, men/8, date);
+				MenAtArmsStacksPerType[dedicatedType.Id] = 1;
+			}
 			
 			var sb = new StringBuilder();
 			sb.AppendLine("{ add_character_modifier=IRToCK3_fuck_CK3_military_system_modifier }");

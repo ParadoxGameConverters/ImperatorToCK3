@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
@@ -314,6 +315,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			Date date,
 			UnitTypeMapper unitTypeMapper,
+			IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 			ProvinceMapper provinceMapper,
 			Configuration config
 		) {
@@ -338,7 +340,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				var ruler = this[rulerId];
 
 				if (config.LegionConversion == LegionConversion.MenAtArms) {
-					ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper);
+					ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes);
 				} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
 					ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
 				}

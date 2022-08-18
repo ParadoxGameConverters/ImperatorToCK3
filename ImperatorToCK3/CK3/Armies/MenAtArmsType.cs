@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using System;
 using System.Collections.Generic;
@@ -36,9 +37,9 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		parser.ParseStream(typeReader);
 	}
 
-	public MenAtArmsType(MenAtArmsType baseType, string titleId, int stack, Date bookmarkDate) {
-		Id = $"IRToCK3_maa_{titleId}_{baseType.Id}";
-		CanRecruit = new StringOfItem($"{{ has_title={titleId} current_date<={bookmarkDate.ChangeByMonths(1)} }}");
+	public MenAtArmsType(MenAtArmsType baseType, Character character, int stack, Date bookmarkDate) {
+		Id = $"IRToCK3_maa_{character.Id}_{baseType.Id}";
+		CanRecruit = new StringOfItem($"{{ this = character:{character.Id} current_date<={bookmarkDate.ChangeByMonths(1)} }}");
 		Stack = stack;
 		
 		BuyCost = new MenAtArmsCost {Gold = 0};
