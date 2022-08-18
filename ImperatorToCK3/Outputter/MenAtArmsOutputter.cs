@@ -89,15 +89,6 @@ public static class MenAtArmsOutputter {
 			}
 		}
 
-		// Toggle instabuild to give added regiments full strength.
-		output.WriteLine(
-			"\t\tstate = { " +
-			$"name=state{state} " +
-			"on_start=\"[ExecuteConsoleCommand('instabuild')]\" " +
-			$"duration={duration} " +
-			"on_finish=\"[ExecuteConsoleCommand('instabuild')]\" " +
-			"}");
-		
 		output.WriteLine(
 			"\t\tstate = { " +
 			$"name=state{state} " +
