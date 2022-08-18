@@ -33,16 +33,16 @@ option = {
 	tooltip = LEGION_CONVERSION_TIP
 	radioSelector = {
 		radioOption = {
-			name = 1
+			name = 0
 			displayName = LEGION_CONVERSION_NO
 			default = true
 		}
 		radioOption = {
-			name = 2
+			name = 1
 			displayName = LEGION_CONVERSION_SPECIAL
 		}
 		radioOption = {
-			name = 3
+			name = 2
 			displayName = LEGION_CONVERSION_MAA
 		}
 	}

@@ -62,7 +62,7 @@ namespace ImperatorToCK3 {
 				var success = Enum.TryParse(valueString, out LegionConversion selection);
 				if (success) {
 					LegionConversion = selection;
-					Logger.Info($"{nameof(LegionConversion)} set to {selection}.");
+					Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion.ToString()}.");
 				} else {
 					Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
 				}
