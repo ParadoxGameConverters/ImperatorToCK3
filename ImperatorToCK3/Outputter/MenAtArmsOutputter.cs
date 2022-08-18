@@ -4,7 +4,6 @@ using commonItems.Mods;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -37,6 +36,8 @@ public static class MenAtArmsOutputter {
 	}
 
 	private static void OutputMenAtArmsTypes(string outputModName, IdObjectCollection<string, MenAtArmsType> menAtArmsTypes) {
+		Logger.Info("Writing men-at-arms types...");
+		
 		var outputPath = Path.Combine("output", outputModName, "common/men_at_arms_types/IRToCK3_generated_types.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
@@ -102,11 +103,11 @@ public static class MenAtArmsOutputter {
 	
 
 	public static void OutputMenAtArms(string outputModName, ModFilesystem modFS, CharacterCollection ck3Characters, IdObjectCollection<string, MenAtArmsType> menAtArmsTypes) {
-		Logger.Info("Writing men-at-arms...");
+		Logger.Info("Writing men-at-arms spawning script...");
 
 		var charactersWithMaa = ck3Characters.Where(c => c.MenAtArmsStacksPerType.Any()).ToList();
 		OutputHiddenEvent(outputModName, charactersWithMaa);
-		OutputMenAtArmsTypes(outputModName, menAtArmsTypes);
 		OutputGuiContainer(outputModName, modFS, charactersWithMaa);
+		OutputMenAtArmsTypes(outputModName, menAtArmsTypes);
 	}
 }
