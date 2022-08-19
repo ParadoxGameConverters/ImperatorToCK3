@@ -26,6 +26,7 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		if (Subunit.IgnoredTokens.Any()) {
 			Logger.Debug($"Ignored subunit tokens: {string.Join(", ", Subunit.IgnoredTokens)}");
 		}
+		Logger.IncrementProgress();
 	}
 	public void LoadUnits(BufferedReader unitsReader, LocDB locDB, Defines defines) {
 		Logger.Info("Loading units...");
@@ -46,5 +47,6 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		if (Unit.IgnoredTokens.Any()) {
 			Logger.Debug($"Ignored unit tokens: {string.Join(", ", Unit.IgnoredTokens)}");
 		}
+		Logger.IncrementProgress();
 	}
 }

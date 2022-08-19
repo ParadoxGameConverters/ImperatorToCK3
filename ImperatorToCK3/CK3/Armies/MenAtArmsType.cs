@@ -30,7 +30,6 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		parser.RegisterKeyword("low_maintenance_cost", costReader => LowMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("high_maintenance_cost", costReader => HighMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
-			Logger.Notice(keyword);
 			attributes[keyword] = reader.GetStringOfItem();
 		});
 		parser.IgnoreAndLogUnregisteredItems();

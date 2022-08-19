@@ -84,19 +84,22 @@ namespace ImperatorToCK3.Outputter {
 			Logger.IncrementProgress();
 
 			void ClearOutputModFolder() {
+				Logger.Info("Clearing the output mod folder...");
+				
 				var directoryToClear = $"output/{config.OutputModName}";
 				var di = new DirectoryInfo(directoryToClear);
 				if (!di.Exists) {
 					return;
 				}
 
-				Logger.Info("Clearing the output mod folder...");
 				foreach (FileInfo file in di.EnumerateFiles()) {
 					file.Delete();
 				}
 				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
 					dir.Delete(true);
 				}
+				
+				Logger.IncrementProgress();
 			}
 		}
 
