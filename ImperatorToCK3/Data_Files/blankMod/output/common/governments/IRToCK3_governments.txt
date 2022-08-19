@@ -13,6 +13,18 @@
 	royal_court = no
 	supply_limit_mult_for_others = 0
 	affected_by_development = no
+
+	can_get_government = {
+		OR = {
+			has_government = papar_government
+			has_variable = IRToCK3_papar_flag
+		}
+		current_date <= 900.1.1
+		capital_county = {
+			target_is_de_jure_liege_or_above = title:d_iceland
+		}
+	}
+
 	ai = {
 		use_lifestyle = yes
 		imprison = no				# Imprison & release from prison
