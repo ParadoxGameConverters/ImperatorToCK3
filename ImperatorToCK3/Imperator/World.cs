@@ -80,6 +80,7 @@ namespace ImperatorToCK3.Imperator {
 				foreach (var dlc in dlcs) {
 					Logger.Info($"Enabled DLC: {dlc}");
 				}
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("enabled_mods", reader => {
 				Logger.Info("Detecting used mods...");
@@ -90,6 +91,7 @@ namespace ImperatorToCK3.Imperator {
 					Logger.Info($"Used mod: {modPath}");
 					incomingMods.Add(new Mod(string.Empty, modPath));
 				}
+				Logger.IncrementProgress();
 
 				// Let's locate, verify and potentially update those mods immediately.
 				ModLoader modLoader = new();
@@ -158,6 +160,7 @@ namespace ImperatorToCK3.Imperator {
 				playedCountryBlocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 				playedCountryBlocParser.ParseStream(reader);
 				Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
+				Logger.IncrementProgress();
 			});
 			this.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
