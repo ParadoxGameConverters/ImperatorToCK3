@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.Helpers;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace ImperatorToCK3.Imperator; 
 
@@ -14,12 +15,16 @@ public class Defines {
 		var definesFiles = imperatorModFs.GetAllFilesInFolderRecursive("common/defines");
 		Logger.Debug($"Defines files: {string.Join("; ", definesFiles)}");
 		foreach (var filePath in definesFiles) {
-			var jsonString = RakalyCaller.GetJson(filePath);
-			var jsonObject = JObject.Parse(jsonString);
+			try {
+				var jsonString = RakalyCaller.GetJson(filePath);
+				var jsonObject = JObject.Parse(jsonString);
 
-			var cohortSize = (int?)jsonObject["NUnit"]?["COHORT_SIZE"];
-			if (cohortSize is not null) {
-				CohortSize = (int)cohortSize;
+				var cohortSize = (int?)jsonObject["NUnit"]?["COHORT_SIZE"];
+				if (cohortSize is not null) {
+					CohortSize = (int)cohortSize;
+				}
+			} catch (Exception e) {
+				Logger.Warn($"Failed to read defines from {filePath}: {e}");
 			}
 		}
 		
