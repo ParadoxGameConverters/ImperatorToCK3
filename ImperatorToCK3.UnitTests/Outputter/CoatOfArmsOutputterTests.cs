@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
@@ -14,6 +15,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Outputter;
+using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -21,7 +23,7 @@ namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class CoatOfArmsOutputterTests {
 	[Fact]
-	public void CoAIsOutputtedForCountryWithFlagSet() {
+	public void CoaIsOutputtedForCountryWithFlagSet() {
 		var titles = new Title.LandedTitles();
 
 		var countries = new CountryCollection();
@@ -52,7 +54,7 @@ public class CoatOfArmsOutputterTests {
 			new Configuration()
 		);
 
-		CoatOfArmsOutputter.OutputCoas(outputModName, titles);
+		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
 
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
@@ -95,7 +97,7 @@ public class CoatOfArmsOutputterTests {
 			new Configuration()
 		);
 
-		CoatOfArmsOutputter.OutputCoas(outputModName, titles);
+		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
 
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);

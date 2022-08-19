@@ -30,6 +30,7 @@ public static class ColoredEmblemsOutputter {
 	}
 
 	public static void CopyColoredEmblems(Configuration config, ModFilesystem imperatorModFS) {
+		Logger.Info("Copying colored emblems...");
 		var coloredEmblemsFolder = Path.Combine("gfx", "coat_of_arms", "colored_emblems");
 		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 
@@ -40,6 +41,7 @@ public static class ColoredEmblemsOutputter {
 			}
 			CopyEmblem(filePath);
 		}
+		Logger.IncrementProgress();
 
 		void CopyEmblem(string emblemFilePath) {
 			var fileName = CommonFunctions.TrimPath(emblemFilePath);
