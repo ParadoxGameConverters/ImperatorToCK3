@@ -32,7 +32,7 @@ public class CoatOfArmsOutputterTests {
 		countries.Add(country);
 
 		const string outputModName = "outputMod";
-		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
+		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "IRToCK3_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		
 		var ck3Religions = new ReligionCollection();
@@ -67,7 +67,7 @@ public class CoatOfArmsOutputterTests {
 	}
 
 	[Fact]
-	public void CoAIsNotOutputtedForCountryWithoutFlagSet() {
+	public void CoaIsNotOutputtedForCountryWithoutFlagSet() {
 		var titles = new Title.LandedTitles();
 
 		var countries = new CountryCollection();
@@ -76,7 +76,7 @@ public class CoatOfArmsOutputterTests {
 		countries.Add(country);
 
 		const string outputModName = "outputMod";
-		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
+		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "IRToCK3_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
 		var ck3Religions = new ReligionCollection();
