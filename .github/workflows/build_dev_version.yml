@@ -27,7 +27,7 @@ jobs:
         - linux-x64
         include:
         - build: win-x64
-          os: windows-2022
+          os: windows-latest
           archive_type: zip
           archive_extension: .zip
         - build: linux-x64
