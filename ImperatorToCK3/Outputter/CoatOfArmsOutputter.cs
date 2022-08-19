@@ -1,17 +1,42 @@
-﻿using ImperatorToCK3.CK3.Titles;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.CK3.Titles;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
-	public static void OutputCoas(string outputModName, Title.LandedTitles titles) {
-		// dumping all into one file
-		var path = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
-		using var output = new StreamWriter(path);
+	public static void OutputCoas(string outputModName, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties) {
+		Logger.Info("Outputting coats of arms...");
+		var coasPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms");
+		
+		// Output CoAs for titles.
+		var path = Path.Combine(coasPath, "IRToCK3_titles.txt");
+		using var titleCoasWriter = new StreamWriter(path);
 		foreach (var title in titles) {
 			var coa = title.CoA;
 			if (coa is not null) {
-				output.WriteLine($"{title.Id}={coa}");
+				titleCoasWriter.WriteLine($"{title.Id}={coa}");
 			}
 		}
+		
+		// Output CoAs for dynasties.
+		path = Path.Combine(coasPath, "IRToCK3_dynasties.txt");
+		using var dynastyCoasWriter = new StreamWriter(path);
+		foreach (var dynasty in dynasties.Where(d=>d.CoA is not null)) {
+			dynastyCoasWriter.WriteLine($"{dynasty.Id}={dynasty.CoA}");
+		}
+		
+		Logger.IncrementProgress();
+	}
+
+	public static void CopyCoaPatterns(string imperatorPath, string outputPath) {
+		Logger.Info("Copying coats of arms patterns...");
+		SystemUtils.TryCopyFolder(
+			Path.Combine(imperatorPath, "game", "gfx", "coat_of_arms", "patterns"),
+			Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns")
+		);
+		Logger.IncrementProgress();
 	}
 }

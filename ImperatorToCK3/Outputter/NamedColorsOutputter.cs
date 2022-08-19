@@ -29,5 +29,7 @@ public static class NamedColorsOutputter {
 			output.WriteLine($"\t{name}={color.OutputRgb()}");
 		}
 		output.WriteLine("}");
+		
+		Logger.IncrementProgress();
 	}
 }

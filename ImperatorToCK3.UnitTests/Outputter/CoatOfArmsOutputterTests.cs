@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
@@ -14,6 +15,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Outputter;
+using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -21,7 +23,7 @@ namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class CoatOfArmsOutputterTests {
 	[Fact]
-	public void CoAIsOutputtedForCountryWithFlagSet() {
+	public void CoaIsOutputtedForCountryWithFlagSet() {
 		var titles = new Title.LandedTitles();
 
 		var countries = new CountryCollection();
@@ -30,7 +32,7 @@ public class CoatOfArmsOutputterTests {
 		countries.Add(country);
 
 		const string outputModName = "outputMod";
-		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
+		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "IRToCK3_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		
 		var ck3Religions = new ReligionCollection();
@@ -48,11 +50,12 @@ public class CoatOfArmsOutputterTests {
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
+			new DynastyCollection(),
 			new Date(400, 1, 1),
 			new Configuration()
 		);
 
-		CoatOfArmsOutputter.OutputCoas(outputModName, titles);
+		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
 
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
@@ -64,7 +67,7 @@ public class CoatOfArmsOutputterTests {
 	}
 
 	[Fact]
-	public void CoAIsNotOutputtedForCountryWithoutFlagSet() {
+	public void CoaIsNotOutputtedForCountryWithoutFlagSet() {
 		var titles = new Title.LandedTitles();
 
 		var countries = new CountryCollection();
@@ -73,7 +76,7 @@ public class CoatOfArmsOutputterTests {
 		countries.Add(country);
 
 		const string outputModName = "outputMod";
-		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "fromImperator.txt");
+		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "IRToCK3_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
 		var ck3Religions = new ReligionCollection();
@@ -91,11 +94,12 @@ public class CoatOfArmsOutputterTests {
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
+			new DynastyCollection(),
 			new Date(400, 1, 1),
 			new Configuration()
 		);
 
-		CoatOfArmsOutputter.OutputCoas(outputModName, titles);
+		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
 
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);

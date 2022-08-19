@@ -3,6 +3,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
@@ -295,6 +296,7 @@ public class CharacterCollectionTests {
 			cultureMapper,
 			nicknameMapper,
 			characters,
+			new DynastyCollection(),
 			conversionDate,
 			config);
 		

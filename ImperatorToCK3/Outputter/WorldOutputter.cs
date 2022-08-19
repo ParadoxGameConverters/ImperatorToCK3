@@ -61,16 +61,10 @@ namespace ImperatorToCK3.Outputter {
 			var outputPath = Path.Combine("output", config.OutputModName);
 
 			NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
-			Logger.IncrementProgress();
 
-			Logger.Info("Copying Coats of Arms...");
 			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorWorld.ModFS);
-			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
-			SystemUtils.TryCopyFolder(
-				Path.Combine(config.ImperatorPath, "game", "gfx", "coat_of_arms", "patterns"),
-				Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns")
-			);
-			Logger.IncrementProgress();
+			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles, ck3World.Dynasties);
+			CoatOfArmsOutputter.CopyCoaPatterns(config.ImperatorPath, outputPath);
 
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder(
