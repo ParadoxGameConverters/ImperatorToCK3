@@ -331,6 +331,7 @@ public partial class Title {
 				++counter;
 			}
 			Logger.Info($"Imported {counter} governorships from I:R.");
+			Logger.IncrementProgress();
 		}
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
@@ -389,7 +390,7 @@ public partial class Title {
 		}
 
 		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
-			Logger.Info("Removing invalid landless titles.");
+			Logger.Info("Removing invalid landless titles...");
 			var removedGeneratedTitles = new HashSet<string>();
 			var revokedVanillaTitles = new HashSet<string>();
 
@@ -421,6 +422,8 @@ public partial class Title {
 			if (revokedVanillaTitles.Count > 0) {
 				Logger.Debug($"Found landless vanilla titles that can't be landless: {string.Join(", ", revokedVanillaTitles)}");
 			}
+
+			Logger.IncrementProgress();
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate) {
@@ -448,6 +451,7 @@ public partial class Title {
 					duchy.DeJureLiege = this[biggestShare.Key];
 				}
 			}
+			Logger.IncrementProgress();
 
 			Logger.Info("Setting de jure empires...");
 			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
@@ -477,6 +481,7 @@ public partial class Title {
 				}
 				kingdom.DeJureLiege = this[empireId];
 			}
+			Logger.IncrementProgress();
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
@@ -550,6 +555,8 @@ public partial class Title {
 				county.History.Fields.Remove("development_level");
 				county.History.AddFieldValue(date, "development_level", "change_development_level", (int)dev);
 			}
+
+			Logger.IncrementProgress();
 		}
 
 		public IEnumerable<Title> GetCountriesImportedFromImperator() {

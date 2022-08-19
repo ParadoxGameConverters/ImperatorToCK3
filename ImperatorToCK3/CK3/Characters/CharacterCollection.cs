@@ -224,6 +224,8 @@ namespace ImperatorToCK3.CK3.Characters {
 					female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate, unborn.IsBastard));
 				}
 			}
+				
+			Logger.IncrementProgress();
 		}
 
 		public void PurgeUnneededCharacters(Title.LandedTitles titles) {
@@ -261,6 +263,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;
 			}
+				
+			Logger.IncrementProgress();
 		}
 
 		/// <summary>
@@ -307,6 +311,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				var ruler = this[rulerId];
 				AddGoldToCharacter(ruler, imperatorGold);
 			}
+
+			Logger.IncrementProgress();
 		}
 
 		public void ImportLegions(

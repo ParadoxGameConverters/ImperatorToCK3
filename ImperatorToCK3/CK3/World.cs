@@ -221,6 +221,7 @@ namespace ImperatorToCK3.CK3 {
 					}
 				}
 			}
+			Logger.IncrementProgress();
 
 			bool TryGiveCountyToMonarch(Title county, Country impCountry) {
 				var ck3Country = impCountry.CK3Title;

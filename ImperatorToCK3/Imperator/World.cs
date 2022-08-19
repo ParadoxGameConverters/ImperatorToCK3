@@ -103,11 +103,13 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading Families...");
 				Families = FamilyCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {Families.Count} families.");
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("character", reader => {
 				Logger.Info("Loading Characters...");
 				Characters = CharacterCollection.ParseBloc(reader, genesDB);
 				Logger.Info($"Loaded {Characters.Count} characters.");
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces...");
@@ -127,16 +129,19 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {Countries.Count} countries.");
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("population", reader => {
 				Logger.Info("Loading Pops...");
 				pops = PopCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {pops.Count} pops.");
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("jobs", reader => {
 				Logger.Info("Loading Jobs...");
 				Jobs = new Jobs.Jobs(reader);
 				Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("deity_manager", reader => {
 				Religions!.LoadHolySiteDatabase(reader);
@@ -158,6 +163,7 @@ namespace ImperatorToCK3.Imperator {
 
 			Logger.Info("Verifying Imperator save...");
 			VerifySave(config.SaveGamePath);
+			Logger.IncrementProgress();
 
 			ParseStream(ProcessSave(config.SaveGamePath));
 			ClearRegisteredRules();
@@ -262,6 +268,7 @@ namespace ImperatorToCK3.Imperator {
 
 		private void LoadModFilesystemDependentData() {
 			scriptValues.LoadScriptValues(ModFS);
+			Logger.IncrementProgress();
 			Defines.LoadDefines(ModFS);
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
 			
@@ -272,6 +279,7 @@ namespace ImperatorToCK3.Imperator {
 			Religions.LoadReligions(ModFS);
 			
 			LocDB.ScrapeLocalizations(ModFS);
+			Logger.IncrementProgress();
 		}
 
 		private BufferedReader ProcessSave(string saveGamePath) {

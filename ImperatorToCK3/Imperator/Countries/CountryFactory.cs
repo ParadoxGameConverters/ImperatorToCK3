@@ -129,6 +129,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			});
 			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			fileParser.ParseGameFolder("common/governments", imperatorModFS, "txt", true);
+			Logger.IncrementProgress();
 
 			static void AddRepublicGovernment(string name) {
 				republicGovernments.Add(name);

@@ -29,6 +29,8 @@ namespace ImperatorToCK3 {
 			VerifyImperatorVersion(converterVersion);
 			VerifyCK3Path();
 			VerifyCK3Version(converterVersion);
+
+			Logger.IncrementProgress();
 		}
 
 		private void RegisterKeys(Parser parser) {
