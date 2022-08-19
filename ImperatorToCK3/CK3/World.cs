@@ -117,6 +117,7 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				nicknameMapper,
 				Characters,
+				Dynasties,
 				CorrectedDate,
 				config
 			);

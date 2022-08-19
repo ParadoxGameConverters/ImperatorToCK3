@@ -3,6 +3,7 @@ using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
@@ -23,8 +24,8 @@ public static class CoatOfArmsOutputter {
 		// Output CoAs for dynasties.
 		path = Path.Combine(coasPath, "IRToCK3_dynasties.txt");
 		using var dynastyCoasWriter = new StreamWriter(path);
-		foreach (var dynasty in dynasties) {
-			dynastyCoasWriter.WriteLine($"{dynasty.Id}=e_roman_empire");
+		foreach (var dynasty in dynasties.Where(d=>d.CoA is not null)) {
+			dynastyCoasWriter.WriteLine($"{dynasty.Id}={dynasty.CoA}");
 		}
 		
 		Logger.IncrementProgress();

@@ -45,4 +45,5 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("culture")] public string? Culture { get; set; }
 
 	[NonSerialized] public KeyValuePair<string, LocBlock> Localization { get; } = new();
+	[NonSerialized] public StringOfItem? CoA { get; set; }
 }

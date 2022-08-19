@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
@@ -200,6 +201,7 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
+			DynastyCollection dynasties,
 			Date conversionDate,
 			Configuration config
 		) {
@@ -210,7 +212,7 @@ public partial class Title {
 			var counter = 0;
 			// We don't need pirates, barbarians etc.
 			foreach (var country in imperatorCountries.Where(c => c.CountryType == CountryType.real)) {
-				ImportImperatorCountry(
+				var title = ImportImperatorCountry(
 					country,
 					imperatorCountries,
 					tagTitleMapper,
@@ -228,11 +230,16 @@ public partial class Title {
 					config
 				);
 				++counter;
+				
+				var dynastyId = country.Monarch?.CK3Character?.DynastyId;
+				if (dynastyId is not null && dynasties.TryGetValue(dynastyId, out var dynasty) && dynasty.CoA is null) {
+					dynasty.CoA = new StringOfItem(title.Id);
+				}
 			}
 			Logger.Info($"Imported {counter} countries from I:R.");
 		}
 
-		private void ImportImperatorCountry(
+		private Title ImportImperatorCountry(
 			Country country,
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
@@ -249,9 +256,10 @@ public partial class Title {
 			Date conversionDate,
 			Configuration config
 		) {
-			// Create a new title or update existing title
+			// Create a new title or update existing title.
 			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
 
+			Title title;
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
 					country,
@@ -269,8 +277,9 @@ public partial class Title {
 					conversionDate,
 					config
 				);
+				title = existingTitle;
 			} else {
-				Add(
+				title = Add(
 					country,
 					imperatorCountries,
 					locDB,
@@ -288,6 +297,8 @@ public partial class Title {
 					config
 				);
 			}
+
+			return title;
 		}
 
 		public void ImportImperatorGovernorships(
