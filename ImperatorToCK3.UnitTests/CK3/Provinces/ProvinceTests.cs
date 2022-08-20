@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
-	private Date ck3BookmarkDate = "476.1.1";
+	private readonly Date ck3BookmarkDate = "476.1.1";
 	
 	[Fact]
 	public void FieldsCanBeSet() {

@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 public class ProvincesTests {
 	private const string CK3Root = "TestFiles/CK3ProvincesTests";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
-	private Date ck3BookmarkDate = new("867.1.1");
+	private readonly Date ck3BookmarkDate = new("867.1.1");
 	
 	[Fact]
 	public void ProvincesDefaultToEmpty() {
