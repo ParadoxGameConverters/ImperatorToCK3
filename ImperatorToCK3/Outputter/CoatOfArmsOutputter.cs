@@ -11,21 +11,20 @@ public static class CoatOfArmsOutputter {
 		Logger.Info("Outputting coats of arms...");
 		var coasPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms");
 		
+		var path = Path.Combine(coasPath, "IRToCK3_coas.txt");
+		using var coasWriter = new StreamWriter(path);
+		
 		// Output CoAs for titles.
-		var path = Path.Combine(coasPath, "IRToCK3_titles.txt");
-		using var titleCoasWriter = new StreamWriter(path);
 		foreach (var title in titles) {
 			var coa = title.CoA;
 			if (coa is not null) {
-				titleCoasWriter.WriteLine($"{title.Id}={coa}");
+				coasWriter.WriteLine($"{title.Id}={coa}");
 			}
 		}
 		
 		// Output CoAs for dynasties.
-		path = Path.Combine(coasPath, "IRToCK3_dynasties.txt");
-		using var dynastyCoasWriter = new StreamWriter(path);
 		foreach (var dynasty in dynasties.Where(d=>d.CoA is not null)) {
-			dynastyCoasWriter.WriteLine($"{dynasty.Id}={dynasty.CoA}");
+			coasWriter.WriteLine($"{dynasty.Id}={dynasty.CoA}");
 		}
 		
 		Logger.IncrementProgress();
