@@ -83,19 +83,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				new ProvinceMapper(),
 				new Configuration()
 			);
-			Assert.Equal("imperatorRegnalSPAAlexander504.1.1BC", ck3RulerTerm.CharacterId);
+			Assert.Equal("imperatorRegnalSPAAlexander504_1_1BC", ck3RulerTerm.CharacterId);
 			Assert.Equal(new Date(250, 1, 1, AUC: true), ck3RulerTerm.StartDate);
 			var ruler = ck3RulerTerm.PreImperatorRuler;
 			Assert.NotNull(ruler);
 			Assert.Equal("Alexander", ruler.Name);
 
-			var ck3Character = ck3Characters["imperatorRegnalSPAAlexander504.1.1BC"];
+			var ck3Character = ck3Characters["imperatorRegnalSPAAlexander504_1_1BC"];
 			Assert.Equal("-554.1.1", ck3Character.BirthDate);
 			Assert.Equal("-454.1.1", ck3Character.DeathDate);
 			Assert.Equal("Alexander", ck3Character.Name);
 			Assert.Equal("dull", ck3Character.Nickname);
-			Assert.Equal("greek", ck3Character.Culture);
-			Assert.Equal("hellenic", ck3Character.Religion);
+			Assert.Equal("greek", ck3Character.CultureId);
+			Assert.Equal("hellenic", ck3Character.FaithId);
 		}
 	}
 }

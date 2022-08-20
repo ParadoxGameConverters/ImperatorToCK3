@@ -300,7 +300,7 @@ public class CharacterCollectionTests {
 			conversionDate,
 			config);
 		
-		var provinces = new ProvinceCollection(ck3ModFs, conversionDate);
+		var provinces = new ProvinceCollection(ck3ModFs);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 		
 		titles.ImportImperatorGovernorships(

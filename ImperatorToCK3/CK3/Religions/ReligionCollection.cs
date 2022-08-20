@@ -154,9 +154,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		ProvinceCollection ck3Provinces,
 		Title.LandedTitles titles,
 		Imperator.Religions.ReligionCollection imperatorReligions,
-		HolySiteEffectMapper holySiteEffectMapper
+		HolySiteEffectMapper holySiteEffectMapper,
+		Date date
 	) {
-		var provincesByFaith = GetProvincesByFaith(ck3Provinces);
+		var provincesByFaith = GetProvincesFromImperatorByFaith(ck3Provinces, date);
 		
 		foreach (var faith in Faiths) {
 			if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
@@ -213,7 +214,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 
 	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith
-	public static IDictionary<string, ISet<Province>> GetProvincesByFaith(ProvinceCollection ck3Provinces) {
+	public static IDictionary<string, ISet<Province>> GetProvincesFromImperatorByFaith(ProvinceCollection ck3Provinces, Date date) {
 		var provincesByFaith = new Dictionary<string, ISet<Province>>();
 
 		foreach (var province in ck3Provinces) {
@@ -222,7 +223,11 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				continue;
 			}
 
-			var faith = province.FaithId;
+			var faith = province.GetFaithId(date);
+			if (faith is null) {
+				Logger.Warn($"Province {province.Id} has no faith!");
+				continue;
+			}
 			if (provincesByFaith.TryGetValue(faith, out var set)) {
 				set.Add(province);
 			} else {

@@ -16,7 +16,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		if (imperatorMembers.Count > 0) {
 			Imperator.Characters.Character? firstMember = imperatorMembers[0] as Imperator.Characters.Character;
 			if (firstMember?.CK3Character is not null) {
-				Culture = firstMember.CK3Character.Culture; // make head's culture the dynasty culture
+				Culture = firstMember.CK3Character.CultureId; // make head's culture the dynasty culture
 			}
 		} else {
 			Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");

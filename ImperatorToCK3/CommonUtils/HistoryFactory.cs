@@ -68,23 +68,17 @@ public sealed class HistoryFactory {
 				});
 			}
 		}
-		parser.RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
+		parser.RegisterRegex(CommonRegexes.Date, (dateBlockReader, dateString) => {
 			var date = new Date(dateString);
 
 			var dateBlockParser = new Parser();
 			foreach (var field in history.Fields) {
 				field.RegisterKeywords(dateBlockParser, date);
 			}
-			dateBlockParser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
-				history.IgnoredKeywords.Add(keyword);
-				ParserHelpers.IgnoreItem(reader);
-			});
-			dateBlockParser.ParseStream(reader);
+			dateBlockParser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
+			dateBlockParser.ParseStream(dateBlockReader);
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
-			history.IgnoredKeywords.Add(keyword);
-			ParserHelpers.IgnoreItem(reader);
-		});
+		parser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
 	}
 
 	private void InitializeHistory() {
@@ -149,7 +143,7 @@ public sealed class HistoryFactory {
 			return strings;
 		}
 
-		return StringUtils.RemQuotes(str);
+		return str;
 	}
 
 	private readonly List<SimpleFieldDef> simpleFieldDefs;

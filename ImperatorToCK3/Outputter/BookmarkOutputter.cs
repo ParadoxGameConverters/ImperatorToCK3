@@ -65,9 +65,9 @@ namespace ImperatorToCK3.Outputter {
 					output.WriteLine($"\t\tgovernment = {gov}");
 				}
 
-				output.WriteLine($"\t\tculture = {holder.Culture}");
-				if (!string.IsNullOrEmpty(holder.Religion)) {
-					output.WriteLine($"\t\treligion={holder.Religion}");
+				output.WriteLine($"\t\tculture = {holder.CultureId}");
+				if (!string.IsNullOrEmpty(holder.FaithId)) {
+					output.WriteLine($"\t\treligion={holder.FaithId}");
 				}
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
 				WritePosition(output, title, config, provincePositions);

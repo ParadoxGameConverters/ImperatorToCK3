@@ -49,17 +49,24 @@ public class ReligionCollectionTests {
 
 	[Fact]
 	public void ProvincesCanBeGroupedByFaith() {
+		var date = new Date("476.1.1");
+		
 		var impProv1 = new ImperatorToCK3.Imperator.Provinces.Province(1);
-		var prov1 = new Province(1) {FaithId = "faith1", ImperatorProvince = impProv1};
+		var prov1 = new Province(1) {ImperatorProvince = impProv1};
+		prov1.SetFaithId("faith1", date: null);
 		var impProv2 = new ImperatorToCK3.Imperator.Provinces.Province(2);
-		var prov2 = new Province(2) {FaithId = "faith1", ImperatorProvince = impProv2};
+		var prov2 = new Province(2) {ImperatorProvince = impProv2};
+		prov2.SetFaithId("faith1", date);
 		var impProv3 = new ImperatorToCK3.Imperator.Provinces.Province(3);
-		var prov3 = new Province(3) {FaithId = "faith2", ImperatorProvince = impProv3};
-		var prov4 = new Province(4) {FaithId = "faith2"}; // has no Imperator province, won't be considered
-		var prov5 = new Province(5) {FaithId = "faith3"}; // has no Imperator province, won't be considered
+		var prov3 = new Province(3) {ImperatorProvince = impProv3};
+		prov3.SetFaithId("faith2", date);
+		var prov4 = new Province(4); // has no Imperator province, won't be considered
+		prov4.SetFaithId("faith2", date);
+		var prov5 = new Province(5); // has no Imperator province, won't be considered
+		prov5.SetFaithId("faith2", date);
 
 		var provinces = new ProvinceCollection {prov1, prov2, prov3, prov4, prov5};
-		var provsByFaith = ReligionCollection.GetProvincesByFaith(provinces);
+		var provsByFaith = ReligionCollection.GetProvincesFromImperatorByFaith(provinces, date);
 
 		provsByFaith.Should().HaveCount(2);
 		provsByFaith["faith1"].Should().Equal(prov1, prov2);
@@ -78,7 +85,8 @@ public class ReligionCollectionTests {
 				imperatorProv.HolySiteId = provId;
 			}
 
-			var ck3Prov = new Province(provId) {FaithId = "ck3Faith", ImperatorProvince = imperatorProv};
+			var ck3Prov = new Province(provId) {ImperatorProvince = imperatorProv};
+			ck3Prov.SetFaithId("ck3Faith", date: null);
 			return ck3Prov;
 		}
 
@@ -147,7 +155,8 @@ public class ReligionCollectionTests {
 			provinces,
 			titles,
 			imperatorReligions,
-			new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt")
+			new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt"),
+			new Date("476.1.1")
 		);
 
 		faith.HolySiteIds.Should().Equal(

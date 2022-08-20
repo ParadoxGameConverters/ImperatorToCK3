@@ -17,18 +17,29 @@ public interface IHistoryField : IIdentifiable<string> {
 			DateToEntriesDict.Remove(item.Key);
 		}
 	}
-	public void AddEntryToHistory(Date date, string keyword, object value);
+	public void AddEntryToHistory(Date? date, string keyword, object value);
+
+	/// <summary>
+	/// Removes all entries
+	/// </summary>
+	public void RemoveAll() {
+		RemoveAll(_ => true);
+	}
 
 	/// <summary>
 	/// Removes all entries with values matching the predicate
 	/// </summary>
 	/// <param name="predicate"></param>
 	public void RemoveAll(Func<object, bool> predicate) {
-		InitialEntries.RemoveAll(kv => predicate(kv.Value));
+		InitialEntries.RemoveAll(kvp => predicate(kvp.Value));
 		foreach (var datedEntriesBlock in DateToEntriesDict) {
-			datedEntriesBlock.Value.RemoveAll(kv => predicate(kv.Value));
+			datedEntriesBlock.Value.RemoveAll(kvp => predicate(kvp.Value));
 		}
 	}
 
 	public void RegisterKeywords(Parser parser, Date date);
+
+	public IEnumerable<KeyValuePair<string, object>> InitialEntriesForSerialization => InitialEntries;
+
+	public IHistoryField Clone();
 }

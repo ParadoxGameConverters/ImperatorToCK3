@@ -124,7 +124,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 			// Some of it will be overwritten, but not all.
-			Provinces.ImportVanillaProvinces(ModFS, config.CK3BookmarkDate);
+			Provinces.ImportVanillaProvinces(ModFS);
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, config);
@@ -153,8 +153,10 @@ namespace ImperatorToCK3.CK3 {
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
 
+			HandleIceland(config);
+
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
-			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper);
+			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
 		}
 
 		private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS, ScriptValueCollection scriptValues) {
@@ -314,6 +316,42 @@ namespace ImperatorToCK3.CK3 {
 				county.SetHolder(governor, holderChangeDate);
 				county.SetDeFactoLiege(ck3Country, holderChangeDate);
 			}
+		}
+
+		private void HandleIceland(Configuration config) {
+			Logger.Info("Handling Iceland...");
+			// Iceland should be owned by Papar until around 830
+			var bookmarkDate = config.CK3BookmarkDate;
+			if (bookmarkDate.Year is > 40 and < 830) {
+				Logger.Info("Giving Iceland to Papar...");
+				var icelandDuchy = LandedTitles["d_iceland"];
+				
+				// Generate papar character to rule Iceland.
+				const string insular = "insular_celtic";
+				const string irish = "irish";
+				var paparDude = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60)) {
+					FaithId = insular,
+					CultureId = irish
+				};
+				var paparFlagEffect = new StringOfItem("{ set_variable = IRToCK3_papar_flag }");
+				paparDude.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", paparFlagEffect);
+				Characters.Add(paparDude);
+				
+				icelandDuchy.SetHolder(paparDude, bookmarkDate);
+				icelandDuchy.SetGovernment("eremitic_government", bookmarkDate);
+				foreach (var county in icelandDuchy.DeJureVassals) {
+					county.SetHolder(paparDude, bookmarkDate);
+					county.SetDevelopmentLevel(0, bookmarkDate);
+					foreach (var provinceId in county.CountyProvinces) {
+						var province = Provinces[provinceId];
+						province.History.RemoveHistoryPastDate("1.1.1");
+						province.SetFaithId(insular, date: null);
+						province.SetCultureId(irish, date: null);
+						province.SetBuildings(new List<string>(), date: null);
+					}
+				}
+			}
+			Logger.IncrementProgress();
 		}
 
 		private readonly CoaMapper coaMapper;
