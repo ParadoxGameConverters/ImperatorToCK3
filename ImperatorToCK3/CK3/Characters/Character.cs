@@ -86,7 +86,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,
 			Configuration config
 		) {
-			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC";
+			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC".Replace('.', '_');
 			FromImperator = true;
 			Name = preImperatorRuler.Name ?? Id;
 			if (!string.IsNullOrEmpty(Name)) {
