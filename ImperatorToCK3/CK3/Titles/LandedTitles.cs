@@ -230,10 +230,13 @@ public partial class Title {
 					config
 				);
 				++counter;
-				
-				var dynastyId = country.Monarch?.CK3Character?.DynastyId;
-				if (dynastyId is not null && dynasties.TryGetValue(dynastyId, out var dynasty) && dynasty.CoA is null) {
-					dynasty.CoA = new StringOfItem(title.Id);
+
+				if (title.CoA is not null) {
+					// Try to use title CoA for dynasty CoA.
+					var dynastyId = country.Monarch?.CK3Character?.DynastyId;
+					if (dynastyId is not null && dynasties.TryGetValue(dynastyId, out var dynasty) && dynasty.CoA is null) {
+						dynasty.CoA = new StringOfItem(title.Id);
+					}
 				}
 			}
 			Logger.Info($"Imported {counter} countries from I:R.");

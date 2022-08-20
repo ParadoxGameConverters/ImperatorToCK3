@@ -28,7 +28,6 @@
 	ai = {
 		use_lifestyle = yes
 		imprison = no				# Imprison & release from prison
-		start_murders = no
 		arrange_marriage = no			# Actively arrange marriages. Can still receive marriage requests if disabled.
 		use_goals = no					# Use longterm goals (build holdings, perform major decisions, ...)
 		use_decisions = no				# Use minor decisions
