@@ -10,11 +10,16 @@ public partial class Title {
 		}
 		return "0";
 	}
+	
 	public string? GetGovernment(Date date) {
 		if (History.GetFieldValue("government", date) is string govStr) {
 			return govStr;
 		}
 		return null;
+	}
+
+	public void SetGovernment(string governmentId, Date date) {
+		History.AddFieldValue(date, "government", "government", governmentId);
 	}
 
 	public string? GetLiege(Date date) {

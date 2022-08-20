@@ -35,14 +35,18 @@ public class SimpleHistoryField : IHistoryField {
 		return GetLastEntry(date)?.Value;
 	}
 
-	public void AddEntryToHistory(Date date, string setter, object value) {
+	public void AddEntryToHistory(Date? date, string setter, object value) {
 		if (!setterKeywords.Contains(setter)) {
 			Logger.Warn($"Setter {setter} does not belong to history field's setters!");
 		}
 
-		DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
-			new(setter, value)
-		};
+		if (date is null) {
+			InitialEntries.Add(new KeyValuePair<string, object>(setter, value));
+		} else {
+			DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
+				new(setter, value)
+			};
+		}
 	}
 
 	public void RegisterKeywords(Parser parser, Date date) {
@@ -54,4 +58,6 @@ public class SimpleHistoryField : IHistoryField {
 			});
 		}
 	}
+
+	public IEnumerable<KeyValuePair<string, object>> InitialEntriesForSerialization => InitialEntries.TakeLast(1);
 }

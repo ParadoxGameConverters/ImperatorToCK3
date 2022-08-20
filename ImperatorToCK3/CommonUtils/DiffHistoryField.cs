@@ -48,15 +48,20 @@ internal class DiffHistoryField : IHistoryField {
 		return toReturn;
 	}
 	
-	public void AddEntryToHistory(Date date, string keyword, object value) {
+	public void AddEntryToHistory(Date? date, string keyword, object value) {
 		if (insertKeywords.Contains(keyword) || removeKeywords.Contains(keyword)) {
 			var newEntry = new KeyValuePair<string, object>(keyword, value);
-			if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
-				entriesList.Add(newEntry);
+
+			if (date is null) {
+				InitialEntries.Add(newEntry);
 			} else {
-				DateToEntriesDict.Add(date, new List<KeyValuePair<string, object>> {
-					newEntry
-				});
+				if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+					entriesList.Add(newEntry);
+				} else {
+					DateToEntriesDict.Add(date, new List<KeyValuePair<string, object>> {
+						newEntry
+					});
+				}
 			}
 		} else {
 			Logger.Warn($"Keyword {keyword} is not an insert or remove keyword for field {Id}!");

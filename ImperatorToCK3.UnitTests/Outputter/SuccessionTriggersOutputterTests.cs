@@ -40,12 +40,12 @@ public class SuccessionTriggersOutputterTests {
 		var reader = new StreamReader(file);
 		Assert.Equal("historical_succession_access_single_heir_succession_law_trigger={", reader.ReadLine());
 		Assert.Equal("\tOR={", reader.ReadLine());
-		Assert.Equal($"\t\thas_title=title:{kingdomPrimogeniture.Id}", reader.ReadLine());
+		Assert.Equal("\t\thas_title=title:k_kingdom1", reader.ReadLine());
 		Assert.Equal("\t}", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.Equal("historical_succession_access_single_heir_dynasty_house_trigger={", reader.ReadLine());
 		Assert.Equal("\tOR={", reader.ReadLine());
-		Assert.Equal($"\t\thas_title=title:{kingdomSeniority.Id}", reader.ReadLine());
+		Assert.Equal("\t\thas_title=title:k_kingdom2", reader.ReadLine());
 		Assert.Equal("\t}", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);

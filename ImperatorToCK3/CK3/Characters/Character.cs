@@ -22,8 +22,8 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string Id { get; }
 		public bool FromImperator { get; } = false;
 		public bool Female { get; init; }
-		public string Culture { get; set; } = string.Empty;
-		public string Religion { get; set; } = string.Empty;
+		public string CultureId { get; set; } = string.Empty;
+		public string FaithId { get; set; } = string.Empty;
 		public string Name { get; set; }
 		public string? Nickname { get; set; }
 		public double? Gold { get; set; }
@@ -119,14 +119,14 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (srcReligion is not null) {
 				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, config);
 				if (religionMatch is not null) {
-					Religion = religionMatch;
+					FaithId = religionMatch;
 				}
 			}
 
 			if (srcCulture is not null) {
-				var cultureMatch = cultureMapper.Match(srcCulture, Religion, ck3Province, impProvince, imperatorCountry.HistoricalTag);
+				var cultureMatch = cultureMapper.Match(srcCulture, FaithId, ck3Province, impProvince, imperatorCountry.HistoricalTag);
 				if (cultureMatch is not null) {
-					Culture = cultureMatch;
+					CultureId = cultureMatch;
 				}
 			}
 
@@ -198,12 +198,12 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, config);
 			if (match is not null) {
-				Religion = match;
+				FaithId = match;
 			}
 
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
-				Religion, ck3Province,
+				FaithId, ck3Province,
 				ImperatorCharacter.ProvinceId,
 				ImperatorCharacter.Country?.HistoricalTag ?? string.Empty
 			);
@@ -211,7 +211,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter.Id}" +
 							$" with culture {ImperatorCharacter.Culture}!");
 			} else {
-				Culture = match;
+				CultureId = match;
 			}
 
 			foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {

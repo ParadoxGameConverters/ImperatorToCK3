@@ -13,15 +13,15 @@ namespace ImperatorToCK3.CK3.Provinces;
 
 public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public ProvinceCollection() { }
-	public ProvinceCollection(ModFilesystem ck3ModFs, Date ck3BookmarkDate) {
-		LoadProvinces(ck3ModFs, ck3BookmarkDate);
+	public ProvinceCollection(ModFilesystem ck3ModFs) {
+		LoadProvinces(ck3ModFs);
 	}
 
-	private void LoadProvinces(ModFilesystem ck3ModFs, Date ck3BookmarkDate) {
+	private void LoadProvinces(ModFilesystem ck3ModFs) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
 			var provinceId = ulong.Parse(provinceIdString);
-			var newProvince = new Province(provinceId, reader, ck3BookmarkDate);
+			var newProvince = new Province(provinceId, reader);
 
 			if (ContainsKey(newProvince.Id)) {
 				Logger.Warn($"Vanilla province duplication - {newProvince.Id} already loaded! Overwriting.");
@@ -33,12 +33,12 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
-	public void ImportVanillaProvinces(ModFilesystem ck3ModFs, Date ck3BookmarkDate) {
+	public void ImportVanillaProvinces(ModFilesystem ck3ModFs) {
 		var existingProvinceDefinitionsCount = Count;
 		Logger.Info("Importing vanilla provinces...");
 		
 		// Load history/provinces.
-		LoadProvinces(ck3ModFs, ck3BookmarkDate);
+		LoadProvinces(ck3ModFs);
 
 		// Now load the provinces that don't have unique entries in history/provinces.
 		// They instead use history/province_mapping.

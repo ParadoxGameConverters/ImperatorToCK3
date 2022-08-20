@@ -221,7 +221,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithReligionMapper(religionMapper)
 				.Build();
-			Assert.Equal("orthodox", character.Religion);
+			Assert.Equal("orthodox", character.FaithId);
 		}
 
 		[Fact]
@@ -239,7 +239,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithImperatorCharacter(imperatorCharacter)
 				.WithCultureMapper(cultureMapper)
 				.Build();
-			Assert.Equal("greek", character.Culture);
+			Assert.Equal("greek", character.CultureId);
 		}
 
 		[Fact]
@@ -282,8 +282,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithCultureMapper(cultureMapper)
 				.Build();
 
-			Assert.Equal("macedonian", character1.Culture);
-			Assert.Equal("greek", character2.Culture);
+			Assert.Equal("macedonian", character1.CultureId);
+			Assert.Equal("greek", character2.CultureId);
 		}
 
 		[Fact]

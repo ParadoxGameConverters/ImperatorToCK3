@@ -1,4 +1,4 @@
-﻿papar_government = {
+﻿eremitic_government = {
 	create_cadet_branches = no
 	religious = yes
 	rulers_should_have_dynasty = no
@@ -37,7 +37,10 @@
 	}
 
 	character_modifier = {
-		# TODO: add modifiers
+		development_growth_factor = -0.99
+		levy_size = -0.99
+		levy_reinforcement_rate = -0.99
+		tax_mult = -0.99
 	}
 
 	color = rgb { 153 204 0 }

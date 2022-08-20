@@ -94,8 +94,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.Equal("-454.1.1", ck3Character.DeathDate);
 			Assert.Equal("Alexander", ck3Character.Name);
 			Assert.Equal("dull", ck3Character.Nickname);
-			Assert.Equal("greek", ck3Character.Culture);
-			Assert.Equal("hellenic", ck3Character.Religion);
+			Assert.Equal("greek", ck3Character.CultureId);
+			Assert.Equal("hellenic", ck3Character.FaithId);
 		}
 	}
 }
