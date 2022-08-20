@@ -19,6 +19,15 @@ internal class DiffHistoryField : IHistoryField {
 		this.insertKeywords = insertKeywords;
 		this.removeKeywords = removeKeywords;
 	}
+	private DiffHistoryField(DiffHistoryField baseField) {
+		Id = baseField.Id;
+		insertKeywords = new OrderedSet<string>(baseField.insertKeywords);
+		removeKeywords = new OrderedSet<string>(baseField.removeKeywords);
+		InitialEntries = new List<KeyValuePair<string, object>>(baseField.InitialEntries);
+		foreach (var (date, entries) in baseField.DateToEntriesDict) {
+			DateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
+		}
+	}
 
 	private void AddOrRemoveToValueSet(OrderedSet<object> valueSet, string keyword, object value) {
 		if (insertKeywords.Contains(keyword)) {
@@ -82,4 +91,6 @@ internal class DiffHistoryField : IHistoryField {
 			});
 		}
 	}
+	
+	public IHistoryField Clone() => new DiffHistoryField(this);
 }

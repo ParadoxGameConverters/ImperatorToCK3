@@ -12,6 +12,12 @@ public class History : IPDXSerializable {
 	[NonSerialized] public OrderedSet<string> IgnoredKeywords { get; } = new();
 
 	public History() { }
+
+	public History(History baseHistory) {
+		foreach (var field in baseHistory.Fields) {
+			Fields.Add(field.Clone());
+		}
+	}
 	public History(IdObjectCollection<string, IHistoryField> fields) {
 		Fields = fields;
 	}

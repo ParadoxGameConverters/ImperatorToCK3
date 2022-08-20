@@ -1,11 +1,9 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces;
@@ -20,9 +18,7 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 	public Province(ulong id, Province otherProvince): this(id) {
 		BaseProvinceId = otherProvince.Id;
-		// TODO: deep copy history
-		throw new NotImplementedException();
-		History = otherProvince.History;
+		History = new History(otherProvince.History);
 	}
 
 	public void InitializeFromImperator(

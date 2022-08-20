@@ -40,4 +40,6 @@ public interface IHistoryField : IIdentifiable<string> {
 	public void RegisterKeywords(Parser parser, Date date);
 
 	public IEnumerable<KeyValuePair<string, object>> InitialEntriesForSerialization => InitialEntries;
+
+	public IHistoryField Clone();
 }
