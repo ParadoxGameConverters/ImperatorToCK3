@@ -323,7 +323,7 @@ namespace ImperatorToCK3.CK3 {
 			// Iceland should be owned by Papar until around 830
 			var bookmarkDate = config.CK3BookmarkDate;
 			if (bookmarkDate.Year is > 40 and < 830) {
-				Logger.Debug("Giving Iceland to Papar...");
+				Logger.Info("Giving Iceland to Papar...");
 				var icelandDuchy = LandedTitles["d_iceland"];
 				
 				// Generate papar character to rule Iceland.
