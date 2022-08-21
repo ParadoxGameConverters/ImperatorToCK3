@@ -81,6 +81,13 @@ gundemar_male = {
 	# converter
 	Gundmar
 }
+theobald_male = {
+	# vanilla
+	Teobald Teobaldo Teobaldu Tetbald Theobald ThiE_baut Thiadbold Thibault Tibaldo Tibalt Tibaud Tibault Tybalt Tybaut
+	# converter
+	Theobold Theodobald
+}
+
 
 
 # FEMALE
