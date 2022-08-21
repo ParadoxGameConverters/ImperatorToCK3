@@ -333,11 +333,9 @@ namespace ImperatorToCK3.CK3 {
 
 			switch (year) {
 				case <= 300:
-					Logger.Info("Giving Iceland to pagan Gaels...");
 					MakePaganRuler();
 					break;
 				case > 300 and < 850: // Iceland should be owned by Papar until around 850.
-					Logger.Info("Giving Iceland to Papar...");
 					faithCandidates = new OrderedSet<string> {"insular_celtic", "catholic", "orthodox"};
 					var christianFaiths = Religions["christianity_religion"].Faiths;
 					
@@ -382,11 +380,12 @@ namespace ImperatorToCK3.CK3 {
 						// Give up and create a pagan ruler.
 						MakePaganRuler();
 					} else {
+						Logger.Info("Giving Iceland to Papar...");
 						icelandRuler = new Character("IRToCK3_iceland_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60));
 						icelandRuler.History.AddFieldValue(null, "traits", "trait", "devoted");
 					}
 					break;
-				case >= 850:
+				default:
 					Logger.Info("Keeping Iceland as is in history...");
 					// Let CK3 use Norse ruler from its history.
 					break;
@@ -420,6 +419,7 @@ namespace ImperatorToCK3.CK3 {
 			Logger.IncrementProgress();
 
 			void MakePaganRuler() {
+				Logger.Info("Giving Iceland to pagan Gaels...");
 				faithCandidates = new OrderedSet<string> {"gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan"};
 				cultureId = "gaelic";
 				// ReSharper disable once StringLiteralTypo
