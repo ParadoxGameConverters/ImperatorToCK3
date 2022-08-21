@@ -75,6 +75,18 @@ theodat_male = {
 	# converter
 	Bel-iddin Deodatus Adeodatus
 }
+gundemar_male = {
+	# vanilla
+	Gundemar Gundemaro Gundemaru
+	# converter
+	Gundmar
+}
+theobald_male = {
+	# vanilla
+	Teobald Teobaldo Teobaldu Tetbald Theobald ThiE_baut Thiadbold Thibault Tibaldo Tibalt Tibaud Tibault Tybalt Tybaut
+	# converter
+	Theobold Theodobald
+}
 
 
 
