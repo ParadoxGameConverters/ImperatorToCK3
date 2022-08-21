@@ -13,10 +13,10 @@ public class Defines {
 		Logger.Info("Loading Imperator defines...");
 		
 		var definesFiles = imperatorModFs.GetAllFilesInFolderRecursive("common/defines");
-		Logger.Debug($"Defines files: {string.Join("; ", definesFiles)}");
 		foreach (var filePath in definesFiles) {
+			string jsonString = string.Empty;
 			try {
-				var jsonString = RakalyCaller.GetJson(filePath);
+				jsonString = RakalyCaller.GetJson(filePath);
 				var jsonObject = JObject.Parse(jsonString);
 
 				var cohortSize = (int?)jsonObject["NUnit"]?["COHORT_SIZE"];
@@ -24,7 +24,7 @@ public class Defines {
 					CohortSize = (int)cohortSize;
 				}
 			} catch (Exception e) {
-				Logger.Warn($"Failed to read defines from {filePath}: {e}");
+				Logger.Warn($"Failed to read defines from {filePath}:\n\tJSON string: {jsonString}\n\texception: {e}");
 			}
 		}
 		
