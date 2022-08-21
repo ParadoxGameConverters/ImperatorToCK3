@@ -25,12 +25,7 @@ public class Family : IIdentifiable<ulong> {
 			Logger.Warn($"Family {Id}: cannot link null member!");
 			return;
 		}
-		if (newMember.DeathDate is not null) { // if character is dead, his ID needs to be added to the dict
-			MemberIds.Add(newMember.Id);
-			return;
-		}
-		// matching ID was not found
-		Logger.Warn($"Family {Id}: cannot link {newMember.Id} (not found in members)!");
+		MemberIds.Add(newMember.Id);
 	}
 	public void RemoveUnlinkedMembers(CharacterCollection characters) {
 		var toRemove = MemberIds.Where(memberId => !characters.ContainsKey(memberId)).ToList();

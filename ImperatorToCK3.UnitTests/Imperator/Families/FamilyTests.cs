@@ -58,23 +58,6 @@ public class FamilyTests {
 	}
 
 	[Fact]
-	public void CannotLinkMemberWithoutPreexistingMatchingId() {
-		var reader = new BufferedReader(
-			"= { member={40 50 5} }"
-		);
-		var family = Family.Parse(reader, 42);
-
-		var characterReader = new BufferedReader(string.Empty);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "6", null);
-
-		var output = new StringWriter();
-		Console.SetOut(output);
-
-		family.AddMember(character);
-		Assert.Contains("[WARN] Family 42: cannot link 6 (not found in members)!", output.ToString());
-	}
-
-	[Fact]
 	public void IgnoredTokensAreSaved() {
 		var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
 		var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
