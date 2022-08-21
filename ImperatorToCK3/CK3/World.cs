@@ -335,7 +335,7 @@ namespace ImperatorToCK3.CK3 {
 				case <= 300:
 					MakePaganRuler();
 					break;
-				case > 300 and < 850: // Iceland should be owned by Papar until around 850.
+				case > 300 and < 874: // Iceland should be owned by Papar until around 850.
 					faithCandidates = new OrderedSet<string> {"insular_celtic", "catholic", "orthodox"};
 					var christianFaiths = Religions["christianity_religion"].Faiths;
 					
