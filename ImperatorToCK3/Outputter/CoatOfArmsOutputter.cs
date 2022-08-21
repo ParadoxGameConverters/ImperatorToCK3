@@ -23,7 +23,7 @@ public static class CoatOfArmsOutputter {
 		}
 		
 		// Output CoAs for dynasties.
-		foreach (var dynasty in dynasties.Where(d=>d.CoA is not null)) {
+		foreach (var dynasty in dynasties.Where(d => d.CoA is not null)) {
 			coasWriter.WriteLine($"{dynasty.Id}={dynasty.CoA}");
 		}
 		

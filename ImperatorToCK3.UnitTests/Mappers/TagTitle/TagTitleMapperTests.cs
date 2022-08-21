@@ -61,7 +61,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper(),
 				new CharacterCollection(),
-				new DynastyCollection(),
 				new Date(),
 				new Configuration()
 			);
@@ -127,7 +126,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper(),
 				new CharacterCollection(),
-				new DynastyCollection(),
 				new Date(),
 				new Configuration()
 			);
@@ -201,7 +199,6 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 				new NicknameMapper(),
 				new CharacterCollection(),
-				new DynastyCollection(),
 				new Date(),
 				new Configuration()
 			);

@@ -296,7 +296,6 @@ public class CharacterCollectionTests {
 			cultureMapper,
 			nicknameMapper,
 			characters,
-			new DynastyCollection(),
 			conversionDate,
 			config);
 		
