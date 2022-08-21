@@ -23,7 +23,8 @@ public static class RakalyCaller {
 	}
 	
 	public static string GetJson(string filePath) {
-		string arguments = $"json --format utf-8 {filePath}";
+		string quotedPath = filePath.AddQuotes();
+		string arguments = $"json --format utf-8 {quotedPath}";
 		
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
@@ -35,8 +36,8 @@ public static class RakalyCaller {
 		var plainText = process.StandardOutput.ReadToEnd();
 		process.WaitForExit();
 		var returnCode = process.ExitCode;
-		if (returnCode != 0 && returnCode != 1) {
-			throw new FormatException($"Rakaly failed to convert {filePath} to JSON with exit code {returnCode}");
+		if (returnCode != 0) {
+			throw new FormatException($"Rakaly failed to convert {quotedPath} to JSON with exit code {returnCode}");
 		}
 
 		return plainText;

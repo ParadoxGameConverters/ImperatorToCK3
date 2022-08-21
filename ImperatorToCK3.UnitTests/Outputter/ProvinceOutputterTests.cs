@@ -7,9 +7,9 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceOutputterTests {
-	private readonly Date date = new(400, 1, 1);
-	
 	[Fact]
 	public void CultureIsOutputted() {
 		var provReader = new BufferedReader("culture=roman");

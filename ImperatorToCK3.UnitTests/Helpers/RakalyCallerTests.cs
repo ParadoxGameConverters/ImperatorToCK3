@@ -38,7 +38,7 @@ public class RakalyCallerTests {
 	
 	[Fact]
 	public void RakalyCallerReportsWrongExitCodeWhenConvertingFileToJson() {
-		const string missingFilePath = "missing.rome";
+		const string missingFilePath = "\"missing.rome\"";
 		var e = Assert.Throws<FormatException>(() => RakalyCaller.GetJson(missingFilePath));
 		Assert.Contains($"Rakaly failed to convert {missingFilePath} to JSON with exit code 2", e.ToString());
 	}
