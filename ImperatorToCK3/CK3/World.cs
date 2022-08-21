@@ -381,9 +381,10 @@ namespace ImperatorToCK3.CK3 {
 					if (!provinceFound) {
 						// Give up and create a pagan ruler.
 						MakePaganRuler();
+					} else {
+						icelandRuler = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60));
+						icelandRuler.History.AddFieldValue(null, "traits", "trait", "devoted");
 					}
-					icelandRuler = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60));
-					icelandRuler.History.AddFieldValue(null, "traits", "trait", "devoted");
 					break;
 				case >= 850:
 					Logger.Info("Keeping Iceland as is in history...");
