@@ -384,8 +384,6 @@ namespace ImperatorToCK3.CK3 {
 					}
 					icelandRuler = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60));
 					icelandRuler.History.AddFieldValue(null, "traits", "trait", "devoted");
-					icelandRuler.History.AddFieldValue(null, "traits", "trait", "chaste");
-					icelandRuler.History.AddFieldValue(null, "traits", "trait", "celibate");
 					break;
 				case >= 850:
 					Logger.Info("Keeping Iceland as is in history...");
@@ -397,9 +395,11 @@ namespace ImperatorToCK3.CK3 {
 				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
 				icelandRuler.FaithId = faithId;
 				icelandRuler.CultureId = cultureId;
-				Characters.Add(icelandRuler);
+				icelandRuler.History.AddFieldValue(null, "traits", "trait", "chaste");
+				icelandRuler.History.AddFieldValue(null, "traits", "trait", "celibate");
 				var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
 				icelandRuler.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
+				Characters.Add(icelandRuler);
 				
 				icelandDuchy.SetHolder(icelandRuler, bookmarkDate);
 				icelandDuchy.SetGovernment("eremitic_government", bookmarkDate);
