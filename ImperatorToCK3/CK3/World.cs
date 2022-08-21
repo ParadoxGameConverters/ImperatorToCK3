@@ -320,20 +320,22 @@ namespace ImperatorToCK3.CK3 {
 
 		private void HandleIceland(Configuration config) {
 			Logger.Info("Handling Iceland...");
-			// Iceland should be owned by Papar until around 830
 			var bookmarkDate = config.CK3BookmarkDate;
+			// Iceland should be owned by Papar until around 830
 			if (bookmarkDate.Year is > 40 and < 830) {
 				Logger.Info("Giving Iceland to Papar...");
 				var icelandDuchy = LandedTitles["d_iceland"];
 				
-				// Generate papar character to rule Iceland.
+				// Generate Papar character to rule Iceland.
 				const string insular = "insular_celtic";
 				const string irish = "irish";
 				var paparDude = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60)) {
 					FaithId = insular,
-					CultureId = irish,
+					CultureId = irish
 				};
 				paparDude.History.AddFieldValue(null, "traits", "trait", "devoted");
+				paparDude.History.AddFieldValue(null, "traits", "trait", "chaste");
+				paparDude.History.AddFieldValue(null, "traits", "trait", "celibate");
 				var paparFlagEffect = new StringOfItem("{ set_variable = IRToCK3_papar_flag }");
 				paparDude.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", paparFlagEffect);
 				Characters.Add(paparDude);
@@ -349,8 +351,12 @@ namespace ImperatorToCK3.CK3 {
 						province.SetFaithId(insular, date: null);
 						province.SetCultureId(irish, date: null);
 						province.SetBuildings(new List<string>(), date: null);
+						province.SetHoldingType("none", date: null);
 					}
 				}
+
+				var reykjavik = LandedTitles["b_reykjavik"];
+				Provinces[(ulong)reykjavik.Province!].SetHoldingType("church_holding", date: null);
 			}
 			Logger.IncrementProgress();
 		}
