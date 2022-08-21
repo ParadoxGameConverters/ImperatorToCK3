@@ -321,35 +321,56 @@ namespace ImperatorToCK3.CK3 {
 		private void HandleIceland(Configuration config) {
 			Logger.Info("Handling Iceland...");
 			var bookmarkDate = config.CK3BookmarkDate;
-			// Iceland should be owned by Papar until around 830
-			if (bookmarkDate.Year is > 40 and < 830) {
-				Logger.Info("Giving Iceland to Papar...");
-				var icelandDuchy = LandedTitles["d_iceland"];
+			var year = bookmarkDate.Year;
+
+			var faiths = Religions.Faiths.ToList();
+			var icelandDuchy = LandedTitles["d_iceland"];
+
+			var faithCandidates = new List<string>();
+			Character? icelandRuler = null;
+			string cultureId = "irish";
+
+			switch (year) {
+				case <= 300:
+					Logger.Info("Giving Iceland to pagan Gaels...");
+					faithCandidates = new List<string> {"gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan"};
+					cultureId = "gaelic";
+					// ReSharper disable once StringLiteralTypo
+					icelandRuler = new Character("IRToCK3_iceland_pagan_dude", "A_engus", bookmarkDate.ChangeByYears(-40));
+					break;
+				case > 300 and < 850: // Iceland should be owned by Papar until around 850.
+					Logger.Info("Giving Iceland to Papar...");
+					faithCandidates = new List<string> {"insular_celtic", "catholic", "orthodox"};
+					cultureId = "irish";
+					icelandRuler = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60));
+					icelandRuler.History.AddFieldValue(null, "traits", "trait", "devoted");
+					icelandRuler.History.AddFieldValue(null, "traits", "trait", "chaste");
+					icelandRuler.History.AddFieldValue(null, "traits", "trait", "celibate");
+					break;
+				case >= 850:
+					Logger.Info("Keeping Iceland as is in history...");
+					// Let CK3 use Norse ruler from its history.
+					break;
+			}
+
+			if (icelandRuler is not null) {
+				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
+				icelandRuler.FaithId = faithId;
+				icelandRuler.CultureId = cultureId;
+				Characters.Add(icelandRuler);
+				var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
+				icelandRuler.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
 				
-				// Generate Papar character to rule Iceland.
-				const string insular = "insular_celtic";
-				const string irish = "irish";
-				var paparDude = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60)) {
-					FaithId = insular,
-					CultureId = irish
-				};
-				paparDude.History.AddFieldValue(null, "traits", "trait", "devoted");
-				paparDude.History.AddFieldValue(null, "traits", "trait", "chaste");
-				paparDude.History.AddFieldValue(null, "traits", "trait", "celibate");
-				var paparFlagEffect = new StringOfItem("{ set_variable = IRToCK3_papar_flag }");
-				paparDude.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", paparFlagEffect);
-				Characters.Add(paparDude);
-				
-				icelandDuchy.SetHolder(paparDude, bookmarkDate);
+				icelandDuchy.SetHolder(icelandRuler, bookmarkDate);
 				icelandDuchy.SetGovernment("eremitic_government", bookmarkDate);
 				foreach (var county in icelandDuchy.DeJureVassals) {
-					county.SetHolder(paparDude, bookmarkDate);
+					county.SetHolder(icelandRuler, bookmarkDate);
 					county.SetDevelopmentLevel(0, bookmarkDate);
 					foreach (var provinceId in county.CountyProvinces) {
 						var province = Provinces[provinceId];
 						province.History.RemoveHistoryPastDate("1.1.1");
-						province.SetFaithId(insular, date: null);
-						province.SetCultureId(irish, date: null);
+						province.SetFaithId(faithId, date: null);
+						province.SetCultureId(cultureId, date: null);
 						province.SetBuildings(new List<string>(), date: null);
 						province.History.Fields["holding"].RemoveAllEntries();
 					}

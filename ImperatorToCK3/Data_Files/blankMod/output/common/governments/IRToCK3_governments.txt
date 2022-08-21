@@ -17,7 +17,7 @@
 	can_get_government = {
 		OR = {
 			has_government = eremitic_government
-			has_variable = IRToCK3_papar_flag
+			has_variable = IRToCK3_eremite_flag
 		}
 		current_date <= 900.1.1
 		capital_county = {
