@@ -11,7 +11,6 @@ ir_gwendolen_female = { Guendolen Gwendolen }
 ir_donwen_female = { Donwen Dynwen }
 ir_genobaud_male = { Genobald Genobaud }
 ir_gundobald_male = { Gundebold Gundobald }
-ir_gundmar_male = { Gundmar Gundemar Gundemaro }
 ir_ingomar_male = { Ingomar Ingomer }
 ir_theodo_male = { Theodo Teuto }
 ir_theobald_male = { Theobald Theobold Theodobald }
