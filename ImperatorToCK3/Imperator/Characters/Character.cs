@@ -45,7 +45,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			var familyId = (ulong)parsedFamilyId;
 			if (families.TryGetValue(familyId, out var familyToLink)) {
 				Family = familyToLink;
-				familyToLink.LinkMember(this);
+				familyToLink.AddMember(this);
 				return true;
 			}
 

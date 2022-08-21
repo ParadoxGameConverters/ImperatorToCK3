@@ -437,13 +437,16 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 
 			var impFamily = new Family(1);
 			var impFamilies = new FamilyCollection { impFamily };
+			var impCharacters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
 
 			var impCharacterReader = new BufferedReader("{ death_date=450.1.1 family=1 }");
 			var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null);
+			impCharacters.Add(impCharacter1);
 			impCharacter1.LinkFamily(impFamilies);
 
 			impCharacterReader = new BufferedReader("{ death_date=2.1.1 family=1 }");
 			var impCharacter2 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "2", null);
+			impCharacters.Add(impCharacter2);
 			impCharacter2.LinkFamily(impFamilies);
 
 			// dead but won't be purged because he's landed
@@ -461,7 +464,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithImperatorCharacter(impCharacter2)
 				.Build();
 
-			var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, new LocDB("english"));
+			var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, impCharacters, new LocDB("english"));
 			Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
 			Assert.Equal(dynasty.Id, relativeOfLandedCharacter.DynastyId);
 
