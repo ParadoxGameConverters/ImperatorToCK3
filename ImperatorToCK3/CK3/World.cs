@@ -361,17 +361,16 @@ namespace ImperatorToCK3.CK3 {
 						}
 					}
 					if (!provinceFound) {
-						const string irelandRegionName = "custom_ireland";
 						// If all the Gaels are pagan but at least one province in Ireland is Christian, give Iceland to a generated ruler of the same culture of that Christian county in Ireland.
-						var irelandProvinces = Provinces.Where(p =>
-							ck3RegionMapper.ProvinceIsInRegion(p.Id, irelandRegionName));
-						foreach (var irelandProvince in irelandProvinces) {
-							var faithId = irelandProvince.GetFaithId(bookmarkDate);
+						var potentialSourceProvinces = Provinces.Where(p =>
+							ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_ireland") || ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_scotland"));
+						foreach (var potentialSourceProvince in potentialSourceProvinces) {
+							var faithId = potentialSourceProvince.GetFaithId(bookmarkDate);
 							if (faithId is null || !christianFaiths.ContainsKey(faithId)) {
 								continue;
 							}
 							provinceFound = true;
-							cultureId = irelandProvince.GetCultureId(bookmarkDate) ?? defaultCultureId;
+							cultureId = potentialSourceProvince.GetCultureId(bookmarkDate) ?? defaultCultureId;
 							faithCandidates = faithCandidates.Prepend(faithId);
 							break;
 						}
