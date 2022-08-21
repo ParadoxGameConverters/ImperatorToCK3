@@ -50,7 +50,6 @@ public class CoatOfArmsOutputterTests {
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
-			new DynastyCollection(),
 			new Date(400, 1, 1),
 			new Configuration()
 		);
@@ -94,7 +93,6 @@ public class CoatOfArmsOutputterTests {
 			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
-			new DynastyCollection(),
 			new Date(400, 1, 1),
 			new Configuration()
 		);

@@ -201,7 +201,6 @@ public partial class Title {
 			CultureMapper cultureMapper,
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
-			DynastyCollection dynasties,
 			Date conversionDate,
 			Configuration config
 		) {
@@ -212,7 +211,7 @@ public partial class Title {
 			var counter = 0;
 			// We don't need pirates, barbarians etc.
 			foreach (var country in imperatorCountries.Where(c => c.CountryType == CountryType.real)) {
-				var title = ImportImperatorCountry(
+				ImportImperatorCountry(
 					country,
 					imperatorCountries,
 					tagTitleMapper,
@@ -230,19 +229,11 @@ public partial class Title {
 					config
 				);
 				++counter;
-
-				if (title.CoA is not null) {
-					// Try to use title CoA for dynasty CoA.
-					var dynastyId = country.Monarch?.CK3Character?.DynastyId;
-					if (dynastyId is not null && dynasties.TryGetValue(dynastyId, out var dynasty) && dynasty.CoA is null) {
-						dynasty.CoA = new StringOfItem(title.Id);
-					}
-				}
 			}
 			Logger.Info($"Imported {counter} countries from I:R.");
 		}
 
-		private Title ImportImperatorCountry(
+		private void ImportImperatorCountry(
 			Country country,
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
@@ -262,7 +253,6 @@ public partial class Title {
 			// Create a new title or update existing title.
 			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
 
-			Title title;
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
 					country,
@@ -280,9 +270,8 @@ public partial class Title {
 					conversionDate,
 					config
 				);
-				title = existingTitle;
 			} else {
-				title = Add(
+				Add(
 					country,
 					imperatorCountries,
 					locDB,
@@ -300,8 +289,6 @@ public partial class Title {
 					config
 				);
 			}
-
-			return title;
 		}
 
 		public void ImportImperatorGovernorships(

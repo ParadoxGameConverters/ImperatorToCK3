@@ -117,7 +117,6 @@ namespace ImperatorToCK3.CK3 {
 				cultureMapper,
 				nicknameMapper,
 				Characters,
-				Dynasties,
 				CorrectedDate,
 				config
 			);
@@ -146,6 +145,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
+			Dynasties.SetCoasForRulingDynasties(LandedTitles);
 
 			Characters.DistributeCountriesGold(LandedTitles, config);
 			Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
@@ -331,8 +331,9 @@ namespace ImperatorToCK3.CK3 {
 				const string irish = "irish";
 				var paparDude = new Character("IRToCK3_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60)) {
 					FaithId = insular,
-					CultureId = irish
+					CultureId = irish,
 				};
+				paparDude.History.AddFieldValue(null, "traits", "trait", "devoted");
 				var paparFlagEffect = new StringOfItem("{ set_variable = IRToCK3_papar_flag }");
 				paparDude.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", paparFlagEffect);
 				Characters.Add(paparDude);

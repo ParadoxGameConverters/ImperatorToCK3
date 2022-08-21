@@ -199,7 +199,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, config);
 
 			// Import country 589.
-			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, new DynastyCollection(), conversionDate, config);
+			titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config);
 			Assert.Collection(titles,
 				title => Assert.Equal("c_county1", title.Id),
 				title => Assert.Equal("b_barony1", title.Id),
