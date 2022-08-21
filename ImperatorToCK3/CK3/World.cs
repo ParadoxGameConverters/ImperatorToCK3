@@ -351,12 +351,9 @@ namespace ImperatorToCK3.CK3 {
 						province.SetFaithId(insular, date: null);
 						province.SetCultureId(irish, date: null);
 						province.SetBuildings(new List<string>(), date: null);
-						province.SetHoldingType("none", date: null);
+						province.History.Fields["holding"].RemoveAllEntries();
 					}
 				}
-
-				var reykjavik = LandedTitles["b_reykjavik"];
-				Provinces[(ulong)reykjavik.Province!].SetHoldingType("church_holding", date: null);
 			}
 			Logger.IncrementProgress();
 		}

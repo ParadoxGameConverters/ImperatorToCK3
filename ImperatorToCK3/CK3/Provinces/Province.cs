@@ -49,7 +49,7 @@ public partial class Province : IIdentifiable<ulong> {
 		// Holding type
 		SetHoldingFromImperator(landedTitles);
 
-		History.Fields["buildings"].RemoveAll();
+		History.Fields["buildings"].RemoveAllEntries();
 	}
 
 	public ulong Id { get; } = 0;

@@ -329,7 +329,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 		private void RemoveSpouse(string spouseId) {
 			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
-				spousesHistory.RemoveAll(value => (value.ToString() ?? string.Empty).Equals(spouseId));
+				spousesHistory.RemoveAllEntries(value => (value.ToString() ?? string.Empty).Equals(spouseId));
 			}
 		}
 

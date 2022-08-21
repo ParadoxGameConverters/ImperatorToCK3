@@ -36,10 +36,10 @@
 	}
 
 	character_modifier = {
-		development_growth_factor = -0.99
-		levy_size = -0.99
-		levy_reinforcement_rate = -0.99
-		tax_mult = -0.99
+		development_growth_factor = -1000
+		levy_size = -1000
+		levy_reinforcement_rate = -1000
+		tax_mult = -1000
 	}
 
 	color = rgb { 153 204 0 }

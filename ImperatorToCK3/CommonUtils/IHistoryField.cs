@@ -22,15 +22,15 @@ public interface IHistoryField : IIdentifiable<string> {
 	/// <summary>
 	/// Removes all entries
 	/// </summary>
-	public void RemoveAll() {
-		RemoveAll(_ => true);
+	public void RemoveAllEntries() {
+		RemoveAllEntries(_ => true);
 	}
 
 	/// <summary>
 	/// Removes all entries with values matching the predicate
 	/// </summary>
 	/// <param name="predicate"></param>
-	public void RemoveAll(Func<object, bool> predicate) {
+	public void RemoveAllEntries(Func<object, bool> predicate) {
 		InitialEntries.RemoveAll(kvp => predicate(kvp.Value));
 		foreach (var datedEntriesBlock in DateToEntriesDict) {
 			datedEntriesBlock.Value.RemoveAll(kvp => predicate(kvp.Value));

@@ -249,7 +249,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return;
 		}
 
-		liegeField.RemoveAll(v=>v is string str && str == liegeName);
+		liegeField.RemoveAllEntries(v=>v is string str && str == liegeName);
 	}
 
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocDB locDB) {
