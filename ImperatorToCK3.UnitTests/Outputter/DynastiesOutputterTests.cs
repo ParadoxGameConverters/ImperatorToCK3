@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Outputter;
 using System.IO;
@@ -14,12 +15,13 @@ public class DynastiesOutputterTests {
 		const string outputModName = "outputMod";
 		var locDB = new LocDB("english");
 
+		var characters = new CharacterCollection();
 		var dynasties = new DynastyCollection();
 		var family1 = new Family(1);
-		var dynasty1 = new Dynasty(family1, locDB);
+		var dynasty1 = new Dynasty(family1, characters, locDB);
 		dynasties.Add(dynasty1);
 		var family2 = new Family(2);
-		var dynasty2 = new Dynasty(family2, locDB) {
+		var dynasty2 = new Dynasty(family2, characters, locDB) {
 			Culture = "roman"
 		};
 		dynasties.Add(dynasty2);

@@ -177,7 +177,8 @@ namespace ImperatorToCK3.Imperator {
 			// Link all the intertwining references
 			Logger.Info("Linking Characters with Families...");
 			Characters.LinkFamilies(Families);
-			Families.RemoveUnlinkedMembers();
+			Families.RemoveUnlinkedMembers(Characters);
+			Families.MergeDividedFamilies(Characters);
 			Logger.Info("Linking Characters with Countries...");
 			Characters.LinkCountries(Countries);
 			Logger.Info("Linking Provinces with Pops...");
