@@ -104,6 +104,8 @@ link = { ck3=ethiopian
 	imp=athagaun # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
 	imp=daamoti # https://en.wikipedia.org/wiki/D%CA%BFmt
 	imp=ona
+	imp=rhizophagian # http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.04.0064%3Aalphabetic+letter%3DR%3Aentry+group%3D3%3Aentry%3Drhizophagi-aethiopes-geo
+	imp=kumuzan
 }
 link = { ck3=somali
 	imp=berberian # not to be confused with Berbers
@@ -113,7 +115,7 @@ link = { ck3=somali
 ## Meroitic
 link = { ck3=nubian imp=meroitic }
 # Invictus mod
-link = { ck3=nubian imp=nubian imp=lower_nubian imp=alutan imp=moyan }
+link = { ck3=nubian imp=nubian imp=lower_nubian imp=napatan imp=alutan imp=moyan }
 
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
