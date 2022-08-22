@@ -113,6 +113,7 @@ namespace ImperatorToCK3.Imperator {
 				variablesParser.RegisterKeyword("data", dataReader => {
 					var blobParser = new Parser();
 					blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+					blobParser.IgnoreUnregisteredItems();
 					foreach (var blob in new BlobList(dataReader).Blobs) {
 						var blobReader = new BufferedReader(blob);
 						blobParser.ParseStream(blobReader);

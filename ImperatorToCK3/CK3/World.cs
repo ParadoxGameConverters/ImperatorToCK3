@@ -167,7 +167,8 @@ namespace ImperatorToCK3.CK3 {
 				Logger.Warn("Official support for non-Invictus Imperator saves will be deprecated soon.");
 				mappingsVersion = "imperator_vanilla";
 			}
-			provinceMapper.LoadMappings("configurables/province_mappings", mappingsVersion);
+			Logger.Debug($"Using mappings version: {mappingsVersion}");
+			provinceMapper.LoadMappings("configurables/province_mappings.txt", mappingsVersion);
 		}
 
 		private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS, ScriptValueCollection scriptValues) {
