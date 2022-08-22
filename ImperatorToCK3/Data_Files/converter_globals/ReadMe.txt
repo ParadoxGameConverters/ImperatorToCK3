@@ -28,7 +28,7 @@ comagoosie	- librakaly save melter
 Idhrendur	- Setting up the project, sanity checks and review
 IhateTrains	- Lead, programming, data files, testing
 lukaslunt	- Data files
-Zemurin		- Review, advice
+Zemurin		- provinceMapper, review, advice
 Plati		- Faith icons
 Radu		- Ideas, province mappings
 Vielus      - Mapping tweaks
