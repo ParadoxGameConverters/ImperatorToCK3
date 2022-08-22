@@ -281,7 +281,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			imperatorProvinces.Add(impProv);
 
 			var provinceMapper = new ProvinceMapper();
-			provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mapper_1_to_3.txt", "test_version");
+			provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt", "test_version");
 
 			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date);
 

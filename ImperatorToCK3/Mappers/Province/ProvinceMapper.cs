@@ -10,6 +10,23 @@ public class ProvinceMapper {
 	private readonly Dictionary<ulong, List<ulong>> ck3ToImperatorProvinceMap = new();
 	private readonly SortedSet<ulong> validCK3Provinces = new();
 
+	public void LoadMappings(string mappingsPath, string mappingsVersionName) {
+		Logger.Info("Loading province mappings...");
+
+		ProvinceMappingsVersion? version = null;
+		var parser = new Parser();
+		parser.RegisterKeyword(mappingsVersionName, reader => version = new ProvinceMappingsVersion(reader));
+		parser.IgnoreUnregisteredItems();
+		parser.ParseFile(mappingsPath);
+
+		if (version is null) {
+			throw new NullReferenceException($"Mappings version \"{mappingsVersionName}\" not found in province mappings!");
+		}
+		CreateMappings(version);
+		Logger.Info($"{version.Mappings.Count} mappings loaded.");
+		Logger.IncrementProgress();
+	}
+
 	private void CreateMappings(ProvinceMappingsVersion mappingsVersion) {
 		foreach (var mapping in mappingsVersion.Mappings) {
 			// fix deliberate errors where we leave mappings without keys (CK2->EU4 asian wasteland comes to mind):
