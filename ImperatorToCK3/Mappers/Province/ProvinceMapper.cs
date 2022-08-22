@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +21,7 @@ public class ProvinceMapper {
 		parser.ParseFile(mappingsPath);
 
 		if (version is null) {
-			throw new NullReferenceException($"Mappings version \"{mappingsVersionName}\" not found in province mappings!");
+			throw new ConverterException($"Mappings version \"{mappingsVersionName}\" not found in province mappings!");
 		}
 		CreateMappings(version);
 		Logger.Info($"{version.Mappings.Count} mappings loaded.");
