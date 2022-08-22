@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,37 +9,8 @@ public class ProvinceMapper {
 	private readonly Dictionary<ulong, List<ulong>> imperatorToCK3ProvinceMap = new();
 	private readonly Dictionary<ulong, List<ulong>> ck3ToImperatorProvinceMap = new();
 	private readonly SortedSet<ulong> validCK3Provinces = new();
-	private ProvinceMappingsVersion mappingsVersion = new();
 
-	public ProvinceMapper() {
-		Logger.Info("Parsing province mappings...");
-
-		var parser = new Parser();
-		RegisterKeys(parser);
-		var mappingsPath = Path.Combine("configurables", "province_mappings.txt");
-		parser.ParseFile(mappingsPath);
-
-		CreateMappings();
-		Logger.Info($"{mappingsVersion.Mappings.Count} mappings loaded.");
-		
-		Logger.IncrementProgress();
-	}
-	public ProvinceMapper(BufferedReader reader) {
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseStream(reader);
-
-		CreateMappings();
-	}
-	private void RegisterKeys(Parser parser) {
-		parser.RegisterRegex("[0-9\\.]+", reader => {
-			// We support only a single, current version, so eu4-vic2 style multiple versions
-			// have been cut. There should only be a single, 0.0.0.0={} block inside province_mappings.txt
-			mappingsVersion = new ProvinceMappingsVersion(reader);
-		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-	}
-	private void CreateMappings() {
+	private void CreateMappings(ProvinceMappingsVersion mappingsVersion) {
 		foreach (var mapping in mappingsVersion.Mappings) {
 			// fix deliberate errors where we leave mappings without keys (CK2->EU4 asian wasteland comes to mind):
 			if (mapping.ImperatorProvinces.Count == 0) {

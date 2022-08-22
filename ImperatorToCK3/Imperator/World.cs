@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Armies;
@@ -11,8 +12,10 @@ using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
 using Parser = commonItems.Parser;
 
@@ -23,8 +26,9 @@ namespace ImperatorToCK3.Imperator {
 		private GameVersion imperatorVersion = new();
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
+		public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
 		private readonly ScriptValueCollection scriptValues = new();
-		public Defines Defines { get; }= new();
+		public Defines Defines { get; } = new();
 		public LocDB LocDB { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 
 		public NamedColorCollection NamedColors { get; } = new();
@@ -100,6 +104,25 @@ namespace ImperatorToCK3.Imperator {
 				
 				// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 				LoadModFilesystemDependentData();
+			});
+			RegisterKeyword("variables", reader => {
+				Logger.Info("Reading global variables...");
+				
+				var variables = new HashSet<string>();
+				var variablesParser = new Parser();
+				variablesParser.RegisterKeyword("data", dataReader => {
+					var blobParser = new Parser();
+					blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+					foreach (var blob in new BlobList(dataReader).Blobs) {
+						var blobReader = new BufferedReader(blob);
+						blobParser.ParseStream(blobReader);
+					}
+				});
+				variablesParser.IgnoreAndLogUnregisteredItems();
+				variablesParser.ParseStream(reader);
+				GlobalFlags = variables.ToImmutableHashSet();
+				
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");

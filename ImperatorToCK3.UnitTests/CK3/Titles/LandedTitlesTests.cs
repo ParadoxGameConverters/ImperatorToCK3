@@ -27,6 +27,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
+		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
 		
@@ -175,14 +176,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var countyLevelGovernorships = new List<Governorship>();
 
 			var tagTitleMapper = new TagTitleMapper();
-			var provinceMapper = new ProvinceMapper(
-				new BufferedReader("0.0.0.0 = {" +
-								   "\tlink={imp=1 ck3=1}" +
-								   "\tlink={imp=2 ck3=2}" +
-								   "\tlink={imp=3 ck3=3}" +
-								   "}"
-				)
-			);
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 			var locDB = new LocDB("english");
 			var ck3Religions = new ReligionCollection();
 			var religionMapper = new ReligionMapper(ck3Religions, impRegionMapper, ck3RegionMapper);
@@ -262,10 +257,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impProv = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 25 };
 			imperatorProvinces.Add(impProv);
 
-			var mappingsReader = new BufferedReader("0.0.0.0={ link={ imp=1 ck3=1 } }");
-			var provMapper = new ProvinceMapper(mappingsReader);
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date);
 
 			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // 25 - sqrt(25)
 		}
@@ -285,10 +280,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impProv = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 21 };
 			imperatorProvinces.Add(impProv);
 
-			var mappingsReader = new BufferedReader("0.0.0.0={ link={ imp=1 ck3=1 ck3=2 ck3=3 } }");
-			var provMapper = new ProvinceMapper(mappingsReader);
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mapper_1_to_3.txt", "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date);
 
 			Assert.Equal(4, titles["c_county1"].GetDevelopmentLevel(date)); // 7 - sqrt(7)
 			Assert.Equal(4, titles["c_county2"].GetDevelopmentLevel(date)); // same
@@ -309,14 +304,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			imperatorProvinces.Add(impProv1);
 			var impProv2 = new ImperatorToCK3.Imperator.Provinces.Province(2) { CivilizationValue = 40 };
 			imperatorProvinces.Add(impProv2);
+			
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			var mappingsReader = new BufferedReader("0.0.0.0={" +
-													" link={ imp=1 ck3=1 } " +
-													" link={ imp=2 ck3=2 } " +
-													"}");
-			var provMapper = new ProvinceMapper(mappingsReader);
-
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date);
 
 			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2 - sqrt(25)
 		}
