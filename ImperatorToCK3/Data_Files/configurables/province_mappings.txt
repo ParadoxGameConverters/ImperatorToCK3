@@ -2849,9 +2849,9 @@ imperator_invictus = {
 	link = { imp = 7258 imp = 7257 ck3 = 7114 } # Birim, Qala -> Buzai
 	link = { imp = 6064 imp = 5489 imp = 5487 imp = 5490 ck3 = 623 ck3 = 7070 ck3 = 7091 ck3 = 7092 ck3 = 7096 ck3 = 7093 ck3 = 7094 ck3 = 7068 ck3 = 7069 ck3 = 7067 ck3 = 621 ck3 = 7097 ck3 = 7098 ck3 = 7095 ck3 = 7099 } # MANY-TO-MANY: Aral, Vyache, Thema, Yanmal -> Kassarma, Kos-Buwak, Kulandy, Kugaral, Barsuki, Kashkarata, Djamantau, Namastau, Asheh-Atrik, Issenjau, Akkityk, Agyspe, Chushka-Kol, Emba, Airyuk
 	link = { imp = 5488 imp = 5485 ck3 = 7090 } # Tirim, Gran -> Davlet-Girei
-	link = { imp = 5483 imp = 5482 ck3 = 1378 } # Tubek, Gyesch -> Gurganj
+	link = { imp = 5483 ck3 = 4457 } # Tubek -> JITH
+	link = { imp = 5482 ck3 = 1378 } # Gyesch -> Gurganj
 	link = { imp = 5484 ck3 = 4458 ck3 = 4460 } # Cammei -> MADMINIYA, KURDAR
-	link = { ck3 = 4457 } # NOTHING -> JITH
 	link = { imp = 6800 ck3 = 4450 ck3 = 4451 } # Aratha -> HAZARASP, KARDURAN-KHAS
 	link = { imp = 6799 imp = 6798 ck3 = 4455 } # Zamakshahr, Shahsenem -> ZAMAKHSHAR
 	link = { imp = 6804 ck3 = 4454 ck3 = 4453 } # Mizdaqahn -> NAZVAR, RUZVAND
@@ -2859,7 +2859,7 @@ imperator_invictus = {
 	link = { imp = 5394 ck3 = 4452 } # Khiva -> KHIVA
 	link = { imp = 6805 ck3 = 4461 } # Ariaka -> MIZDAHQAN
 	link = { imp = 6803 ck3 = 4456 } # Gurganj -> GURGANJ
-	link = { imp = 6796 imp = 6797 imp = 6443 ck3 = 4524 } # Qanga, Vezir, LAKE -> SARYKAMYSH
+	link = { imp = 6796 imp = 6797 ck3 = 4524 } # Qanga, Vezir -> SARYKAMYSH
 	link = { imp = 5472 imp = 5474 imp = 5473 imp = 5454 imp = 5475 imp = 5455 ck3 = 4525 } # Kraz, Khrischatach, Dyram, Yatsha, Bela, Palimek -> ORTAKUYU
 	link = { imp = 6809 ck3 = 4526 } # Sariq -> KUGUNEK
 	link = { imp = 5453 ck3 = 4527 } # Zatra -> BALA ISKEM
