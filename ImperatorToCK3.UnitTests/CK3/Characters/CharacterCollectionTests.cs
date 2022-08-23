@@ -3,11 +3,9 @@ using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -21,7 +19,6 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -31,6 +28,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CharacterCollectionTests {
+	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFs = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 	
 	[Fact]
@@ -243,18 +241,8 @@ public class CharacterCollectionTests {
 		);
 
 		var tagTitleMapper = new TagTitleMapper();
-		var provinceMapper = new ProvinceMapper(
-			new BufferedReader(@"
-				0.0.0.0 = {
-					link={imp=1 ck3=1}
-					link={imp=2 ck3=2}
-					link={imp=3 ck3=3}
-					link={imp=4 ck3=4}
-					link={imp=5 ck3=5}
-					link={imp=6 ck3=6}
-				}"
-			)
-		);
+		var provinceMapper = new ProvinceMapper();
+		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 		
 		var locDB = new LocDB("english");
 		var countryLocBlock = locDB.AddLocBlock("PRY");

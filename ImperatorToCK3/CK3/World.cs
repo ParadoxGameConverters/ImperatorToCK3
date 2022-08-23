@@ -51,6 +51,8 @@ namespace ImperatorToCK3.CK3 {
 				Logger.Error("Corrected save date is later than CK3 bookmark date, proceeding at your own risk!");
 			}
 
+			LoadCorrectProvinceMappingsVersion(impWorld);
+
 			var ck3Mods = new List<Mod> {
 				// include a fake mod pointing to blankMod
 				new("blankMod", "blankMod/output")
@@ -157,6 +159,16 @@ namespace ImperatorToCK3.CK3 {
 
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+		}
+
+		private void LoadCorrectProvinceMappingsVersion(Imperator.World imperatorWorld) {
+			var mappingsVersion = "imperator_invictus";
+			if (!imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
+				Logger.Warn("Official support for non-Invictus Imperator saves will be deprecated soon.");
+				mappingsVersion = "imperator_vanilla";
+			}
+			Logger.Debug($"Using mappings version: {mappingsVersion}");
+			provinceMapper.LoadMappings("configurables/province_mappings.txt", mappingsVersion);
 		}
 
 		private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS, ScriptValueCollection scriptValues) {
