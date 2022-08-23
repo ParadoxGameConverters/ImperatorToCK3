@@ -64,7 +64,7 @@ namespace ImperatorToCK3.CK3 {
 			LoadMenAtArmsTypes(ModFS, ScriptValues);
 
 			Logger.Info("Loading map data...");
-			MapData = new MapData(config.CK3Path);
+			MapData = new MapData(ModFS);
 			
 			// Load CK3 religions from game and blankMod
 			Religions.LoadHolySites(ModFS);
