@@ -29,7 +29,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
-		private Configuration defaultConfig = new() {ImperatorCivilizationWorth = 0.4};
+		private readonly Configuration defaultConfig = new() {ImperatorCivilizationWorth = 0.4};
 		
 		[Fact]
 		public void TitlesDefaultToEmpty() {
