@@ -1,4 +1,5 @@
-﻿using commonItems;
+﻿using Antlr.Runtime.Misc;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Armies;
@@ -155,7 +156,7 @@ namespace ImperatorToCK3.CK3 {
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
 
-			HandleIceland(config);
+			HandleIcelandAndFaroeIslands(config);
 
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
@@ -330,16 +331,17 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void HandleIceland(Configuration config) {
-			Logger.Info("Handling Iceland...");
+		private void HandleIcelandAndFaroeIslands(Configuration config) {
+			Logger.Info("Handling Iceland and Faroe Islands...");
 			Date bookmarkDate = config.CK3BookmarkDate;
 			var year = bookmarkDate.Year;
 
 			var faiths = Religions.Faiths.ToList();
-			var icelandDuchy = LandedTitles["d_iceland"];
+			var titleIdsToHandle = new OrderedSet<string> {"d_iceland", "c_faereyar"};
 
+			bool generateHermits = true;
 			IEnumerable<string> faithCandidates = new OrderedSet<string>();
-			Character? icelandRuler = null;
+			ListStack<string> namePool = new();
 			const string defaultCultureId = "irish";
 			string cultureId = defaultCultureId;
 
@@ -347,7 +349,7 @@ namespace ImperatorToCK3.CK3 {
 				case <= 300:
 					MakePaganRuler();
 					break;
-				case > 300 and < 874: // Iceland should be owned by Papar until around 850.
+				case > 300 and < 874:
 					faithCandidates = new OrderedSet<string> {"insular_celtic", "catholic", "orthodox"};
 					var christianFaiths = Religions["christianity_religion"].Faiths;
 					
@@ -373,7 +375,8 @@ namespace ImperatorToCK3.CK3 {
 						}
 					}
 					if (!provinceFound) {
-						// If all the Gaels are pagan but at least one province in Ireland is Christian, give Iceland to a generated ruler of the same culture of that Christian county in Ireland.
+						// If all the Gaels are pagan but at least one province in Ireland is Christian,
+						// give the handled titles to a generated ruler of the same culture of that Christian county in Ireland.
 						var potentialSourceProvinces = Provinces.Where(p =>
 							ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_ireland") || ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_scotland"));
 						foreach (var potentialSourceProvince in potentialSourceProvinces) {
@@ -384,6 +387,7 @@ namespace ImperatorToCK3.CK3 {
 							provinceFound = true;
 							cultureId = potentialSourceProvince.GetCultureId(bookmarkDate) ?? defaultCultureId;
 							faithCandidates = faithCandidates.Prepend(faithId);
+							namePool.AddRange(new[]{"Canann", "Petair", "Fergus"});
 							break;
 						}
 					}
@@ -391,50 +395,61 @@ namespace ImperatorToCK3.CK3 {
 						// Give up and create a pagan ruler.
 						MakePaganRuler();
 					} else {
-						Logger.Info("Giving Iceland to Papar...");
-						icelandRuler = new Character("IRToCK3_iceland_papar_dude", "Canann", bookmarkDate.ChangeByYears(-60));
-						icelandRuler.History.AddFieldValue(null, "traits", "trait", "devoted");
+						Logger.Info("Giving Iceland and Faroe Islands to Papar...");
 					}
 					break;
 				default:
-					Logger.Info("Keeping Iceland as is in history...");
-					// Let CK3 use Norse ruler from its history.
+					Logger.Info("Keeping Iceland and Faroe Islands as is in history...");
+					// Let CK3 use rulers from its history.
+					generateHermits = false;
 					break;
 			}
 
-			if (icelandRuler is not null) {
-				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
-				icelandRuler.FaithId = faithId;
-				icelandRuler.CultureId = cultureId;
-				icelandRuler.History.AddFieldValue(null, "traits", "trait", "chaste");
-				icelandRuler.History.AddFieldValue(null, "traits", "trait", "celibate");
-				var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
-				icelandRuler.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
-				Characters.Add(icelandRuler);
+			if (generateHermits) {
+				faithCandidates = faithCandidates.ToList(); // prevent multiple enumeration
+				foreach (var titleId in titleIdsToHandle) {
+					if (!LandedTitles.TryGetValue(titleId, out var title)) {
+						Logger.Warn($"Title {titleId} not found!");
+						continue;
+					}
+					Logger.Debug($"Generating hermit for {titleId}...");
 				
-				icelandDuchy.SetHolder(icelandRuler, bookmarkDate);
-				icelandDuchy.SetGovernment("eremitic_government", bookmarkDate);
-				foreach (var county in icelandDuchy.DeJureVassals) {
-					county.SetHolder(icelandRuler, bookmarkDate);
-					county.SetDevelopmentLevel(0, bookmarkDate);
-					foreach (var provinceId in county.CountyProvinces) {
-						var province = Provinces[provinceId];
-						province.History.RemoveHistoryPastDate("1.1.1");
-						province.SetFaithId(faithId, date: null);
-						province.SetCultureId(cultureId, date: null);
-						province.SetBuildings(new List<string>(), date: null);
-						province.History.Fields["holding"].RemoveAllEntries();
+					var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Pop(), bookmarkDate.ChangeByYears(-50));
+					var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
+					hermit.FaithId = faithId;
+					hermit.CultureId = cultureId;
+					hermit.History.AddFieldValue(null, "traits", "trait", "chaste");
+					hermit.History.AddFieldValue(null, "traits", "trait", "celibate");
+					hermit.History.AddFieldValue(null, "traits", "trait", "devoted");
+					var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
+					hermit.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
+					Characters.Add(hermit);
+			
+					title.SetHolder(hermit, bookmarkDate);
+					title.SetGovernment("eremitic_government", bookmarkDate);
+					foreach (var county in title.GetDeJureVassalsAndBelow(rankFilter: "c").Values) {
+						county.SetHolder(hermit, bookmarkDate);
+						county.SetDevelopmentLevel(0, bookmarkDate);
+						foreach (var provinceId in county.CountyProvinces) {
+							var province = Provinces[provinceId];
+							province.History.RemoveHistoryPastDate("1.1.1");
+							province.SetFaithId(faithId, date: null);
+							province.SetCultureId(cultureId, date: null);
+							province.SetBuildings(new List<string>(), date: null);
+							province.History.Fields["holding"].RemoveAllEntries();
+						}
 					}
 				}
 			}
+
 			Logger.IncrementProgress();
 
 			void MakePaganRuler() {
-				Logger.Info("Giving Iceland to pagan Gaels...");
+				Logger.Info("Giving Iceland and Faroe Islands to pagan Gaels...");
 				faithCandidates = new OrderedSet<string> {"gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan"};
 				cultureId = "gaelic";
 				// ReSharper disable once StringLiteralTypo
-				icelandRuler = new Character("IRToCK3_iceland_pagan_dude", "A_engus", bookmarkDate.ChangeByYears(-40));
+				namePool.AddRange(new[]{"A_engus", "Domnall", "Rechtabra"});
 			}
 		}
 
