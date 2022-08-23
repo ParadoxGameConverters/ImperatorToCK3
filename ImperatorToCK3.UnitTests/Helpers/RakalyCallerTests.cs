@@ -29,8 +29,7 @@ public class RakalyCallerTests {
 			property => {
 				Assert.Equal("NUnit", property.Name);
 			});
-
-
+		
 		Assert.Equal("450.10.1", jsonRoot.GetProperty("NGame").GetProperty("START_DATE").GetString());
 		jsonRoot
 			.GetProperty("NGame")
