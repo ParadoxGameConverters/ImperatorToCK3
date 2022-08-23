@@ -1,5 +1,4 @@
-﻿using Antlr.Runtime.Misc;
-using commonItems;
+﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Armies;
@@ -341,7 +340,7 @@ namespace ImperatorToCK3.CK3 {
 
 			bool generateHermits = true;
 			IEnumerable<string> faithCandidates = new OrderedSet<string>();
-			ListStack<string> namePool = new();
+			Queue<string> namePool = new();
 			const string defaultCultureId = "irish";
 			string cultureId = defaultCultureId;
 
@@ -387,7 +386,7 @@ namespace ImperatorToCK3.CK3 {
 							provinceFound = true;
 							cultureId = potentialSourceProvince.GetCultureId(bookmarkDate) ?? defaultCultureId;
 							faithCandidates = faithCandidates.Prepend(faithId);
-							namePool.AddRange(new[]{"Canann", "Petair", "Fergus"});
+							namePool = new Queue<string>(new[] {"Canann", "Petair", "Fergus"});
 							break;
 						}
 					}
@@ -414,7 +413,7 @@ namespace ImperatorToCK3.CK3 {
 					}
 					Logger.Debug($"Generating hermit for {titleId}...");
 				
-					var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Pop(), bookmarkDate.ChangeByYears(-50));
+					var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50));
 					var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
 					hermit.FaithId = faithId;
 					hermit.CultureId = cultureId;
@@ -449,7 +448,7 @@ namespace ImperatorToCK3.CK3 {
 				faithCandidates = new OrderedSet<string> {"gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan"};
 				cultureId = "gaelic";
 				// ReSharper disable once StringLiteralTypo
-				namePool.AddRange(new[]{"A_engus", "Domnall", "Rechtabra"});
+				namePool = new Queue<string>(new[]{"A_engus", "Domnall", "Rechtabra"});
 			}
 		}
 
