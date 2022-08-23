@@ -10,7 +10,10 @@
  king_republic_male_carthaginian: "Suffet"
  emperor_republic_male_carthaginian: "Suffet"
 
-# Papar
+# Hermits
+ count_eremitic_male: "Hermit"
+ count_eremitic_female: "Hermitess"
+ county_eremitic: "Hermitage"
  duke_eremitic_male: "Hermit"
  duke_eremitic_female: "Hermitess"
  duchy_eremitic: "Hermitage"
