@@ -53,23 +53,32 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 				continue;
 			}
 
+			var removedFamilies = new HashSet<Family>();
 			foreach (var family in grouping) {
+				if (removedFamilies.Contains(family)) {
+					continue;
+				}
 				var familyMemberIds = family.MemberIds;
-				var familyMembers = characters.Where(c => familyMemberIds.Contains(c.Id)).ToList();
+				var familyMembers = characters
+					.Where(c => familyMemberIds.Contains(c.Id))
+					.ToList();
 				foreach (var anotherFamily in grouping) {
 					if (family.Equals(anotherFamily)) {
 						continue;
 					}
 
 					var anotherFamilyMemberIds = anotherFamily.MemberIds;
-					var anotherFamilyMembers = characters.Where(c => anotherFamilyMemberIds.Contains(c.Id)).ToList();
+					var anotherFamilyMembers = characters
+						.Where(c => anotherFamilyMemberIds.Contains(c.Id))
+						.ToList();
 					if (familyMembers.Any(c =>
 						    (c.Father is Character father && anotherFamilyMemberIds.Contains(father.Id)) ||
 						    (c.Mother is Character mother && anotherFamilyMemberIds.Contains(mother.Id))
 					    )
 					) {
-						Logger.Debug($"Merging {grouping.Key}: {family.Id} + {anotherFamily.Id}");
+						Logger.Debug($"Reuniting family {grouping.Key}: {anotherFamily.Id} into {family.Id}");
 						ReuniteFamily(family, anotherFamily, anotherFamilyMembers);
+						removedFamilies.Add(anotherFamily);
 					}
 				}
 			}
