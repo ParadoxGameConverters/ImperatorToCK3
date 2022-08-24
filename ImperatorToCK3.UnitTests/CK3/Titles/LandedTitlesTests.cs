@@ -239,7 +239,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var imperatorProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
 			var provMapper = new ProvinceMapper();
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date, defaultConfig);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
 			Assert.Equal(33, county.GetDevelopmentLevel(date));
 		}
@@ -260,7 +260,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinceMapper = new ProvinceMapper();
 			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
 			Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*25=10; 10-sqrt(10)≈6
 		}
@@ -283,7 +283,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinceMapper = new ProvinceMapper();
 			provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt", "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
 			Assert.Equal(1, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*7=2.8;  2.8-sqrt(2.8)≈1
 			Assert.Equal(1, titles["c_county2"].GetDevelopmentLevel(date)); // same as above
@@ -308,7 +308,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinceMapper = new ProvinceMapper();
 			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
 			Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*(10+40)/2=10; 10-sqrt(10)≈6
 		}
