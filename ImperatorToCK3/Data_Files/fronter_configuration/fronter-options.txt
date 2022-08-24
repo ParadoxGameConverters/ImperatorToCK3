@@ -28,6 +28,17 @@ option = {
 }
 
 option = {
+	name = ImperatorCivilizationWorth
+	displayName = IMPERATOR_CIVILIZATION_WORTH
+	tooltip = IMPERATOR_CIVILIZATION_WORTH_TIP
+	textSelector = {	
+		value = "0.4"
+		editable = true
+		tooltip = IMPERATOR_CIVILIZATION_WORTH_INPUT_TIP
+	}
+}
+
+option = {
 	name = LegionConversion
 	displayName = LEGION_CONVERSION
 	tooltip = LEGION_CONVERSION_TIP

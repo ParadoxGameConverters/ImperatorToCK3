@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
-using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Jobs;
@@ -30,6 +29,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
+		private readonly Configuration defaultConfig = new() {ImperatorCivilizationWorth = 0.4};
 		
 		[Fact]
 		public void TitlesDefaultToEmpty() {
@@ -239,7 +239,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var imperatorProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
 			var provMapper = new ProvinceMapper();
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
 			Assert.Equal(33, county.GetDevelopmentLevel(date));
 		}
@@ -260,9 +260,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinceMapper = new ProvinceMapper();
 			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
-			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // 25 - sqrt(25)
+			Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*25=10; 10-sqrt(10)≈6
 		}
 
 		[Fact]
@@ -283,11 +283,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinceMapper = new ProvinceMapper();
 			provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt", "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
-			Assert.Equal(4, titles["c_county1"].GetDevelopmentLevel(date)); // 7 - sqrt(7)
-			Assert.Equal(4, titles["c_county2"].GetDevelopmentLevel(date)); // same
-			Assert.Equal(4, titles["c_county3"].GetDevelopmentLevel(date)); // same
+			Assert.Equal(1, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*7=2.8;  2.8-sqrt(2.8)≈1
+			Assert.Equal(1, titles["c_county2"].GetDevelopmentLevel(date)); // same as above
+			Assert.Equal(1, titles["c_county3"].GetDevelopmentLevel(date)); // same as above
 		}
 
 		[Fact]
@@ -308,9 +308,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinceMapper = new ProvinceMapper();
 			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
-			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2 - sqrt(25)
+			Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*(10+40)/2=10; 10-sqrt(10)≈6
 		}
 
 		[Fact]
