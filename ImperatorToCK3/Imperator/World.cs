@@ -51,8 +51,6 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 
 			var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
-			
-			ParseGenes(config);
 
 			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
@@ -214,8 +212,13 @@ namespace ImperatorToCK3.Imperator {
 
 			Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 		}
-		private void ParseGenes(Configuration config) {
-			genesDB = new GenesDB(Path.Combine(config.ImperatorPath, "game/common/genes/00_genes.txt"));
+		private void ParseGenes() {
+			var genesFileLocation = ModFS.GetActualFileLocation("common/genes/00_genes.txt");
+			if (genesFileLocation is null) {
+				Logger.Warn("I:R genes file not found!");
+			} else {
+				genesDB = new GenesDB(genesFileLocation);
+			}
 		}
 		private void LoadPreImperatorRulers() {
 			const string filePath = "configurables/prehistory.txt";
@@ -297,6 +300,8 @@ namespace ImperatorToCK3.Imperator {
 			Logger.IncrementProgress();
 			Defines.LoadDefines(ModFS);
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
+			
+			ParseGenes();
 			
 			Country.LoadGovernments(ModFS);
 				
