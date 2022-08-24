@@ -48,7 +48,7 @@ namespace ImperatorToCK3.Outputter {
 
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
-				config.ImperatorPath,
+				imperatorWorld.ModFS,
 				outputName,
 				ck3World
 			);
