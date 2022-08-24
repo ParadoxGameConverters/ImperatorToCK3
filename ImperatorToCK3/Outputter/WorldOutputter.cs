@@ -64,7 +64,7 @@ namespace ImperatorToCK3.Outputter {
 
 			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorWorld.ModFS);
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles, ck3World.Dynasties);
-			CoatOfArmsOutputter.CopyCoaPatterns(config.ImperatorPath, outputPath);
+			CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath);
 
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder(
