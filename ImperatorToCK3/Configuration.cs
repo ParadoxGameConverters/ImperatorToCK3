@@ -14,6 +14,7 @@ namespace ImperatorToCK3 {
 		public string OutputModName { get; set; } = "";
 		public bool HeresiesInHistoricalAreas { get; set; } = false;
 		public double ImperatorCurrencyRate { get; set; } = 1.0d;
+		public double ImperatorCivilizationWorth { get; set; } = 0.4;
 		public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 		public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 
@@ -58,6 +59,10 @@ namespace ImperatorToCK3 {
 			parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
 				ImperatorCurrencyRate = reader.GetDouble();
 				Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
+			});
+			parser.RegisterKeyword("ImperatorCivilizationWorth", reader => {
+				ImperatorCivilizationWorth = reader.GetDouble();
+				Logger.Info($"{nameof(ImperatorCivilizationWorth)} set to: {ImperatorCivilizationWorth}");
 			});
 			parser.RegisterKeyword("LegionConversion", reader => {
 				var valueString = reader.GetString();
