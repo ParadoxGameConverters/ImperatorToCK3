@@ -153,6 +153,8 @@ link = { ck3 = saka imp = saka imp = shule }
 link = { ck3 = tocharian imp = tocharian imp = phryni }
 link = { ck3 = indogreek imp = tayuan } #https://en.wikipedia.org/wiki/Dayuan
 link = { ck3 = tajik imp = margian }
+# Invictus mod
+link = { ck3=indogreek imp=greco_indian }
 
 ## Baltic & Slavic (Venedia is Proto-Slavic)
 link = { ck3 = lithuanian imp = aestian ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
