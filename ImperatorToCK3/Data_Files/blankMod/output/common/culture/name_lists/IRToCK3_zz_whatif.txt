@@ -1,4 +1,4 @@
-### Needs to be properly formatted and implemented
+﻿### Needs to be properly formatted and implemented
 
 name_list_romano-sanskrit = {
 	cadet_dynasty_names = {

@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Serialization;
 using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public class Dynasty : IPDXSerializable, IIdentifiable<string> {
-	public Dynasty(Family imperatorFamily, CharacterCollection imperatorCharacters, LocDB locDB) {
+	public Dynasty(Family imperatorFamily, CharacterCollection imperatorCharacters, CulturesDB irCulturesDB, LocDB locDB) {
 		Id = $"dynn_IMPTOCK3_{imperatorFamily.Id}";
 		Name = Id;
 
@@ -33,7 +34,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		var impFamilyLocKey = imperatorFamily.Key;
+		var impFamilyLocKey = imperatorFamily.GetMaleForm(irCulturesDB);
 		var impFamilyLoc = locDB.GetLocBlockForKey(impFamilyLocKey);
 		if (impFamilyLoc is not null) {
 			Localization = new(Name, impFamilyLoc);
