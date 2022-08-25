@@ -15,7 +15,7 @@ public class CultureGroup : IdObjectCollection<string, Culture>, IIdentifiable<s
 		parser.RegisterKeyword("culture", culturesReader => {
 			var culturesParser = new Parser();
 			culturesParser.RegisterRegex(CommonRegexes.String, (cultureReader, cultureId) => {
-				Add(new Culture(cultureId, cultureReader));
+				AddOrReplace(new Culture(cultureId, cultureReader));
 			});
 			culturesParser.IgnoreAndLogUnregisteredItems();
 			culturesParser.ParseStream(culturesReader);

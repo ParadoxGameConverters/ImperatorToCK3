@@ -10,7 +10,7 @@ public class CulturesDB : IdObjectCollection<string, CultureGroup> {
 		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (groupReader, groupId) => {
-			Add(new CultureGroup(groupId, groupReader));
+			AddOrReplace(new CultureGroup(groupId, groupReader));
 		});
 		parser.ParseGameFolder("common/cultures", irModFS, "txt", recursive: true);
 		
