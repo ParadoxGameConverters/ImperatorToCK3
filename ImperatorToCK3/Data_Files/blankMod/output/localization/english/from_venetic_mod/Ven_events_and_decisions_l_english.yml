@@ -1,0 +1,95 @@
+﻿l_english:
+
+ select_personal_deity_venetic_decision:0 "Pick a Patron Deity"
+ select_personal_deity_venetic_decision_tooltip:0 "Deciding on a Deity"
+ select_personal_deity_venetic_decision_tt:0 "Deciding on a Deity"
+ select_personal_deity_venetic_decision_desc:0 "[ROOT.Char.GetFaith.PantheonTerm|U] are many and inscrutable, yet I cannot say that there are not some who hold a level of special appeal for me. Were I to dedicate myself openly to the express worship of primarily one such deity, I would doubtless draw like-minded souls to my side.\n\nWhatever the blessings my patron provides, being with similar [ROOT.Char.GetFaith.GetAdherentNamePluralNoTooltip] can only bring me health, wealth, and glory."
+ select_personal_deity_venetic_decision.select_reitia:0 "Reitia, the healer, teacher and Bringer of Wisdom!"
+ select_personal_deity_venetic_decision.select_tumusiates:0 "Trumusiates, powerfull and glorious!"
+ select_personal_deity_venetic_decision.select_bouleno:0 "Bouleno, the sly and cunning Warrior!"
+ select_personal_deity_venetic_decision.select_vetusa:0 "Vetusa, keeper of nature and master of the lands!"
+ select_personal_deity_venetic_decision_confirm:0 "My choise is most wise"
+ 
+ venetic_religious_decision.1.t:0 "Deciding on a Deity"
+ venetic_religious_decision.1.desc:0 "[ROOT.Char.GetFaith.PantheonTerm|U] are many and inscrutable, yet I cannot say that there are not some who hold a level of special appeal for me. Were I to dedicate myself openly to the express worship of primarily one such deity, I would doubtless draw like-minded souls to my side.\n\nWhatever the blessings my patron provides, being with similar [ROOT.Char.GetFaith.GetAdherentNamePluralNoTooltip] can only bring me health, wealth, and glory."
+ venetic_religious_decision.1.reitia:0 "Reitia, the healer, teacher and Bringer of Wisdom!"
+ venetic_religious_decision.1.tumusiates:0 "Trumusiates, powerfull and glorious!"
+ venetic_religious_decision.1.bouleno:0 "Bouleno, the sly and cunning Warrior!"
+ venetic_religious_decision.1.vetusa:0 "Vetusa, keeper of nature and master of the lands!"
+
+ bhakti_germanic_reitia:0 "Devotee of Reitia"
+ bhakti_germanic_reitia_desc:0 "This character's favored god is Reitia, goddess of writing, education and the all-Mother."
+ bhakti_germanic_tumusiates:0 "Devotee of Tumusiates"
+ bhakti_germanic_tumusiates_desc:0 "This character's favored god is Tumusiates, a god of honor, wisdom and statesmanship."
+ bhakti_germanic_bouleno:0 "Devotee of Bouleno"
+ bhakti_germanic_bouleno_desc:0 "This character's favored god is Bouleno, a god of cunning and bravery."
+ bhakti_germanic_vetusa:0 "Devotee of Vetusa"
+ bhakti_germanic_vetusa_desc:0 "This character's favored god is Vetusa, a goddess of protection, nature and animals."
+ 
+ gave_written_offering_modifier:0 "Inscribed Gratitude to the Gods"
+
+
+written_offering_decision:0 "Make a Written Offering"
+written_offering_decision_tooltip:0 "Inscribing a Prayer"
+written_offering_decision_tt:0 "Inscribing a Prayer"
+written_offering_decision_desc:0 "The gods would look kindely upon me and my people, were I to give them a gift and write my thanks to them."
+written_offering_decision_confirm:0 "Time to pick up my stylus!"
+
+venetic_religious_decision.2:0 "Inscribing a Prayer"
+venetic_religious_decision.2.t:0 "Ritual at the Sanctuary"
+venetic_religious_decision.2.desc:0 "I walk out of the Temple at [ROOT.PROVINCE.GetName|V], having been practicing with the priests on sheets of bronze, into the open sanctuary. I see the priests set up the Pyre and arrange figures and offerings around it, soon it will be time to put my abilities to practice."
+venetic_religious_decision.2.a:0 "Here I go!"
+venetic_religious_decision.2.a.tooltip: "You start your inscription."
+venetic_religious_decision.21:0 "The power of the gods"
+venetic_religious_decision.21.t: "Carrying out the Ritual"
+venetic_religious_decision.21.desc:0 "A small bronze figue is brought out on your behalf, along with a generous amount of wine, and as the priests light the Pyre, you make your inscription below it, taking your time to make shure it's right. The offering is then placed in the sanctuary, as a single goblet, covered in writing, in poured for your consumption. As you down a "healthy" amount of the liquid, a sacrifice is made to the gods and fed to the holy blaze, shining it's fiery light upon your words."
+#Something that I hadn't added earlier, and that I recently found out, is that there are some papers that conclude that the veneti used to drink wine (imported from Attica) during their religious ceremonies. I will probably need to include it in a better way in the future, but for now I've just shoved this into the event.
+venetic_religious_decision.21.a1deivobos:0 "Eik [ROOT.Char.GetName] doto Deivoboi"
+venetic_religious_decision.21.a2deivobos:0 "Ego doto Deivoboi u donom ekvos"
+venetic_religious_decision.21.a3deivobos:0 "[ROOT.Char.GetName] donom per Deivoboi toler"
+venetic_religious_decision.21.a4deivobos:0 "Eik [ROOT.Char.GetName] doto Deivoboi u donom"
+venetic_religious_decision.21.adeivobos.tooltip:0 "You have given an offering to the Gods" ####
+venetic_religious_decision.21.a1reitia:0 "Mego donasto Reitiai Porai u donom"
+venetic_religious_decision.21.a2reitia:0 "Eik [ROOT.Char.GetName] doto Reitiai"
+venetic_religious_decision.21.a3reitia:0 "[ROOT.Char.GetName] donom per Sainatei Reitiai toler"
+venetic_religious_decision.21.a4reitia:0 "Eik [ROOT.Char.GetName] doto Reitiai u donom" 
+venetic_religious_decision.21.areitia.tooltip:0 "You have given an offering to Reitia" ####
+venetic_religious_decision.21.a1tumusiates:0 "[ROOT.Char.GetName] donom per Sainatei Tumusiatei toler"
+venetic_religious_decision.21.a2tumusiates:0 "Mego donasto Tumusiatei Porai u donom"
+venetic_religious_decision.21.a3tumusiates:0 "Eik [ROOT.Char.GetName] doto Tumusiatei"
+venetic_religious_decision.21.a4tumusiates:0 "Ego doto Tumusiatei u donom ekvos"
+venetic_religious_decision.21.atumusiates.tooltip:0 "You have given an offering to Tumusiates" ####
+venetic_religious_decision.21.a1bouleno:0 "Eik [ROOT.Char.GetName] doto Boulenoi u donom"
+venetic_religious_decision.21.a2bouleno:0 "Eik [ROOT.Char.GetName] doto Boulenoi"
+venetic_religious_decision.21.a3bouleno:0 "Ego doto Boulenoi u donom ekvos"
+venetic_religious_decision.21.a4bouleno:0 "Mego donasto Boulenoi Porai u donom"
+venetic_religious_decision.21.abouleno.tooltip:0 "You have given an offering to Bouleno" ####
+venetic_religious_decision.21.a1vetusa:0 "Mego donasto Sainatei Vetusai u donom"
+venetic_religious_decision.21.a2vetusa:0 "Eik [ROOT.Char.GetName] doto Vetusai u donom"
+venetic_religious_decision.21.a3vetusa:0 "Eik [ROOT.Char.GetName] doto Vetusai"
+venetic_religious_decision.21.a4vetusa:0 "Ego doto Vetusai u donom eik"
+venetic_religious_decision.21.avetusa.tooltip:0 "You have given an offering to Vetusa" ####
+
+doctrine_parameter_ritual_writing_active:0 "Allows #ERitual Inscriptions as gifts in exchange for piety"
+
+religious_decision.102.optout:0 "Maybe this was a bad idea"
+religious_decision.102.flavour:0 "I shouldn't invoke the wrath of many gods by choosing one"
+
+gave_written_offering:0 "Inscribed Gratitude to the Gods"
+
+ritual_writing_vassals:0 "Pleased Faithful"
+
+venetic_religious_decision.3001.t:0 "Blessing of the Gods"
+venetic_religious_decision.3001.desc.a:0  "After giving my inscriptions, and gifts, to the gods, I've unsurprisingly made myself look better in the eyes of my vassals and peers."
+venetic_religious_decision.3002.desc.a:0  "After leaving the sanctuary, where I could feel the spirit of the Gods, I've never truely felt them leave. I realize now that what I had done is of great importance, not just to the world of the Gods, but also in legitimizing power in my own."
+venetic_religious_decision.3003.desc.a:0  "Sitting in the sanctuary, with the fire having died down, I take in my surroundings and let myself feel the spirits around me. Reflecting on the gods to which I had just made my sacrifice, I start to feel energy entering into my body, and I realize that I am reciving their blessings."
+venetic_religious_decision.3004.desc.a:0  "Sitting in the sanctuary, with the fire having died down, I take in my surroundings and let myself feel the spirits around me. Reflecting on the gods to which I had just made my sacrifice, I start to feel significantly stronger. I realize that they will still be with me through the toughest of trials."
+venetic_religious_decision.3005.desc.a:0  "It isn't long since I last gave a sacrifice to the divine, but only now do I feel the divine magnitude of the Gods grace. It is becoming clear to me that I must better myself if I am to be able to truely be worthy of the Gods."
+venetic_religious_decision.3006.desc.a:0  "In spite of having left the grove of the sanctuary, I feel as if I am still there, connected to the gods through the ritual carried out. Suddenly, I feel a burst of divine energy, running through my body, and feel myself become stronger, and more capable. Knowlage of the occult floods my mind, as the Gods bestow me with their benevolence."
+
+venetic_religious_decision.3001.a:0 "We are all favoured"
+venetic_religious_decision.3002.a:0 "I am Humbled"
+venetic_religious_decision.3003.a:0 "I feel the glory of the Gods!"
+venetic_religious_decision.3004.a:0 "Deivobos, help me in battle!"
+venetic_religious_decision.3005.a:0 "Knowledge flows into my mind!"
+venetic_religious_decision.3006.a:0 "Such power, I am truely chosen!"
