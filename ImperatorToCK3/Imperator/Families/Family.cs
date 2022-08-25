@@ -1,9 +1,8 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.Imperator.Characters;
-using System.Collections;
+using ImperatorToCK3.Imperator.Cultures;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Families; 
@@ -14,7 +13,7 @@ public class Family : IIdentifiable<ulong> {
 	public string Culture { get; private set; } = "";
 	public double Prestige { get; private set; } = 0;
 	public double PrestigeRatio { get; private set; } = 0;
-	public OrderedSet<ulong> MemberIds { get; private set; } = new();
+	public OrderedSet<ulong> MemberIds { get; } = new();
 	public bool Minor { get; private set; } = false;
 
 	public Family(ulong id) {
@@ -34,7 +33,11 @@ public class Family : IIdentifiable<ulong> {
 		}
 	}
 
-	public static HashSet<string> IgnoredTokens { get; private set; } = new();
+	public string GetMaleForm(CulturesDB culturesDB) {
+		return culturesDB.GetMaleFamilyNameForm(Key) ?? Key;
+	}
+
+	public static HashSet<string> IgnoredTokens { get; } = new();
 	private static class FamilyFactory {
 		private static readonly Parser parser = new();
 		private static Family family = new(0);

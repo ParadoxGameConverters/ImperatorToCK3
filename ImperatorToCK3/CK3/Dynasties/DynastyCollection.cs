@@ -17,7 +17,7 @@ public class DynastyCollection : IdObjectCollection<string, Dynasty> {
 				continue;
 			}
 
-			var newDynasty = new Dynasty(family, imperatorCharacters, locDB);
+			var newDynasty = new Dynasty(family, imperatorCharacters, impWorld.CulturesDB, locDB);
 			Add(newDynasty);
 		}
 		Logger.Info($"{Count} total families imported.");

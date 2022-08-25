@@ -4,6 +4,7 @@ using commonItems.Mods;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
@@ -37,6 +38,7 @@ namespace ImperatorToCK3.Imperator {
 		public CountryCollection Countries { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		public UnitCollection Units { get; private set; } = new();
+		public CulturesDB CulturesDB { get; } = new();
 		public ReligionCollection Religions { get; private set; }
 		private GenesDB genesDB = new();
 
@@ -304,6 +306,8 @@ namespace ImperatorToCK3.Imperator {
 			ParseGenes();
 			
 			Country.LoadGovernments(ModFS);
+			
+			CulturesDB.Load(ModFS);
 				
 			Religions = new ReligionCollection(scriptValues);
 			Religions.LoadDeities(ModFS);

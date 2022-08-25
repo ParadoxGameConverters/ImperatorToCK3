@@ -6,6 +6,7 @@ using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -464,7 +465,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 				.WithImperatorCharacter(impCharacter2)
 				.Build();
 
-			var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, impCharacters, new LocDB("english"));
+			var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, impCharacters, new CulturesDB(), new LocDB("english"));
 			Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
 			Assert.Equal(dynasty.Id, relativeOfLandedCharacter.DynastyId);
 
