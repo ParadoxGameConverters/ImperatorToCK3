@@ -1,0 +1,28 @@
+﻿l_english:
+
+ #############################################
+#General names:
+cn_k_venice_venetic:0 "Venetnos"
+cn_k_venice_venetic_adj:0 "Veneti"
+cn_d_venice_venetic:0 "Venetkopedos"
+cn_d_venice_venetic_adj:0 "Venetiko"
+cn_c_venice_venetic:0 "Venetkopedos"
+cn_c_venice_venetic_adj:0 "Venetiko"
+cn_d_verona_venetic:0 "Veronos"
+cn_d_verona_venetic_adj: "Veronko"
+cn_c_verona_venetic:0 "Veronos"
+cn_c_verona_venetic_adj: "Veronan"
+cn_b_verona_venetic:0 "Veronos"
+cn_b_verona_venetic_adj: "Veronan"
+cn_c_padua_venetic:0 "Patavnos"
+cn_c_padua_venetic_adj:0 "Patavko"
+cn_d_padua_venetic:0 "Patavnos"
+cn_d_padua_venetic_adj:0 "Patavko"
+cn_b_padua_venetic:0 "Patavnos"
+cn_b_padua_venetic_adj:0 "Patavian"
+cn_b_este_venetic: "Estes"
+cn_b_este_venetic_adj: "Esteko"
+cn_d_istria_venetic: "Histrinos"
+cn_d_istria_venetic_adj: "Histri"
+cn_c_istria_venetic: "Histrinos"
+cn_c_istria_venetic_adj: "Histriko"
