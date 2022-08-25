@@ -346,7 +346,7 @@ namespace ImperatorToCK3.CK3 {
 
 			switch (year) {
 				case <= 300:
-					MakePaganRuler();
+					UsePaganRulers();
 					break;
 				case > 300 and < 874:
 					faithCandidates = new OrderedSet<string> {"insular_celtic", "catholic", "orthodox"};
@@ -386,15 +386,15 @@ namespace ImperatorToCK3.CK3 {
 							provinceFound = true;
 							cultureId = potentialSourceProvince.GetCultureId(bookmarkDate) ?? defaultCultureId;
 							faithCandidates = faithCandidates.Prepend(faithId);
-							namePool = new Queue<string>(new[] {"Canann", "Petair", "Fergus"});
 							break;
 						}
 					}
 					if (!provinceFound) {
 						// Give up and create a pagan ruler.
-						MakePaganRuler();
+						UsePaganRulers();
 					} else {
 						Logger.Info("Giving Iceland and Faroe Islands to Papar...");
+						namePool = new Queue<string>(new[] {"Canann", "Petair", "Fergus"});
 					}
 					break;
 				default:
@@ -443,7 +443,7 @@ namespace ImperatorToCK3.CK3 {
 
 			Logger.IncrementProgress();
 
-			void MakePaganRuler() {
+			void UsePaganRulers() {
 				Logger.Info("Giving Iceland and Faroe Islands to pagan Gaels...");
 				faithCandidates = new OrderedSet<string> {"gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan"};
 				cultureId = "gaelic";
