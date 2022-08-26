@@ -16,6 +16,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -393,29 +394,38 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		bool regionHasMultipleGovernorships,
 		LocDB locDB
 	) {
-		if (!Localizations.ContainsKey(Id)) {
-			var nameSet = false;
-			LocBlock? regionLocBlock = locDB.GetLocBlockForKey(governorship.RegionName);
+		if (Localizations.ContainsKey(Id)) {
+			return;
+		}
 
-			if (regionHasMultipleGovernorships && regionLocBlock is not null) {
-				var ck3Country = country.CK3Title;
-				if (ck3Country is not null && ck3Country.Localizations.TryGetValue(ck3Country.Id + "_adj", out var countryAdjectiveLocBlock)) {
-					var nameLocBlock = Localizations.AddLocBlock(Id);
-					nameLocBlock.CopyFrom(regionLocBlock);
-					nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-						(orig, adj, language) => $"{adj} {orig}"
-					);
-					nameSet = true;
-				}
-			}
-			if (!nameSet && regionLocBlock is not null) {
+		var nameSet = false;
+		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(governorship.RegionName);
+		
+		
+		// If any area in the region is fully controlled, use the area name for governorship name.
+		if (regionHasMultipleGovernorships) {
+			throw new NotImplementedException();
+		}
+		// Try to add country adjective to governorship name if region has multiple governorships.
+		// Example: Mauretania -> Roman Mauretania
+		if (regionHasMultipleGovernorships && regionLocBlock is not null) {
+			var ck3Country = country.CK3Title;
+			if (ck3Country is not null && ck3Country.Localizations.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(regionLocBlock);
+				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
+					(orig, adj, language) => $"{adj} {orig}"
+				);
 				nameSet = true;
 			}
-			if (!nameSet) {
-				Logger.Warn($"{Id} needs help with localization!");
-			}
+		}
+		if (!nameSet && regionLocBlock is not null) {
+			var nameLocBlock = Localizations.AddLocBlock(Id);
+			nameLocBlock.CopyFrom(regionLocBlock);
+			nameSet = true;
+		}
+		if (!nameSet) {
+			Logger.Warn($"{Id} needs help with localization!");
 		}
 	}
 
@@ -476,7 +486,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(date, "development_level", "change_development_level", value);
 	}
 
-	[NonSerialized] public LocDB Localizations { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
+	[commonItems.Serialization.NonSerialized] public LocDB Localizations { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 
 	private void TrySetAdjectiveLoc(LocDB LocDB, CountryCollection imperatorCountries) {
 		if (ImperatorCountry is null) {
@@ -533,22 +543,22 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
 		}
 	}
-	[NonSerialized] public string? CoA { get; private set; }
+	[commonItems.Serialization.NonSerialized] public string? CoA { get; private set; }
 
 	[SerializedName("capital")] public string? CapitalCountyId { get; private set; }
-	[NonSerialized]
+	[commonItems.Serialization.NonSerialized]
 	public Title? CapitalCounty {
 		get => CapitalCountyId is null ? null : parentCollection[CapitalCountyId];
 		private set => CapitalCountyId = value?.Id;
 	}
 
-	[NonSerialized] public Country? ImperatorCountry { get; private set; }
+	[commonItems.Serialization.NonSerialized] public Country? ImperatorCountry { get; private set; }
 
 	[SerializedName("color")] public Color? Color1 { get; set; }
 	[SerializedName("color2")] public Color? Color2 { get; set; }
 
 	private Title? deJureLiege;
-	[NonSerialized]
+	[commonItems.Serialization.NonSerialized]
 	public Title? DeJureLiege { // direct de jure liege title
 		get => deJureLiege;
 		set {
@@ -636,9 +646,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return deFactoVassalsAndBelow;
 	}
 
-	[NonSerialized] public bool PlayerCountry { get; private set; }
-	[NonSerialized] public string Id { get; } // e.g. d_latium
-	[NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
+	[commonItems.Serialization.NonSerialized] public bool PlayerCountry { get; private set; }
+	[commonItems.Serialization.NonSerialized] public string Id { get; } // e.g. d_latium
+	[commonItems.Serialization.NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
 	[SerializedName("landless")] public bool Landless { get; private set; } = false;
 	[SerializedName("definite_form")] public bool HasDefiniteForm { get; private set; } = false;
 
@@ -688,7 +698,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				return new SortedSet<string>();
 		}
 	}
-	[NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
+	[commonItems.Serialization.NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
@@ -750,7 +760,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.Fields.Remove("liege");
 	}
 
-	[NonSerialized] public History History { get; } = new();
+	[commonItems.Serialization.NonSerialized] public History History { get; } = new();
 	private static readonly ColorFactory colorFactory = new();
 
 	private void SetRank() {
@@ -808,7 +818,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return heldProvinces;
 	}
 
-	[NonSerialized] public static HashSet<string> IgnoredTokens { get; } = new();
+	[commonItems.Serialization.NonSerialized] public static HashSet<string> IgnoredTokens { get; } = new();
 
 	// used by kingdom titles only
 	public bool KingdomContainsProvince(ulong provinceId) {
@@ -868,9 +878,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	// used by county titles only
-	[NonSerialized] public IEnumerable<ulong> CountyProvinces => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
-	[NonSerialized] private string CapitalBaronyId { get; set; } = string.Empty; // used when parsing inside county to save first barony
-	[NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
+	[commonItems.Serialization.NonSerialized] public IEnumerable<ulong> CountyProvinces => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
+	[commonItems.Serialization.NonSerialized] private string CapitalBaronyId { get; set; } = string.Empty; // used when parsing inside county to save first barony
+	[commonItems.Serialization.NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
 
 	// used by barony titles only
 	[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_barony is its corresponding title.
