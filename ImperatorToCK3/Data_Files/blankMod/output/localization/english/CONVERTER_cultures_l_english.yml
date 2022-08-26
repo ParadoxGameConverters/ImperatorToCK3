@@ -263,7 +263,7 @@ l_english:
  pannonian_prefix:0 "Pannono" # found 'Pannono-Dacian military centres' in https://books.google.pl/books?id=fcj1DwAAQBAJ&dq=pannono-roman&hl=pl&source=gbs_navlinks_s
  salinatorian:0 "Salinatorian"
  salinatorian_collective_noun:0 "Saltmen"
- salinatorian_prefix:0 "Salinatorio"
+ salinatorian_prefix:0 "Halio" # Iohannes: The prefix for Salinatorian would be Halio-, I forgot to research it
  euxinian:0 "Euxinian"
  euxinian_collective_noun:0 "Euxinians"
  euxinian_prefix:0 "Euxinio"

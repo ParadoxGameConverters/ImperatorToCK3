@@ -363,7 +363,6 @@ link = { ck3 = vlach imp = roman imp = osco_umbrian imp = umbrian imp = samnite 
 link = { ck3 = euxinian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_L }
 link = { ck3 = bazramani imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_M }
 link = { ck3 = judajca imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_N }
-link = { ck3 = salinatorian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_O }
 link = { ck3 = sardinian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_S }
 link = { ck3 = italian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_P }
 link = { ck3 = sicilian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_Q }

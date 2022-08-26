@@ -109,3 +109,36 @@ taliaite = { # Carthaginian divergence in Italia, name based on ITA tag from Imp
 		}
 	}
 }
+
+salinatorian = { # a pun on the history of the Romans salting Carthage
+	name = salinatorian
+	trigger = {
+		# capital must be in Roman Africa
+		capital_province = {
+			geographical_region = custom_roman_africa
+		}
+		# at least one county in Roman Africa must be Roman or descendant
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:roman
+					any_parent_culture_or_above = { this = culture:roman }
+				}
+			}
+			title_province = {
+				geographical_region = custom_roman_africa
+			}
+		}
+		# culture must be Roman or descendant
+		scope:culture = {
+			OR = {
+				culture = culture:roman
+				any_parent_culture_or_above = { this = culture:roman }
+			}
+		}
+		# Carthage must be a shithole
+		title:c_tunis = {
+			development_level < 10
+		}
+	}
+}
