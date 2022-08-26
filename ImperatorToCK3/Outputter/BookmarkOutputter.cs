@@ -4,6 +4,7 @@ using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Exceptions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -157,8 +158,12 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
 			Logger.Info("Drawing bookmark map...");
-			string provincesMapPath = Path.Combine(config.CK3Path, "game/map_data/provinces.png");
-			string flatmapPath = Path.Combine(config.CK3Path, "game/gfx/map/terrain/flatmap.dds");
+			var ck3ModFS = ck3World.ModFS;
+			var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
+			var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flatmap.dds");
+			if (flatmapPath is null) {
+				throw new ConverterException($"{nameof(flatmapPath)} not found!");
+			}
 			const string tmpFlatmapPath = "temp/flatmap.png";
 
 			SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
