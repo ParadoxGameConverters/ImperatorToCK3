@@ -1,0 +1,67 @@
+﻿IRToCK3_aesthetics_anatolian = {
+	is_shown = {
+		scope:character = {
+			culture = {
+				has_cultural_pillar = language_greek
+			}
+			any_sub_realm_county = {
+				title_province = {
+					geographical_region = ghw_region_anatolia
+				}
+			}
+		}
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	name_list = name_list_ancient_greek
+}
+
+IRToCK3_aesthetics_euxinian = {
+	is_shown = {
+		scope:character = {
+			culture = {
+				has_cultural_pillar = language_greek
+			}
+			any_sub_realm_county = {
+				title_province = {
+					OR = {
+						geographical_region = ghw_region_crimea
+						geographical_region = ghw_region_caucasus
+					}
+				}
+			}
+		}
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	unit_gfx = { eastern_unit_gfx }
+
+	name_list = name_list_greek
+	name_list = name_list_ancient_greek
+}
+
+IRToCK3_aesthetics_hyperborean = {
+	is_shown = {
+		scope:character = {
+			culture = {
+				has_cultural_pillar = language_greek
+			}
+			any_sub_realm_county = {
+				title_province = {
+					geographical_region = world_europe_north
+				}
+			}
+		}
+	}
+	
+	coa_gfx = { byzantine_group_coa_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	name_list = name_list_ancient_greek
+}
