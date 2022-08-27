@@ -448,7 +448,7 @@ public partial class Title {
 					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinces.Count();
 				}
 				if (kingdomRealmShares.Count > 0) {
-					var biggestShare = kingdomRealmShares.OrderByDescending(pair => pair.Value).First();
+					var biggestShare = kingdomRealmShares.MaxBy(pair => pair.Value);
 					duchy.DeJureLiege = this[biggestShare.Key];
 				}
 			}
@@ -456,7 +456,6 @@ public partial class Title {
 
 			Logger.Info("Setting de jure empires...");
 			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
-				// Only assign de jure empire to kingdoms that are completely owned by the empire.
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
@@ -470,14 +469,14 @@ public partial class Title {
 					empireShares.TryGetValue(empireRealm.Id, out var currentCount);
 					empireShares[empireRealm.Id] = currentCount + countyProvincesCount;
 				}
-
-				if (empireShares.Count is not 1) {
-					kingdom.DeJureLiege = null;
+				
+				kingdom.DeJureLiege = null;
+				if (empireShares.Count == 0) {
 					continue;
 				}
-				(string empireId, int share) = empireShares.First();
-				if (share != kingdomProvincesCount) {
-					kingdom.DeJureLiege = null;
+				(string empireId, int share) = empireShares.MaxBy(pair => pair.Value);
+				// The potential de jure empire must hold at least 75% of the kingdom.
+				if (share < (kingdomProvincesCount * 0.75)) {
 					continue;
 				}
 				kingdom.DeJureLiege = this[empireId];
