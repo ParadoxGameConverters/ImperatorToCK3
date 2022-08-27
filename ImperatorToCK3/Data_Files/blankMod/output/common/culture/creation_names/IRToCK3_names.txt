@@ -142,3 +142,80 @@ salinatorian = { # a pun on the history of the Romans salting Carthage
 		}
 	}
 }
+
+# TODO: FINISH ALL BELOW
+anatolian = {
+	name = anatolian
+	trigger = {
+		capital_county = {
+			title_province = {
+				geographical_region = ghw_region_anatolia
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				geographical_region = ghw_region_anatolia
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}
+euxinian = {
+	name = euxinian
+	trigger = {
+		capital_county = {
+			title_province = {
+				OR = {
+					geographical_region = ghw_region_crimea
+					geographical_region = ghw_region_caucasus
+				}
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				OR = {
+					geographical_region = ghw_region_crimea
+					geographical_region = ghw_region_caucasus
+				}
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}
+hyperborean = {
+	name = hyperborean
+	trigger = {
+		capital_county = {
+			title_province = {
+				geographical_region = world_europe_north
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				geographical_region = world_europe_north
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}
