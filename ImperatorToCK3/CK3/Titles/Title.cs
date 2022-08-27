@@ -264,7 +264,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					locDB.GetLocBlockForKey(pryNameKey) ?? new LocBlock(pryNameKey, "english") {
 						["english"] = "Antigonid Kingdom"
 					},
-					(loc, modifyingLoc, language) => loc?.Replace($"${pryNameKey}$", modifyingLoc));
+					(loc, modifyingLoc, _) => loc?.Replace($"${pryNameKey}$", modifyingLoc));
 				return pryLocBlock;
 			case "PRY_DYN":
 				return locDB.GetLocBlockForKey("get_pry_name_fallback");
@@ -275,7 +275,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					locDB.GetLocBlockForKey(selNameKey) ?? new LocBlock(selNameKey, "english") {
 						["english"] = "Seleukid Empire"
 					},
-					(loc, modifyingLoc, language) => loc?.Replace($"${selNameKey}$", modifyingLoc));
+					(loc, modifyingLoc, _) => loc?.Replace($"${selNameKey}$", modifyingLoc));
 				return selLocBlock;
 			case "SEL_DYN":
 				return locDB.GetLocBlockForKey("get_sel_name_fallback");
@@ -286,7 +286,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					locDB.GetLocBlockForKey(mryNameKey) ?? new LocBlock(mryNameKey, "english") {
 						["english"] = "Maurya"
 					},
-					(loc, modifyingLoc, language) => loc?.Replace($"${mryNameKey}$", modifyingLoc));
+					(loc, modifyingLoc, _) => loc?.Replace($"${mryNameKey}$", modifyingLoc));
 				return mryLocBlock;
 			case "MRY_DYN":
 				return locDB.GetLocBlockForKey("get_mry_name_fallback");
@@ -435,7 +435,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					var nameLocBlock = Localizations.AddLocBlock(Id);
 					nameLocBlock.CopyFrom(regionLocBlock);
 					nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-						(orig, adj, language) => $"{adj} {orig}"
+						(orig, adj, _) => $"{adj} {orig}"
 					);
 					nameSet = true;
 				}
@@ -530,7 +530,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						locDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, "english") {
 							["english"] = "Antigonid"
 						},
-						(loc, modifyingLoc, language) => loc?.Replace($"${pryAdjKey}$", modifyingLoc));
+						(loc, modifyingLoc, _) => loc?.Replace($"${pryAdjKey}$", modifyingLoc));
 					break;
 				case "PRY_DYN":
 					validatedAdj = locDB.GetLocBlockForKey("get_pry_adj_fallback");
@@ -542,7 +542,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						locDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, "english") {
 							["english"] = "Seleukid"
 						},
-						(loc, modifyingLoc, language) => loc?.Replace($"${selAdjKey}$", modifyingLoc));
+						(loc, modifyingLoc, _) => loc?.Replace($"${selAdjKey}$", modifyingLoc));
 					break;
 				case "SEL_DYN":
 					validatedAdj = locDB.GetLocBlockForKey("get_sel_adj_fallback");
@@ -554,7 +554,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						locDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, "english") {
 							["english"] = "Mauryan"
 						},
-						(loc, modifyingLoc, language) => loc?.Replace($"${mryAdjKey}$", modifyingLoc));
+						(loc, modifyingLoc, _) => loc?.Replace($"${mryAdjKey}$", modifyingLoc));
 					break;
 				case "MRY_DYN":
 					validatedAdj = locDB.GetLocBlockForKey("get_mry_adj_fallback");
