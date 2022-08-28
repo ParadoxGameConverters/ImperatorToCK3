@@ -42,7 +42,6 @@ namespace ImperatorToCK3.Outputter {
 			ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
 			Logger.IncrementProgress();
 
-			Logger.Info("Writing Wars...");
 			WarsOutputter.OutputWars(outputName, ck3World.Wars);
 
 			Logger.Info("Writing Succession Triggers...");

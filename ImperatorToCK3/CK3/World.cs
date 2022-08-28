@@ -160,7 +160,7 @@ namespace ImperatorToCK3.CK3 {
 
 			HandleIcelandAndFaroeIslands(config);
 
-			ImportImperatorWars(impWorld, config.ck3BookmarkDate);
+			ImportImperatorWars(impWorld, config.CK3BookmarkDate);
 
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
