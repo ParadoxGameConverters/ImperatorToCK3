@@ -475,7 +475,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// Try to use the name of most developed owned territory in the region.
 		if (!nameSet && regionHasMultipleGovernorships && region is not null) {
 			var sourceProvince = irProvinces
-				.Where(p => region.ContainsProvince(p.Id))
+				.Where(p => region.ContainsProvince(p.Id) && country.Equals(p.OwnerCountry))
 				.MaxBy(p=>p.CivilizationValue);
 			if (sourceProvince is not null && locDB.TryGetValue(sourceProvince.Name, out var provinceLocBlock)) {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
