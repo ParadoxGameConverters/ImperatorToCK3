@@ -1,6 +1,8 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,12 +32,17 @@ public static class CoatOfArmsOutputter {
 		Logger.IncrementProgress();
 	}
 
-	public static void CopyCoaPatterns(string imperatorPath, string outputPath) {
+	public static void CopyCoaPatterns(ModFilesystem irModFS, string outputPath) {
 		Logger.Info("Copying coats of arms patterns...");
-		SystemUtils.TryCopyFolder(
-			Path.Combine(imperatorPath, "game", "gfx", "coat_of_arms", "patterns"),
-			Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns")
-		);
+		const string relativePatternsPath = "gfx/coat_of_arms/patterns";
+		
+		var filePaths = irModFS.GetAllFilesInFolderRecursive(relativePatternsPath);
+		foreach (var filePath in filePaths) {
+			var index = filePath.IndexOf(relativePatternsPath, StringComparison.Ordinal);
+			var relativeFileOutputPath = filePath[index..];
+			SystemUtils.TryCopyFile(filePath, Path.Combine(outputPath, relativeFileOutputPath));
+		}
+		
 		Logger.IncrementProgress();
 	}
 }

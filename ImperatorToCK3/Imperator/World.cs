@@ -5,6 +5,7 @@ using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
@@ -12,6 +13,7 @@ using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
@@ -24,8 +26,9 @@ namespace ImperatorToCK3.Imperator {
 		private GameVersion imperatorVersion = new();
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
+		public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
 		private readonly ScriptValueCollection scriptValues = new();
-		public Defines Defines { get; }= new();
+		public Defines Defines { get; } = new();
 		public LocDB LocDB { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
 
 		public NamedColorCollection NamedColors { get; } = new();
@@ -37,6 +40,7 @@ namespace ImperatorToCK3.Imperator {
 		public List<War> Wars { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		public UnitCollection Units { get; private set; } = new();
+		public CulturesDB CulturesDB { get; } = new();
 		public ReligionCollection Religions { get; private set; }
 		private GenesDB genesDB = new();
 
@@ -51,8 +55,6 @@ namespace ImperatorToCK3.Imperator {
 			Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 
 			var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
-			
-			ParseGenes(config);
 
 			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
@@ -102,6 +104,26 @@ namespace ImperatorToCK3.Imperator {
 				
 				// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 				LoadModFilesystemDependentData();
+			});
+			RegisterKeyword("variables", reader => {
+				Logger.Info("Reading global variables...");
+				
+				var variables = new HashSet<string>();
+				var variablesParser = new Parser();
+				variablesParser.RegisterKeyword("data", dataReader => {
+					var blobParser = new Parser();
+					blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+					blobParser.IgnoreUnregisteredItems();
+					foreach (var blob in new BlobList(dataReader).Blobs) {
+						var blobReader = new BufferedReader(blob);
+						blobParser.ParseStream(blobReader);
+					}
+				});
+				variablesParser.IgnoreAndLogUnregisteredItems();
+				variablesParser.ParseStream(reader);
+				GlobalFlags = variables.ToImmutableHashSet();
+				
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("family", reader => {
 				Logger.Info("Loading Families...");
@@ -199,8 +221,13 @@ namespace ImperatorToCK3.Imperator {
 
 			Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 		}
-		private void ParseGenes(Configuration config) {
-			genesDB = new GenesDB(Path.Combine(config.ImperatorPath, "game/common/genes/00_genes.txt"));
+		private void ParseGenes() {
+			var genesFileLocation = ModFS.GetActualFileLocation("common/genes/00_genes.txt");
+			if (genesFileLocation is null) {
+				Logger.Warn("I:R genes file not found!");
+			} else {
+				genesDB = new GenesDB(genesFileLocation);
+			}
 		}
 		private void LoadPreImperatorRulers() {
 			const string filePath = "configurables/prehistory.txt";
@@ -283,7 +310,11 @@ namespace ImperatorToCK3.Imperator {
 			Defines.LoadDefines(ModFS);
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
 			
+			ParseGenes();
+			
 			Country.LoadGovernments(ModFS);
+			
+			CulturesDB.Load(ModFS);
 				
 			Religions = new ReligionCollection(scriptValues);
 			Religions.LoadDeities(ModFS);

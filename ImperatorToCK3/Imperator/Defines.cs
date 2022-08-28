@@ -1,10 +1,10 @@
 using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.Helpers;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Text.Json;
 
-namespace ImperatorToCK3.Imperator; 
+namespace ImperatorToCK3.Imperator;
 
 public class Defines {
 	public int CohortSize { get; private set; } = 500;
@@ -17,11 +17,10 @@ public class Defines {
 			string jsonString = string.Empty;
 			try {
 				jsonString = RakalyCaller.GetJson(filePath);
-				var jsonObject = JObject.Parse(jsonString);
-
-				var cohortSize = (int?)jsonObject["NUnit"]?["COHORT_SIZE"];
-				if (cohortSize is not null) {
-					CohortSize = (int)cohortSize;
+				var jsonRoot = JsonDocument.Parse(jsonString).RootElement;
+				
+				if (jsonRoot.TryGetProperty("NUnit", out var unitProp) && unitProp.TryGetProperty("COHORT_SIZE", out var cohortSizeProp)) {
+					CohortSize = cohortSizeProp.GetInt32();
 				}
 			} catch (Exception e) {
 				Logger.Warn($"Failed to read defines from {filePath}:\n\tJSON string: {jsonString}\n\texception: {e}");

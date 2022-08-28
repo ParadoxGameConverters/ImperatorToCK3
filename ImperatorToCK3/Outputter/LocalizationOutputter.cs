@@ -1,24 +1,23 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter;
 public static class LocalizationOutputter {
-	public static void OutputLocalization(string imperatorPath, string outputName, World ck3World) {
+	public static void OutputLocalization(ModFilesystem irModFS, string outputName, World ck3World) {
 		// copy character/family names localization
-		SystemUtils.TryCopyFile(imperatorPath + "/game/localization/english/character_names_l_english.yml",
-			"output/" + outputName + "/localization/replace/english/IMPERATOR_character_names_l_english.yml");
-		SystemUtils.TryCopyFile(imperatorPath + "/game/localization/french/character_names_l_french.yml",
-			"output/" + outputName + "/localization/replace/french/IMPERATOR_character_names_l_french.yml");
-		SystemUtils.TryCopyFile(imperatorPath + "/game/localization/german/character_names_l_german.yml",
-			"output/" + outputName + "/localization/replace/german/IMPERATOR_character_names_l_german.yml");
-		SystemUtils.TryCopyFile(imperatorPath + "/game/localization/russian/character_names_l_russian.yml",
-			"output/" + outputName + "/localization/replace/russian/IMPERATOR_character_names_l_russian.yml");
-		SystemUtils.TryCopyFile(imperatorPath + "/game/localization/simp_chinese/character_names_l_simp_chinese.yml",
-			"output/" + outputName + "/localization/replace/simp_chinese/IMPERATOR_character_names_l_simp_chinese.yml");
-		SystemUtils.TryCopyFile(imperatorPath + "/game/localization/spanish/character_names_l_spanish.yml",
-			"output/" + outputName + "/localization/replace/spanish/IMPERATOR_character_names_l_spanish.yml");
+		var outputPath = Path.Combine("output", outputName);
+		IEnumerable<string> languageNames = new[] {"english", "french", "german", "russian", "simp_chinese", "spanish"};
+		foreach (var languageName in languageNames) {
+			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
+			if (locFileLocation is not null) {
+				SystemUtils.TryCopyFile(locFileLocation,
+					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
+				);
+			}
+		}
 
 		using var englishStream = File.OpenWrite("output/" + outputName + "/localization/replace/english/converter_l_english.yml");
 		using var frenchStream = File.OpenWrite("output/" + outputName + "/localization/replace/french/converter_l_french.yml");

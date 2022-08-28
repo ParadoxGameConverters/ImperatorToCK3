@@ -123,6 +123,7 @@ public partial class Title {
 			string id,
 			Governorship governorship,
 			Country country,
+			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			LocDB locDB,
@@ -135,6 +136,7 @@ public partial class Title {
 				id,
 				governorship,
 				country,
+				irProvinces,
 				imperatorCharacters,
 				regionHasMultipleGovernorships,
 				locDB,
@@ -251,7 +253,7 @@ public partial class Title {
 			Configuration config
 		) {
 			// Create a new title or update existing title.
-			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
+			var name = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
@@ -293,7 +295,7 @@ public partial class Title {
 
 		public void ImportImperatorGovernorships(
 			Imperator.World impWorld,
-			ProvinceCollection provinces,
+			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -318,7 +320,8 @@ public partial class Title {
 					governorship,
 					imperatorCountries,
 					this,
-					provinces,
+					ck3Provinces,
+					impWorld.Provinces,
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
 					tagTitleMapper,
@@ -338,7 +341,8 @@ public partial class Title {
 			Governorship governorship,
 			CountryCollection imperatorCountries,
 			LandedTitles titles,
-			ProvinceCollection provinces,
+			ProvinceCollection ck3Provinces,
+			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			TagTitleMapper tagTitleMapper,
@@ -351,22 +355,23 @@ public partial class Title {
 		) {
 			var country = imperatorCountries[governorship.CountryId];
 
-			var name = DetermineName(governorship, country, titles, provinces, imperatorRegionMapper, tagTitleMapper);
-			if (name is null) {
+			var id = DetermineId(governorship, country, titles, ck3Provinces, imperatorRegionMapper, tagTitleMapper);
+			if (id is null) {
 				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
 				return;
 			}
 
-			if (name.StartsWith("c_")) {
+			if (id.StartsWith("c_")) {
 				countryLevelGovernorships.Add(governorship);
 				return;
 			}
 
 			// Create a new title or update existing title
-			if (TryGetValue(name, out var existingTitle)) {
+			if (TryGetValue(id, out var existingTitle)) {
 				existingTitle.InitializeFromGovernorship(
 					governorship,
 					country,
+					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					locDB,
@@ -376,9 +381,10 @@ public partial class Title {
 				);
 			} else {
 				Add(
-					name,
+					id,
 					governorship,
 					country,
+					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					locDB,
@@ -448,7 +454,7 @@ public partial class Title {
 					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinces.Count();
 				}
 				if (kingdomRealmShares.Count > 0) {
-					var biggestShare = kingdomRealmShares.OrderByDescending(pair => pair.Value).First();
+					var biggestShare = kingdomRealmShares.MaxBy(pair => pair.Value);
 					duchy.DeJureLiege = this[biggestShare.Key];
 				}
 			}
@@ -456,7 +462,6 @@ public partial class Title {
 
 			Logger.Info("Setting de jure empires...");
 			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
-				// Only assign de jure empire to kingdoms that are completely owned by the empire.
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
@@ -470,14 +475,14 @@ public partial class Title {
 					empireShares.TryGetValue(empireRealm.Id, out var currentCount);
 					empireShares[empireRealm.Id] = currentCount + countyProvincesCount;
 				}
-
-				if (empireShares.Count is not 1) {
-					kingdom.DeJureLiege = null;
+				
+				kingdom.DeJureLiege = null;
+				if (empireShares.Count == 0) {
 					continue;
 				}
-				(string empireId, int share) = empireShares.First();
-				if (share != kingdomProvincesCount) {
-					kingdom.DeJureLiege = null;
+				(string empireId, int share) = empireShares.MaxBy(pair => pair.Value);
+				// The potential de jure empire must hold at least 75% of the kingdom.
+				if (share < (kingdomProvincesCount * 0.75)) {
 					continue;
 				}
 				kingdom.DeJureLiege = this[empireId];
@@ -497,7 +502,7 @@ public partial class Title {
 			return countyHoldersCache;
 		}
 
-		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date date) {
+		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date date, double irCivilizationWorth) {
 			static (Dictionary<string, int>, Dictionary<ulong, int>) GetImpProvsPerCounty(ProvinceMapper provMapper, IEnumerable<Title> counties) {
 				var impProvsPerCounty = new Dictionary<string, int>();
 				var ck3ProvsPerImperatorProv = new Dictionary<ulong, int>();
@@ -535,6 +540,7 @@ public partial class Title {
 					dev += impProvs.Average(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImpProv[impProvId]);
 				}
 
+				dev *= irCivilizationWorth;
 				dev /= provsCount;
 				dev -= Math.Sqrt(dev);
 				return dev;

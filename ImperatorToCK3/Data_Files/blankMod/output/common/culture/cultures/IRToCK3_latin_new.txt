@@ -1,30 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
-salinatorian = {
-	color = { 133 129 152 }
-
-	parents = { roman carthaginian }
-	created = 20.1.1
-	
-	heritage = heritage_latin
-	language = language_latin
-	martial_custom = martial_custom_male_only
-	
-	name_list = name_list_sicilian
-	
-	ethos = ethos_stoic
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
-	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { western_clothing_gfx }
-	unit_gfx = { western_unit_gfx }
-	
-	ethnicities = {
-		10 = mediterranean
-	}
-	traditions = {
-		tradition_only_the_strong
-	}	
-}
+﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
 
 # Old Italian
 oscan = {	

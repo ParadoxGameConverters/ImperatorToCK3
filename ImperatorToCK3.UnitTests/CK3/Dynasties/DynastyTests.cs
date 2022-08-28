@@ -4,6 +4,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -102,7 +103,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locMapper = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, locMapper);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), locMapper);
 
 		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
 		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Name);
@@ -117,7 +118,7 @@ public class DynastyTests {
 		var locDB = new LocDB("english");
 		var dynLoc = locDB.AddLocBlock("cornelii");
 		dynLoc["english"] = "Cornelii";
-		var dynasty = new Dynasty(family, characters, locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
 
 		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
 		Assert.Equal("Cornelii", dynasty.Localization.Value["english"]);
@@ -130,7 +131,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
 
 		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
 		Assert.Equal("cornelii", dynasty.Localization.Value["english"]);
@@ -176,7 +177,7 @@ public class DynastyTests {
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member3)
 			.Build();
-		var dynasty = new Dynasty(family, characters, locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
 
 		Assert.Equal("not_gypsy", dynasty.Culture);
 	}

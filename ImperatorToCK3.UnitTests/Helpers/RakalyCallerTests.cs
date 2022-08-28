@@ -1,7 +1,8 @@
 ﻿using FluentAssertions;
 using ImperatorToCK3.Helpers;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Helpers;
@@ -19,9 +20,9 @@ public class RakalyCallerTests {
 		const string filePath = "TestFiles/RakalyCallerTests/00_defines.txt";
 
 		var jsonString = RakalyCaller.GetJson(filePath);
-		var jsonObject = JObject.Parse(jsonString);
+		var jsonRoot = JsonDocument.Parse(jsonString).RootElement;
 		
-		Assert.Collection(jsonObject.Properties(),
+		Assert.Collection(jsonRoot.EnumerateObject(),
 			property => {
 				Assert.Equal("NGame", property.Name);
 			},
@@ -29,11 +30,17 @@ public class RakalyCallerTests {
 				Assert.Equal("NUnit", property.Name);
 			});
 		
-		Assert.Equal("450.10.1", jsonObject["NGame"]?["START_DATE"]);
-		jsonObject["NGame"]?["GAME_SPEED_TICKS"].Should().Equal(1, 0.75, 0.5, 0.25, 0.0);
-		Assert.Equal(50, jsonObject["NGame"]?["SCORE_START_BASE"]);
-		Assert.Equal(0.45, jsonObject["NGame"]?["SCORE_START_POP_WEIGHT"]);
-		Assert.Equal(500, jsonObject["NUnit"]?["COHORT_SIZE"]);
+		Assert.Equal("450.10.1", jsonRoot.GetProperty("NGame").GetProperty("START_DATE").GetString());
+		jsonRoot
+			.GetProperty("NGame")
+			.GetProperty("GAME_SPEED_TICKS")
+			.EnumerateArray()
+			.Select(element => element.GetDouble())
+			.Should()
+			.Equal(1, 0.75, 0.5, 0.25, 0.0);
+		Assert.Equal(50, jsonRoot.GetProperty("NGame").GetProperty("SCORE_START_BASE").GetDouble());
+		Assert.Equal(0.45, jsonRoot.GetProperty("NGame").GetProperty("SCORE_START_POP_WEIGHT").GetDouble());
+		Assert.Equal(500, jsonRoot.GetProperty("NUnit").GetProperty("COHORT_SIZE").GetInt32());
 	}
 	
 	[Fact]
