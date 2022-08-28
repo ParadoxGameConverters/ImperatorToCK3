@@ -1,6 +1,7 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
@@ -36,6 +37,7 @@ namespace ImperatorToCK3.Imperator {
 		private PopCollection pops = new();
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
+		public List<War> Wars { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		public UnitCollection Units { get; private set; } = new();
 		public CulturesDB CulturesDB { get; } = new();
@@ -160,6 +162,11 @@ namespace ImperatorToCK3.Imperator {
 				pops = PopCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {pops.Count} pops.");
 				Logger.IncrementProgress();
+			});
+			RegisterKeyword("diplomacy", reader => {
+				Logger.Info("Loading Diplomacy...");
+				var diplomacy = new Diplomacy.Diplomacy(reader);
+				Wars = diplomacy.Wars;
 			});
 			RegisterKeyword("jobs", reader => {
 				Logger.Info("Loading Jobs...");

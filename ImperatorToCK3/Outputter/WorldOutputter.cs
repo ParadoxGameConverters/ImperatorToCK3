@@ -42,6 +42,9 @@ namespace ImperatorToCK3.Outputter {
 			ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
 			Logger.IncrementProgress();
 
+			Logger.Info("Writing Wars...");
+			WarsOutputter.OutputWars(outputName, ck3World.Wars);
+
 			Logger.Info("Writing Succession Triggers...");
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);
 			Logger.IncrementProgress();
@@ -105,6 +108,7 @@ namespace ImperatorToCK3.Outputter {
 			modFileBuilder.AppendLine("replace_path = \"history/province_mapping\"");
 			modFileBuilder.AppendLine("replace_path = \"history/provinces\"");
 			modFileBuilder.AppendLine("replace_path = \"history/titles\"");
+			modFileBuilder.AppendLine("replace_path = \"history/wars\"");
 			var modText = modFileBuilder.ToString();
 
 			var modFilePath = Path.Combine("output", $"{outputName}.mod");
@@ -126,6 +130,7 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "provinces"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "province_mapping"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));

@@ -22,7 +22,9 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,6 +41,7 @@ namespace ImperatorToCK3.CK3 {
 		public ReligionCollection Religions { get; } = new();
 		public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; }= new();
 		public MapData MapData { get; }
+		public List<Wars.War> Wars { get; } = new();
 		public Date CorrectedDate { get; }
 
 		public World(Imperator.World impWorld, Configuration config) {
@@ -157,8 +160,25 @@ namespace ImperatorToCK3.CK3 {
 
 			HandleIcelandAndFaroeIslands(config);
 
+			ImportImperatorWars(impWorld, config.ck3BookmarkDate);
+
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+		}
+		
+		private void ImportImperatorWars(Imperator.World impWorld, Date ck3BookmarkDate) {
+			foreach (var impWar in impWorld.Wars) {
+				var ck3War = new Wars.War(impWar, impWorld.Countries, warMapper, ck3BookmarkDate);
+				if (ck3War.Attackers.Count == 0) {
+					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no attackers!");
+					continue;
+				}
+				if (ck3War.Defenders.Count == 0) {
+					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no defenders!");
+					continue;
+				}
+				Wars.Add(ck3War);
+			}
 		}
 
 		private void LoadCorrectProvinceMappingsVersion(Imperator.World imperatorWorld) {
@@ -466,5 +486,6 @@ namespace ImperatorToCK3.CK3 {
 		private readonly UnitTypeMapper unitTypeMapper = new("configurables/unit_types_map.txt");
 		private readonly CK3RegionMapper ck3RegionMapper;
 		private readonly ImperatorRegionMapper imperatorRegionMapper;
+		private readonly WarMapper warMapper = new("configurables/wargoal_mappings.txt");
 	}
 }
