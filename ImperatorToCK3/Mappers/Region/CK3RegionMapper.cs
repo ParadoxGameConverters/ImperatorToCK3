@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
@@ -7,19 +8,22 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Region {
 	public class CK3RegionMapper {
 		public CK3RegionMapper() { }
-		public CK3RegionMapper(string ck3Path, Title.LandedTitles landedTitles) {
+		public CK3RegionMapper(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 			Logger.Info("Initializing Geography...");
 
-			var regionFilePath = Path.Combine(ck3Path, "game/map_data/geographical_region.txt");
-			var islandRegionFilePath = Path.Combine(ck3Path, "game/map_data/island_region.txt");
-
-			LoadRegions(landedTitles, regionFilePath, islandRegionFilePath);
+			LoadRegions(ck3ModFS, landedTitles);
+		
+			Logger.IncrementProgress();
 		}
-		public void LoadRegions(Title.LandedTitles landedTitles, string regionFilePath, string islandRegionFilePath) {
+		public void LoadRegions(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 			var parser = new Parser();
 			RegisterRegionKeys(parser);
-			parser.ParseFile(regionFilePath);
-			parser.ParseFile(islandRegionFilePath);
+
+			var regionsFolderPath = Path.Combine("map_data", "geographical_regions");
+			parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", true);
+
+			var islandRegionFilePath = Path.Combine("map_data", "island_region.txt");
+			parser.ParseGameFile(islandRegionFilePath, ck3ModFS);
 
 			foreach (var title in landedTitles) {
 				var titleRank = title.Rank;

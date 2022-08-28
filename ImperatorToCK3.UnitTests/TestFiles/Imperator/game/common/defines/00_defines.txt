@@ -1,0 +1,7 @@
+NGame = {
+	START_DATE = "450.10.1"
+}
+NUnit = {
+	COHORT_SIZE = 601
+}
+

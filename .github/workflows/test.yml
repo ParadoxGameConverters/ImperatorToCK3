@@ -8,19 +8,18 @@ on:
 
 jobs:
   test_and_check_coverage:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+        submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '6.*'
+        dotnet-version: '7.*'
+        include-prerelease: true
     - name: Test
       run: |
        cd ImperatorToCK3.UnitTests
@@ -38,17 +37,16 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+        submodules: recursive
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '6.*'
+        dotnet-version: '7.*'
+        include-prerelease: true
     - name: Test
       run: |
        cd ImperatorToCK3.UnitTests

@@ -33,7 +33,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw {
 			Console.SetOut(output);
 
 			var reader = new BufferedReader("link = { imp = implaw }");
-			var mapper = new SuccessionLawMapper(reader);
+			_ = new SuccessionLawMapper(reader);
 
 			Assert.Contains("SuccessionLawMapper: link with no CK3 successions laws", output.ToString());
 		}

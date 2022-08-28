@@ -1,0 +1,5 @@
+holy_site_1 = { barony=b_site_barony1 }
+holy_site_2 = { barony=b_site_barony2 }
+holy_site_3 = { barony=b_site_barony3 }
+holy_site_4 = { barony=b_site_barony4 }
+holy_site_5 = { barony=b_site_barony5 }

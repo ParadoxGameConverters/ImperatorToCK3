@@ -1,0 +1,2 @@
+mod_deity1 = {}
+mod_deity2 = {}

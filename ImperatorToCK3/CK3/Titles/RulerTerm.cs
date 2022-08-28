@@ -1,8 +1,8 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -19,11 +19,12 @@ public class RulerTerm {
 		Imperator.Countries.RulerTerm imperatorRulerTerm,
 		Characters.CharacterCollection characters,
 		GovernmentMapper governmentMapper,
-		LocalizationMapper localizationMapper,
+		LocDB locDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
-		ProvinceMapper provinceMapper
+		ProvinceMapper provinceMapper,
+		Configuration config
 	) {
 		if (imperatorRulerTerm.CharacterId is not null) {
 			CharacterId = $"imperator{imperatorRulerTerm.CharacterId}";
@@ -34,17 +35,24 @@ public class RulerTerm {
 		}
 
 		PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
-		if (PreImperatorRuler?.Country is not null) {
+		if (PreImperatorRuler?.BirthDate is null) {
+			return;
+		}
+		if (PreImperatorRuler.DeathDate is null) {
+			return;
+		}
+		if (PreImperatorRuler.Country is not null) {
 			// create a new ruler character
 			var character = new Character(
 				PreImperatorRuler,
 				StartDate,
 				PreImperatorRuler.Country,
-				localizationMapper,
+				locDB,
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
-				provinceMapper
+				provinceMapper,
+				config
 			);
 			characters.Add(character);
 			CharacterId = character.Id;

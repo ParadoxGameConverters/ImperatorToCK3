@@ -1,0 +1,2 @@
+common_area={}
+mod_area={}

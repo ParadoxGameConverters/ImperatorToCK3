@@ -1,0 +1,29 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
+hunnic = { # ImperatorToCK3
+	color = { 254 204 50 }
+	
+	# heritage = heritage_???
+	heritage = heritage_mongolic
+	language = language_hunnic
+
+	name_list = name_list_hunnic
+	
+	ethnicities = {
+		60 = circumpolar_dark_hair
+		30 = circumpolar_brown_hair
+		10 = circumpolar_blonde_hair
+	}
+
+	coa_gfx = { ugro_permian_group_coa_gfx steppe_coa_gfx } 
+	building_gfx = { steppe_building_gfx } 
+	clothing_gfx = { mongol_clothing_gfx } 
+	unit_gfx = { mongol_unit_gfx } 
+	martial_custom = martial_custom_male_only
+	
+	traditions = {
+		tradition_horse_breeder
+		tradition_pastoralists
+	}	
+	
+	ethos = ethos_bellicose
+}

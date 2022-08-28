@@ -1,0 +1,111 @@
+﻿crimean_gothic = { # https://en.wikipedia.org/wiki/Crimean_Goths
+	trigger = {
+		capital_county = {
+			title:d_crimea = {
+				is_de_jure_liege_or_above_target = prev
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:gothic
+					any_parent_culture_or_above = { this = culture:gothic }
+				}
+			}
+			duchy = title:d_crimea
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:gothic
+				any_parent_culture_or_above = { this = culture:gothic }
+			}
+		}
+	}
+}
+
+thracian_gothic = { # https://en.wikipedia.org/wiki/Thracian_Goths
+	trigger = {
+		capital_county = {
+			OR = {
+				target_is_de_jure_liege_or_above = title:d_turnovo
+				target_is_de_jure_liege_or_above = title:d_dobrudja
+				target_is_de_jure_liege_or_above = title:d_philippopolis
+				target_is_de_jure_liege_or_above = title:d_thrace
+				target_is_de_jure_liege_or_above = title:d_strymon
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:gothic
+					any_parent_culture_or_above = { this = culture:gothic }
+				}
+			}
+			OR = {
+				target_is_de_jure_liege_or_above = title:d_turnovo
+				target_is_de_jure_liege_or_above = title:d_dobrudja
+				target_is_de_jure_liege_or_above = title:d_philippopolis
+				target_is_de_jure_liege_or_above = title:d_thrace
+				target_is_de_jure_liege_or_above = title:d_strymon
+			}
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:gothic
+				any_parent_culture_or_above = { this = culture:gothic }
+			}
+		}
+	}
+}
+
+pmpese = { # Carthaginian divergence in Sardinia, name based on PMP tag from Imperator
+	# https://imperator.paradoxwikis.com/Countries#:~:text=P%27mpe-,PMP,-Magna%20Graecia
+	trigger = {
+		capital_county = {
+			title:d_sardinia = {
+				is_de_jure_liege_or_above_target = prev
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:carthaginian
+					any_parent_culture_or_above = { this = culture:carthaginian }
+				}
+			}
+			duchy = title:d_sardinia
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:carthaginian
+				any_parent_culture_or_above = { this = culture:carthaginian }
+			}
+		}
+	}
+}
+
+taliaite = { # Carthaginian divergence in Italia, name based on ITA tag from Imperator
+	# https://imperator.paradoxwikis.com/Countries#:~:text=20px%20%27Talia-,ITA,-Italia
+	trigger = {
+		capital_province = {
+			geographical_region = ghw_region_italy
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:carthaginian
+					any_parent_culture_or_above = { this = culture:carthaginian }
+				}
+			}
+			title_province = {
+				geographical_region = ghw_region_italy
+			}
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:carthaginian
+				any_parent_culture_or_above = { this = culture:carthaginian }
+			}
+		}
+	}
+}

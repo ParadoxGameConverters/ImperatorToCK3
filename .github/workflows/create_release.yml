@@ -5,64 +5,107 @@ on:
     - '*'
 jobs:
   create_release:
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      tag: ${{ steps.previoustag.outputs.tag }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: "Get previous tag"
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.*'
-    - name: "Add version to version.txt"
-      shell: bash
-      run: |
-        cd ImperatorToCK3/Data_Files/configurables
-        printf "\nversion = ${{ steps.previoustag.outputs.tag }}" >> version.txt
-    - name: "Build backend"
-      run: |
-        cd ImperatorToCK3
-        dotnet publish -p:PublishProfile=win-x64 -c:Release
-        cd ..
-        Remove-Item -LiteralPath "Release\ImperatorToCK3" -Force -Recurse
-        Xcopy /E /Y Publish Release
-    - name: "Build frontend"
-      run: |
-        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-        .\MSBuild.exe -m -p:Configuration=Release -p:Platform="x64" $Env:GITHUB_WORKSPACE\ImperatorToCK3.sln -target:Fronter
-    - name: "Build updater executable"
-      run: |
-       cd Fronter/Updater
-       pip3 install -r requirements.txt
-       pyinstaller --onefile --icon=updater.ico updater.py
-       mkdir ../../Release/Updater
-       mv dist/updater.exe ../../Release/Updater/updater.exe
-    - name: "Save commit ID"
-      run: |
-       cd $Env:GITHUB_WORKSPACE\ImperatorToCK3\
-       .\Save_Commit_ID_Windows.bat
-    - name: "Archive release"
-      run: |
-       cd "C:\Program Files\7-Zip\"
-       .\7z.exe a $Env:GITHUB_WORKSPACE\ImperatorToCK3.zip $Env:GITHUB_WORKSPACE\Release\*
-
     - name: "Build changelog"
       id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v2
+      uses: mikepenz/release-changelog-builder-action@v3
       with:
         configuration: ".github/config/changelog-config.json"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: "Create release"
+      id: create_release
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ steps.previoustag.outputs.tag }}
         body: ${{ steps.build_changelog.outputs.changelog }}
-        artifacts: ImperatorToCK3.zip
         token: ${{ secrets.API_TOKEN_GITHUB }}
+
+  add_release_archive:
+    needs: create_release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build:
+        - win-x64
+        - linux-x64
+        - osx-x64
+        include:
+        - build: win-x64
+          os: windows-latest
+          archive_type: zip
+          archive_extension: .zip
+          asset_content_type: application/zip
+        - build: linux-x64
+          os: ubuntu-latest
+          archive_type: tar
+          archive_extension: .tgz
+          asset_content_type: application/gzip
+        - build: osx-x64
+          os: macos-latest
+          archive_type: tar
+          archive_extension: .tgz
+          asset_content_type: application/gzip
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '7.*'
+        include-prerelease: true
+    - name: "Add version to version.txt"
+      shell: bash
+      run: |
+        cd ImperatorToCK3/Data_Files/configurables
+        printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
+    - name: "Build frontend"
+      uses: ./Fronter.NET/.github/actions/build_frontend
+      with:
+        fronter_dir: 'Fronter.NET'
+        release_dir: 'Release'
+    - name: "Build backend"
+      run: |
+        cd ImperatorToCK3
+        dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
+    - name: "Remove Release/ImperatorToCK3 directory"
+      uses: JesseTG/rm@v1.0.3
+      with:
+        path: Release/ImperatorToCK3
+    - name: "Copy Publish files to Release directory"
+      shell: bash
+      run: |
+        cp -R Publish/* Release/
+    - name: "Save commit ID"
+      shell: bash
+      run: |
+        git rev-parse HEAD > Release/commit_id.txt
+    - name: Archive Release folder
+      uses: thedoctor0/zip-release@master
+      with:
+        type: '${{ matrix.archive_type }}'
+        directory: 'Release'
+        path: '.'
+        filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
+    - name: Upload release asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create_release.outputs.upload_url }}
+        asset_path: './ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
+        asset_name: 'ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
+        asset_content_type: ${{ matrix.asset_content_type }}

@@ -1,25 +1,49 @@
 option = {
-	name = ImperatorDeJure
-	displayName = IMPERATORDEJURE
-	tooltip = IMPERATORDEJURETIP
+	name = HeresiesInHistoricalAreas
+	displayName = HERESIES_IN_HISTORICAL_AREAS
+	tooltip = HERESIES_IN_HISTORICAL_AREAS_TIP
 	radioSelector = {
 		radioOption = {
 			name = 1
-			displayName = IMPERATORDEJURE1
-			tooltip = IMPERATORDEJURE1TIP
+			displayName = HERESIES_IN_HISTORICAL_AREAS_1
 			default = false
 		}
-		#radioOption = {
-		#	name = 2
-		#	displayName = IMPERATORDEJURE2
-		#	tooltip = IMPERATORDEJURE2TIP
-		#	default = false
-		#}
 		radioOption = {
-			name = 3
-			displayName = IMPERATORDEJURE3
-			tooltip = IMPERATORDEJURE3TIP
+			name = 2
+			displayName = HERESIES_IN_HISTORICAL_AREAS_2
 			default = true		
+		}
+	}
+}
+
+option = {
+	name = ImperatorCurrencyRate
+	displayName = IMPERATOR_CURRENCY_RATE
+	tooltip = IMPERATOR_CURRENCY_RATE_TIP
+	textSelector = {	
+		value = "1.0"
+		editable = true
+		tooltip = IMPERATOR_CURRENCY_RATE_INPUT_TIP
+	}
+}
+
+option = {
+	name = LegionConversion
+	displayName = LEGION_CONVERSION
+	tooltip = LEGION_CONVERSION_TIP
+	radioSelector = {
+		radioOption = {
+			name = 0
+			displayName = LEGION_CONVERSION_NO
+			default = true
+		}
+		radioOption = {
+			name = 1
+			displayName = LEGION_CONVERSION_SPECIAL
+		}
+		radioOption = {
+			name = 2
+			displayName = LEGION_CONVERSION_MAA
 		}
 	}
 }
@@ -40,7 +64,7 @@ option = {
 	displayName = BOOKMARKDATE
 	tooltip = BOOKMARKDATETIP
 	textSelector = {	
-		value = "867.1.1"
+		value = ""
 		editable = true
 		tooltip = BOOKMARKDATETIP2
 	}

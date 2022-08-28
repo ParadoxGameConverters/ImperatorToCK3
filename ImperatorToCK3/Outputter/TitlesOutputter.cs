@@ -1,70 +1,60 @@
-﻿using commonItems;
-using commonItems.Serialization;
+﻿using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ImperatorToCK3.Outputter {
-	public static class TitlesOutputter {
-		private static void OutputTitlesHistory(string outputModName, Title.LandedTitles titles) {
-			//output title history
-			var alreadyOutputtedTitles = new HashSet<string>();
-			foreach (var title in titles) {
-				// first output kingdoms + their de jure vassals to files named after the kingdoms
+namespace ImperatorToCK3.Outputter;
+public static class TitlesOutputter {
+	private static void OutputTitlesHistory(string outputModName, Title.LandedTitles titles) {
+		//output title history
+		var alreadyOutputtedTitles = new HashSet<string>();
+		foreach (var title in titles) {
+			// first output kingdoms + their de jure vassals to files named after the kingdoms
 
-				if (title.Rank != TitleRank.kingdom || title.DeJureVassals.Count == 0) {
-					// title is a not de jure kingdom
+			if (title.Rank != TitleRank.kingdom || title.DeJureVassals.Count == 0) {
+				// title is a not de jure kingdom
+				continue;
+			}
+
+			var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", $"{title.Id}.txt");
+			using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
+			title.OutputHistory(historyOutput);
+			alreadyOutputtedTitles.Add(title.Id);
+
+			// output the kingdom's de jure vassals' history
+			foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
+				deJureVassal.OutputHistory(historyOutput);
+				alreadyOutputtedTitles.Add(deJureVassalName);
+			}
+		}
+
+		var otherTitlesPath = Path.Combine("output", outputModName, "history", "titles", "00_other_titles.txt");
+		using (var historyOutput = new StreamWriter(otherTitlesPath)) {
+			foreach (var title in titles) {
+				// output the remaining titles
+				if (alreadyOutputtedTitles.Contains(title.Id)) {
 					continue;
 				}
-
-				var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", title.Id + ".txt");
-				using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
 				title.OutputHistory(historyOutput);
 				alreadyOutputtedTitles.Add(title.Id);
-
-				// output the kingdom's de jure vassals' history
-				foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
-					deJureVassal.OutputHistory(historyOutput);
-					alreadyOutputtedTitles.Add(deJureVassalName);
-				}
-			}
-
-			var otherTitlesPath = Path.Combine("output", outputModName, "history/titles/00_other_titles.txt");
-			using (var historyOutput = new StreamWriter(otherTitlesPath)) {
-				foreach (var title in titles) {
-					// output the remaining titles
-					if (alreadyOutputtedTitles.Contains(title.Id)) {
-						continue;
-					}
-					title.OutputHistory(historyOutput);
-					alreadyOutputtedTitles.Add(title.Id);
-				}
 			}
 		}
+	}
 
-		public static void OutputTitles(string outputModName, Title.LandedTitles titles, IMPERATOR_DE_JURE deJure) {
-			var outputPath = Path.Combine("output", outputModName, "common/landed_titles/00_landed_titles.txt");
-			using var outputStream = File.OpenWrite(outputPath);
-			using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+	public static void OutputTitles(string outputModName, Title.LandedTitles titles) {
+		var outputPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
+		using var outputStream = File.OpenWrite(outputPath);
+		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-			foreach (var (name, value) in titles.Variables) {
-				output.WriteLine($"@{name}={value}");
-			}
-
-			// titles with a de jure liege will be outputted under the liege
-			var topDeJureTitles = titles.Where(t => t.DeJureLiege is null);
-			output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
-
-			if (deJure == IMPERATOR_DE_JURE.REGIONS) {
-				const string srcPath = "blankMod/optionalFiles/ImperatorDeJure/common/landed_titles";
-				var dstPath = $"output/{outputModName}/common/landed_titles/";
-				if (!SystemUtils.TryCopyFolder(srcPath, dstPath)) {
-					Logger.Error("Could not copy ImperatorDeJure landed titles!");
-				}
-			}
-
-			OutputTitlesHistory(outputModName, titles);
+		foreach (var (name, value) in titles.Variables) {
+			output.WriteLine($"@{name}={value}");
 		}
+
+		// titles with a de jure liege will be outputted under the liege
+		var topDeJureTitles = titles.Where(t => t.DeJureLiege is null);
+		output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
+
+		OutputTitlesHistory(outputModName, titles);
 	}
 }

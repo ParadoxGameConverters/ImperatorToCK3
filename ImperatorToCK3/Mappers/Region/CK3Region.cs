@@ -54,20 +54,14 @@ namespace ImperatorToCK3.Mappers.Region {
 			Counties[theCounty.Id] = theCounty;
 		}
 		public bool ContainsProvince(ulong provinceId) {
-			foreach (var region in Regions.Values) {
-				if (region.ContainsProvince(provinceId)) {
-					return true;
-				}
+			if (Regions.Values.Any(region => region.ContainsProvince(provinceId))) {
+				return true;
 			}
-			foreach (var duchy in Duchies.Values) {
-				if (duchy.DuchyContainsProvince(provinceId)) {
-					return true;
-				}
+			if (Duchies.Values.Any(duchy => duchy.DuchyContainsProvince(provinceId))) {
+				return true;
 			}
-			foreach (var county in Counties.Values) {
-				if (county.CountyProvinces.Contains(provinceId)) {
-					return true;
-				}
+			if (Counties.Values.Any(county => county.CountyProvinces.Contains(provinceId))) {
+				return true;
 			}
 			return Provinces.Contains(provinceId);
 		}

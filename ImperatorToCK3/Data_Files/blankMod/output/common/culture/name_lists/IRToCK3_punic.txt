@@ -1,0 +1,26 @@
+﻿name_list_punic = {
+	cadet_dynasty_names = {
+		dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid
+		dynn_Milkiramid dynn_Philosirid
+	}
+
+	dynasty_names = {
+		dynn_Abbarid dynn_Adonibaalid dynn_Ahiromid dynn_Baalhannid dynn_Baalid dynn_Barcid dynn_Bostarid dynn_Chelbesid dynn_Eshbaalid dynn_Eugorid dynn_Hannid dynn_Hiramid dynn_Magoid dynn_Mattanid dynn_Metallid
+		dynn_Milkiramid dynn_Philosirid
+	}
+
+	male_names = {
+		Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
+		Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+		Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
+		Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
+		Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba
+	}
+	female_names = {
+		Abdosir Arishat Astarte Batnoam Dido Shayna Sophonisba Tamar Adiya Tabua Yapa Ytab Suhaima Huldu Mashah Gamila Asherah Izavel Iezabel Elissa Muttunbaal
+	}
+
+	mercenary_names = {
+		{ name = "ir_purple_fighters" coat_of_arms = "purple_coa" }
+	}
+}

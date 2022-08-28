@@ -1,18 +1,22 @@
 ﻿using commonItems;
-using ImperatorToCK3.CK3.Characters;
+using commonItems.Localization;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.Localization;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using ImperatorToCK3.UnitTests.CK3.Characters;
 using System.Linq;
 using Xunit;
+using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
+using ImperatorToCK3.Mappers.Region;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
@@ -21,7 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		private class TitleBuilder {
 			private Country country = new(0);
 			private CountryCollection imperatorCountries = new();
-			private LocalizationMapper localizationMapper = new();
+			private LocDB locDB = new("english");
 			private readonly Title.LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
 			private CoaMapper coaMapper = new("TestFiles/CoatsOfArms.txt");
@@ -30,17 +34,18 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
-			private readonly ReligionMapper religionMapper = new();
-			private readonly CultureMapper cultureMapper = new();
+			private readonly ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
+			private readonly CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private readonly Date ck3BookmarkDate = new(867, 1, 1);
 			private readonly CharacterCollection characters = new();
+			private readonly Configuration config = new();
 
 			public Title BuildFromTag() {
 				return landedTitles.Add(
 					country,
 					imperatorCountries,
-					localizationMapper,
+					locDB,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -51,7 +56,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 					cultureMapper,
 					nicknameMapper,
 					characters,
-					ck3BookmarkDate
+					ck3BookmarkDate,
+					config
 				);
 			}
 			public TitleBuilder WithCountry(Country country) {
@@ -62,8 +68,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				this.imperatorCountries = imperatorCountries;
 				return this;
 			}
-			public TitleBuilder WithLocalizationMapper(LocalizationMapper localizationMapper) {
-				this.localizationMapper = localizationMapper;
+			public TitleBuilder WithLocDB(LocDB locDB) {
+				this.locDB = locDB;
 				return this;
 			}
 			public TitleBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -139,16 +145,15 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		public void LocalizationCanBeSet() {
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_testtitle");
-			var locBlock = new LocBlock {
-				english = "engloc",
-				french = "frloc",
-				german = "germloc",
-				russian = "rusloc",
-				spanish = "spaloc"
-			};
+			var nameLoc = title.Localizations.AddLocBlock(title.Id);
+			nameLoc["english"] = "engloc";
+			nameLoc["french"] = "frloc";
+			nameLoc["german"] = "germloc";
+			nameLoc["russian"] = "rusloc";
+			nameLoc["simp_chinese"] = "simploc";
+			nameLoc["spanish"] = "spaloc";
 
-			title.SetNameLoc(locBlock);
-			Assert.Equal(1, title.Localizations.Count);
+			Assert.Equal("engloc", title.Localizations.GetLocBlockForKey(title.Id)!["english"]);
 		}
 
 		[Fact]
@@ -156,7 +161,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_testtitle");
 
-			Assert.Empty(title.Localizations);
 			Assert.Null(title.CoA);
 			Assert.Null(title.CapitalCounty);
 			Assert.Null(title.ImperatorCountry);
@@ -176,20 +180,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var title = titles.Add("k_testtitle");
 
 			Assert.Null(title.CapitalBaronyProvince);
-		}
-
-		[Fact]
-		public void HistoryCanBeAdded() {
-			var date = new Date(867, 1, 1);
-			var titlesHistory = new TitlesHistory("TestFiles/title_history");
-			var history = titlesHistory.PopTitleHistory("k_greece");
-			Assert.NotNull(history);
-			var titles = new Title.LandedTitles();
-			var title = titles.Add("k_testtitle");
-			title.AddHistory(history);
-
-			Assert.Equal("420", title.GetHolderId(date));
-			Assert.Equal(20, title.GetDevelopmentLevel(date));
 		}
 
 		[Fact]
@@ -231,7 +221,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.DeJureLiege = duchy;
 
 			var vassals = empire.GetDeJureVassalsAndBelow();
-			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			var sortedVassals = from entry in vassals orderby entry.Key select entry;
 			Assert.Collection(sortedVassals,
 				item1 => Assert.Equal("c_county", item1.Value.Id),
 				item2 => Assert.Equal("d_duchy", item2.Value.Id),
@@ -257,13 +247,24 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.DeJureLiege = duchy;
 
 			var vassals = empire.GetDeJureVassalsAndBelow(rankFilter: "ck");
-			var sortedVassals = from entry in vassals orderby entry.Key ascending select entry;
+			var sortedVassals = from entry in vassals orderby entry.Key select entry;
 			Assert.Collection(sortedVassals,
 				// only counties and kingdoms go through the filter
 				item1 => Assert.Equal("c_county", item1.Value.Id),
 				item2 => Assert.Equal("k_kingdom1", item2.Value.Id),
 				item3 => Assert.Equal("k_kingdom2", item3.Value.Id)
 			);
+		}
+
+		[Fact]
+		public void GetDeJureVassalsAndBelowCanFilterEvenDirectVassals() {
+			var titles = new Title.LandedTitles();
+			var empire = titles.Add("e_empire");
+
+			var duchy = titles.Add("d_duchy");
+			duchy.DeJureLiege = empire; // make duchy a direct de jure vassal of the empire
+
+			Assert.Empty(empire.GetDeJureVassalsAndBelow("k"));
 		}
 
 		[Fact]
@@ -359,7 +360,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			Assert.False(county.DuchyContainsProvince(1));
 		}
 		[Fact]
@@ -367,7 +368,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			Assert.True(duchy.DuchyContainsProvince(1));
@@ -377,7 +378,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			Assert.False(duchy.DuchyContainsProvince(2)); // wrong id
@@ -388,7 +389,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			Assert.False(county.KingdomContainsProvince(1));
 		}
 		[Fact]
@@ -396,7 +397,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			var kingdom = titles.Add("k_kingdom");
@@ -408,7 +409,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var titles = new Title.LandedTitles();
 			var countyReader = new BufferedReader("b_barony = { province=1}");
 			var county = titles.Add("c_county");
-			county.LoadTitles(countyReader, null);
+			county.LoadTitles(countyReader);
 			var duchy = titles.Add("d_duchy");
 			county.DeJureLiege = duchy;
 			var kingdom = titles.Add("k_kingdom");
@@ -425,6 +426,211 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				.WithCountry(country)
 				.BuildFromTag();
 			Assert.Equal("d_IMPTOCK3_HRE", title.Id);
+		}
+
+		[Fact]
+		public void GetRealmOfRankReturnsNullWhenNoHolder() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var county = titles.Add("c_county");
+			Assert.Null(county.GetRealmOfRank(TitleRank.county, date));
+		}
+
+		[Fact]
+		public void GetRealmOfRankCanReturnSameTitle() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var kingdom = titles.Add("k_kingdom");
+			var duchy = titles.Add("d_duchy");
+			var county = titles.Add("c_county");
+			var barony = titles.Add("b_barony");
+
+			var impCharacter = new Character(1);
+			var holder = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter)
+				.Build();
+			empire.SetHolder(holder, date);
+			kingdom.SetHolder(holder, date);
+			duchy.SetHolder(holder, date);
+			county.SetHolder(holder, date);
+			barony.SetHolder(holder, date);
+
+			Assert.Equal("e_empire", empire.GetRealmOfRank(TitleRank.empire, date)!.Id);
+			Assert.Equal("k_kingdom", kingdom.GetRealmOfRank(TitleRank.kingdom, date)!.Id);
+			Assert.Equal("d_duchy", duchy.GetRealmOfRank(TitleRank.duchy, date)!.Id);
+			Assert.Equal("c_county", county.GetRealmOfRank(TitleRank.county, date)!.Id);
+			Assert.Equal("b_barony", barony.GetRealmOfRank(TitleRank.barony, date)!.Id);
+		}
+
+		[Fact]
+		public void GetRealmOfRankReturnsNullWhenRankLowerThanTitle() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var kingdom = titles.Add("k_kingdom");
+			var duchy = titles.Add("d_duchy");
+			var county = titles.Add("c_county");
+			var barony = titles.Add("b_barony");
+
+			var impCharacter = new Character(1);
+			var holder = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter)
+				.Build();
+			empire.SetHolder(holder, date);
+			kingdom.SetHolder(holder, date);
+			duchy.SetHolder(holder, date);
+			county.SetHolder(holder, date);
+			barony.SetHolder(holder, date);
+
+			Assert.Null(empire.GetRealmOfRank(TitleRank.kingdom, date));
+			Assert.Null(kingdom.GetRealmOfRank(TitleRank.duchy, date));
+			Assert.Null(duchy.GetRealmOfRank(TitleRank.county, date));
+			Assert.Null(county.GetRealmOfRank(TitleRank.barony, date));
+		}
+
+		[Fact]
+		public void GetRealmOfRankWorksWithGapsInHierarchy() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var county = titles.Add("c_county");
+
+			var impCharacter1 = new Character(1);
+			var emperor = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			empire.SetHolder(emperor, date);
+
+			var impCharacter2 = new Character(2);
+			var count = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+			county.SetHolder(count, date);
+
+			county.SetDeFactoLiege(empire, date);
+
+			Assert.Equal("e_empire", county.GetRealmOfRank(TitleRank.empire, date)!.Id);
+			Assert.Null(county.GetRealmOfRank(TitleRank.kingdom, date));
+			Assert.Null(county.GetRealmOfRank(TitleRank.duchy, date));
+			Assert.Equal("c_county", county.GetRealmOfRank(TitleRank.county, date)!.Id);
+		}
+
+		[Fact]
+		public void GetRealmOfRankReturnsNullOnNoRealm() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var county = titles.Add("c_county");
+
+			var impCharacter = new Character(2);
+			var count = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter)
+				.Build();
+			county.SetHolder(count, date);
+
+			Assert.Null(county.GetRealmOfRank(TitleRank.duchy, date));
+		}
+
+		[Fact]
+		public void GetRealmOfRankWorksWithMultipleLiegesInHierarchy() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var kingdom = titles.Add("k_kingdom");
+			var duchy = titles.Add("d_duchy");
+			var county = titles.Add("c_county");
+			var barony = titles.Add("b_barony");
+
+			var impCharacter1 = new Character(1);
+			var emperor = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			empire.SetHolder(emperor, date);
+
+			var impCharacter2 = new Character(2);
+			var king = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+			kingdom.SetHolder(king, date);
+
+			var impCharacter3 = new Character(3);
+			var duke = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter3)
+				.Build();
+			duchy.SetHolder(duke, date);
+
+			var impCharacter4 = new Character(4);
+			var count = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter4)
+				.Build();
+			county.SetHolder(count, date);
+
+			var impCharacter5 = new Character(5);
+			var baron = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter5)
+				.Build();
+			barony.SetHolder(baron, date);
+
+			barony.SetDeFactoLiege(county, date);
+			county.SetDeFactoLiege(duchy, date);
+			duchy.SetDeFactoLiege(kingdom, date);
+			kingdom.SetDeFactoLiege(empire, date);
+
+			Assert.Equal("e_empire", barony.GetRealmOfRank(TitleRank.empire, date)!.Id);
+			Assert.Equal("k_kingdom", barony.GetRealmOfRank(TitleRank.kingdom, date)!.Id);
+			Assert.Equal("d_duchy", barony.GetRealmOfRank(TitleRank.duchy, date)!.Id);
+			Assert.Equal("c_county", barony.GetRealmOfRank(TitleRank.county, date)!.Id);
+			Assert.Equal("b_barony", barony.GetRealmOfRank(TitleRank.barony, date)!.Id);
+		}
+
+		[Fact]
+		public void GetRealmOfRankReturnsCorrectRealmForLowerTitlesOfRulers() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var empire = titles.Add("e_empire");
+			var kingdom = titles.Add("k_kingdom");
+			var county = titles.Add("c_county");
+
+			var impCharacter1 = new Character(1);
+			var emperor = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			empire.SetHolder(emperor, date);
+
+			var impCharacter2 = new Character(2);
+			var king = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter2)
+				.Build();
+			kingdom.SetHolder(king, date);
+			kingdom.SetDeFactoLiege(empire, date);
+			county.SetHolder(king, date); // county is a lower title of the king
+
+			Assert.Equal("e_empire", county.GetRealmOfRank(TitleRank.empire, date)!.Id);
+		}
+
+		[Fact]
+		public void GetRealmOfRankCanReturnHigherTitleOfSameRuler() {
+			var titles = new Title.LandedTitles();
+			var date = new Date(476, 1, 1);
+
+			var kingdom = titles.Add("k_kingdom");
+			var county = titles.Add("c_county");
+
+			var impCharacter1 = new Character(2);
+			var king = new CK3CharacterTests.CK3CharacterBuilder()
+				.WithImperatorCharacter(impCharacter1)
+				.Build();
+			kingdom.SetHolder(king, date);
+			county.SetHolder(king, date); // county is a lower title of the king
+
+			Assert.Equal("k_kingdom", county.GetRealmOfRank(TitleRank.kingdom, date)!.Id);
 		}
 	}
 }

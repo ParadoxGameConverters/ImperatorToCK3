@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 	<Nullable>enable</Nullable>
 	<RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
 	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
@@ -15,6 +15,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -24,12 +25,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.4.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.0.0-alpha.0.99" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\commonItems.NET\commonItems\commonItems.csproj" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="12.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="PGCG.commonItems" Version="7.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +47,9 @@
     <None Update="Data_Files\converter_globals\ReadMe.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 	<ItemGroup>
@@ -65,6 +67,9 @@
 	<ItemGroup>
         <BlankMod Include="Data_Files/blankMod/**/*.*" />
     </ItemGroup>
+	<ItemGroup>
+	  <BlankMod Remove="Data_Files\blankMod\output\common\culture\cultures\IRToCK3_cultures_info.html" />
+	</ItemGroup>
 	
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
