@@ -109,3 +109,113 @@ taliaite = { # Carthaginian divergence in Italia, name based on ITA tag from Imp
 		}
 	}
 }
+
+salinatorian = { # a pun on the history of the Romans salting Carthage
+	name = salinatorian
+	trigger = {
+		# capital must be in Roman Africa
+		capital_province = {
+			geographical_region = custom_roman_africa
+		}
+		# at least one county in Roman Africa must be Roman or descendant
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:roman
+					any_parent_culture_or_above = { this = culture:roman }
+				}
+			}
+			title_province = {
+				geographical_region = custom_roman_africa
+			}
+		}
+		# culture must be Roman or descendant
+		scope:culture = {
+			OR = {
+				culture = culture:roman
+				any_parent_culture_or_above = { this = culture:roman }
+			}
+		}
+		# Carthage must be a shithole
+		title:c_tunis = {
+			development_level < 10
+		}
+	}
+}
+
+# TODO: FINISH ALL BELOW
+anatolian = {
+	name = anatolian
+	trigger = {
+		capital_county = {
+			title_province = {
+				geographical_region = ghw_region_anatolia
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				geographical_region = ghw_region_anatolia
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}
+euxinian = {
+	name = euxinian
+	trigger = {
+		capital_county = {
+			title_province = {
+				OR = {
+					geographical_region = ghw_region_crimea
+					geographical_region = ghw_region_caucasus
+				}
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				OR = {
+					geographical_region = ghw_region_crimea
+					geographical_region = ghw_region_caucasus
+				}
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}
+hyperborean = {
+	name = hyperborean
+	trigger = {
+		capital_county = {
+			title_province = {
+				geographical_region = world_europe_north
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				geographical_region = world_europe_north
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}

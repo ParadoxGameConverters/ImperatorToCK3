@@ -56,7 +56,7 @@ celtiberian = {
 belgae = {
 	color = hsv { 0.45 0.8 0.45 }
 	parents = { german gallic }
-	created = 20.1.1
+	created = 2.1.1
 
 	heritage = heritage_gaulish
 	language = language_gaulish
@@ -112,7 +112,7 @@ gallic = {
 lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	color = hsv { 0.6 0.8 0.2 }
 	parents = { celtiberian iberian }
-	created = 20.1.1
+	created = 2.1.1
 
 	heritage = heritage_gaulish
 	language = language_gaulish
@@ -141,8 +141,8 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 galatian = {
 	color = rgb { 159 255 135 }
 	
-	parents = { gallic anatolian }
-	created = 20.1.1
+	parents = { gallic }
+	created = 2.1.1
 
 	heritage = heritage_gaulish
 	language = language_gaulish
