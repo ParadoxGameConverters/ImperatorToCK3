@@ -495,7 +495,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(regionLocBlock);
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-					(orig, adj, language) => $"{adj} {orig}"
+					(orig, adj, _) => $"{adj} {orig}"
 				);
 				nameSet = true;
 			}
