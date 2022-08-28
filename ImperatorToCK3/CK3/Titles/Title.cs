@@ -438,11 +438,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		var nameSet = false;
 		var regionId = governorship.RegionName;
+		irRegionMapper.Regions.TryGetValue(regionId, out var region);
 		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
 		
 		// If any area in the region is at least 75% owned, use the area name for governorship name.
-		if (regionHasMultipleGovernorships) {
-			var region = irRegionMapper.Regions[regionId];
+		if (regionHasMultipleGovernorships && region is not null) {
 			ImperatorArea? potentialSourceArea = null;
 			float biggestOwnershipPercentage = 0f;
 			foreach (var area in region.Areas) {
@@ -463,7 +463,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 
 			if (potentialSourceArea is not null && locDB.TryGetValue(potentialSourceArea.Id, out var areaLocBlock)) {
-				Logger.Error($"Using {potentialSourceArea.Id} as loc source for {Id} governorship of {regionId}"); // TODO: remove debug
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(areaLocBlock);
 				nameSet = true;
@@ -473,9 +472,20 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
 			}
 		}
-
-		if (!nameSet && regionHasMultipleGovernorships) {
-			Logger.Warn($"Name not yet set for {Id} governorship of {regionId}"); // TODO: remove debug
+		// Try to use the name of most developed owned territory in the region.
+		if (!nameSet && regionHasMultipleGovernorships && region is not null) {
+			var sourceProvince = irProvinces
+				.Where(p => region.ContainsProvince(p.Id))
+				.MaxBy(p=>p.CivilizationValue);
+			if (sourceProvince is not null && locDB.TryGetValue(sourceProvince.Name, out var provinceLocBlock)) {
+				var nameLocBlock = Localizations.AddLocBlock(Id);
+				nameLocBlock.CopyFrom(provinceLocBlock);
+				nameSet = true;
+				
+				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
+				adjLocBlock.CopyFrom(nameLocBlock);
+				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
+			}
 		}
 		// Try to use "<country adjective> <region name>" as governorship name if region has multiple governorships.
 		// Example: Mauretania -> Roman Mauretania
@@ -495,7 +505,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			nameLocBlock.CopyFrom(regionLocBlock);
 			nameSet = true;
 		}
-		if (!nameSet) {
+		if (!nameSet && Id.Contains("_IMPTOCK3_")) {
 			Logger.Warn($"{Id} needs help with localization!");
 		}
 	}
