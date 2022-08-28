@@ -123,6 +123,7 @@ public partial class Title {
 			string id,
 			Governorship governorship,
 			Country country,
+			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			LocDB locDB,
@@ -135,6 +136,7 @@ public partial class Title {
 				id,
 				governorship,
 				country,
+				irProvinces,
 				imperatorCharacters,
 				regionHasMultipleGovernorships,
 				locDB,
@@ -251,7 +253,7 @@ public partial class Title {
 			Configuration config
 		) {
 			// Create a new title or update existing title.
-			var name = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
+			var name = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
@@ -293,7 +295,7 @@ public partial class Title {
 
 		public void ImportImperatorGovernorships(
 			Imperator.World impWorld,
-			ProvinceCollection provinces,
+			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -318,7 +320,8 @@ public partial class Title {
 					governorship,
 					imperatorCountries,
 					this,
-					provinces,
+					ck3Provinces,
+					impWorld.Provinces,
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
 					tagTitleMapper,
@@ -338,7 +341,8 @@ public partial class Title {
 			Governorship governorship,
 			CountryCollection imperatorCountries,
 			LandedTitles titles,
-			ProvinceCollection provinces,
+			ProvinceCollection ck3Provinces,
+			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
 			TagTitleMapper tagTitleMapper,
@@ -351,22 +355,23 @@ public partial class Title {
 		) {
 			var country = imperatorCountries[governorship.CountryId];
 
-			var name = DetermineName(governorship, country, titles, provinces, imperatorRegionMapper, tagTitleMapper);
-			if (name is null) {
+			var id = DetermineId(governorship, country, titles, ck3Provinces, imperatorRegionMapper, tagTitleMapper);
+			if (id is null) {
 				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
 				return;
 			}
 
-			if (name.StartsWith("c_")) {
+			if (id.StartsWith("c_")) {
 				countryLevelGovernorships.Add(governorship);
 				return;
 			}
 
 			// Create a new title or update existing title
-			if (TryGetValue(name, out var existingTitle)) {
+			if (TryGetValue(id, out var existingTitle)) {
 				existingTitle.InitializeFromGovernorship(
 					governorship,
 					country,
+					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					locDB,
@@ -376,9 +381,10 @@ public partial class Title {
 				);
 			} else {
 				Add(
-					name,
+					id,
 					governorship,
 					country,
+					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
 					locDB,

@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Linguistics;
 using commonItems.Localization;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Characters;
@@ -54,7 +55,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Configuration config
 	) {
 		this.parentCollection = parentCollection;
-		Id = DetermineName(country, imperatorCountries, tagTitleMapper, locDB);
+		Id = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
 		SetRank();
 		InitializeFromTag(
 			country,
@@ -77,6 +78,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		string id,
 		Governorship governorship,
 		Country country,
+		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
 		LocDB locDB,
@@ -91,6 +93,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		InitializeFromGovernorship(
 			governorship,
 			country,
+			irProvinces,
 			imperatorCharacters,
 			regionHasMultipleGovernorships,
 			locDB,
@@ -295,7 +298,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	public static string DetermineName(
+	public static string DetermineId(
 		Country imperatorCountry,
 		CountryCollection imperatorCountries,
 		TagTitleMapper tagTitleMapper,
@@ -318,15 +321,17 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return title;
 	}
 
-	public static string? DetermineName(Governorship governorship, Country country, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper) {
+	public static string? DetermineId(Governorship governorship, Country country, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper) {
 		if (country.CK3Title is null) {
 			throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: country has no CK3Title!");
 		}
 		return tagTitleMapper.GetTitleForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
 	}
 
-	public void InitializeFromGovernorship(Governorship governorship,
+	public void InitializeFromGovernorship(
+		Governorship governorship,
 		Country country,
+		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
 		LocDB locDB,
@@ -339,7 +344,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		IsImportedOrUpdatedFromImperator = true;
 
 		if (country.CK3Title is null) {
-			throw new System.ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
+			throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
 		}
 
 		ClearHolderSpecificHistory();
@@ -396,12 +401,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		TrySetNameFromGovernorship(governorship, country, regionHasMultipleGovernorships, locDB);
+		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, locDB);
 		TrySetAdjectiveFromGovernorship(country);
 	}
 
 	private void TrySetAdjectiveFromGovernorship(Country country) {
-		var adjKey = Id + "_adj";
+		var adjKey = $"{Id}_adj";
 		if (!Localizations.ContainsKey(adjKey)) {
 			var adjSet = false;
 			var ck3Country = country.CK3Title;
@@ -421,33 +426,87 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void TrySetNameFromGovernorship(
 		Governorship governorship,
+		ImperatorRegionMapper irRegionMapper,
 		Country country,
+		Imperator.Provinces.ProvinceCollection irProvinces,
 		bool regionHasMultipleGovernorships,
 		LocDB locDB
 	) {
-		if (!Localizations.ContainsKey(Id)) {
-			var nameSet = false;
-			LocBlock? regionLocBlock = locDB.GetLocBlockForKey(governorship.RegionName);
+		if (Localizations.ContainsKey(Id)) {
+			return;
+		}
 
-			if (regionHasMultipleGovernorships && regionLocBlock is not null) {
-				var ck3Country = country.CK3Title;
-				if (ck3Country is not null && ck3Country.Localizations.TryGetValue(ck3Country.Id + "_adj", out var countryAdjectiveLocBlock)) {
-					var nameLocBlock = Localizations.AddLocBlock(Id);
-					nameLocBlock.CopyFrom(regionLocBlock);
-					nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
-						(orig, adj, _) => $"{adj} {orig}"
-					);
-					nameSet = true;
+		var nameSet = false;
+		var regionId = governorship.RegionName;
+		irRegionMapper.Regions.TryGetValue(regionId, out var region);
+		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
+		
+		// If any area in the region is at least 75% owned, use the area name for governorship name.
+		if (regionHasMultipleGovernorships && region is not null) {
+			ImperatorArea? potentialSourceArea = null;
+			float biggestOwnershipPercentage = 0f;
+			foreach (var area in region.Areas) {
+				var provinceIds = area.ProvinceIds;
+				var provinces = irProvinces.Where(p => provinceIds.Contains(p.Id)).ToList();
+				if (provinces.Count == 0) {
+					continue;
+				}
+				var controlledProvinces = irProvinces.Where(p => country.Equals(p.OwnerCountry));
+				var ownershipPercentage = (float)provinces.Count / controlledProvinces.Count();
+				if (ownershipPercentage < 0.75) {
+					continue;
+				}
+				if (ownershipPercentage > biggestOwnershipPercentage) {
+					potentialSourceArea = area;
+					biggestOwnershipPercentage = ownershipPercentage;
 				}
 			}
-			if (!nameSet && regionLocBlock is not null) {
+
+			if (potentialSourceArea is not null && locDB.TryGetValue(potentialSourceArea.Id, out var areaLocBlock)) {
+				var nameLocBlock = Localizations.AddLocBlock(Id);
+				nameLocBlock.CopyFrom(areaLocBlock);
+				nameSet = true;
+				
+				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
+				adjLocBlock.CopyFrom(nameLocBlock);
+				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
+			}
+		}
+		// Try to use the name of most developed owned territory in the region.
+		if (!nameSet && regionHasMultipleGovernorships && region is not null) {
+			var sourceProvince = irProvinces
+				.Where(p => region.ContainsProvince(p.Id) && country.Equals(p.OwnerCountry))
+				.MaxBy(p=>p.CivilizationValue);
+			if (sourceProvince is not null && locDB.TryGetValue(sourceProvince.Name, out var provinceLocBlock)) {
+				var nameLocBlock = Localizations.AddLocBlock(Id);
+				nameLocBlock.CopyFrom(provinceLocBlock);
+				nameSet = true;
+				
+				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
+				adjLocBlock.CopyFrom(nameLocBlock);
+				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
+			}
+		}
+		// Try to use "<country adjective> <region name>" as governorship name if region has multiple governorships.
+		// Example: Mauretania -> Roman Mauretania
+		if (!nameSet && regionHasMultipleGovernorships && regionLocBlock is not null) {
+			var ck3Country = country.CK3Title;
+			if (ck3Country is not null && ck3Country.Localizations.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(regionLocBlock);
+				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
+					(orig, adj, _) => $"{adj} {orig}"
+				);
 				nameSet = true;
 			}
-			if (!nameSet) {
-				Logger.Warn($"{Id} needs help with localization!");
-			}
+		}
+		if (!nameSet && regionLocBlock is not null) {
+			var nameLocBlock = Localizations.AddLocBlock(Id);
+			nameLocBlock.CopyFrom(regionLocBlock);
+			nameSet = true;
+		}
+		if (!nameSet && Id.Contains("_IMPTOCK3_")) {
+			Logger.Warn($"{Id} needs help with localization!");
 		}
 	}
 

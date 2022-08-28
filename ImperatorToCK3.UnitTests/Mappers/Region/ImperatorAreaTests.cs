@@ -9,7 +9,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var reader = new BufferedReader("");
 			var area = new ImperatorArea("area", reader);
 
-			Assert.Empty(area.Provinces);
+			Assert.Empty(area.ProvinceIds);
 		}
 
 		[Fact]
@@ -17,7 +17,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var reader = new BufferedReader("provinces = { 69 } \n");
 			var area = new ImperatorArea("area", reader);
 
-			Assert.Collection(area.Provinces,
+			Assert.Collection(area.ProvinceIds,
 				item => Assert.Equal((ulong)69, item)
 			);
 		}
@@ -27,7 +27,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region {
 			var reader = new BufferedReader("provinces = { 2 69 3 } \n");
 			var area = new ImperatorArea("area", reader);
 
-			Assert.Collection(area.Provinces,
+			Assert.Collection(area.ProvinceIds,
 				item => Assert.Equal((ulong)2, item),
 				item => Assert.Equal((ulong)3, item),
 				item => Assert.Equal((ulong)69, item)
