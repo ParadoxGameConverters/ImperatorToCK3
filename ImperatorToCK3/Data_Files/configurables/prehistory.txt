@@ -28,44 +28,6 @@ throne_date = 384.1.1 religion = roman_pantheon culture = macedonian
 country = MAC }
 
 
-##Epirus
-# Alcetas I
-ruler = { name = "Alketas" birth_date = 327.1.1 death_date = 384.7.2
-throne_date = 361.1.1 religion = roman_pantheon culture = epirote
-country = EPI }
-
-# Neoptolemos I
-ruler = { name = "Neoptolemos" birth_date = 353.1.1 death_date = 399.10.9
-throne_date = 384.7.2 religion = roman_pantheon culture = epirote
-country = EPI }
-
-# Arybbas
-ruler = { name = "Arybbas" birth_date = 355.1.1 death_date = 411.4.3
-throne_date = 399.10.9 religion = roman_pantheon culture = epirote
-country = EPI }
-
-# Alexander I
-ruler = { name = "Alexandros" birth_date = 383.1.1 death_date = 423.11.12
-throne_date = 411.4.3 religion = roman_pantheon culture = epirote
-country = EPI }
-
-# Aeacides
-ruler = { name = "Aiakides" birth_date = 391.1.1 death_date = 441.7.24
-throne_date = 423.11.12 religion = roman_pantheon culture = epirote
-country = EPI }
-# he technically ruled twice, but we count only the first reign here
-
-# Neoptolemus II - still alive!
-ruler = { name = "Neoptolemos" birth_date = 433.1.1 death_date = 456.1.1
-throne_date = 451.1.1 religion = roman_pantheon culture = epirote
-country = EPI }
-
-# Alcetas II
-ruler = { name = "Alketas" birth_date = 388.1.1 death_date = 448.12.15
-throne_date = 441.7.24 religion = roman_pantheon culture = epirote
-country = EPI }
-
-
 ##Syracuse
 ## https://en.wikipedia.org/wiki/List_of_tyrants_of_Syracuse
 # Gelon I
