@@ -157,7 +157,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 				if (birthDateOfCommonChild is not null) {
-					return birthDateOfCommonChild.ChangeByDays(-280); // we assume the child was conceived after marriage
+					return birthDateOfCommonChild.ChangeByDays(-300); // we assume the child was conceived after marriage
 				}
 				if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
 					Date marriageDeathDate;
