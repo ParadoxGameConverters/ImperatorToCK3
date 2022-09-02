@@ -38,9 +38,9 @@ public class CharacterCollectionTests {
 		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
+		var female = new ImperatorToCK3.Imperator.Characters.Character(2);
 		var childReader = new BufferedReader("father=1 mother=2 birth_date=900.1.1");
 		var child = ImperatorToCK3.Imperator.Characters.Character.Parse(childReader, "3", null);
-		var female = new ImperatorToCK3.Imperator.Characters.Character(2);
 
 		male.Spouses.Add(1, female);
 		male.Children.Add(3, child);
@@ -68,7 +68,7 @@ public class CharacterCollectionTests {
 		Assert.Collection(ck3Characters,
 			ck3Male => {
 				var marriageDate = ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key;
-				Assert.Equal(new Date(899, 3, 27, AUC: true), marriageDate);
+				Assert.Equal(new Date(899, 3, 7, AUC: true), marriageDate);
 			},
 			ck3Female => {
 				Assert.Equal("imperator2", ck3Female.Id);
@@ -110,7 +110,7 @@ public class CharacterCollectionTests {
 
 		Assert.Collection(ck3Characters,
 			ck3Male => {
-				Assert.Equal(new Date(899, 3, 27, AUC: true),
+				Assert.Equal(new Date(899, 3, 7, AUC: true),
 					ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key);
 			},
 			ck3Female => Assert.Equal("imperator2", ck3Female.Id)
