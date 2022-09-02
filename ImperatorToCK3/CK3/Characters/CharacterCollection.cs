@@ -153,25 +153,24 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
 
 			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
-				// Imperator saves don't seem to store marriage date
+				// Imperator saves don't seem to store marriage date.
 
+				var marriageDeathDate = GetMarriageDeathDate(imperatorCharacter, imperatorSpouse);
 				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 				if (birthDateOfCommonChild is not null) {
-					return birthDateOfCommonChild.ChangeByDays(-300); // we assume the child was conceived after marriage
-				}
-				if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
-					Date marriageDeathDate;
-					if (imperatorCharacter.DeathDate < imperatorSpouse.DeathDate) {
-						marriageDeathDate = imperatorCharacter.DeathDate;
-					} else {
-						marriageDeathDate = imperatorSpouse.DeathDate;
+					// We assume the child was conceived after marriage.
+					var estimatedConceptionDate = birthDateOfCommonChild.ChangeByDays(-280);
+					if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
+						estimatedConceptionDate = marriageDeathDate.ChangeByDays(-1);
 					}
-					return marriageDeathDate.ChangeByDays(-1); // death is not a good moment to marry
+					return estimatedConceptionDate;
 				}
-				if (imperatorCharacter.DeathDate is not null) {
-					return imperatorCharacter.DeathDate.ChangeByDays(-1);
+
+				if (marriageDeathDate is not null) {
+					return marriageDeathDate.ChangeByDays(-1); // Death is not a good moment to marry.
 				}
-				return imperatorSpouse.DeathDate is not null ? imperatorSpouse.DeathDate.ChangeByDays(-1) : conversionDate;
+
+				return conversionDate;
 			}
 			Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
 				var childrenOfFather = father.Children.Values.ToHashSet();
@@ -185,6 +184,13 @@ namespace ImperatorToCK3.CK3.Characters {
 
 				var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToList();
 				return unborns.FirstOrDefault()?.BirthDate;
+			}
+
+			Date? GetMarriageDeathDate(Imperator.Characters.Character husband, Imperator.Characters.Character wife) {
+				if (husband.DeathDate is not null && wife.DeathDate is not null) {
+					return husband.DeathDate < wife.DeathDate ? husband.DeathDate : wife.DeathDate;
+				}
+				return husband.DeathDate ?? wife.DeathDate;
 			}
 		}
 

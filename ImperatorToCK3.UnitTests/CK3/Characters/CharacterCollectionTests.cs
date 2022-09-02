@@ -68,7 +68,7 @@ public class CharacterCollectionTests {
 		Assert.Collection(ck3Characters,
 			ck3Male => {
 				var marriageDate = ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key;
-				Assert.Equal(new Date(899, 3, 7, AUC: true), marriageDate);
+				Assert.Equal(new Date(899, 3, 27, AUC: true), marriageDate);
 			},
 			ck3Female => {
 				Assert.Equal("imperator2", ck3Female.Id);
@@ -110,7 +110,7 @@ public class CharacterCollectionTests {
 
 		Assert.Collection(ck3Characters,
 			ck3Male => {
-				Assert.Equal(new Date(899, 3, 7, AUC: true),
+				Assert.Equal(new Date(899, 3, 27, AUC: true),
 					ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key);
 			},
 			ck3Female => Assert.Equal("imperator2", ck3Female.Id)
