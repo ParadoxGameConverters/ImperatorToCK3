@@ -270,28 +270,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			Father?.RemoveChild(Id);
 			RemoveFather();
 
+			foreach (var spouse in spousesCache) {
+				spouse.RemoveSpouse(Id);
+			}
 			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
-				foreach (var (_, value) in spousesHistory.InitialEntries) {
-					var spouseId = value.ToString();
-					if (spouseId is null) {
-						continue;
-					}
-					if (characters.TryGetValue(spouseId, out var spouse)) {
-						spouse.RemoveSpouse(Id);
-					}
-				}
-				foreach (var entriesList in spousesHistory.DateToEntriesDict.Values) {
-					foreach (var (_, value) in entriesList) {
-						var spouseId = value.ToString();
-						if (spouseId is null) {
-							continue;
-						}
-						if (characters.TryGetValue(spouseId, out var spouse)) {
-							spouse.RemoveSpouse(Id);
-						}
-					}
-				}
-
 				spousesHistory.InitialEntries.Clear();
 				spousesHistory.DateToEntriesDict.Clear();
 			}
@@ -326,11 +308,13 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 		public void AddSpouse(Date date, Character spouse) {
 			History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
+			spouse.spousesCache.Add(this);
 		}
 		private void RemoveSpouse(string spouseId) {
 			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
 				spousesHistory.RemoveAllEntries(value => (value.ToString() ?? string.Empty).Equals(spouseId));
 			}
+			spousesCache.RemoveWhere(c => c.Id == spouseId);
 		}
 
 		private void RemoveFather() {
@@ -374,6 +358,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? DynastyId { get; set; } // not always set
 
 		private string? jailorId;
+		private readonly HashSet<Character> spousesCache = new();
 		public string? EmployerId { get; set; }
 
 		public bool LinkJailor(CharacterCollection characters) {

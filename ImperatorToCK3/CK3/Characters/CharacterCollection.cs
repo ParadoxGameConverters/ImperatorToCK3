@@ -237,8 +237,13 @@ namespace ImperatorToCK3.CK3.Characters {
 		public void PurgeUnneededCharacters(Title.LandedTitles titles) {
 			Logger.Info("Purging unneeded characters...");
 			var landedCharacterIds = titles.GetAllHolderIds();
-			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id));
-			var dynastyIdsOfLandedCharacters = landedCharacters.Select(character => character.DynastyId).Distinct().ToHashSet();
+			var landedCharacters = this
+				.Where(character => landedCharacterIds.Contains(character.Id))
+				.ToList();
+			var dynastyIdsOfLandedCharacters = landedCharacters
+				.Select(character => character.DynastyId)
+				.Distinct()
+				.ToHashSet();
 
 			var farewellIds = new List<string>();
 
