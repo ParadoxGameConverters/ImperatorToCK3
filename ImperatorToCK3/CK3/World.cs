@@ -52,12 +52,24 @@ namespace ImperatorToCK3.CK3 {
 			}
 
 			LoadCorrectProvinceMappingsVersion(impWorld);
+			
+			Logger.Info("Detecting selected CK3 mods...");
+			List<Mod> incomingCK3Mods = new();
+			foreach (var modPath in config.SelectedCK3Mods) {
+				Logger.Info($"\tSelected CK3 mod: {modPath}");
+				incomingCK3Mods.Add(new Mod(string.Empty, modPath));
+			}
+			Logger.IncrementProgress();
 
-			var ck3Mods = new List<Mod> {
-				// include a fake mod pointing to blankMod
-				new("blankMod", "blankMod/output")
-			};
-			ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
+			// Let's locate, verify and potentially update those mods immediately.
+			ModLoader modLoader = new();
+			modLoader.LoadMods(config.ImperatorDocPath, incomingCK3Mods);
+			var usableMods = modLoader.UsableMods;
+			// Include a fake mod pointing to blankMod.
+			usableMods.Add(new Mod("blankMod", "blankMod/output"));
+			ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), usableMods);
+			Logger.IncrementProgress();
+			
 			ScriptValues.LoadScriptValues(ModFS);
 			
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
