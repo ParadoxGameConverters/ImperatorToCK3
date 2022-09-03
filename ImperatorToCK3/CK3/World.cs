@@ -63,7 +63,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Let's locate, verify and potentially update those mods immediately.
 			ModLoader modLoader = new();
-			modLoader.LoadMods(config.ImperatorDocPath, incomingCK3Mods);
+			modLoader.LoadMods(config.CK3ModsPath, incomingCK3Mods);
 			var usableMods = modLoader.UsableMods;
 			// Include a fake mod pointing to blankMod.
 			usableMods.Add(new Mod("blankMod", "blankMod/output"));
