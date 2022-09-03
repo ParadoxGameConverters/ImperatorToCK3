@@ -218,6 +218,9 @@ namespace ImperatorToCK3.CK3 {
 
 		private void OverWriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
 			Logger.Info("Overwriting counties' history...");
+			var governorshipsSet = governorships.ToHashSet();
+			var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
+			
 			foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 				if (county.CapitalBaronyProvince is null) {
 					Logger.Warn($"County {county} has no capital barony province!");
@@ -288,7 +291,7 @@ namespace ImperatorToCK3.CK3 {
 					Logger.Warn($"{impCountry.Name} has no CK3 title!"); // should not happen
 					return false;
 				}
-				var matchingGovernorships = new List<Governorship>(governorships.Where(g =>
+				var matchingGovernorships = new List<Governorship>(governorshipsSet.Where(g =>
 					g.CountryId == impCountry.Id &&
 					g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 				));
@@ -318,7 +321,7 @@ namespace ImperatorToCK3.CK3 {
 					return false;
 				}
 
-				if (countyLevelGovernorships.Contains(governorship)) {
+				if (countyLevelGovernorshipsSet.Contains(governorship)) {
 					GiveCountyToCountyLevelGovernor(county, governorship, ck3Country);
 				} else {
 					GiveCountyToGovernor(county, ck3GovernorshipId);
