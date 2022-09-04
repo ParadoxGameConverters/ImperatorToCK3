@@ -180,12 +180,16 @@ namespace ImperatorToCK3.Outputter {
 					modsForPlayset.Add(loadedMod);
 				}
 			}
-			
-			using var outputStream = File.OpenWrite("playset_info.txt");
+
+			const string outFilePath = "playset_info.txt";
+			if (File.Exists(outFilePath)) {
+				File.Delete(outFilePath);
+			}
+			using var outputStream = File.OpenWrite(outFilePath);
 			using var output = new StreamWriter(outputStream, Encoding.UTF8);
 			
 			foreach (var mod in modsForPlayset) {
-				output.WriteLine($"{mod.Name}={mod.Path}");
+				output.WriteLine($"{mod.Name.AddQuotes()}={mod.Path.AddQuotes()}");
 			}
 			
 			Logger.IncrementProgress();
