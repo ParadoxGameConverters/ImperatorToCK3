@@ -29,6 +29,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
+		public OrderedSet<Mod> LoadedMods { get; }
 		public ModFilesystem ModFS { get; private set; }
 		private ScriptValueCollection ScriptValues { get; } = new();
 		public NamedColorCollection NamedColors { get; } = new();
@@ -64,10 +65,10 @@ namespace ImperatorToCK3.CK3 {
 			// Let's locate, verify and potentially update those mods immediately.
 			ModLoader modLoader = new();
 			modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
-			var usableMods = modLoader.UsableMods;
+			LoadedMods = modLoader.UsableMods.ToOrderedSet();
 			// Include a fake mod pointing to blankMod.
-			usableMods.Add(new Mod("blankMod", "blankMod/output"));
-			ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), usableMods);
+			LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
+			ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
 			Logger.IncrementProgress();
 			
 			ScriptValues.LoadScriptValues(ModFS);

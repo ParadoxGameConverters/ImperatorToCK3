@@ -1,14 +1,16 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
 		public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
-			ClearOutputModFolder();
+			ClearOutputModFolder(config);
 
 			var outputName = config.OutputModName;
 			CreateModFolder(outputName);
@@ -66,35 +68,39 @@ namespace ImperatorToCK3.Outputter {
 			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles, ck3World.Dynasties);
 			CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath);
 
+			CopyBlankModFilesToOutput(outputPath);
+
+			BookmarkOutputter.OutputBookmark(ck3World, config);
+
+			OutputPlaysetInfo(ck3World, outputName);
+		}
+
+		private static void CopyBlankModFilesToOutput(string outputPath) {
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder(
 				Path.Combine("blankMod", "output"),
 				outputPath
 			);
 			Logger.IncrementProgress();
+		}
 
-			Logger.Info("Creating bookmark...");
-			BookmarkOutputter.OutputBookmark(ck3World, config);
-			Logger.IncrementProgress();
-
-			void ClearOutputModFolder() {
-				Logger.Info("Clearing the output mod folder...");
+		private static void ClearOutputModFolder(Configuration config) {
+			Logger.Info("Clearing the output mod folder...");
 				
-				var directoryToClear = $"output/{config.OutputModName}";
-				var di = new DirectoryInfo(directoryToClear);
-				if (!di.Exists) {
-					return;
-				}
-
-				foreach (FileInfo file in di.EnumerateFiles()) {
-					file.Delete();
-				}
-				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-					dir.Delete(true);
-				}
-				
-				Logger.IncrementProgress();
+			var directoryToClear = $"output/{config.OutputModName}";
+			var di = new DirectoryInfo(directoryToClear);
+			if (!di.Exists) {
+				return;
 			}
+
+			foreach (FileInfo file in di.EnumerateFiles()) {
+				file.Delete();
+			}
+			foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
+				dir.Delete(true);
+			}
+				
+			Logger.IncrementProgress();
 		}
 
 		private static void OutputModFile(string outputName) {
@@ -161,6 +167,28 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
+		}
+
+		private static void OutputPlaysetInfo(World ck3World, string outputModName) {
+			Logger.Info("Outputting CK3 playset info...");
+			
+			var modsForPlayset = new OrderedSet<Mod>();
+			foreach (var loadedMod in ck3World.LoadedMods) {
+				if (loadedMod.Name == "blankMod") {
+					modsForPlayset.Add(new Mod(name: $"Converted - {outputModName}", path: outputModName));
+				} else {
+					modsForPlayset.Add(loadedMod);
+				}
+			}
+			
+			using var outputStream = File.OpenWrite("playset_info.txt");
+			using var output = new StreamWriter(outputStream, Encoding.UTF8);
+			
+			foreach (var mod in modsForPlayset) {
+				output.WriteLine($"{mod.Name}={mod.Path}");
+			}
+			
+			Logger.IncrementProgress();
 		}
 	}
 }

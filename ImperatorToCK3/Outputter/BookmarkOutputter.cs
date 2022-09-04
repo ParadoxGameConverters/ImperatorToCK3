@@ -19,6 +19,8 @@ using Color = SixLabors.ImageSharp.Color;
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
 		public static void OutputBookmark(World world, Configuration config) {
+			Logger.Info("Creating bookmark...");
+			
 			var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -93,6 +95,8 @@ namespace ImperatorToCK3.Outputter {
 
 			DrawBookmarkMap(config, playerTitles, world);
 			OutputBookmarkLoc(config, localizations);
+			
+			Logger.IncrementProgress();
 		}
 
 		private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
