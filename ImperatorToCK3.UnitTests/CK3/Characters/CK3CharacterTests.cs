@@ -256,6 +256,27 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 		}
 
 		[Fact]
+		public void AttributesCanBeConverterFromImperator() {
+			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
+				Attributes = {
+					Charisma = 1,
+					Martial = 2,
+					Zeal = 3,
+					Finesse = 4
+				}
+			};
+
+			var character = builder
+				.WithImperatorCharacter(imperatorCharacter)
+				.Build();
+			var date = new Date(1, 1, 1);
+			Assert.Equal(1, character.History.GetFieldValue("diplomacy", date));
+			Assert.Equal(2, character.History.GetFieldValue("martial", date));
+			Assert.Equal(3, character.History.GetFieldValue("learning", date));
+			Assert.Equal(4, character.History.GetFieldValue("stewardship", date));
+		}
+
+		[Fact]
 		public void ImperatorCountryOfCharacterIsUsedForCultureConversion() {
 			var countryReader = new BufferedReader("tag = MAC");
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 69);
