@@ -54,10 +54,11 @@ namespace ImperatorToCK3.CK3.Characters {
 			//.WithSimpleField("name", "name", null)
 			//.WithSimpleField("female", "female", null)
 			//.WithSimpleField("dynasty", "dynasty", null)
-			//.WithSimpleField("martial", "martial", null)
-			//.WithSimpleField("diplomacy", "diplomacy", null)
-			//.WithSimpleField("intrigue", "intrigue", null)
-			//.WithSimpleField("stewardship", "stewardship", null)
+			.WithSimpleField("diplomacy", "diplomacy", null)
+			.WithSimpleField("martial", "martial", null)
+			.WithSimpleField("stewardship", "stewardship", null)
+			.WithSimpleField("intrigue", "intrigue", null)
+			.WithSimpleField("learning", "learning", null)
 			//.WithSimpleField("culture", "culture", null)
 			//.WithSimpleField("religion", "religion", null)
 			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
@@ -213,6 +214,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			} else {
 				CultureId = match;
 			}
+			
+			// Determine character attributes.
+			History.AddFieldValue(null, "diplomacy", "diplomacy", ImperatorCharacter.Attributes.Charisma);
+			History.AddFieldValue(null, "martial", "martial", ImperatorCharacter.Attributes.Martial);
+			History.AddFieldValue(null, "stewardship", "stewardship", ImperatorCharacter.Attributes.Finesse);
+			History.AddFieldValue(null, "learning", "learning", ImperatorCharacter.Attributes.Zeal);
 
 			foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
 				History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
