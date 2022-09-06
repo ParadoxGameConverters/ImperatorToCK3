@@ -274,6 +274,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			Assert.Equal(2, character.History.GetFieldValue("martial", date));
 			Assert.Equal(3, character.History.GetFieldValue("learning", date));
 			Assert.Equal(4, character.History.GetFieldValue("stewardship", date));
+			Assert.Equal(4, character.History.GetFieldValue("intrigue", date));
 		}
 
 		[Fact]
