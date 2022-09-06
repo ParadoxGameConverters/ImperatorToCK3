@@ -219,6 +219,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			History.AddFieldValue(null, "diplomacy", "diplomacy", ImperatorCharacter.Attributes.Charisma);
 			History.AddFieldValue(null, "martial", "martial", ImperatorCharacter.Attributes.Martial);
 			History.AddFieldValue(null, "stewardship", "stewardship", ImperatorCharacter.Attributes.Finesse);
+			History.AddFieldValue(null, "intrigue", "intrigue", ImperatorCharacter.Attributes.Finesse);
 			History.AddFieldValue(null, "learning", "learning", ImperatorCharacter.Attributes.Zeal);
 
 			foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
