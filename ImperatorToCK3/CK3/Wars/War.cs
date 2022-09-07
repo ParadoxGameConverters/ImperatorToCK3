@@ -44,6 +44,6 @@ public class War {
 			}
 		}
 
-		CasusBelli = warMapper.GetCK3CBForImperatorWarGoal(impWar.WarGoal);
+		CasusBelli = warMapper.GetCK3CBForImperatorWarGoal(impWar.WarGoal!);
 	}
 }

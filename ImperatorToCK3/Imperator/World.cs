@@ -164,9 +164,10 @@ namespace ImperatorToCK3.Imperator {
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("diplomacy", reader => {
-				Logger.Info("Loading Diplomacy...");
+				Logger.Info("Loading diplomacy...");
 				var diplomacy = new Diplomacy.Diplomacy(reader);
 				Wars = diplomacy.Wars;
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("jobs", reader => {
 				Logger.Info("Loading Jobs...");

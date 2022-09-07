@@ -35,10 +35,10 @@ public class War {
 	public static War Parse(BufferedReader reader) {
 		warToReturn = new War();
 		parser.ParseStream(reader);
-		if (warToReturn.AttackerCountryIds.Count == 0) {
+		if (!warToReturn.Previous && warToReturn.AttackerCountryIds.Count == 0) {
 			throw new System.FormatException("War has no attackers");
 		}
-		if (warToReturn.DefenderCountryIds.Count == 0) {
+		if (!warToReturn.Previous && warToReturn.DefenderCountryIds.Count == 0) {
 			throw new System.FormatException("War has no defenders!");
 		}
 		return warToReturn;

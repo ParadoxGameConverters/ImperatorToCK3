@@ -180,6 +180,8 @@ namespace ImperatorToCK3.CK3 {
 		}
 		
 		private void ImportImperatorWars(Imperator.World impWorld, Date ck3BookmarkDate) {
+			Logger.Info("Importing I:R wars...");
+			
 			foreach (var impWar in impWorld.Wars) {
 				var ck3War = new Wars.War(impWar, impWorld.Countries, warMapper, ck3BookmarkDate);
 				if (ck3War.Attackers.Count == 0) {
@@ -192,6 +194,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 				Wars.Add(ck3War);
 			}
+			Logger.IncrementProgress();
 		}
 
 		private void LoadCorrectProvinceMappingsVersion(Imperator.World imperatorWorld) {
