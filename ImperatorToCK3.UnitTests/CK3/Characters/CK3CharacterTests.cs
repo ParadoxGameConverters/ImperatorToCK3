@@ -262,7 +262,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 					Charisma = 1,
 					Martial = 2,
 					Zeal = 3,
-					Finesse = 4
+					Finesse = 9
 				}
 			};
 
@@ -273,8 +273,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			Assert.Equal(1, character.History.GetFieldValue("diplomacy", date));
 			Assert.Equal(2, character.History.GetFieldValue("martial", date));
 			Assert.Equal(3, character.History.GetFieldValue("learning", date));
-			Assert.Equal(4, character.History.GetFieldValue("stewardship", date));
-			Assert.Equal(4, character.History.GetFieldValue("intrigue", date));
+			Assert.Equal(9, character.History.GetFieldValue("stewardship", date));
+			Assert.Equal(5, character.History.GetFieldValue("intrigue", date)); // (charisma+finesse)/2
 		}
 
 		[Fact]
