@@ -143,7 +143,6 @@ salinatorian = { # a pun on the history of the Romans salting Carthage
 	}
 }
 
-# TODO: FINISH ALL BELOW
 anatolian = {
 	name = anatolian
 	trigger = {

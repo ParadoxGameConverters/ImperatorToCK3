@@ -12,8 +12,12 @@ public class Diplomacy {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (warReader, warId) => {
 				var war = War.Parse(warReader);
+				if (war.Previous) { // no need to import old wars
+					return;
+				}
 				if (war.WarGoal is null) {
 					Logger.Warn($"Skipping war {warId} with no wargoal!");
+					return;
 				}
 				Wars.Add(war);
 			});

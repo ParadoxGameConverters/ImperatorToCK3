@@ -6,6 +6,7 @@ namespace ImperatorToCK3.Imperator.Diplomacy;
 
 public class War {
 	public Date StartDate { get; private set; } = new(1, 1, 1);
+	public bool Previous { get; private set; }
 	public List<ulong> AttackerCountryIds { get; } = new();
 	public List<ulong> DefenderCountryIds { get; } = new();
 	public string? WarGoal { get; private set; }
@@ -20,15 +21,15 @@ public class War {
 		parser.RegisterKeyword("defender", reader => {
 			warToReturn.DefenderCountryIds.Add(reader.GetULong());
 		});
-		parser.RegisterRegex(wargoalTypeRegex, reader => {
+		parser.RegisterRegex(WargoalTypeRegex, reader => {
 			var typeParser = new Parser();
 			typeParser.RegisterKeyword("type", typeReader =>
 				warToReturn.WarGoal = typeReader.GetString()
 			);
-			typeParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			typeParser.IgnoreAndLogUnregisteredItems();
 			typeParser.ParseStream(reader);
 		});
-		// TODO: check "previous" keyword
+		parser.RegisterKeyword("previous", reader => warToReturn.Previous = reader.GetBool());
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
 	public static War Parse(BufferedReader reader) {
@@ -44,7 +45,7 @@ public class War {
 	}
 
 	// Wargoal types seem to be hardcoded, they don't need to be loaded from game files.
-	private const string wargoalTypeRegex = "take_province|naval_superiority|superiority|enforce_military_access|independence";
+	private const string WargoalTypeRegex = "take_province|naval_superiority|superiority|enforce_military_access|independence";
 
 	private static readonly Parser parser = new();
 	private static War warToReturn = new();
