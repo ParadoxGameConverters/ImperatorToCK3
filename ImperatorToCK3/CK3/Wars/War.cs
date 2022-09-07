@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.CK3.Wars; 
 
 public class War {
-	public Date StartDate { get; } = "1.1.1";
+	public Date StartDate { get; } = "2.1.1";
 	public Date EndDate { get; }
 	public List<string> TargetedTitles { get; } = new();
 	public string? CasusBelli { get; }
@@ -14,11 +14,10 @@ public class War {
 
 	public War(Imperator.Diplomacy.War impWar, Imperator.Countries.CountryCollection impCountries, Mappers.War.WarMapper warMapper, Date ck3BookmarkDate) {
 		StartDate = new Date(impWar.StartDate);
-		if (StartDate.Year < 0) {
-			StartDate = new Date(1, 1, 1);
+		if (StartDate.Year < 2) {
+			StartDate = new Date(2, 1, 1);
 		}
-		EndDate = new Date(ck3BookmarkDate);
-		EndDate.ChangeByDays(1);
+		EndDate = new Date(ck3BookmarkDate).ChangeByDays(1);
 
 		foreach (var countryId in impWar.AttackerCountryIds) {
 			var impCountry = impCountries[countryId];
