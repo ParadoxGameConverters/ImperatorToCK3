@@ -13,6 +13,7 @@ converterReleaseForumThread = "https://forum.paradoxplaza.com/forum/threads/impe
 pagesCommitIdUrl = "https://paradoxgameconverters.com/commit_ids/ImperatorToCK3.txt"
 
 autoGenerateModsFrom = targetGameModPath
+overwritePlayset = true
 
 requiredFolder = {
 	name = ImperatorDirectory
