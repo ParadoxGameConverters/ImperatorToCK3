@@ -19,6 +19,8 @@ using Color = SixLabors.ImageSharp.Color;
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
 		public static void OutputBookmark(World world, Configuration config) {
+			Logger.Info("Creating bookmark...");
+			
 			var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -91,8 +93,10 @@ namespace ImperatorToCK3.Outputter {
 
 			output.WriteLine("}");
 
-			DrawBookmarkMap(config, playerTitles, world);
 			OutputBookmarkLoc(config, localizations);
+			Logger.IncrementProgress();
+			
+			DrawBookmarkMap(config, playerTitles, world);
 		}
 
 		private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
@@ -250,6 +254,8 @@ namespace ImperatorToCK3.Outputter {
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
 			bookmarkMapImage.SaveAsPng(outputPath);
 			ResaveImageAsDDS(outputPath);
+			
+			Logger.IncrementProgress();
 		}
 
 		private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {

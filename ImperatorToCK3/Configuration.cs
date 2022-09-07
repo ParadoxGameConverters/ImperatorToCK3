@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ namespace ImperatorToCK3 {
 		public string ImperatorDocPath { get; set; } = "";
 		public string CK3Path { get; set; } = "";
 		public string CK3ModsPath { get; set; } = "";
+		public OrderedSet<string> SelectedCK3Mods { get; } = new();
 		public string OutputModName { get; set; } = "";
 		public bool HeresiesInHistoricalAreas { get; set; } = false;
 		public double ImperatorCurrencyRate { get; set; } = 1.0d;
@@ -43,6 +45,10 @@ namespace ImperatorToCK3 {
 			parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
 			parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
 			parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = reader.GetString());
+			parser.RegisterKeyword("selectedMods", reader => {
+				SelectedCK3Mods.UnionWith(reader.GetStrings());
+				Logger.Info($"{SelectedCK3Mods.Count} mods selected by configuration.");
+			});
 			parser.RegisterKeyword("output_name", reader => {
 				OutputModName = reader.GetString();
 				Logger.Info($"Output name set to: {OutputModName}");

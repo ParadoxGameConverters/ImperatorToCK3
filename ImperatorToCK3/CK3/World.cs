@@ -31,6 +31,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
+		public OrderedSet<Mod> LoadedMods { get; }
 		public ModFilesystem ModFS { get; private set; }
 		private ScriptValueCollection ScriptValues { get; } = new();
 		public NamedColorCollection NamedColors { get; } = new();
@@ -55,12 +56,24 @@ namespace ImperatorToCK3.CK3 {
 			}
 
 			LoadCorrectProvinceMappingsVersion(impWorld);
+			
+			Logger.Info("Detecting selected CK3 mods...");
+			List<Mod> incomingCK3Mods = new();
+			foreach (var modPath in config.SelectedCK3Mods) {
+				Logger.Info($"\tSelected CK3 mod: {modPath}");
+				incomingCK3Mods.Add(new Mod(string.Empty, modPath));
+			}
+			Logger.IncrementProgress();
 
-			var ck3Mods = new List<Mod> {
-				// include a fake mod pointing to blankMod
-				new("blankMod", "blankMod/output")
-			};
-			ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), ck3Mods);
+			// Let's locate, verify and potentially update those mods immediately.
+			ModLoader modLoader = new();
+			modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
+			LoadedMods = modLoader.UsableMods.ToOrderedSet();
+			// Include a fake mod pointing to blankMod.
+			LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
+			ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+			Logger.IncrementProgress();
+			
 			ScriptValues.LoadScriptValues(ModFS);
 			
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
