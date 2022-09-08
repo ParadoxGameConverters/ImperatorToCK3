@@ -1,9 +1,9 @@
 # Version info
 
-name = "Nero"
+name = "Galba"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.6.1"
-maxTarget = "1.6.1"
+minTarget = "1.7"
+maxTarget = "1.7"

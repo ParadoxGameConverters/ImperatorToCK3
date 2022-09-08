@@ -110,7 +110,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.False(title.HasDefiniteForm);
 			Assert.False(title.Landless);
 			Assert.Null(title.Color1);
-			Assert.Null(title.Color2);
 			Assert.Null(title.CapitalCounty);
 			Assert.Null(title.Province);
 			Assert.False(title.PlayerCountry);
