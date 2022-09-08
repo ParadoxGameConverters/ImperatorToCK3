@@ -153,7 +153,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
-				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
+				Name = $"IRTOCK3_CUSTOM_NAME_{EncodingConversions.ConvertUTF8ToASCII(loc.Replace(' ', '_'))}";
 
 				var locBlock = new LocBlock(Name, "english") {
 					["english"] = loc
