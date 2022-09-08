@@ -57,7 +57,9 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine("\tcharacter = {");
 
 				output.WriteLine($"\t\tname = bm_converted_{holder.Id}");
-				output.WriteLine($"\t\tdynasty = {holder.DynastyId}");
+				if (holder.DynastyId is not null) {
+					output.WriteLine($"\t\tdynasty = {holder.DynastyId}");
+				}
 				output.WriteLine("\t\tdynasty_splendor_level = 1");
 				output.WriteLine($"\t\ttype = {holder.AgeSex}");
 				output.WriteLine($"\t\thistory_id = {holder.Id}");

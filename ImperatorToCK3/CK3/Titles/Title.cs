@@ -138,10 +138,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (color1Opt is not null) {
 			Color1 = color1Opt;
 		}
-		var color2Opt = ImperatorCountry.Color2;
-		if (color2Opt is not null) {
-			Color2 = color2Opt;
-		}
 
 		// determine successions laws
 		History.AddFieldValue(conversionDate,
@@ -372,10 +368,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var countryColor = country.Color1;
 		if (countryColor is not null) {
 			Color1 = parentCollection.GetDerivedColor(countryColor);
-		}
-		var color2Opt = country.Color2;
-		if (color2Opt is not null) {
-			Color2 = color2Opt;
 		}
 
 		// determine successions laws
@@ -672,7 +664,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[commonItems.Serialization.NonSerialized] public Country? ImperatorCountry { get; private set; }
 
 	[SerializedName("color")] public Color? Color1 { get; set; }
-	[SerializedName("color2")] public Color? Color2 { get; set; }
 
 	private Title? deJureLiege;
 	[commonItems.Serialization.NonSerialized]
@@ -834,7 +825,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
 		parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
-		parser.RegisterKeyword("color2", reader => Color2 = colorFactory.GetColor(reader));
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
 		parser.RegisterKeyword("ai_primary_priority", reader => AIPrimaryPriority = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
