@@ -17,14 +17,15 @@ language_venetic = {
 			limit = { has_cultural_pillar = language_venetic }
 			multiply = 10
 		}
-        else_if = {
-			limit = { has_cultural_parameter = language_group_romance }
-			multiply = same_language_group_choice_factor
-		}
-		else_if = {
-			limit = { has_cultural_parameter = language_family_indo_european }
-			multiply = same_language_family_choice_factor
-		}
+		# ImperatorToCK3: below commented out, references script values probably from CCU mod
+		#else_if = {
+		#	limit = { has_cultural_parameter = language_group_romance }
+		#	multiply = same_language_group_choice_factor
+		#}
+		#else_if = {
+		#	limit = { has_cultural_parameter = language_family_indo_european }
+		#	multiply = same_language_family_choice_factor
+		#}
 
 	}
 	
