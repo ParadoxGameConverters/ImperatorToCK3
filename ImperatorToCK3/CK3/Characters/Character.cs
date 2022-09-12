@@ -257,7 +257,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (prisonCountry is null) {
 					Logger.Warn($"Imperator character {ImperatorCharacter.Id} is imprisoned but has no country!");
 				} else if (prisonCountry.CK3Title is null) {
-					Logger.Warn($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
+					Logger.Debug($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
 				} else {
 					jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
 				}
