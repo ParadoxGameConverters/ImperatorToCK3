@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -183,16 +184,20 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info("Importing I:R wars...");
 			
 			foreach (var impWar in impWorld.Wars) {
-				var ck3War = new Wars.War(impWar, impWorld.Countries, warMapper, ck3BookmarkDate);
-				if (ck3War.Attackers.Count == 0) {
-					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no attackers!");
-					continue;
+				try {
+					var ck3War = new Wars.War(impWar, impWorld.Countries, warMapper, ck3BookmarkDate);
+					if (ck3War.Attackers.Count == 0) {
+						Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no attackers!");
+						continue;
+					}
+					if (ck3War.Defenders.Count == 0) {
+						Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no defenders!");
+						continue;
+					}
+					Wars.Add(ck3War);
+				} catch (ConverterException e) {
+					Logger.Debug($"Can't import war that starts at {impWar.StartDate}: {e.Message}");
 				}
-				if (ck3War.Defenders.Count == 0) {
-					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no defenders!");
-					continue;
-				}
-				Wars.Add(ck3War);
 			}
 			Logger.IncrementProgress();
 		}

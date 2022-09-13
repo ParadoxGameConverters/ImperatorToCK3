@@ -1,5 +1,7 @@
 ﻿using commonItems;
+using ImperatorToCK3.Exceptions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Wars; 
 
@@ -13,6 +15,7 @@ public class War {
 	public string Claimant { get; }
 
 	public War(Imperator.Diplomacy.War impWar, Imperator.Countries.CountryCollection impCountries, Mappers.War.WarMapper warMapper, Date ck3BookmarkDate) {
+		Logger.Warn($"IMPWAR {impWar.WarGoal}; {string.Join(",", impWar.AttackerCountryIds)}; {string.Join(",", impWar.DefenderCountryIds)}"); // TODO: remove debug
 		StartDate = new Date(impWar.StartDate);
 		if (StartDate.Year < 2) {
 			StartDate = new Date(2, 1, 1);
@@ -28,6 +31,10 @@ public class War {
 					Attackers.Add(ck3RulerId);
 				}
 			}
+		}
+
+		if (!Attackers.Any()) {
+			throw new ConverterException("War has no valid attackers!");
 		}
 		Claimant = Attackers[0];
 		foreach (var countryId in impWar.DefenderCountryIds) {
