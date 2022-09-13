@@ -11,6 +11,7 @@ using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
+using ImperatorToCK3.Imperator.States;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -37,6 +38,7 @@ namespace ImperatorToCK3.Imperator {
 		private PopCollection pops = new();
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
+		public StateCollection States { get; } = new();
 		public List<War> Wars { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		public UnitCollection Units { get; private set; } = new();
@@ -155,6 +157,15 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {Countries.Count} countries.");
+				Logger.IncrementProgress();
+			});
+			RegisterKeyword("state", reader => {
+				Logger.Info("Loading states...");
+				var statesBlocParser = new Parser();
+				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader));
+				statesBlocParser.IgnoreAndLogUnregisteredItems();
+				statesBlocParser.ParseStream(reader);
+				Logger.Info($"Loaded {States.Count} states.");
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("population", reader => {
