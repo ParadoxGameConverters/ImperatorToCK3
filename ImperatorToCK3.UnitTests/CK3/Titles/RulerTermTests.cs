@@ -26,7 +26,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				"government = dictatorship"
 			);
 			var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(reader);
-			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
+			var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
 			var ck3Religions = new ReligionCollection();
 			var imperatorRegionMapper = new ImperatorRegionMapper();
@@ -62,7 +62,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 			var ck3Religions = new ReligionCollection();
 			ck3Religions.LoadReligions(ck3ModFs);
-			var govReader = new BufferedReader("link = {imp=dictatorship ck3=feudal_government }");
+			var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
 			var govMapper = new GovernmentMapper(govReader);
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
