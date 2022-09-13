@@ -1,4 +1,4 @@
-name: Test
+name: "Test"
 
 on:
   push:
@@ -6,25 +6,29 @@ on:
       - master
   pull_request:
 
+concurrency:
+  group: ci-tests-${{ github.ref }}-1
+  cancel-in-progress: true
+
 jobs:
   test_and_check_coverage:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
         submodules: recursive
     # install dependencies, build, and test
-    - name: Setup Dotnet for use with actions
+    - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '7.*'
         include-prerelease: true
-    - name: Test
+    - name: "Test"
       run: |
        cd ImperatorToCK3.UnitTests
        dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:Exclude=[commonItems]*
-    - name: Publish coverage report to coveralls.io
+    - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -34,7 +38,7 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -42,12 +46,12 @@ jobs:
         fetch-depth: 0
         submodules: recursive
     # install dependencies, build, and test
-    - name: Setup Dotnet for use with actions
+    - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '7.*'
         include-prerelease: true
-    - name: Test
+    - name: "Test"
       run: |
        cd ImperatorToCK3.UnitTests
        dotnet test
