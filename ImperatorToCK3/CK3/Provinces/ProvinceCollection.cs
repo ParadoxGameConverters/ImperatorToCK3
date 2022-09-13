@@ -24,7 +24,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			var newProvince = new Province(provinceId, reader);
 
 			if (ContainsKey(newProvince.Id)) {
-				Logger.Warn($"Vanilla province duplication - {newProvince.Id} already loaded! Overwriting.");
+				Logger.Debug($"Vanilla province duplication - {newProvince.Id} already loaded! Overwriting.");
 			}
 			dict[provinceId] = newProvince;
 		});
@@ -48,7 +48,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				continue;
 			}
 			if (ContainsKey(newProvinceId)) {
-				Logger.Info($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
+				Logger.Debug($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
 			} else {
 				var newProvince = new Province(newProvinceId, this[baseProvinceId]);
 				Add(newProvince);

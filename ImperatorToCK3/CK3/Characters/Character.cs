@@ -153,7 +153,8 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
-				Name = "IMPTOCK3_CUSTOM_NAME_" + loc.Replace(' ', '_');
+				var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
+				Name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
 
 				var locBlock = new LocBlock(Name, "english") {
 					["english"] = loc
@@ -256,7 +257,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (prisonCountry is null) {
 					Logger.Warn($"Imperator character {ImperatorCharacter.Id} is imprisoned but has no country!");
 				} else if (prisonCountry.CK3Title is null) {
-					Logger.Warn($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
+					Logger.Debug($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
 				} else {
 					jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
 				}

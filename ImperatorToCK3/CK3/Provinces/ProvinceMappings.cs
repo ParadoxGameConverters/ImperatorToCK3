@@ -38,7 +38,7 @@ public class ProvinceMappings : Dictionary<ulong, ulong> {
 			}
 
 			if (ContainsKey(targetProvId)) {
-				Logger.Warn($"Duplicate province mapping for {targetProvId}, overwriting!");
+				Logger.Debug($"Duplicate province mapping for {targetProvId}, overwriting!");
 			}
 			this[targetProvId] = baseProvId;
 		});

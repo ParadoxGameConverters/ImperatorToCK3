@@ -176,10 +176,10 @@ namespace ImperatorToCK3.Imperator {
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("deity_manager", reader => {
-				Religions!.LoadHolySiteDatabase(reader);
+				Religions.LoadHolySiteDatabase(reader);
 			});
+			var playerCountriesToLog = new List<string>();
 			RegisterKeyword("played_country", reader => {
-				var playerCountriesToLog = new List<string>();
 				var playedCountryBlocParser = new Parser();
 				playedCountryBlocParser.RegisterKeyword("country", reader => {
 					var countryId = reader.GetULong();
@@ -187,10 +187,8 @@ namespace ImperatorToCK3.Imperator {
 					country.PlayerCountry = true;
 					playerCountriesToLog.Add(country.Tag);
 				});
-				playedCountryBlocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+				playedCountryBlocParser.IgnoreUnregisteredItems();
 				playedCountryBlocParser.ParseStream(reader);
-				Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
-				Logger.IncrementProgress();
 			});
 			this.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
@@ -201,6 +199,8 @@ namespace ImperatorToCK3.Imperator {
 			ParseStream(ProcessSave(config.SaveGamePath));
 			ClearRegisteredRules();
 			Logger.Debug($"Ignored World tokens: {string.Join(", ", ignoredTokens)}");
+			Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
+			Logger.IncrementProgress();
 
 			Logger.Info("*** Building World ***");
 

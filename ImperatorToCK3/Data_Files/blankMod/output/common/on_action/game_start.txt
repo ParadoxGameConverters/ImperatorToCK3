@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
+﻿# ImperatorToCK3: Last updated CK3 patch 1.7
 
 # Called from code after history generation
 # Empty scope
@@ -304,8 +304,591 @@ on_game_start_after_lobby = {
 			limit = { NOT = { has_game_rule = sexuality_distribution_default } }
 			game_rule_sexuality_distribution_effect = yes
 		}
+		else = { # So that children 10+ starts with a sexuality
+			child_sexuality_distribution_effect = yes
+		}
 
 		# IRToCK3: Parts about achievements removed
+		
+		### HOLD COURT STARTING GRACE
+		every_character_with_royal_court = {
+			set_variable = {
+				name = hold_court_cooldown
+	 			days = standard_hold_court_cooldown_time
+	 		}
+		}
+
+		
+		#Set starting cultural acceptance
+		culture:vlach = {
+			change_cultural_acceptance = {
+				target = culture:serbian
+				value = 40
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:croatian
+				value = 40
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:bosnian
+				value = 40
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:bulgarian
+				value = 40
+				desc = cultural_acceptance_historical_relations
+			}
+		}
+		culture:khazar = {
+			change_cultural_acceptance = {
+				target = culture:radhanite
+				value = 25
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:mordvin
+				value = 30
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:meshchera
+				value = 30
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:muroma
+				value = 30
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:russian
+				value = 30
+				desc = cultural_acceptance_historical_relations
+			}
+		}
+		culture:norse = {
+			change_cultural_acceptance = {
+				target = culture:sami
+				value = 20
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:finnish
+				value = 20
+				desc = cultural_acceptance_historical_relations
+			}
+		}
+		culture:swedish = {
+			change_cultural_acceptance = {
+				target = culture:sami
+				value = 20
+				desc = cultural_acceptance_historical_relations
+			}
+			change_cultural_acceptance = {
+				target = culture:finnish
+				value = 20
+				desc = cultural_acceptance_historical_relations
+			}
+		}
+		culture:norwegian = {
+			change_cultural_acceptance = {
+				target = culture:sami
+				value = 20
+				desc = cultural_acceptance_historical_relations
+			}
+		}
+		# In 867, the Slavic cultures are still very similar to each other, so we start them off at a very high tolerance.
+		if = {
+			limit = { current_date = 867.1.1 }
+			# West Slavic.
+			culture:pommeranian = {
+				change_cultural_acceptance = {
+					target = culture:czech
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:polish
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:polabian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:slovien
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:carantanian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:croatian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bosnian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:czech = {
+				change_cultural_acceptance = {
+					target = culture:polish
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:polabian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:slovien
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:carantanian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:croatian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bosnian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:polish = {
+				change_cultural_acceptance = {
+					target = culture:polabian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:slovien
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:carantanian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:croatian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bosnian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:polabian = {
+				change_cultural_acceptance = {
+					target = culture:slovien
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:carantanian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:croatian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bosnian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:slovien = {
+				change_cultural_acceptance = {
+					target = culture:carantanian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:croatian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bosnian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:carantanian = {
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:croatian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bosnian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			# South Slavic.
+			culture:croatian = {
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bosnian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:bosnian = {
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:serbian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:serbian = {
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:bulgarian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:bulgarian = {
+				change_cultural_acceptance = {
+					target = culture:russian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			# East Slavic.
+			culture:russian = {
+				change_cultural_acceptance = {
+					target = culture:ilmenian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:ilmenian = {
+				change_cultural_acceptance = {
+					target = culture:severian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			culture:severian = {
+				change_cultural_acceptance = {
+					target = culture:volhynian
+					value = 50
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			## Volhynian doesn't get its own box, because we've already applied acceptance to it bilaterally everywhere else.
+		}
 		
 		# IRToCK3: Show welcoming event
 		every_player = { # Welcoming event
