@@ -8,7 +8,7 @@ public class WarMapperTests {
 	[Fact]
 	public void NonMatchGivesNull() {
 		const string tempTestFile = "TestFiles/configurables/temp_wargoal_map_1.txt";
-		File.WriteAllText(tempTestFile, "link = { ck3 = ck3CB imp = goal }");
+		File.WriteAllText(tempTestFile, "link = { ck3 = ck3CB ir = goal }");
 		var mapper = new WarMapper(tempTestFile);
 
 		var ck3CB = mapper.GetCK3CBForImperatorWarGoal("nonMatchingGoal");
@@ -18,7 +18,7 @@ public class WarMapperTests {
 	[Fact]
 	public void CK3CBCanBeFound() {
 		const string tempTestFile = "TestFiles/configurables/temp_wargoal_map_2.txt";
-		File.WriteAllText(tempTestFile, "link = { ck3 = ck3CB imp = goal }");
+		File.WriteAllText(tempTestFile, "link = { ck3 = ck3CB ir = goal }");
 		var mapper = new WarMapper(tempTestFile);
 
 		var ck3CB = mapper.GetCK3CBForImperatorWarGoal("goal");
@@ -28,7 +28,7 @@ public class WarMapperTests {
 	[Fact]
 	public void MultipleImperatorWarGoalsCanBeInARule() {
 		const string tempTestFile = "TestFiles/configurables/temp_wargoal_map_3.txt";
-		File.WriteAllText(tempTestFile, "link = { ck3=ck3CB imp=goal1 imp=goal2 }");
+		File.WriteAllText(tempTestFile, "link = { ck3=ck3CB ir=goal1 ir=goal2 }");
 		var mapper = new WarMapper(tempTestFile);
 
 		var ck3CB = mapper.GetCK3CBForImperatorWarGoal("goal2");
@@ -39,8 +39,8 @@ public class WarMapperTests {
 	public void CorrectRuleMatches() {
 		const string tempTestFile = "TestFiles/configurables/temp_wargoal_map_4.txt";
 		File.WriteAllText(tempTestFile,
-			"link = { ck3 = ck3CB1 imp = goal1 }" +
-			"link = { ck3 = ck3CB2 imp = goal2 }"
+			"link = { ck3 = ck3CB1 ir = goal1 }" +
+			"link = { ck3 = ck3CB2 ir = goal2 }"
 		);
 		var mapper = new WarMapper(tempTestFile);
 

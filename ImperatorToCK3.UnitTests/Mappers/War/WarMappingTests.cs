@@ -15,7 +15,7 @@ public class WarMappingTests {
 	
 	[Fact]
 	public void FieldsCanBeSet() {
-		var reader = new BufferedReader("= { ck3 = ck3CB imp = goal1 imp = goal2 }");
+		var reader = new BufferedReader("= { ck3 = ck3CB ir = goal1 ir = goal2 }");
 		var mapping = WarMapping.Parse(reader);
 		Assert.Collection(mapping.ImperatorWarGoals,
 			item => Assert.Equal("goal1", item),

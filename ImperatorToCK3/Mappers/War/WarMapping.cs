@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 
-namespace ImperatorToCK3.Mappers.War {
-	public class WarMapping {
-		public SortedSet<string> ImperatorWarGoals { get; set; } = new();
-		public string? CK3CasusBelli { get; set; }
+namespace ImperatorToCK3.Mappers.War; 
 
-		static WarMapping() {
-			parser.RegisterKeyword("ck3", (reader) => mappingToReturn.CK3CasusBelli = reader.GetString());
-			parser.RegisterKeyword("imp", (reader) => mappingToReturn.ImperatorWarGoals.Add(reader.GetString()));
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
-		public static WarMapping Parse (BufferedReader reader) {
-			mappingToReturn = new WarMapping();
-			parser.ParseStream(reader);
-			return mappingToReturn;
-		}
+public class WarMapping {
+	public SortedSet<string> ImperatorWarGoals { get; set; } = new();
+	public string? CK3CasusBelli { get; set; }
 
-		private static WarMapping mappingToReturn = new();
-		private readonly static Parser parser = new();
+	static WarMapping() {
+		parser.RegisterKeyword("ck3", reader => mappingToReturn.CK3CasusBelli = reader.GetString());
+		parser.RegisterKeyword("ir", reader => mappingToReturn.ImperatorWarGoals.Add(reader.GetString()));
+		parser.IgnoreAndLogUnregisteredItems();
 	}
+	public static WarMapping Parse (BufferedReader reader) {
+		mappingToReturn = new WarMapping();
+		parser.ParseStream(reader);
+		return mappingToReturn;
+	}
+
+	private static WarMapping mappingToReturn = new();
+	private static readonly Parser parser = new();
 }

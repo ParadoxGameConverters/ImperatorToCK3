@@ -37,7 +37,7 @@ public class War {
 				var ck3RulerId = ck3Title.GetHolderId(ck3BookmarkDate);
 				if (ck3RulerId != "0") {
 					if (Defenders.Count == 0) { // we're adding the first defender
-						TargetedTitles.Add(ck3Title.Id); // this is a dev workaround, TODO: replace TargetedTitles setting with properly determined CK3 title
+						TargetedTitles.Add(ck3Title.CapitalCountyId ?? ck3Title.Id); // TODO: replace TargetedTitles setting with properly determined CK3 title
 					}
 					Defenders.Add(ck3RulerId);
 				}
