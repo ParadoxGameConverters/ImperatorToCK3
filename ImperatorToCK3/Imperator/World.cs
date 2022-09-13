@@ -165,6 +165,7 @@ namespace ImperatorToCK3.Imperator {
 				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader));
 				statesBlocParser.IgnoreAndLogUnregisteredItems();
 				statesBlocParser.ParseStream(reader);
+				Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
 				Logger.Info($"Loaded {States.Count} states.");
 				Logger.IncrementProgress();
 			});

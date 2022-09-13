@@ -7,7 +7,10 @@ public class StateCollection : IdObjectCollection<ulong, State> {
 	public void LoadStates(BufferedReader statesDbReader) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, stateIdStr) => {
-			AddOrReplace(new State(ulong.Parse(stateIdStr), reader));
+			var strOfItem = reader.GetStringOfItem();
+			if (strOfItem.IsArrayOrObject()) {
+				AddOrReplace(new State(ulong.Parse(stateIdStr), new BufferedReader(strOfItem.ToString())));
+			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(statesDbReader);

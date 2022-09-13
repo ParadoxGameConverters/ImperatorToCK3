@@ -15,7 +15,6 @@ public class War {
 	public string Claimant { get; }
 
 	public War(Imperator.Diplomacy.War impWar, Imperator.Countries.CountryCollection impCountries, Mappers.War.WarMapper warMapper, Date ck3BookmarkDate) {
-		Logger.Warn($"IMPWAR {impWar.WarGoal}; {string.Join(",", impWar.AttackerCountryIds)}; {string.Join(",", impWar.DefenderCountryIds)}"); // TODO: remove debug
 		StartDate = new Date(impWar.StartDate);
 		if (StartDate.Year < 2) {
 			StartDate = new Date(2, 1, 1);
