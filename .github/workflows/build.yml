@@ -19,7 +19,6 @@ jobs:
         submodules: recursive
 
     - name: Setup Dotnet for use with actions
-      if : ${{ steps.dotnet-version-checker.outputs.dotnet_7 == 'false' }}
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '7.*'
