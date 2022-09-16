@@ -18,16 +18,6 @@ jobs:
       with:
         submodules: recursive
 
-    - name: "Check if .NET 7 is the default dotnet version"
-      id: dotnet-version-checker
-      shell: bash
-      run: |
-        dotnet_version=`dotnet --version`
-        if [[ $dotnet_version == 7.* ]]; then
-          echo "::set-output name=dotnet_7::true"
-        else
-          echo "::set-output name=dotnet_7::false"
-        fi
     - name: Setup Dotnet for use with actions
       if : ${{ steps.dotnet-version-checker.outputs.dotnet_7 == 'false' }}
       uses: actions/setup-dotnet@v2
