@@ -27,7 +27,7 @@ jobs:
     - name: "Test"
       run: |
        cd ImperatorToCK3.UnitTests
-       dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=lcov -p:Exclude=[commonItems]*
+       dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:Exclude=[commonItems]*
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
       with:
