@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   test_and_check_coverage:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -28,7 +28,7 @@ jobs:
        cd ImperatorToCK3.UnitTests
        dotnet restore
        dotnet build
-       dotnet test /p:CollectCoverage=true /p:CoverletOutput="./TestResults/coverage.info" /p:CoverletOutputFormat=lcov /p:Exclude="[commonItems]*"
+       dotnet test -p:CollectCoverage=true -p:CoverletOutput="./TestResults/coverage.info" -p:CoverletOutputFormat=lcov -p:Exclude="[commonItems]*"
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
       with:
