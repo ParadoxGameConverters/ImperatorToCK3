@@ -27,6 +27,7 @@ jobs:
       run: |
        cd ImperatorToCK3.UnitTests
        dotnet restore
+       dotnet build
        dotnet test /p:CollectCoverage=true /p:CoverletOutput="./TestResults/coverage.info" /p:CoverletOutputFormat=lcov /p:Exclude="[commonItems]*"
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
