@@ -24,10 +24,8 @@ jobs:
         dotnet-version: '7.*'
         include-prerelease: true
     - name: "Test"
+      working-directory: ImperatorToCK3.UnitTests
       run: |
-       cd ImperatorToCK3.UnitTests
-       dotnet restore
-       dotnet build
        dotnet test -p:CollectCoverage=true -p:CoverletOutput="./TestResults/coverage.info" -p:CoverletOutputFormat=lcov -p:Exclude="[commonItems]*"
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
@@ -52,6 +50,6 @@ jobs:
         dotnet-version: '7.*'
         include-prerelease: true
     - name: "Test"
+      working-directory: ImperatorToCK3.UnitTests
       run: |
-       cd ImperatorToCK3.UnitTests
        dotnet test
