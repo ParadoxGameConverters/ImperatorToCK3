@@ -11,4 +11,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: "US"
-          ignore: "[HISPANICUS,Germanos]"
+          reporter: github-pr-review
+          ignore: ["HISPANICUS","Germanos"]
