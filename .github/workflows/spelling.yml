@@ -10,4 +10,5 @@ jobs:
         uses: reviewdog/action-misspell@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          locale: "US"
+          locale: "UK"
+          path: "ImperatorToCK3"
