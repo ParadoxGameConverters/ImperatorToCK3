@@ -12,4 +12,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: "US"
           reporter: github-pr-review
-          ignore: ["HISPANICUS","Germanos"]
+          level: warning
