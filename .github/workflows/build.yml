@@ -23,11 +23,7 @@ jobs:
       with:
         dotnet-version: '7.*'
         include-prerelease: true
-    - name: "Build backend"
+    - name: "Build converter backend"
+      working-directory: ImperatorToCK3
       run: |
-        cd ImperatorToCK3
-        dotnet build
-    - name: "Build frontend"
-      run: |
-        cd Fronter.NET
         dotnet build
