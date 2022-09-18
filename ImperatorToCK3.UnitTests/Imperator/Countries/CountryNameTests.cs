@@ -55,7 +55,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			Assert.Equal("someName", countryName.BaseName.Name);
+			Assert.Equal("someName", countryName.BaseName!.Name);
 			Assert.Equal("someAdjective", countryName.BaseName.GetAdjective());
 			Assert.Null(countryName.BaseName.BaseName);
 		}
