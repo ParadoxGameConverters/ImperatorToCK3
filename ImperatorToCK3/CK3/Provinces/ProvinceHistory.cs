@@ -9,7 +9,7 @@ namespace ImperatorToCK3.CK3.Provinces;
 
 public partial class Province {
 	public string? GetFaithId(Date date) {
-		var historyValue = History.GetFieldValue("religion", date);
+		var historyValue = History.GetFieldValue("faith", date);
 		return historyValue switch {
 			StringOfItem stringOfItem => stringOfItem.ToString(),
 			string cultureStr => cultureStr,
@@ -66,7 +66,7 @@ public partial class Province {
 
 	private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 		.WithSimpleField("culture", "culture", null)
-		.WithSimpleField("religion", new OrderedSet<string> {"faith", "religion"}, null)
+		.WithSimpleField("faith", new OrderedSet<string> {"faith", "religion"}, null)
 		.WithSimpleField("holding", "holding", "none")
 		.WithSimpleField("buildings", "buildings", new List<string>())
 		.WithSimpleField("special_building_slot", "special_building_slot", null)
