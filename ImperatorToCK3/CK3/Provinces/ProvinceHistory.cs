@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -8,7 +9,7 @@ namespace ImperatorToCK3.CK3.Provinces;
 
 public partial class Province {
 	public string? GetFaithId(Date date) {
-		var historyValue = History.GetFieldValue("religion", date);
+		var historyValue = History.GetFieldValue("faith", date);
 		return historyValue switch {
 			StringOfItem stringOfItem => stringOfItem.ToString(),
 			string cultureStr => cultureStr,
@@ -16,7 +17,7 @@ public partial class Province {
 		};
 	}
 	public void SetFaithId(string faithId, Date? date) {
-		History.AddFieldValue(date, "religion", "religion", faithId);
+		History.AddFieldValue(date, "faith", "faith", faithId);
 	}
 	
 	public string? GetCultureId(Date date) {
@@ -65,8 +66,12 @@ public partial class Province {
 
 	private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 		.WithSimpleField("culture", "culture", null)
-		.WithSimpleField("religion", "religion", null)
+		.WithSimpleField("faith", new OrderedSet<string> {"faith", "religion"}, null)
 		.WithSimpleField("holding", "holding", "none")
 		.WithSimpleField("buildings", "buildings", new List<string>())
+		.WithSimpleField("special_building_slot", "special_building_slot", null)
+		.WithSimpleField("special_building", "special_building", null)
+		.WithSimpleField("duchy_capital_building", "duchy_capital_building", null)
+		.WithSimpleField("terrain", "terrain", null)
 		.Build();
 }

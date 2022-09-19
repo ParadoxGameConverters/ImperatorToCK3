@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 using System.Linq;
@@ -16,9 +15,14 @@ public partial class Province : IIdentifiable<ulong> {
 	public Province(ulong id, BufferedReader reader): this(id) {
 		History = historyFactory.GetHistory(reader);
 	}
-	public Province(ulong id, Province otherProvince): this(id) {
-		BaseProvinceId = otherProvince.Id;
-		History = new History(otherProvince.History);
+	public Province(ulong id, Province sourceProvince): this(id) {
+		// culture, faith and terrain can be copied from source province
+		BaseProvinceId = sourceProvince.Id;
+
+		var srcProvinceHistoryFields = sourceProvince.History.Fields;
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["culture"].Clone());
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["faith"].Clone());
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["terrain"].Clone());
 	}
 
 	public void InitializeFromImperator(
