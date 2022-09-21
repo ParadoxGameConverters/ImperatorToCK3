@@ -1,0 +1,9 @@
+# All dates should be AD
+
+6057 = {	#GIZA
+	special_building = the_pyramids_01
+}
+
+1561 = {	#Salisbury
+	special_building = stonehenge_01
+}

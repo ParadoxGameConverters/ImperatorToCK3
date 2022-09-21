@@ -91,6 +91,17 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		Logger.IncrementProgress();
 	}
 
+	public void LoadProvincesPrehistory() {
+		const string prehistoryPath = "configurables/provinces_prehistory.txt";
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
+			var provId = ulong.Parse(provIdStr);
+			this[provId].LoadHistory(reader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile(prehistoryPath);
+	}
+
 	private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
 		List<ulong> impProvinceNumbers,
 		Imperator.World impWorld
