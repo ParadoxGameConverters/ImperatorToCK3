@@ -55,7 +55,7 @@ public partial class Province : IIdentifiable<ulong> {
 		SetHoldingFromImperator(landedTitles);
 	}
 
-	public void LoadHistory(BufferedReader reader) {
+	public void UpdateHistory(BufferedReader reader) {
 		historyFactory.UpdateHistory(History, reader);
 	}
 
