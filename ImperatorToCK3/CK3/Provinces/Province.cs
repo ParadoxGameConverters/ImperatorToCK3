@@ -44,6 +44,8 @@ public partial class Province : IIdentifiable<ulong> {
 		foreach (var field in History.Fields.Where(f=>!fieldsToKeep.Contains(f.Id))) {
 			field.RemoveAllEntries();
 		}
+		
+		History.RemoveHistoryPastDate(config.CK3BookmarkDate);
 
 		// Religion first
 		SetReligionFromImperator(religionMapper, config);
