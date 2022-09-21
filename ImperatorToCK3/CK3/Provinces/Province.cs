@@ -8,7 +8,6 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Provinces;
 
 public partial class Province : IIdentifiable<ulong> {
-
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; }
 
