@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.Imperator.Provinces;
 
 namespace ImperatorToCK3.Mappers.Region; 
 
@@ -9,7 +10,7 @@ public class ImperatorRegionMapper {
 	public IdObjectCollection<string, ImperatorArea> Areas { get; } = new();
 
 	public ImperatorRegionMapper() { }
-	public ImperatorRegionMapper(ModFilesystem imperatorModFS) {
+	public ImperatorRegionMapper(ModFilesystem imperatorModFS, ProvinceCollection provinces) {
 		Logger.Info("Initializing Imperator geography...");
 
 		var parser = new Parser();
@@ -17,7 +18,7 @@ public class ImperatorRegionMapper {
 		const string areasFilePath = "map_data/areas.txt";
 		Logger.Debug($"Imperator areas file location: {imperatorModFS.GetActualFileLocation(areasFilePath)}");
 			
-		RegisterAreaKeys(parser);
+		RegisterAreaKeys(parser, provinces);
 		parser.ParseGameFile(areasFilePath, imperatorModFS);
 		parser.ClearRegisteredRules();
 
@@ -35,8 +36,8 @@ public class ImperatorRegionMapper {
 		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => Regions.AddOrReplace(new(regionName, reader)));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	private void RegisterAreaKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => Areas.AddOrReplace(new(areaName, reader)));
+	private void RegisterAreaKeys(Parser parser, ProvinceCollection provinces) {
+		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => Areas.AddOrReplace(new(areaName, reader, provinces)));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 

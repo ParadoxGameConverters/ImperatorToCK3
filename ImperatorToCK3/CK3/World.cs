@@ -100,7 +100,7 @@ namespace ImperatorToCK3.CK3 {
 
 			// Loading regions
 			ck3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
-			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
+			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS, impWorld.Provinces);
 			// Use the region mappers in other mappers
 			var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);

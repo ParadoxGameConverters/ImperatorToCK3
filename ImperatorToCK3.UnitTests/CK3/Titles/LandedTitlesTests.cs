@@ -26,6 +26,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
+		private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new(new BufferedReader(
+			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
+		);
 		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
@@ -154,7 +157,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
+			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irProvinces);
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 			var ck3RegionMapper = new CK3RegionMapper();

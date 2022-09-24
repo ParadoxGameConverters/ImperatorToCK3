@@ -28,6 +28,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CharacterCollectionTests {
+	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new(new BufferedReader(
+		"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
+	);
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFs = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 	
@@ -206,7 +209,7 @@ public class CharacterCollectionTests {
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
 
-		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
+		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irProvinces);
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));

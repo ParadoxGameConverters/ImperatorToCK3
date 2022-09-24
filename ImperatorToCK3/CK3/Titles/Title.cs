@@ -438,8 +438,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			ImperatorArea? potentialSourceArea = null;
 			float biggestOwnershipPercentage = 0f;
 			foreach (var area in region.Areas) {
-				var provinceIds = area.ProvinceIds;
-				var provinces = irProvinces.Where(p => provinceIds.Contains(p.Id)).ToList();
+				var provinces = area.Provinces;
 				if (provinces.Count == 0) {
 					continue;
 				}
