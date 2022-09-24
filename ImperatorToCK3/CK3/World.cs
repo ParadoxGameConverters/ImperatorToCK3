@@ -146,7 +146,8 @@ namespace ImperatorToCK3.CK3 {
 
 			// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 			Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, config);
-
+			Provinces.LoadPrehistory();
+			
 			var countyLevelGovernorships = new List<Governorship>();
 			LandedTitles.ImportImperatorGovernorships(
 				impWorld,

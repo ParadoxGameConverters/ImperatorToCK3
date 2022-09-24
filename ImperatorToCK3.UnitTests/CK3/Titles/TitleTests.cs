@@ -328,12 +328,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var vassal = titles.Add("d_vassal");
 			var oldLiege = titles.Add("k_old_liege");
 			vassal.SetDeFactoLiege(oldLiege, date);
-			Assert.Equal("k_old_liege", vassal.GetDeFactoLiege(date).Id);
+			Assert.Equal("k_old_liege", vassal.GetDeFactoLiege(date)!.Id);
 			Assert.True(oldLiege.GetDeFactoVassals(date).ContainsKey("d_vassal"));
 
 			var newLiege = titles.Add("k_new_liege");
 			vassal.SetDeFactoLiege(newLiege, date);
-			Assert.Equal("k_new_liege", vassal.GetDeFactoLiege(date).Id);
+			Assert.Equal("k_new_liege", vassal.GetDeFactoLiege(date)!.Id);
 			Assert.False(oldLiege.GetDeFactoVassals(date).ContainsKey("d_vassal"));
 			Assert.True(newLiege.GetDeFactoVassals(date).ContainsKey("d_vassal"));
 		}

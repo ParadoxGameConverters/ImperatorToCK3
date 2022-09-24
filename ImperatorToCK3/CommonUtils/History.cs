@@ -15,7 +15,7 @@ public class History : IPDXSerializable {
 
 	public History(History baseHistory) {
 		foreach (var field in baseHistory.Fields) {
-			Fields.Add(field.Clone());
+			Fields.AddOrReplace(field.Clone());
 		}
 	}
 	public History(IdObjectCollection<string, IHistoryField> fields) {

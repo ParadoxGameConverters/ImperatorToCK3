@@ -27,7 +27,7 @@ public class DynastiesOutputterTests {
 		};
 		dynasties.Add(dynasty2);
 
-		var outputPath = Path.Combine("output", outputModName, "common", "dynasties", "imp_dynasties.txt");
+		var outputPath = Path.Combine("output", outputModName, "common/dynasties/ir_dynasties.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		DynastiesOutputter.OutputDynasties(outputModName, dynasties);
 
@@ -42,6 +42,7 @@ public class DynastiesOutputterTests {
 		Assert.Equal("\tname=dynn_IMPTOCK3_2", reader.ReadLine());
 		Assert.Equal("\tculture=roman", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
+		Assert.True(string.IsNullOrWhiteSpace(reader.ReadLine()));
 		Assert.True(reader.EndOfStream);
 	}
 }
