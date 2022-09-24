@@ -12,6 +12,7 @@ using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.States;
+using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -162,7 +163,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("state", reader => {
 				Logger.Info("Loading states...");
 				var statesBlocParser = new Parser();
-				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader));
+				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Provinces, new ImperatorRegionMapper().Areas, Countries));
 				statesBlocParser.IgnoreAndLogUnregisteredItems();
 				statesBlocParser.ParseStream(reader);
 				Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");

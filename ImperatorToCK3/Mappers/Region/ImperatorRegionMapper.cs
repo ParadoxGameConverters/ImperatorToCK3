@@ -6,7 +6,7 @@ namespace ImperatorToCK3.Mappers.Region;
 
 public class ImperatorRegionMapper {
 	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
-	private readonly IdObjectCollection<string, ImperatorArea> areas = new();
+	public IdObjectCollection<string, ImperatorArea> Areas { get; } = new();
 
 	public ImperatorRegionMapper() { }
 	public ImperatorRegionMapper(ModFilesystem imperatorModFS) {
@@ -36,7 +36,7 @@ public class ImperatorRegionMapper {
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 	private void RegisterAreaKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas.AddOrReplace(new(areaName, reader)));
+		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => Areas.AddOrReplace(new(areaName, reader)));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
@@ -45,11 +45,11 @@ public class ImperatorRegionMapper {
 			return region.ContainsProvince(provinceId);
 		}
 		// "Regions" are such a fluid term.
-		return areas.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
+		return Areas.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
 	}
 	public bool RegionNameIsValid(string regionName) {
 		// Who knows what the mapper needs. All kinds of stuff.
-		return Regions.ContainsKey(regionName) || areas.ContainsKey(regionName);
+		return Regions.ContainsKey(regionName) || Areas.ContainsKey(regionName);
 	}
 	public string? GetParentRegionName(ulong provinceId) {
 		foreach (var region in Regions) {
@@ -61,7 +61,7 @@ public class ImperatorRegionMapper {
 		return null;
 	}
 	public string? GetParentAreaName(ulong provinceId) {
-		foreach (var area in areas) {
+		foreach (var area in Areas) {
 			if (area.ContainsProvince(provinceId)) {
 				return area.Id;
 			}
@@ -71,7 +71,7 @@ public class ImperatorRegionMapper {
 	}
 	private void LinkRegions() {
 		foreach (var region in Regions) {
-			region.LinkAreas(areas);
+			region.LinkAreas(Areas);
 		}
 	}
 }
