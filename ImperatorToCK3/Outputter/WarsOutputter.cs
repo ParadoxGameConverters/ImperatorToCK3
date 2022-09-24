@@ -25,12 +25,12 @@ public static class WarsOutputter {
 		if (war.EndDate is not null) {
 			output.WriteLine($"\tend_date = {war.EndDate}");
 		}
-		output.WriteLine("\ttargeted_titles={ " + string.Join(" ", war.TargetedTitles) + " }");
+		output.WriteLine($"\ttargeted_titles={{ {string.Join(" ", war.TargetedTitles)} }}");
 		if (war.CasusBelli is not null) {
 			output.WriteLine($"\tcasus_belli = {war.CasusBelli}");
 		}
-		output.WriteLine("\tattackers={ " + string.Join(" ", war.Attackers) + " }");
-		output.WriteLine("\tdefenders={ " + string.Join(" ", war.Defenders) + " }");
+		output.WriteLine($"\tattackers={{ {string.Join(" ", war.Attackers)} }}");
+		output.WriteLine($"\tdefenders={{ {string.Join(" ", war.Defenders)} }}");
 		output.WriteLine($"\tclaimant = {war.Claimant}");
 
 		output.WriteLine("}");

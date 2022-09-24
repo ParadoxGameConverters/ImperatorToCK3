@@ -101,7 +101,7 @@ public sealed class HistoryFactory {
 		parser.ParseStream(reader);
 
 		if (history.IgnoredKeywords.Count > 0) {
-			Logger.Debug($"Ignored history keywords: {string.Join(", ", history.IgnoredKeywords)}");
+			Logger.Debug($"Ignored history keywords: {history.IgnoredKeywords}");
 		}
 		return history;
 	}
@@ -116,7 +116,7 @@ public sealed class HistoryFactory {
 		}
 
 		if (history.IgnoredKeywords.Count > 0) {
-			Logger.Debug($"Ignored history keywords: {string.Join(", ", history.IgnoredKeywords)}");
+			Logger.Debug($"Ignored history keywords: {history.IgnoredKeywords}");
 		}
 		return history;
 	}

@@ -9,7 +9,7 @@ namespace ImperatorToCK3.CommonUtils;
 
 public class History : IPDXSerializable {
 	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = new(); // fieldName, field
-	[NonSerialized] public OrderedSet<string> IgnoredKeywords { get; } = new();
+	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = new();
 
 	public History() { }
 

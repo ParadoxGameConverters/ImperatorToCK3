@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
@@ -146,14 +147,14 @@ namespace ImperatorToCK3.Imperator {
 				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Provinces, new ImperatorRegionMapper().Areas, Countries));
 				statesBlocParser.IgnoreAndLogUnregisteredItems();
 				statesBlocParser.ParseStream(reader);
-				Logger.Debug($"Ignored state keywords: {string.Join(", ", Province.IgnoredTokens)}");
+				Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
 				Logger.Info($"Loaded {States.Count} states.");
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces...");
 				Provinces = new ProvinceCollection(reader);
-				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
+				Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			});
 			RegisterKeyword("armies", reader => {
@@ -211,7 +212,7 @@ namespace ImperatorToCK3.Imperator {
 
 			ParseStream(ProcessSave(config.SaveGamePath));
 			ClearRegisteredRules();
-			Logger.Debug($"Ignored World tokens: {string.Join(", ", ignoredTokens)}");
+			Logger.Debug($"Ignored World tokens: {ignoredTokens}");
 			Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 			Logger.IncrementProgress();
 
@@ -389,6 +390,6 @@ namespace ImperatorToCK3.Imperator {
 			return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open));
 		}
 
-		private readonly HashSet<string> ignoredTokens = new();
+		private readonly IgnoredKeywordsSet ignoredTokens = new();
 	}
 }

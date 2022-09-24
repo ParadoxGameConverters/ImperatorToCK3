@@ -1,11 +1,12 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
 public partial class Province {
-	public static HashSet<string> IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 	static Province() {
 		provinceParser.RegisterKeyword("province_name", reader =>
 			parsedProvince.Name = new ProvinceName(reader).Name

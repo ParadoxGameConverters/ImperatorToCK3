@@ -924,7 +924,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return heldProvinces;
 	}
 
-	[commonItems.Serialization.NonSerialized] public static HashSet<string> IgnoredTokens { get; } = new();
+	[commonItems.Serialization.NonSerialized] public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 
 	// used by kingdom titles only
 	public bool KingdomContainsProvince(ulong provinceId) {

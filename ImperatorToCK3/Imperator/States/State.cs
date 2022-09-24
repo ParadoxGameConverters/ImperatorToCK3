@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Region;
@@ -29,5 +30,5 @@ public class State : IIdentifiable<ulong> {
 		return Area.Provinces.Where(p => p.State.Id == this.Id);
 	}
 
-	public static OrderedSet<string> IgnoredKeywords { get; } = new();
+	public static IgnoredKeywordsSet IgnoredKeywords { get; } = new();
 }

@@ -78,7 +78,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 			blocParser.ParseStream(reader);
 			blocParser.ClearRegisteredRules();
-			Logger.Debug($"Ignored Character tokens: {string.Join(", ", Character.IgnoredTokens)}");
+			Logger.Debug($"Ignored Character tokens: {Character.IgnoredTokens}");
 			return parsedCharacters;
 		}
 	}

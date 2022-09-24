@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Diplomacy; 
@@ -29,14 +30,14 @@ public class Diplomacy {
 
 		parser.ParseStream(reader);
 
-		Logger.Debug($"Ignored War tokens: {string.Join(", ", War.IgnoredTokens)}");
+		Logger.Debug($"Ignored War tokens: {War.IgnoredTokens}");
 		if (ignoredDatabaseTokens.Count > 0) {
-			Logger.Debug($"Ignored Diplomacy database tokens: {string.Join(", ", ignoredDatabaseTokens)}");
+			Logger.Debug($"Ignored Diplomacy database tokens: {ignoredDatabaseTokens}");
 		}
-		Logger.Debug($"Ignored Diplomacy tokens: {string.Join(", ", ignoredTokens)}");
+		Logger.Debug($"Ignored Diplomacy tokens: {ignoredTokens}");
 		Logger.Info($"Loaded {Wars.Count} wars.");
 	}
 
-	private readonly OrderedSet<string> ignoredTokens = new();
-	private readonly OrderedSet<string> ignoredDatabaseTokens = new();
+	private readonly IgnoredKeywordsSet ignoredTokens = new();
+	private readonly IgnoredKeywordsSet ignoredDatabaseTokens = new();
 }

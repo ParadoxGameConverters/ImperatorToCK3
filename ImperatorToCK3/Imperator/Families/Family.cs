@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ public class Family : IIdentifiable<ulong> {
 		return culturesDB.GetMaleFamilyNameForm(Key) ?? Key;
 	}
 
-	public static HashSet<string> IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 	private static class FamilyFactory {
 		private static readonly Parser parser = new();
 		private static Family family = new(0);

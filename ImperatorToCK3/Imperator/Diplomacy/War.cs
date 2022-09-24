@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Diplomacy; 
@@ -53,5 +54,5 @@ public class War {
 
 	private static readonly Parser parser = new();
 	private static War warToReturn = new();
-	public static OrderedSet<string> IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 }
