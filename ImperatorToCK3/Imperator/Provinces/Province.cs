@@ -3,6 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Religions;
+using ImperatorToCK3.Imperator.States;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Provinces;
@@ -13,6 +14,7 @@ public partial class Province : IIdentifiable<ulong> {
 	public string Name { get; set; } = "";
 	public string Culture { get; set; } = "";
 	public string ReligionId { get; set; } = "";
+	public State? State { get; private set; } = null;
 	private ulong? parsedOwnerCountryId;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;

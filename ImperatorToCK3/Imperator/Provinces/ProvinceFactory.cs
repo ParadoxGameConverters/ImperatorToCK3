@@ -1,6 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
-using System.Collections.Generic;
+using ImperatorToCK3.Imperator.States;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces;
@@ -11,17 +11,18 @@ public partial class Province {
 		provinceParser.RegisterKeyword("province_name", reader =>
 			parsedProvince.Name = new ProvinceName(reader).Name
 		);
-		provinceParser.RegisterKeyword("culture", reader =>
-			parsedProvince.Culture = reader.GetString()
-		);
-		provinceParser.RegisterKeyword("religion", reader =>
-			parsedProvince.ReligionId = reader.GetString()
-		);
+		provinceParser.RegisterKeyword("state", reader => parsedStateId = reader.GetULong());
 		provinceParser.RegisterKeyword("owner", reader =>
 			parsedProvince.parsedOwnerCountryId = reader.GetULong()
 		);
 		provinceParser.RegisterKeyword("controller", reader =>
 			parsedProvince.Controller = reader.GetULong()
+		);
+		provinceParser.RegisterKeyword("culture", reader =>
+			parsedProvince.Culture = reader.GetString()
+		);
+		provinceParser.RegisterKeyword("religion", reader =>
+			parsedProvince.ReligionId = reader.GetString()
 		);
 		provinceParser.RegisterKeyword("pop", reader =>
 			parsedProvince.parsedPopIds.Add(reader.GetULong())
@@ -61,17 +62,20 @@ public partial class Province {
 			var buildingsList = reader.GetInts();
 			parsedProvince.BuildingCount = (uint)buildingsList.Sum();
 		});
-		provinceParser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
-			IgnoredTokens.Add(token);
-			ParserHelpers.IgnoreItem(reader);
-		});
+		provinceParser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
-	public static Province Parse(BufferedReader reader, ulong provinceId) {
+	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states) {
+		parsedStateId = null;
 		parsedProvince = new Province(provinceId);
 		provinceParser.ParseStream(reader);
+		if (parsedStateId is not null) {
+			parsedProvince.State = states[parsedStateId.Value];
+		}
 		return parsedProvince;
 	}
 
 	private static Province parsedProvince = new(0);
+	private static ulong? parsedStateId = null;
+	
 	private static readonly Parser provinceParser = new();
 }

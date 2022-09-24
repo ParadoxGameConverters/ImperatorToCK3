@@ -152,10 +152,12 @@ namespace ImperatorToCK3.Imperator {
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("provinces", reader => {
-				Logger.Info("Loading Provinces...");
-				Provinces = new ProvinceCollection(reader);
+				Logger.Info("Loading provinces...");
+				Provinces.LoadProvinces(reader, States);
 				Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
+			
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("armies", reader => {
 				Logger.Info("Loading armies...");

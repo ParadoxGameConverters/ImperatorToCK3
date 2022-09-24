@@ -3,6 +3,7 @@ using commonItems.Mods;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
+using ImperatorToCK3.Imperator.States;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
+	private readonly StateCollection states = new();
 	
 	[Fact]
 	public void IdCanBeSet() {
@@ -22,7 +24,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.Equal((ulong)42, theProvince.Id);
 	}
@@ -35,7 +37,7 @@ public class ProvinceTests {
 			"}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.Equal("paradoxian", theProvince.Culture);
 	}
@@ -46,7 +48,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.Culture));
 	}
@@ -59,7 +61,7 @@ public class ProvinceTests {
 			"}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.Equal("paradoxian", theProvince.ReligionId);
 	}
@@ -70,7 +72,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.ReligionId));
 	}
@@ -101,14 +103,16 @@ public class ProvinceTests {
 	[Fact]
 	public void NameCanBeSet() {
 		var reader = new BufferedReader(
-			"= {\n" +
-			"province_name = {\n" +
-			"name=\"Biggus Dickus\"\n" +
-			"}\n" +
-			"}"
+			"""
+			= {
+				province_name = {
+					name="Biggus Dickus"
+				}
+			}
+			"""
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.Equal("Biggus Dickus", theProvince.Name);
 	}
@@ -119,7 +123,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.Name));
 	}
@@ -127,12 +131,10 @@ public class ProvinceTests {
 	[Fact]
 	public void OwnerCanBeSet() {
 		var reader = new BufferedReader(
-			"= {\n" +
-			"\towner=69\n" +
-			"}"
+			"= { owner=69 }"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states);
 
 		Assert.Null(theProvince.OwnerCountry); // not linked yet
 
