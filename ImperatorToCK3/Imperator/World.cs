@@ -140,6 +140,16 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info($"Loaded {Characters.Count} characters.");
 				Logger.IncrementProgress();
 			});
+			RegisterKeyword("state", reader => {
+				Logger.Info("Loading states...");
+				var statesBlocParser = new Parser();
+				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Provinces, new ImperatorRegionMapper().Areas, Countries));
+				statesBlocParser.IgnoreAndLogUnregisteredItems();
+				statesBlocParser.ParseStream(reader);
+				Logger.Debug($"Ignored state keywords: {string.Join(", ", Province.IgnoredTokens)}");
+				Logger.Info($"Loaded {States.Count} states.");
+				Logger.IncrementProgress();
+			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading Provinces...");
 				Provinces = new ProvinceCollection(reader);
@@ -158,16 +168,6 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading Countries...");
 				Countries = CountryCollection.ParseBloc(reader);
 				Logger.Info($"Loaded {Countries.Count} countries.");
-				Logger.IncrementProgress();
-			});
-			RegisterKeyword("state", reader => {
-				Logger.Info("Loading states...");
-				var statesBlocParser = new Parser();
-				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Provinces, new ImperatorRegionMapper().Areas, Countries));
-				statesBlocParser.IgnoreAndLogUnregisteredItems();
-				statesBlocParser.ParseStream(reader);
-				Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
-				Logger.Info($"Loaded {States.Count} states.");
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("population", reader => {
