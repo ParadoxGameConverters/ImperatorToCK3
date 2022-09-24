@@ -9,10 +9,10 @@ namespace ImperatorToCK3.Imperator.Provinces;
 
 public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public ProvinceCollection() { }
-	public void LoadProvinces(BufferedReader provincesReader, StateCollection states) {
+	public void LoadProvinces(BufferedReader provincesReader, StateCollection states, CountryCollection countries) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
-			var newProvince = Province.Parse(reader, ulong.Parse(provIdStr), states);
+			var newProvince = Province.Parse(reader, ulong.Parse(provIdStr), states, countries);
 			Add(newProvince);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
@@ -21,9 +21,5 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public void LinkPops(PopCollection pops) {
 		var counter = this.Sum(province => province.LinkPops(pops));
 		Logger.Info($"{counter} pops linked to provinces.");
-	}
-	public void LinkCountries(CountryCollection countries) {
-		var counter = this.Count(province => province.TryLinkOwnerCountry(countries));
-		Logger.Info($"{counter} provinces linked to countries.");
 	}
 }

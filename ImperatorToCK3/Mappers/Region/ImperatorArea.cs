@@ -17,13 +17,15 @@ public class ImperatorArea : IIdentifiable<string> {
 		parser.RegisterKeyword("provinces", reader => {
 			var provinceIds = reader.GetULongs();
 			var provincesToAdd = provinces.Where(p => provinceIds.Contains(p.Id));
-			Provinces.UnionWith(provincesToAdd);
+			foreach (var province in provincesToAdd) {
+				Provinces.Add(province);
+			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(areaReader);
 	}
 	
 	public bool ContainsProvince(ulong provinceId) {
-		return Provinces.Any(p=>p.Id == provinceId);
+		return Provinces.Select(p=>p.Id).Contains(provinceId);
 	}
 }

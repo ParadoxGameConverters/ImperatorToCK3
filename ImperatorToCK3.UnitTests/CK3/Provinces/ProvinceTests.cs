@@ -2,6 +2,7 @@
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
@@ -14,7 +15,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
 	private readonly Date ck3BookmarkDate = "476.1.1";
-	private StateCollection states = new();
+	private readonly StateCollection states = new();
+	private readonly CountryCollection countries = new(new BufferedReader("1={}"));
 	
 	[Fact]
 	public void FieldsCanBeSet() {
@@ -40,26 +42,19 @@ public class ProvinceTests {
 
 	[Fact]
 	public void SetHoldingLogicWorks() {
-		var reader1 = new BufferedReader(" = { province_rank=city_metropolis }");
-		var reader2 = new BufferedReader(" = { province_rank=city fort=yes }");
-		var reader3 = new BufferedReader(" = { province_rank=city }");
-		var reader4 = new BufferedReader(" = { province_rank=settlement holy_site = 69 fort=yes }");
-		var reader5 = new BufferedReader(" = { province_rank=settlement fort=yes }");
-		var reader6 = new BufferedReader(" = { province_rank=settlement }");
-
-		var imperatorCountry = new ImperatorToCK3.Imperator.Countries.Country(1);
-		var impProvince = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader1, 42, states);
-		impProvince.LinkOwnerCountry(imperatorCountry);
-		var impProvince2 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader2, 43, states);
-		impProvince2.LinkOwnerCountry(imperatorCountry);
-		var impProvince3 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader3, 44, states);
-		impProvince3.LinkOwnerCountry(imperatorCountry);
-		var impProvince4 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader4, 45, states);
-		impProvince4.LinkOwnerCountry(imperatorCountry);
-		var impProvince5 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader5, 46, states);
-		impProvince5.LinkOwnerCountry(imperatorCountry);
-		var impProvince6 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader6, 47, states);
-		impProvince6.LinkOwnerCountry(imperatorCountry);
+		var reader1 = new BufferedReader(" = { owner=1 province_rank=city_metropolis }");
+		var reader2 = new BufferedReader(" = { owner=1 province_rank=city fort=yes }");
+		var reader3 = new BufferedReader(" = { owner=1 province_rank=city }");
+		var reader4 = new BufferedReader(" = { owner=1 province_rank=settlement holy_site = 69 fort=yes }");
+		var reader5 = new BufferedReader(" = { owner=1 province_rank=settlement fort=yes }");
+		var reader6 = new BufferedReader(" = { owner=1 province_rank=settlement }");
+		
+		var impProvince = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader1, 42, states, countries);
+		var impProvince2 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader2, 43, states, countries);
+		var impProvince3 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader3, 44, states, countries);
+		var impProvince4 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader4, 45, states, countries);
+		var impProvince5 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader5, 46, states, countries);
+		var impProvince6 = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader6, 47, states, countries);
 
 		var province1 = new Province(1);
 		var province2 = new Province(2);

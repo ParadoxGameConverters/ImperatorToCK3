@@ -3,8 +3,10 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -26,13 +28,19 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
-		private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new(new BufferedReader(
-			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
-		);
+		private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
 		private readonly Configuration defaultConfig = new() {ImperatorCivilizationWorth = 0.4};
+
+		public LandedTitlesTests() {
+			irProvinces.LoadProvinces(
+				new BufferedReader("1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"),
+				new StateCollection(),
+				new CountryCollection()
+			);
+		}
 		
 		[Fact]
 		public void TitlesDefaultToEmpty() {

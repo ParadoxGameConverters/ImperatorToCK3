@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.States;
 using System.Linq;
 
@@ -12,9 +13,7 @@ public partial class Province {
 			parsedProvince.Name = new ProvinceName(reader).Name
 		);
 		provinceParser.RegisterKeyword("state", reader => parsedStateId = reader.GetULong());
-		provinceParser.RegisterKeyword("owner", reader =>
-			parsedProvince.parsedOwnerCountryId = reader.GetULong()
-		);
+		provinceParser.RegisterKeyword("owner", reader => parsedOwnerId = reader.GetULong());
 		provinceParser.RegisterKeyword("controller", reader =>
 			parsedProvince.Controller = reader.GetULong()
 		);
@@ -64,18 +63,39 @@ public partial class Province {
 		});
 		provinceParser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
-	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states) {
+	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states, CountryCollection countries) {
 		parsedStateId = null;
+		parsedOwnerId = null;
+		
 		parsedProvince = new Province(provinceId);
 		provinceParser.ParseStream(reader);
+		
 		if (parsedStateId is not null) {
 			parsedProvince.State = states[parsedStateId.Value];
 		}
+
+		parsedProvince.TryLinkOwnerCountry(parsedOwnerId, countries);
+		
 		return parsedProvince;
+	}
+
+	private void TryLinkOwnerCountry(ulong? countryId, CountryCollection countries) {
+		if (countryId is null) {
+			return;
+		}
+		if (countries.TryGetValue(countryId.Value, out var countryToLink)) {
+			// link both ways
+			OwnerCountry = countryToLink;
+			countryToLink.RegisterProvince(this);
+			return;
+		}
+
+		Logger.Warn($"Country with ID {countryId} has no definition!");
 	}
 
 	private static Province parsedProvince = new(0);
 	private static ulong? parsedStateId = null;
+	private static ulong? parsedOwnerId = null;
 	
 	private static readonly Parser provinceParser = new();
 }

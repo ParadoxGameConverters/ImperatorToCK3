@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -28,11 +29,21 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CharacterCollectionTests {
-	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new(new BufferedReader(
-		"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
-	);
+	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFs = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
+
+	public CharacterCollectionTests() {
+		var states = new StateCollection();
+		var countries = new CountryCollection();
+		irProvinces.LoadProvinces(
+			new BufferedReader(
+			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
+			),
+			states,
+			countries
+		);
+	}
 	
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromChild() {

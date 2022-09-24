@@ -1,6 +1,8 @@
 ﻿using commonItems;
 using commonItems.Mods;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
 using System.IO;
@@ -9,9 +11,13 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
 public class ImperatorRegionMapperTests {
-	private readonly ProvinceCollection provinces = new(new BufferedReader(
-		"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
-	);
+	private readonly ProvinceCollection provinces = new();
+
+	public ImperatorRegionMapperTests() {
+		provinces.LoadProvinces(new BufferedReader(
+				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
+			, new StateCollection(), new CountryCollection());
+	}
 	
 	[Fact]
 	public void RegionMapperCanBeEnabled() {

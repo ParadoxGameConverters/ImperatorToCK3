@@ -17,6 +17,7 @@ public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
 	private readonly StateCollection states = new();
+	private readonly CountryCollection countries = new(new BufferedReader("69 = {}"));
 	
 	[Fact]
 	public void IdCanBeSet() {
@@ -24,7 +25,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal((ulong)42, theProvince.Id);
 	}
@@ -37,7 +38,7 @@ public class ProvinceTests {
 			"}"
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal("paradoxian", theProvince.Culture);
 	}
@@ -48,7 +49,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.Culture));
 	}
@@ -61,7 +62,7 @@ public class ProvinceTests {
 			"}"
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal("paradoxian", theProvince.ReligionId);
 	}
@@ -72,7 +73,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.ReligionId));
 	}
@@ -112,7 +113,7 @@ public class ProvinceTests {
 			"""
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal("Biggus Dickus", theProvince.Name);
 	}
@@ -123,7 +124,7 @@ public class ProvinceTests {
 			"= {}"
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.Name));
 	}
@@ -134,12 +135,7 @@ public class ProvinceTests {
 			"= { owner=69 }"
 		);
 
-		var theProvince = Province.Parse(reader, 42, states);
-
-		Assert.Null(theProvince.OwnerCountry); // not linked yet
-
-		var countries = new CountryCollection(new BufferedReader("69 = {}"));
-		theProvince.TryLinkOwnerCountry(countries);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.NotNull(theProvince.OwnerCountry);
 		Assert.Equal((ulong)69, theProvince.OwnerCountry.Id);
@@ -150,7 +146,7 @@ public class ProvinceTests {
 		var reader = new BufferedReader(
 			"= {}"
 		);
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Null(theProvince.OwnerCountry);
 	}
@@ -163,7 +159,7 @@ public class ProvinceTests {
 			"}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal((ulong)69, theProvince.Controller);
 	}
@@ -179,7 +175,7 @@ public class ProvinceTests {
 			"}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal(0, theProvince.GetPopCount()); // pops not linked yet
 
@@ -199,7 +195,7 @@ public class ProvinceTests {
 	[Fact]
 	public void ProvinceRankDefaultsToSettlement() {
 		var reader = new BufferedReader(string.Empty);
-		var province = Province.Parse(reader, 42);
+		var province = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal(ProvinceRank.settlement, province.ProvinceRank);
 	}
@@ -210,9 +206,9 @@ public class ProvinceTests {
 		var reader2 = new BufferedReader("= { province_rank=city }");
 		var reader3 = new BufferedReader("= { province_rank=city_metropolis }");
 
-		var province = Province.Parse(reader, 42);
-		var province2 = Province.Parse(reader2, 43);
-		var province3 = Province.Parse(reader3, 44);
+		var province = Province.Parse(reader, 42, states, countries);
+		var province2 = Province.Parse(reader2, 43, states, countries);
+		var province3 = Province.Parse(reader3, 44, states, countries);
 
 		Assert.Equal(ProvinceRank.settlement, province.ProvinceRank);
 		Assert.Equal(ProvinceRank.city, province2.ProvinceRank);
@@ -222,7 +218,7 @@ public class ProvinceTests {
 	[Fact]
 	public void FortDefaultsToFalse() {
 		var reader = new BufferedReader(string.Empty);
-		var province = Province.Parse(reader, 42);
+		var province = Province.Parse(reader, 42, states, countries);
 
 		Assert.False(province.Fort);
 	}
@@ -230,7 +226,7 @@ public class ProvinceTests {
 	[Fact]
 	public void FortCanBeSet() {
 		var reader = new BufferedReader(" = { fort=yes }");
-		var province = Province.Parse(reader, 42);
+		var province = Province.Parse(reader, 42, states, countries);
 
 		Assert.True(province.Fort);
 	}
@@ -238,7 +234,7 @@ public class ProvinceTests {
 	[Fact]
 	public void HolySiteIdDefaultsToNull() {
 		var reader = new BufferedReader(" = { }");
-		var province = Province.Parse(reader, 42);
+		var province = Province.Parse(reader, 42, states, countries);
 
 		Assert.False(province.IsHolySite);
 		Assert.Null(province.HolySiteId);
@@ -248,8 +244,8 @@ public class ProvinceTests {
 	public void HolySiteIdCanBeSet() {
 		var reader = new BufferedReader(" = { holy_site=4294967295 }"); // this value means no holy site
 		var reader2 = new BufferedReader(" = { holy_site=56 }");
-		var province = Province.Parse(reader, 42);
-		var province2 = Province.Parse(reader2, 43);
+		var province = Province.Parse(reader, 42, states, countries);
+		var province2 = Province.Parse(reader2, 43, states, countries);
 
 		Assert.False(province.IsHolySite);
 		Assert.Null(province.HolySiteId);
@@ -310,7 +306,7 @@ public class ProvinceTests {
 			"}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal((ulong)69, theProvince.BuildingCount);
 	}
@@ -321,45 +317,17 @@ public class ProvinceTests {
 			"={}"
 		);
 
-		var theProvince = Province.Parse(reader, 42);
+		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Equal((ulong)0, theProvince.BuildingCount);
-	}
-
-	[Fact]
-	public void LinkingCountryWithoutMatchingIdIsLogged() {
-		var reader = new BufferedReader("= { owner = 50 }");
-		var province = Province.Parse(reader, 42);
-
-		var countryReader = new BufferedReader(string.Empty);
-		var country = Country.Parse(countryReader, 49);
-
-		var output = new StringWriter();
-		Console.SetOut(output);
-		province.LinkOwnerCountry(country);
-		var logStr = output.ToString();
-		Assert.Contains("[WARN] Province 42: linking owner 49 that doesn't match owner from save (50)!", logStr);
-	}
-
-	[Fact]
-	public void CountryLinkingWorks() {
-		var reader = new BufferedReader("= { owner = 50 }");
-		var province = Province.Parse(reader, 42);
-
-		var countryReader = new BufferedReader(string.Empty);
-		var country = Country.Parse(countryReader, 50);
-
-		province.LinkOwnerCountry(country);
-		Assert.NotNull(province.OwnerCountry);
-		Assert.Equal((ulong)50, province.OwnerCountry.Id);
 	}
 
 	[Fact]
 	public void IgnoredTokensAreSaved() {
 		var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
 		var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
-		_ = Province.Parse(reader1, 1);
-		_ = Province.Parse(reader2, 2);
+		_ = Province.Parse(reader1, 1, states, countries);
+		_ = Province.Parse(reader2, 2, states, countries);
 
 		var expectedIgnoredTokens = new HashSet<string> {
 			"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"

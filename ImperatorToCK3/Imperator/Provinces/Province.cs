@@ -15,7 +15,6 @@ public partial class Province : IIdentifiable<ulong> {
 	public string Culture { get; set; } = "";
 	public string ReligionId { get; set; } = "";
 	public State? State { get; private set; } = null;
-	private ulong? parsedOwnerCountryId;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;
 	public Dictionary<ulong, Pop> Pops { get; set; } = new();
@@ -40,29 +39,6 @@ public partial class Province : IIdentifiable<ulong> {
 
 	public Deity? GetHolySiteDeity(ReligionCollection religions) {
 		return HolySiteId is null ? null : religions.GetDeityForHolySiteId((ulong)HolySiteId);
-	}
-
-	public void LinkOwnerCountry(Country country) {
-		if (parsedOwnerCountryId is not null && parsedOwnerCountryId != country.Id) {
-			Logger.Warn($"Province {Id}: linking owner {country.Id} that doesn't match owner from save ({parsedOwnerCountryId})!");
-		}
-
-		OwnerCountry = country;
-	}
-
-	public bool TryLinkOwnerCountry(CountryCollection countries) {
-		if (parsedOwnerCountryId is null) {
-			return false;
-		}
-		if (countries.TryGetValue((ulong)parsedOwnerCountryId, out var countryToLink)) {
-			// link both ways
-			LinkOwnerCountry(countryToLink);
-			countryToLink.RegisterProvince(this);
-			return true;
-		}
-
-		Logger.Warn($"Country with ID {parsedOwnerCountryId} has no definition!");
-		return false;
 	}
 
 	// Returns a count of linked pops

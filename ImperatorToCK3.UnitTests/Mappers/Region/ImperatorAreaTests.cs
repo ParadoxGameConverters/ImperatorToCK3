@@ -1,5 +1,7 @@
 ﻿using commonItems;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Region;
 using System.Linq;
 using Xunit;
@@ -7,7 +9,19 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Region; 
 
 public class ImperatorAreaTests {
-	private readonly ProvinceCollection provinces = new(new BufferedReader("1={} 2={} 3={} 4={} 69={}"));
+	private readonly ProvinceCollection provinces = new();
+	
+	public ImperatorAreaTests() {
+		var states = new StateCollection();
+		var countries = new CountryCollection();
+		provinces.LoadProvinces(
+			new BufferedReader(
+				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
+			),
+			states,
+			countries
+		);
+	}
 	
 	[Fact]
 	public void BlankAreaLoadsWithNoProvinces() {
@@ -29,7 +43,7 @@ public class ImperatorAreaTests {
 
 	[Fact]
 	public void MultipleProvincesCanBeLoaded() {
-		var reader = new BufferedReader("provinces = { 2 69 3 } \n");
+		var reader = new BufferedReader("provinces = { 2 69 3 }");
 		var area = new ImperatorArea("area", reader, provinces);
 
 		Assert.Collection(area.Provinces.Select(p=>p.Id),
@@ -41,7 +55,7 @@ public class ImperatorAreaTests {
 
 	[Fact]
 	public void ContainsProvinceReturnsTrueForCorrectProvinces() {
-		var reader = new BufferedReader("provinces = { 2 3 } \n");
+		var reader = new BufferedReader("provinces = { 2 3 }");
 		var area = new ImperatorArea("area", reader, provinces);
 
 		Assert.True(area.ContainsProvince(2));
@@ -50,7 +64,7 @@ public class ImperatorAreaTests {
 
 	[Fact]
 	public void ContainsProvinceReturnsFalseForMissingProvinces() {
-		var reader = new BufferedReader("provinces = { 2 3 } \n");
+		var reader = new BufferedReader("provinces = { 2 3 }");
 		var area = new ImperatorArea("area", reader, provinces);
 
 		Assert.False(area.ContainsProvince(4));

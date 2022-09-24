@@ -151,9 +151,15 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info($"Loaded {States.Count} states.");
 				Logger.IncrementProgress();
 			});
+			RegisterKeyword("country", reader => {
+				Logger.Info("Loading countries...");
+				Countries = CountryCollection.ParseBloc(reader);
+				Logger.Info($"Loaded {Countries.Count} countries.");
+				Logger.IncrementProgress();
+			});
 			RegisterKeyword("provinces", reader => {
 				Logger.Info("Loading provinces...");
-				Provinces.LoadProvinces(reader, States);
+				Provinces.LoadProvinces(reader, States, Countries);
 				Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
 			
@@ -166,12 +172,6 @@ namespace ImperatorToCK3.Imperator {
 				armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader, LocDB, Defines));
 
 				armiesParser.ParseStream(reader);
-			});
-			RegisterKeyword("country", reader => {
-				Logger.Info("Loading Countries...");
-				Countries = CountryCollection.ParseBloc(reader);
-				Logger.Info($"Loaded {Countries.Count} countries.");
-				Logger.IncrementProgress();
 			});
 			RegisterKeyword("population", reader => {
 				Logger.Info("Loading Pops...");
@@ -229,8 +229,6 @@ namespace ImperatorToCK3.Imperator {
 			Characters.LinkCountries(Countries);
 			Logger.Info("Linking Provinces with Pops...");
 			Provinces.LinkPops(pops);
-			Logger.Info("Linking Provinces with Countries...");
-			Provinces.LinkCountries(Countries);
 			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 			

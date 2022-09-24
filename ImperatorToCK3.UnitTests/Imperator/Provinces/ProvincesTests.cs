@@ -1,4 +1,6 @@
 ﻿using commonItems;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.States;
 using System;
 using System.IO;
 using Xunit;
@@ -8,10 +10,13 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvincesTests {
+	private readonly StateCollection states = new();
+	private readonly CountryCollection countries = new();
 	[Fact]
 	public void ProvincesDefaultToEmpty() {
 		var reader = new BufferedReader("={}");
-		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		provinces.LoadProvinces(reader, states, countries);
 
 		Assert.Empty(provinces);
 	}
@@ -19,13 +24,15 @@ public class ProvincesTests {
 	[Fact]
 	public void ProvincesCanBeLoaded() {
 		var reader = new BufferedReader(
-			"=\n" +
-			"{\n" +
-			"42={}\n" +
-			"43={}\n" +
-			"}"
+			""" 
+			= {
+				42={}
+				43={}
+			}
+			"""
 		);
-		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		provinces.LoadProvinces(reader, states, countries);
 
 		Assert.Equal((ulong)42, provinces[42].Id);
 		Assert.Equal((ulong)43, provinces[43].Id);
@@ -34,7 +41,8 @@ public class ProvincesTests {
 	[Fact]
 	public void PopCanBeLinked() {
 		var reader = new BufferedReader("={42={pop=8}}\n");
-		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		provinces.LoadProvinces(reader, states, countries);
 
 		var reader2 = new BufferedReader(
 			"8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n"
@@ -59,7 +67,8 @@ public class ProvincesTests {
 			"44={pop= 9}\n" +
 			"}\n"
 		);
-		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		provinces.LoadProvinces(reader, states, countries);
 
 		var reader2 = new BufferedReader(
 			"={\n" +
@@ -95,7 +104,8 @@ public class ProvincesTests {
 			"44={ pop = 10 }\n" + // no pop 10
 			"}\n"
 		);
-		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(reader);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		provinces.LoadProvinces(reader, states, countries);
 
 		var reader2 = new BufferedReader(
 			"={\n" +
