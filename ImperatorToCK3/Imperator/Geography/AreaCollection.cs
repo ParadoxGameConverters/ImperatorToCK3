@@ -17,6 +17,7 @@ public class AreaCollection : IdObjectCollection<string, Area> {
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFile(areasFilePath, imperatorModFS);
 		
+		Logger.Debug($"Ignored area keywords: {Area.IgnoredKeywords}");
 		Logger.IncrementProgress();
 	}
 }

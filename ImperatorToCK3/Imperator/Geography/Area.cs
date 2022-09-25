@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -20,7 +21,7 @@ public class Area : IIdentifiable<string> {
 			var provinceIds = reader.GetULongs();
 			ProvinceIds.UnionWith(provinceIds);
 		});
-		parser.IgnoreAndLogUnregisteredItems();
+		parser.IgnoreAndStoreUnregisteredItems(IgnoredKeywords);
 		parser.ParseStream(areaReader);
 	}
 	
@@ -31,4 +32,5 @@ public class Area : IIdentifiable<string> {
 	public IReadOnlySet<Province> Provinces => provinceCollection.Where(p => ContainsProvince(p.Id)).ToImmutableSortedSet();
 
 	private readonly ProvinceCollection provinceCollection;
+	public static readonly IgnoredKeywordsSet IgnoredKeywords = new();
 }
