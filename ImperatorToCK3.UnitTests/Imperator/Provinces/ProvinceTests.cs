@@ -37,9 +37,7 @@ public class ProvinceTests {
 	
 	[Fact]
 	public void IdCanBeSet() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
+		var reader = new BufferedReader("= {}");
 
 		var theProvince = Province.Parse(reader, 42, states, countries);
 
@@ -61,9 +59,7 @@ public class ProvinceTests {
 
 	[Fact]
 	public void CultureIdDefaultsToBlank() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
+		var reader = new BufferedReader("= {}");
 
 		var theProvince = Province.Parse(reader, 42, states, countries);
 
@@ -85,9 +81,7 @@ public class ProvinceTests {
 
 	[Fact]
 	public void ReligionIdDefaultsToBlank() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
+		var reader = new BufferedReader("= {}");
 
 		var theProvince = Province.Parse(reader, 42, states, countries);
 
@@ -136,9 +130,7 @@ public class ProvinceTests {
 
 	[Fact]
 	public void NameDefaultsToBlank() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
+		var reader = new BufferedReader("= {}");
 
 		var theProvince = Province.Parse(reader, 42, states, countries);
 
@@ -168,9 +160,7 @@ public class ProvinceTests {
 
 	[Fact]
 	public void OwnerDefaultsToNull() {
-		var reader = new BufferedReader(
-			"= {}"
-		);
+		var reader = new BufferedReader("= {}");
 		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.Null(theProvince.OwnerCountry);

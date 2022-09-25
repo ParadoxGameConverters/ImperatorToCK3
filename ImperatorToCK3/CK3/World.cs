@@ -181,12 +181,12 @@ namespace ImperatorToCK3.CK3 {
 			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
 		}
 		
-		private void ImportImperatorWars(Imperator.World impWorld, Date ck3BookmarkDate) {
+		private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
 			Logger.Info("Importing I:R wars...");
 			
-			foreach (var impWar in impWorld.Wars) {
+			foreach (var irWar in irWorld.Wars) {
 				try {
-					var ck3War = new Wars.War(impWar, impWorld.Countries, warMapper, ck3BookmarkDate);
+					var ck3War = new Wars.War(irWar, warMapper, provinceMapper, irWorld.Countries, irWorld.States, Provinces, LandedTitles, ck3BookmarkDate);
 					if (ck3War.Attackers.Count == 0) {
 						Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no attackers!");
 						continue;
@@ -197,7 +197,7 @@ namespace ImperatorToCK3.CK3 {
 					}
 					Wars.Add(ck3War);
 				} catch (ConverterException e) {
-					Logger.Debug($"Can't import war that starts at {impWar.StartDate}: {e.Message}");
+					Logger.Debug($"Can't import war that starts at {irWar.StartDate}: {e.Message}");
 				}
 			}
 			Logger.IncrementProgress();

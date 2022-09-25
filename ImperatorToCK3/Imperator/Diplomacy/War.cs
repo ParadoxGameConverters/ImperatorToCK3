@@ -11,7 +11,7 @@ public class War {
 	public List<ulong> AttackerCountryIds { get; } = new();
 	public List<ulong> DefenderCountryIds { get; } = new();
 	public string? WarGoal { get; private set; }
-	public string? TargetedState { get; private set; } // TODO: use this when importing to CK3
+	public ulong? TargetedStateId { get; private set; }
 
 	static War() {
 		parser.RegisterKeyword("start_date", reader => {
@@ -29,7 +29,7 @@ public class War {
 				warToReturn.WarGoal = typeReader.GetString()
 			);
 			wargoalParser.RegisterKeyword("state", targetedStateReader =>
-				warToReturn.TargetedState = targetedStateReader.GetString()
+				warToReturn.TargetedStateId = targetedStateReader.GetULong()
 			);
 			wargoalParser.IgnoreAndLogUnregisteredItems();
 			wargoalParser.ParseStream(reader);
