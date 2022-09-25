@@ -28,7 +28,7 @@ public class ProvinceTests {
 		var statesReader = new BufferedReader("""
 		1 = {
 			capital=42
-			area=""
+			area="media_antropatene_area"
 		}
 		"""
 		);
@@ -326,9 +326,7 @@ public class ProvinceTests {
 	[Fact]
 	public void BuildingsCountCanBeSet() {
 		var reader = new BufferedReader(
-			"= {\n" +
-			"\tbuildings = {0 1 0 65 3}\n" +
-			"}"
+			"= { buildings = {0 1 0 65 3} }"
 		);
 
 		var theProvince = Province.Parse(reader, 42, states, countries);

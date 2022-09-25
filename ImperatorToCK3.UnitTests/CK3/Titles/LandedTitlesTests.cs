@@ -167,10 +167,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			imperatorWorld.Characters.Add(governor);
 
 			var countryReader = new BufferedReader("tag=PRY capital=1");
-			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
+			var country = Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, areas);
+			imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
+			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, imperatorWorld.Areas);
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 			var ck3RegionMapper = new CK3RegionMapper();

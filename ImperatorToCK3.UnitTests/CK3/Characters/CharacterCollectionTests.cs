@@ -222,7 +222,9 @@ public class CharacterCollectionTests {
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
 
-		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, areas);
+		var irAreas = new AreaCollection();
+		irAreas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
+		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irAreas);
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));

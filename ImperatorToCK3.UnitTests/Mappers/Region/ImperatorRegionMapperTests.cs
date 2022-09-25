@@ -50,7 +50,9 @@ public class ImperatorRegionMapperTests {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test2";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
+		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS, areas);
 
 		Assert.True(theMapper.ProvinceIsInRegion(3, "test_area"));
@@ -62,7 +64,9 @@ public class ImperatorRegionMapperTests {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test3";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
+		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS, areas);
 
 		Assert.False(theMapper.ProvinceIsInRegion(3, "test_area2")); // province in different area
@@ -75,7 +79,9 @@ public class ImperatorRegionMapperTests {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test4";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
+		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS, areas);
 
 		Assert.False(theMapper.ProvinceIsInRegion(1, "nonsense"));
@@ -86,7 +92,9 @@ public class ImperatorRegionMapperTests {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test5";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
+		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS, areas);
 
 		Assert.Equal("test_area", theMapper.GetParentAreaName(2));
@@ -100,7 +108,9 @@ public class ImperatorRegionMapperTests {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test6";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
+		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS, areas);
 
 		Assert.Null(theMapper.GetParentAreaName(5));
@@ -112,7 +122,9 @@ public class ImperatorRegionMapperTests {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test7";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
+		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS, areas);
 
 		Assert.True(theMapper.RegionNameIsValid("test_area"));
@@ -128,7 +140,9 @@ public class ImperatorRegionMapperTests {
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
 		var mods = new List<Mod> { new("mod1", "TestFiles/ImperatorRegionMapper/test8/mod1") };
 		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
+		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
+		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(imperatorModFS, areas);
 
 		Assert.False(theMapper.RegionNameIsValid("vanilla_area")); // present only in vanilla file which is overriden by mod
