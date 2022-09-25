@@ -15,11 +15,10 @@ public class StateTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly ProvinceCollection provinces = new();
 	private static readonly AreaCollection areas = new();
-	private static readonly CountryCollection countries = new();
+	private static readonly CountryCollection countries = new() {new Country(69)};
 	
 	public StateTests() {
 		areas.LoadAreas(irModFS, provinces);
-		countries.Add(new Country(69));
 	}
 	
 	[Fact]
