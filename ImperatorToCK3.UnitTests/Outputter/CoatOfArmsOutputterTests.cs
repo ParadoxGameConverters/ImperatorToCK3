@@ -1,10 +1,12 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
@@ -22,6 +24,10 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class CoatOfArmsOutputterTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	[Fact]
 	public void CoaIsOutputtedForCountryWithFlagSet() {
 		var titles = new Title.LandedTitles();
@@ -36,7 +42,6 @@ public class CoatOfArmsOutputterTests {
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		
 		var ck3Religions = new ReligionCollection();
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
 			new TagTitleMapper(),
@@ -46,8 +51,8 @@ public class CoatOfArmsOutputterTests {
 			new GovernmentMapper(),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
@@ -79,7 +84,6 @@ public class CoatOfArmsOutputterTests {
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
 		var ck3Religions = new ReligionCollection();
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
 			new TagTitleMapper(),
@@ -89,8 +93,8 @@ public class CoatOfArmsOutputterTests {
 			new GovernmentMapper(),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),

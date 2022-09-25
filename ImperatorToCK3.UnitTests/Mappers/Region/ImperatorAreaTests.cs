@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Region;
@@ -26,7 +27,7 @@ public class ImperatorAreaTests {
 	[Fact]
 	public void BlankAreaLoadsWithNoProvinces() {
 		var reader = new BufferedReader("");
-		var area = new ImperatorArea("area", reader, provinces);
+		var area = new Area("area", reader, provinces);
 
 		Assert.Empty(area.Provinces);
 	}
@@ -34,7 +35,7 @@ public class ImperatorAreaTests {
 	[Fact]
 	public void ProvinceCanBeLoaded() {
 		var reader = new BufferedReader("provinces = { 69 } \n");
-		var area = new ImperatorArea("area", reader, provinces);
+		var area = new Area("area", reader, provinces);
 
 		Assert.Collection(area.Provinces.Select(p=>p.Id),
 			item => Assert.Equal((ulong)69, item)
@@ -44,7 +45,7 @@ public class ImperatorAreaTests {
 	[Fact]
 	public void MultipleProvincesCanBeLoaded() {
 		var reader = new BufferedReader("provinces = { 2 69 3 }");
-		var area = new ImperatorArea("area", reader, provinces);
+		var area = new Area("area", reader, provinces);
 
 		Assert.Collection(area.Provinces.Select(p=>p.Id),
 			item => Assert.Equal((ulong)2, item),
@@ -56,7 +57,7 @@ public class ImperatorAreaTests {
 	[Fact]
 	public void ContainsProvinceReturnsTrueForCorrectProvinces() {
 		var reader = new BufferedReader("provinces = { 2 3 }");
-		var area = new ImperatorArea("area", reader, provinces);
+		var area = new Area("area", reader, provinces);
 
 		Assert.True(area.ContainsProvince(2));
 		Assert.True(area.ContainsProvince(3));
@@ -65,7 +66,7 @@ public class ImperatorAreaTests {
 	[Fact]
 	public void ContainsProvinceReturnsFalseForMissingProvinces() {
 		var reader = new BufferedReader("provinces = { 2 3 }");
-		var area = new ImperatorArea("area", reader, provinces);
+		var area = new Area("area", reader, provinces);
 
 		Assert.False(area.ContainsProvince(4));
 		Assert.False(area.ContainsProvince(5));

@@ -1,12 +1,13 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.Imperator.Geography;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region; 
 
 public class ImperatorRegion : IIdentifiable<string> {
-	public IdObjectCollection<string, ImperatorArea> Areas { get; } = new();
+	public IdObjectCollection<string, Area> Areas { get; } = new();
 	public string Id { get; }
 
 	public ImperatorRegion(string id, BufferedReader reader) {
@@ -20,7 +21,7 @@ public class ImperatorRegion : IIdentifiable<string> {
 		return Areas.Any(area => area.ContainsProvince(province));
 	}
 
-	public void LinkAreas(IdObjectCollection<string, ImperatorArea> areasDict) {
+	public void LinkAreas(IdObjectCollection<string, Area> areasDict) {
 		foreach (var requiredAreaName in parsedAreas) {
 			if (areasDict.TryGetValue(requiredAreaName, out var area)) {
 				AddArea(area);
@@ -39,7 +40,7 @@ public class ImperatorRegion : IIdentifiable<string> {
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
-	private void AddArea(ImperatorArea area) {
+	private void AddArea(Area area) {
 		Areas.Add(area);
 	}
 

@@ -9,6 +9,7 @@ using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
@@ -40,6 +41,7 @@ namespace ImperatorToCK3.Imperator {
 		private PopCollection pops = new();
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
+		public AreaCollection Areas { get; } = new();
 		public StateCollection States { get; } = new();
 		public List<War> Wars { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
@@ -144,7 +146,7 @@ namespace ImperatorToCK3.Imperator {
 			RegisterKeyword("state", reader => {
 				Logger.Info("Loading states...");
 				var statesBlocParser = new Parser();
-				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Provinces, new ImperatorRegionMapper().Areas, Countries));
+				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
 				statesBlocParser.IgnoreAndLogUnregisteredItems();
 				statesBlocParser.ParseStream(reader);
 				Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
@@ -327,6 +329,7 @@ namespace ImperatorToCK3.Imperator {
 			
 			ParseGenes();
 			
+			Areas.LoadAreas(ModFS, Provinces);
 			Country.LoadGovernments(ModFS);
 			
 			CulturesDB.Load(ModFS);

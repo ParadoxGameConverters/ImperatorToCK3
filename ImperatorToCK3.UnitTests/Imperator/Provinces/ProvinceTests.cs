@@ -1,9 +1,11 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.States;
+using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,8 +18,22 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
-	private readonly StateCollection states = new();
+	private StateCollection states = new();
 	private readonly CountryCollection countries = new(new BufferedReader("69 = {}"));
+
+	public ProvinceTests() {
+		var provinces = new ProvinceCollection();
+		var areaReader = new BufferedReader("provinces = { 42 }");
+		var areas = new AreaCollection() {new Area("media_antropatene_area", areaReader, provinces)};
+		var statesReader = new BufferedReader("""
+		1 = {
+			capital=42
+			area=""
+		}
+		"""
+		);
+		states.LoadStates(statesReader, areas, countries);
+	}
 	
 	[Fact]
 	public void IdCanBeSet() {
@@ -127,6 +143,15 @@ public class ProvinceTests {
 		var theProvince = Province.Parse(reader, 42, states, countries);
 
 		Assert.True(string.IsNullOrEmpty(theProvince.Name));
+	}
+
+	[Fact]
+	public void StateCanBeSet() {
+		var reader = new BufferedReader("state = 1");
+
+		var province = Province.Parse(reader, 42, states, countries);
+		Assert.NotNull(province.State);
+		Assert.Equal((ulong)1, province.State.Id);
 	}
 
 	[Fact]

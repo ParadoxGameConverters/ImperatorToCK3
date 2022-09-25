@@ -1,9 +1,11 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
@@ -22,6 +24,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class TitleTests {
+		private const string ImperatorRoot = "TestFiles/Imperator/root";
+		private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+		private static readonly AreaCollection areas = new();
+		private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 		private class TitleBuilder {
 			private Country country = new(0);
 			private CountryCollection imperatorCountries = new();
@@ -34,8 +40,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
-			private readonly ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
-			private readonly CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private readonly ReligionMapper religionMapper = new(new ReligionCollection(), irRegionMapper, new CK3RegionMapper());
+			private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private readonly Date ck3BookmarkDate = new(867, 1, 1);
 			private readonly CharacterCollection characters = new();

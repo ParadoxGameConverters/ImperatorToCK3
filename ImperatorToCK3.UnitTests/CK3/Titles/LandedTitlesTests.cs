@@ -4,6 +4,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.States;
@@ -28,6 +29,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
+		private const string ImperatorRoot = "TestFiles/Imperator/root";
+		private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+		private static readonly AreaCollection areas = new();
+		private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 		private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
@@ -165,7 +170,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irProvinces);
+			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, areas);
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 			var ck3RegionMapper = new CK3RegionMapper();

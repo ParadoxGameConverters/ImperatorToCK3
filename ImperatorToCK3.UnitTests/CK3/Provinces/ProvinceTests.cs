@@ -1,8 +1,10 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
@@ -14,6 +16,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly Date ck3BookmarkDate = "476.1.1";
 	private readonly StateCollection states = new();
 	private readonly CountryCollection countries = new(new BufferedReader("1={}"));
@@ -65,10 +71,9 @@ public class ProvinceTests {
 
 		var ck3Religions = new ReligionCollection();
 		var landedTitles = new Title.LandedTitles();
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
-		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
-		var religionMapper = new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
+		var religionMapper = new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper);
 		var config = new Configuration();
 
 		province1.InitializeFromImperator(impProvince, landedTitles, cultureMapper, religionMapper, config);
