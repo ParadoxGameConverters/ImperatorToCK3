@@ -1,6 +1,6 @@
 ﻿using commonItems;
-using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
+using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Diplomacy; 
@@ -41,10 +41,10 @@ public class War {
 		warToReturn = new War();
 		parser.ParseStream(reader);
 		if (!warToReturn.Previous && warToReturn.AttackerCountryIds.Count == 0) {
-			throw new System.FormatException("War has no attackers");
+			throw new FormatException("War has no attackers");
 		}
 		if (!warToReturn.Previous && warToReturn.DefenderCountryIds.Count == 0) {
-			throw new System.FormatException("War has no defenders!");
+			throw new FormatException("War has no defenders!");
 		}
 		return warToReturn;
 	}

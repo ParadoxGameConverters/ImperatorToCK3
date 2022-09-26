@@ -47,6 +47,7 @@ public class War {
 			var targetedCountyIds = state.Provinces
 				.SelectMany(p => provinceMapper.GetCK3ProvinceNumbers(p.Id))
 				.Select(titles.GetCountyForProvince)
+				.Where(t => t is not null)
 				.Cast<Title>()
 				.Select(t => t.Id)
 				.ToHashSet();
