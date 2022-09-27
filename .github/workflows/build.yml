@@ -21,7 +21,6 @@ jobs:
       uses: actions/setup-dotnet@main
       with:
         dotnet-version: '7.*'
-        include-prerelease: true
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
