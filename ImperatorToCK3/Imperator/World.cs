@@ -223,7 +223,7 @@ namespace ImperatorToCK3.Imperator {
 			}
 		}
 		private void LoadPreImperatorRulers() {
-			const string filePath = "configurables/prehistory.txt";
+			const string filePath = "configurables/character_prehistory.txt";
 			const string noRulerWarning = "Pre-Imperator ruler term has no pre-Imperator ruler!";
 			const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
@@ -244,7 +244,7 @@ namespace ImperatorToCK3.Imperator {
 				if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
 					list.Add(rulerTerm);
 				} else {
-					preImperatorRulerTerms[countryId] = new() { rulerTerm };
+					preImperatorRulerTerms[countryId] = new List<RulerTerm> { rulerTerm };
 				}
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

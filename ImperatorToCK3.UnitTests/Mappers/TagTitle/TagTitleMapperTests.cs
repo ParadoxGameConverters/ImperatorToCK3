@@ -221,52 +221,52 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 				var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 				tag1.RegisterProvince(province);
 			}
-			Assert.Equal('e', mapper.GetTitleForTag(tag1, "Test Empire")[0]);
+			Assert.Equal('e', mapper.GetTitleForTag(tag1, "Test Empire")![0]);
 
 			var tag2 = Country.Parse(new BufferedReader("tag=TEST_TAG2"), 2);
 			for (ulong i = 1; i < 2; ++i) { // makes the country a city state
 				var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 				tag2.RegisterProvince(province);
 			}
-			Assert.Equal('k', mapper.GetTitleForTag(tag2, "Test Kingdom")[0]);
+			Assert.Equal('k', mapper.GetTitleForTag(tag2, "Test Kingdom")![0]);
 
 			var tag3 = Country.Parse(new BufferedReader("tag=TEST_TAG3"), 3); // migrant horde
-			Assert.Equal('d', mapper.GetTitleForTag(tag3)[0]);
+			Assert.Equal('d', mapper.GetTitleForTag(tag3)![0]);
 
 			var tag4 = Country.Parse(new BufferedReader("tag=TEST_TAG4"), 4);
 			for (ulong i = 1; i < 2; ++i) { // makes the country a city state
 				var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 				tag4.RegisterProvince(province);
 			}
-			Assert.Equal('d', mapper.GetTitleForTag(tag4)[0]);
+			Assert.Equal('d', mapper.GetTitleForTag(tag4)![0]);
 
 			var tag5 = Country.Parse(new BufferedReader("tag=TEST_TAG5"), 5);
 			for (ulong i = 1; i < 20; ++i) { // makes the country a local power
 				var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 				tag5.RegisterProvince(province);
 			}
-			Assert.Equal('k', mapper.GetTitleForTag(tag5)[0]);
+			Assert.Equal('k', mapper.GetTitleForTag(tag5)![0]);
 
 			var tag6 = Country.Parse(new BufferedReader("tag=TEST_TAG6"), 6);
 			for (ulong i = 1; i < 40; ++i) { // makes the country a regional power
 				var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 				tag6.RegisterProvince(province);
 			}
-			Assert.Equal('k', mapper.GetTitleForTag(tag6)[0]);
+			Assert.Equal('k', mapper.GetTitleForTag(tag6)![0]);
 
 			var tag7 = Country.Parse(new BufferedReader("tag=TEST_TAG7"), 7);
 			for (ulong i = 1; i < 200; ++i) { // makes the country a major power
 				var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 				tag7.RegisterProvince(province);
 			}
-			Assert.Equal('k', mapper.GetTitleForTag(tag7)[0]);
+			Assert.Equal('k', mapper.GetTitleForTag(tag7)![0]);
 
 			var tag8 = Country.Parse(new BufferedReader("tag=TEST_TAG8"), 8);
 			for (ulong i = 1; i < 501; ++i) { // makes the country a great power
 				var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 				tag8.RegisterProvince(province);
 			}
-			Assert.Equal('e', mapper.GetTitleForTag(tag8)[0]);
+			Assert.Equal('e', mapper.GetTitleForTag(tag8)![0]);
 		}
 	}
 }

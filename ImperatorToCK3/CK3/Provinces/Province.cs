@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 using System.Linq;
@@ -9,6 +8,11 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Provinces;
 
 public partial class Province : IIdentifiable<ulong> {
+	public ulong Id { get; } = 0;
+	public ulong? BaseProvinceId { get; }
+
+	public Imperator.Provinces.Province? ImperatorProvince { get; set; }
+	
 	public Province(ulong id) {
 		Id = id;
 		History = historyFactory.GetHistory();
@@ -16,9 +20,14 @@ public partial class Province : IIdentifiable<ulong> {
 	public Province(ulong id, BufferedReader reader): this(id) {
 		History = historyFactory.GetHistory(reader);
 	}
-	public Province(ulong id, Province otherProvince): this(id) {
-		BaseProvinceId = otherProvince.Id;
-		History = new History(otherProvince.History);
+	public Province(ulong id, Province sourceProvince): this(id) {
+		// culture, faith and terrain can be copied from source province
+		BaseProvinceId = sourceProvince.Id;
+
+		var srcProvinceHistoryFields = sourceProvince.History.Fields;
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["culture"].Clone());
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["faith"].Clone());
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["terrain"].Clone());
 	}
 
 	public void InitializeFromImperator(
@@ -30,15 +39,12 @@ public partial class Province : IIdentifiable<ulong> {
 	) {
 		ImperatorProvince = impProvince;
 
-		// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
-		// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
-
-		var impOwnerCountry = ImperatorProvince.OwnerCountry;
-		if (impOwnerCountry is not null) {
-			ownerTitle = impOwnerCountry.CK3Title; // linking to our holder's title
+		var fieldsToKeep = new[] {"culture", "faith", "terrain", "special_building_slot"};
+		foreach (var field in History.Fields.Where(f=>!fieldsToKeep.Contains(f.Id))) {
+			field.RemoveAllEntries();
 		}
 		
-		History.RemoveHistoryPastDate("1.1.1");
+		History.RemoveHistoryPastDate(config.CK3BookmarkDate);
 
 		// Religion first
 		SetReligionFromImperator(religionMapper, config);
@@ -48,16 +54,11 @@ public partial class Province : IIdentifiable<ulong> {
 
 		// Holding type
 		SetHoldingFromImperator(landedTitles);
-
-		History.Fields["buildings"].RemoveAllEntries();
 	}
 
-	public ulong Id { get; } = 0;
-	public ulong? BaseProvinceId { get; }
-
-	public Imperator.Provinces.Province? ImperatorProvince { get; set; }
-
-	private Title? ownerTitle;
+	public void UpdateHistory(BufferedReader reader) {
+		historyFactory.UpdateHistory(History, reader);
+	}
 
 	private void SetReligionFromImperator(ReligionMapper religionMapper, Configuration config) {
 		var religionSet = false;

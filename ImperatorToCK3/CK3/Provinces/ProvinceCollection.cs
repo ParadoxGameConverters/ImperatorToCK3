@@ -5,9 +5,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
-using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
@@ -88,6 +86,21 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 		Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
 			
+		Logger.IncrementProgress();
+	}
+
+	public void LoadPrehistory() {
+		Logger.Info("Loading provinces prehistory...");
+		
+		const string prehistoryPath = "configurables/provinces_prehistory.txt";
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
+			var provId = ulong.Parse(provIdStr);
+			this[provId].UpdateHistory(reader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile(prehistoryPath);
+		
 		Logger.IncrementProgress();
 	}
 

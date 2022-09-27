@@ -50,8 +50,8 @@ jobs:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Release'
     - name: "Build backend"
+      working-directory: ImperatorToCK3
       run: |
-        cd ImperatorToCK3
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
     - name: "Remove Release/ImperatorToCK3 directory"
       uses: JesseTG/rm@v1.0.3

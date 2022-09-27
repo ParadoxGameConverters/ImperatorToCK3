@@ -45,24 +45,24 @@ public class ProvinceHistoryTests {
 	}
 
 	[Fact]
-	public void DetailsCanBeCopyConstructed() {
+	public void CultureFaithAndTerrainDetailsCanBeCopyConstructed() {
 		var reader = new BufferedReader(
 			"= {" +
 			"\treligion = catholic\n" +
 			"\tculture = roman\n" +
+			"\tterrain = arctic\n" +
 			"\tbuildings = { orchard tavern }" +
 			"\t850.1.1 = { religion=orthodox holding=castle_holding }" +
 			"}"
 		);
 		var province1 = new Province(1, reader);
 		var province2 = new Province(2, province1);
-
-		Assert.Equal("castle_holding", province2.GetHoldingType(ck3BookmarkDate));
+		
+		// Only culture, faith and terrain should be copied from source province.
 		Assert.Equal("orthodox", province2.GetFaithId(ck3BookmarkDate));
 		Assert.Equal("roman", province2.GetCultureId(ck3BookmarkDate));
-		Assert.Collection(province2.GetBuildings(ck3BookmarkDate),
-			item1 => Assert.Equal("orchard", item1),
-			item2 => Assert.Equal("tavern", item2)
-		);
+		Assert.Equal("arctic", province2.History.GetFieldValue("terrain", ck3BookmarkDate));
+		Assert.Equal("none", province2.GetHoldingType(ck3BookmarkDate));
+		Assert.Empty(province2.GetBuildings(ck3BookmarkDate));
 	}
 }
