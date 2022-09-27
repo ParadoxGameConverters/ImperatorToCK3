@@ -11,18 +11,17 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [[self-hosted, windows], [self-hosted, linux], macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-    # install dependencies, build, and test
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v2
+    - name: "Setup Dotnet for use with actions"
+      uses: actions/setup-dotnet@main
       with:
-        dotnet-version: '7.*'
-        include-prerelease: true
+        dotnet-version: '7.x'
+        dotnet-quality: 'preview'
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
