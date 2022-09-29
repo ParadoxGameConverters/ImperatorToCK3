@@ -1,0 +1,10 @@
+﻿l_french:
+ aaa_noculture: "Pas de $game_concept_culture$"
+ aaa_noculture_prefix: "Pas-de"
+ aaa_noculture_collective_noun: "$aaa_noculture$"
+ name_list_empty: "$RETINUE_POSITION_EMPTY$"
+ heritage_noheritage_name: "Pas de $heritage$"
+ heritage_noheritage_collective_noun: "$aaa_noculture$"
+ language_nolanguage_name: "Pas de $language$"
+ dynn_Lowborn: "$game_concept_commoner$"
+ No_Name: "$SORT_NAME$"
