@@ -60,7 +60,7 @@ l_english:
  phoenician: "Phoenician"
  phoenician_collective_noun: "Phoenicians"
  phoenician_prefix: "Phoenico" # found 'Phoenico-Israelite trade'
- 
+
  nabatean: "Nabatean"
  nabatean_collective_noun: "Nabateans"
  nabatean_prefix: "Nabateo"
@@ -364,11 +364,11 @@ l_english:
  angle: "Angle"
  angle_collective_noun: "Angles"
  angle_prefix: "Anglo"
- 
+
  gepid: "Gepid"
  gepid_collective_noun: "Gepids"
  gepid_prefix: "Gepido"
- 
+
  vandilian: "Vandilian"
  vandilian_collective_noun: "Vandilians"
  vandilian_prefix: "Vandilo"
