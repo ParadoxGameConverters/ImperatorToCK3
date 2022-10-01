@@ -85,7 +85,7 @@ public static class LocalizationOutputter {
 		using var englishDynLoc = new StreamWriter(englishDynLocStream, System.Text.Encoding.UTF8);
 		using var frenchDynLoc = new StreamWriter(frenchDynLocStream, System.Text.Encoding.UTF8);
 		using var germanDynLoc = new StreamWriter(germanDynLocStream, System.Text.Encoding.UTF8);
-		using var koreanDynLoc = new StreamWriter(germanDynLocStream, System.Text.Encoding.UTF8);
+		using var koreanDynLoc = new StreamWriter(koreanDynLocStream, System.Text.Encoding.UTF8);
 		using var russianDynLoc = new StreamWriter(russianDynLocStream, System.Text.Encoding.UTF8);
 		using var simp_chineseDynLoc = new StreamWriter(simp_chineseDynLocStream, System.Text.Encoding.UTF8);
 		using var spanishDynLoc = new StreamWriter(spanishDynLocStream, System.Text.Encoding.UTF8);
