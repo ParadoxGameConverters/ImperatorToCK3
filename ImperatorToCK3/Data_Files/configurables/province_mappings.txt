@@ -1,5 +1,36 @@
 imperator_invictus = {
 	link = { comment = "=== NEW MAPPINGS BY IHT ===" }
+	link = { comment = "NORTH CAUCASUS BY IHT" }
+	link = { imp = 7609 imp = 7610 imp = 5933 imp = 5932 imp = 5893 ck3 = 5301 } # Hypanispa, Sinad, Vylda, Manar, Creasch -> Betzini
+	link = { imp = 7607 imp = 7611 ck3 = 5299 } # Abasgria, Alanis -> Maghas
+	link = { imp = 5892 imp = 5894 imp = 5895 imp = 5889 ck3 = 5340 } # Sechem, Kyta, Vynikka, Donol -> Yergolyk
+	link = { imp = 6190 imp = 5888 imp = 5891 ck3 = 5288 } # Kichpa, Techka, Avrar -> Manych
+	link = { imp = 5885 imp = 5887 ck3 = 5339 } # Muiksita, Bashkra -> Chamchev
+	link = { imp = 7626 imp = 7624 imp = 1674 imp = 7625 ck3 = 603 } # Arukai, Contani, Cumania, Didai -> Cabarda
+	link = { imp = 7623 ck3 = 5306 } # Terekata -> Durdzukia
+	link = { imp = 7602 ck3 = 5342 ck3 = 675 } # Endzhara -> Sambalut, Kumukh
+	link = { imp = 7629 imp = 7628 imp = 7627 ck3 = 5302 } # Gorat, Malyts, Verks -> Tatartopa
+	link = { imp = 7633 imp = 7632 ck3 = 5305 } # Kayit, Irmana -> Samander
+	link = { imp = 4558 imp = 5884 imp = 7637 ck3 = 597 } # Paniardis, Katys, Yeyata -> Azov
+	link = { imp = 5886 imp = 5890 ck3 = 5338 } # Akkei, Mykon -> Tikhon
+	link = { imp = 7636 ck3 = 5337 } # Garen -> Chelbaska
+	link = { imp = 4559 imp = 7634 ck3 = 599 } # Pataroue, Khulor -> Yaseni
+	link = { imp = 7613 imp = 7635 ck3 = 5289 } # Yelsa, Iados -> Papagia
+	link = { imp = 4560 imp = 7617 imp = 7618 ck3 = 5336 } # Azara, Stepna, Rogoy -> Soleny
+	link = { imp = 4561 imp = 7612 ck3 = 5335 } # Lebedia, Maran -> Kuban
+	link = { imp = 5926 imp = 5928 imp = 5924 imp = 5925 imp = 5897 ck3 = 5344 } # Duzea, Nechek, Volna, Krayn, Yrbent -> Majar
+	link = { imp = 5870 imp = 5875 imp = 5923 ck3 = 5308 } # Kurema, Ashawm, Achtab -> Cabartei
+	link = { imp = 5867 imp = 5869 ck3 = 5309 } # Suthrander, Magrai -> Tserlona
+	link = { imp = 5874 imp = 5873 imp = 5921 ck3 = 5343 } # Recrassia, Molliuch, Abach -> Samiran
+	link = { imp = 5866 imp = 5868 ck3 = 5307 } # Zabender, Lotin -> Kizlyar
+	link = { imp = 5871 imp = 5872 ck3 = 5310 } # Zarem, Shiech -> Cisterki
+	link = { imp = 5930 imp = 5929 imp = 5931 imp = 5927 ck3 = 5303 } # Huruir, Zhodyn, Skatar, Varyr -> Besinada
+	link = { imp = 7622 imp = 7631 imp = 7630 ck3 = 606 } # Skarin, Irkat, Kaflur -> Petigoria
+	link = { imp = 7606 imp = 7619 imp = 7620 ck3 = 5300 } # Heniat, Lapra, Kalkry -> Etzeri
+	link = { imp = 7616 imp = 4568 ck3 = 5298 } # Tmakrat, Palaia Achaia -> Ulmi
+	link = { imp = 7614 imp = 7615 imp = 7608 ck3 = 5297 } # Salavy, Elvruz, Hypanera -> Zapaxi
+	link = { imp = 4566 imp = 4567 imp = 7600 ck3 = 5296 } # Bata, Torikos, Sabiranum -> Bata
+	link = { imp = 4563 imp = 4562 imp = 4565 imp = 4564 ck3 = 598 } # Phanagoria, Hermonassa, Gorgippia, Labrys -> Tmutarakan
 	link = { comment = "NORTH CAUCASIAN SEA COAST BY IHT" }
 	link = { imp = 5914 ck3 = 7231 } # Kholan -> Zarapan
 	link = { imp = 5915 ck3 = 7066 } # Alsita -> Azgyl
@@ -35,7 +66,7 @@ imperator_invictus = {
 	link = { imp = 8564 imp = 8570 imp = 8563 ck3 = 566 } # Chernyanka, Volchya, Tikhaya Sosna -> Oskol
 	link = { imp = 6166 imp = 8567 imp = 8568 imp = 8566 ck3 = 5323 } # Gyrones, Kupyansk, Horyane, Bila -> Volcha
 	link = { imp = 6191 imp = 6198 imp = 6186 imp = 6185 imp = 6188 ck3 = 5290 } # Khang, Urgast, Urgenkh, Ollo, Vyrni -> Golden Hills
-	link = { imp = 6199 imp = 6196 imp = 6197 imp = 6194 ck3 = 594 } # Ydologh, Volat, Urghno, Urzhev -> Kazarki
+	link = { imp = 6199 imp = 6196 imp = 6197 imp = 6194 imp = 6200 ck3 = 594 } # Ydologh, Volat, Urghno, Urzhev, Urvel -> Kazarki
 	link = { imp = 8555 imp = 8556 imp = 8557 imp = 8558 imp = 6195 ck3 = 5292 } # Bolshoi, Berezovaya, Tikhaya, Olkhovaya, Urvolat -> Ust-Donvokhi
 	link = { imp = 7641 ck3 = 595 ck3 = 619 } # Alania -> Sarysyn, Saray
 	link = { imp = 8551 imp = 8552 imp = 8554 imp = 8553 ck3 = 5291 } # Krepkaya, Liska, Kalmykovskii, Bazki -> Siyahtepe
