@@ -1,5 +1,29 @@
 imperator_invictus = {
 	link = { comment = "=== NEW MAPPINGS BY IHT ===" }
+	link = { comment = "NORTH CAUCASIAN SEA COAST BY IHT" }
+	link = { imp = 5914 ck3 = 7231 } # Kholan -> Zarapan
+	link = { imp = 5915 ck3 = 7066 } # Alsita -> Azgyl
+	link = { imp = 6221 imp = 6220 imp = 5904 imp = 6218 imp = 5902 ck3 = 5334 } # Zhelk, Uryennik, Mylla, Mennichak, Reama -> Yenotayevka
+	link = { imp = 5905 imp = 5906 imp = 5903 imp = 5917 imp = 5898 ck3 = 604 } # Iska, Vorena, Gonnema, Yonnav, Shachel -> Khazaran
+	link = { imp = 6217 imp = 6213 imp = 6212 imp = 6208 ck3 = 605 } # Ogron, Achkhacsh, Ygrre, Khochy -> Beksima
+	link = { imp = 6216 imp = 6211 imp = 6215 imp = 6209 imp = 6210 ck3 = 5333 } # Vyalke, Urgenarcha, Urghat, Ydomor, Ghenarcha -> Sarepta
+	link = { imp = 6192 imp = 5899 imp = 6193 imp = 5900 imp = 5896 ck3 = 5332 } # Syutnich, Gura, Zhev, Dryna, Sarden -> Semikarakary
+	link = { imp = 6201 imp = 6202 imp = 6203 imp = 6204 imp = 5901 ck3 = 607 } # Agharite, Irkant, Ghalat, Urghalat, Porach -> Sarkel
+	link = { imp = 6214 imp = 6206 imp = 6207 imp = 6205 ck3 = 5315 } # Zhuna, Ketsk, Urviygra, Uyoro -> Aksay
+	link = { imp = 5876 imp = 5919 imp = 5920 imp = 5918 imp = 5922 ck3 = 5312 } # Sechtra, Kurnsck, Ermel, Chroda, Kumetta -> Sara
+	link = { imp = 8050 imp = 5908 imp = 5907 ck3 = 5311 } # Uyra, Gyashech, Taksaty -> Astrakhan
+	link = { imp = 6219 imp = 6222 ck3 = 5345 } # Uyennik, Arzhahk -> Chyorny Yar
+	link = { imp = 6225 imp = 6226 imp = 6230 imp = 6227 imp = 6223 imp = 6224 ck3 = 620 } # Monok, Urmonok, Arkhonnt, Zale, Khorolats, Vhingad -> Itil
+	link = { imp = 5877 imp = 5909 imp = 6228 imp = 6229 ck3 = 5313 } # Enim, Norom, Arzhale, Khonnt -> Saqsin
+	link = { imp = 5878 imp = 5910 imp = 6231 ck3 = 5346 } # Atar, Uvra, Ashina -> Ryn
+	link = { imp = 5879 imp = 5911 imp = 6232 ck3 = 5317 } # Gyoria, Usch, Schelats -> Saraychiq
+	link = { imp = 7640 ck3 = 7222 ck3 = 5318 } # Caspica -> Taisugan, Kalmikovsky
+	link = { imp = 5912 imp = 5880 ck3 = 618 } # Azgar, Ruta -> Atyrau
+	link = { imp = 5913 ck3 = 7228 ck3 = 7230 } # Nassin -> Hyan, Kainar
+	link = { imp = 5881 ck3 = 7229 } # Gyechk -> Bakash-aul
+	link = { imp = 5499 ck3 = 7065 } # Satticha -> Qoshagyl
+	link = { imp = 5498 ck3 = 7072 } # Vyoros -> Kumstan
+	link = { imp = 5496 ck3 = 7073 } # Donom -> Tengiz
 	link = { comment = "NOVORUSSIA BY IHT" }
 	link = { imp = 6124 imp = 6144 imp = 6146 imp = 6147 ck3 = 5278 } # Syti, Borysthenia, Aegha, Ruti -> Kakovka
 	link = { imp = 6135 imp = 6134 imp = 6137 imp = 6136 ck3 = 5320 } # Thense, Annike, Voynor, Skurtisk -> Lozova
@@ -2714,19 +2738,6 @@ imperator_invictus = {
 	link = { imp = 5495 imp = 5491 imp = 5492 ck3 = 7075 } # Gyranchi, Gyoshach, Erim -> Sam
 	link = { imp = 5493 ck3 = 7074 ck3 = 7077 } # Thurissa -> Beyneu, Fort Novoaleksandrovkiy
 	link = { imp = 5471 imp = 5478 ck3 = 7078 } # Tamaasan, Zhanit -> Kajdak
-	link = { comment = "# Russia" }
-	link = { imp = 7640 ck3 = 7241 ck3 = 7240 ck3 = 7239 ck3 = 7242 ck3 = 7238 ck3 = 7237 ck3 = 7231 ck3 = 7236 ck3 = 7235 ck3 = 7234 ck3 = 7233 ck3 = 7225 ck3 = 7223 ck3 = 7221 ck3 = 5349 ck3 = 7224 ck3 = 7226 ck3 = 7232 ck3 = 7227 } # Caspica -> Kos Biryuk, Airyk, Kos Uba, Karabutak, Baisary, Tulugai Sor, Zarapan, Sorkul, Ak Su, Temir, Basagha, Isanbai, Kyz Imchik, Manatau, Zhaltyr, Jaksybai, Ulu-Uil, Jarkul, Sagiz
-	link = { imp = 5498 ck3 = 7072 } # Vyoros -> Kumstan
-	link = { imp = 5499 ck3 = 7065 } # Satticha -> Qoshagyl
-	link = { imp = 5496 ck3 = 7073 } # Donom -> Tengiz
-	link = { imp = 5915 ck3 = 7066 } # Alsita -> Azgyl
-	link = { imp = 5881 imp = 5914 ck3 = 7229 } # Gyechk, Kholan -> Bakash-aul
-	link = { imp = 5913 ck3 = 7228 ck3 = 7230 } # Nassin -> Hyan, Kainar
-	link = { imp = 5880 ck3 = 618 } # Ruta -> Atyrau
-	link = { imp = 5879 imp = 5912 ck3 = 5317 } # Gyoria, Azgar -> Saraychiq
-	link = { imp = 5878 imp = 5910 imp = 5911 ck3 = 5346 } # Atar, Uvra, Usch -> Ryn
-	link = { imp = 5909 ck3 = 5313 } # Norom -> Saqsin
-	link = { imp = 6228 imp = 6225 imp = 6226 imp = 6224 ck3 = 620 } # Arzhale, Monok, Urmonok, Vhingad -> Itil
 	link = { comment = "# Crimea" }
 	link = { imp = 4546 ck3 = 5331 } # Urgat -> Dzhankoi
 	link = { imp = 4534 ck3 = 559 } # Kalos Limen -> Kalos Limen
@@ -2736,36 +2747,6 @@ imperator_invictus = {
 	link = { imp = 4548 ck3 = 5330 } # Kimmeria -> Aqmescit
 	link = { imp = 4544 imp = 4543 imp = 4541 ck3 = 561 } # Theodosia, Athenaion, Aloustou Phrourion -> Theodosia
 	link = { imp = 4550 imp = 4549 ck3 = 562 } # Kimmerikon, Pantikapaion -> Kerch
-	link = { comment = "# North Caucasus" }
-	link = { imp = 7602 ck3 = 5342 ck3 = 675 } # Endzhara -> Sambalut, Kumukh
-	link = { imp = 7624 imp = 7626 imp = 7623 ck3 = 5306 } # Contani, Arukai, Terekata -> Durdzukia
-	link = { imp = 7633 imp = 7632 ck3 = 5305 } # Kayit, Irmana -> Samander
-	link = { imp = 7628 imp = 7627 imp = 7625 imp = 1674 ck3 = 603 } # Malyts, Verks, Didai, Cumania -> Cabarda
-	link = { imp = 5929 imp = 5930 imp = 5931 ck3 = 5303 } # Zhodyn, Huruir, Skatar -> Besinada
-	link = { imp = 5926 imp = 5928 ck3 = 5344 } # Duzea, Nechek -> Majar
-	link = { imp = 5875 imp = 5870 ck3 = 5308 } # Ashawm, Kurema -> Cabartei
-	link = { imp = 5867 imp = 5869 ck3 = 5309 } # Suthrander, Magrai -> Tserlona
-	link = { imp = 5888 imp = 6190 ck3 = 5288 } # Techka, Kichpa -> Manych
-	link = { imp = 5885 ck3 = 5339 } # Muiksita -> Chamchev
-	link = { imp = 4558 imp = 7637 imp = 5884 ck3 = 597 } # Paniardis, Yeyata, Katys -> Azov
-	link = { imp = 5908 imp = 5907 imp = 5905 ck3 = 604 } # Gyashech, Taksaty, Iska -> Khazaran
-	link = { imp = 5876 imp = 5919 ck3 = 5312 } # Sechtra, Kurnsck -> Sara
-	link = { imp = 5877 ck3 = 5311 } # Enim -> Astrakhan
-	link = { imp = 5873 imp = 5874 ck3 = 5343 } # Molliuch, Recrassia -> Samiran
-	link = { imp = 5871 imp = 5872 imp = 5924 ck3 = 5310 } # Zarem, Shiech, Volna -> Cisterki
-	link = { imp = 7622 imp = 7631 imp = 7630 ck3 = 606 } # Skarin, Irkat, Kaflur -> Petigoria
-	link = { imp = 7629 ck3 = 5302 } # Gorat -> Tatartopa
-	link = { imp = 7620 imp = 7619 imp = 7606 ck3 = 5300 } # Kalkry, Lapra, Heniat -> Etzeri
-	link = { imp = 7607 imp = 7611 ck3 = 5299 } # Abasgria, Alanis -> Maghas
-	link = { imp = 7609 imp = 7610 ck3 = 5301 } # Hypanispa, Sinad -> Betzini
-	link = { imp = 7613 ck3 = 5289 } # Yelsa -> Papagia
-	link = { imp = 4560 imp = 7617 ck3 = 5336 } # Azara, Stepna -> Soleny
-	link = { imp = 7618 ck3 = 5337 } # Rogoy -> Chelbaska
-	link = { imp = 4568 ck3 = 5298 } # Palaia Achaia -> Ulmi
-	link = { imp = 4561 imp = 7612 ck3 = 5335 } # Lebedia, Maran -> Kuban
-	link = { imp = 7614 imp = 7608 imp = 7615 imp = 7616 ck3 = 5297 } # Salavy, Hypanera, Elvruz, Tmakrat -> Zapaxi
-	link = { imp = 4566 imp = 4567 imp = 7600 imp = 4565 ck3 = 5296 } # Bata, Torikos, Sabiranum, Gorgippia -> Bata
-	link = { imp = 4563 imp = 4562 imp = 4564 ck3 = 598 } # Phanagoria, Hermonassa, Labrys -> Tmutarakan
 	link = { comment = "# Armenia & South Caucasus" }
 	link = { imp = 1715 ck3 = 5751 } # Archaiopolis -> Ambrolauri
 	link = { imp = 1705 ck3 = 5753 } # Skandis -> Kvara
@@ -4528,7 +4509,6 @@ imperator_invictus = {
 	link = { imp = 5266 imp = 5396 imp = 5397 imp = 5267 ck3 = 4444 ck3 = 4445 ck3 = 4446 ck3 = 4447 ck3 = 4448 ck3 = 7210 } # MANY-TO-MANY: IMPASSIBLE TERRAIN 266, Ghore, Shenia, IMPASSIBLE TERRAIN 267 -> NUKFAGH, ARDAKHIVAH, WAYIKHAN, GHARDAMAN, KATH, Kyzylkum
 	link = { imp = 5384 imp = 5369 ck3 = 9582 ck3 = 9581 ck3 = 9580 ck3 = 9577 ck3 = 9576 ck3 = 9578 ck3 = 9579 ck3 = 9563 ck3 = 9566 ck3 = 9562 ck3 = 9564 ck3 = 9565 ck3 = 9590 ck3 = 9592 ck3 = 9585 ck3 = 9586 ck3 = 9587 ck3 = 9553 ck3 = 9554 ck3 = 9555 ck3 = 9623 ck3 = 9625 ck3 = 9624 ck3 = 9583 ck3 = 9584 ck3 = 9591 ck3 = 9633 ck3 = 9632 ck3 = 9631 ck3 = 9658 ck3 = 826 ck3 = 9567 } # MANY-TO-MANY: IP 385, IP 370 -> Dianga, Ramu, Akyab, Launggyet, Vaisali, Mrauk_U, Mahamuni, Salin, Arakan Mountains, Minbu, Ngape, Shwesettaw, Thayetmyo, Myanaung, Sandoway, Ramree, An, Tantkyitaung, Myitche, Powundaung, Mingiu, Chin, Kale, Thabeik_Taung, Matamuhuri, Hinthada, Myaungmya, Kusumi, Negrais, Thaungdut, Manipur, Naga Hills
 	link = { imp = 5305 imp = 5306 imp = 5304 imp = 5308 ck3 = 7936 ck3 = 1360 ck3 = 8712 } # MANY-TO-MANY: South Nilgiri, IP 307, IP 305, North Nilgiri -> Southwestern Ghats, Maldives, Thiladhunmathi
-	link = { imp = 6231 imp = 6232 ck3 = 5318 ck3 = 7222 } # MANY-TO-MANY: Ashina, Schelats -> Kalmikovsky, Taisugan
 	link = { imp = 5945 ck3 = 6427 ck3 = 6415 ck3 = 6428 ck3 = 6882 ck3 = 6883 ck3 = 6884 ck3 = 6430 ck3 = 6431 ck3 = 6899 ck3 = 6901 ck3 = 6900 ck3 = 6898 ck3 = 6897 ck3 = 6881 ck3 = 6880 ck3 = 6879 ck3 = 6895 ck3 = 6887 ck3 = 6904 ck3 = 6896 ck3 = 6885 ck3 = 6886 ck3 = 6868 ck3 = 6874 ck3 = 6867 ck3 = 6866 ck3 = 6871 ck3 = 6872 ck3 = 6878 ck3 = 6877 ck3 = 6869 ck3 = 6890 ck3 = 6876 ck3 = 6888 ck3 = 6889 ck3 = 6873 ck3 = 6875 ck3 = 6870 ck3 = 6432 } # Nubian Impassable -> JEBEL_ABU_NEGILA, WADI_EL-MILK, BIR_EL-KAI, WEST_KORDOFAN, EL-OBEID, EAST_KORDOFAN, TAGALI, TAGALI_SOUTH, LIGURI, SIDRAH, CENTRAL_KORDOFAN, SHATT, LAGOWA, EN_NAHUD, GHUBAYSH, UMM_GAFALA, EAST_DARFUR, UMM_KEDADA, DARFUR_DESERT, UPPER_MILK, MALHA, KERKER, KUBAYH, URI, KABKABIYA, WADI_AZWA, DAR_WONA, KUNDI, HURAYZ, HILEILA, EL-FASHER, SIMIAT, MAO_DARFUR, TAGABO, TEIGA, MASA, AIN_FARAH, TURRA, RENK
 	link = { imp = 5337 imp = 5336 imp = 5335 imp = 5355 ck3 = 8378 ck3 = 8349 ck3 = 8348 ck3 = 8350 ck3 = 8386 ck3 = 8323 ck3 = 8366 ck3 = 8375 ck3 = 8371 ck3 = 6434 ck3 = 6435 ck3 = 8315 ck3 = 8439 ck3 = 6445 ck3 = 6436 ck3 = 8314 ck3 = 8316 ck3 = 8320 ck3 = 8372 ck3 = 8321 ck3 = 8322 ck3 = 8447 ck3 = 8317 ck3 = 8310 ck3 = 8519 ck3 = 8312 ck3 = 8313 ck3 = 8318 ck3 = 8367 ck3 = 8352 ck3 = 8351 ck3 = 8353 ck3 = 8446 ck3 = 8347 ck3 = 8327 ck3 = 8328 ck3 = 8329 ck3 = 8324 ck3 = 8319 ck3 = 8325 ck3 = 6433 ck3 = 6403 ck3 = 8514 ck3 = 8516 ck3 = 8515 } # MANY-TO-MANY: Puntic Highlands, IP 337, IP 336, Koha -> FATAGAR, SILALISH, WARJIH, WARAB, INDEGABTAN, DIMA, GAFAT, ABBAY-AGAW, AGAW_MEDER, AL-RUSAYRISI, FAZUGHLI-EAST, DINDER, METEKEL_DESERT, WAD_ABU_NAHL, WOLQAYT, UPPER_DINDER, BAD, BAHIR _GIYORGIS, WEST_GOJJAM, GOJJAM, WARQ, GOJJAM_HIGHLANDS, KIBRAN, SANA, LAKE_TANA, GONDAR, GALILA, BASHILA, MUGAR, KATATA, SARMAT, DEBRE_LIBANOS, SHOA_HIGHLANDS, IFAT, GIDIM, WAGDA, WALAQA, AMHARA, GISHE, EAST_AMHARA, FAZUGHLI, SINGA, GUMUZ-NORTH, GUMUZ-SOUTH, GUMUZ-WEST
 	link = { imp = 5282 ck3 = 7153 ck3 = 7154 ck3 = 7152 ck3 = 7148 ck3 = 7149 ck3 = 7150 ck3 = 7151 } # IMPASSIBLE TERRAIN 282 -> Barskhan, Balasaghun, Narin, Sayaq, Tinimseyit, Bagish, Cherik
