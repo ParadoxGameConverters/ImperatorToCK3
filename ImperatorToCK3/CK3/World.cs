@@ -178,7 +178,7 @@ namespace ImperatorToCK3.CK3 {
 		private void LoadCorrectProvinceMappingsVersion(Imperator.World imperatorWorld) {
 			var mappingsVersion = "imperator_invictus";
 			if (!imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
-				Logger.Warn("Official support for non-Invictus Imperator saves will be deprecated soon.");
+				Logger.Warn("Support for non-Invictus Imperator saves is deprecated.");
 				mappingsVersion = "imperator_vanilla";
 			}
 			Logger.Debug($"Using mappings version: {mappingsVersion}");
