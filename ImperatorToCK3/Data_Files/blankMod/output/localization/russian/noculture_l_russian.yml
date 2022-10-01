@@ -1,0 +1,10 @@
+﻿l_russian:
+ aaa_noculture: "Нет $game_concept_culture$"
+ aaa_noculture_prefix: "Нето"
+ aaa_noculture_collective_noun: "$aaa_noculture$"
+ name_list_empty: "$RETINUE_POSITION_EMPTY$"
+ heritage_noheritage_name: "Нет $heritage$"
+ heritage_noheritage_collective_noun: "$aaa_noculture$"
+ language_nolanguage_name: "Нет $language$"
+ dynn_Lowborn: "$game_concept_commoner$"
+ No_Name: "$SORT_NAME$"

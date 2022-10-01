@@ -155,10 +155,12 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "english"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "french"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "german"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "korean"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "english"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "french"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "german"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "korean"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "russian"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "simp_chinese"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "spanish"));

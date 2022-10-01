@@ -33,7 +33,7 @@ namespace ImperatorToCK3.Imperator {
 		public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
 		private readonly ScriptValueCollection scriptValues = new();
 		public Defines Defines { get; } = new();
-		public LocDB LocDB { get; } = new("english", "french", "german", "russian", "simp_chinese", "spanish");
+		public LocDB LocDB { get; } = new("english", "french", "german", "korean", "russian", "simp_chinese", "spanish");
 
 		public NamedColorCollection NamedColors { get; } = new();
 		public FamilyCollection Families { get; private set; } = new();
