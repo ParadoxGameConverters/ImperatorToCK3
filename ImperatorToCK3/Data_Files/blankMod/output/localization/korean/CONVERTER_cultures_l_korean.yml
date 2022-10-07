@@ -3,111 +3,111 @@
  old_egyptian: "고대 이집트"
  old_egyptian_collective_noun: "고대 이집트인"
  old_egyptian_prefix: "고대 이집트"
- 
+
  numidian: "누미디안"
  numidian_collective_noun: "누미디안"
  numidian_prefix: "누미디안"
- 
+
  celtic_pannonian: "스골딧기"
  celtic_pannonian_collective_noun: "스골딧기"
  celtic_pannonian_prefix: "스골딧기"
- 
+
  celtiberian: "셀티베리아"
  celtiberian_collective_noun: "셀티베리아"
  celtiberian_prefix: "셀티베리아"
- 
+
  belgae: "벨기에사람"
  belgae_collective_noun: "벨기에인"
  belgae_prefix: "벨기에사람"
- 
+
  gallic: "갈리아"
  gallic_collective_noun: "갈리아"
  gallic_prefix: "갈리아"
- 
+
  macedonian: "마케도니아어"
  macedonian_collective_noun: "마케도니아인"
  macedonian_prefix: "마케도니아어"
- 
+
  thracian: "트레이시언"
  thracian_collective_noun: "트레이시언"
  thracian_prefix: "트레이시언"
- 
+
  dacian: "알보겐시"
  dacian_collective_noun: "알보겐시"
  dacian_prefix: "알보겐시"
- 
+
  getian: "게대"
  getian_collective_noun: "게대"
  getian_prefix: "게대"
- 
+
  cappadocian: "카파도키아"
  cappadocian_collective_noun: "카파도키아"
  cappadocian_prefix: "카파도키아"
- 
+
  phrygian: "프리지아인"
  phrygian_collective_noun: "프리지아인"
  phrygian_prefix: "프리지아인"
- 
+
  pontic: "폰틱"
  pontic_collective_noun: "폰틱"
  pontic_prefix: "폰틱"
- 
+
  carthaginian: "카르타고어"
  carthaginian_collective_noun: "카르타고인"
  carthaginian_prefix: "카르타고어"
- 
+
  phoenician: "페니키아인"
  phoenician_collective_noun: "페니키아인"
  phoenician_prefix: "페니키아인"
- 
+
  nabatean: "나바티안"
  nabatean_collective_noun: "나바티안"
  nabatean_prefix: "나바티안"
- 
+
  dalmatian: "달마시안"
  dalmatian_collective_noun: "달마시안"
  dalmatian_prefix: "달마시안"
- 
+
  aramaic: "아람말"
  aramaic_collective_noun: "아람어"
  aramaic_prefix: "아람말"
- 
+
  babylonian: "바빌로니아사람"
  babylonian_collective_noun: "바빌로니아인"
  babylonian_prefix: "바빌로니아사람"
- 
+
  vandal: "반달족"
  vandal_collective_noun: "반달족"
  vandal_prefix: "반달족"
- 
+
  iberian: "이베리아"
  iberian_collective_noun: "이베리아"
  iberian_prefix: "이베리아"
- 
+
  nuragic: "누라기"
  nuragic_collective_noun: "누라기"
  nuragic_prefix: "누라기"
- 
+
  bactrian: "박트리아"
  bactrian_collective_noun: "박트리아"
  bactrian_prefix: "박트리아"
- 
+
  scythian: "스키타이사람"
  scythian_collective_noun: "스키타이인"
  scythian_prefix: "스키타이사람"
- 
+
  sarmatian: "사르마시안"
  sarmatian_collective_noun: "사르마티아인"
  sarmatian_prefix: "사르마시안"
- 
+
  parthian: "파르티아인"
  parthian_collective_noun: "파르티아인"
  parthian_prefix: "파르티아인"
- 
+
  hebrew: "헤브라이사람"
  hebrew_collective_noun: "히브리서"
  hebrew_prefix: "헤브라이사람"
- 
+
  etruscan: "에트루리아사람"
  etruscan_collective_noun: "에트루리아인"
  etruscan_prefix: "에트루리아사람"
@@ -116,23 +116,23 @@
  brythonic: "브리토닉"
  brythonic_collective_noun: "브리토닉"
  brythonic_prefix: "브리토닉"
- 
+
  ionic: "이온"
  ionic_collective_noun: "이온"
  ionic_prefix: "이온"
- 
+
  indogreek: "인도그리스어"
  indogreek_collective_noun: "인도그리스어"
  indogreek_prefix: "인도그리스어"
- 
+
  lusoiberian: "루시타니아인"
  lusoiberian_collective_noun: "루시타니아인"
  lusoiberian_prefix: "루시타니아인"
- 
+
  gothic: "고딕"
  gothic_collective_noun: "고트족"
  gothic_prefix: "고딕"
- 
+
  # Update III
  gaulish_group: "골말"
  gaulish_group_collective_noun: "갈리아"
@@ -142,7 +142,7 @@
  punic_group_collective_noun: "카르타고"
  chaldean_group: "점성가"
  chaldean_group_collective_noun: "점성가"
- 
+
  iweric: "애웨랴"
  iweric_collective_noun: "애웨랴"
  iweric_prefix: "애웨랴"
@@ -322,9 +322,6 @@
  hittite: "히타이트"
  hittite_collective_noun: "히타이트"
  hittite_prefix: "히타이트"
- phrygian: "프리지아인"
- phrygian_collective_noun: "프리지아인"
- phrygian_prefix: "프리지아인"
  south_germanic_group: "남 게르만"
  south_germanic_group_collective_noun: "남부독일인"
  romano_british_group: "로마노영국"
@@ -342,7 +339,7 @@
  lemnian: "렘니안"
  lemnian_collective_noun: "렘니안"
  lemnian_prefix: "렘니안"
- 
+
  arvanite_group: "알바니아"
  arvanite_group_collective_noun: "알바니아 인"
  albanian: "알바니아"
@@ -393,11 +390,11 @@
  angle: "앵글로"
  angle_collective_noun: "앵글로"
  angle_prefix: "앵글로"
- 
+
  gepid: "게피드"
  gepid_collective_noun: "게피드"
  gepid_prefix: "게피드"
- 
+
  vandilian: "반디리안"
  vandilian_collective_noun: "반디리안"
  vandilian_prefix: "반디리안"

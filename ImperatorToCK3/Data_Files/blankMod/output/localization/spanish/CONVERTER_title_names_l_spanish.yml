@@ -1,11 +1,11 @@
 ﻿l_spanish:
 # Pharaoh
- king_feudal_male_old_egyptian:0 "Faraón"
- king_feudal_female_old_egyptian:0 "Faraón"
- emperor_feudal_male_old_egyptian:1 "Faraón"
- emperor_feudal_female_old_egyptian:1 "Faraón"
+ king_feudal_male_old_egyptian: "Faraón"
+ king_feudal_female_old_egyptian: "Faraón"
+ emperor_feudal_male_old_egyptian: "Faraón"
+ emperor_feudal_female_old_egyptian: "Faraón"
 
 # Carthage
- duke_republic_male_carthaginian:0 "Sufete"
- king_republic_male_carthaginian:0 "Sufete"
- emperor_republic_male_carthaginian:0 "Sufete"
+ duke_republic_male_carthaginian: "Sufete"
+ king_republic_male_carthaginian: "Sufete"
+ emperor_republic_male_carthaginian: "Sufete"
