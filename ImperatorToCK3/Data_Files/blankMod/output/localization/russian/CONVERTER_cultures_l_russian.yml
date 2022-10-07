@@ -7,111 +7,111 @@
  old_egyptian: "Староегиптянск"
  old_egyptian_collective_noun: "Египтяне"
  old_egyptian_prefix: "Староегипто"
- 
+
  numidian: "Нумидийск"
  numidian_collective_noun: "Нумидийцы"
  numidian_prefix: "Нумидо"
- 
+
  celtic_pannonian: "Скордисск"
  celtic_pannonian_collective_noun: "Скордицианцы"
  celtic_pannonian_prefix: "Скордо"
- 
+
  celtiberian: "Кельтиберийск"
  celtiberian_collective_noun: "Кельтиберы"
  celtiberian_prefix: "Кельтиберо"
- 
+
  belgae: "Белгайск"
  belgae_collective_noun: "Белгаи"
  belgae_prefix: "Белгай"
- 
+
  gallic: "Галльск"
  gallic_collective_noun: "Галлы"
  gallic_prefix: "Галло"
- 
+
  macedonian: "Македонск"
  macedonian_collective_noun: "Македонцы"
  macedonian_prefix: "Македоно"
- 
+
  thracian: "Фракийск"
  thracian_collective_noun: "Фракийцы"
  thracian_prefix: "Фрако"
- 
+
  dacian: "Дакск"
  dacian_collective_noun: "Дакы"
  dacian_prefix: "Дако"
- 
+
  getian: "Гетск"
  getian_collective_noun: "Геты"
  getian_prefix: "Гето"
- 
+
  cappadocian: "Каппадокийск"
  cappadocian_collective_noun: "Каппадокийцы"
  cappadocian_prefix: "Каппадоко"
- 
+
  phrygian: "Фригийск"
  phrygian_collective_noun: "Фригийцы"
  phrygian_prefix: "Фриго"
- 
+
  pontic: "Понтийск"
  pontic_collective_noun: "Понтийцы"
  pontic_prefix: "Понто"
- 
+
  carthaginian: "Пуническ"
  carthaginian_collective_noun: "Карфагеняне"
  carthaginian_prefix: "Пуно"
- 
+
  phoenician: "Финикийск"
  phoenician_collective_noun: "Финикийцы"
  phoenician_prefix: "Финико"
- 
+
  nabatean: "Набатейск"
  nabatean_collective_noun: "Набатейцы"
  nabatean_prefix: "Набатей"
- 
+
  dalmatian: "Далматинск"
  dalmatian_collective_noun: "Далматинцы"
  dalmatian_prefix: "Далмато"
- 
+
  aramaic: "Арамейск"
  aramaic_collective_noun: "Арамеи"
  aramaic_prefix: "Арамей"
- 
+
  babylonian: "Вавилонск"
  babylonian_collective_noun: "Вавилоняне"
  babylonia_prefix: "Вавило"
- 
+
  vandal: "Вандалиск"
  vandal_collective_noun: "Вандалы"
  vandal_prefix: "Вандало"
- 
+
  iberian: "Иберийск"
  iberian_collective_noun: "Иберы"
  iberian_prefix: "Иберо"
- 
+
  nuragic: "Нурагическ"
  nuragic_collective_noun: "Нурагики"
  nuragic_prefix: "Нураго"
- 
+
  bactrian: "Бактрийск"
  bactrian_collective_noun: "Бактрийцы"
  bactrian_prefix: "Бактро"
- 
+
  scythian: "Скифск"
  scythian_collective_noun: "Скифы"
  scythian_prefix: "Скифо"
- 
+
  sarmatian: "Сарматск"
  sarmatian_collective_noun: "Сарматы"
  sarmatian_prefix: "Сармато"
- 
+
  parthian: "Парфянск"
  parthian_collective_noun: "Парфяне"
  parthian_prefix: "Парфяно"
- 
+
  hebrew: "Ебрейск"
  hebrew_collective_noun: "Евреям"
  hebrew_prefix: "Юдео"
- 
+
  etruscan: "Этрусск"
  etruscan_collective_noun: "Этруски"
  etruscan_prefix: "Этруско"
@@ -120,24 +120,24 @@
  brythonic: "Бриттск"
  brythonic_collective_noun: "Бритты"
  brythonic_prefix: "Брито"
- 
+
  ionic: "Ионическ"
  ionic_collective_noun: "Ионийцы"
  ionic_prefix: "Ионо"
- 
+
  indogreek: "Индо-греческ"
  indogreek_collective_noun: "Индо-греки"
  indogreek_prefix: "Индогреко"
- 
+
  lusoiberian: "Лузитанск"
  lusoiberian_collective_noun: "Лузитанцы"
  lusoiberian_prefix: "Лузо"
- 
+
  gothic: "Готическ"
  gothic_collective_noun: "Готы"
  gothic_prefix: "Гото"
- 
- 
+
+
  # Update III
  gaulish_group: "Галльск"
  gaulish_group_collective_noun: "Галлы"
@@ -147,7 +147,7 @@
  punic_group_collective_noun: "Карфагеняне"
  chaldean_group: "Халдейск"
  chaldean_group_collective_noun: "Халдеи"
- 
+
  iweric: "Айверск"
  iweric_collective_noun: "Айверяне"
  iweric_prefix: "Айверо"
@@ -272,7 +272,7 @@
  ostrogothic_prefix: "Остгото"
  varangian: "Барягск"
  varangian_collective_noun: "Варяги"
- varangian: "Баряго"
+ varangian_prefix: "Баряго"
  aryan: "Арийск"
  aryan_collective_noun: "Арийцы"
  aryan_prefix: "Арио"
@@ -343,13 +343,13 @@
  lemnian: "Лемнск"
  lemnian_collective_noun: "Лемнские"
  lemnian_prefix: "Лемнo"
- 
+
  arvanite_group: "Арванитск"
  arvanite_group_collective_noun: "Арваниты"
  albanian: "Албанск"
  albanian_collective_noun: "Албанцы"
  albanian_prefix: "Албанo"
- 
+
  galatian: "Галатск"
  galatian_collective_noun: "Галаты"
  galatian_prefix: "Галатo"
@@ -364,7 +364,7 @@
  oscan_prefix: "Оскo"
  samnite: "Самнитск"
  samnite_collective_noun: "Самниты"
- samnite: "Самнитo"
+ samnite_prefix: "Самнитo"
  venetic: "Венетск"
  venetic_collective_noun: "Венеты"
  venetic: "Венетo"
@@ -394,11 +394,11 @@
  angle: "Английск"
  angle_collective_noun: "Англи"
  angle_prefix: "Англо"
- 
+
  gepid: "Гепидск"
  gepid_collective_noun: "Гепиды"
  gepid_prefix: "Гепидо"
- 
+
  vandilian: "Вандильск"
  vandilian_collective_noun: "Вандиляне"
  vandilian_prefix: "Вандило"

@@ -2,105 +2,105 @@
  # version 0.1 
  old_egyptian: "fellaí"
  old_egyptian_collective_noun: "Fellaíes"
- 
+
  numidian: "numida"
  numidian_collective_noun: "Númidas"
- 
+
  celtic_pannonian: "escórdica"
  celtic_pannonian_collective_noun: "Celtopanonianos"
- 
+
  celtiberian: "celtibérica"
  celtiberian_collective_noun: "Celtibéricos"
- 
+
  belgae: "belga"
  belgae_collective_noun: "Belgas"
- 
+
  gallic: "gálica"
  gallic_collective_noun: "Gálicos"
- 
+
  macedonian: "macedónia"
  macedonian_collective_noun: "Macedonios"
- 
+
  thracian: "tracia"
  thracian_collective_noun: "Tracios"
- 
+
  dacian: "albocense"
  dacian_collective_noun: "Dacios"
- 
+
  getian: "geta"
  getian_collective_noun: "Getae"
- 
+
  cappadocian: "capadocia"
  cappadocian_collective_noun: "Capadocios"
- 
+
  phrygian: "frigia"
  phrygian_collective_noun: "Frigios"
- 
+
  pontic: "póntica"
  pontic_collective_noun: "Pónticos"
- 
+
  carthaginian: "púnica"
  carthaginian_collective_noun: "Cartagineses"
- 
+
  phoenician: "fenicia"
  phoenician_collective_noun: "Fenicios"
- 
+
  nabatean: "nabatea"
  nabatean_collective_noun: "Nabateos"
- 
+
  dalmatian: "dálmata"
  dalmatian_collective_noun: "Dálmatas"
- 
+
  aramaic: "aramea"
  aramaic_collective_noun: "Arameos"
- 
+
  babylonian: "babilónica"
  babylonian_collective_noun: "Babilonios"
- 
+
  vandal: "vándala"
  vandal_collective_noun: "Vándalos"
- 
+
  iberian: "ibérica"
  iberian_collective_noun: "Iberos"
- 
+
  nuragic: "nurágica"
  nuragic_collective_noun: "Nurágicos"
- 
+
  bactrian: "bactriana"
  bactrian_collective_noun: "Bactrianos"
- 
+
  scythian: "escita"
  scythian_collective_noun: "Escitas"
- 
+
  sarmatian: "sarmatiana"
  sarmatian_collective_noun: "Sarmatianos"
- 
+
  parthian: "parta"
  parthian_collective_noun: "Partos"
- 
+
  hebrew: "hebrea"
  hebrew_collective_noun: "Hebreos"
- 
+
  etruscan: "etrusca"
  etruscan_collective_noun: "Etruscos"
- 
+
  # version 0.2
  brythonic: "britónica"
  brythonic_collective_noun: "Britónicos"
 
- 
+
  ionic: "iónica"
  ionic_collective_noun: "Iónicos"
- 
+
  indogreek: "indo-griega"
  indogreek_collective_noun: "Indo-Griegos"
- 
+
  lusoiberian: "lusitana"
  lusoiberian_collective_noun: "Lusitanos"
- 
+
  gothic: "gótica"
  gothic_collective_noun: "Godos"
- 
+
  # Update III
  gaulish_group: "gala"
  gaulish_group_collective_noun: "Galos"
@@ -110,7 +110,7 @@
  punic_group_collective_noun: "Cartagineses"
  chaldean_group: "caldea"
  chaldean_group_collective_noun: "Caldeos"
- 
+
  iweric: "aiguérica"
  iweric_collective_noun: "Aiguéros"
  transadrianic: "plusqueadriañí"
@@ -258,12 +258,12 @@
  rhaetian_collective_noun: "Réticos"
  lemnian: "lemniana"
  lemnian_collective_noun: "Lemnianos"
- 
+
  arvanite_group: "arvanita"
  arvanite_group_collective_noun: "Arvanitas"
  albanian: "albanesa"
  albanian_collective_noun: "Albaneses"
- 
+
  galatian: "gálata"
  galatian_collective_noun: "Gálatas"
  hunnic: "huna"
@@ -295,11 +295,11 @@
  angle: "anglesa"
  angle_collective_noun: "Anglos"
  angle_prefix: "anglo"
- 
+
  gepid: "Gepid"
  gepid_collective_noun: "Gepids"
  gepid_prefix: "Gepido"
- 
+
  vandilian: "Vandilian"
  vandilian_collective_noun: "Vandilians"
  vandilian_prefix: "Vandilo"

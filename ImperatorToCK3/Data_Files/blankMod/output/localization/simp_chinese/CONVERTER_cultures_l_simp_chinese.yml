@@ -2,105 +2,105 @@
  # version 0.1
  old_egyptian: "古埃及"
  old_egyptian_collective_noun: "古埃及人"
- 
+
  numidian: "努米迪亚"
  numidian_collective_noun: "努米迪亚人"
- 
+
  celtic_pannonian: "斯科迪奇"
  celtic_pannonian_collective_noun: "斯科迪奇人"
- 
+
  celtiberian: "凯尔特"
  celtiberian_collective_noun: "凯尔特人"
- 
+
  belgae: "贝尔加"
  belgae_collective_noun: "贝尔加人"
- 
+
  gallic: "高卢"
  gallic_collective_noun: "高卢人"
- 
+
  macedonian: "马其顿语"
  macedonian_collective_noun: "马其顿语人"
- 
+
  thracian: "色雷斯"
  thracian_collective_noun: "色雷斯人"
- 
+
  dacian: "阿尔伯森"
  dacian_collective_noun: "阿尔伯森人"
- 
+
  getian: "盖田"
  getian_collective_noun: "盖田人"
- 
+
  cappadocian: "卡帕多西亚"
  cappadocian_collective_noun: "卡帕多西亚人"
- 
+
  phrygian: "弗里吉亚"
  phrygian_collective_noun: "弗里吉亚人"
- 
+
  pontic: "庞蒂奇"
  pontic_collective_noun: "庞蒂奇人"
- 
+
  carthaginian: "布尼奇"
  carthaginian_collective_noun: "迦太基人"
- 
+
  phoenician: "腓尼基"
  phoenician_collective_noun: "腓尼基人"
- 
+
  nabatean: "纳巴泰"
  nabatean_collective_noun: "纳巴泰人"
- 
+
  dalmatian: "达尔马提亚"
  dalmatian_collective_noun: "达尔马提亚人"
- 
+
  aramaic: "阿拉姆语"
  aramaic_collective_noun: "阿拉姆语人"
- 
+
  babylonian: "巴比伦"
  babylonian_collective_noun: "巴比伦人"
- 
+
  vandal: "万代利"
  vandal_collective_noun: "万代利人"
- 
+
  iberian: "伊比利亚"
  iberian_collective_noun: "伊比利亚人"
- 
+
  nuragic: "努拉吉奇"
  nuragic_collective_noun: "努拉吉奇人"
- 
+
  bactrian: "双峰"
  bactrian_collective_noun: "双峰人"
- 
+
  scythian: "斯基泰"
  scythian_collective_noun: "斯基泰人"
- 
+
  sarmatian: "萨尔马蒂安"
  sarmatian_collective_noun: "萨尔马蒂安人"
- 
+
  parthian: "帕提亚"
  parthian_collective_noun: "帕提亚人"
- 
+
  hebrew: "希伯来语"
  hebrew_collective_noun: "希伯来人"
- 
+
  etruscan: "伊特鲁里亚"
  etruscan_collective_noun: "伊特鲁里亚人"
 
  # version 0.2
  brythonic: "布莱顿尼克"
  brythonic_collective_noun: "布莱顿尼克人"
- 
+
  ionic: "伊奥尼亚"
  ionic_collective_noun: "伊奥尼亚人"
- 
+
  indogreek: "印希腊"
  indogreek_collective_noun: "印希腊人"
- 
+
  lusoiberian: "路西塔尼亚"
  lusoiberian_collective_noun: "路西塔尼亚人"
- 
+
  gothic: "哥特"
  gothic_collective_noun: "哥特人"
- 
- 
+
+
  # Update III
  gaulish_group: "高卢什"
  gaulish_group_collective_noun: "高卢"
@@ -110,7 +110,7 @@
  punic_group_collective_noun: "迦太基人"
  chaldean_group: "迦勒底"
  chaldean_group_collective_noun: "迦勒底人"
- 
+
  iweric: "埃威里亚"
  iweric_collective_noun: "埃威里亚人"
  transadrianic: "跨高哈德良的国"
@@ -258,12 +258,12 @@
  rhaetian_collective_noun: "拉蒂安"
  lemnian: "勒米尼"
  lemnian_collective_noun: "勒米尼"
- 
+
  arvanite_group: "阿尔巴尼亚语"
  arvanite_group_collective_noun: "阿尔巴尼亚人"
  albanian: "阿尔巴尼亚语"
  albanian_collective_noun: "阿尔巴尼亚人"
- 
+
  galatian: "加拉太"
  galatian_collective_noun: "加拉太人"
  hunnic: "匈奴"
@@ -295,11 +295,11 @@
  angle: "Angle"
  angle_collective_noun: "Angles"
  angle_prefix: "Anglo"
- 
+
  gepid: "Gepid"
  gepid_collective_noun: "Gepids"
  gepid_prefix: "Gepido"
- 
+
  vandilian: "Vandilian"
  vandilian_collective_noun: "Vandilians"
  vandilian_prefix: "Vandilo"
