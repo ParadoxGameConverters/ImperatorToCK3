@@ -7,12 +7,12 @@ namespace ImperatorToCK3.CK3.Cultures;
 
 public class Culture : IIdentifiable<string> {
 	public string Id { get; }
-	public Color Color { get; private set; }
-	public string NameListId { get; private set; }
-	public string HeritageId { get; private set; }
-	public string LanguageId { get; private set; }
-	public string EthosId { get; private set; }
-	public string MartialCustomId { get; private set; }
+	public Color? Color { get; private set; }
+	public string? NameListId { get; private set; }
+	public string? HeritageId { get; private set; }
+	public string? LanguageId { get; private set; }
+	public string? EthosId { get; private set; }
+	public string? MartialCustomId { get; private set; }
 	public OrderedSet<string> Traditions { get; } = new();
 
 	public Culture(string id, BufferedReader cultureReader) {
