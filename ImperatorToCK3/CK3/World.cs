@@ -9,6 +9,7 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -26,6 +27,7 @@ using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Culture = ImperatorToCK3.CK3.Cultures.Culture;
 
 namespace ImperatorToCK3.CK3 {
 	public class World {
@@ -75,7 +77,8 @@ namespace ImperatorToCK3.CK3 {
 			
 			NamedColors.LoadNamedColors("common/named_colors", ModFS);
 			Faith.ColorFactory.AddNamedColorDict(NamedColors);
-
+			Culture.ColorFactory.AddNamedColorDict(NamedColors);
+			
 			LoadMenAtArmsTypes(ModFS, ScriptValues);
 
 			Logger.Info("Loading map data...");
