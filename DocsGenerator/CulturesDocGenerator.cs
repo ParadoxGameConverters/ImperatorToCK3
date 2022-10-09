@@ -48,8 +48,6 @@ public static class CulturesDocGenerator {
 			if (secondDollarPos != -1) {
 				var nesting = englishLoc.Substring(dollarPos, secondDollarPos - dollarPos + 1);
 				var nestedLocKey = nesting.Trim('$');
-				Logger.Warn(nesting);
-				Logger.Debug(nestedLocKey);
 				englishLoc = englishLoc.Replace(nesting, GetLocForKey(locDB, nestedLocKey));
 			}
 		}
