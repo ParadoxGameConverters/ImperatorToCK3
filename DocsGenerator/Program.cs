@@ -1,7 +1,10 @@
 ﻿using CommandLine;
+using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
 using DocsGenerator;
+using ImperatorToCK3.CK3.Cultures;
+using Parser = CommandLine.Parser;
 
 string gameRoot;
 string modPath;
@@ -13,19 +16,28 @@ Parser.Default.ParseArguments<Options>(args)
 		
 		
 		if (!Directory.Exists(gameRoot)) {
-			Console.Error.WriteLine($"\"{gameRoot}\" is not a directory.");
+			Logger.Error($"\"{gameRoot}\" is not a directory.");
 			return;
 		}
 		if (!Directory.Exists(modPath)) {
-			Console.Error.WriteLine($"\"{modPath}\" is not a directory.");
+			Logger.Error($"\"{modPath}\" is not a directory.");
 			return;
 		}
 
-		Console.WriteLine($"Generating docs for mod located in \"{modPath}\"...");
+		Logger.Info($"Generating docs for mod located in \"{modPath}\"...");
+		Directory.CreateDirectory("generated_docs");
 
 		var mod = new Mod("analyzed mod", modPath);
 		var modFS = new ModFilesystem(gameRoot, new[] {mod});
+
+		var namedColors = new NamedColorCollection();
+		namedColors.LoadNamedColors("common/named_colors", modFS);
+		Culture.ColorFactory.AddNamedColorDict(namedColors);
+		
 		var locDB = new LocDB("english");
 		locDB.ScrapeLocalizations(modFS);
+		
 		CulturesDocGenerator.GenerateCulturesTable(modPath, locDB);
+		
+		Logger.Info("Finished generating mod docs.");
 	});
