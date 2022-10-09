@@ -86,8 +86,8 @@ public static class CulturesDocGenerator {
 		output.WriteLine("</html>");
 	}
 	
-    public static void GenerateCulturesTable(string modPath) {
+    public static void GenerateCulturesTable(string modPath, LocDB locDB) {
 	    var cultures = LoadCultures(modPath);
-	    OutputCulturesTable(cultures);
+	    OutputCulturesTable(cultures, locDB);
     }
 }

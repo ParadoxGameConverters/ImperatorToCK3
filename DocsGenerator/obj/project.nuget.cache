@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "3OBoywwAdLN/4V0MAVi2zo9IyrcPgAz46PeQkbKLZuS5QWwSr0xtvGf7u3BFdmj2WrD6VmU4IQAE71ePFK/zoA==",
+  "dgSpecHash": "TJUDgCOStINjd3DsHVK//xfr/BsZKDuJPGLRBTrm0guXv9jOWqJo8cYr7WnAqb9IqoVSrrwoSg3gUiCPxiZ0bg==",
   "success": true,
   "projectFilePath": "E:\\GitHub\\ParadoxGameConverters\\ImperatorToCK3\\DocsGenerator\\DocsGenerator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Seweryn\\.nuget\\packages\\antlr3.runtime\\3.5.1\\antlr3.runtime.3.5.1.nupkg.sha512",
+    "C:\\Users\\Seweryn\\.nuget\\packages\\commandlineparser\\2.9.1\\commandlineparser.2.9.1.nupkg.sha512",
     "C:\\Users\\Seweryn\\.nuget\\packages\\fluentassertions\\6.7.0\\fluentassertions.6.7.0.nupkg.sha512",
     "C:\\Users\\Seweryn\\.nuget\\packages\\gamefinder\\1.8.0\\gamefinder.1.8.0.nupkg.sha512",
     "C:\\Users\\Seweryn\\.nuget\\packages\\gamefinder.storehandlers.steam\\1.8.0\\gamefinder.storehandlers.steam.1.8.0.nupkg.sha512",
