@@ -33,5 +33,6 @@ Plati		- Faith icons
 Radu		- Ideas, province mappings
 Vielus      - Mapping tweaks
 derekmark   - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
+nah34       - Suggestions for cultural traditions and martial customs
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

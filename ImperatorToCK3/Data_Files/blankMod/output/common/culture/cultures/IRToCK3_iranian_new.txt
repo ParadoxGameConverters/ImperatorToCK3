@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.7.2
 bactrian = {
 	color = hsv { 0.03 0.7 0.7 }
 
@@ -42,11 +42,16 @@ scythian = {
 	building_gfx = { steppe_building_gfx }
 	clothing_gfx = { mongol_clothing_gfx }
 	unit_gfx = { mongol_unit_gfx }
-	martial_custom = martial_custom_equal
+
+	# "Unlike the other Scythic peoples such as the Sarmatians, where women were allowed to go hunting, ride horses, learn archery and fight with spears just like the men, the society of the Scythians proper was patriarchal and Scythian women possessed little freedom."  (from the Scythians wikipedia page)
+	martial_custom = martial_custom_male_only
+
 	traditions = {
 		tradition_horse_breeder
 		tradition_pastoralists
-	}	
+		tradition_martial_admiration # "… He also states that "Ares," the god of war, was the only god to whom the Scythians dedicated statues, altars or temples. Tumuli were erected to him in every Scythian district, and both animal sacrifices and human sacrifices were performed in honor of him. At least one shrine to "Ares" has been discovered by archaeologists." (from the Scythians wikipedia page)
+		tradition_horse_lords # Scythians and Sarmatians were well-known for their horse archers.
+	}
 }
 
 sarmatian = {
@@ -68,10 +73,15 @@ sarmatian = {
 	building_gfx = { steppe_building_gfx }
 	clothing_gfx = { mongol_clothing_gfx }
 	unit_gfx = { mongol_unit_gfx }
-	martial_custom = martial_custom_male_only
+
+	# "Unlike the other Scythic peoples such as the Sarmatians, where women were allowed to go hunting, ride horses, learn archery and fight with spears just like the men, the society of the Scythians proper was patriarchal and Scythian women possessed little freedom."  (from the Scythians wikipedia page)
+	martial_custom = martial_custom_equal
+	
 	traditions = {
 		tradition_horse_breeder
 		tradition_pastoralists
+		tradition_hunters # both because nomads such as these were usually hunter-gathers, and some scholars theorize the name Sarmatia itself comes from the word meaning "hunter". (… Harold Walter Bailey derived the name Saurumatā, composed of … a derivation of the Iranian root *sar-, … which was a cognate of the Old Indic base tsar- (त्सर्) from which were derived the terms tsarati- (त्सरति) and tsaru- (त्सरु), meaning "hunter." (from the Sarmatians wikipedia page)) 
+		tradition_horse_lords # Scythians and Sarmatians were well-known for their horse archers.
 	}	
 }
 
