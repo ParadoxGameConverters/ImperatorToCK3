@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
+﻿# ImperatorToCK3: Last updated CK3 patch 1.7.2
 aramaic = {
 	color = { 0.05 1.0 0.5 }
 
@@ -7,7 +7,12 @@ aramaic = {
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_warriors_of_the_dry
-		tradition_hill_dwellers
+		# Aramaic culture is mainly located at where all the Syrian desert is.
+		tradition_dryland_dwellers  # TODO: CHECK CODENAME
+		# Aramaic culture should have Refined Poetry tradition because Aramaic language was used as a common language during the reign of Babylonian and Achaemenid Empire. They were revered for being excellent writers. (The Persians considered this Chaldean societal class to be masters of reading and writing, and especially versed in all forms of incantation, sorcery, witchcraft, and the magical arts. They spoke of astrologists and astronomers as Chaldeans, and it is used with this specific meaning in the Book of Daniel (Dan. i. 4, ii. 2 et seq.) and by classical writers, such as Strabo. (from the wikipedia Chaldea page))
+		tradition_refined_poetry  # TODO: CHECK CODENAME
+		# Aramaic culture should have Culture Blending tradition because Chaldean cultures such as Aramaic were often blended with other cultures. (The original Chaldean tribe had long ago became Akkadianized, adopting Akkadian culture, religion, language and customs, blending into the majority native population, and eventually wholly disappearing as a distinct race of people, as had been the case with other preceding migrant peoples, such as the Amorites, Kassites, Suteans and Arameans of Babylonia. (from the Chaldea wikipedia page) / The Arameans who lived outside their homelands apparently followed the traditions of the country where they settled. The King of Damascus, for instance, employed Phoenician sculptors and ivory-carvers. In Tell Halaf-Guzana, the palace of Kapara, an Aramean ruler (9th century BCE), was decorated with orthostates and with statues that display a mixture of Mesopotamian, Hittite, and Hurrian influences. (from the Arameans wikipedia page)).
+		tradition_culture_blending  # TODO: CHECK CODENAME
 	}
 
 	name_list = name_list_aramaic
