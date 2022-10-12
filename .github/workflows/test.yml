@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   test_and_check_coverage:
-    runs-on: [self-hosted, linux]
+    runs-on: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v3
       with:
