@@ -1,0 +1,6 @@
+﻿IRToCK3_create_maa = {
+	scope = character
+
+	ai_is_valid = { always = no }
+	is_shown = { has_global_variable = IRToCK3_create_maa_flag }
+}

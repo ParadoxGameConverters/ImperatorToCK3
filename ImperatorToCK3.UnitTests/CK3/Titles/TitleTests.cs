@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
@@ -33,7 +34,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 			private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
-			private readonly ReligionMapper religionMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+			private readonly ReligionMapper religionMapper = new(new ReligionCollection(), new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
 			private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 			private readonly Date ck3BookmarkDate = new(867, 1, 1);
@@ -109,7 +110,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			Assert.False(title.HasDefiniteForm);
 			Assert.False(title.Landless);
 			Assert.Null(title.Color1);
-			Assert.Null(title.Color2);
 			Assert.Null(title.CapitalCounty);
 			Assert.Null(title.Province);
 			Assert.False(title.PlayerCountry);
@@ -328,12 +328,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var vassal = titles.Add("d_vassal");
 			var oldLiege = titles.Add("k_old_liege");
 			vassal.SetDeFactoLiege(oldLiege, date);
-			Assert.Equal("k_old_liege", vassal.GetDeFactoLiege(date).Id);
+			Assert.Equal("k_old_liege", vassal.GetDeFactoLiege(date)!.Id);
 			Assert.True(oldLiege.GetDeFactoVassals(date).ContainsKey("d_vassal"));
 
 			var newLiege = titles.Add("k_new_liege");
 			vassal.SetDeFactoLiege(newLiege, date);
-			Assert.Equal("k_new_liege", vassal.GetDeFactoLiege(date).Id);
+			Assert.Equal("k_new_liege", vassal.GetDeFactoLiege(date)!.Id);
 			Assert.False(oldLiege.GetDeFactoVassals(date).ContainsKey("d_vassal"));
 			Assert.True(newLiege.GetDeFactoVassals(date).ContainsKey("d_vassal"));
 		}

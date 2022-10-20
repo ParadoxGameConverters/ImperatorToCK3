@@ -75,11 +75,11 @@ namespace ImperatorToCK3.UnitTests.Mappers.Coa {
 	            }
             }";
 			Assert.Equal(coa1.Split('\n').Length,
-				coaMapper.GetCoaForFlagName("e_IMPTOCK3_ADI").Split('\n').Length);
+				coaMapper.GetCoaForFlagName("e_IMPTOCK3_ADI")!.Split('\n').Length);
 			Assert.Equal(coa2.Split('\n').Length,
-				coaMapper.GetCoaForFlagName("e_IMPTOCK3_AMK").Split('\n').Length);
+				coaMapper.GetCoaForFlagName("e_IMPTOCK3_AMK")!.Split('\n').Length);
 			Assert.Equal(coa3.Split('\n').Length,
-				coaMapper.GetCoaForFlagName("e_IMPTOCK3_ANG").Split('\n').Length);
+				coaMapper.GetCoaForFlagName("e_IMPTOCK3_ANG")!.Split('\n').Length);
 		}
 
 		[Fact]

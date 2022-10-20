@@ -1,0 +1,5 @@
+christianity_religion = {
+	faiths = {
+		orthodox={}
+	}
+}

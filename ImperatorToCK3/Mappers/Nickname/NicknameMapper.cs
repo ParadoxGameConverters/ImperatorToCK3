@@ -13,6 +13,8 @@ public class NicknameMapper {
 		RegisterKeys(parser);
 		parser.ParseFile(filePath);
 		Logger.Info($"Loaded {impToCK3NicknameMap.Count} nickname links.");
+		
+		Logger.IncrementProgress();
 	}
 	public NicknameMapper(BufferedReader reader) {
 		var parser = new Parser();

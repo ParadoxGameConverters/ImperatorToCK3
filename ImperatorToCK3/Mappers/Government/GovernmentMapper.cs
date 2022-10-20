@@ -6,7 +6,7 @@ using System.IO;
 namespace ImperatorToCK3.Mappers.Government;
 
 public class GovernmentMapper {
-	private readonly Dictionary<string, string> impToCK3GovernmentMap = new();
+	private readonly List<GovernmentMapping> mappings = new();
 
 	public GovernmentMapper() {
 		Logger.Info("Parsing government mappings...");
@@ -16,7 +16,9 @@ public class GovernmentMapper {
 		var mappingsPath = Path.Combine("configurables", "government_map.txt");
 		parser.ParseFile(mappingsPath);
 
-		Logger.Info($"Loaded {impToCK3GovernmentMap.Count} government links.");
+		Logger.Info($"Loaded {mappings.Count} government links.");
+		
+		Logger.IncrementProgress();
 	}
 	public GovernmentMapper(BufferedReader reader) {
 		var parser = new Parser();
@@ -26,17 +28,21 @@ public class GovernmentMapper {
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("link", reader => {
 			var mapping = new GovernmentMapping(reader);
-			if (string.IsNullOrEmpty(mapping.Ck3Government)) {
+			if (string.IsNullOrEmpty(mapping.CK3GovernmentId)) {
 				throw new MissingFieldException("GovernmentMapper: link with no ck3Government");
 			}
-
-			foreach (var imperatorGovernment in mapping.ImperatorGovernments) {
-				impToCK3GovernmentMap.Add(imperatorGovernment, mapping.Ck3Government);
-			}
+			mappings.Add(mapping);
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
-	public string? GetCK3GovernmentForImperatorGovernment(string impGovernment) {
-		return impToCK3GovernmentMap.TryGetValue(impGovernment, out var value) ? value : null;
+	public string? GetCK3GovernmentForImperatorGovernment(string irGovernmentId, string? irCultureId) {
+		foreach (var mapping in mappings) {
+			var match = mapping.Match(irGovernmentId, irCultureId);
+			if (match is not null) {
+				return match;
+			}
+		}
+
+		return null;
 	}
 }

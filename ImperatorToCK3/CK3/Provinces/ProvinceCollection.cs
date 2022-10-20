@@ -1,83 +1,60 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
-using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
 public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public ProvinceCollection() { }
-	public ProvinceCollection(string filePath, Date ck3BookmarkDate) {
-		LoadProvinces(filePath, ck3BookmarkDate);
+	public ProvinceCollection(ModFilesystem ck3ModFs) {
+		LoadProvinces(ck3ModFs);
 	}
 
-	private void LoadProvinces(string filePath, Date ck3BookmarkDate) {
+	private void LoadProvinces(ModFilesystem ck3ModFs) {
 		var parser = new Parser();
-		RegisterKeys(parser, ck3BookmarkDate);
-		parser.ParseFile(filePath);
-	}
-
-	private void RegisterKeys(Parser parser, Date ck3BookmarkDate) {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
 			var provinceId = ulong.Parse(provinceIdString);
-			var newProvince = new Province(provinceId, reader, ck3BookmarkDate);
+			var newProvince = new Province(provinceId, reader);
 
 			if (ContainsKey(newProvince.Id)) {
-				Logger.Warn($"Vanilla province duplication - {newProvince.Id} already loaded! Overwriting.");
+				Logger.Debug($"Vanilla province duplication - {newProvince.Id} already loaded! Overwriting.");
 			}
 			dict[provinceId] = newProvince;
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
+		
+		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
-	public void ImportVanillaProvinces(string ck3Path, Date ck3BookmarkDate) {
-		Logger.Info("Importing Vanilla Provinces...");
-		// ---- Loading history/provinces
-		var provinceHistoryPath = Path.Combine(ck3Path, "game", "history", "provinces");
-		var fileNames = SystemUtils.GetAllFilesInFolderRecursive(provinceHistoryPath);
-		foreach (var fileName in fileNames) {
-			if (!fileName.EndsWith(".txt")) {
+	public void ImportVanillaProvinces(ModFilesystem ck3ModFs) {
+		var existingProvinceDefinitionsCount = Count;
+		Logger.Info("Importing vanilla provinces...");
+		
+		// Load history/provinces.
+		LoadProvinces(ck3ModFs);
+
+		// Now load the provinces that don't have unique entries in history/provinces.
+		// They instead use history/province_mapping.
+		foreach (var (newProvinceId, baseProvinceId) in new ProvinceMappings(ck3ModFs)) {
+			if (!ContainsKey(baseProvinceId)) {
+				Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 				continue;
 			}
-			var historyFilePath = Path.Combine(provinceHistoryPath, fileName);
-			LoadProvinces(historyFilePath, ck3BookmarkDate);
-		}
-
-		// now load the provinces that don't have unique entries in history/provinces
-		// they instead use history/province_mapping
-		var provinceMappingsPath = Path.Combine(ck3Path, "game", "history", "province_mapping");
-		fileNames = SystemUtils.GetAllFilesInFolderRecursive(provinceMappingsPath);
-		foreach (var fileName in fileNames) {
-			if (!fileName.EndsWith(".txt")) {
-				continue;
-			}
-
-			var mappingsFilePath = Path.Combine(provinceMappingsPath, fileName);
-			try {
-				var newMappings = new ProvinceMappings(mappingsFilePath);
-				foreach (var (newProvinceId, baseProvinceId) in newMappings) {
-					if (!ContainsKey(baseProvinceId)) {
-						Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
-						continue;
-					}
-					if (ContainsKey(newProvinceId)) {
-						Logger.Info($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
-					} else {
-						var newProvince = new Province(newProvinceId, this[baseProvinceId]);
-						Add(newProvince);
-					}
-				}
-			} catch (Exception e) {
-				Logger.Warn($"Invalid province filename: {mappingsFilePath}: ({e})");
+			if (ContainsKey(newProvinceId)) {
+				Logger.Debug($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
+			} else {
+				var newProvince = new Province(newProvinceId, this[baseProvinceId]);
+				Add(newProvince);
 			}
 		}
-
-		Logger.Info($"Loaded {Count} province definitions.");
+		Logger.Info($"Loaded {Count-existingProvinceDefinitionsCount} province definitions.");
+			
+		Logger.IncrementProgress();
 	}
 
 	public void ImportImperatorProvinces(
@@ -108,6 +85,23 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			++counter;
 		}
 		Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
+			
+		Logger.IncrementProgress();
+	}
+
+	public void LoadPrehistory() {
+		Logger.Info("Loading provinces prehistory...");
+		
+		const string prehistoryPath = "configurables/provinces_prehistory.txt";
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
+			var provId = ulong.Parse(provIdStr);
+			this[provId].UpdateHistory(reader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile(prehistoryPath);
+		
+		Logger.IncrementProgress();
 	}
 
 	private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(

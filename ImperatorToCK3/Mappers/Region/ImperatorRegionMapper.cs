@@ -1,70 +1,77 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using System.Collections.Generic;
-using System.IO;
+using commonItems.Mods;
 
-namespace ImperatorToCK3.Mappers.Region {
-	public class ImperatorRegionMapper {
-		private readonly IdObjectCollection<string, ImperatorRegion> regions = new();
-		private readonly IdObjectCollection<string, ImperatorArea> areas = new();
+namespace ImperatorToCK3.Mappers.Region; 
 
-		public ImperatorRegionMapper() { }
-		public ImperatorRegionMapper(string imperatorPath, IEnumerable<Mod> mods) {
-			Logger.Info("Initializing Imperator Geography...");
+public class ImperatorRegionMapper {
+	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
+	private readonly IdObjectCollection<string, ImperatorArea> areas = new();
 
-			var parser = new Parser();
+	public ImperatorRegionMapper() { }
+	public ImperatorRegionMapper(ModFilesystem imperatorModFS) {
+		Logger.Info("Initializing Imperator geography...");
 
-			RegisterAreaKeys(parser);
-			parser.ParseGameFile(Path.Combine("map_data", "areas.txt"), imperatorPath, mods);
+		var parser = new Parser();
+			
+		const string areasFilePath = "map_data/areas.txt";
+		Logger.Debug($"Imperator areas file location: {imperatorModFS.GetActualFileLocation(areasFilePath)}");
+			
+		RegisterAreaKeys(parser);
+		parser.ParseGameFile(areasFilePath, imperatorModFS);
+		parser.ClearRegisteredRules();
 
-			parser.ClearRegisteredRules();
-			RegisterRegionKeys(parser);
-			parser.ParseGameFile(Path.Combine("map_data", "regions.txt"), imperatorPath, mods);
+		const string regionsFilePath = "map_data/regions.txt";
+		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
+			
+		RegisterRegionKeys(parser);
+		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
-			LinkRegions();
+		LinkRegions();
+		
+		Logger.IncrementProgress();
+	}
+	private void RegisterRegionKeys(Parser parser) {
+		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => Regions.AddOrReplace(new(regionName, reader)));
+		parser.IgnoreAndLogUnregisteredItems();
+	}
+	private void RegisterAreaKeys(Parser parser) {
+		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas.AddOrReplace(new(areaName, reader)));
+		parser.IgnoreAndLogUnregisteredItems();
+	}
+
+	public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
+		if (Regions.TryGetValue(regionName, out var region)) {
+			return region.ContainsProvince(provinceId);
 		}
-		private void RegisterRegionKeys(Parser parser) {
-			parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => regions.AddOrReplace(new(regionName, reader)));
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
-		private void RegisterAreaKeys(Parser parser) {
-			parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas.AddOrReplace(new(areaName, reader)));
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
-
-		public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
-			if (regions.TryGetValue(regionName, out var region)) {
-				return region.ContainsProvince(provinceId);
+		// "Regions" are such a fluid term.
+		return areas.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
+	}
+	public bool RegionNameIsValid(string regionName) {
+		// Who knows what the mapper needs. All kinds of stuff.
+		return Regions.ContainsKey(regionName) || areas.ContainsKey(regionName);
+	}
+	public string? GetParentRegionName(ulong provinceId) {
+		foreach (var region in Regions) {
+			if (region.ContainsProvince(provinceId)) {
+				return region.Id;
 			}
-			// "Regions" are such a fluid term.
-			return areas.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
 		}
-		public bool RegionNameIsValid(string regionName) {
-			// Who knows what the mapper needs. All kinds of stuff.
-			return regions.ContainsKey(regionName) || areas.ContainsKey(regionName);
-		}
-		public string? GetParentRegionName(ulong provinceId) {
-			foreach (var region in regions) {
-				if (region.ContainsProvince(provinceId)) {
-					return region.Id;
-				}
+		Logger.Warn($"Province ID {provinceId} has no parent region name!");
+		return null;
+	}
+	public string? GetParentAreaName(ulong provinceId) {
+		foreach (var area in areas) {
+			if (area.ContainsProvince(provinceId)) {
+				return area.Id;
 			}
-			Logger.Warn($"Province ID {provinceId} has no parent region name!");
-			return null;
 		}
-		public string? GetParentAreaName(ulong provinceId) {
-			foreach (var area in areas) {
-				if (area.ContainsProvince(provinceId)) {
-					return area.Id;
-				}
-			}
-			Logger.Warn($"Province ID {provinceId} has no parent area name!");
-			return null;
-		}
-		private void LinkRegions() {
-			foreach (var region in regions) {
-				region.LinkAreas(areas);
-			}
+		Logger.Warn($"Province ID {provinceId} has no parent area name!");
+		return null;
+	}
+	private void LinkRegions() {
+		foreach (var region in Regions) {
+			region.LinkAreas(areas);
 		}
 	}
 }

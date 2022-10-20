@@ -31,7 +31,7 @@ public class RulerTerm {
 		}
 		StartDate = imperatorRulerTerm.StartDate;
 		if (imperatorRulerTerm.Government is not null) {
-			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government);
+			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government, null);
 		}
 
 		PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;

@@ -1,0 +1,23 @@
+religion_b = {
+	faiths = {
+		religion_b_faith = {
+			holy_site = site1
+			holy_site = site2
+			holy_site = site3
+			holy_site = site4
+			holy_site = site5
+		}
+	}
+}
+
+religion_c = {
+	faiths = {
+		religion_c_faith = {
+			holy_site = site1
+			holy_site = site2
+			holy_site = site3
+			holy_site = site4
+			holy_site = site5
+		}
+	}
+}

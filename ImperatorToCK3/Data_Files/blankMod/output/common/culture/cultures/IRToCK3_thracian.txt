@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
 thracian = {
 	color = rgb { 5 162 25 }
 
@@ -50,7 +50,7 @@ dacian = {
 getian = {
 	color = rgb { 112 190 71 }
 	parents = { thracian }
-	created = 20.1.1
+	created = 2.1.1
 
 	heritage = heritage_thracian
 	language = language_thracian

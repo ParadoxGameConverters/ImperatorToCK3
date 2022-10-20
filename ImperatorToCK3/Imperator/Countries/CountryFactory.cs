@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -98,11 +99,13 @@ namespace ImperatorToCK3.Imperator.Countries {
 			return parsedCountry;
 		}
 
-		public static void LoadGovernments(Configuration config, List<Mod> mods) {
+		public static void LoadGovernments(ModFilesystem imperatorModFS) {
+			Logger.Info("Loading Imperator governments...");
 			string governmentType = "monarchy";
 
 			var governmentParser = new Parser();
 			governmentParser.RegisterKeyword("type", reader => governmentType = reader.GetString());
+			governmentParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 
 			var fileParser = new Parser();
 			fileParser.RegisterRegex(CommonRegexes.String, (reader, govName) => {
@@ -125,7 +128,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 				}
 			});
 			fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-			fileParser.ParseGameFolder("common/governments", config.CK3Path, "txt", mods, true);
+			fileParser.ParseGameFolder("common/governments", imperatorModFS, "txt", true);
+			Logger.IncrementProgress();
 
 			static void AddRepublicGovernment(string name) {
 				republicGovernments.Add(name);

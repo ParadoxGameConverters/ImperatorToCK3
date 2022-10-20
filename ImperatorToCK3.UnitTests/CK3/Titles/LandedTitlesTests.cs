@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
@@ -24,6 +26,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class LandedTitlesTests {
+		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
+		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
+		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
+		private readonly Configuration defaultConfig = new() {ImperatorCivilizationWorth = 0.4};
+		
 		[Fact]
 		public void TitlesDefaultToEmpty() {
 			var reader = new BufferedReader(string.Empty);
@@ -133,7 +140,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 
 		[Fact]
 		public void GovernorshipsCanBeRecognizedAsCountyLevel() {
-			var imperatorWorld = new ImperatorToCK3.Imperator.World();
+			var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
+			var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+
 			imperatorWorld.Provinces.Add(new Province(1));
 			imperatorWorld.Provinces.Add(new Province(2));
 			imperatorWorld.Provinces.Add(new Province(3));
@@ -145,7 +154,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var country = ImperatorToCK3.Imperator.Countries.Country.Parse(countryReader, 589);
 			imperatorWorld.Countries.Add(country);
 
-			var impRegionMapper = new ImperatorRegionMapper("TestFiles/LandedTitlesTests/Imperator", new List<Mod>());
+			var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 			Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 			var ck3RegionMapper = new CK3RegionMapper();
@@ -167,16 +176,11 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var countyLevelGovernorships = new List<Governorship>();
 
 			var tagTitleMapper = new TagTitleMapper();
-			var provinceMapper = new ProvinceMapper(
-				new BufferedReader("0.0.0.0 = {" +
-								   "\tlink={imp=1 ck3=1}" +
-								   "\tlink={imp=2 ck3=2}" +
-								   "\tlink={imp=3 ck3=3}" +
-								   "}"
-				)
-			);
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 			var locDB = new LocDB("english");
-			var religionMapper = new ReligionMapper(impRegionMapper, ck3RegionMapper);
+			var ck3Religions = new ReligionCollection();
+			var religionMapper = new ReligionMapper(ck3Religions, impRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 			var coaMapper = new CoaMapper();
 			var definiteFormMapper = new DefiniteFormMapper();
@@ -184,7 +188,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var nicknameMapper = new NicknameMapper();
 			var deathReasonMapper = new DeathReasonMapper();
 			var conversionDate = new Date(500, 1, 1);
-			var config = new Configuration();
 
 			// Import Imperator governor.
 			var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
@@ -202,7 +205,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
 			);
 
-			var provinces = new ProvinceCollection("TestFiles/LandedTitlesTests/CK3/provinces.txt", conversionDate);
+			var provinces = new ProvinceCollection(ck3ModFs);
 			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
@@ -236,7 +239,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var imperatorProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
 			var provMapper = new ProvinceMapper();
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
 			Assert.Equal(33, county.GetDevelopmentLevel(date));
 		}
@@ -254,12 +257,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impProv = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 25 };
 			imperatorProvinces.Add(impProv);
 
-			var mappingsReader = new BufferedReader("0.0.0.0={ link={ imp=1 ck3=1 } }");
-			var provMapper = new ProvinceMapper(mappingsReader);
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
-			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // 25 - sqrt(25)
+			Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*25=10; 10-sqrt(10)≈6
 		}
 
 		[Fact]
@@ -277,14 +280,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var impProv = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 21 };
 			imperatorProvinces.Add(impProv);
 
-			var mappingsReader = new BufferedReader("0.0.0.0={ link={ imp=1 ck3=1 ck3=2 ck3=3 } }");
-			var provMapper = new ProvinceMapper(mappingsReader);
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt", "test_version");
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
-			Assert.Equal(4, titles["c_county1"].GetDevelopmentLevel(date)); // 7 - sqrt(7)
-			Assert.Equal(4, titles["c_county2"].GetDevelopmentLevel(date)); // same
-			Assert.Equal(4, titles["c_county3"].GetDevelopmentLevel(date)); // same
+			Assert.Equal(1, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*7=2.8;  2.8-sqrt(2.8)≈1
+			Assert.Equal(1, titles["c_county2"].GetDevelopmentLevel(date)); // same as above
+			Assert.Equal(1, titles["c_county3"].GetDevelopmentLevel(date)); // same as above
 		}
 
 		[Fact]
@@ -301,16 +304,13 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			imperatorProvinces.Add(impProv1);
 			var impProv2 = new ImperatorToCK3.Imperator.Provinces.Province(2) { CivilizationValue = 40 };
 			imperatorProvinces.Add(impProv2);
+			
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 
-			var mappingsReader = new BufferedReader("0.0.0.0={" +
-													" link={ imp=1 ck3=1 } " +
-													" link={ imp=2 ck3=2 } " +
-													"}");
-			var provMapper = new ProvinceMapper(mappingsReader);
+			titles.ImportDevelopmentFromImperator(imperatorProvinces, provinceMapper, date, defaultConfig.ImperatorCivilizationWorth);
 
-			titles.ImportDevelopmentFromImperator(imperatorProvinces, provMapper, date);
-
-			Assert.Equal(20, titles["c_county1"].GetDevelopmentLevel(date)); // (10+40)/2 - sqrt(25)
+			Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*(10+40)/2=10; 10-sqrt(10)≈6
 		}
 
 		[Fact]
@@ -366,11 +366,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				CK3BookmarkDate = date,
 				CK3Path = "TestFiles/LandedTitlesTests/CK3"
 			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_rome");
 
-			titles.LoadHistory(config);
+			titles.LoadHistory(config, ck3ModFS);
 
 			Assert.Equal("67", title.GetHolderId(date));
 			Assert.Equal("e_italia", title.GetLiege(date));
@@ -383,14 +384,32 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 				CK3BookmarkDate = date,
 				CK3Path = "TestFiles/LandedTitlesTests/CK3"
 			};
+			var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 
 			var titles = new Title.LandedTitles();
 			var title = titles.Add("k_greece");
 
-			titles.LoadHistory(config);
+			titles.LoadHistory(config, ck3ModFS);
 
 			Assert.Equal("420", title.GetHolderId(date));
 			Assert.Equal(20, title.GetDevelopmentLevel(date));
+		}
+
+		[Fact]
+		public void GetBaronyForProvinceReturnsCorrectBaronyOrNullWhenNotFound() {
+			var titles = new Title.LandedTitles();
+			var titlesReader = new BufferedReader(@"
+				c_county = {
+					b_barony1 = { province=1 }
+					b_barony2 = { province=2 }
+					b_barony3 = { province=3 }
+				}");
+			titles.LoadTitles(titlesReader);
+			
+			Assert.Equal("b_barony1", titles.GetBaronyForProvince(1)?.Id);
+			Assert.Equal("b_barony2", titles.GetBaronyForProvince(2)?.Id);
+			Assert.Equal("b_barony3", titles.GetBaronyForProvince(3)?.Id);
+			Assert.Null(titles.GetBaronyForProvince(4));
 		}
 	}
 }

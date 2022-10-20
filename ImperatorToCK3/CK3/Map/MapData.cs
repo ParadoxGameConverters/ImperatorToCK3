@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
@@ -36,32 +37,31 @@ public class MapData {
 	public Dictionary<ulong, ProvincePosition> ProvincePositions { get; } = new();
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
-	public MapData(string ck3Path) {
-		string provincesMapPath = Path.Combine(ck3Path, "game", "map_data", "provinces.png");
-		Logger.Info("Loaded provinces map.");
+	public MapData(ModFilesystem ck3ModFS) {
+		const string mapPath = "map_data/provinces.png";
+		var provincesMapPath = ck3ModFS.GetActualFileLocation(mapPath);
 
-		ProvinceDefinitions = new ProvinceDefinitions(ck3Path);
-		Logger.Info("Loaded province definitions.");
-		DetermineProvincePositions(ck3Path);
-		Logger.Info("Loaded province positions.");
+		Logger.Info("Loading province definitions...");
+		ProvinceDefinitions = new ProvinceDefinitions(ck3ModFS);
+		Logger.IncrementProgress();
+		
+		Logger.Info("Loading province positions...");
+		DetermineProvincePositions(ck3ModFS);
+		Logger.IncrementProgress();
+		
+		Logger.Info("Determining province neighbors...");
 		using (Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath)) {
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);
 		}
+		Logger.IncrementProgress();
 
-		Logger.Info("Determined province neighbors.");
-		FindImpassables(ck3Path);
-		Logger.Info("Found impassables.");
+		Logger.Info("Finding impassables...");
+		FindImpassables(ck3ModFS);
+		Logger.IncrementProgress();
 	}
 
-	private void DetermineProvincePositions(string ck3Path) {
-		var provincePositionsPath = Path.Combine(
-			ck3Path,
-			"game",
-			"gfx",
-			"map",
-			"map_object_data",
-			"building_locators.txt"
-		);
+	private void DetermineProvincePositions(ModFilesystem ck3ModFS) {
+		const string provincePositionsPath = "gfx/map/map_object_data/building_locators.txt";
 		var fileParser = new Parser();
 		fileParser.RegisterKeyword("game_object_locator", reader => {
 			var listParser = new Parser();
@@ -72,11 +72,11 @@ public class MapData {
 					ProvincePositions[instance.Id] = instance;
 				}
 			});
-			listParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+			listParser.IgnoreUnregisteredItems();
 			listParser.ParseStream(reader);
 		});
-		fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
-		fileParser.ParseFile(provincePositionsPath);
+		fileParser.IgnoreUnregisteredItems();
+		fileParser.ParseGameFile(provincePositionsPath, ck3ModFS);
 	}
 
 	private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
@@ -111,8 +111,8 @@ public class MapData {
 		}
 	}
 
-	private void FindImpassables(string ck3Path) {
-		var filePath = Path.Combine(ck3Path, "game", "map_data", "default.map");
+	private void FindImpassables(ModFilesystem ck3ModFS) {
+		var filePath = Path.Combine("map_data", "default.map");
 		var parser = new Parser();
 		const string listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
 		parser.RegisterRegex(listRegex, (reader, keyword) => {
@@ -137,8 +137,8 @@ public class MapData {
 				ColorableImpassableProvinces.UnionWith(provIds);
 			}
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseFile(filePath);
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseGameFile(filePath, ck3ModFS);
 	}
 
 	private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {

@@ -1,8 +1,8 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.1
+﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
 carthaginian = {
 	color = rgb { 74 174 85 }
 	parents = { phoenician }
-	created = 20.1.1
+	created = 2.1.1
 
 	heritage = heritage_punic
 	language = language_punic

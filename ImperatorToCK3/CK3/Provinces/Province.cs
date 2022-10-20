@@ -3,22 +3,31 @@ using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
-public class Province : IIdentifiable<ulong> {
-	public Province() { }
-	public Province(ulong id, BufferedReader reader, Date ck3BookmarkDate) {
-		// Load from a country file, if one exists. Otherwise rely on defaults.
+public partial class Province : IIdentifiable<ulong> {
+	public ulong Id { get; } = 0;
+	public ulong? BaseProvinceId { get; }
+
+	public Imperator.Provinces.Province? ImperatorProvince { get; set; }
+	
+	public Province(ulong id) {
 		Id = id;
-		details = new ProvinceDetails(reader, ck3BookmarkDate);
+		History = historyFactory.GetHistory();
 	}
-	public Province(ulong id, Province otherProvince) {
-		Id = id;
-		BaseProvinceId = otherProvince.Id;
-		details = new ProvinceDetails(otherProvince.details);
+	public Province(ulong id, BufferedReader reader): this(id) {
+		History = historyFactory.GetHistory(reader);
+	}
+	public Province(ulong id, Province sourceProvince): this(id) {
+		// culture, faith and terrain can be copied from source province
+		BaseProvinceId = sourceProvince.Id;
+
+		var srcProvinceHistoryFields = sourceProvince.History.Fields;
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["culture"].Clone());
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["faith"].Clone());
+		History.Fields.AddOrReplace(srcProvinceHistoryFields["terrain"].Clone());
 	}
 
 	public void InitializeFromImperator(
@@ -30,67 +39,38 @@ public class Province : IIdentifiable<ulong> {
 	) {
 		ImperatorProvince = impProvince;
 
-		// If we're initializing this from Imperator provinces, then having an owner or being a wasteland/sea is not a given -
-		// there are uncolonized provinces in Imperator, also uninhabitables have culture and religion.
-
-		var impOwnerCountry = ImperatorProvince.OwnerCountry;
-		if (impOwnerCountry is not null) {
-			ownerTitle = impOwnerCountry.CK3Title; // linking to our holder's title
+		var fieldsToKeep = new[] {"culture", "faith", "terrain", "special_building_slot"};
+		foreach (var field in History.Fields.Where(f=>!fieldsToKeep.Contains(f.Id))) {
+			field.RemoveAllEntries();
 		}
+		
+		History.RemoveHistoryPastDate(config.CK3BookmarkDate);
 
 		// Religion first
 		SetReligionFromImperator(religionMapper, config);
 
 		// Then culture
-		SetCultureFromImperator(cultureMapper);
+		SetCultureFromImperator(cultureMapper, config);
 
 		// Holding type
 		SetHoldingFromImperator(landedTitles);
-
-		details.Buildings.Clear();
 	}
 
-	public ulong Id { get; } = 0;
-	public ulong? BaseProvinceId { get; }
-	public string Religion {
-		get {
-			return details.Religion;
-		}
-		set {
-			details.Religion = value;
-		}
+	public void UpdateHistory(BufferedReader reader) {
+		historyFactory.UpdateHistory(History, reader);
 	}
-	public string Culture {
-		get {
-			return details.Culture;
-		}
-		set {
-			details.Culture = value;
-		}
-	}
-	public string Holding {
-		get {
-			return details.Holding;
-		}
-	}
-
-	public List<string> Buildings => details.Buildings;
-	public Imperator.Provinces.Province? ImperatorProvince { get; set; }
-
-	private ProvinceDetails details = new();
-	private Title? ownerTitle;
 
 	private void SetReligionFromImperator(ReligionMapper religionMapper, Configuration config) {
 		var religionSet = false;
 		if (ImperatorProvince is null) {
-			Logger.Warn($"CK3 Province {Id}: can't set religion from null Imperator Province!");
+			Logger.Warn($"CK3 Province {Id}: can't set religion from null Imperator province!");
 			return;
 		}
 
-		if (!string.IsNullOrEmpty(ImperatorProvince.Religion)) {
-			var religionMatch = religionMapper.Match(ImperatorProvince.Religion, Id, ImperatorProvince.Id, config);
+		if (!string.IsNullOrEmpty(ImperatorProvince.ReligionId)) {
+			var religionMatch = religionMapper.Match(ImperatorProvince.ReligionId, Id, ImperatorProvince.Id, config);
 			if (religionMatch is not null) {
-				details.Religion = religionMatch;
+				SetFaithId(religionMatch, date: null);
 				religionSet = true;
 			}
 		}
@@ -99,16 +79,18 @@ public class Province : IIdentifiable<ulong> {
 			var religionMatch = religionMapper.Match(ImperatorProvince.OwnerCountry.Religion, Id, ImperatorProvince.Id, config);
 			if (religionMatch is not null) {
 				Logger.Warn($"Using country religion for province {Id}");
-				details.Religion = religionMatch;
+				SetFaithId(religionMatch, date: null);
 				religionSet = true;
 			}
 		}
 		if (!religionSet) {
 			//Use default CK3 religion.
-			Logger.Warn($"Couldn't determine religion for province {Id} with source religion {ImperatorProvince.Religion}, using vanilla religion");
+			Logger.Warn($"Couldn't determine faith for province {Id} with source province {ImperatorProvince.Id} ({ImperatorProvince.ReligionId} religion), using vanilla religion!");
 		}
 	}
-	private void SetCultureFromImperator(CultureMapper cultureMapper) {
+	private void SetCultureFromImperator(CultureMapper cultureMapper, Configuration config) {
+		var bookmarkDate = config.CK3BookmarkDate;
+		var faithId = GetFaithId(bookmarkDate) ?? string.Empty;
 		var cultureSet = false;
 		if (ImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator Province!");
@@ -117,24 +99,24 @@ public class Province : IIdentifiable<ulong> {
 
 		// do we even have a base culture?
 		if (!string.IsNullOrEmpty(ImperatorProvince.Culture)) {
-			var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, details.Religion, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
+			var cultureMatch = cultureMapper.Match(ImperatorProvince.Culture, faithId, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
 			if (cultureMatch is not null) {
-				details.Culture = cultureMatch;
+				SetCultureId(cultureMatch, date: null);
 				cultureSet = true;
 			}
 		}
 		// As fallback, attempt to use primary culture of country.
 		if (!cultureSet && ImperatorProvince.OwnerCountry?.PrimaryCulture is not null) {
-			var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, details.Religion, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
+			var cultureMatch = cultureMapper.Match(ImperatorProvince.OwnerCountry.PrimaryCulture, faithId, Id, ImperatorProvince.Id, ImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty);
 			if (cultureMatch is not null) {
 				Logger.Warn($"Using country culture for province {Id}");
-				details.Culture = cultureMatch;
+				SetCultureId(cultureMatch, date: null);
 				cultureSet = true;
 			}
 		}
 		if (!cultureSet) {
 			//Use default CK3 culture.
-			Logger.Warn($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture");
+			Logger.Warn($"Couldn't determine culture for province {Id} with source culture {ImperatorProvince.Culture}, using vanilla culture!");
 		}
 	}
 	private void SetHoldingFromImperator(Title.LandedTitles landedTitles) {
@@ -144,7 +126,7 @@ public class Province : IIdentifiable<ulong> {
 		}
 
 		if (ImperatorProvince.OwnerCountry is null) {
-			details.Holding = "none";
+			SetHoldingType("none", date: null);
 			return;
 		}
 
@@ -152,16 +134,16 @@ public class Province : IIdentifiable<ulong> {
 			// CK3 Holdings that are county capitals always match the Government Type
 			switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 				case Imperator.Countries.GovernmentType.tribal:
-					details.Holding = "tribal_holding";
+					SetHoldingType("tribal_holding", date: null);
 					break;
 				case Imperator.Countries.GovernmentType.republic:
-					details.Holding = "city_holding";
+					SetHoldingType("city_holding", date: null);
 					break;
 				case Imperator.Countries.GovernmentType.monarchy:
-					details.Holding = "castle_holding";
+					SetHoldingType("castle_holding", date: null);
 					break;
 				default:
-					details.Holding = "none";
+					SetHoldingType("none", date: null);
 					break;
 			}
 		} else {
@@ -170,69 +152,69 @@ public class Province : IIdentifiable<ulong> {
 				case Imperator.Provinces.ProvinceRank.city:
 					switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 						case Imperator.Countries.GovernmentType.tribal:
-							if (ImperatorProvince.HolySite) {
-								details.Holding = "church_holding";
+							if (ImperatorProvince.IsHolySite) {
+								SetHoldingType("church_holding", date: null);
 							} else if (ImperatorProvince.Fort) {
-								details.Holding = "castle_holding";
+								SetHoldingType("castle_holding", date: null);
 							} else {
-								details.Holding = "city_holding";
+								SetHoldingType("city_holding", date: null);
 							}
 
 							break;
 						case Imperator.Countries.GovernmentType.republic:
-							if (ImperatorProvince.HolySite) {
-								details.Holding = "church_holding";
+							if (ImperatorProvince.IsHolySite) {
+								SetHoldingType("church_holding", date: null);
 							} else {
-								details.Holding = "city_holding";
+								SetHoldingType("city_holding", date: null);
 							}
 							break;
 						case Imperator.Countries.GovernmentType.monarchy:
-							if (ImperatorProvince.HolySite) {
-								details.Holding = "church_holding";
+							if (ImperatorProvince.IsHolySite) {
+								SetHoldingType("church_holding", date: null);
 							} else if (ImperatorProvince.Fort) {
-								details.Holding = "castle_holding";
+								SetHoldingType("castle_holding", date: null);
 							} else {
-								details.Holding = "city_holding";
+								SetHoldingType("city_holding", date: null);
 							}
 
 							break;
 						default:
-							details.Holding = "city_holding";
+							SetHoldingType("city_holding", date: null);
 							break;
 					}
 					break;
 				case Imperator.Provinces.ProvinceRank.settlement:
 					switch (ImperatorProvince.OwnerCountry.GovernmentType) {
 						case Imperator.Countries.GovernmentType.tribal:
-							details.Holding = "none";
+							SetHoldingType("none", date: null);
 							break;
 						case Imperator.Countries.GovernmentType.republic:
-							if (ImperatorProvince.HolySite) {
-								details.Holding = "church_holding";
+							if (ImperatorProvince.IsHolySite) {
+								SetHoldingType("church_holding", date: null);
 							} else if (ImperatorProvince.Fort) {
-								details.Holding = "city_holding";
+								SetHoldingType("city_holding", date: null);
 							} else {
-								details.Holding = "none";
+								SetHoldingType("none", date: null);
 							}
 
 							break;
 						case Imperator.Countries.GovernmentType.monarchy:
-							if (ImperatorProvince.HolySite) {
-								details.Holding = "church_holding";
+							if (ImperatorProvince.IsHolySite) {
+								SetHoldingType("church_holding", date: null);
 							} else if (ImperatorProvince.Fort) {
-								details.Holding = "castle_holding";
+								SetHoldingType("castle_holding", date: null);
 							} else {
-								details.Holding = "none";
+								SetHoldingType("none", date: null);
 							}
 
 							break;
 						default:
-							details.Holding = "tribal_holding";
+							SetHoldingType("tribal_holding", date: null);
 							break;
 					}
 					break;
 				default:
-					details.Holding = "none";
+					SetHoldingType("none", date: null);
 					break;
 			}
 		}

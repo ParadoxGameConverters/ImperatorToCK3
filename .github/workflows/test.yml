@@ -1,4 +1,4 @@
-name: Test
+name: "Test"
 
 on:
   push:
@@ -6,24 +6,28 @@ on:
       - master
   pull_request:
 
+concurrency:
+  group: ci-tests-${{ github.ref }}-1
+  cancel-in-progress: true
+
 jobs:
   test_and_check_coverage:
-    runs-on: windows-2022
+    runs-on: [self-hosted, linux]
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
         submodules: recursive
-    # install dependencies, build, and test
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v2
+    - name: "Setup Dotnet for use with actions"
+      uses: actions/setup-dotnet@main
       with:
-        dotnet-version: '6.*'
-    - name: Test
+        dotnet-version: '7.x'
+        dotnet-quality: 'preview'
+    - name: "Test"
+      working-directory: ImperatorToCK3.UnitTests
       run: |
-       cd ImperatorToCK3.UnitTests
-       dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:Exclude=[commonItems]*
-    - name: Publish coverage report to coveralls.io
+       dotnet test -p:CollectCoverage=true -p:CoverletOutput="./TestResults/coverage.info" -p:CoverletOutputFormat=lcov -p:Exclude="[commonItems]*"
+    - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,19 +37,19 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [[self-hosted, windows], macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
         submodules: recursive
-    # install dependencies, build, and test
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v2
+    - name: "Setup Dotnet for use with actions"
+      uses: actions/setup-dotnet@main
       with:
-        dotnet-version: '6.*'
-    - name: Test
+        dotnet-version: '7.x'
+        dotnet-quality: 'preview'
+    - name: "Test"
+      working-directory: ImperatorToCK3.UnitTests
       run: |
-       cd ImperatorToCK3.UnitTests
        dotnet test

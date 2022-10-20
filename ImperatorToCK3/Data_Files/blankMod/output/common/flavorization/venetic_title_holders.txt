@@ -1,0 +1,38 @@
+﻿
+duke_venetic_culture = {
+	type = character
+	gender = male
+	special = holder
+	tier = duchy
+	priority = 27
+	name_lists = { name_list_venetic }
+}
+
+duke_female_venetic_culture = {
+	type = character
+	gender = female	
+	special = holder
+	tier = duchy
+	priority = 27
+	name_lists = { name_list_venetic  }
+}
+
+king_venetic_culture = {
+	type = character
+	gender = male	
+	special = holder
+	tier = kingdom
+	priority = 27
+	name_lists = { name_list_venetic  }
+	top_liege = no
+}
+
+king_female_venetic_culture = {
+	type = character
+	gender = female
+	special = holder
+	tier = kingdom
+	priority = 27
+	name_lists = { name_list_venetic }
+	top_liege = no
+}

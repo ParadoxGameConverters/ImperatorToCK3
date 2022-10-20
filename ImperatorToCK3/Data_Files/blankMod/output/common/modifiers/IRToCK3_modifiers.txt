@@ -1,0 +1,4 @@
+﻿IRToCK3_fuck_CK3_military_system_modifier = {
+	icon = martial_positive
+	men_at_arms_cap = 10
+}

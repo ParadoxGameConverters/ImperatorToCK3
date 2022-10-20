@@ -42,7 +42,7 @@ jobs:
         - osx-x64
         include:
         - build: win-x64
-          os: windows-2022
+          os: windows-latest
           archive_type: zip
           archive_extension: .zip
           asset_content_type: application/zip
@@ -61,10 +61,11 @@ jobs:
       with:
         fetch-depth: 0
         submodules: recursive
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v2
+    - name: "Setup Dotnet for use with actions"
+      uses: actions/setup-dotnet@main
       with:
-        dotnet-version: '6.*'
+        dotnet-version: '7.x'
+        dotnet-quality: 'preview'
     - name: "Add version to version.txt"
       shell: bash
       run: |
@@ -76,11 +77,11 @@ jobs:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Release'
     - name: "Build backend"
+      working-directory: ImperatorToCK3
       run: |
-        cd ImperatorToCK3
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
     - name: "Remove Release/ImperatorToCK3 directory"
-      uses: JesseTG/rm@v1.0.2
+      uses: JesseTG/rm@v1.0.3
       with:
         path: Release/ImperatorToCK3
     - name: "Copy Publish files to Release directory"
@@ -91,14 +92,14 @@ jobs:
       shell: bash
       run: |
         git rev-parse HEAD > Release/commit_id.txt
-    - name: Archive Release folder
+    - name: "Archive Release folder"
       uses: thedoctor0/zip-release@master
       with:
         type: '${{ matrix.archive_type }}'
         directory: 'Release'
         path: '.'
         filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
-    - name: Upload release asset
+    - name: "Upload release asset"
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
       env:

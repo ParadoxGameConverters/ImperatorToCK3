@@ -1,0 +1,10 @@
+﻿egyptian_pantheon = { # Kemetic
+	color = hsv { 0.15  1  0.7 }
+	modifier = { ruler_popularity_gain = 0.1 }
+	religion_category = pantheon
+}
+carthaginian_pantheon = { # Canaanite
+	color = hsv { 0.75 0.9 0.73 }
+	modifier = { navy_maintenance_cost = -0.1 }
+	religion_category = pantheon
+}

@@ -51,6 +51,42 @@ vishtasb_male = {
 	Vishtasb VI_S_tap # vanilla
 	Hystaspes Vishtasb_Vishtasb # converter
 }
+berthold_male = {
+	# vanilla
+	Berthgualt Berthwallt Berthoald  Berthold Bertold Bertoldo
+	# converter
+	Pertolt
+}
+hector_male = {
+	# vanilla
+	Ettore Hector
+	# converter
+	Hektor
+}
+hyeronimus_male = {
+	# vanilla
+	Gerolamo Geronimo Girolamo ZirO_nimu
+	# converter
+	Hieronymus Hieronymos JE_rO_me
+}
+theodat_male = {
+	# vanilla
+	BoZ_ydar Bozidar Dat Deodat Fedot Teodato Theodat Theodote Theodotos
+	# converter
+	Bel-iddin Deodatus Adeodatus
+}
+gundemar_male = {
+	# vanilla
+	Gundemar Gundemaro Gundemaru
+	# converter
+	Gundmar
+}
+theobald_male = {
+	# vanilla
+	Teobald Teobaldo Teobaldu Tetbald Theobald ThiE_baut Thiadbold Thibault Tibaldo Tibalt Tibaud Tibault Tybalt Tybaut
+	# converter
+	Theobold Theodobald
+}
 
 
 
@@ -74,4 +110,10 @@ ingeborg_female = {
 melisende_female = {
 	Melisende ME_lisande ME_lisende MelisE_nda Melisant Melissa # vanilla
 	Melitta # converter
+}
+hildegarde_female = { 
+	# vanilla
+	Hildegard Hildegarde Ildegarda IldE_garde
+	# converter
+	Hiltekart
 }

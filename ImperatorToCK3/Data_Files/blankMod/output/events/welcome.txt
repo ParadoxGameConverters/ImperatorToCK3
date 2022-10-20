@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.5.0
+﻿# Last updated: CK3 patch 1.6.1.2
 namespace = welcome
 welcome.1 = {
 	hidden = no
@@ -14,7 +14,11 @@ welcome.1 = {
 		character:converter_team = { death = natural }
 	}
 
-	option = { name = welcome_ok }
+	option = {
+		name = welcome_ok
+		
+		hidden_effect = { set_global_variable = IRToCK3_create_maa_flag }
+	}
 }
 
 welcome.2 = { ## It'd be best if someone were to convert this into actual locs and translate them

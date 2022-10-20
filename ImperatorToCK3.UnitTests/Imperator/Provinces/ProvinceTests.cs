@@ -1,6 +1,8 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +13,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
+	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
+	
 	[Fact]
 	public void IdCanBeSet() {
 		var reader = new BufferedReader(
@@ -23,7 +28,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void CultureCanBeSet() {
+	public void CultureIdCanBeSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
 			"\tculture=\"paradoxian\"" +
@@ -36,7 +41,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void CultureDefaultsToBlank() {
+	public void CultureIdDefaultsToBlank() {
 		var reader = new BufferedReader(
 			"= {}"
 		);
@@ -47,7 +52,7 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void ReligionCanBeSet() {
+	public void ReligionIdCanBeSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
 			"\treligion=\"paradoxian\"" +
@@ -56,18 +61,41 @@ public class ProvinceTests {
 
 		var theProvince = Province.Parse(reader, 42);
 
-		Assert.Equal("paradoxian", theProvince.Religion);
+		Assert.Equal("paradoxian", theProvince.ReligionId);
 	}
 
 	[Fact]
-	public void ReligionDefaultsToBlank() {
+	public void ReligionIdDefaultsToBlank() {
 		var reader = new BufferedReader(
 			"= {}"
 		);
 
 		var theProvince = Province.Parse(reader, 42);
 
-		Assert.True(string.IsNullOrEmpty(theProvince.Religion));
+		Assert.True(string.IsNullOrEmpty(theProvince.ReligionId));
+	}
+
+	[Fact]
+	public void GetReligionReturnsCorrectReligion() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadReligions(imperatorModFS);
+		
+		var province = new Province(1) {ReligionId = "roman_pantheon"};
+
+		var religion = province.GetReligion(religions);
+		Assert.NotNull(religion);
+		Assert.Equal("roman_pantheon", religion.Id);
+	}
+
+	[Fact]
+	public void GetReligionReturnsNullWhenReligionIsNotFound() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadReligions(imperatorModFS);
+		
+		var province = new Province(1) {ReligionId = "missing_religion"};
+
+		var religion = province.GetReligion(religions);
+		Assert.Null(religion);
 	}
 
 	[Fact]
@@ -206,22 +234,70 @@ public class ProvinceTests {
 	}
 
 	[Fact]
-	public void HolySiteDefaultsToFalse() {
+	public void HolySiteIdDefaultsToNull() {
 		var reader = new BufferedReader(" = { }");
 		var province = Province.Parse(reader, 42);
 
-		Assert.False(province.HolySite);
+		Assert.False(province.IsHolySite);
+		Assert.Null(province.HolySiteId);
 	}
 
 	[Fact]
-	public void HolySiteCanBeSet() {
+	public void HolySiteIdCanBeSet() {
 		var reader = new BufferedReader(" = { holy_site=4294967295 }"); // this value means no holy site
 		var reader2 = new BufferedReader(" = { holy_site=56 }");
 		var province = Province.Parse(reader, 42);
 		var province2 = Province.Parse(reader2, 43);
 
-		Assert.False(province.HolySite);
-		Assert.True(province2.HolySite);
+		Assert.False(province.IsHolySite);
+		Assert.Null(province.HolySiteId);
+		Assert.True(province2.IsHolySite);
+		Assert.Equal((ulong)56, province2.HolySiteId);
+	}
+
+	[Fact]
+	public void GetHolySiteDeityReturnsCorrectDeity() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadDeities(imperatorModFS);
+
+		var holySitesReader = new BufferedReader(@"deities_database = {
+				1 = { deity=""deity1"" }
+				34 = { deity=""deity3"" }
+				2 = { deity=""deity4"" }
+			}");
+		religions.LoadHolySiteDatabase(holySitesReader);
+		// holy site 34 belongs to deity "deity3"
+		var province = new Province(1) {HolySiteId = 34};
+
+		var deity = province.GetHolySiteDeity(religions);
+		Assert.NotNull(deity);
+		Assert.Equal("deity3", deity.Id);
+	}
+
+	[Fact]
+	public void WarningIsLoggedWhenHolySiteDefinitionHasNoDeity() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+		religions.LoadDeities(imperatorModFS);
+
+		var output = new StringWriter();
+		Console.SetOut(output);
+		
+		var holySitesReader = new BufferedReader(@"deities_database = {
+				34 = {}
+			}");
+		religions.LoadHolySiteDatabase(holySitesReader);
+
+		Assert.Contains("Holy site 34 has no deity!", output.ToString());
+	}
+	
+	[Fact]
+	public void GetHolySiteDeityReturnsNullHolySiteIdIsNull() {
+		var religions = new ReligionCollection(new ScriptValueCollection());
+
+		var province = new Province(1) {HolySiteId = null};
+
+		var deity = province.GetHolySiteDeity(religions);
+		Assert.Null(deity);
 	}
 
 	[Fact]

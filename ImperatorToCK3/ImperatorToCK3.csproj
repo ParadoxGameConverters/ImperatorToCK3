@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 	<Nullable>enable</Nullable>
 	<RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
 	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
@@ -15,6 +15,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -24,9 +25,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="11.1.2" />
-    <PackageReference Include="PGCG.commonItems" Version="0.3.1" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.2" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="12.2.0" />
+    <PackageReference Include="PGCG.commonItems" Version="7.4.6" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
   </ItemGroup>
 
   <ItemGroup>

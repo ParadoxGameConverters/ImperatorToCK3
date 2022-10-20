@@ -1,13 +1,16 @@
 ﻿using commonItems;
+using commonItems.Collections;
+using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.Outputter {
 	public static class WorldOutputter {
-		public static void OutputWorld(World ck3World, IEnumerable<Mod> imperatorMods, Configuration config) {
-			ClearOutputModFolder();
+		public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
+			ClearOutputModFolder(config);
 
 			var outputName = config.OutputModName;
 			CreateModFolder(outputName);
@@ -15,74 +18,89 @@ namespace ImperatorToCK3.Outputter {
 
 			Logger.Info("Creating folders...");
 			CreateFolders(outputName);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Characters...");
 			CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, ck3World.CorrectedDate);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Dynasties...");
 			DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Provinces...");
 			ProvincesOutputter.OutputProvinces(outputName, ck3World.Provinces, ck3World.LandedTitles);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Landed Titles...");
 			TitlesOutputter.OutputTitles(
 				outputName,
-				ck3World.LandedTitles,
-				config.ImperatorDeJure
+				ck3World.LandedTitles
 			);
+			Logger.IncrementProgress();
+
+			ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
+			Logger.IncrementProgress();
+			ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Succession Triggers...");
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);
+			Logger.IncrementProgress();
 
 			Logger.Info("Writing Localization...");
 			LocalizationOutputter.OutputLocalization(
-				config.ImperatorPath,
+				imperatorWorld.ModFS,
 				outputName,
-				ck3World,
-				config.ImperatorDeJure
+				ck3World
 			);
+			Logger.IncrementProgress();
+
+			if (config.LegionConversion == LegionConversion.MenAtArms) {
+				MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
+			}
 
 			var outputPath = Path.Combine("output", config.OutputModName);
 
-			Logger.Info("Copying named colors...");
-			SystemUtils.TryCopyFile(
-				Path.Combine(config.ImperatorPath, "game", "common", "named_colors", "default_colors.txt"),
-				Path.Combine(outputPath, "common", "named_colors", "imp_colors.txt")
-			);
+			NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
-			Logger.Info("Copying Coats of Arms...");
-			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorMods);
-			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles);
-			SystemUtils.TryCopyFolder(
-				Path.Combine(config.ImperatorPath, "game", "gfx", "coat_of_arms", "patterns"),
-				Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns")
-			);
+			ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorWorld.ModFS);
+			CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles, ck3World.Dynasties);
+			CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath);
 
+			CopyBlankModFilesToOutput(outputPath);
+
+			BookmarkOutputter.OutputBookmark(ck3World, config);
+
+			OutputPlaysetInfo(ck3World, outputName);
+		}
+
+		private static void CopyBlankModFilesToOutput(string outputPath) {
 			Logger.Info("Copying blankMod files to output...");
 			SystemUtils.TryCopyFolder(
 				Path.Combine("blankMod", "output"),
 				outputPath
 			);
+			Logger.IncrementProgress();
+		}
 
-			Logger.Info("Creating bookmark...");
-			BookmarkOutputter.OutputBookmark(ck3World, config);
-
-			void ClearOutputModFolder() {
-				var directoryToClear = $"output/{config.OutputModName}";
-				var di = new DirectoryInfo(directoryToClear);
-				if (!di.Exists) {
-					return;
-				}
-
-				Logger.Info("Clearing the output mod folder...");
-				foreach (FileInfo file in di.EnumerateFiles()) {
-					file.Delete();
-				}
-				foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-					dir.Delete(true);
-				}
+		private static void ClearOutputModFolder(Configuration config) {
+			Logger.Info("Clearing the output mod folder...");
+				
+			var directoryToClear = $"output/{config.OutputModName}";
+			var di = new DirectoryInfo(directoryToClear);
+			if (!di.Exists) {
+				return;
 			}
+
+			foreach (FileInfo file in di.EnumerateFiles()) {
+				file.Delete();
+			}
+			foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
+				dir.Delete(true);
+			}
+				
+			Logger.IncrementProgress();
 		}
 
 		private static void OutputModFile(string outputName) {
@@ -121,22 +139,62 @@ namespace ImperatorToCK3.Outputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "events"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "english"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "french"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "german"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "korean"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "english"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "french"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "german"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "korean"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "russian"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "simp_chinese"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "spanish"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "russian"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "simp_chinese"));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "spanish"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface"));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
+		}
+
+		private static void OutputPlaysetInfo(World ck3World, string outputModName) {
+			Logger.Info("Outputting CK3 playset info...");
+			
+			var modsForPlayset = new OrderedSet<Mod>();
+			foreach (var loadedMod in ck3World.LoadedMods) {
+				if (loadedMod.Name == "blankMod") {
+					modsForPlayset.Add(new Mod(name: $"Converted - {outputModName}", path: outputModName));
+				} else {
+					modsForPlayset.Add(loadedMod);
+				}
+			}
+
+			const string outFilePath = "playset_info.txt";
+			if (File.Exists(outFilePath)) {
+				File.Delete(outFilePath);
+			}
+			using var outputStream = File.OpenWrite(outFilePath);
+			using var output = new StreamWriter(outputStream, Encoding.UTF8);
+			
+			foreach (var mod in modsForPlayset) {
+				output.WriteLine($"{mod.Name.AddQuotes()}={mod.Path.AddQuotes()}");
+			}
+			
+			Logger.IncrementProgress();
 		}
 	}
 }

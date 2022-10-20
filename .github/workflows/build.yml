@@ -3,26 +3,26 @@ name: Build
 on:
   pull_request:
 
+concurrency:
+  group: ci-build-${{ github.ref }}-1
+  cancel-in-progress: true
+
 jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-2022]
+        os: [windows-latest, [self-hosted, linux], macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-    # install dependencies, build, and test
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v2
+    - name: "Setup Dotnet for use with actions"
+      uses: actions/setup-dotnet@main
       with:
-        dotnet-version: '6.*'
-    - name: "Build backend"
+        dotnet-version: '7.x'
+        dotnet-quality: 'preview'
+    - name: "Build converter backend"
+      working-directory: ImperatorToCK3
       run: |
-        cd ImperatorToCK3
-        dotnet build
-    - name: "Build frontend"
-      run: |
-        cd Fronter.NET
         dotnet build

@@ -1,0 +1,10 @@
+﻿l_simp_chinese:
+ aaa_noculture: "不$game_concept_culture$"
+ aaa_noculture_prefix: "不"
+ aaa_noculture_collective_noun: "$aaa_noculture$"
+ name_list_empty: "$RETINUE_POSITION_EMPTY$"
+ heritage_noheritage_name: "不$heritage$"
+ heritage_noheritage_collective_noun: "$aaa_noculture$"
+ language_nolanguage_name: "不$language$"
+ dynn_Lowborn: "$game_concept_commoner$"
+ No_Name: "$SORT_NAME$"

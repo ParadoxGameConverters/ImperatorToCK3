@@ -1,6 +1,6 @@
 # Usage:
 # link = {
-#	ck3 = ck3Religion
+#	ck3 = ck3Faith
 #	imp = impReligion
 #	impProvince = impProvince (optional)
 #	ck3Province = ck3Province (optional)

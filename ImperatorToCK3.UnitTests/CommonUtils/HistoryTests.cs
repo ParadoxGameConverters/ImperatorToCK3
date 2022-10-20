@@ -62,9 +62,9 @@ public class HistoryTests {
 
 		var provHistory = provHistoryFactory.GetHistory(reader);
 
-		Assert.Equal("khazar", provHistory.GetFieldValue("culture", new Date(1, 1, 1)));
-		Assert.Equal("tengri_pagan", provHistory.GetFieldValue("religion", new Date(1, 1, 1)));
-		Assert.Equal("tribal_holding", provHistory.GetFieldValue("holding", new Date(1, 1, 1)));
+		Assert.Equal("khazar", provHistory.GetFieldValue("culture", new Date(1, 1, 1))!.ToString());
+		Assert.Equal("tengri_pagan", provHistory.GetFieldValue("religion", new Date(1, 1, 1))!.ToString());
+		Assert.Equal("tribal_holding", provHistory.GetFieldValue("holding", new Date(1, 1, 1))!.ToString());
 	}
 
 	[Fact]
@@ -91,10 +91,10 @@ public class HistoryTests {
 
 		var provHistory = provHistoryFactory.GetHistory(reader);
 
-		Assert.Equal("tengri_pagan", provHistory.GetFieldValue("religion", new Date(750, 1, 1)));
-		Assert.Equal("kabarism", provHistory.GetFieldValue("religion", new Date(750, 1, 2)));
-		Assert.Equal("khazar", provHistory.GetFieldValue("culture", new Date(1000, 1, 1)));
-		Assert.Equal("cuman", provHistory.GetFieldValue("culture", new Date(1000, 1, 3)));
+		Assert.Equal("tengri_pagan", provHistory.GetFieldValue("religion", new Date(750, 1, 1))!.ToString());
+		Assert.Equal("kabarism", provHistory.GetFieldValue("religion", new Date(750, 1, 2))!.ToString());
+		Assert.Equal("khazar", provHistory.GetFieldValue("culture", new Date(1000, 1, 1))!.ToString());
+		Assert.Equal("cuman", provHistory.GetFieldValue("culture", new Date(1000, 1, 3))!.ToString());
 	}
 
 	[Fact]
@@ -155,9 +155,9 @@ public class HistoryTests {
 		provHistoryFactory.UpdateHistory(provHistory, reader3);
 
 		var date = new Date(1100, 1, 1);
-		Assert.Equal("roman", provHistory.GetFieldValue("culture", date));
-		Assert.Equal("kabarism", provHistory.GetFieldValue("religion", date));
-		Assert.Equal("castle_holding", provHistory.GetFieldValue("holding", date));
+		Assert.Equal("roman", provHistory.GetFieldValue("culture", date)!.ToString());
+		Assert.Equal("kabarism", provHistory.GetFieldValue("religion", date)!.ToString());
+		Assert.Equal("castle_holding", provHistory.GetFieldValue("holding", date)!.ToString());
 	}
 
 	[Fact]
@@ -223,11 +223,11 @@ public class HistoryTests {
 
 		// Date blocks are ordered by date.
 		var expectedStr =
-			"culture=\"greek\"" + Environment.NewLine +
-			"buildings={ \"baths\" }" + Environment.NewLine +
-			"2.1.1={ buildings={ \"aqueduct\" \"baths\" } }" + Environment.NewLine +
-			"5.1.1={ holder=\"nero\" }" + Environment.NewLine +
-			"540.1.1={ holder=\"justinian\" culture=\"roman\" }" + Environment.NewLine;
+			"culture=greek" + Environment.NewLine +
+			"buildings={ baths }" + Environment.NewLine +
+			"2.1.1={ buildings={ aqueduct baths } }" + Environment.NewLine +
+			"5.1.1={ holder=nero }" + Environment.NewLine +
+			"540.1.1={ holder=justinian culture=roman }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -248,13 +248,14 @@ public class HistoryTests {
 	[Fact]
 	public void EmptyListInitialValuesAreNotSerialized() {
 		var fields = new IdObjectCollection<string, IHistoryField> {
+			// Empty buildings list, will not be serialized.
 			new SimpleHistoryField("buildings", new OrderedSet<string> { "buildings" }, new List<object>())
 		};
 
 		var history = new History(fields);
 		history.Fields["buildings"].AddEntryToHistory( new Date(5, 1, 1), "buildings", new List<object> { "baths" });
 
-		var expectedStr = "5.1.1={ buildings={ \"baths\" } }" + Environment.NewLine;
+		var expectedStr = "5.1.1={ buildings={ baths } }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -277,8 +278,8 @@ public class HistoryTests {
 
 		var provHistory = provHistoryFactory.GetHistory(reader);
 
-		Assert.Equal("69", provHistory.GetFieldValue("holder", new Date(100, 1, 1)));
-		Assert.Equal("420", provHistory.GetFieldValue("holder", new Date(200, 1, 1)));
+		Assert.Equal("\"69\"", provHistory.GetFieldValue("holder", new Date(100, 1, 1)));
+		Assert.Equal("\"420\"", provHistory.GetFieldValue("holder", new Date(200, 1, 1)));
 	}
 
 	[Fact]
@@ -304,17 +305,17 @@ public class HistoryTests {
 		var traits = characterHistory.GetFieldValueAsCollection("traits", new Date(50, 1, 1));
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
-			trait => Assert.Equal("dumb", trait));
+			trait => Assert.Equal("dumb", trait.ToString()));
 
 		traits = characterHistory.GetFieldValueAsCollection("traits", new Date(100, 1, 1));
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
-			trait => Assert.Equal("dumb", trait),
-			trait => Assert.Equal("infertile", trait));
+			trait => Assert.Equal("dumb", trait.ToString()),
+			trait => Assert.Equal("infertile", trait.ToString()));
 
 		traits = characterHistory.GetFieldValueAsCollection("traits", new Date(150, 1, 1));
 		Assert.NotNull(traits);
 		Assert.Collection(traits,
-			trait => Assert.Equal("infertile", trait));
+			trait => Assert.Equal("infertile", trait.ToString()));
 	}
 }

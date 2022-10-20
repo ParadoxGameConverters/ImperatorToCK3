@@ -4,6 +4,7 @@ using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Exceptions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -18,6 +19,8 @@ using Color = SixLabors.ImageSharp.Color;
 namespace ImperatorToCK3.Outputter {
 	public static class BookmarkOutputter {
 		public static void OutputBookmark(World world, Configuration config) {
+			Logger.Info("Creating bookmark...");
+			
 			var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
 			using var stream = File.OpenWrite(path);
 			using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -54,7 +57,9 @@ namespace ImperatorToCK3.Outputter {
 				output.WriteLine("\tcharacter = {");
 
 				output.WriteLine($"\t\tname = bm_converted_{holder.Id}");
-				output.WriteLine($"\t\tdynasty = {holder.DynastyId}");
+				if (holder.DynastyId is not null) {
+					output.WriteLine($"\t\tdynasty = {holder.DynastyId}");
+				}
 				output.WriteLine("\t\tdynasty_splendor_level = 1");
 				output.WriteLine($"\t\ttype = {holder.AgeSex}");
 				output.WriteLine($"\t\thistory_id = {holder.Id}");
@@ -65,8 +70,10 @@ namespace ImperatorToCK3.Outputter {
 					output.WriteLine($"\t\tgovernment = {gov}");
 				}
 
-				output.WriteLine($"\t\tculture = {holder.Culture}");
-				output.WriteLine($"\t\treligion = {holder.Religion}");
+				output.WriteLine($"\t\tculture = {holder.CultureId}");
+				if (!string.IsNullOrEmpty(holder.FaithId)) {
+					output.WriteLine($"\t\treligion={holder.FaithId}");
+				}
 				output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
 				WritePosition(output, title, config, provincePositions);
 				output.WriteLine("\t\tanimation = personality_rational");
@@ -88,8 +95,10 @@ namespace ImperatorToCK3.Outputter {
 
 			output.WriteLine("}");
 
-			DrawBookmarkMap(config, playerTitles, world);
 			OutputBookmarkLoc(config, localizations);
+			Logger.IncrementProgress();
+			
+			DrawBookmarkMap(config, playerTitles, world);
 		}
 
 		private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
@@ -155,8 +164,12 @@ namespace ImperatorToCK3.Outputter {
 
 		private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
 			Logger.Info("Drawing bookmark map...");
-			string provincesMapPath = Path.Combine(config.CK3Path, "game/map_data/provinces.png");
-			string flatmapPath = Path.Combine(config.CK3Path, "game/gfx/map/terrain/flatmap.dds");
+			var ck3ModFS = ck3World.ModFS;
+			var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
+			var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flatmap.dds");
+			if (flatmapPath is null) {
+				throw new ConverterException($"{nameof(flatmapPath)} not found!");
+			}
 			const string tmpFlatmapPath = "temp/flatmap.png";
 
 			SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
@@ -243,6 +256,8 @@ namespace ImperatorToCK3.Outputter {
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
 			bookmarkMapImage.SaveAsPng(outputPath);
 			ResaveImageAsDDS(outputPath);
+			
+			Logger.IncrementProgress();
 		}
 
 		private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {

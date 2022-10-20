@@ -1,11 +1,19 @@
 ﻿l_english:
 # Pharaoh
- king_feudal_male_old_egyptian:0 "Pharaoh"
- king_feudal_female_old_egyptian:0 "Pharaohess"
- emperor_feudal_male_old_egyptian:1 "Pharaoh"
- emperor_feudal_female_old_egyptian:1 "Pharaohess"
+ king_feudal_male_old_egyptian: "Pharaoh"
+ king_feudal_female_old_egyptian: "Pharaohess"
+ emperor_feudal_male_old_egyptian: "Pharaoh"
+ emperor_feudal_female_old_egyptian: "Pharaohess"
 
 # Carthage
- duke_republic_male_carthaginian:0 "Suffet"
- king_republic_male_carthaginian:0 "Suffet"
- emperor_republic_male_carthaginian:0 "Suffet"
+ duke_republic_male_carthaginian: "Suffet"
+ king_republic_male_carthaginian: "Suffet"
+ emperor_republic_male_carthaginian: "Suffet"
+
+# Hermits
+ count_eremitic_male: "Hermit"
+ count_eremitic_female: "Hermitess"
+ county_eremitic: "Hermitage"
+ duke_eremitic_male: "Hermit"
+ duke_eremitic_female: "Hermitess"
+ duchy_eremitic: "Hermitage"

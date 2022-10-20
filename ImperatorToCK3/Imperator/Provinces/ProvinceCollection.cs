@@ -12,6 +12,8 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
+			
+		Logger.IncrementProgress();
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {

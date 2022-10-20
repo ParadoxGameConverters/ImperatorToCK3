@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using System.Collections.Generic;
 using System.IO;
 
@@ -67,23 +68,17 @@ public sealed class HistoryFactory {
 				});
 			}
 		}
-		parser.RegisterRegex(CommonRegexes.Date, (reader, dateString) => {
+		parser.RegisterRegex(CommonRegexes.Date, (dateBlockReader, dateString) => {
 			var date = new Date(dateString);
 
 			var dateBlockParser = new Parser();
 			foreach (var field in history.Fields) {
 				field.RegisterKeywords(dateBlockParser, date);
 			}
-			dateBlockParser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
-				history.IgnoredKeywords.Add(keyword);
-				ParserHelpers.IgnoreItem(reader);
-			});
-			dateBlockParser.ParseStream(reader);
+			dateBlockParser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
+			dateBlockParser.ParseStream(dateBlockReader);
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
-			history.IgnoredKeywords.Add(keyword);
-			ParserHelpers.IgnoreItem(reader);
-		});
+		parser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
 	}
 
 	private void InitializeHistory() {
@@ -110,14 +105,14 @@ public sealed class HistoryFactory {
 		}
 		return history;
 	}
-	public History GetHistory(string historyPath, string gamePath) {
+	public History GetHistory(string historyPath, ModFilesystem ck3ModFS) {
 		history = new History();
 		InitializeHistory();
 
 		if (File.Exists(historyPath)) {
-			parser.ParseGameFile(historyPath, gamePath, new List<Mod>());
+			parser.ParseGameFile(historyPath, ck3ModFS);
 		} else {
-			parser.ParseGameFolder(historyPath, gamePath, "txt", new List<Mod>(), true);
+			parser.ParseGameFolder(historyPath, ck3ModFS, "txt", true);
 		}
 
 		if (history.IgnoredKeywords.Count > 0) {
@@ -148,7 +143,7 @@ public sealed class HistoryFactory {
 			return strings;
 		}
 
-		return StringUtils.RemQuotes(str);
+		return str;
 	}
 
 	private readonly List<SimpleFieldDef> simpleFieldDefs;
