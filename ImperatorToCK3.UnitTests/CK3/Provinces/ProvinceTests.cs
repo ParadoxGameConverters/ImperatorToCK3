@@ -139,7 +139,6 @@ public class ProvinceTests {
 			" = { province_rank=city_metropolis fort=yes }",
 			" = { province_rank=city_metropolis }",
 			" = { province_rank=settlement }",
-
 		});
 		ck3Provinces = GetCK3ProvincesForIRGovernment(irProvinces, "tribal_federation");
 		holdingTypes = ck3Provinces.Select(p => p.GetHoldingType(ck3BookmarkDate));
