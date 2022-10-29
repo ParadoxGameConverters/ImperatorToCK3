@@ -1,6 +1,8 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 using System.Linq;
@@ -130,94 +132,54 @@ public partial class Province : IIdentifiable<ulong> {
 			return;
 		}
 
-		if (IsCountyCapital(landedTitles)) {
-			// CK3 Holdings that are county capitals always match the Government Type
-			switch (ImperatorProvince.OwnerCountry.GovernmentType) {
-				case Imperator.Countries.GovernmentType.tribal:
-					SetHoldingType("tribal_holding", date: null);
-					break;
-				case Imperator.Countries.GovernmentType.republic:
-					SetHoldingType("city_holding", date: null);
-					break;
-				case Imperator.Countries.GovernmentType.monarchy:
-					SetHoldingType("castle_holding", date: null);
-					break;
-				default:
-					SetHoldingType("none", date: null);
-					break;
-			}
-		} else {
-			switch (ImperatorProvince.ProvinceRank) {
-				case Imperator.Provinces.ProvinceRank.city_metropolis:
-				case Imperator.Provinces.ProvinceRank.city:
-					switch (ImperatorProvince.OwnerCountry.GovernmentType) {
-						case Imperator.Countries.GovernmentType.tribal:
-							if (ImperatorProvince.IsHolySite) {
-								SetHoldingType("church_holding", date: null);
-							} else if (ImperatorProvince.Fort) {
-								SetHoldingType("castle_holding", date: null);
-							} else {
-								SetHoldingType("city_holding", date: null);
-							}
-
-							break;
-						case Imperator.Countries.GovernmentType.republic:
-							if (ImperatorProvince.IsHolySite) {
-								SetHoldingType("church_holding", date: null);
-							} else {
-								SetHoldingType("city_holding", date: null);
-							}
-							break;
-						case Imperator.Countries.GovernmentType.monarchy:
-							if (ImperatorProvince.IsHolySite) {
-								SetHoldingType("church_holding", date: null);
-							} else if (ImperatorProvince.Fort) {
-								SetHoldingType("castle_holding", date: null);
-							} else {
-								SetHoldingType("city_holding", date: null);
-							}
-
-							break;
-						default:
-							SetHoldingType("city_holding", date: null);
-							break;
-					}
-					break;
-				case Imperator.Provinces.ProvinceRank.settlement:
-					switch (ImperatorProvince.OwnerCountry.GovernmentType) {
-						case Imperator.Countries.GovernmentType.tribal:
-							SetHoldingType("none", date: null);
-							break;
-						case Imperator.Countries.GovernmentType.republic:
-							if (ImperatorProvince.IsHolySite) {
-								SetHoldingType("church_holding", date: null);
-							} else if (ImperatorProvince.Fort) {
-								SetHoldingType("city_holding", date: null);
-							} else {
-								SetHoldingType("none", date: null);
-							}
-
-							break;
-						case Imperator.Countries.GovernmentType.monarchy:
-							if (ImperatorProvince.IsHolySite) {
-								SetHoldingType("church_holding", date: null);
-							} else if (ImperatorProvince.Fort) {
-								SetHoldingType("castle_holding", date: null);
-							} else {
-								SetHoldingType("none", date: null);
-							}
-
-							break;
-						default:
-							SetHoldingType("tribal_holding", date: null);
-							break;
-					}
-					break;
-				default:
-					SetHoldingType("none", date: null);
-					break;
-			}
-		}
+		var provinceRecord = new {
+			ImperatorProvince.ProvinceRank,
+			ImperatorProvince.OwnerCountry.GovernmentType,
+			ImperatorProvince.IsHolySite,
+			ImperatorProvince.Fort,
+			// CK3 holdings that are county capitals always match the government type.
+			IsCountyCapital = IsCountyCapital(landedTitles)
+		};
+		
+		var holdingType = provinceRecord switch {
+			{
+				IsCountyCapital: false,
+				IsHolySite: true
+			} => "church_holding",
+			{
+				IsCountyCapital: false,
+				GovernmentType: GovernmentType.monarchy or GovernmentType.tribal,
+				Fort: true
+			} => "castle_holding",
+			{
+				IsCountyCapital: false,
+				ProvinceRank: ProvinceRank.city or ProvinceRank.city_metropolis
+			} => "city_holding",
+			{
+				IsCountyCapital: false,
+				GovernmentType: GovernmentType.republic,
+				ProvinceRank: ProvinceRank.settlement,
+				Fort: true
+			} => "city_holding",
+			{
+				IsCountyCapital: false,
+				ProvinceRank: ProvinceRank.settlement
+			} => "none",
+			{
+				IsCountyCapital: true,
+				GovernmentType: GovernmentType.monarchy,
+			} => "castle_holding",
+			{
+				IsCountyCapital: true,
+				GovernmentType: GovernmentType.republic,
+			} => "city_holding",
+			{
+				IsCountyCapital: true,
+				GovernmentType: GovernmentType.tribal,
+			} => "tribal_holding",
+			_ => "none"
+		};
+		SetHoldingType(holdingType, null);
 	}
 
 	public bool IsCountyCapital(Title.LandedTitles landedTitles) {
