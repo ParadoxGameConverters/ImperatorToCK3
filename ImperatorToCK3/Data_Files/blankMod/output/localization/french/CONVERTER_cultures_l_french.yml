@@ -107,33 +107,33 @@
  hebrew: "hébraïque"
  hebrew_collective_noun: "Hébraïques"
  hebrew_prefix: "judéo"
- 
+
  etruscan: "étrusque"
  etruscan_collective_noun: "Étrusques"
  etruscan_prefix: "étrusco"
- 
+
  # version 0.2
  brythonic: "brythonique"
  brythonic_collective_noun: "Brythoniques"
  brythonic_prefix: "brythono"
 
- 
+
  ionic: "ionique"
  ionic_collective_noun: "Ioniens"
  ionic_prefix: "ionico"
- 
+
  indogreek: "indo-grecque"
  indogreek_collective_noun: "Indo-Grecs"
  indogreek_prefix: "indo-gréco"
- 
+
  lusoiberian: "lusitanienne"
  lusoiberian_collective_noun: "Lusitaniens"
  lusoiberian_prefix: "luso"
- 
+
  gothic: "gothique"
  gothic_collective_noun: "Goths"
  gothic_prefix: "gotho"
- 
+
  # Update III
  gaulish_group: "gauloise"
  gaulish_group_collective_noun: "Gaulois"
@@ -143,7 +143,7 @@
  punic_group_collective_noun: "Carthaginois"
  chaldean_group: "chaldéenne"
  chaldean_group_collective_noun: "Chaldéens"
- 
+
  iweric: "aïouérique"
  iweric_collective_noun: "Aïouériques"
  iweric_prefix: "aïouéro"
@@ -338,13 +338,13 @@
  lemnian: "lemnienne"
  lemnian_collective_noun: "Lemniens"
  lemnian_prefix: "lemno"
- 
+
  arvanite_group: "arvanite"
  arvanite_group_collective_noun: "Arvanites"
  albanian: "albanienne"
  albanian_collective_noun: "Albaniens"
  albanian_prefix: "albano"
- 
+
  galatian: "galatienne"
  galatian_collective_noun: "Galates"
  galatian_prefix: "galato"
@@ -389,11 +389,11 @@
  angle: "angle"
  angle_collective_noun: "Angles"
  angle_prefix: "anglo"
- 
+
  gepid: "gépide"
  gepid_collective_noun: "Gépides"
  gepid_prefix: "gépido"
- 
+
  vandilian: "vandilienne"
  vandilian_collective_noun: "Vandiliens"
  vandilian_prefix: "vandilo"

@@ -1,8 +1,10 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.Exceptions;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace ImperatorToCK3 {
 	public enum LegionConversion { No, SpecialTroops, MenAtArms }
@@ -88,6 +90,10 @@ namespace ImperatorToCK3 {
 
 				Logger.Info($"Entered CK3 bookmark date: {dateStr}");
 				CK3BookmarkDate = new Date(dateStr);
+				var earliestAllowedDate = new Date(2,1,1);
+				if (CK3BookmarkDate < earliestAllowedDate) {
+					throw new ConverterException($"CK3 bookmark date must be {earliestAllowedDate} AD or later. Fix your configuration.");
+				}
 				Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
 			});
 			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

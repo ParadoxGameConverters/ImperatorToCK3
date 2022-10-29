@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.7.2
 bactrian = {
 	color = hsv { 0.03 0.7 0.7 }
 
@@ -16,10 +16,39 @@ bactrian = {
 	clothing_gfx = { mena_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
 	martial_custom = martial_custom_male_only
+	
 	traditions = {
-		tradition_warriors_of_the_dry
 		tradition_stalwart_defenders
+
+		# Redacted notes from @nah34:
+		# For Bactrian traditions, I had to improvise since the Bactrian Wikipedia page did not have
+		# much information on their culture. So I used reference of Tajik people, as they were
+		# one of the direct descendants of Bactrians. The vanilla CK3 Tajik culture as of CK3 1.7.2 has Caravaneers,
+		# Dryland Dwellers, Futuwaa and Philosopher Culture as tradition.
+		
+		# Bactrian culture should have Caravaneers tradition since the region was a Silk Road trading hub.
+		# (Several important trade routes from India and China (including the Silk Road) passed through Bactria and,
+		# as early as the Bronze Age, this had allowed the accumulation of vast amounts of wealth
+		# by the mostly nomadic population. The first proto-urban civilization in the area arose
+		# during the 2nd millennium BC. (from the Bactria Wikipedia page))
+		tradition_caravaneers
+		
+		# Bactrian culture should have Horse Lords tradition because Bactrians were excellent in cavalry battle,
+		# some composed of horse archers. (Before Greek conquest, the armies of Bactria were overwhelmingly
+		# composed of cavalry and were well known as effective soldiers … Herodotus describes the Persian cavalry
+		# of Mardonius at the Battle of Plataea (which included Bactrians) as horse archers (hippotoxotai).
+		# Bactrian infantry is described by Herodotus as wearing caps in the Median style, short spears
+		# and reed Scythian style bows. (from the Greco-Bactrian Kingdom Wikipedia page)).
+		tradition_horse_lords
+		
+		# Bactrian culture could have Dryland Dwellers tradition rather than Warriors of the Dry.
+		# This is a suggestion out of just balancing; Bactrian culture having
+		# Stalwart Defenders, Caravanners, Horse Archers and Warriors of the Dry would make 3 of
+		# their traditions military-based ones. Since Tajik culture already has Dryland Dwellers, it seemed
+		# suitable to give Bactrian culture the same one.
+		tradition_dryland_dwellers
 	}
+	
 	heritage = heritage_iranian
 	language = language_iranian
 }
@@ -42,11 +71,16 @@ scythian = {
 	building_gfx = { steppe_building_gfx }
 	clothing_gfx = { mongol_clothing_gfx }
 	unit_gfx = { mongol_unit_gfx }
-	martial_custom = martial_custom_equal
+
+	# "Unlike the other Scythic peoples such as the Sarmatians, where women were allowed to go hunting, ride horses, learn archery and fight with spears just like the men, the society of the Scythians proper was patriarchal and Scythian women possessed little freedom."  (from the Scythians wikipedia page)
+	martial_custom = martial_custom_male_only
+
 	traditions = {
 		tradition_horse_breeder
 		tradition_pastoralists
-	}	
+		tradition_martial_admiration # "… He also states that "Ares," the god of war, was the only god to whom the Scythians dedicated statues, altars or temples. Tumuli were erected to him in every Scythian district, and both animal sacrifices and human sacrifices were performed in honor of him. At least one shrine to "Ares" has been discovered by archaeologists." (from the Scythians wikipedia page)
+		tradition_horse_lords # Scythians and Sarmatians were well-known for their horse archers.
+	}
 }
 
 sarmatian = {
@@ -68,10 +102,15 @@ sarmatian = {
 	building_gfx = { steppe_building_gfx }
 	clothing_gfx = { mongol_clothing_gfx }
 	unit_gfx = { mongol_unit_gfx }
-	martial_custom = martial_custom_male_only
+
+	# "Unlike the other Scythic peoples such as the Sarmatians, where women were allowed to go hunting, ride horses, learn archery and fight with spears just like the men, the society of the Scythians proper was patriarchal and Scythian women possessed little freedom."  (from the Scythians wikipedia page)
+	martial_custom = martial_custom_equal
+	
 	traditions = {
 		tradition_horse_breeder
 		tradition_pastoralists
+		tradition_hunters # both because nomads such as these were usually hunter-gathers, and some scholars theorize the name Sarmatia itself comes from the word meaning "hunter". (… Harold Walter Bailey derived the name Saurumatā, composed of … a derivation of the Iranian root *sar-, … which was a cognate of the Old Indic base tsar- (त्सर्) from which were derived the terms tsarati- (त्सरति) and tsaru- (त्सरु), meaning "hunter." (from the Sarmatians wikipedia page)) 
+		tradition_horse_lords # Scythians and Sarmatians were well-known for their horse archers.
 	}	
 }
 

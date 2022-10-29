@@ -84,6 +84,11 @@ namespace ImperatorToCK3.Imperator {
 				var dateString = reader.GetString();
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
+
+				if (EndDate > config.CK3BookmarkDate) {
+					config.CK3BookmarkDate = new Date(EndDate);
+					Logger.Warn($"CK3 bookmark date can't be earlier than save date. Changed to {config.CK3BookmarkDate}.");
+				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
 				dlcs.UnionWith(reader.GetStrings());
@@ -247,7 +252,7 @@ namespace ImperatorToCK3.Imperator {
 			}
 		}
 		private void LoadPreImperatorRulers() {
-			const string filePath = "configurables/character_prehistory.txt";
+			const string filePath = "configurables/characters_prehistory.txt";
 			const string noRulerWarning = "Pre-Imperator ruler term has no pre-Imperator ruler!";
 			const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
