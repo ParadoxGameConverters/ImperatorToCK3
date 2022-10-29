@@ -25,8 +25,13 @@ jobs:
         dotnet-quality: 'preview'
     - name: "Test"
       working-directory: ImperatorToCK3.UnitTests
+      shell: bash
       run: |
-       dotnet test -p:CollectCoverage=true -p:CoverletOutput='./TestResults/coverage.info' -p:CoverletOutputFormat=lcov -p:Exclude="[commonItems]*"
+       CollectCoverage=true
+       CoverletOutput="./TestResults/coverage.info"
+       CoverletOutputFormat="lcov"
+       Exclude="[commonItems]*"
+       dotnet test
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
       with:
