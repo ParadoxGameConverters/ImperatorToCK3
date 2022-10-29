@@ -27,11 +27,9 @@ jobs:
       working-directory: ImperatorToCK3.UnitTests
       shell: bash
       run: |
-       CollectCoverage=true
        CoverletOutput="./TestResults/coverage.info"
        CoverletOutputFormat="lcov"
-       Exclude="[commonItems]*"
-       dotnet test
+       dotnet test -p:CollectCoverage=true -p:Exclude="[commonItems]*"
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@master
       with:
