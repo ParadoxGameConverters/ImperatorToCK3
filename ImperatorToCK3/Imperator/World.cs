@@ -338,7 +338,7 @@ namespace ImperatorToCK3.Imperator {
 			var buffer = new byte[10];
 			var bytesRead = saveStream.Read(buffer, 0, 4);
 			if (bytesRead < 4) {
-				throw new InvalidDataException("Failed to save 4 bytes from save.");
+				throw new InvalidDataException("Failed to read 4 bytes from save.");
 			}
 			if (buffer[0] != 'S' || buffer[1] != 'A' || buffer[2] != 'V') {
 				throw new InvalidDataException("Save game of unknown type!");
