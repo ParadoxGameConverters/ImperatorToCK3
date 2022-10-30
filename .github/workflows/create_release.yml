@@ -47,7 +47,7 @@ jobs:
           archive_extension: .zip
           asset_content_type: application/zip
         - build: linux-x64
-          os: ubuntu-latest
+          os: ubuntu-22.04
           archive_type: tar
           archive_extension: .tgz
           asset_content_type: application/gzip
