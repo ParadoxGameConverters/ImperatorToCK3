@@ -22,7 +22,6 @@ namespace ImperatorToCK3.Imperator {
 	public class World : Parser {
 		private readonly Date startDate = new("450.10.1", AUC: true);
 		public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
-		private GameVersion imperatorVersion = new();
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
 		public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
@@ -57,9 +56,8 @@ namespace ImperatorToCK3.Imperator {
 			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
-				var versionString = reader.GetString();
-				imperatorVersion = new GameVersion(versionString);
-				Logger.Info($"Save game version: {versionString}");
+				var imperatorVersion = new GameVersion(reader.GetString());
+				Logger.Info($"Save game version: {imperatorVersion}");
 
 				if (converterVersion.MinSource > imperatorVersion) {
 					Logger.Error(
@@ -330,6 +328,7 @@ namespace ImperatorToCK3.Imperator {
 				case SaveType.CompressedEncoded:
 					Logger.Info("Importing regular Imperator save.");
 					return ProcessCompressedEncodedSave(saveGamePath);
+				case SaveType.Invalid:
 				default:
 					throw new InvalidDataException("Unknown save type.");
 			}
@@ -337,7 +336,10 @@ namespace ImperatorToCK3.Imperator {
 		private void VerifySave(string saveGamePath) {
 			using var saveStream = File.Open(saveGamePath, FileMode.Open);
 			var buffer = new byte[10];
-			saveStream.Read(buffer, 0, 4);
+			var bytesRead = saveStream.Read(buffer, 0, 4);
+			if (bytesRead < 4) {
+				throw new InvalidDataException("Failed to save 4 bytes from save.");
+			}
 			if (buffer[0] != 'S' || buffer[1] != 'A' || buffer[2] != 'V') {
 				throw new InvalidDataException("Save game of unknown type!");
 			}
