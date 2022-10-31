@@ -1,5 +1,7 @@
 using commonItems;
 using ImperatorToCK3.Imperator.Cultures;
+using System;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Cultures; 
@@ -25,5 +27,23 @@ public class CultureTests {
 		Assert.Equal("Obama", culture.GetMaleFamilyNameForm("Obama"));
 		Assert.Equal("Stroganov", culture.GetMaleFamilyNameForm("Stroganovy"));
 		Assert.Equal("Romanov", culture.GetMaleFamilyNameForm("Romanovy"));
+	}
+
+	[Fact]
+	public void WarningIsLoggedWhenFamilyNameHasIncorrectFormat() {
+		var reader = new BufferedReader("""
+		{
+			family={
+				Stroganov.Stroganova.Stroganovy
+			}
+		}
+		""");
+
+		var writer = new StringWriter();
+		Console.SetOut(writer);
+		var culture = new Culture("balkan", reader);
+
+		Assert.Contains("[WARN] Unknown family name format: Stroganov.Stroganova.Stroganovy", writer.ToString());
+		Assert.Null(culture.GetMaleFamilyNameForm("Stroganovy"));
 	}
 }
