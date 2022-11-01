@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
@@ -18,6 +19,7 @@ using Xunit;
 using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
 using ImperatorToCK3.Mappers.Region;
 using System;
+using System.IO;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
@@ -180,6 +182,20 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var title = titles.Add("k_testtitle");
 
 			Assert.Null(title.CapitalBaronyProvince);
+		}
+
+		[Fact]
+		public void WarningIsLoggedWhenSettingDevelopmentLevelToBaronyTitle() {
+			var titles = new Title.LandedTitles();
+			var barony = titles.Add("b_barony");
+
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var date = new Date("100.1.1");
+			barony.SetDevelopmentLevel(25, date);
+			Assert.Contains("[WARN] Cannot set development level to a barony title b_barony!", output.ToString());
+			Assert.Null(barony.GetDevelopmentLevel(date));
 		}
 
 		[Fact]
@@ -649,6 +665,22 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			
 			title.SetGovernment("new_government", date);
 			Assert.Equal("new_government", title.GetGovernment(date));
+		}
+
+		[Fact]
+		public void AllHolderIdsCanBeRetrieved() {
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_title");
+
+			title.GetAllHolderIds().Should().BeEmpty();
+
+			var birthDate = new Date(50, 1, 1);
+			var holder1 = new ImperatorToCK3.CK3.Characters.Character("1", "Bob", birthDate);
+			var holder2 = new ImperatorToCK3.CK3.Characters.Character("2", "Rob", birthDate);
+			title.SetHolder(holder1, "60.1.1");
+			title.SetHolder(holder2, "70.1.1");
+
+			title.GetAllHolderIds().Should().Equal(holder1.Id, holder2.Id);
 		}
 	}
 }

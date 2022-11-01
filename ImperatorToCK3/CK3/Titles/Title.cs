@@ -517,34 +517,34 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return lastDate ?? new Date(1, 1, 1);
 	}
 	
-	public HashSet<string> GetAllHolderIds() {
-		if (History.Fields.TryGetValue("holder", out var holderField)) {
-			var ids = new HashSet<string>();
-			var holderEntriesByDate = holderField.DateToEntriesDict.Values;
-			foreach (var entries in holderEntriesByDate) {
-				foreach (var entry in entries) {
-					var holderStrValue = entry.Value.ToString();
-					if (holderStrValue is not null) {
-						ids.Add(holderStrValue);
-					}
-				}
-			}
+	public ISet<string> GetAllHolderIds() {
+		if (!History.Fields.TryGetValue("holder", out var holderField)) {
+			return new HashSet<string>();
+		}
 
-			var initialHolderEntries = holderField.InitialEntries;
-			foreach (var entry in initialHolderEntries) {
-				var value = entry.Value;
-				var holderStrValue = value.ToString();
-				if (holderStrValue is null) {
-					Logger.Warn($"Cannot convert holder {value} of {Id} to string!");
-				} else {
+		var ids = new HashSet<string>();
+		var holderEntriesByDate = holderField.DateToEntriesDict.Values;
+		foreach (var entries in holderEntriesByDate) {
+			foreach (var entry in entries) {
+				var holderStrValue = entry.Value.ToString();
+				if (holderStrValue is not null) {
 					ids.Add(holderStrValue);
 				}
 			}
-
-			return ids;
-		} else {
-			return new HashSet<string>();
 		}
+
+		var initialHolderEntries = holderField.InitialEntries;
+		foreach (var entry in initialHolderEntries) {
+			var value = entry.Value;
+			var holderStrValue = value.ToString();
+			if (holderStrValue is null) {
+				Logger.Warn($"Cannot convert holder {value} of {Id} to string!");
+			} else {
+				ids.Add(holderStrValue);
+			}
+		}
+
+		return ids;
 	}
 	public void SetHolder(Character? character, Date date) {
 		var id = character is null ? "0" : character.Id;
