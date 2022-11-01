@@ -882,7 +882,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		} else if (Id.StartsWith('e')) {
 			Rank = TitleRank.empire;
 		} else {
-			throw new System.FormatException($"Title {Id}: unknown rank!");
+			throw new FormatException($"Title {Id}: unknown rank!");
 		}
 	}
 

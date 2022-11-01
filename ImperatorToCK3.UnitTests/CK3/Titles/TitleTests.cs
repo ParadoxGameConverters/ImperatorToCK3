@@ -17,6 +17,7 @@ using System.Linq;
 using Xunit;
 using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
 using ImperatorToCK3.Mappers.Region;
+using System;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
@@ -630,6 +631,24 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.SetHolder(king, date); // county is a lower title of the king
 
 			Assert.Equal("k_kingdom", county.GetRealmOfRank(TitleRank.kingdom, date)!.Id);
+		}
+
+		[Fact]
+		public void ExceptionIsThrownWhenRankCannotBeDetermined() {
+			var e = Assert.Throws<FormatException>(() => new Title.LandedTitles().Add("g_title"));
+			Assert.Contains("Title g_title: unknown rank!", e.ToString());
+		}
+
+		[Fact]
+		public void GovernmentCanBeSet() {
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_title");
+
+			var date = new Date(100, 1, 1);
+			Assert.Null(title.GetGovernment(date));
+			
+			title.SetGovernment("new_government", date);
+			Assert.Equal("new_government", title.GetGovernment(date));
 		}
 	}
 }
