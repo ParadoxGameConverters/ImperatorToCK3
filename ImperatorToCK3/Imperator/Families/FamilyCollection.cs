@@ -7,6 +7,14 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Families; 
 
 public class FamilyCollection : IdObjectCollection<ulong, Family> {
+	public void LoadFamiliesFromBloc(BufferedReader reader) {
+		var blocParser = new Parser();
+		blocParser.RegisterKeyword("families", LoadFamilies);
+		blocParser.IgnoreAndLogUnregisteredItems();
+		blocParser.ParseStream(reader);
+
+		Logger.Debug($"Ignored family tokens: {string.Join(", ", Family.IgnoredTokens)}");
+	}
 	public void LoadFamilies(BufferedReader reader) {
 		var parser = new Parser();
 		RegisterKeys(parser);
@@ -85,18 +93,5 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 		}
 
 		Logger.IncrementProgress();
-	}
-
-	public static FamilyCollection ParseBloc(BufferedReader reader) {
-		var blocParser = new Parser();
-		var families = new FamilyCollection();
-		blocParser.RegisterKeyword("families", reader =>
-			families.LoadFamilies(reader)
-		);
-		blocParser.IgnoreAndLogUnregisteredItems();
-		blocParser.ParseStream(reader);
-
-		Logger.Debug($"Ignored family tokens: {string.Join(", ", Family.IgnoredTokens)}");
-		return families;
 	}
 }
