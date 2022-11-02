@@ -150,6 +150,7 @@ namespace ImperatorToCK3.CK3 {
 				Provinces,
 				tagTitleMapper,
 				impWorld.LocDB,
+				config,
 				provinceMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
@@ -159,8 +160,8 @@ namespace ImperatorToCK3.CK3 {
 
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate, config.ImperatorCivilizationWorth);
-			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
+			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate, config.StaticDeJure);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, config.StaticDeJure);
 			Dynasties.SetCoasForRulingDynasties(LandedTitles);
 
 			Characters.DistributeCountriesGold(LandedTitles, config);

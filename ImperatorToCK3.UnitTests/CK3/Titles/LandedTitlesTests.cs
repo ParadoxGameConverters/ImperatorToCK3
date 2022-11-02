@@ -208,7 +208,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinces = new ProvinceCollection(ck3ModFs);
 			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
-			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
+			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, config, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 
 			Assert.Collection(titles,
 				title => Assert.Equal("c_county1", title.Id),

@@ -81,6 +81,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
+		bool staticDeJure,
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
@@ -96,6 +97,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			irProvinces,
 			imperatorCharacters,
 			regionHasMultipleGovernorships,
+			staticDeJure,
 			locDB,
 			provinceMapper,
 			definiteFormMapper,
@@ -330,6 +332,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
+		bool staticDeJure,
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DefiniteFormMapper definiteFormMapper,
@@ -345,7 +348,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		ClearHolderSpecificHistory();
 
-		DeJureLiege = country.CK3Title;
+		if (!staticDeJure) {
+			DeJureLiege = country.CK3Title;
+		}
 		SetDeFactoLiege(country.CK3Title, governorshipStartDate);
 
 		HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);

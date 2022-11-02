@@ -295,6 +295,7 @@ public class CharacterCollectionTests {
 			provinces,
 			tagTitleMapper,
 			locDB,
+			config,
 			provinceMapper,
 			definiteFormMapper,
 			impRegionMapper,
