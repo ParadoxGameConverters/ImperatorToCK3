@@ -5,7 +5,7 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.UnitType;
 
 public class UnitTypeMapperTests {
-	private const string MappingsFilePath = "TestFiles/UnitTypeMapperTests/mappings.txt";
+	private const string MappingsFilePath = "TestFiles/MapperTests/UnitTypeMapper/mappings.txt";
 	
 	[Theory]
 	[InlineData("wrong_type", null)]
