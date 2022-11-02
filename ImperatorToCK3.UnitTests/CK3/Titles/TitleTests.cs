@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -25,13 +26,16 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class TitleTests {
+		private const string ImperatorRoot = "TestFiles/LandedTitlesTests/Imperator/game";
+		private static readonly ModFilesystem imperatorModFs = new(ImperatorRoot, Array.Empty<Mod>());
+		
 		private class TitleBuilder {
 			private Country country = new(0);
 			private CountryCollection imperatorCountries = new();
 			private LocDB locDB = new("english");
 			private readonly Title.LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
-			private CoaMapper coaMapper = new("TestFiles/CoatsOfArms.txt");
+			private CoaMapper coaMapper = new(imperatorModFs);
 			private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
 			private GovernmentMapper governmentMapper = new();
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");

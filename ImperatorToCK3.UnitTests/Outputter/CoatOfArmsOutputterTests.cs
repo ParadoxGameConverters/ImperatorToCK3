@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
@@ -22,6 +23,9 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class CoatOfArmsOutputterTests {
+	private const string ImperatorRoot = "TestFiles/CoatOfArmsOutputterTests/Imperator/game";
+	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new List<Mod>());
+	
 	[Fact]
 	public void CoaIsOutputtedForCountryWithFlagSet() {
 		var titles = new Title.LandedTitles();
@@ -32,9 +36,9 @@ public class CoatOfArmsOutputterTests {
 		countries.Add(country);
 
 		const string outputModName = "outputMod";
-		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "IRToCK3_coas.txt");
+		var outputPath = Path.Combine("output", outputModName, "common/coat_of_arms/coat_of_arms/IRToCK3_coas.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
-		
+
 		var ck3Religions = new ReligionCollection();
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -42,7 +46,7 @@ public class CoatOfArmsOutputterTests {
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),
-			new CoaMapper("TestFiles/imperatorCoAs.txt"),
+			new CoaMapper(imperatorModFS),
 			new GovernmentMapper(),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
@@ -85,7 +89,7 @@ public class CoatOfArmsOutputterTests {
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),
-			new CoaMapper("TestFiles/imperatorCoAs.txt"),
+			new CoaMapper(imperatorModFS),
 			new GovernmentMapper(),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
