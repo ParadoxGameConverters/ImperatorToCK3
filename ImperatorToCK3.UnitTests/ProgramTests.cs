@@ -5,6 +5,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests; 
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProgramTests {
 	[Fact]
 	public void CultureIsSetToInvariantCulture() {

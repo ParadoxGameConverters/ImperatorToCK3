@@ -1,11 +1,16 @@
-﻿using ImperatorToCK3.Mappers.CoA;
+﻿using commonItems.Mods;
+using ImperatorToCK3.Mappers.CoA;
+using System;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Coa {
 	public class CoaMapperTests {
+		private const string ImperatorRoot = "TestFiles/MapperTests/CoaMapper/Imperator/game";
+		private static readonly ModFilesystem imperatorModFs = new(ImperatorRoot, Array.Empty<Mod>());
+		
 		[Fact]
 		public void GetCoaForFlagNameReturnsCoaOnMatch() {
-			var coaMapper = new CoaMapper("TestFiles/CoatsOfArms.txt");
+			var coaMapper = new CoaMapper(imperatorModFs);
 			// ReSharper disable once StringLiteralTypo
 			const string coa1 = @"{
                 pattern=""pattern_solid.tga""
@@ -84,7 +89,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Coa {
 
 		[Fact]
 		public void GetCoaForFlagNameReturnsNullOnNonMatch() {
-			var coaMapper = new CoaMapper("TestFiles/CoatsOfArms.txt");
+			var coaMapper = new CoaMapper(imperatorModFs);
 			Assert.Null(coaMapper.GetCoaForFlagName("e_IMPTOCK3_WRONG"));
 		}
 	}
