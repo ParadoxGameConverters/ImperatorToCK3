@@ -46,12 +46,34 @@ public partial class Title {
 
 			Logger.IncrementProgress();
 		}
+		public void LoadStaticTitles() {
+			Logger.Info("Loading static landed titles...");
+
+			var parser = new Parser();
+			RegisterKeys(parser);
+
+			parser.ParseFile("configurables/static_landed_titles.txt");
+
+			LogIgnoredTokens();
+
+			Logger.IncrementProgress();
+		}
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
 
 			LogIgnoredTokens();
+		}
+
+		public void Update(LandedTitles overrides) {
+			// merge in new king and empire titles, overriding duplicates
+			overrides.Variables.Where(title => !title.Key.StartsWith("d_")).ToList().ForEach(x => Variables[x.Key] = x.Value);
+
+			// update duchies to correct de jure lieges
+			foreach (var title in overrides.Where(x => x.Id.StartsWith("d_"))) {
+				this[title.Id].DeJureLiege = title.DeJureLiege;
+			}
 		}
 
 		private void RegisterKeys(Parser parser) {
@@ -403,7 +425,7 @@ public partial class Title {
 			}
 		}
 
-		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate, bool staticDeJure) {
+		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
 			Logger.Info("Removing invalid landless titles...");
 			var removedGeneratedTitles = new HashSet<string>();
 			var revokedVanillaTitles = new HashSet<string>();
@@ -424,7 +446,7 @@ public partial class Title {
 				if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
 					removedGeneratedTitles.Add(id);
 					Remove(id);
-				} else if (!staticDeJure) {
+				} else {
 					revokedVanillaTitles.Add(id);
 					title.ClearHolderSpecificHistory();
 					title.SetDeFactoLiege(null, ck3BookmarkDate);

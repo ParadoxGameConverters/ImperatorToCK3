@@ -206,7 +206,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		void FillHolderAndGovernmentHistory() {
 			// ------------------ determine previous and current holders
-			
+
 			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
 				var rulerTerm = new RulerTerm(
 					impRulerTerm,
@@ -251,7 +251,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return;
 		}
 
-		liegeField.RemoveAllEntries(v=>v is string str && str == liegeName);
+		liegeField.RemoveAllEntries(v => v is string str && str == liegeName);
 	}
 
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocDB locDB) {
@@ -378,7 +378,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
 		History.AddFieldValue(governorshipStartDate,
-			"succession_laws", 
+			"succession_laws",
 			"succession_laws",
 			new SortedSet<string> { "high_partition_succession_law" }
 		);
@@ -437,7 +437,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var regionId = governorship.RegionName;
 		irRegionMapper.Regions.TryGetValue(regionId, out var region);
 		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
-		
+
 		// If any area in the region is at least 75% owned, use the area name for governorship name.
 		if (regionHasMultipleGovernorships && region is not null) {
 			ImperatorArea? potentialSourceArea = null;
@@ -463,7 +463,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(areaLocBlock);
 				nameSet = true;
-				
+
 				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
 				adjLocBlock.CopyFrom(nameLocBlock);
 				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
@@ -473,12 +473,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!nameSet && regionHasMultipleGovernorships && region is not null) {
 			var sourceProvince = irProvinces
 				.Where(p => region.ContainsProvince(p.Id) && country.Equals(p.OwnerCountry))
-				.MaxBy(p=>p.CivilizationValue);
+				.MaxBy(p => p.CivilizationValue);
 			if (sourceProvince is not null && locDB.TryGetValue(sourceProvince.Name, out var provinceLocBlock)) {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(provinceLocBlock);
 				nameSet = true;
-				
+
 				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
 				adjLocBlock.CopyFrom(nameLocBlock);
 				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
@@ -521,7 +521,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var lastDate = dates.Max;
 		return lastDate ?? new Date(1, 1, 1);
 	}
-	
+
 	public HashSet<string> GetAllHolderIds() {
 		if (History.Fields.TryGetValue("holder", out var holderField)) {
 			var ids = new HashSet<string>();
@@ -555,7 +555,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var id = character is null ? "0" : character.Id;
 		History.AddFieldValue(date, "holder", "holder", id);
 	}
-	
+
 	public void SetDevelopmentLevel(int value, Date date) {
 		if (Rank == TitleRank.barony) {
 			Logger.Warn($"Cannot set development level to a barony title {Id}!");
@@ -682,6 +682,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			deJureLiege?.DeJureVassals.Remove(Id);
 			deJureLiege = value;
 			if (value is not null) {
+				if (value.DeJureVassals.ContainsKey(this.Id)) {
+					return;
+				}
 				value.DeJureVassals.Add(this);
 			}
 		}

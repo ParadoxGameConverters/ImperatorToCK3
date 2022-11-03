@@ -1,0 +1,96 @@
+﻿e_gaul = {
+	color = hsv { 0.77 0.3 0.75 }
+	color2 = { 255 255 20 }
+
+	capital = c_ile_de_france
+	
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_brythonic }
+			}
+			add = @better_than_the_alternatives_score
+		}
+	}
+	
+	k_helvetia = {
+		#Created by decision
+		color={ 0.81 0.42 0.61 }
+		color2={ 255 255 255 }
+	}
+	k_brennusovia = {
+		#Created by decision
+		color={ 39 206 123 }
+		color2={ 255 255 255 }
+	}
+	k_rhodania = {
+		#Created by decision
+		color= hsv { 0.35 0.6 0.30 }
+		color2={ 255 255 255 }
+	}
+	
+	k_armorique = {
+		color = hsv { 0.26 0.39 0.5 }
+		color2 = { 255 255 20 }
+		
+		capital = c_vannes # Vannes
+		
+		d_brittany
+		d_normandy
+		d_anjou
+	}
+	
+	k_aquitaine_gaul = {
+		color = hsv { 0.77 0.64 0.48 }
+		color2 = { 255 255 20 }
+		
+		capital = c_bordeaux # Bordaeux
+		
+		d_gascogne
+		d_aquitaine
+		d_armagnac
+		d_poitou
+	}
+	
+	k_belgia = {
+		color = hsv { 0.23 0.93 0.58 }
+		color2 = { 255 255 20 }
+		
+		capital = c_brugge
+		
+		d_flanders
+		d_luxembourg
+		d_brabant
+		d_julich
+		d_lower_lorraine
+	}
+	
+	k_celtica_gaul = {
+		color = hsv { 0.65 0.29 0.73 }
+		color2 = { 255 255 20 }
+		
+		capital = c_orleans # Orleans
+		
+		d_berry
+		d_orleans
+		d_burgundy
+		d_bourbon
+		d_upper_burgundy
+		d_valois
+		d_champagne
+	}
+	
+	k_south_gaul = {
+		color = hsv { 0.15 0.42 0.29 }
+		color2 = { 255 255 20 }
+		
+		capital	= c_venaissin # Arles
+		
+		d_provence
+		d_savoie
+		d_dauphine
+		d_languedoc
+		d_toulouse
+		d_auvergne
+	}
+}
