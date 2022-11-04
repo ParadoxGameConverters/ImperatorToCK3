@@ -54,6 +54,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Date conversionDate,
 		Configuration config
 	) {
+		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
 		Id = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
 		SetRank();
@@ -87,6 +88,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
+		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
 		Id = id;
 		SetRank();
@@ -118,7 +120,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Date conversionDate,
 		Configuration config
 	) {
-		IsImportedOrUpdatedFromImperator = true;
 		ImperatorCountry = country;
 		ImperatorCountry.CK3Title = this;
 
@@ -336,8 +337,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
 		var governorshipStartDate = governorship.StartDate;
-
-		IsImportedOrUpdatedFromImperator = true;
 
 		if (country.CK3Title is null) {
 			throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
@@ -806,7 +805,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				return new SortedSet<string>();
 		}
 	}
-	[commonItems.Serialization.NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
+	[commonItems.Serialization.NonSerialized] public bool IsCreatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
