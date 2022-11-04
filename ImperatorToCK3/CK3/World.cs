@@ -94,9 +94,13 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.LoadTitles(ModFS);
 
 			if (config.StaticDeJure) {
+				Logger.Info("Setting de jure kingdoms and empires...");
+
 				Title.LandedTitles overrideTitles = new();
 				overrideTitles.LoadStaticTitles();
 				LandedTitles.Update(overrideTitles);
+
+				Logger.IncrementProgress();
 			}
 			LandedTitles.LoadHistory(config, ModFS);
 			LandedTitles.LoadCulturalNamesFromConfigurables();
@@ -168,7 +172,9 @@ namespace ImperatorToCK3.CK3 {
 			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate, config.ImperatorCivilizationWorth);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, config.StaticDeJure);
+			if (!config.StaticDeJure) {
+				LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
+			}
 			Dynasties.SetCoasForRulingDynasties(LandedTitles);
 
 			Characters.DistributeCountriesGold(LandedTitles, config);

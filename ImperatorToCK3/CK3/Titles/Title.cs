@@ -682,10 +682,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			deJureLiege?.DeJureVassals.Remove(Id);
 			deJureLiege = value;
 			if (value is not null) {
-				if (value.DeJureVassals.ContainsKey(this.Id)) {
-					return;
-				}
-				value.DeJureVassals.Add(this);
+				value.DeJureVassals.AddOrReplace(this);
 			}
 		}
 	}

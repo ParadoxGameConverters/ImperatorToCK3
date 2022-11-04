@@ -1,4 +1,94 @@
-﻿e_gaul = {
+﻿e_spain = {
+	color = { 233 200 20 }
+	color2 = { 255 255 255 }
+
+	capital = c_toledo # Toledo
+	can_be_named_after_dynasty = no
+
+	cultural_names = {
+		name_list_bedouin = cn_isbaniya
+		name_list_butr = cn_isbaniya
+		name_list_baranis = cn_isbaniya
+		name_list_zaghawa = cn_isbaniya
+		name_list_levantine = cn_isbaniya
+		name_list_egyptian = cn_isbaniya
+		name_list_maghrebi = cn_isbaniya
+		name_list_andalusian = cn_isbaniya
+		name_list_yemeni = cn_isbaniya
+	}
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_iberian }
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+	
+	k_iberian_galicia = {
+		color = hsv { 0.12 0.48 0.76 }
+		color2 = { 255 255 255 }
+		
+		capital = c_coruna # La Coruña
+		
+		d_galicia = {}
+		d_leon = {}
+		d_asturias = {}
+		d_porto = {}
+	}
+	
+	k_lusitania = {
+		color = hsv { 0.9 1 0.4 }
+		color2 = { 255 255 255 }
+		
+		capital = c_badajoz # Badajoz
+		
+		d_beja = {}
+		d_badajoz = {}
+		d_coimbra = {}
+	}
+	
+	k_betique = {
+		color = hsv { 0.31 0.14 0.75 }
+		color2 = { 255 255 255 }
+		
+		capital = c_cordoba # Cordoba
+		
+		d_cordoba = {}
+		d_granada = {}
+		d_sevilla = {}
+		d_algarve = {}
+	}
+	
+	k_contestania = {
+		color = hsv { 0.57 0.77 0.68 }
+		color2 = { 255 255 255 }
+		
+		capital = c_valencia # Valencia
+		
+		d_valencia = {}
+		d_mallorca = {}
+		d_murcia = {}
+		d_toledo = {}
+	}
+	
+	k_tarragonaise = {
+		color = hsv { 0.31 0.32 0.63 }
+		color2 = { 255 255 255 }
+		
+		capital = c_burgos # Burgos
+		
+		d_castilla = {}
+		d_cantabria = {}
+		d_aragon = {}
+		d_barcelona = {}
+		d_navarra = {}
+		d_viscaya = {}
+	}
+}
+
+e_gaul = {
 	color = hsv { 0.77 0.3 0.75 }
 	color2 = { 255 255 20 }
 
@@ -33,11 +123,9 @@
 		color = hsv { 0.26 0.39 0.5 }
 		color2 = { 255 255 20 }
 		
-		capital = c_vannes # Vannes
-		
-		d_brittany
-		d_normandy
-		d_anjou
+		d_brittany = {}
+		d_normandy = {}
+		d_anjou = {}
 	}
 	
 	k_aquitaine_gaul = {
@@ -46,10 +134,10 @@
 		
 		capital = c_bordeaux # Bordaeux
 		
-		d_gascogne
-		d_aquitaine
-		d_armagnac
-		d_poitou
+		d_gascogne = {}
+		d_aquitaine = {}
+		d_armagnac = {}
+		d_poitou = {}
 	}
 	
 	k_belgia = {
@@ -58,11 +146,11 @@
 		
 		capital = c_brugge
 		
-		d_flanders
-		d_luxembourg
-		d_brabant
-		d_julich
-		d_lower_lorraine
+		d_flanders = {}
+		d_luxembourg = {}
+		d_brabant = {}
+		d_julich = {}
+		d_lower_lorraine = {}
 	}
 	
 	k_celtica_gaul = {
@@ -71,13 +159,13 @@
 		
 		capital = c_orleans # Orleans
 		
-		d_berry
-		d_orleans
-		d_burgundy
-		d_bourbon
-		d_upper_burgundy
-		d_valois
-		d_champagne
+		d_berry = {}
+		d_orleans = {}
+		d_burgundy = {}
+		d_bourbon = {}
+		d_upper_burgundy = {}
+		d_valois = {}
+		d_champagne = {}
 	}
 	
 	k_south_gaul = {
@@ -86,11 +174,169 @@
 		
 		capital	= c_venaissin # Arles
 		
-		d_provence
-		d_savoie
-		d_dauphine
-		d_languedoc
-		d_toulouse
-		d_auvergne
+		d_provence = {}
+		d_savoie = {}
+		d_dauphine = {}
+		d_languedoc = {}
+		d_toulouse = {}
+		d_auvergne = {}
+	}
+}
+
+e_britannia = {
+	color = { 172 22 22 }
+	color2 = { 255 255 255 }
+
+	capital = c_middlesex
+
+	cultural_names = {
+		name_list_pictish = cn_pictavia
+		name_list_irish = cn_alba
+		name_list_gaelic = cn_alba
+	}
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				OR = {
+					culture = { has_cultural_pillar = heritage_west_germanic }
+					culture = { has_cultural_pillar = heritage_goidelic }
+					culture = { has_cultural_pillar = heritage_brythonic }
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+	
+	k_brettonia = {
+		color = hsv { 0.94 0.63 0.73 }
+		color2 = { 255 255 255 }
+		
+		capital = c_middlesex
+		
+		ai_primary_priority = {
+			if = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_brythonic }
+				}
+				add = @correct_culture_primary_score
+			}
+		}
+		
+		d_bedford = {}
+		d_northumberland = {}
+		d_lancaster = {}
+		d_york = {}
+		d_norfolk = {}
+		d_hereford = {}
+		d_gloucester = {}
+		d_canterbury = {}
+		d_somerset = {}
+		d_cornwall = {}
+	}
+
+e_western_roman_empire = {
+	color = hsv { 0 0.91 0.55 }
+	color2 = { 255 255 255 }
+	
+	capital = c_roma # Rome
+	
+	definite_form = yes
+	
+	k_north_italy = {
+		color = hsv { 0.31 0.14 0.75 }
+		color2 = { 255 255 255 }
+		
+		capital = c_modena # Modena
+		
+		d_friuli = {}
+		d_verona = {}
+		d_piedmonte = {}
+		d_lombardia = {}
+		d_genoa = {}
+		d_emilia = {}
+		d_pisa = {}
+		d_toscana = {}
+		d_venice = {}
+	}
+	
+	k_central_italy = {
+		color = hsv { 0.68 0.95 0.44 }
+		color2 = { 255 255 255 }
+		
+		capital = c_roma # Rome
+		
+		d_romagna = {}
+		d_ancona = {}
+		d_spoleto = {}
+		d_latium = {}
+	}
+	
+	k_magna_graecia = {
+		color = { 109 43 175 }
+		color2 = { 255 255 255 }
+		
+		capital = c_palermo #	Palermo
+		
+		d_sicily = {}
+		d_benevento = {}
+		d_capua = {}
+		d_apulia = {}
+		d_salerno = {}
+		d_calabria = {}
+	}
+	
+	k_sardinia = {	#Sardinia & Corsica
+		color = { 210 165 255 }
+		color2 = { 255 255 255 }
+
+		capital = c_cagliari # Cagliari
+
+		cultural_names = {
+			name_list_catalan = cn_sardenya_i_corsega
+			name_list_greek = cn_sardhnia_kai_thn_korsikn
+			name_list_italian = cn_sardegna_e_corsica
+			name_list_cisalpine = cn_sardegna_e_corsica
+			name_list_sicilian = cn_sardegna_e_corsica
+			name_list_sardinian = cn_sardegna_e_corsica
+		}
+
+		d_corsica = {}
+		d_sardinia = {}
+	}
+
+	k_illiria = {
+		color = hsv { 0.24 0.1 0.89 }
+		color2 = { 255 255 255 }
+		
+		capital = c_zadar # Zadar
+		
+		d_krain = {}
+		d_istria = {}
+		d_rashka = {}
+		d_macva = {}
+		d_duklja = {}
+		d_dalmatia = {}
+		d_croatia = {}
+		d_slavonia = {}
+		d_bosna = {}
+		d_lower_bosna = {}
+		d_usora = {}
+		d_ragusa = {}
+		d_syrmia = {}
+	}
+	
+	k_rhetia = {
+		color = hsv { 0.07 0.37 1 }
+		color2 = { 255 255 255 }
+		
+		capital = c_regensburg
+		
+		d_steyermark = {}
+		d_tyrol = {}
+		d_carinthia = {}
+		d_transjurania = {}
+		d_currezia = {}
+		d_augsburg = {}
 	}
 }
