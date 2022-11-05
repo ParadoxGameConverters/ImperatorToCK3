@@ -91,7 +91,7 @@ public static class CulturesDocGenerator {
 		output.WriteLine($"""
 			<thead>
 				<tr>
-					{(cultureColorUnderName ? "<th></th>" : "")}
+					{(cultureColorUnderName ? "" : "<th></th>")}
 					<th>Culture</th>
 					<th>Heritage</th>
 					<th>Ethos</th>
