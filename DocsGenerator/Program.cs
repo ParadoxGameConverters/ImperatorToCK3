@@ -13,6 +13,7 @@ Parser.Default.ParseArguments<Options>(args)
 	.WithParsed(o => {
 		gameRoot = o.GameRoot;
 		modPath = o.ModPath;
+		bool cultureColorUnderName = o.CultureColorUnderName;
 		
 		
 		if (!Directory.Exists(gameRoot)) {
@@ -37,7 +38,7 @@ Parser.Default.ParseArguments<Options>(args)
 		var locDB = new LocDB("english");
 		locDB.ScrapeLocalizations(modFS);
 		
-		CulturesDocGenerator.GenerateCulturesTable(modPath, locDB);
+		CulturesDocGenerator.GenerateCulturesTable(modPath, locDB, cultureColorUnderName);
 		
 		Logger.Info("Finished generating mod docs.");
 	});
