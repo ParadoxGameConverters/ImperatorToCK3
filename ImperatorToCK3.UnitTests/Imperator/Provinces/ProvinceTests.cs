@@ -136,7 +136,8 @@ public class ProvinceTests {
 
 		Assert.Null(theProvince.OwnerCountry); // not linked yet
 
-		var countries = new CountryCollection(new BufferedReader("69 = {}"));
+		var countries = new CountryCollection();
+		countries.LoadCountries(new BufferedReader("69 = {}"));
 		theProvince.TryLinkOwnerCountry(countries);
 
 		Assert.NotNull(theProvince.OwnerCountry);

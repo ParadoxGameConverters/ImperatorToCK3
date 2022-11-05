@@ -17,11 +17,6 @@ public class CoaMapper {
 		
 		Logger.IncrementProgress();
 	}
-	public CoaMapper(string coaFilePath) {
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseFile(coaFilePath);
-	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap[flagName] = reader.GetStringOfItem().ToString());

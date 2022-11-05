@@ -404,17 +404,23 @@ public partial class Title {
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
 			foreach (var title in this) {
-				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
-				// this also removes landless titles initialized from Imperator
-				if (title.Rank <= TitleRank.county || countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+				// If duchy/kingdom/empire title holder holds no counties, revoke the title.
+				// In case of titles created from Imperator, completely remove them.
+				if (title.Rank <= TitleRank.county) {
 					continue;
 				}
+				if (countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+					continue;
+				}
+
+				// Check if the title has "landless = yes" attribute.
+				// If it does, it should be always kept.
 				var id = title.Id;
 				if (this[id].Landless) {
 					continue;
 				}
-				// does not have landless attribute set to true
-				if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
+				
+				if (title.IsCreatedFromImperator) {
 					removedGeneratedTitles.Add(id);
 					Remove(id);
 				} else {

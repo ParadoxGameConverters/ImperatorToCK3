@@ -22,7 +22,6 @@ namespace ImperatorToCK3.Imperator {
 	public class World : Parser {
 		private readonly Date startDate = new("450.10.1", AUC: true);
 		public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
-		private GameVersion imperatorVersion = new();
 		public ModFilesystem ModFS { get; private set; }
 		private readonly SortedSet<string> dlcs = new();
 		public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
@@ -57,9 +56,8 @@ namespace ImperatorToCK3.Imperator {
 			// Parse the save.
 			RegisterRegex(@"\bSAV\w*\b", _ => { });
 			RegisterKeyword("version", reader => {
-				var versionString = reader.GetString();
-				imperatorVersion = new GameVersion(versionString);
-				Logger.Info($"Save game version: {versionString}");
+				var imperatorVersion = new GameVersion(reader.GetString());
+				Logger.Info($"Save game version: {imperatorVersion}");
 
 				if (converterVersion.MinSource > imperatorVersion) {
 					Logger.Error(
@@ -76,6 +74,11 @@ namespace ImperatorToCK3.Imperator {
 				var dateString = reader.GetString();
 				EndDate = new Date(dateString, AUC: true);  // converted to AD
 				Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
+
+				if (EndDate > config.CK3BookmarkDate) {
+					config.CK3BookmarkDate = new Date(EndDate);
+					Logger.Warn($"CK3 bookmark date can't be earlier than save date. Changed to {config.CK3BookmarkDate}.");
+				}
 			});
 			RegisterKeyword("enabled_dlcs", reader => {
 				dlcs.UnionWith(reader.GetStrings());
@@ -124,14 +127,15 @@ namespace ImperatorToCK3.Imperator {
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("family", reader => {
-				Logger.Info("Loading Families...");
-				Families = FamilyCollection.ParseBloc(reader);
+				Logger.Info("Loading families...");
+				Families.LoadFamiliesFromBloc(reader);
 				Logger.Info($"Loaded {Families.Count} families.");
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("character", reader => {
-				Logger.Info("Loading Characters...");
-				Characters = CharacterCollection.ParseBloc(reader, genesDB);
+				Logger.Info("Loading characters...");
+				Characters.GenesDB = genesDB;
+				Characters.LoadCharactersFromBloc(reader);
 				Logger.Info($"Loaded {Characters.Count} characters.");
 				Logger.IncrementProgress();
 			});
@@ -150,14 +154,14 @@ namespace ImperatorToCK3.Imperator {
 				armiesParser.ParseStream(reader);
 			});
 			RegisterKeyword("country", reader => {
-				Logger.Info("Loading Countries...");
-				Countries = CountryCollection.ParseBloc(reader);
+				Logger.Info("Loading countries...");
+				Countries.LoadCountriesFromBloc(reader);
 				Logger.Info($"Loaded {Countries.Count} countries.");
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("population", reader => {
-				Logger.Info("Loading Pops...");
-				pops = PopCollection.ParseBloc(reader);
+				Logger.Info("Loading pops...");
+				pops.LoadPopsFromBloc(reader);
 				Logger.Info($"Loaded {pops.Count} pops.");
 				Logger.IncrementProgress();
 			});
@@ -223,7 +227,7 @@ namespace ImperatorToCK3.Imperator {
 			}
 		}
 		private void LoadPreImperatorRulers() {
-			const string filePath = "configurables/character_prehistory.txt";
+			const string filePath = "configurables/characters_prehistory.txt";
 			const string noRulerWarning = "Pre-Imperator ruler term has no pre-Imperator ruler!";
 			const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
@@ -325,6 +329,7 @@ namespace ImperatorToCK3.Imperator {
 				case SaveType.CompressedEncoded:
 					Logger.Info("Importing regular Imperator save.");
 					return ProcessCompressedEncodedSave(saveGamePath);
+				case SaveType.Invalid:
 				default:
 					throw new InvalidDataException("Unknown save type.");
 			}
@@ -332,7 +337,10 @@ namespace ImperatorToCK3.Imperator {
 		private void VerifySave(string saveGamePath) {
 			using var saveStream = File.Open(saveGamePath, FileMode.Open);
 			var buffer = new byte[10];
-			saveStream.Read(buffer, 0, 4);
+			var bytesRead = saveStream.Read(buffer, 0, 4);
+			if (bytesRead < 4) {
+				throw new InvalidDataException("Failed to read 4 bytes from save.");
+			}
 			if (buffer[0] != 'S' || buffer[1] != 'A' || buffer[2] != 'V') {
 				throw new InvalidDataException("Save game of unknown type!");
 			}

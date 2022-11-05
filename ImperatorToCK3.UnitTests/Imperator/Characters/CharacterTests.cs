@@ -64,7 +64,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 
 			Assert.Null(character.Country); // we have a country id, but no linked country yet
 			var countriesReader = new BufferedReader("={ 69={} 68={} }");
-			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(countriesReader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			countries.LoadCountries(countriesReader);
 			character.LinkCountry(countries);
 			Assert.NotNull(character.Country);
 			Assert.Equal((ulong)69, character.Country.Id);
