@@ -487,14 +487,12 @@ namespace ImperatorToCK3.CK3 {
 			
 			var muslimFaiths = islam.Faiths;
 			
-			var africanProvinces = Provinces
+			var muslimAfricanProvinces = Provinces
 				.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, "world_africa"))
-				.ToHashSet();
-			var muslimAfricanProvinces = africanProvinces
 				.Where(p => p.GetFaithId(date) is string faithId && muslimFaiths.ContainsKey(faithId))
 				.ToHashSet();
 
-			var regionToNewFaithDict = new OrderedDictionary<string, string>() {
+			var regionToNewFaithDict = new OrderedDictionary<string, string> {
 				{"world_africa_north", "berber_pagan"},
 				{"world_africa_west", "berber_pagan"},
 				{"world_africa_east", "waaqism_pagan"},
@@ -516,12 +514,6 @@ namespace ImperatorToCK3.CK3 {
 					faithHistoryField.AddEntryToHistory(null, "faith", faithId);
 
 					muslimAfricanProvinces.Remove(province);
-				}
-			}
-
-			foreach (var province in muslimAfricanProvinces) {
-				if (province.GetFaithId(date) is string faithId && muslimFaiths.ContainsKey(faithId)) {
-					
 				}
 			}
 			
