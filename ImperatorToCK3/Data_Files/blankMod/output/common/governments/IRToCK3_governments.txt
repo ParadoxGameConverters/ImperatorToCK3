@@ -3,7 +3,6 @@
 	religious = yes
 	rulers_should_have_dynasty = no
 	council = yes
-	fallback = 999
 	primary_holding = church_holding
 	valid_holdings = { church_holding }
 	required_county_holdings = { church_holding }
