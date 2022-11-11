@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
@@ -73,9 +74,10 @@ public class ProvinceTests {
 
 		var ck3Provinces = new List<Province>();
 		foreach (var irProvince in irProvinces) {
+			var sourceProvinces = new OrderedSet<ImperatorToCK3.Imperator.Provinces.Province> {irProvince};
 			var ck3Province = new Province(irProvince.Id);
 			ck3Provinces.Add(ck3Province);
-			ck3Province.InitializeFromImperator(irProvince, landedTitles, cultureMapper, religionMapper, config);
+			ck3Province.InitializeFromImperator(sourceProvinces, irProvince, landedTitles, cultureMapper, religionMapper, config);
 		}
 
 		return ck3Provinces.AsReadOnly();

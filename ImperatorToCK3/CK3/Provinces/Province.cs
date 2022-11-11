@@ -6,6 +6,7 @@ using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces;
@@ -14,8 +15,18 @@ public partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; }
 
-	public OrderedSet<Imperator.Provinces.Province> ImperatorProvinces { get; } = new();
-	public Imperator.Provinces.Province? PrimaryImperatorProvince { get; private set; }
+	private readonly OrderedSet<Imperator.Provinces.Province> imperatorProvinces = new();
+	public IReadOnlySet<Imperator.Provinces.Province> ImperatorProvinces => imperatorProvinces.ToImmutableHashSet();
+	private Imperator.Provinces.Province? primaryImperatorProvince = null;
+	public Imperator.Provinces.Province? PrimaryImperatorProvince {
+		get => primaryImperatorProvince;
+		set {
+			primaryImperatorProvince = value;
+			if (value is not null) {
+				imperatorProvinces.Add(value);
+			}
+		}
+	}
 
 	public ISet<Imperator.Provinces.Province> SecondaryImperatorProvinces => ImperatorProvinces
 		.Where(p => PrimaryImperatorProvince != null && p.Id != PrimaryImperatorProvince.Id)
@@ -46,6 +57,8 @@ public partial class Province : IIdentifiable<ulong> {
 		ReligionMapper religionMapper,
 		Configuration config
 	) {
+		imperatorProvinces.Clear();
+		imperatorProvinces.UnionWith(sourceProvinces);
 		PrimaryImperatorProvince = primarySourceProvince;
 
 		var fieldsToKeep = new[] {"culture", "faith", "terrain", "special_building_slot"};
