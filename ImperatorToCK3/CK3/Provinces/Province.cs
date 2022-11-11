@@ -14,7 +14,6 @@ namespace ImperatorToCK3.CK3.Provinces;
 public partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; }
-	
 
 	public Imperator.Provinces.Province? PrimaryImperatorProvince { get; set; } = null;
 	private readonly OrderedSet<Imperator.Provinces.Province> secondaryImperatorProvinces = new();

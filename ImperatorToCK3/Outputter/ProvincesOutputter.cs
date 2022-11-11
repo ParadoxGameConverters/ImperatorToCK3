@@ -60,11 +60,11 @@ public static class ProvincesOutputter {
 				}
 				var baseProvId = province.BaseProvinceId;
 				if (baseProvId is null) {
-					Logger.Warn($"Leftover province {province.Id} has no base province id!");
-				} else {
-					provinceMappingOutput.WriteLine($"{province.Id} = {baseProvId}");
-					alreadyOutputtedProvinces.Add(province.Id);
+					continue;
 				}
+
+				provinceMappingOutput.WriteLine($"{province.Id} = {baseProvId}");
+				alreadyOutputtedProvinces.Add(province.Id);
 			}
 		}
 	}

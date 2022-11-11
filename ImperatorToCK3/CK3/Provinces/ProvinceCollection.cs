@@ -58,10 +58,6 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
 			var provinceId = ulong.Parse(provinceIdString);
 			var newProvince = new Province(provinceId, reader);
-
-			if (ContainsKey(newProvince.Id)) {
-				Logger.Debug($"Vanilla province duplication - {newProvince.Id} already loaded! Overwriting.");
-			}
 			dict[provinceId] = newProvince;
 		});
 		parser.IgnoreAndLogUnregisteredItems();
