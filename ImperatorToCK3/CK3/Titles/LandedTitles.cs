@@ -558,10 +558,10 @@ public partial class Title {
 			Logger.Info("Importing development from Imperator...");
 
 			var counties = this.Where(t => t.Rank == TitleRank.county).ToList();
-			var (impProvsPerCounty, ck3ProvsPerImperatorProv) = GetIRProvsPerCounty(ck3Provinces, counties);
+			var (irProvsPerCounty, ck3ProvsPerImperatorProv) = GetIRProvsPerCounty(ck3Provinces, counties);
 
 			foreach (var county in counties) {
-				if (IsCountyOutsideImperatorMap(county, impProvsPerCounty)) {
+				if (IsCountyOutsideImperatorMap(county, irProvsPerCounty)) {
 					// Don't change development for counties outside of Imperator map.
 					continue;
 				}
