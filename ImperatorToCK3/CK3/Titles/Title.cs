@@ -55,6 +55,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Date conversionDate,
 		Configuration config
 	) {
+		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
 		Id = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
 		SetRank();
@@ -88,6 +89,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
+		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
 		Id = id;
 		SetRank();
@@ -119,7 +121,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Date conversionDate,
 		Configuration config
 	) {
-		IsImportedOrUpdatedFromImperator = true;
 		ImperatorCountry = country;
 		ImperatorCountry.CK3Title = this;
 
@@ -338,8 +339,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	) {
 		var governorshipStartDate = governorship.StartDate;
 
-		IsImportedOrUpdatedFromImperator = true;
-
 		if (country.CK3Title is null) {
 			throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
 		}
@@ -517,34 +516,34 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return lastDate ?? new Date(1, 1, 1);
 	}
 	
-	public HashSet<string> GetAllHolderIds() {
-		if (History.Fields.TryGetValue("holder", out var holderField)) {
-			var ids = new HashSet<string>();
-			var holderEntriesByDate = holderField.DateToEntriesDict.Values;
-			foreach (var entries in holderEntriesByDate) {
-				foreach (var entry in entries) {
-					var holderStrValue = entry.Value.ToString();
-					if (holderStrValue is not null) {
-						ids.Add(holderStrValue);
-					}
-				}
-			}
+	public ISet<string> GetAllHolderIds() {
+		if (!History.Fields.TryGetValue("holder", out var holderField)) {
+			return new HashSet<string>();
+		}
 
-			var initialHolderEntries = holderField.InitialEntries;
-			foreach (var entry in initialHolderEntries) {
-				var value = entry.Value;
-				var holderStrValue = value.ToString();
-				if (holderStrValue is null) {
-					Logger.Warn($"Cannot convert holder {value} of {Id} to string!");
-				} else {
+		var ids = new HashSet<string>();
+		var holderEntriesByDate = holderField.DateToEntriesDict.Values;
+		foreach (var entries in holderEntriesByDate) {
+			foreach (var entry in entries) {
+				var holderStrValue = entry.Value.ToString();
+				if (holderStrValue is not null) {
 					ids.Add(holderStrValue);
 				}
 			}
-
-			return ids;
-		} else {
-			return new HashSet<string>();
 		}
+
+		var initialHolderEntries = holderField.InitialEntries;
+		foreach (var entry in initialHolderEntries) {
+			var value = entry.Value;
+			var holderStrValue = value.ToString();
+			if (holderStrValue is null) {
+				Logger.Warn($"Cannot convert holder {value} of {Id} to string!");
+			} else {
+				ids.Add(holderStrValue);
+			}
+		}
+
+		return ids;
 	}
 	public void SetHolder(Character? character, Date date) {
 		var id = character is null ? "0" : character.Id;
@@ -563,12 +562,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void TrySetAdjectiveLoc(LocDB locDB, CountryCollection imperatorCountries) {
 		if (ImperatorCountry is null) {
-			Logger.Warn($"Cannot set adjective for CK3 Title {Id} from null Imperator Country!");
+			Logger.Warn($"Cannot set adjective for CK3 title {Id} from null Imperator country!");
 			return;
 		}
 
 		var adjSet = false;
-		var locKey = Id + "_adj";
+		var locKey = $"{Id}_adj";
 
 		if (ImperatorCountry.Tag is "PRY" or "SEL" or "MRY") {
 			// these tags use customizable loc for adj
@@ -650,6 +649,17 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// giving up
 		if (!adjSet) {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
+		}
+		
+		// Generate English adjective if missing.
+		if (Localizations.TryGetValue(locKey, out var locBlock) && locBlock["english"] is null) {
+			if (!Localizations.TryGetValue(Id, out var nameLocBlock) || nameLocBlock["english"] is not string name) {
+				return;
+			}
+
+			var generatedAdjective = name.GetAdjective();
+			locBlock["english"] = generatedAdjective;
+			Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
 		}
 	}
 	[commonItems.Serialization.NonSerialized] public string? CoA { get; private set; }
@@ -806,7 +816,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				return new SortedSet<string>();
 		}
 	}
-	[commonItems.Serialization.NonSerialized] public bool IsImportedOrUpdatedFromImperator { get; private set; } = false;
+	[commonItems.Serialization.NonSerialized] public bool IsCreatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
@@ -882,7 +892,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		} else if (Id.StartsWith('e')) {
 			Rank = TitleRank.empire;
 		} else {
-			throw new System.FormatException($"Title {Id}: unknown rank!");
+			throw new FormatException($"Title {Id}: unknown rank!");
 		}
 	}
 

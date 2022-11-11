@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
@@ -19,22 +20,25 @@ using System.Linq;
 using Xunit;
 using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
 using ImperatorToCK3.Mappers.Region;
+using System;
+using System.IO;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	[Collection("Sequential")]
 	[CollectionDefinition("Sequential", DisableParallelization = true)]
 	public class TitleTests {
-		private const string ImperatorRoot = "TestFiles/Imperator/root";
-		private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+		private const string ImperatorRoot = "TestFiles/LandedTitlesTests/Imperator/game";
+		private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 		private static readonly AreaCollection areas = new();
 		private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+		
 		private class TitleBuilder {
 			private Country country = new(0);
 			private CountryCollection imperatorCountries = new();
 			private LocDB locDB = new("english");
 			private readonly Title.LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
-			private CoaMapper coaMapper = new("TestFiles/CoatsOfArms.txt");
+			private CoaMapper coaMapper = new(imperatorModFs);
 			private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
 			private GovernmentMapper governmentMapper = new();
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
@@ -185,6 +189,20 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var title = titles.Add("k_testtitle");
 
 			Assert.Null(title.CapitalBaronyProvince);
+		}
+
+		[Fact]
+		public void WarningIsLoggedWhenSettingDevelopmentLevelToBaronyTitle() {
+			var titles = new Title.LandedTitles();
+			var barony = titles.Add("b_barony");
+
+			var output = new StringWriter();
+			Console.SetOut(output);
+
+			var date = new Date("100.1.1");
+			barony.SetDevelopmentLevel(25, date);
+			Assert.Contains("[WARN] Cannot set development level to a barony title b_barony!", output.ToString());
+			Assert.Null(barony.GetDevelopmentLevel(date));
 		}
 
 		[Fact]
@@ -636,6 +654,40 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			county.SetHolder(king, date); // county is a lower title of the king
 
 			Assert.Equal("k_kingdom", county.GetRealmOfRank(TitleRank.kingdom, date)!.Id);
+		}
+
+		[Fact]
+		public void ExceptionIsThrownWhenRankCannotBeDetermined() {
+			var e = Assert.Throws<FormatException>(() => new Title.LandedTitles().Add("g_title"));
+			Assert.Contains("Title g_title: unknown rank!", e.ToString());
+		}
+
+		[Fact]
+		public void GovernmentCanBeSet() {
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_title");
+
+			var date = new Date(100, 1, 1);
+			Assert.Null(title.GetGovernment(date));
+			
+			title.SetGovernment("new_government", date);
+			Assert.Equal("new_government", title.GetGovernment(date));
+		}
+
+		[Fact]
+		public void AllHolderIdsCanBeRetrieved() {
+			var titles = new Title.LandedTitles();
+			var title = titles.Add("k_title");
+
+			title.GetAllHolderIds().Should().BeEmpty();
+
+			var birthDate = new Date(50, 1, 1);
+			var holder1 = new ImperatorToCK3.CK3.Characters.Character("1", "Bob", birthDate);
+			var holder2 = new ImperatorToCK3.CK3.Characters.Character("2", "Rob", birthDate);
+			title.SetHolder(holder1, "60.1.1");
+			title.SetHolder(holder2, "70.1.1");
+
+			title.GetAllHolderIds().Should().Equal(holder1.Id, holder2.Id);
 		}
 	}
 }

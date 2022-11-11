@@ -6,6 +6,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Cultures; 
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CultureTests {
 	[Fact]
 	public void CultureIsCorrectlyConstructed() {

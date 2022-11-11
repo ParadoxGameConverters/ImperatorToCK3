@@ -3,7 +3,6 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
@@ -404,17 +403,23 @@ public partial class Title {
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
 			foreach (var title in this) {
-				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
-				// this also removes landless titles initialized from Imperator
-				if (title.Rank <= TitleRank.county || countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+				// If duchy/kingdom/empire title holder holds no counties, revoke the title.
+				// In case of titles created from Imperator, completely remove them.
+				if (title.Rank <= TitleRank.county) {
 					continue;
 				}
+				if (countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+					continue;
+				}
+
+				// Check if the title has "landless = yes" attribute.
+				// If it does, it should be always kept.
 				var id = title.Id;
 				if (this[id].Landless) {
 					continue;
 				}
-				// does not have landless attribute set to true
-				if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
+				
+				if (title.IsCreatedFromImperator) {
 					removedGeneratedTitles.Add(id);
 					Remove(id);
 				} else {
@@ -502,17 +507,19 @@ public partial class Title {
 			return countyHoldersCache;
 		}
 
-		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date date, double irCivilizationWorth) {
-			static (Dictionary<string, int>, Dictionary<ulong, int>) GetImpProvsPerCounty(ProvinceMapper provMapper, IEnumerable<Title> counties) {
+		public void ImportDevelopmentFromImperator(ProvinceCollection ck3Provinces, Date date, double irCivilizationWorth) {
+			static (Dictionary<string, int>, Dictionary<ulong, int>) GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
 				var impProvsPerCounty = new Dictionary<string, int>();
 				var ck3ProvsPerImperatorProv = new Dictionary<ulong, int>();
 				foreach (var county in counties) {
 					var imperatorProvs = new HashSet<ulong>();
 					foreach (var ck3ProvId in county.CountyProvinces) {
-						foreach (var impProvId in provMapper.GetImperatorProvinceNumbers(ck3ProvId)) {
-							imperatorProvs.Add(impProvId);
-							ck3ProvsPerImperatorProv.TryGetValue(impProvId, out var currentValue);
-							ck3ProvsPerImperatorProv[impProvId] = currentValue + 1;
+						var ck3Province = ck3Provinces[ck3ProvId];
+						var sourceProvinces = ck3Province.ImperatorProvinces;
+						foreach (var irProvince in sourceProvinces) {
+							imperatorProvs.Add(irProvince.Id);
+							ck3ProvsPerImperatorProv.TryGetValue(irProvince.Id, out var currentValue);
+							ck3ProvsPerImperatorProv[irProvince.Id] = currentValue + 1;
 						}
 					}
 
@@ -526,18 +533,19 @@ public partial class Title {
 				return impProvsPerCounty[county.Id] == 0;
 			}
 
-			double CalculateCountyDevelopment(Title county, IReadOnlyDictionary<ulong, int> ck3ProvsPerImpProv) {
+			double CalculateCountyDevelopment(Title county, IReadOnlyDictionary<ulong, int> ck3ProvsPerIRProv) {
 				double dev = 0;
 				var countyProvinces = county.CountyProvinces;
 				var provsCount = 0;
 				foreach (var ck3ProvId in countyProvinces) {
 					++provsCount;
-					var impProvs = provMapper.GetImperatorProvinceNumbers(ck3ProvId);
-					if (impProvs.Count == 0) {
+					var ck3Province = ck3Provinces[ck3ProvId];
+					var sourceProvinces = ck3Province.ImperatorProvinces;
+					if (sourceProvinces.Count == 0) {
 						continue;
 					}
 
-					dev += impProvs.Average(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImpProv[impProvId]);
+					dev += sourceProvinces.Average(srcProv => srcProv.CivilizationValue / ck3ProvsPerIRProv[srcProv.Id]);
 				}
 
 				dev *= irCivilizationWorth;
@@ -548,11 +556,11 @@ public partial class Title {
 
 			Logger.Info("Importing development from Imperator...");
 
-			var counties = this.Where(t => t.Rank == TitleRank.county);
-			var (impProvsPerCounty, ck3ProvsPerImperatorProv) = GetImpProvsPerCounty(provMapper, counties);
+			var counties = this.Where(t => t.Rank == TitleRank.county).ToList();
+			var (irProvsPerCounty, ck3ProvsPerImperatorProv) = GetIRProvsPerCounty(ck3Provinces, counties);
 
 			foreach (var county in counties) {
-				if (IsCountyOutsideImperatorMap(county, impProvsPerCounty)) {
+				if (IsCountyOutsideImperatorMap(county, irProvsPerCounty)) {
 					// Don't change development for counties outside of Imperator map.
 					continue;
 				}

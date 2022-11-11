@@ -25,6 +25,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
+using Open.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -161,8 +162,8 @@ namespace ImperatorToCK3.CK3 {
 				countyLevelGovernorships
 			);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
-			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate, config.ImperatorCivilizationWorth);
+			OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
+			LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 			Dynasties.SetCoasForRulingDynasties(LandedTitles);
@@ -172,8 +173,10 @@ namespace ImperatorToCK3.CK3 {
 
 			Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 			Characters.PurgeUnneededCharacters(LandedTitles);
-
+			
+			// Apply region-specific tweaks.
 			HandleIcelandAndFaroeIslands(config);
+			RemoveIslamFromAfrica(config);
 
 			ImportImperatorWars(impWorld, config.CK3BookmarkDate);
 
@@ -238,7 +241,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void OverWriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
+		private void OverwriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
 			Logger.Info("Overwriting counties' history...");
 			var governorshipsSet = governorships.ToHashSet();
 			var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
@@ -261,7 +264,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 
 				var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvinceId];
-				var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
+				var impProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
 				if (impProvince is null) { // probably outside of Imperator map
 					continue;
 				}
@@ -495,6 +498,54 @@ namespace ImperatorToCK3.CK3 {
 				// ReSharper disable once StringLiteralTypo
 				namePool = new Queue<string>(new[]{"A_engus", "Domnall", "Rechtabra"});
 			}
+		}
+		
+		/// <summary>
+		/// It makes no sense to have Islam in Africa before the rise of Islam.
+		/// This method removes it.
+		/// </summary>
+		private void RemoveIslamFromAfrica(Configuration config) {
+			Logger.Info("Removing Islam from Africa...");
+			var date = config.CK3BookmarkDate;
+			
+			if (!Religions.TryGetValue("islam_religion", out var islam)) {
+				Logger.Debug("islam_religion not found in religions.");
+				return;
+			}
+			
+			var muslimFaiths = islam.Faiths;
+			
+			var muslimAfricanProvinces = Provinces
+				.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, "world_africa"))
+				.Where(p => p.GetFaithId(date) is string faithId && muslimFaiths.ContainsKey(faithId))
+				.ToHashSet();
+
+			var regionToNewFaithDict = new OrderedDictionary<string, string> {
+				{"world_africa_north", "berber_pagan"},
+				{"world_africa_west", "berber_pagan"},
+				{"world_africa_east", "waaqism_pagan"},
+				{"world_africa_sahara", "berber_pagan"},
+				{"world_africa", "pagan"} // fallback
+			};
+
+			foreach (var (regionId, faithId) in regionToNewFaithDict) {
+				if (Religions.GetFaith(faithId) is null) {
+					Logger.Warn($"Faith {faithId} not found.");
+					continue;
+				}
+				
+				var regionProvinces = muslimAfricanProvinces
+					.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
+				foreach (var province in regionProvinces) {
+					var faithHistoryField = province.History.Fields["faith"];
+					faithHistoryField.RemoveAllEntries();
+					faithHistoryField.AddEntryToHistory(null, "faith", faithId);
+
+					muslimAfricanProvinces.Remove(province);
+				}
+			}
+			
+			Logger.IncrementProgress();
 		}
 
 		private readonly CoaMapper coaMapper;

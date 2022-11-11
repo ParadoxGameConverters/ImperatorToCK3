@@ -135,14 +135,15 @@ namespace ImperatorToCK3.Imperator {
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("family", reader => {
-				Logger.Info("Loading Families...");
-				Families = FamilyCollection.ParseBloc(reader);
+				Logger.Info("Loading families...");
+				Families.LoadFamiliesFromBloc(reader);
 				Logger.Info($"Loaded {Families.Count} families.");
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("character", reader => {
-				Logger.Info("Loading Characters...");
-				Characters = CharacterCollection.ParseBloc(reader, genesDB);
+				Logger.Info("Loading characters...");
+				Characters.GenesDB = genesDB;
+				Characters.LoadCharactersFromBloc(reader);
 				Logger.Info($"Loaded {Characters.Count} characters.");
 				Logger.IncrementProgress();
 			});
@@ -154,12 +155,6 @@ namespace ImperatorToCK3.Imperator {
 				statesBlocParser.ParseStream(reader);
 				Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
 				Logger.Info($"Loaded {States.Count} states.");
-				Logger.IncrementProgress();
-			});
-			RegisterKeyword("country", reader => {
-				Logger.Info("Loading countries...");
-				Countries = CountryCollection.ParseBloc(reader);
-				Logger.Info($"Loaded {Countries.Count} countries.");
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("provinces", reader => {
@@ -178,9 +173,15 @@ namespace ImperatorToCK3.Imperator {
 
 				armiesParser.ParseStream(reader);
 			});
+			RegisterKeyword("country", reader => {
+				Logger.Info("Loading countries...");
+				Countries.LoadCountriesFromBloc(reader);
+				Logger.Info($"Loaded {Countries.Count} countries.");
+				Logger.IncrementProgress();
+			});
 			RegisterKeyword("population", reader => {
-				Logger.Info("Loading Pops...");
-				pops = PopCollection.ParseBloc(reader);
+				Logger.Info("Loading pops...");
+				pops.LoadPopsFromBloc(reader);
 				Logger.Info($"Loaded {pops.Count} pops.");
 				Logger.IncrementProgress();
 			});

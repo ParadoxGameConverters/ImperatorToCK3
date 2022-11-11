@@ -115,7 +115,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"\torigin=3" +
 				"}\n"
 			);
-			var countries = new CountryCollection(countriesReader);
+			var countries = new CountryCollection();
+			countries.LoadCountries(countriesReader);
 			Assert.Equal("AAA", countries[1].HistoricalTag);
 			Assert.Equal("AAA", countries[2].HistoricalTag);
 			Assert.Equal("AAA", countries[3].HistoricalTag);

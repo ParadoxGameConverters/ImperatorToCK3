@@ -11,6 +11,7 @@ using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Xunit;
 
@@ -82,7 +83,14 @@ public class ProvinceTests {
 		foreach (var irProvince in irProvinces) {
 			var ck3Province = new Province(irProvince.Id);
 			ck3Provinces.Add(ck3Province);
-			ck3Province.InitializeFromImperator(irProvince, landedTitles, cultureMapper, religionMapper, config);
+			ck3Province.InitializeFromImperator(
+				irProvince,
+				ImmutableHashSet<ImperatorToCK3.Imperator.Provinces.Province>.Empty,
+				landedTitles,
+				cultureMapper,
+				religionMapper,
+				config
+			);
 		}
 
 		return ck3Provinces.AsReadOnly();

@@ -50,7 +50,8 @@ public class TagTitleMapperTests {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath); // reads title_map.txt from TestFiles
 		mapper.RegisterTag("ROM", "e_roman_empire");
 
-		var impCountries = new CountryCollection(new BufferedReader(" 1={tag=ROM}"));
+		var impCountries = new CountryCollection();
+		impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM}"));
 		var titles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection();
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -114,7 +115,8 @@ public class TagTitleMapperTests {
 		mapper.RegisterTag("ROM", "e_roman_empire");
 		mapper.RegisterTag("DRE", "k_dre_empire");
 
-		var impCountries = new CountryCollection(new BufferedReader(" 1={tag=ROM} 2={tag=DRE}"));
+		var impCountries = new CountryCollection();
+		impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM} 2={tag=DRE}"));
 		var titles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection();
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -185,7 +187,8 @@ public class TagTitleMapperTests {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
 		mapper.RegisterTag("BOR", "e_roman_empire");
 
-		var impCountries = new CountryCollection(new BufferedReader(" 1={tag=BOR}"));
+		var impCountries = new CountryCollection();
+		impCountries.LoadCountries(new BufferedReader(" 1={tag=BOR}"));
 		var titles = new Title.LandedTitles();
 			
 		var ck3Religions = new ReligionCollection();
