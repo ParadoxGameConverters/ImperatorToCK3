@@ -14,23 +14,22 @@ namespace ImperatorToCK3.CK3.Provinces;
 public partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; }
+	
 
-	private readonly OrderedSet<Imperator.Provinces.Province> imperatorProvinces = new();
-	public IReadOnlySet<Imperator.Provinces.Province> ImperatorProvinces => imperatorProvinces.ToImmutableHashSet();
-	private Imperator.Provinces.Province? primaryImperatorProvince = null;
-	public Imperator.Provinces.Province? PrimaryImperatorProvince {
-		get => primaryImperatorProvince;
-		set {
-			primaryImperatorProvince = value;
-			if (value is not null) {
-				imperatorProvinces.Add(value);
+	public Imperator.Provinces.Province? PrimaryImperatorProvince { get; set; } = null;
+	private readonly OrderedSet<Imperator.Provinces.Province> secondaryImperatorProvinces = new();
+	public IImmutableSet<Imperator.Provinces.Province> SecondaryImperatorProvinces => secondaryImperatorProvinces
+		.ToImmutableHashSet();
+	public IImmutableSet<Imperator.Provinces.Province> ImperatorProvinces {
+		get {
+			IEnumerable<Imperator.Provinces.Province> toReturn = secondaryImperatorProvinces;
+			if (PrimaryImperatorProvince is not null) {
+				toReturn = toReturn.Append(PrimaryImperatorProvince);
 			}
+
+			return toReturn.ToImmutableHashSet();
 		}
 	}
-
-	public ISet<Imperator.Provinces.Province> SecondaryImperatorProvinces => ImperatorProvinces
-		.Where(p => PrimaryImperatorProvince != null && p.Id != PrimaryImperatorProvince.Id)
-		.ToOrderedSet();
 
 	public Province(ulong id) {
 		Id = id;
@@ -50,15 +49,15 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	public void InitializeFromImperator(
-		ICollection<Imperator.Provinces.Province> sourceProvinces,
 		Imperator.Provinces.Province primarySourceProvince,
+		ICollection<Imperator.Provinces.Province> secondarySourceProvinces,
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
 		Configuration config
 	) {
-		imperatorProvinces.Clear();
-		imperatorProvinces.UnionWith(sourceProvinces);
+		secondaryImperatorProvinces.Clear();
+		secondaryImperatorProvinces.UnionWith(secondarySourceProvinces);
 		PrimaryImperatorProvince = primarySourceProvince;
 
 		var fieldsToKeep = new[] {"culture", "faith", "terrain", "special_building_slot"};

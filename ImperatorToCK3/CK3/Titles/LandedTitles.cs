@@ -3,7 +3,6 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
