@@ -3,11 +3,9 @@ using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
@@ -113,10 +111,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		if (provinceId is null) {
 			return null;
 		}
-		if (!ck3Provinces.TryGetValue((ulong)provinceId, out var province)) {
+		if (!ck3Provinces.TryGetValue(provinceId.Value, out var province)) {
 			return null;
 		}
-		return province.ImperatorProvince;
+		return province.PrimaryImperatorProvince;
 	}
 
 	private static HolySite GenerateHolySiteForBarony(
@@ -213,12 +211,12 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 	}
 
-	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith
+	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith.
 	public static IDictionary<string, ISet<Province>> GetProvincesFromImperatorByFaith(ProvinceCollection ck3Provinces, Date date) {
 		var provincesByFaith = new Dictionary<string, ISet<Province>>();
 
 		foreach (var province in ck3Provinces) {
-			var imperatorProvince = province.ImperatorProvince;
+			var imperatorProvince = province.PrimaryImperatorProvince;
 			if (imperatorProvince is null) {
 				continue;
 			}
@@ -249,11 +247,12 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 		// Split the territories into 2 sets: territories that have a holy site and territories that do not.
 		// Order both sets in descending order by population.
-		var provincesWithHolySite = faithTerritories.Where(p => p.ImperatorProvince!.IsHolySite)
-			.OrderByDescending(p=>p.ImperatorProvince!.GetPopCount())
+		var provincesWithHolySite = faithTerritories
+			.Where(p => p.ImperatorProvinces.Any(irProv => irProv.IsHolySite))
+			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
 			.ToList();
 		var provincesWithoutHolySite = faithTerritories.Except(provincesWithHolySite)
-			.OrderByDescending(p=>p.ImperatorProvince!.GetPopCount())
+			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
 			.ToList();
 		
 		// Take the top 4 territories with a holy site.

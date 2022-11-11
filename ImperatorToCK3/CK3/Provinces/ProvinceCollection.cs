@@ -6,6 +6,7 @@ using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
@@ -70,21 +71,24 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		var modifiedCK3ProvsCount = 0;
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
 		foreach (var province in this) {
-			var impProvinces = provinceMapper.GetImperatorProvinceNumbers(province.Id);
+			var sourceProvinceIds = provinceMapper.GetImperatorProvinceNumbers(province.Id);
 			// Provinces we're not affecting will not be in this list.
-			if (impProvinces.Count == 0) {
+			if (sourceProvinceIds.Count == 0) {
 				continue;
 			}
-			// Next, we find what province to use as its initializing source.
-			var sourceProvince = DeterminePrimarySourceProvince(impProvinces, irWorld);
-			if (sourceProvince is null) {
+			// Next, we find what province to use as its primary initializing source.
+			var primarySource = DeterminePrimarySourceProvince(sourceProvinceIds, irWorld);
+			if (primarySource is null) {
 				Logger.Warn($"Could not determine primary source province for CK3 province {province.Id}!");
 				continue;
 			}
+			var sourceProvinces = irWorld.Provinces
+				.Where(p => sourceProvinceIds.Contains(p.Id))
+				.ToOrderedSet();
 			// And finally, initialize it.
-			province.InitializeFromImperator(sourceProvince, titles, cultureMapper, religionMapper, config);
+			province.InitializeFromImperator(sourceProvinces, primarySource, titles, cultureMapper, religionMapper, config);
 			
-			importedIRProvsCount += impProvinces.Count;
+			importedIRProvsCount += sourceProvinceIds.Count;
 			++modifiedCK3ProvsCount;
 		}
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
