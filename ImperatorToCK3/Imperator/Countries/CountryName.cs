@@ -36,7 +36,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			return directNameLocMatch;
 		}
 		public LocBlock? GetAdjectiveLocBlock(LocDB locDB, CountryCollection imperatorCountries) {
-			var adj = GetAdjective();
+			var adj = GetAdjectiveLocKey();
 			var directAdjLocMatch = locDB.GetLocBlockForKey(adj);
 			if (directAdjLocMatch is not null && adj == "CIVILWAR_FACTION_ADJECTIVE") {
 				// special case for revolts
@@ -53,8 +53,8 @@ namespace ImperatorToCK3.Imperator.Countries {
 						continue;
 					}
 
-					var countryAdjective = country.CountryName.GetAdjective();
-					var adjLoc = locDB.GetLocBlockForKey(countryAdjective);
+					var countryAdjectiveLocKey = country.CountryName.GetAdjectiveLocKey();
+					var adjLoc = locDB.GetLocBlockForKey(countryAdjectiveLocKey);
 					if (adjLoc is not null) {
 						return adjLoc;
 					}
@@ -69,7 +69,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 			}
 			return directAdjLocMatch;
 		}
-		public string GetAdjective() {
+		public string GetAdjectiveLocKey() {
 			if (adjective is not null) {
 				return adjective;
 			}
@@ -91,7 +91,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 					tempCountryName.BaseName = Parse(reader);
 					countryName = (CountryName)tempCountryName.Clone();
 				});
-				parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+				parser.IgnoreAndLogUnregisteredItems();
 			}
 
 			public static CountryName Parse(BufferedReader reader) {

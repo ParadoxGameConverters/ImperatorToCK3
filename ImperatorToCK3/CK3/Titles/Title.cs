@@ -562,12 +562,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void TrySetAdjectiveLoc(LocDB locDB, CountryCollection imperatorCountries) {
 		if (ImperatorCountry is null) {
-			Logger.Warn($"Cannot set adjective for CK3 Title {Id} from null Imperator Country!");
+			Logger.Warn($"Cannot set adjective for CK3 title {Id} from null Imperator country!");
 			return;
 		}
 
 		var adjSet = false;
-		var locKey = Id + "_adj";
+		var locKey = $"{Id}_adj";
 
 		if (ImperatorCountry.Tag is "PRY" or "SEL" or "MRY") {
 			// these tags use customizable loc for adj
@@ -649,6 +649,17 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// giving up
 		if (!adjSet) {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
+		}
+		
+		// Generate English adjective if missing.
+		if (Localizations.TryGetValue(locKey, out var locBlock) && locBlock["english"] is null) {
+			if (!Localizations.TryGetValue(Id, out var nameLocBlock) || nameLocBlock["english"] is not string name) {
+				return;
+			}
+
+			var generatedAdjective = name.GetAdjective();
+			locBlock["english"] = generatedAdjective;
+			Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
 		}
 	}
 	[commonItems.Serialization.NonSerialized] public string? CoA { get; private set; }

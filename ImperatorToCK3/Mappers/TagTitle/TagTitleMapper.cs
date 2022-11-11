@@ -120,7 +120,7 @@ namespace ImperatorToCK3.Mappers.TagTitle {
 				}
 
 				var ck3CapitalBaronyProvince = provinces[capitalBaronyProvinceId];
-				var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
+				var impProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
 				if (impProvince is null) { // probably outside of Imperator map
 					continue;
 				}

@@ -48,28 +48,24 @@ public static class ProvincesOutputter {
 			}
 		}
 
-		//create province mapping file
-		var provinceMappingFilePath = $"output/{outputModName}/history/province_mapping/province_mapping.txt";
-		using var provinceMappingStream = File.OpenWrite(provinceMappingFilePath);
-		using (var provinceMappingOutput = new StreamWriter(provinceMappingStream, System.Text.Encoding.UTF8)) {
-			if (alreadyOutputtedProvinces.Count != provinces.Count) {
-				foreach (var province in provinces) {
-					if (alreadyOutputtedProvinces.Contains(province.Id)) {
-						continue;
-					}
-					var baseProvId = province.BaseProvinceId;
-					if (baseProvId is null) {
-						Logger.Warn($"Leftover province {province.Id} has no base province id!");
-					} else {
-						provinceMappingOutput.WriteLine($"{province.Id} = {baseProvId}");
-						alreadyOutputtedProvinces.Add(province.Id);
-					}
-				}
-			}
-		}
-
+		// Create province mapping file.
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {
-			Logger.Error("Not all provinces were outputted!");
+			var provinceMappingFilePath = $"output/{outputModName}/history/province_mapping/province_mapping.txt";
+			using var provinceMappingStream = File.OpenWrite(provinceMappingFilePath);
+			using var provinceMappingOutput = new StreamWriter(provinceMappingStream, System.Text.Encoding.UTF8);
+			
+			foreach (var province in provinces) {
+				if (alreadyOutputtedProvinces.Contains(province.Id)) {
+					continue;
+				}
+				var baseProvId = province.BaseProvinceId;
+				if (baseProvId is null) {
+					continue;
+				}
+
+				provinceMappingOutput.WriteLine($"{province.Id} = {baseProvId}");
+				alreadyOutputtedProvinces.Add(province.Id);
+			}
 		}
 	}
 }

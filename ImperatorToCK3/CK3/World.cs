@@ -158,8 +158,8 @@ namespace ImperatorToCK3.CK3 {
 				countyLevelGovernorships
 			);
 
-			OverWriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
-			LandedTitles.ImportDevelopmentFromImperator(impWorld.Provinces, provinceMapper, CorrectedDate, config.ImperatorCivilizationWorth);
+			OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
+			LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 			LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
 			Dynasties.SetCoasForRulingDynasties(LandedTitles);
@@ -213,7 +213,7 @@ namespace ImperatorToCK3.CK3 {
 			}
 		}
 
-		private void OverWriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
+		private void OverwriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
 			Logger.Info("Overwriting counties' history...");
 			var governorshipsSet = governorships.ToHashSet();
 			var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
@@ -236,7 +236,7 @@ namespace ImperatorToCK3.CK3 {
 				}
 
 				var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvinceId];
-				var impProvince = ck3CapitalBaronyProvince.ImperatorProvince;
+				var impProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
 				if (impProvince is null) { // probably outside of Imperator map
 					continue;
 				}
