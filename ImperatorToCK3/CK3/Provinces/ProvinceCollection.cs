@@ -58,15 +58,16 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	public void ImportImperatorProvinces(
-		Imperator.World impWorld,
+		Imperator.World irWorld,
 		Title.LandedTitles titles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
 		ProvinceMapper provinceMapper,
 		Configuration config
 	) {
-		Logger.Info("Importing Imperator Provinces...");
-		var counter = 0;
+		Logger.Info("Importing Imperator provinces...");
+		var importedIRProvsCount = 0;
+		var modifiedCK3ProvsCount = 0;
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
 		foreach (var province in this) {
 			var impProvinces = provinceMapper.GetImperatorProvinceNumbers(province.Id);
@@ -75,16 +76,18 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				continue;
 			}
 			// Next, we find what province to use as its initializing source.
-			var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
+			var sourceProvince = DeterminePrimarySourceProvince(impProvinces, irWorld);
 			if (sourceProvince is null) {
-				Logger.Warn($"Could not determine source province for CK3 province {province.Id}!");
-				continue; // MISMAP, or simply have mod provinces loaded we're not using.
+				Logger.Warn($"Could not determine primary source province for CK3 province {province.Id}!");
+				continue;
 			}
-			province.InitializeFromImperator(sourceProvince.Value.Value, titles, cultureMapper, religionMapper, config);
 			// And finally, initialize it.
-			++counter;
+			province.InitializeFromImperator(sourceProvince, titles, cultureMapper, religionMapper, config);
+			
+			importedIRProvsCount += impProvinces.Count;
+			++modifiedCK3ProvsCount;
 		}
-		Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
+		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
 			
 		Logger.IncrementProgress();
 	}
@@ -104,9 +107,9 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		Logger.IncrementProgress();
 	}
 
-	private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
+	private static Imperator.Provinces.Province? DeterminePrimarySourceProvince(
 		List<ulong> impProvinceNumbers,
-		Imperator.World impWorld
+		Imperator.World irWorld
 	) {
 		// determine ownership by province development.
 		var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
@@ -115,14 +118,14 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		long maxDev = -1;
 
 		foreach (var imperatorProvinceId in impProvinceNumbers) {
-			if (!impWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
+			if (!irWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
 				Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
 				continue; // Broken mapping, or loaded a mod changing provinces without using it.
 			}
 
 			var ownerId = impProvince.OwnerCountry?.Id ?? 0;
 			if (!theClaims.ContainsKey(ownerId)) {
-				theClaims[ownerId] = new();
+				theClaims[ownerId] = new List<Imperator.Provinces.Province>();
 			}
 
 			theClaims[ownerId].Add(impProvince);
@@ -142,20 +145,18 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 
 		// Now that we have a winning owner, let's find its largest province to use as a source.
-		maxDev = -1; // We can have winning provinces with weight = 0;
+		maxDev = -1; // We can have winning provinces with weight = 0.
 
-		var toReturn = new KeyValuePair<ulong, Imperator.Provinces.Province>();
-		foreach (var province in theClaims[(ulong)winner]) {
+		Imperator.Provinces.Province? provinceToReturn = null;
+		foreach (var province in theClaims[winner.Value]) {
 			long provinceWeight = province.BuildingCount + province.GetPopCount();
 
 			if (provinceWeight > maxDev) {
-				toReturn = new(province.Id, province);
+				provinceToReturn = province;
 				maxDev = provinceWeight;
 			}
 		}
-		if (toReturn.Key == 0 || toReturn.Value is null) {
-			return null;
-		}
-		return toReturn;
+
+		return provinceToReturn;
 	}
 }
