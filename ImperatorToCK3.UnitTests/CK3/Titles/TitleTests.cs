@@ -38,7 +38,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			private LocDB locDB = new("english");
 			private readonly Title.LandedTitles landedTitles = new();
 			private ProvinceMapper provinceMapper = new();
-			private CoaMapper coaMapper = new(imperatorModFs);
+			private CoaMapper coaMapper = new(irModFS);
 			private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
 			private GovernmentMapper governmentMapper = new();
 			private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");

@@ -26,7 +26,11 @@ public class ProvinceTests {
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly Date ck3BookmarkDate = "476.1.1";
 	private readonly StateCollection states = new();
-	private readonly CountryCollection countries = new(new BufferedReader("1={}"));
+	private static readonly CountryCollection countries = new();
+
+	static ProvinceTests() {
+		countries.LoadCountries(new BufferedReader("1={}"));
+	}
 	
 	[Fact]
 	public void FieldsCanBeSet() {
@@ -56,7 +60,7 @@ public class ProvinceTests {
 		ulong id = 1;
 		foreach (var provinceStr in strings) {
 			var reader = new BufferedReader(provinceStr);
-			var province = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader, id);
+			var province = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader, id, states, countries);
 			provincesToReturn.Add(province);
 			++id;
 		}
@@ -69,7 +73,7 @@ public class ProvinceTests {
 		var imperatorCountry = Country.Parse(countryReader, 1);
 
 		foreach (var irProvince in irProvinces) {
-			irProvince.LinkOwnerCountry(imperatorCountry);
+			irProvince.OwnerCountry = imperatorCountry;
 		}
 
 		var ck3Religions = new ReligionCollection();

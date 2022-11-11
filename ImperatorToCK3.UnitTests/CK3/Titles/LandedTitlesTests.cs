@@ -277,7 +277,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 			
 			var ck3Provinces = new ProvinceCollection {new(1), new(2), new(3)};
-			var irRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
 			var religions = new ReligionCollection();
@@ -309,7 +308,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt", "test_version");
 
 			var ck3Provinces = new ProvinceCollection {new(1), new(2), new(3)};
-			var irRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
 			var religions = new ReligionCollection();
@@ -343,7 +341,6 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 			
 			var ck3Provinces = new ProvinceCollection {new(1), new(2), new(3)};
-			var irRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
 			var religions = new ReligionCollection();

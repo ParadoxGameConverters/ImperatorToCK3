@@ -19,7 +19,7 @@ public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
 	private StateCollection states = new();
-	private readonly CountryCollection countries = new(new BufferedReader("69 = {}"));
+	private readonly CountryCollection countries = new();
 
 	public ProvinceTests() {
 		var provinces = new ProvinceCollection();
@@ -153,12 +153,6 @@ public class ProvinceTests {
 		);
 
 		var theProvince = Province.Parse(reader, 42, states, countries);
-
-		Assert.Null(theProvince.OwnerCountry); // not linked yet
-
-		var countries = new CountryCollection();
-		countries.LoadCountries(new BufferedReader("69 = {}"));
-		theProvince.TryLinkOwnerCountry(countries);
 
 		Assert.NotNull(theProvince.OwnerCountry);
 		Assert.Equal((ulong)69, theProvince.OwnerCountry.Id);

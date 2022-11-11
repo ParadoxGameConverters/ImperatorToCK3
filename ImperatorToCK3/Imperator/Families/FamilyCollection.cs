@@ -13,7 +13,7 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(reader);
 
-		Logger.Debug($"Ignored family tokens: {Family.IgnoredTokens)}");
+		Logger.Debug($"Ignored family tokens: {Family.IgnoredTokens}");
 	}
 	public void LoadFamilies(BufferedReader reader) {
 		var parser = new Parser();
