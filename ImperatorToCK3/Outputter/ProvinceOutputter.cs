@@ -6,8 +6,13 @@ namespace ImperatorToCK3.Outputter;
 
 public static class ProvinceOutputter {
 	public static void OutputProvince(TextWriter writer, Province province) {
+		var serializedHistory = PDXSerializer.Serialize(province.History, indent: "\t");
+		if (string.IsNullOrWhiteSpace(serializedHistory.Trim())) {
+			return;
+		}
+		
 		writer.WriteLine($"{province.Id}={{");
-		writer.Write(PDXSerializer.Serialize(province.History, indent: "\t"));
+		writer.Write(serializedHistory);
 		writer.WriteLine("}");
 	}
 }

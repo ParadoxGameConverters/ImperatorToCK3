@@ -918,7 +918,7 @@ on_game_start_after_lobby = {
 				}
 			}
 		}
-		every_province = {
+		every_county = {
 			limit = {
 				culture = culture:aaa_noculture
 			}
