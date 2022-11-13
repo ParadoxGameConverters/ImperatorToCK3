@@ -901,7 +901,7 @@ on_game_start_after_lobby = {
 		# IRToCK3: add MAA regiments
 		random_player = {
 			trigger_event = {
-				id = IRToCK3_hidden_events.0001
+				id = irtock3_hidden_events.0001
 				days = 0
 			}
 		}
@@ -918,7 +918,7 @@ on_game_start_after_lobby = {
 				}
 			}
 		}
-		every_province = {
+		every_county = {
 			limit = {
 				culture = culture:aaa_noculture
 			}
