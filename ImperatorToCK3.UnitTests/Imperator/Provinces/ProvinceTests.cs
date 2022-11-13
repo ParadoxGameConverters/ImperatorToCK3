@@ -24,15 +24,18 @@ public class ProvinceTests {
 	public ProvinceTests() {
 		var provinces = new ProvinceCollection();
 		var areaReader = new BufferedReader("provinces = { 42 }");
-		var areas = new AreaCollection() {new Area("media_antropatene_area", areaReader, provinces)};
+		var areas = new AreaCollection {new Area("media_area", areaReader, provinces)};
+		
 		var statesReader = new BufferedReader("""
 		1 = {
 			capital=42
-			area="media_antropatene_area"
+			area="media_area"
 		}
 		"""
 		);
 		states.LoadStates(statesReader, areas, countries);
+		
+		countries.Add(new Country(69));
 	}
 	
 	[Fact]
@@ -153,7 +156,7 @@ public class ProvinceTests {
 		);
 
 		var theProvince = Province.Parse(reader, 42, states, countries);
-
+		
 		Assert.NotNull(theProvince.OwnerCountry);
 		Assert.Equal((ulong)69, theProvince.OwnerCountry.Id);
 	}

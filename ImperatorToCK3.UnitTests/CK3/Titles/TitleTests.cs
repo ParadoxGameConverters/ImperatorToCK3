@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
+using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
@@ -29,7 +30,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 	public class TitleTests {
 		private const string ImperatorRoot = "TestFiles/LandedTitlesTests/Imperator/game";
 		private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-		private static readonly AreaCollection areas = new();
+		private static readonly AreaCollection areas = new() {
+			new Area("galatia_area", new BufferedReader(), new ProvinceCollection()),
+			new Area("paphlagonia_area", new BufferedReader(), new ProvinceCollection())
+		};
 		private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 		
 		private class TitleBuilder {
