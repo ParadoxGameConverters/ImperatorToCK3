@@ -42,9 +42,21 @@ public partial class Province : IIdentifiable<ulong> {
 		BaseProvinceId = sourceProvince.Id;
 
 		var srcProvinceHistoryFields = sourceProvince.History.Fields;
-		History.Fields.AddOrReplace(srcProvinceHistoryFields["culture"].Clone());
-		History.Fields.AddOrReplace(srcProvinceHistoryFields["faith"].Clone());
-		History.Fields.AddOrReplace(srcProvinceHistoryFields["terrain"].Clone());
+
+		var fieldsToCopy = new[] {"culture", "faith", "terrain"};
+		foreach (var fieldName in fieldsToCopy) {
+			if (History.Fields.TryGetValue(fieldName, out var field)) {
+				if (field.DateToEntriesDict.Any()) {
+					continue;
+				}
+
+				if (field.InitialEntries.Any()) {
+					continue;
+				}
+			}
+			
+			History.Fields.AddOrReplace(srcProvinceHistoryFields[fieldName].Clone());
+		}
 	}
 
 	public void InitializeFromImperator(
