@@ -83,12 +83,8 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 				continue;
 			}
-			if (ContainsKey(newProvinceId)) {
-				Logger.Debug($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
-			} else {
-				var newProvince = new Province(newProvinceId, this[baseProvinceId]);
-				Add(newProvince);
-			}
+			
+			this[newProvinceId].CopyEntriesFromProvince(this[baseProvinceId]);
 		}
 		Logger.IncrementProgress();
 		
