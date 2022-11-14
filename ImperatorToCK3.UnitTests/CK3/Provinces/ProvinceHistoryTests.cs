@@ -19,9 +19,13 @@ public class ProvinceHistoryTests {
 
 	[Fact]
 	public void DetailsCanBeLoadedFromStream() {
-		var reader = new BufferedReader(
-			"= { religion = orthodox\n random_param = random_stuff\n culture = roman\n}"
-		);
+		var reader = new BufferedReader("""
+			= {
+				religion = orthodox
+				random_param = random_stuff
+				culture = roman
+			}
+		""");
 		var province = new Province(1, reader);
 
 		Assert.Equal("roman", province.GetCultureId(ck3BookmarkDate));
@@ -30,14 +34,14 @@ public class ProvinceHistoryTests {
 
 	[Fact]
 	public void DetailsAreLoadedFromDatedBlocks() {
-		var reader = new BufferedReader(
-			"= {" +
-			"religion = catholic\n" +
-			"random_param = random_stuff\n" +
-			"culture = roman\n" +
-			"850.1.1 = { religion=orthodox holding=castle_holding }" +
-			"}"
-		);
+		var reader = new BufferedReader("""
+			= {
+				religion = catholic
+				random_param = random_stuff
+				culture = roman
+				850.1.1 = { religion=orthodox holding=castle_holding }
+			}
+		""");
 		var province = new Province(1, reader);
 
 		Assert.Equal("castle_holding", province.GetHoldingType(ck3BookmarkDate));
@@ -45,18 +49,19 @@ public class ProvinceHistoryTests {
 	}
 
 	[Fact]
-	public void CultureFaithAndTerrainDetailsCanBeCopyConstructed() {
-		var reader = new BufferedReader(
-			"= {" +
-			"\treligion = catholic\n" +
-			"\tculture = roman\n" +
-			"\tterrain = arctic\n" +
-			"\tbuildings = { orchard tavern }" +
-			"\t850.1.1 = { religion=orthodox holding=castle_holding }" +
-			"}"
-		);
+	public void CultureFaithAndTerrainDetailsCanCopiedFromOtherProvince() {
+		var reader = new BufferedReader("""
+			= {
+				religion = catholic
+				culture = roman
+				terrain = arctic
+				buildings = { orchard tavern }
+				850.1.1 = { religion=orthodox holding=castle_holding }
+			}
+		""");
 		var province1 = new Province(1, reader);
-		var province2 = new Province(2, province1);
+		var province2 = new Province(2);
+		province2.CopyEntriesFromProvince(province1);
 		
 		// Only culture, faith and terrain should be copied from source province.
 		Assert.Equal("orthodox", province2.GetFaithId(ck3BookmarkDate));
