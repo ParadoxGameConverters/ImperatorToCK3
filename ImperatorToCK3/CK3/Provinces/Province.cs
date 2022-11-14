@@ -13,7 +13,7 @@ namespace ImperatorToCK3.CK3.Provinces;
 
 public partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
-	public ulong? BaseProvinceId { get; }
+	public ulong? BaseProvinceId { get; private set; }
 
 	public Imperator.Provinces.Province? PrimaryImperatorProvince { get; set; } = null;
 	private readonly OrderedSet<Imperator.Provinces.Province> secondaryImperatorProvinces = new();
@@ -37,14 +37,26 @@ public partial class Province : IIdentifiable<ulong> {
 	public Province(ulong id, BufferedReader reader): this(id) {
 		History = historyFactory.GetHistory(reader);
 	}
-	public Province(ulong id, Province sourceProvince): this(id) {
+	public void CopyEntriesFromProvince(Province sourceProvince) {
 		// culture, faith and terrain can be copied from source province
 		BaseProvinceId = sourceProvince.Id;
 
 		var srcProvinceHistoryFields = sourceProvince.History.Fields;
-		History.Fields.AddOrReplace(srcProvinceHistoryFields["culture"].Clone());
-		History.Fields.AddOrReplace(srcProvinceHistoryFields["faith"].Clone());
-		History.Fields.AddOrReplace(srcProvinceHistoryFields["terrain"].Clone());
+
+		var fieldsToCopy = new[] {"culture", "faith", "terrain"};
+		foreach (var fieldName in fieldsToCopy) {
+			if (History.Fields.TryGetValue(fieldName, out var field)) {
+				if (field.DateToEntriesDict.Any()) {
+					continue;
+				}
+
+				if (field.InitialEntries.Any()) {
+					continue;
+				}
+			}
+			
+			History.Fields.AddOrReplace(srcProvinceHistoryFields[fieldName].Clone());
+		}
 	}
 
 	public void InitializeFromImperator(

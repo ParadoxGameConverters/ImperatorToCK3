@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.7.2
 nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 	color = rgb { 14  20  31 }
 
@@ -19,7 +19,10 @@ nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 	}
 	
 	coa_gfx = { arabic_group_coa_gfx } 
-	building_gfx = { mediterranean_building_gfx arabic_group_building_gfx } # quite hellenistic https://en.wikipedia.org/wiki/Nabataean_architecture
+	building_gfx = {
+		mediterranean_building_gfx # quite hellenistic https://en.wikipedia.org/wiki/Nabataean_architecture
+		# arabic_group_building_gfx # commented out to fix log error: "Gfx culture mediterranean_building_gfx in nabatean doesn't match existing sequence in armenian"
+	}
 	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
 	unit_gfx = { mena_unit_gfx } 
 }
