@@ -69,28 +69,19 @@ public partial class Title {
 
 		public void Update(LandedTitles overrides) {
 			// merge in new king and empire titles, overriding duplicates
-			foreach (var title in overrides.Where(x => !x.Id.StartsWith("d_"))) {
+			foreach (var title in overrides.Where(t => t.Rank > TitleRank.duchy)) {
 				// inherit vanilla vassals
 				Title? vTitle = null;
 				TryGetValue(title.Id, out vTitle);
-				AddOrReplace(title);
-				if (title.CapitalCountyId is not null) {
-					this[title.Id].CapitalCounty = this[title.CapitalCountyId];
-				}
-
-				if (vTitle is not null) {
-					foreach (var vassal in vTitle.DeJureVassals) {
-						vassal.DeJureLiege = title;
-					}
-				}
+				AddOrReplace(new Title(vTitle, title, this));
 			}
 
-			// update duchies to correct de jure lieges
-			foreach (var title in overrides.Where(x => x.Id.StartsWith("d_"))) {
+			// update duchies to correct de jure liege, remove dejure titles that lose all dejure vassals
+			foreach (var title in overrides.Where(t => t.Rank == TitleRank.duchy)) {
 				var duchy = this[title.Id];
 				if (duchy.DeJureLiege is not null) {
 					if (duchy.DeJureLiege.DeJureVassals.Count <= 1) {
-						duchy.DeJureLiege.Landless = true;
+						duchy.DeJureLiege.DeJureLiege = null;
 					}
 				}
 				duchy.DeJureLiege = title.DeJureLiege;

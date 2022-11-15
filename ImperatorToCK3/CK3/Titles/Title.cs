@@ -17,11 +17,14 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using Open.Threading;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -103,6 +106,59 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			definiteFormMapper,
 			imperatorRegionMapper
 		);
+	}
+
+	private Title(Title? baseTitle, Title overrideTitle, LandedTitles parentCollection) {
+		// Merge titles.
+		this.parentCollection = parentCollection;
+
+		Id = overrideTitle.Id;
+		SetRank();
+
+		if (baseTitle is not null) {
+			if (baseTitle.Id != overrideTitle.Id) {
+				Logger.Warn($"Merging {overrideTitle.Id} into {Id}! This is unsupported.");
+			}
+			// Copy vital items for a DeJure only title.
+			HasDefiniteForm = baseTitle.HasDefiniteForm;
+			RulerUsesTitleName = baseTitle.RulerUsesTitleName;
+
+			Color1 = baseTitle.Color1;
+			History = baseTitle.History;
+			CoA = baseTitle.CoA;
+
+			CapitalCounty = baseTitle.CapitalCounty;
+			Localizations = baseTitle.Localizations;
+
+			AIPrimaryPriority = baseTitle.AIPrimaryPriority;
+			RulerUsesTitleName = baseTitle.RulerUsesTitleName;
+			CanBeNamedAfterDynasty = baseTitle.CanBeNamedAfterDynasty;
+			MaleNames = baseTitle.MaleNames;
+			CulturalNames = baseTitle.CulturalNames;
+
+			// Bring base vassals into merged title
+			foreach (var vassal in baseTitle.DeJureVassals) {
+				vassal.DeJureLiege = this;
+			}
+		}
+
+		DeJureLiege = overrideTitle.DeJureLiege;
+
+		// Bring new LandedTitle.txt style specifications into merged Title
+		if (overrideTitle.Color1 is not null) {
+			Color1 = overrideTitle.Color1;
+		}
+		if (overrideTitle.CapitalCountyId is not null) {
+			CapitalCountyId = overrideTitle.CapitalCountyId;
+		}
+		if (overrideTitle.AIPrimaryPriority is not null) {
+			AIPrimaryPriority = overrideTitle.AIPrimaryPriority;
+		}
+
+		// Bring new vassals into merged title
+		foreach (var vassal in overrideTitle.DeJureVassals) {
+			vassal.DeJureLiege = this;
+		}
 	}
 	public void InitializeFromTag(
 		Country country,

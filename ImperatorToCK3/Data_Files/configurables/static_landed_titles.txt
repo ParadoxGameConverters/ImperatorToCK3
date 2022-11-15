@@ -1,4 +1,32 @@
-﻿e_spain = {
+﻿################
+# Instructions #
+################
+# If dejure generation is set to static, titles defined in this file will carve themselves out of the vanilla 00_landed_titles.txt
+#
+# New titles can be created
+# e_new = { k_england = {} } # is a new empire containing only the vanilla kingdom of england
+#
+# Existing titles can be assigned new vassals. Existing titles will retain old vassals, unless another title in this file claims it.
+# e_britannia = { k_england = { d_brittany = {} } } # gives the duchy of brittany to the existing kingdom of england
+#
+# Defining k_ or d_ titles outside of their hierarchy will delete any dejure relationship above them
+# k_england = {} # removes england from the empire of britannia, and now has no dejure empire
+# d_lancaster = {} # removes lancaster from england, giving lancaster no dejure kingdom or empire, england remains in britannia
+#
+# new e_ and k_ titles must have thier capital county set
+# Ex: Makes a Norman empire consisting of the kingdom of England without Kent, and a new Kingdom of Normans with Normandy and Kent
+# e_norman = {
+#	capital = c_rouen
+#	k_england = {}
+#	k_normanking = {
+#		capital = c_rouen
+#		d_normandy = {}
+#		d_canterbury = {}
+#	}
+#}
+######################################################################################
+
+e_spain = {
 	color = { 233 200 20 }
 	color2 = { 255 255 255 }
 
@@ -103,22 +131,6 @@ e_gaul = {
 		}
 	}
 	
-	k_helvetia = {
-		#Created by decision
-		color={ 0.81 0.42 0.61 }
-		color2={ 255 255 255 }
-	}
-	k_brennusovia = {
-		#Created by decision
-		color={ 39 206 123 }
-		color2={ 255 255 255 }
-	}
-	k_rhodania = {
-		#Created by decision
-		color= hsv { 0.35 0.6 0.30 }
-		color2={ 255 255 255 }
-	}
-	
 	k_armorique = {
 		color = hsv { 0.26 0.39 0.5 }
 		color2 = { 255 255 20 }
@@ -208,7 +220,7 @@ e_britannia = {
 		}
 	}
 	
-	k_brettonia = {
+	k_england = {
 		color = hsv { 0.94 0.63 0.73 }
 		color2 = { 255 255 255 }
 		
@@ -222,18 +234,8 @@ e_britannia = {
 				add = @correct_culture_primary_score
 			}
 		}
-		
-		d_bedford = {}
-		d_northumberland = {}
-		d_lancaster = {}
-		d_york = {}
-		d_norfolk = {}
-		d_hereford = {}
-		d_gloucester = {}
-		d_canterbury = {}
-		d_somerset = {}
-		d_cornwall = {}
 	}
+}
 
 e_western_roman_empire = {
 	color = hsv { 0 0.91 0.55 }
@@ -338,5 +340,237 @@ e_western_roman_empire = {
 		d_transjurania = {}
 		d_currezia = {}
 		d_augsburg = {}
+	}
+}
+
+e_byzantium = {
+	color =  hsv{ 0.9 1 0.3 } #hsv{ 0.73 0.8 0.4 }  #hsv{ 0.77 0.8 0.6 } #{ 143 12 125 }
+	color2 = { 255 255 255 }
+
+	capital = c_byzantion
+
+	definite_form = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_byzantine }
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+	
+	k_macedon = {
+		color = hsv { 0.65 0.65 0.73 }
+		color2 = { 255 255 255 }
+
+		capital = c_turnovo # Turnovo
+		
+		ai_primary_priority = {
+			if = {
+				limit = {
+					culture = culture:greek
+				}
+				add = @correct_culture_primary_score
+			}
+			if = {
+				limit = {
+					NOT = { culture = culture:greek }
+					culture = { has_cultural_pillar = heritage_byzantine }
+				}
+				add = @better_than_the_alternatives_score
+			}
+		}
+
+		d_vidin = {}
+		d_turnovo = {}
+		d_dobrudja = {}
+		d_bulgaria = {}
+		d_philippopolis = {}
+	}
+}
+
+e_egypte = {
+	color = { 177 183 23 }
+	color2 = { 255 255 255 }
+
+	capital = c_alexandria
+	
+	k_egypt = {
+		color = { 10 255 80 }
+		color2 = { 255 255 255 }
+
+		capital	= c_cairo
+
+		ai_primary_priority = {
+			if = {
+				limit = {
+					culture = culture:egyptian
+				}
+				add = @correct_culture_primary_score
+			}
+		}
+	}
+
+	k_phoenicia = {
+		color = hsv { 0.86 0.21 0.8 }
+		color2 = { 255 255 255 }
+
+		capital = c_antiocheia
+		
+		d_antioch = {}
+		d_lebanon = {}
+		d_cyprus = {}
+	}
+	
+	k_palestinia = {
+		color = { 0 125 168 }
+		color2 = { 255 255 255 }
+
+		capital = c_jerusalem
+		
+		d_oultrejourdain = {}
+		d_palestine = {}
+		d_urdunn = {}
+	}
+
+	k_syria = {
+		color = { 145 130 88 }
+		color2 = { 255 255 255 }
+
+		capital = c_damascus
+	}
+}
+
+e_germany = {
+	color = { 190 200 190 }
+	color2 = { 220 220 20 }
+
+	capital = c_nassau
+
+	can_create = {
+		custom_description = {
+			text = form_germania_christian_trigger
+
+			NOT = {
+				faith = {
+					religion_tag = christianity_religion
+					has_doctrine = doctrine_spiritual_head
+				}
+			}
+		}
+	}
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_central_germanic }
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	k_germania_superior = {
+		color = hsv { 0.13 0.25 0.6 }
+		color2 = { 220 220 20 }
+
+		capital = c_luxembourg #Luxemburg
+
+		ai_primary_priority = {
+			if = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_central_germanic }
+				}
+				add = @better_than_the_alternatives_score
+			}
+		}
+
+		d_west_franconia = {}
+		d_east_franconia = {}
+		d_hesse = {}
+		d_thuringia = {}
+		d_alsace = {}
+		d_swabia = {}
+		d_upper_lorraine = {}
+		d_bar = {}
+	}
+
+	k_german_bohemia = {
+		color = { 34 108 210 }
+		color2 = { 220 220 20 }
+
+		capital = c_praha # Praha
+		
+		d_upper_silesia = {}
+		d_bohemia = {}
+		d_moravia = {}
+		d_bavaria = {}
+		d_nordgau = {}
+		d_salzburg = {}
+		d_osterreich = {}
+	}
+
+	k_central_germania = {
+		color = { 204 161 83 }
+		color2 = { 220 220 20 }
+
+		capital = c_stettin # Szczecin
+		
+		d_pommerania = {}
+		d_nordmark = {}
+		d_pomerelia = {}
+		d_ostmark = {}
+		d_wielkopolska = {}
+		d_lower_silesia = {}
+		d_kuyavia = {}
+		d_meissen = {}
+		d_lausitz = {}
+		d_anhalt = {}
+	}
+}
+
+e_wendish_empire = {
+	color = { 130 10 0 }
+	color2 = { 200 0 0 }
+
+	capital = c_vidzeme # Riga
+
+	definite_form = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_baltic }
+			}
+			add = @correct_culture_primary_score
+		}
+		else_if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_balto_finnic }
+			}
+			add = @better_than_the_alternatives_score
+		}
+	}
+	
+	k_vistulia = {
+		color = hsv { 0.07 0.37 1 }
+		color2 = { 255 255 255 }
+
+		capital = c_volodymyr # Volodymyr
+		
+		can_create = {
+			trigger_if = {
+				limit = {
+					is_ai = yes
+				}
+				culture = { has_cultural_pillar = heritage_baltic }
+			}
+		}
+		
+		d_lesser_poland = {}
+		d_mazovia = {}
+		d_volhynia = {}
+		d_halych = {}
+		d_cherven_cities = {}
 	}
 }
