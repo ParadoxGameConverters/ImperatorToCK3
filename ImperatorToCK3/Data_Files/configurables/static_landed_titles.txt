@@ -140,7 +140,7 @@ e_gaul = {
 		d_anjou = {}
 	}
 	
-	k_aquitaine_gaul = {
+	k_aquitane_gaul = {
 		color = hsv { 0.77 0.64 0.48 }
 		color2 = { 255 255 20 }
 		
@@ -165,7 +165,7 @@ e_gaul = {
 		d_lower_lorraine = {}
 	}
 	
-	k_celtica_gaul = {
+	k_celtia_gaul = {
 		color = hsv { 0.65 0.29 0.73 }
 		color2 = { 255 255 20 }
 		
