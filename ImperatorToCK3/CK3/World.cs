@@ -98,7 +98,7 @@ namespace ImperatorToCK3.CK3 {
 
 				Title.LandedTitles overrideTitles = new();
 				overrideTitles.LoadStaticTitles();
-				LandedTitles.Update(overrideTitles);
+				LandedTitles.CarveTitles(overrideTitles);
 
 				Logger.IncrementProgress();
 			}

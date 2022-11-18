@@ -47,6 +47,13 @@ public partial class Title {
 
 			Logger.IncrementProgress();
 		}
+		public void LoadTitles(BufferedReader reader) {
+			var parser = new Parser();
+			RegisterKeys(parser);
+			parser.ParseStream(reader);
+
+			LogIgnoredTokens();
+		}
 		public void LoadStaticTitles() {
 			Logger.Info("Loading static landed titles...");
 
@@ -59,16 +66,21 @@ public partial class Title {
 
 			Logger.IncrementProgress();
 		}
-		public void LoadTitles(BufferedReader reader) {
+		public void LoadStaticTitles(BufferedReader reader) {
+			Logger.Info("Loading static landed titles...");
+
 			var parser = new Parser();
 			RegisterKeys(parser);
+
 			parser.ParseStream(reader);
 
 			LogIgnoredTokens();
+
+			Logger.IncrementProgress();
 		}
 
-		public void Update(LandedTitles overrides) {
-			// merge in new king and empire titles, overriding duplicates
+		public void CarveTitles(LandedTitles overrides) {
+			// merge in new king and empire titles into this from overrides, overriding duplicates
 			foreach (var title in overrides.Where(t => t.Rank > TitleRank.duchy)) {
 				// inherit vanilla vassals
 				Title? vTitle = null;
