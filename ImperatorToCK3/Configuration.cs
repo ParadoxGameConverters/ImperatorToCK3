@@ -4,7 +4,6 @@ using ImperatorToCK3.Exceptions;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace ImperatorToCK3 {
 	public enum LegionConversion { No, SpecialTroops, MenAtArms }
@@ -103,16 +102,31 @@ namespace ImperatorToCK3 {
 			if (!Directory.Exists(ImperatorPath)) {
 				throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
 			}
-
+			
 			var binariesPath = Path.Combine(ImperatorPath, "binaries");
-			var appIdPath = Path.Combine(binariesPath, "steam_appid.txt");
-
-			var appId = File.ReadAllText(appIdPath).Trim();
-			if (appId != "859580") {
-				throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
+			var imperatorExePath = Path.Combine(binariesPath, "imperator");
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+				imperatorExePath += ".exe";
 			}
 			
-			Logger.Info($"\tI:R install path is {ImperatorPath}");
+			bool installVerified = File.Exists(imperatorExePath);
+			if (!installVerified) {
+				try {
+					var appIdPath = Path.Combine(binariesPath, "steam_appid.txt");
+					var appId = File.ReadAllText(appIdPath).Trim();
+					if (appId == "859580") {
+						installVerified = true;
+					}
+				} catch {
+					Logger.Debug("I:R steam_appid file not found.");
+				}
+			}
+
+			if (installVerified) {
+				Logger.Info($"\tI:R install path is {ImperatorPath}");
+			} else {
+				throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
+			}
 		}
 
 		private void VerifyCK3Path() {
@@ -121,13 +135,29 @@ namespace ImperatorToCK3 {
 			}
 
 			var binariesPath = Path.Combine(CK3Path, "binaries");
-			var appIdPath = Path.Combine(binariesPath, "steam_appid.txt");
+			var ck3ExePath = Path.Combine(binariesPath, "ck3");
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+				ck3ExePath += ".exe";
+			}
 
-			var appId = File.ReadAllText(appIdPath).Trim();
-			if (appId != "1158310") {
+			bool installVerified = File.Exists(ck3ExePath);
+			if (!installVerified) {
+				try {
+					var appIdPath = Path.Combine(binariesPath, "steam_appid.txt");
+					var appId = File.ReadAllText(appIdPath).Trim();
+					if (appId == "1158310") {
+						installVerified = true;
+					}
+				} catch {
+					Logger.Debug("CK3 steam_appid file not found.");
+				}
+			}
+
+			if (installVerified) {
+				Logger.Info($"\tCK3 install path is {CK3Path}");
+			} else{
 				throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
 			}
-			Logger.Info($"\tCK3 install path is {CK3Path}");
 		}
 
 		private void SetOutputName() {
