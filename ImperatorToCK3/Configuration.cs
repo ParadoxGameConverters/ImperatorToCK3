@@ -104,12 +104,16 @@ namespace ImperatorToCK3 {
 				throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
 			}
 
-			var imperatorExePath = Path.Combine(ImperatorPath, "binaries", "imperator");
+			var imperatorExePath = Path.Combine(ImperatorPath, "binaries/imperator");
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 				imperatorExePath += ".exe";
 			}
 			if (!File.Exists(imperatorExePath)) {
-				throw new FileNotFoundException($"{ImperatorPath} does not contains Imperator: Rome!");
+				Logger.Debug($"File not found: \"{imperatorExePath}\"");
+				if (Directory.Exists(imperatorExePath)) {
+					Logger.Debug($"\"{imperatorExePath}\" should not be a directory!");
+				}
+				throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
 			}
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		}
