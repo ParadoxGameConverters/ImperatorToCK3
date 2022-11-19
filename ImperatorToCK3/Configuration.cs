@@ -105,21 +105,13 @@ namespace ImperatorToCK3 {
 			}
 
 			var binariesPath = Path.Combine(ImperatorPath, "binaries");
-			var imperatorExePath = Path.Combine(binariesPath, "imperator");
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-				imperatorExePath += ".exe";
-			}
-			var fileInfo = new FileInfo(imperatorExePath);
-			if (!fileInfo.Exists) {
-				Logger.Debug($"File not found: \"{imperatorExePath}\"");
-				if (Directory.Exists(imperatorExePath)) {
-					Logger.Debug($"\"{imperatorExePath}\" should not be a directory!");
-				}
-				var binariesFiles = SystemUtils.GetAllFilesInFolder(binariesPath);
-				Logger.Debug($"Files in binaries directory {string.Join(';', binariesFiles)}");
-				
+			var appIdPath = Path.Combine(binariesPath, "steam_appid.txt");
+
+			var appId = File.ReadAllText(appIdPath).Trim();
+			if (appId != "859580") {
 				throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
 			}
+			
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		}
 
@@ -129,19 +121,10 @@ namespace ImperatorToCK3 {
 			}
 
 			var binariesPath = Path.Combine(CK3Path, "binaries");
-			var ck3ExePath = Path.Combine(binariesPath, "ck3");
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-				ck3ExePath += ".exe";
-			}
-			var fileInfo = new FileInfo(ck3ExePath);
-			if (!fileInfo.Exists) {				
-				Logger.Debug($"File not found: \"{ck3ExePath}\"");
-				if (Directory.Exists(ck3ExePath)) {
-					Logger.Debug($"\"{ck3ExePath}\" should not be a directory!");
-				}
-				var binariesFiles = SystemUtils.GetAllFilesInFolder(binariesPath);
-				Logger.Debug($"Files in binaries directory {string.Join(';', binariesFiles)}");
-				
+			var appIdPath = Path.Combine(binariesPath, "steam_appid.txt");
+
+			var appId = File.ReadAllText(appIdPath).Trim();
+			if (appId != "1158310") {
 				throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
 			}
 			Logger.Info($"\tCK3 install path is {CK3Path}");
