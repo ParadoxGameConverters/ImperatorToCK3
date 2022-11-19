@@ -108,12 +108,12 @@ namespace ImperatorToCK3 {
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 				imperatorExePath += ".exe";
 			}
-			if (!File.Exists(imperatorExePath)) {
+			var fileInfo = new FileInfo(imperatorExePath);
+			if (!fileInfo.Exists) {
 				Logger.Debug($"File not found: \"{imperatorExePath}\"");
 				if (Directory.Exists(imperatorExePath)) {
 					Logger.Debug($"\"{imperatorExePath}\" should not be a directory!");
 				}
-				throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
 			}
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		}
@@ -123,11 +123,12 @@ namespace ImperatorToCK3 {
 				throw new DirectoryNotFoundException($"{CK3Path} does not exist!");
 			}
 
-			var ck3ExePath = Path.Combine(CK3Path, "binaries", "ck3");
+			var ck3ExePath = Path.Combine(CK3Path, "binaries/ck3");
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 				ck3ExePath += ".exe";
 			}
-			if (!File.Exists(ck3ExePath)) {
+			var fileInfo = new FileInfo(ck3ExePath);
+			if (!fileInfo.Exists) {
 				throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
 			}
 			Logger.Info($"\tCK3 install path is {CK3Path}");
