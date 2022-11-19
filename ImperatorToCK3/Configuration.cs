@@ -109,7 +109,7 @@ namespace ImperatorToCK3 {
 				imperatorExePath += ".exe";
 			}
 			if (!File.Exists(imperatorExePath)) {
-				throw new FileNotFoundException($"{ImperatorPath} does not contains Imperator: Rome!");
+				throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
 			}
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		}
