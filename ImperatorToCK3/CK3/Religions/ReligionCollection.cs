@@ -23,7 +23,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	private void RegisterReligionsKeywords(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-			var religion = new Religion(religionId, religionReader);
+			var religion = new Religion(religionId, religionReader, this);
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
@@ -41,7 +41,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	private void RegisterHolySitesKeywords(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (holySiteReader, holySiteId) => {
-			HolySites.Add(new HolySite(holySiteId, holySiteReader));
+			HolySites.AddOrReplace(new HolySite(holySiteId, holySiteReader));
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
