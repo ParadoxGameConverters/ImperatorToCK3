@@ -117,8 +117,8 @@ namespace ImperatorToCK3 {
 					if (appId == "859580") {
 						installVerified = true;
 					}
-				} catch {
-					Logger.Debug("I:R steam_appid file not found.");
+				} catch(Exception e) {
+					Logger.Debug($"Exception was raised when checking I:R steam_appid: {e.Message}");
 				}
 			}
 
@@ -148,8 +148,8 @@ namespace ImperatorToCK3 {
 					if (appId == "1158310") {
 						installVerified = true;
 					}
-				} catch {
-					Logger.Debug("CK3 steam_appid file not found.");
+				} catch(Exception e) {
+					Logger.Debug($"Exception was raised when checking CK3 steam_appid: {e.Message}");
 				}
 			}
 
