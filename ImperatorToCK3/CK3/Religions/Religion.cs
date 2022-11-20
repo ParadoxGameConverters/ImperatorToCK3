@@ -9,16 +9,21 @@ namespace ImperatorToCK3.CK3.Religions;
 public class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 
-	public Religion(string id, BufferedReader religionReader) {
+	public Religion(string id, BufferedReader religionReader, ReligionCollection religions) {
 		Id = id;
 
 		var religionParser = new Parser();
 		religionParser.RegisterKeyword("faiths", faithsReader => {
 			var faithsParser = new Parser();
 			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
-				Faiths.Add(new Faith(faithId, faithReader));
+				// The faith might have already been added to another religion.
+				foreach (var otherReligion in religions) {
+					otherReligion.Faiths.Remove(faithId);
+				}
+				
+				Faiths.AddOrReplace(new Faith(faithId, faithReader));
 			});
-			faithsParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {

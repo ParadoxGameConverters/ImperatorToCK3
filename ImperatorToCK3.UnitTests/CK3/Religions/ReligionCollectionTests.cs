@@ -52,13 +52,13 @@ public class ReligionCollectionTests {
 		var date = new Date("476.1.1");
 		
 		var impProv1 = new ImperatorToCK3.Imperator.Provinces.Province(1);
-		var prov1 = new Province(1) {ImperatorProvince = impProv1};
+		var prov1 = new Province(1) {PrimaryImperatorProvince = impProv1};
 		prov1.SetFaithId("faith1", date: null);
 		var impProv2 = new ImperatorToCK3.Imperator.Provinces.Province(2);
-		var prov2 = new Province(2) {ImperatorProvince = impProv2};
+		var prov2 = new Province(2) {PrimaryImperatorProvince = impProv2};
 		prov2.SetFaithId("faith1", date);
 		var impProv3 = new ImperatorToCK3.Imperator.Provinces.Province(3);
-		var prov3 = new Province(3) {ImperatorProvince = impProv3};
+		var prov3 = new Province(3) {PrimaryImperatorProvince = impProv3};
 		prov3.SetFaithId("faith2", date);
 		var prov4 = new Province(4); // has no Imperator province, won't be considered
 		prov4.SetFaithId("faith2", date);
@@ -85,7 +85,7 @@ public class ReligionCollectionTests {
 				imperatorProv.HolySiteId = provId;
 			}
 
-			var ck3Prov = new Province(provId) {ImperatorProvince = imperatorProv};
+			var ck3Prov = new Province(provId) {PrimaryImperatorProvince = imperatorProv};
 			ck3Prov.SetFaithId("ck3Faith", date: null);
 			return ck3Prov;
 		}
