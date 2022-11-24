@@ -47,7 +47,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			var impCountries = new CountryCollection();
 			impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM}"));
 			var titles = new Title.LandedTitles();
-			var ck3Religions = new ReligionCollection();
+			var ck3Religions = new ReligionCollection(titles);
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			titles.ImportImperatorCountries(impCountries,
@@ -113,7 +113,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			var impCountries = new CountryCollection();
 			impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM} 2={tag=DRE}"));
 			var titles = new Title.LandedTitles();
-			var ck3Religions = new ReligionCollection();
+			var ck3Religions = new ReligionCollection(titles);
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			titles.ImportImperatorCountries(impCountries,
@@ -187,7 +187,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle {
 			impCountries.LoadCountries(new BufferedReader(" 1={tag=BOR}"));
 			var titles = new Title.LandedTitles();
 			
-			var ck3Religions = new ReligionCollection();
+			var ck3Religions = new ReligionCollection(titles);
 			var imperatorRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			titles.ImportImperatorCountries(impCountries,
