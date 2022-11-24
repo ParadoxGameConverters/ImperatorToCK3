@@ -49,7 +49,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				var holySite = new HolySite(holySiteId, holySiteReader, landedTitles);
 				HolySites.AddOrReplace(holySite);
 			} catch (KeyNotFoundException e) {
-				Logger.Debug($"Could not add holy site {holySiteId}: {e}");
+				Logger.Debug($"Could not add holy site {holySiteId}: {e.Message}");
 			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();

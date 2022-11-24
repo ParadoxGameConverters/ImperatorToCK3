@@ -86,11 +86,6 @@ namespace ImperatorToCK3.CK3 {
 
 			Logger.Info("Loading map data...");
 			MapData = new MapData(ModFS);
-			
-			// Load CK3 religions from game and blankMod
-			Religions.LoadHolySites(ModFS);
-			Religions.LoadReligions(ModFS);
-			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
 			// Load Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(impWorld.ModFS);
@@ -99,8 +94,14 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.LoadTitles(ModFS);
 			LandedTitles.LoadHistory(config, ModFS);
 			LandedTitles.LoadCulturalNamesFromConfigurables();
+			
+			// Load CK3 religions from game and blankMod.
+			// Holy sites need to be loaded after landed titles.
+			Religions.LoadHolySites(ModFS);
+			Religions.LoadReligions(ModFS);
+			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
-			// Loading regions
+			// Load regions.
 			ck3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
 			// Use the region mappers in other mappers
