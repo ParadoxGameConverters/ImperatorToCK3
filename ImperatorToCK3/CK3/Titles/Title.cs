@@ -454,13 +454,31 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, locDB);
-		TrySetAdjectiveFromGovernorship(country);
+		TrySetAdjectiveFromGovernorship(governorship, country, locDB);
 	}
 
-	private void TrySetAdjectiveFromGovernorship(Country country) {
+	private void TrySetAdjectiveFromGovernorship(Governorship governorship, Country country, LocDB locDB) {
 		var adjKey = $"{Id}_adj";
-		if (!Localizations.ContainsKey(adjKey)) {
-			var adjSet = false;
+		if (Localizations.ContainsKey(adjKey)) {
+			return;
+		}
+
+		var adjSet = false;
+		// Try to generate adjective from name.
+		var nameLocBlock = Localizations.GetLocBlockForKey(Id) ?? locDB.GetLocBlockForKey(governorship.RegionName);
+		if (!adjSet && nameLocBlock is not null) {
+			var adjLocBlock = Localizations.AddLocBlock(adjKey);
+			adjLocBlock.CopyFrom(nameLocBlock);
+
+			var englishLoc = adjLocBlock["english"];
+			if (englishLoc is not null) {
+				adjLocBlock["english"] = englishLoc.GetAdjective();
+			}
+
+			adjSet = true;
+		}
+		// Try to use country adjective.
+		if (!adjSet) {
 			var ck3Country = country.CK3Title;
 			if (ck3Country is null) {
 				return;
@@ -470,9 +488,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				adjLocBlock.CopyFrom(countryAdjectiveLocBlock);
 				adjSet = true;
 			}
-			if (!adjSet) {
-				Logger.Warn($"{Id} needs help with adjective localization!");
-			}
+		}
+
+		if (!adjSet) {
+			Logger.Warn($"{Id} needs help with adjective localization!");
 		}
 	}
 
