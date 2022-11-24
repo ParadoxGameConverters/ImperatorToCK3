@@ -222,7 +222,7 @@ namespace ImperatorToCK3.CK3 {
 			const string maaPath = "common/men_at_arms_types";
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (reader, typeId) => {
-				MenAtArmsTypes.Add(new MenAtArmsType(typeId, reader, scriptValues));
+				MenAtArmsTypes.AddOrReplace(new MenAtArmsType(typeId, reader, scriptValues));
 			});
 			parser.IgnoreAndLogUnregisteredItems();
 			parser.ParseGameFolder(maaPath, ck3ModFS, "txt", true);
