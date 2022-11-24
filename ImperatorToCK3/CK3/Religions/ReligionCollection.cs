@@ -45,9 +45,14 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	private void RegisterHolySitesKeywords(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (holySiteReader, holySiteId) => {
-			HolySites.AddOrReplace(new HolySite(holySiteId, holySiteReader));
+			try {
+				var holySite = new HolySite(holySiteId, holySiteReader, landedTitles);
+				HolySites.AddOrReplace(holySite);
+			} catch (KeyNotFoundException e) {
+				Logger.Debug($"Could not add holy site {holySiteId}: {e}");
+			}
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 	public void LoadHolySites(ModFilesystem ck3ModFs) {
 		Logger.Info("Loading CK3 holy sites...");
