@@ -21,10 +21,13 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 	
 	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles) {
 		Id = id;
+
+		string? parsedCountyId = null;
+		string? parsedBaronyId = null;
 		
 		var parser = new Parser();
-		parser.RegisterKeyword("county", reader => County = landedTitles[reader.GetString()]);
-		parser.RegisterKeyword("barony", reader => Barony = landedTitles[reader.GetString()]);
+		parser.RegisterKeyword("county", reader => parsedCountyId = reader.GetString());
+		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
 		parser.RegisterKeyword("character_modifier", reader => {
 			CharacterModifier = reader.GetAssignments()
 				.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
@@ -32,6 +35,13 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 		parser.RegisterKeyword("flag", reader => Flag = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(holySiteReader);
+
+		if (parsedCountyId is not null) {
+			County = landedTitles[parsedCountyId];
+		}
+		if (parsedBaronyId is not null) {
+			Barony = landedTitles[parsedBaronyId];
+		}
 	}
 
 	private static string GenerateHolySiteId(Title barony, Faith faith) {
