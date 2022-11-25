@@ -76,8 +76,9 @@ public class ProvinceTests {
 			irProvince.OwnerCountry = imperatorCountry;
 		}
 
-		var ck3Religions = new ReligionCollection();
 		var landedTitles = new Title.LandedTitles();
+		var ck3Religions = new ReligionCollection(landedTitles);
+		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
 		var religionMapper = new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper);

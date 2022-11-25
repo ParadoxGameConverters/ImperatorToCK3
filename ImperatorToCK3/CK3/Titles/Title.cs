@@ -18,11 +18,14 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using Open.Threading;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -83,6 +86,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
+		bool staticDeJure,
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
@@ -99,11 +103,65 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			irProvinces,
 			imperatorCharacters,
 			regionHasMultipleGovernorships,
+			staticDeJure,
 			locDB,
 			provinceMapper,
 			definiteFormMapper,
 			imperatorRegionMapper
 		);
+	}
+
+	private Title(Title? baseTitle, Title overrideTitle, LandedTitles parentCollection) {
+		// Merge titles.
+		this.parentCollection = parentCollection;
+
+		Id = overrideTitle.Id;
+		SetRank();
+
+		if (baseTitle is not null) {
+			if (baseTitle.Id != overrideTitle.Id) {
+				Logger.Warn($"Merging {overrideTitle.Id} into {Id}! This is unsupported.");
+			}
+			// Copy vital items for a DeJure only title.
+			HasDefiniteForm = baseTitle.HasDefiniteForm;
+			RulerUsesTitleName = baseTitle.RulerUsesTitleName;
+
+			Color1 = baseTitle.Color1;
+			History = baseTitle.History;
+			CoA = baseTitle.CoA;
+
+			CapitalCounty = baseTitle.CapitalCounty;
+			Localizations = baseTitle.Localizations;
+
+			AIPrimaryPriority = baseTitle.AIPrimaryPriority;
+			RulerUsesTitleName = baseTitle.RulerUsesTitleName;
+			CanBeNamedAfterDynasty = baseTitle.CanBeNamedAfterDynasty;
+			MaleNames = baseTitle.MaleNames;
+			CulturalNames = baseTitle.CulturalNames;
+
+			// Bring base vassals into merged title
+			foreach (var vassal in baseTitle.DeJureVassals) {
+				vassal.DeJureLiege = this;
+			}
+		}
+
+		DeJureLiege = overrideTitle.DeJureLiege;
+
+		// Bring new LandedTitle.txt style specifications into merged Title
+		if (overrideTitle.Color1 is not null) {
+			Color1 = overrideTitle.Color1;
+		}
+		if (overrideTitle.CapitalCountyId is not null) {
+			CapitalCountyId = overrideTitle.CapitalCountyId;
+		}
+		if (overrideTitle.AIPrimaryPriority is not null) {
+			AIPrimaryPriority = overrideTitle.AIPrimaryPriority;
+		}
+
+		// Bring new vassals into merged title
+		foreach (var vassal in overrideTitle.DeJureVassals) {
+			vassal.DeJureLiege = this;
+		}
 	}
 	public void InitializeFromTag(
 		Country country,
@@ -206,7 +264,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		void FillHolderAndGovernmentHistory() {
 			// ------------------ determine previous and current holders
-			
+
 			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
 				var rulerTerm = new RulerTerm(
 					impRulerTerm,
@@ -251,7 +309,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return;
 		}
 
-		liegeField.RemoveAllEntries(v=>v is string str && str == liegeName);
+		liegeField.RemoveAllEntries(v => v is string str && str == liegeName);
 	}
 
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocDB locDB) {
@@ -332,6 +390,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
+		bool staticDeJure,
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DefiniteFormMapper definiteFormMapper,
@@ -345,7 +404,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		ClearHolderSpecificHistory();
 
-		DeJureLiege = country.CK3Title;
+		if (!staticDeJure) {
+			DeJureLiege = country.CK3Title;
+		}
 		SetDeFactoLiege(country.CK3Title, governorshipStartDate);
 
 		HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
@@ -373,7 +434,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
 		History.AddFieldValue(governorshipStartDate,
-			"succession_laws", 
+			"succession_laws",
 			"succession_laws",
 			new SortedSet<string> { "high_partition_succession_law" }
 		);
@@ -451,7 +512,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var regionId = governorship.RegionName;
 		irRegionMapper.Regions.TryGetValue(regionId, out var region);
 		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
-		
+
 		// If any area in the region is at least 75% owned, use the area name for governorship name.
 		if (regionHasMultipleGovernorships && region is not null) {
 			Area? potentialSourceArea = null;
@@ -476,7 +537,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(areaLocBlock);
 				nameSet = true;
-				
+
 				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
 				adjLocBlock.CopyFrom(nameLocBlock);
 				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
@@ -486,12 +547,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!nameSet && regionHasMultipleGovernorships && region is not null) {
 			var sourceProvince = irProvinces
 				.Where(p => region.ContainsProvince(p.Id) && country.Equals(p.OwnerCountry))
-				.MaxBy(p=>p.CivilizationValue);
+				.MaxBy(p => p.CivilizationValue);
 			if (sourceProvince is not null && locDB.TryGetValue(sourceProvince.Name, out var provinceLocBlock)) {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(provinceLocBlock);
 				nameSet = true;
-				
+
 				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
 				adjLocBlock.CopyFrom(nameLocBlock);
 				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
@@ -568,7 +629,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var id = character is null ? "0" : character.Id;
 		History.AddFieldValue(date, "holder", "holder", id);
 	}
-	
+
 	public void SetDevelopmentLevel(int value, Date date) {
 		if (Rank == TitleRank.barony) {
 			Logger.Warn($"Cannot set development level to a barony title {Id}!");
@@ -706,7 +767,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			deJureLiege?.DeJureVassals.Remove(Id);
 			deJureLiege = value;
 			if (value is not null) {
-				value.DeJureVassals.Add(this);
+				value.DeJureVassals.AddOrReplace(this);
 			}
 		}
 	}

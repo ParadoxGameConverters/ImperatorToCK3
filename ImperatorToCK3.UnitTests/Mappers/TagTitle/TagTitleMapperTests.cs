@@ -53,7 +53,7 @@ public class TagTitleMapperTests {
 		var impCountries = new CountryCollection();
 		impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM}"));
 		var titles = new Title.LandedTitles();
-		var ck3Religions = new ReligionCollection();
+		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(impCountries,
 			mapper,
@@ -118,7 +118,7 @@ public class TagTitleMapperTests {
 		var impCountries = new CountryCollection();
 		impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM} 2={tag=DRE}"));
 		var titles = new Title.LandedTitles();
-		var ck3Religions = new ReligionCollection();
+		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(impCountries,
 			mapper,
@@ -191,7 +191,7 @@ public class TagTitleMapperTests {
 		impCountries.LoadCountries(new BufferedReader(" 1={tag=BOR}"));
 		var titles = new Title.LandedTitles();
 			
-		var ck3Religions = new ReligionCollection();
+		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(impCountries,
 			mapper,

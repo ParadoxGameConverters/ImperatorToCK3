@@ -12,24 +12,36 @@ namespace ImperatorToCK3.CK3.Religions;
 public class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 	[NonSerialized] public bool IsGeneratedByConverter { get; }
-	[SerializedName("county")] public string? CountyId { get; private set; }
-	[SerializedName("barony")] public string? BaronyId { get; private set; }
+	[NonSerialized] public Title? County { get; private set; }
+	[NonSerialized] public Title? Barony { get; private set; }
+	[SerializedName("county")] public string? CountyId => County?.Id;
+	[SerializedName("barony")] public string? BaronyId => Barony?.Id;
 	[SerializedName("character_modifier")] public Dictionary<string, object> CharacterModifier { get; set; } = new();
 	[SerializedName("flag")] public string? Flag { get; set; }
 	
-	public HolySite(string id, BufferedReader holySiteReader) {
+	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles) {
 		Id = id;
+
+		string? parsedCountyId = null;
+		string? parsedBaronyId = null;
 		
 		var parser = new Parser();
-		parser.RegisterKeyword("county", reader => CountyId = reader.GetString());
-		parser.RegisterKeyword("barony", reader => BaronyId = reader.GetString());
+		parser.RegisterKeyword("county", reader => parsedCountyId = reader.GetString());
+		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
 		parser.RegisterKeyword("character_modifier", reader => {
 			CharacterModifier = reader.GetAssignments()
 				.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
 		});
 		parser.RegisterKeyword("flag", reader => Flag = reader.GetString());
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(holySiteReader);
+
+		if (parsedCountyId is not null) {
+			County = landedTitles[parsedCountyId];
+		}
+		if (parsedBaronyId is not null) {
+			Barony = landedTitles[parsedBaronyId];
+		}
 	}
 
 	private static string GenerateHolySiteId(Title barony, Faith faith) {
@@ -38,8 +50,8 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 	public HolySite(Title barony, Faith faith, Title.LandedTitles titles) {
 		IsGeneratedByConverter = true;
 		Id = GenerateHolySiteId(barony, faith);
-		CountyId = titles.GetCountyForProvince((ulong)barony.Province!)!.Id;
-		BaronyId = barony.Id;
+		County = titles.GetCountyForProvince(barony.Province!.Value)!;
+		Barony = barony;
 	}
 	public HolySite(
 		Title barony,

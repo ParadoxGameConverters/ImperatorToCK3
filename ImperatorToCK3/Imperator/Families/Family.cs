@@ -63,6 +63,7 @@ public class Family : IIdentifiable<ulong> {
 					family.MemberIds.Add(memberId);
 				}
 			});
+			parser.RegisterKeyword("color", ParserHelpers.IgnoreItem);
 			parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 				IgnoredTokens.Add(token);
 				ParserHelpers.IgnoreItem(reader);

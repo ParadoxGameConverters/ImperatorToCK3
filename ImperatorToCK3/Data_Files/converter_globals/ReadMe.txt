@@ -1,17 +1,16 @@
-This program converts an Imperator: Rome save game to a Crusader Kings III save game.
+This program converts an Imperator: Rome save game to a Crusader Kings III mod.
 
 ----
 IMPORTANT LINKS
 ----
 
 GitHub project: https://github.com/ParadoxGameConverters/ImperatorToCK3
-Development build: https://github.com/ParadoxGameConverters/ImperatorToCK3/releases/tag/DevelopmentRelease
 
 ----
 REQUIREMENTS
 ----
 Imperator: Rome - version 2.0 or higher
-Crusader Kings III - version 1.6 or higher
+Crusader Kings III - version 1.7 or higher
 
 -----
 INSTRUCTIONS
@@ -34,5 +33,6 @@ Radu		- Ideas, province mappings
 Vielus      - Mapping tweaks
 derekmark   - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
 nah34       - Suggestions for cultural traditions and martial customs
+Gawquon     - Static de jure option
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

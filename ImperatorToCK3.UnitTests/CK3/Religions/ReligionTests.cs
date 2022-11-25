@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Serialization;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
+using ImperatorToCK3.CK3.Titles;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -11,7 +12,7 @@ public class ReligionTests {
 	[Fact]
 	public void FaithsAreLoadedAndSerialized() {
 		var reader = new BufferedReader("{ faiths={ orthodox={} catholic={} } }");
-		var religions = new ReligionCollection();
+		var religions = new ReligionCollection(new Title.LandedTitles());
 		var religion = new Religion("christianity", reader, religions);
 		
 		Assert.Collection(religion.Faiths,
@@ -29,7 +30,7 @@ public class ReligionTests {
 			doctrine = doctrine_no_head
 			doctrine = doctrine_gender_male_dominated # should not replace the line above
 		}");
-		var religions = new ReligionCollection();
+		var religions = new ReligionCollection(new Title.LandedTitles());
 		var religion = new Religion("celtic_religion", reader, religions);
 
 		var religionStr = PDXSerializer.Serialize(religion);

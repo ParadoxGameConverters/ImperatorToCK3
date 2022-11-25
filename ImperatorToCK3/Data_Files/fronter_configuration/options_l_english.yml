@@ -1,12 +1,10 @@
 l_english:
- IMPERATORDEJURE: "Whether or not to base CK3 de jure on Imperator setup."
- IMPERATORDEJURETIP: "CK3 de jure is recommended."
- IMPERATORDEJURE1: "Regions to kingdoms"
- IMPERATORDEJURE1TIP: "Make Imperator regions CK3 de jure kingdoms."
- IMPERATORDEJURE2: "Countries"
- IMPERATORDEJURE2TIP: "Base CK3 de jure on Imperator countries."
- IMPERATORDEJURE3: "No"
- IMPERATORDEJURE3TIP: "Keep vanilla CK3 de jure."
+ STATIC_DEJURE: "Do you want to dynamic de jure kingdoms and empires?"
+ STATIC_DEJURE_TIP: "Dynamic is recommended. In Dynamic, no de jure kingdoms or empires will be retained from vanilla CK3, and new ones will be created where applicable based on Imperator governorships. In Static, de jure kingdoms and empires will be based on a configuration file."
+ STATIC_DEJURE_1: "Dynamic"
+ STATIC_DEJURE_1_TIP: "Determine CK3 de jure by Imperator governorships."
+ STATIC_DEJURE_2: "Static"
+ STATIC_DEJURE_2_TIP: "Predetermine CK3 de jure mostly by vanilla CK3 but with time appropriate tweaks."
 
  HERESIES_IN_HISTORICAL_AREAS: "Do you want to convert with historical heresies?"
  HERESIES_IN_HISTORICAL_AREAS_TIP: "This option will convert some Christian and Manichean pops, if they exist in your game, in certain areas of the Imperator: Rome map to a Gnostic/Dualist faith or Christian heretical faith in the corresponding areas of the Crusader Kings III map, depending on where they appeared historically. For example, some provinces with a majority Christian or Manichean population in I:R could be converted to Priscillianism in CK3."

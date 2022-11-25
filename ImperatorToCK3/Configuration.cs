@@ -16,6 +16,7 @@ namespace ImperatorToCK3 {
 		public OrderedSet<string> SelectedCK3Mods { get; } = new();
 		public string OutputModName { get; set; } = "";
 		public bool HeresiesInHistoricalAreas { get; set; } = false;
+		public bool StaticDeJure { get; set; } = false;
 		public double ImperatorCurrencyRate { get; set; } = 1.0d;
 		public double ImperatorCivilizationWorth { get; set; } = 0.4;
 		public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
@@ -61,6 +62,15 @@ namespace ImperatorToCK3 {
 					Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
 				} catch (Exception e) {
 					Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
+				}
+			});
+			parser.RegisterKeyword("StaticDeJure", reader => { // TODO: look at getBool, see what fronter gives
+				var valueString = reader.GetString();
+				try {
+					StaticDeJure = Convert.ToInt32(valueString) == 2;
+					Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
+				} catch (Exception e) {
+					Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
 				}
 			});
 			parser.RegisterKeyword("ImperatorCurrencyRate", reader => {

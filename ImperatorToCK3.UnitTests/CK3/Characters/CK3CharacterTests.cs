@@ -41,7 +41,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			};
 			
 			private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-			private ReligionMapper religionMapper = new(new ReligionCollection(), irRegionMapper, new CK3RegionMapper());
+			private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
 			private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 			private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 			private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
@@ -214,8 +214,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters {
 			var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 				Religion = "chalcedonian"
 			};
-			
-			var ck3Religions = new ReligionCollection();
+
+			var titles = new Title.LandedTitles();
+			var ck3Religions = new ReligionCollection(titles);
 			ck3Religions.LoadReligions(ck3ModFS);
 
 			var mapReader = new BufferedReader(

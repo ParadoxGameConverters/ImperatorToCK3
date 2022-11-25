@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -34,7 +35,7 @@ public partial class Title {
 
 		public void LoadTitles(ModFilesystem ck3ModFS) {
 			Logger.Info("Loading landed titles...");
-			
+
 			var parser = new Parser();
 			RegisterKeys(parser);
 
@@ -42,7 +43,7 @@ public partial class Title {
 			parser.ParseGameFolder(landedTitlesPath, ck3ModFS, "txt", true);
 
 			LogIgnoredTokens();
-			
+
 			Logger.IncrementProgress();
 		}
 		public void LoadTitles(BufferedReader reader) {
@@ -51,6 +52,51 @@ public partial class Title {
 			parser.ParseStream(reader);
 
 			LogIgnoredTokens();
+		}
+		public void LoadStaticTitles() {
+			Logger.Info("Loading static landed titles...");
+
+			var parser = new Parser();
+			RegisterKeys(parser);
+
+			parser.ParseFile("configurables/static_landed_titles.txt");
+
+			LogIgnoredTokens();
+
+			Logger.IncrementProgress();
+		}
+		public void LoadStaticTitles(BufferedReader reader) {
+			Logger.Info("Loading static landed titles...");
+
+			var parser = new Parser();
+			RegisterKeys(parser);
+
+			parser.ParseStream(reader);
+
+			LogIgnoredTokens();
+
+			Logger.IncrementProgress();
+		}
+
+		public void CarveTitles(LandedTitles overrides) {
+			// merge in new king and empire titles into this from overrides, overriding duplicates
+			foreach (var overrideTitle in overrides.Where(t => t.Rank > TitleRank.duchy)) {
+				// inherit vanilla vassals
+				Title? vanillaTitle = null;
+				TryGetValue(overrideTitle.Id, out vanillaTitle);
+				AddOrReplace(new Title(vanillaTitle, overrideTitle, this));
+			}
+
+			// update duchies to correct de jure liege, remove de jure titles that lose all de jure vassals
+			foreach (var title in overrides.Where(t => t.Rank == TitleRank.duchy)) {
+				var duchy = this[title.Id];
+				if (duchy.DeJureLiege is not null) {
+					if (duchy.DeJureLiege.DeJureVassals.Count <= 1) {
+						duchy.DeJureLiege.DeJureLiege = null;
+					}
+				}
+				duchy.DeJureLiege = title.DeJureLiege;
+			}
 		}
 
 		private void RegisterKeys(Parser parser) {
@@ -125,6 +171,7 @@ public partial class Title {
 			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
+			bool staticDeJure,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
@@ -138,6 +185,7 @@ public partial class Title {
 				irProvinces,
 				imperatorCharacters,
 				regionHasMultipleGovernorships,
+				staticDeJure,
 				locDB,
 				provinceMapper,
 				coaMapper,
@@ -297,6 +345,7 @@ public partial class Title {
 			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
+			Configuration config,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
@@ -323,6 +372,7 @@ public partial class Title {
 					impWorld.Provinces,
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
+					config.StaticDeJure,
 					tagTitleMapper,
 					locDB,
 					provinceMapper,
@@ -344,6 +394,7 @@ public partial class Title {
 			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
+			bool staticDeJure,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -373,6 +424,7 @@ public partial class Title {
 					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
+					staticDeJure,
 					locDB,
 					provinceMapper,
 					definiteFormMapper,
@@ -386,6 +438,7 @@ public partial class Title {
 					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
+					staticDeJure,
 					locDB,
 					provinceMapper,
 					coaMapper,
@@ -439,6 +492,7 @@ public partial class Title {
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate) {
+			// Generate King/Empire de jure hierarchy from governorships
 			Logger.Info("Setting de jure kingdoms...");
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
@@ -480,7 +534,7 @@ public partial class Title {
 					empireShares.TryGetValue(empireRealm.Id, out var currentCount);
 					empireShares[empireRealm.Id] = currentCount + countyProvincesCount;
 				}
-				
+
 				kingdom.DeJureLiege = null;
 				if (empireShares.Count == 0) {
 					continue;
@@ -644,11 +698,11 @@ public partial class Title {
 		public void LoadCulturalNamesFromConfigurables() {
 			const string filePath = "configurables/cultural_title_names.txt";
 			Logger.Info($"Loading cultural title names from \"{filePath}\"...");
-			
+
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (reader, titleId) => {
 				var nameListToLocKeyDict = reader.GetAssignments();
-				
+
 				if (!TryGetValue(titleId, out var title)) {
 					return;
 				}
