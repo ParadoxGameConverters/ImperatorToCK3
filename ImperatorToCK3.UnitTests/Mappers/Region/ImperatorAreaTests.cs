@@ -3,12 +3,13 @@ using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.States;
-using ImperatorToCK3.Mappers.Region;
 using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region; 
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ImperatorAreaTests {
 	private readonly ProvinceCollection provinces = new();
 	
