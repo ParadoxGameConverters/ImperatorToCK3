@@ -275,5 +275,5 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			.ToList<Title>();
 	}
 
-	private Title.LandedTitles landedTitles;
+	private readonly Title.LandedTitles landedTitles;
 }
