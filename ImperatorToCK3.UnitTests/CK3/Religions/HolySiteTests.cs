@@ -11,7 +11,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Religions;
 public class HolySiteTests {
 	[Fact]
 	public void PropertiesHaveCorrectInitialValues() {
-		var site = new HolySite("test_site", new BufferedReader());
+		var site = new HolySite("test_site", new BufferedReader(), new Title.LandedTitles());
 		Assert.Equal("test_site", site.Id);
 		Assert.False(site.IsGeneratedByConverter);
 		Assert.Null(site.CountyId);
@@ -22,6 +22,8 @@ public class HolySiteTests {
 
 	[Fact]
 	public void PropertiesAreCorrectlyRead() {
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader("c_county = { b_barony = {} }"));
 		var siteReader = new BufferedReader(@"
 			county = c_county
 			barony = b_barony
@@ -31,7 +33,7 @@ public class HolySiteTests {
 			}
 			flag = jerusalem_conversion_bonus # +20% County Conversion
 		");
-		var site = new HolySite("test_site", siteReader);
+		var site = new HolySite("test_site", siteReader, titles);
 		
 		Assert.Equal("test_site", site.Id);
 		Assert.False(site.IsGeneratedByConverter);

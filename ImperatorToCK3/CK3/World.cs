@@ -38,13 +38,18 @@ namespace ImperatorToCK3.CK3 {
 		public DynastyCollection Dynasties { get; } = new();
 		public ProvinceCollection Provinces { get; } = new();
 		public Title.LandedTitles LandedTitles { get; } = new();
-		public ReligionCollection Religions { get; } = new();
+		public ReligionCollection Religions { get; }
 		public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 		public MapData MapData { get; }
 		public Date CorrectedDate { get; }
 
 		public World(Imperator.World impWorld, Configuration config) {
 			Logger.Info("*** Hello CK3, let's get painting. ***");
+			
+			// Initialize fields that depend on other fields.
+			Religions = new ReligionCollection(LandedTitles);
+			
+			// Determine CK3 bookmark date.
 			CorrectedDate = impWorld.EndDate.Year > 1 ? impWorld.EndDate : new Date(2, 1, 1);
 			if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
 				config.CK3BookmarkDate = CorrectedDate;
@@ -82,11 +87,6 @@ namespace ImperatorToCK3.CK3 {
 			Logger.Info("Loading map data...");
 			MapData = new MapData(ModFS);
 
-			// Load CK3 religions from game and blankMod
-			Religions.LoadHolySites(ModFS);
-			Religions.LoadReligions(ModFS);
-			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
-
 			// Load Imperator CoAs to use them for generated CK3 titles
 			coaMapper = new CoaMapper(impWorld.ModFS);
 
@@ -105,8 +105,14 @@ namespace ImperatorToCK3.CK3 {
 			}
 			LandedTitles.LoadHistory(config, ModFS);
 			LandedTitles.LoadCulturalNamesFromConfigurables();
+			
+			// Load CK3 religions from game and blankMod.
+			// Holy sites need to be loaded after landed titles.
+			Religions.LoadHolySites(ModFS);
+			Religions.LoadReligions(ModFS);
+			Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
-			// Loading regions
+			// Load regions.
 			ck3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
 			imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS);
 			// Use the region mappers in other mappers
@@ -189,7 +195,7 @@ namespace ImperatorToCK3.CK3 {
 			RemoveIslamFromAfrica(config);
 
 			var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
-			Religions.DetermineHolySites(Provinces, LandedTitles, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+			Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
 		}
 
 		private void LoadCorrectProvinceMappingsVersion(Imperator.World imperatorWorld) {

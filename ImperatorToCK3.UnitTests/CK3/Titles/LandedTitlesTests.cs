@@ -233,7 +233,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinceMapper = new ProvinceMapper();
 			provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
 			var locDB = new LocDB("english");
-			var ck3Religions = new ReligionCollection();
+			var ck3Religions = new ReligionCollection(titles);
 			var religionMapper = new ReligionMapper(ck3Religions, impRegionMapper, ck3RegionMapper);
 			var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 			var coaMapper = new CoaMapper();
@@ -317,7 +317,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var irRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
-			var religions = new ReligionCollection();
+			var religions = new ReligionCollection(titles);
 			var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
 			ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 
@@ -349,7 +349,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var irRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
-			var religions = new ReligionCollection();
+			var religions = new ReligionCollection(titles);
 			var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
 			ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 
@@ -383,7 +383,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var irRegionMapper = new ImperatorRegionMapper();
 			var ck3RegionMapper = new CK3RegionMapper();
 			var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
-			var religions = new ReligionCollection();
+			var religions = new ReligionCollection(titles);
 			var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
 			ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 

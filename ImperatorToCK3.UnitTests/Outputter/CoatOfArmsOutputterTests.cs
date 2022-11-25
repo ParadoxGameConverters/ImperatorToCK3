@@ -39,7 +39,7 @@ public class CoatOfArmsOutputterTests {
 		var outputPath = Path.Combine("output", outputModName, "common/coat_of_arms/coat_of_arms/IRToCK3_coas.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
-		var ck3Religions = new ReligionCollection();
+		var ck3Religions = new ReligionCollection(titles);
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
@@ -82,7 +82,7 @@ public class CoatOfArmsOutputterTests {
 		var outputPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms", "IRToCK3_coas.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
-		var ck3Religions = new ReligionCollection();
+		var ck3Religions = new ReligionCollection(titles);
 		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
