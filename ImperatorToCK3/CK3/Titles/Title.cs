@@ -18,14 +18,11 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
-using Open.Threading;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
 
 namespace ImperatorToCK3.CK3.Titles;
 
