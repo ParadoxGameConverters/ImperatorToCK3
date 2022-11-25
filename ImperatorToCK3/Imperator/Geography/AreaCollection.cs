@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Provinces;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Geography; 
 
@@ -16,8 +17,10 @@ public class AreaCollection : IdObjectCollection<string, Area> {
 		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => AddOrReplace(new(areaName, reader, provinceCollection)));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFile(areasFilePath, imperatorModFS);
-		
-		Logger.Debug($"Ignored area keywords: {Area.IgnoredKeywords}");
+
+		if (Area.IgnoredKeywords.Any()) {
+			Logger.Debug($"Ignored area keywords: {Area.IgnoredKeywords}");
+		}
 		Logger.IncrementProgress();
 	}
 }

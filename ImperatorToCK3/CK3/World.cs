@@ -211,11 +211,11 @@ namespace ImperatorToCK3.CK3 {
 				try {
 					var ck3War = new Wars.War(irWar, warMapper, provinceMapper, irWorld.Countries, irWorld.States, Provinces, LandedTitles, ck3BookmarkDate);
 					if (ck3War.Attackers.Count == 0) {
-						Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no attackers!");
+						Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no CK3 attackers!");
 						continue;
 					}
 					if (ck3War.Defenders.Count == 0) {
-						Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no defenders!");
+						Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no CK3 defenders!");
 						continue;
 					}
 					Wars.Add(ck3War);

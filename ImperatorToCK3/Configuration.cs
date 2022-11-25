@@ -64,7 +64,7 @@ namespace ImperatorToCK3 {
 					Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
 				}
 			});
-			parser.RegisterKeyword("StaticDeJure", reader => { // TODO: look at getBool, see what fronter gives
+			parser.RegisterKeyword("StaticDeJure", reader => {
 				var valueString = reader.GetString();
 				try {
 					StaticDeJure = Convert.ToInt32(valueString) == 2;

@@ -57,19 +57,22 @@ public class War {
 		foreach (var countryId in irWar.DefenderCountryIds) {
 			var impCountry = impCountries[countryId];
 			var ck3Title = impCountry.CK3Title;
-			if (ck3Title is not null) {
-				var ck3RulerId = ck3Title.GetHolderId(ck3BookmarkDate);
-				if (ck3RulerId == "0") {
-					continue;
-				}
-
-				if (Defenders.Count == 0) { // we're adding the first defender
-					if (!TargetedTitles.Any()) {
-						TargetedTitles.Add(ck3Title.CapitalCountyId ?? ck3Title.Id); // TODO: replace TargetedTitles setting with properly determined CK3 title
-					}
-				}
-				Defenders.Add(ck3RulerId);
+			if (ck3Title is null) {
+				continue;
 			}
+
+			var ck3RulerId = ck3Title.GetHolderId(ck3BookmarkDate);
+			if (ck3RulerId == "0") {
+				continue;
+			}
+
+			if (Defenders.Count == 0 && !TargetedTitles.Any()) {
+				// We're adding the first defender and we have no targeted title so far.
+				// In this case, try to use the defender's capital as targeted title.
+				// This is merely a fallback.
+				TargetedTitles.Add(ck3Title.CapitalCountyId ?? ck3Title.Id);
+			}
+			Defenders.Add(ck3RulerId);
 		}
 
 		CasusBelli = warMapper.GetCK3CBForImperatorWarGoal(irWar.WarGoal!);
