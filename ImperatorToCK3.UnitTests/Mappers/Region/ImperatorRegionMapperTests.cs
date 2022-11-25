@@ -11,6 +11,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ImperatorRegionMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
