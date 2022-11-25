@@ -95,7 +95,7 @@ namespace ImperatorToCK3.CK3 {
 			LandedTitles.LoadTitles(ModFS);
 
 			if (config.StaticDeJure) {
-				Logger.Info("Setting de jure kingdoms and empires...");
+				Logger.Info("Setting static de jure kingdoms and empires...");
 
 				Title.LandedTitles overrideTitles = new();
 				overrideTitles.LoadStaticTitles();

@@ -87,7 +87,7 @@ public partial class Title {
 				AddOrReplace(new Title(vTitle, title, this));
 			}
 
-			// update duchies to correct de jure liege, remove dejure titles that lose all dejure vassals
+			// update duchies to correct de jure liege, remove de jure titles that lose all de jure vassals
 			foreach (var title in overrides.Where(t => t.Rank == TitleRank.duchy)) {
 				var duchy = this[title.Id];
 				if (duchy.DeJureLiege is not null) {
@@ -492,7 +492,7 @@ public partial class Title {
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate) {
-			// Generate King/Empire dejure heiarchy from governships
+			// Generate King/Empire de jure hierarchy from governorships
 			Logger.Info("Setting de jure kingdoms...");
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.

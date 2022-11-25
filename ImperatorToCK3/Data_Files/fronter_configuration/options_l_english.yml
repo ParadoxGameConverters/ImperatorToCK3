@@ -1,6 +1,6 @@
 l_english:
- STATIC_DEJURE: "Do you want to dynamic dejure kingdoms and empires?"
- STATIC_DEJURE_TIP: "Dynamic is recommended. In Dynamic, no dejure kingdoms or empires will be retained from vanilla CK3, and new ones will be created where applicable based on Imperator governerships. In Static, dejure kingdoms and empires will be based on a configuration file."
+ STATIC_DEJURE: "Do you want to dynamic de jure kingdoms and empires?"
+ STATIC_DEJURE_TIP: "Dynamic is recommended. In Dynamic, no de jure kingdoms or empires will be retained from vanilla CK3, and new ones will be created where applicable based on Imperator governorships. In Static, de jure kingdoms and empires will be based on a configuration file."
  STATIC_DEJURE_1: "Dynamic"
  STATIC_DEJURE_1_TIP: "Determine CK3 de jure by Imperator governorships."
  STATIC_DEJURE_2: "Static"
