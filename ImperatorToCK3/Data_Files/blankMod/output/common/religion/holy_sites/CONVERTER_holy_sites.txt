@@ -477,6 +477,7 @@ ashtishat = { #vahagn
 	}
 }
 armaouira = { #khaldi
+	# https://en.wikipedia.org/wiki/Armavir_(ancient_city)
 	county = c_hayk
 	character_modifier = {
  		tyranny_gain_mult = -0.2 

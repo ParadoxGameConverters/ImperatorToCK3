@@ -4,7 +4,6 @@ using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
-using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System;
 using System.Linq;
@@ -23,7 +22,7 @@ public class ReligionCollectionTests {
 	
 	[Fact]
 	public void ReligionsAreLoaded() {
-		var religions = new ReligionCollection();
+		var religions = new ReligionCollection(new Title.LandedTitles());
 		religions.LoadReligions(ck3ModFS);
 
 		var religionIds = religions.Select(r => r.Id);
@@ -32,7 +31,7 @@ public class ReligionCollectionTests {
 
 	[Fact]
 	public void ReplaceableHolySitesCanBeLoaded() {
-		var religions = new ReligionCollection();
+		var religions = new ReligionCollection(new Title.LandedTitles());
 		religions.LoadReligions(ck3ModFS);
 		religions.LoadReplaceableHolySites(TestReplaceableHolySitesFile);
 
@@ -143,7 +142,7 @@ public class ReligionCollectionTests {
 			"c_site_county5={ b_site_barony5={province=12} }");
 		titles.LoadTitles(titlesReader);
 
-		var religions = new ReligionCollection();
+		var religions = new ReligionCollection(titles);
 		religions.LoadHolySites(ck3ModFS);
 		religions.LoadReligions(ck3ModFS);
 		religions.LoadReplaceableHolySites("TestFiles/configurables/replaceable_holy_sites.txt");
@@ -153,7 +152,6 @@ public class ReligionCollectionTests {
 		
 		religions.DetermineHolySites(
 			provinces,
-			titles,
 			imperatorReligions,
 			new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt"),
 			new Date("476.1.1")
