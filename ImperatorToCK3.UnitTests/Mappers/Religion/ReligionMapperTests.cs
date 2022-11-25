@@ -21,8 +21,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void NonMatchGivesNull() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
-		var impRegionMapper = new ImperatorToCK3.Mappers.Region.ImperatorRegionMapper();
-		var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 			
 		var reader = new BufferedReader("link = { ck3 = ck3Faith imp = impReligion }");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
@@ -35,7 +34,7 @@ public class ReligionMapperTests {
 	public void CK3FaithCanBeFound() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
-		var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 			
 		var reader = new BufferedReader("link = { ck3 = ck3Faith imp = impReligion }");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
@@ -48,7 +47,7 @@ public class ReligionMapperTests {
 	public void MultipleImperatorReligionsCanBeInARule() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
-		var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 			
 		var reader = new BufferedReader(
 			"link = { ck3 = ck3Faith imp = impReligion imp = impReligion2 }"
@@ -63,7 +62,7 @@ public class ReligionMapperTests {
 	public void CorrectRuleMatches() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
-		var ck3RegionMapper = new ImperatorToCK3.Mappers.Region.CK3RegionMapper();
+		var ck3RegionMapper = new CK3RegionMapper();
 			
 		var reader = new BufferedReader(
 			"link = { ck3 = ck3Faith imp = impReligion }" +

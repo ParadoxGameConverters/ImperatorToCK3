@@ -43,7 +43,6 @@ public class CoatOfArmsOutputterTests {
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
 		var ck3Religions = new ReligionCollection(titles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
 			new TagTitleMapper(),
@@ -86,7 +85,6 @@ public class CoatOfArmsOutputterTests {
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
 		var ck3Religions = new ReligionCollection(titles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
 			new TagTitleMapper(),

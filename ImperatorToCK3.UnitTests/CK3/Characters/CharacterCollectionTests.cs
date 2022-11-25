@@ -70,7 +70,6 @@ public class CharacterCollectionTests {
 
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
@@ -114,7 +113,6 @@ public class CharacterCollectionTests {
 		
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
@@ -165,7 +163,6 @@ public class CharacterCollectionTests {
 		
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
