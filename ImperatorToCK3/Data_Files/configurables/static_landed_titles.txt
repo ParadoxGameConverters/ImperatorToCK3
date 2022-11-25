@@ -9,9 +9,9 @@
 # Existing titles can be assigned new vassals. Existing titles will retain old vassals, unless another title in this file claims it.
 # e_britannia = { k_england = { d_brittany = {} } } # gives the duchy of brittany to the existing kingdom of england
 #
-# Defining k_ or d_ titles outside of their hierarchy will delete any dejure relationship above them
-# k_england = {} # removes england from the empire of britannia, and now has no dejure empire
-# d_lancaster = {} # removes lancaster from england, giving lancaster no dejure kingdom or empire, england remains in britannia
+# Defining k_ or d_ titles outside of thier hierarchy will delete any de jure relationship above them
+# k_england = {} # removes england from the empire of britannia, and now has no de jure empire
+# d_lancaster = {} # removes lancaster from england, giving lancaster no de jure kingdom or empire, england remains in britannia
 #
 # new e_ and k_ titles must have thier capital county set
 # Ex: Makes a Norman empire consisting of the kingdom of England without Kent, and a new Kingdom of Normans with Normandy and Kent
