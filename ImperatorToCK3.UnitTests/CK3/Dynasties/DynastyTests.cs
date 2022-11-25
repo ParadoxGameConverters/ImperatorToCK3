@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
@@ -24,6 +25,10 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DynastyTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private class CK3CharacterBuilder {
 		private const string CK3Path = "TestFiles/CK3";
 		private const string CK3Root = "TestFiles/CK3/root";
@@ -36,8 +41,8 @@ public class DynastyTests {
 		private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), new ImperatorRegionMapper(), new CK3RegionMapper());
-		private CultureMapper cultureMapper = new(new ImperatorRegionMapper(), new CK3RegionMapper());
+		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
+		private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 		private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
@@ -162,7 +167,7 @@ public class DynastyTests {
 			new BufferedReader(
 				"link={imp=roman ck3=not_gypsy} link={imp=akan ck3=akan} link={imp=parthian ck3=parthian}"
 			),
-			new ImperatorRegionMapper(),
+			irRegionMapper,
 			new CK3RegionMapper()
 		);
 		var locDB = new LocDB("english");

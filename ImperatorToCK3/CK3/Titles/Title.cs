@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -17,14 +18,11 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
-using Open.Threading;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -514,11 +512,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// If any area in the region is at least 75% owned, use the area name for governorship name.
 		if (regionHasMultipleGovernorships && region is not null) {
-			ImperatorArea? potentialSourceArea = null;
+			Area? potentialSourceArea = null;
 			float biggestOwnershipPercentage = 0f;
 			foreach (var area in region.Areas) {
-				var provinceIds = area.ProvinceIds;
-				var provinces = irProvinces.Where(p => provinceIds.Contains(p.Id)).ToList();
+				var provinces = area.Provinces;
 				if (provinces.Count == 0) {
 					continue;
 				}
@@ -1015,7 +1012,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return heldProvinces;
 	}
 
-	[commonItems.Serialization.NonSerialized] public static HashSet<string> IgnoredTokens { get; } = new();
+	[commonItems.Serialization.NonSerialized] public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 
 	// used by kingdom titles only
 	public bool KingdomContainsProvince(ulong provinceId) {

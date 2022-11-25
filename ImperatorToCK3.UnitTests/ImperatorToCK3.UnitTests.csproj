@@ -6,6 +6,8 @@
     <IsPackable>false</IsPackable>
 
     <Nullable>enable</Nullable>
+
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -57,6 +59,9 @@
     </None>
     <None Update="TestFiles\configurables\trait_map.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\configurables\wargoal_mappings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="TestFiles\mod\brokenmod.mod">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			blocParser.IgnoreAndLogUnregisteredItems();
 
 			blocParser.ParseStream(reader);
-			Logger.Debug($"Ignored Character tokens: {string.Join(", ", Character.IgnoredTokens)}");
+			Logger.Debug($"Ignored Character tokens: {Character.IgnoredTokens}");
 		}
 		public void LoadCharacters(BufferedReader reader) {
 			var parser = new Parser();

@@ -7,7 +7,9 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -28,8 +30,25 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CharacterCollectionTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFs = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
+
+	public CharacterCollectionTests() {
+		var states = new StateCollection();
+		var countries = new CountryCollection();
+		irProvinces.LoadProvinces(
+			new BufferedReader(
+			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
+			),
+			states,
+			countries
+		);
+	}
 	
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromChild() {
@@ -51,13 +70,12 @@ public class CharacterCollectionTests {
 
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
 			new LocDB("english"),
@@ -95,13 +113,12 @@ public class CharacterCollectionTests {
 		
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
 			new LocDB("english"),
@@ -146,13 +163,12 @@ public class CharacterCollectionTests {
 		
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
 			new LocDB("english"),
@@ -209,7 +225,9 @@ public class CharacterCollectionTests {
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
 
-		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
+		var irAreas = new AreaCollection();
+		irAreas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
+		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irAreas);
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));

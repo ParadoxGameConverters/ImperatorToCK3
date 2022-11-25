@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +18,7 @@ namespace ImperatorToCK3.Imperator.Countries {
 		private static readonly SortedSet<string> tribalGovernments = new();
 		private static readonly Parser parser = new();
 		private static Country parsedCountry = new(0);
-		public static HashSet<string> IgnoredTokens { get; private set; } = new();
+		public static IgnoredKeywordsSet IgnoredTokens { get; private set; } = new();
 
 		static Country() {
 			parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());

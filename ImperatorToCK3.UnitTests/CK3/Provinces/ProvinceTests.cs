@@ -5,6 +5,8 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
@@ -18,7 +20,17 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly Date ck3BookmarkDate = "476.1.1";
+	private readonly StateCollection states = new();
+	private static readonly CountryCollection countries = new();
+
+	static ProvinceTests() {
+		countries.LoadCountries(new BufferedReader("1={}"));
+	}
 	
 	[Fact]
 	public void FieldsCanBeSet() {
@@ -48,7 +60,7 @@ public class ProvinceTests {
 		ulong id = 1;
 		foreach (var provinceStr in strings) {
 			var reader = new BufferedReader(provinceStr);
-			var province = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader, id);
+			var province = ImperatorToCK3.Imperator.Provinces.Province.Parse(reader, id, states, countries);
 			provincesToReturn.Add(province);
 			++id;
 		}
@@ -61,15 +73,14 @@ public class ProvinceTests {
 		var imperatorCountry = Country.Parse(countryReader, 1);
 
 		foreach (var irProvince in irProvinces) {
-			irProvince.LinkOwnerCountry(imperatorCountry);
+			irProvince.OwnerCountry = imperatorCountry;
 		}
 
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
-		var imperatorRegionMapper = new ImperatorRegionMapper();
 		var ck3RegionMapper = new CK3RegionMapper();
-		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
-		var religionMapper = new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
+		var religionMapper = new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper);
 		var config = new Configuration();
 
 		var ck3Provinces = new List<Province>();

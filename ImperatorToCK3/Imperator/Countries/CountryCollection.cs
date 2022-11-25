@@ -14,9 +14,9 @@ namespace ImperatorToCK3.Imperator.Countries {
 			blocParser.IgnoreAndLogUnregisteredItems();
 			blocParser.ParseStream(reader);
 			
-			Logger.Debug($"Ignored CountryCurrencies tokens: {string.Join(", ", CountryCurrencies.IgnoredTokens)}");
-			Logger.Debug($"Ignored RulerTerm tokens: {string.Join(", ", RulerTerm.IgnoredTokens)}");
-			Logger.Debug($"Ignored Country tokens: {string.Join(", ", Country.IgnoredTokens)}");
+			Logger.Debug($"Ignored CountryCurrencies tokens: {CountryCurrencies.IgnoredTokens}");
+			Logger.Debug($"Ignored RulerTerm tokens: {RulerTerm.IgnoredTokens}");
+			Logger.Debug($"Ignored Country tokens: {Country.IgnoredTokens}");
 		}
 		public void LoadCountries(BufferedReader reader) {
 			var parser = new Parser();

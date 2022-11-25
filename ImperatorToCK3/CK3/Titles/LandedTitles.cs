@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -113,7 +112,7 @@ public partial class Title {
 		}
 
 		private static void LogIgnoredTokens() {
-			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
+			Logger.Debug($"Ignored Title tokens: {Title.IgnoredTokens}");
 		}
 
 		public Title Add(string id) {

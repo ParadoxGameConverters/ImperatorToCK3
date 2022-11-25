@@ -1,15 +1,20 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Genes;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
+using ImperatorToCK3.Imperator.States;
+using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -35,6 +40,9 @@ namespace ImperatorToCK3.Imperator {
 		private PopCollection pops = new();
 		public ProvinceCollection Provinces { get; private set; } = new();
 		public CountryCollection Countries { get; private set; } = new();
+		public AreaCollection Areas { get; } = new();
+		public StateCollection States { get; } = new();
+		public List<War> Wars { get; private set; } = new();
 		public Jobs.Jobs Jobs { get; private set; } = new();
 		public UnitCollection Units { get; private set; } = new();
 		public CulturesDB CulturesDB { get; } = new();
@@ -139,11 +147,23 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info($"Loaded {Characters.Count} characters.");
 				Logger.IncrementProgress();
 			});
+			RegisterKeyword("state", reader => {
+				Logger.Info("Loading states...");
+				var statesBlocParser = new Parser();
+				statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
+				statesBlocParser.IgnoreAndLogUnregisteredItems();
+				statesBlocParser.ParseStream(reader);
+				Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
+				Logger.Info($"Loaded {States.Count} states.");
+				Logger.IncrementProgress();
+			});
 			RegisterKeyword("provinces", reader => {
-				Logger.Info("Loading Provinces...");
-				Provinces = new ProvinceCollection(reader);
-				Logger.Debug($"Ignored Province tokens: {string.Join(", ", Province.IgnoredTokens)}");
+				Logger.Info("Loading provinces...");
+				Provinces.LoadProvinces(reader, States, Countries);
+				Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
 				Logger.Info($"Loaded {Provinces.Count} provinces.");
+			
+				Logger.IncrementProgress();
 			});
 			RegisterKeyword("armies", reader => {
 				Logger.Info("Loading armies...");
@@ -163,6 +183,12 @@ namespace ImperatorToCK3.Imperator {
 				Logger.Info("Loading pops...");
 				pops.LoadPopsFromBloc(reader);
 				Logger.Info($"Loaded {pops.Count} pops.");
+				Logger.IncrementProgress();
+			});
+			RegisterKeyword("diplomacy", reader => {
+				Logger.Info("Loading diplomacy...");
+				var diplomacy = new Diplomacy.Diplomacy(reader);
+				Wars = diplomacy.Wars;
 				Logger.IncrementProgress();
 			});
 			RegisterKeyword("jobs", reader => {
@@ -194,7 +220,7 @@ namespace ImperatorToCK3.Imperator {
 
 			ParseStream(ProcessSave(config.SaveGamePath));
 			ClearRegisteredRules();
-			Logger.Debug($"Ignored World tokens: {string.Join(", ", ignoredTokens)}");
+			Logger.Debug($"Ignored World tokens: {ignoredTokens}");
 			Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 			Logger.IncrementProgress();
 
@@ -209,8 +235,6 @@ namespace ImperatorToCK3.Imperator {
 			Characters.LinkCountries(Countries);
 			Logger.Info("Linking Provinces with Pops...");
 			Provinces.LinkPops(pops);
-			Logger.Info("Linking Provinces with Countries...");
-			Provinces.LinkCountries(Countries);
 			Logger.Info("Linking Countries with Families...");
 			Countries.LinkFamilies(Families);
 			
@@ -309,6 +333,7 @@ namespace ImperatorToCK3.Imperator {
 			
 			ParseGenes();
 			
+			Areas.LoadAreas(ModFS, Provinces);
 			Country.LoadGovernments(ModFS);
 			
 			CulturesDB.Load(ModFS);
@@ -376,6 +401,6 @@ namespace ImperatorToCK3.Imperator {
 			return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open));
 		}
 
-		private readonly HashSet<string> ignoredTokens = new();
+		private readonly IgnoredKeywordsSet ignoredTokens = new();
 	}
 }

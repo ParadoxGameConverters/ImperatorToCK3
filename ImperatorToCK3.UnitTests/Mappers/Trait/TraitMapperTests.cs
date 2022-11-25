@@ -16,8 +16,9 @@ public class TraitMapperTests {
 			CK3Traits = ck3Traits;
 		}
 	}
+	
 	[Fact]
-	public void NonMatchGivesEmptyOptional() {
+	public void NonMatchGivesNull() {
 		var ck3Traits = new IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> { new("ck3Trait") };
 		var traitsDict = new Dictionary<string, string> { { "impTrait", "ck3Trait" } };
 		var mapper = new TestTraitMapper(traitsDict, ck3Traits);
@@ -27,7 +28,7 @@ public class TraitMapperTests {
 	}
 
 	[Fact]
-	public void Ck3TraitCanBeFound() {
+	public void CK3TraitCanBeFound() {
 		var ck3Traits = new IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> { new("ck3Trait") };
 		var traitsDict = new Dictionary<string, string> { { "impTrait", "ck3Trait" } };
 		var mapper = new TestTraitMapper(traitsDict, ck3Traits);
