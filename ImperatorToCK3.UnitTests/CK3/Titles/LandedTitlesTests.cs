@@ -29,8 +29,8 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 		private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 		private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
-		private readonly Configuration defaultConfig = new() {ImperatorCivilizationWorth = 0.4};
-		
+		private readonly Configuration defaultConfig = new() { ImperatorCivilizationWorth = 0.4 };
+
 		[Fact]
 		public void TitlesDefaultToEmpty() {
 			var reader = new BufferedReader(string.Empty);
@@ -139,6 +139,60 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 		}
 
 		[Fact]
+		public void StaticTitlesCanMerge() {
+			var reader = new BufferedReader(
+				"e_empire = {" +
+				"\tcapital=c_county " +
+				"\tk_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } }" +
+				"}" +
+				"d_duchy2 = { c_county2 = { b_barony2 = { province = 14 } } }"
+			);
+			var titles = new Title.LandedTitles();
+			titles.LoadTitles(reader);
+
+			var reader2 = new BufferedReader(
+				"e_empire = {" +
+				"\tcapital=c_county " +
+				"\tk_kingdom = { d_duchy2 = { } }" +
+				"}"
+			);
+			var overrides = new Title.LandedTitles();
+			overrides.LoadTitles(reader2);
+
+			titles.CarveTitles(overrides);
+
+			var kingdom = titles["k_kingdom"];
+			Assert.Equal(2, kingdom.DeJureVassals.Count);
+		}
+		[Fact]
+		public void StaticTitlesCanCarve() {
+			var reader = new BufferedReader(
+				"e_empire = {" +
+				"\tcapital=c_county " +
+				"\tk_kingdom = { d_duchy = { c_county = { b_barony = { province = 12 } } } } " +
+				"}"
+			);
+			var titles = new Title.LandedTitles();
+			titles.LoadTitles(reader);
+
+			var reader2 = new BufferedReader(
+				"e_empire = {" +
+				"\tcapital=c_county " +
+				"\tk_kingdom2 = { d_duchy = { } } " +
+				"}"
+			);
+			var overrides = new Title.LandedTitles();
+			overrides.LoadTitles(reader2);
+
+			titles.CarveTitles(overrides);
+
+			var kingdom0 = titles["k_kingdom"];
+			var kingdom2 = titles["k_kingdom2"];
+			Assert.Empty(kingdom0.DeJureVassals);
+			Assert.Single(kingdom2.DeJureVassals);
+		}
+
+		[Fact]
 		public void GovernorshipsCanBeRecognizedAsCountyLevel() {
 			var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
 			var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
@@ -208,7 +262,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 			var provinces = new ProvinceCollection(ck3ModFs);
 			provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 			// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
-			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
+			titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, config, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 
 			Assert.Collection(titles,
 				title => Assert.Equal("c_county1", title.Id),
@@ -431,7 +485,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles {
 					b_barony3 = { province=3 }
 				}");
 			titles.LoadTitles(titlesReader);
-			
+
 			Assert.Equal("b_barony1", titles.GetBaronyForProvince(1)?.Id);
 			Assert.Equal("b_barony2", titles.GetBaronyForProvince(2)?.Id);
 			Assert.Equal("b_barony3", titles.GetBaronyForProvince(3)?.Id);
