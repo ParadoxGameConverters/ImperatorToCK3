@@ -5,7 +5,6 @@ using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.States;
-using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +17,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
-	private StateCollection states = new();
+	private readonly StateCollection states = new();
 	private readonly CountryCollection countries = new();
 
 	public ProvinceTests() {
