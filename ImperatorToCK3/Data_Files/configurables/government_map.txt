@@ -1,6 +1,38 @@
-### GOVERNMENT MAPPING ###
+###############################################
+# IMPERATOR:ROME to CK3 - GOVERNMENT MAPPINGS #
+###############################################
 
-link = { imp = aristocratic_republic imp = oligarchic_republic imp = democratic_republic imp = plutocratic_republic imp = athenian_republic ck3 = republic_government }
-link = { imp = theocratic_republic ck3 = theocracy_government }
-link = { imp = dictatorship ck3 = feudal_government imp = despotic_monarchy imp = aristocratic_monarchy imp = stratocratic_monarchy imp = theocratic_monarchy imp = plutocratic_monarchy imp = imperium imp = imperial_cult }
-link = { ck3 = tribal_government imp = tribal_chiefdom imp = tribal_kingdom imp = tribal_federation }
+# Usage:
+# link = {
+#	ck3 = <CK3 government>
+#	ir = <Imperator government>
+#	irCulture = <Imperator culture> (optional)
+#}
+# multiple entries allowed for: ir, irCulture
+# multiple entries not allowed for: ck3
+
+link = { ck3 = republic_government
+	ir = aristocratic_republic
+	ir = oligarchic_republic
+	ir = democratic_republic
+	ir = plutocratic_republic
+	ir = athenian_republic
+}
+link = { ck3 = theocracy_government
+	ir = theocratic_republic
+}
+link = { ck3 = feudal_government
+	ir = dictatorship
+	ir = despotic_monarchy
+	ir = aristocratic_monarchy
+	ir = stratocratic_monarchy 
+	ir = theocratic_monarchy
+	ir = plutocratic_monarchy 
+	ir = imperium
+	ir = imperial_cult
+}
+link = { ck3 = tribal_government
+	ir = tribal_chiefdom
+	ir = tribal_kingdom
+	ir = tribal_federation
+}

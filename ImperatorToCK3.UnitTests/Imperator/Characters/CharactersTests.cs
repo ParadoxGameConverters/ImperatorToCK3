@@ -9,8 +9,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 		private readonly GenesDB genesDB = new();
 		[Fact]
 		public void CharactersDefaultToEmpty() {
-			var reader = new BufferedReader("={}");
-			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection {GenesDB = genesDB};
 			Assert.Empty(characters);
 		}
 
@@ -22,7 +21,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\t43={}\n" +
 				"}"
 			);
-			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection {GenesDB = genesDB};
+			characters.LoadCharacters(reader);
 
 			Assert.Collection(characters,
 				character => Assert.Equal((ulong)42, character.Id),
@@ -36,7 +36,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\t43={ spouse = { 42 } }\n" +
 				"}"
 			);
-			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection {GenesDB = genesDB};
+			characters.LoadCharacters(reader);
 			Assert.Equal((ulong)42, characters[43].Spouses[42].Id);
 		}
 
@@ -47,7 +48,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\t43={ spouse = { 42 } }\n" + // character 42 is missing definition
 				"}"
 			);
-			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection(reader, genesDB);
+			var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection {GenesDB = genesDB};
+			characters.LoadCharacters(reader);
 			Assert.Empty(characters[43].Spouses);
 		}
 	}

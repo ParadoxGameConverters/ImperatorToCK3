@@ -3,6 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Religions;
+using ImperatorToCK3.Imperator.States;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Provinces;
@@ -13,12 +14,12 @@ public partial class Province : IIdentifiable<ulong> {
 	public string Name { get; set; } = "";
 	public string Culture { get; set; } = "";
 	public string ReligionId { get; set; } = "";
-	private ulong? parsedOwnerCountryId;
+	public State? State { get; private set; } = null;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;
 	public Dictionary<ulong, Pop> Pops { get; set; } = new();
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
-	public PDXBool Fort { get; set; } = new(false);
+	public bool Fort { get; set; } = false;
 	public bool IsHolySite => HolySiteId is not null;
 	public ulong? HolySiteId { get; set; } = null;
 	public uint BuildingCount { get; set; } = 0;
@@ -38,29 +39,6 @@ public partial class Province : IIdentifiable<ulong> {
 
 	public Deity? GetHolySiteDeity(ReligionCollection religions) {
 		return HolySiteId is null ? null : religions.GetDeityForHolySiteId((ulong)HolySiteId);
-	}
-
-	public void LinkOwnerCountry(Country country) {
-		if (parsedOwnerCountryId is not null && parsedOwnerCountryId != country.Id) {
-			Logger.Warn($"Province {Id}: linking owner {country.Id} that doesn't match owner from save ({parsedOwnerCountryId})!");
-		}
-
-		OwnerCountry = country;
-	}
-
-	public bool TryLinkOwnerCountry(CountryCollection countries) {
-		if (parsedOwnerCountryId is null) {
-			return false;
-		}
-		if (countries.TryGetValue((ulong)parsedOwnerCountryId, out var countryToLink)) {
-			// link both ways
-			LinkOwnerCountry(countryToLink);
-			countryToLink.RegisterProvince(this);
-			return true;
-		}
-
-		Logger.Warn($"Country with ID {parsedOwnerCountryId} has no definition!");
-		return false;
 	}
 
 	// Returns a count of linked pops

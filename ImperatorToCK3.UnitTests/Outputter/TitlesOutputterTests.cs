@@ -49,7 +49,7 @@ public class TitlesOutputterTests {
 		using var otherTitlesHistoryFile = File.OpenRead(otherTitlesHistoryPath);
 		reader = new StreamReader(otherTitlesHistoryFile);
 		Assert.Equal("k_special_title={", reader.ReadLine());
-		Assert.Equal("\t20.1.1={ holder=\"bob_42\" }", reader.ReadLine());
+		Assert.Equal("\t20.1.1={ holder=bob_42 }", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 

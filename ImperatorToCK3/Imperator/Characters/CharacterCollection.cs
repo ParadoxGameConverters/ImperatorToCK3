@@ -9,8 +9,16 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Characters {
 	public class CharacterCollection : IdObjectCollection<ulong, Character> {
 		public CharacterCollection() { }
-		public CharacterCollection(BufferedReader reader, GenesDB? genesDB) {
-			this.genesDB = genesDB;
+
+		public void LoadCharactersFromBloc(BufferedReader reader) {
+			var blocParser = new Parser();
+			blocParser.RegisterKeyword("character_database", LoadCharacters);
+			blocParser.IgnoreAndLogUnregisteredItems();
+
+			blocParser.ParseStream(reader);
+			Logger.Debug($"Ignored Character tokens: {Character.IgnoredTokens}");
+		}
+		public void LoadCharacters(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseStream(reader);
@@ -62,25 +70,12 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 		private void RegisterKeys(Parser parser) {
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
-				var newCharacter = Character.Parse(reader, charIdStr, genesDB);
+				var newCharacter = Character.Parse(reader, charIdStr, GenesDB);
 				Add(newCharacter);
 			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+			parser.IgnoreAndLogUnregisteredItems();
 		}
-		private readonly GenesDB? genesDB;
-
-		public static CharacterCollection ParseBloc(BufferedReader reader, GenesDB genesDB) {
-			var blocParser = new Parser();
-			var parsedCharacters = new CharacterCollection();
-			blocParser.RegisterKeyword("character_database", reader => {
-				parsedCharacters = new CharacterCollection(reader, genesDB);
-			});
-			blocParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-
-			blocParser.ParseStream(reader);
-			blocParser.ClearRegisteredRules();
-			Logger.Debug($"Ignored Character tokens: {string.Join(", ", Character.IgnoredTokens)}");
-			return parsedCharacters;
-		}
+		
+		public Genes.GenesDB? GenesDB { get; set; }
 	}
 }

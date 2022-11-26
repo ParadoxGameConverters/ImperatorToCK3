@@ -9,9 +9,15 @@ namespace ImperatorToCK3.CommonUtils;
 
 public class History : IPDXSerializable {
 	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = new(); // fieldName, field
-	[NonSerialized] public OrderedSet<string> IgnoredKeywords { get; } = new();
+	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = new();
 
 	public History() { }
+
+	public History(History baseHistory) {
+		foreach (var field in baseHistory.Fields) {
+			Fields.AddOrReplace(field.Clone());
+		}
+	}
 	public History(IdObjectCollection<string, IHistoryField> fields) {
 		Fields = fields;
 	}
@@ -24,7 +30,7 @@ public class History : IPDXSerializable {
 		return GetFieldValue(fieldName, date) as OrderedSet<object>;
 	}
 	
-	public void AddFieldValue(Date date, string fieldName, string setter, object value) {
+	public void AddFieldValue(Date? date, string fieldName, string setter, object value) {
 		if (Fields.TryGetValue(fieldName, out var field)) {
 			field.AddEntryToHistory(date, setter, value);
 		} else {
@@ -36,8 +42,9 @@ public class History : IPDXSerializable {
 
 	public string Serialize(string indent, bool withBraces) {
 		var sb = new StringBuilder();
-		foreach (IHistoryField field in Fields.Where(f => f.InitialEntries.Count > 0)) {
-			foreach (var entry in field.InitialEntries) {
+		foreach (IHistoryField field in Fields) {
+			var serializableEntries = field.InitialEntriesForSerialization;
+			foreach (var entry in serializableEntries) {
 				if (entry.Value is IEnumerable<object> enumerable && !enumerable.Any()) {
 					// don't serialize empty lists
 					continue;
@@ -58,8 +65,9 @@ public class History : IPDXSerializable {
 				}
 			}
 		}
-
-		sb.Append(indent).AppendLine(PDXSerializer.Serialize(entriesByDate, indent, false));
+		if (entriesByDate.Any()) {
+			sb.Append(indent).AppendLine(PDXSerializer.Serialize(entriesByDate, indent, false));
+		}
 
 		return sb.ToString();
 	}

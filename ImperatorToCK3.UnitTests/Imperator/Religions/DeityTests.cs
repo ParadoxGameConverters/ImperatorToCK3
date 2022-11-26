@@ -1,6 +1,5 @@
 using commonItems;
 using commonItems.Mods;
-using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Imperator.Religions;
 using System.Collections.Generic;
 using Xunit;

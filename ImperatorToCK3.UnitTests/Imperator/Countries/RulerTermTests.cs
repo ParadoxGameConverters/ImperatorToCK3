@@ -58,7 +58,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			Assert.Equal("THE_BOLD", ruler.Nickname);
 			Assert.Equal(new Date(200, 1, 1, AUC: true), ruler.BirthDate);
 			Assert.Equal(new Date(300, 1, 1, AUC: true), ruler.DeathDate);
-			Assert.Equal("SPA", ruler.Country.Tag);
+			Assert.Equal("SPA", ruler.Country!.Tag);
 		}
 
 		[Fact]

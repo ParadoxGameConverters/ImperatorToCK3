@@ -23,21 +23,21 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 		}
 
 		[Fact]
-		public void AdjectiveDefaultsTo_ADJ() {
+		public void AdjectiveLocKeyDefaultsTo_ADJ() {
 			var reader = new BufferedReader(string.Empty);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			Assert.Equal("_ADJ", countryName.GetAdjective());
+			Assert.Equal("_ADJ", countryName.GetAdjectiveLocKey());
 		}
 
 		[Fact]
-		public void AdjectiveCanBeSet() {
+		public void AdjectiveLocKeyCanBeSet() {
 			var reader = new BufferedReader(
 				"name = someName adjective = someAdjective"
 			);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			Assert.Equal("someAdjective", countryName.GetAdjective());
+			Assert.Equal("someAdjective", countryName.GetAdjectiveLocKey());
 		}
 
 		[Fact]
@@ -55,8 +55,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			);
 			var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
-			Assert.Equal("someName", countryName.BaseName.Name);
-			Assert.Equal("someAdjective", countryName.BaseName.GetAdjective());
+			Assert.Equal("someName", countryName.BaseName!.Name);
+			Assert.Equal("someAdjective", countryName.BaseName.GetAdjectiveLocKey());
 			Assert.Null(countryName.BaseName.BaseName);
 		}
 

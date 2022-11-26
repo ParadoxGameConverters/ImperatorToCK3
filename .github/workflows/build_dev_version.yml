@@ -27,7 +27,7 @@ jobs:
         - linux-x64
         include:
         - build: win-x64
-          os: windows-2022
+          os: windows-latest
           archive_type: zip
           archive_extension: .zip
         - build: linux-x64
@@ -40,18 +40,17 @@ jobs:
         fetch-depth: 0
         submodules: recursive
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '7.*'
-        include-prerelease: true
+        global-json-file: global.json
     - name: "Build frontend"
       uses: ./Fronter.NET/.github/actions/build_frontend
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Release'
     - name: "Build backend"
+      working-directory: ImperatorToCK3
       run: |
-        cd ImperatorToCK3
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
     - name: "Remove Release/ImperatorToCK3 directory"
       uses: JesseTG/rm@v1.0.3

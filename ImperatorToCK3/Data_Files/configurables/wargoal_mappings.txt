@@ -1,0 +1,10 @@
+# Syntax:
+# link = { ir = [I:R wargoal] ck3 = [CK3 casus belli] }
+
+link = { ir = independence_wargoal ck3 = independence_faction_war }
+link = { ir = conquer_wargoal ck3 = claim_cb }
+link = { ir = imperial_conquest_wargoal ck3 = vassalization_cb }
+link = { ir = diadochi_wargoal ck3 = imperial_reconquest_cb }
+link = { ir = raiding_wargoal ck3 = invasion_war }
+link = { ir = demand_military_access_wargoal ck3 = tribal_subjugation_cb }
+link = { ir = naval_wargoal ck3 = minor_religious_war } # CK3 has no naval warfare

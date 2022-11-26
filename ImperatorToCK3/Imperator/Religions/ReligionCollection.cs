@@ -42,11 +42,15 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadReligions(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator religions...");
 		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
+			
+		Logger.IncrementProgress();
 	}
 
 	public void LoadDeities(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator deities...");
 		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
+			
+		Logger.IncrementProgress();
 	}
 
 	public void LoadHolySiteDatabase(BufferedReader deityManagerReader) {
@@ -57,8 +61,11 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
 				var holySiteId = ulong.Parse(holySiteIdStr);
-				var deityId = reader.GetAssignments()["deity"].RemQuotes();
-				holySiteIdToDeityIdDict[holySiteId] = deityId;
+				if (reader.GetAssignments().TryGetValue("deity", out var deityIdWithQuotes)) {
+					holySiteIdToDeityIdDict[holySiteId] = deityIdWithQuotes.RemQuotes();
+				} else {
+					Logger.Warn($"Holy site {holySiteId} has no deity!");
+				}
 			});
 			databaseParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 			databaseParser.ParseStream(databaseReader);
@@ -66,6 +73,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		
 		parser.ParseStream(deityManagerReader);
+			
+		Logger.IncrementProgress();
 	}
 	
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {

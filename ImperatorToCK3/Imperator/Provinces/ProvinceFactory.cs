@@ -1,26 +1,27 @@
 ﻿using commonItems;
-using System.Collections.Generic;
+using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.States;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
 public partial class Province {
-	public static HashSet<string> IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 	static Province() {
 		provinceParser.RegisterKeyword("province_name", reader =>
 			parsedProvince.Name = new ProvinceName(reader).Name
+		);
+		provinceParser.RegisterKeyword("state", reader => parsedStateId = reader.GetULong());
+		provinceParser.RegisterKeyword("owner", reader => parsedOwnerId = reader.GetULong());
+		provinceParser.RegisterKeyword("controller", reader =>
+			parsedProvince.Controller = reader.GetULong()
 		);
 		provinceParser.RegisterKeyword("culture", reader =>
 			parsedProvince.Culture = reader.GetString()
 		);
 		provinceParser.RegisterKeyword("religion", reader =>
 			parsedProvince.ReligionId = reader.GetString()
-		);
-		provinceParser.RegisterKeyword("owner", reader =>
-			parsedProvince.parsedOwnerCountryId = reader.GetULong()
-		);
-		provinceParser.RegisterKeyword("controller", reader =>
-			parsedProvince.Controller = reader.GetULong()
 		);
 		provinceParser.RegisterKeyword("pop", reader =>
 			parsedProvince.parsedPopIds.Add(reader.GetULong())
@@ -46,7 +47,7 @@ public partial class Province {
 			}
 		});
 		provinceParser.RegisterKeyword("fort", reader =>
-			parsedProvince.Fort = reader.GetPDXBool()
+			parsedProvince.Fort = reader.GetBool()
 		);
 		provinceParser.RegisterKeyword("holy_site", reader => {
 			var holySiteId = reader.GetULong();
@@ -60,17 +61,41 @@ public partial class Province {
 			var buildingsList = reader.GetInts();
 			parsedProvince.BuildingCount = (uint)buildingsList.Sum();
 		});
-		provinceParser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
-			IgnoredTokens.Add(token);
-			ParserHelpers.IgnoreItem(reader);
-		});
+		provinceParser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
-	public static Province Parse(BufferedReader reader, ulong provinceId) {
+	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states, CountryCollection countries) {
+		parsedStateId = null;
+		parsedOwnerId = null;
+		
 		parsedProvince = new Province(provinceId);
 		provinceParser.ParseStream(reader);
+		
+		if (parsedStateId is not null) {
+			parsedProvince.State = states[parsedStateId.Value];
+		}
+
+		parsedProvince.TryLinkOwnerCountry(parsedOwnerId, countries);
+		
 		return parsedProvince;
 	}
 
+	private void TryLinkOwnerCountry(ulong? countryId, CountryCollection countries) {
+		if (countryId is null) {
+			return;
+		}
+		if (countries.TryGetValue(countryId.Value, out var countryToLink)) {
+			// link both ways
+			OwnerCountry = countryToLink;
+			countryToLink.RegisterProvince(this);
+			return;
+		}
+
+		Logger.Warn($"Country with ID {countryId} has no definition!");
+	}
+
 	private static Province parsedProvince = new(0);
+	private static ulong? parsedStateId = null;
+	private static ulong? parsedOwnerId = null;
+	
 	private static readonly Parser provinceParser = new();
 }

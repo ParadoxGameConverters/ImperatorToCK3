@@ -1,13 +1,16 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -150,25 +153,24 @@ namespace ImperatorToCK3.CK3.Characters {
 			Logger.Info($"{spouseCounter} spouses linked in CK3.");
 
 			Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
-				// Imperator saves don't seem to store marriage date
+				// Imperator saves don't seem to store marriage date.
 
+				var marriageDeathDate = GetMarriageDeathDate(imperatorCharacter, imperatorSpouse);
 				var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 				if (birthDateOfCommonChild is not null) {
-					return birthDateOfCommonChild.ChangeByDays(-280); // we assume the child was conceived after marriage
-				}
-				if (imperatorCharacter.DeathDate is not null && imperatorSpouse.DeathDate is not null) {
-					Date marriageDeathDate;
-					if (imperatorCharacter.DeathDate < imperatorSpouse.DeathDate) {
-						marriageDeathDate = imperatorCharacter.DeathDate;
-					} else {
-						marriageDeathDate = imperatorSpouse.DeathDate;
+					// We assume the child was conceived after marriage.
+					var estimatedConceptionDate = birthDateOfCommonChild.ChangeByDays(-280);
+					if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
+						estimatedConceptionDate = marriageDeathDate.ChangeByDays(-1);
 					}
-					return marriageDeathDate.ChangeByDays(-1); // death is not a good moment to marry
+					return estimatedConceptionDate;
 				}
-				if (imperatorCharacter.DeathDate is not null) {
-					return imperatorCharacter.DeathDate.ChangeByDays(-1);
+
+				if (marriageDeathDate is not null) {
+					return marriageDeathDate.ChangeByDays(-1); // Death is not a good moment to marry.
 				}
-				return imperatorSpouse.DeathDate is not null ? imperatorSpouse.DeathDate.ChangeByDays(-1) : conversionDate;
+
+				return conversionDate;
 			}
 			Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
 				var childrenOfFather = father.Children.Values.ToHashSet();
@@ -182,6 +184,13 @@ namespace ImperatorToCK3.CK3.Characters {
 
 				var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToList();
 				return unborns.FirstOrDefault()?.BirthDate;
+			}
+
+			Date? GetMarriageDeathDate(Imperator.Characters.Character husband, Imperator.Characters.Character wife) {
+				if (husband.DeathDate is not null && wife.DeathDate is not null) {
+					return husband.DeathDate < wife.DeathDate ? husband.DeathDate : wife.DeathDate;
+				}
+				return husband.DeathDate ?? wife.DeathDate;
 			}
 		}
 
@@ -221,13 +230,20 @@ namespace ImperatorToCK3.CK3.Characters {
 					female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate, unborn.IsBastard));
 				}
 			}
+				
+			Logger.IncrementProgress();
 		}
 
 		public void PurgeUnneededCharacters(Title.LandedTitles titles) {
 			Logger.Info("Purging unneeded characters...");
 			var landedCharacterIds = titles.GetAllHolderIds();
-			var landedCharacters = this.Where(character => landedCharacterIds.Contains(character.Id));
-			var dynastyIdsOfLandedCharacters = landedCharacters.Select(character => character.DynastyId).Distinct().ToHashSet();
+			var landedCharacters = this
+				.Where(character => landedCharacterIds.Contains(character.Id))
+				.ToList();
+			var dynastyIdsOfLandedCharacters = landedCharacters
+				.Select(character => character.DynastyId)
+				.Distinct()
+				.ToHashSet();
 
 			var farewellIds = new List<string>();
 
@@ -258,6 +274,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 				character.EmployerId = null;
 			}
+				
+			Logger.IncrementProgress();
 		}
 
 		/// <summary>
@@ -274,6 +292,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 			
+			Logger.Info("Distributing countries' gold...");
+			
 			var bookmarkDate = config.CK3BookmarkDate;
 			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
 			foreach (var ck3Country in ck3CountriesFromImperator) {
@@ -286,6 +306,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
 
 				var directVassalCharacters = ck3Country.GetDeFactoVassals(bookmarkDate).Values
+					.Where(vassalTitle => !vassalTitle.Landless)
 					.Select(vassalTitle => this[vassalTitle.GetHolderId(bookmarkDate)])
 					.ToHashSet();
 
@@ -301,6 +322,48 @@ namespace ImperatorToCK3.CK3.Characters {
 				var ruler = this[rulerId];
 				AddGoldToCharacter(ruler, imperatorGold);
 			}
+
+			Logger.IncrementProgress();
+		}
+
+		public void ImportLegions(
+			Title.LandedTitles titles,
+			UnitCollection imperatorUnits,
+			Imperator.Characters.CharacterCollection imperatorCharacters,
+			Date date,
+			UnitTypeMapper unitTypeMapper,
+			IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
+			ProvinceMapper provinceMapper,
+			Configuration config
+		) {
+			Logger.Info("Importing Imperator armies...");
+			
+			var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
+			foreach (var ck3Country in ck3CountriesFromImperator) {
+				var rulerId = ck3Country.GetHolderId(date);
+				if (rulerId == "0") {
+					Logger.Debug($"Can't add armies to {ck3Country} because it has no holder.");
+					continue;
+				}
+				
+				var imperatorCountry = ck3Country.ImperatorCountry!;
+				var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id)
+					.Where(unit => unit.IsArmy && unit.IsLegion) // drop navies and levies
+					.ToList();
+				if (!countryLegions.Any()) {
+					continue;
+				}
+				
+				var ruler = this[rulerId];
+
+				if (config.LegionConversion == LegionConversion.MenAtArms) {
+					ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes);
+				} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
+					ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
+				}
+			}
+			
+			Logger.IncrementProgress();
 		}
 	}
 }

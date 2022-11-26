@@ -1,25 +1,18 @@
-﻿using ImperatorToCK3.CK3.Provinces;
+﻿using commonItems.Serialization;
+using ImperatorToCK3.CK3.Provinces;
 using System.IO;
 
 namespace ImperatorToCK3.Outputter;
 
 public static class ProvinceOutputter {
 	public static void OutputProvince(TextWriter writer, Province province) {
+		var serializedHistory = PDXSerializer.Serialize(province.History, indent: "\t");
+		if (string.IsNullOrWhiteSpace(serializedHistory.Trim())) {
+			return;
+		}
+		
 		writer.WriteLine($"{province.Id}={{");
-		if (!string.IsNullOrEmpty(province.Culture)) {
-			writer.WriteLine($"\tculture={province.Culture}");
-		}
-		if (!string.IsNullOrEmpty(province.FaithId)) {
-			writer.WriteLine($"\treligion={province.FaithId}");
-		}
-		writer.WriteLine($"\tholding={province.Holding}");
-		if (province.Buildings.Count > 0) {
-			writer.WriteLine("\tbuildings={");
-			foreach (var building in province.Buildings) {
-				writer.WriteLine($"\t\t{building}");
-			}
-			writer.WriteLine("\t}");
-		}
+		writer.Write(serializedHistory);
 		writer.WriteLine("}");
 	}
 }

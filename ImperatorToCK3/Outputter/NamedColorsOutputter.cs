@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Colors;
 using System.IO;
 using System.Linq;
 
@@ -29,5 +30,7 @@ public static class NamedColorsOutputter {
 			output.WriteLine($"\t{name}={color.OutputRgb()}");
 		}
 		output.WriteLine("}");
+		
+		Logger.IncrementProgress();
 	}
 }

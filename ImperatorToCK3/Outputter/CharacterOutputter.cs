@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Serialization;
+using System.Globalization;
 using System.IO;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 
@@ -14,11 +15,11 @@ public static class CharacterOutputter {
 		if (character.Female) {
 			output.WriteLine("\tfemale=yes");
 		}
-		if (!string.IsNullOrEmpty(character.Culture)) {
-			output.WriteLine($"\tculture={character.Culture}");
+		if (!string.IsNullOrEmpty(character.CultureId)) {
+			output.WriteLine($"\tculture={character.CultureId}");
 		}
-		if (!string.IsNullOrEmpty(character.Religion)) {
-			output.WriteLine($"\treligion={character.Religion}");
+		if (!string.IsNullOrEmpty(character.FaithId)) {
+			output.WriteLine($"\treligion={character.FaithId}");
 		}
 
 		// output dynasty
@@ -44,8 +45,12 @@ public static class CharacterOutputter {
 		}
 		
 		// output gold
-		if (character.Gold is not null) {
-			output.WriteLine($"\t{conversionDate}={{ effect={{ add_gold={character.Gold} }} }}");
+		if (character.Gold is not null && character.Gold != 0) {
+			var gold = (float)character.Gold.Value;
+			string effectStr = gold > 0 ?
+				$"add_gold={gold.ToString("0.00", CultureInfo.InvariantCulture)}" :
+				$"remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)}";
+			output.WriteLine($"\t{conversionDate}={{effect={{{effectStr}}}}}");
 		}
 
 		// output DNA key

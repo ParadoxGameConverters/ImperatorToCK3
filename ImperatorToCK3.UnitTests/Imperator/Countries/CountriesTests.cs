@@ -12,7 +12,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var reader = new BufferedReader(
 				"= { }"
 			);
-			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(reader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			countries.LoadCountriesFromBloc(reader);
 
 			Assert.Empty(countries);
 		}
@@ -25,7 +26,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"43={}\n" +
 				"}"
 			);
-			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(reader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			countries.LoadCountries(reader);
 
 			Assert.Collection(countries,
 				item => Assert.Equal((ulong)42, item.Id),
@@ -37,7 +39,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 			var reader = new BufferedReader(
 				"={42={family=8}}\n"
 			);
-			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(reader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			countries.LoadCountries(reader);
 
 			var reader2 = new BufferedReader(
 				"8={key=\"Cornelli\" prestige=2 member={ 4479 4480}}\n"
@@ -60,7 +63,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"44={minor_family= 9}\n" +
 				"}\n"
 			);
-			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(reader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			countries.LoadCountries(reader);
 
 			var reader2 = new BufferedReader(
 				"={\n" +
@@ -95,7 +99,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Countries {
 				"44={ minor_family = 10 }\n" + // no pop 10
 			 "}\n"
 			);
-			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(reader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			countries.LoadCountries(reader);
 
 			var reader2 = new BufferedReader(
 				"={\n" +

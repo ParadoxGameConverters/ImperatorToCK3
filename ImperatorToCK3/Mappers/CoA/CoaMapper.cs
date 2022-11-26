@@ -14,11 +14,8 @@ public class CoaMapper {
 		parser.ParseGameFolder(coasPath, imperatorModFS, "txt", true);
 
 		Logger.Info($"Loaded {coasMap.Count} coats of arms.");
-	}
-	public CoaMapper(string coaFilePath) {
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseFile(coaFilePath);
+		
+		Logger.IncrementProgress();
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
