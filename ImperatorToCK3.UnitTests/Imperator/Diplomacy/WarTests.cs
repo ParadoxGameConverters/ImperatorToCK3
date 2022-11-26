@@ -28,10 +28,4 @@ public class WarTests {
 		);
 		Assert.Equal("naval_wargoal", war.WarGoal);
 	}
-	
-	[Fact]
-	public void ExceptionIsThrownOnNotFullyDefinedWar() {
-		var reader = new BufferedReader(string.Empty);
-		Assert.Throws<System.FormatException>(() => War.Parse(reader));
-	}
 }

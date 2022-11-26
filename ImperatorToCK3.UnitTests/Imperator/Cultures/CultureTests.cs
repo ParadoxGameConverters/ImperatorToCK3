@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Cultures; 
+namespace ImperatorToCK3.UnitTests.Imperator.Cultures;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]

@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
-using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Diplomacy; 
@@ -15,7 +14,8 @@ public class War {
 
 	static War() {
 		parser.RegisterKeyword("start_date", reader => {
-			warToReturn.StartDate = new Date(reader.GetString(), AUC: true);
+			var dateStr = reader.GetString();
+			warToReturn.StartDate = new Date(dateStr, AUC: true);
 		});
 		parser.RegisterKeyword("attacker", reader => {
 			warToReturn.AttackerCountryIds.Add(reader.GetULong());
@@ -40,12 +40,6 @@ public class War {
 	public static War Parse(BufferedReader reader) {
 		warToReturn = new War();
 		parser.ParseStream(reader);
-		if (!warToReturn.Previous && warToReturn.AttackerCountryIds.Count == 0) {
-			throw new FormatException("War has no attackers");
-		}
-		if (!warToReturn.Previous && warToReturn.DefenderCountryIds.Count == 0) {
-			throw new FormatException("War has no defenders!");
-		}
 		return warToReturn;
 	}
 
