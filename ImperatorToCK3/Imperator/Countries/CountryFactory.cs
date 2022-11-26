@@ -20,7 +20,7 @@ public partial class Country {
 	private static readonly SortedSet<string> tribalGovernments = new();
 	private static readonly Parser parser = new();
 	private static Country parsedCountry = new(0);
-	public static IgnoredKeywordsSet IgnoredTokens { get; private set; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 
 	static Country() {
 		parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());
