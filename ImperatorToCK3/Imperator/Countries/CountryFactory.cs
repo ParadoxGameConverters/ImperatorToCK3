@@ -112,7 +112,7 @@ public partial class Country {
 
 		var fileParser = new Parser();
 		fileParser.RegisterRegex(CommonRegexes.String, (reader, govName) => {
-			governmentType = "monarchy"; // default, overriden by parsed type
+			governmentType = "monarchy"; // default, overridden by parsed type
 			governmentParser.ParseStream(reader);
 
 			switch (governmentType) {
