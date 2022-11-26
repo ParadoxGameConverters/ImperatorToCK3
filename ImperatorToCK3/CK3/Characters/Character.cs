@@ -12,7 +12,6 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
