@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,10 +9,10 @@ public class GenesDB {
 	public Dictionary<string, AccessoryGene> Genes { get; set; } = new();
 
 	public GenesDB() { }
-	public GenesDB(string gamePath, IEnumerable<Mod> mods) {
+	public GenesDB(ModFilesystem modFS) {
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseGameFolder(Path.Combine("common", "genes"), gamePath, "txt", mods, true);
+		parser.ParseGameFolder("common/genes", modFS, "txt", true);
 	}
 	public GenesDB(BufferedReader reader) {
 		var parser = new Parser();

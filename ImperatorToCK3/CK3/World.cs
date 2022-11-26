@@ -36,7 +36,7 @@ namespace ImperatorToCK3.CK3;
 
 public class World {
 	public OrderedSet<Mod> LoadedMods { get; }
-	public ModFilesystem ModFS { get; private set; }
+	public ModFilesystem ModFS { get; }
 	private ScriptValueCollection ScriptValues { get; } = new();
 	public NamedColorCollection NamedColors { get; } = new();
 	public CharacterCollection Characters { get; } = new();
@@ -127,7 +127,7 @@ public class World {
 
 		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
-		DNA.Initialize(config);
+		DNA.Initialize(impWorld.ModFS, ModFS);
 
 		Characters.ImportImperatorCharacters(
 			impWorld,

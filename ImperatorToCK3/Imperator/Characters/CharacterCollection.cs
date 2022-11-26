@@ -76,6 +76,6 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.IgnoreAndLogUnregisteredItems();
 		}
 		
-		public Genes.GenesDB? GenesDB { get; set; }
+		public GenesDB? GenesDB { get; set; }
 	}
 }
