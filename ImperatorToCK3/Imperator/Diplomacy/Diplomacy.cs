@@ -17,11 +17,11 @@ public class Diplomacy {
 					return;
 				}
 				if (war.AttackerCountryIds.Count == 0) {
-					Logger.Debug($"War started at {war.StartDate} has no attackers!");
+					Logger.Debug($"Skipping war {warId} has no attackers!");
 					return;
 				}
 				if (war.DefenderCountryIds.Count == 0) {
-					Logger.Debug($"War started at {war.StartDate} has no defenders!");
+					Logger.Debug($"Skipping war {warId} has no defenders!");
 					return;
 				}
 				if (war.WarGoal is null) {
