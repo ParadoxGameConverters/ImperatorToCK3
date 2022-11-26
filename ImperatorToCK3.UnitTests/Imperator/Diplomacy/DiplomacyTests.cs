@@ -5,6 +5,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Diplomacy; 
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DiplomacyTests {
 	[Fact]
 	public void WarWithNoDefendersIsSkipped() {
