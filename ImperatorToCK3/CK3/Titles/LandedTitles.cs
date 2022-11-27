@@ -27,7 +27,7 @@ namespace ImperatorToCK3.CK3.Titles;
 public partial class Title {
 	[commonItems.Serialization.NonSerialized] private readonly LandedTitles parentCollection;
 
-	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
+	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
 	public class LandedTitles : TitleCollection {
@@ -82,8 +82,7 @@ public partial class Title {
 			// merge in new king and empire titles into this from overrides, overriding duplicates
 			foreach (var overrideTitle in overrides.Where(t => t.Rank > TitleRank.duchy)) {
 				// inherit vanilla vassals
-				Title? vanillaTitle = null;
-				TryGetValue(overrideTitle.Id, out vanillaTitle);
+				TryGetValue(overrideTitle.Id, out Title? vanillaTitle);
 				AddOrReplace(new Title(vanillaTitle, overrideTitle, this));
 			}
 
