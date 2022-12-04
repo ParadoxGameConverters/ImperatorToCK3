@@ -34,5 +34,7 @@ Vielus      - Mapping tweaks
 derekmark   - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
 nah34       - Suggestions for cultural traditions and martial customs
 Gawquon     - Static de jure option
+The Fallen Eagle mod - Permission to integrate their Rise of Islam mechanic
+TinWiz      - Testing, integration of the Rise of Islam mechanic
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
