@@ -72,6 +72,16 @@ public static class WorldOutputter {
 		CopyBlankModFilesToOutput(outputPath);
 
 		BookmarkOutputter.OutputBookmark(ck3World, config);
+		
+		// Include Rise of Islam files if the feature is enabled in config.
+		if (config.RiseOfIslam) {
+			const string riseOfIslamFilesPath = "blankMod/optionalFiles/RiseOfIslam";
+			foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(riseOfIslamFilesPath)) {
+				var sourceFilePath = Path.Combine(riseOfIslamFilesPath, fileName);
+				var destFilePath = Path.Combine(outputPath, fileName);
+				File.Copy(sourceFilePath, destFilePath, true);
+			}
+		}
 
 		OutputPlaysetInfo(ck3World, outputName);
 	}
@@ -138,9 +148,13 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "casus_belli_types"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "character_interactions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "council_tasks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
