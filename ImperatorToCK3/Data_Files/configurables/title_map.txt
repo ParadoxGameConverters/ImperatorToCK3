@@ -85,6 +85,7 @@ link = { imp = ANH ck3 = k_andhra rank = k }
 link = { imp = BOJ ck3 = k_malwa rank = k }
 link = { imp = KRP ck3 = k_kamarupa rank = k }
 link = { imp = ZHZ ck3 = k_guge rank = k }
+link = { imp = TIB ck3 = e_tibet rank = e }
 link = { imp = ZHZ ck3 = e_tibet rank = e }
 link = { imp = YRL ck3 = e_tibet rank = e }
 link = { imp = YRL ck3 = k_u rank = k }
