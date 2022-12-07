@@ -329,8 +329,12 @@ public class World : Parser {
 	private void LoadModFilesystemDependentData() {
 		scriptValues.LoadScriptValues(ModFS);
 		Logger.IncrementProgress();
+		
 		Defines.LoadDefines(ModFS);
+		
+		Logger.Info("Loading named colors...");
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
+		Logger.IncrementProgress();
 			
 		ParseGenes();
 			
