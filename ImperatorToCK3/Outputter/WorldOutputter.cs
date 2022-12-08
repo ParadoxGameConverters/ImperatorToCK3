@@ -72,16 +72,8 @@ public static class WorldOutputter {
 		CopyBlankModFilesToOutput(outputPath);
 
 		BookmarkOutputter.OutputBookmark(ck3World, config);
-		
-		// Include Rise of Islam files if the feature is enabled in config.
-		if (config.RiseOfIslam) {
-			const string riseOfIslamFilesPath = "blankMod/optionalFiles/RiseOfIslam";
-			foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(riseOfIslamFilesPath)) {
-				var sourceFilePath = Path.Combine(riseOfIslamFilesPath, fileName);
-				var destFilePath = Path.Combine(outputPath, fileName);
-				File.Copy(sourceFilePath, destFilePath, true);
-			}
-		}
+
+		CopyRiseOfIslamFilesToOutput(config);
 
 		OutputPlaysetInfo(ck3World, outputName);
 	}
@@ -93,6 +85,26 @@ public static class WorldOutputter {
 			outputPath
 		);
 		Logger.IncrementProgress();
+	}
+
+	private static void CopyRiseOfIslamFilesToOutput(Configuration config) {
+		if (!config.RiseOfIslam) {
+			return;
+		}
+		
+		Logger.Info("Copying Rise of Islam files to output...");
+		var outputPath = Path.Combine("output", config.OutputModName);
+		const string riseOfIslamFilesPath = "blankMod/optionalFiles/RiseOfIslam";
+		foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(riseOfIslamFilesPath)) {
+			var sourceFilePath = Path.Combine(riseOfIslamFilesPath, fileName);
+			var destFilePath = Path.Combine(outputPath, fileName);
+
+			var destDir = Path.GetDirectoryName(destFilePath);
+			if (destDir is not null) {
+				SystemUtils.TryCreateFolder(destDir);
+			}
+			File.Copy(sourceFilePath, destFilePath, true);
+		}
 	}
 
 	private static void ClearOutputModFolder(Configuration config) {
