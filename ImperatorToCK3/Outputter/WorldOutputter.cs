@@ -72,8 +72,11 @@ public static class WorldOutputter {
 		CopyBlankModFilesToOutput(outputPath);
 
 		BookmarkOutputter.OutputBookmark(ck3World, config);
-
-		CopyRiseOfIslamFilesToOutput(config);
+		
+		if (config.RiseOfIslam) {
+			CopyRiseOfIslamFilesToOutput(config);
+		}
+		Logger.IncrementProgress();
 
 		OutputPlaysetInfo(ck3World, outputName);
 	}
@@ -88,10 +91,6 @@ public static class WorldOutputter {
 	}
 
 	private static void CopyRiseOfIslamFilesToOutput(Configuration config) {
-		if (!config.RiseOfIslam) {
-			return;
-		}
-		
 		Logger.Info("Copying Rise of Islam files to output...");
 		var outputPath = Path.Combine("output", config.OutputModName);
 		const string riseOfIslamFilesPath = "blankMod/optionalFiles/RiseOfIslam";
