@@ -72,6 +72,11 @@ public static class WorldOutputter {
 		CopyBlankModFilesToOutput(outputPath);
 
 		BookmarkOutputter.OutputBookmark(ck3World, config);
+		
+		if (config.RiseOfIslam) {
+			CopyRiseOfIslamFilesToOutput(config);
+		}
+		Logger.IncrementProgress();
 
 		OutputPlaysetInfo(ck3World, outputName);
 	}
@@ -83,6 +88,22 @@ public static class WorldOutputter {
 			outputPath
 		);
 		Logger.IncrementProgress();
+	}
+
+	private static void CopyRiseOfIslamFilesToOutput(Configuration config) {
+		Logger.Info("Copying Rise of Islam files to output...");
+		var outputPath = Path.Combine("output", config.OutputModName);
+		const string riseOfIslamFilesPath = "blankMod/optionalFiles/RiseOfIslam";
+		foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(riseOfIslamFilesPath)) {
+			var sourceFilePath = Path.Combine(riseOfIslamFilesPath, fileName);
+			var destFilePath = Path.Combine(outputPath, fileName);
+
+			var destDir = Path.GetDirectoryName(destFilePath);
+			if (destDir is not null) {
+				SystemUtils.TryCreateFolder(destDir);
+			}
+			File.Copy(sourceFilePath, destFilePath, true);
+		}
 	}
 
 	private static void ClearOutputModFolder(Configuration config) {
@@ -138,9 +159,13 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "casus_belli_types"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "character_interactions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "council_tasks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));

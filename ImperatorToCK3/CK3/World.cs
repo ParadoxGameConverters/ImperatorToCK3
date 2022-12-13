@@ -105,6 +105,7 @@ public class World {
 
 			Title.LandedTitles overrideTitles = new();
 			overrideTitles.LoadStaticTitles();
+			Logger.Debug("Carving titles...");
 			LandedTitles.CarveTitles(overrideTitles);
 
 			Logger.IncrementProgress();

@@ -37,6 +37,26 @@ option = {
 }
 
 option = {
+	name = RiseOfIslam
+	displayName = RISE_OF_ISLAM
+	tooltip = RISE_OF_ISLAM_TIP
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = DISABLED
+			tooltip = RISE_OF_ISLAM_DISABLED_TIP
+			default = false
+		}
+		radioOption = {
+			name = 2
+			displayName = ENABLED
+			tooltip = RISE_OF_ISLAM_ENABLED_TIP
+			default = true		
+		}
+	}
+}
+
+option = {
 	name = ImperatorCurrencyRate
 	displayName = IMPERATOR_CURRENCY_RATE
 	tooltip = IMPERATOR_CURRENCY_RATE_TIP

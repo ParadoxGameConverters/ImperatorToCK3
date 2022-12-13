@@ -18,6 +18,7 @@ public class Configuration {
 	public string OutputModName { get; set; } = "";
 	public bool HeresiesInHistoricalAreas { get; set; } = false;
 	public bool StaticDeJure { get; set; } = false;
+	public bool RiseOfIslam { get; set; } = true;
 	public double ImperatorCurrencyRate { get; set; } = 1.0d;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
@@ -72,6 +73,15 @@ public class Configuration {
 				Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
+			}
+		});
+		parser.RegisterKeyword("RiseOfIslam", reader => {
+			var valueString = reader.GetString();
+			try {
+				RiseOfIslam = Convert.ToInt32(valueString) == 2;
+				Logger.Info($"{nameof(RiseOfIslam)} set to: {RiseOfIslam}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(RiseOfIslam)} value was: {valueString}; Error message: {e}");
 			}
 		});
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
