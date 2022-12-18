@@ -126,8 +126,7 @@ public class DynastyTests {
 		dynLoc["english"] = "Cornelii";
 		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
 
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-		Assert.Equal("Cornelii", dynasty.Localization.Value["english"]);
+		Assert.Equal("Cornelii", dynasty.LocalizedName!["english"]);
 	}
 
 	[Fact]
@@ -139,8 +138,7 @@ public class DynastyTests {
 		var locDB = new LocDB("english");
 		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
 
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-		Assert.Equal("cornelii", dynasty.Localization.Value["english"]);
+		Assert.Equal("cornelii", dynasty.LocalizedName!["english"]);
 	}
 	[Fact]
 	public void CultureIsBasedOnFirstImperatorMember() {

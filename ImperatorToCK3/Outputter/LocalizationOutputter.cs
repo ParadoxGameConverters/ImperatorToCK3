@@ -89,10 +89,10 @@ public static class LocalizationOutputter {
 			foreach (var dynasty in ck3World.Dynasties) {
 				var localizedName = dynasty.LocalizedName;
 				if (localizedName is not null) {
-					dynastyLocWriter.WriteLine($" {dynasty.Id}: \"{localizedName}\"");
+					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{localizedName}\"");
 				} else {
 					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
-					dynastyLocWriter.WriteLine($" {dynasty.Id}: \"{dynasty.Id}\"");
+					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{dynasty.Name}\"");
 				}
 			}
 		}
