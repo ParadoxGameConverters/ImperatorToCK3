@@ -10,8 +10,6 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
 
-[Collection("Sequential")]
-[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DynastiesOutputterTests {
 	[Fact]
 	public void DynastiesAreOutputted() {
