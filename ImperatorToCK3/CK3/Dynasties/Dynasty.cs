@@ -38,9 +38,6 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		if (irFamilyLoc is not null) {
 			LocalizedName = new LocBlock(Name, irFamilyLoc);
 			LocalizedName.ModifyForEveryLanguage(irFamilyLoc, (orig, other, lang) => {
-				if (imperatorFamily.Id == 8) {
-					Logger.Error($"{orig} {other} {lang}"); 
-				}
 				if (!string.IsNullOrEmpty(orig)) {
 					return orig;
 				}
