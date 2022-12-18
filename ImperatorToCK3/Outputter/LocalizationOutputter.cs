@@ -75,38 +75,26 @@ public static class LocalizationOutputter {
 		}
 
 		// dynasty localization
-		using var englishDynLocStream = File.OpenWrite("output/" + outputName + "/localization/replace/english/imp_dynasty_l_english.yml");
-		using var frenchDynLocStream = File.OpenWrite("output/" + outputName + "/localization/replace/french/imp_dynasty_l_french.yml");
-		using var germanDynLocStream = File.OpenWrite("output/" + outputName + "/localization/replace/german/imp_dynasty_l_german.yml");
-		using var koreanDynLocStream = File.OpenWrite("output/" + outputName + "/localization/replace/korean/imp_dynasty_l_korean.yml");
-		using var russianDynLocStream = File.OpenWrite("output/" + outputName + "/localization/replace/russian/imp_dynasty_l_russian.yml");
-		using var simp_chineseDynLocStream = File.OpenWrite("output/" + outputName + "/localization/replace/simp_chinese/imp_dynasty_l_simp_chinese.yml");
-		using var spanishDynLocStream = File.OpenWrite("output/" + outputName + "/localization/replace/spanish/imp_dynasty_l_spanish.yml");
-		using var englishDynLoc = new StreamWriter(englishDynLocStream, System.Text.Encoding.UTF8);
-		using var frenchDynLoc = new StreamWriter(frenchDynLocStream, System.Text.Encoding.UTF8);
-		using var germanDynLoc = new StreamWriter(germanDynLocStream, System.Text.Encoding.UTF8);
-		using var koreanDynLoc = new StreamWriter(koreanDynLocStream, System.Text.Encoding.UTF8);
-		using var russianDynLoc = new StreamWriter(russianDynLocStream, System.Text.Encoding.UTF8);
-		using var simp_chineseDynLoc = new StreamWriter(simp_chineseDynLocStream, System.Text.Encoding.UTF8);
-		using var spanishDynLoc = new StreamWriter(spanishDynLocStream, System.Text.Encoding.UTF8);
+		var baseLocDir = Path.Join("output", outputName, "localization");
+		var dynastyLocLanguages = new[] {
+			"english", "french", "german", "korean", "russian", "simp_chinese", "spanish"
+		};
+		foreach (var language in dynastyLocLanguages) {
+			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
+			using var dynastyLocStream = File.OpenWrite(dynastyLocFilePath);
+			using var dynastyLocWriter = new StreamWriter(dynastyLocStream, System.Text.Encoding.UTF8);
 
-		englishDynLoc.WriteLine("l_english:");
-		frenchDynLoc.WriteLine("l_french:");
-		germanDynLoc.WriteLine("l_german:");
-		koreanDynLoc.WriteLine("l_korean:");
-		russianDynLoc.WriteLine("l_russian:");
-		simp_chineseDynLoc.WriteLine("l_simp_chinese:");
-		spanishDynLoc.WriteLine("l_spanish:");
+			dynastyLocWriter.WriteLine($"l_{language}:");
 
-		foreach (var dynasty in ck3World.Dynasties) {
-			var (key, loc) = dynasty.Localization;
-			englishDynLoc.WriteLine($" {key}: \"{loc["english"]}\"");
-			frenchDynLoc.WriteLine($" {key}: \"{loc["french"]}\"");
-			germanDynLoc.WriteLine($" {key}: \"{loc["german"]}\"");
-			koreanDynLoc.WriteLine($" {key}: \"{loc["korean"]}\"");
-			russianDynLoc.WriteLine($" {key}: \"{loc["russian"]}\"");
-			simp_chineseDynLoc.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
-			spanishDynLoc.WriteLine($" {key}: \"{loc["spanish"]}\"");
+			foreach (var dynasty in ck3World.Dynasties) {
+				var localizedName = dynasty.LocalizedName;
+				if (localizedName is not null) {
+					dynastyLocWriter.WriteLine($" {dynasty.Id}: \"{localizedName}\"");
+				} else {
+					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
+					dynastyLocWriter.WriteLine($" {dynasty.Id}: \"{dynasty.Id}\"");
+				}
+			}
 		}
 	}
 }
