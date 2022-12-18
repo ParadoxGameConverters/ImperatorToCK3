@@ -10,6 +10,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DynastiesOutputterTests {
 	[Fact]
 	public void DynastiesAreOutputted() {
@@ -28,6 +30,7 @@ public class DynastiesOutputterTests {
 		dynasties.Add(dynasty2);
 
 		var outputPath = Path.Combine("output", outputModName, "common/dynasties/ir_dynasties.txt");
+		File.Delete(outputPath);  // clean up from previous runs
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		DynastiesOutputter.OutputDynasties(outputModName, dynasties);
 
