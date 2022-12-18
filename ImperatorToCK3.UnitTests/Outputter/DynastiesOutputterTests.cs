@@ -28,7 +28,10 @@ public class DynastiesOutputterTests {
 		dynasties.Add(dynasty2);
 
 		var outputPath = Path.Combine("output", outputModName, "common/dynasties/ir_dynasties.txt");
-		File.Delete(outputPath);  // clean up from previous runs
+		if (File.Exists(outputPath)) {
+			// clean up from previous runs.
+			File.Delete(outputPath);
+		}
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		DynastiesOutputter.OutputDynasties(outputModName, dynasties);
 
