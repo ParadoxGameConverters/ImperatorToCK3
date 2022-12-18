@@ -111,8 +111,8 @@ public class DynastyTests {
 		var locMapper = new LocDB("english");
 		var dynasty = new Dynasty(family, characters, new CulturesDB(), locMapper);
 
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Name);
+		Assert.Equal("dynn_irtock3_45", dynasty.Id);
+		Assert.Equal("dynn_irtock3_45", dynasty.Name);
 	}
 
 	[Fact]
