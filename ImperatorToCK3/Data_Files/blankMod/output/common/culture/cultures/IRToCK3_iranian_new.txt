@@ -133,10 +133,24 @@ parthian = {
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { mena_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
-	martial_custom = martial_custom_male_only
+	
+	# It is assumed that royal Parthian women could own and manage their own property, land and manufactures, as could their predecessors in the Achaemenid and Seleucid Empire and their successors in the Sasanian Empire. It is fully attested that royal women, as well as noblewomen, accompanied their husbands in battle with their own entourage. (Parthian Empire Wikipedia)
+	martial_custom = martial_custom_equal
+	
 	traditions = {
 		tradition_warriors_of_the_dry
-		tradition_agrarian
+		
+		# Parthian culture should have Fervent Temple Builders, as Persian architecture style called iwan was widely used in the period, often used for building temples. ― Honestly I added this one to the list because ck3 vanilla Persian culture has Garden Architects, so I thought having a culture tradition related to construction would be nice ;). (A signature feature of Parthian architecture was the iwan, an audience hall supported by arches or barrel vaults and open on one side.[261] Use of the barrel vault replaced the Hellenic use of columns to support roofs.[250] Although the iwan was known during the Achaemenid period and earlier in smaller and subterranean structures, it was the Parthians who first built them on a monumental scale.[261] The earliest Parthian iwans are found at Seleucia, built in the early 1st century AD.[250] Monumental iwans are also commonly found in the ancient temples of Hatra and perhaps modeled on the Parthian style. (Parthian Empire Wikipedia)
+		tradition_fervent_temple_builders
+		
+		# Parthian culture could have Culture Blending since it was a heterogeneous empire, especially close to Greeks. (The Parthians largely adopted the art, architecture, religious beliefs, and royal insignia of their culturally heterogeneous empire, which encompassed Persian, Hellenistic, and regional cultures. For about the first half of its existence, the Arsacid court adopted elements of Greek culture, though it eventually saw a gradual revival of Iranian traditions. (Parthian Empire Wikipedia))
+		tradition_culture_blending
+		
+		# Parthian culture should have Horse Archers because Parthian empire mainly had cataphract; a cavalry army. (The main striking force of the Parthian army was its cataphracts, heavy cavalry with man and horse decked in mailed armor.[214] The cataphracts were equipped with a lance for charging into enemy lines, but were not equipped with bows and arrows which were restricted to horse archers.[215] Due to the cost of their equipment and armor, cataphracts were recruited from among the aristocratic class who, in return for their services, demanded a measure of autonomy at the local level from the Arsacid kings.[216] The light cavalry was recruited from among the commoner class and acted as horse archers; they wore a simple tunic and trousers into battle. (Parthian Empire Wikipedia)
+		# TODO: find tradition ID
+		
+		# Parthian culture can have Expert Artisans instead of Agrarian because Parthian Empire encouraged and profited heavily from Silk Road trade, texture being one of the main production. (The empire, located on the Silk Road trade route between the Roman Empire in the Mediterranean Basin and the Han dynasty of China, became a center of trade and commerce. (Parthian Empire Wikipedia))
+		tradition_artisans
 	}	
 }
 
