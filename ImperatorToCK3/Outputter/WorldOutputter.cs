@@ -129,11 +129,11 @@ public static class WorldOutputter {
 		var modFileBuilder = new StringBuilder();
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
-		modFileBuilder.AppendLine("replace_path = \"common/landed_titles\"");
-		modFileBuilder.AppendLine("replace_path = \"history/province_mapping\"");
-		modFileBuilder.AppendLine("replace_path = \"history/provinces\"");
-		modFileBuilder.AppendLine("replace_path = \"history/titles\"");
-		modFileBuilder.AppendLine("replace_path = \"history/wars\"");
+		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
+		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
+		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
+		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
+		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
 		var modText = modFileBuilder.ToString();
 
 		var modFilePath = Path.Combine("output", $"{outputName}.mod");
