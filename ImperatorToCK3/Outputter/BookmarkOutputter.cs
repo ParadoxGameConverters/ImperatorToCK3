@@ -48,12 +48,13 @@ public static class BookmarkOutputter {
 			var holder = world.Characters[holderId];
 
 			// Add character localization for bookmark screen.
-			localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
-			var descLocKey = $"bm_converted_{holder.Id}_desc";
-			var descLocBlock = new LocBlock(descLocKey, "english") {
+			var holderLoc = new LocBlock($"bm_converted_{holder.Id}", "english");
+			holderLoc.CopyFrom(holder.Localizations[holder.Name]);
+			localizations.Add(holderLoc.Id, holderLoc);
+			var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", "english") {
 				["english"] = string.Empty
 			};
-			localizations.Add(descLocKey, descLocBlock);
+			localizations.Add(holderDescLoc.Id, holderDescLoc);
 
 			output.WriteLine("\tcharacter = {");
 
@@ -103,41 +104,21 @@ public static class BookmarkOutputter {
 	}
 
 	private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
+		var languages = new[] {"english", "french", "german", "korean", "russian", "simp_chinese", "spanish"};
+		
 		var outputName = config.OutputModName;
-		using var englishStream = File.OpenWrite(
-			$"output/{outputName}/localization/english/converter_bookmark_l_english.yml");
-		using var frenchStream = File.OpenWrite(
-			$"output/{outputName}/localization/french/converter_bookmark_l_french.yml");
-		using var germanStream = File.OpenWrite(
-			$"output/{outputName}/localization/german/converter_bookmark_l_german.yml");
-		using var russianStream = File.OpenWrite(
-			$"output/{outputName}/localization/russian/converter_bookmark_l_russian.yml");
-		using var simpChineseStream = File.OpenWrite(
-			$"output/{outputName}/localization/spanish/converter_bookmark_l_simp_chinese.yml");
-		using var spanishStream = File.OpenWrite(
-			$"output/{outputName}/localization/spanish/converter_bookmark_l_spanish.yml");
-		using var english = new StreamWriter(englishStream, Encoding.UTF8);
-		using var french = new StreamWriter(frenchStream, Encoding.UTF8);
-		using var german = new StreamWriter(germanStream, Encoding.UTF8);
-		using var russian = new StreamWriter(russianStream, Encoding.UTF8);
-		using var simpChinese = new StreamWriter(simpChineseStream, Encoding.UTF8);
-		using var spanish = new StreamWriter(spanishStream, Encoding.UTF8);
+		var baseLocPath = Path.Combine("output", outputName, "localization");
+		foreach (var language in languages) {
+			var locFilePath = Path.Combine(baseLocPath, language, "converter_bookmark_l_english.yml");
+			using var locFileStream = File.OpenWrite(locFilePath);
+			using var locWriter = new StreamWriter(locFileStream, Encoding.UTF8);
+			
+			locWriter.WriteLine($"l_{language}:");
 
-		english.WriteLine("l_english:");
-		french.WriteLine("l_french:");
-		german.WriteLine("l_german:");
-		russian.WriteLine("l_russian:");
-		simpChinese.WriteLine("l_simp_chinese:");
-		spanish.WriteLine("l_spanish:");
-
-		// title localization
-		foreach (var (key, loc) in localizations) {
-			english.WriteLine($" {key}: \"{loc["english"]}\"");
-			french.WriteLine($" {key}: \"{loc["french"]}\"");
-			german.WriteLine($" {key}: \"{loc["german"]}\"");
-			russian.WriteLine($" {key}: \"{loc["russian"]}\"");
-			simpChinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
-			spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
+			// title localization
+			foreach (var locBlock in localizations.Values) {
+				locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
+			}
 		}
 	}
 

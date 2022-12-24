@@ -31,21 +31,20 @@ public static class LocalizationOutputter {
 			
 			// title localization
 			foreach (var title in ck3World.LandedTitles) {
-				foreach (var loc in title.Localizations) {
-					var key = loc.Id;
-					locWriter.WriteLine($" {key}: \"{loc[language]}\"");
+				foreach (var locBlock in title.Localizations) {
+					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
 				}
 			}
 			
 			// character name localization
 			var uniqueKeys = new HashSet<string>();
 			foreach (var character in ck3World.Characters) {
-				foreach (var (key, loc) in character.Localizations) {
+				foreach (var (key, locBlock) in character.Localizations) {
 					if (uniqueKeys.Contains(key)) {
 						continue;
 					}
 
-					locWriter.WriteLine($" {key}: \"{loc[language]}\"");
+					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
 					uniqueKeys.Add(key);
 				}
 			}
@@ -62,7 +61,7 @@ public static class LocalizationOutputter {
 			foreach (var dynasty in ck3World.Dynasties) {
 				var localizedName = dynasty.LocalizedName;
 				if (localizedName is not null) {
-					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{localizedName[language]}\"");
+					dynastyLocWriter.WriteLine(localizedName.GetYmlLocLineForLanguage(language));
 				} else {
 					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
 					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{dynasty.Name}\"");
