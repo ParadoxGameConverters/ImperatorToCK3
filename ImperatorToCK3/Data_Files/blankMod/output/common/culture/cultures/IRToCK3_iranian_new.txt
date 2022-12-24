@@ -147,7 +147,7 @@ parthian = {
 		tradition_culture_blending
 		
 		# Parthian culture should have Horse Archers because Parthian empire mainly had cataphract; a cavalry army. (The main striking force of the Parthian army was its cataphracts, heavy cavalry with man and horse decked in mailed armor.[214] The cataphracts were equipped with a lance for charging into enemy lines, but were not equipped with bows and arrows which were restricted to horse archers.[215] Due to the cost of their equipment and armor, cataphracts were recruited from among the aristocratic class who, in return for their services, demanded a measure of autonomy at the local level from the Arsacid kings.[216] The light cavalry was recruited from among the commoner class and acted as horse archers; they wore a simple tunic and trousers into battle. (Parthian Empire Wikipedia)
-		# TODO: find tradition ID
+		tradition_horse_lords
 		
 		# Parthian culture can have Expert Artisans instead of Agrarian because Parthian Empire encouraged and profited heavily from Silk Road trade, texture being one of the main production. (The empire, located on the Silk Road trade route between the Roman Empire in the Mediterranean Basin and the Han dynasty of China, became a center of trade and commerce. (Parthian Empire Wikipedia))
 		tradition_artisans
