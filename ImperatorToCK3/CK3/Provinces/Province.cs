@@ -165,10 +165,10 @@ public partial class Province : IIdentifiable<ulong> {
 		// Try to use culture of primary source province.
 		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.Culture)) {
 			var cultureMatch = cultureMapper.Match(
-				impCulture: PrimaryImperatorProvince.Culture,
+				irCulture: PrimaryImperatorProvince.Culture,
 				ck3Religion: faithId,
 				ck3ProvinceId: Id,
-				impProvinceId: PrimaryImperatorProvince.Id,
+				irProvinceId: PrimaryImperatorProvince.Id,
 				historicalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty
 			);
 			if (cultureMatch is not null) {
@@ -180,10 +180,10 @@ public partial class Province : IIdentifiable<ulong> {
 		if (!cultureSet) {
 			foreach (var secondarySource in SecondaryImperatorProvinces) {
 				var cultureMatch = cultureMapper.Match(
-					impCulture: secondarySource.Culture,
+					irCulture: secondarySource.Culture,
 					ck3Religion: faithId,
 					ck3ProvinceId: Id,
-					impProvinceId: secondarySource.Id,
+					irProvinceId: secondarySource.Id,
 					historicalTag: secondarySource.OwnerCountry?.HistoricalTag ?? string.Empty
 				);
 				if (cultureMatch is not null) {
@@ -203,10 +203,10 @@ public partial class Province : IIdentifiable<ulong> {
 		if (!cultureSet) {
 			foreach (var obj in sourceProvincesWithCountryCultures) {
 				var cultureMatch = cultureMapper.Match(
-					impCulture: obj.CultureId!,
+					irCulture: obj.CultureId!,
 					ck3Religion: faithId,
 					ck3ProvinceId: Id,
-					impProvinceId: obj.Province.Id,
+					irProvinceId: obj.Province.Id,
 					historicalTag: obj.Province.OwnerCountry?.HistoricalTag ?? string.Empty
 				);
 				if (cultureMatch is not null) {

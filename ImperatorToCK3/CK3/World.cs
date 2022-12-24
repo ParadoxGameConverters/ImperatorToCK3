@@ -142,7 +142,7 @@ public class World {
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-		Dynasties.ImportImperatorFamilies(impWorld, impWorld.LocDB);
+		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB);
 
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,

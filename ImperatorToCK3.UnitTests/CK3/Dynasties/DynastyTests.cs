@@ -29,6 +29,7 @@ public class DynastyTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 	private class CK3CharacterBuilder {
 		private const string CK3Path = "TestFiles/CK3";
 		private const string CK3Root = "TestFiles/CK3/root";
@@ -109,7 +110,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locMapper = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locMapper);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locMapper);
 
 		Assert.Equal("dynn_irtock3_45", dynasty.Id);
 		Assert.Equal("dynn_irtock3_45", dynasty.Name);
@@ -124,7 +125,7 @@ public class DynastyTests {
 		var locDB = new LocDB("english");
 		var dynLoc = locDB.AddLocBlock("cornelii");
 		dynLoc["english"] = "Cornelii";
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
 
 		Assert.Equal("Cornelii", dynasty.LocalizedName!["english"]);
 	}
@@ -136,7 +137,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
 
 		Assert.Equal("cornelii", dynasty.LocalizedName!["english"]);
 	}
@@ -181,8 +182,8 @@ public class DynastyTests {
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member3)
 			.Build();
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
 
-		Assert.Equal("not_gypsy", dynasty.Culture);
+		Assert.Equal("not_gypsy", dynasty.CultureId);
 	}
 }

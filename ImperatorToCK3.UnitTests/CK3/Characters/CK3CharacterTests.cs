@@ -31,6 +31,7 @@ public class CK3CharacterTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 	private const string CK3Path = "TestFiles/CK3";
 	private const string CK3Root = "TestFiles/CK3/game";
 	private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
@@ -494,7 +495,7 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(impCharacter2)
 			.Build();
 
-		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, impCharacters, new CulturesDB(), new LocDB("english"));
+		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, impCharacters, new CulturesDB(), cultureMapper, new LocDB("english"));
 		Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
 		Assert.Equal(dynasty.Id, relativeOfLandedCharacter.DynastyId);
 
