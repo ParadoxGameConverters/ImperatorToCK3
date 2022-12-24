@@ -25,7 +25,7 @@ public static class BookmarkOutputter {
 		OutputBookmarkGroup(config);
 		Logger.IncrementProgress();
 			
-		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
+		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/irtock3_bookmarks.txt");
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, Encoding.UTF8);
 
@@ -108,7 +108,7 @@ public static class BookmarkOutputter {
 	}
 
 	private static void OutputBookmarkGroup(Configuration config) {
-		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/irtock3_bookmarks.txt");
+		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/irtock3_groups.txt");
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, Encoding.UTF8);
 		
