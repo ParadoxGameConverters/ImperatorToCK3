@@ -21,6 +21,9 @@ namespace ImperatorToCK3.Outputter;
 public static class BookmarkOutputter {
 	public static void OutputBookmark(World world, Configuration config) {
 		Logger.Info("Creating bookmark...");
+		
+		OutputBookmarkGroup(config);
+		Logger.IncrementProgress();
 			
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
 		using var stream = File.OpenWrite(path);
@@ -29,7 +32,8 @@ public static class BookmarkOutputter {
 		var provincePositions = world.MapData.ProvincePositions;
 
 		output.WriteLine("bm_converted = {");
-
+		
+		output.WriteLine("\tgroup = bm_converted");
 		output.WriteLine("\tdefault = yes");
 		output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
 		output.WriteLine("\tis_playable = yes");
@@ -101,6 +105,16 @@ public static class BookmarkOutputter {
 		Logger.IncrementProgress();
 			
 		DrawBookmarkMap(config, playerTitles, world);
+	}
+
+	private static void OutputBookmarkGroup(Configuration config) {
+		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/irtock3_bookmarks.txt");
+		using var stream = File.OpenWrite(path);
+		using var output = new StreamWriter(stream, Encoding.UTF8);
+		
+		output.WriteLine("bm_converted = {");
+		output.WriteLine($"\tdefault_start_date = {config.CK3BookmarkDate}");
+		output.WriteLine("}");
 	}
 
 	private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {

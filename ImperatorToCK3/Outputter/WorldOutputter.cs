@@ -129,6 +129,7 @@ public static class WorldOutputter {
 		var modFileBuilder = new StringBuilder();
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
+		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
