@@ -9,6 +9,7 @@ using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Outputter;
+using System;
 using System.IO;
 using Xunit;
 
@@ -19,8 +20,8 @@ public class DynastiesOutputterTests {
 	public void DynastiesAreOutputted() {
 		const string outputModName = "outputMod";
 		var locDB = new LocDB("english");
-		string ImperatorRoot = "TestFiles/Imperator/root";
-		ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+		const string imperatorRoot = "TestFiles/Imperator/root";
+		ModFilesystem irModFS = new(imperatorRoot, new Mod[] { });
 		AreaCollection areas = new();
 		ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
