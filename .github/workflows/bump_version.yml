@@ -11,7 +11,7 @@ jobs:
       with:
         fetch-depth: '0'
     - name: "Bump version and push tag"
-      uses: anothrNick/github-tag-action@v1.53
+      uses: anothrNick/github-tag-action@1.53
       env:
         GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         DEFAULT_BUMP: none
