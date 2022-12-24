@@ -5,26 +5,23 @@ using commonItems.Serialization;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Mappers.Culture;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public class Dynasty : IPDXSerializable, IIdentifiable<string> {
-	public Dynasty(Family imperatorFamily, CharacterCollection imperatorCharacters, CulturesDB irCulturesDB, LocDB locDB) {
-		Id = $"dynn_irtock3_{imperatorFamily.Id}";
+	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB) {
+		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;
+		
+		var imperatorMemberIds = irFamily.MemberIds;
+		var imperatorMembers = irCharacters
+			.Where(c => imperatorMemberIds.Contains(c.Id))
+			.ToList();
 
-		var imperatorMemberIds = imperatorFamily.MemberIds;
-		var imperatorMembers = imperatorCharacters.Where(c => imperatorMemberIds.Contains(c.Id)).ToList();
-		if (imperatorMembers.Count > 0) {
-			var firstImperatorMember = imperatorMembers[0];
-			if (firstImperatorMember.CK3Character is not null) {
-				// Make head's culture the dynasty culture.
-				Culture = firstImperatorMember.CK3Character.CultureId;
-			}
-		} else {
-			Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
-		}
+		SetCultureFromImperator(irFamily, imperatorMembers, cultureMapper);
 
 		foreach (var member in imperatorMembers) {
 			var ck3Member = member.CK3Character;
@@ -33,7 +30,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		var irFamilyLocKey = imperatorFamily.GetMaleForm(irCulturesDB);
+		var irFamilyLocKey = irFamily.GetMaleForm(irCulturesDB);
 		var irFamilyLoc = locDB.GetLocBlockForKey(irFamilyLocKey);
 		if (irFamilyLoc is not null) {
 			LocalizedName = new LocBlock(Name, irFamilyLoc);
@@ -51,8 +48,40 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	}
 	[NonSerialized] public string Id { get; }
 	[SerializedName("name")] public string Name { get; }
-	[SerializedName("culture")] public string? Culture { get; set; }
+	[SerializedName("culture")] public string? CultureId { get; set; }
 
 	[NonSerialized] public LocBlock? LocalizedName { get; }
 	[NonSerialized] public StringOfItem? CoA { get; set; }
+
+	private void SetCultureFromImperator(Family irFamily, IReadOnlyList<Character> irMembers, CultureMapper cultureMapper) {
+		if (irMembers.Count > 0) {
+			var firstImperatorMember = irMembers[0];
+			// Try to make head's culture the dynasty culture.
+			if (firstImperatorMember.CK3Character is not null) {
+				CultureId = firstImperatorMember.CK3Character.CultureId;
+				return;
+			}
+			
+			// Try to set culture from other members.
+			var otherImperatorMembers = irMembers.Skip(1).ToList();
+			foreach (var otherImperatorMember in otherImperatorMembers) {
+				if (otherImperatorMember.CK3Character is null) {
+					continue;
+				}
+
+				CultureId = otherImperatorMember.CK3Character.CultureId;
+				return;
+			}
+		}
+		
+		// Try to set culture from family.
+		var irCultureId = irFamily.Culture;
+		var ck3CultureId = cultureMapper.NonReligiousMatch(irCultureId, string.Empty, 0, 0, string.Empty);
+		if (ck3CultureId is not null) {
+			CultureId = ck3CultureId;
+			return;
+		}
+		
+		Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
+	}
 }

@@ -224,8 +224,8 @@ public class CultureMapperTests {
 		);
 		var cultureMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", "", 0, impProvinceId: 1, ""));
-		Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, impProvinceId: 1, ""));
-		Assert.Equal("high_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, impProvinceId: 2, ""));
+		Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", "", 0, irProvinceId: 1, ""));
+		Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, irProvinceId: 1, ""));
+		Assert.Equal("high_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, irProvinceId: 2, ""));
 	}
 }
