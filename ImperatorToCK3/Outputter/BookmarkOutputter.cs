@@ -34,7 +34,6 @@ public static class BookmarkOutputter {
 		output.WriteLine("bm_converted = {");
 		
 		output.WriteLine("\tgroup = bm_converted");
-		output.WriteLine("\tdefault = yes");
 		output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
 		output.WriteLine("\tis_playable = yes");
 		output.WriteLine("\trecommended = yes");
