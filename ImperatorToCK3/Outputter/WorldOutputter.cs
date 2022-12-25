@@ -129,11 +129,12 @@ public static class WorldOutputter {
 		var modFileBuilder = new StringBuilder();
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
-		modFileBuilder.AppendLine("replace_path = \"common/landed_titles\"");
-		modFileBuilder.AppendLine("replace_path = \"history/province_mapping\"");
-		modFileBuilder.AppendLine("replace_path = \"history/provinces\"");
-		modFileBuilder.AppendLine("replace_path = \"history/titles\"");
-		modFileBuilder.AppendLine("replace_path = \"history/wars\"");
+		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
+		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
+		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
+		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
+		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
+		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
 		var modText = modFileBuilder.ToString();
 
 		var modFilePath = Path.Combine("output", $"{outputName}.mod");
@@ -158,6 +159,8 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "bookmarks"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "casus_belli_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "character_interactions"));

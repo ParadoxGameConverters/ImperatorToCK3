@@ -9,14 +9,13 @@ GitHub project: https://github.com/ParadoxGameConverters/ImperatorToCK3
 ----
 REQUIREMENTS
 ----
-Imperator: Rome - version 2.0 or higher
-Crusader Kings III - version 1.7 or higher
+Imperator: Rome - version 2.0
+Crusader Kings III - version 1.8
 
 -----
 INSTRUCTIONS
 -----
 1. Run ConverterFrontend.exe.
-2. Fill out all fields and keep clicking Next.
 
 ----
 CREDITS
