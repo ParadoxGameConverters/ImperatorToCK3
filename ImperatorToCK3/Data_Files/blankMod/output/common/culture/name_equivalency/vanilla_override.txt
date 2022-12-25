@@ -99,9 +99,11 @@ anna_female = {
 	Anna Ana Annamma Anne Annes Anah # vanilla
 	Hannah Hanna # converter
 }
-brigit_female = {
-	Brigit Breaca Breage Bride Ffraid Bridei Brude Bruide Brigide Bricita # vanilla
-	Brigantia Prikita # converter
+brigid_female = {
+	# vanilla
+	Berchet Birgitta Breaca Breage Bregida Bride Bridei Brigid Brigida BrI_gida BrigI_D_a Brigide Brigit Brude Bruide Ffraid
+	# converter
+	Bricita Brigantia Prikita
 }
 ingeborg_female = {
 	Ingeborg IngebjO_rg IngibjO_rg # vanilla
