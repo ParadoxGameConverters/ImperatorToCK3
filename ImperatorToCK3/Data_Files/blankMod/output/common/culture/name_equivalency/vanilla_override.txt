@@ -117,3 +117,4 @@ hildegarde_female = {
 	# converter
 	Hiltekart
 }
+elisabeth_female = { Elisabeth Beileag Bet EisabE_u ElZ_bieta ElisabE_ta Elisabet Elisabeta Elisabetta Elisaveta Elizabeta Elizabeth Elspeth ErzsE_bet Isabela IsabE_la IsabE_u Isabeau Isabel Isabella Isabelle Isobel Lillias Lise Lisebet Lys Yelizaveta Aaleyaamma Elesbed Elisaued Uusbail Ysbail Zabel AlZ_bEE_ta Sabela Elisapeth }
