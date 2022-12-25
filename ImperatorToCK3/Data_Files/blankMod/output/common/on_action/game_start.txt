@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.7
+﻿# ImperatorToCK3: Last updated CK3 patch 1.8.1
 
 # Called from code after history generation
 # Empty scope
@@ -20,6 +20,7 @@ on_game_start = {
 				every_vassal = {
 					limit = {
 						vassal_contract_has_modifiable_obligations = yes
+						is_ai = yes
 					}
 					vassal_contract_decrease_obligation_level = feudal_government_taxes
 					vassal_contract_decrease_obligation_level = feudal_government_levies
