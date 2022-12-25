@@ -105,7 +105,7 @@ brigit_female = {
 }
 ingeborg_female = {
 	Ingeborg IngebjO_rg IngibjO_rg # vanilla
-	Ingiburg IngbjO_rg Inge Ingebjorg # converter
+	Ingiburg IngbjO_rg Ingebjorg # converter
 }
 melisende_female = {
 	Melisende ME_lisande ME_lisende MelisE_nda Melisant Melissa # vanilla
