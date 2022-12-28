@@ -99,13 +99,15 @@ anna_female = {
 	Anna Ana Annamma Anne Annes Anah # vanilla
 	Hannah Hanna # converter
 }
-brigit_female = {
-	Brigit Breaca Breage Bride Ffraid Bridei Brude Bruide Brigide Bricita # vanilla
-	Brigantia Prikita # converter
+brigid_female = {
+	# vanilla
+	Berchet Birgitta Breaca Breage Bregida Bride Bridei Brigid Brigida BrI_gida BrigI_D_a Brigide Brigit Brude Bruide Ffraid
+	# converter
+	Bricita Brigantia Prikita
 }
 ingeborg_female = {
 	Ingeborg IngebjO_rg IngibjO_rg # vanilla
-	Ingiburg IngbjO_rg Inge Ingebjorg # converter
+	Ingiburg IngbjO_rg Ingebjorg # converter
 }
 melisende_female = {
 	Melisende ME_lisande ME_lisende MelisE_nda Melisant Melissa # vanilla
@@ -117,3 +119,4 @@ hildegarde_female = {
 	# converter
 	Hiltekart
 }
+elisabeth_female = { Elisabeth Beileag Bet EisabE_u ElZ_bieta ElisabE_ta Elisabet Elisabeta Elisabetta Elisaveta Elizabeta Elizabeth Elspeth ErzsE_bet Isabela IsabE_la IsabE_u Isabeau Isabel Isabella Isabelle Isobel Lillias Lise Lisebet Lys Yelizaveta Aaleyaamma Elesbed Elisaued Uusbail Ysbail Zabel AlZ_bEE_ta Sabela Elisapeth }
