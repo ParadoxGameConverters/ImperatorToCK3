@@ -6,10 +6,10 @@ shan = {  # https://en.wikipedia.org/wiki/Shan_people
 	
 	ethos = ethos_spiritual
 	heritage = heritage_tai
-	language = language_tai  # TODO: add Tai language
+	language = language_tai
 	martial_custom = martial_custom_male_only
 	
-	name_list = name_list_burmese  # TODO: add Tai name list
+	name_list = name_list_shan
 	
 	coa_gfx = { burman_group_coa_gfx }
 	building_gfx = { indian_building_gfx }
