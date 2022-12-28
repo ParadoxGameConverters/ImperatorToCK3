@@ -459,3 +459,21 @@ language_tai = {
 	
 	color = shan
 }
+
+language_kachin = {
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_kachin
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_kachin }
+			multiply = 10
+		}
+	}
+	
+	color = kachin
+}

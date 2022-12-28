@@ -33,23 +33,22 @@ kachin = {  # https://en.wikipedia.org/wiki/Kachin_people
 	# based on Burmese
 	color = kachin
 	
-	ethos = ethos_spiritual
+	ethos = ethos_egalitarian
 	heritage = heritage_burman
-	language = language_burmese
+	language = language_kachin
 	martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_burmese
-	
+
 	coa_gfx = { burman_group_coa_gfx }
 	building_gfx = { indian_building_gfx }
 	clothing_gfx = { indian_clothing_gfx }
 	unit_gfx = { indian_unit_gfx }
-	
+
 	traditions = {
-		tradition_burman_royal_army
-		tradition_fervent_temple_builders
-		tradition_festivities
-		tradition_religion_blending
+		tradition_equal_inheritance
+		tradition_collective_lands
+		tradition_wedding_ceremonies
 	}
 
 	ethnicities = {
