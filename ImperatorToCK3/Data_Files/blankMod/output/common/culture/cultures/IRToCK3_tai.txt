@@ -1,12 +1,12 @@
 ﻿# ImperatorToCK3: Last updated CK3 patch 1.8.1
 
-shan = {  # https://en.wikipedia.org/wiki/Rakhine_people
+shan = {  # https://en.wikipedia.org/wiki/Shan_people
 	# based on Burmese
 	color = shan
 	
 	ethos = ethos_spiritual
-	heritage = heritage_tai # TODO: add Tai heritage
-	language = language_burmese  # TODO: add Tai language
+	heritage = heritage_tai
+	language = language_tai  # TODO: add Tai language
 	martial_custom = martial_custom_male_only
 	
 	name_list = name_list_burmese  # TODO: add Tai name list
