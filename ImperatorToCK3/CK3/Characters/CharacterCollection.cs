@@ -246,27 +246,46 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			.Distinct()
 			.ToHashSet();
 
-		var farewellIds = new List<string>();
+		
+		// Characters that hold or held titles should always be kept.
+		var charactersToCheck = this.Except(landedCharacters).ToList();
 
-		var charactersToCheck = this.Except(landedCharacters);
-		foreach (var character in charactersToCheck) {
-			var id = character.Id;
+		var i = 0;
+		var farewellCharacters = new List<Character>();
+		do {
+			farewellCharacters.Clear();
+			++i;
 
-			if (character.FromImperator && !character.Dead) {
-				continue;
+			// See who can be removed.
+			foreach (var character in charactersToCheck) {
+				var id = character.Id;
+			
+				// Keep alive characters.
+				if (character is {FromImperator: true, Dead: false}) {
+					continue;
+				}
+			
+				// Does the character belong to a dynasty that holds or held titles?
+				if (dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
+					// Is the character dead and childless? Purge.
+					if (character.Children.Count == 0) {
+						farewellCharacters.Add(character);
+						break;
+					}
+				
+					continue;
+				}
+
+				farewellCharacters.Add(character);
 			}
 
-			if (dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
-				continue;
+			foreach (var characterToRemove in farewellCharacters) {
+				Remove(characterToRemove.Id);
 			}
 
-			farewellIds.Add(id);
-		}
-
-		foreach (var characterId in farewellIds) {
-			Remove(characterId);
-		}
-		Logger.Info($"Purged {farewellIds.Count} unneeded characters.");
+			charactersToCheck = charactersToCheck.Except(farewellCharacters).ToList();
+			Logger.Debug($"Purged {farewellCharacters.Count} unneeded characters in iteration {i}.");
+		} while(farewellCharacters.Count > 0);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
