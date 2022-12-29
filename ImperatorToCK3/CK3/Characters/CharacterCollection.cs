@@ -257,8 +257,6 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
-				var id = character.Id;
-			
 				// Keep alive characters.
 				if (character is {FromImperator: true, Dead: false}) {
 					continue;
