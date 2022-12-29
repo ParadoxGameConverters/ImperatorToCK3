@@ -270,7 +270,6 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 					// Is the character dead and childless? Purge.
 					if (character.Children.Count == 0) {
 						farewellCharacters.Add(character);
-						break;
 					}
 				
 					continue;
@@ -283,8 +282,8 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				Remove(characterToRemove.Id);
 			}
 
-			charactersToCheck = charactersToCheck.Except(farewellCharacters).ToList();
 			Logger.Debug($"Purged {farewellCharacters.Count} unneeded characters in iteration {i}.");
+			charactersToCheck = charactersToCheck.Except(farewellCharacters).ToList();
 		} while(farewellCharacters.Count > 0);
 	}
 
