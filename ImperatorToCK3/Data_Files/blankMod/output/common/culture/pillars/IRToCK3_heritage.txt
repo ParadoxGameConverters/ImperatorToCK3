@@ -53,3 +53,7 @@ heritage_tyrrhenian = {
 heritage_tai = {
 	type = heritage
 }
+
+heritage_palaungic = {
+	type = heritage
+}

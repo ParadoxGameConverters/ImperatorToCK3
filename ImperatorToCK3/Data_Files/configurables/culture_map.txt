@@ -439,7 +439,7 @@ link = { ck3 = nabatean imp = nabatean }
 link = { ck3=mon imp=mon }
 link = { ck3=burmese imp=pyu }
 link = { ck3=arakanese imp=rhakine }
-link = { ck3=kachin imp=pubu }
+link = { ck3=palaungic imp=pubu }
 link = { ck3=shan imp=shan }
 
 # Simple Timeline Extender mod

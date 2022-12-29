@@ -381,10 +381,10 @@ l_english:
  arakanese_collective_noun: "Arakanese"
  arakanese_prefix: "Arakanese"
 
- kachin: "Kachin"
- kachin_collective_noun: "Kachin"
- kachin_prefix: "Kachin"
-
  shan: "Shan"
  shan_collective_noun: "Shan"
  shan_prefix: "Shan"
+
+ palaungic: "Palaungic"
+ palaungic_collective_noun: "Palaungics"
+ palaungic_prefix: "Palaungic"

@@ -460,20 +460,20 @@ language_tai = {
 	color = shan
 }
 
-language_kachin = {
+language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-			LANGUAGE = language_kachin
+			LANGUAGE = language_palaungic
 		}
 	}
 	ai_will_do = {
 		value = 10
 		if = {
-			limit = { has_cultural_pillar = language_kachin }
+			limit = { has_cultural_pillar = language_palaungic }
 			multiply = 10
 		}
 	}
-	
-	color = kachin
+
+	color = { 217 189 104 }
 }
