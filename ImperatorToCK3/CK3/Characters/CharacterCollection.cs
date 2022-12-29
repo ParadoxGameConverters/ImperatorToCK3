@@ -246,7 +246,6 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			.Distinct()
 			.ToHashSet();
 
-		
 		// Characters that hold or held titles should always be kept.
 		var charactersToCheck = this.Except(landedCharacters).ToList();
 
