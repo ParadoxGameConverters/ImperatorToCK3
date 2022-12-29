@@ -1,10 +1,9 @@
 ﻿# ImperatorToCK3: Last updated CK3 patch 1.8.1
 
 shan = {  # https://en.wikipedia.org/wiki/Shan_people
-	# based on Burmese
 	color = shan
 	
-	ethos = ethos_spiritual
+	ethos = ethos_courtly  # from Tai culture in AsiaExtended mod
 	heritage = heritage_tai
 	language = language_tai
 	martial_custom = martial_custom_male_only

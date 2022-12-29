@@ -16,9 +16,9 @@ arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	clothing_gfx = { indian_clothing_gfx }
 	unit_gfx = { indian_unit_gfx }
 	
-	traditions = {  # TODO: change traditions, currently copied from Burmese
+	traditions = {  # https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327
 		tradition_burman_royal_army
-		tradition_fervent_temple_builders
+		tradition_fishermen
 		tradition_festivities
 		tradition_religion_blending
 	}
