@@ -519,7 +519,7 @@ public class CK3CharacterTests {
 		};
 		characters.PurgeUnneededCharacters(titles);
 
-		characters.Should().BeEquivalentTo(new Character[] {
+		characters.Should().BeEquivalentTo(new[] {
 			landedCharacter,
 			fatherOfLandedCharacter
 		});
