@@ -435,9 +435,12 @@ link = { ck3 = khazar imp = hebrew @culture_splitting_region_L }
 link = { ck3 = hebrew imp = hebrew }
 link = { ck3 = nabatean imp = nabatean }
 
-# Invictus Burma
+# Invictus Burmese and Tai
 link = { ck3=mon imp=mon }
-link = { ck3=burmese imp=rhakine imp=pubu imp=shan imp=pyu }
+link = { ck3=burmese imp=pyu }
+link = { ck3=arakanese imp=rhakine }
+link = { ck3=palaungic imp=pubu }
+link = { ck3=shan imp=shan }
 
 # Simple Timeline Extender mod
 link = { ck3 = hunnic imp = hunnic }
