@@ -1,4 +1,5 @@
 ﻿palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
+	# https://en.wikipedia.org/wiki/Palaung_people
 	color = rgb { 217 189 104 }
 
 	ethos = ethos_communal
