@@ -463,26 +463,29 @@ public class CK3CharacterTests {
 	}
 
 	[Fact]
-	public void NeededCharactersAreNotPurged() {
+	public void DeadLandlessCharactersArePurgedIfChildless() {
 		var titles = new Title.LandedTitles();
 
-		var impFamily = new Family(1);
-		var impFamilies = new FamilyCollection { impFamily };
-		var impCharacters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
+		var irFamily = new Family(1);
+		var irFamilies = new FamilyCollection { irFamily };
+		var irCharacters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
 
-		var impCharacterReader = new BufferedReader("{ death_date=450.1.1 family=1 }");
-		var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null);
-		impCharacters.Add(impCharacter1);
-		impCharacter1.LinkFamily(impFamilies);
+		var charactersReader = new BufferedReader("""
+			1 = { death_date=450.1.1 family=1 father=2 }
+			2 = { death_date=400.1.1 family=1 }
+			3 = { death_date=440.1.1 family=1 father=2 }
+			""");
 
-		impCharacterReader = new BufferedReader("{ death_date=2.1.1 family=1 }");
-		var impCharacter2 = ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "2", null);
-		impCharacters.Add(impCharacter2);
-		impCharacter2.LinkFamily(impFamilies);
+		irCharacters.LoadCharacters(charactersReader);
+		irCharacters.LinkFamilies(irFamilies);
+
+		irCharacters[1].Father.Should().BeSameAs(irCharacters[2]);
+		irCharacters[2].Father.Should().BeNull();
+		irCharacters[3].Father.Should().BeSameAs(irCharacters[2]);
 
 		// dead but won't be purged because he's landed
 		var landedCharacter = builder
-			.WithImperatorCharacter(impCharacter1)
+			.WithImperatorCharacter(irCharacters[1])
 			.Build();
 		var kingdom = titles.Add("k_dead_georgia_boys");
 		kingdom.SetHolder(landedCharacter, new Date("400.1.1"));
@@ -491,23 +494,34 @@ public class CK3CharacterTests {
 			id => Assert.Equal("imperator1", id));
 
 		// dead but won't be purged because he belongs to a dynasty of a landed character
-		var relativeOfLandedCharacter = builder
-			.WithImperatorCharacter(impCharacter2)
+		// and has a child
+		var fatherOfLandedCharacter = builder
+			.WithImperatorCharacter(irCharacters[2])
 			.Build();
 
-		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(impFamily, impCharacters, new CulturesDB(), cultureMapper, new LocDB("english"));
+		// another dead relative, will be purged because he's landless and childless
+		var childlessRelative = builder
+			.WithImperatorCharacter(irCharacters[3])
+			.Build();
+		
+		fatherOfLandedCharacter.Children.Add(landedCharacter.Id, landedCharacter);
+		fatherOfLandedCharacter.Children.Add(childlessRelative.Id, childlessRelative);
+
+		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), cultureMapper, new LocDB("english"));
 		Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
-		Assert.Equal(dynasty.Id, relativeOfLandedCharacter.DynastyId);
+		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.DynastyId);
+		Assert.Equal(dynasty.Id, childlessRelative.DynastyId);
 
 		var characters = new CharacterCollection{
 			landedCharacter,
-			relativeOfLandedCharacter
+			fatherOfLandedCharacter,
+			childlessRelative
 		};
 		characters.PurgeUnneededCharacters(titles);
 
-		Assert.Collection(characters,
-			character => Assert.Same(landedCharacter, character),
-			character => Assert.Same(relativeOfLandedCharacter, character)
-		);
+		characters.Should().BeEquivalentTo(new[] {
+			landedCharacter,
+			fatherOfLandedCharacter
+		});
 	}
 }
