@@ -9,7 +9,7 @@
 	}
 
 	male_names = {
-		Ai Boon Chai Chai_Luang Chang Cheng Chueang Chuen Intha Jom Kaew Kaung Kawng_Kham Kawng_Tai Kham Kham_Kha Kham_Ton Kham_Um Khong Khun_Mueang Khun_Seuk Lan Lang Lao Lao_Kham Lok Lue Mueang Nam Nam_Nan Nam_Thuam Ngam_Mueang Ngoen Ngua Ou_Muang Oun Oun_Kham Phan Phao Pheng Saeng Saeng_Nak Sai Sam Sao_Win Suwan Taeng Than Thian Tong Waen Wao Yi Yod_Mueang Zan
+		Ai Boon Chai Chai_Luang Chang Cheng Chueang Chuen Intha Jom Kaew Kaung Kawng_Tai Kham Kham_Kha Kham_Ton Kham_Um Khong Khun_Mueang Khun_Seuk Lan Lang Lao Lao_Kham Lok Lue Mueang Nam Nam_Nan Nam_Thuam Ngam_Mueang Ngoen Ngua Ou_Muang Oun Oun_Kham Phan Phao Pheng Saeng Saeng_Nak Sai Sam Sao_Win Suwan Taeng Than Thian Tong Waen Wao Yi Yod_Mueang Zan
 	}
 
 	female_names = {
