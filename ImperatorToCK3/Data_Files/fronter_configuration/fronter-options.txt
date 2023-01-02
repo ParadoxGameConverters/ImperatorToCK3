@@ -45,13 +45,13 @@ option = {
 			name = 1
 			displayName = DISABLED
 			tooltip = RISE_OF_ISLAM_DISABLED_TIP
-			default = false
+			default = true
 		}
 		radioOption = {
 			name = 2
 			displayName = ENABLED
 			tooltip = RISE_OF_ISLAM_ENABLED_TIP
-			default = true		
+			default = false
 		}
 	}
 }
