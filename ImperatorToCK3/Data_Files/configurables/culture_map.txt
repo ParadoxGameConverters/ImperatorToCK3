@@ -162,8 +162,7 @@ link = { ck3 = prussian imp = aestian ck3Province = 2835 ck3Province = 2834 ck3P
 link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
 link = { ck3 = urslavic imp = aestian }
 # Invictus mod
-link = { ck3 = prussian imp = neuric }
-link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian }
+link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian imp=neuric }
 
 
 ## Belgea (sic)
