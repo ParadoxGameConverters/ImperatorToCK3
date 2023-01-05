@@ -912,7 +912,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
-		parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color", reader => {
+			try {
+				Color1 = colorFactory.GetColor(reader);
+			} catch (ArgumentException e) {
+				Logger.Warn($"{e.Message} - defaulting to black");
+				Color1 = new Color(0, 0, 0);
+			}
+		});
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
 		parser.RegisterKeyword("ai_primary_priority", reader => AIPrimaryPriority = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
