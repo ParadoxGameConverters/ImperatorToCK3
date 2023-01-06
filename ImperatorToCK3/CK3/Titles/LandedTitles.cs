@@ -448,32 +448,32 @@ public partial class Title {
 			}
 		}
 		
-		public void ImportImperatorHoldings(ProvinceCollection ck3Provinces, CharacterCollection ck3Characters, Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
+		public void ImportImperatorHoldings(ProvinceCollection ck3Provinces, Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
 			Logger.Info("Importing Imperator Holdings...");
 			var counter = 0;
-
-			var baronies = this.Where(t => t.Rank == TitleRank.barony).ToImmutableList();
 			
-			// TODO: get counties that are not capitals of rulers
-			// TODO: then exclude the capital baronies of these counties
+			// Get baronies except county capitals.
+			var potentialBaronies = this
+				.Where(t => t.Rank == TitleRank.barony)
+				.Where(b => b.DeJureLiege?.CapitalBaronyId != b.Id)
+				.ToImmutableList();
 			
-			foreach (var barony in baronies) {
+			foreach (var barony in potentialBaronies) {
 				var ck3ProvinceId = barony.Province;
-
 				if (ck3ProvinceId is null) {
 					continue;
 				}
-				
 				if (!ck3Provinces.TryGetValue(ck3ProvinceId.Value, out var ck3Province)) {
 					continue;
 				}
 				
-				var irProvince = ck3Province.PrimaryImperatorProvince;
-				if (irProvince is null) {
+				// Skip temple holdings.
+				if (ck3Province.GetHoldingType(conversionDate) == "church_holding") {
 					continue;
 				}
 				
-				var holdingOwnerId = irProvince.HoldingOwnerId;
+				var irProvince = ck3Province.PrimaryImperatorProvince;
+				var holdingOwnerId = irProvince?.HoldingOwnerId;
 				if (holdingOwnerId is null) {
 					continue;
 				}

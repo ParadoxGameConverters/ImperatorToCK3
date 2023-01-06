@@ -27,7 +27,6 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,6 +46,10 @@ public class World {
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; }
 	public List<Wars.War> Wars { get; } = new();
+	
+	/// <summary>
+	/// Date based on I:R save date, but normalized for CK3 purposes.
+	/// </summary>
 	public Date CorrectedDate { get; }
 
 	public World(Imperator.World impWorld, Configuration config) {
@@ -182,6 +185,8 @@ public class World {
 			coaMapper,
 			countyLevelGovernorships
 		);
+		
+		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
 
 		OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
