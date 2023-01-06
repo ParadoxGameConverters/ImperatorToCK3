@@ -43,8 +43,11 @@ public class War {
 		Claimant = Attackers[0];
 
 		if (irWar.TargetedStateId is not null) {
-			var state = irStates[irWar.TargetedStateId.Value];
-			var targetedCountyIds = state.Provinces
+			if (!irStates.TryGetValue(irWar.TargetedStateId.Value, out var irState)) {
+				throw new ConverterException("War targeted state not found!");
+			}
+			
+			var targetedCountyIds = irState.Provinces
 				.SelectMany(p => provinceMapper.GetCK3ProvinceNumbers(p.Id))
 				.Select(titles.GetCountyForProvince)
 				.Where(t => t is not null)
