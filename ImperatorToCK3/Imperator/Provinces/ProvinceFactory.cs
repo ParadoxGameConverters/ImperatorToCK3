@@ -49,6 +49,14 @@ public partial class Province {
 		provinceParser.RegisterKeyword("fort", reader =>
 			parsedProvince.Fort = reader.GetBool()
 		);
+		provinceParser.RegisterKeyword("holdings", reader => {
+			var holdingId = reader.GetULong();
+			// 4294967295 equals (2^32 − 1) and is the default value
+			// otherwise, the value is the ID of a character
+			if (holdingId != 4294967295) {
+				parsedProvince.HoldingOwnerId = holdingId;
+			}
+		});
 		provinceParser.RegisterKeyword("holy_site", reader => {
 			var holySiteId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
