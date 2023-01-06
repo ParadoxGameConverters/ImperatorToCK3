@@ -484,9 +484,7 @@ public partial class Title {
 					continue;
 				}
 				
-				Logger.Debug($"Importing {ck3Owner.Id} as holder of {barony.Id}");
 				barony.SetHolder(ck3Owner, conversionDate);
-
 				++counter;
 			}
 			Logger.Info($"Imported {counter} holdings from I:R.");
