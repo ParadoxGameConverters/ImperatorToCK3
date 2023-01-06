@@ -21,7 +21,7 @@ namespace ImperatorToCK3 {
 				Converter.ConvertImperatorToCK3(converterVersion);
 				return 0;
 			} catch (Exception e) {
-				Logger.Error(e.Message);
+				Logger.Error($"{e.GetType()}: {e.Message}");
 				if (e.StackTrace is not null) {
 					Logger.Debug(e.StackTrace);
 				}

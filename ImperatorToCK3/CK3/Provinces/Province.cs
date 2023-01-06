@@ -220,7 +220,7 @@ public partial class Province : IIdentifiable<ulong> {
 		if (!cultureSet) {
 			//Use default CK3 culture.
 			Logger.Warn($"Couldn't determine culture for province {Id} with source provinces " +
-			            $"[{string.Join(", ", ImperatorProvinces.Select(p=>p.Id))}], using vanilla culture!");
+			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla culture!");
 		}
 	}
 	private void SetHoldingFromImperator(Title.LandedTitles landedTitles) {
