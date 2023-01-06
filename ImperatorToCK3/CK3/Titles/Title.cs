@@ -209,8 +209,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// Determine other attributes:
 		// Set capital to Imperator tag's capital.
-		if (ImperatorCountry.Capital is not null) {
-			var srcCapital = (ulong)ImperatorCountry.Capital;
+		if (ImperatorCountry.CapitalProvinceId is not null) {
+			var srcCapital = ImperatorCountry.CapitalProvinceId.Value;
 			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
 				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
 				if (foundCounty is null) {
