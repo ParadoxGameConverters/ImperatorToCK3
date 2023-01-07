@@ -19,7 +19,7 @@ public class CountryTests {
 		Assert.Equal(string.Empty, country.Tag);
 		Assert.Equal(string.Empty, country.HistoricalTag);
 		Assert.Equal(string.Empty, country.Name);
-		Assert.Null(country.Capital);
+		Assert.Null(country.CapitalProvinceId);
 		Assert.Equal(0, country.Currencies.Manpower);
 		Assert.Equal(0, country.Currencies.Gold);
 		Assert.Equal(50, country.Currencies.Stability);
@@ -64,7 +64,7 @@ public class CountryTests {
 		Assert.Equal("WTF", country.HistoricalTag);
 		Assert.Equal("WTF", country.Name);
 		Assert.Equal("WTF", country.Flag);
-		Assert.Equal((ulong)32, country.Capital);
+		Assert.Equal((ulong)32, country.CapitalProvinceId);
 		Assert.Equal(1, country.Currencies.Manpower);
 		Assert.Equal(2, country.Currencies.Gold);
 		Assert.Equal(69, country.Currencies.Stability);

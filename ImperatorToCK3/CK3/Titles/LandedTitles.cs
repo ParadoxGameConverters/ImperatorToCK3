@@ -19,6 +19,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
@@ -445,6 +446,49 @@ public partial class Title {
 					imperatorRegionMapper
 				);
 			}
+		}
+		
+		public void ImportImperatorHoldings(ProvinceCollection ck3Provinces, Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
+			Logger.Info("Importing Imperator Holdings...");
+			var counter = 0;
+			
+			// Get baronies except county capitals.
+			var potentialBaronies = this
+				.Where(t => t.Rank == TitleRank.barony)
+				.Where(b => b.DeJureLiege?.CapitalBaronyId != b.Id)
+				.ToImmutableList();
+			
+			foreach (var barony in potentialBaronies) {
+				var ck3ProvinceId = barony.Province;
+				if (ck3ProvinceId is null) {
+					continue;
+				}
+				if (!ck3Provinces.TryGetValue(ck3ProvinceId.Value, out var ck3Province)) {
+					continue;
+				}
+				
+				// Skip temple holdings.
+				if (ck3Province.GetHoldingType(conversionDate) == "church_holding") {
+					continue;
+				}
+				
+				var irProvince = ck3Province.PrimaryImperatorProvince;
+				var holdingOwnerId = irProvince?.HoldingOwnerId;
+				if (holdingOwnerId is null) {
+					continue;
+				}
+				
+				var irOwner = irCharacters[holdingOwnerId.Value];
+				var ck3Owner = irOwner.CK3Character;
+				if (ck3Owner is null) {
+					continue;
+				}
+				
+				barony.SetHolder(ck3Owner, conversionDate);
+				++counter;
+			}
+			Logger.Info($"Imported {counter} holdings from I:R.");
+			Logger.IncrementProgress();
 		}
 
 		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
