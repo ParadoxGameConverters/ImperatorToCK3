@@ -156,11 +156,29 @@ link = { ck3 = tajik imp = margian }
 # Invictus mod
 link = { ck3=indogreek imp=greco_indian }
 
-## Baltic & Slavic (Venedia is Proto-Slavic)
-link = { ck3 = lithuanian imp = aestian ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
-link = { ck3 = prussian imp = aestian ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
-link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
-link = { ck3 = urslavic imp = aestian }
+
+## Baltic & Balto-Finnic
+link = {
+	ck3 = estonian
+	imp = aestian
+	ck3Region = dlc_fp1_region_eastern_adventure_targets_estonia
+	ck3Region = ghw_region_northern_russia
+}
+link = {
+	ck3 = lithuanian
+	imp = aestian
+	ck3Province=154 ck3Province=155 ck3Province=149 ck3Province=165 ck3Province=153 ck3Province=130 ck3Province=160 ck3Province=159 ck3Province=156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
+link = {
+	ck3 = prussian
+	imp = aestian
+	ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
+link = {
+	ck3 = latgalian
+	imp = aestian
+	ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
+link = { ck3 = prussian imp = aestian }
+
+## Slavic
 # Invictus mod
 link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian imp=neuric }
 
