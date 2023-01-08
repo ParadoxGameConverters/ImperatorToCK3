@@ -83,6 +83,11 @@ public class Configuration {
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(RiseOfIslam)} value was: {valueString}; Error message: {e}");
 			}
+
+			if (RiseOfIslam) {
+				RiseOfIslam = false;
+				Logger.Warn("Rise of Islam is temporarily disabled due to not working with CK3 1.8.");
+			}
 		});
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
 			ImperatorCurrencyRate = reader.GetDouble();
