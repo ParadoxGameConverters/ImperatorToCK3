@@ -37,5 +37,6 @@ The Fallen Eagle mod team - Permission to integrate their Rise of Islam mechanic
 TinWiz - Testing, integration of the Rise of Islam mechanic
 Wrench - Help with integration of the Rise of Islam mechanic
 AsiaExtended mod team - Permission to use Shan name list and Palaungic culture from their mod
+Luka_Moscovite - Russian translations
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
