@@ -449,7 +449,7 @@ public partial class Title {
 		}
 		
 		public void ImportImperatorHoldings(ProvinceCollection ck3Provinces, Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
-			Logger.Info("Importing Imperator Holdings...");
+			Logger.Info("Importing Imperator holdings...");
 			var counter = 0;
 			
 			// Get baronies except county capitals.
@@ -466,9 +466,9 @@ public partial class Title {
 				if (!ck3Provinces.TryGetValue(ck3ProvinceId.Value, out var ck3Province)) {
 					continue;
 				}
-				
-				// Skip temple holdings.
-				if (ck3Province.GetHoldingType(conversionDate) == "church_holding") {
+
+				// Skip none holdings and temple holdings.
+				if (ck3Province.GetHoldingType(conversionDate) is "church_holding" or "none") {
 					continue;
 				}
 				
