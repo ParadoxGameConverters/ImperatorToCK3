@@ -27,11 +27,11 @@ jobs:
         - linux-x64
         include:
         - build: win-x64
-          os: windows-latest
+          os: [self-hosted, windows]
           archive_type: zip
           archive_extension: .zip
         - build: linux-x64
-          os: ubuntu-latest
+          os: [self-hosted, linux]
           archive_type: tar
           archive_extension: .tgz
     steps:
