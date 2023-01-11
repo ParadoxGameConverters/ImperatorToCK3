@@ -16,6 +16,7 @@ Crusader Kings III - version 1.8
 INSTRUCTIONS
 -----
 1. Run ConverterFrontend.exe.
+   Watch this video to see how to use the converter: https://www.youtube.com/watch?v=KzqAHH-l0Wc
 
 ----
 CREDITS

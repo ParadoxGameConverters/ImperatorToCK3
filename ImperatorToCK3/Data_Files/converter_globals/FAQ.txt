@@ -5,6 +5,9 @@ A: This converter has been done by the same team that specializes in other Parad
 EU4->Vic2, Vic2->HoI4, CK2->EU3, EU3->Vic2, Vic2->HoI3, CK2->EU4
 It is not official.
 
+Q: How do I use this?
+A: Watch this video: https://www.youtube.com/watch?v=KzqAHH-l0Wc
+
 Q: What about mods?
 A: The converter officially supports these mods:
 - Imperator: Invictus (https://steamcommunity.com/workshop/filedetails/?id=2532715348)
