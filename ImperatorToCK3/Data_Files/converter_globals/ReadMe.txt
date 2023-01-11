@@ -17,6 +17,7 @@ INSTRUCTIONS
 -----
 1. Run ConverterFrontend.exe.
    Watch this video to see how to use the converter: https://www.youtube.com/watch?v=KzqAHH-l0Wc
+2. Fill out all paths and set up any options. Then click "Convert Save".
 
 ----
 CREDITS
