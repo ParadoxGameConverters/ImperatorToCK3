@@ -26,13 +26,13 @@ using System.IO;
 using Xunit;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
-namespace ImperatorToCK3.UnitTests.CK3.Titles; 
+namespace ImperatorToCK3.UnitTests.CK3.Titles;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class LandedTitlesTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
@@ -291,7 +291,7 @@ public class LandedTitlesTests {
 			title => Assert.Equal("c_county3", title.Id),
 			title => Assert.Equal("b_barony3", title.Id),
 			title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
-			// Governorship is not added as a new title.
+		// Governorship is not added as a new title.
 		);
 		Assert.Collection(countyLevelGovernorships,
 			clg1 => {
@@ -318,7 +318,7 @@ public class LandedTitlesTests {
 
 	[Fact]
 	public void DevelopmentIsCorrectlyCalculatedFor1ProvinceTo1BaronyCountyMapping() {
-		var config = new Configuration {CK3BookmarkDate = new Date(476, 1, 1)};
+		var config = new Configuration { CK3BookmarkDate = new Date(476, 1, 1) };
 		var titles = new Title.LandedTitles();
 		var titlesReader = new BufferedReader(
 			"c_county1={ b_barony1={province=1} }"
@@ -331,8 +331,8 @@ public class LandedTitlesTests {
 
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-			
-		var ck3Provinces = new ProvinceCollection {new(1), new(2), new(3)};
+
+		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
 		var religions = new ReligionCollection(titles);
@@ -347,7 +347,7 @@ public class LandedTitlesTests {
 
 	[Fact]
 	public void DevelopmentFromImperatorProvinceCanBeSplitForTargetProvinces() {
-		var config = new Configuration {CK3BookmarkDate = new Date(476, 1, 1)};
+		var config = new Configuration { CK3BookmarkDate = new Date(476, 1, 1) };
 		var titles = new Title.LandedTitles();
 		var titlesReader = new BufferedReader(
 			"c_county1={ b_barony1={province=1} } " +
@@ -363,7 +363,7 @@ public class LandedTitlesTests {
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt", "test_version");
 
-		var ck3Provinces = new ProvinceCollection {new(1), new(2), new(3)};
+		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
 		var religions = new ReligionCollection(titles);
@@ -380,7 +380,7 @@ public class LandedTitlesTests {
 
 	[Fact]
 	public void DevelopmentOfCountyIsCalculatedFromAllCountyProvinces() {
-		var config = new Configuration {CK3BookmarkDate = new Date(476, 1, 1)};
+		var config = new Configuration { CK3BookmarkDate = new Date(476, 1, 1) };
 		var titles = new Title.LandedTitles();
 		var titlesReader = new BufferedReader(
 			"c_county1={ b_barony1={province=1} b_barony2={province=2} }"
@@ -392,11 +392,11 @@ public class LandedTitlesTests {
 		irWorld.Provinces.Add(irProvince1);
 		var irProvince2 = new ImperatorToCK3.Imperator.Provinces.Province(2) { CivilizationValue = 40 };
 		irWorld.Provinces.Add(irProvince2);
-			
+
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-			
-		var ck3Provinces = new ProvinceCollection {new(1), new(2), new(3)};
+
+		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
 		var religions = new ReligionCollection(titles);

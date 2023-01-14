@@ -14,14 +14,15 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Xunit;
+using System;
 
-namespace ImperatorToCK3.UnitTests.CK3.Provinces; 
+namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly Date ck3BookmarkDate = "476.1.1";
@@ -31,7 +32,7 @@ public class ProvinceTests {
 	static ProvinceTests() {
 		countries.LoadCountries(new BufferedReader("1={}"));
 	}
-	
+
 	[Fact]
 	public void FieldsCanBeSet() {
 		// ReSharper disable once UseObjectOrCollectionInitializer
@@ -67,7 +68,7 @@ public class ProvinceTests {
 
 		return provincesToReturn.AsReadOnly();
 	}
-	
+
 	private IReadOnlyCollection<Province> GetCK3ProvincesForIRGovernment(IReadOnlyCollection<ImperatorToCK3.Imperator.Provinces.Province> irProvinces, string irGovernmentId) {
 		var countryReader = new BufferedReader($"government_key = {irGovernmentId}");
 		var imperatorCountry = Country.Parse(countryReader, 1);
@@ -109,7 +110,7 @@ public class ProvinceTests {
 		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
 
 		Country.LoadGovernments(imperatorModFS);
-		
+
 		// Monarchy.
 		var irProvinces = GetIRProvincesFromStrings(new[] {
 			" = { province_rank=city_metropolis }",
@@ -131,7 +132,7 @@ public class ProvinceTests {
 			"castle_holding",
 			"none"
 		);
-		
+
 		// Republic.
 		irProvinces = GetIRProvincesFromStrings(new[] {
 			" = { province_rank=city_metropolis holy_site=69 }",
@@ -151,7 +152,7 @@ public class ProvinceTests {
 			"city_holding",
 			"none"
 		);
-		
+
 		// Tribal.
 		irProvinces = GetIRProvincesFromStrings(new[] {
 			" = { province_rank=city_metropolis holy_site=69 fort=yes }",

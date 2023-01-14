@@ -2,7 +2,7 @@
 using ImperatorToCK3.CK3.Titles;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.CK3.Titles; 
+namespace ImperatorToCK3.UnitTests.CK3.Titles;
 
 public class TitleHistoryTests {
 	[Fact]
@@ -17,7 +17,7 @@ public class TitleHistoryTests {
 	public void LiegeDefaultsToNull() {
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_title");
-			
+
 		Assert.Null(title.GetLiege(new Date(867, 1, 1)));
 	}
 

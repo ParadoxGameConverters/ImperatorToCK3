@@ -17,16 +17,17 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
+using System;
 
 // ReSharper disable StringLiteralTypo
 
-namespace ImperatorToCK3.UnitTests.CK3.Dynasties; 
+namespace ImperatorToCK3.UnitTests.CK3.Dynasties;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DynastyTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
@@ -39,7 +40,7 @@ public class DynastyTests {
 			CK3Path = CK3Path
 		};
 
-		private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
+		private static readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());

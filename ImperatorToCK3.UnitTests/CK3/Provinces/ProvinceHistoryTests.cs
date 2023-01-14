@@ -2,7 +2,7 @@
 using ImperatorToCK3.CK3.Provinces;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.CK3.Provinces; 
+namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -29,7 +29,7 @@ public class ProvinceHistoryTests {
 		var province = new Province(1, reader);
 
 		Assert.Equal("roman", province.GetCultureId(ck3BookmarkDate));
-		Assert.Equal("orthodox",province.GetFaithId(ck3BookmarkDate));
+		Assert.Equal("orthodox", province.GetFaithId(ck3BookmarkDate));
 	}
 
 	[Fact]
@@ -62,7 +62,7 @@ public class ProvinceHistoryTests {
 		var province1 = new Province(1, reader);
 		var province2 = new Province(2);
 		province2.CopyEntriesFromProvince(province1);
-		
+
 		// Only culture, faith and terrain should be copied from source province.
 		Assert.Equal("orthodox", province2.GetFaithId(ck3BookmarkDate));
 		Assert.Equal("roman", province2.GetCultureId(ck3BookmarkDate));
