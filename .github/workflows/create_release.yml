@@ -35,6 +35,7 @@ jobs:
     needs: create_release
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         build:
         - win-x64
