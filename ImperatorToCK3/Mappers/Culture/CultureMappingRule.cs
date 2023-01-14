@@ -29,8 +29,8 @@ public class CultureMappingRule {
 			return null;
 		}
 
-		if (tags.Count > 0) {
-			if (string.IsNullOrEmpty(historicalTag) || !tags.Contains(historicalTag)) {
+		if (irHistoricalTags.Count > 0) {
+			if (string.IsNullOrEmpty(historicalTag) || !irHistoricalTags.Contains(historicalTag)) {
 				return null;
 			}
 		}
@@ -105,7 +105,7 @@ public class CultureMappingRule {
 	private string destinationCulture = string.Empty;
 	private readonly SortedSet<string> cultures = new();
 	private readonly SortedSet<string> religions = new();
-	private readonly SortedSet<string> tags = new();
+	private readonly SortedSet<string> irHistoricalTags = new();
 	private readonly SortedSet<ulong> imperatorProvinces = new();
 	private readonly SortedSet<ulong> ck3Provinces = new();
 	private readonly SortedSet<string> imperatorRegions = new();
@@ -115,7 +115,7 @@ public class CultureMappingRule {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.destinationCulture = reader.GetString());
 		parser.RegisterKeyword("imp", reader => mappingToReturn.cultures.Add(reader.GetString()));
 		parser.RegisterKeyword("religion", reader => mappingToReturn.religions.Add(reader.GetString()));
-		parser.RegisterKeyword("tag", reader => mappingToReturn.tags.Add(reader.GetString()));
+		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
 		parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
@@ -126,7 +126,7 @@ public class CultureMappingRule {
 			variableReader.CopyVariables(reader);
 			parser.ParseStream(variableReader);
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 	private static readonly Parser parser = new();
 	private static CultureMappingRule mappingToReturn = new();

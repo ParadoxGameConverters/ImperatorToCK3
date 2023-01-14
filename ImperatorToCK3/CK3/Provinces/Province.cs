@@ -102,9 +102,10 @@ public partial class Province : IIdentifiable<ulong> {
 		// Try to use religion of primary source province.
 		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.ReligionId)) {
 			var religionMatch = religionMapper.Match(
-				imperatorReligion: PrimaryImperatorProvince.ReligionId,
+				irReligion: PrimaryImperatorProvince.ReligionId,
 				ck3ProvinceId: Id,
-				imperatorProvinceId: PrimaryImperatorProvince.Id,
+				irProvinceId: PrimaryImperatorProvince.Id,
+				irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
 				config: config
 			);
 			if (religionMatch is not null) {
@@ -116,9 +117,10 @@ public partial class Province : IIdentifiable<ulong> {
 		if (!religionSet) {
 			foreach (var secondarySource in SecondaryImperatorProvinces) {
 				var religionMatch = religionMapper.Match(
-					imperatorReligion: secondarySource.ReligionId, 
-					ck3ProvinceId: Id, 
-					imperatorProvinceId: secondarySource.Id, 
+					irReligion: secondarySource.ReligionId,
+					ck3ProvinceId: Id,
+					irProvinceId: secondarySource.Id,
+					irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
 					config: config
 				);
 				if (religionMatch is not null) {
@@ -134,9 +136,10 @@ public partial class Province : IIdentifiable<ulong> {
 		if (!religionSet) {
 			foreach (var sourceProvince in sourceProvincesWithCountryReligion) {
 				var religionMatch = religionMapper.Match(
-					imperatorReligion: sourceProvince.OwnerCountry!.Religion!,
+					irReligion: sourceProvince.OwnerCountry!.Religion!,
 					ck3ProvinceId: Id,
-					imperatorProvinceId: sourceProvince.Id,
+					irProvinceId: sourceProvince.Id,
+					irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
 					config: config
 				);
 				if (religionMatch is not null) {
