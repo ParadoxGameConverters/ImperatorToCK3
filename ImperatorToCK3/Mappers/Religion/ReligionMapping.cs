@@ -13,6 +13,8 @@ public class ReligionMapping {
 
 	private readonly SortedSet<string> imperatorRegions = new();
 	private readonly SortedSet<string> ck3Regions = new();
+	
+	private readonly SortedSet<string> irHistoricalTags = new();
 
 	private bool? heresiesInHistoricalAreas;
 	private bool warnWhenMissing = true; // whether to log a warning when the CK3 faith is not found
@@ -26,9 +28,16 @@ public class ReligionMapping {
 		parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
 		parser.RegisterKeyword("impProvince", reader => mappingToReturn.imperatorProvinces.Add(reader.GetULong()));
+		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("heresiesInHistoricalAreas", reader => mappingToReturn.heresiesInHistoricalAreas = reader.GetBool());
 		parser.RegisterKeyword("warnWhenMissing", reader => mappingToReturn.warnWhenMissing = reader.GetBool());
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
+			var variableValue = reader.ResolveVariable(variableName).ToString() ?? string.Empty;
+			var variableReader = new BufferedReader(variableValue);
+			variableReader.CopyVariables(reader);
+			parser.ParseStream(variableReader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 	public static ReligionMapping Parse(BufferedReader reader) {
 		mappingToReturn = new ReligionMapping();
@@ -39,6 +48,7 @@ public class ReligionMapping {
 	public string? Match(string impReligion,
 		ulong ck3ProvinceId,
 		ulong impProvinceId,
+		string? irHistoricalTag,
 		Configuration config,
 		ImperatorRegionMapper imperatorRegionMapper,
 		CK3RegionMapper ck3RegionMapper
@@ -55,6 +65,12 @@ public class ReligionMapping {
 		if (heresiesInHistoricalAreas is not null &&
 		    config.HeresiesInHistoricalAreas != heresiesInHistoricalAreas.Value) {
 			return null;
+		}
+
+		if (irHistoricalTags.Count > 0) {
+			if (string.IsNullOrEmpty(irHistoricalTag) || !irHistoricalTags.Contains(irHistoricalTag)) {
+				return null;
+			}
 		}
 
 		// simple religion-religion match
