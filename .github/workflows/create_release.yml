@@ -7,7 +7,6 @@ jobs:
   create_release:
     runs-on: [self-hosted, linux]
     outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
     - uses: actions/checkout@v3
@@ -105,11 +104,8 @@ jobs:
         filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
     - name: "Upload release asset"
       id: upload-release-asset
-      uses: actions/upload-release-asset@v1
+      uses: alexellis/upload-assets@0.4.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: './ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
-        asset_name: 'ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
-        asset_content_type: ${{ matrix.asset_content_type }}
+        asset_paths: '["./ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}"]'
