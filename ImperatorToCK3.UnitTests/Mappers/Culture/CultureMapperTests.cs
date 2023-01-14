@@ -108,7 +108,7 @@ public class CultureMapperTests {
 	[Fact]
 	public void CultureFailsWithWrongHistoricalTag() {
 		var reader = new BufferedReader(
-			"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 tag = ROM }"
+			"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 historicalTag = ROM }"
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
@@ -137,9 +137,15 @@ public class CultureMapperTests {
 
 	[Fact]
 	public void CultureFailsWithHistoricalTagInRule() {
-		var reader = new BufferedReader(
-			"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 tag = ROM }"
-		);
+		var reader = new BufferedReader("""
+		link = {
+			ck3=culture
+			imp=qwe imp=test imp=poi
+			religion=thereligion
+			ck3Province=4
+			historicalTag=ROM
+		}
+		""");
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
 		Assert.Null(culMapper.Match("test", "thereligion", 4, 49, ""));

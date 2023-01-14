@@ -9,6 +9,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Religion; 
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ReligionMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
@@ -79,16 +81,17 @@ public class ReligionMapperTests {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
 		var ck3RegionMapper = new CK3RegionMapper();
-			
-		var reader = new BufferedReader("""
-			link = { ck3=ck3Faith1 imp=impReligion historicalTag=ROM }
-			link = { ck3=ck3Faith2 imp=impReligion historicalTag=ARM }
-			link = { ck3=ck3Faith3 imp=impReligion }
+		
+		const string irReligion = "impReligion";
+		var reader = new BufferedReader($$"""
+			link = { ck3 = ck3Faith1 imp = {{irReligion}} historicalTag = ROM } 
+			link = { ck3 = ck3Faith2 imp = {{irReligion}} historicalTag = ARM } 
+			link = { ck3 = ck3Faith3 imp = {{irReligion}} }  
 		""");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
-		Assert.Equal("ck3Faith1", mapper.Match("impReligion", 45, 456, "ROM", new Configuration()));
-		Assert.Equal("ck3Faith2", mapper.Match("impReligion", 45, 456, "ARM", new Configuration()));
-		Assert.Equal("ck3Faith3", mapper.Match("impReligion", 45, 456, "LOL", new Configuration()));
+		Assert.Equal("ck3Faith1", mapper.Match(irReligion, 45, 456, "ROM", new Configuration()));
+		Assert.Equal("ck3Faith2", mapper.Match(irReligion, 45, 456, "ARM", new Configuration()));
+		Assert.Equal("ck3Faith3", mapper.Match(irReligion, 45, 456, "LOL", new Configuration()));
 	}
 }

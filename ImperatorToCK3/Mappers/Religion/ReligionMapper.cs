@@ -54,7 +54,7 @@ public class ReligionMapper {
 		parser.RegisterKeyword("link", reader => {
 			religionMappings.Add(ReligionMapping.Parse(reader));
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 	private readonly List<ReligionMapping> religionMappings = new();
 	private readonly ImperatorRegionMapper imperatorRegionMapper;
