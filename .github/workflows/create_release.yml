@@ -5,7 +5,7 @@ on:
     - '*'
 jobs:
   create_release:
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
