@@ -22,26 +22,26 @@ using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.CK3.Characters; 
+namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CK3CharacterTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 	private const string CK3Path = "TestFiles/CK3";
 	private const string CK3Root = "TestFiles/CK3/game";
-	private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
-		
+	private static readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
+
 	public class CK3CharacterBuilder {
 		private Configuration config = new() {
 			CK3BookmarkDate = "867.1.1",
 			CK3Path = CK3Path
 		};
-			
+
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
 		private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
@@ -503,7 +503,7 @@ public class CK3CharacterTests {
 		var childlessRelative = builder
 			.WithImperatorCharacter(irCharacters[3])
 			.Build();
-		
+
 		fatherOfLandedCharacter.Children.Add(landedCharacter.Id, landedCharacter);
 		fatherOfLandedCharacter.Children.Add(childlessRelative.Id, childlessRelative);
 

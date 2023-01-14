@@ -24,7 +24,7 @@ using ImperatorToCK3.Mappers.Region;
 using System;
 using System.IO;
 
-namespace ImperatorToCK3.UnitTests.CK3.Titles; 
+namespace ImperatorToCK3.UnitTests.CK3.Titles;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -36,7 +36,7 @@ public class TitleTests {
 		new Area("paphlagonia_area", new BufferedReader(), new ProvinceCollection())
 	};
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
-		
+
 	private class TitleBuilder {
 		private Country country = new(0);
 		private CountryCollection imperatorCountries = new();
@@ -678,7 +678,7 @@ public class TitleTests {
 
 		var date = new Date(100, 1, 1);
 		Assert.Null(title.GetGovernment(date));
-			
+
 		title.SetGovernment("new_government", date);
 		Assert.Equal("new_government", title.GetGovernment(date));
 	}

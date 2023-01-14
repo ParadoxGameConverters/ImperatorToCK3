@@ -2,7 +2,7 @@ using commonItems;
 using ImperatorToCK3.Imperator.Armies;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Armies; 
+namespace ImperatorToCK3.UnitTests.Imperator.Armies;
 
 public class SubunitTests {
 	[Fact]
@@ -25,7 +25,7 @@ public class SubunitTests {
 			country=2
 		");
 		var subunit = new Subunit(420, reader);
-		
+
 		Assert.Equal((ulong)420, subunit.Id);
 		Assert.Equal("regular", subunit.Category);
 		Assert.Equal("archers", subunit.Type);

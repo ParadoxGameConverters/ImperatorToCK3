@@ -24,6 +24,7 @@ using ImperatorToCK3.Mappers.Trait;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using System;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -31,7 +32,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CharacterCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
@@ -49,7 +50,7 @@ public class CharacterCollectionTests {
 			countries
 		);
 	}
-	
+
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
@@ -110,7 +111,7 @@ public class CharacterCollectionTests {
 		male.Spouses.Add(1, female);
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
-		
+
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -160,7 +161,7 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(female1);
 		imperatorWorld.Characters.Add(female2);
 		imperatorWorld.Characters.Add(female3);
-		
+
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -189,14 +190,14 @@ public class CharacterCollectionTests {
 	[Fact]
 	public void ImperatorCountriesGoldCanBeDistributedAmongRulerAndVassals() {
 		var conversionDate = new Date(470, 2, 1, AUC: true);
-		var config = new Configuration { 
+		var config = new Configuration {
 			ImperatorPath = "TestFiles/LandedTitlesTests/Imperator",
 			CK3BookmarkDate = conversionDate,
 			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
 		var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
-		
+
 		imperatorWorld.Provinces.Add(new ImperatorToCK3.Imperator.Provinces.Province(1));
 		// provinces for governorship 1
 		imperatorWorld.Provinces.Add(new ImperatorToCK3.Imperator.Provinces.Province(2));
@@ -250,7 +251,7 @@ public class CharacterCollectionTests {
 		var governorship2 = new Governorship(governorshipReader2);
 		imperatorWorld.Jobs.Governorships.Add(governorship1);
 		imperatorWorld.Jobs.Governorships.Add(governorship2);
-		
+
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader(@"
 			c_county1 = { b_barony1={province=1} }
@@ -264,7 +265,7 @@ public class CharacterCollectionTests {
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-		
+
 		var locDB = new LocDB("english");
 		var countryLocBlock = locDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
@@ -308,10 +309,10 @@ public class CharacterCollectionTests {
 			characters,
 			conversionDate,
 			config);
-		
+
 		var provinces = new ProvinceCollection(ck3ModFs);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
-		
+
 		titles.ImportImperatorGovernorships(
 			imperatorWorld,
 			provinces,
@@ -323,10 +324,10 @@ public class CharacterCollectionTests {
 			impRegionMapper,
 			coaMapper,
 			countryLevelGovernorships: new List<Governorship>());
-		
+
 		var ck3Country = titles["e_IMPTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));
-		
+
 		characters.DistributeCountriesGold(titles, config);
 		// Due to 0.5 currency rate, from Imperator country's 200 gold we have 100 CK3 gold.
 		// Gold is divided among ruler and vassals, with ruler having weight of 2.
