@@ -84,13 +84,13 @@ public class ReligionMapperTests {
 		
 		const string irReligion = "impReligion";
 		var reader = new BufferedReader($$"""
-			link = { ck3 = ck3Faith1 imp = {{irReligion}} historicalTag = ROM } 
+			link = { ck3 = ck3Faith imp = {{irReligion}} historicalTag = ROM } 
 			link = { ck3 = ck3Faith2 imp = {{irReligion}} historicalTag = ARM } 
 			link = { ck3 = ck3Faith3 imp = {{irReligion}} }  
 		""");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
-		Assert.Equal("ck3Faith1", mapper.Match(irReligion, 45, 456, "ROM", new Configuration()));
+		Assert.Equal("ck3Faith", mapper.Match(irReligion, 45, 456, "ROM", new Configuration()));
 		Assert.Equal("ck3Faith2", mapper.Match(irReligion, 45, 456, "ARM", new Configuration()));
 		Assert.Equal("ck3Faith3", mapper.Match(irReligion, 45, 456, "LOL", new Configuration()));
 	}
