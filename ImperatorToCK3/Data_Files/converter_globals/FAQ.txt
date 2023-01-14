@@ -2,11 +2,14 @@
 
 Q: Is this an official converter?
 A: This converter has been done by the same team that specializes in other Paradox converters:
-EU4->Vic2, Vic2->HoI4, CK2->EU3, EU3->Vic2, Vic2->HoI3, CK2->EU4
+EU4->Vic2, Vic2->HoI4, CK2->EU3, EU3->Vic2, Vic2->HoI3, CK2->EU4, CK3->EU4
 It is not official.
 
 Q: How do I use this?
 A: Watch this video: https://www.youtube.com/watch?v=KzqAHH-l0Wc
+
+Q: I have an ironman save. Can it be converted?
+A: Yes.
 
 Q: What about mods?
 A: The converter officially supports these mods:
@@ -16,10 +19,21 @@ A: The converter officially supports these mods:
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
 Total map overhauls are not supported (of course), and whatever new cultures and religions are brought by the mod - you'll have to add manually in the files in configurables folder.
 
+Q: How can I customize my game after converting?
+A: Use the guide in after_converting.txt in the converter subdirectory. Scan through configurables/ folder and look into the myriad of configuration files - a great majority of these files is intended to be modified by users to achieve
+specific conversion results.
+
+
 ### Quick Troubleshooting:
 
+Q: When starting conversion, conversion immediately fails, not producing anything.
+A: It's probably caused by your antivirus. Add the converter files to your antivirus' exclusion list. If you don't know how to, completely disable the antivirus. If this doesn't help, upload your save and log.txt to this thread, specifying your active antivirus.
+
 Q: I loaded my mod, but nothing changed. What's wrong?
-A: Make sure the mod is enabled in the launcher. If it still doesn't load, come to PDX forums and upload your save, converter's log.txt and game's errors.log so we may debug.
+A: Is the mod enabled in the launcher? If so, then CK3 refused to load it due to possible errors. Respond to this thread and upload your save, log.txt from the converter directory, and errors.log from My Documents\Paradox Interactive\Crusader Kings III\logs so we may debug.
+
+Q: The country crashes upon selecting a country and pressing play (at map selection)
+A: Upload your save, log.txt from the converter directory, and error.log from My Documents\Paradox Interactive\Crusader Kings III\logs to this thread for further study.
 
 Q: The game forbids me to select nations.
-A: Upload your save, log.txt and errors.txt to PDX forums for further study.
+A: Upload your save, log.txt from the converter directory, and error.log from My Documents\Paradox Interactive\Crusader Kings III\logs to this thread for further study.
