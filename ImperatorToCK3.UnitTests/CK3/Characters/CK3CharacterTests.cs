@@ -299,7 +299,7 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=greek ck3=macedonian tag=MAC }" +
+			"link = { imp=greek ck3=macedonian historicalTag=MAC }" +
 			"link = { imp=greek ck3=greek }"
 		);
 		var cultureMapper = new CultureMapper(mapReader, irRegionMapper, new CK3RegionMapper());
