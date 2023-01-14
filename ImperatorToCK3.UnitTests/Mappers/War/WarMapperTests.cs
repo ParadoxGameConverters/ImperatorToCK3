@@ -4,6 +4,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.War; 
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class WarMapperTests {
 	[Fact]
 	public void NonMatchGivesNull() {
