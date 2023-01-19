@@ -29,8 +29,8 @@ public class CultureMappingRule {
 			return null;
 		}
 
-		if (tags.Count > 0) {
-			if (string.IsNullOrEmpty(historicalTag) || !tags.Contains(historicalTag)) {
+		if (irHistoricalTags.Count > 0) {
+			if (string.IsNullOrEmpty(historicalTag) || !irHistoricalTags.Contains(historicalTag)) {
 				return null;
 			}
 		}
@@ -74,9 +74,6 @@ public class CultureMappingRule {
 		// This is an Imperator regions check, it checks if provided impProvince is within the mapping's imperatorRegions
 		foreach (var region in imperatorRegions) {
 			if (!imperatorRegionMapper.RegionNameIsValid(region)) {
-				Logger.Warn($"Checking for religion {impCulture} inside invalid Imperator region: {region}! Fix the mapping rules!");
-				// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
-				// for the converter to explode across the logs with invalid names. So, continue.
 				continue;
 			}
 			if (imperatorRegionMapper.ProvinceIsInRegion(impProvinceId, region)) {
@@ -108,7 +105,7 @@ public class CultureMappingRule {
 	private string destinationCulture = string.Empty;
 	private readonly SortedSet<string> cultures = new();
 	private readonly SortedSet<string> religions = new();
-	private readonly SortedSet<string> tags = new();
+	private readonly SortedSet<string> irHistoricalTags = new();
 	private readonly SortedSet<ulong> imperatorProvinces = new();
 	private readonly SortedSet<ulong> ck3Provinces = new();
 	private readonly SortedSet<string> imperatorRegions = new();
@@ -118,7 +115,7 @@ public class CultureMappingRule {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.destinationCulture = reader.GetString());
 		parser.RegisterKeyword("imp", reader => mappingToReturn.cultures.Add(reader.GetString()));
 		parser.RegisterKeyword("religion", reader => mappingToReturn.religions.Add(reader.GetString()));
-		parser.RegisterKeyword("tag", reader => mappingToReturn.tags.Add(reader.GetString()));
+		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
 		parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
@@ -129,7 +126,7 @@ public class CultureMappingRule {
 			variableReader.CopyVariables(reader);
 			parser.ParseStream(variableReader);
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 	private static readonly Parser parser = new();
 	private static CultureMappingRule mappingToReturn = new();

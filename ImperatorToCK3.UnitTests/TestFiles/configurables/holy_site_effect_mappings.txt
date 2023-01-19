@@ -1,0 +1,2 @@
+link = { imp = discipline ck3 = knight_effectiveness_mult factor = 10 }
+link = { imp = happiness_for_same_culture_modifier ck3 = same_culture_opinion factor = 100 }

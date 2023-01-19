@@ -1,0 +1,27 @@
+﻿palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
+	# https://en.wikipedia.org/wiki/Palaung_people
+	color = rgb { 217 189 104 }
+
+	ethos = ethos_communal
+	heritage = heritage_palaungic
+	language = language_palaungic
+	martial_custom = martial_custom_male_only
+
+	name_list = name_list_palaungic
+
+	coa_gfx = { burman_group_coa_gfx }
+	building_gfx = { indian_building_gfx }
+	clothing_gfx = { indian_clothing_gfx }
+	unit_gfx = { indian_unit_gfx }
+
+	traditions = {
+		tradition_zealous_people
+		tradition_hill_dwellers
+		tradition_collective_lands
+	}
+
+	ethnicities = {
+		30 = asian
+		10 = indian
+	}
+}

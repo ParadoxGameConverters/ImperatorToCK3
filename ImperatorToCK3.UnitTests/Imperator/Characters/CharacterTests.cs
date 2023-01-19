@@ -28,6 +28,18 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 				"\tfather=124" +
 				"\tfamily=125" +
 				"\twealth=\"420.5\"" +
+				"\tunborn={" +
+				"\t\t{" +
+				"\t\t\tmother=42" +
+				"\t\t\tfather=3" +
+				"\t\t\tdate=452.4.19" +
+				"\t\t}" +
+				"\t\t{" +
+				"\t\t\tmother=42" +
+				"\t\t\tfather=3" +
+				"\t\t\tdate=452.1.26" +
+				"\t\t}" +
+				"\t}" +
 				"\tfirst_name_loc = {\n" +
 				"\t\tname=\"Biggus_Dickus\"\n" +
 				"\t\tcustom_name=\"CUSTOM NAME\"\n" +
@@ -52,7 +64,8 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 
 			Assert.Null(character.Country); // we have a country id, but no linked country yet
 			var countriesReader = new BufferedReader("={ 69={} 68={} }");
-			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection(countriesReader);
+			var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+			countries.LoadCountries(countriesReader);
 			character.LinkCountry(countries);
 			Assert.NotNull(character.Country);
 			Assert.Equal((ulong)69, character.Country.Id);
@@ -123,6 +136,17 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 
 			Assert.Null(character.Family); // Despite "family=125" in character definition, Family is null until linked.
 			Assert.Equal(420.5, character.Wealth);
+			Assert.Collection(character.Unborns,
+				unborn => {
+					Assert.Equal((ulong)42, unborn.MotherId);
+					Assert.Equal((ulong)3, unborn.FatherId);
+					Assert.Equal(new Date("-302.4.19"), unborn.BirthDate);
+				},
+				unborn => {
+					Assert.Equal((ulong)42, unborn.MotherId);
+					Assert.Equal((ulong)3, unborn.FatherId);
+					Assert.Equal(new Date("-302.1.26"), unborn.BirthDate);
+				});
 			Assert.Equal("Biggus_Dickus", character.Name);
 			Assert.Equal("CUSTOM NAME", character.CustomName);
 			Assert.Equal("the Great", character.Nickname);

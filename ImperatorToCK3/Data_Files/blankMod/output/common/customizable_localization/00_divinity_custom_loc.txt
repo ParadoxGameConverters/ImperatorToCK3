@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.1
+﻿# ImperatorToCK3: Last updated CK3 patch 1.6.0
 
 ToleranceValue = {
 	type = character
@@ -1136,6 +1136,14 @@ GetActualBishopTitle = {
 		localization_key = councillor_court_chaplain_christian_county
 	}
 
+	#Basque Paganism
+	text = {
+		trigger = {
+			religion = religion:basque_religion
+		}
+		localization_key = council_basque_priest
+	}
+
 	# ImperatorToCK3: Kemetic - Prophet
 	text = {
 		trigger = {
@@ -1929,5 +1937,25 @@ GetReligiousRite = {
 		}
 		fallback = yes
 		localization_key = rite_worship
+	}
+}
+
+# Doctrine Parameters
+GetRiteEcumenismFullOrEmpty = {
+	type = character
+
+	text = {
+		trigger = {
+			faith = { has_doctrine = special_doctrine_ecumenical_christian }
+		}
+		localization_key = GetRiteEcumenismFullOrEmpty_full
+	}
+	text = {
+		trigger = {
+			NOT = {
+				faith = { has_doctrine = special_doctrine_ecumenical_christian }
+			}
+		}
+		localization_key = GetRiteEcumenismFullOrEmpty_empty
 	}
 }

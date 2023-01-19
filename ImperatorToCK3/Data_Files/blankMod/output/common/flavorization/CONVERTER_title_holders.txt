@@ -48,3 +48,48 @@ emperor_feudal_male_elamite = { # Rishar Sunkir
 	name_lists = { name_list_elamite }
 	top_liege = yes
 }
+
+count_eremitic_male = {
+	type = character
+	gender = male
+	special = holder
+	tier = county
+	priority = 46
+	governments = { eremitic_government }
+}
+count_eremitic_female = {
+	type = character
+	gender = female
+	special = holder
+	tier = county
+	priority = 46
+	governments = { eremitic_government }
+}
+county_eremitic = {
+	type = title
+	tier = county
+	priority = 46
+	governments = { eremitic_government }
+}
+duke_eremitic_male = {
+	type = character
+	gender = male
+	special = holder
+	tier = duchy
+	priority = 46
+	governments = { eremitic_government }
+}
+duke_eremitic_female = {
+	type = character
+	gender = female
+	special = holder
+	tier = duchy
+	priority = 46
+	governments = { eremitic_government }
+}
+duchy_eremitic = {
+	type = title
+	tier = duchy
+	priority = 46
+	governments = { eremitic_government }
+}

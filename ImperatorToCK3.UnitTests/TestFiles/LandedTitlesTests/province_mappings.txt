@@ -1,0 +1,8 @@
+test_version = {
+					link={imp=1 ck3=1}
+					link={imp=2 ck3=2}
+					link={imp=3 ck3=3}
+					link={imp=4 ck3=4}
+					link={imp=5 ck3=5}
+					link={imp=6 ck3=6}
+}

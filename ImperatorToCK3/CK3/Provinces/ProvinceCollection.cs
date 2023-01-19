@@ -1,118 +1,152 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
+using CsvHelper;
+using CsvHelper.Configuration;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
-using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
 public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public ProvinceCollection() { }
-	public ProvinceCollection(string filePath, Date ck3BookmarkDate) {
-		LoadProvinces(filePath, ck3BookmarkDate);
+	public ProvinceCollection(ModFilesystem ck3ModFs) {
+		LoadProvincesHistory(ck3ModFs);
 	}
 
-	public void LoadProvinces(string filePath, Date ck3BookmarkDate) {
+	private void LoadProvinceDefinitions(ModFilesystem ck3ModFs) {
+		Logger.Info("Loading CK3 province definitions...");
+
+		var filePath = ck3ModFs.GetActualFileLocation("map_data/definition.csv");
+		if (filePath is null) {
+			throw new ConverterException("Province definitions file not found!");
+		}
+		
+		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
+			Delimiter = ";", HasHeaderRecord = false, AllowComments = true
+		};
+		var provinceDefinition = new {
+			Id = default(ulong),
+		};
+		using var reader = new StreamReader(filePath);
+		using var csv = new CsvReader(reader, csvConfig);
+		var records = csv.GetRecords(provinceDefinition);
+
+		var count = 0;
+		foreach (var record in records) {
+			var id = record.Id;
+			if (id == 0) {
+				continue;
+			}
+			
+			AddOrReplace(new Province(id));
+			++count;
+		}
+		
+		Logger.Debug($"Loaded {count} province definitions.");
+	}
+
+	private void LoadProvincesHistory(ModFilesystem ck3ModFs) {
 		var parser = new Parser();
-		RegisterKeys(parser, ck3BookmarkDate);
-		parser.ParseFile(filePath);
-	}
-
-	private void RegisterKeys(Parser parser, Date ck3BookmarkDate) {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
 			var provinceId = ulong.Parse(provinceIdString);
-			var newProvince = new Province(provinceId, reader, ck3BookmarkDate);
-
-			if (ContainsKey(newProvince.Id)) {
-				Logger.Warn($"Vanilla province duplication - {newProvince.Id} already loaded! Overwriting.");
-			}
+			var newProvince = new Province(provinceId, reader);
 			dict[provinceId] = newProvince;
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
+		
+		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
-	public void ImportVanillaProvinces(string ck3Path, Date ck3BookmarkDate) {
-		Logger.Info("Importing Vanilla Provinces...");
-		// ---- Loading history/provinces
-		var path = Path.Combine(ck3Path, "game/history/provinces");
-		var fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
-		foreach (var fileName in fileNames) {
-			if (!fileName.EndsWith(".txt")) {
+	public void ImportVanillaProvinces(ModFilesystem ck3ModFs) {
+		var existingProvinceDefinitionsCount = Count;
+		Logger.Info("Importing vanilla provinces...");
+		
+		LoadProvinceDefinitions(ck3ModFs);
+		Logger.IncrementProgress();
+		
+		// Load history/provinces.
+		LoadProvincesHistory(ck3ModFs);
+		Logger.IncrementProgress();
+
+		// Now load the provinces that don't have unique entries in history/provinces.
+		// They instead use history/province_mapping.
+		foreach (var (newProvinceId, baseProvinceId) in new ProvinceMappings(ck3ModFs)) {
+			if (!ContainsKey(baseProvinceId)) {
+				Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 				continue;
 			}
-			var provincesPath = Path.Combine(ck3Path, "game/history/provinces", fileName);
-			LoadProvinces(provincesPath, ck3BookmarkDate);
+			
+			this[newProvinceId].CopyEntriesFromProvince(this[baseProvinceId]);
 		}
-
-		// now load the provinces that don't have unique entries in history/provinces
-		// they instead use history/province_mapping
-		path = Path.Combine(ck3Path, "game/history/province_mapping");
-		fileNames = SystemUtils.GetAllFilesInFolderRecursive(path);
-		foreach (var fileName in fileNames) {
-			if (!fileName.EndsWith(".txt")) {
-				continue;
-			}
-
-			var provinceMappingsPath = Path.Combine(ck3Path, "game/history/province_mapping", fileName);
-			try {
-				var newMappings = new ProvinceMappings(provinceMappingsPath);
-				foreach (var (newProvinceId, baseProvinceId) in newMappings) {
-					if (!ContainsKey(baseProvinceId)) {
-						Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
-						continue;
-					}
-					if (ContainsKey(newProvinceId)) {
-						Logger.Info($"Vanilla province duplication - {newProvinceId} already loaded! Preferring unique entry over mapping.");
-					} else {
-						var newProvince = new Province(newProvinceId, this[baseProvinceId]);
-						Add(newProvince);
-					}
-				}
-			} catch (Exception e) {
-				Logger.Warn($"Invalid province filename: {provinceMappingsPath}: ({e})");
-			}
-		}
-
-		Logger.Info($"Loaded {Count} province definitions.");
+		Logger.IncrementProgress();
+		
+		Logger.Info($"Loaded {Count-existingProvinceDefinitionsCount} province definitions.");
 	}
 
 	public void ImportImperatorProvinces(
-		Imperator.World impWorld,
+		Imperator.World irWorld,
 		Title.LandedTitles titles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
 		ProvinceMapper provinceMapper,
 		Configuration config
 	) {
-		Logger.Info("Importing Imperator Provinces...");
-		var counter = 0;
+		Logger.Info("Importing Imperator provinces...");
+		var importedIRProvsCount = 0;
+		var modifiedCK3ProvsCount = 0;
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
 		foreach (var province in this) {
-			var impProvinces = provinceMapper.GetImperatorProvinceNumbers(province.Id);
+			var sourceProvinceIds = provinceMapper.GetImperatorProvinceNumbers(province.Id);
 			// Provinces we're not affecting will not be in this list.
-			if (impProvinces.Count == 0) {
+			if (sourceProvinceIds.Count == 0) {
 				continue;
 			}
-			// Next, we find what province to use as its initializing source.
-			var sourceProvince = DetermineProvinceSource(impProvinces, impWorld);
-			if (sourceProvince is null) {
-				Logger.Warn($"Could not determine source province for CK3 province {province.Id}!");
-				continue; // MISMAP, or simply have mod provinces loaded we're not using.
+			// Next, we find what province to use as its primary initializing source.
+			var primarySource = DeterminePrimarySourceProvince(sourceProvinceIds, irWorld);
+			if (primarySource is null) {
+				Logger.Warn($"Could not determine primary source province for CK3 province {province.Id}!");
+				continue;
 			}
-			province.InitializeFromImperator(sourceProvince.Value.Value, titles, cultureMapper, religionMapper, config);
+			var secondarySourceProvinces = irWorld.Provinces
+				.Where(p => sourceProvinceIds.Contains(p.Id) && p.Id != primarySource.Id)
+				.ToOrderedSet();
 			// And finally, initialize it.
-			++counter;
+			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper, religionMapper, config);
+			
+			importedIRProvsCount += sourceProvinceIds.Count;
+			++modifiedCK3ProvsCount;
 		}
-		Logger.Info($"{impWorld.Provinces.Count} Imperator provinces imported into {counter} CK3 provinces.");
+		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
+			
+		Logger.IncrementProgress();
 	}
 
-	private static KeyValuePair<ulong, Imperator.Provinces.Province>? DetermineProvinceSource(
+	public void LoadPrehistory() {
+		Logger.Info("Loading provinces prehistory...");
+		
+		const string prehistoryPath = "configurables/provinces_prehistory.txt";
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
+			var provId = ulong.Parse(provIdStr);
+			this[provId].UpdateHistory(reader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile(prehistoryPath);
+		
+		Logger.IncrementProgress();
+	}
+
+	private static Imperator.Provinces.Province? DeterminePrimarySourceProvince(
 		List<ulong> impProvinceNumbers,
-		Imperator.World impWorld
+		Imperator.World irWorld
 	) {
 		// determine ownership by province development.
 		var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
@@ -121,14 +155,14 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		long maxDev = -1;
 
 		foreach (var imperatorProvinceId in impProvinceNumbers) {
-			if (!impWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
+			if (!irWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
 				Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
 				continue; // Broken mapping, or loaded a mod changing provinces without using it.
 			}
 
 			var ownerId = impProvince.OwnerCountry?.Id ?? 0;
 			if (!theClaims.ContainsKey(ownerId)) {
-				theClaims[ownerId] = new();
+				theClaims[ownerId] = new List<Imperator.Provinces.Province>();
 			}
 
 			theClaims[ownerId].Add(impProvince);
@@ -148,20 +182,18 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 
 		// Now that we have a winning owner, let's find its largest province to use as a source.
-		maxDev = -1; // We can have winning provinces with weight = 0;
+		maxDev = -1; // We can have winning provinces with weight = 0.
 
-		var toReturn = new KeyValuePair<ulong, Imperator.Provinces.Province>();
-		foreach (var province in theClaims[(ulong)winner]) {
+		Imperator.Provinces.Province? provinceToReturn = null;
+		foreach (var province in theClaims[winner.Value]) {
 			long provinceWeight = province.BuildingCount + province.GetPopCount();
 
 			if (provinceWeight > maxDev) {
-				toReturn = new(province.Id, province);
+				provinceToReturn = province;
 				maxDev = provinceWeight;
 			}
 		}
-		if (toReturn.Key == 0 || toReturn.Value is null) {
-			return null;
-		}
-		return toReturn;
+
+		return provinceToReturn;
 	}
 }

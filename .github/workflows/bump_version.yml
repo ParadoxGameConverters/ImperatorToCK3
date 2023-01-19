@@ -11,8 +11,10 @@ jobs:
       with:
         fetch-depth: '0'
     - name: "Bump version and push tag"
-      uses: anothrNick/github-tag-action@master
+      uses: anothrNick/github-tag-action@1.61.0
       env:
         GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         DEFAULT_BUMP: none
         WITH_V: false
+        BRANCH_HISTORY: 'last'
+        DEFAULT_BRANCH: 'master'

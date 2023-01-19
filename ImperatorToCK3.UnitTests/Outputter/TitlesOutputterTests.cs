@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Outputter;
 using System.IO;
 using Xunit;
@@ -14,10 +13,7 @@ public class TitlesOutputterTests {
 
 		var titles = new Title.LandedTitles();
 		var kingdom = titles.Add("k_kingdom");
-		var history = new History();
-		history.AddFieldValue("liege", 0, new Date(20, 1, 1), "liege");
-		var kingdomHistory = new TitleHistory(history);
-		kingdom.AddHistory(kingdomHistory);
+		kingdom.History.AddFieldValue(new Date(20, 1, 1), "liege", "liege", 0);
 
 		var duchy = titles.Add("d_duchy");
 		duchy.DeJureLiege = kingdom;
@@ -29,10 +25,7 @@ public class TitlesOutputterTests {
 		barony.DeJureLiege = county;
 
 		var specialTitle = titles.Add("k_special_title");
-		var specialHistory = new History();
-		specialHistory.AddFieldValue("holder", "bob_42", new Date(20, 1, 1), "holder");
-		var specialTitleHistory = new TitleHistory(specialHistory);
-		specialTitle.AddHistory(specialTitleHistory);
+		specialTitle.History.AddFieldValue(new Date(20, 1, 1), "holder", "holder", "bob_42");
 
 		var titleHistoryPath = Path.Combine("output", outputModName, "history", "titles");
 		var kingdomHistoryPath = Path.Combine(titleHistoryPath, "k_kingdom.txt");
@@ -42,15 +35,13 @@ public class TitlesOutputterTests {
 		var landedTitlesPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(landedTitlesPath));
 
-		TitlesOutputter.OutputTitles(outputModName, titles, IMPERATOR_DE_JURE.NO);
+		TitlesOutputter.OutputTitles(outputModName, titles);
 
 		Assert.True(File.Exists(kingdomHistoryPath));
 		using var kingdomHistoryFile = File.OpenRead(kingdomHistoryPath);
 		var reader = new StreamReader(kingdomHistoryFile);
 		Assert.Equal("k_kingdom={", reader.ReadLine());
-		Assert.Equal("\t20.1.1={", reader.ReadLine());
-		Assert.Equal("\t\tliege=0", reader.ReadLine());
-		Assert.Equal("\t}", reader.ReadLine());
+		Assert.Equal("\t20.1.1={ liege=0 }", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 
@@ -58,9 +49,7 @@ public class TitlesOutputterTests {
 		using var otherTitlesHistoryFile = File.OpenRead(otherTitlesHistoryPath);
 		reader = new StreamReader(otherTitlesHistoryFile);
 		Assert.Equal("k_special_title={", reader.ReadLine());
-		Assert.Equal("\t20.1.1={", reader.ReadLine());
-		Assert.Equal("\t\tholder=\"bob_42\"", reader.ReadLine());
-		Assert.Equal("\t}", reader.ReadLine());
+		Assert.Equal("\t20.1.1={ holder=bob_42 }", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 
@@ -107,7 +96,7 @@ public class TitlesOutputterTests {
 		var landedTitlesPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(landedTitlesPath));
 
-		TitlesOutputter.OutputTitles(outputModName, titles, IMPERATOR_DE_JURE.NO);
+		TitlesOutputter.OutputTitles(outputModName, titles);
 
 		Assert.True(File.Exists(landedTitlesPath));
 		using var landedTitlesFile = File.OpenRead(landedTitlesPath);

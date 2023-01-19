@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.7.2
 hunnic = { # ImperatorToCK3
 	color = { 254 204 50 }
 	
@@ -14,7 +14,7 @@ hunnic = { # ImperatorToCK3
 		10 = circumpolar_blonde_hair
 	}
 
-	coa_gfx = { ugro_permian_group_coa_gfx } 
+	coa_gfx = { ugro_permian_group_coa_gfx steppe_coa_gfx } 
 	building_gfx = { steppe_building_gfx } 
 	clothing_gfx = { mongol_clothing_gfx } 
 	unit_gfx = { mongol_unit_gfx } 
@@ -23,7 +23,13 @@ hunnic = { # ImperatorToCK3
 	traditions = {
 		tradition_horse_breeder
 		tradition_pastoralists
-	}	
+		
+		# Hunnic culture should have Horse Lords, due to their nomadic lifestyle and their mounted archery (horse archers). (… Like Ammianus, the sixth-century writer Zosimus also emphasizes the Huns' almost exclusive use of horse archers and their extreme swiftness and mobility. (Huns Wikipedia page))
+		tradition_horse_lords
+		
+		# Hunnic culture should have Quarrelsome as the Hun empire conquered the Alans, most of the Greuthungi or Eastern Goths, and then most of the Thervingi or Western Goths, with many fleeing into the Roman Empire (Huns Wikipedia page) and under Attila raided East and West Roman Empire numerous times.
+		tradition_quarrelsome
+	}
 	
 	ethos = ethos_bellicose
 }

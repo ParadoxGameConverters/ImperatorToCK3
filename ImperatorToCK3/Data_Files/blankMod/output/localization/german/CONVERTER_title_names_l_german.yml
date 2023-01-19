@@ -1,11 +1,11 @@
 ﻿l_german:
 # Pharaoh
- king_feudal_male_old_egyptian:0 "Pharao"
- king_feudal_female_old_egyptian:0 "Pharao"
- emperor_feudal_male_old_egyptian:1 "Pharao"
- emperor_feudal_female_old_egyptian:1 "Pharao"
+ king_feudal_male_old_egyptian: "Pharao"
+ king_feudal_female_old_egyptian: "Pharao"
+ emperor_feudal_male_old_egyptian: "Pharao"
+ emperor_feudal_female_old_egyptian: "Pharao"
 
 # Carthage
- duke_republic_male_carthaginian:0 "Sufet"
- king_republic_male_carthaginian:0 "Sufet"
- emperor_republic_male_carthaginian:0 "Sufet"
+ duke_republic_male_carthaginian: "Sufet"
+ king_republic_male_carthaginian: "Sufet"
+ emperor_republic_male_carthaginian: "Sufet"

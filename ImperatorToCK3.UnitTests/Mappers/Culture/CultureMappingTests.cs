@@ -1,7 +1,11 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
+using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture;
@@ -9,6 +13,10 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CultureMappingTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	[Fact]
 	public void MatchOnRegion() {
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -18,14 +26,16 @@ public class CultureMappingTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/MatchOnRegion";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = test_region1"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Equal("dutch", theMapping.Match("german", "", 4, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Equal("dutch", theMapping.Match("german", "", 4, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -38,14 +48,16 @@ public class CultureMappingTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/MatchOnRegionFailsForWrongRegion";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = test_region2"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 79, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", "", 79, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -55,14 +67,16 @@ public class CultureMappingTests {
 		var landedTitlesReader = new BufferedReader(string.Empty);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/empty";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = test_region3"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 17, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", "", 17, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -74,13 +88,15 @@ public class CultureMappingTests {
 		);
 		landedTitles.LoadTitles(landedTitlesReader);
 		const string ck3Path = "TestFiles/regions/CultureMappingTests/empty";
-		ck3RegionMapper.LoadRegions(landedTitles, ck3Path);
+		var ck3Root = Path.Combine(ck3Path, "game");
+		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
+		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
 			"ck3 = dutch imp = german ck3Region = d_hujhu"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 0, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", "", 0, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 }

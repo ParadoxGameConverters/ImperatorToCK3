@@ -6,14 +6,14 @@
 # link = {
 #	ck3 = <CK3 culture>
 #	imp = <Imperator culture>
-#	tag = <historical Imperator tag> (optional)
+#	historicalTag = <Imperator historical tag> (optional)
 #	religion = <CK3 religion> (optional)
 #	impProvince = <Imperator province> (optional)
 #	ck3Province = <CK3 province> (optional)
 #	impRegion = <Imperator region> (optional)
 #	ck3Region = <CK3 region> (optional)
 #}
-# multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, tag
+# multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
 # Variables:
@@ -43,7 +43,7 @@
 ## F:
 @culture_splitting_region_F = "impRegion = aquitaine_region impRegion = transalpine_gaul_region"
 ## G:
-@culture_splitting_region_G = "impRegion = germania_superior_region impRegion = belgica_region impRegion = germania_region impRegion = bohemia_area"
+@culture_splitting_region_G = "impRegion=germania_superior_region impRegion=belgica_region impRegion=germania_region impRegion=bohemia_area impRegion=bohemia_region impRegion=germania_magna_region"
 ## H:
 @culture_splitting_region_H = "impRegion = venedia_region"
 ## I:
@@ -53,7 +53,7 @@
 @culture_splitting_region_J2 = "impRegion=pannonia_terminus_area impRegion=transcarpathia_occidentalis_area impRegion=carnuntia_area impRegion=dacia_region"
 @culture_splitting_region_J = "@culture_splitting_region_J1 @culture_splitting_region_J2"
 ## K:
-@culture_splitting_region_K1 = "impRegion = moesia_region impRegion = thrace_region impRegion = macedonia_region"
+@culture_splitting_region_K1 = "impRegion=moesia_region impRegion=moesia_s_region impRegion=thrace_region impRegion=macedonia_region"
 @culture_splitting_region_K2 = "impRegion = vistulia_region impRegion = sarmatia_europea_region"
 @culture_splitting_region_K = "@culture_splitting_region_K1 @culture_splitting_region_K2"
 ## L:
@@ -88,18 +88,41 @@
 @culture_splitting_region_Y = "impRegion = lusitania_region"
 
 ## Aksumite
-link = { ck3 = beja imp = puntic imp = aksumite ck3Province = 8278 ck3Province = 6113 ck3Province = 6373 ck3Province = 6375 ck3Province = 6378 ck3Province = 6380 ck3Province = 6376 ck3Province = 6440 ck3Province = 6438 ck3Province = 6412 ck3Province = 6437 ck3Province = 6436 }
 link = { ck3 = afar imp = puntic imp = aksumite ck3Province = 8286 ck3Province = 8326 ck3Province = 8344 ck3Province = 8334 ck3Province = 8332 ck3Province = 8339 ck3Province = 8342 }
-link = { ck3 = somali imp = puntic }
-link = { ck3 = ethiopian imp = aksumite }
+link = { ck3=somali imp=puntic }
+link = { ck3=ethiopian imp=aksumite }
 # Invictus mod
-link = { ck3 = ethiopian imp = boran }
+link = { ck3=beja
+	# Beja were formerly referred to as Blemmyes: https://en.wikipedia.org/wiki/Beja_people
+	imp=blemmyan
+	# "Adabulians could be classified as Blemmyan instead as they had intense relations and it seems the Blemmyans absorbed them anyway by the birth of Christ."
+	# ~shocky27 on Invictus discord
+	imp=adabulian
+}
+link = { ck3=ethiopian
+	imp=boran
+	imp=athagaun # for athagaun: https://en.wikipedia.org/wiki/Agaw_people
+	imp=daamoti # https://en.wikipedia.org/wiki/D%CA%BFmt
+	imp=ona
+	imp=rhizophagian # http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.04.0064%3Aalphabetic+letter%3DR%3Aentry+group%3D3%3Aentry%3Drhizophagi-aethiopes-geo
+	imp=kumuzan
+}
+link = { ck3=somali
+	imp=berberian # not to be confused with Berbers
+	imp=avalitian # "The people of Avalites were probably proto-Somalis, called Barbaras": https://en.wikipedia.org/wiki/Avalites
+}
+
+## Meroitic
+link = { ck3=nubian imp=meroitic }
+# Invictus mod
+link = { ck3=nubian imp=nubian imp=lower_nubian imp=napatan imp=alutan imp=moyan }
 
 ## Anatolian
 link = { ck3 = armenian imp = armenian }
 link = { ck3 = luwian imp = carian imp = lycian imp = isaurian imp = pisidian }
+link = { ck3=cilician imp=cilician imp=kennataian imp=cennatean }
 link = { ck3 = lydian imp = lydian }
-link = { ck3 = hittite imp = lycaonian imp = cilician imp = kennataian imp = pamphylian imp = cappadocian imp = pontic imp = paphlagonian imp = milyadian imp = oroandian imp = cabalian imp = lalasian imp = cennatean imp = morimenian imp = cataonian }
+link = { ck3=hittite imp=lycaonian imp=pamphylian imp=cappadocian imp=pontic imp=paphlagonian imp=milyadian imp=oroandian imp=cabalian imp=lalasian imp=morimenian imp=cataonian }
 link = { ck3 = phrygian imp = phrygian imp = mysian }
 #Invictus mod
 link = { ck3 = galatian imp = galatian }
@@ -120,6 +143,7 @@ link = { ck3 = gujarati imp = kaccha }
 link = { ck3 = marathi imp = rathikan }
 link = { ck3 = punjabi imp = sivi imp = purus }
 link = { ck3 = hindustani imp = kosala imp = kuru }
+link = { ck3=sinhala imp=dhivehi }
 
 ## Bactrian
 link = { ck3 = bactrian imp = bactrian imp = yuezhi }
@@ -129,15 +153,34 @@ link = { ck3 = saka imp = saka imp = shule }
 link = { ck3 = tocharian imp = tocharian imp = phryni }
 link = { ck3 = indogreek imp = tayuan } #https://en.wikipedia.org/wiki/Dayuan
 link = { ck3 = tajik imp = margian }
-
-## Baltic & Slavic (Venedia is Proto-Slavic)
-link = { ck3 = lithuanian imp = aestian ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
-link = { ck3 = prussian imp = aestian ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
-link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
-link = { ck3 = urslavic imp = aestian }
 # Invictus mod
-link = { ck3 = prussian imp = neuric }
-link = { ck3 = urslavic imp = sporic }
+link = { ck3=indogreek imp=greco_indian }
+
+
+## Baltic & Balto-Finnic
+link = {
+	ck3 = estonian
+	imp = aestian
+	ck3Region = dlc_fp1_region_eastern_adventure_targets_estonia
+	ck3Region = ghw_region_northern_russia
+}
+link = {
+	ck3 = lithuanian
+	imp = aestian
+	ck3Province=154 ck3Province=155 ck3Province=149 ck3Province=165 ck3Province=153 ck3Province=130 ck3Province=160 ck3Province=159 ck3Province=156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
+link = {
+	ck3 = prussian
+	imp = aestian
+	ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
+link = {
+	ck3 = latgalian
+	imp = aestian
+	ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
+link = { ck3 = prussian imp = aestian }
+
+## Slavic
+# Invictus mod
+link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian imp=neuric }
 
 
 ## Belgea (sic)
@@ -151,6 +194,8 @@ link = { ck3 = cumbrian imp = damnonian }
 link = { ck3 = welsh imp = demetian imp = ordovitian }
 link = { ck3 = brythonic imp=britannic imp = brigantic imp = cornovian imp = coritani imp = iceni imp = trinovantian imp = cantian imp = durotrigan imp = dobunnian }
 link = { ck3 = cornish imp = dumnonian }
+# Invictus mod
+link = { ck3=brythonic imp=parisian imp=monapian }
 
 ## Caucasian
 link = { ck3 = georgian imp = albanian imp = ibero imp = colchian }
@@ -164,7 +209,7 @@ link = { ck3 = celtiberian imp = oppidanian }
 
 ## Celto Pannonian
 link = { ck3 = celtic_pannonian imp = boian imp = noric imp = celtic_pannonian imp = letobician imp = carnian imp = eravisci }
-#Invictus mod
+# Invictus mod
 link = { ck3 = celtic_pannonian imp = pannonian }
 
 ## Dacian
@@ -174,19 +219,21 @@ link = { ck3 = thracian imp = triballoi imp = moesi imp = odrysi imp = paeonian 
 
 ## East Levantine
 link = { ck3 = assyrian imp = assyrian }
-link = { ck3 = hebrew imp = aramaic tag=JUD } # Historical assimilation
+link = { ck3 = hebrew imp = aramaic historicalTag=JUD } # Historical assimilation
 link = { ck3 = aramaic imp = aramaic }
 link = { ck3 = babylonian imp = babylonian }
 
 ## Gaelic
 link = { ck3 = irish imp = hibernian }
 link = { ck3 = gaelic imp = manavian }
+# Invictus mod
+link = { ck3=irish imp=ivernian imp=voluntian }
 
 ## Gallic
 link = { ck3 = gallic imp = volcae imp = salluvian imp = arverni imp = aulercian imp = pictonian imp = lemovician imp = santonian imp = carnuti imp = haedui imp = biturigan imp = lepontic imp = vindelician imp = helvetian }
 link = { ck3 = breton imp = aremorican }
 # Invictus mod
-link = { ck3 = gallic imp = cotinian }
+link = { ck3=gallic imp=cotinian imp=allobrogian imp=teurian }
 
 
 ### Germanic
@@ -253,7 +300,7 @@ link = { ck3 = old_saxon @imp_ingvaeonic_cultures } # fallback for Ingvaeonic cu
 link = { ck3 = frankish @imp_frankish_cultures }
 # Irminonic mappings
 link = { ck3 = suebi @imp_suebian_cultures }
-link = { ck3 = langobard @imp_irminonic_cultures tag=LGB }
+link = { ck3 = langobard @imp_irminonic_cultures historicalTag=LGB }
 link = { ck3 = swabian @imp_irminonic_cultures ck3Province = 2055 ck3Province = 2053 ck3Province = 2051 ck3Province = 2721 ck3Province = 2751 ck3Province = 2717 ck3Province = 2057 ck3Province = 2768 ck3Province = 2773 ck3Province = 2748 ck3Province = 2746 ck3Province = 2763 ck3Province = 2759 ck3Province = 2757 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2046 ck3Province = 2049 ck3Province = 2460 }
 link = { ck3 = bavarian @imp_irminonic_cultures ck3Province = 2964 ck3Province = 2945 ck3Province = 2949 ck3Province = 2942 ck3Province = 2957 ck3Province = 2959 ck3Province = 2956 ck3Province = 2883 ck3Province = 2960 ck3Province = 2878 ck3Province = 2990 ck3Province = 2987 ck3Province = 2989 ck3Province = 2975 ck3Province = 2977 ck3Province = 3135 ck3Province = 3131 ck3Province = 2971 ck3Province = 3117 ck3Province = 3092 ck3Province = 3109 ck3Province = 3121 ck3Province = 3086 ck3Province = 3081 ck3Province = 3089 ck3Province = 3073 ck3Province = 3093 ck3Province = 3088 ck3Province = 2950 ck3Province = 2955 ck3Province = 3134 ck3Province = 3105 ck3Province = 3128 ck3Province = 3125 ck3Province = 3099 }
 link = { ck3 = suebi @imp_irminonic_cultures } # fallback for Irminonic cultures
@@ -266,36 +313,11 @@ link = { ck3 = german @imp_all_germanic_cultures }
 
 
 ## Hellenic
-# Splitting according to regions
-link = { ck3 = eblanic imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_A }
-link = { ck3 = scotinous imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_B }
-link = { ck3 = prettanian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_C }
-link = { ck3 = hyperborean imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_D }
-link = { ck3 = prinelbite imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_G }
-link = { ck3 = velgese imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_E }
-link = { ck3 = metalpesian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_F }
-link = { ck3 = metalbite imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_H }
-link = { ck3 = prinalpesian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_I }
-link = { ck3 = delmatic imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_J }
-link = { ck3 = macedonian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_K }
-link = { ck3 = anatolian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_L }
-link = { ck3 = susite imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_M }
-link = { ck3 = azotite imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_N }
-link = { ck3 = carchidonian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_O }
-link = { ck3 = xarthic imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_S }
-link = { ck3 = italiote imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_P }
-link = { ck3 = hyperochian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_Q }
-link = { ck3 = varquelonic imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_T }
-link = { ck3 = varquelonic imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_U }
-link = { ck3 = vaskician imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_V }
-link = { ck3 = vaskician imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_W }
-link = { ck3 = vaitic imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_X }
-link = { ck3 = lousitanian imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean @culture_splitting_region_Y }
-
-link = { ck3 = greek imp = athenian imp = peloponnesian imp = massalian imp = cyrenaican imp = syracusan imp = bosporan imp = thessalian imp = cypriot imp = bithynian imp = ionian imp = troan imp = aeolian imp = greco_pontic imp = aegean imp = aetolian imp = euboean imp = boeotian imp = epirote imp = arcadian imp = argolian imp = parthinian imp = italiotian imp = cretan imp = achaean }
-link = { ck3 = macedonian imp = macedonian }
-link = { ck3 = hellenistic imp = hellenistic }
-link = { ck3 = thracian imp = thracian }
+link = { ck3=italiote imp=syracusan imp=italiotian }
+link = { ck3=greek imp=athenian imp=peloponnesian imp=massalian imp=cyrenaican imp=bosporan imp=thessalian imp=cypriot imp=bithynian imp=ionian imp=troan imp=aeolian imp=greco_pontic imp=aegean imp=aetolian imp=euboean imp=boeotian imp=epirote imp=arcadian imp=argolian imp=parthinian imp=cretan imp=achaean }
+link = { ck3=macedonian imp=macedonian }
+link = { ck3=hellenistic imp=hellenistic }
+link = { ck3=thracian imp=thracian }
 
 ## Iberia
 link = { ck3 = iberian imp = turdulian imp = couneian imp = turdetanian imp = ausetanian imp = indiketian imp = lacetanian imp = edetanian imp = oretanian imp = contestanian imp = bastetanian imp = ilercavonian }
@@ -317,33 +339,30 @@ link = { ck3 = telugu imp = andhran imp = assaka }
 
 ## Latin
 # The Glory of Rome
-link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian tag=ROM }
+link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian historicalTag=ROM }
 
 # Splitting according to regions
-link = { ck3 = breathanach imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_A }
-link = { ck3 = transadrianic imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_B }
-link = { ck3 = brythenig imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_C }
-link = { ck3 = laessin imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_D @culture_splitting_region_G }
-link = { ck3 = norman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_E }
-link = { ck3 = occitan imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_F }
-link = { ck3 = wenedyk imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_H }
-link = { ck3 = cisalpine imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_I }
-link = { ck3 = pannonian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_J }
-link = { ck3 = vlach imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_K }
-link = { ck3 = euxinian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_L }
-link = { ck3 = bazramani imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_M }
-link = { ck3 = judajca imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_N }
-link = { ck3 = salinatorian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_O }
-link = { ck3 = sardinian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_S }
-link = { ck3 = italian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_P }
-link = { ck3 = sicilian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_Q }
-link = { ck3 = xliponian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_R }
-link = { ck3 = catalan imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_T }
-link = { ck3 = aragonese imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_U }
-link = { ck3 = asturleonese imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_V }
-link = { ck3 = galician imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_W }
-link = { ck3 = castilian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_X }
-link = { ck3 = portuguese imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = venetic imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_Y }
+link = { ck3 = breathanach imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_A }
+link = { ck3 = transadrianic imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_B }
+link = { ck3 = brythenig imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_C }
+link = { ck3 = laessin imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_D @culture_splitting_region_G }
+link = { ck3 = norman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_E }
+link = { ck3 = occitan imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_F }
+link = { ck3 = wenedyk imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_H }
+link = { ck3 = cisalpine imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_I }
+link = { ck3 = pannonian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_J }
+link = { ck3 = vlach imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_K }
+link = { ck3 = bazramani imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_M }
+link = { ck3 = judajca imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_N }
+link = { ck3 = sardinian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_S }
+link = { ck3 = italian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_P }
+link = { ck3 = sicilian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_Q }
+link = { ck3 = catalan imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_T }
+link = { ck3 = aragonese imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_U }
+link = { ck3 = asturleonese imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_V }
+link = { ck3 = galician imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_W }
+link = { ck3 = castilian imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_X }
+link = { ck3 = portuguese imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_Y }
 
 # Default
 link = { ck3 = ligustic imp = ligurian }
@@ -362,11 +381,6 @@ link = { ck3 = lemnian imp = etruscan imp = rhaetian @culture_splitting_region_J
 link = { ck3 = etruscan imp = etruscan }
 link = { ck3 = rhaetian imp = rhaetian }
 
-## Meroitic
-link = { ck3 = nubian imp = blemmyan imp = meroitic }
-# Invictus mod
-link = { ck3 = nubian imp = lower_nubian imp = alutan imp = moyan }
-
 ## North African
 link = { ck3 = old_egyptian imp = egyptian imp = upper_egyptian imp = middle_egyptian }
 
@@ -376,7 +390,9 @@ link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socoss
 link = { ck3 = butr imp = libyan imp = garamantic }
 link = { ck3 = numidian imp = numidian }
 # Invictus mod
-link = { ck3 = butr imp = gyzantian imp = psyllic }
+link = { ck3=baranis imp=lixitoi imp=autolalean imp=cetianian imp=nectiberean }
+link = { ck3=butr imp=gyzantian imp=psyllic imp=nasamonian imp=perorsian imp=phazani imp=canarian imp=daphnitaean imp=macaean }
+link = { ck3=numidian imp=capariensian imp=lotophagoi imp=abannaean }
 
 ## Persia
 link = { ck3 = persian imp = carmanian imp = sagartian imp = cadusian imp = cossian imp = sarangian imp = amardian imp = uxian imp = utian imp = pasargadi }
@@ -402,13 +418,16 @@ link = { ck3 = basque imp = cantabrian imp = ilergetian imp = autrigonian imp = 
 link = { ck3 = nuragic imp = nuragic imp = corsian }
 
 ## Scythian - As a weird replacement for Turks
-link = { ck3 = avar imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci impRegion = pannonia_region impRegion = dacia_region }
+link = { ck3 = avar imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci impRegion = pannonia_region impRegion = dacia_region }
 
 ## Scythian
-link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
+link = { ck3=alan imp=roxolanian }
+link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
 link = { ck3 = khwarezmian imp = kharesmian }
 link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyrsian }
-link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = roxolanian imp = sindi imp = siraci }
+link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci }
+# Invictus mod
+link = { ck3=scythian imp=khotanese imp=gelonian }
 
 ## South Levantine
 link = { ck3 = adnanite imp = thamudi imp = qedarite imp = taif } # Pre-Islamic North Arabian
@@ -423,31 +442,6 @@ link = { ck3 = bodpa imp = yarlung }
 link = { ck3 = tsangpa imp = tsang }
 
 ## West Levantine
-# Splitting according to regions - to be reworked!
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_A }
-#link = { ck3 = ythalonim imp = carthaginian @culture_splitting_region_B }
-#link = { ck3 = ualonuth imp = carthaginian @culture_splitting_region_C }
-#link = { ck3 = sicorathi imp = carthaginian @culture_splitting_region_D @culture_splitting_region_G }
-#link = { ck3 = symacom imp = carthaginian @culture_splitting_region_E }
-#link = { ck3 = ysthyalm imp = carthaginian @culture_splitting_region_F }
-#link = { ck3 = sythchy imp = carthaginian @culture_splitting_region_H }
-#link = { ck3 = ynnocho imp = carthaginian @culture_splitting_region_I }
-#link = { ck3 = mlachthi imp = carthaginian @culture_splitting_region_J }
-#link = { ck3 = inythmum imp = carthaginian @culture_splitting_region_K }
-#link = { ck3 = gadolite imp = carthaginian @culture_splitting_region_L }
-#link = { ck3 = bythlimmoth imp = carthaginian @culture_splitting_region_M }
-#link = { ck3 = sidonian imp = carthaginian @culture_splitting_region_N }
-#link = { ck3 = pmpese imp = carthaginian @culture_splitting_region_S }
-#link = { ck3 = taliaite imp = carthaginian @culture_splitting_region_P }
-#link = { ck3 = lacanite imp = carthaginian @culture_splitting_region_Q }
-#link = { ck3 = epicrateian imp = carthaginian @culture_splitting_region_R }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_T }
-#link = { ck3 = ythbynuthi imp = carthaginian @culture_splitting_region_U }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_V }
-#link = { ck3 = ychibarku imp = carthaginian @culture_splitting_region_W }
-#link = { ck3 = liphocaneth imp = carthaginian @culture_splitting_region_X }
-#link = { ck3 = mysehi imp = carthaginian @culture_splitting_region_Y }
-
 link = { ck3 = carthaginian imp = carthaginian }
 link = { ck3 = phoenician imp = phoenician }
 link = { ck3 = shuadit imp = hebrew @culture_splitting_region_F }
@@ -457,6 +451,13 @@ link = { ck3 = sephardi imp = hebrew impRegion = baetica_region impRegion = cont
 link = { ck3 = khazar imp = hebrew @culture_splitting_region_L }
 link = { ck3 = hebrew imp = hebrew }
 link = { ck3 = nabatean imp = nabatean }
+
+# Invictus Burmese and Tai
+link = { ck3=mon imp=mon }
+link = { ck3=burmese imp=pyu }
+link = { ck3=arakanese imp=rhakine }
+link = { ck3=palaungic imp=pubu }
+link = { ck3=shan imp=shan }
 
 # Simple Timeline Extender mod
 link = { ck3 = hunnic imp = hunnic }

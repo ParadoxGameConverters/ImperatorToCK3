@@ -2,13 +2,19 @@
 converterFolder = ImperatorToCK3
 backendExePath = ImperatorToCK3Converter
 displayName = IMPDISPLAYNAME
+
 sourceGame = IMPGAME
 targetGame = CK3GAME
+
 enableUpdateChecker = true
 checkForUpdatesOnStartup = true
 latestGitHubConverterReleaseUrl = "https://github.com/ParadoxGameConverters/ImperatorToCK3/releases/latest"
 converterReleaseForumThread = "https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172"
 pagesCommitIdUrl = "https://paradoxgameconverters.com/commit_ids/ImperatorToCK3.txt"
+
+autoGenerateModsFrom = targetGameModPath
+overwritePlayset = true
+progressOnCopyingComplete = 100 # Final progressbar value after completion of mod copying.
 
 requiredFolder = {
 	name = ImperatorDirectory

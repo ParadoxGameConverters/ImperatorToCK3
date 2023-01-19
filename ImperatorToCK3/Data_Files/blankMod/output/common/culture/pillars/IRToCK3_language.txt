@@ -236,23 +236,6 @@ language_samnite = {
 
 	color = { 117 131 150 }
 }
-language_venetic = {
-	type = language
-	is_shown = {
-		language_is_shown_trigger = {
-		LANGUAGE = language_venetic
-		}
-	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_venetic }
-			multiply = 10
-		}
-	}
-
-	color = { 193 117 241 }
-}
 language_ligustic = {
 	type = language
 	is_shown = {
@@ -457,4 +440,40 @@ language_elamite = {
 	}
 
 	color = elamite
+}
+
+language_tai = {
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_tai
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_tai }
+			multiply = 10
+		}
+	}
+	
+	color = shan
+}
+
+language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_palaungic
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_palaungic }
+			multiply = 10
+		}
+	}
+
+	color = { 217 189 104 }
 }

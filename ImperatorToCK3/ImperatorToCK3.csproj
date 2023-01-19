@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 	<Nullable>enable</Nullable>
 	<RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
 	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
+	<LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -15,6 +16,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -24,12 +26,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="11.1.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\commonItems.NET\commonItems\commonItems.csproj" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="12.2.2" />
+    <PackageReference Include="PGCG.commonItems" Version="7.8.5" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +48,9 @@
     <None Update="Data_Files\converter_globals\ReadMe.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 	<ItemGroup>
@@ -63,18 +66,19 @@
 		<ConverterGlobals Include="Data_Files/converter_globals/**/*.*" />
 	</ItemGroup>
 	<ItemGroup>
-        <BlankMod Include="Data_Files/blankMod/**/*.*" />
-    </ItemGroup>
+    <BlankMod Include="Data_Files/blankMod/**/*.*" />
+  </ItemGroup>
 	<ItemGroup>
-	  <BlankMod Remove="Data_Files\blankMod\output\common\culture\cultures\IRToCK3_cultures_info.html" />
-	</ItemGroup>
+    <RiseOfIslam Include="../RiseOfIslam/**/*.*" />
+  </ItemGroup>
 	
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)/configurables" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
-	    <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+	  <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+	  <Copy SourceFiles="@(RiseOfIslam)" DestinationFolder="$(OutDir)\blankMod\optionalFiles\RiseOfIslam\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
 	<Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
@@ -83,6 +87,7 @@
 		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(PublishDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(PublishDir)/.." SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+	  <Copy SourceFiles="@(RiseOfIslam)" DestinationFolder="$(PublishDir)\blankMod\optionalFiles\RiseOfIslam\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
   <Target Name="Date" BeforeTargets="CoreCompile">

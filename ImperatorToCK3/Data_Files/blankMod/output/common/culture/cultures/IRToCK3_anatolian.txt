@@ -1,5 +1,5 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
-luwian = {
+﻿# ImperatorToCK3: Last updated CK3 patch 1.8.1
+luwian = { # https://en.wikipedia.org/wiki/Luwians
 	color = hsv { 0.32 0.45 0.9 }
 
 	heritage = heritage_anatolian
@@ -17,9 +17,47 @@ luwian = {
 		10 = mediterranean_byzantine
 	}
 	
-	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
 	building_gfx = { mena_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
+	color = { 0.61 0.82 0.72 }
+
+	heritage = heritage_anatolian
+	language = language_luwian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bellicose # seems fitting for pirates
+	traditions = {
+		tradition_practiced_pirates # Cilician pirates
+		tradition_merciful_blindings # represents Greek influence on Cilicia
+	}
+
+	name_list = name_list_luwian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
 	unit_gfx = { eastern_unit_gfx } 
 }
 
@@ -41,9 +79,16 @@ lydian = {
 		10 = mediterranean_byzantine
 	}
 	
-	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
 	building_gfx = { mena_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
 	unit_gfx = { eastern_unit_gfx } 
 }
 
@@ -65,9 +110,16 @@ hittite = {
 		10 = mediterranean_byzantine
 	}
 	
-	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
 	building_gfx = { mena_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
 	unit_gfx = { eastern_unit_gfx } 
 }
 
@@ -89,8 +141,14 @@ phrygian = {
 		10 = mediterranean_byzantine
 	}
 	
-	coa_gfx = { byzantine_group_coa_gfx israelite_group_coa_gfx } 
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+	} 
 	building_gfx = { mena_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx dde_abbasid_clothing_gfx } 
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	} 
 	unit_gfx = { eastern_unit_gfx } 
 }

@@ -1,11 +1,11 @@
-﻿l_english:
+﻿l_russian:
 # Pharaoh
- king_feudal_male_old_egyptian:0 "Фараон"
- king_feudal_female_old_egyptian:0 "Фараона"
- emperor_feudal_male_old_egyptian:1 "Фараон"
- emperor_feudal_female_old_egyptian:1 "Фараона"
+ king_feudal_male_old_egyptian: "Фараон"
+ king_feudal_female_old_egyptian: "Фараона"
+ emperor_feudal_male_old_egyptian: "Фараон"
+ emperor_feudal_female_old_egyptian: "Фараона"
 
 # Carthage
- duke_republic_male_carthaginian:0 "Суффет"
- king_republic_male_carthaginian:0 "Суффет"
- emperor_republic_male_carthaginian:0 "Суффет"
+ duke_republic_male_carthaginian: "Суффет"
+ king_republic_male_carthaginian: "Суффет"
+ emperor_republic_male_carthaginian: "Суффет"

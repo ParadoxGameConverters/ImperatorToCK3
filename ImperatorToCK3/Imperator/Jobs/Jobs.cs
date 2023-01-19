@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Jobs;
@@ -8,17 +9,14 @@ public class Jobs {
 
 	public Jobs() { }
 	public Jobs(BufferedReader reader) {
-		var ignoredTokens = new SortedSet<string>();
+		var ignoredTokens = new IgnoredKeywordsSet();
 		var parser = new Parser();
 		parser.RegisterKeyword("province_job", reader => {
 			Governorships.Add(new Governorship(reader));
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
-			ignoredTokens.Add(token);
-			ParserHelpers.IgnoreItem(reader);
-		});
+		parser.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
 		parser.ParseStream(reader);
-		Logger.Debug($"Ignored Jobs tokens: {string.Join(", ", ignoredTokens)}");
+		Logger.Debug($"Ignored Jobs tokens: {ignoredTokens}");
 	}
 }

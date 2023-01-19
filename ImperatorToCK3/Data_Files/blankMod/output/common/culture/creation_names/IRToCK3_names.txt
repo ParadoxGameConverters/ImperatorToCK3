@@ -1,4 +1,4 @@
-﻿crimean_gothic = {
+﻿crimean_gothic = { # https://en.wikipedia.org/wiki/Crimean_Goths
 	trigger = {
 		capital_county = {
 			title:d_crimea = {
@@ -23,7 +23,7 @@
 	}
 }
 
-thracian_gothic = {
+thracian_gothic = { # https://en.wikipedia.org/wiki/Thracian_Goths
 	trigger = {
 		capital_county = {
 			OR = {
@@ -54,6 +54,167 @@ thracian_gothic = {
 				culture = culture:gothic
 				any_parent_culture_or_above = { this = culture:gothic }
 			}
+		}
+	}
+}
+
+pmpese = { # Carthaginian divergence in Sardinia, name based on PMP tag from Imperator
+	# https://imperator.paradoxwikis.com/Countries#:~:text=P%27mpe-,PMP,-Magna%20Graecia
+	trigger = {
+		capital_county = {
+			title:d_sardinia = {
+				is_de_jure_liege_or_above_target = prev
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:carthaginian
+					any_parent_culture_or_above = { this = culture:carthaginian }
+				}
+			}
+			duchy = title:d_sardinia
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:carthaginian
+				any_parent_culture_or_above = { this = culture:carthaginian }
+			}
+		}
+	}
+}
+
+taliaite = { # Carthaginian divergence in Italia, name based on ITA tag from Imperator
+	# https://imperator.paradoxwikis.com/Countries#:~:text=20px%20%27Talia-,ITA,-Italia
+	trigger = {
+		capital_province = {
+			geographical_region = ghw_region_italy
+		}
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:carthaginian
+					any_parent_culture_or_above = { this = culture:carthaginian }
+				}
+			}
+			title_province = {
+				geographical_region = ghw_region_italy
+			}
+		}
+		scope:culture = {
+			OR = {
+				culture = culture:carthaginian
+				any_parent_culture_or_above = { this = culture:carthaginian }
+			}
+		}
+	}
+}
+
+salinatorian = { # a pun on the history of the Romans salting Carthage
+	name = salinatorian
+	trigger = {
+		# capital must be in Roman Africa
+		capital_province = {
+			geographical_region = custom_roman_africa
+		}
+		# at least one county in Roman Africa must be Roman or descendant
+		any_sub_realm_county = {
+			culture = {
+				OR = {
+					culture = culture:roman
+					any_parent_culture_or_above = { this = culture:roman }
+				}
+			}
+			title_province = {
+				geographical_region = custom_roman_africa
+			}
+		}
+		# culture must be Roman or descendant
+		scope:culture = {
+			OR = {
+				culture = culture:roman
+				any_parent_culture_or_above = { this = culture:roman }
+			}
+		}
+		# Carthage must be a shithole
+		title:c_tunis = {
+			development_level < 10
+		}
+	}
+}
+
+anatolian = {
+	name = anatolian
+	trigger = {
+		capital_county = {
+			title_province = {
+				geographical_region = ghw_region_anatolia
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				geographical_region = ghw_region_anatolia
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}
+euxinian = {
+	name = euxinian
+	trigger = {
+		capital_county = {
+			title_province = {
+				OR = {
+					geographical_region = ghw_region_crimea
+					geographical_region = ghw_region_caucasus
+				}
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				OR = {
+					geographical_region = ghw_region_crimea
+					geographical_region = ghw_region_caucasus
+				}
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
+		}
+	}
+}
+hyperborean = {
+	name = hyperborean
+	trigger = {
+		capital_county = {
+			title_province = {
+				geographical_region = world_europe_north
+			}
+		}
+		any_sub_realm_county = {
+			culture = {
+				has_cultural_pillar = language_greek
+				has_cultural_pillar = heritage_byzantine
+			}
+			title_province = {
+				geographical_region = world_europe_north
+			}
+		}
+		scope:culture = {
+			has_cultural_pillar = language_greek
+			has_cultural_pillar = heritage_byzantine
 		}
 	}
 }

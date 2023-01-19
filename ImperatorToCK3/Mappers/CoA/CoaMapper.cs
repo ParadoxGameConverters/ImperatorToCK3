@@ -1,23 +1,21 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.CoA;
 
 public class CoaMapper {
 	public CoaMapper() { }
-	public CoaMapper(Configuration config, IEnumerable<Mod> mods) {
+	public CoaMapper(ModFilesystem imperatorModFS) {
 		Logger.Info("Parsing CoAs...");
 		var parser = new Parser();
 		RegisterKeys(parser);
 		const string coasPath = "common/coat_of_arms/coat_of_arms";
-		parser.ParseGameFolder(coasPath, config.ImperatorPath, "txt", mods, true);
+		parser.ParseGameFolder(coasPath, imperatorModFS, "txt", true);
 
 		Logger.Info($"Loaded {coasMap.Count} coats of arms.");
-	}
-	public CoaMapper(string coaFilePath) {
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseFile(coaFilePath);
+		
+		Logger.IncrementProgress();
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!

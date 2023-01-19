@@ -1,0 +1,20 @@
+﻿name_list_shan = { # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-28
+
+	cadet_dynasty_names = {
+		"dynn_Chuntaketta" "dynn_Bidaya" "dynn_Chuerboonchai" "dynn_Horayangkura" "dynn_Chaiwong" "dynn_Jiratatprasot" "dynn_Chakkaphak" "dynn_Chaipatana" "dynn_Guptarak" "dynn_Bunnag" "dynn_Jarupanivh" "dynn_Inchareon" "dynn_Arunanondchai" "dynn_Ekpanyaskun" "dynn_Chantaviriyavit" "dynn_Chutiwongse" "dynn_Chaiyasan" "dynn_Choonhavon" "dynn_Dabaransi" "dynn_Hongsakul" "dynn_Bhokhasathit" "dynn_Bintasan" "dynn_Jaidee" "dynn_Chulavachana" "dynn_Ganjarerndee" "dynn_Chaiyaporn" "dynn_Disatha" "dynn_Chungwatana" "dynn_Jivacate" "dynn_Chitphentom" "dynn_Adulyadej" "dynn_Ariyanuntaka" "dynn_Devakul" "dynn_Jaturapattarapong" "dynn_Benjawan" "dynn_Cheosakul" "dynn_Dantanavanawong" "dynn_Hoontrakul" "dynn_Hongladaromp" "dynn_Baramichai" "dynn_Jitjang" "dynn_Jotikasthira" "dynn_Chaichana" "dynn_Chaimongkol" "dynn_Charoensuk" "dynn_Chakpitak" "dynn_Chakrabonse" "dynn_Duchanee" "dynn_Bowornjaratpong" "dynn_Boonma" "dynn_Futrakul" "dynn_Banlengchit" "dynn_Anyamani" "dynn_Butsuntorn" "dynn_Bhayungvej" "dynn_Devakula" "dynn_Chinarungsri" "dynn_Apichart" "dynn_Harivarawongse" "dynn_Boonkham" "dynn_Chatusripitak" "dynn_Chutinan"
+	}
+
+	dynasty_names = {
+		"dynn_Chuntaketta" "dynn_Bidaya" "dynn_Chuerboonchai" "dynn_Horayangkura" "dynn_Chaiwong" "dynn_Jiratatprasot" "dynn_Chakkaphak" "dynn_Chaipatana" "dynn_Guptarak" "dynn_Bunnag" "dynn_Jarupanivh" "dynn_Inchareon" "dynn_Arunanondchai" "dynn_Ekpanyaskun" "dynn_Chantaviriyavit" "dynn_Chutiwongse" "dynn_Chaiyasan" "dynn_Choonhavon" "dynn_Dabaransi" "dynn_Hongsakul" "dynn_Bhokhasathit" "dynn_Bintasan" "dynn_Jaidee" "dynn_Chulavachana" "dynn_Ganjarerndee" "dynn_Chaiyaporn" "dynn_Disatha" "dynn_Chungwatana" "dynn_Jivacate" "dynn_Chitphentom" "dynn_Adulyadej" "dynn_Ariyanuntaka" "dynn_Devakul" "dynn_Jaturapattarapong" "dynn_Benjawan" "dynn_Cheosakul" "dynn_Dantanavanawong" "dynn_Hoontrakul" "dynn_Hongladaromp" "dynn_Baramichai" "dynn_Jitjang" "dynn_Jotikasthira" "dynn_Chaichana" "dynn_Chaimongkol" "dynn_Charoensuk" "dynn_Chakpitak" "dynn_Chakrabonse" "dynn_Duchanee" "dynn_Bowornjaratpong" "dynn_Boonma" "dynn_Futrakul" "dynn_Banlengchit" "dynn_Anyamani" "dynn_Butsuntorn" "dynn_Bhayungvej" "dynn_Devakula" "dynn_Chinarungsri" "dynn_Apichart" "dynn_Harivarawongse" "dynn_Boonkham" "dynn_Chatusripitak" "dynn_Chutinan"
+	}
+
+	male_names = {
+		Ai Boon Chai Chai_Luang Chang Cheng Chueang Chuen Intha Jom Kaew Kaung Kawng_Tai Kham Kham_Kha Kham_Ton Kham_Um Khong Khun_Mueang Khun_Seuk Lan Lang Lao Lao_Kham Lok Lue Mueang Nam Nam_Nan Nam_Thuam Ngam_Mueang Ngoen Ngua Ou_Muang Oun Oun_Kham Phan Phao Pheng Saeng Saeng_Nak Sai Sam Sao_Win Suwan Taeng Than Thian Tong Waen Wao Yi Yod_Mueang Zan
+	}
+
+	female_names = {
+		Bua Bua_Kham Bua_Khiew Bua_Lai Bua_Pun Bua_Sai Bua_Taung Bua_Tip Chan_Fong Chan_Kaew Daeng Dao Fong_Chan Hom Hom Kaew Kaew_Kham Kawng_Paeng Kawng_Saeng Kham_Kaew Kham_La Kiang La Meng Ngam Orn_Kaew Soidao Sueang Thapthim Thip Waen_Kaew Waen_Tip
+	}
+
+	founder_named_dynasties = no
+}

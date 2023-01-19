@@ -1,47 +1,48 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.Imperator.Geography;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Mappers.Region {
-	public class ImperatorRegion : IIdentifiable<string> {
-		public IdObjectCollection<string, ImperatorArea> Areas { get; } = new();
-		public string Id { get; }
+namespace ImperatorToCK3.Mappers.Region; 
 
-		public ImperatorRegion(string id, BufferedReader reader) {
-			Id = id;
-			var parser = new Parser();
-			RegisterKeys(parser);
-			parser.ParseStream(reader);
-		}
+public class ImperatorRegion : IIdentifiable<string> {
+	public IdObjectCollection<string, Area> Areas { get; } = new();
+	public string Id { get; }
 
-		public bool ContainsProvince(ulong province) {
-			return Areas.Any(area => area.ContainsProvince(province));
-		}
+	public ImperatorRegion(string id, BufferedReader reader) {
+		Id = id;
+		var parser = new Parser();
+		RegisterKeys(parser);
+		parser.ParseStream(reader);
+	}
 
-		public void LinkAreas(IdObjectCollection<string, ImperatorArea> areasDict) {
-			foreach (var requiredAreaName in parsedAreas) {
-				if (areasDict.TryGetValue(requiredAreaName, out var area)) {
-					AddArea(area);
-				} else {
-					throw new KeyNotFoundException($"Region's {Id} area {requiredAreaName} does not exist!");
-				}
+	public bool ContainsProvince(ulong province) {
+		return Areas.Any(area => area.ContainsProvince(province));
+	}
+
+	public void LinkAreas(IdObjectCollection<string, Area> areasDict) {
+		foreach (var requiredAreaName in parsedAreas) {
+			if (areasDict.TryGetValue(requiredAreaName, out var area)) {
+				AddArea(area);
+			} else {
+				throw new KeyNotFoundException($"Region's {Id} area {requiredAreaName} does not exist!");
 			}
 		}
-
-		private void RegisterKeys(Parser parser) {
-			parser.RegisterKeyword("areas", reader => {
-				foreach (var name in reader.GetStrings()) {
-					parsedAreas.Add(name);
-				}
-			});
-			parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		}
-
-		private void AddArea(ImperatorArea area) {
-			Areas.Add(area);
-		}
-
-		private readonly HashSet<string> parsedAreas = new();
 	}
+
+	private void RegisterKeys(Parser parser) {
+		parser.RegisterKeyword("areas", reader => {
+			foreach (var name in reader.GetStrings()) {
+				parsedAreas.Add(name);
+			}
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+	}
+
+	private void AddArea(Area area) {
+		Areas.Add(area);
+	}
+
+	private readonly HashSet<string> parsedAreas = new();
 }

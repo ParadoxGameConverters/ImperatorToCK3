@@ -1,6 +1,6 @@
-[submodule "Fronter"]
-	path = Fronter
-	url = https://github.com/ParadoxGameConverters/Fronter
-[submodule "commonItems.NET"]
-	path = commonItems.NET
-	url = https://github.com/ParadoxGameConverters/commonItems.NET
+[submodule "Fronter.NET"]
+	path = Fronter.NET
+	url = https://github.com/ParadoxGameConverters/Fronter.NET
+[submodule "IR-CK3_TFE-Islam"]
+	path = RiseOfIslam
+	url = https://github.com/TinWiz/IR-CK3_TFE-Islam
