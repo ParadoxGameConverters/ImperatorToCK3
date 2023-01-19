@@ -17,6 +17,46 @@ option = {
 }
 
 option = {
+	name = StaticDeJure
+	displayName = STATIC_DEJURE
+	tooltip = STATIC_DEJURE_TIP
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = STATIC_DEJURE_1
+			tooltip = STATIC_DEJURE_1_TIP
+			default = true
+		}
+		radioOption = {
+			name = 2
+			displayName = STATIC_DEJURE_2
+			tooltip = STATIC_DEJURE_2_TIP
+			default = false		
+		}
+	}
+}
+
+option = {
+	name = RiseOfIslam
+	displayName = RISE_OF_ISLAM
+	tooltip = RISE_OF_ISLAM_TIP
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = DISABLED
+			tooltip = RISE_OF_ISLAM_DISABLED_TIP
+			default = true
+		}
+		radioOption = {
+			name = 2
+			displayName = ENABLED
+			tooltip = RISE_OF_ISLAM_ENABLED_TIP
+			default = false
+		}
+	}
+}
+
+option = {
 	name = ImperatorCurrencyRate
 	displayName = IMPERATOR_CURRENCY_RATE
 	tooltip = IMPERATOR_CURRENCY_RATE_TIP

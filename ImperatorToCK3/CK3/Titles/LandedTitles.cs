@@ -1,9 +1,9 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
@@ -19,6 +19,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
@@ -27,7 +28,7 @@ namespace ImperatorToCK3.CK3.Titles;
 public partial class Title {
 	[commonItems.Serialization.NonSerialized] private readonly LandedTitles parentCollection;
 
-	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
+	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
 	public class LandedTitles : TitleCollection {
@@ -35,7 +36,7 @@ public partial class Title {
 
 		public void LoadTitles(ModFilesystem ck3ModFS) {
 			Logger.Info("Loading landed titles...");
-			
+
 			var parser = new Parser();
 			RegisterKeys(parser);
 
@@ -43,7 +44,7 @@ public partial class Title {
 			parser.ParseGameFolder(landedTitlesPath, ck3ModFS, "txt", true);
 
 			LogIgnoredTokens();
-			
+
 			Logger.IncrementProgress();
 		}
 		public void LoadTitles(BufferedReader reader) {
@@ -52,6 +53,50 @@ public partial class Title {
 			parser.ParseStream(reader);
 
 			LogIgnoredTokens();
+		}
+		public void LoadStaticTitles() {
+			Logger.Info("Loading static landed titles...");
+
+			var parser = new Parser();
+			RegisterKeys(parser);
+
+			parser.ParseFile("configurables/static_landed_titles.txt");
+
+			LogIgnoredTokens();
+
+			Logger.IncrementProgress();
+		}
+		public void LoadStaticTitles(BufferedReader reader) {
+			Logger.Info("Loading static landed titles...");
+
+			var parser = new Parser();
+			RegisterKeys(parser);
+
+			parser.ParseStream(reader);
+
+			LogIgnoredTokens();
+
+			Logger.IncrementProgress();
+		}
+
+		public void CarveTitles(LandedTitles overrides) {
+			// merge in new king and empire titles into this from overrides, overriding duplicates
+			foreach (var overrideTitle in overrides.Where(t => t.Rank > TitleRank.duchy)) {
+				// inherit vanilla vassals
+				TryGetValue(overrideTitle.Id, out Title? vanillaTitle);
+				AddOrReplace(new Title(vanillaTitle, overrideTitle, this));
+			}
+
+			// update duchies to correct de jure liege, remove de jure titles that lose all de jure vassals
+			foreach (var title in overrides.Where(t => t.Rank == TitleRank.duchy)) {
+				var duchy = this[title.Id];
+				if (duchy.DeJureLiege is not null) {
+					if (duchy.DeJureLiege.DeJureVassals.Count <= 1) {
+						duchy.DeJureLiege.DeJureLiege = null;
+					}
+				}
+				duchy.DeJureLiege = title.DeJureLiege;
+			}
 		}
 
 		private void RegisterKeys(Parser parser) {
@@ -68,7 +113,7 @@ public partial class Title {
 		}
 
 		private static void LogIgnoredTokens() {
-			Logger.Debug($"Ignored Title tokens: {string.Join(", ", Title.IgnoredTokens)}");
+			Logger.Debug($"Ignored Title tokens: {Title.IgnoredTokens}");
 		}
 
 		public Title Add(string id) {
@@ -126,6 +171,7 @@ public partial class Title {
 			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
+			bool staticDeJure,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
@@ -139,6 +185,7 @@ public partial class Title {
 				irProvinces,
 				imperatorCharacters,
 				regionHasMultipleGovernorships,
+				staticDeJure,
 				locDB,
 				provinceMapper,
 				coaMapper,
@@ -298,6 +345,7 @@ public partial class Title {
 			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
+			Configuration config,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
@@ -324,6 +372,7 @@ public partial class Title {
 					impWorld.Provinces,
 					impWorld.Characters,
 					governorshipsPerRegion[governorship.RegionName] > 1,
+					config.StaticDeJure,
 					tagTitleMapper,
 					locDB,
 					provinceMapper,
@@ -345,6 +394,7 @@ public partial class Title {
 			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
+			bool staticDeJure,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -374,6 +424,7 @@ public partial class Title {
 					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
+					staticDeJure,
 					locDB,
 					provinceMapper,
 					definiteFormMapper,
@@ -387,6 +438,7 @@ public partial class Title {
 					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
+					staticDeJure,
 					locDB,
 					provinceMapper,
 					coaMapper,
@@ -394,6 +446,49 @@ public partial class Title {
 					imperatorRegionMapper
 				);
 			}
+		}
+		
+		public void ImportImperatorHoldings(ProvinceCollection ck3Provinces, Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
+			Logger.Info("Importing Imperator holdings...");
+			var counter = 0;
+			
+			// Get baronies except county capitals.
+			var potentialBaronies = this
+				.Where(t => t.Rank == TitleRank.barony)
+				.Where(b => b.DeJureLiege?.CapitalBaronyId != b.Id)
+				.ToImmutableList();
+			
+			foreach (var barony in potentialBaronies) {
+				var ck3ProvinceId = barony.Province;
+				if (ck3ProvinceId is null) {
+					continue;
+				}
+				if (!ck3Provinces.TryGetValue(ck3ProvinceId.Value, out var ck3Province)) {
+					continue;
+				}
+
+				// Skip none holdings and temple holdings.
+				if (ck3Province.GetHoldingType(conversionDate) is "church_holding" or "none") {
+					continue;
+				}
+				
+				var irProvince = ck3Province.PrimaryImperatorProvince;
+				var holdingOwnerId = irProvince?.HoldingOwnerId;
+				if (holdingOwnerId is null) {
+					continue;
+				}
+				
+				var irOwner = irCharacters[holdingOwnerId.Value];
+				var ck3Owner = irOwner.CK3Character;
+				if (ck3Owner is null) {
+					continue;
+				}
+				
+				barony.SetHolder(ck3Owner, conversionDate);
+				++counter;
+			}
+			Logger.Info($"Imported {counter} holdings from I:R.");
+			Logger.IncrementProgress();
 		}
 
 		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
@@ -404,17 +499,23 @@ public partial class Title {
 			HashSet<string> countyHoldersCache = GetCountyHolderIds(ck3BookmarkDate);
 
 			foreach (var title in this) {
-				// if duchy/kingdom/empire title holder holds no county (is landless), remove the title
-				// this also removes landless titles initialized from Imperator
-				if (title.Rank <= TitleRank.county || countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+				// If duchy/kingdom/empire title holder holds no counties, revoke the title.
+				// In case of titles created from Imperator, completely remove them.
+				if (title.Rank <= TitleRank.county) {
 					continue;
 				}
+				if (countyHoldersCache.Contains(title.GetHolderId(ck3BookmarkDate))) {
+					continue;
+				}
+
+				// Check if the title has "landless = yes" attribute.
+				// If it does, it should be always kept.
 				var id = title.Id;
 				if (this[id].Landless) {
 					continue;
 				}
-				// does not have landless attribute set to true
-				if (title.IsImportedOrUpdatedFromImperator && id.Contains("IMPTOCK3")) {
+				
+				if (title.IsCreatedFromImperator) {
 					removedGeneratedTitles.Add(id);
 					Remove(id);
 				} else {
@@ -434,6 +535,7 @@ public partial class Title {
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate) {
+			// Generate King/Empire de jure hierarchy from governorships
 			Logger.Info("Setting de jure kingdoms...");
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
@@ -475,7 +577,7 @@ public partial class Title {
 					empireShares.TryGetValue(empireRealm.Id, out var currentCount);
 					empireShares[empireRealm.Id] = currentCount + countyProvincesCount;
 				}
-				
+
 				kingdom.DeJureLiege = null;
 				if (empireShares.Count == 0) {
 					continue;
@@ -502,17 +604,19 @@ public partial class Title {
 			return countyHoldersCache;
 		}
 
-		public void ImportDevelopmentFromImperator(Imperator.Provinces.ProvinceCollection imperatorProvinces, ProvinceMapper provMapper, Date date, double irCivilizationWorth) {
-			static (Dictionary<string, int>, Dictionary<ulong, int>) GetImpProvsPerCounty(ProvinceMapper provMapper, IEnumerable<Title> counties) {
+		public void ImportDevelopmentFromImperator(ProvinceCollection ck3Provinces, Date date, double irCivilizationWorth) {
+			static (Dictionary<string, int>, Dictionary<ulong, int>) GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
 				var impProvsPerCounty = new Dictionary<string, int>();
 				var ck3ProvsPerImperatorProv = new Dictionary<ulong, int>();
 				foreach (var county in counties) {
 					var imperatorProvs = new HashSet<ulong>();
 					foreach (var ck3ProvId in county.CountyProvinces) {
-						foreach (var impProvId in provMapper.GetImperatorProvinceNumbers(ck3ProvId)) {
-							imperatorProvs.Add(impProvId);
-							ck3ProvsPerImperatorProv.TryGetValue(impProvId, out var currentValue);
-							ck3ProvsPerImperatorProv[impProvId] = currentValue + 1;
+						var ck3Province = ck3Provinces[ck3ProvId];
+						var sourceProvinces = ck3Province.ImperatorProvinces;
+						foreach (var irProvince in sourceProvinces) {
+							imperatorProvs.Add(irProvince.Id);
+							ck3ProvsPerImperatorProv.TryGetValue(irProvince.Id, out var currentValue);
+							ck3ProvsPerImperatorProv[irProvince.Id] = currentValue + 1;
 						}
 					}
 
@@ -526,18 +630,19 @@ public partial class Title {
 				return impProvsPerCounty[county.Id] == 0;
 			}
 
-			double CalculateCountyDevelopment(Title county, IReadOnlyDictionary<ulong, int> ck3ProvsPerImpProv) {
+			double CalculateCountyDevelopment(Title county, IReadOnlyDictionary<ulong, int> ck3ProvsPerIRProv) {
 				double dev = 0;
 				var countyProvinces = county.CountyProvinces;
 				var provsCount = 0;
 				foreach (var ck3ProvId in countyProvinces) {
 					++provsCount;
-					var impProvs = provMapper.GetImperatorProvinceNumbers(ck3ProvId);
-					if (impProvs.Count == 0) {
+					var ck3Province = ck3Provinces[ck3ProvId];
+					var sourceProvinces = ck3Province.ImperatorProvinces;
+					if (sourceProvinces.Count == 0) {
 						continue;
 					}
 
-					dev += impProvs.Average(impProvId => imperatorProvinces[impProvId].CivilizationValue / ck3ProvsPerImpProv[impProvId]);
+					dev += sourceProvinces.Average(srcProv => srcProv.CivilizationValue / ck3ProvsPerIRProv[srcProv.Id]);
 				}
 
 				dev *= irCivilizationWorth;
@@ -548,11 +653,11 @@ public partial class Title {
 
 			Logger.Info("Importing development from Imperator...");
 
-			var counties = this.Where(t => t.Rank == TitleRank.county);
-			var (impProvsPerCounty, ck3ProvsPerImperatorProv) = GetImpProvsPerCounty(provMapper, counties);
+			var counties = this.Where(t => t.Rank == TitleRank.county).ToList();
+			var (irProvsPerCounty, ck3ProvsPerImperatorProv) = GetIRProvsPerCounty(ck3Provinces, counties);
 
 			foreach (var county in counties) {
-				if (IsCountyOutsideImperatorMap(county, impProvsPerCounty)) {
+				if (IsCountyOutsideImperatorMap(county, irProvsPerCounty)) {
 					// Don't change development for counties outside of Imperator map.
 					continue;
 				}
@@ -636,11 +741,11 @@ public partial class Title {
 		public void LoadCulturalNamesFromConfigurables() {
 			const string filePath = "configurables/cultural_title_names.txt";
 			Logger.Info($"Loading cultural title names from \"{filePath}\"...");
-			
+
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (reader, titleId) => {
 				var nameListToLocKeyDict = reader.GetAssignments();
-				
+
 				if (!TryGetValue(titleId, out var title)) {
 					return;
 				}

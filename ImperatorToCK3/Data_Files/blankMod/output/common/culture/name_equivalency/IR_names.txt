@@ -213,7 +213,6 @@ ir_bisina_female = { Bisina Pisina }
 ir_bithild_female = { Bithild Pithilt }
 ir_diedke_female = { Diedke TI_tke }
 ir_eilika_female = { Eilika Ojlika }
-elisabeth_female = { Elisabeth Beileag Bet EisabE_u ElZ_bieta Elisa ElisabE_ta Elisabet Elisabeta Elisabetta Elisaveta Elise Elizabeta Elizabeth Elspeth ErzsE_bet Isabela IsabE_la IsabE_u Isabeau Isabel Isabella Isabelle Isobel Lillias Lise Lisebet Lys Yelizaveta Aaleyaamma Elesbed Elisaued Uusbail Ysbail Zabel AlZ_bEE_ta Sabela Elisapeth }
 ir_enda_female = { Enda Enta }
 ir_frederuna_female = { Frederuna Freteruna }
 ir_geilana_female = { Geilana Kojlana }

@@ -1,0 +1,1 @@
+link = { ck3 = undefined imp = impTrait }

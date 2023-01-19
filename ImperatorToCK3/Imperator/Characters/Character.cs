@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
@@ -105,7 +106,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 
 		private static readonly Parser parser = new();
 		private static Character parsedCharacter = new(0);
-		public static HashSet<string> IgnoredTokens { get; } = new();
+		public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 		static Character() {
 			parser.RegisterKeyword("first_name_loc", reader => {
 				var characterName = new CharacterName(reader);

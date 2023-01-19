@@ -6,14 +6,14 @@
 # link = {
 #	ck3 = <CK3 culture>
 #	imp = <Imperator culture>
-#	tag = <historical Imperator tag> (optional)
+#	historicalTag = <Imperator historical tag> (optional)
 #	religion = <CK3 religion> (optional)
 #	impProvince = <Imperator province> (optional)
 #	ck3Province = <CK3 province> (optional)
 #	impRegion = <Imperator region> (optional)
 #	ck3Region = <CK3 region> (optional)
 #}
-# multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, tag
+# multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
 # Variables:
@@ -156,14 +156,31 @@ link = { ck3 = tajik imp = margian }
 # Invictus mod
 link = { ck3=indogreek imp=greco_indian }
 
-## Baltic & Slavic (Venedia is Proto-Slavic)
-link = { ck3 = lithuanian imp = aestian ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
-link = { ck3 = prussian imp = aestian ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
-link = { ck3 = latgalian imp = aestian ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
-link = { ck3 = urslavic imp = aestian }
+
+## Baltic & Balto-Finnic
+link = {
+	ck3 = estonian
+	imp = aestian
+	ck3Region = dlc_fp1_region_eastern_adventure_targets_estonia
+	ck3Region = ghw_region_northern_russia
+}
+link = {
+	ck3 = lithuanian
+	imp = aestian
+	ck3Province=154 ck3Province=155 ck3Province=149 ck3Province=165 ck3Province=153 ck3Province=130 ck3Province=160 ck3Province=159 ck3Province=156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 }
+link = {
+	ck3 = prussian
+	imp = aestian
+	ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 }
+link = {
+	ck3 = latgalian
+	imp = aestian
+	ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
+link = { ck3 = prussian imp = aestian }
+
+## Slavic
 # Invictus mod
-link = { ck3 = prussian imp = neuric }
-link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian }
+link = { ck3=urslavic imp=sporic imp=chernolian imp=melanchlaenian imp=androphagian imp=budinian imp=neuric }
 
 
 ## Belgea (sic)
@@ -202,7 +219,7 @@ link = { ck3 = thracian imp = triballoi imp = moesi imp = odrysi imp = paeonian 
 
 ## East Levantine
 link = { ck3 = assyrian imp = assyrian }
-link = { ck3 = hebrew imp = aramaic tag=JUD } # Historical assimilation
+link = { ck3 = hebrew imp = aramaic historicalTag=JUD } # Historical assimilation
 link = { ck3 = aramaic imp = aramaic }
 link = { ck3 = babylonian imp = babylonian }
 
@@ -283,7 +300,7 @@ link = { ck3 = old_saxon @imp_ingvaeonic_cultures } # fallback for Ingvaeonic cu
 link = { ck3 = frankish @imp_frankish_cultures }
 # Irminonic mappings
 link = { ck3 = suebi @imp_suebian_cultures }
-link = { ck3 = langobard @imp_irminonic_cultures tag=LGB }
+link = { ck3 = langobard @imp_irminonic_cultures historicalTag=LGB }
 link = { ck3 = swabian @imp_irminonic_cultures ck3Province = 2055 ck3Province = 2053 ck3Province = 2051 ck3Province = 2721 ck3Province = 2751 ck3Province = 2717 ck3Province = 2057 ck3Province = 2768 ck3Province = 2773 ck3Province = 2748 ck3Province = 2746 ck3Province = 2763 ck3Province = 2759 ck3Province = 2757 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2778 ck3Province = 2782 ck3Province = 2783 ck3Province = 2786 ck3Province = 2777 ck3Province = 2046 ck3Province = 2049 ck3Province = 2460 }
 link = { ck3 = bavarian @imp_irminonic_cultures ck3Province = 2964 ck3Province = 2945 ck3Province = 2949 ck3Province = 2942 ck3Province = 2957 ck3Province = 2959 ck3Province = 2956 ck3Province = 2883 ck3Province = 2960 ck3Province = 2878 ck3Province = 2990 ck3Province = 2987 ck3Province = 2989 ck3Province = 2975 ck3Province = 2977 ck3Province = 3135 ck3Province = 3131 ck3Province = 2971 ck3Province = 3117 ck3Province = 3092 ck3Province = 3109 ck3Province = 3121 ck3Province = 3086 ck3Province = 3081 ck3Province = 3089 ck3Province = 3073 ck3Province = 3093 ck3Province = 3088 ck3Province = 2950 ck3Province = 2955 ck3Province = 3134 ck3Province = 3105 ck3Province = 3128 ck3Province = 3125 ck3Province = 3099 }
 link = { ck3 = suebi @imp_irminonic_cultures } # fallback for Irminonic cultures
@@ -322,7 +339,7 @@ link = { ck3 = telugu imp = andhran imp = assaka }
 
 ## Latin
 # The Glory of Rome
-link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian tag=ROM }
+link = { ck3 = roman imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian historicalTag=ROM }
 
 # Splitting according to regions
 link = { ck3 = breathanach imp = roman imp = osco_umbrian imp = umbrian imp = samnite imp = ligurian imp = lucanian imp = bruttian imp = sardonian imp = siculian @culture_splitting_region_A }
@@ -434,6 +451,13 @@ link = { ck3 = sephardi imp = hebrew impRegion = baetica_region impRegion = cont
 link = { ck3 = khazar imp = hebrew @culture_splitting_region_L }
 link = { ck3 = hebrew imp = hebrew }
 link = { ck3 = nabatean imp = nabatean }
+
+# Invictus Burmese and Tai
+link = { ck3=mon imp=mon }
+link = { ck3=burmese imp=pyu }
+link = { ck3=arakanese imp=rhakine }
+link = { ck3=palaungic imp=pubu }
+link = { ck3=shan imp=shan }
 
 # Simple Timeline Extender mod
 link = { ck3 = hunnic imp = hunnic }

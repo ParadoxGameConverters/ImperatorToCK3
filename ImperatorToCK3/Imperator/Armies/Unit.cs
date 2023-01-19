@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -90,5 +91,5 @@ public class Unit : IIdentifiable<ulong> {
 			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
 	
-	public static HashSet<string> IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 }

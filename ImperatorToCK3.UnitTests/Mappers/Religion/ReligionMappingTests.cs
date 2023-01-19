@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using System.Collections.Generic;
@@ -12,6 +13,10 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ReligionMappingTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private const string ck3Path = "TestFiles/regions/ReligionMappingTests";
 	private string CK3Root => Path.Combine(ck3Path, "game");
 
@@ -20,7 +25,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = flemish imp = dutch");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Equal("flemish", mapping.Match("dutch", 0, 0, new Configuration(), new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Equal("flemish", mapping.Match("dutch", 0, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -28,7 +33,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Province = 17");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Equal("dutch", mapping.Match("german", 17, 0, new Configuration(), new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Equal("dutch", mapping.Match("german", 17, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -36,7 +41,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Province = 17");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 19, 0, new Configuration(), new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", 19, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -44,7 +49,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Province = 17");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 0, 0, new Configuration(), new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", 0, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -63,7 +68,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region1");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Equal("dutch", mapping.Match("german", 4, 0, new Configuration(), new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Equal("dutch", mapping.Match("german", 4, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -82,7 +87,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region1");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 79, 0, new Configuration(), new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(mapping.Match("german", 79, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -101,7 +106,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region3");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 17, 0, new Configuration(), new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(mapping.Match("german", 17, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -120,7 +125,7 @@ public class ReligionMappingTests {
 		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = d_hujhu");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 0, 0, new Configuration(), new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(mapping.Match("german", 0, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -129,7 +134,7 @@ public class ReligionMappingTests {
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = true };
 
-		Assert.Equal("dutch", mapping.Match("german", 0, 0, config, new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Equal("dutch", mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -138,7 +143,7 @@ public class ReligionMappingTests {
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = false };
 
-		Assert.Null(mapping.Match("german", 0, 0, config, new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -147,7 +152,7 @@ public class ReligionMappingTests {
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = false };
 
-		Assert.Equal("dutch", mapping.Match("german", 0, 0, config, new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Equal("dutch", mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -156,6 +161,6 @@ public class ReligionMappingTests {
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = true };
 
-		Assert.Null(mapping.Match("german", 0, 0, config, new ImperatorRegionMapper(), new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
 }

@@ -12,12 +12,13 @@ namespace ImperatorToCK3.UnitTests.Mappers.Trait;
 public class TraitMapperTests {
 	public class TestTraitMapper : TraitMapper {
 		public TestTraitMapper(Dictionary<string, string> impToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
-			this.ImpToCK3TraitMap = impToCK3TraitMap;
-			this.CK3Traits = ck3Traits;
+			ImpToCK3TraitMap = impToCK3TraitMap;
+			CK3Traits = ck3Traits;
 		}
 	}
+	
 	[Fact]
-	public void NonMatchGivesEmptyOptional() {
+	public void NonMatchGivesNull() {
 		var ck3Traits = new IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> { new("ck3Trait") };
 		var traitsDict = new Dictionary<string, string> { { "impTrait", "ck3Trait" } };
 		var mapper = new TestTraitMapper(traitsDict, ck3Traits);
@@ -27,7 +28,7 @@ public class TraitMapperTests {
 	}
 
 	[Fact]
-	public void Ck3TraitCanBeFound() {
+	public void CK3TraitCanBeFound() {
 		var ck3Traits = new IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> { new("ck3Trait") };
 		var traitsDict = new Dictionary<string, string> { { "impTrait", "ck3Trait" } };
 		var mapper = new TestTraitMapper(traitsDict, ck3Traits);
@@ -40,7 +41,7 @@ public class TraitMapperTests {
 	public void MultipleImperatorTraitsCanBeInARule() {
 		var config = new Configuration { CK3Path = "TestFiles/CK3" };
 		var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
-		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_multiple_ck3_in_rule.txt", ck3ModFS);
+		var mapper = new TraitMapper("TestFiles/MapperTests/TraitMapper/trait_map_multiple_ck3_in_rule.txt", ck3ModFS);
 
 		var ck3Trait = mapper.GetCK3TraitForImperatorTrait("impTrait2");
 		Assert.Equal("ck3Trait", ck3Trait);
@@ -105,7 +106,7 @@ public class TraitMapperTests {
 
 		var config = new Configuration { CK3Path = "TestFiles/CK3" };
 		var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
-		_ = new TraitMapper("TestFiles/TraitMapperTests/trait_map_undefined_ck3_trait.txt", ck3ModFS);
+		_ = new TraitMapper("TestFiles/MapperTests/TraitMapper/trait_map_undefined_ck3_trait.txt", ck3ModFS);
 
 		Assert.Contains("[WARN] Couldn't find definition for CK3 trait undefined!", logWriter.ToString());
 	}
@@ -114,7 +115,7 @@ public class TraitMapperTests {
 	public void UndefinedCK3TraitsAreNotSkipped() {
 		var config = new Configuration { CK3Path = "TestFiles/CK3" };
 		var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
-		var mapper = new TraitMapper("TestFiles/TraitMapperTests/trait_map_undefined_ck3_trait.txt", ck3ModFS);
+		var mapper = new TraitMapper("TestFiles/MapperTests/TraitMapper/trait_map_undefined_ck3_trait.txt", ck3ModFS);
 
 		var ck3Traits = mapper.GetCK3TraitsForImperatorTraits(new[] { "impTrait" });
 		ck3Traits.Should().Contain("undefined");

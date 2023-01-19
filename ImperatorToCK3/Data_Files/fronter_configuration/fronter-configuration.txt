@@ -14,6 +14,7 @@ pagesCommitIdUrl = "https://paradoxgameconverters.com/commit_ids/ImperatorToCK3.
 
 autoGenerateModsFrom = targetGameModPath
 overwritePlayset = true
+progressOnCopyingComplete = 100 # Final progressbar value after completion of mod copying.
 
 requiredFolder = {
 	name = ImperatorDirectory

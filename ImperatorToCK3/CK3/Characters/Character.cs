@@ -12,7 +12,6 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -109,8 +108,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			ulong impProvince = 0;
 			var srcReligion = preImperatorRuler.Religion ?? imperatorCountry.Religion;
 			var srcCulture = preImperatorRuler.Culture ?? imperatorCountry.PrimaryCulture;
-			if (imperatorCountry.Capital is not null) {
-				impProvince = (ulong)imperatorCountry.Capital;
+			if (imperatorCountry.CapitalProvinceId is not null) {
+				impProvince = imperatorCountry.CapitalProvinceId.Value;
 				var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(impProvince);
 				if (ck3Provinces.Count > 0) {
 					ck3Province = ck3Provinces[0];
@@ -118,7 +117,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (srcReligion is not null) {
-				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, config);
+				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, imperatorCountry.HistoricalTag, config);
 				if (religionMatch is not null) {
 					FaithId = religionMatch;
 				}
@@ -198,7 +197,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			// determine CK3 province for religionMapper
 			ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
 
-			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, config);
+			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, ImperatorCharacter.HomeCountry?.HistoricalTag, config);
 			if (match is not null) {
 				FaithId = match;
 			}

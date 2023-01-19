@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.CK3.Provinces; 
+namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -12,7 +12,7 @@ public class ProvincesTests {
 	private const string CK3Root = "TestFiles/CK3ProvincesTests";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
 	private readonly Date ck3BookmarkDate = new("867.1.1");
-	
+
 	[Fact]
 	public void ProvincesDefaultToEmpty() {
 		var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection();
@@ -24,7 +24,7 @@ public class ProvincesTests {
 	public void ProvincesAreProperlyLoadedFromFilesystem() {
 		var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection(ck3ModFs);
 
-		Assert.Collection(provinces.OrderBy(p=>p.Id),
+		Assert.Collection(provinces.OrderBy(p => p.Id),
 			prov => {
 				Assert.Equal((ulong)3080, prov.Id);
 				Assert.Equal("slovien", prov.GetCultureId(ck3BookmarkDate));

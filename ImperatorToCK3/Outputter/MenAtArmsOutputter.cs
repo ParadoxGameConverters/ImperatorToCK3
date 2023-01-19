@@ -13,25 +13,27 @@ namespace ImperatorToCK3.Outputter;
 
 public static class MenAtArmsOutputter {
 	private static void OutputHiddenEvent(string outputModName, IEnumerable<Character> charactersWithMaa) {
-		var outputPath = Path.Combine("output", outputModName, "events", "IRToCK3_hidden_events.txt");
+		var outputPath = Path.Combine("output", outputModName, "events", "irtock3_hidden_events.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-		output.WriteLine("namespace=IRToCK3_hidden_events");
+		output.WriteLine("namespace = irtock3_hidden_events");
 		output.WriteLine();
-		output.WriteLine("IRToCK3_hidden_events.0001 = {");
+		output.WriteLine("irtock3_hidden_events.0001 = {");
 		output.WriteLine("\ttype = character_event");
 		output.WriteLine("\thidden = yes");
+		
 		output.WriteLine("\timmediate = {");
 		foreach (var character in charactersWithMaa) {
 			output.WriteLine(
 				"\t\tset_variable = { " +
 				$"name=IRToCK3_character_{character.Id} " +
 				$"value=character:{character.Id} " +
-				"}");
+				"}"
+			);
 		}
-
 		output.WriteLine("\t}");
+		
 		output.WriteLine("}");
 	}
 

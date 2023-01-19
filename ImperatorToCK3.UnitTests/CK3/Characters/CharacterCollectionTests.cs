@@ -7,7 +7,9 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -22,15 +24,33 @@ using ImperatorToCK3.Mappers.Trait;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using System;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CharacterCollectionTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFs = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
-	
+
+	public CharacterCollectionTests() {
+		var states = new StateCollection();
+		var countries = new CountryCollection();
+		irProvinces.LoadProvinces(
+			new BufferedReader(
+			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
+			),
+			states,
+			countries
+		);
+	}
+
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
@@ -49,14 +69,14 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(female);
 		imperatorWorld.Characters.Add(child);
 
-		var ck3Religions = new ReligionCollection();
-		var imperatorRegionMapper = new ImperatorRegionMapper();
+		var landedTitles = new Title.LandedTitles();
+		var ck3Religions = new ReligionCollection(landedTitles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
 			new LocDB("english"),
@@ -92,14 +112,14 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(male);
 		imperatorWorld.Characters.Add(female);
 
-		var ck3Religions = new ReligionCollection();
-		var imperatorRegionMapper = new ImperatorRegionMapper();
+		var landedTitles = new Title.LandedTitles();
+		var ck3Religions = new ReligionCollection(landedTitles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
 			new LocDB("english"),
@@ -142,14 +162,14 @@ public class CharacterCollectionTests {
 		imperatorWorld.Characters.Add(female2);
 		imperatorWorld.Characters.Add(female3);
 
-		var ck3Religions = new ReligionCollection();
-		var imperatorRegionMapper = new ImperatorRegionMapper();
+		var landedTitles = new Title.LandedTitles();
+		var ck3Religions = new ReligionCollection(landedTitles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3Characters = new CharacterCollection();
 		ck3Characters.ImportImperatorCharacters(
 			imperatorWorld,
-			new ReligionMapper(ck3Religions, imperatorRegionMapper, ck3RegionMapper),
-			new CultureMapper(imperatorRegionMapper, ck3RegionMapper),
+			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper),
 			new TraitMapper(),
 			new NicknameMapper(),
 			new LocDB("english"),
@@ -170,14 +190,14 @@ public class CharacterCollectionTests {
 	[Fact]
 	public void ImperatorCountriesGoldCanBeDistributedAmongRulerAndVassals() {
 		var conversionDate = new Date(470, 2, 1, AUC: true);
-		var config = new Configuration { 
+		var config = new Configuration {
 			ImperatorPath = "TestFiles/LandedTitlesTests/Imperator",
 			CK3BookmarkDate = conversionDate,
 			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
 		var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
-		
+
 		imperatorWorld.Provinces.Add(new ImperatorToCK3.Imperator.Provinces.Province(1));
 		// provinces for governorship 1
 		imperatorWorld.Provinces.Add(new ImperatorToCK3.Imperator.Provinces.Province(2));
@@ -206,7 +226,9 @@ public class CharacterCollectionTests {
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
 
-		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS);
+		var irAreas = new AreaCollection();
+		irAreas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
+		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irAreas);
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
@@ -229,7 +251,7 @@ public class CharacterCollectionTests {
 		var governorship2 = new Governorship(governorshipReader2);
 		imperatorWorld.Jobs.Governorships.Add(governorship1);
 		imperatorWorld.Jobs.Governorships.Add(governorship2);
-		
+
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader(@"
 			c_county1 = { b_barony1={province=1} }
@@ -243,12 +265,13 @@ public class CharacterCollectionTests {
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-		
+
 		var locDB = new LocDB("english");
 		var countryLocBlock = locDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
-		
-		var religionMapper = new ReligionMapper(new ReligionCollection(), impRegionMapper, ck3RegionMapper);
+
+		var religionCollection = new ReligionCollection(titles);
+		var religionMapper = new ReligionMapper(religionCollection, impRegionMapper, ck3RegionMapper);
 		var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
 		var coaMapper = new CoaMapper();
 		var definiteFormMapper = new DefiniteFormMapper();
@@ -286,24 +309,25 @@ public class CharacterCollectionTests {
 			characters,
 			conversionDate,
 			config);
-		
+
 		var provinces = new ProvinceCollection(ck3ModFs);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
-		
+
 		titles.ImportImperatorGovernorships(
 			imperatorWorld,
 			provinces,
 			tagTitleMapper,
 			locDB,
+			config,
 			provinceMapper,
 			definiteFormMapper,
 			impRegionMapper,
 			coaMapper,
 			countryLevelGovernorships: new List<Governorship>());
-		
+
 		var ck3Country = titles["e_IMPTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));
-		
+
 		characters.DistributeCountriesGold(titles, config);
 		// Due to 0.5 currency rate, from Imperator country's 200 gold we have 100 CK3 gold.
 		// Gold is divided among ruler and vassals, with ruler having weight of 2.

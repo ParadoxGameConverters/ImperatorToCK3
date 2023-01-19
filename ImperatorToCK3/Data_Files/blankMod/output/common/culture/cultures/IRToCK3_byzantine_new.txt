@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
+﻿# ImperatorToCK3: Last updated CK3 patch 1.8.1
 macedonian = {
 	heritage = heritage_byzantine
 	language = language_greek
@@ -15,7 +15,7 @@ macedonian = {
 		tradition_swords_for_hire
 	}
 	
-	coa_gfx = { byzantine_group_coa_gfx }
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
@@ -44,7 +44,10 @@ hellenistic = {
 	}
 	
 	coa_gfx = { byzantine_group_coa_gfx iranian_group_coa_gfx }
-	building_gfx = { mediterranean_building_gfx mena_building_gfx }
+	building_gfx = {
+		mediterranean_building_gfx
+		# mena_building_gfx
+	}
 	clothing_gfx = { byzantine_clothing_gfx mena_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
 }
@@ -81,7 +84,7 @@ italiote = {
 	created = 2.1.1
 	heritage = heritage_byzantine
 	language = language_greek
-	coa_gfx = { byzantine_group_coa_gfx }
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	unit_gfx = { eastern_unit_gfx }

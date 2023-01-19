@@ -7,6 +7,14 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Families; 
 
 public class FamilyCollection : IdObjectCollection<ulong, Family> {
+	public void LoadFamiliesFromBloc(BufferedReader reader) {
+		var blocParser = new Parser();
+		blocParser.RegisterKeyword("families", LoadFamilies);
+		blocParser.IgnoreAndLogUnregisteredItems();
+		blocParser.ParseStream(reader);
+
+		Logger.Debug($"Ignored family tokens: {Family.IgnoredTokens}");
+	}
 	public void LoadFamilies(BufferedReader reader) {
 		var parser = new Parser();
 		RegisterKeys(parser);
@@ -47,56 +55,54 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 
 	public void MergeDividedFamilies(CharacterCollection characters) {
 		Logger.Info("Merging divided families...");
-		var familiesPerKey = this.GroupBy(f => f.Key);
-		foreach (var grouping in familiesPerKey) {
-			if (grouping.Count() < 2) {
-				continue;
-			}
 
-			var removedFamilies = new HashSet<Family>();
-			foreach (var family in grouping) {
-				if (removedFamilies.Contains(family)) {
+		var iteration = 0;
+		bool anotherIterationNeeded = true;
+		while (anotherIterationNeeded) {
+			var familiesPerKey = this.GroupBy(f => f.Key).ToList();
+			anotherIterationNeeded = false;
+			++iteration;
+			Logger.Debug($"Family merging iteration {iteration}");
+			
+			foreach (var grouping in familiesPerKey) {
+				if (grouping.Count() < 2) {
 					continue;
 				}
-				var familyMemberIds = family.MemberIds;
-				var familyMembers = characters
-					.Where(c => familyMemberIds.Contains(c.Id))
-					.ToList();
-				foreach (var anotherFamily in grouping) {
-					if (family.Equals(anotherFamily)) {
+
+				var removedFamilies = new HashSet<Family>();
+				foreach (var family in grouping) {
+					if (removedFamilies.Contains(family)) {
 						continue;
 					}
+					var familyMemberIds = family.MemberIds;
+					foreach (var anotherFamily in grouping) {
+						if (family.Equals(anotherFamily)) {
+							continue;
+						}
 
-					var anotherFamilyMemberIds = anotherFamily.MemberIds;
-					var anotherFamilyMembers = characters
-						.Where(c => anotherFamilyMemberIds.Contains(c.Id))
-						.ToList();
-					if (familyMembers.Any(c =>
-						    (c.Father is Character father && anotherFamilyMemberIds.Contains(father.Id)) ||
-						    (c.Mother is Character mother && anotherFamilyMemberIds.Contains(mother.Id))
-					    )
-					) {
+						var anotherFamilyMemberIds = anotherFamily.MemberIds;
+						var anotherFamilyMembers = characters
+							.Where(c => anotherFamilyMemberIds.Contains(c.Id))
+							.ToList();
+						
+						// Check if any parent of characters from "anotherFamily" belongs to "family".
+						if (!anotherFamilyMembers.Any(c =>
+							    (c.Father is Character father && familyMemberIds.Contains(father.Id)) ||
+							    (c.Mother is Character mother && familyMemberIds.Contains(mother.Id))
+						    )) {
+							continue;
+						}
+
 						Logger.Debug($"Reuniting family {grouping.Key}: {anotherFamily.Id} into {family.Id}");
 						ReuniteFamily(family, anotherFamily, anotherFamilyMembers);
 						removedFamilies.Add(anotherFamily);
+
+						anotherIterationNeeded = true;
 					}
 				}
 			}
 		}
 
 		Logger.IncrementProgress();
-	}
-
-	public static FamilyCollection ParseBloc(BufferedReader reader) {
-		var blocParser = new Parser();
-		var families = new FamilyCollection();
-		blocParser.RegisterKeyword("families", reader =>
-			families.LoadFamilies(reader)
-		);
-		blocParser.IgnoreAndLogUnregisteredItems();
-		blocParser.ParseStream(reader);
-
-		Logger.Debug($"Ignored family tokens: {string.Join(", ", Family.IgnoredTokens)}");
-		return families;
 	}
 }
