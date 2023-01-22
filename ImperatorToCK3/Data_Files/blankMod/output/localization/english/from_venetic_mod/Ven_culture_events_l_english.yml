@@ -2,21 +2,21 @@
 
  
  veneti_culture_emerge.0002.t:0 "Fate of the Veneti"
- veneti_culture_emerge.0002.desc:0 "Long ago, the Veneti started to slowly, and willingly, submit to Roman might, with Roman settlements appearing all along the region of Venetia. They readily adopted our Roman customs, and fought in the Roman Auxillary, and in return, were granted full rights as Roman citizens. However, it would be foolish to say that they have utterly abandoned their past heritages. As more time passes, it becomes more clear that certain memories of another time have become ingrained in the culture of the romans of Venetia, whether through a funny accent, or through an inate sense of thrift. Although also Roman, the people of Venetia are still Called Veneti."
+ veneti_culture_emerge.0002.desc:0 "Long ago, the Veneti started to slowly, and willingly, submit to Roman might, with Roman settlements appearing all along the region of Venetia. They readily adopted our Roman customs, and fought in the Roman Auxiliary, and in return, were granted full rights as Roman citizens. However, it would be foolish to say that they have utterly abandoned their past heritages. As more time passes, it becomes more clear that certain memories of another time have become ingrained in the culture of the romans of Venetia, whether through a funny accent, or through an inate sense of thrift. Although also Roman, the people of Venetia are still Called Veneti."
  veneti_culture_emerge.0002.a:0 "We are still Romans."
- veneti_culture_emerge.0002.b:0 "We are not barbarians, our tounge will remain pure of any dirty accents."
+ veneti_culture_emerge.0002.b:0 "We are not barbarians, our tongue will remain pure of any dirty accents."
 
  veneti_culture_emerge.0005.t:0 "$veneti_culture_emerge.0002.t$"
  veneti_culture_emerge.0005.desc:1 "$veneti_culture_emerge.0002.desc$"
  veneti_culture_emerge.0005.a:0 "Interesting"
 
  veneti_culture_emerge.0007.t:0 "Rise of the Venetians"
- veneti_culture_emerge.0007.desc:1 "Long ago, our ancestors fled Attila, making a new home for themselves on the islands of the Venetian lagoon, founding the magnificent city of Venesia. We were always slightly astranged from our fellow latins, however it is only more recently that, enabled by our newfound wealth, we can pull upon our Veneti heritage. We are already famed across the mediterranean as astute traders and diplomats, but only time will tell what legacy we will leave."
+ veneti_culture_emerge.0007.desc:1 "Long ago, our ancestors fled Attila, making a new home for themselves on the islands of the Venetian lagoon, founding the magnificent city of Venesia. We were always slightly estranged from our fellow Latins, however it is only more recently that, enabled by our newfound wealth, we can pull upon our Veneti heritage. We are already famed across the Mediterranean as astute traders and diplomats, but only time will tell what legacy we will leave."
  veneti_culture_emerge.0007.a:0 "We are Venetians!"
  veneti_culture_emerge.0007.b:0 "We really aren't that different from others on this peninsula."
 
  veneti_culture_emerge.0008.t:0 "$veneti_culture_emerge.0006.t$"
- veneti_culture_emerge.0008.desc:0 "Long ago, the Romans of Venetia fled Attila, making a new home for themselves on the islands of the Venetian lagoon, starting the grand city of Venice. Always slightly different from the rest of the latins, it is only more recently that the Italians of Venetia, bolstered by the wealth and prestige of their Namesake city, have started to differenciate themselves further. Famed across the mediterranean as astute traders and diplomats, what impact will these latins make?"
+ veneti_culture_emerge.0008.desc:0 "Long ago, the Romans of Venetia fled Attila, making a new home for themselves on the islands of the Venetian lagoon, starting the grand city of Venice. Always slightly different from the rest of the Latins, it is only more recently that the Italians of Venetia, bolstered by the wealth and prestige of their Namesake city, have started to differentiate themselves further. Famed across the Mediterranean as astute traders and diplomats, what impact will these Latins make?"
  veneti_culture_emerge.0008.a:0 "Only time will tell how this impacts the Mediterranean."
 
 

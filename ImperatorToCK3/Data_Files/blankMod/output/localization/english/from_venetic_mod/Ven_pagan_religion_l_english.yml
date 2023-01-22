@@ -8,17 +8,17 @@
  reitian_paganism_adj:0 "Venetist"
  reitian_paganism_adherent:0 "Venetist"
  reitian_paganism_adherent_plural:0 "Venetists"
- reitian_paganism_desc:0 "Before the arrival of the Romans, the religion followed across the northeast of the Italian peninstula, from the coast of the Adriatic, to the Alpine mountains, was a polytheistic religion, with special veneration to the goddess Reitia and the god Trumusicates."
+ reitian_paganism_desc:0 "Before the arrival of the Romans, the religion followed across the northeast of the Italian peninsula, from the coast of the Adriatic, to the Alpine mountains, was a polytheistic religion, with special veneration to the goddess Reitia and the god Trumusicates."
  reitian_paganism_old:0 "Old Venetism"
  reitian_paganism_old_adj:0 "Old Venetist"
  reitian_paganism_old_adherent:0 "Venetic Pagan"
  reitian_paganism_old_adherent_plural:0 "Venetic Pagans"
  
  tenet_ritual_writing_name:0 "Ritual Writing"
- tenet_ritual_writing_desc:0 "This faith believes that messages to the gods must be imortalized through inscriptions, and that the priests must help the devoted to learn how to inscribe these messages."
- tenet_ritual_writing_active:0"The faithful may occasionaly make written offerings to the gods, giving bonuses."
+ tenet_ritual_writing_desc:0 "This faith believes that messages to the gods must be immortalized through inscriptions, and that the priests must help the devoted to learn how to inscribe these messages."
+ tenet_ritual_writing_active:0"The faithful may occasionally make written offerings to the gods, giving bonuses."
  tenet_venetic_deities_name:0 "Deivobos"
- tenet_venetic_deities_desc:0 "Localities, following this faith, tend to favour local patron gods, building local centres of worship for their respective patron. However, they are rare to shun gods of other regions, and regularly make pigramages to temples of the other Deivobos as well."
+ tenet_venetic_deities_desc:0 "Localities, following this faith, tend to favor local patron gods, building local centers of worship for their respective patron. However, they are rare to shun gods of other regions, and regularly make pilgrimages to temples of the other Deivobos as well."
  tenet_venetic_deities_active:0"Adherents may select personal deities."
  
  
