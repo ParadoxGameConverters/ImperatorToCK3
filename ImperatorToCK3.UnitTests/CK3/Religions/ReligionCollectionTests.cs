@@ -115,7 +115,7 @@ public class ReligionCollectionTests {
 			GenerateCK3AndImperatorProvinceWithPops(5, popCount: 3, holySite: false),
 			GenerateCK3AndImperatorProvinceWithPops(6, popCount: 6, holySite: false),
 			GenerateCK3AndImperatorProvinceWithPops(7, popCount: 5, holySite: false),
-			
+
 			// provinces for existing (predefined) holy sites of faith ck3Faith
 			GenerateCK3AndImperatorProvinceWithPops(8, popCount: 0, holySite: false),
 			GenerateCK3AndImperatorProvinceWithPops(9, popCount: 0, holySite: false),

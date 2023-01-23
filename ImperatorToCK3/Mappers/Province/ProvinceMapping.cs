@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.Province; 
+namespace ImperatorToCK3.Mappers.Province;
 
 public class ProvinceMapping {
 	public List<ulong> CK3Provinces { get; } = new();

@@ -6,7 +6,7 @@ using ImperatorToCK3.Imperator.Armies;
 using System.Linq;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Armies; 
+namespace ImperatorToCK3.UnitTests.Imperator.Armies;
 
 public class UnitCollectionTests {
 	[Fact]
@@ -24,7 +24,7 @@ public class UnitCollectionTests {
 	[Fact]
 	public void UnitsCanBeLoaded() {
 		var unitCollection = new UnitCollection();
-		
+
 		var reader = new BufferedReader(@"1={} 2={} 3=none 1040187400={}");
 		unitCollection.LoadUnits(reader, new LocDB("english"), new Defines());
 

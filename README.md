@@ -1,7 +1,7 @@
 # ImperatorToCK3
 ## Converts Imperator: Rome saves into Crusader Kings III mods
 
-This converter is documented on the [Imperator: Rome wiki](https://imperator.paradoxwikis.com/Imperator_To_CK3_Converter). 
+This converter is documented on the [Imperator: Rome wiki](https://imperator.paradoxwikis.com/Imperator_To_CK3_Converter).
 
 For troubleshooting, bugreporting, or other help, please visit the official [release thread](https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/) on the Paradox Interactive forums.
 To help with development, please visit the official [development thread](https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-development-thread.1415175/) on the Paradox forums.

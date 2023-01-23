@@ -3,7 +3,7 @@ using commonItems.Colors;
 using System.IO;
 using System.Linq;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
 public static class NamedColorsOutputter {
 	/// <summary>
@@ -18,19 +18,19 @@ public static class NamedColorsOutputter {
 		if (!diff.Any()) {
 			return;
 		}
-		
+
 		Logger.Info("Outputting named colors from Imperator game and mods...");
-		
+
 		var outputPath = Path.Combine("output", outputModName, "common", "named_colors", "IRtoCK3_colors_from_Imperator.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
-		
+
 		output.WriteLine("colors = {");
 		foreach (var (name, color) in diff) {
 			output.WriteLine($"\t{name}={color.OutputRgb()}");
 		}
 		output.WriteLine("}");
-		
+
 		Logger.IncrementProgress();
 	}
 }

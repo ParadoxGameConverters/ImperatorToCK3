@@ -7,7 +7,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Religion; 
+namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -16,15 +16,15 @@ public class ReligionMapperTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
-	
+
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
-	
+
 	[Fact]
 	public void NonMatchGivesNull() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		var ck3RegionMapper = new CK3RegionMapper();
-			
+
 		var reader = new BufferedReader("link = { ck3 = ck3Faith imp = impReligion }");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
@@ -37,7 +37,7 @@ public class ReligionMapperTests {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
 		var ck3RegionMapper = new CK3RegionMapper();
-			
+
 		var reader = new BufferedReader("link = { ck3 = ck3Faith imp = impReligion }");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
@@ -50,7 +50,7 @@ public class ReligionMapperTests {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
 		var ck3RegionMapper = new CK3RegionMapper();
-			
+
 		var reader = new BufferedReader(
 			"link = { ck3 = ck3Faith imp = impReligion imp = impReligion2 }"
 		);
@@ -65,7 +65,7 @@ public class ReligionMapperTests {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
 		var ck3RegionMapper = new CK3RegionMapper();
-			
+
 		var reader = new BufferedReader(
 			"link = { ck3 = ck3Faith imp = impReligion }" +
 			"link = { ck3 = ck3Faith2 imp = impReligion2 }"
@@ -81,12 +81,12 @@ public class ReligionMapperTests {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs);
 		var ck3RegionMapper = new CK3RegionMapper();
-		
+
 		const string irReligion = "impReligion";
 		var reader = new BufferedReader($$"""
-			link = { ck3 = ck3Faith imp = {{irReligion}} historicalTag = ROM } 
-			link = { ck3 = ck3Faith2 imp = {{irReligion}} historicalTag = ARM } 
-			link = { ck3 = ck3Faith3 imp = {{irReligion}} }  
+			link = { ck3 = ck3Faith imp = {{irReligion}} historicalTag = ROM }
+			link = { ck3 = ck3Faith2 imp = {{irReligion}} historicalTag = ARM }
+			link = { ck3 = ck3Faith3 imp = {{irReligion}} }
 		""");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 

@@ -70,7 +70,7 @@
 		HealthGodSheHe = CHARACTER_SHEHE_HE
 		HealthGodHerHis = CHARACTER_HERHIS_HIS
 		HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 		#FertilityGod
 		FertilityGodName = ir_semele
 		FertilityGodNamePossessive = ir_semele_possessive
@@ -182,17 +182,17 @@
 		WitchGodHerHim = CHARACTER_HERHIM_IT
 		WitchGodMistressMaster = witch_spirit
  		WitchGodMotherFather = witch_source
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
-	}	
+	}
 
 	faiths = {
 		dacian_pagan = {
 			color = { 0.45 0.29 0.15 }
 			icon = balkanic_pagan
 			reformed_icon = balkanic_pagan
-			
+
 			holy_site = tamasidava
 			holy_site = odessos
 			holy_site = kardzhali
@@ -200,7 +200,7 @@
 			holy_site = buridava
 
 			doctrine = unreformed_faith_doctrine
-			
+
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_ancestor_worship

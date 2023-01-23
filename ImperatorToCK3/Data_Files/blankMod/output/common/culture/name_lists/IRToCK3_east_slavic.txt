@@ -64,7 +64,7 @@
 		Vseslava Viacheslava Yaroslava Zabava Zvenislava
 	}
 	dynasty_of_location_prefix = "dynnp_of"
-	
+
 	patronym_suffix_male = "dynnpat_suf_ovich"
 	patronym_suffix_female = "dynnpat_suf_ovna"
 
@@ -72,7 +72,7 @@
 	pat_grf_name_chance = 50
 	mat_grf_name_chance = 40
 	father_name_chance = 0
-	
+
 	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
 	pat_grm_name_chance = 30
 	mat_grm_name_chance = 30

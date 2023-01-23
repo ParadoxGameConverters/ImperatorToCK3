@@ -28,7 +28,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		if (filePath is null) {
 			throw new ConverterException("Province definitions file not found!");
 		}
-		
+
 		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
 			Delimiter = ";", HasHeaderRecord = false, AllowComments = true
 		};
@@ -45,11 +45,11 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			if (id == 0) {
 				continue;
 			}
-			
+
 			AddOrReplace(new Province(id));
 			++count;
 		}
-		
+
 		Logger.Debug($"Loaded {count} province definitions.");
 	}
 
@@ -61,17 +61,17 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			dict[provinceId] = newProvince;
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		
+
 		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
 	public void ImportVanillaProvinces(ModFilesystem ck3ModFs) {
 		var existingProvinceDefinitionsCount = Count;
 		Logger.Info("Importing vanilla provinces...");
-		
+
 		LoadProvinceDefinitions(ck3ModFs);
 		Logger.IncrementProgress();
-		
+
 		// Load history/provinces.
 		LoadProvincesHistory(ck3ModFs);
 		Logger.IncrementProgress();
@@ -83,11 +83,11 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 				continue;
 			}
-			
+
 			this[newProvinceId].CopyEntriesFromProvince(this[baseProvinceId]);
 		}
 		Logger.IncrementProgress();
-		
+
 		Logger.Info($"Loaded {Count-existingProvinceDefinitionsCount} province definitions.");
 	}
 
@@ -120,18 +120,18 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				.ToOrderedSet();
 			// And finally, initialize it.
 			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper, religionMapper, config);
-			
+
 			importedIRProvsCount += sourceProvinceIds.Count;
 			++modifiedCK3ProvsCount;
 		}
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
-			
+
 		Logger.IncrementProgress();
 	}
 
 	public void LoadPrehistory() {
 		Logger.Info("Loading provinces prehistory...");
-		
+
 		const string prehistoryPath = "configurables/provinces_prehistory.txt";
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
@@ -140,7 +140,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(prehistoryPath);
-		
+
 		Logger.IncrementProgress();
 	}
 
@@ -150,7 +150,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	) {
 		// determine ownership by province development.
 		var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
-		var theShares = new Dictionary<ulong, int>(); // owner, development                                               
+		var theShares = new Dictionary<ulong, int>(); // owner, development
 		ulong? winner = null;
 		long maxDev = -1;
 

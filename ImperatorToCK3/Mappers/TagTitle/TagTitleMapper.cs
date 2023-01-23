@@ -7,7 +7,7 @@ using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Mappers.TagTitle; 
+namespace ImperatorToCK3.Mappers.TagTitle;
 
 public class TagTitleMapper {
 	public TagTitleMapper() { }
@@ -18,7 +18,7 @@ public class TagTitleMapper {
 		parser.ParseFile(tagTitleMappingsPath);
 		parser.ParseFile(governorshipTitleMappingsPath);
 		Logger.Info($"{mappings.Count} title mappings loaded.");
-		
+
 		Logger.IncrementProgress();
 	}
 	public void RegisterTag(string imperatorTag, string ck3Title) {

@@ -7,7 +7,7 @@ using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Region;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Region; 
+namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
 public class ImperatorRegionTests {
 	private readonly ProvinceCollection provinces = new();
@@ -17,7 +17,7 @@ public class ImperatorRegionTests {
 			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
 		, new StateCollection(), new CountryCollection());
 	}
-	
+
 	[Fact]
 	public void BlankRegionLoadsWithNoAreas() {
 		var reader = new BufferedReader(string.Empty);

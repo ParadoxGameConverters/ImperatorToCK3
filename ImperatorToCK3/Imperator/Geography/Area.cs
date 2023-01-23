@@ -15,7 +15,7 @@ public class Area : IIdentifiable<string> {
 	public Area(string id, BufferedReader areaReader, ProvinceCollection provinceCollection) {
 		Id = id;
 		this.provinceCollection = provinceCollection;
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("provinces", reader => {
 			var provinceIds = reader.GetULongs();
@@ -24,7 +24,7 @@ public class Area : IIdentifiable<string> {
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredKeywords);
 		parser.ParseStream(areaReader);
 	}
-	
+
 	public bool ContainsProvince(ulong provinceId) {
 		return ProvinceIds.Contains(provinceId);
 	}

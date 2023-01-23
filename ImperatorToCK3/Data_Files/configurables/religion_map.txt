@@ -131,7 +131,7 @@ link = { ck3 = arian imp = arian }
 ## heresiesInHistoricalAreas enabled
 link = { ck3 = priscillianism imp = christianity heresiesInHistoricalAreas=yes ck3Province = 1831 ck3Province = 1912 ck3Province = 1919 ck3Province = 1954 impRegion = lusitania_region }
 link = { ck3 = valentinianism imp = christianity heresiesInHistoricalAreas=yes impRegion = decapolis_area impRegion = peraea_area impRegion = arabia_petrea_area impRegion = sinai_area }
-## 
+##
 link = { ck3 = armenian_apostolic imp = christianity impRegion = armenia_region }
 link = { ck3 = armenian_apostolic imp = christianity historicalTag=ARM }
 link = { ck3 = orthodox imp = christianity impRegion = taurica_region impRegion = sarmatia_asiatica_region impRegion = greece_region impRegion = asia_region impRegion = cilicia_region impRegion = galatia_region impRegion = bithynia_region impRegion = cappadocia_region impRegion = syria_region impRegion = palestine_region impRegion = sarmatia_europea_region impRegion = scythia_region impRegion = thrace_region impRegion = moesia_region impRegion = dacia_region impRegion = colchis_region impRegion = albania_region impRegion = macedonia_region impRegion = cappadocia_pontica_region }

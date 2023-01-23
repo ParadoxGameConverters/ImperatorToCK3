@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.Religion; 
+namespace ImperatorToCK3.Mappers.Religion;
 
 public class ReligionMapping {
 	private readonly SortedSet<string> imperatorReligions = new();
@@ -13,7 +13,7 @@ public class ReligionMapping {
 
 	private readonly SortedSet<string> imperatorRegions = new();
 	private readonly SortedSet<string> ck3Regions = new();
-	
+
 	private readonly SortedSet<string> irHistoricalTags = new();
 
 	private bool? heresiesInHistoricalAreas;

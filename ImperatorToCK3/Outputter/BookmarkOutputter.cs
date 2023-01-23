@@ -16,15 +16,15 @@ using System.Linq;
 using System.Text;
 using Color = SixLabors.ImageSharp.Color;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
 public static class BookmarkOutputter {
 	public static void OutputBookmark(World world, Configuration config) {
 		Logger.Info("Creating bookmark...");
-		
+
 		OutputBookmarkGroup(config);
 		Logger.IncrementProgress();
-			
+
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, Encoding.UTF8);
@@ -32,7 +32,7 @@ public static class BookmarkOutputter {
 		var provincePositions = world.MapData.ProvincePositions;
 
 		output.WriteLine("bm_converted = {");
-		
+
 		output.WriteLine("\tgroup = bm_converted");
 		output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
 		output.WriteLine("\tis_playable = yes");
@@ -102,7 +102,7 @@ public static class BookmarkOutputter {
 
 		OutputBookmarkLoc(config, localizations);
 		Logger.IncrementProgress();
-			
+
 		DrawBookmarkMap(config, playerTitles, world);
 	}
 
@@ -110,7 +110,7 @@ public static class BookmarkOutputter {
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, Encoding.UTF8);
-		
+
 		output.WriteLine("bm_converted = {");
 		output.WriteLine($"\tdefault_start_date = {config.CK3BookmarkDate}");
 		output.WriteLine("}");
@@ -118,14 +118,14 @@ public static class BookmarkOutputter {
 
 	private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
 		var languages = new[] {"english", "french", "german", "korean", "russian", "simp_chinese", "spanish"};
-		
+
 		var outputName = config.OutputModName;
 		var baseLocPath = Path.Combine("output", outputName, "localization");
 		foreach (var language in languages) {
 			var locFilePath = Path.Combine(baseLocPath, language, "converter_bookmark_l_english.yml");
 			using var locFileStream = File.OpenWrite(locFilePath);
 			using var locWriter = new StreamWriter(locFileStream, Encoding.UTF8);
-			
+
 			locWriter.WriteLine($"l_{language}:");
 
 			// title localization
@@ -251,7 +251,7 @@ public static class BookmarkOutputter {
 		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
 		bookmarkMapImage.SaveAsPng(outputPath);
 		ResaveImageAsDDS(outputPath);
-			
+
 		Logger.IncrementProgress();
 	}
 

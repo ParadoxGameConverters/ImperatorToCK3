@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 
-namespace ImperatorToCK3.Mappers.War; 
+namespace ImperatorToCK3.Mappers.War;
 
 public class WarMapper {
 	private readonly Dictionary<string, string> impToCK3WarGoalDict = new();
@@ -22,7 +22,7 @@ public class WarMapper {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(filePath);
-		
+
 		Logger.Info($"Loaded {impToCK3WarGoalDict.Count} wargoal links.");
 		Logger.IncrementProgress();
 	}

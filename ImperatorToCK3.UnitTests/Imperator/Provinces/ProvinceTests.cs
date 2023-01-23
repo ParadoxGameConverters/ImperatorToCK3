@@ -24,7 +24,7 @@ public class ProvinceTests {
 		var provinces = new ProvinceCollection();
 		var areaReader = new BufferedReader("provinces = { 42 }");
 		var areas = new AreaCollection {new Area("media_area", areaReader, provinces)};
-		
+
 		var statesReader = new BufferedReader("""
 		1 = {
 			capital=42
@@ -33,10 +33,10 @@ public class ProvinceTests {
 		"""
 		);
 		states.LoadStates(statesReader, areas, countries);
-		
+
 		countries.Add(new Country(69));
 	}
-	
+
 	[Fact]
 	public void IdCanBeSet() {
 		var reader = new BufferedReader("= {}");
@@ -94,7 +94,7 @@ public class ProvinceTests {
 	public void GetReligionReturnsCorrectReligion() {
 		var religions = new ReligionCollection(new ScriptValueCollection());
 		religions.LoadReligions(imperatorModFS);
-		
+
 		var province = new Province(1) {ReligionId = "roman_pantheon"};
 
 		var religion = province.GetReligion(religions);
@@ -106,7 +106,7 @@ public class ProvinceTests {
 	public void GetReligionReturnsNullWhenReligionIsNotFound() {
 		var religions = new ReligionCollection(new ScriptValueCollection());
 		religions.LoadReligions(imperatorModFS);
-		
+
 		var province = new Province(1) {ReligionId = "missing_religion"};
 
 		var religion = province.GetReligion(religions);
@@ -155,7 +155,7 @@ public class ProvinceTests {
 		);
 
 		var theProvince = Province.Parse(reader, 42, states, countries);
-		
+
 		Assert.NotNull(theProvince.OwnerCountry);
 		Assert.Equal((ulong)69, theProvince.OwnerCountry.Id);
 	}
@@ -296,7 +296,7 @@ public class ProvinceTests {
 
 		var output = new StringWriter();
 		Console.SetOut(output);
-		
+
 		var holySitesReader = new BufferedReader(@"deities_database = {
 				34 = {}
 			}");
@@ -304,7 +304,7 @@ public class ProvinceTests {
 
 		Assert.Contains("Holy site 34 has no deity!", output.ToString());
 	}
-	
+
 	[Fact]
 	public void GetHolySiteDeityReturnsNullHolySiteIdIsNull() {
 		var religions = new ReligionCollection(new ScriptValueCollection());

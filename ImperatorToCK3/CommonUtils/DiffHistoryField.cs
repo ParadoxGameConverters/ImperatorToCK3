@@ -56,7 +56,7 @@ internal class DiffHistoryField : IHistoryField {
 
 		return toReturn;
 	}
-	
+
 	public void AddEntryToHistory(Date? date, string keyword, object value) {
 		if (insertKeywords.Contains(keyword) || removeKeywords.Contains(keyword)) {
 			var newEntry = new KeyValuePair<string, object>(keyword, value);
@@ -76,7 +76,7 @@ internal class DiffHistoryField : IHistoryField {
 			Logger.Warn($"Keyword {keyword} is not an insert or remove keyword for field {Id}!");
 		}
 	}
-	
+
 	public void RegisterKeywords(Parser parser, Date date) {
 		foreach (var keyword in insertKeywords) {
 			parser.RegisterKeyword(keyword, reader => {
@@ -91,6 +91,6 @@ internal class DiffHistoryField : IHistoryField {
 			});
 		}
 	}
-	
+
 	public IHistoryField Clone() => new DiffHistoryField(this);
 }

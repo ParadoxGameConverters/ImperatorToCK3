@@ -17,7 +17,7 @@ To set up the converter, you’ll need to follow the simple steps below:
 [*] Subscribe to the this mod.
 [*] If the mod does not immediately begin downloading, you may need to start Imperator launcher to trigger the download.
 [*] Go to your mod folder (usually [i]C:\Program Files (x86)\Steam\steamapps\workshop\content\859580\2255281636[/i], or elsewhere if you moved your steam library)
-[*] Inside it find and open [i]downloadLink.txt[/i]. 
+[*] Inside it find and open [i]downloadLink.txt[/i].
 [*] Within that file is a direct link to the converter's download location. Copy the link and paste it into a browser to download it.
 [*] Unzip the downloaded converter to a new folder by right-clicking on it and selecting [i]Extract All…[/i]
 [*] Finally, go to the extracted converter's directory and fire it up by running [i]ConverterFrontend.exe[/i].
@@ -36,9 +36,9 @@ You then have to [b]enable that mod[/b] when starting EU4 launcher:
 [*] On the Home page of the launcher, make sure the new playset is enabled and selected before pressing Play.
 [/olist]
 
-[h2]Troubleshooting[/h2] 
+[h2]Troubleshooting[/h2]
 
-We welcome any questions and will gladly help you out if you hit a problem. 
+We welcome any questions and will gladly help you out if you hit a problem.
 
 When seeking help, discussing conversion issues or problems, or if you simply need answers to your questions, come to our [url=https://forum.paradoxplaza.com/forum/threads/imperator-to-ck3-release-thread.1415172/]Paradox forum release thread[/url].
 

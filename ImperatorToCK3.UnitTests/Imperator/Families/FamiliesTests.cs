@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Families; 
+namespace ImperatorToCK3.UnitTests.Imperator.Families;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]

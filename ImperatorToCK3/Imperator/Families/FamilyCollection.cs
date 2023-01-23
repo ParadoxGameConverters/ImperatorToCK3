@@ -4,7 +4,7 @@ using ImperatorToCK3.Imperator.Characters;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Families; 
+namespace ImperatorToCK3.Imperator.Families;
 
 public class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void LoadFamiliesFromBloc(BufferedReader reader) {
@@ -49,7 +49,7 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 		foreach (var character in charactersToReassign) {
 			character.Family = family;
 		}
-		
+
 		Remove(familyToBeMerged.Id);
 	}
 
@@ -63,7 +63,7 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 			anotherIterationNeeded = false;
 			++iteration;
 			Logger.Debug($"Family merging iteration {iteration}");
-			
+
 			foreach (var grouping in familiesPerKey) {
 				if (grouping.Count() < 2) {
 					continue;
@@ -84,7 +84,7 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 						var anotherFamilyMembers = characters
 							.Where(c => anotherFamilyMemberIds.Contains(c.Id))
 							.ToList();
-						
+
 						// Check if any parent of characters from "anotherFamily" belongs to "family".
 						if (!anotherFamilyMembers.Any(c =>
 							    (c.Father is Character father && familyMemberIds.Contains(father.Id)) ||

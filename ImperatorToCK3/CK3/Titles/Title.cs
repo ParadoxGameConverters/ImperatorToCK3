@@ -593,7 +593,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var lastDate = dates.Max;
 		return lastDate ?? new Date(1, 1, 1);
 	}
-	
+
 	public ISet<string> GetAllHolderIds() {
 		if (!History.Fields.TryGetValue("holder", out var holderField)) {
 			return new HashSet<string>();
@@ -728,7 +728,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!adjSet) {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
 		}
-		
+
 		// Generate English adjective if missing.
 		if (Localizations.TryGetValue(locKey, out var locBlock) && locBlock["english"] is null) {
 			if (!Localizations.TryGetValue(Id, out var nameLocBlock) || nameLocBlock["english"] is not string name) {

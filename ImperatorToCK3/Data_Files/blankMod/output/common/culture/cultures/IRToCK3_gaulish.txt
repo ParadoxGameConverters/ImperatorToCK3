@@ -9,7 +9,7 @@ celtic_pannonian = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
 	}
-	
+
 	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
@@ -20,11 +20,11 @@ celtic_pannonian = {
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
+
 	coa_gfx = { welsh_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
 }
 celtiberian = {
 	color = hsv { 0.2 0.8 0.6 }
@@ -36,7 +36,7 @@ celtiberian = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
 	}
-	
+
 	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
@@ -47,11 +47,11 @@ celtiberian = {
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
+
 	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
 }
 belgae = {
 	color = hsv { 0.45 0.8 0.45 }
@@ -65,7 +65,7 @@ belgae = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
 	}
-	
+
 	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
@@ -76,11 +76,11 @@ belgae = {
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
+
 	coa_gfx = { breton_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
 }
 gallic = {
 	color = hsv { 0.3 0.7 0.4 }
@@ -92,7 +92,7 @@ gallic = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
 	}
-	
+
 	ethos = ethos_stoic
 
 	name_list = name_list_gaulish
@@ -103,11 +103,11 @@ gallic = {
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
+
 	coa_gfx = { breton_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
 }
 lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	color = hsv { 0.6 0.8 0.2 }
@@ -117,7 +117,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	heritage = heritage_gaulish
 	language = language_gaulish
 	martial_custom = martial_custom_equal
-	
+
 	ethos = ethos_stoic
 	traditions = {
 		tradition_hit_and_run
@@ -132,24 +132,24 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
+
 	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
 }
 galatian = {
 	color = rgb { 159 255 135 }
-	
+
 	parents = { gallic }
 	created = 2.1.1
 
 	heritage = heritage_gaulish
 	language = language_gaulish
 	martial_custom = martial_custom_male_only
-	
+
 	ethos = ethos_bellicose
-	
+
 	traditions = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
@@ -164,9 +164,9 @@ galatian = {
 		15 = caucasian_dark_hair
 		20 = mediterranean_byzantine
 	}
-	
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx } 
-	unit_gfx = { eastern_unit_gfx } 
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
 }

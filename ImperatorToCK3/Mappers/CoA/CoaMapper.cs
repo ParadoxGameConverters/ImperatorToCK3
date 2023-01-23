@@ -14,7 +14,7 @@ public class CoaMapper {
 		parser.ParseGameFolder(coasPath, imperatorModFS, "txt", true);
 
 		Logger.Info($"Loaded {coasMap.Count} coats of arms.");
-		
+
 		Logger.IncrementProgress();
 	}
 	private void RegisterKeys(Parser parser) {

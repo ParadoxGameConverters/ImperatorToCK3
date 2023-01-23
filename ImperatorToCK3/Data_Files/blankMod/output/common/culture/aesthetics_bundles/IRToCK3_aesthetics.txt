@@ -11,7 +11,7 @@
 			}
 		}
 	}
-	
+
 	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	building_gfx = { mediterranean_building_gfx }
@@ -35,7 +35,7 @@ IRToCK3_aesthetics_euxinian = {
 			}
 		}
 	}
-	
+
 	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	building_gfx = { mediterranean_building_gfx }
@@ -58,7 +58,7 @@ IRToCK3_aesthetics_hyperborean = {
 			}
 		}
 	}
-	
+
 	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	building_gfx = { mediterranean_building_gfx }

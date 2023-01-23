@@ -74,16 +74,16 @@ public partial class Province {
 	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states, CountryCollection countries) {
 		parsedStateId = null;
 		parsedOwnerId = null;
-		
+
 		parsedProvince = new Province(provinceId);
 		provinceParser.ParseStream(reader);
-		
+
 		if (parsedStateId is not null) {
 			parsedProvince.State = states[parsedStateId.Value];
 		}
 
 		parsedProvince.TryLinkOwnerCountry(parsedOwnerId, countries);
-		
+
 		return parsedProvince;
 	}
 
@@ -104,6 +104,6 @@ public partial class Province {
 	private static Province parsedProvince = new(0);
 	private static ulong? parsedStateId = null;
 	private static ulong? parsedOwnerId = null;
-	
+
 	private static readonly Parser provinceParser = new();
 }

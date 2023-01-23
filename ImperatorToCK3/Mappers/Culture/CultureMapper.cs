@@ -14,7 +14,7 @@ public class CultureMapper {
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/culture_map.txt");
 		Logger.Info($"Loaded {cultureMappingRules.Count} cultural links.");
-		
+
 		Logger.IncrementProgress();
 	}
 	public CultureMapper(BufferedReader reader, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {

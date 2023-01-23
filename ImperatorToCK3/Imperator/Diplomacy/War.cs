@@ -2,7 +2,7 @@
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Diplomacy; 
+namespace ImperatorToCK3.Imperator.Diplomacy;
 
 public class War {
 	public Date StartDate { get; private set; } = new(1, 1, 1);

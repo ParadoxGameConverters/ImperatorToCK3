@@ -4,7 +4,7 @@ using commonItems.Serialization;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ImperatorToCK3.CK3.Religions; 
+namespace ImperatorToCK3.CK3.Religions;
 
 public class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
@@ -20,7 +20,7 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 				foreach (var otherReligion in religions) {
 					otherReligion.Faiths.Remove(faithId);
 				}
-				
+
 				Faiths.AddOrReplace(new Faith(faithId, faithReader));
 			});
 			faithsParser.IgnoreAndLogUnregisteredItems();
@@ -34,13 +34,13 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 
 	public IdObjectCollection<string, Faith> Faiths { get; } = new();
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
-	
+
 	public string Serialize(string indent, bool withBraces) {
 		var contentIndent = indent;
 		if (withBraces) {
 			contentIndent += '\t';
 		}
-		
+
 		var sb = new StringBuilder();
 		if (withBraces) {
 			sb.AppendLine("{");

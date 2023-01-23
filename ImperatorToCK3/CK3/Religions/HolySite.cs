@@ -6,7 +6,7 @@ using ImperatorToCK3.Mappers.HolySiteEffect;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.CK3.Religions; 
+namespace ImperatorToCK3.CK3.Religions;
 
 public class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
@@ -17,13 +17,13 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[SerializedName("barony")] public string? BaronyId => Barony?.Id;
 	[SerializedName("character_modifier")] public Dictionary<string, object> CharacterModifier { get; set; } = new();
 	[SerializedName("flag")] public string? Flag { get; set; }
-	
+
 	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles) {
 		Id = id;
 
 		string? parsedCountyId = null;
 		string? parsedBaronyId = null;
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("county", reader => parsedCountyId = reader.GetString());
 		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());

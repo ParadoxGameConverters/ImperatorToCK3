@@ -16,7 +16,7 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
+
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
@@ -47,7 +47,7 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
+
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
@@ -58,7 +58,7 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 		byzantine_clothing_gfx
 		# dde_abbasid_clothing_gfx
 	}
-	unit_gfx = { eastern_unit_gfx } 
+	unit_gfx = { eastern_unit_gfx }
 }
 
 lydian = {
@@ -78,7 +78,7 @@ lydian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
+
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
@@ -89,7 +89,7 @@ lydian = {
 		byzantine_clothing_gfx
 		# dde_abbasid_clothing_gfx
 	}
-	unit_gfx = { eastern_unit_gfx } 
+	unit_gfx = { eastern_unit_gfx }
 }
 
 hittite = {
@@ -109,7 +109,7 @@ hittite = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
+
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
@@ -120,7 +120,7 @@ hittite = {
 		byzantine_clothing_gfx
 		# dde_abbasid_clothing_gfx
 	}
-	unit_gfx = { eastern_unit_gfx } 
+	unit_gfx = { eastern_unit_gfx }
 }
 
 phrygian = {
@@ -140,15 +140,15 @@ phrygian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
+
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
-	} 
+	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
 		byzantine_clothing_gfx
 		# dde_abbasid_clothing_gfx
-	} 
-	unit_gfx = { eastern_unit_gfx } 
+	}
+	unit_gfx = { eastern_unit_gfx }
 }

@@ -85,18 +85,18 @@
 		Libys Lysandra Lysis Mestris Monime Nephoris Oinanthe
 		Phthia Ptolema Sofia Sostrate Thais Theophila Thetima Timo Xanthe Xene Xenia
 		Ptolemais Selene Sophe Stratonike Theoxene Thoeris Tryphaina Zosime
-		Ada Aigyptia Anthis Antigona Antigone Aphrodisia Archestrate Archilla Archippe Aristagora 
-		Ariste Aristion Aristo Aristoboule Aristodike Aristokleia Aristokrateia Aristomache 
-		Aristonike Aristylla Artemis Aspasia Beroaia Biote Boidion Chairestrate Chairippe Choirine 
-		Chrysilla Chrysis Deidamia Demokrateia Demostrate Diokleia Doris Dorkas Eukleia Eukoline Euphrosyne 
-		Euporia Eutychis Glykera Hedeia Hediste Hedyle Hedyline Herais Hiero Hierokleia Hippostrate 
-		Homolois Kadmeia Kallimache Kallippe Kallis Kallistion Kallisto Kallistomache Kallistrate Kleagora 
-		Kleariste Kleino Kleito Kleo Kleopatra Kleostrate Krateia Leaina Leontis Lysimache 
-		Lysistrate Malthake Mania Melissa Melitta Menestrate Meniske Metrodora Mika Mnesarete Mnesistrate 
+		Ada Aigyptia Anthis Antigona Antigone Aphrodisia Archestrate Archilla Archippe Aristagora
+		Ariste Aristion Aristo Aristoboule Aristodike Aristokleia Aristokrateia Aristomache
+		Aristonike Aristylla Artemis Aspasia Beroaia Biote Boidion Chairestrate Chairippe Choirine
+		Chrysilla Chrysis Deidamia Demokrateia Demostrate Diokleia Doris Dorkas Eukleia Eukoline Euphrosyne
+		Euporia Eutychis Glykera Hedeia Hediste Hedyle Hedyline Herais Hiero Hierokleia Hippostrate
+		Homolois Kadmeia Kallimache Kallippe Kallis Kallistion Kallisto Kallistomache Kallistrate Kleagora
+		Kleariste Kleino Kleito Kleo Kleopatra Kleostrate Krateia Leaina Leontis Lysimache
+		Lysistrate Malthake Mania Melissa Melitta Menestrate Meniske Metrodora Mika Mnesarete Mnesistrate
 		Murrhine Nausistrate Nikagora Nikaia Nikareta Nikarete Nikeso Niko Nikomache Nikostrate Olympias
-		Pamphile Parthenis Patrokleia Phanagora Phano Phanostrate Philainis Phileia Philias Philinna Philippa 
-		Philista Phillo Philokleia Philostrate Philotera Philotis Philoumene Philoxena Plangon Plathane Pythias 
-		Rhode Satyra Sima Simale Simon Syra Theano Theodora Theodote Thessalonike Thraitta Timagora Timarete Timokleia 
+		Pamphile Parthenis Patrokleia Phanagora Phano Phanostrate Philainis Phileia Philias Philinna Philippa
+		Philista Phillo Philokleia Philostrate Philotera Philotis Philoumene Philoxena Plangon Plathane Pythias
+		Rhode Satyra Sima Simale Simon Syra Theano Theodora Theodote Thessalonike Thraitta Timagora Timarete Timokleia
 		Timostrate Troias Xeno Xenokrateia Zopyra Zopyris
 
 		# More

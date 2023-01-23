@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using commonItems;
 
-namespace ImperatorToCK3.Mappers.War; 
+namespace ImperatorToCK3.Mappers.War;
 
 public class WarMapping {
 	public SortedSet<string> ImperatorWarGoals { get; set; } = new();

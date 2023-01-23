@@ -70,7 +70,7 @@
 		HealthGodSheHe = CHARACTER_SHEHE_SHE
 		HealthGodHerHis = CHARACTER_HERHIS_HER
 		HealthGodHerHim = CHARACTER_HERHIM_HER
-		
+
 		#FertilityGod
 		FertilityGodName = ir_shaheded
 		FertilityGodNamePossessive = ir_shaheded_possessive
@@ -182,10 +182,10 @@
 		WitchGodHerHim = CHARACTER_HERHIM_IT
 		WitchGodMistressMaster = witch_spirit
  		WitchGodMotherFather = witch_source
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
-	}	
+	}
 
 	faiths = {
 		berber_pagan = {
@@ -194,13 +194,13 @@
 			reformed_icon = berber_pagan
 
 			doctrine = unreformed_faith_doctrine
-			
-			holy_site = shaheded 
-			holy_site = sinifere 
+
+			holy_site = shaheded
+			holy_site = sinifere
 			holy_site = thugga
 			holy_site = tsabratan
 			holy_site = thubactis
-			
+
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_ancestor_worship

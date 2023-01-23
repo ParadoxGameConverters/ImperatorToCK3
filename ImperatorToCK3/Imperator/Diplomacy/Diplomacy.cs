@@ -3,7 +3,7 @@ using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Diplomacy; 
+namespace ImperatorToCK3.Imperator.Diplomacy;
 
 public class Diplomacy {
 	public List<War> Wars { get; } = new();

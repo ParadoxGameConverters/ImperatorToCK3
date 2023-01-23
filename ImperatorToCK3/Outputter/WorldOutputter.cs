@@ -5,7 +5,7 @@ using ImperatorToCK3.CK3;
 using System.IO;
 using System.Text;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
 public static class WorldOutputter {
 	public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
@@ -72,7 +72,7 @@ public static class WorldOutputter {
 		CopyBlankModFilesToOutput(outputPath);
 
 		BookmarkOutputter.OutputBookmark(ck3World, config);
-		
+
 		if (config.RiseOfIslam) {
 			CopyRiseOfIslamFilesToOutput(config);
 		}
@@ -108,7 +108,7 @@ public static class WorldOutputter {
 
 	private static void ClearOutputModFolder(Configuration config) {
 		Logger.Info("Clearing the output mod folder...");
-				
+
 		var directoryToClear = $"output/{config.OutputModName}";
 		var di = new DirectoryInfo(directoryToClear);
 		if (!di.Exists) {
@@ -121,7 +121,7 @@ public static class WorldOutputter {
 		foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
 			dir.Delete(true);
 		}
-				
+
 		Logger.IncrementProgress();
 	}
 
@@ -204,7 +204,7 @@ public static class WorldOutputter {
 
 	private static void OutputPlaysetInfo(World ck3World, string outputModName) {
 		Logger.Info("Outputting CK3 playset info...");
-			
+
 		var modsForPlayset = new OrderedSet<Mod>();
 		foreach (var loadedMod in ck3World.LoadedMods) {
 			if (loadedMod.Name == "blankMod") {
@@ -220,11 +220,11 @@ public static class WorldOutputter {
 		}
 		using var outputStream = File.OpenWrite(outFilePath);
 		using var output = new StreamWriter(outputStream, Encoding.UTF8);
-			
+
 		foreach (var mod in modsForPlayset) {
 			output.WriteLine($"{mod.Name.AddQuotes()}={mod.Path.AddQuotes()}");
 		}
-			
+
 		Logger.IncrementProgress();
 	}
 }

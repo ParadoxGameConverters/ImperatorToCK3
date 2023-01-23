@@ -21,7 +21,7 @@ using System;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.TagTitle; 
+namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -190,7 +190,7 @@ public class TagTitleMapperTests {
 		var impCountries = new CountryCollection();
 		impCountries.LoadCountries(new BufferedReader(" 1={tag=BOR}"));
 		var titles = new Title.LandedTitles();
-			
+
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(impCountries,

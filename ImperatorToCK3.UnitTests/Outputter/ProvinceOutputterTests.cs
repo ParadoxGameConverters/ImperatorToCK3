@@ -25,7 +25,7 @@ public class ProvinceOutputterTests {
 		Assert.Equal("\tholding=none", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
-	
+
 	[Fact]
 	public void ReligionIsOutputted() {
 		var provReader = new BufferedReader("religion=orthodox");
@@ -41,7 +41,7 @@ public class ProvinceOutputterTests {
 		Assert.Equal("\tholding=none", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
-	
+
 	[Fact]
 	public void HoldingIsOutputted() {
 		var provReader = new BufferedReader("holding = castle_holding");
@@ -56,7 +56,7 @@ public class ProvinceOutputterTests {
 		Assert.Equal("\tholding=castle_holding", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
-	
+
 	[Fact]
 	public void BuildingsAreOutputted() {
 		var provReader = new BufferedReader("= { buildings = { b1 b2 } }");

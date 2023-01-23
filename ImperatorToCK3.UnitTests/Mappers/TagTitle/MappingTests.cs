@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.TagTitle;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.TagTitle; 
+namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 
 public class MappingTests {
 	[Fact]

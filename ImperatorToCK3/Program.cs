@@ -10,7 +10,7 @@ namespace ImperatorToCK3 {
 				CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
 				CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 				CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-				
+
 				var converterVersion = new ConverterVersion();
 				converterVersion.LoadVersion("configurables/version.txt");
 				Logger.Info(converterVersion.ToString());

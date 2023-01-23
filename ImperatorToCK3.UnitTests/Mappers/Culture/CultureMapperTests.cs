@@ -5,7 +5,7 @@ using ImperatorToCK3.Mappers.Culture;
 using Xunit;
 using ImperatorToCK3.Mappers.Region;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Culture; 
+namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -14,7 +14,7 @@ public class CultureMapperTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
-	
+
 	[Fact]
 	public void NonMatchGivesEmptyOptional() {
 		var reader = new BufferedReader(

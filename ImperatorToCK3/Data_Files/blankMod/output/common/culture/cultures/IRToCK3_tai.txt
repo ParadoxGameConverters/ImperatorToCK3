@@ -2,19 +2,19 @@
 
 shan = {  # https://en.wikipedia.org/wiki/Shan_people
 	color = shan
-	
+
 	ethos = ethos_courtly  # from Tai culture in AsiaExtended mod
 	heritage = heritage_tai
 	language = language_tai
 	martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_shan
-	
+
 	coa_gfx = { burman_group_coa_gfx }
 	building_gfx = { indian_building_gfx }
 	clothing_gfx = { indian_clothing_gfx }
 	unit_gfx = { indian_unit_gfx }
-	
+
 	traditions = {  # from Tai culture in AsiaExtended mod
 		tradition_family_entrepreneurship
 		tradition_mystical_ancestors
