@@ -1,7 +1,7 @@
 using commonItems;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.UnitType; 
+namespace ImperatorToCK3.Mappers.UnitType;
 
 public class UnitTypeMapper {
 	private readonly Dictionary<string, string?> unitTypeMap = new(); // imperator -> ck3
@@ -11,7 +11,7 @@ public class UnitTypeMapper {
 		parser.RegisterKeyword("link", mappingReader => {
 			var impList = new List<string>();
 			string? ck3Type = null;
-			
+
 			var mappingParser = new Parser();
 			mappingParser.RegisterKeyword("imp", reader=>impList.Add(reader.GetString()));
 			mappingParser.RegisterKeyword("ck3", reader=>ck3Type=reader.GetString());
@@ -32,7 +32,7 @@ public class UnitTypeMapper {
 
 	public IDictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {
 		var toReturn = new Dictionary<string, int>();
-		
+
 		foreach (var (imperatorType, imperatorMen) in menPerImperatorUnitType) {
 			var ck3Type = Match(imperatorType);
 			if (ck3Type is null) {

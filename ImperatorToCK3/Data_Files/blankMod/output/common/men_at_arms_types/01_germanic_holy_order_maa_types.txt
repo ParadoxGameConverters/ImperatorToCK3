@@ -8,7 +8,7 @@ einherjar = {
 	icon = heavy_infantry
 
 	can_recruit = { always = no }
-	
+
 
 	pursuit = 0
 	screen = 24
@@ -23,7 +23,7 @@ einherjar = {
 	buy_cost = { gold = heavy_infantry_recruitment_cost }
 	low_maintenance_cost = { gold = heavy_infantry_low_maint_cost }
 	high_maintenance_cost = { gold = heavy_infantry_high_maint_cost }
-	
+
 	terrain_bonus = {
 		taiga = { damage = 8 }
 		forest = { damage = 8 }
@@ -31,7 +31,7 @@ einherjar = {
 	era_bonus = {
 	###
 	}
-	
+
 	counters = {
 		pikemen = 1
 		archers = 1

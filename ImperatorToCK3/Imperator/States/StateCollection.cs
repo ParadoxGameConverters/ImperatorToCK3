@@ -3,7 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 
-namespace ImperatorToCK3.Imperator.States; 
+namespace ImperatorToCK3.Imperator.States;
 
 public class StateCollection : IdObjectCollection<ulong, State> {
 	public void LoadStates(BufferedReader statesDbReader, IdObjectCollection<string, Area> areas, CountryCollection countries) {

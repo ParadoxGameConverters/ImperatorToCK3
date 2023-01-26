@@ -5,7 +5,7 @@ using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Countries; 
+namespace ImperatorToCK3.Imperator.Countries;
 
 public enum CountryType { rebels, pirates, barbarians, mercenaries, real }
 public enum CountryRank { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower }

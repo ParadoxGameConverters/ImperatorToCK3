@@ -10,7 +10,7 @@ public partial class Title {
 		}
 		return "0";
 	}
-	
+
 	public string? GetGovernment(Date date) {
 		if (History.GetFieldValue("government", date) is string govStr) {
 			return govStr;

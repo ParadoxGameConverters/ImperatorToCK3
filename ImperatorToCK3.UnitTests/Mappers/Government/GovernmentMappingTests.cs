@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.Government;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Government; 
+namespace ImperatorToCK3.UnitTests.Mappers.Government;
 
 public class GovernmentMappingTests {
 	[Fact]

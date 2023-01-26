@@ -2,7 +2,7 @@
 using commonItems.Localization;
 using System;
 
-namespace ImperatorToCK3.Imperator.Countries; 
+namespace ImperatorToCK3.Imperator.Countries;
 
 public class CountryName : ICloneable {
 	public string Name { get; private set; } = "";

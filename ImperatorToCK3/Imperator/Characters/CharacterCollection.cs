@@ -5,7 +5,7 @@ using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Characters; 
+namespace ImperatorToCK3.Imperator.Characters;
 
 public class CharacterCollection : IdObjectCollection<ulong, Character> {
 	public CharacterCollection() { }
@@ -75,6 +75,6 @@ public class CharacterCollection : IdObjectCollection<ulong, Character> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-		
+
 	public Genes.GenesDB? GenesDB { get; set; }
 }

@@ -2,7 +2,7 @@
 using commonItems.Localization;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Countries; 
+namespace ImperatorToCK3.UnitTests.Imperator.Countries;
 
 public class CountryNameTests {
 	[Fact]

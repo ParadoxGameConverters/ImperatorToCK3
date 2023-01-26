@@ -17,14 +17,14 @@ nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 	ethnicities = {
 		10 = arab
 	}
-	
-	coa_gfx = { arabic_group_coa_gfx } 
+
+	coa_gfx = { arabic_group_coa_gfx }
 	building_gfx = {
 		mediterranean_building_gfx # quite hellenistic https://en.wikipedia.org/wiki/Nabataean_architecture
 		# arabic_group_building_gfx # commented out to fix log error: "Gfx culture mediterranean_building_gfx in nabatean doesn't match existing sequence in armenian"
 	}
-	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
 
 adnanite = { # https://en.wikipedia.org/wiki/Adnanites
@@ -46,16 +46,16 @@ adnanite = { # https://en.wikipedia.org/wiki/Adnanites
 	ethnicities = {
 		10 = arab
 	}
-	
-	coa_gfx = { arabic_group_coa_gfx } 
-	building_gfx = { arabic_group_building_gfx mena_building_gfx } 
-	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { arabic_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
 
 qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
 	color = { 0.2 0.4 0.2 }
-	
+
 	ethos = ethos_communal
 	heritage = heritage_arabic
 	language = language_arabic
@@ -75,9 +75,9 @@ qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
 		10 = arab
 		6 = east_african
 	}
-	
-	coa_gfx = { arabic_group_coa_gfx } 
-	building_gfx = { arabic_group_building_gfx mena_building_gfx } 
-	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { arabic_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }

@@ -23,7 +23,7 @@ public class ImperatorRegionMapperTests {
 				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}")
 			, new StateCollection(), new CountryCollection());
 	}
-	
+
 	[Fact]
 	public void RegionMapperCanBeEnabled() {
 		// We start humble, it's a machine.

@@ -31,7 +31,7 @@
 ##################
 #### ARTICLES ####
 ##################
-# ES_AlAla (al/a la ; Sin espacio delante) 
+# ES_AlAla (al/a la ; Sin espacio delante)
 # ES_DelDela (del/de la ; Sin espacio delante)
 # ES_LoLa (lo/la ; Sin espacio delante)
 # ES_LoLaOpp (la/lo ; Sin espacio delante)
@@ -1980,7 +1980,7 @@ ES_ElLa_Relation = {
 		trigger = {
 			scope:second = {
 				is_female = yes
-				has_relation_rival = root				
+				has_relation_rival = root
 			}
 			any_vassal_or_below = {
 				this = scope:second
@@ -1993,7 +1993,7 @@ ES_ElLa_Relation = {
 		trigger = {
 			scope:second = {
 				is_female = no
-				has_relation_rival = root				
+				has_relation_rival = root
 			}
 			any_vassal_or_below = {
 				this = scope:second
@@ -2200,7 +2200,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_councillor_female
 		trigger = {
 			scope:second = {
-				is_female = yes			
+				is_female = yes
 				is_councillor_of = root
 			}
 		}
@@ -2210,7 +2210,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_councillor_male
 		trigger = {
 			scope:second = {
-				is_female = no				
+				is_female = no
 				is_councillor_of = root
 			}
 		}
@@ -2236,7 +2236,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_vassal_female
 		trigger = {
 			scope:second = {
-				is_female = yes			
+				is_female = yes
 			}
 			any_vassal_or_below = {
 				this = scope:second
@@ -2248,7 +2248,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_vassal_male
 		trigger = {
 			scope:second = {
-				is_female = no				
+				is_female = no
 			}
 			any_vassal_or_below = {
 				this = scope:second

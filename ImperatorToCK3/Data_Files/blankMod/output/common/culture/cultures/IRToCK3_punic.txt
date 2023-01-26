@@ -13,17 +13,17 @@ carthaginian = {
 	}
 
 	name_list = name_list_punic
-	
+
 	ethos = ethos_stoic
 
 	ethnicities = {
 		10 = arab
 	}
-	
-	coa_gfx = { arabic_group_coa_gfx } 
+
+	coa_gfx = { arabic_group_coa_gfx }
 	building_gfx = { berber_group_building_gfx mena_building_gfx }
-	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
 phoenician = {
 	color = hsv { 0.75 0.9 0.73	}
@@ -35,7 +35,7 @@ phoenician = {
 		tradition_seafaring
 		tradition_xenophilic
 	}
-	
+
 	ethos = ethos_egalitarian
 
 	name_list = name_list_punic
@@ -43,9 +43,9 @@ phoenician = {
 	ethnicities = {
 		10 = arab
 	}
-	
-	coa_gfx = { arabic_group_coa_gfx } 
+
+	coa_gfx = { arabic_group_coa_gfx }
 	building_gfx = { berber_group_building_gfx mena_building_gfx }
-	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }

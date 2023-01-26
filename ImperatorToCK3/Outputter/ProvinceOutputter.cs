@@ -10,7 +10,7 @@ public static class ProvinceOutputter {
 		if (string.IsNullOrWhiteSpace(serializedHistory.Trim())) {
 			return;
 		}
-		
+
 		writer.WriteLine($"{province.Id}={{");
 		writer.Write(serializedHistory);
 		writer.WriteLine("}");

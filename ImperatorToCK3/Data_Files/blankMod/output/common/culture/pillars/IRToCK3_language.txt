@@ -12,7 +12,7 @@
 			multiply = 10
 		}
 	}
-	
+
 	color = gothic
 }
 language_nuragic = {
@@ -456,7 +456,7 @@ language_tai = {
 			multiply = 10
 		}
 	}
-	
+
 	color = shan
 }
 

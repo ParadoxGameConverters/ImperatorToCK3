@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Countries; 
+namespace ImperatorToCK3.UnitTests.Imperator.Countries;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]

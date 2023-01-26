@@ -44,11 +44,11 @@ public class MapData {
 		Logger.Info("Loading province definitions...");
 		ProvinceDefinitions = new ProvinceDefinitions(ck3ModFS);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Loading province positions...");
 		DetermineProvincePositions(ck3ModFS);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Determining province neighbors...");
 		using (Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath)) {
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);

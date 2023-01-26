@@ -81,7 +81,7 @@ on_game_start = {
 					}
 				}
 			}
-		}		
+		}
 		every_religion_global = {
 			limit = {
 				is_in_family = rf_pagan
@@ -116,7 +116,7 @@ on_game_start = {
 
 		# Pagans that start pre-reformed
 		## Bon has already been reformed into new bon.
-		faith:old_bon = { 
+		faith:old_bon = {
 			set_variable = { name = has_been_reformed }
 		}
 
@@ -233,7 +233,7 @@ on_game_start = {
 			title:c_dublin = { set_coa = c_dublin_norse }
 			title:c_argyll = { set_coa = c_argyll_norse }
 		}
-		
+
 		### GRANDEUR ###
 		#Royal Court: Set starting Grandeur to be the same as Expected
 		if = {
@@ -310,7 +310,7 @@ on_game_start_after_lobby = {
 		}
 
 		# IRToCK3: Parts about achievements removed
-		
+
 		### HOLD COURT STARTING GRACE
 		every_character_with_royal_court = {
 			set_variable = {
@@ -319,7 +319,7 @@ on_game_start_after_lobby = {
 	 		}
 		}
 
-		
+
 		#Set starting cultural acceptance
 		culture:vlach = {
 			change_cultural_acceptance = {
@@ -890,7 +890,7 @@ on_game_start_after_lobby = {
 			}
 			## Volhynian doesn't get its own box, because we've already applied acceptance to it bilaterally everywhere else.
 		}
-		
+
 		# IRToCK3: Show welcoming event
 		every_player = { # Welcoming event
 			trigger_event = {
@@ -898,7 +898,7 @@ on_game_start_after_lobby = {
 				days = 0
 			}
 		}
-		
+
 		# IRToCK3: add MAA regiments
 		random_player = {
 			trigger_event = {
@@ -906,7 +906,7 @@ on_game_start_after_lobby = {
 				days = 0
 			}
 		}
-		
+
 		# IRToCK3: Detect no culture in setup
 		every_living_character = {
 			limit = {

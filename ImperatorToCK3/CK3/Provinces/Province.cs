@@ -54,7 +54,7 @@ public partial class Province : IIdentifiable<ulong> {
 					continue;
 				}
 			}
-			
+
 			History.Fields.AddOrReplace(srcProvinceHistoryFields[fieldName].Clone());
 		}
 	}
@@ -75,7 +75,7 @@ public partial class Province : IIdentifiable<ulong> {
 		foreach (var field in History.Fields.Where(f=>!fieldsToKeep.Contains(f.Id))) {
 			field.RemoveAllEntries();
 		}
-		
+
 		History.RemoveHistoryPastDate(config.CK3BookmarkDate);
 
 		// Religion first
@@ -98,7 +98,7 @@ public partial class Province : IIdentifiable<ulong> {
 			Logger.Warn($"CK3 Province {Id}: can't set religion from null Imperator province!");
 			return;
 		}
-		
+
 		// Try to use religion of primary source province.
 		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.ReligionId)) {
 			var religionMatch = religionMapper.Match(
@@ -245,7 +245,7 @@ public partial class Province : IIdentifiable<ulong> {
 			// CK3 holdings that are county capitals always match the government type.
 			IsCountyCapital = IsCountyCapital(landedTitles)
 		};
-		
+
 		var holdingType = provinceRecord switch {
 			{
 				IsCountyCapital: false,

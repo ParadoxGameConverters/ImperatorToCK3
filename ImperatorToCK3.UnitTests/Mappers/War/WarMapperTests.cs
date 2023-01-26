@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.War;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.War; 
+namespace ImperatorToCK3.UnitTests.Mappers.War;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]

@@ -15,7 +15,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB) {
 		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;
-		
+
 		var imperatorMemberIds = irFamily.MemberIds;
 		var imperatorMembers = irCharacters
 			.Where(c => imperatorMemberIds.Contains(c.Id))
@@ -61,7 +61,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 				CultureId = firstImperatorMember.CK3Character.CultureId;
 				return;
 			}
-			
+
 			// Try to set culture from other members.
 			var otherImperatorMembers = irMembers.Skip(1).ToList();
 			foreach (var otherImperatorMember in otherImperatorMembers) {
@@ -73,7 +73,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 				return;
 			}
 		}
-		
+
 		// Try to set culture from family.
 		var irCultureId = irFamily.Culture;
 		var ck3CultureId = cultureMapper.NonReligiousMatch(irCultureId, string.Empty, 0, 0, string.Empty);
@@ -81,7 +81,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			CultureId = ck3CultureId;
 			return;
 		}
-		
+
 		Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
 	}
 }

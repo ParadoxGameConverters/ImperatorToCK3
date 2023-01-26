@@ -10,8 +10,8 @@
 	}
 
 	male_names = {
-		Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes 
-		Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram 
+		Abbar Abdmelqart Adonibaal Agbal Ahirom Azimilik Baal Baalhanno Bodashtart Bodo Bodmelqart Bomilcar Bostar Boulomenus Carthalo Chelbes
+		Eshbaal Eugoras Germelqart Hamilcar Hannibal Hanno Hasdrubal Himilco Hiram Mago Maharbal Mattan Metallo Milkherem Milkiram
 		Paltibaal Philosir Boodes Bomical Gisgo Malchus Abdhamon Abibaal Abirami Ahumm Eshmounhilles Eshmouniaton Itthobaal
 		Ummashtart Melqartshama Batnoam Urumilki Yehomilk Yadamilk Baaliaton Barekbaal Gerbaal Gerimilki Khiletzbaal Tabnit Yutpan Zimrida
 		Danel Kanmi Maharbaal Milkpilles Melqartpilles Milkyaton Massinissa Hiempsal Juba

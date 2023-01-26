@@ -3,7 +3,7 @@ using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Geography;
 
-namespace ImperatorToCK3.Mappers.Region; 
+namespace ImperatorToCK3.Mappers.Region;
 
 public class ImperatorRegionMapper {
 	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
@@ -11,19 +11,19 @@ public class ImperatorRegionMapper {
 
 	public ImperatorRegionMapper(ModFilesystem imperatorModFS, AreaCollection areaCollection) {
 		areas = areaCollection;
-		
+
 		Logger.Info("Initializing Imperator geography...");
 
 		var parser = new Parser();
 
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
-			
+
 		RegisterRegionKeys(parser);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
 		LinkRegions();
-		
+
 		Logger.IncrementProgress();
 	}
 	private void RegisterRegionKeys(Parser parser) {

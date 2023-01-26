@@ -12,15 +12,15 @@ etruscan = {
 
 	name_list = name_list_etruscan
 
-	ethnicities = {	
+	ethnicities = {
 		10 = mediterranean
 	}
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { western_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
-	
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+
 	ethos = ethos_courtly
 }
 rhaetian = {
@@ -37,16 +37,16 @@ rhaetian = {
 
 	name_list = name_list_etruscan
 
-	ethnicities = {	
+	ethnicities = {
 		10 = mediterranean
 	}
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { western_clothing_gfx } 
+	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
-	
-	ethos = ethos_stoic 
+
+	ethos = ethos_stoic
 }
 lemnian = {
 	color = rgb { 148 26 254 }
@@ -63,14 +63,14 @@ lemnian = {
 
 	name_list = name_list_etruscan
 
-	ethnicities = {	
+	ethnicities = {
 		10 = mediterranean
 	}
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { western_clothing_gfx } 
+	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
-	
-	ethos = ethos_stoic 
+
+	ethos = ethos_stoic
 }

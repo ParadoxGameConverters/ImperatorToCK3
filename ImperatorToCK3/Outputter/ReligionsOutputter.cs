@@ -4,17 +4,17 @@ using ImperatorToCK3.CK3.Religions;
 using System.IO;
 using System.Linq;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
 public static class ReligionsOutputter {
 	public static void OutputHolySites(string outputModName, ReligionCollection ck3ReligionCollection) {
 		Logger.Info("Writing holy sites...");
-		
+
 		var outputPath = Path.Combine("output", outputModName, "common", "religion", "holy_sites", "IRtoCK3_sites.txt");
 
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
-		
+
 		using var englishLocStream = File.OpenWrite(Path.Combine("output", outputModName, "localization/english/IRtoCK3_holy_sites_l_english.yml"));
 		using var frenchLocStream = File.OpenWrite(Path.Combine("output", outputModName, "localization/french/IRtoCK3_holy_sites_l_french.yml"));
 		using var germanLocStream = File.OpenWrite(Path.Combine("output", outputModName, "localization/german/IRtoCK3_holy_sites_l_german.yml"));
@@ -41,7 +41,7 @@ public static class ReligionsOutputter {
 		foreach (var site in sitesToOutput) {
 			output.WriteLine($"{site.Id}={PDXSerializer.Serialize(site)}");
 		}
-		
+
 		// Output localization
 		foreach (var site in sitesToOutput) {
 			// holy site name
@@ -57,7 +57,7 @@ public static class ReligionsOutputter {
 			} else {
 				englishLocWriter.WriteLine($" holy_site_{site.Id}_name: \"Holy site\""); // fallback
 			}
-			
+
 			// holy site effect name
 			string holySiteEffectLocLine = $" holy_site_{site.Id}_effect_name: \"From [holy_site|E] #weak ($holy_site_{site.Id}_name$)#!\"";
 			englishLocWriter.WriteLine(holySiteEffectLocLine);
@@ -71,9 +71,9 @@ public static class ReligionsOutputter {
 
 	public static void OutputModifiedReligions(string outputModName, ReligionCollection ck3ReligionCollection) {
 		Logger.Info("Writing modified religions...");
-		
+
 		var religionsToBeOutput = ck3ReligionCollection.Where(r => r.Faiths.Any(f => f.ModifiedByConverter));
-		
+
 		var outputPath = Path.Combine("output", outputModName, "common", "religion", "religions", "zzz_IRtoCK3_modified_religions.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);

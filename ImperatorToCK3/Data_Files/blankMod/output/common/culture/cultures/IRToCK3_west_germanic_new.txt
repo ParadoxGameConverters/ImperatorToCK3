@@ -1,7 +1,7 @@
 ﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
 angle = { # https://en.wikipedia.org/wiki/Angles
 	color = rgb { 142 66 30 }
-	
+
 	ethos = ethos_bellicose
 	heritage = heritage_west_germanic
 	language = language_anglic
@@ -10,18 +10,18 @@ angle = { # https://en.wikipedia.org/wiki/Angles
 		tradition_things
 		tradition_seafaring
 	}
-	
+
 	dlc_tradition = {
 		trait = tradition_malleable_invaders
 		requires_dlc_flag = hybridize_culture
 	}
-	
+
 	name_list = name_list_old_saxon
 
-	coa_gfx = { western_coa_gfx } 
-	building_gfx = { western_building_gfx } 
+	coa_gfx = { western_coa_gfx }
+	building_gfx = { western_building_gfx }
 	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx }
-	unit_gfx = { western_unit_gfx } 	
+	unit_gfx = { western_unit_gfx }
 
 	ethnicities = {
 		25 = caucasian_northern_blond
@@ -37,19 +37,19 @@ iweric = {
 	heritage = heritage_west_germanic
 	language = language_anglic
 	martial_custom = martial_custom_male_only
-	
+
 	traditions = {
 		tradition_things
 		tradition_horse_breeder
 	}
-	
+
 	color = hsv{ 0.8 0.035 0.8 }
 
-	coa_gfx = { irish_coa_gfx anglo_saxon_coa_gfx scottish_coa_gfx western_coa_gfx } 
-	building_gfx = { western_building_gfx } 
-	clothing_gfx = { northern_clothing_gfx } 
-	clothing_gfx = { fp1_norse_clothing_gfx western_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 	
+	coa_gfx = { irish_coa_gfx anglo_saxon_coa_gfx scottish_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { northern_clothing_gfx }
+	clothing_gfx = { fp1_norse_clothing_gfx western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
 
 	ethnicities = {
 		25 = caucasian_blond
@@ -59,6 +59,6 @@ iweric = {
 	}
 
 	name_list = name_list_iweric
-	
+
 	ethos = ethos_stoic
 }

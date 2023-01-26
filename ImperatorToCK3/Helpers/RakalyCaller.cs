@@ -9,7 +9,7 @@ namespace ImperatorToCK3.Helpers;
 public static class RakalyCaller {
 	private const string RakalyVersion = "0.4.5";
 	private static readonly string rakalyExecutablePath;
-	
+
 	static RakalyCaller() {
 		string currentDir = Directory.GetCurrentDirectory();
 		rakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
@@ -21,11 +21,11 @@ public static class RakalyCaller {
 			Exec($"chmod +x {currentDir}/{rakalyExecutablePath}");
 		}
 	}
-	
+
 	public static string GetJson(string filePath) {
 		string quotedPath = filePath.AddQuotes();
 		string arguments = $"json --format utf-8 {quotedPath}";
-		
+
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
 		process.StartInfo.FileName = rakalyExecutablePath;
@@ -42,10 +42,10 @@ public static class RakalyCaller {
 
 		return plainText;
 	}
-	
+
 	public static void MeltSave(string savePath) {
 		string arguments = $"melt --unknown-key stringify \"{savePath}\"";
-		
+
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
 		process.StartInfo.FileName = rakalyExecutablePath;
@@ -66,7 +66,7 @@ public static class RakalyCaller {
 		}
 		File.Move(meltedSaveName, destFileName);
 	}
-	
+
 	// https://stackoverflow.com/a/47918132/10249243
 	private static void Exec(string cmd) {
 		var escapedArgs = cmd.Replace("\"", "\\\"");

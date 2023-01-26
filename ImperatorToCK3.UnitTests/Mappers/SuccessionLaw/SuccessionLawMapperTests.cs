@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw; 
+namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]

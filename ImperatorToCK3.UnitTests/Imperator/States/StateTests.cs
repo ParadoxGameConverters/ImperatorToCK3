@@ -8,7 +8,7 @@ using ImperatorToCK3.Imperator.States;
 using System.Linq;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.States; 
+namespace ImperatorToCK3.UnitTests.Imperator.States;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -18,11 +18,11 @@ public class StateTests {
 	private static readonly ProvinceCollection provinces = new();
 	private static readonly AreaCollection areas = new();
 	private static readonly CountryCollection countries = new() {new Country(69)};
-	
+
 	public StateTests() {
 		areas.LoadAreas(irModFS, provinces);
 	}
-	
+
 	[Fact]
 	public void StateCanBeInitialized() {
 		var stateReader = new BufferedReader("""
@@ -46,7 +46,7 @@ public class StateTests {
 		var state = new State(1, stateReader, areas, countries);
 		states.Add(state);
 
-		var provincesReader = new BufferedReader(""" 
+		var provincesReader = new BufferedReader("""
 			1={ state=1 }
 			2={ state=1 }
 			3={ state=1 }

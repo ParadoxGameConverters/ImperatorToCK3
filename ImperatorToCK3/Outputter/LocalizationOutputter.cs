@@ -11,7 +11,7 @@ public static class LocalizationOutputter {
 		var outputPath = Path.Combine("output", outputName);
 		var baseLocDir = Path.Join(outputPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
-		
+
 		// copy character/family names localization
 		foreach (var languageName in languageNames) {
 			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
@@ -26,16 +26,16 @@ public static class LocalizationOutputter {
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
 			using var locFileStream = File.OpenWrite(locFilePath);
 			using var locWriter = new StreamWriter(locFileStream, encoding: System.Text.Encoding.UTF8);
-			
+
 			locWriter.WriteLine($"l_{language}:");
-			
+
 			// title localization
 			foreach (var title in ck3World.LandedTitles) {
 				foreach (var locBlock in title.Localizations) {
 					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
 				}
 			}
-			
+
 			// character name localization
 			var uniqueKeys = new HashSet<string>();
 			foreach (var character in ck3World.Characters) {
@@ -49,7 +49,7 @@ public static class LocalizationOutputter {
 				}
 			}
 		}
-		
+
 		// dynasty localization
 		foreach (var language in languageNames) {
 			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");

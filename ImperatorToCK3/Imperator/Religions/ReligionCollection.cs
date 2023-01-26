@@ -4,11 +4,11 @@ using commonItems.Mods;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Religions; 
+namespace ImperatorToCK3.Imperator.Religions;
 
 public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public IdObjectCollection<string, Deity> Deities { get; } = new();
-	
+
 	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = new();
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
@@ -22,11 +22,11 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				.ToDictionary(kvp => kvp.Key, kvp=>(double)kvp.Value!);
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
-		
+
 		religionsParser = new Parser();
 		religionsParser.RegisterRegex(CommonRegexes.String, (reader, religionId) => {
 			parsedReligionModifiers = new Dictionary<string, double>();
-			
+
 			religionParser.ParseStream(reader);
 			AddOrReplace(new Religion(religionId, parsedReligionModifiers));
 		});
@@ -42,20 +42,20 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadReligions(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator religions...");
 		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
-			
+
 		Logger.IncrementProgress();
 	}
 
 	public void LoadDeities(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator deities...");
 		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
-			
+
 		Logger.IncrementProgress();
 	}
 
 	public void LoadHolySiteDatabase(BufferedReader deityManagerReader) {
 		Logger.Info("Loading Imperator holy site database...");
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("deities_database", databaseReader => {
 			var databaseParser = new Parser();
@@ -71,12 +71,12 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			databaseParser.ParseStream(databaseReader);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
-		
+
 		parser.ParseStream(deityManagerReader);
-			
+
 		Logger.IncrementProgress();
 	}
-	
+
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
 		return holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId) ? deityId : null;
 	}

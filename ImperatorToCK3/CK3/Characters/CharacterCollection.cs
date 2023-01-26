@@ -14,7 +14,7 @@ using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.CK3.Characters; 
+namespace ImperatorToCK3.CK3.Characters;
 
 public partial class CharacterCollection : IdObjectCollection<string, Character> {
 	public CharacterCollection() { }
@@ -231,7 +231,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate, unborn.IsBastard));
 			}
 		}
-				
+
 		Logger.IncrementProgress();
 	}
 
@@ -261,14 +261,14 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				if (character is {FromImperator: true, Dead: false}) {
 					continue;
 				}
-			
+
 				// Does the character belong to a dynasty that holds or held titles?
 				if (dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
 					// Is the character dead and childless? Purge.
 					if (character.Children.Count == 0) {
 						farewellCharacters.Add(character);
 					}
-				
+
 					continue;
 				}
 
@@ -290,7 +290,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 			character.EmployerId = null;
 		}
-				
+
 		Logger.IncrementProgress();
 	}
 
@@ -307,9 +307,9 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				character.Gold += gold;
 			}
 		}
-			
+
 		Logger.Info("Distributing countries' gold...");
-			
+
 		var bookmarkDate = config.CK3BookmarkDate;
 		var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
 		foreach (var ck3Country in ck3CountriesFromImperator) {
@@ -318,7 +318,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				Logger.Debug($"Can't distribute gold in {ck3Country} because it has no holder.");
 				continue;
 			}
-				
+
 			var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
 
 			var vassalCharacterIds = ck3Country.GetDeFactoVassals(bookmarkDate).Values
@@ -343,7 +343,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				AddGoldToCharacter(vassalCharacter, goldPerVassal);
 				imperatorGold -= goldPerVassal;
 			}
-				
+
 			var ruler = this[rulerId];
 			AddGoldToCharacter(ruler, imperatorGold);
 		}
@@ -362,7 +362,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator armies...");
-			
+
 		var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
 		foreach (var ck3Country in ck3CountriesFromImperator) {
 			var rulerId = ck3Country.GetHolderId(date);
@@ -370,7 +370,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				Logger.Debug($"Can't add armies to {ck3Country} because it has no holder.");
 				continue;
 			}
-				
+
 			var imperatorCountry = ck3Country.ImperatorCountry!;
 			var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id)
 				.Where(unit => unit.IsArmy && unit.IsLegion) // drop navies and levies
@@ -378,7 +378,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			if (!countryLegions.Any()) {
 				continue;
 			}
-				
+
 			var ruler = this[rulerId];
 
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
@@ -387,7 +387,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
 			}
 		}
-			
+
 		Logger.IncrementProgress();
 	}
 }

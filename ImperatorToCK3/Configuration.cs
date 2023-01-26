@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ImperatorToCK3; 
+namespace ImperatorToCK3;
 
 public enum LegionConversion { No, SpecialTroops, MenAtArms }
 public class Configuration {
@@ -128,13 +128,13 @@ public class Configuration {
 		if (!Directory.Exists(ImperatorPath)) {
 			throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
 		}
-			
+
 		var binariesPath = Path.Combine(ImperatorPath, "binaries");
 		var imperatorExePath = Path.Combine(binariesPath, "imperator");
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 			imperatorExePath += ".exe";
 		}
-			
+
 		bool installVerified = File.Exists(imperatorExePath);
 		if (!installVerified) {
 			try {

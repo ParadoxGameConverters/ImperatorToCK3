@@ -22,7 +22,7 @@ public class DynastyCollection : IdObjectCollection<string, Dynasty> {
 			Add(newDynasty);
 		}
 		Logger.Info($"{Count} total families imported.");
-			
+
 		Logger.IncrementProgress();
 	}
 
@@ -30,7 +30,7 @@ public class DynastyCollection : IdObjectCollection<string, Dynasty> {
 		Logger.Info("Setting dynasty CoAs from titles...");
 		foreach (var title in titles.Where(t => t.CoA is not null && t.ImperatorCountry is not null)) {
 			var dynastyId = title.ImperatorCountry!.Monarch?.CK3Character?.DynastyId;
-			
+
 			// Try to use title CoA for dynasty CoA.
 			if (dynastyId is not null && TryGetValue(dynastyId, out var dynasty) && dynasty.CoA is null) {
 				dynasty.CoA = new StringOfItem(title.Id);

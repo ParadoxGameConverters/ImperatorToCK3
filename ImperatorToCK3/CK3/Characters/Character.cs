@@ -214,12 +214,12 @@ namespace ImperatorToCK3.CK3.Characters {
 			} else {
 				CultureId = match;
 			}
-			
+
 			// Determine character attributes.
 			History.AddFieldValue(null, "diplomacy", "diplomacy", ImperatorCharacter.Attributes.Charisma);
 			History.AddFieldValue(null, "martial", "martial", ImperatorCharacter.Attributes.Martial);
 			History.AddFieldValue(null, "stewardship", "stewardship", ImperatorCharacter.Attributes.Finesse);
-			var intrigue = (ImperatorCharacter.Attributes.Finesse + ImperatorCharacter.Attributes.Charisma) / 2; 
+			var intrigue = (ImperatorCharacter.Attributes.Finesse + ImperatorCharacter.Attributes.Charisma) / 2;
 			History.AddFieldValue(null, "intrigue", "intrigue", intrigue);
 			History.AddFieldValue(null, "learning", "learning", ImperatorCharacter.Attributes.Zeal);
 
@@ -389,7 +389,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			var locKey = $"IRToCK3_character_{Id}";
 			var locBlock = new LocBlock(locKey, "english") {["english"] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]"};
 			Localizations.Add(locKey, locBlock);
-			
+
 			var menPerUnitType = new Dictionary<string, int>();
 			foreach (var unit in countryUnits) {
 				foreach (var (type, menInUnit) in unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType)) {
@@ -410,10 +410,10 @@ namespace ImperatorToCK3.CK3.Characters {
 				var maaTypeLocBlock = new LocBlock(dedicatedType.Id, "english") {["english"] = $"${baseType.Id}$"};
 				Localizations.Add(dedicatedType.Id, maaTypeLocBlock);
 			}
-			
+
 			var sb = new StringBuilder();
 			sb.AppendLine("{ add_character_modifier=IRToCK3_fuck_CK3_military_system_modifier }");
-			
+
 			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
 		public void ImportUnitsAsSpecialTroops(
@@ -425,28 +425,28 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			var sb = new StringBuilder();
 			sb.AppendLine("{");
-			
+
 			foreach (var unit in countryUnits) {
 				var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
 
 				var imperatorLeader = imperatorCharacters[unit.LeaderId];
 				var ck3Leader = imperatorLeader.CK3Character;
-				
+
 				sb.AppendLine("\t\tspawn_army={");
-				
+
 				sb.AppendLine("\t\t\tuses_supply=yes");
 				sb.AppendLine("\t\t\tinheritable=yes");
-				
+
 				if (unit.LocalizedName is not null) {
 					var locKey = unit.LocalizedName.Id;
 					sb.AppendLine($"\t\t\tname={locKey}");
 					Localizations[locKey] = unit.LocalizedName;
 				}
-				
+
 				foreach (var (type, men) in menPerUnitType) {
 					sb.AppendLine($"\t\t\tmen_at_arms={{type={type} men={men}}}");
 				}
-				
+
 				var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location)
 					.Cast<ulong?>()
 					.FirstOrDefault(defaultValue: null);
@@ -454,19 +454,19 @@ namespace ImperatorToCK3.CK3.Characters {
 					sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
 					sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
 				}
-				
+
 				if (ck3Leader is not null) {
 					// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
 					sb.AppendLine($"\t\t\tsave_temporary_scope_as={unit.Id}");
 				}
-				
+
 				sb.AppendLine("\t\t}");
-				
+
 				if (ck3Leader is not null) {
 					sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.Id} }} scope:{unit.Id}={{ set_commander=character:{ck3Leader.Id} }} }}");
 				}
 			}
-			
+
 			sb.AppendLine("\t}");
 			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}

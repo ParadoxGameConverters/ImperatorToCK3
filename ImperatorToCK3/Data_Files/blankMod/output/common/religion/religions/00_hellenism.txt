@@ -72,7 +72,7 @@ hellenism_religion = {
 		HealthGodSheHe = CHARACTER_SHEHE_HE
 		HealthGodHerHis = CHARACTER_HERHIS_HIS
 		HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 		#FertilityGod
 		FertilityGodName = hellenism_fertility_god_name
 		FertilityGodNamePossessive = hellenism_fertility_god_name_possessive
@@ -201,7 +201,7 @@ hellenism_religion = {
 		WitchGodMistressMaster = mistress
 		WitchGodMotherFather = mother
 
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
 	}
@@ -229,7 +229,7 @@ hellenism_religion = {
             #color
             color = {209 0 0}
             icon = eleusinian_mysteries
-    
+
             holy_site = rome
             holy_site = ravenna
             holy_site = athens
@@ -263,7 +263,7 @@ hellenism_religion = {
 
             #Clerical Functions
             doctrine = doctrine_clerical_function_taxation
-            doctrine = doctrine_clerical_gender_female_only 
+            doctrine = doctrine_clerical_gender_female_only
             doctrine = doctrine_clerical_marriage_allowed
             doctrine = doctrine_clerical_succession_temporal_fixed_appointment
 
@@ -271,7 +271,7 @@ hellenism_religion = {
 		mithraic_mysteries = {
             color = {210 0 0}
             icon = mithraic_mysteries
-    
+
 			# Zoroastrian holy sites
             holy_site = yazd
             holy_site = nok_kundi
@@ -306,7 +306,7 @@ hellenism_religion = {
 
             #Clerical Functions
             doctrine = doctrine_clerical_function_taxation
-            doctrine = doctrine_clerical_gender_male_only 
+            doctrine = doctrine_clerical_gender_male_only
             doctrine = doctrine_clerical_marriage_allowed
             doctrine = doctrine_clerical_succession_temporal_fixed_appointment
 

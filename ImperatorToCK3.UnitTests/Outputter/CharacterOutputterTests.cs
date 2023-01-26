@@ -13,7 +13,7 @@ public class CharacterOutputterTests {
 		Date conversionDate = "600.8.1";
 		Date childBirthDate = "600.10.7";
 		Date conceptionDate = childBirthDate.ChangeByDays(-280);
-		
+
 		var pregnantFemale = new Character("1", "Incontinentia", birthDate: "580.1.1") {Female = true};
 		pregnantFemale.Pregnancies.Add(new Pregnancy(fatherId:"2", motherId: "1", childBirthDate, isBastard:false));
 

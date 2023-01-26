@@ -9,24 +9,24 @@ aramaic = {
 		tradition_warriors_of_the_dry
 		# Aramaic culture is mainly located at where all the Syrian desert is.
 		tradition_dryland_dwellers
-		# Aramaic culture should have Refined Poetry tradition because Aramaic language was used as a common language during the reign of Babylonian and Achaemenid Empire. They were revered for being excellent writers. (The Persians considered this Chaldean societal class to be masters of reading and writing, and especially versed in all forms of incantation, sorcery, witchcraft, and the magical arts. They spoke of astrologists and astronomers as Chaldeans, and it is used with this specific meaning in the Book of Daniel (Dan. i. 4, ii. 2 et seq.) and by classical writers, such as Strabo. (from the wikipedia Chaldea page))
+		# Aramaic culture should have Refined Poetry tradition because Aramaic language was used as a common language during the reign of Babylonian and Achaemenid Empire. They were revered for being excellent writers. (The Persians considered this Chaldean societal class to be masters of reading and writing, and especially versed in all forms of incantation, sorcery, witchcraft, and the magical arts. They spoke of astrologists and astronomers as Chaldeans, and it is used with this specific meaning in the Book of Daniel (Dan. i. 4, ii. 2 et seq.) and by classical writers, such as Strabo. (from the Wikipedia Chaldea page))
 		tradition_poetry
-		# Aramaic culture should have Culture Blending tradition because Chaldean cultures such as Aramaic were often blended with other cultures. (The original Chaldean tribe had long ago became Akkadianized, adopting Akkadian culture, religion, language and customs, blending into the majority native population, and eventually wholly disappearing as a distinct race of people, as had been the case with other preceding migrant peoples, such as the Amorites, Kassites, Suteans and Arameans of Babylonia. (from the Chaldea wikipedia page) / The Arameans who lived outside their homelands apparently followed the traditions of the country where they settled. The King of Damascus, for instance, employed Phoenician sculptors and ivory-carvers. In Tell Halaf-Guzana, the palace of Kapara, an Aramean ruler (9th century BCE), was decorated with orthostates and with statues that display a mixture of Mesopotamian, Hittite, and Hurrian influences. (from the Arameans wikipedia page)).
+		# Aramaic culture should have Culture Blending tradition because Chaldean cultures such as Aramaic were often blended with other cultures. (The original Chaldean tribe had long ago became Akkadianized, adopting Akkadian culture, religion, language and customs, blending into the majority native population, and eventually wholly disappearing as a distinct race of people, as had been the case with other preceding migrant peoples, such as the Amorites, Kassites, Suteans and Arameans of Babylonia. (from the Chaldea Wikipedia page) / The Arameans who lived outside their homelands apparently followed the traditions of the country where they settled. The King of Damascus, for instance, employed Phoenician sculptors and ivory-carvers. In Tell Halaf-Guzana, the palace of Kapara, an Aramean ruler (9th century BCE), was decorated with orthostates and with statues that display a mixture of Mesopotamian, Hittite, and Hurrian influences. (from the Arameans Wikipedia page)).
 		tradition_culture_blending
 	}
 
 	name_list = name_list_aramaic
-	
+
 	ethos = ethos_bureaucratic
 
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
-	coa_gfx = { israelite_group_coa_gfx } 
+
+	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
-	unit_gfx = { mena_unit_gfx } 
+	unit_gfx = { mena_unit_gfx }
 }
 
 babylonian = {
@@ -48,28 +48,28 @@ babylonian = {
 		# Babylonian culture should have Philosopher Culture tradition as Babylonian philosophy had an influence on Greek philosophy, particularly Hellenistic philosophy. The Babylonian text Dialogue of Pessimism contains similarities to the agonistic thought of the sophists, the Heraclitean doctrine of contrasts, and the dialogs of Plato, as well as a precursor to the maieutic Socratic method of Socrates. (from the Babylonia Wikipedia page)
 		tradition_philosopher_culture
 
-		# Babylonian culture should have Legalistic because Babylonia introduced one of the very first written codes in history, namely the Code of Hammurabi. (One of Hammurabi's most important and lasting works was the compilation of the Babylonian law code, which improved the much earlier codes of Sumer, Akkad and Assyria. This was made by order of Hammurabi after the expulsion of the Elamites and the settlement of his kingdom. (from the Babylonia Wikipedia page) 
+		# Babylonian culture should have Legalistic because Babylonia introduced one of the very first written codes in history, namely the Code of Hammurabi. (One of Hammurabi's most important and lasting works was the compilation of the Babylonian law code, which improved the much earlier codes of Sumer, Akkad and Assyria. This was made by order of Hammurabi after the expulsion of the Elamites and the settlement of his kingdom. (from the Babylonia Wikipedia page)
 		tradition_legalistic
 	}
 
 	name_list = name_list_babylonian
-	
+
 	ethos = ethos_spiritual
 
 	ethnicities = {
 		10 = arab
 		10 = mediterranean_byzantine
 	}
-	
-	coa_gfx = { arabic_group_coa_gfx } 
+
+	coa_gfx = { arabic_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
-	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
 
 bazramani = {
 	color = { 0.4 0.6 0.0 }
-	
+
 	parents = { roman persian }
 	created = 20.1.1
 
@@ -89,16 +89,16 @@ bazramani = {
 		10 = arab
 		10 = mediterranean_byzantine
 	}
-	
-	coa_gfx = { arabic_group_coa_gfx } 
+
+	coa_gfx = { arabic_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
-	unit_gfx = { eastern_unit_gfx } 
+	unit_gfx = { eastern_unit_gfx }
 }
 
 judajca = {
 	color = { 0.0 0.3 0.6 }
-	
+
 	parents = { roman hebrew }
 	created = 20.1.1
 
@@ -118,9 +118,9 @@ judajca = {
 		10 = arab
 		10 = mediterranean_byzantine
 	}
-	
-	coa_gfx = { israelite_group_coa_gfx } 
+
+	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
-	unit_gfx = { eastern_unit_gfx } 
+	unit_gfx = { eastern_unit_gfx }
 }

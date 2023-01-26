@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.DeathReason;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.DeathReason; 
+namespace ImperatorToCK3.UnitTests.Mappers.DeathReason;
 
 public class DeathReasonMappingTests {
 	[Fact]

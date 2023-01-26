@@ -13,7 +13,7 @@ public class SuccessionLawMapper {
 		RegisterKeys(parser);
 		parser.ParseFile(filePath);
 		Logger.Info($"Loaded {impToCK3SuccessionLawMap.Count} succession law links.");
-		
+
 		Logger.IncrementProgress();
 	}
 	public SuccessionLawMapper(BufferedReader reader) {

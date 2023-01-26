@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.Nickname;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Nickname; 
+namespace ImperatorToCK3.UnitTests.Mappers.Nickname;
 
 public class NicknameMapperTests {
 	[Fact]

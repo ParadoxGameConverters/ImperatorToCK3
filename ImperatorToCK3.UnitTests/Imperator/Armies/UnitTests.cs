@@ -4,7 +4,7 @@ using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Imperator.Armies;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Armies; 
+namespace ImperatorToCK3.UnitTests.Imperator.Armies;
 
 public class UnitTests {
 	[Fact]
@@ -12,7 +12,7 @@ public class UnitTests {
 		var locDB = new LocDB("english", "french");
 		var italyLocBlock = locDB.AddLocBlock("central_italy_region");
 		italyLocBlock["english"] = "Italia";
-		
+
 		var governorshipLegionLocBlock = locDB.AddLocBlock("GOVERNORSHIP_LEGION_NAME_roman");
 		governorshipLegionLocBlock["english"] = "Legio $BASE$";
 
@@ -20,7 +20,7 @@ public class UnitTests {
 		latinLegionLocBlock["english"] = "Cohors $ROMAN$ $BASE$";
 
 		var units = new UnitCollection();
-		
+
 		var unitReader = new BufferedReader(@"
 			unit_name={
 				name=""LEGION_NAME_latin""
@@ -33,7 +33,7 @@ public class UnitTests {
 				}
 			}");
 		var unit = new Unit(1, unitReader, units, locDB, new Defines());
-		
+
 		Assert.NotNull(unit.LocalizedName);
 		Assert.Equal("Cohors V Legio Italia", unit.LocalizedName["english"]);
 	}
@@ -53,7 +53,7 @@ public class UnitTests {
 
 		var unitReader = new BufferedReader("cohort=1 cohort=2");
 		var unit = new Unit(1, unitReader, unitCollection, new LocDB("english"), defines);
-		
+
 		Assert.Equal(750, unit.MenPerUnitType["archers"]); // 250 + 500
 	}
 }

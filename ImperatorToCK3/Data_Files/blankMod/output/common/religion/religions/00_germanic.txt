@@ -84,7 +84,7 @@ germanic_religion = {
 		HealthGodSheHe = CHARACTER_SHEHE_SHE
 		HealthGodHerHis = CHARACTER_HERHIS_HER
 		HealthGodHerHim = CHARACTER_HERHIM_HER
-		
+
 		#FertilityGod
 		FertilityGodName = germanic_fertility_god_name
 		FertilityGodNamePossessive = germanic_fertility_god_name_possessive
@@ -395,7 +395,7 @@ germanic_religion = {
 			holy_site = hampton
 			holy_site = jorvik
 			holy_site = middlesex
-			
+
 			#Main Group
 			doctrine = doctrine_no_head
 			doctrine = doctrine_gender_male_dominated
@@ -460,7 +460,7 @@ germanic_religion = {
 				HealthGodSheHe = CHARACTER_SHEHE_SHE
 				HealthGodHerHis = CHARACTER_HERHIS_HER
 				HealthGodHerHim = CHARACTER_HERHIM_HER
-				
+
 				#FertilityGod
 				FertilityGodName = anglosaxon_fertility_god_name
 				FertilityGodNamePossessive = anglosaxon_fertility_god_name_possessive

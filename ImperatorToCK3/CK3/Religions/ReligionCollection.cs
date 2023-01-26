@@ -39,7 +39,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		RegisterReligionsKeywords(parser);
 
 		parser.ParseGameFolder("common/religion/religions", ck3ModFs, "txt", recursive: true);
-			
+
 		Logger.IncrementProgress();
 	}
 
@@ -65,7 +65,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	public void LoadReplaceableHolySites(string filePath) {
 		Logger.Info("Loading replaceable holy site IDs...");
-		
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
@@ -152,7 +152,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				imperatorModifiers = new Dictionary<string, double>();
 			}
 		}
-		
+
 		return new HolySite(barony, ck3Faith, landedTitles, imperatorModifiers, holySiteEffectMapper);
 	}
 
@@ -163,13 +163,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		Date date
 	) {
 		var provincesByFaith = GetProvincesFromImperatorByFaith(ck3Provinces, date);
-		
+
 		foreach (var faith in Faiths) {
 			if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
 				continue;
 			}
 			Logger.Info($"Determining holy sites for faith {faith.Id}...");
-			
+
 			var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith);
 			foreach (var holySiteId in faith.HolySiteIds.ToList()) {
 				if (!HolySites.TryGetValue(holySiteId, out var holySite)) {
@@ -181,7 +181,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				if (holySiteBarony is not null && dynamicHolySiteBaronies.Contains(holySiteBarony)) {
 					// One of dynamic holy site baronies is same as an exising holy site's barony.
 					// We need to avoid faith having two holy sites in one barony.
-					
+
 					if (replaceableSiteIds.Contains(holySiteId)) {
 						var newHolySiteInSameBarony = GenerateHolySiteForBarony(
 							holySiteBarony,
@@ -202,7 +202,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 					dynamicHolySiteBaronies.Remove(selectedDynamicBarony);
 
 					var replacementSite = GenerateHolySiteForBarony(
-						selectedDynamicBarony, 
+						selectedDynamicBarony,
 						faith,
 						ck3Provinces,
 						imperatorReligions,
@@ -237,7 +237,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				provincesByFaith[faith] = new HashSet<Province> {province};
 			}
 		}
-		
+
 		return provincesByFaith;
 	}
 
@@ -259,10 +259,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		var provincesWithoutHolySite = faithTerritories.Except(provincesWithHolySite)
 			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
 			.ToList();
-		
+
 		// Take the top 4 territories with a holy site.
 		var selectedDynamicSites = provincesWithHolySite.Take(4).ToList();
-		
+
 		// Take the most populated territory without a holy site.
 		var mostPopulatedProvinceWithoutHolySite = provincesWithoutHolySite.FirstOrDefault(defaultValue: null);
 		if (mostPopulatedProvinceWithoutHolySite is not null) {

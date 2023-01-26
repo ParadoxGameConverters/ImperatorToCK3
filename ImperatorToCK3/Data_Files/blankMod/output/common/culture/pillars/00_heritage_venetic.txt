@@ -1,8 +1,8 @@
 ﻿
 heritage_venetic = {
 	type = heritage
-	parameters = { 
+	parameters = {
 		heritage_group_latin = yes
-		heritage_family_european = yes 
+		heritage_family_european = yes
 	}
 }

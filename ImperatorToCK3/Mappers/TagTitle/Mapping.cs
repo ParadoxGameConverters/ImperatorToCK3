@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.TagTitle; 
+namespace ImperatorToCK3.Mappers.TagTitle;
 
 public class Mapping {
 	public string? RankMatch(string imperatorTagOrRegion, string rank) {

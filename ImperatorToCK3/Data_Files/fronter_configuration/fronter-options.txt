@@ -11,7 +11,7 @@ option = {
 		radioOption = {
 			name = 2
 			displayName = HERESIES_IN_HISTORICAL_AREAS_2
-			default = true		
+			default = true
 		}
 	}
 }
@@ -31,7 +31,7 @@ option = {
 			name = 2
 			displayName = STATIC_DEJURE_2
 			tooltip = STATIC_DEJURE_2_TIP
-			default = false		
+			default = false
 		}
 	}
 }
@@ -60,7 +60,7 @@ option = {
 	name = ImperatorCurrencyRate
 	displayName = IMPERATOR_CURRENCY_RATE
 	tooltip = IMPERATOR_CURRENCY_RATE_TIP
-	textSelector = {	
+	textSelector = {
 		value = "1.0"
 		editable = true
 		tooltip = IMPERATOR_CURRENCY_RATE_INPUT_TIP
@@ -71,7 +71,7 @@ option = {
 	name = ImperatorCivilizationWorth
 	displayName = IMPERATOR_CIVILIZATION_WORTH
 	tooltip = IMPERATOR_CIVILIZATION_WORTH_TIP
-	textSelector = {	
+	textSelector = {
 		value = "0.4"
 		editable = true
 		tooltip = IMPERATOR_CIVILIZATION_WORTH_INPUT_TIP
@@ -103,7 +103,7 @@ option = {
 	name = output_name
 	displayName = MODNAME
 	tooltip = MODNAMETIP
-	textSelector = {	
+	textSelector = {
 		value = ""
 		editable = true
 		tooltip = MODNAMETIP2
@@ -114,7 +114,7 @@ option = {
 	name = bookmark_date
 	displayName = BOOKMARKDATE
 	tooltip = BOOKMARKDATETIP
-	textSelector = {	
+	textSelector = {
 		value = ""
 		editable = true
 		tooltip = BOOKMARKDATETIP2

@@ -326,7 +326,7 @@ imperator_invictus = {
 	link = { imp = 7188 imp = 6102 ck3 = 5269 } # Yendi, Korulin -> Kherson
 	link = { comment = "BALTICS BY IHT" }
 	link = { imp = 6286 ck3 = 3213 } # Marone -> OSTERODE
-	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen 
+	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen
 	link = { imp = 6283 ck3 = 3202 } # Anacureta -> BRIESEN
 	link = { imp = 6281 ck3 = 3199 } # Follia -> TORUN
 	link = { imp = 7811 ck3 = 111 ck3 = 128 } # Turuntia -> CEKLIS, TELSIAI
@@ -1387,7 +1387,7 @@ imperator_invictus = {
 	link = { imp = 2493 ck3 = 2188 } # Isara -> NOYON
 	link = { imp = 3032 imp = 2445 ck3 = 2189 } # Curmiliaca, Augustomagus -> CLERMONT
 	link = { imp = 3031 ck3 = 2185 } # Teucera -> CORBIE
-	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN 
+	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN
 	link = { imp = 3039 ck3 = 2134 } # Estia -> AIRE
 	link = { imp = 3038 ck3 = 2127 ck3 = 2186 } # Nemetocenna -> TOURNAI, PERONNE
 	link = { imp = 3040 ck3 = 2126 } # Minariacum -> LILLE
@@ -1400,7 +1400,7 @@ imperator_invictus = {
 	link = { imp = 2140 ck3 = 2167 } # Ingena -> AVRANCHES
 	link = { imp = 2212 ck3 = 2152 } # Namnetum -> NANTES
 	link = { imp = 2153 ck3 = 2153 } # Grannona -> GUERANDE
-	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE 
+	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE
 	link = { imp = 2456 ck3 = 2270 ck3 = 2272 } # Labrinum -> LE MANS, COURCILLON
 	link = { imp = 2426 ck3 = 2283 } # Navicellis -> VENDOME
 	link = { imp = 2463 imp = 2461 ck3 = 2324 } # Condate, Carnutia Occidentalis -> MORTAGNE
@@ -1409,7 +1409,7 @@ imperator_invictus = {
 	link = { imp = 2444 ck3 = 2190 ck3 = 2357 } # Catalacus -> BEAUMONT, SAINT-DENIS
 	link = { imp = 2473 imp = 2472 imp = 2474 ck3 = 2181 } # Avalocum, Briva Isarae, Nemetodurum -> MANTES
 	link = { imp = 2443 ck3 = 2179 } # Rotomagus -> ROUEN
-	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS 
+	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS
 	link = { imp = 2460 ck3 = 2323 } # Carnutia Orientalis -> NOGENT-LE-ROTROU
 	link = { imp = 2462 imp = 2441 ck3 = 2322 } # Dorocas, Autricum -> CHARTRES
 	link = { imp = 2446 ck3 = 2183 } # Caesaromagus -> BEAUVAIS
@@ -5483,7 +5483,7 @@ imperator_vanilla = {
 	link = { imp = 2493 ck3 = 2188 } # Isara -> NOYON
 	link = { imp = 3032 imp = 2445 ck3 = 2189 } # Curmiliaca, Augustomagus -> CLERMONT
 	link = { imp = 3031 ck3 = 2185 } # Teucera -> CORBIE
-	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN 
+	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN
 	link = { imp = 3039 ck3 = 2134 } # Estia -> AIRE
 	link = { imp = 3038 ck3 = 2127 ck3 = 2186 } # Nemetocenna -> TOURNAI, PERONNE
 	link = { imp = 3040 ck3 = 2126 } # Minariacum -> LILLE
@@ -5496,7 +5496,7 @@ imperator_vanilla = {
 	link = { imp = 2140 ck3 = 2167 } # Ingena -> AVRANCHES
 	link = { imp = 2212 ck3 = 2152 } # Namnetum -> NANTES
 	link = { imp = 2153 ck3 = 2153 } # Grannona -> GUERANDE
-	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE 
+	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE
 	link = { imp = 2456 ck3 = 2270 ck3 = 2272 } # Labrinum -> LE MANS, COURCILLON
 	link = { imp = 2426 ck3 = 2283 } # Navicellis -> VENDOME
 	link = { imp = 2463 imp = 2461 ck3 = 2324 } # Condate, Carnutia Occidentalis -> MORTAGNE
@@ -5505,7 +5505,7 @@ imperator_vanilla = {
 	link = { imp = 2444 ck3 = 2190 ck3 = 2357 } # Catalacus -> BEAUMONT, SAINT-DENIS
 	link = { imp = 2473 imp = 2472 imp = 2474 ck3 = 2181 } # Avalocum, Briva Isarae, Nemetodurum -> MANTES
 	link = { imp = 2443 ck3 = 2179 } # Rotomagus -> ROUEN
-	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS 
+	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS
 	link = { imp = 2460 ck3 = 2323 } # Carnutia Orientalis -> NOGENT-LE-ROTROU
 	link = { imp = 2462 imp = 2441 ck3 = 2322 } # Dorocas, Autricum -> CHARTRES
 	link = { imp = 2446 ck3 = 2183 } # Caesaromagus -> BEAUVAIS
@@ -6315,7 +6315,7 @@ imperator_vanilla = {
 	link = { comment = "# North & West Poland" }
 	link = { imp = 4002 ck3 = 3067 ck3 = 3065 ck3 = 3064 } # Budorigum -> SPROTTAU, BYTOM, GRUNBERG
 	link = { imp = 4887 ck3 = 527 ck3 = 4965 } # Cracovia -> Krakow, Tarnow
-	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen 
+	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen
 	link = { imp = 4864 ck3 = 3217 ck3 = 2835 ck3 = 3218 } # Venedica -> BRAUNSBERG, ELBLAG, LAUKITTEN
 	link = { imp = 4863 ck3 = 3197 } # Voreynica -> GRAUDENZ
 	link = { imp = 4862 ck3 = 2831 ck3 = 2834 } # Vistuliana -> WISLANA, MALBORK

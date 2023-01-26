@@ -10,11 +10,11 @@ macedonian = {
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
+
 	traditions = {
 		tradition_swords_for_hire
 	}
-	
+
 	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
@@ -23,26 +23,26 @@ macedonian = {
 
 hellenistic = {
 	color = hsv { 0.65 0.7 0.8 }
-	
+
 	heritage = heritage_byzantine
 	language = language_greek
 	parents = { macedonian persian }
 	created = 2.1.1
 	ethos = ethos_courtly
-	
+
 	name_list = name_list_ancient_greek
 	name_list = name_list_persian
 	martial_custom = martial_custom_male_only
-	
+
 	traditions = {
 		tradition_swords_for_hire
 		tradition_xenophilic
 	}
-	
+
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
-	
+
 	coa_gfx = { byzantine_group_coa_gfx iranian_group_coa_gfx }
 	building_gfx = {
 		mediterranean_building_gfx
@@ -62,16 +62,16 @@ indogreek = {
 
 	name_list = name_list_indo_greek
 	martial_custom = martial_custom_male_only
-	
+
 	coa_gfx = { indo_aryan_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { indian_clothing_gfx }
 	unit_gfx = { indian_unit_gfx }
-	
+
 	traditions = {
 		tradition_formation_fighting
 	}
-	
+
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
@@ -95,7 +95,7 @@ italiote = {
 		10 = mediterranean_byzantine
 	}
 	martial_custom = martial_custom_male_only
-	
+
 	traditions = {
 		tradition_swords_for_hire
 	}

@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.Trait;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Trait; 
+namespace ImperatorToCK3.UnitTests.Mappers.Trait;
 
 public class TraitMappingTests {
 	[Fact]

@@ -30,7 +30,7 @@
 		male_names = {
 		   Adaios Amatokos Aulouporis Aulouzon Bendidoros Berisades Bessos Bithos Brinkainos Brinkazenis Brinkazeris Brinkazis Bryzos Byzas Delos Dentoubrisa Dentoupes Deopos Deosporis Desakenthos Diaskenthos Diazenis Dizapes Dizapor Dizas Dizazelpis Dolens Drenis Eptaikenthos Eptapis Eptaporis Eptenis Eptezenis Ezbenis Gaidres Hebryzelmis Kelsinos Kelsos Kenthos Kerses Kerzoula Kersibaulos Kersobleptes Ketriporis Ketrizeis Kokaios Kotys Maisades Markipor Moukakenthos Moukapaibes Moukapius Moukaporis Moukatralis Moukazenis Naipor Olipor Poris Pytros Raizdos Raskos Rekiper Rhaskos Rhaskuporis Rheboulas Rhesos Rhoemetalces Sadalas Satres Sautes Seikiper Seuthes Skaris Skilas Skostodokos Sparadokos Taruthinas Teres Tzitzis Zieisis Ziepyros Ziles Zipaibes Zipyron
 	    }
-		
+
 	    female_names = {
 		   Bendidora Daizo Dentustaina Dentusykos Dida Dinentilla Dizo Drigissa Epteporis Eptepos Eptesykos Ettela Kerza Mania Moka Mokasokos Mukko Mukapora Murko Nanea Purizia Rheskutorme Rhymesikos Sinna Sita Torkoula
 	    }
@@ -49,13 +49,13 @@ name_list_dacian = {
 		}
 
 		male_names = {
-			Bastiza Bikilis Blegissa Blaesus Blaikisa Brasus Burebista Comosicus Cothelas Cotiso Dablosa Dadas Dadazai Daizus Dapyx Dardiolai Danillo Decibalus Dida Denzibalus Diernais Dotouzi Duras 
+			Bastiza Bikilis Blegissa Blaesus Blaikisa Brasus Burebista Comosicus Cothelas Cotiso Dablosa Dadas Dadazai Daizus Dapyx Dardiolai Danillo Decibalus Dida Denzibalus Diernais Dotouzi Duras
 			Kaigiza Komozoi Moskon Mucapor Mucatra Natoporus Orola Petipor Pierporus Rhemaxos Rholes Rubobostes Rolouzis Rigozus Scoris Tiati Tarbus Tsiru Zinna Vezina Zoutoula
 		}
 		female_names = {
 			Duccidava Rescuturme Zina Zinai Petriturme Zindurme Roibana Oriza Rescurai Raina Sanziana Claria Eccana
 		}
-		
+
 		patronym_prefix_male = "dynnpat_pre_por"
 		patronym_prefix_female = "dynnpat_pre_pora"
 		always_use_patronym = yes

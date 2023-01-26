@@ -52,7 +52,7 @@ public static class ProvincesOutputter {
 			var provinceMappingFilePath = $"output/{outputModName}/history/province_mapping/province_mapping.txt";
 			using var provinceMappingStream = File.OpenWrite(provinceMappingFilePath);
 			using var provinceMappingOutput = new StreamWriter(provinceMappingStream, System.Text.Encoding.UTF8);
-			
+
 			foreach (var province in provinces) {
 				if (alreadyOutputtedProvinces.Contains(province.Id)) {
 					continue;

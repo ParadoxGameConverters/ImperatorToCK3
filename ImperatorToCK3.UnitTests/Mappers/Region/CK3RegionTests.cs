@@ -3,7 +3,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Region;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Region; 
+namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
 public class CK3RegionTests {
 	[Fact]

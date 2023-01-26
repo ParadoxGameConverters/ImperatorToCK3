@@ -3,7 +3,7 @@ using commonItems.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Religions; 
+namespace ImperatorToCK3.Imperator.Religions;
 
 public class Deity : IIdentifiable<string> {
 	public string Id { get; }

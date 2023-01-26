@@ -2,7 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Cultures; 
+namespace ImperatorToCK3.Imperator.Cultures;
 
 public class CultureGroup : IdObjectCollection<string, Culture>, IIdentifiable<string> {
 	public string Id { get; }
@@ -10,7 +10,7 @@ public class CultureGroup : IdObjectCollection<string, Culture>, IIdentifiable<s
 
 	public CultureGroup(string id, BufferedReader groupReader) {
 		Id = id;
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("culture", culturesReader => {
 			var culturesParser = new Parser();

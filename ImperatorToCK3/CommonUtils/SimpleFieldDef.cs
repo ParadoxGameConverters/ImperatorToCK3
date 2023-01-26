@@ -1,6 +1,6 @@
 ﻿using commonItems.Collections;
 
-namespace ImperatorToCK3.CommonUtils; 
+namespace ImperatorToCK3.CommonUtils;
 
 public class SimpleFieldDef {
 	public string FieldName { get; set; } = "";

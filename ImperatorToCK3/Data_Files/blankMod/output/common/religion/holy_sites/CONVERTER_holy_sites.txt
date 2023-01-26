@@ -38,7 +38,7 @@ bibracte = { # Bibracte is located near Autun
 celtic_dublin = {
 	county = c_dublin
 	barony = b_dublin
-	
+
 	character_modifier = {
 		name = holy_site_dublin_effect_name
 		martial = 1
@@ -48,7 +48,7 @@ celtic_dublin = {
 
 mann = {
 	county = c_isle_of_man
-	
+
 	character_modifier = {
 		name = holy_site_mann_effect_name
 		monthly_piety_gain_mult = 0.1
@@ -57,7 +57,7 @@ mann = {
 
 moray = {
 	county = c_moray
-	
+
 	character_modifier = {
 		name = holy_site_moray_effect_name
 		martial = 1
@@ -68,18 +68,18 @@ moray = {
 ceredigion = {
 	county = c_cardiganshire
 	barony = b_cardigan
-	
+
 	character_modifier = {
 		name = holy_site_ceredigon_effect_name
 		stewardship = 1
 		prowess = 1
 	}
-}	
+}
 
 norfolk = {
 	county = c_norfolk
 	barony = b_norwich
-	
+
 	character_modifier = {
 		name = holy_sity_norfolk_effect_name
 		martial = 1
@@ -90,7 +90,7 @@ norfolk = {
 middlesex = {
 	county = c_middlesex
 	barony = b_london
-	
+
 	character_modifier = {
 		name = holy_site_middlesex_effect_name
 		stewardship = 1
@@ -100,18 +100,18 @@ middlesex = {
 
 auvergne = {
 	county = c_auvergne
-	
+
 	character_modifier = {
 		name = holy_site_auvergne_effect_name
 		martial = 1
 		prowess = 1
 	}
-}	
+}
 
 poitou = {
 	county = c_poitiers
 	barony = b_poitiers
-	
+
 	character_modifier = {
 		name = holy_site_poitou_effect_name
 		martial = 1
@@ -122,7 +122,7 @@ poitou = {
 paris = {
 	county = c_ile_de_france
 	barony = b_saint_denis
-	
+
 	character_modifier = {
 		name = holy_site_paris_effect_name
 		stewardship = 1
@@ -133,7 +133,7 @@ paris = {
 brugge = {
 	county = c_brugge
 	barony = b_bruges
-	
+
 	character_modifier = {
 		name = holy_site_brugge_effect_name
 		stewardship = 1
@@ -144,7 +144,7 @@ brugge = {
 toulouse = {
 	county = c_toulouse
 	barony = b_toulouse
-	
+
 	character_modifier = {
 		name = holy_site_toulouse_effect_name
 		stewardship = 1
@@ -155,7 +155,7 @@ toulouse = {
 thomond = {
 	county = c_thomond
 	barony = b_limerick
-	
+
 	character_modifier = {
 		name = holy_site_thomond_effect_name
 		stewardship = 1
@@ -166,7 +166,7 @@ thomond = {
 connacht = {
 	county = c_connacht
 	barony = b_galway
-	
+
 	character_modifier = {
 		name = holy_site_connacht_effect_name
 		martial = 1
@@ -176,7 +176,7 @@ connacht = {
 
 galloway = {
 	county = c_galloway
-	
+
 	character_modifier = {
 		name = holy_site_galloway_effect_name
 		martial = 1
@@ -187,7 +187,7 @@ galloway = {
 zaragoza = {
 	county = c_zaragoza
 	barony = b_zaragoza
-	
+
 	character_modifier = {
 		name = holy_site_zaragoza_effect_name
 		martial = 1
@@ -198,7 +198,7 @@ zaragoza = {
 coruna = {
 	county = c_coruna
 	barony = b_corunna
-	
+
 	character_modifier = {
 		name = holy_site_coruna_effect_name
 		diplomacy = 1
@@ -209,7 +209,7 @@ coruna = {
 valencia = {
 	county = c_valencia
 	barony = b_valencia
-	
+
 	character_modifier = {
 		name = holy_site_valencia_effect_name
 		martial = 1
@@ -220,7 +220,7 @@ valencia = {
 algeciras = {
 	county = c_algeciras
 	barony = b_algeciras
-	
+
 	character_modifier = {
 		name = holy_site_algeciras_effect_name
 		learning = 1
@@ -238,7 +238,7 @@ chimaera = { #dercetius
 salaria = { #semnocosus
 	county = c_andujar
 	character_modifier = {
- 		men_at_arms_maintenance = -0.1 
+ 		men_at_arms_maintenance = -0.1
 	}
 }
 aeso = { #the duillae
@@ -299,7 +299,7 @@ elagabal = { #Elagabalus was venerated in Homs
 	county = c_homs
 	barony = b_hims
 	character_modifier = {
- 		tyranny_gain_mult = -0.2 
+ 		tyranny_gain_mult = -0.2
 	}
 }
 ahiram = { #ba'alet
@@ -328,13 +328,13 @@ mabbog = { #atargatis - Mabbog is now called Manbij
 taremu = { #sekhmet
 	county = c_sharkiya
 	character_modifier = {
- 		defender_advantage = 5 
+ 		defender_advantage = 5
 	}
 }
 waset = { #amun
 	county = c_qus
 	character_modifier = {
- 		tyranny_gain_mult = -0.2 
+ 		tyranny_gain_mult = -0.2
 	}
 }
 #aswan in vanilla
@@ -348,7 +348,7 @@ zawty = { #anubis
 giza = {
 	county = c_giza
 	barony = b_gizeh
-	
+
 	character_modifier = {
 		name = holy_site_giza_effect_name
 		life_expectancy = 3
@@ -358,12 +358,12 @@ giza = {
 bahnasa = {
 	county = c_bahnasa
 	barony = b_al-bahnasa
-	
+
 	character_modifier = {
 		name = holy_site_bahnasa_effect_name
 		monthly_lifestyle_xp_gain_mult = 0.1
 	}
-	
+
 	flag = visoki_conversion_resistance_bonus # 50% County Conversion Resistance
 }
 
@@ -372,7 +372,7 @@ bahnasa = {
 badais = { #orotalt
 	county = c_wajh
 	character_modifier = {
- 		supply_duration = 0.25 
+ 		supply_duration = 0.25
 	}
 }
 petra = { #al-qaum
@@ -400,7 +400,7 @@ taif = { #ta'if, al-uzza
 babylon = { #marduk
 	county = c_baghdad
 	character_modifier = {
-		knight_limit = 1 
+		knight_limit = 1
 	}
 }
 borsippa = { #nabu
@@ -433,7 +433,7 @@ harranu = { #sin
 men = { #men
 	county = c_philomelium
 	character_modifier = {
- 		tyranny_gain_mult = -0.2 
+ 		tyranny_gain_mult = -0.2
 	}
 }
 phyrgia = { #cybele
@@ -480,7 +480,7 @@ armaouira = { #khaldi
 	# https://en.wikipedia.org/wiki/Armavir_(ancient_city)
 	county = c_hayk
 	character_modifier = {
- 		tyranny_gain_mult = -0.2 
+ 		tyranny_gain_mult = -0.2
 	}
 }
 artaxata = { #tir
@@ -514,7 +514,7 @@ kamachia = { #ga
 leukothea = { #ghmerti
 	county = c_guria
 	character_modifier = {
- 		tyranny_gain_mult = -0.2 
+ 		tyranny_gain_mult = -0.2
 	}
 }
 brili = { #dali
@@ -541,7 +541,7 @@ cimus = { #goitosyrus
 tanais = { #thagimasadas
 	county = c_tana
 	character_modifier = {
-		skirmishers_damage_mult = 0.1 
+		skirmishers_damage_mult = 0.1
 	}
 }
 tmakrat = { #papaios
@@ -583,13 +583,13 @@ kardzhali = { #sabazios
 	county = c_zherkovo
 	barony = b_zherkovo
 	character_modifier = {
- 		martial_per_piety_level = 1 
+ 		martial_per_piety_level = 1
 	}
 }
 spinopara = { #zibelthiurdos
 	county = c_sredets
 	character_modifier = {
- 		tyranny_gain_mult = -0.2 
+ 		tyranny_gain_mult = -0.2
 	}
 }
 buridava = { #only has 4 in the game, so this is the most populous
@@ -604,7 +604,7 @@ buridava = { #only has 4 in the game, so this is the most populous
 german_dublin = { # Caill Tomair (Thor's Grove), near Dublin
 	county = c_dublin
 	barony = b_dublin
-	
+
 	character_modifier = {
 		name = holy_site_dublin_effect_name
 		different_faith_opinion = 5
@@ -615,7 +615,7 @@ german_dublin = { # Caill Tomair (Thor's Grove), near Dublin
 vestisland = { # Helgafell (Holy Mountain), Snæfellsnes Peninsula
 	county = c_vestisland
 	barony = b_vestfirdir
-	
+
 	character_modifier = {
 		name = holy_site_vestisland_effect_name
 		diplomacy = 1
@@ -626,7 +626,7 @@ vestisland = { # Helgafell (Holy Mountain), Snæfellsnes Peninsula
 oxfordshire = { # Wayland's Smithy, Ashbury
 	county = c_oxfordshire
 	barony = b_witney
-	
+
 	character_modifier = {
 		name = holy_site_oxfordshire_effect_name
 		martial = 1
@@ -637,7 +637,7 @@ oxfordshire = { # Wayland's Smithy, Ashbury
 skane = { # Uppåkra, Skåne
 	county = c_skane
 	barony = b_lund
-	
+
 	character_modifier = {
 		name = holy_site_skane_effect_name
 		prowess = 1
@@ -648,7 +648,7 @@ skane = { # Uppåkra, Skåne
 ditmarschen = { # Grove of Baduhenna / Grove of the Semnones, Dithmarschen
 	county = c_ditmarschen
 	barony = b_ditmarschen
-	
+
 	character_modifier = {
 		name = holy_site_ditmarschen_effect_name
 		levy_size = 0.1
@@ -675,7 +675,7 @@ staffordshire = {
 }
 hampton = {
 	county = c_hampton
-	barony = b_winchester 
+	barony = b_winchester
 	character_modifier = {
 		name = holy_site_hampton_effect_name
 		monthly_prestige_gain_mult = 0.1
