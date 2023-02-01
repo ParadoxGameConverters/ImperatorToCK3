@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Diplomacy; 
+namespace ImperatorToCK3.UnitTests.Imperator.Diplomacy;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -12,7 +12,7 @@ public class DiplomacyTests {
 	public void WarWithNoDefendersIsSkipped() {
 		var output = new StringWriter();
 		Console.SetOut(output);
-		
+
 		var reader = new BufferedReader("""
 			database = {
 				1 = { previous=no }
@@ -21,7 +21,7 @@ public class DiplomacyTests {
 			}
 		""");
 		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.Diplomacy(reader);
-		
+
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();
 		Assert.Contains("[DEBUG] Skipping war 1 has no attackers!", logStr);

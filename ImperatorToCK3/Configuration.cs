@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ImperatorToCK3; 
+namespace ImperatorToCK3;
 
 public enum LegionConversion { No, SpecialTroops, MenAtArms }
 public class Configuration {
@@ -18,6 +18,7 @@ public class Configuration {
 	public string OutputModName { get; set; } = "";
 	public bool HeresiesInHistoricalAreas { get; set; } = false;
 	public bool StaticDeJure { get; set; } = false;
+	public bool RiseOfIslam { get; set; } = true;
 	public double ImperatorCurrencyRate { get; set; } = 1.0d;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
@@ -74,6 +75,20 @@ public class Configuration {
 				Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
 			}
 		});
+		parser.RegisterKeyword("RiseOfIslam", reader => {
+			var valueString = reader.GetString();
+			try {
+				RiseOfIslam = Convert.ToInt32(valueString) == 2;
+				Logger.Info($"{nameof(RiseOfIslam)} set to: {RiseOfIslam}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(RiseOfIslam)} value was: {valueString}; Error message: {e}");
+			}
+
+			if (RiseOfIslam) {
+				RiseOfIslam = false;
+				Logger.Warn("Rise of Islam is temporarily disabled due to not working with CK3 1.8.");
+			}
+		});
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
 			ImperatorCurrencyRate = reader.GetDouble();
 			Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
@@ -113,13 +128,13 @@ public class Configuration {
 		if (!Directory.Exists(ImperatorPath)) {
 			throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
 		}
-			
+
 		var binariesPath = Path.Combine(ImperatorPath, "binaries");
 		var imperatorExePath = Path.Combine(binariesPath, "imperator");
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 			imperatorExePath += ".exe";
 		}
-			
+
 		bool installVerified = File.Exists(imperatorExePath);
 		if (!installVerified) {
 			try {

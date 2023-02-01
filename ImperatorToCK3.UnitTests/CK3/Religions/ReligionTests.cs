@@ -6,7 +6,7 @@ using ImperatorToCK3.CK3.Titles;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.CK3.Religions; 
+namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
 public class ReligionTests {
 	[Fact]
@@ -14,10 +14,10 @@ public class ReligionTests {
 		var reader = new BufferedReader("{ faiths={ orthodox={} catholic={} } }");
 		var religions = new ReligionCollection(new Title.LandedTitles());
 		var religion = new Religion("christianity", reader, religions);
-		
+
 		Assert.Collection(religion.Faiths,
-			faith=>Assert.Equal("orthodox", faith.Id),
-			faith=>Assert.Equal("catholic", faith.Id));
+			faith => Assert.Equal("orthodox", faith.Id),
+			faith => Assert.Equal("catholic", faith.Id));
 
 		var religionStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(religion), @"\s", "");
 		religionStrWithoutWhitespace.Should().ContainAll("orthodox={}", "catholic={}");

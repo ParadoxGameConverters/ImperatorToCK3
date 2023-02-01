@@ -1,54 +1,54 @@
 # 3080 - MIKULOV
 3080 = {	# 446 - Znojmo
-	
-	
+
+
 	# Misc
 	culture = slovien
 	religion = slavic_pagan
-	
+
 	# History
-	
+
 	831.1.1 = { religion = catholic }
 	1030.1.1 = { culture = czech }
-	
+
 	#german colonization of southern parts
 	1160.1.1 = { culture = german }
-	
+
 }
 
 # 4165 - Olomouc
 4165 = {	# 4165 - Olomouc
-	
-	
+
+
 	# Misc
 	culture = slovien
 	religion = slavic_pagan
-	
+
 	# History
-	
+
 	831.1.1 = { religion = catholic }
 	1030.1.1 = { culture = czech }
-	
-	
+
+
 }
 
 # 4125 - Praha
-4125 = {	
+4125 = {
 	# Misc
 	culture = czech
 	religion = slavic_pagan
-	
+
 	# History
 	883.1.1 = { religion = catholic }
 
 }
 
 # 4161 - Caslav
-4161 = {	
+4161 = {
 	# Misc
 	culture = czech
 	religion = slavic_pagan
-	
+
 	# History
 	867.1.1 = {
 		#holding = castle_holding

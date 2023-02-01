@@ -17,13 +17,16 @@ using System.Linq;
 using System.Text;
 using Color = SixLabors.ImageSharp.Color;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
 public static class BookmarkOutputter {
 	public static void OutputBookmark(World world, Configuration config) {
 		Logger.Info("Creating bookmark...");
-			
-		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/00_bookmarks.txt");
+
+		OutputBookmarkGroup(config);
+		Logger.IncrementProgress();
+
+		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, Encoding.UTF8);
 
@@ -31,7 +34,7 @@ public static class BookmarkOutputter {
 
 		output.WriteLine("bm_converted = {");
 
-		output.WriteLine("\tdefault = yes");
+		output.WriteLine("\tgroup = bm_converted");
 		output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
 		output.WriteLine("\tis_playable = yes");
 		output.WriteLine("\trecommended = yes");
@@ -49,12 +52,13 @@ public static class BookmarkOutputter {
 			var holder = world.Characters[holderId];
 
 			// Add character localization for bookmark screen.
-			localizations.Add($"bm_converted_{holder.Id}", holder.Localizations[holder.Name]);
-			var descLocKey = $"bm_converted_{holder.Id}_desc";
-			var descLocBlock = new LocBlock(descLocKey, "english") {
+			var holderLoc = new LocBlock($"bm_converted_{holder.Id}", "english");
+			holderLoc.CopyFrom(holder.Localizations[holder.Name]);
+			localizations.Add(holderLoc.Id, holderLoc);
+			var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", "english") {
 				["english"] = string.Empty
 			};
-			localizations.Add(descLocKey, descLocBlock);
+			localizations.Add(holderDescLoc.Id, holderDescLoc);
 
 			output.WriteLine("\tcharacter = {");
 
@@ -103,46 +107,36 @@ public static class BookmarkOutputter {
 
 		OutputBookmarkLoc(config, localizations);
 		Logger.IncrementProgress();
-			
+
 		DrawBookmarkMap(config, playerTitles, world);
 	}
 
+	private static void OutputBookmarkGroup(Configuration config) {
+		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
+		using var stream = File.OpenWrite(path);
+		using var output = new StreamWriter(stream, Encoding.UTF8);
+
+		output.WriteLine("bm_converted = {");
+		output.WriteLine($"\tdefault_start_date = {config.CK3BookmarkDate}");
+		output.WriteLine("}");
+	}
+
 	private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
+		var languages = new[] {"english", "french", "german", "korean", "russian", "simp_chinese", "spanish"};
+
 		var outputName = config.OutputModName;
-		using var englishStream = File.OpenWrite(
-			$"output/{outputName}/localization/english/converter_bookmark_l_english.yml");
-		using var frenchStream = File.OpenWrite(
-			$"output/{outputName}/localization/french/converter_bookmark_l_french.yml");
-		using var germanStream = File.OpenWrite(
-			$"output/{outputName}/localization/german/converter_bookmark_l_german.yml");
-		using var russianStream = File.OpenWrite(
-			$"output/{outputName}/localization/russian/converter_bookmark_l_russian.yml");
-		using var simpChineseStream = File.OpenWrite(
-			$"output/{outputName}/localization/spanish/converter_bookmark_l_simp_chinese.yml");
-		using var spanishStream = File.OpenWrite(
-			$"output/{outputName}/localization/spanish/converter_bookmark_l_spanish.yml");
-		using var english = new StreamWriter(englishStream, Encoding.UTF8);
-		using var french = new StreamWriter(frenchStream, Encoding.UTF8);
-		using var german = new StreamWriter(germanStream, Encoding.UTF8);
-		using var russian = new StreamWriter(russianStream, Encoding.UTF8);
-		using var simpChinese = new StreamWriter(simpChineseStream, Encoding.UTF8);
-		using var spanish = new StreamWriter(spanishStream, Encoding.UTF8);
+		var baseLocPath = Path.Combine("output", outputName, "localization");
+		foreach (var language in languages) {
+			var locFilePath = Path.Combine(baseLocPath, language, "converter_bookmark_l_english.yml");
+			using var locFileStream = File.OpenWrite(locFilePath);
+			using var locWriter = new StreamWriter(locFileStream, Encoding.UTF8);
 
-		english.WriteLine("l_english:");
-		french.WriteLine("l_french:");
-		german.WriteLine("l_german:");
-		russian.WriteLine("l_russian:");
-		simpChinese.WriteLine("l_simp_chinese:");
-		spanish.WriteLine("l_spanish:");
+			locWriter.WriteLine($"l_{language}:");
 
-		// title localization
-		foreach (var (key, loc) in localizations) {
-			english.WriteLine($" {key}: \"{loc["english"]}\"");
-			french.WriteLine($" {key}: \"{loc["french"]}\"");
-			german.WriteLine($" {key}: \"{loc["german"]}\"");
-			russian.WriteLine($" {key}: \"{loc["russian"]}\"");
-			simpChinese.WriteLine($" {key}: \"{loc["simp_chinese"]}\"");
-			spanish.WriteLine($" {key}: \"{loc["spanish"]}\"");
+			// title localization
+			foreach (var locBlock in localizations.Values) {
+				locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
+			}
 		}
 	}
 
@@ -262,7 +256,7 @@ public static class BookmarkOutputter {
 		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
 		bookmarkMapImage.SaveAsPng(outputPath);
 		ResaveImageAsDDS(outputPath);
-			
+
 		Logger.IncrementProgress();
 	}
 

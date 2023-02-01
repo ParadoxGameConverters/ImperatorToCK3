@@ -7,7 +7,7 @@ using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.States; 
+namespace ImperatorToCK3.Imperator.States;
 
 public class State : IIdentifiable<ulong> {
 	public ulong Id { get; }
@@ -17,7 +17,7 @@ public class State : IIdentifiable<ulong> {
 
 	public State(ulong id, BufferedReader stateReader, IdObjectCollection<string, Area> areas, CountryCollection countries) {
 		Id = id;
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("capital", reader => capitalProvinceId = reader.GetULong());
 		parser.RegisterKeyword("area", reader => Area = areas[reader.GetString()]);

@@ -5,7 +5,7 @@ using ImperatorToCK3.CK3;
 using System.IO;
 using System.Text;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
 public static class WorldOutputter {
 	public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
@@ -73,6 +73,11 @@ public static class WorldOutputter {
 
 		BookmarkOutputter.OutputBookmark(ck3World, config);
 
+		if (config.RiseOfIslam) {
+			CopyRiseOfIslamFilesToOutput(config);
+		}
+		Logger.IncrementProgress();
+
 		OutputPlaysetInfo(ck3World, outputName);
 	}
 
@@ -85,9 +90,25 @@ public static class WorldOutputter {
 		Logger.IncrementProgress();
 	}
 
+	private static void CopyRiseOfIslamFilesToOutput(Configuration config) {
+		Logger.Info("Copying Rise of Islam files to output...");
+		var outputPath = Path.Combine("output", config.OutputModName);
+		const string riseOfIslamFilesPath = "blankMod/optionalFiles/RiseOfIslam";
+		foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(riseOfIslamFilesPath)) {
+			var sourceFilePath = Path.Combine(riseOfIslamFilesPath, fileName);
+			var destFilePath = Path.Combine(outputPath, fileName);
+
+			var destDir = Path.GetDirectoryName(destFilePath);
+			if (destDir is not null) {
+				SystemUtils.TryCreateFolder(destDir);
+			}
+			File.Copy(sourceFilePath, destFilePath, true);
+		}
+	}
+
 	private static void ClearOutputModFolder(Configuration config) {
 		Logger.Info("Clearing the output mod folder...");
-				
+
 		var directoryToClear = $"output/{config.OutputModName}";
 		var di = new DirectoryInfo(directoryToClear);
 		if (!di.Exists) {
@@ -100,7 +121,7 @@ public static class WorldOutputter {
 		foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
 			dir.Delete(true);
 		}
-				
+
 		Logger.IncrementProgress();
 	}
 
@@ -108,11 +129,12 @@ public static class WorldOutputter {
 		var modFileBuilder = new StringBuilder();
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
-		modFileBuilder.AppendLine("replace_path = \"common/landed_titles\"");
-		modFileBuilder.AppendLine("replace_path = \"history/province_mapping\"");
-		modFileBuilder.AppendLine("replace_path = \"history/provinces\"");
-		modFileBuilder.AppendLine("replace_path = \"history/titles\"");
-		modFileBuilder.AppendLine("replace_path = \"history/wars\"");
+		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
+		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
+		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
+		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
+		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
+		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
 		var modText = modFileBuilder.ToString();
 
 		var modFilePath = Path.Combine("output", $"{outputName}.mod");
@@ -137,11 +159,17 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "bookmarks"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "casus_belli_types"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "character_interactions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "council_tasks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
@@ -177,7 +205,7 @@ public static class WorldOutputter {
 
 	private static void OutputPlaysetInfo(World ck3World, string outputModName) {
 		Logger.Info("Outputting CK3 playset info...");
-			
+
 		var modsForPlayset = new OrderedSet<Mod>();
 		foreach (var loadedMod in ck3World.LoadedMods) {
 			if (loadedMod.Name == "blankMod") {
@@ -193,11 +221,11 @@ public static class WorldOutputter {
 		}
 		using var outputStream = File.OpenWrite(outFilePath);
 		using var output = new StreamWriter(outputStream, Encoding.UTF8);
-			
+
 		foreach (var mod in modsForPlayset) {
 			output.WriteLine($"{mod.Name.AddQuotes()}={mod.Path.AddQuotes()}");
 		}
-			
+
 		Logger.IncrementProgress();
 	}
 }

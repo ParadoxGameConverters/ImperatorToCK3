@@ -10,7 +10,7 @@ namespace ImperatorToCK3 {
 				CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
 				CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 				CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-				
+
 				var converterVersion = new ConverterVersion();
 				converterVersion.LoadVersion("configurables/version.txt");
 				Logger.Info(converterVersion.ToString());
@@ -21,7 +21,7 @@ namespace ImperatorToCK3 {
 				Converter.ConvertImperatorToCK3(converterVersion);
 				return 0;
 			} catch (Exception e) {
-				Logger.Error(e.Message);
+				Logger.Error($"{e.GetType()}: {e.Message}");
 				if (e.StackTrace is not null) {
 					Logger.Debug(e.StackTrace);
 				}

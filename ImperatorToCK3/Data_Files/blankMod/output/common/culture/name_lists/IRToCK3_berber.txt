@@ -17,7 +17,7 @@
 
 	male_names = {
 		Amyrteos Ankhmachis Anemhor Aratos Arganos Charias Djedhor Ezena Horemakhet Isocrates Khabbabash Leonippus Lydiadas Manetho Massiva
-		Nakhthoreb Naravas Nefaarud Neferibre Nesisti Nicias Nicodemus Oezalces Oxyntas Pedubast Peneus Perdiccas Philocrates 
+		Nakhthoreb Naravas Nefaarud Neferibre Nesisti Nicias Nicodemus Oezalces Oxyntas Pedubast Peneus Perdiccas Philocrates
 		Philotheos Polyperchon Psherenamun Psherenptah Psammuthes Ptolemy Theocritus Therapon Timoleon Xanthos Xenon Zeteres Zosimus Ahmes
 		Ahmose Alarus Amasus Ameny Bakenrenef Cleomenes Euclid Harsiotef Henut Ibi Khabash Lagus Nectanebo Kheperkare Neferkare Nehi Osorkon Pami
 		Petubastis Teos
@@ -27,12 +27,12 @@
 		Demetria Elpis Eirene Eudocia Eunice Euphemia Eurydice Euthalia Hypatia Nysa Oenanthe Olympia Phila Phile Sostrate Stratonice Thais
 		Theophila Thetima Thessaloniki Thorakis Timo Arsinoe Lysandra Kiya Qelhata
 	}
-	
+
 	dynasty_of_location_prefix = "dynnp_mn"
-	
+
 	# https://en.wikipedia.org/wiki/Nomen_(Ancient_Egypt)
 	patronym_prefix_male = "dynnp_sa"
-	
+
 	founder_named_dynasties = yes
 
 	mercenary_names = {
@@ -60,18 +60,18 @@ name_list_numidian = {
 		Adherbal Bomilcar Ezena	Gauda Gulussa Hiempsal
 		Iampsas	Jugurtha Masinissa Massiva Mastanabal Micipsa
 		Nabdalsa Naravas Oxyntas Sypax Syphax Tacfarinas
-		Tychaeus Vermina Zeteres Gala Amastan Mastan 
+		Tychaeus Vermina Zeteres Gala Amastan Mastan
 	}
 	female_names = {
-		Anno Salammbo Sophonisba Panisba Ena Palema Synno Narva Enno Adhierno Ballanba 
+		Anno Salammbo Sophonisba Panisba Ena Palema Synno Narva Enno Adhierno Ballanba
 	}
-	
+
 	# https://glosbe.com/en/mis_ber/from
 	dynasty_of_location_prefix = "dynnp_seg"
-	
+
 	patronym_prefix_male = "dynnp_mem"
-	
-	
+
+
 	founder_named_dynasties = yes
 
 	mercenary_names = {

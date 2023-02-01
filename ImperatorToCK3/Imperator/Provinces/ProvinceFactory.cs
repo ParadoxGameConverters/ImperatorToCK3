@@ -49,6 +49,14 @@ public partial class Province {
 		provinceParser.RegisterKeyword("fort", reader =>
 			parsedProvince.Fort = reader.GetBool()
 		);
+		provinceParser.RegisterKeyword("holdings", reader => {
+			var holdingOwnerId = reader.GetULong();
+			// 4294967295 equals (2^32 − 1) and is the default value
+			// otherwise, the value is the ID of a character
+			if (holdingOwnerId != 4294967295) {
+				parsedProvince.HoldingOwnerId = holdingOwnerId;
+			}
+		});
 		provinceParser.RegisterKeyword("holy_site", reader => {
 			var holySiteId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
@@ -66,16 +74,16 @@ public partial class Province {
 	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states, CountryCollection countries) {
 		parsedStateId = null;
 		parsedOwnerId = null;
-		
+
 		parsedProvince = new Province(provinceId);
 		provinceParser.ParseStream(reader);
-		
+
 		if (parsedStateId is not null) {
 			parsedProvince.State = states[parsedStateId.Value];
 		}
 
 		parsedProvince.TryLinkOwnerCountry(parsedOwnerId, countries);
-		
+
 		return parsedProvince;
 	}
 
@@ -96,6 +104,6 @@ public partial class Province {
 	private static Province parsedProvince = new(0);
 	private static ulong? parsedStateId = null;
 	private static ulong? parsedOwnerId = null;
-	
+
 	private static readonly Parser provinceParser = new();
 }

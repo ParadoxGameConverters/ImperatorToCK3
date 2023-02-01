@@ -5,7 +5,7 @@ using ImperatorToCK3.Mappers.Culture;
 using Xunit;
 using ImperatorToCK3.Mappers.Region;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Culture; 
+namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -14,7 +14,7 @@ public class CultureMapperTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
-	
+
 	[Fact]
 	public void NonMatchGivesEmptyOptional() {
 		var reader = new BufferedReader(
@@ -108,7 +108,7 @@ public class CultureMapperTests {
 	[Fact]
 	public void CultureFailsWithWrongHistoricalTag() {
 		var reader = new BufferedReader(
-			"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 tag = ROM }"
+			"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 historicalTag = ROM }"
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
@@ -137,9 +137,15 @@ public class CultureMapperTests {
 
 	[Fact]
 	public void CultureFailsWithHistoricalTagInRule() {
-		var reader = new BufferedReader(
-			"link = { ck3 = culture imp = qwe imp = test imp = poi religion = thereligion ck3Province = 4 tag = ROM }"
-		);
+		var reader = new BufferedReader("""
+		link = {
+			ck3=culture
+			imp=qwe imp=test imp=poi
+			religion=thereligion
+			ck3Province=4
+			historicalTag=ROM
+		}
+		""");
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
 		Assert.Null(culMapper.Match("test", "thereligion", 4, 49, ""));
@@ -224,8 +230,8 @@ public class CultureMapperTests {
 		);
 		var cultureMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", "", 0, impProvinceId: 1, ""));
-		Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, impProvinceId: 1, ""));
-		Assert.Equal("high_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, impProvinceId: 2, ""));
+		Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", "", 0, irProvinceId: 1, ""));
+		Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, irProvinceId: 1, ""));
+		Assert.Equal("high_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, irProvinceId: 2, ""));
 	}
 }

@@ -4,7 +4,7 @@ using ImperatorToCK3.Imperator.Geography;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Mappers.Region; 
+namespace ImperatorToCK3.Mappers.Region;
 
 public class ImperatorRegion : IIdentifiable<string> {
 	public IdObjectCollection<string, Area> Areas { get; } = new();

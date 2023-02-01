@@ -27,12 +27,11 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ImperatorToCK3.CK3; 
+namespace ImperatorToCK3.CK3;
 
 public class World {
 	public OrderedSet<Mod> LoadedMods { get; }
@@ -47,14 +46,18 @@ public class World {
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; }
 	public List<Wars.War> Wars { get; } = new();
+
+	/// <summary>
+	/// Date based on I:R save date, but normalized for CK3 purposes.
+	/// </summary>
 	public Date CorrectedDate { get; }
 
 	public World(Imperator.World impWorld, Configuration config) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
-			
+
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
-			
+
 		// Determine CK3 bookmark date.
 		CorrectedDate = impWorld.EndDate.Year > 1 ? impWorld.EndDate : new Date(2, 1, 1);
 		if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
@@ -105,13 +108,14 @@ public class World {
 
 			Title.LandedTitles overrideTitles = new();
 			overrideTitles.LoadStaticTitles();
+			Logger.Debug("Carving titles...");
 			LandedTitles.CarveTitles(overrideTitles);
 
 			Logger.IncrementProgress();
 		}
 		LandedTitles.LoadHistory(config, ModFS);
 		LandedTitles.LoadCulturalNamesFromConfigurables();
-			
+
 		// Load CK3 religions from game and blankMod.
 		// Holy sites need to be loaded after landed titles.
 		Religions.LoadHolySites(ModFS);
@@ -143,7 +147,7 @@ public class World {
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-		Dynasties.ImportImperatorFamilies(impWorld, impWorld.LocDB);
+		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB);
 
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,
@@ -184,6 +188,8 @@ public class World {
 			countyLevelGovernorships
 		);
 
+		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
+
 		OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
@@ -197,7 +203,7 @@ public class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles);
-			
+
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);
 		RemoveIslamFromAfrica(config);
@@ -207,10 +213,10 @@ public class World {
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
 	}
-		
+
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
 		Logger.Info("Importing I:R wars...");
-			
+
 		foreach (var irWar in irWorld.Wars) {
 			try {
 				var ck3War = new Wars.War(irWar, warMapper, provinceMapper, irWorld.Countries, irWorld.States, Provinces, LandedTitles, ck3BookmarkDate);
@@ -523,7 +529,7 @@ public class World {
 			namePool = new Queue<string>(new[] { "A_engus", "Domnall", "Rechtabra" });
 		}
 	}
-		
+
 	/// <summary>
 	/// It makes no sense to have Islam in Africa before the rise of Islam.
 	/// This method removes it.
@@ -531,14 +537,14 @@ public class World {
 	private void RemoveIslamFromAfrica(Configuration config) {
 		Logger.Info("Removing Islam from Africa...");
 		var date = config.CK3BookmarkDate;
-			
+
 		if (!Religions.TryGetValue("islam_religion", out var islam)) {
 			Logger.Debug("islam_religion not found in religions.");
 			return;
 		}
-			
+
 		var muslimFaiths = islam.Faiths;
-			
+
 		var muslimAfricanProvinces = Provinces
 			.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, "world_africa"))
 			.Where(p => p.GetFaithId(date) is string faithId && muslimFaiths.ContainsKey(faithId))
@@ -557,7 +563,7 @@ public class World {
 				Logger.Warn($"Faith {faithId} not found.");
 				continue;
 			}
-				
+
 			var regionProvinces = muslimAfricanProvinces
 				.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
 			foreach (var province in regionProvinces) {
@@ -568,7 +574,7 @@ public class World {
 				muslimAfricanProvinces.Remove(province);
 			}
 		}
-			
+
 		Logger.IncrementProgress();
 	}
 

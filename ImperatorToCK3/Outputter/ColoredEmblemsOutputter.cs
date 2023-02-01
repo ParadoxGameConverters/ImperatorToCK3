@@ -45,7 +45,7 @@ public static class ColoredEmblemsOutputter {
 
 		void CopyEmblem(string emblemFilePath) {
 			var fileName = CommonFunctions.TrimPath(emblemFilePath);
-			
+
 			if (IsBrokenEmblem(fileName, config)) {
 				return;
 			}

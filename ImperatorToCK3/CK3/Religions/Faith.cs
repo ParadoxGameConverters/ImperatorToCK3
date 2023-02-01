@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace ImperatorToCK3.CK3.Religions; 
+namespace ImperatorToCK3.CK3.Religions;
 
 public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
@@ -44,7 +44,7 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 		if (withBraces) {
 			contentIndent += '\t';
 		}
-		
+
 		var sb = new StringBuilder();
 		if (withBraces) {
 			sb.AppendLine("{");

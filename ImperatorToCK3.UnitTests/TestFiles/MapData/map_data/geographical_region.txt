@@ -3,7 +3,7 @@
 #	duchies = { }, takes duchy title names declared in landed_titles.txt
 #	counties = { }, takes county title names declared in landed_titles.txt
 #	provinces = { }, takes province id numbers declared in /history/provinces
-#	regions = { }, a region can also include other regions, however the subregions needs to be declared before the parent region. 
+#	regions = { }, a region can also include other regions, however the subregions needs to be declared before the parent region.
 #		E.g. If the region world_europe contains the region world_europe_west then world_europe_west needs to be declared as a region before (i.e. higher up in this file) world_europe.
 
 ###########################################################################
@@ -47,7 +47,7 @@
 # > world_steppe_west
 # > world_steppe_east
 
- 
+
 world_europe_west_britannia = {
 	duchies = {
 		# England
@@ -73,9 +73,9 @@ world_europe_west_germania = {
 		# East Francia
 		d_west_franconia d_east_franconia d_hesse d_currezia d_alsace d_swabia
 		# Bohemia
-		d_bohemia d_moravia 
+		d_bohemia d_moravia
 		# Pomerania
-		d_pommerania d_nordmark d_pomerelia d_ostmark 
+		d_pommerania d_nordmark d_pomerelia d_ostmark
 	}
 }
 world_europe_west_francia = {
@@ -110,15 +110,15 @@ world_europe_north = {
 		d_aarjetje d_duortnoseatnu d_giemajohka d_guoldat d_vuovdisamieana
 	}
 }
-world_europe_south_east = { 
+world_europe_south_east = {
 	duchies = {
 		#West ERE
 		d_thrace d_strymon d_thessalonika d_thessaly d_dyrrachion d_cephalonia d_epirus d_athens d_achaia d_krete d_cyprus d_vidin d_turnovo d_dobrudja d_bulgaria d_philippopolis d_rashka d_macva d_slavonia d_croatia d_dalmatia d_usora
-		#d_adrianopolis d_karvuna d_dioclea 
+		#d_adrianopolis d_karvuna d_dioclea
 		d_bosna d_lower_bosna d_krain d_istria d_ragusa d_duklja
 	}
 }
-world_europe_south_italy = { 
+world_europe_south_italy = {
 	duchies = {
 		#Italia
 		d_verona d_lombardia d_genoa d_emilia d_romagna d_toscana d_pisa d_ancona d_spoleto d_latium d_corsica d_sardinia d_venice d_piedmonte d_friuli
@@ -158,7 +158,7 @@ world_asia_minor = {
 		#Anatolia
 		d_aegean_islands d_ephese d_opsikion d_cilicia d_cibyrrhaeot d_anatolia d_thracesia d_optimatoi d_bucellaria d_paphlagonia d_armeniac d_sebasteia d_charsianon d_cappadocia d_chaldia
 		#Armenia
-		d_mesopotamia d_vaspurakan d_greater_armenia 
+		d_mesopotamia d_vaspurakan d_greater_armenia
 		#Georgia
 		d_tao-klarjeti d_abkhazia d_georgia
 		#Azerbaijan
@@ -187,11 +187,11 @@ world_middle_east_arabia = {
 		d_sinai
 	}
 }
-world_middle_east_persia = { 
+world_middle_east_persia = {
 	# Persia, minus duchies which already exist in world_middle_east
 	duchies = {
 		#Persia
-		d_isfahan d_kirman d_yazd d_rayy d_hamadan d_fars d_hormuz d_khuzestan  
+		d_isfahan d_kirman d_yazd d_rayy d_hamadan d_fars d_hormuz d_khuzestan
 		#k_khorasan
 		d_nishapur d_merv d_ghur d_herat d_balkh d_nasa d_kohestan
 		#k_daylam
@@ -294,7 +294,7 @@ world_africa_west = {
 		d_jenne d_bobo
 		#Kaabu
 		d_kaabu d_wuli d_kasa
-		
+
 		#Guinea
 		d_sapi d_kono d_bassa
 		#Toro
@@ -313,7 +313,7 @@ world_africa_west = {
 		d_ibadan d_oyo d_ife d_benin
 		#Igbo-Benue
 		d_igboland d_nupe d_kwararafa
-		
+
 		#Kanem
 		d_kanem d_bornu d_kagha
 		#Sao
@@ -336,7 +336,7 @@ world_africa_east = {
 		d_damot d_kaffa d_sharka
 		#Adal
 		d_dawaro d_adal d_mora d_danakil d_zaila d_sanaag
-		
+
 		#Ajuraan
 		d_hafun d_mogadishu d_west_ajuraan
 		#Outer Ajuraan
@@ -436,7 +436,7 @@ world_india = {
 ###########################################################################
 
 
-world_persian_empire = { 
+world_persian_empire = {
 	regions = {
 		world_persia
 		world_khorasan
@@ -705,8 +705,8 @@ custom_roman_hibernia = {
 	}
 }
 custom_roman_full_borders = {
-	regions = { #Hispania #Francia #England #Wales #North-Africa #Jerusalem #Europe South (Italy+ERE) #Asia Minor 
-		world_europe_west_iberia world_europe_west_francia custom_england custom_wales world_africa_north world_middle_east_jerusalem world_europe_south world_asia_minor 
+	regions = { #Hispania #Francia #England #Wales #North-Africa #Jerusalem #Europe South (Italy+ERE) #Asia Minor
+		world_europe_west_iberia world_europe_west_francia custom_england custom_wales world_africa_north world_middle_east_jerusalem world_europe_south world_asia_minor
 	}
 }
 custom_outremer = {
@@ -725,24 +725,24 @@ custom_outremer = {
 		d_oultrejourdain d_palestine d_urdunn
 	}
 }
-custom_sicily = { 
-	duchies = { 
+custom_sicily = {
+	duchies = {
 		#Sicily
 		d_benevento d_capua d_apulia d_salerno d_calabria d_sicily
 	}
 }
-custom_hungary = { 
-	duchies = { 
+custom_hungary = {
+	duchies = {
 		#Hungary
 		d_visegrad d_somogy d_nyitra d_ungvar d_transcarpathia d_transylvania d_bihar d_temes d_bacs d_gyor d_syrmia
 	}
 }
-custom_carpathia = { 
-	duchies = { 
+custom_carpathia = {
+	duchies = {
 		#Hungary
 		d_visegrad d_somogy d_nyitra d_ungvar d_transcarpathia d_transylvania d_bihar d_temes d_bacs d_gyor d_syrmia
 		#Dacia
-		d_transylvanian_alps d_muntenia d_oltenia 
+		d_transylvanian_alps d_muntenia d_oltenia
 		#Moldavia
 		d_bukovina d_moldova d_bugeac
 	}
@@ -762,11 +762,11 @@ custom_europe_western_germany = {
 custom_europe_eastern_germany = {
 	duchies = {
 		# Pomerania
-		d_pommerania d_nordmark d_pomerelia d_ostmark 
+		d_pommerania d_nordmark d_pomerelia d_ostmark
 		# Saxony
 		d_anhalt d_angria d_westfalen d_ostfalen d_meissen d_lausitz d_holstein d_thuringia
 		# Bohemia
-		d_bohemia d_moravia 
+		d_bohemia d_moravia
 	}
 }
 
@@ -812,7 +812,7 @@ custom_bactria = {
 		d_osrushana
 		d_ferghana
 	}
-} 
+}
 
 custom_south_francia = {
 	duchies = {
@@ -836,7 +836,7 @@ custom_slavia = {
 	duchies = {
 		#Poland
 		d_lesser_poland d_wielkopolska d_mazovia d_upper_silesia d_lower_silesia d_kuyavia
-		#Pomerania 
+		#Pomerania
 		d_pommerania d_nordmark d_pomerelia d_ostmark
 		#Bohemia
 		d_bohemia d_moravia
@@ -844,7 +844,7 @@ custom_slavia = {
 		d_dalmatia d_croatia d_slavonia d_ragusa
 		#Bosnia
 		d_bosna d_lower_bosna d_usora
-		#Serbia		
+		#Serbia
 		d_rashka d_macva d_duklja
 		#Bulgaria
 		d_vidin d_turnovo d_dobrudja d_bulgaria d_philippopolis
@@ -854,7 +854,7 @@ custom_slavia = {
 		d_bukovina d_moldova d_bugeac
 		#Hungary
 		d_visegrad d_somogy d_nyitra d_ungvar d_transcarpathia d_transylvania d_bihar d_temes d_bacs d_gyor d_syrmia
-		#White Rus 
+		#White Rus
 		d_grodno d_pinsk d_minsk d_polotsk d_smolensk d_opolye
 		#Galicia-Volhynia
 		d_volhynia d_halych d_cherven_cities
@@ -873,7 +873,7 @@ custom_west_slavia = {
 	duchies = {
 		#Poland
 		d_lesser_poland d_wielkopolska d_mazovia d_upper_silesia d_lower_silesia d_kuyavia
-		#Pomerania 
+		#Pomerania
 		d_pommerania d_nordmark d_pomerelia d_ostmark
 		#Bohemia
 		d_bohemia d_moravia
@@ -886,7 +886,7 @@ custom_south_slavia = {
 	duchies = {
 		#Croatia
 		d_dalmatia d_croatia d_slavonia d_ragusa
-		#Serbia		
+		#Serbia
 		d_rashka d_macva d_duklja
 		#Bulgaria
 		d_vidin d_turnovo d_dobrudja d_bulgaria d_philippopolis
@@ -985,7 +985,7 @@ custom_sahel_proper = {
 		d_nobatia d_makuria d_shamir d_alwa d_sennar
 		#k_blemmyia
 		d_naqis d_bazin d_baqlin
-	} 
+	}
 }
 
 custom_sub_saharan_africa_immediate = {
@@ -1144,7 +1144,7 @@ world_innovation_camels = {
 #Persian Kingdoms and Empire.
 world_persia = { #k_persia
 	duchies = {
-		d_isfahan d_kirman d_yazd d_rayy d_hamadan d_fars d_hormuz d_khuzestan d_kermanshah 
+		d_isfahan d_kirman d_yazd d_rayy d_hamadan d_fars d_hormuz d_khuzestan d_kermanshah
 	}
 }
 world_khorasan = { #k_khorasan
@@ -1216,7 +1216,7 @@ special_mongol_empire_conquest_region_prio_1 = {
 		# k_khotan
 		d_karashar d_khotan d_kashgar d_charkliq
 		#  k_dzungaria
-		d_kara_khoja d_naiman_gobi d_gurbantunggut d_altay 
+		d_kara_khoja d_naiman_gobi d_gurbantunggut d_altay
 		# k_zhetysu
 		d_zhetysu d_alakol d_tarbagatai d_ili-alatau
 		# k_kipchak
@@ -1422,7 +1422,7 @@ special_cagot_region = {
 #####################
 
 #Neutral GHW Target Regions
-ghw_region_northern_italy = { 
+ghw_region_northern_italy = {
 	duchies = {
 		#Italy
 		d_friuli d_verona d_piedmonte d_lombardia d_genoa d_emilia d_pisa d_toscana
@@ -1725,7 +1725,7 @@ ghw_region_horn_of_africa = {
 		d_hafun d_mogadishu d_west_ajuraan
 		#Outer Ajuraan
 		d_shabelle d_bali d_samalo
-	}	
+	}
 }
 ghw_region_the_sahel = {
 	duchies = {
@@ -1796,7 +1796,7 @@ ghw_region_eastern_sahara = {
 ghw_region_western_india = {
 	duchies = {
 		#Sindh
-		d_sauvira d_bhakkar 
+		d_sauvira d_bhakkar
 		#Punjab
 		d_multan d_lahore d_gandhara
 		#Delhi
@@ -2043,7 +2043,7 @@ ghw_region_poland_bohemia_bavaria = {
 ghw_region_northern_india = {
 	duchies = {
 		#Sindh
-		d_sauvira d_bhakkar 
+		d_sauvira d_bhakkar
 		#Punjab
 		d_multan d_lahore d_gandhara
 		#Delhi
@@ -2057,9 +2057,9 @@ ghw_region_northern_india = {
 		#Kosala
 		d_kanyakubja d_saryupara d_jejakabhukti
 		#Gondwana
-		d_dahala d_ratanpur 
+		d_dahala d_ratanpur
 		#Bihar
-		d_tirabhukti d_kasi d_jharkand  d_magadha 
+		d_tirabhukti d_kasi d_jharkand  d_magadha
 		#Bengal
 		d_vanga d_varendra d_gauda d_nadia d_suhma
 		#Kamarupa
@@ -2077,9 +2077,9 @@ ghw_region_khotan = {
 ghw_region_southern_india = {
 	duchies = {
 		#Maharastra
-		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi 
+		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi
 		#Orissa
-		d_daksina_kosala d_kalinga d_dandakaranya 
+		d_daksina_kosala d_kalinga d_dandakaranya
 		#Telingana
 		d_warangal d_racakonda
 		#Karnata
@@ -2087,19 +2087,19 @@ ghw_region_southern_india = {
 		#Andhra
 		d_vengi d_udayagiri
 		#Tamilakam
-		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu 
+		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu
 		#Lanka
-		d_dakhina_desa d_ruhunu d_sinhala 
+		d_dakhina_desa d_ruhunu d_sinhala
 	}
 }
 ghw_region_southwestern_india = {
 	duchies = {
 		#Maharastra
-		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi 
+		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi
 		#Karnata
 		d_kalyani d_gangavadi d_nulambavadi d_raichur_doab
 		#Western Tamilakam
-		d_pandya_nadu d_chera_nadu 
+		d_pandya_nadu d_chera_nadu
 	}
 }
 
@@ -2108,7 +2108,7 @@ ghw_region_the_ganges = {
 		#Kosala
 		d_kanyakubja d_saryupara d_jejakabhukti
 		#Bihar
-		d_tirabhukti d_kasi d_jharkand  d_magadha 
+		d_tirabhukti d_kasi d_jharkand  d_magadha
 		#Bengal
 		d_vanga d_varendra d_gauda d_nadia d_suhma
 	}
@@ -2116,7 +2116,7 @@ ghw_region_the_ganges = {
 ghw_region_non_ganges_india = {
 	duchies = {
 		#Sindh
-		d_sauvira d_bhakkar 
+		d_sauvira d_bhakkar
 		#Punjab
 		d_multan d_lahore d_gandhara
 		#Delhi
@@ -2128,13 +2128,13 @@ ghw_region_non_ganges_india = {
 		#Malwa
 		d_dadhipadra d_akara_dasarna d_anupa
 		#Gondwana
-		d_dahala d_ratanpur 
+		d_dahala d_ratanpur
 		#Kamarupa
 		d_kamarupanagara d_sutiya
 		#Maharastra
-		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi 
+		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi
 		#Orissa
-		d_daksina_kosala d_kalinga d_dandakaranya 
+		d_daksina_kosala d_kalinga d_dandakaranya
 		#Telingana
 		d_warangal d_racakonda
 		#Karnata
@@ -2142,7 +2142,7 @@ ghw_region_non_ganges_india = {
 		#Andhra
 		d_vengi d_udayagiri
 		#Tamilakam
-		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu 
+		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu
 		#Lanka
 		d_dakhina_desa d_ruhunu d_sinhala
 	}
@@ -2158,7 +2158,7 @@ ghw_region_gujarat_&_rajputana = {
 ghw_region_non_gujarat_or_rajputana_india = {
 	duchies = {
 		#Sindh
-		d_sauvira d_bhakkar 
+		d_sauvira d_bhakkar
 		#Punjab
 		d_multan d_lahore d_gandhara
 		#Delhi
@@ -2168,17 +2168,17 @@ ghw_region_non_gujarat_or_rajputana_india = {
 		#Kosala
 		d_kanyakubja d_saryupara d_jejakabhukti
 		#Gondwana
-		d_dahala d_ratanpur 
+		d_dahala d_ratanpur
 		#Bihar
-		d_tirabhukti d_kasi d_jharkand  d_magadha 
+		d_tirabhukti d_kasi d_jharkand  d_magadha
 		#Bengal
 		d_vanga d_varendra d_gauda d_nadia d_suhma
 		#Kamarupa
 		d_kamarupanagara d_sutiya
 		#Maharastra
-		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi 
+		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi
 		#Orissa
-		d_daksina_kosala d_kalinga d_dandakaranya 
+		d_daksina_kosala d_kalinga d_dandakaranya
 		#Telingana
 		d_warangal d_racakonda
 		#Karnata
@@ -2186,7 +2186,7 @@ ghw_region_non_gujarat_or_rajputana_india = {
 		#Andhra
 		d_vengi d_udayagiri
 		#Tamilakam
-		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu 
+		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu
 		#Lanka
 		d_dakhina_desa d_ruhunu d_sinhala
 	}
@@ -2198,7 +2198,7 @@ ghw_region_lanka_&_bengal = {
 		#Kamarupa
 		d_kamarupanagara d_sutiya
 		#Lanka
-		d_dakhina_desa d_ruhunu d_sinhala 
+		d_dakhina_desa d_ruhunu d_sinhala
 	}
 }
 ghw_region_middle_india = {
@@ -2208,13 +2208,13 @@ ghw_region_middle_india = {
 		#Kosala
 		d_kanyakubja d_saryupara d_jejakabhukti
 		#Gondwana
-		d_dahala d_ratanpur 
+		d_dahala d_ratanpur
 		#Bihar
-		d_tirabhukti d_kasi d_jharkand  d_magadha 
+		d_tirabhukti d_kasi d_jharkand  d_magadha
 		#Maharastra
-		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi 
+		d_vidharba d_konkana d_nasikya d_devagiri d_rattapadi
 		#Orissa
-		d_daksina_kosala d_kalinga d_dandakaranya 
+		d_daksina_kosala d_kalinga d_dandakaranya
 		#Telingana
 		d_warangal d_racakonda
 		#Karnata
@@ -2222,7 +2222,7 @@ ghw_region_middle_india = {
 		#Andhra
 		d_vengi d_udayagiri
 		#Tamilakam
-		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu 
+		d_chola_nadu d_pandya_nadu d_chera_nadu d_tondai_nadu
 	}
 }
 ghw_region_north_eastern_india = {
@@ -2230,15 +2230,15 @@ ghw_region_north_eastern_india = {
 		#Kosala
 		d_kanyakubja d_saryupara d_jejakabhukti
 		#Gondwana
-		d_dahala d_ratanpur 
+		d_dahala d_ratanpur
 		#Bihar
-		d_tirabhukti d_kasi d_jharkand  d_magadha 
+		d_tirabhukti d_kasi d_jharkand  d_magadha
 		#Bengal
 		d_vanga d_varendra d_gauda d_nadia d_suhma
 		#Kamarupa
 		d_kamarupanagara d_sutiya
 		#Orissa
-		d_daksina_kosala d_kalinga d_dandakaranya 
+		d_daksina_kosala d_kalinga d_dandakaranya
 	}
 }
 
@@ -2437,7 +2437,7 @@ dlc_fp1_region_non_scandinavian_southern_baltic = {
 dlc_fp1_region_colonial_eastern_europe = {
 	duchies = {
 		# Wendish Lands
-		d_mazovia d_upper_silesia d_lower_silesia d_lesser_poland d_wielkopolska d_kuyavia d_livonia d_prussia d_masuria d_grodno d_pinsk d_minsk d_polotsk d_smolensk d_lithuanians d_courland d_latgalians d_samogitia d_pommerania d_nordmark d_pomerelia d_ostmark 
+		d_mazovia d_upper_silesia d_lower_silesia d_lesser_poland d_wielkopolska d_kuyavia d_livonia d_prussia d_masuria d_grodno d_pinsk d_minsk d_polotsk d_smolensk d_lithuanians d_courland d_latgalians d_samogitia d_pommerania d_nordmark d_pomerelia d_ostmark
 		#Russia
 		d_novgorod d_vepsia d_luki d_kiev d_karachev d_novosil d_opolye d_nizhny_novgorod d_turov d_chernigov d_ryazan d_pereyaslavl
 		#Bjarmaland

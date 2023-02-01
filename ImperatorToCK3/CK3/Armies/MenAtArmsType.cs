@@ -5,24 +5,24 @@ using ImperatorToCK3.CK3.Characters;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ImperatorToCK3.CK3.Armies; 
+namespace ImperatorToCK3.CK3.Armies;
 
 public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 
 	[SerializedName("can_recruit")] public StringOfItem CanRecruit { get; private set; } = new("{}");
 	[SerializedName("stack")] public int Stack { get; private set; } = 100;
-	
+
 	[SerializedName("buy_cost")] public MenAtArmsCost? BuyCost { get; set; }
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
 	[SerializedName("high_maintenance_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
 
 	[NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
 	[NonSerialized] public bool ToBeOutputted { get; } = false;
-	
+
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
 		Id = id;
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("stack", reader => Stack = reader.GetInt());
 		parser.RegisterKeyword("can_recruit", reader => CanRecruit = reader.GetStringOfItem());
@@ -38,7 +38,7 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 
 	public MenAtArmsType(MenAtArmsType baseType, Character character, int stack, Date bookmarkDate) {
 		ToBeOutputted = true;
-		
+
 		Id = $"IRToCK3_maa_{character.Id}_{baseType.Id}";
 		CanRecruit = new StringOfItem(
 			"{ " +
@@ -47,7 +47,7 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 			$"current_date<={bookmarkDate.ChangeByMonths(1)} " +
 			"}");
 		Stack = stack;
-		
+
 		BuyCost = new MenAtArmsCost {Gold = 0};
 		var stackRatio = stack / baseType.Stack;
 		if (baseType.LowMaintenanceCost is not null) {

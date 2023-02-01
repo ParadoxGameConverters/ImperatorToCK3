@@ -3,10 +3,9 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Families; 
+namespace ImperatorToCK3.Imperator.Families;
 
 public class Family : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;

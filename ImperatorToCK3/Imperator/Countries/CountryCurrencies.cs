@@ -2,7 +2,7 @@
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Countries; 
+namespace ImperatorToCK3.Imperator.Countries;
 
 public class CountryCurrencies : Parser {
 	public double Manpower { get; private set; } = 0;

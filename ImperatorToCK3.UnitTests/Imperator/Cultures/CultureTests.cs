@@ -23,7 +23,7 @@ public class CultureTests {
 		""");
 
 		var culture = new Culture("balkan", reader);
-		
+
 		Assert.Equal("balkan", culture.Id);
 		Assert.Equal("Python", culture.GetMaleFamilyNameForm("Python"));
 		Assert.Equal("Obama", culture.GetMaleFamilyNameForm("Obama"));

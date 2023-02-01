@@ -24,7 +24,7 @@ using System.Linq;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
 using Parser = commonItems.Parser;
 
-namespace ImperatorToCK3.Imperator; 
+namespace ImperatorToCK3.Imperator;
 
 public class World : Parser {
 	private readonly Date startDate = new("450.10.1", AUC: true);
@@ -112,13 +112,13 @@ public class World : Parser {
 			ModLoader modLoader = new();
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
-				
+
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 			LoadModFilesystemDependentData();
 		});
 		RegisterKeyword("variables", reader => {
 			Logger.Info("Reading global variables...");
-				
+
 			var variables = new HashSet<string>();
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
@@ -133,7 +133,7 @@ public class World : Parser {
 			variablesParser.IgnoreAndLogUnregisteredItems();
 			variablesParser.ParseStream(reader);
 			GlobalFlags = variables.ToImmutableHashSet();
-				
+
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("family", reader => {
@@ -164,7 +164,7 @@ public class World : Parser {
 			Provinces.LoadProvinces(reader, States, Countries);
 			Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
 			Logger.Info($"Loaded {Provinces.Count} provinces.");
-			
+
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("armies", reader => {
@@ -239,7 +239,7 @@ public class World : Parser {
 		Provinces.LinkPops(pops);
 		Logger.Info("Linking Countries with Families...");
 		Countries.LinkFamilies(Families);
-			
+
 		LoadPreImperatorRulers();
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
@@ -330,20 +330,24 @@ public class World : Parser {
 	private void LoadModFilesystemDependentData() {
 		scriptValues.LoadScriptValues(ModFS);
 		Logger.IncrementProgress();
+
 		Defines.LoadDefines(ModFS);
+
+		Logger.Info("Loading named colors...");
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
-			
+		Logger.IncrementProgress();
+
 		ParseGenes();
-			
+
 		Areas.LoadAreas(ModFS, Provinces);
 		Country.LoadGovernments(ModFS);
-			
+
 		CulturesDB.Load(ModFS);
-				
+
 		Religions = new ReligionCollection(scriptValues);
 		Religions.LoadDeities(ModFS);
 		Religions.LoadReligions(ModFS);
-			
+
 		LocDB.ScrapeLocalizations(ModFS);
 		Logger.IncrementProgress();
 	}

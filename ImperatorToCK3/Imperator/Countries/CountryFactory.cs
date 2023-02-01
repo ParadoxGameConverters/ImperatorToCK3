@@ -5,7 +5,7 @@ using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Countries; 
+namespace ImperatorToCK3.Imperator.Countries;
 
 public partial class Country {
 	private const string monarchyLawRegexStr = "succession_law|monarchy_military_reforms|monarchy_maritime_laws|monarchy_economic_law|monarchy_citizen_law" +
@@ -60,7 +60,7 @@ public partial class Country {
 		parser.RegisterKeyword("capital", reader => {
 			var capitalProvId = reader.GetULong();
 			if (capitalProvId > 0) {
-				parsedCountry.Capital = capitalProvId;
+				parsedCountry.CapitalProvinceId = capitalProvId;
 			}
 		});
 		parser.RegisterKeyword("historical_regnal_numbers", reader => {

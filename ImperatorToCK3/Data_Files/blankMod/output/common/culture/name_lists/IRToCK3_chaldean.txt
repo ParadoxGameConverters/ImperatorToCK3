@@ -16,14 +16,14 @@
 		male_names = {
 			Bardo Bardol Barnahy Barta Bartalan Bartel Barthelemy Bartley Bartol Batt Beartlaidh
 			Berti Jagur Mar Myrron Parlan Parthalan Tadeo Tam Tammy Teoma Thaddeus Thady
-			Thom Thomas Tom Tommy Zacchaeus Zebedeo 
+			Thom Thomas Tom Tommy Zacchaeus Zebedeo
 		}
 		female_names = {
 			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
 			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
-			Wardat-Ninurta 
+			Wardat-Ninurta
 		}
-		
+
 		patronym_prefix_male = prefix_yiliydoa
 		patronym_prefix_female = prefix_dbartoa
 		dynasty_of_location_prefix = prefix_dmen
@@ -73,18 +73,18 @@ name_list_babylonian = {
 			Ninurta-beli Ninurta-belshunu Ninurta-eriba Ninurta-etir Ninurta-ibni
 			Ninurta-iddin Ninurta-uballit Kidin-Ninurta Lusthammar-Ninurta
 			Nidinti-Ninurta Rihat-Ninurta Shamshi-Ninurta Shipqat-Ninurta
-			Tanittu-Ninurta Tukulti-Ninurta 
+			Tanittu-Ninurta Tukulti-Ninurta
 		}
 		female_names = {
 			Wardat-Marduk Wardat-Bel Wardat-Shamash Wardat-Ashshur
 			Wardat-Ishtar Wardat-Adad Wardat-Nergal Wardat-Sin Wardat-Enlil
-			Wardat-Ninurta 
+			Wardat-Ninurta
 		}
 
 		mercenary_names = {
 			{ name = "ir_chariots_of_marduk" coat_of_arms = "BABYLON_FLAG" }
 		}
-		
+
 		patronym_prefix_male = prefix_aplu
 		patronym_prefix_female = prefix_bintu
 		dynasty_of_location_prefix = prefix_ildu

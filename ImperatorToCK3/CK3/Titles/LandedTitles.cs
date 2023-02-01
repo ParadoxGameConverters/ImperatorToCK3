@@ -19,6 +19,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
@@ -27,7 +28,7 @@ namespace ImperatorToCK3.CK3.Titles;
 public partial class Title {
 	[commonItems.Serialization.NonSerialized] private readonly LandedTitles parentCollection;
 
-	// This is a recursive class that scrapes 00_landed_titles.txt (and related files) looking for title colors, landlessness,
+	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
 	public class LandedTitles : TitleCollection {
@@ -82,8 +83,7 @@ public partial class Title {
 			// merge in new king and empire titles into this from overrides, overriding duplicates
 			foreach (var overrideTitle in overrides.Where(t => t.Rank > TitleRank.duchy)) {
 				// inherit vanilla vassals
-				Title? vanillaTitle = null;
-				TryGetValue(overrideTitle.Id, out vanillaTitle);
+				TryGetValue(overrideTitle.Id, out Title? vanillaTitle);
 				AddOrReplace(new Title(vanillaTitle, overrideTitle, this));
 			}
 
@@ -448,6 +448,49 @@ public partial class Title {
 			}
 		}
 
+		public void ImportImperatorHoldings(ProvinceCollection ck3Provinces, Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
+			Logger.Info("Importing Imperator holdings...");
+			var counter = 0;
+
+			// Get baronies except county capitals.
+			var potentialBaronies = this
+				.Where(t => t.Rank == TitleRank.barony)
+				.Where(b => b.DeJureLiege?.CapitalBaronyId != b.Id)
+				.ToImmutableList();
+
+			foreach (var barony in potentialBaronies) {
+				var ck3ProvinceId = barony.Province;
+				if (ck3ProvinceId is null) {
+					continue;
+				}
+				if (!ck3Provinces.TryGetValue(ck3ProvinceId.Value, out var ck3Province)) {
+					continue;
+				}
+
+				// Skip none holdings and temple holdings.
+				if (ck3Province.GetHoldingType(conversionDate) is "church_holding" or "none") {
+					continue;
+				}
+
+				var irProvince = ck3Province.PrimaryImperatorProvince;
+				var holdingOwnerId = irProvince?.HoldingOwnerId;
+				if (holdingOwnerId is null) {
+					continue;
+				}
+
+				var irOwner = irCharacters[holdingOwnerId.Value];
+				var ck3Owner = irOwner.CK3Character;
+				if (ck3Owner is null) {
+					continue;
+				}
+
+				barony.SetHolder(ck3Owner, conversionDate);
+				++counter;
+			}
+			Logger.Info($"Imported {counter} holdings from I:R.");
+			Logger.IncrementProgress();
+		}
+
 		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
 			Logger.Info("Removing invalid landless titles...");
 			var removedGeneratedTitles = new HashSet<string>();
@@ -471,7 +514,7 @@ public partial class Title {
 				if (this[id].Landless) {
 					continue;
 				}
-				
+
 				if (title.IsCreatedFromImperator) {
 					removedGeneratedTitles.Add(id);
 					Remove(id);

@@ -24,7 +24,7 @@ public class ProvincesTests {
 	[Fact]
 	public void ProvincesCanBeLoaded() {
 		var reader = new BufferedReader(
-			""" 
+			"""
 			= {
 				42={}
 				43={}

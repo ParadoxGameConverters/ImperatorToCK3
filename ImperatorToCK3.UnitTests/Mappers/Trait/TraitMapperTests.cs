@@ -16,7 +16,7 @@ public class TraitMapperTests {
 			CK3Traits = ck3Traits;
 		}
 	}
-	
+
 	[Fact]
 	public void NonMatchGivesNull() {
 		var ck3Traits = new IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> { new("ck3Trait") };

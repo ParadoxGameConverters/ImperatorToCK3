@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.CK3.Provinces; 
+namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 
 public class ProvinceMappingsTests {
 	[Fact]
 	public void MappingsDefaultToEmpty() {
 		var emptyCK3ModFs = new ModFilesystem("TestFiles/missing_folder", new List<Mod>());
-			
+
 		Assert.Empty(new ProvinceMappings(emptyCK3ModFs));
 	}
 
@@ -20,7 +20,7 @@ public class ProvinceMappingsTests {
 		var ck3ModFs = new ModFilesystem(ck3Root, new List<Mod>());
 		// ReSharper disable once CollectionNeverUpdated.Local
 		var provinceMappings = new ProvinceMappings(ck3ModFs);
-			
+
 		Assert.Collection(provinceMappings,
 			mapping1 => {
 				Assert.Equal((ulong)3, mapping1.Key);
@@ -43,7 +43,7 @@ public class ProvinceMappingsTests {
 		var ck3ModFs = new ModFilesystem(ck3Root, new List<Mod>());
 		// ReSharper disable once CollectionNeverUpdated.Local
 		var provinceMappings = new ProvinceMappings(ck3ModFs);
-			
+
 		Assert.Collection(provinceMappings,
 			mapping1 => {
 				Assert.Equal((ulong)104, mapping1.Key);
@@ -58,7 +58,7 @@ public class ProvinceMappingsTests {
 		var ck3ModFs = new ModFilesystem(ck3Root, new List<Mod>());
 		// ReSharper disable once CollectionNeverUpdated.Local
 		var provinceMappings = new ProvinceMappings(ck3ModFs);
-			
+
 		Assert.Collection(provinceMappings,
 			mapping1 => {
 				Assert.Equal((ulong)4, mapping1.Key);

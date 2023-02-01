@@ -30,7 +30,7 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 	}
 	public void LoadUnits(BufferedReader unitsReader, LocDB locDB, Defines defines) {
 		Logger.Info("Loading units...");
-		
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
@@ -43,7 +43,7 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitsReader);
-		
+
 		if (Unit.IgnoredTokens.Any()) {
 			Logger.Debug($"Ignored unit tokens: {Unit.IgnoredTokens}");
 		}

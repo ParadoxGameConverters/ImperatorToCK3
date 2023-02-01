@@ -70,7 +70,7 @@
 		HealthGodSheHe = CHARACTER_SHEHE_HE
 		HealthGodHerHis = CHARACTER_HERHIS_HIS
 		HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 		#FertilityGod
 		FertilityGodName = paganism_fertility_god_name
 		FertilityGodNamePossessive = paganism_fertility_god_name_possessive
@@ -182,25 +182,25 @@
 		WitchGodHerHim = CHARACTER_HERHIM_THEM
 		WitchGodMistressMaster = witch_spirit
  		WitchGodMotherFather = witch_source
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
-	}	
+	}
 
-	faiths = {		
+	faiths = {
 		iberian_pagan = {
 			color = { 0.91 0.71 0.82 }
 			icon = iberian_pagan
 			reformed_icon = iberian_pagan
-			
+
 			holy_site = chimaera
-			holy_site = salaria 
+			holy_site = salaria
 			holy_site = aeso
 			holy_site = bravum
 			holy_site = myrtilis
-			
+
 			doctrine = unreformed_faith_doctrine
-			
+
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_ancestor_worship

@@ -11,19 +11,20 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
+using System;
 
-namespace ImperatorToCK3.UnitTests.CK3.Titles; 
+namespace ImperatorToCK3.UnitTests.CK3.Titles;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class RulerTermTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private const string CK3Root = "TestFiles/CK3/game";
-	private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
-		
+	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
+
 	[Fact]
 	public void ImperatorRulerTermIsCorrectlyConverted() {
 		var reader = new BufferedReader(

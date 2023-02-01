@@ -17,18 +17,20 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
+using System;
 
 // ReSharper disable StringLiteralTypo
 
-namespace ImperatorToCK3.UnitTests.CK3.Dynasties; 
+namespace ImperatorToCK3.UnitTests.CK3.Dynasties;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DynastyTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 	private class CK3CharacterBuilder {
 		private const string CK3Path = "TestFiles/CK3";
 		private const string CK3Root = "TestFiles/CK3/root";
@@ -38,7 +40,7 @@ public class DynastyTests {
 			CK3Path = CK3Path
 		};
 
-		private static readonly ModFilesystem ck3ModFS = new(CK3Root, new Mod[] { });
+		private static readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
@@ -109,10 +111,10 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locMapper = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locMapper);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locMapper);
 
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Id);
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Name);
+		Assert.Equal("dynn_irtock3_45", dynasty.Id);
+		Assert.Equal("dynn_irtock3_45", dynasty.Name);
 	}
 
 	[Fact]
@@ -124,10 +126,9 @@ public class DynastyTests {
 		var locDB = new LocDB("english");
 		var dynLoc = locDB.AddLocBlock("cornelii");
 		dynLoc["english"] = "Cornelii";
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
 
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-		Assert.Equal("Cornelii", dynasty.Localization.Value["english"]);
+		Assert.Equal("Cornelii", dynasty.LocalizedName!["english"]);
 	}
 
 	[Fact]
@@ -137,10 +138,9 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
 
-		Assert.Equal("dynn_IMPTOCK3_45", dynasty.Localization.Key);
-		Assert.Equal("cornelii", dynasty.Localization.Value["english"]);
+		Assert.Equal("cornelii", dynasty.LocalizedName!["english"]);
 	}
 	[Fact]
 	public void CultureIsBasedOnFirstImperatorMember() {
@@ -183,8 +183,8 @@ public class DynastyTests {
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member3)
 			.Build();
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
 
-		Assert.Equal("not_gypsy", dynasty.Culture);
+		Assert.Equal("not_gypsy", dynasty.CultureId);
 	}
 }

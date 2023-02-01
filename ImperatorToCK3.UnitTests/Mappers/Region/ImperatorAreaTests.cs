@@ -6,13 +6,13 @@ using ImperatorToCK3.Imperator.States;
 using System.Linq;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Region; 
+namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ImperatorAreaTests {
 	private readonly ProvinceCollection provinces = new();
-	
+
 	public ImperatorAreaTests() {
 		var states = new StateCollection();
 		var countries = new CountryCollection();
@@ -24,7 +24,7 @@ public class ImperatorAreaTests {
 			countries
 		);
 	}
-	
+
 	[Fact]
 	public void BlankAreaLoadsWithNoProvinces() {
 		var reader = new BufferedReader("");

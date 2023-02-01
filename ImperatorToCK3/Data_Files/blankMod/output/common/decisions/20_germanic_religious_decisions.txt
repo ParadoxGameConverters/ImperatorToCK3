@@ -42,7 +42,7 @@ raise_irminsul_decision = {
 	}
 
 	ai_check_interval = 36
-	
+
 	ai_potential = {
 		always = yes
 	}

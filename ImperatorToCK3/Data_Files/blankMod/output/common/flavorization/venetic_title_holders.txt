@@ -10,7 +10,7 @@ duke_venetic_culture = {
 
 duke_female_venetic_culture = {
 	type = character
-	gender = female	
+	gender = female
 	special = holder
 	tier = duchy
 	priority = 27
@@ -19,7 +19,7 @@ duke_female_venetic_culture = {
 
 king_venetic_culture = {
 	type = character
-	gender = male	
+	gender = male
 	special = holder
 	tier = kingdom
 	priority = 27

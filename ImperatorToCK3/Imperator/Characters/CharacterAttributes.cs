@@ -1,6 +1,6 @@
 ﻿using commonItems;
 
-namespace ImperatorToCK3.Imperator.Characters; 
+namespace ImperatorToCK3.Imperator.Characters;
 
 public class CharacterAttributes {
 	public int Martial { get; set; } = 0;

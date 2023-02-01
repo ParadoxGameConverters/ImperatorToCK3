@@ -2,7 +2,7 @@
 using commonItems;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Diplomacy; 
+namespace ImperatorToCK3.UnitTests.Imperator.Diplomacy;
 
 public class WarTests {
 	[Fact]
@@ -14,7 +14,7 @@ public class WarTests {
 			defender = 22
 			start_date = 10.11.12
 			naval_superiority = { type = naval_wargoal }
-			unusedToken = unusedValue 
+			unusedToken = unusedValue
 		""");
 		var war = War.Parse(reader);
 		Assert.Equal(new Date(10, 11, 12, AUC: true), war.StartDate);

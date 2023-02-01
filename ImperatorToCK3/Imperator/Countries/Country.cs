@@ -5,7 +5,7 @@ using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Countries; 
+namespace ImperatorToCK3.Imperator.Countries;
 
 public enum CountryType { rebels, pirates, barbarians, mercenaries, real }
 public enum CountryRank { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower }
@@ -30,7 +30,7 @@ public partial class Country : IIdentifiable<ulong> {
 	public CountryName CountryName { get; private set; } = new();
 	public string Flag { get; private set; } = "";
 	public CountryType CountryType { get; private set; } = CountryType.real;
-	public ulong? Capital { get; private set; }
+	public ulong? CapitalProvinceId { get; private set; }
 	public string? Government { get; private set; }
 	public GovernmentType GovernmentType { get; private set; } = GovernmentType.monarchy;
 	private readonly SortedSet<string> monarchyLaws = new();

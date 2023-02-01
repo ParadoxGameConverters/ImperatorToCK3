@@ -250,7 +250,7 @@ impassable_mountains = LIST { 2484 3259 }
 # WASTELAND
 ############
 # These are actually supposed to be Wasteland:
-# Cannot be colored. Blocks unit movement, used for things like Sahara desert. 
+# Cannot be colored. Blocks unit movement, used for things like Sahara desert.
 
 impassable_mountains = LIST { 730 731 8711 }
 impassable_mountains = LIST { 1470 1468 1466 1469 1464 }

@@ -3,12 +3,12 @@ using ImperatorToCK3.Mappers.CoA;
 using System;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Coa; 
+namespace ImperatorToCK3.UnitTests.Mappers.Coa;
 
 public class CoaMapperTests {
 	private const string ImperatorRoot = "TestFiles/MapperTests/CoaMapper/Imperator/game";
 	private static readonly ModFilesystem imperatorModFs = new(ImperatorRoot, Array.Empty<Mod>());
-		
+
 	[Fact]
 	public void GetCoaForFlagNameReturnsCoaOnMatch() {
 		var coaMapper = new CoaMapper(imperatorModFs);

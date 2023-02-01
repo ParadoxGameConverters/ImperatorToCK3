@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using ImperatorToCK3.CK3.Wars;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
 public static class WarsOutputter {
 	public static void OutputWars(string outputModName, List<War> wars) {

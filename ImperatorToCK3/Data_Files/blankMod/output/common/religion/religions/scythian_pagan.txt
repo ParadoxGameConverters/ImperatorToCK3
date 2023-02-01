@@ -70,7 +70,7 @@
 		HealthGodSheHe = CHARACTER_SHEHE_SHE
 		HealthGodHerHis = CHARACTER_HERHIS_HER
 		HealthGodHerHim = CHARACTER_HERHIM_HER
-		
+
 		#FertilityGod
 		FertilityGodName = ir_argimpasa
 		FertilityGodNamePossessive = ir_argimpasa_possessive
@@ -182,17 +182,17 @@
 		WitchGodHerHim = CHARACTER_HERHIM_IT
 		WitchGodMistressMaster = witch_spirit
  		WitchGodMotherFather = witch_source
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
-	}	
+	}
 
 	faiths = {
 		scythian_pagan = {
 			color = { 0.5 0.19 0.2 }
 			icon = scythian_pagan
 			reformed_icon = scythian_pagan
-			
+
 			holy_site = cimus
 			holy_site = tanais
 			holy_site = tmakrat
@@ -200,7 +200,7 @@
 			holy_site = recrassia
 
 			doctrine = unreformed_faith_doctrine
-			
+
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_ancestor_worship

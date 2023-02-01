@@ -10,9 +10,9 @@ public class SimpleHistoryField : IHistoryField {
 	public List<KeyValuePair<string, object>> InitialEntries { get; } = new(); // every entry is a <setter, value> pair
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
-	
+
 	private readonly OrderedSet<string> setterKeywords;
-	
+
 	public SimpleHistoryField(string fieldName, OrderedSet<string> setterKeywords, object? initialValue) {
 		Id = fieldName;
 		this.setterKeywords = setterKeywords;
@@ -29,7 +29,7 @@ public class SimpleHistoryField : IHistoryField {
 			DateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
 		}
 	}
-	
+
 	private KeyValuePair<string, object>? GetLastEntry(Date date) {
 		var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
 
@@ -38,7 +38,7 @@ public class SimpleHistoryField : IHistoryField {
 				return entry;
 			}
 		}
-		
+
 		return InitialEntries.LastOrDefault();
 	}
 	public object? GetValue(Date date) {

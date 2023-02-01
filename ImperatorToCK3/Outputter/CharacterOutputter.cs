@@ -43,7 +43,7 @@ public static class CharacterOutputter {
 			}
 			output.WriteLine($"\t{nicknameDate}={{ give_nickname={character.Nickname} }}");
 		}
-		
+
 		// output gold
 		if (character.Gold is not null && character.Gold != 0) {
 			var gold = (float)character.Gold.Value;
@@ -60,10 +60,10 @@ public static class CharacterOutputter {
 
 		// output history
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
-		
+
 		OutputBirthAndDeathDates(output, character);
 		OutputPregnancies(output, character);
-		
+
 		OutputPrisoners(output, character, conversionDate);
 		OutputEmployer(output, character, conversionDate);
 

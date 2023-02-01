@@ -15,7 +15,7 @@ public class ProvinceDefinitions {
 		if (definitionsFilePath is null) {
 			throw new FileNotFoundException(message: null, fileName: relativePath);
 		}
-		
+
 		using var fileStream = File.OpenRead(definitionsFilePath);
 		using var definitionFileReader = new StreamReader(fileStream);
 

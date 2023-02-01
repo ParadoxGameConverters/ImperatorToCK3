@@ -209,8 +209,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// Determine other attributes:
 		// Set capital to Imperator tag's capital.
-		if (ImperatorCountry.Capital is not null) {
-			var srcCapital = (ulong)ImperatorCountry.Capital;
+		if (ImperatorCountry.CapitalProvinceId is not null) {
+			var srcCapital = ImperatorCountry.CapitalProvinceId.Value;
 			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
 				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
 				if (foundCounty is null) {
@@ -593,7 +593,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var lastDate = dates.Max;
 		return lastDate ?? new Date(1, 1, 1);
 	}
-	
+
 	public ISet<string> GetAllHolderIds() {
 		if (!History.Fields.TryGetValue("holder", out var holderField)) {
 			return new HashSet<string>();
@@ -728,7 +728,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!adjSet) {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
 		}
-		
+
 		// Generate English adjective if missing.
 		if (Localizations.TryGetValue(locKey, out var locBlock) && locBlock["english"] is null) {
 			if (!Localizations.TryGetValue(Id, out var nameLocBlock) || nameLocBlock["english"] is not string name) {
@@ -912,7 +912,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
-		parser.RegisterKeyword("color", reader => Color1 = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color", reader => {
+			try {
+				Color1 = colorFactory.GetColor(reader);
+			} catch (ArgumentException e) {
+				Logger.Warn($"{e.Message} - defaulting to black");
+				Color1 = new Color(0, 0, 0);
+			}
+		});
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
 		parser.RegisterKeyword("ai_primary_priority", reader => AIPrimaryPriority = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());

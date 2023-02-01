@@ -4,7 +4,7 @@ using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Countries; 
+namespace ImperatorToCK3.Imperator.Countries;
 
 public class CountryCollection : IdObjectCollection<ulong, Country> {
 	public CountryCollection() { }
@@ -14,7 +14,7 @@ public class CountryCollection : IdObjectCollection<ulong, Country> {
 		blocParser.RegisterKeyword("country_database", LoadCountries);
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(reader);
-			
+
 		Logger.Debug($"Ignored CountryCurrencies tokens: {CountryCurrencies.IgnoredTokens}");
 		Logger.Debug($"Ignored RulerTerm tokens: {RulerTerm.IgnoredTokens}");
 		Logger.Debug($"Ignored Country tokens: {Country.IgnoredTokens}");
@@ -31,7 +31,7 @@ public class CountryCollection : IdObjectCollection<ulong, Country> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-		
+
 	public void LinkFamilies(FamilyCollection families) {
 		SortedSet<ulong> idsWithoutDefinition = new();
 		var counter = this.Sum(country => country.LinkFamilies(families, idsWithoutDefinition));

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ImperatorToCK3.Mappers.Region; 
+namespace ImperatorToCK3.Mappers.Region;
 
 public class CK3RegionMapper {
 	public CK3RegionMapper() { }
@@ -13,7 +13,7 @@ public class CK3RegionMapper {
 		Logger.Info("Initializing Geography...");
 
 		LoadRegions(ck3ModFS, landedTitles);
-		
+
 		Logger.IncrementProgress();
 	}
 	public void LoadRegions(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {

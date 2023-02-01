@@ -24,33 +24,33 @@
 		male_names = {
         Aimo Aklono Andeto Afro Aplisio Arsoetigo Bagsono Egotore Egesto Ersino Egotor Egetor Enogene
 		Enokleve Fonte Fougonte Fugio Fremaisto Hostihevo Iante Iuvante Kante Karamno Lamuso Muskialo
-		Naisono Osts Oppo Pilpoto Plede Verkano Voltiomno Veigno Vante Vants Voto Voltigene Voltigenes 
-		Akuto Fremo Fremaistino Keutino Ktulisto Moldo Resunko Suro Tomatorio Vantkenio 
-		
+		Naisono Osts Oppo Pilpoto Plede Verkano Voltiomno Veigno Vante Vants Voto Voltigene Voltigenes
+		Akuto Fremo Fremaistino Keutino Ktulisto Moldo Resunko Suro Tomatorio Vantkenio
+
 		Albareno Alero Anteto Andetico Aplisiko Arbos Ariuns Askolo Afros Atto Baito Bellenes Boiialns
 		Boiio Boio Broicoko Broico Budicako Deipiiariko Deipiiaris Dilliko Dillis Ebo Einaio Einao Eneico
 		Eneis Eneto Enetio Feugo Fonto Fremaistio Gaio Gaiios Graiko Henotos Houvos Hovos Hutto Huttos Kastiko
 		Kastis Kataks Kello Kellos Kolo Ametiko Ametis Kvito Lants Lante Lavsko Lemetor Luks Metso Moldo
-		Moldono Muskials Muskialo Nagalkno Nagalo Naisonko Naisons Naisos Okicaiko Okicais Oppos Ossoko 
+		Moldono Muskials Muskialo Nagalkno Nagalo Naisonko Naisons Naisos Okicaiko Okicais Oppos Ossoko
 		Osso Panario Panaro Peloniko Pelonis Pletes Raitevio Raitevo Reito Resunkos Resuns Rebetono Suro
 		Siko Siaks Taino Tekio Turico Trosto Trisiko Uko Urkleio Urkles Usedis Vantkes Vasseno Veignos Veimes Vennonis
 		Vennon Verkondar Verkvalo
 		}
 
 		female_names = {
-        Aima Aklona Andeta Afra Aplisia Arsoetiga Bagsonia Egotora Egesta Ersina Egotora Egetora 
+        Aima Aklona Andeta Afra Aplisia Arsoetiga Bagsonia Egotora Egesta Ersina Egotora Egetora
 		Enokleva Fetiana Fonta Fougonta Fugia Fukssia Fremaista Hostiheva Ianta Iuvanta Kanta Lamusa Muskiala
 		Naisona Neirka Nerka Osta Ostia Oppa Pilpota Pleda Verkana Veigna Vanta Vota
 		Akuta Frema Fremaistina Keutina Ktulista Molda Resunkia Suria Tomatoria Vantkenia
-		
+
 		Apia Askolia Ataina Atta Baitonia Brigdina Bukka Ebua Efa Iuanta Ituria Ikeveioneia Kolia
 		Kuikuta Makna Molda Moldona Musta Ostina Otnia Reitia Rebetona Taina Trostia Urkleia Urkleina
-		Usedica Vantkenia Venna Verkondarna 
+		Usedica Vantkenia Venna Verkondarna
 		}
 	patronym_suffix_male = "dynnpat_suf_io"
 	patronym_suffix_female = "dynnpat_suf_ia"
 
-	always_use_patronym = yes	
-	
+	always_use_patronym = yes
+
 	# dynasty_of_location_suffix = "ios" # IRToCK3: doesn't work as of CK3 1.6 (vanilla uses dynasty_of_location_prefix)
 }

@@ -1,0 +1,25 @@
+﻿# ImperatorToCK3: Last updated CK3 patch 1.8.1
+
+suebi = {  # moved from vanilla heritage_iberian
+	color = { 0.8 0.7 0.4 }
+
+	ethos = ethos_bellicose
+	heritage = heritage_west_germanic
+	language = language_central_germanic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_stand_and_fight
+		tradition_agrarian
+	}
+
+	name_list = name_list_suebi
+
+	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
+	building_gfx = { iberian_building_gfx }
+	clothing_gfx = { iberian_christian_clothing_gfx western_clothing_gfx }
+	unit_gfx = { iberian_christian_unit_gfx }
+
+	ethnicities = {
+		10 = mediterranean
+	}
+}

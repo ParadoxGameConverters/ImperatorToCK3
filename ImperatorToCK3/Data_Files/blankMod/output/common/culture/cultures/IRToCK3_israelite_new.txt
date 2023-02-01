@@ -7,18 +7,18 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 	ethnicities = {
 		10 = arab
 	}
-	
+
 	ethos = ethos_stoic
-	
+
 	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx mena_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
 	martial_custom = martial_custom_male_only
-	
+
 	heritage = heritage_israelite
 	language = language_hebrew
-	
+
 	traditions = {
 		tradition_diasporic
 		tradition_mobile_guards
@@ -31,11 +31,11 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	created = 20.1.1
 
 	name_list = name_list_hebrew
-	
+
 	ethnicities = {
 		10 = arab
 	}
-	
+
 	ethos = ethos_egalitarian
 
 	coa_gfx = { israelite_group_coa_gfx }
@@ -43,10 +43,10 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
 	martial_custom = martial_custom_male_only
-	
+
 	heritage = heritage_israelite
 	language = language_hebrew
-	
+
 	traditions = {
 		tradition_diasporic
 		tradition_hard_working
@@ -59,11 +59,11 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	created = 20.1.1
 
 	name_list = name_list_hebrew
-	
+
 	ethnicities = {
 		10 = arab
 	}
-	
+
 	ethos = ethos_egalitarian
 
 	coa_gfx = { israelite_group_coa_gfx }
@@ -71,10 +71,10 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
 	martial_custom = martial_custom_male_only
-	
+
 	heritage = heritage_israelite
 	language = language_hebrew
-	
+
 	traditions = {
 		tradition_diasporic
 		tradition_hard_working

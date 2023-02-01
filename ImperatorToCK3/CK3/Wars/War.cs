@@ -8,7 +8,7 @@ using ImperatorToCK3.Mappers.Province;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.CK3.Wars; 
+namespace ImperatorToCK3.CK3.Wars;
 
 public class War {
 	public Date StartDate { get; } = "2.1.1";
@@ -43,8 +43,11 @@ public class War {
 		Claimant = Attackers[0];
 
 		if (irWar.TargetedStateId is not null) {
-			var state = irStates[irWar.TargetedStateId.Value];
-			var targetedCountyIds = state.Provinces
+			if (!irStates.TryGetValue(irWar.TargetedStateId.Value, out var irState)) {
+				throw new ConverterException("War targeted state not found!");
+			}
+
+			var targetedCountyIds = irState.Provinces
 				.SelectMany(p => provinceMapper.GetCK3ProvinceNumbers(p.Id))
 				.Select(titles.GetCountyForProvince)
 				.Where(t => t is not null)
@@ -53,7 +56,7 @@ public class War {
 				.ToHashSet();
 			TargetedTitles.UnionWith(targetedCountyIds);
 		}
-		
+
 		foreach (var countryId in irWar.DefenderCountryIds) {
 			var impCountry = impCountries[countryId];
 			var ck3Title = impCountry.CK3Title;
