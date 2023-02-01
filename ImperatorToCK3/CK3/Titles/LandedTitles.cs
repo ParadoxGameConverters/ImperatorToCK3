@@ -198,9 +198,7 @@ public partial class Title {
 		public override void Remove(string name) {
 			if (dict.TryGetValue(name, out var titleToErase)) {
 				var deJureLiege = titleToErase.DeJureLiege;
-				if (deJureLiege is not null) {
-					deJureLiege.DeJureVassals.Remove(name);
-				}
+				deJureLiege?.DeJureVassals.Remove(name);
 
 				foreach (var vassal in titleToErase.DeJureVassals) {
 					vassal.DeJureLiege = null;

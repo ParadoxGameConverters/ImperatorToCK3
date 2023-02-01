@@ -764,9 +764,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 			deJureLiege?.DeJureVassals.Remove(Id);
 			deJureLiege = value;
-			if (value is not null) {
-				value.DeJureVassals.AddOrReplace(this);
-			}
+			value?.DeJureVassals.AddOrReplace(this);
 		}
 	}
 	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title

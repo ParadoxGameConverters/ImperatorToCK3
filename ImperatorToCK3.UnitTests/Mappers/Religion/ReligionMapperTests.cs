@@ -6,6 +6,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
+using System;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 
@@ -13,7 +14,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ReligionMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 

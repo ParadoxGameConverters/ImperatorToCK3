@@ -30,8 +30,8 @@ public class DeathReasonMapperTests {
 	}
 	[Fact]
 	public void CorrectRuleMatches() {
-		var input = "link = { ck3 = ck3Reason imp = impReason }\n" +
-		            "link = { ck3 = ck3Reason2 imp = impReason2 }";
+		const string input = "link = { ck3 = ck3Reason imp = impReason }\n" +
+		    "link = { ck3 = ck3Reason2 imp = impReason2 }";
 		var reader = new BufferedReader(input);
 		var mapper = new DeathReasonMapper(reader);
 		var ck3Reason2 = mapper.GetCK3ReasonForImperatorReason("impReason2");

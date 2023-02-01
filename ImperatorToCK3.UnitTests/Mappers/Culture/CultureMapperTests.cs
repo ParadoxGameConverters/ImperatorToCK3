@@ -4,6 +4,7 @@ using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using Xunit;
 using ImperatorToCK3.Mappers.Region;
+using System;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 
@@ -11,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CultureMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 
