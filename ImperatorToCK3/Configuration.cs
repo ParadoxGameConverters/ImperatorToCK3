@@ -102,7 +102,7 @@ public class Configuration {
 			var success = Enum.TryParse(valueString, out LegionConversion selection);
 			if (success) {
 				LegionConversion = selection;
-				Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion.ToString()}.");
+				Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion}.");
 			} else {
 				Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
 			}

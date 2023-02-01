@@ -21,7 +21,7 @@ public class DynastiesOutputterTests {
 		const string outputModName = "outputMod";
 		var locDB = new LocDB("english");
 		const string imperatorRoot = "TestFiles/Imperator/root";
-		ModFilesystem irModFS = new(imperatorRoot, new Mod[] { });
+		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
 		AreaCollection areas = new();
 		ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
