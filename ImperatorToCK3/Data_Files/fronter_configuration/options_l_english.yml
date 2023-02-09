@@ -4,7 +4,7 @@ l_english:
 
  RISE_OF_ISLAM: "[EXPERIMENTAL] Rise of Islam"
  RISE_OF_ISLAM_TIP: "Do you want Islam to spawn in the 7th century?"
- RISE_OF_ISLAM_ENABLED_TIP: "WARNING:\nDOES NOT CURRENTLY WORK WITH CK3 1.8!\n\nThe output mod will include a modified version of rise of Islam from the Fallen Eagle mod."
+ RISE_OF_ISLAM_ENABLED_TIP: "The output mod will include a modified version of rise of Islam from the Fallen Eagle mod."
  RISE_OF_ISLAM_DISABLED_TIP: "Events to spawn Islam will not be included in the converter."
 
  STATIC_DEJURE: "Do you want to dynamic de jure kingdoms and empires?"
