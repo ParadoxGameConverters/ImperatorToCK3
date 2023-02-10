@@ -86,7 +86,7 @@ jobs:
     - name: "Save commit ID"
       shell: bash
       run: |
-        git rev-parse HEAD > Release/commit_id.txt
+        git rev-parse HEAD > Publish/commit_id.txt
     - name: "Archive Publish folder"
       uses: thedoctor0/zip-release@master
       with:
