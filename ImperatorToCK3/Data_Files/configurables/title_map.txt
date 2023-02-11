@@ -1,10 +1,9 @@
 ### I:R - CK3 tag mappings ###
 #link = { imp = a ck3 = b rank = c }
-#a = the I:R tag
+#a = the I:R historical tag
 #b = the CK3 landed title
 #c = the rank this country has (can only be "d", "k", "e")
 
-# Name-based mappings should be preferred
 # Only countries with a "Kingdom" or "Empire" in name should be
 # let map into a title with a different rank than the output
 # (E.g. a duchy Mauryan Empire will be mapped to an empire title nevertheless)
@@ -12,7 +11,7 @@
 
 # DO NOT use CK3 de jure duchies in mappings!
 
-# There is no need for all tags to be mapped
+# There is no need for all tags to be mapped.
 
 # Greece / Macedonia
 

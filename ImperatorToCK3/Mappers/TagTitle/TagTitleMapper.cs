@@ -30,33 +30,33 @@ public class TagTitleMapper {
 		usedTitles.Add(ck3Title);
 	}
 	public string? GetTitleForTag(Country country, string localizedTitleName) {
-		// the only case where we fail is on invalid invocation. Otherwise, failure is
-		// not an option!
-		if (string.IsNullOrEmpty(country.Tag)) {
+		string tagForMapping = country.HistoricalTag;
+		// The only case where we fail is on invalid invocation. Otherwise, failure is not an option!
+		if (string.IsNullOrEmpty(tagForMapping)) {
 			return null;
 		}
 
 		// look up register
-		if (registeredTagTitles.TryGetValue(country.Tag, out var titleToReturn)) {
+		if (registeredTagTitles.TryGetValue(tagForMapping, out var titleToReturn)) {
 			return titleToReturn;
 		}
 
 		// Attempt a title match
 		foreach (var mapping in mappings) {
-			var match = mapping.RankMatch(country.Tag, GetCK3TitleRank(country, localizedTitleName));
+			var match = mapping.RankMatch(tagForMapping, GetCK3TitleRank(country, localizedTitleName));
 			if (match is not null) {
 				if (usedTitles.Contains(match)) {
 					continue;
 				}
 
-				RegisterTag(country.Tag, match);
+				RegisterTag(tagForMapping, match);
 				return match;
 			}
 		}
 
 		// Generate a new title
 		var generatedTitle = GenerateNewTitle(country, localizedTitleName);
-		RegisterTag(country.Tag, generatedTitle);
+		RegisterTag(tagForMapping, generatedTitle);
 		return generatedTitle;
 	}
 	public string? GetTitleForTag(Country country) {
