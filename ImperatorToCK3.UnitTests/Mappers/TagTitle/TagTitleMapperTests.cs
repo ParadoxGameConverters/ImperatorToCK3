@@ -27,7 +27,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class TagTitleMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private const string tagTitleMappingsPath = "TestFiles/configurables/title_map.txt";

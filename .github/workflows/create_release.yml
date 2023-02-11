@@ -74,7 +74,7 @@ jobs:
       uses: ./Fronter.NET/.github/actions/build_frontend
       with:
         fronter_dir: 'Fronter.NET'
-        release_dir: 'Release'
+        release_dir: 'Publish'
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v3
       with:
@@ -82,24 +82,16 @@ jobs:
     - name: "Build backend"
       working-directory: ImperatorToCK3
       run: |
-        dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release
-    - name: "Remove Release/ImperatorToCK3 directory"
-      uses: JesseTG/rm@v1.0.3
-      with:
-        path: Release/ImperatorToCK3
-    - name: "Copy Publish files to Release directory"
-      shell: bash
-      run: |
-        cp -R Publish/* Release/
+        dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3"
     - name: "Save commit ID"
       shell: bash
       run: |
-        git rev-parse HEAD > Release/commit_id.txt
-    - name: "Archive Release folder"
+        git rev-parse HEAD > Publish/commit_id.txt
+    - name: "Archive Publish folder"
       uses: thedoctor0/zip-release@master
       with:
         type: '${{ matrix.archive_type }}'
-        directory: 'Release'
+        directory: 'Publish'
         path: '.'
         filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
     - name: "Upload release asset"
