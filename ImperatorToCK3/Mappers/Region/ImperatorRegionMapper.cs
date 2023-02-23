@@ -48,7 +48,7 @@ public class ImperatorRegionMapper {
 				return region.Id;
 			}
 		}
-		Logger.Warn($"Province ID {provinceId} has no parent region name!");
+		Logger.Warn($"I:R province ID {provinceId} has no parent region name!");
 		return null;
 	}
 	public string? GetParentAreaName(ulong provinceId) {
@@ -57,7 +57,7 @@ public class ImperatorRegionMapper {
 				return area.Id;
 			}
 		}
-		Logger.Warn($"Province ID {provinceId} has no parent area name!");
+		Logger.Warn($"I:R province ID {provinceId} has no parent area name!");
 		return null;
 	}
 	private void LinkRegions() {
