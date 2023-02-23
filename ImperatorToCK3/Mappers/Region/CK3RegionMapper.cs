@@ -72,7 +72,7 @@ public class CK3RegionMapper {
 				return countyName;
 			}
 		}
-		Logger.Warn($"Province ID {provinceId} has no parent county name!");
+		Logger.Warn($"CK3 province ID {provinceId} has no parent county name!");
 		return null;
 	}
 	public string? GetParentDuchyName(ulong provinceId) {
@@ -81,7 +81,7 @@ public class CK3RegionMapper {
 				return duchyName;
 			}
 		}
-		Logger.Warn($"Province ID {provinceId} has no parent duchy name!");
+		Logger.Warn($"CK3 province ID {provinceId} has no parent duchy name!");
 		return null;
 	}
 	public string? GetParentRegionName(ulong provinceId) {
@@ -90,7 +90,7 @@ public class CK3RegionMapper {
 				return regionName;
 			}
 		}
-		Logger.Warn($"Province ID {provinceId} has no parent region name!");
+		Logger.Warn($"CK3 province ID {provinceId} has no parent region name!");
 		return null;
 	}
 
