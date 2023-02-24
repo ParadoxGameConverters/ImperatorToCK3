@@ -64,7 +64,8 @@ public class World {
 			config.CK3BookmarkDate = CorrectedDate;
 			Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
 		} else if (CorrectedDate > config.CK3BookmarkDate) {
-			Logger.Error("Corrected save date is later than CK3 bookmark date, proceeding at your own risk!");
+			Logger.Warn($"Corrected save can't be later than CK3 bookmark date, setting CK3 bookmark date to {CorrectedDate}!");
+			config.CK3BookmarkDate = CorrectedDate;
 		}
 
 		LoadCorrectProvinceMappingsVersion(impWorld);
