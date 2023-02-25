@@ -1,6 +1,6 @@
 ### I:R - CK3 tag mappings ###
 #link = { imp = a ck3 = b rank = c }
-#a = the I:R historical tag
+#a = the I:R tag
 #b = the CK3 landed title
 #c = the rank this country has (can only be "d", "k", "e")
 
