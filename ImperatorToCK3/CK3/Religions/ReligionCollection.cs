@@ -228,7 +228,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 			var faith = province.GetFaithId(date);
 			if (faith is null) {
-				Logger.Warn($"CK3 province {province.Id} has no faith!");
+				Logger.Debug($"CK3 province {province.Id} has no faith!");
 				continue;
 			}
 			if (provincesByFaith.TryGetValue(faith, out var set)) {
