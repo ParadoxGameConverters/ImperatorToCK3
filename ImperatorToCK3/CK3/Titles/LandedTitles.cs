@@ -514,7 +514,6 @@ public partial class Title {
 					}
 					county.SetHolder(ck3Owner, conversionDate);
 					county.SetDeFactoLiege(deFactoLiege, conversionDate);
-					
 				} else {
 					barony.SetHolder(ck3Owner, conversionDate);
 					barony.SetDeFactoLiege(deFactoLiege, conversionDate);
