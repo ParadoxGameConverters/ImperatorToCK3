@@ -316,36 +316,54 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			// Hard code for Antigonid Kingdom, Seleucid Empire and Maurya.
 			// These countries use customizable localization for name and adjective.
 			case "PRY_DYN" when imperatorCountry.Monarch?.Family?.Key == "Antigonid":
-				var pryLocBlock = locDB.GetLocBlockForKey("get_pry_name_fetch");
+				const string pryLocKey = "get_pry_name_fetch";
+				var pryLocBlock = locDB.GetLocBlockForKey(pryLocKey);
+				if (pryLocBlock is null) {
+					return pryLocBlock;
+				}
+
+				var modifiedPrylocBlockToReturn = new LocBlock(pryLocKey, pryLocBlock);
 				const string pryNameKey = "PRY";
-				pryLocBlock?.ModifyForEveryLanguage(
+				modifiedPrylocBlockToReturn.ModifyForEveryLanguage(
 					locDB.GetLocBlockForKey(pryNameKey) ?? new LocBlock(pryNameKey, "english") {
 						["english"] = "Antigonid Kingdom"
 					},
 					(loc, modifyingLoc, _) => loc?.Replace($"${pryNameKey}$", modifyingLoc));
-				return pryLocBlock;
+				return modifiedPrylocBlockToReturn;
 			case "PRY_DYN":
 				return locDB.GetLocBlockForKey("get_pry_name_fallback");
 			case "SEL_DYN" when imperatorCountry.Monarch?.Family?.Key == "Seleukid":
-				var selLocBlock = locDB.GetLocBlockForKey("get_sel_name_fetch");
+				const string selLocKey = "get_sel_name_fetch";
+				var selLocBlock = locDB.GetLocBlockForKey(selLocKey);
+				if (selLocBlock is null) {
+					return selLocBlock;
+				}
+
+				var modifiedSelLocBlockToReturn = new LocBlock(selLocKey, selLocBlock);
 				const string selNameKey = "SEL";
-				selLocBlock?.ModifyForEveryLanguage(
+				modifiedSelLocBlockToReturn.ModifyForEveryLanguage(
 					locDB.GetLocBlockForKey(selNameKey) ?? new LocBlock(selNameKey, "english") {
 						["english"] = "Seleukid Empire"
 					},
 					(loc, modifyingLoc, _) => loc?.Replace($"${selNameKey}$", modifyingLoc));
-				return selLocBlock;
+				return modifiedSelLocBlockToReturn;
 			case "SEL_DYN":
 				return locDB.GetLocBlockForKey("get_sel_name_fallback");
 			case "MRY_DYN" when imperatorCountry.Monarch?.Family?.Key == "Maurya":
-				var mryLocBlock = locDB.GetLocBlockForKey("get_mry_name_fetch");
+				const string mryLocKey = "get_mry_name_fetch";
+				var mryLocBlock = locDB.GetLocBlockForKey(mryLocKey);
+				if (mryLocBlock is null) {
+					return mryLocBlock;
+				}
+				
+				var modifiedMryLocBlockToReturn = new LocBlock(mryLocKey, mryLocBlock);
 				const string mryNameKey = "MRY";
-				mryLocBlock?.ModifyForEveryLanguage(
+				modifiedMryLocBlockToReturn.ModifyForEveryLanguage(
 					locDB.GetLocBlockForKey(mryNameKey) ?? new LocBlock(mryNameKey, "english") {
 						["english"] = "Maurya"
 					},
 					(loc, modifyingLoc, _) => loc?.Replace($"${mryNameKey}$", modifyingLoc));
-				return mryLocBlock;
+				return modifiedMryLocBlockToReturn;
 			case "MRY_DYN":
 				return locDB.GetLocBlockForKey("get_mry_name_fallback");
 			default:
@@ -653,37 +671,54 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			LocBlock? validatedAdj;
 			switch (ImperatorCountry.Name) {
 				case "PRY_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Antigonid":
-					validatedAdj = locDB.GetLocBlockForKey("get_pry_adj_fetch");
-					const string pryAdjKey = "PRY_ADJ";
-					validatedAdj?.ModifyForEveryLanguage(
-						locDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, "english") {
-							["english"] = "Antigonid"
-						},
-						(loc, modifyingLoc, _) => loc?.Replace($"${pryAdjKey}$", modifyingLoc));
+					var pryAdjLocBlock = locDB.GetLocBlockForKey("get_pry_adj_fetch");
+					if (pryAdjLocBlock is not null) {
+						const string pryAdjKey = "PRY_ADJ";
+						validatedAdj = new LocBlock(pryAdjLocBlock.Id, pryAdjLocBlock);
+						validatedAdj.ModifyForEveryLanguage(
+							locDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, "english") {
+								["english"] = "Antigonid"
+							},
+							(loc, modifyingLoc, _) => loc?.Replace($"${pryAdjKey}$", modifyingLoc));
+					} else {
+						validatedAdj = pryAdjLocBlock;
+					}
+
 					break;
 				case "PRY_DYN":
 					validatedAdj = locDB.GetLocBlockForKey("get_pry_adj_fallback");
 					break;
 				case "SEL_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Seleukid":
-					validatedAdj = locDB.GetLocBlockForKey("get_sel_adj_fetch");
-					const string selAdjKey = "SEL_ADJ";
-					validatedAdj?.ModifyForEveryLanguage(
-						locDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, "english") {
-							["english"] = "Seleukid"
-						},
-						(loc, modifyingLoc, _) => loc?.Replace($"${selAdjKey}$", modifyingLoc));
+					var selAdjLocBlock = locDB.GetLocBlockForKey("get_sel_adj_fetch");
+					if (selAdjLocBlock is not null) {
+						const string selAdjKey = "SEL_ADJ";
+						validatedAdj = new LocBlock(selAdjLocBlock.Id, selAdjLocBlock);
+						validatedAdj.ModifyForEveryLanguage(
+							locDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, "english") {
+								["english"] = "Seleukid"
+							},
+							(loc, modifyingLoc, _) => loc?.Replace($"${selAdjKey}$", modifyingLoc));
+					} else {
+						validatedAdj = selAdjLocBlock;
+					}
+					
 					break;
 				case "SEL_DYN":
 					validatedAdj = locDB.GetLocBlockForKey("get_sel_adj_fallback");
 					break;
 				case "MRY_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Maurya":
-					validatedAdj = locDB.GetLocBlockForKey("get_mry_adj_fetch");
-					const string mryAdjKey = "SEL_ADJ";
-					validatedAdj?.ModifyForEveryLanguage(
-						locDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, "english") {
-							["english"] = "Mauryan"
-						},
-						(loc, modifyingLoc, _) => loc?.Replace($"${mryAdjKey}$", modifyingLoc));
+					var mryAdjLocBlock = locDB.GetLocBlockForKey("get_mry_adj_fetch");
+					if (mryAdjLocBlock is not null) {
+						const string mryAdjKey = "MRY_ADJ";
+						validatedAdj = new LocBlock(mryAdjLocBlock.Id, mryAdjLocBlock);
+						validatedAdj.ModifyForEveryLanguage(
+							locDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, "english") {
+								["english"] = "Mauryan"
+							},
+							(loc, modifyingLoc, _) => loc?.Replace($"${mryAdjKey}$", modifyingLoc));
+					} else {
+						validatedAdj = mryAdjLocBlock;
+					}
 					break;
 				case "MRY_DYN":
 					validatedAdj = locDB.GetLocBlockForKey("get_mry_adj_fallback");
