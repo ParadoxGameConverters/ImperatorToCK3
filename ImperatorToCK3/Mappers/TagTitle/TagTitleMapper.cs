@@ -30,7 +30,7 @@ public class TagTitleMapper {
 		usedTitles.Add(ck3Title);
 	}
 	public string? GetTitleForTag(Country country, string localizedTitleName) {
-		string tagForMapping = country.HistoricalTag;
+		string tagForMapping = country.Tag;
 		// The only case where we fail is on invalid invocation. Otherwise, failure is not an option!
 		if (string.IsNullOrEmpty(tagForMapping)) {
 			return null;
