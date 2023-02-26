@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
@@ -201,7 +202,7 @@ public class World : Parser {
 		RegisterKeyword("deity_manager", reader => {
 			Religions.LoadHolySiteDatabase(reader);
 		});
-		var playerCountriesToLog = new List<string>();
+		var playerCountriesToLog = new OrderedSet<string>();
 		RegisterKeyword("played_country", reader => {
 			var playedCountryBlocParser = new Parser();
 			playedCountryBlocParser.RegisterKeyword("country", reader => {

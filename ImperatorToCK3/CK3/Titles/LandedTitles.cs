@@ -449,14 +449,24 @@ public partial class Title {
 		public void ImportImperatorHoldings(ProvinceCollection ck3Provinces, Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
 			Logger.Info("Importing Imperator holdings...");
 			var counter = 0;
-
-			// Get baronies except county capitals.
-			var potentialBaronies = this
-				.Where(t => t.Rank == TitleRank.barony)
-				.Where(b => b.DeJureLiege?.CapitalBaronyId != b.Id)
+			
+			var titlesThatHaveHolders = this
+				.Where(t => t.Rank >= TitleRank.duchy && t.GetHolderId(conversionDate) != "0")
 				.ToImmutableList();
+			var titleCapitalBaronyIds = titlesThatHaveHolders
+				.Select(t=>t.CapitalCounty?.CapitalBaronyId ?? t.CapitalBaronyId)
+				.ToImmutableHashSet();
+			
+			var baronies = this.Where(t => t.Rank == TitleRank.barony).ToImmutableHashSet();
+			var countyCapitalBaronies = baronies
+				.Where(b => b.DeJureLiege?.CapitalBaronyId == b.Id)
+				.ToImmutableHashSet();
+			
+			var eligibleBaronies = baronies
+				.Where(b => !titleCapitalBaronyIds.Contains(b.Id))
+				.ToImmutableHashSet();
 
-			foreach (var barony in potentialBaronies) {
+			foreach (var barony in eligibleBaronies) {
 				var ck3ProvinceId = barony.Province;
 				if (ck3ProvinceId is null) {
 					continue;
@@ -481,8 +491,33 @@ public partial class Title {
 				if (ck3Owner is null) {
 					continue;
 				}
-
-				barony.SetHolder(ck3Owner, conversionDate);
+				
+				var realm = ck3Owner.ImperatorCharacter?.HomeCountry?.CK3Title;
+				var deFactoLiege = realm;
+				if (realm is not null) {
+					var deJureDuchy = barony.DeJureLiege?.DeJureLiege;
+					if (deJureDuchy is not null && deJureDuchy.GetHolderId(conversionDate) != "0" && deJureDuchy.GetTopRealm(conversionDate) == realm) {
+						deFactoLiege = deJureDuchy;
+					} else {
+						var deJureKingdom = deJureDuchy?.DeJureLiege;
+						if (deJureKingdom is not null && deJureKingdom.GetHolderId(conversionDate) != "0" && deJureKingdom.GetTopRealm(conversionDate) == realm) {
+							deFactoLiege = deJureKingdom;
+						}
+					}
+				}
+				if (countyCapitalBaronies.Contains(barony)) {
+					// If barony is a county capital, set the county holder to the holding owner.
+					var county = barony.DeJureLiege;
+					if (county is null) {
+						Logger.Warn($"County capital barony {barony.Id} has no de jure county!");
+						continue;
+					}
+					county.SetHolder(ck3Owner, conversionDate);
+					county.SetDeFactoLiege(deFactoLiege, conversionDate);
+				} else {
+					barony.SetHolder(ck3Owner, conversionDate);
+					barony.SetDeFactoLiege(deFactoLiege, conversionDate);
+				}
 				++counter;
 			}
 			Logger.Info($"Imported {counter} holdings from I:R.");

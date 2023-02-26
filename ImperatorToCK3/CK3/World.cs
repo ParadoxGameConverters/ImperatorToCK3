@@ -186,10 +186,12 @@ public class World {
 			coaMapper,
 			countyLevelGovernorships
 		);
-
-		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
-
+		
+		// Give counties to rulers and governors.
 		OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
+		// Import holding owners as barons and counts.
+		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
+		
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 		if (!config.StaticDeJure) {
