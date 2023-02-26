@@ -492,6 +492,19 @@ public partial class Title {
 					continue;
 				}
 				
+				var realm = ck3Owner.ImperatorCharacter?.HomeCountry?.CK3Title;
+				var deFactoLiege = realm;
+				if (realm is not null) {
+					var deJureDuchy = barony.DeJureLiege?.DeJureLiege;
+					if (deJureDuchy is not null && deJureDuchy.GetHolderId(conversionDate) != "0" && deJureDuchy.GetTopRealm(conversionDate) == realm) {
+						deFactoLiege = deJureDuchy;
+					} else {
+						var deJureKingdom = deJureDuchy?.DeJureLiege;
+						if (deJureKingdom is not null && deJureKingdom.GetHolderId(conversionDate) != "0" && deJureKingdom.GetTopRealm(conversionDate) == realm) {
+							deFactoLiege = deJureKingdom;
+						}
+					}
+				}
 				if (countyCapitalBaronies.Contains(barony)) {
 					// If barony is a county capital, set the county holder to the holding owner.
 					var county = barony.DeJureLiege;
@@ -500,8 +513,11 @@ public partial class Title {
 						continue;
 					}
 					county.SetHolder(ck3Owner, conversionDate);
+					county.SetDeFactoLiege(deFactoLiege, conversionDate);
+					
 				} else {
 					barony.SetHolder(ck3Owner, conversionDate);
+					barony.SetDeFactoLiege(deFactoLiege, conversionDate);
 				}
 				++counter;
 			}

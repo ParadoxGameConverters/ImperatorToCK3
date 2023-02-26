@@ -21,6 +21,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1038,6 +1039,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
 	}
 
+	public Title GetTopRealm(Date date) {
+		var titleToReturn = this;
+		var dfLiege = GetDeFactoLiege(date);
+		while (dfLiege is not null) {
+			titleToReturn = dfLiege;
+			dfLiege = dfLiege.GetDeFactoLiege(date);
+		}
+		
+		return titleToReturn;
+	}
 	public Title? GetRealmOfRank(TitleRank realmRank, Date ck3BookmarkDate) {
 		var holderId = GetHolderId(ck3BookmarkDate);
 		if (holderId == "0") {
@@ -1059,7 +1070,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// case: title is independent
 		var higherTitlesOfHolder = parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank > Rank)
-			.OrderByDescending(t => t.Rank);
+			.OrderByDescending(t => t.Rank)
+			.ToImmutableList();
 		var highestTitleRank = higherTitlesOfHolder.FirstOrDefault(defaultValue: null)?.Rank;
 		if (highestTitleRank is null) {
 			return null;
