@@ -26,6 +26,9 @@ public partial class Country : IIdentifiable<ulong> {
 		private set => historicalTag = value;
 	}
 
+	private ulong? parsedOriginCountryId;
+	public Country? OriginCountry { get; private set; } = null;
+
 	public string Name => CountryName.Name;
 	public CountryName CountryName { get; private set; } = new();
 	public string Flag { get; private set; } = "";
@@ -100,6 +103,12 @@ public partial class Country : IIdentifiable<ulong> {
 	public void TryLinkMonarch(Character character) {
 		if (monarchId == character.Id) {
 			Monarch = character;
+		}
+	}
+	
+	public void LinkOriginCountry(CountryCollection countries) {
+		if (parsedOriginCountryId != null && countries.TryGetValue((ulong)parsedOriginCountryId, out var originCountry)) {
+			OriginCountry = originCountry;
 		}
 	}
 }
