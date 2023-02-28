@@ -13,7 +13,7 @@ public static class CoatOfArmsOutputter {
 		Logger.Info("Outputting coats of arms...");
 		var coasPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms");
 
-		var path = Path.Combine(coasPath, "IRToCK3_coas.txt");
+		var path = Path.Combine(coasPath, "zzz_IRToCK3_coas.txt");
 		using var coasWriter = new StreamWriter(path);
 
 		// Output CoAs for titles.
