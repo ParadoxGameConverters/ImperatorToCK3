@@ -24,7 +24,7 @@ public class Mapping {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.ck3Title = reader.GetString());
 		parser.RegisterKeyword("imp", reader => mappingToReturn.imperatorTagOrRegion = reader.GetString());
 		parser.RegisterKeyword("rank", reader => mappingToReturn.ranks.Add(reader.GetString()));
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 	public static Mapping Parse(BufferedReader reader) {
 		mappingToReturn = new Mapping();

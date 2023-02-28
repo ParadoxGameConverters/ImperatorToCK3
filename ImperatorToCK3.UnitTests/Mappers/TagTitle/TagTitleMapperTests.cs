@@ -48,10 +48,11 @@ public class TagTitleMapperTests {
 	[Fact]
 	public void TitleCanBeMatchedFromGovernorship() {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath); // reads title_map.txt from TestFiles
-		mapper.RegisterTag("ROM", "e_roman_empire");
+		const ulong romeId = 1;
+		mapper.RegisterCountry(romeId, "e_roman_empire");
 
 		var impCountries = new CountryCollection();
-		impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM}"));
+		impCountries.LoadCountries(new BufferedReader($"{romeId} = {{ tag=ROM }}"));
 		var titles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -112,11 +113,13 @@ public class TagTitleMapperTests {
 	[Fact]
 	public void TitleCanBeGeneratedFromGovernorship() {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
-		mapper.RegisterTag("ROM", "e_roman_empire");
-		mapper.RegisterTag("DRE", "k_dre_empire");
+		const ulong romeId = 1;
+		const ulong dreId = 2;
+		mapper.RegisterCountry(romeId, "e_roman_empire");
+		mapper.RegisterCountry(dreId, "k_dre_empire");
 
 		var impCountries = new CountryCollection();
-		impCountries.LoadCountries(new BufferedReader(" 1={tag=ROM} 2={tag=DRE}"));
+		impCountries.LoadCountries(new BufferedReader($"{romeId}={{tag=ROM}} {dreId}={{tag=DRE}}"));
 		var titles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -172,8 +175,9 @@ public class TagTitleMapperTests {
 	[Fact]
 	public void TagCanBeRegistered() {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
-		mapper.RegisterTag("BOR", "e_boredom");
-		var country = Country.Parse(new BufferedReader("tag=BOR"), 1);
+		const ulong borId = 1;
+		mapper.RegisterCountry(borId, "e_boredom");
+		var country = Country.Parse(new BufferedReader("tag=BOR"), borId);
 		for (ulong i = 1; i < 20; ++i) { // makes the country a local power
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			country.RegisterProvince(province);
@@ -185,10 +189,11 @@ public class TagTitleMapperTests {
 	[Fact]
 	public void GovernorshipCanBeRegistered() {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
-		mapper.RegisterTag("BOR", "e_roman_empire");
+		const ulong borId = 1;
+		mapper.RegisterCountry(borId, "e_roman_empire");
 
 		var impCountries = new CountryCollection();
-		impCountries.LoadCountries(new BufferedReader(" 1={tag=BOR}"));
+		impCountries.LoadCountries(new BufferedReader($"{borId}={{tag=BOR}}"));
 		var titles = new Title.LandedTitles();
 
 		var ck3Religions = new ReligionCollection(titles);

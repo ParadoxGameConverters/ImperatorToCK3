@@ -21,8 +21,8 @@ public class TagTitleMapper {
 
 		Logger.IncrementProgress();
 	}
-	public void RegisterTag(string imperatorTag, string ck3Title) {
-		registeredTagTitles.Add(imperatorTag, ck3Title);
+	public void RegisterCountry(ulong countryId, string ck3Title) {
+		registeredCountryTitles.Add(countryId, ck3Title);
 		usedTitles.Add(ck3Title);
 	}
 	public void RegisterGovernorship(string imperatorRegion, string imperatorCountryTag, string ck3Title) {
@@ -30,14 +30,16 @@ public class TagTitleMapper {
 		usedTitles.Add(ck3Title);
 	}
 	public string? GetTitleForTag(Country country, string localizedTitleName) {
-		string tagForMapping = country.Tag;
+		// If country has an origin (e.g. rebelled from another country), the historical tag probably points to the original country.
+		string tagForMapping = country.OriginCountry is not null ? country.Tag : country.HistoricalTag;
+
 		// The only case where we fail is on invalid invocation. Otherwise, failure is not an option!
 		if (string.IsNullOrEmpty(tagForMapping)) {
 			return null;
 		}
 
 		// look up register
-		if (registeredTagTitles.TryGetValue(tagForMapping, out var titleToReturn)) {
+		if (registeredCountryTitles.TryGetValue(country.Id, out var titleToReturn)) {
 			return titleToReturn;
 		}
 
@@ -49,14 +51,14 @@ public class TagTitleMapper {
 					continue;
 				}
 
-				RegisterTag(tagForMapping, match);
+				RegisterCountry(country.Id, match);
 				return match;
 			}
 		}
 
 		// Generate a new title
 		var generatedTitle = GenerateNewTitle(country, localizedTitleName);
-		RegisterTag(tagForMapping, generatedTitle);
+		RegisterCountry(country.Id, generatedTitle);
 		return generatedTitle;
 	}
 	public string? GetTitleForTag(Country country) {
@@ -208,7 +210,7 @@ public class TagTitleMapper {
 	}
 
 	private readonly List<Mapping> mappings = new();
-	private readonly Dictionary<string, string> registeredTagTitles = new(); // We store already mapped countries here.
+	private readonly Dictionary<ulong, string> registeredCountryTitles = new(); // We store already mapped countries here.
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 	private readonly SortedSet<string> usedTitles = new();
 

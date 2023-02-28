@@ -23,6 +23,10 @@ public class CountryCollection : IdObjectCollection<ulong, Country> {
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
+
+		foreach (var country in this) {
+			country.LinkOriginCountry(this);
+		}
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, countryId) => {
