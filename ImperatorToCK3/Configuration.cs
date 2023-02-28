@@ -29,7 +29,11 @@ public class Configuration {
 		Logger.Info("Reading configuration file...");
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseFile("configuration.txt");
+		const string configurationPath = "configuration.txt";
+		if (!File.Exists(configurationPath)) {
+			throw new ConverterException($"{configurationPath} not found! Run ConverterFrontend to generate it.");
+		}
+		parser.ParseFile(configurationPath);
 
 		SetOutputName();
 		VerifyImperatorPath();
