@@ -127,7 +127,7 @@ public static class BookmarkOutputter {
 		var outputName = config.OutputModName;
 		var baseLocPath = Path.Combine("output", outputName, "localization");
 		foreach (var language in languages) {
-			var locFilePath = Path.Combine(baseLocPath, language, "converter_bookmark_l_english.yml");
+			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
 			using var locFileStream = File.OpenWrite(locFilePath);
 			using var locWriter = new StreamWriter(locFileStream, Encoding.UTF8);
 
