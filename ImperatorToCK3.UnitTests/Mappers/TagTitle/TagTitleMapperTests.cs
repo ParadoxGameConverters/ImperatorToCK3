@@ -101,7 +101,7 @@ public class TagTitleMapperTests {
 		}
 		var match = mapper.GetTitleForTag(rom, "Rome");
 
-		var dre = Country.Parse(new BufferedReader("tag=DRE"), 1);
+		var dre = Country.Parse(new BufferedReader("tag=DRE"), 2);
 		for (ulong i = 0; i < 20; ++i) { // makes the country a local power
 			dre.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 		}
@@ -139,11 +139,11 @@ public class TagTitleMapperTests {
 			new Configuration()
 		);
 
-		var apuliaGov = new Governorship(new BufferedReader("who=1 governorship=apulia_region"));
-		var pepeGov = new Governorship(new BufferedReader("who=2 governorship=pepe_region"));
+		var apuliaGov = new Governorship(new BufferedReader($"who={romeId} governorship=apulia_region"));
+		var pepeGov = new Governorship(new BufferedReader($"who={dreId} governorship=pepe_region"));
 		var provinces = new ProvinceCollection();
-		var match = mapper.GetTitleForGovernorship(apuliaGov, impCountries[1], titles, provinces, irRegionMapper);
-		var match2 = mapper.GetTitleForGovernorship(pepeGov, impCountries[2], titles, provinces, irRegionMapper);
+		var match = mapper.GetTitleForGovernorship(apuliaGov, impCountries[romeId], titles, provinces, irRegionMapper);
+		var match2 = mapper.GetTitleForGovernorship(pepeGov, impCountries[dreId], titles, provinces, irRegionMapper);
 
 		Assert.Equal("k_IMPTOCK3_ROM_apulia_region", match);
 		Assert.Equal("d_IMPTOCK3_DRE_pepe_region", match2);
