@@ -59,6 +59,7 @@ public static class CharacterOutputter {
 			foreach (var field in fieldsToRemove) {
 				character.History.Fields.Remove(field);
 			}
+			output.WriteLine("\tdisallow_random_traits=yes");
 		}
 
 		// output history
