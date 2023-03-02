@@ -179,21 +179,11 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "events"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "english"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "french"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "german"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "korean"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "english"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "french"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "german"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "korean"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "russian"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "simp_chinese"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", "spanish"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "russian"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "simp_chinese"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "spanish"));
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", language));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", language));
+		}
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));

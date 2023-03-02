@@ -62,6 +62,9 @@ public static class BookmarkOutputter {
 			var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", "english") {
 				["english"] = string.Empty
 			};
+			foreach (var language in ConverterGlobals.SecondaryLanguages) {
+				holderDescLoc[language] = string.Empty;
+			}
 			localizations.Add(holderDescLoc.Id, holderDescLoc);
 
 			output.WriteLine("\tcharacter = {");
@@ -122,12 +125,10 @@ public static class BookmarkOutputter {
 	}
 
 	private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
-		var languages = new[] {"english", "french", "german", "korean", "russian", "simp_chinese", "spanish"};
-
 		var outputName = config.OutputModName;
 		var baseLocPath = Path.Combine("output", outputName, "localization");
-		foreach (var language in languages) {
-			var locFilePath = Path.Combine(baseLocPath, language, "converter_bookmark_l_english.yml");
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
 			using var locFileStream = File.OpenWrite(locFilePath);
 			using var locWriter = new StreamWriter(locFileStream, Encoding.UTF8);
 

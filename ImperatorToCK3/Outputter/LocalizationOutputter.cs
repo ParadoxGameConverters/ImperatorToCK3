@@ -7,13 +7,12 @@ using System.IO;
 namespace ImperatorToCK3.Outputter;
 public static class LocalizationOutputter {
 	public static void OutputLocalization(ModFilesystem irModFS, string outputName, World ck3World) {
-		var languageNames = new[] {"english", "french", "german", "korean", "russian", "simp_chinese", "spanish"};
 		var outputPath = Path.Combine("output", outputName);
 		var baseLocDir = Path.Join(outputPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
 
 		// copy character/family names localization
-		foreach (var languageName in languageNames) {
+		foreach (var languageName in ConverterGlobals.SupportedLanguages) {
 			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
 			if (locFileLocation is not null) {
 				SystemUtils.TryCopyFile(locFileLocation,
@@ -22,7 +21,7 @@ public static class LocalizationOutputter {
 			}
 		}
 
-		foreach (var language in languageNames) {
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
 			using var locFileStream = File.OpenWrite(locFilePath);
 			using var locWriter = new StreamWriter(locFileStream, encoding: System.Text.Encoding.UTF8);
@@ -51,7 +50,7 @@ public static class LocalizationOutputter {
 		}
 
 		// dynasty localization
-		foreach (var language in languageNames) {
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
 			using var dynastyLocStream = File.OpenWrite(dynastyLocFilePath);
 			using var dynastyLocWriter = new StreamWriter(dynastyLocStream, System.Text.Encoding.UTF8);
