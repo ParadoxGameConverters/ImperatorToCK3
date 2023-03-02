@@ -4,7 +4,6 @@ using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Exceptions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -166,9 +165,12 @@ public static class BookmarkOutputter {
 		Logger.Info("Drawing bookmark map...");
 		var ck3ModFS = ck3World.ModFS;
 		var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
+		if (provincesMapPath is null) {
+			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+		}
 		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flatmap.dds");
 		if (flatmapPath is null) {
-			throw new ConverterException($"{nameof(flatmapPath)} not found!");
+			throw new FileNotFoundException($"{nameof(flatmapPath)} not found!");
 		}
 		const string tmpFlatmapPath = "temp/flatmap.png";
 
