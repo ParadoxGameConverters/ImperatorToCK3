@@ -249,7 +249,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (!string.IsNullOrEmpty(name)) {
 				Logger.Warn($"Using unlocalized Imperator name {name} as name for {Id}!");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
-				nameLocBlock["english"] = name;
+				nameLocBlock[ConverterGlobals.PrimaryLanguage] = name;
 				nameSet = true;
 			}
 		}
@@ -325,8 +325,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var modifiedPrylocBlockToReturn = new LocBlock(pryLocKey, pryLocBlock);
 				const string pryNameKey = "PRY";
 				modifiedPrylocBlockToReturn.ModifyForEveryLanguage(
-					locDB.GetLocBlockForKey(pryNameKey) ?? new LocBlock(pryNameKey, "english") {
-						["english"] = "Antigonid Kingdom"
+					locDB.GetLocBlockForKey(pryNameKey) ?? new LocBlock(pryNameKey, ConverterGlobals.PrimaryLanguage) {
+						[ConverterGlobals.PrimaryLanguage] = "Antigonid Kingdom"
 					},
 					(loc, modifyingLoc, _) => loc?.Replace($"${pryNameKey}$", modifyingLoc));
 				return modifiedPrylocBlockToReturn;
@@ -342,8 +342,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var modifiedSelLocBlockToReturn = new LocBlock(selLocKey, selLocBlock);
 				const string selNameKey = "SEL";
 				modifiedSelLocBlockToReturn.ModifyForEveryLanguage(
-					locDB.GetLocBlockForKey(selNameKey) ?? new LocBlock(selNameKey, "english") {
-						["english"] = "Seleukid Empire"
+					locDB.GetLocBlockForKey(selNameKey) ?? new LocBlock(selNameKey, ConverterGlobals.PrimaryLanguage) {
+						[ConverterGlobals.PrimaryLanguage] = "Seleukid Empire"
 					},
 					(loc, modifyingLoc, _) => loc?.Replace($"${selNameKey}$", modifyingLoc));
 				return modifiedSelLocBlockToReturn;
@@ -359,8 +359,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var modifiedMryLocBlockToReturn = new LocBlock(mryLocKey, mryLocBlock);
 				const string mryNameKey = "MRY";
 				modifiedMryLocBlockToReturn.ModifyForEveryLanguage(
-					locDB.GetLocBlockForKey(mryNameKey) ?? new LocBlock(mryNameKey, "english") {
-						["english"] = "Maurya"
+					locDB.GetLocBlockForKey(mryNameKey) ?? new LocBlock(mryNameKey, ConverterGlobals.PrimaryLanguage) {
+						[ConverterGlobals.PrimaryLanguage] = "Maurya"
 					},
 					(loc, modifyingLoc, _) => loc?.Replace($"${mryNameKey}$", modifyingLoc));
 				return modifiedMryLocBlockToReturn;
@@ -378,7 +378,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		LocDB locDB
 	) {
 		var validatedName = GetValidatedName(imperatorCountry, imperatorCountries, locDB);
-		var validatedEnglishName = validatedName?["english"];
+		var validatedEnglishName = validatedName?[ConverterGlobals.PrimaryLanguage];
 
 		string? title;
 
@@ -676,8 +676,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						const string pryAdjKey = "PRY_ADJ";
 						validatedAdj = new LocBlock(pryAdjLocBlock.Id, pryAdjLocBlock);
 						validatedAdj.ModifyForEveryLanguage(
-							locDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, "english") {
-								["english"] = "Antigonid"
+							locDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, ConverterGlobals.PrimaryLanguage) {
+								[ConverterGlobals.PrimaryLanguage] = "Antigonid"
 							},
 							(loc, modifyingLoc, _) => loc?.Replace($"${pryAdjKey}$", modifyingLoc));
 					} else {
@@ -694,8 +694,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						const string selAdjKey = "SEL_ADJ";
 						validatedAdj = new LocBlock(selAdjLocBlock.Id, selAdjLocBlock);
 						validatedAdj.ModifyForEveryLanguage(
-							locDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, "english") {
-								["english"] = "Seleukid"
+							locDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, ConverterGlobals.PrimaryLanguage) {
+								[ConverterGlobals.PrimaryLanguage] = "Seleukid"
 							},
 							(loc, modifyingLoc, _) => loc?.Replace($"${selAdjKey}$", modifyingLoc));
 					} else {
@@ -712,8 +712,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						const string mryAdjKey = "MRY_ADJ";
 						validatedAdj = new LocBlock(mryAdjLocBlock.Id, mryAdjLocBlock);
 						validatedAdj.ModifyForEveryLanguage(
-							locDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, "english") {
-								["english"] = "Mauryan"
+							locDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, ConverterGlobals.PrimaryLanguage) {
+								[ConverterGlobals.PrimaryLanguage] = "Mauryan"
 							},
 							(loc, modifyingLoc, _) => loc?.Replace($"${mryAdjKey}$", modifyingLoc));
 					} else {
@@ -756,7 +756,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (!string.IsNullOrEmpty(name)) {
 				Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Id}!");
 				var adjLocBlock = Localizations.AddLocBlock(locKey);
-				adjLocBlock["english"] = name;
+				adjLocBlock[ConverterGlobals.PrimaryLanguage] = name;
 				adjSet = true;
 			}
 		}

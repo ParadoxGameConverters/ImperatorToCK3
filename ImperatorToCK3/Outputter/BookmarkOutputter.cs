@@ -55,11 +55,11 @@ public static class BookmarkOutputter {
 			var holder = world.Characters[holderId];
 
 			// Add character localization for bookmark screen.
-			var holderLoc = new LocBlock($"bm_converted_{holder.Id}", "english");
+			var holderLoc = new LocBlock($"bm_converted_{holder.Id}", ConverterGlobals.PrimaryLanguage);
 			holderLoc.CopyFrom(holder.Localizations[holder.Name]);
 			localizations.Add(holderLoc.Id, holderLoc);
-			var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", "english") {
-				["english"] = string.Empty
+			var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", ConverterGlobals.PrimaryLanguage) {
+				[ConverterGlobals.PrimaryLanguage] = string.Empty
 			};
 			foreach (var language in ConverterGlobals.SecondaryLanguages) {
 				holderDescLoc[language] = string.Empty;
