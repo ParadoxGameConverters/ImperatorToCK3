@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
@@ -567,7 +568,7 @@ public partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate) {
+		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, ProvinceCollection ck3Provinces, PillarCollection culturePillars) {
 			// Generate King/Empire de jure hierarchy from governorships
 			Logger.Info("Setting de jure kingdoms...");
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
@@ -596,7 +597,10 @@ public partial class Title {
 			Logger.IncrementProgress();
 
 			Logger.Info("Setting de jure empires...");
-			foreach (var kingdom in this.Where(t => t.Rank == TitleRank.kingdom && t.DeJureVassals.Count > 0)) {
+			var deJureKingdoms = this
+				.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
+				.ToImmutableArray();
+			foreach (var kingdom in deJureKingdoms) {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
@@ -621,6 +625,22 @@ public partial class Title {
 					continue;
 				}
 				kingdom.DeJureLiege = this[empireId];
+			}
+			// For kingdoms that still have no de jure empire, create empires based on dominant cultural heritages.
+			var kingdomsWithoutEmpire = deJureKingdoms
+				.Where(k => k.DeJureLiege is null)
+				.ToImmutableArray();
+			var heritageToEmpireDict = new Dictionary<string, Title>();
+			foreach (var kingdom in kingdomsWithoutEmpire) {
+				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
+				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();
+				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id));
+				var countyHeritages = kingdomProvinces
+					.Select(c => c.GetCultureId(ck3BookmarkDate))
+					.Select(cultureId => )
+					.GroupBy(c => c)
+					.Select(g => (culture: g.Key, count: g.Count()))
+					.OrderByDescending(g => g.count);
 			}
 			Logger.IncrementProgress();
 		}
