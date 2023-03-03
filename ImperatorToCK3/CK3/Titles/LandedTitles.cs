@@ -616,8 +616,8 @@ public partial class Title {
 					continue;
 				}
 				(string empireId, int share) = empireShares.MaxBy(pair => pair.Value);
-				// The potential de jure empire must hold at least 75% of the kingdom.
-				if (share < (kingdomProvincesCount * 0.75)) {
+				// The potential de jure empire must hold at least 50% of the kingdom.
+				if (share < (kingdomProvincesCount * 0.50)) {
 					continue;
 				}
 				kingdom.DeJureLiege = this[empireId];
