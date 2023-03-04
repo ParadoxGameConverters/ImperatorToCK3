@@ -14,6 +14,13 @@ l_english:
  STATIC_DEJURE_2: "Static"
  STATIC_DEJURE_2_TIP: "Predetermine CK3 de jure mostly by vanilla CK3 but with time appropriate tweaks."
 
+ USE_CK3_FLAGS: "Should CK3 flags be used if possible?"
+ USE_CK3_FLAGS_TIP: "Whether CK3 flags should be used for countries that are mapped to existing CK3 titles."
+ USE_CK3_FLAGS_0: "No"
+ USE_CK3_FLAGS_0_TIP: "The converter will use Imperator flags for all converted countries."
+ USE_CK3_FLAGS_1: "Yes"
+ USE_CK3_FLAGS_1_TIP: "The converted will use CK3 flags for countries that are mapped to existing CK3 titles."
+
  HERESIES_IN_HISTORICAL_AREAS: "Do you want to convert with historical heresies?"
  HERESIES_IN_HISTORICAL_AREAS_TIP: "This option will convert some Christian and Manichean pops, if they exist in your game, in certain areas of the Imperator: Rome map to a Gnostic/Dualist faith or Christian heretical faith in the corresponding areas of the Crusader Kings III map, depending on where they appeared historically. For example, some provinces with a majority Christian or Manichean population in I:R could be converted to Priscillianism in CK3."
  HERESIES_IN_HISTORICAL_AREAS_1: "Yes"

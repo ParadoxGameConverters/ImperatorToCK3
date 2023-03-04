@@ -37,6 +37,26 @@ option = {
 }
 
 option = {
+	name = UseCK3Flags
+	displayName = USE_CK3_FLAGS
+	tooltip = USE_CK3_FLAGS_TIP
+	radioSelector = {
+		radioOption = {
+			name = 0
+			displayName = USE_CK3_FLAGS_0
+			tooltip = USE_CK3_FLAGS_0_TIP
+			default = false
+		}
+		radioOption = {
+			name = 1
+			displayName = USE_CK3_FLAGS_1
+			tooltip = USE_CK3_FLAGS_1_TIP
+			default = true
+		}
+	}
+}
+
+option = {
 	name = RiseOfIslam
 	displayName = RISE_OF_ISLAM
 	tooltip = RISE_OF_ISLAM_TIP
