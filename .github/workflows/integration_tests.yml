@@ -35,7 +35,7 @@ jobs:
         dotnet build
     - name: "Download I:R save from MEGA"
       run: |
-        & '"C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}'
+        & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
     # TODO: create configuration.txt
     # TODO: run converter
 
