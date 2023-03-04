@@ -37,4 +37,10 @@ jobs:
       uses: Difegue/action-megacmd@master
       with:
         args: get ${{ matrix.save_url }} ./
+    # TODO: create configuration.txt
+    # TODO: run converter
 
+    - name: "Cleanup"
+      if: always()
+      run: |
+        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
