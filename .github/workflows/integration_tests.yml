@@ -1,6 +1,7 @@
 ﻿name: "Integration tests"
 
 on:
+  pull_request:  # TODO: remove when ready
   release:
     types: [published]
 
@@ -11,6 +12,14 @@ concurrency:
 jobs:
   run_test_conversions:
     runs-on: [self-hosted, windows]
+    strategy:
+      fail-fast: false
+      matrix:
+        save_url:
+          # 2.0 vanilla
+          - https://mega.nz/file/TR13kB7D#QWT2yFzoS3rSIu9-EkUEdcc-X8jJnhZdXbJvw9jC-dg  # Benchmark.rome
+          # 2.0 with mods
+          - https://mega.nz/file/id90lRYD#4OBL6N6_87-Nu28wNssm-O-3jmxli0iFzOtI7XVdN1E  # Mega_Campaign.rome
     steps:
     - uses: actions/checkout@v3
       with:
@@ -24,3 +33,8 @@ jobs:
       working-directory: ImperatorToCK3
       run: |
         dotnet build
+    - name: "Download I:R save from MEGA"
+      uses: Difegue/action-megacmd@master
+        with:
+          args: get ${{ matrix.save_url }} ./
+
