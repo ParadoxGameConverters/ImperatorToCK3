@@ -9,7 +9,7 @@ namespace ImperatorToCK3.CK3.Cultures;
 public sealed class Culture : IIdentifiable<string> {
 	public string Id { get; }
 	public Color Color { get; private set; } = new(0, 0, 0);
-	public Pillar Heritage;
+	public Pillar Heritage { get; private set; }
 	
 	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, ColorFactory colorFactory) {
 		Id = id;
