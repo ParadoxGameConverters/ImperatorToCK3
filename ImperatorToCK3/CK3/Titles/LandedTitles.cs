@@ -635,13 +635,12 @@ public partial class Title {
 				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
 				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();
 				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id));
-				var dominantHeritageGrouping = kingdomProvinces
+				var dominantHeritage = kingdomProvinces
 					.Select(c => new { County = c, CultureId = c.GetCultureId(ck3BookmarkDate)})
 					.Where(x => x.CultureId is not null)
 					.Select(x => new { x.County, ck3Cultures[x.CultureId!].Heritage })
 					.GroupBy(x => x.Heritage)
-					.MaxBy(g => g.Count());
-				var dominantHeritage = dominantHeritageGrouping?.Key;
+					.MaxBy(g => g.Count())?.Key;
 				if (dominantHeritage is null) {
 					if (kingdom.GetDeJureVassalsAndBelow("c").Count > 0) {
 						Logger.Warn($"Kingdom {kingdom.Id} has no dominant heritage!");
