@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
@@ -25,18 +26,18 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		this.landedTitles = landedTitles;
 	}
 
-	private void RegisterReligionsKeywords(Parser parser) {
+	private void RegisterReligionsKeywords(Parser parser, ColorFactory colorFactory) {
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-			var religion = new Religion(religionId, religionReader, this);
+			var religion = new Religion(religionId, religionReader, this, colorFactory);
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	public void LoadReligions(ModFilesystem ck3ModFs) {
+	public void LoadReligions(ModFilesystem ck3ModFs, ColorFactory colorFactory) {
 		Logger.Info("Loading religions from CK3 game and mods...");
 
 		var parser = new Parser();
-		RegisterReligionsKeywords(parser);
+		RegisterReligionsKeywords(parser, colorFactory);
 
 		parser.ParseGameFolder("common/religion/religions", ck3ModFs, "txt", recursive: true);
 

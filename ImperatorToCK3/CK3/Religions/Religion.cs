@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Serialization;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ImperatorToCK3.CK3.Religions;
 public class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 
-	public Religion(string id, BufferedReader religionReader, ReligionCollection religions) {
+	public Religion(string id, BufferedReader religionReader, ReligionCollection religions, ColorFactory colorFactory) {
 		Id = id;
 
 		var religionParser = new Parser();
@@ -21,7 +22,7 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 					otherReligion.Faiths.Remove(faithId);
 				}
 
-				Faiths.AddOrReplace(new Faith(faithId, faithReader));
+				Faiths.AddOrReplace(new Faith(faithId, faithReader, colorFactory));
 			});
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);

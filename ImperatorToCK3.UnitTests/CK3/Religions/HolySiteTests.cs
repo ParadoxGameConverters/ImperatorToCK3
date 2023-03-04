@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Colors;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -63,7 +64,7 @@ public class HolySiteTests {
 			{"unmapped_effect", 1f} // will be skipped
 		};
 
-		var faith = new Faith("test_faith", new BufferedReader());
+		var faith = new Faith("test_faith", new BufferedReader(), new ColorFactory());
 
 		var site = new HolySite(titles["b_barony"], faith, titles, imperatorEffects, holySiteEffectMapper);
 

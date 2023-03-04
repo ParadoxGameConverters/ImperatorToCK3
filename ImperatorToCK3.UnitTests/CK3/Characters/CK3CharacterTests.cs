@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
@@ -219,7 +220,7 @@ public class CK3CharacterTests {
 
 		var titles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(titles);
-		ck3Religions.LoadReligions(ck3ModFS);
+		ck3Religions.LoadReligions(ck3ModFS, new ColorFactory());
 
 		var mapReader = new BufferedReader(
 			"link = { imp=chalcedonian ck3=orthodox }"

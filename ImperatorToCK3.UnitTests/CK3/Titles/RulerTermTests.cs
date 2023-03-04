@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Religions;
@@ -67,7 +68,7 @@ public class RulerTermTests {
 		var impRulerTerm = new ImperatorToCK3.Imperator.Countries.RulerTerm(preImpTermReader, countries);
 
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
-		ck3Religions.LoadReligions(ck3ModFs);
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
 		var govMapper = new GovernmentMapper(govReader);
 		var ck3RegionMapper = new CK3RegionMapper();
