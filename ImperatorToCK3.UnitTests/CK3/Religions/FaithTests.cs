@@ -14,7 +14,7 @@ public class FaithTests {
 	[Fact]
 	public void HolySiteIdsAreLoadedAndSerialized() {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("chalcedonian", reader);
+		var faith = new Faith("chalcedonian", reader, new ColorFactory());
 
 		Assert.Collection(faith.HolySiteIds,
 			site => Assert.Equal("rome", site),
@@ -31,7 +31,7 @@ public class FaithTests {
 	[Fact]
 	public void FaithColorIsReadAndSerialized() {
 		var reader = new BufferedReader("{ color = hsv { 0.15  1  0.7 } }");
-		var faith = new Faith("celtic_pagan", reader);
+		var faith = new Faith("celtic_pagan", reader, new ColorFactory());
 
 		Assert.Equal(new Color(0.15, 1, 0.7), faith.Color);
 
@@ -48,7 +48,7 @@ public class FaithTests {
 			doctrine = tenet_esotericism
 			doctrine = tenet_human_sacrifice # should not replace the line above
 		}");
-		var faith = new Faith("celtic_pagan", reader);
+		var faith = new Faith("celtic_pagan", reader, new ColorFactory());
 
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().ContainAll(
@@ -61,7 +61,7 @@ public class FaithTests {
 	[Fact]
 	public void HolySiteIdCanBeReplaced() {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("orthodox", reader);
+		var faith = new Faith("orthodox", reader, new ColorFactory());
 		Assert.False(faith.ModifiedByConverter);
 
 		faith.ReplaceHolySiteId("antioch", "jerusalem");
@@ -75,7 +75,7 @@ public class FaithTests {
 		Console.SetOut(output);
 
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("orthodox", reader);
+		var faith = new Faith("orthodox", reader, new ColorFactory());
 		Assert.False(faith.ModifiedByConverter);
 
 		faith.ReplaceHolySiteId("washington", "jerusalem");

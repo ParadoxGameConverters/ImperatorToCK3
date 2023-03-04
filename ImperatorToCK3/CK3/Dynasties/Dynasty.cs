@@ -41,8 +41,8 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 				return !string.IsNullOrEmpty(other) ? other : irFamilyLoc.Id;
 			});
 		} else { // fallback: use unlocalized Imperator family key
-			LocalizedName = new LocBlock(Name, "english") {
-				["english"] = irFamilyLocKey
+			LocalizedName = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+				[ConverterGlobals.PrimaryLanguage] = irFamilyLocKey
 			};
 		}
 	}

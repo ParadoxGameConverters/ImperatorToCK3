@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Imperator.Geography;
@@ -36,7 +37,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void CK3FaithCanBeFound() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
-		ck3Religions.LoadReligions(ck3ModFs);
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var reader = new BufferedReader("link = { ck3 = ck3Faith imp = impReligion }");
@@ -49,7 +50,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void MultipleImperatorReligionsCanBeInARule() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
-		ck3Religions.LoadReligions(ck3ModFs);
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var reader = new BufferedReader(
@@ -64,7 +65,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void CorrectRuleMatches() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
-		ck3Religions.LoadReligions(ck3ModFs);
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var reader = new BufferedReader(
@@ -80,7 +81,7 @@ public class ReligionMapperTests {
 	[Fact]
 	public void MappingCanBeMatchedByHistoricalTag() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
-		ck3Religions.LoadReligions(ck3ModFs);
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		const string irReligion = "impReligion";
