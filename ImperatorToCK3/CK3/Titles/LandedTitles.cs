@@ -662,6 +662,7 @@ public partial class Title {
 					var empireColor = ck3Cultures.First(c => c.Heritage == dominantHeritage).Color;
 					newEmpire.Color1 = empireColor;
 					
+					kingdom.DeJureLiege = newEmpire;
 					heritageToEmpireDict[dominantHeritage] = newEmpire;
 				}
 			}
