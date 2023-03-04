@@ -643,7 +643,9 @@ public partial class Title {
 					.MaxBy(g => g.Count());
 				var dominantHeritage = dominantHeritageGrouping?.Key;
 				if (dominantHeritage is null) {
-					Logger.Warn($"Kingdom {kingdom.Id} has no dominant heritage!");
+					if (kingdom.GetDeJureVassalsAndBelow("c").Count > 0) {
+						Logger.Warn($"Kingdom {kingdom.Id} has no dominant heritage!");
+					}
 					continue;
 				}
 				if (heritageToEmpireDict.TryGetValue(dominantHeritage, out var empire)) {
