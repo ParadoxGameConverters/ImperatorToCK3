@@ -35,6 +35,6 @@ jobs:
         dotnet build
     - name: "Download I:R save from MEGA"
       uses: Difegue/action-megacmd@master
-        with:
-          args: get ${{ matrix.save_url }} ./
+      with:
+        args: get ${{ matrix.save_url }} ./
 
