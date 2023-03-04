@@ -1,0 +1,26 @@
+﻿name: "Integration tests"
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: ci-integration-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  run_test_conversions:
+    runs-on: [self-hosted, windows]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: "Setup Dotnet for use with actions"
+      uses: actions/setup-dotnet@v3
+      with:
+        global-json-file: global.json
+    - name: "Build converter backend"
+      working-directory: ImperatorToCK3
+      run: |
+        dotnet build
