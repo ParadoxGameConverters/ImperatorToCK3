@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
@@ -90,7 +91,17 @@ public class World {
 		ScriptValues.LoadScriptValues(ModFS);
 
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
-		Faith.ColorFactory.AddNamedColorDict(NamedColors);
+		var ck3ColorFactory = new ColorFactory();
+		ck3ColorFactory.AddNamedColorDict(NamedColors);
+		
+		// Load CK3 cultures from CK3 mod filesystem.
+		Logger.Info("Loading cultural pillars...");
+		var culturalPillars = new PillarCollection();
+		culturalPillars.LoadPillars(ModFS);
+		Logger.Info("Loading cultures...");
+		var cultures = new CultureCollection(culturalPillars);
+		cultures.LoadCultures(ModFS, ck3ColorFactory);
+		Logger.IncrementProgress();
 
 		LoadMenAtArmsTypes(ModFS, ScriptValues);
 
@@ -101,7 +112,6 @@ public class World {
 		coaMapper = new CoaMapper(impWorld.ModFS);
 
 		// Load vanilla CK3 landed titles and their history
-
 		LandedTitles.LoadTitles(ModFS);
 
 		if (config.StaticDeJure) {
@@ -120,7 +130,7 @@ public class World {
 		// Load CK3 religions from game and blankMod.
 		// Holy sites need to be loaded after landed titles.
 		Religions.LoadHolySites(ModFS);
-		Religions.LoadReligions(ModFS);
+		Religions.LoadReligions(ModFS, ck3ColorFactory);
 		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
 		// Load regions.
@@ -188,14 +198,16 @@ public class World {
 			coaMapper,
 			countyLevelGovernorships
 		);
-
-		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
-
+		
+		// Give counties to rulers and governors.
 		OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
+		// Import holding owners as barons and counts.
+		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
+		
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Provinces, cultures);
 		}
 		Dynasties.SetCoasForRulingDynasties(LandedTitles);
 

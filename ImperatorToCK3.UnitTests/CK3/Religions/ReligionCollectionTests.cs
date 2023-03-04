@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
@@ -23,7 +24,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void ReligionsAreLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.LoadReligions(ck3ModFS);
+		religions.LoadReligions(ck3ModFS, new ColorFactory());
 
 		var religionIds = religions.Select(r => r.Id);
 		religionIds.Should().Contain(new[] { "religion_a", "religion_b", "religion_c" });
@@ -32,7 +33,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void ReplaceableHolySitesCanBeLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.LoadReligions(ck3ModFS);
+		religions.LoadReligions(ck3ModFS, new ColorFactory());
 		religions.LoadReplaceableHolySites(TestReplaceableHolySitesFile);
 
 		religions.ReplaceableHolySitesByFaith["religion_a_faith"]
@@ -144,7 +145,7 @@ public class ReligionCollectionTests {
 
 		var religions = new ReligionCollection(titles);
 		religions.LoadHolySites(ck3ModFS);
-		religions.LoadReligions(ck3ModFS);
+		religions.LoadReligions(ck3ModFS, new ColorFactory());
 		religions.LoadReplaceableHolySites("TestFiles/configurables/replaceable_holy_sites.txt");
 
 		var faith = religions.GetFaith("ck3Faith");

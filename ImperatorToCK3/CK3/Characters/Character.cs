@@ -96,8 +96,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (impNameLoc is not null) {
 					Localizations.Add(Name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock(Name, "english") {
-						["english"] = Name,
+					Localizations.Add(Name, new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+						[ConverterGlobals.PrimaryLanguage] = Name,
 					});
 				}
 			}
@@ -157,8 +157,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
 				Name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
 
-				var locBlock = new LocBlock(Name, "english") {
-					["english"] = loc
+				var locBlock = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+					[ConverterGlobals.PrimaryLanguage] = loc
 				};
 				Localizations.Add(Name, locBlock);
 			} else {
@@ -169,8 +169,8 @@ namespace ImperatorToCK3.CK3.Characters {
 					if (matchedLocBlock is not null) {
 						Localizations.Add(Name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						var locBlock = new LocBlock(Name, "english") {
-							["english"] = nameLoc
+						var locBlock = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+							[ConverterGlobals.PrimaryLanguage] = nameLoc
 						};
 						Localizations.Add(Name, locBlock);
 					}
@@ -392,7 +392,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			IdObjectCollection<string, MenAtArmsType> menAtArmsTypes
 		) {
 			var locKey = $"IRToCK3_character_{Id}";
-			var locBlock = new LocBlock(locKey, "english") {["english"] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]"};
+			var locBlock = new LocBlock(locKey, ConverterGlobals.PrimaryLanguage) {
+				[ConverterGlobals.PrimaryLanguage] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]"
+			};
 			Localizations.Add(locKey, locBlock);
 
 			var menPerUnitType = new Dictionary<string, int>();
@@ -412,7 +414,9 @@ namespace ImperatorToCK3.CK3.Characters {
 				menAtArmsTypes.Add(dedicatedType);
 				MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 
-				var maaTypeLocBlock = new LocBlock(dedicatedType.Id, "english") {["english"] = $"${baseType.Id}$"};
+				var maaTypeLocBlock = new LocBlock(dedicatedType.Id, ConverterGlobals.PrimaryLanguage) {
+					[ConverterGlobals.PrimaryLanguage] = $"${baseType.Id}$"
+				};
 				Localizations.Add(dedicatedType.Id, maaTypeLocBlock);
 			}
 

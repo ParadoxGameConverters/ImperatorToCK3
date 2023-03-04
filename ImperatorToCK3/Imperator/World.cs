@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
@@ -34,19 +35,19 @@ public class World : Parser {
 	public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
 	private readonly ScriptValueCollection scriptValues = new();
 	public Defines Defines { get; } = new();
-	public LocDB LocDB { get; } = new("english", "french", "german", "korean", "russian", "simp_chinese", "spanish");
+	public LocDB LocDB { get; } = new(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 
 	public NamedColorCollection NamedColors { get; } = new();
-	public FamilyCollection Families { get; private set; } = new();
-	public CharacterCollection Characters { get; private set; } = new();
+	public FamilyCollection Families { get; } = new();
+	public CharacterCollection Characters { get; } = new();
 	private PopCollection pops = new();
-	public ProvinceCollection Provinces { get; private set; } = new();
-	public CountryCollection Countries { get; private set; } = new();
+	public ProvinceCollection Provinces { get; } = new();
+	public CountryCollection Countries { get; } = new();
 	public AreaCollection Areas { get; } = new();
 	public StateCollection States { get; } = new();
 	public List<War> Wars { get; private set; } = new();
 	public Jobs.Jobs Jobs { get; private set; } = new();
-	public UnitCollection Units { get; private set; } = new();
+	public UnitCollection Units { get; } = new();
 	public CulturesDB CulturesDB { get; } = new();
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
@@ -202,7 +203,7 @@ public class World : Parser {
 		RegisterKeyword("deity_manager", reader => {
 			Religions.LoadHolySiteDatabase(reader);
 		});
-		var playerCountriesToLog = new List<string>();
+		var playerCountriesToLog = new OrderedSet<string>();
 		RegisterKeyword("played_country", reader => {
 			var playedCountryBlocParser = new Parser();
 			playedCountryBlocParser.RegisterKeyword("country", reader => {

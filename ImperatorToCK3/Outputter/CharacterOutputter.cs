@@ -52,6 +52,15 @@ public static class CharacterOutputter {
 				$"remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)}";
 			output.WriteLine($"\t{conversionDate}={{effect={{{effectStr}}}}}");
 		}
+		
+		// Don't output traits and attributes of dead characters (not needed).
+		if (character.Dead) {
+			var fieldsToRemove = new[] {"traits", "diplomacy", "martial", "stewardship", "intrigue", "learning"};
+			foreach (var field in fieldsToRemove) {
+				character.History.Fields.Remove(field);
+			}
+			output.WriteLine("\tdisallow_random_traits=yes");
+		}
 
 		// output DNA key
 		if (character.DNA is not null) {

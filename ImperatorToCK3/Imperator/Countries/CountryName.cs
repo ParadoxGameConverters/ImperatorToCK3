@@ -31,10 +31,11 @@ public class CountryName : ICloneable {
 		if (baseAdjLoc is null) {
 			return directNameLocMatch;
 		}
-		directNameLocMatch.ModifyForEveryLanguage(baseAdjLoc,
+		var locBlockToReturn = new LocBlock(Name, directNameLocMatch);
+		locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc,
 			(orig, modifying, language) => orig?.Replace("$ADJ$", modifying)
 		);
-		return directNameLocMatch;
+		return locBlockToReturn;
 	}
 	public LocBlock? GetAdjectiveLocBlock(LocDB locDB, CountryCollection imperatorCountries) {
 		var adj = GetAdjectiveLocKey();
@@ -43,10 +44,11 @@ public class CountryName : ICloneable {
 			// special case for revolts
 			var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(locDB, imperatorCountries);
 			if (baseAdjLoc is not null) {
-				directAdjLocMatch.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) =>
+				var locBlockToReturn = new LocBlock(adj, directAdjLocMatch);
+				locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) =>
 					orig?.Replace("$ADJ$", modifying)
 				);
-				return directAdjLocMatch;
+				return locBlockToReturn;
 			}
 		} else {
 			foreach (var country in imperatorCountries) {
