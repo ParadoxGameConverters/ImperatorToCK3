@@ -52,7 +52,7 @@ jobs:
     - name: "Run conversion"
       working-directory: ImperatorToCK3/Debug/ImperatorToCK3
       run: |
-        ./ImperatorToCK3Converter.exe
+        & ./ImperatorToCK3Converter.exe
 
     - name: "Cleanup"
       if: always()
