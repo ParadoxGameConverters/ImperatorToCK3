@@ -52,7 +52,7 @@ jobs:
     - name: "Run conversion"
       working-directory: ImperatorToCK3/Debug/ImperatorToCK3
       run: |
-        & ./ImperatorToCK3Converter.exe
+        dotnet ImperatorToCK3Converter.dll
 
     - name: "Cleanup"
       if: always()
