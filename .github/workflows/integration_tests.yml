@@ -40,6 +40,7 @@ jobs:
       working-directory: Debug/ImperatorToCK3
       run: |
         mkdir ImperatorDocs
+        mkdir ImperatorDocs/mod
         mkdir CK3Mods
     - name: "Create configuration.txt"
       working-directory: Debug/ImperatorToCK3
