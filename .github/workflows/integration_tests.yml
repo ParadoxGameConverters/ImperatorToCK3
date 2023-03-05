@@ -42,9 +42,9 @@ jobs:
       working-directory: Debug/ImperatorToCK3
       run: |
         echo 'ImperatorDirectory = "C:\Program Files (x86)\Steam\steamapps\common\ImperatorRome"' > configuration.txt
-        echo 'ImperatorDocDirectory = "C:\Users\Administrator\Paradox Interactive\Imperator"' >> configuration.txt
+        echo 'ImperatorDocDirectory = "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"' >> configuration.txt
         echo 'CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"' >> configuration.txt
-        echo 'targetGameModPath = "C:\Users\Administrator\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
+        echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
         echo 'SaveGame = "../../save.rome"' >> configuration.txt
         cat configuration.txt
     - name: "Run conversion"
