@@ -33,7 +33,8 @@ jobs:
       working-directory: ImperatorToCK3
       run: |
         dotnet build -c:Debug
-        ls ../Debug/ImperatorToCK3
+        cd C:/
+        Get-ChildItem imperator.exe -Recurse
     - name: "Download I:R save from MEGA"
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
