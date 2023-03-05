@@ -33,15 +33,16 @@ jobs:
       working-directory: ImperatorToCK3
       run: |
         dotnet build -c:Debug
+        ls Debug/ImperatorToCK3
     - name: "Download I:R save from MEGA"
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
     - name: "Create dummy folders"
       run: |
-        mkdir ImperatorToCK3/Debug/ImperatorToCK3/ImperatorDocs
-        mkdir ImperatorToCK3/Debug/ImperatorToCK3/CK3Mods
+        mkdir Debug/ImperatorToCK3/ImperatorDocs
+        mkdir Debug/ImperatorToCK3/CK3Mods
     - name: "Create configuration.txt"
-      working-directory: ImperatorToCK3/Debug/ImperatorToCK3
+      working-directory: Debug/ImperatorToCK3
       run: |
         echo 'ImperatorDirectory = "C:\SteamLibrary\steamapps\common\ImperatorRome"' > configuration.txt
         echo 'ImperatorDocDirectory = "./ImperatorDocs"' >> configuration.txt
@@ -50,9 +51,8 @@ jobs:
         echo 'SaveGame = "../../save.rome"' >> configuration.txt
         cat configuration.txt
     - name: "Run conversion"
-      working-directory: ImperatorToCK3/Debug/ImperatorToCK3
+      working-directory: Debug/ImperatorToCK3
       run: |
-        ls
         dotnet ImperatorToCK3Converter.dll
 
     - name: "Cleanup"
