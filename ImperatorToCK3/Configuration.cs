@@ -18,6 +18,7 @@ public class Configuration {
 	public string OutputModName { get; set; } = "";
 	public bool HeresiesInHistoricalAreas { get; set; } = false;
 	public bool StaticDeJure { get; set; } = false;
+	public bool UseCK3Flags { get; set; } = true;
 	public bool RiseOfIslam { get; set; } = true;
 	public double ImperatorCurrencyRate { get; set; } = 1.0d;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
@@ -77,6 +78,15 @@ public class Configuration {
 				Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
+			}
+		});
+		parser.RegisterKeyword("UseCK3Flags", reader => {
+			var valueString = reader.GetString();
+			try {
+				UseCK3Flags = Convert.ToInt32(valueString) == 1;
+				Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
 			}
 		});
 		parser.RegisterKeyword("RiseOfIslam", reader => {

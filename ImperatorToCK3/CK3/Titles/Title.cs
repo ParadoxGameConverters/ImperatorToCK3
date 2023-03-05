@@ -205,8 +205,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws())
 		);
 
-		// determine CoA
-		CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
+		// Determine CoA.
+		if (IsCreatedFromImperator || !config.UseCK3Flags) {
+			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
+		}
 
 		// Determine other attributes:
 		// Set capital to Imperator tag's capital.
