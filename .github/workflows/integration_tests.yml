@@ -21,9 +21,7 @@ jobs:
           # 2.0 with mods
           - https://mega.nz/file/id90lRYD#4OBL6N6_87-Nu28wNssm-O-3jmxli0iFzOtI7XVdN1E  # Mega_Campaign.rome
           - https://mega.nz/file/zQ0wDKya#eiFQCiJ2sjTaolAJGnfQ0_0OS2Q1kf48dIGDlrEoJ9I  # Erreinu Atlantikoa Debug Over NameFix.rome
-          - https://mega.nz/file/aE0x2TLJ#QtIdvZVXMtMu40wq5dPk5cczAnWRQufMQoe6iPzGRu4  # 597.1.1_-_Dacia.rome
-          # pre-2.0
-          - https://mega.nz/file/yR9CzCiR#KdRI8dfcdQlu_O2gEHtEJresCLpwFDdbCJhiNXdVIn8  # 693.3.1-ColchisOverDeCompressed.rome
+          - https://mega.nz/file/DYdUUThT#vbZyva0sX6F5QRWlgXcwSHr2DjfvPgwmkf7A2gPgl6Y  # Invictus.rome
     steps:
     - uses: actions/checkout@v3
       with:
