@@ -36,7 +36,19 @@ jobs:
     - name: "Download I:R save from MEGA"
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
-    # TODO: create configuration.txt
+    - name: "Create dummy folders"
+      run: |
+        mkdir ImperatorToCK3/Debug/ImperatorToCK3/ImperatorDocs
+        mkdir ImperatorToCK3/Debug/ImperatorToCK3/CK3Mods
+    - name: "Create configuration.txt"
+      working-directory: ImperatorToCK3/Debug/ImperatorToCK3
+      run: |
+        echo 'ImperatorDirectory = "C:\SteamLibrary\steamapps\common\ImperatorRome"' > configuration.txt
+        echo 'ImperatorDocDirectory = "./ImperatorDocs"' >> configuration.txt
+        echo 'CK3directory = "C:\SteamLibrary\steamapps\common\Crusader Kings III"' >> configuration.txt
+        echo 'targetGameModPath = "./CK3Mods"' >> configuration.txt
+        echo 'SaveGame = "../../save.rome"' >> configuration.txt
+        cat configuration.txt
     # TODO: run converter
 
     - name: "Cleanup"
