@@ -32,8 +32,6 @@ jobs:
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
-        cd "C:\Program Files (x86)"
-        Get-ChildItem imperator.exe -Recurse
         dotnet build -c:Debug
     - name: "Download I:R save from MEGA"
       run: |
