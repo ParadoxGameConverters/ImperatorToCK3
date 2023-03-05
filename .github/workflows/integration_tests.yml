@@ -37,9 +37,10 @@ jobs:
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
     - name: "Create dummy folders"
+      working-directory: Debug/ImperatorToCK3
       run: |
-        mkdir Debug/ImperatorToCK3/ImperatorDocs
-        mkdir Debug/ImperatorToCK3/CK3Mods
+        mkdir ImperatorDocs
+        mkdir CK3Mods
     - name: "Create configuration.txt"
       working-directory: Debug/ImperatorToCK3
       run: |
