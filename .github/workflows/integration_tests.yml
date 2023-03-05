@@ -45,9 +45,9 @@ jobs:
     - name: "Create configuration.txt"
       working-directory: Debug/ImperatorToCK3
       run: |
-        echo 'ImperatorDirectory = "C:\SteamLibrary\steamapps\common\ImperatorRome"' > configuration.txt
+        echo 'ImperatorDirectory = "C:\Program Files (x86)\Steam\steamapps\common\ImperatorRome"' > configuration.txt
         echo 'ImperatorDocDirectory = "./ImperatorDocs"' >> configuration.txt
-        echo 'CK3directory = "C:\SteamLibrary\steamapps\common\Crusader Kings III"' >> configuration.txt
+        echo 'CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"' >> configuration.txt
         echo 'targetGameModPath = "./CK3Mods"' >> configuration.txt
         echo 'SaveGame = "../../save.rome"' >> configuration.txt
         cat configuration.txt
