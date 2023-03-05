@@ -38,6 +38,16 @@ jobs:
     - name: "Download I:R save from MEGA"
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
+
+    - name: "Check if docs folders exist"
+      run: |
+        echo I:R docs:
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"
+        echo I:R mods:
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
+        echo CK3 mods:
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
+
     - name: "Create configuration.txt"
       working-directory: Debug/ImperatorToCK3
       run: |
