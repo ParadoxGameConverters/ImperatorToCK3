@@ -33,7 +33,7 @@ jobs:
       working-directory: ImperatorToCK3
       run: |
         dotnet build -c:Debug
-        cd C:/
+        cd C:\Program Files\Steam
         Get-ChildItem imperator.exe -Recurse
     - name: "Download I:R save from MEGA"
       run: |
