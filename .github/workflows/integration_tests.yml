@@ -32,7 +32,7 @@ jobs:
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
-        dotnet build
+        dotnet build -c Debug
     - name: "Download I:R save from MEGA"
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
