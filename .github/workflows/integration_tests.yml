@@ -32,9 +32,9 @@ jobs:
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
-        dotnet build -c:Debug
-        cd C:\Program Files\Steam
+        cd "C:\Program Files\Steam"
         Get-ChildItem imperator.exe -Recurse
+        dotnet build -c:Debug
     - name: "Download I:R save from MEGA"
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
