@@ -17,9 +17,9 @@ public class AccessoryGene : Gene {
 		parser.RegisterKeyword("inheritable", reader => Inheritable = reader.GetBool());
 		parser.RegisterKeyword("group", ParserHelpers.IgnoreAndLogItem);
 		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) =>
-			GeneTemplates.Add(geneTemplateName, new AccessoryGeneTemplate(reader))
+			GeneTemplates[geneTemplateName] = new AccessoryGeneTemplate(reader)
 		);
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+		parser.IgnoreUnregisteredItems();
 	}
 	public KeyValuePair<string, AccessoryGeneTemplate> GetGeneTemplateByIndex(uint indexInDna) {
 		foreach (var geneTemplatePair in GeneTemplates) {
