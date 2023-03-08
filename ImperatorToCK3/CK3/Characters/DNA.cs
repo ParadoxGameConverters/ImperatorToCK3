@@ -14,25 +14,25 @@ namespace ImperatorToCK3.CK3.Characters;
 public class DNA {
 	public class PaletteCoordinates {
 		// hair, skin and eye color palettes are 256x256
-		public int X { get; set; } = 128;
-		public int Y { get; set; } = 128;
+		public int X { get; init; } = 128;
+		public int Y { get; init; } = 128;
 	}
 
 	public string Id { get; }
-	public PaletteCoordinates HairCoordinates { get; set; } = new();
-	public PaletteCoordinates HairCoordinates2 { get; set; } = new();
-	public PaletteCoordinates SkinCoordinates { get; set; } = new();
-	public PaletteCoordinates SkinCoordinates2 { get; set; } = new();
-	public PaletteCoordinates EyeCoordinates { get; set; } = new();
-	public PaletteCoordinates EyeCoordinates2 { get; set; } = new();
+	public PaletteCoordinates HairCoordinates { get; set; }
+	public PaletteCoordinates HairCoordinates2 { get; set; }
+	public PaletteCoordinates SkinCoordinates { get; set; }
+	public PaletteCoordinates SkinCoordinates2 { get; set; }
+	public PaletteCoordinates EyeCoordinates { get; set; }
+	public PaletteCoordinates EyeCoordinates2 { get; set; }
 
-	private static IUnsafePixelCollection<ushort>? impHairPalettePixels;
+	private static IUnsafePixelCollection<ushort>? irHairPalettePixels;
 	private static IUnsafePixelCollection<ushort>? ck3HairPalettePixels;
 
-	private static IUnsafePixelCollection<ushort>? impSkinPalettePixels;
+	private static IUnsafePixelCollection<ushort>? irSkinPalettePixels;
 	private static IUnsafePixelCollection<ushort>? ck3SkinPalettePixels;
 
-	private static IUnsafePixelCollection<ushort>? impEyePalettePixels;
+	private static IUnsafePixelCollection<ushort>? irEyePalettePixels;
 	private static IUnsafePixelCollection<ushort>? ck3EyePalettePixels;
 
 	private static GenesDB? genesDB;
@@ -40,64 +40,70 @@ public class DNA {
 	public List<string> DNALines { get; } = new();
 
 	public static void Initialize(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
-		var impHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ?? throw new ConverterException("Could not find Imperator hair palette!");
-		impHairPalettePixels = new MagickImage(impHairPalettePath).GetPixelsUnsafe();
-		var ck3HairPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ?? throw new ConverterException("Could not find CK3 hair palette!");
+		var irHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
+		                         throw new ConverterException("Could not find Imperator hair palette!");
+		irHairPalettePixels = new MagickImage(irHairPalettePath).GetPixelsUnsafe();
+		var ck3HairPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
+		                         throw new ConverterException("Could not find CK3 hair palette!");
 		ck3HairPalettePixels = new MagickImage(ck3HairPalettePath).GetPixelsUnsafe();
 
-		var impSkinPalettePath = irModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ?? throw new ConverterException("Could not find Imperator skin palette!");
-		impSkinPalettePixels = new MagickImage(impSkinPalettePath).GetPixelsUnsafe();
-		var ck3SkinPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ?? throw new ConverterException("Could not find CK3 skin palette!");
+		var irSkinPalettePath = irModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ??
+		                         throw new ConverterException("Could not find Imperator skin palette!");
+		irSkinPalettePixels = new MagickImage(irSkinPalettePath).GetPixelsUnsafe();
+		var ck3SkinPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ??
+		                         throw new ConverterException("Could not find CK3 skin palette!");
 		ck3SkinPalettePixels = new MagickImage(ck3SkinPalettePath).GetPixelsUnsafe();
 
-		var impEyePalettePath = irModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ?? throw new ConverterException("Could not find Imperator eye palette!");
-		impEyePalettePixels = new MagickImage(impEyePalettePath).GetPixelsUnsafe();
-		var ck3EyePalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ?? throw new ConverterException("Could not find CK3 eye palette!");
+		var irEyePalettePath = irModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ??
+		                        throw new ConverterException("Could not find Imperator eye palette!");
+		irEyePalettePixels = new MagickImage(irEyePalettePath).GetPixelsUnsafe();
+		var ck3EyePalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ??
+		                        throw new ConverterException("Could not find CK3 eye palette!");
 		ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
 
 		genesDB = new GenesDB(ck3ModFS);
 	}
-	public DNA(Imperator.Characters.Character impCharacter, Imperator.Characters.PortraitData impPortraitData) {
-		Id = $"dna_{impCharacter.Id}";
+	public DNA(Imperator.Characters.Character irCharacter, PortraitData irPortraitData) {
+		Id = $"dna_{irCharacter.Id}";
 
 		HairCoordinates = GetPaletteCoordinates(
-			impPortraitData.HairColorPaletteCoordinates, impHairPalettePixels, ck3HairPalettePixels
+			irPortraitData.HairColorPaletteCoordinates, irHairPalettePixels, ck3HairPalettePixels
 		);
 		HairCoordinates2 = GetPaletteCoordinates(
-			impPortraitData.HairColor2PaletteCoordinates, impHairPalettePixels, ck3HairPalettePixels
+			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairPalettePixels
 		);
 		var hairLine = $"hair_color={{{HairCoordinates.X} {HairCoordinates.Y} {HairCoordinates2.X} {HairCoordinates2.Y}}}";
 		DNALines.Add(hairLine);
 
 		SkinCoordinates = GetPaletteCoordinates(
-			impPortraitData.SkinColorPaletteCoordinates, impSkinPalettePixels, ck3SkinPalettePixels
+			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinPalettePixels
 		);
 		SkinCoordinates2 = GetPaletteCoordinates(
-			impPortraitData.SkinColor2PaletteCoordinates, impSkinPalettePixels, ck3SkinPalettePixels
+			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinPalettePixels
 		);
 		var skinLine = $"skin_color={{{SkinCoordinates.X} {SkinCoordinates.Y} {SkinCoordinates2.X} {SkinCoordinates2.Y}}}";
 		DNALines.Add(skinLine);
 
 		EyeCoordinates = GetPaletteCoordinates(
-			impPortraitData.EyeColorPaletteCoordinates, impEyePalettePixels, ck3EyePalettePixels
+			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyePalettePixels
 		);
 		EyeCoordinates2 = GetPaletteCoordinates(
-			impPortraitData.EyeColor2PaletteCoordinates, impEyePalettePixels, ck3EyePalettePixels
+			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyePalettePixels
 		);
 		var eyeLine = $"eye_color={{{EyeCoordinates.X} {EyeCoordinates.Y} {EyeCoordinates2.X} {EyeCoordinates2.Y}}}";
 		DNALines.Add(eyeLine);
 
-		ConvertAccessoryGene(impCharacter, impPortraitData, "beards", "beards", "scripted_character_beards_01");
+		ConvertAccessoryGene(irCharacter, irPortraitData, "beards", "beards", "scripted_character_beards_01");
 	}
 
 	private void ConvertAccessoryGene(
-		Imperator.Characters.Character impCharacter,
-		PortraitData impPortraitData,
+		Imperator.Characters.Character irCharacter,
+		PortraitData irPortraitData,
 		string imperatorGeneName,
 		string ck3GeneName,
 		string ck3GeneSetName
 	) {
-		if (!impPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
+		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
 			return;
 		}
 		if (genesDB is null) {
@@ -110,8 +116,8 @@ public class DNA {
 		var convertedSetEntry = mappings[geneInfo.ObjectName];
 		var convertedSetEntryRecessive = mappings[geneInfo.ObjectNameRecessive];
 
-		var matchingPercentage = geneSet.AgeSexWeightBlocks[impCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
-		var matchingPercentageRecessive = geneSet.AgeSexWeightBlocks[impCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);
+		var matchingPercentage = geneSet.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
+		var matchingPercentageRecessive = geneSet.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);
 		int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
 		int intSliderValueRecessive = (int)Math.Ceiling(matchingPercentageRecessive * 255);
 
@@ -120,12 +126,12 @@ public class DNA {
 	}
 
 	private static PaletteCoordinates GetPaletteCoordinates(
-		Imperator.Characters.PaletteCoordinates impPaletteCoordinates,
-		IUnsafePixelCollection<ushort>? impPalettePixels,
+		Imperator.Characters.PaletteCoordinates irPaletteCoordinates,
+		IUnsafePixelCollection<ushort>? irPalettePixels,
 		IUnsafePixelCollection<ushort>? ck3PalettePixels
 	) {
-		if (impPalettePixels is null) {
-			throw new ArgumentNullException(nameof(impPalettePixels));
+		if (irPalettePixels is null) {
+			throw new ArgumentNullException(nameof(irPalettePixels));
 		}
 		if (ck3PalettePixels is null) {
 			throw new ArgumentNullException(nameof(ck3PalettePixels));
@@ -133,9 +139,9 @@ public class DNA {
 
 		var bestCoordinates = new PaletteCoordinates();
 
-		var impColor = impPalettePixels.GetPixel(impPaletteCoordinates.X, impPaletteCoordinates.Y).ToColor();
-		if (impColor is null) {
-			Logger.Warn($"Cannot get color from palette {impPalettePixels}!");
+		var irColor = irPalettePixels.GetPixel(irPaletteCoordinates.X, irPaletteCoordinates.Y).ToColor();
+		if (irColor is null) {
+			Logger.Warn($"Cannot get color from palette {irPalettePixels}!");
 			return bestCoordinates;
 		}
 
@@ -145,9 +151,9 @@ public class DNA {
 			if (color is null) {
 				continue;
 			}
-			var rDiff = Math.Abs(impColor.R - color.R);
-			var gDiff = Math.Abs(impColor.G - color.G);
-			var bDiff = Math.Abs(impColor.B - color.B);
+			var rDiff = Math.Abs(irColor.R - color.R);
+			var gDiff = Math.Abs(irColor.G - color.G);
+			var bDiff = Math.Abs(irColor.B - color.B);
 			double colorDistance = Math.Pow(rDiff, 3) + Math.Pow(gDiff, 3) + Math.Pow(bDiff, 3);
 
 			if (colorDistance < minColorDistance) {
