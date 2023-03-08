@@ -11,7 +11,6 @@ using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
-using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
@@ -250,7 +249,7 @@ public class World : Parser {
 		if (genesFileLocation is null) {
 			Logger.Warn("I:R genes file not found!");
 		} else {
-			genesDB = new GenesDB(genesFileLocation);
+			genesDB = new GenesDB(ModFS);
 		}
 	}
 	private void LoadPreImperatorRulers() {

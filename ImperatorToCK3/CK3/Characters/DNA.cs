@@ -2,6 +2,7 @@
 using commonItems.Mods;
 using ImageMagick;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Mappers.Gene;
 using System;
@@ -39,19 +40,19 @@ public class DNA {
 	public List<string> DNALines { get; } = new();
 
 	public static void Initialize(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
-		var impHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds");
+		var impHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ?? throw new ConverterException("Could not find Imperator hair palette!");
 		impHairPalettePixels = new MagickImage(impHairPalettePath).GetPixelsUnsafe();
-		var ck3HairPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds");
+		var ck3HairPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ?? throw new ConverterException("Could not find CK3 hair palette!");
 		ck3HairPalettePixels = new MagickImage(ck3HairPalettePath).GetPixelsUnsafe();
 
-		var impSkinPalettePath = irModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds");
+		var impSkinPalettePath = irModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ?? throw new ConverterException("Could not find Imperator skin palette!");
 		impSkinPalettePixels = new MagickImage(impSkinPalettePath).GetPixelsUnsafe();
-		var ck3SkinPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds");
+		var ck3SkinPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ?? throw new ConverterException("Could not find CK3 skin palette!");
 		ck3SkinPalettePixels = new MagickImage(ck3SkinPalettePath).GetPixelsUnsafe();
 
-		var impEyePalettePath = irModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds");
+		var impEyePalettePath = irModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ?? throw new ConverterException("Could not find Imperator eye palette!");
 		impEyePalettePixels = new MagickImage(impEyePalettePath).GetPixelsUnsafe();
-		var ck3EyePalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds");
+		var ck3EyePalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ?? throw new ConverterException("Could not find CK3 eye palette!");
 		ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
 
 		genesDB = new GenesDB(ck3ModFS);

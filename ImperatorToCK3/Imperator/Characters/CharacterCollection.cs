@@ -77,5 +77,5 @@ public class CharacterCollection : IdObjectCollection<ulong, Character> {
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
-	public Genes.GenesDB? GenesDB { get; set; }
+	public GenesDB? GenesDB { get; set; }
 }

@@ -373,7 +373,7 @@ public class CK3CharacterTests {
 
 	[Fact]
 	public void AgeSexReturnsCorrectString() {
-		ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
+		GenesDB genesDB = new();
 		var reader1 = new BufferedReader(
 			"= {\n" +
 			"\tage=56\n" +

@@ -220,7 +220,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Characters {
 			);
 			var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 
-			Assert.Equal(0, character.PortraitData.HairColorPaletteCoordinates.X);
+			Assert.Equal(0, character.PortraitData!.HairColorPaletteCoordinates.X);
 			Assert.Equal(0, character.PortraitData.HairColorPaletteCoordinates.Y);
 			Assert.Equal(0, character.PortraitData.SkinColorPaletteCoordinates.X);
 			Assert.Equal(0, character.PortraitData.SkinColorPaletteCoordinates.Y);
