@@ -27,6 +27,11 @@ jobs:
       with:
         fetch-depth: 0
         submodules: recursive
+    - name: "Check if docs folders exist"
+      run: |
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v3
       with:
@@ -38,16 +43,6 @@ jobs:
     - name: "Download I:R save from MEGA"
       run: |
         & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
-
-    - name: "Check if docs folders exist"
-      run: |
-        echo I:R docs:
-        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"
-        echo I:R mods:
-        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
-        echo CK3 mods:
-        ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
-
     - name: "Create configuration.txt"
       working-directory: Debug/ImperatorToCK3
       run: |
@@ -61,7 +56,6 @@ jobs:
       working-directory: Debug/ImperatorToCK3
       run: |
         dotnet ImperatorToCK3Converter.dll
-
     - name: "Cleanup"
       if: always()
       run: |
