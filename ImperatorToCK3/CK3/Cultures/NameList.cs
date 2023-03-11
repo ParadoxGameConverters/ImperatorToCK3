@@ -16,11 +16,27 @@ public class NameList : IIdentifiable<string> {
 		Id = id;
 
 		var parser = new Parser();
-		parser.RegisterKeyword("male_names", reader => {
-			maleNames.UnionWith(reader.GetStrings());
+		parser.RegisterKeyword("male_names", maleNamesReader => {
+			var maleNamesBlockParser = new Parser();
+			maleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, weightStr) => {
+				maleNames.UnionWith(weightedBlockReader.GetStrings());
+			});
+			maleNamesBlockParser.RegisterRegex(CommonRegexes.String, (nameReader, nameStr) => {
+				maleNames.Add(nameStr);
+			});
+			maleNamesBlockParser.IgnoreAndLogUnregisteredItems();
+			maleNamesBlockParser.ParseStream(maleNamesReader);
 		});
 		parser.RegisterKeyword("female_names", reader => {
-			femaleNames.UnionWith(reader.GetStrings());
+			var femaleNamesBlockParser = new Parser();
+			femaleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, weightStr) => {
+				femaleNames.UnionWith(weightedBlockReader.GetStrings());
+			});
+			femaleNamesBlockParser.RegisterRegex(CommonRegexes.String, (nameReader, nameStr) => {
+				femaleNames.Add(nameStr);
+			});
+			femaleNamesBlockParser.IgnoreAndLogUnregisteredItems();
+			femaleNamesBlockParser.ParseStream(reader);
 		});
 		parser.IgnoreUnregisteredItems();
 		parser.ParseStream(nameListReader);

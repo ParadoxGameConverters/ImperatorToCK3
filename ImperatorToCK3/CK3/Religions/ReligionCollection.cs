@@ -333,6 +333,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			foreach (var traitId in traitsToAdd) {
 				character.History.AddFieldValue(null, "traits", "trait", traitId);
 			}
+			characters.Add(character);
 			title.SetHolder(character, date);
 		}
 	}
