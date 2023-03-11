@@ -84,7 +84,7 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 		var potentialDoctrineIds = category.DoctrineIds;
 		
 		// Look in faith first. If not found, look in religion.
-		var matchingInFaith = DoctrineIds.Union(potentialDoctrineIds).LastOrDefault();
-		return matchingInFaith ?? Religion.DoctrineIds.Union(potentialDoctrineIds).LastOrDefault();
+		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
+		return matchingInFaith ?? Religion.DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
 	}
 }

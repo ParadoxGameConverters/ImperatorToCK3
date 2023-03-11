@@ -18,7 +18,7 @@ namespace ImperatorToCK3.CK3.Religions;
 public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
 	public IdObjectCollection<string, HolySite> HolySites { get; } = new();
-	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories = new();
+	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories { get; }= new();
 
 	public IEnumerable<Faith> Faiths {
 		get {
