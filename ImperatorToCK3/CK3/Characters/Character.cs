@@ -20,7 +20,16 @@ namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
 		public string Id { get; }
 		public bool FromImperator { get; } = false;
-		public bool Female { get; init; }
+		
+		public bool Female {
+			get {
+				return (bool)History.Fields["female"].InitialEntries.LastOrDefault().Value == true;
+			}
+			init {
+				History.AddFieldValue(null, "female", "female", value);
+			}
+		}
+
 		public string Name { get; set; }
 		public string? Nickname { get; set; }
 		public double? Gold { get; set; }
@@ -49,7 +58,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 			//.WithSimpleField("name", "name", null)
-			//.WithSimpleField("female", "female", null)
+			.WithSimpleField("female", "female", null)
 			//.WithSimpleField("dynasty", "dynasty", null)
 			.WithSimpleField("diplomacy", "diplomacy", null)
 			.WithSimpleField("martial", "martial", null)
