@@ -102,6 +102,6 @@ public class RulerTermTests {
 		Assert.Equal("Alexander", ck3Character.Name);
 		Assert.Equal("dull", ck3Character.Nickname);
 		Assert.Equal("greek", ck3Character.GetCultureId(conversionDate));
-		Assert.Equal("hellenic", ck3Character.FaithId);
+		Assert.Equal("hellenic", ck3Character.GetFaithId(conversionDate));
 	}
 }

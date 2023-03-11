@@ -15,16 +15,13 @@ public static class CharacterOutputter {
 		if (character.Female) {
 			output.WriteLine("\tfemale=yes");
 		}
-		if (!string.IsNullOrEmpty(character.FaithId)) {
-			output.WriteLine($"\treligion={character.FaithId}");
-		}
 
-		// output dynasty
+		// Output dynasty.
 		if (character.DynastyId is not null) {
 			output.WriteLine($"\tdynasty={character.DynastyId}");
 		}
 
-		//output father and mother
+		// Output father and mother.
 		if (character.Father is not null) {
 			output.WriteLine($"\tfather={character.Father.Id}");
 		}

@@ -232,7 +232,7 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithReligionMapper(religionMapper)
 			.Build();
-		Assert.Equal("orthodox", character.FaithId);
+		Assert.Equal("orthodox", character.GetFaithId(ConversionDate));
 	}
 
 	[Fact]

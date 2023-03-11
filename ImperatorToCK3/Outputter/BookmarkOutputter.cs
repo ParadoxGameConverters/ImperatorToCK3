@@ -83,8 +83,9 @@ public static class BookmarkOutputter {
 			}
 
 			output.WriteLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
-			if (!string.IsNullOrEmpty(holder.FaithId)) {
-				output.WriteLine($"\t\treligion={holder.FaithId}");
+			var faithId = holder.GetFaithId(config.CK3BookmarkDate);
+			if (!string.IsNullOrEmpty(faithId)) {
+				output.WriteLine($"\t\treligion={faithId}");
 			}
 			output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
 			WritePosition(output, title, config, provincePositions);

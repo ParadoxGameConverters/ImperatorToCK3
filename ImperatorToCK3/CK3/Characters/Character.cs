@@ -21,7 +21,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string Id { get; }
 		public bool FromImperator { get; } = false;
 		public bool Female { get; init; }
-		public string FaithId { get; set; } = string.Empty;
 		public string Name { get; set; }
 		public string? Nickname { get; set; }
 		public double? Gold { get; set; }
@@ -57,8 +56,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("stewardship", "stewardship", null)
 			.WithSimpleField("intrigue", "intrigue", null)
 			.WithSimpleField("learning", "learning", null)
-			//.WithSimpleField("culture", "culture", null)
-			//.WithSimpleField("religion", "religion", null)
+			.WithSimpleField("culture", "culture", null)
+			.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
 			//.WithSimpleField("dna", "dna", null)
 			//.WithSimpleField("mother", "mother", null)
@@ -116,14 +115,14 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (srcReligion is not null) {
-				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, imperatorCountry.HistoricalTag, config);
-				if (religionMatch is not null) {
-					FaithId = religionMatch;
+				var faithMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, imperatorCountry.HistoricalTag, config);
+				if (faithMatch is not null) {
+					SetFaithId(faithMatch, null);
 				}
 			}
 
 			if (srcCulture is not null) {
-				var cultureMatch = cultureMapper.Match(srcCulture, FaithId, ck3Province, impProvince, imperatorCountry.HistoricalTag);
+				var cultureMatch = cultureMapper.Match(srcCulture, GetFaithId(config.CK3BookmarkDate) ?? string.Empty, ck3Province, impProvince, imperatorCountry.HistoricalTag);
 				if (cultureMatch is not null) {
 					SetCultureId(cultureMatch, null);
 				}
@@ -198,12 +197,13 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, ImperatorCharacter.HomeCountry?.HistoricalTag, config);
 			if (match is not null) {
-				FaithId = match;
+				SetFaithId(match, null);
 			}
 
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
-				FaithId, ck3Province,
+				GetFaithId(dateOnConversion) ?? string.Empty,
+				ck3Province,
 				ImperatorCharacter.ProvinceId,
 				ImperatorCharacter.Country?.HistoricalTag ?? string.Empty
 			);
@@ -277,6 +277,13 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 		public string? GetCultureId(Date date) {
 			return History.GetFieldValue("culture", date)?.ToString();
+		}
+		
+		public void SetFaithId(string faithId, Date? date) {
+			History.AddFieldValue(date, "faith", "faith", faithId);
+		}
+		public string? GetFaithId(Date date) {
+			return History.GetFieldValue("faith", date)?.ToString();
 		}
 
 		public void BreakAllLinks(CharacterCollection characters) {
