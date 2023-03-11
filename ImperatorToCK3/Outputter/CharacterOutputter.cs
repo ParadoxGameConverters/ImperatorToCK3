@@ -7,11 +7,8 @@ using Character = ImperatorToCK3.CK3.Characters.Character;
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
 	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
-		// output ID, name, sex, culture, religion
+		// Output ID.
 		output.WriteLine($"{character.Id}={{");
-		if (!string.IsNullOrEmpty(character.Name)) {
-			output.WriteLine($"\tname=\"{character.Name}\"");
-		}
 
 		// Output father and mother.
 		if (character.Father is not null) {

@@ -34,7 +34,13 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		public string Name { get; set; }
+		public void SetName(string name, Date? date) {
+			History.AddFieldValue(date, "name", "name", name);
+		}
+		public string? GetName(Date date) {
+			return History.GetFieldValue("name", date)?.ToString();
+		}
+		
 		public string? Nickname { get; set; }
 		public double? Gold { get; set; }
 
@@ -61,7 +67,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
 		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
-			//.WithSimpleField("name", "name", null)
+			.WithSimpleField("name", "name", null)
 			.WithSimpleField("female", "female", null)
 			.WithSimpleField("dynasty", "dynasty", null)
 			.WithSimpleField("diplomacy", "diplomacy", null)
@@ -72,7 +78,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("culture", "culture", null)
 			.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
-			//.WithSimpleField("dna", "dna", null)
+			.WithSimpleField("dna", "dna", null)
 			//.WithSimpleField("mother", "mother", null)
 			//.WithSimpleField("father", "father", null)
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
@@ -83,7 +89,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Character(string id, string name, Date birthDate) {
 			Id = id;
-			Name = name;
+			SetName(name, null);
 			BirthDate = birthDate;
 		}
 		public Character(
@@ -99,14 +105,15 @@ namespace ImperatorToCK3.CK3.Characters {
 		) {
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC".Replace('.', '_');
 			FromImperator = true;
-			Name = preImperatorRuler.Name ?? Id;
-			if (!string.IsNullOrEmpty(Name)) {
-				var impNameLoc = locDB.GetLocBlockForKey(Name);
+			var name = preImperatorRuler.Name ?? Id;
+			SetName(name, null);
+			if (!string.IsNullOrEmpty(name)) {
+				var impNameLoc = locDB.GetLocBlockForKey(name);
 				if (impNameLoc is not null) {
-					Localizations.Add(Name, impNameLoc);
+					Localizations.Add(name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
-						[ConverterGlobals.PrimaryLanguage] = Name,
+					Localizations.Add(name, new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
+						[ConverterGlobals.PrimaryLanguage] = name,
 					});
 				}
 			}
@@ -164,24 +171,26 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
 				var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
-				Name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
+				var name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
+				SetName(name, null);
 
-				var locBlock = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+				var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
 					[ConverterGlobals.PrimaryLanguage] = loc
 				};
-				Localizations.Add(Name, locBlock);
+				Localizations.Add(name, locBlock);
 			} else {
 				var nameLoc = ImperatorCharacter.Name;
-				Name = nameLoc.Replace(' ', '_');
-				if (!string.IsNullOrEmpty(Name)) {
-					var matchedLocBlock = locDB.GetLocBlockForKey(Name);
+				var name = nameLoc.Replace(' ', '_');
+				SetName(name, null);
+				if (!string.IsNullOrEmpty(name)) {
+					var matchedLocBlock = locDB.GetLocBlockForKey(name);
 					if (matchedLocBlock is not null) {
-						Localizations.Add(Name, matchedLocBlock);
+						Localizations.Add(name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						var locBlock = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+						var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
 							[ConverterGlobals.PrimaryLanguage] = nameLoc
 						};
-						Localizations.Add(Name, locBlock);
+						Localizations.Add(name, locBlock);
 					}
 				}
 			}

@@ -277,7 +277,7 @@ public class World {
 			}
 			var holderId = title.GetHolderId(ck3BookmarkDate);
 			if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-				title.Localizations.AddLocBlock($"{holder.Name}_desc");
+				title.Localizations.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
 			}
 		}
 	}

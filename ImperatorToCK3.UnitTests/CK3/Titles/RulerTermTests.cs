@@ -99,7 +99,7 @@ public class RulerTermTests {
 		var ck3Character = ck3Characters["imperatorRegnalSPAAlexander504_1_1BC"];
 		Assert.Equal("-554.1.1", ck3Character.BirthDate);
 		Assert.Equal("-454.1.1", ck3Character.DeathDate);
-		Assert.Equal("Alexander", ck3Character.Name);
+		Assert.Equal("Alexander", ck3Character.GetName(conversionDate));
 		Assert.Equal("dull", ck3Character.Nickname);
 		Assert.Equal("greek", ck3Character.GetCultureId(conversionDate));
 		Assert.Equal("hellenic", ck3Character.GetFaithId(conversionDate));

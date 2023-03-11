@@ -367,7 +367,7 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithLocDB(locDB)
 			.Build();
-		Assert.Equal("alexandros", character.Name);
+		Assert.Equal("alexandros", character.GetName(ConversionDate));
 		Assert.Equal("Alexandros", character.Localizations["alexandros"]["english"]);
 	}
 
