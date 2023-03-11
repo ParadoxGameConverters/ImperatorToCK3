@@ -82,7 +82,7 @@ public static class BookmarkOutputter {
 				output.WriteLine($"\t\tgovernment = {gov}");
 			}
 
-			output.WriteLine($"\t\tculture = {holder.CultureId}");
+			output.WriteLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
 			if (!string.IsNullOrEmpty(holder.FaithId)) {
 				output.WriteLine($"\t\treligion={holder.FaithId}");
 			}

@@ -156,7 +156,7 @@ public class World {
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB);
+		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, CorrectedDate);
 
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,
@@ -505,7 +505,7 @@ public class World {
 				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50));
 				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
 				hermit.FaithId = faithId;
-				hermit.CultureId = cultureId;
+				hermit.SetCultureId(cultureId, null);
 				hermit.History.AddFieldValue(null, "traits", "trait", "chaste");
 				hermit.History.AddFieldValue(null, "traits", "trait", "celibate");
 				hermit.History.AddFieldValue(null, "traits", "trait", "devoted");

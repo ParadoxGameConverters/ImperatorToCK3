@@ -21,7 +21,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string Id { get; }
 		public bool FromImperator { get; } = false;
 		public bool Female { get; init; }
-		public string CultureId { get; set; } = string.Empty;
 		public string FaithId { get; set; } = string.Empty;
 		public string Name { get; set; }
 		public string? Nickname { get; set; }
@@ -126,7 +125,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (srcCulture is not null) {
 				var cultureMatch = cultureMapper.Match(srcCulture, FaithId, ck3Province, impProvince, imperatorCountry.HistoricalTag);
 				if (cultureMatch is not null) {
-					CultureId = cultureMatch;
+					SetCultureId(cultureMatch, null);
 				}
 			}
 
@@ -212,7 +211,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter.Id}" +
 							$" with culture {ImperatorCharacter.Culture}!");
 			} else {
-				CultureId = match;
+				SetCultureId(match, null);
 			}
 
 			// Determine character attributes.
@@ -271,6 +270,13 @@ namespace ImperatorToCK3.CK3.Characters {
 					EmployerId = homeCountry.CK3Title.GetHolderId(dateOnConversion);
 				}
 			}
+		}
+		
+		public void SetCultureId(string cultureId, Date? date) {
+			History.AddFieldValue(date, "culture", "culture", cultureId);
+		}
+		public string? GetCultureId(Date date) {
+			return History.GetFieldValue("culture", date)?.ToString();
 		}
 
 		public void BreakAllLinks(CharacterCollection characters) {

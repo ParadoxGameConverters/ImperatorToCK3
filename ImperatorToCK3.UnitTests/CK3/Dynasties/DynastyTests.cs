@@ -26,6 +26,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DynastyTests {
+	private static readonly Date BookmarkDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
@@ -36,7 +37,7 @@ public class DynastyTests {
 		private const string CK3Root = "TestFiles/CK3/root";
 
 		private Configuration config = new() {
-			CK3BookmarkDate = "867.1.1",
+			CK3BookmarkDate = BookmarkDate,
 			CK3Path = CK3Path
 		};
 
@@ -111,7 +112,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locMapper = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locMapper);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locMapper, BookmarkDate);
 
 		Assert.Equal("dynn_irtock3_45", dynasty.Id);
 		Assert.Equal("dynn_irtock3_45", dynasty.Name);
@@ -126,7 +127,7 @@ public class DynastyTests {
 		var locDB = new LocDB("english");
 		var dynLoc = locDB.AddLocBlock("cornelii");
 		dynLoc["english"] = "Cornelii";
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
 
 		Assert.Equal("Cornelii", dynasty.LocalizedName!["english"]);
 	}
@@ -138,7 +139,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
 
 		Assert.Equal("cornelii", dynasty.LocalizedName!["english"]);
 	}
@@ -183,7 +184,7 @@ public class DynastyTests {
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member3)
 			.Build();
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
 
 		Assert.Equal("not_gypsy", dynasty.CultureId);
 	}

@@ -15,9 +15,6 @@ public static class CharacterOutputter {
 		if (character.Female) {
 			output.WriteLine("\tfemale=yes");
 		}
-		if (!string.IsNullOrEmpty(character.CultureId)) {
-			output.WriteLine($"\tculture={character.CultureId}");
-		}
 		if (!string.IsNullOrEmpty(character.FaithId)) {
 			output.WriteLine($"\treligion={character.FaithId}");
 		}

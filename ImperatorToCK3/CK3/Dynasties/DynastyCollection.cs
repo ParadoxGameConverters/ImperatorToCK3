@@ -8,7 +8,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public class DynastyCollection : IdObjectCollection<string, Dynasty> {
-	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB locDB) {
+	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB locDB, Date date) {
 		Logger.Info("Importing Imperator Families...");
 
 		var imperatorCharacters = irWorld.Characters;
@@ -18,7 +18,7 @@ public class DynastyCollection : IdObjectCollection<string, Dynasty> {
 				continue;
 			}
 
-			var newDynasty = new Dynasty(family, imperatorCharacters, irWorld.CulturesDB, cultureMapper, locDB);
+			var newDynasty = new Dynasty(family, imperatorCharacters, irWorld.CulturesDB, cultureMapper, locDB, date);
 			Add(newDynasty);
 		}
 		Logger.Info($"{Count} total families imported.");

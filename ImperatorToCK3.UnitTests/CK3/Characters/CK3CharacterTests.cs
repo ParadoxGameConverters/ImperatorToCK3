@@ -28,6 +28,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CK3CharacterTests {
+	private static readonly Date ConversionDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
@@ -39,7 +40,7 @@ public class CK3CharacterTests {
 
 	public class CK3CharacterBuilder {
 		private Configuration config = new() {
-			CK3BookmarkDate = "867.1.1",
+			CK3BookmarkDate = ConversionDate,
 			CK3Path = CK3Path
 		};
 
@@ -249,7 +250,7 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithCultureMapper(cultureMapper)
 			.Build();
-		Assert.Equal("greek", character.CultureId);
+		Assert.Equal("greek", character.GetCultureId(ConversionDate));
 	}
 
 	[Fact]
@@ -314,8 +315,8 @@ public class CK3CharacterTests {
 			.WithCultureMapper(cultureMapper)
 			.Build();
 
-		Assert.Equal("macedonian", character1.CultureId);
-		Assert.Equal("greek", character2.CultureId);
+		Assert.Equal("macedonian", character1.GetCultureId(ConversionDate));
+		Assert.Equal("greek", character2.GetCultureId(ConversionDate));
 	}
 
 	[Fact]
@@ -508,7 +509,7 @@ public class CK3CharacterTests {
 		fatherOfLandedCharacter.Children.Add(landedCharacter.Id, landedCharacter);
 		fatherOfLandedCharacter.Children.Add(childlessRelative.Id, childlessRelative);
 
-		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), cultureMapper, new LocDB("english"));
+		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), cultureMapper, new LocDB("english"), ConversionDate);
 		Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
 		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.DynastyId);
 		Assert.Equal(dynasty.Id, childlessRelative.DynastyId);
