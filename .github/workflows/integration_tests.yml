@@ -1,7 +1,6 @@
 ﻿name: "Integration tests"
 
 on:
-  pull_request:  # TODO: remove when ready
   release:
     types: [published]
 
