@@ -11,7 +11,7 @@ public sealed class Culture : IIdentifiable<string> {
 	public Color Color { get; private set; } = new(0, 0, 0);
 	public Pillar Heritage { get; private set; }
 	
-	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, ColorFactory colorFactory) {
+	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, NameListCollection nameLists, ColorFactory colorFactory) {
 		Id = id;
 		
 		var parser = new Parser();
@@ -19,6 +19,10 @@ public sealed class Culture : IIdentifiable<string> {
 		parser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
 			Heritage = pillars.Heritages.First(p => p.Id == heritageId);
+		});
+		parser.RegisterKeyword("name_list", reader => {
+			var nameListId = reader.GetString();
+			NameList = nameLists[nameListId];
 		});
 		parser.IgnoreUnregisteredItems();
 		parser.ParseStream(cultureReader);

@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Mappers.HolySiteEffect;
@@ -254,7 +255,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 	
 	/// Generates religious heads for all alive faiths that have Spiritual Head doctrine and don't have a religious head.
-	public void GenerateMissingReligiousHeads(Title.LandedTitles titles, CharacterCollection characters, ProvinceCollection provinces, Date date) {
+	public void GenerateMissingReligiousHeads(
+		Title.LandedTitles titles,
+		CharacterCollection characters,
+		ProvinceCollection provinces,
+		CultureCollection cultures,
+		Date date
+	) {
 		Logger.Info("Generating religious heads for faiths with Spiritual Head of Faith doctrine...");
 		
 		var aliveCharacterFaithIds = characters
@@ -275,13 +282,49 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				continue;
 			}
 
-			var religiousHeadTitle = titles[religiousHeadTitleId];
-			var holder = religiousHeadTitle.GetHolderId(date);
+			var title = titles[religiousHeadTitleId];
+			var holder = title.GetHolderId(date);
 			if (holder != "0") {
 				continue;
 			}
 			
 			// Generate title holder.
+			// Determine culture.
+			var cultureId = provinces
+				.Where(p => p.GetFaithId(date) == faith.Id)
+				.Select(p => p.GetCultureId(date))
+				.ToImmutableList()
+				.FirstOrDefault();
+			if (cultureId is null) {
+				cultureId = characters
+					.Where(c => c.FaithId == faith.Id)
+					.Select(c => c.CultureId)
+					.ToImmutableList()
+					.FirstOrDefault();
+			}
+			if (cultureId is null) {
+				Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
+				cultureId = cultures.First().Id;
+			}
+			var culture = cultures[cultureId];
+			
+			// If title has male_names defined, use one of them for character's name.
+			var name = title.MaleNames?.First();
+			// Otherwise, get name from culture.
+			if (name is null) {
+				// TODO
+			}
+			name = "Bob"; // TODO: replace
+			var age = 30 + (date.Year % 50);
+			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age)) {
+				FaithId = faith.Id,
+				CultureId = cultureId
+			};
+			var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
+			foreach (var traitId in traitsToAdd) {
+				character.History.AddFieldValue(null, "traits", "trait", "chaste");
+			}
+			title.SetHolder(character, date);
 		}
 	}
 
