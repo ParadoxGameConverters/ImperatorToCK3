@@ -16,6 +16,7 @@ namespace ImperatorToCK3.CK3.Religions;
 public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
 	public IdObjectCollection<string, HolySite> HolySites { get; } = new();
+	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories = new();
 
 	public IEnumerable<Faith> Faiths {
 		get {
@@ -34,13 +35,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	public void LoadReligions(ModFilesystem ck3ModFs, ColorFactory colorFactory) {
+	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		Logger.Info("Loading religions from CK3 game and mods...");
 
 		var parser = new Parser();
 		RegisterReligionsKeywords(parser, colorFactory);
 
-		parser.ParseGameFolder("common/religion/religions", ck3ModFs, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
 
 		Logger.IncrementProgress();
 	}
@@ -56,13 +57,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	public void LoadHolySites(ModFilesystem ck3ModFs) {
+	public void LoadHolySites(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading CK3 holy sites...");
 
 		var parser = new Parser();
 		RegisterHolySitesKeywords(parser);
 
-		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFs, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFS, "txt", recursive: true);
 	}
 
 	public void LoadReplaceableHolySites(string filePath) {
@@ -88,6 +89,15 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(filePath);
+	}
+
+	public void LoadDoctrines(ModFilesystem ck3ModFS) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) => {
+			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader));
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseGameFolder("common/religion/doctrines", ck3ModFS, "txt", true);
 	}
 
 	public Faith? GetFaith(string id) {
@@ -245,6 +255,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	
 	/// Generates religious heads for all alive faiths that have Spiritual Head doctrine and don't have a religious head.
 	public void GenerateMissingReligiousHeads(Title.LandedTitles titles, CharacterCollection characters, ProvinceCollection provinces, Date date) {
+		Logger.Info("Generating religious heads for faiths with Spiritual Head of Faith doctrine...");
+		
 		var aliveCharacterFaithIds = characters
 			.Where(c => !c.Dead)
 			.Select(c => c.FaithId).ToImmutableHashSet();
@@ -252,11 +264,25 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		var provinceFaithIds = provinces
 			.Select(p => p.GetFaithId(date)).ToImmutableHashSet();
 		
-		var aliveFaiths = Faiths
+		var aliveFaithsWithSpiritualHeadDoctrine = Faiths
 			.Where(f => aliveCharacterFaithIds.Contains(f.Id) || provinceFaithIds.Contains(f.Id))
-			.ToImmutableHashSet();
-		
-		
+			.Where(f => f.GetDoctrineIdForDoctrineCategoryId("doctrine_head_of_faith") == "doctrine_spiritual_head")
+			.ToImmutableList();
+
+		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {
+			var religiousHeadTitleId = faith.ReligiousHeadTitleId;
+			if (religiousHeadTitleId is null) {
+				continue;
+			}
+
+			var religiousHeadTitle = titles[religiousHeadTitleId];
+			var holder = religiousHeadTitle.GetHolderId(date);
+			if (holder != "0") {
+				continue;
+			}
+			
+			// Generate title holder.
+		}
 	}
 
 	private IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {

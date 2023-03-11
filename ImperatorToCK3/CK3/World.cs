@@ -129,6 +129,7 @@ public class World {
 
 		// Load CK3 religions from game and blankMod.
 		// Holy sites need to be loaded after landed titles.
+		Religions.LoadDoctrines(ModFS);
 		Religions.LoadHolySites(ModFS);
 		Religions.LoadReligions(ModFS, ck3ColorFactory);
 		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");

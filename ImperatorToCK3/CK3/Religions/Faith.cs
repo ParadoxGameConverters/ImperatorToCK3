@@ -4,21 +4,28 @@ using commonItems.Colors;
 using commonItems.Serialization;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
 public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
+	public Religion Religion { get; }
 	public Color? Color { get; private set; }
+	public string? ReligiousHeadTitleId { get; private set; }
 	public bool ModifiedByConverter { get; private set; } = false;
+	public OrderedSet<string> DoctrineIds { get; } = new();
 
-	public Faith(string id, BufferedReader faithReader, ColorFactory colorFactory) {
+	public Faith(string id, BufferedReader faithReader, Religion religion, ColorFactory colorFactory) {
 		Id = id;
+		Religion = religion;
 
 		var parser = new Parser();
-		parser.RegisterKeyword("holy_site", reader => holySiteIds.Add(reader.GetString()));
 		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("religious_head", reader => ReligiousHeadTitleId = reader.GetString());
+		parser.RegisterKeyword("holy_site", reader => holySiteIds.Add(reader.GetString()));
+		parser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
@@ -53,9 +60,16 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 		if (Color is not null) {
 			sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
 		}
+		if (ReligiousHeadTitleId is not null) {
+			sb.Append(contentIndent).AppendLine($"religious_head={ReligiousHeadTitleId}");
+		}
 		foreach (var holySiteId in HolySiteIds) {
 			sb.Append(contentIndent).AppendLine($"holy_site={holySiteId}");
 		}
+		foreach (var doctrineId in DoctrineIds) {
+			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
+		}
+		
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent, withBraces: false));
 
 		if (withBraces) {
@@ -63,5 +77,14 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		return sb.ToString();
+	}
+
+	public string? GetDoctrineIdForDoctrineCategoryId(string doctrineCategoryId) {
+		var category = Religion.ReligionCollection.DoctrineCategories[doctrineCategoryId];
+		var potentialDoctrineIds = category.DoctrineIds;
+		
+		// Look in faith first. If not found, look in religion.
+		var matchingInFaith = DoctrineIds.Union(potentialDoctrineIds).LastOrDefault();
+		return matchingInFaith ?? Religion.DoctrineIds.Union(potentialDoctrineIds).LastOrDefault();
 	}
 }
