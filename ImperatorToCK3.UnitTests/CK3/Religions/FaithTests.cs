@@ -3,6 +3,7 @@ using commonItems.Colors;
 using commonItems.Serialization;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
+using ImperatorToCK3.CK3.Titles;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -11,10 +12,17 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
 public class FaithTests {
+	private readonly Religion testReligion;
+	
+	public FaithTests() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		testReligion = new Religion("test_religion", new BufferedReader("{}"), religions, new ColorFactory());
+	}
+	
 	[Fact]
 	public void HolySiteIdsAreLoadedAndSerialized() {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("chalcedonian", reader, new ColorFactory());
+		var faith = new Faith("chalcedonian", reader, testReligion, new ColorFactory());
 
 		Assert.Collection(faith.HolySiteIds,
 			site => Assert.Equal("rome", site),
@@ -31,7 +39,7 @@ public class FaithTests {
 	[Fact]
 	public void FaithColorIsReadAndSerialized() {
 		var reader = new BufferedReader("{ color = hsv { 0.15  1  0.7 } }");
-		var faith = new Faith("celtic_pagan", reader, new ColorFactory());
+		var faith = new Faith("celtic_pagan", reader, testReligion, new ColorFactory());
 
 		Assert.Equal(new Color(0.15, 1, 0.7), faith.Color);
 
@@ -48,7 +56,7 @@ public class FaithTests {
 			doctrine = tenet_esotericism
 			doctrine = tenet_human_sacrifice # should not replace the line above
 		}");
-		var faith = new Faith("celtic_pagan", reader, new ColorFactory());
+		var faith = new Faith("celtic_pagan", reader, testReligion, new ColorFactory());
 
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().ContainAll(
@@ -61,7 +69,7 @@ public class FaithTests {
 	[Fact]
 	public void HolySiteIdCanBeReplaced() {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("orthodox", reader, new ColorFactory());
+		var faith = new Faith("orthodox", reader, testReligion, new ColorFactory());
 		Assert.False(faith.ModifiedByConverter);
 
 		faith.ReplaceHolySiteId("antioch", "jerusalem");
@@ -75,7 +83,7 @@ public class FaithTests {
 		Console.SetOut(output);
 
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("orthodox", reader, new ColorFactory());
+		var faith = new Faith("orthodox", reader, testReligion, new ColorFactory());
 		Assert.False(faith.ModifiedByConverter);
 
 		faith.ReplaceHolySiteId("washington", "jerusalem");

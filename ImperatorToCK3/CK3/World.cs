@@ -98,8 +98,10 @@ public class World {
 		Logger.Info("Loading cultural pillars...");
 		var culturalPillars = new PillarCollection();
 		culturalPillars.LoadPillars(ModFS);
-		Logger.Info("Loading cultures...");
 		var cultures = new CultureCollection(culturalPillars);
+		Logger.Info("Loading name lists...");
+		cultures.LoadNameLists(ModFS);
+		Logger.Info("Loading cultures...");
 		cultures.LoadCultures(ModFS, ck3ColorFactory);
 		Logger.IncrementProgress();
 
@@ -224,6 +226,9 @@ public class World {
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+		
+		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, cultures, config.CK3BookmarkDate);
+		Logger.IncrementProgress();
 	}
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {

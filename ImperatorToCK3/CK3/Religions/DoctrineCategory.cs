@@ -8,7 +8,7 @@ namespace ImperatorToCK3.CK3.Religions;
 public class DoctrineCategory : IIdentifiable<string> {
 	public string Id { get; }
 	public string? GroupId { get; private set; }
-	private OrderedSet<string> doctrineIds = new();
+	private readonly OrderedSet<string> doctrineIds = new();
 	public IReadOnlyCollection<string> DoctrineIds => doctrineIds.ToImmutableArray();
 
 	public DoctrineCategory(string id, BufferedReader categoryReader) {

@@ -309,12 +309,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			var culture = cultures[cultureId];
 			
 			// If title has male_names defined, use one of them for character's name.
-			var name = title.MaleNames?.First();
 			// Otherwise, get name from culture.
+			var name = title.MaleNames?.First() ?? culture.NameList.MaleNames.FirstOrDefault();
 			if (name is null) {
-				// TODO
+				const string fallbackName = "Alexandros";
+				Logger.Warn($"Found no name for religious head of {faith.Id}, defaulting to {fallbackName}!");
+				name = fallbackName;
 			}
-			name = "Bob"; // TODO: replace
 			var age = 30 + (date.Year % 50);
 			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age)) {
 				FaithId = faith.Id,
@@ -322,7 +323,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			};
 			var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
 			foreach (var traitId in traitsToAdd) {
-				character.History.AddFieldValue(null, "traits", "trait", "chaste");
+				character.History.AddFieldValue(null, "traits", "trait", traitId);
 			}
 			title.SetHolder(character, date);
 		}
