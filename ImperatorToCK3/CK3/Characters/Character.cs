@@ -23,7 +23,11 @@ namespace ImperatorToCK3.CK3.Characters {
 		
 		public bool Female {
 			get {
-				return (bool)History.Fields["female"].InitialEntries.LastOrDefault().Value == true;
+				var entries = History.Fields["female"].InitialEntries;
+				if (entries.Count == 0) {
+					return false;
+				}
+				return (bool)entries.LastOrDefault().Value == true;
 			}
 			init {
 				History.AddFieldValue(null, "female", "female", value);
