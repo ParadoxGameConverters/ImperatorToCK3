@@ -18,10 +18,10 @@ public class NameList : IIdentifiable<string> {
 		var parser = new Parser();
 		parser.RegisterKeyword("male_names", maleNamesReader => {
 			var maleNamesBlockParser = new Parser();
-			maleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, weightStr) => {
+			maleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				maleNames.UnionWith(weightedBlockReader.GetStrings());
 			});
-			maleNamesBlockParser.RegisterRegex(CommonRegexes.String, (nameReader, nameStr) => {
+			maleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
 				maleNames.Add(nameStr);
 			});
 			maleNamesBlockParser.IgnoreAndLogUnregisteredItems();
@@ -29,10 +29,10 @@ public class NameList : IIdentifiable<string> {
 		});
 		parser.RegisterKeyword("female_names", reader => {
 			var femaleNamesBlockParser = new Parser();
-			femaleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, weightStr) => {
+			femaleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				femaleNames.UnionWith(weightedBlockReader.GetStrings());
 			});
-			femaleNamesBlockParser.RegisterRegex(CommonRegexes.String, (nameReader, nameStr) => {
+			femaleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
 				femaleNames.Add(nameStr);
 			});
 			femaleNamesBlockParser.IgnoreAndLogUnregisteredItems();
