@@ -284,8 +284,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			}
 
 			var title = titles[religiousHeadTitleId];
-			var holder = title.GetHolderId(date);
-			if (holder != "0") {
+			var holderId = title.GetHolderId(date);
+			if (holderId != "0") {
+				// TODO: Check if holder is alive. WE NEED TO LOAD CK3 CHARACTERS FOR THIS!
 				continue;
 			}
 			
