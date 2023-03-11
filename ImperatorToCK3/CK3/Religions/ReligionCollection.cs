@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Mappers.HolySiteEffect;
@@ -240,6 +241,22 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 
 		return provincesByFaith;
+	}
+	
+	/// Generates religious heads for all alive faiths that have Spiritual Head doctrine and don't have a religious head.
+	public void GenerateMissingReligiousHeads(Title.LandedTitles titles, CharacterCollection characters, ProvinceCollection provinces, Date date) {
+		var aliveCharacterFaithIds = characters
+			.Where(c => !c.Dead)
+			.Select(c => c.FaithId).ToImmutableHashSet();
+		
+		var provinceFaithIds = provinces
+			.Select(p => p.GetFaithId(date)).ToImmutableHashSet();
+		
+		var aliveFaiths = Faiths
+			.Where(f => aliveCharacterFaithIds.Contains(f.Id) || provinceFaithIds.Contains(f.Id))
+			.ToImmutableHashSet();
+		
+		
 	}
 
 	private IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
