@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Mappers.HolySiteEffect;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -289,6 +290,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			}
 			
 			// Generate title holder.
+			Logger.Debug($"Generating religious head for faith {faith.Id}...");
 			// Determine culture.
 			var cultureId = provinces
 				.Where(p => p.GetFaithId(date) == faith.Id)
@@ -310,13 +312,19 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			
 			// If title has male_names defined, use one of them for character's name.
 			// Otherwise, get name from culture.
-			var name = title.MaleNames?.First() ?? culture.NameList.MaleNames.FirstOrDefault();
+			var name = title.MaleNames?.FirstOrDefault();
+			if (name is null) {
+				var maleNames = culture.NameList.MaleNames;
+				if (maleNames.Count > 0) {
+					name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
+				}
+			}
 			if (name is null) {
 				const string fallbackName = "Alexandros";
 				Logger.Warn($"Found no name for religious head of {faith.Id}, defaulting to {fallbackName}!");
 				name = fallbackName;
 			}
-			var age = 30 + (date.Year % 50);
+			var age = 30 + (Math.Abs(date.Year) % 50);
 			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age)) {
 				FaithId = faith.Id,
 				CultureId = cultureId
