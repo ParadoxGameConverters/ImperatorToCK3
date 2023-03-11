@@ -69,8 +69,9 @@ public static class BookmarkOutputter {
 			output.WriteLine("\tcharacter = {");
 
 			output.WriteLine($"\t\tname = bm_converted_{holder.Id}");
-			if (holder.DynastyId is not null) {
-				output.WriteLine($"\t\tdynasty = {holder.DynastyId}");
+			var dynastyId = holder.GetDynastyId(config.CK3BookmarkDate);
+			if (dynastyId is not null) {
+				output.WriteLine($"\t\tdynasty = {dynastyId}");
 			}
 			output.WriteLine("\t\tdynasty_splendor_level = 1");
 			output.WriteLine($"\t\ttype = {holder.AgeSex}");

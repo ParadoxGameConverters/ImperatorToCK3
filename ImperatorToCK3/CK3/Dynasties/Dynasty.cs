@@ -25,9 +25,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 
 		foreach (var member in imperatorMembers) {
 			var ck3Member = member.CK3Character;
-			if (ck3Member is not null) {
-				ck3Member.DynastyId = Id;
-			}
+			ck3Member?.SetDynastyId(Id, date);
 		}
 
 		var irFamilyLocKey = irFamily.GetMaleForm(irCulturesDB);

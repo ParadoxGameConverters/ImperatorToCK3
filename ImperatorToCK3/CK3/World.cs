@@ -207,13 +207,13 @@ public class World {
 		if (!config.StaticDeJure) {
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Provinces, cultures);
 		}
-		Dynasties.SetCoasForRulingDynasties(LandedTitles);
+		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 
 		Characters.DistributeCountriesGold(LandedTitles, config);
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
-		Characters.PurgeUnneededCharacters(LandedTitles);
+		Characters.PurgeUnneededCharacters(LandedTitles, CorrectedDate);
 
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);

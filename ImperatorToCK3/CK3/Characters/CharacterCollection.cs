@@ -50,7 +50,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 
 		LinkMothersAndFathers();
 		LinkSpouses(endDate);
-		LinkPrisoners();
+		LinkPrisoners(endDate);
 
 		ImportPregnancies(impWorld.Characters, endDate);
 	}
@@ -195,8 +195,8 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		}
 	}
 
-	private void LinkPrisoners() {
-		var prisonerCount = this.Count(character => character.LinkJailor(this));
+	private void LinkPrisoners(Date date) {
+		var prisonerCount = this.Count(character => character.LinkJailor(this, date));
 		Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 	}
 
@@ -235,14 +235,14 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles) {
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date date) {
 		Logger.Info("Purging unneeded characters...");
 		var landedCharacterIds = titles.GetAllHolderIds();
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
 			.ToList();
 		var dynastyIdsOfLandedCharacters = landedCharacters
-			.Select(character => character.DynastyId)
+			.Select(character => character.GetDynastyId(date))
 			.Distinct()
 			.ToHashSet();
 
@@ -263,7 +263,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				}
 
 				// Does the character belong to a dynasty that holds or held titles?
-				if (dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
+				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(date))) {
 					// Is the character dead and childless? Purge.
 					if (character.Children.Count == 0) {
 						farewellCharacters.Add(character);

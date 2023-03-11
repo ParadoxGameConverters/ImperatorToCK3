@@ -12,14 +12,6 @@ public static class CharacterOutputter {
 		if (!string.IsNullOrEmpty(character.Name)) {
 			output.WriteLine($"\tname=\"{character.Name}\"");
 		}
-		if (character.Female) {
-			output.WriteLine("\tfemale=yes");
-		}
-
-		// Output dynasty.
-		if (character.DynastyId is not null) {
-			output.WriteLine($"\tdynasty={character.DynastyId}");
-		}
 
 		// Output father and mother.
 		if (character.Father is not null) {

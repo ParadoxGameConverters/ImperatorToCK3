@@ -27,7 +27,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (entries.Count == 0) {
 					return false;
 				}
-				return (bool)entries.LastOrDefault().Value == true;
+				return (bool)entries.LastOrDefault().Value;
 			}
 			init {
 				History.AddFieldValue(null, "female", "female", value);
@@ -63,7 +63,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 			//.WithSimpleField("name", "name", null)
 			.WithSimpleField("female", "female", null)
-			//.WithSimpleField("dynasty", "dynasty", null)
+			.WithSimpleField("dynasty", "dynasty", null)
 			.WithSimpleField("diplomacy", "diplomacy", null)
 			.WithSimpleField("martial", "martial", null)
 			.WithSimpleField("stewardship", "stewardship", null)
@@ -390,18 +390,23 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 		public Dictionary<string, Character?> Children { get; set; } = new();
 
-		public string? DynastyId { get; set; } // not always set
+		public void SetDynastyId(string dynastyId, Date? date) {
+			History.AddFieldValue(date, "dynasty", "dynasty", dynastyId);
+		}
+		public string? GetDynastyId(Date date) {
+			return History.GetFieldValue("dynastyId", date)?.ToString();
+		}
 
 		private string? jailorId;
 		private readonly HashSet<Character> spousesCache = new();
 		public string? EmployerId { get; set; }
 
-		public bool LinkJailor(CharacterCollection characters) {
+		public bool LinkJailor(CharacterCollection characters, Date date) {
 			if (jailorId is null or "0") {
 				return false;
 			}
 
-			var type = DynastyId is null ? "dungeon" : "house_arrest";
+			var type = GetDynastyId(date) is null ? "dungeon" : "house_arrest";
 			characters[jailorId].PrisonerIds.Add(Id, type);
 			return true;
 		}

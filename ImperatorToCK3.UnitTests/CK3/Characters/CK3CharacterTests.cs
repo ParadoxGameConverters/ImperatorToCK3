@@ -459,7 +459,7 @@ public class CK3CharacterTests {
 		};
 
 		var titles = new Title.LandedTitles();
-		characters.PurgeUnneededCharacters(titles);
+		characters.PurgeUnneededCharacters(titles, ConversionDate);
 
 		Assert.Empty(characters);
 	}
@@ -510,16 +510,16 @@ public class CK3CharacterTests {
 		fatherOfLandedCharacter.Children.Add(childlessRelative.Id, childlessRelative);
 
 		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), cultureMapper, new LocDB("english"), ConversionDate);
-		Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
-		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.DynastyId);
-		Assert.Equal(dynasty.Id, childlessRelative.DynastyId);
+		Assert.Equal(dynasty.Id, landedCharacter.GetDynastyId(ConversionDate));
+		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.GetDynastyId(ConversionDate));
+		Assert.Equal(dynasty.Id, childlessRelative.GetDynastyId(ConversionDate));
 
 		var characters = new CharacterCollection{
 			landedCharacter,
 			fatherOfLandedCharacter,
 			childlessRelative
 		};
-		characters.PurgeUnneededCharacters(titles);
+		characters.PurgeUnneededCharacters(titles, ConversionDate);
 
 		characters.Should().BeEquivalentTo(new[] {
 			landedCharacter,
