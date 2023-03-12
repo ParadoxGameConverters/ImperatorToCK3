@@ -350,7 +350,8 @@ public class CK3CharacterTests {
 	[Fact]
 	public void DeathReasonCanBeInitializedFromImperator() {
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
-			DeathReason = "shat_to_death"
+			DeathReason = "shat_to_death",
+			DeathDate = new Date(1, 1, 1)
 		};
 
 		var mapReader = new BufferedReader(

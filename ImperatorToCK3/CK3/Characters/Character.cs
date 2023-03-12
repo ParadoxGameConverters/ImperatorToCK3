@@ -105,8 +105,12 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (entriesDict.Count == 0) {
 					throw new ConverterException($"Character {Id} has no death date set!");
 				}
-				var lastEntry = entriesDict.First().Value.Last();
+				
+				// Modify the last entry in the history to include the death reason.
+				var entriesList = entriesDict.First().Value;
+				var lastEntry = entriesList.Last();
 				var newEntry = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem($"{{ death_reason = {value} }}"));
+				entriesList[^1] = newEntry;
 			}
 		}
 
