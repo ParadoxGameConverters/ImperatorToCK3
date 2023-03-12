@@ -158,7 +158,7 @@ public class CK3CharacterTests {
 
 		character.Mother = mother;
 		character.Father = father;
-		child.Father = character;
+		child.Mother = character;
 		spouse.AddSpouse(date, character);
 
 		Assert.NotNull(character.Mother);
@@ -167,14 +167,14 @@ public class CK3CharacterTests {
 		
 		mother.Children.Should().Equal(character);
 		father.Children.Should().Equal(character);
-		Assert.Equal(character, child.Father);
+		Assert.Equal(character, child.Mother);
 		spouse.GetSpouseIds(date).Should().Equal(character.Id);
 
 		characters.Remove(character.Id);
 
 		mother.Children.Should().BeEmpty();
 		father.Children.Should().BeEmpty();
-		Assert.Null(child.Father);
+		Assert.Null(child.Mother);
 		spouse.GetSpouseIds(date).Should().BeEmpty();
 	}
 

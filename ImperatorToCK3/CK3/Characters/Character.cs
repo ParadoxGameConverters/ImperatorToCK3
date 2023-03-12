@@ -454,9 +454,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				return entries.Count == 0 ? null : entries.Last().Value.ToString();
 			}
 			private set {
-				if (value is null) {
-					History.Fields["mother"].RemoveAllEntries();
-				} else {
+				History.Fields["mother"].RemoveAllEntries();
+				if (value is not null) {
 					History.AddFieldValue(null, "mother", "mother", value);
 				}
 			}
@@ -477,9 +476,8 @@ namespace ImperatorToCK3.CK3.Characters {
 				return entries.Count == 0 ? null : entries.Last().Value.ToString();
 			}
 			private set {
-				if (value is null) {
-					History.Fields["father"].RemoveAllEntries();
-				} else {
+				History.Fields["father"].RemoveAllEntries();
+				if (value is not null) {
 					History.AddFieldValue(null, "father", "father", value);
 				}
 			}
