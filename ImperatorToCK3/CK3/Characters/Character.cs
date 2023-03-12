@@ -149,6 +149,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
 			.WithSimpleField("birth", "birth", null)
 			.WithSimpleField("death", "death", null)
+			// TODO: nicknames
+			.WithSimpleField("employer", "employer", null)
+			.WithDiffField("claims", "add_pressed_claim", "remove_claim")
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
