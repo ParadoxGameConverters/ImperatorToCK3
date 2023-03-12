@@ -10,14 +10,6 @@ public static class CharacterOutputter {
 		// Output ID.
 		output.WriteLine($"{character.Id}={{");
 
-		// Output father and mother.
-		if (character.Father is not null) {
-			output.WriteLine($"\tfather={character.Father.Id}");
-		}
-		if (character.Mother is not null) {
-			output.WriteLine($"\tmother={character.Mother.Id}");
-		}
-
 		// output nickname
 		if (character.Nickname is not null) {
 			var nicknameDate = conversionDate;

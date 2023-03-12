@@ -84,9 +84,16 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
 			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
+			// TODO: birth and death dates
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
+		public Character(string id, BufferedReader reader, CharacterCollection characters) {
+			this.characters = characters;
+			
+			Id = id;
+			History = historyFactory.GetHistory(reader);
+		}
 		public Character(string id, string name, Date birthDate, CharacterCollection characters) {
 			this.characters = characters;
 			

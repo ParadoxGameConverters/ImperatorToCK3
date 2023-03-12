@@ -142,6 +142,8 @@ public class World {
 
 		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
+		Characters.LoadCK3Characters(ModFS);
+		Logger.IncrementProgress();
 		Characters.ImportImperatorCharacters(
 			impWorld,
 			religionMapper,
