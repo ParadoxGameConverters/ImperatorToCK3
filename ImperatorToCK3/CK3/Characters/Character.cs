@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
@@ -27,7 +28,12 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (entries.Count == 0) {
 					return false;
 				}
-				return (bool)entries.LastOrDefault().Value;
+
+				var value = entries.LastOrDefault().Value;
+				if (value is string str) {
+					return str == "yes";
+				}
+				return (bool)value;
 			}
 			init {
 				History.AddFieldValue(null, "female", "female", value);
@@ -44,7 +50,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? Nickname { get; set; }
 		public double? Gold { get; set; }
 
-		public uint Age { get; private set; }
+		public uint Age { get; private set; } // TODO: remove this and use BirthDate and DeathDate instead
 		public string AgeSex {
 			get {
 				if (Age >= 16) {
@@ -62,9 +68,48 @@ namespace ImperatorToCK3.CK3.Characters {
 				field.AddEntryToHistory(value, "birth", true);
 			}
 		}
+		
+		public Date? DeathDate {
+			get {
+				var entriesDict = History.Fields["death"].DateToEntriesDict;
+				return entriesDict.Count == 0 ? null : entriesDict.First().Key;
+			}
+			init {
+				var field = History.Fields["death"];
+				field.RemoveAllEntries();
+				field.AddEntryToHistory(value, "death", true);
+			}
+		}
+		public string? DeathReason {
+			get {
+				var entriesDict = History.Fields["death"].DateToEntriesDict;
+				if (entriesDict.Count == 0) {
+					return null;
+				}
+				var deathObj = entriesDict.First().Value.Last().Value;
+				if (deathObj is not StringOfItem deathStrOfItem || !deathStrOfItem.IsArrayOrObject()) {
+					return null;
+				}
 
-		public Date? DeathDate { get; set; }
-		public string? DeathReason { get; set; }
+				var deathObjParser = new Parser();
+				string? deathReason = null;
+				deathObjParser.RegisterKeyword("death_reason", reader => {
+					deathReason = reader.GetString();
+				});
+				deathObjParser.IgnoreUnregisteredItems();
+				deathObjParser.ParseStream(new BufferedReader(deathStrOfItem.ToString()));
+				return deathReason;
+			}
+			init {
+				var entriesDict = History.Fields["death"].DateToEntriesDict;
+				if (entriesDict.Count == 0) {
+					throw new ConverterException($"Character {Id} has no death date set!");
+				}
+				var lastEntry = entriesDict.First().Value.Last();
+				var newEntry = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem($"{{ death_reason = {value} }}"));
+			}
+		}
+
 		public bool Dead => DeathDate is not null;
 		public List<Pregnancy> Pregnancies { get; } = new();
 
@@ -94,7 +139,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
 			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
 			.WithSimpleField("birth", "birth", null)
-			// TODO: death date
+			.WithSimpleField("death", "death", null)
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
