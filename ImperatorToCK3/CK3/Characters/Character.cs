@@ -80,7 +80,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
 			.WithSimpleField("dna", "dna", null)
 			.WithSimpleField("mother", "mother", null)
-			//.WithSimpleField("father", "father", null)
+			.WithSimpleField("father", "father", null)
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
 			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
@@ -380,9 +380,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		private void RemoveChild(string childId) {
 			Children.Remove(childId);
 		}
-		
-		public void SetMother(Character mother) {
-		}
 
 		public string? MotherId {
 			get {
@@ -407,18 +404,29 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 		}
 
-		public string? PendingFatherId { get; set; }
-		private Character? father;
-		public Character? Father {
-			get => father;
-			set {
-				if (PendingFatherId is not null && value is not null && value.Id != PendingFatherId) {
-					Logger.Warn($"Character {Id}: linking father {value.Id} instead of expected {PendingFatherId}");
+		public string? FatherId {
+			get {
+				var entries = History.Fields["father"].InitialEntries;
+				return entries.Count == 0 ? null : entries.Last().Value.ToString();
+			}
+			private set {
+				if (value is null) {
+					History.Fields["father"].RemoveAllEntries();
+				} else {
+					History.AddFieldValue(null, "father", "father", value);
 				}
-				father = value;
-				PendingFatherId = null;
 			}
 		}
+		public Character? Father {
+			get {
+				var fatherId = FatherId;
+				return fatherId is null ? null : characters[fatherId];
+			}
+			set {
+				FatherId = value?.Id;
+			}
+		}
+		
 		public Dictionary<string, Character?> Children { get; set; } = new();
 
 		public void SetDynastyId(string dynastyId, Date? date) {
