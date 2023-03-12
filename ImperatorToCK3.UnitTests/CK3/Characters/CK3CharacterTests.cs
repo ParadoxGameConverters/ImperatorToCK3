@@ -20,7 +20,6 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.Mappers.Trait;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -116,14 +115,14 @@ public class CK3CharacterTests {
 	private readonly CK3CharacterBuilder builder = new();
 
 	[Fact]
-	public void AllLinksCanBeRemoved() {
+	public void AllLinksToCharacterAreRemovedWhenCharacterIsRemoved() {
 		var date = new Date(400, 1, 1);
 
-		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
-		var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2);
-		var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3);
-		var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4);
-		var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5);
+		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {Female = true};
+		var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2) {Female = true};
+		var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3) {Female = false};
+		var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4) {Female = false};
+		var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5) {Female = false};
 
 		imperatorCharacter.Mother = imperatorMother;
 		imperatorCharacter.Father = imperatorFather;
@@ -160,23 +159,23 @@ public class CK3CharacterTests {
 		character.Mother = mother;
 		character.Father = father;
 		child.Father = character;
-		character.AddSpouse(date, spouse);
+		spouse.AddSpouse(date, character);
 
 		Assert.NotNull(character.Mother);
 		Assert.NotNull(character.Father);
 		character.Children.Select(c => c.Id).Should().Equal("imperator4");
-		var spousesAtDate = character.GetSpouseIds(date);
-		Assert.NotNull(spousesAtDate);
-		Assert.Contains("imperator5", spousesAtDate);
+		
+		mother.Children.Should().Equal(character);
+		father.Children.Should().Equal(character);
+		Assert.Equal(character, child.Father);
+		spouse.GetSpouseIds(date).Should().Equal(character.Id);
 
-		character.BreakAllLinks();
+		characters.Remove(character.Id);
 
-		Assert.Null(character.Mother);
-		Assert.Null(character.Father);
-		Assert.Empty(character.Children);
-		spousesAtDate = character.GetSpouseIds(date);
-		Assert.NotNull(spousesAtDate);
-		Assert.Empty(spousesAtDate);
+		mother.Children.Should().BeEmpty();
+		father.Children.Should().BeEmpty();
+		Assert.Null(child.Father);
+		spouse.GetSpouseIds(date).Should().BeEmpty();
 	}
 
 	[Fact]

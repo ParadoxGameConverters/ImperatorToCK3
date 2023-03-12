@@ -32,7 +32,6 @@ public static class CharacterOutputter {
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
 
 		OutputPregnancies(output, character);
-
 		OutputPrisoners(output, character, conversionDate);
 
 		output.WriteLine("}");

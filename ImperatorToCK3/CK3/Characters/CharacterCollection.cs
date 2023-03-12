@@ -13,6 +13,7 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 
 namespace ImperatorToCK3.CK3.Characters;
 
@@ -86,7 +87,25 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 	}
 
 	public override void Remove(string key) {
-		this[key].BreakAllLinks();
+		var character = this[key];
+
+		character.RemoveAllSpouses();
+
+		if (character.Female) {
+			foreach (var child in character.Children) {
+				child.Mother = null;
+			}
+		} else {
+			foreach (var child in character.Children) {
+				child.Father = null;
+			}
+		}
+
+		var irCharacter = character.ImperatorCharacter;
+		if (irCharacter is not null) {
+			irCharacter.CK3Character = null;
+		}
+		
 		base.Remove(key);
 	}
 
@@ -99,26 +118,26 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				// imperatorRegnal characters do not have ImperatorCharacter
 				continue;
 			}
-			var impMotherCharacter = ck3Character.ImperatorCharacter.Mother;
-			if (impMotherCharacter is not null) {
-				var ck3MotherCharacter = impMotherCharacter.CK3Character;
+			var irMotherCharacter = ck3Character.ImperatorCharacter.Mother;
+			if (irMotherCharacter is not null) {
+				var ck3MotherCharacter = irMotherCharacter.CK3Character;
 				if (ck3MotherCharacter is not null) {
 					ck3Character.Mother = ck3MotherCharacter;
 					++motherCounter;
 				} else {
-					Logger.Warn($"Imperator mother {impMotherCharacter.Id} has no CK3 character!");
+					Logger.Warn($"Imperator mother {irMotherCharacter.Id} has no CK3 character!");
 				}
 			}
 
 			// make links between Imperator characters
-			var impFatherCharacter = ck3Character.ImperatorCharacter.Father;
-			if (impFatherCharacter is not null) {
-				var ck3FatherCharacter = impFatherCharacter.CK3Character;
+			var irFatherCharacter = ck3Character.ImperatorCharacter.Father;
+			if (irFatherCharacter is not null) {
+				var ck3FatherCharacter = irFatherCharacter.CK3Character;
 				if (ck3FatherCharacter is not null) {
 					ck3Character.Father = ck3FatherCharacter;
 					++fatherCounter;
 				} else {
-					Logger.Warn($"Imperator father {impFatherCharacter.Id} has no CK3 character!");
+					Logger.Warn($"Imperator father {irFatherCharacter.Id} has no CK3 character!");
 				}
 			}
 		}
@@ -250,12 +269,30 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 
 		var i = 0;
 		var farewellCharacters = new List<Character>();
+		var parentIdsCache = new HashSet<string>();
 		do {
 			farewellCharacters.Clear();
+			parentIdsCache.Clear();
 			++i;
+			
+			// Build cache of all parent IDs.
+			Logger.Debug("Building parents cache...");
+			foreach (var character in this) {
+				var motherId = character.MotherId;
+				if (motherId is not null) {
+					parentIdsCache.Add(motherId);
+				}
+
+				var fatherId = character.FatherId;
+				if (fatherId is not null) {
+					parentIdsCache.Add(fatherId);
+				}
+			}
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
+				Logger.Debug(character.Id); // TODO: remove this
+				
 				// Keep alive characters.
 				if (character is {FromImperator: true, Dead: false}) {
 					continue;
@@ -264,7 +301,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				// Does the character belong to a dynasty that holds or held titles?
 				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(date))) {
 					// Is the character dead and childless? Purge.
-					if (character.Children.Count == 0) {
+					if (!parentIdsCache.Contains(character.Id)) {
 						farewellCharacters.Add(character);
 					}
 

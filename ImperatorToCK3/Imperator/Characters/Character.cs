@@ -92,7 +92,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public bool Female { get; private set; } = false;
+		public bool Female { get; set; } = false;
 		public double Wealth { get; set; } = 0;
 		public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 

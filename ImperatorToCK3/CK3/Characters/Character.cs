@@ -428,36 +428,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			return History.GetFieldValue("faith", date)?.ToString();
 		}
 
-		public void BreakAllLinks() {
-			RemoveMother();
-			RemoveFather();
-
-			foreach (var spouse in spousesCache) {
-				spouse.RemoveSpouse(Id);
-			}
-			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
-				spousesHistory.InitialEntries.Clear();
-				spousesHistory.DateToEntriesDict.Clear();
-			}
-
-			if (Female) {
-				foreach (var child in Children) {
-					child.RemoveMother();
-				}
-			} else {
-				foreach (var child in Children) {
-					child.RemoveFather();
-				}
-			}
-
-			if (ImperatorCharacter is not null) {
-				ImperatorCharacter.CK3Character = null;
-				ImperatorCharacter = null;
-			}
-		}
-
-		public OrderedSet<object>? GetSpouseIds(Date date) {
-			return History.GetFieldValueAsCollection("spouses", date);
+		public OrderedSet<object> GetSpouseIds(Date date) {
+			return History.GetFieldValueAsCollection("spouses", date) ?? new OrderedSet<object>();
 		}
 		public void AddSpouse(Date date, Character spouse) {
 			History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
@@ -470,12 +442,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			spousesCache.RemoveWhere(c => c.Id == spouseId);
 		}
 
-		private void RemoveFather() {
-			Father = null;
-		}
-
-		private void RemoveMother() {
-			Mother = null;
+		public void RemoveAllSpouses() {
+			foreach (var spouse in spousesCache) {
+				spouse.RemoveSpouse(Id);
+			}
 		}
 
 		public string? MotherId {
@@ -525,7 +495,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public IReadOnlyCollection<Character> Children => characters
-			.Where(c => c.FatherId == Id)
+			.Where(c => c.FatherId == Id || c.MotherId == Id)
 			.ToImmutableList();
 
 		public void SetDynastyId(string dynastyId, Date? date) {
