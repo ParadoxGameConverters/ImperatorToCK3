@@ -47,7 +47,18 @@ namespace ImperatorToCK3.CK3.Characters {
 			return History.GetFieldValue("name", date)?.ToString();
 		}
 		
-		public string? Nickname { get; set; }
+		public void SetNickname(string nickname, Date? date) {
+			var deathDate = DeathDate;
+			// Date should not be given later than death date.
+			if (deathDate is not null && date is not null && date > deathDate) {
+				date = deathDate;
+			}
+			History.AddFieldValue(date, "nickname", "give_nickname", nickname);
+		}
+		public string? GetNickname(Date date) {
+			return History.GetFieldValue("nickname", date)?.ToString();
+		}
+		
 		public double? Gold { get; set; }
 
 		public uint GetAge(Date date) {
@@ -226,8 +237,11 @@ namespace ImperatorToCK3.CK3.Characters {
 					SetCultureId(cultureMatch, null);
 				}
 			}
-
-			Nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
+			
+			var nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
+			if (nickname is not null) {
+				SetNickname(nickname, DeathDate);
+			}
 		}
 
 		public Character(
@@ -329,11 +343,6 @@ namespace ImperatorToCK3.CK3.Characters {
 				History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
 			}
 
-			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
-			if (nicknameMatch is not null) {
-				Nickname = nicknameMatch;
-			}
-
 			BirthDate = ImperatorCharacter.BirthDate;
 			DeathDate = ImperatorCharacter.DeathDate;
 			var impDeathReason = ImperatorCharacter.DeathReason;
@@ -341,13 +350,18 @@ namespace ImperatorToCK3.CK3.Characters {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
 
+			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
+			if (nicknameMatch is not null) {
+				SetNickname(nicknameMatch, dateOnConversion);
+			}
+
 			if (ImperatorCharacter.Wealth != 0) {
 				Gold = ImperatorCharacter.Wealth * config.ImperatorCurrencyRate;
 			}
 
-			// if character is imprisoned, set jailor
+			// If character is imprisoned, set jailor.
 			SetJailor();
-			SetEmployer();
+			SetEmployerFromImperator();
 
 			void SetJailor() {
 				if (ImperatorCharacter.PrisonerHome is null) {
@@ -364,13 +378,13 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 
-			void SetEmployer() {
+			void SetEmployerFromImperator() {
 				var prisonerHome = ImperatorCharacter.PrisonerHome;
 				var homeCountry = ImperatorCharacter.HomeCountry;
 				if (prisonerHome?.CK3Title is not null) { // is imprisoned
-					EmployerId = prisonerHome.CK3Title.GetHolderId(dateOnConversion);
+					SetEmployerId(prisonerHome.CK3Title.GetHolderId(dateOnConversion), null);
 				} else if (homeCountry?.CK3Title is not null) {
-					EmployerId = homeCountry.CK3Title.GetHolderId(dateOnConversion);
+					SetEmployerId(homeCountry.CK3Title.GetHolderId(dateOnConversion), null);
 				}
 			}
 		}
@@ -511,7 +525,15 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		private string? jailorId;
 		private readonly HashSet<Character> spousesCache = new();
-		public string? EmployerId { get; set; }
+		public void SetEmployer(Character employer, Date? date) {
+			SetEmployerId(employer.Id, date);
+		}
+		private void SetEmployerId(string employerId, Date? date) {
+			History.AddFieldValue(date, "employer", "employer", employerId);
+		}
+		public string? GetEmployerId(Date date) {
+			return History.GetFieldValue("employer", date)?.ToString();
+		}
 
 		public bool LinkJailor(Date date) {
 			if (jailorId is null or "0") {

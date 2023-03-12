@@ -344,7 +344,7 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithNicknameMapper(new NicknameMapper(mapReader))
 			.Build();
-		Assert.Equal("nick_the_goose", character.Nickname);
+		Assert.Equal("nick_the_goose", character.GetNickname(new Date()));
 	}
 
 	[Fact]

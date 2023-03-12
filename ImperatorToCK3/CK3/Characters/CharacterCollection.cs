@@ -289,7 +289,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.Info("Removing employer id from landed characters...");
 		var landedCharacterIds = titles.GetHolderIds(conversionDate);
 		foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
-			character.EmployerId = null;
+			character.History.Fields["employer"].RemoveAllEntries();
 		}
 
 		Logger.IncrementProgress();
