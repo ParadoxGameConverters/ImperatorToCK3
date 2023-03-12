@@ -70,6 +70,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		// Create a new CK3 character
 		var newCharacter = new Character(
 			character,
+			this,
 			religionMapper,
 			cultureMapper,
 			traitMapper,
@@ -85,7 +86,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 	}
 
 	public override void Remove(string key) {
-		this[key].BreakAllLinks(this);
+		this[key].BreakAllLinks();
 		base.Remove(key);
 	}
 
@@ -196,7 +197,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 	}
 
 	private void LinkPrisoners(Date date) {
-		var prisonerCount = this.Count(character => character.LinkJailor(this, date));
+		var prisonerCount = this.Count(character => character.LinkJailor(date));
 		Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 	}
 

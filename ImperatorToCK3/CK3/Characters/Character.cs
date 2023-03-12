@@ -79,7 +79,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
 			.WithSimpleField("dna", "dna", null)
-			//.WithSimpleField("mother", "mother", null)
+			.WithSimpleField("mother", "mother", null)
 			//.WithSimpleField("father", "father", null)
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
@@ -87,7 +87,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
-		public Character(string id, string name, Date birthDate) {
+		public Character(string id, string name, Date birthDate, CharacterCollection characters) {
+			this.characters = characters;
+			
 			Id = id;
 			SetName(name, null);
 			BirthDate = birthDate;
@@ -96,6 +98,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
 			Country imperatorCountry,
+			CharacterCollection characters,
 			LocDB locDB,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
@@ -103,6 +106,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,
 			Configuration config
 		) {
+			this.characters = characters;
+			
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC".Replace('.', '_');
 			FromImperator = true;
 			var name = preImperatorRuler.Name ?? Id;
@@ -153,6 +158,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Character(
 			Imperator.Characters.Character impCharacter,
+			CharacterCollection characters,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
@@ -163,6 +169,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			Date dateOnConversion,
 			Configuration config
 		) {
+			this.characters = characters;
+			
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
 			Id = "imperator" + ImperatorCharacter.Id;
@@ -308,7 +316,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			return History.GetFieldValue("faith", date)?.ToString();
 		}
 
-		public void BreakAllLinks(CharacterCollection characters) {
+		public void BreakAllLinks() {
 			Mother?.RemoveChild(Id);
 			RemoveMother();
 			Father?.RemoveChild(Id);
@@ -372,19 +380,33 @@ namespace ImperatorToCK3.CK3.Characters {
 		private void RemoveChild(string childId) {
 			Children.Remove(childId);
 		}
+		
+		public void SetMother(Character mother) {
+		}
 
-		public string? PendingMotherId { get; set; }
-		private Character? mother;
-		public Character? Mother {
-			get => mother;
-			set {
-				if (PendingMotherId is not null && value is not null && value.Id != PendingMotherId) {
-					Logger.Warn($"Character {Id}: linking mother {value.Id} instead of expected {PendingMotherId}");
+		public string? MotherId {
+			get {
+				var entries = History.Fields["mother"].InitialEntries;
+				return entries.Count == 0 ? null : entries.Last().Value.ToString();
+			}
+			private set {
+				if (value is null) {
+					History.Fields["mother"].RemoveAllEntries();
+				} else {
+					History.AddFieldValue(null, "mother", "mother", value);
 				}
-				mother = value;
-				PendingMotherId = null;
 			}
 		}
+		public Character? Mother {
+			get {
+				var motherId = MotherId;
+				return motherId is null ? null : characters[motherId];
+			}
+			set {
+				MotherId = value?.Id;
+			}
+		}
+
 		public string? PendingFatherId { get; set; }
 		private Character? father;
 		public Character? Father {
@@ -403,14 +425,14 @@ namespace ImperatorToCK3.CK3.Characters {
 			History.AddFieldValue(date, "dynasty", "dynasty", dynastyId);
 		}
 		public string? GetDynastyId(Date date) {
-			return History.GetFieldValue("dynastyId", date)?.ToString();
+			return History.GetFieldValue("dynasty", date)?.ToString();
 		}
 
 		private string? jailorId;
 		private readonly HashSet<Character> spousesCache = new();
 		public string? EmployerId { get; set; }
 
-		public bool LinkJailor(CharacterCollection characters, Date date) {
+		public bool LinkJailor(Date date) {
 			if (jailorId is null or "0") {
 				return false;
 			}
@@ -514,5 +536,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			sb.AppendLine("\t}");
 			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
+		
+		private CharacterCollection characters;
 	}
 }

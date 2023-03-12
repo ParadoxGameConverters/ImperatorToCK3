@@ -502,7 +502,7 @@ public class World {
 				}
 				Logger.Debug($"Generating hermit for {titleId}...");
 
-				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50));
+				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50), Characters);
 				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
 				hermit.SetFaithId(faithId, null);
 				hermit.SetCultureId(cultureId, null);

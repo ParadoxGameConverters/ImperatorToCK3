@@ -44,6 +44,7 @@ public class DynastyTests {
 		private static readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
+		private ImperatorToCK3.CK3.Characters.CharacterCollection characters = new();
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
 		private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
@@ -55,6 +56,7 @@ public class DynastyTests {
 		public Character Build() {
 			var character = new Character(
 				imperatorCharacter,
+				characters,
 				religionMapper,
 				cultureMapper,
 				traitMapper,

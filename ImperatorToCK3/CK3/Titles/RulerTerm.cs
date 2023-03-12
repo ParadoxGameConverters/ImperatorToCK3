@@ -47,6 +47,7 @@ public class RulerTerm {
 				PreImperatorRuler,
 				StartDate,
 				PreImperatorRuler.Country,
+				characters,
 				locDB,
 				religionMapper,
 				cultureMapper,
