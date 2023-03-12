@@ -53,7 +53,16 @@ namespace ImperatorToCK3.CK3.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public Date BirthDate { get; set; }
+
+		public Date BirthDate {
+			get => History.Fields["birth"].DateToEntriesDict.First().Key;
+			init {
+				var field = History.Fields["birth"];
+				field.RemoveAllEntries();
+				field.AddEntryToHistory(value, "birth", true);
+			}
+		}
+
 		public Date? DeathDate { get; set; }
 		public string? DeathReason { get; set; }
 		public bool Dead => DeathDate is not null;
@@ -84,7 +93,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
 			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
-			// TODO: birth and death dates
+			.WithSimpleField("birth", "birth", null)
+			// TODO: death date
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
