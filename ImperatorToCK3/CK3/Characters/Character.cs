@@ -53,10 +53,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (deathDate is not null && date is not null && date > deathDate) {
 				date = deathDate;
 			}
-			History.AddFieldValue(date, "nickname", "give_nickname", nickname);
+			History.AddFieldValue(date, "give_nickname", "give_nickname", nickname);
 		}
 		public string? GetNickname(Date date) {
-			return History.GetFieldValue("nickname", date)?.ToString();
+			return History.GetFieldValue("give_nickname", date)?.ToString();
 		}
 		
 		public double? Gold { get; set; }
@@ -150,6 +150,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("stewardship", "stewardship", null)
 			.WithSimpleField("intrigue", "intrigue", null)
 			.WithSimpleField("learning", "learning", null)
+			.WithDiffField("languages", new OrderedSet<string> {"learn_language"}, new OrderedSet<string>())
 			.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
 			.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 			.WithDiffField("traits", new OrderedSet<string> { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
@@ -159,13 +160,16 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("father", "father", null)
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.WithDiffField("concubines", new OrderedSet<string> { "add_concubine" }, new OrderedSet<string>())
+			.WithSimpleField("betrothal", "create_betrothal", null)
 			.WithLiteralField("effects", "effect")
 			.WithLiteralField("contract_disease_effect", "contract_disease_effect")
-			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
+			.WithLiteralField("add_character_modifier", "add_character_modifier")
+			.WithLiteralField("remove_character_modifier", "remove_character_modifier")
 			.WithLiteralField("character_flags", "add_character_flag")
 			.WithSimpleField("birth", "birth", null)
 			.WithLiteralField("death", "death")
-			.WithSimpleField("nickname", "give_nickname", null)
+			.WithSimpleField("give_nickname", "give_nickname", null)
+			.WithSimpleField("remove_nickname", "remove_nickname", null)
 			.WithSimpleField("primary_title", "set_primary_title_to", null)
 			.WithSimpleField("capital", "capital", null)
 			.WithSimpleField("employer", "employer", null)
@@ -176,6 +180,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithLiteralField("lovers", "set_relation_lover")
 			.WithLiteralField("rivals", "set_relation_rival")
 			.WithLiteralField("nemesis", "set_relation_nemesis")
+			.WithLiteralField("guardian", "set_relation_guardian")
+			.WithSimpleField("piety", "add_piety", null)
+			.WithSimpleField("prestige", "add_prestige", null)
+			.WithLiteralField("secret", "add_secret")
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
