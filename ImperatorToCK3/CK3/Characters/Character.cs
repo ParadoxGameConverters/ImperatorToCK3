@@ -162,7 +162,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
 			.WithDiffField("character_flags", new OrderedSet<string> {"add_character_flag"}, new OrderedSet<string>())
 			.WithSimpleField("birth", "birth", null)
-			.WithSimpleField("death", "death", null)
+			.WithLiteralField("death", "death")
 			.WithSimpleField("nickname", "give_nickname", null)
 			.WithSimpleField("capital", "capital", null)
 			.WithSimpleField("employer", "employer", null)
