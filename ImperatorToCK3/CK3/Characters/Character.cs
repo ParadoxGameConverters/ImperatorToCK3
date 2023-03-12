@@ -158,6 +158,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("mother", "mother", null)
 			.WithSimpleField("father", "father", null)
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
+			.WithDiffField("concubines", new OrderedSet<string> { "add_concubine" }, new OrderedSet<string>())
 			.WithLiteralField("effects", "effect")
 			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
 			.WithDiffField("character_flags", new OrderedSet<string> {"add_character_flag"}, new OrderedSet<string>())
@@ -168,10 +169,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("employer", "employer", null)
 			.WithSimpleField("council_position", "give_council_position", null)
 			.WithDiffField("claims", "add_pressed_claim", "remove_claim")
-			.WithDiffField("friends", new OrderedSet<string> {"set_relation_friend"}, new OrderedSet<string>())
-			.WithDiffField("lovers", new OrderedSet<string> {"set_relation_lover"}, new OrderedSet<string>())
-			.WithDiffField("rivals", new OrderedSet<string> {"set_relation_rival"}, new OrderedSet<string>())
-			.WithDiffField("nemesis", new OrderedSet<string> {"set_relation_nemesis"}, new OrderedSet<string>())
+			.WithLiteralField("friends", "set_relation_friend")
+			.WithLiteralField("lovers", "set_relation_lover")
+			.WithLiteralField("rivals", "set_relation_rival")
+			.WithLiteralField("nemesis", "set_relation_nemesis")
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
