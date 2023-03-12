@@ -14,6 +14,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -153,6 +154,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("languages", new OrderedSet<string> {"learn_language"}, new OrderedSet<string>())
 			.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
 			.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
+			.WithSimpleField("government", "change_government", null)
 			.WithDiffField("traits", new OrderedSet<string> { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
 			.WithDiffField("perks", new OrderedSet<string> {"add_perk"}, new OrderedSet<string>())
 			.WithSimpleField("dna", "dna", null)
@@ -161,8 +163,6 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
 			.WithDiffField("concubines", new OrderedSet<string> { "add_concubine" }, new OrderedSet<string>())
 			.WithSimpleField("betrothal", "create_betrothal", null)
-			.WithLiteralField("effects", "effect")
-			.WithLiteralField("contract_disease_effect", "contract_disease_effect")
 			.WithLiteralField("add_character_modifier", "add_character_modifier")
 			.WithLiteralField("remove_character_modifier", "remove_character_modifier")
 			.WithLiteralField("character_flags", "add_character_flag")
@@ -184,6 +184,10 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("piety", "add_piety", null)
 			.WithSimpleField("prestige", "add_prestige", null)
 			.WithLiteralField("secret", "add_secret")
+			.WithLiteralField("effects", "effect")
+			.WithLiteralField("contract_disease_effect", "contract_disease_effect")
+			.WithLiteralField("spawn_army", "spawn_army")
+			.WithLiteralField("if", "if")
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
@@ -425,9 +429,7 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		public void BreakAllLinks() {
-			Mother?.RemoveChild(Id);
 			RemoveMother();
-			Father?.RemoveChild(Id);
 			RemoveFather();
 
 			foreach (var spouse in spousesCache) {
@@ -439,23 +441,14 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (Female) {
-				foreach (var (childId, child) in Children) {
-					if (child is null) {
-						Logger.Warn($"Child {childId} of {Id} is null!");
-						continue;
-					}
+				foreach (var child in Children) {
 					child.RemoveMother();
 				}
 			} else {
-				foreach (var (childId, child) in Children) {
-					if (child is null) {
-						Logger.Warn($"Child {childId} of {Id} is null!");
-						continue;
-					}
+				foreach (var child in Children) {
 					child.RemoveFather();
 				}
 			}
-			Children.Clear();
 
 			if (ImperatorCharacter is not null) {
 				ImperatorCharacter.CK3Character = null;
@@ -483,10 +476,6 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		private void RemoveMother() {
 			Mother = null;
-		}
-
-		private void RemoveChild(string childId) {
-			Children.Remove(childId);
 		}
 
 		public string? MotherId {
@@ -534,8 +523,10 @@ namespace ImperatorToCK3.CK3.Characters {
 				FatherId = value?.Id;
 			}
 		}
-		
-		public Dictionary<string, Character?> Children { get; set; } = new();
+
+		public IReadOnlyCollection<Character> Children => characters
+			.Where(c => c.FatherId == Id)
+			.ToImmutableList();
 
 		public void SetDynastyId(string dynastyId, Date? date) {
 			History.AddFieldValue(date, "dynasty", "dynasty", dynastyId);

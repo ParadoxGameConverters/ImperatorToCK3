@@ -10,6 +10,9 @@ public partial class CharacterCollection {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, characterId) => {
 			var character = new Character(characterId, reader, this);
+			if (character.Id == "145666") {
+				Logger.Error($"LOL FOUND HIM, {character.GetName("2000.1.1")}"); // TODO: remove this
+			}
 			AddOrReplace(character);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
