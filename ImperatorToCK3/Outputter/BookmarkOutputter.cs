@@ -74,7 +74,7 @@ public static class BookmarkOutputter {
 				output.WriteLine($"\t\tdynasty = {dynastyId}");
 			}
 			output.WriteLine("\t\tdynasty_splendor_level = 1");
-			output.WriteLine($"\t\ttype = {holder.AgeSex}");
+			output.WriteLine($"\t\ttype = {holder.GetAgeSex(config.CK3BookmarkDate)}");
 			output.WriteLine($"\t\thistory_id = {holder.Id}");
 			output.WriteLine($"\t\tbirth = {holder.BirthDate}");
 			output.WriteLine($"\t\ttitle = {title.Id}");
@@ -94,7 +94,7 @@ public static class BookmarkOutputter {
 
 			output.WriteLine("\t}");
 
-			string templatePath = holder.AgeSex switch {
+			string templatePath = holder.GetAgeSex(config.CK3BookmarkDate) switch {
 				"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
 				"girl" => "blankMod/templates/common/bookmark_portraits/girl.txt",
 				"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
@@ -102,7 +102,7 @@ public static class BookmarkOutputter {
 			};
 			string templateText = File.ReadAllText(templatePath);
 			templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
-			templateText = templateText.Replace("REPLACE_ME_AGE", holder.Age.ToString());
+			templateText = templateText.Replace("REPLACE_ME_AGE", holder.GetAge(config.CK3BookmarkDate).ToString());
 			var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
 			File.WriteAllText(outPortraitPath, templateText);
 		}

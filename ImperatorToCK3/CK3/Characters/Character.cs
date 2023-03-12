@@ -50,14 +50,19 @@ namespace ImperatorToCK3.CK3.Characters {
 		public string? Nickname { get; set; }
 		public double? Gold { get; set; }
 
-		public uint Age { get; private set; } // TODO: remove this and use BirthDate and DeathDate instead
-		public string AgeSex {
-			get {
-				if (Age >= 16) {
-					return Female ? "female" : "male";
-				}
-				return Female ? "girl" : "boy";
+		public uint GetAge(Date date) {
+			var birthDate = BirthDate;
+			var deathDate = DeathDate;
+			if (deathDate is null) {
+				return (uint)date.DiffInYears(birthDate);
 			}
+			return (uint)deathDate.DiffInYears(birthDate);
+		}
+		public string GetAgeSex(Date date) {
+			if (GetAge(date) >= 16) {
+				return Female ? "female" : "male";
+			}
+			return Female ? "girl" : "boy";
 		}
 
 		public Date BirthDate {
@@ -270,7 +275,6 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			Female = ImperatorCharacter.Female;
-			Age = ImperatorCharacter.Age;
 
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
 			var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;

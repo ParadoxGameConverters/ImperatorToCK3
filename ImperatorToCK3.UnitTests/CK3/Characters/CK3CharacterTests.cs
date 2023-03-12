@@ -385,28 +385,19 @@ public class CK3CharacterTests {
 
 	[Fact]
 	public void AgeSexReturnsCorrectString() {
+		var conversionDate = new Date(100, 1, 1, AUC: true);
 		ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
 		var reader1 = new BufferedReader(
-			"= {\n" +
-			"\tage=56\n" +
-			"\tfemale=yes\n" +
-			"}"
+			"= { birth_date=44.1.1 female=yes }" // age: 56
 		);
 		var reader2 = new BufferedReader(
-			"= {\n" +
-			"\tage=56\n" +
-			"}"
+			"= { birth_date=44.1.1 }" // age: 56
 		);
 		var reader3 = new BufferedReader(
-			"= {\n" +
-			"\tage=8\n" +
-			"\tfemale=yes\n" +
-			"}"
+			"= { birth_date=92.1.1 female=yes }" // age: 8
 		);
 		var reader4 = new BufferedReader(
-			"= {\n" +
-			"\tage=8\n" +
-			"}"
+			"= { birth_date=92.1.1 }" // age: 8
 		);
 		var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "42", genesDB);
 		var impCharacter2 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "43", genesDB);
@@ -425,10 +416,10 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(impCharacter4)
 			.Build();
 
-		Assert.Equal("female", character1.AgeSex);
-		Assert.Equal("male", character2.AgeSex);
-		Assert.Equal("girl", character3.AgeSex);
-		Assert.Equal("boy", character4.AgeSex);
+		Assert.Equal("female", character1.GetAgeSex(conversionDate));
+		Assert.Equal("male", character2.GetAgeSex(conversionDate));
+		Assert.Equal("girl", character3.GetAgeSex(conversionDate));
+		Assert.Equal("boy", character4.GetAgeSex(conversionDate));
 	}
 
 	[Fact]
