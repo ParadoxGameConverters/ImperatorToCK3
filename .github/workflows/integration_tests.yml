@@ -1,0 +1,61 @@
+﻿name: "Integration tests"
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: ci-integration-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  run_test_conversions:
+    runs-on: [self-hosted, windows]
+    strategy:
+      fail-fast: false
+      matrix:
+        save_url:
+          # 2.0 vanilla
+          - https://mega.nz/file/TR13kB7D#QWT2yFzoS3rSIu9-EkUEdcc-X8jJnhZdXbJvw9jC-dg  # Benchmark.rome
+          # 2.0 with mods
+          - https://mega.nz/file/id90lRYD#4OBL6N6_87-Nu28wNssm-O-3jmxli0iFzOtI7XVdN1E  # Mega_Campaign.rome
+          - https://mega.nz/file/zQ0wDKya#eiFQCiJ2sjTaolAJGnfQ0_0OS2Q1kf48dIGDlrEoJ9I  # Erreinu Atlantikoa Debug Over NameFix.rome
+          - https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8  # The New Rome.rome
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: "Check if docs folders exist"
+      run: |
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
+    - name: "Setup Dotnet for use with actions"
+      uses: actions/setup-dotnet@v3
+      with:
+        global-json-file: global.json
+    - name: "Build converter backend"
+      working-directory: ImperatorToCK3
+      run: |
+        dotnet build -c:Debug
+    - name: "Download I:R save from MEGA"
+      run: |
+        & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
+    - name: "Create configuration.txt"
+      working-directory: Debug/ImperatorToCK3
+      run: |
+        echo 'ImperatorDirectory = "C:\Program Files (x86)\Steam\steamapps\common\ImperatorRome"' > configuration.txt
+        echo 'ImperatorDocDirectory = "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"' >> configuration.txt
+        echo 'CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"' >> configuration.txt
+        echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
+        echo 'SaveGame = "../../save.rome"' >> configuration.txt
+        cat configuration.txt
+    - name: "Run conversion"
+      working-directory: Debug/ImperatorToCK3
+      run: |
+        dotnet ImperatorToCK3Converter.dll
+    - name: "Cleanup"
+      if: always()
+      run: |
+        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
