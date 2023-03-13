@@ -367,6 +367,15 @@ namespace ImperatorToCK3.CK3.Characters {
 			History.AddFieldValue(null, "intrigue", "intrigue", intrigue);
 			History.AddFieldValue(null, "learning", "learning", ImperatorCharacter.Attributes.Zeal);
 
+			if (impCharacter.Health is not null) {
+				// In I:R, health is a value between 0 and 100, with 100 being the best.
+				// In CK3, 0 means near death, ≥ 7 means excellent health.
+				// https://imperator.paradoxwikis.com/Characters#Secondary
+				// https://ck3.paradoxwikis.com/Attributes#Health
+				var ck3Health = impCharacter.Health.Value / 10;
+				History.AddFieldValue(null, "health", "health", ck3Health);
+			}
+
 			foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
 				History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
 			}
