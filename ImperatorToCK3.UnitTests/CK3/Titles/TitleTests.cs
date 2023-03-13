@@ -691,8 +691,9 @@ public class TitleTests {
 		title.GetAllHolderIds().Should().BeEmpty();
 
 		var birthDate = new Date(50, 1, 1);
-		var holder1 = new ImperatorToCK3.CK3.Characters.Character("1", "Bob", birthDate);
-		var holder2 = new ImperatorToCK3.CK3.Characters.Character("2", "Rob", birthDate);
+		var characters = new CharacterCollection();
+		var holder1 = new ImperatorToCK3.CK3.Characters.Character("1", "Bob", birthDate, characters);
+		var holder2 = new ImperatorToCK3.CK3.Characters.Character("2", "Rob", birthDate, characters);
 		title.SetHolder(holder1, "60.1.1");
 		title.SetHolder(holder2, "70.1.1");
 

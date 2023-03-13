@@ -20,7 +20,7 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.Mappers.Trait;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
@@ -28,6 +28,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CK3CharacterTests {
+	private static readonly Date ConversionDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
@@ -39,11 +40,12 @@ public class CK3CharacterTests {
 
 	public class CK3CharacterBuilder {
 		private Configuration config = new() {
-			CK3BookmarkDate = "867.1.1",
+			CK3BookmarkDate = ConversionDate,
 			CK3Path = CK3Path
 		};
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
+		private CharacterCollection characters = new();
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
 		private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
@@ -55,6 +57,7 @@ public class CK3CharacterTests {
 		public Character Build() {
 			var character = new Character(
 				imperatorCharacter,
+				characters,
 				religionMapper,
 				cultureMapper,
 				traitMapper,
@@ -69,6 +72,10 @@ public class CK3CharacterTests {
 		}
 		public CK3CharacterBuilder WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character imperatorCharacter) {
 			this.imperatorCharacter = imperatorCharacter;
+			return this;
+		}
+		public CK3CharacterBuilder WithCharacterCollection(CharacterCollection characters) {
+			this.characters = characters;
 			return this;
 		}
 		public CK3CharacterBuilder WithReligionMapper(ReligionMapper religionMapper) {
@@ -108,14 +115,14 @@ public class CK3CharacterTests {
 	private readonly CK3CharacterBuilder builder = new();
 
 	[Fact]
-	public void AllLinksCanBeRemoved() {
+	public void AllLinksToCharacterAreRemovedWhenCharacterIsRemoved() {
 		var date = new Date(400, 1, 1);
 
-		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1);
-		var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2);
-		var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3);
-		var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4);
-		var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5);
+		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {Female = true};
+		var imperatorMother = new ImperatorToCK3.Imperator.Characters.Character(2) {Female = true};
+		var imperatorFather = new ImperatorToCK3.Imperator.Characters.Character(3) {Female = false};
+		var imperatorChild = new ImperatorToCK3.Imperator.Characters.Character(4) {Female = false};
+		var imperatorSpouse = new ImperatorToCK3.Imperator.Characters.Character(5) {Female = false};
 
 		imperatorCharacter.Mother = imperatorMother;
 		imperatorCharacter.Father = imperatorFather;
@@ -125,66 +132,50 @@ public class CK3CharacterTests {
 		var characters = new CharacterCollection();
 		var character = builder
 			.WithImperatorCharacter(imperatorCharacter)
+			.WithCharacterCollection(characters)
 			.Build();
 		characters.Add(character);
 		var mother = builder
 			.WithImperatorCharacter(imperatorMother)
+			.WithCharacterCollection(characters)
 			.Build();
 		characters.Add(mother);
 		var father = builder
 			.WithImperatorCharacter(imperatorFather)
+			.WithCharacterCollection(characters)
 			.Build();
 		characters.Add(father);
 		var child = builder
 			.WithImperatorCharacter(imperatorChild)
+			.WithCharacterCollection(characters)
 			.Build();
 		characters.Add(child);
 		var spouse = builder
 			.WithImperatorCharacter(imperatorSpouse)
+			.WithCharacterCollection(characters)
 			.Build();
 		characters.Add(spouse);
 
 		character.Mother = mother;
 		character.Father = father;
-		character.Children.Add(child.Id, child);
-		character.AddSpouse(date, spouse);
+		child.Mother = character;
+		spouse.AddSpouse(date, character);
 
 		Assert.NotNull(character.Mother);
 		Assert.NotNull(character.Father);
-		Assert.NotNull(character.Children["imperator4"]);
-		var spousesAtDate = character.GetSpouseIds(date);
-		Assert.NotNull(spousesAtDate);
-		Assert.Contains("imperator5", spousesAtDate);
+		character.Children.Select(c => c.Id).Should().Equal("imperator4");
+		
+		mother.Children.Should().Equal(character);
+		father.Children.Should().Equal(character);
+		Assert.Equal(character, child.Mother);
+		spouse.GetSpouseIds(date).Should().Equal(character.Id);
 
-		character.BreakAllLinks(characters);
+		characters.Remove(character.Id);
 
-		Assert.Null(character.Mother);
-		Assert.Null(character.Father);
-		Assert.Empty(character.Children);
-		spousesAtDate = character.GetSpouseIds(date);
-		Assert.NotNull(spousesAtDate);
-		Assert.Empty(spousesAtDate);
-	}
-	[Fact]
-	public void BreakAllLinksWarnsWhenChildIsNull() {
-		var output = new StringWriter();
-		Console.SetOut(output);
-
-		var characters = new CharacterCollection();
-		var male = builder.Build();
-		characters.Add(male);
-		male.Children.Add("childId", null);
-		male.BreakAllLinks(characters);
-		Assert.Contains("[WARN] Child childId of imperator0 is null!", output.ToString());
-		output.Flush();
-
-		var impFemaleReader = new BufferedReader("female = yes");
-		var impFemaleCharacter = ImperatorToCK3.Imperator.Characters.Character.Parse(impFemaleReader, "1", null);
-		var female = builder.WithImperatorCharacter(impFemaleCharacter).Build();
-		characters.Add(female);
-		female.Children.Add("child2Id", null);
-		female.BreakAllLinks(characters);
-		Assert.Contains("[WARN] Child child2Id of imperator1 is null!", output.ToString());
+		mother.Children.Should().BeEmpty();
+		father.Children.Should().BeEmpty();
+		Assert.Null(child.Mother);
+		spouse.GetSpouseIds(date).Should().BeEmpty();
 	}
 
 	[Fact]
@@ -231,7 +222,7 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithReligionMapper(religionMapper)
 			.Build();
-		Assert.Equal("orthodox", character.FaithId);
+		Assert.Equal("orthodox", character.GetFaithId(ConversionDate));
 	}
 
 	[Fact]
@@ -249,7 +240,7 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithCultureMapper(cultureMapper)
 			.Build();
-		Assert.Equal("greek", character.CultureId);
+		Assert.Equal("greek", character.GetCultureId(ConversionDate));
 	}
 
 	[Fact]
@@ -314,14 +305,17 @@ public class CK3CharacterTests {
 			.WithCultureMapper(cultureMapper)
 			.Build();
 
-		Assert.Equal("macedonian", character1.CultureId);
-		Assert.Equal("greek", character2.CultureId);
+		Assert.Equal("macedonian", character1.GetCultureId(ConversionDate));
+		Assert.Equal("greek", character2.GetCultureId(ConversionDate));
 	}
 
 	[Fact]
 	public void NicknameCanBeInitializedFromImperator() {
+		var conversionDate = new Date(200, 1, 1);
+		
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
-			Nickname = "the_goose"
+			Nickname = "the_goose",
+			DeathDate = conversionDate.ChangeByYears(-100)
 		};
 
 		var mapReader = new BufferedReader(
@@ -332,13 +326,14 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithNicknameMapper(new NicknameMapper(mapReader))
 			.Build();
-		Assert.Equal("nick_the_goose", character.Nickname);
+		Assert.Equal("nick_the_goose", character.GetNickname(conversionDate));
 	}
 
 	[Fact]
 	public void DeathReasonCanBeInitializedFromImperator() {
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
-			DeathReason = "shat_to_death"
+			DeathReason = "shat_to_death",
+			DeathDate = new Date(1, 1, 1)
 		};
 
 		var mapReader = new BufferedReader(
@@ -366,34 +361,25 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.WithLocDB(locDB)
 			.Build();
-		Assert.Equal("alexandros", character.Name);
+		Assert.Equal("alexandros", character.GetName(ConversionDate));
 		Assert.Equal("Alexandros", character.Localizations["alexandros"]["english"]);
 	}
 
 	[Fact]
 	public void AgeSexReturnsCorrectString() {
+		var conversionDate = new Date(100, 1, 1, AUC: true);
 		ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
 		var reader1 = new BufferedReader(
-			"= {\n" +
-			"\tage=56\n" +
-			"\tfemale=yes\n" +
-			"}"
+			"= { birth_date=44.1.1 female=yes }" // age: 56
 		);
 		var reader2 = new BufferedReader(
-			"= {\n" +
-			"\tage=56\n" +
-			"}"
+			"= { birth_date=44.1.1 }" // age: 56
 		);
 		var reader3 = new BufferedReader(
-			"= {\n" +
-			"\tage=8\n" +
-			"\tfemale=yes\n" +
-			"}"
+			"= { birth_date=92.1.1 female=yes }" // age: 8
 		);
 		var reader4 = new BufferedReader(
-			"= {\n" +
-			"\tage=8\n" +
-			"}"
+			"= { birth_date=92.1.1 }" // age: 8
 		);
 		var impCharacter1 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "42", genesDB);
 		var impCharacter2 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "43", genesDB);
@@ -412,55 +398,30 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(impCharacter4)
 			.Build();
 
-		Assert.Equal("female", character1.AgeSex);
-		Assert.Equal("male", character2.AgeSex);
-		Assert.Equal("girl", character3.AgeSex);
-		Assert.Equal("boy", character4.AgeSex);
-	}
-
-	[Fact]
-	public void LinkingParentWithWrongIdIsLogged() {
-		var character = builder.Build();
-		character.PendingMotherId = "imperator1";
-		character.PendingFatherId = "imperator2";
-
-		var mother = builder
-			.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(69))
-			.Build();
-		var father = builder
-			.WithImperatorCharacter(new ImperatorToCK3.Imperator.Characters.Character(420))
-			.Build();
-
-		var output = new StringWriter();
-		Console.SetOut(output);
-
-		character.Mother = mother;
-		character.Father = father;
-
-		Assert.Contains("Character imperator0: linking mother imperator69 instead of expected imperator1", output.ToString());
-		Assert.Contains("Character imperator0: linking father imperator420 instead of expected imperator2", output.ToString());
+		Assert.Equal("female", character1.GetAgeSex(conversionDate));
+		Assert.Equal("male", character2.GetAgeSex(conversionDate));
+		Assert.Equal("girl", character3.GetAgeSex(conversionDate));
+		Assert.Equal("boy", character4.GetAgeSex(conversionDate));
 	}
 
 	[Fact]
 	public void UnneededCharactersArePurged() {
 		// dead and unlanded from Imperator
 		var impCharacterReader = new BufferedReader("death_date = 1.1.1");
-		var imperatorUnlanded = builder
+		var unlandedFromImperator = builder
 			.WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null))
 			.Build();
 
-		// dead and unlanded from CK3
-		var ck3Unlanded = new Character("bob", "Bob", birthDate: new Date("50.1.1"));
+		var ck3Characters = new CharacterCollection {unlandedFromImperator};
 
-		var characters = new CharacterCollection {
-			imperatorUnlanded,
-			ck3Unlanded
-		};
+		// dead and unlanded from CK3
+		var unlandedFromCK3 = new Character("bob", "Bob", birthDate: new Date("50.1.1"), ck3Characters);
+		ck3Characters.Add(unlandedFromCK3);
 
 		var titles = new Title.LandedTitles();
-		characters.PurgeUnneededCharacters(titles);
+		ck3Characters.PurgeUnneededCharacters(titles, ConversionDate);
 
-		Assert.Empty(characters);
+		Assert.Empty(ck3Characters);
 	}
 
 	[Fact]
@@ -483,11 +444,15 @@ public class CK3CharacterTests {
 		irCharacters[1].Father.Should().BeSameAs(irCharacters[2]);
 		irCharacters[2].Father.Should().BeNull();
 		irCharacters[3].Father.Should().BeSameAs(irCharacters[2]);
+		
+		var ck3Characters = new CharacterCollection();
 
 		// dead but won't be purged because he's landed
 		var landedCharacter = builder
 			.WithImperatorCharacter(irCharacters[1])
+			.WithCharacterCollection(ck3Characters)
 			.Build();
+		ck3Characters.Add(landedCharacter);
 		var kingdom = titles.Add("k_dead_georgia_boys");
 		kingdom.SetHolder(landedCharacter, new Date("400.1.1"));
 		Assert.Equal("imperator1", kingdom.GetHolderId(new Date("400.1.1")));
@@ -498,29 +463,28 @@ public class CK3CharacterTests {
 		// and has a child
 		var fatherOfLandedCharacter = builder
 			.WithImperatorCharacter(irCharacters[2])
+			.WithCharacterCollection(ck3Characters)
 			.Build();
+		ck3Characters.Add(fatherOfLandedCharacter);
 
 		// another dead relative, will be purged because he's landless and childless
 		var childlessRelative = builder
 			.WithImperatorCharacter(irCharacters[3])
+			.WithCharacterCollection(ck3Characters)
 			.Build();
+		ck3Characters.Add(childlessRelative);
 
-		fatherOfLandedCharacter.Children.Add(landedCharacter.Id, landedCharacter);
-		fatherOfLandedCharacter.Children.Add(childlessRelative.Id, childlessRelative);
+		landedCharacter.Father = fatherOfLandedCharacter;
+		childlessRelative.Father = fatherOfLandedCharacter;
 
-		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), cultureMapper, new LocDB("english"));
-		Assert.Equal(dynasty.Id, landedCharacter.DynastyId);
-		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.DynastyId);
-		Assert.Equal(dynasty.Id, childlessRelative.DynastyId);
+		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), cultureMapper, new LocDB("english"), ConversionDate);
+		Assert.Equal(dynasty.Id, landedCharacter.GetDynastyId(ConversionDate));
+		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.GetDynastyId(ConversionDate));
+		Assert.Equal(dynasty.Id, childlessRelative.GetDynastyId(ConversionDate));
 
-		var characters = new CharacterCollection{
-			landedCharacter,
-			fatherOfLandedCharacter,
-			childlessRelative
-		};
-		characters.PurgeUnneededCharacters(titles);
+		ck3Characters.PurgeUnneededCharacters(titles, ConversionDate);
 
-		characters.Should().BeEquivalentTo(new[] {
+		ck3Characters.Should().BeEquivalentTo(new[] {
 			landedCharacter,
 			fatherOfLandedCharacter
 		});
