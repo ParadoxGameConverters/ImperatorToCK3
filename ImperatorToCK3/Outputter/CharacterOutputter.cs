@@ -9,15 +9,6 @@ public static class CharacterOutputter {
 	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
 		// Output ID.
 		output.WriteLine($"{character.Id}={{");
-
-		// Output gold.
-		if (character.Gold is not null && character.Gold != 0) {
-			var gold = (float)character.Gold.Value;
-			string effectStr = gold > 0 ?
-				$"add_gold={gold.ToString("0.00", CultureInfo.InvariantCulture)}" :
-				$"remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)}";
-			output.WriteLine($"\t{conversionDate}={{effect={{{effectStr}}}}}");
-		}
 		
 		// Don't output traits and attributes of dead characters (not needed).
 		if (character.Dead) {
@@ -26,6 +17,15 @@ public static class CharacterOutputter {
 				character.History.Fields.Remove(field);
 			}
 			output.WriteLine("\tdisallow_random_traits=yes");
+		}
+
+		// Add gold to history.
+		if (character.Gold is not null && character.Gold != 0) {
+			var gold = (float)character.Gold.Value;
+			string effectStr = gold > 0 ?
+				$"{{ add_gold={gold.ToString("0.00", CultureInfo.InvariantCulture)} }}" :
+				$"{{ remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)} }}";
+			character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
 		}
 
 		// Output history.
