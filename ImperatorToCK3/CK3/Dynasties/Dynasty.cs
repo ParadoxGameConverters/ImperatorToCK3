@@ -12,7 +12,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public class Dynasty : IPDXSerializable, IIdentifiable<string> {
-	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB) {
+	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB, Date date) {
 		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;
 
@@ -21,13 +21,11 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			.Where(c => imperatorMemberIds.Contains(c.Id))
 			.ToList();
 
-		SetCultureFromImperator(irFamily, imperatorMembers, cultureMapper);
+		SetCultureFromImperator(irFamily, imperatorMembers, cultureMapper, date);
 
 		foreach (var member in imperatorMembers) {
 			var ck3Member = member.CK3Character;
-			if (ck3Member is not null) {
-				ck3Member.DynastyId = Id;
-			}
+			ck3Member?.SetDynastyId(Id, null);
 		}
 
 		var irFamilyLocKey = irFamily.GetMaleForm(irCulturesDB);
@@ -53,12 +51,12 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	[NonSerialized] public LocBlock? LocalizedName { get; }
 	[NonSerialized] public StringOfItem? CoA { get; set; }
 
-	private void SetCultureFromImperator(Family irFamily, IReadOnlyList<Character> irMembers, CultureMapper cultureMapper) {
+	private void SetCultureFromImperator(Family irFamily, IReadOnlyList<Character> irMembers, CultureMapper cultureMapper, Date date) {
 		if (irMembers.Count > 0) {
 			var firstImperatorMember = irMembers[0];
 			// Try to make head's culture the dynasty culture.
 			if (firstImperatorMember.CK3Character is not null) {
-				CultureId = firstImperatorMember.CK3Character.CultureId;
+				CultureId = firstImperatorMember.CK3Character.GetCultureId(date);
 				return;
 			}
 
@@ -69,7 +67,7 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 					continue;
 				}
 
-				CultureId = otherImperatorMember.CK3Character.CultureId;
+				CultureId = otherImperatorMember.CK3Character.GetCultureId(date);
 				return;
 			}
 		}

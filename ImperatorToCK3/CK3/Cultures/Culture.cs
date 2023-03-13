@@ -10,8 +10,9 @@ public sealed class Culture : IIdentifiable<string> {
 	public string Id { get; }
 	public Color Color { get; private set; } = new(0, 0, 0);
 	public Pillar Heritage { get; private set; }
+	public NameList NameList { get; private set; }
 	
-	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, ColorFactory colorFactory) {
+	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, IdObjectCollection<string, NameList> nameLists, ColorFactory colorFactory) {
 		Id = id;
 		
 		var parser = new Parser();
@@ -20,11 +21,18 @@ public sealed class Culture : IIdentifiable<string> {
 			var heritageId = reader.GetString();
 			Heritage = pillars.Heritages.First(p => p.Id == heritageId);
 		});
+		parser.RegisterKeyword("name_list", reader => {
+			var nameListId = reader.GetString();
+			NameList = nameLists[nameListId];
+		});
 		parser.IgnoreUnregisteredItems();
 		parser.ParseStream(cultureReader);
 		
 		if (Heritage is null) {
 			throw new ConverterException($"Culture {id} has no heritage defined!");
+		}
+		if (NameList is null) {
+			throw new ConverterException($"Culture {id} has no name list defined!");
 		}
 	}
 }

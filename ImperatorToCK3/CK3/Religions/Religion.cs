@@ -9,20 +9,25 @@ namespace ImperatorToCK3.CK3.Religions;
 
 public class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
+	public OrderedSet<string> DoctrineIds { get; } = new();
+
+	public ReligionCollection ReligionCollection { get; }
 
 	public Religion(string id, BufferedReader religionReader, ReligionCollection religions, ColorFactory colorFactory) {
 		Id = id;
+		ReligionCollection = religions;
 
 		var religionParser = new Parser();
+		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		religionParser.RegisterKeyword("faiths", faithsReader => {
 			var faithsParser = new Parser();
 			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
 				// The faith might have already been added to another religion.
-				foreach (var otherReligion in religions) {
+				foreach (var otherReligion in ReligionCollection) {
 					otherReligion.Faiths.Remove(faithId);
 				}
 
-				Faiths.AddOrReplace(new Faith(faithId, faithReader, colorFactory));
+				Faiths.AddOrReplace(new Faith(faithId, faithReader, this, colorFactory));
 			});
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
@@ -46,7 +51,10 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		if (withBraces) {
 			sb.AppendLine("{");
 		}
-
+		
+		foreach (var doctrineId in DoctrineIds) {
+			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
+		}
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent+'\t', withBraces: false));
 
 		sb.Append(contentIndent).AppendLine("faiths={");

@@ -16,6 +16,8 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class DynastiesOutputterTests {
+	private static readonly Date ConversionDate = new(867, 1, 1);
+	
 	[Fact]
 	public void DynastiesAreOutputted() {
 		const string outputModName = "outputMod";
@@ -29,10 +31,10 @@ public class DynastiesOutputterTests {
 		var characters = new CharacterCollection();
 		var dynasties = new DynastyCollection();
 		var family1 = new Family(1);
-		var dynasty1 = new Dynasty(family1, characters, new CulturesDB(), cultureMapper, locDB);
+		var dynasty1 = new Dynasty(family1, characters, new CulturesDB(), cultureMapper, locDB, ConversionDate);
 		dynasties.Add(dynasty1);
 		var family2 = new Family(2);
-		var dynasty2 = new Dynasty(family2, characters, new CulturesDB(), cultureMapper, locDB) {
+		var dynasty2 = new Dynasty(family2, characters, new CulturesDB(), cultureMapper, locDB, ConversionDate) {
 			CultureId = "roman"
 		};
 		dynasties.Add(dynasty2);
