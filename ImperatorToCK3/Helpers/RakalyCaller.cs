@@ -7,18 +7,18 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.4.5";
-	private static readonly string rakalyExecutablePath;
+	private const string RakalyVersion = "0.4.9";
+	private static readonly string RakalyExecutablePath;
 
 	static RakalyCaller() {
 		string currentDir = Directory.GetCurrentDirectory();
-		rakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
+		RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-			rakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
-			Exec($"chmod +x {currentDir}/{rakalyExecutablePath}");
+			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
+			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
 		} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-			rakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
-			Exec($"chmod +x {currentDir}/{rakalyExecutablePath}");
+			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
+			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
 		}
 	}
 
@@ -28,7 +28,7 @@ public static class RakalyCaller {
 
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = rakalyExecutablePath;
+		process.StartInfo.FileName = RakalyExecutablePath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.StartInfo.RedirectStandardOutput = true;
@@ -48,7 +48,7 @@ public static class RakalyCaller {
 
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = rakalyExecutablePath;
+		process.StartInfo.FileName = RakalyExecutablePath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.Start();

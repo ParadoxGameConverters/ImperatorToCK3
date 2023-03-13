@@ -4,6 +4,7 @@ using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.CommonUtils.Genes;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			set => culture = value;
 		}
 		public string Religion { get; set; } = string.Empty;
+		public double? Health { get; private set; }
 		public string Name { get; set; } = string.Empty;
 		public string? CustomName { get; set; }
 
@@ -63,6 +65,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? DeathReason { get; set; }
 		private HashSet<ulong> parsedSpouseIds = new();
 		public Dictionary<ulong, Character> Spouses { get; set; } = new();
+		public OrderedSet<ulong> FriendIds { get; } = new();
+		public OrderedSet<ulong> RivalIds { get; } = new();
 		private HashSet<ulong> parsedChildrenIds = new();
 		public Dictionary<ulong, Character> Children { get; set; } = new();
 		private ulong? parsedMotherId;
@@ -119,11 +123,20 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
 			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
 			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
+			parser.RegisterKeyword("health", reader => parsedCharacter.Health = reader.GetDouble());
 			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
 			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
 			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetBool());
 			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
 			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
+			parser.RegisterKeyword("friends", reader => {
+				parsedCharacter.FriendIds.Clear();
+				parsedCharacter.FriendIds.AddRange(reader.GetULongs());
+			});
+			parser.RegisterKeyword("rivals", reader => {
+				parsedCharacter.RivalIds.Clear();
+				parsedCharacter.RivalIds.AddRange(reader.GetULongs());
+			});
 			parser.RegisterKeyword("birth_date", reader => {
 				var dateStr = reader.GetString();
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
