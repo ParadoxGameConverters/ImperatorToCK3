@@ -517,7 +517,7 @@ public partial class Title {
 					county.SetDeFactoLiege(deFactoLiege, conversionDate);
 				} else {
 					barony.SetHolder(ck3Owner, conversionDate);
-					barony.SetDeFactoLiege(deFactoLiege, conversionDate);
+					// No need to set de facto liege for baronies, they are tied to counties.
 				}
 				++counter;
 			}
