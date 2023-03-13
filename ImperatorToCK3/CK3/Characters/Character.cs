@@ -502,7 +502,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (characters.TryGetValue(motherId, out var mother)) {
 					return mother;
 				}
-				Logger.Warn($"Character {Id}'s mother {motherId} does not exist! Removing broken link.");
+				Logger.Debug($"Character {Id}'s mother {motherId} does not exist! Removing broken link.");
 				History.Fields["mother"].RemoveAllEntries();
 				return null;
 			}
@@ -550,7 +550,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				if (characters.TryGetValue(fatherId, out var father)) {
 					return father;
 				}
-				Logger.Warn($"Character {Id}'s father {fatherId} does not exist! Removing broken link.");
+				Logger.Debug($"Character {Id}'s father {fatherId} does not exist! Removing broken link.");
 				History.Fields["father"].RemoveAllEntries();
 				return null;
 			}
