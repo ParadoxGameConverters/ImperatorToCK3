@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
@@ -13,6 +14,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -20,25 +22,117 @@ namespace ImperatorToCK3.CK3.Characters {
 	public class Character : IIdentifiable<string> {
 		public string Id { get; }
 		public bool FromImperator { get; } = false;
-		public bool Female { get; init; }
-		public string CultureId { get; set; } = string.Empty;
-		public string FaithId { get; set; } = string.Empty;
-		public string Name { get; set; }
-		public string? Nickname { get; set; }
-		public double? Gold { get; set; }
-
-		public uint Age { get; private set; }
-		public string AgeSex {
+		
+		public bool Female {
 			get {
-				if (Age >= 16) {
-					return Female ? "female" : "male";
+				var entries = History.Fields["female"].InitialEntries;
+				if (entries.Count == 0) {
+					return false;
 				}
-				return Female ? "girl" : "boy";
+
+				var value = entries.LastOrDefault().Value;
+				if (value is string str) {
+					return str == "yes";
+				}
+				return (bool)value;
+			}
+			init {
+				History.AddFieldValue(null, "female", "female", value);
 			}
 		}
-		public Date BirthDate { get; set; }
-		public Date? DeathDate { get; set; }
-		public string? DeathReason { get; set; }
+
+		public void SetName(string name, Date? date) {
+			History.AddFieldValue(date, "name", "name", name);
+		}
+		public string? GetName(Date date) {
+			return History.GetFieldValue("name", date)?.ToString();
+		}
+		
+		public void SetNickname(string nickname, Date? date) {
+			var deathDate = DeathDate;
+			// Date should not be given later than death date.
+			if (deathDate is not null && date is not null && date > deathDate) {
+				date = deathDate;
+			}
+			History.AddFieldValue(date, "give_nickname", "give_nickname", nickname);
+		}
+		public string? GetNickname(Date date) {
+			return History.GetFieldValue("give_nickname", date)?.ToString();
+		}
+		
+		public double? Gold { get; set; }
+
+		public uint GetAge(Date date) {
+			var birthDate = BirthDate;
+			var deathDate = DeathDate;
+			if (deathDate is null) {
+				return (uint)date.DiffInYears(birthDate);
+			}
+			return (uint)deathDate.DiffInYears(birthDate);
+		}
+		public string GetAgeSex(Date date) {
+			if (GetAge(date) >= 16) {
+				return Female ? "female" : "male";
+			}
+			return Female ? "girl" : "boy";
+		}
+
+		public Date BirthDate {
+			get => History.Fields["birth"].DateToEntriesDict.First().Key;
+			private init {
+				var field = History.Fields["birth"];
+				field.RemoveAllEntries();
+				field.AddEntryToHistory(value, "birth", true);
+			}
+		}
+		
+		public Date? DeathDate {
+			get {
+				var entriesDict = History.Fields["death"].DateToEntriesDict;
+				return entriesDict.Count == 0 ? null : entriesDict.First().Key;
+			}
+			private init {
+				var field = History.Fields["death"];
+				field.RemoveAllEntries();
+				if (value is not null) {
+					field.AddEntryToHistory(value, "death", true);
+				}
+			}
+		}
+		public string? DeathReason {
+			get {
+				var entriesDict = History.Fields["death"].DateToEntriesDict;
+				if (entriesDict.Count == 0) {
+					return null;
+				}
+				var deathObj = entriesDict.First().Value.Last().Value;
+				if (deathObj is not StringOfItem deathStrOfItem || !deathStrOfItem.IsArrayOrObject()) {
+					return null;
+				}
+
+				var deathObjParser = new Parser();
+				string? deathReason = null;
+				deathObjParser.RegisterKeyword("death_reason", reader => {
+					deathReason = reader.GetString();
+				});
+				deathObjParser.IgnoreUnregisteredItems();
+				deathObjParser.ParseStream(new BufferedReader(deathStrOfItem.ToString()));
+				return deathReason;
+			}
+			init {
+				var entriesDict = History.Fields["death"].DateToEntriesDict;
+				if (entriesDict.Count == 0) {
+					throw new ConverterException($"Character {Id} has no death date set!");
+				}
+				
+				// Modify the last entry in the history to include the death reason.
+				var entriesList = entriesDict.First().Value;
+				var lastEntry = entriesList.Last();
+				var newEntry = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem($"{{ death_reason = {value} }}"));
+				entriesList[^1] = newEntry;
+			}
+		}
+
 		public bool Dead => DeathDate is not null;
 		public List<Pregnancy> Pregnancies { get; } = new();
 
@@ -52,35 +146,74 @@ namespace ImperatorToCK3.CK3.Characters {
 		public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
 		private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
-			//.WithSimpleField("name", "name", null)
-			//.WithSimpleField("female", "female", null)
-			//.WithSimpleField("dynasty", "dynasty", null)
+			.WithSimpleField("name", "name", null)
+			.WithSimpleField("female", "female", null)
+			.WithSimpleField("dynasty", "dynasty", null)
+			.WithSimpleField("dynasty_house", "dynasty_house", null)
 			.WithSimpleField("diplomacy", "diplomacy", null)
 			.WithSimpleField("martial", "martial", null)
 			.WithSimpleField("stewardship", "stewardship", null)
 			.WithSimpleField("intrigue", "intrigue", null)
 			.WithSimpleField("learning", "learning", null)
-			//.WithSimpleField("culture", "culture", null)
-			//.WithSimpleField("religion", "religion", null)
-			.WithDiffField("traits", new() { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
-			//.WithSimpleField("dna", "dna", null)
-			//.WithSimpleField("mother", "mother", null)
-			//.WithSimpleField("father", "father", null)
+			.WithDiffField("languages", new OrderedSet<string> {"learn_language"}, new OrderedSet<string>())
+			.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
+			.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
+			.WithSimpleField("government", "change_government", null)
+			.WithDiffField("traits", new OrderedSet<string> { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
+			.WithSimpleField("disallow_random_traits", new OrderedSet<string> {"disallow_random_traits"}, new OrderedSet<string>())
+			.WithDiffField("perks", new OrderedSet<string> {"add_perk"}, new OrderedSet<string>())
+			.WithSimpleField("dna", "dna", null)
+			.WithSimpleField("mother", "mother", null)
+			.WithSimpleField("father", "father", null)
 			.WithDiffField("spouses", new OrderedSet<string> { "add_spouse", "add_matrilineal_spouse" }, new OrderedSet<string> { "remove_spouse" })
-			.WithDiffField("effects", new OrderedSet<string> { "effect" }, new OrderedSet<string>())
-			.WithDiffField("character_modifiers", "add_character_modifier", "remove_character_modifier")
+			.WithDiffField("concubines", new OrderedSet<string> { "add_concubine" }, new OrderedSet<string>())
+			.WithSimpleField("betrothal", "create_betrothal", null)
+			.WithLiteralField("add_character_modifier", "add_character_modifier")
+			.WithLiteralField("remove_character_modifier", "remove_character_modifier")
+			.WithLiteralField("character_flags", "add_character_flag")
+			.WithSimpleField("birth", "birth", null)
+			.WithLiteralField("death", "death")
+			.WithSimpleField("give_nickname", "give_nickname", null)
+			.WithSimpleField("remove_nickname", "remove_nickname", null)
+			.WithSimpleField("primary_title", "set_primary_title_to", null)
+			.WithSimpleField("capital", "capital", null)
+			.WithSimpleField("employer", "employer", null)
+			.WithSimpleField("council_position", "give_council_position", null)
+			.WithSimpleField("move_to_pool", "move_to_pool", null)
+			.WithDiffField("claims", new OrderedSet<string> {"add_pressed_claim", "add_unpressed_claim"}, new OrderedSet<string> {"remove_claim"})
+			.WithLiteralField("friends", "set_relation_friend")
+			.WithLiteralField("lovers", "set_relation_lover")
+			.WithLiteralField("rivals", "set_relation_rival")
+			.WithLiteralField("nemesis", "set_relation_nemesis")
+			.WithLiteralField("guardian", "set_relation_guardian")
+			.WithSimpleField("piety", "add_piety", null)
+			.WithSimpleField("prestige", "add_prestige", null)
+			.WithLiteralField("secret", "add_secret")
+			.WithLiteralField("effects", "effect")
+			.WithLiteralField("contract_disease_effect", "contract_disease_effect")
+			.WithLiteralField("spawn_army", "spawn_army")
+			.WithLiteralField("if", "if")
 			.Build();
 		public History History { get; } = historyFactory.GetHistory();
 
-		public Character(string id, string name, Date birthDate) {
+		public Character(string id, BufferedReader reader, CharacterCollection characters) {
+			this.characters = characters;
+			
 			Id = id;
-			Name = name;
+			History = historyFactory.GetHistory(reader);
+		}
+		public Character(string id, string name, Date birthDate, CharacterCollection characters) {
+			this.characters = characters;
+			
+			Id = id;
+			SetName(name, null);
 			BirthDate = birthDate;
 		}
 		public Character(
 			RulerTerm.PreImperatorRulerInfo preImperatorRuler,
 			Date rulerTermStart,
 			Country imperatorCountry,
+			CharacterCollection characters,
 			LocDB locDB,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
@@ -88,16 +221,19 @@ namespace ImperatorToCK3.CK3.Characters {
 			ProvinceMapper provinceMapper,
 			Configuration config
 		) {
+			this.characters = characters;
+			
 			Id = $"imperatorRegnal{imperatorCountry.Tag}{preImperatorRuler.Name}{rulerTermStart.ToString()[1..]}BC".Replace('.', '_');
 			FromImperator = true;
-			Name = preImperatorRuler.Name ?? Id;
-			if (!string.IsNullOrEmpty(Name)) {
-				var impNameLoc = locDB.GetLocBlockForKey(Name);
+			var name = preImperatorRuler.Name ?? Id;
+			SetName(name, null);
+			if (!string.IsNullOrEmpty(name)) {
+				var impNameLoc = locDB.GetLocBlockForKey(name);
 				if (impNameLoc is not null) {
-					Localizations.Add(Name, impNameLoc);
+					Localizations.Add(name, impNameLoc);
 				} else {  // fallback: use unlocalized name as displayed name
-					Localizations.Add(Name, new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
-						[ConverterGlobals.PrimaryLanguage] = Name,
+					Localizations.Add(name, new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
+						[ConverterGlobals.PrimaryLanguage] = name,
 					});
 				}
 			}
@@ -119,24 +255,28 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 
 			if (srcReligion is not null) {
-				var religionMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, imperatorCountry.HistoricalTag, config);
-				if (religionMatch is not null) {
-					FaithId = religionMatch;
+				var faithMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, imperatorCountry.HistoricalTag, config);
+				if (faithMatch is not null) {
+					SetFaithId(faithMatch, null);
 				}
 			}
 
 			if (srcCulture is not null) {
-				var cultureMatch = cultureMapper.Match(srcCulture, FaithId, ck3Province, impProvince, imperatorCountry.HistoricalTag);
+				var cultureMatch = cultureMapper.Match(srcCulture, GetFaithId(config.CK3BookmarkDate) ?? string.Empty, ck3Province, impProvince, imperatorCountry.HistoricalTag);
 				if (cultureMatch is not null) {
-					CultureId = cultureMatch;
+					SetCultureId(cultureMatch, null);
 				}
 			}
-
-			Nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
+			
+			var nickname = nicknameMapper.GetCK3NicknameForImperatorNickname(preImperatorRuler.Nickname);
+			if (nickname is not null) {
+				SetNickname(nickname, DeathDate);
+			}
 		}
 
 		public Character(
 			Imperator.Characters.Character impCharacter,
+			CharacterCollection characters,
 			ReligionMapper religionMapper,
 			CultureMapper cultureMapper,
 			TraitMapper traitMapper,
@@ -147,6 +287,8 @@ namespace ImperatorToCK3.CK3.Characters {
 			Date dateOnConversion,
 			Configuration config
 		) {
+			this.characters = characters;
+			
 			ImperatorCharacter = impCharacter;
 			ImperatorCharacter.CK3Character = this;
 			Id = "imperator" + ImperatorCharacter.Id;
@@ -155,30 +297,32 @@ namespace ImperatorToCK3.CK3.Characters {
 			if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
 				var loc = ImperatorCharacter.CustomName;
 				var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
-				Name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
+				var name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
+				SetName(name, null);
 
-				var locBlock = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+				var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
 					[ConverterGlobals.PrimaryLanguage] = loc
 				};
-				Localizations.Add(Name, locBlock);
+				Localizations.Add(name, locBlock);
 			} else {
 				var nameLoc = ImperatorCharacter.Name;
-				Name = nameLoc.Replace(' ', '_');
-				if (!string.IsNullOrEmpty(Name)) {
-					var matchedLocBlock = locDB.GetLocBlockForKey(Name);
+				var name = nameLoc.Replace(' ', '_');
+				SetName(name, null);
+				if (!string.IsNullOrEmpty(name)) {
+					var matchedLocBlock = locDB.GetLocBlockForKey(name);
 					if (matchedLocBlock is not null) {
-						Localizations.Add(Name, matchedLocBlock);
+						Localizations.Add(name, matchedLocBlock);
 					} else {  // fallback: use unlocalized name as displayed name
-						var locBlock = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+						var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
 							[ConverterGlobals.PrimaryLanguage] = nameLoc
 						};
-						Localizations.Add(Name, locBlock);
+						Localizations.Add(name, locBlock);
 					}
 				}
 			}
 
 			Female = ImperatorCharacter.Female;
-			Age = ImperatorCharacter.Age;
+			
 			if (ImperatorCharacter.PortraitData is not null) {
 				DNA = new DNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
 			}
@@ -204,12 +348,13 @@ namespace ImperatorToCK3.CK3.Characters {
 
 			var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, ImperatorCharacter.HomeCountry?.HistoricalTag, config);
 			if (match is not null) {
-				FaithId = match;
+				SetFaithId(match, null);
 			}
 
 			match = cultureMapper.Match(
 				ImperatorCharacter.Culture,
-				FaithId, ck3Province,
+				GetFaithId(dateOnConversion) ?? string.Empty,
+				ck3Province,
 				ImperatorCharacter.ProvinceId,
 				ImperatorCharacter.Country?.HistoricalTag ?? string.Empty
 			);
@@ -217,7 +362,7 @@ namespace ImperatorToCK3.CK3.Characters {
 				Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter.Id}" +
 							$" with culture {ImperatorCharacter.Culture}!");
 			} else {
-				CultureId = match;
+				SetCultureId(match, null);
 			}
 
 			// Determine character attributes.
@@ -232,11 +377,6 @@ namespace ImperatorToCK3.CK3.Characters {
 				History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
 			}
 
-			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
-			if (nicknameMatch is not null) {
-				Nickname = nicknameMatch;
-			}
-
 			BirthDate = ImperatorCharacter.BirthDate;
 			DeathDate = ImperatorCharacter.DeathDate;
 			var impDeathReason = ImperatorCharacter.DeathReason;
@@ -244,13 +384,18 @@ namespace ImperatorToCK3.CK3.Characters {
 				DeathReason = deathReasonMapper.GetCK3ReasonForImperatorReason(impDeathReason);
 			}
 
+			var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
+			if (nicknameMatch is not null) {
+				SetNickname(nicknameMatch, dateOnConversion);
+			}
+
 			if (ImperatorCharacter.Wealth != 0) {
 				Gold = ImperatorCharacter.Wealth * config.ImperatorCurrencyRate;
 			}
 
-			// if character is imprisoned, set jailor
+			// If character is imprisoned, set jailor.
 			SetJailor();
-			SetEmployer();
+			SetEmployerFromImperator();
 
 			void SetJailor() {
 				if (ImperatorCharacter.PrisonerHome is null) {
@@ -267,58 +412,33 @@ namespace ImperatorToCK3.CK3.Characters {
 				}
 			}
 
-			void SetEmployer() {
+			void SetEmployerFromImperator() {
 				var prisonerHome = ImperatorCharacter.PrisonerHome;
 				var homeCountry = ImperatorCharacter.HomeCountry;
 				if (prisonerHome?.CK3Title is not null) { // is imprisoned
-					EmployerId = prisonerHome.CK3Title.GetHolderId(dateOnConversion);
+					SetEmployerId(prisonerHome.CK3Title.GetHolderId(dateOnConversion), null);
 				} else if (homeCountry?.CK3Title is not null) {
-					EmployerId = homeCountry.CK3Title.GetHolderId(dateOnConversion);
+					SetEmployerId(homeCountry.CK3Title.GetHolderId(dateOnConversion), null);
 				}
 			}
 		}
-
-		public void BreakAllLinks(CharacterCollection characters) {
-			Mother?.RemoveChild(Id);
-			RemoveMother();
-			Father?.RemoveChild(Id);
-			RemoveFather();
-
-			foreach (var spouse in spousesCache) {
-				spouse.RemoveSpouse(Id);
-			}
-			if (History.Fields.TryGetValue("spouses", out var spousesHistory)) {
-				spousesHistory.InitialEntries.Clear();
-				spousesHistory.DateToEntriesDict.Clear();
-			}
-
-			if (Female) {
-				foreach (var (childId, child) in Children) {
-					if (child is null) {
-						Logger.Warn($"Child {childId} of {Id} is null!");
-						continue;
-					}
-					child.RemoveMother();
-				}
-			} else {
-				foreach (var (childId, child) in Children) {
-					if (child is null) {
-						Logger.Warn($"Child {childId} of {Id} is null!");
-						continue;
-					}
-					child.RemoveFather();
-				}
-			}
-			Children.Clear();
-
-			if (ImperatorCharacter is not null) {
-				ImperatorCharacter.CK3Character = null;
-				ImperatorCharacter = null;
-			}
+		
+		public void SetCultureId(string cultureId, Date? date) {
+			History.AddFieldValue(date, "culture", "culture", cultureId);
+		}
+		public string? GetCultureId(Date date) {
+			return History.GetFieldValue("culture", date)?.ToString();
+		}
+		
+		public void SetFaithId(string faithId, Date? date) {
+			History.AddFieldValue(date, "faith", "faith", faithId);
+		}
+		public string? GetFaithId(Date date) {
+			return History.GetFieldValue("faith", date)?.ToString();
 		}
 
-		public OrderedSet<object>? GetSpouseIds(Date date) {
-			return History.GetFieldValueAsCollection("spouses", date);
+		public OrderedSet<object> GetSpouseIds(Date date) {
+			return History.GetFieldValueAsCollection("spouses", date) ?? new OrderedSet<object>();
 		}
 		public void AddSpouse(Date date, Character spouse) {
 			History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
@@ -330,57 +450,153 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 			spousesCache.RemoveWhere(c => c.Id == spouseId);
 		}
-
-		private void RemoveFather() {
-			Father = null;
+		public void RemoveAllSpouses() {
+			foreach (var spouse in spousesCache) {
+				spouse.RemoveSpouse(Id);
+			}
 		}
 
-		private void RemoveMother() {
-			Mother = null;
+		public void RemoveAllChildren() {
+			if (Female) {
+				foreach (var child in childrenCache.Where(c => c.MotherId == Id)) {
+					child.Mother = null;
+				}
+			} else {
+				foreach (var child in childrenCache.Where(c => c.FatherId == Id)) {
+					child.Father = null;
+				}
+			}
 		}
 
-		private void RemoveChild(string childId) {
-			Children.Remove(childId);
+		public void UpdateChildrenCacheOfParents() {
+			Father?.childrenCache.Add(this);
+			Mother?.childrenCache.Add(this);
 		}
 
-		public string? PendingMotherId { get; set; }
-		private Character? mother;
+		public string? MotherId {
+			get {
+				var field = History.Fields["mother"];
+				var entries = field.InitialEntries;
+				if (entries.Count == 0) {
+					return null;
+				}
+
+				var idObj = entries.Last().Value;
+				var idStr = idObj.ToString();
+				if (idStr is null) {
+					Logger.Warn($"Mother ID string is null! Original value: {idObj}");
+					return null;
+				}
+
+				if (!idStr.IsQuoted()) {
+					return idStr;
+				}
+
+				idStr = idStr.RemQuotes();
+				field.RemoveAllEntries();
+				field.AddEntryToHistory(null, "mother", idStr);
+				return idStr;
+			}
+		}
 		public Character? Mother {
-			get => mother;
-			set {
-				if (PendingMotherId is not null && value is not null && value.Id != PendingMotherId) {
-					Logger.Warn($"Character {Id}: linking mother {value.Id} instead of expected {PendingMotherId}");
+			get {
+				var motherId = MotherId;
+				if (motherId is null) {
+					return null;
 				}
-				mother = value;
-				PendingMotherId = null;
+				
+				if (characters.TryGetValue(motherId, out var mother)) {
+					return mother;
+				}
+				Logger.Debug($"Character {Id}'s mother {motherId} does not exist! Removing broken link.");
+				History.Fields["mother"].RemoveAllEntries();
+				return null;
+			}
+			set {
+				History.Fields["mother"].RemoveAllEntries();
+				if (value is not null) {
+					History.AddFieldValue(null, "mother", "mother", value.Id);
+					value.childrenCache.Add(this);
+				}
 			}
 		}
-		public string? PendingFatherId { get; set; }
-		private Character? father;
-		public Character? Father {
-			get => father;
-			set {
-				if (PendingFatherId is not null && value is not null && value.Id != PendingFatherId) {
-					Logger.Warn($"Character {Id}: linking father {value.Id} instead of expected {PendingFatherId}");
-				}
-				father = value;
-				PendingFatherId = null;
-			}
-		}
-		public Dictionary<string, Character?> Children { get; set; } = new();
 
-		public string? DynastyId { get; set; } // not always set
+		public string? FatherId {
+			get {
+				var field = History.Fields["father"];
+				var entries = field.InitialEntries;
+				if (entries.Count == 0) {
+					return null;
+				}
+				
+				var idObj = entries.Last().Value;
+				var idStr = idObj.ToString();
+				if (idStr is null) {
+					Logger.Warn($"Father ID string is null! Original value: {idObj}");
+					return null;
+				}
+				
+				if (!idStr.IsQuoted()) {
+					return idStr;
+				}
+				
+				idStr = idStr.RemQuotes();
+				field.RemoveAllEntries();
+				field.AddEntryToHistory(null, "father", idStr);
+				return idStr;
+			}
+		}
+		public Character? Father {
+			get {
+				var fatherId = FatherId;
+				if (fatherId is null) {
+					return null;
+				}
+
+				if (characters.TryGetValue(fatherId, out var father)) {
+					return father;
+				}
+				Logger.Debug($"Character {Id}'s father {fatherId} does not exist! Removing broken link.");
+				History.Fields["father"].RemoveAllEntries();
+				return null;
+			}
+			set {
+				History.Fields["father"].RemoveAllEntries();
+				if (value is not null) {
+					History.AddFieldValue(null, "father", "father", value.Id);
+					value.childrenCache.Add(this);
+				}
+			}
+		}
+
+		public IReadOnlyCollection<Character> Children => characters
+			.Where(c => c.FatherId == Id || c.MotherId == Id)
+			.ToImmutableList();
+
+		public void SetDynastyId(string dynastyId, Date? date) {
+			History.AddFieldValue(date, "dynasty", "dynasty", dynastyId);
+		}
+		public string? GetDynastyId(Date date) {
+			return History.GetFieldValue("dynasty", date)?.ToString();
+		}
 
 		private string? jailorId;
-		private readonly HashSet<Character> spousesCache = new();
-		public string? EmployerId { get; set; }
+		public void SetEmployer(Character employer, Date? date) {
+			SetEmployerId(employer.Id, date);
+		}
+		private void SetEmployerId(string employerId, Date? date) {
+			History.AddFieldValue(date, "employer", "employer", employerId);
+		}
+		public string? GetEmployerId(Date date) {
+			return History.GetFieldValue("employer", date)?.ToString();
+		}
 
-		public bool LinkJailor(CharacterCollection characters) {
+		public bool LinkJailor(Date date) {
 			if (jailorId is null or "0") {
 				return false;
 			}
 
-			var type = DynastyId is null ? "dungeon" : "house_arrest";
+			var type = GetDynastyId(date) is null ? "dungeon" : "house_arrest";
 			characters[jailorId].PrisonerIds.Add(Id, type);
 			return true;
 		}
@@ -479,5 +695,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			sb.AppendLine("\t}");
 			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
+
+		private CharacterCollection characters;
+		private readonly HashSet<Character> spousesCache = new();
+		private readonly HashSet<Character> childrenCache = new();
 	}
 }

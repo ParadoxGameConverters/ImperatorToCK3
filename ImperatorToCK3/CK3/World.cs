@@ -98,8 +98,10 @@ public class World {
 		Logger.Info("Loading cultural pillars...");
 		var culturalPillars = new PillarCollection();
 		culturalPillars.LoadPillars(ModFS);
-		Logger.Info("Loading cultures...");
 		var cultures = new CultureCollection(culturalPillars);
+		Logger.Info("Loading name lists...");
+		cultures.LoadNameLists(ModFS);
+		Logger.Info("Loading cultures...");
 		cultures.LoadCultures(ModFS, ck3ColorFactory);
 		Logger.IncrementProgress();
 
@@ -129,6 +131,7 @@ public class World {
 
 		// Load CK3 religions from game and blankMod.
 		// Holy sites need to be loaded after landed titles.
+		Religions.LoadDoctrines(ModFS);
 		Religions.LoadHolySites(ModFS);
 		Religions.LoadReligions(ModFS, ck3ColorFactory);
 		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
@@ -144,6 +147,8 @@ public class World {
 
 		DNA.Initialize(impWorld.ModFS, ModFS);
 
+		Characters.LoadCK3Characters(ModFS);
+		Logger.IncrementProgress();
 		Characters.ImportImperatorCharacters(
 			impWorld,
 			religionMapper,
@@ -158,7 +163,7 @@ public class World {
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
-		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB);
+		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, CorrectedDate);
 
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,
@@ -209,13 +214,13 @@ public class World {
 		if (!config.StaticDeJure) {
 			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Provinces, cultures);
 		}
-		Dynasties.SetCoasForRulingDynasties(LandedTitles);
+		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 
 		Characters.DistributeCountriesGold(LandedTitles, config);
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
-		Characters.PurgeUnneededCharacters(LandedTitles);
+		Characters.PurgeUnneededCharacters(LandedTitles, CorrectedDate);
 
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);
@@ -225,6 +230,9 @@ public class World {
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+		
+		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, cultures, config.CK3BookmarkDate);
+		Logger.IncrementProgress();
 	}
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
@@ -279,7 +287,7 @@ public class World {
 			}
 			var holderId = title.GetHolderId(ck3BookmarkDate);
 			if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-				title.Localizations.AddLocBlock($"{holder.Name}_desc");
+				title.Localizations.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
 			}
 		}
 	}
@@ -504,10 +512,10 @@ public class World {
 				}
 				Logger.Debug($"Generating hermit for {titleId}...");
 
-				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50));
+				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50), Characters);
 				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
-				hermit.FaithId = faithId;
-				hermit.CultureId = cultureId;
+				hermit.SetFaithId(faithId, null);
+				hermit.SetCultureId(cultureId, null);
 				hermit.History.AddFieldValue(null, "traits", "trait", "chaste");
 				hermit.History.AddFieldValue(null, "traits", "trait", "celibate");
 				hermit.History.AddFieldValue(null, "traits", "trait", "devoted");

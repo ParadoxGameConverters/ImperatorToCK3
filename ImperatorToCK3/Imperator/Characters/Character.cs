@@ -58,7 +58,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? Nickname { get; set; }
 		public ulong ProvinceId { get; private set; } = 0;
 		public Date BirthDate { get; private set; } = new(1, 1, 1);
-		public Date? DeathDate { get; private set; }
+		public Date? DeathDate { get; set; }
 		public bool IsDead => DeathDate is not null;
 		public string? DeathReason { get; set; }
 		private HashSet<ulong> parsedSpouseIds = new();
@@ -93,7 +93,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 				return Female ? "girl" : "boy";
 			}
 		}
-		public bool Female { get; private set; } = false;
+		public bool Female { get; set; } = false;
 		public double Wealth { get; set; } = 0;
 		public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 

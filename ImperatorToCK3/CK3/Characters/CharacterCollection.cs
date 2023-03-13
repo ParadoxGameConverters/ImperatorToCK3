@@ -17,7 +17,6 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters;
 
 public partial class CharacterCollection : IdObjectCollection<string, Character> {
-	public CharacterCollection() { }
 	public void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
@@ -50,7 +49,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 
 		LinkMothersAndFathers();
 		LinkSpouses(endDate);
-		LinkPrisoners();
+		LinkPrisoners(endDate);
 
 		ImportPregnancies(impWorld.Characters, endDate);
 	}
@@ -70,6 +69,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		// Create a new CK3 character
 		var newCharacter = new Character(
 			character,
+			this,
 			religionMapper,
 			cultureMapper,
 			traitMapper,
@@ -85,7 +85,16 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 	}
 
 	public override void Remove(string key) {
-		this[key].BreakAllLinks(this);
+		var character = this[key];
+
+		character.RemoveAllSpouses();
+		character.RemoveAllChildren();
+
+		var irCharacter = character.ImperatorCharacter;
+		if (irCharacter is not null) {
+			irCharacter.CK3Character = null;
+		}
+		
 		base.Remove(key);
 	}
 
@@ -98,28 +107,26 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				// imperatorRegnal characters do not have ImperatorCharacter
 				continue;
 			}
-			var impMotherCharacter = ck3Character.ImperatorCharacter.Mother;
-			if (impMotherCharacter is not null) {
-				var ck3MotherCharacter = impMotherCharacter.CK3Character;
+			var irMotherCharacter = ck3Character.ImperatorCharacter.Mother;
+			if (irMotherCharacter is not null) {
+				var ck3MotherCharacter = irMotherCharacter.CK3Character;
 				if (ck3MotherCharacter is not null) {
 					ck3Character.Mother = ck3MotherCharacter;
-					ck3MotherCharacter.Children[ck3Character.Id] = ck3Character;
 					++motherCounter;
 				} else {
-					Logger.Warn($"Imperator mother {impMotherCharacter.Id} has no CK3 character!");
+					Logger.Warn($"Imperator mother {irMotherCharacter.Id} has no CK3 character!");
 				}
 			}
 
 			// make links between Imperator characters
-			var impFatherCharacter = ck3Character.ImperatorCharacter.Father;
-			if (impFatherCharacter is not null) {
-				var ck3FatherCharacter = impFatherCharacter.CK3Character;
+			var irFatherCharacter = ck3Character.ImperatorCharacter.Father;
+			if (irFatherCharacter is not null) {
+				var ck3FatherCharacter = irFatherCharacter.CK3Character;
 				if (ck3FatherCharacter is not null) {
 					ck3Character.Father = ck3FatherCharacter;
-					ck3FatherCharacter.Children[ck3Character.Id] = ck3Character;
 					++fatherCounter;
 				} else {
-					Logger.Warn($"Imperator father {impFatherCharacter.Id} has no CK3 character!");
+					Logger.Warn($"Imperator father {irFatherCharacter.Id} has no CK3 character!");
 				}
 			}
 		}
@@ -195,8 +202,8 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		}
 	}
 
-	private void LinkPrisoners() {
-		var prisonerCount = this.Count(character => character.LinkJailor(this));
+	private void LinkPrisoners(Date date) {
+		var prisonerCount = this.Count(character => character.LinkJailor(date));
 		Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 	}
 
@@ -235,14 +242,14 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles) {
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date date) {
 		Logger.Info("Purging unneeded characters...");
 		var landedCharacterIds = titles.GetAllHolderIds();
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
 			.ToList();
 		var dynastyIdsOfLandedCharacters = landedCharacters
-			.Select(character => character.DynastyId)
+			.Select(character => character.GetDynastyId(date))
 			.Distinct()
 			.ToHashSet();
 
@@ -251,21 +258,36 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 
 		var i = 0;
 		var farewellCharacters = new List<Character>();
+		var parentIdsCache = new HashSet<string>();
 		do {
 			farewellCharacters.Clear();
+			parentIdsCache.Clear();
 			++i;
+			
+			// Build cache of all parent IDs.
+			foreach (var character in this) {
+				var motherId = character.MotherId;
+				if (motherId is not null) {
+					parentIdsCache.Add(motherId);
+				}
+
+				var fatherId = character.FatherId;
+				if (fatherId is not null) {
+					parentIdsCache.Add(fatherId);
+				}
+			}
 
 			// See who can be removed.
-			foreach (var character in charactersToCheck) {
+			foreach (var character in charactersToCheck) {				
 				// Keep alive characters.
 				if (character is {FromImperator: true, Dead: false}) {
 					continue;
 				}
 
 				// Does the character belong to a dynasty that holds or held titles?
-				if (dynastyIdsOfLandedCharacters.Contains(character.DynastyId)) {
+				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(date))) {
 					// Is the character dead and childless? Purge.
-					if (character.Children.Count == 0) {
+					if (!parentIdsCache.Contains(character.Id)) {
 						farewellCharacters.Add(character);
 					}
 
@@ -288,7 +310,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.Info("Removing employer id from landed characters...");
 		var landedCharacterIds = titles.GetHolderIds(conversionDate);
 		foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
-			character.EmployerId = null;
+			character.History.Fields["employer"].RemoveAllEntries();
 		}
 
 		Logger.IncrementProgress();

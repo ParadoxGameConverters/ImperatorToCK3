@@ -14,7 +14,8 @@ public class CharacterOutputterTests {
 		Date childBirthDate = "600.10.7";
 		Date conceptionDate = childBirthDate.ChangeByDays(-280);
 
-		var pregnantFemale = new Character("1", "Incontinentia", birthDate: "580.1.1") {Female = true};
+		var characters = new CharacterCollection();
+		var pregnantFemale = new Character("1", "Incontinentia", birthDate: "580.1.1", characters) {Female = true};
 		pregnantFemale.Pregnancies.Add(new Pregnancy(fatherId:"2", motherId: "1", childBirthDate, isBastard:false));
 
 		var output = new StringWriter();

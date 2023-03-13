@@ -7,91 +7,39 @@ using Character = ImperatorToCK3.CK3.Characters.Character;
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
 	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
-		// output ID, name, sex, culture, religion
+		// Output ID.
 		output.WriteLine($"{character.Id}={{");
-		if (!string.IsNullOrEmpty(character.Name)) {
-			output.WriteLine($"\tname=\"{character.Name}\"");
-		}
-		if (character.Female) {
-			output.WriteLine("\tfemale=yes");
-		}
-		if (!string.IsNullOrEmpty(character.CultureId)) {
-			output.WriteLine($"\tculture={character.CultureId}");
-		}
-		if (!string.IsNullOrEmpty(character.FaithId)) {
-			output.WriteLine($"\treligion={character.FaithId}");
-		}
-
-		// output dynasty
-		if (character.DynastyId is not null) {
-			output.WriteLine($"\tdynasty={character.DynastyId}");
-		}
-
-		//output father and mother
-		if (character.Father is not null) {
-			output.WriteLine($"\tfather={character.Father.Id}");
-		}
-		if (character.Mother is not null) {
-			output.WriteLine($"\tmother={character.Mother.Id}");
-		}
-
-		// output nickname
-		if (character.Nickname is not null) {
-			var nicknameDate = conversionDate;
-			if (character.DeathDate is not null) {
-				nicknameDate = character.DeathDate;
-			}
-			output.WriteLine($"\t{nicknameDate}={{ give_nickname={character.Nickname} }}");
-		}
-
-		// output gold
-		if (character.Gold is not null && character.Gold != 0) {
-			var gold = (float)character.Gold.Value;
-			string effectStr = gold > 0 ?
-				$"add_gold={gold.ToString("0.00", CultureInfo.InvariantCulture)}" :
-				$"remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)}";
-			output.WriteLine($"\t{conversionDate}={{effect={{{effectStr}}}}}");
-		}
 		
 		// Don't output traits and attributes of dead characters (not needed).
 		if (character.Dead) {
-			var fieldsToRemove = new[] {"traits", "diplomacy", "martial", "stewardship", "intrigue", "learning"};
+			var fieldsToRemove = new[] {"traits", "employer", "diplomacy", "martial", "stewardship", "intrigue", "learning"};
 			foreach (var field in fieldsToRemove) {
 				character.History.Fields.Remove(field);
 			}
 			output.WriteLine("\tdisallow_random_traits=yes");
 		}
 
-		// output DNA key
+		// Add DNA to history.
 		if (character.DNA is not null) {
-			output.WriteLine($"dna={character.DNA.Id}");
+			character.History.AddFieldValue(null, "dna", "dna", character.DNA.Id);
 		}
 
-		// output history
+		// Add gold to history.
+		if (character.Gold is not null && character.Gold != 0) {
+			var gold = (float)character.Gold.Value;
+			string effectStr = gold > 0 ?
+				$"{{ add_gold={gold.ToString("0.00", CultureInfo.InvariantCulture)} }}" :
+				$"{{ remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)} }}";
+			character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
+		}
+
+		// Output history.
 		output.Write(PDXSerializer.Serialize(character.History, "\t"));
 
-		OutputBirthAndDeathDates(output, character);
 		OutputPregnancies(output, character);
-
 		OutputPrisoners(output, character, conversionDate);
-		OutputEmployer(output, character, conversionDate);
 
 		output.WriteLine("}");
-	}
-
-	private static void OutputBirthAndDeathDates(TextWriter output, Character character) {
-		output.WriteLine($"\t{character.BirthDate}={{birth=yes}}");
-
-		if (character.DeathDate is null) {
-			return;
-		}
-
-		output.WriteLine($"\t{character.DeathDate}={{");
-		output.Write("\t\tdeath=");
-		output.WriteLine(
-			character.DeathReason is null ? "yes" : $"{{ death_reason={character.DeathReason} }}"
-		);
-		output.WriteLine("\t}");
 	}
 
 	private static void OutputPrisoners(TextWriter output, Character character, Date conversionDate) {
@@ -104,16 +52,6 @@ public static class CharacterOutputter {
 			output.WriteLine($"\t\timprison={{target = character:{id} type={type}}}");
 		}
 		output.WriteLine("\t}");
-	}
-	private static void OutputEmployer(TextWriter output, Character character, Date conversionDate) {
-		if (character.EmployerId is null) {
-			return;
-		}
-		if (character.Dead) {
-			return;
-		}
-
-		output.WriteLine($"\t{conversionDate}={{employer={character.EmployerId}}}");
 	}
 
 	/// <summary>

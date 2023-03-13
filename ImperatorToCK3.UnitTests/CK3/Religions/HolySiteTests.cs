@@ -63,8 +63,10 @@ public class HolySiteTests {
 			{"discipline", 0.2f}, // will be converted to knight_effectiveness_mult with factor of 10
 			{"unmapped_effect", 1f} // will be skipped
 		};
-
-		var faith = new Faith("test_faith", new BufferedReader(), new ColorFactory());
+		
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var testReligion = new Religion("test_religion", new BufferedReader("{}"), religions, new ColorFactory());
+		var faith = new Faith("test_faith", new BufferedReader(), testReligion, new ColorFactory());
 
 		var site = new HolySite(titles["b_barony"], faith, titles, imperatorEffects, holySiteEffectMapper);
 
