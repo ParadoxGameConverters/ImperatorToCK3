@@ -123,6 +123,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetBool());
 			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
 			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
+			// TODO: "friends"
+			// TODO: "rivals"
 			parser.RegisterKeyword("birth_date", reader => {
 				var dateStr = reader.GetString();
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
