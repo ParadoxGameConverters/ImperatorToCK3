@@ -36,6 +36,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			set => culture = value;
 		}
 		public string Religion { get; set; } = string.Empty;
+		public double? Health { get; private set; }
 		public string Name { get; set; } = string.Empty;
 		public string? CustomName { get; set; }
 
@@ -121,6 +122,7 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
 			parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
 			parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
+			parser.RegisterKeyword("health", reader => parsedCharacter.Health = reader.GetDouble());
 			parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
 			parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
 			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetBool());
