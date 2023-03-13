@@ -441,54 +441,122 @@ namespace ImperatorToCK3.CK3.Characters {
 			}
 			spousesCache.RemoveWhere(c => c.Id == spouseId);
 		}
-
 		public void RemoveAllSpouses() {
 			foreach (var spouse in spousesCache) {
 				spouse.RemoveSpouse(Id);
 			}
 		}
 
+		public void RemoveAllChildren() {
+			if (Female) {
+				foreach (var child in childrenCache.Where(c => c.MotherId == Id)) {
+					child.Mother = null;
+				}
+			} else {
+				foreach (var child in childrenCache.Where(c => c.FatherId == Id)) {
+					child.Father = null;
+				}
+			}
+		}
+
+		public void UpdateChildrenCacheOfParents() {
+			Father?.childrenCache.Add(this);
+			Mother?.childrenCache.Add(this);
+		}
+
 		public string? MotherId {
 			get {
-				var entries = History.Fields["mother"].InitialEntries;
-				return entries.Count == 0 ? null : entries.Last().Value.ToString();
-			}
-			private set {
-				History.Fields["mother"].RemoveAllEntries();
-				if (value is not null) {
-					History.AddFieldValue(null, "mother", "mother", value);
+				var field = History.Fields["mother"];
+				var entries = field.InitialEntries;
+				if (entries.Count == 0) {
+					return null;
 				}
+
+				var idObj = entries.Last().Value;
+				var idStr = idObj.ToString();
+				if (idStr is null) {
+					Logger.Warn($"Mother ID string is null! Original value: {idObj}");
+					return null;
+				}
+
+				if (!idStr.IsQuoted()) {
+					return idStr;
+				}
+
+				idStr = idStr.RemQuotes();
+				field.RemoveAllEntries();
+				field.AddEntryToHistory(null, "mother", idStr);
+				return idStr;
 			}
 		}
 		public Character? Mother {
 			get {
 				var motherId = MotherId;
-				return motherId is null ? null : characters[motherId];
+				if (motherId is null) {
+					return null;
+				}
+				
+				if (characters.TryGetValue(motherId, out var mother)) {
+					return mother;
+				}
+				Logger.Warn($"Character {Id}'s mother {motherId} does not exist! Removing broken link.");
+				History.Fields["mother"].RemoveAllEntries();
+				return null;
 			}
 			set {
-				MotherId = value?.Id;
+				History.Fields["mother"].RemoveAllEntries();
+				if (value is not null) {
+					History.AddFieldValue(null, "mother", "mother", value.Id);
+					value.childrenCache.Add(this);
+				}
 			}
 		}
 
 		public string? FatherId {
 			get {
-				var entries = History.Fields["father"].InitialEntries;
-				return entries.Count == 0 ? null : entries.Last().Value.ToString();
-			}
-			private set {
-				History.Fields["father"].RemoveAllEntries();
-				if (value is not null) {
-					History.AddFieldValue(null, "father", "father", value);
+				var field = History.Fields["father"];
+				var entries = field.InitialEntries;
+				if (entries.Count == 0) {
+					return null;
 				}
+				
+				var idObj = entries.Last().Value;
+				var idStr = idObj.ToString();
+				if (idStr is null) {
+					Logger.Warn($"Father ID string is null! Original value: {idObj}");
+					return null;
+				}
+				
+				if (!idStr.IsQuoted()) {
+					return idStr;
+				}
+				
+				idStr = idStr.RemQuotes();
+				field.RemoveAllEntries();
+				field.AddEntryToHistory(null, "father", idStr);
+				return idStr;
 			}
 		}
 		public Character? Father {
 			get {
 				var fatherId = FatherId;
-				return fatherId is null ? null : characters[fatherId];
+				if (fatherId is null) {
+					return null;
+				}
+
+				if (characters.TryGetValue(fatherId, out var father)) {
+					return father;
+				}
+				Logger.Warn($"Character {Id}'s father {fatherId} does not exist! Removing broken link.");
+				History.Fields["father"].RemoveAllEntries();
+				return null;
 			}
 			set {
-				FatherId = value?.Id;
+				History.Fields["father"].RemoveAllEntries();
+				if (value is not null) {
+					History.AddFieldValue(null, "father", "father", value.Id);
+					value.childrenCache.Add(this);
+				}
 			}
 		}
 
@@ -504,7 +572,6 @@ namespace ImperatorToCK3.CK3.Characters {
 		}
 
 		private string? jailorId;
-		private readonly HashSet<Character> spousesCache = new();
 		public void SetEmployer(Character employer, Date? date) {
 			SetEmployerId(employer.Id, date);
 		}
@@ -619,7 +686,9 @@ namespace ImperatorToCK3.CK3.Characters {
 			sb.AppendLine("\t}");
 			History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 		}
-		
+
 		private CharacterCollection characters;
+		private readonly HashSet<Character> spousesCache = new();
+		private readonly HashSet<Character> childrenCache = new();
 	}
 }

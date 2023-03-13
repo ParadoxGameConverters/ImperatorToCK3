@@ -13,12 +13,10 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 
 namespace ImperatorToCK3.CK3.Characters;
 
 public partial class CharacterCollection : IdObjectCollection<string, Character> {
-	public CharacterCollection() { }
 	public void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
@@ -90,16 +88,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		var character = this[key];
 
 		character.RemoveAllSpouses();
-
-		if (character.Female) {
-			foreach (var child in character.Children) {
-				child.Mother = null;
-			}
-		} else {
-			foreach (var child in character.Children) {
-				child.Father = null;
-			}
-		}
+		character.RemoveAllChildren();
 
 		var irCharacter = character.ImperatorCharacter;
 		if (irCharacter is not null) {
@@ -290,9 +279,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 
 			// See who can be removed.
-			foreach (var character in charactersToCheck) {
-				Logger.Debug(character.Id); // TODO: remove this
-				
+			foreach (var character in charactersToCheck) {				
 				// Keep alive characters.
 				if (character is {FromImperator: true, Dead: false}) {
 					continue;
