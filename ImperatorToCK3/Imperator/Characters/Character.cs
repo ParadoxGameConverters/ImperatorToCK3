@@ -3,6 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -62,6 +63,8 @@ namespace ImperatorToCK3.Imperator.Characters {
 		public string? DeathReason { get; set; }
 		private HashSet<ulong> parsedSpouseIds = new();
 		public Dictionary<ulong, Character> Spouses { get; set; } = new();
+		public OrderedSet<ulong> FriendIds { get; } = new();
+		public OrderedSet<ulong> RivalIds { get; } = new();
 		private HashSet<ulong> parsedChildrenIds = new();
 		public Dictionary<ulong, Character> Children { get; set; } = new();
 		private ulong? parsedMotherId;
@@ -123,8 +126,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 			parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetBool());
 			parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
 			parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
-			// TODO: "friends"
-			// TODO: "rivals"
+			parser.RegisterKeyword("friends", reader => {
+				parsedCharacter.FriendIds.Clear();
+				parsedCharacter.FriendIds.AddRange(reader.GetULongs());
+			});
+			parser.RegisterKeyword("rivals", reader => {
+				parsedCharacter.RivalIds.Clear();
+				parsedCharacter.RivalIds.AddRange(reader.GetULongs());
+			});
 			parser.RegisterKeyword("birth_date", reader => {
 				var dateStr = reader.GetString();
 				parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
