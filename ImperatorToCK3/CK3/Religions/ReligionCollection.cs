@@ -267,7 +267,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		
 		var aliveCharacterFaithIds = characters
 			.Where(c => !c.Dead)
-			.Select(c => c.FaithId).ToImmutableHashSet();
+			.Select(c => c.GetFaithId(date)).ToImmutableHashSet();
 		
 		var provinceFaithIds = provinces
 			.Select(p => p.GetFaithId(date)).ToImmutableHashSet();
@@ -286,8 +286,11 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			var title = titles[religiousHeadTitleId];
 			var holderId = title.GetHolderId(date);
 			if (holderId != "0") {
-				// TODO: Check if holder is alive. WE NEED TO LOAD CK3 CHARACTERS FOR THIS!
-				continue;
+				var holder = characters[holderId];
+				var holderDeathDate = holder.DeathDate;
+				if (holderDeathDate is null || holderDeathDate > date) {
+					continue;
+				}
 			}
 			
 			// Generate title holder.
@@ -300,8 +303,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				.FirstOrDefault();
 			if (cultureId is null) {
 				cultureId = characters
-					.Where(c => c.FaithId == faith.Id)
-					.Select(c => c.CultureId)
+					.Where(c => c.GetFaithId(date) == faith.Id)
+					.Select(c => c.GetCultureId(date))
 					.ToImmutableList()
 					.FirstOrDefault();
 			}
@@ -326,10 +329,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				name = fallbackName;
 			}
 			var age = 30 + (Math.Abs(date.Year) % 50);
-			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age)) {
-				FaithId = faith.Id,
-				CultureId = cultureId
-			};
+			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age), characters);
+			character.SetFaithId(faith.Id, null);
+			character.SetCultureId(cultureId, null);
 			var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
 			foreach (var traitId in traitsToAdd) {
 				character.History.AddFieldValue(null, "traits", "trait", traitId);
