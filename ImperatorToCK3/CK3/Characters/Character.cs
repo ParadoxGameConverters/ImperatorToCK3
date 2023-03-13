@@ -156,6 +156,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 			.WithSimpleField("government", "change_government", null)
 			.WithDiffField("traits", new OrderedSet<string> { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
+			.WithSimpleField("disallow_random_traits", new OrderedSet<string> {"disallow_random_traits"}, new OrderedSet<string>())
 			.WithDiffField("perks", new OrderedSet<string> {"add_perk"}, new OrderedSet<string>())
 			.WithSimpleField("dna", "dna", null)
 			.WithSimpleField("mother", "mother", null)

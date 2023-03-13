@@ -265,7 +265,6 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			++i;
 			
 			// Build cache of all parent IDs.
-			Logger.Debug("Building parents cache...");
 			foreach (var character in this) {
 				var motherId = character.MotherId;
 				if (motherId is not null) {
