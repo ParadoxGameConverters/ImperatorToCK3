@@ -53,9 +53,14 @@ public class LiteralHistoryField : IHistoryField {
 		if (date is null) {
 			InitialEntries.Add(new KeyValuePair<string, object>(setter, value));
 		} else {
-			DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
-				new(setter, value)
-			};
+			if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+				entriesList.Add(new KeyValuePair<string, object>(setter, value));
+			}
+			else {
+				DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
+					new(setter, value)
+				};
+			}
 		}
 	}
 
@@ -68,7 +73,7 @@ public class LiteralHistoryField : IHistoryField {
 		}
 	}
 
-	public IEnumerable<KeyValuePair<string, object>> InitialEntriesForSerialization => InitialEntries.TakeLast(1);
+	public IEnumerable<KeyValuePair<string, object>> InitialEntriesForSerialization => InitialEntries;
 
 	public IHistoryField Clone() => new LiteralHistoryField(this);
 }

@@ -26,7 +26,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
-		Date endDate,
+		Date conversionDate,
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator Characters...");
@@ -41,17 +41,21 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				locDB,
 				provinceMapper,
 				deathReasonMapper,
-				endDate,
+				conversionDate,
 				config
 			);
 		}
 		Logger.Info($"{Count} total characters recognized.");
 
 		LinkMothersAndFathers();
-		LinkSpouses(endDate);
-		LinkPrisoners(endDate);
+		LinkSpouses(conversionDate);
+		LinkPrisoners(conversionDate);
 
-		ImportPregnancies(impWorld.Characters, endDate);
+		ImportFriendships(impWorld.Characters, conversionDate);
+		ImportRivalries(impWorld.Characters, conversionDate);
+		Logger.IncrementProgress();
+		
+		ImportPregnancies(impWorld.Characters, conversionDate);
 	}
 
 	private void ImportImperatorCharacter(
@@ -207,6 +211,51 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.Info($"{prisonerCount} prisoners linked with jailors in CK3.");
 	}
 
+	private static void ImportFriendships(Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
+		Logger.Info("Importing friendships...");
+		foreach (var irCharacter in irCharacters) {
+			var ck3Character = irCharacter.CK3Character;
+			if (ck3Character is null) {
+				Logger.Warn($"Imperator character {irCharacter.Id} has no CK3 character!");
+				continue;
+			}
+
+			foreach (var irFriendId in irCharacter.FriendIds) {
+				var irFriend = irCharacters[irFriendId];
+				var ck3Friend = irFriend.CK3Character;
+				
+				if (ck3Friend is not null) {
+					var effectStr = $"{{ set_relation_friend={{ reason=friend_generic_history target=character:{ck3Friend.Id} }} }}";
+					ck3Character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
+				} else {
+					Logger.Warn($"Imperator friend {irFriendId} has no CK3 character!");
+				}
+			}
+		}
+	}
+
+	private static void ImportRivalries(Imperator.Characters.CharacterCollection irCharacters, Date conversionDate) {
+		Logger.Info("Importing rivalries...");
+		foreach (var irCharacter in irCharacters) {
+			var ck3Character = irCharacter.CK3Character;
+			if (ck3Character is null) {
+				Logger.Warn($"Imperator character {irCharacter.Id} has no CK3 character!");
+				continue;
+			}
+
+			foreach (var irRivalId in irCharacter.RivalIds) {
+				var irRival = irCharacters[irRivalId];
+				var ck3Rival = irRival.CK3Character;
+				
+				if (ck3Rival is not null) {
+					var effectStr = $"{{ set_relation_rival={{ reason=rival_historical target=character:{ck3Rival.Id} }} }}";
+					ck3Character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
+				} else {
+					Logger.Warn($"Imperator rival {irRivalId} has no CK3 character!");
+				}
+			}
+		}
+	}
 	private void ImportPregnancies(Imperator.Characters.CharacterCollection imperatorCharacters, Date conversionDate) {
 		Logger.Info("Importing pregnancies...");
 		foreach (var female in this.Where(c => c.Female)) {
