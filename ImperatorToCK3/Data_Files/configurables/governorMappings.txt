@@ -211,6 +211,9 @@ link = { imp = venedia_region ck3 = d_wielkopolska rank = d }
 
 link = { imp = central_gaul_region ck3 = d_orleans rank = d }
 
+link = { imp = britain_region ck3 = k_wales rank = k }
+link = { imp = britain_region ck3 = d_somerset rank = d }
+
 link = { imp = fezzan_region ck3 = k_sahara rank = k }
 link = { imp = fezzan_region ck3 = d_fezzan rank = d }
 
