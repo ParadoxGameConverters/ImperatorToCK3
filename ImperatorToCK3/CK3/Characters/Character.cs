@@ -79,7 +79,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Date BirthDate {
 			get => History.Fields["birth"].DateToEntriesDict.First().Key;
-			init {
+			private init {
 				var field = History.Fields["birth"];
 				field.RemoveAllEntries();
 				field.AddEntryToHistory(value, "birth", true);
@@ -91,10 +91,12 @@ namespace ImperatorToCK3.CK3.Characters {
 				var entriesDict = History.Fields["death"].DateToEntriesDict;
 				return entriesDict.Count == 0 ? null : entriesDict.First().Key;
 			}
-			init {
+			private init {
 				var field = History.Fields["death"];
 				field.RemoveAllEntries();
-				field.AddEntryToHistory(value, "death", true);
+				if (value is not null) {
+					field.AddEntryToHistory(value, "death", true);
+				}
 			}
 		}
 		public string? DeathReason {
