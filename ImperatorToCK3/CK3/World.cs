@@ -29,6 +29,7 @@ using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
@@ -225,6 +226,8 @@ public class World {
 		RemoveIslamFromAfrica(config);
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
+
+		GenerateFillerHoldersForUnownedLands();
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
@@ -595,6 +598,31 @@ public class World {
 		}
 
 		Logger.IncrementProgress();
+	}
+
+	private void GenerateFillerHoldersForUnownedLands(Configuration config) {
+		var date = config.CK3BookmarkDate;
+		var unheldCounties = LandedTitles
+			.Where(c => c.Rank == TitleRank.county && c.GetHolderId(date) == "0")
+			.ToImmutableList();
+
+		foreach (var county in unheldCounties) {
+			Province province;
+			if (county.CapitalBaronyProvince is not null) {
+				province = Provinces[county.CapitalBaronyProvince.Value];
+			} else {
+				province = county.CountyProvinces
+					.Select(p => Provinces[p])
+					.First(p => p.GetFaithId(date) is not null && p.GetCultureId(date) is not null);
+			}
+			var holder = new Character($"IRToCK3_{county.Id}_holder", namePool.Dequeue(), date, Characters);
+			holder.SetFaithId(province.GetFaithId(date)!, null);
+			holder.SetCultureId(province.GetCultureId(date)!, null);
+			Characters.Add(holder);
+
+			county.SetHolder(holder, date);
+		}
+		// TODO: finish
 	}
 
 	private readonly CoaMapper coaMapper;
