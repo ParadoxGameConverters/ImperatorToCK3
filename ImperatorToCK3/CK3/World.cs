@@ -227,7 +227,8 @@ public class World {
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
 
-		GenerateFillerHoldersForUnownedLands();
+		GenerateFillerHoldersForUnownedLands(cultures, config);
+		Logger.IncrementProgress();
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
@@ -600,7 +601,8 @@ public class World {
 		Logger.IncrementProgress();
 	}
 
-	private void GenerateFillerHoldersForUnownedLands(Configuration config) {
+	private void GenerateFillerHoldersForUnownedLands(CultureCollection cultures, Configuration config) {
+		Logger.Info("Generating filler holders for unowned lands...");
 		var date = config.CK3BookmarkDate;
 		var unheldCounties = LandedTitles
 			.Where(c => c.Rank == TitleRank.county && c.GetHolderId(date) == "0")
@@ -615,14 +617,16 @@ public class World {
 					.Select(p => Provinces[p])
 					.First(p => p.GetFaithId(date) is not null && p.GetCultureId(date) is not null);
 			}
-			var holder = new Character($"IRToCK3_{county.Id}_holder", namePool.Dequeue(), date, Characters);
+			var culture = cultures[province.GetCultureId(date)!];
+			var maleNames = culture.NameList.MaleNames;
+			var name = culture.NameList.MaleNames.ElementAt((int)province.Id % maleNames.Count);
+			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {Female = false};
 			holder.SetFaithId(province.GetFaithId(date)!, null);
-			holder.SetCultureId(province.GetCultureId(date)!, null);
+			holder.SetCultureId(culture.Id, null);
 			Characters.Add(holder);
 
 			county.SetHolder(holder, date);
 		}
-		// TODO: finish
 	}
 
 	private readonly CoaMapper coaMapper;
