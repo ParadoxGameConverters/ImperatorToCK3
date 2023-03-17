@@ -608,7 +608,19 @@ public class World {
 			.Where(c => c.Rank == TitleRank.county && c.GetHolderId(date) == "0")
 			.ToImmutableList();
 
+		var duchyIdToHolderDict = new Dictionary<string, Character>();
+
 		foreach (var county in unheldCounties) {
+			if (config.FillerDukes) {
+				var duchy = county.DeJureLiege;
+				if (duchy is not null && duchy.Rank == TitleRank.duchy) {
+					if (duchyIdToHolderDict.TryGetValue(duchy.Id, out var duchyHolder)) {
+						county.SetHolder(duchyHolder, date);
+						continue;
+					}
+				}
+			}
+
 			Province province;
 			if (county.CapitalBaronyProvince is not null) {
 				province = Provinces[county.CapitalBaronyProvince.Value];
@@ -639,6 +651,15 @@ public class World {
 			Characters.Add(holder);
 
 			county.SetHolder(holder, date);
+			if (config.FillerDukes) {
+				var duchy = county.DeJureLiege;
+				if (duchy is null || duchy.Rank != TitleRank.duchy) {
+					continue;
+				}
+
+				duchy.SetHolder(holder, date);
+				duchyIdToHolderDict[duchy.Id] = holder;
+			}
 		}
 	}
 

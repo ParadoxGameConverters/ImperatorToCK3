@@ -37,6 +37,26 @@ option = {
 }
 
 option = {
+	name = FillerDukes
+	displayName = FILLER_DUKES
+	tooltip = FILLER_DUKES_TIP
+	radioSelector = {
+		radioOption = {
+			name = 0
+			displayName = FILLER_DUKES_0
+			tooltip = FILLER_DUKES_0_TIP
+			default = false
+		}
+		radioOption = {
+			name = 1
+			displayName = FILLER_DUKES_1
+			tooltip = FILLER_DUKES_1_TIP
+			default = true
+		}
+	}
+}
+
+option = {
 	name = UseCK3Flags
 	displayName = USE_CK3_FLAGS
 	tooltip = USE_CK3_FLAGS_TIP

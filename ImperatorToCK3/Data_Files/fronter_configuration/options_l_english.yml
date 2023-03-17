@@ -13,6 +13,13 @@ l_english:
  STATIC_DEJURE_1_TIP: "Determine CK3 de jure by Imperator governorships."
  STATIC_DEJURE_2: "Static"
  STATIC_DEJURE_2_TIP: "Predetermine CK3 de jure mostly by vanilla CK3 but with time appropriate tweaks."
+ 
+ FILLER_DUKES: "Rank of holders generated for unowned areas"
+ FILLER_DUKES_TIP: "If an area does not have a holder in history, it will be owned by a holder of this rank."
+ FILLER_DUKES_0: "Count"
+ FILLER_DUKES_0_TIP: "The converter will generate counts for unowned areas."
+ FILLED_DUKES_1: "Duke"
+ FILLED_DUKES_1_TIP: "The converter will generate dukes for unowned areas."
 
  USE_CK3_FLAGS: "Should CK3 flags be used if possible?"
  USE_CK3_FLAGS_TIP: "Whether CK3 flags should be used for countries that are mapped to existing CK3 titles."
