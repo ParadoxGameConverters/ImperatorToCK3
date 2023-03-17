@@ -2,10 +2,11 @@ using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public class NameList : IIdentifiable<string> {
+public partial class NameList : IIdentifiable<string> {
 	public string Id { get; }
 	private readonly OrderedSet<string> maleNames = new();
 	private readonly OrderedSet<string> femaleNames = new();
@@ -16,7 +17,7 @@ public class NameList : IIdentifiable<string> {
 		Id = id;
 
 		var parser = new Parser();
-		parser.RegisterKeyword("male_names", maleNamesReader => {
+		parser.RegisterRegex(MaleNamesRegex(), maleNamesReader => {
 			var maleNamesBlockParser = new Parser();
 			maleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				maleNames.UnionWith(weightedBlockReader.GetStrings());
@@ -27,7 +28,7 @@ public class NameList : IIdentifiable<string> {
 			maleNamesBlockParser.IgnoreAndLogUnregisteredItems();
 			maleNamesBlockParser.ParseStream(maleNamesReader);
 		});
-		parser.RegisterKeyword("female_names", reader => {
+		parser.RegisterRegex(FemaleNamesRegex(), reader => {
 			var femaleNamesBlockParser = new Parser();
 			femaleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				femaleNames.UnionWith(weightedBlockReader.GetStrings());
@@ -41,4 +42,9 @@ public class NameList : IIdentifiable<string> {
 		parser.IgnoreUnregisteredItems();
 		parser.ParseStream(nameListReader);
 	}
+
+	[GeneratedRegex("male_names", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex MaleNamesRegex();
+	[GeneratedRegex("female_names", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex FemaleNamesRegex();
 }

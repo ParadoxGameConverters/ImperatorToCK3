@@ -618,9 +618,18 @@ public class World {
 					.First(p => p.GetFaithId(date) is not null && p.GetCultureId(date) is not null);
 			}
 			var culture = cultures[province.GetCultureId(date)!];
-			var maleNames = culture.NameList.MaleNames;
-			var name = culture.NameList.MaleNames.ElementAt((int)province.Id % maleNames.Count);
-			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {Female = false};
+			var nameList = culture.NameList;
+			bool female = false;
+			string name;
+			var maleNames = nameList.MaleNames;
+			if (maleNames.Count > 0) {
+				name = maleNames.ElementAt((int)province.Id % maleNames.Count);
+			} else { // Generate a female if no male name is available.
+				female = true;
+				var femaleNames = nameList.FemaleNames;
+				name = femaleNames.ElementAt((int)province.Id % femaleNames.Count);
+			}
+			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {Female = female};
 			holder.SetFaithId(province.GetFaithId(date)!, null);
 			holder.SetCultureId(culture.Id, null);
 			Characters.Add(holder);
