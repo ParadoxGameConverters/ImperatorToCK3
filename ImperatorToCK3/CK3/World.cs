@@ -629,7 +629,11 @@ public class World {
 				var femaleNames = nameList.FemaleNames;
 				name = femaleNames.ElementAt((int)province.Id % femaleNames.Count);
 			}
-			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {Female = female};
+			int age = 18 + (int)(province.Id % 60);
+			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {
+				Female = female,
+				BirthDate = date.ChangeByYears(-age)
+			};
 			holder.SetFaithId(province.GetFaithId(date)!, null);
 			holder.SetCultureId(culture.Id, null);
 			Characters.Add(holder);
