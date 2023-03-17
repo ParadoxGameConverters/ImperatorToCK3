@@ -13,7 +13,7 @@ l_english:
  STATIC_DEJURE_1_TIP: "Determine CK3 de jure by Imperator governorships."
  STATIC_DEJURE_2: "Static"
  STATIC_DEJURE_2_TIP: "Predetermine CK3 de jure mostly by vanilla CK3 but with time appropriate tweaks."
- 
+
  FILLER_DUKES: "Rank of holders generated for unowned areas"
  FILLER_DUKES_TIP: "If an area does not have a holder in history, it will be owned by a holder of this rank."
  FILLER_DUKES_0: "Count"
