@@ -449,7 +449,7 @@ public class World {
 			case <= 300:
 				UsePaganRulers();
 				break;
-			case > 300 and < 874:
+			case < 874:
 				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox" };
 				var christianFaiths = Religions["christianity_religion"].Faiths;
 
