@@ -15,12 +15,16 @@ public sealed class HistoryFactory {
 			return WithSimpleField(fieldName, new OrderedSet<string> { setter }, initialValue);
 		}
 		public HistoryFactoryBuilder WithSimpleField(string fieldName, OrderedSet<string> setters, object? initialValue) {
-			simpleFieldDefs.Add(new() { FieldName = fieldName, Setters = setters, InitialValue = initialValue });
+			simpleFieldDefs.Add(new SimpleFieldDef {
+				FieldName = fieldName, Setters = setters, InitialValue = initialValue
+			});
 			return this;
 		}
 
 		public HistoryFactoryBuilder WithLiteralField(string fieldName, string setter) {
-			literalFieldDefs.Add(new() { FieldName = fieldName, Setters = new OrderedSet<string> { setter }, InitialValue = null });
+			literalFieldDefs.Add(new SimpleFieldDef {
+				FieldName = fieldName, Setters = new OrderedSet<string> { setter }, InitialValue = null
+			});
 			return this;
 		}
 
@@ -28,7 +32,9 @@ public sealed class HistoryFactory {
 			return WithDiffField(fieldName, new OrderedSet<string> { inserter }, new OrderedSet<string> { remover });
 		}
 		public HistoryFactoryBuilder WithDiffField(string fieldName, OrderedSet<string> inserters, OrderedSet<string> removers) {
-			diffFieldDefs.Add(new() { FieldName = fieldName, Inserters = inserters, Removers = removers });
+			diffFieldDefs.Add(new DiffFieldDef {
+				FieldName = fieldName, Inserters = inserters, Removers = removers
+			});
 			return this;
 		}
 

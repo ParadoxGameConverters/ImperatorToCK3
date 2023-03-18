@@ -98,7 +98,7 @@ public static class BookmarkOutputter {
 				"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
 				"girl" => "blankMod/templates/common/bookmark_portraits/girl.txt",
 				"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
-				_ => "blankMod/templates/common/bookmark_portraits/male.txt",
+				_ => "blankMod/templates/common/bookmark_portraits/male.txt"
 			};
 			string templateText = File.ReadAllText(templatePath);
 			templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
@@ -179,7 +179,7 @@ public static class BookmarkOutputter {
 
 		SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
 			TransparentColorMode = PngTransparentColorMode.Clear,
-			ColorType = PngColorType.RgbWithAlpha,
+			ColorType = PngColorType.RgbWithAlpha
 		});
 		using var provincesImage = Image.Load(provincesMapPath);
 		provincesImage.Mutate(x =>
