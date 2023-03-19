@@ -5,6 +5,7 @@ using System.Linq;
 namespace ImperatorToCK3.CommonUtils.Genes;
 
 public class AccessoryGene : Gene {
+	public uint? Index { get; private set; }
 	public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
 
 	public AccessoryGene(BufferedReader reader) {

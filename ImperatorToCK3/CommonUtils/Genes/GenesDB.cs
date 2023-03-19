@@ -6,7 +6,8 @@ using System.IO;
 namespace ImperatorToCK3.CommonUtils.Genes;
 
 public class GenesDB {
-	public Dictionary<string, AccessoryGene> Genes { get; set; } = new();
+	public Dictionary<string, AccessoryGene> AccessoryGenes { get; } = new();
+	public Dictionary<string, MorphGene> MorphGenes { get; } = new();
 
 	public GenesDB() { }
 	public GenesDB(ModFilesystem modFS) {
@@ -23,18 +24,23 @@ public class GenesDB {
 	private void RegisterKeys(Parser parser) {
 		var accessoryGenesParser = new Parser();
 		accessoryGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) =>
-			Genes.Add(geneName, new AccessoryGene(geneReader))
+			AccessoryGenes.Add(geneName, new AccessoryGene(geneReader))
 		);
-		accessoryGenesParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		accessoryGenesParser.IgnoreAndLogUnregisteredItems();
 
 		var specialGenesParser = new Parser();
 		specialGenesParser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
-		specialGenesParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		specialGenesParser.IgnoreAndLogUnregisteredItems();
+		
+		var morphGenesParser = new Parser();
+		morphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) =>
+			MorphGenes.Add(geneName, new MorphGene(geneReader))
+		);
 
 		parser.RegisterKeyword("special_genes", LoadSpecialGenes);
 		parser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
-		//parser.RegisterKeyword("morph_genes", LoadMorphGenes); // TODO
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		//parser.RegisterKeyword("morph_genes", LoadMorphGenes); // TODO: read morph genes
+		parser.IgnoreAndLogUnregisteredItems();
 
 		void LoadSpecialGenes(BufferedReader reader) {
 			specialGenesParser.ParseStream(reader);
@@ -42,5 +48,7 @@ public class GenesDB {
 		void LoadAccessoryGenes(BufferedReader reader) {
 			accessoryGenesParser.ParseStream(reader);
 		}
+		void LoadMorphGenes(BufferedReader reader) {
+			
 	}
 }

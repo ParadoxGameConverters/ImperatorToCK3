@@ -5,7 +5,7 @@ namespace ImperatorToCK3.CommonUtils.Genes;
 
 public class AccessoryGeneTemplate {
 	public uint Index { get; private set; } = 0;
-	public Dictionary<string, WeightBlock> AgeSexWeightBlocks { get; private set; } = new();
+	public Dictionary<string, WeightBlock> AgeSexWeightBlocks { get; } = new();
 
 	public AccessoryGeneTemplate(BufferedReader reader) {
 		var parser = new Parser();
@@ -18,7 +18,7 @@ public class AccessoryGeneTemplate {
 		parser.RegisterRegex("male|female|boy|girl", (reader, ageSexStr) => {
 			var stringOfItem = new StringOfItem(reader).ToString();
 			var tempStream = new BufferedReader(stringOfItem);
-			if (stringOfItem.Contains('{')) { // for full blocks: "male = { 6 = hoodie 7 = tshirt }"
+			if (stringOfItem.Contains('{')) { // for full blocks: "male = { 6 = hoodie 7 = t_shirt }"
 				var ageSexBlock = new WeightBlock(tempStream);
 				AgeSexWeightBlocks.Add(ageSexStr, ageSexBlock);
 			} else { // for copies: "boy = male"

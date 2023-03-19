@@ -31,7 +31,7 @@ public static class CharactersOutputter {
 	private static void OutputCharactersDNA(string outputModName, CharacterCollection characters) {
 		Logger.Info("Outputting DNA...");
 		// Dump all into one file.
-		var path = "output/" + outputModName + "/common/dna_data/ir_dna_data.txt";
+		var path = $"output/{outputModName}/common/dna_data/IRToCK3_dna_data.txt";
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
 		foreach (var character in characters) {
