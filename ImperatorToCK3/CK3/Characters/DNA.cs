@@ -110,7 +110,7 @@ public class DNA {
 			Logger.Error("Cannot determine accessory genes: genes DB is uninitialized!");
 			return;
 		}
-		var geneSet = genesDB.Genes[ck3GeneName].GeneTemplates[ck3GeneSetName];
+		var geneSet = genesDB.AccessoryGenes[ck3GeneName].GeneTemplates[ck3GeneSetName];
 
 		var mappings = accessoryGeneMapper.Mappings[imperatorGeneName];
 		var convertedSetEntry = mappings[geneInfo.ObjectName];

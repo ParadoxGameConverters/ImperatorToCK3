@@ -38,7 +38,7 @@ public class PortraitData {
 
 		// accessory genes
 		const uint colorGenesBytes = 12;
-		var accessoryGenes = genesDB.Genes;
+		var accessoryGenes = genesDB.AccessoryGenes;
 
 		foreach (var (geneName, gene) in accessoryGenes) {
 			var geneIndex = gene.Index;
