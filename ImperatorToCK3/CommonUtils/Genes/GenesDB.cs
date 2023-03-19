@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
@@ -39,7 +38,7 @@ public class GenesDB {
 
 		parser.RegisterKeyword("special_genes", LoadSpecialGenes);
 		parser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
-		//parser.RegisterKeyword("morph_genes", LoadMorphGenes); // TODO: read morph genes
+		parser.RegisterKeyword("morph_genes", LoadMorphGenes);
 		parser.IgnoreAndLogUnregisteredItems();
 
 		void LoadSpecialGenes(BufferedReader reader) {
@@ -49,6 +48,7 @@ public class GenesDB {
 			accessoryGenesParser.ParseStream(reader);
 		}
 		void LoadMorphGenes(BufferedReader reader) {
-			
+			morphGenesParser.ParseStream(reader);
+		}
 	}
 }

@@ -4,13 +4,14 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.CommonUtils.Genes; 
 
 public class MorphGene : Gene {
-	public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
-	public MorphGene(BufferedReader reader) {
+	public Dictionary<string, MorphGeneTemplate> GeneTemplates { get; } = new();
+	
+	public MorphGene(BufferedReader geneReader) {
 		var parser = new Parser();
 		parser.RegisterKeyword("group", ParserHelpers.IgnoreAndLogItem);
 		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) =>
-			GeneTemplates[geneTemplateName] = new AccessoryGeneTemplate(reader)
+			GeneTemplates[geneTemplateName] = new MorphGeneTemplate(reader)
 		);
-		parser.ParseStream(reader);
+		parser.ParseStream(geneReader);
 	}
 }
