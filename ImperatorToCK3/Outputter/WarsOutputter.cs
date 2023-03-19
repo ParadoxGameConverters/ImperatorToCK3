@@ -18,7 +18,7 @@ public static class WarsOutputter {
 		}
 		Logger.IncrementProgress();
 	}
-	private static void OutputWar(StreamWriter output, War war) {
+	private static void OutputWar(TextWriter output, War war) {
 		output.WriteLine("war = {");
 
 		output.WriteLine($"\tstart_date = {war.StartDate}");

@@ -79,7 +79,7 @@ namespace ImperatorToCK3.CK3.Characters {
 
 		public Date BirthDate {
 			get => History.Fields["birth"].DateToEntriesDict.First().Key;
-			private init {
+			init {
 				var field = History.Fields["birth"];
 				field.RemoveAllEntries();
 				field.AddEntryToHistory(value, "birth", true);

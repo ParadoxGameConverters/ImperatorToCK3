@@ -5,7 +5,6 @@ using commonItems.Serialization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 

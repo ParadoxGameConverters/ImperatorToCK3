@@ -27,7 +27,9 @@ public class ImperatorRegionMapper {
 		Logger.IncrementProgress();
 	}
 	private void RegisterRegionKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => Regions.AddOrReplace(new(regionName, reader)));
+		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
+			Regions.AddOrReplace(new ImperatorRegion(regionName, reader));
+		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 

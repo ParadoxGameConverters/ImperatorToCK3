@@ -45,7 +45,7 @@ public class RulerTerm {
 
 	public RulerTerm() { }
 	public RulerTerm(BufferedReader prehistoryRulerReader, CountryCollection countries) {
-		PreImperatorRuler = new();
+		PreImperatorRuler = new PreImperatorRulerInfo();
 		var prehistoryParser = new Parser();
 
 		prehistoryParser.RegisterKeyword("name", reader => PreImperatorRuler.Name = reader.GetString());
