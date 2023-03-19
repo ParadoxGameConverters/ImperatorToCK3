@@ -1,6 +1,4 @@
-﻿using commonItems;
-
-namespace ImperatorToCK3.CommonUtils.Genes;
+﻿namespace ImperatorToCK3.CommonUtils.Genes;
 
 public class Gene {
 	public uint? Index { get; internal set; }

@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class WeightBlock : Parser {
+public class WeightBlock {
 	public uint SumOfAbsoluteWeights { get; private set; } = 0;
 	private readonly List<KeyValuePair<string, uint>> objectsList = new();
 
 	public WeightBlock() { }
 	public WeightBlock(BufferedReader reader) {
-		RegisterKeys();
-		ParseStream(reader);
-		ClearRegisteredRules();
+		var parser = new Parser();
+		RegisterKeys(parser);
+		parser.ParseStream(reader);
 	}
-	private void RegisterKeys() {
-		RegisterRegex(CommonRegexes.Integer, (reader, absoluteWeightStr) => {
+	private void RegisterKeys(Parser parser) {
+		parser.RegisterRegex(CommonRegexes.Integer, (reader, absoluteWeightStr) => {
 			var newObjectName = reader.GetString();
 			if (uint.TryParse(absoluteWeightStr, out var weight)) {
 				AddObject(newObjectName, weight);
@@ -23,7 +23,7 @@ public class WeightBlock : Parser {
 				Logger.Error($"Could not parse absolute weight: {absoluteWeightStr}");
 			}
 		});
-		RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
 	public uint GetAbsoluteWeight(string objectName) {
 		foreach (var (key, value) in objectsList) {
