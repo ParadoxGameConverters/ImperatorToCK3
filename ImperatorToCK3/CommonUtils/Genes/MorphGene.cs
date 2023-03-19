@@ -8,10 +8,12 @@ public class MorphGene : Gene {
 	
 	public MorphGene(BufferedReader geneReader) {
 		var parser = new Parser();
-		parser.RegisterKeyword("group", ParserHelpers.IgnoreAndLogItem);
-		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) =>
-			GeneTemplates[geneTemplateName] = new MorphGeneTemplate(reader)
-		);
+		parser.RegisterKeyword("index", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("ugliness_feature_categories", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("group", ParserHelpers.IgnoreItem);
+		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
+			GeneTemplates[geneTemplateName] = new MorphGeneTemplate(reader);
+		});
 		parser.ParseStream(geneReader);
 	}
 }

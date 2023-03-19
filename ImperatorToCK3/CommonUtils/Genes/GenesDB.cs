@@ -32,9 +32,10 @@ public class GenesDB {
 		specialGenesParser.IgnoreAndLogUnregisteredItems();
 		
 		var morphGenesParser = new Parser();
-		morphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) =>
-			MorphGenes.Add(geneName, new MorphGene(geneReader))
-		);
+		morphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) => {
+			MorphGenes.Add(geneName, new MorphGene(geneReader));
+		});
+		morphGenesParser.IgnoreAndLogUnregisteredItems();
 
 		parser.RegisterKeyword("special_genes", LoadSpecialGenes);
 		parser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
