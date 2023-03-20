@@ -39,7 +39,10 @@ public class DNA {
 
 	private static GenesDB? genesDB;
 	private static readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
-	public Dictionary<string, string> DNALines { get; } = new(); // <gene name, DNA value>
+	private readonly Dictionary<string, string> dnaValues = new();
+
+	public IReadOnlyDictionary<string, string> DNAValues => dnaValues; // <gene name, DNA value>
+	public IEnumerable<string> DNALines => dnaValues.Select(kvp => $"{kvp.Key}={{{kvp.Value}}}");
 
 	public static void Initialize(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
 		var irHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
@@ -76,7 +79,7 @@ public class DNA {
 			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairPalettePixels
 		);
 		var hairValue = $"{HairCoordinates.X} {HairCoordinates.Y} {HairCoordinates2.X} {HairCoordinates2.Y}";
-		DNALines.Add("hair_color", hairValue);
+		dnaValues.Add("hair_color", hairValue);
 
 		SkinCoordinates = GetPaletteCoordinates(
 			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinPalettePixels
@@ -85,7 +88,7 @@ public class DNA {
 			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinPalettePixels
 		);
 		var skinValue = $"{SkinCoordinates.X} {SkinCoordinates.Y} {SkinCoordinates2.X} {SkinCoordinates2.Y}";
-		DNALines.Add("skin_color", skinValue);
+		dnaValues.Add("skin_color", skinValue);
 
 		EyeCoordinates = GetPaletteCoordinates(
 			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyePalettePixels
@@ -94,12 +97,12 @@ public class DNA {
 			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyePalettePixels
 		);
 		var eyeValue = $"{EyeCoordinates.X} {EyeCoordinates.Y} {EyeCoordinates2.X} {EyeCoordinates2.Y}";
-		DNALines.Add("eye_color", eyeValue);
+		dnaValues.Add("eye_color", eyeValue);
 
 		ConvertAccessoryGene(irCharacter, irPortraitData, "beards", "beards", "scripted_character_beards_01");
 
 		// Use middle values for the rest of the genes.
-		var missingMorphGenes = genesDB!.MorphGenes.Where(g => !DNALines.ContainsKey(g.Key));
+		var missingMorphGenes = genesDB!.MorphGenes.Where(g => !DNAValues.ContainsKey(g.Key));
 		foreach (var (geneName, gene) in missingMorphGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
@@ -116,9 +119,9 @@ public class DNA {
 			// Get middle gene template.
 			var templateName = geneTemplatesToUse.ElementAt(geneTemplatesToUse.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			DNALines.Add(geneName, geneValue);
+			dnaValues.Add(geneName, geneValue);
 		}
-		var missingAccessoryGenes = genesDB.AccessoryGenes.Where(g => !DNALines.ContainsKey(g.Key));
+		var missingAccessoryGenes = genesDB.AccessoryGenes.Where(g => !DNAValues.ContainsKey(g.Key));
 		foreach (var (geneName, gene) in missingAccessoryGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
@@ -126,7 +129,7 @@ public class DNA {
 			// Get middle gene template.
 			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			DNALines.Add(geneName, geneValue);
+			dnaValues.Add(geneName, geneValue);
 		}
 	}
 
@@ -156,7 +159,7 @@ public class DNA {
 		int intSliderValueRecessive = (int)Math.Ceiling(matchingPercentageRecessive * 255);
 
 		var geneValue = $"\"{ck3GeneSetName}\" {intSliderValue} \"{ck3GeneSetName}\" {intSliderValueRecessive}";
-		DNALines.Add(ck3GeneName, geneValue);
+		dnaValues.Add(ck3GeneName, geneValue);
 	}
 
 	private static PaletteCoordinates GetPaletteCoordinates(
@@ -208,7 +211,7 @@ public class DNA {
 	public void OutputGenes(StreamWriter output) {
 		output.WriteLine("\t\tgenes={");
 
-		foreach (var (geneName, geneValue) in DNALines) {
+		foreach (var (geneName, geneValue) in DNAValues) {
 			output.WriteLine($"\t\t\t{geneName}={{{geneValue}}}");
 		}
 
