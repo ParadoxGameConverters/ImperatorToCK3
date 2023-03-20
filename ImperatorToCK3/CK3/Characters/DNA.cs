@@ -110,18 +110,21 @@ public class DNA {
 			var visibleGeneTemplates = geneTemplates
 				.Where(t => t.Visible)
 				.ToImmutableList();
-			IList<MorphGeneTemplate> geneTemplatesToUse;
-			if (visibleGeneTemplates.Count > 0) {
-				geneTemplatesToUse = visibleGeneTemplates;
-			} else {
-				geneTemplatesToUse = geneTemplates;
-			}
+			var geneTemplatesToUse = visibleGeneTemplates.Count > 0 ? visibleGeneTemplates : geneTemplates;
 			// Get middle gene template.
 			var templateName = geneTemplatesToUse.ElementAt(geneTemplatesToUse.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
 			dnaValues.Add(geneName, geneValue);
 		}
-		var missingAccessoryGenes = genesDB.AccessoryGenes.Where(g => !DNAValues.ContainsKey(g.Key));
+
+		var accessoryGenesToIgnore = new[] {
+			"clothes", "headgear", "props", "legwear", "special_legwear", "cloaks", "props_2",
+			"special_headgear_head_bandage", "special_headgear_eye_patch", "special_headgear_face_mask",
+			"special_headgear_blindfold", "special_headgear_spectacles"
+		};
+		var missingAccessoryGenes = genesDB.AccessoryGenes
+			.Where(g => !DNAValues.ContainsKey(g.Key))
+			.Where(g => !accessoryGenesToIgnore.Contains(g.Key));
 		foreach (var (geneName, gene) in missingAccessoryGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
