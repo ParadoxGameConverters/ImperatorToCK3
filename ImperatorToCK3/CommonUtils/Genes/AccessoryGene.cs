@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace ImperatorToCK3.CommonUtils.Genes;
 
 public class AccessoryGene : Gene {
 	public uint? Index { get; private set; }
-	public Dictionary<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
+	public IdObjectCollection<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
 
 	public AccessoryGene(BufferedReader reader) {
 		var parser = new Parser();
@@ -18,14 +19,14 @@ public class AccessoryGene : Gene {
 		parser.RegisterKeyword("inheritable", reader => Inheritable = reader.GetBool());
 		parser.RegisterKeyword("group", ParserHelpers.IgnoreAndLogItem);
 		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) =>
-			GeneTemplates[geneTemplateName] = new AccessoryGeneTemplate(reader)
+			GeneTemplates.AddOrReplace(new AccessoryGeneTemplate(geneTemplateName, reader))
 		);
 		parser.IgnoreUnregisteredItems();
 	}
-	public KeyValuePair<string, AccessoryGeneTemplate> GetGeneTemplateByIndex(uint indexInDna) {
-		foreach (var geneTemplatePair in GeneTemplates) {
-			if (geneTemplatePair.Value.Index == indexInDna) {
-				return geneTemplatePair;
+	public AccessoryGeneTemplate GetGeneTemplateByIndex(uint indexInDna) {
+		foreach (var template in GeneTemplates) {
+			if (template.Index == indexInDna) {
+				return template;
 			}
 		}
 		Logger.Warn($"Could not find gene template by index from DNA: {indexInDna}");

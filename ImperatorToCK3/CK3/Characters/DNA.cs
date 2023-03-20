@@ -102,22 +102,22 @@ public class DNA {
 		var missingMorphGenes = genesDB!.MorphGenes.Where(g => !DNALines.ContainsKey(g.Key));
 		foreach (var (geneName, gene) in missingMorphGenes) {
 			var geneTemplates = gene.GeneTemplates
-				.Where(t => t.Value.Visible)
-				.OrderBy(t => t.Value.Index)
+				.OrderBy(t => t.Index)
+				.Where(t => t.Visible)
 				.ToImmutableList();
 			// Get middle gene template.
-			var middleGeneTemplateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Key;
-			var geneValue = $"\"{middleGeneTemplateName}\" 128 \"{middleGeneTemplateName}\" 128";
+			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
+			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
 			DNALines.Add(geneName, geneValue);
 		}
 		var missingAccessoryGenes = genesDB.AccessoryGenes.Where(g => !DNALines.ContainsKey(g.Key));
 		foreach (var (geneName, gene) in missingAccessoryGenes) {
 			var geneTemplates = gene.GeneTemplates
-				.OrderBy(t => t.Value.Index)
+				.OrderBy(t => t.Index)
 				.ToImmutableList();
 			// Get middle gene template.
-			var middleGeneTemplateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Key;
-			var geneValue = $"\"{middleGeneTemplateName}\" 128 \"{middleGeneTemplateName}\" 128";
+			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
+			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
 			DNALines.Add(geneName, geneValue);
 		}
 	}

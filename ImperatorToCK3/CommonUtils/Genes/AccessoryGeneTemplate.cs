@@ -1,13 +1,18 @@
 ﻿using commonItems;
+using commonItems.Collections;
+using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class AccessoryGeneTemplate {
+public class AccessoryGeneTemplate : IIdentifiable<string> {
+	public string Id { get; }
 	public uint Index { get; private set; } = 0;
 	public Dictionary<string, WeightBlock> AgeSexWeightBlocks { get; } = new();
 
-	public AccessoryGeneTemplate(BufferedReader reader) {
+	public AccessoryGeneTemplate(string id, BufferedReader reader) {
+		Id = id;
+		
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
@@ -27,6 +32,6 @@ public class AccessoryGeneTemplate {
 				}
 			}
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
+		parser.IgnoreUnregisteredItems();
 	}
 }

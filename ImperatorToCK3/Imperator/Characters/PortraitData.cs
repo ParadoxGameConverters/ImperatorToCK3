@@ -49,8 +49,8 @@ public class PortraitData {
 			var geneTemplateByteIndex = colorGenesBytes + (((uint)geneIndex - 3) * 4);
 			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
-			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex).Key;
-			var geneTemplateNameRecessive = gene.GetGeneTemplateByIndex(geneTemplateRecessiveIndex).Key;
+			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex).Id;
+			var geneTemplateNameRecessive = gene.GetGeneTemplateByIndex(geneTemplateRecessiveIndex).Id;
 
 			var geneTemplateObjectByteIndex = geneTemplateByteIndex + 1;
 			var geneTemplateObjectRecessiveByteIndex = geneTemplateByteIndex + 3;

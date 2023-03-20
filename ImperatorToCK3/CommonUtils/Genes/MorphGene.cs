@@ -1,11 +1,11 @@
 using commonItems;
+using commonItems.Collections;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Genes; 
 
 public class MorphGene : Gene {
-	private readonly Dictionary<string, MorphGeneTemplate> geneTemplates = new();
-	public IReadOnlyDictionary<string, MorphGeneTemplate> GeneTemplates => geneTemplates;
+	public IdObjectCollection<string, MorphGeneTemplate> GeneTemplates { get; } = new();
 
 	public MorphGene(BufferedReader geneReader) {
 		var parser = new Parser();
@@ -15,7 +15,7 @@ public class MorphGene : Gene {
 		parser.RegisterKeyword("visible", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("group", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
-			geneTemplates[geneTemplateName] = new MorphGeneTemplate(reader);
+			GeneTemplates.AddOrReplace(new MorphGeneTemplate(geneTemplateName, reader));
 		});
 		parser.ParseStream(geneReader);
 	}

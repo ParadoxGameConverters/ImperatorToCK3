@@ -10,7 +10,7 @@ public class AccessoryGeneTemplateTests {
 		var reader = new BufferedReader(
 			"= {}"
 		);
-		var geneTemplate = new AccessoryGeneTemplate(reader);
+		var geneTemplate = new AccessoryGeneTemplate("test_template", reader);
 
 		Assert.Empty(geneTemplate.AgeSexWeightBlocks);
 	}
@@ -25,7 +25,7 @@ public class AccessoryGeneTemplateTests {
 			"girl=female\n" +
 			"}"
 		);
-		var geneTemplate = new AccessoryGeneTemplate(reader);
+		var geneTemplate = new AccessoryGeneTemplate("test_template", reader);
 
 		Assert.Equal(4, geneTemplate.AgeSexWeightBlocks.Count);
 	}
@@ -41,7 +41,7 @@ public class AccessoryGeneTemplateTests {
 			"girl=female\n" +
 			"}"
 		);
-		var geneTemplate = new AccessoryGeneTemplate(reader);
+		var geneTemplate = new AccessoryGeneTemplate("test_template", reader);
 
 		Assert.Equal((uint)6, geneTemplate.AgeSexWeightBlocks["male"].GetAbsoluteWeight("hoodie"));
 		Assert.Equal((uint)8, geneTemplate.AgeSexWeightBlocks["male"].GetAbsoluteWeight("trousers"));
