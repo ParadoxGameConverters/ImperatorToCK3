@@ -103,10 +103,18 @@ public class DNA {
 		foreach (var (geneName, gene) in missingMorphGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
+				.ToImmutableList();
+			var visibleGeneTemplates = geneTemplates
 				.Where(t => t.Visible)
 				.ToImmutableList();
+			IList<MorphGeneTemplate> geneTemplatesToUse;
+			if (visibleGeneTemplates.Count > 0) {
+				geneTemplatesToUse = visibleGeneTemplates;
+			} else {
+				geneTemplatesToUse = geneTemplates;
+			}
 			// Get middle gene template.
-			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
+			var templateName = geneTemplatesToUse.ElementAt(geneTemplatesToUse.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
 			DNALines.Add(geneName, geneValue);
 		}
