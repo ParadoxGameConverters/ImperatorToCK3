@@ -11,14 +11,14 @@ public static class CharactersOutputter {
 		var charactersFromIR = characters.Where(c => c.FromImperator).ToImmutableList();
 		var charactersFromCK3 = characters.Except(charactersFromIR).ToImmutableList();
 		
-		var pathForCharactersFromIR = $"output/{outputModName}/history/characters/fromImperator.txt";
+		var pathForCharactersFromIR = $"output/{outputModName}/history/characters/IRToCK3_fromImperator.txt";
 		using var stream = File.OpenWrite(pathForCharactersFromIR);
 		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
 		foreach (var character in charactersFromIR) {
 			CharacterOutputter.OutputCharacter(output, character, conversionDate);
 		}
 
-		var pathForCharactersFromCK3 = $"output/{outputModName}/history/characters/fromCK3.txt";
+		var pathForCharactersFromCK3 = $"output/{outputModName}/history/characters/IRToCK3_fromCK3.txt";
 		using var stream2 = File.OpenWrite(pathForCharactersFromCK3);
 		using var output2 = new StreamWriter(stream2, System.Text.Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
@@ -31,7 +31,7 @@ public static class CharactersOutputter {
 	private static void OutputCharactersDNA(string outputModName, CharacterCollection characters) {
 		Logger.Info("Outputting DNA...");
 		// Dump all into one file.
-		var path = $"output/{outputModName}/common/dna_data/IRToCK3_dna_data.txt";
+		var path = Path.Combine("output", outputModName, "common/dna_data/IRToCK3_dna_data.txt");
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
 		foreach (var character in characters) {
