@@ -118,7 +118,7 @@ public class DNA {
 		}
 
 		var accessoryGenesToIgnore = new[] {
-			"clothes", "headgear", "props", "legwear", "special_legwear", "cloaks", "props_2",
+			"props", "props_2", "special_legwear", "cloaks",
 			"special_headgear_head_bandage", "special_headgear_eye_patch", "special_headgear_face_mask",
 			"special_headgear_blindfold", "special_headgear_spectacles"
 		};
