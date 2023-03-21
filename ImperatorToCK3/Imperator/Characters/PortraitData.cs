@@ -6,13 +6,13 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Imperator.Characters; 
 
 public class PortraitData {
-	public PaletteCoordinates HairColorPaletteCoordinates { get; private set; } = new();
-	public PaletteCoordinates HairColor2PaletteCoordinates { get; private set; } = new();
-	public PaletteCoordinates SkinColorPaletteCoordinates { get; private set; } = new();
-	public PaletteCoordinates SkinColor2PaletteCoordinates { get; private set; } = new();
-	public PaletteCoordinates EyeColorPaletteCoordinates { get; private set; } = new();
-	public PaletteCoordinates EyeColor2PaletteCoordinates { get; private set; } = new();
-	public Dictionary<string, AccessoryGeneData> AccessoryGenesDict { get; private set; } = new();
+	public PaletteCoordinates HairColorPaletteCoordinates { get; } = new();
+	public PaletteCoordinates HairColor2PaletteCoordinates { get; } = new();
+	public PaletteCoordinates SkinColorPaletteCoordinates { get; } = new();
+	public PaletteCoordinates SkinColor2PaletteCoordinates { get; } = new();
+	public PaletteCoordinates EyeColorPaletteCoordinates { get; } = new();
+	public PaletteCoordinates EyeColor2PaletteCoordinates { get; } = new();
+	public Dictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } = new();
 	
 	public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
 		var decodedDnaStr = Convert.FromBase64String(dnaString);
@@ -74,7 +74,7 @@ public class PortraitData {
 					ObjectNameRecessive = geneObjectNameRecessive
 				});
 			} else {
-				Logger.Warn($"{ageSexString} Gene template object name for {geneTemplateName} for  could not be extracted from DNA!");
+				Logger.Warn($"{ageSexString} gene template object name for {geneTemplateName} for {geneName} could not be extracted from DNA!");
 			}
 		}
 	}

@@ -245,12 +245,8 @@ public class World : Parser {
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
 	private void ParseGenes() {
-		var genesFileLocation = ModFS.GetActualFileLocation("common/genes/00_genes.txt");
-		if (genesFileLocation is null) {
-			Logger.Warn("I:R genes file not found!");
-		} else {
-			genesDB = new GenesDB(ModFS);
-		}
+		Logger.Debug("Parsing genes...");
+		genesDB = new GenesDB(ModFS);
 	}
 	private void LoadPreImperatorRulers() {
 		const string filePath = "configurables/characters_prehistory.txt";

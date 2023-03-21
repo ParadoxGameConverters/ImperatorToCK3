@@ -25,6 +25,7 @@ public sealed class DNAFactory {
 	private readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
 
 	public DNAFactory(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
+		Logger.Debug("Reading color palettes...");
 		var irHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
 		                        throw new ConverterException("Could not find Imperator hair palette!");
 		irHairPalettePixels = new MagickImage(irHairPalettePath).GetPixelsUnsafe();
@@ -45,9 +46,11 @@ public sealed class DNAFactory {
 		var ck3EyePalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ??
 		                        throw new ConverterException("Could not find CK3 eye palette!");
 		var ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
-
+		
+		Logger.Debug("Initializing genes database...");
 		genesDB = new GenesDB(ck3ModFS);
 		
+		Logger.Debug("Building color conversion caches...");
 		BuildColorConversionCaches(ck3HairPalettePixels, ck3SkinPalettePixels, ck3EyePalettePixels);
 	}
 	
