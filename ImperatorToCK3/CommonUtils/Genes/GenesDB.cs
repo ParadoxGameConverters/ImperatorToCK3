@@ -37,6 +37,7 @@ public class GenesDB {
 		});
 		morphGenesParser.IgnoreAndLogUnregisteredItems();
 
+		parser.RegisterKeyword("color_genes", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("special_genes", LoadSpecialGenes);
 		parser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
 		parser.RegisterKeyword("morph_genes", LoadMorphGenes);

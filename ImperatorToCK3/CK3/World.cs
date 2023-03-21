@@ -146,7 +146,9 @@ public class World {
 
 		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
+		Logger.Info("Initializing DNA factory...");
 		var dnaFactory = new DNAFactory(impWorld.ModFS, ModFS);
+		Logger.IncrementProgress();
 
 		Characters.LoadCK3Characters(ModFS);
 		Logger.IncrementProgress();
