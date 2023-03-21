@@ -1,10 +1,10 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Geography;
@@ -18,6 +18,7 @@ using ImperatorToCK3.Mappers.Trait;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 using System;
+using CharacterCollection = ImperatorToCK3.Imperator.Characters.CharacterCollection;
 
 // ReSharper disable StringLiteralTypo
 
@@ -64,6 +65,7 @@ public class DynastyTests {
 				locDB,
 				provinceMapper,
 				deathReasonMapper,
+				new DNAFactory(irModFS, ck3ModFS),
 				new Date(867, 1, 1),
 				config
 			);

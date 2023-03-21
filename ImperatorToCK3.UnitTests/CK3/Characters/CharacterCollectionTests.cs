@@ -37,7 +37,7 @@ public class CharacterCollectionTests {
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
-	private readonly ModFilesystem ck3ModFs = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
+	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 
 	public CharacterCollectionTests() {
 		var states = new StateCollection();
@@ -82,6 +82,7 @@ public class CharacterCollectionTests {
 			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
+			new DNAFactory(irModFS, ck3ModFS),
 			endDate,
 			configuration);
 
@@ -125,6 +126,7 @@ public class CharacterCollectionTests {
 			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
+			new DNAFactory(irModFS, ck3ModFS),
 			endDate,
 			configuration);
 
@@ -175,6 +177,7 @@ public class CharacterCollectionTests {
 			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
+			new DNAFactory(irModFS, ck3ModFS),
 			conversionDate,
 			configuration);
 
@@ -290,6 +293,7 @@ public class CharacterCollectionTests {
 			locDB,
 			provinceMapper,
 			deathReasonMapper,
+			new DNAFactory(irModFS, ck3ModFS),
 			conversionDate,
 			config);
 
@@ -310,7 +314,7 @@ public class CharacterCollectionTests {
 			conversionDate,
 			config);
 
-		var provinces = new ProvinceCollection(ck3ModFs);
+		var provinces = new ProvinceCollection(ck3ModFS);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 
 		titles.ImportImperatorGovernorships(

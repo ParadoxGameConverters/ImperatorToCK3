@@ -146,7 +146,7 @@ public class World {
 
 		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
-		DNA.Initialize(impWorld.ModFS, ModFS);
+		var dnaFactory = new DNAFactory(impWorld.ModFS, ModFS);
 
 		Characters.LoadCK3Characters(ModFS);
 		Logger.IncrementProgress();
@@ -159,6 +159,7 @@ public class World {
 			impWorld.LocDB,
 			provinceMapper,
 			deathReasonMapper,
+			dnaFactory,
 			CorrectedDate,
 			config
 		);

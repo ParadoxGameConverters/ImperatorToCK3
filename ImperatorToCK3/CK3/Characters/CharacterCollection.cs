@@ -26,6 +26,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
+		DNAFactory dnaFactory,
 		Date conversionDate,
 		Configuration config
 	) {
@@ -41,6 +42,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				locDB,
 				provinceMapper,
 				deathReasonMapper,
+				dnaFactory,
 				conversionDate,
 				config
 			);
@@ -67,6 +69,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
+		DNAFactory dnaFactory,
 		Date endDate,
 		Configuration config
 	) {
@@ -81,6 +84,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			locDB,
 			provinceMapper,
 			deathReasonMapper,
+			dnaFactory,
 			endDate,
 			config
 		);

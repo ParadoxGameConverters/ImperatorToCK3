@@ -66,6 +66,7 @@ public class CK3CharacterTests {
 				locDB,
 				provinceMapper,
 				deathReasonMapper,
+				new DNAFactory(irModFS, ck3ModFS),
 				new Date(867, 1, 1),
 				config
 			);

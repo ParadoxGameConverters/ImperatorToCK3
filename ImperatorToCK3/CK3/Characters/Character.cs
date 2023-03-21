@@ -284,6 +284,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			LocDB locDB,
 			ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 			DeathReasonMapper deathReasonMapper,
+			DNAFactory dnaFactory,
 			Date dateOnConversion,
 			Configuration config
 		) {
@@ -324,7 +325,7 @@ namespace ImperatorToCK3.CK3.Characters {
 			Female = ImperatorCharacter.Female;
 			
 			if (ImperatorCharacter.PortraitData is not null) {
-				DNA = new DNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
+				DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
 			}
 
 			// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
