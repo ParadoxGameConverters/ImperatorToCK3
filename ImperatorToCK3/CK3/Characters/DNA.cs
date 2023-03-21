@@ -73,28 +73,28 @@ public class DNA {
 		Id = $"dna_{irCharacter.Id}";
 
 		HairCoordinates = GetPaletteCoordinates(
-			irPortraitData.HairColorPaletteCoordinates, irHairPalettePixels, ck3HairPalettePixels
+			irPortraitData.HairColorPaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
 		);
 		HairCoordinates2 = GetPaletteCoordinates(
-			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairPalettePixels
+			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
 		);
 		var hairValue = $"{HairCoordinates.X} {HairCoordinates.Y} {HairCoordinates2.X} {HairCoordinates2.Y}";
 		dnaValues.Add("hair_color", hairValue);
 
 		SkinCoordinates = GetPaletteCoordinates(
-			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinPalettePixels
+			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
 		);
 		SkinCoordinates2 = GetPaletteCoordinates(
-			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinPalettePixels
+			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
 		);
 		var skinValue = $"{SkinCoordinates.X} {SkinCoordinates.Y} {SkinCoordinates2.X} {SkinCoordinates2.Y}";
 		dnaValues.Add("skin_color", skinValue);
 
 		EyeCoordinates = GetPaletteCoordinates(
-			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyePalettePixels
+			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
 		);
 		EyeCoordinates2 = GetPaletteCoordinates(
-			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyePalettePixels
+			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
 		);
 		var eyeValue = $"{EyeCoordinates.X} {EyeCoordinates.Y} {EyeCoordinates2.X} {EyeCoordinates2.Y}";
 		dnaValues.Add("eye_color", eyeValue);
@@ -164,51 +164,52 @@ public class DNA {
 		var geneValue = $"\"{ck3GeneSetName}\" {intSliderValue} \"{ck3GeneSetName}\" {intSliderValueRecessive}";
 		dnaValues.Add(ck3GeneName, geneValue);
 	}
+	
+	private static readonly Dictionary<IMagickColor<ushort>, PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
+	private static readonly Dictionary<IMagickColor<ushort>, PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
+	private static readonly Dictionary<IMagickColor<ushort>, PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
+	public static void BuildColorConversionCaches() { // TODO: call this somewhere
+		BuildColorConversionCache(ck3HairPalettePixels, ck3SkinColorToPaletteCoordinatesDict);
+		BuildColorConversionCache(ck3EyePalettePixels, ck3EyeColorToPaletteCoordinatesDict);
+		BuildColorConversionCache(ck3SkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict);
+	}
 
-	private static PaletteCoordinates GetPaletteCoordinates(
-		Imperator.Characters.PaletteCoordinates irPaletteCoordinates,
-		IUnsafePixelCollection<ushort>? irPalettePixels,
-		IUnsafePixelCollection<ushort>? ck3PalettePixels
+	private static void BuildColorConversionCache(
+		IUnsafePixelCollection<ushort> ck3PalettePixels,
+		IDictionary<IMagickColor<ushort>, PaletteCoordinates> ck3ColorToCoordinatesDict
 	) {
-		if (irPalettePixels is null) {
-			throw new ArgumentNullException(nameof(irPalettePixels));
-		}
-		if (ck3PalettePixels is null) {
-			throw new ArgumentNullException(nameof(ck3PalettePixels));
-		}
-
-		var bestCoordinates = new PaletteCoordinates();
-
-		var irColor = irPalettePixels.GetPixel(irPaletteCoordinates.X, irPaletteCoordinates.Y).ToColor();
-		if (irColor is null) {
-			Logger.Warn($"Cannot get color from palette {irPalettePixels}!");
-			return bestCoordinates;
-		}
-		
-		// Find the closest color in the CK3 palette.
-		var minColorDistance = double.MaxValue;
 		foreach (var pixel in ck3PalettePixels) {
 			var color = pixel.ToColor();
 			if (color is null) {
 				continue;
 			}
-			var rDiff = Math.Abs(irColor.R - color.R);
-			var gDiff = Math.Abs(irColor.G - color.G);
-			var bDiff = Math.Abs(irColor.B - color.B);
-			double colorDistance = Math.Pow(rDiff, 3) + Math.Pow(gDiff, 3) + Math.Pow(bDiff, 3);
 
-			if (!(colorDistance < minColorDistance)) {
-				continue;
-			}
+			var coordinates = new PaletteCoordinates { X = pixel.X, Y = pixel.Y };
+			ck3ColorToCoordinatesDict[color] = coordinates;
+		}
+	}
 
-			bestCoordinates = new PaletteCoordinates { X = pixel.X, Y = pixel.Y };
-			minColorDistance = colorDistance;
-			if (minColorDistance == 0) {
-				return bestCoordinates;
-			}
+	private static PaletteCoordinates GetPaletteCoordinates(
+		Imperator.Characters.PaletteCoordinates irPaletteCoordinates,
+		IUnsafePixelCollection<ushort> irPalettePixels,
+		IDictionary<IMagickColor<ushort>, PaletteCoordinates> ck3ColorToCoordinatesDict
+	) {
+		var irColor = irPalettePixels.GetPixel(irPaletteCoordinates.X, irPaletteCoordinates.Y).ToColor();
+		if (irColor is null) {
+			Logger.Warn($"Cannot get color from palette {irPalettePixels}!");
+			return new PaletteCoordinates();
+		}
+		
+		if (ck3ColorToCoordinatesDict.TryGetValue(irColor, out var foundCoordinates)) {
+			return foundCoordinates;
 		}
 
-		return bestCoordinates;
+		// Find the closest color in the CK3 palette with the 3D distance formula.
+		var closestPair = ck3ColorToCoordinatesDict
+			.MinBy(d => Math.Pow(d.Key.R - irColor.R, 2) + Math.Pow(d.Key.G - irColor.G, 2) + Math.Pow(d.Key.B - irColor.B, 2));
+		var closestColorCoordinates = closestPair.Value;
+		ck3ColorToCoordinatesDict[irColor] = closestColorCoordinates;
+		return closestColorCoordinates;
 	}
 
 	public void OutputGenes(StreamWriter output) {
