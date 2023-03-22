@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
@@ -60,5 +61,8 @@ public class WeightBlock {
 	public void AddObject(string objectName, uint absoluteWeight) {
 		objectsList.Add(new KeyValuePair<string, uint>(objectName, absoluteWeight));
 		SumOfAbsoluteWeights += absoluteWeight;
+	}
+	public bool ContainsObject(string objectName) {
+		return objectsList.Any(entry => entry.Key == objectName);
 	}
 }

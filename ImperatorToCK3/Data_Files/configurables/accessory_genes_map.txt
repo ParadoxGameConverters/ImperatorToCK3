@@ -71,6 +71,31 @@ object_to_object = {
 		male_hair_ethiopian_3 = male_hair_sub_saharan_02
 		
 		# TODO: female hairstyles
+		female_hair_roman_1 = female_hair_northern_02
+		female_hair_roman_2 = female_hair_western_01
+		female_hair_roman_3 = female_hair_western_10
+		female_hair_roman_4 = female_hair_fp1_03
+		female_hair_roman_4 = female_hair_byzantine_02
+		female_hair_greek_1 = female_hair_byzantine_02
+		female_hair_greek_2 = female_hair_byzantine_02
+		female_hair_greek_3 = female_hair_fp2_iberian_christian_02
+		female_hair_greek_4 = female_hair_fp2_iberian_muslim_01
+		female_hair_greek_5 = female_hair_western_01
+		female_hair_celtic_1 = female_hair_western_10
+		female_hair_celtic_2 = female_hair_western_02
+		female_hair_celtic_3 = female_hair_western_10
+		female_hair_persian_1 = female_hair_mena_02
+		female_hair_persian_2 = female_hair_fp2_iberian_muslim_01_common
+		female_hair_arabian_1 = female_hair_western_02
+		female_hair_arabian_1_color2 = female_hair_western_02
+		female_hair_arabian_1_color3 = female_hair_western_02
+		female_hair_arabian_1_color4 = female_hair_western_02
+		female_hair_arabian_2 = female_hair_western_03
+		female_hair_arabian_2_color2 = female_hair_western_03
+		female_hair_arabian_2_color3 = female_hair_western_03
+		female_hair_arabian_2_color4 = female_hair_western_03
+		female_hair_arabian_2 = female_hair_western_05
+		female_hair_mauryan_1 = # TODO: finish
 	}
     
 	eye_accessory = {

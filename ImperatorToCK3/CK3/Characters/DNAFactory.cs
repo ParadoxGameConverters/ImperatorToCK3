@@ -90,8 +90,7 @@ public sealed class DNAFactory {
 			irCharacter, 
 			irPortraitData, 
 			"beards",
-			ck3GenesDB.SpecialAccessoryGenes["beards"], 
-			"scripted_character_beards_01"
+			ck3GenesDB.SpecialAccessoryGenes["beards"]
 		);
 		if (beardGeneValue is not null) {
 			dnaValues.Add("beards", beardGeneValue);
@@ -140,25 +139,28 @@ public sealed class DNAFactory {
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
 		string imperatorGeneName,
-		AccessoryGene ck3Gene,
-		string ck3GeneTemplateName
+		AccessoryGene ck3Gene
 	) {
 		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
 			return null;
 		}
-		
-		var ck3GeneTemplate = ck3Gene.GeneTemplates[ck3GeneTemplateName];
 
 		var objectMappings = accessoryGeneMapper.ObjectToObjectMappings[imperatorGeneName];
 		var convertedSetEntry = objectMappings[geneInfo.ObjectName];
+		var ck3GeneTemplate = ck3Gene.GeneTemplates
+			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntry));
 		var convertedSetEntryRecessive = objectMappings[geneInfo.ObjectNameRecessive];
+		var ck3GeneTemplateRecessive = ck3Gene.GeneTemplates
+			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntryRecessive));
 
-		var matchingPercentage = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
-		var matchingPercentageRecessive = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);
+		var matchingPercentage = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex]
+			.GetMatchingPercentage(convertedSetEntry);
+		var matchingPercentageRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]
+			.GetMatchingPercentage(convertedSetEntryRecessive);
 		int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
 		int intSliderValueRecessive = (int)Math.Ceiling(matchingPercentageRecessive * 255);
 
-		var geneValue = $"\"{ck3GeneTemplateName}\" {intSliderValue} \"{ck3GeneTemplateName}\" {intSliderValueRecessive}";
+		var geneValue = $"\"{ck3GeneTemplate.Id}\" {intSliderValue} \"{ck3GeneTemplateRecessive.Id}\" {intSliderValueRecessive}";
 		return geneValue;
 	}
 	
