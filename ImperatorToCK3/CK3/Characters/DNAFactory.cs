@@ -86,7 +86,7 @@ public sealed class DNAFactory {
 		var eyeValue = $"{eyeCoordinates.X} {eyeCoordinates.Y} {eyeCoordinates2.X} {eyeCoordinates2.Y}";
 		dnaValues.Add("eye_color", eyeValue);
 		
-		var accessoryGeneValue = GetAccessoryGeneValue(
+		var accessoryGeneValue = GetSpecialAccessoryGeneValue(
 			irCharacter, 
 			irPortraitData, 
 			"beards", 
@@ -98,10 +98,8 @@ public sealed class DNAFactory {
 		}
 
 		// Use middle values for the rest of the genes.
-		var morphGenesToIgnore = new string[] {"pose"};
 		var missingMorphGenes = ck3GenesDB.MorphGenes
-			.Where(g => !dnaValues.ContainsKey(g.Id))
-			.Where(g => !morphGenesToIgnore.Contains(g.Id));
+			.Where(g => !dnaValues.ContainsKey(g.Id));
 		foreach (var gene in missingMorphGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
@@ -116,14 +114,8 @@ public sealed class DNAFactory {
 			dnaValues.Add(gene.Id, geneValue);
 		}
 
-		var accessoryGenesToIgnore = new[] {
-			"props", "props_2", "special_legwear", "cloaks",
-			"special_headgear_head_bandage", "special_headgear_eye_patch", "special_headgear_face_mask",
-			"special_headgear_blindfold", "special_headgear_spectacles"
-		};
 		var missingAccessoryGenes = ck3GenesDB.AccessoryGenes
-			.Where(g => !dnaValues.ContainsKey(g.Id))
-			.Where(g => !accessoryGenesToIgnore.Contains(g.Id));
+			.Where(g => !dnaValues.ContainsKey(g.Id));
 		foreach (var gene in missingAccessoryGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
@@ -137,7 +129,7 @@ public sealed class DNAFactory {
 		return new DNA(id, dnaValues);
 	}
 
-	private string? GetAccessoryGeneValue(
+	private string? GetSpecialAccessoryGeneValue(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
 		string imperatorGeneName,
@@ -148,7 +140,7 @@ public sealed class DNAFactory {
 			return null;
 		}
 		
-		var ck3GeneTemplate = ck3GenesDB.AccessoryGenes[ck3GeneName].GeneTemplates[ck3GeneTemplateName];
+		var ck3GeneTemplate = ck3GenesDB.SpecialAccessoryGenes[ck3GeneName].GeneTemplates[ck3GeneTemplateName];
 
 		var mappings = accessoryGeneMapper.Mappings[imperatorGeneName];
 		var convertedSetEntry = mappings[geneInfo.ObjectName];
