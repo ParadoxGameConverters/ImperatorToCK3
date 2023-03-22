@@ -24,6 +24,54 @@ object_to_object = {
 		male_beard_17=male_beard_mena_01
 		male_beard_18=male_beard_steppe_02
 	}
+	
+	hairstyles = {
+		# male hairstyles
+		male_hair_roman_1 = male_hair_byzantine_02
+		male_hair_roman_2 = male_hair_western_03
+		male_hair_roman_4 = male_hair_northern_03
+		male_hair_roman_5 = male_hair_northern_03
+		male_hair_roman_6 = male_hair_western_01
+		male_hair_roman_7 = male_hair_western_06
+		empty = bald
+		male_hair_numidian_1 = male_hair_sub_saharan_03
+		male_hair_carthaginian_1 = male_hair_fp1_06
+		male_hair_carthaginian_2 = male_hair_mena_03
+		male_hair_greek_1 = male_hair_western_01
+		male_hair_greek_2 = male_hair_mena_03
+		male_hair_persian_1 = male_hair_fp2_iberian_muslim_03
+		male_hair_persian_2 = male_hair_fp2_iberian_christian_02
+		male_hair_persian_3 = male_hair_fp2_iberian_muslim_02
+		male_hair_persian_4 = male_hair_fp2_iberian_christian_02
+		male_hair_persian_4_color2 = male_hair_fp2_iberian_christian_02
+		male_hair_persian_4_color3 = male_hair_fp2_iberian_christian_02
+		male_hair_persian_5 = male_hair_fp2_iberian_christian_02
+		male_hair_persian_5_color2 = male_hair_fp2_iberian_christian_02
+		male_hair_persian_5_color3 = male_hair_fp2_iberian_christian_02
+		male_hair_germanic_1 = male_hair_indian_03
+		male_hair_germanic_2 = male_hair_fp1_08
+		male_hair_iberian_1 = male_hair_western_06
+		male_hair_celtic_1 = male_hair_fp2_iberian_muslim_03
+		male_hair_celtic_2 = male_hair_fp1_04
+		male_hair_arabian_1 = male_hair_mena_03
+		male_hair_arabian_1_color2 = male_hair_mena_03
+		male_hair_arabian_1_color3 = male_hair_mena_03
+		male_hair_arabian_1_color4 = male_hair_mena_03
+		male_hair_arabian_2 = male_hair_fp2_iberian_christian_03
+		male_hair_scythian_1 = male_hair_fp2_iberian_muslim_03
+		male_hair_scythian_2 = male_hair_fp2_iberian_muslim_03
+		male_hair_scythian_2_color2 = male_hair_fp2_iberian_muslim_03
+		male_hair_scythian_2_color3 = male_hair_fp2_iberian_muslim_03
+		male_hair_scythian_2_color4 = male_hair_fp2_iberian_muslim_03
+		male_hair_mauryan_1 = male_hair_indian_02
+		male_hair_dravidian_1 = bald
+		male_hair_dravidian_2 = male_hair_indian_03
+		male_hair_ethiopian_1 = male_hair_western_03
+		male_hair_ethiopian_2 = male_hair_sub_saharan_03
+		male_hair_ethiopian_3 = male_hair_sub_saharan_02
+		
+		# TODO: female hairstyles
+	}
     
 	eye_accessory = {
 		male_blindfold_1=special_headgear_blindfold.blindfold.male_headgear_special_blindfold_01
