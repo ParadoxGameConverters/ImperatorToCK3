@@ -21,7 +21,7 @@ public sealed class DNAFactory {
 	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
 	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
 	
-	private readonly GenesDB genesDB;
+	private readonly GenesDB ck3GenesDB;
 	private readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
 
 	public DNAFactory(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
@@ -48,7 +48,7 @@ public sealed class DNAFactory {
 		var ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
 		
 		Logger.Debug("Initializing genes database...");
-		genesDB = new GenesDB(ck3ModFS);
+		ck3GenesDB = new GenesDB(ck3ModFS);
 		
 		Logger.Debug("Building color conversion caches...");
 		BuildColorConversionCaches(ck3HairPalettePixels, ck3SkinPalettePixels, ck3EyePalettePixels);
@@ -93,11 +93,16 @@ public sealed class DNAFactory {
 			"beards", 
 			"scripted_character_beards_01"
 		);
-		dnaValues.Add("beards", accessoryGeneValue);
+		if (accessoryGeneValue is not null) {
+			dnaValues.Add("beards", accessoryGeneValue);
+		}
 
 		// Use middle values for the rest of the genes.
-		var missingMorphGenes = genesDB!.MorphGenes.Where(g => !dnaValues.ContainsKey(g.Key));
-		foreach (var (geneName, gene) in missingMorphGenes) {
+		var morphGenesToIgnore = new string[] {"pose"};
+		var missingMorphGenes = ck3GenesDB.MorphGenes
+			.Where(g => !dnaValues.ContainsKey(g.Id))
+			.Where(g => !morphGenesToIgnore.Contains(g.Id));
+		foreach (var gene in missingMorphGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
 				.ToImmutableList();
@@ -108,7 +113,7 @@ public sealed class DNAFactory {
 			// Get middle gene template.
 			var templateName = geneTemplatesToUse.ElementAt(geneTemplatesToUse.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			dnaValues.Add(geneName, geneValue);
+			dnaValues.Add(gene.Id, geneValue);
 		}
 
 		var accessoryGenesToIgnore = new[] {
@@ -116,42 +121,45 @@ public sealed class DNAFactory {
 			"special_headgear_head_bandage", "special_headgear_eye_patch", "special_headgear_face_mask",
 			"special_headgear_blindfold", "special_headgear_spectacles"
 		};
-		var missingAccessoryGenes = genesDB.AccessoryGenes
-			.Where(g => !dnaValues.ContainsKey(g.Key))
-			.Where(g => !accessoryGenesToIgnore.Contains(g.Key));
-		foreach (var (geneName, gene) in missingAccessoryGenes) {
+		var missingAccessoryGenes = ck3GenesDB.AccessoryGenes
+			.Where(g => !dnaValues.ContainsKey(g.Id))
+			.Where(g => !accessoryGenesToIgnore.Contains(g.Id));
+		foreach (var gene in missingAccessoryGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
 				.ToImmutableList();
 			// Get middle gene template.
 			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			dnaValues.Add(geneName, geneValue);
+			dnaValues.Add(gene.Id, geneValue);
 		}
 		
 		return new DNA(id, dnaValues);
 	}
 
-	private string GetAccessoryGeneValue(
+	private string? GetAccessoryGeneValue(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
 		string imperatorGeneName,
 		string ck3GeneName,
-		string ck3GeneSetName
+		string ck3GeneTemplateName
 	) {
-		var geneInfo = irPortraitData.AccessoryGenesDict[imperatorGeneName];
-		var geneSet = genesDB.AccessoryGenes[ck3GeneName].GeneTemplates[ck3GeneSetName];
+		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
+			return null;
+		}
+		
+		var ck3GeneTemplate = ck3GenesDB.AccessoryGenes[ck3GeneName].GeneTemplates[ck3GeneTemplateName];
 
 		var mappings = accessoryGeneMapper.Mappings[imperatorGeneName];
 		var convertedSetEntry = mappings[geneInfo.ObjectName];
 		var convertedSetEntryRecessive = mappings[geneInfo.ObjectNameRecessive];
 
-		var matchingPercentage = geneSet.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
-		var matchingPercentageRecessive = geneSet.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);
+		var matchingPercentage = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
+		var matchingPercentageRecessive = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);
 		int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
 		int intSliderValueRecessive = (int)Math.Ceiling(matchingPercentageRecessive * 255);
 
-		var geneValue = $"\"{ck3GeneSetName}\" {intSliderValue} \"{ck3GeneSetName}\" {intSliderValueRecessive}";
+		var geneValue = $"\"{ck3GeneTemplateName}\" {intSliderValue} \"{ck3GeneTemplateName}\" {intSliderValueRecessive}";
 		return geneValue;
 	}
 

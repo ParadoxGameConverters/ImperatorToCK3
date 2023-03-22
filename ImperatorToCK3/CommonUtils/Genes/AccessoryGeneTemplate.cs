@@ -19,7 +19,7 @@ public class AccessoryGeneTemplate : IIdentifiable<string> {
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("index", reader => Index = (uint)reader.GetInt());
-		parser.RegisterKeyword("set_tags", ParserHelpers.IgnoreAndLogItem);
+		parser.RegisterKeyword("set_tags", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex("male|female|boy|girl", (reader, ageSexStr) => {
 			var stringOfItem = new StringOfItem(reader).ToString();
 			var tempStream = new BufferedReader(stringOfItem);

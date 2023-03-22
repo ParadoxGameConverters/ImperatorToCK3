@@ -40,7 +40,7 @@ public class PortraitData {
 		const uint colorGenesBytes = 12;
 		var accessoryGenes = genesDB.AccessoryGenes;
 
-		foreach (var (geneName, gene) in accessoryGenes) {
+		foreach (var gene in accessoryGenes) {
 			var geneIndex = gene.Index;
 			if (geneIndex is null) {
 				continue;
@@ -67,14 +67,14 @@ public class PortraitData {
 			var geneObjectName = foundWeightBlock.GetMatchingObject(geneSliderPercentage);
 			var geneObjectNameRecessive = foundWeightBlockRecessive.GetMatchingObject(geneSliderRecessivePercentage);
 			if (geneObjectName is not null && geneObjectNameRecessive is not null) {
-				AccessoryGenesDict.Add(geneName, new AccessoryGeneData {
+				AccessoryGenesDict.Add(gene.Id, new AccessoryGeneData {
 					GeneTemplate = geneTemplateName,
 					ObjectName = geneObjectName,
 					GeneTemplateRecessive = geneTemplateNameRecessive,
 					ObjectNameRecessive = geneObjectNameRecessive
 				});
 			} else {
-				Logger.Warn($"{ageSexString} gene template object name for {geneTemplateName} for {geneName} could not be extracted from DNA!");
+				Logger.Warn($"{ageSexString} gene template object name for {geneTemplateName} for {gene.Id} could not be extracted from DNA!");
 			}
 		}
 	}

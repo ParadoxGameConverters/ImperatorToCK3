@@ -3,10 +3,13 @@ using commonItems.Collections;
 
 namespace ImperatorToCK3.CommonUtils.Genes; 
 
-public class MorphGene : Gene {
+public class MorphGene : Gene, IIdentifiable<string> {
+	public string Id { get; }
 	public IdObjectCollection<string, MorphGeneTemplate> GeneTemplates { get; } = new();
 
-	public MorphGene(BufferedReader geneReader) {
+	public MorphGene(string id, BufferedReader geneReader) {
+		Id = id;
+		
 		var parser = new Parser();
 		parser.RegisterKeyword("index", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("ugliness_feature_categories", ParserHelpers.IgnoreItem);

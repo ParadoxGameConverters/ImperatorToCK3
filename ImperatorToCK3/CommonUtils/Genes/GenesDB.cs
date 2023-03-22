@@ -1,12 +1,12 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
-using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
 public class GenesDB {
-	public Dictionary<string, AccessoryGene> AccessoryGenes { get; } = new();
-	public Dictionary<string, MorphGene> MorphGenes { get; } = new();
+	public IdObjectCollection<string, AccessoryGene> AccessoryGenes { get; } = new();
+	public IdObjectCollection<string, MorphGene> MorphGenes { get; } = new();
 
 	public GenesDB() { }
 	public GenesDB(ModFilesystem modFS) {
@@ -23,20 +23,23 @@ public class GenesDB {
 	private void RegisterKeys(Parser parser) {
 		var accessoryGenesParser = new Parser();
 		accessoryGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) =>
-			AccessoryGenes.Add(geneName, new AccessoryGene(geneReader))
+			AccessoryGenes.Add(new AccessoryGene(geneName, geneReader))
 		);
 		accessoryGenesParser.IgnoreAndLogUnregisteredItems();
-
-		var specialGenesParser = new Parser();
-		specialGenesParser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
-		specialGenesParser.IgnoreAndLogUnregisteredItems();
 		
 		var morphGenesParser = new Parser();
 		morphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) => {
-			MorphGenes.Add(geneName, new MorphGene(geneReader));
+			MorphGenes.Add(new MorphGene(geneName, geneReader));
 		});
 		morphGenesParser.IgnoreAndLogUnregisteredItems();
 
+		var specialGenesParser = new Parser();
+		specialGenesParser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);
+		specialGenesParser.RegisterKeyword("morph_genes", LoadMorphGenes);
+		specialGenesParser.IgnoreAndLogUnregisteredItems();
+		
+		parser.RegisterKeyword("age_presets", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("decal_atlases", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("color_genes", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("special_genes", LoadSpecialGenes);
 		parser.RegisterKeyword("accessory_genes", LoadAccessoryGenes);

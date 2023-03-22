@@ -8,12 +8,9 @@ public class AccessoryGeneTests {
 	[Fact]
 	public void IndexCanBeSet() {
 		var reader = new BufferedReader(
-			"=\n" +
-			"{\n" +
-			"\tindex=69" +
-			"}"
+			"= { index=69 }"
 		);
-		var gene = new AccessoryGene(reader);
+		var gene = new AccessoryGene("test_gene", reader);
 
 		Assert.Equal((uint)69, gene.Index);
 	}
@@ -21,7 +18,7 @@ public class AccessoryGeneTests {
 	[Fact]
 	public void IndexDefaultsToNull() { // special_genes accessory genes don't have an index
 		var reader = new BufferedReader("={}");
-		var gene = new AccessoryGene(reader);
+		var gene = new AccessoryGene("test_gene", reader);
 
 		Assert.Null(gene.Index);
 	}
@@ -29,7 +26,7 @@ public class AccessoryGeneTests {
 	[Fact]
 	public void GeneTemplatesDefaultToEmpty() {
 		var reader = new BufferedReader("={}");
-		var gene = new AccessoryGene(reader);
+		var gene = new AccessoryGene("test_gene", reader);
 
 		Assert.Empty(gene.GeneTemplates);
 	}
@@ -70,7 +67,7 @@ public class AccessoryGeneTests {
 			"	} \n" +
 			"}\n"
 		);
-		var gene = new AccessoryGene(reader);
+		var gene = new AccessoryGene("test_gene", reader);
 
 		Assert.Equal((uint)95, gene.Index);
 		Assert.False(gene.Inheritable);
