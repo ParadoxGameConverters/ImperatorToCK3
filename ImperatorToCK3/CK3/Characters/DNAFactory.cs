@@ -86,15 +86,20 @@ public sealed class DNAFactory {
 		var eyeValue = $"{eyeCoordinates.X} {eyeCoordinates.Y} {eyeCoordinates2.X} {eyeCoordinates2.Y}";
 		dnaValues.Add("eye_color", eyeValue);
 		
-		var accessoryGeneValue = GetSpecialAccessoryGeneValue(
+		var beardGeneValue = MatchAccessoryGeneValueByObject(
 			irCharacter, 
 			irPortraitData, 
-			"beards", 
-			"beards", 
+			"beards",
+			ck3GenesDB.SpecialAccessoryGenes["beards"], 
 			"scripted_character_beards_01"
 		);
-		if (accessoryGeneValue is not null) {
-			dnaValues.Add("beards", accessoryGeneValue);
+		if (beardGeneValue is not null) {
+			dnaValues.Add("beards", beardGeneValue);
+		}
+
+		var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes");
+		if (clothesGeneValue is not null) {
+			dnaValues.Add("clothes", clothesGeneValue);
 		}
 
 		// Use middle values for the rest of the genes.
@@ -128,23 +133,25 @@ public sealed class DNAFactory {
 		
 		return new DNA(id, dnaValues);
 	}
-
-	private string? GetSpecialAccessoryGeneValue(
+	
+	/// Returns CK3 gene value string after object-to-object matching
+	/// (for example I:R male_beard_1 to CK3 male_beard_western_03).
+	private string? MatchAccessoryGeneValueByObject(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
 		string imperatorGeneName,
-		string ck3GeneName,
+		AccessoryGene ck3Gene,
 		string ck3GeneTemplateName
 	) {
 		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
 			return null;
 		}
 		
-		var ck3GeneTemplate = ck3GenesDB.SpecialAccessoryGenes[ck3GeneName].GeneTemplates[ck3GeneTemplateName];
+		var ck3GeneTemplate = ck3Gene.GeneTemplates[ck3GeneTemplateName];
 
-		var mappings = accessoryGeneMapper.Mappings[imperatorGeneName];
-		var convertedSetEntry = mappings[geneInfo.ObjectName];
-		var convertedSetEntryRecessive = mappings[geneInfo.ObjectNameRecessive];
+		var objectMappings = accessoryGeneMapper.ObjectToObjectMappings[imperatorGeneName];
+		var convertedSetEntry = objectMappings[geneInfo.ObjectName];
+		var convertedSetEntryRecessive = objectMappings[geneInfo.ObjectNameRecessive];
 
 		var matchingPercentage = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntry);
 		var matchingPercentageRecessive = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex].GetMatchingPercentage(convertedSetEntryRecessive);
@@ -153,6 +160,25 @@ public sealed class DNAFactory {
 
 		var geneValue = $"\"{ck3GeneTemplateName}\" {intSliderValue} \"{ck3GeneTemplateName}\" {intSliderValueRecessive}";
 		return geneValue;
+	}
+	
+	/// Returns CK3 gene value string after template-to-template matching
+	/// (for example I:R roman_clothes to CK3 byzantine_low_nobility_clothes).
+	private string? MatchAccessoryGeneValueByTemplate(
+		Imperator.Characters.Character irCharacter,
+		PortraitData irPortraitData,
+		string imperatorGeneName
+	) {
+		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
+			return null;
+		}
+
+		var templateMappings = accessoryGeneMapper.TemplateToTemplateMappings[imperatorGeneName];
+		var ck3GeneTemplateName = templateMappings[geneInfo.GeneTemplate];
+		var ck3GeneTemplateNameRecessive = templateMappings[geneInfo.GeneTemplateRecessive];
+		var intSliderValue = (int)(irCharacter.Id % 256);
+
+		return $"\"{ck3GeneTemplateName}\" {intSliderValue} \"{ck3GeneTemplateNameRecessive}\" {intSliderValue}";
 	}
 
 	private void BuildColorConversionCaches(

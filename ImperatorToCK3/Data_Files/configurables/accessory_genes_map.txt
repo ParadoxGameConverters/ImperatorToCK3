@@ -1,32 +1,79 @@
-beards = {
-	empty=empty
-	male_beard_1=male_beard_western_03
-	male_beard_2=male_beard_steppe_02
-	male_beard_3=male_beard_western_04
-	male_beard_4=male_beard_western_01
-	male_beard_5=male_beard_steppe_02
-	male_beard_6=male_beard_western_09
-	male_beard_7=male_beard_western_05
-	male_beard_8=male_beard_sub_saharan_03
-	male_beard_9=male_beard_sub_saharan_03
-	male_beard_10=male_beard_western_07
-	male_beard_11=male_beard_fp1_05
-	male_beard_12=male_beard_western_03
-	male_beard_13=male_beard_western_02
-	male_beard_14=male_beard_western_08
-	male_beard_15=male_beard_steppe_02
-	male_beard_15_b=male_beard_western_05
-	male_beard_16=male_beard_sub_saharan_03
-	male_beard_17=male_beard_mena_01
-	male_beard_18=male_beard_steppe_02
+object_to_object = {
+	# Maps specific objects to specific objects,
+	# for example I:R male_beard_1 to CK3 male_beard_western_03.
+
+	beards = {
+		empty=empty
+		male_beard_1=male_beard_western_03
+		male_beard_2=male_beard_steppe_02
+		male_beard_3=male_beard_western_04
+		male_beard_4=male_beard_western_01
+		male_beard_5=male_beard_steppe_02
+		male_beard_6=male_beard_western_09
+		male_beard_7=male_beard_western_05
+		male_beard_8=male_beard_sub_saharan_03
+		male_beard_9=male_beard_sub_saharan_03
+		male_beard_10=male_beard_western_07
+		male_beard_11=male_beard_fp1_05
+		male_beard_12=male_beard_western_03
+		male_beard_13=male_beard_western_02
+		male_beard_14=male_beard_western_08
+		male_beard_15=male_beard_steppe_02
+		male_beard_15_b=male_beard_western_05
+		male_beard_16=male_beard_sub_saharan_03
+		male_beard_17=male_beard_mena_01
+		male_beard_18=male_beard_steppe_02
+	}
+    
+	eye_accessory = {
+		male_blindfold_1=special_headgear_blindfold.blindfold.male_headgear_special_blindfold_01
+		female_blindfold_1=special_headgear_blindfold.blindfold.female_headgear_special_blindfold_01
+		
+		male_eyepatch_1=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
+		female_eyepatch_1=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
+		male_eyepatch_2=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
+		female_eyepatch_2=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
+	}
 }
 
-eye_accessory = {
-	male_blindfold_1=special_headgear_blindfold.blindfold.male_headgear_special_blindfold_01
-	female_blindfold_1=special_headgear_blindfold.blindfold.female_headgear_special_blindfold_01
+template_to_template = {
+	# Maps entire gene templates to specific templates,
+	# for example I:R roman_clothes to CK3 byzantine_low_nobility_clothes.
 	
-	male_eyepatch_1=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
-	female_eyepatch_1=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
-	male_eyepatch_2=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
-	female_eyepatch_2=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
+	clothes = {
+		most_clothes = byzantine_high_nobles
+		roman_clothes = byzantine_high_nobles
+		greek_clothes = byzantine_high_nobles
+		carthaginian_clothes = mena_high_nobles
+		persian_clothes = mena_high_nobles
+		germanic_clothes = western_royalty
+		celtic_clothes = western_royalty
+		iberian_clothes = fp2_christian_high_nobility_clothes
+		egyptian_clothes = mena_high_nobles
+		mauryan_clothes = indian_high_nobility_clothes
+		dravidian_clothes = indian_high_nobility_clothes
+		scythian_clothes = steppe_high_nobility_clothes
+		arabian_clothes = mena_high_nobles
+		bactrian_clothes = steppe_high_nobility_clothes
+		ethiopian_clothes = sub_saharan_high_nobility_clothes
+		tibetan_clothes = indian_high_nobility_clothes
+		no_clothes = no_clothes
+		
+		roman_soldier_clothes_template = byzantine_war_nobility_clothes
+		greek_soldier_clothes_template = byzantine_war_nobility_clothes
+		carthaginian_soldier_clothes_template = mena_war_nobility_clothes
+		celtic_soldier_clothes_template = western_war_nobility_clothes
+		persian_soldier_clothes_template = mena_war_nobility_clothes
+		egyptian_soldier_clothes_template = mena_war_nobility_clothes
+		germanic_soldier_clothes_template = western_war_nobility_clothes
+		scythian_soldier_clothes_template = steppe_war_nobility_clothes
+		iberian_soldier_clothes_template = western_war_nobility_clothes
+		arabian_soldier_clothes_template = mena_war_nobility_clothes
+		dravidian_soldier_clothes_template = indian_war_nobility_clothes
+		mauryan_soldier_clothes_template = indian_war_nobility_clothes
+		ethiopian_soldier_clothes_template = sub_saharan_war_nobility_clothes
+		bactrian_soldier_clothes_template = steppe_war_nobility_clothes
+	}
 }
+
+
