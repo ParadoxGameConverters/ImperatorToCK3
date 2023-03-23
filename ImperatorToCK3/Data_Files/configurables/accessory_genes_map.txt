@@ -70,7 +70,7 @@ object_to_object = {
 		male_hair_ethiopian_2 = male_hair_sub_saharan_03
 		male_hair_ethiopian_3 = male_hair_sub_saharan_02
 		
-		# TODO: female hairstyles
+		# female hairstyles
 		female_hair_roman_1 = female_hair_northern_02
 		female_hair_roman_2 = female_hair_western_01
 		female_hair_roman_3 = female_hair_western_10
@@ -95,7 +95,9 @@ object_to_object = {
 		female_hair_arabian_2_color3 = female_hair_western_03
 		female_hair_arabian_2_color4 = female_hair_western_03
 		female_hair_arabian_2 = female_hair_western_05
-		female_hair_mauryan_1 = # TODO: finish
+		female_hair_mauryan_1 = female_hair_indian_01
+		female_hair_ethiopian_1 = female_hair_sub_saharan_child_01
+		female_hair_ethiopian_2 = female_hair_sub_saharan_03
 	}
     
 	eye_accessory = {
