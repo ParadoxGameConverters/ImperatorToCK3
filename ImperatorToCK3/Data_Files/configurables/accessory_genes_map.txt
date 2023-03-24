@@ -69,6 +69,7 @@ object_to_object = {
 		male_hair_ethiopian_1 = male_hair_western_03
 		male_hair_ethiopian_2 = male_hair_sub_saharan_03
 		male_hair_ethiopian_3 = male_hair_sub_saharan_02
+		male_hair_egyptian_1 = male_hair_sub_saharan_01
 		
 		# female hairstyles
 		female_hair_roman_1 = female_hair_northern_02
