@@ -150,8 +150,11 @@ public sealed class DNAFactory {
 			var geneValueStr = $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
 			colorAndMorphDNAValues.Add(geneName, geneValueStr);
 		}
-		
-		// TODO: convert "age" gene
+
+		var ageGeneValue = GetAgeGeneValue(irPortraitData);
+		if (ageGeneValue is not null) {
+			colorAndMorphDNAValues.Add("gene_age", ageGeneValue);
+		}
 
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
@@ -290,5 +293,26 @@ public sealed class DNAFactory {
 		var closestColorCoordinates = closestPair.Value;
 		ck3ColorToCoordinatesDict[irColor] = closestColorCoordinates;
 		return closestColorCoordinates;
+	}
+
+	private string? GetAgeGeneValue(PortraitData irPortraitData) {
+		const string irAgeGeneName = "age";
+		const string ck3AgeGeneName = "gene_age";
+		var irGeneData = irPortraitData.MorphGenesDict[irAgeGeneName];
+		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3AgeGeneName);
+
+		var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(irAgeGeneName, irGeneData.TemplateName);
+		if (ck3Gene.GeneTemplates.All(t => t.Id != ck3TemplateName)) {
+			Logger.Warn($"Could not find template {ck3TemplateName} for gene {ck3AgeGeneName} in CK3!");
+			return null;
+		}
+
+		var ck3GeneTemplateRecessiveName = morphGeneTemplateMapper.GetCK3Template(irAgeGeneName, irGeneData.TemplateRecessiveName);
+		if (ck3Gene.GeneTemplates.All(t => t.Id != ck3GeneTemplateRecessiveName)) {
+			Logger.Warn($"Could not find template {ck3GeneTemplateRecessiveName} for gene {ck3AgeGeneName} in CK3!");
+			return null;
+		}
+
+		return $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
 	}
 }

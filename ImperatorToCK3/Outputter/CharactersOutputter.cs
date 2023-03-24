@@ -78,8 +78,8 @@ public static class CharactersOutputter {
 				c.DNA!.AccessoryDNAValues[geneName].IntSliderValue
 			});
 		output.WriteLine($"IRToCK3_{geneName}_overrides = {{");
-		output.WriteLine("usage = game");
-		output.WriteLine("selection_behavior = max");
+		output.WriteLine("\tusage = game");
+		output.WriteLine("\tselection_behavior = max");
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
 			var intSliderValue = grouping.Key.IntSliderValue;
@@ -90,7 +90,7 @@ public static class CharactersOutputter {
 			output.WriteLine("\t\t\t\tmode = add");
 			output.WriteLine($"\t\t\t\tgene = {geneName}");
 			output.WriteLine($"\t\t\t\ttemplate = {templateName}");
-			output.WriteLine($"\t\t\t\tvalue = {intSliderValue / 255.0}");
+			output.WriteLine($"\t\t\t\tvalue = {(intSliderValue / 255.0):0.###}");
 			output.WriteLine("\t\t\t}");
 			output.WriteLine("\t\t}");
 			
