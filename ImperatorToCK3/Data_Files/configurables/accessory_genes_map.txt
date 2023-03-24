@@ -103,6 +103,8 @@ object_to_object = {
 		female_hair_mauryan_2_color4 = female_hair_fp2_iberian_christian_02
 		female_hair_ethiopian_1 = female_hair_sub_saharan_child_01
 		female_hair_ethiopian_2 = female_hair_sub_saharan_03
+		female_hair_egyptian_1 = female_hair_sub_saharan_03
+		female_hair_egyptian_2 = female_hair_sub_saharan_01  # could not find anything close
 	}
     
 	eye_accessory = {
