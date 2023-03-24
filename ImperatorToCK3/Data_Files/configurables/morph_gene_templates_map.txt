@@ -267,3 +267,15 @@ gene_bs_jaw_def = {
 	bs_jaw_def_low = jaw_def_pos
 	bs_jaw_def_high = jaw_def_pos
 }
+
+
+complexion = {
+	roman_1 = complexion_1
+	roman_2 = complexion_1
+	roman_3 = complexion_1
+	roman_4 = complexion_1
+	roman_5 = complexion_1
+	levantine_1 = complexion_1
+	indian_1 = complexion_1
+	smooth_1 = complexion_beauty_1
+}	

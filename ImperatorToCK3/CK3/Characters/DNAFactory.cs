@@ -87,6 +87,9 @@ public sealed class DNAFactory {
 		var eyeValue = $"{eyeCoordinates.X} {eyeCoordinates.Y} {eyeCoordinates2.X} {eyeCoordinates2.Y}";
 		dnaValues.Add("eye_color", eyeValue);
 		
+		// TODO: add an entry in gfx/portraits/portrait_modifiers to force this in actual game
+		// TODO: example: male_beard_fp2_iberian_christian_01
+		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
 		var beardGeneValue = MatchAccessoryGeneValueByObject(
 			irCharacter, 
 			irPortraitData, 
@@ -97,6 +100,7 @@ public sealed class DNAFactory {
 			dnaValues.Add("beards", beardGeneValue);
 		}
 
+		// TODO: add an entry in gfx/portraits/portrait_modifiers to force this in actual game
 		var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
 			irCharacter,
 			irPortraitData,
@@ -124,7 +128,8 @@ public sealed class DNAFactory {
 			"gene_mouth_corner_height", "gene_mouth_corner_depth",
 			"gene_mouth_lower_lip_size", "gene_mouth_upper_lip_size",
 			"gene_jaw_forward", "gene_jaw_angle", "gene_jaw_height", "gene_jaw_width",
-			"gene_bs_jaw_def"
+			"gene_bs_jaw_def",
+			"complexion"
 		};
 
 		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
