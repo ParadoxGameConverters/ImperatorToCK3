@@ -298,7 +298,10 @@ public sealed class DNAFactory {
 	private string? GetAgeGeneValue(PortraitData irPortraitData) {
 		const string irAgeGeneName = "age";
 		const string ck3AgeGeneName = "gene_age";
-		var irGeneData = irPortraitData.MorphGenesDict[irAgeGeneName];
+		
+		if (!irPortraitData.MorphGenesDict.TryGetValue(irAgeGeneName, out var irGeneData)) {
+			return null;
+		}
 		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3AgeGeneName);
 
 		var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(irAgeGeneName, irGeneData.TemplateName);
