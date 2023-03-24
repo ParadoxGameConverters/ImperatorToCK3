@@ -96,6 +96,10 @@ object_to_object = {
 		female_hair_arabian_2_color4 = female_hair_western_03
 		female_hair_arabian_3 = female_hair_western_05
 		female_hair_mauryan_1 = female_hair_indian_01
+		female_hair_mauryan_2 = female_hair_fp2_iberian_christian_02
+		female_hair_mauryan_2_color2 = female_hair_fp2_iberian_christian_02
+		female_hair_mauryan_2_color3 = female_hair_fp2_iberian_christian_02
+		female_hair_mauryan_2_color4 = female_hair_fp2_iberian_christian_02
 		female_hair_ethiopian_1 = female_hair_sub_saharan_child_01
 		female_hair_ethiopian_2 = female_hair_sub_saharan_03
 	}
