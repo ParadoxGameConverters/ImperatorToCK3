@@ -36,7 +36,7 @@ public class DNA {
 		output.WriteLine("\t\tgenes={");
 
 		foreach (var (geneName, geneValue) in dnaValues) {
-			output.WriteLine($"\t\t\t{geneName}={{{geneValue}}}");
+			output.WriteLine($"\t\t\t{geneName}={{ {geneValue} }}");
 		}
 
 		output.WriteLine("\t\t}");
