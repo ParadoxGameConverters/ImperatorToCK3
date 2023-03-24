@@ -1,13 +1,4 @@
-﻿using commonItems;
-using commonItems.Mods;
-using ImageMagick;
-using ImperatorToCK3.CommonUtils.Genes;
-using ImperatorToCK3.Exceptions;
-using ImperatorToCK3.Imperator.Characters;
-using ImperatorToCK3.Mappers.Gene;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -22,21 +13,32 @@ public class DNA {
 
 	public string Id { get; }
 	
-	private readonly Dictionary<string, string> dnaValues;
+	private readonly Dictionary<string, string> colorAndMorphDNAValues;
+	private readonly Dictionary<string, AccessoryGeneValue> accessoryDNAValues;
+	public IReadOnlyDictionary<string, AccessoryGeneValue> AccessoryDNAValues => accessoryDNAValues;
 
-	public IEnumerable<string> DNALines => dnaValues.Select(kvp => $"{kvp.Key}={{{kvp.Value}}}");
+	public IEnumerable<string> DNALines {
+		get {
+			var colorAndMorphGeneLines = colorAndMorphDNAValues
+				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
+			var accessoryGeneLines = accessoryDNAValues
+				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
+			return colorAndMorphGeneLines.Concat(accessoryGeneLines);
+		}
+	}
 
 
-	public DNA(string id, IDictionary<string, string> dnaValues) {
+	public DNA(string id, IDictionary<string, string> colorAndMorphDNAValues, IDictionary<string, AccessoryGeneValue> accessoryDNAValues) {
 		Id = id;
-		this.dnaValues = new Dictionary<string, string>(dnaValues);
+		this.colorAndMorphDNAValues = new Dictionary<string, string>(colorAndMorphDNAValues);
+		this.accessoryDNAValues = new Dictionary<string, AccessoryGeneValue>(accessoryDNAValues);
 	}
 
 	public void OutputGenes(StreamWriter output) {
 		output.WriteLine("\t\tgenes={");
 
-		foreach (var (geneName, geneValue) in dnaValues) {
-			output.WriteLine($"\t\t\t{geneName}={{ {geneValue} }}");
+		foreach (var dnaLine in DNALines) {
+			output.WriteLine($"\t\t\t{dnaLine}");
 		}
 
 		output.WriteLine("\t\t}");

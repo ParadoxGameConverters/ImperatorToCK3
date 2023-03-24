@@ -58,7 +58,7 @@ public sealed class DNAFactory {
 	public DNA GenerateDNA(Imperator.Characters.Character irCharacter, PortraitData irPortraitData) {
 		var id = $"dna_{irCharacter.Id}";
 		
-		var dnaValues = new Dictionary<string, string>();
+		var colorAndMorphDNAValues = new Dictionary<string, string>();
 
 		var hairCoordinates = GetPaletteCoordinates(
 			irPortraitData.HairColorPaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
@@ -67,7 +67,7 @@ public sealed class DNAFactory {
 			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
 		);
 		var hairValue = $"{hairCoordinates.X} {hairCoordinates.Y} {hairCoordinates2.X} {hairCoordinates2.Y}";
-		dnaValues.Add("hair_color", hairValue);
+		colorAndMorphDNAValues.Add("hair_color", hairValue);
 
 		var skinCoordinates = GetPaletteCoordinates(
 			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
@@ -76,7 +76,7 @@ public sealed class DNAFactory {
 			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
 		);
 		var skinValue = $"{skinCoordinates.X} {skinCoordinates.Y} {skinCoordinates2.X} {skinCoordinates2.Y}";
-		dnaValues.Add("skin_color", skinValue);
+		colorAndMorphDNAValues.Add("skin_color", skinValue);
 
 		var eyeCoordinates = GetPaletteCoordinates(
 			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
@@ -85,11 +85,11 @@ public sealed class DNAFactory {
 			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
 		);
 		var eyeValue = $"{eyeCoordinates.X} {eyeCoordinates.Y} {eyeCoordinates2.X} {eyeCoordinates2.Y}";
-		dnaValues.Add("eye_color", eyeValue);
+		colorAndMorphDNAValues.Add("eye_color", eyeValue);
 		
-		// TODO: add an entry in gfx/portraits/portrait_modifiers to force this in actual game
-		// TODO: example: male_beard_fp2_iberian_christian_01
-		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
+		// Convert some accessory genes.
+		var accessoryDNAValues = new Dictionary<string, AccessoryGeneValue>();
+		
 		var beardGeneValue = MatchAccessoryGeneValueByObject(
 			irCharacter, 
 			irPortraitData, 
@@ -97,10 +97,9 @@ public sealed class DNAFactory {
 			ck3GenesDB.SpecialAccessoryGenes["beards"]
 		);
 		if (beardGeneValue is not null) {
-			dnaValues.Add("beards", beardGeneValue);
+			accessoryDNAValues.Add("beards", beardGeneValue.Value);
 		}
 
-		// TODO: add an entry in gfx/portraits/portrait_modifiers to force this in actual game
 		var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
 			irCharacter,
 			irPortraitData,
@@ -108,12 +107,12 @@ public sealed class DNAFactory {
 			ck3GenesDB.SpecialAccessoryGenes["hairstyles"]
 		);
 		if (hairstylesGeneValue is not null) {
-			dnaValues.Add("hairstyles", hairstylesGeneValue);
+			accessoryDNAValues.Add("hairstyles", hairstylesGeneValue.Value);
 		}
 
 		var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes");
 		if (clothesGeneValue is not null) {
-			dnaValues.Add("clothes", clothesGeneValue);
+			accessoryDNAValues.Add("clothes", clothesGeneValue.Value);
 		}
 
 		var irMorphGenesWithDirectEquivalents = new[] {
@@ -149,21 +148,14 @@ public sealed class DNAFactory {
 			}
 
 			var geneValueStr = $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
-			dnaValues.Add(geneName, geneValueStr);
+			colorAndMorphDNAValues.Add(geneName, geneValueStr);
 		}
 		
-		// Section for debugging: check if all Imperator morph genes are handled. // TODO: remove
-		var irMorphGeneNames = irPortraitData.MorphGenesDict.Keys.ToImmutableHashSet();
-		var ck3MorphGeneNames = ck3GenesDB.MorphGenes.Select(g => g.Id).ToImmutableHashSet();
-		var commonMorphGeneNames = irMorphGeneNames.Intersect(ck3MorphGeneNames);
-		var unhandledMorphGenes = commonMorphGeneNames.Except(dnaValues.Keys);
-		if (unhandledMorphGenes.Any()) {
-			Logger.Error($"Unhandled morph genes: {string.Join(", ", unhandledMorphGenes)}");
-		}
+		// TODO: convert "age" gene
 
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
-			.Where(g => !dnaValues.ContainsKey(g.Id));
+			.Where(g => !colorAndMorphDNAValues.ContainsKey(g.Id));
 		foreach (var gene in missingMorphGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
@@ -175,11 +167,11 @@ public sealed class DNAFactory {
 			// Get middle gene template.
 			var templateName = geneTemplatesToUse.ElementAt(geneTemplatesToUse.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			dnaValues.Add(gene.Id, geneValue);
+			colorAndMorphDNAValues.Add(gene.Id, geneValue);
 		}
 
 		var missingAccessoryGenes = ck3GenesDB.AccessoryGenes
-			.Where(g => !dnaValues.ContainsKey(g.Id));
+			.Where(g => !colorAndMorphDNAValues.ContainsKey(g.Id));
 		foreach (var gene in missingAccessoryGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
@@ -187,15 +179,15 @@ public sealed class DNAFactory {
 			// Get middle gene template.
 			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
 			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			dnaValues.Add(gene.Id, geneValue);
+			colorAndMorphDNAValues.Add(gene.Id, geneValue);
 		}
 		
-		return new DNA(id, dnaValues);
+		return new DNA(id, colorAndMorphDNAValues, accessoryDNAValues);
 	}
 	
 	/// Returns CK3 gene value string after object-to-object matching
 	/// (for example I:R male_beard_1 to CK3 male_beard_western_03).
-	private string? MatchAccessoryGeneValueByObject(
+	private AccessoryGeneValue? MatchAccessoryGeneValueByObject(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
 		string imperatorGeneName,
@@ -217,16 +209,20 @@ public sealed class DNAFactory {
 			.GetMatchingPercentage(convertedSetEntry);
 		var matchingPercentageRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]
 			.GetMatchingPercentage(convertedSetEntryRecessive);
-		int intSliderValue = (int)Math.Ceiling(matchingPercentage * 255);
-		int intSliderValueRecessive = (int)Math.Ceiling(matchingPercentageRecessive * 255);
+		byte intSliderValue = (byte)Math.Ceiling(matchingPercentage * 255);
+		byte intSliderValueRecessive = (byte)Math.Ceiling(matchingPercentageRecessive * 255);
 
-		var geneValue = $"\"{ck3GeneTemplate.Id}\" {intSliderValue} \"{ck3GeneTemplateRecessive.Id}\" {intSliderValueRecessive}";
-		return geneValue;
+		return new AccessoryGeneValue {
+			TemplateName = ck3GeneTemplate.Id,
+			IntSliderValue = intSliderValue,
+			TemplateRecessiveName = ck3GeneTemplateRecessive.Id,
+			IntSliderValueRecessive = intSliderValueRecessive
+		};
 	}
 	
 	/// Returns CK3 gene value string after template-to-template matching
 	/// (for example I:R roman_clothes to CK3 byzantine_low_nobility_clothes).
-	private string? MatchAccessoryGeneValueByTemplate(
+	private AccessoryGeneValue? MatchAccessoryGeneValueByTemplate(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
 		string imperatorGeneName
@@ -238,9 +234,15 @@ public sealed class DNAFactory {
 		var templateMappings = accessoryGeneMapper.TemplateToTemplateMappings[imperatorGeneName];
 		var ck3GeneTemplateName = templateMappings[geneInfo.GeneTemplate];
 		var ck3GeneTemplateNameRecessive = templateMappings[geneInfo.GeneTemplateRecessive];
-		var intSliderValue = (int)(irCharacter.Id % 256);
+		var intSliderValue = (byte)(irCharacter.Id % 256);
 
-		return $"\"{ck3GeneTemplateName}\" {intSliderValue} \"{ck3GeneTemplateNameRecessive}\" {intSliderValue}";
+		var old = $"\"{ck3GeneTemplateName}\" {intSliderValue} \"{ck3GeneTemplateNameRecessive}\" {intSliderValue}";
+		return new AccessoryGeneValue() {
+			TemplateName = ck3GeneTemplateName,
+			IntSliderValue = intSliderValue,
+			TemplateRecessiveName = ck3GeneTemplateNameRecessive,
+			IntSliderValueRecessive = intSliderValue
+		};
 	}
 
 	private void BuildColorConversionCaches(
