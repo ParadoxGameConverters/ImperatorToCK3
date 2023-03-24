@@ -97,6 +97,16 @@ public sealed class DNAFactory {
 			dnaValues.Add("beards", beardGeneValue);
 		}
 
+		var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
+			irCharacter,
+			irPortraitData,
+			"hairstyles",
+			ck3GenesDB.SpecialAccessoryGenes["hairstyles"]
+		);
+		if (hairstylesGeneValue is not null) {
+			dnaValues.Add("hairstyles", hairstylesGeneValue);
+		}
+
 		var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes");
 		if (clothesGeneValue is not null) {
 			dnaValues.Add("clothes", clothesGeneValue);
