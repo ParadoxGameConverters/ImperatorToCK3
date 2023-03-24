@@ -103,9 +103,11 @@ public sealed class DNAFactory {
 		}
 
 		var irMorphGenesWithDirectEquivalents = new[] {
-			"gene_head_height", "gene_head_top_height",
+			"gene_head_height", "gene_head_top_height", "gene_head_profile",
+			"gene_forehead_height",
 			"gene_neck_length", "gene_neck_width", 
-			"gene_chin_forward", "gene_chin_height", "gene_chin_width"
+			"gene_chin_forward", "gene_chin_height", "gene_chin_width",
+			"gene_eye_distance"
 		};
 
 		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
