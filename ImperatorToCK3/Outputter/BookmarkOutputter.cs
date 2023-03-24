@@ -2,6 +2,7 @@
 using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
 using SixLabors.ImageSharp;
@@ -101,8 +102,12 @@ public static class BookmarkOutputter {
 				_ => "blankMod/templates/common/bookmark_portraits/male.txt"
 			};
 			string templateText = File.ReadAllText(templatePath);
+
 			templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
 			templateText = templateText.Replace("REPLACE_ME_AGE", holder.GetAge(config.CK3BookmarkDate).ToString());
+			var genesStr = holder.DNA is not null ? string.Join("\n", holder.DNA.DNALines) : string.Empty;
+			templateText = templateText.Replace("ADD_GENES", genesStr);
+			
 			var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
 			File.WriteAllText(outPortraitPath, templateText);
 		}

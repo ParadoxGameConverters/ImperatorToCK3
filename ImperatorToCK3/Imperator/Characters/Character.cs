@@ -3,6 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.CommonUtils.Genes;
 using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -106,8 +107,6 @@ namespace ImperatorToCK3.Imperator.Characters {
 			BirthDate = BirthDate.ChangeByYears(-years);
 		}
 
-		private Genes.GenesDB? genes;
-
 		private static readonly Parser parser = new();
 		private static Character parsedCharacter = new(0);
 		public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
@@ -170,14 +169,14 @@ namespace ImperatorToCK3.Imperator.Characters {
 				ParserHelpers.IgnoreItem(reader);
 			});
 		}
-		public static Character Parse(BufferedReader reader, string idString, Genes.GenesDB? genesDB) {
-			parsedCharacter = new Character(ulong.Parse(idString)) {
-				genes = genesDB
-			};
+		public static Character Parse(BufferedReader reader, string idString, GenesDB? genesDB) {
+			parsedCharacter = new Character(ulong.Parse(idString));
 
 			parser.ParseStream(reader);
-			if (parsedCharacter.DNA?.Length == 552 && parsedCharacter.genes is not null) {
-				parsedCharacter.PortraitData = new PortraitData(parsedCharacter.DNA, parsedCharacter.genes, parsedCharacter.AgeSex);
+			if (genesDB is null) {
+				Logger.Warn($"GenesDB is null when parsing character {idString}!");
+			} else if (parsedCharacter.DNA?.Length == 552) {
+				parsedCharacter.PortraitData = new PortraitData(parsedCharacter.DNA, genesDB, parsedCharacter.AgeSex);
 			}
 
 			return parsedCharacter;

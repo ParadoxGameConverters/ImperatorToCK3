@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
@@ -10,7 +11,6 @@ using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
-using ImperatorToCK3.Imperator.Genes;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
@@ -245,12 +245,8 @@ public class World : Parser {
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
 	private void ParseGenes() {
-		var genesFileLocation = ModFS.GetActualFileLocation("common/genes/00_genes.txt");
-		if (genesFileLocation is null) {
-			Logger.Warn("I:R genes file not found!");
-		} else {
-			genesDB = new GenesDB(genesFileLocation);
-		}
+		Logger.Debug("Parsing genes...");
+		genesDB = new GenesDB(ModFS);
 	}
 	private void LoadPreImperatorRulers() {
 		const string filePath = "configurables/characters_prehistory.txt";

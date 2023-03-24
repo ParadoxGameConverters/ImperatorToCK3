@@ -37,7 +37,7 @@ namespace ImperatorToCK3.CK3;
 
 public class World {
 	public OrderedSet<Mod> LoadedMods { get; }
-	public ModFilesystem ModFS { get; private set; }
+	public ModFilesystem ModFS { get; }
 	private ScriptValueCollection ScriptValues { get; } = new();
 	public NamedColorCollection NamedColors { get; } = new();
 	public CharacterCollection Characters { get; } = new();
@@ -146,6 +146,10 @@ public class World {
 
 		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
+		Logger.Info("Initializing DNA factory...");
+		var dnaFactory = new DNAFactory(impWorld.ModFS, ModFS);
+		Logger.IncrementProgress();
+
 		Characters.LoadCK3Characters(ModFS);
 		Logger.IncrementProgress();
 		Characters.ImportImperatorCharacters(
@@ -157,6 +161,7 @@ public class World {
 			impWorld.LocDB,
 			provinceMapper,
 			deathReasonMapper,
+			dnaFactory,
 			CorrectedDate,
 			config
 		);

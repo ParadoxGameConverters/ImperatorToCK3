@@ -25,6 +25,9 @@ public partial class NameList : IIdentifiable<string> {
 			maleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
 				maleNames.Add(nameStr);
 			});
+			maleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, nameStr) => {
+				maleNames.Add(nameStr);
+			});
 			maleNamesBlockParser.IgnoreAndLogUnregisteredItems();
 			maleNamesBlockParser.ParseStream(maleNamesReader);
 		});
@@ -34,6 +37,9 @@ public partial class NameList : IIdentifiable<string> {
 				femaleNames.UnionWith(weightedBlockReader.GetStrings());
 			});
 			femaleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
+				femaleNames.Add(nameStr);
+			});
+			femaleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, nameStr) => {
 				femaleNames.Add(nameStr);
 			});
 			femaleNamesBlockParser.IgnoreAndLogUnregisteredItems();

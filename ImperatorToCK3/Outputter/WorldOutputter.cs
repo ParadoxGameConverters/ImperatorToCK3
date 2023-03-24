@@ -168,6 +168,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "council_tasks"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
@@ -191,6 +192,8 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits", "portrait_modifiers"));
 	}
 
 	private static void OutputPlaysetInfo(World ck3World, string outputModName) {

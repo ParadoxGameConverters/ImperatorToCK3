@@ -19,6 +19,11 @@ public static class CharacterOutputter {
 			output.WriteLine("\tdisallow_random_traits=yes");
 		}
 
+		// Add DNA to history.
+		if (character.DNA is not null) {
+			character.History.AddFieldValue(null, "dna", "dna", character.DNA.Id);
+		}
+
 		// Add gold to history.
 		if (character.Gold is not null && character.Gold != 0) {
 			var gold = (float)character.Gold.Value;

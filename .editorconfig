@@ -1,6 +1,14 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
+### Editor guidelines
+# All files
+[*]
+guidelines = 80
+# C# or VB files
+[*.{cs,vb}]
+guidelines = 150
+
 # C# files
 [*.cs]
 

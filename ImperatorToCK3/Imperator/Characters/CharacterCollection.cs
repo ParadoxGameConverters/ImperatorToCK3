@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
@@ -76,5 +77,5 @@ public class CharacterCollection : IdObjectCollection<ulong, Character> {
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
-	public Genes.GenesDB? GenesDB { get; set; }
+	public GenesDB? GenesDB { get; set; }
 }

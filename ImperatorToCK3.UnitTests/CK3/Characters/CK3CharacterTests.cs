@@ -7,6 +7,7 @@ using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Geography;
@@ -29,7 +30,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CK3CharacterTests {
 	private static readonly Date ConversionDate = new(867, 1, 1);
-	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
@@ -65,6 +66,7 @@ public class CK3CharacterTests {
 				locDB,
 				provinceMapper,
 				deathReasonMapper,
+				new DNAFactory(irModFS, ck3ModFS),
 				new Date(867, 1, 1),
 				config
 			);
@@ -367,8 +369,8 @@ public class CK3CharacterTests {
 
 	[Fact]
 	public void AgeSexReturnsCorrectString() {
+		GenesDB genesDB = new();
 		var conversionDate = new Date(100, 1, 1, AUC: true);
-		ImperatorToCK3.Imperator.Genes.GenesDB genesDB = new();
 		var reader1 = new BufferedReader(
 			"= { birth_date=44.1.1 female=yes }" // age: 56
 		);

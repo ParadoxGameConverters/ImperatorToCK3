@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
@@ -31,14 +32,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class LandedTitlesTests {
-	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
-	private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
+	private readonly ModFilesystem ck3ModFS = new(CK3Root, new List<Mod>());
 	private readonly Configuration defaultConfig = new() { ImperatorCivilizationWorth = 0.4 };
 
 	public LandedTitlesTests() {
@@ -260,11 +261,24 @@ public class LandedTitlesTests {
 		var traitMapper = new TraitMapper();
 		var nicknameMapper = new NicknameMapper();
 		var deathReasonMapper = new DeathReasonMapper();
+		var dnaFactory = new DNAFactory(irModFS, ck3ModFS);
 		var conversionDate = new Date(500, 1, 1);
 
 		// Import Imperator governor.
 		var characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
-		characters.ImportImperatorCharacters(imperatorWorld, religionMapper, cultureMapper, traitMapper, nicknameMapper, locDB, provinceMapper, deathReasonMapper, conversionDate, config);
+		characters.ImportImperatorCharacters(
+			imperatorWorld,
+			religionMapper,
+			cultureMapper,
+			traitMapper,
+			nicknameMapper,
+			locDB,
+			provinceMapper,
+			deathReasonMapper,
+			dnaFactory,
+			conversionDate,
+			config
+		);
 
 		// Import country 589.
 		titles.ImportImperatorCountries(imperatorWorld.Countries, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config);
@@ -278,7 +292,7 @@ public class LandedTitlesTests {
 			title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
 		);
 
-		var provinces = new ProvinceCollection(ck3ModFs);
+		var provinces = new ProvinceCollection(ck3ModFS);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
 		// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, config, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
