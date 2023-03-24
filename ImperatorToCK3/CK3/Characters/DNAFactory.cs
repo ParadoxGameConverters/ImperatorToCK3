@@ -128,7 +128,7 @@ public sealed class DNAFactory {
 			dnaValues.Add(geneName, geneValueStr);
 		}
 		
-		// Section for debugging: check if all Imperator morph genes are handled.
+		// Section for debugging: check if all Imperator morph genes are handled. // TODO: remove
 		var irMorphGeneNames = irPortraitData.MorphGenesDict.Keys.ToImmutableHashSet();
 		var ck3MorphGeneNames = ck3GenesDB.MorphGenes.Select(g => g.Id).ToImmutableHashSet();
 		var commonMorphGeneNames = irMorphGeneNames.Intersect(ck3MorphGeneNames);

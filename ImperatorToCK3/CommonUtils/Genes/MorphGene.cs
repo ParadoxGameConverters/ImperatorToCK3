@@ -23,14 +23,14 @@ public class MorphGene : Gene, IIdentifiable<string> {
 		});
 		parser.ParseStream(geneReader);
 	}
-	public MorphGeneTemplate GetGeneTemplateByIndex(uint indexInDna) {
+	public MorphGeneTemplate? GetGeneTemplateByIndex(uint indexInDna) {
 		foreach (var template in GeneTemplates) {
 			if (template.Index == indexInDna) {
 				return template;
 			}
 		}
-		Logger.Warn($"Could not find gene template by index from DNA: {indexInDna}");
-		// Fallback: return first element.
-		return GeneTemplates.First();
+		Logger.Warn($"{Id}: could not find morph gene template by index from DNA: {indexInDna}");
+		// Fallback: return first element or null if none.
+		return GeneTemplates.FirstOrDefault();
 	}
 }

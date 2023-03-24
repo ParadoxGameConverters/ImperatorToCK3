@@ -2,6 +2,7 @@
 using ImperatorToCK3.CommonUtils.Genes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters; 
 
@@ -36,20 +37,51 @@ public class PortraitData {
 		EyeColorPaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 1] * 2;
 		EyeColor2PaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex + 2] * 2;
 		EyeColor2PaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 3] * 2;
-
-		const uint colorGenesBytes = 12;
+		
+		// morph genes
+		var morphGenesToIgnore = new[] {"expression"};
+		var morphGenesToLoad = genesDB.MorphGenes
+			.Where(g => !morphGenesToIgnore.Contains(g.Id));
+		foreach (var gene in morphGenesToLoad) {
+			var geneIndex = gene.Index;
+			if (geneIndex is null) {
+				continue;
+			}
+			
+			var geneTemplateByteIndex = geneIndex.Value * 4;
+			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
+			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
+			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex)?.Id;
+			if (geneTemplateName is null) {
+				continue;
+			}
+			var geneTemplateRecessiveName = gene.GetGeneTemplateByIndex(geneTemplateRecessiveIndex)?.Id;
+			if (geneTemplateRecessiveName is null) {
+				continue;
+			}
+			
+			var geneTemplateValueByteIndex = geneTemplateByteIndex + 1;
+			var geneTemplateValueRecessiveByteIndex = geneTemplateByteIndex + 3;
+			// Get gene value (0-255).
+			var geneValue = decodedDnaStr[geneTemplateValueByteIndex];
+			var geneValueRecessive = decodedDnaStr[geneTemplateValueRecessiveByteIndex];
+			MorphGenesDict.Add(gene.Id, new MorphGeneData {
+				TemplateName = geneTemplateName,
+				Value = geneValue,
+				TemplateRecessiveName = geneTemplateRecessiveName,
+				ValueRecessive = geneValueRecessive
+			});
+		}
 		
 		// accessory genes
 		var accessoryGenes = genesDB.AccessoryGenes;
-		var accessoryGenesInDNACount = 0;
 		foreach (var gene in accessoryGenes) {
 			var geneIndex = gene.Index;
 			if (geneIndex is null) {
 				continue;
 			}
-			++accessoryGenesInDNACount;
 
-			var geneTemplateByteIndex = colorGenesBytes + (((uint)geneIndex - 3) * 4);
+			var geneTemplateByteIndex = geneIndex.Value * 4;
 			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
 			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex).Id;
@@ -79,35 +111,6 @@ public class PortraitData {
 			} else {
 				Logger.Warn($"{ageSexString} gene template object name for {geneTemplateName} for {gene.Id} could not be extracted from DNA!");
 			}
-		}
-		
-		var accessoryGenesBytes = accessoryGenesInDNACount * 4;
-		
-		// morph genes
-		var morphGenes = genesDB.MorphGenes;
-		foreach (var gene in morphGenes) {
-			var geneIndex = gene.Index;
-			if (geneIndex is null) {
-				continue;
-			}
-			
-			var geneTemplateByteIndex = colorGenesBytes + accessoryGenesBytes + (((uint)geneIndex - 3) * 4);
-			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
-			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
-			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex).Id;
-			var geneTemplateRecessiveName = gene.GetGeneTemplateByIndex(geneTemplateRecessiveIndex).Id;
-			
-			var geneTemplateObjectByteIndex = geneTemplateByteIndex + 1;
-			var geneTemplateObjectRecessiveByteIndex = geneTemplateByteIndex + 3;
-			// Get gene value (0-255).
-			var geneValue = decodedDnaStr[geneTemplateObjectByteIndex];
-			var geneValueRecessive = decodedDnaStr[geneTemplateObjectRecessiveByteIndex];
-			MorphGenesDict.Add(gene.Id, new MorphGeneData {
-				TemplateName = geneTemplateName,
-				Value = geneValue,
-				TemplateRecessiveName = geneTemplateRecessiveName,
-				ValueRecessive = geneValueRecessive
-			});
 		}
 	}
 }
