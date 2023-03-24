@@ -23,6 +23,7 @@ public sealed class DNAFactory {
 	
 	private readonly GenesDB ck3GenesDB;
 	private readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
+	private readonly MorphGeneTemplateMapper morphGeneTemplateMapper = new("configurables/morph_gene_templates_map.txt");
 
 	public DNAFactory(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
 		Logger.Debug("Reading color palettes...");
@@ -110,7 +111,21 @@ public sealed class DNAFactory {
 		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
 			var irGeneData = irPortraitData.MorphGenesDict[geneName];
 			var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == geneName);
-			
+
+			var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateName);
+			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3TemplateName)) {
+				Logger.Warn($"Could not find template {ck3TemplateName} for gene {geneName} in CK3!");
+				continue;
+			}
+
+			var ck3GeneTemplateRecessiveName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateRecessiveName);
+			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3GeneTemplateRecessiveName)) {
+				Logger.Warn($"Could not find template {ck3GeneTemplateRecessiveName} for gene {geneName} in CK3!");
+				continue;
+			}
+
+			var geneValueStr = $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
+			dnaValues.Add(geneName, geneValueStr);
 		}
 		
 		// Section for debugging: check if all Imperator morph genes are handled.
