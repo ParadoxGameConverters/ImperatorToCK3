@@ -104,14 +104,16 @@ public sealed class DNAFactory {
 
 		var irMorphGenesWithDirectEquivalents = new[] {
 			"gene_head_height", "gene_head_width", "gene_head_profile",
-			"gene_head_top_height",
+			"gene_head_top_height", "gene_head_top_width",
 			"gene_forehead_height", "gene_forehead_width", "gene_forehead_angle", "gene_forehead_roundness",
+			"gene_forehead_brow_height",
 			"gene_neck_length", "gene_neck_width", 
 			"gene_chin_forward", "gene_chin_height", "gene_chin_width",
-			"gene_eye_distance", "gene_eye_height", "gene_eye_angle", "gene_eye_depth",
-			"gene_mouth_width", "gene_mouth_forward", "gene_mouth_corner_height",
-			"gene_mouth_lower_lip_size",
-			"gene_jaw_forward", "gene_jaw_angle", "gene_jaw_height",
+			"gene_eye_distance", "gene_eye_height", "gene_eye_angle", "gene_eye_depth", "gene_eye_shut",
+			"gene_mouth_width", "gene_mouth_forward", "gene_mouth_height",
+			"gene_mouth_corner_height", "gene_mouth_corner_depth",
+			"gene_mouth_lower_lip_size", "gene_mouth_upper_lip_size",
+			"gene_jaw_forward", "gene_jaw_angle", "gene_jaw_height", "gene_jaw_width",
 			"gene_bs_jaw_def"
 		};
 

@@ -32,6 +32,14 @@ gene_head_top_height = {
 	head_top_height_midHigh = head_top_height_pos
 	head_top_height_high = head_top_height_pos
 }
+gene_head_top_width = {
+	# templates mappings
+	head_top_width_low = head_top_width_neg
+	head_top_width_midLow = head_top_width_neg
+	head_top_width_normal = head_top_width_pos
+	head_top_width_midHigh = head_top_width_pos
+	head_top_width_high = head_top_width_pos
+}
 
 
 gene_forehead_height = {
@@ -65,6 +73,14 @@ gene_forehead_roundness = {
 	forehead_roundness_normal = forehead_roundness_pos
 	forehead_roundness_midHigh = forehead_roundness_pos
 	forehead_roundness_high = forehead_roundness_pos
+}
+gene_forehead_brow_height = {
+	# templates mappings
+	forehead_brow_height_low = forehead_brow_height_neg
+	forehead_brow_height_midLow = forehead_brow_height_neg
+	forehead_brow_height_normal = forehead_brow_height_pos
+	forehead_brow_height_midHigh = forehead_brow_height_pos
+	forehead_brow_height_high = forehead_brow_height_pos
 }
 
 
@@ -137,12 +153,20 @@ gene_eye_angle = {
 	eye_angle_high = eye_angle_pos
 }
 gene_eye_depth = {
-# templates mappings
+	# templates mappings
 	eye_depth_low = eye_depth_neg
 	eye_depth_midLow = eye_depth_neg
 	eye_depth_normal = eye_depth_pos
 	eye_depth_midHigh = eye_depth_pos
 	eye_depth_high = eye_depth_pos
+}
+gene_eye_shut = {
+	# templates mappings
+	eye_shut_low = eye_shut_neg
+	eye_shut_midLow = eye_shut_neg
+	eye_shut_normal = eye_shut_pos
+	eye_shut_midHigh = eye_shut_pos
+	eye_shut_high = eye_shut_pos
 }
 
 
@@ -162,6 +186,14 @@ gene_mouth_forward = {
 	mouth_forward_midHigh = mouth_forward_pos
 	mouth_forward_high = mouth_forward_pos
 }
+gene_mouth_height = {
+	# templates mappings
+	mouth_height_low = mouth_height_neg
+	mouth_height_midLow = mouth_height_neg
+	mouth_height_normal = mouth_height_pos
+	mouth_height_midHigh = mouth_height_pos
+	mouth_height_high = mouth_height_pos
+}
 gene_mouth_corner_height = {
 	# templates mappings
 	mouth_corner_height_low = mouth_corner_height_neg
@@ -170,6 +202,14 @@ gene_mouth_corner_height = {
 	mouth_corner_height_midHigh = mouth_corner_height_pos
 	mouth_corner_height_high = mouth_corner_height_pos
 }
+gene_mouth_corner_depth = {
+	# templates mappings
+	mouth_corner_depth_low = mouth_corner_depth_neg
+	mouth_corner_depth_midLow = mouth_corner_depth_neg
+	mouth_corner_depth_normal = mouth_corner_depth_pos
+	mouth_corner_depth_midHigh = mouth_corner_depth_pos
+	mouth_corner_depth_high = mouth_corner_depth_pos
+}
 gene_mouth_lower_lip_size = {
 	# templates mappings
 	mouth_lower_lip_size_low = mouth_lower_lip_size_neg
@@ -177,6 +217,14 @@ gene_mouth_lower_lip_size = {
 	mouth_lower_lip_size_normal = mouth_lower_lip_size_pos
 	mouth_lower_lip_size_midHigh = mouth_lower_lip_size_pos
 	mouth_lower_lip_size_high = mouth_lower_lip_size_pos
+}
+gene_mouth_upper_lip_size = {
+	# templates mappings
+	mouth_upper_lip_size_low = mouth_upper_lip_size_neg
+	mouth_upper_lip_size_midLow = mouth_upper_lip_size_neg
+	mouth_upper_lip_size_normal = mouth_upper_lip_size_pos
+	mouth_upper_lip_size_midHigh = mouth_upper_lip_size_pos
+	mouth_upper_lip_size_high = mouth_upper_lip_size_pos
 }
 
 
@@ -204,6 +252,15 @@ gene_jaw_height = {
 	jaw_height_midHigh = jaw_height_pos
 	jaw_height_high = jaw_height_pos
 }
+gene_jaw_width = {
+	# templates mappings
+	jaw_width_low = jaw_width_neg
+	jaw_width_midLow = jaw_width_neg
+	jaw_width_normal = jaw_width_pos
+	jaw_width_midHigh = jaw_width_pos
+	jaw_width_high = jaw_width_pos
+}
+
 gene_bs_jaw_def = {
 	# templates mappings
 	bs_jaw_def_none = jaw_def_neg
