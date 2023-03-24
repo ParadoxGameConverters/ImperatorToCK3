@@ -1,0 +1,44 @@
+gene_neck_length = {  # TODO: use this
+	# templates mappings
+	neck_length_low = neck_length_neg
+	neck_length_midLow = neck_length_neg
+	neck_length_normal = neck_length_pos
+	neck_length_midHigh = neck_length_pos
+	neck_length_high = neck_length_pos
+}
+
+gene_neck_width = {  # TODO: use this
+	# templates mappings
+	neck_width_low = neck_width_neg
+	neck_width_midLow = neck_width_neg
+	neck_width_normal = neck_width_pos
+	neck_width_midHigh = neck_width_pos
+	neck_width_high = neck_width_pos
+}
+
+gene_chin_forward = {  # TODO: use this
+	# templates mappings
+	chin_forward_low = chin_forward_neg
+	chin_forward_midLow = chin_forward_neg
+	chin_forward_normal = chin_forward_pos
+	chin_forward_midHigh = chin_forward_pos
+	chin_forward_high = chin_forward_pos
+}
+
+gene_chin_height = {  # TODO: use this
+	# templates mappings
+	chin_height_low = chin_height_neg
+	chin_height_midLow = chin_height_neg
+	chin_height_normal = chin_height_pos
+	chin_height_midHigh = chin_height_pos
+	chin_height_high = chin_height_pos
+}
+
+gene_chin_width = {  # TODO: use this
+	# templates mappings
+	chin_width_low = chin_width_neg
+	chin_width_midLow = chin_width_neg
+	chin_width_normal = chin_width_pos
+	chin_width_midHigh = chin_width_pos
+	chin_width_high = chin_width_pos
+}

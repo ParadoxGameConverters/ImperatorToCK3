@@ -1,17 +1,19 @@
 using commonItems;
 using commonItems.Collections;
+using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes; 
 
 public class MorphGene : Gene, IIdentifiable<string> {
 	public string Id { get; }
+	public uint? Index { get; private set; }
 	public IdObjectCollection<string, MorphGeneTemplate> GeneTemplates { get; } = new();
 
 	public MorphGene(string id, BufferedReader geneReader) {
 		Id = id;
 		
 		var parser = new Parser();
-		parser.RegisterKeyword("index", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("index", reader => Index = (uint)reader.GetInt());
 		parser.RegisterKeyword("ugliness_feature_categories", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("can_have_portrait_extremity_shift", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("visible", ParserHelpers.IgnoreItem);
@@ -20,5 +22,15 @@ public class MorphGene : Gene, IIdentifiable<string> {
 			GeneTemplates.AddOrReplace(new MorphGeneTemplate(geneTemplateName, reader));
 		});
 		parser.ParseStream(geneReader);
+	}
+	public MorphGeneTemplate GetGeneTemplateByIndex(uint indexInDna) {
+		foreach (var template in GeneTemplates) {
+			if (template.Index == indexInDna) {
+				return template;
+			}
+		}
+		Logger.Warn($"Could not find gene template by index from DNA: {indexInDna}");
+		// Fallback: return first element.
+		return GeneTemplates.First();
 	}
 }

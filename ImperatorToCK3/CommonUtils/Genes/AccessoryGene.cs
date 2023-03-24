@@ -32,6 +32,7 @@ public class AccessoryGene : Gene, IIdentifiable<string> {
 			}
 		}
 		Logger.Warn($"Could not find gene template by index from DNA: {indexInDna}");
-		return GeneTemplates.First(); // fallback: return first element
+		// Fallback: return first element.
+		return GeneTemplates.First();
 	}
 }

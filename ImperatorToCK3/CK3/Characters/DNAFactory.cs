@@ -101,6 +101,27 @@ public sealed class DNAFactory {
 			dnaValues.Add("clothes", clothesGeneValue);
 		}
 
+		var irMorphGenesWithDirectEquivalents = new[] {
+			"gene_head_height", "gene_head_top_height",
+			"gene_neck_length", "gene_neck_width", 
+			"gene_chin_forward", "gene_chin_height", "gene_chin_width"
+		};
+
+		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
+			var irGeneData = irPortraitData.MorphGenesDict[geneName];
+			var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == geneName);
+			
+		}
+		
+		// Section for debugging: check if all Imperator morph genes are handled.
+		var irMorphGeneNames = irPortraitData.MorphGenesDict.Keys.ToImmutableHashSet();
+		var ck3MorphGeneNames = ck3GenesDB.MorphGenes.Select(g => g.Id).ToImmutableHashSet();
+		var commonMorphGeneNames = irMorphGeneNames.Intersect(ck3MorphGeneNames);
+		var unhandledMorphGenes = commonMorphGeneNames.Except(dnaValues.Keys);
+		if (unhandledMorphGenes.Any()) {
+			Logger.Error($"Unhandled morph genes: {string.Join(", ", unhandledMorphGenes)}");
+		}
+
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
 			.Where(g => !dnaValues.ContainsKey(g.Id));
