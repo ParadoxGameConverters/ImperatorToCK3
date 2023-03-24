@@ -7,6 +7,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils.Genes; 
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class WeightBlockTests {
 	[Fact]
 	public void ErrorIsLoggedOnUnparsableWeight() {
