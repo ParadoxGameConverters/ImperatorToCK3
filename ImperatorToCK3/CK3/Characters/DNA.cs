@@ -27,7 +27,6 @@ public class DNA {
 		}
 	}
 
-
 	public DNA(string id, IDictionary<string, string> colorAndMorphDNAValues, IDictionary<string, AccessoryGeneValue> accessoryDNAValues) {
 		Id = id;
 		this.colorAndMorphDNAValues = new Dictionary<string, string>(colorAndMorphDNAValues);

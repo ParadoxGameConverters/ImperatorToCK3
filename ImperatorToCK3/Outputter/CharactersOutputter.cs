@@ -61,8 +61,10 @@ public static class CharactersOutputter {
 		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
 
 		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output);
-		var malesWithDNA = charactersWithDNA.Where(c => !c.Female).ToImmutableList();
-		OutputPortraitModifiersForGene("beards", malesWithDNA, output);
+		var malesWithBeards = charactersWithDNA
+			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
+			.ToImmutableList();
+		OutputPortraitModifiersForGene("beards", malesWithBeards, output);
 	}
 
 	private static void OutputPortraitModifiersForGene(

@@ -236,8 +236,7 @@ public sealed class DNAFactory {
 		var ck3GeneTemplateNameRecessive = templateMappings[geneInfo.GeneTemplateRecessive];
 		var intSliderValue = (byte)(irCharacter.Id % 256);
 
-		var old = $"\"{ck3GeneTemplateName}\" {intSliderValue} \"{ck3GeneTemplateNameRecessive}\" {intSliderValue}";
-		return new AccessoryGeneValue() {
+		return new AccessoryGeneValue {
 			TemplateName = ck3GeneTemplateName,
 			IntSliderValue = intSliderValue,
 			TemplateRecessiveName = ck3GeneTemplateNameRecessive,
