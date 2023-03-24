@@ -32,7 +32,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class LandedTitlesTests {
-	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);

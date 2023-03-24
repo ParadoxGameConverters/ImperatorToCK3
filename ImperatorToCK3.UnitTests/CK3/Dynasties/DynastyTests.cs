@@ -28,14 +28,14 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class DynastyTests {
 	private static readonly Date BookmarkDate = new(867, 1, 1);
-	private const string ImperatorRoot = "TestFiles/Imperator/root";
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
 	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 	private class CK3CharacterBuilder {
 		private const string CK3Path = "TestFiles/CK3";
-		private const string CK3Root = "TestFiles/CK3/root";
+		private const string CK3Root = "TestFiles/CK3/game";
 
 		private Configuration config = new() {
 			CK3BookmarkDate = BookmarkDate,
