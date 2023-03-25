@@ -151,9 +151,16 @@ public sealed class DNAFactory {
 			colorAndMorphDNAValues.Add(geneName, geneValueStr);
 		}
 
-		var ageGeneValue = GetAgeGeneValue(irPortraitData);
+		var ageGeneValue = GetAgeGeneValue(irCharacter);
 		if (ageGeneValue is not null) {
 			colorAndMorphDNAValues.Add("gene_age", ageGeneValue);
+		}
+		
+		// Convert baldness.
+		if (irPortraitData.MorphGenesDict.TryGetValue("gene_tags", out var tagsGeneData)) {
+			if (tagsGeneData.TemplateName == "no_hair") {
+				colorAndMorphDNAValues["gene_baldness"] = "\"male_pattern_baldness\" 255 \"no_baldness\" 127";
+			}
 		}
 
 		// Use middle values for the rest of the genes.
@@ -295,27 +302,17 @@ public sealed class DNAFactory {
 		return closestColorCoordinates;
 	}
 
-	private string? GetAgeGeneValue(PortraitData irPortraitData) {
-		const string irAgeGeneName = "age";
+	private string? GetAgeGeneValue(Imperator.Characters.Character irCharacter) {
+		// Age is not stored in I:R character DNA.
 		const string ck3AgeGeneName = "gene_age";
-		
-		if (!irPortraitData.MorphGenesDict.TryGetValue(irAgeGeneName, out var irGeneData)) {
-			return null;
-		}
 		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3AgeGeneName);
+		var excludedAgeTemplateNames = new List<string> {"old_beauty_1", "no_aging"};
+		var possibleAgeTemplates = ck3Gene.GeneTemplates
+			.Where(t => !excludedAgeTemplateNames.Contains(t.Id))
+			.ToList();
+		var selectedTemplateName = possibleAgeTemplates[(int)(irCharacter.Id % (ulong)possibleAgeTemplates.Count)].Id;
+		var selectedTemplateRecessiveName = possibleAgeTemplates[(int)(irCharacter.Age % possibleAgeTemplates.Count)].Id;
 
-		var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(irAgeGeneName, irGeneData.TemplateName);
-		if (ck3Gene.GeneTemplates.All(t => t.Id != ck3TemplateName)) {
-			Logger.Warn($"Could not find template {ck3TemplateName} for gene {ck3AgeGeneName} in CK3!");
-			return null;
-		}
-
-		var ck3GeneTemplateRecessiveName = morphGeneTemplateMapper.GetCK3Template(irAgeGeneName, irGeneData.TemplateRecessiveName);
-		if (ck3Gene.GeneTemplates.All(t => t.Id != ck3GeneTemplateRecessiveName)) {
-			Logger.Warn($"Could not find template {ck3GeneTemplateRecessiveName} for gene {ck3AgeGeneName} in CK3!");
-			return null;
-		}
-
-		return $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
+		return $"{selectedTemplateName} 128 {selectedTemplateRecessiveName} 128";
 	}
 }
