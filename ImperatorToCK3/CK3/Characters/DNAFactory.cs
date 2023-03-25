@@ -156,10 +156,15 @@ public sealed class DNAFactory {
 			colorAndMorphDNAValues.Add("gene_age", ageGeneValue);
 		}
 
+		// TODO: convert eyebrows
+
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
 			.Where(g => !colorAndMorphDNAValues.ContainsKey(g.Id));
 		foreach (var gene in missingMorphGenes) {
+			if (irCharacter.Id == 14) { // TODO: remove this
+				Logger.Error(gene.Id);
+			}
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
 				.ToImmutableList();

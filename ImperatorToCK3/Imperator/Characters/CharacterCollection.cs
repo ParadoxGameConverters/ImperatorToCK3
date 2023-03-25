@@ -9,8 +9,6 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Characters;
 
 public class CharacterCollection : IdObjectCollection<ulong, Character> {
-	public CharacterCollection() { }
-
 	public void LoadCharactersFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("character_database", LoadCharacters);
