@@ -279,12 +279,3 @@ complexion = {
 	indian_1 = complexion_1
 	smooth_1 = complexion_beauty_1
 }
-
-
-age = {
-	old_1 = old_1
-	old_2 = old_1
-	old_3 = old_2
-	old_4 = old_3
-	old_5 = old_4
-}
