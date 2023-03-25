@@ -150,17 +150,19 @@ public sealed class DNAFactory {
 			var geneValueStr = $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
 			colorAndMorphDNAValues.Add(geneName, geneValueStr);
 		}
-
-		var ageGeneValue = GetAgeGeneValue(irCharacter);
-		if (ageGeneValue is not null) {
-			colorAndMorphDNAValues.Add("gene_age", ageGeneValue);
-		}
 		
+		colorAndMorphDNAValues.Add("gene_age", GetAgeGeneValue(irCharacter));
+
 		// Convert baldness.
-		if (irPortraitData.MorphGenesDict.TryGetValue("gene_tags", out var tagsGeneData)) {
-			if (tagsGeneData.TemplateName == "no_hair") {
-				colorAndMorphDNAValues["gene_baldness"] = "\"male_pattern_baldness\" 255 \"no_baldness\" 127";
-			}
+		if (irCharacter.IsBald) {
+			colorAndMorphDNAValues["gene_baldness"] = "\"male_pattern_baldness\" 255 \"no_baldness\" 127";
+			// CK3 does not seem to actually support baldness (as of CK3 1.8.1) despite the gene being there.
+			// So we just remove the hair.
+			accessoryDNAValues["hairstyles"] = accessoryDNAValues["hairstyles"] with {
+				TemplateName = "no_hairstyles", IntSliderValue = 0
+			};
+		} else {
+			colorAndMorphDNAValues["gene_baldness"] = "\"no_baldness\" 127 \"no_baldness\" 127";
 		}
 
 		// Use middle values for the rest of the genes.
@@ -181,15 +183,19 @@ public sealed class DNAFactory {
 		}
 
 		var missingAccessoryGenes = ck3GenesDB.AccessoryGenes
-			.Where(g => !colorAndMorphDNAValues.ContainsKey(g.Id));
+			.Where(g => !accessoryDNAValues.ContainsKey(g.Id));
 		foreach (var gene in missingAccessoryGenes) {
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
 				.ToImmutableList();
 			// Get middle gene template.
 			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
-			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			colorAndMorphDNAValues.Add(gene.Id, geneValue);
+			accessoryDNAValues.Add(gene.Id, new AccessoryGeneValue {
+				TemplateName = templateName,
+				IntSliderValue = 128,
+				TemplateRecessiveName = templateName,
+				IntSliderValueRecessive = 128
+			});
 		}
 		
 		return new DNA(id, colorAndMorphDNAValues, accessoryDNAValues);
@@ -302,7 +308,7 @@ public sealed class DNAFactory {
 		return closestColorCoordinates;
 	}
 
-	private string? GetAgeGeneValue(Imperator.Characters.Character irCharacter) {
+	private string GetAgeGeneValue(Imperator.Characters.Character irCharacter) {
 		// Age is not stored in I:R character DNA.
 		const string ck3AgeGeneName = "gene_age";
 		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3AgeGeneName);
