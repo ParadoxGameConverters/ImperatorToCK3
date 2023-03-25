@@ -279,3 +279,26 @@ complexion = {
 	indian_1 = complexion_1
 	smooth_1 = complexion_beauty_1
 }
+
+
+gene_forehead_brow_forward = {
+	forehead_brow_forward_low = forehead_brow_forward_neg
+	forehead_brow_forward_midLow = forehead_brow_forward_neg
+	forehead_brow_forward_normal = forehead_brow_forward_pos
+	forehead_brow_forward_midHigh = forehead_brow_forward_pos
+	forehead_brow_forward_high = forehead_brow_forward_pos
+}
+gene_forehead_brow_innerHeight = {
+	forehead_brow_innerHeight_low = forehead_brow_inner_height_neg
+	forehead_brow_innerHeight_midLow = forehead_brow_inner_height_neg
+	forehead_brow_innerHeight_normal = forehead_brow_inner_height_pos
+	forehead_brow_innerHeight_midHigh = forehead_brow_inner_height_pos
+	forehead_brow_innerHeight_high = forehead_brow_inner_height_pos
+}
+gene_forehead_brow_outerHeight = {
+	forehead_brow_outerHeight_low = forehead_brow_outer_height_neg
+	forehead_brow_outerHeight_midLow = forehead_brow_outer_height_neg
+	forehead_brow_outerHeight_normal = forehead_brow_outer_height_pos
+	forehead_brow_outerHeight_midHigh = forehead_brow_outer_height_pos
+	forehead_brow_outerHeight_high = forehead_brow_outer_height_pos
+}

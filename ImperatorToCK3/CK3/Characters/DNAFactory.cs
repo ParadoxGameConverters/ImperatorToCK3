@@ -114,12 +114,37 @@ public sealed class DNAFactory {
 		if (clothesGeneValue is not null) {
 			accessoryDNAValues.Add("clothes", clothesGeneValue.Value);
 		}
+		
+		
+		// TODO: convert eyebrows
+		// unhandled I:R eyebrow genes: 
+		// gene_bs_foreh_browDef
+		// gene_bs_foreh_browProm
+		// eyebrows
+
+		// unhandled CK3 eyebrow genes:
+		// gene_bs_forehead_brow_curve
+		// gene_bs_forehead_brow_width
+		// expression_brow_wrinkles
+		// gene_eyebrows_shape
+		// gene_eyebrows_fullness
+		
+		// already mapped:
+		var eyebrowGenesDict = new Dictionary<string, string> {
+			{"gene_forehead_brow_height", "gene_forehead_brow_height"},
+			{"gene_forehead_brow_forward", "gene_bs_forehead_brow_forward"},
+			{"gene_forehead_brow_innerHeight", "gene_bs_forehead_brow_inner_height"},
+			{"gene_forehead_brow_outerHeight", "gene_bs_forehead_brow_outer_height"}
+		};
+		foreach (var (irGeneName, ck3GeneName) in eyebrowGenesDict) {
+			ConvertMorphGene(irGeneName, ck3GeneName, irPortraitData, colorAndMorphDNAValues);
+		}
+		
 
 		var irMorphGenesWithDirectEquivalents = new[] {
 			"gene_head_height", "gene_head_width", "gene_head_profile",
 			"gene_head_top_height", "gene_head_top_width",
 			"gene_forehead_height", "gene_forehead_width", "gene_forehead_angle", "gene_forehead_roundness",
-			"gene_forehead_brow_height",
 			"gene_neck_length", "gene_neck_width", 
 			"gene_chin_forward", "gene_chin_height", "gene_chin_width",
 			"gene_eye_distance", "gene_eye_height", "gene_eye_angle", "gene_eye_depth", "gene_eye_shut",
@@ -130,25 +155,8 @@ public sealed class DNAFactory {
 			"gene_bs_jaw_def",
 			"complexion"
 		};
-
 		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
-			var irGeneData = irPortraitData.MorphGenesDict[geneName];
-			var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == geneName);
-
-			var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateName);
-			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3TemplateName)) {
-				Logger.Warn($"Could not find template {ck3TemplateName} for gene {geneName} in CK3!");
-				continue;
-			}
-
-			var ck3GeneTemplateRecessiveName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateRecessiveName);
-			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3GeneTemplateRecessiveName)) {
-				Logger.Warn($"Could not find template {ck3GeneTemplateRecessiveName} for gene {geneName} in CK3!");
-				continue;
-			}
-
-			var geneValueStr = $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
-			colorAndMorphDNAValues.Add(geneName, geneValueStr);
+			ConvertMorphGene(geneName, geneName, irPortraitData, colorAndMorphDNAValues);
 		}
 		
 		colorAndMorphDNAValues.Add("gene_age", GetAgeGeneValue(irCharacter));
@@ -164,15 +172,13 @@ public sealed class DNAFactory {
 		} else {
 			colorAndMorphDNAValues["gene_baldness"] = "\"no_baldness\" 127 \"no_baldness\" 127";
 		}
-
-		// TODO: convert eyebrows
-
+		
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
 			.Where(g => !colorAndMorphDNAValues.ContainsKey(g.Id));
 		foreach (var gene in missingMorphGenes) {
 			if (irCharacter.Id == 14) { // TODO: remove this
-				Logger.Error(gene.Id);
+				Logger.Error($"MORPH GENE: {gene.Id}");
 			}
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
@@ -190,6 +196,9 @@ public sealed class DNAFactory {
 		var missingAccessoryGenes = ck3GenesDB.AccessoryGenes
 			.Where(g => !accessoryDNAValues.ContainsKey(g.Id));
 		foreach (var gene in missingAccessoryGenes) {
+			if (irCharacter.Id == 14) { // TODO: remove this
+				Logger.Error($"ACCESSORY GENE: {gene.Id}");
+			}
 			var geneTemplates = gene.GeneTemplates
 				.OrderBy(t => t.Index)
 				.ToImmutableList();
@@ -311,6 +320,26 @@ public sealed class DNAFactory {
 		var closestColorCoordinates = closestPair.Value;
 		ck3ColorToCoordinatesDict[irColor] = closestColorCoordinates;
 		return closestColorCoordinates;
+	}
+
+	private void ConvertMorphGene(string irGeneName, string ck3GeneName, PortraitData irPortraitData, IDictionary<string, string> morphGeneValues) {
+		var irGeneData = irPortraitData.MorphGenesDict[irGeneName];
+		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3GeneName);
+
+		var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(irGeneName, irGeneData.TemplateName);
+		if (ck3Gene.GeneTemplates.All(t => t.Id != ck3TemplateName)) {
+			Logger.Warn($"Could not find template {ck3TemplateName} for gene {ck3GeneName} in CK3!");
+			return;
+		}
+
+		var ck3GeneTemplateRecessiveName = morphGeneTemplateMapper.GetCK3Template(irGeneName, irGeneData.TemplateRecessiveName);
+		if (ck3Gene.GeneTemplates.All(t => t.Id != ck3GeneTemplateRecessiveName)) {
+			Logger.Warn($"Could not find template {ck3GeneTemplateRecessiveName} for gene {ck3GeneName} in CK3!");
+			return;
+		}
+
+		var geneValueStr = $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
+		morphGeneValues.Add(ck3GeneName, geneValueStr);
 	}
 
 	private string GetAgeGeneValue(Imperator.Characters.Character irCharacter) {
