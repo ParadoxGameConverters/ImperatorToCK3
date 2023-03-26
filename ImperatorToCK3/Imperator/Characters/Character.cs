@@ -176,6 +176,7 @@ public class Character : IIdentifiable<ulong> {
 					blobParser.ParseStream(blobReader);
 				}
 			});
+			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
 			variablesParser.IgnoreAndLogUnregisteredItems();
 			variablesParser.ParseStream(reader);
 			parsedCharacter.Variables = variables.ToImmutableHashSet();
