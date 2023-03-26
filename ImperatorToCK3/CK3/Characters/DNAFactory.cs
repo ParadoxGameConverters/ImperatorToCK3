@@ -13,10 +13,10 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Characters; 
 
 public sealed class DNAFactory {
-	private readonly IUnsafePixelCollection<ushort> irHairPalettePixels;
-	private readonly IUnsafePixelCollection<ushort> irSkinPalettePixels;
-	private readonly IUnsafePixelCollection<ushort> irEyePalettePixels;
-	
+	private readonly IPixelCollection<ushort> irHairPalettePixels;
+	private readonly IPixelCollection<ushort> irSkinPalettePixels;
+	private readonly IPixelCollection<ushort> irEyePalettePixels;
+
 	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
 	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
 	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
@@ -29,24 +29,24 @@ public sealed class DNAFactory {
 		Logger.Debug("Reading color palettes...");
 		var irHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
 		                        throw new ConverterException("Could not find Imperator hair palette!");
-		irHairPalettePixels = new MagickImage(irHairPalettePath).GetPixelsUnsafe();
+		irHairPalettePixels = new MagickImage(irHairPalettePath).GetPixels();
 		var ck3HairPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
 		                         throw new ConverterException("Could not find CK3 hair palette!");
-		var ck3HairPalettePixels = new MagickImage(ck3HairPalettePath).GetPixelsUnsafe();
+		var ck3HairPalettePixels = new MagickImage(ck3HairPalettePath).GetPixels();
 
 		var irSkinPalettePath = irModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ??
 		                        throw new ConverterException("Could not find Imperator skin palette!");
-		irSkinPalettePixels = new MagickImage(irSkinPalettePath).GetPixelsUnsafe();
+		irSkinPalettePixels = new MagickImage(irSkinPalettePath).GetPixels();
 		var ck3SkinPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ??
 		                         throw new ConverterException("Could not find CK3 skin palette!");
-		var ck3SkinPalettePixels = new MagickImage(ck3SkinPalettePath).GetPixelsUnsafe();
+		var ck3SkinPalettePixels = new MagickImage(ck3SkinPalettePath).GetPixels();
 
 		var irEyePalettePath = irModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ??
 		                       throw new ConverterException("Could not find Imperator eye palette!");
-		irEyePalettePixels = new MagickImage(irEyePalettePath).GetPixelsUnsafe();
+		irEyePalettePixels = new MagickImage(irEyePalettePath).GetPixels();
 		var ck3EyePalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ??
 		                        throw new ConverterException("Could not find CK3 eye palette!");
-		var ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixelsUnsafe();
+		var ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixels();
 		
 		Logger.Debug("Initializing genes database...");
 		ck3GenesDB = new GenesDB(ck3ModFS);
@@ -60,13 +60,14 @@ public sealed class DNAFactory {
 		
 		var colorAndMorphDNAValues = new Dictionary<string, string>();
 
+		// Convert colors. Palettes are 512x512, but we need a 0-255 value, so we divide the coordinates by 2.
 		var hairCoordinates = GetPaletteCoordinates(
 			irPortraitData.HairColorPaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
 		);
 		var hairCoordinates2 = GetPaletteCoordinates(
 			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
 		);
-		var hairValue = $"{hairCoordinates.X} {hairCoordinates.Y} {hairCoordinates2.X} {hairCoordinates2.Y}";
+		var hairValue = $"{hairCoordinates.X/2} {hairCoordinates.Y/2} {hairCoordinates2.X/2} {hairCoordinates2.Y/2}";
 		colorAndMorphDNAValues.Add("hair_color", hairValue);
 
 		var skinCoordinates = GetPaletteCoordinates(
@@ -75,7 +76,7 @@ public sealed class DNAFactory {
 		var skinCoordinates2 = GetPaletteCoordinates(
 			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
 		);
-		var skinValue = $"{skinCoordinates.X} {skinCoordinates.Y} {skinCoordinates2.X} {skinCoordinates2.Y}";
+		var skinValue = $"{skinCoordinates.X/2} {skinCoordinates.Y/2} {skinCoordinates2.X/2} {skinCoordinates2.Y/2}";
 		colorAndMorphDNAValues.Add("skin_color", skinValue);
 
 		var eyeCoordinates = GetPaletteCoordinates(
@@ -84,7 +85,7 @@ public sealed class DNAFactory {
 		var eyeCoordinates2 = GetPaletteCoordinates(
 			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
 		);
-		var eyeValue = $"{eyeCoordinates.X} {eyeCoordinates.Y} {eyeCoordinates2.X} {eyeCoordinates2.Y}";
+		var eyeValue = $"{eyeCoordinates.X/2} {eyeCoordinates.Y/2} {eyeCoordinates2.X/2} {eyeCoordinates2.Y/2}";
 		colorAndMorphDNAValues.Add("eye_color", eyeValue);
 		
 		// Convert some accessory genes.
@@ -275,9 +276,9 @@ public sealed class DNAFactory {
 	}
 
 	private void BuildColorConversionCaches(
-		IUnsafePixelCollection<ushort> ck3HairPalettePixels,
-		IUnsafePixelCollection<ushort> ck3SkinPalettePixels,
-		IUnsafePixelCollection<ushort> ck3EyePalettePixels
+		IPixelCollection<ushort> ck3HairPalettePixels,
+		IPixelCollection<ushort> ck3SkinPalettePixels,
+		IPixelCollection<ushort> ck3EyePalettePixels
 	) {
 		BuildColorConversionCache(ck3HairPalettePixels, ck3HairColorToPaletteCoordinatesDict);
 		BuildColorConversionCache(ck3SkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict);
@@ -285,7 +286,7 @@ public sealed class DNAFactory {
 	}
 
 	private static void BuildColorConversionCache(
-		IUnsafePixelCollection<ushort> ck3PalettePixels,
+		IPixelCollection<ushort> ck3PalettePixels,
 		IDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
 	) {
 		foreach (var pixel in ck3PalettePixels) {
@@ -301,7 +302,7 @@ public sealed class DNAFactory {
 
 	private static DNA.PaletteCoordinates GetPaletteCoordinates(
 		PaletteCoordinates irPaletteCoordinates,
-		IUnsafePixelCollection<ushort> irPalettePixels,
+		IPixelCollection<ushort> irPalettePixels,
 		IDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
 	) {
 		var irColor = irPalettePixels.GetPixel(irPaletteCoordinates.X, irPaletteCoordinates.Y).ToColor();
