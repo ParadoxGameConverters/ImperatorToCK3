@@ -14,7 +14,7 @@ public class GenesDB {
 	public GenesDB(ModFilesystem modFS) {
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseGameFolder("common/genes", modFS, "txt", true);
+		parser.ParseGameFolder("common/genes", modFS, "txt", true, logFilePaths: true);
 	}
 	public GenesDB(BufferedReader reader) {
 		var parser = new Parser();
