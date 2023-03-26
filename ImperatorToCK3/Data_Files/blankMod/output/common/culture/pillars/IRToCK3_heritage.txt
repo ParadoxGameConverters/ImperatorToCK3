@@ -57,3 +57,7 @@ heritage_tai = {
 heritage_palaungic = {
 	type = heritage
 }
+
+heritage_caucasian = {
+	type = heritage
+}
