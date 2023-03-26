@@ -18,6 +18,7 @@ public class MorphGene : Gene, IIdentifiable<string> {
 		parser.RegisterKeyword("can_have_portrait_extremity_shift", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("visible", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("group", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("inheritable", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
 			GeneTemplates.AddOrReplace(new MorphGeneTemplate(geneTemplateName, reader));
 		});

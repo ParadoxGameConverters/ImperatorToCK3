@@ -25,25 +25,25 @@ public class GenesDB {
 	private void RegisterKeys(Parser parser) {
 		var accessoryGenesParser = new Parser();
 		accessoryGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) =>
-			AccessoryGenes.Add(new AccessoryGene(geneName, geneReader))
+			AccessoryGenes.AddOrReplace(new AccessoryGene(geneName, geneReader))
 		);
 		accessoryGenesParser.IgnoreAndLogUnregisteredItems();
 		
 		var morphGenesParser = new Parser();
 		morphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) => {
-			MorphGenes.Add(new MorphGene(geneName, geneReader));
+			MorphGenes.AddOrReplace(new MorphGene(geneName, geneReader));
 		});
 		morphGenesParser.IgnoreAndLogUnregisteredItems();
 		
 		var specialAccessoryGenesParser = new Parser();
 		specialAccessoryGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) =>
-			SpecialAccessoryGenes.Add(new AccessoryGene(geneName, geneReader))
+			SpecialAccessoryGenes.AddOrReplace(new AccessoryGene(geneName, geneReader))
 		);
 		specialAccessoryGenesParser.IgnoreAndLogUnregisteredItems();
 		
 		var specialMorphGenesParser = new Parser();
 		specialMorphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) => {
-			SpecialMorphGenes.Add(new MorphGene(geneName, geneReader));
+			SpecialMorphGenes.AddOrReplace(new MorphGene(geneName, geneReader));
 		});
 
 		var specialGenesParser = new Parser();
