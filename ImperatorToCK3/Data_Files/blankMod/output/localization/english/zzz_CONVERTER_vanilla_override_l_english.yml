@@ -6,3 +6,4 @@ l_english:
  tradition_roman_legacy_name: "Imperial Legacy"
  # "Byzantine" does not make sense for a world where the "Byzantine Empire" never existed.
  heritage_byzantine_name: "Hellenistic"
+ heritage_byzantine_collective_noun: "Hellenists"
