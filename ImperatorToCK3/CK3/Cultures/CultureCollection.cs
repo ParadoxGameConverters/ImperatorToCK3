@@ -16,7 +16,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			AddOrReplace(new Culture(cultureId, reader, pillarCollection, nameListCollection, colorFactory));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true);
+		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true, logFilePaths: true);
 	}
 
 	public void LoadNameLists(ModFilesystem ck3ModFS) {
@@ -25,7 +25,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			nameListCollection.AddOrReplace(new NameList(nameListId, reader));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", true);
+		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", true, logFilePaths: true);
 	}
 	
 	private readonly PillarCollection pillarCollection;
