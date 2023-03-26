@@ -3,15 +3,15 @@ using commonItems.Collections;
 
 namespace ImperatorToCK3.Imperator.Religions; 
 
-public class TreasureManager : IdObjectCollection<ulong, Treasure> {
-	public TreasureManager(BufferedReader treasureManagerReader) {
+public sealed class TreasureManager : IdObjectCollection<ulong, Treasure> {
+	public void LoadTreasures(BufferedReader treasureManagerReader) {
 		var parser = new Parser();
-		parser.RegisterKeyword("database", LoadTreasures);
+		parser.RegisterKeyword("database", LoadTreasuresFromDatabase);
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(treasureManagerReader);
 	}
 	
-	private void LoadTreasures(BufferedReader treasureDatabaseReader) {
+	private void LoadTreasuresFromDatabase(BufferedReader treasureDatabaseReader) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			AddOrReplace(new Treasure(ulong.Parse(idStr), reader));

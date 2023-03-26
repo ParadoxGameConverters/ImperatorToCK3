@@ -50,6 +50,7 @@ public class World : Parser {
 	public CulturesDB CulturesDB { get; } = new();
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
+	public TreasureManager TreasureManager { get; } = new();
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -213,6 +214,11 @@ public class World : Parser {
 			});
 			playedCountryBlocParser.IgnoreUnregisteredItems();
 			playedCountryBlocParser.ParseStream(reader);
+		});
+		RegisterKeyword("treasure_manager", reader => {
+			Logger.Info("Loading treasures...");
+			TreasureManager.LoadTreasures(reader);
+			Logger.Debug($"{TreasureManager.Count} treasures loaded.");
 		});
 		this.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
