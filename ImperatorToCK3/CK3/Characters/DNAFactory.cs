@@ -132,6 +132,8 @@ public sealed class DNAFactory {
 		// Convert eye accessories.
 		var irEyeAccessoryGeneTemplateName = irPortraitData.AccessoryGenesDict["eye_accessory"].GeneTemplate;
 		switch (irEyeAccessoryGeneTemplateName) {
+			case "normal_eyes":
+				break;
 			case "eyepatch_1":
 			case "eyepatch_2":
 				accessoryDNAValues["special_headgear_eye_patch"] = new DNAGeneValue {
@@ -158,13 +160,15 @@ public sealed class DNAFactory {
 				};
 				break;
 			case "red_eyes":
-				// TODO: test this
 				var magickRed = new MagickColor("#ff0000");
 				var redEyeCoordinates = GetCoordinatesOfClosestCK3Color(magickRed, ck3EyeColorToPaletteCoordinatesDict);
 				colorDNAValues["eye_color"] = colorDNAValues["eye_color"] with {
 					X = (byte)(redEyeCoordinates.X/2),
 					Y = (byte)(redEyeCoordinates.Y/2)
 				};
+				break;
+			default:
+				Logger.Warn($"Unhandled eye accessory gene template name: {irEyeAccessoryGeneTemplateName}");
 				break;
 		}
 
