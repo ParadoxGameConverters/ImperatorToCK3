@@ -3,10 +3,10 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters; 
 
-public class AccessoryGeneValueTests {
+public class DNAGeneValueTests {
 	[Fact]
-	public void AccessoryGeneValueIsInitialized() {
-		var accessoryGeneValue = new AccessoryGeneValue {
+	public void DNAGeneValueIsInitialized() {
+		var accessoryGeneValue = new DNAGeneValue {
 			TemplateName = "template_name",
 			IntSliderValue = 1,
 			TemplateRecessiveName = "template_recessive_name",
@@ -19,8 +19,8 @@ public class AccessoryGeneValueTests {
 	}
 	
 	[Fact]
-	public void AccessoryGeneValueIsCorrectlyConvertedToString() {
-		var accessoryGeneValue = new AccessoryGeneValue {
+	public void DNAGeneValueIsCorrectlyConvertedToString() {
+		var accessoryGeneValue = new DNAGeneValue {
 			TemplateName = "template_name",
 			IntSliderValue = 1,
 			TemplateRecessiveName = "template_recessive_name",
