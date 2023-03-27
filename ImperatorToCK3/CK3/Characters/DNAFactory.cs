@@ -154,9 +154,9 @@ public sealed class DNAFactory {
 			case "blind_eyes":
 				accessoryDNAValues["eye_accessory"] = new DNAGeneValue {
 					TemplateName = "blind_eyes",
-					IntSliderValue = 255,
+					IntSliderValue = 127,
 					TemplateRecessiveName = "blind_eyes",
-					IntSliderValueRecessive = 255
+					IntSliderValueRecessive = 0
 				};
 				break;
 			case "red_eyes":
@@ -170,6 +170,27 @@ public sealed class DNAFactory {
 			default:
 				Logger.Warn($"Unhandled eye accessory gene template name: {irEyeAccessoryGeneTemplateName}");
 				break;
+		}
+		if (irCharacter.Traits.Contains("blind")) {
+			accessoryDNAValues["eye_accessory"] = new DNAGeneValue {
+				TemplateName = "blind_eyes",
+				IntSliderValue = 127,
+				TemplateRecessiveName = "blind_eyes",
+				IntSliderValueRecessive = 0
+			};
+			accessoryDNAValues["special_headgear_blindfold"] = new DNAGeneValue {
+				TemplateName = "blindfold",
+				IntSliderValue = 255,
+				TemplateRecessiveName = "blindfold",
+				IntSliderValueRecessive = 255
+			};
+		} else if (irCharacter.Traits.Contains("one_eyed")) {
+			accessoryDNAValues["special_headgear_eye_patch"] = new DNAGeneValue {
+				TemplateName = "eye_patch",
+				IntSliderValue = 255,
+				TemplateRecessiveName = "eye_patch",
+				IntSliderValueRecessive = 255
+			};
 		}
 
 		var irMorphGenesWithDirectEquivalents = new[] {
