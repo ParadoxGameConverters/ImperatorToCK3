@@ -115,6 +115,37 @@ public sealed class DNAFactory {
 		if (clothesGeneValue is not null) {
 			accessoryDNAValues.Add("clothes", clothesGeneValue.Value);
 		}
+		
+		// Convert eye accessories.
+		var irEyeAccessoryGeneTemplateName = irPortraitData.AccessoryGenesDict["eye_accessory"].GeneTemplate;
+		switch (irEyeAccessoryGeneTemplateName) {
+			case "eyepatch_1":
+			case "eyepatch_2":
+				accessoryDNAValues["special_headgear_eye_patch"] = new AccessoryGeneValue {
+					TemplateName = "eye_patch",
+					IntSliderValue = 255,
+					TemplateRecessiveName = "eye_patch",
+					IntSliderValueRecessive = 255
+				};
+				break;
+			case "blindfold_1":
+				accessoryDNAValues["special_headgear_blindfold"] = new AccessoryGeneValue {
+					TemplateName = "blindfold",
+					IntSliderValue = 255,
+					TemplateRecessiveName = "blindfold",
+					IntSliderValueRecessive = 255
+				};
+				break;
+			case "blind_eyes":
+				accessoryDNAValues["eye_accessory"] = new AccessoryGeneValue {
+					TemplateName = "blind_eyes",
+					IntSliderValue = 255,
+					TemplateRecessiveName = "blind_eyes",
+					IntSliderValueRecessive = 255
+				};
+				break;
+			// TODO: convert red_eyes
+		}
 
 		var irMorphGenesWithDirectEquivalents = new[] {
 			"gene_head_height", "gene_head_width", "gene_head_profile",
