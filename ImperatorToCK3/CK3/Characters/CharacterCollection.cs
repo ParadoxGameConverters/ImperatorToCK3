@@ -517,6 +517,8 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		var charactersFromImperator = this.Where(c => c.FromImperator).ToList();
 		foreach (var character in charactersFromImperator) {
 			// TODO: check how artifacts are scripted in CK3 history files
+			
+			// TODO: try to use create_artifact_sculpture_babr_e_bayan_effect as base
 		}
 		
 		Logger.IncrementProgress();
