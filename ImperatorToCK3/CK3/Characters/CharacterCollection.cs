@@ -4,6 +4,8 @@ using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Armies;
+using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
@@ -11,6 +13,7 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -463,6 +466,59 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 		}
 
+		Logger.IncrementProgress();
+	}
+
+	public void ImportArtifacts(ProvinceCollection irProvinces, ProvinceMapper provinceMapper, Title.LandedTitles titles, TreasureManager treasureManager, Date date) {
+		Logger.Info("Importing Imperator artifacts...");
+		var ck3CharacterIdToTreasureIdsListDict = new Dictionary<string, IList<ulong>>();
+
+		foreach (var irProvince in irProvinces) {
+			var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(irProvince.Id);
+			if (ck3Provinces.Count == 0) {
+				continue;
+			}
+			var primaryCK3ProvinceId = ck3Provinces.First();
+			
+			string? ownerId = null;
+
+			var barony = titles.GetBaronyForProvince(primaryCK3ProvinceId);
+			if (barony is null) {
+				Logger.Warn($"Can't find barony for province {primaryCK3ProvinceId}!");
+				continue;
+			}
+			var baronyHolderId = barony.GetHolderId(date);
+			if (baronyHolderId != "0") {
+				ownerId = baronyHolderId;
+			} else {
+				var county = titles.GetCountyForProvince(primaryCK3ProvinceId);
+				if (county is null) {
+					Logger.Warn($"Can't find county for province {primaryCK3ProvinceId}!");
+					continue;
+				}
+				var countyHolderId = county.GetHolderId(date);
+				if (countyHolderId != "0") {
+					ownerId = countyHolderId;
+				}
+			}
+
+			if (ownerId is null) {
+				Logger.Warn($"Can't find owner for province {primaryCK3ProvinceId}!");
+				continue;
+			}
+
+			if (ck3CharacterIdToTreasureIdsListDict.TryGetValue(ownerId, out var artifactList)) {
+				artifactList.AddRange(irProvince.TreasureIds);
+			} else {
+				ck3CharacterIdToTreasureIdsListDict[ownerId] = irProvince.TreasureIds.ToList();
+			}
+		}
+		
+		var charactersFromImperator = this.Where(c => c.FromImperator).ToList();
+		foreach (var character in charactersFromImperator) {
+			// TODO: check how artifacts are scripted in CK3 history files
+		}
+		
 		Logger.IncrementProgress();
 	}
 }

@@ -65,6 +65,18 @@ public partial class Province {
 				parsedProvince.HolySiteId = holySiteId;
 			}
 		});
+		provinceParser.RegisterKeyword("treasure_slots", treasureSlotsReader => {
+			var treasureSlotsParser = new Parser();
+			treasureSlotsParser.RegisterKeyword("treasures", treasuresReader => {
+				// 4294967295 equals (2^32 − 1) and is the default value.
+				// Any other value is an ID of a treasure.
+				parsedProvince.treasureIds = treasuresReader.GetULongs()
+					.Where(id => id != 4294967295)
+					.ToList();
+			});
+			treasureSlotsParser.IgnoreAndLogUnregisteredItems();
+			treasureSlotsParser.ParseStream(treasureSlotsReader);
+		});
 		provinceParser.RegisterKeyword("buildings", reader => {
 			var buildingsList = reader.GetInts();
 			parsedProvince.BuildingCount = (uint)buildingsList.Sum();
