@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Remove old artifacts
-      uses: kolpav/purge-artifacts-action@v1
+      uses: ThreadsStyling/purge-artifacts-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
