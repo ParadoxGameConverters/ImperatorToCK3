@@ -385,7 +385,7 @@ link = { ck3 = rhaetian imp = rhaetian }
 link = { ck3 = old_egyptian imp = egyptian imp = upper_egyptian imp = middle_egyptian }
 
 ## Numidian
-link = { ck3 = zaghawa imp = massylian imp = berber imp = gaetulian imp = socossian imp = massaesylian imp = libyan imp = garamantic imp = numidian ck3Province = 6463 ck3Province = 6562 ck3Province = 6561 ck3Province = 6457 ck3Province = 6456 ck3Province = 6452 ck3Province = 6496 ck3Province = 6494 ck3Province = 6497 ck3Province = 6848 ck3Province = 6849 ck3Province = 6850 ck3Province = 6851 ck3Province = 6852 ck3Province = 6853 ck3Province = 6854 ck3Province = 6855 ck3Province = 6860 ck3Province = 6861 ck3Province = 6862 ck3Province = 6863 ck3Province = 6864 ck3Province = 6859 }
+link = { ck3 = zaghawa imp = berber imp = gaetulian imp = socossian imp = libyan imp = garamantic ck3Province = 6463 ck3Province = 6562 ck3Province = 6561 ck3Province = 6457 ck3Province = 6456 ck3Province = 6452 ck3Province = 6496 ck3Province = 6494 ck3Province = 6497 ck3Province = 6848 ck3Province = 6849 ck3Province = 6850 ck3Province = 6851 ck3Province = 6852 ck3Province = 6853 ck3Province = 6854 ck3Province = 6855 ck3Province = 6860 ck3Province = 6861 ck3Province = 6862 ck3Province = 6863 ck3Province = 6864 ck3Province = 6859 }
 link = { ck3 = baranis imp = massylian imp = berber imp = gaetulian imp = socossian imp = massaesylian }
 link = { ck3 = butr imp = libyan imp = garamantic }
 link = { ck3 = numidian imp = numidian }
