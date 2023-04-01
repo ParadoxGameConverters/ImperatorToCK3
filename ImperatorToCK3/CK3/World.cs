@@ -17,7 +17,7 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.HolySiteEffect;
+using ImperatorToCK3.Mappers.Modifier;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -235,11 +235,13 @@ public class World {
 		GenerateFillerHoldersForUnownedLands(cultures, config);
 		Logger.IncrementProgress();
 
-		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
-		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+		var modifierMapper = new ModifierMapper("configurables/holy_site_effect_mappings.txt");
+		Religions.DetermineHolySites(Provinces, impWorld.Religions, modifierMapper, config.CK3BookmarkDate);
 		
 		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, cultures, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
+		
+		Characters.ImportArtifacts(impWorld.Provinces, provinceMapper, LandedTitles, impWorld.TreasureManager, modifierMapper, impWorld.LocDB, CorrectedDate);
 	}
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {

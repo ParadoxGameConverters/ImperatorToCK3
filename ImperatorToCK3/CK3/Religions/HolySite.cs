@@ -2,7 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Mappers.HolySiteEffect;
+using ImperatorToCK3.Mappers.Modifier;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,10 +57,10 @@ public class HolySite : IIdentifiable<string>, IPDXSerializable {
 		Faith faith,
 		Title.LandedTitles titles,
 		IReadOnlyDictionary<string, double> imperatorEffects,
-		HolySiteEffectMapper holySiteEffectMapper
+		ModifierMapper modifierMapper
 	) : this(barony, faith, titles) {
 		foreach (var (effect, value) in imperatorEffects) {
-			var ck3EffectOpt = holySiteEffectMapper.Match(effect, value);
+			var ck3EffectOpt = modifierMapper.Match(effect, value);
 			if (ck3EffectOpt is not { } ck3Effect) {
 				continue;
 			}

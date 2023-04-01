@@ -72,6 +72,7 @@
     <RiseOfIslam Include="../RiseOfIslam/**/*.*" />
   </ItemGroup>
 	<ItemGroup>
+	  <Folder Include="CK3\Modifiers\" />
 	  <Folder Include="Mappers\Artifact\" />
 	</ItemGroup>
 

@@ -8,6 +8,7 @@ using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Modifier;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -474,6 +475,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		ProvinceMapper provinceMapper,
 		Title.LandedTitles titles,
 		TreasureManager treasureManager,
+		ModifierMapper modifierMapper,
 		LocDB irLocDB,
 		Date date
 	) {
@@ -531,7 +533,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			character.History.AddFieldValue(date, "effects", "effect", "set_artifact_rarity_illustrious = yes");
 			foreach (var irArtifactId in irArtifactIds) {
 				var irArtifact = treasureManager[irArtifactId];
-				ImportArtifact(character, irArtifact, irLocDB, date);
+				ImportArtifact(character, irArtifact, modifierMapper, irLocDB, date);
 			}
 			
 			
@@ -565,7 +567,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 	}
 
-	private void ImportArtifact(Character character, Treasure irArtifact, LocDB irLocDB, Date date) {
+	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, LocDB irLocDB, Date date) {
 		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
 		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
 		if (irNameLoc is null) {
@@ -583,6 +585,26 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		}
 
 		var artifactScope = $"newly_created_artifact_{irArtifact.Id}";
+
+		var ck3ModifierEffects = new Dictionary<string, double>();
+		foreach (var (irEffect, irEffectValue) in irArtifact.StateModifiers) {
+			var match = modifierMapper.Match(irEffect, irEffectValue);
+			if (match is null) {
+				Logger.Warn($"Can't find CK3 modifier for Imperator modifier {irEffect}!");
+				continue;
+			}
+			ck3ModifierEffects[match.Value.Key] = match.Value.Value;
+		}
+		foreach (var (irEffect, irEffectValue) in irArtifact.CharacterModifiers) {
+			var match = modifierMapper.Match(irEffect, irEffectValue);
+			if (match is null) {
+				Logger.Warn($"Can't find CK3 modifier for Imperator modifier {irEffect}!");
+				continue;
+			}
+			ck3ModifierEffects[match.Value.Key] = match.Value.Value;
+		}
+		var ck3ModifierId = $"{ck3ArtifactName}_modifier";
+		// TODO: create and output modifier
 				
 		string createArtifactEffect = $$"""
 			create_artifact = {	
@@ -596,7 +618,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				history = {
 					type = created_before_history
 				}
-				modifier = babr_e_bayan_modifier  {{ TODO }}
+				modifier = {{ ck3ModifierId }}  # example: babr_e_bayan_modifier
 				save_scope_as = {{ artifactScope }}
 				decaying = yes
 			}
@@ -611,5 +633,6 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				}
 			}
 		""";
+		character.History.AddFieldValue(date, "effects", "effect", postCreationEffect);
 	}
 }

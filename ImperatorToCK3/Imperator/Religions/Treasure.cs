@@ -11,7 +11,9 @@ public sealed class Treasure : IIdentifiable<ulong> {
 	public string IconName { get; private set; }
 	
 	private Dictionary<string, double> stateModifiers = new();
+	public IReadOnlyDictionary<string, double> StateModifiers => stateModifiers;
 	private Dictionary<string, double> characterModifiers = new();
+	public IReadOnlyDictionary<string, double> CharacterModifiers => characterModifiers;
 
 	public Treasure(ulong id, BufferedReader treasureReader) {
 		Id = id;

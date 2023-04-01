@@ -6,7 +6,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.Mappers.HolySiteEffect;
+using ImperatorToCK3.Mappers.Modifier;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -145,7 +145,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		Faith ck3Faith,
 		ProvinceCollection ck3Provinces,
 		Imperator.Religions.ReligionCollection imperatorReligions,
-		HolySiteEffectMapper holySiteEffectMapper
+		ModifierMapper modifierMapper
 	) {
 		var imperatorProvince = GetImperatorProvinceForBarony(barony, ck3Provinces);
 		if (imperatorProvince is null) {
@@ -167,13 +167,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			}
 		}
 
-		return new HolySite(barony, ck3Faith, landedTitles, imperatorModifiers, holySiteEffectMapper);
+		return new HolySite(barony, ck3Faith, landedTitles, imperatorModifiers, modifierMapper);
 	}
 
 	public void DetermineHolySites(
 		ProvinceCollection ck3Provinces,
 		Imperator.Religions.ReligionCollection imperatorReligions,
-		HolySiteEffectMapper holySiteEffectMapper,
+		ModifierMapper modifierMapper,
 		Date date
 	) {
 		var provincesByFaith = GetProvincesFromImperatorByFaith(ck3Provinces, date);
@@ -202,7 +202,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 							faith,
 							ck3Provinces,
 							imperatorReligions,
-							holySiteEffectMapper
+							modifierMapper
 						);
 						HolySites.Add(newHolySiteInSameBarony);
 
@@ -220,7 +220,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 						faith,
 						ck3Provinces,
 						imperatorReligions,
-						holySiteEffectMapper
+						modifierMapper
 					);
 					HolySites.Add(replacementSite);
 

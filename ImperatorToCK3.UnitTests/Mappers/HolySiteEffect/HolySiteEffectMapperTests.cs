@@ -1,4 +1,4 @@
-using ImperatorToCK3.Mappers.HolySiteEffect;
+using ImperatorToCK3.Mappers.Modifier;
 using System.Collections.Generic;
 using Xunit;
 
@@ -8,7 +8,7 @@ public class HolySiteEffectMapperTests {
 	[Theory, MemberData(nameof(TestData))]
 	public void MapperReturnsCorrectValues(string imperatorEffect, double imperatorValue, KeyValuePair<string, double>? match) {
 		const string mappingsFilePath = "TestFiles/HolySiteEffectMapperTests/mappings.txt";
-		var mapper = new HolySiteEffectMapper(mappingsFilePath);
+		var mapper = new ModifierMapper(mappingsFilePath);
 		Assert.Equal(match, mapper.Match(imperatorEffect, imperatorValue));
 	}
 
