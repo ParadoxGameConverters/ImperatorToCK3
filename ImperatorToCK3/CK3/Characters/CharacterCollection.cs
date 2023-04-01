@@ -469,7 +469,14 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 	}
 
-	public void ImportArtifacts(ProvinceCollection irProvinces, ProvinceMapper provinceMapper, Title.LandedTitles titles, TreasureManager treasureManager, Date date) {
+	public void ImportArtifacts(
+		ProvinceCollection irProvinces,
+		ProvinceMapper provinceMapper,
+		Title.LandedTitles titles,
+		TreasureManager treasureManager,
+		LocDB irLocDB,
+		Date date
+	) {
 		Logger.Info("Importing Imperator artifacts...");
 		var ck3CharacterIdToTreasureIdsListDict = new Dictionary<string, IList<ulong>>();
 
@@ -516,11 +523,93 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		
 		var charactersFromImperator = this.Where(c => c.FromImperator).ToList();
 		foreach (var character in charactersFromImperator) {
-			// TODO: check how artifacts are scripted in CK3 history files
+			if (!ck3CharacterIdToTreasureIdsListDict.TryGetValue(character.Id, out var irArtifactIds)) {
+				continue;
+			}
 			
 			// TODO: try to use create_artifact_sculpture_babr_e_bayan_effect as base
+			character.History.AddFieldValue(date, "effects", "effect", "set_artifact_rarity_illustrious = yes");
+			foreach (var irArtifactId in irArtifactIds) {
+				var irArtifact = treasureManager[irArtifactId];
+				ImportArtifact(character, irArtifact, irLocDB, date);
+			}
+			
+			
+			
+			/*
+			 * # Create the artifact
+			create_artifact = {	
+				name = artifact_sculpture_armor_babr_name
+				description = artifact_sculpture_armor_babr
+				type = sculpture
+				template = babr_template
+				visuals = sculpture_babr_e_bayan
+				wealth = scope:wealth
+				quality = scope:quality
+				history = {
+					type = created_before_history
+				}
+				modifier = babr_e_bayan_modifier
+				save_scope_as = newly_created_artifact
+				decaying = no
+			}
+
+			scope:newly_created_artifact = {
+				set_variable = { name = historical_unique_artifact value = yes }
+				set_variable = babr_e_bayan
+				save_scope_as = epic
+			}	
+			 */
 		}
 		
 		Logger.IncrementProgress();
+	}
+
+	private void ImportArtifact(Character character, Treasure irArtifact, LocDB irLocDB, Date date) {
+		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
+		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
+		if (irNameLoc is null) {
+			Logger.Warn($"Can't find name loc for artifact {irArtifact.Key}!");
+		} else {
+			character.Localizations.Add(ck3ArtifactName, new LocBlock(ck3ArtifactName, irNameLoc));
+		}
+
+		var ck3DescKey = $"{ck3ArtifactName}_desc";
+		var irDescLoc = irLocDB.GetLocBlockForKey(irArtifact.Key + "_desc");
+		if (irDescLoc is null) {
+			Logger.Warn($"Can't find description loc for artifact {irArtifact.Key}!");
+		} else {
+			character.Localizations.Add(ck3DescKey, new LocBlock(ck3DescKey, irDescLoc));
+		}
+
+		var artifactScope = $"newly_created_artifact_{irArtifact.Id}";
+				
+		string createArtifactEffect = $$"""
+			create_artifact = {	
+				name = {{ ck3ArtifactName }}
+				description = {{ ck3DescKey }}
+				type = sculpture {{ TODO }}
+				template = babr_template {{ TODO }}
+				visuals = sculpture_babr_e_bayan {{ TODO }}
+				wealth = scope:wealth
+				quality = scope:quality
+				history = {
+					type = created_before_history
+				}
+				modifier = babr_e_bayan_modifier  {{ TODO }}
+				save_scope_as = {{ artifactScope }}
+				decaying = yes
+			}
+		""";
+		character.History.AddFieldValue(date, "effects", "effect", createArtifactEffect);
+
+		string postCreationEffect = $$"""
+			scope:{{ artifactScope }} = {
+				set_variable = {
+					name = historical_unique_artifact
+					value = yes
+				}
+			}
+		""";
 	}
 }
