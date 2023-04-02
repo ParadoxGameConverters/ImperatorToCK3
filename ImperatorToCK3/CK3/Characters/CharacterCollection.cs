@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
+using ImperatorToCK3.CK3.Modifiers;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Provinces;
@@ -476,6 +477,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Title.LandedTitles titles,
 		TreasureManager treasureManager,
 		ModifierMapper modifierMapper,
+		ModifierCollection ck3Modifiers,
 		LocDB irLocDB,
 		Date date
 	) {
@@ -523,6 +525,18 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 		}
 		
+		// Create visuals for artifacts.
+		var treasureIconNames = treasureManager
+			.Select(t => t.IconName)
+			.Distinct()
+			.ToList();
+		foreach (var iconName in treasureIconNames) {
+			// example:
+			//		icon: artefact_icons_unique_artifact_cheese
+			//		asset entity: ep1_western_pouch_basic_01_a_entity
+			//		mesh: ep1_western_pouch_basic_01_a_mesh
+		}
+		
 		var charactersFromImperator = this.Where(c => c.FromImperator).ToList();
 		foreach (var character in charactersFromImperator) {
 			if (!ck3CharacterIdToTreasureIdsListDict.TryGetValue(character.Id, out var irArtifactIds)) {
@@ -530,10 +544,9 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 			
 			// TODO: try to use create_artifact_sculpture_babr_e_bayan_effect as base
-			character.History.AddFieldValue(date, "effects", "effect", "set_artifact_rarity_illustrious = yes");
 			foreach (var irArtifactId in irArtifactIds) {
 				var irArtifact = treasureManager[irArtifactId];
-				ImportArtifact(character, irArtifact, modifierMapper, irLocDB, date);
+				ImportArtifact(character, irArtifact, modifierMapper, ck3Modifiers, irLocDB, date);
 			}
 			
 			
@@ -567,7 +580,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 	}
 
-	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, LocDB irLocDB, Date date) {
+	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, LocDB irLocDB, Date date) {
 		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
 		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
 		if (irNameLoc is null) {
@@ -604,9 +617,10 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			ck3ModifierEffects[match.Value.Key] = match.Value.Value;
 		}
 		var ck3ModifierId = $"{ck3ArtifactName}_modifier";
-		// TODO: create and output modifier
-				
+		ck3Modifiers.Add(new Modifier(ck3ModifierId, ck3ModifierEffects));
+		
 		string createArtifactEffect = $$"""
+			set_artifact_rarity_illustrious = yes
 			create_artifact = {	
 				name = {{ ck3ArtifactName }}
 				description = {{ ck3DescKey }}
@@ -618,14 +632,10 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				history = {
 					type = created_before_history
 				}
-				modifier = {{ ck3ModifierId }}  # example: babr_e_bayan_modifier
+				modifier = {{ ck3ModifierId }}
 				save_scope_as = {{ artifactScope }}
 				decaying = yes
 			}
-		""";
-		character.History.AddFieldValue(date, "effects", "effect", createArtifactEffect);
-
-		string postCreationEffect = $$"""
 			scope:{{ artifactScope }} = {
 				set_variable = {
 					name = historical_unique_artifact
@@ -633,6 +643,6 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				}
 			}
 		""";
-		character.History.AddFieldValue(date, "effects", "effect", postCreationEffect);
+		character.History.AddFieldValue(date, "effects", "effect", createArtifactEffect);
 	}
 }

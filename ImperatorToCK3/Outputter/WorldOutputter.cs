@@ -56,12 +56,14 @@ public static class WorldOutputter {
 			ck3World
 		);
 		Logger.IncrementProgress();
+		
+		OutputModifiers(ck3World, outputName);
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
 		}
 
-		var outputPath = Path.Combine("output", config.OutputModName);
+		var outputPath = Path.Combine("output", outputName);
 
 		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
@@ -173,6 +175,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "modifiers"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
@@ -220,5 +223,13 @@ public static class WorldOutputter {
 		}
 
 		Logger.IncrementProgress();
+	}
+	
+	private static void OutputModifiers(World ck3World, string outputModName) {
+		Logger.Info("Outputting modifiers...");
+		var outputPath = Path.Combine("output", outputModName, "common/modifiers/IRToCK3_modifiers.txt");
+		
+		using var modifiersWriter = new StreamWriter(outputPath);
+		modifiersWriter.WriteLine(ck3World.Modifiers.ToString());
 	}
 }

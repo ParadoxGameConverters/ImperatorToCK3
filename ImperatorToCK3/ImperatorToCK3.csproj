@@ -71,10 +71,6 @@
 	<ItemGroup>
     <RiseOfIslam Include="../RiseOfIslam/**/*.*" />
   </ItemGroup>
-	<ItemGroup>
-	  <Folder Include="CK3\Modifiers\" />
-	  <Folder Include="Mappers\Artifact\" />
-	</ItemGroup>
 
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />

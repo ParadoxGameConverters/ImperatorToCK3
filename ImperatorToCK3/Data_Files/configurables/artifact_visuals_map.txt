@@ -1,0 +1,58 @@
+# Usage:
+#	irTreasure = Imperator treasure ID
+# 	irIcon = Imperator treasure icon
+# 	ck3Visual = CK3 visual ID (from common/artifacts/visuals)
+# Every link has to have either irTreasure or irIcon set.
+
+# Imperator treasures list with icons: https://imperator.paradoxwikis.com/Treasure#List_of_treasures
+
+link = {
+	irTreasure = treasure_armor_of_alexander
+	ck3Visual = pedestal_alexander_armor
+}
+
+link = {
+	irIcon = treasure_urn_1
+	ck3Visual = urn
+}
+link = {
+	irIcon = treasure_urn_2
+	ck3Visual = urn
+}
+link = {
+	irIcon = treasure_urn_3
+	ck3Visual = urn
+}
+link = {
+	irIcon = treasure_architecture
+	ck3Visual = statue
+}
+link = {
+	irIcon = treasure_architecture_hoa
+	ck3Visual = statue
+}
+link = {
+	irIcon = treasure_armor
+	ck3Visual = armor
+}
+link = {
+	irIcon = treasure_armor_hoa
+	ck3Visual = armor
+}
+link = {
+	irIcon = treasure_chest
+	ck3Visual = chest
+}
+link = {
+	irIcon = treasure_sarcophagus
+	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+}
+link = {
+	irIcon = treasure_sarcophagus_hoa
+	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+}
+link = {
+	irIcon = treasure_sword
+	ck3Visual = sword
+}
+

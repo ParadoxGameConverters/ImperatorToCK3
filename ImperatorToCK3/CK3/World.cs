@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Map;
+using ImperatorToCK3.CK3.Modifiers;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -40,6 +41,7 @@ public class World {
 	public ModFilesystem ModFS { get; }
 	private ScriptValueCollection ScriptValues { get; } = new();
 	public NamedColorCollection NamedColors { get; } = new();
+	public ModifierCollection Modifiers { get; } = new();
 	public CharacterCollection Characters { get; } = new();
 	public DynastyCollection Dynasties { get; } = new();
 	public ProvinceCollection Provinces { get; } = new();
@@ -241,7 +243,16 @@ public class World {
 		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, cultures, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
 		
-		Characters.ImportArtifacts(impWorld.Provinces, provinceMapper, LandedTitles, impWorld.TreasureManager, modifierMapper, impWorld.LocDB, CorrectedDate);
+		Characters.ImportArtifacts(
+			impWorld.Provinces,
+			provinceMapper,
+			LandedTitles,
+			impWorld.TreasureManager,
+			modifierMapper,
+			Modifiers,
+			impWorld.LocDB,
+			CorrectedDate
+		);
 	}
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
