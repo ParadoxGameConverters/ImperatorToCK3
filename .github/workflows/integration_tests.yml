@@ -1,6 +1,7 @@
 ﻿name: "Integration tests"
 
 on:
+  pull_request: # TODO: remove it after getting CWTools step to work
   release:
     types: [published]
 
@@ -16,10 +17,10 @@ jobs:
       matrix:
         save_url:
           # 2.0 vanilla
-          - https://mega.nz/file/TR13kB7D#QWT2yFzoS3rSIu9-EkUEdcc-X8jJnhZdXbJvw9jC-dg  # Benchmark.rome
+          # - https://mega.nz/file/TR13kB7D#QWT2yFzoS3rSIu9-EkUEdcc-X8jJnhZdXbJvw9jC-dg  # Benchmark.rome
           # 2.0 with mods
-          - https://mega.nz/file/id90lRYD#4OBL6N6_87-Nu28wNssm-O-3jmxli0iFzOtI7XVdN1E  # Mega_Campaign.rome
-          - https://mega.nz/file/zQ0wDKya#eiFQCiJ2sjTaolAJGnfQ0_0OS2Q1kf48dIGDlrEoJ9I  # Erreinu Atlantikoa Debug Over NameFix.rome
+          # - https://mega.nz/file/id90lRYD#4OBL6N6_87-Nu28wNssm-O-3jmxli0iFzOtI7XVdN1E  # Mega_Campaign.rome
+          # - https://mega.nz/file/zQ0wDKya#eiFQCiJ2sjTaolAJGnfQ0_0OS2Q1kf48dIGDlrEoJ9I  # Erreinu Atlantikoa Debug Over NameFix.rome
           - https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8  # The New Rome.rome
     steps:
     - uses: actions/checkout@v3
@@ -55,6 +56,12 @@ jobs:
       working-directory: Debug/ImperatorToCK3
       run: |
         dotnet ImperatorToCK3Converter.dll
+    - name: "Validate generated mod with CWTools"
+      uses: cwtools/cwtools-action@v1
+      with:
+        game: ir
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
     - name: "Cleanup"
       if: always()
       run: |
