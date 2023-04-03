@@ -81,7 +81,7 @@ jobs:
       uses: cwtools/cwtools-action@v1.1.0
       with:
         game: ck3
-        modPath: Debug/ImperatorToCK3/output
+        modPath: ./save
         changedFilesOnly: "0"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
