@@ -57,7 +57,7 @@ jobs:
       run: |
         dotnet ImperatorToCK3Converter.dll
     - name: "Validate generated mod with CWTools"
-      uses: cwtools/cwtools-action@v1
+      uses: cwtools/cwtools-action@v1.0.0
       with:
         game: ck3
         modPath: Debug/ImperatorToCK3/output
