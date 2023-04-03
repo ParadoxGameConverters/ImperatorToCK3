@@ -60,6 +60,8 @@ jobs:
       uses: cwtools/cwtools-action@v1
       with:
         game: ir
+        modPath: Debug/ImperatorToCK3/output
+        changedFilesOnly: "0"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
     - name: "Cleanup"
