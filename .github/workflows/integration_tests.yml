@@ -57,7 +57,7 @@ jobs:
       run: |
         dotnet ImperatorToCK3Converter.dll
     - name: "Upload artifact with generated mod"
-      if: matrix.save_url == "https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8"
+      if: ${{ matrix.save_url }} == "https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8"
       uses: actions/upload-artifact@v3
       with:
         name: generated-mod-artifact
