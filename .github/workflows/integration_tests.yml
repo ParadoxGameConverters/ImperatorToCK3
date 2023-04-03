@@ -84,7 +84,3 @@ jobs:
         changedFilesOnly: "0"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
-    - name: "Cleanup"
-      if: always()
-      run: |
-        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
