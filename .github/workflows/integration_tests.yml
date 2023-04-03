@@ -56,6 +56,17 @@ jobs:
       working-directory: Debug/ImperatorToCK3
       run: |
         dotnet ImperatorToCK3Converter.dll
+    - name: "Upload artifact with generated mod"
+      # TODO: use some action for this
+    - name: "Cleanup"
+      if: always()
+      run: |
+        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
+        
+  validate_generated_mod:
+    runs-on: [self-hosted, linux]
+    steps:
+      # TODO: download artifacts from test conversion job above
     - name: "Validate generated mod with CWTools"
       uses: cwtools/cwtools-action@v1.0.0
       with:
