@@ -67,6 +67,7 @@ jobs:
         Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
         
   validate_generated_mod:
+    needs: run_test_conversions
     runs-on: [self-hosted, linux]
     steps:
     - name: "Download generated mod"
