@@ -57,7 +57,10 @@ jobs:
       run: |
         dotnet ImperatorToCK3Converter.dll
     - name: "Upload artifact with generated mod"
-      # TODO: use some action for this
+      uses: actions/upload-artifact@v3
+      with:
+        name: generated-mod-artifact  # TODO: add unique ID for each save or only upload artifact from one save
+        path: Debug/ImperatorToCK3/output/
     - name: "Cleanup"
       if: always()
       run: |
@@ -66,7 +69,12 @@ jobs:
   validate_generated_mod:
     runs-on: [self-hosted, linux]
     steps:
-      # TODO: download artifacts from test conversion job above
+    - name: "Download generated mod"
+      uses: actions/download-artifact@v3
+      with:
+        name: generated-mod-artifact 
+    - name: "Display structure of downloaded files"
+      run: ls -R
     - name: "Validate generated mod with CWTools"
       uses: cwtools/cwtools-action@v1.0.0
       with:
