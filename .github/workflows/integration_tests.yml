@@ -59,7 +59,7 @@ jobs:
     - name: "Validate generated mod with CWTools"
       uses: cwtools/cwtools-action@v1
       with:
-        game: ir
+        game: ck3
         modPath: Debug/ImperatorToCK3/output
         changedFilesOnly: "0"
       env:
