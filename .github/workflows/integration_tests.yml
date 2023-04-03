@@ -77,7 +77,7 @@ jobs:
     - name: "Display structure of downloaded files"
       run: ls -R
     - name: "Validate generated mod with CWTools"
-      uses: cwtools/cwtools-action@v1.0.0
+      uses: cwtools/cwtools-action@v1.1.0
       with:
         game: ck3
         modPath: Debug/ImperatorToCK3/output
