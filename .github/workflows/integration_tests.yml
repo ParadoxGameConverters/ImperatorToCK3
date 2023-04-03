@@ -57,9 +57,10 @@ jobs:
       run: |
         dotnet ImperatorToCK3Converter.dll
     - name: "Upload artifact with generated mod"
+      if: ${{ matrix.save_url == "https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8" }}
       uses: actions/upload-artifact@v3
       with:
-        name: generated-mod-artifact  # TODO: add unique ID for each save or only upload artifact from one save
+        name: generated-mod-artifact
         path: Debug/ImperatorToCK3/output/
     - name: "Cleanup"
       if: always()
@@ -68,7 +69,7 @@ jobs:
         
   validate_generated_mod:
     needs: run_test_conversions
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
     steps:
     - name: "Download generated mod"
       uses: actions/download-artifact@v3
@@ -84,3 +85,9 @@ jobs:
         changedFilesOnly: "0"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
+    - name: "Upload artifact"
+      if: always() # so even if the check fails, the log is uploaded
+      uses: actions/upload-artifact@v3
+      with:
+        name: cwtools_output
+        path: output.json
