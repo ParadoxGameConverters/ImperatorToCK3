@@ -524,6 +524,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				ck3CharacterIdToTreasureIdsListDict[ownerId] = irProvince.TreasureIds.ToList();
 			}
 		}
+		// TODO: also import artifacts not assigned to holy sites (search for treasures={ 225 226 } in save)
 		
 		// Create visuals for artifacts.
 		var treasureIconNames = treasureManager
