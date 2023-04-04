@@ -567,7 +567,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				}
 				modifier = babr_e_bayan_modifier
 				save_scope_as = newly_created_artifact
-				decaying = no
+				decaying = yes
 			}
 
 			scope:newly_created_artifact = {
