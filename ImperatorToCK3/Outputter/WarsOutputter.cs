@@ -22,9 +22,7 @@ public static class WarsOutputter {
 		output.WriteLine("war = {");
 
 		output.WriteLine($"\tstart_date = {war.StartDate}");
-		if (war.EndDate is not null) {
-			output.WriteLine($"\tend_date = {war.EndDate}");
-		}
+		output.WriteLine($"\tend_date = {war.EndDate}");
 		output.WriteLine($"\ttargeted_titles={{ {string.Join(" ", war.TargetedTitles)} }}");
 		if (war.CasusBelli is not null) {
 			output.WriteLine($"\tcasus_belli = {war.CasusBelli}");
