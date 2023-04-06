@@ -8,7 +8,6 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Provinces;
 
 public class ProvinceCollection : IdObjectCollection<ulong, Province> {
-	public ProvinceCollection() { }
 	public void LoadProvinces(BufferedReader provincesReader, StateCollection states, CountryCollection countries) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {

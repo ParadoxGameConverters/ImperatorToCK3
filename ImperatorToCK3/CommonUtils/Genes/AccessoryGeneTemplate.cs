@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
