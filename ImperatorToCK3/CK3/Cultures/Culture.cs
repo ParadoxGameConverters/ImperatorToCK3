@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using ImperatorToCK3.Exceptions;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures; 
@@ -11,6 +12,10 @@ public sealed class Culture : IIdentifiable<string> {
 	public Color Color { get; private set; } = new(0, 0, 0);
 	public Pillar Heritage { get; private set; }
 	public NameList NameList { get; private set; }
+	public string? LanguageId { get; private set; }
+	public string? EthosId { get; private set; }
+	public string? MartialCustomId { get; private set; }
+	public OrderedSet<string> Traditions { get; } = new();
 	
 	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, IdObjectCollection<string, NameList> nameLists, ColorFactory colorFactory) {
 		Id = id;

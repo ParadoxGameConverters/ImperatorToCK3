@@ -1,29 +1,26 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
 
 namespace DocsGenerator;
 
 public static class CulturesDocGenerator {
-	private static IEnumerable<Culture> LoadCultures(string modPath) {
-		Logger.Info("Loading cultures...");
-		var culturesPath = Path.Combine(modPath, "common/culture/cultures");
-		var files = SystemUtils.GetAllFilesInFolderRecursive(culturesPath)
-			.Where(f => CommonFunctions.GetExtension(f) == "txt");
-
-		var cultures = new IdObjectCollection<string, Culture>();
-		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => {
-			var culture = new Culture(cultureId, reader);
-			cultures.AddOrReplace(culture);
-		});
-		parser.IgnoreAndLogUnregisteredItems();
+	private static IEnumerable<Culture> LoadCultures(string modPath, ColorFactory colorFactory) {
+		// Create ModFilesystem, but with just the mod we're analyzing.
+		// For that reason, treat the mod as base game.
+		var modFS = new ModFilesystem(modPath, Array.Empty<Mod>());
 		
-		foreach (var relativePath in files) {
-			var filePath = Path.Join(culturesPath, relativePath);
-			parser.ParseFile(filePath);
-		}
+		Logger.Info("Loading cultural pillars...");
+		var pillars = new PillarCollection();
+		pillars.LoadPillars(modFS);
+		
+		Logger.Info("Loading cultures...");
+		var cultures = new CultureCollection(pillars);
+		cultures.LoadNameLists(modFS);
+		cultures.LoadCultures(modFS, colorFactory);
 
 		return cultures;
 	}
@@ -55,15 +52,11 @@ public static class CulturesDocGenerator {
 	}
 
 	private static string GetCultureColorForCell(Culture culture) {
-		if (culture.Color is not null) {
-			return "#" + culture.Color.OutputHex()
-				.Replace("hex", string.Empty)
-				.Replace("{", string.Empty)
-				.Replace("}", string.Empty)
-				.Trim();
-		}
-
-		return "initial";
+		return "#" + culture.Color.OutputHex()
+			.Replace("hex", string.Empty)
+			.Replace("{", string.Empty)
+			.Replace("}", string.Empty)
+			.Trim();
 	}
 
 	private static void OutputCulturesTable(IEnumerable<Culture> cultures, LocDB locDB, bool cultureColorUnderName) {
@@ -110,7 +103,7 @@ public static class CulturesDocGenerator {
 				output.WriteLine($"\t\t\t\t\t<td class=\"color-cell\" style=\"background-color: {GetCultureColorForCell(culture)}\"></td>");
 				output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, culture.Id)}</td>");
 			}
-			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.HeritageId}_name")}</td>");
+			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.Heritage.Id}_name")}</td>");
 			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.EthosId}_name")}</td>");
 			output.WriteLine($"\t\t\t\t\t<td>{string.Join("<br>", culture.Traditions.Select(t=>GetLocForKey(locDB, $"{t}_name")))}</td>");
 			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.LanguageId}_name")}</td>");
@@ -125,8 +118,8 @@ public static class CulturesDocGenerator {
 		File.WriteAllText ("generated_docs/cultures_table.html", output.ToString());
 	}
 	
-    public static void GenerateCulturesTable(string modPath, LocDB locDB, bool cultureColorUnderName) {
-	    var cultures = LoadCultures(modPath);
+    public static void GenerateCulturesTable(string modPath, ColorFactory colorFactory, LocDB locDB, bool cultureColorUnderName) {
+	    var cultures = LoadCultures(modPath, colorFactory);
 	    OutputCulturesTable(cultures, locDB, cultureColorUnderName);
     }
 }

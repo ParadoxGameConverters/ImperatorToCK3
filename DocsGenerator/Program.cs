@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using DocsGenerator;
@@ -33,12 +34,13 @@ Parser.Default.ParseArguments<Options>(args)
 
 		var namedColors = new NamedColorCollection();
 		namedColors.LoadNamedColors("common/named_colors", modFS);
-		Culture.ColorFactory.AddNamedColorDict(namedColors);
+		var colorFactory = new ColorFactory();
+		colorFactory.AddNamedColorDict(namedColors);
 		
 		var locDB = new LocDB("english");
 		locDB.ScrapeLocalizations(modFS);
 		
-		CulturesDocGenerator.GenerateCulturesTable(modPath, locDB, cultureColorUnderName);
+		CulturesDocGenerator.GenerateCulturesTable(modPath, colorFactory, locDB, cultureColorUnderName);
 		
 		Logger.Info("Finished generating mod docs.");
 	});
