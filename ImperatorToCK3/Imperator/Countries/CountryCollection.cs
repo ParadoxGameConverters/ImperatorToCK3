@@ -7,8 +7,6 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Countries;
 
 public class CountryCollection : IdObjectCollection<ulong, Country> {
-	public CountryCollection() { }
-
 	public void LoadCountriesFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("country_database", LoadCountries);
