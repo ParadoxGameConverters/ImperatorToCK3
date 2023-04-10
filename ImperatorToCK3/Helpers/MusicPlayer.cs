@@ -22,6 +22,21 @@ public static class MusicPlayer {
 		thread.Start();
 	}
 
+	private static void PlayMusicInternal(IEnumerable<string> filePaths) {
+		var waveProviders = filePaths.Select(GetWaveProvider).ToList();
+		var playlist = new ConcatenatingSampleProvider(waveProviders);
+		
+		using var waveOut = new WaveOutEvent();
+		waveOut.Volume = 0.5f;
+		waveOut.Init(playlist);
+		waveOut.Play();
+		
+		while (waveOut.PlaybackState == PlaybackState.Playing) {
+			// Wait for playback to finish.
+			Thread.Sleep(1000);
+		}
+	}
+
 	public static IEnumerable<string> ExtractSamplesFromBank(string bankFilePath, IEnumerable<string> sampleNames) {
 		var fileNamesToReturn = new List<string>();
 		
@@ -53,21 +68,6 @@ public static class MusicPlayer {
 		}
 
 		return fileNamesToReturn;
-	}
-
-	private static void PlayMusicInternal(IEnumerable<string> filePaths) {
-		var waveProviders = filePaths.Select(GetWaveProvider).ToList();
-		var playlist = new ConcatenatingSampleProvider(waveProviders);
-		
-		using var waveOut = new WaveOutEvent();
-		waveOut.Volume = 0.5f;
-		waveOut.Init(playlist);
-		waveOut.Play();
-		
-		while (waveOut.PlaybackState == PlaybackState.Playing) {
-			// Wait for playback to finish.
-			Thread.Sleep(1000);
-		}
 	}
 	
 	private static ISampleProvider GetWaveProvider(string filePath) {
