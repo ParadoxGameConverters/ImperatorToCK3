@@ -1,7 +1,7 @@
 using commonItems;
 using commonItems.Serialization;
 
-namespace ImperatorToCK3.CK3.Armies; 
+namespace ImperatorToCK3.CK3.Armies;
 
 public class MenAtArmsCost : IPDXSerializable {
 	[SerializedName("gold")] public double? Gold { get; set; }
@@ -17,7 +17,7 @@ public class MenAtArmsCost : IPDXSerializable {
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(costReader);
 	}
-	
+
 	public static MenAtArmsCost operator /(MenAtArmsCost cost, double divisor) {
 		return new MenAtArmsCost {
 			Gold = cost.Gold / divisor,
@@ -25,11 +25,11 @@ public class MenAtArmsCost : IPDXSerializable {
 			Prestige = cost.Prestige / divisor
 		};
 	}
-	
+
 	public static MenAtArmsCost operator *(MenAtArmsCost cost, double multiplier) {
 		return new MenAtArmsCost {
-			Gold = cost.Gold * multiplier, 
-			Piety = cost.Piety * multiplier, 
+			Gold = cost.Gold * multiplier,
+			Piety = cost.Piety * multiplier,
 			Prestige = cost.Prestige * multiplier
 		};
 	}

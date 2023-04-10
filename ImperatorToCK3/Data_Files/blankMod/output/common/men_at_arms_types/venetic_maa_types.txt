@@ -2,12 +2,12 @@
 
 ekvopetobos = {
 	type = light_cavalry
-	
+
 	damage = 50
 	toughness = 25
 	pursuit = 45
 	screen = 30
-	
+
 	terrain_bonus = {
 		plains = { damage = 10 }
 		drylands = { damage = 10 }
@@ -20,18 +20,18 @@ ekvopetobos = {
 
 	counters = {
 		archers = 1
-		skirmishers = 1		
-		heavy_infantry = 1		
+		skirmishers = 1
+		heavy_infantry = 1
 	}
 
 	can_recruit = {
 		culture = { has_cultural_parameter = unlock_maa_ekvopetobos }
-	}	
+	}
 
 	buy_cost = { gold = 100 }
 	low_maintenance_cost = { gold = 1 }
 	high_maintenance_cost = { gold = 2 }
-	
+
 	stack = 80
 	ai_quality = { value = @cultural_maa_extra_ai_score }
 	icon = light_cavalry

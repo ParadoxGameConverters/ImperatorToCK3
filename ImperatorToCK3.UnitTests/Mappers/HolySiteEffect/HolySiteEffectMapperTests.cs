@@ -11,8 +11,8 @@ public class HolySiteEffectMapperTests {
 		var mapper = new HolySiteEffectMapper(mappingsFilePath);
 		Assert.Equal(match, mapper.Match(imperatorEffect, imperatorValue));
 	}
- 
-	public static IEnumerable<object?[]> TestData => 
+
+	public static IEnumerable<object?[]> TestData =>
 		new List<object?[]> {
 			new object?[] { "wrong_effect", 1, null },
 			new object?[] { "effect_to_multiply", 2, new KeyValuePair<string, double>("doubled_effect", 4) },

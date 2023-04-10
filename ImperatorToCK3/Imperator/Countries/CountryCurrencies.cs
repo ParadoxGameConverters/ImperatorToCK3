@@ -1,7 +1,7 @@
 ﻿using commonItems;
-using System.Collections.Generic;
+using ImperatorToCK3.CommonUtils;
 
-namespace ImperatorToCK3.Imperator.Countries; 
+namespace ImperatorToCK3.Imperator.Countries;
 
 public class CountryCurrencies : Parser {
 	public double Manpower { get; private set; } = 0;
@@ -33,5 +33,5 @@ public class CountryCurrencies : Parser {
 			ParserHelpers.IgnoreItem(reader);
 		});
 	}
-	public static HashSet<string> IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 }

@@ -1,8 +1,8 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using System.Collections.Generic;
+using ImperatorToCK3.CommonUtils;
 
-namespace ImperatorToCK3.Imperator.Armies; 
+namespace ImperatorToCK3.Imperator.Armies;
 
 public class Subunit : IIdentifiable<ulong> {
 	public ulong Id { get; }
@@ -23,6 +23,6 @@ public class Subunit : IIdentifiable<ulong> {
 
 		parser.ParseStream(subunitReader);
 	}
-	
-	public static HashSet<string> IgnoredTokens { get; } = new();
+
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 }

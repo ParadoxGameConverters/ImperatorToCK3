@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.Province;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Province; 
+namespace ImperatorToCK3.UnitTests.Mappers.Province;
 
 public class ProvinceMappingsVersionTests {
 	[Fact]

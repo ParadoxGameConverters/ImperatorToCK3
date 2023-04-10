@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Cultures; 
+namespace ImperatorToCK3.UnitTests.Imperator.Cultures;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
@@ -23,7 +23,7 @@ public class CultureTests {
 		""");
 
 		var culture = new Culture("balkan", reader);
-		
+
 		Assert.Equal("balkan", culture.Id);
 		Assert.Equal("Python", culture.GetMaleFamilyNameForm("Python"));
 		Assert.Equal("Obama", culture.GetMaleFamilyNameForm("Obama"));

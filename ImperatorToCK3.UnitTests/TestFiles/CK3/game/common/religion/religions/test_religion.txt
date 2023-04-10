@@ -8,5 +8,6 @@ test_religion = {
 		    holy_site = holy_site_5
 		}
 		ck3Faith2={}
+		ck3Faith3={}
 	}
 }

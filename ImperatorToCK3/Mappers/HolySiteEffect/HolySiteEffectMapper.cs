@@ -1,7 +1,7 @@
 using commonItems;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.HolySiteEffect; 
+namespace ImperatorToCK3.Mappers.HolySiteEffect;
 
 public class HolySiteEffectMapper {
 	private readonly Dictionary<string, KeyValuePair<string, double>> effectMap = new(); // imperator effect, <ck3 effect, factor>

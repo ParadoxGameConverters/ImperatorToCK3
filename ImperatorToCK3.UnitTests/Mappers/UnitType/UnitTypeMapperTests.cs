@@ -6,7 +6,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.UnitType;
 
 public class UnitTypeMapperTests {
 	private const string MappingsFilePath = "TestFiles/MapperTests/UnitTypeMapper/mappings.txt";
-	
+
 	[Theory]
 	[InlineData("wrong_type", null)]
 	[InlineData("archers", "bowmen")]

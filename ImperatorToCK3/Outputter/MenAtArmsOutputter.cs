@@ -5,7 +5,6 @@ using commonItems.Serialization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -13,40 +12,42 @@ namespace ImperatorToCK3.Outputter;
 
 public static class MenAtArmsOutputter {
 	private static void OutputHiddenEvent(string outputModName, IEnumerable<Character> charactersWithMaa) {
-		var outputPath = Path.Combine("output", outputModName, "events", "IRToCK3_hidden_events.txt");
+		var outputPath = Path.Combine("output", outputModName, "events", "irtock3_hidden_events.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-		output.WriteLine("namespace=IRToCK3_hidden_events");
+		output.WriteLine("namespace = irtock3_hidden_events");
 		output.WriteLine();
-		output.WriteLine("IRToCK3_hidden_events.0001 = {");
+		output.WriteLine("irtock3_hidden_events.0001 = {");
 		output.WriteLine("\ttype = character_event");
 		output.WriteLine("\thidden = yes");
+
 		output.WriteLine("\timmediate = {");
 		foreach (var character in charactersWithMaa) {
 			output.WriteLine(
 				"\t\tset_variable = { " +
 				$"name=IRToCK3_character_{character.Id} " +
 				$"value=character:{character.Id} " +
-				"}");
+				"}"
+			);
 		}
-
 		output.WriteLine("\t}");
+
 		output.WriteLine("}");
 	}
 
 	private static void OutputMenAtArmsTypes(string outputModName, IdObjectCollection<string, MenAtArmsType> menAtArmsTypes) {
 		Logger.Info("Writing men-at-arms types...");
-		
+
 		var outputPath = Path.Combine("output", outputModName, "common/men_at_arms_types/IRToCK3_generated_types.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
-		
+
 		foreach (var type in menAtArmsTypes.Where(t=>t.ToBeOutputted)) {
 			output.WriteLine($"{type.Id}={PDXSerializer.Serialize(type)}");
 		}
 	}
-	
+
 	private static void OutputGuiContainer(string outputModName, ModFilesystem modFS, List<Character> charactersWithMaa) {
 		const string relativeHudTopGuiPath = "gui/hud_top.gui";
 		var hudTopGuiPath = modFS.GetActualFileLocation(relativeHudTopGuiPath);
@@ -99,7 +100,7 @@ public static class MenAtArmsOutputter {
 		output.WriteLine("\t}");
 		output.WriteLine("}");
 	}
-	
+
 	public static void OutputMenAtArms(string outputModName, ModFilesystem modFS, CharacterCollection ck3Characters, IdObjectCollection<string, MenAtArmsType> menAtArmsTypes) {
 		Logger.Info("Writing men-at-arms spawning script...");
 

@@ -13,18 +13,18 @@ breathanach = {
 
 	name_list = name_list_breathanach
 
-	ethnicities = {	
+	ethnicities = {
 		5 = caucasian_blond
 		30 = caucasian_ginger
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
-	
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+
 	ethos = ethos_stoic
 }
 transadrianic = {
@@ -41,18 +41,18 @@ transadrianic = {
 
 	name_list = name_list_breathanach
 
-	ethnicities = {	
+	ethnicities = {
 		5 = caucasian_blond
 		30 = caucasian_ginger
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
-	
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+
 	ethos = ethos_stoic
 }
 brythenig = {
@@ -69,17 +69,17 @@ brythenig = {
 
 	name_list = name_list_breathanach
 
-	ethnicities = {	
+	ethnicities = {
 		5 = caucasian_blond
 		30 = caucasian_ginger
 		35 = caucasian_brown_hair
 		30 = caucasian_dark_hair
 	}
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
-	clothing_gfx = { northern_clothing_gfx } 
-	unit_gfx = { western_unit_gfx } 
-	
+	clothing_gfx = { northern_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+
 	ethos = ethos_stoic
 }

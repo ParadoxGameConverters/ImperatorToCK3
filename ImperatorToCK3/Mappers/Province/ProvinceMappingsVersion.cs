@@ -12,7 +12,7 @@ public class ProvinceMappingsVersion {
 		var imperatorProvsReferencedMoreThanOnce = new HashSet<ulong>();
 		var referencedCK3Provs = new HashSet<ulong>();
 		var ck3ProvsReferencedMoreThanOnce = new HashSet<ulong>();
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("link", linkReader => {
 			var mapping = ProvinceMapping.Parse(linkReader);

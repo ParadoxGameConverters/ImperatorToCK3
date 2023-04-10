@@ -11,7 +11,87 @@ option = {
 		radioOption = {
 			name = 2
 			displayName = HERESIES_IN_HISTORICAL_AREAS_2
-			default = true		
+			default = true
+		}
+	}
+}
+
+option = {
+	name = StaticDeJure
+	displayName = STATIC_DEJURE
+	tooltip = STATIC_DEJURE_TIP
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = STATIC_DEJURE_1
+			tooltip = STATIC_DEJURE_1_TIP
+			default = true
+		}
+		radioOption = {
+			name = 2
+			displayName = STATIC_DEJURE_2
+			tooltip = STATIC_DEJURE_2_TIP
+			default = false
+		}
+	}
+}
+
+option = {
+	name = FillerDukes
+	displayName = FILLER_DUKES
+	tooltip = FILLER_DUKES_TIP
+	radioSelector = {
+		radioOption = {
+			name = 0
+			displayName = FILLER_DUKES_0
+			tooltip = FILLER_DUKES_0_TIP
+			default = false
+		}
+		radioOption = {
+			name = 1
+			displayName = FILLER_DUKES_1
+			tooltip = FILLER_DUKES_1_TIP
+			default = true
+		}
+	}
+}
+
+option = {
+	name = UseCK3Flags
+	displayName = USE_CK3_FLAGS
+	tooltip = USE_CK3_FLAGS_TIP
+	radioSelector = {
+		radioOption = {
+			name = 0
+			displayName = USE_CK3_FLAGS_0
+			tooltip = USE_CK3_FLAGS_0_TIP
+			default = false
+		}
+		radioOption = {
+			name = 1
+			displayName = USE_CK3_FLAGS_1
+			tooltip = USE_CK3_FLAGS_1_TIP
+			default = true
+		}
+	}
+}
+
+option = {
+	name = RiseOfIslam
+	displayName = RISE_OF_ISLAM
+	tooltip = RISE_OF_ISLAM_TIP
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = DISABLED
+			tooltip = RISE_OF_ISLAM_DISABLED_TIP
+			default = false
+		}
+		radioOption = {
+			name = 2
+			displayName = ENABLED
+			tooltip = RISE_OF_ISLAM_ENABLED_TIP
+			default = true
 		}
 	}
 }
@@ -20,7 +100,7 @@ option = {
 	name = ImperatorCurrencyRate
 	displayName = IMPERATOR_CURRENCY_RATE
 	tooltip = IMPERATOR_CURRENCY_RATE_TIP
-	textSelector = {	
+	textSelector = {
 		value = "1.0"
 		editable = true
 		tooltip = IMPERATOR_CURRENCY_RATE_INPUT_TIP
@@ -31,7 +111,7 @@ option = {
 	name = ImperatorCivilizationWorth
 	displayName = IMPERATOR_CIVILIZATION_WORTH
 	tooltip = IMPERATOR_CIVILIZATION_WORTH_TIP
-	textSelector = {	
+	textSelector = {
 		value = "0.4"
 		editable = true
 		tooltip = IMPERATOR_CIVILIZATION_WORTH_INPUT_TIP
@@ -63,7 +143,7 @@ option = {
 	name = output_name
 	displayName = MODNAME
 	tooltip = MODNAMETIP
-	textSelector = {	
+	textSelector = {
 		value = ""
 		editable = true
 		tooltip = MODNAMETIP2
@@ -74,7 +154,7 @@ option = {
 	name = bookmark_date
 	displayName = BOOKMARKDATE
 	tooltip = BOOKMARKDATETIP
-	textSelector = {	
+	textSelector = {
 		value = ""
 		editable = true
 		tooltip = BOOKMARKDATETIP2

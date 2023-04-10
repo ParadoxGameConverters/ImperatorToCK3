@@ -19,7 +19,7 @@ public partial class Province {
 	public void SetFaithId(string faithId, Date? date) {
 		History.AddFieldValue(date, "faith", "faith", faithId);
 	}
-	
+
 	public string? GetCultureId(Date date) {
 		var historyValue = History.GetFieldValue("culture", date);
 		return historyValue switch {
@@ -61,7 +61,7 @@ public partial class Province {
 	public void SetBuildings(IEnumerable<string> buildings, Date? date) {
 		History.AddFieldValue(date, "buildings", "buildings", buildings.ToImmutableList());
 	}
-	
+
 	public History History { get; }
 
 	private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()

@@ -21,9 +21,9 @@
 			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
 			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
 			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
-			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena
 		}
-		
+
 		patronym_prefix_male = "dynnpat_pre_mapos"
 		patronym_prefix_female = "dynnpat_pre_duxtir"
 }
@@ -50,9 +50,9 @@ name_list_galatian = {
 			Aife Airmed Ancasta Banna Billica Boudica Bricta Cata Cartimandua Chiomara Damona Diseta Gwendolen Litavis Iamcilla Maeve Verica
 			Cingetessa Conna Catia Carssouna Cunovinna Illica Lovernisca Magunna Lucilia Oconea Ria Rosula Senica Sentica Sulicena
 			Vassura Vinoma Vorvena Urca Veloriga Velibia Totia Titocuna Velbutena Seniciana Senila Vrocata Exuperata Deiana Cunolava Cunsa Aucissa
-			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena 
+			Allauna Alatucca Aessicunia Bodicacia Britivenda Catissena Cantisena
 		}
-		
+
 		patronym_prefix_male = "dynnpat_pre_mapos"
 		patronym_prefix_female = "dynnpat_pre_duxtir"
 }

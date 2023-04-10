@@ -1,0 +1,3 @@
+﻿# As of CK3 1.7.2, the game crashes if there isn't at least one mapping in history/province_mapping.
+# Why, PDX?
+0 = 0

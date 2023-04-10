@@ -77,7 +77,7 @@
 		HealthGodSheHe = CHARACTER_SHEHE_HE
 		HealthGodHerHis = CHARACTER_HERHIS_HIS
 		HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 		#FertilityGod
 		FertilityGodName = ir_nantosuelta
 		FertilityGodNamePossessive = ir_nantosuelta_possessive
@@ -124,7 +124,7 @@
 		TricksterGodName = ir_artio
 		TricksterGodNamePossessive = ir_artio_possessive
 		TricksterGodSheHe = CHARACTER_SHEHE_SHE
-		TricksterGodHerHis = CHARACTER_HERHIS_HER 
+		TricksterGodHerHis = CHARACTER_HERHIS_HER
 		TricksterGodHerHim = CHARACTER_HERHIM_HER
 
 		#NightGod
@@ -189,17 +189,17 @@
 		WitchGodHerHim = CHARACTER_HERHIM_HER
 		WitchGodMistressMaster = witch_spirit
  		WitchGodMotherFather = witch_source
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
-	}	
+	}
 
 	faiths = {
 		celtic_pagan = { # Generic fallback
 			color = { 0.14 0.36 0.16 }
 			icon = celtic_pagan
 			reformed_icon = celtic_pagan
-			
+
 			holy_site = ynys_mon
 			holy_site = stonehenge
 			holy_site = tlachtgha
@@ -207,7 +207,7 @@
 			holy_site = bibracte
 
 			doctrine = unreformed_faith_doctrine
-			
+
 			#Generic pagan tenets
 			doctrine = tenet_esotericism
 			doctrine = tenet_human_sacrifice
@@ -229,7 +229,7 @@
 			doctrine = tenet_sanctity_of_nature
 			doctrine = tenet_communal_identity
 			doctrine = tenet_astrology
-			
+
 			localization = {
 				#High God Name
 				HighGodName = briton_high_god_name
@@ -239,21 +239,21 @@
 				HighGodHerHis = CHARACTER_HERHIS_HIS
 				HighGodNameAlternate = briton_high_god_name_alternate
 				HighGodNameAlternatePossessive = briton_high_god_name_alternate_possessive
-		
+
 				#Creator
 				CreatorName = ir_eiocha
 				CreatorNamePossessive = ir_eiocha_possessive
 				CreatorSheHe = CHARACTER_SHEHE_SHE
 				CreatorHerHis = CHARACTER_HERHIS_HER
 				CreatorHerHim = CHARACTER_HERHIM_HER
-		
+
 				#HealthGod
 				HealthGodName = ir_brigid
 				HealthGodNamePossessive = ir_brigid_possessive
 				HealthGodSheHe = CHARACTER_SHEHE_HE
 				HealthGodHerHis = CHARACTER_HERHIS_HIS
 				HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#FertilityGod
 				FertilityGodName = ir_cernunnos
 				FertilityGodNamePossessive = ir_cernunnos_possessive
@@ -267,7 +267,7 @@
 				WealthGodSheHe = CHARACTER_SHEHE_HE
 				WealthGodHerHis = CHARACTER_HERHIS_HIS
 				WealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#HouseholdGod
 				HouseholdGodName = ir_brigid
 				HouseholdGodNamePossessive = ir_brigid_possessive
@@ -295,7 +295,7 @@
 				WarGodSheHe = CHARACTER_SHEHE_HE
 				WarGodHerHis = CHARACTER_HERHIS_HIS
 				WarGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#TricksterGod
 				TricksterGodName = ir_lugh
 				TricksterGodNamePossessive = ir_lugh_possessive
@@ -316,9 +316,9 @@
 				WaterGodSheHe = CHARACTER_SHEHE_HE
 				WaterGodHerHis = CHARACTER_HERHIS_HIS
 				WaterGodHerHim = CHARACTER_HERHIM_HIM
-		
-		
-		
+
+
+
 				PantheonTerm = religion_the_gods
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { briton_good_god_dagda ir_belinus ir_danu ir_lugh ir_cernunnos briton_good_god_bran ir_brigid briton_good_god_morrigen ir_epona }
@@ -366,29 +366,29 @@
 				WitchGodHerHim = CHARACTER_HERHIM_HER
 				WitchGodMistressMaster = master
 				WitchGodMotherFather = father
-		
+
 				GHWName = ghw_great_holy_war
 				GHWNamePlural = ghw_great_holy_wars
 			}
-		}	
-	
+		}
+
 		gallic_celtic = {
 			color = { 0.1 0.6 0.1 }
 			icon = gaulish
 			reformed_icon = gaulish
-			
+
 			holy_site = auvergne
 			holy_site = paris
 			holy_site = brugge
 			holy_site = poitou
 			holy_site = toulouse
-			
+
 			doctrine = unreformed_faith_doctrine
 
 			doctrine = tenet_sanctity_of_nature
 			doctrine = tenet_communal_identity
 			doctrine = tenet_esotericism
-			
+
 			localization = {
 				#High God Name
 				HighGodName = ir_lugus
@@ -398,21 +398,21 @@
 				HighGodHerHis = CHARACTER_HERHIS_HIS
 				HighGodNameAlternate = ir_lugus
 				HighGodNameAlternatePossessive = ir_lugus_possessive
-		
+
 				#Creator
 				CreatorName = ir_eiocha
 				CreatorNamePossessive = ir_eiocha_possessive
 				CreatorSheHe = CHARACTER_SHEHE_SHE
 				CreatorHerHis = CHARACTER_HERHIS_HER
 				CreatorHerHim = CHARACTER_HERHIM_HER
-		
+
 				#HealthGod
 				HealthGodName = ir_brigid
 				HealthGodNamePossessive = ir_brigid_possessive
 				HealthGodSheHe = CHARACTER_SHEHE_HE
 				HealthGodHerHis = CHARACTER_HERHIS_HIS
 				HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#FertilityGod
 				FertilityGodName = ir_cernunnos
 				FertilityGodNamePossessive = ir_cernunnos_possessive
@@ -426,7 +426,7 @@
 				WealthGodSheHe = CHARACTER_SHEHE_HE
 				WealthGodHerHis = CHARACTER_HERHIS_HIS
 				WealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#HouseholdGod
 				HouseholdGodName = ir_brigid
 				HouseholdGodNamePossessive = ir_brigid_possessive
@@ -454,7 +454,7 @@
 				WarGodSheHe = CHARACTER_SHEHE_HE
 				WarGodHerHis = CHARACTER_HERHIS_HIS
 				WarGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#TricksterGod
 				TricksterGodName = ir_lugh
 				TricksterGodNamePossessive = ir_lugh_possessive
@@ -475,9 +475,9 @@
 				WaterGodSheHe = CHARACTER_SHEHE_HE
 				WaterGodHerHis = CHARACTER_HERHIS_HIS
 				WaterGodHerHim = CHARACTER_HERHIM_HIM
-		
-		
-		
+
+
+
 				PantheonTerm = religion_the_gods
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { gallic_good_god_dagda ir_belinus ir_danu ir_lugus ir_cernunnos gallic_good_god_bran ir_brigantia gallic_good_god_morrigen ir_epona }
@@ -525,29 +525,29 @@
 				WitchGodHerHim = CHARACTER_HERHIM_HER
 				WitchGodMistressMaster = master
 				WitchGodMotherFather = father
-		
+
 				GHWName = ghw_great_holy_war
 				GHWNamePlural = ghw_great_holy_wars
-			}	
+			}
 		}
 
 		gaelic_paganism = {
 			color = { 0.1 0.6 0.1 }
 			icon = gaelic
 			reformed_icon = gaelic
-			
+
 			holy_site = celtic_dublin
 			holy_site = thomond
 			holy_site = connacht
 			holy_site = galloway
 			holy_site = mann
-			
+
 			doctrine = unreformed_faith_doctrine
 
 			doctrine = tenet_sanctity_of_nature
 			doctrine = tenet_communal_identity
 			doctrine = tenet_esotericism
-			
+
 			localization = {
 				#High God Name
 				HighGodName = gaelic_high_god_name
@@ -557,21 +557,21 @@
 				HighGodHerHis = CHARACTER_HERHIS_HIS
 				HighGodNameAlternate = gaelic_high_god_name_alternate
 				HighGodNameAlternatePossessive = gaelic_high_god_name_alternate_possessive
-		
+
 				#Creator
 				CreatorName = ir_eiocha
 				CreatorNamePossessive = ir_eiocha_possessive
 				CreatorSheHe = CHARACTER_SHEHE_SHE
 				CreatorHerHis = CHARACTER_HERHIS_HER
 				CreatorHerHim = CHARACTER_HERHIM_HER
-		
+
 				#HealthGod
 				HealthGodName = ir_brigid
 				HealthGodNamePossessive = ir_brigid_possessive
 				HealthGodSheHe = CHARACTER_SHEHE_HE
 				HealthGodHerHis = CHARACTER_HERHIS_HIS
 				HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#FertilityGod
 				FertilityGodName = ir_cernunnos
 				FertilityGodNamePossessive = ir_cernunnos_possessive
@@ -585,7 +585,7 @@
 				WealthGodSheHe = CHARACTER_SHEHE_HE
 				WealthGodHerHis = CHARACTER_HERHIS_HIS
 				WealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#HouseholdGod
 				HouseholdGodName = ir_brigid
 				HouseholdGodNamePossessive = ir_brigid_possessive
@@ -613,7 +613,7 @@
 				WarGodSheHe = CHARACTER_SHEHE_HE
 				WarGodHerHis = CHARACTER_HERHIS_HIS
 				WarGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#TricksterGod
 				TricksterGodName = ir_lugh
 				TricksterGodNamePossessive = ir_lugh_possessive
@@ -634,9 +634,9 @@
 				WaterGodSheHe = CHARACTER_SHEHE_HE
 				WaterGodHerHis = CHARACTER_HERHIS_HIS
 				WaterGodHerHim = CHARACTER_HERHIM_HIM
-		
-		
-		
+
+
+
 				PantheonTerm = religion_the_gods
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { gaelic_good_god_dagda gaelic_good_god_belenus ir_danu ir_lugh ir_cernunnos briton_good_god_bran ir_brigid briton_good_god_morrigen ir_epona }
@@ -684,29 +684,29 @@
 				WitchGodHerHim = CHARACTER_HERHIM_HER
 				WitchGodMistressMaster = master
 				WitchGodMotherFather = father
-		
+
 				GHWName = ghw_great_holy_war
 				GHWNamePlural = ghw_great_holy_wars
 			}
-		}	
-			
+		}
+
 		celtiberian_paganism = {
 			color = { 0.1 0.6 0.1 }
 			icon = celtiberian
 			reformed_icon = celtiberian
-			
+
 			holy_site = zaragoza
 			holy_site = coruna
 			holy_site = valencia
 			holy_site = toledo
 			holy_site = algeciras
-			
+
 			doctrine = unreformed_faith_doctrine
 
 			doctrine = tenet_sanctity_of_nature
 			doctrine = tenet_communal_identity
 			doctrine = tenet_esotericism
-			
+
 			localization = {
 				#High God Name
 				HighGodName = ir_lugus
@@ -716,21 +716,21 @@
 				HighGodHerHis = CHARACTER_HERHIS_HIS
 				HighGodNameAlternate = ir_lugus
 				HighGodNameAlternatePossessive = ir_lugus_possessive
-		
+
 				#Creator
 				CreatorName = ir_eiocha
 				CreatorNamePossessive = ir_eiocha_possessive
 				CreatorSheHe = CHARACTER_SHEHE_SHE
 				CreatorHerHis = CHARACTER_HERHIS_HER
 				CreatorHerHim = CHARACTER_HERHIM_HER
-		
+
 				#HealthGod
 				HealthGodName = ir_brigid
 				HealthGodNamePossessive = ir_brigid_possessive
 				HealthGodSheHe = CHARACTER_SHEHE_HE
 				HealthGodHerHis = CHARACTER_HERHIS_HIS
 				HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#FertilityGod
 				FertilityGodName = ir_cernunnos
 				FertilityGodNamePossessive = ir_cernunnos_possessive
@@ -744,7 +744,7 @@
 				WealthGodSheHe = CHARACTER_SHEHE_HE
 				WealthGodHerHis = CHARACTER_HERHIS_HIS
 				WealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#HouseholdGod
 				HouseholdGodName = ir_brigid
 				HouseholdGodNamePossessive = ir_brigid_possessive
@@ -772,7 +772,7 @@
 				WarGodSheHe = CHARACTER_SHEHE_HE
 				WarGodHerHis = CHARACTER_HERHIS_HIS
 				WarGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 				#TricksterGod
 				TricksterGodName = ir_lugh
 				TricksterGodNamePossessive = ir_lugh_possessive
@@ -793,9 +793,9 @@
 				WaterGodSheHe = CHARACTER_SHEHE_HE
 				WaterGodHerHis = CHARACTER_HERHIS_HIS
 				WaterGodHerHim = CHARACTER_HERHIM_HIM
-		
-		
-		
+
+
+
 				PantheonTerm = religion_the_gods
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { celtiberian_good_god_dagda ir_belinus ir_danu ir_lugus ir_cernunnos gallic_good_god_bran ir_brigantia gallic_good_god_morrigen ir_epona }
@@ -843,7 +843,7 @@
 				WitchGodHerHim = CHARACTER_HERHIM_HER
 				WitchGodMistressMaster = master
 				WitchGodMotherFather = father
-		
+
 				GHWName = ghw_great_holy_war
 				GHWNamePlural = ghw_great_holy_wars
 			}

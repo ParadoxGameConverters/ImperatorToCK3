@@ -1,15 +1,12 @@
 ﻿using commonItems;
 using ImperatorToCK3.Exceptions;
-using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ImperatorToCK3.Mappers.Province;
 
 public class ProvinceMapper {
 	private readonly Dictionary<ulong, List<ulong>> imperatorToCK3ProvinceMap = new();
 	private readonly Dictionary<ulong, List<ulong>> ck3ToImperatorProvinceMap = new();
-	private readonly SortedSet<ulong> validCK3Provinces = new();
 
 	public void LoadMappings(string mappingsPath, string mappingsVersionName) {
 		Logger.Info("Loading province mappings...");
@@ -64,21 +61,5 @@ public class ProvinceMapper {
 			return ck3Provs;
 		}
 		return new List<ulong>();
-	}
-
-	public void DetermineValidProvinces(Configuration config) {
-		Logger.Info("Loading Valid Provinces");
-		var filePath = Path.Combine(config.CK3Path, "game/map_data/definition.csv");
-		using var definitionFileReader = new StreamReader(File.OpenRead(filePath));
-
-		while (!definitionFileReader.EndOfStream) {
-			var line = definitionFileReader.ReadLine();
-			if (line is null || line.Length < 2) {
-				continue;
-			}
-			var provNum = ulong.Parse(line.Substring(0, line.IndexOf(';')));
-			validCK3Provinces.Add(provNum);
-		}
-		Logger.Info($"{validCK3Provinces.Count} valid provinces located.");
 	}
 }

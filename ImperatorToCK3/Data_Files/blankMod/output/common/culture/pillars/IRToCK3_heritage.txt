@@ -49,3 +49,15 @@ heritage_thracian = {
 heritage_tyrrhenian = {
 	type = heritage
 }
+
+heritage_tai = {
+	type = heritage
+}
+
+heritage_palaungic = {
+	type = heritage
+}
+
+heritage_caucasian = {
+	type = heritage
+}

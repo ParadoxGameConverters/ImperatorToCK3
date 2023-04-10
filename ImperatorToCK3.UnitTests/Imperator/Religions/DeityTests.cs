@@ -4,7 +4,7 @@ using ImperatorToCK3.Imperator.Religions;
 using System.Collections.Generic;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Religions; 
+namespace ImperatorToCK3.UnitTests.Imperator.Religions;
 
 public class DeityTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
@@ -14,7 +14,7 @@ public class DeityTests {
 	[Fact]
 	public void ConstructedDeityHasCorrectId() {
 		var deity = new Deity("test_deity", new BufferedReader(), new ScriptValueCollection());
-		
+
 		Assert.Equal("test_deity", deity.Id);
 	}
 
@@ -22,7 +22,7 @@ public class DeityTests {
 	public void ModifiersAreRead() {
 		var scriptValues = new ScriptValueCollection();
 		scriptValues.LoadScriptValues(imperatorModFS);
-		
+
 		var deityReader = new BufferedReader(@"
 			passive_modifier = {
 				effect_1 = 5.4

@@ -40,17 +40,17 @@
 		# from ImperatorToCK2 Cilician:
 		Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea
 	}
-	
+
 	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
 	pat_grf_name_chance = 50
 	mat_grf_name_chance = 5
 	father_name_chance = 20
-	
+
 	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
 	pat_grm_name_chance = 10
 	mat_grm_name_chance = 50
 	mother_name_chance = 5
-	
+
 	patronym_prefix_male = prefix_tideimi
 	patronym_prefix_female = prefix_wanatti
 	dynasty_of_location_prefix = dynn_washtara
@@ -86,7 +86,7 @@ name_list_lydian = {
 	female_names = {
 		Arachne Callirhoe Omphale Nyssia Tudo
 	}
-	
+
 	patronym_suffix_male = suffix_liS_
 	patronym_suffix_female = suffix_liS_
 	dynasty_of_location_prefix = prefix_qira
@@ -121,7 +121,7 @@ name_list_hittite = {
 		Tawannanna Harapsili Hastayara Kali Istapariya Harapseki Yaya Summiri Walanni
 		Nikal-mati Asmu-nikal Daduhepa Zida Henti Gassulawiya Tanuhepa Puduhepa
 	}
-	
+
 	patronym_prefix_male = "prefix_hassant"
 	patronym_prefix_female = "prefix_sarhuwant"
 	bastard_dynasty_prefix = "prefix_pahhursi"
@@ -162,7 +162,7 @@ name_list_phrygian = {
 		Hecuba Eunoe Cybele Zoe Damodice Anaximene Dione Euryanassa Eurythemista
 		Linos Hippodamia Astydameia Nicippe Lysidice Eurydice Axioche Danais Astyoche
 	}
-	
+
 	patronym_prefix_male = prefix_br
 	patronym_suffix_female = suffix_eia
 	founder_named_dynasties = yes

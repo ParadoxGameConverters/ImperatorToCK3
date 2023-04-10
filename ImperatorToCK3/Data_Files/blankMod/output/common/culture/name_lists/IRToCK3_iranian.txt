@@ -15,13 +15,13 @@
 		Tarxun Ramch Axak Maxak Uxuchan Shaow Wanxanak Awekat Baxuman
 		Chukshek Ratsh Ramtish Ayus Katch Arxata Exak Sheshch Oxyartes
 		Spitamenes Artaxerxes Burz Orzek Samtish Bexak Arzun Shaw Entysh
-		Anxach Wius Bharzun Bharxuman 
+		Anxach Wius Bharzun Bharxuman
 	}
 	female_names = {
 		Roxana Rayun Roshanak Baxunash Roshan Saryash Zunesh Mayara
-		Koshana Hephta Hashchana Ixeni Oniya Wyara Awxa Oshan Riyun 
+		Koshana Hephta Hashchana Ixeni Oniya Wyara Awxa Oshan Riyun
 	}
-	
+
 	founder_named_dynasties = yes
 
 	dynasty_of_location_prefix = "dynnp_m"
@@ -56,7 +56,7 @@ name_list_scythian = {
 	female_names = {
 		Ampratasene Amratasene Arjuna Arunavati Aryakose Aryaraksite Ayardhyame Bhadra Canca Dhrtirastre JN_ati Kolite Kosthile Malika Maya Nagasene Priyasarini Punyasene Purike Purnaya Purohite Putere Raknaska Revati Roce Saci Santa Santisene Sari Sthulananda Sudarsane Sumagati Sumaise Sumati Sundari Suwarte Tarmawirne Tartvisara Tati Tisye Upatisye Uppal Uppalavarna Vasisthe Vitasake Yasaraksite Yasodhara
 	}
-	
+
 	founder_named_dynasties = yes
 
 	mercenary_names = {
@@ -87,12 +87,12 @@ name_list_sarmatian = {
 	female_names = {
 		Ampratasene Amratasene Arjuna Arunavati Aryakose Aryaraksite Ayardhyame Bhadra Canca Dhrtirastre JN_ati Kolite Kosthile Malika Maya Nagasene Priyasarini Punyasene Purike Purnaya Purohite Putere Raknaska Revati Roce Saci Santa Santisene Sari Sthulananda Sudarsane Sumagati Sumaise Sumati Sundari Suwarte Tarmawirne Tartvisara Tati Tisye Upatisye Uppal Uppalavarna Vasisthe Vitasake Yasaraksite Yasodhara
 	}
-	
+
 	founder_named_dynasties = yes
 
 	mercenary_names = {
 		{ name = "the_cimmerians" }
-		{ name = "the_old_guard" coat_of_arms = "scythia" }			
+		{ name = "the_old_guard" coat_of_arms = "scythia" }
 	}
 }
 
@@ -137,7 +137,7 @@ name_list_parthian = {
 		Parmys Parysatis Phaedymia Rinu Stateira Vashti Apame Artakama Artanis
 		Arystone Orypetis Rhoxane Sisygambis
 	}
-	
+
 	founder_named_dynasties = yes
 
 	patronym_suffix_male = "dynnpat_suf_zade"

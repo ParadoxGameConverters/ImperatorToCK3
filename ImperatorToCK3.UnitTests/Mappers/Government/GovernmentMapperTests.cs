@@ -2,7 +2,7 @@
 using ImperatorToCK3.Mappers.Government;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Government; 
+namespace ImperatorToCK3.UnitTests.Mappers.Government;
 
 public class GovernmentMapperTests {
 	[Fact]
@@ -38,7 +38,7 @@ public class GovernmentMapperTests {
 		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("impGovernment2", null);
 		Assert.Equal("ck3Government2", ck3Gov);
 	}
-	
+
 	[Fact]
 	public void CultureCanBeUsedToMatch() {
 		var reader = new BufferedReader(

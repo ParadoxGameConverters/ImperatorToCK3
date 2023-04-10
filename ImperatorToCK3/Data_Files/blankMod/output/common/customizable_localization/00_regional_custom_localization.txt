@@ -45,7 +45,7 @@ MartialTournamentAdjective = {
 	}
 	text = {
 		trigger = {
-			OR = {		
+			OR = {
 				has_government = tribal_government
 				faith = {
 					has_doctrine = pagan_hostility_doctrine
@@ -168,11 +168,11 @@ OutdoorsHidingPlace = { #Something you can find in nature / by the road
 ObjectToClimb = {
 	type = character
 
-	text = {	
+	text = {
 		trigger = { location = { terrain = desert } }
 		localization_key = sand_dune
 	}
-	text = {	
+	text = {
 		trigger = {
 			location = {
 				OR = {
@@ -186,7 +186,7 @@ ObjectToClimb = {
 		}
 		localization_key = boulder
 	}
-	text = {	
+	text = {
 		localization_key = tree
 	}
 }
@@ -218,22 +218,22 @@ RandomExampleName = {
 TerrainTypeCountyScope = {
 	type = landed_title
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = plains } }
 		localization_key = terrain_plains
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = farmlands } }
 		localization_key = terrain_farmlands
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = hills } }
 		localization_key = terrain_hills
 	}
 
-	text = {	
+	text = {
 		trigger = {
 			title_province = {
 				OR = {
@@ -245,47 +245,47 @@ TerrainTypeCountyScope = {
 		localization_key = terrain_mountains
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = desert } }
 		localization_key = terrain_desert
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = oasis } }
 		localization_key = terrain_oasis
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = jungle } }
 		localization_key = terrain_jungle
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = forest } }
 		localization_key = terrain_forest
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = taiga } }
 		localization_key = terrain_taiga
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = wetlands } }
 		localization_key = terrain_wetlands
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = steppe } }
 		localization_key = terrain_steppe
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = floodplains } }
 		localization_key = terrain_floodplains
 	}
 
-	text = {	
+	text = {
 		trigger = { title_province = { terrain = drylands } }
 		localization_key = terrain_drylands
 	}
@@ -294,22 +294,22 @@ TerrainTypeCountyScope = {
 TerrainType = {
 	type = character
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = plains } }
 		localization_key = terrain_plains
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = farmlands } }
 		localization_key = terrain_farmlands
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = hills } }
 		localization_key = terrain_hills
 	}
 
-	text = {	
+	text = {
 		trigger = {
 			capital_province = {
 				OR = {
@@ -321,47 +321,47 @@ TerrainType = {
 		localization_key = terrain_mountains
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = desert } }
 		localization_key = terrain_desert
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = oasis } }
 		localization_key = terrain_oasis
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = jungle } }
 		localization_key = terrain_jungle
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = forest } }
 		localization_key = terrain_forest
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = taiga } }
 		localization_key = terrain_taiga
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = wetlands } }
 		localization_key = terrain_wetlands
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = steppe } }
 		localization_key = terrain_steppe
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = floodplains } }
 		localization_key = terrain_floodplains
 	}
 
-	text = {	
+	text = {
 		trigger = { capital_province = { terrain = drylands } }
 		localization_key = terrain_drylands
 	}
@@ -370,22 +370,22 @@ TerrainType = {
 TerrainTypeProvince = {
 	type = province
 
-	text = {	
+	text = {
 		trigger = { terrain = plains }
 		localization_key = terrain_plains
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = farmlands }
 		localization_key = terrain_farmlands
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = hills }
 		localization_key = terrain_hills
 	}
 
-	text = {	
+	text = {
 		trigger = {
 			OR = {
 				terrain = mountains
@@ -395,47 +395,47 @@ TerrainTypeProvince = {
 		localization_key = terrain_mountains
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = desert }
 		localization_key = terrain_desert
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = oasis }
 		localization_key = terrain_oasis
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = jungle }
 		localization_key = terrain_jungle
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = forest }
 		localization_key = terrain_forest
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = taiga }
 		localization_key = terrain_taiga
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = wetlands }
 		localization_key = terrain_wetlands
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = steppe }
 		localization_key = terrain_steppe
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = floodplains }
 		localization_key = terrain_floodplains
 	}
 
-	text = {	
+	text = {
 		trigger = { terrain = drylands }
 		localization_key = terrain_drylands
 	}
@@ -1406,7 +1406,7 @@ RegionalAlcoholicDrink = {
 
 	text = {
 		localization_key = palm_wine
-		trigger = { 
+		trigger = {
 			OR = {
 				culture = { has_cultural_pillar = heritage_burman }
 				culture = { has_cultural_pillar = heritage_dravidian }
@@ -1414,7 +1414,7 @@ RegionalAlcoholicDrink = {
 		}
 	}
 	text = {
-		localization_key = slivovitz		
+		localization_key = slivovitz
 		trigger = {
 			OR = {
 				culture = { has_cultural_pillar = heritage_west_slavic }
@@ -1429,13 +1429,13 @@ RegionalAlcoholicDrink = {
 	}
 	text = {
 		localization_key = shiraz_white
-		trigger = { 
+		trigger = {
 			OR = {
 				capital_province = {
 					geographical_region = world_middle_east
 				}
 			}
-		} 
+		}
 	}
 	text = {
 		localization_key = tharra
@@ -1868,7 +1868,7 @@ GetOldBook = {
 }
 
 get_region_dog_type = {
-	type = character 
+	type = character
 	random_valid = yes
 
 	# Britain
@@ -2019,7 +2019,7 @@ get_region_dog_type = {
 }
 
 get_region_flower_type = {
-	type = character 
+	type = character
 	random_valid = yes
 
 	text = {
@@ -2284,7 +2284,7 @@ get_region_flower_type = {
 }
 
 get_region_flower_type_plural = {
-	type = character 
+	type = character
 	random_valid = yes
 
 	text = {

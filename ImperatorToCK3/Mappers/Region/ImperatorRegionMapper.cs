@@ -1,42 +1,35 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.Imperator.Geography;
 
-namespace ImperatorToCK3.Mappers.Region; 
+namespace ImperatorToCK3.Mappers.Region;
 
 public class ImperatorRegionMapper {
 	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
-	private readonly IdObjectCollection<string, ImperatorArea> areas = new();
+	private readonly AreaCollection areas;
 
-	public ImperatorRegionMapper() { }
-	public ImperatorRegionMapper(ModFilesystem imperatorModFS) {
+	public ImperatorRegionMapper(ModFilesystem imperatorModFS, AreaCollection areaCollection) {
+		areas = areaCollection;
+
 		Logger.Info("Initializing Imperator geography...");
 
 		var parser = new Parser();
-			
-		const string areasFilePath = "map_data/areas.txt";
-		Logger.Debug($"Imperator areas file location: {imperatorModFS.GetActualFileLocation(areasFilePath)}");
-			
-		RegisterAreaKeys(parser);
-		parser.ParseGameFile(areasFilePath, imperatorModFS);
-		parser.ClearRegisteredRules();
 
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
-			
+
 		RegisterRegionKeys(parser);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
 		LinkRegions();
-		
+
 		Logger.IncrementProgress();
 	}
 	private void RegisterRegionKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => Regions.AddOrReplace(new(regionName, reader)));
-		parser.IgnoreAndLogUnregisteredItems();
-	}
-	private void RegisterAreaKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => areas.AddOrReplace(new(areaName, reader)));
+		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
+			Regions.AddOrReplace(new ImperatorRegion(regionName, reader));
+		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
@@ -57,7 +50,7 @@ public class ImperatorRegionMapper {
 				return region.Id;
 			}
 		}
-		Logger.Warn($"Province ID {provinceId} has no parent region name!");
+		Logger.Warn($"I:R province ID {provinceId} has no parent region name!");
 		return null;
 	}
 	public string? GetParentAreaName(ulong provinceId) {
@@ -66,7 +59,7 @@ public class ImperatorRegionMapper {
 				return area.Id;
 			}
 		}
-		Logger.Warn($"Province ID {provinceId} has no parent area name!");
+		Logger.Warn($"I:R province ID {provinceId} has no parent area name!");
 		return null;
 	}
 	private void LinkRegions() {

@@ -24,13 +24,13 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 
 		parser.ParseStream(subunitsReader);
 		if (Subunit.IgnoredTokens.Any()) {
-			Logger.Debug($"Ignored subunit tokens: {string.Join(", ", Subunit.IgnoredTokens)}");
+			Logger.Debug($"Ignored subunit tokens: {Subunit.IgnoredTokens}");
 		}
 		Logger.IncrementProgress();
 	}
 	public void LoadUnits(BufferedReader unitsReader, LocDB locDB, Defines defines) {
 		Logger.Info("Loading units...");
-		
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
@@ -43,9 +43,9 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitsReader);
-		
+
 		if (Unit.IgnoredTokens.Any()) {
-			Logger.Debug($"Ignored unit tokens: {string.Join(", ", Unit.IgnoredTokens)}");
+			Logger.Debug($"Ignored unit tokens: {Unit.IgnoredTokens}");
 		}
 		Logger.IncrementProgress();
 	}

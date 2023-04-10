@@ -17,11 +17,11 @@ iberian = {
 	ethnicities = {
 		10 = mediterranean
 	}
-	
-	coa_gfx = { iberian_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { western_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }
 nuragic = {
 	color = hsv { 0.2 0.25 0.5 }
@@ -40,9 +40,9 @@ nuragic = {
 	ethnicities = {
 		10 = mediterranean
 	}
-	
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { western_clothing_gfx } 
-	unit_gfx = { mena_unit_gfx } 
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
 }

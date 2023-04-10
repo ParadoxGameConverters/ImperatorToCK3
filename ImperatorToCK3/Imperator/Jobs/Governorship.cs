@@ -13,7 +13,7 @@ public class Governorship {
 		RegisterKeywords(parser);
 		parser.ParseStream(reader);
 	}
-	
+
 	private void RegisterKeywords(Parser parser) {
 		parser.RegisterKeyword("who", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("character", reader => CharacterId = reader.GetULong());

@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,7 @@ public class Unit : IIdentifiable<ulong> {
 	public ulong LeaderId { get; set; } // character id
 	public ulong Location { get; set; } // province id
 	private List<ulong> CohortIds { get; } = new();
-	
+
 	public LocBlock? LocalizedName { get; private set; }
 	public IDictionary<string, int> MenPerUnitType { get; }
 
@@ -44,7 +45,7 @@ public class Unit : IIdentifiable<ulong> {
 		string? family = null;
 		string? governorship = null;
 		LocBlock? baseNameLocBlock = null;
-		
+
 		// parse name block
 		var parser = new Parser();
 		parser.RegisterKeyword("name", reader => name = reader.GetString());
@@ -54,7 +55,7 @@ public class Unit : IIdentifiable<ulong> {
 		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, locDB));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitNameReader);
-		
+
 		// generate localized name for each language
 		if (name is null) {
 			return null;
@@ -71,7 +72,7 @@ public class Unit : IIdentifiable<ulong> {
 		var nameLocBlock = new LocBlock(nameLocBlockId, rawLoc);
 
 		if (baseNameLocBlock is not null) {
-			nameLocBlock.ModifyForEveryLanguage(baseNameLocBlock, (loc, baseLoc, language) => loc?.Replace("$BASE$", baseLoc));	
+			nameLocBlock.ModifyForEveryLanguage(baseNameLocBlock, (loc, baseLoc, language) => loc?.Replace("$BASE$", baseLoc));
 		}
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$ROMAN$", ordinal.ToRomanNumeral()));
 		nameLocBlock.ModifyForEveryLanguage((loc, language) => loc?.Replace("$NUM$", ordinal.ToString()));
@@ -81,14 +82,14 @@ public class Unit : IIdentifiable<ulong> {
 
 		return nameLocBlock;
 	}
-	
+
 	private IDictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
 		var cohortSize = defines.CohortSize;
-		
+
 		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
 			.GroupBy(s=>s.Type)
 			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
-	
-	public static HashSet<string> IgnoredTokens { get; } = new();
+
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 }

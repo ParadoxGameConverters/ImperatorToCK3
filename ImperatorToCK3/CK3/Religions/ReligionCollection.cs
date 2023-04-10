@@ -1,13 +1,15 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Mappers.HolySiteEffect;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
@@ -16,6 +18,7 @@ namespace ImperatorToCK3.CK3.Religions;
 public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
 	public IdObjectCollection<string, HolySite> HolySites { get; } = new();
+	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories { get; } = new();
 
 	public IEnumerable<Faith> Faiths {
 		get {
@@ -23,42 +26,51 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 	}
 
-	private void RegisterReligionsKeywords(Parser parser) {
+	public ReligionCollection(Title.LandedTitles landedTitles) {
+		this.landedTitles = landedTitles;
+	}
+
+	private void RegisterReligionsKeywords(Parser parser, ColorFactory colorFactory) {
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-			var religion = new Religion(religionId, religionReader);
+			var religion = new Religion(religionId, religionReader, this, colorFactory);
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	public void LoadReligions(ModFilesystem ck3ModFs) {
+	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		Logger.Info("Loading religions from CK3 game and mods...");
 
 		var parser = new Parser();
-		RegisterReligionsKeywords(parser);
+		RegisterReligionsKeywords(parser, colorFactory);
 
-		parser.ParseGameFolder("common/religion/religions", ck3ModFs, "txt", recursive: true);
-			
+		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
+
 		Logger.IncrementProgress();
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (holySiteReader, holySiteId) => {
-			HolySites.Add(new HolySite(holySiteId, holySiteReader));
+			try {
+				var holySite = new HolySite(holySiteId, holySiteReader, landedTitles);
+				HolySites.AddOrReplace(holySite);
+			} catch (KeyNotFoundException e) {
+				Logger.Debug($"Could not add holy site {holySiteId}: {e.Message}");
+			}
 		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.IgnoreAndLogUnregisteredItems();
 	}
-	public void LoadHolySites(ModFilesystem ck3ModFs) {
+	public void LoadHolySites(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading CK3 holy sites...");
 
 		var parser = new Parser();
 		RegisterHolySitesKeywords(parser);
 
-		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFs, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFS, "txt", recursive: true);
 	}
 
 	public void LoadReplaceableHolySites(string filePath) {
 		Logger.Info("Loading replaceable holy site IDs...");
-		
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
@@ -81,6 +93,15 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.ParseFile(filePath);
 	}
 
+	public void LoadDoctrines(ModFilesystem ck3ModFS) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) => {
+			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader));
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseGameFolder("common/religion/doctrines", ck3ModFS, "txt", true);
+	}
+
 	public Faith? GetFaith(string id) {
 		foreach (Religion religion in this) {
 			if (religion.Faiths.TryGetValue(id, out var faith)) {
@@ -91,18 +112,18 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		return null;
 	}
 
-	private static Title? GetHolySiteBarony(HolySite holySite, Title.LandedTitles titles) {
+	private Title? GetHolySiteBarony(HolySite holySite) {
 		if (holySite.BaronyId is not null) {
-			return titles[holySite.BaronyId];
+			return landedTitles[holySite.BaronyId];
 		}
 
 		if (holySite.CountyId is null) {
 			return null;
 		}
 
-		var capitalBaronyProvince = titles[holySite.CountyId].CapitalBaronyProvince;
+		var capitalBaronyProvince = landedTitles[holySite.CountyId].CapitalBaronyProvince;
 		if (capitalBaronyProvince is not null) {
-			return titles.GetBaronyForProvince((ulong)capitalBaronyProvince);
+			return landedTitles.GetBaronyForProvince((ulong)capitalBaronyProvince);
 		}
 
 		return null;
@@ -113,16 +134,15 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		if (provinceId is null) {
 			return null;
 		}
-		if (!ck3Provinces.TryGetValue((ulong)provinceId, out var province)) {
+		if (!ck3Provinces.TryGetValue(provinceId.Value, out var province)) {
 			return null;
 		}
-		return province.ImperatorProvince;
+		return province.PrimaryImperatorProvince;
 	}
 
-	private static HolySite GenerateHolySiteForBarony(
+	private HolySite GenerateHolySiteForBarony(
 		Title barony,
 		Faith ck3Faith,
-		Title.LandedTitles titles,
 		ProvinceCollection ck3Provinces,
 		Imperator.Religions.ReligionCollection imperatorReligions,
 		HolySiteEffectMapper holySiteEffectMapper
@@ -130,7 +150,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		var imperatorProvince = GetImperatorProvinceForBarony(barony, ck3Provinces);
 		if (imperatorProvince is null) {
 			Logger.Warn($"Holy site barony {barony.Id} has no associated Imperator province. Holy site generated for this barony will have no modifiers!");
-			return new HolySite(barony, ck3Faith, titles);
+			return new HolySite(barony, ck3Faith, landedTitles);
 		}
 
 		IReadOnlyDictionary<string, double> imperatorModifiers;
@@ -146,42 +166,40 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				imperatorModifiers = new Dictionary<string, double>();
 			}
 		}
-		
-		return new HolySite(barony, ck3Faith, titles, imperatorModifiers, holySiteEffectMapper);
+
+		return new HolySite(barony, ck3Faith, landedTitles, imperatorModifiers, holySiteEffectMapper);
 	}
 
 	public void DetermineHolySites(
 		ProvinceCollection ck3Provinces,
-		Title.LandedTitles titles,
 		Imperator.Religions.ReligionCollection imperatorReligions,
 		HolySiteEffectMapper holySiteEffectMapper,
 		Date date
 	) {
 		var provincesByFaith = GetProvincesFromImperatorByFaith(ck3Provinces, date);
-		
+
 		foreach (var faith in Faiths) {
 			if (!ReplaceableHolySitesByFaith.TryGetValue(faith.Id, out var replaceableSiteIds)) {
 				continue;
 			}
 			Logger.Info($"Determining holy sites for faith {faith.Id}...");
-			
-			var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith, titles);
+
+			var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith);
 			foreach (var holySiteId in faith.HolySiteIds.ToList()) {
 				if (!HolySites.TryGetValue(holySiteId, out var holySite)) {
 					Logger.Warn($"Holy site with ID {holySiteId} not found!");
 					continue;
 				}
 
-				var holySiteBarony = GetHolySiteBarony(holySite, titles);
+				var holySiteBarony = GetHolySiteBarony(holySite);
 				if (holySiteBarony is not null && dynamicHolySiteBaronies.Contains(holySiteBarony)) {
 					// One of dynamic holy site baronies is same as an exising holy site's barony.
 					// We need to avoid faith having two holy sites in one barony.
-					
+
 					if (replaceableSiteIds.Contains(holySiteId)) {
 						var newHolySiteInSameBarony = GenerateHolySiteForBarony(
 							holySiteBarony,
 							faith,
-							titles,
 							ck3Provinces,
 							imperatorReligions,
 							holySiteEffectMapper
@@ -198,9 +216,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 					dynamicHolySiteBaronies.Remove(selectedDynamicBarony);
 
 					var replacementSite = GenerateHolySiteForBarony(
-						selectedDynamicBarony, 
-						faith, 
-						titles,
+						selectedDynamicBarony,
+						faith,
 						ck3Provinces,
 						imperatorReligions,
 						holySiteEffectMapper
@@ -213,19 +230,19 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 	}
 
-	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith
+	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith.
 	public static IDictionary<string, ISet<Province>> GetProvincesFromImperatorByFaith(ProvinceCollection ck3Provinces, Date date) {
 		var provincesByFaith = new Dictionary<string, ISet<Province>>();
 
 		foreach (var province in ck3Provinces) {
-			var imperatorProvince = province.ImperatorProvince;
+			var imperatorProvince = province.PrimaryImperatorProvince;
 			if (imperatorProvince is null) {
 				continue;
 			}
 
 			var faith = province.GetFaithId(date);
 			if (faith is null) {
-				Logger.Warn($"CK3 province {province.Id} has no faith!");
+				Logger.Debug($"CK3 province {province.Id} has no faith!");
 				continue;
 			}
 			if (provincesByFaith.TryGetValue(faith, out var set)) {
@@ -234,11 +251,97 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				provincesByFaith[faith] = new HashSet<Province> {province};
 			}
 		}
-		
+
 		return provincesByFaith;
 	}
+	
+	/// Generates religious heads for all alive faiths that have Spiritual Head doctrine and don't have a religious head.
+	public void GenerateMissingReligiousHeads(
+		Title.LandedTitles titles,
+		CharacterCollection characters,
+		ProvinceCollection provinces,
+		CultureCollection cultures,
+		Date date
+	) {
+		Logger.Info("Generating religious heads for faiths with Spiritual Head of Faith doctrine...");
+		
+		var aliveCharacterFaithIds = characters
+			.Where(c => !c.Dead)
+			.Select(c => c.GetFaithId(date)).ToImmutableHashSet();
+		
+		var provinceFaithIds = provinces
+			.Select(p => p.GetFaithId(date)).ToImmutableHashSet();
+		
+		var aliveFaithsWithSpiritualHeadDoctrine = Faiths
+			.Where(f => aliveCharacterFaithIds.Contains(f.Id) || provinceFaithIds.Contains(f.Id))
+			.Where(f => f.GetDoctrineIdForDoctrineCategoryId("doctrine_head_of_faith") == "doctrine_spiritual_head")
+			.ToImmutableList();
 
-	private static IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith, Title.LandedTitles titles) {
+		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {
+			var religiousHeadTitleId = faith.ReligiousHeadTitleId;
+			if (religiousHeadTitleId is null) {
+				continue;
+			}
+
+			var title = titles[religiousHeadTitleId];
+			var holderId = title.GetHolderId(date);
+			if (holderId != "0") {
+				var holder = characters[holderId];
+				var holderDeathDate = holder.DeathDate;
+				if (holderDeathDate is null || holderDeathDate > date) {
+					continue;
+				}
+			}
+			
+			// Generate title holder.
+			Logger.Debug($"Generating religious head for faith {faith.Id}...");
+			// Determine culture.
+			var cultureId = provinces
+				.Where(p => p.GetFaithId(date) == faith.Id)
+				.Select(p => p.GetCultureId(date))
+				.ToImmutableList()
+				.FirstOrDefault();
+			if (cultureId is null) {
+				cultureId = characters
+					.Where(c => c.GetFaithId(date) == faith.Id)
+					.Select(c => c.GetCultureId(date))
+					.ToImmutableList()
+					.FirstOrDefault();
+			}
+			if (cultureId is null) {
+				Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
+				cultureId = cultures.First().Id;
+			}
+			var culture = cultures[cultureId];
+			
+			// If title has male_names defined, use one of them for character's name.
+			// Otherwise, get name from culture.
+			var name = title.MaleNames?.FirstOrDefault();
+			if (name is null) {
+				var maleNames = culture.NameList.MaleNames;
+				if (maleNames.Count > 0) {
+					name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
+				}
+			}
+			if (name is null) {
+				const string fallbackName = "Alexandros";
+				Logger.Warn($"Found no name for religious head of {faith.Id}, defaulting to {fallbackName}!");
+				name = fallbackName;
+			}
+			var age = 30 + (Math.Abs(date.Year) % 50);
+			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age), characters);
+			character.SetFaithId(faith.Id, null);
+			character.SetCultureId(cultureId, null);
+			var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
+			foreach (var traitId in traitsToAdd) {
+				character.History.AddFieldValue(null, "traits", "trait", traitId);
+			}
+			characters.Add(character);
+			title.SetHolder(character, date);
+		}
+	}
+
+	private IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
 		// Collect all Imperator territories that are mapped to this faith.
 		ISet<Province> faithTerritories;
 		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
@@ -249,16 +352,17 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 		// Split the territories into 2 sets: territories that have a holy site and territories that do not.
 		// Order both sets in descending order by population.
-		var provincesWithHolySite = faithTerritories.Where(p => p.ImperatorProvince!.IsHolySite)
-			.OrderByDescending(p=>p.ImperatorProvince!.GetPopCount())
+		var provincesWithHolySite = faithTerritories
+			.Where(p => p.ImperatorProvinces.Any(irProv => irProv.IsHolySite))
+			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
 			.ToList();
 		var provincesWithoutHolySite = faithTerritories.Except(provincesWithHolySite)
-			.OrderByDescending(p=>p.ImperatorProvince!.GetPopCount())
+			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
 			.ToList();
-		
+
 		// Take the top 4 territories with a holy site.
 		var selectedDynamicSites = provincesWithHolySite.Take(4).ToList();
-		
+
 		// Take the most populated territory without a holy site.
 		var mostPopulatedProvinceWithoutHolySite = provincesWithoutHolySite.FirstOrDefault(defaultValue: null);
 		if (mostPopulatedProvinceWithoutHolySite is not null) {
@@ -266,8 +370,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 
 		return selectedDynamicSites
-			.Select(p => titles.GetBaronyForProvince(p.Id))
+			.Select(p => landedTitles.GetBaronyForProvince(p.Id))
 			.Where(t=>t is not null)!
 			.ToList<Title>();
 	}
+
+	private readonly Title.LandedTitles landedTitles;
 }

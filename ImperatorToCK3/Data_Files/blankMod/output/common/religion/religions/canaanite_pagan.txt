@@ -77,7 +77,7 @@
 		HealthGodSheHe = CHARACTER_SHEHE_HE
 		HealthGodHerHis = CHARACTER_HERHIS_HIS
 		HealthGodHerHim = CHARACTER_HERHIM_HIM
-		
+
 		#FertilityGod
 		FertilityGodName = ir_astarte
 		FertilityGodNamePossessive = ir_astarte_possessive
@@ -189,10 +189,10 @@
 		WitchGodHerHim = CHARACTER_HERHIM_HIM
 		WitchGodMistressMaster = master
 		WitchGodMotherFather = father
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
-	}	
+	}
 
 	faiths = {
 		canaanite_pagan = {
@@ -201,13 +201,13 @@
 			reformed_icon = canaanite_pagan
 
 			doctrine = unreformed_faith_doctrine
-			
+
 			holy_site = carthage
 			holy_site = elagabal
 			holy_site = ahiram
 			holy_site = tyre
 			holy_site = mabbog
-			
+
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_ancestor_worship

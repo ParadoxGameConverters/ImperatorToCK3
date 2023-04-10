@@ -70,7 +70,7 @@
 		HealthGodSheHe = CHARACTER_SHEHE_SHE
 		HealthGodHerHis = CHARACTER_HERHIS_HER
 		HealthGodHerHim = CHARACTER_HERHIM_HER
-		
+
 		#FertilityGod
 		FertilityGodName = ir_adgilis_deda
 		FertilityGodNamePossessive = ir_adgilis_deda_possessive
@@ -182,10 +182,10 @@
 		WitchGodHerHim = CHARACTER_HERHIM_IT
 		WitchGodMistressMaster = witch_spirit
  		WitchGodMotherFather = witch_source
-		
+
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
-	}	
+	}
 
 	faiths = {
 		caucasian_pagan = {

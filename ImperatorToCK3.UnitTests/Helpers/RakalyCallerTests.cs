@@ -21,7 +21,7 @@ public class RakalyCallerTests {
 
 		var jsonString = RakalyCaller.GetJson(filePath);
 		var jsonRoot = JsonDocument.Parse(jsonString).RootElement;
-		
+
 		Assert.Collection(jsonRoot.EnumerateObject(),
 			property => {
 				Assert.Equal("NGame", property.Name);
@@ -29,7 +29,7 @@ public class RakalyCallerTests {
 			property => {
 				Assert.Equal("NUnit", property.Name);
 			});
-		
+
 		Assert.Equal("450.10.1", jsonRoot.GetProperty("NGame").GetProperty("START_DATE").GetString());
 		jsonRoot
 			.GetProperty("NGame")
@@ -42,7 +42,7 @@ public class RakalyCallerTests {
 		Assert.Equal(0.45, jsonRoot.GetProperty("NGame").GetProperty("SCORE_START_POP_WEIGHT").GetDouble());
 		Assert.Equal(500, jsonRoot.GetProperty("NUnit").GetProperty("COHORT_SIZE").GetInt32());
 	}
-	
+
 	[Fact]
 	public void RakalyCallerReportsWrongExitCodeWhenConvertingFileToJson() {
 		const string missingFilePath = "\"missing.rome\"";

@@ -1,17 +1,17 @@
 ﻿# ImperatorToCK3: Last updated CK3 patch 1.6.1.2
 
 # Old Italian
-oscan = {	
+oscan = {
 	color = { 117 131 50 }
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_oscan
 	martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_roman
-	
+
 	ethos = ethos_egalitarian
-	
+
 	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
@@ -22,53 +22,53 @@ oscan = {
 	}
 	traditions = {
 		tradition_only_the_strong
-	}	
+	}
 }
-samnite = {	
+samnite = {
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_samnite
 	martial_custom = martial_custom_equal
-	
+
 	name_list = name_list_roman
-	
+
 	ethos = ethos_stoic
-	
+
 	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
-	unit_gfx = { western_unit_gfx }	
-	
+	unit_gfx = { western_unit_gfx }
+
 	color = { 117 131 150 }
-	
+
 	ethnicities = {
 		10 = mediterranean
 	}
 	traditions = {
 		tradition_only_the_strong
-	}	
+	}
 }
 venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_venetic
     martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_venetic
-	
+
 	ethos = ethos_stoic
-    
+
     coa_gfx = { latin_group_coa_gfx western_coa_gfx }
     building_gfx = { mediterranean_building_gfx }
     clothing_gfx = { western_clothing_gfx }
     unit_gfx = { western_unit_gfx }
-	
+
 	color = { 193 117 241 }
 
 	ethnicities = {
 		10 = mediterranean
 	}
-	
+
     traditions = {
         tradition_ekvopetobos
         tradition_horse_breeder
@@ -77,21 +77,21 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
         tradition_sacred_groves
     }
 }
-ligustic = {	
+ligustic = {
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_ligustic
 	martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_roman
-	
+
 	ethos = ethos_stoic
-	
+
 	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
-	unit_gfx = { western_unit_gfx }	
-	
+	unit_gfx = { western_unit_gfx }
+
 	color = { 211 208 124 }
 
 	ethnicities = {
@@ -99,47 +99,47 @@ ligustic = {
 	}
 	traditions = {
 		tradition_only_the_strong
-	}	
+	}
 }
-messapic = {	
+messapic = {
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_messapic
 	martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_roman
-	
+
 	ethos = ethos_stoic
-	
+
 	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
-	unit_gfx = { western_unit_gfx }	
-	
+	unit_gfx = { western_unit_gfx }
+
 	color = { 5 52 113 }
-	
+
 	ethnicities = {
 		10 = mediterranean
 	}
 	traditions = {
 		tradition_only_the_strong
-	}	
+	}
 }
-sardonian = {	
+sardonian = {
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_sardonian
 	martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_sardinian
-	
+
 	ethos = ethos_stoic
-	
+
 	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
-	unit_gfx = { western_unit_gfx }	
-	
+	unit_gfx = { western_unit_gfx }
+
 	color = { 29 16 31 }
 
 	ethnicities = {
@@ -147,29 +147,29 @@ sardonian = {
 	}
 	traditions = {
 		tradition_only_the_strong
-	}	
+	}
 }
 siculian = {
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
 	language = language_siculian
 	martial_custom = martial_custom_male_only
-	
+
 	name_list = name_list_sicilian
-	
+
 	ethos = ethos_stoic
-	
+
 	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
-	unit_gfx = { western_unit_gfx }	
-	
-	color = { 226 216 174 }	
+	unit_gfx = { western_unit_gfx }
+
+	color = { 226 216 174 }
 
 	ethnicities = {
 		10 = mediterranean
 	}
 	traditions = {
 		tradition_only_the_strong
-	}	
+	}
 }

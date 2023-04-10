@@ -41,14 +41,14 @@ island_region_britain = {
 		d_cornwall
 		d_somerset
 		d_canterbury
-		
+
 		d_ulster
 		d_connacht
 		d_meath
 		d_munster
 		d_leinster
 	}
-	
+
 	counties = {
 		c_orkney
 	}
@@ -97,7 +97,7 @@ island_region_socotra = {
 	counties = { c_socotra }
 }
 
-island_region_maldives = { 
+island_region_maldives = {
 	counties = { c_maldives }
 }
 
@@ -112,7 +112,7 @@ island_region_madeira = {
 	counties = { c_madeira }
 }
 
-island_region_venice = { 
+island_region_venice = {
 	counties = { c_venezia }
 }
 

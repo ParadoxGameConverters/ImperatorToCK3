@@ -22,13 +22,13 @@
 		"dynn_Palaiologan"
 	agn_Aculeo agn_Agricola agn_Agrippa agn_Ahala agn_Ahenobarbus
 	agn_Albinus agn_Albus agn_Ambustus agn_Annalis agn_Aquila
-	agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus 
+	agn_Aquilinus agn_Arvina agn_Asellio agn_Asina agn_Atellus
 	agn_Avitus agn_Balbus agn_Barba agn_Barbatus agn_Bassus agn_Bestia
 	agn_Bibaculus agn_Bibulus agn_Blaesus agn_Brocchus agn_Brutus agn_Bubulcus
 	agn_Bucco agn_Bulbus agn_Buteo agn_Caecus agn_Caepio agn_Caesar agn_Calidus
 	agn_Calvinus agn_Calvus agn_Camillus agn_Caninus agn_Canus agn_Capito agn_Carbo
 	agn_Catilina agn_Cato agn_Catulus agn_Celer agn_Celsus agn_Cethegus agn_Cicero
-	agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen 
+	agn_Cicurinus agn_Cilo agn_Cincinnatus agn_Cinna agn_Cordus agn_Cornicen
 	agn_Cornutus agn_Corvinus agn_Corvus agn_Cossus agn_Costa agn_Cotta agn_Crassipes
 	agn_Crassus agn_Crispinus agn_Crispus agn_Culleo agn_Curio agn_Cursor agn_Curvus
 	agn_Dentatus agn_Denter agn_Dento agn_Dives agn_Dolabella agn_Dorsuo agn_Drusus
@@ -74,7 +74,7 @@
 		Amulia Camilla Decia Drusa Fausta Flavia Galla Heria
 		Hosta Opitera Octavia Postuma Prima Procula Secunda Tertia Anca
 	}
-	
+
 	dynasty_of_location_prefix = "dynnp_a"
 	patronym_prefix_male = "dynnp__"
 
@@ -82,12 +82,12 @@
 	pat_grf_name_chance = 50
 	mat_grf_name_chance = 0
 	father_name_chance = 50
-	
+
 	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
 	pat_grm_name_chance = 50
 	mat_grm_name_chance = 50
 	mother_name_chance = 0
-	
+
 	mercenary_names = {
 		{ name = "mercenary_company_numeri" coat_of_arms = "e_roman_empire" }
 	}
@@ -152,19 +152,19 @@ name_list_breathanach = {
 			MA_el-Muire MA_ire MA_iread MA_irgred MO_r MO_r-Muman NA_rbflaith Nuala O_rlaith O_rnat RO_is Sadb Samthann ScA_thach SE_bdann Selblaith Seonaid Sinech SiobA_n
 			Sisuile SlA_I_ne Sorcha Suaibsech SA_erlaith SE_tach SI_thmaith Tailefhlaith Tailltiu Temair Tuathflaith TO_mnat Uallach Uasal U_na
 		}
-		
+
 		patronym_prefix_male = "dynnpat_pre_mac"
 		patronym_prefix_male_vowel = "dynnpat_pre_vow_mag"
 		patronym_prefix_female = "dynnpat_pre_nic"
 		patronym_prefix_female_vowel = "dynnpat_pre_vow_nig"
-		
-		always_use_patronym = yes	
 
-		
+		always_use_patronym = yes
+
+
 		pat_grf_name_chance = 30
 		mat_grf_name_chance = 15
 		father_name_chance = 5
-		
+
 		pat_grm_name_chance = 30
 		mat_grm_name_chance = 15
 		mother_name_chance = 10
@@ -280,7 +280,7 @@ name_list_wenedyk = {
 		pat_grf_name_chance = 50
 		mat_grf_name_chance = 5
 		father_name_chance = 10
-		
+
 		mercenary_names = {
 			{ name = "ostrogothic_band" }
 			{ name = "visigothic_band" }
@@ -313,7 +313,7 @@ name_list_etruscan = {
 			dynn_Cucrinathur dynn_Curunas dynn_Cusinas dynn_Cusuthur dynn_Cvinte dynn_Cuthnas
 			dynn_Cutu dynn_Ecnate dynn_Einana dynn_Eucle dynn_Ezpus dynn_Fapi dynn_Felces
 			dynn_Felsnas dynn_Felsni dynn_Felusce dynn_Fisis dynn_Fulni dynn_Fulu dynn_Fulvena
-			dynn_Hanu dynn_Hapisna dynn_Hapre dynn_Hepni dynn_Havrnas dynn_Hele dynn_Hercnas 
+			dynn_Hanu dynn_Hapisna dynn_Hapre dynn_Hepni dynn_Havrnas dynn_Hele dynn_Hercnas
 			dynn_Herma dynn_Hermenas dynn_Hirsuneie dynn_Hulchnie dynn_Hupni dynn_Ceicna
 			dynn_Cansinei dynn_Culeniie dynn_Curtinas dynn_Lapicane dynn_Larani dynn_Larecena
 			dynn_Larna dynn_Lucina dynn_Larecena dynn_Lartle dynn_Latherna dynn_Latni dynn_Leinies
@@ -333,7 +333,7 @@ name_list_etruscan = {
 			dynn_Sinu dynn_Siprisni dynn_Slanzu dynn_Spantu dynn_Spite dynn_Spurinas
 			dynn_Srutzna dynn_Statlanes dynn_Supelnas dynn_Suthrina dynn_Sveitus dynn_Svelthienas
 			dynn_Tarchunies dynn_Tarcnas dynn_Tarna dynn_Teithurna dynn_Teitur dynn_Telathur
-			dynn_Telicles dynn_Tetnies dynn_Thactra dynn_Thansina dynn_Thefri dynn_Thucerna 
+			dynn_Telicles dynn_Tetnies dynn_Thactra dynn_Thansina dynn_Thefri dynn_Thucerna
 			dynn_Thusatur dynn_Tiphile dynn_Titie dynn_Tlesna dynn_Tularia dynn_Tulumnes
 			dynn_Turmna dynn_Thursethna dynn_Trepe dynn_Tutna dynn_Tutes dynn_Ucrine
 			dynn_Uftave dynn_Ulthes dynn_Ultimne dynn_Ulzna dynn_Ursmna dynn_Uslna dynn_Vania
@@ -360,6 +360,6 @@ name_list_etruscan = {
 			Ravnthu Satlnei Sela Semni Sethri Squria Squlina Tanchuil Tarcha Teituri Thanchvil
 			Thana Thefrina Thestia Thuceru Ticusnei Titi Veli Velchina Venela Vesi Vipi
 		}
-		
+
 		dynasty_of_location_prefix = "dynnp_de"
 }

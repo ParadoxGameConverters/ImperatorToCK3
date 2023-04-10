@@ -12,7 +12,7 @@ l_english:
  CK3FOLDER: "Crusader Kings III Install Directory"
  CK3FOLDERTIP: "The path on your computer where Crusader Kings III is installed"
  CK3MOD: "Crusader Kings III Mod Directory"
- CK3MODTIP: "The path on your computer where Europa Crusader Kings III stores mods"
+ CK3MODTIP: "The path on your computer where Crusader Kings III stores mods"
 
  IMPFILE: "Path to the converter executable"
  IMPFILETIP: "Path to ImperatorToCK3Converter.exe"

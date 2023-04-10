@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Imperator.Religions; 
+namespace ImperatorToCK3.UnitTests.Imperator.Religions;
 
 public class ReligionCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly List<Mod> mods = new() { new Mod("cool_mod", "TestFiles/documents/Imperator/mod/cool_mod")};
 	private readonly ModFilesystem imperatorModFS = new (ImperatorRoot, mods);
-	
+
 	[Fact]
 	public void ReligionsAreLoadedFromGameAndMods() {
 		var scriptValues = new ScriptValueCollection();
@@ -20,7 +20,7 @@ public class ReligionCollectionTests {
 
 		var religions = new ReligionCollection(scriptValues);
 		religions.LoadReligions(imperatorModFS);
-		
+
 		religions.Select(r => r.Id).Should().BeEquivalentTo(
 			"roman_pantheon", // from game
 			"judaism", // from game
@@ -48,7 +48,7 @@ public class ReligionCollectionTests {
 	public void DeitiesAreLoadedFromGameAndMods() {
 		var scriptValues = new ScriptValueCollection();
 		scriptValues.LoadScriptValues(imperatorModFS);
-		
+
 		var religions = new ReligionCollection(scriptValues);
 		religions.LoadDeities(imperatorModFS);
 
@@ -71,7 +71,7 @@ public class ReligionCollectionTests {
 	public void GetDeityForHolySiteIdReturnsCorrectDeityOrNullWhenIdIsNotFoundOrWhenDeityIsNotFound() {
 		var scriptValues = new ScriptValueCollection();
 		scriptValues.LoadScriptValues(imperatorModFS);
-		
+
 		var religions = new ReligionCollection(scriptValues);
 		religions.LoadDeities(imperatorModFS);
 		var deityManagerReader = new BufferedReader(
@@ -83,7 +83,7 @@ public class ReligionCollectionTests {
 			}"
 		);
 		religions.LoadHolySiteDatabase(deityManagerReader);
-		
+
 		var deity = religions.GetDeityForHolySiteId(1);
 		Assert.NotNull(deity);
 		Assert.Equal("deity1", deity.Id);
@@ -97,7 +97,7 @@ public class ReligionCollectionTests {
 		// holy site ID not found
 		deity = religions.GetDeityForHolySiteId(4);
 		Assert.Null(deity);
-		
+
 		// holy site deity not found
 		deity = religions.GetDeityForHolySiteId(404);
 		Assert.Null(deity);
