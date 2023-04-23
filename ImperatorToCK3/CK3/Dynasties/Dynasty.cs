@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Serialization;
+using commonItems.SourceGenerators;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
@@ -11,7 +12,8 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
-public class Dynasty : IPDXSerializable, IIdentifiable<string> {
+[SerializationByProperties]
+public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB, Date date) {
 		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;

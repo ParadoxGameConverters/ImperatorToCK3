@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Linguistics;
 using commonItems.Localization;
 using commonItems.Serialization;
+using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
@@ -29,13 +30,15 @@ using System.Text;
 namespace ImperatorToCK3.CK3.Titles;
 
 public enum TitleRank { barony, county, duchy, kingdom, empire }
+
+[SerializationByProperties]
 public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public override string ToString() {
 		return Id;
 	}
 
 	private Title(LandedTitles parentCollection, string id) {
-		this.parentCollection = parentCollection;
+		this.ParentCollection = parentCollection;
 		Id = id;
 		SetRank();
 	}
@@ -58,7 +61,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Configuration config
 	) {
 		IsCreatedFromImperator = true;
-		this.parentCollection = parentCollection;
+		this.ParentCollection = parentCollection;
 		Id = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
 		SetRank();
 		InitializeFromTag(
@@ -93,7 +96,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
 		IsCreatedFromImperator = true;
-		this.parentCollection = parentCollection;
+		this.ParentCollection = parentCollection;
 		Id = id;
 		SetRank();
 		InitializeFromGovernorship(
@@ -112,7 +115,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private Title(Title? baseTitle, Title overrideTitle, LandedTitles parentCollection) {
 		// Merge titles.
-		this.parentCollection = parentCollection;
+		this.ParentCollection = parentCollection;
 
 		Id = overrideTitle.Id;
 		SetRank();
@@ -215,7 +218,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (ImperatorCountry.CapitalProvinceId is not null) {
 			var srcCapital = ImperatorCountry.CapitalProvinceId.Value;
 			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
-				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
+				var foundCounty = ParentCollection.GetCountyForProvince(ck3ProvId);
 				if (foundCounty is null) {
 					continue;
 				}
@@ -447,7 +450,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// ------------------ determine color
 		var countryColor = country.Color1;
 		if (countryColor is not null) {
-			Color1 = parentCollection.GetDerivedColor(countryColor);
+			Color1 = ParentCollection.GetDerivedColor(countryColor);
 		}
 
 		// determine successions laws
@@ -465,7 +468,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var governorProvince = impGovernor.ProvinceId;
 		if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.RegionName)) {
 			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince)) {
-				var foundCounty = parentCollection.GetCountyForProvince(ck3Prov);
+				var foundCounty = ParentCollection.GetCountyForProvince(ck3Prov);
 				if (foundCounty is not null) {
 					CapitalCounty = foundCounty;
 					break;
@@ -783,7 +786,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("capital")] public string? CapitalCountyId { get; private set; }
 	[commonItems.Serialization.NonSerialized]
 	public Title? CapitalCounty {
-		get => CapitalCountyId is null ? null : parentCollection[CapitalCountyId];
+		get => CapitalCountyId is null ? null : ParentCollection[CapitalCountyId];
 		private set => CapitalCountyId = value?.Id;
 	}
 
@@ -807,7 +810,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title
 		var liegeStr = GetLiege(date);
-		if (liegeStr is not null && parentCollection.TryGetValue(liegeStr, out var liegeTitle)) {
+		if (liegeStr is not null && ParentCollection.TryGetValue(liegeStr, out var liegeTitle)) {
 			return liegeTitle;
 		}
 
@@ -852,7 +855,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return deJureVassalsAndBelow;
 	}
 	public Dictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
-		return parentCollection.Where(t => t.GetDeFactoLiege(date)?.Id == Id)
+		return ParentCollection.Where(t => t.GetDeFactoLiege(date)?.Id == Id)
 			.ToDictionary(t => t.Id, t => t);
 	}
 	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
@@ -935,7 +938,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
 			// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-			var newTitle = parentCollection.Add(titleNameStr);
+			var newTitle = ParentCollection.Add(titleNameStr);
 			newTitle.LoadTitles(reader);
 
 			if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
@@ -1032,7 +1035,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public HashSet<ulong> GetProvincesInCountry(Date date) {
 		var holderId = GetHolderId(date);
 		var heldCounties = new List<Title>(
-			parentCollection.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)
+			ParentCollection.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)
 		);
 		var heldProvinces = new HashSet<ulong>();
 		// add directly held counties
@@ -1047,7 +1050,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				continue;
 			}
 			var heldVassalCounties = new List<Title>(
-				parentCollection.Where(t => t.GetHolderId(date) == vassalHolderId && t.Rank == TitleRank.county)
+				ParentCollection.Where(t => t.GetHolderId(date) == vassalHolderId && t.Rank == TitleRank.county)
 			);
 			foreach (var vassalCounty in heldVassalCounties) {
 				heldProvinces.UnionWith(vassalCounty.CountyProvinces);
@@ -1106,7 +1109,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// case: title is independent
-		var higherTitlesOfHolder = parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank > Rank)
+		var higherTitlesOfHolder = ParentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank > Rank)
 			.OrderByDescending(t => t.Rank)
 			.ToImmutableList();
 		var highestTitleRank = higherTitlesOfHolder.FirstOrDefault(defaultValue: null)?.Rank;
