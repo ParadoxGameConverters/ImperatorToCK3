@@ -18,7 +18,7 @@ public partial class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
 	[SerializedName("high_maintenance_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
 
-	[NonSerialized] private Dictionary<string, StringOfItem> Attributes { get; } = new();
+	[SerializeOnlyValue] private Dictionary<string, StringOfItem> Attributes { get; } = new();
 	[NonSerialized] public bool ToBeOutputted { get; } = false;
 
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {

@@ -35,14 +35,15 @@ public class MenAtArmsTypeTests {
 			icon = pikemen
 		}
 		""");
-
+		
 		var menAtArmsType = new MenAtArmsType("landsknecht", maaTypeReader, new ScriptValueCollection());
 		var serializedType = menAtArmsType.Serialize(indent: string.Empty, withBraces: true);
 
 		Assert.Contains("damage=30", serializedType);
 		Assert.Contains("toughness=24", serializedType);
 		Assert.Contains("terrain_bonus={", serializedType);
-		Assert.Contains("buy_cost={gold=landsknecht_recruitment_cost}", serializedType);
+		// landsknecht_recruitment_cost has not been defined, it defaults to 0.
+		Assert.Contains("buy_cost={gold=0}", serializedType);
 		Assert.Contains("stack=100", serializedType);
 		Assert.Contains("icon=pikemen", serializedType);
 	}
