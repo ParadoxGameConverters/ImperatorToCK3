@@ -5,7 +5,7 @@ namespace ImperatorToCK3.Imperator.Characters;
 public class Unborn {
 	public ulong MotherId { get; private set; }
 	public ulong FatherId { get; private set; }
-	public Date BirthDate { get; private set; }
+	public Date BirthDate { get; }
 	public Date EstimatedConceptionDate => BirthDate.ChangeByDays(-280);
 	public bool IsBastard { get; set; } = false;
 

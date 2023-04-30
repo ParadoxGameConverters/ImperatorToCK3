@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,7 +26,7 @@ public class RulerTerm {
 		return parsedTerm;
 	}
 
-	public static readonly HashSet<string> IgnoredTokens = new();
+	public static readonly IgnoredKeywordsSet IgnoredTokens = new();
 
 	private static readonly Parser parser = new();
 	private static RulerTerm parsedTerm = new();
@@ -44,7 +45,7 @@ public class RulerTerm {
 
 	public RulerTerm() { }
 	public RulerTerm(BufferedReader prehistoryRulerReader, CountryCollection countries) {
-		PreImperatorRuler = new();
+		PreImperatorRuler = new PreImperatorRulerInfo();
 		var prehistoryParser = new Parser();
 
 		prehistoryParser.RegisterKeyword("name", reader => PreImperatorRuler.Name = reader.GetString());

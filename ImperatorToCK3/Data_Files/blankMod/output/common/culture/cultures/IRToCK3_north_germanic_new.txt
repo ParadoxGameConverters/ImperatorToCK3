@@ -1,5 +1,5 @@
 ﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
-varangian = {	
+varangian = {
 	color = { 0.3 0.55 0.8 }
 
 	parents = { norse }
@@ -11,11 +11,11 @@ varangian = {
 	traditions = {
 		tradition_things
 	}
-	
+
 	ethos = ethos_bellicose
-	
+
 	name_list = name_list_norse
-	
+
 	coa_gfx = { norse_coa_gfx western_coa_gfx }
 	building_gfx = { norse_building_gfx mediterranean_building_gfx }
 	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx byzantine_clothing_gfx }
@@ -37,18 +37,18 @@ mikligardrish = {
 	traditions = {
 		tradition_things
 	}
-	
+
 	ethos = ethos_courtly
-	
+
 	name_list = name_list_norse
-	
+
 	coa_gfx = { norse_coa_gfx western_coa_gfx }
 	building_gfx = { norse_building_gfx mediterranean_building_gfx }
 	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx byzantine_clothing_gfx }
 	unit_gfx = { norse_unit_gfx }
-	
+
 	color = { 0.3 0.55 0.8 }
-	
+
 	ethnicities = {
 		35 = caucasian_northern_blond
 		5 = caucasian_northern_ginger

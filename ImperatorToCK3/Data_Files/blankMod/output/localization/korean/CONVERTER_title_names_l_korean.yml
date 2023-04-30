@@ -1,11 +1,11 @@
 ﻿l_korean:
 # Pharaoh
- king_feudal_male_old_egyptian:0 "파라오"
- king_feudal_female_old_egyptian:0 "파라오"
- emperor_feudal_male_old_egyptian:1 "파라오"
- emperor_feudal_female_old_egyptian:1 "파라오"
+ king_feudal_male_old_egyptian: "파라오"
+ king_feudal_female_old_egyptian: "파라오"
+ emperor_feudal_male_old_egyptian: "파라오"
+ emperor_feudal_female_old_egyptian: "파라오"
 
 # Carthage
- duke_republic_male_carthaginian:0 "소펱"
- king_republic_male_carthaginian:0 "소펱"
- emperor_republic_male_carthaginian:0 "소펱"
+ duke_republic_male_carthaginian: "소펱"
+ king_republic_male_carthaginian: "소펱"
+ emperor_republic_male_carthaginian: "소펱"

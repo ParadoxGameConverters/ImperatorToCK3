@@ -1,11 +1,11 @@
-﻿name: Check spelling
+name: Check spelling
 on: [pull_request]
 jobs:
   misspell:
     name: Check spelling
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Check spelling
         uses: reviewdog/action-misspell@v1
         with:

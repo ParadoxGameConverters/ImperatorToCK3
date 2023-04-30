@@ -5,18 +5,18 @@ welcome.1 = {
 	type = letter_event
 	opening = { desc = welcome_title }
 	desc = welcome_desc
-	
+
 	trigger = { }
-	
+
 	sender = character:converter_team
-	
+
 	immediate = {
 		character:converter_team = { death = natural }
 	}
 
 	option = {
 		name = welcome_ok
-		
+
 		hidden_effect = { set_global_variable = IRToCK3_create_maa_flag }
 	}
 }
@@ -26,9 +26,9 @@ welcome.2 = { ## It'd be best if someone were to convert this into actual locs a
 	type = letter_event
 	opening = { desc = noculture_event_title }
 	desc = noculture_event_desc
-	
+
 	trigger = { }
 	sender = character:converter_team
-	
+
 	option = { name = welcome_ok }
 }

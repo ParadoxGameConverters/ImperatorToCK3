@@ -12,6 +12,6 @@
 }
 NUnit = {
 	COHORT_SIZE = 500
-	
+
 }
 

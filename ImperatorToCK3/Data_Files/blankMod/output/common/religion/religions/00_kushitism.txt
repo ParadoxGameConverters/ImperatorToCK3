@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.6.0
+﻿# Last updated: CK3 patch 1.8.1
 kushitism_religion = {
 	family = rf_pagan
 
@@ -38,7 +38,7 @@ kushitism_religion = {
 	}
 
 	custom_faith_icons = {
-		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
 	}
 
 	holy_order_names = {
@@ -72,7 +72,7 @@ kushitism_religion = {
 		HealthGodSheHe = CHARACTER_SHEHE_SHE
 		HealthGodHerHis = CHARACTER_HERHIS_HER
 		HealthGodHerHim = CHARACTER_HERHIM_HER
-		
+
 		#FertilityGod
 		FertilityGodName = kushitism_fertility_god_name
 		FertilityGodNamePossessive = kushitism_fertility_god_name_possessive
@@ -226,7 +226,7 @@ kushitism_religion = {
 		#	color = { 1.0 0.45 0.0 }
 		#	icon = west_african
 		#}
-		
+
 		### CONVERTER ###
 		egyptian_pagan = {
 			color = { 156 139 7 }
@@ -240,20 +240,20 @@ kushitism_religion = {
 			holy_site = zawty
 
 			doctrine = unreformed_faith_doctrine
-			
+
 			#Generic pagan tenets
 			doctrine = tenet_astrology
 			doctrine = tenet_sun_worship
 			doctrine = tenet_divine_marriage
-		
+
 			# Egyptian incest
 			doctrine = doctrine_consanguinity_unrestricted
-			
+
 			localization = {
-			
+
 			GoodGodNames = { ir_anhur ir_resheph ir_sekhmet ir_horus ir_osiris ir_amun ir_ptah ir_anubis ir_hathor ir_isis ir_ra }
 			EvilGodNames = { ir_anhur ir_resheph ir_sekhmet ir_horus ir_osiris ir_amun ir_ptah ir_anubis ir_hathor ir_isis ir_ra }
-			
+
 			PriestMale = kmt_priest
 			PriestMalePlural = kmt_priests
 			PriestFemale = kmt_priestess
@@ -270,7 +270,7 @@ kushitism_religion = {
 			DivineRealm = kmt_kingdom_of_osiris
 			PositiveAfterLife = kmt_kingdom_of_osiris
 			NegativeAfterLife = kmt_stomach_of_ammit
-			
+
 			HighGodName = ir_horus
 			HighGodNamePossessive = ir_horus_possessive
 			HighGodNameSheHe = CHARACTER_SHEHE_HE
@@ -292,7 +292,7 @@ kushitism_religion = {
 			HealthGodSheHe = CHARACTER_SHEHE_SHE
 			HealthGodHerHis = CHARACTER_HERHIS_HER
 			HealthGodHerHim = CHARACTER_HERHIM_HER
-			
+
 			#FertilityGod
 			FertilityGodName = ir_osiris
 			FertilityGodNamePossessive = ir_osiris_possessive
@@ -332,14 +332,14 @@ kushitism_religion = {
 			DeathDeityNamePossessive = ir_anubis_possessive
 			DeathDeitySheHe = CHARACTER_SHEHE_HE
 			DeathDeityHerHis = CHARACTER_HERHIS_HIS
-			
+
 			WitchGodName = ir_isis
 			WitchGodSheHe = CHARACTER_SHEHE_SHE
 			WitchGodHerHis = CHARACTER_HERHIS_HER
 			WitchGodHerHim = CHARACTER_HERHIM_HER
-			
+
 			}
-			
+
 		}
 		atenist_pagan = {
 			color = { 0.9 0.8 0.4 }
@@ -381,7 +381,7 @@ kushitism_religion = {
 				#HealthGod
 				HealthGodName = atenist_high_god_name
 				HealthGodNamePossessive = atenist_high_god_name_possessive
-				
+
 				#FertilityGod
 				FertilityGodName = atenist_high_god_name
 				FertilityGodNamePossessive = atenist_high_god_name_possessive
@@ -438,7 +438,7 @@ kushitism_religion = {
 				ReligiousText = atenist_religious_text
 				ReligiousHeadName = king_feudal_male_old_egyptian
 				ReligiousHeadTitleName = king_feudal_male_old_egyptian
-				
+
 				DeathDeityName = atenist_high_god_name
 				DeathDeityNamePossessive = atenist_high_god_name_possessive
 				DeathDeitySheHe = CHARACTER_SHEHE_HE
@@ -451,6 +451,6 @@ kushitism_religion = {
 				WitchGodMotherFather = mother
 			}
 		}
-		
+
 	}
 }

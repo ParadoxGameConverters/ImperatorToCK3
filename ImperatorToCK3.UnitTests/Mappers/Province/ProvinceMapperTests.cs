@@ -2,7 +2,7 @@
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Mappers.Province; 
+namespace ImperatorToCK3.UnitTests.Mappers.Province;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]

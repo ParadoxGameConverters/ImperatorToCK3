@@ -1,9 +1,10 @@
 using commonItems;
+using commonItems.Colors;
 using ImperatorToCK3.Outputter;
 using System.IO;
 using Xunit;
 
-namespace ImperatorToCK3.UnitTests.Outputter; 
+namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class NamedColorOutputterTests {
 	[Fact]

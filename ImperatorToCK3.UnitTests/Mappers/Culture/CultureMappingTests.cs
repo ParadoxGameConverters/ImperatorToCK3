@@ -1,10 +1,12 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture;
@@ -12,6 +14,10 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CultureMappingTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly AreaCollection areas = new();
+	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
 	[Fact]
 	public void MatchOnRegion() {
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -30,7 +36,7 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Equal("dutch", theMapping.Match("german", "", 4, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Equal("dutch", theMapping.Match("german", "", 4, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -52,7 +58,7 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 79, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", "", 79, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -71,7 +77,7 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 17, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", "", 17, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -92,6 +98,6 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 0, 0, "", new ImperatorRegionMapper(), ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", "", 0, 0, "", irRegionMapper, ck3RegionMapper));
 	}
 }

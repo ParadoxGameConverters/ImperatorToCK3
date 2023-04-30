@@ -3,7 +3,6 @@ using commonItems.Mods;
 using ImageMagick;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -45,7 +44,7 @@ public static class ColoredEmblemsOutputter {
 
 		void CopyEmblem(string emblemFilePath) {
 			var fileName = CommonFunctions.TrimPath(emblemFilePath);
-			
+
 			if (IsBrokenEmblem(fileName, config)) {
 				return;
 			}

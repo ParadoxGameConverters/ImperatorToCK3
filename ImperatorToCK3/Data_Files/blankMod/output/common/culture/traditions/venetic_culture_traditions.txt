@@ -8,7 +8,7 @@ tradition_ekvopetobos = {
 		1 = mena
 		4 = knight.dds
 	}
-	
+
 	is_shown = {
 		OR = {
 			has_cultural_pillar = heritage_venetic
@@ -19,21 +19,21 @@ tradition_ekvopetobos = {
 			has_cultural_pillar = heritage_venetic
 		}
 	}
-	
+
 	parameters = {
 		unlock_maa_ekvopetobos = yes
 		martial_education_more_valued = yes
-		prowess_traits_more_valued = yes	
+		prowess_traits_more_valued = yes
 	}
-	
+
 	character_modifier = {
 		knight_limit = 2
-		knight_effectiveness_mult = 0.25		
+		knight_effectiveness_mult = 0.25
 		light_cavalry_damage_mult = 0.1
-		light_cavalry_screen_mult = 0.1	
-		heavy_cavalry_damage_mult = 0.1			
+		light_cavalry_screen_mult = 0.1
+		heavy_cavalry_damage_mult = 0.1
 	}
-	
+
 	cost = {
 		prestige = {
 			add = {
@@ -70,10 +70,10 @@ tradition_ekvopetobos = {
 					desc = knights_with_prowess_desc
 				}
 			}
-			
+
 			multiply = tradition_replacement_cost_if_relevant
 		}
 	}
-	
+
 	ai_will_do = { value = 100 }
 }

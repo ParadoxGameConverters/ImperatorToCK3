@@ -40,15 +40,18 @@ public class MapData {
 	public MapData(ModFilesystem ck3ModFS) {
 		const string mapPath = "map_data/provinces.png";
 		var provincesMapPath = ck3ModFS.GetActualFileLocation(mapPath);
+		if (provincesMapPath is null) {
+			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+		}
 
 		Logger.Info("Loading province definitions...");
 		ProvinceDefinitions = new ProvinceDefinitions(ck3ModFS);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Loading province positions...");
 		DetermineProvincePositions(ck3ModFS);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Determining province neighbors...");
 		using (Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath)) {
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);

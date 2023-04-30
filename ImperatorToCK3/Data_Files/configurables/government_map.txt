@@ -25,9 +25,9 @@ link = { ck3 = feudal_government
 	ir = dictatorship
 	ir = despotic_monarchy
 	ir = aristocratic_monarchy
-	ir = stratocratic_monarchy 
+	ir = stratocratic_monarchy
 	ir = theocratic_monarchy
-	ir = plutocratic_monarchy 
+	ir = plutocratic_monarchy
 	ir = imperium
 	ir = imperial_cult
 }

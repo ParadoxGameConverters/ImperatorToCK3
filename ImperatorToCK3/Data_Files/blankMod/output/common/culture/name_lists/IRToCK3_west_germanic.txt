@@ -120,7 +120,7 @@
 		dynn_Turnbull
 		dynn_Wallace
 	}
-	
+
 
 	male_names = {
 		Adam Alpin Alan Alastair Alexander Andrew
@@ -144,18 +144,18 @@
 		MA_el-Muire MA_ire MA_iread MA_irgred MO_r MO_r-Muman NA_rbflaith Nuala O_rlaith O_rnat RO_is Sadb Samthann ScA_thach SE_bdann Selblaith Seonaid Sinech SiobA_n
 		Sisuile SlA_I_ne Sorcha Suaibsech SA_erlaith SE_tach SI_thmaith Tailefhlaith Tailltiu Temair Tuathflaith TO_mnat Uallach Uasal U_na
 	}
-	
+
 	patronym_prefix_male = "dynnpat_pre_mac"
 	patronym_prefix_male_vowel = "dynnpat_pre_vow_mag"
 	patronym_prefix_female = "dynnpat_pre_nic"
 	patronym_prefix_female_vowel = "dynnpat_pre_vow_nig"
-	
-	always_use_patronym = yes	
+
+	always_use_patronym = yes
 
 	pat_grf_name_chance = 30
 	mat_grf_name_chance = 15
 	father_name_chance = 5
-	
+
 	pat_grm_name_chance = 30
 	mat_grm_name_chance = 15
 	mother_name_chance = 10

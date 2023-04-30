@@ -176,15 +176,15 @@ name_list_albanian = {
 			Ylli
 			Zenel
 		}
-		
+
 		female_names = {
 			AfE_rdita Blerta Bora Dafina Dardana Era Fatmire Flutura Gentiana Jehona Lindita Lule
 			Luljeta Pranvera Shpresa Shqipe Teuta Venera Vera Vesa Yllka Gjylo
 		}
-		
+
 		dynasty_of_location_prefix = "dynnp_nga"
 		patronym_prefix_male = "dynnp_bir"
-		patronym_prefix_female = "dynnp_bile"		
+		patronym_prefix_female = "dynnp_bile"
 
 		mercenary_names = {
 			{ name = mercenary_company_manglabites }

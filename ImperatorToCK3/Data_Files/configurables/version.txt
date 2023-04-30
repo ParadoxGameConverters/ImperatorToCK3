@@ -1,9 +1,9 @@
 # Version info
 
-name = "Galba"
+name = "Otho"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.7"
-maxTarget = "1.7"
+minTarget = "1.8"
+maxTarget = "1.8"

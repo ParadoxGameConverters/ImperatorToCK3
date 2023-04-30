@@ -1,7 +1,7 @@
 using commonItems.Collections;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Religions; 
+namespace ImperatorToCK3.Imperator.Religions;
 
 public sealed class Religion : IIdentifiable<string> {
 	public string Id { get; }

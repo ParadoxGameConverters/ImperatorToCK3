@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImperatorToCK3.Mappers.Government; 
+namespace ImperatorToCK3.Mappers.Government;
 
 public class GovernmentMapping {
 	public string CK3GovernmentId { get; private set; } = "";
 	public SortedSet<string> ImperatorGovernmentIds { get; } = new();
 	public SortedSet<string> ImperatorCultureIds { get; } = new();
-	
+
 	public GovernmentMapping(BufferedReader mappingReader) {
 		var parser = new Parser();
 		parser.RegisterKeyword("ck3", reader => CK3GovernmentId = reader.GetString());

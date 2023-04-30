@@ -7,28 +7,28 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.4.3";
-	private static readonly string rakalyExecutablePath;
-	
+	private const string RakalyVersion = "0.4.10";
+	private static readonly string RakalyExecutablePath;
+
 	static RakalyCaller() {
 		string currentDir = Directory.GetCurrentDirectory();
-		rakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
+		RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-			rakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
-			Exec($"chmod +x {currentDir}/{rakalyExecutablePath}");
+			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
+			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
 		} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-			rakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
-			Exec($"chmod +x {currentDir}/{rakalyExecutablePath}");
+			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
+			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
 		}
 	}
-	
+
 	public static string GetJson(string filePath) {
 		string quotedPath = filePath.AddQuotes();
 		string arguments = $"json --format utf-8 {quotedPath}";
-		
+
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = rakalyExecutablePath;
+		process.StartInfo.FileName = RakalyExecutablePath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.StartInfo.RedirectStandardOutput = true;
@@ -42,13 +42,13 @@ public static class RakalyCaller {
 
 		return plainText;
 	}
-	
+
 	public static void MeltSave(string savePath) {
 		string arguments = $"melt --unknown-key stringify \"{savePath}\"";
-		
+
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = rakalyExecutablePath;
+		process.StartInfo.FileName = RakalyExecutablePath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.Start();
@@ -66,7 +66,7 @@ public static class RakalyCaller {
 		}
 		File.Move(meltedSaveName, destFileName);
 	}
-	
+
 	// https://stackoverflow.com/a/47918132/10249243
 	private static void Exec(string cmd) {
 		var escapedArgs = cmd.Replace("\"", "\\\"");

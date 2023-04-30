@@ -181,9 +181,9 @@
 		Konstancia Krisztina Kunigunda Luca MA_ria MA_rta Magdolna MargarE_ta Margit Matild NatA_lia Odola Orsolya Panni Piroska RO_zsa SA_ra Sarolt
 		Skolasztika Sophia TundE_r Terezia Viola VirA_g ZoltA_na ZsO_fia Zsanett Zsuzsa
 	}
-	
+
 	dynasty_of_location_prefix = "dynnp_a"
-	
+
 	patronym_suffix_male = "dynnpat_suf_fi"
 
 	dynasty_name_first = yes

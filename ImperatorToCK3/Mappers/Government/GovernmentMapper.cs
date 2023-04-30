@@ -17,7 +17,7 @@ public class GovernmentMapper {
 		parser.ParseFile(mappingsPath);
 
 		Logger.Info($"Loaded {mappings.Count} government links.");
-		
+
 		Logger.IncrementProgress();
 	}
 	public GovernmentMapper(BufferedReader reader) {

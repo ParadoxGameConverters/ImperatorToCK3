@@ -8,7 +8,7 @@ language_venetic = {
 	}
 	parameters = {
 		language_group_romance = yes
-		language_family_indo_european = yes 		
+		language_family_indo_european = yes
 	}
 
 	ai_will_do = {
@@ -28,6 +28,6 @@ language_venetic = {
 		#}
 
 	}
-	
+
 	color = venetic_culture
 }
