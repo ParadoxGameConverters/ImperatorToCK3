@@ -325,9 +325,10 @@ public class Character : IIdentifiable<string> {
 
 		Female = ImperatorCharacter.Female;
 			
-		if (ImperatorCharacter.PortraitData is not null) {
-			DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
-		}
+		//if (ImperatorCharacter.PortraitData is not null) {
+		//	DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
+		//}
+		DNA = null;
 
 		// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
 		var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
