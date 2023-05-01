@@ -653,6 +653,7 @@ public class World {
 			};
 			holder.SetFaithId(province.GetFaithId(date)!, null);
 			holder.SetCultureId(culture.Id, null);
+			holder.History.AddFieldValue(date, "government", "change_government", "tribal_government");
 			Characters.Add(holder);
 
 			county.SetHolder(holder, date);
@@ -663,7 +664,10 @@ public class World {
 				}
 
 				duchy.SetHolder(holder, date);
+				duchy.SetGovernment("tribal_government", date);
 				duchyIdToHolderDict[duchy.Id] = holder;
+			} else {
+				county.SetGovernment("tribal_government", date);
 			}
 		}
 	}
