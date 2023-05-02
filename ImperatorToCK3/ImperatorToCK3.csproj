@@ -23,6 +23,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>ImperatorToCK3Converter</AssemblyName>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+      <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,7 +33,7 @@
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
     <PackageReference Include="PGCG.commonItems" Version="8.0.2" />
-    <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.1" />
+    <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
   </ItemGroup>
 

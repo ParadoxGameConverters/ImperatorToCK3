@@ -6,8 +6,9 @@
     <IsPackable>false</IsPackable>
 
     <Nullable>enable</Nullable>
-
     <LangVersion>preview</LangVersion>
+    
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
