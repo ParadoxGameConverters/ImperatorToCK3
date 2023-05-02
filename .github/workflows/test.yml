@@ -31,6 +31,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ImperatorToCK3.UnitTests/TestResults/coverage.info
+        debug: true
 
   test:
     strategy:
