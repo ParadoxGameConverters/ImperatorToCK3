@@ -32,6 +32,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         file: ImperatorToCK3.UnitTests/TestResults/coverage.lcov
         format: lcov
+        debug: true
 
   test:
     strategy:
