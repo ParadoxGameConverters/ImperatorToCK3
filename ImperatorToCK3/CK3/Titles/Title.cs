@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Linguistics;
 using commonItems.Localization;
 using commonItems.Serialization;
+using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
@@ -29,6 +30,8 @@ using System.Text;
 namespace ImperatorToCK3.CK3.Titles;
 
 public enum TitleRank { barony, county, duchy, kingdom, empire }
+
+[SerializationByProperties]
 public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public override string ToString() {
 		return Id;

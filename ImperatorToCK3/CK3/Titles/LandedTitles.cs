@@ -27,7 +27,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Titles;
 
 public partial class Title {
-	[commonItems.Serialization.NonSerialized] private readonly LandedTitles parentCollection;
+	private readonly LandedTitles parentCollection;
 
 	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
