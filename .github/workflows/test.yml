@@ -30,7 +30,7 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ImperatorToCK3.UnitTests/TestResults/coverage.info
+        file: ImperatorToCK3.UnitTests/TestResults/coverage.info
 
 
   test:
