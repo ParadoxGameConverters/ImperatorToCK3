@@ -25,7 +25,7 @@ jobs:
       run: |
        $env:CoverletOutput='./TestResults/coverage.info'
        $env:CoverletOutputFormat='lcov'
-       dotnet test /p:CollectCoverage=true /p:Exclude="[commonItems]*"
+       dotnet test /p:CollectCoverage=true
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@v2
       with:
