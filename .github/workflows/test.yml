@@ -27,7 +27,7 @@ jobs:
        $env:CoverletOutputFormat='lcov'
        dotnet test /p:CollectCoverage=true /p:Exclude="[commonItems]*"
     - name: "Publish coverage report to coveralls.io"
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ImperatorToCK3.UnitTests/TestResults/coverage.info
