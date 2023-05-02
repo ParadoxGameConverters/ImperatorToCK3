@@ -23,15 +23,15 @@ jobs:
       working-directory: ImperatorToCK3.UnitTests
       shell: pwsh
       run: |
-       $env:CoverletOutput='./TestResults/coverage.info'
+       $env:CoverletOutput='./TestResults/coverage.lcov'
        $env:CoverletOutputFormat='lcov'
        dotnet test /p:CollectCoverage=true /p:Exclude="[commonItems]*"
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        file: ImperatorToCK3.UnitTests/TestResults/coverage.info
-
+        file: ImperatorToCK3.UnitTests/TestResults/coverage.lcov
+        format: lcov
 
   test:
     strategy:
