@@ -225,7 +225,8 @@ public partial class Province : IIdentifiable<ulong> {
 		}
 		if (!cultureSet) {
 			//Use default CK3 culture.
-			Logger.Warn($"Couldn't determine culture for province {Id} with source provinces " +
+			Logger.Warn($"Couldn't determine culture for province {Id} with primary source culture " +
+			            $"{PrimaryImperatorProvince.Culture} and source provinces" +
 			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla culture!");
 		}
 	}

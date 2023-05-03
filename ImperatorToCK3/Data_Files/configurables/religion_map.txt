@@ -19,7 +19,12 @@ link = { ck3 = canaanite_pagan imp = carthaginian_pantheon }
 link = { ck3 = dacian_pagan imp = shamanism }
 link = { ck3 = caucasian_pagan imp = caucasian_religion }
 link = { ck3 = mesopotamian_pagan imp = mesopotamian_religion }
-link = { ck3 = armenian_pagan imp = armenian_religion }
+link = {
+	ck3 = armenian_pagan
+	imp = armenian_religion # Khaldic
+	# Invictus mod
+	imp = new_armenian_religion # Anahitic
+}
 link = { ck3 = anatolian_pagan imp = anatolian_religion }
 link = { ck3 = iberian_pagan imp = animism }
 link = { ck3 = berber_pagan imp = berber_religion }
