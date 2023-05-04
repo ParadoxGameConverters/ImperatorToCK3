@@ -33,7 +33,6 @@ link = { ck3 = scythian_pagan imp = indo_iranian_religion }
 link = { ck3=waaqism_pagan imp=puntic_religion }
 link = { ck3=basque_pagan imp=pre_indo_european_religion }
 
-
 # Arabic
 link = { ck3 = druze imp = arabian_pantheon ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
 link = { ck3 = druze imp = judaism ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
@@ -144,3 +143,7 @@ link = { ck3 = insular_celtic imp = christianity impRegion = caledonia_region im
 link = { ck3 = coptic imp = christianity impRegion = arabia_felix_region impRegion = arabia_region impRegion = cyrenaica_region impRegion = fezzan_region impRegion = lower_egypt_region impRegion = nubia_region impRegion = lower_nubia_region impRegion = punt_region impRegion = upper_egypt_region }
 link = { ck3 = nestorian imp = christianity impRegion = assyria_region impRegion = mesopotamia_region impRegion = persis_region impRegion = media_region impRegion = bactriana_region impRegion = gedrosia_region  impRegion = ariana_region impRegion = parthia_region impRegion = gandhara_region impRegion = maru_region impRegion = avanti_region impRegion = madhyadesa_region impRegion = pracya_region impRegion = vindhyaprstha_region impRegion = dravida_region impRegion = aparanta_region impRegion = karnata_region impRegion = tibet_region impRegion = himalayan_region impRegion = sogdiana_region impRegion = burma_region }
 link = { ck3 = orthodox imp = christianity } # fallback
+
+
+# Burmic (from Invictus)
+link = { ck3=burmic imp=burmese_religion }

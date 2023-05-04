@@ -40,5 +40,6 @@ TinWiz - Testing, integration of the Rise of Islam mechanic
 Wrench - Help with integration of the Rise of Islam mechanic
 AsiaExtended mod team - Permission to use Shan name list and Palaungic culture from their mod
 Luka_Moscovite - Russian translations
+More Bookmarks+ mod team - Permission to use Natkokwe faith from their mod
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
