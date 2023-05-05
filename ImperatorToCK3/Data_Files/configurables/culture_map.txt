@@ -436,7 +436,20 @@ link = {
 link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
 link = { ck3 = khwarezmian imp = kharesmian }
 link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyrsian }
-link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci }
+link = {
+	ck3 = sarmatian
+	imp = sarmatian
+	imp = legian
+	imp = thyssagetaen
+	imp = maeotian
+	imp = sindi
+	imp = siraci
+	# Invictus mod
+	# quote from shocky27, Invictus dev: 
+	# 	thyssagetae alani jurcan are a northern sarmatian branch and the rest of the sarmatians (siracarns iazyges roxolani etc) were a first wave in the south pushing the original scythians further west and subsuming them
+	# 	meanwhile the sakas in the east (massagetae, dahae tribes, and the further flung sakas of the tarim basin and eastern steppe) migrated and pushed sarmatians like the alans further west, especially once the xiongnu came from the east (turks and others) and pushed everyone west 
+	imp = jurcan
+}
 # Invictus mod
 link = { ck3=scythian imp=khotanese imp=gelonian imp=cimmerian }
 
@@ -461,6 +474,7 @@ link = {
 	# Invictus mod
 	imp = samad
 	imp = adite
+	imp = kindite
 }
 
 ## Tibetan
