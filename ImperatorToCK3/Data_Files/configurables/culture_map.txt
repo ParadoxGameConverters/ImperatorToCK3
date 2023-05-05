@@ -436,7 +436,15 @@ link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = m
 link = { ck3=scythian imp=khotanese imp=gelonian }
 
 ## South Levantine
-link = { ck3 = adnanite imp = thamudi imp = qedarite imp = taif } # Pre-Islamic North Arabian
+link = { # Pre-Islamic North Arabian
+	ck3 = adnanite
+	imp = thamudi
+	imp = qedarite
+	imp = taif
+	# Invictus mod
+	imp = gerrhan
+	imp = yamama
+}
 link = {
 	ck3 = qahtanite  # Pre-Islamic South Arabian
 	imp = hadhrami
