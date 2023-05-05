@@ -103,6 +103,11 @@ link = { ck3 = smartism imp = hindu ck3Province = 1138 ck3Province = 1175 ck3Pro
 link = { ck3 = srikula_shaktism imp = hindu ck3Province = 1155 ck3Province = 1160 ck3Province = 1227 ck3Province = 1230 ck3Province = 1252 ck3Province = 3991 ck3Province = 3992 ck3Province = 3993 ck3Province = 3994 ck3Province = 3995 ck3Province = 3996 ck3Province = 3999 ck3Province = 7913 ck3Province = 7914 ck3Province = 7915 ck3Province = 9659 ck3Province = 921 ck3Province = 922 ck3Province = 1272 ck3Province = 1150 ck3Province = 1184 ck3Province = 1185 ck3Province = 1287 ck3Province = 3325 ck3Province = 3326 ck3Province = 3327 }
 link = { ck3 = kalikula_shaktism imp = hindu ck3Province = 1363 ck3Province = 3422 ck3Province = 3423 ck3Province = 3424 ck3Province = 1352 ck3Province = 1364 ck3Province = 3457 ck3Province = 3458 ck3Province = 3459 ck3Province = 1350 ck3Province = 3477 }
 link = { ck3 = vaishnavism imp = hindu }
+# Invictus mod
+link = {  # TODO: add agama to regional split-up of hindu
+	ck3 = shaivism
+	imp = agama
+}
 
 # Bon
 link = { ck3 = old_bon imp = bon_religion }
