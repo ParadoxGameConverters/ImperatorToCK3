@@ -360,7 +360,7 @@
  illyran_pagan_creator_god_name: "$illyrian_pagan_high_god_name$"
  illyran_pagan_creator_god_name_possessive: "$illyrian_pagan_high_god_name_possessive$"
  illyrian_pagan_health_god_name: "Anzotica"
- illyrian_pagan_health_god_name_possessive: "Anzotica's" #A love goddess, but distinct from Prende 
+ illyrian_pagan_health_god_name_possessive: "Anzotica's" #A love goddess, but distinct from Prende
  illyrian_pagan_fertility_god_name: "Prende"
  illyrian_pagan_fertility_god_name_possessive: "Prende's"
  illyrian_pagan_wealth_god_name: "Liber" #Greco-Roman influence
