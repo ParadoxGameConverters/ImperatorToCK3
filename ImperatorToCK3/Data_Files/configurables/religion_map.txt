@@ -112,6 +112,13 @@ link = { ck3 = svetambara imp = jainism ck3Province = 1169 ck3Province = 1301 ck
 link = { ck3 = yapaniya imp = jainism ck3Province = 1118 ck3Province = 1196 ck3Province = 1197 ck3Province = 1210 ck3Province = 1216 ck3Province = 1217 ck3Province = 7847 ck3Province = 7848 ck3Province = 7863 ck3Province = 7864 ck3Province = 7865 ck3Province = 7866 ck3Province = 7867 ck3Province = 1112 ck3Province = 1119 ck3Province = 1200 ck3Province = 7809 ck3Province = 7810 ck3Province = 7811 ck3Province = 7812 ck3Province = 7813 ck3Province = 7824 ck3Province = 7826 ck3Province = 7827 ck3Province = 1211 ck3Province = 7902 ck3Province = 7905 ck3Province = 1124 ck3Province = 7791 ck3Province = 7792 ck3Province = 7793 ck3Province = 7794 ck3Province = 7795 }
 link = { ck3 = digambara imp = jainism }
 
+# Ajivika
+link = { # temporary mapping, TODO: ajivika should be a separate religion
+	ck3 = yapaniya
+	# Invictus mod
+	imp = ajivika
+}
+
 # MODS (for future mods)
 link = { ck3 = tengri_pagan imp = tengri_pagan }
 link = { ck3 = magyar_pagan imp = magyar_pagan }
