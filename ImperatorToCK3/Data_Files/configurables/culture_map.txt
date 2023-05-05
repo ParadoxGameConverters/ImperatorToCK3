@@ -149,7 +149,13 @@ link = { ck3=sinhala imp=dhivehi }
 link = { ck3 = bactrian imp = bactrian imp = yuezhi }
 link = { ck3 = pecheneg imp = wusun }
 link = { ck3 = sogdian imp = sogdian }
-link = { ck3 = saka imp = saka imp = shule }
+link = {
+	ck3 = saka
+	imp = saka
+	imp = shule
+	# Invictus mod
+	imp = massagetaean
+}
 link = { ck3 = tocharian imp = tocharian imp = phryni }
 link = { ck3 = indogreek imp = tayuan } #https://en.wikipedia.org/wiki/Dayuan
 link = { ck3 = tajik imp = margian }
@@ -431,7 +437,18 @@ link = { ck3=scythian imp=khotanese imp=gelonian }
 
 ## South Levantine
 link = { ck3 = adnanite imp = thamudi imp = qedarite imp = taif } # Pre-Islamic North Arabian
-link = { ck3 = qahtanite imp = hadhrami imp = himjar imp = minaean imp = qatabanian imp = sheban imp = makan } # Pre-Islamic South Arabian
+link = {
+	ck3 = qahtanite  # Pre-Islamic South Arabian
+	imp = hadhrami
+	imp = himjar
+	imp = minaean
+	imp = qatabanian
+	imp = sheban
+	imp = makan
+	# Invictus mod
+	imp = samad
+	imp = adite
+}
 
 ## Tibetan
 link = { ck3 = lhomon imp = zhangzhung imp = sumpa imp = yarlung imp = tsang ck3Province = 9145 ck3Province = 9146 ck3Province = 9179 ck3Province = 9149 ck3Province = 9148 ck3Province = 9147 ck3Province = 9143 ck3Province = 9144 ck3Province = 9137 ck3Province = 9138 ck3Province = 9139 ck3Province = 9142 ck3Province = 9140 ck3Province = 9141 ck3Province = 9128 ck3Province = 9129 ck3Province = 9133 ck3Province = 9134 ck3Province = 9135 ck3Province = 9154 ck3Province = 9155 ck3Province = 9156 ck3Province = 9150 ck3Province = 9151 ck3Province = 9152 ck3Province = 9153 ck3Province = 9157 ck3Province = 9158 ck3Province = 9159 ck3Province = 9160 ck3Province = 9161 ck3Province = 9162 ck3Province = 9170 ck3Province = 9169 ck3Province = 9171 ck3Province = 9172 ck3Province = 9163 ck3Province = 9173 ck3Province = 9174 ck3Province = 9175 ck3Province = 9176 ck3Province = 9177 ck3Province = 9178 ck3Province = 9165 ck3Province = 9164 ck3Province = 9166 ck3Province = 9167 ck3Province = 9168 }
