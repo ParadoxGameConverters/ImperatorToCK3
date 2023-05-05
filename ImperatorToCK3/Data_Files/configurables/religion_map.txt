@@ -32,6 +32,7 @@ link = { ck3 = scythian_pagan imp = indo_iranian_religion }
 # Invictus mod
 link = { ck3=waaqism_pagan imp=puntic_religion }
 link = { ck3=basque_pagan imp=pre_indo_european_religion }
+link = { ck3=illyrian_pagan imp=illyrian_pantheon }
 
 # Arabic
 link = { ck3 = druze imp = arabian_pantheon ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }

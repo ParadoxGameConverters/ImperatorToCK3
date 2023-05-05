@@ -56,11 +56,12 @@
  #---------------------------------------------------
  # DACIAN
  #---------------------------------------------------
- dacian_religion: "Dacian Paganism"
- dacian_religion_adj: "Dacian"
- dacian_religion_adherent: "Dacian Pagan"
- dacian_religion_adherent_plural: "Dacian Pagans"
- dacian_religion_desc: "Whether Zalmoxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zalmoxis as a divine being, ascribing many miraculous acts to him."
+ # dacian_religion is no longer used it the converter. dacian_pagan has been merged into paleo_balkan_religion from WtWSMS.
+ # dacian_religion: "Dacian Paganism"
+ # paleo_balkan_religion_adj: "Dacian"
+ # dacian_religion_adherent: "Dacian Pagan"
+ # dacian_religion_adherent_plural: "Dacian Pagans"
+ # dacian_religion_desc: "Whether Zalmoxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zalmoxis as a divine being, ascribing many miraculous acts to him."
 
  dacian_pagan: "Zalmoxian"
  dacian_pagan_adj: "Zalmoxian"
@@ -339,3 +340,44 @@
  atenist_pagan_adherent: "Atenite"
  atenist_pagan_adherent_plural: "Atenites"
  atenist_pagan_desc: "Unlike the polytheistic Kemetist religion, the Atenist religion is a monotheistic religion focused on the sole worship of the sun disk Aten. Unlike Kemetism, Atenists denies the existence of other gods and outright criminalizes the worship of them."
+
+# from WtWSMS mod
+ ######## Zalmoxis Religion ########
+ paleo_balkan_religion: "Paleo-Balkan"
+ paleo_balkan_religion_adj: "Paleo-Balkan"
+ paleo_balkan_religion_adherent: "Paleo-Balkan"
+ paleo_balkan_religion_adherent_plural: "Paleo-Balkans"
+ paleo_balkan_religion_desc: "The religions of the Dacian, Thracian, Illyrian, and Veneti groups grew from Proto-Indo-European religious substrate along with further hybridization with Greco-Roman practices after conquest."
+ illyrian_pagan: "Eiateuta"
+ illyrian_pagan_adj: "Eiateutan"
+ illyrian_pagan_adherent: "Eiateutan"
+ illyrian_pagan_adherent_plural: "Eiateutans"
+ illyrian_pagan_desc: "Illyrian paganism is a highly unorganized religion based on the worship of sacred places. The holiness of temples themselves was placed much higher than the deities worshipped here."
+ illyrian_pagan_high_god_name: "Eia"
+ illyrian_pagan_high_god_name_possessive: "Eia's"
+ illyran_pagan_high_god_name_alternate: "Dei-pátrous"
+ illyran_pagan_high_god_name_alternate_possessive: "Dei-pátrous'"
+ illyran_pagan_creator_god_name: "$illyrian_pagan_high_god_name$"
+ illyran_pagan_creator_god_name_possessive: "$illyrian_pagan_high_god_name_possessive$"
+ illyrian_pagan_health_god_name: "Anzotica"
+ illyrian_pagan_health_god_name_possessive: "Anzotica's" #A love goddess, but distinct from Prende 
+ illyrian_pagan_fertility_god_name: "Prende"
+ illyrian_pagan_fertility_god_name_possessive: "Prende's"
+ illyrian_pagan_wealth_god_name: "Liber" #Greco-Roman influence
+ illyrian_pagan_wealth_god_name_possessive: "Liber's"
+ illyrian_pagan_household_god_name: "blavor" #More of a protective tuletary dub-deity
+ illyrian_pagan_household_god_name_possessive: "blavor's"
+ illyrian_pagan_fate_god_name: "Medarus" #WtWSMS
+ illyrian_pagan_fate_god_name_possessive: "Medarus'"
+ illyrian_pagan_knowledge_god_name: "$illyrian_pagan_high_god_name$"
+ illyrian_pagan_knowledge_god_name_possessive: "$illyrian_pagan_high_god_name_possessive$"
+ illyrian_pagan_war_god_name: "Armatus"
+ illyrian_pagan_war_god_name_possessive: "Armatus'"
+ illyrian_pagan_trickster_god_name: "Dualos"
+ illyrian_pagan_trickster_god_name_possessive: "Dualos'"
+ illyrian_pagan_night_god_name: "Malesocus" #Mountain God, but what you gonna do?
+ illyrian_pagan_night_god_name_possessive: "Malesocus'"
+ illyrian_pagan_water_god_name: "Bindus"
+ illyrian_pagan_water_god_name_possessive: "Bindus'"
+ illyrian_pagan_devil_name: "Velnias"
+ illyrian_pagan_devil_name_poessessive: "Velnias'"
