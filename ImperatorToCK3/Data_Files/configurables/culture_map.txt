@@ -427,17 +427,22 @@ link = { ck3 = nuragic imp = nuragic imp = corsian }
 link = { ck3 = avar imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci impRegion = pannonia_region impRegion = dacia_region }
 
 ## Scythian
-link = { ck3=alan imp=roxolanian }
+link = {
+	ck3 = alan
+	imp = roxolanian
+	# Invictus mod
+	imp = alani
+}
 link = { ck3 = alan imp = scythian imp = derbiccan imp = sakan imp = agathyrsian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci ck3Province = 5299 ck3Province = 603 ck3Province = 5296 }
 link = { ck3 = khwarezmian imp = kharesmian }
 link = { ck3 = scythian imp = scythian imp = derbiccan imp = sakan imp = agathyrsian }
 link = { ck3 = sarmatian imp = sarmatian imp = legian imp = thyssagetaen imp = maeotian imp = sindi imp = siraci }
 # Invictus mod
-link = { ck3=scythian imp=khotanese imp=gelonian }
+link = { ck3=scythian imp=khotanese imp=gelonian imp=cimmerian }
 
 ## South Levantine
-link = { # Pre-Islamic North Arabian
-	ck3 = adnanite
+link = {
+	ck3 = adnanite  # Pre-Islamic North Arabian
 	imp = thamudi
 	imp = qedarite
 	imp = taif
