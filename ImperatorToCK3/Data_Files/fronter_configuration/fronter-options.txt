@@ -154,8 +154,10 @@ option = {
 	name = bookmark_date
 	displayName = BOOKMARKDATE
 	tooltip = BOOKMARKDATETIP
-	textSelector = {
+	dateSelector = {
 		value = ""
+		minDate = "1.1.1"
+		maxDate = "1444.1.1"
 		editable = true
 		tooltip = BOOKMARKDATETIP2
 	}
