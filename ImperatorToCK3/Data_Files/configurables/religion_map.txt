@@ -27,7 +27,7 @@ link = {
 }
 link = { ck3 = anatolian_pagan imp = anatolian_religion }
 link = { ck3 = iberian_pagan imp = animism }
-link = { ck3 = berber_pagan imp = north_african_religion }
+link = { ck3 = berber_pagan imp = berber_religion }
 link = { ck3 = scythian_pagan imp = indo_iranian_religion }
 # Invictus mod
 link = { ck3=waaqism_pagan imp=puntic_religion }
