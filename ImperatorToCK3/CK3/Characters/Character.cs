@@ -324,7 +324,7 @@ public class Character : IIdentifiable<string> {
 		}
 
 		Female = ImperatorCharacter.Female;
-			
+		
 		if (ImperatorCharacter.PortraitData is not null) {
 			DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
 		}

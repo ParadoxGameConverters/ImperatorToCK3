@@ -152,8 +152,11 @@ public partial class Province : IIdentifiable<ulong> {
 		}
 		if (!religionSet) {
 			// Use default CK3 religion.
-			Logger.Warn($"Couldn't determine faith for province {Id} with source provinces " +
-			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla religion!");
+			Logger.Warn(
+				$"Couldn't determine faith for province {Id} with " +
+				$"primary source religion {PrimaryImperatorProvince.ReligionId} " +
+				$"and source provinces [{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], " +
+				$"using vanilla religion!");
 		}
 	}
 	private void SetCultureFromImperator(CultureMapper cultureMapper, Configuration config) {
@@ -222,7 +225,8 @@ public partial class Province : IIdentifiable<ulong> {
 		}
 		if (!cultureSet) {
 			//Use default CK3 culture.
-			Logger.Warn($"Couldn't determine culture for province {Id} with source provinces " +
+			Logger.Warn($"Couldn't determine culture for province {Id} with primary source culture " +
+			            $"{PrimaryImperatorProvince.Culture} and source provinces" +
 			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla culture!");
 		}
 	}
