@@ -1,5 +1,29 @@
 imperator_invictus = {
 	link = { comment = "=== NEW MAPPINGS BY IHT ===" }
+	link = { comment = "SRI LANKA BY IHT" }
+	link = { imp = 6975 ck3 = 3285 } # Mihintale -> VAVUNIYA
+	link = { imp = 8289 ck3 = 3278 } # Gampola -> SENKADAGALAPURA
+	link = { imp = 8290 ck3 = 3288 } # Bandarawela -> MALAYA RATA
+	link = { imp = 6966 ck3 = 3267 } # Rohanada -> KATARGAMA
+	link = { imp = 8287 imp = 6980 ck3 = 3269 } # Mahiyanganaya, Salikhaprava -> MAHIYANGANA
+	link = { imp = 8286 imp = 6970 ck3 = 3273 } # Polonnaruwa, Vijitanagara -> POLONNARUWA
+	link = { imp = 5314 ck3 = 3274 } # Palaiogonoi -> DAMBADENIYA
+	link = { imp = 6978 ck3 = 3282 } # Avakana -> DHAMBALLAI
+	link = { imp = 8285 imp = 6974 ck3 = 3279 } # Matale, Etalava -> MATALE
+	link = { imp = 6973 ck3 = 3284 } # Upatissagama -> KURUNAGALA
+	link = { imp = 6950 ck3 = 3272 } # Anuradhapura -> ANURADHAPURA
+	link = { imp = 6976 ck3 = 3281 } # Girikandi -> TRINCOMALEE
+	link = { imp = 6968 ck3 = 3287 } # Modoutou -> MULLAITIVU
+	link = { imp = 6953 ck3 = 3266 } # Mahagrama -> MAGAMPURA
+	link = { imp = 6977 ck3 = 3270 } # Dighavapi -> DIGHAVAPI
+	link = { imp = 6967 imp = 6981 ck3 = 3280 } # Gokanna, Litta -> BATTICALOA
+	link = { imp = 6952 ck3 = 3268 } # Dagana -> GODAWAYA
+	link = { imp = 6951 imp = 6965 ck3 = 3271 } # Odoka, Oulippada -> GIMHATHITHTHA
+	link = { imp = 6982 imp = 8284 ck3 = 3277 } # Nabartha, Dedigama -> SITAWAKA
+	link = { imp = 8288 imp = 6971 ck3 = 3276 } # Migamuva, Kalyani -> KOTTE
+	link = { imp = 6979 ck3 = 3283 } # Simhalava -> PUTTALAM
+	link = { imp = 6972 ck3 = 3286 } # Mahatittha -> MANNAR
+	link = { imp = 6969 ck3 = 3275 } # Jambukola Pattana -> JAFFNA
 	link = { comment = "HORN OF AFRICA BY IHT" }
 	link = { imp = 8713 imp = 8714 imp = 8712 ck3 = 8505 } # Garowe, Laanle, Bililicweyn -> UPPER_NUGAAL
 	link = { imp = 8718 imp = 8715 imp = 8700 imp = 8702 ck3 = 8504 } # Somali Desert, Sool, Bohol, Jidbaaley -> LOWER_TOGDHEER
@@ -4567,27 +4591,7 @@ imperator_invictus = {
 	link = { imp = 5647 ck3 = 9265 } # Drena -> Gedang
 	link = { imp = 5643 ck3 = 9271 } # Buchu -> Burqug
 	link = { imp = 5646 ck3 = 9275 ck3 = 9276 } # Tsosong -> Nyingchi, Lunang
-	link = { comment = "# Sri Lanka" }
-	link = { imp = 6980 imp = 6966 ck3 = 3269 } # Salikhaprava, Rohanada -> MAHIYANGANA
-	link = { imp = 6970 ck3 = 3273 } # Vijitanagara -> POLONNARUWA
-	link = { imp = 6952 ck3 = 3268 ck3 = 3267 } # Dagana -> GODAWAYA, KATARGAMA
-	link = { imp = 6953 ck3 = 3266 } # Mahagrama -> MAGAMPURA
-	link = { imp = 6977 ck3 = 3270 } # Dighavapi -> DIGHAVAPI
-	link = { imp = 6967 imp = 6981 ck3 = 3280 } # Gokanna, Litta -> BATTICALOA
-	link = { imp = 6965 ck3 = 3288 } # Oulippada -> MALAYA RATA
-	link = { imp = 6951 ck3 = 3271 } # Odoka -> GIMHATHITHTHA
-	link = { imp = 6982 ck3 = 3277 } # Nabartha -> SITAWAKA
-	link = { imp = 6978 ck3 = 3282 } # Avakana -> DHAMBALLAI
-	link = { imp = 6974 imp = 6950 ck3 = 3284 } # Etalava, Anuradhapura -> KURUNAGALA
-	link = { imp = 5314 ck3 = 3278 ck3 = 3279 } # Palaiogonoi -> SENKADAGALAPURA, MATALE
-	link = { imp = 6971 ck3 = 3276 ck3 = 3274 } # Kalyani -> KOTTE, DAMBADENIYA
-	link = { imp = 6979 ck3 = 3283 } # Simhalava -> PUTTALAM
-	link = { imp = 6973 ck3 = 3272 } # Upatissagama -> ANURADHAPURA
-	link = { imp = 6975 ck3 = 3285 } # Mihintale -> VAVUNIYA
-	link = { imp = 6968 ck3 = 3287 } # Modoutou -> MULLAITIVU
-	link = { imp = 6976 ck3 = 3281 } # Girikandi -> TRINCOMALEE
-	link = { imp = 6969 ck3 = 3275 } # Jambukola Pattana -> JAFFNA
-	link = { imp = 6972 ck3 = 3286 } # Mahatittha -> MANNAR
+	link = { comment = "# Misc" }
 	link = { imp = 5266 imp = 5396 imp = 5397 imp = 5267 ck3 = 4444 ck3 = 4445 ck3 = 4446 ck3 = 4447 ck3 = 4448 ck3 = 7210 } # MANY-TO-MANY: IMPASSIBLE TERRAIN 266, Ghore, Shenia, IMPASSIBLE TERRAIN 267 -> NUKFAGH, ARDAKHIVAH, WAYIKHAN, GHARDAMAN, KATH, Kyzylkum
 	link = { imp = 5305 imp = 5306 imp = 5304 imp = 5308 ck3 = 7936 ck3 = 1360 ck3 = 8712 } # MANY-TO-MANY: South Nilgiri, IP 307, IP 305, North Nilgiri -> Southwestern Ghats, Maldives, Thiladhunmathi
 	link = { imp = 5945 ck3 = 6427 ck3 = 6415 ck3 = 6428 ck3 = 6882 ck3 = 6883 ck3 = 6884 ck3 = 6430 ck3 = 6431 ck3 = 6899 ck3 = 6901 ck3 = 6900 ck3 = 6898 ck3 = 6897 ck3 = 6881 ck3 = 6880 ck3 = 6879 ck3 = 6895 ck3 = 6887 ck3 = 6904 ck3 = 6896 ck3 = 6885 ck3 = 6886 ck3 = 6868 ck3 = 6874 ck3 = 6867 ck3 = 6866 ck3 = 6871 ck3 = 6872 ck3 = 6878 ck3 = 6877 ck3 = 6869 ck3 = 6890 ck3 = 6876 ck3 = 6888 ck3 = 6889 ck3 = 6873 ck3 = 6875 ck3 = 6870 ck3 = 6432 } # Nubian Impassable -> JEBEL_ABU_NEGILA, WADI_EL-MILK, BIR_EL-KAI, WEST_KORDOFAN, EL-OBEID, EAST_KORDOFAN, TAGALI, TAGALI_SOUTH, LIGURI, SIDRAH, CENTRAL_KORDOFAN, SHATT, LAGOWA, EN_NAHUD, GHUBAYSH, UMM_GAFALA, EAST_DARFUR, UMM_KEDADA, DARFUR_DESERT, UPPER_MILK, MALHA, KERKER, KUBAYH, URI, KABKABIYA, WADI_AZWA, DAR_WONA, KUNDI, HURAYZ, HILEILA, EL-FASHER, SIMIAT, MAO_DARFUR, TAGABO, TEIGA, MASA, AIN_FARAH, TURRA, RENK
