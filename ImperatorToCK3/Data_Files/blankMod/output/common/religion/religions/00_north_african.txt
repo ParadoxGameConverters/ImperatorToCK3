@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.8.1
+﻿# ImperatorToCK3: Last updated CK3 patch 1.8.2
 north_african_religion = {
 	family = rf_pagan
 
