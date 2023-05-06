@@ -75,11 +75,12 @@
  #---------------------------------------------------
  # BERBER
  #---------------------------------------------------
- berber_religion: "Berber Paganism"
- berber_religion_adj: "Berber"
- berber_religion_adherent: "Berber"
- berber_religion_adherent_plural: "Berbers"
- berber_religion_desc: "The ancient culture and religion was a melting pot of traditional Egyptian beliefs, star-worship, and ancestor veneration. Many megaliths - stone constructs raised in honor of the gods - still exist, dotted about the African landscape."
+ # berber_religion is no longer used, berber_pagan has been moved to vanilla north_african_religion.
+ # berber_religion: "Berber Paganism"
+ # berber_religion_adj: "Berber"
+ # berber_religion_adherent: "Berber"
+ # berber_religion_adherent_plural: "Berbers"
+ # berber_religion_desc: "The ancient culture and religion was a melting pot of traditional Egyptian beliefs, star-worship, and ancestor veneration. Many megaliths - stone constructs raised in honor of the gods - still exist, dotted about the African landscape."
 
  berber_pagan: "Megalithic"
  berber_pagan_adj: "Megalithic"

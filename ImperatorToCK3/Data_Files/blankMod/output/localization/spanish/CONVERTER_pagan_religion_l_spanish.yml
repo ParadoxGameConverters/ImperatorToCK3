@@ -74,11 +74,11 @@
  #---------------------------------------------------
  # Berbère
  #---------------------------------------------------
- berber_religion: "Paganismo Bereber"
- berber_religion_adj: "beréber"
- berber_religion_adjerent: "beréber"
- berber_religion_adherent_plural: "beréberes"
- berber_religion_desc: "Esta cultura y religión muy antiguas es un sincretismo de las creencias tradicionales egipcias, el culto a las estrellas y el de los antepasados. Muchos megalitos, estas piedras erigidas en honor a las deidades, salpican los paisajes de África."
+ # berber_religion: "Paganismo Bereber"
+ # berber_religion_adj: "beréber"
+ # berber_religion_adjerent: "beréber"
+ # berber_religion_adherent_plural: "beréberes"
+ # berber_religion_desc: "Esta cultura y religión muy antiguas es un sincretismo de las creencias tradicionales egipcias, el culto a las estrellas y el de los antepasados. Muchos megalitos, estas piedras erigidas en honor a las deidades, salpican los paisajes de África."
 
  berber_pagan: "Megalitismo"
  berber_pagan_adj: "megalítica"

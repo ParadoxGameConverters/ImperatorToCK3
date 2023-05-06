@@ -74,11 +74,11 @@
  #---------------------------------------------------
  # BERBER
  #---------------------------------------------------
- berber_religion: "柏柏尔异教"
- berber_religion_adj: "柏柏尔"
- berber_religion_adherent: "柏柏尔人"
- berber_religion_adherent_plural: "柏柏尔人"
- berber_religion_desc: "古老的文化和宗教是传统埃及信仰，崇拜明星和祖先崇拜的大熔炉。 仍然存在许多巨石-为了纪念众神而建造的石头结构-散布着非洲景观。"
+ # berber_religion: "柏柏尔异教"
+ # berber_religion_adj: "柏柏尔"
+ # berber_religion_adherent: "柏柏尔人"
+ # berber_religion_adherent_plural: "柏柏尔人"
+ # berber_religion_desc: "古老的文化和宗教是传统埃及信仰，崇拜明星和祖先崇拜的大熔炉。 仍然存在许多巨石-为了纪念众神而建造的石头结构-散布着非洲景观。"
 
  berber_pagan: "巨石"
  berber_pagan_adj: "巨石"
