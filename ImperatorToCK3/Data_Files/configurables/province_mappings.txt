@@ -141,7 +141,6 @@ imperator_invictus = {
 	link = { imp = 5877 imp = 5909 imp = 6228 imp = 6229 ck3 = 5313 } # Enim, Norom, Arzhale, Khonnt -> Saqsin
 	link = { imp = 5878 imp = 5910 imp = 6231 ck3 = 5346 } # Atar, Uvra, Ashina -> Ryn
 	link = { imp = 5879 imp = 5911 imp = 6232 ck3 = 5317 } # Gyoria, Usch, Schelats -> Saraychiq
-	link = { imp = 7640 ck3 = 7222 ck3 = 5318 } # Caspica -> Taisugan, Kalmikovsky
 	link = { imp = 5912 imp = 5880 ck3 = 618 } # Azgar, Ruta -> Atyrau
 	link = { imp = 5913 ck3 = 7228 ck3 = 7230 } # Nassin -> Hyan, Kainar
 	link = { imp = 5881 ck3 = 7229 } # Gyechk -> Bakash-aul
@@ -161,7 +160,6 @@ imperator_invictus = {
 	link = { imp = 6191 imp = 6198 imp = 6186 imp = 6185 imp = 6188 ck3 = 5290 } # Khang, Urgast, Urgenkh, Ollo, Vyrni -> Golden Hills
 	link = { imp = 6199 imp = 6196 imp = 6197 imp = 6194 imp = 6200 ck3 = 594 } # Ydologh, Volat, Urghno, Urzhev, Urvel -> Kazarki
 	link = { imp = 8555 imp = 8556 imp = 8557 imp = 8558 imp = 6195 ck3 = 5292 } # Bolshoi, Berezovaya, Tikhaya, Olkhovaya, Urvolat -> Ust-Donvokhi
-	link = { imp = 7641 ck3 = 595 ck3 = 619 } # Alania -> Sarysyn, Saray
 	link = { imp = 8551 imp = 8552 imp = 8554 imp = 8553 ck3 = 5291 } # Krepkaya, Liska, Kalmykovskii, Bazki -> Siyahtepe
 	link = { imp = 6182 imp = 6181 imp = 6184 imp = 6183 ck3 = 5326 } # Ighkoy, Achkach, Yovolat, Yuty -> Millerovo
 	link = { imp = 8559 imp = 8560 imp = 8562 ck3 = 5287 } # Bogucharka, Titarevka, Kurennoe -> Kazanskaya
@@ -312,11 +310,12 @@ imperator_invictus = {
 	link = { imp = 6256 ck3 = 535 } # Venediana -> Volodymyr
 	link = { imp = 6292 ck3 = 5048 } # Trakylli -> Luboml
 	link = { imp = 7824 imp = 6298 ck3 = 5058 } # Revacia, Bostor -> Kobryn
-	link = { imp = 8461 ck3 = 5202 } # Hrabiv -> Surazichi
-	link = { imp = 8471 ck3 = 5205 ck3 = 5224 } # Mglin -> Mglin, Klimavichy
+	link = { imp = 9122 imp = 9125 ck3 = 5202 } # Meno, Zeme -> Surazichi
+	link = { imp = 9123 imp = 9124 ck3 = 5205 } # Zwaisda, Neba -> Mglin
 	link = { imp = 8463 ck3 = 5204 } # Slot -> Trubetsk
-	link = { imp = 8465 ck3 = 576 } # Rechitsa -> Debryansk
-	link = { imp = 8466 ck3 = 933 } # Blagoveshchenskaya -> Roslavl
+	link = { imp = 9127 ck3 = 5224 } # Bartei -> Klimavichy
+	link = { imp = 8465 imp = 8471 ck3 = 576 } # Rechitsa, Mglin -> Debryansk
+	link = { imp = 8466 imp = 9129 ck3 = 933 } # Blagoveshchenskaya, Sirdis -> Roslavl
 	link = { imp = 8462 ck3 = 5203 } # Zamhlay -> Starodub
 	link = { imp = 8399 imp = 8408 ck3 = 5182 } # Gelon, Hlynsk -> Akhtyr
 	link = { imp = 8470 imp = 8475 ck3 = 5198 } # Sejm, Kursk -> Sudzha
@@ -330,10 +329,17 @@ imperator_invictus = {
 	link = { imp = 8473 imp = 8469 ck3 = 5197 } # Medovyi, Grunya -> Rylsk
 	link = { imp = 8480 ck3 = 5207 } # Rybnitsa -> Ust-Livny
 	link = { imp = 8468 ck3 = 5206 } # Turochka -> Sevsk
-	link = { imp = 8474 ck3 = 5210 } # Zhuchok -> Krom
+	link = { imp = 9131 ck3 = 5220 } # Ungnis -> Yelnya
+	link = { imp = 9132 ck3 = 5212 } # Asras -> Kozelsk
+	link = { imp = 9128 imp = 9126 ck3 = 551 } # Bajatei, Nawas -> Mstislavl
+	link = { imp = 9121 ck3 = 5225 } # Sulnis -> Cherykaw
+	link = { imp = 9130 ck3 = 568 ck3 = 5219 } # Gintei -> Smolensk, Dorogobyzh
+	link = { imp = 8474 imp = 9052 ck3 = 5210 } # Zhuchok, Swo -> Krom
 	link = { imp = 8467 imp = 8464 ck3 = 5208 } # Lupuznya, Sudist -> Lokot
 	link = { imp = 8472 ck3 = 5209 } # Snezhet -> Karachev
-	link = { imp = 8479 ck3 = 5196 } # Belaya -> Kursk
+	link = { imp = 9053 ck3 = 5211 } # Ranka -> Oryol
+	link = { imp = 9049 imp = 9050 imp = 9054 ck3 = 5215 } # Medja, Lapas, Inzu -> Novosil
+	link = { imp = 8479 imp = 9048 ck3 = 5196 } # Belaya, Derwa -> Kursk
 	link = { imp = 8477 imp = 8402 imp = 8414 ck3 = 5284 } # Orlik, Vorskla, Moshchenoe -> Chally-Kala
 	link = { imp = 8400 imp = 8401 imp = 8403 ck3 = 5283 } # Merla, Trostyanets, Zolochiv -> Bohodukhiv
 	link = { imp = 8405 imp = 8404 imp = 7644 ck3 = 565 } # Merefa, Vovchansk, Donetsk -> Kharka
@@ -352,7 +358,8 @@ imperator_invictus = {
 	link = { imp = 8454 imp = 8425 ck3 = 5201 } # Snov, Krasne -> Unenezh
 	link = { imp = 8460 imp = 8452 ck3 = 5192 } # Ret, Desna -> Glukhov
 	link = { imp = 8457 imp = 8456 ck3 = 567 } # Tyutyunnytsya, Kuchynivka -> Novgorod Seversky
-	link = { imp = 8455 ck3 = 553 } # Lyubech -> Lyubech
+	link = { imp = 7641 ck3 = 5216 ck3 = 5223 ck3 = 5221 ck3 = 5129 ck3 = 5135 ck3 = 5222 ck3 = 5130 ck3 = 5214 } # Alania -> Mtensk, Dukhovshchina, Gnezdovo, Polotsk, Haradok, Velizh, Drysa, Belev
+	link = { imp = 8455 imp = 8461 ck3 = 553 } # Lyubech, Hrabiv -> Lyubech
 	link = { imp = 8424 ck3 = 554 } # Teteriv -> Chernigov
 	link = { imp = 8451 imp = 8450 ck3 = 5200 } # Gomel, Dnipro -> Gomel
 	link = { imp = 8447 imp = 8449 ck3 = 5122 } # Vasilievicy, Brahin -> Rechytsa
@@ -384,6 +391,24 @@ imperator_invictus = {
 	link = { imp = 6145 imp = 6141 imp = 6142 ck3 = 5273 } # Gerrhos, Enke, Ghasett -> Nikopol
 	link = { imp = 7191 imp = 6123 imp = 6118 ck3 = 5272 } # Uttar, Shuchshek, Kin -> Beryslav
 	link = { imp = 7188 imp = 6102 ck3 = 5269 } # Yendi, Korulin -> Kherson
+	link = { imp = 9056 imp = 9057 ck3 = 5286 } # Krauja, Sausas -> Khursa
+	link = { imp = 9046 imp = 9047 imp = 9051 imp = 9055 ck3 = 5285 } # Zweris, Kirmis, Karo, Ragas -> Khorysdan
+	link = { imp = 5970 ck3 = 5498 ck3 = 5391 ck3 = 5389 ck3 = 5354 ck3 = 5375 ck3 = 5374 ck3 = 5352 ck3 = 5350 ck3 = 5232 } # Pontic Steppe Impassable -> Repnoye, Treliaka, Kolychev, Szava, Lejlotka, Teluchezeva, Usman, Voronezh, Yelets
+	link = { imp = 7640 ck3 = 592 ck3 = 5509 ck3 = 5508 ck3 = 5392 ck3 = 5377 } # Caspica -> Saratov, Atkarsk, Peschanka, Alchanka, Balachev
+	link = { imp = 9078 imp = 9083 ck3 = 5410 } # Cigra, Vaski -> Tersa
+	link = { imp = 9071 imp = 9070 ck3 = 5295 } # Kalm, Cyxt -> Yelan
+	link = { imp = 9072 imp = 9074 ck3 = 5293 } # Arv, Carm -> Frolovo
+	link = { imp = 9062 ck3 = 5376 } # Peus -> Trotskhoper
+	link = { imp = 9061 ck3 = 5382 } # Tab -> Manina
+	link = { imp = 9064 ck3 = 5381 } # Mud -> Kriucha
+	link = { imp = 9063 ck3 = 5380 } # Vite -> Bychok
+	link = { imp = 9059 imp = 9060 ck3 = 5371 } # Naktis, Kirsnas -> Karatayak
+	link = { imp = 9058 ck3 = 5372 ck3 = 5373 } # Wetusas -> Babrov, Pavlovsk
+	link = { imp = 9068 ck3 = 5378 } # Aerdyn -> Khoper
+	link = { imp = 9067 imp = 9066 imp = 9069 imp = 9065 ck3 = 593 } # Aerac, Citras, Paoi, Cyrg -> Khopyor
+	link = { imp = 9073 imp = 9077 ck3 = 5379 } # Rast, Ajam -> Viazovka
+	link = { imp = 9076 imp = 9080 imp = 9075 imp = 9084 imp = 9085 imp = 9079 ck3 = 5294 } # Medu, Gaita, Capi, Vadasz, Zurka, Nahapana -> Kamyshin
+	link = { imp = 8963 imp = 8964 imp = 8965 ck3 = 595 } # Karpovka, Ilovlya, Olene -> Sarysyn
 	link = { comment = "BALTICS BY IHT" }
 	link = { imp = 6286 ck3 = 3213 } # Marone -> OSTERODE
 	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen 
