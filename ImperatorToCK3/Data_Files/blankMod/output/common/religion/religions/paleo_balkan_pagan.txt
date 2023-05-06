@@ -224,7 +224,6 @@
 			#Tenets
 			doctrine = tenet_sanctity_of_nature
 			doctrine = tenet_ancestor_worship
-			doctrine = tenet_ethnic_religion
 			
 			localization = {
 				HighGodName = illyrian_pagan_high_god_name
