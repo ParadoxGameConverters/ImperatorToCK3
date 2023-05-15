@@ -29,7 +29,7 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Fmod5Sharp" Version="3.0.1" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.1.1" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.1.2" />
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
     <PackageReference Include="PGCG.commonItems" Version="8.1.1" />
