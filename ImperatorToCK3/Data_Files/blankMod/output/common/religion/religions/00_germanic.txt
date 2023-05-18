@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.8.1
+﻿# Last updated: CK3 patch 1.9.0.4
 germanic_religion = {
 	family = rf_pagan
 	graphical_faith = pagan_gfx
@@ -32,6 +32,9 @@ germanic_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave wrathful vengeful poet one_eyed }
@@ -84,7 +87,7 @@ germanic_religion = {
 		HealthGodSheHe = CHARACTER_SHEHE_SHE
 		HealthGodHerHis = CHARACTER_HERHIS_HER
 		HealthGodHerHim = CHARACTER_HERHIM_HER
-
+		
 		#FertilityGod
 		FertilityGodName = germanic_fertility_god_name
 		FertilityGodNamePossessive = germanic_fertility_god_name_possessive
