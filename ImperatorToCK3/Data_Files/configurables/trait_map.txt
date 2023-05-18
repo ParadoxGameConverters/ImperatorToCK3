@@ -53,7 +53,7 @@ link = { ck3 = education_intrigue_3 imp = crafty }
 link = { ck3 = callous imp = cruel imp = cold}
 link = { ck3 = compassionate imp = merciful imp = loving }
 
-link = { ck3 = mystic_1 imp = scholar imp = polymath }
+link = { ck3 = lifestyle_mystic imp = scholar imp = polymath }
 link = { ck3 = stubborn imp = narrowminded imp = stubborn }
 link = { ck3 = fickle imp = weak_willed }
 

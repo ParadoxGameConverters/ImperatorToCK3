@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.8.2
+﻿# ImperatorToCK3: Last updated CK3 patch 1.9.0.4
 north_african_religion = {
 	family = rf_pagan
 
@@ -31,6 +31,9 @@ north_african_religion = {
 	doctrine = doctrine_clerical_gender_either #Men and women could be holy people, but their functions differed.
 	doctrine = doctrine_clerical_marriage_allowed #Not enough data to indicate either way
 	doctrine = doctrine_clerical_succession_temporal_appointment #Priests often served as advisers to the King.
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave honest just }
