@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.8.1
+﻿# Last updated: CK3 patch 1.9.0.4
 hellenism_religion = {
 	family = rf_pagan
 
@@ -31,6 +31,9 @@ hellenism_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { generous just temperate }
@@ -72,7 +75,7 @@ hellenism_religion = {
 		HealthGodSheHe = CHARACTER_SHEHE_HE
 		HealthGodHerHis = CHARACTER_HERHIS_HIS
 		HealthGodHerHim = CHARACTER_HERHIM_HIM
-
+		
 		#FertilityGod
 		FertilityGodName = hellenism_fertility_god_name
 		FertilityGodNamePossessive = hellenism_fertility_god_name_possessive
@@ -201,7 +204,7 @@ hellenism_religion = {
 		WitchGodMistressMaster = mistress
 		WitchGodMotherFather = mother
 
-
+		
 		GHWName = ghw_great_holy_war
 		GHWNamePlural = ghw_great_holy_wars
 	}

@@ -75,11 +75,11 @@ l_french:
  #---------------------------------------------------
  # Berbère
  #---------------------------------------------------
- berber_religion: "Berbère"
- berber_religion_adj: "berbère"
- berber_religion_adjerent: "berbère"
- berber_religion_adherent_plural: "berbères"
- berber_religion_desc: "Cette culture et cette religion fort anciennes sont un syncrétisme de croyances traditionnelles égyptiennes, de culte des astres et de celui des ancêtres. De nombreux mégalithes, ces pierres dressées en l'honneur des divinités, parsèment les paysages de l'Afrique."
+ # berber_religion: "Berbère"
+ # berber_religion_adj: "berbère"
+ # berber_religion_adjerent: "berbère"
+ # berber_religion_adherent_plural: "berbères"
+ # berber_religion_desc: "Cette culture et cette religion fort anciennes sont un syncrétisme de croyances traditionnelles égyptiennes, de culte des astres et de celui des ancêtres. De nombreux mégalithes, ces pierres dressées en l'honneur des divinités, parsèment les paysages de l'Afrique."
 
  berber_pagan: "Mégalithisme"
  berber_pagan_adj: "mégalithiste"

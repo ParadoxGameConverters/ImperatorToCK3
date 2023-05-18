@@ -74,11 +74,11 @@
  #---------------------------------------------------
  # BERBER
  #---------------------------------------------------
- berber_religion: "베르베르 이교도"
- berber_religion_adj: "베르베르 이교도"
- berber_religion_adherent: "베르베르 헤더"
- berber_religion_adherent_plural: "베르베르 히스"
- berber_religion_desc: "고대 문화와 종교는 전통적인 이집트 신앙, 별 숭배, 조상 숭배의 용광로였습니다. 아프리카 풍경에는 ​​여전히 많은 거석 (신을 기리기 위해 세워진 석조 구조물)이 흩어져 있습니다."
+ # berber_religion: "베르베르 이교도"
+ # berber_religion_adj: "베르베르 이교도"
+ # berber_religion_adherent: "베르베르 헤더"
+ # berber_religion_adherent_plural: "베르베르 히스"
+ # berber_religion_desc: "고대 문화와 종교는 전통적인 이집트 신앙, 별 숭배, 조상 숭배의 용광로였습니다. 아프리카 풍경에는 ​​여전히 많은 거석 (신을 기리기 위해 세워진 석조 구조물)이 흩어져 있습니다."
 
  berber_pagan: "거석"
  berber_pagan_adj: "거석"

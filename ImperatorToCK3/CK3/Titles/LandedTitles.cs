@@ -27,7 +27,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Titles;
 
 public partial class Title {
-	[commonItems.Serialization.NonSerialized] private readonly LandedTitles parentCollection;
+	private readonly LandedTitles parentCollection;
 
 	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
@@ -458,6 +458,13 @@ public partial class Title {
 				.Select(t=>t.CapitalCounty?.CapitalBaronyId ?? t.CapitalBaronyId)
 				.ToImmutableHashSet();
 			
+			// Dukes and above should be excluded from having their holdings converted.
+			// Otherwise, governors with holdings would own parts of other governorships.
+			var dukeAndAboveIds = titlesThatHaveHolders
+				.Where(t => t.Rank >= TitleRank.duchy)
+				.Select(t => t.GetHolderId(conversionDate))
+				.ToImmutableHashSet();
+			
 			var baronies = this.Where(t => t.Rank == TitleRank.barony).ToImmutableHashSet();
 			var countyCapitalBaronies = baronies
 				.Where(b => b.DeJureLiege?.CapitalBaronyId == b.Id)
@@ -490,6 +497,9 @@ public partial class Title {
 				var irOwner = irCharacters[holdingOwnerId.Value];
 				var ck3Owner = irOwner.CK3Character;
 				if (ck3Owner is null) {
+					continue;
+				}
+				if (dukeAndAboveIds.Contains(ck3Owner.Id)) {
 					continue;
 				}
 				
