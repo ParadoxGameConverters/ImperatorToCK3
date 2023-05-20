@@ -102,4 +102,17 @@
     </ItemGroup>
   </Target>
 
+<ItemGroup>
+	<!-- root descriptors for trimming -->
+	<TrimmerRootAssembly Include="CsvHelper" />
+	<TrimmerRootAssembly Include="log4net" />
+	<TrimmerRootAssembly Include="commonItems" />
+	<TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
+	<TrimmerRootAssembly Include="System.Management" />
+	<!--
+	<TrimmerRootAssembly Include="NAudio.Core" />
+	<TrimmerRootAssembly Include="NAudio.Wasapi" />
+	-->
+</ItemGroup>
+
 </Project>
