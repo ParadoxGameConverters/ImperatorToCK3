@@ -43,7 +43,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         global-json-file: Fronter.NET/global.json
-    - name: "Replace frontend background image" 
+    - name: "Replace frontend background image"
       run: |
         rm Fronter.NET/Fronter.NET/Assets/Images/background.png
         cp ImperatorToCK3/Resources/images/SteamMainImage.png Fronter.NET/Fronter.NET/Assets/Images/background.png
