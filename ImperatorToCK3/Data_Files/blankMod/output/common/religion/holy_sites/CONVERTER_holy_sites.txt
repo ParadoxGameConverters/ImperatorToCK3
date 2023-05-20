@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.2.2
+﻿# ImperatorToCK3: Last updated CK3 patch 1.9.0.4
 #Druidic
 ynys_mon = { #toutatis
 	county = c_anglesey
@@ -768,16 +768,16 @@ zwegabin = {
 		monthly_piety_gain_mult = 0.1
 	}
 }
-myitsone = {
-    county = c_guangdang
-	barony = b_MailikaiRiver
-	
-	character_modifier = {
-		name = holy_site_myitsone_effect_name
-		learning_per_piety_level = 1
-		cultural_head_fascination_mult = 0.1
-	}
-}
+#myitsone = { # IRToCK3: disabled due to c_guangdang not existing
+#    county = c_guangdang
+#	barony = b_MailikaiRiver
+#	
+#	character_modifier = {
+#		name = holy_site_myitsone_effect_name
+#		learning_per_piety_level = 1
+#		cultural_head_fascination_mult = 0.1
+#	}
+#}
 taungbyone = {
     county = c_madaya
 	barony = b_madaya
