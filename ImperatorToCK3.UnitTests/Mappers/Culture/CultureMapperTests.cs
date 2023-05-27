@@ -23,7 +23,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(culMapper.Match("nonMatchingCulture", "", 56, 49, "ROM"));
+		Assert.Null(culMapper.Match("nonMatchingCulture", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -33,7 +33,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Equal("culture", culMapper.Match("test", "", 56, 49, "ROM"));
+		Assert.Equal("culture", culMapper.Match("test", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -43,7 +43,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Equal("culture", culMapper.Match("test", "", 56, 49, "ROM"));
+		Assert.Equal("culture", culMapper.Match("test", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -73,7 +73,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(culMapper.Match("test", "", 56, 49, "ROM"));
+		Assert.Null(culMapper.Match("test", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -123,7 +123,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, ""));
+		Assert.Equal("culture", culMapper.Match("test", "thereligion", 4, 49, null));
 	}
 
 	[Fact]
@@ -149,7 +149,7 @@ public class CultureMapperTests {
 		""");
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(culMapper.Match("test", "thereligion", 4, 49, ""));
+		Assert.Null(culMapper.Match("test", "thereligion", 4, 49, null));
 	}
 
 	[Fact]
@@ -159,7 +159,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(culMapper.NonReligiousMatch("nonMatchingCulture", "", 56, 49, "ROM"));
+		Assert.Null(culMapper.NonReligiousMatch("nonMatchingCulture", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -169,7 +169,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Equal("culture", culMapper.NonReligiousMatch("test", "", 56, 49, "ROM"));
+		Assert.Equal("culture", culMapper.NonReligiousMatch("test", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -179,7 +179,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Equal("culture", culMapper.NonReligiousMatch("test", "", 56, 49, "ROM"));
+		Assert.Equal("culture", culMapper.NonReligiousMatch("test", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -209,7 +209,7 @@ public class CultureMapperTests {
 		);
 		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(culMapper.NonReligiousMatch("test", "", 56, 49, "ROM"));
+		Assert.Null(culMapper.NonReligiousMatch("test", null, 56, 49, "ROM"));
 	}
 
 	[Fact]
@@ -231,8 +231,8 @@ public class CultureMapperTests {
 		);
 		var cultureMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
 
-		Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", "", 0, irProvinceId: 1, ""));
-		Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, irProvinceId: 1, ""));
-		Assert.Equal("high_germ", cultureMapper.NonReligiousMatch("bellovacian", "", 0, irProvinceId: 2, ""));
+		Assert.Null(cultureMapper.NonReligiousMatch("missing_culture", null, null, irProvinceId: 1, null));
+		Assert.Equal("low_germ", cultureMapper.NonReligiousMatch("bellovacian", null, null, irProvinceId: 1, null));
+		Assert.Equal("high_germ", cultureMapper.NonReligiousMatch("bellovacian", null, null, irProvinceId: 2, null));
 	}
 }

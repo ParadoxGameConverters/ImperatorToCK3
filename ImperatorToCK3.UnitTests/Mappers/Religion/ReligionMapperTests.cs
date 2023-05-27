@@ -30,7 +30,7 @@ public class ReligionMapperTests {
 		var reader = new BufferedReader("link = { ck3 = ck3Faith imp = impReligion }");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
-		var ck3FaithId = mapper.Match("nonMatchingReligion", 0, 0, null, new Configuration());
+		var ck3FaithId = mapper.Match("nonMatchingReligion", null, null, null, new Configuration());
 		Assert.Null(ck3FaithId);
 	}
 

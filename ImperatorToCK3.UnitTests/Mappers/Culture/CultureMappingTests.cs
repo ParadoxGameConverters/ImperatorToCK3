@@ -36,7 +36,7 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Equal("dutch", theMapping.Match("german", "", 4, 0, "", irRegionMapper, ck3RegionMapper));
+		Assert.Equal("dutch", theMapping.Match("german", null, 4, null, null, irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -58,7 +58,7 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 79, 0, "", irRegionMapper, ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", null, 79, null, null, irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -77,7 +77,7 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 17, 0, "", irRegionMapper, ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", null, 17, null, null, irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -98,6 +98,6 @@ public class CultureMappingTests {
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", "", 0, 0, "", irRegionMapper, ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", null, null, null, null, irRegionMapper, ck3RegionMapper));
 	}
 }
