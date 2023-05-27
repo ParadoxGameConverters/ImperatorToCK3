@@ -68,7 +68,6 @@ public class CultureMappingRule {
 				}
 			}
 		}
-		
 
 		// This is an Imperator provinces check.
 		if (irProvinceId is not null) {
