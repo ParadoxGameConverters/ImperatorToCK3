@@ -59,4 +59,4 @@ l_english:
 
  BOOKMARKDATE: "CK3 bookmark date (AD, optional)"
  BOOKMARKDATETIP: "Anno Domini date of the generated CK3 bookmark, can not be earlier than the Anno Domini Imperator save date. Leave empty to default to Imperator save's current date."
- BOOKMARKDATETIP2: "year.month.day format"
+ BOOKMARKDATETIP2: "Anno Domini date of the generated CK3 bookmark, can not be earlier than the Anno Domini Imperator save date. Leave empty to default to Imperator save's current date."

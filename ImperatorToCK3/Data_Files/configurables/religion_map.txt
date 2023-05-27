@@ -12,6 +12,18 @@
 # multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
+# Variables:
+# Use them to avoid duplicating long conditions.
+# A variable must be defined BEFORE it's used in a link.
+# For example:
+# Instead of:
+# link = { ck3=belgae imp=sennonian imp=bellovacian imp=veliocassian imp=morinian impProvince=1 }
+# link = { ck3=delgae imp=sennonian imp=bellovacian imp=veliocassian imp=morinian impProvince=2 }
+# Use:
+# @germ_religions = "imp=sennonian imp=bellovacian imp=veliocassian imp=morinian" # don't forget the quotes
+# link = { ck3=belgae @germ_religions impProvince=1}
+# link = { ck3=delgae @germ_religions impProvince=2}
+
 ## Pagan
 link = { ck3 = kushitism_pagan imp = egyptian_pantheon impRegion = nubia_region impRegion = punt_region }
 link = { ck3 = egyptian_pagan imp = egyptian_pantheon }
@@ -19,7 +31,12 @@ link = { ck3 = canaanite_pagan imp = carthaginian_pantheon }
 link = { ck3 = dacian_pagan imp = shamanism }
 link = { ck3 = caucasian_pagan imp = caucasian_religion }
 link = { ck3 = mesopotamian_pagan imp = mesopotamian_religion }
-link = { ck3 = armenian_pagan imp = armenian_religion }
+link = {
+	ck3 = armenian_pagan
+	imp = armenian_religion # Khaldic
+	# Invictus mod
+	imp = new_armenian_religion # Anahitic
+}
 link = { ck3 = anatolian_pagan imp = anatolian_religion }
 link = { ck3 = iberian_pagan imp = animism }
 link = { ck3 = berber_pagan imp = berber_religion }
@@ -27,7 +44,7 @@ link = { ck3 = scythian_pagan imp = indo_iranian_religion }
 # Invictus mod
 link = { ck3=waaqism_pagan imp=puntic_religion }
 link = { ck3=basque_pagan imp=pre_indo_european_religion }
-
+link = { ck3=illyrian_pagan imp=illyrian_pantheon }
 
 # Arabic
 link = { ck3 = druze imp = arabian_pantheon ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
@@ -88,17 +105,17 @@ link = { ck3 = theravada imp = buddhism }
 # Ari is skipped because exists only in Burma
 
 # Hinduism
-link = { ck3 = donyipoloism imp = hindu ck3Province = 9160 ck3Province = 9175 ck3Province = 9176 ck3Province = 9165 ck3Province = 9166 }
-link = { ck3 = sedism imp = hindu ck3Province = 826 ck3Province = 827 }
-link = { ck3 = kiratism imp = hindu ck3Province = 9114 ck3Province = 9119 ck3Province = 9120 ck3Province = 9121 ck3Province = 9125 ck3Province = 9126 ck3Province = 9127 ck3Province = 9136 }
-link = { ck3 = yumaism imp = hindu ck3Province = 9129 }
-link = { ck3 = zun_pagan imp = hindu ck3Province = 4290 ck3Province = 4299 ck3Province = 4473 }
-link = { ck3 = shaivism imp = hindu ck3Province = 1144 ck3Province = 1157 ck3Province = 1208 ck3Province = 1209 ck3Province = 1211 ck3Province = 1255 ck3Province = 1256 ck3Province = 1257 ck3Province = 7902 ck3Province = 7903 ck3Province = 7904 ck3Province = 7905 ck3Province = 7906 ck3Province = 7907 ck3Province = 7908 ck3Province = 7909 ck3Province = 7910 ck3Province = 920 ck3Province = 1285 ck3Province = 1286 ck3Province = 7925 ck3Province = 7926 ck3Province = 7927 ck3Province = 1121 ck3Province = 1140 ck3Province = 1158 ck3Province = 1198 ck3Province = 1202 ck3Province = 1203 ck3Province = 1210 ck3Province = 1218 ck3Province = 1265 ck3Province = 7850 ck3Province = 7851 ck3Province = 7852 ck3Province = 7853 ck3Province = 7854 ck3Province = 7855 ck3Province = 7856 ck3Province = 7857 ck3Province = 7858 ck3Province = 7859 ck3Province = 7860 ck3Province = 7861 ck3Province = 7862 ck3Province = 7870 ck3Province = 7871 ck3Province = 7872 ck3Province = 7873 ck3Province = 7874 ck3Province = 7875 ck3Province = 7876 ck3Province = 7877 ck3Province = 7878 ck3Province = 7885 ck3Province = 7887 ck3Province = 1199 ck3Province = 7815 ck3Province = 7816 ck3Province = 7817 ck3Province = 7819 ck3Province = 7820 ck3Province = 7822 ck3Province = 7823 ck3Province = 7825 ck3Province = 9050 ck3Province = 1123 ck3Province = 1222 ck3Province = 1415 ck3Province = 7911 ck3Province = 7912 ck3Province = 7916 ck3Province = 9088 ck3Province = 9089 ck3Province = 9090 ck3Province = 9091 ck3Province = 9092 ck3Province = 9094 ck3Province = 9095 ck3Province = 9097 ck3Province = 9099 ck3Province = 9101 ck3Province = 9102 ck3Province = 9103 ck3Province = 9104 ck3Province = 9105 ck3Province = 9106 ck3Province = 9108 ck3Province = 9111 ck3Province = 9113 ck3Province = 9115 ck3Province = 9116 ck3Province = 9117 ck3Province = 9122 ck3Province = 9123 ck3Province = 9130 ck3Province = 9131 ck3Province = 9132 }
-link = { ck3 = krishnaism imp = hindu ck3Province = 9093 ck3Province = 9098 ck3Province = 9124 ck3Province = 1115 ck3Province = 1120 ck3Province = 1201 ck3Province = 1204 ck3Province = 1219 ck3Province = 7804 ck3Province = 7805 ck3Province = 7806 ck3Province = 7807 ck3Province = 7808 ck3Province = 7818 ck3Province = 7821 ck3Province = 7828 ck3Province = 7829 ck3Province = 7830 ck3Province = 7831 ck3Province = 7832 ck3Province = 7833 ck3Province = 7834 ck3Province = 7835 ck3Province = 7836 ck3Province = 7837 ck3Province = 7838 ck3Province = 1122 ck3Province = 1207 ck3Province = 1221 ck3Province = 1253 ck3Province = 7839 ck3Province = 7840 ck3Province = 7841 ck3Province = 7842 ck3Province = 7843 ck3Province = 7844 ck3Province = 7845 ck3Province = 7846 }
-link = { ck3 = smartism imp = hindu ck3Province = 1138 ck3Province = 1175 ck3Province = 1297 ck3Province = 1303 ck3Province = 1331 ck3Province = 1333 ck3Province = 1336 ck3Province = 1339 ck3Province = 1370 ck3Province = 1371 ck3Province = 1372 ck3Province = 1374 ck3Province = 3391 ck3Province = 3392 ck3Province = 3393 ck3Province = 3394 ck3Province = 3398 ck3Province = 3399 ck3Province = 3400 ck3Province = 3401 ck3Province = 3402 ck3Province = 3403 ck3Province = 3404 ck3Province = 3405 ck3Province = 3406 ck3Province = 3407 ck3Province = 3971 ck3Province = 1274 ck3Province = 3965 ck3Province = 3966 ck3Province = 1170 ck3Province = 1298 ck3Province = 1299 ck3Province = 3315 ck3Province = 3316 ck3Province = 3317 ck3Province = 3318 ck3Province = 3319 ck3Province = 3320 ck3Province = 3321 ck3Province = 3322 ck3Province = 3323 ck3Province = 3324 }
-link = { ck3 = srikula_shaktism imp = hindu ck3Province = 1155 ck3Province = 1160 ck3Province = 1227 ck3Province = 1230 ck3Province = 1252 ck3Province = 3991 ck3Province = 3992 ck3Province = 3993 ck3Province = 3994 ck3Province = 3995 ck3Province = 3996 ck3Province = 3999 ck3Province = 7913 ck3Province = 7914 ck3Province = 7915 ck3Province = 9659 ck3Province = 921 ck3Province = 922 ck3Province = 1272 ck3Province = 1150 ck3Province = 1184 ck3Province = 1185 ck3Province = 1287 ck3Province = 3325 ck3Province = 3326 ck3Province = 3327 }
-link = { ck3 = kalikula_shaktism imp = hindu ck3Province = 1363 ck3Province = 3422 ck3Province = 3423 ck3Province = 3424 ck3Province = 1352 ck3Province = 1364 ck3Province = 3457 ck3Province = 3458 ck3Province = 3459 ck3Province = 1350 ck3Province = 3477 }
-link = { ck3 = vaishnavism imp = hindu }
+@ir_hindu_religions = "imp=hindu imp=agama"
+link = { ck3 = donyipoloism @ir_hindu_religions ck3Province = 9160 ck3Province = 9175 ck3Province = 9176 ck3Province = 9165 ck3Province = 9166 }
+link = { ck3 = sedism @ir_hindu_religions ck3Province = 826 ck3Province = 827 }
+link = { ck3 = kiratism @ir_hindu_religions ck3Province = 9114 ck3Province = 9119 ck3Province = 9120 ck3Province = 9121 ck3Province = 9125 ck3Province = 9126 ck3Province = 9127 ck3Province = 9136 }
+link = { ck3 = yumaism @ir_hindu_religions ck3Province = 9129 }
+link = { ck3 = shaivism @ir_hindu_religions ck3Province = 1144 ck3Province = 1157 ck3Province = 1208 ck3Province = 1209 ck3Province = 1211 ck3Province = 1255 ck3Province = 1256 ck3Province = 1257 ck3Province = 7902 ck3Province = 7903 ck3Province = 7904 ck3Province = 7905 ck3Province = 7906 ck3Province = 7907 ck3Province = 7908 ck3Province = 7909 ck3Province = 7910 ck3Province = 920 ck3Province = 1285 ck3Province = 1286 ck3Province = 7925 ck3Province = 7926 ck3Province = 7927 ck3Province = 1121 ck3Province = 1140 ck3Province = 1158 ck3Province = 1198 ck3Province = 1202 ck3Province = 1203 ck3Province = 1210 ck3Province = 1218 ck3Province = 1265 ck3Province = 7850 ck3Province = 7851 ck3Province = 7852 ck3Province = 7853 ck3Province = 7854 ck3Province = 7855 ck3Province = 7856 ck3Province = 7857 ck3Province = 7858 ck3Province = 7859 ck3Province = 7860 ck3Province = 7861 ck3Province = 7862 ck3Province = 7870 ck3Province = 7871 ck3Province = 7872 ck3Province = 7873 ck3Province = 7874 ck3Province = 7875 ck3Province = 7876 ck3Province = 7877 ck3Province = 7878 ck3Province = 7885 ck3Province = 7887 ck3Province = 1199 ck3Province = 7815 ck3Province = 7816 ck3Province = 7817 ck3Province = 7819 ck3Province = 7820 ck3Province = 7822 ck3Province = 7823 ck3Province = 7825 ck3Province = 9050 ck3Province = 1123 ck3Province = 1222 ck3Province = 1415 ck3Province = 7911 ck3Province = 7912 ck3Province = 7916 ck3Province = 9088 ck3Province = 9089 ck3Province = 9090 ck3Province = 9091 ck3Province = 9092 ck3Province = 9094 ck3Province = 9095 ck3Province = 9097 ck3Province = 9099 ck3Province = 9101 ck3Province = 9102 ck3Province = 9103 ck3Province = 9104 ck3Province = 9105 ck3Province = 9106 ck3Province = 9108 ck3Province = 9111 ck3Province = 9113 ck3Province = 9115 ck3Province = 9116 ck3Province = 9117 ck3Province = 9122 ck3Province = 9123 ck3Province = 9130 ck3Province = 9131 ck3Province = 9132 }
+link = { ck3 = krishnaism @ir_hindu_religions ck3Province = 9093 ck3Province = 9098 ck3Province = 9124 ck3Province = 1115 ck3Province = 1120 ck3Province = 1201 ck3Province = 1204 ck3Province = 1219 ck3Province = 7804 ck3Province = 7805 ck3Province = 7806 ck3Province = 7807 ck3Province = 7808 ck3Province = 7818 ck3Province = 7821 ck3Province = 7828 ck3Province = 7829 ck3Province = 7830 ck3Province = 7831 ck3Province = 7832 ck3Province = 7833 ck3Province = 7834 ck3Province = 7835 ck3Province = 7836 ck3Province = 7837 ck3Province = 7838 ck3Province = 1122 ck3Province = 1207 ck3Province = 1221 ck3Province = 1253 ck3Province = 7839 ck3Province = 7840 ck3Province = 7841 ck3Province = 7842 ck3Province = 7843 ck3Province = 7844 ck3Province = 7845 ck3Province = 7846 }
+link = { ck3 = smartism @ir_hindu_religions ck3Province = 1138 ck3Province = 1175 ck3Province = 1297 ck3Province = 1303 ck3Province = 1331 ck3Province = 1333 ck3Province = 1336 ck3Province = 1339 ck3Province = 1370 ck3Province = 1371 ck3Province = 1372 ck3Province = 1374 ck3Province = 3391 ck3Province = 3392 ck3Province = 3393 ck3Province = 3394 ck3Province = 3398 ck3Province = 3399 ck3Province = 3400 ck3Province = 3401 ck3Province = 3402 ck3Province = 3403 ck3Province = 3404 ck3Province = 3405 ck3Province = 3406 ck3Province = 3407 ck3Province = 3971 ck3Province = 1274 ck3Province = 3965 ck3Province = 3966 ck3Province = 1170 ck3Province = 1298 ck3Province = 1299 ck3Province = 3315 ck3Province = 3316 ck3Province = 3317 ck3Province = 3318 ck3Province = 3319 ck3Province = 3320 ck3Province = 3321 ck3Province = 3322 ck3Province = 3323 ck3Province = 3324 }
+link = { ck3 = srikula_shaktism @ir_hindu_religions ck3Province = 1155 ck3Province = 1160 ck3Province = 1227 ck3Province = 1230 ck3Province = 1252 ck3Province = 3991 ck3Province = 3992 ck3Province = 3993 ck3Province = 3994 ck3Province = 3995 ck3Province = 3996 ck3Province = 3999 ck3Province = 7913 ck3Province = 7914 ck3Province = 7915 ck3Province = 9659 ck3Province = 921 ck3Province = 922 ck3Province = 1272 ck3Province = 1150 ck3Province = 1184 ck3Province = 1185 ck3Province = 1287 ck3Province = 3325 ck3Province = 3326 ck3Province = 3327 }
+link = { ck3 = kalikula_shaktism @ir_hindu_religions ck3Province = 1363 ck3Province = 3422 ck3Province = 3423 ck3Province = 3424 ck3Province = 1352 ck3Province = 1364 ck3Province = 3457 ck3Province = 3458 ck3Province = 3459 ck3Province = 1350 ck3Province = 3477 }
+link = { ck3 = vaishnavism @ir_hindu_religions }
 
 # Bon
 link = { ck3 = old_bon imp = bon_religion }
@@ -107,6 +124,13 @@ link = { ck3 = old_bon imp = bon_religion }
 link = { ck3 = svetambara imp = jainism ck3Province = 1169 ck3Province = 1301 ck3Province = 3959 ck3Province = 3960 ck3Province = 3961 ck3Province = 3972 ck3Province = 1126 ck3Province = 3384 ck3Province = 917 ck3Province = 918 ck3Province = 919 ck3Province = 1164 ck3Province = 1159 ck3Province = 1254 ck3Province = 1269 ck3Province = 1286 ck3Province = 7929 ck3Province = 7930 ck3Province = 7931 ck3Province = 7935 ck3Province = 1148 ck3Province = 1150 ck3Province = 1170 ck3Province = 1184 ck3Province = 1185 ck3Province = 1287 ck3Province = 1288 ck3Province = 1299 ck3Province = 3317 ck3Province = 3320 ck3Province = 3321 ck3Province = 3322 ck3Province = 3323 ck3Province = 3324 ck3Province = 3325 ck3Province = 3326 ck3Province = 3327 ck3Province = 3328 ck3Province = 3329 ck3Province = 3334 ck3Province = 3335 ck3Province = 3336 ck3Province = 3337 ck3Province = 1115 ck3Province = 1120 ck3Province = 1201 ck3Province = 1204 ck3Province = 1219 ck3Province = 7804 ck3Province = 7805 ck3Province = 7806 ck3Province = 7807 ck3Province = 7808 ck3Province = 7818 ck3Province = 7821 ck3Province = 7828 ck3Province = 7829 ck3Province = 7830 ck3Province = 7831 ck3Province = 7832 ck3Province = 7833 ck3Province = 7834 ck3Province = 7835 ck3Province = 7836 ck3Province = 7837 ck3Province = 7838 ck3Province = 1122 ck3Province = 1207 ck3Province = 1221 ck3Province = 1253 ck3Province = 7839 ck3Province = 7840 ck3Province = 7841 ck3Province = 7842 ck3Province = 7843 ck3Province = 7844 ck3Province = 7845 ck3Province = 7846 ck3Province = 1357 ck3Province = 1359 ck3Province = 1366 ck3Province = 3455 ck3Province = 3456 ck3Province = 3460 ck3Province = 3461 ck3Province = 3462 ck3Province = 3465 ck3Province = 3466 ck3Province = 1130 ck3Province = 1172 ck3Province = 1174 ck3Province = 1176 ck3Province = 1300 ck3Province = 1302 ck3Province = 1345 ck3Province = 1346 ck3Province = 1353 ck3Province = 1354 ck3Province = 1355 ck3Province = 3338 ck3Province = 3339 ck3Province = 3340 ck3Province = 3341 ck3Province = 3342 ck3Province = 3343 ck3Province = 3344 ck3Province = 3345 ck3Province = 3346 ck3Province = 3347 ck3Province = 3348 ck3Province = 3349 ck3Province = 3478 ck3Province = 3479 ck3Province = 3480 ck3Province = 3481 ck3Province = 3482 ck3Province = 3483 ck3Province = 3484 ck3Province = 3485 ck3Province = 3486 ck3Province = 3487 ck3Province = 3488 ck3Province = 3489 ck3Province = 3490 ck3Province = 3491 ck3Province = 3492 ck3Province = 3493 ck3Province = 3494 ck3Province = 3495 ck3Province = 3496 ck3Province = 3497 ck3Province = 3498 ck3Province = 3499 ck3Province = 3968 ck3Province = 3969 }
 link = { ck3 = yapaniya imp = jainism ck3Province = 1118 ck3Province = 1196 ck3Province = 1197 ck3Province = 1210 ck3Province = 1216 ck3Province = 1217 ck3Province = 7847 ck3Province = 7848 ck3Province = 7863 ck3Province = 7864 ck3Province = 7865 ck3Province = 7866 ck3Province = 7867 ck3Province = 1112 ck3Province = 1119 ck3Province = 1200 ck3Province = 7809 ck3Province = 7810 ck3Province = 7811 ck3Province = 7812 ck3Province = 7813 ck3Province = 7824 ck3Province = 7826 ck3Province = 7827 ck3Province = 1211 ck3Province = 7902 ck3Province = 7905 ck3Province = 1124 ck3Province = 7791 ck3Province = 7792 ck3Province = 7793 ck3Province = 7794 ck3Province = 7795 }
 link = { ck3 = digambara imp = jainism }
+
+# Ajivika
+link = { # temporary mapping, TODO: ajivika should be a separate religion
+	ck3 = yapaniya
+	# Invictus mod
+	imp = ajivika
+}
 
 # MODS (for future mods)
 link = { ck3 = tengri_pagan imp = tengri_pagan }
@@ -140,3 +164,7 @@ link = { ck3 = insular_celtic imp = christianity impRegion = caledonia_region im
 link = { ck3 = coptic imp = christianity impRegion = arabia_felix_region impRegion = arabia_region impRegion = cyrenaica_region impRegion = fezzan_region impRegion = lower_egypt_region impRegion = nubia_region impRegion = lower_nubia_region impRegion = punt_region impRegion = upper_egypt_region }
 link = { ck3 = nestorian imp = christianity impRegion = assyria_region impRegion = mesopotamia_region impRegion = persis_region impRegion = media_region impRegion = bactriana_region impRegion = gedrosia_region  impRegion = ariana_region impRegion = parthia_region impRegion = gandhara_region impRegion = maru_region impRegion = avanti_region impRegion = madhyadesa_region impRegion = pracya_region impRegion = vindhyaprstha_region impRegion = dravida_region impRegion = aparanta_region impRegion = karnata_region impRegion = tibet_region impRegion = himalayan_region impRegion = sogdiana_region impRegion = burma_region }
 link = { ck3 = orthodox imp = christianity } # fallback
+
+
+# Burmic (from Invictus)
+link = { ck3=burmic imp=burmese_religion }

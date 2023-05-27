@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Modifier;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class HolySite : IIdentifiable<string>, IPDXSerializable {
+[SerializationByProperties]
+public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 	[NonSerialized] public bool IsGeneratedByConverter { get; }
 	[NonSerialized] public Title? County { get; }

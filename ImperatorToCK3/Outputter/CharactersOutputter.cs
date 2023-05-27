@@ -9,6 +9,13 @@ namespace ImperatorToCK3.Outputter;
 
 public static class CharactersOutputter {
 	public static void OutputCharacters(string outputModName, CharacterCollection characters, Date conversionDate) {
+		// Portrait modifiers need to be outputted before characters themselves,
+		// because while outputting the portrait modifiers we're adding character flags to character history.
+		var charactersWithDNA = characters
+			.Where(c => c.DNA is not null)
+			.ToImmutableList();
+		OutputPortraitModifiers(outputModName, charactersWithDNA, conversionDate);
+		
 		var charactersFromIR = characters.Where(c => c.FromImperator).ToImmutableList();
 		var charactersFromCK3 = characters.Except(charactersFromIR).ToImmutableList();
 		
@@ -25,12 +32,7 @@ public static class CharactersOutputter {
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.OutputCharacter(output2, character, conversionDate);
 		}
-		
-		var charactersWithDNA = characters
-			.Where(c => c.DNA is not null)
-			.ToImmutableList();
 		OutputCharactersDNA(outputModName, charactersWithDNA);
-		OutputPortraitModifiers(outputModName, charactersWithDNA);
 	}
 
 	private static void OutputCharactersDNA(string outputModName, IReadOnlyCollection<Character> charactersWithDNA) {
@@ -52,7 +54,7 @@ public static class CharactersOutputter {
 		}
 	}
 
-	private static void OutputPortraitModifiers(string outputModName, IReadOnlyCollection<Character> charactersWithDNA) {
+	private static void OutputPortraitModifiers(string outputModName, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate) {
 		Logger.Debug("Outputting portrait modifiers...");
 		// Enforce hairstyles and beards (otherwise CK3 they will only be used on bookmark screen).
 		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
@@ -60,17 +62,18 @@ public static class CharactersOutputter {
 		using var stream = File.OpenWrite(portraitModifiersOutputPath);
 		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
 
-		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output);
+		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output, conversionDate);
 		var malesWithBeards = charactersWithDNA
 			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
 			.ToImmutableList();
-		OutputPortraitModifiersForGene("beards", malesWithBeards, output);
+		OutputPortraitModifiersForGene("beards", malesWithBeards, output, conversionDate);
 	}
 
 	private static void OutputPortraitModifiersForGene(
 		string geneName,
 		IReadOnlyCollection<Character> charactersWithDNA,
-		TextWriter output
+		TextWriter output,
+		Date conversionDate
 	) {
 		var charactersByGeneValue = charactersWithDNA
 			.GroupBy(c => new {
@@ -83,6 +86,13 @@ public static class CharactersOutputter {
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
 			var intSliderValue = grouping.Key.IntSliderValue;
+
+			var characterFlagName = $"portrait_modifier_{templateName}_{intSliderValue}";
+			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} }}";
+
+			foreach (Character character in grouping) {
+				character.History.AddFieldValue(conversionDate, "effects", "effect", characterEffectStr);
+			}
 			
 			output.WriteLine($"\t{templateName}_{intSliderValue} = {{");
 			output.WriteLine("\t\tdna_modifiers = {");
@@ -96,14 +106,11 @@ public static class CharactersOutputter {
 			
 			output.WriteLine("\t\tweight = {");
 			output.WriteLine("\t\t\tbase = 0");
-			foreach (var character in grouping) {
-				output.WriteLine("\t\t\tmodifier = {");
-				output.WriteLine("\t\t\t\tadd = 999");
-				output.WriteLine("\t\t\t\texists = this");
-				output.WriteLine($"\t\t\t\texists = character:{character.Id}");
-				output.WriteLine($"\t\t\t\tthis = character:{character.Id}");
-				output.WriteLine("\t\t\t}");
-			}
+			output.WriteLine("\t\t\tmodifier = {");
+			output.WriteLine("\t\t\t\tadd = 999");
+			output.WriteLine($"\t\t\t\thas_character_flag = {characterFlagName}");
+			output.WriteLine("\t\t\t}");
+			
 			output.WriteLine("\t\t}");
 			output.WriteLine("\t}");
 		}

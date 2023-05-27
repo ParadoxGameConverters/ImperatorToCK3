@@ -74,11 +74,11 @@
  #---------------------------------------------------
  # BERBER
  #---------------------------------------------------
- berber_religion: "Berberheidentum"
- berber_religion_adj: "Berberheidisch"
- berber_religion_adherent: "Berberheide"
- berber_religion_adherent_plural: "Berberheiden"
- berber_religion_desc: "Die alte Kultur und Religion war ein Schmelztiegel traditioneller ägyptischer Überzeugungen, Sternanbetung und Ahnenverehrung. Es gibt noch viele Megalithen - Steinkonstrukte, die zu Ehren der Götter errichtet wurden -, die über die afrikanische Landschaft verstreut sind."
+ # berber_religion: "Berberheidentum"
+ # berber_religion_adj: "Berberheidisch"
+ # berber_religion_adherent: "Berberheide"
+ # berber_religion_adherent_plural: "Berberheiden"
+ # berber_religion_desc: "Die alte Kultur und Religion war ein Schmelztiegel traditioneller ägyptischer Überzeugungen, Sternanbetung und Ahnenverehrung. Es gibt noch viele Megalithen - Steinkonstrukte, die zu Ehren der Götter errichtet wurden -, die über die afrikanische Landschaft verstreut sind."
 
  berber_pagan: "Megalithismus"
  berber_pagan_adj: "Megalithisch"

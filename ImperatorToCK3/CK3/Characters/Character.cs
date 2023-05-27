@@ -161,6 +161,7 @@ public class Character : IIdentifiable<string> {
 		.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 		.WithSimpleField("government", "change_government", null)
 		.WithDiffField("traits", new OrderedSet<string> { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
+		.WithLiteralField("trait_xps", "add_trait_xp")
 		.WithSimpleField("disallow_random_traits", new OrderedSet<string> {"disallow_random_traits"}, new OrderedSet<string>())
 		.WithDiffField("perks", new OrderedSet<string> {"add_perk"}, new OrderedSet<string>())
 		.WithSimpleField("dna", "dna", null)
@@ -183,6 +184,7 @@ public class Character : IIdentifiable<string> {
 		.WithSimpleField("move_to_pool", "move_to_pool", null)
 		.WithDiffField("claims", new OrderedSet<string> {"add_pressed_claim", "add_unpressed_claim"}, new OrderedSet<string> {"remove_claim"})
 		.WithLiteralField("friends", "set_relation_friend")
+		.WithLiteralField("best_friends", "set_relation_best_friend")
 		.WithLiteralField("lovers", "set_relation_lover")
 		.WithLiteralField("rivals", "set_relation_rival")
 		.WithLiteralField("nemesis", "set_relation_nemesis")
@@ -324,7 +326,7 @@ public class Character : IIdentifiable<string> {
 		}
 
 		Female = ImperatorCharacter.Female;
-			
+		
 		if (ImperatorCharacter.PortraitData is not null) {
 			DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
 		}

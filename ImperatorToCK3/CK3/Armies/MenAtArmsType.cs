@@ -1,13 +1,14 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Characters;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ImperatorToCK3.CK3.Armies;
 
-public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
+[SerializationByProperties]
+public partial class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 
 	[SerializedName("can_recruit")] public StringOfItem CanRecruit { get; private set; } = new("{}");
@@ -17,7 +18,7 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
 	[SerializedName("high_maintenance_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
 
-	[NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
+	[SerializeOnlyValue] private Dictionary<string, StringOfItem> Attributes { get; } = new();
 	[NonSerialized] public bool ToBeOutputted { get; } = false;
 
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
@@ -30,7 +31,7 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		parser.RegisterKeyword("low_maintenance_cost", costReader => LowMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("high_maintenance_cost", costReader => HighMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
-			attributes[keyword] = reader.GetStringOfItem();
+			Attributes[keyword] = reader.GetStringOfItem();
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(typeReader);
@@ -57,21 +58,11 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 			HighMaintenanceCost = baseType.HighMaintenanceCost * stackRatio;
 		}
 
-		attributes = new Dictionary<string, StringOfItem>(baseType.attributes);
-		if (!baseType.attributes.ContainsKey("icon")) {
-			attributes["icon"] = new StringOfItem(baseType.Id);
+		Attributes = new Dictionary<string, StringOfItem>(baseType.Attributes);
+		if (!baseType.Attributes.ContainsKey("icon")) {
+			Attributes["icon"] = new StringOfItem(baseType.Id);
 		}
 
-		attributes["ai_quality"] = new StringOfItem("{ value=1 }");
-	}
-
-	public string Serialize(string indent, bool withBraces) {
-		var sb = new StringBuilder();
-		sb.AppendLine("{");
-		sb.Append((this as IPDXSerializable).SerializeMembers(indent + '\t'));
-		sb.Append('\t').AppendLine(PDXSerializer.Serialize(attributes, indent + '\t', withBraces: false));
-		sb.AppendLine("}");
-
-		return sb.ToString();
+		Attributes["ai_quality"] = new StringOfItem("{ value=1 }");
 	}
 }
