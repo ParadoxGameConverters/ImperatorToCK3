@@ -329,10 +329,11 @@ link = { ck3=thracian imp=thracian }
 link = { ck3 = iberian imp = turdulian imp = couneian imp = turdetanian imp = ausetanian imp = indiketian imp = lacetanian imp = edetanian imp = oretanian imp = contestanian imp = bastetanian imp = ilercavonian }
 
 ## Illyrian
-link = { ck3 = albanian impRegion = macedonia_region impRegion = greece_region impRegion = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 imp = taulantian imp = dardanian imp = messapian imp = deurian imp = deraemestian imp = catari imp = liburnian_culture imp = histrian imp = abrian imp = greco_illyrian }
-link = { ck3 = dalmatian imp = taulantian imp = dardanian imp = messapian imp = deurian imp = deraemestian imp = catari imp = liburnian_culture imp = histrian imp = abrian imp = greco_illyrian }
-# Invictus mod
-link = { ck3 = dalmatian imp = iapodian }
+# liburnian is depracated, liburnian_culture is used
+# iapodian is from Invictus mod
+@illyrian_cultures = "imp=taulantian imp=dardanian imp=messapian imp=deurian imp=deraemestian imp=catari imp=liburnian imp=liburnian_culture imp=histrian imp=abrian imp=greco_illyrian imp=iapodian"
+link = { ck3 = albanian @illyrian_cultures impRegion = macedonia_region impRegion = greece_region impRegion = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 }
+link = { ck3 = dalmatian @illyrian_cultures }
 
 ## Indian
 link = { ck3 = kannada imp = kannadan }
