@@ -143,6 +143,21 @@ public class World {
 		// Use the region mappers in other mappers
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
+		// Check if all I:R religions have a base mapping.
+		foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
+			var baseMapping = religionMapper.Match(irReligionId, null, null, null, config);
+			if (baseMapping is null) {
+				Logger.Warn($"No base mapping found for I:R religion {irReligionId}!");
+			}
+		}
+		// Check if all I:R cultures have a base mapping.
+		var irCultureIds = impWorld.CulturesDB.SelectMany(g => g.Select(c => c.Id));
+		foreach (var irCultureId in irCultureIds) {
+			var baseMapping = cultureMapper.Match(irCultureId, null, null, null, null);
+			if (baseMapping is null) {
+				Logger.Warn($"No base mapping found for I:R culture {irCultureId}!");
+			}
+		}
 
 		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
