@@ -506,3 +506,9 @@ link = { ck3=shan imp=shan }
 # Simple Timeline Extender mod
 link = { ck3 = hunnic imp = hunnic }
 link = { ck3 = hunnic imp = huna }
+
+# Meme revivalist Neo-Mitanni culture from Invictus
+link = {
+	ck3 = neo_mitanni
+	imp = mitanni
+}
