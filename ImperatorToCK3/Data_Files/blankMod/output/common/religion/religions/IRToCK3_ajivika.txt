@@ -1,0 +1,85 @@
+﻿ajivika_religion = {
+	family = rf_eastern
+	graphical_faith = dharmic_gfx
+	doctrine = eastern_hostility_doctrine
+
+	# TODO: finish this religion
+
+	faiths = {
+		makkhalist = { # Makkhalism (North East India / Pracyan Group)
+			# Tenets
+			# 	Asceticism
+			# 	Dharmic Pacifism
+			# 	Inner Journey
+			# Gender Views
+			# 	Male dominated
+			# Religious Attitude
+			# 	Fundamentalist or Righteous
+			# Clerical tradition
+			# 	Lay Clergy
+			# Head of Faith
+			# 	None
+			# Naked Priests
+			# 	Yes
+			# Marriage
+			# 	Poly
+			# Divorce
+			# 	Always
+			# Bastardy
+			# 	Legit
+			# Incest
+			# 	Avunculate
+		}
+
+		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
+			# __Nandanism__ (North West India / Indo-Aryan Group)
+			# *Tenets*
+			# - Asceticism
+			# - Esotericism
+			# - Monasticism
+			# *Gender Views*
+			# - Male dominated
+			# *Religious Attitude*
+			# - Fundamentalist or Righteous
+			# *Clerical Tradition*
+			# - Lay Clergy
+			# *Head of Faith*
+			# - None
+			# *Naked Priests*
+			# - Yes
+			# *Marriage*
+			# - Poly
+			# *Divorce*
+			# - Always
+			# *Bastardy*
+			# - Legit
+			# *Incest*
+			# - Avunculate
+		}
+
+		puranist = {  # Puranism (South India / Dravidian Group)
+			# *Tenets*
+			# - Asceticism
+			# - Native Primitivism
+			# - Ritual Hospitality/Puja
+			# *Gender Views*
+			# - Equal
+			# *Religious Attitude*
+			# - Righteous
+			# *Clerical Tradition*
+			# - Theocratic
+			# *Head of Faith*
+			# - None
+			# *Naked Priests*
+			# - Yes
+			# *Marriage*
+			# - Poly
+			# *Divorce*
+			# - Always
+			# *Bastardy*
+			# - Legit
+			# *Incest*
+			# - Avunculate
+		}
+	}
+}
