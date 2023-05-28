@@ -9,8 +9,8 @@
 #	ck3Region = ck3Region (optional)
 #	historicalTag = <Imperator historical tag> (optional)
 #	heresiesInHistoricalAreas = yes/no (optional)
-#}
-# multiple entries allowed for: ir, irProvince, ck3Province, impRegion, ck3Region, historicalTag
+# }
+# multiple entries allowed for: ir, ck3Culture, irProvince, ck3Province, impRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
 # Variables:
