@@ -126,12 +126,14 @@ link = { ck3 = svetambara ir = jainism ck3Province = 1169 ck3Province = 1301 ck3
 link = { ck3 = yapaniya ir = jainism ck3Province = 1118 ck3Province = 1196 ck3Province = 1197 ck3Province = 1210 ck3Province = 1216 ck3Province = 1217 ck3Province = 7847 ck3Province = 7848 ck3Province = 7863 ck3Province = 7864 ck3Province = 7865 ck3Province = 7866 ck3Province = 7867 ck3Province = 1112 ck3Province = 1119 ck3Province = 1200 ck3Province = 7809 ck3Province = 7810 ck3Province = 7811 ck3Province = 7812 ck3Province = 7813 ck3Province = 7824 ck3Province = 7826 ck3Province = 7827 ck3Province = 1211 ck3Province = 7902 ck3Province = 7905 ck3Province = 1124 ck3Province = 7791 ck3Province = 7792 ck3Province = 7793 ck3Province = 7794 ck3Province = 7795 }
 link = { ck3 = digambara ir = jainism }
 
-# Ajivika
-link = { # temporary mapping, TODO: ajivika should be a separate religion
-	ck3 = yapaniya
-	# Invictus mod
-	ir = ajivika
-}
+# Ajivika from Invictus mod
+@ajivika_splitup_pracyan = "ck3Culture=oriya ck3Culture=assamese ck3Culture=bengali ck3Culture=nepali"
+@ajivika_splitup_indo_aryan = "ck3Culture=marathi ck3Culture=gujarati ck3Culture=sinhala ck3Culture=punjabi ck3Culture=hindustani ck3Culture=rajput ck3Culture=sindhi ck3Culture=kashmiri"
+@ajivika_splitup_dravidian = "ck3Culture=kannada ck3Culture=tamil ck3Culture=telugu"
+link = { ck3 = makkhalist ir = ajivika @ajivika_splitup_pracyan }
+link = { ck3 = nandanist ir = ajivika @ajivika_splitup_indo_aryan }
+link = { ck3 = puranist ir = ajivika @ajivika_splitup_dravidian }
+link = { ck3 = makkhalist ir = ajivika }
 
 # MODS (for future mods)
 link = { ck3 = tengri_pagan ir = tengri_pagan }
