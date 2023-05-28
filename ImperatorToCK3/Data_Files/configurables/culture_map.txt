@@ -11,7 +11,7 @@
 #	ck3Province = <CK3 province> (optional)
 #	impRegion = <Imperator region> (optional)
 #	ck3Region = <CK3 region> (optional)
-#}
+# }
 # multiple entries allowed for: ir, irProvince, ck3Province, impRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
