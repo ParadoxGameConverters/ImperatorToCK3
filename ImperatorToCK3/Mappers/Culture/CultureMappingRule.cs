@@ -13,7 +13,6 @@ public class CultureMappingRule {
 
 	public string? Match(
 		string irCulture,
-		string? ck3Religion,
 		ulong? ck3ProvinceId,
 		ulong? irProvinceId,
 		string? historicalTag,
@@ -31,12 +30,6 @@ public class CultureMappingRule {
 
 		if (irHistoricalTags.Count > 0) {
 			if (string.IsNullOrEmpty(historicalTag) || !irHistoricalTags.Contains(historicalTag)) {
-				return null;
-			}
-		}
-
-		if (religions.Count > 0) {
-			if (string.IsNullOrEmpty(ck3Religion) || !religions.Contains(ck3Religion)) { // (CK3 religion empty) or (CK3 religion not empty but not found in religions)
 				return null;
 			}
 		}
@@ -87,28 +80,9 @@ public class CultureMappingRule {
 
 		return null;
 	}
-	public string? NonReligiousMatch(
-		string impCulture,
-		string? ck3Religion,
-		ulong? ck3ProvinceId,
-		ulong? impProvinceId,
-		string? historicalTag,
-		ImperatorRegionMapper irRegionMapper,
-		CK3RegionMapper ck3RegionMapper
-	) {
-		// This is a non religious match. We need a mapping without any religion, so if the
-		// mapping rule has any religious qualifiers it needs to fail.
-		if (religions.Count > 0) {
-			return null;
-		}
-
-		// Otherwise, as usual.
-		return Match(impCulture, ck3Religion, ck3ProvinceId, impProvinceId, historicalTag, irRegionMapper, ck3RegionMapper);
-	}
 
 	private string destinationCulture = string.Empty;
 	private readonly SortedSet<string> cultures = new();
-	private readonly SortedSet<string> religions = new();
 	private readonly SortedSet<string> irHistoricalTags = new();
 	private readonly SortedSet<ulong> irProvinces = new();
 	private readonly SortedSet<ulong> ck3Provinces = new();
@@ -117,13 +91,12 @@ public class CultureMappingRule {
 
 	static CultureMappingRule() {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.destinationCulture = reader.GetString());
-		parser.RegisterKeyword("imp", reader => mappingToReturn.cultures.Add(reader.GetString()));
-		parser.RegisterKeyword("religion", reader => mappingToReturn.religions.Add(reader.GetString()));
+		parser.RegisterKeyword("ir", reader => mappingToReturn.cultures.Add(reader.GetString()));
 		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
 		parser.RegisterKeyword("impRegion", reader => mappingToReturn.irRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
-		parser.RegisterKeyword("impProvince", reader => mappingToReturn.irProvinces.Add(reader.GetULong()));
+		parser.RegisterKeyword("irProvince", reader => mappingToReturn.irProvinces.Add(reader.GetULong()));
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
 			var variableValue = reader.ResolveVariable(variableName).ToString() ?? string.Empty;
 			var variableReader = new BufferedReader(variableValue);
