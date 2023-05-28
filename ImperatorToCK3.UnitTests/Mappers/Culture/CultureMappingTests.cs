@@ -32,11 +32,11 @@ public class CultureMappingTests {
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
-			"ck3 = dutch imp = german ck3Region = test_region1"
+			"ck3 = dutch ir = german ck3Region = test_region1"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Equal("dutch", theMapping.Match("german", null, 4, null, null, irRegionMapper, ck3RegionMapper));
+		Assert.Equal("dutch", theMapping.Match("german",  4, null, null, irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -54,11 +54,11 @@ public class CultureMappingTests {
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
-			"ck3 = dutch imp = german ck3Region = test_region2"
+			"ck3 = dutch ir = german ck3Region = test_region2"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", null, 79, null, null, irRegionMapper, ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", 79, null, null, irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -73,11 +73,11 @@ public class CultureMappingTests {
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
-			"ck3 = dutch imp = german ck3Region = test_region3"
+			"ck3 = dutch ir = german ck3Region = test_region3"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", null, 17, null, null, irRegionMapper, ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", 17, null, null, irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -94,10 +94,10 @@ public class CultureMappingTests {
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
 		var reader = new BufferedReader(
-			"ck3 = dutch imp = german ck3Region = d_hujhu"
+			"ck3 = dutch ir = german ck3Region = d_hujhu"
 		);
 		var theMapping = CultureMappingRule.Parse(reader);
 
-		Assert.Null(theMapping.Match("german", null, null, null, null, irRegionMapper, ck3RegionMapper));
+		Assert.Null(theMapping.Match("german", null, null, null, irRegionMapper, ck3RegionMapper));
 	}
 }
