@@ -8,7 +8,7 @@
 #	ck3Region = ck3Region (optional)
 #	historicalTag = <Imperator historical tag> (optional)
 #	heresiesInHistoricalAreas = yes/no (optional)
-#}
+# }
 # multiple entries allowed for: imp, impProvince, ck3Province, impRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
@@ -21,8 +21,8 @@
 # link = { ck3=delgae imp=sennonian imp=bellovacian imp=veliocassian imp=morinian impProvince=2 }
 # Use:
 # @germ_religions = "imp=sennonian imp=bellovacian imp=veliocassian imp=morinian" # don't forget the quotes
-# link = { ck3=belgae @germ_religions impProvince=1}
-# link = { ck3=delgae @germ_religions impProvince=2}
+# link = { ck3=belgae @germ_religions impProvince=1 }
+# link = { ck3=delgae @germ_religions impProvince=2 }
 
 ## Pagan
 link = { ck3 = kushitism_pagan imp = egyptian_pantheon impRegion = nubia_region impRegion = punt_region }
