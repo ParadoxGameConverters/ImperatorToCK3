@@ -32,29 +32,12 @@ public class CultureMapper {
 	}
 	public string? Match(
 		string irCulture,
-		string? ck3Religion,
 		ulong? ck3ProvinceId,
 		ulong? irProvinceId,
 		string? historicalTag
 	) {
 		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.Match(irCulture, ck3Religion, ck3ProvinceId, irProvinceId, historicalTag, irRegionMapper, ck3RegionMapper);
-			if (possibleMatch is not null) {
-				return possibleMatch;
-			}
-		}
-		return null;
-	}
-
-	public string? NonReligiousMatch(
-		string irCulture,
-		string? ck3Religion,
-		ulong? ck3ProvinceId,
-		ulong? irProvinceId,
-		string? historicalTag
-	) {
-		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.NonReligiousMatch(irCulture, ck3Religion, ck3ProvinceId, irProvinceId, historicalTag, irRegionMapper, ck3RegionMapper);
+			var possibleMatch = cultureMappingRule.Match(irCulture, ck3ProvinceId, irProvinceId, historicalTag, irRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}

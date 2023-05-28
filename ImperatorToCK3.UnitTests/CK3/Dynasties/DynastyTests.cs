@@ -170,7 +170,7 @@ public class DynastyTests {
 
 		var cultureMapper = new CultureMapper(
 			new BufferedReader(
-				"link={imp=roman ck3=not_gypsy} link={imp=akan ck3=akan} link={imp=parthian ck3=parthian}"
+				"link={ir=roman ck3=not_gypsy} link={ir=akan ck3=akan} link={ir=parthian ck3=parthian}"
 			),
 			irRegionMapper,
 			new CK3RegionMapper()
