@@ -11,75 +11,89 @@
 			# 	Asceticism
 			# 	Dharmic Pacifism
 			# 	Inner Journey
+			doctrine = tenet_asceticism
+			doctrine = tenet_dharmic_pacifism
+			doctrine = tenet_inner_journey
+
 			# Gender Views
 			# 	Male dominated
+			doctrine = doctrine_gender_male_dominated
+
 			# Religious Attitude
 			# 	Fundamentalist or Righteous
+			doctrine = doctrine_pluralism_fundamentalist
+
 			# Clerical tradition
 			# 	Lay Clergy
+			doctrine = doctrine_theocracy_lay_clergy
+
 			# Head of Faith
 			# 	None
+			doctrine = doctrine_no_head
+
 			# Naked Priests
 			# 	Yes
+			doctrine = special_doctrine_naked_priests
+
 			# Marriage
-			# 	Poly
+			# 	TODO: Poly
 			# Divorce
-			# 	Always
+			# 	TODO: Always
 			# Bastardy
-			# 	Legit
+			# 	TODO: Legit
 			# Incest
-			# 	Avunculate
+			# 	TODO: Avunculate
 		}
 
 		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
 			# __Nandanism__ (North West India / Indo-Aryan Group)
 			# *Tenets*
-			# - Asceticism
-			# - Esotericism
-			# - Monasticism
+			# - TODO: Asceticism
+			# - TODO: Esotericism
+			# - TODO: Monasticism
 			# *Gender Views*
-			# - Male dominated
+			# - TODO: Male dominated
 			# *Religious Attitude*
-			# - Fundamentalist or Righteous
+			# - TODO: Fundamentalist or Righteous
 			# *Clerical Tradition*
-			# - Lay Clergy
+			# - TODO: Lay Clergy
 			# *Head of Faith*
-			# - None
+			# - TODO: None
 			# *Naked Priests*
-			# - Yes
+			# - TODO: Yes
 			# *Marriage*
-			# - Poly
+			# - TODO: Poly
 			# *Divorce*
-			# - Always
+			# - TODO: Always
 			# *Bastardy*
-			# - Legit
+			# - TODO: Legit
 			# *Incest*
-			# - Avunculate
+			# - TODO: Avunculate
 		}
 
 		puranist = {  # Puranism (South India / Dravidian Group)
 			# *Tenets*
-			# - Asceticism
-			# - Native Primitivism
-			# - Ritual Hospitality/Puja
+			# - TODO: Asceticism
+			# - TODO: Native Primitivism
+			# - TODO: Ritual Hospitality/Puja
 			# *Gender Views*
-			# - Equal
+			# - TODO: Equal
 			# *Religious Attitude*
-			# - Righteous
+			# - TODO: Righteous
 			# *Clerical Tradition*
-			# - Theocratic
+			# - TODO: Theocratic
 			# *Head of Faith*
-			# - None
+			# - TODO: None
 			# *Naked Priests*
-			# - Yes
+			# - TODO: Yes
 			# *Marriage*
-			# - Poly
+			# - TODO: Poly
 			# *Divorce*
-			# - Always
+			# - TODO: Always
 			# *Bastardy*
-			# - Legit
+			# - TODO: Legit
 			# *Incest*
-			# - Avunculate
+			# - TODO: Avunculate
 		}
 	}
 }
