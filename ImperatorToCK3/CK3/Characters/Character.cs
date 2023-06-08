@@ -129,8 +129,9 @@ public class Character : IIdentifiable<string> {
 			// Modify the last entry in the history to include the death reason.
 			var entriesList = entriesDict.First().Value;
 			var lastEntry = entriesList.Last();
-			var newEntry = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem($"{{ death_reason = {value} }}"));
-			entriesList[^1] = newEntry;
+			// No reason provided.
+			var deathStr = value is null ? "yes" : $"{{ death_reason = {value} }}";
+			entriesList[^1] = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem(deathStr));
 		}
 	}
 
