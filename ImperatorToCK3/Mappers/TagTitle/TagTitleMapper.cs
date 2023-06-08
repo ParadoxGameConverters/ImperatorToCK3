@@ -214,5 +214,5 @@ public class TagTitleMapper {
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 	private readonly SortedSet<string> usedTitles = new();
 
-	private const string GeneratedCK3TitlePrefix = "IMPTOCK3_";
+	private const string GeneratedCK3TitlePrefix = "IRTOCK3_";
 }
