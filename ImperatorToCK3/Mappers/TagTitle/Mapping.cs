@@ -22,7 +22,7 @@ public class Mapping {
 	private static Mapping mappingToReturn = new();
 	static Mapping() {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.ck3Title = reader.GetString());
-		parser.RegisterKeyword("imp", reader => mappingToReturn.imperatorTagOrRegion = reader.GetString());
+		parser.RegisterKeyword("ir", reader => mappingToReturn.imperatorTagOrRegion = reader.GetString());
 		parser.RegisterKeyword("rank", reader => mappingToReturn.ranks.Add(reader.GetString()));
 		parser.IgnoreAndLogUnregisteredItems();
 	}

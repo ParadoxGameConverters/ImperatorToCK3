@@ -65,7 +65,7 @@ public class CoatOfArmsOutputterTests {
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
-		Assert.Equal("d_IMPTOCK3_ADI={", reader.ReadLine());
+		Assert.Equal("d_IRTOCK3_ADI={", reader.ReadLine());
 		Assert.Equal("\tpattern=\"pattern_solid.tga\"", reader.ReadLine());
 		Assert.Equal("\tcolor1=red color2=green color3=blue", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
