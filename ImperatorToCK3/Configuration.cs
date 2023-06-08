@@ -105,10 +105,10 @@ public class Configuration {
 				RiseOfIslam = Convert.ToInt32(valueString) == 2;
 				Logger.Info($"{nameof(RiseOfIslam)} set to: {RiseOfIslam}");
 
-				if (RiseOfIslam) {
+				/* if (RiseOfIslam) {
 					Logger.Warn("The Rise of Islam option is disabled until it's updated for CK3 1.9");
 					RiseOfIslam = false;
-				}
+				} */
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(RiseOfIslam)} value was: {valueString}; Error message: {e}");
 			}
