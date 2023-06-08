@@ -7,7 +7,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 public class MappingTests {
 	[Fact]
 	public void SimpleTagMatch() {
-		var reader = new BufferedReader("{ ck3 = e_roman_empire imp = ROM }");
+		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
 		var mapping = Mapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", "");
 
@@ -16,7 +16,7 @@ public class MappingTests {
 
 	[Fact]
 	public void SimpleTagMatchFailsOnWrongTag() {
-		var reader = new BufferedReader("{ ck3 = e_roman_empire imp = REM }");
+		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = REM }");
 		var mapping = Mapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", "");
 
@@ -34,7 +34,7 @@ public class MappingTests {
 
 	[Fact]
 	public void TagRankMatch() {
-		var reader = new BufferedReader("{ ck3 = e_roman_empire imp = ROM rank = e }");
+		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = e }");
 		var mapping = Mapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", "e");
 
@@ -43,7 +43,7 @@ public class MappingTests {
 
 	[Fact]
 	public void TagRankMatchFailsOnWrongRank() {
-		var reader = new BufferedReader("{ ck3 = e_roman_empire imp = ROM rank = k }");
+		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = k }");
 		var mapping = Mapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", "e");
 
@@ -52,7 +52,7 @@ public class MappingTests {
 
 	[Fact]
 	public void TagRankMatchSucceedsOnNoRank() {
-		var reader = new BufferedReader("{ ck3 = e_roman_empire imp = ROM }");
+		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
 		var mapping = Mapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", "e");
 

@@ -418,6 +418,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
 	) {
+		if (Id == "d_latium") { // TODO: remove this
+			Logger.Debug($"Initializing d_latium from {country.Tag} governorship of {governorship.RegionName}...");
+		}
+		
 		var governorshipStartDate = governorship.StartDate;
 
 		if (country.CK3Title is null) {
@@ -598,7 +602,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			nameLocBlock.CopyFrom(regionLocBlock);
 			nameSet = true;
 		}
-		if (!nameSet && Id.Contains("_IMPTOCK3_")) {
+		if (!nameSet && Id.Contains("_IRTOCK3_")) {
 			Logger.Warn($"{Id} needs help with localization!");
 		}
 	}

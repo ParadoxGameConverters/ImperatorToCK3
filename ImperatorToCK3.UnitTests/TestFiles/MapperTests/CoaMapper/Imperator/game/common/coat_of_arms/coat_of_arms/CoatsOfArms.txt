@@ -1,4 +1,4 @@
-e_IMPTOCK3_ADI= {
+e_IRTOCK3_ADI= {
     pattern="pattern_solid.tga"
     color1=ck2_green    color2=bone_white   color3=pitch_black  colored_emblem={
         color1=bone_white       color2=ck2_blue     texture="ce_lamassu_01.dds"
@@ -27,7 +27,7 @@ e_IMPTOCK3_ADI= {
         }
     }
 }
-e_IMPTOCK3_AMK = {
+e_IRTOCK3_AMK = {
 	pattern ="pattern_solid.tga"
 	color1 ="dark_green"
 	color2 ="offwhite"
@@ -53,7 +53,7 @@ e_IMPTOCK3_AMK = {
 		}
 	}
 }
-e_IMPTOCK3_ANG = {
+e_IRTOCK3_ANG = {
 	pattern ="pattern_solid.tga"
 	color1="offwhite"
 	color2="phrygia_red"
