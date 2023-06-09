@@ -535,18 +535,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		irRegionMapper.Regions.TryGetValue(regionId, out var region);
 		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
 
-		// If any area in the region is at least 75% owned, use the area name for governorship name.
+		// If any area in the region is at least 60% owned, use the area name for governorship name.
 		if (regionHasMultipleGovernorships && region is not null) {
 			Area? potentialSourceArea = null;
 			float biggestOwnershipPercentage = 0f;
 			foreach (var area in region.Areas) {
-				var provinces = area.Provinces;
-				if (provinces.Count == 0) {
+				var areaProvinces = area.Provinces;
+				if (areaProvinces.Count == 0) {
 					continue;
 				}
-				var controlledProvinces = irProvinces.Where(p => country.Equals(p.OwnerCountry));
-				var ownershipPercentage = (float)controlledProvinces.Count() / provinces.Count;
-				if (ownershipPercentage < 0.75) {
+				var controlledProvinces = areaProvinces.Where(p => country.Equals(p.OwnerCountry));
+				var ownershipPercentage = (float)controlledProvinces.Count() / areaProvinces.Count;
+				if (ownershipPercentage < 0.6) {
 					continue;
 				}
 				if (ownershipPercentage > biggestOwnershipPercentage) {
@@ -556,7 +556,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 
 			if (potentialSourceArea is not null && locDB.TryGetValue(potentialSourceArea.Id, out var areaLocBlock)) {
-				Logger.Debug($"Naming {Id} after I:R area {potentialSourceArea.Id} majorly controlled by {country.Tag}...");
+				Logger.Debug($"Naming {Id} after I:R area {potentialSourceArea.Id} majorly ({biggestOwnershipPercentage:P}) controlled by {country.Tag}...");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(areaLocBlock);
 				nameSet = true;
