@@ -535,7 +535,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		irRegionMapper.Regions.TryGetValue(regionId, out var region);
 		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
 
-		// If any area in the region is at least 75% owned, use the area name for governorship name.
+		// If any area in the region is at least 60% owned, use the area name for governorship name.
 		if (regionHasMultipleGovernorships && region is not null) {
 			Area? potentialSourceArea = null;
 			float biggestOwnershipPercentage = 0f;
@@ -546,7 +546,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 				var controlledProvinces = areaProvinces.Where(p => country.Equals(p.OwnerCountry));
 				var ownershipPercentage = (float)controlledProvinces.Count() / areaProvinces.Count;
-				if (ownershipPercentage < 0.75) {
+				if (ownershipPercentage < 0.6) {
 					continue;
 				}
 				if (ownershipPercentage > biggestOwnershipPercentage) {
