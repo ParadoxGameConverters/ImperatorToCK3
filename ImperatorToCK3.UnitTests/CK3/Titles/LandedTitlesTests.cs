@@ -289,7 +289,7 @@ public class LandedTitlesTests {
 			title => Assert.Equal("b_barony2", title.Id),
 			title => Assert.Equal("c_county3", title.Id),
 			title => Assert.Equal("b_barony3", title.Id),
-			title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
+			title => Assert.Equal("d_IRTOCK3_PRY", title.Id)
 		);
 
 		var provinces = new ProvinceCollection(ck3ModFS);
@@ -304,7 +304,7 @@ public class LandedTitlesTests {
 			title => Assert.Equal("b_barony2", title.Id),
 			title => Assert.Equal("c_county3", title.Id),
 			title => Assert.Equal("b_barony3", title.Id),
-			title => Assert.Equal("d_IMPTOCK3_PRY", title.Id)
+			title => Assert.Equal("d_IRTOCK3_PRY", title.Id)
 		// Governorship is not added as a new title.
 		);
 		Assert.Collection(countyLevelGovernorships,

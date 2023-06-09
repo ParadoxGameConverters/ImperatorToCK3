@@ -457,7 +457,7 @@ public class TitleTests {
 		var title = builder
 			.WithCountry(country)
 			.BuildFromTag();
-		Assert.Equal("d_IMPTOCK3_HRE", title.Id);
+		Assert.Equal("d_IRTOCK3_HRE", title.Id);
 	}
 
 	[Fact]

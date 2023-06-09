@@ -810,7 +810,7 @@ public partial class Title {
 			titlesHistoryParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			Logger.Info("Parsing title history...");
-			titlesHistoryParser.ParseGameFolder("history/titles", ck3ModFS, "txt", true);
+			titlesHistoryParser.ParseGameFolder("history/titles", ck3ModFS, "txt", true, true);
 			Logger.Info($"Loaded {loadedHistoriesCount} title histories.");
 
 			// Add vanilla development to counties

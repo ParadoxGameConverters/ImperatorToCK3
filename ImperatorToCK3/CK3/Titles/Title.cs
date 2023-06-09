@@ -535,18 +535,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		irRegionMapper.Regions.TryGetValue(regionId, out var region);
 		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
 
-		// If any area in the region is at least 75% owned, use the area name for governorship name.
+		// If any area in the region is at least 60% owned, use the area name for governorship name.
 		if (regionHasMultipleGovernorships && region is not null) {
 			Area? potentialSourceArea = null;
 			float biggestOwnershipPercentage = 0f;
 			foreach (var area in region.Areas) {
-				var provinces = area.Provinces;
-				if (provinces.Count == 0) {
+				var areaProvinces = area.Provinces;
+				if (areaProvinces.Count == 0) {
 					continue;
 				}
-				var controlledProvinces = irProvinces.Where(p => country.Equals(p.OwnerCountry));
-				var ownershipPercentage = (float)provinces.Count / controlledProvinces.Count();
-				if (ownershipPercentage < 0.75) {
+				var controlledProvinces = areaProvinces.Where(p => country.Equals(p.OwnerCountry));
+				var ownershipPercentage = (float)controlledProvinces.Count() / areaProvinces.Count;
+				if (ownershipPercentage < 0.6) {
 					continue;
 				}
 				if (ownershipPercentage > biggestOwnershipPercentage) {
@@ -556,6 +556,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 
 			if (potentialSourceArea is not null && locDB.TryGetValue(potentialSourceArea.Id, out var areaLocBlock)) {
+				Logger.Debug($"Naming {Id} after I:R area {potentialSourceArea.Id} majorly ({biggestOwnershipPercentage:P}) controlled by {country.Tag}...");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(areaLocBlock);
 				nameSet = true;
@@ -571,6 +572,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				.Where(p => region.ContainsProvince(p.Id) && country.Equals(p.OwnerCountry))
 				.MaxBy(p => p.CivilizationValue);
 			if (sourceProvince is not null && locDB.TryGetValue(sourceProvince.Name, out var provinceLocBlock)) {
+				Logger.Debug($"Naming {Id} after most developed I:R territory: {sourceProvince.Id}...");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(provinceLocBlock);
 				nameSet = true;
@@ -585,6 +587,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!nameSet && regionHasMultipleGovernorships && regionLocBlock is not null) {
 			var ck3Country = country.CK3Title;
 			if (ck3Country is not null && ck3Country.Localizations.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
+				Logger.Debug($"Naming {Id} after governorship with country adjective: {country.Tag} {governorship.RegionName}...");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(regionLocBlock);
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
@@ -594,11 +597,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 		if (!nameSet && regionLocBlock is not null) {
+			Logger.Debug($"Naming {Id} after governorship: {governorship.RegionName}...");
 			var nameLocBlock = Localizations.AddLocBlock(Id);
 			nameLocBlock.CopyFrom(regionLocBlock);
 			nameSet = true;
 		}
-		if (!nameSet && Id.Contains("_IMPTOCK3_")) {
+		if (!nameSet && Id.Contains("_IRTOCK3_")) {
 			Logger.Warn($"{Id} needs help with localization!");
 		}
 	}

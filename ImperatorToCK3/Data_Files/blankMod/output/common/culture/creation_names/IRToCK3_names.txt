@@ -6,19 +6,15 @@
 			}
 		}
 		any_sub_realm_county = {
-			culture = {
-				OR = {
-					culture = culture:gothic
-					any_parent_culture_or_above = { this = culture:gothic }
-				}
+			OR = {
+				culture = culture:gothic
+				culture = { any_parent_culture_or_above = { this = culture:gothic } }
 			}
 			duchy = title:d_crimea
 		}
-		scope:culture = {
-			OR = {
-				culture = culture:gothic
-				any_parent_culture_or_above = { this = culture:gothic }
-			}
+		OR = {
+			culture = culture:gothic
+			culture = { any_parent_culture_or_above = { this = culture:gothic } }
 		}
 	}
 }
@@ -35,11 +31,9 @@ thracian_gothic = { # https://en.wikipedia.org/wiki/Thracian_Goths
 			}
 		}
 		any_sub_realm_county = {
-			culture = {
-				OR = {
-					culture = culture:gothic
-					any_parent_culture_or_above = { this = culture:gothic }
-				}
+			OR = {
+				culture = culture:gothic
+				culture = { any_parent_culture_or_above = { this = culture:gothic } }
 			}
 			OR = {
 				target_is_de_jure_liege_or_above = title:d_turnovo
@@ -49,11 +43,9 @@ thracian_gothic = { # https://en.wikipedia.org/wiki/Thracian_Goths
 				target_is_de_jure_liege_or_above = title:d_strymon
 			}
 		}
-		scope:culture = {
-			OR = {
-				culture = culture:gothic
-				any_parent_culture_or_above = { this = culture:gothic }
-			}
+		OR = {
+			culture = culture:gothic
+			culture = { any_parent_culture_or_above = { this = culture:gothic } }
 		}
 	}
 }
@@ -67,19 +59,15 @@ pmpese = { # Carthaginian divergence in Sardinia, name based on PMP tag from Imp
 			}
 		}
 		any_sub_realm_county = {
-			culture = {
-				OR = {
-					culture = culture:carthaginian
-					any_parent_culture_or_above = { this = culture:carthaginian }
-				}
+			OR = {
+				culture = culture:carthaginian
+				culture = { any_parent_culture_or_above = { this = culture:carthaginian } }
 			}
 			duchy = title:d_sardinia
 		}
-		scope:culture = {
-			OR = {
-				culture = culture:carthaginian
-				any_parent_culture_or_above = { this = culture:carthaginian }
-			}
+		OR = {
+			culture = culture:carthaginian
+			culture = { any_parent_culture_or_above = { this = culture:carthaginian } }
 		}
 	}
 }
@@ -91,21 +79,17 @@ taliaite = { # Carthaginian divergence in Italia, name based on ITA tag from Imp
 			geographical_region = ghw_region_italy
 		}
 		any_sub_realm_county = {
-			culture = {
-				OR = {
-					culture = culture:carthaginian
-					any_parent_culture_or_above = { this = culture:carthaginian }
-				}
+			OR = {
+				culture = culture:carthaginian
+				culture = { any_parent_culture_or_above = { this = culture:carthaginian } }
 			}
 			title_province = {
 				geographical_region = ghw_region_italy
 			}
 		}
-		scope:culture = {
-			OR = {
-				culture = culture:carthaginian
-				any_parent_culture_or_above = { this = culture:carthaginian }
-			}
+		OR = {
+			culture = culture:carthaginian
+			culture = { any_parent_culture_or_above = { this = culture:carthaginian } }
 		}
 	}
 }
@@ -119,22 +103,18 @@ salinatorian = { # a pun on the history of the Romans salting Carthage
 		}
 		# at least one county in Roman Africa must be Roman or descendant
 		any_sub_realm_county = {
-			culture = {
-				OR = {
-					culture = culture:roman
-					any_parent_culture_or_above = { this = culture:roman }
-				}
+			OR = {
+				culture = culture:roman
+				culture = { any_parent_culture_or_above = { this = culture:roman } }
 			}
 			title_province = {
 				geographical_region = custom_roman_africa
 			}
 		}
 		# culture must be Roman or descendant
-		scope:culture = {
-			OR = {
-				culture = culture:roman
-				any_parent_culture_or_above = { this = culture:roman }
-			}
+		OR = {
+			culture = culture:roman
+			culture = { any_parent_culture_or_above = { this = culture:roman } }
 		}
 		# Carthage must be a shithole
 		title:c_tunis = {

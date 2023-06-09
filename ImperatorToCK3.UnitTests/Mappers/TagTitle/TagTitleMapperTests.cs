@@ -107,8 +107,8 @@ public class TagTitleMapperTests {
 		}
 		var match2 = mapper.GetTitleForTag(dre, "Dre Empire");
 
-		Assert.Equal("k_IMPTOCK3_ROM", match);
-		Assert.Equal("e_IMPTOCK3_DRE", match2);
+		Assert.Equal("k_IRTOCK3_ROM", match);
+		Assert.Equal("e_IRTOCK3_DRE", match2);
 	}
 	[Fact]
 	public void TitleCanBeGeneratedFromGovernorship() {
@@ -145,8 +145,8 @@ public class TagTitleMapperTests {
 		var match = mapper.GetTitleForGovernorship(apuliaGov, impCountries[romeId], titles, provinces, irRegionMapper);
 		var match2 = mapper.GetTitleForGovernorship(pepeGov, impCountries[dreId], titles, provinces, irRegionMapper);
 
-		Assert.Equal("k_IMPTOCK3_ROM_apulia_region", match);
-		Assert.Equal("d_IMPTOCK3_DRE_pepe_region", match2);
+		Assert.Equal("k_IRTOCK3_ROM_apulia_region", match);
+		Assert.Equal("d_IRTOCK3_DRE_pepe_region", match2);
 	}
 
 	[Fact]

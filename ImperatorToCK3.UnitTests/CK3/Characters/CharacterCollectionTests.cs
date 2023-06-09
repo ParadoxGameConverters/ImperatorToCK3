@@ -329,7 +329,7 @@ public class CharacterCollectionTests {
 			coaMapper,
 			countryLevelGovernorships: new List<Governorship>());
 
-		var ck3Country = titles["e_IMPTOCK3_PRY"];
+		var ck3Country = titles["e_IRTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));
 
 		characters.DistributeCountriesGold(titles, config);
