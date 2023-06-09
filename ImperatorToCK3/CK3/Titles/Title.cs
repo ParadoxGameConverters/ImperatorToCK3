@@ -540,12 +540,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Area? potentialSourceArea = null;
 			float biggestOwnershipPercentage = 0f;
 			foreach (var area in region.Areas) {
-				var provinces = area.Provinces;
-				if (provinces.Count == 0) {
+				var areaProvinces = area.Provinces;
+				if (areaProvinces.Count == 0) {
 					continue;
 				}
-				var controlledProvinces = irProvinces.Where(p => country.Equals(p.OwnerCountry));
-				var ownershipPercentage = (float)controlledProvinces.Count() / provinces.Count;
+				var controlledProvinces = areaProvinces.Where(p => country.Equals(p.OwnerCountry));
+				var ownershipPercentage = (float)controlledProvinces.Count() / areaProvinces.Count;
 				if (ownershipPercentage < 0.75) {
 					continue;
 				}
@@ -556,7 +556,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 
 			if (potentialSourceArea is not null && locDB.TryGetValue(potentialSourceArea.Id, out var areaLocBlock)) {
-				Logger.Debug($"Naming {Id} after I:R area {potentialSourceArea.Id} majorly controlled by {country.Tag}...");
+				Logger.Debug($"Naming {Id} after I:R area {potentialSourceArea.Id} majorly ({biggestOwnershipPercentage:P}) controlled by {country.Tag}...");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(areaLocBlock);
 				nameSet = true;
