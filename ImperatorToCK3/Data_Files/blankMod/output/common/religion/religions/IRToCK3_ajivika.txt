@@ -156,11 +156,12 @@
 		GHWNamePlural = ghw_purifications
 	}
 
-	# TODO: icons
 	# TODO: finish this religion
 
 	faiths = {
 		makkhalist = { # Makkhalism (North East India / Pracyan Group)
+			# TODO: color
+
 			# Tenets: Asceticism, Dharmic Pacifism, Inner Journey
 			doctrine = tenet_asceticism
 			doctrine = tenet_dharmic_pacifism
@@ -192,6 +193,8 @@
 		}
 
 		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
+			color = { 153 97 48 }
+
 			# Tenets: Asceticism, Esotericism, Monasticism
 			doctrine = tenet_asceticism
 			doctrine = tenet_esotericism
@@ -223,6 +226,8 @@
 		}
 
 		puranist = {  # Puranism (South India / Dravidian Group)
+			# TODO: color
+
 			# Tenets: Asceticism, Native Primitivism, Ritual Hospitality/Puja
 			doctrine = tenet_asceticism
 			doctrine = tenet_natural_primitivism
