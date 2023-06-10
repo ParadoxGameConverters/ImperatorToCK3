@@ -5,8 +5,8 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.Culture;
 
 public class CultureMapper {
-	public CultureMapper(ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
-		this.imperatorRegionMapper = imperatorRegionMapper;
+	public CultureMapper(ImperatorRegionMapper irRegionMapper, CK3RegionMapper ck3RegionMapper) {
+		this.irRegionMapper = irRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
 		Logger.Info("Parsing culture mappings...");
@@ -17,8 +17,8 @@ public class CultureMapper {
 
 		Logger.IncrementProgress();
 	}
-	public CultureMapper(BufferedReader reader, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
-		this.imperatorRegionMapper = imperatorRegionMapper;
+	public CultureMapper(BufferedReader reader, ImperatorRegionMapper irRegionMapper, CK3RegionMapper ck3RegionMapper) {
+		this.irRegionMapper = irRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
 		var parser = new Parser();
@@ -32,29 +32,12 @@ public class CultureMapper {
 	}
 	public string? Match(
 		string irCulture,
-		string ck3Religion,
-		ulong ck3ProvinceId,
-		ulong irProvinceId,
-		string historicalTag
+		ulong? ck3ProvinceId,
+		ulong? irProvinceId,
+		string? historicalTag
 	) {
 		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.Match(irCulture, ck3Religion, ck3ProvinceId, irProvinceId, historicalTag, imperatorRegionMapper, ck3RegionMapper);
-			if (possibleMatch is not null) {
-				return possibleMatch;
-			}
-		}
-		return null;
-	}
-
-	public string? NonReligiousMatch(
-		string irCulture,
-		string ck3Religion,
-		ulong ck3ProvinceId,
-		ulong irProvinceId,
-		string historicalTag
-	) {
-		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.NonReligiousMatch(irCulture, ck3Religion, ck3ProvinceId, irProvinceId, historicalTag, imperatorRegionMapper, ck3RegionMapper);
+			var possibleMatch = cultureMappingRule.Match(irCulture, ck3ProvinceId, irProvinceId, historicalTag, irRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}
@@ -63,6 +46,6 @@ public class CultureMapper {
 	}
 
 	private readonly List<CultureMappingRule> cultureMappingRules = new();
-	private readonly ImperatorRegionMapper imperatorRegionMapper;
+	private readonly ImperatorRegionMapper irRegionMapper;
 	private readonly CK3RegionMapper ck3RegionMapper;
 }

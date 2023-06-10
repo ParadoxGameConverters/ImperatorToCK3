@@ -217,7 +217,7 @@ public class CK3CharacterTests {
 		ck3Religions.LoadReligions(CK3ModFS, new ColorFactory());
 
 		var mapReader = new BufferedReader(
-			"link = { imp=chalcedonian ck3=orthodox }"
+			"link = { ir=chalcedonian ck3=orthodox }"
 		);
 		var religionMapper = new ReligionMapper(mapReader, ck3Religions, IRRegionMapper, new CK3RegionMapper());
 
@@ -235,7 +235,7 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=macedonian ck3=greek }"
+			"link = { ir=macedonian ck3=greek }"
 		);
 		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper());
 
@@ -294,8 +294,8 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=greek ck3=macedonian historicalTag=MAC }" +
-			"link = { imp=greek ck3=greek }"
+			"link = { ir=greek ck3=macedonian historicalTag=MAC }" +
+			"link = { ir=greek ck3=greek }"
 		);
 		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper());
 

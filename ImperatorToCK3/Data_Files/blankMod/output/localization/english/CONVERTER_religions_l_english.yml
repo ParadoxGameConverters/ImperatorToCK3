@@ -342,6 +342,25 @@
  atenist_pagan_adherent_plural: "Atenites"
  atenist_pagan_desc: "Unlike the polytheistic Kemetist religion, the Atenist religion is a monotheistic religion focused on the sole worship of the sun disk Aten. Unlike Kemetism, Atenists denies the existence of other gods and outright criminalizes the worship of them."
 
+ # Ajivika
+ ajivika_religion: "Ajivika"
+ ajivika_religion_adj: "Ajivika"
+ ajivika_religion_adherent: "Ajivika"
+ ajivika_religion_adherent_plural: "Ajivikas"
+ ajivika_religion_desc: "The Ajivika religion is an ancient Indian philosophical and ascetic movement that emerged around the same time as Buddhism and Jainism, during the 5th century BCE. Founded by Makkhali Gosala, the Ajivikas believed in the concept of determinism, asserting that everything in the universe, including human actions, is predestined and beyond individual control. They adhered to the principle of niyati, which states that each being's fate is predetermined from birth to death. The Ajivikas practiced strict asceticism, renouncing worldly pleasures and focusing on rigorous self-discipline and meditation."
+ makkhalist: "Makkhalism"
+ makkhalist_adj: "Makkhalist"
+ makkhalist_adherent: "Makkhalist"
+ makkhalist_adherent_plural: "Makkhalists"
+ nandanist: "Nandanism"
+ nandanist_adj: "Nandanist"
+ nandanist_adherent: "Nandanist"
+ nandanist_adherent_plural: "Nandanists"
+ puranist: "Puranism"
+ puranist_adj: "Puranist"
+ puranist_adherent: "Puranist"
+ puranist_adherent_plural: "Puranists"
+
 # from WtWSMS mod
  ######## Zalmoxis Religion ########
  paleo_balkan_religion: "Paleo-Balkan"

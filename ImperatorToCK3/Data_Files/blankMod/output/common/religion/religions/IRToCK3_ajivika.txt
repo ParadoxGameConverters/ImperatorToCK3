@@ -1,0 +1,283 @@
+﻿ajivika_religion = { # credits to Izn from Invictus team for listing the doctrines
+	family = rf_eastern
+	graphical_faith = dharmic_gfx
+	doctrine = eastern_hostility_doctrine
+
+	custom_faith_icons = {  # copied from Hinduism
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
+	}
+
+	traits = {
+		virtues = {
+			temperate content honest
+			# a unique virtue to give them could be cynical since they were the most aethiest parallel shrmanic faith
+			cynical
+		}
+		sins = {
+			deceitful impatient sadistic wrathful
+		}
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { khandayat } # IRToCK3: copied from Buddhism and Jainism
+	
+	localization = {
+		#HighGod
+		HighGodName = ajivika_high_god_name
+		HighGodNamePossessive = ajivika_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_IT
+		HighGodHerselfHimself = CHARACTER_ITSELF
+		HighGodHerHis = CHARACTER_HERHIS_ITS
+		HighGodNameAlternate = ajivika_high_god_name_alternate
+		HighGodNameAlternatePossessive = ajivika_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = ajivika_creator_god_name
+		CreatorNamePossessive = ajivika_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_IT
+		CreatorHerHis = CHARACTER_HERHIS_ITS
+		CreatorHerHim = CHARACTER_HERHIM_IT
+
+		#HealthGod
+		HealthGodName = ajivika_health_god_name
+		HealthGodNamePossessive = ajivika_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_IT
+		HealthGodHerHis = CHARACTER_HERHIS_ITS
+		HealthGodHerHim = CHARACTER_HERHIM_IT
+		
+		#FertilityGod
+		FertilityGodName = ajivika_fertility_god_name
+		FertilityGodNamePossessive = ajivika_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_IT
+		FertilityGodHerHis = CHARACTER_HERHIS_ITS
+		FertilityGodHerHim = CHARACTER_HERHIM_IT
+
+		#WealthGod
+		WealthGodName = ajivika_wealth_god_name
+		WealthGodNamePossessive = ajivika_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_IT
+		WealthGodHerHis = CHARACTER_HERHIS_ITS
+		WealthGodHerHim = CHARACTER_HERHIM_IT
+
+		#HouseholdGod
+		HouseholdGodName = ajivika_household_god_name
+		HouseholdGodNamePossessive = ajivika_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_IT
+		HouseholdGodHerHis = CHARACTER_HERHIS_ITS
+		HouseholdGodHerHim = CHARACTER_HERHIM_IT
+
+		#FateGod
+		FateGodName = ajivika_fate_god_name
+		FateGodNamePossessive = ajivika_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = makkhalist_knowledge_god_name # copied from makkhalist faith
+		KnowledgeGodNamePossessive = makhallist_knowledge_god_name_possessive # copied from makkhalist faith
+		KnowledgeGodSheHe = CHARACTER_SHEHE_IT
+		KnowledgeGodHerHis = CHARACTER_HERHIS_ITS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_IT
+
+		#WarGod
+		WarGodName = ajivika_war_god_name
+		WarGodNamePossessive = ajivika_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_IT
+		WarGodHerHis = CHARACTER_HERHIS_ITS
+		WarGodHerHim = CHARACTER_HERHIM_IT
+
+		#TricksterGod
+		TricksterGodName = ajivika_trickster_god_name
+		TricksterGodNamePossessive = ajivika_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_IT
+		TricksterGodHerHis = CHARACTER_HERHIS_ITS
+		TricksterGodHerHim = CHARACTER_HERHIM_IT
+
+		#NightGod
+		NightGodName = ajivika_night_god_name
+		NightGodNamePossessive = ajivika_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_IT
+		NightGodHerHis = CHARACTER_HERHIS_ITS
+		NightGodHerHim = CHARACTER_HERHIM_IT
+
+		#WaterGod
+		WaterGodName = ajivika_water_god_name
+		WaterGodNamePossessive = ajivika_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_IT
+		WaterGodHerHis = CHARACTER_HERHIS_ITS
+		WaterGodHerHim = CHARACTER_HERHIM_IT
+
+		PantheonTerm = ajivika_high_god_name
+		PantheonTermHasHave = pantheon_term_has
+		GoodGodNames = ajivika_high_god_name
+		DevilName = ajivika_devil_name
+		DevilNamePossessive = ajivika_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = ajivika_devil_name
+		HouseOfWorship = ajivika_house_of_worship
+		HouseOfWorshipPlural = ajivika_house_of_worship_plural
+		ReligiousSymbol = ajivika_religious_symbol
+		ReligiousText = ajivika_religious_text
+		ReligiousHeadName = ajivika_religious_head_title
+		ReligiousHeadTitleName = ajivika_religious_head_title_name
+		DevoteeMale = ajivika_devotee_male
+		DevoteeMalePlural = ajivika_devotee_male_plural
+		DevoteeFemale = ajivika_devotee_female
+		DevoteeFemalePlural = ajivika_devotee_female_plural
+		DevoteeNeuter = ajivika_devotee_neuter
+		DevoteeNeuterPlural = ajivika_devotee_neuter_plural
+		PriestMale = ajivika_priest_male
+		PriestMalePlural = ajivika_priest_male_plural
+		PriestFemale = ajivika_priest_male
+		PriestFemalePlural = ajivika_priest_male_plural
+		PriestNeuter = ajivika_priest_male
+		PriestNeuterPlural = ajivika_priest_male_plural
+		AltPriestTermPlural = ajivika_priest_alternate_plural
+		BishopMale = ajivika_bishop
+		BishopMalePlural = ajivika_bishop_plural
+		BishopFemale = ajivika_bishop
+		BishopFemalePlural = ajivika_bishop_plural
+		BishopNeuter = ajivika_bishop
+		BishopNeuterPlural = ajivika_bishop_plural
+		DivineRealm = ajivika_positive_afterlife
+		PositiveAfterLife = ajivika_positive_afterlife
+		NegativeAfterLife = ajivika_negative_afterlife
+		DeathDeityName = ajivika_death_deity
+		DeathDeityNamePossessive = ajivika_death_deity_possessive
+		DeathDeitySheHe = ajivika_death_deity_shehe
+		DeathDeityHerHis = ajivika_death_deity_herhis
+		WitchGodName = ajivika_high_god_name
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = master
+		WitchGodMotherFather = father
+
+		GHWName = ghw_purification
+		GHWNamePlural = ghw_purifications
+	}
+
+	faiths = {
+		makkhalist = { # Makkhalism (North East India / Pracyan Group)
+			color = { 131 180 65 }
+
+			# Tenets: Asceticism, Dharmic Pacifism, Inner Journey
+			doctrine = tenet_asceticism
+			doctrine = tenet_dharmic_pacifism
+			doctrine = tenet_inner_journey
+
+			# Gender Views: Male dominated
+			doctrine = doctrine_gender_male_dominated
+
+			# Religious Attitude: Fundamentalist or Righteous
+			doctrine = doctrine_pluralism_fundamentalist
+
+			# Clerical tradition: Lay Clergy
+			doctrine = doctrine_theocracy_lay_clergy
+
+			# Head of Faith: None
+			doctrine = doctrine_no_head
+
+			# Naked Priests: Yes
+			doctrine = special_doctrine_naked_priests
+
+			# Marriage: Poly
+			doctrine = doctrine_polygamy
+			# Divorce: Always
+			doctrine = doctrine_divorce_allowed
+			# Bastardy: Legit
+			doctrine = doctrine_bastardry_legitimization
+			# Incest: Avunculate
+			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+			localization = {
+				KnowledgeGodName = makkhalist_knowledge_god_name
+				KnowledgeGodNamePossessive = makhallist_knowledge_god_name_possessive
+			}
+		}
+
+		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
+			color = { 227 138 70 }
+
+			# Tenets: Asceticism, Esotericism, Monasticism
+			doctrine = tenet_asceticism
+			doctrine = tenet_esotericism
+			doctrine = tenet_monasticism
+			
+			# Gender Views: Male dominated
+			doctrine = doctrine_gender_male_dominated
+
+			# Religious Attitude: Fundamentalist or Righteous
+			doctrine = doctrine_pluralism_fundamentalist
+
+			# Clerical tradition: Lay Clergy
+			doctrine = doctrine_theocracy_lay_clergy
+
+			# Head of Faith: None
+			doctrine = doctrine_no_head
+
+			# Naked Priests: Yes
+			doctrine = special_doctrine_naked_priests
+			
+			# Marriage: Poly
+			doctrine = doctrine_polygamy
+			# Divorce: Always
+			doctrine = doctrine_divorce_allowed
+			# Bastardy: Legit
+			doctrine = doctrine_bastardry_legitimization
+			# Incest: Avunculate
+			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+			localization = {
+				KnowledgeGodName = nandanist_knowledge_god_name
+				KnowledgeGodNamePossessive = nandanist_knowledge_god_name_possessive
+			}
+		}
+
+		puranist = {  # Puranism (South India / Dravidian Group)
+			color = { 193 133 162 }
+
+			# Tenets: Asceticism, Native Primitivism, Ritual Hospitality/Puja
+			doctrine = tenet_asceticism
+			doctrine = tenet_natural_primitivism
+			doctrine = tenet_ritual_hospitality
+
+			# Gender Views: Equal
+			doctrine = doctrine_gender_equal
+
+			# Religious Attitude: Righteous
+			doctrine = doctrine_pluralism_righteous
+
+			# Clerical Tradition: Theocratic
+			doctrine = doctrine_theocracy_temporal
+
+			# Head of Faith: None
+			doctrine = doctrine_no_head
+
+			# Naked Priests: Yes
+			doctrine = special_doctrine_naked_priests
+
+			# Marriage: Poly
+			doctrine = doctrine_polygamy
+			# Divorce: Always
+			doctrine = doctrine_divorce_allowed
+			# Bastardy: Legit
+			doctrine = doctrine_bastardry_legitimization
+			# Incest: Avunculate
+			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+			localization = {
+				KnowledgeGodName = puranist_knowledge_god_name
+				KnowledgeGodNamePossessive = puranist_knowledge_god_name_possessive
+			}
+		}
+	}
+}

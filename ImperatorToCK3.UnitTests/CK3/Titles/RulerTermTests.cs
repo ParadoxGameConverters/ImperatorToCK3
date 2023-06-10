@@ -73,7 +73,7 @@ public class RulerTermTests {
 		var govMapper = new GovernmentMapper(govReader);
 		var ck3RegionMapper = new CK3RegionMapper();
 		var religionMapper = new ReligionMapper(
-			new BufferedReader("link={imp=hellenic ck3=hellenic}"),
+			new BufferedReader("link={ir=hellenic ck3=hellenic}"),
 			ck3Religions,
 			irRegionMapper,
 			ck3RegionMapper
@@ -84,7 +84,7 @@ public class RulerTermTests {
 			govMapper,
 			new LocDB("english"),
 			religionMapper,
-			new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper),
+			new CultureMapper(new BufferedReader("link = { ir=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration()
