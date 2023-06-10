@@ -17,140 +17,139 @@
 	
 	localization = {
 		#HighGod
-		HighGodName = atheism_high_god_name
-		HighGodNamePossessive = atheism_high_god_name_possessive
+		HighGodName = ajivika_high_god_name
+		HighGodNamePossessive = ajivika_high_god_name_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_IT
 		HighGodHerselfHimself = CHARACTER_ITSELF
 		HighGodHerHis = CHARACTER_HERHIS_ITS
-		HighGodNameAlternate = atheism_high_god_name_alternate
-		HighGodNameAlternatePossessive = atheism_high_god_name_alternate_possessive
+		HighGodNameAlternate = ajivika_high_god_name_alternate
+		HighGodNameAlternatePossessive = ajivika_high_god_name_alternate_possessive
 
 		#Creator
-		CreatorName = atheism_creator_god_name
-		CreatorNamePossessive = atheism_creator_god_name_possessive
+		CreatorName = ajivika_creator_god_name
+		CreatorNamePossessive = ajivika_creator_god_name_possessive
 		CreatorSheHe = CHARACTER_SHEHE_IT
 		CreatorHerHis = CHARACTER_HERHIS_ITS
 		CreatorHerHim = CHARACTER_HERHIM_IT
 
 		#HealthGod
-		HealthGodName = atheism_health_god_name
-		HealthGodNamePossessive = atheism_health_god_name_possessive
+		HealthGodName = ajivika_health_god_name
+		HealthGodNamePossessive = ajivika_health_god_name_possessive
 		HealthGodSheHe = CHARACTER_SHEHE_IT
 		HealthGodHerHis = CHARACTER_HERHIS_ITS
 		HealthGodHerHim = CHARACTER_HERHIM_IT
 		
 		#FertilityGod
-		FertilityGodName = atheism_fertility_god_name
-		FertilityGodNamePossessive = atheism_fertility_god_name_possessive
+		FertilityGodName = ajivika_fertility_god_name
+		FertilityGodNamePossessive = ajivika_fertility_god_name_possessive
 		FertilityGodSheHe = CHARACTER_SHEHE_IT
 		FertilityGodHerHis = CHARACTER_HERHIS_ITS
 		FertilityGodHerHim = CHARACTER_HERHIM_IT
 
 		#WealthGod
-		WealthGodName = atheism_wealth_god_name
-		WealthGodNamePossessive = atheism_wealth_god_name_possessive
+		WealthGodName = ajivika_wealth_god_name
+		WealthGodNamePossessive = ajivika_wealth_god_name_possessive
 		WealthGodSheHe = CHARACTER_SHEHE_IT
 		WealthGodHerHis = CHARACTER_HERHIS_ITS
 		WealthGodHerHim = CHARACTER_HERHIM_IT
 
 		#HouseholdGod
-		HouseholdGodName = atheism_household_god_name
-		HouseholdGodNamePossessive = atheism_household_god_name_possessive
+		HouseholdGodName = ajivika_household_god_name
+		HouseholdGodNamePossessive = ajivika_household_god_name_possessive
 		HouseholdGodSheHe = CHARACTER_SHEHE_IT
 		HouseholdGodHerHis = CHARACTER_HERHIS_ITS
 		HouseholdGodHerHim = CHARACTER_HERHIM_IT
 
 		#FateGod
-		FateGodName = atheism_fate_god_name
-		FateGodNamePossessive = atheism_fate_god_name_possessive
+		FateGodName = ajivika_fate_god_name
+		FateGodNamePossessive = ajivika_fate_god_name_possessive
 		FateGodSheHe = CHARACTER_SHEHE_IT
 		FateGodHerHis = CHARACTER_HERHIS_ITS
 		FateGodHerHim = CHARACTER_HERHIM_IT
 
 		#KnowledgeGod
-		KnowledgeGodName = atheism_knowledge_god_name
-		KnowledgeGodNamePossessive = atheism_knowledge_god_name_possessive
+		KnowledgeGodName = makkhalist_knowledge_god_name # copied from makkhalist faith
+		KnowledgeGodNamePossessive = makhallist_knowledge_god_name_possessive # copied from makkhalist faith
 		KnowledgeGodSheHe = CHARACTER_SHEHE_IT
 		KnowledgeGodHerHis = CHARACTER_HERHIS_ITS
 		KnowledgeGodHerHim = CHARACTER_HERHIM_IT
 
 		#WarGod
-		WarGodName = atheism_war_god_name
-		WarGodNamePossessive = atheism_war_god_name_possessive
+		WarGodName = ajivika_war_god_name
+		WarGodNamePossessive = ajivika_war_god_name_possessive
 		WarGodSheHe = CHARACTER_SHEHE_IT
 		WarGodHerHis = CHARACTER_HERHIS_ITS
 		WarGodHerHim = CHARACTER_HERHIM_IT
 
 		#TricksterGod
-		TricksterGodName = atheism_trickster_god_name
-		TricksterGodNamePossessive = atheism_trickster_god_name_possessive
+		TricksterGodName = ajivika_trickster_god_name
+		TricksterGodNamePossessive = ajivika_trickster_god_name_possessive
 		TricksterGodSheHe = CHARACTER_SHEHE_IT
 		TricksterGodHerHis = CHARACTER_HERHIS_ITS
 		TricksterGodHerHim = CHARACTER_HERHIM_IT
 
 		#NightGod
-		NightGodName = atheism_night_god_name
-		NightGodNamePossessive = atheism_night_god_name_possessive
+		NightGodName = ajivika_night_god_name
+		NightGodNamePossessive = ajivika_night_god_name_possessive
 		NightGodSheHe = CHARACTER_SHEHE_IT
 		NightGodHerHis = CHARACTER_HERHIS_ITS
 		NightGodHerHim = CHARACTER_HERHIM_IT
 
 		#WaterGod
-		WaterGodName = atheism_water_god_name
-		WaterGodNamePossessive = atheism_water_god_name_possessive
+		WaterGodName = ajivika_water_god_name
+		WaterGodNamePossessive = ajivika_water_god_name_possessive
 		WaterGodSheHe = CHARACTER_SHEHE_IT
 		WaterGodHerHis = CHARACTER_HERHIS_ITS
 		WaterGodHerHim = CHARACTER_HERHIM_IT
 
-		PantheonTerm = atheism_high_god_name
+		PantheonTerm = ajivika_high_god_name
 		PantheonTermHasHave = pantheon_term_has
-		GoodGodNames = atheism_high_god_name
-		DevilName = atheism_devil_name
-		DevilNamePossessive = atheism_devil_name_possessive
+		GoodGodNames = ajivika_high_god_name
+		DevilName = ajivika_devil_name
+		DevilNamePossessive = ajivika_devil_name_possessive
 		DevilSheHe = CHARACTER_SHEHE_IT
 		DevilHerHis = CHARACTER_HERHIS_ITS
 		DevilHerHis = CHARACTER_HERHIS_ITS
 		DevilHerselfHimself = CHARACTER_ITSELF
-		EvilGodNames = atheism_devil_name
-		HouseOfWorship = atheism_house_of_worship
-		HouseOfWorshipPlural = atheism_house_of_worship_plural
-		ReligiousSymbol = atheism_religious_symbol
-		ReligiousText = atheism_religious_text
-		ReligiousHeadName = atheism_religious_head_title
-		ReligiousHeadTitleName = atheism_religious_head_title_name
-		DevoteeMale = atheism_devotee_male
-		DevoteeMalePlural = atheism_devotee_male_plural
-		DevoteeFemale = atheism_devotee_female
-		DevoteeFemalePlural = atheism_devotee_female_plural
-		DevoteeNeuter = atheism_devotee_neuter
-		DevoteeNeuterPlural = atheism_devotee_neuter_plural
-		PriestMale = atheism_priest_male
-		PriestMalePlural = atheism_priest_male_plural
-		PriestFemale = atheism_priest_male
-		PriestFemalePlural = atheism_priest_male_plural
-		PriestNeuter = atheism_priest_male
-		PriestNeuterPlural = atheism_priest_male_plural
-		AltPriestTermPlural = atheism_priest_alternate_plural
-		BishopMale = atheism_bishop
-		BishopMalePlural = atheism_bishop_plural
-		BishopFemale = atheism_bishop
-		BishopFemalePlural = atheism_bishop_plural
-		BishopNeuter = atheism_bishop
-		BishopNeuterPlural = atheism_bishop_plural
-		DivineRealm = atheism_positive_afterlife
-		PositiveAfterLife = atheism_positive_afterlife
-		NegativeAfterLife = atheism_negative_afterlife
-		DeathDeityName = atheism_death_deity_name
-		DeathDeityNamePossessive = atheism_death_deity_name_possessive
-		DeathDeitySheHe = CHARACTER_SHEHE_IT
-		DeathDeityHerHis = CHARACTER_HERHIS_ITS
-		WitchGodName = atheism_witchgodname
+		EvilGodNames = ajivika_devil_name
+		HouseOfWorship = ajivika_house_of_worship
+		HouseOfWorshipPlural = ajivika_house_of_worship_plural
+		ReligiousSymbol = ajivika_religious_symbol
+		ReligiousText = ajivika_religious_text
+		ReligiousHeadName = ajivika_religious_head_title
+		ReligiousHeadTitleName = ajivika_religious_head_title_name
+		DevoteeMale = ajivika_devotee_male
+		DevoteeMalePlural = ajivika_devotee_male_plural
+		DevoteeFemale = ajivika_devotee_female
+		DevoteeFemalePlural = ajivika_devotee_female_plural
+		DevoteeNeuter = ajivika_devotee_neuter
+		DevoteeNeuterPlural = ajivika_devotee_neuter_plural
+		PriestMale = ajivika_priest_male
+		PriestMalePlural = ajivika_priest_male_plural
+		PriestFemale = ajivika_priest_male
+		PriestFemalePlural = ajivika_priest_male_plural
+		PriestNeuter = ajivika_priest_male
+		PriestNeuterPlural = ajivika_priest_male_plural
+		AltPriestTermPlural = ajivika_priest_alternate_plural
+		BishopMale = ajivika_bishop
+		BishopMalePlural = ajivika_bishop_plural
+		BishopFemale = ajivika_bishop
+		BishopFemalePlural = ajivika_bishop_plural
+		BishopNeuter = ajivika_bishop
+		BishopNeuterPlural = ajivika_bishop_plural
+		DivineRealm = ajivika_positive_afterlife
+		PositiveAfterLife = ajivika_positive_afterlife
+		NegativeAfterLife = ajivika_negative_afterlife
+		DeathDeityName = ajivika_death_deity
+		DeathDeityNamePossessive = ajivika_death_deity_possessive
+		DeathDeitySheHe = ajivika_death_deity_shehe
+		DeathDeityHerHis = ajivika_death_deity_herhis
+		WitchGodName = ajivika_high_god_name
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHim = CHARACTER_HERHIM_IT
 		WitchGodMistressMaster = master
 		WitchGodMotherFather = father
-
 
 		GHWName = ghw_purification
 		GHWNamePlural = ghw_purifications
@@ -190,6 +189,11 @@
 			doctrine = doctrine_bastardry_legitimization
 			# Incest: Avunculate
 			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+			localization = {
+				KnowledgeGodName = makkhalist_knowledge_god_name
+				KnowledgeGodNamePossessive = makhallist_knowledge_god_name_possessive
+			}
 		}
 
 		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
@@ -223,6 +227,11 @@
 			doctrine = doctrine_bastardry_legitimization
 			# Incest: Avunculate
 			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+			localization = {
+				KnowledgeGodName = nandanist_knowledge_god_name
+				KnowledgeGodNamePossessive = nandanist_knowledge_god_name_possessive
+			}
 		}
 
 		puranist = {  # Puranism (South India / Dravidian Group)
@@ -256,6 +265,11 @@
 			doctrine = doctrine_bastardry_legitimization
 			# Incest: Avunculate
 			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+			localization = {
+				KnowledgeGodName = puranist_knowledge_god_name
+				KnowledgeGodNamePossessive = puranist_knowledge_god_name_possessive
+			}
 		}
 	}
 }

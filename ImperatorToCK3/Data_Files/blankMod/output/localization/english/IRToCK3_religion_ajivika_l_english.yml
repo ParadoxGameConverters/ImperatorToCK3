@@ -1,0 +1,79 @@
+﻿l_english:
+ ajivika_high_god_name: "Niyati"
+ ajivika_high_god_name_possessive: "Niyati's"
+ ajivika_high_god_name_alternate: "the way of life"
+ ajivika_high_god_name_alternate_possessive: "the way of life's"
+
+ ajivika_death_deity: "Dukkha"
+ ajivika_death_deity_possessive: "Dukkha's"
+ ajivika_death_deity_shehe: "it"
+ ajivika_death_deity_herhis: "its"
+
+ ajivika_devil_name: "the misguided"
+ ajivika_devil_name_possessive: "the misguided's"
+
+ ajivika_house_of_worship: "caves"
+ ajivika_house_of_worship_plural: "caves of enlightenment"
+
+ ajivika_religious_symbol: "kaya" # kaya means element
+ ajivika_religious_text: "Mahanimittas"
+ ajivika_religious_head_title: "Acharya"
+ ajivika_religious_head_title_name: "Acharyate"
+
+ ajivika_devotee_male: "ajivika"
+ ajivika_devotee_male_plural: "ajivikas"
+ ajivika_devotee_female: "ajiviki"
+ ajivika_devotee_female_plural: "ajivikas"
+ ajivika_devotee_neuter: "ajivika"
+ ajivika_devotee_neuter_plural: "ajivikas"
+
+ ajivika_priest_male: "ascetic"
+ ajivika_priest_male_plural: "ascetics"
+ ajivika_priest_alternate_plural: "ajivika ascetics"
+ ajivika_bishop: "enlightened ascetic"
+ ajivika_bishop_plural: "enlightened ascetics"
+
+ ajivika_positive_afterlife: "afterlife"
+ ajivika_negative_afterlife: "afterlife"
+ 
+ ajivika_creator_god_name: "Jiva"
+ ajivika_creator_god_name_possessive: "Jiva's"
+
+ ajivika_health_god_name: "Svabhava"
+ ajivika_health_god_name_possessive: "Svabhava's"
+
+ ajivika_fertility_god_name: "Pruthvi-Kaya"
+ ajivika_fertility_god_name_possessive: "Pruthvi-Kaya's"
+
+ ajivika_wealth_god_name: "Sukha"
+ ajivika_wealth_god_name_possessive: "Sukha's"
+
+ ajivika_household_god_name: "$ajivika_high_god_name$"
+ ajivika_household_god_name_possessive: "$ajivika_high_god_name_possessive$"
+
+ ajivika_fate_god_name: "Niyati"
+ ajivika_fate_god_name_possessive: "Niyati's"
+
+ ajivika_war_god_name: "Tejo-Kaya"
+ ajivika_war_god_name_possessive: "Tejo-Kaya's"
+
+ ajivika_trickster_god_name: "$ajivika_high_god_name$"
+ ajivika_trickster_god_name_possessive: "$ajivika_high_god_name_possessive$"
+
+ ajivika_night_god_name: "Vayo-Kaya"
+ ajivika_night_god_name_possessive: "Vayo-Kaya's"
+
+ ajivika_water_god_name: "Apo-Kaya"
+ ajivika_water_god_name_possessive: "Apo-Kaya's"
+
+ #Makkhalist
+ makkhalist_knowledge_god_name: "Makkhali Goshala"
+ makhallist_knowledge_god_name_possessive: "Makkhali Goshala's"
+ 
+ #Nandanist
+ nandanist_knowledge_god_name: "Nanda Vaccha"
+ nandanist_knowledge_god_name_possessive: "Nanda Vaccha's"
+
+ #Puranist
+ puranist_knowledge_god_name: "Purana Kassapa"
+ puranist_knowledge_god_name_possessive: "Purana Kassapa's"
