@@ -165,8 +165,6 @@
 		GHWNamePlural = ghw_purifications
 	}
 
-	# TODO: finish this religion
-
 	faiths = {
 		makkhalist = { # Makkhalism (North East India / Pracyan Group)
 			color = { 131 180 65 }
