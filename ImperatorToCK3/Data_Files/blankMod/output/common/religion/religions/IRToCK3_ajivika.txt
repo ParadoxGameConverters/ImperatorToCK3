@@ -7,6 +7,17 @@
 		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
 	}
 
+	traits = {
+		virtues = {
+			temperate content honest
+			# a unique virtue to give them could be cynical since they were the most aethiest parallel shrmanic faith
+			cynical
+		}
+		sins = {
+			deceitful impatient sadistic wrathful
+		}
+	}
+
 	holy_order_names = {
 		{ name = holy_order_guardians_of_divinerealm }
 		{ name = holy_order_faithful_of_highgod }
@@ -109,7 +120,6 @@
 		DevilNamePossessive = ajivika_devil_name_possessive
 		DevilSheHe = CHARACTER_SHEHE_IT
 		DevilHerHis = CHARACTER_HERHIS_ITS
-		DevilHerHis = CHARACTER_HERHIS_ITS
 		DevilHerselfHimself = CHARACTER_ITSELF
 		EvilGodNames = ajivika_devil_name
 		HouseOfWorship = ajivika_house_of_worship
@@ -159,7 +169,7 @@
 
 	faiths = {
 		makkhalist = { # Makkhalism (North East India / Pracyan Group)
-			# TODO: color
+			color = { 131 180 65 }
 
 			# Tenets: Asceticism, Dharmic Pacifism, Inner Journey
 			doctrine = tenet_asceticism
@@ -197,7 +207,7 @@
 		}
 
 		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
-			color = { 153 97 48 }
+			color = { 227 138 70 }
 
 			# Tenets: Asceticism, Esotericism, Monasticism
 			doctrine = tenet_asceticism
@@ -235,7 +245,7 @@
 		}
 
 		puranist = {  # Puranism (South India / Dravidian Group)
-			# TODO: color
+			color = { 193 133 162 }
 
 			# Tenets: Asceticism, Native Primitivism, Ritual Hospitality/Puja
 			doctrine = tenet_asceticism
