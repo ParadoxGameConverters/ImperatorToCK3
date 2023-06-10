@@ -1,99 +1,256 @@
-﻿ajivika_religion = {
+﻿ajivika_religion = { # credits to Izn from Invictus team for listing the doctrines
 	family = rf_eastern
 	graphical_faith = dharmic_gfx
 	doctrine = eastern_hostility_doctrine
 
+	custom_faith_icons = {  # copied from Hinduism
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { khandayat } # IRToCK3: copied from Buddhism and Jainism
+	
+	localization = {
+		#HighGod
+		HighGodName = atheism_high_god_name
+		HighGodNamePossessive = atheism_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_IT
+		HighGodHerselfHimself = CHARACTER_ITSELF
+		HighGodHerHis = CHARACTER_HERHIS_ITS
+		HighGodNameAlternate = atheism_high_god_name_alternate
+		HighGodNameAlternatePossessive = atheism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = atheism_creator_god_name
+		CreatorNamePossessive = atheism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_IT
+		CreatorHerHis = CHARACTER_HERHIS_ITS
+		CreatorHerHim = CHARACTER_HERHIM_IT
+
+		#HealthGod
+		HealthGodName = atheism_health_god_name
+		HealthGodNamePossessive = atheism_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_IT
+		HealthGodHerHis = CHARACTER_HERHIS_ITS
+		HealthGodHerHim = CHARACTER_HERHIM_IT
+		
+		#FertilityGod
+		FertilityGodName = atheism_fertility_god_name
+		FertilityGodNamePossessive = atheism_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_IT
+		FertilityGodHerHis = CHARACTER_HERHIS_ITS
+		FertilityGodHerHim = CHARACTER_HERHIM_IT
+
+		#WealthGod
+		WealthGodName = atheism_wealth_god_name
+		WealthGodNamePossessive = atheism_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_IT
+		WealthGodHerHis = CHARACTER_HERHIS_ITS
+		WealthGodHerHim = CHARACTER_HERHIM_IT
+
+		#HouseholdGod
+		HouseholdGodName = atheism_household_god_name
+		HouseholdGodNamePossessive = atheism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_IT
+		HouseholdGodHerHis = CHARACTER_HERHIS_ITS
+		HouseholdGodHerHim = CHARACTER_HERHIM_IT
+
+		#FateGod
+		FateGodName = atheism_fate_god_name
+		FateGodNamePossessive = atheism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = atheism_knowledge_god_name
+		KnowledgeGodNamePossessive = atheism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_IT
+		KnowledgeGodHerHis = CHARACTER_HERHIS_ITS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_IT
+
+		#WarGod
+		WarGodName = atheism_war_god_name
+		WarGodNamePossessive = atheism_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_IT
+		WarGodHerHis = CHARACTER_HERHIS_ITS
+		WarGodHerHim = CHARACTER_HERHIM_IT
+
+		#TricksterGod
+		TricksterGodName = atheism_trickster_god_name
+		TricksterGodNamePossessive = atheism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_IT
+		TricksterGodHerHis = CHARACTER_HERHIS_ITS
+		TricksterGodHerHim = CHARACTER_HERHIM_IT
+
+		#NightGod
+		NightGodName = atheism_night_god_name
+		NightGodNamePossessive = atheism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_IT
+		NightGodHerHis = CHARACTER_HERHIS_ITS
+		NightGodHerHim = CHARACTER_HERHIM_IT
+
+		#WaterGod
+		WaterGodName = atheism_water_god_name
+		WaterGodNamePossessive = atheism_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_IT
+		WaterGodHerHis = CHARACTER_HERHIS_ITS
+		WaterGodHerHim = CHARACTER_HERHIM_IT
+
+		PantheonTerm = atheism_high_god_name
+		PantheonTermHasHave = pantheon_term_has
+		GoodGodNames = atheism_high_god_name
+		DevilName = atheism_devil_name
+		DevilNamePossessive = atheism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = atheism_devil_name
+		HouseOfWorship = atheism_house_of_worship
+		HouseOfWorshipPlural = atheism_house_of_worship_plural
+		ReligiousSymbol = atheism_religious_symbol
+		ReligiousText = atheism_religious_text
+		ReligiousHeadName = atheism_religious_head_title
+		ReligiousHeadTitleName = atheism_religious_head_title_name
+		DevoteeMale = atheism_devotee_male
+		DevoteeMalePlural = atheism_devotee_male_plural
+		DevoteeFemale = atheism_devotee_female
+		DevoteeFemalePlural = atheism_devotee_female_plural
+		DevoteeNeuter = atheism_devotee_neuter
+		DevoteeNeuterPlural = atheism_devotee_neuter_plural
+		PriestMale = atheism_priest_male
+		PriestMalePlural = atheism_priest_male_plural
+		PriestFemale = atheism_priest_male
+		PriestFemalePlural = atheism_priest_male_plural
+		PriestNeuter = atheism_priest_male
+		PriestNeuterPlural = atheism_priest_male_plural
+		AltPriestTermPlural = atheism_priest_alternate_plural
+		BishopMale = atheism_bishop
+		BishopMalePlural = atheism_bishop_plural
+		BishopFemale = atheism_bishop
+		BishopFemalePlural = atheism_bishop_plural
+		BishopNeuter = atheism_bishop
+		BishopNeuterPlural = atheism_bishop_plural
+		DivineRealm = atheism_positive_afterlife
+		PositiveAfterLife = atheism_positive_afterlife
+		NegativeAfterLife = atheism_negative_afterlife
+		DeathDeityName = atheism_death_deity_name
+		DeathDeityNamePossessive = atheism_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_IT
+		DeathDeityHerHis = CHARACTER_HERHIS_ITS
+		WitchGodName = atheism_witchgodname
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = master
+		WitchGodMotherFather = father
+
+
+		GHWName = ghw_purification
+		GHWNamePlural = ghw_purifications
+	}
+
+	# TODO: icons
 	# TODO: finish this religion
 
 	faiths = {
 		makkhalist = { # Makkhalism (North East India / Pracyan Group)
-			# Tenets
-			# 	Asceticism
-			# 	Dharmic Pacifism
-			# 	Inner Journey
+			# Tenets: Asceticism, Dharmic Pacifism, Inner Journey
 			doctrine = tenet_asceticism
 			doctrine = tenet_dharmic_pacifism
 			doctrine = tenet_inner_journey
 
-			# Gender Views
-			# 	Male dominated
+			# Gender Views: Male dominated
 			doctrine = doctrine_gender_male_dominated
 
-			# Religious Attitude
-			# 	Fundamentalist or Righteous
+			# Religious Attitude: Fundamentalist or Righteous
 			doctrine = doctrine_pluralism_fundamentalist
 
-			# Clerical tradition
-			# 	Lay Clergy
+			# Clerical tradition: Lay Clergy
 			doctrine = doctrine_theocracy_lay_clergy
 
-			# Head of Faith
-			# 	None
+			# Head of Faith: None
 			doctrine = doctrine_no_head
 
-			# Naked Priests
-			# 	Yes
+			# Naked Priests: Yes
 			doctrine = special_doctrine_naked_priests
 
-			# Marriage
-			# 	TODO: Poly
-			# Divorce
-			# 	TODO: Always
-			# Bastardy
-			# 	TODO: Legit
-			# Incest
-			# 	TODO: Avunculate
+			# Marriage: Poly
+			doctrine = doctrine_polygamy
+			# Divorce: Always
+			doctrine = doctrine_divorce_allowed
+			# Bastardy: Legit
+			doctrine = doctrine_bastardry_legitimization
+			# Incest: Avunculate
+			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
 		}
 
 		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
-			# __Nandanism__ (North West India / Indo-Aryan Group)
-			# *Tenets*
-			# - TODO: Asceticism
-			# - TODO: Esotericism
-			# - TODO: Monasticism
-			# *Gender Views*
-			# - TODO: Male dominated
-			# *Religious Attitude*
-			# - TODO: Fundamentalist or Righteous
-			# *Clerical Tradition*
-			# - TODO: Lay Clergy
-			# *Head of Faith*
-			# - TODO: None
-			# *Naked Priests*
-			# - TODO: Yes
-			# *Marriage*
-			# - TODO: Poly
-			# *Divorce*
-			# - TODO: Always
-			# *Bastardy*
-			# - TODO: Legit
-			# *Incest*
-			# - TODO: Avunculate
+			# Tenets: Asceticism, Esotericism, Monasticism
+			doctrine = tenet_asceticism
+			doctrine = tenet_esotericism
+			doctrine = tenet_monasticism
+			
+			# Gender Views: Male dominated
+			doctrine = doctrine_gender_male_dominated
+
+			# Religious Attitude: Fundamentalist or Righteous
+			doctrine = doctrine_pluralism_fundamentalist
+
+			# Clerical tradition: Lay Clergy
+			doctrine = doctrine_theocracy_lay_clergy
+
+			# Head of Faith: None
+			doctrine = doctrine_no_head
+
+			# Naked Priests: Yes
+			doctrine = special_doctrine_naked_priests
+			
+			# Marriage: Poly
+			doctrine = doctrine_polygamy
+			# Divorce: Always
+			doctrine = doctrine_divorce_allowed
+			# Bastardy: Legit
+			doctrine = doctrine_bastardry_legitimization
+			# Incest: Avunculate
+			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
 		}
 
 		puranist = {  # Puranism (South India / Dravidian Group)
-			# *Tenets*
-			# - TODO: Asceticism
-			# - TODO: Native Primitivism
-			# - TODO: Ritual Hospitality/Puja
-			# *Gender Views*
-			# - TODO: Equal
-			# *Religious Attitude*
-			# - TODO: Righteous
-			# *Clerical Tradition*
-			# - TODO: Theocratic
-			# *Head of Faith*
-			# - TODO: None
-			# *Naked Priests*
-			# - TODO: Yes
-			# *Marriage*
-			# - TODO: Poly
-			# *Divorce*
-			# - TODO: Always
-			# *Bastardy*
-			# - TODO: Legit
-			# *Incest*
-			# - TODO: Avunculate
+			# Tenets: Asceticism, Native Primitivism, Ritual Hospitality/Puja
+			doctrine = tenet_asceticism
+			doctrine = tenet_natural_primitivism
+			doctrine = tenet_ritual_hospitality
+
+			# Gender Views: Equal
+			doctrine = doctrine_gender_equal
+
+			# Religious Attitude: Righteous
+			doctrine = doctrine_pluralism_righteous
+
+			# Clerical Tradition: Theocratic
+			doctrine = doctrine_theocracy_temporal
+
+			# Head of Faith: None
+			doctrine = doctrine_no_head
+
+			# Naked Priests: Yes
+			doctrine = special_doctrine_naked_priests
+
+			# Marriage: Poly
+			doctrine = doctrine_polygamy
+			# Divorce: Always
+			doctrine = doctrine_divorce_allowed
+			# Bastardy: Legit
+			doctrine = doctrine_bastardry_legitimization
+			# Incest: Avunculate
+			doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
 		}
 	}
 }

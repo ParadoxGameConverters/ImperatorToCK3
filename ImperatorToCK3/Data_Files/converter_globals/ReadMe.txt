@@ -42,5 +42,6 @@ AsiaExtended mod team - Permission to use Shan name list and Palaungic culture f
 Luka_Moscovite - Russian translations
 More Bookmarks+ mod team - Permission to use Natkokwe faith from their mod
 When the World Stopped Making Sense mod team - Permission to use Eiateuta faith from their mod
+Hiro - Autheist religious localization from "Autheism" mod (https://steamcommunity.com/workshop/filedetails/?id=2289296210)
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
