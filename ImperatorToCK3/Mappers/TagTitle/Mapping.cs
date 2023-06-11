@@ -42,7 +42,7 @@ public class Mapping {
 			
 				var percentage = (double)governorshipProvincesInDuchy.Count() / ck3ProvincesInDuchy.Count;
 				if (percentage < 0.6) {
-					Logger.Debug($"Ignoring mapping from {imperatorTagOrRegion} to {ck3Title} because governorship controls only {percentage:P} of the duchy's CK3 provinces.");
+					Logger.Debug($"Ignoring mapping from {governorship.Country.Tag} {imperatorTagOrRegion} to {ck3Title} because governorship controls only {percentage:P} of the duchy's CK3 provinces.");
 					return null;
 				}
 			}
