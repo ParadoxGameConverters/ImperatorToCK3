@@ -230,10 +230,9 @@ public class CharacterCollectionTests {
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
 
-		var irAreas = new AreaCollection();
-		irAreas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
-		Assert.True(irAreas.ContainsKey("galatia_area"));
-		Assert.True(irAreas.ContainsKey("paphlagonia_area"));
+		imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
+		Assert.True(imperatorWorld.Areas.ContainsKey("galatia_area"));
+		Assert.True(imperatorWorld.Areas.ContainsKey("paphlagonia_area"));
 		
 		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS);
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
@@ -255,8 +254,8 @@ public class CharacterCollectionTests {
 			"start_date=450.10.1 " +
 			"governorship = \"paphlagonia_region\""
 		);
-		var governorship1 = new Governorship(governorshipReader1, imperatorWorld.Countries, irRegionMapper);
-		var governorship2 = new Governorship(governorshipReader2, imperatorWorld.Countries, irRegionMapper);
+		var governorship1 = new Governorship(governorshipReader1, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
+		var governorship2 = new Governorship(governorshipReader2, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
 		imperatorWorld.Jobs.Governorships.Add(governorship1);
 		imperatorWorld.Jobs.Governorships.Add(governorship2);
 
