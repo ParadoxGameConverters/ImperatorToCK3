@@ -24,13 +24,14 @@ public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private readonly Date ck3BookmarkDate = "476.1.1";
 	private readonly StateCollection states = new();
 	private static readonly CountryCollection countries = new();
 
 	static ProvinceTests() {
 		countries.LoadCountries(new BufferedReader("1={}"));
+		irRegionMapper.LoadRegions(irModFS);
 	}
 
 	[Fact]

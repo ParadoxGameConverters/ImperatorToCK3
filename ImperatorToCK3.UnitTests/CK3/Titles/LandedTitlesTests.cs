@@ -35,7 +35,7 @@ public class LandedTitlesTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
@@ -48,6 +48,7 @@ public class LandedTitlesTests {
 			new StateCollection(),
 			new CountryCollection()
 		);
+		irRegionMapper.LoadRegions(irModFS);
 	}
 
 	[Fact]

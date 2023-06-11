@@ -34,7 +34,7 @@ public class CharacterCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
@@ -49,6 +49,7 @@ public class CharacterCollectionTests {
 			states,
 			countries
 		);
+		irRegionMapper.LoadRegions(irModFS);
 	}
 
 	[Fact]
