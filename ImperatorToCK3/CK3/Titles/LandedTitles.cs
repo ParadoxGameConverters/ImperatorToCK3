@@ -404,7 +404,7 @@ public partial class Title {
 		) {
 			var country = governorship.Country;
 
-			var id = DetermineId(governorship, country, titles, ck3Provinces, imperatorRegionMapper, tagTitleMapper);
+			var id = DetermineId(governorship, titles, irProvinces, ck3Provinces, imperatorRegionMapper, tagTitleMapper, provinceMapper);
 			if (id is null) {
 				Logger.Warn($"Cannot convert {governorship.Region.Id} of country {country.Id}");
 				return;
