@@ -358,6 +358,8 @@ public partial class Title {
 
 			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
 				.ToDictionary(g => g.Key, g => g.Count());
+			
+			
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator governorships.
@@ -607,9 +609,7 @@ public partial class Title {
 			Logger.IncrementProgress();
 
 			Logger.Info("Setting de jure empires...");
-			var deJureKingdoms = this
-				.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
-				.ToImmutableArray();
+			var deJureKingdoms = GetDeJureKingdoms();
 			foreach (var kingdom in deJureKingdoms) {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
@@ -762,6 +762,14 @@ public partial class Title {
 		public IEnumerable<Title> GetCountriesImportedFromImperator() {
 			return this.Where(t => t.ImperatorCountry is not null);
 		}
+
+		public IReadOnlyCollection<Title> GetDeJureDuchies() => this
+			.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0})
+			.ToImmutableArray();
+		
+		public IReadOnlyCollection<Title> GetDeJureKingdoms() => this
+			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
+			.ToImmutableArray();
 
 		public Color GetDerivedColor(Color baseColor) {
 			HashSet<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet()!;
