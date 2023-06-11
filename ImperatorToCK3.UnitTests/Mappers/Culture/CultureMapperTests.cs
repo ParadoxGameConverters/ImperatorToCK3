@@ -14,7 +14,11 @@ public class CultureMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	
+	public CultureMapperTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void NonMatchGivesEmptyOptional() {

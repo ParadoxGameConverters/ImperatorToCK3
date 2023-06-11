@@ -29,9 +29,13 @@ public class TagTitleMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private const string tagTitleMappingsPath = "TestFiles/configurables/title_map.txt";
 	private const string governorshipTitleMappingsPath = "TestFiles/configurables/governorMappings.txt";
+	
+	public TagTitleMapperTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void TitleCanBeMatchedFromTag() {
@@ -72,7 +76,8 @@ public class TagTitleMapperTests {
 			new Configuration()
 		);
 
-		var centralItalyGov = new Governorship(new BufferedReader("who=1 governorship=central_italy_region"));
+		var governorshipReader = new BufferedReader("who=1 governorship=central_italy_region");
+		var centralItalyGov = new Governorship(governorshipReader, impCountries, irRegionMapper);
 		var provinces = new ProvinceCollection();
 		var match = mapper.GetTitleForGovernorship(centralItalyGov, impCountries[1], titles, provinces, irRegionMapper);
 
@@ -139,8 +144,10 @@ public class TagTitleMapperTests {
 			new Configuration()
 		);
 
-		var apuliaGov = new Governorship(new BufferedReader($"who={romeId} governorship=apulia_region"));
-		var pepeGov = new Governorship(new BufferedReader($"who={dreId} governorship=pepe_region"));
+		var apuliaGovReader = new BufferedReader($"who={romeId} governorship=apulia_region");
+		var apuliaGov = new Governorship(apuliaGovReader, impCountries, irRegionMapper);
+		var pepeGovReader = new BufferedReader($"who={dreId} governorship=pepe_region");
+		var pepeGov = new Governorship(pepeGovReader, impCountries, irRegionMapper);
 		var provinces = new ProvinceCollection();
 		var match = mapper.GetTitleForGovernorship(apuliaGov, impCountries[romeId], titles, provinces, irRegionMapper);
 		var match2 = mapper.GetTitleForGovernorship(pepeGov, impCountries[dreId], titles, provinces, irRegionMapper);
@@ -165,7 +172,9 @@ public class TagTitleMapperTests {
 
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
 		var country = new Country(1);
-		var apuliaGov = new Governorship(new BufferedReader("who=1 governorship=apulia_region"));
+		var countries = new CountryCollection {country};
+		var apuliaGovReader = new BufferedReader("who=1 governorship=apulia_region");
+		var apuliaGov = new Governorship(apuliaGovReader, countries, irRegionMapper);
 		var match = mapper.GetTitleForGovernorship(apuliaGov, country, new Title.LandedTitles(), new ProvinceCollection(), irRegionMapper);
 
 		Assert.Null(match);
@@ -218,7 +227,8 @@ public class TagTitleMapperTests {
 
 		mapper.RegisterGovernorship("aquitaine_region", "BOR", "k_atlantis");
 
-		var aquitaneGov = new Governorship(new BufferedReader("who=1 governorship=aquitaine_region"));
+		var aquitaneGovReader = new BufferedReader("who=1 governorship=aquitaine_region");
+		var aquitaneGov = new Governorship(aquitaneGovReader, impCountries, irRegionMapper);
 		var match = mapper.GetTitleForGovernorship(aquitaneGov, impCountries[1], titles, provinces, irRegionMapper);
 
 		Assert.Equal("k_atlantis", match);

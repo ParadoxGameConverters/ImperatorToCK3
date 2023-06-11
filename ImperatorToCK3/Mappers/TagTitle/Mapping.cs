@@ -1,5 +1,11 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Mappers.Province;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
@@ -11,6 +17,37 @@ public class Mapping {
 		if (ranks.Count > 0 && !ranks.Contains(rank)) {
 			return null;
 		}
+		return ck3Title;
+	}
+
+	public string? GovernorshipMatch(string rank, Title.LandedTitles landedTitles, Governorship governorship, ProvinceMapper provMapper, ProvinceCollection irProvinces) {
+		if (imperatorTagOrRegion != governorship.Region.Id) {
+			return null;
+		}
+		if (ranks.Count > 0 && !ranks.Contains(rank)) {
+			return null;
+		}
+		
+		// If title is a de jure duchy, check if the governorship controls at least 60% of the duchy's CK3 provinces.
+		if (ck3Title.StartsWith("d_")) {
+			var deJureDuchies = landedTitles.GetDeJureDuchies().ToImmutableHashSet();
+			var duchy = deJureDuchies.FirstOrDefault(d => d.Id == ck3Title);
+			if (duchy is not null) {
+				var ck3ProvincesInDuchy = duchy.GetDeJureVassalsAndBelow("c").Values
+					.SelectMany(c => c.CountyProvinces)
+					.ToImmutableHashSet();
+
+				var governorshipProvincesInDuchy = governorship.GetCK3ProvinceIds(irProvinces, provMapper)
+					.Intersect(ck3ProvincesInDuchy);
+			
+				var percentage = (double)governorshipProvincesInDuchy.Count() / ck3ProvincesInDuchy.Count;
+				if (percentage < 0.6) {
+					Logger.Debug($"Ignoring mapping from {imperatorTagOrRegion} to {ck3Title} because governorship controls only {percentage:P} of the duchy's CK3 provinces.");
+					return null;
+				}
+			}
+		}
+
 		return ck3Title;
 	}
 

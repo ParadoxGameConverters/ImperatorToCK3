@@ -231,11 +231,11 @@ public class CharacterCollectionTests {
 
 		var irAreas = new AreaCollection();
 		irAreas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
-		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irAreas);
-		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
-		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_area"));
-		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
-		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_region"));
+		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS);
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_area"));
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_region"));
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_region"));
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var governorshipReader1 = new BufferedReader(
@@ -250,8 +250,8 @@ public class CharacterCollectionTests {
 			"start_date=450.10.1 " +
 			"governorship = \"paphlagonia_region\""
 		);
-		var governorship1 = new Governorship(governorshipReader1);
-		var governorship2 = new Governorship(governorshipReader2);
+		var governorship1 = new Governorship(governorshipReader1, imperatorWorld.Countries, irRegionMapper);
+		var governorship2 = new Governorship(governorshipReader2, imperatorWorld.Countries, irRegionMapper);
 		imperatorWorld.Jobs.Governorships.Add(governorship1);
 		imperatorWorld.Jobs.Governorships.Add(governorship2);
 
@@ -274,8 +274,8 @@ public class CharacterCollectionTests {
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
 
 		var religionCollection = new ReligionCollection(titles);
-		var religionMapper = new ReligionMapper(religionCollection, impRegionMapper, ck3RegionMapper);
-		var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
+		var religionMapper = new ReligionMapper(religionCollection, imperatorWorld.ImperatorRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(imperatorWorld.ImperatorRegionMapper, ck3RegionMapper);
 		var coaMapper = new CoaMapper();
 		var definiteFormMapper = new DefiniteFormMapper();
 		var traitMapper = new TraitMapper();
@@ -325,7 +325,7 @@ public class CharacterCollectionTests {
 			config,
 			provinceMapper,
 			definiteFormMapper,
-			impRegionMapper,
+			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
 			countryLevelGovernorships: new List<Governorship>());
 

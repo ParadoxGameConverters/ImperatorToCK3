@@ -139,7 +139,7 @@ public class World {
 
 		// Load regions.
 		ck3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
-		imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS, impWorld.Areas);
+		imperatorRegionMapper = impWorld.ImperatorRegionMapper;
 		// Use the region mappers in other mappers
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
@@ -390,8 +390,8 @@ public class World {
 				return false;
 			}
 			var matchingGovernorships = new List<Governorship>(governorshipsSet.Where(g =>
-				g.CountryId == impCountry.Id &&
-				g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
+				g.Country.Id == impCountry.Id &&
+				g.Region.Id == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 			));
 
 			var ck3CapitalCounty = ck3Country.CapitalCounty;
@@ -415,7 +415,7 @@ public class World {
 			var governorship = matchingGovernorships[0];
 			var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, impCountry, LandedTitles, Provinces, imperatorRegionMapper);
 			if (ck3GovernorshipId is null) {
-				Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.RegionName}!");
+				Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.Region.Id}!");
 				return false;
 			}
 

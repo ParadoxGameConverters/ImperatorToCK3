@@ -9,16 +9,17 @@ public class ImperatorRegionMapper {
 	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
 	private readonly AreaCollection areas;
 
-	public ImperatorRegionMapper(ModFilesystem imperatorModFS, AreaCollection areaCollection) {
+	public ImperatorRegionMapper(AreaCollection areaCollection) {
 		areas = areaCollection;
+	}
 
+	public void LoadRegions(ModFilesystem imperatorModFS) {
 		Logger.Info("Initializing Imperator geography...");
-
-		var parser = new Parser();
 
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
-
+		
+		var parser = new Parser();
 		RegisterRegionKeys(parser);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
@@ -26,6 +27,7 @@ public class ImperatorRegionMapper {
 
 		Logger.IncrementProgress();
 	}
+	
 	private void RegisterRegionKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
 			Regions.AddOrReplace(new ImperatorRegion(regionName, reader));

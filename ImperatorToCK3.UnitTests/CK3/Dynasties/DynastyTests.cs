@@ -31,7 +31,7 @@ public class DynastyTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 	private class CK3CharacterBuilder {
 		private const string CK3Path = "TestFiles/CK3";
@@ -107,6 +107,10 @@ public class DynastyTests {
 			this.config = config;
 			return this;
 		}
+	}
+
+	public DynastyTests() {
+		irRegionMapper.LoadRegions(irModFS);
 	}
 
 	[Fact]

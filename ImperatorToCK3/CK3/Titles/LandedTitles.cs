@@ -340,7 +340,7 @@ public partial class Title {
 		}
 
 		public void ImportImperatorGovernorships(
-			Imperator.World impWorld,
+			Imperator.World irWorld,
 			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
@@ -353,10 +353,10 @@ public partial class Title {
 		) {
 			Logger.Info("Importing Imperator Governorships...");
 
-			var governorships = impWorld.Jobs.Governorships;
-			var imperatorCountries = impWorld.Countries;
+			var governorships = irWorld.Jobs.Governorships;
+			var imperatorCountries = irWorld.Countries;
 
-			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
+			var governorshipsPerRegion = governorships.GroupBy(g => g.Region.Id)
 				.ToDictionary(g => g.Key, g => g.Count());
 			
 			
@@ -367,12 +367,11 @@ public partial class Title {
 			foreach (var governorship in governorships) {
 				ImportImperatorGovernorship(
 					governorship,
-					imperatorCountries,
 					this,
 					ck3Provinces,
-					impWorld.Provinces,
-					impWorld.Characters,
-					governorshipsPerRegion[governorship.RegionName] > 1,
+					irWorld.Provinces,
+					irWorld.Characters,
+					governorshipsPerRegion[governorship.Region.Id] > 1,
 					config.StaticDeJure,
 					tagTitleMapper,
 					locDB,
@@ -389,7 +388,6 @@ public partial class Title {
 		}
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
-			CountryCollection imperatorCountries,
 			LandedTitles titles,
 			ProvinceCollection ck3Provinces,
 			Imperator.Provinces.ProvinceCollection irProvinces,
@@ -404,11 +402,11 @@ public partial class Title {
 			CoaMapper coaMapper,
 			ICollection<Governorship> countryLevelGovernorships
 		) {
-			var country = imperatorCountries[governorship.CountryId];
+			var country = governorship.Country;
 
 			var id = DetermineId(governorship, country, titles, ck3Provinces, imperatorRegionMapper, tagTitleMapper);
 			if (id is null) {
-				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
+				Logger.Warn($"Cannot convert {governorship.Region.Id} of country {country.Id}");
 				return;
 			}
 

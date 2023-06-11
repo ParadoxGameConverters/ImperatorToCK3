@@ -76,12 +76,8 @@ public class TagTitleMapper {
 			return null;
 		}
 
-		if (string.IsNullOrEmpty(governorship.RegionName)) {
-			return null;
-		}
-
 		// Look up register
-		if (registeredGovernorshipTitles.TryGetValue($"{country.Tag}_{governorship.RegionName}", out var titleToReturn)) {
+		if (registeredGovernorshipTitles.TryGetValue($"{country.Tag}_{governorship.Region.Id}", out var titleToReturn)) {
 			return titleToReturn;
 		}
 
@@ -91,7 +87,7 @@ public class TagTitleMapper {
 
 		// Attempt a title match
 		foreach (var mapping in mappings) {
-			var match = mapping.RankMatch(governorship.RegionName, rank);
+			var match = mapping.RankMatch(governorship.Region.Id, rank);
 			if (match is null) {
 				continue;
 			}
@@ -99,13 +95,13 @@ public class TagTitleMapper {
 			if (usedTitles.Contains(match)) {
 				continue;
 			}
-			RegisterGovernorship(governorship.RegionName, country.Tag, match);
+			RegisterGovernorship(governorship.Region.Id, country.Tag, match);
 			return match;
 		}
 
 		// Generate a new title
-		var generatedTitle = GenerateNewTitle(governorship.RegionName, country.Tag, ck3LiegeTitle);
-		RegisterGovernorship(governorship.RegionName, country.Tag, generatedTitle);
+		var generatedTitle = GenerateNewTitle(governorship.Region.Id, country.Tag, ck3LiegeTitle);
+		RegisterGovernorship(governorship.Region.Id, country.Tag, generatedTitle);
 		return generatedTitle;
 	}
 
@@ -140,11 +136,11 @@ public class TagTitleMapper {
 				continue;
 			}
 
-			if (governorship.RegionName != imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
+			if (governorship.Region.Id != imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
 				continue;
 			}
 
-			RegisterGovernorship(governorship.RegionName, country.Tag, county.Id);
+			RegisterGovernorship(governorship.Region.Id, country.Tag, county.Id);
 			return county.Id;
 		}
 
