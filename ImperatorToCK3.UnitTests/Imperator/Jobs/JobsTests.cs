@@ -31,7 +31,7 @@ public class JobsTests {
 	[Fact]
 	public void GovernorshipsCanBeRead() {
 		var reader = new BufferedReader(
-			"province_job={who=1} province_job={who=2}"
+			"province_job={who=1 governorship=galatia_region} province_job={who=2 governorship=galatia_region}"
 		);
 		var jobs = new ImperatorToCK3.Imperator.Jobs.Jobs(reader, countryCollection, irRegionMapper);
 		Assert.Collection(jobs.Governorships,

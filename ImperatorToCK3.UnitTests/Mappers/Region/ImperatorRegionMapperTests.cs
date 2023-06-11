@@ -58,7 +58,7 @@ public class ImperatorRegionMapperTests {
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(areas);
-		theMapper.LoadRegions(irModFS);
+		theMapper.LoadRegions(imperatorModFS);
 
 		Assert.True(theMapper.ProvinceIsInRegion(3, "test_area"));
 		Assert.True(theMapper.ProvinceIsInRegion(3, "test_region"));
@@ -103,7 +103,7 @@ public class ImperatorRegionMapperTests {
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(areas);
-		theMapper.LoadRegions(irModFS);
+		theMapper.LoadRegions(imperatorModFS);
 
 		Assert.Equal("test_area", theMapper.GetParentAreaName(2));
 		Assert.Equal("test_region", theMapper.GetParentRegionName(2));
@@ -135,7 +135,7 @@ public class ImperatorRegionMapperTests {
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(areas);
-		theMapper.LoadRegions(irModFS);
+		theMapper.LoadRegions(imperatorModFS);
 
 		Assert.True(theMapper.RegionNameIsValid("test_area"));
 		Assert.True(theMapper.RegionNameIsValid("test_area2"));
@@ -154,7 +154,7 @@ public class ImperatorRegionMapperTests {
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
 		var theMapper = new ImperatorRegionMapper(areas);
-		theMapper.LoadRegions(irModFS);
+		theMapper.LoadRegions(imperatorModFS);
 
 		Assert.False(theMapper.RegionNameIsValid("vanilla_area")); // present only in vanilla file which is overriden by mod
 		Assert.True(theMapper.RegionNameIsValid("common_area"));

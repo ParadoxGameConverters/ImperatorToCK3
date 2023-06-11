@@ -232,11 +232,15 @@ public class CharacterCollectionTests {
 
 		var irAreas = new AreaCollection();
 		irAreas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
+		Assert.True(irAreas.ContainsKey("galatia_area"));
+		Assert.True(irAreas.ContainsKey("paphlagonia_area"));
+		
 		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS);
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_region"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_region"));
+		
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var governorshipReader1 = new BufferedReader(

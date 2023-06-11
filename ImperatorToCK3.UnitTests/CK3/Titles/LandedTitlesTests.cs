@@ -229,7 +229,8 @@ public class LandedTitlesTests {
 		imperatorWorld.Countries.Add(country);
 
 		imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
-		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, imperatorWorld.Areas);
+		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.Areas);
+		impRegionMapper.LoadRegions(imperatorWorld.ModFS);
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -240,7 +241,7 @@ public class LandedTitlesTests {
 			"start_date=450.10.1 " +
 			"governorship = \"galatia_region\""
 		);
-		var governorship1 = new Governorship(reader);
+		var governorship1 = new Governorship(reader, imperatorWorld.Countries, impRegionMapper);
 		imperatorWorld.Jobs.Governorships.Add(governorship1);
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader(
@@ -310,8 +311,8 @@ public class LandedTitlesTests {
 		);
 		Assert.Collection(countyLevelGovernorships,
 			clg1 => {
-				Assert.Equal("galatia_region", clg1.RegionName);
-				Assert.Equal((ulong)589, clg1.CountryId);
+				Assert.Equal("galatia_region", clg1.Region.Id);
+				Assert.Equal((ulong)589, clg1.Country.Id);
 				Assert.Equal((ulong)25212, clg1.CharacterId);
 			}
 		);

@@ -29,7 +29,7 @@ public class TagTitleMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	private readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private const string tagTitleMappingsPath = "TestFiles/configurables/title_map.txt";
 	private const string governorshipTitleMappingsPath = "TestFiles/configurables/governorMappings.txt";
 	
@@ -75,6 +75,8 @@ public class TagTitleMapperTests {
 			new Date(),
 			new Configuration()
 		);
+		
+		irRegionMapper.Regions.Add(new ImperatorRegion("central_italy_region", new BufferedReader()));
 
 		var governorshipReader = new BufferedReader("who=1 governorship=central_italy_region");
 		var centralItalyGov = new Governorship(governorshipReader, impCountries, irRegionMapper);
@@ -144,6 +146,9 @@ public class TagTitleMapperTests {
 			new Configuration()
 		);
 
+		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader()));
+		irRegionMapper.Regions.Add(new ImperatorRegion("pepe_region", new BufferedReader()));
+		
 		var apuliaGovReader = new BufferedReader($"who={romeId} governorship=apulia_region");
 		var apuliaGov = new Governorship(apuliaGovReader, impCountries, irRegionMapper);
 		var pepeGovReader = new BufferedReader($"who={dreId} governorship=pepe_region");
@@ -169,6 +174,8 @@ public class TagTitleMapperTests {
 	public void GetTitleGovernorshipTagReturnsNullOnCountryWithNoCK3Title() {
 		var output = new StringWriter();
 		Console.SetOut(output);
+		
+		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader()));
 
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
 		var country = new Country(1);
@@ -224,7 +231,8 @@ public class TagTitleMapperTests {
 		);
 
 		var provinces = new ProvinceCollection();
-
+		
+		irRegionMapper.Regions.Add(new ImperatorRegion("aquitaine_region", new BufferedReader()));
 		mapper.RegisterGovernorship("aquitaine_region", "BOR", "k_atlantis");
 
 		var aquitaneGovReader = new BufferedReader("who=1 governorship=aquitaine_region");
