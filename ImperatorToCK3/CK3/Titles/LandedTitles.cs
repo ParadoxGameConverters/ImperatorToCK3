@@ -354,12 +354,8 @@ public partial class Title {
 			Logger.Info("Importing Imperator Governorships...");
 
 			var governorships = irWorld.Jobs.Governorships;
-			var imperatorCountries = irWorld.Countries;
-
 			var governorshipsPerRegion = governorships.GroupBy(g => g.Region.Id)
 				.ToDictionary(g => g.Key, g => g.Count());
-			
-			
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator governorships.

@@ -9,8 +9,8 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Imperator.Jobs;
 
 public class GovernorshipTests {
-	private CountryCollection countryCollection = new();
-	private ImperatorRegionMapper irRegionMapper;
+	private readonly CountryCollection countryCollection = new();
+	private readonly irRegionMapper;
 
 	public GovernorshipTests() {
 		countryCollection.Add(new Country(589));
