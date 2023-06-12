@@ -10,7 +10,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs;
 
 public class GovernorshipTests {
 	private readonly CountryCollection countryCollection = new();
-	private readonly irRegionMapper;
+	private readonly ImperatorRegionMapper irRegionMapper;
 
 	public GovernorshipTests() {
 		countryCollection.Add(new Country(589));
