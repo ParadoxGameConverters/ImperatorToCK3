@@ -33,7 +33,7 @@ public class CK3CharacterTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem IRModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ImperatorRegionMapper IRRegionMapper;
-	private static readonly CultureMapper CultureMapper = new(IRRegionMapper, new CK3RegionMapper());
+	private static readonly CultureMapper CultureMapper;
 	private const string CK3Path = "TestFiles/CK3";
 	private const string CK3Root = "TestFiles/CK3/game";
 	private static readonly ModFilesystem CK3ModFS = new(CK3Root, Array.Empty<Mod>());
@@ -45,6 +45,8 @@ public class CK3CharacterTests {
 		areas.LoadAreas(IRModFS, irProvinces);
 		IRRegionMapper = new ImperatorRegionMapper(areas);
 		IRRegionMapper.LoadRegions(IRModFS);
+		
+		CultureMapper = new CultureMapper(IRRegionMapper, new CK3RegionMapper());
 	}
 
 	public class CK3CharacterBuilder {

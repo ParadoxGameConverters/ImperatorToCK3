@@ -20,7 +20,6 @@ public class Governorship {
 		ulong? countryId = null;
 		string? regionId = null;
 		
-		
 		var parser = new Parser();
 		parser.RegisterKeyword("who", reader => countryId = reader.GetULong());
 		parser.RegisterKeyword("character", reader => CharacterId = reader.GetULong());

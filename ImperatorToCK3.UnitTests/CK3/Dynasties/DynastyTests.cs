@@ -31,7 +31,7 @@ public class DynastyTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ImperatorRegionMapper irRegionMapper;
-	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
+	private static readonly CultureMapper cultureMapper;
 	
 	static DynastyTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -39,6 +39,8 @@ public class DynastyTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
+		
+		cultureMapper = new CultureMapper(irRegionMapper, new CK3RegionMapper());
 	}
 	
 	private class CK3CharacterBuilder {
