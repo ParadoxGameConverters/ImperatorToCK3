@@ -39,23 +39,20 @@ public class CharacterCollectionTests {
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 
 	static CharacterCollectionTests() {
-		irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
-		AreaCollection areas = new();
-		areas.LoadAreas(irModFS, irProvinces);
-		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS);
-	}
-
-	public CharacterCollectionTests() {
 		var states = new StateCollection();
 		var countries = new CountryCollection();
+		irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
 		irProvinces.LoadProvinces(
 			new BufferedReader(
-			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
+				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
 			),
 			states,
 			countries
 		);
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS);
 	}
 
 	[Fact]

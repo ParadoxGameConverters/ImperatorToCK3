@@ -42,7 +42,12 @@ public class LandedTitlesTests {
 	private readonly Configuration defaultConfig = new() { ImperatorCivilizationWorth = 0.4 };
 	
 	static LandedTitlesTests() {
-		irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
+		irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		irProvinces.LoadProvinces(
+			new BufferedReader("1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"),
+			new StateCollection(),
+			new CountryCollection()
+		);
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
@@ -50,11 +55,6 @@ public class LandedTitlesTests {
 	}
 	
 	public LandedTitlesTests() {
-		irProvinces.LoadProvinces(
-			new BufferedReader("1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"),
-			new StateCollection(),
-			new CountryCollection()
-		);
 	}
 
 	[Fact]
