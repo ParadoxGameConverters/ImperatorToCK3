@@ -34,14 +34,13 @@ public class CharacterCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ImperatorRegionMapper irRegionMapper;
-	private static readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces;
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 
 	static CharacterCollectionTests() {
 		var states = new StateCollection();
 		var countries = new CountryCollection();
-		irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 		irProvinces.LoadProvinces(
 			new BufferedReader(
 				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
