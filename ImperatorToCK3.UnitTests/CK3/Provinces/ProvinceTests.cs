@@ -29,7 +29,7 @@ public class ProvinceTests {
 	private static readonly CountryCollection countries = new();
 
 	static ProvinceTests() {
-		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection() {new(1), new(2), new(3)};
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);

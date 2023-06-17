@@ -17,12 +17,11 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 public class CultureMappingTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas;
 	private static readonly ImperatorRegionMapper irRegionMapper;
 
 	static CultureMappingTests() {
 		var irProvinces = new ProvinceCollection {new(1), new(2), new(3)};
-		areas = new AreaCollection();
+		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
