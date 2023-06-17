@@ -17,9 +17,13 @@ public class ReligionMappingTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private const string ck3Path = "TestFiles/regions/ReligionMappingTests";
 	private string CK3Root => Path.Combine(ck3Path, "game");
+	
+	public ReligionMappingTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void RegularMatchOnSimpleReligion() {

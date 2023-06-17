@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Geography;
+using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Culture;
 using Xunit;
 using ImperatorToCK3.Mappers.Region;
@@ -13,8 +14,15 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 public class CultureMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper;
+	
+	static CultureMapperTests() {
+		var irProvinces = new ProvinceCollection {new(1), new(2), new(3)};
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void NonMatchGivesEmptyOptional() {

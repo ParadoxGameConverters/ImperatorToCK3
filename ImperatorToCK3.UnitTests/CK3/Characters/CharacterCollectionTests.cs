@@ -33,22 +33,25 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 public class CharacterCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
-	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
+	private static readonly ImperatorRegionMapper irRegionMapper;
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 
-	public CharacterCollectionTests() {
+	static CharacterCollectionTests() {
 		var states = new StateCollection();
 		var countries = new CountryCollection();
+		ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 		irProvinces.LoadProvinces(
 			new BufferedReader(
-			"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
+				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
 			),
 			states,
 			countries
 		);
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS);
 	}
 
 	[Fact]
@@ -229,13 +232,16 @@ public class CharacterCollectionTests {
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
 
-		var irAreas = new AreaCollection();
-		irAreas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
-		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.ModFS, irAreas);
-		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
-		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_area"));
-		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
-		Assert.True(impRegionMapper.RegionNameIsValid("paphlagonia_region"));
+		imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
+		Assert.True(imperatorWorld.Areas.ContainsKey("galatia_area"));
+		Assert.True(imperatorWorld.Areas.ContainsKey("paphlagonia_area"));
+		
+		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS);
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_area"));
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_region"));
+		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_region"));
+		
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var governorshipReader1 = new BufferedReader(
@@ -250,8 +256,8 @@ public class CharacterCollectionTests {
 			"start_date=450.10.1 " +
 			"governorship = \"paphlagonia_region\""
 		);
-		var governorship1 = new Governorship(governorshipReader1);
-		var governorship2 = new Governorship(governorshipReader2);
+		var governorship1 = new Governorship(governorshipReader1, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
+		var governorship2 = new Governorship(governorshipReader2, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
 		imperatorWorld.Jobs.Governorships.Add(governorship1);
 		imperatorWorld.Jobs.Governorships.Add(governorship2);
 
@@ -274,8 +280,8 @@ public class CharacterCollectionTests {
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
 
 		var religionCollection = new ReligionCollection(titles);
-		var religionMapper = new ReligionMapper(religionCollection, impRegionMapper, ck3RegionMapper);
-		var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
+		var religionMapper = new ReligionMapper(religionCollection, imperatorWorld.ImperatorRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(imperatorWorld.ImperatorRegionMapper, ck3RegionMapper);
 		var coaMapper = new CoaMapper();
 		var definiteFormMapper = new DefiniteFormMapper();
 		var traitMapper = new TraitMapper();
@@ -325,7 +331,7 @@ public class CharacterCollectionTests {
 			config,
 			provinceMapper,
 			definiteFormMapper,
-			impRegionMapper,
+			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
 			countryLevelGovernorships: new List<Governorship>());
 
