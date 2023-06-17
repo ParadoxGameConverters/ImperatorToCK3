@@ -25,7 +25,8 @@ public class DynastiesOutputterTests {
 		const string imperatorRoot = "TestFiles/Imperator/root";
 		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
 		AreaCollection areas = new();
-		ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+		ImperatorRegionMapper irRegionMapper = new(areas);
+		irRegionMapper.LoadRegions(irModFS);
 		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
 
 		var characters = new CharacterCollection();

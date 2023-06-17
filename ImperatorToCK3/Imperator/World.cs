@@ -16,6 +16,7 @@ using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.States;
+using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -43,6 +44,7 @@ public class World : Parser {
 	public ProvinceCollection Provinces { get; } = new();
 	public CountryCollection Countries { get; } = new();
 	public AreaCollection Areas { get; } = new();
+	public ImperatorRegionMapper ImperatorRegionMapper { get; }
 	public StateCollection States { get; } = new();
 	public List<War> Wars { get; private set; } = new();
 	public Jobs.Jobs Jobs { get; private set; } = new();
@@ -56,8 +58,9 @@ public class World : Parser {
 	private SaveType saveType = SaveType.Invalid;
 
 	public World(Configuration config) {
-		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
+		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), Array.Empty<Mod>());
 		Religions = new ReligionCollection(new ScriptValueCollection());
+		ImperatorRegionMapper = new ImperatorRegionMapper(Areas);
 	}
 	public World(Configuration config, ConverterVersion converterVersion): this(config) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
@@ -196,7 +199,7 @@ public class World : Parser {
 		});
 		RegisterKeyword("jobs", reader => {
 			Logger.Info("Loading Jobs...");
-			Jobs = new Jobs.Jobs(reader);
+			Jobs = new Jobs.Jobs(reader, Countries, ImperatorRegionMapper);
 			Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
 			Logger.IncrementProgress();
 		});
@@ -342,6 +345,8 @@ public class World : Parser {
 		ParseGenes();
 
 		Areas.LoadAreas(ModFS, Provinces);
+		ImperatorRegionMapper.LoadRegions(ModFS);
+		
 		Country.LoadGovernments(ModFS);
 
 		CulturesDB.Load(ModFS);

@@ -35,7 +35,11 @@ public class TitleTests {
 		new Area("galatia_area", new BufferedReader(), new ProvinceCollection()),
 		new Area("paphlagonia_area", new BufferedReader(), new ProvinceCollection())
 	};
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	
+	static TitleTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	private class TitleBuilder {
 		private Country country = new(0);

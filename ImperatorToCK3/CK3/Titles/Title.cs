@@ -399,11 +399,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return title;
 	}
 
-	public static string? DetermineId(Governorship governorship, Country country, LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper) {
+	public static string? DetermineId(Governorship governorship, LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper, ProvinceMapper provMapper) {
+		var country = governorship.Country;
 		if (country.CK3Title is null) {
-			throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: country has no CK3Title!");
+			throw new ArgumentException($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: country has no CK3Title!");
 		}
-		return tagTitleMapper.GetTitleForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
+		return tagTitleMapper.GetTitleForGovernorship(governorship, titles, irProvinces, ck3Provinces, imperatorRegionMapper, provMapper);
 	}
 
 	public void InitializeFromGovernorship(
@@ -421,7 +422,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var governorshipStartDate = governorship.StartDate;
 
 		if (country.CK3Title is null) {
-			throw new ArgumentException($"{country.Tag} governorship of {governorship.RegionName} could not be mapped to CK3 title: liege doesn't exist!");
+			throw new ArgumentException($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: liege doesn't exist!");
 		}
 
 		ClearHolderSpecificHistory();
@@ -431,7 +432,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		SetDeFactoLiege(country.CK3Title, governorshipStartDate);
 
-		HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.RegionName);
+		HasDefiniteForm = definiteFormMapper.IsDefiniteForm(governorship.Region.Id);
 		RulerUsesTitleName = false;
 
 		PlayerCountry = false;
@@ -466,7 +467,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// ------------------ determine capital
 		var governorProvince = impGovernor.ProvinceId;
-		if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.RegionName)) {
+		if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.Region.Id)) {
 			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince)) {
 				var foundCounty = parentCollection.GetCountyForProvince(ck3Prov);
 				if (foundCounty is not null) {
@@ -488,7 +489,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		var adjSet = false;
 		// Try to generate adjective from name.
-		var nameLocBlock = Localizations.GetLocBlockForKey(Id) ?? locDB.GetLocBlockForKey(governorship.RegionName);
+		var nameLocBlock = Localizations.GetLocBlockForKey(Id) ?? locDB.GetLocBlockForKey(governorship.Region.Id);
 		if (!adjSet && nameLocBlock is not null) {
 			var adjLocBlock = Localizations.AddLocBlock(adjKey);
 			adjLocBlock.CopyFrom(nameLocBlock);
@@ -531,7 +532,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		var nameSet = false;
-		var regionId = governorship.RegionName;
+		var regionId = governorship.Region.Id;
 		irRegionMapper.Regions.TryGetValue(regionId, out var region);
 		LocBlock? regionLocBlock = locDB.GetLocBlockForKey(regionId);
 
@@ -587,7 +588,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!nameSet && regionHasMultipleGovernorships && regionLocBlock is not null) {
 			var ck3Country = country.CK3Title;
 			if (ck3Country is not null && ck3Country.Localizations.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
-				Logger.Debug($"Naming {Id} after governorship with country adjective: {country.Tag} {governorship.RegionName}...");
+				Logger.Debug($"Naming {Id} after governorship with country adjective: {country.Tag} {governorship.Region.Id}...");
 				var nameLocBlock = Localizations.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(regionLocBlock);
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
@@ -597,7 +598,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 		if (!nameSet && regionLocBlock is not null) {
-			Logger.Debug($"Naming {Id} after governorship: {governorship.RegionName}...");
+			Logger.Debug($"Naming {Id} after governorship: {governorship.Region.Id}...");
 			var nameLocBlock = Localizations.AddLocBlock(Id);
 			nameLocBlock.CopyFrom(regionLocBlock);
 			nameSet = true;

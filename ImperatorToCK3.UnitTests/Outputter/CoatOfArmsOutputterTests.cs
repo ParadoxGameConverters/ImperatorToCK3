@@ -27,7 +27,11 @@ public class CoatOfArmsOutputterTests {
 	private const string ImperatorRoot = "TestFiles/CoatOfArmsOutputterTests/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	
+	public CoatOfArmsOutputterTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void CoaIsOutputtedForCountryWithFlagSet() {

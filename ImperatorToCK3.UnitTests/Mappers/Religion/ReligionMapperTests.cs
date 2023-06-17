@@ -17,10 +17,14 @@ public class ReligionMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 
 	private const string CK3Root = "TestFiles/CK3/game";
-	private readonly ModFilesystem ck3ModFs = new(CK3Root, new Mod[] { });
+	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
+	
+	public ReligionMapperTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void NonMatchGivesNull() {
