@@ -32,13 +32,22 @@ public class CK3CharacterTests {
 	private static readonly Date ConversionDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem IRModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection Areas = new();
-	private static readonly ImperatorRegionMapper IRRegionMapper = new(IRModFS, Areas);
-	private static readonly CultureMapper CultureMapper = new(IRRegionMapper, new CK3RegionMapper());
+	private static readonly ImperatorRegionMapper IRRegionMapper;
+	private static readonly CultureMapper CultureMapper;
 	private const string CK3Path = "TestFiles/CK3";
 	private const string CK3Root = "TestFiles/CK3/game";
 	private static readonly ModFilesystem CK3ModFS = new(CK3Root, Array.Empty<Mod>());
 	private static readonly DNAFactory DNAFactory = new(IRModFS, CK3ModFS);
+	
+	static CK3CharacterTests() {
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
+		AreaCollection areas = new();
+		areas.LoadAreas(IRModFS, irProvinces);
+		IRRegionMapper = new ImperatorRegionMapper(areas);
+		IRRegionMapper.LoadRegions(IRModFS);
+		
+		CultureMapper = new CultureMapper(IRRegionMapper, new CK3RegionMapper());
+	}
 
 	public class CK3CharacterBuilder {
 		private Configuration config = new() {
@@ -57,6 +66,8 @@ public class CK3CharacterTests {
 		private DeathReasonMapper deathReasonMapper = new();
 
 		public Character Build() {
+			IRRegionMapper.LoadRegions(IRModFS);
+			
 			var character = new Character(
 				imperatorCharacter,
 				characters,
@@ -217,7 +228,7 @@ public class CK3CharacterTests {
 		ck3Religions.LoadReligions(CK3ModFS, new ColorFactory());
 
 		var mapReader = new BufferedReader(
-			"link = { imp=chalcedonian ck3=orthodox }"
+			"link = { ir=chalcedonian ck3=orthodox }"
 		);
 		var religionMapper = new ReligionMapper(mapReader, ck3Religions, IRRegionMapper, new CK3RegionMapper());
 
@@ -235,7 +246,7 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=macedonian ck3=greek }"
+			"link = { ir=macedonian ck3=greek }"
 		);
 		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper());
 
@@ -294,8 +305,8 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=greek ck3=macedonian historicalTag=MAC }" +
-			"link = { imp=greek ck3=greek }"
+			"link = { ir=greek ck3=macedonian historicalTag=MAC }" +
+			"link = { ir=greek ck3=greek }"
 		);
 		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper());
 

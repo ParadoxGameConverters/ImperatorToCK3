@@ -30,9 +30,19 @@ public class DynastyTests {
 	private static readonly Date BookmarkDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
-	private static readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
+	private static readonly ImperatorRegionMapper irRegionMapper;
+	private static readonly CultureMapper cultureMapper;
+	
+	static DynastyTests() {
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS);
+		
+		cultureMapper = new CultureMapper(irRegionMapper, new CK3RegionMapper());
+	}
+	
 	private class CK3CharacterBuilder {
 		private const string CK3Path = "TestFiles/CK3";
 		private const string CK3Root = "TestFiles/CK3/game";
@@ -109,6 +119,10 @@ public class DynastyTests {
 		}
 	}
 
+	public DynastyTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
+
 	[Fact]
 	public void IdAndNameAreProperlyConverted() {
 		var characters = new CharacterCollection();
@@ -170,7 +184,7 @@ public class DynastyTests {
 
 		var cultureMapper = new CultureMapper(
 			new BufferedReader(
-				"link={imp=roman ck3=not_gypsy} link={imp=akan ck3=akan} link={imp=parthian ck3=parthian}"
+				"link={ir=roman ck3=not_gypsy} link={ir=akan ck3=akan} link={ir=parthian ck3=parthian}"
 			),
 			irRegionMapper,
 			new CK3RegionMapper()

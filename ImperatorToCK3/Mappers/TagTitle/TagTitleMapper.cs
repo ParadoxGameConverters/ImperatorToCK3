@@ -3,6 +3,7 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,8 @@ public class TagTitleMapper {
 	public string? GetTitleForTag(Country country) {
 		return GetTitleForTag(country, string.Empty);
 	}
-	public string? GetTitleForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
+	public string? GetTitleForGovernorship(Governorship governorship, Title.LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, ProvinceMapper provMapper) {
+		var country = governorship.Country;
 		if (country.CK3Title is null) {
 			Logger.Warn($"Country {country.Tag} has no associated CK3 title!");
 			return null;
@@ -76,22 +78,18 @@ public class TagTitleMapper {
 			return null;
 		}
 
-		if (string.IsNullOrEmpty(governorship.RegionName)) {
-			return null;
-		}
-
 		// Look up register
-		if (registeredGovernorshipTitles.TryGetValue($"{country.Tag}_{governorship.RegionName}", out var titleToReturn)) {
+		if (registeredGovernorshipTitles.TryGetValue($"{country.Tag}_{governorship.Region.Id}", out var titleToReturn)) {
 			return titleToReturn;
 		}
 
 		if (rank == "c") {
-			return GetCountyForGovernorship(governorship, country, titles, provinces, imperatorRegionMapper);
+			return GetCountyForGovernorship(governorship, country, titles, ck3Provinces, imperatorRegionMapper);
 		}
 
 		// Attempt a title match
 		foreach (var mapping in mappings) {
-			var match = mapping.RankMatch(governorship.RegionName, rank);
+			var match = mapping.GovernorshipMatch(rank, titles, governorship, provMapper, irProvinces);
 			if (match is null) {
 				continue;
 			}
@@ -99,17 +97,17 @@ public class TagTitleMapper {
 			if (usedTitles.Contains(match)) {
 				continue;
 			}
-			RegisterGovernorship(governorship.RegionName, country.Tag, match);
+			RegisterGovernorship(governorship.Region.Id, country.Tag, match);
 			return match;
 		}
 
 		// Generate a new title
-		var generatedTitle = GenerateNewTitle(governorship.RegionName, country.Tag, ck3LiegeTitle);
-		RegisterGovernorship(governorship.RegionName, country.Tag, generatedTitle);
+		var generatedTitle = GenerateNewTitle(governorship.Region.Id, country.Tag, ck3LiegeTitle);
+		RegisterGovernorship(governorship.Region.Id, country.Tag, generatedTitle);
 		return generatedTitle;
 	}
 
-	private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection provinces, ImperatorRegionMapper imperatorRegionMapper) {
+	private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper) {
 		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
 			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
 			if (capitalBaronyProvinceId == 0) {
@@ -117,12 +115,12 @@ public class TagTitleMapper {
 				continue;
 			}
 
-			if (!provinces.ContainsKey(capitalBaronyProvinceId)) {
+			if (!ck3Provinces.ContainsKey(capitalBaronyProvinceId)) {
 				Logger.Warn($"Capital barony province not found: {capitalBaronyProvinceId}");
 				continue;
 			}
 
-			var ck3CapitalBaronyProvince = provinces[capitalBaronyProvinceId];
+			var ck3CapitalBaronyProvince = ck3Provinces[capitalBaronyProvinceId];
 			var impProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
 			if (impProvince is null) { // probably outside of Imperator map
 				continue;
@@ -140,11 +138,11 @@ public class TagTitleMapper {
 				continue;
 			}
 
-			if (governorship.RegionName != imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
+			if (governorship.Region.Id != imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
 				continue;
 			}
 
-			RegisterGovernorship(governorship.RegionName, country.Tag, county.Id);
+			RegisterGovernorship(governorship.Region.Id, country.Tag, county.Id);
 			return county.Id;
 		}
 
@@ -214,5 +212,5 @@ public class TagTitleMapper {
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 	private readonly SortedSet<string> usedTitles = new();
 
-	private const string GeneratedCK3TitlePrefix = "IMPTOCK3_";
+	private const string GeneratedCK3TitlePrefix = "IRTOCK3_";
 }

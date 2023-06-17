@@ -139,10 +139,25 @@ public class World {
 
 		// Load regions.
 		ck3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
-		imperatorRegionMapper = new ImperatorRegionMapper(impWorld.ModFS, impWorld.Areas);
+		imperatorRegionMapper = impWorld.ImperatorRegionMapper;
 		// Use the region mappers in other mappers
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
+		// Check if all I:R religions have a base mapping.
+		foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
+			var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
+			if (baseMapping is null) {
+				Logger.Warn($"No base mapping found for I:R religion {irReligionId}!");
+			}
+		}
+		// Check if all I:R cultures have a base mapping.
+		var irCultureIds = impWorld.CulturesDB.SelectMany(g => g.Select(c => c.Id));
+		foreach (var irCultureId in irCultureIds) {
+			var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
+			if (baseMapping is null) {
+				Logger.Warn($"No base mapping found for I:R culture {irCultureId}!");
+			}
+		}
 
 		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
 
@@ -209,7 +224,7 @@ public class World {
 		);
 		
 		// Give counties to rulers and governors.
-		OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, CorrectedDate);
+		OverwriteCountiesHistory(impWorld.Jobs.Governorships, countyLevelGovernorships, impWorld.Characters, impWorld.Provinces, CorrectedDate);
 		// Import holding owners as barons and counts.
 		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
 		
@@ -299,7 +314,7 @@ public class World {
 		}
 	}
 
-	private void OverwriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Date conversionDate) {
+	private void OverwriteCountiesHistory(IEnumerable<Governorship> governorships, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Imperator.Provinces.ProvinceCollection irProvinces, Date conversionDate) {
 		Logger.Info("Overwriting counties' history...");
 		var governorshipsSet = governorships.ToHashSet();
 		var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
@@ -375,8 +390,8 @@ public class World {
 				return false;
 			}
 			var matchingGovernorships = new List<Governorship>(governorshipsSet.Where(g =>
-				g.CountryId == impCountry.Id &&
-				g.RegionName == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
+				g.Country.Id == impCountry.Id &&
+				g.Region.Id == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
 			));
 
 			var ck3CapitalCounty = ck3Country.CapitalCounty;
@@ -398,9 +413,9 @@ public class World {
 
 			// give county to governor
 			var governorship = matchingGovernorships[0];
-			var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, impCountry, LandedTitles, Provinces, imperatorRegionMapper);
+			var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, LandedTitles, irProvinces, Provinces, imperatorRegionMapper, provinceMapper);
 			if (ck3GovernorshipId is null) {
-				Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.RegionName}!");
+				Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.Region.Id}!");
 				return false;
 			}
 

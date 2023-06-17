@@ -27,7 +27,11 @@ public class CoatOfArmsOutputterTests {
 	private const string ImperatorRoot = "TestFiles/CoatOfArmsOutputterTests/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	
+	public CoatOfArmsOutputterTests() {
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void CoaIsOutputtedForCountryWithFlagSet() {
@@ -65,7 +69,7 @@ public class CoatOfArmsOutputterTests {
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
-		Assert.Equal("d_IMPTOCK3_ADI={", reader.ReadLine());
+		Assert.Equal("d_IRTOCK3_ADI={", reader.ReadLine());
 		Assert.Equal("\tpattern=\"pattern_solid.tga\"", reader.ReadLine());
 		Assert.Equal("\tcolor1=red color2=green color3=blue", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());

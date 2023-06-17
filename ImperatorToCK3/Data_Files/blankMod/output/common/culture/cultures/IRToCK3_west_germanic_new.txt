@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.9.0.4
 angle = { # https://en.wikipedia.org/wiki/Angles
 	color = rgb { 142 66 30 }
 
@@ -45,10 +45,10 @@ iweric = {
 
 	color = hsv{ 0.8 0.035 0.8 }
 
-	coa_gfx = { irish_coa_gfx anglo_saxon_coa_gfx scottish_coa_gfx western_coa_gfx }
+	coa_gfx = { irish_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
-	clothing_gfx = { fp1_norse_clothing_gfx western_clothing_gfx }
+	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
 
 	ethnicities = {

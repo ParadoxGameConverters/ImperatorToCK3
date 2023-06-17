@@ -129,8 +129,9 @@ public class Character : IIdentifiable<string> {
 			// Modify the last entry in the history to include the death reason.
 			var entriesList = entriesDict.First().Value;
 			var lastEntry = entriesList.Last();
-			var newEntry = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem($"{{ death_reason = {value} }}"));
-			entriesList[^1] = newEntry;
+			// No reason provided.
+			var deathStr = value is null ? "yes" : $"{{ death_reason = {value} }}";
+			entriesList[^1] = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem(deathStr));
 		}
 	}
 
@@ -246,28 +247,35 @@ public class Character : IIdentifiable<string> {
 
 		// determine culture and religion
 		ulong ck3Province = 0;
-		ulong impProvince = 0;
+		ulong irProvince = 0;
 		var srcReligion = preImperatorRuler.Religion ?? imperatorCountry.Religion;
 		var srcCulture = preImperatorRuler.Culture ?? imperatorCountry.PrimaryCulture;
 		if (imperatorCountry.CapitalProvinceId is not null) {
-			impProvince = imperatorCountry.CapitalProvinceId.Value;
-			var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(impProvince);
+			irProvince = imperatorCountry.CapitalProvinceId.Value;
+			var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(irProvince);
 			if (ck3Provinces.Count > 0) {
 				ck3Province = ck3Provinces[0];
 			}
 		}
 
-		if (srcReligion is not null) {
-			var faithMatch = religionMapper.Match(srcReligion, ck3Province, impProvince, imperatorCountry.HistoricalTag, config);
-			if (faithMatch is not null) {
-				SetFaithId(faithMatch, null);
+		if (srcCulture is not null) {
+			var cultureMatch = cultureMapper.Match(srcCulture, ck3Province, irProvince, imperatorCountry.HistoricalTag);
+			if (cultureMatch is not null) {
+				SetCultureId(cultureMatch, null);
 			}
 		}
 
-		if (srcCulture is not null) {
-			var cultureMatch = cultureMapper.Match(srcCulture, GetFaithId(config.CK3BookmarkDate) ?? string.Empty, ck3Province, impProvince, imperatorCountry.HistoricalTag);
-			if (cultureMatch is not null) {
-				SetCultureId(cultureMatch, null);
+		if (srcReligion is not null) {
+			var faithMatch = religionMapper.Match(
+				srcReligion, 
+				GetCultureId(config.CK3BookmarkDate), 
+				ck3Province, 
+				irProvince, 
+				imperatorCountry.HistoricalTag, 
+				config
+			);
+			if (faithMatch is not null) {
+				SetFaithId(faithMatch, null);
 			}
 		}
 			
@@ -350,23 +358,29 @@ public class Character : IIdentifiable<string> {
 		// determine CK3 province for religionMapper
 		ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
 
-		var match = religionMapper.Match(ImperatorCharacter.Religion, ck3Province, ImperatorCharacter.ProvinceId, ImperatorCharacter.HomeCountry?.HistoricalTag, config);
-		if (match is not null) {
-			SetFaithId(match, null);
-		}
-
-		match = cultureMapper.Match(
+		var cultureMatch = cultureMapper.Match(
 			ImperatorCharacter.Culture,
-			GetFaithId(dateOnConversion) ?? string.Empty,
 			ck3Province,
 			ImperatorCharacter.ProvinceId,
-			ImperatorCharacter.Country?.HistoricalTag ?? string.Empty
+			ImperatorCharacter.Country?.HistoricalTag
 		);
-		if (match is null) {
+		if (cultureMatch is null) {
 			Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter.Id}" +
 			            $" with culture {ImperatorCharacter.Culture}!");
 		} else {
-			SetCultureId(match, null);
+			SetCultureId(cultureMatch, null);
+		}
+
+		var faithMatch = religionMapper.Match(
+			ImperatorCharacter.Religion,
+			GetCultureId(dateOnConversion),
+			ck3Province, 
+			ImperatorCharacter.ProvinceId, 
+			ImperatorCharacter.HomeCountry?.HistoricalTag, 
+			config
+		);
+		if (faithMatch is not null) {
+			SetFaithId(faithMatch, null);
 		}
 
 		// Determine character attributes.

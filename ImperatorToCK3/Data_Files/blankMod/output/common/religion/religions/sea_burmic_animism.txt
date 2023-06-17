@@ -217,7 +217,7 @@ burmic_religion = { # Folk religions of Burmese peoples
 
 			holy_site = popa
 			holy_site = zwegabin
-			holy_site = myitsone
+			# holy_site = myitsone # IRToCK3: disabled due to c_guangdang not existing 
 			holy_site = taungbyone
 			holy_site = kyaikhtiyo
 			#holy_site = barra_basti

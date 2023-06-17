@@ -21,10 +21,17 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 public class RulerTermTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper;
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
+
+	static RulerTermTests() {
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS);
+	}
 
 	[Fact]
 	public void ImperatorRulerTermIsCorrectlyConverted() {
@@ -73,7 +80,7 @@ public class RulerTermTests {
 		var govMapper = new GovernmentMapper(govReader);
 		var ck3RegionMapper = new CK3RegionMapper();
 		var religionMapper = new ReligionMapper(
-			new BufferedReader("link={imp=hellenic ck3=hellenic}"),
+			new BufferedReader("link={ir=hellenic ck3=hellenic}"),
 			ck3Religions,
 			irRegionMapper,
 			ck3RegionMapper
@@ -84,7 +91,7 @@ public class RulerTermTests {
 			govMapper,
 			new LocDB("english"),
 			religionMapper,
-			new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper),
+			new CultureMapper(new BufferedReader("link = { ir=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration()

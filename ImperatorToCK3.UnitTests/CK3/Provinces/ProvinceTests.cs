@@ -23,13 +23,18 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper;
 	private readonly Date ck3BookmarkDate = "476.1.1";
 	private readonly StateCollection states = new();
 	private static readonly CountryCollection countries = new();
 
 	static ProvinceTests() {
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS);
+		
 		countries.LoadCountries(new BufferedReader("1={}"));
 	}
 

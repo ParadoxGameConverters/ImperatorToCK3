@@ -29,3 +29,4 @@ Publish/
 
 log.txt
 *.user
+.vscode/settings.json
