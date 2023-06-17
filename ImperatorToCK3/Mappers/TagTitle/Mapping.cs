@@ -32,19 +32,22 @@ public class Mapping {
 		if (ck3Title.StartsWith("d_")) {
 			var deJureDuchies = landedTitles.GetDeJureDuchies().ToImmutableHashSet();
 			var duchy = deJureDuchies.FirstOrDefault(d => d.Id == ck3Title);
-			if (duchy is not null) {
-				var ck3ProvincesInDuchy = duchy.GetDeJureVassalsAndBelow("c").Values
-					.SelectMany(c => c.CountyProvinces)
-					.ToImmutableHashSet();
+			if (duchy is null) {
+				// Duchy is not de jure.
+				return ck3Title;
+			}
 
-				var governorshipProvincesInDuchy = governorship.GetCK3ProvinceIds(irProvinces, provMapper)
-					.Intersect(ck3ProvincesInDuchy);
+			var ck3ProvincesInDuchy = duchy.GetDeJureVassalsAndBelow("c").Values
+				.SelectMany(c => c.CountyProvinces)
+				.ToImmutableHashSet();
+
+			var governorshipProvincesInDuchy = governorship.GetCK3ProvinceIds(irProvinces, provMapper)
+				.Intersect(ck3ProvincesInDuchy);
 			
-				var percentage = (double)governorshipProvincesInDuchy.Count() / ck3ProvincesInDuchy.Count;
-				if (percentage < 0.6) {
-					Logger.Debug($"Ignoring mapping from {governorship.Country.Tag} {imperatorTagOrRegion} to {ck3Title} because governorship controls only {percentage:P} of the duchy's CK3 provinces.");
-					return null;
-				}
+			var percentage = (double)governorshipProvincesInDuchy.Count() / ck3ProvincesInDuchy.Count;
+			if (percentage < 0.6) {
+				Logger.Debug($"Ignoring mapping from {governorship.Country.Tag} {imperatorTagOrRegion} to {ck3Title} because governorship controls only {percentage:P} of the duchy's CK3 provinces.");
+				return null;
 			}
 		}
 

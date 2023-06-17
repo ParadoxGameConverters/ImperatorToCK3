@@ -34,21 +34,27 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 public class LandedTitlesTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	private static readonly ImperatorRegionMapper irRegionMapper;
 	private readonly ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 	private readonly ModFilesystem ck3ModFS = new(CK3Root, new List<Mod>());
 	private readonly Configuration defaultConfig = new() { ImperatorCivilizationWorth = 0.4 };
-
+	
+	static LandedTitlesTests() {
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection() {new(1), new(2), new(3)};
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS);
+	}
+	
 	public LandedTitlesTests() {
 		irProvinces.LoadProvinces(
 			new BufferedReader("1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"),
 			new StateCollection(),
 			new CountryCollection()
 		);
-		irRegionMapper.LoadRegions(irModFS);
 	}
 
 	[Fact]
