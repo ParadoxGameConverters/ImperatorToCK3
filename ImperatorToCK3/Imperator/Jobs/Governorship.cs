@@ -19,16 +19,16 @@ public class Governorship {
 	public Governorship(BufferedReader governorshipReader, CountryCollection countries, ImperatorRegionMapper irRegionMapper) {
 		ulong? countryId = null;
 		string? regionId = null;
-		
+
 		var parser = new Parser();
 		parser.RegisterKeyword("who", reader => countryId = reader.GetULong());
 		parser.RegisterKeyword("character", reader => CharacterId = reader.GetULong());
 		parser.RegisterKeyword("start_date", reader => StartDate = new Date(reader.GetString(), AUC: true));
 		parser.RegisterKeyword("governorship", reader => regionId = reader.GetString());
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		
+
 		parser.ParseStream(governorshipReader);
-		
+
 		// Throw exception if country ID or region ID is missing.
 		if (countryId is null) {
 			throw new FormatException("Country ID missing!");
@@ -36,9 +36,13 @@ public class Governorship {
 		if (regionId is null) {
 			throw new FormatException("Region ID missing!");
 		}
-		
+
 		Country = countries[countryId.Value];
-		Region = irRegionMapper.Regions[regionId];
+		if (irRegionMapper.Regions.TryGetValue(regionId, out var region)) {
+			Region = region;
+		} else {
+			throw new KeyNotFoundException($"Region {regionId} does not exist!");
+		}
 	}
 
 	public IReadOnlyCollection<Province> GetIRProvinces(ProvinceCollection irProvinces) {
@@ -46,7 +50,7 @@ public class Governorship {
 			.Where(p => p.OwnerCountry == Country && Region.ContainsProvince(p.Id))
 			.ToImmutableArray();
 	}
-	
+
 	public IReadOnlyCollection<ulong> GetCK3ProvinceIds(ProvinceCollection irProvinces, ProvinceMapper provMapper) {
 		return GetIRProvinces(irProvinces)
 			.Select(p => p.Id)
