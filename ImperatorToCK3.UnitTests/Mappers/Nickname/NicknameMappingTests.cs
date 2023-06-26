@@ -14,7 +14,7 @@ public class NicknameMappingTests {
 	}
 	[Fact]
 	public void FieldsCanBeSet() {
-		var reader = new BufferedReader("= { ck3 = ck3Nickname imp = nickname1 imp = nickname2 }");
+		var reader = new BufferedReader("= { ck3 = ck3Nickname ir = nickname1 ir = nickname2 }");
 		var mapping = new NicknameMapping(reader);
 		Assert.Equal("ck3Nickname", mapping.CK3Nickname);
 		Assert.Collection(mapping.ImperatorNicknames,
