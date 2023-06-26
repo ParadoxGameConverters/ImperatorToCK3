@@ -38,7 +38,11 @@ public class Governorship {
 		}
 		
 		Country = countries[countryId.Value];
-		Region = irRegionMapper.Regions[regionId];
+		if (irRegionMapper.Regions.TryGetValue(regionId, out var region)){
+			Region = region;
+		} else {
+			throw new KeyNotFoundException($"Region {regionId} does not exist!");
+		}
 	}
 
 	public IReadOnlyCollection<Province> GetIRProvinces(ProvinceCollection irProvinces) {
