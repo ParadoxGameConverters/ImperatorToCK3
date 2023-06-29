@@ -12,6 +12,7 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -32,6 +33,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using Culture = ImperatorToCK3.CK3.Cultures.Culture;
 
 namespace ImperatorToCK3.CK3;
 
