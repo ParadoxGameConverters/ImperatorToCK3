@@ -14,7 +14,11 @@ public class Jobs {
 		var ignoredTokens = new IgnoredKeywordsSet();
 		var parser = new Parser();
 		parser.RegisterKeyword("province_job", reader => {
-			Governorships.Add(new Governorship(reader, countries, irRegionMapper));
+			try {
+				Governorships.Add(new Governorship(reader, countries, irRegionMapper));
+			} catch (System.Exception ex) {
+				Logger.Warn($"Failed to load governorship: {ex.Message}");
+			}
 		});
 		parser.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 

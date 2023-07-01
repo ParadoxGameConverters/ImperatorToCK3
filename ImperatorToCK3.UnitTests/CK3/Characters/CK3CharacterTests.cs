@@ -333,7 +333,7 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=the_goose ck3=nick_the_goose }"
+			"link = { ir=the_goose ck3=nick_the_goose }"
 		);
 
 		var character = builder
