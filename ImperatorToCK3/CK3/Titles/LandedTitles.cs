@@ -636,22 +636,10 @@ public partial class Title {
 				.ToImmutableArray();
 			var heritageToEmpireDict = new Dictionary<Pillar, Title>();
 			
-			/*var countyCapitalIds = this
-				.Where(t => t.Rank == TitleRank.county)
-				.Select(t => t.CapitalBaronyProvince)
-				.ToImmutableHashSet();
-			var countyCapitalProvinces = ck3Provinces
-				.Where(p => countyCapitalIds.Contains(p.Id))
-				.ToImmutableList();*/
-			
-			// TODO: remove this
-			var provincesWithIrishCulture = ck3Provinces.Where(p => p.GetCultureId(ck3BookmarkDate) == "irish").ToImmutableHashSet();
-			Logger.Error($"Provinces with irish culture: {string.Join(", ", provincesWithIrishCulture.Select(p => p.Id))}");
-			
 			foreach (var kingdom in kingdomsWithoutEmpire) {
 				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
 				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();
-				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id)); // TODO: use countyCapitalProvinces here if not removed
+				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id));
 				var dominantHeritage = kingdomProvinces
 					.Select(c => new { County = c, CultureId = c.GetCultureId(ck3BookmarkDate)})
 					.Where(x => x.CultureId is not null)
