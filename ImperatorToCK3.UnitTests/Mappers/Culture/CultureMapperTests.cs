@@ -1,4 +1,6 @@
 ﻿using commonItems;
+using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.Imperator.Geography;
@@ -6,6 +8,7 @@ using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Culture;
 using Xunit;
 using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Culture;
@@ -16,7 +19,7 @@ public class CultureMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ImperatorRegionMapper irRegionMapper;
-	private static readonly CultureCollection cultures;
+	private static readonly TestCK3CultureCollection cultures = new();
 	
 	static CultureMapperTests() {
 		var irProvinces = new ProvinceCollection {new(1), new(2), new(3)};
@@ -24,9 +27,10 @@ public class CultureMapperTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
-
-		var pillars = new PillarCollection();
-		cultures = new CultureCollection(pillars);
+		
+		cultures.GenerateTestCulture("culture");
+		cultures.GenerateTestCulture("low_germ");
+		cultures.GenerateTestCulture("high_germ");
 	}
 
 	[Fact]

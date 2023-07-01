@@ -12,6 +12,7 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using System;
 
@@ -25,7 +26,7 @@ public class RulerTermTests {
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
-	private static readonly CultureCollection cultures = new(new PillarCollection());
+	private static readonly TestCK3CultureCollection cultures = new();
 
 	static RulerTermTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -33,6 +34,8 @@ public class RulerTermTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
+		
+		cultures.GenerateTestCulture("greek");
 	}
 
 	[Fact]

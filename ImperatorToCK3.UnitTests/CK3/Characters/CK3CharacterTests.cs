@@ -20,6 +20,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ public class CK3CharacterTests {
 	private const string CK3Root = "TestFiles/CK3/game";
 	private static readonly ModFilesystem CK3ModFS = new(CK3Root, Array.Empty<Mod>());
 	private static readonly DNAFactory DNAFactory = new(IRModFS, CK3ModFS);
-	private static CultureCollection cultures;
+	private static TestCK3CultureCollection cultures = new();
 	
 	static CK3CharacterTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -48,9 +49,9 @@ public class CK3CharacterTests {
 		areas.LoadAreas(IRModFS, irProvinces);
 		IRRegionMapper = new ImperatorRegionMapper(areas);
 		IRRegionMapper.LoadRegions(IRModFS);
-
-		var pillars = new PillarCollection();
-		cultures = new CultureCollection(pillars);
+			
+		cultures.GenerateTestCulture("greek");
+		cultures.GenerateTestCulture("macedonian");
 		CultureMapper = new CultureMapper(IRRegionMapper, new CK3RegionMapper(), cultures);
 	}
 

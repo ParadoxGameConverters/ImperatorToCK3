@@ -16,6 +16,7 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 using System;
@@ -33,7 +34,7 @@ public class DynastyTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private static readonly CultureMapper cultureMapper;
-	private static readonly CultureCollection cultures;
+	private static readonly TestCK3CultureCollection cultures = new();
 	
 	static DynastyTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -41,9 +42,10 @@ public class DynastyTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
-
-		var pillars = new PillarCollection();
-		cultures = new CultureCollection(pillars);
+		
+		cultures.GenerateTestCulture("latin");
+		cultures.GenerateTestCulture("akan");
+		cultures.GenerateTestCulture("partian");
 		cultureMapper = new CultureMapper(irRegionMapper, new CK3RegionMapper(), cultures);
 	}
 	
@@ -188,7 +190,7 @@ public class DynastyTests {
 
 		var cultureMapper = new CultureMapper(
 			new BufferedReader(
-				"link={ir=roman ck3=not_gypsy} link={ir=akan ck3=akan} link={ir=parthian ck3=parthian}"
+				"link={ir=roman ck3=latin} link={ir=akan ck3=akan} link={ir=parthian ck3=parthian}"
 			),
 			irRegionMapper,
 			new CK3RegionMapper(),
@@ -209,6 +211,6 @@ public class DynastyTests {
 			.Build();
 		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
 
-		Assert.Equal("not_gypsy", dynasty.CultureId);
+		Assert.Equal("latin", dynasty.CultureId);
 	}
 }
