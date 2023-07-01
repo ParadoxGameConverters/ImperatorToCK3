@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Geography;
@@ -24,6 +25,7 @@ public class RulerTermTests {
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
+	private static readonly CultureCollection cultures = new(new PillarCollection());
 
 	static RulerTermTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -50,7 +52,7 @@ public class RulerTermTests {
 			govMapper,
 			new LocDB("english"),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new PillarCollection())),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration()
@@ -91,7 +93,7 @@ public class RulerTermTests {
 			govMapper,
 			new LocDB("english"),
 			religionMapper,
-			new CultureMapper(new BufferedReader("link = { ir=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper),
+			new CultureMapper(new BufferedReader("link = { ir=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper, cultures),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration()

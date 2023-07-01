@@ -2,6 +2,7 @@
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -32,6 +33,7 @@ public class DynastyTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private static readonly CultureMapper cultureMapper;
+	private static readonly CultureCollection cultures;
 	
 	static DynastyTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -39,8 +41,10 @@ public class DynastyTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
-		
-		cultureMapper = new CultureMapper(irRegionMapper, new CK3RegionMapper());
+
+		var pillars = new PillarCollection();
+		cultures = new CultureCollection(pillars);
+		cultureMapper = new CultureMapper(irRegionMapper, new CK3RegionMapper(), cultures);
 	}
 	
 	private class CK3CharacterBuilder {
@@ -57,7 +61,7 @@ public class DynastyTests {
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 		private ImperatorToCK3.CK3.Characters.CharacterCollection characters = new();
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
-		private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
+		private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), cultures);
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 		private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
@@ -187,7 +191,8 @@ public class DynastyTests {
 				"link={ir=roman ck3=not_gypsy} link={ir=akan ck3=akan} link={ir=parthian ck3=parthian}"
 			),
 			irRegionMapper,
-			new CK3RegionMapper()
+			new CK3RegionMapper(),
+			cultures
 		);
 		var locDB = new LocDB("english");
 		var ck3Member1 = new CK3CharacterBuilder()

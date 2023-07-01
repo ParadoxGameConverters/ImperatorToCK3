@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Culture;
@@ -15,6 +16,7 @@ public class CultureMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ImperatorRegionMapper irRegionMapper;
+	private static readonly CultureCollection cultures;
 	
 	static CultureMapperTests() {
 		var irProvinces = new ProvinceCollection {new(1), new(2), new(3)};
@@ -22,6 +24,9 @@ public class CultureMapperTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
+
+		var pillars = new PillarCollection();
+		cultures = new CultureCollection(pillars);
 	}
 
 	[Fact]
@@ -29,7 +34,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = culture }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Null(culMapper.Match("nonMatchingCulture", 56, 49, "ROM"));
 	}
@@ -39,7 +44,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = test }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Equal("culture", culMapper.Match("test", 56, 49, "ROM"));
 	}
@@ -49,7 +54,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = qwe ir = test ir = poi }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Equal("culture", culMapper.Match("test", 56, 49, "ROM"));
 	}
@@ -59,7 +64,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = qwe ir = test ir = poi religion = thereligion ck3Province = 4 }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Equal("culture", culMapper.Match("test", 4, 49, "ROM"));
 	}
@@ -69,7 +74,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = qwe ir = test ir = poi religion = thereligion ck3Province = 4 }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Null(culMapper.Match("test", 3, 49, "ROM"));
 	}
@@ -79,7 +84,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = qwe ir = test ir = poi religion = thereligion ck3Province = 4 tag = ROM }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Equal("culture", culMapper.Match("test", 4, 49, "ROM"));
 	}
@@ -89,7 +94,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = qwe ir = test ir = poi religion = thereligion ck3Province = 4 historicalTag = ROM }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Null(culMapper.Match("test", 4, 49, "WRO"));
 	}
@@ -99,7 +104,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = qwe ir = test ir = poi religion = thereligion ck3Province = 4 }"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Equal("culture", culMapper.Match("test", 4, 49, null));
 	}
@@ -109,7 +114,7 @@ public class CultureMapperTests {
 		var reader = new BufferedReader(
 			"link = { ck3 = culture ir = qwe ir = test ir = poi religion = thereligion ck3Province = 4}"
 		);
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Equal("culture", culMapper.Match("test", 4, 49, "ROM"));
 	}
@@ -125,7 +130,7 @@ public class CultureMapperTests {
 			historicalTag=ROM
 		}
 		""");
-		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var culMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Null(culMapper.Match("test", 4, 49, null));
 	}
@@ -137,7 +142,7 @@ public class CultureMapperTests {
 			"link = { ck3=low_germ @germ_cultures irProvince=1}\r\n" +
 			"link = { ck3=high_germ @germ_cultures irProvince=2}"
 		);
-		var cultureMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper());
+		var cultureMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Null(cultureMapper.Match("missing_culture", null, irProvinceId: 1, null));
 		Assert.Equal("low_germ", cultureMapper.Match("bellovacian", null, irProvinceId: 1, null));
