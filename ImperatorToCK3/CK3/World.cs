@@ -650,15 +650,15 @@ public class World {
 					.First(p => p.GetFaithId(date) is not null && p.GetCultureId(date) is not null);
 			}
 			var culture = cultures[province.GetCultureId(date)!];
-			var nameList = culture.NameList;
+			
 			bool female = false;
 			string name;
-			var maleNames = nameList.MaleNames;
+			var maleNames = culture.MaleNames.ToImmutableList();
 			if (maleNames.Count > 0) {
 				name = maleNames.ElementAt((int)province.Id % maleNames.Count);
 			} else { // Generate a female if no male name is available.
 				female = true;
-				var femaleNames = nameList.FemaleNames;
+				var femaleNames = culture.FemaleNames.ToImmutableList();
 				name = femaleNames.ElementAt((int)province.Id % femaleNames.Count);
 			}
 			int age = 18 + (int)(province.Id % 60);
