@@ -93,7 +93,7 @@ public class FaithTests {
 	}
 	
 	[Fact]
-	public void ReligiousHeadTitleIsCorrectlyLinked() {
+	public void ReligiousHeadTitleIdIsCorrectlyRead() {
 		var orthodoxHeadReader = new BufferedReader("{ religious_head = e_orthodox_head }");
 		var orthodox = new Faith("orthodox", orthodoxHeadReader, testReligion, new ColorFactory());
 		Assert.Equal("e_orthodox_head", orthodox.ReligiousHeadTitleId);
