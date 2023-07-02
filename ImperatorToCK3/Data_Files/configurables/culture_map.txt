@@ -233,7 +233,7 @@ link = { ck3 = irish ir = hibernian }
 link = { ck3 = gaelic ir = manavian }
 # Invictus mod
 link = { ck3=irish ir=ivernian ir=voluntian }
-# fallbacks if irish does not exist
+# Fallbacks if irish does not exist in CK3
 link = { ck3=gaelic ir=hibernian ir=ivernian ir=voluntian }
 
 ## Gallic
