@@ -38,7 +38,7 @@ public partial class Province : IIdentifiable<ulong> {
 		History = historyFactory.GetHistory(reader);
 	}
 	public void CopyEntriesFromProvince(Province sourceProvince) {
-		// culture, faith and terrain can be copied from source province
+		// Culture, faith and terrain can be copied from source province.
 		BaseProvinceId = sourceProvince.Id;
 
 		var srcProvinceHistoryFields = sourceProvince.History.Fields;
@@ -65,8 +65,21 @@ public partial class Province : IIdentifiable<ulong> {
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
+		Date conversionDate,
 		Configuration config
 	) {
+		if (Id == 8748) {
+			Logger.Error("1");
+			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
+				Logger.Warn($"initial: {key} = {value}");
+			}
+			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
+				foreach (var (key, value) in dict) {
+					Logger.Warn($"{date}: {key} = {value}");
+				}
+			}
+		}
+		
 		secondaryImperatorProvinces.Clear();
 		secondaryImperatorProvinces.UnionWith(secondarySourceProvinces);
 		PrimaryImperatorProvince = primarySourceProvince;
@@ -75,14 +88,50 @@ public partial class Province : IIdentifiable<ulong> {
 		foreach (var field in History.Fields.Where(f=>!fieldsToKeep.Contains(f.Id))) {
 			field.RemoveAllEntries();
 		}
+		
+		if (Id == 8748) {
+			Logger.Error("2");
+			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
+				Logger.Warn($"initial: {key} = {value}");
+			}
+			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
+				foreach (var (key, value) in dict) {
+					Logger.Warn($"{date}: {key} = {value}");
+				}
+			}
+		}
 
-		History.RemoveHistoryPastDate(config.CK3BookmarkDate);
+		History.RemoveHistoryPastDate(conversionDate);
+		
+		if (Id == 8748) {
+			Logger.Error("3");
+			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
+				Logger.Warn($"initial: {key} = {value}");
+			}
+			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
+				foreach (var (key, value) in dict) {
+					Logger.Warn($"{date}: {key} = {value}");
+				}
+			}
+		}
 
 		// Religion first
-		SetReligionFromImperator(religionMapper, config);
+		SetReligionFromImperator(religionMapper, conversionDate, config);
 
 		// Then culture
-		SetCultureFromImperator(cultureMapper, config);
+		SetCultureFromImperator(cultureMapper);
+
+		if (Id == 8748) {
+			Logger.Error("4");
+			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
+				Logger.Warn($"initial: {key} = {value}");
+			}
+			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
+				foreach (var (key, value) in dict) {
+					Logger.Warn($"{date}: {key} = {value}");
+				}
+			}
+		}
 
 		// Holding type
 		SetHoldingFromImperator(landedTitles);
@@ -92,8 +141,8 @@ public partial class Province : IIdentifiable<ulong> {
 		historyFactory.UpdateHistory(History, reader);
 	}
 
-	private void SetReligionFromImperator(ReligionMapper religionMapper, Configuration config) {
-		var cultureId = GetCultureId(config.CK3BookmarkDate);
+	private void SetReligionFromImperator(ReligionMapper religionMapper, Date conversionDate, Configuration config) {
+		var cultureId = GetCultureId(conversionDate);
 		
 		var religionSet = false;
 		if (PrimaryImperatorProvince is null) {
@@ -164,7 +213,7 @@ public partial class Province : IIdentifiable<ulong> {
 				$"using vanilla religion!");
 		}
 	}
-	private void SetCultureFromImperator(CultureMapper cultureMapper, Configuration config) {
+	private void SetCultureFromImperator(CultureMapper cultureMapper) {
 		var cultureSet = false;
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator province!");

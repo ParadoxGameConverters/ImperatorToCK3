@@ -3,6 +3,7 @@ using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
@@ -39,6 +40,7 @@ public class LandedTitlesTests {
 	private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
 	private readonly ModFilesystem ck3ModFS = new(CK3Root, new List<Mod>());
 	private readonly Configuration defaultConfig = new() { ImperatorCivilizationWorth = 0.4 };
+	private readonly CultureCollection cultures;
 	
 	static LandedTitlesTests() {
 		ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
@@ -51,6 +53,11 @@ public class LandedTitlesTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS);
+	}
+
+	public LandedTitlesTests() {
+		PillarCollection pillars = new();
+		cultures = new CultureCollection(pillars);
 	}
 
 	[Fact]
@@ -259,7 +266,7 @@ public class LandedTitlesTests {
 		var locDB = new LocDB("english");
 		var ck3Religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(ck3Religions, impRegionMapper, ck3RegionMapper);
-		var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(impRegionMapper, ck3RegionMapper, cultures);
 		var coaMapper = new CoaMapper();
 		var definiteFormMapper = new DefiniteFormMapper();
 		var traitMapper = new TraitMapper();
@@ -297,7 +304,7 @@ public class LandedTitlesTests {
 		);
 
 		var provinces = new ProvinceCollection(ck3ModFS);
-		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
+		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
 		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, config, provinceMapper, definiteFormMapper, impRegionMapper, coaMapper, countyLevelGovernorships);
 
@@ -336,7 +343,8 @@ public class LandedTitlesTests {
 
 	[Fact]
 	public void DevelopmentIsCorrectlyCalculatedFor1ProvinceTo1BaronyCountyMapping() {
-		var config = new Configuration { CK3BookmarkDate = new Date(476, 1, 1) };
+		var conversionDate = new Date(476, 1, 1);
+		var config = new Configuration { CK3BookmarkDate = conversionDate };
 		var titles = new Title.LandedTitles();
 		var titlesReader = new BufferedReader(
 			"c_county1={ b_barony1={province=1} }"
@@ -352,10 +360,10 @@ public class LandedTitlesTests {
 
 		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
-		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
+		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
@@ -365,7 +373,8 @@ public class LandedTitlesTests {
 
 	[Fact]
 	public void DevelopmentFromImperatorProvinceCanBeSplitForTargetProvinces() {
-		var config = new Configuration { CK3BookmarkDate = new Date(476, 1, 1) };
+		var conversionDate = new Date(476, 1, 1);
+		var config = new Configuration { CK3BookmarkDate = conversionDate };
 		var titles = new Title.LandedTitles();
 		var titlesReader = new BufferedReader(
 			"c_county1={ b_barony1={province=1} } " +
@@ -383,10 +392,10 @@ public class LandedTitlesTests {
 
 		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
-		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
+		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
@@ -398,7 +407,8 @@ public class LandedTitlesTests {
 
 	[Fact]
 	public void DevelopmentOfCountyIsCalculatedFromAllCountyProvinces() {
-		var config = new Configuration { CK3BookmarkDate = new Date(476, 1, 1) };
+		var conversionDate = new Date(476, 1, 1);
+		var config = new Configuration { CK3BookmarkDate = conversionDate };
 		var titles = new Title.LandedTitles();
 		var titlesReader = new BufferedReader(
 			"c_county1={ b_barony1={province=1} b_barony2={province=2} }"
@@ -416,10 +426,10 @@ public class LandedTitlesTests {
 
 		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
-		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, config);
+		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);

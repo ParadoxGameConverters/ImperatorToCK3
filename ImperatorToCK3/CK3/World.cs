@@ -142,7 +142,7 @@ public class World {
 		imperatorRegionMapper = impWorld.ImperatorRegionMapper;
 		// Use the region mappers in other mappers
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
-		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper);
+		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, cultures);
 		// Check if all I:R religions have a base mapping.
 		foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
 			var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
@@ -206,7 +206,7 @@ public class World {
 		Provinces.ImportVanillaProvinces(ModFS);
 
 		// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-		Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, config);
+		Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, CorrectedDate, config);
 		Provinces.LoadPrehistory();
 
 		var countyLevelGovernorships = new List<Governorship>();
