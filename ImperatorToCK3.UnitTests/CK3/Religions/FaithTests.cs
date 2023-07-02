@@ -91,4 +91,23 @@ public class FaithTests {
 		Assert.False(faith.ModifiedByConverter);
 		Assert.Contains("washington does not belong to holy sites of faith orthodox and cannot be replaced!", output.ToString());
 	}
+	
+	[Fact]
+	public void ReligiousHeadTitleIdIsCorrectlyRead() {
+		var orthodoxHeadReader = new BufferedReader("{ religious_head = e_orthodox_head }");
+		var orthodox = new Faith("orthodox", orthodoxHeadReader, testReligion, new ColorFactory());
+		Assert.Equal("e_orthodox_head", orthodox.ReligiousHeadTitleId);
+		
+		var catholicHeadReader = new BufferedReader("{ religious_head = e_catholic_head }");
+		var catholic = new Faith("catholic", catholicHeadReader, testReligion, new ColorFactory());
+		Assert.Equal("e_catholic_head", catholic.ReligiousHeadTitleId);
+		
+		var copticHeadReader = new BufferedReader("{ religious_head = e_coptic_head }");
+		var coptic = new Faith("coptic", copticHeadReader, testReligion, new ColorFactory());
+		Assert.Equal("e_coptic_head", coptic.ReligiousHeadTitleId);
+		
+		var noHeadFaithReader = new BufferedReader("{}");
+		var atheism = new Faith("atheism", noHeadFaithReader, testReligion, new ColorFactory());
+		Assert.Null(atheism.ReligiousHeadTitleId);
+	}
 }
