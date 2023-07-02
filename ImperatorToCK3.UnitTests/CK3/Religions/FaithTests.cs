@@ -67,6 +67,15 @@ public class FaithTests {
 	}
 
 	[Fact]
+	public void ReligiousHeadTitleIdIsCorrectlySerialized() {
+		var reader = new BufferedReader("religious_head      = d_papacy"); // intentional unformatted whitespace
+		var faith = new Faith("atheism", reader, testReligion, new ColorFactory());
+
+		var faithStr = PDXSerializer.Serialize(faith);
+		faithStr.Should().Contain("religious_head=d_papacy");
+	}
+
+	[Fact]
 	public void HolySiteIdCanBeReplaced() {
 		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
 		var faith = new Faith("orthodox", reader, testReligion, new ColorFactory());
