@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw;
 public class SuccessionLawMapperTests {
 	[Fact]
 	public void NonMatchGivesEmptySet() {
-		var reader = new BufferedReader("link = { imp = implaw ck3 = ck3law }");
+		var reader = new BufferedReader("link = { ir=implaw ck3 = ck3law }");
 		var mapper = new SuccessionLawMapper(reader);
 
 		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(new SortedSet<string> { "madeUpLaw" });
@@ -21,7 +21,7 @@ public class SuccessionLawMapperTests {
 
 	[Fact]
 	public void Ck3LawCanBeFound() {
-		var reader = new BufferedReader("link = { imp = implaw ck3 = ck3law }");
+		var reader = new BufferedReader("link = { ir=implaw ck3 = ck3law }");
 		var mapper = new SuccessionLawMapper(reader);
 
 		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(new SortedSet<string> { "implaw" });
@@ -33,7 +33,7 @@ public class SuccessionLawMapperTests {
 		var output = new StringWriter();
 		Console.SetOut(output);
 
-		var reader = new BufferedReader("link = { imp = implaw }");
+		var reader = new BufferedReader("link = { ir=implaw }");
 		_ = new SuccessionLawMapper(reader);
 
 		Assert.Contains("SuccessionLawMapper: link with no CK3 successions laws", output.ToString());
@@ -42,10 +42,10 @@ public class SuccessionLawMapperTests {
 	[Fact]
 	public void MultipleLawsCanBeReturned() {
 		var reader = new BufferedReader(
-			"link = { imp = implaw ck3 = ck3law ck3 = ck3law2 }\n" +
-			"link = { imp = implaw ck3 = ck3law3 }\n" +
-			"link = { imp = implaw2 ck3 = ck3law4 }\n" +
-			"link = { imp = implaw3 ck3 = ck3law5 }\n"
+			"link = { ir=implaw ck3 = ck3law ck3 = ck3law2 }\n" +
+			"link = { ir=implaw ck3 = ck3law3 }\n" +
+			"link = { ir=implaw2 ck3 = ck3law4 }\n" +
+			"link = { ir=implaw3 ck3 = ck3law5 }\n"
 		);
 		var mapper = new SuccessionLawMapper(reader);
 
