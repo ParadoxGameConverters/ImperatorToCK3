@@ -204,11 +204,11 @@ public class CK3CharacterTests {
 			new Trait("powerful"),
 			new Trait("craven")
 		};
-		var impToCK3TraitDict = new Dictionary<string, string> {
+		var irToCK3TraitDict = new Dictionary<string, string> {
 			{"strong", "powerful"},
 			{"craven", "craven"}
 		};
-		var traitMapper = new TraitMapperTests.TestTraitMapper(impToCK3TraitDict, definedCK3Traits);
+		var traitMapper = new TraitMapperTests.TestTraitMapper(irToCK3TraitDict, definedCK3Traits);
 
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 			Traits = new List<string> { "strong", "humble", "craven" }
