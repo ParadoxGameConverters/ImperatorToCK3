@@ -357,7 +357,7 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=shat_to_death ck3=diarrhea }"
+			"link = { ir=shat_to_death ck3=diarrhea }"
 		);
 
 		var character = builder
