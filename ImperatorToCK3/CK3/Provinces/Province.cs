@@ -68,18 +68,6 @@ public partial class Province : IIdentifiable<ulong> {
 		Date conversionDate,
 		Configuration config
 	) {
-		if (Id == 8748) {
-			Logger.Error("1");
-			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
-				Logger.Warn($"initial: {key} = {value}");
-			}
-			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
-				foreach (var (key, value) in dict) {
-					Logger.Warn($"{date}: {key} = {value}");
-				}
-			}
-		}
-		
 		secondaryImperatorProvinces.Clear();
 		secondaryImperatorProvinces.UnionWith(secondarySourceProvinces);
 		PrimaryImperatorProvince = primarySourceProvince;
@@ -88,50 +76,14 @@ public partial class Province : IIdentifiable<ulong> {
 		foreach (var field in History.Fields.Where(f=>!fieldsToKeep.Contains(f.Id))) {
 			field.RemoveAllEntries();
 		}
-		
-		if (Id == 8748) {
-			Logger.Error("2");
-			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
-				Logger.Warn($"initial: {key} = {value}");
-			}
-			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
-				foreach (var (key, value) in dict) {
-					Logger.Warn($"{date}: {key} = {value}");
-				}
-			}
-		}
 
 		History.RemoveHistoryPastDate(conversionDate);
-		
-		if (Id == 8748) {
-			Logger.Error("3");
-			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
-				Logger.Warn($"initial: {key} = {value}");
-			}
-			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
-				foreach (var (key, value) in dict) {
-					Logger.Warn($"{date}: {key} = {value}");
-				}
-			}
-		}
 
 		// Religion first
 		SetReligionFromImperator(religionMapper, conversionDate, config);
 
 		// Then culture
 		SetCultureFromImperator(cultureMapper);
-
-		if (Id == 8748) {
-			Logger.Error("4");
-			foreach (var (key, value) in History.Fields["culture"].InitialEntries) {
-				Logger.Warn($"initial: {key} = {value}");
-			}
-			foreach (var (date, dict) in History.Fields["culture"].DateToEntriesDict) {
-				foreach (var (key, value) in dict) {
-					Logger.Warn($"{date}: {key} = {value}");
-				}
-			}
-		}
 
 		// Holding type
 		SetHoldingFromImperator(landedTitles);
