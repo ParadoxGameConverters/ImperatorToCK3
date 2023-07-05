@@ -13,7 +13,7 @@ public class UnitTypeMapper {
 			string? ck3Type = null;
 
 			var mappingParser = new Parser();
-			mappingParser.RegisterKeyword("imp", reader=>impList.Add(reader.GetString()));
+			mappingParser.RegisterKeyword("ir", reader=>impList.Add(reader.GetString()));
 			mappingParser.RegisterKeyword("ck3", reader=>ck3Type=reader.GetString());
 			mappingParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			mappingParser.ParseStream(mappingReader);
