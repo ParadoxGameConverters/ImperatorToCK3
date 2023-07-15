@@ -7,7 +7,7 @@ public static class OnActionOutputter {
 		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
 		using var writer = new StreamWriter(filePath);
 		
-		const string customOnGameStartOnAction = "IRToCK3_on_game_start";
+		const string customOnGameStartOnAction = "irtock3_on_game_start";
 		
 		writer.WriteLine("on_game_start = {");
 		writer.WriteLine($"\ton_actions = {{ {customOnGameStartOnAction } }}");
