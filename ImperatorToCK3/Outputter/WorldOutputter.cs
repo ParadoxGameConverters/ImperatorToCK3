@@ -56,6 +56,10 @@ public static class WorldOutputter {
 			ck3World
 		);
 		Logger.IncrementProgress();
+		
+		Logger.Info("Writing game start on-action...");
+		OnActionOutputter.OutputCustomGameStartOnAction(config);
+		Logger.IncrementProgress();
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
