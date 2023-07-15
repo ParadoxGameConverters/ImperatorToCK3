@@ -51,7 +51,10 @@ public static class OnActionOutputter {
 				}
 			}
 		""");
-		writer.WriteLine("\t\tset_global_variable = IRToCK3_create_maa_flag");
+
+		if (config.LegionConversion == LegionConversion.MenAtArms) {
+			writer.WriteLine("\t\tset_global_variable = IRToCK3_create_maa_flag");
+        }
 		
 		writer.WriteLine("\t}");
 		writer.WriteLine("}");
