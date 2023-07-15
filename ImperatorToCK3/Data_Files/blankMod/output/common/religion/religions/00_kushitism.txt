@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.9.1.2
+﻿# Last updated: CK3 patch 1.9.2.1
 kushitism_religion = {
 	family = rf_pagan
 

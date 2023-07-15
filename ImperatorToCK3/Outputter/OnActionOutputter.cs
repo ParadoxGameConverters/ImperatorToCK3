@@ -10,7 +10,7 @@ public static class OnActionOutputter {
 		const string customOnGameStartOnAction = "IRToCK3_on_game_start";
 		
 		writer.WriteLine("on_game_start = {");
-		writer.WriteLine($"\ton_actions = {{ {customOnGameStartOnAction }");
+		writer.WriteLine($"\ton_actions = {{ {customOnGameStartOnAction } }}");
 		writer.WriteLine("}");
 		
 		writer.WriteLine($"{customOnGameStartOnAction} = {{");
