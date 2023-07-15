@@ -1,39 +1,27 @@
 using System.IO;
+using System.Text;
 
 namespace ImperatorToCK3.Outputter; 
 
 public static class OnActionOutputter {
 	public static void OutputCustomGameStartOnAction(Configuration config) {
 		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
-		using var writer = new StreamWriter(filePath);
+		using var writer = new StreamWriter(filePath, false, new UTF8Encoding(true));
 		
-		const string customOnGameStartOnAction = "irtock3_on_game_start";
+		const string customOnGameStartOnAction = "irtock3_on_game_start_after_lobby";
 		
-		writer.WriteLine("on_game_start = {");
+		writer.WriteLine("on_game_start_after_lobby = {");
 		writer.WriteLine($"\ton_actions = {{ {customOnGameStartOnAction } }}");
 		writer.WriteLine("}");
 		
 		writer.WriteLine($"{customOnGameStartOnAction} = {{");
 		writer.WriteLine("\teffect = {");
 		
-		writer.WriteLine("""
-			# IRToCK3: Show welcoming event
-			every_player = { # Welcoming event
-				trigger_event = {
-					id = welcome.1
-					days = 0
-				}
-			}
-		""");
-
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			writer.WriteLine("""
 				# IRToCK3: add MAA regiments
 				random_player = {
-					trigger_event = {
-						id = irtock3_hidden_events.0001
-						days = 0
-					}
+					trigger_event = irtock3_hidden_events.0001
 				}
 			""");
 		}
@@ -63,6 +51,7 @@ public static class OnActionOutputter {
 				}
 			}
 		""");
+		writer.WriteLine("\t\tset_global_variable = IRToCK3_create_maa_flag");
 		
 		writer.WriteLine("\t}");
 		writer.WriteLine("}");
