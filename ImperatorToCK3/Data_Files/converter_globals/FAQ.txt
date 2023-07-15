@@ -16,6 +16,7 @@ A: The converter officially supports these mods:
 - Imperator: Invictus (https://steamcommunity.com/workshop/filedetails/?id=2532715348)
 - Timeline Extension for Invictus (https://steamcommunity.com/sharedfiles/filedetails/?id=2845446001)
 - TE : Crisis of the third century (https://steamcommunity.com/sharedfiles/filedetails/?id=2858320715)
+- Full Mechanical Overhaul (https://steamcommunity.com/sharedfiles/filedetails/?id=2805839904)
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
 Total map overhauls are not supported (of course), and whatever new cultures and religions are brought by the mod - you'll have to add manually in the files in configurables folder.
 
