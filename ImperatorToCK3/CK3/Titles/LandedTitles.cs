@@ -635,6 +635,7 @@ public partial class Title {
 				.Where(k => k.DeJureLiege is null)
 				.ToImmutableArray();
 			var heritageToEmpireDict = new Dictionary<Pillar, Title>();
+			
 			foreach (var kingdom in kingdomsWithoutEmpire) {
 				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
 				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();

@@ -2,6 +2,7 @@
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -57,7 +58,7 @@ public class CoatOfArmsOutputterTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new PillarCollection())),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
@@ -99,7 +100,7 @@ public class CoatOfArmsOutputterTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new PillarCollection())),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),

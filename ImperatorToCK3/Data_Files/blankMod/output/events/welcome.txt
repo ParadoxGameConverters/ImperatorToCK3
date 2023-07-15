@@ -1,25 +1,17 @@
-﻿# Last updated: CK3 patch 1.6.1.2
+﻿# Last updated: CK3 patch 1.9.2.1
 namespace = welcome
-welcome.1 = {
-	hidden = no
-	type = letter_event
-	opening = { desc = welcome_title }
-	desc = welcome_desc
-
-	trigger = { }
-
-	sender = character:converter_team
-
-	immediate = {
-		character:converter_team = { death = natural }
-	}
-
-	option = {
-		name = welcome_ok
-
-		hidden_effect = { set_global_variable = IRToCK3_create_maa_flag }
-	}
-}
+#welcome.1 = {
+#	hidden = no
+#	type = character_event
+#	opening = { desc = welcome_title }
+#	desc = welcome_desc
+#
+#	trigger = { }
+#
+#	option = {
+#		name = welcome_ok
+#	}
+#}
 
 welcome.2 = { ## It'd be best if someone were to convert this into actual locs and translate them
 	hidden = no

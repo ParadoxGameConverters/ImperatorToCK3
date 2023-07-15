@@ -97,6 +97,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
 		ProvinceMapper provinceMapper,
+		Date conversionDate,
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator provinces...");
@@ -119,7 +120,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				.Where(p => sourceProvinceIds.Contains(p.Id) && p.Id != primarySource.Id)
 				.ToOrderedSet();
 			// And finally, initialize it.
-			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper, religionMapper, config);
+			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper, religionMapper, conversionDate, config);
 
 			importedIRProvsCount += sourceProvinceIds.Count;
 			++modifiedCK3ProvsCount;

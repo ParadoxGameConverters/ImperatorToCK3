@@ -318,7 +318,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			// Otherwise, get name from culture.
 			var name = title.MaleNames?.FirstOrDefault();
 			if (name is null) {
-				var maleNames = culture.NameList.MaleNames;
+				var maleNames = culture.MaleNames.ToImmutableList();
 				if (maleNames.Count > 0) {
 					name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
 				}

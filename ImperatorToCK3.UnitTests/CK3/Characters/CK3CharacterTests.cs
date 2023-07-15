@@ -5,6 +5,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Genes;
@@ -19,10 +20,12 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using Culture = ImperatorToCK3.Imperator.Cultures.Culture;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -38,6 +41,7 @@ public class CK3CharacterTests {
 	private const string CK3Root = "TestFiles/CK3/game";
 	private static readonly ModFilesystem CK3ModFS = new(CK3Root, Array.Empty<Mod>());
 	private static readonly DNAFactory DNAFactory = new(IRModFS, CK3ModFS);
+	private static TestCK3CultureCollection cultures = new();
 	
 	static CK3CharacterTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -45,8 +49,10 @@ public class CK3CharacterTests {
 		areas.LoadAreas(IRModFS, irProvinces);
 		IRRegionMapper = new ImperatorRegionMapper(areas);
 		IRRegionMapper.LoadRegions(IRModFS);
-		
-		CultureMapper = new CultureMapper(IRRegionMapper, new CK3RegionMapper());
+			
+		cultures.GenerateTestCulture("greek");
+		cultures.GenerateTestCulture("macedonian");
+		CultureMapper = new CultureMapper(IRRegionMapper, new CK3RegionMapper(), cultures);
 	}
 
 	public class CK3CharacterBuilder {
@@ -58,7 +64,7 @@ public class CK3CharacterTests {
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 		private CharacterCollection characters = new();
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), IRRegionMapper, new CK3RegionMapper());
-		private CultureMapper cultureMapper = new(IRRegionMapper, new CK3RegionMapper());
+		private CultureMapper cultureMapper = new(IRRegionMapper, new CK3RegionMapper(), cultures);
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", CK3ModFS);
 		private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private LocDB locDB = new("english");
@@ -198,11 +204,11 @@ public class CK3CharacterTests {
 			new Trait("powerful"),
 			new Trait("craven")
 		};
-		var impToCK3TraitDict = new Dictionary<string, string> {
+		var irToCK3TraitDict = new Dictionary<string, string> {
 			{"strong", "powerful"},
 			{"craven", "craven"}
 		};
-		var traitMapper = new TraitMapperTests.TestTraitMapper(impToCK3TraitDict, definedCK3Traits);
+		var traitMapper = new TraitMapperTests.TestTraitMapper(irToCK3TraitDict, definedCK3Traits);
 
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
 			Traits = new List<string> { "strong", "humble", "craven" }
@@ -248,7 +254,7 @@ public class CK3CharacterTests {
 		var mapReader = new BufferedReader(
 			"link = { ir=macedonian ck3=greek }"
 		);
-		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper());
+		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper(), cultures);
 
 		var character = builder
 			.WithImperatorCharacter(imperatorCharacter)
@@ -308,7 +314,7 @@ public class CK3CharacterTests {
 			"link = { ir=greek ck3=macedonian historicalTag=MAC }" +
 			"link = { ir=greek ck3=greek }"
 		);
-		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper());
+		var cultureMapper = new CultureMapper(mapReader, IRRegionMapper, new CK3RegionMapper(), cultures);
 
 		var character1 = builder
 			.WithImperatorCharacter(imperatorCharacter1)
@@ -351,7 +357,7 @@ public class CK3CharacterTests {
 		};
 
 		var mapReader = new BufferedReader(
-			"link = { imp=shat_to_death ck3=diarrhea }"
+			"link = { ir=shat_to_death ck3=diarrhea }"
 		);
 
 		var character = builder

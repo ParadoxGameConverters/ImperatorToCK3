@@ -9,7 +9,7 @@ public class DeathReasonMapper {
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/deathMappings.txt");
-		Logger.Info($"Loaded {impToCK3ReasonMap.Count} death reason links.");
+		Logger.Info($"Loaded {irToCK3ReasonMap.Count} death reason links.");
 
 		Logger.IncrementProgress();
 	}
@@ -18,8 +18,8 @@ public class DeathReasonMapper {
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
-	public string? GetCK3ReasonForImperatorReason(string impReason) {
-		return impToCK3ReasonMap.TryGetValue(impReason, out var value) ? value : null;
+	public string? GetCK3ReasonForImperatorReason(string irReason) {
+		return irToCK3ReasonMap.TryGetValue(irReason, out var value) ? value : null;
 	}
 
 	private void RegisterKeys(Parser parser) {
@@ -29,10 +29,10 @@ public class DeathReasonMapper {
 				return;
 			}
 
-			foreach (var impReason in mapping.ImpReasons) {
-				impToCK3ReasonMap.Add(impReason, mapping.Ck3Reason);
+			foreach (var impReason in mapping.ImperatorReasons) {
+				irToCK3ReasonMap.Add(impReason, mapping.Ck3Reason);
 			}
 		});
 	}
-	private readonly Dictionary<string, string> impToCK3ReasonMap = new();
+	private readonly Dictionary<string, string> irToCK3ReasonMap = new();
 }

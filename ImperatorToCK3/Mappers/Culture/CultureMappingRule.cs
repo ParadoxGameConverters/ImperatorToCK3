@@ -80,6 +80,8 @@ public class CultureMappingRule {
 
 		return null;
 	}
+	
+	public string CK3CultureId => destinationCulture;
 
 	private string destinationCulture = string.Empty;
 	private readonly SortedSet<string> cultures = new();

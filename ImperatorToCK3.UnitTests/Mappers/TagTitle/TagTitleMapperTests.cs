@@ -2,6 +2,7 @@
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -32,6 +33,12 @@ public class TagTitleMapperTests {
 	private readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	private const string tagTitleMappingsPath = "TestFiles/configurables/title_map.txt";
 	private const string governorshipTitleMappingsPath = "TestFiles/configurables/governorMappings.txt";
+	private static readonly CultureCollection cultures;
+	
+	static TagTitleMapperTests() {
+		var pillars = new PillarCollection();
+		cultures = new CultureCollection(pillars);
+	}
 	
 	public TagTitleMapperTests() {
 		irRegionMapper.LoadRegions(irModFS);
@@ -70,7 +77,7 @@ public class TagTitleMapperTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(),
@@ -142,7 +149,7 @@ public class TagTitleMapperTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(),
@@ -233,7 +240,7 @@ public class TagTitleMapperTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(),

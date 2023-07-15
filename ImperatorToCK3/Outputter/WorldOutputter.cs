@@ -58,6 +58,10 @@ public static class WorldOutputter {
 		Logger.IncrementProgress();
 		
 		OutputModifiers(ck3World, outputName);
+		
+		Logger.Info("Writing game start on-action...");
+		OnActionOutputter.OutputCustomGameStartOnAction(config);
+		Logger.IncrementProgress();
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
@@ -177,6 +181,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "modifiers"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
