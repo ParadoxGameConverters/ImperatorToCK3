@@ -27,7 +27,7 @@
  written_offering_decision_tt: "Inscribing a Prayer"
  written_offering_decision_desc: "The gods would look kindly upon me and my people, were I to give them a gift and write my thanks to them."
  written_offering_decision_confirm: "Time to pick up my stylus!"
- 
+
  doctrine_parameter_ritual_writing_active: "Allows #ERitual Inscriptions as gifts in exchange for piety"
 
  religious_decision.102.optout: "Maybe this was a bad idea"
