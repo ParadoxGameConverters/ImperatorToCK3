@@ -1,6 +1,8 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
@@ -26,8 +28,8 @@ public class DynastiesOutputterTests {
 		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
 		AreaCollection areas = new();
 		ImperatorRegionMapper irRegionMapper = new(areas);
-		irRegionMapper.LoadRegions(irModFS);
-		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
 
 		var characters = new CharacterCollection();
 		var dynasties = new DynastyCollection();

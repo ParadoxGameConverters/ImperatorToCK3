@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
@@ -15,6 +16,7 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 using System;
@@ -29,18 +31,22 @@ namespace ImperatorToCK3.UnitTests.CK3.Dynasties;
 public class DynastyTests {
 	private static readonly Date BookmarkDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly ImperatorRegionMapper irRegionMapper;
-	private static readonly CultureMapper cultureMapper;
+	private static readonly ModFilesystem IRModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly ImperatorRegionMapper IRRegionMapper;
+	private static readonly CultureMapper CultureMapper;
+	private static readonly TestCK3CultureCollection Cultures = new();
 	
 	static DynastyTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
-		areas.LoadAreas(irModFS, irProvinces);
-		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS);
+		areas.LoadAreas(IRModFS, irProvinces);
+		IRRegionMapper = new ImperatorRegionMapper(areas);
+		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 		
-		cultureMapper = new CultureMapper(irRegionMapper, new CK3RegionMapper());
+		Cultures.GenerateTestCulture("latin");
+		Cultures.GenerateTestCulture("akan");
+		Cultures.GenerateTestCulture("partian");
+		CultureMapper = new CultureMapper(IRRegionMapper, new CK3RegionMapper(), Cultures);
 	}
 	
 	private class CK3CharacterBuilder {
@@ -56,8 +62,8 @@ public class DynastyTests {
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
 		private ImperatorToCK3.CK3.Characters.CharacterCollection characters = new();
-		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper());
-		private CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
+		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), IRRegionMapper, new CK3RegionMapper());
+		private CultureMapper cultureMapper = new(IRRegionMapper, new CK3RegionMapper(), Cultures);
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
 		private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private LocDB locDB = new("english", "french", "german", "russian", "simp_chinese", "spanish");
@@ -75,7 +81,7 @@ public class DynastyTests {
 				locDB,
 				provinceMapper,
 				deathReasonMapper,
-				new DNAFactory(irModFS, ck3ModFS),
+				new DNAFactory(IRModFS, ck3ModFS),
 				new Date(867, 1, 1),
 				config
 			);
@@ -120,7 +126,7 @@ public class DynastyTests {
 	}
 
 	public DynastyTests() {
-		irRegionMapper.LoadRegions(irModFS);
+		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 	}
 
 	[Fact]
@@ -130,7 +136,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locMapper = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locMapper, BookmarkDate);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locMapper, BookmarkDate);
 
 		Assert.Equal("dynn_irtock3_45", dynasty.Id);
 		Assert.Equal("dynn_irtock3_45", dynasty.Name);
@@ -145,7 +151,7 @@ public class DynastyTests {
 		var locDB = new LocDB("english");
 		var dynLoc = locDB.AddLocBlock("cornelii");
 		dynLoc["english"] = "Cornelii";
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locDB, BookmarkDate);
 
 		Assert.Equal("Cornelii", dynasty.LocalizedName!["english"]);
 	}
@@ -157,7 +163,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var locDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locDB, BookmarkDate);
 
 		Assert.Equal("cornelii", dynasty.LocalizedName!["english"]);
 	}
@@ -184,10 +190,11 @@ public class DynastyTests {
 
 		var cultureMapper = new CultureMapper(
 			new BufferedReader(
-				"link={ir=roman ck3=not_gypsy} link={ir=akan ck3=akan} link={ir=parthian ck3=parthian}"
+				"link={ir=roman ck3=latin} link={ir=akan ck3=akan} link={ir=parthian ck3=parthian}"
 			),
-			irRegionMapper,
-			new CK3RegionMapper()
+			IRRegionMapper,
+			new CK3RegionMapper(),
+			Cultures
 		);
 		var locDB = new LocDB("english");
 		var ck3Member1 = new CK3CharacterBuilder()
@@ -204,6 +211,6 @@ public class DynastyTests {
 			.Build();
 		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
 
-		Assert.Equal("not_gypsy", dynasty.CultureId);
+		Assert.Equal("latin", dynasty.CultureId);
 	}
 }

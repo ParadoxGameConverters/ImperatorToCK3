@@ -1,7 +1,9 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
@@ -38,7 +40,7 @@ public class TitleTests {
 	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	
 	static TitleTests() {
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 	}
 
 	private class TitleBuilder {
@@ -54,7 +56,7 @@ public class TitleTests {
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
-		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
+		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
 		private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private readonly Date ck3BookmarkDate = new(867, 1, 1);
 		private readonly CharacterCollection characters = new();

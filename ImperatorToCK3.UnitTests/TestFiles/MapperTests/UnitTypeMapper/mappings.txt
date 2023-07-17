@@ -1,4 +1,4 @@
-link = { ck3=bowmen imp=archers }
-link = { ck3=cavalry imp=cataphracts imp=clibanarii }
+link = { ck3=bowmen ir=archers }
+link = { ck3=cavalry ir=cataphracts ir=clibanarii }
 
-link = { imp=shit_on_a_stick } # dropped
+link = { ir=shit_on_a_stick } # dropped

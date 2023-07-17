@@ -195,7 +195,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		FillHolderAndGovernmentHistory();
 
-		// ------------------ determine color
+		// Determine color.
 		var color1Opt = ImperatorCountry.Color1;
 		if (color1Opt is not null) {
 			Color1 = color1Opt;
@@ -448,10 +448,15 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			History.AddFieldValue(governorshipStartDate, "government", "government", ck3LiegeGov);
 		}
 
-		// ------------------ determine color
+		// Determine color.
 		var countryColor = country.Color1;
 		if (countryColor is not null) {
-			Color1 = parentCollection.GetDerivedColor(countryColor);
+			var regionColor = governorship.Region.Color;
+			if (regionColor is not null && !parentCollection.IsColorUsed(regionColor)) {
+				Color1 = regionColor;
+			} else {
+				Color1 = parentCollection.GetDerivedColor(countryColor);
+			}
 		}
 
 		// determine successions laws
