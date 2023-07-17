@@ -23,7 +23,7 @@ public class ReligionMapperTests {
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
 	
 	public ReligionMapperTests() {
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 	}
 
 	[Fact]

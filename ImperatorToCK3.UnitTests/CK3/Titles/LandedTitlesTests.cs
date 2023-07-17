@@ -52,7 +52,7 @@ public class LandedTitlesTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 	}
 
 	public LandedTitlesTests() {
@@ -239,7 +239,7 @@ public class LandedTitlesTests {
 
 		imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
 		var impRegionMapper = new ImperatorRegionMapper(imperatorWorld.Areas);
-		impRegionMapper.LoadRegions(imperatorWorld.ModFS);
+		impRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(impRegionMapper.RegionNameIsValid("galatia_region"));
 		var ck3RegionMapper = new CK3RegionMapper();

@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Geography;
@@ -24,7 +25,7 @@ public class CultureMappingTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 	}
 	
 	[Fact]

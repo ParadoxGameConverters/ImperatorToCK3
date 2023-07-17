@@ -48,7 +48,7 @@ public class CK3CharacterTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(IRModFS, irProvinces);
 		IRRegionMapper = new ImperatorRegionMapper(areas);
-		IRRegionMapper.LoadRegions(IRModFS);
+		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 			
 		cultures.GenerateTestCulture("greek");
 		cultures.GenerateTestCulture("macedonian");
@@ -72,7 +72,7 @@ public class CK3CharacterTests {
 		private DeathReasonMapper deathReasonMapper = new();
 
 		public Character Build() {
-			IRRegionMapper.LoadRegions(IRModFS);
+			IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 			
 			var character = new Character(
 				imperatorCharacter,

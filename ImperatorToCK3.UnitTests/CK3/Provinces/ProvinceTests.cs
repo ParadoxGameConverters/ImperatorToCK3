@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Cultures;
@@ -36,7 +37,7 @@ public class ProvinceTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(IRModFS, irProvinces);
 		IRRegionMapper = new ImperatorRegionMapper(areas);
-		IRRegionMapper.LoadRegions(IRModFS);
+		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 		
 		Countries.LoadCountries(new BufferedReader("1={}"));
 	}

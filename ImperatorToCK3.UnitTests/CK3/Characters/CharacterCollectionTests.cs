@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
@@ -53,7 +54,7 @@ public class CharacterCollectionTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		
 		cultures = new CultureCollection(new PillarCollection());
 	}
@@ -240,7 +241,7 @@ public class CharacterCollectionTests {
 		Assert.True(imperatorWorld.Areas.ContainsKey("galatia_area"));
 		Assert.True(imperatorWorld.Areas.ContainsKey("paphlagonia_area"));
 		
-		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS);
+		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_region"));
