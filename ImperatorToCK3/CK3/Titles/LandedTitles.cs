@@ -765,13 +765,17 @@ public partial class Title {
 		public IReadOnlyCollection<Title> GetDeJureKingdoms() => this
 			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
 			.ToImmutableArray();
-
+		
+		private HashSet<Color> UsedColors => this.Select(t => t.Color1).Where(c => c is not null).ToHashSet()!;
+		public bool IsColorUsed(Color color) {
+			return UsedColors.Contains(color);
+		}
 		public Color GetDerivedColor(Color baseColor) {
-			HashSet<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet()!;
+			HashSet<Color> usedHueColors = UsedColors.Where(c => Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet();
 
 			for (double v = 0.05; v <= 1; v += 0.02) {
 				var newColor = new Color(baseColor.H, baseColor.S, v);
-				if (usedColors.Contains(newColor)) {
+				if (usedHueColors.Contains(newColor)) {
 					continue;
 				}
 				return newColor;

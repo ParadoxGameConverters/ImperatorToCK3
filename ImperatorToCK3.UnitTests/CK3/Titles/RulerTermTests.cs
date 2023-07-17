@@ -33,7 +33,7 @@ public class RulerTermTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		
 		cultures.GenerateTestCulture("greek");
 	}
