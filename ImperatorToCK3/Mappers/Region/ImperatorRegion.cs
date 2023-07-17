@@ -10,7 +10,7 @@ namespace ImperatorToCK3.Mappers.Region;
 public class ImperatorRegion : IIdentifiable<string> {
 	public IdObjectCollection<string, Area> Areas { get; } = new();
 	public string Id { get; }
-	public Color? Color { get; private set; } // TODO: use this for CK3 title color
+	public Color? Color { get; private set; }
 
 	public ImperatorRegion(string id, BufferedReader reader, IdObjectCollection<string, Area> areas, ColorFactory colorFactory) {
 		Id = id;
