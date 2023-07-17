@@ -10,23 +10,21 @@ public class ImperatorRegion : IIdentifiable<string> {
 	public IdObjectCollection<string, Area> Areas { get; } = new();
 	public string Id { get; }
 
-	public ImperatorRegion(string id, BufferedReader reader) {
+	public ImperatorRegion(string id, BufferedReader reader, IdObjectCollection<string, Area> areas) {
 		Id = id;
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
+		
+		LinkAreas(areas);
 	}
 
-	public bool ContainsProvince(ulong province) {
-		return Areas.Any(area => area.ContainsProvince(province));
-	}
-
-	public void LinkAreas(IdObjectCollection<string, Area> areasDict) {
-		foreach (var requiredAreaName in parsedAreas) {
-			if (areasDict.TryGetValue(requiredAreaName, out var area)) {
-				AddArea(area);
+	private void LinkAreas(IdObjectCollection<string, Area> areas) {
+		foreach (var requiredAreaId in parsedAreas) {
+			if (areas.TryGetValue(requiredAreaId, out var area)) {
+				Areas.Add(area);
 			} else {
-				throw new KeyNotFoundException($"Region's {Id} area {requiredAreaName} does not exist!");
+				throw new KeyNotFoundException($"Region's {Id} area {requiredAreaId} does not exist!");
 			}
 		}
 	}
@@ -40,8 +38,8 @@ public class ImperatorRegion : IIdentifiable<string> {
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
-	private void AddArea(Area area) {
-		Areas.Add(area);
+	public bool ContainsProvince(ulong province) {
+		return Areas.Any(area => area.ContainsProvince(province));
 	}
 
 	private readonly HashSet<string> parsedAreas = new();

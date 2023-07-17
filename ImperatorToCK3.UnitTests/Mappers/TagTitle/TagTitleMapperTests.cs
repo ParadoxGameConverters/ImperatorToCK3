@@ -29,8 +29,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 public class TagTitleMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	private static readonly AreaCollection Areas = new();
+	private readonly ImperatorRegionMapper irRegionMapper = new(Areas);
 	private const string tagTitleMappingsPath = "TestFiles/configurables/title_map.txt";
 	private const string governorshipTitleMappingsPath = "TestFiles/configurables/governorMappings.txt";
 	private static readonly CultureCollection cultures;
@@ -62,13 +62,13 @@ public class TagTitleMapperTests {
 		const ulong romeId = 1;
 		mapper.RegisterCountry(romeId, "e_roman_empire");
 
-		var impCountries = new CountryCollection();
-		impCountries.LoadCountries(new BufferedReader($"{romeId} = {{ tag=ROM }}"));
+		var irCountries = new CountryCollection();
+		irCountries.LoadCountries(new BufferedReader($"{romeId} = {{ tag=ROM }}"));
 		var titles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		var provMapper = new ProvinceMapper();
-		titles.ImportImperatorCountries(impCountries,
+		titles.ImportImperatorCountries(irCountries,
 			mapper,
 			new LocDB("english"),
 			provMapper,
@@ -84,10 +84,10 @@ public class TagTitleMapperTests {
 			new Configuration()
 		);
 		
-		irRegionMapper.Regions.Add(new ImperatorRegion("central_italy_region", new BufferedReader()));
+		irRegionMapper.Regions.Add(new ImperatorRegion("central_italy_region", new BufferedReader(), Areas));
 
 		var governorshipReader = new BufferedReader("who=1 governorship=central_italy_region");
-		var centralItalyGov = new Governorship(governorshipReader, impCountries, irRegionMapper);
+		var centralItalyGov = new Governorship(governorshipReader, irCountries, irRegionMapper);
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
 		var provinces = new ProvinceCollection();
 		var match = mapper.GetTitleForGovernorship(centralItalyGov, titles, irProvinces, provinces, irRegionMapper, provMapper);
@@ -156,8 +156,8 @@ public class TagTitleMapperTests {
 			new Configuration()
 		);
 
-		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader()));
-		irRegionMapper.Regions.Add(new ImperatorRegion("pepe_region", new BufferedReader()));
+		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader(), Areas));
+		irRegionMapper.Regions.Add(new ImperatorRegion("pepe_region", new BufferedReader(), Areas));
 		
 		var apuliaGovReader = new BufferedReader($"who={romeId} governorship=apulia_region");
 		var apuliaGov = new Governorship(apuliaGovReader, impCountries, irRegionMapper);
@@ -187,7 +187,7 @@ public class TagTitleMapperTests {
 		var output = new StringWriter();
 		Console.SetOut(output);
 		
-		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader()));
+		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader(), Areas));
 
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
 		var provMapper = new ProvinceMapper();
@@ -249,7 +249,7 @@ public class TagTitleMapperTests {
 
 		var ck3Provinces = new ProvinceCollection();
 		
-		irRegionMapper.Regions.Add(new ImperatorRegion("aquitaine_region", new BufferedReader()));
+		irRegionMapper.Regions.Add(new ImperatorRegion("aquitaine_region", new BufferedReader(), Areas));
 		mapper.RegisterGovernorship("aquitaine_region", "BOR", "k_atlantis");
 
 		var aquitaneGovReader = new BufferedReader("who=1 governorship=aquitaine_region");

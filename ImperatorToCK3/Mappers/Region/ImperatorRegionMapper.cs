@@ -23,14 +23,12 @@ public class ImperatorRegionMapper {
 		RegisterRegionKeys(parser);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
-		LinkRegions();
-
 		Logger.IncrementProgress();
 	}
 	
 	private void RegisterRegionKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
-			Regions.AddOrReplace(new ImperatorRegion(regionName, reader));
+			Regions.AddOrReplace(new ImperatorRegion(regionName, reader, areas));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
@@ -63,10 +61,5 @@ public class ImperatorRegionMapper {
 		}
 		Logger.Warn($"I:R province ID {provinceId} has no parent area name!");
 		return null;
-	}
-	private void LinkRegions() {
-		foreach (var region in Regions) {
-			region.LinkAreas(areas);
-		}
 	}
 }

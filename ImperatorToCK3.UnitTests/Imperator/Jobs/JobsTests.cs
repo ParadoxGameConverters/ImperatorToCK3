@@ -13,6 +13,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs;
 public class JobsTests {
 	private readonly CountryCollection countryCollection = new();
 	private readonly ImperatorRegionMapper irRegionMapper;
+	private static readonly AreaCollection Areas = new();
 
 	public JobsTests() {
 		countryCollection.Add(new Country(1));
@@ -21,7 +22,7 @@ public class JobsTests {
 		var areas = new AreaCollection();
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		
-		irRegionMapper.Regions.Add(new ImperatorRegion("galatia_region", new BufferedReader(string.Empty)));
+		irRegionMapper.Regions.Add(new ImperatorRegion("galatia_region", new BufferedReader(string.Empty), Areas));
 	}
 	[Fact]
 	public void GovernorshipsDefaultToEmpty() {
