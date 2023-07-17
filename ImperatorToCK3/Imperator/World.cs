@@ -52,6 +52,7 @@ public class World : Parser {
 	public CulturesDB CulturesDB { get; } = new();
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
+	public ColorFactory ColorFactory { get; } = new();
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -334,12 +335,14 @@ public class World : Parser {
 
 		Logger.Info("Loading named colors...");
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
+		ColorFactory.AddNamedColorDict(NamedColors);
+		
 		Logger.IncrementProgress();
 
 		ParseGenes();
 
 		Areas.LoadAreas(ModFS, Provinces);
-		ImperatorRegionMapper.LoadRegions(ModFS);
+		ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory);
 		
 		Country.LoadGovernments(ModFS);
 

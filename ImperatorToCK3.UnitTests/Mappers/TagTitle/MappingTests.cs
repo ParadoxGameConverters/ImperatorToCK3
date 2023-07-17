@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Titles;
@@ -92,7 +93,7 @@ public class MappingTests {
 		var irAreas = new AreaCollection();
 		irAreas.LoadAreas(irModFS, irProvinces);
 		var irRegionMapper = new ImperatorRegionMapper(irAreas);
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		const string irRegionId = "galatia_region";
 		Assert.True(irRegionMapper.RegionNameIsValid(irRegionId));
 

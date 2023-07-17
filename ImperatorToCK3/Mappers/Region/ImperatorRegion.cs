@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using ImperatorToCK3.Imperator.Geography;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ namespace ImperatorToCK3.Mappers.Region;
 public class ImperatorRegion : IIdentifiable<string> {
 	public IdObjectCollection<string, Area> Areas { get; } = new();
 	public string Id { get; }
+	public Color? Color { get; private set; } // TODO: use this for CK3 title color
 
-	public ImperatorRegion(string id, BufferedReader reader, IdObjectCollection<string, Area> areas) {
+	public ImperatorRegion(string id, BufferedReader reader, IdObjectCollection<string, Area> areas, ColorFactory colorFactory) {
 		Id = id;
 		var parser = new Parser();
-		RegisterKeys(parser);
+		RegisterKeys(parser, colorFactory);
 		parser.ParseStream(reader);
 		
 		LinkAreas(areas);
@@ -29,12 +31,13 @@ public class ImperatorRegion : IIdentifiable<string> {
 		}
 	}
 
-	private void RegisterKeys(Parser parser) {
+	private void RegisterKeys(Parser parser, ColorFactory colorFactory) {
 		parser.RegisterKeyword("areas", reader => {
 			foreach (var name in reader.GetStrings()) {
 				parsedAreas.Add(name);
 			}
 		});
+		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 

@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
@@ -11,6 +12,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
 public class ImperatorRegionTests {
 	private readonly ProvinceCollection provinces = new();
+	private static readonly ColorFactory ColorFactory = new();
 
 	public ImperatorRegionTests() {
 		provinces.LoadProvinces(new BufferedReader(
@@ -21,7 +23,7 @@ public class ImperatorRegionTests {
 	[Fact]
 	public void BlankRegionLoadsWithNoAreas() {
 		var reader = new BufferedReader(string.Empty);
-		var region = new ImperatorRegion("region1", reader, new AreaCollection());
+		var region = new ImperatorRegion("region1", reader, new AreaCollection(), ColorFactory);
 
 		Assert.Empty(region.Areas);
 	}
@@ -33,7 +35,7 @@ public class ImperatorRegionTests {
 		var areas = new IdObjectCollection<string, Area> { area };
 		
 		var reader1 = new BufferedReader("areas = { test1 }");
-		var region = new ImperatorRegion("region1", reader1, areas);
+		var region = new ImperatorRegion("region1", reader1, areas, ColorFactory);
 
 		Assert.NotNull(region.Areas["test1"]);
 	}
@@ -46,7 +48,7 @@ public class ImperatorRegionTests {
 		var areas = new IdObjectCollection<string, Area> { area1, area2, area3 };
 
 		var reader = new BufferedReader("areas = { test1 test2 test3 }");
-		var region = new ImperatorRegion("region1", reader, areas);
+		var region = new ImperatorRegion("region1", reader, areas, ColorFactory);
 		
 		Assert.Collection(region.Areas,
 			item => Assert.Equal("test1", item.Id),
@@ -62,7 +64,7 @@ public class ImperatorRegionTests {
 		var areas = new IdObjectCollection<string, Area> { area };
 		
 		var reader1 = new BufferedReader("{ areas={area1} }");
-		var region = new ImperatorRegion("region1", reader1, areas);
+		var region = new ImperatorRegion("region1", reader1, areas, ColorFactory);
 		
 		Assert.True(region.ContainsProvince(6));
 	}
@@ -74,7 +76,7 @@ public class ImperatorRegionTests {
 		var areas = new IdObjectCollection<string, Area> { area };
 
 		var reader1 = new BufferedReader("{ areas={area1} }");
-		var region = new ImperatorRegion("region1", reader1, areas);
+		var region = new ImperatorRegion("region1", reader1, areas, ColorFactory);
 
 		Assert.False(region.ContainsProvince(7));
 	}

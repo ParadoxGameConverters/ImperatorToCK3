@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
@@ -39,7 +40,7 @@ public class TitleTests {
 	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	
 	static TitleTests() {
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 	}
 
 	private class TitleBuilder {

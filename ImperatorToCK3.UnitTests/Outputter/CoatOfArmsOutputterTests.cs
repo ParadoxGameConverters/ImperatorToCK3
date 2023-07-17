@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
@@ -31,7 +32,7 @@ public class CoatOfArmsOutputterTests {
 	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
 	
 	public CoatOfArmsOutputterTests() {
-		irRegionMapper.LoadRegions(irModFS);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 	}
 
 	[Fact]
