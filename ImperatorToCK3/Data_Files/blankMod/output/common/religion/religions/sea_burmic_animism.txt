@@ -35,7 +35,7 @@ burmic_religion = { # Folk religions of Burmese peoples
 	doctrine = doctrine_clerical_succession_spiritual_appointment
 
 	traits = {
-		virtues = { brave compassionate content diligent lifestyle_mystic transgender }
+		virtues = { brave compassionate content diligent lifestyle_mystic } # IRToCK3: missing "transgender" trait excluded
 		sins = { gluttonous cynical craven }
 	}
 

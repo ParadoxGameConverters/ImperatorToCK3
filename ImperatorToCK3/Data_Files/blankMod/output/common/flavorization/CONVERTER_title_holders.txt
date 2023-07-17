@@ -1,5 +1,6 @@
-﻿# Last updated: CK3 patch 1.5.0
+﻿# Last updated: CK3 patch 1.9.2.1
 emperor_feudal_male_old_egyptian = { # Pharaoh
+    type = character
 	gender = male
 	special = holder
 	tier = empire
@@ -10,6 +11,7 @@ emperor_feudal_male_old_egyptian = { # Pharaoh
 }
 
 emperor_feudal_female_old_egyptian = { # Pharaohess
+    type = character
 	gender = female
 	special = holder
 	tier = empire
@@ -20,6 +22,7 @@ emperor_feudal_female_old_egyptian = { # Pharaohess
 }
 
 duke_republic_male_carthaginian = { # Suffet
+    type = character
 	gender = male
 	special = holder
 	governments = { republic_government }
@@ -30,6 +33,7 @@ duke_republic_male_carthaginian = { # Suffet
 }
 
 king_feudal_male_elamite = { # Sunkir
+    type = character
 	gender = male
 	special = holder
 	tier = kingdom
@@ -40,6 +44,7 @@ king_feudal_male_elamite = { # Sunkir
 }
 
 emperor_feudal_male_elamite = { # Rishar Sunkir
+    type = character
 	gender = male
 	special = holder
 	tier = empire
