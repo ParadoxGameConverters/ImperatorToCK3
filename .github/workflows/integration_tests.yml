@@ -80,7 +80,7 @@ jobs:
       - name: "Validate generated mod with ck3-tiger"
         run: |
           sudo wget -c https://github.com/amtep/ck3-tiger/releases/download/v0.6.1/ck3-tiger-linux-v0.6.1.tar.gz && tar -xzf ck3-tiger-linux-v0.6.1.tar.gz
-          ./ck3-tiger-linux-v0.6.1/ck3-tiger --ck3 "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III" generated-mod-artifact/test.mod
+          ./ck3-tiger-linux-v0.6.1/ck3-tiger --ck3 "C:/Program Files (x86)/Steam/steamapps/common/Crusader Kings III" generated-mod-artifact/test.mod
       - name: "Validate generated mod with CWTools"
         uses: cwtools/cwtools-action@v1.1.0
         with:
