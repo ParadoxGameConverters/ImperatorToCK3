@@ -1,13 +1,13 @@
 # Usage:
 # link = {
-#	ck3 = ck3Faith
-#	ir = impReligion
-#	ck3Culture = ck3Culture (optional)
-#	irProvince = irProvince (optional)
-#	ck3Province = ck3Province (optional)
-#	impRegion = impRegion (optional)
-#	ck3Region = ck3Region (optional)
-#	historicalTag = <Imperator historical tag> (optional)
+#	ck3 = CK3 faith ID
+#	ir = Imperator religion ID
+#	ck3Culture = CK3 culture ID (optional)
+#	irProvince = Imperator province ID (optional)
+#	ck3Province = CK3 province ID (optional)
+#	impRegion = Imperator region or area ID (optional)
+#	ck3Region = CK3 region ID (optional)
+#	historicalTag = Imperator historical tag (optional)
 #	heresiesInHistoricalAreas = yes/no (optional)
 # }
 # multiple entries allowed for: ir, ck3Culture, irProvince, ck3Province, impRegion, ck3Region, historicalTag
@@ -26,6 +26,11 @@
 # link = { ck3=delgae @germ_religions irProvince=2 }
 
 ## Pagan
+# TFE
+link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
+link = { ck3 = amazigh_pagan ir = berber_religion } # TODO: remove berber_pagan from converter blankMod if amazigh_pagan exists
+link = { ck3 = scythian_pagan ir = indo_iranian_religion } # TODO: remove scythian_pagan from converter blankMod if scythian_pagan already exists
+# Vanilla CK3
 link = { ck3 = kushitism_pagan ir = egyptian_pantheon impRegion = nubia_region impRegion = punt_region }
 link = { ck3 = egyptian_pagan ir = egyptian_pantheon }
 link = { ck3 = canaanite_pagan ir = carthaginian_pantheon }
@@ -48,6 +53,14 @@ link = { ck3=basque_pagan ir=pre_indo_european_religion }
 link = { ck3=illyrian_pagan ir=illyrian_pantheon }
 
 # Arabic
+link = { ck3 = aksumite_pagan ir = arabian_pantheon impRegion = punt_region } # TFE
+link = { # TFE
+    ck3 = nabataean_pagan
+    ir = arabian_pantheon
+    ck3Province = 6030 ck3Province = 6031 ck3Province = 6032 ck3Province = 6033 ck3Province = 6034 ck3Province = 6035 ck3Province = 6037 ck3Province = 5969 ck3Province = 5971 ck3Province = 5972 ck3Province = 5973 ck3Province = 5978 ck3Province = 5979 ck3Province = 5980 ck3Province = 5977 ck3Province = 5976 ck3Province = 5975 ck3Province = 5974 ck3Province = 6183
+}
+link = { ck3 = south_arabian_pagan ir = arabian_pantheon impRegion = arabia_felix_region } # TFE
+link = { ck3 = arabic_pagan ir = arabian_pantheon } # TFE, TODO: remove arabic_pagan from converter blankMod if arabic_pagan already exists
 link = { ck3 = druze ir = arabian_pantheon ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
 link = { ck3 = druze ir = judaism ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
 link = { ck3 = yazidi ir = arabian_pantheon ck3Province = 4773 ck3Province = 4774 ck3Province = 4775 ck3Province = 4776 ck3Province = 4777 ck3Province = 4808 ck3Province = 4809 ck3Province = 4810 ck3Province = 4811 ck3Province = 4812 ck3Province = 4836 ck3Province = 4837 ck3Province = 4838 ck3Province = 4839 ck3Province = 4840 ck3Province = 4841 }
@@ -56,6 +69,11 @@ link = { ck3 = arabic_pagan ir = arabian_pantheon }
 # Hellenic
 link = { ck3 = mithraic_mysteries ir = roman_pantheon impRegion = armenia_region impRegion = assyria_region impRegion = mesopotamia_region impRegion = media_region impRegion = persis_region impRegion = parthia_region }
 link = { ck3 = eleusinian_mysteries ir = roman_pantheon impRegion = thrace_region }
+link = {
+    ck3 = celto_hellenic_syncretism
+    ir = roman_pantheon
+    impRegion = germania_region impRegion = britain_region impRegion = belgica_region impRegion = germania_superior_region impRegion = caledonia_region impRegion = central_gaul_region impRegion = pannonia_region impRegion = bohomia_area
+}
 link = { ck3 = hellenic_pagan ir = roman_pantheon } # Default
 
 # Balto-Slavic
@@ -67,7 +85,12 @@ link = { ck3 = slavic_pagan ir = matrist_religion }
 link = { ck3 = tengri_pagan ir = eastern_animism impRegion = sarmatia_europea_region impRegion = vistulia_region impRegion = venedia_region impRegion = scandinavia_region impRegion = dacia_region impRegion = pannonia_region impRegion = moesia_region impRegion = thrace_region impRegion = macedonia_region impRegion = greece_region impRegion = illyria_region impRegion = germania_region impRegion = bohemia_area }
 link = { ck3 = melieism ir = eastern_animism }
 
-# Celtic
+# Celtic - TFE
+link = { ck3 = brythonic_druidism ir = druidism impRegion = britain_region impRegion = scandinavia_region }
+link = { ck3 = irish_druidism ir = druidism ck3Province = 9 ck3Province = 10 ck3Province = 11 ck3Province = 12 ck3Province = 13 ck3Province = 14 ck3Province = 15 ck3Province = 16 ck3Province = 17 ck3Province = 18 ck3Province = 19 ck3Province = 20 ck3Province = 21 ck3Province = 22 ck3Province = 23 ck3Province = 24 ck3Province = 25 ck3Province = 26 ck3Province = 27 ck3Province = 28 ck3Province = 29 ck3Province = 30 ck3Province = 31 ck3Province = 32 ck3Province = 33 ck3Province = 34 ck3Province = 36 ck3Province = 37 ck3Province = 38 ck3Province = 39 ck3Province = 40 ck3Province = 41  ck3Province = 42 ck3Province = 43 ck3Province = 44 ck3Province = 45 ck3Province = 46 ck3Province = 47 ck3Province = 48 ck3Province = 49 ck3Province = 50 ck3Province = 51 ck3Province = 52 ck3Province = 53 ck3Province = 54 }
+link = { ck3 = pictish_druidism ir = druidism impRegion = caledonia_region }
+link = { ck3 = druidism ir = druidism } # Fallback
+# Celtic - Vanilla CK3
 link = { ck3 = briton_paganism ir = druidism impRegion = britain_region impRegion = scandinavia_region }
 link = { ck3 = gaelic_paganism ir = druidism impRegion = caledonia_region }
 link = { ck3 = gallic_celtic ir = druidism impRegion = aquitaine_region impRegion = transalpine_gaul_region impRegion = armorica_region impRegion = central_gaul_region impRegion = rhaetia_region impRegion = cisalpine_gaul_region impRegion = central_italy_region impRegion = magna_graecia_region impRegion = belgica_region impRegion = germania_superior_region }
@@ -83,6 +106,8 @@ link = { ck3 = samaritan ir = judaism ck3Province = 5961 } # Samaria
 link = { ck3 = rabbinism ir = judaism }
 
 # Germanic
+link = { ck3 = gothic_pagan ir = germanic_religion impRegion = moesia_region impRegion = sarmatia_europea_region impRegion = dacia_region impRegion = pannonia_region } # TFE
+link = { ck3 = central_pagan ir = germanic_religion } # TFE
 link = { ck3 = finnish_pagan ir = germanic_religion irProvince = 5976 }
 link = { ck3 = norse_pagan ir = germanic_religion impRegion = scandinavia_region irProvince = 5952 irProvince = 5953 }
 link = { ck3 = anglo_pagan ir = germanic_religion impRegion = caledonia_region impRegion = britain_region impRegion = armorica_region impRegion = aquitaine_region }
@@ -96,6 +121,7 @@ link = { ck3 = khurramism ir = zoroaster ck3Province = 4543 ck3Province = 4542 c
 link = { ck3 = mazdakism ir = zoroaster ck3Province = 4274 ck3Province = 6009 ck3Province = 6010 ck3Province = 6011 ck3Province = 6012 ck3Province = 6013 ck3Province = 6014 ck3Province = 6018 }
 link = { ck3 = mazdayasna ir = zoroaster }
 # Simple Timeline Extender mod
+link = { ck3 = mandeaism ir = manichaeism impRegion = palestine_region } # TFE
 link = { ck3 = priscillianism ir = manichaeism heresiesInHistoricalAreas=yes impRegion = lusitania_region impRegion = gallaecia_region impRegion = baetica_region impRegion = tarraconensis_region impRegion = contestania_region impRegion = aquitaine_region }
 link = { ck3 = manichean ir = manichaeism }
 
@@ -154,19 +180,22 @@ link = { ck3 = azariqa ir = kharijite }
 # not in two game
 link = { ck3 = arian ir = arian }
 
-# The Christian Schism
-## heresiesInHistoricalAreas enabled
+# Christianity
+## only with heresiesInHistoricalAreas enabled
 link = { ck3 = priscillianism ir = christianity heresiesInHistoricalAreas=yes ck3Province = 1831 ck3Province = 1912 ck3Province = 1919 ck3Province = 1954 impRegion = lusitania_region }
 link = { ck3 = valentinianism ir = christianity heresiesInHistoricalAreas=yes impRegion = decapolis_area impRegion = peraea_area impRegion = arabia_petrea_area impRegion = sinai_area }
-##
+link = { ck3 = arianism ir = christianity impRegion = germania_superior_region impRegion = bohemia_area impRegion = germania_region impRegion = pannonia_region impRegion = dacia_region impRegion = moesia_region impRegion = sarmatia_europea_region impRegion = vistulia_region impRegion = venedia_region } # TFE
+link = { ck3 = donatism ir = christianity impRegion = africa_region } # TFE
+link = { ck3 = macedonianism ir = christianity impRegion = macedonia_region } # TFE
+link = { ck3 = adamites ir = christianity ck3Province = 4648 ck3Province = 4649 ck3Province = 4650 ck3Province = 4651 ck3Province = 4652 ck3Province = 4653 ck3Province = 4654 } # TFE
+## general or with heresiesInHistoricalAreas disabled
 link = { ck3 = armenian_apostolic ir = christianity impRegion = armenia_region }
-link = { ck3 = armenian_apostolic ir = christianity historicalTag=ARM }
-link = { ck3 = orthodox ir = christianity impRegion = taurica_region impRegion = sarmatia_asiatica_region impRegion = greece_region impRegion = asia_region impRegion = cilicia_region impRegion = galatia_region impRegion = bithynia_region impRegion = cappadocia_region impRegion = syria_region impRegion = palestine_region impRegion = sarmatia_europea_region impRegion = scythia_region impRegion = thrace_region impRegion = moesia_region impRegion = dacia_region impRegion = colchis_region impRegion = albania_region impRegion = macedonia_region impRegion = cappadocia_pontica_region }
-link = { ck3 = catholic ir = christianity impRegion = atlas_region impRegion = central_italy_region impRegion = lusitania_region impRegion = germania_region impRegion = transalpine_gaul_region impRegion = gallaecia_region impRegion = pannonia_region impRegion = bohemia_area impRegion = bohemia_region impRegion = illyria_region impRegion = magna_graecia_region impRegion = belgica_region impRegion = vistulia_region impRegion = venedia_region impRegion = central_gaul_region impRegion = germania_superior_region impRegion = contestania_region impRegion = armorica_region impRegion = mauretainia_region impRegion = aquitaine_region impRegion = tarraconensis_region impRegion = cisalpine_gaul_region impRegion = africa_region impRegion = numidia_region impRegion = rhaetia_region impRegion = baetica_region impRegion = scandinavia_region }
-link = { ck3 = insular_celtic ir = christianity impRegion = caledonia_region impRegion = britain_region }
+link = { ck3 = armenian_apostolic ir = christianity historicalTag=ARM }link = { ck3 = insular_celtic ir = christianity impRegion = caledonia_region impRegion = britain_region }
 link = { ck3 = coptic ir = christianity impRegion = arabia_felix_region impRegion = arabia_region impRegion = cyrenaica_region impRegion = fezzan_region impRegion = lower_egypt_region impRegion = nubia_region impRegion = lower_nubia_region impRegion = punt_region impRegion = upper_egypt_region }
 link = { ck3 = nestorian ir = christianity impRegion = assyria_region impRegion = mesopotamia_region impRegion = persis_region impRegion = media_region impRegion = bactriana_region impRegion = gedrosia_region  impRegion = ariana_region impRegion = parthia_region impRegion = gandhara_region impRegion = maru_region impRegion = avanti_region impRegion = madhyadesa_region impRegion = pracya_region impRegion = vindhyaprstha_region impRegion = dravida_region impRegion = aparanta_region impRegion = karnata_region impRegion = tibet_region impRegion = himalayan_region impRegion = sogdiana_region impRegion = burma_region }
-link = { ck3 = orthodox ir = christianity } # fallback
+link = { ck3 = nicene ir = christianity } # TFE fallback
+link = { ck3 = catholic ir = christianity impRegion = atlas_region impRegion = central_italy_region impRegion = lusitania_region impRegion = germania_region impRegion = transalpine_gaul_region impRegion = gallaecia_region impRegion = pannonia_region impRegion = bohemia_area impRegion = bohemia_region impRegion = illyria_region impRegion = magna_graecia_region impRegion = belgica_region impRegion = vistulia_region impRegion = venedia_region impRegion = central_gaul_region impRegion = germania_superior_region impRegion = contestania_region impRegion = armorica_region impRegion = mauretainia_region impRegion = aquitaine_region impRegion = tarraconensis_region impRegion = cisalpine_gaul_region impRegion = africa_region impRegion = numidia_region impRegion = rhaetia_region impRegion = baetica_region impRegion = scandinavia_region }
+link = { ck3 = orthodox ir = christianity } # vanilla CK3 fallback
 
 
 # Burmic (from Invictus)
