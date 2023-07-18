@@ -4,13 +4,25 @@
 
 # Usage:
 # link = {
-#	ck3 = <CK3 government>
-#	ir = <Imperator government>
-#	irCulture = <Imperator culture> (optional)
+#	ck3 = CK3 government ID
+#	ir = Imperator government ID
+#	irCulture = Imperator culture ID (optional)
 #}
 # multiple entries allowed for: ir, irCulture
 # multiple entries not allowed for: ck3
 
+## TFE
+link = { ir = oligarchic_republic ir = democratic_republic ck3 = republic_government }
+link = { ir = theocratic_republic ck3 = theocracy_government }
+link = { ir = dictatorship ck3 = feudal_government ir = despotic_monarchy ir = aristocratic_monarchy ir = plutocratic_monarchy}
+link = { ck3 = tribal_government ir = tribal_kingdom ir = tribal_federation }
+link = { ir = imperium ir = imperial_cult ck3 = imperial_government }
+link = { ir = athenian_republic ir = aristocratic_republic ck3 = city_state_government ir = plutocratic_republic }
+link = { ir = theocratic_monarchy ck3 = autocratic_government }
+link = { ir = stratocratic_monarchy ck3 = legion_government }
+link = { ir = tribal_chiefdom ck3 = nomadic_government }
+
+## Vanilla CK3
 link = { ck3 = republic_government
 	ir = aristocratic_republic
 	ir = oligarchic_republic
