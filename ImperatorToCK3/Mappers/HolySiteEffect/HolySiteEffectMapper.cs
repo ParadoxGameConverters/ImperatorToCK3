@@ -21,7 +21,7 @@ public class HolySiteEffectMapper {
 			mappingParser.ParseStream(mappingReader);
 
 			if (ir is null || ck3 is null) {
-				Logger.Warn($"Holy site effect mapping {ir} {ck3} {factor} has no imp or ck3 entry!");
+				Logger.Warn($"Holy site effect mapping {ir} {ck3} {factor} has no ir or ck3 entry!");
 			} else {
 				effectMap[ir] = new KeyValuePair<string, double>(ck3, factor);
 			}

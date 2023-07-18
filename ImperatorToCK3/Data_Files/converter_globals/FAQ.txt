@@ -12,7 +12,7 @@ Q: I have an ironman save. Can it be converted?
 A: Yes.
 
 Q: What about mods?
-A: The converter officially supports these mods:
+A: The converter officially supports these Imperator mods:
 - Imperator: Invictus (https://steamcommunity.com/workshop/filedetails/?id=2532715348)
 - Timeline Extension for Invictus (https://steamcommunity.com/sharedfiles/filedetails/?id=2845446001)
 - TE : Crisis of the third century (https://steamcommunity.com/sharedfiles/filedetails/?id=2858320715)
@@ -20,6 +20,8 @@ A: The converter officially supports these mods:
 - 2.0 Better UI (https://steamcommunity.com/sharedfiles/filedetails/?id=1845165876)
 - Culture Conflation (for Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=2660131665)
 - Imperator: Invictus - More Cultural Names (https://steamcommunity.com/sharedfiles/filedetails/?id=2827761791)
+The converter also supports these CK3 mods:
+- The Fallen Eagle (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
 Total map overhauls are not supported (of course), and whatever new cultures and religions are brought by the mod - you'll have to add manually in the files in configurables folder.
 

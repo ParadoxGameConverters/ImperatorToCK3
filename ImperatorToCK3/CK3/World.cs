@@ -183,7 +183,20 @@ public class World {
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, CorrectedDate);
-
+		
+		// Load existing CK3 government IDs.
+		Logger.Info("Loading CK3 government IDs...");
+		var ck3GovernmentIds = new HashSet<string>();
+		var governmentsParser = new Parser();
+		governmentsParser.RegisterRegex(CommonRegexes.String, (reader, governmentId) => {
+			ck3GovernmentIds.Add(governmentId);
+			ParserHelpers.IgnoreItem(reader);
+		});
+		governmentsParser.ParseGameFolder("common/governments", ModFS, "txt", recursive: false, logFilePaths: true);
+		Logger.IncrementProgress();
+		governmentMapper = new GovernmentMapper(ck3GovernmentIds);
+		Logger.IncrementProgress();
+		
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,
 			tagTitleMapper,
@@ -690,7 +703,7 @@ public class World {
 	private readonly CoaMapper coaMapper;
 	private readonly DeathReasonMapper deathReasonMapper = new();
 	private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
-	private readonly GovernmentMapper governmentMapper = new();
+	private readonly GovernmentMapper governmentMapper;
 	private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 	private readonly ProvinceMapper provinceMapper = new();
 	private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));

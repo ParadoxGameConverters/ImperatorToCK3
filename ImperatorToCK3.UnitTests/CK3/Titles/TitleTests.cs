@@ -51,7 +51,7 @@ public class TitleTests {
 		private ProvinceMapper provinceMapper = new();
 		private CoaMapper coaMapper = new(irModFS);
 		private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
-		private GovernmentMapper governmentMapper = new();
+		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
 		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
