@@ -15,6 +15,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using System;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles;
 
@@ -47,7 +48,7 @@ public class RulerTermTests {
 		);
 		var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(reader);
 		var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
-		var govMapper = new GovernmentMapper(govReader);
+		var govMapper = new GovernmentMapper(govReader, ck3GovernmentIds: new List<string> {"feudal_government"});
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3RulerTerm = new RulerTerm(impRulerTerm,
@@ -82,7 +83,7 @@ public class RulerTermTests {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
-		var govMapper = new GovernmentMapper(govReader);
+		var govMapper = new GovernmentMapper(govReader, ck3GovernmentIds: new List<string> {"feudal_government"});
 		var ck3RegionMapper = new CK3RegionMapper();
 		var religionMapper = new ReligionMapper(
 			new BufferedReader("link={ir=hellenic ck3=hellenic}"),

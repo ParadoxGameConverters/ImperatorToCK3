@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.9.0.4
+﻿# Last updated: CK3 patch 1.9.2.1
 ### SPANISH CUSTOM LOCALIZATION
 ### Por Jaime Ortega
 
@@ -2613,7 +2613,6 @@ ES_only_el_GetTitledFirstName = {
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -2827,7 +2826,6 @@ ES_only_del_GetTitledFirstName = {
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -3041,7 +3039,6 @@ ES_only_al_GetTitledFirstName = {
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -3261,7 +3258,6 @@ ES_only_el_GetShortUIName = {
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -3481,7 +3477,6 @@ ES_only_de_GetShortUIName = {
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -3701,7 +3696,6 @@ ES_only_a_GetShortUIName = {
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot

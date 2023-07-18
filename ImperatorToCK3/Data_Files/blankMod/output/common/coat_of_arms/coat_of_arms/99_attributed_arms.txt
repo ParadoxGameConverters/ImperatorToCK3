@@ -1,0 +1,197 @@
+# Attributed coat of arms that are relevant to I:R
+
+scythia = {
+	@smErmine = 0.27
+	pattern = "pattern_solid.dds"
+	color1 = "white"
+	color2 = "black"
+	colored_emblem = {
+		texture = "ce_ermine_spot.dds"
+		color1 = "black"
+		color2 = "black"
+		instance = { position = { 0.10 0.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.30 0.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.50 0.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.70 0.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.90 0.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.00 0.20 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.20 0.20 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.40 0.20 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.60 0.20 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.80 0.20 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 1.00 0.20 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.10 0.40 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.30 0.40 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.50 0.40 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.70 0.40 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.90 0.40 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.00 0.60 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.20 0.60 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.40 0.60 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.60 0.60 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.80 0.60 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 1.00 0.60 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.10 0.80 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.30 0.80 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.50 0.80 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.70 0.80 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.90 0.80 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.00 1.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.20 1.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.40 1.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.60 1.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 0.80 1.00 } scale = { @smErmine @smErmine }  }
+		instance = { position = { 1.00 1.00 } scale = { @smErmine @smErmine }  }
+	}
+	colored_emblem = {
+		texture = "ce_fire.dds"
+		color1 = "red"
+		color2 = "red"
+		instance = { position = { 0.50 0.80 } scale = { 1.00 1.00 } }
+		instance = { position = { 0.25 0.80 } scale = { 1.00 1.00 } }
+		instance = { position = { 0.75 0.80 } scale = { 1.00 1.00 } }
+	}
+}
+
+antiochus_seleucid = {
+	pattern = "pattern_solid.tga"
+	color1 = "black"
+	color2 = "black"
+
+	colored_emblem = {
+		texture = "ce_border_shield.dds"
+		color1 = "white"
+		instance = { position = { 0.5 0.5 } scale = { 1.0 1.0 }  }
+	}
+	colored_emblem = {
+		texture = "ce_border_shield.dds"
+		color1 = "red"
+		instance = { position = { 0.5 0.5 } scale = { 1.2 1.2 }  }
+	}
+	colored_emblem = {
+		texture = "ce_pirates.dds"
+		color1 = "white"
+		color2 = "black"
+		instance = { position = { 0.5 0.5 } scale = { 0.6 0.6 } }
+	}
+}
+
+julius_caesar = e_hre # History calls
+
+alexander_the_great = {
+	pattern = "pattern_solid.dds"
+	color1 = "red"
+	color2 = "red"
+
+	colored_emblem = {
+		texture = "ce_lion_rampant_axe.dds"
+		color1 = "yellow"
+		color2 = "blue"
+		instance = { position = { 0.5 0.5 } scale = { 1.0 1.0 } }
+	}
+}
+
+barbarians = {
+	pattern = "pattern_solid.tga"
+	color1 = "ck2_black"
+	color2 = "phrygia_red"
+
+	textured_emblem = {
+		texture = "te_skull_goat.dds"
+	}
+}
+
+ROM_REVOLT = {
+	pattern = "pattern_solid.tga"
+	color1 = "offwhite"
+	color2 = "roman_red"
+
+	colored_emblem = {
+		texture = "ce_roman_eagle.dds"
+		color1 = "roman_red"
+	}
+}
+
+ACHAEMENID_FLAG = {
+	pattern = "pattern_solid.tga"
+	color1 = "achaemenid_mauve"
+	color2 = "offwhite"
+
+	colored_emblem = {
+		texture = "ce_achaemenid_empire.dds"
+		color1 = "light_gold"
+
+		instance = { scale = { 0.75 0.75 }  position = { 0.50 0.50 } }
+	}
+}
+
+EGYPTIAN_FLAG = {
+	pattern="pattern_solid.tga"
+	color1=ck2_blue
+	color2=roman_gold
+	color3=navy_blue
+
+	colored_emblem={
+		color1=bone_white
+		color2=ck2_blue
+		texture="ce_egyptian_05.dds"
+		mask={
+			1 2 3
+		}
+		instance={
+			position={ 0.500000 0.500000 }
+			scale={ -1.000000 1.000000 }
+			depth=0.010000
+			rotation=0
+		}
+	}
+}
+
+BABYLON_FLAG = {
+	pattern = "pattern_solid.tga"
+	color1 = "desaturated_green"
+	color2 = "babylon_color"
+
+	colored_emblem = {
+		texture = "ce_border_simple_02.tga"
+		color1 = "babylon_color"
+		color2 = "desaturated_green"
+		instance = {
+			rotation = 90
+			scale = { 0.4 1 }
+			position = { 0.78 0.5 }
+		}
+		instance = {
+			rotation = 270
+			scale = { 0.4 1 }
+			position = { 0.22 0.5 }
+		}
+	}
+
+	colored_emblem = {
+		texture = "ce_lamassu_01.dds"
+		color1 = "babylon_color"
+		color2= "desaturated_green"
+		instance = { scale = { 1 1 }  }
+	}
+}
+
+belgium = {
+	pattern = "pattern_vertical_split_01.dds"
+	color1 = "black"
+	color2 = "red"
+
+	colored_emblem = {
+		texture = "ce_mena_pale.dds"
+		color1 = "yellow"
+		color2 = "yellow"
+
+		instance = { scale = { 1 1 } }
+	}
+}
+
+purple_coa = {
+	pattern = "pattern_solid.tga"
+	color1 = "purple"
+	color2 = "purple"
+}

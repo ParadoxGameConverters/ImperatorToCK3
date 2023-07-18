@@ -315,7 +315,7 @@ public class CharacterCollectionTests {
 			locDB,
 			provinceMapper,
 			coaMapper,
-			new GovernmentMapper(),
+			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
 			new SuccessionLawMapper(),
 			definiteFormMapper,
 			religionMapper,
