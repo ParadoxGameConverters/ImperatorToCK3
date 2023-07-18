@@ -84,6 +84,11 @@ public class World {
 		ModLoader modLoader = new();
 		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
 		LoadedMods = modLoader.UsableMods.ToOrderedSet();
+		// Disable Rise of Islam if The Fallen Eagle mod is detected.
+		if (config.RiseOfIslam && LoadedMods.Any(mod => mod.Name.StartsWith("The Fallen Eagle"))) {
+			Logger.Info("TFE detected, disabling Rise of Islam.");
+			config.RiseOfIslam = false;
+		}
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
