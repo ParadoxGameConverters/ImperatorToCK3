@@ -388,7 +388,7 @@
  anglosaxon_good_god_baldaeg: "Балдаэг"
  anglosaxon_good_god_freya: "Фрея"
  anglosaxon_good_god_tyr: "$anglosaxon_war_god_name$"
- anglosaxon_good_god_eorthe:0 $anglosaxon_creator_god_name$"
+ anglosaxon_good_god_eorthe: "$anglosaxon_creator_god_name$"
  anglosaxon_devil_name: "Лок"
  anglosaxon_devil_name_possessive: "Лока"
  anglosaxon_death_deity_name: "$anglosaxon_high_god_name$"

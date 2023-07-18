@@ -13,14 +13,13 @@ namespace = welcome
 #	}
 #}
 
-welcome.2 = { ## It'd be best if someone were to convert this into actual locs and translate them
+welcome.2 = {
 	hidden = no
-	type = letter_event
+	type = character_event
 	opening = { desc = noculture_event_title }
 	desc = noculture_event_desc
 
 	trigger = { }
-	sender = character:converter_team
 
 	option = { name = welcome_ok }
 }
