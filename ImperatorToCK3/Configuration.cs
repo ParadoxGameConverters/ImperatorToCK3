@@ -20,7 +20,6 @@ public class Configuration {
 	public bool StaticDeJure { get; set; } = false;
 	public bool FillerDukes { get; set; } = true;
 	public bool UseCK3Flags { get; set; } = true;
-	public bool RiseOfIslam { get; set; } = true;
 	public double ImperatorCurrencyRate { get; set; } = 1.0d;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
@@ -97,20 +96,6 @@ public class Configuration {
 				Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("RiseOfIslam", reader => {
-			var valueString = reader.GetString();
-			try {
-				RiseOfIslam = Convert.ToInt32(valueString) == 2;
-				Logger.Info($"{nameof(RiseOfIslam)} set to: {RiseOfIslam}");
-
-				/* if (RiseOfIslam) { // This override can be used whenever Rise of Islam is outdated.
-					Logger.Warn("The Rise of Islam option is disabled until it's updated for CK3 1.9");
-					RiseOfIslam = false;
-				} */
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(RiseOfIslam)} value was: {valueString}; Error message: {e}");
 			}
 		});
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
