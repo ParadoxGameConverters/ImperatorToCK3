@@ -84,10 +84,9 @@ public class World {
 		ModLoader modLoader = new();
 		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
 		LoadedMods = modLoader.UsableMods.ToOrderedSet();
-		// Disable Rise of Islam if The Fallen Eagle mod is detected.
-		if (config.RiseOfIslam && LoadedMods.Any(mod => mod.Name.StartsWith("The Fallen Eagle"))) {
-			Logger.Info("TFE detected, disabling Rise of Islam.");
-			config.RiseOfIslam = false;
+		var tfeMod = LoadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle"));
+		if (tfeMod is not null) {
+			Logger.Info($"TFE detected: {tfeMod.Name}");
 		}
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
@@ -199,7 +198,7 @@ public class World {
 		});
 		governmentsParser.ParseGameFolder("common/governments", ModFS, "txt", recursive: false, logFilePaths: true);
 		Logger.IncrementProgress();
-		governmentMapper = new GovernmentMapper(ck3GovernmentIds);
+		GovernmentMapper governmentMapper = new(ck3GovernmentIds);
 		Logger.IncrementProgress();
 		
 		LandedTitles.ImportImperatorCountries(
@@ -708,7 +707,6 @@ public class World {
 	private readonly CoaMapper coaMapper;
 	private readonly DeathReasonMapper deathReasonMapper = new();
 	private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
-	private readonly GovernmentMapper governmentMapper;
 	private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 	private readonly ProvinceMapper provinceMapper = new();
 	private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
