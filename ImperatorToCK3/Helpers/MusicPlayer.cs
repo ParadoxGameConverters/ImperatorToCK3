@@ -27,7 +27,7 @@ public static class MusicPlayer {
 		var playlist = new ConcatenatingSampleProvider(waveProviders);
 		
 		using var waveOut = new WaveOutEvent();
-		waveOut.Volume = 0.5f;
+		waveOut.Volume = 0.4f;
 		waveOut.Init(playlist);
 		waveOut.Play();
 		
