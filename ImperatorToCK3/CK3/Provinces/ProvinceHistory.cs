@@ -23,8 +23,8 @@ public partial class Province {
 	public string? GetCultureId(Date date) {
 		var historyValue = History.GetFieldValue("culture", date);
 		return historyValue switch {
-			StringOfItem stringOfItem => stringOfItem.ToString(),
-			string cultureStr => cultureStr,
+			StringOfItem stringOfItem => stringOfItem.ToString().RemQuotes(),
+			string cultureStr => cultureStr.RemQuotes(),
 			_ => null
 		};
 	}
