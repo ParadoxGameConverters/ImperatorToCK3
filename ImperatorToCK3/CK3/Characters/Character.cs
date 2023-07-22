@@ -454,7 +454,7 @@ public class Character : IIdentifiable<string> {
 		History.AddFieldValue(date, "culture", "culture", cultureId);
 	}
 	public string? GetCultureId(Date date) {
-		return History.GetFieldValue("culture", date)?.ToString();
+		return History.GetFieldValue("culture", date)?.ToString()?.RemQuotes();
 	}
 		
 	public void SetFaithId(string faithId, Date? date) {
