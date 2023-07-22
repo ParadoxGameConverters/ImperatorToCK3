@@ -796,7 +796,17 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("capital")] public string? CapitalCountyId { get; private set; }
 	[commonItems.Serialization.NonSerialized]
 	public Title? CapitalCounty {
-		get => CapitalCountyId is null ? null : parentCollection[CapitalCountyId];
+		get {
+			if (CapitalCountyId is null) {
+				return null;
+			}
+			if (parentCollection.TryGetValue(CapitalCountyId, out var capitalCounty)) {
+				return capitalCounty;
+			}
+			Logger.Warn($"Capital county {CapitalCountyId} of {Id} not found!");
+			return null;
+		}
+
 		private set => CapitalCountyId = value?.Id;
 	}
 
