@@ -40,8 +40,6 @@ link = { ck3 = mesopotamian_pagan ir = mesopotamian_religion }
 link = {
 	ck3 = armenian_pagan
 	ir = armenian_religion # Khaldic
-	# Invictus mod
-	ir = new_armenian_religion # Anahitic
 }
 link = { ck3 = anatolian_pagan ir = anatolian_religion }
 link = { ck3 = iberian_pagan ir = animism }
@@ -120,6 +118,10 @@ link = { ck3 = gayomarthianism ir = zoroaster ck3Province = 4406 ck3Province = 4
 link = { ck3 = khurramism ir = zoroaster ck3Province = 4543 ck3Province = 4542 ck3Province = 4544 ck3Province = 4002 ck3Province = 4003 ck3Province = 4545 ck3Province = 4546 ck3Province = 4547 ck3Province = 4548 ck3Province = 4549 ck3Province = 4537 ck3Province = 5788 ck3Province = 5789 ck3Province = 5790 ck3Province = 5791 ck3Province = 5792 ck3Province = 5793 }
 link = { ck3 = mazdakism ir = zoroaster ck3Province = 4274 ck3Province = 6009 ck3Province = 6010 ck3Province = 6011 ck3Province = 6012 ck3Province = 6013 ck3Province = 6014 ck3Province = 6018 }
 link = { ck3 = mazdayasna ir = zoroaster }
+link = {
+    ck3 = urartuism  # https://en.wikipedia.org/wiki/Armenian_mythology#Iranian_influence
+    ir = anahitic_religion, # Anahitic from Invictus mod, 
+}
 # Simple Timeline Extender mod
 link = { ck3 = mandeaism ir = manichaeism impRegion = palestine_region } # TFE
 link = { ck3 = priscillianism ir = manichaeism heresiesInHistoricalAreas=yes impRegion = lusitania_region impRegion = gallaecia_region impRegion = baetica_region impRegion = tarraconensis_region impRegion = contestania_region impRegion = aquitaine_region }
