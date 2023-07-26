@@ -66,7 +66,15 @@ link = { ck3 = yazidi ir = arabian_pantheon ck3Province = 4773 ck3Province = 477
 link = { ck3 = arabic_pagan ir = arabian_pantheon }
 
 # Hellenic
-link = { ck3 = mithraic_mysteries ir = roman_pantheon impRegion = armenia_region impRegion = assyria_region impRegion = mesopotamia_region impRegion = media_region impRegion = persis_region impRegion = parthia_region }
+link = {
+    ck3 = mithraic_mysteries
+    ir = roman_pantheon
+    impRegion = armenia_region impRegion = assyria_region impRegion = mesopotamia_region impRegion = media_region impRegion = persis_region impRegion = parthia_region
+}
+link = {
+    ck3 = mithraic_mysteries
+    ir = mithra_religion # from Invictus
+}
 link = { ck3 = eleusinian_mysteries ir = roman_pantheon impRegion = thrace_region }
 link = {
     ck3 = celto_hellenic_syncretism
