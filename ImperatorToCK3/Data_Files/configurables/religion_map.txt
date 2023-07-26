@@ -49,6 +49,7 @@ link = { ck3 = scythian_pagan ir = indo_iranian_religion }
 link = { ck3=waaqism_pagan ir=puntic_religion }
 link = { ck3=basque_pagan ir=pre_indo_european_religion }
 link = { ck3=illyrian_pagan ir=illyrian_pantheon }
+link = { ck3=dinka_pagan ir=nilotic_pantheon } # Nhialic
 
 # Arabic
 link = { ck3 = aksumite_pagan ir = arabian_pantheon impRegion = punt_region } # TFE
@@ -120,7 +121,7 @@ link = { ck3 = mazdakism ir = zoroaster ck3Province = 4274 ck3Province = 6009 ck
 link = { ck3 = mazdayasna ir = zoroaster }
 link = {
     ck3 = urartuism  # https://en.wikipedia.org/wiki/Armenian_mythology#Iranian_influence
-    ir = anahitic_religion, # Anahitic from Invictus mod, 
+    ir = anahitic_religion # Anahitic from Invictus mod, https://en.wikipedia.org/wiki/Anahita#Armenia_and_the_Caucasus
 }
 # Simple Timeline Extender mod
 link = { ck3 = mandeaism ir = manichaeism impRegion = palestine_region } # TFE

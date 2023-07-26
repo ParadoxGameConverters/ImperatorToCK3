@@ -42,6 +42,7 @@ AsiaExtended mod team - Permission to use Shan name list and Palaungic culture f
 Luka_Moscovite - Russian translations
 More Bookmarks+ mod team - Permission to use Natkokwe faith from their mod
 When the World Stopped Making Sense mod team - Permission to use Eiateuta faith from their mod
-Izn - research and localization for Ajivika religion
+Izn - Research and localization for Ajivika religion
+B7E7, author of Africa Plus mod for CK3 - Permission to use Nhialacism faith from their mod
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
