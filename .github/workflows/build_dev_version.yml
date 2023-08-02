@@ -43,6 +43,10 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         global-json-file: Fronter.NET/global.json
+      env:
+        BACKBLAZE_KEY_ID: '${{ secrets.BACKBLAZE_KEY_ID }}'
+        BACKBLAZE_APPLICATION_KEY: '${{ secrets.BACKBLAZE_APPLICATION_KEY }}'
+        BACKBLAZE_BUCKET_ID: '${{ secrets.BACKBLAZE_BUCKET_ID }}'
     - name: "Replace frontend background image"
       run: |
         rm Fronter.NET/Fronter.NET/Assets/Images/background.png
