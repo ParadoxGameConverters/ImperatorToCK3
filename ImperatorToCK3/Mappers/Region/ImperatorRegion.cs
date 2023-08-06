@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public class ImperatorRegion : IIdentifiable<string> {
+public sealed class ImperatorRegion : IIdentifiable<string> {
 	public IdObjectCollection<string, Area> Areas { get; } = new();
 	public string Id { get; }
 	public Color? Color { get; private set; }

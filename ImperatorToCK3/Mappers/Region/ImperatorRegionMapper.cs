@@ -6,7 +6,7 @@ using ImperatorToCK3.Imperator.Geography;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public class ImperatorRegionMapper {
+public sealed class ImperatorRegionMapper {
 	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
 	private readonly AreaCollection areas;
 
