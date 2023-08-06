@@ -15,7 +15,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
 
-
   upload_dev_build_artifact:
     name: Upload development build
     needs: remove_old_artifacts
@@ -44,10 +43,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         global-json-file: Fronter.NET/global.json
-      env:
-        BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
-        BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
-        BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Replace frontend background image"
       run: |
         rm Fronter.NET/Fronter.NET/Assets/Images/background.png
@@ -57,6 +52,10 @@ jobs:
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Publish'
+      env:
+        BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
+        BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
+        BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v3
       with:
