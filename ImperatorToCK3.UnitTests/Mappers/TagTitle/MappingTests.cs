@@ -113,7 +113,7 @@ public class MappingTests {
 		var irGovernorship = new Governorship(governorshipReader, irCountries, irRegionMapper);
 		Assert.Equal(irRegionId, irGovernorship.Region.Id);
 		Assert.Equal(irCountryId, irGovernorship.Country.Id);
-		var jobs = new Jobs();
+		var jobs = new JobsDB();
 		jobs.Governorships.Add(irGovernorship);
 		
 		const string duchyId = "d_galatia";
