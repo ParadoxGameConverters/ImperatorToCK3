@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Jobs;
 
-public class Jobs {
-	public List<Governorship> Governorships { get; } = new();
+public class JobsDB {
+	public IList<Governorship> Governorships { get; } = new List<Governorship>();
 
-	public Jobs() { }
-	public Jobs(BufferedReader jobsReader, CountryCollection countries, ImperatorRegionMapper irRegionMapper) {
+	public JobsDB() { }
+	public JobsDB(BufferedReader jobsReader, CountryCollection countries, ImperatorRegionMapper irRegionMapper) {
 		var ignoredTokens = new IgnoredKeywordsSet();
 		var parser = new Parser();
 		parser.RegisterKeyword("province_job", reader => {

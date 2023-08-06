@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Diplomacy;
 
-public class Diplomacy {
-	public List<War> Wars { get; } = new();
-	public Diplomacy(BufferedReader reader) {
+public class DiplomacyDB {
+	public IList<War> Wars { get; } = new List<War>();
+	public DiplomacyDB(BufferedReader reader) {
 		var parser = new Parser();
 		parser.RegisterKeyword("database", databaseReader => {
 			var databaseParser = new Parser();

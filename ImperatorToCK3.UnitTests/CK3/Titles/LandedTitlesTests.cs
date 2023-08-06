@@ -251,7 +251,7 @@ public class LandedTitlesTests {
 			"governorship = \"galatia_region\""
 		);
 		var governorship1 = new Governorship(reader, imperatorWorld.Countries, impRegionMapper);
-		imperatorWorld.Jobs.Governorships.Add(governorship1);
+		imperatorWorld.JobsDB.Governorships.Add(governorship1);
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader(
 			"c_county1 = { b_barony1={province=1} } " +
