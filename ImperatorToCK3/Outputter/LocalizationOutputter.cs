@@ -104,7 +104,7 @@ public static class LocalizationOutputter {
 				continue;
 			}
 			
-			Logger.Debug($"Outputting {linesToOutput.Count} fallback loc lines for {language}");
+			Logger.Debug($"Outputting {linesToOutput.Count} fallback loc lines for {language}...");
 			
 			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
 			using var locFileStream = File.OpenWrite(locFilePath);
