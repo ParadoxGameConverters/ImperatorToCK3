@@ -15,8 +15,8 @@ name_list_romano-sanskrit = {
 		Krassa Krīspīna Krīspa Kullea Kūri Kursori Kuru
 		Dentāta Denteri Dentoni Dīuiti Dolābella Dorsuoni Drūsa
 		Phigula Phimbri Phlakka Phlāu Phlora Phrontoni Phulloni
-		Phūsa Galeoni Gemella Glabrioni Grakkha Gurgīti Habita
-		Helu Imperiosa Iulla Labea Laktūka Laenāti Lānāta
+		Phūsa Galeoni Gemella Glabrioni Grakkha GurgI_ti Habita
+		Helu Imperiosa Iulla Labea Laktūka LaenA_ti Lānāta
 		Laeuīni Laterensi Lentula Lepida Liboni Likina Longa
 		Lūkulla Lupa Lurkoni Makri Makula Malleola Māmerka
 		Mārkella Maroni Merenda Merga Merula Messalla Metella
