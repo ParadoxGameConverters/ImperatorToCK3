@@ -161,7 +161,12 @@ public class TagTitleMapper {
 		if (localizedTitleName.Contains("Kingdom", System.StringComparison.Ordinal)) {
 			return "k";
 		}
-
+		
+		// Major power rank is very broad (from 100 to 499 territories). Consider 300+ territories as empire material.
+		if (country is {Rank: CountryRank.majorPower, TerritoriesCount: >= 300}) {
+			return "e";
+		}
+		
 		switch (country.Rank) {
 			case CountryRank.migrantHorde:
 			case CountryRank.cityState:
