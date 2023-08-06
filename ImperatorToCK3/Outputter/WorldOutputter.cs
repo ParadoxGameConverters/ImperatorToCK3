@@ -69,7 +69,7 @@ public static class WorldOutputter {
 
 		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
-		ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorWorld.ModFS);
+		CoatOfArmsEmblemsOutputter.CopyEmblems(config, imperatorWorld.ModFS);
 		CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles, ck3World.Dynasties);
 		CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath);
 
