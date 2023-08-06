@@ -2,6 +2,7 @@
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Region;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
@@ -38,9 +39,11 @@ public class CK3RegionMapperTests {
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenRegionWillThrowException";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
-		void action() => mapper.LoadRegions(ck3ModFS, landedTitles);
-		KeyNotFoundException exception = Assert.Throws<KeyNotFoundException>(action);
-		Assert.Equal("Region's test_region2 region test_region does not exist!", exception.Message);
+		
+		var output = new StringWriter();
+		Console.SetOut(output);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
+		Assert.Contains("Region's test_region2 region test_region does not exist!", output.ToString());
 	}
 	[Fact]
 	public void LoadingBrokenDuchyWillThrowException() {
@@ -53,9 +56,11 @@ public class CK3RegionMapperTests {
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenDuchyWillThrowException";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
-		void action() => mapper.LoadRegions(ck3ModFS, landedTitles);
-		KeyNotFoundException exception = Assert.Throws<KeyNotFoundException>(action);
-		Assert.Equal("Region's test_region duchy d_aquitane does not exist!", exception.Message);
+		
+		var output = new StringWriter();
+		Console.SetOut(output);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
+		Assert.Contains("Region's test_region duchy d_aquitane does not exist!", output.ToString());
 	}
 	[Fact]
 	public void LoadingBrokenCountyWillThrowException() {
@@ -68,9 +73,11 @@ public class CK3RegionMapperTests {
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenCountyWillThrowException";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
-		void Action() => mapper.LoadRegions(ck3ModFS, landedTitles);
-		KeyNotFoundException exception = Assert.Throws<KeyNotFoundException>(Action);
-		Assert.Equal("Region's test_region county c_mers does not exist!", exception.Message);
+		
+		var output = new StringWriter();
+		Console.SetOut(output);
+		mapper.LoadRegions(ck3ModFS, landedTitles);
+		Assert.Contains("Region's test_region county c_mers does not exist!", output.ToString());
 	}
 
 	[Fact]
