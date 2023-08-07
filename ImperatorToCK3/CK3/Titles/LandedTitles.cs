@@ -577,6 +577,15 @@ public partial class Title {
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, ProvinceCollection ck3Provinces, CultureCollection ck3Cultures) {
 			// Generate King/Empire de jure hierarchy from governorships
 			Logger.Info("Setting de jure kingdoms...");
+			SetDeJureKingdoms(ck3BookmarkDate);
+			Logger.IncrementProgress();
+
+			Logger.Info("Setting de jure empires...");
+			SetDeJureEmpires(ck3BookmarkDate, ck3Provinces, ck3Cultures);
+			Logger.IncrementProgress();
+		}
+
+		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
 				var capitalRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
@@ -592,18 +601,22 @@ public partial class Title {
 					if (kingdomRealm is null) {
 						continue;
 					}
+
 					kingdomRealmShares.TryGetValue(kingdomRealm.Id, out var currentCount);
 					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinces.Count();
 				}
+
 				if (kingdomRealmShares.Count > 0) {
 					var biggestShare = kingdomRealmShares.MaxBy(pair => pair.Value);
 					duchy.DeJureLiege = this[biggestShare.Key];
 				}
 			}
-			Logger.IncrementProgress();
+		}
 
-			Logger.Info("Setting de jure empires...");
+		private void SetDeJureEmpires(Date ck3BookmarkDate, ProvinceCollection ck3Provinces, CultureCollection ck3Cultures) {
 			var deJureKingdoms = GetDeJureKingdoms();
+			
+			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
@@ -615,6 +628,7 @@ public partial class Title {
 					if (empireRealm is null) {
 						continue;
 					}
+
 					empireShares.TryGetValue(empireRealm.Id, out var currentCount);
 					empireShares[empireRealm.Id] = currentCount + countyProvincesCount;
 				}
@@ -623,56 +637,65 @@ public partial class Title {
 				if (empireShares.Count == 0) {
 					continue;
 				}
+
 				(string empireId, int share) = empireShares.MaxBy(pair => pair.Value);
 				// The potential de jure empire must hold at least 50% of the kingdom.
 				if (share < (kingdomProvincesCount * 0.50)) {
 					continue;
 				}
+
 				kingdom.DeJureLiege = this[empireId];
 			}
+
 			// For kingdoms that still have no de jure empire, create empires based on dominant cultural heritages.
 			var kingdomsWithoutEmpire = deJureKingdoms
 				.Where(k => k.DeJureLiege is null)
 				.ToImmutableArray();
 			var heritageToEmpireDict = new Dictionary<Pillar, Title>();
-			
+
 			foreach (var kingdom in kingdomsWithoutEmpire) {
 				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
 				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();
 				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id));
 				var dominantHeritage = kingdomProvinces
-					.Select(c => new { County = c, CultureId = c.GetCultureId(ck3BookmarkDate)})
+					.Select(c => new {County = c, CultureId = c.GetCultureId(ck3BookmarkDate)})
 					.Where(x => x.CultureId is not null)
-					.Select(x => new { x.County, ck3Cultures[x.CultureId!].Heritage })
+					.Select(x => new {x.County, ck3Cultures[x.CultureId!].Heritage})
 					.GroupBy(x => x.Heritage)
 					.MaxBy(g => g.Count())?.Key;
 				if (dominantHeritage is null) {
 					if (kingdom.GetDeJureVassalsAndBelow("c").Count > 0) {
 						Logger.Warn($"Kingdom {kingdom.Id} has no dominant heritage!");
 					}
+
 					continue;
 				}
+
 				if (heritageToEmpireDict.TryGetValue(dominantHeritage, out var empire)) {
 					kingdom.DeJureLiege = empire;
 				} else {
 					// Create new de jure empire based on heritage.
-					var newEmpireId = $"e_IRTOCK3_heritage_{dominantHeritage.Id}";
-					var newEmpire = Add(newEmpireId);
-					var nameLocBlock = newEmpire.Localizations.AddLocBlock(newEmpire.Id);
-					nameLocBlock[ConverterGlobals.PrimaryLanguage] = $"${dominantHeritage.Id}_name$ Empire";
-					var adjectiveLocBlock = newEmpire.Localizations.AddLocBlock($"{newEmpire.Id}_adj");
-					adjectiveLocBlock[ConverterGlobals.PrimaryLanguage] = $"${dominantHeritage.Id}_name$";
-					newEmpire.HasDefiniteForm = true;
-					
-					// Use color of one of the cultures as the empire color.
-					var empireColor = ck3Cultures.First(c => c.Heritage == dominantHeritage).Color;
-					newEmpire.Color1 = empireColor;
-					
-					kingdom.DeJureLiege = newEmpire;
-					heritageToEmpireDict[dominantHeritage] = newEmpire;
+					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures);
+					kingdom.DeJureLiege = heritageEmpire;
+					heritageToEmpireDict[dominantHeritage] = heritageEmpire;
 				}
 			}
-			Logger.IncrementProgress();
+		}
+
+		private Title CreateEmpireForHeritage(Pillar heritage, CultureCollection ck3Cultures) {
+			var newEmpireId = $"e_IRTOCK3_heritage_{heritage.Id}";
+			var newEmpire = Add(newEmpireId);
+			var nameLocBlock = newEmpire.Localizations.AddLocBlock(newEmpire.Id);
+			nameLocBlock[ConverterGlobals.PrimaryLanguage] = $"${heritage.Id}_name$ Empire";
+			var adjectiveLocBlock = newEmpire.Localizations.AddLocBlock($"{newEmpire.Id}_adj");
+			adjectiveLocBlock[ConverterGlobals.PrimaryLanguage] = $"${heritage.Id}_name$";
+			newEmpire.HasDefiniteForm = true;
+
+			// Use color of one of the cultures as the empire color.
+			var empireColor = ck3Cultures.First(c => c.Heritage == heritage).Color;
+			newEmpire.Color1 = empireColor;
+			
+			return newEmpire;
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
