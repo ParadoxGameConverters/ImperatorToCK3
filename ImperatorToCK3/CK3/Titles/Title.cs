@@ -918,9 +918,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("always_follows_primary_heir")] public bool? AlwaysFollowsPrimaryHeir { get; set; }
 	[SerializedName("de_jure_drift_disabled")] public bool? DeJureDriftDisabled { get; set; }
 	[SerializedName("can_be_named_after_dynasty")] public bool? CanBeNamedAfterDynasty { get; set; }
-	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
+	[SerializedName("male_names")] public IList<string>? MaleNames { get; private set; }
 	// <culture, loc key>
-	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
+	[SerializedName("cultural_names")] public IDictionary<string, string>? CulturalNames { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		var ownDev = GetDevelopmentLevel(date);
