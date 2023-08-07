@@ -17,7 +17,8 @@ public partial class Province : IIdentifiable<ulong> {
 	public State? State { get; private set; } = null;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;
-	public Dictionary<ulong, Pop> Pops { get; set; } = new();
+	private readonly Dictionary<ulong, Pop> pops = new();
+	public IReadOnlyDictionary<ulong, Pop> Pops => pops;
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 	public bool Fort { get; set; } = false;
 	public bool IsHolySite => HolySiteId is not null;
@@ -43,11 +44,11 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	// Returns a count of linked pops
-	public int LinkPops(PopCollection pops) {
+	public int LinkPops(PopCollection popCollection) {
 		int counter = 0;
 		foreach (var popId in parsedPopIds) {
-			if (pops.TryGetValue(popId, out var popToLink)) {
-				Pops.Add(popId, popToLink);
+			if (popCollection.TryGetValue(popId, out var popToLink)) {
+				pops[popId] = popToLink;
 				++counter;
 			} else {
 				Logger.Warn($"Pop with ID {popId} has no definition!");

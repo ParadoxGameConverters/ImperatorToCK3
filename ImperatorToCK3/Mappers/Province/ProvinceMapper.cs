@@ -5,8 +5,8 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.Province;
 
 public class ProvinceMapper {
-	private readonly Dictionary<ulong, List<ulong>> imperatorToCK3ProvinceMap = new();
-	private readonly Dictionary<ulong, List<ulong>> ck3ToImperatorProvinceMap = new();
+	private readonly Dictionary<ulong, IList<ulong>> imperatorToCK3ProvinceMap = new();
+	private readonly Dictionary<ulong, IList<ulong>> ck3ToImperatorProvinceMap = new();
 
 	public void LoadMappings(string mappingsPath, string mappingsVersionName) {
 		Logger.Info("Loading province mappings...");
@@ -49,14 +49,14 @@ public class ProvinceMapper {
 		}
 	}
 
-	public List<ulong> GetImperatorProvinceNumbers(ulong ck3ProvinceNumber) {
+	public IList<ulong> GetImperatorProvinceNumbers(ulong ck3ProvinceNumber) {
 		if (ck3ToImperatorProvinceMap.TryGetValue(ck3ProvinceNumber, out var impProvs)) {
 			return impProvs;
 		}
 		return new List<ulong>();
 	}
 
-	public List<ulong> GetCK3ProvinceNumbers(ulong impProvinceNumber) {
+	public IList<ulong> GetCK3ProvinceNumbers(ulong impProvinceNumber) {
 		if (imperatorToCK3ProvinceMap.TryGetValue(impProvinceNumber, out var ck3Provs)) {
 			return ck3Provs;
 		}
