@@ -5,7 +5,6 @@ using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ImperatorToCK3.CK3.Map;
 
@@ -34,18 +33,36 @@ public class MapData {
 
 	public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
 	public ISet<ulong> ColorableImpassableProvinces { get; } = new HashSet<ulong>();
-	public IDictionary<ulong, ProvincePosition> ProvincePositions { get; } = new Dictionary<ulong, ProvincePosition>();
+	private readonly Dictionary<ulong, ProvincePosition> provincePositions = new();
+	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
 	public MapData(ModFilesystem ck3ModFS) {
-		const string mapPath = "map_data/provinces.png";
-		var provincesMapPath = ck3ModFS.GetActualFileLocation(mapPath);
-		if (provincesMapPath is null) {
-			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
-		}
-
+		string provincesMapFilename = "provinces.png";
+		string definitionsFilename = "definition.csv";
+		
+		Logger.Info("Loading default map data...");
+		const string defaultMapPath = "map_data/default.map";
+		var defaultMapParser = new Parser();
+		defaultMapParser.RegisterKeyword("definitions", reader => definitionsFilename = reader.GetString());
+		defaultMapParser.RegisterKeyword("provinces", reader => provincesMapFilename = reader.GetString());
+		defaultMapParser.RegisterKeyword("rivers", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("topology", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("terrain", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("adjacencies", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
+		const string provinceGroupsRegexStr = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
+		defaultMapParser.RegisterRegex(provinceGroupsRegexStr, (reader, provincesType) => {
+			Parser.GetNextTokenWithoutMatching(reader); // equals sign
+			FindImpassables(provincesType, reader);
+		});
+		defaultMapParser.IgnoreAndLogUnregisteredItems();
+		defaultMapParser.ParseGameFile(defaultMapPath, ck3ModFS);
+		Logger.IncrementProgress();
+		
 		Logger.Info("Loading province definitions...");
-		ProvinceDefinitions = new ProvinceDefinitions(ck3ModFS);
+		ProvinceDefinitions = new ProvinceDefinitions(definitionsFilename, ck3ModFS);
 		Logger.IncrementProgress();
 
 		Logger.Info("Loading province positions...");
@@ -53,13 +70,13 @@ public class MapData {
 		Logger.IncrementProgress();
 
 		Logger.Info("Determining province neighbors...");
+		var provincesMapPath = ck3ModFS.GetActualFileLocation(Path.Combine("map_data", provincesMapFilename));
+		if (provincesMapPath is null) {
+			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+		}
 		using (Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath)) {
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);
 		}
-		Logger.IncrementProgress();
-
-		Logger.Info("Finding impassables...");
-		FindImpassables(ck3ModFS);
 		Logger.IncrementProgress();
 	}
 
@@ -72,7 +89,7 @@ public class MapData {
 				foreach (var blob in new BlobList(instancesReader).Blobs) {
 					var blobReader = new BufferedReader(blob);
 					var instance = ProvincePosition.Parse(blobReader);
-					ProvincePositions[instance.Id] = instance;
+					provincePositions[instance.Id] = instance;
 				}
 			});
 			listParser.IgnoreUnregisteredItems();
@@ -83,6 +100,8 @@ public class MapData {
 	}
 
 	private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
+		// TODO: ALSO INCLUDE ADJACENCIES
+		
 		var height = provincesMap.Height;
 		var width = provincesMap.Width;
 		for (var y = 0; y < height; ++y) {
@@ -114,42 +133,26 @@ public class MapData {
 		}
 	}
 
-	private void FindImpassables(ModFilesystem ck3ModFS) {
-		var filePath = Path.Combine("map_data", "default.map");
-		var parser = new Parser();
-		const string listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
-		parser.RegisterKeyword("definitions", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("provinces", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("rivers", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("topology", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("terrain", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("adjacencies", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
-		parser.RegisterRegex(listRegex, (reader, keyword) => {
-			Parser.GetNextTokenWithoutMatching(reader); // equals sign
-			var typeOfGroup = Parser.GetNextTokenWithoutMatching(reader);
-			var provIds = reader.GetULongs();
-			if (keyword != "impassable_mountains") {
-				return;
+	private void FindImpassables(string provincesType, BufferedReader provincesGroupReader) {
+		var typeOfGroup = Parser.GetNextTokenWithoutMatching(provincesGroupReader);
+		var provIds = provincesGroupReader.GetULongs();
+		if (provincesType != "impassable_mountains") {
+			return;
+		}
+
+		if (typeOfGroup == "RANGE") {
+			if (provIds.Count is < 1 or > 2) {
+				throw new FormatException("A range of provinces should have 1 or 2 elements!");
 			}
 
-			if (typeOfGroup == "RANGE") {
-				if (provIds.Count is < 1 or > 2) {
-					throw new FormatException("A range of provinces should have 1 or 2 elements!");
-				}
-
-				var beginning = provIds[0];
-				var end = provIds[^1];
-				for (var id = beginning; id <= end; ++id) {
-					ColorableImpassableProvinces.Add(id);
-				}
-			} else {
-				ColorableImpassableProvinces.UnionWith(provIds);
+			var firstId = provIds[0];
+			var lastId = provIds[^1];
+			for (var id = firstId; id <= lastId; ++id) {
+				ColorableImpassableProvinces.Add(id);
 			}
-		});
-		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFile(filePath, ck3ModFS);
+		} else {
+			ColorableImpassableProvinces.UnionWith(provIds);
+		}
 	}
 
 	private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {
