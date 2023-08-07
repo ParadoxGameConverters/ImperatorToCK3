@@ -146,7 +146,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	private static Imperator.Provinces.Province? DeterminePrimarySourceProvince(
-		List<ulong> impProvinceNumbers,
+		IEnumerable<ulong> impProvinceNumbers,
 		Imperator.World irWorld
 	) {
 		// determine ownership by province development.
