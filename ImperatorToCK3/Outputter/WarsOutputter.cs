@@ -7,7 +7,7 @@ using ImperatorToCK3.CK3.Wars;
 namespace ImperatorToCK3.Outputter;
 
 public static class WarsOutputter {
-	public static void OutputWars(string outputModName, List<War> wars) {
+	public static void OutputWars(string outputModName, IList<War> wars) {
 		Logger.Info("Writing wars...");
 		// dumping all into one file
 		var path = Path.Combine("output",outputModName, "history/wars/fromImperator.txt");
@@ -23,7 +23,7 @@ public static class WarsOutputter {
 
 		output.WriteLine($"\tstart_date = {war.StartDate}");
 		output.WriteLine($"\tend_date = {war.EndDate}");
-		output.WriteLine($"\ttargeted_titles={{ {string.Join(" ", war.TargetedTitles)} }}");
+		output.WriteLine($"\ttargeted_titles={{ {string.Join(' ', war.TargetedTitles)} }}");
 		if (war.CasusBelli is not null) {
 			output.WriteLine($"\tcasus_belli = {war.CasusBelli}");
 		}

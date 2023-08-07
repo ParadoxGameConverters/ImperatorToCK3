@@ -7,8 +7,8 @@ namespace ImperatorToCK3.Imperator.Diplomacy;
 public class War {
 	public Date StartDate { get; private set; } = new(1, 1, 1);
 	public bool Previous { get; private set; }
-	public List<ulong> AttackerCountryIds { get; } = new();
-	public List<ulong> DefenderCountryIds { get; } = new();
+	public IList<ulong> AttackerCountryIds { get; } = new List<ulong>();
+	public IList<ulong> DefenderCountryIds { get; } = new List<ulong>();
 	public string? WarGoal { get; private set; }
 	public ulong? TargetedStateId { get; private set; }
 
