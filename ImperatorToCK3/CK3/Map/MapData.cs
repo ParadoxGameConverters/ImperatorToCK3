@@ -19,22 +19,22 @@ public class MapData {
 			Y = y;
 		}
 
-		public bool Equals(Point other) {
+		public readonly bool Equals(Point other) {
 			return X == other.X && Y == other.Y;
 		}
 
-		public override bool Equals(object? obj) {
+		public override readonly bool Equals(object? obj) {
 			return obj is Point point && Equals(point);
 		}
 
-		public override int GetHashCode() {
+		public override readonly int GetHashCode() {
 			return HashCode.Combine(X, Y);
 		}
 	}
 
 	public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
-	public HashSet<ulong> ColorableImpassableProvinces { get; } = new();
-	public Dictionary<ulong, ProvincePosition> ProvincePositions { get; } = new();
+	public ISet<ulong> ColorableImpassableProvinces { get; } = new HashSet<ulong>();
+	public IDictionary<ulong, ProvincePosition> ProvincePositions { get; } = new Dictionary<ulong, ProvincePosition>();
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
 	public MapData(ModFilesystem ck3ModFS) {
@@ -118,6 +118,14 @@ public class MapData {
 		var filePath = Path.Combine("map_data", "default.map");
 		var parser = new Parser();
 		const string listRegex = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
+		parser.RegisterKeyword("definitions", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("provinces", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("rivers", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("topology", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("terrain", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("adjacencies", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(listRegex, (reader, keyword) => {
 			Parser.GetNextTokenWithoutMatching(reader); // equals sign
 			var typeOfGroup = Parser.GetNextTokenWithoutMatching(reader);
@@ -132,7 +140,7 @@ public class MapData {
 				}
 
 				var beginning = provIds[0];
-				var end = provIds.Last();
+				var end = provIds[^1];
 				for (var id = beginning; id <= end; ++id) {
 					ColorableImpassableProvinces.Add(id);
 				}
