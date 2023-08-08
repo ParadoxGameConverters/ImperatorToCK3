@@ -263,8 +263,8 @@ public class CharacterCollectionTests {
 		);
 		var governorship1 = new Governorship(governorshipReader1, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
 		var governorship2 = new Governorship(governorshipReader2, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
-		imperatorWorld.Jobs.Governorships.Add(governorship1);
-		imperatorWorld.Jobs.Governorships.Add(governorship2);
+		imperatorWorld.JobsDB.Governorships.Add(governorship1);
+		imperatorWorld.JobsDB.Governorships.Add(governorship2);
 
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader(@"

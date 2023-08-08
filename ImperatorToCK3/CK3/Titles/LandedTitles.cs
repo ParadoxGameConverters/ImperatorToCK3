@@ -353,7 +353,7 @@ public partial class Title {
 		) {
 			Logger.Info("Importing Imperator Governorships...");
 
-			var governorships = irWorld.Jobs.Governorships;
+			var governorships = irWorld.JobsDB.Governorships;
 			var governorshipsPerRegion = governorships.GroupBy(g => g.Region.Id)
 				.ToDictionary(g => g.Key, g => g.Count());
 

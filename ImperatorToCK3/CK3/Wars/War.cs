@@ -15,8 +15,8 @@ public class War {
 	public Date EndDate { get; }
 	public OrderedSet<string> TargetedTitles { get; } = new();
 	public string? CasusBelli { get; }
-	public List<string> Attackers { get; } = new();
-	public List<string> Defenders { get; } = new();
+	public IList<string> Attackers { get; } = new List<string>();
+	public IList<string> Defenders { get; } = new List<string>();
 	public string Claimant { get; }
 
 	public War(Imperator.Diplomacy.War irWar, Mappers.War.WarMapper warMapper, ProvinceMapper provinceMapper, Imperator.Countries.CountryCollection impCountries, StateCollection irStates, ProvinceCollection ck3Provinces, Title.LandedTitles titles, Date ck3BookmarkDate) {

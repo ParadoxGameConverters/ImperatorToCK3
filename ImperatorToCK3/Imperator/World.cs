@@ -46,8 +46,8 @@ public class World : Parser {
 	public AreaCollection Areas { get; } = new();
 	public ImperatorRegionMapper ImperatorRegionMapper { get; }
 	public StateCollection States { get; } = new();
-	public List<War> Wars { get; private set; } = new();
-	public Jobs.Jobs Jobs { get; private set; } = new();
+	public IList<War> Wars { get; private set; } = new List<War>();
+	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	public UnitCollection Units { get; } = new();
 	public CulturesDB CulturesDB { get; } = new();
 	public ReligionCollection Religions { get; private set; }
@@ -193,14 +193,14 @@ public class World : Parser {
 		});
 		RegisterKeyword("diplomacy", reader => {
 			Logger.Info("Loading diplomacy...");
-			var diplomacy = new Diplomacy.Diplomacy(reader);
+			var diplomacy = new Diplomacy.DiplomacyDB(reader);
 			Wars = diplomacy.Wars;
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("jobs", reader => {
 			Logger.Info("Loading Jobs...");
-			Jobs = new Jobs.Jobs(reader, Countries, ImperatorRegionMapper);
-			Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
+			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper);
+			Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("deity_manager", reader => {
