@@ -210,7 +210,7 @@
  scythian_pagan_old_adj: "Old Heptadic"
  scythian_pagan_old_adherent: "Old Heptadic Pagan"
  scythian_pagan_old_adherent_plural: "Old Heptadic Pagans"
-
+ scythian_pagan_desc: "$scythian_religion_desc$"
 
 
  kmt_priest: "Priest"
