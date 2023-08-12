@@ -578,6 +578,10 @@ link = { ck3=burmese ir=pyu }
 link = { ck3=arakanese ir=rhakine }
 link = { ck3=palaungic ir=pubu }
 link = { ck3=shan ir=shan }
+link = {
+    ck3 = khasi
+    ir = jaintia # Pnar, https://en.wikipedia.org/wiki/Pnar_people
+}
 
 # Meme revivalist Neo-Mitanni culture from Invictus
 link = {
