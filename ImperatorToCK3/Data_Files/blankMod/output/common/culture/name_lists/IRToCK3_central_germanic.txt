@@ -209,11 +209,11 @@ name_list_pemis = {
 		{ "dynnp_von" "dynn_PommAEn" }
 		{ "dynnp_von" "dynn_RykAE" }
 		{ "dynnp_von" "dynn_FittAEperk" }
-		{ "dynnp_von" "dynn_State" }
+		{ "dynnp_von" "dynn_S_tate" }
 		{ "dynnp_von" "dynn_SachsAE" }
 		{ "dynn_Prunsfik" }
 		{ "dynn_Ytulfink" }
-		{ "dynnp_von" "dynn_Stat" }
+		{ "dynnp_von" "dynn_S_tat" }
 		{ "dynnp_von" "dynn_Rinkelhojm" }
 		{ "dynn_FullAEpunt" }
 		{ "dynnp_von" "dynn_Melln" }

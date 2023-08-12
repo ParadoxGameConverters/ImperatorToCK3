@@ -16,7 +16,7 @@ namespace = welcome
 welcome.2 = {
 	hidden = no
 	type = character_event
-	desc = noculture_event_title
+	title = noculture_event_title
 	desc = noculture_event_desc
 
 	trigger = { }

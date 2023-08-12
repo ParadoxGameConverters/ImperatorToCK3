@@ -320,7 +320,7 @@
 				DevilSheHe = CHARACTER_HERHIS_HIS
 				DevilHerHis = CHARACTER_HERHIS_ITS
 				DevilHerselfHimself = CHARACTER_HIMSELF
-				EvilGodNames = { illyrian_pagan_devil_name dacian_pagan_evil_god_decay }
+				EvilGodNames = { illyrian_pagan_devil_name paganism_evil_god_decay }
 			}
 		}
 	}
