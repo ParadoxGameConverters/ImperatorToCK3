@@ -131,6 +131,7 @@ link = { ck3 = mazdayasna ir = zoroaster }
 link = {
     ck3 = urartuism  # https://en.wikipedia.org/wiki/Armenian_mythology#Iranian_influence
     ir = anahitic_religion # Anahitic from Invictus mod, https://en.wikipedia.org/wiki/Anahita#Armenia_and_the_Caucasus
+    ir = new_armenian_religion # old Invictus ID for Anahitic
 }
 link = { # quote from Izn who added the religion to Invictus: "voxite closest to Khurmazdism (sogdian zoroastrianism)"
     ck3 = khurmazta
