@@ -1,7 +1,9 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -17,6 +19,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Outputter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
@@ -27,7 +30,11 @@ public class CoatOfArmsOutputterTests {
 	private const string ImperatorRoot = "TestFiles/CoatOfArmsOutputterTests/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	
+	public CoatOfArmsOutputterTests() {
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+	}
 
 	[Fact]
 	public void CoaIsOutputtedForCountryWithFlagSet() {
@@ -49,11 +56,11 @@ public class CoatOfArmsOutputterTests {
 			new LocDB("english"),
 			new ProvinceMapper(),
 			new CoaMapper(irModFS),
-			new GovernmentMapper(),
+			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new PillarCollection())),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
@@ -65,7 +72,7 @@ public class CoatOfArmsOutputterTests {
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
-		Assert.Equal("d_IMPTOCK3_ADI={", reader.ReadLine());
+		Assert.Equal("d_IRTOCK3_ADI={", reader.ReadLine());
 		Assert.Equal("\tpattern=\"pattern_solid.tga\"", reader.ReadLine());
 		Assert.Equal("\tcolor1=red color2=green color3=blue", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
@@ -91,11 +98,11 @@ public class CoatOfArmsOutputterTests {
 			new LocDB("english"),
 			new ProvinceMapper(),
 			new CoaMapper(irModFS),
-			new GovernmentMapper(),
+			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new PillarCollection())),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),

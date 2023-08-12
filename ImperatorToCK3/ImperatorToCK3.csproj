@@ -16,7 +16,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -29,10 +28,14 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Fmod5Sharp" Version="3.0.1" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.1.2" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.2.0" />
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.82">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
-    <PackageReference Include="PGCG.commonItems" Version="8.1.2" />
+    <PackageReference Include="PGCG.commonItems" Version="8.3.0" />
     <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
   </ItemGroup>
@@ -73,9 +76,6 @@
 	<ItemGroup>
     <BlankMod Include="Data_Files/blankMod/**/*.*" />
   </ItemGroup>
-	<ItemGroup>
-    <RiseOfIslam Include="../RiseOfIslam/**/*.*" />
-  </ItemGroup>
 
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
@@ -83,7 +83,6 @@
 		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
 	  <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
-	  <Copy SourceFiles="@(RiseOfIslam)" DestinationFolder="$(OutDir)\blankMod\optionalFiles\RiseOfIslam\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
 	<Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
@@ -92,7 +91,6 @@
 		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(PublishDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(PublishDir)/.." SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
-	  <Copy SourceFiles="@(RiseOfIslam)" DestinationFolder="$(PublishDir)\blankMod\optionalFiles\RiseOfIslam\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
   <Target Name="Date" BeforeTargets="CoreCompile">
@@ -101,5 +99,19 @@
       <Compile Include="$(IntermediateOutputPath)gen.cs" />
     </ItemGroup>
   </Target>
+
+<ItemGroup>
+	<!-- root descriptors for trimming -->
+	<TrimmerRootAssembly Include="CsvHelper" />
+	<TrimmerRootAssembly Include="log4net" />
+	<TrimmerRootAssembly Include="commonItems" />
+	<TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
+	<TrimmerRootAssembly Include="System.Management" />
+	<!--
+	<TrimmerRootAssembly Include="NAudio.Core" />
+	<TrimmerRootAssembly Include="NAudio.Wasapi" />
+	-->
+</ItemGroup>
+
 
 </Project>

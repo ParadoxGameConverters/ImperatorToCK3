@@ -1,7 +1,9 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Characters;
@@ -35,7 +37,11 @@ public class TitleTests {
 		new Area("galatia_area", new BufferedReader(), new ProvinceCollection()),
 		new Area("paphlagonia_area", new BufferedReader(), new ProvinceCollection())
 	};
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	
+	static TitleTests() {
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+	}
 
 	private class TitleBuilder {
 		private Country country = new(0);
@@ -45,12 +51,12 @@ public class TitleTests {
 		private ProvinceMapper provinceMapper = new();
 		private CoaMapper coaMapper = new(irModFS);
 		private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
-		private GovernmentMapper governmentMapper = new();
+		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
 		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
-		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper());
+		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
 		private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private readonly Date ck3BookmarkDate = new(867, 1, 1);
 		private readonly CharacterCollection characters = new();
@@ -457,7 +463,7 @@ public class TitleTests {
 		var title = builder
 			.WithCountry(country)
 			.BuildFromTag();
-		Assert.Equal("d_IMPTOCK3_HRE", title.Id);
+		Assert.Equal("d_IRTOCK3_HRE", title.Id);
 	}
 
 	[Fact]

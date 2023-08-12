@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Geography;
@@ -11,8 +12,10 @@ using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using System;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles;
 
@@ -21,10 +24,20 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 public class RulerTermTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper;
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
+	private static readonly TestCK3CultureCollection cultures = new();
+
+	static RulerTermTests() {
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
+		AreaCollection areas = new();
+		areas.LoadAreas(irModFS, irProvinces);
+		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+		
+		cultures.GenerateTestCulture("greek");
+	}
 
 	[Fact]
 	public void ImperatorRulerTermIsCorrectlyConverted() {
@@ -35,7 +48,7 @@ public class RulerTermTests {
 		);
 		var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(reader);
 		var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
-		var govMapper = new GovernmentMapper(govReader);
+		var govMapper = new GovernmentMapper(govReader, ck3GovernmentIds: new List<string> {"feudal_government"});
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		var ck3RegionMapper = new CK3RegionMapper();
 		var ck3RulerTerm = new RulerTerm(impRulerTerm,
@@ -43,7 +56,7 @@ public class RulerTermTests {
 			govMapper,
 			new LocDB("english"),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new PillarCollection())),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration()
@@ -70,10 +83,10 @@ public class RulerTermTests {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
-		var govMapper = new GovernmentMapper(govReader);
+		var govMapper = new GovernmentMapper(govReader, ck3GovernmentIds: new List<string> {"feudal_government"});
 		var ck3RegionMapper = new CK3RegionMapper();
 		var religionMapper = new ReligionMapper(
-			new BufferedReader("link={imp=hellenic ck3=hellenic}"),
+			new BufferedReader("link={ir=hellenic ck3=hellenic}"),
 			ck3Religions,
 			irRegionMapper,
 			ck3RegionMapper
@@ -84,7 +97,7 @@ public class RulerTermTests {
 			govMapper,
 			new LocDB("english"),
 			religionMapper,
-			new CultureMapper(new BufferedReader("link = { imp=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper),
+			new CultureMapper(new BufferedReader("link = { ir=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper, cultures),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration()

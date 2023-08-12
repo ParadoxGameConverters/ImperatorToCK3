@@ -16,6 +16,7 @@ using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.States;
+using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -43,20 +44,23 @@ public class World : Parser {
 	public ProvinceCollection Provinces { get; } = new();
 	public CountryCollection Countries { get; } = new();
 	public AreaCollection Areas { get; } = new();
+	public ImperatorRegionMapper ImperatorRegionMapper { get; }
 	public StateCollection States { get; } = new();
-	public List<War> Wars { get; private set; } = new();
-	public Jobs.Jobs Jobs { get; private set; } = new();
+	public IList<War> Wars { get; private set; } = new List<War>();
+	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	public UnitCollection Units { get; } = new();
 	public CulturesDB CulturesDB { get; } = new();
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
+	public ColorFactory ColorFactory { get; } = new();
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
 
 	public World(Configuration config) {
-		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
+		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), Array.Empty<Mod>());
 		Religions = new ReligionCollection(new ScriptValueCollection());
+		ImperatorRegionMapper = new ImperatorRegionMapper(Areas);
 	}
 	public World(Configuration config, ConverterVersion converterVersion): this(config) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
@@ -189,14 +193,14 @@ public class World : Parser {
 		});
 		RegisterKeyword("diplomacy", reader => {
 			Logger.Info("Loading diplomacy...");
-			var diplomacy = new Diplomacy.Diplomacy(reader);
+			var diplomacy = new Diplomacy.DiplomacyDB(reader);
 			Wars = diplomacy.Wars;
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("jobs", reader => {
 			Logger.Info("Loading Jobs...");
-			Jobs = new Jobs.Jobs(reader);
-			Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
+			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper);
+			Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("deity_manager", reader => {
@@ -331,11 +335,15 @@ public class World : Parser {
 
 		Logger.Info("Loading named colors...");
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
+		ColorFactory.AddNamedColorDict(NamedColors);
+		
 		Logger.IncrementProgress();
 
 		ParseGenes();
 
 		Areas.LoadAreas(ModFS, Provinces);
+		ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory);
+		
 		Country.LoadGovernments(ModFS);
 
 		CulturesDB.Load(ModFS);

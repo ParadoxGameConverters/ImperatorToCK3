@@ -17,7 +17,7 @@ jobs:
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
     - name: "Build changelog"
       id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v3
+      uses: mikepenz/release-changelog-builder-action@v4
       with:
         configuration: ".github/config/changelog-config.json"
       env:
@@ -33,6 +33,7 @@ jobs:
   add_release_archive:
     needs: create_release
     runs-on: ${{ matrix.os }}
+    environment: "Build Environment"
     strategy:
       fail-fast: false
       matrix:
@@ -70,11 +71,19 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         global-json-file: Fronter.NET/global.json
+    - name: "Replace frontend background image"
+      run: |
+        rm Fronter.NET/Fronter.NET/Assets/Images/background.png
+        cp ImperatorToCK3/Resources/images/SteamMainImage.png Fronter.NET/Fronter.NET/Assets/Images/background.png
     - name: "Build frontend"
       uses: ./Fronter.NET/.github/actions/build_frontend
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Publish'
+      env:
+        BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
+        BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
+        BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v3
       with:

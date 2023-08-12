@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.9.0.4
 varangian = {
 	color = { 0.3 0.55 0.8 }
 
@@ -17,8 +17,8 @@ varangian = {
 	name_list = name_list_norse
 
 	coa_gfx = { norse_coa_gfx western_coa_gfx }
-	building_gfx = { norse_building_gfx mediterranean_building_gfx }
-	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx byzantine_clothing_gfx }
+	building_gfx = { norse_building_gfx }
+	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx }
 	unit_gfx = { norse_unit_gfx }
 
 	ethnicities = { # copied from norse
@@ -43,8 +43,8 @@ mikligardrish = {
 	name_list = name_list_norse
 
 	coa_gfx = { norse_coa_gfx western_coa_gfx }
-	building_gfx = { norse_building_gfx mediterranean_building_gfx }
-	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx byzantine_clothing_gfx }
+	building_gfx = { norse_building_gfx }
+	clothing_gfx = { fp1_norse_clothing_gfx northern_clothing_gfx }
 	unit_gfx = { norse_unit_gfx }
 
 	color = { 0.3 0.55 0.8 }

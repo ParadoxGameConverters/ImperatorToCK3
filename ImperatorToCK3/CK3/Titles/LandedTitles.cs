@@ -340,7 +340,7 @@ public partial class Title {
 		}
 
 		public void ImportImperatorGovernorships(
-			Imperator.World impWorld,
+			Imperator.World irWorld,
 			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
@@ -353,10 +353,8 @@ public partial class Title {
 		) {
 			Logger.Info("Importing Imperator Governorships...");
 
-			var governorships = impWorld.Jobs.Governorships;
-			var imperatorCountries = impWorld.Countries;
-
-			var governorshipsPerRegion = governorships.GroupBy(g => g.RegionName)
+			var governorships = irWorld.JobsDB.Governorships;
+			var governorshipsPerRegion = governorships.GroupBy(g => g.Region.Id)
 				.ToDictionary(g => g.Key, g => g.Count());
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
@@ -365,12 +363,11 @@ public partial class Title {
 			foreach (var governorship in governorships) {
 				ImportImperatorGovernorship(
 					governorship,
-					imperatorCountries,
 					this,
 					ck3Provinces,
-					impWorld.Provinces,
-					impWorld.Characters,
-					governorshipsPerRegion[governorship.RegionName] > 1,
+					irWorld.Provinces,
+					irWorld.Characters,
+					governorshipsPerRegion[governorship.Region.Id] > 1,
 					config.StaticDeJure,
 					tagTitleMapper,
 					locDB,
@@ -387,7 +384,6 @@ public partial class Title {
 		}
 		private void ImportImperatorGovernorship(
 			Governorship governorship,
-			CountryCollection imperatorCountries,
 			LandedTitles titles,
 			ProvinceCollection ck3Provinces,
 			Imperator.Provinces.ProvinceCollection irProvinces,
@@ -402,11 +398,11 @@ public partial class Title {
 			CoaMapper coaMapper,
 			ICollection<Governorship> countryLevelGovernorships
 		) {
-			var country = imperatorCountries[governorship.CountryId];
+			var country = governorship.Country;
 
-			var id = DetermineId(governorship, country, titles, ck3Provinces, imperatorRegionMapper, tagTitleMapper);
+			var id = DetermineId(governorship, titles, irProvinces, ck3Provinces, imperatorRegionMapper, tagTitleMapper, provinceMapper);
 			if (id is null) {
-				Logger.Warn($"Cannot convert {governorship.RegionName} of country {country.Id}");
+				Logger.Warn($"Cannot convert {governorship.Region.Id} of country {country.Id}");
 				return;
 			}
 
@@ -607,9 +603,7 @@ public partial class Title {
 			Logger.IncrementProgress();
 
 			Logger.Info("Setting de jure empires...");
-			var deJureKingdoms = this
-				.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
-				.ToImmutableArray();
+			var deJureKingdoms = GetDeJureKingdoms();
 			foreach (var kingdom in deJureKingdoms) {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
@@ -641,6 +635,7 @@ public partial class Title {
 				.Where(k => k.DeJureLiege is null)
 				.ToImmutableArray();
 			var heritageToEmpireDict = new Dictionary<Pillar, Title>();
+			
 			foreach (var kingdom in kingdomsWithoutEmpire) {
 				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
 				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();
@@ -763,12 +758,24 @@ public partial class Title {
 			return this.Where(t => t.ImperatorCountry is not null);
 		}
 
+		public IReadOnlyCollection<Title> GetDeJureDuchies() => this
+			.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0})
+			.ToImmutableArray();
+		
+		public IReadOnlyCollection<Title> GetDeJureKingdoms() => this
+			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
+			.ToImmutableArray();
+		
+		private HashSet<Color> UsedColors => this.Select(t => t.Color1).Where(c => c is not null).ToHashSet()!;
+		public bool IsColorUsed(Color color) {
+			return UsedColors.Contains(color);
+		}
 		public Color GetDerivedColor(Color baseColor) {
-			HashSet<Color> usedColors = this.Select(t => t.Color1).Where(c => c is not null && Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet()!;
+			HashSet<Color> usedHueColors = UsedColors.Where(c => Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet();
 
 			for (double v = 0.05; v <= 1; v += 0.02) {
 				var newColor = new Color(baseColor.H, baseColor.S, v);
-				if (usedColors.Contains(newColor)) {
+				if (usedHueColors.Contains(newColor)) {
 					continue;
 				}
 				return newColor;
@@ -810,7 +817,7 @@ public partial class Title {
 			titlesHistoryParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			Logger.Info("Parsing title history...");
-			titlesHistoryParser.ParseGameFolder("history/titles", ck3ModFS, "txt", true);
+			titlesHistoryParser.ParseGameFolder("history/titles", ck3ModFS, "txt", true, true);
 			Logger.Info($"Loaded {loadedHistoriesCount} title histories.");
 
 			// Add vanilla development to counties

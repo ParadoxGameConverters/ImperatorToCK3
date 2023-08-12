@@ -16,7 +16,8 @@ using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 namespace ImperatorToCK3.CK3.Religions;
 
 public class ReligionCollection : IdObjectCollection<string, Religion> {
-	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
+	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = new();
+	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = new();
 	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories { get; } = new();
 
@@ -82,9 +83,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 			var valueStr = value.ToString();
 			if (value.IsArrayOrObject()) {
-				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
+				replaceableHolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
 			} else if (valueStr == "all") {
-				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySiteIds);
+				replaceableHolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySiteIds);
 			} else {
 				Logger.Warn($"Unexpected value: {valueStr}");
 			}
@@ -318,7 +319,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			// Otherwise, get name from culture.
 			var name = title.MaleNames?.FirstOrDefault();
 			if (name is null) {
-				var maleNames = culture.NameList.MaleNames;
+				var maleNames = culture.MaleNames.ToImmutableList();
 				if (maleNames.Count > 0) {
 					name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
 				}

@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Mappers.Region;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -40,9 +41,9 @@ public class ReligionMapper {
 		religionMappings.RemoveWhere(m=>m.CK3FaithId is not null && ck3Religions.GetFaith(m.CK3FaithId) is null);
 	}
 
-	public string? Match(string irReligion, ulong ck3ProvinceId, ulong irProvinceId, string? irHistoricalTag, Configuration config) {
+	public string? Match(string irReligionId, string? ck3CultureId, ulong? ck3ProvinceId, ulong? irProvinceId, string? irHistoricalTag, Configuration config) {
 		foreach (var religionMapping in religionMappings) {
-			var possibleMatch = religionMapping.Match(irReligion, ck3ProvinceId, irProvinceId, irHistoricalTag, config, imperatorRegionMapper, ck3RegionMapper);
+			var possibleMatch = religionMapping.Match(irReligionId, ck3CultureId, ck3ProvinceId, irProvinceId, irHistoricalTag, config, imperatorRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}

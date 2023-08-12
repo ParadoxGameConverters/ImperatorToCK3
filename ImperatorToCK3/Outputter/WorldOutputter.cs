@@ -56,6 +56,10 @@ public static class WorldOutputter {
 			ck3World
 		);
 		Logger.IncrementProgress();
+		
+		Logger.Info("Writing game start on-action...");
+		OnActionOutputter.OutputCustomGameStartOnAction(config);
+		Logger.IncrementProgress();
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
@@ -65,18 +69,13 @@ public static class WorldOutputter {
 
 		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
-		ColoredEmblemsOutputter.CopyColoredEmblems(config, imperatorWorld.ModFS);
+		CoatOfArmsEmblemsOutputter.CopyEmblems(config, imperatorWorld.ModFS);
 		CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles, ck3World.Dynasties);
 		CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath);
 
 		CopyBlankModFilesToOutput(outputPath);
 
 		BookmarkOutputter.OutputBookmark(ck3World, config);
-
-		if (config.RiseOfIslam) {
-			CopyRiseOfIslamFilesToOutput(config);
-		}
-		Logger.IncrementProgress();
 
 		OutputPlaysetInfo(ck3World, outputName);
 	}
@@ -88,22 +87,6 @@ public static class WorldOutputter {
 			outputPath
 		);
 		Logger.IncrementProgress();
-	}
-
-	private static void CopyRiseOfIslamFilesToOutput(Configuration config) {
-		Logger.Info("Copying Rise of Islam files to output...");
-		var outputPath = Path.Combine("output", config.OutputModName);
-		const string riseOfIslamFilesPath = "blankMod/optionalFiles/RiseOfIslam";
-		foreach (var fileName in SystemUtils.GetAllFilesInFolderRecursive(riseOfIslamFilesPath)) {
-			var sourceFilePath = Path.Combine(riseOfIslamFilesPath, fileName);
-			var destFilePath = Path.Combine(outputPath, fileName);
-
-			var destDir = Path.GetDirectoryName(destFilePath);
-			if (destDir is not null) {
-				SystemUtils.TryCreateFolder(destDir);
-			}
-			File.Copy(sourceFilePath, destFilePath, true);
-		}
 	}
 
 	private static void ClearOutputModFolder(Configuration config) {
@@ -174,6 +157,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
@@ -190,6 +174,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "textured_emblems"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits"));

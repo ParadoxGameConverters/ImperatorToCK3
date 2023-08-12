@@ -23,7 +23,12 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		var parser = new Parser();
 		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
-		parser.RegisterKeyword("religious_head", reader => ReligiousHeadTitleId = reader.GetString());
+		parser.RegisterKeyword("religious_head", reader => {
+			var titleId = reader.GetString();
+			if (titleId != "none") {
+				ReligiousHeadTitleId = titleId;
+			}
+		});
 		parser.RegisterKeyword("holy_site", reader => holySiteIds.Add(reader.GetString()));
 		parser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {

@@ -21,13 +21,13 @@ public class DeathReasonMappingTests {
 	public void ImperatorReasonsDefaultToEmpty() {
 		var reader = new BufferedReader("");
 		var mapping = new DeathReasonMapping(reader);
-		Assert.Empty(mapping.ImpReasons);
+		Assert.Empty(mapping.ImperatorReasons);
 	}
 	[Fact]
 	public void ImperatorReasonsCanBeSet() {
-		var reader = new BufferedReader("= { imp = reason_dumb imp = reason_bear }");
+		var reader = new BufferedReader("= { ir=reason_dumb ir=reason_bear }");
 		var mapping = new DeathReasonMapping(reader);
-		Assert.Collection(mapping.ImpReasons,
+		Assert.Collection(mapping.ImperatorReasons,
 			item => Assert.Equal("reason_bear", item),
 			item => Assert.Equal("reason_dumb", item)
 		);
