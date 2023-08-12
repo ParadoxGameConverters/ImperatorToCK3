@@ -35,13 +35,15 @@ Vielus - Mapping tweaks
 derekmark - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
 nah34 - Suggestions for cultural traditions and martial customs
 Gawquon - Static de jure option
-The Fallen Eagle mod team - Permission to integrate their Rise of Islam mechanic
+The Fallen Eagle mod team - Permission to integrate the Rise of Islam mechanic from their mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
 TinWiz - Testing, integration of the Rise of Islam mechanic
 Wrench - Help with integration of the Rise of Islam mechanic
-AsiaExtended mod team - Permission to use Shan name list and Palaungic culture from their mod
+AsiaExtended mod team - Permission to use Shan name list and Palaungic culture from their mod (https://steamcommunity.com/workshop/filedetails/?id=2706635752)
 Luka_Moscovite - Russian translations
-More Bookmarks+ mod team - Permission to use Natkokwe faith from their mod
-When the World Stopped Making Sense mod team - Permission to use Eiateuta faith from their mod
-Izn - research and localization for Ajivika religion
+More Bookmarks+ mod team - Permission to use Natkokwe faith from their mod (https://steamcommunity.com/workshop/filedetails/?id=2216670956)
+When the World Stopped Making Sense mod team - Permission to use Eiateuta faith from their mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2858562094)
+Izn - Research and localization for Ajivika religion
+B7E7, author of Africa Plus mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2552371897) - Permission to use Nhialacism faith from their mod
+Herkles, author of Dharmachakra mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327) - Khasi culture
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

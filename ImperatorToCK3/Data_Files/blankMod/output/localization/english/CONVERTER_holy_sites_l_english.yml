@@ -179,5 +179,8 @@
  holy_site_prusa_effect_name: "From [holy_site|E] #weak ($holy_site_prusa_name$)#!"
  holy_site_giza_effect_name: "From [holy_site|E] #weak ($holy_site_giza_name$)#!"
  holy_site_bahnasa_effect_name: "From [holy_site|E] #weak ($holy_site_bahnasa_name$)#!"
-
  holy_site_celtic_dublin_name: "$b_dublin$"
+ holy_site_kordofan_name: "Kordofan"
+ holy_site_kordofan_effect_name: "From [holy_site|E] #weak ($holy_site_kordofan_name$)#!"
+ holy_site_ayn_farrah_name: "Ayn Farrah"
+ holy_site_ayn_farrah_effect_name: "From [holy_site|E] #weak ($holy_site_ayn_farrah_name$)#!"
