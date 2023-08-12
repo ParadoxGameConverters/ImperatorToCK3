@@ -34,8 +34,8 @@ name_list_nuragic = {
 			dynn_Sumbrus dynn_Tarabenus dynn_Tibulatus dynn_Titianus dynn_Venacinus dynn_Balar
 			dynn_Buduntinus dynn_Coracensis dynn_Giddilitanus dynn_Lucuidonensis dynn_Nurritanus
 			dynn_Perfuga dynn_Turritanus dynn_Uddadhaddaritanus dynn_Iliensis dynn_Iolaes
-			dynn_Diagesbes dynn_Acconitis dynn_Aechilenensis dynn_Aesaronenses dynn_Alcitanus
-			dynn_Alticiensis dynn_Barbaricinus dynn_Barsanis dynn_Beronicenssi dynn_Bulgar
+			dynn_Diagesbes dynn_Acconitis dynn_Aechilenensis dynn_Aesaronensis dynn_Alcitanus
+			dynn_Alticiensis dynn_Barbaricinus dynn_Barsanis dynn_Beronicenssus dynn_Bulgar
 			dynn_Campanus dynn_Caralitanus dynn_Carensis dynn_Celsitanus dynn_Corpicensis
 			dynn_Cunusitanus dynn_Euthychianus dynn_Fifensis dynn_Galillensis dynn_Hypsitanus
 			dynn_Lesitanus dynn_Maltamonensis dynn_Martensis dynn_Maurus dynn_Moddol
@@ -52,8 +52,8 @@ name_list_nuragic = {
 			dynn_Sumbrus dynn_Tarabenus dynn_Tibulatus dynn_Titianus dynn_Venacinus dynn_Balar
 			dynn_Buduntinus dynn_Coracensis dynn_Giddilitanus dynn_Lucuidonensis dynn_Nurritanus
 			dynn_Perfuga dynn_Turritanus dynn_Uddadhaddaritanus dynn_Iliensis dynn_Iolaes
-			dynn_Diagesbes dynn_Acconitis dynn_Aechilenensis dynn_Aesaronenses dynn_Alcitanus
-			dynn_Alticiensis dynn_Barbaricinus dynn_Barsanis dynn_Beronicenssi dynn_Bulgar
+			dynn_Diagesbes dynn_Acconitis dynn_Aechilenensis dynn_Aesaronensis dynn_Alcitanus
+			dynn_Alticiensis dynn_Barbaricinus dynn_Barsanis dynn_Beronicenssus dynn_Bulgar
 			dynn_Campanus dynn_Caralitanus dynn_Carensis dynn_Celsitanus dynn_Corpicensis
 			dynn_Cunusitanus dynn_Euthychianus dynn_Fifensis dynn_Galillensis dynn_Hypsitanus
 			dynn_Lesitanus dynn_Maltamonensis dynn_Martensis dynn_Maurus dynn_Moddol
