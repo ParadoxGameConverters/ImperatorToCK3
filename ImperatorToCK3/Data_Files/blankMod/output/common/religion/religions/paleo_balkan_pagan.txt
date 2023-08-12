@@ -230,7 +230,7 @@
 				HighGodNamePossessive = illyrian_pagan_high_god_name_possessive
 				HighGodNameSheHe = CHARACTER_SHEHE_HE
 				HighGodHerselfHimself = CHARACTER_HIMSELF
-				HighGodHerHis = CHARACTER_HERHIS_HIM
+				HighGodHerHis = CHARACTER_HERHIS_HIS
 				HighGodNameAlternate = illyran_pagan_high_god_name_alternate
 				HighGodNameAlternatePossessive = illyran_pagan_high_god_name_alternate_possessive
 
@@ -239,7 +239,7 @@
 				CreatorNamePossessive = illyran_pagan_creator_god_name_possessive
 				CreatorSheHe = CHARACTER_SHEHE_HE
 				CreatorHerHis = CHARACTER_HERHIS_HIS
-				CreatorHerHim = CHARACTER_HERHIS_HIM
+				CreatorHerHim = CHARACTER_HERHIM_HIM
 
 				#HealthGod
 				HealthGodName = illyrian_pagan_health_god_name
@@ -260,7 +260,7 @@
 				WealthGodNamePossessive = illyrian_pagan_wealth_god_name_possessive
 				WealthGodSheHe = CHARACTER_SHEHE_HE
 				WealthGodHerHis = CHARACTER_HERHIS_HIS
-				WealthGodHerHim = CHARACTER_HERHIS_HIM
+				WealthGodHerHim = CHARACTER_HERHIM_HIM
 
 				#HouseholdGod
 				HouseholdGodName = illyrian_pagan_household_god_name
@@ -274,21 +274,21 @@
 				FateGodNamePossessive = illyrian_pagan_fate_god_name_possessive
 				FateGodSheHe = CHARACTER_SHEHE_HE
 				FateGodHerHis = CHARACTER_HERHIS_HIS
-				FateGodHerHim = CHARACTER_HERHIS_HIM
+				FateGodHerHim = CHARACTER_HERHIM_HIM
 
 				#KnowledgeGod
 				KnowledgeGodName = illyrian_pagan_knowledge_god_name
-				KnowledgeGodNamePossessive = dacian_pagan_knowledge_god_name_possessive
+				KnowledgeGodNamePossessive = illyrian_pagan_knowledge_god_name_possessive
 				KnowledgeGodSheHe = CHARACTER_SHEHE_HE
 				KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
-				KnowledgeGodHerHim = CHARACTER_HERHIS_HIM
+				KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
 
 				#WarGod
 				WarGodName = illyrian_pagan_war_god_name
 				WarGodNamePossessive = illyrian_pagan_war_god_name_possessive
 				WarGodSheHe = CHARACTER_SHEHE_HE
 				WarGodHerHis = CHARACTER_HERHIS_HIS
-				WarGodHerHim = CHARACTER_HERHIS_HIM
+				WarGodHerHim = CHARACTER_HERHIM_HIM
 
 				#TricksterGod
 				TricksterGodName = illyrian_pagan_trickster_god_name
@@ -312,15 +312,15 @@
 				WaterGodHerHim = CHARACTER_HERHIM_HIM
 
 
-				PantheonTerm = dacian_pagan_mother_earth_father_sky
+				PantheonTerm = paganism_mother_earth_father_sky
 				PantheonTermHasHave = pantheon_term_have
-				GoodGodNames = { illyrian_pagan_high_god_nameillyran_pagan_high_god_name_alternate illyran_pagan_creator_god_name illyrian_pagan_health_god_name illyrian_pagan_fertility_god_name illyrian_pagan_wealth_god_name illyrian_pagan_household_god_name illyrian_pagan_fate_god_name illyrian_pagan_knowledge_god_name illyrian_pagan_war_god_name illyrian_pagan_trickster_god_name illyrian_pagan_night_god_name illyrian_pagan_water_god_name }
+				GoodGodNames = { illyrian_pagan_high_god_name illyran_pagan_high_god_name_alternate illyran_pagan_creator_god_name illyrian_pagan_health_god_name illyrian_pagan_fertility_god_name illyrian_pagan_wealth_god_name illyrian_pagan_household_god_name illyrian_pagan_fate_god_name illyrian_pagan_knowledge_god_name illyrian_pagan_war_god_name illyrian_pagan_trickster_god_name illyrian_pagan_night_god_name illyrian_pagan_water_god_name }
 				DevilName = illyrian_pagan_devil_name
 				DevilNamePossessive = illyrian_pagan_devil_name_poessessive
 				DevilSheHe = CHARACTER_HERHIS_HIS
 				DevilHerHis = CHARACTER_HERHIS_ITS
-				DevilHerselfHimself = CHARACTER_HERHIS_HIMSELF
-				EvilGodNames = { illyrian_pagan_devil_name dacian_pagan_evil_god_decay }
+				DevilHerselfHimself = CHARACTER_HIMSELF
+				EvilGodNames = { illyrian_pagan_devil_name paganism_evil_god_decay }
 			}
 		}
 	}

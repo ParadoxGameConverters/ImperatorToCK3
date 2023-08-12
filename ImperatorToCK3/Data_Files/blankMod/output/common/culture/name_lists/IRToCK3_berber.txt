@@ -4,7 +4,7 @@
 		dynn_Senuid dynn_Setnid dynn_Arganid dynn_Psammid dynn_Philothid dynn_Timolid dynn_Zosid dynn_Phileid
 		dynn_Nicodemid dynn_Nefarid dynn_Bastid dynn_Xeneid dynn_Naravid dynn_Ezanid dynn_Ahmid dynn_Alarid
 		dynn_Harsiotid dynn_Henid dynn_Ibid dynn_Khabbashid	 dynn_Amasid dynn_Nectanebid
-		dynn_Petubastid dynn_Djedhid dynn_Tachyid dynn_Magid
+		dynn_Petubasid dynn_Djedhid dynn_Tachyid dynn_Magid
 	}
 
 	dynasty_names = {
@@ -12,7 +12,7 @@
 		dynn_Senuid dynn_Setnid dynn_Arganid dynn_Psammid dynn_Philothid dynn_Timolid dynn_Zosid dynn_Phileid
 		dynn_Nicodemid dynn_Nefarid dynn_Bastid dynn_Xeneid dynn_Naravid dynn_Ezanid dynn_Ahmid dynn_Alarid
 		dynn_Harsiotid dynn_Henid dynn_Ibid dynn_Khabbashid	 dynn_Amasid dynn_Nectanebid
-		dynn_Petubastid dynn_Djedhid dynn_Tachyid dynn_Magid
+		dynn_Petubasid dynn_Djedhid dynn_Tachyid dynn_Magid
 	}
 
 	male_names = {
@@ -45,14 +45,14 @@ name_list_numidian = {
 	cadet_dynasty_names = {
 		dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
 		dynn_Senuid dynn_Setnid
-		dynn_Adherbid dynn_Masinnid dynn_Tacfarinid dynn_Syphid dynn_Verminid
+		dynn_Adherbid dynn_Massinid dynn_Tacfarinid dynn_Syphid dynn_Verminid
 		dynn_Galid dynn_Jugurthid
 	}
 
 	dynasty_names = {
 		dynn_Ahmid dynn_Galestid dynn_Kenamid dynn_Naravid dynn_Penamid
 		dynn_Senuid dynn_Setnid
-		dynn_Adherbid dynn_Masinnid dynn_Tacfarinid dynn_Syphid dynn_Verminid
+		dynn_Adherbid dynn_Massinid dynn_Tacfarinid dynn_Syphid dynn_Verminid
 		dynn_Galid dynn_Jugurthid
 	}
 
