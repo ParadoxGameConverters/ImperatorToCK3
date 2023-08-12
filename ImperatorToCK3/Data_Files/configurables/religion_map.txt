@@ -50,6 +50,7 @@ link = { ck3=waaqism_pagan ir=puntic_religion }
 link = { ck3=basque_pagan ir=pre_indo_european_religion }
 link = { ck3=illyrian_pagan ir=illyrian_pantheon }
 link = { ck3=dinka_pagan ir=nilotic_pantheon } # Nhialic
+link = { ck3=pagan ir=nuragic_pantheon } # TODO: https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/1474
 
 # Arabic
 link = { ck3 = aksumite_pagan ir = arabian_pantheon impRegion = punt_region } # TFE
