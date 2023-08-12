@@ -284,7 +284,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				continue;
 			}
 
-			var title = titles[religiousHeadTitleId];
+			if (!titles.TryGetValue(religiousHeadTitleId, out var title)) {
+				Logger.Warn($"Religious head title {religiousHeadTitleId} for {faith.Id} not found!");
+				continue;
+			}
 			var holderId = title.GetHolderId(date);
 			if (holderId != "0") {
 				var holder = characters[holderId];
