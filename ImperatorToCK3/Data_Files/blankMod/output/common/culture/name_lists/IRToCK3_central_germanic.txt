@@ -178,7 +178,7 @@ name_list_pemis = {
 		{ "dynnp_von" "dynn_Koltern" }
 		{ "dynnp_von" "dynn_Felpe" }
 		{ "dynnp_von" "dynn_A_re" }
-		{ "dynnp_von" "dynn_Stojnfurt" }
+		{ "dynnp_von" "dynn_S_tojnfurt" }
 		{ "dynnp_von" "dynn_TeklAEpurk" }
 		{ "dynnp_von" "dynn_Ravensperk" }
 		{ "dynnp_von" "dynn_FeY_e" }
