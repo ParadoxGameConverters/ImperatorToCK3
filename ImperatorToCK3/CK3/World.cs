@@ -140,7 +140,12 @@ public class World {
 		// Holy sites need to be loaded after landed titles.
 		Religions.LoadDoctrines(ModFS);
 		Religions.LoadHolySites(ModFS);
+		Logger.Info("Loading religions from CK3 game and mods...");
 		Religions.LoadReligions(ModFS, ck3ColorFactory);
+		Logger.IncrementProgress();
+		Logger.Info("Loading optional converter faiths...");
+		Religions.LoadOptionalFaiths(ck3ColorFactory);
+		Logger.IncrementProgress();
 		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
 		// Load regions.

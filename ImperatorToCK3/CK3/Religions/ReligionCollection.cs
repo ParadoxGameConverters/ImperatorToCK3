@@ -30,23 +30,33 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public ReligionCollection(Title.LandedTitles landedTitles) {
 		this.landedTitles = landedTitles;
 	}
-
-	private void RegisterReligionsKeywords(Parser parser, ColorFactory colorFactory) {
+	
+	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
+		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var religion = new Religion(religionId, religionReader, this, colorFactory);
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-	}
-	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
-		Logger.Info("Loading religions from CK3 game and mods...");
-
-		var parser = new Parser();
-		RegisterReligionsKeywords(parser, colorFactory);
-
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
+	}
 
-		Logger.IncrementProgress();
+	public void LoadOptionalFaiths(ColorFactory colorFactory) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
+			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
+			// Check if religion already exists. If it does, add optional faiths to it.
+			// Otherwise, add the whole religion.
+			if (TryGetValue(religionId, out var religion)) {
+				foreach (var faith in optReligion.Faiths) {
+					religion.Faiths.Add(faith);
+				}
+			} else {
+				Add(optReligion);
+			}
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseFile("configurables/optional_faiths.txt");
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser) {

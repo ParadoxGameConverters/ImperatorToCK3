@@ -16,6 +16,9 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 	public Religion(string id, BufferedReader religionReader, ReligionCollection religions, ColorFactory colorFactory) {
 		Id = id;
 		ReligionCollection = religions;
+		this.colorFactory = colorFactory;
+	
+		InitFaithDataParser();
 
 		var religionParser = new Parser();
 		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
@@ -27,7 +30,10 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 					otherReligion.Faiths.Remove(faithId);
 				}
 
-				Faiths.AddOrReplace(new Faith(faithId, faithReader, this, colorFactory));
+				faithDataParser.ParseStream(faithReader);
+				Faiths.AddOrReplace(new Faith(Id, faithData, this));
+				// Reset faith data for the next faith.
+				faithData = new FaithData();
 			});
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
@@ -36,6 +42,25 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		religionParser.ParseStream(religionReader);
+	}
+
+	private void InitFaithDataParser() {
+		faithDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
+			faithData.InvalidatingFaithIds = reader.GetStrings();
+		});
+		faithDataParser.RegisterKeyword("color", reader => faithData.Color = colorFactory.GetColor(reader));
+		faithDataParser.RegisterKeyword("religious_head", reader => {
+			var titleId = reader.GetString();
+			if (titleId != "none") {
+				faithData.ReligiousHeadTitleId = titleId;
+			}
+		});
+		faithDataParser.RegisterKeyword("holy_site", reader => faithData.HolySiteIds.Add(reader.GetString()));
+		faithDataParser.RegisterKeyword("doctrine", reader => faithData.DoctrineIds.Add(reader.GetString()));
+		faithDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
+			faithData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
+		});
+		faithDataParser.IgnoreAndLogUnregisteredItems();
 	}
 
 	public IdObjectCollection<string, Faith> Faiths { get; } = new();
@@ -67,4 +92,8 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 
 		return sb.ToString();
 	}
+
+	private readonly ColorFactory colorFactory;
+	private FaithData faithData = new();
+	private readonly Parser faithDataParser = new();
 }
