@@ -144,7 +144,7 @@ public class World {
 		Religions.LoadReligions(ModFS, ck3ColorFactory);
 		Logger.IncrementProgress();
 		Logger.Info("Loading optional converter faiths...");
-		Religions.LoadOptionalFaiths(ck3ColorFactory);
+		Religions.LoadOptionalFaiths("configurables/optional_faiths.txt", ck3ColorFactory);
 		Logger.IncrementProgress();
 		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 

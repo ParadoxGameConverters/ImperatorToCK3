@@ -31,7 +31,7 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 				}
 
 				faithDataParser.ParseStream(faithReader);
-				Faiths.AddOrReplace(new Faith(Id, faithData, this));
+				Faiths.AddOrReplace(new Faith(faithId, faithData, this));
 				// Reset faith data for the next faith.
 				faithData = new FaithData();
 			});

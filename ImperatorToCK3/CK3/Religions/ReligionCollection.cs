@@ -41,7 +41,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
 	}
 
-	public void LoadOptionalFaiths(ColorFactory colorFactory) {
+	public void LoadOptionalFaiths(string optionalFaithsPath, ColorFactory colorFactory) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
@@ -56,7 +56,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseFile("configurables/optional_faiths.txt");
+		parser.ParseFile(optionalFaithsPath);
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser) {
