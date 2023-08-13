@@ -262,7 +262,7 @@ public class World {
 
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);
-		RemoveIslamFromAfrica(config);
+		RemoveIslam(config);
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
 
@@ -593,11 +593,11 @@ public class World {
 	}
 
 	/// <summary>
-	/// It makes no sense to have Islam in Africa before the rise of Islam.
+	/// It makes no sense to have Islam on the map before the rise of Islam.
 	/// This method removes it.
 	/// </summary>
-	private void RemoveIslamFromAfrica(Configuration config) {
-		Logger.Info("Removing Islam from Africa...");
+	private void RemoveIslam(Configuration config) {
+		Logger.Info("Removing Islam from the map...");
 		var date = config.CK3BookmarkDate;
 
 		if (!Religions.TryGetValue("islam_religion", out var islam)) {
@@ -606,35 +606,44 @@ public class World {
 		}
 
 		var muslimFaiths = islam.Faiths;
-
-		var muslimAfricanProvinces = Provinces
-			.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, "world_africa"))
+		var muslimProvinces = Provinces
 			.Where(p => p.GetFaithId(date) is string faithId && muslimFaiths.ContainsKey(faithId))
 			.ToHashSet();
 
 		var regionToNewFaithDict = new OrderedDictionary<string, string> {
+			// Africa
 			{"world_africa_north", "berber_pagan"},
 			{"world_africa_west", "berber_pagan"},
 			{"world_africa_east", "waaqism_pagan"},
 			{"world_africa_sahara", "berber_pagan"},
-			{"world_africa", "pagan"} // fallback
-		};
+			{"world_africa", "berber_pagan"}, // fallback
+			{"world_africa", "pagan"}, // fallback
+			// Rest of the world
+			{"world_europe", "arabic_pagan"},
+			{"world_asia_minor", "arabic_pagan"},
+			{"world_middle_east", "arabic_pagan"},
+			{"world_india", "arabic_pagan"},
+			{"world_steppe", "arabic_pagan"},
+			{"world_tibet", "arabic_pagan"},
+			{"world_burma", "arabic_pagan"},
+		}.Where(kvp => Religions.GetFaith(kvp.Value) is not null);
 
 		foreach (var (regionId, faithId) in regionToNewFaithDict) {
-			if (Religions.GetFaith(faithId) is null) {
-				Logger.Warn($"Faith {faithId} not found.");
-				continue;
-			}
-
-			var regionProvinces = muslimAfricanProvinces
+			var regionProvinces = muslimProvinces
 				.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
 			foreach (var province in regionProvinces) {
 				var faithHistoryField = province.History.Fields["faith"];
 				faithHistoryField.RemoveAllEntries();
 				faithHistoryField.AddEntryToHistory(null, "faith", faithId);
 
-				muslimAfricanProvinces.Remove(province);
+				muslimProvinces.Remove(province);
 			}
+		}
+		
+		// Log warning if there are still muslim provinces left.
+		if (muslimProvinces.Count > 0) {
+			Logger.Warn($"{muslimProvinces.Count} muslim provinces left after removing Islam: " +
+			            $"{string.Join(", ", muslimProvinces.Select(p => p.Id))}");
 		}
 
 		Logger.IncrementProgress();
