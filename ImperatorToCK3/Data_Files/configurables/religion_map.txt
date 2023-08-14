@@ -28,7 +28,7 @@
 ## Pagan
 # TFE
 link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
-link = { ck3 = amazigh_pagan ir = berber_religion } # TODO: remove berber_pagan from converter blankMod if amazigh_pagan exists
+link = { ck3 = amazigh_pagan ir = berber_religion }
 link = { ck3 = scythian_pagan ir = indo_iranian_religion } # TODO: remove scythian_pagan from converter blankMod if scythian_pagan already exists
 # Vanilla CK3
 link = { ck3 = kushitism_pagan ir = egyptian_pantheon impRegion = nubia_region impRegion = punt_region }

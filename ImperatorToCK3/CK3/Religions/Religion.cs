@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
@@ -31,6 +32,17 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 				}
 
 				faithDataParser.ParseStream(faithReader);
+				if (faithData.InvalidatingFaithIds.Any()) { // Faith is an optional faith.
+					foreach (var existingFaith in religions.Faiths) {
+						if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
+							continue;
+						}
+						Logger.Debug($"Faith {faithId} is invalidated by {existingFaith.Id}.");
+						return;
+					}
+					Logger.Debug("Loading optional faith {faithId}...");
+				}
+				
 				Faiths.AddOrReplace(new Faith(faithId, faithData, this));
 				// Reset faith data for the next faith.
 				faithData = new FaithData();
