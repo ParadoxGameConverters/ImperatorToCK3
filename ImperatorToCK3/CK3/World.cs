@@ -27,7 +27,6 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
-using Open.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -615,25 +614,25 @@ public class World {
 			.Where(p => p.GetFaithId(date) is string faithId && muslimFaiths.ContainsKey(faithId))
 			.ToHashSet();
 
-		var regionToNewFaithDict = new OrderedDictionary<string, string> {
+		var regionToNewFaithMap = new List<KeyValuePair<string, string>> {
 			// Africa
-			{"world_africa_north", "berber_pagan"},
-			{"world_africa_west", "berber_pagan"},
-			{"world_africa_east", "waaqism_pagan"},
-			{"world_africa_sahara", "berber_pagan"},
-			{"world_africa", "berber_pagan"}, // fallback
-			{"world_africa", "pagan"}, // fallback
+			new("world_africa_north", "berber_pagan"),
+			new("world_africa_west", "berber_pagan"),
+			new("world_africa_east", "waaqism_pagan"),
+			new("world_africa_sahara", "berber_pagan"),
+			new("world_africa", "berber_pagan"), // fallback
+			new("world_africa", "pagan"), // fallback
 			// Rest of the world
-			{"world_europe", "arabic_pagan"},
-			{"world_asia_minor", "arabic_pagan"},
-			{"world_middle_east", "arabic_pagan"},
-			{"world_india", "arabic_pagan"},
-			{"world_steppe", "arabic_pagan"},
-			{"world_tibet", "arabic_pagan"},
-			{"world_burma", "arabic_pagan"},
+			new("world_europe", "arabic_pagan"),
+			new("world_asia_minor", "arabic_pagan"),
+			new("world_middle_east", "arabic_pagan"),
+			new("world_india", "arabic_pagan"),
+			new("world_steppe", "arabic_pagan"),
+			new("world_tibet", "arabic_pagan"),
+			new("world_burma", "arabic_pagan"),
 		}.Where(kvp => Religions.GetFaith(kvp.Value) is not null);
 
-		foreach (var (regionId, faithId) in regionToNewFaithDict) {
+		foreach (var (regionId, faithId) in regionToNewFaithMap) {
 			var regionProvinces = muslimProvinces
 				.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
 			foreach (var province in regionProvinces) {

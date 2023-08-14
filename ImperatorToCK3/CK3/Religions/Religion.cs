@@ -26,21 +26,21 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		religionParser.RegisterKeyword("faiths", faithsReader => {
 			var faithsParser = new Parser();
 			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
-				// The faith might have already been added to another religion.
-				foreach (var otherReligion in ReligionCollection) {
-					otherReligion.Faiths.Remove(faithId);
-				}
-
 				faithDataParser.ParseStream(faithReader);
 				if (faithData.InvalidatingFaithIds.Any()) { // Faith is an optional faith.
 					foreach (var existingFaith in religions.Faiths) {
 						if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
 							continue;
 						}
-						Logger.Debug($"Faith {faithId} is invalidated by {existingFaith.Id}.");
+						Logger.Debug($"Faith {faithId} is invalidated by existing {existingFaith.Id}.");
 						return;
 					}
-					Logger.Debug("Loading optional faith {faithId}...");
+					Logger.Debug($"Loading optional faith {faithId}...");
+				}
+				
+				// The faith might have already been added to another religion.
+				foreach (var otherReligion in ReligionCollection) {
+					otherReligion.Faiths.Remove(faithId);
 				}
 				
 				Faiths.AddOrReplace(new Faith(faithId, faithData, this));
