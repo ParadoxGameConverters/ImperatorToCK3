@@ -42,12 +42,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 
 	public void LoadOptionalFaiths(string optionalFaithsPath, ColorFactory colorFactory) {
-		var existingFaithIds = Faiths.Select(f => f.Id).ToHashSet();
-		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
-			var optionalFaiths = optReligion.Faiths.ToList();
 			
 			// Check if religion already exists. If it does, add optional faiths to it.
 			// Otherwise, add the optional faith's religion.
