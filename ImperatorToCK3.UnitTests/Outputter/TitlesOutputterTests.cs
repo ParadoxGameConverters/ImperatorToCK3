@@ -41,7 +41,7 @@ public class TitlesOutputterTests {
 		using var kingdomHistoryFile = File.OpenRead(kingdomHistoryPath);
 		var reader = new StreamReader(kingdomHistoryFile);
 		Assert.Equal("k_kingdom={", reader.ReadLine());
-		Assert.Equal("\t20.1.1={ liege=0 }", reader.ReadLine());
+		Assert.Equal("\t20.1.1 = { liege = 0 }", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 
@@ -49,17 +49,17 @@ public class TitlesOutputterTests {
 		using var otherTitlesHistoryFile = File.OpenRead(otherTitlesHistoryPath);
 		reader = new StreamReader(otherTitlesHistoryFile);
 		Assert.Equal("k_special_title={", reader.ReadLine());
-		Assert.Equal("\t20.1.1={ holder=bob_42 }", reader.ReadLine());
+		Assert.Equal("\t20.1.1 = { holder = bob_42 }", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(reader.EndOfStream);
 
 		Assert.True(File.Exists(landedTitlesPath));
 		using var landedTitlesFile = File.OpenRead(landedTitlesPath);
 		reader = new StreamReader(landedTitlesFile);
-		Assert.Equal("k_kingdom={", reader.ReadLine());
-		Assert.Equal("\td_duchy={", reader.ReadLine());
-		Assert.Equal("\t\tc_county={", reader.ReadLine());
-		Assert.Equal("\t\t\tb_barony={", reader.ReadLine());
+		Assert.Equal("k_kingdom = {", reader.ReadLine());
+		Assert.Equal("\td_duchy = {", reader.ReadLine());
+		Assert.Equal("\t\tc_county = {", reader.ReadLine());
+		Assert.Equal("\t\t\tb_barony = {", reader.ReadLine());
 		Assert.Equal("\t\t\t\tlandless=no", reader.ReadLine());
 		Assert.Equal("\t\t\t\tdefinite_form=no", reader.ReadLine());
 		Assert.Equal("\t\t\t\truler_uses_title_name=no", reader.ReadLine());
@@ -76,7 +76,7 @@ public class TitlesOutputterTests {
 		Assert.Equal("\tdefinite_form=no", reader.ReadLine());
 		Assert.Equal("\truler_uses_title_name=no", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
-		Assert.Equal("k_special_title={", reader.ReadLine());
+		Assert.Equal("k_special_title = {", reader.ReadLine());
 		Assert.Equal("\tlandless=no", reader.ReadLine());
 		Assert.Equal("\tdefinite_form=no", reader.ReadLine());
 		Assert.Equal("\truler_uses_title_name=no", reader.ReadLine());
