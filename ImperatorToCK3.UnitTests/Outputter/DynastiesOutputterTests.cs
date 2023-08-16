@@ -54,12 +54,12 @@ public class DynastiesOutputterTests {
 		var reader = new StreamReader(file);
 
 		Assert.Equal("dynn_irtock3_1={", reader.ReadLine());
-		Assert.Equal("\tname=dynn_irtock3_1", reader.ReadLine());
+		Assert.Equal("\tname = dynn_irtock3_1", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 
 		Assert.Equal("dynn_irtock3_2={", reader.ReadLine());
-		Assert.Equal("\tname=dynn_irtock3_2", reader.ReadLine());
-		Assert.Equal("\tculture=roman", reader.ReadLine());
+		Assert.Equal("\tname = dynn_irtock3_2", reader.ReadLine());
+		Assert.Equal("\tculture = roman", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(string.IsNullOrWhiteSpace(reader.ReadLine()));
 		Assert.True(reader.EndOfStream);

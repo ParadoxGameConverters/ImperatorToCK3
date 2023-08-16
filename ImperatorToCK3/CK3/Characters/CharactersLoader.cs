@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters;
 
@@ -13,6 +14,13 @@ public partial class CharacterCollection {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, characterId) => {
 			var character = new Character(characterId, reader, this);
+			
+			// Check if character has a birth date:
+			if (!character.History.Fields["birth"].DateToEntriesDict.Any()) {
+				Logger.Debug($"Ignoring character {characterId} with no valid birth date.");
+				return;
+			}
+			
 			AddOrReplace(character);
 			loadedCharacters.Add(character);
 		});

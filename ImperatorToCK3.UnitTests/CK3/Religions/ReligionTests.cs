@@ -36,7 +36,7 @@ public class ReligionTests {
 
 		var religionStr = PDXSerializer.Serialize(religion);
 		religionStr.Should().ContainAll(
-			"pagan_roots=yes",
+			"pagan_roots = yes",
 			"doctrine=doctrine_no_head",
 			"doctrine=doctrine_gender_male_dominated"
 		);

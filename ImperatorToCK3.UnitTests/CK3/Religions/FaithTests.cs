@@ -63,7 +63,7 @@ public class FaithTests {
 
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().ContainAll(
-			"icon=celtic_pagan",
+			"icon = celtic_pagan",
 			"doctrine=tenet_esotericism",
 			"doctrine=tenet_human_sacrifice"
 		);
