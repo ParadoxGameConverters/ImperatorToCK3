@@ -295,14 +295,14 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date date) {
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
 		var landedCharacterIds = titles.GetAllHolderIds();
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
 			.ToList();
 		var dynastyIdsOfLandedCharacters = landedCharacters
-			.Select(character => character.GetDynastyId(date))
+			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
 			.ToHashSet();
 
@@ -336,9 +336,14 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				if (character is {FromImperator: true, Dead: false}) {
 					continue;
 				}
+				
+				// Is the character born after the CK3 bookmark date? Keep them, there's no gain from purging.
+				if (character.BirthDate > ck3BookmarkDate) {
+					continue;
+				}
 
 				// Does the character belong to a dynasty that holds or held titles?
-				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(date))) {
+				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
 						farewellCharacters.Add(character);

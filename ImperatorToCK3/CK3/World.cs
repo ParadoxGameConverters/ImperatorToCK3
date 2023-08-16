@@ -256,7 +256,7 @@ public class World {
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
-		Characters.PurgeUnneededCharacters(LandedTitles, CorrectedDate);
+		Characters.PurgeUnneededCharacters(LandedTitles, config.CK3BookmarkDate);
 
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);
