@@ -297,6 +297,8 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
+		
+		// Characters that hold or held titles should always be kept.
 		var landedCharacterIds = titles.GetAllHolderIds();
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
@@ -305,9 +307,14 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
 			.ToHashSet();
-
-		// Characters that hold or held titles should always be kept.
-		var charactersToCheck = this.Except(landedCharacters).ToList();
+		
+		// Don't purge animation_test characters.
+		var animationTestCharacters = this.Where(c => c.Id.StartsWith("animation_test"));
+		
+		var charactersToCheck = this
+			.Except(landedCharacters)
+			.Except(animationTestCharacters)
+			.ToList();
 
 		var i = 0;
 		var farewellCharacters = new List<Character>();
