@@ -43,7 +43,7 @@ public class MenAtArmsTypeTests {
 		Assert.Contains("toughness = 24", serializedType);
 		Assert.Contains("terrain_bonus = {", serializedType);
 		Assert.Contains("buy_cost={", serializedType);
-		Assert.Contains("stack = 100", serializedType);
+		Assert.Contains("stack=100", serializedType);
 		Assert.Contains("icon = pikemen", serializedType);
 	}
 }
