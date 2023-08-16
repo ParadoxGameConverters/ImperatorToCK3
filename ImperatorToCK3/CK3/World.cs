@@ -294,6 +294,10 @@ public class World {
 					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no CK3 defenders!");
 					continue;
 				}
+				if (ck3War.CasusBelli is null) {
+					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no CK3 casus belli!");
+					continue;
+				}
 				Wars.Add(ck3War);
 			} catch (ConverterException e) {
 				Logger.Debug($"Can't import war that starts at {irWar.StartDate}: {e.Message}");
