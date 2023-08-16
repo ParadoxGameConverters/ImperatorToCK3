@@ -306,7 +306,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		var charactersToCheck = this.Except(landedCharacters);
 		
 		// Don't purge animation_test characters.
-		charactersToCheck = charactersToCheck.Where(c => c.Id.StartsWith("animation_test"));
+		charactersToCheck = charactersToCheck.Where(c => !c.Id.StartsWith("animation_test"));
 		
 		// Keep alive Imperator characters.
 		charactersToCheck = charactersToCheck
