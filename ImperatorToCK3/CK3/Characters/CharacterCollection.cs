@@ -303,19 +303,25 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
 			.ToList();
+		var charactersToCheck = this.Except(landedCharacters);
+		
+		// Don't purge animation_test characters.
+		charactersToCheck = charactersToCheck.Where(c => c.Id.StartsWith("animation_test"));
+		
+		// Keep alive Imperator characters.
+		charactersToCheck = charactersToCheck
+			.Where(c => c is not {FromImperator: true, Dead: false});
+				
+		// Is the character born after the CK3 bookmark date? Keep them, there's no gain from purging.
+		charactersToCheck = charactersToCheck
+			.Where(character => character.BirthDate <= ck3BookmarkDate)
+			.ToList();
+
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
 			.ToHashSet();
 		
-		// Don't purge animation_test characters.
-		var animationTestCharacters = this.Where(c => c.Id.StartsWith("animation_test"));
-		
-		var charactersToCheck = this
-			.Except(landedCharacters)
-			.Except(animationTestCharacters)
-			.ToList();
-
 		var i = 0;
 		var farewellCharacters = new List<Character>();
 		var parentIdsCache = new HashSet<string>();
@@ -338,17 +344,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 
 			// See who can be removed.
-			foreach (var character in charactersToCheck) {				
-				// Keep alive characters.
-				if (character is {FromImperator: true, Dead: false}) {
-					continue;
-				}
-				
-				// Is the character born after the CK3 bookmark date? Keep them, there's no gain from purging.
-				if (character.BirthDate > ck3BookmarkDate) {
-					continue;
-				}
-
+			foreach (var character in charactersToCheck) {
 				// Does the character belong to a dynasty that holds or held titles?
 				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
