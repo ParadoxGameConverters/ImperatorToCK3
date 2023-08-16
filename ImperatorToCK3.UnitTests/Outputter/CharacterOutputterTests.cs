@@ -22,7 +22,7 @@ public class CharacterOutputterTests {
 		CharacterOutputter.OutputCharacter(output, pregnantFemale, conversionDate);
 
 		var outputString = output.ToString();
-		outputString.Should().Contain("female=yes");
+		outputString.Should().Contain("female = yes");
 		outputString.Should().Contain($"{conceptionDate}={{ effect={{ make_pregnant_no_checks={{ father=character:2 }} }} }}");
 	}
 }
