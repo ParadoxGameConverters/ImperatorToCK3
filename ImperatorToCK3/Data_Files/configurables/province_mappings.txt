@@ -1,6 +1,78 @@
 imperator_invictus = {
 	link = { comment = "=== NEW MAPPINGS BY IHT ===" }
 	link = { comment = "ETHIOPIA BY IHT" }
+	link = { imp = 7552 imp = 7553 ck3 = 6380 } # Deresa, Aqiq -> BADI
+	link = { imp = 8608 ck3 = 6383 } # Tabot -> UPPER_AMUR
+	link = { imp = 8550 ck3 = 6389 } # Meroe Desert -> SHUNQAYR
+	link = { imp = 3321 imp = 630 imp = 632 imp = 3322 ck3 = 6356 } # Rocat, Scammos, Abale, Borassa -> ATBARA
+	link = { imp = 628 ck3 = 6355 } # Alana -> BERBER
+	link = { imp = 8615 imp = 7584 ck3 = 6353 } # Hashim, Hashem -> TARFAYA
+	link = { imp = 8609 ck3 = 6382 } # Misrar -> WADI_AMUR
+	link = { imp = 8612 ck3 = 6385 } # Talguharai -> BAQLIN-NORTH
+	link = { imp = 8663 ck3 = 6438 } # Akordat -> QATAA
+	link = { imp = 8666 imp = 8740 ck3 = 6442 } # Tokolay, Hambok -> TO_LUS
+	link = { imp = 8665 imp = 5972 ck3 = 8283 ck3 = 8434 } # MANY-TO-MANY: Tokore, Ona Mountains -> SERAYE, WELAMO-WEST
+	link = { imp = 8636 imp = 3328 imp = 8634 imp = 8635 imp = 8738 imp = 8638 ck3 = 6412 } # Kassala, Thana, Gamal, Matamir, Haykota, Gash -> KASSALA
+	link = { imp = 7590 imp = 3331 imp = 7591 ck3 = 6437 } # Demora, Zithaa, Acranoe -> SHOWAK
+	link = { imp = 8623 imp = 8633 imp = 8629 imp = 8624 imp = 8622 imp = 7589 ck3 = 6418 } # Thalathun, Rumaylah, Qadarif, Qigi, Kawahilah, Abliata -> BUTANA
+	link = { imp = 8642 imp = 8643 ck3 = 6436 } # Baqbaqah, Gabub -> WOLQAYT
+	link = { imp = 8729 imp = 8728 ck3 = 6445 } # Samtarru, Kura -> WAD_ABU_NAHL
+	link = { imp = 8649 ck3 = 8303 } # Haria -> KOSOGE
+	link = { imp = 8646 imp = 8645 ck3 = 8292 } # Metemmeh, Boval -> WALDABBA
+	link = { imp = 8644 ck3 = 6444 } # Barakit -> SHOWAK_SOUTH
+	link = { imp = 633 imp = 8739 ck3 = 6443 } # Druka, Mareb -> GASH
+	link = { imp = 8664 imp = 8741 ck3 = 8290 } # Tucul, Durna -> SOUTH_SERAYE
+	link = { imp = 8652 imp = 8656 imp = 8654 ck3 = 8293 } # Enda Cherqos, Tembien, Seglamen -> JOHA
+	link = { imp = 7505 ck3 = 8296 } # Yeha -> QIHA
+	link = { imp = 5354 ck3 = 6413 ck3 = 6440 ck3 = 6414 } # IP 355 -> KHAWR_BARAKA, DHERBE, DJARIN
+	link = { imp = 5336 ck3 = 8335 ck3 = 8334 ck3 = 8333 } # IP 337 -> AFERA, AMARTA, RAGALI
+	link = { imp = 7544 ck3 = 8336 } # Karmille -> DABAHU
+	link = { imp = 7543 ck3 = 8337 } # Kebranitia -> SOUTH_DANAKIL
+	link = { imp = 8736 imp = 8735 ck3 = 8326 } # Weama, Weki -> HAYQ
+	link = { imp = 7545 ck3 = 8301 } # Awash -> LALIBELA
+	link = { imp = 7511 ck3 = 8308 ck3 = 8299 } # Roha -> ANGOT, ADAFA
+	link = { imp = 7508 ck3 = 8295 } # Uikra -> INTARTA
+	link = { imp = 7514 ck3 = 8300 } # Esheta -> DOBA
+	link = { imp = 7510 ck3 = 8294 } # Adi Gelamo -> WIQRO
+	link = { imp = 7513 imp = 8658 ck3 = 8288 } # Matara, Mezber -> MATARA
+	link = { imp = 7504 ck3 = 8284 } # Qohaito -> QOHAITO
+	link = { imp = 8659 imp = 8661 imp = 8660 imp = 8657 ck3 = 8285 } # Sembel, Debarwa, Adi Ugri, Tsirhan -> SHIMAZANA
+	link = { imp = 651 imp = 7540 imp = 7593 ck3 = 8291 } # Sumita, Shire, Tanachtala -> TIGRE
+	link = { imp = 7539 ck3 = 8305 ck3 = 8304 } # D'bark -> FALASHA, SEMIEN
+	link = { imp = 8651 imp = 7536 ck3 = 8307 } # Uacne, Gwara -> DEMBIYA
+	link = { imp = 8722 ck3 = 8313 } # Weyto -> GALILA
+	link = { imp = 8730 ck3 = 8312 ck3 = 8311 } # Gondar -> GONDAR, GOUZARA
+	link = { imp = 7519 ck3 = 8339 } # Abasenia -> AFAR
+	link = { imp = 8731 ck3 = 8343 } # Yoboki -> MORA-AWSSA
+	link = { imp = 7546 ck3 = 8338 } # Beilul -> NORTH_AFAR
+	link = { imp = 7517 imp = 7516 ck3 = 8340 } # Arsinoe, Smyrnophoros Chora -> ASSAB
+	link = { imp = 7518 ck3 = 8341 ck3 = 8342 } # Deire -> AWBUK, TADJOURA
+	link = { imp = 7547 ck3 = 8332 } # Undulli -> EDD
+	link = { imp = 7548 ck3 = 8331 } # Thio -> EDD-NORTH
+	link = { imp = 7549 ck3 = 8287 ck3 = 8330 } # Ras Andada -> BUR, SAHO
+	link = { imp = 7507 ck3 = 8286 } # Oreine -> BURI
+	link = { imp = 7503 ck3 = 8279 } # Adouli -> DEHONO
+	link = { imp = 7502 ck3 = 8280 ck3 = 8281 } # Alalaiou -> DAHLAK_KEBIR, GIMHILE
+	link = { imp = 8648 imp = 8647 imp = 8650 ck3 = 8302 } # Gherma, Tawirda, Maganan -> WEGERA
+	link = { imp = 7512 ck3 = 8298 } # Muchera -> LASTA
+	link = { imp = 7537 ck3 = 8306 } # Roza -> BELASA
+	link = { imp = 7538 ck3 = 8309 } # Agawe -> BEGEMDIR
+	link = { imp = 8655 ck3 = 8297 } # Gijet -> TEKEZE
+	link = { imp = 7506 imp = 8653 imp = 7509 ck3 = 8289 } # Aksum, Mai Adrasha, Sazila -> AKSUM
+	link = { imp = 7515 imp = 8662 imp = 8742 ck3 = 8282 } # Naamen, Taille, Gher -> HAMASEN
+	link = { imp = 5332 ck3 = 6384 ck3 = 6372 ck3 = 6374 ck3 = 6375 ck3 = 6373 } # IP 333 -> NAQIS-SOUTH, WADI_ODIB, NAQIS-NORTH, KHAWR_NUBT, GEBEIT
+	link = { imp = 8611 ck3 = 6387 } # Tohamiyam -> BAQLIN-EAST
+	link = { imp = 8641 imp = 8614 imp = 8613 ck3 = 6386 } # Kalakoy, Qoqay, Mahaneit -> BAQLIN-WEST
+	link = { imp = 3323 imp = 8637 imp = 8640 imp = 8639 ck3 = 6411 } # Durai, Hagiz, Tuwesat, Taragaga -> MIDDLE_ATBARA
+	link = { imp = 8607 imp = 8610 ck3 = 6376 } # Sinkat, Hamdab -> SINKAT
+	link = { imp = 8744 ck3 = 6439 } # Afabet -> MARYA
+	link = { imp = 8743 ck3 = 6423 } # Nakfa -> JEBEL_BEJA
+	link = { imp = 7551 ck3 = 6441 } # Gulbub -> KA'BIR
+	link = { imp = 7550 ck3 = 8278 } # Imberimi -> MASSAWA
+	link = { imp = 7500 ck3 = 6381 ck3 = 6379 } # Ptolemais Theron -> BAZIN, AKIK
+	link = { imp = 8606 imp = 7501 ck3 = 6378 } # Kaweit, Elephanton Chora -> TOKAR
+	link = { imp = 7599 ck3 = 6377 } # Setronon -> SUAKIN
+	link = { imp = 7595 imp = 7596 ck3 = 6371 } # Arachos, Canarbis -> DUNGUNAB
 	link = { comment = "NUBIA BY IHT" }
 	link = { imp = 8092 imp = 8093 imp = 8094 imp = 8095 imp = 8096 ck3 = 6354 } # Duweb, Hidiglib, Murrat, Sufar, Doum -> KOROSKO-ROAD
 	link = { imp = 8091 ck3 = 6352 ck3 = 6370 ck3 = 6369 } # Biyar -> ABU-HAMMAD, AL-HAJAR_NUBIA, KUWEIB
@@ -93,6 +165,7 @@ imperator_invictus = {
 	link = { imp = 8082 imp = 8079 imp = 8080 imp = 8081 imp = 8083 imp = 8098 ck3 = 6112 } # Heimur, Contra Pselchis, Hairiri, Dhahab, Garaiyat, Dayyub -> HAIMUR
 	link = { imp = 8086 imp = 8087 imp = 8085 imp = 8084 ck3 = 6113 } # Allaqi, Fas, Shoshoba, Seiga -> ALLAQI
 	link = { imp = 8089 imp = 8078 imp = 8088 ck3 = 6111 } # Berenike Pancrysia, Tuyur, Eigat -> DERAHIB
+	link = { imp = 7594 ck3 = 6110 } # Sabraiton -> AYDHAB
 	link = { imp = 7598 imp = 7597 imp = 8090 ck3 = 6388 } # Sabaste, Erascum, Gidmib -> LOWER_ODIB
 	link = { imp = 562 imp = 560 ck3 = 6073 } # Diospolis, Thinis -> IBSHAYA
 	link = { imp = 576 ck3 = 6079 ck3 = 6082 } # Apollinopolis Megale -> UDFU, ASWAN-WEST
@@ -336,7 +409,7 @@ imperator_invictus = {
 	link = { imp = 8734 imp = 8733 ck3 = 8345 } # Mille, Logiya -> AWASH
 	link = { imp = 8732 imp = 7542 ck3 = 8344 } # Gehar, Rhammanitai -> AWSSA
 	link = { imp = 7541 ck3 = 8391 } # Handoga -> ABBE
-	link = { imp = 7520 imp = 8731 ck3 = 8399 } # Anchitaia, Yoboki -> GHOUBET
+	link = { imp = 7520 ck3 = 8399 } # Anchitaia -> GHOUBET
 	link = { imp = 7521 ck3 = 8398 ck3 = 8400 } # Aualites -> ABASA, ZAILA
 	link = { imp = 8701 imp = 8697 imp = 8699 imp = 8695 imp = 8694 imp = 8698 ck3 = 8503 } # Afweyn, Danano, Gar Adag, Aelal, Berberia Desert, Qoridheere -> TOGDHEER
 	link = { imp = 8682 imp = 7527 ck3 = 8424 } # Shalcaw, Khoor Shoora -> MAKHIR
