@@ -305,15 +305,61 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			.ToList();
 		var charactersToCheck = this.Except(landedCharacters);
 		
-		// Don't purge animation_test characters.
-		charactersToCheck = charactersToCheck.Where(c => !c.Id.StartsWith("animation_test"));
+		// Don't purge animation_test or easter egg characters.
+		charactersToCheck = charactersToCheck
+			.Where(c => !c.Id.StartsWith("animation_test_") && !c.Id.StartsWith("easteregg_"));
 		
 		// Keep alive Imperator characters.
 		charactersToCheck = charactersToCheck
 			.Where(c => c is not {FromImperator: true, Dead: false});
 				
 		// Make some exceptions for characters referenced in game's script files.
-		var characterIdsToKeep = new HashSet<string>(); // TODO: ADD SOME HERE
+		var characterIdsToKeep = new HashSet<string> { // TODO: move this to configurable file
+			"33922", // Muhammad, referenced in artifacts
+			"90107", // Ludwig the German referenced in on-actions
+			"74025", // referenced in on-actions
+			"33358", // referenced in on-actions
+			"76273", // referenced in on-actions
+			"251187", // referenced in on-actions
+			"251180", // referenced in on-actions
+			"251181", // referenced in on-actions
+			"214", // referenced in on-actions
+			"364", // referenced in on-actions
+			"40905", // referenced in on-actions
+			"40376", // referenced in on-actions
+			"3096", // referenced in on-actions
+			"additional_fatimids_1", // referenced in on-actions
+			"110550", // referenced in on-actions
+			"110514", // referenced in on-actions
+			"106520", // referenced in on-actions
+			"368", // referenced in on-actions
+			"100530", // referenced in on-actions
+			"100529", // referenced in on-actions
+			"476", // referenced in on-actions
+			"637", // referenced in on-actions
+			"9957", // referenced in on-actions
+			"9956", // referenced in on-actions
+			"7757", // referenced in on-actions
+			"1128", // referenced in on-actions
+			"108501", // referenced in on-actions
+			"107500", // referenced in on-actions
+			"107501", // referenced in on-actions
+			"108500", // referenced in on-actions
+			"109500", // referenced in on-actions
+			"163108", // referenced in on-actions
+			"163110", // referenced in on-actions
+			"163111", // referenced in on-actions
+			"163112", // referenced in on-actions
+			"163119", // referenced in on-actions
+			"6448", // referenced in on-actions
+			"140", // referenced in on-actions
+			"522", // referenced in on-actions
+			"40605", // referenced in on-actions
+			"159137", // referenced in on-actions
+			"109607", // referenced in on-actions
+			"6878", // referenced in on-actions
+			"107590", // referenced in on-actions
+		};
 		charactersToCheck = charactersToCheck
 			.Where(character => !characterIdsToKeep.Contains(character.Id))
 			.ToList();
