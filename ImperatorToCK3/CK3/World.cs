@@ -85,8 +85,8 @@ public class World {
 		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
 		LoadedMods = modLoader.UsableMods.ToOrderedSet();
 		var tfeMod = LoadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle", StringComparison.Ordinal));
-		bool tfeEnabled = tfeMod is not null;
-		if (tfeEnabled) {
+		FallenEagleEnabled = tfeMod is not null;
+		if (FallenEagleEnabled) {
 			Logger.Info($"TFE detected: {tfeMod!.Name}");
 		}
 		// Include a fake mod pointing to blankMod.
@@ -279,6 +279,8 @@ public class World {
 		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, cultures, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
 	}
+
+	public bool FallenEagleEnabled { get; init; }
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
 		Logger.Info("Importing I:R wars...");

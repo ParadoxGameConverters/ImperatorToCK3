@@ -59,6 +59,10 @@ public static class WorldOutputter {
 		
 		Logger.Info("Writing game start on-action...");
 		OnActionOutputter.OutputCustomGameStartOnAction(config);
+		if (ck3World.FallenEagleEnabled) {
+			Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
+			OnActionOutputter.DisableUnneededFallenEagleOnActions(config.OutputModName);
+		}
 		Logger.IncrementProgress();
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
