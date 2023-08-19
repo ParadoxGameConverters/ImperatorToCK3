@@ -83,12 +83,14 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadReplaceableHolySites(string filePath) {
 		Logger.Info("Loading replaceable holy site IDs...");
 
+		var missingFaithIds = new OrderedSet<string>();
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
 			var value = reader.GetStringOfItem();
 			if (faith is null) {
-				Logger.Warn($"Faith \"{faithId}\" not found!");
+				missingFaithIds.Add(faithId);
 				return;
 			}
 
@@ -103,6 +105,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(filePath);
+		
+		Logger.Debug($"Replaceable holy sites not loaded for missing faiths: {string.Join(", ", missingFaithIds)}");
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {

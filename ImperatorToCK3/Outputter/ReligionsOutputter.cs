@@ -45,20 +45,13 @@ public static class ReligionsOutputter {
 		}
 	}
 
-	public static void OutputModifiedReligions(string outputModName, ReligionCollection ck3ReligionCollection) {
-		var religionsToBeOutput = ck3ReligionCollection
-			.Where(r => r.Faiths.Any(f => f.ModifiedByConverter))
-			.ToList();
-		if (!religionsToBeOutput.Any()) {
-			return;
-		}
-		
-		Logger.Info("Writing modified religions...");
-		var outputPath = Path.Combine("output", outputModName, "common/religion/religions/zzz_IRtoCK3_modified_religions.txt");
+	public static void OutputReligions(string outputModName, ReligionCollection ck3ReligionCollection) {
+		Logger.Info("Writing religions...");
+		var outputPath = Path.Combine("output", outputModName, "common/religion/religions/IRtoCK3_religions.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
-		foreach (var religion in religionsToBeOutput) {
+		foreach (var religion in ck3ReligionCollection) {
 			output.WriteLine($"{religion.Id}={PDXSerializer.Serialize(religion)}");
 		}
 	}
