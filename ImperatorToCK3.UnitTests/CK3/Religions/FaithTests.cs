@@ -84,11 +84,10 @@ public class FaithTests {
 			HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}
 		};
 		var faith = new Faith("orthodox", faithData, testReligion);
-		Assert.False(faith.ModifiedByConverter);
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
 
 		faith.ReplaceHolySiteId("antioch", "jerusalem");
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "jerusalem");
-		Assert.True(faith.ModifiedByConverter);
 	}
 
 	[Fact]
@@ -98,11 +97,10 @@ public class FaithTests {
 
 		var faithData = new FaithData {HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}};
 		var faith = new Faith("orthodox", faithData, testReligion);
-		Assert.False(faith.ModifiedByConverter);
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
 
 		faith.ReplaceHolySiteId("washington", "jerusalem");
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
-		Assert.False(faith.ModifiedByConverter);
 		Assert.Contains("washington does not belong to holy sites of faith orthodox and cannot be replaced!", output.ToString());
 	}
 	
