@@ -13,7 +13,7 @@
 
 
 north_african_religion = {
-    # Religion's attributes, north_african_religion exists in vanilla CK3.
+    # Religion's attributes not needed, north_african_religion exists in vanilla CK3.
     	
 	faiths = {
 		berber_pagan = {  # ImperatorToCK3
@@ -864,4 +864,4 @@ burmic_religion = { # Folk religions of Burmese peoples
 			doctrine = tenet_adaptive
 		}
 	}
-}
+}}
