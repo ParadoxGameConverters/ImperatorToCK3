@@ -14,7 +14,6 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public Religion Religion { get; }
 	public Color? Color { get; }
 	public string? ReligiousHeadTitleId { get; }
-	public bool ModifiedByConverter { get; private set; } = false;
 	public OrderedSet<string> DoctrineIds { get; }
 
 	public Faith(string id, FaithData faithData, Religion religion) {
@@ -35,7 +34,6 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public void ReplaceHolySiteId(string oldId, string newId) {
 		if (holySiteIds.Remove(oldId)) {
 			holySiteIds.Add(newId);
-			ModifiedByConverter = true;
 		} else {
 			Logger.Warn($"{oldId} does not belong to holy sites of faith {Id} and cannot be replaced!");
 		}

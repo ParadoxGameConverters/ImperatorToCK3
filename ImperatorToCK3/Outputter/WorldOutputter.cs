@@ -40,7 +40,7 @@ public static class WorldOutputter {
 
 		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
 		Logger.IncrementProgress();
-		ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
+		ReligionsOutputter.OutputReligions(outputName, ck3World.Religions);
 		Logger.IncrementProgress();
 
 		WarsOutputter.OutputWars(outputName, ck3World.Wars);
@@ -114,6 +114,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
+		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
