@@ -312,9 +312,10 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		charactersToCheck = charactersToCheck
 			.Where(c => c is not {FromImperator: true, Dead: false});
 				
-		// Is the character born after the CK3 bookmark date? Keep them, there's no gain from purging.
+		// Make some exceptions for characters referenced in game's script files.
+		var characterIdsToKeep = new HashSet<string>(); // TODO: ADD SOME HERE
 		charactersToCheck = charactersToCheck
-			.Where(character => character.BirthDate <= ck3BookmarkDate)
+			.Where(character => !characterIdsToKeep.Contains(character.Id))
 			.ToList();
 
 		var dynastyIdsOfLandedCharacters = landedCharacters
