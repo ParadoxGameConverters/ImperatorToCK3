@@ -47,7 +47,7 @@ public static class ReligionsOutputter {
 
 	public static void OutputReligions(string outputModName, ReligionCollection ck3ReligionCollection) {
 		Logger.Info("Writing religions...");
-		var outputPath = Path.Combine("output", outputModName, "common/religion/religions/IRtoCK3_religions.txt");
+		var outputPath = Path.Combine("output", outputModName, "common/religion/religions/IRtoCK3_all_religions.txt");
 		using var outputStream = File.OpenWrite(outputPath);
 		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
 
