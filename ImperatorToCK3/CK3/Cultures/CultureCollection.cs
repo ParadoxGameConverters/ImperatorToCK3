@@ -54,11 +54,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		cultureDataParser.ParseStream(cultureReader);
 		
 		if (cultureData.Heritage is null) {
-			Logger.Warn($"Culture {cultureId} has no heritage defined!");
+			Logger.Warn($"Culture {cultureId} has no heritage defined! Skipping.");
 			return;
 		}
 		if (cultureData.NameLists.Count == 0) {
-			Logger.Warn($"Culture {cultureId} has no name list defined!");
+			Logger.Warn($"Culture {cultureId} has no name list defined! Skipping.");
 			return;
 		}
 		AddOrReplace(new Culture(cultureId, cultureData));
