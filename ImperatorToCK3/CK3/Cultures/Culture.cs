@@ -2,7 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using ImperatorToCK3.Exceptions;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +21,13 @@ public sealed class Culture : IIdentifiable<string> {
 
 		NameLists = new OrderedSet<NameList>();
 		var parser = new Parser();
-		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color", reader => {
+			try {
+				Color = colorFactory.GetColor(reader);
+			} catch (Exception e) {
+				Logger.Warn($"Culture {id} has invalid color! {e.Message}");
+			}
+		});
 		parser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
 			Heritage = pillars.Heritages.First(p => p.Id == heritageId);

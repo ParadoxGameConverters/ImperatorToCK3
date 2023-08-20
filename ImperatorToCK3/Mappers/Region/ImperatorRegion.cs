@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Colors;
 using ImperatorToCK3.Imperator.Geography;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,7 +38,13 @@ public sealed class ImperatorRegion : IIdentifiable<string> {
 				parsedAreas.Add(name);
 			}
 		});
-		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color", reader => {
+			try {
+				Color = colorFactory.GetColor(reader);
+			} catch (Exception e) {
+				Logger.Warn($"Region {Id} has invalid color! {e.Message}");
+			}
+		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 

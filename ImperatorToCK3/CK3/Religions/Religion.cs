@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,7 +61,13 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		faithDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
 			faithData.InvalidatingFaithIds = reader.GetStrings();
 		});
-		faithDataParser.RegisterKeyword("color", reader => faithData.Color = colorFactory.GetColor(reader));
+		faithDataParser.RegisterKeyword("color", reader => {
+			try {
+				faithData.Color = colorFactory.GetColor(reader);
+			} catch (Exception e) {
+				Logger.Warn($"Found invalid color in faith {faithData} in religion {Id}! {e.Message}");
+			}
+		});
 		faithDataParser.RegisterKeyword("religious_head", reader => {
 			var titleId = reader.GetString();
 			if (titleId != "none") {
