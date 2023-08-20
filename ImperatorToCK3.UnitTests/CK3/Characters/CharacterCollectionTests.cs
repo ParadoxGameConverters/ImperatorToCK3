@@ -85,9 +85,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
@@ -129,9 +129,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
@@ -180,9 +180,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
@@ -279,9 +279,8 @@ public class CharacterCollectionTests {
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-
-		var locDB = new LocDB("english");
-		var countryLocBlock = locDB.AddLocBlock("PRY");
+		
+		var countryLocBlock = imperatorWorld.LocDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
 
 		var religionCollection = new ReligionCollection(titles);
@@ -299,9 +298,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			religionMapper,
 			cultureMapper,
+			cultures,
 			traitMapper,
 			nicknameMapper,
-			locDB,
 			provinceMapper,
 			deathReasonMapper,
 			new DNAFactory(irModFS, ck3ModFS),
@@ -312,7 +311,7 @@ public class CharacterCollectionTests {
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
 			tagTitleMapper,
-			locDB,
+			imperatorWorld.LocDB,
 			provinceMapper,
 			coaMapper,
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
@@ -332,7 +331,7 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			provinces,
 			tagTitleMapper,
-			locDB,
+			imperatorWorld.LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,

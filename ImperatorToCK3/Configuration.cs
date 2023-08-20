@@ -24,6 +24,7 @@ public class Configuration {
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
+	public bool FallenEagleEnabled { get; set; }
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {

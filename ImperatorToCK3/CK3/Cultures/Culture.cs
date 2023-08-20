@@ -12,6 +12,8 @@ public sealed class Culture : IIdentifiable<string> {
 	public string Id { get; }
 	public Color Color { get; private set; } = new(0, 0, 0);
 	public Pillar Heritage { get; private set; }
+	private SortedSet<string> traditionIds = new();
+	public IReadOnlyCollection<string> TraditionIds => traditionIds;
 	public OrderedSet<NameList> NameLists { get; }
 	
 	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, IdObjectCollection<string, NameList> nameLists, ColorFactory colorFactory) {
@@ -23,6 +25,9 @@ public sealed class Culture : IIdentifiable<string> {
 		parser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
 			Heritage = pillars.Heritages.First(p => p.Id == heritageId);
+		});
+		parser.RegisterKeyword("traditions", reader => {
+			traditionIds = new SortedSet<string>(reader.GetStrings());
 		});
 		parser.RegisterKeyword("name_list", reader => {
 			var nameListId = reader.GetString();

@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
@@ -21,9 +22,9 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
+		CultureCollection ck3Cultures,
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
-		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
@@ -39,7 +40,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				deathReasonMapper,
 				dnaFactory,
@@ -58,6 +59,10 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 		
 		ImportPregnancies(impWorld.Characters, conversionDate);
+
+		if (config.FallenEagleEnabled) {
+			SetCharacterCastes(ck3Cultures, config.CK3BookmarkDate);
+		}
 	}
 
 	private void ImportImperatorCharacter(
@@ -293,6 +298,56 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		}
 
 		Logger.IncrementProgress();
+	}
+
+	private void SetCharacterCastes(CultureCollection cultures, Date ck3BookmarkDate) {
+		var casteSystemCultureIds = cultures
+			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
+			.Select(c => c.Id)
+			.ToHashSet();
+		var learningEducationTraits = new[]{"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"};
+		
+		foreach (var character in this.OrderBy(c => c.BirthDate)) {
+			if (character.ImperatorCharacter is null) {
+				continue;
+			}
+			
+			var cultureId = character.GetCultureId(ck3BookmarkDate);
+			if (cultureId is null || !casteSystemCultureIds.Contains(cultureId)) {
+				continue;
+			}
+			
+			Logger.Debug($"Setting caste for character {character.Id} with culture {cultureId}...");
+			
+			// The caste is hereditary.
+			var father = character.Father;
+			if (father is not null) {
+				var foundTrait = GetCasteTraitFromParent(father);
+				if (foundTrait is not null) {
+					character.AddBaseTrait(foundTrait);
+					continue;
+				}
+			}
+			var mother = character.Mother;
+			if (mother is not null) {
+				var foundTrait = GetCasteTraitFromParent(mother);
+				if (foundTrait is not null) {
+					character.AddBaseTrait(foundTrait);
+					continue;
+				}
+			}
+			
+			// Try to set caste based on character's traits.
+			var traitIds = character.BaseTraits.ToHashSet();
+			character.AddBaseTrait(traitIds.Intersect(learningEducationTraits).Any() ? "brahmin" : "kshatriya");
+		}
+		return;
+
+		static string? GetCasteTraitFromParent(Character parentCharacter) {
+			var casteTraits = new[]{"brahmin", "kshatriya", "vaishya", "shudra"};
+			var parentTraitIds = parentCharacter.BaseTraits.ToHashSet();
+			return casteTraits.Intersect(parentTraitIds).FirstOrDefault();
+		}
 	}
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
