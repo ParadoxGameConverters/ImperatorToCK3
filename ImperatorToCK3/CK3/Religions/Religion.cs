@@ -26,28 +26,7 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		religionParser.RegisterKeyword("faiths", faithsReader => {
 			var faithsParser = new Parser();
-			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
-				faithDataParser.ParseStream(faithReader);
-				if (faithData.InvalidatingFaithIds.Any()) { // Faith is an optional faith.
-					foreach (var existingFaith in religions.Faiths) {
-						if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
-							continue;
-						}
-						Logger.Debug($"Faith {faithId} is invalidated by existing {existingFaith.Id}.");
-						return;
-					}
-					Logger.Debug($"Loading optional faith {faithId}...");
-				}
-				
-				// The faith might have already been added to another religion.
-				foreach (var otherReligion in ReligionCollection) {
-					otherReligion.Faiths.Remove(faithId);
-				}
-				
-				Faiths.AddOrReplace(new Faith(faithId, faithData, this));
-				// Reset faith data for the next faith.
-				faithData = new FaithData();
-			});
+			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => LoadFaith(faithId, faithReader));
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
 		});
@@ -55,6 +34,28 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		religionParser.ParseStream(religionReader);
+	}
+	private void LoadFaith(string faithId, BufferedReader faithReader) {
+		faithDataParser.ParseStream(faithReader);
+		if (faithData.InvalidatingFaithIds.Any()) { // Faith is an optional faith.
+			foreach (var existingFaith in ReligionCollection.Faiths) {
+				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
+					continue;
+				}
+				Logger.Debug($"Faith {faithId} is invalidated by existing {existingFaith.Id}.");
+				return;
+			}
+			Logger.Debug($"Loading optional faith {faithId}...");
+		}
+				
+		// The faith might have already been added to another religion.
+		foreach (var otherReligion in ReligionCollection) {
+			otherReligion.Faiths.Remove(faithId);
+		}
+				
+		Faiths.AddOrReplace(new Faith(faithId, faithData, this));
+		// Reset faith data for the next faith.
+		faithData = new FaithData();
 	}
 
 	private void InitFaithDataParser() {

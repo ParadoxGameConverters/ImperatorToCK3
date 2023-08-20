@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Serialization;
 using ImperatorToCK3.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -8,51 +9,28 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public sealed class Culture : IIdentifiable<string> {
+public sealed class Culture : IIdentifiable<string>, IPDXSerializable { // TODO: make it serializable
 	public string Id { get; }
-	public Color Color { get; private set; } = new(0, 0, 0);
-	public Pillar Heritage { get; private set; }
-	private SortedSet<string> traditionIds = new();
+	public Color Color { get; }
+	public Pillar Heritage { get; }
+	private readonly OrderedSet<string> traditionIds;
 	public IReadOnlyCollection<string> TraditionIds => traditionIds;
-	public OrderedSet<NameList> NameLists { get; }
+	private readonly OrderedSet<NameList> nameLists;
+	public IReadOnlyCollection<NameList> NameLists => nameLists;
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
+	public IReadOnlyCollection<KeyValuePair<string, StringOfItem>> Attributes => attributes;
 	
-	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, IdObjectCollection<string, NameList> nameLists, ColorFactory colorFactory) {
+	public Culture(string id, CultureData cultureData) {
 		Id = id;
 
-		NameLists = new OrderedSet<NameList>();
-		var parser = new Parser();
-		parser.RegisterKeyword("color", reader => {
-			try {
-				Color = colorFactory.GetColor(reader);
-			} catch (Exception e) {
-				Logger.Warn($"Culture {id} has invalid color! {e.Message}");
-			}
-		});
-		parser.RegisterKeyword("heritage", reader => {
-			var heritageId = reader.GetString();
-			Heritage = pillars.Heritages.First(p => p.Id == heritageId);
-		});
-		parser.RegisterKeyword("traditions", reader => {
-			traditionIds = new SortedSet<string>(reader.GetStrings());
-		});
-		parser.RegisterKeyword("name_list", reader => {
-			var nameListId = reader.GetString();
-			if (nameLists.TryGetValue(nameListId, out var nameList)) {
-				NameLists.Add(nameList);
-			} else {
-				Logger.Warn($"Culture {id} has unrecognized name list: {nameListId}");
-			}
-		});
-		parser.IgnoreUnregisteredItems();
-		parser.ParseStream(cultureReader);
-		
-		if (Heritage is null) {
-			throw new ConverterException($"Culture {id} has no heritage defined!");
-		}
-		if (NameLists.Count == 0) {
-			throw new ConverterException($"Culture {id} has no name list defined!");
-		}
+		Color = cultureData.Color!;
+		Heritage = cultureData.Heritage!;
+		traditionIds = cultureData.TraditionIds;
+		nameLists = cultureData.NameLists;
+		attributes = cultureData.Attributes;
 	}
+	
+	// TODO: serialize method
 
 	public IEnumerable<string> MaleNames => NameLists.SelectMany(l => l.MaleNames);
 	public IEnumerable<string> FemaleNames => NameLists.SelectMany(l => l.FemaleNames);

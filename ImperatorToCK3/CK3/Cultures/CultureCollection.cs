@@ -2,21 +2,69 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
-	public CultureCollection(PillarCollection pillarCollection) {
+	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, IdObjectCollection<string, NameList> nameLists) {
 		this.pillarCollection = pillarCollection;
+		InitCultureDataParser(colorFactory, nameLists);
+	}
+
+	private void InitCultureDataParser(ColorFactory colorFactory, IdObjectCollection<string, NameList> nameLists) {
+		cultureDataParser.RegisterKeyword("color", reader => {
+			try {
+				cultureData.Color = colorFactory.GetColor(reader);
+			} catch (Exception e) {
+				Logger.Warn($"Found invalid color when parsing culture! {e.Message}");
+			}
+		});
+		cultureDataParser.RegisterKeyword("heritage", reader => {
+			var heritageId = reader.GetString();
+			cultureData.Heritage = pillarCollection.Heritages.First(p => p.Id == heritageId);
+		});
+		cultureDataParser.RegisterKeyword("traditions", reader => {
+			cultureData.TraditionIds = reader.GetStrings().ToOrderedSet();
+		});
+		cultureDataParser.RegisterKeyword("name_list", reader => {
+			var nameListId = reader.GetString();
+			if (nameLists.TryGetValue(nameListId, out var nameList)) {
+				cultureData.NameLists.Add(nameList);
+			} else {
+				Logger.Warn($"Found unrecognized name list when parsing culture: {nameListId}");
+			}
+		});
+		cultureDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
+			cultureData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
+		});
+		cultureDataParser.IgnoreAndLogUnregisteredItems();
 	}
 	
-	public void LoadCultures(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
+	public void LoadCultures(ModFilesystem ck3ModFS) {
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => {
-			AddOrReplace(new Culture(cultureId, reader, pillarCollection, nameListCollection, colorFactory));
-		});
+		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true, logFilePaths: true);
+	}
+
+	private void LoadCulture(string cultureId, BufferedReader cultureReader) {
+		cultureDataParser.ParseStream(cultureReader);
+		
+		if (cultureData.Heritage is null) {
+			Logger.Warn($"Culture {cultureId} has no heritage defined!");
+			return;
+		}
+		if (cultureData.NameLists.Count == 0) {
+			Logger.Warn($"Culture {cultureId} has no name list defined!");
+			return;
+		}
+		AddOrReplace(new Culture(cultureId, cultureData));
+		
+		// Reset culture data for the next culture.
+		cultureData = new CultureData();
 	}
 
 	public void LoadNameLists(ModFilesystem ck3ModFS) {
@@ -30,4 +78,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	
 	private readonly PillarCollection pillarCollection;
 	private readonly IdObjectCollection<string, NameList> nameListCollection = new();
+	
+	private CultureData cultureData = new();
+	private readonly Parser cultureDataParser = new();
 }
