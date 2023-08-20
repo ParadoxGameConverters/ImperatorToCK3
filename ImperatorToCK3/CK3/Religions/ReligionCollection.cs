@@ -30,23 +30,34 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public ReligionCollection(Title.LandedTitles landedTitles) {
 		this.landedTitles = landedTitles;
 	}
-
-	private void RegisterReligionsKeywords(Parser parser, ColorFactory colorFactory) {
+	
+	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
+		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var religion = new Religion(religionId, religionReader, this, colorFactory);
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-	}
-	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
-		Logger.Info("Loading religions from CK3 game and mods...");
-
-		var parser = new Parser();
-		RegisterReligionsKeywords(parser, colorFactory);
-
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
+	}
 
-		Logger.IncrementProgress();
+	public void LoadOptionalFaiths(string optionalFaithsPath, ColorFactory colorFactory) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
+			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
+			
+			// Check if religion already exists. If it does, add optional faiths to it.
+			// Otherwise, add the optional faith's religion.
+			if (TryGetValue(religionId, out var religion)) {
+				foreach (var faith in optReligion.Faiths) {
+					religion.Faiths.Add(faith);
+				}
+			} else {
+				Add(optReligion);
+			}
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseFile(optionalFaithsPath);
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser) {
@@ -72,12 +83,14 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadReplaceableHolySites(string filePath) {
 		Logger.Info("Loading replaceable holy site IDs...");
 
+		var missingFaithIds = new OrderedSet<string>();
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
 			var value = reader.GetStringOfItem();
 			if (faith is null) {
-				Logger.Warn($"Faith \"{faithId}\" not found!");
+				missingFaithIds.Add(faithId);
 				return;
 			}
 
@@ -92,6 +105,8 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(filePath);
+		
+		Logger.Debug($"Replaceable holy sites not loaded for missing faiths: {string.Join(", ", missingFaithIds)}");
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
@@ -284,7 +299,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 				continue;
 			}
 
-			var title = titles[religiousHeadTitleId];
+			if (!titles.TryGetValue(religiousHeadTitleId, out var title)) {
+				Logger.Warn($"Religious head title {religiousHeadTitleId} for {faith.Id} not found!");
+				continue;
+			}
 			var holderId = title.GetHolderId(date);
 			if (holderId != "0") {
 				var holder = characters[holderId];

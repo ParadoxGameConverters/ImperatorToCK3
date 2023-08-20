@@ -11,11 +11,13 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Release\ImperatorToCK3\</OutputPath>
+    <NoWarn>1701;1702;MA0002;MA0006;MA0074</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <NoWarn>1701;1702;MA0002;MA0006;MA0074</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,8 +37,8 @@
     </PackageReference>
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
-    <PackageReference Include="PGCG.commonItems" Version="8.3.0" />
-    <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.3" />
+    <PackageReference Include="PGCG.commonItems" Version="8.3.3" />
+    <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.4" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
   </ItemGroup>
 

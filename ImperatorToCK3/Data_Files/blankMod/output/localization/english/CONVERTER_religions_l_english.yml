@@ -170,6 +170,7 @@
  egyptian_pagan_adj: "Kemetic"
  egyptian_pagan_adherent: "Kemetic Pagan"
  egyptian_pagan_adherent_plural: "Kemetic Pagans"
+ egyptian_pagan_desc: "Ancient Egyptian religion was a complex system of polytheistic beliefs and rituals that formed an integral part of ancient Egyptian culture. It centered on the Egyptians' interactions with many deities believed to be present in, and in control of the world. About 1500 deities are known. Rituals such as prayer and offerings were provided to the gods to gain their favor. Formal religious practice centered on the pharaohs, the rulers of Egypt, believed to possess divine powers by virtue of their positions. They acted as intermediaries between their people and the gods, and were obligated to sustain the gods through rituals and offerings so that they could maintain Ma'at, the order of the cosmos, and repel Isfet, which was chaos. The state dedicated enormous resources to religious rituals and to the construction of temples."
  egyptian_pagan_old: "Old Kemetic"
  egyptian_pagan_old_adj: "Old Kemetic"
  egyptian_pagan_old_adherent: "Old Kemetic Pagan"
@@ -210,7 +211,7 @@
  scythian_pagan_old_adj: "Old Heptadic"
  scythian_pagan_old_adherent: "Old Heptadic Pagan"
  scythian_pagan_old_adherent_plural: "Old Heptadic Pagans"
-
+ scythian_pagan_desc: "$scythian_religion_desc$"
 
 
  kmt_priest: "Priest"

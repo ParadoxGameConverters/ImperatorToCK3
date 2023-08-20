@@ -21,8 +21,8 @@ public class ProvinceOutputterTests {
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
-		Assert.Equal("\tculture=roman", sr.ReadLine());
-		Assert.Equal("\tholding=none", sr.ReadLine());
+		Assert.Equal("\tculture = roman", sr.ReadLine());
+		Assert.Equal("\tholding = none", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
 
@@ -37,8 +37,8 @@ public class ProvinceOutputterTests {
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
-		Assert.Equal("\treligion=orthodox", sr.ReadLine());
-		Assert.Equal("\tholding=none", sr.ReadLine());
+		Assert.Equal("\treligion = orthodox", sr.ReadLine());
+		Assert.Equal("\tholding = none", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
 
@@ -53,7 +53,7 @@ public class ProvinceOutputterTests {
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
-		Assert.Equal("\tholding=castle_holding", sr.ReadLine());
+		Assert.Equal("\tholding = castle_holding", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
 
@@ -68,8 +68,8 @@ public class ProvinceOutputterTests {
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
-		Assert.Equal("\tholding=none", sr.ReadLine());
-		Assert.Equal("\tbuildings={ b1 b2 }", sr.ReadLine());
+		Assert.Equal("\tholding = none", sr.ReadLine());
+		Assert.Equal("\tbuildings = { b1 b2 }", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
 }

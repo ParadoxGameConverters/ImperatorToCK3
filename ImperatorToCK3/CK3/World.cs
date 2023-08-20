@@ -27,7 +27,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
-using Open.Collections;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -84,9 +84,10 @@ public class World {
 		ModLoader modLoader = new();
 		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
 		LoadedMods = modLoader.UsableMods.ToOrderedSet();
-		var tfeMod = LoadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle"));
-		if (tfeMod is not null) {
-			Logger.Info($"TFE detected: {tfeMod.Name}");
+		var tfeMod = LoadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle", StringComparison.Ordinal));
+		config.FallenEagleEnabled = tfeMod is not null;
+		if (config.FallenEagleEnabled) {
+			Logger.Info($"TFE detected: {tfeMod!.Name}");
 		}
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
@@ -138,7 +139,12 @@ public class World {
 		// Holy sites need to be loaded after landed titles.
 		Religions.LoadDoctrines(ModFS);
 		Religions.LoadHolySites(ModFS);
+		Logger.Info("Loading religions from CK3 game and mods...");
 		Religions.LoadReligions(ModFS, ck3ColorFactory);
+		Logger.IncrementProgress();
+		Logger.Info("Loading optional converter faiths...");
+		Religions.LoadOptionalFaiths("configurables/optional_faiths.txt", ck3ColorFactory);
+		Logger.IncrementProgress();
 		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 
 		// Load regions.
@@ -175,9 +181,9 @@ public class World {
 			impWorld,
 			religionMapper,
 			cultureMapper,
+			cultures,
 			traitMapper,
 			nicknameMapper,
-			impWorld.LocDB,
 			provinceMapper,
 			deathReasonMapper,
 			dnaFactory,
@@ -256,11 +262,11 @@ public class World {
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
-		Characters.PurgeUnneededCharacters(LandedTitles, CorrectedDate);
+		Characters.PurgeUnneededCharacters(LandedTitles, config.CK3BookmarkDate);
 
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);
-		RemoveIslamFromAfrica(config);
+		RemoveIslam(config);
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
 
@@ -286,6 +292,10 @@ public class World {
 				}
 				if (ck3War.Defenders.Count == 0) {
 					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no CK3 defenders!");
+					continue;
+				}
+				if (ck3War.CasusBelli is null) {
+					Logger.Info($"Skipping war that starts at {ck3War.StartDate}: no CK3 casus belli!");
 					continue;
 				}
 				Wars.Add(ck3War);
@@ -591,11 +601,11 @@ public class World {
 	}
 
 	/// <summary>
-	/// It makes no sense to have Islam in Africa before the rise of Islam.
+	/// It makes no sense to have Islam on the map before the rise of Islam.
 	/// This method removes it.
 	/// </summary>
-	private void RemoveIslamFromAfrica(Configuration config) {
-		Logger.Info("Removing Islam from Africa...");
+	private void RemoveIslam(Configuration config) {
+		Logger.Info("Removing Islam from the map...");
 		var date = config.CK3BookmarkDate;
 
 		if (!Religions.TryGetValue("islam_religion", out var islam)) {
@@ -604,35 +614,44 @@ public class World {
 		}
 
 		var muslimFaiths = islam.Faiths;
-
-		var muslimAfricanProvinces = Provinces
-			.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, "world_africa"))
+		var muslimProvinces = Provinces
 			.Where(p => p.GetFaithId(date) is string faithId && muslimFaiths.ContainsKey(faithId))
 			.ToHashSet();
 
-		var regionToNewFaithDict = new OrderedDictionary<string, string> {
-			{"world_africa_north", "berber_pagan"},
-			{"world_africa_west", "berber_pagan"},
-			{"world_africa_east", "waaqism_pagan"},
-			{"world_africa_sahara", "berber_pagan"},
-			{"world_africa", "pagan"} // fallback
-		};
+		var regionToNewFaithMap = new List<KeyValuePair<string, string>> {
+			// Africa
+			new("world_africa_north", "berber_pagan"),
+			new("world_africa_west", "berber_pagan"),
+			new("world_africa_east", "waaqism_pagan"),
+			new("world_africa_sahara", "berber_pagan"),
+			new("world_africa", "berber_pagan"), // fallback
+			new("world_africa", "pagan"), // fallback
+			// Rest of the world
+			new("world_europe", "arabic_pagan"),
+			new("world_asia_minor", "arabic_pagan"),
+			new("world_middle_east", "arabic_pagan"),
+			new("world_india", "arabic_pagan"),
+			new("world_steppe", "arabic_pagan"),
+			new("world_tibet", "arabic_pagan"),
+			new("world_burma", "arabic_pagan"),
+		}.Where(kvp => Religions.GetFaith(kvp.Value) is not null);
 
-		foreach (var (regionId, faithId) in regionToNewFaithDict) {
-			if (Religions.GetFaith(faithId) is null) {
-				Logger.Warn($"Faith {faithId} not found.");
-				continue;
-			}
-
-			var regionProvinces = muslimAfricanProvinces
+		foreach (var (regionId, faithId) in regionToNewFaithMap) {
+			var regionProvinces = muslimProvinces
 				.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
 			foreach (var province in regionProvinces) {
 				var faithHistoryField = province.History.Fields["faith"];
 				faithHistoryField.RemoveAllEntries();
 				faithHistoryField.AddEntryToHistory(null, "faith", faithId);
 
-				muslimAfricanProvinces.Remove(province);
+				muslimProvinces.Remove(province);
 			}
+		}
+		
+		// Log warning if there are still muslim provinces left.
+		if (muslimProvinces.Count > 0) {
+			Logger.Warn($"{muslimProvinces.Count} muslim provinces left after removing Islam: " +
+			            $"{string.Join(", ", muslimProvinces.Select(p => p.Id))}");
 		}
 
 		Logger.IncrementProgress();
