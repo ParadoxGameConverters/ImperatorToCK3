@@ -317,8 +317,6 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				continue;
 			}
 			
-			Logger.Debug($"Setting caste for character {character.Id} with culture {cultureId}...");
-			
 			// The caste is hereditary.
 			var father = character.Father;
 			if (father is not null) {
