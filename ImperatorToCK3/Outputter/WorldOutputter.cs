@@ -40,7 +40,7 @@ public static class WorldOutputter {
 
 		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
 		Logger.IncrementProgress();
-		ReligionsOutputter.OutputModifiedReligions(outputName, ck3World.Religions);
+		ReligionsOutputter.OutputReligions(outputName, ck3World.Religions);
 		Logger.IncrementProgress();
 
 		WarsOutputter.OutputWars(outputName, ck3World.Wars);
@@ -59,6 +59,10 @@ public static class WorldOutputter {
 		
 		Logger.Info("Writing game start on-action...");
 		OnActionOutputter.OutputCustomGameStartOnAction(config);
+		if (config.FallenEagleEnabled) {
+			Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
+			OnActionOutputter.DisableUnneededFallenEagleOnActions(config.OutputModName);
+		}
 		Logger.IncrementProgress();
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
@@ -114,6 +118,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
+		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
@@ -146,14 +151,10 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "casus_belli_types"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "character_interactions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "council_tasks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));

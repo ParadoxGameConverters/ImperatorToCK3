@@ -28,8 +28,8 @@
 ## Pagan
 # TFE
 link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
-link = { ck3 = amazigh_pagan ir = berber_religion } # TODO: remove berber_pagan from converter blankMod if amazigh_pagan exists
-link = { ck3 = scythian_pagan ir = indo_iranian_religion } # TODO: remove scythian_pagan from converter blankMod if scythian_pagan already exists
+link = { ck3 = amazigh_pagan ir = berber_religion }
+link = { ck3 = scythian_pagan ir = indo_iranian_religion }
 # Vanilla CK3
 link = { ck3 = kushitism_pagan ir = egyptian_pantheon impRegion = nubia_region impRegion = punt_region }
 link = { ck3 = egyptian_pagan ir = egyptian_pantheon }
@@ -50,6 +50,7 @@ link = { ck3=waaqism_pagan ir=puntic_religion }
 link = { ck3=basque_pagan ir=pre_indo_european_religion }
 link = { ck3=illyrian_pagan ir=illyrian_pantheon }
 link = { ck3=dinka_pagan ir=nilotic_pantheon } # Nhialic
+link = { ck3=sardinian_pagan ir=nuragic_pantheon } # TFE
 link = { ck3=pagan ir=nuragic_pantheon } # TODO: https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/1474
 
 # Arabic
@@ -60,7 +61,7 @@ link = { # TFE
     ck3Province = 6030 ck3Province = 6031 ck3Province = 6032 ck3Province = 6033 ck3Province = 6034 ck3Province = 6035 ck3Province = 6037 ck3Province = 5969 ck3Province = 5971 ck3Province = 5972 ck3Province = 5973 ck3Province = 5978 ck3Province = 5979 ck3Province = 5980 ck3Province = 5977 ck3Province = 5976 ck3Province = 5975 ck3Province = 5974 ck3Province = 6183
 }
 link = { ck3 = south_arabian_pagan ir = arabian_pantheon impRegion = arabia_felix_region } # TFE
-link = { ck3 = arabic_pagan ir = arabian_pantheon } # TFE, TODO: remove arabic_pagan from converter blankMod if arabic_pagan already exists
+link = { ck3 = arabic_pagan ir = arabian_pantheon } # TFE
 link = { ck3 = druze ir = arabian_pantheon ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
 link = { ck3 = druze ir = judaism ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
 link = { ck3 = yazidi ir = arabian_pantheon ck3Province = 4773 ck3Province = 4774 ck3Province = 4775 ck3Province = 4776 ck3Province = 4777 ck3Province = 4808 ck3Province = 4809 ck3Province = 4810 ck3Province = 4811 ck3Province = 4812 ck3Province = 4836 ck3Province = 4837 ck3Province = 4838 ck3Province = 4839 ck3Province = 4840 ck3Province = 4841 }

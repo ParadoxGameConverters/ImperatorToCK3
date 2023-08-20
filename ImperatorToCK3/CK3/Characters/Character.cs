@@ -60,6 +60,15 @@ public class Character : IIdentifiable<string> {
 	public string? GetNickname(Date date) {
 		return History.GetFieldValue("give_nickname", date)?.ToString();
 	}
+	
+	public IEnumerable<string> BaseTraits => History.Fields["traits"].InitialEntries
+		.Where(kvp => kvp.Key == "trait")
+		.Select(kvp => kvp.Value)
+		.Cast<string>();
+
+	public void AddBaseTrait(string traitId) {
+		History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", traitId));
+	}
 		
 	public double? Gold { get; set; }
 
@@ -400,8 +409,8 @@ public class Character : IIdentifiable<string> {
 			History.AddFieldValue(null, "health", "health", ck3Health);
 		}
 
-		foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
-			History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
+		foreach (var traitId in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
+			AddBaseTrait(traitId);
 		}
 
 		BirthDate = ImperatorCharacter.BirthDate;

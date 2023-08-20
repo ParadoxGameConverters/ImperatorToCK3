@@ -1,3 +1,4 @@
+using commonItems.Collections;
 using System.IO;
 using System.Text;
 
@@ -58,5 +59,24 @@ public static class OnActionOutputter {
 		
 		writer.WriteLine("\t}");
 		writer.WriteLine("}");
+	}
+	public static void DisableUnneededFallenEagleOnActions(string outputModName) {
+		var onActionsToDisable = new OrderedSet<string> {
+			"sea_minority_game_start.txt", 
+			"sevenhouses_on_actions.txt", 
+			"government_change_on_actions.txt",
+			"tribs_on_action.txt",
+			"AI_war_on_actions.txt",
+			"senate_on_actions.txt",
+			"senate_tasks_on_actions.txt",
+			"new_electives_on_action.txt",
+			"tfe_struggle_on_actions.txt",
+			"roman_vicar_positions_on_actions.txt",
+		};
+		foreach (var filename in onActionsToDisable) {
+			var filePath = $"output/{outputModName}/common/on_action/{filename}";
+			using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+			writer.WriteLine("# disabled by IRToCK3");
+		}
 	}
 }

@@ -10,7 +10,7 @@ public static class WarsOutputter {
 	public static void OutputWars(string outputModName, IList<War> wars) {
 		Logger.Info("Writing wars...");
 		// dumping all into one file
-		var path = Path.Combine("output",outputModName, "history/wars/fromImperator.txt");
+		var path = Path.Combine("output",outputModName, "history/wars/00_wars.txt");
 		using var stream = File.OpenWrite(path);
 		using var output = new StreamWriter(stream, Encoding.UTF8);
 		foreach (var war in wars) {

@@ -5,6 +5,7 @@ using FluentAssertions;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -21,8 +22,8 @@ public class FaithTests {
 	
 	[Fact]
 	public void HolySiteIdsAreLoadedAndSerialized() {
-		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("chalcedonian", reader, testReligion, new ColorFactory());
+		var faithData = new FaithData {HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}};
+		var faith = new Faith("chalcedonian", faithData, testReligion);
 
 		Assert.Collection(faith.HolySiteIds,
 			site => Assert.Equal("rome", site),
@@ -37,9 +38,9 @@ public class FaithTests {
 	}
 
 	[Fact]
-	public void FaithColorIsReadAndSerialized() {
-		var reader = new BufferedReader("{ color = hsv { 0.15  1  0.7 } }");
-		var faith = new Faith("celtic_pagan", reader, testReligion, new ColorFactory());
+	public void FaithColorIsSerialized() {
+		var faithData = new FaithData {Color = new Color(0.15, 1, 0.7)};
+		var faith = new Faith("celtic_pagan", faithData, testReligion);
 
 		Assert.Equal(new Color(0.15, 1, 0.7), faith.Color);
 
@@ -50,26 +51,28 @@ public class FaithTests {
 	}
 
 	[Fact]
-	public void FaithAttributesAreReadAndSerialized() {
-		var reader = new BufferedReader(@"{
-			icon = celtic_pagan
-			doctrine = tenet_esotericism
-			doctrine = tenet_human_sacrifice # should not replace the line above
-		}");
-		var faith = new Faith("celtic_pagan", reader, testReligion, new ColorFactory());
+	public void FaithAttributesAreSerialized() {
+		var faithData = new FaithData {
+			Attributes = new List<KeyValuePair<string, StringOfItem>> {
+				new("icon", new StringOfItem("celtic_pagan")),
+				new("doctrine", new StringOfItem("tenet_esotericism")),
+				new ("doctrine", new StringOfItem("tenet_human_sacrifice # should not replace the line above"))
+			}
+		};
+		var faith = new Faith("celtic_pagan", faithData, testReligion);
 
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().ContainAll(
 			"icon = celtic_pagan",
-			"doctrine=tenet_esotericism",
-			"doctrine=tenet_human_sacrifice"
+			"doctrine = tenet_esotericism",
+			"doctrine = tenet_human_sacrifice"
 		);
 	}
 
 	[Fact]
 	public void ReligiousHeadTitleIdIsCorrectlySerialized() {
-		var reader = new BufferedReader("religious_head      = d_papacy"); // intentional unformatted whitespace
-		var faith = new Faith("atheism", reader, testReligion, new ColorFactory());
+		var faithData = new FaithData {ReligiousHeadTitleId = "d_papacy"};
+		var faith = new Faith("atheism", faithData, testReligion);
 
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().Contain("religious_head=d_papacy");
@@ -77,13 +80,14 @@ public class FaithTests {
 
 	[Fact]
 	public void HolySiteIdCanBeReplaced() {
-		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("orthodox", reader, testReligion, new ColorFactory());
-		Assert.False(faith.ModifiedByConverter);
+		var faithData = new FaithData {
+			HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}
+		};
+		var faith = new Faith("orthodox", faithData, testReligion);
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
 
 		faith.ReplaceHolySiteId("antioch", "jerusalem");
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "jerusalem");
-		Assert.True(faith.ModifiedByConverter);
 	}
 
 	[Fact]
@@ -91,32 +95,31 @@ public class FaithTests {
 		var output = new StringWriter();
 		Console.SetOut(output);
 
-		var reader = new BufferedReader("{ holy_site=rome holy_site=constantinople holy_site=antioch }");
-		var faith = new Faith("orthodox", reader, testReligion, new ColorFactory());
-		Assert.False(faith.ModifiedByConverter);
+		var faithData = new FaithData {HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}};
+		var faith = new Faith("orthodox", faithData, testReligion);
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
 
 		faith.ReplaceHolySiteId("washington", "jerusalem");
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
-		Assert.False(faith.ModifiedByConverter);
 		Assert.Contains("washington does not belong to holy sites of faith orthodox and cannot be replaced!", output.ToString());
 	}
 	
 	[Fact]
-	public void ReligiousHeadTitleIdIsCorrectlyRead() {
-		var orthodoxHeadReader = new BufferedReader("{ religious_head = e_orthodox_head }");
-		var orthodox = new Faith("orthodox", orthodoxHeadReader, testReligion, new ColorFactory());
+	public void ReligiousHeadTitleIdIsCorrectlyReturned() {
+		var faithData = new FaithData{ReligiousHeadTitleId = "e_orthodox_head"};
+		var orthodox = new Faith("orthodox", faithData, testReligion);
 		Assert.Equal("e_orthodox_head", orthodox.ReligiousHeadTitleId);
 		
-		var catholicHeadReader = new BufferedReader("{ religious_head = e_catholic_head }");
-		var catholic = new Faith("catholic", catholicHeadReader, testReligion, new ColorFactory());
+		faithData.ReligiousHeadTitleId = "e_catholic_head";
+		var catholic = new Faith("catholic", faithData, testReligion);
 		Assert.Equal("e_catholic_head", catholic.ReligiousHeadTitleId);
-		
-		var copticHeadReader = new BufferedReader("{ religious_head = e_coptic_head }");
-		var coptic = new Faith("coptic", copticHeadReader, testReligion, new ColorFactory());
+
+		faithData.ReligiousHeadTitleId = "e_coptic_head";
+		var coptic = new Faith("coptic", faithData, testReligion);
 		Assert.Equal("e_coptic_head", coptic.ReligiousHeadTitleId);
-		
-		var noHeadFaithReader = new BufferedReader("{}");
-		var atheism = new Faith("atheism", noHeadFaithReader, testReligion, new ColorFactory());
+
+		faithData.ReligiousHeadTitleId = null;
+		var atheism = new Faith("atheism", faithData, testReligion);
 		Assert.Null(atheism.ReligiousHeadTitleId);
 	}
 }

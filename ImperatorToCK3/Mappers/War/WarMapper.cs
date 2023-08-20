@@ -26,7 +26,11 @@ public class WarMapper {
 		Logger.Info($"Loaded {impToCK3WarGoalDict.Count} wargoal links.");
 		Logger.IncrementProgress();
 	}
-	public string? GetCK3CBForImperatorWarGoal(string impWarGoal) {
-		return impToCK3WarGoalDict.TryGetValue(impWarGoal, out var ck3Trait) ? ck3Trait : null;
+	public string? GetCK3CBForImperatorWarGoal(string irWarGoal) {
+		if (impToCK3WarGoalDict.TryGetValue(irWarGoal, out var ck3CasusBelli)) {
+			return ck3CasusBelli;
+		}
+		Logger.Warn($"No CK3 casus belli found for Imperator war goal {irWarGoal}");
+		return null;
 	}
 }
