@@ -49,10 +49,22 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true, logFilePaths: true);
 	}
+	
+	// TODO: load optional cultures from configurables
 
 	private void LoadCulture(string cultureId, BufferedReader cultureReader) {
 		cultureDataParser.ParseStream(cultureReader);
-		
+
+		if (cultureData.InvalidatingCultureIds.Any()) {
+			foreach (var existingCulture in this) {
+				if (!cultureData.InvalidatingCultureIds.Contains(existingCulture.Id)) {
+					continue;
+				}
+				Logger.Debug($"Culture {cultureId} is invalidated by existing {existingCulture.Id}.");
+				return;
+			}
+			Logger.Debug($"Loading optional culture {cultureId}...");
+		}
 		if (cultureData.Heritage is null) {
 			Logger.Warn($"Culture {cultureId} has no heritage defined! Skipping.");
 			return;
