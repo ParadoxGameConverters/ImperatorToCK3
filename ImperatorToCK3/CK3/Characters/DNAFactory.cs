@@ -343,9 +343,24 @@ public sealed class DNAFactory {
 			return null;
 		}
 
-		var templateMappings = accessoryGeneMapper.TemplateToTemplateMappings[imperatorGeneName];
-		var ck3GeneTemplateName = templateMappings[geneInfo.GeneTemplate];
-		var ck3GeneTemplateNameRecessive = templateMappings[geneInfo.GeneTemplateRecessive];
+		if (!accessoryGeneMapper.TemplateToTemplateMappings.TryGetValue(imperatorGeneName, out var templateMappings)) {
+			Logger.Warn($"No template-to-template mappings found for gene {imperatorGeneName}!");
+			return null;
+		}
+		if (!templateMappings.TryGetValue(geneInfo.GeneTemplate, out var ck3GeneTemplateName)) {
+			Logger.Warn($"No template-to-template mapping found for gene {imperatorGeneName} and template {geneInfo.GeneTemplate}!");
+			// Try to return first found template as a fallback.
+			if (templateMappings.Count > 0) {
+				ck3GeneTemplateName = templateMappings.First().Value;
+			} else {
+				return null;
+			}
+		}
+		if (!templateMappings.TryGetValue(geneInfo.GeneTemplateRecessive, out var ck3GeneTemplateNameRecessive)) {
+			Logger.Warn($"No template-to-template mapping found for gene {imperatorGeneName} and recessive template {geneInfo.GeneTemplateRecessive}!");
+			// Use dominant template as a fallback.
+			ck3GeneTemplateNameRecessive = ck3GeneTemplateName;
+		}
 		var intSliderValue = (byte)(irCharacter.Id % 256);
 
 		return new DNAGeneValue {
