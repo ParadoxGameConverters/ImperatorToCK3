@@ -136,7 +136,7 @@ public class Configuration {
 
 	private void VerifyImperatorPath() {
 		if (!Directory.Exists(ImperatorPath)) {
-			throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
+			throw new UserErrorException($"{ImperatorPath} does not exist!");
 		}
 
 		var binariesPath = Path.Combine(ImperatorPath, "binaries");
@@ -161,13 +161,13 @@ public class Configuration {
 		if (installVerified) {
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		} else {
-			throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
+			throw new UserErrorException($"{ImperatorPath} does not contain Imperator: Rome!");
 		}
 	}
 
 	private void VerifyCK3Path() {
 		if (!Directory.Exists(CK3Path)) {
-			throw new DirectoryNotFoundException($"{CK3Path} does not exist!");
+			throw new UserErrorException($"{CK3Path} does not exist!");
 		}
 
 		var binariesPath = Path.Combine(CK3Path, "binaries");
@@ -192,7 +192,7 @@ public class Configuration {
 		if (installVerified) {
 			Logger.Info($"\tCK3 install path is {CK3Path}");
 		} else{
-			throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
+			throw new UserErrorException($"{CK3Path} does not contain Crusader Kings III!");
 		}
 	}
 
@@ -210,21 +210,21 @@ public class Configuration {
 
 	private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 		var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
-		var impVersion = GameVersion.ExtractVersionFromLauncher(path);
-		if (impVersion is null) {
+		var irVersion = GameVersion.ExtractVersionFromLauncher(path);
+		if (irVersion is null) {
 			Logger.Error("Imperator version could not be determined, proceeding blind!");
 			return;
 		}
 
-		Logger.Info($"Imperator version: {impVersion.ToShortString()}");
+		Logger.Info($"Imperator version: {irVersion.ToShortString()}");
 
-		if (converterVersion.MinSource > impVersion) {
-			Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
+		if (converterVersion.MinSource > irVersion) {
+			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
+			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
-		if (!converterVersion.MaxSource.IsLargerishThan(impVersion)) {
-			Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
+		if (!converterVersion.MaxSource.IsLargerishThan(irVersion)) {
+			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
+			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
 	}
 
@@ -240,11 +240,11 @@ public class Configuration {
 
 		if (converterVersion.MinTarget > ck3Version) {
 			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
+			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
 		if (!converterVersion.MaxTarget.IsLargerishThan(ck3Version)) {
 			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
+			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
 	}
 }

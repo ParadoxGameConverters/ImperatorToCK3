@@ -641,9 +641,8 @@ public partial class Title {
 				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();
 				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id));
 				var dominantHeritage = kingdomProvinces
-					.Select(c => new { County = c, CultureId = c.GetCultureId(ck3BookmarkDate)})
-					.Where(x => x.CultureId is not null)
-					.Select(x => new { x.County, ck3Cultures[x.CultureId!].Heritage })
+					.Select(p => new { Province = p, p.GetCulture(ck3BookmarkDate, ck3Cultures)?.Heritage})
+					.Where(x => x.Heritage is not null)
 					.GroupBy(x => x.Heritage)
 					.MaxBy(g => g.Count())?.Key;
 				if (dominantHeritage is null) {
