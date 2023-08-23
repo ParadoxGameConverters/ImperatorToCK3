@@ -159,7 +159,7 @@ public class World : Parser {
 			statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
 			statesBlocParser.IgnoreAndLogUnregisteredItems();
 			statesBlocParser.ParseStream(reader);
-			Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
+			Logger.Debug($"Ignored state keywords: {StateCollection.IgnoredStateKeywords}");
 			Logger.Info($"Loaded {States.Count} states.");
 			Logger.IncrementProgress();
 		});
