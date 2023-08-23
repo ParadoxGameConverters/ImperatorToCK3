@@ -642,6 +642,7 @@ public partial class Title {
 				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id));
 				var dominantHeritage = kingdomProvinces
 					.Select(p => new { Province = p, p.GetCulture(ck3BookmarkDate, ck3Cultures)?.Heritage})
+					.Where(x => x.Heritage is not null)
 					.GroupBy(x => x.Heritage)
 					.MaxBy(g => g.Count())?.Key;
 				if (dominantHeritage is null) {
