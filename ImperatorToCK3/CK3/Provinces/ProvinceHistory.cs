@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -30,6 +31,18 @@ public partial class Province {
 	}
 	public void SetCultureId(string cultureId, Date? date) {
 		History.AddFieldValue(date, "culture", "culture", cultureId);
+	}
+	
+	public Culture? GetCulture(Date date, CultureCollection cultures) {
+		var cultureId = GetCultureId(date);
+		if (cultureId is null) {
+			return null;
+		}
+		if (cultures.TryGetValue(cultureId, out var culture)) {
+			return culture;
+		}
+		Logger.Warn($"Culture with ID {cultureId} not found!");
+		return null;
 	}
 
 	public string? GetHoldingType(Date date) {
