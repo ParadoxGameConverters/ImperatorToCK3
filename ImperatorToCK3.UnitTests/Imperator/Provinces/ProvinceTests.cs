@@ -141,9 +141,10 @@ public class ProvinceTests {
 
 	[Fact]
 	public void StateCanBeSet() {
+		var stateCollection = new StateCollection {new State(1, new StateData())};
 		var reader = new BufferedReader("state = 1");
 
-		var province = Province.Parse(reader, 42, states, countries);
+		var province = Province.Parse(reader, 42, stateCollection, countries);
 		Assert.NotNull(province.State);
 		Assert.Equal((ulong)1, province.State.Id);
 	}

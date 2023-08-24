@@ -25,12 +25,8 @@ public class StateTests {
 
 	[Fact]
 	public void StateCanBeInitialized() {
-		var stateReader = new BufferedReader("""
-			area="test_area"
-			capital=2
-			country=69
-		""");
-		var state = new State(1, stateReader, areas, countries);
+		var stateData = new StateData {Area = areas["test_area"], CapitalProvinceId = 2, Country = countries[69]};
+		var state = new State(1, stateData);
 		Assert.Equal("test_area", state.Area.Id);
 		Assert.Equal((ulong)69, state.Country.Id);
 	}
@@ -38,12 +34,8 @@ public class StateTests {
 	[Fact]
 	public void ProvincesCanBeRetrievedAfterProvincesInitialization() {
 		var states = new StateCollection();
-		var stateReader = new BufferedReader("""
-			area="test_area"
-			capital=2
-			country=69
-		""");
-		var state = new State(1, stateReader, areas, countries);
+		var stateData = new StateData {Area = areas["test_area"], CapitalProvinceId = 2, Country = countries[69]};
+		var state = new State(1, stateData);
 		states.Add(state);
 
 		var provincesReader = new BufferedReader("""
