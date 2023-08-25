@@ -1,9 +1,9 @@
 # Version info
 
-name = "Vitellius"
+name = "Vespasian"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
 minTarget = "1.9"
-maxTarget = "1.9"
+maxTarget = "1.10"
