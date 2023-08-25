@@ -302,18 +302,24 @@ public sealed class DNAFactory {
 	private DNAGeneValue? MatchAccessoryGeneValueByObject(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
-		string imperatorGeneName,
+		string irGeneName,
 		AccessoryGene ck3Gene
 	) {
-		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
+		if (!irPortraitData.AccessoryGenesDict.TryGetValue(irGeneName, out var geneInfo)) {
 			return null;
 		}
 
-		var objectMappings = accessoryGeneMapper.ObjectToObjectMappings[imperatorGeneName];
-		var convertedSetEntry = objectMappings[geneInfo.ObjectName];
+		var objectMappings = accessoryGeneMapper.ObjectToObjectMappings[irGeneName];
+		if (!objectMappings.TryGetValue(geneInfo.ObjectName, out var convertedSetEntry)) {
+			Logger.Warn($"No object mappings found for {geneInfo.ObjectName} in gene {irGeneName}!");
+			return null;
+		}
 		var ck3GeneTemplate = ck3Gene.GeneTemplates
 			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntry));
-		var convertedSetEntryRecessive = objectMappings[geneInfo.ObjectNameRecessive];
+		if (!objectMappings.TryGetValue(geneInfo.ObjectNameRecessive, out var convertedSetEntryRecessive)) {
+			Logger.Warn($"No object mappings found for {geneInfo.ObjectNameRecessive} in gene {irGeneName}!");
+			return null;
+		}
 		var ck3GeneTemplateRecessive = ck3Gene.GeneTemplates
 			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntryRecessive));
 
