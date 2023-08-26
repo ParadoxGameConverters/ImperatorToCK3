@@ -41,6 +41,8 @@ public class CharacterCollectionTests {
 	private static readonly CultureCollection cultures;
 
 	static CharacterCollectionTests() {
+		var colorFactory = new ColorFactory();
+		
 		var states = new StateCollection();
 		var countries = new CountryCollection();
 		ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
@@ -54,9 +56,9 @@ public class CharacterCollectionTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+		irRegionMapper.LoadRegions(irModFS, colorFactory);
 		
-		cultures = new CultureCollection(new PillarCollection());
+		cultures = new CultureCollection(colorFactory, new PillarCollection());
 	}
 
 	[Fact]

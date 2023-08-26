@@ -9,12 +9,12 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Cultures; 
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
-	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, IdObjectCollection<string, NameList> nameLists) {
+	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection) {
 		this.pillarCollection = pillarCollection;
-		InitCultureDataParser(colorFactory, nameLists);
+		InitCultureDataParser(colorFactory);
 	}
 
-	private void InitCultureDataParser(ColorFactory colorFactory, IdObjectCollection<string, NameList> nameLists) {
+	private void InitCultureDataParser(ColorFactory colorFactory) {
 		cultureDataParser.RegisterKeyword("color", reader => {
 			try {
 				cultureData.Color = colorFactory.GetColor(reader);
@@ -31,7 +31,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("name_list", reader => {
 			var nameListId = reader.GetString();
-			if (nameLists.TryGetValue(nameListId, out var nameList)) {
+			if (nameListCollection.TryGetValue(nameListId, out var nameList)) {
 				cultureData.NameLists.Add(nameList);
 			} else {
 				Logger.Warn($"Found unrecognized name list when parsing culture: {nameListId}");

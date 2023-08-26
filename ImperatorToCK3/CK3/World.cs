@@ -44,6 +44,7 @@ public class World {
 	public DynastyCollection Dynasties { get; } = new();
 	public ProvinceCollection Provinces { get; } = new();
 	public Title.LandedTitles LandedTitles { get; } = new();
+	public CultureCollection Cultures { get; }
 	public ReligionCollection Religions { get; }
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; }
@@ -104,11 +105,11 @@ public class World {
 		Logger.Info("Loading cultural pillars...");
 		var culturalPillars = new PillarCollection();
 		culturalPillars.LoadPillars(ModFS);
-		var cultures = new CultureCollection(culturalPillars);
+		Cultures = new CultureCollection(ck3ColorFactory, culturalPillars);
 		Logger.Info("Loading name lists...");
-		cultures.LoadNameLists(ModFS);
+		Cultures.LoadNameLists(ModFS);
 		Logger.Info("Loading cultures...");
-		cultures.LoadCultures(ModFS, ck3ColorFactory);
+		Cultures.LoadCultures(ModFS);
 		Logger.IncrementProgress();
 
 		LoadMenAtArmsTypes(ModFS, ScriptValues);
@@ -152,7 +153,7 @@ public class World {
 		imperatorRegionMapper = impWorld.ImperatorRegionMapper;
 		// Use the region mappers in other mappers
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
-		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, cultures);
+		var cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, Cultures);
 		// Check if all I:R religions have a base mapping.
 		foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
 			var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
@@ -181,7 +182,7 @@ public class World {
 			impWorld,
 			religionMapper,
 			cultureMapper,
-			cultures,
+			Cultures,
 			traitMapper,
 			nicknameMapper,
 			provinceMapper,
@@ -254,7 +255,7 @@ public class World {
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Provinces, cultures);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Provinces, Cultures);
 		}
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 
@@ -270,13 +271,13 @@ public class World {
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
 
-		GenerateFillerHoldersForUnownedLands(cultures, config);
+		GenerateFillerHoldersForUnownedLands(Cultures, config);
 		Logger.IncrementProgress();
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
 		
-		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, cultures, config.CK3BookmarkDate);
+		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, Cultures, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
 	}
 

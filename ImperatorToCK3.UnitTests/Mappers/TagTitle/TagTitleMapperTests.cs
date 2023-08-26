@@ -39,7 +39,7 @@ public class TagTitleMapperTests {
 	
 	static TagTitleMapperTests() {
 		var pillars = new PillarCollection();
-		cultures = new CultureCollection(pillars);
+		cultures = new CultureCollection(ColorFactory, pillars);
 	}
 	
 	public TagTitleMapperTests() {
