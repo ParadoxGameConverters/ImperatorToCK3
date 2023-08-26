@@ -29,8 +29,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		attributes = cultureData.Attributes;
 	}
 	
-	// TODO: add culture outputter
-	public string Serialize(string indent, bool withBraces) { // TODO: check if culture is correctly serialized
+	public string Serialize(string indent, bool withBraces) {
 		var contentIndent = indent;
 		if (withBraces) {
 			contentIndent += '\t';
