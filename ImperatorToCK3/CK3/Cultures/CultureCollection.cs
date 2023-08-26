@@ -15,6 +15,9 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 
 	private void InitCultureDataParser(ColorFactory colorFactory) {
+		cultureDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
+			cultureData.InvalidatingCultureIds = reader.GetStrings();
+		});
 		cultureDataParser.RegisterKeyword("color", reader => {
 			try {
 				cultureData.Color = colorFactory.GetColor(reader);
