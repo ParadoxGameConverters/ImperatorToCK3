@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.9.2.1
+﻿# Last updated: CK3 patch 1.10.0.1
 namespace = welcome
 #welcome.1 = {
 #	hidden = no
@@ -12,14 +12,3 @@ namespace = welcome
 #		name = welcome_ok
 #	}
 #}
-
-welcome.2 = {
-	hidden = no
-	type = character_event
-	title = noculture_event_title
-	desc = noculture_event_desc
-
-	trigger = { }
-
-	option = { name = welcome_ok }
-}

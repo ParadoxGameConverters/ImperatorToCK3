@@ -1,0 +1,1047 @@
+# This file contains converter's CK3 cultures that may be redundant in the case
+# of a conversion to The Fallen Eagle or When the World Stopped Making Sense mods.
+
+# For example: converter's gallic culture is made redundant by TFE's gaul culture.
+# It's also not needed if any selected CK3 mod already has a gallic culture.
+# To prevent including the culture in the conversion, add a list of cultures that
+# invalidate it to the culture's definition:
+# INVALIDATED_BY = { gallic gaul }
+
+
+khasi = {
+    INVALIDATED_BY = { khasi }
+
+	color = { 106 91 140 }
+
+	ethos = ethos_communal
+	heritage = heritage_palaungic
+	language = language_palaungic
+	martial_custom = martial_custom_male_only
+
+	name_list = name_list_palaungic
+
+	coa_gfx = { burman_group_coa_gfx }
+	building_gfx = { indian_building_gfx }
+	clothing_gfx = { indian_clothing_gfx }
+	unit_gfx = { indian_unit_gfx }
+
+	traditions = {
+		tradition_female_only_inheritance
+		tradition_monogamous
+		tradition_mountain_homes
+		tradition_tribe_unity
+	}
+
+	ethnicities = {
+		30 = asian
+		10 = indian
+	}
+}
+
+iberian = {
+    INVALIDATED_BY = { iberian }
+    
+	color = hsv { 0.07 1.0 1.0 }
+
+	heritage = heritage_aboriginal
+	language = language_basque
+	martial_custom = martial_custom_male_only
+	ethos = ethos_courtly # Iberian system of obligation
+	traditions = {
+		tradition_hit_and_run
+		tradition_metal_craftsmanship
+	}
+
+	name_list = name_list_basque
+	name_list = name_list_iberian
+
+	ethnicities = {
+		10 = mediterranean
+	}
+
+	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+nuragic = {
+    INVALIDATED_BY = { nuragic }
+    
+	color = hsv { 0.2 0.25 0.5 }
+
+	heritage = heritage_aboriginal
+	language = language_nuragic
+	ethos = ethos_communal # Tribal society
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_seafaring
+		tradition_agrarian
+	}
+
+	name_list = name_list_nuragic
+
+	ethnicities = {
+		10 = mediterranean
+	}
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+luwian = { # https://en.wikipedia.org/wiki/Luwians
+    INVALIDATED_BY = { luwian }
+    
+	color = hsv { 0.32 0.45 0.9 }
+
+	heritage = heritage_anatolian
+	language = language_luwian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_communal # Tribal society
+	traditions = {
+		tradition_quarrelsome
+		tradition_hill_dwellers
+	}
+
+	name_list = name_list_luwian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
+    INVALIDATED_BY = { cilician }
+    
+	color = { 0.61 0.82 0.72 }
+
+	heritage = heritage_anatolian
+	language = language_luwian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bellicose # seems fitting for pirates
+	traditions = {
+		tradition_practiced_pirates # Cilician pirates
+		tradition_merciful_blindings # represents Greek influence on Cilicia
+	}
+
+	name_list = name_list_luwian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+lydian = {
+    INVALIDATED_BY = { lydian }
+
+	color = rgb { 149 101 186 }
+
+	heritage = heritage_anatolian
+	language = language_lydian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_courtly # Kingdom of Lydia
+	traditions = {
+		tradition_metal_craftsmanship # First use of coinage
+		tradition_strength_in_numbers # Large armies fielded against Cyrus the Great
+	}
+
+	name_list = name_list_lydian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+hittite = {
+    INVALIDATED_BY = { hittite }
+
+	color = hsv { 0.42 0.45 0.3 }
+
+	heritage = heritage_anatolian
+	language = language_hittite
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bureaucratic # Earliest constitutional monarchy
+	traditions = {
+		tradition_legalistic # Hittite laws
+		tradition_hereditary_hierarchy # Prosperity under competent kings, downfall of Hittite kingdoms under poor kings
+	}
+
+	name_list = name_list_hittite
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx
+		# israelite_group_coa_gfx
+		western_coa_gfx
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+phrygian = {
+    INVALIDATED_BY = { phrygian }
+    
+	color = rgb { 246 223 15 }
+
+	heritage = heritage_anatolian
+	language = language_phrygian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bellicose # Involved in multiple wars before, during and after the existence of the Phrygian Kingdom in 7th Century BC
+	traditions = {
+		tradition_sorcerous_metallurgy # Legendary King Midas
+		tradition_astute_diplomats # Recorded to be allied with various powers
+	}
+
+	name_list = name_list_phrygian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx western_coa_gfx
+		# israelite_group_coa_gfx
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
+    INVALIDATED_BY = { nabatean }
+    
+	color = rgb { 14  20  31 }
+
+	ethos = ethos_stoic # "Described as fiercely independent by contemporary Greco-Roman accounts"
+	heritage = heritage_arabic
+	language = language_arabic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_caravaneers # https://books.openedition.org/momeditions/8587
+		tradition_dryland_dwellers
+		tradition_warriors_of_the_dry
+	}
+
+	name_list = name_list_nabatean
+
+	ethnicities = {
+		10 = arab
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = {
+		mediterranean_building_gfx # quite hellenistic https://en.wikipedia.org/wiki/Nabataean_architecture
+		# arabic_group_building_gfx # commented out to fix log error: "Gfx culture mediterranean_building_gfx in nabatean doesn't match existing sequence in armenian"
+	}
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+adnanite = { # https://en.wikipedia.org/wiki/Adnanites
+    INVALIDATED_BY = { adnanite }
+
+	color = { 0.1 0.5 0.1 }
+
+	ethos = ethos_stoic
+	heritage = heritage_arabic
+	language = language_arabic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_caravaneers
+		tradition_desert_nomads
+		tradition_warriors_of_the_dry
+	}
+
+	name_list = name_list_bedouin
+	name_list = name_list_levantine
+
+	ethnicities = {
+		10 = arab
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { arabic_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
+    INVALIDATED_BY = { qahtanite }
+
+	color = { 0.2 0.4 0.2 }
+
+	ethos = ethos_communal
+	heritage = heritage_arabic
+	language = language_arabic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_mountaineers
+
+		# https://en.wikipedia.org/wiki/Himyarite_Kingdom#History
+		# "Its economy was based on agriculture, and foreign trade centered on the export of frankincense and myrrh."
+		tradition_maritime_mercantilism
+	}
+
+	name_list = name_list_bedouin
+	name_list = name_list_yemeni
+
+	ethnicities = {
+		10 = arab
+		6 = east_african
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { arabic_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+egyptian = {  # override of vanilla culture
+	color = { 0.1 0.6 0.1 }
+
+	# ImperatorToCK3: Make Arabic Egyptian a hybrid of Bedouin and Old Egyptian
+	created = 640.1.1
+	parents = { bedouin old_egyptian }
+
+	ethos = ethos_spiritual
+	heritage = heritage_arabic
+	language = language_arabic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_philosopher_culture
+		tradition_agrarian
+		tradition_zealous_people
+		tradition_mubarizuns
+	}
+
+	name_list = name_list_egyptian
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { arabic_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+
+	ethnicities = {
+		10 = arab
+	}
+}
+
+dalmatian = {
+    INVALIDATED_BY = { dalmatian }
+    
+	color = rgb { 246 223 15 }
+
+	heritage = heritage_arvanite
+	language = language_albanian
+	martial_custom = martial_custom_equal
+	traditions = {
+		tradition_hit_and_run
+		tradition_swords_for_hire
+	}
+
+	name_list = name_list_illyrian
+	name_list = name_list_albanian
+
+	ethos = ethos_bellicose # Regarded as warlike by Greeks and Romans
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+}
+albanian = {
+    INVALIDATED_BY = { albanian }
+    
+	color = { 0.4 0.01 0.02 }
+	parents = { dalmatian }
+	created = 350.1.1
+
+	heritage = heritage_arvanite
+	language = language_albanian
+	martial_custom = martial_custom_male_only
+
+	ethos = ethos_communal
+	traditions = {
+		tradition_druzhina
+		tradition_swords_for_hire
+	}
+
+	name_list = name_list_albanian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+}
+
+old_egyptian = {
+    INVALIDATED_BY = { old_egyptian }
+    
+	color = hsv { 0.15  1  0.7 }
+
+	name_list = name_list_old_egyptian
+	# heritage = heritage_kemetic
+	heritage = heritage_berber
+	language = language_kemetic
+	martial_custom = martial_custom_male_only
+
+	ethos = ethos_spiritual
+
+	traditions = {
+		tradition_warriors_of_the_dry
+		tradition_artisans # Pyramids
+	}
+
+	ethnicities = {
+		10 = arab
+		4 = african
+	}
+
+	coa_gfx = { berber_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { sub_sahran_unit_gfx }
+}
+
+numidian = {
+    INVALIDATED_BY = { numidian }
+    
+	color = hsv { 0.05  0.5  0.4 }
+
+	name_list = name_list_numidian
+
+	heritage = heritage_berber
+	language = language_berber
+	martial_custom = martial_custom_male_only
+
+	ethos = ethos_stoic
+
+	traditions = {
+		tradition_warriors_by_merit
+		tradition_warriors_of_the_dry
+	}
+
+	ethnicities = {
+		10 = arab
+		4 = african
+	}
+
+	coa_gfx = { berber_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+brythonic = {
+    INVALIDATED_BY = { brythonic }
+    
+	color = hsv { 0.57 0.7 0.4 }
+
+	heritage=heritage_brythonic
+	ethos=ethos_stoic #https://penelope.uchicago.edu/~grout/encyclopaedia_romana/britannia/miscellanea/geography.html
+	language=language_brythonic
+	traditions = {
+		tradition_concubines
+		tradition_hill_dwellers
+		tradition_horse_breeder
+	}
+	martial_custom = martial_custom_equal
+	
+	coa_gfx = { breton_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+
+	name_list = name_list_brythonic
+
+	ethnicities = {
+		5 = caucasian_blond
+		30 = caucasian_ginger
+		35 = caucasian_brown_hair
+		30 = caucasian_dark_hair
+	}
+}
+
+arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
+	# based on Burmese
+	
+    INVALIDATED_BY = { arakanese }
+    
+	color = arakanese
+
+	ethos = ethos_spiritual
+	heritage = heritage_burman
+	language = language_burmese
+	martial_custom = martial_custom_male_only
+
+	name_list = name_list_burmese
+
+	coa_gfx = { burman_group_coa_gfx }
+	building_gfx = { indian_building_gfx }
+	clothing_gfx = { indian_clothing_gfx }
+	unit_gfx = { indian_unit_gfx }
+
+	traditions = {  # https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327
+		tradition_burman_royal_army
+		tradition_fishermen
+		tradition_festivities
+		tradition_religion_blending
+	}
+
+	ethnicities = {
+		10 = asian
+		1 = indian
+	}
+}
+
+macedonian = {
+    INVALIDATED_BY = { macedonian }
+    
+	heritage = heritage_byzantine
+	language = language_greek
+	color = { 0.8 0.55 0.6 }
+
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bellicose
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	traditions = {
+		tradition_swords_for_hire
+	}
+
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+}
+
+hellenistic = {
+    INVALIDATED_BY = { hellenistic }
+    
+	color = hsv { 0.65 0.7 0.8 }
+
+	heritage = heritage_byzantine
+	language = language_greek
+	parents = { macedonian persian }
+	created = 2.1.1
+	ethos = ethos_courtly
+
+	name_list = name_list_ancient_greek
+	name_list = name_list_persian
+	martial_custom = martial_custom_male_only
+
+	traditions = {
+		tradition_swords_for_hire
+		tradition_xenophilic
+	}
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx western_coa_gfx
+		# iranian_group_coa_gfx
+	}
+	building_gfx = {
+		mediterranean_building_gfx
+		# mena_building_gfx
+	}
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# mena_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+indogreek = {
+    INVALIDATED_BY = { indogreek }
+    
+	color = hsv { 0.03 0.7 0.7 }
+	heritage = heritage_byzantine
+	language = language_greek
+	parents = { greek bactrian }
+	created = 2.1.1
+	ethos = ethos_bureaucratic
+
+	name_list = name_list_indo_greek
+	martial_custom = martial_custom_male_only
+
+	coa_gfx = { indo_aryan_group_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { indian_clothing_gfx }
+	unit_gfx = { indian_unit_gfx }
+
+	traditions = {
+		tradition_formation_fighting
+	}
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+}
+
+# https://en.wikipedia.org/wiki/Greeks_in_Italy
+# https://en.wikipedia.org/wiki/Italiotes
+italiote = {
+    INVALIDATED_BY = { italiote }
+    
+	parents = { greek }
+	created = 2.1.1
+	heritage = heritage_byzantine
+	language = language_greek
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	unit_gfx = { eastern_unit_gfx }
+
+	color = rgb { 103 145 255 }
+	name_list = name_list_ancient_greek
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+	martial_custom = martial_custom_male_only
+
+	traditions = {
+		tradition_swords_for_hire
+	}
+	ethos = ethos_communal
+}
+
+armenian = { # override of vanilla culture
+	color = armenian
+	
+	ethos = ethos_stoic
+	heritage = heritage_caucasian # IRToCK3: moved from heritage_byzantine
+	language = language_armenian
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_zealous_people
+		tradition_fervent_temple_builders
+		tradition_highland_warriors
+		tradition_hill_dwellers
+		tradition_roman_legacy
+	}
+	
+	name_list = name_list_armenian
+	
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+}
+
+georgian = { # override of vanilla culture
+	color = georgian
+	
+	ethos = ethos_communal
+	heritage = heritage_caucasian # IRToCK3: moved from heritage_byzantine
+	language = language_georgian
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_hereditary_hierarchy
+		#tradition_esteemed_hospitality
+		tradition_metal_craftsmanship
+		tradition_castle_keepers
+		tradition_caucasian_wolves
+	}
+	
+	name_list = name_list_georgian
+	
+	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+}
+
+pemis = {
+    INVALIDATED_BY = { pemis }
+    
+	color = { 89 73 47 }
+	parents = { german czech }
+	created = 20.1.1
+	heritage = heritage_central_germanic
+	language = language_high_german
+	martial_custom = martial_custom_male_only
+
+	name_list = name_list_pemis
+
+	ethos = ethos_courtly
+
+	traditions = {
+		tradition_druzhina
+		tradition_adaptive_skirmishing
+	}
+
+	coa_gfx = { west_slavic_group_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+}
+
+aramaic = {
+    INVALIDATED_BY = { aramaic }
+    
+	color = { 0.05 1.0 0.5 }
+
+	heritage = heritage_chaldean
+	language = language_aramaic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_warriors_of_the_dry
+		# Aramaic culture is mainly located at where all the Syrian desert is.
+		tradition_dryland_dwellers
+		# Aramaic culture should have Refined Poetry tradition because Aramaic language was used as a common language during the reign of Babylonian and Achaemenid Empire. They were revered for being excellent writers. (The Persians considered this Chaldean societal class to be masters of reading and writing, and especially versed in all forms of incantation, sorcery, witchcraft, and the magical arts. They spoke of astrologists and astronomers as Chaldeans, and it is used with this specific meaning in the Book of Daniel (Dan. i. 4, ii. 2 et seq.) and by classical writers, such as Strabo. (from the Wikipedia Chaldea page))
+		tradition_poetry
+		# Aramaic culture should have Culture Blending tradition because Chaldean cultures such as Aramaic were often blended with other cultures. (The original Chaldean tribe had long ago became Akkadianized, adopting Akkadian culture, religion, language and customs, blending into the majority native population, and eventually wholly disappearing as a distinct race of people, as had been the case with other preceding migrant peoples, such as the Amorites, Kassites, Suteans and Arameans of Babylonia. (from the Chaldea Wikipedia page) / The Arameans who lived outside their homelands apparently followed the traditions of the country where they settled. The King of Damascus, for instance, employed Phoenician sculptors and ivory-carvers. In Tell Halaf-Guzana, the palace of Kapara, an Aramean ruler (9th century BCE), was decorated with orthostates and with statues that display a mixture of Mesopotamian, Hittite, and Hurrian influences. (from the Arameans Wikipedia page)).
+		tradition_culture_blending
+	}
+
+	name_list = name_list_aramaic
+
+	ethos = ethos_bureaucratic
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { israelite_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+babylonian = {
+    INVALIDATED_BY = { babylonian }
+    
+	color = hsv { 0.7 0.15 0.77 }
+
+	heritage = heritage_chaldean
+	language = language_babylonian
+	martial_custom = martial_custom_male_only
+	traditions = {
+		# Babylonian culture should have City Keepers tradition as Babylonians built cities as beautiful works of art. (The use of brick led to the early development of the pilaster and column, and of frescoes and enameled tiles. The walls were brilliantly coloured, and sometimes plated with zinc or gold, as well as with tiles. Painted terracotta cones for torches were also embedded in the plaster. (from the Babylonia Wikipedia page))
+		tradition_city_keepers
+
+		# Babylonian culture should have Medicinal Herbalists tradition because Babylonians introduced one of the earliest medical activities. (… the Babylonians introduced the concepts of diagnosis, prognosis, physical examination, and prescriptions. In addition, the Diagnostic Handbook introduced the methods of therapy and aetiology and the use of empiricism, logic and rationality in diagnosis, prognosis and therapy. (from the Babylonia Wikipedia page))
+		tradition_medicinal_plants
+
+		# Babylonian culture should also have Storytellers tradition since Babylonians (and Sumerians) emphasized the role of literature, such as the epic of Gilgamesh. (There were libraries in most towns and temples; an old Sumerian proverb averred that "he who would excel in the school of the scribes must rise with the dawn". Women as well as men learned to read and write. (from the Babylonia Wikipedia page))
+		tradition_storytellers
+
+		# Babylonian culture should have Philosopher Culture tradition as Babylonian philosophy had an influence on Greek philosophy, particularly Hellenistic philosophy. The Babylonian text Dialogue of Pessimism contains similarities to the agonistic thought of the sophists, the Heraclitean doctrine of contrasts, and the dialogs of Plato, as well as a precursor to the maieutic Socratic method of Socrates. (from the Babylonia Wikipedia page)
+		tradition_philosopher_culture
+
+		# Babylonian culture should have Legalistic because Babylonia introduced one of the very first written codes in history, namely the Code of Hammurabi. (One of Hammurabi's most important and lasting works was the compilation of the Babylonian law code, which improved the much earlier codes of Sumer, Akkad and Assyria. This was made by order of Hammurabi after the expulsion of the Elamites and the settlement of his kingdom. (from the Babylonia Wikipedia page)
+		tradition_legalistic
+	}
+
+	name_list = name_list_babylonian
+
+	ethos = ethos_spiritual
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+bazramani = {
+    INVALIDATED_BY = { bazramani }
+    
+	color = { 0.4 0.6 0.0 }
+
+	parents = { roman persian }
+	created = 20.1.1
+
+	heritage = heritage_chaldean
+	language = language_latin
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_warriors_of_the_dry
+		tradition_hereditary_hierarchy
+	}
+	ethos = ethos_bellicose
+
+	name_list = name_list_roman
+	name_list = name_list_persian
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+}
+
+judajca = {
+    INVALIDATED_BY = { judajca }
+    
+	color = { 0.0 0.3 0.6 }
+
+	parents = { roman hebrew }
+	created = 20.1.1
+
+	heritage = heritage_chaldean
+	language = language_latin
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_warriors_of_the_dry
+		tradition_hereditary_hierarchy
+	}
+	ethos = ethos_courtly
+
+	name_list = name_list_roman
+	name_list = name_list_hebrew
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { israelite_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+}
+
+vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
+    INVALIDATED_BY = { vandilian }
+    
+	color = rgb { 215 246 166 }
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+	coa_gfx = { german_group_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_forest_fighters
+	}
+	ethos = ethos_bellicose
+}
+
+gothic = { # https://en.wikipedia.org/wiki/Goths
+    INVALIDATED_BY = { gothic }
+    
+	color = gothic
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+
+	coa_gfx = { german_group_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
+}
+
+visigothic = { # override of vanilla culture
+	color = { 0.55 0.55 0.15 }
+	parents = { gothic }
+	created = 20.1.1
+
+	ethos = ethos_bellicose
+	heritage = heritage_east_germanic # IRToCK3: moved from Iberian heritage
+	language = language_gothic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_equal_inheritance
+		tradition_hit_and_run
+		tradition_martial_admiration
+	}
+
+	name_list = name_list_visigothic
+
+	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+
+	ethnicities = {
+		10 = mediterranean
+	}
+}
+
+ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
+    INVALIDATED_BY = { ostrogothic }
+    
+	color = rgb { 114 162 166 }
+	parents = { gothic }
+	created = 20.1.1
+
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+	coa_gfx = { german_group_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
+}
+
+gepid = { # https://en.wikipedia.org/wiki/Gepids
+    INVALIDATED_BY = { gepid }
+    
+	color = rgb { 91 66 30 }
+	heritage = heritage_east_germanic
+	language = language_gothic
+	name_list = name_list_gothic
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+
+	coa_gfx = { german_group_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
+}
+
+vandal = { # https://en.wikipedia.org/wiki/Vandals
+    INVALIDATED_BY = { vandal }
+    
+	heritage = heritage_east_germanic
+	language = language_gothic
+	color = hsv { 0.05 0.7 0.3 }
+
+	name_list = name_list_gothic
+
+	ethnicities = {
+		25 = caucasian_blond
+		15 = caucasian_ginger
+		35 = caucasian_brown_hair
+		25 = caucasian_dark_hair
+	}
+
+	coa_gfx = { german_group_coa_gfx western_coa_gfx }
+	building_gfx = { western_building_gfx }
+	clothing_gfx = { dde_hre_clothing_gfx western_clothing_gfx }
+	unit_gfx = { western_unit_gfx }
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_martial_admiration
+		tradition_battlefield_looters
+	}
+	ethos = ethos_bellicose
+}

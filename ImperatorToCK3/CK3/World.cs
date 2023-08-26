@@ -110,6 +110,8 @@ public class World {
 		Cultures.LoadNameLists(ModFS);
 		Logger.Info("Loading cultures...");
 		Cultures.LoadCultures(ModFS);
+		Logger.Info("Loading converter cultures...");
+		Cultures.LoadConverterCultures("configurables/converter_cultures.txt");
 		Logger.IncrementProgress();
 
 		LoadMenAtArmsTypes(ModFS, ScriptValues);
@@ -143,8 +145,8 @@ public class World {
 		Logger.Info("Loading religions from CK3 game and mods...");
 		Religions.LoadReligions(ModFS, ck3ColorFactory);
 		Logger.IncrementProgress();
-		Logger.Info("Loading optional converter faiths...");
-		Religions.LoadOptionalFaiths("configurables/optional_faiths.txt", ck3ColorFactory);
+		Logger.Info("Loading converter faiths...");
+		Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
 		Logger.IncrementProgress();
 		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 

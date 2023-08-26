@@ -50,7 +50,12 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true, logFilePaths: true);
 	}
 	
-	// TODO: load optional cultures from configurables
+	public void LoadConverterCultures(string converterCulturesPath) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile(converterCulturesPath);
+	}
 
 	private void LoadCulture(string cultureId, BufferedReader cultureReader) {
 		cultureDataParser.ParseStream(cultureReader);
