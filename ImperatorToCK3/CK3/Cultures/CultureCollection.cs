@@ -53,6 +53,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true, logFilePaths: true);
 	}
 	
+	// TODO: load culture equivalents, for example replace parents = { roman gallic } with parents = { roman gaul } if gaul replaces gallic
+	
 	public void LoadConverterCultures(string converterCulturesPath) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
