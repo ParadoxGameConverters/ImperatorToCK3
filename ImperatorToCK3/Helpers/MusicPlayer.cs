@@ -64,7 +64,7 @@ public static class MusicPlayer {
 				fileNamesToReturn.Add(extractedFilePath);
 			}
 		} catch (Exception e) {
-			Logger.Error($"Failed to extract samples from bank file \"{bankFilePath}\"! {e}");
+			Logger.Warn($"Failed to extract samples from bank file \"{bankFilePath}\"! {e}");
 		}
 
 		return fileNamesToReturn;
