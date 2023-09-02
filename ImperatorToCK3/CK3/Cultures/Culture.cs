@@ -11,6 +11,7 @@ namespace ImperatorToCK3.CK3.Cultures;
 public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public Color Color { get; }
+	public OrderedSet<string> ParentCultureIds { get; set; } = new();
 	public Pillar Heritage { get; }
 	private readonly OrderedSet<string> traditionIds;
 	public IReadOnlyCollection<string> TraditionIds => traditionIds;
@@ -23,6 +24,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		Id = id;
 
 		Color = cultureData.Color!;
+		ParentCultureIds = cultureData.ParentCultureIds;
 		Heritage = cultureData.Heritage!;
 		traditionIds = cultureData.TraditionIds;
 		nameLists = cultureData.NameLists;
@@ -41,6 +43,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
+		sb.Append(contentIndent).AppendLine($"parents={PDXSerializer.Serialize(ParentCultureIds)}");
 		sb.Append(contentIndent).AppendLine($"heritage={Heritage.Id}");
 		sb.Append(contentIndent).AppendLine($"traditions={PDXSerializer.Serialize(TraditionIds)}");
 		foreach (var nameList in NameLists) {

@@ -25,6 +25,9 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				Logger.Warn($"Found invalid color when parsing culture! {e.Message}");
 			}
 		});
+		cultureDataParser.RegisterKeyword("parents", reader => {
+			cultureData.ParentCultureIds = reader.GetStrings().ToOrderedSet();
+		});
 		cultureDataParser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
 			cultureData.Heritage = pillarCollection.Heritages.First(p => p.Id == heritageId);
@@ -51,9 +54,14 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true, logFilePaths: true);
+
+		// Replace invalidated cultures in parent culture lists.
+		foreach (var culture in this) {
+			culture.ParentCultureIds = culture.ParentCultureIds
+				.Select(id => cultureReplacements.TryGetValue(id, out var replacementId) ? replacementId : id)
+				.ToOrderedSet();
+		}
 	}
-	
-	// TODO: load culture equivalents, for example replace parents = { roman gallic } with parents = { roman gaul } if gaul replaces gallic
 	
 	public void LoadConverterCultures(string converterCulturesPath) {
 		var parser = new Parser();
@@ -71,6 +79,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 					continue;
 				}
 				Logger.Debug($"Culture {cultureId} is invalidated by existing {existingCulture.Id}.");
+				cultureReplacements[cultureId] = existingCulture.Id;
 				return;
 			}
 			Logger.Debug($"Loading optional culture {cultureId}...");
@@ -95,8 +104,10 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			nameListCollection.AddOrReplace(new NameList(nameListId, reader));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", true, logFilePaths: true);
+		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 	}
+
+	private IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
 	
 	private readonly PillarCollection pillarCollection;
 	private readonly IdObjectCollection<string, NameList> nameListCollection = new();

@@ -8,6 +8,7 @@ namespace ImperatorToCK3.CK3.Cultures;
 public record CultureData {
 	public IEnumerable<string> InvalidatingCultureIds { get; set; } = new List<string>();
 	public Color? Color { get; set; }
+	public OrderedSet<string> ParentCultureIds { get; set; } = new();
 	public Pillar? Heritage { get; set; }
 	public OrderedSet<string> TraditionIds { get; set; } = new();
 	public OrderedSet<NameList> NameLists { get; } = new();
