@@ -113,7 +113,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 	}
 
-	private IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
+	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
 	
 	private readonly PillarCollection pillarCollection;
 	private readonly IdObjectCollection<string, NameList> nameListCollection = new();
