@@ -37,6 +37,8 @@ public static class WorldOutputter {
 			ck3World.LandedTitles
 		);
 		Logger.IncrementProgress();
+		
+		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures);
 
 		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
 		Logger.IncrementProgress();
@@ -117,6 +119,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
+		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
@@ -153,6 +156,8 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));

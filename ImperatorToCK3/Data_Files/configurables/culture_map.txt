@@ -258,10 +258,10 @@ link = { ck3 = gaelic ir = manavian }
 link = { ck3=gaelic @ir_irish_cultures }
 
 ## Gallic
-link = { ck3 = gallic ir = volcae ir = salluvian ir = arverni ir = aulercian ir = pictonian ir = lemovician ir = santonian ir = carnuti ir = haedui ir = biturigan ir = lepontic ir = vindelician ir = helvetian }
+@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=cotinian ir=allobrogian ir=teurian"
+link = { ck3 = gaul @ir_gallic_cultures } # TFE
+link = { ck3 = gallic @ir_gallic_cultures }
 link = { ck3 = breton ir = aremorican }
-# Invictus mod
-link = { ck3=gallic ir=cotinian ir=allobrogian ir=teurian }
 
 
 ### Germanic
@@ -418,7 +418,6 @@ link = { ck3 = norman @ir_latin_cultures @culture_splitting_region_E }
 link = { ck3 = occitan @ir_latin_cultures @culture_splitting_region_F }
 link = { ck3 = wenedyk @ir_latin_cultures @culture_splitting_region_H }
 link = { ck3 = cisalpine @ir_latin_cultures @culture_splitting_region_I }
-link = { ck3 = pannonian @ir_latin_cultures @culture_splitting_region_J }
 link = { ck3 = vlach @ir_latin_cultures @culture_splitting_region_K }
 link = { ck3 = bazramani @ir_latin_cultures @culture_splitting_region_M }
 link = { ck3 = judajca @ir_latin_cultures @culture_splitting_region_N }

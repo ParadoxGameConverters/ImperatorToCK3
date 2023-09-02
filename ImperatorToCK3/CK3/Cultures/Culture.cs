@@ -1,57 +1,63 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
-using ImperatorToCK3.Exceptions;
-using System;
+using commonItems.Serialization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public sealed class Culture : IIdentifiable<string> {
+public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public Color Color { get; private set; } = new(0, 0, 0);
-	public Pillar Heritage { get; private set; }
-	private SortedSet<string> traditionIds = new();
+	public Color Color { get; }
+	public OrderedSet<string> ParentCultureIds { get; set; } = new();
+	public Pillar Heritage { get; }
+	private readonly OrderedSet<string> traditionIds;
 	public IReadOnlyCollection<string> TraditionIds => traditionIds;
-	public OrderedSet<NameList> NameLists { get; }
+	private readonly OrderedSet<NameList> nameLists;
+	public IReadOnlyCollection<NameList> NameLists => nameLists;
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
+	public IReadOnlyCollection<KeyValuePair<string, StringOfItem>> Attributes => attributes;
 	
-	public Culture(string id, BufferedReader cultureReader, PillarCollection pillars, IdObjectCollection<string, NameList> nameLists, ColorFactory colorFactory) {
+	public Culture(string id, CultureData cultureData) {
 		Id = id;
 
-		NameLists = new OrderedSet<NameList>();
-		var parser = new Parser();
-		parser.RegisterKeyword("color", reader => {
-			try {
-				Color = colorFactory.GetColor(reader);
-			} catch (Exception e) {
-				Logger.Warn($"Culture {id} has invalid color! {e.Message}");
-			}
-		});
-		parser.RegisterKeyword("heritage", reader => {
-			var heritageId = reader.GetString();
-			Heritage = pillars.Heritages.First(p => p.Id == heritageId);
-		});
-		parser.RegisterKeyword("traditions", reader => {
-			traditionIds = new SortedSet<string>(reader.GetStrings());
-		});
-		parser.RegisterKeyword("name_list", reader => {
-			var nameListId = reader.GetString();
-			if (nameLists.TryGetValue(nameListId, out var nameList)) {
-				NameLists.Add(nameList);
-			} else {
-				Logger.Warn($"Culture {id} has unrecognized name list: {nameListId}");
-			}
-		});
-		parser.IgnoreUnregisteredItems();
-		parser.ParseStream(cultureReader);
-		
-		if (Heritage is null) {
-			throw new ConverterException($"Culture {id} has no heritage defined!");
+		Color = cultureData.Color!;
+		ParentCultureIds = cultureData.ParentCultureIds;
+		Heritage = cultureData.Heritage!;
+		traditionIds = cultureData.TraditionIds;
+		nameLists = cultureData.NameLists;
+		attributes = cultureData.Attributes;
+	}
+	
+	public string Serialize(string indent, bool withBraces) {
+		var contentIndent = indent;
+		if (withBraces) {
+			contentIndent += '\t';
 		}
-		if (NameLists.Count == 0) {
-			throw new ConverterException($"Culture {id} has no name list defined!");
+
+		var sb = new StringBuilder();
+		if (withBraces) {
+			sb.AppendLine("{");
 		}
+
+		sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
+		if (ParentCultureIds.Any()) {
+			sb.Append(contentIndent).AppendLine($"parents={PDXSerializer.Serialize(ParentCultureIds)}");
+		}
+		sb.Append(contentIndent).AppendLine($"heritage={Heritage.Id}");
+		sb.Append(contentIndent).AppendLine($"traditions={PDXSerializer.Serialize(TraditionIds)}");
+		foreach (var nameList in NameLists) {
+			sb.Append(contentIndent).AppendLine($"name_list={nameList.Id}");
+		}
+		sb.AppendLine(PDXSerializer.Serialize(Attributes, indent: contentIndent, withBraces: false));
+
+		if (withBraces) {
+			sb.Append(indent).Append('}');
+		}
+
+		return sb.ToString();
 	}
 
 	public IEnumerable<string> MaleNames => NameLists.SelectMany(l => l.MaleNames);

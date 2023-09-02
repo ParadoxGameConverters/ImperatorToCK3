@@ -41,13 +41,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
 	}
 
-	public void LoadOptionalFaiths(string optionalFaithsPath, ColorFactory colorFactory) {
+	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
 			
-			// Check if religion already exists. If it does, add optional faiths to it.
-			// Otherwise, add the optional faith's religion.
+			// Check if religion already exists. If it does, add converter faiths to it.
+			// Otherwise, add the converter faith's religion.
 			if (TryGetValue(religionId, out var religion)) {
 				foreach (var faith in optReligion.Faiths) {
 					religion.Faiths.Add(faith);
@@ -57,7 +57,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseFile(optionalFaithsPath);
+		parser.ParseFile(converterFaithsPath);
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser) {
