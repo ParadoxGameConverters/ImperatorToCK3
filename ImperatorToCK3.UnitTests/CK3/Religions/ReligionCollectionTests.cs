@@ -175,7 +175,7 @@ public class ReligionCollectionTests {
 		religions.LoadReligions(ck3ModFS, colorFactory);
 		Assert.Contains(religions.Faiths, f => f.Id == "religion_a_faith");
 		
-		religions.LoadOptionalFaiths("TestFiles/configurables/optional_faiths.txt", colorFactory);
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.txt", colorFactory);
 		// Optional berber_pagan is invalidated by religion_a_faith, so it should not be loaded.
 		Assert.DoesNotContain(religions.Faiths, r => r.Id == "berber_pagan");
 	}
@@ -186,7 +186,7 @@ public class ReligionCollectionTests {
 		var colorFactory = new ColorFactory();
 		Assert.DoesNotContain(religions.Faiths, r => r.Id == "religion_a_faith");
 		
-		religions.LoadOptionalFaiths("TestFiles/configurables/optional_faiths.txt", colorFactory);
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.txt", colorFactory);
 		Assert.Contains(religions.Faiths, r => r.Id == "berber_pagan");
 	}
 }

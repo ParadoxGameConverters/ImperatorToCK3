@@ -29,7 +29,7 @@ public class DynastiesOutputterTests {
 		AreaCollection areas = new();
 		ImperatorRegionMapper irRegionMapper = new(areas);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
-		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
+		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new ColorFactory(), new PillarCollection()));
 
 		var characters = new CharacterCollection();
 		var dynasties = new DynastyCollection();

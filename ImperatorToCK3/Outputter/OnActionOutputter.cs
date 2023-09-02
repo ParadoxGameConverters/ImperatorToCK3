@@ -26,32 +26,6 @@ public static class OnActionOutputter {
 				}
 			""");
 		}
-		
-		writer.WriteLine("""
-			# IRToCK3: Detect no culture in setup
-			every_living_character = {
-				limit = {
-					has_culture = culture:aaa_noculture
-				}
-				every_player = {
-					trigger_event = {
-						id = welcome.2
-						days = 0
-					}
-				}
-			}
-			every_county = {
-				limit = {
-					culture = culture:aaa_noculture
-				}
-				every_player = {
-					trigger_event = {
-						id = welcome.2
-						days = 0
-					}
-				}
-			}
-		""");
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			writer.WriteLine("\t\tset_global_variable = IRToCK3_create_maa_flag");

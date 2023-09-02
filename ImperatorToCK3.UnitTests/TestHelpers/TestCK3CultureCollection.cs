@@ -1,11 +1,11 @@
 using commonItems;
-using commonItems.Collections;
 using commonItems.Colors;
 using ImperatorToCK3.CK3.Cultures;
+using System.Linq;
 
 namespace ImperatorToCK3.UnitTests.TestHelpers; 
 
-public class TestCK3CultureCollection() : CultureCollection(TestCulturalPillars) {
+public class TestCK3CultureCollection() : CultureCollection(new ColorFactory(), TestCulturalPillars) {
 	private static readonly PillarCollection TestCulturalPillars = new();
 	
 	static TestCK3CultureCollection() {
@@ -15,13 +15,11 @@ public class TestCK3CultureCollection() : CultureCollection(TestCulturalPillars)
 	public void GenerateTestCulture(string id) {
 		const string nameListId = "name_list_test";
 		var nameList = new NameList(nameListId, new BufferedReader());
-		var culture = new Culture(
-			id,
-			new BufferedReader($"heritage=test_heritage name_list={nameListId}"),
-			TestCulturalPillars,
-			new IdObjectCollection<string, NameList> {nameList},
-			new ColorFactory()
-		);
+		var cultureData = new CultureData {
+			Heritage = TestCulturalPillars.Heritages.First(p => p.Id == "test_heritage"),
+			NameLists = {nameList}
+		};
+		var culture = new Culture(id, cultureData);
 		Add(culture);
 	}
 }

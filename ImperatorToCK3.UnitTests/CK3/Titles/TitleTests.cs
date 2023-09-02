@@ -56,7 +56,7 @@ public class TitleTests {
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
-		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
+		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new ColorFactory(), new PillarCollection()));
 		private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private readonly Date ck3BookmarkDate = new(867, 1, 1);
 		private readonly CharacterCollection characters = new();
