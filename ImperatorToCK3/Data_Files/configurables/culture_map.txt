@@ -258,10 +258,10 @@ link = { ck3 = gaelic ir = manavian }
 link = { ck3=gaelic @ir_irish_cultures }
 
 ## Gallic
-link = { ck3 = gallic ir = volcae ir = salluvian ir = arverni ir = aulercian ir = pictonian ir = lemovician ir = santonian ir = carnuti ir = haedui ir = biturigan ir = lepontic ir = vindelician ir = helvetian }
+@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=cotinian ir=allobrogian ir=teurian"
+link = { ck3 = gaul @ir_gallic_cultures } # TFE
+link = { ck3 = gallic @ir_gallic_cultures }
 link = { ck3 = breton ir = aremorican }
-# Invictus mod
-link = { ck3=gallic ir=cotinian ir=allobrogian ir=teurian }
 
 
 ### Germanic
