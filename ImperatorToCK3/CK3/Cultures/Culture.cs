@@ -43,7 +43,9 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
-		sb.Append(contentIndent).AppendLine($"parents={PDXSerializer.Serialize(ParentCultureIds)}");
+		if (ParentCultureIds.Any()) {
+			sb.Append(contentIndent).AppendLine($"parents={PDXSerializer.Serialize(ParentCultureIds)}");
+		}
 		sb.Append(contentIndent).AppendLine($"heritage={Heritage.Id}");
 		sb.Append(contentIndent).AppendLine($"traditions={PDXSerializer.Serialize(TraditionIds)}");
 		foreach (var nameList in NameLists) {

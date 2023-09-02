@@ -54,13 +54,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", true, logFilePaths: true);
-
-		// Replace invalidated cultures in parent culture lists.
-		foreach (var culture in this) {
-			culture.ParentCultureIds = culture.ParentCultureIds
-				.Select(id => cultureReplacements.TryGetValue(id, out var replacementId) ? replacementId : id)
-				.ToOrderedSet();
-		}
+		
+		ReplaceInvalidatedParents();
 	}
 	
 	public void LoadConverterCultures(string converterCulturesPath) {
@@ -68,6 +63,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(converterCulturesPath);
+		
+		ReplaceInvalidatedParents();
 	}
 
 	private void LoadCulture(string cultureId, BufferedReader cultureReader) {
@@ -96,6 +93,15 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		
 		// Reset culture data for the next culture.
 		cultureData = new CultureData();
+	}
+
+	private void ReplaceInvalidatedParents() {
+		// Replace invalidated cultures in parent culture lists.
+		foreach (var culture in this) {
+			culture.ParentCultureIds = culture.ParentCultureIds
+				.Select(id => cultureReplacements.TryGetValue(id, out var replacementId) ? replacementId : id)
+				.ToOrderedSet();
+		}
 	}
 
 	public void LoadNameLists(ModFilesystem ck3ModFS) {
