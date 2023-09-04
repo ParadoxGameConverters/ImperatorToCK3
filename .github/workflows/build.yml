@@ -14,7 +14,7 @@ jobs:
         os: [[self-hosted, windows], ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
