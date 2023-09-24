@@ -851,10 +851,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
-	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
+	public IDictionary<string, Title> GetDeJureVassalsAndBelow() {
 		return GetDeJureVassalsAndBelow("bcdke");
 	}
-	public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
+	public IDictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deJureVassalsAndBelow = new();
 		foreach (var vassalTitle in DeJureVassals) {
@@ -874,14 +874,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		return deJureVassalsAndBelow;
 	}
-	public Dictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
+	public IDictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
 		return parentCollection.Where(t => t.GetDeFactoLiege(date)?.Id == Id)
 			.ToDictionary(t => t.Id, t => t);
 	}
-	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
+	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
 		return GetDeFactoVassalsAndBelow(date, "bcdke");
 	}
-	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
+	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deFactoVassalsAndBelow = new();
 		foreach (var (vassalTitleName, vassalTitle) in GetDeFactoVassals(date)) {
@@ -1052,7 +1052,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		writer.Write(sb);
 	}
 
-	public HashSet<ulong> GetProvincesInCountry(Date date) {
+	public ISet<ulong> GetProvincesInCountry(Date date) {
 		var holderId = GetHolderId(date);
 		var heldCounties = new List<Title>(
 			parentCollection.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)
