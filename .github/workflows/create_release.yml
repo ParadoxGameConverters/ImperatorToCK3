@@ -93,7 +93,7 @@ jobs:
       shell: bash
       run: |
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3"
-        elif [ "$RUNNER_OS" = "macOS" ]
+        if [ "$RUNNER_OS" = "macOS" ]
         then
           echo "Signing binary..."
           codesign --force -s - "../Publish/ImperatorToCK3/ImperatorToCK3Converter"
