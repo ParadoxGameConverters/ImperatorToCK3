@@ -40,7 +40,7 @@ jobs:
         build:
         - win-x64
         - linux-x64
-        - osx-x64
+        - osx-arm64
         include:
         - build: win-x64
           os: windows-latest
@@ -52,7 +52,7 @@ jobs:
           archive_type: tar
           archive_extension: .tgz
           asset_content_type: application/gzip
-        - build: osx-x64
+        - build: osx-arm64
           os: macos-latest
           archive_type: tar
           archive_extension: .tgz
