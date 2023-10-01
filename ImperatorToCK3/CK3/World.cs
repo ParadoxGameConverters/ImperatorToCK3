@@ -680,16 +680,39 @@ public class World {
 				}
 			}
 
-			Province province;
+			var candidateProvinces = new OrderedSet<Province>();
 			if (county.CapitalBaronyProvince is not null) {
-				province = Provinces[county.CapitalBaronyProvince.Value];
-			} else {
-				province = county.CountyProvinces
-					.Select(p => Provinces[p])
-					.First(p => p.GetFaithId(date) is not null && p.GetCulture(date, cultures) is not null);
+				// Give priority to capital province.
+				candidateProvinces.Add(Provinces[county.CapitalBaronyProvince.Value]);
 			}
-			var culture = cultures[province.GetCultureId(date)!];
-			
+			var allCountyProvinces = county.CountyProvinces
+				.Select(p => Provinces[p]);
+			candidateProvinces.UnionWith(allCountyProvinces);
+			var province = candidateProvinces
+				.First(p => p.GetFaithId(date) is not null);
+
+			var culture = candidateProvinces
+				.Select(p => p.GetCulture(date, cultures))
+				.FirstOrDefault(c => c is not null);
+			if (culture is null) {
+				Logger.Debug($"Found no fitting culture for generated holder of {county.Id}, " +
+				            $"trying to use cultures from de jure duchy or kingdom!");
+				var deJureDuchy = county.DeJureLiege;
+				if (deJureDuchy is not null) {
+					culture = Provinces
+						.Where(p => deJureDuchy.DuchyContainsProvince(p.Id))
+						.Select(p => p.GetCulture(date, cultures))
+						.FirstOrDefault(c => c is not null);
+				}
+				if (culture is null && deJureDuchy?.DeJureLiege is not null) {
+					var deJureKingdom = deJureDuchy.DeJureLiege;
+					culture = Provinces
+						.Where(p => deJureKingdom.KingdomContainsProvince(p.Id))
+						.Select(p => p.GetCulture(date, cultures))
+						.FirstOrDefault(c => c is not null);
+				}
+			}
+
 			bool female = false;
 			string name;
 			var maleNames = culture.MaleNames.ToImmutableList();
