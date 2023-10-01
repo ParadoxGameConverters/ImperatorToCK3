@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using Fernandezja.ColorHashSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,6 +89,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		if (cultureData.NameLists.Count == 0) {
 			Logger.Warn($"Culture {cultureId} has no name list defined! Skipping.");
 			return;
+		}
+		if (cultureData.Color is null) {
+			Logger.Warn($"Culture {cultureId} has no color defined! Will use generated color.");
+			var color = new ColorHash().Rgb(cultureId);
+			cultureData.Color = new Color(color.R, color.G, color.B);
 		}
 		AddOrReplace(new Culture(cultureId, cultureData));
 		
