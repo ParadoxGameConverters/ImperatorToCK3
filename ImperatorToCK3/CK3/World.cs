@@ -711,6 +711,12 @@ public class World {
 						.Select(p => p.GetCulture(date, cultures))
 						.FirstOrDefault(c => c is not null);
 				}
+
+				if (culture is null) {
+					Logger.Warn($"Found no fitting culture for generated holder of {county.Id}, " +
+					            $"using first culture from database!");
+					culture = cultures.First();
+				}
 			}
 
 			bool female = false;
