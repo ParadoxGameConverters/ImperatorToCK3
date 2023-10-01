@@ -686,7 +686,7 @@ public class World {
 			} else {
 				province = county.CountyProvinces
 					.Select(p => Provinces[p])
-					.First(p => p.GetFaithId(date) is not null && p.GetCultureId(date) is not null);
+					.First(p => p.GetFaithId(date) is not null && p.GetCulture(date, cultures) is not null);
 			}
 			var culture = cultures[province.GetCultureId(date)!];
 			
