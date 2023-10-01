@@ -104,24 +104,32 @@ public sealed class DNAFactory {
 		// Convert some accessory genes.
 		var accessoryDNAValues = new Dictionary<string, DNAGeneValue>();
 		
-		var beardGeneValue = MatchAccessoryGeneValueByObject(
-			irCharacter, 
-			irPortraitData, 
-			"beards",
-			ck3GenesDB.SpecialAccessoryGenes["beards"]
-		);
-		if (beardGeneValue is not null) {
-			accessoryDNAValues.Add("beards", beardGeneValue.Value);
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("beards", out var beardGene)) {
+			var beardGeneValue = MatchAccessoryGeneValueByObject(
+				irCharacter, 
+				irPortraitData, 
+				"beards",
+				beardGene
+			);
+			if (beardGeneValue is not null) {
+				accessoryDNAValues.Add("beards", beardGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("beards not found in CK3 special accessory genes!");
 		}
 
-		var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
-			irCharacter,
-			irPortraitData,
-			"hairstyles",
-			ck3GenesDB.SpecialAccessoryGenes["hairstyles"]
-		);
-		if (hairstylesGeneValue is not null) {
-			accessoryDNAValues.Add("hairstyles", hairstylesGeneValue.Value);
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("hairstyles", out var hairstylesGene)) {
+			var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
+				irCharacter,
+				irPortraitData,
+				"hairstyles",
+				hairstylesGene
+			);
+			if (hairstylesGeneValue is not null) {
+				accessoryDNAValues.Add("hairstyles", hairstylesGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("hairstyles not found in CK3 special accessory genes!");
 		}
 
 		var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes");
