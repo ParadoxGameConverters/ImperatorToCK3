@@ -695,8 +695,7 @@ public class World {
 				.Select(p => p.GetCulture(date, cultures))
 				.FirstOrDefault(c => c is not null);
 			if (culture is null) {
-				Logger.Debug($"Found no fitting culture for generated holder of {county.Id}, " +
-				            $"trying to use cultures from de jure duchy or kingdom!");
+				Logger.Debug($"Trying to use de jure duchy for culture of holder for {county.Id}...");
 				var deJureDuchy = county.DeJureLiege;
 				if (deJureDuchy is not null) {
 					culture = Provinces
@@ -705,6 +704,7 @@ public class World {
 						.FirstOrDefault(c => c is not null);
 				}
 				if (culture is null && deJureDuchy?.DeJureLiege is not null) {
+					Logger.Debug($"Trying to use de jure kingdom for culture of holder for {county.Id}...");
 					var deJureKingdom = deJureDuchy.DeJureLiege;
 					culture = Provinces
 						.Where(p => deJureKingdom.KingdomContainsProvince(p.Id))
