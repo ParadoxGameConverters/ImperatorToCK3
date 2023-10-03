@@ -76,7 +76,7 @@ public class ProvincesTests {
 			""");
 		titles.LoadTitles(titlesReader);
 		
-		// Scenario 1: Sum of civilisation in country 1 outweighs single more civilised province in country 2.
+		// Scenario 1: Sum of civilisation in country 1 outweighs single more civilized province in country 2.
 		var irWorld = new ImperatorToCK3.Imperator.World(config);
 		// Country 1 (civilisation 9 in total)
 		var country1 = new Country(1);
