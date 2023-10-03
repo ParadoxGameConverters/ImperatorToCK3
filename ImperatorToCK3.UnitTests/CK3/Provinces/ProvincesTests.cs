@@ -92,7 +92,7 @@ public class ProvincesTests {
 		irWorld.Provinces.Add(irProvince5);
 		// Country 2 (civilisation 5 in total)
 		var country2 = new Country(2);
-		var irProvince6 = new ImperatorToCK3.Imperator.Provinces.Province(6) { CivilizationValue = 10, OwnerCountry = country2 };
+		var irProvince6 = new ImperatorToCK3.Imperator.Provinces.Province(6) { CivilizationValue = 5, OwnerCountry = country2 };
 		irWorld.Provinces.Add(irProvince6);
 
 		var provinceMapper = new ProvinceMapper();
