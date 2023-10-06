@@ -283,6 +283,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				);
 
 				var characterId = rulerTerm.CharacterId;
+				if (characterId is null) {
+					continue;
+				}
 				var gov = rulerTerm.Government;
 
 				var termStartDate = new Date(rulerTerm.StartDate);
