@@ -31,7 +31,10 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
-			cultureData.Heritage = pillarCollection.Heritages.First(p => p.Id == heritageId);
+			cultureData.Heritage = pillarCollection.Heritages.FirstOrDefault(p => p.Id == heritageId);
+			if (cultureData.Heritage is null) {
+				Logger.Warn($"Found unrecognized heritage when parsing cultures: {heritageId}");
+			}
 		});
 		cultureDataParser.RegisterKeyword("traditions", reader => {
 			cultureData.TraditionIds = reader.GetStrings().ToOrderedSet();
