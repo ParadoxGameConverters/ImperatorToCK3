@@ -764,7 +764,7 @@ public class World {
 			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
 			holder.History.AddFieldValue(date, "government", "change_government", "tribal_government");
-			Characters.Add(holder);
+			Characters.AddOrReplace(holder);
 
 			county.SetHolder(holder, date);
 			if (config.FillerDukes) {

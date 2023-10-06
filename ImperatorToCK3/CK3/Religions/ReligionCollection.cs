@@ -220,7 +220,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 							imperatorReligions,
 							holySiteEffectMapper
 						);
-						HolySites.Add(newHolySiteInSameBarony);
+						HolySites.AddOrReplace(newHolySiteInSameBarony);
 
 						faith.ReplaceHolySiteId(holySiteId, newHolySiteInSameBarony.Id);
 					}
@@ -238,7 +238,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 						imperatorReligions,
 						holySiteEffectMapper
 					);
-					HolySites.Add(replacementSite);
+					HolySites.AddOrReplace(replacementSite);
 
 					faith.ReplaceHolySiteId(holySiteId, replacementSite.Id);
 				}
