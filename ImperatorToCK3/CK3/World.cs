@@ -688,9 +688,9 @@ public class World {
 			var allCountyProvinces = county.CountyProvinces
 				.Select(p => Provinces[p]);
 			candidateProvinces.UnionWith(allCountyProvinces);
-			var province = candidateProvinces
-				.First(p => p.GetFaithId(date) is not null);
-
+			var pseudoRandomSeed = (int)candidateProvinces.First().Id;
+			
+			// Determine culture of the holder.
 			var culture = candidateProvinces
 				.Select(p => p.GetCulture(date, cultures))
 				.FirstOrDefault(c => c is not null);
@@ -711,11 +711,38 @@ public class World {
 						.Select(p => p.GetCulture(date, cultures))
 						.FirstOrDefault(c => c is not null);
 				}
-
 				if (culture is null) {
 					Logger.Warn($"Found no fitting culture for generated holder of {county.Id}, " +
 					            $"using first culture from database!");
 					culture = cultures.First();
+				}
+			}
+			
+			// Determine faith of the holder.
+			var faithId = candidateProvinces
+				.Select(p => p.GetFaithId(date))
+				.FirstOrDefault(f => f is not null);
+			if (faithId is null) {
+				Logger.Debug($"Trying to use de jure duchy for faith of holder for {county.Id}...");
+				var deJureDuchy = county.DeJureLiege;
+				if (deJureDuchy is not null) {
+					faithId = Provinces
+						.Where(p => deJureDuchy.DuchyContainsProvince(p.Id))
+						.Select(p => p.GetFaithId(date))
+						.FirstOrDefault(f => f is not null);
+				}
+				if (faithId is null && deJureDuchy?.DeJureLiege is not null) {
+					Logger.Debug($"Trying to use de jure kingdom for faith of holder for {county.Id}...");
+					var deJureKingdom = deJureDuchy.DeJureLiege;
+					faithId = Provinces
+						.Where(p => deJureKingdom.KingdomContainsProvince(p.Id))
+						.Select(p => p.GetFaithId(date))
+						.FirstOrDefault(f => f is not null);
+				}
+				if (faithId is null) {
+					Logger.Warn($"Found no fitting faith for generated holder of {county.Id}, " +
+					            $"using first faith from database!");
+					faithId = Religions.Faiths.First().Id;
 				}
 			}
 
@@ -723,21 +750,21 @@ public class World {
 			string name;
 			var maleNames = culture.MaleNames.ToImmutableList();
 			if (maleNames.Count > 0) {
-				name = maleNames.ElementAt((int)province.Id % maleNames.Count);
+				name = maleNames.ElementAt(pseudoRandomSeed % maleNames.Count);
 			} else { // Generate a female if no male name is available.
 				female = true;
 				var femaleNames = culture.FemaleNames.ToImmutableList();
-				name = femaleNames.ElementAt((int)province.Id % femaleNames.Count);
+				name = femaleNames.ElementAt(pseudoRandomSeed % femaleNames.Count);
 			}
-			int age = 18 + (int)(province.Id % 60);
+			int age = 18 + (pseudoRandomSeed % 60);
 			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {
 				Female = female,
 				BirthDate = date.ChangeByYears(-age)
 			};
-			holder.SetFaithId(province.GetFaithId(date)!, null);
+			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
 			holder.History.AddFieldValue(date, "government", "change_government", "tribal_government");
-			Characters.Add(holder);
+			Characters.AddOrReplace(holder);
 
 			county.SetHolder(holder, date);
 			if (config.FillerDukes) {

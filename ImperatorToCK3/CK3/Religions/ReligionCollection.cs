@@ -220,7 +220,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 							imperatorReligions,
 							holySiteEffectMapper
 						);
-						HolySites.Add(newHolySiteInSameBarony);
+						if (HolySites.ContainsKey(newHolySiteInSameBarony.Id)) {
+							Logger.Warn($"Created duplicate holy site: {newHolySiteInSameBarony.Id}!");
+						}
+						HolySites.AddOrReplace(newHolySiteInSameBarony);
 
 						faith.ReplaceHolySiteId(holySiteId, newHolySiteInSameBarony.Id);
 					}
@@ -238,7 +241,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 						imperatorReligions,
 						holySiteEffectMapper
 					);
-					HolySites.Add(replacementSite);
+					if (HolySites.ContainsKey(replacementSite.Id)) {
+						Logger.Warn($"Created duplicate holy site: {replacementSite.Id}!");
+					}
+					HolySites.AddOrReplace(replacementSite);
 
 					faith.ReplaceHolySiteId(holySiteId, replacementSite.Id);
 				}
