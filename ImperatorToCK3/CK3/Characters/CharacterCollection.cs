@@ -94,7 +94,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			config
 		);
 		character.CK3Character = newCharacter;
-		Add(newCharacter);
+		AddOrReplace(newCharacter);
 	}
 
 	public override void Remove(string key) {
