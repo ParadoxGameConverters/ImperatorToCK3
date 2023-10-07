@@ -253,9 +253,11 @@ public sealed class DNAFactory {
 			};
 			// CK3 does not seem to actually support baldness (as of CK3 1.8.1) despite the gene being there.
 			// So we just remove the hair.
-			accessoryDNAValues["hairstyles"] = accessoryDNAValues["hairstyles"] with {
-				TemplateName = "no_hairstyles", IntSliderValue = 0
-			};
+			if (accessoryDNAValues.TryGetValue("hairstyles", out var hairstylesGeneValue)) {
+				accessoryDNAValues["hairstyles"] = hairstylesGeneValue with {
+					TemplateName = "no_hairstyles", IntSliderValue = 0
+				};
+			}
 		} else {
 			morphDNAValues["gene_baldness"] = new DNAGeneValue {
 				TemplateName = "no_baldness",
