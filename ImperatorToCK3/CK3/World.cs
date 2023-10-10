@@ -573,7 +573,7 @@ public class World {
 				hermit.History.AddFieldValue(null, "traits", "trait", "devoted");
 				var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
 				hermit.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
-				Characters.Add(hermit);
+				Characters.AddOrReplace(hermit);
 
 				title.SetHolder(hermit, bookmarkDate);
 				title.SetGovernment("eremitic_government", bookmarkDate);
