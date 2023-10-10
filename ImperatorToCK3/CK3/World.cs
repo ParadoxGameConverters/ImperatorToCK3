@@ -565,12 +565,12 @@ public class World {
 				Logger.Debug($"Generating hermit for {titleId}...");
 
 				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50), Characters);
-				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
-				hermit.SetFaithId(faithId, null);
-				hermit.SetCultureId(cultureId, null);
-				hermit.History.AddFieldValue(null, "traits", "trait", "chaste");
-				hermit.History.AddFieldValue(null, "traits", "trait", "celibate");
-				hermit.History.AddFieldValue(null, "traits", "trait", "devoted");
+				var faithId = faithCandidates.First(c => faiths.Exists(f => f.Id == c));
+				hermit.SetFaithId(faithId, date: null);
+				hermit.SetCultureId(cultureId, date: null);
+				hermit.History.AddFieldValue(date: null, "traits", "trait", "chaste");
+				hermit.History.AddFieldValue(date: null, "traits", "trait", "celibate");
+				hermit.History.AddFieldValue(date: null, "traits", "trait", "devoted");
 				var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
 				hermit.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
 				Characters.AddOrReplace(hermit);
