@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using ImageMagick;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -41,6 +42,7 @@ public static class CoatOfArmsEmblemsOutputter {
 			CopyEmblem(filePath);
 		}
 		Logger.IncrementProgress();
+		return;
 
 		void CopyEmblem(string emblemFilePath) {
 			var fileName = CommonFunctions.TrimPath(emblemFilePath);
@@ -53,7 +55,12 @@ public static class CoatOfArmsEmblemsOutputter {
 			image.Negate(channels: Channels.Red);
 			// Write the image to new file.
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/coat_of_arms/colored_emblems", fileName);
-			image.Write(outputPath);
+			try {
+				image.Write(outputPath);
+			} catch (Exception ex) {
+				Logger.Debug($"Exception occurred while writing {outputPath}: {ex}");
+				Logger.Warn($"Failed to write colored emblem {fileName}. CoAs using this emblem will be broken.");
+			}
 		}
 	}
 	
