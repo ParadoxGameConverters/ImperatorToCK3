@@ -96,7 +96,7 @@ public class CultureMappingRule {
 		parser.RegisterKeyword("ir", reader => mappingToReturn.cultures.Add(reader.GetString()));
 		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
-		parser.RegisterKeyword("impRegion", reader => mappingToReturn.irRegions.Add(reader.GetString()));
+		parser.RegisterKeyword("irRegion", reader => mappingToReturn.irRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
 		parser.RegisterKeyword("irProvince", reader => mappingToReturn.irProvinces.Add(reader.GetULong()));
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {

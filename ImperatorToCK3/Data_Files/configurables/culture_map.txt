@@ -9,10 +9,10 @@
 #	historicalTag = <Imperator historical tag> (optional)
 #	irProvince = <Imperator province> (optional)
 #	ck3Province = <CK3 province> (optional)
-#	impRegion = <Imperator region> (optional)
+#	irRegion = <Imperator region> (optional)
 #	ck3Region = <CK3 region> (optional)
 # }
-# multiple entries allowed for: ir, irProvince, ck3Province, impRegion, ck3Region, historicalTag
+# multiple entries allowed for: ir, irProvince, ck3Province, irRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
 # Variables:
@@ -32,37 +32,37 @@
 ## A:
 @culture_splitting_region_A = "ck3Province = 28 ck3Province = 29 ck3Province = 30 ck3Province = 31 ck3Province = 32 ck3Province = 34 ck3Province = 33 ck3Province = 36 ck3Province = 15 ck3Province = 13 ck3Province = 14 ck3Province = 18 ck3Province = 17 ck3Province = 19 ck3Province = 9 ck3Province = 10 ck3Province = 11 ck3Province = 12 ck3Province = 20 ck3Province = 21 ck3Province = 22 ck3Province = 23 ck3Province = 24 ck3Province = 25 ck3Province = 26 ck3Province = 27 ck3Province = 37 ck3Province = 38 ck3Province = 39 ck3Province = 40 ck3Province = 43 ck3Province = 41 ck3Province = 42 ck3Province = 44 ck3Province = 45 ck3Province = 46 ck3Province = 47 ck3Province = 48 ck3Province = 49 ck3Province = 50 ck3Province = 51 ck3Province = 52 ck3Province = 53 ck3Province = 54 ck3Province = 8745 ck3Province = 16"
 ## B (overlaps with A, so put it AFTER):
-@culture_splitting_region_B = "impRegion = caledonia_region"
+@culture_splitting_region_B = "irRegion = caledonia_region"
 ## C:
-@culture_splitting_region_C = "impRegion = britain_region"
+@culture_splitting_region_C = "irRegion = britain_region"
 ## D:
-@culture_splitting_region_D = "impRegion = scandinavia_region"
+@culture_splitting_region_D = "irRegion = scandinavia_region"
 ## E:
-@culture_splitting_region_E = "impRegion = armorica_region impRegion = central_gaul_region"
+@culture_splitting_region_E = "irRegion = armorica_region irRegion = central_gaul_region"
 ## F:
-@culture_splitting_region_F = "impRegion = aquitaine_region impRegion = transalpine_gaul_region"
+@culture_splitting_region_F = "irRegion = aquitaine_region irRegion = transalpine_gaul_region"
 ## G:
-@culture_splitting_region_G = "impRegion=germania_superior_region impRegion=belgica_region impRegion=germania_region impRegion=bohemia_area impRegion=bohemia_region impRegion=germania_magna_region"
+@culture_splitting_region_G = "irRegion=germania_superior_region irRegion=belgica_region irRegion=germania_region irRegion=bohemia_area irRegion=bohemia_region irRegion=germania_magna_region"
 ## H:
-@culture_splitting_region_H = "impRegion = venedia_region"
+@culture_splitting_region_H = "irRegion = venedia_region"
 ## I:
-@culture_splitting_region_I = "impRegion = rhaetia_region impRegion = cisalpine_gaul_region"
+@culture_splitting_region_I = "irRegion = rhaetia_region irRegion = cisalpine_gaul_region"
 ## J:
-@culture_splitting_region_J1 = "impRegion=pannonia_prima_occidentalis_area impRegion=pannonia_prima_orientalis_area impRegion=pannonia_valeria_area impRegion=noricum_mediterranum_area impRegion=pannonia_secunda_area impRegion=illyria_region"
-@culture_splitting_region_J2 = "impRegion=pannonia_terminus_area impRegion=transcarpathia_occidentalis_area impRegion=carnuntia_area impRegion=dacia_region"
+@culture_splitting_region_J1 = "irRegion=pannonia_prima_occidentalis_area irRegion=pannonia_prima_orientalis_area irRegion=pannonia_valeria_area irRegion=noricum_mediterranum_area irRegion=pannonia_secunda_area irRegion=illyria_region"
+@culture_splitting_region_J2 = "irRegion=pannonia_terminus_area irRegion=transcarpathia_occidentalis_area irRegion=carnuntia_area irRegion=dacia_region"
 @culture_splitting_region_J = "@culture_splitting_region_J1 @culture_splitting_region_J2"
 ## K:
-@culture_splitting_region_K1 = "impRegion=moesia_region impRegion=moesia_s_region impRegion=thrace_region impRegion=macedonia_region"
-@culture_splitting_region_K2 = "impRegion = vistulia_region impRegion = sarmatia_europea_region"
+@culture_splitting_region_K1 = "irRegion=moesia_region irRegion=moesia_s_region irRegion=thrace_region irRegion=macedonia_region"
+@culture_splitting_region_K2 = "irRegion = vistulia_region irRegion = sarmatia_europea_region"
 @culture_splitting_region_K = "@culture_splitting_region_K1 @culture_splitting_region_K2"
 ## L:
-@culture_splitting_region_L1 = "impRegion = sarmatia_asiatica_region impRegion = taurica_region"
-@culture_splitting_region_L2 = "impRegion = colchis_region impRegion = bithynia_region impRegion = cappadocia_region impRegion = galatia_region impRegion = cilicia_region"
+@culture_splitting_region_L1 = "irRegion = sarmatia_asiatica_region irRegion = taurica_region"
+@culture_splitting_region_L2 = "irRegion = colchis_region irRegion = bithynia_region irRegion = cappadocia_region irRegion = galatia_region irRegion = cilicia_region"
 @culture_splitting_region_L = "@culture_splitting_region_L1 @culture_splitting_region_L2"
 ## M:
-@culture_splitting_region_M = "impRegion = gedrosia_region impRegion = media_region impRegion = persis_region impRegion = ariana_region impRegion = parthia_region"
+@culture_splitting_region_M = "irRegion = gedrosia_region irRegion = media_region irRegion = persis_region irRegion = ariana_region irRegion = parthia_region"
 ## N:
-@culture_splitting_region_N = "impRegion = syria_region impRegion = assyria_region impRegion = palestine_region"
+@culture_splitting_region_N = "irRegion = syria_region irRegion = assyria_region irRegion = palestine_region"
 ## O:
 @culture_splitting_region_O = "impRegion = numidia_region impRegion = mauretainia_region impRegion = africa_region impRegion = cyrenaica_region impRegion = upper_egypt_region impRegion = lower_egypt_region"
 ## P (!overlaps with S, must be put after it):

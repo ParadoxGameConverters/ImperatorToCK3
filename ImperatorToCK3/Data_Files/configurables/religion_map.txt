@@ -5,12 +5,12 @@
 #	ck3Culture = CK3 culture ID (optional)
 #	irProvince = Imperator province ID (optional)
 #	ck3Province = CK3 province ID (optional)
-#	impRegion = Imperator region or area ID (optional)
+#	irRegion = Imperator region or area ID (optional)
 #	ck3Region = CK3 region ID (optional)
 #	historicalTag = Imperator historical tag (optional)
 #	heresiesInHistoricalAreas = yes/no (optional)
 # }
-# multiple entries allowed for: ir, ck3Culture, irProvince, ck3Province, impRegion, ck3Region, historicalTag
+# multiple entries allowed for: ir, ck3Culture, irProvince, ck3Province, irRegion, ck3Region, historicalTag
 # multiple entries not allowed for: ck3
 
 # Variables:
@@ -31,7 +31,7 @@ link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province
 link = { ck3 = amazigh_pagan ir = berber_religion }
 link = { ck3 = scythian_pagan ir = indo_iranian_religion }
 # Vanilla CK3
-link = { ck3 = kushitism_pagan ir = egyptian_pantheon impRegion = nubia_region impRegion = punt_region }
+link = { ck3 = kushitism_pagan ir = egyptian_pantheon irRegion = nubia_region irRegion = punt_region }
 link = { ck3 = egyptian_pagan ir = egyptian_pantheon }
 link = { ck3 = canaanite_pagan ir = carthaginian_pantheon }
 link = { ck3 = dacian_pagan ir = shamanism }
@@ -54,13 +54,13 @@ link = { ck3=sardinian_pagan ir=nuragic_pantheon } # TFE
 link = { ck3=pagan ir=nuragic_pantheon } # TODO: https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/1474
 
 # Arabic
-link = { ck3 = aksumite_pagan ir = arabian_pantheon impRegion = punt_region } # TFE
+link = { ck3 = aksumite_pagan ir = arabian_pantheon irRegion = punt_region } # TFE
 link = { # TFE
     ck3 = nabataean_pagan
     ir = arabian_pantheon
     ck3Province = 6030 ck3Province = 6031 ck3Province = 6032 ck3Province = 6033 ck3Province = 6034 ck3Province = 6035 ck3Province = 6037 ck3Province = 5969 ck3Province = 5971 ck3Province = 5972 ck3Province = 5973 ck3Province = 5978 ck3Province = 5979 ck3Province = 5980 ck3Province = 5977 ck3Province = 5976 ck3Province = 5975 ck3Province = 5974 ck3Province = 6183
 }
-link = { ck3 = south_arabian_pagan ir = arabian_pantheon impRegion = arabia_felix_region } # TFE
+link = { ck3 = south_arabian_pagan ir = arabian_pantheon irRegion = arabia_felix_region } # TFE
 link = { ck3 = arabic_pagan ir = arabian_pantheon } # TFE
 link = { ck3 = druze ir = arabian_pantheon ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
 link = { ck3 = druze ir = judaism ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
@@ -71,17 +71,17 @@ link = { ck3 = arabic_pagan ir = arabian_pantheon }
 link = {
     ck3 = mithraic_mysteries
     ir = roman_pantheon
-    impRegion = armenia_region impRegion = assyria_region impRegion = mesopotamia_region impRegion = media_region impRegion = persis_region impRegion = parthia_region
+    irRegion = armenia_region irRegion = assyria_region irRegion = mesopotamia_region irRegion = media_region irRegion = persis_region irRegion = parthia_region
 }
 link = {
     ck3 = mithraic_mysteries
     ir = mithra_religion # from Invictus
 }
-link = { ck3 = eleusinian_mysteries ir = roman_pantheon impRegion = thrace_region }
+link = { ck3 = eleusinian_mysteries ir = roman_pantheon irRegion = thrace_region }
 link = {
     ck3 = celto_hellenic_syncretism
     ir = roman_pantheon
-    impRegion = germania_region impRegion = britain_region impRegion = belgica_region impRegion = germania_superior_region impRegion = caledonia_region impRegion = central_gaul_region impRegion = pannonia_region impRegion = bohomia_area
+    irRegion = germania_region irRegion = britain_region irRegion = belgica_region irRegion = germania_superior_region irRegion = caledonia_region irRegion = central_gaul_region irRegion = pannonia_region irRegion = bohomia_area
 }
 link = { ck3 = hellenic_pagan ir = roman_pantheon } # Default
 
@@ -91,18 +91,18 @@ link = { ck3 = baltic_pagan ir = matrist_religion ck3Province = 154 ck3Province 
 link = { ck3 = slavic_pagan ir = matrist_religion }
 
 # Steppe Religion - Melieism in the East, Tengri in the West
-link = { ck3 = tengri_pagan ir = eastern_animism impRegion = sarmatia_europea_region impRegion = vistulia_region impRegion = venedia_region impRegion = scandinavia_region impRegion = dacia_region impRegion = pannonia_region impRegion = moesia_region impRegion = thrace_region impRegion = macedonia_region impRegion = greece_region impRegion = illyria_region impRegion = germania_region impRegion = bohemia_area }
+link = { ck3 = tengri_pagan ir = eastern_animism irRegion = sarmatia_europea_region irRegion = vistulia_region irRegion = venedia_region irRegion = scandinavia_region irRegion = dacia_region irRegion = pannonia_region irRegion = moesia_region irRegion = thrace_region irRegion = macedonia_region irRegion = greece_region irRegion = illyria_region irRegion = germania_region irRegion = bohemia_area }
 link = { ck3 = melieism ir = eastern_animism }
 
 # Celtic - TFE
-link = { ck3 = brythonic_druidism ir = druidism impRegion = britain_region impRegion = scandinavia_region }
+link = { ck3 = brythonic_druidism ir = druidism irRegion = britain_region irRegion = scandinavia_region }
 link = { ck3 = irish_druidism ir = druidism ck3Province = 9 ck3Province = 10 ck3Province = 11 ck3Province = 12 ck3Province = 13 ck3Province = 14 ck3Province = 15 ck3Province = 16 ck3Province = 17 ck3Province = 18 ck3Province = 19 ck3Province = 20 ck3Province = 21 ck3Province = 22 ck3Province = 23 ck3Province = 24 ck3Province = 25 ck3Province = 26 ck3Province = 27 ck3Province = 28 ck3Province = 29 ck3Province = 30 ck3Province = 31 ck3Province = 32 ck3Province = 33 ck3Province = 34 ck3Province = 36 ck3Province = 37 ck3Province = 38 ck3Province = 39 ck3Province = 40 ck3Province = 41  ck3Province = 42 ck3Province = 43 ck3Province = 44 ck3Province = 45 ck3Province = 46 ck3Province = 47 ck3Province = 48 ck3Province = 49 ck3Province = 50 ck3Province = 51 ck3Province = 52 ck3Province = 53 ck3Province = 54 }
-link = { ck3 = pictish_druidism ir = druidism impRegion = caledonia_region }
+link = { ck3 = pictish_druidism ir = druidism irRegion = caledonia_region }
 link = { ck3 = druidism ir = druidism } # Fallback
 # Celtic - Vanilla CK3
-link = { ck3 = briton_paganism ir = druidism impRegion = britain_region impRegion = scandinavia_region }
-link = { ck3 = gaelic_paganism ir = druidism impRegion = caledonia_region }
-link = { ck3 = gallic_celtic ir = druidism impRegion = aquitaine_region impRegion = transalpine_gaul_region impRegion = armorica_region impRegion = central_gaul_region impRegion = rhaetia_region impRegion = cisalpine_gaul_region impRegion = central_italy_region impRegion = magna_graecia_region impRegion = belgica_region impRegion = germania_superior_region }
+link = { ck3 = briton_paganism ir = druidism irRegion = britain_region irRegion = scandinavia_region }
+link = { ck3 = gaelic_paganism ir = druidism irRegion = caledonia_region }
+link = { ck3 = gallic_celtic ir = druidism irRegion = aquitaine_region irRegion = transalpine_gaul_region irRegion = armorica_region irRegion = central_gaul_region impRegion = rhaetia_region impRegion = cisalpine_gaul_region impRegion = central_italy_region impRegion = magna_graecia_region impRegion = belgica_region impRegion = germania_superior_region }
 link = { ck3 = celtiberian_paganism ir = druidism impRegion = tarraconensis_region impRegion = gallaecia_region impRegion = lusitania_region impRegion = contestania_region impRegion = baetica_region }
 link = { ck3 = celtic_pagan ir = druidism } # Fallback
 

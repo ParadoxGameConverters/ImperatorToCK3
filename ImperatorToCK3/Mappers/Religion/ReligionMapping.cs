@@ -19,7 +19,6 @@ public class ReligionMapping {
 	private readonly SortedSet<string> irHistoricalTags = new();
 
 	private bool? heresiesInHistoricalAreas;
-	private bool warnWhenMissing = true; // whether to log a warning when the CK3 faith is not found
 
 	private static readonly Parser parser = new();
 	private static ReligionMapping mappingToReturn = new();
@@ -28,12 +27,11 @@ public class ReligionMapping {
 		parser.RegisterKeyword("ir", reader => mappingToReturn.irReligionIds.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Culture", reader => mappingToReturn.ck3CultureIds.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
-		parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
+		parser.RegisterKeyword("irRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
 		parser.RegisterKeyword("irProvince", reader => mappingToReturn.irProvinceIds.Add(reader.GetULong()));
 		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("heresiesInHistoricalAreas", reader => mappingToReturn.heresiesInHistoricalAreas = reader.GetBool());
-		parser.RegisterKeyword("warnWhenMissing", reader => mappingToReturn.warnWhenMissing = reader.GetBool());
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
 			var variableValue = reader.ResolveVariable(variableName).ToString() ?? string.Empty;
 			var variableReader = new BufferedReader(variableValue);
