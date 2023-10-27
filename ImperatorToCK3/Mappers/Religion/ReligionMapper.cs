@@ -2,7 +2,6 @@
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Mappers.Region;
-using System;
 using System.Collections.Generic;
 using System.IO;
 
