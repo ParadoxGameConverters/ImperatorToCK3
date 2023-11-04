@@ -7,11 +7,12 @@
 #	ck3Province = CK3 province ID (optional)
 #	irRegion = Imperator region or area ID (optional)
 #	ck3Region = CK3 region ID (optional)
+#	date_gte = minimum AD date (year.month.day format) for the bookmark to make the mapping valid (optional)
 #	historicalTag = Imperator historical tag (optional)
 #	heresiesInHistoricalAreas = yes/no (optional)
 # }
 # multiple entries allowed for: ir, ck3Culture, irProvince, ck3Province, irRegion, ck3Region, historicalTag
-# multiple entries not allowed for: ck3
+# multiple entries not allowed for: ck3, date_gte
 
 # Variables:
 # Use them to avoid duplicating long conditions.
