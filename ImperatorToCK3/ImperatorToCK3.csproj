@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	<Nullable>enable</Nullable>
 	<RuntimeIdentifiers>win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
 	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
-	<LangVersion>11</LangVersion>
+	<LangVersion>12</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

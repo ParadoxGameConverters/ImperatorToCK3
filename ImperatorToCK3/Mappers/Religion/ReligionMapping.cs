@@ -16,6 +16,8 @@ public class ReligionMapping {
 	private readonly SortedSet<string> imperatorRegions = new();
 	private readonly SortedSet<string> ck3Regions = new();
 
+	private Date? dateGreaterOrEqual = null;
+
 	private readonly SortedSet<string> irHistoricalTags = new();
 
 	private bool? heresiesInHistoricalAreas;
@@ -30,6 +32,7 @@ public class ReligionMapping {
 		parser.RegisterKeyword("irRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
 		parser.RegisterKeyword("irProvince", reader => mappingToReturn.irProvinceIds.Add(reader.GetULong()));
+		parser.RegisterKeyword("date_gte", reader => mappingToReturn.dateGreaterOrEqual = new Date(reader.GetString()));
 		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("heresiesInHistoricalAreas", reader => mappingToReturn.heresiesInHistoricalAreas = reader.GetBool());
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
@@ -61,6 +64,10 @@ public class ReligionMapping {
 		}
 
 		if (!irReligionIds.Contains(irReligion)) {
+			return null;
+		}
+		
+		if (dateGreaterOrEqual is not null && config.CK3BookmarkDate < dateGreaterOrEqual) {
 			return null;
 		}
 
