@@ -64,13 +64,13 @@
 ## N:
 @culture_splitting_region_N = "irRegion = syria_region irRegion = assyria_region irRegion = palestine_region"
 ## O:
-@culture_splitting_region_O = "impRegion = numidia_region impRegion = mauretainia_region impRegion = africa_region impRegion = cyrenaica_region impRegion = upper_egypt_region impRegion = lower_egypt_region"
+@culture_splitting_region_O = "irRegion = numidia_region irRegion = mauretainia_region irRegion = africa_region irRegion = cyrenaica_region irRegion = upper_egypt_region irRegion = lower_egypt_region"
 ## P (!overlaps with S, must be put after it):
-@culture_splitting_region_P = "impRegion = central_italy_region"
+@culture_splitting_region_P = "irRegion = central_italy_region"
 ## Q:
-@culture_splitting_region_Q = "impRegion = magna_graecia_region"
+@culture_splitting_region_Q = "irRegion = magna_graecia_region"
 ## R:
-@culture_splitting_region_R = "impRegion = greece_region impRegion = asia_region"
+@culture_splitting_region_R = "irRegion = greece_region irRegion = asia_region"
 ## S:
 @culture_splitting_region_S = "ck3Province = 2650 ck3Province = 2649 ck3Province = 2647 ck3Province = 2648 ck3Province = 2652 ck3Province = 2651 ck3Province = 2653 ck3Province = 2654 ck3Province = 2660 ck3Province = 2659 ck3Province = 2661 ck3Province = 2658 ck3Province = 2657 ck3Province = 2662 ck3Province = 2665 ck3Province = 2664 ck3Province = 2663 ck3Province = 2656 ck3Province = 2655"
 ## T:
@@ -82,9 +82,9 @@
 ## W:
 @culture_splitting_region_W = "ck3Province = 1787 ck3Province = 1788 ck3Province = 1789 ck3Province = 1790 ck3Province = 1785 ck3Province = 1786 ck3Province = 1791 ck3Province = 1783 ck3Province = 1784 ck3Province = 1781 ck3Province = 1782 ck3Province = 1821 ck3Province = 1792 ck3Province = 1799 ck3Province = 1819 ck3Province = 1820 ck3Province = 1818 ck3Province = 1800"
 ## X:
-@culture_splitting_region_X = "impRegion = contestania_region impRegion = baetica_region"
+@culture_splitting_region_X = "irRegion = contestania_region irRegion = baetica_region"
 ## Y:
-@culture_splitting_region_Y = "impRegion = lusitania_region"
+@culture_splitting_region_Y = "irRegion = lusitania_region"
 
 ## Aksumite
 link = { ck3 = afar ir = puntic ir = aksumite ck3Province = 8286 ck3Province = 8326 ck3Province = 8344 ck3Province = 8334 ck3Province = 8332 ck3Province = 8339 ck3Province = 8342 }
@@ -336,7 +336,7 @@ link = { ck3 = frankish @ir_frankish_cultures }
 # Irminonic mappings
 link = { ck3 = lombard @ir_irminonic_cultures @culture_splitting_region_I @culture_splitting_region_P } # TFE
 link = { ck3 = old_suebi @ir_suebian_cultures } # TFE
-link = { ck3 = alamannic @ir_irminonic_cultures impRegion = germania_superior_region } # TFE
+link = { ck3 = alamannic @ir_irminonic_cultures irRegion = germania_superior_region } # TFE
 link = { ck3 = old_suebi @ir_irminonic_cultures } # TFE fallback for Irminonic cultures
 link = { ck3 = suebi @ir_suebian_cultures }
 link = { ck3 = langobard @ir_irminonic_cultures historicalTag=LGB }
@@ -371,7 +371,7 @@ link = { ck3 = iberian ir = turdulian ir = couneian ir = turdetanian ir = auseta
 # liburnian is deprecated, liburnian_culture is used
 # iapodian is from Invictus mod
 @illyrian_cultures = "ir=taulantian ir=dardanian ir=messapian ir=deurian ir=deraemestian ir=catari ir=liburnian ir=liburnian_culture ir=histrian ir=abrian ir=greco_illyrian ir=iapodian"
-link = { ck3 = albanian @illyrian_cultures impRegion = macedonia_region impRegion = greece_region impRegion = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 }
+link = { ck3 = albanian @illyrian_cultures irRegion = macedonia_region irRegion = greece_region irRegion = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 }
 link = { ck3 = dalmatian @illyrian_cultures }
 
 ## Indian
@@ -453,7 +453,7 @@ link = { ck3 = old_egyptian ir = egyptian ir = upper_egyptian ir = middle_egypti
 
 ## Numidian
 # TFE
-link = { ck3 = maurian ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian impRegion = mauretainia_region }
+link = { ck3 = maurian ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian irRegion = mauretainia_region }
 link = { ck3 = tuareg ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian ck3Province = 6590 ck3Province = 6591 ck3Province = 6465 ck3Province = 6466 ck3Province = 6467 ck3Province = 6468 ck3Province = 4612 }
 # Vanilla CK3
 link = { ck3 = zaghawa ir = berber ir = gaetulian ir = socossian ir = libyan ir = garamantic ck3Province = 6463 ck3Province = 6562 ck3Province = 6561 ck3Province = 6457 ck3Province = 6456 ck3Province = 6452 ck3Province = 6496 ck3Province = 6494 ck3Province = 6497 ck3Province = 6848 ck3Province = 6849 ck3Province = 6850 ck3Province = 6851 ck3Province = 6852 ck3Province = 6853 ck3Province = 6854 ck3Province = 6855 ck3Province = 6860 ck3Province = 6861 ck3Province = 6862 ck3Province = 6863 ck3Province = 6864 ck3Province = 6859 }
@@ -492,11 +492,11 @@ link = { ck3 = basque ir = cantabrian ir = ilergetian ir = autrigonian ir = vasc
 link = { ck3 = nuragic ir = nuragic ir = corsian }
 
 ## Scythian - As a weird replacement for Turks
-link = { ck3 = avar ir = scythian ir = derbiccan ir = sakan ir = agathyrsian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = sindi ir = siraci impRegion = pannonia_region impRegion = dacia_region }
+link = { ck3 = avar ir = scythian ir = derbiccan ir = sakan ir = agathyrsian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = sindi ir = siraci irRegion = pannonia_region irRegion = dacia_region }
 
 ## Scythian
 # TFE
-link = { ck3 = ciscaucasian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = roxolanian ir = sindi ir = siraci impRegion = albania_region }
+link = { ck3 = ciscaucasian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = roxolanian ir = sindi ir = siraci irRegion = albania_region }
 link = { ck3 = hephthalite ir = huna }
 # Vanilla CK3
 link = {
@@ -566,7 +566,7 @@ link = { ck3 = phoenician ir = phoenician }
 link = { ck3 = shuadit ir = hebrew @culture_splitting_region_F }
 link = { ck3 = zarphatic ir = hebrew @culture_splitting_region_E }
 link = { ck3 = ashkenazi ir = hebrew @culture_splitting_region_D @culture_splitting_region_G @culture_splitting_region_H }
-link = { ck3 = sephardi ir = hebrew impRegion = baetica_region impRegion = contestania_region impRegion = tarraconensis_region @culture_splitting_region_Y impRegion = gallaecia_region }
+link = { ck3 = sephardi ir = hebrew irRegion = baetica_region irRegion = contestania_region irRegion = tarraconensis_region @culture_splitting_region_Y irRegion = gallaecia_region }
 link = { ck3 = khazar ir = hebrew @culture_splitting_region_L }
 link = { ck3 = hebrew ir = hebrew }
 link = { ck3 = nabatean ir = nabatean }
