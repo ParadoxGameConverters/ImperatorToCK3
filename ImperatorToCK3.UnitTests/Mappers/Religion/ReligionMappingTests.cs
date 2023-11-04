@@ -193,9 +193,6 @@ public class ReligionMappingTests {
 		config = new Configuration { CK3BookmarkDate = new Date(1000, 0, 0) };
 		Assert.Null(orthodoxMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
 		Assert.Equal("chalcedonian", chalcedonianMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
-		
-		
-		
 	}
 	
 	[Theory]
