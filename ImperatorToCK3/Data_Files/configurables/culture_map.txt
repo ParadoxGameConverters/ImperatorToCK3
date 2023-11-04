@@ -315,7 +315,7 @@ link = { ck3 = burgundian @ir_vandilian_cultures historicalTag=BUR } # TFE
 link = { ck3 = scirian @ir_vandilian_cultures historicalTag=SCI } # TFE 
 link = { ck3 = varinian @ir_vandilian_cultures @ir_irminonic_cultures historicalTag=VRI } # TFE - Central Germanic in Imperator yet East Germanic in CK3, so use both
 link = { ck3 = rugian @ir_vandilian_cultures historicalTag=RGG } # TFE
-link = { ck3 = herulian @ir_vandilian_cultures historicalTag=X28 } # TFE
+link = { ck3 = herulian @ir_vandilian_cultures historicalTag=HRE } # TFE
 link = { ck3 = herulian ir = herulian } # TFE
 link = { ck3 = bastarnian ir = bastarnae } # TFE
 link = { ck3 = rugian ir = rugian } # TFE
