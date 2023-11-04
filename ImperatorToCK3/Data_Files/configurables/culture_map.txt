@@ -464,7 +464,7 @@ link = { ck3 = siculian ir = siculian }
 
 # Tyrrenic
 link = { ck3 = rhaetian ir = etruscan ir = rhaetian @culture_splitting_region_G @culture_splitting_region_H @culture_splitting_region_D irRegion = rhaetia_region }
-link = { ck3 = etruscan ir = etruscan ir = rhaetian @culture_splitting_region_I @culture_splitting_region_P @culture_splitting_region_Q } # Rhaetia Region is actually North Italy
+link = { ck3 = etruscan ir = etruscan ir = rhaetian @culture_splitting_region_P @culture_splitting_region_Q } # Rhaetia Region is actually North Italy
 link = { ck3 = lemnian ir = etruscan ir = rhaetian @culture_splitting_region_J @culture_splitting_region_K @culture_splitting_region_R }
 link = { ck3 = etruscan ir = etruscan }
 link = { ck3 = rhaetian ir = rhaetian }
