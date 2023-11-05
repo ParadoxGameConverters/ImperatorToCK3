@@ -3936,6 +3936,12 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 				KnowledgeGodName = makkhalist_knowledge_god_name
 				KnowledgeGodNamePossessive = makhallist_knowledge_god_name_possessive
 			}
+			
+			holy_site = irtock3_ajivika_sravasti
+			holy_site = irtock3_ajivika_candhoba
+			holy_site = irtock3_ajivika_minagana
+			holy_site = irtock3_ajivika_chintamani
+			holy_site = irtock3_ajivika_campa
 		}
 
 		nandanist = {  # Nandanism (North West India / Indo-Aryan Group)
@@ -3976,6 +3982,12 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 				KnowledgeGodName = nandanist_knowledge_god_name
 				KnowledgeGodNamePossessive = nandanist_knowledge_god_name_possessive
 			}
+			
+			holy_site = irtock3_ajivika_sravasti
+			holy_site = irtock3_ajivika_candhoba
+			holy_site = irtock3_ajivika_minagana
+			holy_site = irtock3_ajivika_chintamani
+			holy_site = irtock3_ajivika_campa
 		}
 
 		puranist = {  # Puranism (South India / Dravidian Group)
@@ -4016,6 +4028,12 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 				KnowledgeGodName = puranist_knowledge_god_name
 				KnowledgeGodNamePossessive = puranist_knowledge_god_name_possessive
 			}
+			
+			holy_site = irtock3_ajivika_sravasti
+			holy_site = irtock3_ajivika_candhoba
+			holy_site = irtock3_ajivika_minagana
+			holy_site = irtock3_ajivika_chintamani
+			holy_site = irtock3_ajivika_campa
 		}
 	}
 }

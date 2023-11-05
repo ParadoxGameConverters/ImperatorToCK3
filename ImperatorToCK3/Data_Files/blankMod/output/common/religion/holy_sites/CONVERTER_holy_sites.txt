@@ -817,3 +817,46 @@ ayn_farrah = {
 		raid_speed = 0.2
 	}
 }
+
+# Ajivika
+irtock3_ajivika_sravasti = {
+    county = c_sravasti
+    barony = b_sravasti
+    
+    character_modifier = {
+        development_growth_factor = 0.1
+        stewardship = 1
+    }
+}
+irtock3_ajivika_candhoba = {
+    county = c_gwalior
+    barony = b_narwar
+    
+    character_modifier = {
+     	domain_tax_mult = 0.02
+    }
+}
+irtock3_ajivika_minagana = {
+    county = c_mulaka
+    barony = b_bhainsa
+    
+    character_modifier = {
+     	knight_effectiveness_mult = 0.2
+    }
+}
+irtock3_ajivika_chintamani = {
+    county = c_candragiri
+    barony = b_nangali
+    
+    character_modifier = {
+ 		knight_effectiveness_mult = 0.2
+    }
+}
+irtock3_ajivika_campa = {
+    county = c_mudgagiri
+    barony = b_campa
+    
+    character_modifier = {
+        same_culture_opinion = 5
+    }
+}
