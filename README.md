@@ -13,25 +13,27 @@ To help with development, please visit the official [development thread](https:/
 [![Coverage Status](https://coveralls.io/repos/github/ParadoxGameConverters/ImperatorToCK3/badge.svg?branch=master)](https://coveralls.io/github/ParadoxGameConverters/ImperatorToCK3?branch=master)
 
 ## Credits
-Iohannes - Data files, ideas
-comagoosie - librakaly save melter
-Idhrendur - Setting up the project, sanity checks and review
-IhateTrains - Lead, programming, data files, testing
-lukaslunt - Data files
-Zemurin - provinceMapper, review, advice
-Plati - Faith icons
-Radu - Ideas, province mappings
-Vielus - Mapping tweaks
-derekmark - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
-nah34 - Suggestions for cultural traditions and martial customs
-Gawquon - Static de jure option
-The Fallen Eagle mod team - Permission to integrate the Rise of Islam mechanic from their mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
-TinWiz - Testing, integration of the Rise of Islam mechanic
-Wrench - Help with integration of the Rise of Islam mechanic
-AsiaExtended mod team - Permission to use Shan name list and Palaungic culture from their mod (https://steamcommunity.com/workshop/filedetails/?id=2706635752)
-Luka_Moscovite - Russian translations
-More Bookmarks+ mod team - Permission to use Natkokwe faith from their mod (https://steamcommunity.com/workshop/filedetails/?id=2216670956)
-When the World Stopped Making Sense mod team - Permission to use Eiateuta faith from their mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2858562094)
-Izn - Research and localization for Ajivika religion
-B7E7, author of Africa Plus mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2552371897) - Permission to use Nhialacism faith from their mod
-Herkles, author of Dharmachakra mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327) - Khasi culture
+- Iohannes - Data files, ideas
+- comagoosie - librakaly save melter
+- Idhrendur - Setting up the project, sanity checks and review
+- IhateTrains - Lead, programming, data files, testing
+- lukaslunt - Data files
+- Zemurin - provinceMapper, review, advice
+- Plati - Faith icons
+- Radu - Ideas, province mappings
+- Vielus - Mapping tweaks
+- derekmark - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
+- nah34 - Suggestions for cultural traditions and martial customs
+- Gawquon - Static de jure option
+- The Fallen Eagle mod team - Permission to integrate the Rise of Islam mechanic from their mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
+- TinWiz - Testing, integration of the Rise of Islam mechanic
+- Wrench - Help with integration of the Rise of Islam mechanic
+- AsiaExtended mod team - Permission to use Shan name list and Palaungic culture from their mod (https://steamcommunity.com/workshop/filedetails/?id=2706635752)
+- Luka_Moscovite - Russian translations
+- More Bookmarks+ mod team - Permission to use Natkokwe faith from their mod (https://steamcommunity.com/workshop/filedetails/?id=2216670956)
+- When the World Stopped Making Sense mod team - Permission to use Eiateuta faith from their mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2858562094)
+- Izn - Research and localization for Ajivika religion
+- B7E7, author of Africa Plus mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2552371897) - Permission to use Nhialacism faith from their mod
+- Herkles, author of Dharmachakra mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327) - Khasi culture
+- Shinymewtwo99, author of ImperatorToCK2 converter - Permission to use Nuragic religion icon
+- ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD
