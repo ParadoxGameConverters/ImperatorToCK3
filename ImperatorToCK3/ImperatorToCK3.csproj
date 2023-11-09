@@ -32,7 +32,7 @@
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Fmod5Sharp" Version="3.0.1" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.4.0" />
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.103">
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.105">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
