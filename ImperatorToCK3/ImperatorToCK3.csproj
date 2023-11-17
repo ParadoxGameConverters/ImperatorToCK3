@@ -32,13 +32,13 @@
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Fmod5Sharp" Version="3.0.1" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.4.0" />
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.103">
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.110">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
-    <PackageReference Include="PGCG.commonItems" Version="9.0.1" />
+    <PackageReference Include="PGCG.commonItems" Version="9.1.0" />
     <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.5" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
   </ItemGroup>

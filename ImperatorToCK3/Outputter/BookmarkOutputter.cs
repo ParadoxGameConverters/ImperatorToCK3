@@ -36,6 +36,7 @@ public static class BookmarkOutputter {
 		output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
 		output.WriteLine("\tis_playable = yes");
 		output.WriteLine("\trecommended = yes");
+		output.WriteLine("\tweight = { value = 100 }");
 
 		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 		var localizations = new Dictionary<string, LocBlock>();
