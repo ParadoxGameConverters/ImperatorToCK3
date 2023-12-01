@@ -338,14 +338,22 @@ public sealed class DNAFactory {
 			return null;
 		}
 		var ck3GeneTemplate = ck3Gene.GeneTemplates
-			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntry));
+			.FirstOrDefault(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntry));
+		if (ck3GeneTemplate is null) {
+			Logger.Warn($"No template found for {convertedSetEntry} in CK3 gene {ck3Gene.Id}!");
+			return null;
+		}
 		if (!objectMappings.TryGetValue(geneInfo.ObjectNameRecessive, out var convertedSetEntryRecessive)) {
 			Logger.Warn($"No object mappings found for {geneInfo.ObjectNameRecessive} in gene {irGeneName}!");
 			return null;
 		}
 		var ck3GeneTemplateRecessive = ck3Gene.GeneTemplates
-			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntryRecessive));
-
+			.FirstOrDefault(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntryRecessive));
+		if (ck3GeneTemplateRecessive is null) {
+			Logger.Warn($"No template found for {convertedSetEntryRecessive} in CK3 gene {ck3Gene.Id}!");
+			return null;
+		}
+		
 		var matchingPercentage = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex]
 			.GetMatchingPercentage(convertedSetEntry);
 		var matchingPercentageRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]
