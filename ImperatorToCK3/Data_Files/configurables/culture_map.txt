@@ -149,6 +149,7 @@ link = { ck3 = hindustani ir = kosala ir = kuru }
 link = { ck3=sinhala ir=dhivehi }
 
 ## Bactrian
+link = { ck3 = pecheneg ir = pecheneg } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = bactrian ir = bactrian ir = yuezhi }
 link = { ck3 = pecheneg ir = wusun }
 link = { ck3 = sogdian ir = sogdian }
@@ -161,10 +162,14 @@ link = {
 }
 link = { ck3 = tocharian ir = tocharian ir = phryni }
 link = { ck3 = indogreek ir = tayuan } #https://en.wikipedia.org/wiki/Dayuan
+link = { ck3 = tajik ir = tajik } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = tajik ir = margian }
 # Invictus mod
 link = { ck3=indogreek ir=greco_indian }
 
+## Turkic
+link = { ck3 = oghuz ir = oghuz } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = karluk ir = karluk } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 ## Baltic & Balto-Finnic
 @ir_baltic_cultures = "ir=aestian ir=baltics_tribs" # baltics_tribs comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -193,13 +198,26 @@ link = { ck3 = prussian @ir_baltic_cultures }
 
 ## Slavic
 link = { ck3=polabian ir=polabian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3=russian ir=russia } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3=czech ir=czech } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3=polish ir=polish } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3=slovien ir=slovien } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3=bulgarian ir=bulgarian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
 link = { ck3=dnieper ir=androphagian }
 link = { ck3=east_galindian ir=melanchlaenian }
 link = { ck3=kolochin ir=chernolian ir=budinian }
-link = { ck3=slavic ir=sporic ir=neuric }
+link = {
+    ck3=slavic
+    ir=sporic ir=neuric
+    ir=illyrian # note on illyrian: NOT an error! illyrian comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649 and is actually South Slavic
+}
 # Vanilla CK3
-link = { ck3=urslavic ir=sporic ir=chernolian ir=melanchlaenian ir=androphagian ir=budinian ir=neuric }
+link = {
+    ck3=urslavic
+    ir=sporic ir=chernolian ir=melanchlaenian ir=androphagian ir=budinian ir=neuric
+    ir=illyrian # note on illyrian: NOT an error! illyrian comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649 and is actually South Slavic
+}
 
 
 ## Belgea (sic)
@@ -237,6 +255,7 @@ link = { ck3 = asturian ir = asturian }
 link = { ck3 = castran ir = callaecian }
 link = { ck3 = cantabrian ir = vaccaeian ir = lobetanian ir = celtiberian ir = celtician ir = carpetanian ir = oppidanian ir = cantabrian }
 # Vanilla CK3
+link = { ck3 = basque ir = basque } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = basque ir = caristian ir = vardulian }
 link = { ck3 = celtiberian ir = asturian ir = vaccaeian ir = sedetanian ir = lobetanian ir = celtiberian ir = celtician ir = carpetanian ir = oppidanian }
 link = { ck3 = lusoiberian ir = callaecian ir = lusitanian ir = vettonian }
@@ -292,7 +311,7 @@ link = { ck3 = breton @ir_breton_cultures }
 @ir_frisian_cultures = "ir = frisian"
 @ir_angle_cultures = "ir = anglian"
 @ir_old_saxon_cultures = "ir = saxonian"
-@ir_ingvaeonic_cultures = "ir = ingvaeonic ir = reudingian ir = cimbrian ir = teutonian ir = scots @ir_frisian_cultures @ir_angle_cultures @ir_old_saxon_cultures"
+@ir_ingvaeonic_cultures = "ir=ingvaeonic ir=reudingian ir=cimbrian ir=teutonian ir=scots ir=english ir=anglo-saxon @ir_frisian_cultures @ir_angle_cultures @ir_old_saxon_cultures"
 # Wesser-Rhine Germanic (Istvaeonic)
 @ir_frankish_cultures = "ir = istvaeonic"
 @ir_istvaeonic_cultures = "ir=dutch @ir_frankish_cultures" # dutch comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -302,9 +321,7 @@ link = { ck3 = breton @ir_breton_cultures }
 @ir_all_west_germanic_cultures = "ir=franconian @ir_ingvaeonic_cultures @ir_istvaeonic_cultures @ir_irminonic_cultures" # franconian comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 ## North Germanic (Norse)
-link = { ck3 = norwegian ir = norwegian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-link = { ck3 = swedish ir = swedish } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-@ir_norse_cultures = "ir = raumarician ir = suiones ir = scandian"
+@ir_norse_cultures = "ir=raumarician ir=suiones ir=scandian ir=norwegian ir=swedish ir=danish"
 
 @ir_all_germanic_cultures = "ir=saxon @ir_vandilian_cultures @ir_all_west_germanic_cultures @ir_norse_cultures" # saxon comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
@@ -351,6 +368,7 @@ link = { ck3 = franconian ir = franconian }
 
 # Ingvaeonic mappings
 link = { ck3 = scottish ir = scots } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = english ir = english } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = angle @ir_ingvaeonic_cultures historicalTag=ANG }
 link = { ck3 = frisa @ir_ingvaeonic_cultures historicalTag=SXS } # TFE
 link = { ck3 = frisian @ir_ingvaeonic_cultures historicalTag=SXS }
@@ -377,10 +395,15 @@ link = { ck3 = bavarian @ir_irminonic_cultures ck3Province = 2964 ck3Province = 
 link = { ck3 = suebi @ir_irminonic_cultures } # fallback for Irminonic cultures
 
 # Norse mappings
+link = { ck3 = norwegian ir = norwegian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = swedish ir = swedish } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = danish ir = danish } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = norse @ir_norse_cultures }
 
 # Saxon
 link = { ck3 = saxon ir = saxon }
+# Anglo-Saxon
+link = { ck3 = anglo_saxon ir = anglo-saxon }
 
 # "German" is a fallback
 link = { ck3 = german @ir_all_germanic_cultures }
@@ -424,6 +447,9 @@ link = { ck3 = telugu ir = andhran ir = assaka }
 
 ## Latin
 link = { ck3 = aragonese ir = aragonese } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = castilian ir = castilian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = asturleonese ir = asturleonese } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = galician ir = galician } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = catalan ir = catalan } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = french ir = french } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = occitan ir = occitan } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -432,6 +458,7 @@ link = { ck3 = lombard ir = lombard } # https://steamcommunity.com/sharedfiles/f
 link = { ck3 = italian ir = italian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = cisalpine ir = cisalpine } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = sardinian ir = sardinian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = vlach ir = vlach } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 @ir_latin_cultures = "ir = roman ir = osco_umbrian ir = umbrian ir = samnite ir = ligurian ir = lucanian ir = bruttian ir = sardonian ir = siculian"
 # The Glory of Rome
@@ -519,7 +546,7 @@ link = { ck3=baranis ir=lixitoi ir=autolalean ir=cetianian ir=nectiberean }
 link = { ck3=butr ir=gyzantian ir=psyllic ir=nasamonian ir=perorsian ir=phazani ir=canarian ir=daphnitaean ir=macaean }
 link = { ck3=numidian ir=capariensian ir=lotophagoi ir=abannaean }
 
-## Persia
+## Persian and Iranian
 link = { ck3 = persian ir = persian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = daylamite ir = daylamite } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = baloch ir = baloch } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -530,6 +557,7 @@ link = { ck3 = parthian ir = parthian }
 link = { ck3 = kurdish ir = median }
 link = { ck3 = afghan ir = pactyan ir = sattagydian }
 link = { ck3 = elamite ir = elamite }
+link = { ck3 = afghan ir = afghan } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 ## Pracyan
 link = { ck3 = oriya ir = kalingan }
@@ -653,6 +681,12 @@ link = {
     ck3 = khasi
     ir = jaintia # Pnar, https://en.wikipedia.org/wiki/Pnar_people
 }
+
+# Volga-Finnic
+link = { ck3 = mordvin ir = mordvin } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+
+# Magyar
+link = { ck3=hungarian ir=hungarian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Meme revivalist Neo-Mitanni culture from Invictus
 link = {
