@@ -228,7 +228,7 @@ link = { ck3 = belgae ir = ubian }
 ## Britannic
 @ir_south_east_briton_cultures = "ir=britannic ir=brigantic ir=cornovian ir=coritani ir=iceni ir=trinovantian ir=cantian ir=durotrigan ir=dobunnian ir=parisian ir=monapian"
 @ir_welsh_cultures = "ir=demetian ir=ordovitian ir=welsh" # welsh comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-@ir_cumbrian_cultures = "ir=damnonian ir=cumbrian" # cumbrian comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+@ir_cumbrian_cultures = "ir=damnonian ir=cumbran" # cumbran comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 @ir_cornish_cultures = "ir=dumnonian ir=cornish" # cornish comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
 link = { ck3 = briton @ir_cumbrian_cultures @ir_welsh_cultures @ir_south_east_briton_cultures @ir_cornish_cultures }
@@ -459,6 +459,7 @@ link = { ck3 = italian ir = italian } # https://steamcommunity.com/sharedfiles/f
 link = { ck3 = cisalpine ir = cisalpine } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = sardinian ir = sardinian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = vlach ir = vlach } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = norman ir = norman } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 @ir_latin_cultures = "ir = roman ir = osco_umbrian ir = umbrian ir = samnite ir = ligurian ir = lucanian ir = bruttian ir = sardonian ir = siculian"
 # The Glory of Rome
