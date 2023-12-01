@@ -32,6 +32,10 @@ specific conversion results.
 
 ### Quick Troubleshooting:
 
+Q: I can't run ConverterFrontend on MacOS.
+A: You might need to remove the quarantine from the converter by executing this command in the terminal:
+    xattr -d com.apple.quarantine -r <directory containing the ConverterFrontend binary>
+
 Q: When starting conversion, conversion immediately fails, not producing anything.
 A: It's probably caused by your antivirus. Add the converter files to your antivirus' exclusion list. If you don't know how to, completely disable the antivirus. If this doesn't help, upload your save and log.txt to this thread, specifying your active antivirus.
 
