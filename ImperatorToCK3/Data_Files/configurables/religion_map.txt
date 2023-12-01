@@ -190,7 +190,7 @@ link = { ck3 = makkhalist ir = ajivika }
 # Christianity
 link = { ck3 = orthodox ir = orthodox } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = catholic ir = catholic } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-link = { ck3 = apostolic ir = apostolic } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = armenian_apostolic ir = apostolic } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 @catholic_regions = "irRegion = atlas_region irRegion = central_italy_region irRegion = lusitania_region irRegion = germania_region irRegion = transalpine_gaul_region irRegion = gallaecia_region irRegion = pannonia_region irRegion = bohemia_area irRegion = bohemia_region irRegion = illyria_region irRegion = magna_graecia_region irRegion = belgica_region irRegion = vistulia_region irRegion = venedia_region irRegion = central_gaul_region irRegion = germania_superior_region irRegion = contestania_region irRegion = armorica_region irRegion = mauretainia_region irRegion = aquitaine_region irRegion = tarraconensis_region irRegion = cisalpine_gaul_region irRegion = africa_region irRegion = numidia_region irRegion = rhaetia_region irRegion = baetica_region irRegion = scandinavia_region"
 @after_chalcedon = "date_gte = 451.8.25"
 ## only with heresiesInHistoricalAreas enabled

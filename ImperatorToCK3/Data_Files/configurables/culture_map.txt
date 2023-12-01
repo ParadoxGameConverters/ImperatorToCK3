@@ -168,7 +168,7 @@ link = { ck3 = tajik ir = margian }
 link = { ck3=indogreek ir=greco_indian }
 
 ## Turkic
-link = { ck3 = oghuz ir = oghuz } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = turkish ir = oghuz } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = karluk ir = karluk } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 ## Baltic & Balto-Finnic
