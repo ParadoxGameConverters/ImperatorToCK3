@@ -127,7 +127,9 @@ public class Configuration {
 			CK3BookmarkDate = new Date(dateStr);
 			var earliestAllowedDate = new Date(2,1,1);
 			if (CK3BookmarkDate < earliestAllowedDate) {
-				throw new ConverterException($"CK3 bookmark date must be {earliestAllowedDate} AD or later. Fix your configuration.");
+				Logger.Warn($"CK3 bookmark date cannot be earlier than {earliestAllowedDate} AD (Y.M.D format), you should fix your configuration. Setting to earliest allowed date...");
+				CK3BookmarkDate = earliestAllowedDate;
+				Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
 			}
 			Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
 		});
