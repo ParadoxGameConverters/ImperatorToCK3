@@ -202,7 +202,6 @@ public class Configuration {
 		if (OutputModName.Length == 0) {
 			OutputModName = CommonFunctions.TrimPath(SaveGamePath);
 		}
-		OutputModName = CommonFunctions.TrimExtension(OutputModName);
 		OutputModName = OutputModName.Replace('-', '_');
 		OutputModName = OutputModName.Replace(' ', '_');
 
