@@ -68,7 +68,7 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: Fronter.NET/global.json
     - name: "Replace frontend background image"
@@ -85,7 +85,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
     - name: "Build backend"
