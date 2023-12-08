@@ -35,7 +35,7 @@ public static class CharactersOutputter {
 		OutputCharactersDNA(outputModName, charactersWithDNA);
 	}
 
-	private static void OutputCharactersDNA(string outputModName, IReadOnlyCollection<Character> charactersWithDNA) {
+	private static void OutputCharactersDNA(string outputModName, IEnumerable<Character> charactersWithDNA) {
 		Logger.Info("Outputting DNA...");
 		// Dump all into one file.
 		var path = Path.Combine("output", outputModName, "common/dna_data/IRToCK3_dna_data.txt");
@@ -76,6 +76,7 @@ public static class CharactersOutputter {
 		Date conversionDate
 	) {
 		var charactersByGeneValue = charactersWithDNA
+			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
 				c.DNA!.AccessoryDNAValues[geneName].IntSliderValue
