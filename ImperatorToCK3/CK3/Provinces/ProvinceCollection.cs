@@ -30,7 +30,20 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 
 		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
-			Delimiter = ";", HasHeaderRecord = false, AllowComments = true
+			Delimiter = ";",
+			HasHeaderRecord = false,
+			AllowComments = true,
+			TrimOptions = TrimOptions.Trim,
+			IgnoreBlankLines = true,
+			ShouldSkipRecord = (args => {
+				string? cell = args.Row[0];
+				if (cell is null) {
+					return true;
+				}
+
+				cell = cell.Trim();
+				return cell.Length == 0 || cell[0] == '#';
+			}),
 		};
 		var provinceDefinition = new {
 			Id = default(ulong),
