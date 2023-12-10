@@ -199,8 +199,8 @@ public class Configuration {
 	}
 
 	private void SetOutputName() {
-		if (OutputModName.Length == 0) {
-			OutputModName = CommonFunctions.TrimPath(SaveGamePath);
+		if (string.IsNullOrWhiteSpace(OutputModName)) {
+			OutputModName = CommonFunctions.TrimExtension(CommonFunctions.TrimPath(SaveGamePath));
 		}
 		OutputModName = OutputModName.Replace('-', '_');
 		OutputModName = OutputModName.Replace(' ', '_');
