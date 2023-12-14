@@ -696,11 +696,7 @@ public partial class Title {
 				IEnumerable<ulong> countyProvinceIds = county.CountyProvinces;
 				int provsCount = 0;
 				foreach (var ck3ProvId in countyProvinceIds) {
-					if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
-						Logger.Warn($"CK3 province {ck3ProvId} not found!");
-						continue;
-					}
-					
+					var ck3Province = ck3Provinces[ck3ProvId];
 					++provsCount;
 					var sourceProvinces = ck3Province.ImperatorProvinces;
 					if (sourceProvinces.Count == 0) {
@@ -742,7 +738,11 @@ public partial class Title {
 				foreach (var county in counties) {
 					HashSet<ulong> imperatorProvs = [];
 					foreach (ulong ck3ProvId in county.CountyProvinces) {
-						var ck3Province = ck3Provinces[ck3ProvId];
+						if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
+							Logger.Warn($"CK3 province {ck3ProvId} not found!");
+							continue;
+						}
+
 						var sourceProvinces = ck3Province.ImperatorProvinces;
 						foreach (var irProvince in sourceProvinces) {
 							imperatorProvs.Add(irProvince.Id);
