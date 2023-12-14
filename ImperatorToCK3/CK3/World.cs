@@ -706,9 +706,8 @@ public class World {
 			if (candidateProvinces.Count != 0) {
 				pseudoRandomSeed = (int)candidateProvinces.First().Id;
 			} else {
-				// Convert country ID string to int.
-				int countryIdHash = county.Id.Aggregate(0, (current, c) => current + c);
-				pseudoRandomSeed = countryIdHash;
+				// Use county ID for seed if no province is available.
+				pseudoRandomSeed = county.Id.Aggregate(0, (current, c) => current + c);
 			}
 			
 			// Determine culture of the holder.
