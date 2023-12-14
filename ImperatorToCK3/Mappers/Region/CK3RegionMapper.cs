@@ -48,7 +48,7 @@ public sealed class CK3RegionMapper {
 		}
 
 		// And sometimes they don't mean what people think they mean at all.
-		return counties.TryGetValue(regionName, out var county) && county.CountyProvinces.Contains(provinceId);
+		return counties.TryGetValue(regionName, out var county) && county.CountyProvinceIds.Contains(provinceId);
 	}
 	public bool RegionNameIsValid(string regionName) {
 		if (regions.ContainsKey(regionName)) {
@@ -68,7 +68,7 @@ public sealed class CK3RegionMapper {
 	}
 	public string? GetParentCountyName(ulong provinceId) {
 		foreach (var (countyName, county) in counties) {
-			if (county.CountyProvinces.Contains(provinceId)) {
+			if (county.CountyProvinceIds.Contains(provinceId)) {
 				return countyName;
 			}
 		}

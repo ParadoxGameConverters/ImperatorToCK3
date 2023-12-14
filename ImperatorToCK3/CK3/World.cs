@@ -590,7 +590,7 @@ public class World {
 				foreach (var county in title.GetDeJureVassalsAndBelow(rankFilter: "c").Values) {
 					county.SetHolder(hermit, bookmarkDate);
 					county.SetDevelopmentLevel(0, bookmarkDate);
-					foreach (var provinceId in county.CountyProvinces) {
+					foreach (var provinceId in county.CountyProvinceIds) {
 						var province = Provinces[provinceId];
 						province.History.RemoveHistoryPastDate("1.1.1");
 						province.SetFaithId(faithId, date: null);
@@ -695,10 +695,21 @@ public class World {
 					candidateProvinces.Add(capitalProvince);
 				}
 			}
-			var allCountyProvinces = county.CountyProvinces
-				.Select(p => Provinces[p]);
+
+			var allCountyProvinces = county.CountyProvinceIds
+				.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
+				.Where(p => p is not null)
+				.Select(p => p!);
 			candidateProvinces.UnionWith(allCountyProvinces);
-			var pseudoRandomSeed = (int)candidateProvinces.First().Id;
+
+			int pseudoRandomSeed;
+			if (candidateProvinces.Count != 0) {
+				pseudoRandomSeed = (int)candidateProvinces.First().Id;
+			} else {
+				// Convert country ID string to int.
+				int countryIdHash = county.Id.Aggregate(0, (current, c) => current + c);
+				pseudoRandomSeed = countryIdHash;
+			}
 			
 			// Determine culture of the holder.
 			var culture = candidateProvinces

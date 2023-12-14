@@ -61,7 +61,7 @@ public sealed class CK3Region {
 		if (Duchies.Values.Any(duchy => duchy.DuchyContainsProvince(provinceId))) {
 			return true;
 		}
-		if (Counties.Values.Any(county => county.CountyProvinces.Contains(provinceId))) {
+		if (Counties.Values.Any(county => county.CountyProvinceIds.Contains(provinceId))) {
 			return true;
 		}
 		return Provinces.Contains(provinceId);
