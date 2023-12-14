@@ -696,7 +696,10 @@ public partial class Title {
 				IEnumerable<ulong> countyProvinceIds = county.CountyProvinces;
 				int provsCount = 0;
 				foreach (var ck3ProvId in countyProvinceIds) {
-					var ck3Province = ck3Provinces[ck3ProvId];
+					if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
+						Logger.Warn($"CK3 province {ck3ProvId} not found!");
+						continue;
+					}
 					++provsCount;
 					var sourceProvinces = ck3Province.ImperatorProvinces;
 					if (sourceProvinces.Count == 0) {
