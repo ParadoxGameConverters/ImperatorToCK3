@@ -137,9 +137,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			return null;
 		}
 
-		var capitalBaronyProvince = landedTitles[holySite.CountyId].CapitalBaronyProvince;
-		if (capitalBaronyProvince is not null) {
-			return landedTitles.GetBaronyForProvince((ulong)capitalBaronyProvince);
+		var capitalBaronyProvinceId = landedTitles[holySite.CountyId].CapitalBaronyProvinceId;
+		if (capitalBaronyProvinceId is not null) {
+			return landedTitles.GetBaronyForProvince((ulong)capitalBaronyProvinceId);
 		}
 
 		return null;

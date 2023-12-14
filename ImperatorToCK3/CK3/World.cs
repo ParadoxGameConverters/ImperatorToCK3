@@ -360,11 +360,11 @@ public class World {
 		var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
 
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
-			if (county.CapitalBaronyProvince is null) {
+			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
 				continue;
 			}
-			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince;
+			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId;
 			if (capitalBaronyProvinceId == 0) {
 				// title's capital province has an invalid ID (0 is not a valid province in CK3)
 				Logger.Warn($"County {county} has invalid capital barony province!");
@@ -689,9 +689,11 @@ public class World {
 			}
 
 			var candidateProvinces = new OrderedSet<Province>();
-			if (county.CapitalBaronyProvince is not null) {
+			if (county.CapitalBaronyProvinceId is not null) {
 				// Give priority to capital province.
-				candidateProvinces.Add(Provinces[county.CapitalBaronyProvince.Value]);
+				if (Provinces.TryGetValue(county.CapitalBaronyProvinceId.Value, out var capitalProvince)) {
+					candidateProvinces.Add(capitalProvince);
+				}
 			}
 			var allCountyProvinces = county.CountyProvinces
 				.Select(p => Provinces[p]);
