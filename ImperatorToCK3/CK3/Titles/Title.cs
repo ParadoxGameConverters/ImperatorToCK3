@@ -1012,7 +1012,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			ulong baronyProvinceId = (ulong)deJureVassal.Province;
 
 			if (deJureVassal.Id == CapitalBaronyId) {
-				CapitalBaronyProvince = baronyProvinceId;
+				CapitalBaronyProvinceId = baronyProvinceId;
 				break;
 			}
 		}
@@ -1063,7 +1063,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var heldProvinces = new HashSet<ulong>();
 		// add directly held counties
 		foreach (var county in heldCounties) {
-			heldProvinces.UnionWith(county.CountyProvinces);
+			heldProvinces.UnionWith(county.CountyProvinceIds);
 		}
 		// add vassals' counties
 		foreach (var vassal in GetDeFactoVassalsAndBelow(date).Values) {
@@ -1076,7 +1076,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				parentCollection.Where(t => t.GetHolderId(date) == vassalHolderId && t.Rank == TitleRank.county)
 			);
 			foreach (var vassalCounty in heldVassalCounties) {
-				heldProvinces.UnionWith(vassalCounty.CountyProvinces);
+				heldProvinces.UnionWith(vassalCounty.CountyProvinceIds);
 			}
 		}
 		return heldProvinces;
@@ -1099,7 +1099,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return false;
 		}
 
-		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
+		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinceIds.Contains(provinceId));
 	}
 
 	public Title GetTopRealm(Date date) {
@@ -1153,9 +1153,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	// used by county titles only
-	[commonItems.Serialization.NonSerialized] public IEnumerable<ulong> CountyProvinces => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
+	[commonItems.Serialization.NonSerialized] public IEnumerable<ulong> CountyProvinceIds => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
 	[commonItems.Serialization.NonSerialized] private string CapitalBaronyId { get; set; } = string.Empty; // used when parsing inside county to save first barony
-	[commonItems.Serialization.NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
+	[commonItems.Serialization.NonSerialized] public ulong? CapitalBaronyProvinceId { get; private set; } // county barony's province; 0 is not a valid barony ID
 
 	// used by barony titles only
 	[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_barony is its corresponding title.

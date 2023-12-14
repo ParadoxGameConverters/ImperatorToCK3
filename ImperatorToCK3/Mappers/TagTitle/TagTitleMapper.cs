@@ -109,7 +109,7 @@ public class TagTitleMapper {
 
 	private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper) {
 		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
-			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
+			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId!;
 			if (capitalBaronyProvinceId == 0) {
 				// title's capital province has an invalid ID (0 is not a valid province in CK3)
 				continue;

@@ -360,11 +360,11 @@ public class World {
 		var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
 
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
-			if (county.CapitalBaronyProvince is null) {
+			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
 				continue;
 			}
-			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince;
+			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId;
 			if (capitalBaronyProvinceId == 0) {
 				// title's capital province has an invalid ID (0 is not a valid province in CK3)
 				Logger.Warn($"County {county} has invalid capital barony province!");
@@ -590,7 +590,7 @@ public class World {
 				foreach (var county in title.GetDeJureVassalsAndBelow(rankFilter: "c").Values) {
 					county.SetHolder(hermit, bookmarkDate);
 					county.SetDevelopmentLevel(0, bookmarkDate);
-					foreach (var provinceId in county.CountyProvinces) {
+					foreach (var provinceId in county.CountyProvinceIds) {
 						var province = Provinces[provinceId];
 						province.History.RemoveHistoryPastDate("1.1.1");
 						province.SetFaithId(faithId, date: null);
@@ -689,14 +689,26 @@ public class World {
 			}
 
 			var candidateProvinces = new OrderedSet<Province>();
-			if (county.CapitalBaronyProvince is not null) {
+			if (county.CapitalBaronyProvinceId is not null) {
 				// Give priority to capital province.
-				candidateProvinces.Add(Provinces[county.CapitalBaronyProvince.Value]);
+				if (Provinces.TryGetValue(county.CapitalBaronyProvinceId.Value, out var capitalProvince)) {
+					candidateProvinces.Add(capitalProvince);
+				}
 			}
-			var allCountyProvinces = county.CountyProvinces
-				.Select(p => Provinces[p]);
+
+			var allCountyProvinces = county.CountyProvinceIds
+				.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
+				.Where(p => p is not null)
+				.Select(p => p!);
 			candidateProvinces.UnionWith(allCountyProvinces);
-			var pseudoRandomSeed = (int)candidateProvinces.First().Id;
+
+			int pseudoRandomSeed;
+			if (candidateProvinces.Count != 0) {
+				pseudoRandomSeed = (int)candidateProvinces.First().Id;
+			} else {
+				// Use county ID for seed if no province is available.
+				pseudoRandomSeed = county.Id.Aggregate(0, (current, c) => current + c);
+			}
 			
 			// Determine culture of the holder.
 			var culture = candidateProvinces
