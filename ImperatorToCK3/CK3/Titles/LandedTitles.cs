@@ -697,7 +697,7 @@ public partial class Title {
 				int provsCount = 0;
 				foreach (var ck3ProvId in countyProvinceIds) {
 					if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
-						Logger.Warn($"Province {ck3ProvId} not found!");
+						Logger.Warn($"CK3 province {ck3ProvId} not found!");
 						continue;
 					}
 					
