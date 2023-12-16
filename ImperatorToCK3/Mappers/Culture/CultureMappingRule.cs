@@ -100,7 +100,7 @@ public class CultureMappingRule {
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
 		parser.RegisterKeyword("irProvince", reader => mappingToReturn.irProvinces.Add(reader.GetULong()));
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
-			var variableValue = reader.ResolveVariable(variableName).ToString() ?? string.Empty;
+			var variableValue = reader.ResolveVariable(variableName)?.ToString() ?? string.Empty;
 			var variableReader = new BufferedReader(variableValue);
 			variableReader.CopyVariables(reader);
 			parser.ParseStream(variableReader);

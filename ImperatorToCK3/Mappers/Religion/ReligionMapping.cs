@@ -36,7 +36,7 @@ public class ReligionMapping {
 		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("heresiesInHistoricalAreas", reader => mappingToReturn.heresiesInHistoricalAreas = reader.GetBool());
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
-			var variableValue = reader.ResolveVariable(variableName).ToString() ?? string.Empty;
+			var variableValue = reader.ResolveVariable(variableName)?.ToString() ?? string.Empty;
 			var variableReader = new BufferedReader(variableValue);
 			variableReader.CopyVariables(reader);
 			parser.ParseStream(variableReader);
