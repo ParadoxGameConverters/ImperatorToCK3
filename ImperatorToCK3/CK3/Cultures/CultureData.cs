@@ -13,5 +13,5 @@ public record CultureData {
 	public OrderedSet<string> TraditionIds { get; set; } = new();
 	public OrderedSet<NameList> NameLists { get; } = new();
 
-	public List<KeyValuePair<string, StringOfItem>> Attributes { get; } = new();
+	public IList<KeyValuePair<string, StringOfItem>> Attributes { get; } = new List<KeyValuePair<string, StringOfItem>>();
 }

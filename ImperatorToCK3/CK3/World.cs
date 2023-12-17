@@ -48,7 +48,7 @@ public class World {
 	public ReligionCollection Religions { get; }
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; }
-	public List<Wars.War> Wars { get; } = new();
+	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
 
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
