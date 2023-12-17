@@ -126,7 +126,7 @@ jobs:
       if: matrix.build == 'win-x64'
       run: |
         dotnet tool install --global InnoSetup
-        cp Fronter.NET/Fronter.NET/Assets/converter.ico Release/Assets/
+        cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
         iscc --version
         sed -i '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
         iscc ImperatorToCK3.iss
