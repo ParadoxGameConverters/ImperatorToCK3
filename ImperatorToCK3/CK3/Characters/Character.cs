@@ -145,12 +145,12 @@ public class Character : IIdentifiable<string> {
 	}
 
 	public bool Dead => DeathDate is not null;
-	public List<Pregnancy> Pregnancies { get; } = new();
+	public IList<Pregnancy> Pregnancies { get; } = new List<Pregnancy>();
 
-	public Dictionary<string, int> MenAtArmsStacksPerType { get; } = new();
+	public IDictionary<string, int> MenAtArmsStacksPerType { get; } = new Dictionary<string, int>();
 
-	public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
-	public Dictionary<string, LocBlock> Localizations { get; } = new();
+	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
+	public IDictionary<string, LocBlock> Localizations { get; } = new Dictionary<string, LocBlock>();
 
 	public DNA? DNA { get; private set; }
 

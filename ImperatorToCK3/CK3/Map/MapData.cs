@@ -33,8 +33,8 @@ public class MapData {
 	}
 
 	public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
-	public HashSet<ulong> ColorableImpassableProvinces { get; } = new();
-	public Dictionary<ulong, ProvincePosition> ProvincePositions { get; } = new();
+	public ISet<ulong> ColorableImpassableProvinces { get; } = new HashSet<ulong>();
+	public IDictionary<ulong, ProvincePosition> ProvincePositions { get; } = new Dictionary<ulong, ProvincePosition>();
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
 	public MapData(ModFilesystem ck3ModFS) {
