@@ -172,7 +172,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		IReadOnlyDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
-			imperatorModifiers = deity.PassiveModifiers;
+			imperatorModifiers = new Dictionary<string, double>(deity.PassiveModifiers);
 		} else {
 			var religion = imperatorProvince.GetReligion(imperatorReligions);
 			if (religion is not null) {

@@ -1,24 +1,23 @@
 ﻿using commonItems;
 using ImperatorToCK3.Mappers.Region;
-using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Religion;
 
 public class ReligionMapping {
-	private readonly SortedSet<string> irReligionIds = new();
+	private readonly SortedSet<string> irReligionIds = [];
 	public string? CK3FaithId { get; private set; }
-	private readonly SortedSet<string> ck3CultureIds = new();
+	private readonly SortedSet<string> ck3CultureIds = [];
 
-	private readonly SortedSet<ulong> irProvinceIds = new();
-	private readonly SortedSet<ulong> ck3Provinces = new();
+	private readonly SortedSet<ulong> irProvinceIds = [];
+	private readonly SortedSet<ulong> ck3Provinces = [];
 
-	private readonly SortedSet<string> imperatorRegions = new();
-	private readonly SortedSet<string> ck3Regions = new();
+	private readonly SortedSet<string> imperatorRegions = [];
+	private readonly SortedSet<string> ck3Regions = [];
 
 	private Date? dateGreaterOrEqual = null;
 
-	private readonly SortedSet<string> irHistoricalTags = new();
+	private readonly SortedSet<string> irHistoricalTags = [];
 
 	private bool? heresiesInHistoricalAreas;
 

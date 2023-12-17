@@ -12,15 +12,7 @@ public static class LocalizationOutputter {
 		var baseLocDir = Path.Join(outputPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
 
-		// copy character/family names localization
-		foreach (var languageName in ConverterGlobals.SupportedLanguages) {
-			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
-			if (locFileLocation is not null) {
-				SystemUtils.TryCopyFile(locFileLocation,
-					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
-				);
-			}
-		}
+		CopyCharacterAndFamilyNamesLocalization(irModFS, outputPath);
 
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
@@ -70,6 +62,17 @@ public static class LocalizationOutputter {
 		}
 		
 		OutputFallbackLockForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
+	}
+
+	private static void CopyCharacterAndFamilyNamesLocalization(ModFilesystem irModFS, string outputPath) {
+		foreach (var languageName in ConverterGlobals.SupportedLanguages) {
+			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
+			if (locFileLocation is not null) {
+				SystemUtils.TryCopyFile(locFileLocation,
+					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
+				);
+			}
+		}
 	}
 
 	private static void OutputFallbackLockForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
