@@ -36,7 +36,7 @@ Type: filesandordirs; Name: "{app}\ImperatorToCK3\blankMod"
 Type: filesandordirs; Name: "{app}\ImperatorToCK3\temp"
 
 [Files]
-Source: "Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
