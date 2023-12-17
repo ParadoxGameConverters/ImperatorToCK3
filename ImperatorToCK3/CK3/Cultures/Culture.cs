@@ -28,7 +28,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		Heritage = cultureData.Heritage!;
 		traditionIds = cultureData.TraditionIds;
 		nameLists = cultureData.NameLists;
-		attributes = cultureData.Attributes;
+		attributes = new List<KeyValuePair<string, StringOfItem>>(cultureData.Attributes);
 	}
 	
 	public string Serialize(string indent, bool withBraces) {
