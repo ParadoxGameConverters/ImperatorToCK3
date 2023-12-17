@@ -7,7 +7,7 @@ namespace ImperatorToCK3.Imperator.Religions;
 
 public class Deity : IIdentifiable<string> {
 	public string Id { get; }
-	public Dictionary<string, double> PassiveModifiers { get; } = new();
+	public IDictionary<string, double> PassiveModifiers { get; } = new Dictionary<string, double>();
 
 	public Deity(string id, BufferedReader deityReader, ScriptValueCollection scriptValues) {
 		Id = id;

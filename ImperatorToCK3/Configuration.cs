@@ -2,8 +2,8 @@
 using commonItems.Collections;
 using ImperatorToCK3.Exceptions;
 using System;
+using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3;
 
@@ -66,7 +66,7 @@ public class Configuration {
 		parser.RegisterKeyword("HeresiesInHistoricalAreas", reader => {
 			var valueString = reader.GetString();
 			try {
-				HeresiesInHistoricalAreas = Convert.ToInt32(valueString) == 1;
+				HeresiesInHistoricalAreas = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
 				Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
@@ -75,7 +75,7 @@ public class Configuration {
 		parser.RegisterKeyword("StaticDeJure", reader => {
 			var valueString = reader.GetString();
 			try {
-				StaticDeJure = Convert.ToInt32(valueString) == 2;
+				StaticDeJure = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 2;
 				Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
@@ -84,7 +84,7 @@ public class Configuration {
 		parser.RegisterKeyword("FillerDukes", reader => {
 			var valueString = reader.GetString();
 			try {
-				FillerDukes = Convert.ToInt32(valueString) == 1;
+				FillerDukes = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
 				Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
@@ -93,7 +93,7 @@ public class Configuration {
 		parser.RegisterKeyword("UseCK3Flags", reader => {
 			var valueString = reader.GetString();
 			try {
-				UseCK3Flags = Convert.ToInt32(valueString) == 1;
+				UseCK3Flags = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
 				Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
@@ -143,7 +143,7 @@ public class Configuration {
 
 		var binariesPath = Path.Combine(ImperatorPath, "binaries");
 		var imperatorExePath = Path.Combine(binariesPath, "imperator");
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+		if (OperatingSystem.IsWindows()) {
 			imperatorExePath += ".exe";
 		}
 
@@ -174,7 +174,7 @@ public class Configuration {
 
 		var binariesPath = Path.Combine(CK3Path, "binaries");
 		var ck3ExePath = Path.Combine(binariesPath, "ck3");
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+		if (OperatingSystem.IsWindows()) {
 			ck3ExePath += ".exe";
 		}
 
