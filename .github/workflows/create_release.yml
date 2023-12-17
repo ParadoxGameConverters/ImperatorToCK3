@@ -111,10 +111,31 @@ jobs:
         directory: 'Publish'
         path: '.'
         filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
-    - name: "Upload release asset"
-      id: upload-release-asset
+    - name: "Upload release zip"
+      id: upload-release-zip
       uses: alexellis/upload-assets@0.4.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         asset_paths: '["./ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}"]'
+    - name: "Install sed for Windows"
+      if: matrix.build == 'win-x64'
+      run: |
+        choco install sed
+    - name: "Build installer for Windows"
+      if: matrix.build == 'win-x64'
+      run: |
+        dotnet tool install --global InnoSetup
+        cp Fronter.NET/Fronter.NET/Assets/converter.ico Release/Assets/
+        iscc --version
+        sed -i '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
+        iscc ImperatorToCK3.iss
+    - name: "Upload installer for Windows"
+      id: upload-installer
+      if: matrix.build == 'win-x64'
+      uses: alexellis/upload-assets@0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        asset_paths: '["./Output/ImperatorToCK3-${{ matrix.build }}-setup.exe"]'
+
