@@ -124,7 +124,7 @@ jobs:
         dotnet tool install --global InnoSetup
         cp Fronter.NET/Fronter.NET/Assets/converter.ico Release/Assets/
         iscc --version
-        sed '2i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
+        sed '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
         iscc ImperatorToCK3.iss
     - name: "Upload installer for Windows"
       id: upload-installer
