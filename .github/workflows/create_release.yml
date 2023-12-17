@@ -118,6 +118,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         asset_paths: '["./ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}"]'
+    - name: "Install sed for Windows"
+      if: matrix.build == 'win-x64'
+      run: |
+        choco install sed
     - name: "Build installer for Windows"
       if: matrix.build == 'win-x64'
       run: |
