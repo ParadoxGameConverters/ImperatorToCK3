@@ -206,6 +206,10 @@ public class World : Parser {
 		RegisterKeyword("deity_manager", reader => {
 			Religions.LoadHolySiteDatabase(reader);
 		});
+		RegisterKeyword("meta_player_name", ParserHelpers.IgnoreItem);
+		RegisterKeyword("speed", ParserHelpers.IgnoreItem);
+		RegisterKeyword("random_seed", ParserHelpers.IgnoreItem);
+		RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
 		var playerCountriesToLog = new OrderedSet<string>();
 		RegisterKeyword("played_country", reader => {
 			var playedCountryBlocParser = new Parser();

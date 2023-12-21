@@ -13,8 +13,10 @@ public class PortraitData {
 	public PaletteCoordinates SkinColor2PaletteCoordinates { get; } = new();
 	public PaletteCoordinates EyeColorPaletteCoordinates { get; } = new();
 	public PaletteCoordinates EyeColor2PaletteCoordinates { get; } = new();
-	public Dictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } = new();
-	public Dictionary<string, MorphGeneData> MorphGenesDict { get; } = new();
+
+	public IDictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } =
+		new Dictionary<string, AccessoryGeneData>();
+	public IDictionary<string, MorphGeneData> MorphGenesDict { get; } = new Dictionary<string, MorphGeneData>();
 
 	public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
 		var decodedDnaStr = Convert.FromBase64String(dnaString);

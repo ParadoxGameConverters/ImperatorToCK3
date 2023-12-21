@@ -137,9 +137,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			return null;
 		}
 
-		var capitalBaronyProvince = landedTitles[holySite.CountyId].CapitalBaronyProvince;
-		if (capitalBaronyProvince is not null) {
-			return landedTitles.GetBaronyForProvince((ulong)capitalBaronyProvince);
+		var capitalBaronyProvinceId = landedTitles[holySite.CountyId].CapitalBaronyProvinceId;
+		if (capitalBaronyProvinceId is not null) {
+			return landedTitles.GetBaronyForProvince((ulong)capitalBaronyProvinceId);
 		}
 
 		return null;
@@ -172,7 +172,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		IReadOnlyDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
-			imperatorModifiers = deity.PassiveModifiers;
+			imperatorModifiers = new Dictionary<string, double>(deity.PassiveModifiers);
 		} else {
 			var religion = imperatorProvince.GetReligion(imperatorReligions);
 			if (religion is not null) {
@@ -220,7 +220,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 							imperatorReligions,
 							holySiteEffectMapper
 						);
-						HolySites.Add(newHolySiteInSameBarony);
+						if (HolySites.ContainsKey(newHolySiteInSameBarony.Id)) {
+							Logger.Warn($"Created duplicate holy site: {newHolySiteInSameBarony.Id}!");
+						}
+						HolySites.AddOrReplace(newHolySiteInSameBarony);
 
 						faith.ReplaceHolySiteId(holySiteId, newHolySiteInSameBarony.Id);
 					}
@@ -238,7 +241,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 						imperatorReligions,
 						holySiteEffectMapper
 					);
-					HolySites.Add(replacementSite);
+					if (HolySites.ContainsKey(replacementSite.Id)) {
+						Logger.Warn($"Created duplicate holy site: {replacementSite.Id}!");
+					}
+					HolySites.AddOrReplace(replacementSite);
 
 					faith.ReplaceHolySiteId(holySiteId, replacementSite.Id);
 				}

@@ -430,7 +430,7 @@ albanian = {
 }
 
 old_egyptian = {
-    INVALIDATED_BY = { old_egyptian }
+    INVALIDATED_BY = { old_egyptian kemetic }
     
 	color = hsv { 0.15  1  0.7 }
 
@@ -1783,7 +1783,7 @@ siculian = {
 }
 
 hunnic = { # ImperatorToCK3
-    INVALIDATED_BY = { hunnic }
+    INVALIDATED_BY = { hunnic hun }
     
 	color = { 254 204 50 }
 
@@ -1913,7 +1913,7 @@ palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/fi
 }
 
 carthaginian = {
-    INVALIDATED_BY = { carthaginian }
+    INVALIDATED_BY = { carthaginian punic }
     
 	color = rgb { 74 174 85 }
 	parents = { phoenician }

@@ -1,4 +1,4 @@
-﻿name: "Integration tests"
+name: "Integration tests"
 
 on:
   release:
@@ -22,7 +22,7 @@ jobs:
           - https://mega.nz/file/zQ0wDKya#eiFQCiJ2sjTaolAJGnfQ0_0OS2Q1kf48dIGDlrEoJ9I  # Erreinu Atlantikoa Debug Over NameFix.rome
           - https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8  # The New Rome.rome
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: recursive
@@ -32,7 +32,7 @@ jobs:
         ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
         ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
     - name: "Build converter backend"

@@ -4,8 +4,11 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.Gene; 
 
 public class AccessoryGeneMapper {
-	public Dictionary<string, IDictionary<string, string>> ObjectToObjectMappings { get; } = new();
-	public Dictionary<string, IDictionary<string, string>> TemplateToTemplateMappings { get; } = new();
+	public IDictionary<string, IDictionary<string, string>> ObjectToObjectMappings { get; } =
+		new Dictionary<string, IDictionary<string, string>>();
+
+	public IDictionary<string, IDictionary<string, string>> TemplateToTemplateMappings { get; } =
+		new Dictionary<string, IDictionary<string, string>>();
 
 	public AccessoryGeneMapper(string mappingsFilePath) {
 		var objectToObjectMappingsParser = new Parser();

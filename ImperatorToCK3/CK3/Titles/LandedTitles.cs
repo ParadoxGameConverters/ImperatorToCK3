@@ -217,7 +217,7 @@ public partial class Title {
 		}
 		public Title? GetCountyForProvince(ulong provinceId) {
 			foreach (var county in this.Where(title => title.Rank == TitleRank.county)) {
-				if (county.CountyProvinces.Contains(provinceId)) {
+				if (county.CountyProvinceIds.Contains(provinceId)) {
 					return county;
 				}
 			}
@@ -593,7 +593,7 @@ public partial class Title {
 						continue;
 					}
 					kingdomRealmShares.TryGetValue(kingdomRealm.Id, out var currentCount);
-					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinces.Count();
+					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count();
 				}
 				if (kingdomRealmShares.Count > 0) {
 					var biggestShare = kingdomRealmShares.MaxBy(pair => pair.Value);
@@ -608,7 +608,7 @@ public partial class Title {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinces.Count();
+					var countyProvincesCount = county.CountyProvinceIds.Count();
 					kingdomProvincesCount += countyProvincesCount;
 
 					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
@@ -638,7 +638,7 @@ public partial class Title {
 			
 			foreach (var kingdom in kingdomsWithoutEmpire) {
 				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
-				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinces).ToImmutableHashSet();
+				var kingdomProvinceIds = counties.SelectMany(c => c.CountyProvinceIds).ToImmutableHashSet();
 				var kingdomProvinces = ck3Provinces.Where(p => kingdomProvinceIds.Contains(p.Id));
 				var dominantHeritage = kingdomProvinces
 					.Select(p => new { Province = p, p.GetCulture(ck3BookmarkDate, ck3Cultures)?.Heritage})
@@ -687,38 +687,20 @@ public partial class Title {
 		}
 
 		public void ImportDevelopmentFromImperator(ProvinceCollection ck3Provinces, Date date, double irCivilizationWorth) {
-			static (Dictionary<string, int>, Dictionary<ulong, int>) GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
-				var impProvsPerCounty = new Dictionary<string, int>();
-				var ck3ProvsPerImperatorProv = new Dictionary<ulong, int>();
-				foreach (var county in counties) {
-					var imperatorProvs = new HashSet<ulong>();
-					foreach (var ck3ProvId in county.CountyProvinces) {
-						var ck3Province = ck3Provinces[ck3ProvId];
-						var sourceProvinces = ck3Province.ImperatorProvinces;
-						foreach (var irProvince in sourceProvinces) {
-							imperatorProvs.Add(irProvince.Id);
-							ck3ProvsPerImperatorProv.TryGetValue(irProvince.Id, out var currentValue);
-							ck3ProvsPerImperatorProv[irProvince.Id] = currentValue + 1;
-						}
-					}
-
-					impProvsPerCounty[county.Id] = imperatorProvs.Count;
-				}
-
-				return (impProvsPerCounty, ck3ProvsPerImperatorProv);
-			}
-
 			static bool IsCountyOutsideImperatorMap(Title county, IReadOnlyDictionary<string, int> impProvsPerCounty) {
 				return impProvsPerCounty[county.Id] == 0;
 			}
 
 			double CalculateCountyDevelopment(Title county, IReadOnlyDictionary<ulong, int> ck3ProvsPerIRProv) {
 				double dev = 0;
-				var countyProvinces = county.CountyProvinces;
-				var provsCount = 0;
-				foreach (var ck3ProvId in countyProvinces) {
+				IEnumerable<ulong> countyProvinceIds = county.CountyProvinceIds;
+				int provsCount = 0;
+				foreach (var ck3ProvId in countyProvinceIds) {
+					if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
+						Logger.Warn($"CK3 province {ck3ProvId} not found!");
+						continue;
+					}
 					++provsCount;
-					var ck3Province = ck3Provinces[ck3ProvId];
 					var sourceProvinces = ck3Province.ImperatorProvinces;
 					if (sourceProvinces.Count == 0) {
 						continue;
@@ -751,6 +733,32 @@ public partial class Title {
 			}
 
 			Logger.IncrementProgress();
+			return;
+
+			static (Dictionary<string, int>, Dictionary<ulong, int>) GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
+				Dictionary<string, int> impProvsPerCounty = [];
+				Dictionary<ulong, int> ck3ProvsPerImperatorProv = [];
+				foreach (var county in counties) {
+					HashSet<ulong> imperatorProvs = [];
+					foreach (ulong ck3ProvId in county.CountyProvinceIds) {
+						if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
+							Logger.Warn($"CK3 province {ck3ProvId} not found!");
+							continue;
+						}
+
+						var sourceProvinces = ck3Province.ImperatorProvinces;
+						foreach (var irProvince in sourceProvinces) {
+							imperatorProvs.Add(irProvince.Id);
+							ck3ProvsPerImperatorProv.TryGetValue(irProvince.Id, out var currentValue);
+							ck3ProvsPerImperatorProv[irProvince.Id] = currentValue + 1;
+						}
+					}
+
+					impProvsPerCounty[county.Id] = imperatorProvs.Count;
+				}
+
+				return (impProvsPerCounty, ck3ProvsPerImperatorProv);
+			}
 		}
 
 		public IEnumerable<Title> GetCountriesImportedFromImperator() {

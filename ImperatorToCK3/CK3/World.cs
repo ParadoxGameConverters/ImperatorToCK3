@@ -48,7 +48,7 @@ public class World {
 	public ReligionCollection Religions { get; }
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; }
-	public List<Wars.War> Wars { get; } = new();
+	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
 
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
@@ -269,7 +269,17 @@ public class World {
 
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);
-		RemoveIslam(config);
+		
+		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
+		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
+		var muslimReligionExists = impWorld.Religions
+			.Any(r => possibleMuslimReligionNames.Contains(r.Id.ToLowerInvariant()));
+		if (muslimReligionExists) {
+			Logger.Info("Found muslim religion in Imperator save, keeping Islam in CK3.");
+		} else {
+			RemoveIslam(config);
+		}
+		Logger.IncrementProgress();
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
 
@@ -350,11 +360,11 @@ public class World {
 		var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
 
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
-			if (county.CapitalBaronyProvince is null) {
+			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
 				continue;
 			}
-			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince;
+			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId;
 			if (capitalBaronyProvinceId == 0) {
 				// title's capital province has an invalid ID (0 is not a valid province in CK3)
 				Logger.Warn($"County {county} has invalid capital barony province!");
@@ -565,22 +575,22 @@ public class World {
 				Logger.Debug($"Generating hermit for {titleId}...");
 
 				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50), Characters);
-				var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
-				hermit.SetFaithId(faithId, null);
-				hermit.SetCultureId(cultureId, null);
-				hermit.History.AddFieldValue(null, "traits", "trait", "chaste");
-				hermit.History.AddFieldValue(null, "traits", "trait", "celibate");
-				hermit.History.AddFieldValue(null, "traits", "trait", "devoted");
+				var faithId = faithCandidates.First(c => faiths.Exists(f => f.Id == c));
+				hermit.SetFaithId(faithId, date: null);
+				hermit.SetCultureId(cultureId, date: null);
+				hermit.History.AddFieldValue(date: null, "traits", "trait", "chaste");
+				hermit.History.AddFieldValue(date: null, "traits", "trait", "celibate");
+				hermit.History.AddFieldValue(date: null, "traits", "trait", "devoted");
 				var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
 				hermit.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
-				Characters.Add(hermit);
+				Characters.AddOrReplace(hermit);
 
 				title.SetHolder(hermit, bookmarkDate);
 				title.SetGovernment("eremitic_government", bookmarkDate);
 				foreach (var county in title.GetDeJureVassalsAndBelow(rankFilter: "c").Values) {
 					county.SetHolder(hermit, bookmarkDate);
 					county.SetDevelopmentLevel(0, bookmarkDate);
-					foreach (var provinceId in county.CountyProvinces) {
+					foreach (var provinceId in county.CountyProvinceIds) {
 						var province = Provinces[provinceId];
 						province.History.RemoveHistoryPastDate("1.1.1");
 						province.SetFaithId(faithId, date: null);
@@ -656,8 +666,6 @@ public class World {
 			Logger.Warn($"{muslimProvinces.Count} muslim provinces left after removing Islam: " +
 			            $"{string.Join(", ", muslimProvinces.Select(p => p.Id))}");
 		}
-
-		Logger.IncrementProgress();
 	}
 
 	private void GenerateFillerHoldersForUnownedLands(CultureCollection cultures, Configuration config) {
@@ -680,35 +688,103 @@ public class World {
 				}
 			}
 
-			Province province;
-			if (county.CapitalBaronyProvince is not null) {
-				province = Provinces[county.CapitalBaronyProvince.Value];
-			} else {
-				province = county.CountyProvinces
-					.Select(p => Provinces[p])
-					.First(p => p.GetFaithId(date) is not null && p.GetCultureId(date) is not null);
+			var candidateProvinces = new OrderedSet<Province>();
+			if (county.CapitalBaronyProvinceId is not null) {
+				// Give priority to capital province.
+				if (Provinces.TryGetValue(county.CapitalBaronyProvinceId.Value, out var capitalProvince)) {
+					candidateProvinces.Add(capitalProvince);
+				}
 			}
-			var culture = cultures[province.GetCultureId(date)!];
+
+			var allCountyProvinces = county.CountyProvinceIds
+				.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
+				.Where(p => p is not null)
+				.Select(p => p!);
+			candidateProvinces.UnionWith(allCountyProvinces);
+
+			int pseudoRandomSeed;
+			if (candidateProvinces.Count != 0) {
+				pseudoRandomSeed = (int)candidateProvinces.First().Id;
+			} else {
+				// Use county ID for seed if no province is available.
+				pseudoRandomSeed = county.Id.Aggregate(0, (current, c) => current + c);
+			}
 			
+			// Determine culture of the holder.
+			var culture = candidateProvinces
+				.Select(p => p.GetCulture(date, cultures))
+				.FirstOrDefault(c => c is not null);
+			if (culture is null) {
+				Logger.Debug($"Trying to use de jure duchy for culture of holder for {county.Id}...");
+				var deJureDuchy = county.DeJureLiege;
+				if (deJureDuchy is not null) {
+					culture = Provinces
+						.Where(p => deJureDuchy.DuchyContainsProvince(p.Id))
+						.Select(p => p.GetCulture(date, cultures))
+						.FirstOrDefault(c => c is not null);
+				}
+				if (culture is null && deJureDuchy?.DeJureLiege is not null) {
+					Logger.Debug($"Trying to use de jure kingdom for culture of holder for {county.Id}...");
+					var deJureKingdom = deJureDuchy.DeJureLiege;
+					culture = Provinces
+						.Where(p => deJureKingdom.KingdomContainsProvince(p.Id))
+						.Select(p => p.GetCulture(date, cultures))
+						.FirstOrDefault(c => c is not null);
+				}
+				if (culture is null) {
+					Logger.Warn($"Found no fitting culture for generated holder of {county.Id}, " +
+					            $"using first culture from database!");
+					culture = cultures.First();
+				}
+			}
+			
+			// Determine faith of the holder.
+			var faithId = candidateProvinces
+				.Select(p => p.GetFaithId(date))
+				.FirstOrDefault(f => f is not null);
+			if (faithId is null) {
+				Logger.Debug($"Trying to use de jure duchy for faith of holder for {county.Id}...");
+				var deJureDuchy = county.DeJureLiege;
+				if (deJureDuchy is not null) {
+					faithId = Provinces
+						.Where(p => deJureDuchy.DuchyContainsProvince(p.Id))
+						.Select(p => p.GetFaithId(date))
+						.FirstOrDefault(f => f is not null);
+				}
+				if (faithId is null && deJureDuchy?.DeJureLiege is not null) {
+					Logger.Debug($"Trying to use de jure kingdom for faith of holder for {county.Id}...");
+					var deJureKingdom = deJureDuchy.DeJureLiege;
+					faithId = Provinces
+						.Where(p => deJureKingdom.KingdomContainsProvince(p.Id))
+						.Select(p => p.GetFaithId(date))
+						.FirstOrDefault(f => f is not null);
+				}
+				if (faithId is null) {
+					Logger.Warn($"Found no fitting faith for generated holder of {county.Id}, " +
+					            $"using first faith from database!");
+					faithId = Religions.Faiths.First().Id;
+				}
+			}
+
 			bool female = false;
 			string name;
 			var maleNames = culture.MaleNames.ToImmutableList();
 			if (maleNames.Count > 0) {
-				name = maleNames.ElementAt((int)province.Id % maleNames.Count);
+				name = maleNames.ElementAt(pseudoRandomSeed % maleNames.Count);
 			} else { // Generate a female if no male name is available.
 				female = true;
 				var femaleNames = culture.FemaleNames.ToImmutableList();
-				name = femaleNames.ElementAt((int)province.Id % femaleNames.Count);
+				name = femaleNames.ElementAt(pseudoRandomSeed % femaleNames.Count);
 			}
-			int age = 18 + (int)(province.Id % 60);
+			int age = 18 + (pseudoRandomSeed % 60);
 			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {
 				Female = female,
 				BirthDate = date.ChangeByYears(-age)
 			};
-			holder.SetFaithId(province.GetFaithId(date)!, null);
+			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
 			holder.History.AddFieldValue(date, "government", "change_government", "tribal_government");
-			Characters.Add(holder);
+			Characters.AddOrReplace(holder);
 
 			county.SetHolder(holder, date);
 			if (config.FillerDukes) {

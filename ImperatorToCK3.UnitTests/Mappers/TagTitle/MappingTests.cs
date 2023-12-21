@@ -17,6 +17,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class MappingTests {
 	[Fact]
 	public void SimpleTagMatch() {

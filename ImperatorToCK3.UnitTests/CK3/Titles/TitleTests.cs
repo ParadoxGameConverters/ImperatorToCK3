@@ -203,7 +203,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_testtitle");
 
-		Assert.Null(title.CapitalBaronyProvince);
+		Assert.Null(title.CapitalBaronyProvinceId);
 	}
 
 	[Fact]

@@ -36,6 +36,7 @@ public static class BookmarkOutputter {
 		output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
 		output.WriteLine("\tis_playable = yes");
 		output.WriteLine("\trecommended = yes");
+		output.WriteLine("\tweight = { value = 100 }");
 
 		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 		var localizations = new Dictionary<string, LocBlock>();
@@ -89,7 +90,7 @@ public static class BookmarkOutputter {
 				output.WriteLine($"\t\treligion={faithId}");
 			}
 			output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-			WritePosition(output, title, config, provincePositions);
+			WritePosition(output, title, config, provincePositions.AsReadOnly());
 			output.WriteLine("\t\tanimation = personality_rational");
 
 			output.WriteLine("\t}");
@@ -208,7 +209,7 @@ public static class BookmarkOutputter {
 		foreach (var playerTitle in playerTitles) {
 			var colorOnMap = playerTitle.Color1 ?? new commonItems.Colors.Color(0, 0, 0);
 			var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-			HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
+			ISet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 			// Determine which impassables should be be colored by the country
 			var provincesToColor = new HashSet<ulong>(heldProvinces);
 			var impassables = mapData.ColorableImpassableProvinces;

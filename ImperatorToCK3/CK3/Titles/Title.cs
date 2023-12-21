@@ -283,6 +283,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				);
 
 				var characterId = rulerTerm.CharacterId;
+				if (characterId is null) {
+					continue;
+				}
 				var gov = rulerTerm.Government;
 
 				var termStartDate = new Date(rulerTerm.StartDate);
@@ -851,10 +854,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
-	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
+	public IDictionary<string, Title> GetDeJureVassalsAndBelow() {
 		return GetDeJureVassalsAndBelow("bcdke");
 	}
-	public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
+	public IDictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deJureVassalsAndBelow = new();
 		foreach (var vassalTitle in DeJureVassals) {
@@ -874,14 +877,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		return deJureVassalsAndBelow;
 	}
-	public Dictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
+	public IDictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
 		return parentCollection.Where(t => t.GetDeFactoLiege(date)?.Id == Id)
 			.ToDictionary(t => t.Id, t => t);
 	}
-	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
+	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
 		return GetDeFactoVassalsAndBelow(date, "bcdke");
 	}
-	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
+	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deFactoVassalsAndBelow = new();
 		foreach (var (vassalTitleName, vassalTitle) in GetDeFactoVassals(date)) {
@@ -1009,7 +1012,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			ulong baronyProvinceId = (ulong)deJureVassal.Province;
 
 			if (deJureVassal.Id == CapitalBaronyId) {
-				CapitalBaronyProvince = baronyProvinceId;
+				CapitalBaronyProvinceId = baronyProvinceId;
 				break;
 			}
 		}
@@ -1052,7 +1055,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		writer.Write(sb);
 	}
 
-	public HashSet<ulong> GetProvincesInCountry(Date date) {
+	public ISet<ulong> GetProvincesInCountry(Date date) {
 		var holderId = GetHolderId(date);
 		var heldCounties = new List<Title>(
 			parentCollection.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)
@@ -1060,7 +1063,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var heldProvinces = new HashSet<ulong>();
 		// add directly held counties
 		foreach (var county in heldCounties) {
-			heldProvinces.UnionWith(county.CountyProvinces);
+			heldProvinces.UnionWith(county.CountyProvinceIds);
 		}
 		// add vassals' counties
 		foreach (var vassal in GetDeFactoVassalsAndBelow(date).Values) {
@@ -1073,7 +1076,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				parentCollection.Where(t => t.GetHolderId(date) == vassalHolderId && t.Rank == TitleRank.county)
 			);
 			foreach (var vassalCounty in heldVassalCounties) {
-				heldProvinces.UnionWith(vassalCounty.CountyProvinces);
+				heldProvinces.UnionWith(vassalCounty.CountyProvinceIds);
 			}
 		}
 		return heldProvinces;
@@ -1096,7 +1099,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return false;
 		}
 
-		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinces.Contains(provinceId));
+		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinceIds.Contains(provinceId));
 	}
 
 	public Title GetTopRealm(Date date) {
@@ -1150,9 +1153,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	// used by county titles only
-	[commonItems.Serialization.NonSerialized] public IEnumerable<ulong> CountyProvinces => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
+	[commonItems.Serialization.NonSerialized] public IEnumerable<ulong> CountyProvinceIds => DeJureVassals.Where(v => v.Rank == TitleRank.barony).Select(v => (ulong)v.Province!);
 	[commonItems.Serialization.NonSerialized] private string CapitalBaronyId { get; set; } = string.Empty; // used when parsing inside county to save first barony
-	[commonItems.Serialization.NonSerialized] public ulong? CapitalBaronyProvince { get; private set; } // county barony's province; 0 is not a valid barony ID
+	[commonItems.Serialization.NonSerialized] public ulong? CapitalBaronyProvinceId { get; private set; } // county barony's province; 0 is not a valid barony ID
 
 	// used by barony titles only
 	[SerializedName("province")] public ulong? Province { get; private set; } // province is area on map. b_barony is its corresponding title.
