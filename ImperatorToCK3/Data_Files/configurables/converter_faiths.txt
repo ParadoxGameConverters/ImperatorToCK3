@@ -4584,3 +4584,210 @@ paleo_balkan_religion = {
 		}
 	}
 }
+
+hurrian_religion_group = {
+	family = rf_pagan
+	
+	doctrine = pagan_hostility_doctrine
+
+	#Main Group
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	#Infanticide
+	doctrine = doctrine_infanticide_any
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+
+	traits = {
+		virtues = { brave just humble }
+		sins = { craven arbitrary arrogant }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = "holy_order_guardians_of_divinerealm" }
+		{ name = "holy_order_faithful_of_highgod" }
+		{ name = "holy_order_warriors_of_the_symbol" }
+	}
+
+	holy_order_maa = { bowmen }
+
+	localization = {
+		HighGodName = hurrian_high_god_name
+		HighGodNamePossessive = hurrian_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = hurrian_high_god_name_alternate
+		HighGodNameAlternatePossessive = hurrian_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = hurrian_high_god_name
+		CreatorNamePossessive = hurrian_high_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = hurrian_health_god_name
+		HealthGodNamePossessive = hurrian_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+		
+		#FertilityGod
+		FertilityGodName = hurrian_fertility_god_name
+		FertilityGodNamePossessive = hurrian_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = hurrian_wealth_god_name
+		WealthGodNamePossessive = hurrian_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_SHE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = hurrian_wealth_god_name
+		HouseholdGodNamePossessive = hurrian_wealth_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = hurrian_high_god_name
+		FateGodNamePossessive = hurrian_high_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_HE
+		FateGodHerHis = CHARACTER_HERHIS_HIS
+		FateGodHerHim = CHARACTER_HERHIM_HIM
+
+		#KnowledgeGod
+		KnowledgeGodName = hurrian_knowledge_god_name
+		KnowledgeGodNamePossessive = hurrian_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = hurrian_war_god_name
+		WarGodNamePossessive = hurrian_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = hurrian_knowledge_god_name
+		TricksterGodNamePossessive = hurrian_knowledge_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = hurrian_night_god_name
+		NightGodNamePossessive = hurrian_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = hurrian_water_god_name
+		WaterGodNamePossessive = hurrian_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_IT
+		WaterGodHerHis = CHARACTER_HERHIS_ITS
+		WaterGodHerHim = CHARACTER_HERHIM_IT
+
+
+		PantheonTerm = hurrian_pantheon
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { hurrian_high_god_name hurrian_high_god_name_alternate hurrian_health_god_name hurrian_knowledge_god_name }
+		DevilName = paganism_evil_god_decay
+		DevilNamePossessive = paganism_evil_god_decay_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = { paganism_evil_god_decay paganism_evil_god_drought paganism_devil_name }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = akom_gye_nyame
+		ReligiousText = paganism_religious_text
+		ReligiousHeadName = hurrian_religious_head
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = ba_generic_priest_name
+		PriestMalePlural = ba_generic_priest_name_plural
+		PriestFemale = ba_generic_priestess_name
+		PriestFemalePlural = ba_generic_priestess_name_plural
+		PriestNeuter = ba_generic_priest_name
+		PriestNeuterPlural = ba_generic_priest_name_plural
+		AltPriestTermPlural = ba_generic_priest_name_plural
+		BishopMale = ba_generic_high_priest_name
+		BishopMalePlural = ba_generic_high_priest_nameplural
+		BishopFemale = ba_generic_high_priestess_name
+		BishopFemalePlural = ba_generic_high_priestess_name_plural
+		BishopNeuter = ba_generic_high_priest_name
+		BishopNeuterPlural = ba_generic_high_priest_name_plural
+		DivineRealm = hurrian_divine_realm
+		PositiveAfterLife = hurrian_afterlife
+		NegativeAfterLife = hurrian_afterlife
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_IT
+		DeathDeityHerHis = CHARACTER_HERHIS_ITS
+		WitchGodName = hurrian_night_god_name
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}	
+
+	faiths = {
+		hurrian = {  # cult_of_teshub in Bronze Age mod
+			INVALIDATED_BY = { hurrian }
+
+			color = hsv { 0.5 0.8 0.7 }
+			icon = custom_faith_7
+
+			# IRToCK3: Holy sites copied from mesopotamian_pagan, this "Hurrian" is revivalist anyway.
+			holy_site = babylon
+			holy_site = borsippa
+			holy_site = uruk
+			holy_site = ashur
+			holy_site = harranu
+
+			doctrine = unreformed_faith_doctrine
+
+			# IRToCK3: Generic pagan tenets, copied from mesopotamian_pagan
+			doctrine = tenet_astrology
+			doctrine = tenet_ritual_celebrations
+			doctrine = tenet_sun_worship
+		}
+	}
+}
