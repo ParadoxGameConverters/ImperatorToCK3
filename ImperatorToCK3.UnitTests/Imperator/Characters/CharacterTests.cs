@@ -57,7 +57,7 @@ public class CharacterTests {
 		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 		var spouse1Reader = new BufferedReader(string.Empty);
 		var spouse2Reader = new BufferedReader(string.Empty);
-		character.Spouses = new() {
+		character.Spouses = new Dictionary<ulong, ImperatorToCK3.Imperator.Characters.Character> {
 			{ 3, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse1Reader, "3", genesDB) },
 			{ 4, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "4", genesDB) }
 		};
