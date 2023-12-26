@@ -111,13 +111,6 @@ jobs:
         directory: 'Publish'
         path: '.'
         filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
-    - name: "Upload release zip"
-      id: upload-release-zip
-      uses: alexellis/upload-assets@0.4.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        asset_paths: '["./ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}"]'
     - name: "Install sed for Windows"
       if: matrix.build == 'win-x64'
       run: |
@@ -139,4 +132,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         asset_paths: '["./Output/ImperatorToCK3-${{ matrix.build }}-setup.exe"]'
-
+    - name: "Upload release zip"
+      id: upload-release-zip
+      uses: alexellis/upload-assets@0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        asset_paths: '["./ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}"]'

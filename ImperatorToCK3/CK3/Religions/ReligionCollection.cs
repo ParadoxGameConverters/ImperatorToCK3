@@ -15,7 +15,7 @@ using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class ReligionCollection : IdObjectCollection<string, Religion> {
+public class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
 	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = new();
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = new();
@@ -27,10 +27,6 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 	}
 
-	public ReligionCollection(Title.LandedTitles landedTitles) {
-		this.landedTitles = landedTitles;
-	}
-	
 	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
@@ -300,70 +296,83 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			.ToImmutableList();
 
 		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {
-			var religiousHeadTitleId = faith.ReligiousHeadTitleId;
-			if (religiousHeadTitleId is null) {
-				continue;
-			}
-
-			if (!titles.TryGetValue(religiousHeadTitleId, out var title)) {
-				Logger.Warn($"Religious head title {religiousHeadTitleId} for {faith.Id} not found!");
-				continue;
-			}
-			var holderId = title.GetHolderId(date);
-			if (holderId != "0") {
-				var holder = characters[holderId];
-				var holderDeathDate = holder.DeathDate;
-				if (holderDeathDate is null || holderDeathDate > date) {
-					continue;
-				}
-			}
-			
-			// Generate title holder.
-			Logger.Debug($"Generating religious head for faith {faith.Id}...");
-			// Determine culture.
-			var cultureId = provinces
-				.Where(p => p.GetFaithId(date) == faith.Id)
-				.Select(p => p.GetCultureId(date))
-				.ToImmutableList()
-				.FirstOrDefault();
-			if (cultureId is null) {
-				cultureId = characters
-					.Where(c => c.GetFaithId(date) == faith.Id)
-					.Select(c => c.GetCultureId(date))
-					.ToImmutableList()
-					.FirstOrDefault();
-			}
-			if (cultureId is null) {
-				Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
-				cultureId = cultures.First().Id;
-			}
-			var culture = cultures[cultureId];
-			
-			// If title has male_names defined, use one of them for character's name.
-			// Otherwise, get name from culture.
-			var name = title.MaleNames?.FirstOrDefault();
-			if (name is null) {
-				var maleNames = culture.MaleNames.ToImmutableList();
-				if (maleNames.Count > 0) {
-					name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
-				}
-			}
-			if (name is null) {
-				const string fallbackName = "Alexandros";
-				Logger.Warn($"Found no name for religious head of {faith.Id}, defaulting to {fallbackName}!");
-				name = fallbackName;
-			}
-			var age = 30 + (Math.Abs(date.Year) % 50);
-			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age), characters);
-			character.SetFaithId(faith.Id, null);
-			character.SetCultureId(cultureId, null);
-			var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
-			foreach (var traitId in traitsToAdd) {
-				character.History.AddFieldValue(null, "traits", "trait", traitId);
-			}
-			characters.Add(character);
-			title.SetHolder(character, date);
+			GenerateReligiousHeadForFaithIfMissing(faith, titles, characters, provinces, cultures, date);
 		}
+	}
+
+	private void GenerateReligiousHeadForFaithIfMissing(
+		Faith faith,
+		Title.LandedTitles titles,
+		CharacterCollection characters,
+		ProvinceCollection provinces,
+		CultureCollection cultures,
+		Date date
+	) { 
+		var religiousHeadTitleId = faith.ReligiousHeadTitleId;
+		if (religiousHeadTitleId is null) {
+			return;
+		}
+
+		if (!titles.TryGetValue(religiousHeadTitleId, out var title)) {
+			Logger.Warn($"Religious head title {religiousHeadTitleId} for {faith.Id} not found!");
+			return;
+		}
+		var holderId = title.GetHolderId(date);
+		if (holderId != "0") {
+			var holder = characters[holderId];
+			var holderDeathDate = holder.DeathDate;
+			if (holderDeathDate is null || holderDeathDate > date) {
+				return;
+			}
+		}
+		
+		// Generate title holder.
+		Logger.Debug($"Generating religious head for faith {faith.Id}...");
+		// Determine culture.
+		var cultureId = provinces
+			.Where(p => p.GetFaithId(date) == faith.Id)
+			.Select(p => p.GetCultureId(date))
+			.FirstOrDefault();
+		if (cultureId is null) {
+			cultureId = characters
+				.Where(c => c.GetFaithId(date) == faith.Id)
+				.Select(c => c.GetCultureId(date))
+				.FirstOrDefault();
+		}
+		if (cultureId is null) {
+			Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
+			cultureId = cultures.First().Id;
+		}
+		
+		if (!cultures.TryGetValue(cultureId, out var culture)) {
+			Logger.Warn($"Culture {cultureId} not found!");
+			return;
+		}
+		
+		// If title has male_names defined, use one of them for character's name.
+		// Otherwise, get name from culture.
+		var name = title.MaleNames?.FirstOrDefault();
+		if (name is null) {
+			var maleNames = culture.MaleNames.ToImmutableList();
+			if (maleNames.Count > 0) {
+				name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
+			}
+		}
+		if (name is null) {
+			const string fallbackName = "Alexandros";
+			Logger.Warn($"Found no name for religious head of {faith.Id}, defaulting to {fallbackName}!");
+			name = fallbackName;
+		}
+		var age = 30 + (Math.Abs(date.Year) % 50);
+		var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age), characters);
+		character.SetFaithId(faith.Id, null);
+		character.SetCultureId(cultureId, null);
+		var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
+		foreach (var traitId in traitsToAdd) {
+			character.History.AddFieldValue(null, "traits", "trait", traitId);
+		}
+		characters.Add(character);
+		title.SetHolder(character, date);
 	}
 
 	private IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
@@ -399,6 +408,4 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			.Where(t=>t is not null)!
 			.ToList<Title>();
 	}
-
-	private readonly Title.LandedTitles landedTitles;
 }

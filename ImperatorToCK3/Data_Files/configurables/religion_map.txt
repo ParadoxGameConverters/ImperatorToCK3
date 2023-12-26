@@ -74,20 +74,19 @@ link = { ck3 = arabic_pagan ir = arabian_pantheon }
 # Hellenic
 link = {
     ck3 = mithraic_mysteries
-    ir = roman_pantheon
-    irRegion = armenia_region irRegion = assyria_region irRegion = mesopotamia_region irRegion = media_region irRegion = persis_region irRegion = parthia_region
-}
-link = {
-    ck3 = mithraic_mysteries
     ir = mithra_religion # from Invictus
 }
-link = { ck3 = eleusinian_mysteries ir = roman_pantheon irRegion = thrace_region }
+link = { ck3 = eleusinian_mysteries ir = roman_pantheon irRegion = thrace_region } # https://en.wikipedia.org/wiki/Eleusinian_Mysteries
 link = {
     ck3 = celto_hellenic_syncretism
     ir = roman_pantheon
     irRegion = germania_region irRegion = britain_region irRegion = belgica_region irRegion = germania_superior_region irRegion = caledonia_region irRegion = central_gaul_region irRegion = pannonia_region irRegion = bohomia_area
 }
-link = { ck3 = hellenic_pagan ir = roman_pantheon } # Default
+link = {
+    ck3 = hellenic_pagan
+    ir = roman_pantheon
+    ir = italic_pantheon # Invictus, TODO: create a separate CK3 faith
+}
 
 # Balto-Slavic
 ## Baltic only in Baltic area
@@ -223,6 +222,9 @@ link = { ck3 = finnish_pagan ir = ukonusko } # https://steamcommunity.com/shared
 # Burmic (from Invictus)
 link = { ck3=burmic ir=burmese_religion }
 
+# Hurrian
+link = { ck3=hurrian ir=hurrian_pantheon } # added by Invictus
+
 # MODS (for future mods)
 link = { ck3 = tengri_pagan ir = tengri_pagan }
 link = { ck3 = magyar_pagan ir = magyar_pagan }
@@ -239,5 +241,5 @@ link = { ck3 = ismaili ir = shiite }
 link = { ck3 = ibadi ir = ibadi }
 link = { ck3 = azariqa ir = kharijite }
 
-# not in two game
+# not in the two games
 link = { ck3 = arian ir = arian }
