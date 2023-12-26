@@ -2,7 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3.Helpers;
 
@@ -13,10 +12,10 @@ public static class RakalyCaller {
 	static RakalyCaller() {
 		string currentDir = Directory.GetCurrentDirectory();
 		RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+		if (OperatingSystem.IsMacOS()) {
 			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
 			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
-		} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+		} else if (OperatingSystem.IsLinux()) {
 			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
 			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
 		}
