@@ -83,6 +83,12 @@ public class PortraitData {
 				continue;
 			}
 
+			// Temporary fix for broken Invictus DNA strings which don't have a value for the headgear gene.
+			// TODO: verify if still require for Invictus version higher than the original pre-hotfix 1.7
+			if (gene.Id == "headgear") {
+				continue;
+			}
+
 			var geneTemplateByteIndex = geneIndex.Value * 4;
 			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
