@@ -51,6 +51,10 @@ public class PortraitData {
 			}
 			
 			var geneTemplateByteIndex = geneIndex.Value * 4;
+			if (decodedDnaStr.Length <= geneTemplateByteIndex + 3) {
+				Logger.Warn($"DNA string is too short for gene {gene.Id}!");
+				continue;
+			}
 			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
 			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex)?.Id;
@@ -90,6 +94,10 @@ public class PortraitData {
 			}
 
 			var geneTemplateByteIndex = geneIndex.Value * 4;
+			if (decodedDnaStr.Length <= geneTemplateByteIndex + 3) {
+				Logger.Warn($"DNA string is too short for gene {gene.Id}!");
+				continue;
+			}
 			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
 			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex).Id;
