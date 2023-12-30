@@ -637,16 +637,9 @@ public class World {
 			new("world_africa_west", "berber_pagan"),
 			new("world_africa_east", "waaqism_pagan"),
 			new("world_africa_sahara", "berber_pagan"),
-			new("world_africa", "berber_pagan"), // fallback
-			new("world_africa", "pagan"), // fallback
+			new("world_africa", "berber_pagan"),
 			// Rest of the world
-			new("world_europe", "arabic_pagan"),
-			new("world_asia_minor", "arabic_pagan"),
 			new("world_middle_east", "arabic_pagan"),
-			new("world_india", "arabic_pagan"),
-			new("world_steppe", "arabic_pagan"),
-			new("world_tibet", "arabic_pagan"),
-			new("world_burma", "arabic_pagan"),
 		}.Where(kvp => Religions.GetFaith(kvp.Value) is not null);
 
 		foreach (var (regionId, faithId) in regionToNewFaithMap) {
@@ -658,7 +651,62 @@ public class World {
 			}
 		}
 		
-		// Use faith of neighboring provinces if possible.
+		UseNeighborProvincesToRemoveIslam(muslimProvinces, date);
+		UseClosestProvincesToRemoveIslam(muslimProvinces, date);
+		UseFallbackNonMuslimFaithToRemoveIslam(muslimProvinces, muslimFaiths);
+
+		// Log warning if there are still muslim provinces left.
+		if (muslimProvinces.Count > 0) {
+			Logger.Warn($"{muslimProvinces.Count} muslim provinces left after removing Islam: " +
+			            $"{string.Join(", ", muslimProvinces.Select(p => p.Id))}");
+		}
+	}
+
+	private void UseFallbackNonMuslimFaithToRemoveIslam(HashSet<Province> muslimProvinces, IdObjectCollection<string, Faith> muslimFaiths) {
+		if (muslimProvinces.Count <= 0) {
+			return;
+		}
+
+		var fallbackFaith = Religions.Faiths.Except(muslimFaiths).FirstOrDefault();
+		if (fallbackFaith is not null) {
+			foreach (var province in muslimProvinces.ToList()) {
+				Logger.Debug($"Using fallback faith \"{fallbackFaith.Id}\" for province {province.Id}");
+				province.SetFaithIdAndOverrideExistingEntries(fallbackFaith.Id);
+				muslimProvinces.Remove(province);
+			}
+		}
+	}
+
+	private void UseClosestProvincesToRemoveIslam(HashSet<Province> muslimProvinces, Date date) {
+		if (muslimProvinces.Count <= 0) {
+			return;
+		}
+
+		var provincesWithValidFaith = Provinces
+			.Except(muslimProvinces)
+			.Where(p => p.GetFaithId(date) is not null)
+			.ToHashSet();
+		foreach (var province in muslimProvinces) {
+			var closestValidProvince = provincesWithValidFaith
+				.Except(muslimProvinces)
+				.Select(p => new {
+					Province = p, 
+					Distance = MapData.GetDistanceBetweenProvinces(province.Id, p.Id),
+				})
+				.Where(x => x.Distance > 0)
+				.MinBy(x => x.Distance)?.Province;
+			if (closestValidProvince is null) {
+				continue;
+			}
+				
+			var faithId = closestValidProvince.GetFaithId(date)!;
+			Logger.Debug($"Using faith \"{faithId}\" of closest province for province {province.Id}");
+			province.SetFaithIdAndOverrideExistingEntries(faithId);
+			muslimProvinces.Remove(province);
+		}
+	}
+
+	private void UseNeighborProvincesToRemoveIslam(HashSet<Province> muslimProvinces, Date date) {
 		foreach (var province in muslimProvinces) {
 			var neighborIds = MapData.GetNeighborProvinceIds(province.Id);
 			if (neighborIds.Count == 0) {
@@ -677,50 +725,6 @@ public class World {
 			Logger.Debug($"Using neighbor's faith \"{neighborFaithId}\" for province {province.Id}.");
 			province.SetFaithIdAndOverrideExistingEntries(neighborFaithId);
 			muslimProvinces.Remove(province);
-		}
-		
-		// Use faith of the nearest province by distance if possible.
-		if (muslimProvinces.Count > 0) {
-			var provincesWithValidFaith = Provinces
-				.Except(muslimProvinces)
-				.Where(p => p.GetFaithId(date) is not null)
-				.ToHashSet();
-			foreach (var province in muslimProvinces) {
-				var closestValidProvince = provincesWithValidFaith
-					.Except(muslimProvinces)
-					.Select(p => new {
-						Province = p, 
-						Distance = MapData.GetDistanceBetweenProvinces(province.Id, p.Id),
-					})
-					.Where(x => x.Distance > 0)
-					.MinBy(x => x.Distance)?.Province;
-				if (closestValidProvince is null) {
-					continue;
-				}
-				
-				var faithId = closestValidProvince.GetFaithId(date)!;
-				Logger.Debug($"Using faith \"{faithId}\" of closest province for province {province.Id}");
-				province.SetFaithIdAndOverrideExistingEntries(faithId);
-				muslimProvinces.Remove(province);
-			}
-		}
-		
-		// Replace with first non-muslim faith from database as fallback.
-		if (muslimProvinces.Count > 0) {
-			var fallbackFaith = Religions.Faiths.Except(muslimFaiths).FirstOrDefault();
-			if (fallbackFaith is not null) {
-				foreach (var province in muslimProvinces.ToList()) {
-					Logger.Debug($"Using fallback faith \"{fallbackFaith.Id}\" for province {province.Id}");
-					province.SetFaithIdAndOverrideExistingEntries(fallbackFaith.Id);
-					muslimProvinces.Remove(province);
-				}
-			}
-		}
-
-		// Log warning if there are still muslim provinces left.
-		if (muslimProvinces.Count > 0) {
-			Logger.Warn($"{muslimProvinces.Count} muslim provinces left after removing Islam: " +
-			            $"{string.Join(", ", muslimProvinces.Select(p => p.Id))}");
 		}
 	}
 
