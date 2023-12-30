@@ -214,11 +214,9 @@ public static class BookmarkOutputter {
 			var provincesToColor = new HashSet<ulong>(heldProvinces);
 			var impassables = mapData.ColorableImpassableProvinces;
 			foreach (var impassableId in impassables) {
-				if (!mapData.NeighborsDict.TryGetValue(impassableId, out var neighborProvs)) {
-					continue;
-				}
-
-				var nonImpassableNeighborProvs = new HashSet<ulong>(neighborProvs.Except(impassables));
+				var nonImpassableNeighborProvs = mapData.GetNeighborProvinceIds(impassableId)
+					.Except(impassables)
+					.ToHashSet();
 				if (nonImpassableNeighborProvs.Count == 0) {
 					continue;
 				}
