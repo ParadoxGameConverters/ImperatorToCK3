@@ -72,39 +72,36 @@ public class CountryName : ICloneable {
 	}
 
 	public LocBlock? GetAdjectiveLocBlock(LocDB locDB, CountryCollection imperatorCountries) {
-		var adj = GetAdjectiveLocKey();
-		var directAdjLocMatch = locDB.GetLocBlockForKey(adj);
-		if (directAdjLocMatch is not null && adj == "CIVILWAR_FACTION_ADJECTIVE") {
+		var adjKey = GetAdjectiveLocKey();
+		var directAdjLocMatch = locDB.GetLocBlockForKey(adjKey);
+		if (directAdjLocMatch is not null && adjKey == "CIVILWAR_FACTION_ADJECTIVE") {
 			// special case for revolts
 			var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(locDB, imperatorCountries);
 			if (baseAdjLoc is not null) {
-				var locBlockToReturn = new LocBlock(adj, directAdjLocMatch);
+				var locBlockToReturn = new LocBlock(adjKey, directAdjLocMatch);
 				locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) =>
 					orig?.Replace("$ADJ$", modifying)
 				);
 				return locBlockToReturn;
 			}
-		} else {
-			foreach (var country in imperatorCountries) {
-				if (country.Name != Name) {
-					continue;
-				}
+		} else if (directAdjLocMatch is not null) {
+			return directAdjLocMatch;
+		}
+		
+		foreach (var country in imperatorCountries) {
+			if (country.Name != Name) {
+				continue;
+			}
 
-				var countryAdjectiveLocKey = country.CountryName.GetAdjectiveLocKey();
-				var adjLoc = locDB.GetLocBlockForKey(countryAdjectiveLocKey);
-				if (adjLoc is not null) {
-					return adjLoc;
-				}
+			var countryAdjectiveLocKey = country.CountryName.GetAdjectiveLocKey();
+			var adjLoc = locDB.GetLocBlockForKey(countryAdjectiveLocKey);
+			if (adjLoc is not null) {
+				return adjLoc;
 			}
 		}
-
-		if (!string.IsNullOrEmpty(Name)) { // as fallback, use country name (which is apparently what Imperator does)
-			var adjLocalizationMatch = locDB.GetLocBlockForKey(Name);
-			if (adjLocalizationMatch is not null) {
-				return adjLocalizationMatch;
-			}
-		}
-		return directAdjLocMatch;
+		
+		// Give up.
+		return null;
 	}
 	public string GetAdjectiveLocKey() {
 		if (adjective is not null) {
