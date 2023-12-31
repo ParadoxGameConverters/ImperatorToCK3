@@ -27,6 +27,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
+using log4net.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -436,7 +437,8 @@ public class World {
 
 			var ck3CapitalCounty = ck3Country.CapitalCounty;
 			if (ck3CapitalCounty is null) {
-				Logger.Warn($"{ck3Country} has no capital county!");
+				var logLevel = ck3Country.ImperatorCountry?.PlayerCountry == true ? Level.Warn : Level.Debug;
+				Logger.Log(logLevel, $"{ck3Country} has no capital county!");
 				return false;
 			}
 			// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
