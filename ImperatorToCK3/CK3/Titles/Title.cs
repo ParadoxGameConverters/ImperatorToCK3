@@ -241,10 +241,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			nameSet = true;
 		}
 		if (!nameSet) {
-			var impTagLoc = locDB.GetLocBlockForKey(ImperatorCountry.Tag);
-			if (impTagLoc is not null) {
+			var irTagLoc = locDB.GetLocBlockForKey(ImperatorCountry.Tag);
+			if (irTagLoc is not null) {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
-				nameLocBlock.CopyFrom(impTagLoc);
+				nameLocBlock.CopyFrom(irTagLoc);
 				nameSet = true;
 			}
 		}
