@@ -241,10 +241,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			nameSet = true;
 		}
 		if (!nameSet) {
-			var impTagLoc = locDB.GetLocBlockForKey(ImperatorCountry.Tag);
-			if (impTagLoc is not null) {
+			var irTagLoc = locDB.GetLocBlockForKey(ImperatorCountry.Tag);
+			if (irTagLoc is not null) {
 				var nameLocBlock = Localizations.AddLocBlock(Id);
-				nameLocBlock.CopyFrom(impTagLoc);
+				nameLocBlock.CopyFrom(irTagLoc);
 				nameSet = true;
 			}
 		}
@@ -768,8 +768,26 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				adjSet = true;
 			}
 		}
+		
+		// Try to generate English adjective from country name.
 		if (!adjSet) {
-			// use unlocalized name if not empty
+			if (Localizations.TryGetValue(Id, out var nameLocBlock) && nameLocBlock["english"] is string name) {
+				// If last 2 characters of the name are digits, it's probably a raw Imperator tag.
+				// In that case, we don't want to use it as a base for adjective.
+				var lastTwoChars = name[^2..];
+				if (!(char.IsDigit(lastTwoChars[0]) && char.IsDigit(lastTwoChars[1]))) {
+					var generatedAdjective = name.GetAdjective();
+					Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
+				
+					var adjLocBlock = Localizations.AddLocBlock(locKey);
+					adjLocBlock["english"] = generatedAdjective;
+					adjSet = true;
+				}
+			}
+		}
+		
+		if (!adjSet) {
+			// Use unlocalized name if not empty
 			var name = ImperatorCountry.Name;
 			if (!string.IsNullOrEmpty(name)) {
 				Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Id}!");
@@ -778,20 +796,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				adjSet = true;
 			}
 		}
-		// giving up
+		
+		// Give up.
 		if (!adjSet) {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
-		}
-
-		// Generate English adjective if missing.
-		if (Localizations.TryGetValue(locKey, out var locBlock) && locBlock["english"] is null) {
-			if (!Localizations.TryGetValue(Id, out var nameLocBlock) || nameLocBlock["english"] is not string name) {
-				return;
-			}
-
-			var generatedAdjective = name.GetAdjective();
-			locBlock["english"] = generatedAdjective;
-			Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
 		}
 	}
 	[commonItems.Serialization.NonSerialized] public string? CoA { get; private set; }

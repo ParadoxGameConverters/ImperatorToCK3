@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using System;
+using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
@@ -18,6 +19,14 @@ public class CountryName : ICloneable {
 	}
 
 	public LocBlock? GetNameLocBlock(LocDB locDB, CountryCollection imperatorCountries) {
+		// If the name contains a space, it can be a composite name like "egyptian PROV4791_persia"
+		// (egyptian and PROV4791_persia are both loc keys, so the resulting in-game name is Memphite Hormirzad).
+		// In this case, we want to get the loc for each of them and combine them into one.
+		var nameParts = Name.Split(' ');
+		if (nameParts.Length > 1) {
+			return GetCompositeNameLocBlock(nameParts, locDB);
+		}
+
 		var directNameLocMatch = locDB.GetLocBlockForKey(Name);
 		if (directNameLocMatch is null || Name != "CIVILWAR_FACTION_NAME") {
 			return directNameLocMatch;
@@ -37,40 +46,62 @@ public class CountryName : ICloneable {
 		);
 		return locBlockToReturn;
 	}
+
+	private LocBlock GetCompositeNameLocBlock(string[] nameParts, LocDB locDB) {
+		var compositeLocBlock = new LocBlock(Name, ConverterGlobals.PrimaryLanguage);
+		var secondaryLanguages = ConverterGlobals.SecondaryLanguages
+			.Where(l => nameParts.Any(part => locDB.GetLocBlockForKey(part)?.HasLocForLanguage(l) ?? false));
+		foreach (var language in secondaryLanguages) {
+			compositeLocBlock[language] = string.Empty;
+		}
+		foreach (var namePart in nameParts) {
+			var namePartLoc = locDB.GetLocBlockForKey(namePart);
+			if (namePartLoc is null) {
+				continue;
+			}
+			
+			compositeLocBlock.ModifyForEveryLanguage(namePartLoc, (orig, modifying, language) => {
+				if (orig is null) {
+					return modifying;
+				}
+				return $"{orig} {modifying}".Trim();
+			});
+		}
+
+		return compositeLocBlock;
+	}
+
 	public LocBlock? GetAdjectiveLocBlock(LocDB locDB, CountryCollection imperatorCountries) {
-		var adj = GetAdjectiveLocKey();
-		var directAdjLocMatch = locDB.GetLocBlockForKey(adj);
-		if (directAdjLocMatch is not null && adj == "CIVILWAR_FACTION_ADJECTIVE") {
+		var adjKey = GetAdjectiveLocKey();
+		var directAdjLocMatch = locDB.GetLocBlockForKey(adjKey);
+		if (directAdjLocMatch is not null && adjKey == "CIVILWAR_FACTION_ADJECTIVE") {
 			// special case for revolts
 			var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(locDB, imperatorCountries);
 			if (baseAdjLoc is not null) {
-				var locBlockToReturn = new LocBlock(adj, directAdjLocMatch);
+				var locBlockToReturn = new LocBlock(adjKey, directAdjLocMatch);
 				locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) =>
 					orig?.Replace("$ADJ$", modifying)
 				);
 				return locBlockToReturn;
 			}
-		} else {
-			foreach (var country in imperatorCountries) {
-				if (country.Name != Name) {
-					continue;
-				}
+		} else if (directAdjLocMatch is not null) {
+			return directAdjLocMatch;
+		}
+		
+		foreach (var country in imperatorCountries) {
+			if (country.Name != Name) {
+				continue;
+			}
 
-				var countryAdjectiveLocKey = country.CountryName.GetAdjectiveLocKey();
-				var adjLoc = locDB.GetLocBlockForKey(countryAdjectiveLocKey);
-				if (adjLoc is not null) {
-					return adjLoc;
-				}
+			var countryAdjectiveLocKey = country.CountryName.GetAdjectiveLocKey();
+			var adjLoc = locDB.GetLocBlockForKey(countryAdjectiveLocKey);
+			if (adjLoc is not null) {
+				return adjLoc;
 			}
 		}
-
-		if (!string.IsNullOrEmpty(Name)) { // as fallback, use country name (which is apparently what Imperator does)
-			var adjLocalizationMatch = locDB.GetLocBlockForKey(Name);
-			if (adjLocalizationMatch is not null) {
-				return adjLocalizationMatch;
-			}
-		}
-		return directAdjLocMatch;
+		
+		// Give up.
+		return null;
 	}
 	public string GetAdjectiveLocKey() {
 		if (adjective is not null) {
