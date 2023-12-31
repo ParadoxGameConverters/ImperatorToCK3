@@ -86,16 +86,36 @@ public class CountryNameTests {
 	}
 
 	[Fact]
-	public void NameLocBlockDefaultsToNull() {
+	public void GetNameLocBlockDefaultsToNull() {
 		var reader = new BufferedReader(string.Empty);
 		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
 
 		var locDB = new LocDB("english");
-		Assert.Null(countryName.GetNameLocBlock(locDB, new()));
+		Assert.Null(countryName.GetNameLocBlock(locDB, imperatorCountries: []));
 	}
 
 	[Fact]
-	public void NameLocBlockReturnsCorrectLocForRevolts() {
+	public void GetNameLocBlockCorrectlyHandlesCompositeNames() {
+		var reader = new BufferedReader("name=\"egyptian PROV4791_persia\"");
+		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+
+		var locDB = new LocDB("english");
+		
+		var egyptianLocBlock = locDB.AddLocBlock("egyptian");
+		egyptianLocBlock["english"] = "Memphite";
+		egyptianLocBlock["german"] = "Memphit";
+		
+		var provLocBlock = locDB.AddLocBlock("PROV4791_persia");
+		provLocBlock["english"] = "Hormirzad";
+		provLocBlock["german"] = "Hormirzad";
+		
+		var nameLocBlock = countryName.GetNameLocBlock(locDB, []);
+		Assert.Equal("Memphite Hormirzad", nameLocBlock!["english"]);
+		Assert.Equal("Memphit Hormirzad", nameLocBlock!["german"]);
+	}
+
+	[Fact]
+	public void GetNameLocBlockReturnsCorrectLocForRevolts() {
 		var reader = new BufferedReader(
 			"name = CIVILWAR_FACTION_NAME\n base = { name = someName adjective = someAdjective }"
 		);
@@ -106,6 +126,6 @@ public class CountryNameTests {
 		locBlock1["english"] = "$ADJ$ Revolt";
 		var locBlock2 = locDB.AddLocBlock("someAdjective");
 		locBlock2["english"] = "Roman";
-		Assert.Equal("Roman Revolt", countryName.GetNameLocBlock(locDB, new())!["english"]);
+		Assert.Equal("Roman Revolt", countryName.GetNameLocBlock(locDB, [])!["english"]);
 	}
 }

@@ -3,6 +3,7 @@ using ImperatorToCK3.CK3.Map;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Map;
@@ -15,8 +16,8 @@ public class MapDataTests {
 		const string ck3Root = "TestFiles/MapData/CK3_1_province_map/game";
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 		var data = new MapData(ck3ModFS);
-
-		Assert.Empty(data.NeighborsDict);
+		
+		new ulong[] { 0, 1, 2, 3 }.ToList().ForEach(id => Assert.Empty(data.GetNeighborProvinceIds(id)));
 	}
 
 	[Fact]
@@ -27,9 +28,8 @@ public class MapDataTests {
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
 		var data = new MapData(ck3ModFS);
 		Assert.True(data.ProvinceDefinitions.ProvinceToColorDict.ContainsKey(byzantionId));
-		Assert.True(data.NeighborsDict.ContainsKey(byzantionId));
 
-		var byzantionNeighborProvs = data.NeighborsDict[byzantionId];
+		var byzantionNeighborProvs = data.GetNeighborProvinceIds(byzantionId);
 		var expectedByzantionNeighborProvs = new HashSet<ulong> {
 			3761, // Selymbria
 			8668, // sea_bosporus

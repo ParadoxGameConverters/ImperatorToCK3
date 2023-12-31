@@ -32,7 +32,7 @@ public class MapData {
 		}
 	}
 
-	public SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = new();
+	private SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
 	public ISet<ulong> ColorableImpassableProvinces { get; } = new HashSet<ulong>();
 	public IDictionary<ulong, ProvincePosition> ProvincePositions { get; } = new Dictionary<ulong, ProvincePosition>();
 	public ProvinceDefinitions ProvinceDefinitions { get; }
@@ -61,6 +61,25 @@ public class MapData {
 		Logger.Info("Finding impassables...");
 		FindImpassables(ck3ModFS);
 		Logger.IncrementProgress();
+	}
+	
+	public double GetDistanceBetweenProvinces(ulong province1, ulong province2) {
+		if (!ProvincePositions.TryGetValue(province1, out var province1Position)) {
+			Logger.Warn($"Province {province1} has no position defined!");
+			return 0;
+		}
+		if (!ProvincePositions.TryGetValue(province2, out var province2Position)) {
+			Logger.Warn($"Province {province2} has no position defined!");
+			return 0;
+		}
+
+		var xDiff = province1Position.X - province2Position.X;
+		var yDiff = province1Position.Y - province2Position.Y;
+		return Math.Sqrt(xDiff * xDiff + yDiff * yDiff);
+	}
+	
+	public IReadOnlySet<ulong> GetNeighborProvinceIds(ulong provinceId) {
+		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
 
 	private void DetermineProvincePositions(ModFilesystem ck3ModFS) {
@@ -206,7 +225,7 @@ public class MapData {
 		if (NeighborsDict.TryGetValue(mainProvince, out var neighbors)) {
 			neighbors.Add(neighborProvince);
 		} else {
-			NeighborsDict[mainProvince] = new HashSet<ulong> {neighborProvince};
+			NeighborsDict[mainProvince] = [neighborProvince];
 		}
 	}
 }
