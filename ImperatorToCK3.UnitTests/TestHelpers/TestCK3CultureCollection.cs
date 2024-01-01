@@ -9,7 +9,7 @@ public class TestCK3CultureCollection() : CultureCollection(new ColorFactory(), 
 	private static readonly PillarCollection TestCulturalPillars = new();
 	
 	static TestCK3CultureCollection() {
-		TestCulturalPillars.Add(new Pillar("test_heritage", new BufferedReader("type = heritage")));
+		TestCulturalPillars.Add(new Pillar("test_heritage", new PillarData { Type = "heritage" }));
 	}
 
 	public void GenerateTestCulture(string id) {

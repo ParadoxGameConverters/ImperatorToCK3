@@ -106,6 +106,8 @@ public class World {
 		Logger.Info("Loading cultural pillars...");
 		var culturalPillars = new PillarCollection();
 		culturalPillars.LoadPillars(ModFS);
+		Logger.Info("Loading converter cultural pillars...");
+		culturalPillars.LoadConverterPillars("configurables/cultural_pillars");
 		Cultures = new CultureCollection(ck3ColorFactory, culturalPillars);
 		Logger.Info("Loading name lists...");
 		Cultures.LoadNameLists(ModFS);
