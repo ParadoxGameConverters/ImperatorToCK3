@@ -1,5 +1,7 @@
 ﻿
 heritage_venetic = {
+    INVALIDATED_BY = { heritage_venetic }
+
 	type = heritage
 	parameters = {
 		heritage_group_latin = yes
