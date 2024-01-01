@@ -160,6 +160,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
