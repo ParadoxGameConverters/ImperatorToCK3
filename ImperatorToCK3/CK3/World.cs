@@ -45,6 +45,7 @@ public class World {
 	public DynastyCollection Dynasties { get; } = new();
 	public ProvinceCollection Provinces { get; } = new();
 	public Title.LandedTitles LandedTitles { get; } = new();
+	public PillarCollection CulturalPillars { get; } = [];
 	public CultureCollection Cultures { get; }
 	public ReligionCollection Religions { get; }
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
@@ -104,11 +105,10 @@ public class World {
 		
 		// Load CK3 cultures from CK3 mod filesystem.
 		Logger.Info("Loading cultural pillars...");
-		var culturalPillars = new PillarCollection();
-		culturalPillars.LoadPillars(ModFS);
+		CulturalPillars.LoadPillars(ModFS);
 		Logger.Info("Loading converter cultural pillars...");
-		culturalPillars.LoadConverterPillars("configurables/cultural_pillars");
-		Cultures = new CultureCollection(ck3ColorFactory, culturalPillars);
+		CulturalPillars.LoadConverterPillars("configurables/cultural_pillars");
+		Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars);
 		Logger.Info("Loading name lists...");
 		Cultures.LoadNameLists(ModFS);
 		Logger.Info("Loading cultures...");

@@ -38,6 +38,7 @@ public static class WorldOutputter {
 		);
 		Logger.IncrementProgress();
 		
+		PillarOutputter.OutputPillars(outputName, ck3World.CulturalPillars);
 		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures);
 
 		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
@@ -120,6 +121,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
+		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
