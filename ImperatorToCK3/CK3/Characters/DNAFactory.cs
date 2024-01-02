@@ -320,7 +320,7 @@ public sealed class DNAFactory {
 				IntSliderValueRecessive = 128
 			});
 		}
-		
+
 		return new DNA(id, colorDNAValues, morphDNAValues, accessoryDNAValues);
 	}
 	
