@@ -6,7 +6,7 @@ using System.Linq;
 namespace ImperatorToCK3.UnitTests.TestHelpers; 
 
 public class TestCK3CultureCollection() : CultureCollection(new ColorFactory(), TestCulturalPillars) {
-	private static readonly PillarCollection TestCulturalPillars = new();
+	private static readonly PillarCollection TestCulturalPillars = new(new ColorFactory());
 	
 	static TestCK3CultureCollection() {
 		TestCulturalPillars.Add(new Pillar("test_heritage", new PillarData { Type = "heritage" }));

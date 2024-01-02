@@ -20,7 +20,7 @@ public class PillarCollectionTests {
 		pillarsFile.Close();
 		
 		var modFS = new ModFilesystem("pillars_test", Array.Empty<Mod>());
-		var collection = new PillarCollection();
+		var collection = new PillarCollection(new commonItems.Colors.ColorFactory());
 		
 		var consoleOut = new StringWriter();
 		Console.SetOut(consoleOut);
