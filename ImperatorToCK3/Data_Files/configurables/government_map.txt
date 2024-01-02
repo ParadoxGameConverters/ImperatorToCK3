@@ -11,16 +11,21 @@
 # multiple entries allowed for: ir, irCulture
 # multiple entries not allowed for: ck3
 
+@persia_cultures = "irCulture=utian irCulture=pasargadi irCulture=sagartian irCulture=uxian irCulture=amardian irCulture=sarangian irCulture=pactyan irCulture=cossian irCulture=cadusian irCulture=parthian irCulture=parecanian irCulture=carmanian irCulture=median irCulture=gedrosian irCulture=hyrcanian irCulture=sattagydian"
+
 ## TFE
-link = { ir = oligarchic_republic ir = democratic_republic ck3 = republic_government }
-link = { ir = theocratic_republic ck3 = theocracy_government }
-link = { ir = dictatorship ck3 = feudal_government ir = despotic_monarchy ir = aristocratic_monarchy ir = plutocratic_monarchy}
+link = { ck3 = republic_government ir = oligarchic_republic ir = democratic_republic }
+link = { ck3 = theocracy_government ir = theocratic_republic }
+link = { ck3 = autocratic_government ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = plutocratic_monarchy ir = theocratic_monarchy irCulture = latin }
+link = { ck3 = feudal_government ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = plutocratic_monarchy ir = theocratic_monarchy }
 link = { ck3 = tribal_government ir = tribal_kingdom ir = tribal_federation }
-link = { ir = imperium ir = imperial_cult ck3 = imperial_government }
-link = { ir = athenian_republic ir = aristocratic_republic ck3 = city_state_government ir = plutocratic_republic }
-link = { ir = theocratic_monarchy ck3 = autocratic_government }
-link = { ir = stratocratic_monarchy ck3 = legion_government }
-link = { ir = tribal_chiefdom ck3 = nomadic_government }
+link = { ck3 = eranshar_government ir = imperium ir = spartan_imperium ir = imperial_cult ir = spartan_imperial_cult @persia_cultures }
+link = { ck3 = imperial_government ir = imperium ir = spartan_imperium }
+link = { ck3 = city_state_government ir = athenian_republic ir = aristocratic_republic ir = plutocratic_republic }
+link = { ck3 = legion_government ir = stratocratic_monarchy }
+link = { ck3 = nomadic_government ir = tribal_chiefdom ir = steppe_horde }
+link = { ck3 = imperial_cult_government ir = imperial_cult ir = spartan_imperial_cult }
+
 
 ## Vanilla CK3
 link = { ck3 = republic_government
@@ -32,6 +37,17 @@ link = { ck3 = republic_government
 }
 link = { ck3 = theocracy_government
 	ir = theocratic_republic
+}
+link = { ck3 = clan_government
+	ir = dictatorship
+	ir = despotic_monarchy
+	ir = aristocratic_monarchy
+	ir = stratocratic_monarchy
+	ir = theocratic_monarchy
+	ir = plutocratic_monarchy
+	ir = imperium
+	ir = imperial_cult
+	@persia_cultures
 }
 link = { ck3 = feudal_government
 	ir = dictatorship
