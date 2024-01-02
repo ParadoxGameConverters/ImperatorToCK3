@@ -61,7 +61,9 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
 				var holySiteId = ulong.Parse(holySiteIdStr);
-				var assignmentsDict = reader.GetAssignments().ToDictionary();
+				var assignmentsDict = reader.GetAssignments()
+					.GroupBy(a => a.Key)
+					.ToDictionary(g => g.Key, g => g.Last().Value);
 				if (assignmentsDict.TryGetValue("deity", out var deityIdWithQuotes)) {
 					holySiteIdToDeityIdDict[holySiteId] = deityIdWithQuotes.RemQuotes();
 				} else {
