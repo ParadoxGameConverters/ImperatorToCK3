@@ -189,7 +189,7 @@ public class Character : IIdentifiable<ulong> {
 		parser.ParseStream(reader);
 		if (genesDB is null) {
 			Logger.Warn($"GenesDB is null when parsing character {idString}!");
-		} else if (parsedCharacter.DNA?.Length == 552) {
+		} else if (parsedCharacter.DNA?.Length > 0) {
 			parsedCharacter.PortraitData = new PortraitData(parsedCharacter.DNA, genesDB, parsedCharacter.AgeSex);
 		}
 
