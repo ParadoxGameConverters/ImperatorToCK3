@@ -19,7 +19,7 @@ heritage_arvanite = {
 }
 
 heritage_chaldean = {
-    INVALIDATED_BY = { heritage_chaldean }
+    INVALIDATED_BY = { heritage_chaldean heritage_semitic }
 	type = heritage
 }
 
@@ -54,7 +54,7 @@ heritage_south_germanic = {
 }
 
 heritage_thracian = {
-    INVALIDATED_BY = { heritage_thracian }
+    INVALIDATED_BY = { heritage_thracian heritage_daco_thracian }
 	type = heritage
 }
 
