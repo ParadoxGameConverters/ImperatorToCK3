@@ -11,7 +11,6 @@
 # multiple entries allowed for: ir, irCulture
 # multiple entries not allowed for: ck3
 
-@persia_cultures = "irCulture=utian irCulture=pasargadi irCulture=sagartian irCulture=uxian irCulture=amardian irCulture=sarangian irCulture=pactyan irCulture=cossian irCulture=cadusian irCulture=parthian irCulture=parecanian irCulture=carmanian irCulture=median irCulture=gedrosian irCulture=hyrcanian irCulture=sattagydian"
 
 ## TFE
 link = { ck3 = republic_government ir = oligarchic_republic ir = democratic_republic }
@@ -47,7 +46,7 @@ link = { ck3 = clan_government
 	ir = plutocratic_monarchy
 	ir = imperium
 	ir = imperial_cult
-	@persia_cultures
+	irCulture=utian irCulture=pasargadi irCulture=sagartian irCulture=uxian irCulture=amardian irCulture=sarangian irCulture=pactyan irCulture=cossian irCulture=cadusian irCulture=parthian irCulture=parecanian irCulture=carmanian irCulture=median irCulture=gedrosian irCulture=hyrcanian irCulture=sattagydian
 }
 link = { ck3 = feudal_government
 	ir = dictatorship
