@@ -124,8 +124,8 @@ link = { ck3 = rabbinism ir = judaism }
 link = { ck3 = finnish_pagan ir = germanic_religion irProvince = 5976 } #Finnish first to prevent overwrite
 # TFE
 link = { ck3 = gothic_pagan ir = germanic_religion ck3Culture = vandal ck3Culture = przeworsk ck3Culture = gothonic ck3Culture = gothic ck3Culture = visigothic ck3Culture = ostrogothic ck3Culture = gepid ck3Culture = herulian ck3Culture = scirian ck3Culture = rugian ck3Culture = varinian ck3Culture = bastarnian ck3Culture = burgundian }
-link = { ck3 = saxon_pagan ck3Culture = angle ck3Culture = jute ck3Culture = old_saxon ck3Culture = frisa ck3Culture = anglo_saxon ck3Culture = frisian ck3Culture = saxon }
-link = { ck3 = norse_pagan ck3Culture = gutish ck3Culture = danish ck3Culture = norwegian ck3Culture = swedish ck3Culture = norse }
+link = { ck3 = saxon_pagan ir = germanic_religion ck3Culture = angle ck3Culture = jute ck3Culture = old_saxon ck3Culture = frisa ck3Culture = anglo_saxon ck3Culture = frisian ck3Culture = saxon }
+link = { ck3 = norse_pagan ir = germanic_religion ck3Culture = gutish ck3Culture = danish ck3Culture = norwegian ck3Culture = swedish ck3Culture = norse }
 link = { ck3 = central_pagan ir = germanic_religion ck3Culture = swabian ck3Culture = bavarian ck3Culture = dutch ck3Culture = german ck3Culture = langobard ck3Culture = thuringian ck3Culture = old_suebi ck3Culture = western_suebi ck3Culture = marcomannic ck3Culture = alamannic ck3Culture = suebi ck3Culture = franconian ck3Culture = ripurian ck3Culture = salian ck3Culture = frankish }
 link = { ck3 = central_pagan ir = germanic_religion } # Fallback
 # Vanilla CK3

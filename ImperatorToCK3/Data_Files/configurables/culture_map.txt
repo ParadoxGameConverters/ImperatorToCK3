@@ -253,7 +253,7 @@ link = { ck3 = brythonic @ir_south_east_briton_cultures }
 # abasgoi, suani (Svans), sasperian and lazi come from Invictus
 # georgian comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
-link = { ck3 = arran ir = ibero }
+link = { ck3 = arran ir = albanian }
 link = { ck3 = circassian ir = sindi }
 link = { ck3 = colchian ir = colchian }
 link = { ck3 = abasgian ir = abasgoi }
@@ -399,6 +399,8 @@ link = { ck3 = angle @ir_angle_cultures }
 link = { ck3 = frisian @ir_frisian_cultures }
 link = { ck3 = old_saxon @ir_ingvaeonic_cultures } # fallback for Ingvaeonic cultures
 # Istvaeonic mappings
+link = { ck3 = salian @ir_frankish_cultures ck3Region = dlc_fp1_region_western_adventure_targets_frisia } # TFE
+link = { ck3 = ripurian @ir_frankish_cultures } # TFE
 link = { ck3 = dutch ir = dutch }
 link = { ck3 = frankish @ir_frankish_cultures }
 # Irminonic mappings
