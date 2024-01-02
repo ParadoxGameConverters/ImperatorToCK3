@@ -131,20 +131,25 @@ link = { ck3 = phrygian ir = phrygian ir = mysian }
 link = { ck3 = galatian ir = galatian }
 
 ## Aryan
+# TFE
+link = { ck3 = saurashtri ir = saurashtran }
+link = { ck3 = gandhari ir = gandhari }
+link = { ck3 = nuristani ir = dardic }
+# Vanilla CK3
 link = { ck3 = marathi ir = vidharban ir = maharashtran }
 link = { ck3 = gujarati ir = saurashtran }
 link = { ck3 = sinhala ir = lankan }
-link = { ck3 = punjabi ir = gandhari }
+link = { ck3 = punjabi ir = dardic }
 link = { ck3 = hindustani ir = shauraseni }
 link = { ck3 = rajput ir = avanti }
 link = { ck3 = sindhi ir = sindhi }
-link = { ck3 = kashmiri ir = dardic }
+link = { ck3 = kashmiri ir = dardic ir = purus }
 # Invictus mod
 link = { ck3 = rajput ir = matsya ir = cedi }
 link = { ck3 = marathi ir = mulaka }
 link = { ck3 = gujarati ir = kaccha }
 link = { ck3 = marathi ir = rathikan }
-link = { ck3 = punjabi ir = sivi ir = purus }
+link = { ck3 = punjabi ir = sivi }
 link = { ck3 = hindustani ir = kosala ir = kuru }
 link = { ck3=sinhala ir=dhivehi }
 
@@ -448,6 +453,10 @@ link = { ck3 = albanian @illyrian_cultures irRegion = macedonia_region irRegion 
 link = { ck3 = dalmatian @illyrian_cultures }
 
 ## Indian
+#TFE
+link = { ck3 = malaiya ir = cheran }
+link = { ck3 = maler ir = alupan }
+# Vanilla CK3
 link = { ck3 = kannada ir = kannadan }
 link = { ck3 = tamil ir = tamil }
 link = { ck3 = telugu ir = telugu }
@@ -577,6 +586,13 @@ link = { ck3 = elamite ir = elamite }
 link = { ck3 = afghan ir = afghan } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 ## Pracyan
+# TFE
+link = { ck3 = radhi ir = vanga }
+link = { ck3 = varendri ir = pandra }
+link = { ck3 = kashika ir = kasi ir = atavi }
+link = { ck3 = magadhi ir = magadhi } 
+link = { ck3 = maithili ir = vrji } 
+# Vanilla CK3
 link = { ck3 = oriya ir = kalingan }
 link = { ck3 = assamese ir = kamarupi }
 link = { ck3 = bengali ir = bangli ir = atavi ir = magadhi }
@@ -690,7 +706,10 @@ link = { ck3 = khazar ir = hebrew @culture_splitting_region_L }
 link = { ck3 = hebrew ir = hebrew }
 link = { ck3 = nabatean ir = nabatean }
 
-# Invictus Burmese and Tai
+## Invictus Burmese and Tai
+# TFE
+link = { ck3 = pyu ir = pyu }
+# Vanilla CK3
 link = { ck3=mon ir=mon }
 link = { ck3=burmese ir=pyu }
 link = { ck3=arakanese ir=rhakine }
