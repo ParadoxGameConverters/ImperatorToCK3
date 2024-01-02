@@ -1,25 +1,48 @@
 using commonItems;
 using commonItems.Collections;
-using ImperatorToCK3.Exceptions;
+using commonItems.Colors;
+using commonItems.Serialization;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public class Pillar : IIdentifiable<string> {
+public class Pillar : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public string Type { get; private set; }
+	public string Type { get; }
+	public Color? Color { get; }
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
+	public IReadOnlyCollection<KeyValuePair<string, StringOfItem>> Attributes => attributes;
 
-	public Pillar(string id, BufferedReader pillarReader) {
+	public Pillar(string id, PillarData pillarData) {
 		Id = id;
 
-		var parser = new Parser();
-		parser.RegisterKeyword("type", reader => {
-			Type = reader.GetString();
-		});
-		parser.IgnoreUnregisteredItems();
-		parser.ParseStream(pillarReader);
-
-		if (string.IsNullOrEmpty(Type)) {
-			throw new ConverterException($"Cultural pillar {id} has no type defined!");
+		Type = pillarData.Type!;
+		Color = pillarData.Color;
+		attributes = new List<KeyValuePair<string, StringOfItem>>(pillarData.Attributes);
+	}
+	
+	public string Serialize(string indent, bool withBraces) {
+		var contentIndent = indent;
+		if (withBraces) {
+			contentIndent += '\t';
 		}
+
+		var sb = new StringBuilder();
+		if (withBraces) {
+			sb.AppendLine("{");
+		}
+
+		sb.Append(contentIndent).AppendLine($"type={Type}");
+		if (Color is not null) {
+			sb.Append(contentIndent).AppendLine($"color={Color}");
+		}
+		sb.AppendLine(PDXSerializer.Serialize(Attributes, indent: contentIndent, withBraces: false));
+
+		if (withBraces) {
+			sb.Append(indent).Append('}');
+		}
+
+		return sb.ToString();
 	}
 }
