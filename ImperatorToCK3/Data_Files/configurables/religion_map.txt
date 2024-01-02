@@ -70,8 +70,9 @@ link = { ck3 = druze ir = arabian_pantheon ck3Province = 5925 ck3Province = 5926
 link = { ck3 = druze ir = judaism ck3Province = 5925 ck3Province = 5926 ck3Province = 5937 }
 link = { ck3 = yazidi ir = arabian_pantheon ck3Province = 4773 ck3Province = 4774 ck3Province = 4775 ck3Province = 4776 ck3Province = 4777 ck3Province = 4808 ck3Province = 4809 ck3Province = 4810 ck3Province = 4811 ck3Province = 4812 ck3Province = 4836 ck3Province = 4837 ck3Province = 4838 ck3Province = 4839 ck3Province = 4840 ck3Province = 4841 }
 link = { ck3 = arabic_pagan ir = arabian_pantheon }
-
-# Hellenic
+# Hellenic - TFE
+link = { ck3 = roman_pagan ir = italic_pantheon }
+# Hellenic - Vanilla CK3
 link = {
     ck3 = mithraic_mysteries
     ir = mithra_religion # from Invictus
