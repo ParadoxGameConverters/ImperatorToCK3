@@ -199,7 +199,7 @@ language_babylonian = {
 }
 
 language_gaulish = {
-    INVALIDATED_BY = { language_gaulish }
+    INVALIDATED_BY = { language_gaulish language_celtic }
     
 	type = language
 	is_shown = {
