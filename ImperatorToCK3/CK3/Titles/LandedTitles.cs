@@ -846,7 +846,7 @@ public partial class Title {
 
 			var parser = new Parser();
 			parser.RegisterRegex(CommonRegexes.String, (reader, titleId) => {
-				var nameListToLocKeyDict = reader.GetAssignments();
+				var nameListToLocKeyDict = reader.GetAssignments().ToDictionary();
 
 				if (!TryGetValue(titleId, out var title)) {
 					return;

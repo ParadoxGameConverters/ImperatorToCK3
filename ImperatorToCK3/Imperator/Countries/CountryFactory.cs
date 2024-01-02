@@ -65,11 +65,9 @@ public partial class Country {
 			}
 		});
 		parser.RegisterKeyword("historical_regnal_numbers", reader => {
-			parsedCountry.HistoricalRegnalNumbers = new Dictionary<string, int>(
-				reader.GetAssignments().ToDictionary(
-					t => t.Key, t => int.Parse(t.Value)
-				)
-			);
+			parsedCountry.HistoricalRegnalNumbers = reader.GetAssignments()
+				.GroupBy(a => a.Key)
+				.ToDictionary(g => g.Key, g => int.Parse(g.Last().Value));
 		});
 		parser.RegisterKeyword("primary_culture", reader => parsedCountry.PrimaryCulture = reader.GetString());
 		parser.RegisterKeyword("religion", reader => parsedCountry.Religion = reader.GetString());
