@@ -245,11 +245,15 @@ link = { ck3 = brythonic @ir_south_east_briton_cultures }
 # abasgoi, suani (Svans), sasperian and lazi come from Invictus
 # georgian comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
+link = { ck3 = arran ir = ibero }
+link = { ck3 = circassian ir = sindi }
+link = { ck3 = colchian ir = colchian }
 link = { ck3 = abasgian ir = abasgoi }
 link = { ck3 = svan ir = suani }
 link = { ck3 = laz ir = lazi }
 link = { ck3 = colchian ir = colchian }
 link = { ck3 = caspian ir = caspian }
+link = { ck3 = ciscaucasian ir = maeotian ir = legian }
 link = { ck3 = kartvelian ir = albanian ir = ibero @ir_georgian_cultures }
 # Vanilla CK3
 link = { ck3 = persian ir = caspian } # TODO: create a separate culture for Caspians
@@ -589,16 +593,18 @@ link = { ck3 = aquitanian ir = cantabrian ir = ilergetian ir = autrigonian ir = 
 link = { ck3 = basque ir = cantabrian ir = ilergetian ir = autrigonian ir = vasconian ir = aquitani ir = talaiotic }
 link = { ck3 = nuragic ir = nuragic ir = corsian }
 
-## Scythian - As a weird replacement for Turks
-link = { ck3 = avar ir = scythian ir = derbiccan ir = sakan ir = agathyrsian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = sindi ir = siraci irRegion = pannonia_region irRegion = dacia_region }
-
 ## Scythian
 link = { ck3 = cuman ir = cuman } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = kimek ir = kimek } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
+link = { ck3 = roxolan ir = sarmatian historicalTag=ROX }
+link = { ck3 = yazige ir = sarmatian historicalTag=IAZ } # https://en.wikipedia.org/wiki/Iazyges#:~:text=The%20Iazyges%27%20name,sacrifices.%5B22%5D
+link = { ck3 = thyssagetaen ir = thyssagetaen }
 link = { ck3 = ciscaucasian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = roxolanian ir = sindi ir = siraci irRegion = albania_region }
 link = { ck3 = hephthalite ir = huna }
 link = { ck3 = hun ir = hunnic }
+## Scythian - As a weird replacement for Turks
+link = { ck3 = avar ir = scythian ir = derbiccan ir = sakan ir = agathyrsian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = sindi ir = siraci irRegion = pannonia_region irRegion = dacia_region }
 # Vanilla CK3
 link = {
 	ck3 = alan
