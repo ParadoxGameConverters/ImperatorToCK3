@@ -209,6 +209,7 @@ link = { ck3=polish ir=polish } # https://steamcommunity.com/sharedfiles/filedet
 link = { ck3=slovien ir=slovien } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3=bulgarian ir=bulgarian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
+link = { ck3=venedian ir=androphagian ir=chernolian ir=budinian ir=melanchlaenian @culture_splitting_region_H }
 link = { ck3=dnieper ir=androphagian }
 link = { ck3=east_galindian ir=melanchlaenian }
 link = { ck3=kolochin ir=chernolian ir=budinian }
@@ -359,6 +360,8 @@ link = { ck3 = herulian @ir_vandilian_cultures historicalTag=HRE } # TFE
 link = { ck3 = herulian ir = herulian } # TFE
 link = { ck3 = bastarnian ir = bastarnae } # TFE
 link = { ck3 = rugian ir = rugian } # TFE
+link = { ck3 = gothonic @ir_gothic_cultures ck3Region = d_pommerania ck3Region = d_nordmark ck3Region = d_pomerelia ck3Region = d_ostmark ck3Region = d_wielkopolska } # TFE - Archaeological complex associated with the goths: https://en.wikipedia.org/wiki/Wielbark_culture#:~:text=The%20Wielbark%20culture%20(German%3A%20Wielbark,to%20the%205th%20century%20AD.
+link = { ck3 = przeworsk @ir_vandal_cultures ck3Region = d_lesser_poland ck3Region = d_wielkopolska ck3Region = d_mazovia ck3Region = d_kuyavia ck3Region = d_pommerania ck3Region = d_pomerelia } # TFE - Mixed archaeological complex that contained the vandals: https://en.wikipedia.org/wiki/Przeworsk_culture#:~:text=The%20Przeworsk%20culture%20was,%5B14%5D%5B15%5D
 link = { ck3 = visigothic @ir_gothic_cultures
  	@culture_splitting_region_A @culture_splitting_region_B @culture_splitting_region_C
 	@culture_splitting_region_E @culture_splitting_region_F
