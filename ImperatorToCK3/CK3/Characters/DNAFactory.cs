@@ -144,10 +144,14 @@ public sealed class DNAFactory {
 		} else {
 			Logger.Warn("hairstyles not found in CK3 special accessory genes!");
 		}
-
-		var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes");
-		if (clothesGeneValue is not null) {
-			accessoryDNAValues.Add("clothes", clothesGeneValue.Value);
+		
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("clothes", out var ck3ClothesGene)) {
+			var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes", ck3ClothesGene);
+			if (clothesGeneValue is not null) {
+				accessoryDNAValues.Add(ck3ClothesGene.Id, clothesGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("clothes not found in CK3 special accessory genes!");
 		}
 		
 		// Convert eye accessories.
@@ -331,9 +335,9 @@ public sealed class DNAFactory {
 		if (!irPortraitData.AccessoryGenesDict.TryGetValue(irGeneName, out var geneInfo)) {
 			return null;
 		}
-
-		var objectMappings = accessoryGeneMapper.ObjectToObjectMappings[irGeneName];
-		if (!objectMappings.TryGetValue(geneInfo.ObjectName, out var convertedSetEntry)) {
+		
+		var convertedSetEntry = accessoryGeneMapper.GetObjectFromObject(irGeneName, geneInfo.ObjectName);
+		if (convertedSetEntry is null) {
 			Logger.Warn($"No object mappings found for {geneInfo.ObjectName} in gene {irGeneName}!");
 			return null;
 		}
@@ -343,7 +347,8 @@ public sealed class DNAFactory {
 			Logger.Warn($"No template found for {convertedSetEntry} in CK3 gene {ck3Gene.Id}!");
 			return null;
 		}
-		if (!objectMappings.TryGetValue(geneInfo.ObjectNameRecessive, out var convertedSetEntryRecessive)) {
+		var convertedSetEntryRecessive = accessoryGeneMapper.GetObjectFromObject(irGeneName, geneInfo.ObjectNameRecessive);
+		if (convertedSetEntryRecessive is null) {
 			Logger.Warn($"No object mappings found for {geneInfo.ObjectNameRecessive} in gene {irGeneName}!");
 			return null;
 		}
@@ -374,26 +379,30 @@ public sealed class DNAFactory {
 	private DNAGeneValue? MatchAccessoryGeneValueByTemplate(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
-		string imperatorGeneName
+		string imperatorGeneName,
+		AccessoryGene ck3Gene
 	) {
 		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
 			return null;
 		}
+		
+		var validCK3TemplateIds = ck3Gene.GeneTemplates
+			.Select(template => template.Id)
+			.ToList();
 
-		if (!accessoryGeneMapper.TemplateToTemplateMappings.TryGetValue(imperatorGeneName, out var templateMappings)) {
-			Logger.Warn($"No template-to-template mappings found for gene {imperatorGeneName}!");
-			return null;
-		}
-		if (!templateMappings.TryGetValue(geneInfo.GeneTemplate, out var ck3GeneTemplateName)) {
+		var ck3GeneTemplateName = accessoryGeneMapper.GetTemplateFromTemplate(imperatorGeneName, geneInfo.GeneTemplate, validCK3TemplateIds);
+		if (ck3GeneTemplateName is null) {
 			Logger.Warn($"No template-to-template mapping found for gene {imperatorGeneName} and template {geneInfo.GeneTemplate}!");
 			// Try to return first found template as a fallback.
-			if (templateMappings.Count > 0) {
-				ck3GeneTemplateName = templateMappings.First().Value;
+			var fallbackTemplateName = accessoryGeneMapper.GetFallbackTemplateForGene(imperatorGeneName, validCK3TemplateIds);
+			if (fallbackTemplateName is not null) {
+				ck3GeneTemplateName = fallbackTemplateName;
 			} else {
 				return null;
 			}
 		}
-		if (!templateMappings.TryGetValue(geneInfo.GeneTemplateRecessive, out var ck3GeneTemplateNameRecessive)) {
+		var ck3GeneTemplateNameRecessive = accessoryGeneMapper.GetTemplateFromTemplate(imperatorGeneName, geneInfo.GeneTemplateRecessive, validCK3TemplateIds);
+		if (ck3GeneTemplateNameRecessive is null) {
 			Logger.Warn($"No template-to-template mapping found for gene {imperatorGeneName} and recessive template {geneInfo.GeneTemplateRecessive}!");
 			// Use dominant template as a fallback.
 			ck3GeneTemplateNameRecessive = ck3GeneTemplateName;
