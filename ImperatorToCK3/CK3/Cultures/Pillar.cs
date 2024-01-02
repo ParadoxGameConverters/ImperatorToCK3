@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Serialization;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ namespace ImperatorToCK3.CK3.Cultures;
 public class Pillar : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public string Type { get; }
+	public Color? Color { get; }
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
 	public IReadOnlyCollection<KeyValuePair<string, StringOfItem>> Attributes => attributes;
 
@@ -16,6 +18,7 @@ public class Pillar : IIdentifiable<string>, IPDXSerializable {
 		Id = id;
 
 		Type = pillarData.Type!;
+		Color = pillarData.Color;
 		attributes = new List<KeyValuePair<string, StringOfItem>>(pillarData.Attributes);
 	}
 	
@@ -31,6 +34,9 @@ public class Pillar : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		sb.Append(contentIndent).AppendLine($"type={Type}");
+		if (Color is not null) {
+			sb.Append(contentIndent).AppendLine($"color={Color}");
+		}
 		sb.AppendLine(PDXSerializer.Serialize(Attributes, indent: contentIndent, withBraces: false));
 
 		if (withBraces) {

@@ -24,7 +24,7 @@ language_nuragic = {
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_nuragic
+			LANGUAGE = language_nuragic
 		}
 	}
 	ai_will_do = {

@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Mods;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace ImperatorToCK3.CK3.Cultures;
 public class PillarCollection : IdObjectCollection<string, Pillar> {
 	public IEnumerable<Pillar> Heritages => this.Where(p => p.Type == "heritage").ToImmutableList();
 
-	public PillarCollection() {
-		InitPillarDataParser();
+	public PillarCollection(ColorFactory colorFactory) {
+		InitPillarDataParser(colorFactory);
 	}
 
 	public void LoadPillars(ModFilesystem ck3ModFS) {
@@ -52,12 +53,19 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		pillarData = new PillarData();
 	}
 
-	private void InitPillarDataParser() {
+	private void InitPillarDataParser(ColorFactory colorFactory) {
 		pillarDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
 			pillarData.InvalidatingPillarIds = reader.GetStrings();
 		});
 		pillarDataParser.RegisterKeyword("type", reader => {
 			pillarData.Type = reader.GetString();
+		});
+		pillarDataParser.RegisterKeyword("color", reader => {
+			try {
+				pillarData.Color = colorFactory.GetColor(reader);
+			} catch (Exception e) {
+				Logger.Warn($"Found invalid color when parsing pillar! {e.Message}");
+			}
 		});
 		pillarDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			pillarData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
