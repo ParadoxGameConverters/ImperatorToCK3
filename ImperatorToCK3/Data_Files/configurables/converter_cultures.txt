@@ -37,9 +37,8 @@ khasi = {
 		10 = indian
 	}
 }
-
+# TFE Iberian is a Roman divergence culture, not pre-indo-european
 iberian = {
-    INVALIDATED_BY = { iberian }
     
 	color = hsv { 0.07 1.0 1.0 }
 
