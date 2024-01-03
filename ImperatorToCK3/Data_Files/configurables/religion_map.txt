@@ -101,9 +101,10 @@ link = { ck3 = melieism ir = eastern_animism }
 link = { ck3 = tengri_pagan ir = tengri } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Celtic - TFE
-link = { ck3 = brythonic_druidism ir = druidism irRegion = britain_region irRegion = scandinavia_region }
+link = { ck3 = briton_pagan ir = druidism irRegion = britain_region irRegion = scandinavia_region }
 link = { ck3 = irish_druidism ir = druidism ck3Province = 9 ck3Province = 10 ck3Province = 11 ck3Province = 12 ck3Province = 13 ck3Province = 14 ck3Province = 15 ck3Province = 16 ck3Province = 17 ck3Province = 18 ck3Province = 19 ck3Province = 20 ck3Province = 21 ck3Province = 22 ck3Province = 23 ck3Province = 24 ck3Province = 25 ck3Province = 26 ck3Province = 27 ck3Province = 28 ck3Province = 29 ck3Province = 30 ck3Province = 31 ck3Province = 32 ck3Province = 33 ck3Province = 34 ck3Province = 36 ck3Province = 37 ck3Province = 38 ck3Province = 39 ck3Province = 40 ck3Province = 41  ck3Province = 42 ck3Province = 43 ck3Province = 44 ck3Province = 45 ck3Province = 46 ck3Province = 47 ck3Province = 48 ck3Province = 49 ck3Province = 50 ck3Province = 51 ck3Province = 52 ck3Province = 53 ck3Province = 54 }
 link = { ck3 = pictish_druidism ir = druidism irRegion = caledonia_region }
+link = { ck3 = gaulish_pagan ir = druidism irRegion = aquitaine_region irRegion = transalpine_gaul_region irRegion = armorica_region irRegion = central_gaul_region irRegion = rhaetia_region irRegion = cisalpine_gaul_region irRegion = central_italy_region irRegion = magna_graecia_region irRegion = belgica_region irRegion = germania_superior_region }
 link = { ck3 = druidism ir = druidism } # Fallback
 # Celtic - Vanilla CK3
 link = { ck3 = briton_paganism ir = druidism irRegion = britain_region irRegion = scandinavia_region }
