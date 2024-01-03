@@ -436,8 +436,8 @@ link = { ck3 = german @ir_all_germanic_cultures }
 @ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean"
 # TFE
 link = { ck3 = pontic ir = greco_pontic }
-link = { ck3 = syrian @ir_greek_cultures @culture_splitting_region_N  }
-link = { ck3 = aegyptian @ir_greek_cultures @culture_splitting_region_O }
+link = { ck3 = syrian ir=macedonian ir=hellenistic ck3=italiote ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_N  }
+link = { ck3 = aegyptian ir=macedonian ir=hellenistic ck3=italiote ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_O }
 # Vanilla CK3
 link = { ck3=italiote ir=syracusan ir=italiotian }
 link = { ck3=greek @ir_greek_cultures }
