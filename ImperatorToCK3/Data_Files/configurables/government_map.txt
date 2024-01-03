@@ -27,21 +27,12 @@
 
 
 ## TFE
-
-link = { ck3 = nomadic_government
-	ir = tribal_chiefdom
-	ir = tribal_kingdom
-	ir = tribal_federation
-	irCulture = illyrian_group
-}
-
-
 link = { ck3 = gupta_government ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy ir = imperium ir = imperial_cult 
 	irCulture = vidharban irCulture = mulaka irCulture = saurashtran irCulture = kaccha irCulture = lankan irCulture = maharashtran irCulture = rathikan irCulture = gandhari irCulture = sivi irCulture = shauraseni irCulture = kosala irCulture = kuru irCulture = avanti irCulture = matsya irCulture = cedi irCulture = dhivehi irCulture = sindhi irCulture = ardic irCulture = purus irCulture = mitanni 
 	irCulture = kalingan irCulture = savara irCulture = kamarupi irCulture = bangli irCulture = pandra irCulture = vanga irCulture = atavi irCulture = magadhi irCulture = kasi irCulture = vrji irCulture = malla irCulture = himalayan 
 	irCulture = kannadan irCulture = kuntalan irCulture = alupan irCulture = tamil irCulture = cholan irCulture = cheran irCulture = pandyan irCulture = telugu irCulture = andhran irCulture = assaka
 }
-link = { ck3 = gana_sangha_government ir = tribal_federation 
+link = { ck3 = gana_sangha_government ir = tribal_federation ir = oligarchic_republic ir = democratic_republic
 	irCulture = vidharban irCulture = mulaka irCulture = saurashtran irCulture = kaccha irCulture = lankan irCulture = maharashtran irCulture = rathikan irCulture = gandhari irCulture = sivi irCulture = shauraseni irCulture = kosala irCulture = kuru irCulture = avanti irCulture = matsya irCulture = cedi irCulture = dhivehi irCulture = sindhi irCulture = ardic irCulture = purus irCulture = mitanni 
 	irCulture = kalingan irCulture = savara irCulture = kamarupi irCulture = bangli irCulture = pandra irCulture = vanga irCulture = atavi irCulture = magadhi irCulture = kasi irCulture = vrji irCulture = malla irCulture = himalayan 
 	irCulture = kannadan irCulture = kuntalan irCulture = alupan irCulture = tamil irCulture = cholan irCulture = cheran irCulture = pandyan irCulture = telugu irCulture = andhran irCulture = assaka
