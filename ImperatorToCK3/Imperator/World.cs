@@ -408,11 +408,11 @@ public class World : Parser {
 		}
 	}
 	private static BufferedReader ProcessDebugModeSave(string saveGamePath) {
-		return new BufferedReader(File.Open(saveGamePath, FileMode.Open));
+		return new BufferedReader(File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 	}
 	private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {
 		Helpers.RakalyCaller.MeltSave(saveGamePath);
-		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open));
+		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 	}
 
 	private readonly IgnoredKeywordsSet ignoredTokens = new();
