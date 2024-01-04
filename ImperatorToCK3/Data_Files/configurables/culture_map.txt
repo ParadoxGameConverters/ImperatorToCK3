@@ -141,17 +141,17 @@ link = { ck3 = nuristani ir = dardic }
 link = { ck3 = marathi ir = vidharban ir = maharashtran }
 link = { ck3 = gujarati ir = saurashtran }
 link = { ck3 = sinhala ir = lankan }
-link = { ck3 = punjabi ir = dardic }
+link = { ck3 = punjabi ir = gandhari }
 link = { ck3 = hindustani ir = shauraseni }
 link = { ck3 = rajput ir = avanti }
 link = { ck3 = sindhi ir = sindhi }
-link = { ck3 = kashmiri ir = dardic ir = purus }
+link = { ck3 = kashmiri ir = dardic }
 # Invictus mod
 link = { ck3 = rajput ir = matsya ir = cedi }
 link = { ck3 = marathi ir = mulaka }
 link = { ck3 = gujarati ir = kaccha }
 link = { ck3 = marathi ir = rathikan }
-link = { ck3 = punjabi ir = sivi }
+link = { ck3 = punjabi ir = sivi ir = purus }
 link = { ck3 = hindustani ir = kosala ir = kuru }
 link = { ck3=sinhala ir=dhivehi }
 
