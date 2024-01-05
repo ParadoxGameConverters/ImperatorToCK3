@@ -7,7 +7,7 @@ using ImperatorToCK3.CK3.Wars;
 namespace ImperatorToCK3.Outputter;
 
 public static class WarsOutputter {
-	public static void OutputWars(string outputModName, IList<War> wars) {
+	public static void OutputWars(string outputModName, IEnumerable<War> wars) {
 		Logger.Info("Writing wars...");
 		// dumping all into one file
 		var path = Path.Combine("output",outputModName, "history/wars/00_wars.txt");
@@ -27,8 +27,8 @@ public static class WarsOutputter {
 		if (war.CasusBelli is not null) {
 			output.WriteLine($"\tcasus_belli = {war.CasusBelli}");
 		}
-		output.WriteLine($"\tattackers={{ {string.Join(" ", war.Attackers)} }}");
-		output.WriteLine($"\tdefenders={{ {string.Join(" ", war.Defenders)} }}");
+		output.WriteLine($"\tattackers={{ {string.Join(' ', war.Attackers)} }}");
+		output.WriteLine($"\tdefenders={{ {string.Join(' ', war.Defenders)} }}");
 		output.WriteLine($"\tclaimant = {war.Claimant}");
 
 		output.WriteLine("}");
