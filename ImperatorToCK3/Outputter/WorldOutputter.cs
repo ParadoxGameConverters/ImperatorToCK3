@@ -4,6 +4,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -109,7 +110,25 @@ public static class WorldOutputter {
 			file.Delete();
 		}
 		foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-			dir.Delete(true);
+			// Try 5 times to delete the directory.
+			// This is to avoid "The directory not empty" errors resulting from the OS not having
+			// finished deleting files in the directory.
+			var tries = 0;
+			bool success = false;
+			while (tries < 5) {
+				try {
+					dir.Delete(recursive: true);
+					success = true;
+					break;
+				} catch (IOException) {
+					Logger.Debug($"Attempt {tries+1} to delete \"{dir.FullName}\" failed.");
+					Thread.Sleep(50);
+					++tries;
+				}
+			}
+			if (!success) {
+				Logger.Error($"Failed to delete \"{dir.FullName}\"!");
+			}
 		}
 
 		Logger.IncrementProgress();

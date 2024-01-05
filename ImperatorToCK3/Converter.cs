@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.Helpers;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -12,7 +13,9 @@ internal static class Converter {
 		SystemUtils.TryCreateFolder("temp");
 		var config = new Configuration(converterVersion);
 		
-		PlayMusic(config);
+		if (OperatingSystem.IsWindows()) {
+			PlayMusic(config);
+		}
 		
 		var imperatorWorld = new Imperator.World(config, converterVersion);
 
