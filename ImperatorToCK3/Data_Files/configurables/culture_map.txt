@@ -112,6 +112,9 @@ link = { ck3=somali
 }
 
 ## Meroitic
+# TFE
+link = { ck3=meroitic ir=meroitic ir=alutan ir=napatan ir=moyan }
+# vanilla CK3
 link = { ck3=nubian ir=meroitic }
 # Invictus mod
 link = { ck3=nubian ir=nubian ir=lower_nubian ir=napatan ir=alutan ir=moyan }
@@ -563,7 +566,11 @@ link = { ck3 = old_egyptian @ir_egyptian_cultures }
 link = { ck3 = baranis ir = baranis } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = butr ir = butr } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
+link = { ck3 = garamantian ir = nasamonian ir = macaean ir = psyllic ir = garamantic ir = libyan ir = berber ir = phazani ir = lotophagoi ir = gyzantian }
+link = { ck3 = autoleles ir = nectiberean ir = autolalean ir = cetianian }
+link = { ck3 = pharusian ir = lixitoi ir = perorsian ir = canarian }
 link = { ck3 = maurian ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian irRegion = mauretainia_region }
+link = { ck3 = gaetulian ir = massylian ir = massaesylian ir = gaetulian ir = abannaean ir = capariensian }
 link = { ck3 = tuareg ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian ck3Province = 6590 ck3Province = 6591 ck3Province = 6465 ck3Province = 6466 ck3Province = 6467 ck3Province = 6468 ck3Province = 4612 }
 # Vanilla CK3
 link = { ck3 = zaghawa ir = berber ir = gaetulian ir = socossian ir = libyan ir = garamantic ck3Province = 6463 ck3Province = 6562 ck3Province = 6561 ck3Province = 6457 ck3Province = 6456 ck3Province = 6452 ck3Province = 6496 ck3Province = 6494 ck3Province = 6497 ck3Province = 6848 ck3Province = 6849 ck3Province = 6850 ck3Province = 6851 ck3Province = 6852 ck3Province = 6853 ck3Province = 6854 ck3Province = 6855 ck3Province = 6860 ck3Province = 6861 ck3Province = 6862 ck3Province = 6863 ck3Province = 6864 ck3Province = 6859 }
@@ -626,6 +633,7 @@ link = { ck3 = thyssagetaen ir = thyssagetaen }
 link = { ck3 = ciscaucasian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = roxolanian ir = sindi ir = siraci irRegion = albania_region }
 link = { ck3 = hephthalite ir = huna }
 link = { ck3 = hun ir = hunnic }
+link = { ck3 = khwarezmian ir = kharesmian ir = derbiccan }
 ## Scythian - As a weird replacement for Turks
 link = { ck3 = avar ir = scythian ir = derbiccan ir = sakan ir = agathyrsian ir = sarmatian ir = legian ir = thyssagetaen ir = maeotian ir = sindi ir = siraci irRegion = pannonia_region irRegion = dacia_region }
 # Vanilla CK3
