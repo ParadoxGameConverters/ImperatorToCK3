@@ -113,7 +113,7 @@ link = { ck3=somali
 
 ## Meroitic
 # TFE
-link = { ck3=meroitic ir=meroitic ir=alutan ir=napatan ir=moyan }
+link = { ck3=meroitic ir=meroitic }
 # vanilla CK3
 link = { ck3=nubian ir=meroitic }
 # Invictus mod
