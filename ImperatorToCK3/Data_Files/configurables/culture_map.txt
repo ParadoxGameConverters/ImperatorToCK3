@@ -284,9 +284,9 @@ link = { ck3 = lusoiberian ir = callaecian ir = lusitanian ir = vettonian }
 
 ## Celto Pannonian
 # TFE
-link = { ck3 = noric ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci }
+link = { ck3 = noric ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci ir=cotinian }
 # Vanilla CK3
-link = { ck3 = celtic_pannonian ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci }
+link = { ck3 = celtic_pannonian ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci ir=cotinian }
 
 ## Dacian
 link = { ck3 = dacian ir = biephi ir = caucoensi ir = dacian ir = costoboci ir = mariandynian }
@@ -311,7 +311,7 @@ link = { ck3 = gaelic @ir_gaelic_cultures }
 link = { ck3=gaelic @ir_irish_cultures }
 
 ## Gallic
-@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=cotinian ir=allobrogian ir=teurian"
+@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=allobrogian ir=teurian"
 @ir_breton_cultures = "ir=aremorican ir=breton" # breton comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = gaul @ir_gallic_cultures } # TFE
 link = { ck3 = gallic @ir_gallic_cultures }
