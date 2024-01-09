@@ -284,7 +284,7 @@ link = { ck3 = lusoiberian ir = callaecian ir = lusitanian ir = vettonian }
 
 ## Celto Pannonian
 # TFE
-link = { ck3 = noric ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci ir = pannonian }
+link = { ck3 = noric ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci }
 # Vanilla CK3
 link = { ck3 = celtic_pannonian ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci }
 # Invictus mod
@@ -455,7 +455,8 @@ link = { ck3 = iberian ir = turdulian ir = couneian ir = turdetanian ir = auseta
 ## Illyrian
 # liburnian is deprecated, liburnian_culture is used
 # iapodian is from Invictus mod
-@illyrian_cultures = "ir=taulantian ir=dardanian ir=messapian ir=deurian ir=deraemestian ir=catari ir=liburnian ir=liburnian_culture ir=histrian ir=abrian ir=greco_illyrian ir=iapodian"
+# pannonian moved from Invictus mod
+@illyrian_cultures = "ir=taulantian ir=dardanian ir=deurian ir=deraemestian ir=catari ir=liburnian ir=liburnian_culture ir=abrian ir=greco_illyrian ir=iapodian ir = pannonian"
 # TFE
 link = { ck3 = illyrian @illyrian_cultures }
 # Vanilla CK3
@@ -496,10 +497,10 @@ link = { ck3 = norman ir = norman } # https://steamcommunity.com/sharedfiles/fil
 link = { ck3 = roman @ir_latin_cultures historicalTag=ROM }
 
 # TFE -splitting according to regions
-link = { ck3 = hiberno_roman @ir_latin_cultures @culture_splitting_region_A }
-link = { ck3 = caledo_roman @ir_latin_cultures @culture_splitting_region_B }
-link = { ck3 = britano_roman @ir_latin_cultures @culture_splitting_region_C }
-link = { ck3 = rhaetio_roman @ir_latin_cultures @culture_splitting_region_I }
+link = { ck3 = hiberno_roman @ir_latin_cultures @culture_splitting_region_A } 
+link = { ck3 = caledo_roman @ir_latin_cultures @culture_splitting_region_B } # hiberno and caledo roman have been commented out
+link = { ck3 = britano_roman @ir_latin_cultures @culture_splitting_region_C @culture_splitting_region_B @culture_splitting_region_A }
+link = { ck3 = rhaetio_roman @ir_latin_cultures irRegion = rhaetia_region }
 link = { ck3 = illyro_roman @ir_latin_cultures @culture_splitting_region_J1 } 
 link = { ck3 = dacio_roman @ir_latin_cultures @culture_splitting_region_J2 } 
 link = { ck3 = thracio_roman @ir_latin_cultures @culture_splitting_region_K1 }
@@ -516,6 +517,9 @@ link = { ck3 = hispano_roman @ir_latin_cultures
     @culture_splitting_region_X
     @culture_splitting_region_Y
 }
+link = { ck3 = mauro_roman @ir_latin_cultures irRegion = mauretainia_region irRegion = atlas_region irRegion = numidia_region }
+link = { ck3 = afro_roman @ir_latin_cultures @culture_splitting_region_O }
+
 # Vanilla CK3 - splitting according to regions, TODO: rework this
 link = { ck3 = breathanach @ir_latin_cultures @culture_splitting_region_A }
 link = { ck3 = transadrianic @ir_latin_cultures @culture_splitting_region_B }
@@ -540,7 +544,7 @@ link = { ck3 = portuguese @ir_latin_cultures @culture_splitting_region_Y }
 
 # Default
 link = { ck3 = ligustic ir = ligurian }
-link = { ck3 = venetic ir = venetic }
+link = { ck3 = venetic ir = venetic ir=histrian } # histrian moved to italic in Invictus
 link = { ck3 = roman ir = roman }
 link = { ck3 = samnite ir = samnite }
 link = { ck3 = oscan ir = osco_umbrian ir = umbrian }
