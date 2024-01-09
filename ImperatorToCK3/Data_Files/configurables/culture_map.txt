@@ -548,7 +548,7 @@ link = { ck3 = venetic ir = venetic ir=histrian } # histrian moved to italic in 
 link = { ck3 = roman ir = roman }
 link = { ck3 = samnite ir = samnite }
 link = { ck3 = oscan ir = osco_umbrian ir = umbrian }
-link = { ck3 = messapic ir = lucanian ir = bruttian ir = messapic }
+link = { ck3 = messapic ir = lucanian ir = bruttian ir = messapian }
 link = { ck3 = sardonian ir = sardonian }
 link = { ck3 = siculian ir = siculian }
 
