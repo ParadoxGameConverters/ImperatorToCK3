@@ -287,8 +287,6 @@ link = { ck3 = lusoiberian ir = callaecian ir = lusitanian ir = vettonian }
 link = { ck3 = noric ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci }
 # Vanilla CK3
 link = { ck3 = celtic_pannonian ir = boian ir = noric ir = celtic_pannonian ir = letobician ir = carnian ir = eravisci }
-# Invictus mod
-link = { ck3 = celtic_pannonian ir = pannonian }
 
 ## Dacian
 link = { ck3 = dacian ir = biephi ir = caucoensi ir = dacian ir = costoboci ir = mariandynian }
