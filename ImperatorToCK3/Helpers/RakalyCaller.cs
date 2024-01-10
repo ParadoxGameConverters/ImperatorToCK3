@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -50,11 +51,15 @@ public static class RakalyCaller {
 		process.StartInfo.FileName = RakalyExecutablePath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
+		process.StartInfo.RedirectStandardError = true;
 		process.Start();
 		process.WaitForExit();
-		var returnCode = process.ExitCode;
+		int returnCode = process.ExitCode;
 		if (returnCode != 0 && returnCode != 1) {
-			throw new FormatException($"Rakaly melter failed to melt {savePath} with exit code {returnCode}");
+			Logger.Debug("Save path: " + savePath);
+			Logger.Debug("Rakaly exit code: " + returnCode);
+			Logger.Debug("Rakaly standard error: \n" + process.StandardError.ReadToEnd());
+			throw new FormatException("Rakaly melter failed to melt the save. One possible reason is that there isn't enough space on your disk.");
 		}
 
 		var meltedSaveName = $"{CommonFunctions.TrimExtension(savePath)}_melted.rome";

@@ -23,7 +23,7 @@ public static class Program {
 			Converter.ConvertImperatorToCK3(converterVersion);
 			return 0;
 		} catch (Exception e) {
-			Logger.Log(Level.Fatal, $"{e.GetType()}: {e.Message}");
+			Logger.Log(Level.Fatal, e is UserErrorException ? e.Message : $"{e.GetType()}: {e.Message}");
 			if (e.StackTrace is not null) {
 				Logger.Debug(e.StackTrace);
 			}
