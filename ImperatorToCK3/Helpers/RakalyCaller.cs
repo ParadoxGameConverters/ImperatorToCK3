@@ -20,7 +20,9 @@ public static class RakalyCaller {
 
 		if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()) {
 			// Make sure the file is executable.
-			var rakalyPath = Path.Combine(currentDir, RelativeRakalyPath).AddQuotes();
+			var rakalyPath = Path.Combine(currentDir, RelativeRakalyPath)
+				.Replace('\\', '/')
+				.AddQuotes();
 			Exec($"chmod +x {rakalyPath}");
 		}
 	}
