@@ -64,7 +64,7 @@
 ## N:
 @culture_splitting_region_N = "irRegion = syria_region irRegion = assyria_region irRegion = palestine_region"
 ## O:
-@culture_splitting_region_O = "irRegion = numidia_region irRegion = mauretainia_region irRegion = africa_region irRegion = cyrenaica_region irRegion = upper_egypt_region irRegion = lower_egypt_region"
+@culture_splitting_region_O = "irRegion = numidia_region irRegion = mauretainia_region irRegion = africa_region irRegion = cyrenaica_region irRegion = upper_egypt_region irRegion = lower_egypt_region irRegion = atlas_region irRegion = fezzan_region"
 ## P (!overlaps with S, must be put after it):
 @culture_splitting_region_P = "irRegion = central_italy_region"
 ## Q:
