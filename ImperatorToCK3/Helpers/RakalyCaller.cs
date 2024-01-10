@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using ImperatorToCK3.Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -8,17 +7,21 @@ namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
 	private const string RakalyVersion = "0.4.22";
-	private static readonly string RakalyExecutablePath;
+	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
 		string currentDir = Directory.GetCurrentDirectory();
-		RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
+		RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
 		if (OperatingSystem.IsMacOS()) {
-			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
-			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
+			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
 		} else if (OperatingSystem.IsLinux()) {
-			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
-			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
+			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
+		}
+
+		if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()) {
+			// Make sure the file is executable.
+			var rakalyPath = Path.Combine(currentDir, RelativeRakalyPath).AddQuotes();
+			Exec($"chmod +x {rakalyPath}");
 		}
 	}
 
@@ -28,7 +31,7 @@ public static class RakalyCaller {
 
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = RakalyExecutablePath;
+		process.StartInfo.FileName = RelativeRakalyPath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.StartInfo.RedirectStandardOutput = true;
@@ -48,7 +51,7 @@ public static class RakalyCaller {
 
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = RakalyExecutablePath;
+		process.StartInfo.FileName = RelativeRakalyPath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.StartInfo.RedirectStandardError = true;
@@ -88,5 +91,10 @@ public static class RakalyCaller {
 
 		process.Start();
 		process.WaitForExit();
+
+		var stdOut = process.StandardOutput.ReadToEnd().Trim();
+		if (!string.IsNullOrEmpty(stdOut)) {
+			Logger.Debug("Exec output: " + stdOut);
+		}
 	}
 }
