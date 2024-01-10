@@ -117,7 +117,7 @@ link = { ck3=meroitic ir=meroitic ir=alutan }
 # vanilla CK3
 link = { ck3=nubian ir=meroitic }
 # Invictus mod
-link = { ck3=nubian ir=nubian ir=lower_nubian ir=napatan ir=moyan }
+link = { ck3=nubian ir=nubian ir=lower_nubian ir=napatan ir=moyan ir=alutan }
 
 ## Anatolian
 # TFE
