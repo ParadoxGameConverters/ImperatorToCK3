@@ -2,17 +2,27 @@
 using ImperatorToCK3.Helpers;
 using System.Text.Json;
 using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Helpers;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class RakalyCallerTests {
 	[Fact]
 	public void RakalyCallerReportsWrongExitCode() {
+		var stdOut = new StringWriter();
+		Console.SetOut(stdOut);
+		
 		const string missingSavePath = "missing.rome";
 		var e = Assert.Throws<FormatException>(() => RakalyCaller.MeltSave(missingSavePath));
-		Assert.Contains($"Rakaly melter failed to melt {missingSavePath} with exit code 2", e.ToString());
+		Assert.Contains($"Rakaly melter failed to melt the save", e.ToString());
+		
+		var stdErrString = stdOut.ToString();
+		Assert.Contains("Save path: missing.rome", stdErrString);
+		Assert.Contains("Rakaly exit code: 2", stdErrString);
 	}
 
 	[Fact]
