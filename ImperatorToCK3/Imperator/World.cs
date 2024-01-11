@@ -5,6 +5,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
@@ -408,7 +409,14 @@ public class World : Parser {
 		}
 	}
 	private static BufferedReader ProcessDebugModeSave(string saveGamePath) {
-		return new BufferedReader(File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+		try {
+			var fileStream = File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+			return new BufferedReader(fileStream);
+		} catch (IOException e) {
+			Logger.Debug($"Failed to open save file \"{saveGamePath}\": {e.Message}");
+			throw new UserErrorException("Could not open the save file! " +
+			                             "Close Imperator: Rome before running the converter.");
+		}
 	}
 	private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {
 		Helpers.RakalyCaller.MeltSave(saveGamePath);
