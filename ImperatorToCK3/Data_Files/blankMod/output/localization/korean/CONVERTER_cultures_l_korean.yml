@@ -80,9 +80,9 @@
  vandal_collective_noun: "반달족"
  vandal_prefix: "반달족"
 
- iberian: "이베리아"
- iberian_collective_noun: "이베리아"
- iberian_prefix: "이베리아"
+ non_indo_european_iberian: "이베리아"
+ non_indo_european_iberian_collective_noun: "이베리아"
+ non_indo_european_iberian_prefix: "이베리아"
 
  nuragic: "누라기"
  nuragic_collective_noun: "누라기"

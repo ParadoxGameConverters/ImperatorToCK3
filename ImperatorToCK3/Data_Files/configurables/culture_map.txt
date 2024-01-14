@@ -448,7 +448,7 @@ link = { ck3=thracian ir=thracian }
 
 ## Iberia
 link = { ck3 = andalusian ir = andalusian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-link = { ck3 = iberian ir = turdulian ir = couneian ir = turdetanian ir = ausetanian ir = indiketian ir = lacetanian ir = edetanian ir = oretanian ir = contestanian ir = bastetanian ir = ilercavonian }
+link = { ck3 = non_indo_european_iberian ir = turdulian ir = couneian ir = turdetanian ir = ausetanian ir = indiketian ir = lacetanian ir = edetanian ir = oretanian ir = contestanian ir = bastetanian ir = ilercavonian }
 
 ## Illyrian
 # liburnian is deprecated, liburnian_culture is used

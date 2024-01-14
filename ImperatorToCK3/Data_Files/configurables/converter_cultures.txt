@@ -37,9 +37,9 @@ khasi = {
 		10 = indian
 	}
 }
-# TFE Iberian is a Roman divergence culture, not pre-indo-european
-iberian = {
-    
+
+# TFE "iberian" is a Roman divergence culture, not pre-indo-european
+non_indo_european_iberian = {
 	color = hsv { 0.07 1.0 1.0 }
 
 	heritage = heritage_aboriginal
@@ -1195,7 +1195,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
     INVALIDATED_BY = { lusoiberian }
     
 	color = hsv { 0.6 0.8 0.2 }
-	parents = { celtiberian iberian }
+	parents = { celtiberian non_indo_european_iberian }
 	created = 2.1.1
 
 	heritage = heritage_gaulish
