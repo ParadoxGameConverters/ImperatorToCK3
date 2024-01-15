@@ -80,9 +80,9 @@
  vandal_collective_noun: "Vandalen"
  vandal_prefix: "vandalo"
 
- iberian: "iberisch"
- iberian_collective_noun: "Iberer"
- iberian_prefix: "ibero"
+ non_indo_european_iberian: "iberisch"
+ non_indo_european_iberian_collective_noun: "Iberer"
+ non_indo_european_iberian_prefix: "ibero"
 
  nuragic: "nuragisch"
  nuragic_collective_noun: "Nuragen-Leute"
