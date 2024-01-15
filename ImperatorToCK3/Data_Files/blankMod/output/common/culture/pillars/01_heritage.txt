@@ -1,3 +1,0 @@
-﻿heritage_noheritage = {
-	type = heritage
-}

@@ -1,4 +1,6 @@
 ﻿language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
+    INVALIDATED_BY = { language_gothic }
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -15,11 +17,14 @@
 
 	color = gothic
 }
+
 language_nuragic = {
+    INVALIDATED_BY = { language_nuragic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_nuragic
+			LANGUAGE = language_nuragic
 		}
 	}
 	ai_will_do = {
@@ -32,7 +37,10 @@ language_nuragic = {
 
 	color = hsv { 0.2 0.25 0.5 }
 }
+
 language_luwian = {
+    INVALIDATED_BY = { language_luwian }
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -49,7 +57,10 @@ language_luwian = {
 
 	color = hsv { 0.32 0.45 0.9 }
 }
+
 language_lydian = {
+    INVALIDATED_BY = { language_lydian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -66,7 +77,10 @@ language_lydian = {
 
 	color = rgb { 149 101 186 }
 }
+
 language_hittite = {
+    INVALIDATED_BY = { language_hittite }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -83,7 +97,10 @@ language_hittite = {
 
 	color = hsv { 0.42 0.45 0.3 }
 }
+
 language_phrygian = {
+    INVALIDATED_BY = { language_phrygian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -100,7 +117,10 @@ language_phrygian = {
 
 	color = rgb { 246 223 15 }
 }
+
 language_albanian = {
+    INVALIDATED_BY = { language_albanian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -117,7 +137,10 @@ language_albanian = {
 
 	color = hsv { 0.4 0.01 0.02 }
 }
+
 language_kemetic = {
+    INVALIDATED_BY = { language_kemetic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -134,7 +157,10 @@ language_kemetic = {
 
 	color = hsv { 0.15 1 0.7 }
 }
+
 language_aramaic = {
+    INVALIDATED_BY = { language_aramaic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -151,7 +177,10 @@ language_aramaic = {
 
 	color = hsv { 0.05 1.0 0.5 }
 }
+
 language_babylonian = {
+    INVALIDATED_BY = { language_babylonian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -168,7 +197,10 @@ language_babylonian = {
 
 	color = hsv { 0.7 0.15 0.77 }
 }
+
 language_gaulish = {
+    INVALIDATED_BY = { language_gaulish }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -185,7 +217,10 @@ language_gaulish = {
 
 	color = hsv { 0.3 0.7 0.4 }
 }
+
 language_hebrew = {
+    INVALIDATED_BY = { language_hebrew }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -202,7 +237,10 @@ language_hebrew = {
 
 	color = rgb { 99 193 217 }
 }
+
 language_oscan = {
+    INVALIDATED_BY = { language_oscan }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -219,7 +257,10 @@ language_oscan = {
 
 	color = { 117 131 50 }
 }
+
 language_samnite = {
+    INVALIDATED_BY = { language_samnite }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -236,7 +277,10 @@ language_samnite = {
 
 	color = { 117 131 150 }
 }
+
 language_ligustic = {
+    INVALIDATED_BY = { language_ligustic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -253,7 +297,10 @@ language_ligustic = {
 
 	color = { 211 208 124 }
 }
+
 language_messapic = {
+    INVALIDATED_BY = { language_messapic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -270,7 +317,10 @@ language_messapic = {
 
 	color = { 5 52 113 }
 }
+
 language_sardonian = {
+    INVALIDATED_BY = { language_sardonian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -287,7 +337,10 @@ language_sardonian = {
 
 	color = { 29 16 31 }
 }
+
 language_siculian = {
+    INVALIDATED_BY = { language_siculian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -304,7 +357,10 @@ language_siculian = {
 
 	color = { 226 216 174 }
 }
+
 language_hunnic = {
+    INVALIDATED_BY = { language_hunnic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -321,7 +377,10 @@ language_hunnic = {
 
 	color = { 254 204 50 }
 }
+
 language_punic = {
+    INVALIDATED_BY = { language_punic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -338,7 +397,10 @@ language_punic = {
 
 	color = { 74 174 85 }
 }
+
 language_breathanach = {
+    INVALIDATED_BY = { language_breathanach }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -355,7 +417,10 @@ language_breathanach = {
 
 	color = { 127 143 104 }
 }
+
 language_laessin = {
+    INVALIDATED_BY = { language_laessin }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -372,7 +437,10 @@ language_laessin = {
 
 	color = { 166 160 148 }
 }
+
 language_thracian = {
+    INVALIDATED_BY = { language_thracian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -389,7 +457,10 @@ language_thracian = {
 
 	color = { 5 162 25 }
 }
+
 language_dacian = {
+    INVALIDATED_BY = { language_dacian }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -406,7 +477,10 @@ language_dacian = {
 
 	color = hsv { 0.0 0.5 1.0 }
 }
+
 language_etruscan = {
+    INVALIDATED_BY = { language_etruscan }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -425,6 +499,8 @@ language_etruscan = {
 }
 
 language_elamite = {
+    INVALIDATED_BY = { language_elamite }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -443,6 +519,8 @@ language_elamite = {
 }
 
 language_tai = {
+    INVALIDATED_BY = { language_tai }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -461,6 +539,8 @@ language_tai = {
 }
 
 language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
+    INVALIDATED_BY = { language_palaungic }
+    
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {

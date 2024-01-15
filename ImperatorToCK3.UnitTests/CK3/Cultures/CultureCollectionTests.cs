@@ -14,7 +14,7 @@ public class CultureCollectionTests {
 	private static readonly ColorFactory ColorFactory = new();
 
 	static CultureCollectionTests() {
-		Pillars = new PillarCollection { new("test_heritage", new BufferedReader("type = heritage")) };
+		Pillars = new PillarCollection(ColorFactory) { new("test_heritage", new PillarData { Type = "heritage" }) };
 	}
 	
 	[Fact]

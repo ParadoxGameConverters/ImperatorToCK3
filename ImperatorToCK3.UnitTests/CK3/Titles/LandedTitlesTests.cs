@@ -56,8 +56,9 @@ public class LandedTitlesTests {
 	}
 
 	public LandedTitlesTests() {
-		PillarCollection pillars = new();
-		cultures = new CultureCollection(new ColorFactory(), pillars);
+		var colorFactory = new ColorFactory();
+		PillarCollection pillars = new(colorFactory);
+		cultures = new CultureCollection(colorFactory, pillars);
 	}
 
 	[Fact]

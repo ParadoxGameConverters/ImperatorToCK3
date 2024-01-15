@@ -4,6 +4,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -38,6 +39,7 @@ public static class WorldOutputter {
 		);
 		Logger.IncrementProgress();
 		
+		PillarOutputter.OutputPillars(outputName, ck3World.CulturalPillars);
 		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures);
 
 		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
@@ -108,7 +110,25 @@ public static class WorldOutputter {
 			file.Delete();
 		}
 		foreach (DirectoryInfo dir in di.EnumerateDirectories()) {
-			dir.Delete(true);
+			// Try 5 times to delete the directory.
+			// This is to avoid "The directory not empty" errors resulting from the OS not having
+			// finished deleting files in the directory.
+			var tries = 0;
+			bool success = false;
+			while (tries < 5) {
+				try {
+					dir.Delete(recursive: true);
+					success = true;
+					break;
+				} catch (IOException) {
+					Logger.Debug($"Attempt {tries+1} to delete \"{dir.FullName}\" failed.");
+					Thread.Sleep(50);
+					++tries;
+				}
+			}
+			if (!success) {
+				Logger.Error($"Failed to delete \"{dir.FullName}\"!");
+			}
 		}
 
 		Logger.IncrementProgress();
@@ -120,6 +140,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
+		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
@@ -158,6 +179,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));

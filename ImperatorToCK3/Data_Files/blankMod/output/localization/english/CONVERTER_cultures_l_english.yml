@@ -81,9 +81,9 @@ l_english:
  vandal_collective_noun: "Vandals"
  vandal_prefix: "Vandalo" # found 'Vandalo-Roman General Stilicho'
 
- iberian: "Iberian"
- iberian_collective_noun: "Iberians"
- iberian_prefix: "Ibero" # found 'Ibero-Roman'
+ non_indo_european_iberian: "Iberian"
+ non_indo_european_iberian_collective_noun: "Iberians"
+ non_indo_european_iberian_prefix: "Ibero" # found 'Ibero-Roman'
 
  nuragic: "Nuragic"
  nuragic_collective_noun: "Nuragics"

@@ -2416,7 +2416,7 @@ canaanite_religion = {
 
 	faiths = {
 		canaanite_pagan = {
-		    INVALIDATED_BY = { canaanite_pagan }
+		    INVALIDATED_BY = { canaanite_pagan carthage_pagan }
 		
 			color = { 0.39 0.3 0.6 }
 			icon = canaanite_pagan

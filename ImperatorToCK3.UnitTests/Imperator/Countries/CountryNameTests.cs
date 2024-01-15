@@ -110,8 +110,9 @@ public class CountryNameTests {
 		provLocBlock["german"] = "Hormirzad";
 		
 		var nameLocBlock = countryName.GetNameLocBlock(locDB, []);
-		Assert.Equal("Memphite Hormirzad", nameLocBlock!["english"]);
-		Assert.Equal("Memphit Hormirzad", nameLocBlock!["german"]);
+		Assert.NotNull(nameLocBlock);
+		Assert.Equal("Memphite Hormirzad", nameLocBlock["english"]);
+		Assert.Equal("Memphit Hormirzad", nameLocBlock["german"]);
 	}
 
 	[Fact]
