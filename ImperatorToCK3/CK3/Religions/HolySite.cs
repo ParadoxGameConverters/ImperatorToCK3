@@ -31,7 +31,8 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
 		parser.RegisterKeyword("character_modifier", reader => {
 			CharacterModifier = reader.GetAssignments()
-				.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
+				.GroupBy(a => a.Key)
+				.ToDictionary(g => g.Key, g => (object)g.Last().Value);
 		});
 		parser.RegisterKeyword("flag", reader => Flag = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();
