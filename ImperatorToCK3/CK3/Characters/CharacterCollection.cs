@@ -349,7 +349,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 	}
 
 	private static IEnumerable<string> LoadCharacterIDsToPreserve() {
-		Logger.Debug("Loading IDs characters to preserve...");
+		Logger.Debug("Loading IDs of CK3 characters to preserve...");
 		HashSet<string> characterIDsToPreserve = [];
 
 		string configurablePath = "configurables/ck3_characters_to_preserve.txt";
