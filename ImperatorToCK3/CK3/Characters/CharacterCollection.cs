@@ -354,7 +354,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 
 		string configurablePath = "configurables/ck3_characters_to_preserve.txt";
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, id) => {
+		parser.RegisterRegex(CommonRegexes.String, (_, id) => {
 			characterIDsToPreserve.Add(id);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
