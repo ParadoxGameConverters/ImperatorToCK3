@@ -1,0 +1,51 @@
+# This file should contain a simple, whitespace-separate list
+# of CK3 character IDs to preserve from purging.
+# Comments are allowed, and start with a '#' character.
+
+# Characters referenced in artifacts:
+33922 # Muhammad
+
+# Characters referenced in on-actions:
+90107 # Ludwig the German
+74025
+33358
+76273
+251187
+251180
+251181
+214
+364
+40905
+40376
+3096
+additional_fatimids_1
+110550
+110514
+106520
+368
+100530
+100529
+476
+637
+9957
+9956
+7757
+1128
+108501
+107500
+107501
+108500
+109500
+163108
+163110
+163111
+163112
+163119
+6448
+140
+522
+40605
+159137
+109607
+6878
+107590
