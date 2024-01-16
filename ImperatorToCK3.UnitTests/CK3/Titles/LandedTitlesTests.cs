@@ -499,7 +499,7 @@ public class LandedTitlesTests {
 		titles.LoadHistory(config, ck3ModFS);
 
 		Assert.Equal("67", title.GetHolderId(date));
-		Assert.Equal("e_italia", title.GetLiege(date));
+		Assert.Equal("e_italia", title.GetLiegeId(date));
 	}
 
 	[Fact]

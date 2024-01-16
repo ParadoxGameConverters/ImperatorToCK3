@@ -840,8 +840,19 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title
-		var liegeStr = GetLiege(date);
-		if (liegeStr is not null && parentCollection.TryGetValue(liegeStr, out var liegeTitle)) {
+		var liegeId = GetLiegeId(date);
+		if (liegeId is not null && parentCollection.TryGetValue(liegeId, out var liegeTitle)) {
+			if (liegeTitle.Id == Id) {
+				Logger.Debug($"A title cannot be its own liege! Title: {Id}");
+				return null;
+			}
+			
+			if (liegeTitle.Rank <= Rank) {
+				Logger.Debug($"Liege title's rank is not higher than vassal's! " +
+				             $"Title: {Id}, liege: {liegeTitle.Id}");
+				return null;
+			}
+			
 			return liegeTitle;
 		}
 
