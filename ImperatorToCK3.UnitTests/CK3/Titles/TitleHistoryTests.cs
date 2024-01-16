@@ -14,11 +14,11 @@ public class TitleHistoryTests {
 	}
 
 	[Fact]
-	public void LiegeDefaultsToNull() {
+	public void LiegeIdDefaultsToNull() {
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_title");
 
-		Assert.Null(title.GetLiege(new Date(867, 1, 1)));
+		Assert.Null(title.GetLiegeId(new Date(867, 1, 1)));
 	}
 
 	[Fact]

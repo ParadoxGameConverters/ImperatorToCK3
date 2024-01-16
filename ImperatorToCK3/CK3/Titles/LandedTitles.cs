@@ -676,7 +676,6 @@ public partial class Title {
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, ProvinceCollection ck3Provinces, CultureCollection ck3Cultures) {
-			// Generate King/Empire de jure hierarchy from governorships.
 			SetDeJureKingdoms(ck3BookmarkDate);
 			SetDeJureEmpires(ck3Provinces, ck3Cultures, ck3BookmarkDate);
 		}
