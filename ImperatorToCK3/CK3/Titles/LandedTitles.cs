@@ -574,8 +574,7 @@ public partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, ProvinceCollection ck3Provinces, CultureCollection ck3Cultures) {
-			// Generate King/Empire de jure hierarchy from governorships
+		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
@@ -592,7 +591,7 @@ public partial class Title {
 					if (kingdomRealm is null) {
 						continue;
 					}
-					kingdomRealmShares.TryGetValue(kingdomRealm.Id, out var currentCount);
+					kingdomRealmShares.TryGetValue(kingdomRealm.Id, out int currentCount);
 					kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count();
 				}
 				if (kingdomRealmShares.Count > 0) {
@@ -601,7 +600,9 @@ public partial class Title {
 				}
 			}
 			Logger.IncrementProgress();
+		}
 
+		private void SetDeJureEmpires(ProvinceCollection ck3Provinces, CultureCollection ck3Cultures, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			foreach (var kingdom in deJureKingdoms) {
@@ -672,6 +673,12 @@ public partial class Title {
 				}
 			}
 			Logger.IncrementProgress();
+		}
+
+		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, ProvinceCollection ck3Provinces, CultureCollection ck3Cultures) {
+			// Generate King/Empire de jure hierarchy from governorships.
+			SetDeJureKingdoms(ck3BookmarkDate);
+			SetDeJureEmpires(ck3Provinces, ck3Cultures, ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
