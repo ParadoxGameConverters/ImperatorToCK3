@@ -16,7 +16,6 @@ public static class WorldOutputter {
 		CreateModFolder(outputName);
 		OutputModFile(outputName);
 
-		Logger.Info("Creating folders...");
 		CreateFolders(outputName);
 		Logger.IncrementProgress();
 
@@ -74,6 +73,11 @@ public static class WorldOutputter {
 		}
 
 		var outputPath = Path.Combine("output", config.OutputModName);
+		
+		Logger.Info("Writing dummy struggles history file...");
+		// Just to make sure the history/struggles folder exists.
+		string struggleDummyPath = Path.Combine(outputPath, "history/struggles/IRToCK3_dummy.txt");
+		File.WriteAllText(struggleDummyPath, string.Empty, Encoding.UTF8);
 
 		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
@@ -146,6 +150,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
+		modFileBuilder.AppendLine("replace_path=\"history/struggles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
 		var modText = modFileBuilder.ToString();
@@ -162,6 +167,8 @@ public static class WorldOutputter {
 	}
 
 	private static void CreateFolders(string outputName) {
+		Logger.Info("Creating folders...");
+		
 		var outputPath = Path.Combine("output", outputName);
 
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history"));
@@ -169,6 +176,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "provinces"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "province_mapping"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "struggles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
