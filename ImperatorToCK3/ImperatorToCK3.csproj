@@ -15,13 +15,13 @@
     
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Release\ImperatorToCK3\</OutputPath>
-    <NoWarn>1701;1702;MA0002;MA0006;MA0011;MA0074;MA0075;MA0076</NoWarn>
+    <NoWarn>1701;1702;MA0001;MA0002;MA0006;MA0011;MA0074;MA0075;MA0076</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <NoWarn>1701;1702;MA0002;MA0006;MA0011;MA0074;MA0075;MA0076</NoWarn>
+    <NoWarn>1701;1702;MA0001;MA0002;MA0006;MA0011;MA0074;MA0075;MA0076</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>

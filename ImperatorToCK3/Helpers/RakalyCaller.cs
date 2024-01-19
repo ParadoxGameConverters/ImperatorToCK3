@@ -61,8 +61,14 @@ public static class RakalyCaller {
 		if (returnCode != 0 && returnCode != 1) {
 			Logger.Debug("Save path: " + savePath);
 			Logger.Debug("Rakaly exit code: " + returnCode);
-			Logger.Debug("Rakaly standard error: \n" + process.StandardError.ReadToEnd());
-			throw new FormatException("Rakaly melter failed to melt the save. One possible reason is that there isn't enough space on your disk.");
+			string stdErrText = process.StandardError.ReadToEnd();
+			Logger.Debug("Rakaly standard error: " + stdErrText);
+			
+			string exceptionMessage = "Rakaly melter failed to melt the save.";
+			if (stdErrText.Contains("memory allocation of")) {
+				exceptionMessage += " One possible reason is that you don't have enough RAM.";
+			}
+			throw new FormatException(exceptionMessage);
 		}
 
 		var meltedSaveName = $"{CommonFunctions.TrimExtension(savePath)}_melted.rome";
