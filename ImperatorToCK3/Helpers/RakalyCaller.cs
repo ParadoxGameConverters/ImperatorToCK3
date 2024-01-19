@@ -60,10 +60,13 @@ public static class RakalyCaller {
 		int returnCode = process.ExitCode;
 		if (returnCode != 0 && returnCode != 1) {
 			Logger.Debug($"Save path: {savePath}");
+			if (File.Exists(savePath)) {
+				Logger.Debug($"Save file size: {new FileInfo(savePath).Length} bytes");
+			}
+			
 			Logger.Debug($"Rakaly exit code: {returnCode}");
 			string stdErrText = process.StandardError.ReadToEnd();
 			Logger.Debug($"Rakaly standard error: {stdErrText}");
-			Logger.Debug($"Save file size: {new FileInfo(savePath).Length} bytes");
 			
 			string exceptionMessage = "Rakaly melter failed to melt the save.";
 			if (stdErrText.Contains("memory allocation of")) {
