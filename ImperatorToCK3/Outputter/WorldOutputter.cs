@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CommonUtils;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -225,8 +226,7 @@ public static class WorldOutputter {
 		if (File.Exists(outFilePath)) {
 			File.Delete(outFilePath);
 		}
-		using var outputStream = File.OpenWrite(outFilePath);
-		using var output = new StreamWriter(outputStream, Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outFilePath, Encoding.UTF8);
 
 		foreach (var mod in modsForPlayset) {
 			output.WriteLine($"{mod.Name.AddQuotes()}={mod.Path.AddQuotes()}");
