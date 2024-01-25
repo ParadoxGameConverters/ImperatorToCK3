@@ -8,6 +8,8 @@ using Exceptions;
 using System.Text;
 
 public static class FileOpeningHelper {
+	private const string CloseProgramsHint = "You should close all programs that may be using the file.";
+	
 	private static bool IsFilesSharingViolation(Exception ex) {
 		const int sharingViolationHResult = unchecked((int)0x80070020);
 		return ex.HResult == sharingViolationHResult;
@@ -16,14 +18,18 @@ public static class FileOpeningHelper {
 	public static StreamWriter OpenWriteWithRetries(string filePath) => OpenWriteWithRetries(filePath, Encoding.UTF8);
 
 	public static StreamWriter OpenWriteWithRetries(string filePath, Encoding encoding) {
-		const int maxAttempts = 5;
+		const int maxAttempts = 10;
 		StreamWriter? writer = null;
+		
+		int currentAttempt = 0;
 
 		var policy = Policy
 			.Handle<IOException>(IsFilesSharingViolation)
-			.WaitAndRetry(maxAttempts, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-				(exception, timeSpan, context) => {
-					Logger.Warn($"Attempt {context.Count} to open \"{filePath}\" failed. Retrying...");
+			.WaitAndRetry(maxAttempts, 
+				sleepDurationProvider: _ => TimeSpan.FromSeconds(30),
+				onRetry: (_, _, _) => {
+					currentAttempt++;
+					Logger.Warn($"Attempt {currentAttempt} to open \"{filePath}\" failed. {CloseProgramsHint}");
 				});
 
 		try {
@@ -38,7 +44,7 @@ public static class FileOpeningHelper {
 				errorMessage += '.';
 			}
 
-			errorMessage += " Close all programs that may be using the file and try again.";
+			errorMessage += $" {CloseProgramsHint}";
 
 			throw new UserErrorException(errorMessage);
 		}
