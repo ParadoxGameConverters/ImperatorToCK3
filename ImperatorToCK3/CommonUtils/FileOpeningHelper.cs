@@ -38,15 +38,7 @@ public static class FileOpeningHelper {
 			});
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
-
-			string errorMessage = $"Failed to open \"{filePath}\" for writing: {ex.Message}";
-			if (!errorMessage.EndsWith('.')) {
-				errorMessage += '.';
-			}
-
-			errorMessage += $" {CloseProgramsHint}";
-
-			throw new UserErrorException(errorMessage);
+			throw new UserErrorException($"Failed to open \"{filePath}\" for writing. {CloseProgramsHint}");
 		}
 
 		if (writer is null) {
