@@ -1,5 +1,6 @@
 ﻿using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 
@@ -45,8 +46,7 @@ public static class ProvincesOutputter {
 		// Create province mapping file.
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {
 			var provinceMappingFilePath = $"output/{outputModName}/history/province_mapping/province_mapping.txt";
-			using var provinceMappingStream = File.OpenWrite(provinceMappingFilePath);
-			using var provinceMappingOutput = new StreamWriter(provinceMappingStream, System.Text.Encoding.UTF8);
+			using var provinceMappingOutput = FileOpeningHelper.OpenWriteWithRetries(provinceMappingFilePath, System.Text.Encoding.UTF8);
 
 			foreach (var province in provinces) {
 				if (alreadyOutputtedProvinces.Contains(province.Id)) {

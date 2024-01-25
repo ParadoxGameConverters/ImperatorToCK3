@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using ImperatorToCK3.CK3.Wars;
+using ImperatorToCK3.CommonUtils;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -11,8 +12,7 @@ public static class WarsOutputter {
 		Logger.Info("Writing wars...");
 		// dumping all into one file
 		var path = Path.Combine("output",outputModName, "history/wars/00_wars.txt");
-		using var stream = File.OpenWrite(path);
-		using var output = new StreamWriter(stream, Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 		foreach (var war in wars) {
 			OutputWar(output, war);
 		}

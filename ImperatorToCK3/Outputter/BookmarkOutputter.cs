@@ -4,6 +4,7 @@ using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -25,8 +26,7 @@ public static class BookmarkOutputter {
 		Logger.IncrementProgress();
 
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
-		using var stream = File.OpenWrite(path);
-		using var output = new StreamWriter(stream, Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		var provincePositions = world.MapData.ProvincePositions;
 
@@ -122,8 +122,7 @@ public static class BookmarkOutputter {
 
 	private static void OutputBookmarkGroup(Configuration config) {
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
-		using var stream = File.OpenWrite(path);
-		using var output = new StreamWriter(stream, Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		output.WriteLine("bm_converted = {");
 		output.WriteLine($"\tdefault_start_date = {config.CK3BookmarkDate}");
@@ -135,8 +134,7 @@ public static class BookmarkOutputter {
 		var baseLocPath = Path.Combine("output", outputName, "localization");
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
-			using var locFileStream = File.OpenWrite(locFilePath);
-			using var locWriter = new StreamWriter(locFileStream, Encoding.UTF8);
+			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
 
 			locWriter.WriteLine($"l_{language}:");
 
