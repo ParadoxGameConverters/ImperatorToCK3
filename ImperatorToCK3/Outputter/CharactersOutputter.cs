@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -20,15 +21,13 @@ public static class CharactersOutputter {
 		var charactersFromCK3 = characters.Except(charactersFromIR).ToImmutableList();
 		
 		var pathForCharactersFromIR = $"output/{outputModName}/history/characters/IRToCK3_fromImperator.txt";
-		using var stream = File.OpenWrite(pathForCharactersFromIR);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
 			CharacterOutputter.OutputCharacter(output, character, conversionDate);
 		}
 
 		var pathForCharactersFromCK3 = $"output/{outputModName}/history/characters/IRToCK3_fromCK3.txt";
-		using var stream2 = File.OpenWrite(pathForCharactersFromCK3);
-		using var output2 = new StreamWriter(stream2, System.Text.Encoding.UTF8);
+		using var output2 = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.OutputCharacter(output2, character, conversionDate);
 		}
@@ -39,8 +38,7 @@ public static class CharactersOutputter {
 		Logger.Info("Outputting DNA...");
 		// Dump all into one file.
 		var path = Path.Combine("output", outputModName, "common/dna_data/IRToCK3_dna_data.txt");
-		using var stream = File.OpenWrite(path);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
 		foreach (var character in charactersWithDNA) {
 			var dna = character.DNA!;
 			output.WriteLine($"{dna.Id}={{");
@@ -59,8 +57,7 @@ public static class CharactersOutputter {
 		// Enforce hairstyles and beards (otherwise CK3 they will only be used on bookmark screen).
 		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
 		var portraitModifiersOutputPath = Path.Combine("output", outputModName, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
-		using var stream = File.OpenWrite(portraitModifiersOutputPath);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(portraitModifiersOutputPath, System.Text.Encoding.UTF8);
 
 		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output, conversionDate);
 		var malesWithBeards = charactersWithDNA

@@ -2,6 +2,7 @@
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 
@@ -16,8 +17,7 @@ public static class LocalizationOutputter {
 
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
-			using var locFileStream = File.OpenWrite(locFilePath);
-			using var locWriter = new StreamWriter(locFileStream, encoding: System.Text.Encoding.UTF8);
+			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, encoding: System.Text.Encoding.UTF8);
 
 			locWriter.WriteLine($"l_{language}:");
 
@@ -45,8 +45,7 @@ public static class LocalizationOutputter {
 		// dynasty localization
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
-			using var dynastyLocStream = File.OpenWrite(dynastyLocFilePath);
-			using var dynastyLocWriter = new StreamWriter(dynastyLocStream, System.Text.Encoding.UTF8);
+			using var dynastyLocWriter = FileOpeningHelper.OpenWriteWithRetries(dynastyLocFilePath, System.Text.Encoding.UTF8);
 
 			dynastyLocWriter.WriteLine($"l_{language}:");
 
@@ -110,8 +109,7 @@ public static class LocalizationOutputter {
 			Logger.Debug($"Outputting {linesToOutput.Count} fallback loc lines for {language}...");
 			
 			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
-			using var locFileStream = File.OpenWrite(locFilePath);
-			using var locWriter = new StreamWriter(locFileStream, System.Text.Encoding.UTF8);
+			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, System.Text.Encoding.UTF8);
 
 			locWriter.WriteLine($"l_{language}:");
 			foreach (var line in linesToOutput) {
