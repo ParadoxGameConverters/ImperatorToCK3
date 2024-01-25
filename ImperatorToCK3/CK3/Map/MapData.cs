@@ -33,16 +33,12 @@ public class MapData {
 	}
 
 	private SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
-	public ISet<ulong> ColorableImpassableProvinces { get; } = new HashSet<ulong>();
+	public ISet<ulong> ColorableImpassableProvinceIds { get; } = new HashSet<ulong>();
 	public IDictionary<ulong, ProvincePosition> ProvincePositions { get; } = new Dictionary<ulong, ProvincePosition>();
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
 	public MapData(ModFilesystem ck3ModFS) {
-		const string mapPath = "map_data/provinces.png";
-		var provincesMapPath = ck3ModFS.GetActualFileLocation(mapPath);
-		if (provincesMapPath is null) {
-			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
-		}
+		string provincesMapPath = GetProvincesMapPath(ck3ModFS);
 
 		Logger.Info("Loading province definitions...");
 		ProvinceDefinitions = new ProvinceDefinitions(ck3ModFS);
@@ -62,7 +58,17 @@ public class MapData {
 		FindImpassables(ck3ModFS);
 		Logger.IncrementProgress();
 	}
-	
+
+	private static string GetProvincesMapPath(ModFilesystem ck3ModFS) {
+		const string mapPath = "map_data/provinces.png";
+		var provincesMapPath = ck3ModFS.GetActualFileLocation(mapPath);
+		if (provincesMapPath is null) {
+			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+		}
+
+		return provincesMapPath;
+	}
+
 	public double GetDistanceBetweenProvinces(ulong province1, ulong province2) {
 		if (!ProvincePositions.TryGetValue(province1, out var province1Position)) {
 			Logger.Warn($"Province {province1} has no position defined!");
@@ -153,14 +159,39 @@ public class MapData {
 				var beginning = provIds[0];
 				var end = provIds.Last();
 				for (var id = beginning; id <= end; ++id) {
-					ColorableImpassableProvinces.Add(id);
+					ColorableImpassableProvinceIds.Add(id);
 				}
 			} else {
-				ColorableImpassableProvinces.UnionWith(provIds);
+				ColorableImpassableProvinceIds.UnionWith(provIds);
 			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFile(filePath, ck3ModFS);
+		
+		// Exclude impassable provinces that border the map edge from the colorable set.
+		using var mapPng = Image.Load<Rgb24>(GetProvincesMapPath(ck3ModFS));
+		var height = mapPng.Height;
+		var width = mapPng.Width;
+		var edgeProvinceIds = new HashSet<ulong>();
+		for (var y = 0; y < height; ++y) {
+			// Get left edge color.
+			var color = GetPixelColor(new Point(0, y), mapPng);
+			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+			
+			// Get right edge color.
+			color = GetPixelColor(new Point(width - 1, y), mapPng);
+			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+		}
+		for (var x = 0; x < width; ++x) {
+			// Get top edge color.
+			var color = GetPixelColor(new Point(x, 0), mapPng);
+			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+			
+			// Get bottom edge color.
+			color = GetPixelColor(new Point(x, height - 1), mapPng);
+			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+		}
+		ColorableImpassableProvinceIds.ExceptWith(edgeProvinceIds);
 	}
 
 	private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {

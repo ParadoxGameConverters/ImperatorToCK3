@@ -202,61 +202,8 @@ public static class BookmarkOutputter {
 		var mapData = ck3World.MapData;
 		var provDefs = mapData.ProvinceDefinitions;
 
-		Rgba32 black = Color.Black;
-
 		foreach (var playerTitle in playerTitles) {
-			var colorOnMap = playerTitle.Color1 ?? new commonItems.Colors.Color(0, 0, 0);
-			var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-			ISet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
-			// Determine which impassables should be be colored by the country
-			var provincesToColor = new HashSet<ulong>(heldProvinces);
-			var impassables = mapData.ColorableImpassableProvinces;
-			foreach (var impassableId in impassables) {
-				var nonImpassableNeighborProvs = mapData.GetNeighborProvinceIds(impassableId)
-					.Except(impassables)
-					.ToHashSet();
-				if (nonImpassableNeighborProvs.Count == 0) {
-					continue;
-				}
-
-				var heldNonImpassableNeighborProvs = nonImpassableNeighborProvs.Intersect(heldProvinces);
-				if ((double)heldNonImpassableNeighborProvs.Count() / nonImpassableNeighborProvs.Count > 0.5) {
-					// Realm controls more than half of non-impassable neighbors of the impassable.
-					provincesToColor.Add(impassableId);
-				}
-			}
-
-			var diff = provincesToColor.Count - heldProvinces.Count;
-			Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
-
-			using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
-			foreach (var provinceColor in provincesToColor.Select(
-				         province => provDefs.ProvinceToColorDict[province])) {
-				// Make pixels of the province black.
-				var rgbaProvinceColor = new Rgba32();
-				provinceColor.ToRgba32(ref rgbaProvinceColor);
-				ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
-			}
-
-			// Make all non-black pixels transparent.
-			InverseTransparent(realmHighlightImage, black);
-
-			// Replace black with title color.
-			ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
-
-			// Create realm highlight file.
-			var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
-			var highlightPath = Path.Combine(
-				"output",
-				config.OutputModName,
-				$"gfx/interface/bookmarks/bm_converted_bm_converted_{holder.Id}.png"
-			);
-			realmHighlightImage.SaveAsPng(highlightPath);
-			ResaveImageAsDDS(highlightPath);
-
-			// Add the image on top of blank map image.
-			// Make the realm on map semi-transparent.
-			bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
+			DrawPlayerTitleOnMap(config, ck3World, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
 		}
 
 		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
@@ -264,6 +211,77 @@ public static class BookmarkOutputter {
 		ResaveImageAsDDS(outputPath);
 
 		Logger.IncrementProgress();
+	}
+
+	private static void DrawPlayerTitleOnMap(
+		Configuration config, 
+		World ck3World, 
+		Title playerTitle, 
+		MapData mapData,
+		Image provincesImage, 
+		ProvinceDefinitions provDefs, 
+		Image bookmarkMapImage
+	) {
+		Rgba32 black = Color.Black;
+		
+		var colorOnMap = playerTitle.Color1 ?? new commonItems.Colors.Color(0, 0, 0);
+		var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
+		ISet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
+		
+		// Determine which impassables should be be colored by the country
+		HashSet<ulong> provincesToColor = GetImpassableProvincesToColor(mapData, heldProvinces);
+		int diff = provincesToColor.Count - heldProvinces.Count;
+		Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
+
+		using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
+		IEnumerable<Rgb24> provinceColors = provincesToColor.Select(provId => provDefs.ProvinceToColorDict[provId]);
+		foreach (var provinceColor in provinceColors) {
+			// Make pixels of the province black.
+			var rgbaProvinceColor = new Rgba32();
+			provinceColor.ToRgba32(ref rgbaProvinceColor);
+			ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
+		}
+
+		// Make all non-black pixels transparent.
+		InverseTransparent(realmHighlightImage, black);
+
+		// Replace black with title color.
+		ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
+
+		// Create realm highlight file.
+		var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
+		var highlightPath = Path.Combine(
+			"output",
+			config.OutputModName,
+			$"gfx/interface/bookmarks/bm_converted_bm_converted_{holder.Id}.png"
+		);
+		realmHighlightImage.SaveAsPng(highlightPath);
+		ResaveImageAsDDS(highlightPath);
+
+		// Add the image on top of blank map image.
+		// Make the realm on map semi-transparent.
+		bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
+	}
+
+	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, ISet<ulong> heldProvinceIds) {
+		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
+		var impassableIds = mapData.ColorableImpassableProvinceIds;
+		foreach (ulong impassableId in impassableIds) {
+			var nonImpassableNeighborProvIds = mapData.GetNeighborProvinceIds(impassableId)
+				.Except(impassableIds)
+				.ToHashSet();
+			if (nonImpassableNeighborProvIds.Count == 0) {
+				continue;
+			}
+
+			var heldNonImpassableNeighborProvIds = nonImpassableNeighborProvIds.Intersect(heldProvinceIds);
+			if ((double)heldNonImpassableNeighborProvIds.Count() / nonImpassableNeighborProvIds.Count > 0.5) {
+				// Realm controls more than half of non-impassable neighbors of the impassable.
+				provinceIdsToColor.Add(impassableId);
+			}
+		}
+
+		return provinceIdsToColor;
 	}
 
 	private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {
