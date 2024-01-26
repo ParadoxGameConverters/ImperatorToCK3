@@ -21,6 +21,7 @@ A: The converter officially supports these Imperator mods:
 - Culture Conflation (for Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=2660131665)
 - Imperator: Invictus - More Cultural Names (https://steamcommunity.com/sharedfiles/filedetails/?id=2827761791)
 - Medieval 1066 Total Conversion Beta (https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649)
+- Virtual Limes (Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=3020434697)
 The converter also supports these CK3 mods:
 - The Fallen Eagle (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
