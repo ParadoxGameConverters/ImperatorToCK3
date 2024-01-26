@@ -34,6 +34,7 @@ public static class OnActionOutputter {
 		writer.WriteLine("\t}");
 		writer.WriteLine("}");
 	}
+	
 	public static void DisableUnneededFallenEagleOnActions(string outputModName) {
 		var onActionsToDisable = new OrderedSet<string> {
 			"sea_minority_game_start.txt", 
@@ -41,7 +42,6 @@ public static class OnActionOutputter {
 			"government_change_on_actions.txt",
 			"tribs_on_action.txt",
 			"AI_war_on_actions.txt",
-			"senate_on_actions.txt",
 			"senate_tasks_on_actions.txt",
 			"new_electives_on_action.txt",
 			"tfe_struggle_on_actions.txt",
