@@ -65,26 +65,31 @@ public static class OnActionOutputter {
 		}
 		var fileContent = File.ReadAllText(inputPath);
 
+		// List of blocks to remove as of 2024-01-07.
 		string[] struggleStartBlocksToRemove = [
-			@"if = {
-				limit = {
-					AND = {
-						game_start_date >= 476.9.4
-						game_start_date <= 768.1.1
+			"""
+					if = {
+						limit = {
+							AND = {
+								game_start_date >= 476.9.4
+								game_start_date <= 768.1.1
+							}
+						}
+						start_struggle = { struggle_type = britannia_struggle start_phase = struggle_britannia_phase_migration }
 					}
-				}
-				start_struggle = { struggle_type = britannia_struggle start_phase = struggle_britannia_phase_migration }
-			}",
-			@"if = {
-				limit = {
-					AND = {
-						game_start_date <= 651.1.1 # Death of Yazdegerd III
+			""",
+			"""
+					if = {
+						limit = {
+							AND = {
+								game_start_date <= 651.1.1 # Death of Yazdegerd III
+							}
+						}
+						start_struggle = { struggle_type = roman_persian_struggle start_phase = struggle_TFE_roman_persian_phase_contention }
 					}
-				}
-				start_struggle = { struggle_type = roman_persian_struggle start_phase = struggle_TFE_roman_persian_phase_contention }
-			}
-			start_struggle = { struggle_type = eastern_iranian_struggle start_phase = struggle_TFE_eastern_iranian_phase_expansion }
-			start_struggle = { struggle_type = north_indian_struggle start_phase = struggle_TFE_north_indian_phase_invasion }"
+					start_struggle = { struggle_type = eastern_iranian_struggle start_phase = struggle_TFE_eastern_iranian_phase_expansion }
+					start_struggle = { struggle_type = north_indian_struggle start_phase = struggle_TFE_north_indian_phase_invasion }
+			""",
 		];
 
 		foreach (var block in struggleStartBlocksToRemove) {
