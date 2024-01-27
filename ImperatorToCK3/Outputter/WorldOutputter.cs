@@ -179,21 +179,16 @@ public static class WorldOutputter {
 		
 		var outputPath = Path.Combine("output", outputName);
 
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "provinces"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "province_mapping"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "struggles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
@@ -202,7 +197,6 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
@@ -214,14 +208,10 @@ public static class WorldOutputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", language));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", language));
 		}
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "textured_emblems"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits", "portrait_modifiers"));
 	}
 
