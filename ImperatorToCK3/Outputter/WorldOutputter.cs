@@ -38,7 +38,7 @@ public static class WorldOutputter {
 			ck3World.LandedTitles
 		);
 		Logger.IncrementProgress();
-		
+
 		PillarOutputter.OutputPillars(outputName, ck3World.CulturalPillars);
 		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures);
 
@@ -60,12 +60,15 @@ public static class WorldOutputter {
 			ck3World
 		);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Writing game start on-action...");
 		OnActionOutputter.OutputCustomGameStartOnAction(config);
 		if (config.FallenEagleEnabled) {
 			Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
 			OnActionOutputter.DisableUnneededFallenEagleOnActions(config.OutputModName);
+
+			Logger.Info("Removing struggle start from Fallen Eagle on-actions...");
+			OnActionOutputter.RemoveStruggleStartFromFallenEagleOnActions(ck3World.ModFS, config.OutputModName);
 		}
 		Logger.IncrementProgress();
 
@@ -74,11 +77,8 @@ public static class WorldOutputter {
 		}
 
 		var outputPath = Path.Combine("output", config.OutputModName);
-		
-		Logger.Info("Writing dummy struggles history file...");
-		// Just to make sure the history/struggles folder exists.
-		string struggleDummyPath = Path.Combine(outputPath, "history/struggles/IRToCK3_dummy.txt");
-		File.WriteAllText(struggleDummyPath, string.Empty, Encoding.UTF8);
+
+		WriteDummyStruggleHistory(outputPath);
 
 		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
@@ -91,6 +91,13 @@ public static class WorldOutputter {
 		BookmarkOutputter.OutputBookmark(ck3World, config);
 
 		OutputPlaysetInfo(ck3World, outputName);
+	}
+
+	private static void WriteDummyStruggleHistory(string outputPath) {
+		Logger.Info("Writing dummy struggles history file...");
+		// Just to make sure the history/struggles folder exists.
+		string struggleDummyPath = Path.Combine(outputPath, "history/struggles/IRToCK3_dummy.txt");
+		File.WriteAllText(struggleDummyPath, string.Empty, Encoding.UTF8);
 	}
 
 	private static void CopyBlankModFilesToOutput(string outputPath) {
