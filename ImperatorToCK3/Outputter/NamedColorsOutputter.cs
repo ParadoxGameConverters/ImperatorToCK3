@@ -16,7 +16,7 @@ public static class NamedColorsOutputter {
 	public static void OutputNamedColors(string outputModName, NamedColorCollection imperatorNamedColors, NamedColorCollection ck3NamedColors) {
 		var diff = imperatorNamedColors.Where(colorPair => !ck3NamedColors.ContainsKey(colorPair.Key))
 			.ToList();
-		if (!diff.Any()) {
+		if (diff.Count == 0) {
 			return;
 		}
 
