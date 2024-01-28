@@ -375,7 +375,7 @@ public class World : Parser {
 		}
 	}
 	private void VerifySave(string saveGamePath) {
-		using var saveStream = File.Open(saveGamePath, FileMode.Open);
+		using var saveStream = File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 		var buffer = new byte[10];
 		var bytesRead = saveStream.Read(buffer, 0, 4);
 		if (bytesRead < 4) {
