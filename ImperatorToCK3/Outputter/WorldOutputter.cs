@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CommonUtils;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -16,7 +17,6 @@ public static class WorldOutputter {
 		CreateModFolder(outputName);
 		OutputModFile(outputName);
 
-		Logger.Info("Creating folders...");
 		CreateFolders(outputName);
 		Logger.IncrementProgress();
 
@@ -38,7 +38,7 @@ public static class WorldOutputter {
 			ck3World.LandedTitles
 		);
 		Logger.IncrementProgress();
-		
+
 		PillarOutputter.OutputPillars(outputName, ck3World.CulturalPillars);
 		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures);
 
@@ -60,12 +60,15 @@ public static class WorldOutputter {
 			ck3World
 		);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Writing game start on-action...");
 		OnActionOutputter.OutputCustomGameStartOnAction(config);
 		if (config.FallenEagleEnabled) {
 			Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
 			OnActionOutputter.DisableUnneededFallenEagleOnActions(config.OutputModName);
+
+			Logger.Info("Removing struggle start from Fallen Eagle on-actions...");
+			OnActionOutputter.RemoveStruggleStartFromFallenEagleOnActions(ck3World.ModFS, config.OutputModName);
 		}
 		Logger.IncrementProgress();
 
@@ -74,6 +77,8 @@ public static class WorldOutputter {
 		}
 
 		var outputPath = Path.Combine("output", config.OutputModName);
+
+		WriteDummyStruggleHistory(outputPath);
 
 		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
@@ -86,6 +91,13 @@ public static class WorldOutputter {
 		BookmarkOutputter.OutputBookmark(ck3World, config);
 
 		OutputPlaysetInfo(ck3World, outputName);
+	}
+
+	private static void WriteDummyStruggleHistory(string outputPath) {
+		Logger.Info("Writing dummy struggles history file...");
+		// Just to make sure the history/struggles folder exists.
+		string struggleDummyPath = Path.Combine(outputPath, "history/struggles/IRToCK3_dummy.txt");
+		File.WriteAllText(struggleDummyPath, string.Empty, Encoding.UTF8);
 	}
 
 	private static void CopyBlankModFilesToOutput(string outputPath) {
@@ -146,6 +158,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
+		modFileBuilder.AppendLine("replace_path=\"history/struggles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
 		var modText = modFileBuilder.ToString();
@@ -162,22 +175,20 @@ public static class WorldOutputter {
 	}
 
 	private static void CreateFolders(string outputName) {
+		Logger.Info("Creating folders...");
+		
 		var outputPath = Path.Combine("output", outputName);
 
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "provinces"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "province_mapping"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "struggles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
@@ -186,7 +197,6 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
@@ -198,14 +208,10 @@ public static class WorldOutputter {
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", language));
 			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", language));
 		}
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "textured_emblems"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits", "portrait_modifiers"));
 	}
 
@@ -225,8 +231,7 @@ public static class WorldOutputter {
 		if (File.Exists(outFilePath)) {
 			File.Delete(outFilePath);
 		}
-		using var outputStream = File.OpenWrite(outFilePath);
-		using var output = new StreamWriter(outputStream, Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outFilePath, Encoding.UTF8);
 
 		foreach (var mod in modsForPlayset) {
 			output.WriteLine($"{mod.Name.AddQuotes()}={mod.Path.AddQuotes()}");

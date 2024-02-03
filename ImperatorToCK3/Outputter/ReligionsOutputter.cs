@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Religions;
+using ImperatorToCK3.CommonUtils;
 using System.IO;
 using System.Linq;
 
@@ -11,8 +12,7 @@ public static class ReligionsOutputter {
 		Logger.Info("Writing holy sites...");
 
 		var outputPath = Path.Combine("output", outputModName, "common/religion/holy_sites/IRtoCK3_sites.txt");
-		using var outputStream = File.OpenWrite(outputPath);
-		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		var sitesToOutput = ck3ReligionCollection.HolySites.Where(s => s.IsGeneratedByConverter)
 			.ToList();
@@ -23,8 +23,7 @@ public static class ReligionsOutputter {
 		// Output localization.
 		foreach (string language in ConverterGlobals.SupportedLanguages) {
 			var locOutputPath = Path.Combine("output", outputModName, $"localization/{language}/IRtoCK3_holy_sites_l_{language}.yml");
-			using var locStream = File.OpenWrite(locOutputPath);
-			using var locWriter = new StreamWriter(locStream, System.Text.Encoding.UTF8);
+			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locOutputPath, System.Text.Encoding.UTF8);
 			
 			locWriter.WriteLine($"l_{language}:");
 			
@@ -48,8 +47,7 @@ public static class ReligionsOutputter {
 	public static void OutputReligions(string outputModName, ReligionCollection ck3ReligionCollection) {
 		Logger.Info("Writing religions...");
 		var outputPath = Path.Combine("output", outputModName, "common/religion/religions/IRtoCK3_all_religions.txt");
-		using var outputStream = File.OpenWrite(outputPath);
-		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		foreach (var religion in ck3ReligionCollection) {
 			output.WriteLine($"{religion.Id}={PDXSerializer.Serialize(religion)}");

@@ -1,5 +1,6 @@
 ﻿using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,8 +45,7 @@ public static class TitlesOutputter {
 
 	public static void OutputTitles(string outputModName, Title.LandedTitles titles) {
 		var outputPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
-		using var outputStream = File.OpenWrite(outputPath);
-		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		foreach (var (name, value) in titles.Variables) {
 			output.WriteLine($"@{name}={value}");

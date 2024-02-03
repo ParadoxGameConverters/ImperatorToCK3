@@ -18,7 +18,7 @@ public class RakalyCallerTests {
 		
 		const string missingSavePath = "missing.rome";
 		var e = Assert.Throws<FormatException>(() => RakalyCaller.MeltSave(missingSavePath));
-		Assert.Contains($"Rakaly melter failed to melt the save", e.ToString());
+		Assert.Contains("Rakaly melter failed to melt the save", e.ToString());
 		
 		var stdErrString = stdOut.ToString();
 		Assert.Contains("Save path: missing.rome", stdErrString);
