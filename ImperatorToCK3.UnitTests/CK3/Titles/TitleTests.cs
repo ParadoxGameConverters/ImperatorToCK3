@@ -136,7 +136,7 @@ public class TitleTests {
 		Assert.False(title.Landless);
 		Assert.Null(title.Color1);
 		Assert.Null(title.CapitalCounty);
-		Assert.Null(title.Province);
+		Assert.Null(title.ProvinceId);
 		Assert.False(title.PlayerCountry);
 	}
 
@@ -159,7 +159,7 @@ public class TitleTests {
 		Assert.True(title.Landless);
 		Assert.NotNull(title.Color1);
 		Assert.Equal("rgb { 23 23 23 }", title.Color1.OutputRgb());
-		Assert.Equal((ulong)345, title.Province);
+		Assert.Equal((ulong)345, title.ProvinceId);
 
 		Assert.NotNull(title.CapitalCounty);
 		Assert.Equal("c_roma", title.CapitalCountyId);

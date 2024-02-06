@@ -84,7 +84,7 @@ public class LandedTitlesTests {
 		var county = titles["c_county"];
 
 		Assert.Equal(2, titles.Count);
-		Assert.Equal((ulong)12, barony.Province);
+		Assert.Equal((ulong)12, barony.ProvinceId);
 		Assert.True(county.Landless);
 	}
 
@@ -102,7 +102,7 @@ public class LandedTitlesTests {
 		var county = titles["c_county5"];
 
 		Assert.Equal(5, titles.Count);
-		Assert.Equal((ulong)12, barony.Province);
+		Assert.Equal((ulong)12, barony.ProvinceId);
 		Assert.True(county.Landless);
 	}
 
@@ -126,7 +126,7 @@ public class LandedTitlesTests {
 		var county = titles["c_county5"];
 
 		Assert.Equal(5, titles.Count);
-		Assert.Equal((ulong)15, barony.Province);
+		Assert.Equal((ulong)15, barony.ProvinceId);
 		Assert.False(county.Landless);
 	}
 
