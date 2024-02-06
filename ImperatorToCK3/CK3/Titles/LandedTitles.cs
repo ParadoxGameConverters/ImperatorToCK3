@@ -226,7 +226,7 @@ public partial class Title {
 
 		public Title? GetBaronyForProvince(ulong provinceId) {
 			var baronies = this.Where(title => title.Rank == TitleRank.barony);
-			return baronies.FirstOrDefault(b => provinceId == b?.Province, defaultValue: null);
+			return baronies.FirstOrDefault(b => provinceId == b?.ProvinceId, defaultValue: null);
 		}
 
 		public HashSet<string> GetHolderIds(Date date) {
@@ -471,7 +471,7 @@ public partial class Title {
 				.ToImmutableHashSet();
 
 			foreach (var barony in eligibleBaronies) {
-				var ck3ProvinceId = barony.Province;
+				var ck3ProvinceId = barony.ProvinceId;
 				if (ck3ProvinceId is null) {
 					continue;
 				}
