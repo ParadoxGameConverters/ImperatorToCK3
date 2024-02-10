@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -67,8 +68,12 @@ public static class RakalyCaller {
 			Logger.Debug($"Rakaly exit code: {returnCode}");
 			string stdErrText = process.StandardError.ReadToEnd();
 			Logger.Debug($"Rakaly standard error: {stdErrText}");
-			
+
 			string exceptionMessage = "Rakaly melter failed to melt the save.";
+			if (stdErrText.Contains("There is not enough space on the disk.")) {
+				throw new UserErrorException($"{exceptionMessage} There is not enough space on the disk.");
+			}
+			
 			if (stdErrText.Contains("memory allocation of")) {
 				exceptionMessage += " One possible reason is that you don't have enough RAM.";
 			}
