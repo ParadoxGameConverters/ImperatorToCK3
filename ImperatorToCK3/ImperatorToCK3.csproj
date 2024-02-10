@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="ColorHashSharp" Version="1.0.0" />
-    <PackageReference Include="CsvHelper" Version="30.1.0" />
+    <PackageReference Include="CsvHelper" Version="31.0.0" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.5.0" />
     <PackageReference Include="Meziantou.Analyzer" Version="2.0.140">
       <PrivateAssets>all</PrivateAssets>
