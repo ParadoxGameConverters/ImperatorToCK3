@@ -613,7 +613,11 @@ public class World {
 			county.SetHolder(hermit, bookmarkDate);
 			county.SetDevelopmentLevel(0, bookmarkDate);
 			foreach (var provinceId in county.CountyProvinceIds) {
-				var province = Provinces[provinceId];
+				if (!Provinces.TryGetValue(provinceId, out var province)) {
+					Logger.Warn($"Province {provinceId} not found for county {county.Id}!");
+					continue;
+				}
+				
 				province.History.RemoveHistoryPastDate("1.1.1");
 				province.SetFaithId(faithId, date: null);
 				province.SetCultureId(cultureId, date: null);
