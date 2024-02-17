@@ -577,33 +577,8 @@ public class World {
 					Logger.Warn($"Title {titleId} not found!");
 					continue;
 				}
-				Logger.Debug($"Generating hermit for {titleId}...");
 
-				var hermit = new Character($"IRToCK3_{titleId}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50), Characters);
-				var faithId = faithCandidates.First(c => faiths.Exists(f => f.Id == c));
-				hermit.SetFaithId(faithId, date: null);
-				hermit.SetCultureId(cultureId, date: null);
-				hermit.History.AddFieldValue(date: null, "traits", "trait", "chaste");
-				hermit.History.AddFieldValue(date: null, "traits", "trait", "celibate");
-				hermit.History.AddFieldValue(date: null, "traits", "trait", "devoted");
-				var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
-				hermit.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
-				Characters.AddOrReplace(hermit);
-
-				title.SetHolder(hermit, bookmarkDate);
-				title.SetGovernment("eremitic_government", bookmarkDate);
-				foreach (var county in title.GetDeJureVassalsAndBelow(rankFilter: "c").Values) {
-					county.SetHolder(hermit, bookmarkDate);
-					county.SetDevelopmentLevel(0, bookmarkDate);
-					foreach (var provinceId in county.CountyProvinceIds) {
-						var province = Provinces[provinceId];
-						province.History.RemoveHistoryPastDate("1.1.1");
-						province.SetFaithId(faithId, date: null);
-						province.SetCultureId(cultureId, date: null);
-						province.SetBuildings(new List<string>(), date: null);
-						province.History.Fields["holding"].RemoveAllEntries();
-					}
-				}
+				GenerateHermitForTitle(title, namePool, bookmarkDate, faithCandidates, faiths, cultureId, config);
 			}
 		}
 
@@ -615,6 +590,40 @@ public class World {
 			cultureId = "gaelic";
 			// ReSharper disable once StringLiteralTypo
 			namePool = new Queue<string>(new[] { "A_engus", "Domnall", "Rechtabra" });
+		}
+	}
+
+	private void GenerateHermitForTitle(Title title, Queue<string> namePool, Date bookmarkDate, IEnumerable<string> faithCandidates, List<Faith> faiths, string cultureId, Configuration config) {
+		Logger.Debug($"Generating hermit for {title.Id}...");
+
+		var hermit = new Character($"IRToCK3_{title.Id}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50), Characters);
+		var faithId = faithCandidates.First(c => faiths.Exists(f => f.Id == c));
+		hermit.SetFaithId(faithId, date: null);
+		hermit.SetCultureId(cultureId, date: null);
+		hermit.History.AddFieldValue(date: null, "traits", "trait", "chaste");
+		hermit.History.AddFieldValue(date: null, "traits", "trait", "celibate");
+		hermit.History.AddFieldValue(date: null, "traits", "trait", "devoted");
+		var eremiteEffect = new StringOfItem("{ set_variable = IRToCK3_eremite_flag }");
+		hermit.History.AddFieldValue(config.CK3BookmarkDate, "effects", "effect", eremiteEffect);
+		Characters.AddOrReplace(hermit);
+
+		title.SetHolder(hermit, bookmarkDate);
+		title.SetGovernment("eremitic_government", bookmarkDate);
+		foreach (var county in title.GetDeJureVassalsAndBelow(rankFilter: "c").Values) {
+			county.SetHolder(hermit, bookmarkDate);
+			county.SetDevelopmentLevel(0, bookmarkDate);
+			foreach (var provinceId in county.CountyProvinceIds) {
+				if (!Provinces.TryGetValue(provinceId, out var province)) {
+					Logger.Warn($"Province {provinceId} not found for county {county.Id}!");
+					continue;
+				}
+				
+				province.History.RemoveHistoryPastDate("1.1.1");
+				province.SetFaithId(faithId, date: null);
+				province.SetCultureId(cultureId, date: null);
+				province.SetBuildings(new List<string>(), date: null);
+				province.History.Fields["holding"].RemoveAllEntries();
+			}
 		}
 	}
 
