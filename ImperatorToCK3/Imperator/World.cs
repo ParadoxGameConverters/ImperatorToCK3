@@ -5,6 +5,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
@@ -206,6 +207,10 @@ public class World : Parser {
 		RegisterKeyword("deity_manager", reader => {
 			Religions.LoadHolySiteDatabase(reader);
 		});
+		RegisterKeyword("meta_player_name", ParserHelpers.IgnoreItem);
+		RegisterKeyword("speed", ParserHelpers.IgnoreItem);
+		RegisterKeyword("random_seed", ParserHelpers.IgnoreItem);
+		RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
 		var playerCountriesToLog = new OrderedSet<string>();
 		RegisterKeyword("played_country", reader => {
 			var playedCountryBlocParser = new Parser();
@@ -370,7 +375,7 @@ public class World : Parser {
 		}
 	}
 	private void VerifySave(string saveGamePath) {
-		using var saveStream = File.Open(saveGamePath, FileMode.Open);
+		using var saveStream = File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 		var buffer = new byte[10];
 		var bytesRead = saveStream.Read(buffer, 0, 4);
 		if (bytesRead < 4) {
@@ -404,11 +409,18 @@ public class World : Parser {
 		}
 	}
 	private static BufferedReader ProcessDebugModeSave(string saveGamePath) {
-		return new BufferedReader(File.Open(saveGamePath, FileMode.Open));
+		try {
+			var fileStream = File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+			return new BufferedReader(fileStream);
+		} catch (IOException e) {
+			Logger.Debug($"Failed to open save file \"{saveGamePath}\": {e.Message}");
+			throw new UserErrorException("Could not open the save file! " +
+			                             "Close Imperator: Rome before running the converter.");
+		}
 	}
 	private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {
 		Helpers.RakalyCaller.MeltSave(saveGamePath);
-		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open));
+		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 	}
 
 	private readonly IgnoredKeywordsSet ignoredTokens = new();

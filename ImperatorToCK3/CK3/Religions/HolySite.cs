@@ -17,7 +17,7 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public Title? Barony { get; }
 	[SerializedName("county")] public string? CountyId => County?.Id;
 	[SerializedName("barony")] public string? BaronyId => Barony?.Id;
-	[SerializedName("character_modifier")] public Dictionary<string, object> CharacterModifier { get; set; } = new();
+	[SerializedName("character_modifier")] public IDictionary<string, object> CharacterModifier { get; set; } = new Dictionary<string, object>();
 	[SerializedName("flag")] public string? Flag { get; set; }
 
 	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles) {
@@ -31,7 +31,8 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
 		parser.RegisterKeyword("character_modifier", reader => {
 			CharacterModifier = reader.GetAssignments()
-				.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
+				.GroupBy(a => a.Key)
+				.ToDictionary(g => g.Key, g => (object)g.Last().Value);
 		});
 		parser.RegisterKeyword("flag", reader => Flag = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();
@@ -51,7 +52,7 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	public HolySite(Title barony, Faith faith, Title.LandedTitles titles) {
 		IsGeneratedByConverter = true;
 		Id = GenerateHolySiteId(barony, faith);
-		County = titles.GetCountyForProvince(barony.Province!.Value)!;
+		County = titles.GetCountyForProvince(barony.ProvinceId!.Value)!;
 		Barony = barony;
 	}
 	public HolySite(

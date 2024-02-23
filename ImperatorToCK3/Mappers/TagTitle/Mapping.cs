@@ -38,7 +38,7 @@ public class Mapping {
 			}
 
 			var ck3ProvincesInDuchy = duchy.GetDeJureVassalsAndBelow("c").Values
-				.SelectMany(c => c.CountyProvinces)
+				.SelectMany(c => c.CountyProvinceIds)
 				.ToImmutableHashSet();
 
 			var governorshipProvincesInDuchy = governorship.GetCK3ProvinceIds(irProvinces, provMapper)

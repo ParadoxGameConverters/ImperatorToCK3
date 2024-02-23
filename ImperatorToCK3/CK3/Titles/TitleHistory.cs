@@ -22,7 +22,7 @@ public partial class Title {
 		History.AddFieldValue(date, "government", "government", governmentId);
 	}
 
-	public string? GetLiege(Date date) {
+	public string? GetLiegeId(Date date) {
 		if (History.GetFieldValue("liege", date) is string liegeStr) {
 			return liegeStr;
 		}

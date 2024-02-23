@@ -38,9 +38,8 @@ khasi = {
 	}
 }
 
-iberian = {
-    INVALIDATED_BY = { iberian }
-    
+# TFE "iberian" is a Roman divergence culture, not pre-indo-european
+non_indo_european_iberian = {
 	color = hsv { 0.07 1.0 1.0 }
 
 	heritage = heritage_aboriginal
@@ -430,7 +429,7 @@ albanian = {
 }
 
 old_egyptian = {
-    INVALIDATED_BY = { old_egyptian }
+    INVALIDATED_BY = { old_egyptian kemetic }
     
 	color = hsv { 0.15  1  0.7 }
 
@@ -1196,7 +1195,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
     INVALIDATED_BY = { lusoiberian }
     
 	color = hsv { 0.6 0.8 0.2 }
-	parents = { celtiberian iberian }
+	parents = { celtiberian non_indo_european_iberian }
 	created = 2.1.1
 
 	heritage = heritage_gaulish
@@ -1783,7 +1782,7 @@ siculian = {
 }
 
 hunnic = { # ImperatorToCK3
-    INVALIDATED_BY = { hunnic }
+    INVALIDATED_BY = { hunnic hun }
     
 	color = { 254 204 50 }
 
@@ -1913,7 +1912,7 @@ palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/fi
 }
 
 carthaginian = {
-    INVALIDATED_BY = { carthaginian }
+    INVALIDATED_BY = { carthaginian punic }
     
 	color = rgb { 74 174 85 }
 	parents = { phoenician }

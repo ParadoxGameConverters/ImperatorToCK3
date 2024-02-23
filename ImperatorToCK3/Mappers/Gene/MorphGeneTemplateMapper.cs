@@ -1,10 +1,12 @@
 using commonItems;
 using System.Collections.Generic;
+using System.Linq;
+using Assignment = System.Collections.Generic.KeyValuePair<string, string>;
 
-namespace ImperatorToCK3.Mappers.Gene; 
+namespace ImperatorToCK3.Mappers.Gene;
 
 public class MorphGeneTemplateMapper {
-	private readonly Dictionary<string, IDictionary<string, string>> templateMappings = new(); // <geneName, <irTemplate, ck3Template>>
+	private readonly Dictionary<string, IList<Assignment>> templateMappings = []; // <geneName, <irTemplate, ck3Template>>
 	
 	public MorphGeneTemplateMapper(string mappingsFilePath) {
 		var parser = new Parser();
@@ -21,11 +23,13 @@ public class MorphGeneTemplateMapper {
 			return null;
 		}
 
-		if (templateMappingsForGene.TryGetValue(irTemplateName, out var ck3TemplateName)) {
-			return ck3TemplateName;
+		var ck3TemplateName = templateMappingsForGene
+			.Where(mapping => mapping.Key == irTemplateName)
+			.Select(mapping => mapping.Value)
+			.FirstOrDefault();
+		if (ck3TemplateName is null) {
+			Logger.Warn($"I:R template {irTemplateName} not found in morph gene template mappings!");
 		}
-
-		Logger.Warn($"I:R template {irTemplateName} not found in morph gene template mappings!");
-		return null;
+		return ck3TemplateName;
 	}
 }

@@ -9,7 +9,7 @@ jobs:
     outputs:
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: "Get previous tag"
@@ -40,7 +40,7 @@ jobs:
         build:
         - win-x64
         - linux-x64
-        - osx-x64
+        - osx-arm64
         include:
         - build: win-x64
           os: windows-latest
@@ -52,13 +52,13 @@ jobs:
           archive_type: tar
           archive_extension: .tgz
           asset_content_type: application/gzip
-        - build: osx-x64
+        - build: osx-arm64
           os: macos-latest
           archive_type: tar
           archive_extension: .tgz
           asset_content_type: application/gzip
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: recursive
@@ -68,7 +68,7 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: Fronter.NET/global.json
     - name: "Replace frontend background image"
@@ -80,18 +80,27 @@ jobs:
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Publish'
+        build_updater: ${{ matrix.build != 'win-x64' }} # Windows release uses InnoSetup instead.
       env:
         BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
     - name: "Build backend"
       working-directory: ImperatorToCK3
+      shell: bash
       run: |
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3"
+        if [ "$RUNNER_OS" = "macOS" ]
+        then
+          echo "Signing binary..."
+          codesign --force -s - "../Publish/ImperatorToCK3/ImperatorToCK3Converter"
+          echo "Verifying signature..."
+          codesign -dv --verbose=4 "../Publish/ImperatorToCK3/ImperatorToCK3Converter"
+        fi
     - name: "Save commit ID"
       shell: bash
       run: |
@@ -103,8 +112,29 @@ jobs:
         directory: 'Publish'
         path: '.'
         filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
-    - name: "Upload release asset"
-      id: upload-release-asset
+    - name: "Install sed for Windows"
+      if: matrix.build == 'win-x64'
+      run: |
+        choco install sed
+    - name: "Build installer for Windows"
+      if: matrix.build == 'win-x64'
+      run: |
+        dotnet tool install --global InnoSetup
+        cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
+        iscc --version
+        sed -i '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
+        cat ImperatorToCK3.iss
+        iscc ImperatorToCK3.iss
+    - name: "Upload installer for Windows"
+      id: upload-installer
+      if: matrix.build == 'win-x64'
+      uses: alexellis/upload-assets@0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        asset_paths: '["./Output/ImperatorToCK3-${{ matrix.build }}-setup.exe"]'
+    - name: "Upload release zip"
+      id: upload-release-zip
       uses: alexellis/upload-assets@0.4.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

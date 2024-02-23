@@ -17,6 +17,13 @@ public partial class Province {
 			_ => null
 		};
 	}
+
+	public void SetFaithIdAndOverrideExistingEntries(string faithId) {
+		var faithHistoryField = History.Fields["faith"];
+		faithHistoryField.RemoveAllEntries();
+		faithHistoryField.AddEntryToHistory(null, "faith", faithId);
+	}
+	
 	public void SetFaithId(string faithId, Date? date) {
 		History.AddFieldValue(date, "faith", "faith", faithId);
 	}

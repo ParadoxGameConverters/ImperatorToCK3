@@ -67,3 +67,9 @@ old_bon = all
 svetambara = all
 yapaniya = all
 digambara = all
+hurrian = all
+
+# Ajivika
+makkhalist = all
+nandanist = all
+puranist = all

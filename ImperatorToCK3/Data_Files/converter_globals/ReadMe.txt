@@ -10,7 +10,7 @@ GitHub project: https://github.com/ParadoxGameConverters/ImperatorToCK3
 REQUIREMENTS
 ----
 Imperator: Rome - version 2.0
-Crusader Kings III - version 1.9
+Crusader Kings III - version from 1.9 to 1.11
 
 -----
 INSTRUCTIONS
@@ -45,5 +45,6 @@ When the World Stopped Making Sense mod team - Permission to use Eiateuta faith 
 Izn - Research and localization for Ajivika religion
 B7E7, author of Africa Plus mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2552371897) - Permission to use Nhialacism faith from their mod
 Herkles, author of Dharmachakra mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327) - Khasi culture
+The Bronze Age: Maryannu mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=2216525506) - Hurrian religion localization
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

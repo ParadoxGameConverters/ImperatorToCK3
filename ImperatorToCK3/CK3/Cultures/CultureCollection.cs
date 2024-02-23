@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using Fernandezja.ColorHashSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,10 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
-			cultureData.Heritage = pillarCollection.Heritages.First(p => p.Id == heritageId);
+			cultureData.Heritage = pillarCollection.Heritages.FirstOrDefault(p => p.Id == heritageId);
+			if (cultureData.Heritage is null) {
+				Logger.Warn($"Found unrecognized heritage when parsing cultures: {heritageId}");
+			}
 		});
 		cultureDataParser.RegisterKeyword("traditions", reader => {
 			cultureData.TraditionIds = reader.GetStrings().ToOrderedSet();
@@ -68,6 +72,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 
 	private void LoadCulture(string cultureId, BufferedReader cultureReader) {
+		cultureData = new CultureData();
+		
 		cultureDataParser.ParseStream(cultureReader);
 
 		if (cultureData.InvalidatingCultureIds.Any()) {
@@ -89,10 +95,12 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			Logger.Warn($"Culture {cultureId} has no name list defined! Skipping.");
 			return;
 		}
+		if (cultureData.Color is null) {
+			Logger.Warn($"Culture {cultureId} has no color defined! Will use generated color.");
+			var color = new ColorHash().Rgb(cultureId);
+			cultureData.Color = new Color(color.R, color.G, color.B);
+		}
 		AddOrReplace(new Culture(cultureId, cultureData));
-		
-		// Reset culture data for the next culture.
-		cultureData = new CultureData();
 	}
 
 	private void ReplaceInvalidatedParents() {

@@ -294,8 +294,8 @@ public partial class Province : IIdentifiable<ulong> {
 
 	public bool IsCountyCapital(Title.LandedTitles landedTitles) {
 		var capitalProvIds = landedTitles
-			.Where(t => t.CapitalBaronyProvince is not null)
-			.Select(t => (ulong)t.CapitalBaronyProvince!);
+			.Where(t => t.CapitalBaronyProvinceId is not null)
+			.Select(t => (ulong)t.CapitalBaronyProvinceId!);
 		return capitalProvIds.Contains(Id);
 	}
 }
