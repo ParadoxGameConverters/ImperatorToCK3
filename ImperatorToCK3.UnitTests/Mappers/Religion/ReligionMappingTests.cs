@@ -169,6 +169,31 @@ public class ReligionMappingTests {
 
 		Assert.Null(mapping.Match("german", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
+
+	[Fact]
+	public void DateIsCorrectlyUsedAsTrigger() {
+		var orthodoxReader = new BufferedReader("ck3=orthodox ir=christian date_gte=1054.7.16");
+		var orthodoxMapping = ReligionMapping.Parse(orthodoxReader);
+		
+		var chalcedonianReader = new BufferedReader("ck3=chalcedonian ir=christian");
+		var chalcedonianMapping = ReligionMapping.Parse(chalcedonianReader);
+		
+		// date after the schism
+		var config = new Configuration { CK3BookmarkDate = new Date(1066, 9, 15) };
+		Assert.Equal("orthodox", orthodoxMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		// fallback to chalcedonian should also work
+		Assert.Equal("chalcedonian", chalcedonianMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		
+		// date of the schism
+		config = new Configuration { CK3BookmarkDate = new Date(1054, 7, 16) };
+		Assert.Equal("orthodox", orthodoxMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("chalcedonian", chalcedonianMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		
+		// date before the schism
+		config = new Configuration { CK3BookmarkDate = new Date(1000, 0, 0) };
+		Assert.Null(orthodoxMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("chalcedonian", chalcedonianMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+	}
 	
 	[Theory]
 	[InlineData("roman", "orthodox")]

@@ -29,7 +29,8 @@ public class DynastiesOutputterTests {
 		AreaCollection areas = new();
 		ImperatorRegionMapper irRegionMapper = new(areas);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
-		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
+		var colorFactory = new ColorFactory();
+		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(colorFactory, new PillarCollection(colorFactory)));
 
 		var characters = new CharacterCollection();
 		var dynasties = new DynastyCollection();
@@ -54,12 +55,12 @@ public class DynastiesOutputterTests {
 		var reader = new StreamReader(file);
 
 		Assert.Equal("dynn_irtock3_1={", reader.ReadLine());
-		Assert.Equal("\tname=dynn_irtock3_1", reader.ReadLine());
+		Assert.Equal("\tname = dynn_irtock3_1", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 
 		Assert.Equal("dynn_irtock3_2={", reader.ReadLine());
-		Assert.Equal("\tname=dynn_irtock3_2", reader.ReadLine());
-		Assert.Equal("\tculture=roman", reader.ReadLine());
+		Assert.Equal("\tname = dynn_irtock3_2", reader.ReadLine());
+		Assert.Equal("\tculture = roman", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
 		Assert.True(string.IsNullOrWhiteSpace(reader.ReadLine()));
 		Assert.True(reader.EndOfStream);

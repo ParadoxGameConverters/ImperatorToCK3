@@ -10,18 +10,6 @@
  select_personal_deity_venetic_decision.select_vetusa: "Vetusa, keeper of nature and master of the lands!"
  select_personal_deity_venetic_decision_confirm: "My choise is most wise"
 
- bhakti_germanic_reitia: "Devotee of Reitia"
- bhakti_germanic_reitia_desc: "This character's favored god is Reitia, goddess of writing, education and the all-Mother."
- bhakti_germanic_tumusiates: "Devotee of Tumusiates"
- bhakti_germanic_tumusiates_desc: "This character's favored god is Tumusiates, a god of honor, wisdom and statesmanship."
- bhakti_germanic_bouleno: "Devotee of Bouleno"
- bhakti_germanic_bouleno_desc: "This character's favored god is Bouleno, a god of cunning and bravery."
- bhakti_germanic_vetusa: "Devotee of Vetusa"
- bhakti_germanic_vetusa_desc: "This character's favored god is Vetusa, a goddess of protection, nature and animals."
-
- gave_written_offering_modifier: "Inscribed Gratitude to the Gods"
-
-
  written_offering_decision: "Make a Written Offering"
  written_offering_decision_tooltip: "Inscribing a Prayer"
  written_offering_decision_tt: "Inscribing a Prayer"
@@ -29,10 +17,5 @@
  written_offering_decision_confirm: "Time to pick up my stylus!"
 
  doctrine_parameter_ritual_writing_active: "Allows #ERitual Inscriptions as gifts in exchange for piety"
-
- religious_decision.102.optout: "Maybe this was a bad idea"
- religious_decision.102.flavour: "I shouldn't invoke the wrath of many gods by choosing one"
-
- gave_written_offering: "Inscribed Gratitude to the Gods"
 
  ritual_writing_vassals: "Pleased Faithful"

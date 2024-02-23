@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Modifiers;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Provinces;
@@ -26,9 +27,9 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
+		CultureCollection ck3Cultures,
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
-		LocDB locDB,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
@@ -44,7 +45,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				locDB,
+				impWorld.LocDB,
 				provinceMapper,
 				deathReasonMapper,
 				dnaFactory,
@@ -63,6 +64,10 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 		
 		ImportPregnancies(impWorld.Characters, conversionDate);
+
+		if (config.FallenEagleEnabled) {
+			SetCharacterCastes(ck3Cultures, config.CK3BookmarkDate);
+		}
 	}
 
 	private void ImportImperatorCharacter(
@@ -94,7 +99,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			config
 		);
 		character.CK3Character = newCharacter;
-		Add(newCharacter);
+		AddOrReplace(newCharacter);
 	}
 
 	public override void Remove(string key) {
@@ -300,20 +305,99 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Logger.IncrementProgress();
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date date) {
+	private void SetCharacterCastes(CultureCollection cultures, Date ck3BookmarkDate) {
+		var casteSystemCultureIds = cultures
+			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
+			.Select(c => c.Id)
+			.ToHashSet();
+		var learningEducationTraits = new[]{"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"};
+		
+		foreach (var character in this.OrderBy(c => c.BirthDate)) {
+			if (character.ImperatorCharacter is null) {
+				continue;
+			}
+			
+			var cultureId = character.GetCultureId(ck3BookmarkDate);
+			if (cultureId is null || !casteSystemCultureIds.Contains(cultureId)) {
+				continue;
+			}
+			
+			// The caste is hereditary.
+			var father = character.Father;
+			if (father is not null) {
+				var foundTrait = GetCasteTraitFromParent(father);
+				if (foundTrait is not null) {
+					character.AddBaseTrait(foundTrait);
+					continue;
+				}
+			}
+			var mother = character.Mother;
+			if (mother is not null) {
+				var foundTrait = GetCasteTraitFromParent(mother);
+				if (foundTrait is not null) {
+					character.AddBaseTrait(foundTrait);
+					continue;
+				}
+			}
+			
+			// Try to set caste based on character's traits.
+			var traitIds = character.BaseTraits.ToHashSet();
+			character.AddBaseTrait(traitIds.Intersect(learningEducationTraits).Any() ? "brahmin" : "kshatriya");
+		}
+		return;
+
+		static string? GetCasteTraitFromParent(Character parentCharacter) {
+			var casteTraits = new[]{"brahmin", "kshatriya", "vaishya", "shudra"};
+			var parentTraitIds = parentCharacter.BaseTraits.ToHashSet();
+			return casteTraits.Intersect(parentTraitIds).FirstOrDefault();
+		}
+	}
+
+	private static IEnumerable<string> LoadCharacterIDsToPreserve() {
+		Logger.Debug("Loading IDs of CK3 characters to preserve...");
+		HashSet<string> characterIDsToPreserve = [];
+
+		string configurablePath = "configurables/ck3_characters_to_preserve.txt";
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (_, id) => {
+			characterIDsToPreserve.Add(id);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile(configurablePath);
+
+		return characterIDsToPreserve;
+	}
+
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
+		
+		// Characters that hold or held titles should always be kept.
 		var landedCharacterIds = titles.GetAllHolderIds();
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
 			.ToList();
+		var charactersToCheck = this.Except(landedCharacters);
+		
+		// Don't purge animation_test or easter egg characters.
+		charactersToCheck = charactersToCheck
+			.Where(c => !c.Id.StartsWith("animation_test_") && !c.Id.StartsWith("easteregg_"));
+		
+		// Keep alive Imperator characters.
+		charactersToCheck = charactersToCheck
+			.Where(c => c is not {FromImperator: true, Dead: false});
+				
+		// Make some exceptions for characters referenced in game's script files.
+		var characterIdsToKeep = LoadCharacterIDsToPreserve();
+
+		charactersToCheck = charactersToCheck
+			.Where(character => !characterIdsToKeep.Contains(character.Id))
+			.ToList();
+
 		var dynastyIdsOfLandedCharacters = landedCharacters
-			.Select(character => character.GetDynastyId(date))
+			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
 			.ToHashSet();
-
-		// Characters that hold or held titles should always be kept.
-		var charactersToCheck = this.Except(landedCharacters).ToList();
-
+		
 		var i = 0;
 		var farewellCharacters = new List<Character>();
 		var parentIdsCache = new HashSet<string>();
@@ -336,14 +420,9 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 
 			// See who can be removed.
-			foreach (var character in charactersToCheck) {				
-				// Keep alive characters.
-				if (character is {FromImperator: true, Dead: false}) {
-					continue;
-				}
-
+			foreach (var character in charactersToCheck) {
 				// Does the character belong to a dynasty that holds or held titles?
-				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(date))) {
+				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
 						farewellCharacters.Add(character);

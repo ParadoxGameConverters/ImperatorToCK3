@@ -60,6 +60,15 @@ public class Character : IIdentifiable<string> {
 	public string? GetNickname(Date date) {
 		return History.GetFieldValue("give_nickname", date)?.ToString();
 	}
+	
+	public IEnumerable<string> BaseTraits => History.Fields["traits"].InitialEntries
+		.Where(kvp => kvp.Key == "trait")
+		.Select(kvp => kvp.Value)
+		.Cast<string>();
+
+	public void AddBaseTrait(string traitId) {
+		History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", traitId));
+	}
 		
 	public double? Gold { get; set; }
 
@@ -136,12 +145,12 @@ public class Character : IIdentifiable<string> {
 	}
 
 	public bool Dead => DeathDate is not null;
-	public List<Pregnancy> Pregnancies { get; } = new();
+	public IList<Pregnancy> Pregnancies { get; } = new List<Pregnancy>();
 
-	public Dictionary<string, int> MenAtArmsStacksPerType { get; } = new();
+	public IDictionary<string, int> MenAtArmsStacksPerType { get; } = new Dictionary<string, int>();
 
-	public Dictionary<string, string> PrisonerIds { get; } = new(); // <prisoner id, imprisonment type>
-	public Dictionary<string, LocBlock> Localizations { get; } = new();
+	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
+	public IDictionary<string, LocBlock> Localizations { get; } = new Dictionary<string, LocBlock>();
 
 	public DNA? DNA { get; private set; }
 
@@ -400,8 +409,8 @@ public class Character : IIdentifiable<string> {
 			History.AddFieldValue(null, "health", "health", ck3Health);
 		}
 
-		foreach (var trait in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
-			History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", trait));
+		foreach (var traitId in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
+			AddBaseTrait(traitId);
 		}
 
 		BirthDate = ImperatorCharacter.BirthDate;
@@ -454,7 +463,7 @@ public class Character : IIdentifiable<string> {
 		History.AddFieldValue(date, "culture", "culture", cultureId);
 	}
 	public string? GetCultureId(Date date) {
-		return History.GetFieldValue("culture", date)?.ToString();
+		return History.GetFieldValue("culture", date)?.ToString()?.RemQuotes();
 	}
 		
 	public void SetFaithId(string faithId, Date? date) {

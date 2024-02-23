@@ -1,25 +1,25 @@
 ﻿using commonItems;
 using ImperatorToCK3.Mappers.Region;
-using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Religion;
 
 public class ReligionMapping {
-	private readonly SortedSet<string> irReligionIds = new();
+	private readonly SortedSet<string> irReligionIds = [];
 	public string? CK3FaithId { get; private set; }
-	private readonly SortedSet<string> ck3CultureIds = new();
+	private readonly SortedSet<string> ck3CultureIds = [];
 
-	private readonly SortedSet<ulong> irProvinceIds = new();
-	private readonly SortedSet<ulong> ck3Provinces = new();
+	private readonly SortedSet<ulong> irProvinceIds = [];
+	private readonly SortedSet<ulong> ck3Provinces = [];
 
-	private readonly SortedSet<string> imperatorRegions = new();
-	private readonly SortedSet<string> ck3Regions = new();
+	private readonly SortedSet<string> imperatorRegions = [];
+	private readonly SortedSet<string> ck3Regions = [];
 
-	private readonly SortedSet<string> irHistoricalTags = new();
+	private Date? dateGreaterOrEqual = null;
+
+	private readonly SortedSet<string> irHistoricalTags = [];
 
 	private bool? heresiesInHistoricalAreas;
-	private bool warnWhenMissing = true; // whether to log a warning when the CK3 faith is not found
 
 	private static readonly Parser parser = new();
 	private static ReligionMapping mappingToReturn = new();
@@ -28,14 +28,14 @@ public class ReligionMapping {
 		parser.RegisterKeyword("ir", reader => mappingToReturn.irReligionIds.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Culture", reader => mappingToReturn.ck3CultureIds.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));
-		parser.RegisterKeyword("impRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
+		parser.RegisterKeyword("irRegion", reader => mappingToReturn.imperatorRegions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Province", reader => mappingToReturn.ck3Provinces.Add(reader.GetULong()));
 		parser.RegisterKeyword("irProvince", reader => mappingToReturn.irProvinceIds.Add(reader.GetULong()));
+		parser.RegisterKeyword("date_gte", reader => mappingToReturn.dateGreaterOrEqual = new Date(reader.GetString()));
 		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("heresiesInHistoricalAreas", reader => mappingToReturn.heresiesInHistoricalAreas = reader.GetBool());
-		parser.RegisterKeyword("warnWhenMissing", reader => mappingToReturn.warnWhenMissing = reader.GetBool());
 		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
-			var variableValue = reader.ResolveVariable(variableName).ToString() ?? string.Empty;
+			var variableValue = reader.ResolveVariable(variableName)?.ToString() ?? string.Empty;
 			var variableReader = new BufferedReader(variableValue);
 			variableReader.CopyVariables(reader);
 			parser.ParseStream(variableReader);
@@ -63,6 +63,10 @@ public class ReligionMapping {
 		}
 
 		if (!irReligionIds.Contains(irReligion)) {
+			return null;
+		}
+		
+		if (dateGreaterOrEqual is not null && config.CK3BookmarkDate < dateGreaterOrEqual) {
 			return null;
 		}
 

@@ -311,7 +311,7 @@
  raise_irminsul_decision_desc: "[ROOT.Var('ancestor_to_bury').Char.Custom2('MyCharacterIntroduction', ROOT.Char)|U] больше нет. Я подниму Ирминсула, чтобы почтить его жизнь и прославить всех, кто носит имя [ROOT.Var('ancestor_to_bury').Char.GetDynasty.GetName]. Как и Видукинд до него, будущие поколения всегда будут говорить о [ROOT.Var('ancestor_to_bury').Char.GetFullNameNicknamedNoTooltip]!"
  raise_irminsul_decision_tooltip: "Вырастите Ирминсула, чтобы почтить память своего [ROOT.Char.Custom2('RelationToMeShort', ROOT.Var('ancestor_to_bury').Char)]"
  raise_irminsul_decision_confirm: "$raise_irminsul_decision$"
- raise_irminsul_vassals: "Каждый вассал вашей [веры|E]"
+ raise_irminsul_vassals: "Каждый вассал вашей [faith|E]"
  county_raised_irminsul_modifier: "Ирминсуль"
  germanic_pagan: "Фирнсидуйск"
  germanic_pagan_adj: "Фирнсиду"

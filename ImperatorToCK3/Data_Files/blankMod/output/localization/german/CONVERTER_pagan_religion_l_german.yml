@@ -300,7 +300,7 @@
  raise_irminsul_decision_desc: "[ROOT.Var('ancestor_to_bury').Char.Custom2('MyCharacterIntroduction', ROOT.Char)|U] ist nicht mehr. Ich werde einen Irminsul erziehen, um [ROOT.Var('ancestor_to_bury').Char.GetHerHis] Leben zu ehren und allen, die den Namen [ROOT.Var('ancestor_to_bury').Char.GetDynasty.GetName] tragen, Ruhm zu bringen. Wie Widukind vor ihm werden zukünftige Generationen für immer über [ROOT.Var('ancestor_to_bury').Char.GetFullNameNicknamedNoTooltip] sprechen!"
  raise_irminsul_decision_tooltip: "Erhebe einen Irminsul, um deinen [ROOT.Char.Custom2('RelationToMeShort', ROOT.Var('ancestor_to_bury').Char)] zu ehren"
  raise_irminsul_decision_confirm: "$raise_irminsul_decision$"
- raise_irminsul_vassals: "Jeder Vasall deines [Glaubens|E]"
+ raise_irminsul_vassals: "Jeder Vasall deines [faith|E]"
  county_raised_irminsul_modifier: "Irminsul"
  germanic_pagan: "Fyrnsidu"
  germanic_pagan_adj: "Fyrnsiduisch"

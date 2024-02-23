@@ -109,7 +109,7 @@ public class TagTitleMapper {
 
 	private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper) {
 		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
-			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvince!;
+			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId!;
 			if (capitalBaronyProvinceId == 0) {
 				// title's capital province has an invalid ID (0 is not a valid province in CK3)
 				continue;
@@ -161,7 +161,12 @@ public class TagTitleMapper {
 		if (localizedTitleName.Contains("Kingdom", System.StringComparison.Ordinal)) {
 			return "k";
 		}
-
+		
+		// Major power rank is very broad (from 100 to 499 territories). Consider 300+ territories as empire material.
+		if (country is {Rank: CountryRank.majorPower, TerritoriesCount: >= 300}) {
+			return "e";
+		}
+		
 		switch (country.Rank) {
 			case CountryRank.migrantHorde:
 			case CountryRank.cityState:

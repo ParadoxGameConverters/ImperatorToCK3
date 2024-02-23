@@ -91,7 +91,11 @@ public partial class Province {
 		provinceParser.ParseStream(reader);
 
 		if (parsedStateId is not null) {
-			parsedProvince.State = states[parsedStateId.Value];
+			if (!states.TryGetValue(parsedStateId.Value, out var state)) {
+				Logger.Warn($"Province {parsedProvince.Id} has state ID {parsedStateId}, but no such state has been loaded!");
+			} else {
+				parsedProvince.State = state;
+			}
 		}
 
 		parsedProvince.TryLinkOwnerCountry(parsedOwnerId, countries);

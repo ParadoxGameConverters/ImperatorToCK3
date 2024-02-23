@@ -20,7 +20,7 @@ public class DiplomacyTests {
 				3 = { previous=no defender=1 }
 			}
 		""");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.Diplomacy(reader);
+		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
 
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();

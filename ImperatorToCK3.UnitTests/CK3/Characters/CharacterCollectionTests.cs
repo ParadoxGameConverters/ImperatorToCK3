@@ -41,6 +41,8 @@ public class CharacterCollectionTests {
 	private static readonly CultureCollection cultures;
 
 	static CharacterCollectionTests() {
+		var colorFactory = new ColorFactory();
+		
 		var states = new StateCollection();
 		var countries = new CountryCollection();
 		ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
@@ -54,9 +56,9 @@ public class CharacterCollectionTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+		irRegionMapper.LoadRegions(irModFS, colorFactory);
 		
-		cultures = new CultureCollection(new PillarCollection());
+		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory));
 	}
 
 	[Fact]
@@ -85,9 +87,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
@@ -129,9 +131,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
@@ -180,9 +182,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
@@ -263,8 +265,8 @@ public class CharacterCollectionTests {
 		);
 		var governorship1 = new Governorship(governorshipReader1, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
 		var governorship2 = new Governorship(governorshipReader2, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
-		imperatorWorld.Jobs.Governorships.Add(governorship1);
-		imperatorWorld.Jobs.Governorships.Add(governorship2);
+		imperatorWorld.JobsDB.Governorships.Add(governorship1);
+		imperatorWorld.JobsDB.Governorships.Add(governorship2);
 
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader(@"
@@ -279,9 +281,8 @@ public class CharacterCollectionTests {
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-
-		var locDB = new LocDB("english");
-		var countryLocBlock = locDB.AddLocBlock("PRY");
+		
+		var countryLocBlock = imperatorWorld.LocDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
 
 		var religionCollection = new ReligionCollection(titles);
@@ -299,9 +300,9 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			religionMapper,
 			cultureMapper,
+			cultures,
 			traitMapper,
 			nicknameMapper,
-			locDB,
 			provinceMapper,
 			deathReasonMapper,
 			new DNAFactory(irModFS, ck3ModFS),
@@ -312,7 +313,7 @@ public class CharacterCollectionTests {
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
 			tagTitleMapper,
-			locDB,
+			imperatorWorld.LocDB,
 			provinceMapper,
 			coaMapper,
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
@@ -332,7 +333,7 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			provinces,
 			tagTitleMapper,
-			locDB,
+			imperatorWorld.LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,

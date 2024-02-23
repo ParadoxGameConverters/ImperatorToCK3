@@ -30,7 +30,20 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 
 		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
-			Delimiter = ";", HasHeaderRecord = false, AllowComments = true
+			Delimiter = ";",
+			HasHeaderRecord = false,
+			AllowComments = true,
+			TrimOptions = TrimOptions.Trim,
+			IgnoreBlankLines = true,
+			ShouldSkipRecord = (args => {
+				string? cell = args.Row[0];
+				if (cell is null) {
+					return true;
+				}
+
+				cell = cell.Trim();
+				return cell.Length == 0 || cell[0] == '#';
+			}),
 		};
 		var provinceDefinition = new {
 			Id = default(ulong),
@@ -146,32 +159,39 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	private static Imperator.Provinces.Province? DeterminePrimarySourceProvince(
-		List<ulong> impProvinceNumbers,
+		IEnumerable<ulong> irProvinceIds,
 		Imperator.World irWorld
 	) {
-		// determine ownership by province development.
-		var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
-		var theShares = new Dictionary<ulong, int>(); // owner, development
-		ulong? winner = null;
-		long maxDev = -1;
-
-		foreach (var imperatorProvinceId in impProvinceNumbers) {
-			if (!irWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
-				Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
-				continue; // Broken mapping, or loaded a mod changing provinces without using it.
+		var irProvinces = new OrderedSet<Imperator.Provinces.Province>();
+		foreach (var provId in irProvinceIds) {
+			if (!irWorld.Provinces.TryGetValue(provId, out var irProvince)) {
+				// Broken mapping, or loaded a mod changing provinces without using it.
+				Logger.Warn($"Source province {provId} is not on the list of known provinces!");
+				continue;
 			}
 
-			var ownerId = impProvince.OwnerCountry?.Id ?? 0;
-			if (!theClaims.ContainsKey(ownerId)) {
-				theClaims[ownerId] = new List<Imperator.Provinces.Province>();
-			}
-
-			theClaims[ownerId].Add(impProvince);
-
-			var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
-			theShares[ownerId] = devValue;
+			irProvinces.Add(irProvince);
 		}
+		
+		// Determine ownership by province development.
+		var theClaims = new Dictionary<ulong, OrderedSet<Imperator.Provinces.Province>>(); // owner, offered province sources
+		var theShares = new Dictionary<ulong, double>(); // owner, sum of development
+		foreach (var irProvince in irProvinces) {
+			var ownerId = irProvince.OwnerCountry?.Id ?? 0;
+			if (!theClaims.ContainsKey(ownerId)) {
+				theClaims[ownerId] = new OrderedSet<Imperator.Provinces.Province>();
+			}
+
+			theClaims[ownerId].Add(irProvince);
+			if (!theShares.ContainsKey(ownerId)) {
+				theShares[ownerId] = 0;
+			}
+			theShares[ownerId] += irProvince.CivilizationValue;
+		}
+		
 		// Let's see who the lucky winner is.
+		ulong? winner = null;
+		double maxDev = -1;
 		foreach (var (owner, development) in theShares) {
 			if (development > maxDev) {
 				winner = owner;
@@ -182,19 +202,8 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			return null;
 		}
 
-		// Now that we have a winning owner, let's find its largest province to use as a source.
-		maxDev = -1; // We can have winning provinces with weight = 0.
-
-		Imperator.Provinces.Province? provinceToReturn = null;
-		foreach (var province in theClaims[winner.Value]) {
-			long provinceWeight = province.BuildingCount + province.GetPopCount();
-
-			if (provinceWeight > maxDev) {
-				provinceToReturn = province;
-				maxDev = provinceWeight;
-			}
-		}
-
-		return provinceToReturn;
+		// Now that we have a winning owner, let's find the most developed province to use as a source.
+		return theClaims[winner.Value]
+			.MaxBy(p => p.CivilizationValue);
 	}
 }

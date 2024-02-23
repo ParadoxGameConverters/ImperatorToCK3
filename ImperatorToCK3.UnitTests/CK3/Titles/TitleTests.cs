@@ -56,7 +56,7 @@ public class TitleTests {
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
-		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
+		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory())));
 		private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private readonly Date ck3BookmarkDate = new(867, 1, 1);
 		private readonly CharacterCollection characters = new();
@@ -136,7 +136,7 @@ public class TitleTests {
 		Assert.False(title.Landless);
 		Assert.Null(title.Color1);
 		Assert.Null(title.CapitalCounty);
-		Assert.Null(title.Province);
+		Assert.Null(title.ProvinceId);
 		Assert.False(title.PlayerCountry);
 	}
 
@@ -159,7 +159,7 @@ public class TitleTests {
 		Assert.True(title.Landless);
 		Assert.NotNull(title.Color1);
 		Assert.Equal("rgb { 23 23 23 }", title.Color1.OutputRgb());
-		Assert.Equal((ulong)345, title.Province);
+		Assert.Equal((ulong)345, title.ProvinceId);
 
 		Assert.NotNull(title.CapitalCounty);
 		Assert.Equal("c_roma", title.CapitalCountyId);
@@ -203,7 +203,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_testtitle");
 
-		Assert.Null(title.CapitalBaronyProvince);
+		Assert.Null(title.CapitalBaronyProvinceId);
 	}
 
 	[Fact]

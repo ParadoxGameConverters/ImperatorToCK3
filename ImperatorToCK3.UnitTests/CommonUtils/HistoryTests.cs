@@ -223,11 +223,11 @@ public class HistoryTests {
 
 		// Date blocks are ordered by date.
 		var expectedStr =
-			"culture=greek" + Environment.NewLine +
-			"buildings={ baths }" + Environment.NewLine +
-			"2.1.1={ buildings={ aqueduct baths } }" + Environment.NewLine +
-			"5.1.1={ holder=nero }" + Environment.NewLine +
-			"540.1.1={ holder=justinian culture=roman }" + Environment.NewLine;
+			"culture = greek" + Environment.NewLine +
+			"buildings = { baths }" + Environment.NewLine +
+			"2.1.1 = { buildings = { aqueduct baths } }" + Environment.NewLine +
+			"5.1.1 = { holder = nero }" + Environment.NewLine +
+			"540.1.1 = { holder = justinian culture = roman }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -240,8 +240,8 @@ public class HistoryTests {
 		history.Fields["development_level"].AddEntryToHistory(new Date(5, 1, 1), "change_development_level", 20);
 
 		var expectedStr =
-			"change_development_level=10" + Environment.NewLine +
-			"5.1.1={ change_development_level=20 }" + Environment.NewLine;
+			"change_development_level = 10" + Environment.NewLine +
+			"5.1.1 = { change_development_level = 20 }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -255,7 +255,7 @@ public class HistoryTests {
 		var history = new History(fields);
 		history.Fields["buildings"].AddEntryToHistory( new Date(5, 1, 1), "buildings", new List<object> { "baths" });
 
-		var expectedStr = "5.1.1={ buildings={ baths } }" + Environment.NewLine;
+		var expectedStr = "5.1.1 = { buildings = { baths } }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 

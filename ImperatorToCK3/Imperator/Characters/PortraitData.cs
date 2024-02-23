@@ -13,8 +13,10 @@ public class PortraitData {
 	public PaletteCoordinates SkinColor2PaletteCoordinates { get; } = new();
 	public PaletteCoordinates EyeColorPaletteCoordinates { get; } = new();
 	public PaletteCoordinates EyeColor2PaletteCoordinates { get; } = new();
-	public Dictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } = new();
-	public Dictionary<string, MorphGeneData> MorphGenesDict { get; } = new();
+
+	public IDictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } =
+		new Dictionary<string, AccessoryGeneData>();
+	public IDictionary<string, MorphGeneData> MorphGenesDict { get; } = new Dictionary<string, MorphGeneData>();
 
 	public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
 		var decodedDnaStr = Convert.FromBase64String(dnaString);
@@ -49,6 +51,10 @@ public class PortraitData {
 			}
 			
 			var geneTemplateByteIndex = geneIndex.Value * 4;
+			if (decodedDnaStr.Length <= geneTemplateByteIndex + 3) {
+				Logger.Warn($"DNA string is too short for gene {gene.Id}!");
+				continue;
+			}
 			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
 			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex)?.Id;
@@ -81,7 +87,17 @@ public class PortraitData {
 				continue;
 			}
 
+			// Temporary fix for broken Invictus DNA strings which don't have a value for the headgear gene.
+			// TODO: verify if still require for Invictus version higher than the original pre-hotfix 1.7
+			if (gene.Id == "headgear") {
+				continue;
+			}
+
 			var geneTemplateByteIndex = geneIndex.Value * 4;
+			if (decodedDnaStr.Length <= geneTemplateByteIndex + 3) {
+				Logger.Warn($"DNA string is too short for gene {gene.Id}!");
+				continue;
+			}
 			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
 			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
 			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex).Id;

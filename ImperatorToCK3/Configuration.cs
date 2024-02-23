@@ -2,8 +2,8 @@
 using commonItems.Collections;
 using ImperatorToCK3.Exceptions;
 using System;
+using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3;
 
@@ -20,11 +20,11 @@ public class Configuration {
 	public bool StaticDeJure { get; set; } = false;
 	public bool FillerDukes { get; set; } = true;
 	public bool UseCK3Flags { get; set; } = true;
-	public bool RiseOfIslam { get; set; } = true;
 	public double ImperatorCurrencyRate { get; set; } = 1.0d;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
+	public bool FallenEagleEnabled { get; set; }
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
@@ -66,7 +66,7 @@ public class Configuration {
 		parser.RegisterKeyword("HeresiesInHistoricalAreas", reader => {
 			var valueString = reader.GetString();
 			try {
-				HeresiesInHistoricalAreas = Convert.ToInt32(valueString) == 1;
+				HeresiesInHistoricalAreas = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
 				Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
@@ -75,7 +75,7 @@ public class Configuration {
 		parser.RegisterKeyword("StaticDeJure", reader => {
 			var valueString = reader.GetString();
 			try {
-				StaticDeJure = Convert.ToInt32(valueString) == 2;
+				StaticDeJure = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 2;
 				Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
@@ -84,7 +84,7 @@ public class Configuration {
 		parser.RegisterKeyword("FillerDukes", reader => {
 			var valueString = reader.GetString();
 			try {
-				FillerDukes = Convert.ToInt32(valueString) == 1;
+				FillerDukes = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
 				Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
@@ -93,24 +93,10 @@ public class Configuration {
 		parser.RegisterKeyword("UseCK3Flags", reader => {
 			var valueString = reader.GetString();
 			try {
-				UseCK3Flags = Convert.ToInt32(valueString) == 1;
+				UseCK3Flags = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
 				Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("RiseOfIslam", reader => {
-			var valueString = reader.GetString();
-			try {
-				RiseOfIslam = Convert.ToInt32(valueString) == 2;
-				Logger.Info($"{nameof(RiseOfIslam)} set to: {RiseOfIslam}");
-
-				/* if (RiseOfIslam) { // This override can be used whenever Rise of Islam is outdated.
-					Logger.Warn("The Rise of Islam option is disabled until it's updated for CK3 1.9");
-					RiseOfIslam = false;
-				} */
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(RiseOfIslam)} value was: {valueString}; Error message: {e}");
 			}
 		});
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
@@ -141,7 +127,9 @@ public class Configuration {
 			CK3BookmarkDate = new Date(dateStr);
 			var earliestAllowedDate = new Date(2,1,1);
 			if (CK3BookmarkDate < earliestAllowedDate) {
-				throw new ConverterException($"CK3 bookmark date must be {earliestAllowedDate} AD or later. Fix your configuration.");
+				Logger.Warn($"CK3 bookmark date cannot be earlier than {earliestAllowedDate} AD (Y.M.D format), you should fix your configuration. Setting to earliest allowed date...");
+				CK3BookmarkDate = earliestAllowedDate;
+				Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
 			}
 			Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
 		});
@@ -150,12 +138,12 @@ public class Configuration {
 
 	private void VerifyImperatorPath() {
 		if (!Directory.Exists(ImperatorPath)) {
-			throw new DirectoryNotFoundException($"{ImperatorPath} does not exist!");
+			throw new UserErrorException($"{ImperatorPath} does not exist!");
 		}
 
 		var binariesPath = Path.Combine(ImperatorPath, "binaries");
 		var imperatorExePath = Path.Combine(binariesPath, "imperator");
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+		if (OperatingSystem.IsWindows()) {
 			imperatorExePath += ".exe";
 		}
 
@@ -175,18 +163,18 @@ public class Configuration {
 		if (installVerified) {
 			Logger.Info($"\tI:R install path is {ImperatorPath}");
 		} else {
-			throw new FileNotFoundException($"{ImperatorPath} does not contain Imperator: Rome!");
+			throw new UserErrorException($"{ImperatorPath} does not contain Imperator: Rome!");
 		}
 	}
 
 	private void VerifyCK3Path() {
 		if (!Directory.Exists(CK3Path)) {
-			throw new DirectoryNotFoundException($"{CK3Path} does not exist!");
+			throw new UserErrorException($"{CK3Path} does not exist!");
 		}
 
 		var binariesPath = Path.Combine(CK3Path, "binaries");
 		var ck3ExePath = Path.Combine(binariesPath, "ck3");
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+		if (OperatingSystem.IsWindows()) {
 			ck3ExePath += ".exe";
 		}
 
@@ -206,15 +194,14 @@ public class Configuration {
 		if (installVerified) {
 			Logger.Info($"\tCK3 install path is {CK3Path}");
 		} else{
-			throw new FileNotFoundException($"{CK3Path} does not contain Crusader Kings III!");
+			throw new UserErrorException($"{CK3Path} does not contain Crusader Kings III!");
 		}
 	}
 
 	private void SetOutputName() {
-		if (OutputModName.Length == 0) {
-			OutputModName = CommonFunctions.TrimPath(SaveGamePath);
+		if (string.IsNullOrWhiteSpace(OutputModName)) {
+			OutputModName = CommonFunctions.TrimExtension(CommonFunctions.TrimPath(SaveGamePath));
 		}
-		OutputModName = CommonFunctions.TrimExtension(OutputModName);
 		OutputModName = OutputModName.Replace('-', '_');
 		OutputModName = OutputModName.Replace(' ', '_');
 
@@ -224,21 +211,21 @@ public class Configuration {
 
 	private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 		var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
-		var impVersion = GameVersion.ExtractVersionFromLauncher(path);
-		if (impVersion is null) {
+		var irVersion = GameVersion.ExtractVersionFromLauncher(path);
+		if (irVersion is null) {
 			Logger.Error("Imperator version could not be determined, proceeding blind!");
 			return;
 		}
 
-		Logger.Info($"Imperator version: {impVersion.ToShortString()}");
+		Logger.Info($"Imperator version: {irVersion.ToShortString()}");
 
-		if (converterVersion.MinSource > impVersion) {
-			Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
+		if (converterVersion.MinSource > irVersion) {
+			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
+			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
-		if (!converterVersion.MaxSource.IsLargerishThan(impVersion)) {
-			Logger.Error($"Imperator version is v{impVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(impVersion), "Converter vs Imperator installation mismatch!");
+		if (!converterVersion.MaxSource.IsLargerishThan(irVersion)) {
+			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
+			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
 	}
 
@@ -254,11 +241,11 @@ public class Configuration {
 
 		if (converterVersion.MinTarget > ck3Version) {
 			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
+			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
 		if (!converterVersion.MaxTarget.IsLargerishThan(ck3Version)) {
 			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
-			throw new ArgumentOutOfRangeException(nameof(ck3Version), "Converter vs CK3 installation mismatch!");
+			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
 	}
 }

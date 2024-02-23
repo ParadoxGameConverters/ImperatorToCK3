@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public class CK3Region {
+public sealed class CK3Region {
 	public string Name { get; }
 	private readonly HashSet<string> parsedRegionIds = new();
 	public Dictionary<string, CK3Region> Regions { get; } = new();
@@ -23,7 +23,7 @@ public class CK3Region {
 			if (regions.TryGetValue(requiredRegionName, out var regionToLink)) {
 				LinkRegion(regionToLink);
 			} else {
-				throw new KeyNotFoundException($"Region's {Name} region {requiredRegionName} does not exist!");
+				Logger.Warn($"Region's {Name} region {requiredRegionName} does not exist!");
 			}
 		}
 
@@ -32,7 +32,7 @@ public class CK3Region {
 			if (duchies.TryGetValue(requiredDuchyName, out var duchyToLink)) {
 				LinkDuchy(duchyToLink);
 			} else {
-				throw new KeyNotFoundException($"Region's {Name} duchy {requiredDuchyName} does not exist!");
+				Logger.Warn($"Region's {Name} duchy {requiredDuchyName} does not exist!");
 			}
 		}
 
@@ -41,7 +41,7 @@ public class CK3Region {
 			if (counties.TryGetValue(requiredCountyName, out var countyToLink)) {
 				LinkCounty(countyToLink);
 			} else {
-				throw new KeyNotFoundException($"Region's {Name} county {requiredCountyName} does not exist!");
+				Logger.Warn($"Region's {Name} county {requiredCountyName} does not exist!");
 			}
 		}
 	}
@@ -61,7 +61,7 @@ public class CK3Region {
 		if (Duchies.Values.Any(duchy => duchy.DuchyContainsProvince(provinceId))) {
 			return true;
 		}
-		if (Counties.Values.Any(county => county.CountyProvinces.Contains(provinceId))) {
+		if (Counties.Values.Any(county => county.CountyProvinceIds.Contains(provinceId))) {
 			return true;
 		}
 		return Provinces.Contains(provinceId);

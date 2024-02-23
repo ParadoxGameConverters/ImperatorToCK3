@@ -15,8 +15,9 @@ using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class ReligionCollection : IdObjectCollection<string, Religion> {
-	public Dictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith { get; } = new();
+public class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
+	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = new();
+	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = new();
 	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories { get; } = new();
 
@@ -26,26 +27,33 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		}
 	}
 
-	public ReligionCollection(Title.LandedTitles landedTitles) {
-		this.landedTitles = landedTitles;
-	}
-
-	private void RegisterReligionsKeywords(Parser parser, ColorFactory colorFactory) {
+	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
+		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var religion = new Religion(religionId, religionReader, this, colorFactory);
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-	}
-	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
-		Logger.Info("Loading religions from CK3 game and mods...");
-
-		var parser = new Parser();
-		RegisterReligionsKeywords(parser, colorFactory);
-
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
+	}
 
-		Logger.IncrementProgress();
+	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
+			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
+			
+			// Check if religion already exists. If it does, add converter faiths to it.
+			// Otherwise, add the converter faith's religion.
+			if (TryGetValue(religionId, out var religion)) {
+				foreach (var faith in optReligion.Faiths) {
+					religion.Faiths.Add(faith);
+				}
+			} else {
+				Add(optReligion);
+			}
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseFile(converterFaithsPath);
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser) {
@@ -71,26 +79,30 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadReplaceableHolySites(string filePath) {
 		Logger.Info("Loading replaceable holy site IDs...");
 
+		var missingFaithIds = new OrderedSet<string>();
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
 			var value = reader.GetStringOfItem();
 			if (faith is null) {
-				Logger.Warn($"Faith \"{faithId}\" not found!");
+				missingFaithIds.Add(faithId);
 				return;
 			}
 
 			var valueStr = value.ToString();
 			if (value.IsArrayOrObject()) {
-				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
+				replaceableHolySitesByFaith[faithId] = new OrderedSet<string>(new BufferedReader(valueStr).GetStrings());
 			} else if (valueStr == "all") {
-				ReplaceableHolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySiteIds);
+				replaceableHolySitesByFaith[faithId] = new OrderedSet<string>(faith.HolySiteIds);
 			} else {
 				Logger.Warn($"Unexpected value: {valueStr}");
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(filePath);
+		
+		Logger.Debug($"Replaceable holy sites not loaded for missing faiths: {string.Join(", ", missingFaithIds)}");
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
@@ -121,16 +133,16 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			return null;
 		}
 
-		var capitalBaronyProvince = landedTitles[holySite.CountyId].CapitalBaronyProvince;
-		if (capitalBaronyProvince is not null) {
-			return landedTitles.GetBaronyForProvince((ulong)capitalBaronyProvince);
+		var capitalBaronyProvinceId = landedTitles[holySite.CountyId].CapitalBaronyProvinceId;
+		if (capitalBaronyProvinceId is not null) {
+			return landedTitles.GetBaronyForProvince((ulong)capitalBaronyProvinceId);
 		}
 
 		return null;
 	}
 
 	private static Imperator.Provinces.Province? GetImperatorProvinceForBarony(Title barony, ProvinceCollection ck3Provinces) {
-		var provinceId = barony.Province;
+		var provinceId = barony.ProvinceId;
 		if (provinceId is null) {
 			return null;
 		}
@@ -156,7 +168,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 		IReadOnlyDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
-			imperatorModifiers = deity.PassiveModifiers;
+			imperatorModifiers = new Dictionary<string, double>(deity.PassiveModifiers);
 		} else {
 			var religion = imperatorProvince.GetReligion(imperatorReligions);
 			if (religion is not null) {
@@ -204,7 +216,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 							imperatorReligions,
 							modifierMapper
 						);
-						HolySites.Add(newHolySiteInSameBarony);
+						if (HolySites.ContainsKey(newHolySiteInSameBarony.Id)) {
+							Logger.Warn($"Created duplicate holy site: {newHolySiteInSameBarony.Id}!");
+						}
+						HolySites.AddOrReplace(newHolySiteInSameBarony);
 
 						faith.ReplaceHolySiteId(holySiteId, newHolySiteInSameBarony.Id);
 					}
@@ -222,7 +237,10 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 						imperatorReligions,
 						modifierMapper
 					);
-					HolySites.Add(replacementSite);
+					if (HolySites.ContainsKey(replacementSite.Id)) {
+						Logger.Warn($"Created duplicate holy site: {replacementSite.Id}!");
+					}
+					HolySites.AddOrReplace(replacementSite);
 
 					faith.ReplaceHolySiteId(holySiteId, replacementSite.Id);
 				}
@@ -278,67 +296,83 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			.ToImmutableList();
 
 		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {
-			var religiousHeadTitleId = faith.ReligiousHeadTitleId;
-			if (religiousHeadTitleId is null) {
-				continue;
-			}
-
-			var title = titles[religiousHeadTitleId];
-			var holderId = title.GetHolderId(date);
-			if (holderId != "0") {
-				var holder = characters[holderId];
-				var holderDeathDate = holder.DeathDate;
-				if (holderDeathDate is null || holderDeathDate > date) {
-					continue;
-				}
-			}
-			
-			// Generate title holder.
-			Logger.Debug($"Generating religious head for faith {faith.Id}...");
-			// Determine culture.
-			var cultureId = provinces
-				.Where(p => p.GetFaithId(date) == faith.Id)
-				.Select(p => p.GetCultureId(date))
-				.ToImmutableList()
-				.FirstOrDefault();
-			if (cultureId is null) {
-				cultureId = characters
-					.Where(c => c.GetFaithId(date) == faith.Id)
-					.Select(c => c.GetCultureId(date))
-					.ToImmutableList()
-					.FirstOrDefault();
-			}
-			if (cultureId is null) {
-				Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
-				cultureId = cultures.First().Id;
-			}
-			var culture = cultures[cultureId];
-			
-			// If title has male_names defined, use one of them for character's name.
-			// Otherwise, get name from culture.
-			var name = title.MaleNames?.FirstOrDefault();
-			if (name is null) {
-				var maleNames = culture.MaleNames.ToImmutableList();
-				if (maleNames.Count > 0) {
-					name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
-				}
-			}
-			if (name is null) {
-				const string fallbackName = "Alexandros";
-				Logger.Warn($"Found no name for religious head of {faith.Id}, defaulting to {fallbackName}!");
-				name = fallbackName;
-			}
-			var age = 30 + (Math.Abs(date.Year) % 50);
-			var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age), characters);
-			character.SetFaithId(faith.Id, null);
-			character.SetCultureId(cultureId, null);
-			var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
-			foreach (var traitId in traitsToAdd) {
-				character.History.AddFieldValue(null, "traits", "trait", traitId);
-			}
-			characters.Add(character);
-			title.SetHolder(character, date);
+			GenerateReligiousHeadForFaithIfMissing(faith, titles, characters, provinces, cultures, date);
 		}
+	}
+
+	private void GenerateReligiousHeadForFaithIfMissing(
+		Faith faith,
+		Title.LandedTitles titles,
+		CharacterCollection characters,
+		ProvinceCollection provinces,
+		CultureCollection cultures,
+		Date date
+	) { 
+		var religiousHeadTitleId = faith.ReligiousHeadTitleId;
+		if (religiousHeadTitleId is null) {
+			return;
+		}
+
+		if (!titles.TryGetValue(religiousHeadTitleId, out var title)) {
+			Logger.Warn($"Religious head title {religiousHeadTitleId} for {faith.Id} not found!");
+			return;
+		}
+		var holderId = title.GetHolderId(date);
+		if (holderId != "0") {
+			var holder = characters[holderId];
+			var holderDeathDate = holder.DeathDate;
+			if (holderDeathDate is null || holderDeathDate > date) {
+				return;
+			}
+		}
+		
+		// Generate title holder.
+		Logger.Debug($"Generating religious head for faith {faith.Id}...");
+		// Determine culture.
+		var cultureId = provinces
+			.Where(p => p.GetFaithId(date) == faith.Id)
+			.Select(p => p.GetCultureId(date))
+			.FirstOrDefault();
+		if (cultureId is null) {
+			cultureId = characters
+				.Where(c => c.GetFaithId(date) == faith.Id)
+				.Select(c => c.GetCultureId(date))
+				.FirstOrDefault();
+		}
+		if (cultureId is null) {
+			Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
+			cultureId = cultures.First().Id;
+		}
+		
+		if (!cultures.TryGetValue(cultureId, out var culture)) {
+			Logger.Warn($"Culture {cultureId} not found!");
+			return;
+		}
+		
+		// If title has male_names defined, use one of them for character's name.
+		// Otherwise, get name from culture.
+		var name = title.MaleNames?.FirstOrDefault();
+		if (name is null) {
+			var maleNames = culture.MaleNames.ToImmutableList();
+			if (maleNames.Count > 0) {
+				name = maleNames.ElementAtOrDefault(Math.Abs(date.Year) % maleNames.Count);
+			}
+		}
+		if (name is null) {
+			const string fallbackName = "Alexandros";
+			Logger.Warn($"Found no name for religious head of {faith.Id}, defaulting to {fallbackName}!");
+			name = fallbackName;
+		}
+		var age = 30 + (Math.Abs(date.Year) % 50);
+		var character = new Character($"IRToCK3_head_of_faith_{faith.Id}", name, date.ChangeByYears(-age), characters);
+		character.SetFaithId(faith.Id, null);
+		character.SetCultureId(cultureId, null);
+		var traitsToAdd = new[] {"chaste", "celibate", "devoted"};
+		foreach (var traitId in traitsToAdd) {
+			character.History.AddFieldValue(null, "traits", "trait", traitId);
+		}
+		characters.Add(character);
+		title.SetHolder(character, date);
 	}
 
 	private IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
@@ -374,6 +408,4 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 			.Where(t=>t is not null)!
 			.ToList<Title>();
 	}
-
-	private readonly Title.LandedTitles landedTitles;
 }

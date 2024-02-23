@@ -28,7 +28,7 @@ public class JobsTests {
 	}
 	[Fact]
 	public void GovernorshipsDefaultToEmpty() {
-		var jobs = new ImperatorToCK3.Imperator.Jobs.Jobs();
+		var jobs = new ImperatorToCK3.Imperator.Jobs.JobsDB();
 		Assert.Empty(jobs.Governorships);
 	}
 	[Fact]
@@ -36,7 +36,7 @@ public class JobsTests {
 		var reader = new BufferedReader(
 			"province_job={who=1 governorship=galatia_region} province_job={who=2 governorship=galatia_region}"
 		);
-		var jobs = new ImperatorToCK3.Imperator.Jobs.Jobs(reader, countryCollection, irRegionMapper);
+		var jobs = new ImperatorToCK3.Imperator.Jobs.JobsDB(reader, countryCollection, irRegionMapper);
 		Assert.Collection(jobs.Governorships,
 			item1 => Assert.Equal((ulong)1, item1.Country.Id),
 			item2 => Assert.Equal((ulong)2, item2.Country.Id)
@@ -50,7 +50,7 @@ public class JobsTests {
 		var reader = new BufferedReader(
 			"useless_job = {}"
 		);
-		_ = new ImperatorToCK3.Imperator.Jobs.Jobs(reader, countryCollection, irRegionMapper);
+		_ = new ImperatorToCK3.Imperator.Jobs.JobsDB(reader, countryCollection, irRegionMapper);
 
 		Assert.Contains("Ignored Jobs tokens: useless_job", output.ToString());
 	}

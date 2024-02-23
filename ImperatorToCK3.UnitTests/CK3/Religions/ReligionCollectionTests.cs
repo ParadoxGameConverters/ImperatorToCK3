@@ -3,6 +3,7 @@ using commonItems.Colors;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Mappers.Modifier;
@@ -165,5 +166,27 @@ public class ReligionCollectionTests {
 			"IRtoCK3_b_barony1_ck3Faith", // holy site, 1 pop
 			"IRtoCK3_b_barony6_ck3Faith" // 6 pops - most populous province without an Imperator holy site
 		);
+	}
+
+	[Fact]
+	public void OptionalFaithIsNotLoadedIfInvalidatedByExistingFaiths() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var colorFactory = new ColorFactory();
+		religions.LoadReligions(ck3ModFS, colorFactory);
+		Assert.Contains(religions.Faiths, f => f.Id == "religion_a_faith");
+		
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.txt", colorFactory);
+		// Optional berber_pagan is invalidated by religion_a_faith, so it should not be loaded.
+		Assert.DoesNotContain(religions.Faiths, r => r.Id == "berber_pagan");
+	}
+
+	[Fact]
+	public void OptionalFaithCanBeLoaded() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var colorFactory = new ColorFactory();
+		Assert.DoesNotContain(religions.Faiths, r => r.Id == "religion_a_faith");
+		
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.txt", colorFactory);
+		Assert.Contains(religions.Faiths, r => r.Id == "berber_pagan");
 	}
 }

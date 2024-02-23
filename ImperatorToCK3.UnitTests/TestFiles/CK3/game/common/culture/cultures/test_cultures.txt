@@ -1,0 +1,11 @@
+culture_with_color = {
+    color = rgb { 10 20 30 }
+    
+    heritage = test_heritage
+    name_list = test_name_list
+}
+
+culture_without_color = {
+    heritage = test_heritage
+    name_list = test_name_list
+}

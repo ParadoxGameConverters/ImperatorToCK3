@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.9.0.4
+﻿# ImperatorToCK3: Last updated CK3 patch 1.9.2.1
 #Druidic
 ynys_mon = { #toutatis
 	county = c_anglesey
@@ -797,4 +797,66 @@ kyaikhtiyo = {
 		development_growth_factor = 0.1
 		religious_vassal_opinion = 5
 	}
+}
+
+# for Nhialacism from "Africa Plus" mod
+kordofan = {
+	county = c_kordofan #Nuba heartland at this time
+
+	character_modifier = {
+		name = holy_site_kordofan_effect_name
+		mountains_attrition_mult = -0.3
+		mountains_advantage = 5
+	}
+}
+ayn_farrah = {
+	county = c_ayn_farah #aprox location of Ido Ha - real location is a CK3 wasteland
+
+	character_modifier = {
+		name = holy_site_ayn_farrah_effect_name
+		raid_speed = 0.2
+	}
+}
+
+# Ajivika
+irtock3_ajivika_sravasti = {
+    county = c_sravasti
+    barony = b_sravasti
+    
+    character_modifier = {
+        development_growth_factor = 0.1
+        stewardship = 1
+    }
+}
+irtock3_ajivika_candhoba = {
+    county = c_gwalior
+    barony = b_narwar
+    
+    character_modifier = {
+     	domain_tax_mult = 0.02
+    }
+}
+irtock3_ajivika_minagana = {
+    county = c_mulaka
+    barony = b_bhainsa
+    
+    character_modifier = {
+     	knight_effectiveness_mult = 0.2
+    }
+}
+irtock3_ajivika_chintamani = {
+    county = c_candragiri
+    barony = b_nangali
+    
+    character_modifier = {
+ 		knight_effectiveness_mult = 0.2
+    }
+}
+irtock3_ajivika_campa = {
+    county = c_mudgagiri
+    barony = b_campa
+    
+    character_modifier = {
+        same_culture_opinion = 5
+    }
 }
