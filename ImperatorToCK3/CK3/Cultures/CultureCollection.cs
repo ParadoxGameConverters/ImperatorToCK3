@@ -72,6 +72,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 
 	private void LoadCulture(string cultureId, BufferedReader cultureReader) {
+		cultureData = new CultureData();
+		
 		cultureDataParser.ParseStream(cultureReader);
 
 		if (cultureData.InvalidatingCultureIds.Any()) {
@@ -99,9 +101,6 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			cultureData.Color = new Color(color.R, color.G, color.B);
 		}
 		AddOrReplace(new Culture(cultureId, cultureData));
-		
-		// Reset culture data for the next culture.
-		cultureData = new CultureData();
 	}
 
 	private void ReplaceInvalidatedParents() {
