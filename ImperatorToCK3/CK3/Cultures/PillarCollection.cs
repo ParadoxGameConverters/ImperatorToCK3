@@ -31,6 +31,8 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 	
 	private void LoadPillar(string pillarId, BufferedReader pillarReader) {
+		pillarData = new PillarData();
+		
 		pillarDataParser.ParseStream(pillarReader);
 
 		if (pillarData.InvalidatingPillarIds.Any()) {
@@ -48,9 +50,6 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 			return;
 		}
 		AddOrReplace(new Pillar(pillarId, pillarData));
-		
-		// Reset pillar data for the next pillar.
-		pillarData = new PillarData();
 	}
 
 	private void InitPillarDataParser(ColorFactory colorFactory) {
