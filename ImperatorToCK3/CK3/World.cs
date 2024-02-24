@@ -518,8 +518,8 @@ public class World {
 				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox" };
 				var christianFaiths = Religions["christianity_religion"].Faiths;
 
-				// If there is at least an Irish Christian county, give it to the Irish Papar.
-				// If there is at least a Christian county of another Gaelic culture, give it to a character of this Gaelic culture.
+				// If there is at least one Irish Christian county, give it to the Irish Papar.
+				// If there is at least one Christian county of another Gaelic culture, give it to a character of this Gaelic culture.
 				var cultureCandidates = new[] { "irish", "gaelic" };
 				bool provinceFound = false;
 				foreach (var potentialCultureId in cultureCandidates) {
@@ -540,8 +540,8 @@ public class World {
 					}
 				}
 				if (!provinceFound) {
-					// If all the Gaels are pagan but at least one province in Ireland is Christian,
-					// give the handled titles to a generated ruler of the same culture of that Christian county in Ireland.
+					// If all the Gaels are pagan but at least one province in Ireland or Scotland is Christian,
+					// give the handled titles to a generated ruler of the same culture as that Christian province.
 					var potentialSourceProvinces = Provinces.Where(p =>
 						ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_ireland") || ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_scotland"));
 					foreach (var potentialSourceProvince in potentialSourceProvinces) {
@@ -571,14 +571,14 @@ public class World {
 		}
 
 		if (generateHermits) {
-			faithCandidates = faithCandidates.ToList(); // prevent multiple enumeration
+			var faithId = faithCandidates.First(c => faiths.Exists(f => f.Id == c));
 			foreach (var titleId in titleIdsToHandle) {
 				if (!LandedTitles.TryGetValue(titleId, out var title)) {
 					Logger.Warn($"Title {titleId} not found!");
 					continue;
 				}
 
-				GenerateHermitForTitle(title, namePool, bookmarkDate, faithCandidates, faiths, cultureId, config);
+				GenerateHermitForTitle(title, namePool, bookmarkDate, faithId, cultureId, config);
 			}
 		}
 
@@ -593,11 +593,10 @@ public class World {
 		}
 	}
 
-	private void GenerateHermitForTitle(Title title, Queue<string> namePool, Date bookmarkDate, IEnumerable<string> faithCandidates, List<Faith> faiths, string cultureId, Configuration config) {
+	private void GenerateHermitForTitle(Title title, Queue<string> namePool, Date bookmarkDate, string faithId, string cultureId, Configuration config) {
 		Logger.Debug($"Generating hermit for {title.Id}...");
 
 		var hermit = new Character($"IRToCK3_{title.Id}_hermit", namePool.Dequeue(), bookmarkDate.ChangeByYears(-50), Characters);
-		var faithId = faithCandidates.First(c => faiths.Exists(f => f.Id == c));
 		hermit.SetFaithId(faithId, date: null);
 		hermit.SetCultureId(cultureId, date: null);
 		hermit.History.AddFieldValue(date: null, "traits", "trait", "chaste");
