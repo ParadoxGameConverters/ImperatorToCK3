@@ -607,6 +607,10 @@ public partial class Title {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
+			// TODO: vanilla empires to connect to certain heritages:
+			var heritageToEmpireMap = parsefile(heritage_empires_map.txt;
+			throw new NotImplementedException();
+			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
 				var empireShares = new Dictionary<string, int>();
