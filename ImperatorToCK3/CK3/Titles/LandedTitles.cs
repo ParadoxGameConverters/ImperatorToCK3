@@ -576,15 +576,6 @@ public partial class Title {
 
 		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
-			SetDeJureKingdoms(ck3BookmarkDate);
-			Logger.IncrementProgress();
-
-			Logger.Info("Setting de jure empires...");
-			SetDeJureEmpires(ck3BookmarkDate, ck3Provinces, ck3Cultures);
-			Logger.IncrementProgress();
-		}
-
-		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
 				var capitalRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);

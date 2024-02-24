@@ -9,8 +9,9 @@ namespace ImperatorToCK3.CK3.Map;
 public class ProvinceDefinitions {
 	public IDictionary<Rgb24, ulong> ColorToProvinceDict { get; } = new Dictionary<Rgb24, ulong>();
 	public SortedDictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
-	public ProvinceDefinitions(ModFilesystem ck3ModFS) {
-		const string relativePath = "map_data/definition.csv";
+	
+	public ProvinceDefinitions(string definitionsFilename, ModFilesystem ck3ModFS) {
+		var relativePath = Path.Combine("map_data", definitionsFilename);
 		var definitionsFilePath = ck3ModFS.GetActualFileLocation(relativePath);
 		if (definitionsFilePath is null) {
 			throw new FileNotFoundException(message: null, fileName: relativePath);

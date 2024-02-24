@@ -90,7 +90,7 @@ public static class BookmarkOutputter {
 				output.WriteLine($"\t\treligion={faithId}");
 			}
 			output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-			WritePosition(output, title, config, provincePositions.AsReadOnly());
+			WritePosition(output, title, config, provincePositions);
 			output.WriteLine("\t\tanimation = personality_rational");
 
 			output.WriteLine("\t}");

@@ -33,7 +33,8 @@ public class MapData {
 
 	private SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
 	public ISet<ulong> ColorableImpassableProvinceIds { get; } = new HashSet<ulong>();
-	public IDictionary<ulong, ProvincePosition> ProvincePositions { get; } = new Dictionary<ulong, ProvincePosition>();
+	private readonly Dictionary<ulong, ProvincePosition> provincePositions = [];
+	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
 	public MapData(ModFilesystem ck3ModFS) {
@@ -164,7 +165,7 @@ public class MapData {
 		}
 	}
 
-	private void FindImpassables(BufferedReader provincesGroupReader) {
+	private void FindImpassables(string provincesType, BufferedReader provincesGroupReader) {
 		var typeOfGroup = Parser.GetNextTokenWithoutMatching(provincesGroupReader);
 		var provIds = provincesGroupReader.GetULongs();
 		if (provincesType != "impassable_mountains") {
@@ -177,7 +178,7 @@ public class MapData {
 			}
 
 			var beginning = provIds[0];
-			var end = provIds.Last();
+			var end = provIds[^1];
 			for (var id = beginning; id <= end; ++id) {
 				ColorableImpassableProvinceIds.Add(id);
 			}
