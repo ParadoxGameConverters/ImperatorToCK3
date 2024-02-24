@@ -60,9 +60,6 @@ public class MapData {
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, ck3ModFS);
 		Logger.IncrementProgress();
-
-		// Exclude impassable provinces that border the map edge from the colorable set.
-		ExcludeMapEdgeProvincesFromColorableImpassables(ck3ModFS);
 		
 		Logger.Info("Loading province definitions...");
 		ProvinceDefinitions = new ProvinceDefinitions(definitionsFilename, ck3ModFS);
@@ -71,6 +68,9 @@ public class MapData {
 		Logger.Info("Loading province positions...");
 		DetermineProvincePositions(ck3ModFS);
 		Logger.IncrementProgress();
+
+		Logger.Debug("Excluding impassable provinces that border the map edge from the colorable set...");
+		ExcludeMapEdgeProvincesFromColorableImpassables(ck3ModFS);
 
 		Logger.Info("Determining province neighbors...");
 		var provincesMapPath = ck3ModFS.GetActualFileLocation(Path.Combine("map_data", provincesMapFilename));
@@ -192,6 +192,7 @@ public class MapData {
 		var height = mapPng.Height;
 		var width = mapPng.Width;
 		var edgeProvinceIds = new HashSet<ulong>();
+		
 		for (var y = 0; y < height; ++y) {
 			// Get left edge color.
 			var color = GetPixelColor(new Point(0, y), mapPng);

@@ -260,9 +260,16 @@ public class World {
 		
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
+		
+		// Apply region-specific tweaks.
+		HandleIcelandAndFaroeIslands(config);
+		
+		GenerateFillerHoldersForUnownedLands(Cultures, config);
+		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Provinces, Cultures);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters);
 		}
+		
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 
 		Characters.DistributeCountriesGold(LandedTitles, config);
@@ -270,9 +277,6 @@ public class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, config.CK3BookmarkDate);
-
-		// Apply region-specific tweaks.
-		HandleIcelandAndFaroeIslands(config);
 		
 		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
 		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
@@ -286,9 +290,6 @@ public class World {
 		Logger.IncrementProgress();
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
-
-		GenerateFillerHoldersForUnownedLands(Cultures, config);
-		Logger.IncrementProgress();
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
