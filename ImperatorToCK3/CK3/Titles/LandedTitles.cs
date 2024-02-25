@@ -577,10 +577,27 @@ public partial class Title {
 		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
 			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
+				// If capital county belongs to an empire, create a kingdom from the duchy
+				// and make the empire a de jure liege of the kingdom.
+				var capitalEmpireRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
+				if (capitalEmpireRealm is not null) {
+					var kingdom = Add("k_IRTOCK3_kingdom_from_" + duchy.Id);
+					
+					var duchyNameLoc = duchy.Localizations[duchy.Id];
+					kingdom.Localizations.Add(new LocBlock(kingdom.Id, duchyNameLoc));
+					
+					var duchyAdjLoc = duchy.Localizations[$"{duchy.Id}_adj"];
+					kingdom.Localizations.Add(new LocBlock($"{kingdom.Id}_adj", duchyAdjLoc));
+					
+					kingdom.DeJureLiege = capitalEmpireRealm;
+					duchy.DeJureLiege = kingdom;
+					continue;
+				}
+				
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
-				var capitalRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
-				if (capitalRealm is not null) {
-					duchy.DeJureLiege = capitalRealm;
+				var capitalKingdomRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
+				if (capitalKingdomRealm is not null) {
+					duchy.DeJureLiege = capitalKingdomRealm;
 					continue;
 				}
 
