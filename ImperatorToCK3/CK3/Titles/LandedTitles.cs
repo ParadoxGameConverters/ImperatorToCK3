@@ -607,9 +607,7 @@ public partial class Title {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
-			// TODO: vanilla empires to connect to certain heritages:
-			var heritageToEmpireMap = parsefile(heritage_empires_map.txt;
-			throw new NotImplementedException();
+			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
 			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
@@ -647,7 +645,6 @@ public partial class Title {
 			var kingdomsWithoutEmpire = deJureKingdoms
 				.Where(k => k.DeJureLiege is null)
 				.ToImmutableArray();
-			var heritageToEmpireDict = new Dictionary<Pillar, Title>();
 
 			foreach (var kingdom in kingdomsWithoutEmpire) {
 				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
@@ -669,18 +666,40 @@ public partial class Title {
 					continue;
 				}
 
-				if (heritageToEmpireDict.TryGetValue(dominantHeritage, out var empire)) {
+				if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
 					kingdom.DeJureLiege = empire;
 				} else {
 					// Create new de jure empire based on heritage.
 					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures);
 					kingdom.DeJureLiege = heritageEmpire;
-					heritageToEmpireDict[dominantHeritage] = heritageEmpire;
+					heritageToEmpireDict[dominantHeritage.Id] = heritageEmpire;
 				}
 			}
 			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
 			// TODO: If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
+		}
+
+		private IDictionary<string, Title> GetHeritageIdToExistingTitleDict() {
+			var heritageToEmpireDict = new Dictionary<string, Title>();
+
+			var reader = new BufferedReader(File.ReadAllText("configurables/heritage_empires_map.txt"));
+			foreach (var (heritageId, empireId) in reader.GetAssignments()) {
+				if (heritageToEmpireDict.ContainsKey(heritageId)) {
+					continue;
+				}
+				if (!TryGetValue(empireId, out var empire)) {
+					continue;
+				}
+				if (empire.Rank != TitleRank.empire) {
+					continue;
+				}
+				
+				heritageToEmpireDict[heritageId] = empire;
+				Logger.Debug($"Mapped heritage {heritageId} to empire {empireId}.");
+			}
+			
+			return heritageToEmpireDict;
 		}
 
 		private Title CreateEmpireForHeritage(Pillar heritage, CultureCollection ck3Cultures) {
