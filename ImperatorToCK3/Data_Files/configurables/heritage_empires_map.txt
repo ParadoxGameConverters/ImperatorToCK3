@@ -15,6 +15,7 @@ heritage_tibetan = e_tibet
 heritage_arabic = e_arabia
 heritage_mongolic = e_mongolia
 heritage_brythonic = e_britannia
+heritage_goidelic = e_britannia
 heritage_romano_british = e_britannia
 heritage_frankish = e_france
 heritage_latin = e_italy
