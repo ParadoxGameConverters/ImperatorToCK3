@@ -1,5 +1,5 @@
-﻿heritage_aboriginal = {
-    INVALIDATED_BY = { heritage_aboriginal }
+﻿heritage_nuragic = {
+    INVALIDATED_BY = { heritage_nuragic }
 	type = heritage
 }
 
@@ -25,6 +25,11 @@ heritage_chaldean = {
 
 heritage_gaulish = {
     INVALIDATED_BY = { heritage_gaulish }
+	type = heritage
+}
+
+heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celtic_peoples_and_tribes#Hispano-Celts_/_Celts_of_Hispania
+	INVALIDATED_BY = { heritage_iberian_celtic }
 	type = heritage
 }
 

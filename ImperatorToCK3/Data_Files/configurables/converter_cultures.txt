@@ -42,7 +42,7 @@ khasi = {
 non_indo_european_iberian = {
 	color = hsv { 0.07 1.0 1.0 }
 
-	heritage = heritage_aboriginal
+	heritage = heritage_iberian
 	language = language_basque
 	martial_custom = martial_custom_male_only
 	ethos = ethos_courtly # Iberian system of obligation
@@ -68,7 +68,7 @@ nuragic = {
     
 	color = hsv { 0.2 0.25 0.5 }
 
-	heritage = heritage_aboriginal
+	heritage = heritage_nuragic
 	language = language_nuragic
 	ethos = ethos_communal # Tribal society
 	martial_custom = martial_custom_male_only
@@ -1107,7 +1107,7 @@ celtiberian = {
     
 	color = hsv { 0.2 0.8 0.6 }
 
-	heritage = heritage_gaulish
+	heritage = heritage_iberian_celtic
 	language = language_gaulish
 	martial_custom = martial_custom_equal
 	traditions = {
@@ -1198,7 +1198,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	parents = { celtiberian non_indo_european_iberian }
 	created = 2.1.1
 
-	heritage = heritage_gaulish
+	heritage = heritage_iberian_celtic
 	language = language_gaulish
 	martial_custom = martial_custom_equal
 
