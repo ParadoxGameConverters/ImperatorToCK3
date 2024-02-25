@@ -17,11 +17,12 @@ A: The converter officially supports these Imperator mods:
 - Timeline Extension for Invictus (https://steamcommunity.com/sharedfiles/filedetails/?id=2845446001)
 - TE : Crisis of the third century (https://steamcommunity.com/sharedfiles/filedetails/?id=2858320715)
 - Full Mechanical Overhaul (https://steamcommunity.com/sharedfiles/filedetails/?id=2805839904)
-- 2.0 Better UI (https://steamcommunity.com/sharedfiles/filedetails/?id=1845165876)
-- Culture Conflation (for Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=2660131665)
 - Imperator: Invictus - More Cultural Names (https://steamcommunity.com/sharedfiles/filedetails/?id=2827761791)
-- Medieval 1066 Total Conversion Beta (https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649)
+- Culture Conflation (for Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=2660131665)
 - Virtual Limes (Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=3020434697)
+- Realistic Tribes (https://steamcommunity.com/sharedfiles/filedetails/?id=3166956790)
+- Medieval 1066 Total Conversion Beta (https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649)
+- 2.0 Better UI (https://steamcommunity.com/sharedfiles/filedetails/?id=1845165876)
 The converter also supports these CK3 mods:
 - The Fallen Eagle (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
