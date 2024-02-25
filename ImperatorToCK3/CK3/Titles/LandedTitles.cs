@@ -576,18 +576,26 @@ public partial class Title {
 
 		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
-			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
-				// If capital county belongs to an empire, create a kingdom from the duchy
-				// and make the empire a de jure liege of the kingdom.
+			var deJureDuchies = this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)
+				.ToList();
+			foreach (var duchy in deJureDuchies) {
+				// If capital county belongs to an empire and contains the empire's capital,
+				// create a kingdom from the duchy and make the empire a de jure liege of the kingdom.
 				var capitalEmpireRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
-				if (capitalEmpireRealm is not null) {
+				var duchyCounties = duchy.GetDeJureVassalsAndBelow("c").Values;
+				if (capitalEmpireRealm is not null && duchyCounties.Any(c => c.Id == capitalEmpireRealm.CapitalCountyId)) {
 					var kingdom = Add("k_IRTOCK3_kingdom_from_" + duchy.Id);
+					kingdom.Color1 = duchy.Color1;
+
+					var kingdomNameLoc = kingdom.Localizations.AddLocBlock(kingdom.Id);
+					kingdomNameLoc.ModifyForEveryLanguage(
+						(orig, language) => $"${duchy.Id}$"
+					);
 					
-					var duchyNameLoc = duchy.Localizations[duchy.Id];
-					kingdom.Localizations.Add(new LocBlock(kingdom.Id, duchyNameLoc));
-					
-					var duchyAdjLoc = duchy.Localizations[$"{duchy.Id}_adj"];
-					kingdom.Localizations.Add(new LocBlock($"{kingdom.Id}_adj", duchyAdjLoc));
+					var kingdomAdjLoc = kingdom.Localizations.AddLocBlock(kingdom.Id + "_adj");
+					kingdomAdjLoc.ModifyForEveryLanguage(
+						(orig, language) => $"${duchy.Id}_adj$"
+					);
 					
 					kingdom.DeJureLiege = capitalEmpireRealm;
 					duchy.DeJureLiege = kingdom;
@@ -603,7 +611,7 @@ public partial class Title {
 
 				// Otherwise, use the kingdom that owns the biggest percentage of the duchy.
 				var kingdomRealmShares = new Dictionary<string, int>(); // realm, number of provinces held in duchy
-				foreach (var county in duchy.GetDeJureVassalsAndBelow("c").Values) {
+				foreach (var county in duchyCounties) {
 					var kingdomRealm = county.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
 					if (kingdomRealm is null) {
 						continue;
