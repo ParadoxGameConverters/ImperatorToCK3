@@ -297,7 +297,7 @@ public class MapData {
 		}
 	}
 	
-	/// Function for checking if two provinces are directly neighboring or are connected by a maximum number of static water tiles.
+	/// Function for checking if two provinces are directly neighboring or are connected by a maximum number of water tiles.
 	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) { // TODO: add tests for this
 		if (NeighborsDict.TryGetValue(province1, out var neighbors)) {
 			if (neighbors.Contains(province2)) {
@@ -311,19 +311,19 @@ public class MapData {
 			}
 		}
 		
-		// If the provinces are not directly neighboring, check if they are connected by a maximum number of static water tiles.
-		var provincesConnectedByStaticWater = GetProvincesConnectedByStaticWater(province1, maxWaterTilesDistance);
-		return provincesConnectedByStaticWater.Contains(province2);
+		// If the provinces are not directly neighboring, check if they are connected by a maximum number of water tiles.
+		var provincesConnectedByWater = GetProvincesConnectedByWater(province1, maxWaterTilesDistance);
+		return provincesConnectedByWater.Contains(province2);
 	}
 
-	private HashSet<ulong> GetProvincesConnectedByStaticWater(ulong provinceId, int maxWaterTilesDistance) { // TODO: add tests for this
+	private HashSet<ulong> GetProvincesConnectedByWater(ulong provinceId, int maxWaterTilesDistance) { // TODO: add tests for this
 		if (maxWaterTilesDistance < 1) {
 			return [];
 		}
 		
-		HashSet<string> seaTypes = ["sea_zones", "lakes", "impassable_seas"];
+		HashSet<string> waterTypes = ["sea_zones", "impassable_seas", "lakes", "river_provinces"];
 
-		// Get all sea provinces in range.
+		// Get all water provinces in range.
 		int currentDistance = 1;
 		var provincesToCheckForWaterNeighbors = new HashSet<ulong> {provinceId};
 		var provincesCheckedForWaterNeighbors = new HashSet<ulong>();
@@ -336,7 +336,7 @@ public class MapData {
 				provincesCheckedForWaterNeighbors.Add(provinceIdToCheck);
 				
 				if (provinceToTypeDict.TryGetValue(provinceIdToCheck, out var provinceType)) {
-					if (seaTypes.Contains(provinceType)) {
+					if (waterTypes.Contains(provinceType)) {
 						waterProvincesInRange.Add(provinceIdToCheck);
 					}
 				}
