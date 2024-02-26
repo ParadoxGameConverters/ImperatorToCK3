@@ -586,6 +586,7 @@ public partial class Title {
 				if (capitalEmpireRealm is not null && duchyCounties.Any(c => c.Id == capitalEmpireRealm.CapitalCountyId)) {
 					var kingdom = Add("k_IRTOCK3_kingdom_from_" + duchy.Id);
 					kingdom.Color1 = duchy.Color1;
+					kingdom.CapitalCounty = duchy.CapitalCounty;
 
 					var kingdomNameLoc = kingdom.Localizations.AddLocBlock(kingdom.Id);
 					kingdomNameLoc.ModifyForEveryLanguage(
@@ -703,9 +704,11 @@ public partial class Title {
 			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
 			// TODO: If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
+			
+			SetEmpireCapitals(ck3BookmarkDate);
 		}
 
-		private IDictionary<string, Title> GetHeritageIdToExistingTitleDict() {
+		private Dictionary<string, Title> GetHeritageIdToExistingTitleDict() {
 			var heritageToEmpireDict = new Dictionary<string, Title>();
 
 			var reader = new BufferedReader(File.ReadAllText("configurables/heritage_empires_map.txt"));
@@ -741,6 +744,32 @@ public partial class Title {
 			newEmpire.Color1 = empireColor;
 			
 			return newEmpire;
+		}
+
+
+		private void SetEmpireCapitals(Date ck3BookmarkDate) {
+			// Make sure every empire's capital is within the empire's de jure land.
+			Logger.Info("Setting empire capitals...");
+			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
+				// Try to use most developed county among the de jure kingdom capitals.
+				var deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
+				var mostDevelopedCounty = deJureKingdoms
+					.Select(k => k.CapitalCounty)
+					.Where(c => c is not null)
+					.MaxBy(c => c!.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
+				if (mostDevelopedCounty is not null) {
+					empire.CapitalCounty = mostDevelopedCounty;
+					continue;
+				}
+				
+				// Otherwise, use the most developed county among the de jure empire's counties.
+				var deJureCounties = empire.GetDeJureVassalsAndBelow("c").Values;
+				mostDevelopedCounty = deJureCounties
+					.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
+				if (mostDevelopedCounty is not null) {
+					empire.CapitalCounty = mostDevelopedCounty;
+				}
+			}
 		}
 
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters) {
