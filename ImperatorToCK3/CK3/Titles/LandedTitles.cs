@@ -754,8 +754,16 @@ public partial class Title {
 
 		private void SplitDisconnectedEmpires(MapData ck3MapData, HashSet<string> removableEmpireIds) {
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
-				var deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
-				if (deJureKingdoms.Count == 0) {
+				IEnumerable<Title> deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
+				
+				// Unassign de jure kingdoms that have no de jure land themselves.
+				var deJureKingdomsWithoutLand = deJureKingdoms.Where(k => k.GetDeJureVassalsAndBelow("c").Count == 0).ToHashSet();
+				foreach (var deJureKingdomWithLand in deJureKingdomsWithoutLand) {
+					deJureKingdomWithLand.DeJureLiege = null;
+				}
+				deJureKingdoms = deJureKingdoms.Except(deJureKingdomsWithoutLand).ToList();
+				
+				if (!deJureKingdoms.Any()) {
 					if (removableEmpireIds.Contains(empire.Id)) {
 						Remove(empire.Id);
 					}
