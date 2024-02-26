@@ -5,6 +5,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Map;
 
@@ -37,6 +38,8 @@ public class MapData {
 	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
+	private readonly Dictionary<ulong, string> provinceToTypeDict = [];
+
 	public MapData(ModFilesystem ck3ModFS) {
 		string provincesMapFilename = "provinces.png";
 		string definitionsFilename = "definition.csv";
@@ -55,7 +58,7 @@ public class MapData {
 		const string provinceGroupsRegexStr = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
 		defaultMapParser.RegisterRegex(provinceGroupsRegexStr, (reader, provincesType) => {
 			Parser.GetNextTokenWithoutMatching(reader); // equals sign
-			FindImpassables(provincesType, reader);
+			DetermineProvinceTypes(provincesType, reader);
 		});
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, ck3ModFS);
@@ -69,6 +72,7 @@ public class MapData {
 		DetermineProvincePositions(ck3ModFS);
 		Logger.IncrementProgress();
 
+		DetermineColorableImpassableProvinces();
 		Logger.Debug("Excluding impassable provinces that border the map edge from the colorable set...");
 		ExcludeMapEdgeProvincesFromColorableImpassables(ck3ModFS);
 
@@ -132,7 +136,7 @@ public class MapData {
 	}
 
 	private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
-		// TODO: ALSO INCLUDE ADJACENCIES
+		// TODO: ALSO CONSIDER ADJACENCIES AND WATER PROVINCES (PROVINCES SEPARATED BY WATER SHOULD STILL BE NEIGHBORS)
 		
 		var height = provincesMap.Height;
 		var width = provincesMap.Width;
@@ -165,12 +169,9 @@ public class MapData {
 		}
 	}
 
-	private void FindImpassables(string provincesType, BufferedReader provincesGroupReader) {
+	private void DetermineProvinceTypes(string provincesType, BufferedReader provincesGroupReader) {
 		var typeOfGroup = Parser.GetNextTokenWithoutMatching(provincesGroupReader);
 		var provIds = provincesGroupReader.GetULongs();
-		if (provincesType != "impassable_mountains") {
-			return;
-		}
 
 		if (typeOfGroup == "RANGE") {
 			if (provIds.Count is < 1 or > 2) {
@@ -180,10 +181,26 @@ public class MapData {
 			var beginning = provIds[0];
 			var end = provIds[^1];
 			for (var id = beginning; id <= end; ++id) {
-				ColorableImpassableProvinceIds.Add(id);
+				provinceToTypeDict[id] = provincesType;
 			}
 		} else {
-			ColorableImpassableProvinceIds.UnionWith(provIds);
+			foreach (var id in provIds) {
+				provinceToTypeDict[id] = provincesType;
+			}
+		}
+	}
+
+	private void DetermineColorableImpassableProvinces() {
+		string[] typesToColor = ["impassable_mountains"];
+
+		var provincesPerType = provinceToTypeDict
+			.GroupBy(d => d.Value)
+			.ToDictionary(g => g.Key, g => g.Select(d => d.Key).ToList());
+
+		foreach (var grouping in provincesPerType) {
+			if (typesToColor.Contains(grouping.Key)) {
+				ColorableImpassableProvinceIds.UnionWith(grouping.Value);
+			}
 		}
 	}
 
@@ -278,5 +295,79 @@ public class MapData {
 		} else {
 			NeighborsDict[mainProvince] = [neighborProvince];
 		}
+	}
+	
+	/// Function for checking if two provinces are directly neighboring or are connected by a maximum number of static water tiles.
+	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) { // TODO: add tests for this
+		if (NeighborsDict.TryGetValue(province1, out var neighbors)) {
+			if (neighbors.Contains(province2)) {
+				return true;
+			}
+		}
+
+		if (NeighborsDict.TryGetValue(province2, out var otherNeighbors)) {
+			if (otherNeighbors.Contains(province1)) {
+				return true;
+			}
+		}
+		
+		// If the provinces are not directly neighboring, check if they are connected by a maximum number of static water tiles.
+		var provincesConnectedByStaticWater = GetProvincesConnectedByStaticWater(province1, maxWaterTilesDistance);
+		return provincesConnectedByStaticWater.Contains(province2);
+	}
+
+	private HashSet<ulong> GetProvincesConnectedByStaticWater(ulong provinceId, int maxWaterTilesDistance) { // TODO: add tests for this
+		if (maxWaterTilesDistance < 1) {
+			return [];
+		}
+		
+		HashSet<string> seaTypes = ["sea_zones", "lakes", "impassable_seas"];
+
+		// Get all sea provinces in range.
+		int currentDistance = 1;
+		var provincesToCheckForWaterNeighbors = new HashSet<ulong> {provinceId};
+		var provincesCheckedForWaterNeighbors = new HashSet<ulong>();
+		var waterProvincesInRange = new HashSet<ulong>();
+		while (currentDistance <= maxWaterTilesDistance) {
+			foreach (var provinceIdToCheck in provincesToCheckForWaterNeighbors.ToList()) {
+				if (provincesCheckedForWaterNeighbors.Contains(provinceIdToCheck)) {
+					continue;
+				}
+				provincesCheckedForWaterNeighbors.Add(provinceIdToCheck);
+				
+				if (provinceToTypeDict.TryGetValue(provinceIdToCheck, out var provinceType)) {
+					if (seaTypes.Contains(provinceType)) {
+						waterProvincesInRange.Add(provinceIdToCheck);
+					}
+				}
+				
+				if (NeighborsDict.TryGetValue(provinceIdToCheck, out var neighbors)) {
+					provincesToCheckForWaterNeighbors.UnionWith(neighbors);
+				}
+			}
+			++currentDistance;
+		}
+		
+		// For every sea province in range, get its land neighbors.
+		// A regular land province is not included in provinceToTypeDict.
+		HashSet<string> specialLandProvinceTypes = ["impassable_mountains"];
+		HashSet<ulong> foundLandProvinces = [];
+		foreach (var waterProvince in waterProvincesInRange) {
+			if (!NeighborsDict.TryGetValue(waterProvince, out var neighbors)) {
+				continue;
+			}
+
+			foreach (var neighbor in neighbors) {
+				if (provinceToTypeDict.TryGetValue(neighbor, out var neighborType)) {
+					if (specialLandProvinceTypes.Contains(neighborType)) {
+						foundLandProvinces.Add(neighbor);
+					}
+				} else {
+					foundLandProvinces.Add(neighbor);
+				}
+			}
+		}
+		
+		return foundLandProvinces;
 	}
 }

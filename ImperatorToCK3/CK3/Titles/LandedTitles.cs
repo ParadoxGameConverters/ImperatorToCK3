@@ -5,6 +5,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
@@ -629,11 +630,13 @@ public partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, Date ck3BookmarkDate) {
+		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
 			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
+			
+			var removableEmpireIds = new HashSet<string>();
 			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
@@ -697,6 +700,8 @@ public partial class Title {
 				} else {
 					// Create new de jure empire based on heritage.
 					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures);
+					removableEmpireIds.Add(heritageEmpire.Id);
+					
 					kingdom.DeJureLiege = heritageEmpire;
 					heritageToEmpireDict[dominantHeritage.Id] = heritageEmpire;
 				}
@@ -704,6 +709,7 @@ public partial class Title {
 			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
 			// TODO: If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
+			SplitDisconnectedEmpires(ck3MapData, removableEmpireIds);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
@@ -746,6 +752,56 @@ public partial class Title {
 			return newEmpire;
 		}
 
+		private void SplitDisconnectedEmpires(MapData ck3MapData, HashSet<string> removableEmpireIds) {
+			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
+				var deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
+				if (deJureKingdoms.Count == 0) {
+					if (removableEmpireIds.Contains(empire.Id)) {
+						Remove(empire.Id);
+					}
+					continue;
+				}
+				
+				// Group the kingdoms into contiguous groups.
+				var kingdomGroups = new List<HashSet<Title>>();
+				foreach (var kingdom in deJureKingdoms) {
+					var added = false;
+					foreach (var group in kingdomGroups) {
+						if (group.Any(k => AreTitlesAdjacent(k, kingdom, ck3MapData, 2))) {
+							group.Add(kingdom);
+							added = true;
+							break;
+						}
+					}
+					if (!added) {
+						kingdomGroups.Add(new HashSet<Title> { kingdom });
+					}
+				}
+				
+				// If there are multiple groups, log them. // TODO: REMOVE THIS
+				if (kingdomGroups.Count > 1) {
+					Logger.Error($"Empire {empire.Id} has multiple disconnected groups of kingdoms:");
+					foreach (var group in kingdomGroups) {
+						Logger.Warn($"  - {string.Join(", ", group.Select(k => k.Id))}");
+					}
+				}
+				
+				// TODO: if there are multiple groups, implement multiple solutions to make sure every group either becomes a separate empire or joins another empire.
+			}
+		}
+
+		private static bool AreTitlesAdjacent(Title t1, Title t2, MapData mapData, int maxWaterTilesDistance) {
+			var t1Provs = t1.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet();
+			var t2Provs = t2.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet();
+
+			foreach (var t1Prov in t1Provs) {
+				if (t2Provs.Any(t2Prov => mapData.AreProvincesAdjacent(t1Prov, t2Prov, maxWaterTilesDistance))) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
 
 		private void SetEmpireCapitals(Date ck3BookmarkDate) {
 			// Make sure every empire's capital is within the empire's de jure land.
@@ -772,9 +828,9 @@ public partial class Title {
 			}
 		}
 
-		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters) {
+		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData) {
 			SetDeJureKingdoms(ck3BookmarkDate);
-			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3BookmarkDate);
+			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
