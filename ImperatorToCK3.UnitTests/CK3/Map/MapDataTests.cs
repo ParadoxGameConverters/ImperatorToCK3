@@ -56,6 +56,8 @@ public class MapDataTests {
 	[InlineData(496, 3759, 3, false)]
 	[InlineData(496, 3747, 3, true)] // through water connection
 	[InlineData(496, 3747, 0, false)] // setting maxWaterTilesDistance to 0 ignores water connections
+	[InlineData(3761, 3747, 2, true)]
+	[InlineData(3761, 3747, 1, false)] // distance exceeds maxWaterTilesDistance
 	
 	public void AreProvincesAdjacentReturnsCorrectValues(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance, bool isAdjacent) {
 		const string ck3Root = "TestFiles/MapData/CK3_all_prov_defs/game";

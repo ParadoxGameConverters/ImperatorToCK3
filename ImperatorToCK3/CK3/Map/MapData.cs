@@ -312,12 +312,12 @@ public class MapData {
 		}
 		
 		// If the provinces are not directly neighboring, check if they are connected by a maximum number of water tiles.
-		return GetProvincesConnectedByWater(province1, maxWaterTilesDistance).Contains(province2);
+		return AreProvincesConnectedByWater(province1, province2, maxWaterTilesDistance);
 	}
 
-	private HashSet<ulong> GetProvincesConnectedByWater(ulong provinceId, int maxWaterTilesDistance) { // TODO: add tests for this
+	private bool AreProvincesConnectedByWater(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance) { // TODO: add tests for this
 		if (maxWaterTilesDistance < 1) {
-			return [];
+			return false;
 		}
 		
 		// Only consider static water types, so exclude rivers.
@@ -325,7 +325,7 @@ public class MapData {
 
 		// Get all water provinces in range.
 		int currentDistance = 1;
-		var provincesToCheckForWaterNeighbors = new HashSet<ulong> {provinceId};
+		var provincesToCheckForWaterNeighbors = new HashSet<ulong> {prov1Id};
 		var provincesCheckedForWaterNeighbors = new HashSet<ulong>();
 		var waterProvincesInRange = new HashSet<ulong>();
 		while (currentDistance <= maxWaterTilesDistance) {
@@ -350,23 +350,26 @@ public class MapData {
 		// For every sea province in range, get its land neighbors.
 		// A regular land province is not included in provinceToTypeDict.
 		HashSet<string> specialLandProvinceTypes = ["impassable_mountains"];
-		HashSet<ulong> foundLandProvinces = [];
 		foreach (var waterProvince in waterProvincesInRange) {
 			if (!NeighborsDict.TryGetValue(waterProvince, out var neighbors)) {
 				continue;
 			}
 
-			foreach (var neighbor in neighbors) {
-				if (provinceToTypeDict.TryGetValue(neighbor, out var neighborType)) {
+			foreach (var neighborId in neighbors) {
+				if (provinceToTypeDict.TryGetValue(neighborId, out var neighborType)) {
 					if (specialLandProvinceTypes.Contains(neighborType)) {
-						foundLandProvinces.Add(neighbor);
+						if (neighborId == prov2Id) {
+							return true;
+						}
 					}
 				} else {
-					foundLandProvinces.Add(neighbor);
+					if (neighborId == prov2Id) {
+						return true;
+					}
 				}
 			}
 		}
-		
-		return foundLandProvinces;
+
+		return false;
 	}
 }
