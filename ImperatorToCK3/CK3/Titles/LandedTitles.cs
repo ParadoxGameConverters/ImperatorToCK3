@@ -707,9 +707,41 @@ public partial class Title {
 				}
 			}
 			
+			Logger.Debug("Building kingdom adjacencies dict..."); // TODO: optimize this
+			var kingdomAdjacencies = new Dictionary<string, HashSet<string>>();
+			foreach (var kingdom in deJureKingdoms) {
+				string kingdomId = kingdom.Id;
+				
+				if (!kingdomAdjacencies.TryGetValue(kingdomId, out var adjacencies)) {
+					adjacencies = new HashSet<string>();
+					kingdomAdjacencies[kingdomId] = adjacencies;
+				}
+				
+				var otherKingdoms = deJureKingdoms.Where(k => k.Id != kingdomId);
+				foreach (var otherKingdom in otherKingdoms) {
+					// Skip if the kingdoms are already adjacent.
+					if (adjacencies.Contains(otherKingdom.Id)) {
+						continue;
+					}
+					
+					if (!AreTitlesAdjacent(kingdom, otherKingdom, ck3MapData, 3)) {
+						continue;
+					}
+
+					adjacencies.Add(otherKingdom.Id);
+					
+					if (!kingdomAdjacencies.TryGetValue(otherKingdom.Id, out var otherAdjacencies)) {
+						otherAdjacencies = new HashSet<string>();
+						kingdomAdjacencies[otherKingdom.Id] = otherAdjacencies;
+					} else {
+						otherAdjacencies.Add(kingdomId);
+					}
+				}
+			}
+			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
 			// TODO: If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
-			SplitDisconnectedEmpires(ck3MapData, removableEmpireIds);
+			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
@@ -752,7 +784,7 @@ public partial class Title {
 			return newEmpire;
 		}
 
-		private void SplitDisconnectedEmpires(MapData ck3MapData, HashSet<string> removableEmpireIds) {
+		private void SplitDisconnectedEmpires(Dictionary<string, HashSet<string>> kingdomAdjacencies, HashSet<string> removableEmpireIds) {
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
 				IEnumerable<Title> deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
 				
@@ -777,7 +809,7 @@ public partial class Title {
 					List<HashSet<Title>> connectedGroups = [];
 					
 					foreach (var group in kingdomGroups) {
-						if (group.Any(k => AreTitlesAdjacent(k, kingdom, ck3MapData, 3))) {
+						if (group.Any(k => kingdomAdjacencies[k.Id].Contains(kingdom.Id))) {
 							group.Add(kingdom);
 							connectedGroups.Add(group);
 							
@@ -797,7 +829,7 @@ public partial class Title {
 					}
 					
 					if (!added) {
-						kingdomGroups.Add(new HashSet<Title> { kingdom });
+						kingdomGroups.Add([kingdom]);
 					}
 				}
 				

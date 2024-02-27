@@ -310,7 +310,7 @@ public class MapData {
 	}
 
 	/// Function for checking if two provinces are directly neighboring or are connected by a maximum number of water tiles.
-	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) {
+	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) { // TODO: cache the results or save to a dictionary
 		if (NeighborsDict.TryGetValue(province1, out var neighbors)) {
 			if (neighbors.Contains(province2)) {
 				return true;
