@@ -312,8 +312,7 @@ public class MapData {
 		}
 		
 		// If the provinces are not directly neighboring, check if they are connected by a maximum number of water tiles.
-		var provincesConnectedByWater = GetProvincesConnectedByWater(province1, maxWaterTilesDistance);
-		return provincesConnectedByWater.Contains(province2);
+		return GetProvincesConnectedByWater(province1, maxWaterTilesDistance).Contains(province2);
 	}
 
 	private HashSet<ulong> GetProvincesConnectedByWater(ulong provinceId, int maxWaterTilesDistance) { // TODO: add tests for this
@@ -321,7 +320,8 @@ public class MapData {
 			return [];
 		}
 		
-		HashSet<string> waterTypes = ["sea_zones", "impassable_seas", "lakes", "river_provinces"];
+		// Only consider static water types, so exclude rivers.
+		HashSet<string> waterTypes = ["sea_zones", "impassable_seas", "lakes"];
 
 		// Get all water provinces in range.
 		int currentDistance = 1;
@@ -330,11 +330,10 @@ public class MapData {
 		var waterProvincesInRange = new HashSet<ulong>();
 		while (currentDistance <= maxWaterTilesDistance) {
 			foreach (var provinceIdToCheck in provincesToCheckForWaterNeighbors.ToList()) {
-				if (provincesCheckedForWaterNeighbors.Contains(provinceIdToCheck)) {
+				if (!provincesCheckedForWaterNeighbors.Add(provinceIdToCheck)) {
 					continue;
 				}
-				provincesCheckedForWaterNeighbors.Add(provinceIdToCheck);
-				
+
 				if (provinceToTypeDict.TryGetValue(provinceIdToCheck, out var provinceType)) {
 					if (waterTypes.Contains(provinceType)) {
 						waterProvincesInRange.Add(provinceIdToCheck);

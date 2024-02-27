@@ -774,13 +774,28 @@ public partial class Title {
 				var kingdomGroups = new List<HashSet<Title>>();
 				foreach (var kingdom in deJureKingdoms) {
 					var added = false;
+					List<HashSet<Title>> connectedGroups = [];
+					
 					foreach (var group in kingdomGroups) {
-						if (group.Any(k => AreTitlesAdjacent(k, kingdom, ck3MapData, 2))) {
+						if (group.Any(k => AreTitlesAdjacent(k, kingdom, ck3MapData, 3))) {
 							group.Add(kingdom);
+							connectedGroups.Add(group);
+							
 							added = true;
-							break;
 						}
 					}
+					
+					// If the kingdom is adjacent to multiple groups, merge them.
+					if (connectedGroups.Count > 1) {
+						var mergedGroup = new HashSet<Title>();
+						foreach (var group in connectedGroups) {
+							mergedGroup.UnionWith(group);
+							kingdomGroups.Remove(group);
+						}
+						mergedGroup.Add(kingdom);
+						kingdomGroups.Add(mergedGroup);
+					}
+					
 					if (!added) {
 						kingdomGroups.Add(new HashSet<Title> { kingdom });
 					}
@@ -788,7 +803,7 @@ public partial class Title {
 				
 				// If there are multiple groups, log them. // TODO: REMOVE THIS
 				if (kingdomGroups.Count > 1) {
-					Logger.Error($"Empire {empire.Id} has multiple disconnected groups of kingdoms:");
+					Logger.Error($"Empire {empire.Id} has {kingdomGroups.Count} multiple disconnected groups of kingdoms:");
 					foreach (var group in kingdomGroups) {
 						Logger.Warn($"  - {string.Join(", ", group.Select(k => k.Id))}");
 					}
