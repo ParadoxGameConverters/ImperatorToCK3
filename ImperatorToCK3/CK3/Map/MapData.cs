@@ -374,10 +374,12 @@ public class MapData {
 
 			foreach (var neighborId in neighbors) {
 				if (provinceToTypeDict.TryGetValue(neighborId, out var neighborType)) {
-					if (specialLandProvinceTypes.Contains(neighborType)) {
-						if (neighborId == prov2Id) {
-							return true;
-						}
+					if (!specialLandProvinceTypes.Contains(neighborType)) {
+						continue;
+					}
+
+					if (neighborId == prov2Id) {
+						return true;
 					}
 				} else {
 					if (neighborId == prov2Id) {
@@ -416,14 +418,20 @@ public class MapData {
 		};
 		using CsvReader csv = new(reader, csvConfig);
 		var adjacency = new {
-			From = default(ulong),
-			To = default(ulong),
+			From = default(long),
+			To = default(long),
 		};
 		var records = csv.GetRecords(adjacency);
 
 		int count = 0;
 		foreach (var record in records) {
-			AddAdjacency(record.From, record.To);
+			if (record.From == -1) {
+				continue;
+			}
+			if (record.To == -1) {
+				continue;
+			}
+			AddAdjacency((ulong)record.From, (ulong)record.To);
 			++count;
 		}
 		Logger.Debug($"Loaded {count} province adjacencies.");
