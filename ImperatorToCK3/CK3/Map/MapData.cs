@@ -1,9 +1,12 @@
 ﻿using commonItems;
 using commonItems.Mods;
+using CsvHelper;
+using CsvHelper.Configuration;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -40,10 +43,13 @@ public class MapData {
 
 	private readonly Dictionary<ulong, string> provinceToTypeDict = [];
 
+	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = new();
+
 	public MapData(ModFilesystem ck3ModFS) {
 		string provincesMapFilename = "provinces.png";
 		string definitionsFilename = "definition.csv";
-		
+		string adjacenciesFilename = "adjacencies.csv";
+
 		Logger.Info("Loading default map data...");
 		const string defaultMapPath = "map_data/default.map";
 		var defaultMapParser = new Parser();
@@ -52,7 +58,7 @@ public class MapData {
 		defaultMapParser.RegisterKeyword("rivers", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("topology", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("terrain", ParserHelpers.IgnoreItem);
-		defaultMapParser.RegisterKeyword("adjacencies", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("adjacencies", reader => adjacenciesFilename = reader.GetString());
 		defaultMapParser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
 		const string provinceGroupsRegexStr = "sea_zones|river_provinces|lakes|impassable_mountains|impassable_seas";
@@ -63,7 +69,7 @@ public class MapData {
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, ck3ModFS);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Loading province definitions...");
 		ProvinceDefinitions = new ProvinceDefinitions(definitionsFilename, ck3ModFS);
 		Logger.IncrementProgress();
@@ -71,6 +77,9 @@ public class MapData {
 		Logger.Info("Loading province positions...");
 		DetermineProvincePositions(ck3ModFS);
 		Logger.IncrementProgress();
+		
+		Logger.Info("Loading province adjacencies...");
+		LoadAdjacencies(adjacenciesFilename, ck3ModFS);
 
 		DetermineColorableImpassableProvinces();
 		Logger.Debug("Excluding impassable provinces that border the map edge from the colorable set...");
@@ -81,9 +90,11 @@ public class MapData {
 		if (provincesMapPath is null) {
 			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
 		}
+
 		using (Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath)) {
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);
 		}
+
 		Logger.IncrementProgress();
 	}
 
@@ -102,6 +113,7 @@ public class MapData {
 			Logger.Warn($"Province {province1} has no position defined!");
 			return 0;
 		}
+
 		if (!ProvincePositions.TryGetValue(province2, out var province2Position)) {
 			Logger.Warn($"Province {province2} has no position defined!");
 			return 0;
@@ -111,7 +123,7 @@ public class MapData {
 		var yDiff = province1Position.Y - province2Position.Y;
 		return Math.Sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
-	
+
 	public IReadOnlySet<ulong> GetNeighborProvinceIds(ulong provinceId) {
 		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
@@ -136,8 +148,6 @@ public class MapData {
 	}
 
 	private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
-		// TODO: ALSO CONSIDER ADJACENCIES AND WATER PROVINCES (PROVINCES SEPARATED BY WATER SHOULD STILL BE NEIGHBORS)
-		
 		var height = provincesMap.Height;
 		var width = provincesMap.Width;
 		for (var y = 0; y < height; ++y) {
@@ -209,25 +219,27 @@ public class MapData {
 		var height = mapPng.Height;
 		var width = mapPng.Width;
 		var edgeProvinceIds = new HashSet<ulong>();
-		
+
 		for (var y = 0; y < height; ++y) {
 			// Get left edge color.
 			var color = GetPixelColor(new Point(0, y), mapPng);
 			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
-			
+
 			// Get right edge color.
 			color = GetPixelColor(new Point(width - 1, y), mapPng);
 			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
 		}
+
 		for (var x = 0; x < width; ++x) {
 			// Get top edge color.
 			var color = GetPixelColor(new Point(x, 0), mapPng);
 			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
-			
+
 			// Get bottom edge color.
 			color = GetPixelColor(new Point(x, height - 1), mapPng);
 			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
 		}
+
 		ColorableImpassableProvinceIds.ExceptWith(edgeProvinceIds);
 	}
 
@@ -296,9 +308,9 @@ public class MapData {
 			NeighborsDict[mainProvince] = [neighborProvince];
 		}
 	}
-	
+
 	/// Function for checking if two provinces are directly neighboring or are connected by a maximum number of water tiles.
-	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) { // TODO: add tests for this
+	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) {
 		if (NeighborsDict.TryGetValue(province1, out var neighbors)) {
 			if (neighbors.Contains(province2)) {
 				return true;
@@ -311,21 +323,25 @@ public class MapData {
 			}
 		}
 		
+		if (provinceAdjacencies.TryGetValue(province1, out var adjacencies) && adjacencies.Contains(province2)) {
+			return true; // TODO: COVER THIS WITH A TEST
+		}
+
 		// If the provinces are not directly neighboring, check if they are connected by a maximum number of water tiles.
 		return AreProvincesConnectedByWater(province1, province2, maxWaterTilesDistance);
 	}
 
-	private bool AreProvincesConnectedByWater(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance) { // TODO: add tests for this
+	private bool AreProvincesConnectedByWater(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance) {
 		if (maxWaterTilesDistance < 1) {
 			return false;
 		}
-		
+
 		// Only consider static water types, so exclude rivers.
 		HashSet<string> waterTypes = ["sea_zones", "impassable_seas", "lakes"];
 
 		// Get all water provinces in range.
 		int currentDistance = 1;
-		var provincesToCheckForWaterNeighbors = new HashSet<ulong> {prov1Id};
+		var provincesToCheckForWaterNeighbors = new HashSet<ulong> { prov1Id };
 		var provincesCheckedForWaterNeighbors = new HashSet<ulong>();
 		var waterProvincesInRange = new HashSet<ulong>();
 		while (currentDistance <= maxWaterTilesDistance) {
@@ -339,14 +355,15 @@ public class MapData {
 						waterProvincesInRange.Add(provinceIdToCheck);
 					}
 				}
-				
+
 				if (NeighborsDict.TryGetValue(provinceIdToCheck, out var neighbors)) {
 					provincesToCheckForWaterNeighbors.UnionWith(neighbors);
 				}
 			}
+
 			++currentDistance;
 		}
-		
+
 		// For every sea province in range, get its land neighbors.
 		// A regular land province is not included in provinceToTypeDict.
 		HashSet<string> specialLandProvinceTypes = ["impassable_mountains"];
@@ -371,5 +388,61 @@ public class MapData {
 		}
 
 		return false;
+	}
+
+	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem ck3ModFS) {
+		var adjacenciesPath = ck3ModFS.GetActualFileLocation(Path.Join("map_data", adjacenciesFilename));
+		if (adjacenciesPath is null) {
+			throw new FileNotFoundException($"Adjacencies file {adjacenciesFilename} not found!");
+		}
+		
+		var reader = new StreamReader(adjacenciesPath);
+		
+		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
+			Delimiter = ";",
+			HasHeaderRecord = true,
+			AllowComments = true,
+			TrimOptions = TrimOptions.Trim,
+			IgnoreBlankLines = true,
+			ShouldSkipRecord = (args => {
+				string? cell = args.Row[0];
+				if (cell is null) {
+					return true;
+				}
+
+				cell = cell.Trim();
+				return cell.Length == 0 || cell[0] == '#';
+			}),
+		};
+		using CsvReader csv = new(reader, csvConfig);
+		var adjacency = new {
+			From = default(ulong),
+			To = default(ulong),
+		};
+		var records = csv.GetRecords(adjacency);
+
+		int count = 0;
+		foreach (var record in records) {
+			AddAdjacency(record.From, record.To);
+			++count;
+		}
+		Logger.Debug($"Loaded {count} province adjacencies.");
+	}
+
+	private void AddAdjacency(ulong province1, ulong province2) {
+		if (!provinceAdjacencies.TryGetValue(province1, out var adjacencies)) {
+			adjacencies = new HashSet<ulong>();
+			provinceAdjacencies[province1] = adjacencies;
+		}
+
+		adjacencies.Add(province2);
+
+		// Since adjacency is bidirectional, add the reverse adjacency as well
+		if (!provinceAdjacencies.TryGetValue(province2, out adjacencies)) {
+			adjacencies = new HashSet<ulong>();
+			provinceAdjacencies[province2] = adjacencies;
+		}
+
+		adjacencies.Add(province1);
 	}
 }
