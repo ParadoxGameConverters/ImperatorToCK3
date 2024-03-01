@@ -340,6 +340,7 @@ public partial class Title {
 
 			if (GetRankForId(titleId) == TitleRank.county) {
 				countyLevelCountries.Add(new(country, dependency));
+				Logger.Debug($"Country {country.Id} can only be converted as county level.");
 				return;
 			}
 

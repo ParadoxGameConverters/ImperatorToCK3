@@ -123,6 +123,19 @@ public class TagTitleMapper {
 	}
 
 	private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper) {
+		var ck3Country = country.CK3Title;
+		if (ck3Country is null) {
+			return null;
+		}
+		
+		var ck3CapitalCounty = ck3Country.CapitalCounty;
+		if (ck3CapitalCounty is null) {
+			Logger.Warn($"{ck3Country.Id} has no capital county!");
+			return null;
+		}
+		
+		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
+		
 		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
 			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId!;
 			if (capitalBaronyProvinceId == 0) {
@@ -136,24 +149,18 @@ public class TagTitleMapper {
 			}
 
 			var ck3CapitalBaronyProvince = ck3Provinces[capitalBaronyProvinceId];
-			var impProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
-			if (impProvince is null) { // probably outside of Imperator map
+			var irProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
+			if (irProvince is null) { // probably outside of Imperator map
 				continue;
 			}
-
-			var ck3Country = country.CK3Title;
-			var ck3CapitalCounty = ck3Country?.CapitalCounty;
-			if (ck3CapitalCounty is null) {
-				continue;
-			}
+			
 			// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
-			var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
 			var deJureDuchyOfCounty = county.DeJureLiege;
 			if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
 				continue;
 			}
-
-			if (governorship.Region.Id != imperatorRegionMapper.GetParentRegionName(impProvince.Id)) {
+			
+			if (governorship.Region.Id != imperatorRegionMapper.GetParentRegionName(irProvince.Id)) {
 				continue;
 			}
 
@@ -223,6 +230,10 @@ public class TagTitleMapper {
 		ck3TitleId += imperatorCountryTag;
 		ck3TitleId += "_";
 		ck3TitleId += imperatorRegion;
+
+		if (ck3Rank < TitleRank.duchy) {
+			Logger.Warn($"Governorship title rank is too low: {ck3TitleId}!");
+		}
 
 		return ck3TitleId;
 	}

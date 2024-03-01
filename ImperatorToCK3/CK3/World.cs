@@ -415,7 +415,6 @@ public class World {
 			if (matchingCountyLevelRulers.Count == 0) {
 				return false;
 			}
-			Logger.Error($"WE HAVE A FUCKING MATCH {county.Id} -> {irCountry.Id}!"); // TODO: REMOVE THIS
 			var dependency = matchingCountyLevelRulers[0].Value;
 
 			// Give county to ruler.
