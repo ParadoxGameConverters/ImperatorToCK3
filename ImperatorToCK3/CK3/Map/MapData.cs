@@ -9,18 +9,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3.CK3.Map;
 
 public class MapData {
-	private struct Point : IEquatable<Point> {
-		public int X { get; set; }
-		public int Y { get; set; }
-
-		public Point(int x, int y) {
-			X = x;
-			Y = y;
-		}
+	[StructLayout(LayoutKind.Auto)]
+	private struct Point(int x, int y) : IEquatable<Point> {
+		public int X { get; set; } = x;
+		public int Y { get; set; } = y;
 
 		public readonly bool Equals(Point other) {
 			return X == other.X && Y == other.Y;

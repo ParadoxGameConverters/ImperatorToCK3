@@ -878,12 +878,9 @@ public partial class Title {
 					}
 				}
 				
-				// If there are multiple groups, log them. // TODO: REMOVE THIS
 				if (kingdomGroups.Count > 1) {
-					Logger.Error($"Empire {empire.Id} has {kingdomGroups.Count} multiple disconnected groups of kingdoms:");
-					foreach (var group in kingdomGroups) {
-						Logger.Warn($"  - {string.Join(", ", group.Select(k => k.Id))}");
-					}
+					// TODO: change log level to debug
+					Logger.Error($"Empire {empire.Id} has {kingdomGroups.Count} multiple disconnected groups of kingdoms: {string.Join(" ; ", kingdomGroups.Select(g => string.Join(',', g.Select(k => k.Id))))}");
 				}
 				
 				// TODO: if there are multiple groups, implement multiple solutions to make sure every group either becomes a separate empire or joins another empire.
