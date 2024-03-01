@@ -397,9 +397,6 @@ public class World {
 				county.SetDeFactoLiege(null, conversionDate);
 			} else {
 				bool given = TryGiveCountyToCountyLevelRuler(county, irCountry);
-				if (given) { // TODO: REMOVE THIS IF BLOCK
-					Logger.Error($"Gave {county.Id} to county level ruler from {irCountry.Name}");
-				}
 				if (!given) {
 					given = TryGiveCountyToGovernor(county, irProvince, irCountry);
 				}
