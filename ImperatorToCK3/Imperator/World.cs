@@ -47,7 +47,7 @@ public class World : Parser {
 	public AreaCollection Areas { get; } = new();
 	public ImperatorRegionMapper ImperatorRegionMapper { get; }
 	public StateCollection States { get; } = new();
-	public IList<War> Wars { get; private set; } = new List<War>();
+	public IReadOnlyList<War> Wars { get; private set; } = new List<War>();
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	public UnitCollection Units { get; } = new();
 	public CulturesDB CulturesDB { get; } = new();
