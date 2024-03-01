@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -52,6 +53,7 @@ public class CoatOfArmsOutputterTests {
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
+			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),
@@ -94,6 +96,7 @@ public class CoatOfArmsOutputterTests {
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
+			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),

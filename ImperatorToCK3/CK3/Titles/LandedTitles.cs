@@ -9,6 +9,7 @@ using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -130,6 +131,7 @@ public partial class Title {
 
 		public Title Add(
 			Country country,
+			Dependency? dependency,
 			CountryCollection imperatorCountries,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -147,6 +149,7 @@ public partial class Title {
 		) {
 			var newTitle = new Title(this,
 				country,
+				dependency,
 				imperatorCountries,
 				locDB,
 				provinceMapper,
@@ -239,6 +242,7 @@ public partial class Title {
 
 		public void ImportImperatorCountries(
 			CountryCollection imperatorCountries,
+			IReadOnlyCollection<Dependency> dependencies,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -258,10 +262,39 @@ public partial class Title {
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator tags.
 			var counter = 0;
+			
 			// We don't need pirates, barbarians etc.
-			foreach (var country in imperatorCountries.Where(c => c.CountryType == CountryType.real)) {
+			var realCountries = imperatorCountries.Where(c => c.CountryType == CountryType.real).ToImmutableList();
+			
+			// Import independent countries first, then subjects.
+			var independentCountries = realCountries.Where(c => dependencies.All(d => d.SubjectId != c.Id)).ToImmutableList();
+			var subjects = realCountries.Except(independentCountries).ToImmutableList();
+			
+			foreach (var country in independentCountries) {
 				ImportImperatorCountry(
 					country,
+					dependency: null,
+					imperatorCountries,
+					tagTitleMapper,
+					locDB,
+					provinceMapper,
+					coaMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					characters,
+					conversionDate,
+					config
+				);
+				++counter;
+			}
+			foreach (var country in subjects) {
+				ImportImperatorCountry(
+					country,
+					dependency: dependencies.FirstOrDefault(d => d.SubjectId == country.Id),
 					imperatorCountries,
 					tagTitleMapper,
 					locDB,
@@ -284,6 +317,7 @@ public partial class Title {
 
 		private void ImportImperatorCountry(
 			Country country,
+			Dependency? dependency,
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
@@ -300,11 +334,12 @@ public partial class Title {
 			Configuration config
 		) {
 			// Create a new title or update existing title.
-			var name = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
+			var name = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, locDB);
 
 			if (TryGetValue(name, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
 					country,
+					dependency,
 					imperatorCountries,
 					locDB,
 					provinceMapper,
@@ -322,6 +357,7 @@ public partial class Title {
 			} else {
 				Add(
 					country,
+					dependency,
 					imperatorCountries,
 					locDB,
 					provinceMapper,

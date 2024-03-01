@@ -1,0 +1,26 @@
+﻿# from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
+
+name_list_raetic = {
+		cadet_dynasty_names = {
+			"dynn_Arussnu" "dynn_Esiumninu" "dynn_Esminu" "dynn_Esthu" "dynn_Ethunnu" "dynn_Helanu" "dynn_Kanissnu" "dynn_Kapassunu" "dynn_Kaszrinu" "dynn_Kuhilinu" "dynn_Lassanu" "dynn_Lavisealu" "dynn_Lavisnu" "dynn_Lumennu" "dynn_Lupnu" "dynn_Metinu" "dynn_Nutsnu" "dynn_Phausu" "dynn_Phelvinu" "dynn_Phutikginu" "dynn_Pithamnu" "dynn_Reithussnu" "dynn_Reminu" "dynn_Ssikganu" "dynn_Susinu" "dynn_Tassnu" "dynn_Tenaginu" "dynn_Tharnu" "dynn_Thaukgrilinu" "dynn_Thianu" "dynn_Tiprukgnu" "dynn_Tulanu" "dynn_Valthikinu" "dynn_Velkganu" "dynn_Vinuthalinu" "dynn_Vistekganu"
+		}
+
+		dynasty_names = { 
+	        "dynn_Arussnu" "dynn_Esiumninu" "dynn_Esminu" "dynn_Esthu" "dynn_Ethunnu" "dynn_Helanu" "dynn_Kanissnu" "dynn_Kapassunu" "dynn_Kaszrinu" "dynn_Kuhilinu" "dynn_Lassanu" "dynn_Lavisealu" "dynn_Lavisnu" "dynn_Lumennu" "dynn_Lupnu" "dynn_Metinu" "dynn_Nutsnu" "dynn_Phausu" "dynn_Phelvinu" "dynn_Phutikginu" "dynn_Pithamnu" "dynn_Reithussnu" "dynn_Reminu" "dynn_Ssikganu" "dynn_Susinu" "dynn_Tassnu" "dynn_Tenaginu" "dynn_Tharnu" "dynn_Thaukgrilinu" "dynn_Thianu" "dynn_Tiprukgnu" "dynn_Tulanu" "dynn_Valthikinu" "dynn_Velkganu" "dynn_Vinuthalinu" "dynn_Vistekganu"
+		} 
+
+		male_names = {
+		    Atilius Azi Elkganu Enike Esimne Essthu Estanu Esumne Kanise Kathiave Ketanu Kgaisuru Kgika Klevie Knuse
+			Laseke Lassanu Lasta Lasthe Lathur Lavise Lavisie Lumene Munie Phausu Phelturie Phelzurie Phrima Phutikgi
+			Pitale Pithamne Pithiave Pithie Piti Pitie Piri Reithe Reituse Remie Tarie Tenakgi Terunie Tnake Tharie Tula 
+			Tulanu Ustitsu Valthikie Vassa Vatsanu Velthie 
+		}
+
+		female_names = {	
+		    Aruse Arusna Kara Kari Kgari Kgeli Kgevisiana Lavise Lavissa Perkusi Phelna Piri Remi Siara
+		}		
+		patronym_suffix_male = "dynnpat_suf_nu"
+		patronym_suffix_female = "dynnpat_suf_na"
+	
+		always_use_patronym = yes		
+}

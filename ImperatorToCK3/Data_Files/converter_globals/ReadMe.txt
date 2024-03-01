@@ -32,7 +32,7 @@ Zemurin - provinceMapper, review, advice
 Plati - Faith icons
 Radu - Ideas, province mappings
 Vielus - Mapping tweaks
-derekmark - Venetic culture flavour from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
+derekmark - Venetic culture flavour and Raetic name list from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
 nah34 - Suggestions for cultural traditions and martial customs
 Gawquon - Static de jure option
 The Fallen Eagle mod team - Permission to integrate the Rise of Islam mechanic from their mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)

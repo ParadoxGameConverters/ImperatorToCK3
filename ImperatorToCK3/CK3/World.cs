@@ -216,6 +216,7 @@ public class World {
 		
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,
+			impWorld.Dependencies,
 			tagTitleMapper,
 			impWorld.LocDB,
 			provinceMapper,

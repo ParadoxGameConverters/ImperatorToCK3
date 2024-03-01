@@ -2269,7 +2269,7 @@ rhaetian = {
 		tradition_mountain_homes
 	}
 
-	name_list = name_list_etruscan
+	name_list = name_list_raetic
 
 	ethnicities = {
 		10 = mediterranean
