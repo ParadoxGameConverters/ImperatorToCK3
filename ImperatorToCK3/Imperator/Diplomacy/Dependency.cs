@@ -8,5 +8,6 @@ public class Dependency(ulong overlordId, ulong subjectId, Date startDate, strin
 	public Date StartDate { get; } = startDate;
 	public string SubjectType { get; } = subjectType;
 	
-	// TODO: use SubjectType to determine how the subject should be treated in CK3
+	// TODO: don't convert tributaries as vassals
+	// TODO: use Imperator subject type definitions to determine how the subject should be treated in CK3 (contracts and obligations)
 }
