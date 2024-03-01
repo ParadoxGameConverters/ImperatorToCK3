@@ -66,7 +66,8 @@ public class CoatOfArmsOutputterTests {
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
@@ -109,7 +110,8 @@ public class CoatOfArmsOutputterTests {
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());

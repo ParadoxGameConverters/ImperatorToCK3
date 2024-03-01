@@ -326,7 +326,8 @@ public class CharacterCollectionTests {
 			nicknameMapper,
 			characters,
 			conversionDate,
-			config);
+			config,
+			new List<KeyValuePair<Country, Dependency?>>());
 
 		var provinces = new ProvinceCollection(ck3ModFS);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
@@ -341,7 +342,7 @@ public class CharacterCollectionTests {
 			definiteFormMapper,
 			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
-			countryLevelGovernorships: new List<Governorship>());
+			countyLevelGovernorships: new List<Governorship>());
 
 		var ck3Country = titles["e_IRTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));
