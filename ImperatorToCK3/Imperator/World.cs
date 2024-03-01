@@ -47,7 +47,8 @@ public class World : Parser {
 	public AreaCollection Areas { get; } = new();
 	public ImperatorRegionMapper ImperatorRegionMapper { get; }
 	public StateCollection States { get; } = new();
-	public IReadOnlyList<War> Wars { get; private set; } = new List<War>();
+	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
+	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	public UnitCollection Units { get; } = new();
 	public CulturesDB CulturesDB { get; } = new();
@@ -196,6 +197,7 @@ public class World : Parser {
 			Logger.Info("Loading diplomacy...");
 			var diplomacy = new Diplomacy.DiplomacyDB(reader);
 			Wars = diplomacy.Wars;
+			Dependencies = diplomacy.Dependencies;
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("jobs", reader => {

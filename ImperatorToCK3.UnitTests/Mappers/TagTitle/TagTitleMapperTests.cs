@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -71,6 +72,7 @@ public class TagTitleMapperTests {
 		var ck3RegionMapper = new CK3RegionMapper();
 		var provMapper = new ProvinceMapper();
 		titles.ImportImperatorCountries(irCountries,
+			Array.Empty<Dependency>(),
 			mapper,
 			new LocDB("english"),
 			provMapper,
@@ -117,13 +119,13 @@ public class TagTitleMapperTests {
 		for (ulong i = 0; i < 20; ++i) { // makes the country a local power
 			rom.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 		}
-		var match = mapper.GetTitleForTag(rom, "Rome");
+		var match = mapper.GetTitleForTag(rom, "Rome", maxTitleRank: TitleRank.empire);
 
 		var dre = Country.Parse(new BufferedReader("tag=DRE"), 2);
 		for (ulong i = 0; i < 20; ++i) { // makes the country a local power
 			dre.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 		}
-		var match2 = mapper.GetTitleForTag(dre, "Dre Empire");
+		var match2 = mapper.GetTitleForTag(dre, "Dre Empire", maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("k_IRTOCK3_ROM", match);
 		Assert.Equal("e_IRTOCK3_DRE", match2);
@@ -143,6 +145,7 @@ public class TagTitleMapperTests {
 		var ck3RegionMapper = new CK3RegionMapper();
 		var provMapper = new ProvinceMapper();
 		titles.ImportImperatorCountries(impCountries,
+			Array.Empty<Dependency>(),
 			mapper,
 			new LocDB("english"),
 			provMapper,
@@ -180,7 +183,7 @@ public class TagTitleMapperTests {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath);
 		var country = Country.Parse(new BufferedReader(string.Empty), 1);
 		Assert.Empty(country.Tag);
-		var match = mapper.GetTitleForTag(country, "");
+		var match = mapper.GetTitleForTag(country, "", maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
 	}
@@ -234,6 +237,7 @@ public class TagTitleMapperTests {
 		var ck3RegionMapper = new CK3RegionMapper();
 		var provMapper = new ProvinceMapper();
 		titles.ImportImperatorCountries(impCountries,
+			Array.Empty<Dependency>(),
 			mapper,
 			new LocDB("english"),
 			provMapper,
@@ -269,14 +273,14 @@ public class TagTitleMapperTests {
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag1.RegisterProvince(province);
 		}
-		Assert.Equal('e', mapper.GetTitleForTag(tag1, "Test Empire")![0]);
+		Assert.Equal('e', mapper.GetTitleForTag(tag1, "Test Empire", maxTitleRank: TitleRank.empire)![0]);
 
 		var tag2 = Country.Parse(new BufferedReader("tag=TEST_TAG2"), 2);
 		for (ulong i = 1; i < 2; ++i) { // makes the country a city state
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag2.RegisterProvince(province);
 		}
-		Assert.Equal('k', mapper.GetTitleForTag(tag2, "Test Kingdom")![0]);
+		Assert.Equal('k', mapper.GetTitleForTag(tag2, "Test Kingdom", maxTitleRank: TitleRank.empire)![0]);
 
 		var tag3 = Country.Parse(new BufferedReader("tag=TEST_TAG3"), 3); // migrant horde
 		Assert.Equal('d', mapper.GetTitleForTag(tag3)![0]);

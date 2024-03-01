@@ -24,7 +24,7 @@ public class MappingTests {
 	public void SimpleTagMatch() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
 		var mapping = Mapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", "");
+		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
 	}
@@ -33,7 +33,7 @@ public class MappingTests {
 	public void SimpleTagMatchFailsOnWrongTag() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = REM }");
 		var mapping = Mapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", "");
+		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
 	}
@@ -42,7 +42,7 @@ public class MappingTests {
 	public void SimpleTagMatchFailsOnNoTag() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire }");
 		var mapping = Mapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", "");
+		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
 	}
@@ -51,7 +51,7 @@ public class MappingTests {
 	public void TagRankMatch() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = e }");
 		var mapping = Mapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", "e");
+		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
 	}
@@ -60,7 +60,7 @@ public class MappingTests {
 	public void TagRankMatchFailsOnWrongRank() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = k }");
 		var mapping = Mapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", "e");
+		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
 	}
@@ -69,7 +69,7 @@ public class MappingTests {
 	public void TagRankMatchSucceedsOnNoRank() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
 		var mapping = Mapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", "e");
+		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
 	}
@@ -136,7 +136,7 @@ public class MappingTests {
 		// Governorship holds 0/3 provinces in the duchy, so it should not be mapped to the duchy.
 		irGovernorship.GetIRProvinces(irProvinces).Should().BeEmpty();
 		irGovernorship.GetCK3ProvinceIds(irProvinces, provinceMapper).Should().BeEmpty();
-		var match = mapping.GovernorshipMatch("d", titles, irGovernorship, provinceMapper, irProvinces);
+		var match = mapping.GovernorshipMatch(TitleRank.duchy, titles, irGovernorship, provinceMapper, irProvinces);
 		Assert.Null(match);
 		
 		var irProvince1 = irProvinces[1];
@@ -144,7 +144,7 @@ public class MappingTests {
 		irGovernorship.GetIRProvinces(irProvinces).Should().Equal(irProvinces[1]);
 		irGovernorship.GetCK3ProvinceIds(irProvinces, provinceMapper).Should().Equal(1);
 		// Governorship holds 1/3 provinces in the duchy, so it should not be mapped to the duchy.
-		match = mapping.GovernorshipMatch("d", titles, irGovernorship, provinceMapper, irProvinces);
+		match = mapping.GovernorshipMatch(TitleRank.duchy, titles, irGovernorship, provinceMapper, irProvinces);
 		Assert.Null(match);
 		
 		var irProvince2 = irProvinces[2];
@@ -152,7 +152,7 @@ public class MappingTests {
 		irGovernorship.GetIRProvinces(irProvinces).Should().Equal(irProvinces[1], irProvinces[2]);
 		irGovernorship.GetCK3ProvinceIds(irProvinces, provinceMapper).Should().Equal(1, 2);
 		// Governorship holds 2/3 provinces in the duchy, so it should be mapped to the duchy.
-		match = mapping.GovernorshipMatch("d", titles, irGovernorship, provinceMapper, irProvinces);
+		match = mapping.GovernorshipMatch(TitleRank.duchy, titles, irGovernorship, provinceMapper, irProvinces);
 		Assert.Equal(duchyId, match);
 		
 		var irProvince3 = irProvinces[3];
@@ -160,7 +160,7 @@ public class MappingTests {
 		irGovernorship.GetIRProvinces(irProvinces).Should().Equal(irProvinces[1], irProvinces[2], irProvinces[3]);
 		irGovernorship.GetCK3ProvinceIds(irProvinces, provinceMapper).Should().Equal(1, 2, 3);
 		// Governorship holds 3/3 provinces in the duchy, so it should be mapped to the duchy.
-		match = mapping.GovernorshipMatch("d", titles, irGovernorship, provinceMapper, irProvinces);
+		match = mapping.GovernorshipMatch(TitleRank.duchy, titles, irGovernorship, provinceMapper, irProvinces);
 		Assert.Equal(duchyId, match);
 	}
 }
