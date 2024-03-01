@@ -62,7 +62,7 @@ public class TagTitleMapper {
 		}
 
 		// Generate a new title ID.
-		var generatedTitleId = GenerateNewTitleId(country, localizedTitleName);
+		var generatedTitleId = GenerateNewTitleId(country, localizedTitleName, maxTitleRank);
 		RegisterCountry(country.Id, generatedTitleId);
 		return generatedTitleId;
 	}
@@ -206,8 +206,8 @@ public class TagTitleMapper {
 			_ => throw new ArgumentException($"Title {ck3LiegeTitleId} has invalid rank to have governorships!", nameof(ck3LiegeTitleId))
 		};
 	}
-	private static string GenerateNewTitleId(Country country, string localizedTitleName) {
-		var ck3Rank = GetCK3TitleRank(country, localizedTitleName);
+	private static string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank) {
+		var ck3Rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
 		
 		var ck3TitleId = GetTitlePrefixForRank(ck3Rank);
 		ck3TitleId += GeneratedCK3TitlePrefix;

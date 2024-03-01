@@ -254,7 +254,8 @@ public partial class Title {
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
 			Date conversionDate,
-			Configuration config
+			Configuration config,
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries
 		) {
 			Logger.Info("Importing Imperator Countries...");
 
@@ -286,7 +287,8 @@ public partial class Title {
 					nicknameMapper,
 					characters,
 					conversionDate,
-					config
+					config,
+					countyLevelCountries
 				);
 				++counter;
 			}
@@ -307,7 +309,8 @@ public partial class Title {
 					nicknameMapper,
 					characters,
 					conversionDate,
-					config
+					config,
+					countyLevelCountries
 				);
 				++counter;
 			}
@@ -330,12 +333,17 @@ public partial class Title {
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
 			Date conversionDate,
-			Configuration config
-		) {
+			Configuration config,
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries) {
 			// Create a new title or update existing title.
-			var name = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, locDB);
+			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, locDB);
 
-			if (TryGetValue(name, out var existingTitle)) {
+			if (GetRankForId(titleId) == TitleRank.county) {
+				countyLevelCountries.Add(new(country, dependency));
+				return;
+			}
+
+			if (TryGetValue(titleId, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
 					country,
 					dependency,
@@ -385,7 +393,7 @@ public partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
-			List<Governorship> countryLevelGovernorships
+			List<Governorship> countyLevelGovernorships
 		) {
 			Logger.Info("Importing Imperator Governorships...");
 
@@ -411,7 +419,7 @@ public partial class Title {
 					definiteFormMapper,
 					imperatorRegionMapper,
 					coaMapper,
-					countryLevelGovernorships
+					countyLevelGovernorships
 				);
 				++counter;
 			}
@@ -432,7 +440,7 @@ public partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
-			ICollection<Governorship> countryLevelGovernorships
+			ICollection<Governorship> countyLevelGovernorships
 		) {
 			var country = governorship.Country;
 
@@ -442,8 +450,8 @@ public partial class Title {
 				return;
 			}
 
-			if (id.StartsWith("c_")) {
-				countryLevelGovernorships.Add(governorship);
+			if (GetRankForId(id) == TitleRank.county) {
+				countyLevelGovernorships.Add(governorship);
 				return;
 			}
 

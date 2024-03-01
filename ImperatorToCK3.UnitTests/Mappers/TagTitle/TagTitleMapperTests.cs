@@ -21,6 +21,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -85,7 +86,8 @@ public class TagTitleMapperTests {
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 		
 		irRegionMapper.Regions.Add(new ImperatorRegion("central_italy_region", new BufferedReader(), Areas, ColorFactory));
@@ -158,7 +160,8 @@ public class TagTitleMapperTests {
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader(), Areas, ColorFactory));
@@ -250,7 +253,8 @@ public class TagTitleMapperTests {
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		var ck3Provinces = new ProvinceCollection();
