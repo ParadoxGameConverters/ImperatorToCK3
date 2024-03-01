@@ -2,9 +2,9 @@
 using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
-using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.CommonUtils.Map;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;

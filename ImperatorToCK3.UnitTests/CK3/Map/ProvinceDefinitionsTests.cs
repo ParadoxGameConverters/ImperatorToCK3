@@ -1,5 +1,5 @@
 ﻿using commonItems.Mods;
-using ImperatorToCK3.CK3.Map;
+using ImperatorToCK3.CommonUtils.Map;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;

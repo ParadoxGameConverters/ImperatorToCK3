@@ -11,7 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace ImperatorToCK3.CK3.Map;
+namespace ImperatorToCK3.CommonUtils.Map;
 
 public class MapData {
 	[StructLayout(LayoutKind.Auto)]
@@ -42,7 +42,7 @@ public class MapData {
 
 	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = new();
 
-	public MapData(ModFilesystem ck3ModFS) {
+	public MapData(ModFilesystem modFS) {
 		string provincesMapFilename = "provinces.png";
 		string definitionsFilename = "definition.csv";
 		string adjacenciesFilename = "adjacencies.csv";
@@ -64,26 +64,26 @@ public class MapData {
 			DetermineProvinceTypes(provincesType, reader);
 		});
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
-		defaultMapParser.ParseGameFile(defaultMapPath, ck3ModFS);
+		defaultMapParser.ParseGameFile(defaultMapPath, modFS);
 		Logger.IncrementProgress();
 
 		Logger.Info("Loading province definitions...");
-		ProvinceDefinitions = new ProvinceDefinitions(definitionsFilename, ck3ModFS);
+		ProvinceDefinitions = new ProvinceDefinitions(definitionsFilename, modFS);
 		Logger.IncrementProgress();
 
 		Logger.Info("Loading province positions...");
-		DetermineProvincePositions(ck3ModFS);
+		DetermineProvincePositions(modFS);
 		Logger.IncrementProgress();
 		
 		Logger.Info("Loading province adjacencies...");
-		LoadAdjacencies(adjacenciesFilename, ck3ModFS);
+		LoadAdjacencies(adjacenciesFilename, modFS);
 
 		DetermineColorableImpassableProvinces();
 		Logger.Debug("Excluding impassable provinces that border the map edge from the colorable set...");
-		ExcludeMapEdgeProvincesFromColorableImpassables(ck3ModFS);
+		ExcludeMapEdgeProvincesFromColorableImpassables(modFS);
 
 		Logger.Info("Determining province neighbors...");
-		var provincesMapPath = ck3ModFS.GetActualFileLocation(Path.Combine("map_data", provincesMapFilename));
+		var provincesMapPath = modFS.GetActualFileLocation(Path.Combine("map_data", provincesMapFilename));
 		if (provincesMapPath is null) {
 			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
 		}
@@ -95,9 +95,9 @@ public class MapData {
 		Logger.IncrementProgress();
 	}
 
-	private static string GetProvincesMapPath(ModFilesystem ck3ModFS) {
+	private static string GetProvincesMapPath(ModFilesystem modFS) {
 		const string mapPath = "map_data/provinces.png";
-		var provincesMapPath = ck3ModFS.GetActualFileLocation(mapPath);
+		var provincesMapPath = modFS.GetActualFileLocation(mapPath);
 		if (provincesMapPath is null) {
 			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
 		}
@@ -125,7 +125,7 @@ public class MapData {
 		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
 
-	private void DetermineProvincePositions(ModFilesystem ck3ModFS) {
+	private void DetermineProvincePositions(ModFilesystem modFS) {
 		const string provincePositionsPath = "gfx/map/map_object_data/building_locators.txt";
 		var fileParser = new Parser();
 		fileParser.RegisterKeyword("game_object_locator", reader => {
@@ -141,7 +141,7 @@ public class MapData {
 			listParser.ParseStream(reader);
 		});
 		fileParser.IgnoreUnregisteredItems();
-		fileParser.ParseGameFile(provincePositionsPath, ck3ModFS);
+		fileParser.ParseGameFile(provincePositionsPath, modFS);
 	}
 
 	private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
@@ -211,8 +211,8 @@ public class MapData {
 		}
 	}
 
-	private void ExcludeMapEdgeProvincesFromColorableImpassables(ModFilesystem ck3ModFS) {
-		using var mapPng = Image.Load<Rgb24>(GetProvincesMapPath(ck3ModFS));
+	private void ExcludeMapEdgeProvincesFromColorableImpassables(ModFilesystem modFS) {
+		using var mapPng = Image.Load<Rgb24>(GetProvincesMapPath(modFS));
 		var height = mapPng.Height;
 		var width = mapPng.Width;
 		var edgeProvinceIds = new HashSet<ulong>();
@@ -389,8 +389,8 @@ public class MapData {
 		return false;
 	}
 
-	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem ck3ModFS) {
-		var adjacenciesPath = ck3ModFS.GetActualFileLocation(Path.Join("map_data", adjacenciesFilename));
+	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem modFS) {
+		var adjacenciesPath = modFS.GetActualFileLocation(Path.Join("map_data", adjacenciesFilename));
 		if (adjacenciesPath is null) {
 			throw new FileNotFoundException($"Adjacencies file {adjacenciesFilename} not found!");
 		}
