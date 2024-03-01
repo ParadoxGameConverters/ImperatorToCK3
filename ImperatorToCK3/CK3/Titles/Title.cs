@@ -318,7 +318,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (dependency is not null) {
 			var overLordTitle = imperatorCountries[dependency.OverlordId].CK3Title;
 			if (overLordTitle is null) {
-				Logger.Warn("Can't find overlord title for " + dependency.OverlordId);
+				Logger.Warn($"Can't find CK3 title for country {dependency.OverlordId}, overlord of {country.Id}.");
 			}
 			DeJureLiege = overLordTitle;
 			SetDeFactoLiege(overLordTitle, dependency.StartDate);
@@ -394,28 +394,28 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	public static string DetermineId(
-		Country imperatorCountry,
+		Country irCountry,
 		Dependency? dependency,
 		CountryCollection imperatorCountries,
 		TagTitleMapper tagTitleMapper,
 		LocDB locDB
 	) {
-		var validatedName = GetValidatedName(imperatorCountry, imperatorCountries, locDB);
+		var validatedName = GetValidatedName(irCountry, imperatorCountries, locDB);
 		var validatedEnglishName = validatedName?[ConverterGlobals.PrimaryLanguage];
 
 		string? titleId;
 		
 		if (dependency is not null) {
 			var overlord = imperatorCountries[dependency.OverlordId];
-			titleId = tagTitleMapper.GetTitleForSubject(imperatorCountry, validatedEnglishName ?? string.Empty, overlord);
+			titleId = tagTitleMapper.GetTitleForSubject(irCountry, validatedEnglishName ?? string.Empty, overlord);
 		} else if (validatedEnglishName is not null) {
-			titleId = tagTitleMapper.GetTitleForTag(imperatorCountry, validatedEnglishName, maxTitleRank: TitleRank.empire);
+			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.empire);
 		} else {
-			titleId = tagTitleMapper.GetTitleForTag(imperatorCountry);
+			titleId = tagTitleMapper.GetTitleForTag(irCountry);
 		}
 
 		if (titleId is null) {
-			throw new ArgumentException($"Country {imperatorCountry.Tag} could not be mapped to CK3 Title!");
+			throw new ArgumentException($"Country {irCountry.Tag} could not be mapped to CK3 Title!");
 		}
 		return titleId;
 	}

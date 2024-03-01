@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
@@ -293,7 +294,7 @@ public class LandedTitlesTests {
 		);
 
 		// Import country 589.
-		titles.ImportImperatorCountries(imperatorWorld.Countries, imperatorWorld.Dependencies, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config);
+		titles.ImportImperatorCountries(imperatorWorld.Countries, imperatorWorld.Dependencies, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, new List<KeyValuePair<Country, Dependency?>>());
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
 			title => Assert.Equal("b_barony1", title.Id),
