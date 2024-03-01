@@ -69,6 +69,7 @@ public class TitleTests {
 		public Title BuildFromTag() {
 			return landedTitles.Add(
 				country,
+				dependency: null,
 				imperatorCountries,
 				locDB,
 				provinceMapper,

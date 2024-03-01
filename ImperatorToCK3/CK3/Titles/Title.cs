@@ -9,6 +9,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
@@ -45,6 +46,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private Title(LandedTitles parentCollection,
 		Country country,
+		Dependency? dependency,
 		CountryCollection imperatorCountries,
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
@@ -62,10 +64,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	) {
 		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
-		Id = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
+		Id = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, locDB);
 		SetRank();
 		InitializeFromTag(
 			country,
+			dependency,
 			imperatorCountries,
 			locDB,
 			provinceMapper,
@@ -167,6 +170,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	public void InitializeFromTag(
 		Country country,
+		Dependency? dependency,
 		CountryCollection imperatorCountries,
 		LocDB locDB,
 		ProvinceMapper provinceMapper,
@@ -309,6 +313,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 			}
 		}
+		
+		// If country is a subject, convert it to a vassal.
+		if (dependency is not null) {
+			var overLordTitle = imperatorCountries[dependency.OverlordId].CK3Title;
+			if (overLordTitle is null) {
+				Logger.Warn("Can't find overlord title for " + dependency.OverlordId);
+			}
+			DeJureLiege = overLordTitle;
+			SetDeFactoLiege(overLordTitle, dependency.StartDate);
+		}
 	}
 
 	internal void RemoveDeFactoLiegeReferences(string liegeName) {
@@ -381,6 +395,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	public static string DetermineId(
 		Country imperatorCountry,
+		Dependency? dependency,
 		CountryCollection imperatorCountries,
 		TagTitleMapper tagTitleMapper,
 		LocDB locDB
@@ -388,18 +403,21 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var validatedName = GetValidatedName(imperatorCountry, imperatorCountries, locDB);
 		var validatedEnglishName = validatedName?[ConverterGlobals.PrimaryLanguage];
 
-		string? title;
-
-		if (validatedEnglishName is not null) {
-			title = tagTitleMapper.GetTitleForTag(imperatorCountry, validatedEnglishName);
+		string? titleId;
+		
+		if (dependency is not null) {
+			var overlord = imperatorCountries[dependency.OverlordId];
+			titleId = tagTitleMapper.GetTitleForSubject(imperatorCountry, validatedEnglishName ?? string.Empty, overlord);
+		} else if (validatedEnglishName is not null) {
+			titleId = tagTitleMapper.GetTitleForTag(imperatorCountry, validatedEnglishName, maxTitleRank: TitleRank.empire);
 		} else {
-			title = tagTitleMapper.GetTitleForTag(imperatorCountry);
+			titleId = tagTitleMapper.GetTitleForTag(imperatorCountry);
 		}
 
-		if (title is null) {
+		if (titleId is null) {
 			throw new ArgumentException($"Country {imperatorCountry.Tag} could not be mapped to CK3 Title!");
 		}
-		return title;
+		return titleId;
 	}
 
 	public static string? DetermineId(Governorship governorship, LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper, ProvinceMapper provMapper) {
@@ -1049,19 +1067,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private static readonly ColorFactory colorFactory = new();
 
 	private void SetRank() {
-		if (Id.StartsWith('b')) {
-			Rank = TitleRank.barony;
-		} else if (Id.StartsWith('c')) {
-			Rank = TitleRank.county;
-		} else if (Id.StartsWith('d')) {
-			Rank = TitleRank.duchy;
-		} else if (Id.StartsWith('k')) {
-			Rank = TitleRank.kingdom;
-		} else if (Id.StartsWith('e')) {
-			Rank = TitleRank.empire;
-		} else {
-			throw new FormatException($"Title {Id}: unknown rank!");
-		}
+		Rank = GetRankForId(Id);
 	}
 
 	public void OutputHistory(StreamWriter writer) {
@@ -1171,6 +1177,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		return null;
+	}
+
+	public static TitleRank GetRankForId(string titleId) {
+		var firstChar = titleId[0];
+		return firstChar switch {
+			'b' => TitleRank.barony,
+			'c' => TitleRank.county,
+			'd' => TitleRank.duchy,
+			'k' => TitleRank.kingdom,
+			'e' => TitleRank.empire,
+			_ => throw new FormatException($"Title {titleId}: unknown rank!")
+		};
 	}
 
 	// used by county titles only

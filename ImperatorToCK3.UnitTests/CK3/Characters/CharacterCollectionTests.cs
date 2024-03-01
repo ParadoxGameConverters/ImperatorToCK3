@@ -9,6 +9,7 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.States;
@@ -312,6 +313,7 @@ public class CharacterCollectionTests {
 		// Import country 589.
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
+			Array.Empty<Dependency>(),
 			tagTitleMapper,
 			imperatorWorld.LocDB,
 			provinceMapper,
