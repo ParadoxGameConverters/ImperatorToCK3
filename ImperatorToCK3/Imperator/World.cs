@@ -5,6 +5,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
@@ -44,6 +45,7 @@ public class World : Parser {
 	private PopCollection pops = new();
 	public ProvinceCollection Provinces { get; } = new();
 	public CountryCollection Countries { get; } = new();
+	public MapData MapData { get; private set; }
 	public AreaCollection Areas { get; } = new();
 	public ImperatorRegionMapper ImperatorRegionMapper { get; }
 	public StateCollection States { get; } = new();
@@ -61,8 +63,10 @@ public class World : Parser {
 
 	public World(Configuration config) {
 		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), Array.Empty<Mod>());
+		MapData = new MapData(ModFS);
+		
 		Religions = new ReligionCollection(new ScriptValueCollection());
-		ImperatorRegionMapper = new ImperatorRegionMapper(Areas);
+		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 	}
 	public World(Configuration config, ConverterVersion converterVersion): this(config) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
@@ -347,7 +351,8 @@ public class World : Parser {
 		Logger.IncrementProgress();
 
 		ParseGenes();
-
+		
+		MapData = new MapData(ModFS);
 		Areas.LoadAreas(ModFS, Provinces);
 		ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory);
 		

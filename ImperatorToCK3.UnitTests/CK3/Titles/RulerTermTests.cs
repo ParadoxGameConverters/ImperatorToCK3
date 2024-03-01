@@ -5,6 +5,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
@@ -24,6 +25,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 public class RulerTermTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());
@@ -33,7 +35,7 @@ public class RulerTermTests {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
-		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		
 		cultures.GenerateTestCulture("greek");

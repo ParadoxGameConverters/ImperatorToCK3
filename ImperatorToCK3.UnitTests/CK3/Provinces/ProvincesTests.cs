@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
@@ -103,7 +104,7 @@ public class ProvincesTests {
 		var ck3RegionMapper = new CK3RegionMapper();
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irWorld.Provinces);
-		var irRegionMapper = new ImperatorRegionMapper(areas);
+		var irRegionMapper = new ImperatorRegionMapper(areas, new MapData(irModFS));
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		var cultures = new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory()));
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);

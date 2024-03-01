@@ -4,6 +4,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
@@ -26,8 +27,9 @@ public class DynastiesOutputterTests {
 		var locDB = new LocDB("english");
 		const string imperatorRoot = "TestFiles/Imperator/root";
 		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
+		var irMapData = new MapData(irModFS);
 		AreaCollection areas = new();
-		ImperatorRegionMapper irRegionMapper = new(areas);
+		ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		var colorFactory = new ColorFactory();
 		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(colorFactory, new PillarCollection(colorFactory)));

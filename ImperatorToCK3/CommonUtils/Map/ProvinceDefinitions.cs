@@ -1,4 +1,5 @@
-﻿using commonItems.Mods;
+﻿using commonItems;
+using commonItems.Mods;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ public class ProvinceDefinitions {
 		var relativePath = Path.Combine("map_data", definitionsFilename);
 		var definitionsFilePath = modFS.GetActualFileLocation(relativePath);
 		if (definitionsFilePath is null) {
-			throw new FileNotFoundException(message: null, fileName: relativePath);
+			Logger.Warn($"Province definitions file {definitionsFilename} not found!");
+			return;
 		}
 
 		using var fileStream = File.OpenRead(definitionsFilePath);

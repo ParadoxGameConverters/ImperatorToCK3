@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using commonItems.Colors;
+using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Region;
@@ -12,6 +14,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.Jobs;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class JobsTests {
+	private const string ImperatorRoot = "TestFiles/Imperator/game";
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private readonly CountryCollection countryCollection = new();
 	private readonly ImperatorRegionMapper irRegionMapper;
 	private static readonly AreaCollection Areas = new();
@@ -21,7 +26,7 @@ public class JobsTests {
 		countryCollection.Add(new Country(2));
 		
 		var areas = new AreaCollection();
-		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 
 		var region = new ImperatorRegion("galatia_region", new BufferedReader(string.Empty), Areas, new ColorFactory());
 		irRegionMapper.Regions.Add(region);
