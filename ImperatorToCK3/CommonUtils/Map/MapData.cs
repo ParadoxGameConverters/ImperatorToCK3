@@ -5,6 +5,7 @@ using CsvHelper.Configuration;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -32,7 +33,7 @@ public sealed class MapData {
 		}
 	}
 
-	private SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
+	private Dictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = []; // TODO: try replacing this with references to neighbors stored in ProvinceDefinition objects. Best result with NeighborsDict is 7 minutes.
 	private readonly Dictionary<ulong, ProvincePosition> provincePositions = [];
 	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
 	public ProvinceDefinitions ProvinceDefinitions { get; } = new();
@@ -299,7 +300,7 @@ public sealed class MapData {
 		}
 	}
 	
-	private readonly Dictionary<Tuple<ulong, ulong, int>, bool> adjacencyCache = [];
+	private readonly ConcurrentDictionary<Tuple<ulong, ulong, int>, bool> adjacencyCache = [];
 
 	private readonly HashSet<ulong> landProvincesWithWaterNeighborsCache = [];
 

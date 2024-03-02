@@ -22,10 +22,12 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using Open.Collections;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -758,44 +760,13 @@ public partial class Title {
 			// Create a cache of province IDs per kingdom.
 			var provincesPerKingdomDict = deJureKingdoms
 				.ToDictionary(k => k.Id, k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet());
-			HashSet<string> alreadyCheckedKingdomPairs = [];
-			var kingdomAdjacencies = new Dictionary<string, HashSet<string>>();
+			ConcurrentHashSet<string> alreadyCheckedKingdomPairs = [];
+			var kingdomAdjacencies = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
 			foreach (var kingdom in deJureKingdoms) {
 				string kingdomId = kingdom.Id;
 				var kingdomProvinceIds = provincesPerKingdomDict[kingdomId];
 				
-				if (!kingdomAdjacencies.TryGetValue(kingdomId, out var adjacencies)) {
-					adjacencies = [];
-					kingdomAdjacencies[kingdomId] = adjacencies;
-				}
-				
-				foreach (var otherKingdom in deJureKingdoms) {
-					if (kingdomId == otherKingdom.Id) {
-						continue;
-					}
-					
-					// Prevent checking the same pair twice.
-					var cacheKey = new[] {kingdomId, otherKingdom.Id}.OrderBy(x => x).JoinToString('_');
-					if (!alreadyCheckedKingdomPairs.Add(cacheKey)) {
-						continue;
-					}
-					
-					// Logger.Debug($"Checking for adjacency pair {cacheKey}"); // TODO: REMOVE THIS
-					
-					if (!AreTitlesAdjacent(kingdomProvinceIds, provincesPerKingdomDict[otherKingdom.Id], ck3MapData, 3)) {
-						continue;
-					}
-					
-					// Add otherKingdom to adjacencies of kingdom.
-					adjacencies.Add(otherKingdom.Id);
-					
-					// Add kingdom to adjacencies of otherKingdom.
-					if (!kingdomAdjacencies.TryGetValue(otherKingdom.Id, out var otherAdjacencies)) {
-						otherAdjacencies = [];
-						kingdomAdjacencies[otherKingdom.Id] = otherAdjacencies;
-					}
-					otherAdjacencies.Add(kingdomId);
-				}
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdomId, alreadyCheckedKingdomPairs, kingdomProvinceIds, provincesPerKingdomDict, kingdomAdjacencies);
 			}
 			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
@@ -803,6 +774,36 @@ public partial class Title {
 			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
+		}
+
+		private static void FindKingdomsAdjacentToKingdom(MapData ck3MapData, IReadOnlyCollection<Title> deJureKingdoms,
+			string kingdomId, ConcurrentHashSet<string> alreadyCheckedKingdomPairs, HashSet<ulong> kingdomProvinceIds,
+			Dictionary<string, HashSet<ulong>> provincesPerKingdomDict, Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies)
+		{
+			Parallel.ForEach(deJureKingdoms, new() {MaxDegreeOfParallelism = -1},  otherKingdom =>
+			{
+				if (kingdomId == otherKingdom.Id) {
+					return;
+				}
+
+				// Prevent checking the same pair twice.
+				var cacheKey = new[] {kingdomId, otherKingdom.Id}.OrderBy(x => x).JoinToString('_');
+				if (!alreadyCheckedKingdomPairs.Add(cacheKey)) {
+					return;
+				}
+
+				if (!AreTitlesAdjacent(kingdomProvinceIds, provincesPerKingdomDict[otherKingdom.Id], ck3MapData, 3)) {
+					return;
+				}
+
+				// Add otherKingdom to adjacencies of kingdom.
+				var adjacencies = kingdomAdjacencies[kingdomId];
+				adjacencies.Add(otherKingdom.Id);
+
+				// Add kingdom to adjacencies of otherKingdom.
+				var otherAdjacencies = kingdomAdjacencies[otherKingdom.Id];
+				otherAdjacencies.Add(kingdomId);
+			});
 		}
 
 		private Dictionary<string, Title> GetHeritageIdToExistingTitleDict() {
@@ -843,7 +844,7 @@ public partial class Title {
 			return newEmpire;
 		}
 
-		private void SplitDisconnectedEmpires(Dictionary<string, HashSet<string>> kingdomAdjacencies, HashSet<string> removableEmpireIds) {
+		private void SplitDisconnectedEmpires(IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies, HashSet<string> removableEmpireIds) {
 			Logger.Debug("Splitting disconnected empires...");
 			
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {

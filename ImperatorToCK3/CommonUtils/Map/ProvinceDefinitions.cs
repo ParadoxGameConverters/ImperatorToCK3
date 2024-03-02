@@ -10,7 +10,7 @@ namespace ImperatorToCK3.CommonUtils.Map;
 
 public sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDefinition> {
 	public IDictionary<Rgb24, ulong> ColorToProvinceDict { get; } = new Dictionary<Rgb24, ulong>();
-	public SortedDictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
+	public Dictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
 	
 	public void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
 		var relativePath = Path.Combine("map_data", definitionsFilename);
