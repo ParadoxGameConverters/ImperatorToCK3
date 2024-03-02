@@ -263,9 +263,13 @@ public static class BookmarkOutputter {
 		bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
 	}
 
+	private static HashSet<ulong> GetColorableImpassablesExceptMapEdgeProvinces(MapData mapData) {
+		return mapData.ColorableImpassableProvinceIds.Except(mapData.MapEdgeProvinceIds).ToHashSet();
+	}
+
 	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, ISet<ulong> heldProvinceIds) {
 		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
-		var impassableIds = mapData.ColorableImpassableProvinceIds;
+		var impassableIds = mapData.ColorableImpassableProvinceIds.ToHashSet();
 		foreach (ulong impassableId in impassableIds) {
 			var nonImpassableNeighborProvIds = mapData.GetNeighborProvinceIds(impassableId)
 				.Except(impassableIds)

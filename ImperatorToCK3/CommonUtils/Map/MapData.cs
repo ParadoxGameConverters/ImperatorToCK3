@@ -33,21 +33,25 @@ public class MapData {
 	}
 
 	private SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
-	public ISet<ulong> ColorableImpassableProvinceIds { get; } = new HashSet<ulong>();
 	private readonly Dictionary<ulong, ProvincePosition> provincePositions = [];
 	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
 	public ProvinceDefinitions ProvinceDefinitions { get; }
 
-	private readonly Dictionary<ulong, string> provinceToTypeDict = [];
+	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = [];
+	
+	private readonly string[] nonColorableImpassableProvinceTypes = ["wasteland"];
+	private readonly string[] colorableImpassableProvinceTypes = ["impassable_mountains", "impassable_terrain"];
+	private readonly string[] uninhabitableProvinceTypes = ["uninhabitable"];
+	private readonly string[] staticWaterProvinceTypes = ["sea_zones", "lakes", "LAKES", "impassable_seas"];
+	private readonly string[] riverProvinceTypes = ["river_provinces"];
 
-	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = new();
+	private readonly HashSet<ulong> nonColorableImpassables = [];
+	private readonly HashSet<ulong> colorableImpassables = [];
+	private readonly HashSet<ulong> uninhabitables = [];
+	private readonly HashSet<ulong> staticWaterProvinces = [];
+	private readonly HashSet<ulong> riverProvinces = [];
 
-	private readonly HashSet<string> impassableLandProvinceTypes = ["impassable_mountains"];
-	private readonly HashSet<string> staticWaterProvinceTypes = ["sea_zones", "lakes", "impassable_seas"];
-	private readonly HashSet<string> riverProvinceTypes = ["river_provinces"];
-	private IEnumerable<string> ProvinceTypes => impassableLandProvinceTypes
-		.Union(staticWaterProvinceTypes)
-		.Union(riverProvinceTypes);
+	private readonly HashSet<ulong> mapEdgeProvinces = [];
 
 	private string provincesMapFilename = "provinces.png";
 
@@ -66,11 +70,21 @@ public class MapData {
 		defaultMapParser.RegisterKeyword("adjacencies", reader => adjacenciesFilename = reader.GetString());
 		defaultMapParser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
-		foreach (var provType in ProvinceTypes) {
-			defaultMapParser.RegisterKeyword(provType, reader => {
-				Parser.GetNextTokenWithoutMatching(reader); // equals sign
-				DetermineProvinceTypes(provType, reader);
-			});
+		
+		Dictionary<IEnumerable<string>, HashSet<ulong>> provinceTypeToSetDict = new() {
+			{nonColorableImpassableProvinceTypes, nonColorableImpassables},
+			{colorableImpassableProvinceTypes, colorableImpassables},
+			{uninhabitableProvinceTypes, uninhabitables},
+			{staticWaterProvinceTypes, staticWaterProvinces},
+			{riverProvinceTypes, riverProvinces},
+		};
+		foreach (var (provTypes, provincesSet) in provinceTypeToSetDict) {
+			foreach (var provType in provTypes) {
+				defaultMapParser.RegisterKeyword(provType, reader => {
+					Parser.GetNextTokenWithoutMatching(reader); // equals sign
+					AddProvincesToSet(provincesSet, reader);
+				});
+			}
 		}
 		
 		defaultMapParser.IgnoreAndLogUnregisteredItems(); // TODO: check which types need to be added
@@ -88,9 +102,7 @@ public class MapData {
 		Logger.Info("Loading province adjacencies...");
 		LoadAdjacencies(adjacenciesFilename, modFS);
 
-		DetermineColorableImpassableProvinces();
-		Logger.Debug("Excluding impassable provinces that border the map edge from the colorable set...");
-		ExcludeMapEdgeProvincesFromColorableImpassables(modFS);
+		DetermineMapEdgeProvinces(modFS);
 
 		Logger.Info("Determining province neighbors...");
 		var provincesMapPath = GetProvincesMapPath(modFS);
@@ -132,15 +144,22 @@ public class MapData {
 	public IReadOnlySet<ulong> GetNeighborProvinceIds(ulong provinceId) {
 		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
+	
+	private bool IsColorableImpassable(ulong provinceId) => colorableImpassables.Contains(provinceId);
 
 	public bool IsImpassable(ulong provinceId) {
-		return provinceToTypeDict.TryGetValue(provinceId, out var type) && impassableLandProvinceTypes.Contains(type);
+		return IsColorableImpassable(provinceId) || nonColorableImpassables.Contains(provinceId);
+	}
+	
+	private bool IsStaticWater(ulong provinceId) {
+		return staticWaterProvinces.Contains(provinceId);
+	}
+	private bool IsLand(ulong provinceId) {
+		return !IsStaticWater(provinceId) && !riverProvinces.Contains(provinceId);
 	}
 
-	public bool IsLand(ulong provinceId) {
-		// Regular land provinces are not included in provinceToTypeDict.
-		return !provinceToTypeDict.ContainsKey(provinceId) || IsImpassable(provinceId);
-	}
+	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => colorableImpassables;
+	public IReadOnlySet<ulong> MapEdgeProvinceIds => mapEdgeProvinces;
 
 	private void DetermineProvincePositions(ModFilesystem modFS) {
 		const string provincePositionsPath = "gfx/map/map_object_data/building_locators.txt";
@@ -193,7 +212,7 @@ public class MapData {
 		}
 	}
 
-	private void DetermineProvinceTypes(string provincesType, BufferedReader provincesGroupReader) {
+	private void AddProvincesToSet(ISet<ulong> provincesSet, BufferedReader provincesGroupReader) {
 		var typeOfGroup = Parser.GetNextTokenWithoutMatching(provincesGroupReader);
 		var provIds = provincesGroupReader.GetULongs();
 
@@ -205,60 +224,13 @@ public class MapData {
 			var beginning = provIds[0];
 			var end = provIds[^1];
 			for (var id = beginning; id <= end; ++id) {
-				provinceToTypeDict[id] = provincesType;
+				provincesSet.Add(id);
 			}
 		} else {
-			foreach (var id in provIds) {
-				provinceToTypeDict[id] = provincesType;
-			}
+			provincesSet.UnionWith(provIds);
 		}
 	}
 
-	private void DetermineColorableImpassableProvinces() {
-		var provincesPerType = provinceToTypeDict
-			.GroupBy(d => d.Value)
-			.ToDictionary(g => g.Key, g => g.Select(d => d.Key).ToList());
-
-		foreach (var grouping in provincesPerType) {
-			if (impassableLandProvinceTypes.Contains(grouping.Key)) {
-				ColorableImpassableProvinceIds.UnionWith(grouping.Value);
-			}
-		}
-	}
-
-	private void ExcludeMapEdgeProvincesFromColorableImpassables(ModFilesystem modFS) {
-		var mapPath = GetProvincesMapPath(modFS);
-		if (mapPath is null) {
-			return;
-		}
-		
-		using var mapPng = Image.Load<Rgb24>(mapPath);
-		var height = mapPng.Height;
-		var width = mapPng.Width;
-		var edgeProvinceIds = new HashSet<ulong>();
-
-		for (var y = 0; y < height; ++y) {
-			// Get left edge color.
-			var color = GetPixelColor(new Point(0, y), mapPng);
-			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
-
-			// Get right edge color.
-			color = GetPixelColor(new Point(width - 1, y), mapPng);
-			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
-		}
-
-		for (var x = 0; x < width; ++x) {
-			// Get top edge color.
-			var color = GetPixelColor(new Point(x, 0), mapPng);
-			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
-
-			// Get bottom edge color.
-			color = GetPixelColor(new Point(x, height - 1), mapPng);
-			edgeProvinceIds.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
-		}
-
-		ColorableImpassableProvinceIds.ExceptWith(edgeProvinceIds);
-	}
 
 	private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {
 		return GetPixelColor(position, provincesMap);
@@ -353,7 +325,7 @@ public class MapData {
 			return false;
 		}
 		
-		// Get all water provinces in range.
+		// Get all static water provinces in range.
 		int currentDistance = 1;
 		var provincesToCheckForWaterNeighbors = new HashSet<ulong> { prov1Id };
 		var provincesCheckedForWaterNeighbors = new HashSet<ulong>();
@@ -364,11 +336,8 @@ public class MapData {
 					continue;
 				}
 
-				if (provinceToTypeDict.TryGetValue(provinceIdToCheck, out var provinceType)) {
-					// Only consider static water types, so exclude rivers.
-					if (staticWaterProvinceTypes.Contains(provinceType)) {
-						waterProvincesInRange.Add(provinceIdToCheck);
-					}
+				if (IsStaticWater(provinceIdToCheck)) {
+					waterProvincesInRange.Add(provinceIdToCheck);
 				}
 
 				if (NeighborsDict.TryGetValue(provinceIdToCheck, out var neighbors)) {
@@ -454,5 +423,39 @@ public class MapData {
 		}
 
 		adjacencies.Add(province1);
+	}
+	
+	
+	private void DetermineMapEdgeProvinces(ModFilesystem modFS) {
+		Logger.Debug("Determining map edge provinces...");
+		
+		var mapPath = GetProvincesMapPath(modFS);
+		if (mapPath is null) {
+			return;
+		}
+		
+		using var mapPng = Image.Load<Rgb24>(mapPath);
+		var height = mapPng.Height;
+		var width = mapPng.Width;
+
+		for (var y = 0; y < height; ++y) {
+			// Get left edge color.
+			var color = GetPixelColor(new Point(0, y), mapPng);
+			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+
+			// Get right edge color.
+			color = GetPixelColor(new Point(width - 1, y), mapPng);
+			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+		}
+
+		for (var x = 0; x < width; ++x) {
+			// Get top edge color.
+			var color = GetPixelColor(new Point(x, 0), mapPng);
+			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+
+			// Get bottom edge color.
+			color = GetPixelColor(new Point(x, height - 1), mapPng);
+			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+		}
 	}
 }
