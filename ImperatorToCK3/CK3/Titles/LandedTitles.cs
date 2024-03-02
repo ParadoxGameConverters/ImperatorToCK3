@@ -780,8 +780,7 @@ public partial class Title {
 			string kingdomId, ConcurrentHashSet<string> alreadyCheckedKingdomPairs, HashSet<ulong> kingdomProvinceIds,
 			Dictionary<string, HashSet<ulong>> provincesPerKingdomDict, Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies)
 		{
-			Parallel.ForEach(deJureKingdoms, new() {MaxDegreeOfParallelism = -1},  otherKingdom =>
-			{
+			Parallel.ForEach(deJureKingdoms, otherKingdom => {
 				if (kingdomId == otherKingdom.Id) {
 					return;
 				}
