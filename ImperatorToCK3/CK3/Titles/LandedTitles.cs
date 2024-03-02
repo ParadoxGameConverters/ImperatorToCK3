@@ -755,10 +755,14 @@ public partial class Title {
 			
 			
 			Logger.Debug("Building kingdom adjacencies dict...");
+			// Create a cache of province IDs per kingdom.
+			var provincesPerKingdomDict = deJureKingdoms
+				.ToDictionary(k => k.Id, k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet());
 			HashSet<string> alreadyCheckedKingdomPairs = [];
 			var kingdomAdjacencies = new Dictionary<string, HashSet<string>>();
 			foreach (var kingdom in deJureKingdoms) {
 				string kingdomId = kingdom.Id;
+				var kingdomProvinceIds = provincesPerKingdomDict[kingdomId];
 				
 				if (!kingdomAdjacencies.TryGetValue(kingdomId, out var adjacencies)) {
 					adjacencies = [];
@@ -778,7 +782,7 @@ public partial class Title {
 					
 					// Logger.Debug($"Checking for adjacency pair {cacheKey}"); // TODO: REMOVE THIS
 					
-					if (!AreTitlesAdjacent(kingdom, otherKingdom, ck3MapData, 3)) {
+					if (!AreTitlesAdjacent(kingdomProvinceIds, provincesPerKingdomDict[otherKingdom.Id], ck3MapData, 3)) {
 						continue;
 					}
 					
@@ -899,12 +903,9 @@ public partial class Title {
 			}
 		}
 
-		private static bool AreTitlesAdjacent(Title t1, Title t2, MapData mapData, int maxWaterTilesDistance) {
-			var t1Provs = t1.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet();
-			var t2Provs = t2.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet();
-
-			foreach (var t1Prov in t1Provs) {
-				if (t2Provs.Any(t2Prov => mapData.AreProvincesAdjacent(t1Prov, t2Prov, maxWaterTilesDistance))) {
+		private static bool AreTitlesAdjacent(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData, int maxWaterTilesDistance) {
+			foreach (var t1Prov in title1ProvinceIds) {
+				if (title2ProvinceIds.Any(t2Prov => mapData.AreProvincesAdjacent(t1Prov, t2Prov, maxWaterTilesDistance))) {
 					return true;
 				}
 			}
