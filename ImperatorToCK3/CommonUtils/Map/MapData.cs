@@ -333,7 +333,8 @@ public sealed class MapData {
 			return false;
 		}
 		
-		if (!IsLand(prov1Id) || !IsLand(prov2Id)) {
+		// If province 2 has no static water neighbors, it cannot be connected to province 1 by water.
+		if (!NeighborsDict.TryGetValue(prov2Id, out var prov2Neighbors) || !prov2Neighbors.Any(IsStaticWater)) {
 			return false;
 		}
 		
@@ -346,6 +347,11 @@ public sealed class MapData {
 			foreach (var provinceIdToCheck in provincesToCheckForWaterNeighbors.ToList()) {
 				if (!provincesCheckedForWaterNeighbors.Add(provinceIdToCheck)) {
 					continue;
+				}
+				
+				// Maybe the province being checked is the target province.
+				if (provinceIdToCheck == prov2Id) {
+					return true;
 				}
 
 				if (IsStaticWater(provinceIdToCheck)) {
