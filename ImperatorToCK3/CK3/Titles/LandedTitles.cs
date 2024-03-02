@@ -20,6 +20,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using Open.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -752,35 +753,44 @@ public partial class Title {
 				}
 			}
 			
-			Logger.Debug("Building kingdom adjacencies dict..."); // TODO: optimize this
+			
+			Logger.Debug("Building kingdom adjacencies dict...");
+			HashSet<string> alreadyCheckedKingdomPairs = [];
 			var kingdomAdjacencies = new Dictionary<string, HashSet<string>>();
 			foreach (var kingdom in deJureKingdoms) {
 				string kingdomId = kingdom.Id;
 				
 				if (!kingdomAdjacencies.TryGetValue(kingdomId, out var adjacencies)) {
-					adjacencies = new HashSet<string>();
+					adjacencies = [];
 					kingdomAdjacencies[kingdomId] = adjacencies;
 				}
 				
-				var otherKingdoms = deJureKingdoms.Where(k => k.Id != kingdomId);
-				foreach (var otherKingdom in otherKingdoms) {
-					// Skip if the kingdoms are already adjacent.
-					if (adjacencies.Contains(otherKingdom.Id)) {
+				foreach (var otherKingdom in deJureKingdoms) {
+					if (kingdomId == otherKingdom.Id) {
 						continue;
 					}
+					
+					// Prevent checking the same pair twice.
+					var cacheKey = new[] {kingdomId, otherKingdom.Id}.OrderBy(x => x).JoinToString('_');
+					if (!alreadyCheckedKingdomPairs.Add(cacheKey)) {
+						continue;
+					}
+					
+					// Logger.Debug($"Checking for adjacency pair {cacheKey}"); // TODO: REMOVE THIS
 					
 					if (!AreTitlesAdjacent(kingdom, otherKingdom, ck3MapData, 3)) {
 						continue;
 					}
-
+					
+					// Add otherKingdom to adjacencies of kingdom.
 					adjacencies.Add(otherKingdom.Id);
 					
+					// Add kingdom to adjacencies of otherKingdom.
 					if (!kingdomAdjacencies.TryGetValue(otherKingdom.Id, out var otherAdjacencies)) {
-						otherAdjacencies = new HashSet<string>();
+						otherAdjacencies = [];
 						kingdomAdjacencies[otherKingdom.Id] = otherAdjacencies;
-					} else {
-						otherAdjacencies.Add(kingdomId);
 					}
+					otherAdjacencies.Add(kingdomId);
 				}
 			}
 			

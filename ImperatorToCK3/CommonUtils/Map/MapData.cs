@@ -292,31 +292,48 @@ public sealed class MapData {
 			NeighborsDict[mainProvince] = [neighborProvince];
 		}
 	}
+	
+	private readonly Dictionary<Tuple<ulong, ulong, int>, bool> adjacencyCache = [];
 
 	/// Function for checking if two provinces are directly neighboring or are connected by a maximum number of water tiles.
-	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) { // TODO: cache the results or save to a dictionary
-		if (NeighborsDict.TryGetValue(province1, out var neighbors)) {
-			if (neighbors.Contains(province2)) {
-				return true;
-			}
+	public bool AreProvincesAdjacent(ulong province1, ulong province2, int maxWaterTilesDistance) {
+		var cacheKey = new Tuple<ulong, ulong, int>(Math.Min(province1, province2), Math.Max(province1, province2), maxWaterTilesDistance);
+		if (adjacencyCache.TryGetValue(cacheKey, out var cachedResult)) {
+			return cachedResult;
 		}
 
-		if (NeighborsDict.TryGetValue(province2, out var otherNeighbors)) {
-			if (otherNeighbors.Contains(province1)) {
-				return true;
-			}
-		}
-		
-		if (provinceAdjacencies.TryGetValue(province1, out var adjacencies) && adjacencies.Contains(province2)) {
-			return true; // TODO: COVER THIS WITH A TEST
+		if (AreProvincesAdjacentByLand(province1, province2)) {
+			adjacencyCache[cacheKey] = true;
+			return true;
 		}
 
 		// If the provinces are not directly neighboring, check if they are connected by a maximum number of water tiles.
-		return AreProvincesConnectedByWater(province1, province2, maxWaterTilesDistance);
+		bool result = AreProvincesConnectedByWater(province1, province2, maxWaterTilesDistance);
+		adjacencyCache[cacheKey] = result;
+		return result;
 	}
 
+	private bool AreProvincesAdjacentByLand(ulong province1Id, ulong province2Id) {
+		if (NeighborsDict.TryGetValue(province1Id, out var neighbors) && neighbors.Contains(province2Id)) {
+			return true;
+		}
+
+		if (NeighborsDict.TryGetValue(province2Id, out var otherNeighbors) && otherNeighbors.Contains(province1Id)) {
+			return true;
+		}
+		
+		return provinceAdjacencies.TryGetValue(province1Id, out var adjacencies) && adjacencies.Contains(province2Id);
+	}
+	
+	// Function for checking if two land provinces are connected by a maximum number of water tiles.
 	private bool AreProvincesConnectedByWater(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance) {
+		// Logger.Error($"Checking {prov1Id} and {prov2Id} for water connection."); // TODO: REMOVE THIS
+		
 		if (maxWaterTilesDistance < 1) {
+			return false;
+		}
+		
+		if (!IsLand(prov1Id) || !IsLand(prov2Id)) {
 			return false;
 		}
 		
@@ -325,7 +342,7 @@ public sealed class MapData {
 		var provincesToCheckForWaterNeighbors = new HashSet<ulong> { prov1Id };
 		var provincesCheckedForWaterNeighbors = new HashSet<ulong>();
 		var waterProvincesInRange = new HashSet<ulong>();
-		while (currentDistance <= maxWaterTilesDistance) {
+		while (currentDistance <= maxWaterTilesDistance) { // TODO: CHECK IF THIS DOESN'T DUPLICATE THE CHECKS, COUNT HOW MANY WATER PROVINCES ARE CHECKED FOR A SPECIFIC EXAMPLE
 			foreach (var provinceIdToCheck in provincesToCheckForWaterNeighbors.ToList()) {
 				if (!provincesCheckedForWaterNeighbors.Add(provinceIdToCheck)) {
 					continue;
@@ -343,13 +360,9 @@ public sealed class MapData {
 			++currentDistance;
 		}
 
-		// For every static water province in range, get its land neighbors.
+		// For every static water province in range, get check if its neighbors contain province2.
 		foreach (var waterProvince in waterProvincesInRange) {
-			if (!NeighborsDict.TryGetValue(waterProvince, out var neighbors)) {
-				continue;
-			}
-
-			if (neighbors.Any(neighborId => neighborId == prov2Id && IsLand(neighborId))) {
+			if (NeighborsDict.TryGetValue(waterProvince, out var neighbors) && neighbors.Contains(prov2Id)) {
 				return true;
 			}
 		}
@@ -405,18 +418,16 @@ public sealed class MapData {
 
 	private void AddAdjacency(ulong province1, ulong province2) {
 		if (!provinceAdjacencies.TryGetValue(province1, out var adjacencies)) {
-			adjacencies = new HashSet<ulong>();
+			adjacencies = [];
 			provinceAdjacencies[province1] = adjacencies;
 		}
-
 		adjacencies.Add(province2);
 
 		// Since adjacency is bidirectional, add the reverse adjacency as well
 		if (!provinceAdjacencies.TryGetValue(province2, out adjacencies)) {
-			adjacencies = new HashSet<ulong>();
+			adjacencies = [];
 			provinceAdjacencies[province2] = adjacencies;
 		}
-
 		adjacencies.Add(province1);
 	}
 	
