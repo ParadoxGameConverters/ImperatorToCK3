@@ -759,15 +759,17 @@ public partial class Title {
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
 			var provincesPerKingdomDict = deJureKingdoms
-				.ToDictionary(k => k.Id, k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet());
-			ConcurrentHashSet<string> alreadyCheckedKingdomPairs = [];
+				.ToDictionary(
+					k => k.Id,
+					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet()
+				);
 			var kingdomAdjacencies = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			foreach (var kingdom in deJureKingdoms) {
+			Parallel.ForEach(deJureKingdoms, kingdom =>{
 				string kingdomId = kingdom.Id;
 				var kingdomProvinceIds = provincesPerKingdomDict[kingdomId];
 				
-				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdomId, alreadyCheckedKingdomPairs, kingdomProvinceIds, provincesPerKingdomDict, kingdomAdjacencies);
-			}
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdomId, provincesPerKingdomDict, kingdomAdjacencies);
+			});
 			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
 			// TODO: If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
@@ -777,22 +779,18 @@ public partial class Title {
 		}
 
 		private static void FindKingdomsAdjacentToKingdom(MapData ck3MapData, IReadOnlyCollection<Title> deJureKingdoms,
-			string kingdomId, ConcurrentHashSet<string> alreadyCheckedKingdomPairs, HashSet<ulong> kingdomProvinceIds,
-			Dictionary<string, HashSet<ulong>> provincesPerKingdomDict, Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies)
+			string kingdomId, Dictionary<string, HashSet<ulong>> provincesPerKingdomDict,
+			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies)
 		{
-			Parallel.ForEach(deJureKingdoms, otherKingdom => {
-				if (kingdomId == otherKingdom.Id) {
-					return;
+			foreach (var otherKingdom in deJureKingdoms) {
+				// Since this code is parallelized, make sure we don't check the same pair twice.
+				// Also make sure we don't check the same kingdom against itself.
+				if (kingdomId.CompareTo(otherKingdom.Id) >= 0) {
+					continue;
 				}
 
-				// Prevent checking the same pair twice.
-				var cacheKey = new[] {kingdomId, otherKingdom.Id}.OrderBy(x => x).JoinToString('_');
-				if (!alreadyCheckedKingdomPairs.Add(cacheKey)) {
-					return;
-				}
-
-				if (!AreTitlesAdjacent(kingdomProvinceIds, provincesPerKingdomDict[otherKingdom.Id], ck3MapData, 3)) {
-					return;
+				if (!AreTitlesAdjacent(provincesPerKingdomDict[kingdomId], provincesPerKingdomDict[otherKingdom.Id], ck3MapData, 3)) {
+					continue;
 				}
 
 				// Add otherKingdom to adjacencies of kingdom.
@@ -802,7 +800,7 @@ public partial class Title {
 				// Add kingdom to adjacencies of otherKingdom.
 				var otherAdjacencies = kingdomAdjacencies[otherKingdom.Id];
 				otherAdjacencies.Add(kingdomId);
-			});
+			}
 		}
 
 		private Dictionary<string, Title> GetHeritageIdToExistingTitleDict() {

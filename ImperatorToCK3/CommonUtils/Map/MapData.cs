@@ -2,6 +2,7 @@
 using commonItems.Mods;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Open.Collections;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
@@ -335,7 +336,7 @@ public sealed class MapData {
 	}
 	
 	// Function for checking if two land provinces are connected by a maximum number of water tiles.
-	private bool AreProvincesConnectedByWater(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance) { // TODO: optimize this further
+	private bool AreProvincesConnectedByWater(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance) {
 		if (maxWaterTilesDistance < 1) {
 			return false;
 		}
@@ -353,7 +354,7 @@ public sealed class MapData {
 		var provincesToCheckForWaterNeighbors = new HashSet<ulong> { prov1Id };
 		var provincesAlreadyCheckedForWaterNeighbors = new HashSet<ulong>();
 		var waterProvincesInRange = new HashSet<ulong>();
-		while (currentDistance <= maxWaterTilesDistance) { // TODO: CHECK IF THIS DOESN'T DUPLICATE THE CHECKS, COUNT HOW MANY WATER PROVINCES ARE CHECKED FOR A SPECIFIC EXAMPLE
+		while (currentDistance <= maxWaterTilesDistance) {
 			foreach (var provinceIdToCheck in provincesToCheckForWaterNeighbors.ToList()) {
 				if (!provincesAlreadyCheckedForWaterNeighbors.Add(provinceIdToCheck)) {
 					continue;
