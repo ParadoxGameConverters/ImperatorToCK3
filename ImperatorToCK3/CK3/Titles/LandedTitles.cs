@@ -830,6 +830,8 @@ public partial class Title {
 		}
 
 		private void SplitDisconnectedEmpires(Dictionary<string, HashSet<string>> kingdomAdjacencies, HashSet<string> removableEmpireIds) {
+			Logger.Debug("Splitting disconnected empires...");
+			
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
 				IEnumerable<Title> deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
 				

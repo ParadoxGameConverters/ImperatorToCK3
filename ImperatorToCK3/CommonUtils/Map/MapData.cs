@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
-public class MapData {
+public sealed class MapData {
 	[StructLayout(LayoutKind.Auto)]
 	private struct Point(int x, int y) : IEquatable<Point> {
 		public int X { get; set; } = x;
@@ -35,7 +35,7 @@ public class MapData {
 	private SortedDictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
 	private readonly Dictionary<ulong, ProvincePosition> provincePositions = [];
 	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
-	public ProvinceDefinitions ProvinceDefinitions { get; }
+	public ProvinceDefinitions ProvinceDefinitions { get; } = new();
 
 	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = [];
 	
@@ -45,24 +45,23 @@ public class MapData {
 	private readonly string[] staticWaterProvinceTypes = ["sea_zones", "lakes", "LAKES", "impassable_seas"];
 	private readonly string[] riverProvinceTypes = ["river_provinces"];
 
-	private readonly HashSet<ulong> nonColorableImpassables = [];
-	private readonly HashSet<ulong> colorableImpassables = [];
-	private readonly HashSet<ulong> uninhabitables = [];
-	private readonly HashSet<ulong> staticWaterProvinces = [];
-	private readonly HashSet<ulong> riverProvinces = [];
-
 	private readonly HashSet<ulong> mapEdgeProvinces = [];
 
 	private string provincesMapFilename = "provinces.png";
 
 	public MapData(ModFilesystem modFS) {
-		string definitionsFilename = "definition.csv";
 		string adjacenciesFilename = "adjacencies.csv";
 
 		Logger.Info("Loading default map data...");
 		const string defaultMapPath = "map_data/default.map";
 		var defaultMapParser = new Parser();
-		defaultMapParser.RegisterKeyword("definitions", reader => definitionsFilename = reader.GetString());
+		defaultMapParser.RegisterKeyword("definitions", reader => {
+			string definitionsFilename = reader.GetString();
+
+			Logger.Info("Loading province definitions...");
+			ProvinceDefinitions.LoadDefinitions(definitionsFilename, modFS);
+			Logger.IncrementProgress();
+		});
 		defaultMapParser.RegisterKeyword("provinces", reader => provincesMapFilename = reader.GetString());
 		defaultMapParser.RegisterKeyword("rivers", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("topology", ParserHelpers.IgnoreItem);
@@ -71,28 +70,24 @@ public class MapData {
 		defaultMapParser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
 		
-		Dictionary<IEnumerable<string>, HashSet<ulong>> provinceTypeToSetDict = new() {
-			{nonColorableImpassableProvinceTypes, nonColorableImpassables},
-			{colorableImpassableProvinceTypes, colorableImpassables},
-			{uninhabitableProvinceTypes, uninhabitables},
-			{staticWaterProvinceTypes, staticWaterProvinces},
-			{riverProvinceTypes, riverProvinces},
+		Dictionary<IEnumerable<string>, SpecialProvinceCategory> provinceTypeToCategoryDict = new() {
+			{nonColorableImpassableProvinceTypes, SpecialProvinceCategory.NonColorableImpassable},
+			{colorableImpassableProvinceTypes, SpecialProvinceCategory.ColorableImpassable},
+			{uninhabitableProvinceTypes, SpecialProvinceCategory.Uninhabitable},
+			{staticWaterProvinceTypes, SpecialProvinceCategory.StaticWater},
+			{riverProvinceTypes, SpecialProvinceCategory.River},
 		};
-		foreach (var (provTypes, provincesSet) in provinceTypeToSetDict) {
+		foreach (var (provTypes, category) in provinceTypeToCategoryDict) {
 			foreach (var provType in provTypes) {
 				defaultMapParser.RegisterKeyword(provType, reader => {
 					Parser.GetNextTokenWithoutMatching(reader); // equals sign
-					AddProvincesToSet(provincesSet, reader);
+					AddProvincesToCategory(category, reader);
 				});
 			}
 		}
 		
-		defaultMapParser.IgnoreAndLogUnregisteredItems(); // TODO: check which types need to be added
+		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, modFS);
-		Logger.IncrementProgress();
-
-		Logger.Info("Loading province definitions...");
-		ProvinceDefinitions = new ProvinceDefinitions(definitionsFilename, modFS);
 		Logger.IncrementProgress();
 
 		Logger.Info("Loading province positions...");
@@ -144,21 +139,19 @@ public class MapData {
 	public IReadOnlySet<ulong> GetNeighborProvinceIds(ulong provinceId) {
 		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
-	
-	private bool IsColorableImpassable(ulong provinceId) => colorableImpassables.Contains(provinceId);
 
-	public bool IsImpassable(ulong provinceId) {
-		return IsColorableImpassable(provinceId) || nonColorableImpassables.Contains(provinceId);
-	}
-	
-	private bool IsStaticWater(ulong provinceId) {
-		return staticWaterProvinces.Contains(provinceId);
-	}
-	private bool IsLand(ulong provinceId) {
-		return !IsStaticWater(provinceId) && !riverProvinces.Contains(provinceId);
-	}
+	private bool IsColorableImpassable(ulong provinceId) => ProvinceDefinitions[provinceId].IsColorableImpassable;
 
-	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => colorableImpassables;
+	public bool IsImpassable(ulong provinceId) => ProvinceDefinitions[provinceId].IsImpassable;
+
+	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
+
+	private bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
+
+	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
+		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
+		.ToHashSet();
+	
 	public IReadOnlySet<ulong> MapEdgeProvinceIds => mapEdgeProvinces;
 
 	private void DetermineProvincePositions(ModFilesystem modFS) {
@@ -212,7 +205,7 @@ public class MapData {
 		}
 	}
 
-	private void AddProvincesToSet(ISet<ulong> provincesSet, BufferedReader provincesGroupReader) {
+	private void AddProvincesToCategory(SpecialProvinceCategory category, BufferedReader provincesGroupReader) {
 		var typeOfGroup = Parser.GetNextTokenWithoutMatching(provincesGroupReader);
 		var provIds = provincesGroupReader.GetULongs();
 
@@ -224,10 +217,12 @@ public class MapData {
 			var beginning = provIds[0];
 			var end = provIds[^1];
 			for (var id = beginning; id <= end; ++id) {
-				provincesSet.Add(id);
+				ProvinceDefinitions[id].AddSpecialCategory(category);
 			}
 		} else {
-			provincesSet.UnionWith(provIds);
+			foreach (var p in ProvinceDefinitions.Where(p => provIds.Contains(p.Id))) {
+				p.AddSpecialCategory(category);
+			}
 		}
 	}
 

@@ -14,7 +14,10 @@ public class ProvinceDefinitionsTests {
 	public void DictionariesDefaultToEmpty() {
 		const string testCK3Root = "TestFiles/CK3/game";
 		var ck3ModFs = new ModFilesystem(testCK3Root, new List<Mod>());
-		var provDefs = new ProvinceDefinitions("definition.csv", ck3ModFs);
+		
+		var provDefs = new ProvinceDefinitions();
+		provDefs.LoadDefinitions("definition.csv", ck3ModFs);
+		
 		Assert.Collection(provDefs.ColorToProvinceDict,
 			pair1 => {
 				(Rgb24 key, ulong value) = pair1;
@@ -56,6 +59,6 @@ public class ProvinceDefinitionsTests {
 		const string ck3Root = "TestFiles/corruptedCK3/game";
 		// this definition.csv has a line with quoted province id
 		var ck3ModFs = new ModFilesystem(ck3Root, new List<Mod>());
-		Assert.Throws<FormatException>(() => _ = new ProvinceDefinitions("definition.csv", ck3ModFs));
+		Assert.Throws<FormatException>(() => new ProvinceDefinitions().LoadDefinitions("definition.csv", ck3ModFs));
 	}
 }

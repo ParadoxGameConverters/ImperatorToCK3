@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
@@ -7,11 +8,11 @@ using System.IO;
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
-public class ProvinceDefinitions {
+public sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDefinition> {
 	public IDictionary<Rgb24, ulong> ColorToProvinceDict { get; } = new Dictionary<Rgb24, ulong>();
 	public SortedDictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
 	
-	public ProvinceDefinitions(string definitionsFilename, ModFilesystem modFS) {
+	public void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
 		var relativePath = Path.Combine("map_data", definitionsFilename);
 		var definitionsFilePath = modFS.GetActualFileLocation(relativePath);
 		if (definitionsFilePath is null) {
@@ -36,7 +37,10 @@ public class ProvinceDefinitions {
 
 			try {
 				var columns = line.Split(';');
+				
 				var id = ulong.Parse(columns[0]);
+				AddOrReplace(new ProvinceDefinition(id));
+				
 				var r = byte.Parse(columns[1]);
 				var g = byte.Parse(columns[2]);
 				var b = byte.Parse(columns[3]);
