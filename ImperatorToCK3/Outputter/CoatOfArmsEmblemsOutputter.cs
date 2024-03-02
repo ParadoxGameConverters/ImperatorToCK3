@@ -4,22 +4,23 @@ using ImageMagick;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
 public static class CoatOfArmsEmblemsOutputter {
-	private static void CopyColoredEmblems(Configuration config, ModFilesystem imperatorModFS) {
-		Logger.Info("Copying colored emblems...");
+	private static void ConvertColoredEmblems(Configuration config, ModFilesystem imperatorModFS) {
+		Logger.Info("Converting colored emblems...");
 		var coloredEmblemsFolder = "gfx/coat_of_arms/colored_emblems";
 		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 
 		var emblemFiles = imperatorModFS.GetAllFilesInFolderRecursive(coloredEmblemsFolder);
-		foreach (var filePath in emblemFiles) {
+		Parallel.ForEach(emblemFiles, filePath => {
 			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(filePath))) {
-				continue;
+				return;
 			}
 			CopyEmblem(filePath);
-		}
+		});
 		Logger.IncrementProgress();
 		return;
 
@@ -62,7 +63,7 @@ public static class CoatOfArmsEmblemsOutputter {
 	}
 	
 	public static void CopyEmblems(Configuration config, ModFilesystem imperatorModFS) {
-		CopyColoredEmblems(config, imperatorModFS);
+		ConvertColoredEmblems(config, imperatorModFS);
 		CopyTexturedEmblems(config, imperatorModFS);
 	}
 }
